@@ -8,7 +8,8 @@ class EffectItemList
 {
   public:
     unsigned int* vtable;
-    unsigned char data[12];
+    char unk04;
+    unsigned char pad05[0xb];
 };
 class SpellItem
 {

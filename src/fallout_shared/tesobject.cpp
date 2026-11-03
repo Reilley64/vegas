@@ -580,7 +580,7 @@ struct ActorValueShortVector
 // @fnv 0x0050ebf0
 float FUN_0050ebf0_shell::FUN_0050ebf0()
 {
-    return ((double)(::FUN_0050ec80((short *)(&((*(::fnv_0050ebf0::ActorValueShortVector *)(reinterpret_cast<::ActorValueShortVector *>((void *)(((ActorValueShortVector*)((char*)this + 0x24))))->Subtract((::ActorValueShortVector *)&(*(const ActorValueShortVector*)((char*)this + 0x2a)), *(const ::ActorValueShortVector *)nullptr)))))))) *
+    return ((double)(::FUN_0050ec80((short *)(&((*(::fnv_0050ebf0::ActorValueShortVector *)(reinterpret_cast<::ActorValueShortVector *>((void *)(((ActorValueShortVector*)&this->bounds)))->Subtract((::ActorValueShortVector *)&(*(const ActorValueShortVector*)((char*)this + 0x2a)), *(const ::ActorValueShortVector *)nullptr)))))))) *
            ::DAT_01011588;
 }
 }  // namespace fnv_0050ebf0

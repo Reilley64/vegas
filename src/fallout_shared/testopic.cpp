@@ -1170,7 +1170,7 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
         QuestDialogueInfo* pQuestInfo = *(QuestDialogueInfo**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)pQuestInfoList))));
         if (pQuestInfo)
         {
-            reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)pQuestInfo + 0x1c))))->Clear(true);
+            reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&pQuestInfo->m_kInfoLinks)))->Clear(true);
         }
         pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((void *)(pQuestInfoList))->FUN_00726070()));
     }
@@ -1216,7 +1216,7 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
                 infolink.pInfo = 0;
                 infolink.nID = infoID;
                 infolink.m_iIndex = -1;
-                reinterpret_cast<::FUN_006cf4c0_Array *>((((BSSimpleArray<NavMeshTriangleEdgeReference, 1024>*)((char*)pLastQuestInfo + 0x1c))))->FUN_006cf4c0((const ::ParentSpaceNode &)(*(NavMeshTriangleEdgeReference*)&infolink));
+                reinterpret_cast<::FUN_006cf4c0_Array *>((((BSSimpleArray<NavMeshTriangleEdgeReference, 1024>*)&pLastQuestInfo->m_kInfoLinks)))->FUN_006cf4c0((const ::ParentSpaceNode &)(*(NavMeshTriangleEdgeReference*)&infolink));
             }
             break;
         }
@@ -1226,17 +1226,17 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
             if (pLastQuestInfo)
             {
                 int IdxJustAdded;
-                if ((IdxJustAdded = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName())) - 1) >= 0)
+                if ((IdxJustAdded = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&pLastQuestInfo->m_kInfoLinks)))->GetName())) - 1) >= 0)
                 {
                     ((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded).c = m_iIndex;
-                    int size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName()));
+                    int size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&pLastQuestInfo->m_kInfoLinks)))->GetName()));
                     for (int iter = 0; iter < IdxJustAdded; iter++)
                     {
                         if (*(int*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(iter) ==
                             *(int*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded))
                         {
                             ((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(iter).c = m_iIndex;
-                            reinterpret_cast<::FUN_0061bf70_Class *>((((ArrX*)((char*)pLastQuestInfo + 0x1c))))->FUN_0061bf70(IdxJustAdded, 1);
+                            reinterpret_cast<::FUN_0061bf70_Class *>((((ArrX*)&pLastQuestInfo->m_kInfoLinks)))->FUN_0061bf70(IdxJustAdded, 1);
                             break;
                         }
                     }

@@ -1,6 +1,7 @@
 // fallout/ai/mobileobject.cpp: MobileObject, Actor, TESObjectREFR, VTableHelper and more (95 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/package_fields.h"
 #include "fnv/result_slot.h"
 #include <intrin.h>
 #include <new>
@@ -8621,6 +8622,9 @@ struct VoiceSoundMethods
 };
 struct VoiceHost
 {
+    char pad04[0x8];
+    unsigned int iFormID;
+
     virtual void slot0();
     virtual void slot1();
     virtual void slot2();
@@ -8819,7 +8823,7 @@ SoundPlaybackHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener,
                 reinterpret_cast<::SoundPlaybackHandle *>((((VoiceSoundMethods*)&pItem)))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(void *, unsigned int))::fnv_005790f0::FUN_005790f0)), ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
             }
             else if (pInfo)
-                ::fnv_005790f0::FUN_005790f0((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))));
+                ::fnv_005790f0::FUN_005790f0((this)->iFormID);
             if (*(*reinterpret_cast<::VoiceSetting *>(&::g_011d8928)).FUN_00408d60() || (IsActor() && ::FUN_008c1bc0((intptr_t)this)))
             {
                 if (flags <= 0.0)
@@ -12791,7 +12795,7 @@ bool xActorD::StartConversation(xInfo* pInfo)
         reinterpret_cast<::PackageEx *>((qxQHW))->SetPackageType(0x1c);
         reinterpret_cast<::TESPackage *>((qxQHW))->SetMustReachLocation(::FUN_008b1ff0((const char *)(pInfo)));
         reinterpret_cast<::TESPackage *>((qxQHW))->SetMustComplete(reinterpret_cast<::FUN_0067efd0_shell *>((pInfo))->FUN_0067efd0());
-        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((qxQHW))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::BGSMessageInitAccess *>((pInfo))->GetIconFormID()))));
+        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((qxQHW))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::TESPackageFields *>((pInfo))->location))));
         reinterpret_cast<::fnv_00671e10::FUN_00671e10_shell *>((qxQHW))->FUN_00671e10((::fnv_00671e10::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::FUN_00672dd0_shell *>((pInfo))->FUN_00672dd0()))));
         reinterpret_cast<::FUN_00672fc0_shell *>((qxQHW))->FUN_00672fc0((::PackageTargetRecord *)(void *)(((void *)(reinterpret_cast<::Script *>((pInfo))->GetData()))));
         reinterpret_cast<::TESPackage *>((qxQHW))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(10));
@@ -13639,7 +13643,7 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
                         found->v73(&str_01084d70);
                     if (((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v222())
                     {
-                        ::SetFormAccumulate((int)((void*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))));
+                        ::SetFormAccumulate((this)->unk0c);
                         ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v221(0);
                     }
                 }

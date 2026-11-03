@@ -1,5 +1,6 @@
 // fallout/ai/character.cpp: Character, Self, XObj, ActorBF and more (36 functions)
 
+#include "fnv/form_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorData.h"
@@ -1473,7 +1474,7 @@ Str Self::PlaySoundOnObject(Arg* arg, intptr_t p2, bool p3, bool abSkipSpawn, in
                     reinterpret_cast<::FUN_00ad8830_shell *>(&(result))->FUN_00ad8830(0);
                     if (abWithCallback)
                     {
-                        reinterpret_cast<::SoundPlaybackHandle *>(&(result))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(unsigned int, int))::HandleMobileObjectResult)), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))));
+                        reinterpret_cast<::SoundPlaybackHandle *>(&(result))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(unsigned int, int))::HandleMobileObjectResult)), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(this)->iFormID));
                     }
                     flag80 = false;
                     inner->Play(0, result);
@@ -1481,7 +1482,7 @@ Str Self::PlaySoundOnObject(Arg* arg, intptr_t p2, bool p3, bool abSkipSpawn, in
                 }
                 else if (sub && abWithCallback)
                 {
-                    ::HandleMobileObjectResult((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))), 1);
+                    ::HandleMobileObjectResult((void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(this)->iFormID), 1);
                 }
             }
             if (*(*reinterpret_cast<::BoolSetting *>(&::g_011d8928)).Get() || ::FUN_008c1bc0((intptr_t)this))

@@ -1903,6 +1903,9 @@ struct SummonOwner;
 class SummonCreatureEffect : public ActiveEffect
 {
   public:
+  public:
+    char pad04[0x48];
+    void* pOwner;
 };
 struct SummonOwner
 {
@@ -1924,7 +1927,7 @@ bool SummonOwner::DispelSummonEffects()
         if (pEffect && reinterpret_cast<::S3e60 *>((pEffect->GetEffectSetting()))->FUN_00403e60(0x40000))
         {
             SummonCreatureEffect* pSummon = dynamic_cast<SummonCreatureEffect*>(pEffect);
-            SummonOwner* pOwner4 = pSummon ? ((::SummonOwner *)(reinterpret_cast<::FUN_0068a810_class *>((pSummon))->GetField4C())) : 0;
+            SummonOwner* pOwner4 = pSummon ? ((::SummonOwner *)(((pSummon))->pOwner)) : 0;
             if (pOwner4 == this)
             {
                 reinterpret_cast<::FUN_008c5330_shell *>((pSummon))->ClearField4C();
@@ -3064,14 +3067,8 @@ struct XExtraList17
 struct XRefr17 : public XRefrVtbl17
 {
 
-
-
-
-
-
-
-
-
+    char pad04[0x8];
+    unsigned int iFormID;
 };
 
 struct XProc17 : public XProcVtbl17
@@ -3165,7 +3162,7 @@ void XHost17::FUN_00891e00(XRefr17* pRefr, int iCount, bool a2)
 
     int node = bound != 0 ? FUN_00401170(bound) : 0;
 
-    XNode17* s = ((::XNode17 *)(reinterpret_cast<::Target96 *>((((XGlob17*)&(*reinterpret_cast<::ActorDeletionQueue *>(&::g_011e0e80)))))->FUN_0096f450((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRefr))->FUN_0084e3a0()))), {})));
+    XNode17* s = ((::XNode17 *)(reinterpret_cast<::Target96 *>((((XGlob17*)&(*reinterpret_cast<::ActorDeletionQueue *>(&::g_011e0e80)))))->FUN_0096f450(((pRefr))->iFormID, {})));
 
     XNode17* node2 = s;
 
@@ -8067,7 +8064,7 @@ bool WaterActor::FUN_009b2940()
                 ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(ray.to), (const ::fnv_004a3e00::NiPoint3 &)(to));
                 FUN_009b2e30 hits(0);
                 query->Query(ray, hits);
-                for (int i = 0; !bBelow && i < ((int)(reinterpret_cast<::Callees *>(&(hits))->FUN_00726070())); ++i)
+                for (int i = 0; !bBelow && i < hits.size; ++i)
                 {
                     HitPair* hit = ((::fnv_009b2940::HitPair *)(reinterpret_cast<::FUN_00626660_Class *>(&(hits))->FUN_00626660(i)));
                     HitBody* body = hit->body;

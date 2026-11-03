@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorValueOwner.h"

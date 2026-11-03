@@ -3,7 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/simple_list_node_view.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_fields.h"
 #include <new>
 #include <cstdint>
 #include <cstdlib>

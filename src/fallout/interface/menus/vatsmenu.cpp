@@ -3,7 +3,7 @@
 #include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_fields.h"
 #include <new>
 #include <cstdio>
 #include <cstdlib>

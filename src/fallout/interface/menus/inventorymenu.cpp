@@ -3,7 +3,7 @@
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_fields.h"
 #include "fallout/interface/list_box_fields.h"
 #include <new>
 #include "fnv/decl/ActorSoundStub.h"

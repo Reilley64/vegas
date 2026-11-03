@@ -5,7 +5,7 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_fields.h"
 #include "fallout/interface/av_object_fields.h"
 #include <cstdint>
 #include <new>

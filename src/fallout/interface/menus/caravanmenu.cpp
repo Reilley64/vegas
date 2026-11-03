@@ -5,7 +5,7 @@
 #include <cstring>
 #include "fnv/simple_array_item.h"
 #include "fnv/simple_list_node_view.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -3243,18 +3243,18 @@ struct GameList
 };
 struct GroupRegistry
 {
-    void RemoveValueFromGroup(void* key, int value);
+    void RemoveValueFromGroup(void* key, intptr_t value);
 };
 // Looks up the list for key, scans it for value, and removes that entry (deleting the list and key if it was the only one).
 // @fnv 0x009a4120
-void GroupRegistry::RemoveValueFromGroup(void* key, int value)
+void GroupRegistry::RemoveValueFromGroup(void* key, intptr_t value)
 {
     GameList* entries = 0;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((std::uintptr_t)(key), (*(::fnv_00853130::CombatThreatRecord * *)(&entries))))
     {
         for (unsigned int index = 0; index < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((entries))->GetName())); ++index)
         {
-            if (*((int *)(SimpleArrayItem<void *>((void *)(entries), index))) == value)
+            if (*((intptr_t *)(SimpleArrayItem<void *>((void *)(entries), index))) == value)
             {
                 if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((entries))->GetName())) == 1)
                 {

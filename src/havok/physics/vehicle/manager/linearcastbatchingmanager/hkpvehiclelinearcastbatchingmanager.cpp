@@ -15,12 +15,12 @@ struct FUN_00e42fe0
     int GetCount();
 };
 
-struct FUN_00e43060
+struct FUN_00e43060 : hkpVehicleLinearCastBatchingManager
 {
     void DoWork(char* a, intptr_t b, char** out);
 };
 
-struct FUN_00e43010
+struct FUN_00e43010 : hkpVehicleLinearCastBatchingManager
 {
     int ConvertReferences(int numVehicles);
 };
@@ -56,12 +56,12 @@ struct FUN_00e42fe0_impl
 
     int FUN_00e42fe0();
 };
-// Computes four aligned offsets from GetCount() and the 16-bit count at this+0x14, writes them to out, and advances a by each padding.
+// Computes four aligned offsets from GetCount() and m_uiTotalWheelCount, writes them to out, and advances a by each padding.
 // @fnv 0x00e43060
 void FUN_00e43060::DoWork(char* iBaseOffset, intptr_t iUnused, char** paiOffsets)
 {
     int iCount = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
-    unsigned int n = *(unsigned short*)((char*)this + 0x14);
+    unsigned int n = m_uiTotalWheelCount;
     unsigned int pad = ((unsigned int)(n * 5) << 4) + 0xf;
     pad &= 0xfffffff0u;
     paiOffsets[0] = iBaseOffset;
@@ -76,12 +76,12 @@ void FUN_00e43060::DoWork(char* iBaseOffset, intptr_t iUnused, char** paiOffsets
     iBaseOffset += pad2;
     paiOffsets[3] = iBaseOffset;
 }
-// Computes a 16-byte-aligned total from the object's count, a 16-bit field at offset 0x14, the count again, and numVehicles.
+// Computes a 16-byte-aligned total from the object's count, m_uiTotalWheelCount, the count again, and numVehicles.
 // @fnv 0x00e43010
 int FUN_00e43010::ConvertReferences(int numVehicles)
 {
     int count = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
-    unsigned int a = (unsigned int)(unsigned short)*(unsigned short*)((char*)this + 0x14);
+    unsigned int a = (unsigned int)m_uiTotalWheelCount;
     int iTotal = ((a * 5) << 4) + 0xf;
     iTotal &= 0xfffffff0;
     int iCountSize = count * 0x70 + 0xf;
@@ -268,6 +268,9 @@ struct Out433
     char* m_0c;
 };
 
+// The stack scratch for the per-wheel array: 16 inline slots of 0x60 bytes.
+static const int kInlineSlotCount = 16;
+static const int kInlineSlotBytes = 0x60;
 struct S00e43320_Mgr
 {
     void* vtbl;
@@ -307,7 +310,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     arr.m_cap = (int)0x80000000;
     CharacterBufferState* ar = static_cast<CharacterBufferState*>(::FUN_00c85750());
     char* scratch = ar->m_pCur;
-    ar->m_pCur = (char*)scratch + 0x600;
+    ar->m_pCur = scratch + kInlineSlotCount * kInlineSlotBytes;
     arr.m_data = scratch;
     arr.m_cap = (int)0x80000010;
     slot.m_saved = scratch;

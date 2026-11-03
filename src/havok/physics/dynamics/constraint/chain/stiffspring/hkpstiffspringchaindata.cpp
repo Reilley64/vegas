@@ -375,21 +375,21 @@ struct hkpStiffSpringChainDataEx : public hkpStiffSpringChainData
 };
 void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNonConst, QueryResultSchema& out) volatile
 {
-    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(inNonConst), (::fnv_00d6f2b0::EventRecord **)&(out), (volatile unsigned int)(inNonConst.m_pByteBuffer), 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(inNonConst), (::fnv_00d6f2b0::EventRecord **)&(out), inNonConst.m_pByteBuffer, 8);
     SixteenWordFloatRecord in = inNonConst;
     in.m_pConstraintChainInstance = 0;
     in.m_pByteBuffer = 0;
     hkInplaceIntArray32 velocityAccumulatorsOffsets;
     hkpConstraintChainInstanceS* instance = inNonConst.m_pConstraintChainInstance;
     int numConstraints = instance->m_ppRigidBodies.m_iElementCount - 1;
-    hkUint32 base = (hkUint32)inNonConst.m_pBodyA - instance->m_pEntityA->m_uiFilterInfo;
+    const char* base = (const char*)inNonConst.m_pBodyA - instance->m_pEntityA->m_uiFilterInfo;
     hkpEntityS* rA = instance->m_ppRigidBodies.m_data[0];
     in.m_pBodyB = (const QuantizedBoundsData*)(base + rA->m_uiFilterInfo);
-    velocityAccumulatorsOffsets.pushBackUnchecked((hkUint32)in.m_pBodyB - base);
+    velocityAccumulatorsOffsets.pushBackUnchecked((hkUint32)((const char*)in.m_pBodyB - base));
     in.m_kBodyBLocalFrame = &rA->m_kMotionTransform;
     in.m_fFourthQueryValue = 1.0f;
     in.m_iBeforeFourthQueryValue = in.m_fQueryInputValue;
-    SolverSchemaHeader* schema = ((::SolverSchemaHeader *)(::FUN_00dd13b0((unsigned int)(out.m_pQueryResultSchema.value()))));
+    SolverSchemaHeader* schema = ((::SolverSchemaHeader *)(::FUN_00dd13b0(out.m_pQueryResultSchema.value())));
     for (int i = 0; i < numConstraints; i++)
     {
         in.m_pBodyA = in.m_pBodyB;
@@ -397,7 +397,7 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         hkpEntityS* rB = instance->m_ppRigidBodies.m_data[i + 1];
         in.m_pBodyB = (const QuantizedBoundsData*)(base + rB->m_uiFilterInfo);
         velocityAccumulatorsOffsets.AddBack(reinterpret_cast<hkMemoryRouterS*>(&(*static_cast<hkMemoryRouterE3B4*>(::FUN_00c85750()))),
-                                            (hkUint32)in.m_pBodyB - base);
+                                            (hkUint32)((const char*)in.m_pBodyB - base));
         in.m_kBodyBLocalFrame = &rB->m_kMotionTransform;
         hk1dLinearBilateralConstraintInfo bp;
         static_cast<hkVector4T&>(bp.m_kPivotA.m_vec)
@@ -421,6 +421,6 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         ::FUN_00dcf720((const ::S_00dcf720_Info &)(bp), (const ::S_00dcf720_QueryIn &)(in), (::S_00dcf720_Jacobian *)(schema), rhs);
         schema = reinterpret_cast<SolverSchemaHeader*>(reinterpret_cast<char*>(schema) + 0x30);
     }
-    ::FUN_00dd1180(numConstraints, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, (char **)(velocityAccumulatorsOffsets.m_data), base,
-                 (int)(schema), (int)&(inNonConst), (char **)&(out));
+    ::FUN_00dd1180(numConstraints, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, (char **)(velocityAccumulatorsOffsets.m_data), (intptr_t)(base),
+                 schema, &(inNonConst), (char **)&(out));
 }

@@ -6326,7 +6326,7 @@ bool FUN_005b78a0(const ScriptParameter* paramInfo, const char* scriptData, TESO
         }
     }
     NiUpdateData kUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((int)&(kUpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
     reinterpret_cast<::FUN_00a5a040_Class *>((pNode))->FUN_00a5a040();
     reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_005b78a0::TES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pNode), 30.0f);
     return true;
@@ -17256,7 +17256,7 @@ void __cdecl FUN_005c0b10(C0B10Ref* pkRef, char cAxis, float fDegrees)
             ::FUN_00c6bd00((::TreeNode_cls *)(pkNode), true);
             if (!pkRef || !pkRef->IsDisabled()) {
                 C0B10UpdateData kData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((int)&(kData));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((std::intptr_t)&(kData));
             }
         }
     }
@@ -18435,7 +18435,7 @@ bool __cdecl FUN_005cc970(B5CC970ParamInfo* pkParamInfo, B5CC970ScriptData* pkSc
         if (*pdResult != 0.0) {
             reinterpret_cast<::FUN_00a5a040_Class *>((pkNode))->FUN_00a5a040();
             B5CC970UpdateData kUpdateData(0.0f, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((int)&(kUpdateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
         }
         if (::bConditionFunctionDebug)
             B5CC970DebugLog("AddFlames >> %0.2f", *pdResult);
@@ -26435,7 +26435,7 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
  root28->Attach(mapMesh,1);
  reinterpret_cast<::FUN_00440460_S *>((root28))->FUN_00440460((const ::V3 *)&(camera3));
  GridEuler pivot5(0,0,0);
- reinterpret_cast<::FUN_00a59c60_cls *>((root28))->FUN_00a59c60((int)&(pivot5)); reinterpret_cast<::FUN_00a5a040_Class *>((root28))->FUN_00a5a040();
+ reinterpret_cast<::FUN_00a59c60_cls *>((root28))->FUN_00a59c60((std::intptr_t)&(pivot5)); reinterpret_cast<::FUN_00a5a040_Class *>((root28))->FUN_00a5a040();
  reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_005b7b40::GridScene * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(root28),::DAT_01018f5c);
  return true;
 }
@@ -30728,7 +30728,7 @@ bool __cdecl FUN_005c03d0(void* info,const char* data,RotationReference* referen
    reinterpret_cast<::FUN_0043fa80_s *>((object))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::RotationMatrix &)(reference->FUN_0056fa00())));
    if(!reference || !reference->getOther()) {
     UpdateLocal update(0.0f,false,false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((std::intptr_t)&(update));
    }
   }
  }
@@ -30888,7 +30888,7 @@ bool FUN_005c0bf0(void* unusedA,void* unusedB,ScriptReference* reference) {
    if (!reference || !reference->Process()) {
     ScriptResetVector reset;
     new ((void *)&(reset)) ::NiUpdateData(0.0f,0,0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((int)&(reset));
+    reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((std::intptr_t)&(reset));
    }
   }
  }
@@ -39192,7 +39192,7 @@ void __cdecl FUN_005ccb20(Reference* moved,Reference* destination,float dx,float
          reinterpret_cast<::FUN_0043fa80_s *>((node))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::MoveReference::Matrix &)(moved->FUN_0056fa00())));
          ::FUN_00c6bd00((::TreeNode_cls *)(node),1);
          Update update(0.0f,false,false);
-         reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)(&update));
+         reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)(&update));
        }
      } else if(moved!=(*reinterpret_cast<::MoveReference::Reference * *>(&::_g_thePlayer)) && movable) reinterpret_cast<::FUN_00575770_shell *>((moved))->FUN_00575770(3.4028234663852886e38f);
      ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(moved),(::fnv_00573800::MoveCell *)(cellSlot7),(::fnv_00573800::MoveWorld *)(worldSlot0));
@@ -44935,7 +44935,7 @@ bool FUN_005dc9a0(const void* pParams, const char* pData, xRef* pThis, xRef* pCo
                         xFaceGenData qvyWyw;
                         reinterpret_cast<::RaceAppearance::Race *>((((::xRace *)(reinterpret_cast<::FUN_004ac110_shell *>((qdqWL))->FUN_004ac110()))))->BuildAppearance((::RaceAppearance::NPC *)(qdqWL), (::RaceAppearance::Output *)(::xFaceGenData *)(&qvyWyw), 0, 0);
                         xUpdateData qpTd(0.0f, 0, 0);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((qrEZrs))->FUN_00a59c60((int)&(qpTd));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((qrEZrs))->FUN_00a59c60((std::intptr_t)&(qpTd));
                     }
                     break;
                 }
@@ -55363,7 +55363,7 @@ extern "C" void __cdecl FUN_005c0740(::TESObjectREFR* apRef, char acAxis, float 
             reinterpret_cast<::FUN_00440460_S *>((((Node_005c0740*)pNode)))->FUN_00440460((const ::V3 *)(const ::Pt3_005c0740 *)(&pos));
             (::FUN_00c6bd00)((::TreeNode_cls *)(pNode), true);
             UpdData_005c0740 updateData(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((Node_005c0740*)pNode)))->FUN_00a59c60((int)&(updateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((Node_005c0740*)pNode)))->FUN_00a59c60((std::intptr_t)&(updateData));
         }
     }
 }

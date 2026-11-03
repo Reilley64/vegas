@@ -2,6 +2,7 @@
 // src/staging/blk_007c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -1446,7 +1447,7 @@ FUN_00a712f0* CameraContext::CreateSurgery3DCamera()
     reinterpret_cast<::NiCamera *>((distance))->UpdateViewFrustum(angle);
     reinterpret_cast<::FUN_004bc1f0_S *>((distance))->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
     NiUpdateData aspect(0.0f, false, false);  // Initial scene update.
-    reinterpret_cast<::FUN_00a59c60_cls *>((distance))->FUN_00a59c60((int)&(aspect));
+    reinterpret_cast<::FUN_00a59c60_cls *>((distance))->FUN_00a59c60((std::intptr_t)&(aspect));
     reinterpret_cast<::CamLook *>((distance))->SetLookAt((const ::CamPoint &)((const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f))), (const ::CamPoint &)((const ::NiPoint3 &)(NiPoint3(0.0f, 1.0f, 0.0f))));
     reinterpret_cast<::FUN_00733fd0_shell *>((distance))->FUN_00733fd0(1.0f);
     ::AssignFixedString((char *)(distance), (int)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")), {});

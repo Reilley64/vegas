@@ -775,7 +775,7 @@ void FUN_007b1ae0_shell::UpdateShadowSceneNode()
     int pad;
     reinterpret_cast<::S00b5d9f0_Owner *>((NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false)))), false);
     NiUpdateData data(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))))->FUN_00a59c60((int)&(data));
+    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))))->FUN_00a59c60((std::intptr_t)&(data));
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu())
         reinterpret_cast<::Light7FD *>((reinterpret_cast<FUN_007fd660_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu())))->FUN_007fd660(1.0f);
 }
@@ -2508,7 +2508,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
         }
     }
     PointB50 l(0, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false)))->FUN_00a59c60((int)&(l));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false)))->FUN_00a59c60((std::intptr_t)&(l));
     reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
     return true;
 }

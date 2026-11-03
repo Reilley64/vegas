@@ -4,6 +4,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_004b0000.h"
 #include "fnv/symbols_011f4000.h"
 struct A5E9C0RTTI
@@ -21,13 +22,13 @@ const A5E9C0RTTI* __cdecl FUN_00a5e9c0()
 
 struct AlphaKey
 {
-    unsigned int value;
+    void* value;
 };
 
 struct AlphaNode
 {
     AlphaNode* next;
-    unsigned int unk04;
+    AlphaNode* prev;
     AlphaKey key;
 };
 
@@ -36,17 +37,17 @@ struct AlphaList
     AlphaNode* head;
 
     unsigned int RemovePos(AlphaNode** pos);
-    unsigned int FUN_00e7db70(unsigned int* keyPtr);
+    std::uintptr_t FUN_00e7db70(void* const* keyPtr);
 };
 
 // @fnv 0x00e7db70
-unsigned int AlphaList::FUN_00e7db70(unsigned int* keyPtr)
+std::uintptr_t AlphaList::FUN_00e7db70(void* const* keyPtr)
 {
     AlphaNode* sel;
     AlphaNode* node = head;
     if (node != 0)
     {
-        unsigned int k = *keyPtr;
+        void* k = *keyPtr;
         do
         {
             AlphaKey* p = &node->key;
@@ -65,7 +66,7 @@ found:
     {
         return RemovePos(&pos);
     }
-    return *keyPtr;
+    return (std::uintptr_t)*keyPtr;
 }
 
 #include <windows.h>

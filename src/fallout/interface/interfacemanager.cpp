@@ -4045,7 +4045,7 @@ void FUN_0070adb0_shell::InitInterface(bool abInitialLoad)
     pscene_graph = ((::NiNode *)(reinterpret_cast<::StrOwner *>((((Interface*)this)))->FUN_007fa950()));
     reinterpret_cast<::FUN_00a5a040_Class *>((pscene_graph))->FUN_00a5a040();
     new ((void *)&(UpdateData1)) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((pscene_graph))->FUN_00a59c60((int)&(UpdateData1));
+    reinterpret_cast<::FUN_00a59c60_cls *>((pscene_graph))->FUN_00a59c60((std::intptr_t)&(UpdateData1));
 
     faspect = ((double)(::FUN_00706e50())) / ((double)(::FUN_00706e20()));
     if (faspect == DAT_0106efa0 || 1.0f / faspect == DAT_010290b8)
@@ -10329,7 +10329,7 @@ void Manager::FUN_0070b240()
     reinterpret_cast<::FUN_00a5a040_Class *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((c))->FUN_0056c7f0()))))->FUN_00a5a040();
     NiUpdateDataH l;
     new ((void *)&(l)) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((c))->FUN_0056c7f0()))))->FUN_00a59c60((int)&(l));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((c))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(l));
     cursor = c;
     FUN_007118d0();
     reinterpret_cast<::TaskQueueInterface *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((cursor))->FUN_0056c7f0()))))->QueueActorDisarm(true);
@@ -11299,7 +11299,7 @@ void FUN_007151b0_shell::UpdateTilePosition(float afX, float afY)
     kPos.z = FUN_00715da0() * -afY + FUN_00715da0() / ::DAT_01011590;
     reinterpret_cast<::FUN_00440460_S *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_00440460((const ::V3 *)(const class ::FUN_006815c0 *)(&kPos));
     FUN_0043d410 kUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_00a59c60((int)&(kUpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
 
     FUN_006815c0 kComputedPos;
     kComputedPos.x = (kPos.x + 3.0) * (((double)(::FUN_00706e50())) / ::InterfaceManager::UpdateInterfaceState()) + ((double)(::FUN_00706e50())) / ::DAT_01011590;
@@ -13947,7 +13947,7 @@ void CursorX::FUN_007118d0()
             f40 = ::FUN_00706e20() / 2.0 - ::FUN_00706e20() / ::FUN_00715da0() * pos2c.z;
         }
         NiUpdateData kRot6(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile28))->FUN_0056c7f0()))))->FUN_00a59c60((int)(&kRot6));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile28))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)(&kRot6));
     }
 }
 }  // namespace fnv_007118d0
@@ -14257,7 +14257,7 @@ void TileModelsUpdateEntry::FUN_00713e20()
         {
             TileModelsUpdateDetail::UpdateData updateData;
             new ((void *)&(updateData)) ::NiUpdateData(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((pmodel))->FUN_00a59c60((int)&(updateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((pmodel))->FUN_00a59c60((std::intptr_t)&(updateData));
         }
         reinterpret_cast<::FUN_00713ee0_shell *>((ptile))->ClearFlag();
     }

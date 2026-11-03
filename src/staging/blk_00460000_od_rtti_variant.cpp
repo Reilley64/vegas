@@ -156,7 +156,7 @@ struct Arr
 };
 struct FUN_0046eb00_Class
 {
-    unsigned int GetSecondElement();
+    std::uintptr_t GetSecondElement();
 };
 struct FUN_0046ebf0_Class
 {
@@ -660,7 +660,7 @@ struct TESAttackDamageForm : public BaseFormComponent
 };
 struct FUN_0046eb20_Class
 {
-    unsigned int GetElementAt2();
+    std::uintptr_t GetElementAt2();
 };
 struct FUN_0046ebd0_Class
 {

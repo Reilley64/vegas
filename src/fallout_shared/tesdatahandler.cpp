@@ -1,5 +1,6 @@
 // fallout_shared/tesdatahandler.cpp: TESDataHandler, TESFormInitFlag, BSFlags, EnchantmentItem and more (121 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cerrno>
@@ -6522,7 +6523,7 @@ TESObjectREFR* HandlerView::PlaceObjectReference(TESBoundObject* base, NiPoint3*
                 reinterpret_cast<::ShadowSceneNode *>((((::ShadowView *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->AddObject((::NiAVObject *)(node));
                 reinterpret_cast<::FUN_00a5a040_Class *>((node))->FUN_00a5a040();
                 NiUpdateData updateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(updateData));
+                reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(updateData));
             }
         }
     }

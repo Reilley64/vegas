@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/pathinglosmap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathinglosmap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -707,6 +708,6 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
 
     reinterpret_cast<::FUN_00a5a040_Class *>((rootNode))->FUN_00a5a040();
     NiUpdateData updateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((rootNode))->FUN_00a59c60((int)&(updateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((rootNode))->FUN_00a59c60((std::intptr_t)&(updateData));
     return rootNode;
 }

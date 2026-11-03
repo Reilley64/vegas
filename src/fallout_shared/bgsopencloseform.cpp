@@ -1,5 +1,6 @@
 // fallout_shared/bgsopencloseform.cpp: BGSOpenCloseForm, AIThreadManager (8 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/C47AAF0Player.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -158,7 +159,7 @@ bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediat
                     controller->ActivateControllerSequence(inactive, 0, false, 1.0f, 0.0f, 0);
                     reinterpret_cast<::FUN_0098adb0_shell *>((inactive))->FUN_0098adb0(-DAT_0101ab70);
                     NiUpdateData data(reinterpret_cast<::FUN_00759450_shell *>((inactive))->FUN_00759450(), true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((ref->GetNiNode_v()))->FUN_00a59c60((int)&(data));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((ref->GetNiNode_v()))->FUN_00a59c60((std::intptr_t)&(data));
                     controller->StopSequence(inactive, 0.0f);
                     reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((int)((*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(active))->GetLinkToList()))));
                     ::FUN_00c6bd00((::TreeNode_cls *)(::NiNode *)(ref->GetNiNode_v()), true);
@@ -169,7 +170,7 @@ bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediat
                     controller->ActivateControllerSequence(active, 0, false, 1.0f, 0.0f, 0);
                     reinterpret_cast<::FUN_0098adb0_shell *>((active))->FUN_0098adb0(-DAT_0101ab70);
                     NiUpdateData data(reinterpret_cast<::FUN_00759450_shell *>((active))->FUN_00759450(), true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((ref->GetNiNode_v()))->FUN_00a59c60((int)&(data));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((ref->GetNiNode_v()))->FUN_00a59c60((std::intptr_t)&(data));
                 }
                 result = true;
             }

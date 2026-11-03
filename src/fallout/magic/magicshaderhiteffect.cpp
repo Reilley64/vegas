@@ -1,5 +1,6 @@
 // fallout/magic/magicshaderhiteffect.cpp: MagicShaderHitEffect, Effect, ThisHolder, Outer and more (45 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/B8C4890Actor.h"
@@ -376,7 +377,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
                 if (reinterpret_cast<::Twin_0084d030 *>(&((*(::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pObject))->FUN_0043d450()))))->GetStoredFloatValue() <= 0.0)
                 {
                     NiUpdateData update(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((pObject))->FUN_00a59c60((int)&(update));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((pObject))->FUN_00a59c60((std::intptr_t)&(update));
                 }
                 NiPoint3 offset = (*(::NiPoint3 *)(new ((void *)&((*(::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pObject))->FUN_0043d450())))) ::Vec3())) - pObject->FUN_0045bb80();
                 extent = reinterpret_cast<::NiPoint3 *>(&(offset))->ComputeMagnitude() + reinterpret_cast<::Twin_0084d030 *>(&((*(::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pObject))->FUN_0043d450()))))->GetStoredFloatValue();
@@ -3212,7 +3213,7 @@ void UpdateEffectNode(EffView* pEffectView)
                                 ->GetWorldRotate()))->FUN_004b45b0({}))) *
                             (pRef4->FUN_0045bb80() - ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_009611e0()))->FUN_0045bb80())));
                     NiUpdateData updateData(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_00a59c60((int)&(updateData));
+                    reinterpret_cast<::FUN_00a59c60_cls *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
                 }
                 else
                 {

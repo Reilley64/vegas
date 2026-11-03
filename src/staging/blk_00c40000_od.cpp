@@ -5546,11 +5546,11 @@ struct DispatchObject {
 };
 struct DispatchOwner {
     DispatchObject* object;
-    bool FUN_00c4ee40(int code, unsigned char enabled);
+    bool FUN_00c4ee40(std::intptr_t code, unsigned char enabled);
 };
 // Forwards code, mode 4 and a 0/1 flag derived from enabled to object->Execute and returns true when it returns 0.
 // @fnv 0x00c4ee40
-bool DispatchOwner::FUN_00c4ee40(int code, unsigned char enabled) {
+bool DispatchOwner::FUN_00c4ee40(std::intptr_t code, unsigned char enabled) {
     int flag = 0;
     int result;
     if (enabled) flag = 1;
@@ -10525,7 +10525,7 @@ void C52020Obj::FUN_00c52020(float afFov, unsigned char ucFlag, C52020Obj* apTar
     reinterpret_cast<::NiCamera *>((aTarget))->UpdateViewFrustum((*(const ::NiFrustum *)(&aTile)));
 
     NiUpdateData aOut = { 0.0f, false, false, false, false, false };
-    reinterpret_cast<::FUN_00a59c60_cls *>((aTarget))->FUN_00a59c60((int)&(aOut));
+    reinterpret_cast<::FUN_00a59c60_cls *>((aTarget))->FUN_00a59c60((std::intptr_t)&(aOut));
 
     if (ucArg4)
     {

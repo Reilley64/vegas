@@ -1657,7 +1657,7 @@ void FUN_00c62140_cls::FUN_00c62140()
         val.m_06 = 0;
         val.m_07 = 0;
         val.m_08 = 0;
-        reinterpret_cast<::FUN_00a59c60_cls *>((pItem))->FUN_00a59c60((int)(&val));
+        reinterpret_cast<::FUN_00a59c60_cls *>((pItem))->FUN_00a59c60((std::intptr_t)(&val));
         unsigned int slot = pItem->m_a6;
         while (slot-- != 0)
         {

@@ -2325,7 +2325,7 @@ void __cdecl FUN_00b557d0()
         }
         }
         ++ppEntry;
-    } while ((int)ppEntry < (int)&DAT_011f95d4);
+    } while ((void*)ppEntry < (void*)&DAT_011f95d4);
     reinterpret_cast<::Host *>((((ImageSpaceTail*)DAT_011f91ac)))->FUN_00b8b3b0();
 }
 
@@ -3710,14 +3710,14 @@ struct TextureManagerInit
 };
 struct TextureLoaderInit
 {
-    void* source;
+    int source;
     unsigned int count;
     unsigned int unk008;
     unsigned int unk00c;
     unsigned int unk010;
     unsigned int unk014;
     unsigned int unk018;
-    TextureLoaderInit(void*);
+    TextureLoaderInit(int);
     ~TextureLoaderInit();
 };
 struct ImageManagerInit
@@ -4149,7 +4149,7 @@ void InitRenderSystem()
         if (!DAT_011f91c6)
         {
             (*reinterpret_cast<::TextureManagerInit * *>(&::DAT_011f91a8)) = new TextureManagerInit;
-            (*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498)) = new TextureLoaderInit(((void *)(::FUN_00b7faf0())));
+            (*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498)) = new TextureLoaderInit(::FUN_00b7faf0());
             reinterpret_cast<::FUN_00b7fe40_cls *>(((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))))->LoadFromReader((std::intptr_t)((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->source));
             if (!(*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->count)
             {

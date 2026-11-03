@@ -2,6 +2,7 @@
 // src/fallout/interface/forenderedterminal.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedterminal.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/AudioClass_ae5680.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSImpactData.h"
@@ -184,7 +185,7 @@ void FUN_007ff900_This::UpdateSynchTimeNode()
     {
         ((FUN_004bc1f0_S*)proot)->FUN_004bc1f0(DAT_01078bb0, 0.0f, 0.0f);
         NiUpdateData UpdateData(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)proot)))->FUN_00a59c60((int)&(UpdateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)proot)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     }
 }
 
@@ -218,7 +219,7 @@ void FUN_007ff7c0_shell::FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::C
     {
         ((FUN_00440460_S*)proot)->FUN_00440460((V3 const*)((char*)this + 0xd8));
         NiUpdateData UpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)proot)))->FUN_00a59c60((int)&(UpdateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)proot)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     }
     reinterpret_cast<::Rendered82 *>(this)->FUN_007fba00(apTarget, (void *)(1), (::Target82 *)(0));
 }
@@ -650,7 +651,7 @@ void RenderNode::SetupPowerButtonScreen()
         rate9 = (float)(rate9 * ::DAT_0101de30);
     reinterpret_cast<::FUN_004bc1f0_S *>((rootP))->FUN_004bc1f0(rate9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db614)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db62c)))))));
     Vector3 akStart(0.f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((rootP))->FUN_00a59c60((int)&(akStart));
+    reinterpret_cast<::FUN_00a59c60_cls *>((rootP))->FUN_00a59c60((std::intptr_t)&(akStart));
     Camera* cameraK = new Camera;
     FourFloatVector viewport(0.f, 1.f, 1.f, 0.f);
     reinterpret_cast<::_Cam_00712e60 *>((cameraK))->FUN_00712e60((const ::_Rect16_00712e60 &)(viewport));
@@ -674,7 +675,7 @@ void RenderNode::SetupPowerButtonScreen()
     frustum.ortho = false;
     reinterpret_cast<::NiCamera *>((cameraK))->UpdateViewFrustum((const ::NiFrustum &)(frustum));
     Vector3 pos2(0.f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((cameraK))->FUN_00a59c60((int)&(pos2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((cameraK))->FUN_00a59c60((std::intptr_t)&(pos2));
     reinterpret_cast<::FOPipboyManager *>(this)->FUN_007fc2d0((::NiAVObject *)(screenNode));
     reinterpret_cast<::FOPipboyManager *>(this)->SetScreen((::NiAVObject *)(screenNode));
     reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(rootP));

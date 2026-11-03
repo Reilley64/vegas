@@ -511,9 +511,9 @@ void __cdecl FUN_00b4f570()
 
 
 // @fnv 0x00b4f5c0
-int FUN_00b4f5c0()
+void* FUN_00b4f5c0()
 {
-    return (*reinterpret_cast<int *>(&::DAT_011f95ec));
+    return ::DAT_011f95ec;
 }
 
 struct FUN_00b54620_This

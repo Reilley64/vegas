@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AnimationSequence.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -1431,7 +1432,7 @@ void MenuAnimation::UpdateAnimation()
         }
     }
     NiUpdateData updateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((model))->FUN_00a59c60((int)&(updateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((model))->FUN_00a59c60((std::intptr_t)&(updateData));
 }
 
 bool __cdecl SKIsMenuMode(int aiMenuID);
@@ -1758,7 +1759,7 @@ FUN_00a712f0* SurgeryCameraMenu::CreateSurgeryCamera()
     reinterpret_cast<::NiCamera *>((k))->UpdateViewFrustum((const ::NiFrustum &)(c));
     reinterpret_cast<::FUN_004bc1f0_S *>((k))->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
     NiUpdateData b(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((k))->FUN_00a59c60((int)&(b));
+    reinterpret_cast<::FUN_00a59c60_cls *>((k))->FUN_00a59c60((std::intptr_t)&(b));
     reinterpret_cast<::CamLook *>((k))->SetLookAt((const ::CamPoint &)((const ::fnv_007945f0::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f))), (const ::CamPoint &)((const ::fnv_007945f0::NiPoint3 &)(NiPoint3(0.0f, 1.0f, 0.0f))));
     reinterpret_cast<::FUN_00733fd0_shell *>((k))->FUN_00733fd0(1.0f);
     ::AssignFixedString((char *)(k), (int)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")), {});
@@ -2420,8 +2421,8 @@ void Menu109::Init()
         reinterpret_cast<::FUN_0043fa80_s *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(rotation5));
     }
     Update109 update13(0.0f, false, false), update259(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((Menu109*)DAT_011da2c8)->front))->FUN_00a59c60((int)&(update13));
-    reinterpret_cast<::FUN_00a59c60_cls *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_00a59c60((int)&(update259));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((Menu109*)DAT_011da2c8)->front))->FUN_00a59c60((std::intptr_t)&(update13));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((Menu109*)DAT_011da2c8)->cabinet))->FUN_00a59c60((std::intptr_t)&(update259));
     ((Menu109*)DAT_011da2c8)->time += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_007928e0::Bound109 *>(&::g_timeGlobal))))->GetStoredFloatValue();
     Controller109* controller7 = ((::fnv_007928e0::Controller109 *)(reinterpret_cast<::MyHost *>((((Menu109*)DAT_011da2c8)->front))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))))));
     if (controller7)
@@ -2448,7 +2449,7 @@ void Menu109::Init()
         }
     }
     Update109 update31(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((front))->FUN_00a59c60((int)&(update31));
+    reinterpret_cast<::FUN_00a59c60_cls *>((front))->FUN_00a59c60((std::intptr_t)&(update31));
     float radius41 = reinterpret_cast<::Twin_0084d030 *>((((::fnv_007928e0::Bound109 *)(reinterpret_cast<::FUN_0043d450_Owner *>((((Menu109*)DAT_011da2c8)->front))->FUN_0043d450()))))->GetStoredFloatValue() * 20.0;
     Scene109* ambient16 = ((::fnv_007928e0::Scene109 *)(reinterpret_cast<::SSN_b5 *>((((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5ca70((::Node_b5 *)(::fnv_007928e0::Scene109 *)(((Menu109*)DAT_011da2c8)->front->v00c()), radius41)));
     if (!ambient16)
@@ -2459,7 +2460,7 @@ void Menu109::Init()
         light52->FUN_0050dd50(Color109(radius41, 0.0f, 0.0f));
         reinterpret_cast<::NiPointLight *>((light52))->FUN_0050dd20(1.0f);
         Update109 lightUpdate10(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((light52))->FUN_00a59c60((int)&(lightUpdate10));
+        reinterpret_cast<::FUN_00a59c60_cls *>((light52))->FUN_00a59c60((std::intptr_t)&(lightUpdate10));
         ((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->v0dc(light52, true);
         reinterpret_cast<::fnv_00b5c940::SSNode *>((((Scene109*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(light52), 0);
     }

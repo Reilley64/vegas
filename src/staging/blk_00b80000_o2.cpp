@@ -11415,7 +11415,7 @@ bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsig
     node.unk060 = c;
     reinterpret_cast<::ViewCamera *>(&(node))->FUN_00bd7200(flags);
     NiUpdateData update;
-    reinterpret_cast<::FUN_00a59c60_cls *>(&(node))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>(&(node))->FUN_00a59c60((std::intptr_t)&(update));
     return ((bool)(::FUN_00b9c020((::FNVCuboid *)this, (::FNVCuboid *)(value))));
 }
 }  // namespace fnv_00b9de90
@@ -20482,7 +20482,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     output->translation = position + (direction * limitedDistance) * (float)DAT_010b7e90;
     distance = (float)(limitedDistance * 8.0);
     B9UpdateData update;
-    reinterpret_cast<::FUN_00a59c60_cls *>((output))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((output))->FUN_00a59c60((std::intptr_t)&(update));
     float intensity = (float)(color.r * (double)0.4f + color.g * (double)0.4f + color.b * (double)0.4f);
     float clamped = FinalClamp(intensity);
     output->SetDiffuse(NiColor(clamped, clamped, clamped));

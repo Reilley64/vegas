@@ -2,6 +2,7 @@
 // polymorphic classes (TESObjectREFR). The skeleton of src/fallout_shared/tesobjectcell.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/Callees.h"
@@ -269,7 +270,7 @@ void SceneB54::FUN_0054bcf0(bool bArg)
         if (pController2)
         {
             NiPoint3B54 kPoint_(0.0f, 0, 0);
-            reinterpret_cast<::FUN_00a59c60_cls *>((pController2))->FUN_00a59c60((int)(&kPoint_));
+            reinterpret_cast<::FUN_00a59c60_cls *>((pController2))->FUN_00a59c60((std::intptr_t)(&kPoint_));
         }
         reinterpret_cast<::fnv_0054bc10::CellStub *>(this)->ProcessCellReferences();
     }

@@ -1082,7 +1082,7 @@ inline void AssignMap(NiPointer<NiD3DShaderConstantMap>& dst, const NiPointer<Ni
 // @fnv 0x00bbd880
 void __cdecl UpdateLightingPassState(unsigned int pass)
 {
-    Lighting30Shader* shader = ((::Lighting30Shader *)(::FUN_00b55560((void *)(29))));
+    Lighting30Shader* shader = ((::Lighting30Shader *)(::FUN_00b55560(29)));
     if (shader && (pass == 480 || pass == 481))
     {
         reinterpret_cast<::FUN_00c663d0 *>((reinterpret_cast<ConstantMapPointer*>(&shader->m_spFirstShaderConstantMap)))->operator=((*(const ::FUN_00c663d0 *)(&shader->m_spFillColorConstantMap)));

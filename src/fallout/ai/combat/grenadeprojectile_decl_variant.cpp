@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/grenadeprojectile_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x009b4740: the skeleton of src/fallout/ai/combat/grenadeprojectile.cpp
 // that unit declares it this way.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1357,7 +1358,7 @@ bool GrenadeProjectile::FUN_009b4740()
             ::FUN_00c69f50((::S_00c69f50_Obj *)(node1), true, false);
             reinterpret_cast<::FUN_00440460_S *>((node1))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(impact->position + impact->normal * reinterpret_cast<::FUN_0087ce50_cls *>((node1))->GetHeadTail()));
             NiUpdateData update0(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((int)&(update0));
+            reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((std::intptr_t)&(update0));
             NiPoint3 velocity6 = NiPoint3::ZERO;
             NiPoint3 forward1;
             reinterpret_cast<::FUN_00439f50_class *>((void *)&(node1->FUN_00461130()))->FUN_00439f50(1, (::NiPoint3 *)&(forward1));

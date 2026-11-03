@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/roulettemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/roulettemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorMover.h"
@@ -534,7 +535,7 @@ void FUN_007bf840_shell::FUN_007bf840()
         ->FUN_004bc1f0(loc.x, loc.y, 0.0f);
 
     NiUpdateData update1(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::GO *>(&::g_011da8a0)).operator unsigned int())))->FUN_00a59c60((int)&(update1));
+    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::GO *>(&::g_011da8a0)).operator unsigned int())))->FUN_00a59c60((std::intptr_t)&(update1));
 }
 
 struct TileValue
@@ -5384,7 +5385,7 @@ void S_007bf7a0::FUN_007bf7a0()
         reinterpret_cast<::FUN_004bc1f0_S *>((tilesB[i]))->FUN_004bc1f0(0.0f, 0.0f, ::g_011da6a4_arg1);
     }
     S_007bf7a0_Val v(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0))))))))->FUN_00a59c60((int)(&v));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0))))))))->FUN_00a59c60((std::intptr_t)(&v));
 }
 
 struct SettingString
@@ -10340,8 +10341,8 @@ bool RouletteState::RemoveEntryById(int id)
                                    reinterpret_cast<::NiAVObject *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0)))))->FUN_0043c490()
                                        .z);
                 reinterpret_cast<::FUN_004bc1f0_S *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0 + 10)))))->FUN_004bc1f0(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8), 0.0f);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0)))))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0 + 10)))))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0)))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0 + 10)))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             }
             --unk3fe4;
             RouletteEntry* entry = *((::RouletteEntry **)(new ((void *)(node)) ::Vec3()));
@@ -14425,8 +14426,8 @@ void C7BF480Menu::ResetSlotTransform(int iSlot)
 {
     reinterpret_cast<::FUN_004bc1f0_S *>((m_apkSlotNodes[iSlot]))->FUN_004bc1f0(0.0f, 0.0f, ::g_011da6a4_arg1);
     reinterpret_cast<::FUN_004bc1f0_S *>((m_apkSlotShadows[iSlot]))->FUN_004bc1f0(0.0f, 0.0f, ::g_011da6a4_arg1);
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_apkSlotNodes[iSlot]))->FUN_00a59c60((int)&(const ::fnv_007bf480::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_apkSlotShadows[iSlot]))->FUN_00a59c60((int)&(const ::fnv_007bf480::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_apkSlotNodes[iSlot]))->FUN_00a59c60((std::intptr_t)&(const ::fnv_007bf480::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_apkSlotShadows[iSlot]))->FUN_00a59c60((std::intptr_t)&(const ::fnv_007bf480::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
 }
 }  // namespace fnv_007bf480
 
@@ -14767,7 +14768,7 @@ void Setup::InitRouletteScene()
     reinterpret_cast<::S_007bf7a0 *>(this)->FUN_007bf7a0();
     reinterpret_cast<::FUN_007bf840_shell *>(this)->FUN_007bf840();
     NiUpdateData found(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::Scene *)(::FUN_00559450((int *)&((*(SceneHolder*)&(*reinterpret_cast<::GO *>(&::g_011da8a0)))))))))->FUN_00a59c60((int)&(found));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::Scene *)(::FUN_00559450((int *)&((*(SceneHolder*)&(*reinterpret_cast<::GO *>(&::g_011da8a0)))))))))->FUN_00a59c60((std::intptr_t)&(found));
     Controller* update = ((::Controller *)(reinterpret_cast<::MyHost *>((model))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
     if (update)
     {
@@ -15659,7 +15660,7 @@ void RouletteMenuX::FUN_007bd2a0()
         if (1)
         {
             ColorFlags kBallFlags(s_fSpinTime, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(0)))))->FUN_00a59c60((int)&(kBallFlags));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(kBallFlags));
         }
         if (reinterpret_cast<::FUN_00508100_shell *>((m_apSpinSeq[m_iRouletteResult]))->FUN_00508100() / 2.0 < s_fSpinTime && m_bSpinning)
         {
@@ -15903,14 +15904,14 @@ void RouletteMenuX::FUN_007bd2a0()
             m_fCursorX > 28.0 ? m_fCursorX = 28.0f : 0.0f;
             m_fCursorY > (double)13.1f ? m_fCursorY = 13.1f : 0.0f;
             reinterpret_cast<::FUN_004bc1f0_S *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(2)))))->FUN_004bc1f0(m_fCursorX, m_fCursorY, m_fCursorZ);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(2)))))->FUN_00a59c60((int)&(const ::fnv_007bd2a0::ColorFlags &)(ColorFlags(0.0f, false, false)));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(2)))))->FUN_00a59c60((std::intptr_t)&(const ::fnv_007bd2a0::ColorFlags &)(ColorFlags(0.0f, false, false)));
             if (m_iChipCount < 10)
             {
                 reinterpret_cast<::FUN_004bc1f0_S *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(m_iChipNode)))))->FUN_004bc1f0(m_fCursorX, m_fCursorY,
                                    ((::fnv_007bd2a0::NiPoint3X *)&(reinterpret_cast<::NiAVObject *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(m_iChipNode)))))->FUN_0043c490()))->z);
                 reinterpret_cast<::FUN_004bc1f0_S *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(m_iChipNode + 10)))))->FUN_004bc1f0(m_fCursorX, m_fCursorY, 0.0f);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(m_iChipNode)))))->FUN_00a59c60((int)&(const ::fnv_007bd2a0::ColorFlags &)(ColorFlags(0.0f, false, false)));
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(m_iChipNode + 10)))))->FUN_00a59c60((int)&(const ::fnv_007bd2a0::ColorFlags &)(ColorFlags(0.0f, false, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(m_iChipNode)))))->FUN_00a59c60((std::intptr_t)&(const ::fnv_007bd2a0::ColorFlags &)(ColorFlags(0.0f, false, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007bd2a0::NiObj *)(reinterpret_cast<::NiNode *>((((::fnv_007bd2a0::NiObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bd2a0::NiObjPtr *>(&::g_011da8a0))))))))->GetAt(m_iChipNode + 10)))))->FUN_00a59c60((std::intptr_t)&(const ::fnv_007bd2a0::ColorFlags &)(ColorFlags(0.0f, false, false)));
             }
             int iHover = reinterpret_cast<::bf::Roulette *>(this)->FUN_007bf390();
             if (iHover < 0x9f)

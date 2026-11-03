@@ -1840,7 +1840,7 @@ int SSN_b5::FUN_00b5ca70(Node_b5* node, float time)
             continue;
         FUN_00b5c940(obj, true);
         UpdData_b5 data;
-        reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((int)&(data));
+        reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((std::intptr_t)&(data));
         Geom_b5* g = (Geom_b5*)((::Cast_b5 *)(reinterpret_cast<::NiObject *>((obj))->DynamicCast((const ::NiRTTI *)(const ::NiRTTI_b5 *)(&(*reinterpret_cast<::NiRTTI_b5 *>(&::g_011f4a98))))));
         if (g)
         {
@@ -2201,7 +2201,7 @@ void ShadowSceneNodeX::FUN_00b5b880(int arg)
                 if (!(light->m_pLight->m_uiObjectFlags & 1))
                 {
                     UpdateData data;
-                    reinterpret_cast<::FUN_00a59c60_cls *>((light->m_pLight))->FUN_00a59c60((int)&(data));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((light->m_pLight))->FUN_00a59c60((std::intptr_t)&(data));
                     if (light->m_usIndex != 0xff)
                     {
                         g_pCurrentShadowLight = light;
@@ -11799,7 +11799,7 @@ FUN_00a712f0* Target2180::FUN_007c2180()
     reinterpret_cast<::FUN_00733fd0_shell *>((camera5))->FUN_00733fd0(1.0f);
     Update2180 update2;
     new ((void *)&(update2)) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((camera5))->FUN_00a59c60((int)&(update2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((camera5))->FUN_00a59c60((std::intptr_t)&(update2));
     ::AssignFixedString((char *)(camera5), 0, (char **)&(const ::String2180 &)(String2180(&DAT_01070c70)));
     return camera5;
 }

@@ -2,6 +2,7 @@
 // src/fallout_shared/tes.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tes.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include <cstring>
@@ -7410,7 +7411,7 @@ void TES4512::FUN_004512c0(const NiPoint3* position, bool reload)
     }
     FUN_00455490();
     NiUpdateData update(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((root))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((root))->FUN_00a59c60((std::intptr_t)&(update));
     reinterpret_cast<::fnv_00452490::FUN_00452490_shell *>(this)->FUN_00452490(false);
     reinterpret_cast<::FUN_00460360_shell *>((((Data4512*)::g_dataHandler)))->ProcessAllFiles();
     DAT_011c3ed0 = false;
@@ -8028,7 +8029,7 @@ void Grid::RefreshGrid()
                         if (!reinterpret_cast<::FUN_00453470_shell *>((node))->FUN_00453470())
                         {
                             Update update(0.0f, 0, 0);
-                            reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(update));
+                            reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(update));
                         }
                     }
                     ((::GridRefresh::CellHandle *)(::FUN_0045bb80((int)this)))->FUN_005ae3d0();
@@ -8073,7 +8074,7 @@ void Zt5TES::FUN_004537c0()
     S_004537c0_Fade fadeData;
     reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((((S_004537c0_Sky*)pWeatherSky)))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? (*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)).GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : FUN_00453850());
     new ((void *)&(fadeData)) ::NiUpdateData(::fnv_00563f30::DAT_011c3c08, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_004537c0_Mgr *)(reinterpret_cast<::FUN_009611e0_shell *>((((S_004537c0_Tes*)this)))->FUN_009611e0()))))->FUN_00a59c60((int)(&fadeData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_004537c0_Mgr *)(reinterpret_cast<::FUN_009611e0_shell *>((((S_004537c0_Tes*)this)))->FUN_009611e0()))))->FUN_00a59c60((std::intptr_t)(&fadeData));
 }
 
 struct FUN_004539a0_cls
@@ -10580,7 +10581,7 @@ void World::Pause(bool bPause, int iUnused)
         ::FUN_006fd1f0(!bPause);
     }
     Params kFade(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_pkScene))->FUN_00a59c60((int)&(kFade));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_pkScene))->FUN_00a59c60((std::intptr_t)&(kFade));
 }
 
 }
@@ -10757,7 +10758,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
             if (!reinterpret_cast<::FUN_00453470_shell *>((cellObject7))->FUN_00453470())
             {
                 ReloadPoint zero8(0.0f, 0, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((cellObject7))->FUN_00a59c60((int)(&zero8));
+                reinterpret_cast<::FUN_00a59c60_cls *>((cellObject7))->FUN_00a59c60((std::intptr_t)(&zero8));
             }
             reinterpret_cast<::s54ba80::Owner *>((cellB))->FUN_0054ba80(true);
             FUN_00454c20(destination);

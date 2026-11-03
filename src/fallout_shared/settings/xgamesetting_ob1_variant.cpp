@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/fallout_shared/settings/xgamesetting.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <cmath>
 #include "runtime/crt.h"
@@ -692,5 +693,5 @@ void __cdecl FUN_00c4bf40(Source* source, Plane* plane, NiCamera* dest)
     dest->scale = Abs(source->scale);
     dest->UpdateViewFrustum(source->property);
     NiUpdateData update2(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((dest))->FUN_00a59c60((int)&(update2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((dest))->FUN_00a59c60((std::intptr_t)&(update2));
 }

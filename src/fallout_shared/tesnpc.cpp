@@ -959,7 +959,7 @@ void TESNPC::UpdateActorFaceGen(TESObjectREFR* refr, BipedAnim* biped, BSFaceGen
             m_pkSecondaryFaceGenNode = skinned;
             reinterpret_cast<::FUN_00a5a040_Class *>((pNode))->FUN_00a5a040();
             NiUpdateData kUpdateData(0.0f, 0, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((int)&(kUpdateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
         }
         else
             ::FUN_005b5e40();
@@ -1458,7 +1458,7 @@ void T_00605d70::FUN_00605d70(TESObjectREFR* apRef)
             reinterpret_cast<::FUN_00a5a040_Class *>((pobj))->FUN_00a5a040();
             ((VN_00605d70*)pobj)->v47();
             NiUpdateData UpdateData(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)pobj)))->FUN_00a59c60((int)&(UpdateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)pobj)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
         }
         iPasses--;
     }
@@ -5890,7 +5890,7 @@ void FUN_00605e70_Owner::ProcessInventoryItems(EqRef* apRef, EqInventory* apInve
         reinterpret_cast<::FUN_00a5a040_Class *>((pNode))->FUN_00a5a040();
         pNode->vBC();
         EqUpdateData kData(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((int)&(kData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((std::intptr_t)&(kData));
     }
 }
 
@@ -6482,7 +6482,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                     nodeB->UpdateAnimation(0.0f, true, true, true, true, false);
             }
             NiUpdateData update(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((aNode2))->FUN_00a59c60((int)&(update));
+            reinterpret_cast<::FUN_00a59c60_cls *>((aNode2))->FUN_00a59c60((std::intptr_t)&(update));
         }
         else
             ::FUN_005b5e40();
@@ -7197,7 +7197,7 @@ void TESNPC_Sub::AttachHeadModels(TESObjectREFR* apRefr, BipedAnim* apBiped, BSF
         this->m_pkSecondaryFaceGenNode = apHeadSkinned;
         reinterpret_cast<::FUN_00a5a040_Class *>((a))->FUN_00a5a040();
         NiUpdateData updateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
     else
     {

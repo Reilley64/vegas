@@ -7,6 +7,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/ai/combat/missileprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/missileprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/C8DAC0Owner.h"
@@ -1390,7 +1391,7 @@ void Actor::FUN_009b90b0()
                         }
                         Vec3 v9c;
                         new ((void *)&(v9c)) ::NiUpdateData(0.0f, 0, 0);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((p60))->FUN_00a59c60((int)(&v9c));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((p60))->FUN_00a59c60((std::intptr_t)(&v9c));
                         Obj* pa0 = ((::fnv_009b90b0::Obj *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_009b90b0::Obj *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()));
                         if (pa0)
                             pa0->vfd0(p60, 1, 0, 0, 1);
@@ -1422,7 +1423,7 @@ void Actor::FUN_009b90b0()
                         ::FUN_00c6a350((::NiAVObject *)(p60), 4, 1, 1, 1);
                         Vec3 v188;
                         new ((void *)&(v188)) ::NiUpdateData(0.0f, 0, 0);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((p28))->FUN_00a59c60((int)(&v188));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((p28))->FUN_00a59c60((std::intptr_t)(&v188));
                         bool blocked = false;
                         if (p60)
                         {

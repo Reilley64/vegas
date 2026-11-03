@@ -2,6 +2,7 @@
 // src/fallout/magic/magicfogprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicfogprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/CellView.h"
 #include "fnv/decl/EffectItemListFind.h"
@@ -826,7 +827,7 @@ void FogProjectileInit::InitProjectileEffect()
                 reinterpret_cast<::TaskQueueInterface *>((pkManagerTmp))->QueueReferenceStateTask(1);
                 reinterpret_cast<::FUN_0098adb0_shell *>((pkSeqCur))->FUN_0098adb0(-g_fInfinity_0107ad40);
                 FxTransformTime kTimeY(::fnv_00563f30::DAT_011c3c08 - 0.1f, 1, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((int)(&kTimeY));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((std::intptr_t)(&kTimeY));
             }
         }
     }

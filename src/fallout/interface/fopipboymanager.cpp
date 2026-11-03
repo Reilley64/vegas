@@ -1,5 +1,6 @@
 // fallout/interface/fopipboymanager.cpp: FOPipboyManager, FOPipboyManagerPC, SystemColorManager, Interface and more (29 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSAnimGroupSequence.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/DecalStub.h"
@@ -302,13 +303,13 @@ void FOPipboyManager::OnMenuOpen()
             if (m_pPipBoyObject0)
             {
                 NiUpdateData updateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>(((m_pPipBoyObject0).operator->()))->FUN_00a59c60((int)&(updateData));
+                reinterpret_cast<::FUN_00a59c60_cls *>(((m_pPipBoyObject0).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
                 reinterpret_cast<::FUN_00a5a040_Class *>(((m_pPipBoyObject0).operator->()))->FUN_00a5a040();
             }
             if (m_pPipBoyObject1)
             {
                 NiUpdateData updateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>(((m_pPipBoyObject1).operator->()))->FUN_00a59c60((int)&(updateData));
+                reinterpret_cast<::FUN_00a59c60_cls *>(((m_pPipBoyObject1).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
                 reinterpret_cast<::FUN_00a5a040_Class *>(((m_pPipBoyObject1).operator->()))->FUN_00a5a040();
             }
         }
@@ -763,7 +764,7 @@ void FOPipboyManagerPC::CreateTerminalLight()
         reinterpret_cast<::FUN_00965580_shell *>(this)->SetIntensity(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db650))))))->f);
         SetScreenLightFlickerIntensity(1.0f);
         NiUpdateData updateData(0, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObjectPC*)plight)))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObjectPC*)plight)))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
 }
 }  // namespace fnv_007ff960
@@ -1415,21 +1416,21 @@ void S07f7ee0::FUN_007f8320(float fTime)
     {
         reinterpret_cast<::NiAVObject *>((((NiAVObjectHelper*)(NiAVObject*)m_pGaugeObjects[0])))->SetLocalRotation(m_fChartFirstPoint[0], 1.0f, 0.0f, 0.0f);
         NiUpdateData updateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pGaugeObjects[0]).operator->()))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pGaugeObjects[0]).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
 
     if (m_pGaugeObjects[1] && bUpdated[1])
     {
         reinterpret_cast<::NiAVObject *>((((NiAVObjectHelper*)(NiAVObject*)m_pGaugeObjects[1])))->SetLocalRotation(m_fChartFirstPoint[1], 0.0f, 0.0f, 1.0f);
         NiUpdateData updateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pGaugeObjects[1]).operator->()))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pGaugeObjects[1]).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
 
     if (m_pGaugeObjects[2] && bUpdated[2])
     {
         reinterpret_cast<::NiAVObject *>((((NiAVObjectHelper*)(NiAVObject*)m_pGaugeObjects[2])))->SetLocalRotation(m_fChartFirstPoint[2], 0.0f, 0.0f, 1.0f);
         NiUpdateData updateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pGaugeObjects[2]).operator->()))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pGaugeObjects[2]).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
 
     DAT_011db370 = fTime;

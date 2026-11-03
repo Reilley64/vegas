@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/caravanmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/caravanmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/ActorGoldQuery.h"
@@ -2049,7 +2050,7 @@ void S_0074ed40_Cls::FUN_0074ed40(int aiRowIndex)
     for (int i = 0; i < 7; i++)
     {
         this->m_rows[aiRowIndex][i]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        reinterpret_cast<::FUN_00a59c60_cls *>((this->m_rows[aiRowIndex][i]))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+        reinterpret_cast<::FUN_00a59c60_cls *>((this->m_rows[aiRowIndex][i]))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
     }
 }
 
@@ -2999,8 +3000,8 @@ void FUN_0074edd0_cls::FUN_0074edd0()
     Vec3Temp b;
     reinterpret_cast<::FUN_004bc1f0_S *>((m_0e6c))->FUN_004bc1f0(0.0f, 0.0f, DAT_01024100);
     reinterpret_cast<::FUN_004bc1f0_S *>((m_0e70))->FUN_004bc1f0(0.0f, 0.0f, DAT_01024100);
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_0e6c))->FUN_00a59c60((int)(((::Vec3Temp *)(new ((void *)&(a)) ::NiUpdateData(0.0f, 0, 0)))));
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_0e70))->FUN_00a59c60((int)(((::Vec3Temp *)(new ((void *)&(b)) ::NiUpdateData(0.0f, 0, 0)))));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_0e6c))->FUN_00a59c60((std::intptr_t)(((::Vec3Temp *)(new ((void *)&(a)) ::NiUpdateData(0.0f, 0, 0)))));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_0e70))->FUN_00a59c60((std::intptr_t)(((::Vec3Temp *)(new ((void *)&(b)) ::NiUpdateData(0.0f, 0, 0)))));
 }
 
 namespace fnv_0074fc00 {
@@ -4344,7 +4345,7 @@ void SceneMenu::InitCaravanTable()
     (*reinterpret_cast<::ScenePtr *>(&::g_011d91e4)) = new SceneNode(0);
     ((SceneNode*)(*reinterpret_cast<::ScenePtr *>(&::g_011d91e4)))->Attach(model, 1);
     UpdateInfo update8(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((SceneNode*)(*reinterpret_cast<::ScenePtr *>(&::g_011d91e4)))))->FUN_00a59c60((int)&(update8));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((SceneNode*)(*reinterpret_cast<::ScenePtr *>(&::g_011d91e4)))))->FUN_00a59c60((std::intptr_t)&(update8));
     Controller* control3 = ((::Controller *)(reinterpret_cast<::MyHost *>((model))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))))));
     if (control3)
     {
@@ -5881,7 +5882,7 @@ void Menu::InitMenu()
     ((::CaravanSetup::Node *)(::FUN_00559450((int *)&((*reinterpret_cast<::CaravanSetup::Scene *>(&::g_011d91e4))))))->Attach(unk18c, true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(array164))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(array174))->Clear(true);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::CaravanSetup::Node *)(::FUN_00559450((int *)&((*reinterpret_cast<::CaravanSetup::Scene *>(&::g_011d91e4))))))))->FUN_00a59c60((int)&(const ::CaravanSetup::UpdateData &)(UpdateData(0, 0, 0)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::CaravanSetup::Node *)(::FUN_00559450((int *)&((*reinterpret_cast<::CaravanSetup::Scene *>(&::g_011d91e4))))))))->FUN_00a59c60((std::intptr_t)&(const ::CaravanSetup::UpdateData &)(UpdateData(0, 0, 0)));
     unkae8 = ::MinInt(unkadc, unkae0);
     Node* pNode = ((::CaravanSetup::Node *)(reinterpret_cast<::MyHost *>((unk18c))->FUN_00a5c570((const ::MyRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f36ac))))));
     if (pNode)
@@ -10975,7 +10976,7 @@ void MatchMenu::PlaceBillsAndCoins(int skill, int amount)
                 MatchMatrix position = (*(::MatchMatrix *)(::FUN_006a9540((char *)(selected))));
                 reinterpret_cast<::FUN_0043fa80_s *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array14c))->FUN_006a7ad0(i))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&position)));
                 reinterpret_cast<::FUN_004bc1f0_S *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array14c))->FUN_006a7ad0(i))))))->FUN_004bc1f0(placement.x, placement.y, placement.z);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array14c))->FUN_006a7ad0(i))))))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array14c))->FUN_006a7ad0(i))))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             }
             for (unsigned int i = unk148; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array134))->GetName())); i++)
             {
@@ -10993,12 +10994,12 @@ void MatchMenu::PlaceBillsAndCoins(int skill, int amount)
                 MatchMatrix position = (*(::MatchMatrix *)(::FUN_006a9540((char *)(selected))));
                 reinterpret_cast<::FUN_0043fa80_s *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array134))->FUN_006a7ad0(i))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&position)));
                 reinterpret_cast<::FUN_004bc1f0_S *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array134))->FUN_006a7ad0(i))))))->FUN_004bc1f0(placement.x, placement.y, placement.z);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array134))->FUN_006a7ad0(i))))))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((MatchNode*)((int)(reinterpret_cast<::S3e60 *>(&(array134))->FUN_006a7ad0(i))))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             }
             if (FUN_00647b70(countCoins, bills) > 0)
                 unk02c = 4;
             new ((void *)&(zero)) ::NiUpdateData(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::MatchNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::MatchPointer *>(&::g_011d91e4))))))))->FUN_00a59c60((int)&(*(NiUpdateData*)&zero));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::MatchNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::MatchPointer *>(&::g_011d91e4))))))))->FUN_00a59c60((std::intptr_t)&(*(NiUpdateData*)&zero));
             reinterpret_cast<::SSN_b5 *>((FUN_00450b80(1)))->FUN_00b5ca70((::Node_b5 *)(::MatchNode *)(((::MatchNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::MatchPointer *>(&::g_011d91e4))))))),
                                           (float)(reinterpret_cast<::Twin_0084d030 *>(&((*(::MatchVector *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::MatchNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::MatchPointer *>(&::g_011d91e4))))))))->FUN_0043d450()))))->GetStoredFloatValue() * 2.5));
         }
@@ -13084,7 +13085,7 @@ void CardMenuTexture::UpdateDeckTextures(bool player)
     {
         reinterpret_cast<::TaskQueueInterface *>((object5))->QueueActorDisarm(true);
         NiUpdateData update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((object5))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((object5))->FUN_00a59c60((std::intptr_t)&(update));
     }
 }
 
@@ -14142,7 +14143,7 @@ void DeckMenu::UpdateDeckCardNodes(bool player, int unused)
                 {
                     reinterpret_cast<::TaskQueueInterface *>((node))->QueueActorDisarm(true);
                     UpdateInfo ba(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(ba));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(ba));
                     if (player)
                         ::FUN_00406d00(nodeName, 260, "Player-Deck_0%i_Shadow:0", j + 1);
                     else
@@ -14150,13 +14151,13 @@ void DeckMenu::UpdateDeckCardNodes(bool player, int unused)
                     node = ((::fnv_0074d730::Scene *)(::FUN_004aae30((::NiAVObject *)(c), (::NiFixedString *)(nodeName))));
                     reinterpret_cast<::TaskQueueInterface *>((node))->QueueActorDisarm(true);
                     UpdateInfo b(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(b));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(b));
                 }
                 else if (!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x800) && e < 5)
                 {
                     reinterpret_cast<::TaskQueueInterface *>((node))->QueueActorDisarm(true);
                     UpdateInfo ba(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(ba));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(ba));
                     if (player)
                         ::FUN_00406d00(nodeName, 260, "Player-Deck_0%i_Shadow:0", j + 1);
                     else
@@ -14164,7 +14165,7 @@ void DeckMenu::UpdateDeckCardNodes(bool player, int unused)
                     node = ((::fnv_0074d730::Scene *)(::FUN_004aae30((::NiAVObject *)(c), (::NiFixedString *)(nodeName))));
                     reinterpret_cast<::TaskQueueInterface *>((node))->QueueActorDisarm(true);
                     UpdateInfo b(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(b));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(b));
                 }
             }
             if (!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x800))
@@ -15700,9 +15701,9 @@ void SelectionMenu::UpdateSelection(bool skip)
     if (first && (*(::fnv_0074e480::Position *)&(reinterpret_cast<::NiAVObject *>((first))->FUN_0043c490())).z > 0.0)
     {
         reinterpret_cast<::FUN_004bc1f0_S *>((first))->FUN_004bc1f0(0.0f, (*(::fnv_0074e480::Position *)&(reinterpret_cast<::NiAVObject *>((first))->FUN_0043c490())).y, 0.0f);
-        reinterpret_cast<::FUN_00a59c60_cls *>((first))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+        reinterpret_cast<::FUN_00a59c60_cls *>((first))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
         reinterpret_cast<::FUN_004bc1f0_S *>((second))->FUN_004bc1f0(0.0f, (*(::fnv_0074e480::Position *)&(reinterpret_cast<::NiAVObject *>((first))->FUN_0043c490())).y, 0.0f);
-        reinterpret_cast<::FUN_00a59c60_cls *>((second))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+        reinterpret_cast<::FUN_00a59c60_cls *>((second))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
     }
     if (skip)
         return;
@@ -15713,9 +15714,9 @@ void SelectionMenu::UpdateSelection(bool skip)
     second = ((::fnv_0074e480::SceneObject *)(::FUN_004aae30((::NiAVObject *)(root), (::NiFixedString *)(name))));
     selectedCard = ((unsigned int)(reinterpret_cast<::S3e60 *>(&(cards))->FUN_006a7ad0(selection)));
     reinterpret_cast<::FUN_004bc1f0_S *>((first))->FUN_004bc1f0(0.0f, (*(::fnv_0074e480::Position *)&(reinterpret_cast<::NiAVObject *>((first))->FUN_0043c490())).y, 1.0f);
-    reinterpret_cast<::FUN_00a59c60_cls *>((first))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((first))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
     reinterpret_cast<::FUN_004bc1f0_S *>((second))->FUN_004bc1f0(0.0f, (*(::fnv_0074e480::Position *)&(reinterpret_cast<::NiAVObject *>((first))->FUN_0043c490())).y, 1.0f);
-    reinterpret_cast<::FUN_00a59c60_cls *>((second))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((second))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
 }
 }  // namespace fnv_0074e480
 
@@ -18820,8 +18821,8 @@ void CaravanMenuX::UpdateCardSlots(int aiFirstCard, bool abFlat)
                         reinterpret_cast<::FUN_004bc1f0_S *>((pNode))->FUN_004bc1f0(kPos.x, kPos.y, (float)iZOffset);
                     }
                 }
-                reinterpret_cast<::FUN_00a59c60_cls *>((pAvailableRoot))->FUN_00a59c60((int)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
-                reinterpret_cast<::FUN_00a59c60_cls *>((pDeckRoot))->FUN_00a59c60((int)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pAvailableRoot))->FUN_00a59c60((std::intptr_t)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pDeckRoot))->FUN_00a59c60((std::intptr_t)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
             }
             else
             {
@@ -18884,8 +18885,8 @@ void CaravanMenuX::UpdateCardSlots(int aiFirstCard, bool abFlat)
                         reinterpret_cast<::FUN_004bc1f0_S *>((pNodeB))->FUN_004bc1f0(kPos.x, kPos.y, 0.0f);
                     }
                 }
-                reinterpret_cast<::FUN_00a59c60_cls *>((pAvailableRoot))->FUN_00a59c60((int)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
-                reinterpret_cast<::FUN_00a59c60_cls *>((pDeckRoot))->FUN_00a59c60((int)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pAvailableRoot))->FUN_00a59c60((std::intptr_t)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pDeckRoot))->FUN_00a59c60((std::intptr_t)&(const ::UpdateDataX &)(UpdateDataX(0.0f, 0, 0)));
                 float fValue = reinterpret_cast<::FUN_00526ae0_class *>((pFronts[i]))->FUN_00526ae0();
                 if (reinterpret_cast<::DoorAccessData *>((((::CardItemX *)(reinterpret_cast<::S3e60 *>(&(kCards))->FUN_006a7ad0(iCardIndex)))))->ReadState98())
                 {
@@ -21841,7 +21842,7 @@ void CaravanGame::FUN_00741500()
         if (true)
         {
             CMUpdateData ud(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(ud));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((deckBuildSeq))->FUN_00508100())
         {
@@ -21882,9 +21883,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udWorld(DAT_011d9208, true, false);
             CMUpdateData udA(DAT_011d9208, true, false);
             CMUpdateData udB(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[0]))->FUN_00a59c60((int)&(udA));
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[1]))->FUN_00a59c60((int)&(udB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udWorld));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[0]))->FUN_00a59c60((std::intptr_t)&(udA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[1]))->FUN_00a59c60((std::intptr_t)&(udB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udWorld));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((startSeq))->FUN_00508100() && DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((sideSeq[0][0]))->FUN_00508100() &&
             DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((sideSeq[1][0]))->FUN_00508100())
@@ -21938,7 +21939,7 @@ void CaravanGame::FUN_00741500()
         if (true)
         {
             CMUpdateData ud(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(ud));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((setupDoneSeq))->FUN_00508100())
         {
@@ -21962,9 +21963,9 @@ void CaravanGame::FUN_00741500()
         if (true)
         {
             for (unsigned int i = chipsBShown; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(chipsB))->GetName())); i++)
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::S3e60 *>(&(chipsB))->FUN_006a7ad0(i)))))->FUN_00a59c60((int)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::S3e60 *>(&(chipsB))->FUN_006a7ad0(i)))))->FUN_00a59c60((std::intptr_t)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
             for (unsigned int j = chipsAShown; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(chipsA))->GetName())); j++)
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::S3e60 *>(&(chipsA))->FUN_006a7ad0(j)))))->FUN_00a59c60((int)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::S3e60 *>(&(chipsA))->FUN_006a7ad0(j)))))->FUN_00a59c60((std::intptr_t)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
         }
         if (DAT_011d9208 > 1.0)
         {
@@ -21993,9 +21994,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((scrollUpSeqB))->FUN_00508100())
         {
@@ -22003,9 +22004,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(0.0f, true, false);
             CMUpdateData udBoardB(0.0f, true, false);
             CMUpdateData udBoardA(0.0f, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
             if (scrollPos <= 0)
             {
                 state = 0;
@@ -22043,9 +22044,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((scrollDownSeqB))->FUN_00508100())
         {
@@ -22098,9 +22099,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((changeDeckSeqB0))->FUN_00508100())
         {
@@ -22131,9 +22132,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((changeDeckSeqB))->FUN_00508100())
         {
@@ -22165,9 +22166,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((addRemoveSeqB))->FUN_00508100())
         {
@@ -22176,9 +22177,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(0.0f, true, false);
             CMUpdateData udBoardB(0.0f, true, false);
             CMUpdateData udBoardA(0.0f, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
             reinterpret_cast<::NiControllerManager *>((boardMgrB))->StopSequence((::NiControllerSequence *)(addRemoveSeqB), 0.0f);
             reinterpret_cast<::NiControllerManager *>((boardMgrA))->StopSequence((::NiControllerSequence *)(addRemoveSeqA), 0.0f);
             reinterpret_cast<::FUN_0073bab0_shell *>(this)->SetFlag(1, 0);
@@ -22204,9 +22205,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((deckDoneSeqB))->FUN_00508100())
         {
@@ -22215,9 +22216,9 @@ void CaravanGame::FUN_00741500()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((int)&(udSceneRoot));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((int)&(udBoardB));
-            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((int)&(udBoardA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::CMAVObject *)(reinterpret_cast<::NiNode *>((((::CMNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::CMNodePtr *>(&::g_011d91e4))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(udSceneRoot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeB))->FUN_00a59c60((std::intptr_t)&(udBoardB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((boardNodeA))->FUN_00a59c60((std::intptr_t)&(udBoardA));
             reinterpret_cast<::NiControllerManager *>((boardMgrB))->StopSequence((::NiControllerSequence *)(deckDoneSeqB), 0.0f);
             reinterpret_cast<::NiControllerManager *>((boardMgrA))->StopSequence((::NiControllerSequence *)(deckDoneSeqA), 0.0f);
             deckChanged = true;
@@ -22247,9 +22248,9 @@ void CaravanGame::FUN_00741500()
         if (true)
         {
             CMUpdateData udSide(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(udSide));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(udSide));
             CMUpdateData udCardSlot(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][curCol]))->FUN_00a59c60((int)&(udCardSlot));
+            reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][curCol]))->FUN_00a59c60((std::intptr_t)&(udCardSlot));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((removeSeq[side][handIndex]))->FUN_00508100() &&
             DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((cardSeq[curLane][curCol][animStep].in))->FUN_00508100())
@@ -22262,7 +22263,7 @@ void CaravanGame::FUN_00741500()
                 reinterpret_cast<::fnv_0074d730::DeckMenu *>(this)->UpdateDeckCardNodes(!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x4000), reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x800));
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->ActivateControllerSequence((::NiControllerSequence *)(sideSeq[side][1]), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::B_Seq *)(0));
                 CMUpdateData udWar(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(udWar));
+                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(udWar));
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->StopSequence((::NiControllerSequence *)(sideSeq[side][1]), 0.0f);
                 if (!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x4000) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cardList[2][0]))->GetName())) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cardList[3][0]))->GetName())))
                 {
@@ -22284,7 +22285,7 @@ void CaravanGame::FUN_00741500()
                 reinterpret_cast<::fnv_0074d730::DeckMenu *>(this)->UpdateDeckCardNodes(!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x4000), true);
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->ActivateControllerSequence((::NiControllerSequence *)(removeSeq[side][0]), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::B_Seq *)(0));
                 CMUpdateData udDeck(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(udDeck));
+                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(udDeck));
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->StopSequence((::NiControllerSequence *)(removeSeq[side][0]), 0.0f);
             }
             reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->DeactivateAllSequences(0.0f);
@@ -22320,7 +22321,7 @@ void CaravanGame::FUN_00741500()
         if (true)
         {
             CMUpdateData ud(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(ud));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((removeSeq[side][handIndex]))->FUN_00508100())
         {
@@ -22331,7 +22332,7 @@ void CaravanGame::FUN_00741500()
                 reinterpret_cast<::fnv_0074d730::DeckMenu *>(this)->UpdateDeckCardNodes(!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x4000), reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x800));
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->ActivateControllerSequence((::NiControllerSequence *)(sideSeq[side][1]), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::B_Seq *)(0));
                 CMUpdateData ud(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(ud));
+                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(ud));
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->StopSequence((::NiControllerSequence *)(sideSeq[side][1]), 0.0f);
             }
             else
@@ -22339,7 +22340,7 @@ void CaravanGame::FUN_00741500()
                 reinterpret_cast<::fnv_0074d730::DeckMenu *>(this)->UpdateDeckCardNodes(!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x4000), true);
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->ActivateControllerSequence((::NiControllerSequence *)(removeSeq[side][0]), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::B_Seq *)(0));
                 CMUpdateData ud(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(ud));
+                reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(ud));
                 reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->StopSequence((::NiControllerSequence *)(removeSeq[side][0]), 0.0f);
             }
             reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->DeactivateAllSequences(0.0f);
@@ -22388,9 +22389,9 @@ void CaravanGame::FUN_00741500()
         if (true)
         {
             CMUpdateData ud(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(ud));
             CMUpdateData cardUd(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][curCol]))->FUN_00a59c60((int)&(cardUd));
+            reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][curCol]))->FUN_00a59c60((std::intptr_t)&(cardUd));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((sideSeq[side][handIndex]))->FUN_00508100() &&
             DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((cardSeq[curLane][curCol][animStep].in))->FUN_00508100())
@@ -22400,7 +22401,7 @@ void CaravanGame::FUN_00741500()
             reinterpret_cast<::fnv_0074d730::DeckMenu *>(this)->UpdateDeckCardNodes(!reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x4000), reinterpret_cast<::FUN_00740f10_shell *>(this)->FUN_00740f10(0x800));
             reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->ActivateControllerSequence((::NiControllerSequence *)(sideSeq[side][1]), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::B_Seq *)(0));
             CMUpdateData ud(0.0f, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(ud));
             reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->StopSequence((::NiControllerSequence *)(sideSeq[side][1]), 0.0f);
             if (side == 1 && playedCard->FUN_008d80e0() != 12 && playedCard->FUN_008d80e0() != 15)
             {
@@ -22475,7 +22476,7 @@ void CaravanGame::FUN_00741500()
         if (true)
         {
             CMUpdateData ud(DAT_011d9208, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(ud));
         }
         if (DAT_011d9208 >= reinterpret_cast<::FUN_00508100_shell *>((sideSeq[side][handIndex]))->FUN_00508100())
         {
@@ -22483,7 +22484,7 @@ void CaravanGame::FUN_00741500()
             reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->StopSequence((::NiControllerSequence *)(sideSeq[side][handIndex + 1]), 0.0f);
             reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->ActivateControllerSequence((::NiControllerSequence *)(sideSeq[side][1]), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::B_Seq *)(0));
             CMUpdateData ud(0.0f, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sideNode[side]))->FUN_00a59c60((std::intptr_t)&(ud));
             reinterpret_cast<::NiControllerManager *>((sideMgr[side]))->StopSequence((::NiControllerSequence *)(sideSeq[side][1]), 0.0f);
             reinterpret_cast<::CaravanControls *>(this)->UpdateControls();
             reinterpret_cast<::Menu_749a40 *>(this)->FUN_00749a40(-1);
@@ -22527,7 +22528,7 @@ void CaravanGame::FUN_00741500()
         {
             if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cardList[curLane][i]))->GetName())))
                 break;
-            reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][i]))->FUN_00a59c60((int)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
+            reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][i]))->FUN_00a59c60((std::intptr_t)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
         }
         if (DAT_011d9208 > reinterpret_cast<::FUN_00508100_shell *>((cardSeq[curLane][0][animStep].out))->FUN_00508100())
         {
@@ -22594,7 +22595,7 @@ void CaravanGame::FUN_00741500()
             {
                 if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cardList[curLane][i]))->GetName())))
                     break;
-                reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][i]))->FUN_00a59c60((int)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][i]))->FUN_00a59c60((std::intptr_t)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
             }
         }
         if (DAT_011d9208 > reinterpret_cast<::FUN_00508100_shell *>((cardSeq[curLane][curCol][animStep].out))->FUN_00508100())
@@ -22697,7 +22698,7 @@ void CaravanGame::FUN_00741500()
             {
                 if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cardList[curLane][i]))->GetName())))
                     break;
-                reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][i]))->FUN_00a59c60((int)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
+                reinterpret_cast<::FUN_00a59c60_cls *>((cardNode[curLane][i]))->FUN_00a59c60((std::intptr_t)&(const ::CMUpdateData &)(CMUpdateData(DAT_011d9208, true, false)));
             }
         }
         if (none || DAT_011d9208 > reinterpret_cast<::FUN_00508100_shell *>((cardSeq[curLane][curCol][animStep].in))->FUN_00508100())
@@ -22879,28 +22880,28 @@ void CaravanGame::FUN_00741500()
                 {
                     reinterpret_cast<::TaskQueueInterface *>((deckNode))->QueueActorDisarm(true);
                     CMUpdateData ud(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((int)&(ud));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((std::intptr_t)&(ud));
                 }
                 deckNode = ((::CMAVObject *)(::FUN_004aae30((::NiAVObject *)(sideNode[1]), (::NiFixedString *)("Opponent-Deck_Back:0"))));
                 if (deckNode)
                 {
                     reinterpret_cast<::TaskQueueInterface *>((deckNode))->QueueActorDisarm(true);
                     CMUpdateData ud(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((int)&(ud));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((std::intptr_t)&(ud));
                 }
                 deckNode = ((::CMAVObject *)(::FUN_004aae30((::NiAVObject *)(sideNode[1]), (::NiFixedString *)("Opponent-Deck_06_Shadow:0"))));
                 if (deckNode)
                 {
                     reinterpret_cast<::TaskQueueInterface *>((deckNode))->QueueActorDisarm(true);
                     CMUpdateData ud(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((int)&(ud));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((std::intptr_t)&(ud));
                 }
                 deckNode = ((::CMAVObject *)(::FUN_004aae30((::NiAVObject *)(sideNode[1]), (::NiFixedString *)("Opponent-Deck_Back_Shadow:0"))));
                 if (deckNode)
                 {
                     reinterpret_cast<::TaskQueueInterface *>((deckNode))->QueueActorDisarm(true);
                     CMUpdateData ud(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((int)&(ud));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((std::intptr_t)&(ud));
                 }
                 curLane = reinterpret_cast<::FUN_0084e3a0_Class *>(&(move))->FUN_0084e3a0();
                 curCol = ((int)(reinterpret_cast<::MagicCaster_shell *>(&(move))->FUN_0044edb0()));
@@ -23669,14 +23670,14 @@ void CaravanMenuX::FUN_0073ea90()
     for (int iGridPos = 0; iGridPos < 6; iGridPos++)
     {
         reinterpret_cast<::TaskQueueInterface *>((m_pPlayerGrid[iGridPos]))->QueueActorDisarm(1);
-        reinterpret_cast<::FUN_00a59c60_cls *>((m_pPlayerGrid[iGridPos]))->FUN_00a59c60((int)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
+        reinterpret_cast<::FUN_00a59c60_cls *>((m_pPlayerGrid[iGridPos]))->FUN_00a59c60((std::intptr_t)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
     }
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectAdd))->FUN_00a59c60((int)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectRemove))->FUN_00a59c60((int)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectAdd))->FUN_00a59c60((std::intptr_t)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectRemove))->FUN_00a59c60((std::intptr_t)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
     reinterpret_cast<::FUN_004bc1f0_S *>((m_pSelectAdd))->FUN_004bc1f0(0.0f, 0.0f, ::g_011da6a4_arg1);
     reinterpret_cast<::FUN_004bc1f0_S *>((m_pSelectRemove))->FUN_004bc1f0(0.0f, 0.0f, ::g_011da6a4_arg1);
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectAdd))->FUN_00a59c60((int)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectRemove))->FUN_00a59c60((int)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectAdd))->FUN_00a59c60((std::intptr_t)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_pSelectRemove))->FUN_00a59c60((std::intptr_t)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
 
     AnimCtrl* pCtrl;
     for (int iDeck = 0; iDeck < 2; iDeck++)
@@ -23732,7 +23733,7 @@ void CaravanMenuX::FUN_0073ea90()
         }
     }
 
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0073ea90::SceneNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0073ea90::SceneRoot *>(&::g_011d91e4))))))))->FUN_00a59c60((int)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0073ea90::SceneNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0073ea90::SceneRoot *>(&::g_011d91e4))))))))->FUN_00a59c60((std::intptr_t)&(const ::fnv_0073ea90::Point3 &)(Point3(0.0f, 0, 0)));
 
     for (int iSlot = 0; iSlot < 6; iSlot++)
     {
@@ -24867,35 +24868,35 @@ bool xCaravan::FUN_00747d30(int aiKey, int aiUnused)
                             {
                                 reinterpret_cast<::TaskQueueInterface *>((NODE))->QueueActorDisarm(true);
                                 xUpdateData UD1(0.0f, false, false);
-                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((int)&(UD1));
+                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((std::intptr_t)&(UD1));
                             }
                             NODE = ((::xNode *)(::FUN_004aae30((::NiAVObject *)(m_190), (::NiFixedString *)("Player-Deck_06:5"))));
                             if (NODE)
                             {
                                 reinterpret_cast<::TaskQueueInterface *>((NODE))->QueueActorDisarm(true);
                                 xUpdateData UD2(0.0f, false, false);
-                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((int)&(UD2));
+                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((std::intptr_t)&(UD2));
                             }
                             NODE = ((::xNode *)(::FUN_004aae30((::NiAVObject *)(m_190), (::NiFixedString *)("Player-Deck_06:5"))));
                             if (NODE)
                             {
                                 reinterpret_cast<::TaskQueueInterface *>((NODE))->QueueActorDisarm(true);
                                 xUpdateData UD3(0.0f, false, false);
-                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((int)&(UD3));
+                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((std::intptr_t)&(UD3));
                             }
                             NODE = ((::xNode *)(::FUN_004aae30((::NiAVObject *)(m_190), (::NiFixedString *)("Player-Deck_Back:0"))));
                             if (NODE)
                             {
                                 reinterpret_cast<::TaskQueueInterface *>((NODE))->QueueActorDisarm(true);
                                 xUpdateData UD4(0.0f, false, false);
-                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((int)&(UD4));
+                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((std::intptr_t)&(UD4));
                             }
                             NODE = ((::xNode *)(::FUN_004aae30((::NiAVObject *)(m_190), (::NiFixedString *)("Player-Deck_Back_Shadow:0"))));
                             if (NODE)
                             {
                                 reinterpret_cast<::TaskQueueInterface *>((NODE))->QueueActorDisarm(true);
                                 xUpdateData UD5(0.0f, false, false);
-                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((int)&(UD5));
+                                reinterpret_cast<::FUN_00a59c60_cls *>((NODE))->FUN_00a59c60((std::intptr_t)&(UD5));
                             }
                         }
                         if (m_e40 != -1)
@@ -25154,7 +25155,7 @@ void R74Menu::SelectCard(int row, int column)
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::R74Sound &)(reinterpret_cast<R74Resource*>(((::SoundManager *)(::FUN_00453a70())))->GetSoundByEditorID(DAT_01071728, 0x121, 0)))->FUN_00ad8830({});
             sel = left;
             reinterpret_cast<::FUN_004bc1f0_S *>((reinterpret_cast<R74Positioner*>(right)))->FUN_004bc1f0(0.0f, 0.0f, DAT_0104f7c4);
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(right)))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(right)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             R74Matrix scale;
             reinterpret_cast<::FUN_004a0c90_shell *>(&(scale))->FUN_004a0c90(DAT_0101ff38);
             orientation = *((::R74Matrix *)(::FUN_006a9540((char *)(card4))));
@@ -25162,7 +25163,7 @@ void R74Menu::SelectCard(int row, int column)
             pos3 = *((::R74Point *)(new ((void *)(((::R74Point *)(reinterpret_cast<::FUN_0043d450_Owner *>((card4))->FUN_0043d450())))) ::Vec3()));
             reinterpret_cast<::FUN_0043fa80_s *>((reinterpret_cast<R74Animator*>(sel)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&orientation)));
             reinterpret_cast<::FUN_00440460_S *>((reinterpret_cast<R74Animator*>(sel)))->FUN_00440460((const ::V3 *)(::R74Point *)(&pos3));
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(sel)))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(sel)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             sel = ((::MatchNode *)(::FUN_004aae30((::NiAVObject *)(sel), (::NiFixedString *)(DAT_01071aa4))));
         }
         else
@@ -25170,7 +25171,7 @@ void R74Menu::SelectCard(int row, int column)
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::R74Sound &)(reinterpret_cast<R74Resource*>(((::SoundManager *)(::FUN_00453a70())))->GetSoundByEditorID(DAT_01071a84, 0x121, 0)))->FUN_00ad8830({});
             sel = right;
             reinterpret_cast<::FUN_004bc1f0_S *>((reinterpret_cast<R74Positioner*>(left)))->FUN_004bc1f0(0.0f, 0.0f, DAT_0104f7c4);
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(left)))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(left)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             R74Matrix scale;
             reinterpret_cast<::FUN_004a0c90_shell *>(&(scale))->FUN_004a0c90(DAT_0101ff38);
             orientation = *((::R74Matrix *)(::FUN_006a9540((char *)(card4))));
@@ -25178,7 +25179,7 @@ void R74Menu::SelectCard(int row, int column)
             pos3 = *((::R74Point *)(new ((void *)(((::R74Point *)(reinterpret_cast<::FUN_0043d450_Owner *>((card4))->FUN_0043d450())))) ::Vec3()));
             reinterpret_cast<::FUN_0043fa80_s *>((reinterpret_cast<R74Animator*>(sel)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&orientation)));
             reinterpret_cast<::FUN_00440460_S *>((reinterpret_cast<R74Animator*>(sel)))->FUN_00440460((const ::V3 *)(::R74Point *)(&pos3));
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(sel)))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(sel)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             sel = ((::MatchNode *)(::FUN_004aae30((::NiAVObject *)(sel), (::NiFixedString *)(DAT_01071a78))));
         }
         R74SelectableV* selectable = (((::R74SelectableV *)(reinterpret_cast<::FUN_00a59d30_C *>((reinterpret_cast<R74Node*>(sel)))->FUN_00a59d30(3))) == 0

@@ -2,6 +2,7 @@
 // src/staging/blk_00680000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -5975,7 +5976,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
                         ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(void *)(((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&(objB2))))), 0, 0);
                         reinterpret_cast<::FUN_00a5a040_Class *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&(objB2))))))->FUN_00a5a040();
                         VecObj vobjL(0.0f, 0, 0);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&(objB2))))))->FUN_00a59c60((int)(&vobjL));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&(objB2))))))->FUN_00a59c60((std::intptr_t)(&vobjL));
                         ((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))))->vtarget(((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&(objB2)))), 1);
                     }
                 }
@@ -6025,7 +6026,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
         {
             reinterpret_cast<::FUN_00a5a040_Class *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))))))->FUN_00a5a040();
             VecObj vobj(0.0f, 0, 0);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))))))->FUN_00a59c60((int)(&vobj));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))))))->FUN_00a59c60((std::intptr_t)(&vobj));
             reinterpret_cast<::FUN_006ebbd0_Cls *>((((GRes2*)((void *)(::GetPathManager())))))->ForwardToHost({}, {});
         }
         {

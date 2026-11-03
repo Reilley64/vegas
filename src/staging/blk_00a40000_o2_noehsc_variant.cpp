@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/AHSeqOwner.h"
 #include "fnv/decl/AlphaPropInit_cls.h"
@@ -833,7 +834,7 @@ class FUN_00a59c60_cls
     int unk10;
     int unk14;
     FUN_00a59c60_target* m_18;
-    void FUN_00a59c60(int a1);
+    void FUN_00a59c60(std::intptr_t a1);
 };
 struct SingletonTarget
 {

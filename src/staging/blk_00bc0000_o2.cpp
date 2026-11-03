@@ -7798,7 +7798,7 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)(0), (const ::NiCamera *)(0));
 
     FUN_00bd92b0_mgr* g = (FUN_00bd92b0_mgr*)(*reinterpret_cast<int *>(&::DAT_011f91a8));
-    int r = reinterpret_cast<::FUN_00ba3770_struct *>((sub))->FUN_00ba3770();
+    void* r = reinterpret_cast<::FUN_00ba3770_struct *>((sub))->FUN_00ba3770();
     reinterpret_cast<::Manager *>((g))->FUN_00b6da10((::Item *)(r));
     reinterpret_cast<::Holder *>((sub))->FUN_00ba38b0();
 }
@@ -19968,7 +19968,7 @@ void Cam_bd7620::CullScene(Scene_bd7620* scene)
     acc->unk84 = true;
     Culler_bd7620 kCuller(0);
     UpdData_bd7620 kData(0.0f);
-    reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((int)&(kData));
+    reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((std::intptr_t)&(kData));
     kCuller.m_pkAccumulationCamera = this;
     reinterpret_cast<::S694a0 *>(&(kCuller))->FUN_00a694a0((void *)(&m_kCameraFrustum));
     reinterpret_cast<::CullerOwner *>((scene))->CullSceneObjects((*(::NiCullingProcess *)(&kCuller)));

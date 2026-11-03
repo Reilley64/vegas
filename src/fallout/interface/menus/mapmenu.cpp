@@ -1,5 +1,6 @@
 // fallout/interface/menus/mapmenu.cpp: MapMenu, Interface, InsertBox, TileImage and more (116 functions)
 
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/AGOwner.h"
@@ -4651,7 +4652,7 @@ void ZoomMenu::FUN_0079c5a0(bool inward, float factor)
                 reinterpret_cast<::FUN_004bc1f0_S *>((child4))->FUN_004bc1f0((index_ % gridA) * dimensionB + dimensionB / 2.0, 0.0f,
                                  (index_ / gridA) * dimensionB + dimensionB / 2.0 - gridA * dimensionB);
                 ZoomUpdate updateB(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((child4))->FUN_00a59c60((int)&(updateB));
+                reinterpret_cast<::FUN_00a59c60_cls *>((child4))->FUN_00a59c60((std::intptr_t)&(updateB));
                 ((::ZoomData *)(::fnv_005495f0::FUN_005495f0((const char *)(child4))))->Mark(0x4000);
             }
         }

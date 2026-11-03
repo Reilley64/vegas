@@ -491,7 +491,7 @@ void S_007fb5a0::UpdateNodePosition(float fTime)
         S_007fb5a0_Point3 kPos = kBase * m_fThirdCreatureStatCur + kIntersectionOffset;
         reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((m_pController).operator->()))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(kPos));
         S_007fb5a0_UpdateData kData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(kData));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
     }
 }
 
@@ -627,7 +627,7 @@ void FUN_007fe560_cls::InitTerminalLight()
         reinterpret_cast<::FUN_00965580_shell *>(this)->SetIntensity(1.0f);
         reinterpret_cast<::FOPipboyManager *>(this)->SetScreenLightFlickerIntensity(1.0f);
         new ((void *)&(kNewData)) ::NiUpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((light))->FUN_00a59c60((int)&(kNewData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((light))->FUN_00a59c60((std::intptr_t)&(kNewData));
     }
 }
 
@@ -1173,7 +1173,7 @@ void xRenderedMenu::Init()
     else
         reinterpret_cast<::FUN_004bc1f0_S *>((qdqWL))->FUN_004bc1f0(qhxpxJd, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db594)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5cc)))))));
     xUpdateData qsSDDgz(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((qdqWL))->FUN_00a59c60((int)&(qsSDDgz));
+    reinterpret_cast<::FUN_00a59c60_cls *>((qdqWL))->FUN_00a59c60((std::intptr_t)&(qsSDDgz));
     xCam* qSVM = new xCam();
     xColorA qrEZrs(0.0f, 1.0f, 1.0f, 0.0f);
     reinterpret_cast<::_Cam_00712e60 *>((qSVM))->FUN_00712e60((const ::_Rect16_00712e60 &)(qrEZrs));
@@ -1198,7 +1198,7 @@ void xRenderedMenu::Init()
     reinterpret_cast<::NiCamera *>((qSVM))->UpdateViewFrustum((const ::NiFrustum &)(qnuVZg));
     ::UpdateCameraFrustum((::NiCamera *)(qSVM), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5ec)))))));
     xUpdateData qfTOqo(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((qSVM))->FUN_00a59c60((int)&(qfTOqo));
+    reinterpret_cast<::FUN_00a59c60_cls *>((qSVM))->FUN_00a59c60((std::intptr_t)&(qfTOqo));
     reinterpret_cast<::FUN_007fd620_Class *>(this)->SetGo(qSVM);
     if (qSuoDt->GetGeom())
         reinterpret_cast<::FOPipboyManager *>(this)->SetScreen((::NiAVObject *)(::xAV *)(qSuoDt->GetGeom()));
@@ -1218,7 +1218,7 @@ void xRenderedMenu::Init()
         PLIGHT->FUN_0050dd50(xPoint3(1000.0f, 0.0f, 0.0f));
         reinterpret_cast<::NiPointLight *>((PLIGHT))->FUN_0050dd20(1.0f);
         xUpdateData UPD3(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((PLIGHT))->FUN_00a59c60((int)&(UPD3));
+        reinterpret_cast<::FUN_00a59c60_cls *>((PLIGHT))->FUN_00a59c60((std::intptr_t)&(UPD3));
         reinterpret_cast<::fnv_00b5c940::SSNode *>((((::xShadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(PLIGHT), 0);
         reinterpret_cast<::FUN_007fe560_cls *>(this)->InitTerminalLight();
     }

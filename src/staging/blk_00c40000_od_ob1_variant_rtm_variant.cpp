@@ -2810,7 +2810,7 @@ struct DispatchObject
 struct DispatchOwner
 {
     DispatchObject* object;
-    bool FUN_00c4ee40(int code, unsigned char enabled);
+    bool FUN_00c4ee40(std::intptr_t code, unsigned char enabled);
 };
 struct FUN_00c509a0_Class
 {
@@ -10263,7 +10263,7 @@ void Owner::FUN_00c51f20()
         block.ucFlag2 = 0;
         block.ucFlag3 = 0;
         block.ucFlag4 = 0;
-        reinterpret_cast<::FUN_00a59c60_cls *>((GetTarget()))->FUN_00a59c60((int)(&block));
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetTarget()))->FUN_00a59c60((std::intptr_t)(&block));
     }
 }
 

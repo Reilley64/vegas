@@ -786,7 +786,7 @@ Tree* Model::CreateTree(float scale)
     if (branches && branchProperties)
     {
         count3 = reinterpret_cast<::fnv_00669990::BSTreeModel *>(this)->FUN_00669990();
-        shader = ((void *)(::FUN_00b55560((void *)(4))));
+        shader = ((void *)(::FUN_00b55560(4)));
         unusedB = tree5->GetBranches();
         for (i = 0; i < count3; i++)
         {
@@ -831,7 +831,7 @@ Tree* Model::CreateTree(float scale)
     if (leaves && leafProperties)
     {
         count3 = reinterpret_cast<::FUN_006699d0_shell *>(this)->GetUnsignedShort();
-        shader = ((void *)(::FUN_00b55560((void *)(6))));
+        shader = ((void *)(::FUN_00b55560(6)));
         for (i = 0; i < count3; i++)
         {
             if (!((::TreeBuild::GeometryData *)(::FUN_00559450((int *)&(leaves[i])))))

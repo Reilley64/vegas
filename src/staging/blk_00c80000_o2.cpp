@@ -9474,7 +9474,7 @@ void UpdateChainCollision(NiAVObject* apObject)
     NiAVObject* pkChain = pkRoot->GetObjectByName("Chain01");
     if (!pkChain)
         return;
-    reinterpret_cast<::FUN_00a59c60_cls *>((apObject))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData()));
+    reinterpret_cast<::FUN_00a59c60_cls *>((apObject))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData()));
     NiNode* pkParent = pkChain->m_pParentNode;
     if (!pkParent)
         return;

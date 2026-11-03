@@ -18502,7 +18502,7 @@ void Ref3::FUN_005702e0(Obj3* replacement, bool warn)
         ::FUN_00c6bd00((::TreeNode_cls *)(replacement), true);
         reinterpret_cast<::FUN_00a5a040_Class *>((replacement))->FUN_00a5a040();
         Update3 update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((replacement))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((replacement))->FUN_00a59c60((std::intptr_t)&(update));
     }
     if (replacement && base && base->Type() != 0x25)
         reinterpret_cast<::Dummy_0056c7d0 *>((replacement))->FUN_0056c7d0(this);
@@ -19021,7 +19021,7 @@ void C43::FUN_0043d180()
             {
                 Update43 update4;
                 new ((void *)&(update4)) ::NiUpdateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((node2))->FUN_00a59c60((int)&(update4));
+                reinterpret_cast<::FUN_00a59c60_cls *>((node2))->FUN_00a59c60((std::intptr_t)&(update4));
                 float radius = reinterpret_cast<::Twin_0084d030 *>(&((*(::fnv_0043d180::Bound43 *)(reinterpret_cast<::FUN_0043d450_Owner *>((node2))->FUN_0043d450()))))->GetStoredFloatValue();
                 Vec43 vec3;
                 if (radius < 0.0010000000474974513)

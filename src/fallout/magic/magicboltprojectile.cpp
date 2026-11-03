@@ -2,6 +2,7 @@
 // src/fallout/magic/magicboltprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicboltprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSXFlags_shell.h"
 #include "fnv/decl/CellView.h"
@@ -1321,7 +1322,7 @@ bool AimProjectile::UpdateProjectileAimNode()
             reinterpret_cast<::FUN_0043fa80_s *>((((AimNode*)m_pController)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotate_2));
         }
         AimUpdateData kDataX(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((AimNode*)m_pController)))->FUN_00a59c60((int)&(kDataX));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((AimNode*)m_pController)))->FUN_00a59c60((std::intptr_t)&(kDataX));
         return false;
     }
     return true;

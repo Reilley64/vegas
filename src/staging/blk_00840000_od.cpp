@@ -3619,7 +3619,7 @@ void B5F750Owner::DetachProjectiles()
                     if (pkNode3D)
                     {
                         B5F750UpdateData kData(0.0f, false, false);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((pkNode3D))->FUN_00a59c60((int)(&kData));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((pkNode3D))->FUN_00a59c60((std::intptr_t)(&kData));
                     }
                 }
                 pkArrow->ProcessImpact();
@@ -4871,7 +4871,7 @@ bool RestoreBuffer::FUN_00857d10(RefAccess* ref, bool process)
             reinterpret_cast<::FUN_0043fa80_s *>((node6))->FUN_0043fa80(ref->FUN_0056fa00());
             ::FUN_00c6bd00((::TreeNode_cls *)(node6), true);
             NiUpdateData update6(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((node6))->FUN_00a59c60((int)&(update6));
+            reinterpret_cast<::FUN_00a59c60_cls *>((node6))->FUN_00a59c60((std::intptr_t)&(update6));
         }
     }
     reinterpret_cast<::fnv_008a8150::FUN_008a8150_shell *>(this)->FUN_008a8150(version3);

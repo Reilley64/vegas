@@ -2836,7 +2836,7 @@ void ActorH::FUN_008ae000(HitDataH* pkHit)
                 ::FUN_00cb9650((::FUN_00cb9650_Object *)(pkObject));
                 ::FUN_00c6a350((::NiAVObject *)(pkObject), 1, 1, 0, 1);
                 TargetInfoH kInfo(0.0f, 0, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pkObject))->FUN_00a59c60((int)(&kInfo));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkObject))->FUN_00a59c60((std::intptr_t)(&kInfo));
                 hkVector4H kImpulse;
                 ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kImpulse)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kWorldPosition)));
                 ::SetCollisionScale((::SceneNode *)(pkObject), (unsigned int)(&kImpulse), fImpulse, (::MaterialSelector *)(pkHit));

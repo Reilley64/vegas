@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshpovsearch.cpp: NavMeshBounds, CircularArc, NavMeshPOVSearch, AngleSinCosArc_Helper and more (37 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -3363,7 +3364,7 @@ void __cdecl FUN_006a1330(const char* pcPath, int iParamA, int iParamB)
     B6A1330NodePtr spNode7 = ((::B6A1330Node *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(pcPath)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), (*(const class class ::FUN_006815c0 *)(iParamA)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), true)));
     B6A1330UpdateData kData(0.0f, false, false);
     reinterpret_cast<::FUN_00a5a040_Class *>(((spNode7).operator->()))->FUN_00a5a040();
-    reinterpret_cast<::FUN_00a59c60_cls *>(((spNode7).operator->()))->FUN_00a59c60((int)&(kData));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((spNode7).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
     (*reinterpret_cast<::B6A1330NodePtr *>(&::g_011d6ddc))->AttachChildInAvailableSlot(spNode7, true);
 }
 

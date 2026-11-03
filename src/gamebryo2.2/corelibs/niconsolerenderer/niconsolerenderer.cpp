@@ -1275,7 +1275,7 @@ struct NiConsoleRenderer_shellEx : GraphicsRenderer {
 void NiConsoleRenderer_shellEx::FUN_00e75310(NiD3DShaderInterface* shader)
 {
     shader->SetShaderObject(0);
-    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&this->remaining[2272])))->FUN_00e7db70((unsigned int *)&((BSBatchRenderer__GeometryGroup*&)shader));
+    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&this->remaining[2272])))->FUN_00e7db70((void *const *)&((BSBatchRenderer__GeometryGroup*&)shader));
 }
 
 void _delete(void*, unsigned int);
@@ -24413,7 +24413,7 @@ void S00e75340_Renderer::FUN_00e75340(S00e75340_Group* volatile group)
     g->PrepareForRemoval();
     reinterpret_cast<::NiD3DShaderInterface *>((g))->SetShaderObject((::GraphicsRenderer *)(0));
     S00e75340_Renderer* r = this;
-    reinterpret_cast<::AlphaList *>((reinterpret_cast<S00e75340_Alpha*>(reinterpret_cast<char*>(r) + 0x90c)))->FUN_00e7db70((unsigned int *)(::S00e75340_Group **)((S00e75340_Group**)&group));
+    reinterpret_cast<::AlphaList *>((reinterpret_cast<S00e75340_Alpha*>(reinterpret_cast<char*>(r) + 0x90c)))->FUN_00e7db70((void *const *)(::S00e75340_Group **)((S00e75340_Group**)&group));
 }
 
 struct ShaderDeclStandIn

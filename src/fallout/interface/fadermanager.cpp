@@ -140,7 +140,7 @@ void FaderManager::AddFader(FADER_ENUM eFader, float fDuration, bool bFadeOut)
     pRoot->AddObject(s_faders[eFader].pFadeNode, true);
     reinterpret_cast<::FUN_00a5a040_Class *>((pRoot))->FUN_00a5a040();
     NiUpdateData updateParams(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((pRoot))->FUN_00a59c60((int)&(updateParams));
+    reinterpret_cast<::FUN_00a59c60_cls *>((pRoot))->FUN_00a59c60((std::intptr_t)&(updateParams));
     s_faders[eFader].fUnk0C = fDuration;
     s_faders[eFader].bUnk08 = !bFadeOut;
     s_faders[eFader].fAlpha = surface.fInitialAlpha;

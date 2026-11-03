@@ -1,5 +1,6 @@
 // fallout/misc/taskqueueinterface.cpp: TaskQueueInterface, Holder, Host, TaskQueueProxy and more (69 functions)
 
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/ActorMover.h"
@@ -1779,7 +1780,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
         NiUpdateData kUpdate;
         new ((void *)&(kUpdate)) ::NiUpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((pObject))->FUN_00a59c60((int)&(kUpdate));
+        reinterpret_cast<::FUN_00a59c60_cls *>((pObject))->FUN_00a59c60((std::intptr_t)&(kUpdate));
         reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
         break;
     }

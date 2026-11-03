@@ -18176,7 +18176,7 @@ void Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
     if (DAT_012005a0)
     {
         Tex* t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(texA))->FUN_00ba3780()));
-        TexRefObj* r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        TexRefObj* r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
     }
     reinterpret_cast<::FUN_00ba3940_cls *>(&(texC))->FUN_00ba3940((::FUN_00ba3940_cls *)(::IST *)(((::IST *)(reinterpret_cast<::FUN_00ba3940_cls *>(&(texA))->FUN_00ba3940((::FUN_00ba3940_cls *)(::IST *)(&texB))))));
@@ -18282,13 +18282,13 @@ void Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
         Tex* t;
         TexRefObj* r;
         t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(texC))->FUN_00ba3780()));
-        r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
         t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(GlobalTex()))->FUN_00ba3780()));
-        r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
         t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(texE))->FUN_00ba3780()));
-        r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
     }
     reinterpret_cast<::H_00ba39a0 *>(&(texC))->FUN_00ba39a0();

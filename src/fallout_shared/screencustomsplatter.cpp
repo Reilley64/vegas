@@ -1,5 +1,6 @@
 // fallout_shared/screencustomsplatter.cpp: ScreenCustomSplatter, BSPortal, BSCustomSplatterExtraData (15 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CamLook.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -76,7 +77,7 @@ void ScreenCustomSplatter::Init()
         reinterpret_cast<NiPointer<NiAVObject>&>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))) = new FUN_00a712f0;
         reinterpret_cast<::FUN_00440460_S *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, DAT_01022960)));
         NiUpdateData update1(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00a59c60((int)&(update1));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00a59c60((std::intptr_t)&(update1));
         reinterpret_cast<::CamLook *>((reinterpret_cast<NiCamera*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c)).operator->())))->SetLookAt((const ::CamPoint &)(NiPoint3::ZERO), (const ::CamPoint &)(DAT_011a9478));
         NiFrustum frustum(false);
         frustum.ortho = false;
@@ -88,7 +89,7 @@ void ScreenCustomSplatter::Init()
         frustum.nearPlane = 1.0f;
         reinterpret_cast<NiCamera*>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c)).operator->())->UpdateViewFrustum(frustum);
         NiUpdateData update2(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00a59c60((int)&(update2));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00a59c60((std::intptr_t)&(update2));
         ::g_fDebrisRangeX = frustum.right;
         ::g_fDebrisRangeY = frustum.top;
         DAT_011c77ec = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting736))))))->f;
@@ -332,7 +333,7 @@ void FUN_004de600()
                                                                  data->duration, data->elapsed);
                     }
                     NiUpdateData updateData(data->elapsed, true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((child))->FUN_00a59c60((int)&(updateData));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((child))->FUN_00a59c60((std::intptr_t)&(updateData));
                 }
             }
         }
@@ -463,7 +464,7 @@ void FUN_004de8e0(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float
             (*reinterpret_cast<::NiPointer< ::SplatterRoot> *>(&::g_011c7810))->AttachChildInAvailableSlot(pGeom, true);
             ::FUN_00b81420((::S_00b81420_AVObject *)(pGeom), (int)(((void *)(reinterpret_cast<::NonActorMagicTarget *>((pExtraData))->GetActiveEffectList()))));
             NiUpdateData kUpdate(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::SplatterRoot> *>(&::g_011c7810))).operator->()))->FUN_00a59c60((int)&(kUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::SplatterRoot> *>(&::g_011c7810))).operator->()))->FUN_00a59c60((std::intptr_t)&(kUpdate));
         }
     }
 }

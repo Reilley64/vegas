@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
@@ -4940,7 +4941,7 @@ void DebugObstacleManager::SetEnabled(bool show)
             reinterpret_cast<::FUN_00439410_cls *>(((scene).operator->()))->FUN_00439410((::ArgObject *)(void *)(p));
             ((::DebugSceneObject *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::DebugTES * *>(&::g_TES))))->FUN_0084e3a0()))->AttachChildInAvailableSlot(scene, true);
             DebugUpdateData a(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::DebugSceneObject *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::DebugTES * *>(&::g_TES))))->FUN_0084e3a0()))))->FUN_00a59c60((int)&(a));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::DebugSceneObject *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::DebugTES * *>(&::g_TES))))->FUN_0084e3a0()))))->FUN_00a59c60((std::intptr_t)&(a));
         }
         void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(obstacles))->GetFirstPos();
         while (position)
@@ -4958,7 +4959,7 @@ void DebugObstacleManager::SetEnabled(bool show)
         }
         reinterpret_cast<::FUN_00a5a040_Class *>(((scene).operator->()))->FUN_00a5a040();
         DebugUpdateData update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>(((scene).operator->()))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((scene).operator->()))->FUN_00a59c60((std::intptr_t)&(update));
         enabled = true;
     }
     else
@@ -5363,7 +5364,7 @@ void ObstMgr6c5b20::FUN_006c5b20(SPtr<Owner88>& owner)
     m_pController->AttachChildX(spChild, true);
     reinterpret_cast<::FUN_00a5a040_Class *>(((m_pController).operator->()))->FUN_00a5a040();
     UpdData kData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(kData));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
 }
 
 class Obj6C5;

@@ -2,6 +2,7 @@
 // src/staging/blk_008c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/AlignedVector.h"
@@ -3668,11 +3669,11 @@ int ComputeRelativeRotation(int index, float time, ThreeByThreeMatrix* pOutRotat
     {
         float sourceTime = reinterpret_cast<::TESActorBaseData *>((source7))->GetHealthRegeneration();
         NiUpdateData data3(sourceTime, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)DAT_011e0110[index])))->FUN_00a59c60((int)&(data3));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)DAT_011e0110[index])))->FUN_00a59c60((std::intptr_t)&(data3));
     }
     ThreeByThreeMatrix rotate5 = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((NiAVObject*)DAT_011e0110[index])))));
     NiUpdateData update2(time, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)DAT_011e0110[index])))->FUN_00a59c60((int)&(update2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)DAT_011e0110[index])))->FUN_00a59c60((std::intptr_t)&(update2));
     *pOutRotate = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)((*(::ThreeByThreeMatrix *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(rotate5))->FUN_004b45b0({})))))->operator+((*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((NiAVObject*)DAT_011e0110[index]))))));
     return DAT_011e00e0[index];
 }
@@ -5334,7 +5335,7 @@ bool MovementController::UpdateAnimation(AnimationOutput* output)
     {
         reinterpret_cast<::FUN_00440460_S *>((getNode()))->FUN_00440460((const ::V3 *)&(state->position));
         NiUpdateData update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((getNode()))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((getNode()))->FUN_00a59c60((std::intptr_t)&(update));
     }
     ::FUN_00c6a350((::NiAVObject *)(::SceneNode *)(getNode()), 1, true, false, true);
     output->FUN_00626cb0(UpdateToken(4, GetCachedValue(), 0).value);

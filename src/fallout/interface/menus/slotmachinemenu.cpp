@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/slotmachinemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/slotmachinemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -2115,7 +2116,7 @@ void MenuW7::InitPayoutMenu()
     reinterpret_cast<::FUN_0043fa80_s *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)((const void*)&xObjB.FUN_0043f8d0(&objC7))));
     reinterpret_cast<::FUN_004bc1f0_S *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
     NiUpdateData upd1(0.0f, false, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((int)&(upd1));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((std::intptr_t)&(upd1));
     CtrlObj* xPCtrl = ((::CtrlObj *)(reinterpret_cast<::MyHost *>((m_104))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))))));
     if (xPCtrl != 0)
     {
@@ -2154,7 +2155,7 @@ void MenuW7::InitPayoutMenu()
         }
     }
     NiUpdateData _upd2(0.0f, false, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((int)&(_upd2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((std::intptr_t)&(_upd2));
     ((GO&)::g_011da9d0) = ((void *)(reinterpret_cast<::Target2180 *>(this)->FUN_007c2180()));
     FUN_00450b80(1)->Vf55(((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc))))), 1);
     float fTemp0 = reinterpret_cast<::Twin_0084d030 *>((((::NiBoundW7 *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043d450()))))->GetStoredFloatValue() * 3.0;

@@ -2,6 +2,7 @@
 // src/staging/blk_00500000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <new>
 #include <cstring>
@@ -2079,7 +2080,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
             else
             {
                 NiUpdateData upd(0.0f, false, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj *)(::FUN_00559450((int *)&(p1))))))->FUN_00a59c60((int)&(upd));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj *)(::FUN_00559450((int *)&(p1))))))->FUN_00a59c60((std::intptr_t)&(upd));
             }
             float frac;
             frac =

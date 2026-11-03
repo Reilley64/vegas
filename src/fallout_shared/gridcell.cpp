@@ -1446,12 +1446,12 @@ void Grid::FUN_004baf10()
     sp5_2->AttachChildInAvailableSlot(spData_.operator->(), 1);
     reinterpret_cast<::FUN_004bc1f0_S *>(((sp5_2).operator->()))->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
     NiUpdateData kUninitB(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((sp5_2).operator->()))->FUN_00a59c60((int)(&kUninitB));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((sp5_2).operator->()))->FUN_00a59c60((std::intptr_t)(&kUninitB));
     reinterpret_cast<::CamLook *>(((spData_).operator->()))->SetLookAt((*(const ::CamPoint *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO)))), (*(const ::CamPoint *)(&(*reinterpret_cast<char *>(&::DAT_011a9478)))));
     NiUpdateData kUnlock(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((spData_).operator->()))->FUN_00a59c60((int)(&kUnlock));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((spData_).operator->()))->FUN_00a59c60((std::intptr_t)(&kUnlock));
     NiUpdateData kUiCopy1(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((sp5_2).operator->()))->FUN_00a59c60((int)(&kUiCopy1));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((sp5_2).operator->()))->FUN_00a59c60((std::intptr_t)(&kUiCopy1));
 
     kFrustumVal.m_bOrthographic = true;
     kFrustumVal.m_fBottomBound = kFrustumVal.m_fLeftBound = aFHalfDim * -1.0;
@@ -1483,11 +1483,11 @@ void Grid::FUN_004baf10()
     ((::Obj *)(::FUN_004bc3f0()))->SetBackground(&(*reinterpret_cast<char *>(&::DAT_011a9bd0)));
     reinterpret_cast<::FUN_00a5a040_Class *>(((m_pMenuLightParameters).operator->()))->FUN_00a5a040();
     NiUpdateData kUiMaxRow(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuLightParameters).operator->()))->FUN_00a59c60((int)(&kUiMaxRow));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuLightParameters).operator->()))->FUN_00a59c60((std::intptr_t)(&kUiMaxRow));
     NiUpdateData kUiLock1(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((sp5_2).operator->()))->FUN_00a59c60((int)(&kUiLock1));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((sp5_2).operator->()))->FUN_00a59c60((std::intptr_t)(&kUiLock1));
     NiUpdateData kUiCopy2(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((spData_).operator->()))->FUN_00a59c60((int)(&kUiCopy2));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((spData_).operator->()))->FUN_00a59c60((std::intptr_t)(&kUiCopy2));
     VisArray kVis(0);
     ObjPtr spMeshB(new RTex(0x63, 1, 0x2f7));
     reinterpret_cast<::FUN_004a0fd0_shell *>(&(kVis))->FUN_004a0fd0((::NiNode *)(::Obj *)(spMeshB.operator->()));

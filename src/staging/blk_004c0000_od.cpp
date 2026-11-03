@@ -2,6 +2,7 @@
 // src/staging/blk_004c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -1609,7 +1610,7 @@ int FUN_004d78c0(NiObject* pkObject, int iType, int iCommand)
             {
                 reinterpret_cast<::FUN_00a5a040_Class *>((pkNode))->FUN_00a5a040();
                 NiUpdateData kUpdateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((int)&(kUpdateData));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
                 iResult = 1;
             }
             else if (iCommand == 0x73)

@@ -1,5 +1,6 @@
 // fallout_shared/tesgrass.cpp: TESGrass, TESGrass__GRASS_DATA (36 functions)
 
+#include <cstdint>
 #include "fnv/decl/Envelope.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -711,7 +712,7 @@ bool B50F600Ref::FUN_0050f600(int iUnused)
     B50F600Node* pkNode2 = Get3D(0);
     reinterpret_cast<::FUN_00a5a040_Class *>((pkNode2))->FUN_00a5a040();
     B50F600UpdateData kUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((pkNode2))->FUN_00a59c60((int)&(kUpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((pkNode2))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
     return true;
 }
 

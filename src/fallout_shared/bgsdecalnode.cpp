@@ -2,6 +2,7 @@
 // src/fallout_shared/bgsdecalnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsdecalnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_004ee1e0.h"
@@ -390,7 +391,7 @@ FUN_004ee120::FUN_004ee120(Callback* callback, unsigned char flag) : DecalBase(0
 
     Point3 vecOffset;
     new ((void *)&(vecOffset)) ::NiUpdateData(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((callback))->FUN_00a59c60((int)(&vecOffset));
+    reinterpret_cast<::FUN_00a59c60_cls *>((callback))->FUN_00a59c60((std::intptr_t)(&vecOffset));
     FUN_004ee120* pSelf = this;
     g_011c7d20.FUN_005ae3d0(&pSelf);
 }

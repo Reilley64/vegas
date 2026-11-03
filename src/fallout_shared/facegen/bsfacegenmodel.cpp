@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmodel.cpp: BSFaceGenModel, FaceGenTriData, DelStandIn, FileSizeInfo and more (43 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/BaseProcess.h"
@@ -310,7 +311,7 @@ bool BSFaceGenModel::LoadModelMesh(const char* egmPath, const char* nifPath, con
                 }
                 reinterpret_cast<::FUN_00a5a040_Class *>((root))->FUN_00a5a040();
                 NiUpdateData update(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((root))->FUN_00a59c60((int)&(update));
+                reinterpret_cast<::FUN_00a59c60_cls *>((root))->FUN_00a59c60((std::intptr_t)&(update));
             }
         }
         else

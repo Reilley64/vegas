@@ -6968,7 +6968,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     new ((void *)&(mk8c26)) ::NiUpdateData(0.0f, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((static_cast<ChainObj*>(
         reinterpret_cast<void*>(
-            reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))))->FUN_00a59c60((int)(&mk8c26));
+            reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)(&mk8c26));
     reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 + 1;
     if (::FUN_007a1750() == 0)
     {

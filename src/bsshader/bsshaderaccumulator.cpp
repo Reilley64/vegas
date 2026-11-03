@@ -294,8 +294,8 @@ struct Item_00b655b0
 struct Self_00b655b0
 {
     unsigned char pad[0x140];
-    PoolAllocatorBase<unsigned int>::LinkedListEntry* head;
-    PoolAllocatorBase<unsigned int>::LinkedListEntry* tail;
+    PoolAllocatorBase<void*>::LinkedListEntry* head;
+    PoolAllocatorBase<void*>::LinkedListEntry* tail;
     unsigned int count;
 };
 
@@ -317,8 +317,8 @@ void FUN_00b655b0(Self_00b655b0* self)
             }
             reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
         }
-        PoolAllocatorBase<unsigned int>::LinkedListEntry* node = self->head;
-        PoolAllocatorBase<unsigned int>::LinkedListEntry* next = node->m_pkNext;
+        PoolAllocatorBase<void*>::LinkedListEntry* node = self->head;
+        PoolAllocatorBase<void*>::LinkedListEntry* next = node->m_pkNext;
         self->head = next;
         if (next)
         {
@@ -331,8 +331,8 @@ void FUN_00b655b0(Self_00b655b0* self)
         node->m_element = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->m_pUserData = 0;
-        node->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
+        node->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
+        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
         if (--DAT_011c5f84 == 0)
         {
             (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
@@ -343,6 +343,11 @@ void FUN_00b655b0(Self_00b655b0* self)
 
 struct BSBatchRenderer__PassList
 {
+    const void* const* vftable;
+    void* m_pkHead;
+    void* m_pkTail;
+    void* m_pkSavedHead;
+    unsigned int m_uiCount;
 };
 
 extern const void* const* vftable_BSBatchRenderer__PassList;
@@ -350,12 +355,12 @@ extern const void* const* vftable_BSBatchRenderer__PassList;
 // @fnv 0x00b656b0
 void FUN_00b656b0(BSBatchRenderer__PassList* pThis, int)
 {
-    *(volatile unsigned int*)pThis = (unsigned int)&vftable_BSBatchRenderer__PassList;
+    *(const void* const* volatile*)&pThis->vftable = (const void* const*)&vftable_BSBatchRenderer__PassList;
     reinterpret_cast<::FUN_00b63e90_cls *>((pThis))->ReleasePoolNodes();
-    *(unsigned int*)((char*)pThis + 0xc) = *(unsigned int*)((char*)pThis + 4);
-    *(unsigned int*)((char*)pThis + 4) = 0;
-    *(unsigned int*)((char*)pThis + 8) = 0;
-    *(unsigned int*)((char*)pThis + 0x10) = 0;
+    pThis->m_pkSavedHead = pThis->m_pkHead;
+    pThis->m_pkHead = 0;
+    pThis->m_pkTail = 0;
+    pThis->m_uiCount = 0;
     reinterpret_cast<::FUN_00b63e90_cls *>((pThis))->ReleasePoolNodes();
 }
 
@@ -771,7 +776,7 @@ struct RecursiveSpinLock
     unsigned int m_uiOwningThreadID;
     unsigned int m_uiRecursionCount;
 };
-typedef PoolAllocatorBase<unsigned int> PoolAlloc;
+typedef PoolAllocatorBase<void*> PoolAlloc;
 struct ListNode
 {
     ListNode* m_pkNext;
@@ -794,8 +799,8 @@ struct PtrList
         pkNode->m_element = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->m_pkPrev = 0;
-        pkNode->m_pkNext = (ListNode*)(*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = (PoolAlloc::LinkedListEntry*)pkNode;
+        pkNode->m_pkNext = (ListNode*)(*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
+        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = (PoolAlloc::LinkedListEntry*)pkNode;
         if (--(*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80)).m_uiRecursionCount == 0)
             (*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80)).m_uiOwningThreadID = 0;
         m_uiCount--;
@@ -869,9 +874,9 @@ struct OMNode
 {
     OMNode* m_pkNext;
     void* m_pUserData;
-    unsigned int m_element;
+    void* m_element;
 };
-typedef PoolAllocatorBase<unsigned int>::LinkedListEntry OMAllocNode;
+typedef PoolAllocatorBase<void*>::LinkedListEntry OMAllocNode;
 class BSShaderLightingProperty
 {
   public:
@@ -896,8 +901,8 @@ struct OMList
         pkNode->m_element = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b656e0::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->m_pUserData = 0;
-        pkNode->m_pkNext = (OMNode*)(*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = (OMAllocNode*)pkNode;
+        pkNode->m_pkNext = (OMNode*)(*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
+        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = (OMAllocNode*)pkNode;
         if (--::DAT_011c5f84 == 0)
             (*reinterpret_cast<::fnv_00b656e0::RecursiveSpinLock *>(&::g_011c5f80)).m_uiOwningThreadID = 0;
         m_uiCount--;
@@ -1138,7 +1143,7 @@ void FUN_00b65c60(AccumWIP* apAccum)
             ::BSRenderedTexture::EndAllAndResetRendererState();
             if (!(*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)))
                 (*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)) = ((::fnv_00b65c60::BSRenderedTexture *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::fnv_00b65c60::BSTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6e110((std::uintptr_t)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), 5, 0, (unsigned int)(0), 0)));
-            reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b65c60::ImageSpaceManager * *>(&::DAT_011f91ac))))->FUN_00b97550(0x22, (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))), 0, true);
+            reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b65c60::ImageSpaceManager * *>(&::DAT_011f91ac))))->FUN_00b97550(0x22, (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))), (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))), 0, true);
             ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(::fnv_00b65c60::NiRenderTargetGroup *)(((::fnv_00b65c60::NiRenderTargetGroup *)(reinterpret_cast<::BSRenderedTexture *>(((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))))->GetGroup()))));
         }
         reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))))->SetFromCamera((*(const ::Camera4E9 *)(*(NiCamera**)&apAccum->m_pkAccumulationCamera)));
@@ -1294,7 +1299,7 @@ NiNode* __cdecl CreateRenderPassesNode()
     UpdateData.bTimeToDie = false;
     UpdateData.bVisible = false;
 
-    reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((int)&(UpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     return pNode;
 }
 
@@ -1354,7 +1359,7 @@ void Candidate::RenderGeometryPass(void* geometry, unsigned int index, void* cam
     }
     if (m_akRenderQueryStates[index].m_pRenderQuery)
     {
-        ShaderLocal* shader = ((::ShaderLocal *)(::FUN_00b55560((void *)(1))));
+        ShaderLocal* shader = ((::ShaderLocal *)(::FUN_00b55560(1)));
         ::FUN_00b7a870(9);
         shader->stage34->Reset();
         shader->stage30->Reset();
@@ -1565,11 +1570,11 @@ struct ViewX
     PassX* m_apPass[2];
     char pad3[0x18c - 0x17c];
     int m18c;
-    void UpdatePasses(void* p);
+    void UpdatePasses(int p);
 };
 // Runs both passes while either returns a value above the float minimum, then finalizes each active pass.
 // @fnv 0x00b650c0
-void ViewX::UpdatePasses(void* p)
+void ViewX::UpdatePasses(int p)
 {
     ::fnv_00b988e0::FUN_00b988e0();
     float afValues[2];
@@ -2075,7 +2080,7 @@ void FUN_00b64a00_Pass::FUN_00b64a00(ShCamera* pkCamera, ShCamera* pkOther)
     ShManager* pkManager = ((::ShManager *)(::BSShaderManager::GetSceneDepthRenderedTexture()));
     if ((*reinterpret_cast<::ShRenderer * *>(&::NiRenderer::ms_pRenderer))->m_iRendererState)
         ::BSRenderedTexture::EndAllAndResetRendererState();
-    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
+    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
 
     m_pkAccumulationCamera = pkCamera;
     pkRenderer->SetCurrentCamera(m_pkAccumulationCamera->m_kWorldTranslate, m_pkAccumulationCamera->m_kWorldRotate,
@@ -2862,7 +2867,7 @@ bool Sh651_Batch::FUN_00b651e0(ShCamera* pkCamera, ShManager* pkManager)
                 pkGeom = pkItem->m_pkGeom;
                 if (pkGeom)
                 {
-                    ::FUN_00b6b8d0(3, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((pkAccumMgr))->GetGroup()))));
+                    ::FUN_00b6b8d0(3, (::NiRenderTargetGroup *)(((reinterpret_cast<::BSRenderedTexture *>((pkAccumMgr))->GetGroup()))));
                     pkRenderer->SetCurrentCamera(
                         m_pkAccumulationCamera->m_kWorldTranslate, m_pkAccumulationCamera->m_kWorldRotate,
                         m_pkAccumulationCamera->m_kViewFrustum, m_pkAccumulationCamera->m_kPort);
@@ -2881,12 +2886,12 @@ bool Sh651_Batch::FUN_00b651e0(ShCamera* pkCamera, ShManager* pkManager)
                         pkItem->Render((*reinterpret_cast<::fnv_00b651e0::ShRenderer * *>(&::NiRenderer::ms_pRenderer)));
                     }
                     ::BSRenderedTexture::EndAllAndResetRendererState();
-                    ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
+                    ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(((reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
                     ShColor kColor = pkGeom->m_kFogTint;
                     Sh651_Cam* pkCam = (*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))->m_pkScene->m_pkCam;
                     pkCam->m_bValueAt0C = true;
                     pkCam->m_kFogTint = kColor;
-                    reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))))->FUN_00b97550(0xd, (std::intptr_t)(pkRenderer), (int)(pkManager), (int)(pkManager), 0, 1);
+                    reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))))->FUN_00b97550(0xd, (std::intptr_t)(pkRenderer), (std::intptr_t)(pkManager), (std::intptr_t)(pkManager), 0, 1);
                 }
             }
         }
@@ -3004,14 +3009,14 @@ void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
     ::fnv_00b63a50::FUN_00b63a50((::fnv_00b63a50::AccumStub *)(apAccumWIP));
 
     if (*(char*)&apAccumWIP->m_bFourthBooleanFlagBeforeInteger)
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(0));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(0);
     else
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(1));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(1);
 
     if (*(char*)&apAccumWIP->m_bFourthBooleanFlagBeforeInteger)
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(1));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(1);
     else
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(0));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(0);
 
     ::BSRenderStateManager::SetDepthBufferEnabled(false, (::BSRENDERSTATE_LOCK)((BSRENDERSTATE_LOCK)0));
     reinterpret_cast<::RenderAccumulator *>((apAccumWIP))->FUN_00b63770(0x2cf, 0x2d7, false, -1);
@@ -3153,7 +3158,6 @@ void S00b66050_cls::RemoveEntry(unsigned int key)
         S00b66050_entry*& slot = node->m_data;
         node = node->m_next;
         S00b66050_entry* entry = slot;
-        key = (unsigned int)entry;
         if (entry != 0 && entry->m_key == uiKey)
         {
             if (entry->m_ptr != 0)
@@ -3168,7 +3172,7 @@ void S00b66050_cls::RemoveEntry(unsigned int key)
                 entry->m_ptr = 0;
             }
             reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S00b66050_heap *>(&::g_memoryManager))))->FUN_00aa4060(entry);
-            reinterpret_cast<::AlphaList *>(&(m_kNode))->FUN_00e7db70(&key);
+            reinterpret_cast<::AlphaList *>(&(m_kNode))->FUN_00e7db70((void *const *)&entry);
             return;
         }
     }
@@ -3236,7 +3240,7 @@ void SunQueryAccum::PollQuery(unsigned int uiSlot)
     if (!m_akRenderQueryStates[uiSlot].m_pRenderQuery)
         return;
     unsigned int count;
-    unsigned char status = ((unsigned char)(reinterpret_cast<::DispatchOwner *>((m_akRenderQueryStates[uiSlot].m_pRenderQuery))->FUN_00c4ee40((int)(&count), 1)));
+    unsigned char status = ((unsigned char)(reinterpret_cast<::DispatchOwner *>((m_akRenderQueryStates[uiSlot].m_pRenderQuery))->FUN_00c4ee40((std::intptr_t)(&count), 1)));
     if (status == 1)
     {
         if (count == 0)
@@ -3775,7 +3779,7 @@ bool DepthAccumulator::FUN_00b64570(NiCamera* camera, TextureView* target)
         {
             NiRefObject* texture =
                 (depth ? depth->texture : (const NiPointer<NiRefObject>&)NiPointer<NiRefObject>()).m_pObject;
-            LightingShaderView* shader = ((::fnv_00b64570::LightingShaderView *)(::FUN_00b55560((void *)(9))));
+            LightingShaderView* shader = ((::fnv_00b64570::LightingShaderView *)(::FUN_00b55560(9)));
             reinterpret_cast<::TextureRenderer *>((shader))->AddTexture((::NiTexture *)(texture));
         }
     }

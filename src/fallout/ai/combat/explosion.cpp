@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/explosion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/explosion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/B930700Actor.h"
 #include "fnv/decl/BSFadeNode.h"
@@ -1983,7 +1984,7 @@ void B17A0Ref::Update3D(int iUnused)
     if (((bool)(reinterpret_cast<::BSOcclusionPlane *>(this)->IsNotCulled())) && Get3D())
     {
         B17A0UpdateData kData(::fnv_00563f30::DAT_011c3c08, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((int)&(kData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((std::intptr_t)&(kData));
     }
 }
 

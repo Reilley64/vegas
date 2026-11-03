@@ -1625,7 +1625,7 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
     }
     reinterpret_cast<::FUN_00a5a040_Class *>((((NiAVObjectHelper*)apNode)))->FUN_00a5a040();
     new ((void *)(((NiUpdateDataInit*)&UpdateData))) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeHelper*)apNode)))->FUN_00a59c60((int)&(UpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeHelper*)apNode)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     FUN_00652190();
 }
 }  // namespace fnv_00655fa0

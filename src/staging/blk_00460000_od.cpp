@@ -288,11 +288,11 @@ struct Arr
 
 struct FUN_0046eb00_Class
 {
-    unsigned int GetSecondElement();
+    std::uintptr_t GetSecondElement();
 };
 
 // @fnv 0x0046eb00
-unsigned int FUN_0046eb00_Class::GetSecondElement()
+std::uintptr_t FUN_0046eb00_Class::GetSecondElement()
 {
     return *((Arr*)((char*)this + 0x1c))->GetAt(1);
 }
@@ -305,11 +305,11 @@ struct Arr
 
 struct FUN_0046eb40_Class
 {
-    unsigned int FUN_0046eb40();
+    std::uintptr_t FUN_0046eb40();
 };
 
 // @fnv 0x0046eb40
-unsigned int FUN_0046eb40_Class::FUN_0046eb40()
+std::uintptr_t FUN_0046eb40_Class::FUN_0046eb40()
 {
     return *(reinterpret_cast<Arr*>(this + 0x1c)->GetAt(3));
 }
@@ -322,10 +322,10 @@ struct Arr
 };
 struct FUN_0046eb60_Class
 {
-    unsigned int FUN_0046eb60();
+    std::uintptr_t FUN_0046eb60();
 };
 // @fnv 0x0046eb60
-unsigned int FUN_0046eb60_Class::FUN_0046eb60()
+std::uintptr_t FUN_0046eb60_Class::FUN_0046eb60()
 {
     return *(reinterpret_cast<Arr*>(this + 0x1c)->GetAt(4));
 }
@@ -338,10 +338,10 @@ struct Arr
 };
 struct FUN_0046eb80_Class
 {
-    unsigned int GetEntryAt5();
+    std::uintptr_t GetEntryAt5();
 };
 // @fnv 0x0046eb80
-unsigned int FUN_0046eb80_Class::GetEntryAt5()
+std::uintptr_t FUN_0046eb80_Class::GetEntryAt5()
 {
     return *((Arr*)((char*)this + 0x1c))->GetAt(5);
 }
@@ -355,11 +355,11 @@ struct Arr
 struct FUN_0046eba0_class
 {
     Arr m_aiIndexedValues;
-    unsigned int GetElementAtOffset(int a);
+    std::uintptr_t GetElementAtOffset(int a);
 };
 // Returns the unsigned int stored at index a + 8 of the Arr object located at this + 0x1c.
 // @fnv 0x0046eba0
-unsigned int FUN_0046eba0_class::GetElementAtOffset(int aiIndex)
+std::uintptr_t FUN_0046eba0_class::GetElementAtOffset(int aiIndex)
 {
     return *reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x1c)->GetAt(aiIndex + 8);
 }
@@ -1745,10 +1745,10 @@ void TESAttackDamageForm::FUN_0047fe30(BaseFormComponent* apCopyFC)
 
 struct FUN_0046eb20_Class
 {
-    unsigned int GetElementAt2();
+    std::uintptr_t GetElementAt2();
 };
 // @fnv 0x0046eb20
-unsigned int FUN_0046eb20_Class::GetElementAt2()
+std::uintptr_t FUN_0046eb20_Class::GetElementAt2()
 {
     return *reinterpret_cast<Arr*>(this + 0x1c)->GetAt(2);
 }
@@ -3161,7 +3161,7 @@ void __cdecl FUN_0047b360(RefWithGetNiNode* apRef)
             ::SetFlagRecursive(0, (::WalkNode_cls *)(void *)(spNode7));
         }
         NiUpdateData kData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)(NiNode*)spNode7)))->FUN_00a59c60((int)&(kData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)(NiNode*)spNode7)))->FUN_00a59c60((std::intptr_t)&(kData));
         if (bFlag3)
         {
             ::SetFlagRecursive(bFlag3, (::WalkNode_cls *)(void *)(spNode7));

@@ -4877,7 +4877,7 @@ void __cdecl FUN_00877260(::NiPoint3 apos)
     reinterpret_cast<::FUN_00440460_S *>((((FUN_00440460_S*)((::fnv_00877260::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_00877260::NiNode_00558310 *)((NiNode_00558310*)::FUN_0045c670())))))))->FUN_00440460((const ::V3 *)(const ::fnv_00877260::V3 *)((const V3*)&apos));
     reinterpret_cast<::FUN_0043fa80_s *>((((::fnv_00877260::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_00877260::NiNode_00558310 *)((NiNode_00558310*)::FUN_0045c670()))))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::fnv_00877260::ThreeByThreeMatrix &)(((FUN_0056fa00_S*)(*reinterpret_cast<::fnv_00877260::PlayerVT * *>(&::_g_thePlayer)))->FUN_0056fa00())));
     new ((void *)&(UpdateData)) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)((::fnv_00877260::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_00877260::NiNode_00558310 *)((NiNode_00558310*)::FUN_0045c670())))))))->FUN_00a59c60((int)&(*(NiUpdateData*)&UpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)((::fnv_00877260::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_00877260::NiNode_00558310 *)((NiNode_00558310*)::FUN_0045c670())))))))->FUN_00a59c60((std::intptr_t)&(*(NiUpdateData*)&UpdateData));
 }
 }  // namespace fnv_00877260
 
@@ -8544,7 +8544,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     reinterpret_cast<::FUN_00404f00_shell *>(&(memory5))->FUN_00404f00(25, true, (char *)("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp"), 0xe85);
     reinterpret_cast<::FUN_00a5a040_Class *>((scene))->FUN_00a5a040();
     UpdateInfo update9(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((int)&(update9));
+    reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((std::intptr_t)&(update9));
     reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memory5))->FUN_00404f70();
     bool found3 = false;
     InitSetting* plugins3[10] = {&(*reinterpret_cast<::InitSetting *>(&::g_011debf0)), &(*reinterpret_cast<::InitSetting *>(&::g_011deb88)), &(*reinterpret_cast<::InitSetting *>(&::g_011decf8)), &(*reinterpret_cast<::InitSetting *>(&::g_011dee9c)), &(*reinterpret_cast<::InitSetting *>(&::g_011dec34)),
@@ -9470,7 +9470,7 @@ void ShadowHost::FUN_00871290()
                             {
                                 ++rendered62;
                                 ShadowUpdate update53(0.0f, false, false);
-                                reinterpret_cast<::FUN_00a59c60_cls *>((((::ShadowNode *)(::fnv_004e6540::FUN_004e6540((char *)(shadow4))))))->FUN_00a59c60((int)(&update53));
+                                reinterpret_cast<::FUN_00a59c60_cls *>((((::ShadowNode *)(::fnv_004e6540::FUN_004e6540((char *)(shadow4))))))->FUN_00a59c60((std::intptr_t)(&update53));
                                 reinterpret_cast<::fnv_00b9dfc0::ShadowSceneLightDecompile *>((shadow4))->UpdateShadow(view8, (unsigned char *)(rendered62 - 1));
                                 reinterpret_cast<::FUN_00b9fba0_s *>((shadow4))->FUN_00b9fba0();
                                 void* renderer12 = ((void *)(reinterpret_cast<::FUN_00454b30_class *>((((::ShadowSystem *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00454b30()));
@@ -10324,7 +10324,7 @@ void MainShell::FUN_00874c10()
 
         NiPoint3 pt_6c_ = *((::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((_pPlayerNode))->FUN_0043c490()));
         reinterpret_cast<::FUN_00440460_S *>((_pPlayerNode))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(&NiPoint3::ZERO));
-        reinterpret_cast<::FUN_00a59c60_cls *>((_pPlayerNode))->FUN_00a59c60((int)(&updateData7));
+        reinterpret_cast<::FUN_00a59c60_cls *>((_pPlayerNode))->FUN_00a59c60((std::intptr_t)(&updateData7));
         reinterpret_cast<::FUN_00440460_S *>((_pPlayerNode))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(&pt_6c_));
 
         BGSBodyPart* pBodyPart3 =
@@ -10788,7 +10788,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
     if (DAT_011de9d1)
     {
         Update update(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((aliasSlot0))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((aliasSlot0))->FUN_00a59c60((std::intptr_t)&(update));
         reinterpret_cast<::FUN_00546780_shell *>((aliasSlot0))->FUN_00546780(0);
         ::FUN_00870790((::_Fake_FUN_00870790 *)(((::SetRenderCamera::Scene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), (*(::NiPoint3 *)&(const ::SetRenderCamera::Vec &)(*((::SetRenderCamera::Vec *)&(reinterpret_cast<::NiAVObject *>((((::SetRenderCamera::VecRef *)(reinterpret_cast<::FUN_009611e0_shell *>((viewSlot23))->FUN_009611e0()))))->FUN_0043c490())))));
         reinterpret_cast<::_Fake_FUN_008750e0 *>((((::SetRenderCamera::Scene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_008750e0((*(::NiPoint3 *)&(const ::SetRenderCamera::Vec &)((*reinterpret_cast<::SetRenderCamera::Vec *>((void *)&::NiPoint3::ZERO)))));
@@ -11116,14 +11116,14 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     {
         ba = *((::fnv_008761e0::T876 *)(::FUN_006a9540((char *)(f))));
         reinterpret_cast<::FUN_00440460_S *>((f))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)(&(*reinterpret_cast<::fnv_008761e0::V876 *>((void *)&::NiPoint3::ZERO))));
-        reinterpret_cast<::FUN_00a59c60_cls *>((f))->FUN_00a59c60((int)(&cf));
+        reinterpret_cast<::FUN_00a59c60_cls *>((f))->FUN_00a59c60((std::intptr_t)(&cf));
         reinterpret_cast<::FUN_00440460_S *>((f))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)(&ba.pos));
         reinterpret_cast<::NiTransform *>(&(b))->ResetToIdentity();
         if (a && ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0())))
         {
             b = *((::fnv_008761e0::T876 *)(::FUN_006a9540((char *)(((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))));
             reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)((V876*)((::fnv_008761e0::Camera876 *)(::FUN_0045bb80((int)((*reinterpret_cast<::fnv_008761e0::Camera876 * *>(&::DAT_011e07d0))))))));
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00a59c60((int)(&cf));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00a59c60((std::intptr_t)(&cf));
         }
 
         ((::_Fake_FUN_008750e0 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))->FUN_008750e0(*(NiPoint3*)((::fnv_008761e0::V876 *)(reinterpret_cast<::P3 *>((((::fnv_008761e0::Camera876 *)(::FUN_0045bb80((int)(f))))))->FUN_004a0bd0((::P3 *)(::fnv_008761e0::V876 *)(&j)))));
@@ -11181,12 +11181,12 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     reinterpret_cast<::_Cam_00712e60 *>((i))->FUN_00712e60((*(const ::_Rect16_00712e60 *)(&h)));
     if (reinterpret_cast<::FUN_00967ae0_cls *>(((*reinterpret_cast<::fnv_008761e0::Global876 * *>(&::_g_thePlayer))))->FUN_00967ae0())
     {
-        reinterpret_cast<::FUN_00a59c60_cls *>((f))->FUN_00a59c60((int)(&cf));
+        reinterpret_cast<::FUN_00a59c60_cls *>((f))->FUN_00a59c60((std::intptr_t)(&cf));
         reinterpret_cast<::FUN_00546780_shell *>((f))->FUN_00546780(eb);
         if (a && ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0())))
         {
             reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)(&b.pos));
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00a59c60((int)(&cf));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00a59c60((std::intptr_t)(&cf));
         }
         ((::_Fake_FUN_008750e0 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))->FUN_008750e0(*(NiPoint3*)&(*reinterpret_cast<::fnv_008761e0::V876 *>((void *)&::NiPoint3::ZERO)));
     }
@@ -12406,10 +12406,10 @@ void FUN_00877730()
         reinterpret_cast<::FUN_00439410_cls *>(((*reinterpret_cast<::fnv_00877730::GO34 *>(&::g_011deb34)).FUN_00559450()))->FUN_00439410((::ArgObject *)(::fnv_00877730::NiObject *)((NiObject*)obj));
     }
     NiUpdateData upd1(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_00877730::GO34 *>(&::g_011deb34)).FUN_00559450()))->FUN_00a59c60((int)&(upd1));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_00877730::GO34 *>(&::g_011deb34)).FUN_00559450()))->FUN_00a59c60((std::intptr_t)&(upd1));
     reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::fnv_00877730::GOa4 *>(&::g_011deda4)).FUN_00559450()))->FUN_00a5a040();
     NiUpdateData updTmp(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_00877730::GOa4 *>(&::g_011deda4)).FUN_00559450()))->FUN_00a59c60((int)&(updTmp));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_00877730::GOa4 *>(&::g_011deda4)).FUN_00559450()))->FUN_00a59c60((std::intptr_t)&(updTmp));
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(void *)((*reinterpret_cast<::fnv_00877730::GO34 *>(&::g_011deb34)).FUN_00559450()), 0, 0);
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(void *)(((void *)(::fnv_0043b230::FUN_0043b230((const char *)(((ModelOps*)(void*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::fnv_00877730::ProcObj * *>(&::DAT_011dea20))))->FUN_0045cd60())))))))), 0, 0);
 }
@@ -12683,10 +12683,10 @@ void* MainX::UpdateCamera()
     }
     reinterpret_cast<::FUN_00440460_S *>((((NiAVObject*)(*reinterpret_cast<::fnv_00872b00::NodePtr *>(&::g_011deb34)))))->FUN_00440460((const ::V3 *)&(reinterpret_cast<::NiAVObject *>((((::fnv_00872b00::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(((CamNode*)(*reinterpret_cast<::fnv_00872b00::CamNodePtr *>(&::g_011deb7c)))))))))->FUN_0043c490()));
     NiUpdateData kData5(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)(*reinterpret_cast<::fnv_00872b00::NodePtr *>(&::g_011deb34)))))->FUN_00a59c60((int)&(kData5));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)(*reinterpret_cast<::fnv_00872b00::NodePtr *>(&::g_011deb34)))))->FUN_00a59c60((std::intptr_t)&(kData5));
     reinterpret_cast<::FUN_00440460_S *>((((NiAVObject*)(*reinterpret_cast<::fnv_00872b00::NodePtr *>(&::g_011deda4)))))->FUN_00440460((const ::V3 *)&(reinterpret_cast<::NiAVObject *>((((::fnv_00872b00::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(((CamNode*)(*reinterpret_cast<::fnv_00872b00::CamNodePtr *>(&::g_011deb7c)))))))))->FUN_0043c490()));
     NiUpdateData kData2(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)(*reinterpret_cast<::fnv_00872b00::NodePtr *>(&::g_011deda4)))))->FUN_00a59c60((int)&(kData2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)(*reinterpret_cast<::fnv_00872b00::NodePtr *>(&::g_011deda4)))))->FUN_00a59c60((std::intptr_t)&(kData2));
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9fc0)))
     {
         (*reinterpret_cast<unsigned char *>(&::DAT_011f9fc0)) = 0;
@@ -14812,7 +14812,7 @@ void RenderSystem::FUN_0086d590()
     reinterpret_cast<::FUN_004bc1f0_S *>((((::fnv_0086d590::ResourceObject *)(::FUN_00558310((::NiNode_00558310 *)((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011deb7c)).FUN_00559450()))))))->FUN_004bc1f0(0.0f, 0.0f, ::DAT_0101e704);
     reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011deb7c)).FUN_00559450()))->FUN_00a5a040();
     NiUpdateData i(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011deb7c)).FUN_00559450()))->FUN_00a59c60((int)(&i));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011deb7c)).FUN_00559450()))->FUN_00a59c60((std::intptr_t)(&i));
     reinterpret_cast<::FUN_004dc540_shell *>((((::fnv_0086d590::DataObject *)(::FUN_0043c4b0()))))->FUN_004dc540((::NiAVObject *)(void *)(((void *)(::FUN_00b4f5c0()))));
     (*reinterpret_cast<unsigned char *>(&::DAT_011dea28)) = ::fnv_0086e600::FUN_0086e600();
 
@@ -14833,7 +14833,7 @@ void RenderSystem::FUN_0086d590()
         reinterpret_cast<::FUN_00439410_cls *>(((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011dec94)).FUN_00559450()))->FUN_00439410((::ArgObject *)(h));
         reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011dec94)).FUN_00559450()))->FUN_00a5a040();
         NiUpdateData i(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011dec94)).FUN_00559450()))->FUN_00a59c60((int)(&i));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011dec94)).FUN_00559450()))->FUN_00a59c60((std::intptr_t)(&i));
     }
     ::fnv_0057cf00::UpdateTerrainLODMaxRange();
 }

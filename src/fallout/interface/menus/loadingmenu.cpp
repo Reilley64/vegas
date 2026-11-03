@@ -1,5 +1,6 @@
 // fallout/interface/menus/loadingmenu.cpp: LoadingMenu, BSAudio, LoadingMenuStandIn, LoadingMenuX and more (71 functions)
 
+#include <cstdint>
 #include <new>
 #include <cctype>
 #include "fnv/decl/AnimTile.h"
@@ -1331,7 +1332,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         p3dtile = (Tile3D*)(this->m_pTiles[0]);
         reinterpret_cast<::FUN_00a20cc0_t *>((p3dtile))->FUN_00a20cc0("Left");
         data.FUN_0043d410(0.0f, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((p3dtile))->FUN_0056c7f0()))))->FUN_00a59c60((int)&(data));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((p3dtile))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(data));
         ((FUN_0078cc50_shell*)this)->FUN_0078cc50();
         *(unsigned int*)((char*)this + 0x1e4) = 0;
     }
@@ -2685,7 +2686,7 @@ void FUN_00789820_shell::FUN_00789820()
                         ((LoadingMenu*)this)->SetFloatFlag(7, false);
                     }
                     NiUpdateData data(0.0f, true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((RgbaColor*)p3dtile)))->FUN_0056c7f0())))))->FUN_00a59c60((int)&(data));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((RgbaColor*)p3dtile)))->FUN_0056c7f0())))))->FUN_00a59c60((std::intptr_t)&(data));
                 }
                 else
                 {

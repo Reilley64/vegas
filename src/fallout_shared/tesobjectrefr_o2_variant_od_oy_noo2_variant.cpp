@@ -2768,7 +2768,7 @@ void P107RefF14::FUN_0056f140()
         reinterpret_cast<::fnv_00567490::ScaleReference *>(this)->FUN_00567490(1.0f);
         reinterpret_cast<::FUN_00440490_shell *>((Get3D()))->FUN_00440490(1.0f);
         NiColorF14 kColor(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((int)&(kColor));
+        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((std::intptr_t)&(kColor));
         NiTransformF14 kXform;
         kXform.m_kOrientation = GetRotationMatrix();
         kXform.m_kTranslation = *GetPos();

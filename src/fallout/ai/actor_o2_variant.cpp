@@ -543,7 +543,7 @@ void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* p
         updateData.b2 = false;
         updateData.b3 = false;
         updateData.b4 = false;
-        reinterpret_cast<::FUN_00a59c60_cls *>((param_1))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((param_1))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
 }
 

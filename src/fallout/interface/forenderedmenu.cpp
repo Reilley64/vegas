@@ -211,7 +211,7 @@ void FOPipboyManager::FUN_007fc2d0(NiAVObject* object)
         reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((material))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::NiColor *)(&::DAT_011f4998));
     reinterpret_cast<::FUN_00a5a040_Class *>((object))->FUN_00a5a040();
     NiUpdateData data(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((int)&(data));
+    reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((std::intptr_t)&(data));
 }
 
 // @fnv 0x007fc2b0
@@ -269,7 +269,7 @@ bool FORenderedMenu::CreateMenuLight(const char* nodeName, ShadowSceneNode* shad
             m_pSecondaryMenuObject = pResolvedShadowNode;
             ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pNode))->FUN_009611e0()))->AddObject(m_pMenuLight, true);
             NiUpdateData kData(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((int)&(kData));
+            reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
             reinterpret_cast<::TaskQueueInterface *>(((m_pMenuLight).operator->()))->QueueActorDisarm(true);
             ::AssignFixedString((char *)((m_pMenuLight).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("RenderedMenuLight")), {});
             bSuccess = true;
@@ -554,7 +554,7 @@ void MyMenu::FUN_007ffdb0()
     {
         reinterpret_cast<::FUN_00440460_S *>((light))->FUN_00440460((const ::V3 *)&(*(NiPoint3*)((char*)this + 0xD8)));
         NiUpdateData upd(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((light))->FUN_00a59c60((int)&(upd));
+        reinterpret_cast<::FUN_00a59c60_cls *>((light))->FUN_00a59c60((std::intptr_t)&(upd));
     }
 }
 
@@ -1861,7 +1861,7 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
         return;
     NiAVObject* frustum = ((::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>(this)->GetRegionMapName()));
     NiUpdateData viewport(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((frustum))->FUN_00a59c60((int)&(viewport));
+    reinterpret_cast<::FUN_00a59c60_cls *>((frustum))->FUN_00a59c60((std::intptr_t)&(viewport));
     MenuView* radius = ((::MenuView *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::TileView *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()))))->FUN_00a03c90()));
     if (((::NiAVObject *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0())))
         reinterpret_cast<::TaskQueueInterface *>((((::NiAVObject *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0()))))->QueueActorDisarm(false);
@@ -1893,7 +1893,7 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     reinterpret_cast<::FUN_004bc1f0_S *>(((root).operator->()))->FUN_004bc1f0(0.0f, -5.0f, 0.0f);
     reinterpret_cast<::FUN_0043fa80_s *>(((root).operator->()))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<int *>(&::DAT_011a9448)))));
     NiUpdateData cameraUpdate(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((scene).operator->()))->FUN_00a59c60((int)&(cameraUpdate));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((scene).operator->()))->FUN_00a59c60((std::intptr_t)&(cameraUpdate));
     reinterpret_cast<::fnv_007fdf10::FUN_007fdf10_shell *>((radius))->SetGo(scene);
     camera = (CameraView*)new NewCamera;
     Rect4 up(0.0f, 1.0f, 1.0f, 0.0f);
@@ -1913,7 +1913,7 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     RootUpdate.ortho = false;
     reinterpret_cast<::NiCamera *>(((camera).operator->()))->UpdateViewFrustum((const ::NiFrustum &)(RootUpdate));
     NiUpdateData menuRoot(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((camera).operator->()))->FUN_00a59c60((int)&(menuRoot));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((camera).operator->()))->FUN_00a59c60((std::intptr_t)&(menuRoot));
     reinterpret_cast<::TaskQueueInterface *>(((root).operator->()))->QueueActorDisarm(false);
     reinterpret_cast<::Target *>((radius))->FUN_007b1970(0.5235987901687622f, true);
     reinterpret_cast<::RaceSexMenuCamera *>((radius))->UpdateProgress(0.0f, true);
@@ -2037,7 +2037,7 @@ void FUN_007ff650_cls::FUN_007ff650()
     FUN_007ff650_p* a = ((::FUN_007ff650_p *)(reinterpret_cast<::TESRegionDataMap *>((this))->GetRegionMapName()));
     ((FUN_007ff650_sn*)::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->v37(((::FUN_007ff650_p *)(reinterpret_cast<::TESRegionDataMap *>((this))->GetRegionMapName())), 1);
     new ((void *)&(local2)) ::NiUpdateData(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((int)(&local2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((std::intptr_t)(&local2));
     if (((::FUN_007ff650_q *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((this))->FUN_006838b0())) != 0)
     {
         reinterpret_cast<::TaskQueueInterface *>((((::FUN_007ff650_q *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((this))->FUN_006838b0()))))->QueueActorDisarm(0);
@@ -2861,7 +2861,7 @@ void Owner007f::FUN_007fdf40()
     {
         reinterpret_cast<::TaskQueueInterface *>((((::Node007f *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0()))))->QueueActorDisarm(true);
         NiUpdateData ud(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::Node007f *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0()))))->FUN_00a59c60((int)&(ud));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::Node007f *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>(this)->FUN_006838b0()))))->FUN_00a59c60((std::intptr_t)&(ud));
     }
     ((::Node007f *)(::FUN_00559450((int *)&(r100))))->v3a(((::Node007f *)(::FUN_00559450((int *)&(r108)))));
     ((::Node007f *)(::FUN_00559450((int *)&(r100))))->v3a(((::Node007f *)(::FUN_00559450((int *)&(rFC)))));
@@ -2963,7 +2963,7 @@ void FUN_007ff740_shell::UpdateBodyPart()
     {
         reinterpret_cast<::TaskQueueInterface *>((((::NiAVObjectS *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((((BGSBodyPart*)this)))->FUN_006838b0()))))->QueueActorDisarm(true);
         NiUpdateData upd(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::NiAVObjectS *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((((BGSBodyPart*)this)))->FUN_006838b0()))))->FUN_00a59c60((int)&(upd));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::NiAVObjectS *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((((BGSBodyPart*)this)))->FUN_006838b0()))))->FUN_00a59c60((std::intptr_t)&(upd));
     }
     ((SSNVt*)::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->v3a(((::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>((this))->GetRegionMapName())));
     ((MenuStub*)this)->ResetMenuState();

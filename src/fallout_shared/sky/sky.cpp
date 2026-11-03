@@ -1,5 +1,6 @@
 // fallout_shared/sky/sky.cpp: Sky, ThisCls, TESObjectCELL, Host and more (61 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B4F1050Region.h"
@@ -2102,7 +2103,7 @@ void Sky::FUN_0063ca20()
         }
         reinterpret_cast<::FUN_00a5a040_Class *>((((::SkyAssets::Object *)(::FUN_00559450((int *)&(scene))))))->FUN_00a5a040();
         Update update(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::SkyAssets::Object *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((int)(&update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::SkyAssets::Object *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((std::intptr_t)(&update));
         flags &= ~0x40;
     }
 }

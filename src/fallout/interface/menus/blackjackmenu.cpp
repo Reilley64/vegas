@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/blackjackmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/blackjackmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/ActorValueOwner.h"
@@ -521,7 +522,7 @@ void FUN_00738270_shell::UncullCardObjects()
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<LodObject*>(pavobj)))->QueueActorDisarm(false);
     }
 
-    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::GO *>(&::g_011d9098)).operator unsigned int())))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::GO *>(&::g_011d9098)).operator unsigned int())))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
 }
 
 struct StartMenu
@@ -1562,7 +1563,7 @@ void BlackJackChipsX::UpdateChipPositions()
                      : reinterpret_cast<::FUN_004bc1f0_S *>((apChips[11]))->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
     }
     UpdateDataX kData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((RootNodeX*)(*reinterpret_cast<::RootPtrX *>(&::g_011d9098)))))->FUN_00a59c60((int)&(kData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((RootNodeX*)(*reinterpret_cast<::RootPtrX *>(&::g_011d9098)))))->FUN_00a59c60((std::intptr_t)&(kData));
 }
 
 namespace fnv_007c06f0 {
@@ -2759,7 +2760,7 @@ void Menu90::InitBlackjackScene()
     reinterpret_cast<::S00739970 *>(this)->FUN_00739970(0);
     reinterpret_cast<::FUN_00739ad0_Holder *>(this)->HideArrowNodes();
     Update90 update110(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::Node90 *)(::FUN_00559450((int *)(((Pointer90*)&(*reinterpret_cast<::Mgr_cls *>(&::g_011d9098)))))))))->FUN_00a59c60((int)&(update110));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::Node90 *)(::FUN_00559450((int *)(((Pointer90*)&(*reinterpret_cast<::Mgr_cls *>(&::g_011d9098)))))))))->FUN_00a59c60((std::intptr_t)&(update110));
     Controller90* controller158 = ((::Controller90 *)(reinterpret_cast<::MyHost *>((rootdb4))->FUN_00a5c570((const ::MyRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))))));
     if (controller158)
     {
@@ -2816,7 +2817,7 @@ void Menu90::InitBlackjackScene()
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(rootdc0));
     }
     Update90 update210(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::Node90 *)(::FUN_00559450((int *)(((Pointer90*)&(*reinterpret_cast<::Mgr_cls *>(&::g_011d9098)))))))))->FUN_00a59c60((int)&(update210));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::Node90 *)(::FUN_00559450((int *)(((Pointer90*)&(*reinterpret_cast<::Mgr_cls *>(&::g_011d9098)))))))))->FUN_00a59c60((std::intptr_t)&(update210));
     if (!((::Node90 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Pointer90 *>(&::g_011d90bc)))))))
         (*reinterpret_cast<::Pointer90 *>(&::g_011d90bc)).FUN_0066b0d0(((::Node90 *)(reinterpret_cast<::Target2180 *>(this)->FUN_007c2180())));
     Node90* object33 = ((::Node90 *)(::FUN_004aae30((::NiAVObject *)(rootdb4), (::NiFixedString *)("Deck:0"))));
@@ -4148,7 +4149,7 @@ void Menu737e50::UpdateCulledNodes()
             reinterpret_cast<::TaskQueueInterface *>((a))->QueueActorDisarm(false);
         }
     }
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(unsigned int)(*reinterpret_cast<::GO *>(&::g_011d9098)))))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(unsigned int)(*reinterpret_cast<::GO *>(&::g_011d9098)))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
 }
 
 struct BlackjackButtonMenu

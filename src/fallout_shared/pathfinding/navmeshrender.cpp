@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshrender.cpp: NavMeshObstacleManager, ObstacleTask, NavRenderX, RenderTask and more (12 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BSMultiBoundSphere.h"
@@ -265,7 +266,7 @@ void PaddedBooleanState::FUN_006a36e0(bool abDraw)
         reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(::g_011d6e5c.operator unsigned int())))->FUN_00a5a040();
 
         NiUpdateData UpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(::g_011d6e5c.operator unsigned int())))->FUN_00a59c60((int)&(UpdateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(::g_011d6e5c.operator unsigned int())))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     }
     else
     {
@@ -273,7 +274,7 @@ void PaddedBooleanState::FUN_006a36e0(bool abDraw)
         reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(::g_011d6e5c.operator unsigned int())))->FUN_00a5a040();
 
         NiUpdateData UpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(::g_011d6e5c.operator unsigned int())))->FUN_00a59c60((int)&(UpdateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(::g_011d6e5c.operator unsigned int())))->FUN_00a59c60((std::intptr_t)&(UpdateData));
 
         reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<NiTPointerMap<NiNode*, NiNode*>*>(reinterpret_cast<char*>(this) + 0x200)))->FUN_00438af0();
     }
@@ -909,7 +910,7 @@ void RenderTask::UpdateChildByKey(int key)
         reinterpret_cast<WorldObject*>(static_cast<unsigned int>(::g_011d6e5c))
             ->AttachChildInAvailableSlot(reinterpret_cast<WorldObject*>(static_cast<unsigned int>(child)));
         NiUpdateData updateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(::g_011d6e5c))))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(::g_011d6e5c))))->FUN_00a59c60((std::intptr_t)&(updateData));
         reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(::g_011d6e5c))))->FUN_00a5a040();
         reinterpret_cast<::NiTMap_S *>((reinterpret_cast<QueryQueue*>(reinterpret_cast<char*>(this) + 0x200)))->RemoveKey(key);
     }
@@ -1275,7 +1276,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
     if (abUpdate)
     {
         UpdateDataX qBQkjNg(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))))->FUN_00a59c60((int)&(qBQkjNg));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))))->FUN_00a59c60((std::intptr_t)&(qBQkjNg));
         reinterpret_cast<::FUN_00a5a040_Class *>((((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))))->FUN_00a5a040();
     }
 }

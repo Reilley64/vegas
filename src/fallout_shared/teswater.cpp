@@ -5844,9 +5844,9 @@ Reference61* Main61::CreateWaterReference(Node61* geometry, World61* world, Node
             node15->Attach(geometry, 1);
         reference2->Attach(node15, 1);
         Update61 update5(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((geometry))->FUN_00a59c60((int)&(update5));
-        reinterpret_cast<::FUN_00a59c60_cls *>((node15))->FUN_00a59c60((int)&(update5));
-        reinterpret_cast<::FUN_00a59c60_cls *>((attachment2))->FUN_00a59c60((int)&(update5));
+        reinterpret_cast<::FUN_00a59c60_cls *>((geometry))->FUN_00a59c60((std::intptr_t)&(update5));
+        reinterpret_cast<::FUN_00a59c60_cls *>((node15))->FUN_00a59c60((std::intptr_t)&(update5));
+        reinterpret_cast<::FUN_00a59c60_cls *>((attachment2))->FUN_00a59c60((std::intptr_t)&(update5));
         Vec61 position4(0.0f, 0.0f, reinterpret_cast<::BGSProjectile *>((world))->GetExplosionProximity());
         Matrix61 rotation14 = (*reinterpret_cast<::fnv_004e4c80::Matrix61 *>(&::DAT_011a9448));
         if (water)
@@ -7138,7 +7138,7 @@ void OwnerW::SpawnGroupNodeNearPlayer(float x, float y, float z, float size)
                         position6.z = reinterpret_cast<::Twin_0084d030 *>((void *)&(group8->plane))->GetStoredFloatValue();
                         reinterpret_cast<::FUN_00440460_S *>((((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&(group8->node))))))->FUN_00440460((const ::V3 *)&(position6));
                         UpdateW update(0.0f, false, false);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&(group8->node))))))->FUN_00a59c60((int)&(update));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&(group8->node))))))->FUN_00a59c60((std::intptr_t)&(update));
                     }
                 }
                 _pos = next4;
@@ -7382,7 +7382,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
                     {
                         reinterpret_cast<::FUN_00440460_S *>((((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(g->obj))))))->FUN_00440460((const ::V3 *)&(_pos));
                         WRot rot(0.0f, 0, 0);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(g->obj))))))->FUN_00a59c60((int)&(rot));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(g->obj))))))->FUN_00a59c60((std::intptr_t)&(rot));
                     }
                     WProp* raw = ((::fnv_004e8ec0::WProp *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(g->obj))))))->FUN_00a59d30(3)));
                     WProp* prop = raw;
@@ -7871,7 +7871,7 @@ void WSystem::UpdateRegions()
     reinterpret_cast<::FUN_00440460_S *>(&(c))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(NiPoint3((*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().x, (*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().y, b + 50.0)));
     reinterpret_cast<::NiCamera *>(&(c))->UpdateViewFrustum((const ::NiFrustum &)(ba));
     WUpdate l(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(&(c))->FUN_00a59c60((int)&(l));
+    reinterpret_cast<::FUN_00a59c60_cls *>(&(c))->FUN_00a59c60((std::intptr_t)&(l));
     NiPoint3 e((*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().x, (*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().y, b);
     reinterpret_cast<::CamLook *>(&(c))->SetLookAt((const ::CamPoint &)(e), (const ::CamPoint &)(::DAT_011a9478));
     reinterpret_cast<::FUN_004a0dd0_cls *>((((WRenderer*)::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)&(c))));
@@ -10878,7 +10878,7 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                 reinterpret_cast<::FUN_00507700_cls *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_00507700(reinterpret_cast<::NiCamera *>((void *)(camera))->GetMaxFarNearRatio());
                 reinterpret_cast<::NiCamera *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->UpdateViewFrustum((*(const ::NiFrustum *)(((void *)&(reinterpret_cast<::NiCamera *>((void *)(camera))->GetViewFrustum())))));
                 new ((void *)&(update)) ::NiUpdateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_00a59c60((int)&(update));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_00a59c60((std::intptr_t)&(update));
                 if (!((::fnv_004ebef0::BSShaderAccumulator *)(::FUN_00559450((int *)&(state->accumulator)))))
                     state->accumulator.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
                 reinterpret_cast<::BSA_ *>((((::fnv_004ebef0::BSShaderAccumulator *)(::FUN_00559450((int *)&(state->accumulator))))))->FUN_004a1020(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))));
@@ -11348,7 +11348,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
     reinterpret_cast<::FUN_00507700_cls *>(&(h))->FUN_00507700(reinterpret_cast<::NiCamera *>((void *)(camera))->GetMaxFarNearRatio());
     reinterpret_cast<::NiCamera *>(&(h))->UpdateViewFrustum((const ::NiFrustum &)((*(const ::fnv_004ecb60::NiFrustum *)&(reinterpret_cast<::NiCamera *>((void *)(camera))->GetViewFrustum()))));
     NiUpdateData s(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(&(h))->FUN_00a59c60((int)&(s));
+    reinterpret_cast<::FUN_00a59c60_cls *>(&(h))->FUN_00a59c60((std::intptr_t)&(s));
     FUN_004a0eb0 p(0);
     reinterpret_cast<::FUN_0041fd00_shell *>(&(p))->FUN_0041fd00((int)(&h));
     reinterpret_cast<::CameraState4E9 *>((reinterpret_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->SetFromCamera((*(const ::Camera4E9 *)(&h)));

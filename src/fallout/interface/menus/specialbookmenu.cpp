@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AnimationSequence.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -519,7 +520,7 @@ void MenuUpdate::FUN_007c6200()
                 }
             }
             NiUpdateData updateData(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((int)&(updateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((std::intptr_t)&(updateData));
         }
     }
 }
@@ -1469,7 +1470,7 @@ void SpecialBookMenuX::InitMenu()
     reinterpret_cast<::FUN_004bc1f0_S *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_004bc1f0(0.0f, 0.0f, -60.0f);
     reinterpret_cast<::NiAVObject *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
     new ((void *)&(akStart)) ::NiUpdateData(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00a59c60((int)&(akStart));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00a59c60((std::intptr_t)&(akStart));
     ((BkMenuG*)DAT_011daa38)->m_fTime += reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::BkTimer *>(&::g_timeGlobal))))->GetStoredFloatValue();
     aPCtrl = ((::BkCtrl *)(reinterpret_cast<::MyHost *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_00a5c570((const ::MyRTTI *)(void *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
     if (aPCtrl)
@@ -1497,7 +1498,7 @@ void SpecialBookMenuX::InitMenu()
         }
     }
     new ((void *)&(pos)) ::NiUpdateData(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((m_pReferencedNode))->FUN_00a59c60((int)&(pos));
+    reinterpret_cast<::FUN_00a59c60_cls *>((m_pReferencedNode))->FUN_00a59c60((std::intptr_t)&(pos));
     aScale = reinterpret_cast<::Twin_0084d030 *>((((::BkTimer *)(reinterpret_cast<::FUN_0043d450_Owner *>((((BkMenuG*)DAT_011daa38)->m_pReferencedNode))->FUN_0043d450()))))->GetStoredFloatValue() * 20.0;
     found = ((void *)(reinterpret_cast<::SSN_b5 *>((FUN_00450b80(1)))->FUN_00b5ca70((::Node_b5 *)(((BkMenuG*)DAT_011daa38)->m_pReferencedNode->v03(aScale)), {})));
     if (found == 0)
@@ -1509,7 +1510,7 @@ void SpecialBookMenuX::InitMenu()
         reinterpret_cast<::NiPointLight *>((apTargetLight))->FUN_0050dd20(1.0f);
         BkPoint3 kLightPos;
         new ((void *)&(kLightPos)) ::NiUpdateData(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((apTargetLight))->FUN_00a59c60((int)&(kLightPos));
+        reinterpret_cast<::FUN_00a59c60_cls *>((apTargetLight))->FUN_00a59c60((std::intptr_t)&(kLightPos));
         FUN_00450b80(1)->AttachChildInAvailableSlot(apTargetLight, 1);
         reinterpret_cast<::fnv_00b5c940::SSNode *>((FUN_00450b80(1)))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(apTargetLight), 0);
     }

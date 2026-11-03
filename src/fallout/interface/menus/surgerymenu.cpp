@@ -1,5 +1,6 @@
 // fallout/interface/menus/surgerymenu.cpp: SurgeryMenu, AnimOwner, MenuX, PainMenu and more (31 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include "runtime/crt.h"
@@ -732,7 +733,7 @@ void AnimOwner::UpdateAnimation()
         }
     }
     NiUpdateDataS updateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(updateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(updateData));
 }
 
 class Tile
@@ -1764,7 +1765,7 @@ void FaceOwnerS::UpdateFaceGenNode()
         ((FaceRootS*)(unsigned int)g_011dae5c)->GetObjectByName(NiFixedStringS("BSFaceGenNiNodeSkinned"))->GetCtrl();
     ctrl->SetValue(13, LinearInterpolate(0.0f, 1.0f, 0.0f, 100.0f, fAC));
     NiUpdateDataS data(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeStubS*)&(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() / 1000.0, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(unsigned int)g_011dae5c)))->FUN_00a59c60((int)&(data));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(unsigned int)g_011dae5c)))->FUN_00a59c60((std::intptr_t)&(data));
 }
 
 class NiFixedString
@@ -2670,7 +2671,7 @@ void WoundUpdater::UpdateWounds(float delta)
         node2 = ((::FakeList *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
     NiUpdateDataS data3(0.0f, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)((::NiNode *)(::FUN_00559450((int *)&(((SurgeryHolder&)g_011dade8))))))))->FUN_00a59c60((int)&(data3));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)((::NiNode *)(::FUN_00559450((int *)&(((SurgeryHolder&)g_011dade8))))))))->FUN_00a59c60((std::intptr_t)&(data3));
 }
 
 
@@ -3567,7 +3568,7 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
         wound9->dirty = 0;
     }
     NiUpdateDataS update2(0.0f, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((host))->FUN_00a59c60((int)&(update2));
+    reinterpret_cast<::FUN_00a59c60_cls *>((host))->FUN_00a59c60((std::intptr_t)&(update2));
 }
 
 class GlobalObject_0044f440
@@ -3642,7 +3643,7 @@ void __cdecl FUN_007e4fe0(float a, float b, float c)
             ->v039(NiFixedString("Bip01"))))->FUN_004bc1f0(-*((float *)&(::FUN_00403e20((float *)&(g_011dae6c)))), *((float *)&(::FUN_00403e20((float *)&(g_011dadf0)))) - b, *((float *)&(::FUN_00403e20((float *)&(g_011dae28)))) - a);
         reinterpret_cast<::FUN_00440490_shell *>((((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c))))->v039(NiFixedString("Bip01"))))->FUN_00440490(*((float *)&(::FUN_00403e20((float *)&(g_011dadfc)))) * (double)c);
         NiUpdateDataS kData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c))))))->FUN_00a59c60((int)&(kData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c))))))->FUN_00a59c60((std::intptr_t)&(kData));
     }
 }
 
@@ -3823,7 +3824,7 @@ float SurgeryView::UpdateWoundInteraction()
                         j[c]->radius = eb[c];
                     }
                     UpdateArgs e(0.0f, true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((((SceneNode*)((SurgeryView*)DAT_011dada4)->nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_00a59c60((int)&(e));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((SceneNode*)((SurgeryView*)DAT_011dada4)->nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_00a59c60((std::intptr_t)&(e));
                     if (((SurgeryView*)DAT_011dada4)->enabled && (eb[0] + eb[1]) / 2.0 < 0.10000000149011612)
                         reinterpret_cast<::SurgeryDecals *>(this)->PlaceSurgeryDecal((*(float *)&(const ::ScreenPoint &)(s)), true, {});
                 }
@@ -3851,7 +3852,7 @@ float SurgeryView::UpdateWoundInteraction()
         Position3 k = (*(::Position3 *)&(reinterpret_cast<::NiAVObject *>((((SceneNode*)nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_0043c490()));
         reinterpret_cast<::FUN_004bc1f0_S *>((((SceneNode*)nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_004bc1f0(c.x, c.y, 1.0f);
         UpdateArgs ba(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((SceneNode*)nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_00a59c60((int)&(ba));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((SceneNode*)nodes[reinterpret_cast<::Thing *>(this)->GetIndex(p->index)])))->FUN_00a59c60((std::intptr_t)&(ba));
     }
     return h ? 0.0f : 100.0f;
 }

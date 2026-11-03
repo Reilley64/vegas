@@ -36871,7 +36871,7 @@ void SelfFull91::FUN_0091fee0(Ref91* actor, Point91 point, float force)
             ::FUN_00c6a350((::NiAVObject *)(node), 1, true, false, true);
             Update91 update;
             new ((void *)&(update)) ::NiUpdateData(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((Node91*)node)))->FUN_00a59c60((int)&(update));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((Node91*)node)))->FUN_00a59c60((std::intptr_t)&(update));
             Aligned91 direction;
             ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&direction)), (const ::fnv_004a3e00::NiPoint3 &)(point));
             ::SetCollisionScale((::SceneNode *)(node), (unsigned int)(&direction), force, (::MaterialSelector *)(0));
@@ -37771,7 +37771,7 @@ void FinishInitLoadProcessView::FUN_00925700(unsigned int a1, unsigned int a2, M
     {
         ::FUN_00c6a350(node, true, true, false, true);
         NiUpdateData updateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
 
     ::FUN_00806130((::ActiveEffectListBridge *)(this->m_pActiveEffectList), (::ActorBridge *)(::Actor *)((Actor*)actor));

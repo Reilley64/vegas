@@ -5,6 +5,7 @@
 
 // src/fallout_shared/tes.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tes.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorMover.h"
@@ -3138,7 +3139,7 @@ void Grid::RefreshGrid()
                         if (!reinterpret_cast<::FUN_00453470_shell *>((node))->FUN_00453470())
                         {
                             Update update(0.0f, 0, 0);
-                            reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(update));
+                            reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(update));
                         }
                     }
                     ((::GridRefresh::CellHandle *)(::FUN_0045bb80((int)this)))->FUN_005ae3d0();

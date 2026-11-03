@@ -1,5 +1,6 @@
 // fallout/ai/camerashake.cpp: FileFinder, Interface (4 functions)
 
+#include <cstdint>
 #include "fnv/decl/Controller.h"
 #include "fnv/decl/FUN_0045a5e0_shell.h"
 #include "fnv/decl/FUN_00877720_shell.h"
@@ -162,10 +163,10 @@ float UpdateCameraShake(float time, MatrixView* output)
         ControllerView* second = ((::ControllerView *)(::fnv_0043b230::FUN_0043b230((const char *)(((CameraView*)DAT_011dfecc)))));
         float position = reinterpret_cast<::TESActorBaseData *>((second))->GetHealthRegeneration();
         NiUpdateData first(position, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((CameraView*)DAT_011dfecc)))->FUN_00a59c60((int)&(first));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((CameraView*)DAT_011dfecc)))->FUN_00a59c60((std::intptr_t)&(first));
         MatrixView controller = (*(::MatrixView *)(::FUN_006a9540((char *)(((CameraView*)DAT_011dfecc)))));
         NiUpdateData old(time, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((CameraView*)DAT_011dfecc)))->FUN_00a59c60((int)&(old));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((CameraView*)DAT_011dfecc)))->FUN_00a59c60((std::intptr_t)&(old));
         *output = (*(::MatrixView *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(controller))->FUN_004b45b0({}))).FUN_0043f8d0((*(::MatrixView *)(::FUN_006a9540((char *)(((CameraView*)DAT_011dfecc))))));
         DAT_011dfed8 -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeView *>(&::g_timeGlobal))))->GetStoredFloatValue();
         if (DAT_011dfed8 < 0.0)

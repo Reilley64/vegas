@@ -1,5 +1,6 @@
 // fallout_shared/screensplatter.cpp: ScreenSplatter (16 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CamLook.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -54,7 +55,7 @@ void ScreenSplatter::Init()
         reinterpret_cast<::FUN_00440460_S *>((reinterpret_cast<NiAVObject*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, DAT_01022960)));
 
         reinterpret_cast<NiUpdateData*>(&initLocals.firstData)->NiUpdateData::NiUpdateData(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00a59c60((int)&(*reinterpret_cast<NiUpdateData*>(&initLocals.firstData)));
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00a59c60((std::intptr_t)&(*reinterpret_cast<NiUpdateData*>(&initLocals.firstData)));
 
         reinterpret_cast<::CamLook *>((reinterpret_cast<NiCamera*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->SetLookAt((const ::CamPoint &)(NiPoint3::ZERO), (const ::CamPoint &)(DAT_011a9478));
 
@@ -70,7 +71,7 @@ void ScreenSplatter::Init()
             ->UpdateViewFrustum(*reinterpret_cast<NiFrustum*>(&initLocals.frustum));
 
         reinterpret_cast<NiUpdateData*>(&initLocals.secondData)->NiUpdateData::NiUpdateData(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00a59c60((int)&(*reinterpret_cast<NiUpdateData*>(&initLocals.secondData)));
+        reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>((*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c7840)).operator->())))->FUN_00a59c60((std::intptr_t)&(*reinterpret_cast<NiUpdateData*>(&initLocals.secondData)));
         DAT_01189550 = initLocals.frustum.right;
         DAT_01189554 = initLocals.frustum.top;
 
@@ -338,7 +339,7 @@ void FUN_004e0330(unsigned int requested, float time)
             ((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())->Attach(a, true);
             ::FUN_00b81420((::S_00b81420_AVObject *)(a), ((unsigned int)(reinterpret_cast<::NonActorMagicTarget *>((h))->GetActiveEffectList())));
             NiUpdateData i(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())))->FUN_00a59c60((int)&(i));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((RootProxy*)(*reinterpret_cast<::NiPointer< ::NiAVObject> *>(&::g_011c786c)).operator->())))->FUN_00a59c60((std::intptr_t)&(i));
         }
     }
 }
@@ -410,7 +411,7 @@ void FUN_004e0110()
                         data->alpha = 1.0f - LinearInterpolate(0.0f, 1.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting736)))))) * data->life,
                                                                data->life, data->age);
                     NiUpdateData updateDataA(data->age, true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((((ObjShell*)child4)))->FUN_00a59c60((int)&(updateDataA));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((ObjShell*)child4)))->FUN_00a59c60((std::intptr_t)&(updateDataA));
                 }
             }
         }

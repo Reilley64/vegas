@@ -3,5 +3,5 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 unsigned int DAT_011c0cdc = 32u;
-int DAT_0126fa30;
-int DAT_0126fa58;
+void* DAT_0126fa30;
+void* DAT_0126fa58;

@@ -721,7 +721,7 @@ void FUN_00a57890_shell::AssignStringRef(const char** apsSource)
     }
 }
 
-extern int DAT_011f4500;
+extern intptr_t DAT_011f4500;
 extern int DAT_011f4504;
 extern char DAT_011f4580;
 

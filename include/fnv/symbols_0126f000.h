@@ -153,7 +153,7 @@ extern "C" extern void *g_0126fa28;
 // 0x0126fa2c
 extern void *DAT_0126fa2c;
 // 0x0126fa30
-extern int DAT_0126fa30;
+extern void* DAT_0126fa30;
 // 0x0126fa34
 extern ::NiGeometryGroup *DAT_0126fa34;
 // 0x0126fa3c
@@ -163,7 +163,7 @@ extern ::GlobalObjectO2_00a7b610 g_0126fa40;
 // 0x0126fa48
 extern ::GlobalObjectO2_00a7b610 g_0126fa48;
 // 0x0126fa58
-extern int DAT_0126fa58;
+extern void* DAT_0126fa58;
 // 0x0126fa94
 extern bool (**DAT_0126fa94)(float, void *, unsigned int, void *, unsigned int);
 // 0x0126fa98

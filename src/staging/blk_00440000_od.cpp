@@ -3726,7 +3726,7 @@ float __cdecl FUN_00453850()
     return DAT_011dea30;
 }
 
-extern int DAT_011f4500;
+extern intptr_t DAT_011f4500;
 
 // @fnv 0x00456510
 int __cdecl FUN_00456510()

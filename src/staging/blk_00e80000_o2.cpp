@@ -267,12 +267,12 @@ void FUN_00e95b80_Class::FUN_00e95b80()
 }
 
 struct FUN_00e97790_Class {
-    int InitFromSource(int a, int b);
+    intptr_t InitFromSource(intptr_t a, intptr_t b);
 };
 struct BSFadeNode {
 };
 // @fnv 0x00e978a0
-intptr_t __cdecl FUN_00e978a0(int a, intptr_t b)
+intptr_t __cdecl FUN_00e978a0(intptr_t a, intptr_t b)
 {
     void* p = ::operator new(0x8c);
     if (p)
@@ -283,14 +283,17 @@ intptr_t __cdecl FUN_00e978a0(int a, intptr_t b)
 extern "C" void __cdecl NiFreeAlias(void*);
 
 struct FUN_00e98640_Class {
+    char m_pad00[0x2c];
+    const void* m_pVtbl2c;
+    void* m_p30;
     void FUN_00e98640();
 };
 
 // @fnv 0x00e98640
 void FUN_00e98640_Class::FUN_00e98640()
 {
-    void* p = *(void**)((char*)this + 0x30);
-    *(int*)((char*)this + 0x2c) = (int)&DAT_010f0f7c;
+    void* p = m_p30;
+    m_pVtbl2c = &DAT_010f0f7c;
     NiFreeAlias(p);
 }
 
@@ -486,23 +489,36 @@ void FUN_00e89560_Class::FUN_00e89560()
     }
 }
 
-extern int DAT_0126f9a0;
+extern void* DAT_0126f9a0;
+
+struct PoolItemStub {
+    bool m_bIsCubeMap;
+};
+
+struct GlobalPoolStub {
+    PoolItemStub** m_apFree;
+    unsigned int m_unk04;
+    int m_numFree;
+    unsigned int m_unk0c;
+    unsigned int m_growBy;
+    unsigned int m_unk14;
+};
 
 struct P03MM {  };
 
 // @fnv 0x00e895f0
 void FUN_00e895f0()
 {
-    void* p = reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&g_memoryManager)))->FUN_00aa3e40(0x18);
+    GlobalPoolStub* p = static_cast<GlobalPoolStub*>(reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&g_memoryManager)))->FUN_00aa3e40(sizeof(GlobalPoolStub)));
     if (p)
     {
-        *(int*)p = 0;
-        *(int*)((char*)p + 4) = 0;
-        *(int*)((char*)p + 8) = 0;
-        *(int*)((char*)p + 0xc) = 0;
-        *(int*)((char*)p + 0x10) = 8;
-        *(int*)((char*)p + 0x14) = 8;
-        DAT_0126f9a0 = (int)p;
+        p->m_apFree = 0;
+        p->m_unk04 = 0;
+        p->m_numFree = 0;
+        p->m_unk0c = 0;
+        p->m_growBy = 8;
+        p->m_unk14 = 8;
+        DAT_0126f9a0 = p;
     }
     else
         DAT_0126f9a0 = 0;
@@ -555,28 +571,35 @@ void FUN_00e89760_Class::FUN_00e89760(NiConsoleRendererStub* renderer)
     }
 }
 
-extern int DAT_011f4500;
+extern intptr_t DAT_011f4500;
 
 struct ShaderNode {
     virtual void Release(int);
+};
+
+struct ShaderListNode {
+    char m_pad00[0x24];
+    ShaderNode* m_pShader;
+    char m_pad28[4];
+    ShaderListNode* m_pNext;
 };
 
 // Walks the linked list at DAT_011f4500, releasing each node's shader at offset 0x24 and following the next pointer at 0x2c.
 // @fnv 0x00e8a9b0
 void __cdecl ReleaseShaderNodes()
 {
-    int node = DAT_011f4500;
+    ShaderListNode* node = reinterpret_cast<ShaderListNode*>(DAT_011f4500);
     if (node)
     {
         do
         {
-            int shader = *(int*)(node + 0x24);
+            ShaderNode* shader = node->m_pShader;
             if (shader)
             {
-                *(int*)(node + 0x24) = 0;
-                reinterpret_cast<ShaderNode*>(shader)->Release(1);
+                node->m_pShader = 0;
+                shader->Release(1);
             }
-            node = *(int*)(node + 0x2c);
+            node = node->m_pNext;
         } while (node);
     }
 }
@@ -717,15 +740,27 @@ struct FUN_00e98610_Node {
 };
 
 
+struct AllocationBlock;
+struct BlockLink {AllocationBlock* next; AllocationBlock* prev; BlockLink() : next(0), prev(0) {} };
+struct AllocationBlock {
+    unsigned int unk00;
+    void* unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    BlockLink link;
+};
+
 // Walks the list at DAT_0126fa58, clears each node's field 2, frees the node, then sets DAT_0126fa58 to 0.
 // @fnv 0x00e98610
 void __cdecl FreeNodeList()
 {
-    int* node = (int*)DAT_0126fa58;
+    AllocationBlock* node = static_cast<AllocationBlock*>(DAT_0126fa58);
     while (node) {
-        int* next = (int*)node[6];
-        node[2] = 0;
-        operator delete((void*)node, 0x20);
+        AllocationBlock* next = node->link.next;
+        node->unk08 = 0;
+        operator delete((void*)node, sizeof(AllocationBlock));
         node = next;
     }
     DAT_0126fa58 = 0;
@@ -882,20 +917,22 @@ char FUN_00e8a1f0_Class::GetEntryData(int aiIndex, int* piValue, int* piField, c
 }
 
 extern int DAT_010f0ac0;
-extern int DAT_0126fa50;
+extern void* DAT_0126fa50;
 // @fnv 0x00e91b40
 void __cdecl FUN_00e91b40()
 {
-    NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)::operator new(0x10);
+    struct CreatorView { const void* m_vptr; int m_04; int m_08; int m_0c; };
+    NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)::operator new(sizeof(CreatorView));
     if (p) {
-        *(void**)p = (void*)&DAT_010f0ac0;
-        *(int*)(p + 1) = 0;
-        *(int*)(p + 2) = 0;
-        *(int*)(p + 3) = 0;
+        CreatorView* v = reinterpret_cast<CreatorView*>(p);
+        v->m_vptr = &DAT_010f0ac0;
+        v->m_04 = 0;
+        v->m_08 = 0;
+        v->m_0c = 0;
     } else {
         p = 0;
     }
-    DAT_0126fa50 = (int)p;
+    DAT_0126fa50 = p;
     NiD3DShaderProgramFactory::RegisterCreator("vsh", (NiD3DShaderProgramCreator*)DAT_0126fa50);
     NiD3DShaderProgramFactory::RegisterCreator("psh", (NiD3DShaderProgramCreator*)DAT_0126fa50);
 }
@@ -1196,43 +1233,56 @@ struct FUN_00e93400_Class {
 // @fnv 0x00e93650
 void* FUN_00e93650_Class::FUN_00e93650(int aiFlags)
 {
-    static_cast<::FUN_00e93400_Class *>(nullptr)->FUN_00e93400();
+    reinterpret_cast<::FUN_00e93400_Class *>(this)->FUN_00e93400();
     if (aiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
 
+struct StrMapNodeView {
+    StrMapNodeView* m_pkNext;
+    void* m_key;
+    void* m_val;
+};
+struct StrMapView {
+    const void* m_vptr;
+    unsigned int m_uiHashSize;
+    StrMapNodeView** m_ppkHashTable;
+    unsigned int m_uiCount;
+    bool m_bCopy;
+};
+
 // @fnv 0x00e93400
 void FUN_00e93400_Class::FUN_00e93400()
 {
-    char* self = reinterpret_cast<char*>(this);
-    *(void**)self = (void*)&DAT_010f0e30;
-    if (self[0x10])
+    StrMapView* self = reinterpret_cast<StrMapView*>(this);
+    self->m_vptr = &DAT_010f0e30;
+    if (self->m_bCopy)
     {
         unsigned int i = 0;
-        if (*(unsigned int*)(self + 4) > 0)
+        if (self->m_uiHashSize > 0)
         {
             do
             {
-                void* node = *(void**)(*(int*)(self + 8) + i * 4);
+                StrMapNodeView* node = self->m_ppkHashTable[i];
                 if (node)
                 {
                     do
                     {
-                        void* cur = node;
-                        node = *(void**)node;
-                        _NiFree(*(void**)((char*)cur + 4));
+                        StrMapNodeView* cur = node;
+                        node = node->m_pkNext;
+                        _NiFree(cur->m_key);
                     } while (node);
                 }
                 i++;
-            } while (i < *(unsigned int*)(self + 4));
+            } while (i < self->m_uiHashSize);
         }
     }
-    *(void**)self = (void*)&DAT_010f0e10;
+    self->m_vptr = &DAT_010f0e10;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)self)))->FUN_00b601a0();
-    *(void**)self = (void*)&DAT_010f0df0;
+    self->m_vptr = &DAT_010f0df0;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)self)))->FUN_00b601a0();
-    _NiFree(*(void**)(self + 8));
+    _NiFree(self->m_ppkHashTable);
 }
 
 extern int DAT_010f0e90;
@@ -1245,28 +1295,29 @@ struct FUN_00e934d0_Class {
 // @fnv 0x00e934d0
 void FUN_00e934d0_Class::FUN_00e934d0()
 {
-    *(void**)this = (void*)&DAT_010f0e90;
-    if (*(char*)((char*)this + 0x10)) {
+    StrMapView* self = reinterpret_cast<StrMapView*>(this);
+    self->m_vptr = &DAT_010f0e90;
+    if (self->m_bCopy) {
         unsigned int i = 0;
-        if (*(unsigned int*)((char*)this + 4) > 0) {
+        if (self->m_uiHashSize > 0) {
             do {
-                int* node = *(int**)(*(char**)((char*)this + 8) + i * 4);
+                StrMapNodeView* node = self->m_ppkHashTable[i];
                 if (node) {
                     do {
-                        int* cur = node;
-                        node = (int*)*node;
-                        _NiFree((void*)cur[1]);
+                        StrMapNodeView* cur = node;
+                        node = node->m_pkNext;
+                        _NiFree(cur->m_key);
                     } while (node);
                 }
                 ++i;
-            } while (i < *(unsigned int*)((char*)this + 4));
+            } while (i < self->m_uiHashSize);
         }
     }
-    *(void**)this = (void*)&DAT_010f0e70;
+    self->m_vptr = &DAT_010f0e70;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
-    *(void**)this = (void*)&DAT_010f0e50;
+    self->m_vptr = &DAT_010f0e50;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
-    _NiFree(*(void**)((char*)this + 8));
+    _NiFree(self->m_ppkHashTable);
 }
 
 struct FUN_00e935b0_Class {
@@ -1279,7 +1330,7 @@ struct FUN_00e935b0_Class {
 void FUN_00e935b0_Class::FreeIfFlagged(int* a)
 {
     if (m_flag)
-        NiFree(*(void**)(a + 1));
+        NiFree(reinterpret_cast<StrMapNodeView*>(a)->m_key);
 }
 
 extern int DAT_010f0df0;
@@ -1467,38 +1518,46 @@ void FUN_00e94070_Class::ReleaseOwnedObject(FUN_00e94070_Class* apOwner)
 struct FUN_00e942d0_Class {
 };
 
+struct VBBlockListView {
+    void* m_00;
+    void* m_04;
+    void* m_pResource;
+    char m_pad0c[0x30];
+    VBBlockListView* m_pOlder;
+    VBBlockListView* m_pNewer;
+};
+
 // @fnv 0x00e94330
 void FUN_00e94330(void* p)
 {
     if (!p)
         return;
 
-    void** obj = (void**)p;
-    if (obj[2])
+    VBBlockListView* obj = (VBBlockListView*)p;
+    if (obj->m_pResource)
     {
-        void* v = obj[2];
+        void* v = obj->m_pResource;
         void** vtbl = *(void***)v;
         void (*fn)(void*) = (void (*)(void*))vtbl[2];
         fn(v);
-        obj[2] = 0;
+        obj->m_pResource = 0;
     }
 
     reinterpret_cast<::NiVBBlock *>((((FUN_00e942d0_Class*)p)))->FUN_00e942d0();
 
-    void* prev = obj[15];
-    void* next = obj[16];
+    VBBlockListView* prev = obj->m_pOlder;
+    VBBlockListView* next = obj->m_pNewer;
     if (prev)
-        *(void**)((char*)prev + 0x40) = next;
+        prev->m_pNewer = next;
     if (next)
-        *(void**)((char*)next + 0x3c) = prev;
+        next->m_pOlder = prev;
 
-    void* head = (void*)DAT_0126fa30;
+    VBBlockListView* head = (VBBlockListView*)DAT_0126fa30;
     if (head)
-        *(void**)((char*)head + 0x40) = p;
-    void* newhead = (void*)DAT_0126fa30;
-    obj[15] = newhead;
-    obj[16] = 0;
-    DAT_0126fa30 = (int)p;
+        head->m_pNewer = obj;
+    obj->m_pOlder = (VBBlockListView*)DAT_0126fa30;
+    obj->m_pNewer = 0;
+    DAT_0126fa30 = p;
 }
 
 void __cdecl _NiFree(void* p);
@@ -1613,30 +1672,30 @@ void AllocateNodeList()
     unsigned int i = 0;
     if (DAT_011c1118 > 0) {
         do {
-            void* mem = ::operator new(0x20);
-            int* node;
+            void* mem = ::operator new(sizeof(AllocationBlock));
+            AllocationBlock* node;
             if (mem != 0) {
-                node = (int*)mem;
-                node[0] = 0;
-                node[1] = 0;
-                node[2] = 0;
-                node[3] = 0;
-                node[5] = 0;
-                node[4] = 0;
-                node[6] = 0;
-                node[7] = 0;
+                node = (AllocationBlock*)mem;
+                node->unk00 = 0;
+                node->unk04 = 0;
+                node->unk08 = 0;
+                node->unk0C = 0;
+                node->unk14 = 0;
+                node->unk10 = 0;
+                node->link.next = 0;
+                node->link.prev = 0;
             } else {
                 node = 0;
             }
-            int prev = DAT_0126fa58;
+            AllocationBlock* prev = static_cast<AllocationBlock*>(DAT_0126fa58);
             if (prev != 0) {
-                *(int*)(prev + 0x1c) = (int)node;
-                prev = DAT_0126fa58;
+                prev->link.prev = node;
+                prev = static_cast<AllocationBlock*>(DAT_0126fa58);
             }
-            node[6] = prev;
-            node[7] = 0;
+            node->link.next = prev;
+            node->link.prev = 0;
             i++;
-            DAT_0126fa58 = (int)node;
+            DAT_0126fa58 = node;
         } while (i < DAT_011c1118);
     }
 }
@@ -6735,9 +6794,9 @@ void* FUN_00e89410_Class::GetItemByIndex(unsigned int index)
     void* item = 0;
 
     if (index < DAT_011bf558)
-        item = ((void *)(reinterpret_cast<::FUN_00e89250_cls *>(this)->DispatchSlots(index)));
+        item = (void *)(intptr_t)reinterpret_cast<::FUN_00e89250_cls *>(this)->DispatchSlots(index);
 
-    void* result = ((void *)(reinterpret_cast<::fnv_00e892d0::FUN_00e892d0_cls *>(this)->FUN_00e892d0(index)));
+    void* result = (void *)(intptr_t)reinterpret_cast<::fnv_00e892d0::FUN_00e892d0_cls *>(this)->FUN_00e892d0(index);
 
     if (item)
         result = item;
@@ -8967,8 +9026,6 @@ FUN_00e8d0e0::FUN_00e8d0e0(ComStub* device)
     unk3c = 0;
 }
 
-extern "C" void (* DAT_00fdf1c0)(void*);
-extern "C" void (* DAT_00fdf1c4)(void*);
 
 class FUN_00e8e330_cls {
 public:
@@ -9773,19 +9830,6 @@ void E94B0Pool::AddBlock(unsigned int ItemUpdateArray)
     m_pkBlocks = pkBlock;
 }
 
-struct PoolItemStub {
-    bool m_bIsCubeMap;
-};
-
-struct GlobalPoolStub {
-    PoolItemStub** m_apFree;
-    unsigned int m_unk04;
-    int m_numFree;
-    unsigned int m_unk0c;
-    unsigned int m_growBy;
-    unsigned int m_unk14;
-};
-
 // Pops a free item from the global pool, growing it when empty, marks the item as used, and returns it.
 // @fnv 0x00e89630
 PoolItemStub* __cdecl AllocatePoolItem()
@@ -9968,7 +10012,7 @@ struct FUN_00e93540_Node {
 };
 
 struct FUN_00e93540_Map : public NiTMapBaseStub {
-    unsigned int m_vptr;
+    const void* m_vptr;
     unsigned int m_uiItemCount;
     FUN_00e93540_Node** m_buckets;
     unsigned int unk0c;
@@ -9980,7 +10024,7 @@ struct FUN_00e93540_Map : public NiTMapBaseStub {
 // Sets the vtable, frees each stored data pointer when m_ownsData is set, then clears the map and frees the bucket array.
 // @fnv 0x00e93540
 void FUN_00e93540_Map::FUN_00e93540() {
-    m_vptr = (unsigned int)&DAT_010f0ef0;
+    m_vptr = &DAT_010f0ef0;
 
     if (m_ownsData) {
         for (unsigned int index = 0; index < m_uiItemCount; ++index) {
@@ -9993,10 +10037,10 @@ void FUN_00e93540_Map::FUN_00e93540() {
         }
     }
 
-    m_vptr = (unsigned int)&DAT_010f0ed0;
+    m_vptr = &DAT_010f0ed0;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
 
-    m_vptr = (unsigned int)&DAT_010f0eb0;
+    m_vptr = &DAT_010f0eb0;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
 
     FUN_00aa10f0(m_buckets);
@@ -10074,10 +10118,10 @@ void FUN_00e8e330_cls::PushBack(char* const* src)
     char* v = *src;
     if (*slot != v) {
         if (v != ::DAT_0109b220) {
-            DAT_00fdf1c0(v - 8);
+            InterlockedIncrement((long volatile*)(v - 8));
         }
         if (*slot != ::DAT_0109b220) {
-            DAT_00fdf1c4(*slot - 8);
+            InterlockedDecrement((long volatile*)(*slot - 8));
         }
         *slot = v;
     }
@@ -10753,8 +10797,8 @@ void LightManager::FUN_00e8b740(LightInput* input) {
  unsigned int index=((unsigned int)(reinterpret_cast<::FUN_00e8b1f0_cls *>(this)->AllocateBitIndex()));
  if(index==-1)continue;
  ActiveLight* fresh=(ActiveLight*)::operator new(sizeof(ActiveLight));
- if(fresh)data=((::ActiveLight *)(reinterpret_cast<::S_00e8b4b0_Class *>((fresh))->Init((int)(current),index))); else data=0;
- reinterpret_cast<::HashTableBase *>(this)->InsertOrUpdate((unsigned int)(current),(unsigned int)(data));
+ if(fresh)data=((::ActiveLight *)(reinterpret_cast<::S_00e8b4b0_Class *>((fresh))->Init((intptr_t)(current),index))); else data=0;
+ reinterpret_cast<::HashTableBase *>(this)->InsertOrUpdate((uintptr_t)(current),(uintptr_t)(data));
  current->active=data;
  update=true;
  }
@@ -12008,7 +12052,10 @@ struct S00e8fa80_Node {
 };
 
 struct S00e8fa80_Map {
-    unsigned int unk00, unk04, unk08, unk0c;
+    const void* m_vptr;
+    unsigned int m_uiHashSize;
+    void** m_ppkHashTable;
+    unsigned int m_uiCount;
 };
 
 struct S00e8fa80_Obj {
@@ -12029,31 +12076,31 @@ S00e8fa80_Node* S00e8fa80_Obj::GetOrCreateNode(int aiHigh, unsigned int aiLow, i
     switch(aiMapIndex) {
     case 1:
         map = &map2c;
-        if (!reinterpret_cast<::A54440Hash *>((map))->FUN_00a53c30((::A54440Manager *)(packed), (::A54440Manager **)&(result))) {
-            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(0x1c);
+        if (!reinterpret_cast<::A54440Hash *>((map))->FUN_00a53c30((::A54440Manager *)(uintptr_t)packed, (::A54440Manager **)&(result))) {
+            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(sizeof(S00e8fa80_Node));
             node->Initialize();
             node->key = packed;
-            reinterpret_cast<::HashTableBase *>((map))->InsertOrUpdate(packed, (unsigned int)(node));
+            reinterpret_cast<::HashTableBase *>((map))->InsertOrUpdate(packed, (uintptr_t)(node));
             return node;
         }
         break;
     case 0:
         map = &map1c;
-        if (!reinterpret_cast<::A54440Hash *>((map))->FUN_00a53c30((::A54440Manager *)(packed), (::A54440Manager **)&(result))) {
-            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(0x1c);
+        if (!reinterpret_cast<::A54440Hash *>((map))->FUN_00a53c30((::A54440Manager *)(uintptr_t)packed, (::A54440Manager **)&(result))) {
+            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(sizeof(S00e8fa80_Node));
             node->Initialize();
             node->key = packed;
-            reinterpret_cast<::HashTableBase *>((map))->InsertOrUpdate(packed, (unsigned int)(node));
+            reinterpret_cast<::HashTableBase *>((map))->InsertOrUpdate(packed, (uintptr_t)(node));
             return node;
         }
         break;
     case 2:
         map = &map3c;
-        if (!reinterpret_cast<::A54440Hash *>((map))->FUN_00a53c30((::A54440Manager *)(packed), (::A54440Manager **)&(result))) {
-            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(0x1c);
+        if (!reinterpret_cast<::A54440Hash *>((map))->FUN_00a53c30((::A54440Manager *)(uintptr_t)packed, (::A54440Manager **)&(result))) {
+            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(sizeof(S00e8fa80_Node));
             node->Initialize();
             node->key = packed;
-            reinterpret_cast<::HashTableBase *>((map))->InsertOrUpdate(packed, (unsigned int)(node));
+            reinterpret_cast<::HashTableBase *>((map))->InsertOrUpdate(packed, (uintptr_t)(node));
             return node;
         }
         break;
@@ -12062,16 +12109,6 @@ S00e8fa80_Node* S00e8fa80_Obj::GetOrCreateNode(int aiHigh, unsigned int aiLow, i
     return result;
 }
 
-struct BlockLink {unsigned int next; unsigned int prev; BlockLink() : next(0), prev(0) {} };
-struct AllocationBlock {
-    void* unk00;
-    void* unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    BlockLink link;
-};
 
 struct FUN_00a64330_Obj {
 };
@@ -12103,7 +12140,7 @@ uintptr_t BlockAllocator::FUN_00e98660(unsigned int size) {
 
     if (!DAT_0126fa58) AllocateNodeList();
     AllocationBlock* block=(AllocationBlock*)DAT_0126fa58;
-    DAT_0126fa58=(int)((AllocationBlock*)DAT_0126fa58)->link.next;
+    DAT_0126fa58=((AllocationBlock*)DAT_0126fa58)->link.next;
     if(DAT_0126fa58) ((AllocationBlock*)DAT_0126fa58)->link.prev=0;
     block->link.next=0;
     block->link.prev=0;
@@ -12116,19 +12153,17 @@ uintptr_t BlockAllocator::FUN_00e98660(unsigned int size) {
     unk28 -= size;
 
     AllocationBlock* key = block;
-    block->unk00 = (void*)reinterpret_cast<::A64330Obj *>(&(unk2C))->FUN_00a64330((*(int *const *)(&key)));
-    return (unsigned int)block;
+    block->unk00 = reinterpret_cast<::A64330Obj *>(&(unk2C))->FUN_00a64330((*(int *const *)(&key)));
+    return (uintptr_t)block;
 }
 
 namespace fnv_00e88b00 {
-extern int DAT_00fdf1c4;
 extern int DAT_010ef60c;
-
-typedef int (*S_00e88b00_AllocFn)(void*);
 
 struct S_00e88b00_Object {
     virtual void FUN_00e88b00_v0();
     virtual void FUN_00e88b00_v1();
+    volatile long m_refCount;
 };
 
 struct S_00e88b00_FastObject {
@@ -12737,17 +12772,15 @@ struct FUN_00e88b00_Class {
     void FUN_00e88b00();
 };
 
-// Releases unk74, unk10f8 and unk100's object, calls unkf8.FUN_00e940a0, then sets m_vptr to DAT_0101dce4 and calls DAT_00fdf1c4 on DAT_011f4400.
+// Releases unk74, unk10f8 and unk100's object, calls unkf8.FUN_00e940a0, then sets m_vptr to DAT_0101dce4 and decrements the NiRefObject object count.
 // @fnv 0x00e88b00
 void FUN_00e88b00_Class::FUN_00e88b00()
 {
-    S_00e88b00_AllocFn fn = (S_00e88b00_AllocFn)DAT_00fdf1c4;
-
     m_vptr = (void*)&DAT_010ef60c;
 
     S_00e88b00_Object* p = unk74;
     if (p) {
-        if (fn((void*)((char*)p + 4)) == 0) {
+        if (InterlockedDecrement(&p->m_refCount) == 0) {
             p->FUN_00e88b00_v1();
         }
         unk74 = 0;
@@ -12765,7 +12798,7 @@ void FUN_00e88b00_Class::FUN_00e88b00()
 
     p = (S_00e88b00_Object*)unk100.unk10f0;
     if (p) {
-        if (fn((void*)((char*)p + 4)) == 0) {
+        if (InterlockedDecrement(&p->m_refCount) == 0) {
             p->FUN_00e88b00_v1();
         }
     }
@@ -12774,13 +12807,13 @@ void FUN_00e88b00_Class::FUN_00e88b00()
 
     S_00e88b00_Object* q = unk74;
     if (q) {
-        if (fn((void*)((char*)q + 4)) == 0) {
+        if (InterlockedDecrement(&q->m_refCount) == 0) {
             q->FUN_00e88b00_v1();
         }
     }
 
     m_vptr = (void*)&::DAT_0101dce4;
-    fn((void*)&(*reinterpret_cast<int *>(&::NiRefObject::ms_lObjectCount)));
+    InterlockedDecrement(reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount));
 }
 }  // namespace fnv_00e88b00
 
@@ -13529,7 +13562,7 @@ struct ResourceManager {
     virtual void ReportDiagnostic();
     virtual void unused1();
     virtual void unused2();
-    virtual TextureSurface* GetTexture(void*, unsigned int, unsigned int);
+    virtual TextureSurface* GetTexture(void*, void*, void*);
     virtual void unused4();
     virtual TextureSurface* PrepareTexture(TextureSurface*, TextureDescription*, TextureSurface*, bool);
 };
@@ -13964,7 +13997,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
             void* resourceId = input->GetFilename();
             if (resourceId) {
                 ResourceManager* manager = ((::ResourceManager *)(::NiImageConverter::GetSharedImageConverter()));
-                surface = manager->GetTexture(resourceId, (unsigned int)directResource, (unsigned int)directResource);
+                surface = manager->GetTexture(resourceId, directResource, directResource);
             } else {
                 surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000008, 1)));
                 result->fallback = true;
@@ -14480,7 +14513,7 @@ struct FUN_00e98910_Class {
     FUN_00e98910_Class* FUN_00e98910(int* context);
 };
 // @fnv 0x00e97790
-int FUN_00e97790_Class::InitFromSource(int a, int apSource)
+intptr_t FUN_00e97790_Class::InitFromSource(intptr_t a, intptr_t apSource)
 {
     S_00e97790_This* pThis =
         reinterpret_cast<S_00e97790_This*>(this);
@@ -14499,8 +14532,7 @@ int FUN_00e97790_Class::InitFromSource(int a, int apSource)
 
     reinterpret_cast<::FUN_00e98910_Class *>((pThis))->FUN_00e98910((int *)(void *)(reinterpret_cast<void*>(a)));
 
-    *reinterpret_cast<int*>(this) =
-        reinterpret_cast<int>(&DAT_010f1550);
+    *reinterpret_cast<const void**>(this) = &DAT_010f1550;
 
     pObject[0x28 / 4] = pSourceFields[0xc8 / 4];
 
@@ -14536,7 +14568,7 @@ int FUN_00e97790_Class::InitFromSource(int a, int apSource)
         pObject[0x2c / 4] = 8;
         pObject[0x7c / 4] = zero;
         pObject[0x54 / 4] = zero;
-        return reinterpret_cast<int>(this);
+        return reinterpret_cast<intptr_t>(this);
     }
 
     if (mode == 2) {
@@ -14546,7 +14578,7 @@ int FUN_00e97790_Class::InitFromSource(int a, int apSource)
             (pSourceFields[0x10c / 4] ? -1 : 0) & sixteen;
 
         pObject[0x54 / 4] = sixteen;
-        return reinterpret_cast<int>(this);
+        return reinterpret_cast<intptr_t>(this);
     }
 
     if (mode == 3) {
@@ -14555,7 +14587,7 @@ int FUN_00e97790_Class::InitFromSource(int a, int apSource)
         pObject[0x54 / 4] = sixteen;
     }
 
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<intptr_t>(this);
 }
 
 // @fnv 0x00e98910
@@ -15377,9 +15409,7 @@ void _delete(void*, unsigned int);
 
 
 
-extern "C" void(* DAT_00fdf1c0)(void*);
 
-extern "C" void(* DAT_00fdf1c4)(void*);
 
 
 typedef bool(__cdecl* FNV_CondFn_e9c8c0)(float, void*, unsigned int, void*, unsigned int);

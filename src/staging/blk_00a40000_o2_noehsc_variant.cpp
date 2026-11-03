@@ -254,7 +254,7 @@ struct FUN_00a57890_shell
     const char* m_cByteAtOffset1;
     void AssignStringRef(const char** s);
 };
-extern int DAT_011f4500;
+extern intptr_t DAT_011f4500;
 extern int DAT_011f4504;
 extern char DAT_011f4580;
 struct CRITICAL_SECTION_STUB

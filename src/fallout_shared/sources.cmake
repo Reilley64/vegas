@@ -233,6 +233,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesobjectrefr_h_unit.cpp
   src/fallout_shared/tesobjectstat.cpp
   src/fallout_shared/tesobjecttree_h_unit.cpp
+  src/fallout_shared/tesobjectweap.cpp
   src/fallout_shared/tesobjectweap_h_unit.cpp
   src/fallout_shared/tesparameters.cpp
   src/fallout_shared/tesproduceform.cpp
@@ -353,7 +354,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tesobjectcont.cpp
   src/fallout_shared/tesobjectdoor.cpp
   src/fallout_shared/tesobjectrefr.cpp
-  src/fallout_shared/tesobjectweap.cpp
   src/fallout_shared/tesquest.cpp
   src/fallout_shared/tesrace.cpp
   src/fallout_shared/tesreactionform.cpp

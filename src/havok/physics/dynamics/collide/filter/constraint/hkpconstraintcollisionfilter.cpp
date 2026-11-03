@@ -16,6 +16,13 @@
 #include "fnv/symbols_00c9c000.h"
 #include "fnv/symbols_00cc1000.h"
 #include "fnv/symbols_00cfd000.h"
+// hkpConstraintCollisionFilter's hkpConstraintListener base sits at +0x40 (x86 layout).
+static const int kConstraintListenerOffset = 0x40;
+static inline char* filterOfConstraintListener(void* listener)
+{
+    return static_cast<char*>(listener) - kConstraintListenerOffset;
+}
+
 struct VtableObject
 {
     virtual void v0();
@@ -46,7 +53,7 @@ struct Owner
 // @fnv 0x00d87c20
 void Owner::FUN_00d87c20(const void* value, bool mode)
 {
-    VtableObject* p = (VtableObject*)((char*)this + 0x40);
+    VtableObject* p = (VtableObject*)((char*)this + kConstraintListenerOffset);
     if (mode)
         p->v2(value);
     else
@@ -407,7 +414,7 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
     {
         return;
     }
-    if (reinterpret_cast<::HashCls *>((((Cls40*)((char*)this - 0x40))))->InsertPair(b, p->m_iThirdValue) != 1)
+    if (reinterpret_cast<::HashCls *>(((Cls40*)filterOfConstraintListener(this)))->InsertPair(b, p->m_iThirdValue) != 1)
     {
         return;
     }
@@ -530,14 +537,14 @@ void S_00d87f60::FUN_00d87f60(S_00d87f60_Arg* arg)
     {
         S_00d87f60_Data d;
         d.unk00 = 0x23;
-        d.unk04 = (char*)this - 0x40;
+        d.unk04 = filterOfConstraintListener(this);
         d.unk08 = arg->unk04;
         d.unk0c = 0;
         reinterpret_cast<::WorldWithPending *>((obj))->FUN_00c91160();
     }
     else
     {
-        reinterpret_cast<::Owner *>((((S_00d87f60_Base*)((char*)this - 0x40))))->FUN_00d87c20(arg->unk04, (*(bool *)&(const ::S_00d87f60_Flag &)(S_00d87f60_Flag(0))));
+        reinterpret_cast<::Owner *>(((S_00d87f60_Base*)filterOfConstraintListener(this)))->FUN_00d87c20(arg->unk04, (*(bool *)&(const ::S_00d87f60_Flag &)(S_00d87f60_Flag(0))));
     }
 }
 
@@ -873,7 +880,7 @@ void S_00d87f00::FUN_00d87f00(Pair_d87f00* apPair)
     if (obj->m_94 != 0)
     {
         Event_d87f00 ev;
-        ev.m_ptr = (char*)this - 0x40;
+        ev.m_ptr = filterOfConstraintListener(this);
         ev.m_kind = 0x23;
         ev.m_val = apPair->m_iSecondInteger;
         ev.m_flag = 1;
@@ -882,7 +889,7 @@ void S_00d87f00::FUN_00d87f00(Pair_d87f00* apPair)
     else
     {
         Flag_d87f00 f(1);
-        reinterpret_cast<::Owner *>((reinterpret_cast<Owner_d87f00*>((char*)this - 0x40)))->FUN_00d87c20(apPair->m_iSecondInteger, (*(bool *)&(const ::Flag_d87f00 &)(f)));
+        reinterpret_cast<::Owner *>((reinterpret_cast<Owner_d87f00*>(filterOfConstraintListener(this))))->FUN_00d87c20(apPair->m_iSecondInteger, (*(bool *)&(const ::Flag_d87f00 &)(f)));
     }
 }
 

@@ -104,7 +104,7 @@ int *FUN_00dff610();
 // 0x00dff620
 void FUN_00dff620(int **);
 // 0x00dff630
-int FUN_00dff630();
+void* FUN_00dff630();
 // 0x00dff870
 int FUN_00dff870(::FUN_00dff870_cls *);
 // 0x00dff890

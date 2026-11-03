@@ -126,7 +126,7 @@ void FUN_00e00930(::FUN_00e00930_vt *);
 // 0x00e00950
 void FUN_00e00950(int *);
 // 0x00e00970
-int FUN_00e00970();
+void* FUN_00e00970();
 // 0x00e009c0
 extern "C" void FUN_00e009c0(::FUN_00e009c0_vt *);
 // 0x00e009e0

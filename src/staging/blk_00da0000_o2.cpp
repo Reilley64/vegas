@@ -54,7 +54,7 @@ void __cdecl FUN_00da07b0(void* apObject, void* b)
 {
     if (apObject)
     {
-        *(int*)apObject = (int)&DAT_010d461c;
+        *(void**)apObject = (void*)&DAT_010d461c;
         reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00da07b0_class*)((char*)apObject + 0x64))))->FUN_00cb0a70((int)(b));
     }
 }
@@ -102,7 +102,7 @@ void __cdecl FUN_00da08e0(void* pObject, int bSetField)
 void __cdecl FUN_00da0b10(int* p)
 {
     if (p)
-        *p = (int)&DAT_010c6fd0;
+        *(void**)p = (void*)&DAT_010c6fd0;
 }
 
 extern int DAT_010d6014;
@@ -117,7 +117,7 @@ void* FUN_00db7ab0_class::FUN_00db7ab0(void* a, void* b, void* c)
 {
     *(short*)((char*)this + 6) = 1;
     *(int*)((char*)this + 12) = (int)a;
-    *(int*)this = (int)&DAT_010d6014;
+    *(void**)this = (void*)&DAT_010d6014;
     *(int*)((char*)this + 16) = (int)b;
     *(int*)((char*)this + 20) = 1;
     *(int*)((char*)this + 8) = (int)c;
@@ -601,9 +601,9 @@ int* __cdecl FUN_00da0a80(void)
 
 
 // @fnv 0x00da0aa0
-int __cdecl FUN_00da0aa0()
+void* __cdecl FUN_00da0aa0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126994c)));
+    return &(*reinterpret_cast<int *>(&::g_0126994c));
 }
 
 struct CpuOpaque;
@@ -3601,7 +3601,7 @@ void* __cdecl FUN_00da0a60();
 // FUN_00da0a80 : returns the address of a global data object.
 int* __cdecl FUN_00da0a80(void);
 
-int __cdecl FUN_00da0aa0();
+void* __cdecl FUN_00da0aa0();
 
 CpuOpaque* __cdecl FUN_00da0ac0();
 

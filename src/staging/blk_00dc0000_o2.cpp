@@ -335,7 +335,7 @@ void __cdecl FUN_00dccb10(char* p)
 {
     p += 4;
     S_00d49310_Lock* lock = reinterpret_cast<S_00d49310_Lock*>(p);
-    ::FUN_00cb0c00((int)(lock));
+    ::FUN_00cb0c00((intptr_t)(lock));
 }
 
 extern int DAT_010d77b4[];
@@ -859,9 +859,9 @@ void __cdecl FUN_00dced30(FUN_00dced30_cls* pObject)
 
 
 // @fnv 0x00dced40
-int __cdecl FUN_00dced40()
+void* __cdecl FUN_00dced40()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_01269c44)));
+    return &(*reinterpret_cast<int *>(&::g_01269c44));
 }
 
 struct FUN_00d4dfc0_class
@@ -3455,7 +3455,7 @@ int* __cdecl FUN_00dccb00();
 
 int* __cdecl FUN_00dccb30();
 
-int __cdecl FUN_00dced40();
+void* __cdecl FUN_00dced40();
 
 
 

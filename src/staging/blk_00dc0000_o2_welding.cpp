@@ -112,7 +112,7 @@ static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent,
                 if (dest)
                     new ((void *)(dest)) ::CB0StringPtr((const ::CB0StringPtr &)(strName));
                 strings->m_iElementCount++;
-                ::FUN_00cb0c00((int)&(strName));
+                ::FUN_00cb0c00((intptr_t)&(strName));
             }
             name = strings->back().cString();
         }

@@ -110,8 +110,8 @@ struct FUN_00cb0c00_class
 // @fnv 0x00dfb490
 void FUN_00dfb490(FUN_00cb0c00_class* self)
 {
-    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(self) + 4)));
-    ::FUN_00cb0c00((int)(self));
+    ::FUN_00cb0c00((intptr_t)(reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(self) + 4)));
+    ::FUN_00cb0c00((intptr_t)(self));
 }
 
 struct hkReferencedObject
@@ -137,9 +137,9 @@ void FUN_00dfbdf0(void* p, int a)
 {
     if (p)
     {
-        *(int*)p = (int)&DAT_010cc2fc;
+        *(void**)p = (void*)&DAT_010cc2fc;
         ((FUN_00dfbdf0_class*)((char*)p + 0x14))->FUN_00cb0a70(a);
-        *(int*)p = (int)&DAT_010df34c;
+        *(void**)p = (void*)&DAT_010df34c;
     }
 }
 
@@ -246,9 +246,9 @@ void FUN_00dfef50(int* pObject, int aiValue)
 {
     if (pObject)
     {
-        pObject[0] = (int)&DAT_010cc2fc;
+        *(void**)pObject = (void*)&DAT_010cc2fc;
         ((FUN_00cb0a70_Class*)((char*)pObject + 0x14))->FUN_00cb0a70(aiValue);
-        pObject[0] = (int)&DAT_010d08f4;
+        *(void**)pObject = (void*)&DAT_010d08f4;
     }
 }
 
@@ -283,9 +283,9 @@ void __cdecl FUN_00dff1f0(int* pObject, int iValue)
 {
     if (pObject)
     {
-        *pObject = (int)&DAT_010cce28;
+        *(void**)pObject = (void*)&DAT_010cce28;
         ((FUN_00cb0a70*)(pObject + 14))->m_00cb0a70(iValue);
-        *pObject = (int)&DAT_010d07f4;
+        *(void**)pObject = (void*)&DAT_010d07f4;
     }
 }
 
@@ -346,9 +346,9 @@ void __cdecl FUN_00dffbe0(int* pObject, int aiValue)
 {
     if (pObject)
     {
-        *pObject = (int)&::DAT_010cc2fc;
+        *(void**)pObject = (void*)&::DAT_010cc2fc;
         ((FUN_00cb0a70_class*)(pObject + 5))->FUN_00cb0a70(aiValue);
-        *pObject = (int)&::DAT_010d09f4;
+        *(void**)pObject = (void*)&::DAT_010d09f4;
     }
 }
 }  // namespace fnv_00dffbe0
@@ -376,7 +376,7 @@ void CopyFields(void* pSource, void* pDest)
 // @fnv 0x00dfbc70
 void FUN_00dfbc70(FUN_00cb0c00_class* self)
 {
-    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)((char*)self + 4))));
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)((char*)self + 4))));
 }
 
 extern int DAT_010df89c;
@@ -384,7 +384,7 @@ extern int DAT_010df89c;
 void __cdecl FUN_00dfbf50(int* p)
 {
     if (p)
-        *p = (int)&DAT_010df89c;
+        *(void**)p = (void*)&DAT_010df89c;
 }
 
 
@@ -392,7 +392,7 @@ void __cdecl FUN_00dfbf50(int* p)
 void FUN_00dfc060(int* p)
 {
     if (p)
-        *p = (int)&DAT_010df9f4;
+        *(void**)p = (void*)&DAT_010df9f4;
 }
 
 extern int DAT_010dff44;
@@ -400,7 +400,7 @@ extern int DAT_010dff44;
 void __cdecl FUN_00dfc130(int* p)
 {
     if (p)
-        *p = (int)&DAT_010dff44;
+        *(void**)p = (void*)&DAT_010dff44;
 }
 
 typedef void(* VTable0)(void*, int);
@@ -422,7 +422,7 @@ extern int DAT_010e00cc;
 void __cdecl FUN_00dfc280(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e00cc;
+        *(void**)p = (void*)&DAT_010e00cc;
 }
 
 extern int DAT_010e00dc;
@@ -430,7 +430,7 @@ extern int DAT_010e00dc;
 void FUN_00dfc2a0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e00dc;
+        *(void**)p = (void*)&DAT_010e00dc;
 }
 
 // @fnv 0x00dfc380
@@ -444,7 +444,7 @@ extern int DAT_010e04ac;
 void __cdecl FUN_00dfc470(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e04ac;
+        *(void**)p = (void*)&DAT_010e04ac;
 }
 
 // @fnv 0x00dfc500
@@ -457,7 +457,7 @@ void __cdecl FUN_00dfc500(void* p)
 void __cdecl FUN_00dfc520(int* a)
 {
     if (a)
-        *a = (int)&DAT_010e0654;
+        *(void**)a = (void*)&DAT_010e0654;
 }
 
 
@@ -465,7 +465,7 @@ void __cdecl FUN_00dfc520(int* a)
 void __cdecl FUN_00dfc620(int* p)
 {
     if (p)
-        *p = (int)&DAT_0102e368;
+        *(void**)p = (void*)&DAT_0102e368;
 }
 
 extern int DAT_010d0a64;
@@ -473,7 +473,7 @@ extern int DAT_010d0a64;
 void __cdecl FUN_00dfc6c0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010d0a64;
+        *(void**)p = (void*)&DAT_010d0a64;
 }
 
 // @fnv 0x00dfc700
@@ -487,7 +487,7 @@ extern int DAT_010d0aac;
 void FUN_00dfc730(int* p)
 {
     if (p)
-        *p = (int)&DAT_010d0aac;
+        *(void**)p = (void*)&DAT_010d0aac;
 }
 
 extern int DAT_010e11ec;
@@ -495,7 +495,7 @@ extern int DAT_010e11ec;
 void __cdecl FUN_00dfc900(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e11ec;
+        *(void**)p = (void*)&DAT_010e11ec;
 }
 
 extern int DAT_010da04c;
@@ -503,7 +503,7 @@ extern int DAT_010da04c;
 void __cdecl FUN_00dfca90(int* p)
 {
     if (p)
-        *p = (int)&DAT_010da04c;
+        *(void**)p = (void*)&DAT_010da04c;
 }
 
 // @fnv 0x00dfcad0
@@ -517,7 +517,7 @@ extern int DAT_010d0b3c;
 void FUN_00dfcb00(int* p)
 {
     if (p)
-        *p = (int)&DAT_010d0b3c;
+        *(void**)p = (void*)&DAT_010d0b3c;
 }
 
 // @fnv 0x00dfcbf0
@@ -531,7 +531,7 @@ void __cdecl FUN_00dfcbf0(void** p)
 void __cdecl FUN_00dfcc60(int* p)
 {
     if (p)
-        *p = (int)&DAT_010c89e4;
+        *(void**)p = (void*)&DAT_010c89e4;
 }
 
 extern int DAT_010d0be4;
@@ -539,7 +539,7 @@ extern int DAT_010d0be4;
 void __cdecl FUN_00dfccd0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010d0be4;
+        *(void**)p = (void*)&DAT_010d0be4;
 }
 
 typedef int(* VFunc0)(void*, int);
@@ -554,7 +554,7 @@ extern int DAT_010c91ec;
 void __cdecl FUN_00dfcd40(int* p)
 {
     if (p)
-        *p = (int)&DAT_010c91ec;
+        *(void**)p = (void*)&DAT_010c91ec;
 }
 
 extern int DAT_010d0cd4;
@@ -563,7 +563,7 @@ extern int DAT_010d0cd4;
 void __cdecl FUN_00dfce90(int* a)
 {
     if (a)
-        *a = (int)&DAT_010d0cd4;
+        *(void**)a = (void*)&DAT_010d0cd4;
 }
 
 struct FUN_00dfd7a0_vt
@@ -580,7 +580,7 @@ void __cdecl FUN_00dfd7a0(FUN_00dfd7a0_vt* p)
 // @fnv 0x00dfd7c0
 void __cdecl FUN_00dfd7c0(void* arg)
 {
-    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)((char*)arg + 4))));
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)((char*)arg + 4))));
 }
 
 struct FUN_00dfd940_vt
@@ -596,7 +596,7 @@ void __cdecl FUN_00dfd940(FUN_00dfd940_vt* p)
 // @fnv 0x00dfdb40
 void __cdecl FUN_00dfdb40(void* p)
 {
-    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)((char*)p + 4))));
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)((char*)p + 4))));
 }
 
 extern int DAT_010e351c;
@@ -604,7 +604,7 @@ extern int DAT_010e351c;
 void __cdecl FUN_00dfdb50(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e351c;
+        *(void**)p = (void*)&DAT_010e351c;
 }
 
 extern "C" void* DAT_010e352c;
@@ -618,7 +618,7 @@ void __cdecl FUN_00dfdb70(void** p)
 // @fnv 0x00dfdf90
 void __cdecl FUN_00dfdf90(int a, int b)
 {
-    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)(a + 8))));
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)(a + 8))));
 }
 
 extern int DAT_010e3e5c;
@@ -627,7 +627,7 @@ extern int DAT_010e3e5c;
 void __cdecl FUN_00dfdfb0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e3e5c;
+        *(void**)p = (void*)&DAT_010e3e5c;
 }
 
 extern int DAT_010e5474;
@@ -652,7 +652,7 @@ int __cdecl FUN_00dfe430(FUN_00dfe430_class* p)
 void __cdecl FUN_00dfe490(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e56d4;
+        *(void**)p = (void*)&DAT_010e56d4;
 }
 
 extern int DAT_010e57a4;
@@ -660,7 +660,7 @@ extern int DAT_010e57a4;
 void __cdecl FUN_00dfe500(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e57a4;
+        *(void**)p = (void*)&DAT_010e57a4;
 }
 
 struct FUN_00dfe670_vt
@@ -686,7 +686,7 @@ extern int DAT_010e59ac;
 void FUN_00dfe700(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e59ac;
+        *(void**)p = (void*)&DAT_010e59ac;
 }
 
 // @fnv 0x00dfeaa0
@@ -701,7 +701,7 @@ extern int DAT_010e5b68;
 void __cdecl FUN_00dfeb60(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e5b68;
+        *(void**)p = (void*)&DAT_010e5b68;
 }
 
 extern int DAT_010e5b4c;
@@ -710,7 +710,7 @@ extern int DAT_010e5b4c;
 void __cdecl FUN_00dfebd0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e5b4c;
+        *(void**)p = (void*)&DAT_010e5b4c;
 }
 
 extern int DAT_010e5bfc;
@@ -718,7 +718,7 @@ extern int DAT_010e5bfc;
 void __cdecl FUN_00dfec10(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e5bfc;
+        *(void**)p = (void*)&DAT_010e5bfc;
 }
 
 extern int DAT_010e5d94;
@@ -727,7 +727,7 @@ extern int DAT_010e5d94;
 void __cdecl FUN_00dfec70(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e5d94;
+        *(void**)p = (void*)&DAT_010e5d94;
 }
 
 extern int DAT_010e5da8;
@@ -749,14 +749,14 @@ void __cdecl FUN_00dfecb0(int* p)
 void __cdecl FUN_00dfecd0(int* p)
 {
     if (p)
-        *p = (int)&::DAT_010e5e9c;
+        *(void**)p = (void*)&::DAT_010e5e9c;
 }
 
 // @fnv 0x00dfed10
 void FUN_00dfed10(int* p)
 {
     if (p)
-        *p = (int)&::DAT_010e5ff4;
+        *(void**)p = (void*)&::DAT_010e5ff4;
 }
 
 extern int DAT_010e60c4;
@@ -765,7 +765,7 @@ extern int DAT_010e60c4;
 void __cdecl FUN_00dfee00(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e60c4;
+        *(void**)p = (void*)&DAT_010e60c4;
 }
 
 extern int DAT_010e62a4;
@@ -773,7 +773,7 @@ extern int DAT_010e62a4;
 void __cdecl FUN_00dfeea0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e62a4;
+        *(void**)p = (void*)&DAT_010e62a4;
 }
 
 extern int DAT_010e6394;
@@ -782,7 +782,7 @@ extern int DAT_010e6394;
 void __cdecl FUN_00dfeee0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e6394;
+        *(void**)p = (void*)&DAT_010e6394;
 }
 
 extern int DAT_010e66fc;
@@ -790,7 +790,7 @@ extern int DAT_010e66fc;
 void __cdecl FUN_00dfeff0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e66fc;
+        *(void**)p = (void*)&DAT_010e66fc;
 }
 
 extern int DAT_010e676c;
@@ -798,7 +798,7 @@ extern int DAT_010e676c;
 void __cdecl FUN_00dff0d0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e676c;
+        *(void**)p = (void*)&DAT_010e676c;
 }
 
 extern int DAT_010c8e94;
@@ -811,9 +811,9 @@ void __cdecl FUN_00dff270(void* pObject, void* b)
 {
     if (pObject)
     {
-        *(int*)pObject = (int)&DAT_010cc2fc;
+        *(void**)pObject = (void*)&DAT_010cc2fc;
         ((FUN_00cb0a70_m_helper*)((char*)pObject + 0x14))->m((int)b);
-        *(int*)pObject = (int)&DAT_010c8e94;
+        *(void**)pObject = (void*)&DAT_010c8e94;
         *(int*)((char*)pObject + 0x54) = 0;
         *(int*)((char*)pObject + 0x58) = 0;
         *(int*)((char*)pObject + 0x5c) = 0x80000000;
@@ -832,7 +832,7 @@ extern int DAT_010e75cc;
 void FUN_00dff5e0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e75cc;
+        *(void**)p = (void*)&DAT_010e75cc;
 }
 
 extern int DAT_010e75dc;
@@ -840,7 +840,7 @@ extern int DAT_010e75dc;
 void __cdecl FUN_00dff600(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e75dc;
+        *(void**)p = (void*)&DAT_010e75dc;
 }
 
 extern int DAT_010e75ec;
@@ -869,7 +869,7 @@ extern int DAT_010e7c24;
 void __cdecl FUN_00dffc80(int* p)
 {
     if (p)
-        *p = (int)&DAT_010e7c24;
+        *(void**)p = (void*)&DAT_010e7c24;
 }
 
 extern int DAT_010cc0d8;
@@ -877,7 +877,7 @@ extern int DAT_010cc0d8;
 void __cdecl FUN_00dffda0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010cc0d8;
+        *(void**)p = (void*)&DAT_010cc0d8;
 }
 
 struct FUN_00dffdc0_vt
@@ -895,7 +895,7 @@ extern int DAT_010d3838;
 void __cdecl FUN_00dffe40(int* p)
 {
     if (p)
-        *p = (int)&DAT_010d3838;
+        *(void**)p = (void*)&DAT_010d3838;
 }
 
 extern int DAT_010cb798;
@@ -904,7 +904,7 @@ extern int DAT_010cb798;
 void FUN_00dffee0(int* p)
 {
     if (p)
-        *p = (int)&DAT_010cb798;
+        *(void**)p = (void*)&DAT_010cb798;
 }
 
 struct FUN_00dfff60_vt
@@ -1124,7 +1124,7 @@ void FUN_00dfb9f0(int* pTarget, int iValue)
 {
     if (pTarget)
     {
-        *pTarget = (int)&DAT_010c4dec;
+        *(void**)pTarget = (void*)&DAT_010c4dec;
         ((FUN_00cb0a70_m_helper*)(pTarget + 2))->m(iValue);
     }
 }
@@ -1158,7 +1158,7 @@ struct S_00d49310_Lock
 // @fnv 0x00dfbc20
 void __cdecl FUN_00dfbc20(S_00d49310_Lock* self)
 {
-    ::FUN_00cb0c00((int)(self));
+    ::FUN_00cb0c00((intptr_t)(self));
 }
 
 // @fnv 0x00dfbc30
@@ -1314,7 +1314,7 @@ void FUN_00dfd7d0(int* pObject, int aiValue)
 {
     if (pObject)
     {
-        pObject[0] = (int)&DAT_010e311c;
+        *(void**)pObject = (void*)&DAT_010e311c;
         ((FUN_00cb0a70_m_helper*)(pObject + 5))->m(aiValue);
         ((FUN_00cb0a70_m_helper*)(pObject + 16))->m(aiValue);
     }
@@ -1393,7 +1393,7 @@ struct S_00d49310_Lock
 // @fnv 0x00dfdfa0
 void __cdecl FUN_00dfdfa0(S_00d49310_Lock* p)
 {
-    ::FUN_00cb0c00((int)(p));
+    ::FUN_00cb0c00((intptr_t)(p));
 }
 }  // namespace fnv_00dfdfa0
 
@@ -1436,7 +1436,7 @@ void __cdecl FUN_00dfe2d0(FUN_00ce5360_class* pObject, int iValue)
     if (pObject)
     {
         int* p = (int*)pObject;
-        *p = (int)&DAT_010cb864;
+        *(void**)p = (void*)&DAT_010cb864;
         reinterpret_cast<::FUN_00ce5360_This *>((((FUN_00ce5360_class*)((char*)pObject + 0x10))))->FUN_00ce5360(iValue);
     }
 }
@@ -1483,7 +1483,7 @@ void __cdecl FUN_00dfe5b0(void* pObject, int iValue)
 {
     if (pObject)
     {
-        *(int*)pObject = (int)&DAT_010e587c;
+        *(void**)pObject = (void*)&DAT_010e587c;
         ((FUN_00cb0a70_m_helper*)((char*)pObject + 8))->m(iValue);
         ((FUN_00cb0a70_m_helper*)((char*)pObject + 0x54))->m(iValue);
     }
@@ -2416,9 +2416,9 @@ void* FUN_00de5360_cls::FUN_00de5360()
 
 
 // @fnv 0x00de8150
-int __cdecl FUN_00de8150()
+void* __cdecl FUN_00de8150()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<void * *>(&::g_01269ce8)));
+    return &(*reinterpret_cast<void * *>(&::g_01269ce8));
 }
 
 
@@ -3077,9 +3077,9 @@ int* __cdecl FUN_00dfb480(void)
 
 
 // @fnv 0x00dfb4d0
-int __cdecl FUN_00dfb4d0()
+void* __cdecl FUN_00dfb4d0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126acd0)));
+    return &(*reinterpret_cast<int *>(&::g_0126acd0));
 }
 
 // @fnv 0x00dfb4f0
@@ -3097,9 +3097,9 @@ void* __cdecl FUN_00dfb510()
 
 
 // @fnv 0x00dfb540
-int __cdecl FUN_00dfb540()
+void* __cdecl FUN_00dfb540()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<void * *>(&::g_0126ad60)));
+    return &(*reinterpret_cast<void * *>(&::g_0126ad60));
 }
 
 class DFB550Object
@@ -3843,9 +3843,9 @@ void __cdecl FUN_00dfc450(VirtualDispatchObj* p)
 
 
 // @fnv 0x00dfc460
-int __cdecl FUN_00dfc460()
+void* __cdecl FUN_00dfc460()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<void * *>(&::g_0126b588)));
+    return &(*reinterpret_cast<void * *>(&::g_0126b588));
 }
 
 extern int DAT_010e04ac;
@@ -4385,9 +4385,9 @@ int* __cdecl FUN_00dfcac0()
 
 
 // @fnv 0x00dfcae0
-int __cdecl FUN_00dfcae0()
+void* __cdecl FUN_00dfcae0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<void * *>(&::g_0126bbd0)));
+    return &(*reinterpret_cast<void * *>(&::g_0126bbd0));
 }
 
 extern int DAT_010d0b3c;
@@ -5027,9 +5027,9 @@ void __cdecl ClearAndFreeData(FUN_00dfd5a0_cls* obj)
 
 
 // @fnv 0x00dfd5f0
-int __cdecl FUN_00dfd5f0()
+void* __cdecl FUN_00dfd5f0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126c398)));
+    return &(*reinterpret_cast<int *>(&::g_0126c398));
 }
 
 class FUN_00dfd600_cls
@@ -5137,8 +5137,8 @@ struct AdjacentObjects
 // @fnv 0x00dfdab0
 void __cdecl FUN_00dfdab0(AdjacentObjects* objects)
 {
-    ::FUN_00cb0c00((int)&(objects->second));
-    ::FUN_00cb0c00((int)&(objects->first));
+    ::FUN_00cb0c00((intptr_t)&(objects->second));
+    ::FUN_00cb0c00((intptr_t)&(objects->first));
 }
 
 
@@ -5186,9 +5186,9 @@ int* FUN_00dfdd20()
 
 
 // @fnv 0x00dfdd80
-int __cdecl FUN_00dfdd80()
+void* __cdecl FUN_00dfdd80()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126c668)));
+    return &(*reinterpret_cast<int *>(&::g_0126c668));
 }
 
 
@@ -5226,9 +5226,9 @@ void __cdecl FUN_00dfde10(void* p)
 
 
 // @fnv 0x00dfde20
-int __cdecl FUN_00dfde20()
+void* __cdecl FUN_00dfde20()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126c728)));
+    return &(*reinterpret_cast<int *>(&::g_0126c728));
 }
 
 extern int DAT_010d3cc0;
@@ -5397,7 +5397,7 @@ struct ArrayStorage
             int remaining = length;
             do
             {
-                ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(current)));
+                ::FUN_00cb0c00((intptr_t)(reinterpret_cast<FUN_00cb0c00_class*>(current)));
                 ++current;
             } while (--remaining != 0);
         }
@@ -5481,9 +5481,9 @@ int* __cdecl FUN_00dfe180()
 
 
 // @fnv 0x00dfe1a0
-int __cdecl FUN_00dfe1a0()
+void* __cdecl FUN_00dfe1a0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126ca88)));
+    return &(*reinterpret_cast<int *>(&::g_0126ca88));
 }
 
 
@@ -5569,9 +5569,9 @@ void* __cdecl FUN_00dfe2a0()
 
 
 // @fnv 0x00dfe2c0
-int __cdecl FUN_00dfe2c0()
+void* __cdecl FUN_00dfe2c0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<void * *>(&::g_0126cb90)));
+    return &(*reinterpret_cast<void * *>(&::g_0126cb90));
 }
 
 // FUN_00dfe330 : a one-line function - getter
@@ -5584,9 +5584,9 @@ void* FUN_00dfe330()
 extern int DAT_010e5474;
 
 // @fnv 0x00dfe350
-unsigned int __cdecl FUN_00dfe350()
+void* __cdecl FUN_00dfe350()
 {
-    return reinterpret_cast<unsigned int>(&DAT_010e5474);
+    return &DAT_010e5474;
 }
 
 // Helper object whose virtual-like member performs the work.
@@ -5682,9 +5682,9 @@ void* __cdecl FUN_00dfe6f0()
 extern int DAT_010e59ac;
 
 // @fnv 0x00dfe710
-int __cdecl FUN_00dfe710()
+void* __cdecl FUN_00dfe710()
 {
-    return reinterpret_cast<int>(&DAT_010e59ac);
+    return &DAT_010e59ac;
 }
 
 struct FUN_00dfe970_class
@@ -5707,9 +5707,9 @@ void* __cdecl FUN_00dfe980()
 
 
 // @fnv 0x00dfeab0
-int __cdecl FUN_00dfeab0()
+void* __cdecl FUN_00dfeab0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126ce18)));
+    return &(*reinterpret_cast<int *>(&::g_0126ce18));
 }
 
 extern int DAT_010dec04;
@@ -5723,12 +5723,12 @@ void __cdecl InitObjectVtables(int* pObject, int bFlag)
 
     volatile int* vp = (volatile int*)pObject;
 
-    *vp = (int)&DAT_010dec04;
+    *(void**)vp = (void*)&DAT_010dec04;
 
     if (bFlag != 0)
         ((unsigned char*)pObject)[9] = 0;
 
-    *vp = (int)&DAT_010e5ae4;
+    *(void**)vp = (void*)&DAT_010e5ae4;
     *(volatile int*)((unsigned char*)pObject + 0x1c) = (int)&DAT_010c925c;
     *(int*)((unsigned char*)pObject + 0x14) = (int)&DAT_010debf4;
     *(volatile int*)((unsigned char*)pObject + 0x1c) = (int)&DAT_010debe4;
@@ -5899,9 +5899,9 @@ int* FUN_00dfed20()
 
 
 // @fnv 0x00dfedf0
-int __cdecl FUN_00dfedf0()
+void* __cdecl FUN_00dfedf0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126d058)));
+    return &(*reinterpret_cast<int *>(&::g_0126d058));
 }
 
 extern int DAT_010e60c4;
@@ -5929,9 +5929,9 @@ void* __cdecl FUN_00dfeeb0()
 
 
 // @fnv 0x00dfeed0
-int __cdecl FUN_00dfeed0()
+void* __cdecl FUN_00dfeed0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126d0e8)));
+    return &(*reinterpret_cast<int *>(&::g_0126d0e8));
 }
 
 extern int DAT_010e6394;
@@ -5971,9 +5971,9 @@ void __cdecl ResetVtables(HavokObject* object)
 
 
 // @fnv 0x00dfef40
-int __cdecl FUN_00dfef40()
+void* __cdecl FUN_00dfef40()
 {
-    return reinterpret_cast<int>(&DAT_010debf4);
+    return &DAT_010debf4;
 }
 
 class DFEF80Object
@@ -6098,16 +6098,16 @@ void __cdecl FUN_00dff190(FUN_00dff190_cls* pObject)
 
 
 // @fnv 0x00dff1c0
-int __cdecl FUN_00dff1c0()
+void* __cdecl FUN_00dff1c0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126d298)));
+    return &(*reinterpret_cast<int *>(&::g_0126d298));
 }
 
 
 // @fnv 0x00dff1e0
-int __cdecl FUN_00dff1e0()
+void* __cdecl FUN_00dff1e0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126d2f8)));
+    return &(*reinterpret_cast<int *>(&::g_0126d2f8));
 }
 
 struct FUN_00dff250_class
@@ -6160,9 +6160,9 @@ int* __cdecl FUN_00dff330()
 
 
 // @fnv 0x00dff3b0
-int __cdecl FUN_00dff3b0()
+void* __cdecl FUN_00dff3b0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126d3d0)));
+    return &(*reinterpret_cast<int *>(&::g_0126d3d0));
 }
 
 
@@ -6365,9 +6365,9 @@ void FUN_00dff520(void* apMemory, int finishing)
 
 
 // @fnv 0x00dff570
-int __cdecl FUN_00dff570()
+void* __cdecl FUN_00dff570()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126d490)));
+    return &(*reinterpret_cast<int *>(&::g_0126d490));
 }
 
 struct CpuOpaque;
@@ -6408,9 +6408,9 @@ int* __cdecl FUN_00dff610()
 extern int DAT_010e75ec;
 
 // @fnv 0x00dff630
-int __cdecl FUN_00dff630()
+void* __cdecl FUN_00dff630()
 {
-    return reinterpret_cast<int>(&DAT_010e75ec);
+    return &DAT_010e75ec;
 }
 
 // Helper class: the object's first virtual slot takes a single int argument.
@@ -6885,9 +6885,9 @@ int* __cdecl FUN_00dffef0()
 
 
 // @fnv 0x00dfff10
-int __cdecl FUN_00dfff10()
+void* __cdecl FUN_00dfff10()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_0126d8c8)));
+    return &(*reinterpret_cast<int *>(&::g_0126d8c8));
 }
 
 extern int DAT_010da004;
@@ -8831,7 +8831,7 @@ struct ElemDFB5A0
     FUN_00cb0c00_class m_04;
     void FUN_00cb0c00()
     {
-        ::FUN_00cb0c00((int)&(m_04));
+        ::FUN_00cb0c00((intptr_t)&(m_04));
     }
 };
 // Destructs the array elements, frees m_pData unless the top capacity bit is set, resets it to empty, then calls FUN_00cb0c00 on this.
@@ -8847,7 +8847,7 @@ void FUN_00dfb5a0_cls::FUN_00dfb5a0()
     }
     m_pData = 0;
     m_uCap = 0x80000000u;
-    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)this)));
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)this)));
 }
 
 
@@ -10675,7 +10675,7 @@ void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p)
     if (p->m_pSub != 0)
         reinterpret_cast<::hkReferencedObjectC905 *>((p->m_pSub))->FUN_00c905b0();
     p->m_pSub = 0;
-    ::FUN_00cb0c00((int)(p));
+    ::FUN_00cb0c00((intptr_t)(p));
 }
 
 
@@ -12746,7 +12746,7 @@ void __cdecl FUN_00dfe0c0(ArrayPair* p);
 
 void __cdecl FUN_00dff370(FUN_00dff370_vt* p);
 
-int __cdecl FUN_00de8150();
+void* __cdecl FUN_00de8150();
 
 int* __cdecl FUN_00de8170();
 
@@ -12844,13 +12844,13 @@ void* __cdecl FUN_00dfb420();
 
 int* __cdecl FUN_00dfb480(void);
 
-int __cdecl FUN_00dfb4d0();
+void* __cdecl FUN_00dfb4d0();
 
 void* __cdecl FUN_00dfb4f0();
 
 void* __cdecl FUN_00dfb510();
 
-int __cdecl FUN_00dfb540();
+void* __cdecl FUN_00dfb540();
 
 int* __cdecl FUN_00dfb560();
 
@@ -12947,7 +12947,7 @@ void __cdecl FUN_00dfc3b0(FUN_00dfc3b0_target* pTarget);
 // FUN_00dfc440 : a one-line function - getter
 void* FUN_00dfc440();
 
-int __cdecl FUN_00dfc460();
+void* __cdecl FUN_00dfc460();
 
 void* __cdecl FUN_00dfc480();
 
@@ -13008,7 +13008,7 @@ void* __cdecl FUN_00dfca70();
 
 int* __cdecl FUN_00dfcac0();
 
-int __cdecl FUN_00dfcae0();
+void* __cdecl FUN_00dfcae0();
 
 void* __cdecl FUN_00dfcb30();
 
@@ -13101,7 +13101,7 @@ void __cdecl FUN_00dfd570(FUN_00dfd570_cls* pObject, int a1);
 
 int* __cdecl FUN_00dfd590();
 
-int __cdecl FUN_00dfd5f0();
+void* __cdecl FUN_00dfd5f0();
 
 
 // FUN_00dfd650 : a one-line function - getter
@@ -13132,7 +13132,7 @@ void* __cdecl FUN_00dfdb80();
 
 int* FUN_00dfdd20();
 
-int __cdecl FUN_00dfdd80();
+void* __cdecl FUN_00dfdd80();
 
 int* __cdecl FUN_00dfddc0();
 
@@ -13140,7 +13140,7 @@ void* FUN_00dfdde0();
 
 CpuOpaque* __cdecl FUN_00dfde00();
 
-int __cdecl FUN_00dfde20();
+void* __cdecl FUN_00dfde20();
 
 char* __cdecl FUN_00dfde70(void);
 
@@ -13182,7 +13182,7 @@ void* FUN_00dfe160();
 
 int* __cdecl FUN_00dfe180();
 
-int __cdecl FUN_00dfe1a0();
+void* __cdecl FUN_00dfe1a0();
 
 int* __cdecl FUN_00dfe1c0();
 
@@ -13193,7 +13193,7 @@ void* __cdecl FUN_00dfe1f0();
 // FUN_00dfe2a0: cdecl, returns the address of a global object.
 void* __cdecl FUN_00dfe2a0();
 
-int __cdecl FUN_00dfe2c0();
+void* __cdecl FUN_00dfe2c0();
 
 // FUN_00dfe330 : a one-line function - getter
 void* FUN_00dfe330();
@@ -13215,7 +13215,7 @@ void* __cdecl FUN_00dfe6f0();
 
 void* __cdecl FUN_00dfe980();
 
-int __cdecl FUN_00dfeab0();
+void* __cdecl FUN_00dfeab0();
 
 int* __cdecl FUN_00dfeb50();
 
@@ -13238,13 +13238,13 @@ void* __cdecl FUN_00dfecc0();
 // FUN_00dfed00 : a one-line function - getter
 void* FUN_00dfed00();
 
-int __cdecl FUN_00dfedf0();
+void* __cdecl FUN_00dfedf0();
 
 int* __cdecl FUN_00dfee90();
 
 void* __cdecl FUN_00dfeeb0();
 
-int __cdecl FUN_00dfeed0();
+void* __cdecl FUN_00dfeed0();
 
 void* __cdecl FUN_00dfef10();
 
@@ -13258,22 +13258,22 @@ void* __cdecl FUN_00dff0c0();
 // Getter returning the address of a global object.
 int* __cdecl FUN_00dff160();
 
-int __cdecl FUN_00dff1c0();
+void* __cdecl FUN_00dff1c0();
 
-int __cdecl FUN_00dff1e0();
+void* __cdecl FUN_00dff1e0();
 
 void* __cdecl FUN_00dff260();
 
 int* __cdecl FUN_00dff330();
 
-int __cdecl FUN_00dff3b0();
+void* __cdecl FUN_00dff3b0();
 
 int* __cdecl FUN_00dff3d0();
 
 
 void* __cdecl FUN_00dff510();
 
-int __cdecl FUN_00dff570();
+void* __cdecl FUN_00dff570();
 
 CpuOpaque* __cdecl FUN_00dff590();
 
@@ -13308,7 +13308,7 @@ void* __cdecl FUN_00dffe70();
 
 void* __cdecl FUN_00dffed0();
 
-int __cdecl FUN_00dfff10();
+void* __cdecl FUN_00dfff10();
 
 int* __cdecl FUN_00dfff70();
 

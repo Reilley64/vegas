@@ -47,7 +47,7 @@ int FUN_00e024a0(void *);
 // 0x00e024c0
 void FUN_00e024c0(int *);
 // 0x00e024d0
-int FUN_00e024d0();
+void* FUN_00e024d0();
 // 0x00e024e0
 int FUN_00e024e0(void *);
 // 0x00e02500
@@ -63,13 +63,13 @@ int FUN_00e02560(::FUN_00e02560_vt *);
 // 0x00e02580
 void FUN_00e02580(int *);
 // 0x00e02590
-int FUN_00e02590();
+void* FUN_00e02590();
 // 0x00e02610
 int FUN_00e02610(::FUN_00e026c0_vtbl *);
 // 0x00e02630
 void FUN_00e02630(int *);
 // 0x00e02640
-int FUN_00e02640();
+void* FUN_00e02640();
 // 0x00e026c0
 int FUN_00e026c0(::FUN_00e026c0_vtbl *);
 // 0x00e026e0

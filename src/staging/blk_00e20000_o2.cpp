@@ -1738,7 +1738,7 @@ FUN_00e39a80::FUN_00e39a80()
 {
     float zero = 0.0f;
     *(volatile unsigned short*)&m_06 = 1;
-    *(volatile int*)&m_vptr00 = (int)&DAT_010df9f4;
+    *(void* volatile*)&m_vptr00 = (void*)&DAT_010df9f4;
     *(volatile int*)&m_08 = 0;
     *(volatile int*)&m_0c = 0;
     *(volatile int*)&m_10 = 0x80000000;
@@ -2360,12 +2360,12 @@ struct FUN_00e3ed80 : BaseE3EAA0
 // @fnv 0x00e3ed80
 FUN_00e3ed80::~FUN_00e3ed80()
 {
-    ::FUN_00cb0c00((int)&(m_40));
+    ::FUN_00cb0c00((intptr_t)&(m_40));
     m_34.ClearAndRelease();
     m_28.ClearAndRelease();
     m_1c.ClearAndRelease();
     m_18.release();
-    ::FUN_00cb0c00((int)&(m_14));
+    ::FUN_00cb0c00((intptr_t)&(m_14));
     reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
 }
 
@@ -2517,7 +2517,7 @@ void FUN_00e3f110_cls::Destroy() throw()
     }
     m_pBuf18 = 0;
     m_uCap20 = 0x80000000u;
-    ::FUN_00cb0c00((int)&(m_sub14));
+    ::FUN_00cb0c00((intptr_t)&(m_sub14));
     reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
 }
 }  // namespace fnv_00e3f110
@@ -2833,8 +2833,8 @@ void FUN_00e3f370_cls::ReleaseItems()
     int n = m_iArrayLength;
     for (int i = 0; i < n; i++)
     {
-        ::FUN_00cb0c00((int)&(p[i].second));
-        ::FUN_00cb0c00((int)&(p[i].first));
+        ::FUN_00cb0c00((intptr_t)&(p[i].second));
+        ::FUN_00cb0c00((intptr_t)&(p[i].first));
     }
     m_iArrayLength = 0;
 }

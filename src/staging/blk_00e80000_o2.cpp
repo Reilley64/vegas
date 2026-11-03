@@ -600,7 +600,7 @@ void __cdecl FUN_00e91b90()
         p->m_auiShapeKeys[0] = 0;
         p->m_auiShapeKeys[1] = 0;
         p->m_auiShapeKeys[2] = 0;
-        *(int*)p = (int)&DAT_010f0af4;
+        *(void**)p = (void*)&DAT_010f0af4;
     } else {
         p = 0;
     }
@@ -888,7 +888,7 @@ void __cdecl FUN_00e91b40()
 {
     NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)::operator new(0x10);
     if (p) {
-        *(int*)p = (int)&DAT_010f0ac0;
+        *(void**)p = (void*)&DAT_010f0ac0;
         *(int*)(p + 1) = 0;
         *(int*)(p + 2) = 0;
         *(int*)(p + 3) = 0;
@@ -1206,7 +1206,7 @@ void* FUN_00e93650_Class::FUN_00e93650(int aiFlags)
 void FUN_00e93400_Class::FUN_00e93400()
 {
     char* self = reinterpret_cast<char*>(this);
-    *(int*)self = (int)&DAT_010f0e30;
+    *(void**)self = (void*)&DAT_010f0e30;
     if (self[0x10])
     {
         unsigned int i = 0;
@@ -1228,9 +1228,9 @@ void FUN_00e93400_Class::FUN_00e93400()
             } while (i < *(unsigned int*)(self + 4));
         }
     }
-    *(int*)self = (int)&DAT_010f0e10;
+    *(void**)self = (void*)&DAT_010f0e10;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)self)))->FUN_00b601a0();
-    *(int*)self = (int)&DAT_010f0df0;
+    *(void**)self = (void*)&DAT_010f0df0;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)self)))->FUN_00b601a0();
     _NiFree(*(void**)(self + 8));
 }
@@ -1245,7 +1245,7 @@ struct FUN_00e934d0_Class {
 // @fnv 0x00e934d0
 void FUN_00e934d0_Class::FUN_00e934d0()
 {
-    *(int*)this = (int)&DAT_010f0e90;
+    *(void**)this = (void*)&DAT_010f0e90;
     if (*(char*)((char*)this + 0x10)) {
         unsigned int i = 0;
         if (*(unsigned int*)((char*)this + 4) > 0) {
@@ -1262,9 +1262,9 @@ void FUN_00e934d0_Class::FUN_00e934d0()
             } while (i < *(unsigned int*)((char*)this + 4));
         }
     }
-    *(int*)this = (int)&DAT_010f0e70;
+    *(void**)this = (void*)&DAT_010f0e70;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
-    *(int*)this = (int)&DAT_010f0e50;
+    *(void**)this = (void*)&DAT_010f0e50;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     _NiFree(*(void**)((char*)this + 8));
 }
@@ -1296,7 +1296,7 @@ struct FUN_00e935d0 : NiTMapBaseStub {
 // @fnv 0x00e935d0
 FUN_00e935d0::FUN_00e935d0(int unused)
 {
-    *(int*)this = (int)&DAT_010f0df0;
+    *(void**)this = (void*)&DAT_010f0df0;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFree(m_data);
     if (unused & 1)
@@ -1382,7 +1382,7 @@ struct FUN_00e93710_Class : NiTMapBaseStub {
 // @fnv 0x00e93710
 void* FUN_00e93710_Class::FUN_00e93710(int aiFlags)
 {
-    *(int*)this = (int)&DAT_010f0eb0;
+    *(void**)this = (void*)&DAT_010f0eb0;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     _NiFree(m_ptr);
     if (aiFlags & 1) {

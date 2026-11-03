@@ -4710,7 +4710,7 @@ struct CopyEntry {
     IntegerHolder m_04;
     CopyEntry(const CopyEntry& other) { m_00 = other.m_00; new ((void *)&(m_04)) ::CB0StringPtr((*(const ::CB0StringPtr *)(&other.m_04))); }
     CopyEntry& operator=(const CopyEntry& other) { m_00 = other.m_00; reinterpret_cast<::Cb0StringCopy *>(&(m_04))->FUN_00cb0c30((*(const ::CB0StringPtr *)(&other.m_04))); return *this; }
-    ~CopyEntry() { ::FUN_00cb0c00((int)&(m_04)); }
+    ~CopyEntry() { ::FUN_00cb0c00((intptr_t)&(m_04)); }
 };
 struct CopyAllocator { int m_00, m_04, m_08, m_0c; void* m_10; };
 static __forceinline void destroyEntries(CopyEntry* p, int count) {

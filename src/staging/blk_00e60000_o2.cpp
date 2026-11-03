@@ -932,13 +932,13 @@ struct FUN_00e7dbc0_Class
 // @fnv 0x00e7dbc0
 void FUN_00e7dbc0_Class::FUN_00e7dbc0()
 {
-    *(int*)this = (int)&::DAT_010ef184;
+    *(void**)this = (void*)&::DAT_010ef184;
     EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(&::DAT_0126f600));
     void* p = this;
     reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&DAT_0126f5cc)))->FUN_00e7db70((void *const *)(void **)(&p));
     LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(&::DAT_0126f600));
     void* q = *(void**)((char*)this + 0x14);
-    *(int*)this = (int)&::DAT_010eeed4;
+    *(void**)this = (void*)&::DAT_010eeed4;
     if (q)
     {
         (*(void(**)(void*))(*(int*)q + 8))(q);
@@ -947,7 +947,7 @@ void FUN_00e7dbc0_Class::FUN_00e7dbc0()
     void* r = *(void**)((char*)this + 0xc);
     reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<void * *>(&::g_memoryManager)))))->FUN_00aa4060(r);
     *(int*)((char*)this + 0xc) = 0;
-    *(int*)this = (int)&::DAT_0101dce4;
+    *(void**)this = (void*)&::DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 }  // namespace fnv_00e7dbc0

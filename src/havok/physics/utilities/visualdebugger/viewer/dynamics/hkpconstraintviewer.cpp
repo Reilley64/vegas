@@ -34,8 +34,16 @@ struct hkDisplayGeometry
     ~hkDisplayGeometry();
 };
 
+// A 0x90-byte display geometry (32-bit size) embedded in the viewer.
+struct DisplayGeometryD69
+{
+    unsigned char m_bytes[0x90];
+};
+
 struct FUN_00d69a80
 {
+    unsigned char m_unk000[0xd0];
+    DisplayGeometryD69 m_geometries[4];  // +0xd0, +0x160, +0x1f0, +0x280 (32-bit)
     ~FUN_00d69a80();
 };
 
@@ -43,10 +51,8 @@ struct FUN_00d69a80
 // @fnv 0x00d69a80
 FUN_00d69a80::~FUN_00d69a80()
 {
-    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0x280))))->FUN_00da2560::~FUN_00da2560();
-    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0x1f0))))->FUN_00da2560::~FUN_00da2560();
-    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0x160))))->FUN_00da2560::~FUN_00da2560();
-    reinterpret_cast<struct ::FUN_00da2560 *>((((hkDisplayGeometry*)((char*)this + 0xd0))))->FUN_00da2560::~FUN_00da2560();
+    for (int i = 3; i >= 0; --i)
+        reinterpret_cast<struct ::FUN_00da2560 *>(&m_geometries[i])->FUN_00da2560::~FUN_00da2560();
 }
 
 class D698B0Listener
@@ -231,7 +237,7 @@ struct FUN_00d69200_cls
 // @fnv 0x00d69200
 void FUN_00d69200_cls::FUN_00d69200(SpawnedTarget* target)
 {
-    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((target))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((target))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(&this->unk08));
 }
 
 struct Target
@@ -256,7 +262,7 @@ struct FUN_00d69230_cls
 // @fnv 0x00d69230
 void FUN_00d69230_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
+    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue(&this->unk08);
 }
 
 namespace fnv_00d69920 {
@@ -369,7 +375,7 @@ struct SpawnedObject
     int unk00;
     unsigned short m_uSize;
     unsigned short unk06;
-
+    void* m_processVtable;
 };
 
 // Allocates a 0x38-byte object from the audio allocator, sets its size, initializes it from apSource, and returns a pointer offset by 8 on success.
@@ -380,10 +386,10 @@ void* __cdecl FUN_00d699c0(void* apSource)
     hkMemoryAllocator* pAllocator = pHolder->m_heap;
     SpawnedObject* pObject = (SpawnedObject*)pAllocator->blockAlloc(0x38);
     pObject->m_uSize = 0x38;
-    void* pResult = ((void *)(new ((void *)(pObject)) ::FUN_00d698b0(apSource)));
+    SpawnedObject* pResult = reinterpret_cast<SpawnedObject*>(new ((void *)(pObject)) ::FUN_00d698b0(apSource));
     if (pResult != 0)
     {
-        return (char*)pResult + 8;
+        return &pResult->m_processVtable;
     }
     return 0;
 }
@@ -791,7 +797,7 @@ void ConstraintViewer::FUN_00d69730(World* world)
             _ReadWriteBarrier();
             *(volatile unsigned int*)&second_i = (unsigned int)__rdtsc();
             h->m_uiStartTicks = *(volatile unsigned int*)&second_i;
-            mStream.setEnd((char*)(h + 1));
+            mStream.setEnd(reinterpret_cast<char*>(h + 1));
         }
     }
     {
@@ -833,7 +839,7 @@ void ConstraintViewer::FUN_00d69730(World* world)
             CommandTimingEntry* h = (CommandTimingEntry*)mStream.GetStreamEnd();
             h->m_pCommandName = "Et";
             h->setTime();
-            mStream.setEnd((char*)(h + 1));
+            mStream.setEnd(reinterpret_cast<char*>(h + 1));
         }
     }
 }

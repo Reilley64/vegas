@@ -82,7 +82,7 @@ NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
     }
     else
         p = 0;
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)p, (::fnv_00a5c290::CloningProcess *)&kCloning);
     p->m_flags = m_flags;
     return p;
 }

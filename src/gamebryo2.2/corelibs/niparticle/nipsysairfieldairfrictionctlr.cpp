@@ -233,10 +233,15 @@ void __cdecl FUN_00c2b450()
     static_cast<::NiPSysModifierFloatCtlr *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
 }
 
-// @fnv 0x00c2b8a0
-void __cdecl FUN_00c2b8a0()
+struct FUN_00c2b8a0_shell
 {
-    ::FUN_00a41220({});
+    void FUN_00c2b8a0(::NiStream& kStream);
+};
+
+// @fnv 0x00c2b8a0
+void FUN_00c2b8a0_shell::FUN_00c2b8a0(::NiStream& kStream)
+{
+    reinterpret_cast<::FUN_00a41220_shell *>(this)->FUN_00a41220(kStream);
 }
 
 bool __cdecl FUN_00c32df0(int, int);

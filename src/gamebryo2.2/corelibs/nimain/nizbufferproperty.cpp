@@ -134,7 +134,7 @@ A5F510Property* A5F510FlagProperty::FUN_00a5f510(CloningProcess& kCloning)
     if (m_pkClonedTarget)
     {
         A5F510FlagProperty* pkClone = new A5F510FlagProperty;
-        ::FUN_00a5d7a0();
+        reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)pkClone, (::fnv_00a5c290::CloningProcess *)&kCloning);
         pkClone->m_usFlags = m_usFlags;
         return pkClone;
     }

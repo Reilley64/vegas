@@ -767,7 +767,7 @@ struct NiCullingProperty {
 // @fnv 0x00a81430
 void NiCullingProperty::FUN_00a81430(void* dst, CloningProcess& proc)
 {
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)dst, (::fnv_00a5c290::CloningProcess *)&proc);
     *(unsigned short*)((char*)dst + 0x18) = *(unsigned short*)((char*)this + 0x18);
 }
 
@@ -873,7 +873,7 @@ void NiCullingProperty::FUN_00a99e00(
 {
     NiCullingProperty* dest = static_cast<NiCullingProperty*>(destination);
 
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)dest, (::fnv_00a5c290::CloningProcess *)&cloningProcess);
     dest->m_18 = m_18;
     dest->m_1c = m_1c;
     dest->m_20 = m_20;

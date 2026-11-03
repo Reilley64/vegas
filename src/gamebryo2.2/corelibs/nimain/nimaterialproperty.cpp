@@ -438,7 +438,7 @@ class FUN_00a758c0_cls : public BA758C0Property
 // @fnv 0x00a758c0
 void FUN_00a758c0_cls::FUN_00a758c0(BA758C0Stream& kStream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0((::NiStream &)kStream);
     reinterpret_cast<::NiColor *>(&(m_kAmbient))->SaveBinary((::NiStream &)(kStream));
     reinterpret_cast<::NiColor *>(&(m_kDiffuse))->SaveBinary((::NiStream &)(kStream));
     BA758C0SaveBinary(kStream, m_fShine);

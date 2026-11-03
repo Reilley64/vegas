@@ -56,7 +56,9 @@
 #include "fnv/symbols_004a4000.h"
 #include "fnv/symbols_00a42000.h"
 #include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a41000.h"
 #include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00a5d000.h"
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_00a5c000.h"
 #include "fnv/symbols_00a5f000.h"
@@ -3123,9 +3125,9 @@ FUN_00a4d660::~FUN_00a4d660() throw()
 }
 
 // @fnv 0x00a41220
-void __cdecl FUN_00a41220(int a1)
+void FUN_00a41220_shell::FUN_00a41220(::NiStream& kStream)
 {
-    reinterpret_cast<::FUN_00a57130_shell *>((a1))->FUN_00a57130(*(::NiStream *)nullptr);
+    reinterpret_cast<::FUN_00a57130_shell *>(this)->FUN_00a57130(kStream);
 }
 
 // @fnv 0x00a420e0
@@ -3253,9 +3255,9 @@ Ptr Arr::FUN_00a47540(unsigned int uiIndex) throw()
 
 
 // @fnv 0x00a57c00
-void __cdecl FUN_00a57c00()
+void FUN_00a57c00_shell::FUN_00a57c00(::NiStream& kStream)
 {
-    static_cast<::FUN_00a39010_shell *>(nullptr)->FUN_00a39010(*(::NiStream *)nullptr);
+    reinterpret_cast<::FUN_00a39010_shell *>(this)->FUN_00a39010(kStream);
 }
 
 struct FUN_00a5d320_Class
@@ -3592,15 +3594,15 @@ void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInter
 
 
 // @fnv 0x00a5d7a0
-void __cdecl FUN_00a5d7a0()
+void FUN_00a5d7a0_shell::FUN_00a5d7a0(::NiObjectNET* pkDest, ::fnv_00a5c290::CloningProcess* pkCloning)
 {
-    static_cast<::fnv_00a5c290::FUN_00a5c290_shell *>(nullptr)->FUN_00a5c290({}, {});
+    reinterpret_cast<::fnv_00a5c290::FUN_00a5c290_shell *>(this)->FUN_00a5c290(pkDest, pkCloning);
 }
 
 // @fnv 0x00a5d7b0
-void __cdecl FUN_00a5d7b0()
+void FUN_00a5d7b0_shell::FUN_00a5d7b0(::NiStream& kStream)
 {
-    ::fnv_00a5c5b0::SaveNiObjectLinks({}, {}, {});
+    ::fnv_00a5c5b0::SaveNiObjectLinks((char*)this, 0, (::fnv_00a5c5b0::VStream*)&kStream);
 }
 
 extern "C" void __cdecl _ReadWriteBarrier(void);

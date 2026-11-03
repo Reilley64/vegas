@@ -308,7 +308,7 @@ struct FUN_00a755f0_Class : NiCullingProperty
 // @fnv 0x00a755f0
 void FUN_00a755f0_Class::CopyCullingData(void* dst, CloningProcess& proc)
 {
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)dst, (::fnv_00a5c290::CloningProcess *)&proc);
     char* a = (char*)this;
     char* b = (char*)dst;
     *(int*)(b + 0x1c) = *(int*)(a + 0x1c);
@@ -3680,7 +3680,7 @@ struct ControllerA606
 // @fnv 0x00a60600
 void ControllerA606::FUN_00a60600(NiStream& kStream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0(kStream);
     bool bNoTargets = !m_pkTarget1 && !m_pkTarget2;
     SerializeValue(kStream, bNoTargets);
     reinterpret_cast<::FUN_00a641f0_cls *>((((NiStreamA606*)&kStream)))->WriteObjectLink(&m_kName);

@@ -349,7 +349,7 @@ struct FNVFlipController : FNVBaseController
 // @fnv 0x00a4f4e0
 void FNVFlipController::SaveToStream(FNVStream* stream)
 {
-    ::FUN_00a57c00();
+    reinterpret_cast<::FUN_00a57c00_shell *>(this)->FUN_00a57c00(*(::NiStream *)stream);
     FNVWriter* writer = *(FNVWriter**)((char*)stream + 0x250);
     writer->SaveResult((char*)this + 0x4c);
 

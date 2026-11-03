@@ -379,7 +379,7 @@ class A5D020Property : public A5D020Base
 // @fnv 0x00a5d020
 void A5D020Property::SaveToStream(A5D020Stream& kStream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0((::NiStream &)kStream);
     A5D020SaveBinary(kStream, m_usFlags);
     A5D020SaveBinary(kStream, m_ucMode);
 }
@@ -514,7 +514,7 @@ S00a5ce30_cls* S00a5ce30_cls::FUN_00a5ce30(int a0)
     {
         n = 0;
     }
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)n, (::fnv_00a5c290::CloningProcess *)(std::intptr_t)a0);
     n->unk18 = unk18;
     n->unk1a = unk1a;
     return n;

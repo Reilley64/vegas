@@ -149,7 +149,7 @@ void* MyClass::FUN_00a99f60(int arg)
         {
             esi = 0;
         }
-        ::FUN_00a5d7a0();
+        reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)esi, (::fnv_00a5c290::CloningProcess *)(std::intptr_t)arg);
         unsigned short cx = this->m_18;
         esi->m_uiObjectFlags = cx;
         esi->m_fFogDepth = this->m_1c;
@@ -475,7 +475,7 @@ class SaverA9A2 : public FUN_00a5d7b0_helper
 // @fnv 0x00a9a230
 void SaverA9A2::FUN_00a9a230(NiStreamA9A2& kStream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0((::NiStream &)kStream);
     ReadBinaryValue(kStream, m_us18);
     ReadBinaryValue(kStream, m_f1C);
     reinterpret_cast<::NiColor *>(&(m_kFogTint))->SaveBinary((::NiStream &)(kStream));

@@ -5,6 +5,7 @@
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include <bit>
 #include "fnv/symbols_simd.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
@@ -1100,12 +1101,12 @@ struct hkVector4q
 
     __forceinline int getInt24W() const
     {
-        return reinterpret_cast<const int*>(&m_vComponents)[3] & ~0x3f000000;
+        return std::bit_cast<int>(m_vComponents[3]) & ~0x3f000000;
     }
 
     __forceinline void setInt24W(int value)
     {
-        reinterpret_cast<int*>(&m_vComponents)[3] = value | 0x3f000000;
+        m_vComponents[3] = std::bit_cast<float>(value | 0x3f000000);
     }
 };
 

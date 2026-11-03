@@ -2374,12 +2374,13 @@ void FUN_00869e10_class::FUN_00869e10()
 
 struct BSTaskletManagerCallback
 {
+    const void* m_vtbl;
     BSTaskletManagerCallback* FUN_00b00e40(int);
 };
 // @fnv 0x00b00e40
 BSTaskletManagerCallback* BSTaskletManagerCallback::FUN_00b00e40(int a)
 {
-    *(int**)this = &DAT_010a47b8;
+    m_vtbl = &DAT_010a47b8;
     bool b;
     switch (a)
     {
@@ -2397,13 +2398,14 @@ extern unsigned int DAT_01073e50;
 
 struct BSSimpleArrayActor
 {
+    const void* m_vtbl;
     void FUN_00788390();
 };
 
 // @fnv 0x00788390
 void BSSimpleArrayActor::FUN_00788390()
 {
-    *(unsigned int*)this = (unsigned int)&DAT_01073e50;
+    m_vtbl = &DAT_01073e50;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 

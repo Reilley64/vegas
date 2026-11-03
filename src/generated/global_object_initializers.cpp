@@ -9749,7 +9749,7 @@ void* FUN_008699c0_shell::FUN_008699c0(unsigned int maxSize, unsigned int growBy
 struct FUN_00869b10_shell
 {
     void* m_vft;
-    void* FUN_00869b10(void* a, void* b);
+    void* FUN_00869b10(unsigned int a, unsigned int b);
 };
 
 struct FUN_00869bf0_holder
@@ -9761,7 +9761,7 @@ void FUN_00869bf0_holder::FUN_00869bf0(void* a, void* b)
 {}
 
 // @fnv 0x00869b10
-void* FUN_00869b10_shell::FUN_00869b10(void* a, void* b)
+void* FUN_00869b10_shell::FUN_00869b10(unsigned int a, unsigned int b)
 {
     extern void* DAT_010827f8;
     new ((void *)(((FUN_00869bf0_holder*)this))) ::FUN_00869bf0((unsigned short)(a), (unsigned short)(b));
@@ -9793,7 +9793,7 @@ void* FUN_00869f00_shell::FUN_00869f00(unsigned int a, unsigned int b)
 extern int DAT_0102f408;
 struct StandIn_00559cc0
 {
-    int m0;
+    const void* m_vtbl;
     void InitArray(int);
     StandIn_00559cc0* FUN_00559cc0(int);
 };
@@ -9801,7 +9801,7 @@ struct StandIn_00559cc0
 StandIn_00559cc0* StandIn_00559cc0::FUN_00559cc0(int a)
 {
     InitArray(a);
-    m0 = (int)&DAT_0102f408;
+    m_vtbl = &DAT_0102f408;
     return this;
 }
 

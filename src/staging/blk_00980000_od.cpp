@@ -8330,6 +8330,27 @@ struct Vec
     Vec* FUN_006a6eb0();
 };
 
+inline Vec ActorPosition(const void* apActor)
+{
+    Vec kPosition;
+    reinterpret_cast<::TaskQueueInterface *>(const_cast<void*>(apActor))->QueueActorAnimationTask(*(::NiPoint3 *)&kPosition);
+    return kPosition;
+}
+
+inline Vec Difference(const Vec& arFrom, const Vec& arSubtrahend)
+{
+    Vec kResult;
+    reinterpret_cast<::FUN_00439ef0_class *>(const_cast<Vec*>(&arFrom))->FUN_00439ef0((::NiPoint3 *)&kResult, *(const ::NiPoint3 *)&arSubtrahend);
+    return kResult;
+}
+
+inline Vec Sum(const Vec& arBase, const Vec& arAddend)
+{
+    Vec kResult;
+    reinterpret_cast<::Point3Offset *>(const_cast<Vec*>(&arBase))->ProjectileLaunched((::NiPoint3 *)&kResult, (::NiPoint3 *)const_cast<Vec*>(&arAddend));
+    return kResult;
+}
+
 struct Params
 {
     unsigned short flagsLow, flagsHigh;
@@ -8552,7 +8573,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
     Path* pathSlot25 = ((::CombatPosition::Path *)(reinterpret_cast<::_Dummy_0069e390 *>((owner))->GetString()));
     Context* context = ((::CombatPosition::Context *)(reinterpret_cast<::FUN_0068efb0_shell *>((owner))->FUN_0068efb0()));
     State* stateSlot21 = ((::CombatPosition::State *)(std::uintptr_t)(reinterpret_cast<::FUN_004f8960_shell *>((owner))->FUN_004f8960()));
-    Vec deltaSlot18 = (*(::CombatPosition::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((target))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((actorSlot12))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)));
+    Vec deltaSlot18 = Difference(ActorPosition(target), ActorPosition(actorSlot12));
     float squareSlot52 = reinterpret_cast<::TESCombatStyle *>(&(deltaSlot18))->UpdateCombatStyle();
     if (squareSlot52 < range * range)
         return false;
@@ -8571,9 +8592,9 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
     if (halfSlot31 < widthSlot19)
         widthSlot19 = halfSlot31;
 
-    Vec originSlot32 = (*(::CombatPosition::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((actorSlot12))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->ProjectileLaunched((::NiPoint3 *)&(const ::CombatPosition::Vec &)(deltaSlot18.ApplyScaled(widthSlot19 * ::DAT_0106b9e8)), {})));
+    Vec originSlot32 = Sum(ActorPosition(actorSlot12), deltaSlot18.ApplyScaled(widthSlot19 * ::DAT_0106b9e8));
     Location locationSlot24(originSlot32, actorSlot12);
-    Vec targetPositionSlot21 = (*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((target))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    Vec targetPositionSlot21 = ActorPosition(target);
     bool overridePositionSlot12 = false;
     if (((bool)(reinterpret_cast<::FUN_008d8660_Class *>((owner))->GetByteAtE0())))
     {
@@ -8583,7 +8604,8 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
 
     Search searchSlot20;
     reinterpret_cast<::FUN_006d3ac0_Class *>(&(searchSlot20))->AssignPathingLocation((const ::PathingLocation &)(locationSlot24));
-    reinterpret_cast<::FUN_0099e010_Class *>(&(searchSlot20))->FUN_0099e010((const ::NiPoint3 &)((const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((actorSlot12))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))));
+    Vec actorPositionSlot86 = ActorPosition(actorSlot12);
+    reinterpret_cast<::FUN_0099e010_Class *>(&(searchSlot20))->FUN_0099e010(*(const ::NiPoint3 *)&actorPositionSlot86);
     reinterpret_cast<::FUN_006dad40_Class *>(&(searchSlot20))->FUN_006dad40((const ::NiPoint3 &)(targetPositionSlot21));
     reinterpret_cast<::FUN_006e4340_Class *>(&(searchSlot20))->FUN_006e4340(extentSlot0);
     reinterpret_cast<::FUN_006e4320_Class *>(&(searchSlot20))->FUN_006e4320(widthSlot19);
@@ -8626,7 +8648,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
                 continue;
             }
 
-            Vec positionSlot42 = (*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((node))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+            Vec positionSlot42 = ActorPosition(node);
             ::FUN_009a93e0(::GetFloatAtOffset68((const char *)(owner)), (::TargetActor *)(node), (::TargetSettings *)(::CombatPosition::Params *)(&params), (::TargetVector *)(::CombatPosition::Vec *)(&positionSlot42), (::TargetVector *)(0));
             Location candidateSlot0(positionSlot42, (Actor*)node);
             if (!reinterpret_cast<::PathingLocationCheck *>(&(candidateSlot0))->FUN_006ded70(reinterpret_cast<::FUN_006d2c20_Class *>((owner))->GetFloatAtOffsetB0()))
@@ -8635,14 +8657,14 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
                 continue;
             }
 
-            Vec differenceSlot52 = (*(::CombatPosition::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(positionSlot42))->FUN_00439ef0((::NiPoint3 *)&(const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((target))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)));
+            Vec differenceSlot52 = Difference(positionSlot42, ActorPosition(target));
             if (reinterpret_cast<::TESCombatStyle *>(&(differenceSlot52))->UpdateCombatStyle() > minimumSlot14 * minimumSlot14)
             {
                 node->status = 7;
                 continue;
             }
 
-            Vec fromActorSlot3 = (*(::CombatPosition::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((actorSlot12))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(positionSlot42), *(const ::NiPoint3 *)nullptr)));
+            Vec fromActorSlot3 = Difference(ActorPosition(actorSlot12), positionSlot42);
             if (reinterpret_cast<::TESCombatStyle *>(&(fromActorSlot3))->UpdateCombatStyle() < range * range)
             {
                 node->status = 8;
@@ -8651,7 +8673,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
 
             if (overridePositionSlot12)
             {
-                Vec fromOverride = (*(::CombatPosition::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(positionSlot42))->FUN_00439ef0((::NiPoint3 *)&(context->target), *(const ::NiPoint3 *)nullptr)));
+                Vec fromOverride = Difference(positionSlot42, *(const Vec *)&(context->target));
                 if (reinterpret_cast<::TESCombatStyle *>(&(fromOverride))->UpdateCombatStyle() < ::DAT_0106cd60)
                 {
                     node->status = 10;
@@ -8671,7 +8693,10 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
             if (((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::CombatPosition::History *)(reinterpret_cast<::FUN_006e4fb0_shell *>((owner))->GetOffsetF4()))))->GetName())))
                 blockedSlot62 = ::FUN_0099cb00(&candidateSlot0, (::ArrSI *)(::CombatPosition::History *)(((::CombatPosition::History *)(reinterpret_cast<::FUN_006e4fb0_shell *>((owner))->GetOffsetF4()))));
             else
-                blockedSlot62 = ::FUN_0099cc60(&candidateSlot0, (::ParentSpaceNode *)&(const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((target))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), 0);
+            {
+                Vec targetPositionSlot74 = ActorPosition(target);
+                blockedSlot62 = ::FUN_0099cc60(&candidateSlot0, (::ParentSpaceNode *)&targetPositionSlot74, 0);
+            }
             if (blockedSlot62)
             {
                 node->status = 13;

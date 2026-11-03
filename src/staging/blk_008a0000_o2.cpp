@@ -21,6 +21,16 @@
 #include "fnv/symbols_00c80000.h"
 #include <xmmintrin.h>
 
+template <class T>
+T Point3Difference(const T& arFrom, const void* apSubtrahend)
+{
+    T kResult;
+    reinterpret_cast<::FUN_00439ef0_class *>(const_cast<T*>(&arFrom))->FUN_00439ef0((::NiPoint3 *)&kResult, *(const ::NiPoint3 *)apSubtrahend);
+    return kResult;
+}
+
+
+
 struct FUN_008b3d70_Vec3
 {
     float x;
@@ -71,9 +81,9 @@ void* FUN_008b3d70_Picker::FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Ve
     FUN_008b3d70_World* world = ((::FUN_008b3d70_World *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
     FUN_008b3d70_Hit* object = 0;
     float distance = 512.0f;
-    FUN_008b3d70_Vec3 direction = (*(::FUN_008b3d70_Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(start), *(const ::NiPoint3 *)nullptr)));
+    FUN_008b3d70_Vec3 direction = Point3Difference(*(const ::FUN_008b3d70_Vec3 *)((void *)&(end)), (const void *)&(start));
     ::FUN_00525340((float *)(::FUN_008b3d70_Vec3 *)(&direction));
-    FUN_008b3d70_Vec3 origin = (*(::FUN_008b3d70_Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(const ::FUN_008b3d70_Vec3 &)(direction.ApplyScaled(distance).ApplyScaled(0.5f)), *(const ::NiPoint3 *)nullptr)));
+    FUN_008b3d70_Vec3 origin = Point3Difference(*(const ::FUN_008b3d70_Vec3 *)((void *)&(end)), (const void *)&(const ::FUN_008b3d70_Vec3 &)(direction.ApplyScaled(distance).ApplyScaled(0.5f)));
     object = FUN_008cfbc0(world, origin, direction, &distance, 0);
     if (!object)
     {

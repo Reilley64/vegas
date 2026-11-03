@@ -219,6 +219,22 @@
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
+template <class T>
+T Point3Difference(const T& arFrom, const void* apSubtrahend)
+{
+    T kResult;
+    reinterpret_cast<::FUN_00439ef0_class *>(const_cast<T*>(&arFrom))->FUN_00439ef0((::NiPoint3 *)&kResult, *(const ::NiPoint3 *)apSubtrahend);
+    return kResult;
+}
+
+template <class T>
+T Point3Sum(const T& arBase, const void* apAddend)
+{
+    T kResult;
+    reinterpret_cast<::Point3Offset *>(const_cast<T*>(&arBase))->ProjectileLaunched((::NiPoint3 *)&kResult, (::NiPoint3 *)const_cast<void*>(apAddend));
+    return kResult;
+}
+
 struct FUN_0099a9a0_shell
 {
 };
@@ -5479,7 +5495,7 @@ void __cdecl FUN_009a93e0(float distance, TargetActor* actor, TargetSettings* se
     TargetVector delta5 = actor->direction.ApplyScaled(-offset);
     TargetVector cross3 = actor->direction.FUN_004b3800((*reinterpret_cast<const ::TargetVector *>((void *)&::DAT_011a9484)));
     float scale3 = settings->FUN_009a95f0();
-    TargetVector origin = (*(::TargetVector *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::TargetVector &)((*(::TargetVector *)(reinterpret_cast<::Point3Offset *>((void *)&(actor->position))->ProjectileLaunched((::NiPoint3 *)&(const ::TargetVector &)(cross3.ApplyScaled(scale3)), {})))))->ProjectileLaunched((::NiPoint3 *)&(delta5), {})));
+    TargetVector origin = Point3Sum(*(const ::TargetVector *)((void *)(void *)&(const ::TargetVector &)(Point3Sum(*(const ::TargetVector *)((void *)&(actor->position)), (const void *)&(const ::TargetVector &)(cross3.ApplyScaled(scale3))))), (const void *)&(delta5));
     if (!reinterpret_cast<::FUN_006e4820_class *>((actor))->FUN_006e4820())
     {
         if (first)
@@ -5489,9 +5505,9 @@ void __cdecl FUN_009a93e0(float distance, TargetActor* actor, TargetSettings* se
             if (((bool)(reinterpret_cast<::FUN_00982be0_cls *>((actor))->FUN_00982be0())) || settings->enabled)
             {
                 if (settings->reverse)
-                    *second = (*(::TargetVector *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::TargetVector &)((*(::TargetVector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(actor->position))->FUN_00439ef0((::NiPoint3 *)&(const ::TargetVector &)(cross3.ApplyScaled(radiusX)), *(const ::NiPoint3 *)nullptr)))))->ProjectileLaunched((::NiPoint3 *)&(delta5), {})));
+                    *second = Point3Sum(Point3Difference(*(const ::TargetVector *)((void *)&(actor->position)), (const void *)&(const ::TargetVector &)(cross3.ApplyScaled(radiusX))), (const void *)&(delta5));
                 else
-                    *second = (*(::TargetVector *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::TargetVector &)((*(::TargetVector *)(reinterpret_cast<::Point3Offset *>((void *)&(actor->alternate))->ProjectileLaunched((::NiPoint3 *)&(const ::TargetVector &)(cross3.ApplyScaled(radiusX)), {})))))->ProjectileLaunched((::NiPoint3 *)&(delta5), {})));
+                    *second = Point3Sum(*(const ::TargetVector *)((void *)(void *)&(const ::TargetVector &)(Point3Sum(*(const ::TargetVector *)((void *)&(actor->alternate)), (const void *)&(const ::TargetVector &)(cross3.ApplyScaled(radiusX))))), (const void *)&(delta5));
             }
             else
             {
@@ -5504,7 +5520,7 @@ void __cdecl FUN_009a93e0(float distance, TargetActor* actor, TargetSettings* se
         if (second)
             *second = origin;
         if (first)
-            *first = (*(::TargetVector *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched((::NiPoint3 *)&(const ::TargetVector &)(actor->direction.ApplyScaled(-radiusA)), {})));
+            *first = Point3Sum(*(const ::TargetVector *)((void *)&(origin)), (const void *)&(const ::TargetVector &)(actor->direction.ApplyScaled(-radiusA)));
     }
 }
 
@@ -6652,7 +6668,7 @@ void Obj082::ProcessHits()
         iter = ((::fnv_009b00a0::List082 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         if (entry && entry->object && !entry->skip && !reinterpret_cast<::FUN_00477ba0_shell *>((entry->object))->FUN_00477ba0() && !reinterpret_cast<::TESForm *>((entry->object))->GetDisabled())
         {
-            float radius = reinterpret_cast<::NiPoint3 *>((void *)&(const ::fnv_009b00a0::Vector082 &)((*(::fnv_009b00a0::Vector082 *)(reinterpret_cast<::FUN_00439ef0_class *>((entry->object->Position()))->FUN_00439ef0((::NiPoint3 *)(Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+            float radius = reinterpret_cast<::NiPoint3 *>((void *)&(const ::fnv_009b00a0::Vector082 &)(Point3Difference(*(const ::fnv_009b00a0::Vector082 *)((entry->object->Position())), (const void *)(Position()))))->ComputeMagnitude();
             float distance = ::ComputeSquaredRatioComplement(reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(), radius);
             float factor = reinterpret_cast<::FUN_008d01e0_Class *>(this)->FUN_008d01e0();
             float damage = factor > 0.0 ? ::ComputeSquaredRatioComplement(factor, radius) : 1.0f;
@@ -8733,3 +8749,4 @@ void FUN_009aa470_Class::FUN_009aa4b0()
 }
 
 #include "generated/data/staging/blk_009a0000_od.inc"
+

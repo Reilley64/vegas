@@ -169,6 +169,14 @@
 #include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
 
+template <class T>
+T Point3Difference(const T& arFrom, const void* apSubtrahend)
+{
+    T kResult;
+    reinterpret_cast<::FUN_00439ef0_class *>(const_cast<T*>(&arFrom))->FUN_00439ef0((::NiPoint3 *)&kResult, *(const ::NiPoint3 *)apSubtrahend);
+    return kResult;
+}
+
 struct hkVector4;
 struct FUN_009c1a50_shell
 {
@@ -3346,7 +3354,7 @@ struct ImpProjectile
 void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* apNormal, int a4, int aiMaterial)
 {
     bool bSplatterTmp = true;
-    ImpPoint kDelta = (*(::ProjectileImpact::ImpPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(apPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ProjectileImpact::ImpPoint *)(::FUN_0045bb80((std::intptr_t)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))))))), *(const ::NiPoint3 *)nullptr)));
+    ImpPoint kDelta = Point3Difference(*(const ::ProjectileImpact::ImpPoint *)((void *)(apPos)), (const void *)&(*((::ProjectileImpact::ImpPoint *)(::FUN_0045bb80((std::intptr_t)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))))))));
     if (((bool)(::FUN_00525420())) || reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProjectileImpact::ImpFloatSetting *>(&::originalRuntimeFloatSetting642)))))) ||
         !::FUN_004b61d0((*(::NiPoint3 *)&(const ::ProjectileImpact::ImpPoint &)(*apPos)), (::NiCamera *)(::ProjectileImpact::ImpCamera *)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))), 32.0f))
         bSplatterTmp = false;
@@ -3488,7 +3496,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                         ImpPoint kSurface = *apNormal;
                         reinterpret_cast<::FUN_004a0c10_s *>(&(kSurface))->FUN_004a0c10();
                         kWorldPosition =
-                            (*(::ProjectileImpact::ImpPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::ProjectileImpact::ImpPoint &)(FUN_004a3760(2.0 * reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kSurface))->DotProduct((void *)&(kForward)), kSurface)))->FUN_00439ef0((::NiPoint3 *)&(kForward), *(const ::NiPoint3 *)nullptr)));
+                            Point3Difference(*(const ::ProjectileImpact::ImpPoint *)((void *)(void *)&(const ::ProjectileImpact::ImpPoint &)(FUN_004a3760(2.0 * reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kSurface))->DotProduct((void *)&(kForward)), kSurface))), (const void *)&(kForward));
                         break;
                     }
                     default:
@@ -3527,3 +3535,4 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
 }
 
 #include "generated/data/staging/blk_009c0000_od.inc"
+

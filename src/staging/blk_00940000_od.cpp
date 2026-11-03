@@ -2201,11 +2201,13 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
             }
             if (world7)
             {
-                MoveWorld(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(*(::NiPoint3 *)nullptr), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), world7, 0);
+                ::NiPoint3 kDestination;
+                MoveWorld(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(kDestination), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), world7, 0);
             }
             else if (cellB)
             {
-                MoveCell(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(*(::NiPoint3 *)nullptr), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), cellB, 0);
+                ::NiPoint3 kDestination;
+                MoveCell(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(kDestination), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), cellB, 0);
             }
         }
         else

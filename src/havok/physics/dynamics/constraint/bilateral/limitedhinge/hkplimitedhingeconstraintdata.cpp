@@ -572,14 +572,14 @@ void hkpLimitedHingeConstraintDataEx::FUN_00cb8b60(const hkTransform& bodyATrans
 
     hkpLimitedHingeTransforms& t = *reinterpret_cast<hkpLimitedHingeTransforms*>(&m_kBridgeAtoms);
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(axisN.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle1.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle2.m_vec));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(axisN.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle1.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle2.m_vec));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 

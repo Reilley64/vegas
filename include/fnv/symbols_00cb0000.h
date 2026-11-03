@@ -1,11 +1,12 @@
 #pragma once
+#include <cstdint>
 
 namespace fnv_00cb0df0 { struct GrowBuffer; }
 struct S_00cb0da0;
 struct SpawnedBuffer;
 
 // 0x00cb0c00
-void FUN_00cb0c00(void *);
+void FUN_00cb0c00(intptr_t);
 // 0x00cb0da0
 void FUN_00cb0da0(::S_00cb0da0 *);
 // 0x00cb0db0

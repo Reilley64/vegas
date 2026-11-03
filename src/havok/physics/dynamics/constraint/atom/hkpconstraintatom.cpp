@@ -458,20 +458,19 @@ struct Cls_00d21fc0
     int unk18;
     int unk1c;
     FUN_00d21fc0_n m_uiValueCount;
-    void FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out);
+    void FUN_00d21fc0(__m128* a, int b, int c, int d, int e, __m128* out);
 };
 // Computes d = dot3(a[1], m_uiValueCount), then subtracts (m_uiValueCount - d * m_uiValueCount) from the vector at out.
 // @fnv 0x00d21fc0
-void Cls_00d21fc0::FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out)
+void Cls_00d21fc0::FUN_00d21fc0(__m128* a, int b, int c, int d, int e, __m128* out)
 {
     __declspec(align(16)) FUN_00d21fc0_n n = m_uiValueCount;
     __m128 nv = _mm_load_ps(&n.x);
     __m128 p = _mm_mul_ps(a[1], nv);
-    int iOut = *(volatile int*)&out;
     __m128 s = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
     __m128 r = _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), s);
     __m128 t = _mm_sub_ps(nv, _mm_mul_ps(_mm_shuffle_ps(r, r, 0), nv));
-    __m128* pOut = (__m128*)iOut;
+    __m128* pOut = out;
     *pOut = _mm_sub_ps(*pOut, t);
 }
 

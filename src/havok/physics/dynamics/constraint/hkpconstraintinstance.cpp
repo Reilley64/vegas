@@ -570,7 +570,7 @@ void FUN_00cf40b0_class::FUN_00cf40b0()
     }
     if (m_data)
         reinterpret_cast<::hkReferencedObjectC905 *>((m_data))->FUN_00c905b0();
-    ::FUN_00cb0c00((((FUN_00cb0c00_class*)&m_name)));
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)&m_name)));
     if ((m_kListeners.m_iCapacityState & 0x8000) == 0)
     {
         int capacity = m_kListeners.m_iCapacityState & 0x3fff;

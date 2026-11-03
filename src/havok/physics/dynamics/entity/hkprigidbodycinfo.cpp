@@ -152,5 +152,5 @@ struct S_00cf5fc0
 void S_00cf5fc0::FUN_00cf5fc0(const S_00cf5fc0_Src* apSrc)
 {
     reinterpret_cast<__m128&>(unk10) = reinterpret_cast<const __m128&>(apSrc->unk30);
-    reinterpret_cast<::FUN_00827200_class *>(&(unk20))->FUN_00cb26e0((int)(apSrc));
+    reinterpret_cast<::FUN_00827200_class *>(&(unk20))->FUN_00cb26e0((intptr_t)(apSrc));
 }

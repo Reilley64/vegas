@@ -496,7 +496,13 @@ struct Basis
         unk20.cross(normal, unk10);
     }
 };
-extern void __cdecl FUN_00df5950(const D9Row&, const D9Row&, const Basis&, D9Equation&);
+namespace ConstraintInit {
+struct BodyInput;
+struct SolverResult;
+class hkMatrix3;
+}
+extern "C" void __cdecl FUN_00df5950(const ConstraintInit::BodyInput* bodyA, const ConstraintInit::BodyInput* bodyB,
+                                     const ConstraintInit::hkMatrix3& axes, ConstraintInit::SolverResult* out);
 // @fnv 0x00d9ee50
 void __cdecl FUN_00d9ee50(D9Solver* solver, const D9Contact& contact, void* parameters, D9Body* ownerA, D9Body* ownerB,
                           D9Shape* accumulatorA, D9Shape* accumulatorB, float& result)
@@ -538,7 +544,8 @@ void __cdecl FUN_00d9ee50(D9Solver* solver, const D9Contact& contact, void* para
     Basis basis;
     basis.setNormalBasis(contact.normal());
     solver->f40(contact, inputs[0], velocities[0], inputs[1], velocities[1]);
-    FUN_00df5950(inputs[0], inputs[1], basis, equation);
+    FUN_00df5950(reinterpret_cast<const ConstraintInit::BodyInput*>(&inputs[0]), reinterpret_cast<const ConstraintInit::BodyInput*>(&inputs[1]),
+                 reinterpret_cast<const ConstraintInit::hkMatrix3&>(basis), reinterpret_cast<ConstraintInit::SolverResult*>(&equation));
     result = ::FUN_00df5f80((::ContactConstraint *)&(equation), (::ContactParams *)(parameters), (void *)&(velocities[0]), (void *)&(velocities[1]));
     solver->f44(contact, result, inputs[0], velocities[0], inputs[1], velocities[1]);
     accumulatorA->unk10 = velocities[0].unk00;
@@ -810,7 +817,6 @@ struct Manager
     virtual void begin(const Point&, Input&, Velocity&, Input&, Velocity&);
     virtual void end(const Point&, float, Input&, Velocity&, Input&, Velocity&);
 };
-extern "C" void __cdecl FUN_00df5950(const Input&, const Input&, const Matrix&, Constraint&);
 extern "C" float __cdecl FUN_00df5f80(const Constraint&, Params&, Velocity&, Velocity&);
 extern "C" void __cdecl FUN_00df5e80(const Constraint&, Velocity&, Velocity&, Vector&);
 
@@ -892,7 +898,8 @@ extern "C" void __cdecl FUN_00d9f250(const Point& point, float time, Params& par
     Matrix basis;
     makeBasis(point.dir(), basis);
     mgr->begin(point, ia, va, ib, vb);
-    FUN_00df5950(ia, ib, basis, info);
+    FUN_00df5950(reinterpret_cast<const ConstraintInit::BodyInput*>(&ia), reinterpret_cast<const ConstraintInit::BodyInput*>(&ib),
+                 reinterpret_cast<const ConstraintInit::hkMatrix3&>(basis), reinterpret_cast<ConstraintInit::SolverResult*>(&info));
     result.impulse = FUN_00df5f80(info, params, va, vb);
     mgr->end(point, result.impulse, ia, va, ib, vb);
     {

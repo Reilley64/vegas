@@ -196,7 +196,7 @@ void PointToPlane_d847c0::SetFromTransforms(const Trans_d847c0& bodyA, const Tra
 
     Rot_d849a0& rot = m_60;
     int n = m_a2;
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<Out_d847c0&>(rot.getColumn(n))))->FUN_004b4ab0(&(bodyB.m_rotation), &(normal));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<Out_d847c0&>(rot.getColumn(n))))->FUN_004b4ab0((intptr_t)&(bodyB.m_rotation), (intptr_t)&(normal));
     int i1 = (n + 1) % 3;
 
     Perp_d849a0(rot.getColumn(n), rot.getColumn(i1));

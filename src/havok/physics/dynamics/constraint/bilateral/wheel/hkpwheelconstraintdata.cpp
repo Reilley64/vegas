@@ -143,7 +143,7 @@ static __forceinline void hkSetCross(hkVector4q& out, const hkVector4q& v0, cons
 
 static __forceinline void hkSetRotatedInverseDir(hkVector4q& out, const hkTransform& t, const hkVector4& v)
 {
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(out.m_vec)))->FUN_004b4ab0(&(t.m_rotation), &(v));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(out.m_vec)))->FUN_004b4ab0((intptr_t)&(t.m_rotation), (intptr_t)&(v));
 }
 
 static __forceinline void hkSetTransformedInversePos(hkVector4q& out, const hkTransform& t, const hkVector4& p)

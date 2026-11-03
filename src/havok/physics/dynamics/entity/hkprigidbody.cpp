@@ -1269,12 +1269,12 @@ struct CA8890Object
     int unkDC;
     CA8890Member m_kMemberDescriptor;
 
-    void FUN_00ca8890(int value);
+    void FUN_00ca8890(intptr_t value);
 };
 
 // Calls setValue on the member with value, then calls FUN_00ca8700 on this object.
 // @fnv 0x00ca8890
-void CA8890Object::FUN_00ca8890(int value)
+void CA8890Object::FUN_00ca8890(intptr_t value)
 {
     m_kMemberDescriptor.setValue(value);
     ::FUN_00ca8700((::Entity *)(::CA8890Object *)(this));

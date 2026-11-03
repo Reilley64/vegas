@@ -61,7 +61,7 @@ void FUN_00d2b2b0_class::FUN_00d2b2b0()
     }
 
     *(void**)this = &DAT_010cc2fc;
-    ::FUN_00cb0c00(&m_name);
+    ::FUN_00cb0c00((intptr_t)&m_name);
     *(void**)this = &::DAT_0102e388;
 }
 

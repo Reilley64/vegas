@@ -137,7 +137,7 @@ void FUN_00d06640_class::Destroy()
 
     m_pVtable = &DAT_010cce28;
     reinterpret_cast<::FUN_00d06090_Class *>(this)->ReleaseAllReferences();
-    ::FUN_00cb0c00(&(m_lock));
+    ::FUN_00cb0c00((intptr_t)&(m_lock));
 
     MemoryRouter* router = _D1A0E0GetMemoryRouter();
     MemoryAllocator* allocator = router->m_p10;

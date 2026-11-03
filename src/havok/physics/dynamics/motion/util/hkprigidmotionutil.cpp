@@ -1450,7 +1450,7 @@ extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterv
             applyGravity(motion, gravity, gravityFactor);
             applyDamping(motion, step);
             FUN_004b4ab0_Class localAngular;
-            reinterpret_cast<::FUN_004b4ab0_Class *>(&(localAngular))->FUN_004b4ab0((&motion->state), ((const Vec4f*)&motion->angularVelocity));
+            reinterpret_cast<::FUN_004b4ab0_Class *>(&(localAngular))->FUN_004b4ab0((intptr_t)(&motion->state), (intptr_t)((const Vec4f*)&motion->angularVelocity));
             __m128 inertia = motion->inverseInertia.quad;
             __m128 reciprocal = _mm_rcp_ps(inertia);
             reciprocal =
@@ -1460,7 +1460,7 @@ extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterv
             momentum.FUN_00c7f700(&motion->state, &localAngular);
             integrateMotion(motion, step);
             FUN_004b4ab0_Class transformed;
-            reinterpret_cast<::FUN_004b4ab0_Class *>(&(transformed))->FUN_004b4ab0((&motion->state), (&momentum));
+            reinterpret_cast<::FUN_004b4ab0_Class *>(&(transformed))->FUN_004b4ab0((intptr_t)(&motion->state), (intptr_t)(&momentum));
             transformed.q() = _mm_mul_ps(transformed.q(), motion->inverseInertia.quad);
             ((RotationVector*)&motion->angularVelocity)->FUN_00c7f700(&motion->state, &transformed);
             clampVelocities(motion);

@@ -873,8 +873,8 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
             jacobian += 0x90;
         }
         Vector rotationA, rotationB;
-        reinterpret_cast<::FUN_00827200_class *>(&(rotationA))->FUN_00cb26e0((int)(reinterpret_cast<hkRotation*>(&query.transformA->rotation)));
-        reinterpret_cast<::FUN_00827200_class *>(&(rotationB))->FUN_00cb26e0((int)(reinterpret_cast<hkRotation*>(&query.transformB->rotation)));
+        reinterpret_cast<::FUN_00827200_class *>(&(rotationA))->FUN_00cb26e0((intptr_t)(reinterpret_cast<hkRotation*>(&query.transformA->rotation)));
+        reinterpret_cast<::FUN_00827200_class *>(&(rotationB))->FUN_00cb26e0((intptr_t)(reinterpret_cast<hkRotation*>(&query.transformB->rotation)));
         if (getInfo(i).switched)
         {
             Vector tmp = rotationA;

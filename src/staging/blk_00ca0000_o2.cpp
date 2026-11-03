@@ -15358,7 +15358,7 @@ __declspec(noinline) static int FUN_00cb0b10(int a, int b, int c)
     return g_helperSink;
 }
 // @fnv 0x00cb0c00
-void FUN_00cb0c00(void* p)
+void FUN_00cb0c00(int p)
 {
     int x = FUN_00cb0b10(0, -1, p);
     (void)x;

@@ -320,14 +320,14 @@ void hkpHingeConstraintDataEx::SetLocalTransforms(const hkTransform& bodyATransf
     hkNormalize3(perpToAxle1);
     hkSetCross(perpToAxle2, axle, perpToAxle1);
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[0]))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(axle));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[1]))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle1));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[2]))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle2));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[0]))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[1]))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[2]))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle2));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationA))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[0]))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(axle));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[1]))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle1));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[2]))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle2));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[0]))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[1]))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[2]))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle2));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationB))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 }  // namespace fnv_00cbe240

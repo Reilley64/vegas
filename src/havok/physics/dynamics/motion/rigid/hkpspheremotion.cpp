@@ -362,16 +362,16 @@ void hkpSphereMotionD1E5A::ComputeVelocityAndInverseVirtualMass(const hkVector4D
 
 struct FUN_00d1e1d0_cls : hkpSphereMotion
 {
-    void FUN_00d1e1d0(int out);
+    void FUN_00d1e1d0(hkMatrix3* out);
 };
 
 // Reads m_kInertiaAndMassInv.x (replaced by DAT_0104da4c if below DAT_010c9300) and writes a matrix at out with its reciprocal on the diagonal, zeros elsewhere.
 // @fnv 0x00d1e1d0
-void FUN_00d1e1d0_cls::FUN_00d1e1d0(int out)
+void FUN_00d1e1d0_cls::FUN_00d1e1d0(hkMatrix3* out)
 {
     hkReal x = m_kInertiaAndMassInv.x;
     hkReal y = (double)x < DAT_010c9300 ? ::DAT_0104da4c : x;
-    hkMatrix3* p0 = (hkMatrix3*)(*(volatile int*)&out);
+    hkMatrix3* p0 = out;
     float* p = reinterpret_cast<float*>(p0);
     hkReal inv = 1.0f / y;
     _mm_store_ps(p, _mm_setzero_ps());

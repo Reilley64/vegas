@@ -647,7 +647,8 @@ void FUN_00ec3205(void*);
 
 struct FUN_00ace330_class
 {
-    char pad00[0x8];
+    const int* m_piVbtable;
+    int m_iChcount;
     void* unk08;
     void FUN_00ace330();
 };
@@ -655,8 +656,7 @@ struct FUN_00ace330_class
 // @fnv 0x00ace330
 void FUN_00ace330_class::FUN_00ace330()
 {
-    void** p = &this->unk08;
-    *(void**)((char*)p + *(int*)(*(uintptr_t*)((char*)p - 8) + 4) - 8) = &DAT_010a30a8;
+    *(void**)((char*)this + m_piVbtable[1]) = &DAT_010a30a8;
     void** q = &this->unk08;
     *q = &DAT_010a2fa4;
     *q = &DAT_010a2f9c;
@@ -970,18 +970,24 @@ struct FUN_0044a580_cls
 };
 struct FUN_00ac2ca0_cls
 {
-    int unk00;
+    void* m_pProxy;
+    int m_iAlaux;
+    char m_cAlval;
+    void* m_pFirst;
+    void* m_pLast;
+    void* m_pEnd;
     void FUN_00ac2ca0(intptr_t a);
 };
 struct FUN_00ac2760_cls
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
+    void* m_pProxy;
+    union
+    {
+        char m_acBuf[16];
+        char* m_pcPtr;
+    } m_kBx;
+    std::size_t m_uiSize;
+    std::size_t m_uiRes;
     int m_1c;
     FUN_00ac2ca0_cls m_20;
     FUN_00ac2760_cls* CopyFrom(intptr_t a);
@@ -993,7 +999,7 @@ FUN_00ac2760_cls* FUN_00ac2760_cls::CopyFrom(intptr_t pSource)
     FUN_00ac2760_Frame frame;
     this->AssignSubstring(pSource, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
     m_1c = ((FUN_00ac2760_cls*)pSource)->m_1c;
-    m_20.FUN_00ac2ca0(pSource + 0x20);
+    m_20.FUN_00ac2ca0((intptr_t)&((FUN_00ac2760_cls*)pSource)->m_20);
     return this;
 }
 
@@ -1827,17 +1833,17 @@ struct FUN_00aca4e0_frame
 };
 struct FUN_00aca4e0_cls
 {
-    int unk00;
-    int unk04;
+    void* vtbl;
+    std::size_t m_uiStdstr;
     unsigned int m_08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    unsigned int m_28;
+    int m_iExcept;
+    int m_iFmtfl;
+    int m_iPrec;
+    int m_iWide;
+    void* m_pArr;
+    void* m_pCalls;
+    void* m_pPloc;
+    void* m_28;
     void FUN_00aca4e0(unsigned int a1, unsigned char a2);
 };
 
@@ -1859,6 +1865,11 @@ struct FUN_00ec3280_class
 {
     void FUN_00ec3280();
 };
+struct FUN_00aca9a0_Streambuf
+{
+    void* vtbl;
+    FUN_00ec3280_class m_kLock;
+};
 
 struct FUN_00aca9a0_base
 {
@@ -1872,19 +1883,17 @@ struct FUN_00aca9a0_class
     void FUN_00aca9a0();
 };
 
-// Reads a pointer at m_p plus the vtable offset plus 0x28 and, if non-null, calls FUN_00ec3280 on the object at that pointer plus 4.
+// Reads the stream buffer of m_p's virtual ios base and, if non-null, calls FUN_00ec3280 on its lock.
 // @fnv 0x00aca9a0
 void FUN_00aca9a0_class::FUN_00aca9a0()
 {
-    unsigned int value1 = *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(m_p) +
-                                                           reinterpret_cast<unsigned int*>(m_p->vtable)[1] + 0x28);
+    void* value1 = reinterpret_cast<FUN_00aca4e0_cls*>(reinterpret_cast<unsigned char*>(m_p) + m_p->vtable[1])->m_28;
 
     if (value1 != 0)
     {
-        unsigned int value2 = *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(m_p) +
-                                                               reinterpret_cast<unsigned int*>(m_p->vtable)[1] + 0x28);
+        void* value2 = reinterpret_cast<FUN_00aca4e0_cls*>(reinterpret_cast<unsigned char*>(m_p) + m_p->vtable[1])->m_28;
 
-        reinterpret_cast<FUN_00ec3280_class*>(value2 + 4)->FUN_00ec3280();
+        static_cast<FUN_00aca9a0_Streambuf*>(value2)->m_kLock.FUN_00ec3280();
     }
 }
 
@@ -2279,11 +2288,16 @@ struct FUN_00acde90_class
 {
     void FUN_00acde90();
 };
+struct FUN_00acde90_Outer
+{
+    const int* m_piVbtable;
+    FUN_00acde90_class m_kIos;
+};
 // @fnv 0x00acde90
 void FUN_00acde90_class::FUN_00acde90()
 {
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) +
-                              (*reinterpret_cast<int**>(reinterpret_cast<char*>(this) - 4))[1] - 4) = &DAT_010a318c;
+    FUN_00acde90_Outer* pOuter = reinterpret_cast<FUN_00acde90_Outer*>(reinterpret_cast<char*>(this) - offsetof(FUN_00acde90_Outer, m_kIos));
+    *reinterpret_cast<void**>(reinterpret_cast<char*>(pOuter) + pOuter->m_piVbtable[1]) = &DAT_010a318c;
 }
 
 
@@ -2307,12 +2321,13 @@ FUN_00acdff0_prim* FUN_00acdff0_cls::FUN_00acdff0(unsigned int auiFlags)
 {
     int iUnused1;
     int iUnused2;
-    reinterpret_cast<::FUN_00ace330_class *>((((FUN_00acdff0_prim*)((char*)this - 8))))->FUN_00ace330();
+    ::FUN_00ace330_class* pOuter = (::FUN_00ace330_class*)((char*)this - offsetof(::FUN_00ace330_class, unk08));
+    pOuter->FUN_00ace330();
     if (auiFlags & 1)
     {
-        FUN_00401030((char*)this - 8);
+        FUN_00401030(pOuter);
     }
-    return (FUN_00acdff0_prim*)((char*)this - 8);
+    return (FUN_00acdff0_prim*)pOuter;
 }
 
 void __cdecl FUN_00ec3205(void*);
@@ -3569,11 +3584,18 @@ class FUN_00acb5f0_cls
   public:
     void FUN_00acb5f0();
 };
+struct FUN_00acb5f0_Outer
+{
+    const int* m_piVbtable;
+    int m_iChcount;
+    FUN_00acb5f0_cls m_kInner;
+};
 
 // @fnv 0x00acb5f0
 void FUN_00acb5f0_cls::FUN_00acb5f0()
 {
-    *(void* volatile*)((char*)this + ((int*)(*(int**)((char*)this - 8)))[1] - 8) = (void*)&(*reinterpret_cast<char *>(&::DAT_010a30a8));
+    FUN_00acb5f0_Outer* pOuter = (FUN_00acb5f0_Outer*)((char*)this - offsetof(FUN_00acb5f0_Outer, m_kInner));
+    *(void* volatile*)((char*)pOuter + pOuter->m_piVbtable[1]) = (void*)&(*reinterpret_cast<char *>(&::DAT_010a30a8));
 }
 }  // namespace fnv_00acb5f0
 
@@ -4198,7 +4220,7 @@ struct FUN_00ace2d0_Class
     void* componentVTable;
     void InitializeVirtualBase();
 };
-// Runs the destructor on the object at this-4 and, if flags has bit 0 set, deallocates it, returning that object pointer.
+// Runs the destructor on the object that holds this as its virtual base and, if flags has bit 0 set, deallocates it, returning that object pointer.
 // @fnv 0x00acdf60
 void* FUN_00acdf60_class::DestroyAndDeallocate(int flags)
 {
@@ -4207,21 +4229,21 @@ void* FUN_00acdf60_class::DestroyAndDeallocate(int flags)
         int unused2;
     }
 
-    reinterpret_cast<::FUN_00ace2d0_Class *>((reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4)))->InitializeVirtualBase();
+    ::FUN_00ace2d0_Class* pOuter = reinterpret_cast<::FUN_00ace2d0_Class*>(reinterpret_cast<char*>(this) - offsetof(::FUN_00ace2d0_Class, componentVTable));
+    pOuter->InitializeVirtualBase();
 
     if (flags & 1)
-        ::FUN_00401030(reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4));
+        ::FUN_00401030(pOuter);
 
-    return reinterpret_cast<GlobalObjectO2_00ec3a75*>(reinterpret_cast<char*>(this) - 4);
+    return pOuter;
 }
 // @fnv 0x00ace2d0
 void FUN_00ace2d0_Class::InitializeVirtualBase()
 {
     char* subobject;
     char* virtualBaseObject;
-    virtualBaseObject = reinterpret_cast<char*>(&this->componentVTable);
-    *reinterpret_cast<void**>(virtualBaseObject + (*reinterpret_cast<int**>(virtualBaseObject - 4))[1] - 4) =
-        &DAT_010a318c;
+    virtualBaseObject = reinterpret_cast<char*>(this) + virtualBaseOffsets[1];
+    *reinterpret_cast<void**>(virtualBaseObject) = &DAT_010a318c;
     subobject = reinterpret_cast<char*>(&this->componentVTable);
     *reinterpret_cast<void**>(subobject) = &DAT_010a2fa4;
     *reinterpret_cast<void**>(subobject) = &DAT_010a2f9c;
@@ -4523,11 +4545,11 @@ struct Iter_ac3230
     int unk16C;
     int unk170;
 };
-// Copies the 56-byte elements in [a, b) backward into the range ending at c, and returns the start address of the destination range.
+// Copies the elements in [a, b) backward into the range ending at c, and returns the start address of the destination range.
 // @fnv 0x00ac3230
 extern "C" intptr_t __cdecl FUN_00ac3230(intptr_t aiSrcStart, intptr_t aiSrcEnd, intptr_t c)
 {
-    intptr_t w = c - ((aiSrcEnd - aiSrcStart) / 56) * 56;
+    intptr_t w = c - ((aiSrcEnd - aiSrcStart) / (intptr_t)sizeof(FUN_00ac2760_cls)) * (intptr_t)sizeof(FUN_00ac2760_cls);
     FlagBox f2 = {};
     FlagBox f1 = {};
     {
@@ -4538,8 +4560,8 @@ extern "C" intptr_t __cdecl FUN_00ac3230(intptr_t aiSrcStart, intptr_t aiSrcEnd,
         it.cur = (FUN_00ac2760_cls*)aiSrcEnd;
         while (aiSrcStart != (intptr_t)it.cur)
         {
-            it.cur = (FUN_00ac2760_cls*)((char*)it.cur - 56);
-            it.dst = (FUN_00ac2760_cls*)((char*)it.dst - 56);
+            --it.cur;
+            --it.dst;
             it.dst->AssignSubstring((intptr_t)it.cur, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
             it.dst->m_1c = it.cur->m_1c;
             it.dst->m_20.FUN_00ac2ca0((intptr_t)&it.cur->m_20);
@@ -5006,20 +5028,20 @@ struct StreamOwner : StreamHeader, StreamComponent
 {
 };
 
-// On the owner at this-0x58: calls FUN_00acc8c0, sets the vtable, calls FUN_00ec3205, calls FUN_00401030 if bit 0 of flags is set, and returns the owner.
+// On the owner of this component: calls FUN_00acc8c0, sets the vtable, calls FUN_00ec3205, calls FUN_00401030 if bit 0 of flags is set, and returns the owner.
 // @fnv 0x00ace150
 StreamOwner* StreamComponent::FUN_00ace150(unsigned int flags)
 {
     int c, l, k, ba, b;
-    StreamOwner* j = (StreamOwner*)((char*)this - 0x58);
+    StreamOwner* j = static_cast<StreamOwner*>(this);
     reinterpret_cast<::FUN_00acc8c0 *>(((static_cast<StreamComponent *>(j))))->FUN_00acc8c0::~FUN_00acc8c0();
     StreamComponent* e = static_cast<StreamComponent *>(j);
     e->vtable = &DAT_010a2fa4;
     e->vtable = &DAT_010a2f9c;
     FUN_00ec3205(e);
     if (flags & 1)
-        FUN_00401030((char*)this - 0x58);
-    return (StreamOwner*)((char*)this - 0x58);
+        FUN_00401030(j);
+    return j;
 }
 
 // Skips a drive or UNC "\\server\share\" prefix; returns the path part after it, or 0.
@@ -25105,11 +25127,19 @@ void SpawnedObject::InitSub()
     }
 }
 
-// On the object at this-0x50: calls FUN_00acb610, sets the vtable, calls FUN_00ec3205, deletes the memory if bit 0 of flags is set, and returns it.
+struct S00ace060_Outer
+{
+    const int* m_piVbtable;
+    int unk04;
+    alignas(basic_stringbufB610) char m_acStringbuffer[sizeof(basic_stringbufB610)];
+    S00ace060_Obj m_kIos;
+};
+
+// On the ostringstream whose virtual ios base is this: calls FUN_00acb610, sets the vtable, calls FUN_00ec3205, deletes the memory if bit 0 of flags is set, and returns it.
 // @fnv 0x00ace060
 void* S00ace060_Obj::FUN_00ace060(int flags)
 {
-    char* zbase = reinterpret_cast<char*>(this) - 0x50;
+    S00ace060_Outer* pOuter = reinterpret_cast<S00ace060_Outer*>(reinterpret_cast<char*>(this) - offsetof(S00ace060_Outer, m_kIos));
     S00ace060_Obj* o;
     int tmp1;
     int tmp2;
@@ -25117,17 +25147,17 @@ void* S00ace060_Obj::FUN_00ace060(int flags)
     int tmp4;
     int tmp5;
 
-    reinterpret_cast<::FUN_00acb610 *>((reinterpret_cast<S00ace060_Obj*>(zbase + 0x50)))->FUN_00acb610::~FUN_00acb610();
+    reinterpret_cast<::FUN_00acb610 *>(&pOuter->m_kIos)->FUN_00acb610::~FUN_00acb610();
 
-    o = reinterpret_cast<S00ace060_Obj*>(zbase + 0x50);
+    o = &pOuter->m_kIos;
     *reinterpret_cast<void**>(o) = reinterpret_cast<void*>(&DAT_010a2fa4);
     *reinterpret_cast<void**>(o) = reinterpret_cast<void*>(&DAT_010a2f9c);
     FUN_00ec3205(o);
 
     if (flags & 1)
-        ::FUN_00401030(reinterpret_cast<char*>(this) - 0x50);
+        ::FUN_00401030(pOuter);
 
-    return reinterpret_cast<char*>(this) - 0x50;
+    return pOuter;
 }
 
 // @fnv 0x00acb610
@@ -26014,21 +26044,28 @@ class FUN_00acdeb0 : public basic_ostreamDEB0
     basic_filebufDEB0 _Filebuffer;
 };
 
+struct FUN_00ace260_Outer
+{
+    const int* m_piVbtable;
+    alignas(basic_filebufDEB0) char m_acFilebuffer[sizeof(basic_filebufDEB0)];
+    FUN_00ace260_cls m_kIos;
+};
+
 // @fnv 0x00ace260
 FUN_00ace260_cls* FUN_00ace260_cls::DestroyAndFree(unsigned int acFlags)
 {
     unsigned int values[5];
-    char* pOuter = (char*)this - 0x54;
-    reinterpret_cast<::FUN_00acdeb0 *>((((FUN_00acdeb0_cls*)(pOuter + 0x54))))->FUN_00acdeb0::~FUN_00acdeb0();
-    FUN_00ace260_cls* pSub = (FUN_00ace260_cls*)(pOuter + 0x54);
+    FUN_00ace260_Outer* pOuter = (FUN_00ace260_Outer*)((char*)this - offsetof(FUN_00ace260_Outer, m_kIos));
+    reinterpret_cast<::FUN_00acdeb0 *>((((FUN_00acdeb0_cls*)(&pOuter->m_kIos))))->FUN_00acdeb0::~FUN_00acdeb0();
+    FUN_00ace260_cls* pSub = &pOuter->m_kIos;
     pSub->m_vptr = (void*)&DAT_010a2fa4;
     pSub->m_vptr = (void*)&DAT_010a2f9c;
     FUN_00ec3205(pSub);
     if (acFlags & 1)
     {
-        ::FUN_00401030((char*)this - 0x54);
+        ::FUN_00401030(pOuter);
     }
-    return (FUN_00ace260_cls*)((char*)this - 0x54);
+    return (FUN_00ace260_cls*)pOuter;
 }
 
 // @fnv 0x00ac9d60

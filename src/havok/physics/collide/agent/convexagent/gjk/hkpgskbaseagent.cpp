@@ -2,6 +2,9 @@
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <new>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00da9880_cls.h"
@@ -22,12 +25,6 @@ void hkpGskBaseAgent::FUN_00dabe90(bool)
         FUN_00dabe90(true);
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 
 class FUN_00dabeb0_cls
@@ -41,6 +38,7 @@ class FUN_00dabeb0_cls
     int unk14;
     float m_f18;
     int unk1C;
+    __m128 m_separatingNormal;  // +0x20
 
     void Reset(bool flag);
 };
@@ -49,7 +47,7 @@ class FUN_00dabeb0_cls
 void FUN_00dabeb0_cls::Reset(bool flag)
 {
     m_f18 = ::DAT_01012054;
-    *(__m128*)((char*)this + 0x20) = _mm_setzero_ps();
+    m_separatingNormal = _mm_setzero_ps();
 }
 
 
@@ -66,12 +64,12 @@ class FUN_00dabed0_cls
     int unk1c;
     __m128 m_20;
 
-    void SetValueIfExpected(float expected, float value, int unused);
+    void SetValueIfExpected(float expected, float value, const void* unused);
 };
 
 // If m_18 equals expected, stores value into m_18; otherwise sets m_18 to DAT_01012054 and zeroes m_20.
 // @fnv 0x00dabed0
-void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, int unused)
+void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, const void* unused)
 {
     if (m_18 == expected)
     {
@@ -219,9 +217,6 @@ void FUN_00dac9e0_cls::ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody
 void FUN_00dabe80(int, int, int, int)
 {}
 
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct hkVector4DAC0
 {
@@ -342,11 +337,19 @@ struct GskSub
     int m_08;
 };
 
+struct GskShape
+{
+    void* m_vtbl;
+    int unk04;
+    int unk08;
+    int m_type;
+};
+
 struct GskNode
 {
-    GskNode* m_00;
+    GskShape* m_00;
     int unk04;
-    int m_08;
+    const ::hkTransformCB22* m_08;
     GskNode* m_0c;
     int unk10;
     int unk14;
@@ -371,7 +374,7 @@ struct FUN_00dabf10_cls
     void* m_00;
     short unk04;
     short m_06;
-    int m_08;
+    void* m_08;
     GskSub m_0c;
     float m_18;
     float m_1c;
@@ -380,25 +383,25 @@ struct FUN_00dabf10_cls
     float m_28;
     float m_2c;
 
-    FUN_00dabf10_cls* FUN_00dabf10(GskNode* a1, GskNode* a2, int a3);
+    FUN_00dabf10_cls* FUN_00dabf10(GskNode* a1, GskNode* a2, void* a3);
 };
 
 // Initializes the GskSub at m_0c from the two nodes, sets m_06, m_08 and the vtable, and stores the smaller of the two chain-end nodes' m_4c in m_1c.
 // @fnv 0x00dabf10
-FUN_00dabf10_cls* FUN_00dabf10_cls::FUN_00dabf10(GskNode* apNodeA, GskNode* apNodeB, int a3)
+FUN_00dabf10_cls* FUN_00dabf10_cls::FUN_00dabf10(GskNode* apNodeA, GskNode* apNodeB, void* a3)
 {
     m_06 = 1;
     m_08 = a3;
     m_00 = &g_gskBaseAgentVtbl;
 
-    GskNode* ebx = apNodeB->m_00;
-    int a2k = apNodeB->m_08;
-    int a1k = apNodeA->m_08;
-    GskNode* a1base = apNodeA->m_00;
+    GskShape* ebx = apNodeB->m_00;
+    const ::hkTransformCB22* a2k = apNodeB->m_08;
+    const ::hkTransformCB22* a1k = apNodeA->m_08;
+    GskShape* a1base = apNodeA->m_00;
     GskTmp tmp;
-    reinterpret_cast<::hkTransformCB22 *>(&(tmp))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a1k)), (*(const ::hkTransformCB22 *)(a2k)));
+    reinterpret_cast<::hkTransformCB22 *>(&(tmp))->FUN_00cb22f0(*a1k, *a2k);
 
-    if ((int)ebx->m_0c == 3)
+    if (ebx->m_type == 3)
     {
         reinterpret_cast<::FUN_00dafe70_cls *>(&(m_0c))->FUN_00dafe70((::Iface *)(a1base), (::Src *)(ebx), (const unsigned int *)(::GskTmp *)(&tmp));
     }
@@ -504,20 +507,6 @@ struct GskStatus
 
 };
 
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-}
 
 static __forceinline short* unpackCache(GskCache& c, int& b, unsigned& f, int& a)
 {
@@ -591,7 +580,7 @@ hkBool GskAgentStandin::FUN_00dac7f0(const hkpCdBody& bodyA, const hkpCdBody& bo
         float fRadiusA = shapeA->m_fSphereRadius;
         __m128 vRadiusA = _mm_load_ss(&fRadiusA);
         __m128 vRadiusASplatted = _mm_shuffle_ps(vRadiusA, vRadiusA, 0);
-        _mm_store_ps(pContactData->m_vContactPosition.m128_f32,
+        _mm_store_ps(reinterpret_cast<float*>(&pContactData->m_vContactPosition),
                      _mm_sub_ps(pContactData->m_vContactPosition, _mm_mul_ps(vRadiusASplatted, verts)));
 
         float negDist = -dimA;
@@ -794,9 +783,6 @@ union EarlyScratch
     float distance;
 };
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct S_00dac0b0_TimerCommand
 {
@@ -1033,4 +1019,736 @@ void S_00dac0b0_Agent::FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_
         pOut.val()->v04(*pA.val(), *pB.val());
     }
     S_00dac0b0_TimerEnd();
+}
+
+// Moved from hkpgskbaseagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+// src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent_gs_ehsc_nogs_noehsc_variant.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+// src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <intrin.h>
+#include "fnv/symbols_00dac000.h"
+void FUN_00dabe80(int, int, int, int);
+
+typedef float hkReal;
+typedef unsigned char hkUint8;
+typedef unsigned short hkUint16;
+typedef unsigned int hkUint32;
+typedef uintptr_t hkUlong;
+typedef size_t hk_size_t;
+typedef hkReal hkTime;
+class FinishingFlag
+{
+public:
+FinishingFlag():m_bFinishing(0){}
+int m_bFinishing;
+};
+class hkClass;
+typedef int hkBool32;
+class hkBool_S
+{
+public:
+typedef char CompileTimeTrueType;inline hkBool_S(bool b)
+{
+m_cBooleanValue=static_cast<char>(b);
+}
+inline operator bool()const
+{
+return m_cBooleanValue !=0;
+}
+private:
+char m_cBooleanValue;};
+template<typename ENUM,typename STORAGE>
+class hkEnum
+{
+public:
+hkEnum()
+{
+}
+operator ENUM()const
+{
+return static_cast<ENUM>(m_kStorage);
+}
+void operator=(ENUM e)
+{
+m_kStorage=static_cast<STORAGE>(e);
+}
+private:
+STORAGE m_kStorage;};
+template<typename TYPE>
+class ValueWrapper
+{
+public:
+__forceinline ValueWrapper(){}
+__forceinline ValueWrapper(TYPE e)
+:m_kStorage(e)
+{
+}
+__forceinline void operator=(TYPE e)
+{
+m_kStorage=e;
+}
+__forceinline TYPE val()const
+{
+return m_kStorage;
+}
+__forceinline operator TYPE()const
+{
+return val();
+}
+private:
+TYPE m_kStorage;};
+template<typename T>
+class hkThreadLocalData
+{
+public:
+hkThreadLocalData()
+{
+m_slotID=TlsAlloc();
+}
+__forceinline T getData()const
+{
+return(T)(hkUlong)TlsGetValue(m_slotID);
+}
+unsigned long m_slotID;};
+struct StringPointerTriple
+{
+public:
+__forceinline StringPointerTriple();protected:
+ValueWrapper<void*>m_next;};
+class hkBaseObject
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+__forceinline virtual ~hkBaseObject(){}
+public:
+__forceinline hkBaseObject(){}
+};
+class hkStatisticsCollector;
+class hkReferencedObject:public hkBaseObject
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+virtual const hkClass*GetClassType()const;
+virtual void CalcContentStatistics(hkStatisticsCollector*collector,const hkClass*cls)const;
+public:
+enum
+{
+MASK_MEMSIZE=0x7fff
+};
+hkUint16 m_usMemSizeAndFlags;
+public:
+hkReferencedObject(class FinishingFlag flag){}
+};
+
+typedef __m128 hkQuadReal;
+class hkVector4;
+typedef const hkVector4&hkVector4Parameter;
+class VectorComponentValue
+{
+public:
+VectorComponentValue(const hkQuadReal&x)
+:m_vValue(x)
+{
+}
+VectorComponentValue(hkReal x)
+{
+m_vValue=_mm_load_ss(&x);
+}
+__forceinline hkQuadReal broadcast()const
+{
+return _mm_shuffle_ps(m_vValue,m_vValue,0);
+}
+private:
+hkQuadReal m_vValue;};
+typedef const VectorComponentValue&hkSimdRealParameter;
+class Vector4Comparison;
+typedef const Vector4Comparison&hkVector4ComparisonParameter;
+class hkRotation;
+class hkTransform_S;
+class hkVector4
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
+__forceinline void operator=(const hkVector4&v);
+__forceinline void setSub4(const hkVector4&a,const hkVector4&b);
+__forceinline void addMul4(hkSimdRealParameter r,const hkVector4&a);
+__forceinline void setAddMul4(const hkVector4&a,const hkVector4&b,hkSimdRealParameter r);
+void SetRotatedDirection(const hkRotation&a,const hkVector4&b);
+__forceinline void _setRotatedInverseDir(const hkRotation&a,const hkVector4&b);
+__forceinline void _setTransformedPos(const hkTransform_S&a,const hkVector4&b);
+__forceinline void _setTransformedInversePos(const hkTransform_S&a,const hkVector4&b);
+__forceinline hkReal&operator()(int i);
+private:
+hkQuadReal m_vComponents;
+public:
+operator hkQuadReal()const
+{
+return m_vComponents;
+}
+};
+class hkMatrix3
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
+__forceinline const hkVector4&getColumn(int i)const;
+protected:
+hkVector4 m_kColumn0;
+hkVector4 m_kColumn1;
+hkVector4 m_kColumn2;};
+class __declspec(align(16))hkRotation:public hkMatrix3
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};
+class hkTransform_S
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
+__forceinline const hkVector4&getTranslation()const;
+__forceinline const hkRotation&getRotation()const;
+private:
+hkRotation m_rotation;
+hkVector4 m_vTranslation;};
+inline void hkVector4::operator=(const hkVector4&v)
+{
+m_vComponents=v.m_vComponents;
+}
+inline void hkVector4::setSub4(const hkVector4&v0,const hkVector4&v1)
+{
+m_vComponents=_mm_sub_ps(v0.m_vComponents,v1.m_vComponents);
+}
+inline void hkVector4::addMul4(hkSimdRealParameter r,const hkVector4&v1)
+{
+m_vComponents=_mm_add_ps(m_vComponents,
+_mm_mul_ps(r.broadcast(),v1.m_vComponents));
+}
+inline void hkVector4::setAddMul4(const hkVector4&a,const hkVector4&b,hkSimdRealParameter r)
+{
+m_vComponents=_mm_add_ps(a.m_vComponents,
+_mm_mul_ps(r.broadcast(),b.m_vComponents));
+}
+inline void hkVector4::_setRotatedInverseDir(const hkRotation&r,const hkVector4&b)
+{
+hkQuadReal c0=r.getColumn(0).m_vComponents;
+hkQuadReal c1=r.getColumn(1).m_vComponents;
+hkQuadReal c2=r.getColumn(2).m_vComponents;
+{hkQuadReal _tmp,_ctmp;_tmp=_mm_unpacklo_ps(c0,c1);_ctmp=_mm_shuffle_ps(_mm_unpackhi_ps(c0,c1),c2,(((3)<<6)|((2)<<4)|((1)<<2)|((0))));c0=_mm_movelh_ps(_tmp,c2);c1=_mm_shuffle_ps(_mm_movehl_ps(c0,_tmp),c2,(((3)<<6)|((1)<<4)|((1)<<2)|((0))));c2=_ctmp;};
+const hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+const hkQuadReal r0=_mm_mul_ps(c0,b0);
+const hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+const hkQuadReal r1=_mm_mul_ps(c1,b1);
+const hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+const hkQuadReal r2=_mm_mul_ps(c2,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),r2);}
+inline void hkVector4::_setTransformedPos(const hkTransform_S&t,const hkVector4&b)
+{
+const hkRotation&r=t.getRotation();
+hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+hkQuadReal r0=_mm_mul_ps(r.getColumn(0).m_vComponents,b0);
+hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+hkQuadReal r1=_mm_mul_ps(r.getColumn(1).m_vComponents,b1);
+hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+hkQuadReal r2=_mm_mul_ps(r.getColumn(2).m_vComponents,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),_mm_add_ps(r2,t.getTranslation().m_vComponents));}
+inline void hkVector4::_setTransformedInversePos(const hkTransform_S&a,const hkVector4&b)
+{
+hkVector4 t0;t0.setSub4(b,a.getTranslation());
+_setRotatedInverseDir(a.getRotation(),t0);
+}
+inline hkReal&hkVector4::operator()(int a)
+{
+return reinterpret_cast<hkReal*>(&m_vComponents)[a];
+}
+inline const hkVector4&hkMatrix3::getColumn(int x)const
+{
+return(&m_kColumn0)[x];
+}
+const hkVector4&hkTransform_S::getTranslation()const
+{
+return m_vTranslation;
+}
+const hkRotation&hkTransform_S::getRotation()const
+{
+return m_rotation;
+}
+class hkMonitorStream_S
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}static hkMonitorStream_S&GetMonitorStream()
+{
+return*(*reinterpret_cast<::hkThreadLocalData< ::hkMonitorStream_S *> *>(&::DAT_0126835c)).getData();
+}
+public:
+__forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
+__forceinline char*__cdecl GetStreamEnd(){return m_kRayEnd.val();}
+__forceinline char*__cdecl getCapacityMinus16(){return m_pCurrentCommand.val();}
+__forceinline hkBool_S __cdecl memoryAvailable()
+{
+return GetStreamEnd()<getCapacityMinus16();
+}
+__forceinline void __cdecl setEnd(char*ptr){m_kRayEnd=ptr;}
+public:
+static void __cdecl init();
+public:
+ValueWrapper<char*>m_kRayStart;
+ValueWrapper<char*>m_kRayEnd;
+ValueWrapper<char*>m_pRayCursor;
+ValueWrapper<char*>m_pCurrentCommand;
+hkBool_S m_bFlag;
+public:
+struct Command
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkMonitorStream_S::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+const char*m_pCommandName;
+};
+struct CommandTimingEntry:public hkMonitorStream_S::Command
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkMonitorStream_S::CommandTimingEntry));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+hkUint32 m_uiStartTicks;
+hkUint32 m_uiEndTicks;
+__forceinline void setTime();
+};};
+void hkMonitorStream_S::CommandTimingEntry::setTime()
+{
+hkUint32 ticks;
+ticks = static_cast<unsigned int>(__rdtsc());
+m_uiStartTicks=ticks;
+}
+class hkContactPoint_S
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+inline hkVector4&getPosition();
+inline void setSeparatingNormal(const hkVector4&normal,hkReal dist);
+protected:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
+hkVector4 m_vContactPosition;
+hkVector4 m_vSeparatingNormal;};
+inline hkVector4&hkContactPoint_S::getPosition()
+{
+return m_vContactPosition;
+}
+inline void hkContactPoint_S::setSeparatingNormal(const hkVector4&normal,hkReal dist)
+{
+m_vSeparatingNormal=normal;
+m_vSeparatingNormal(3)=dist;
+}
+class Vector4WithInt24W:public hkVector4
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};
+enum CollisionShapeType
+{
+HK_SHAPE_INVALID=0,
+HK_SHAPE_SPHERE,
+HK_FIRST_SHAPE_TYPE=HK_SHAPE_SPHERE,
+HK_SHAPE_CYLINDER,
+HK_SHAPE_TRIANGLE,
+HK_SHAPE_BOX,
+HK_SHAPE_CAPSULE,
+HK_SHAPE_CONVEX_VERTICES,
+HK_SHAPE_COLLECTION,
+HK_SHAPE_BV_TREE,
+HK_SHAPE_LIST,
+HK_SHAPE_MOPP,
+HK_SHAPE_CONVEX_TRANSLATE,
+HK_SHAPE_CONVEX_TRANSFORM,
+HK_SHAPE_SAMPLED_HEIGHT_FIELD,
+HK_SHAPE_EXTENDED_MESH,
+HK_SHAPE_TRANSFORM,
+HK_SHAPE_COMPRESSED_MESH,
+HK_SHAPE_MAX_ID_SPU=HK_SHAPE_COMPRESSED_MESH+1,
+HK_SHAPE_CONVEX,
+HK_SHAPE_PACKED_CONVEX_VERTICES,
+HK_SHAPE_MOPP_EMBEDDED,
+HK_SHAPE_CONVEX_PIECE,
+HK_SHAPE_MULTI_SPHERE,
+HK_SHAPE_CONVEX_LIST,
+HK_SHAPE_TRIANGLE_COLLECTION,
+HK_SHAPE_MULTI_RAY,
+HK_SHAPE_HEIGHT_FIELD,
+HK_SHAPE_SPHERE_REP,
+HK_SHAPE_BV,
+HK_SHAPE_PLANE,
+HK_SHAPE_PHANTOM_CALLBACK,
+HK_SHAPE_USER0,
+HK_SHAPE_USER1,
+HK_SHAPE_USER2,
+HK_SHAPE_MAX_ID,
+HK_SHAPE_ALL=-1
+};
+class hkpCollisionDispatcher;
+class hkAabb;
+struct ShapeRayCastQuery;
+struct ShapeRayCastOutput;
+struct ShapeRayBundleCastInput;
+struct ShapeRayCastOutputArray;
+class hkpRayHitCollector;
+class hkpCdBody_S;
+class hkpShapeContainer;
+class hkSphere;
+typedef hkUint16 hkpVertexId;
+typedef hkUint32 hkpShapeKey;
+class hkpConvexShape;
+class hkpShape:public hkReferencedObject
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+__forceinline hkpShape(CollisionShapeType type);
+__forceinline CollisionShapeType getType()const;
+virtual const hkpShapeContainer*GetShapeContainer()const{return 0;}
+virtual bool isConvex()const{return false;}
+struct PhysicsShape
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpShape::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+bool m_bIsConvex;
+bool m_bIsConvexPiece;
+bool m_bIsComposite;
+};
+virtual int CalcSizeForSpu(const PhysicsShape&input,int spuBufferSizeLeft)const;
+protected:
+virtual void CalculateAabb(const hkTransform_S&localToWorld,hkReal tolerance,hkAabb&out)const=0;
+virtual hkBool_S IntersectRayWithShape(const ShapeRayCastQuery&input,ShapeRayCastOutput&output)const=0;
+virtual void CastRayWithCollector(const ShapeRayCastQuery&input,const hkpCdBody_S&cdBody,hkpRayHitCollector&collector)const=0;
+virtual Vector4Comparison CastRayBundle(const ShapeRayBundleCastInput&input,ShapeRayCastOutputArray&output,hkVector4ComparisonParameter mask)const;
+public:
+static void __cdecl resetShapeFunctions();
+public:
+public:
+hkUlong m_ulUserData;
+public:
+hkEnum<::CollisionShapeType,hkUint32>m_type;
+public:
+hkpShape(class FinishingFlag flag):hkReferencedObject(flag)
+{
+if(flag.m_bFinishing)
+{
+m_type=HK_SHAPE_INVALID;
+}
+}
+};
+__declspec(align(16))class AlignedHkpShape:public hkpShape{
+AlignedHkpShape();
+};
+CollisionShapeType hkpShape::getType()const
+{
+return static_cast<const AlignedHkpShape*>(this)->m_type;
+}
+class hkpCdBody_S
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline const hkTransform_S&getTransform()const;
+__forceinline const hkpShape*getShape()const;
+public:
+explicit __forceinline hkpCdBody_S(const hkpCdBody_S*parent);
+public:
+const hkpShape*m_pCollisionShape;
+hkpShapeKey m_uiCollisionShapeKey;
+const void*m_pMotionState;};
+const hkTransform_S&hkpCdBody_S::getTransform()const
+{
+;
+return*static_cast<const hkTransform_S*>(m_pMotionState);
+}
+const hkpShape*hkpCdBody_S::getShape()const
+{
+return m_pCollisionShape;
+}
+struct hkpProcessCollisionInput_S;
+class hkpContactMgr;
+struct WorldOperationEntry;
+class hkpConstraintOwner;
+struct hkpCollisionInput_S
+{
+public:
+hkReal getTolerance()const{return m_fScalar;}
+public:
+ValueWrapper<hkpCollisionDispatcher*>m_pCollisionDispatcher;
+ValueWrapper<hkBool32>m_collisionQuality;
+ValueWrapper<hkReal>m_fScalar;};
+class hkpCdBodyPairCollector;
+struct hkpCdPoint_S
+{
+hkpCdPoint_S(const hkpCdBody_S&a,const hkpCdBody_S&b):m_pBodyA(a),m_pBodyB(b){}
+hkContactPoint_S m_kPoint;
+const hkpCdBody_S&m_pBodyA;
+const hkpCdBody_S&m_pBodyB;};
+class hkpCdPointCollector_S
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
+inline virtual ~hkpCdPointCollector_S();
+virtual void AddCdPoint(const hkpCdPoint_S&point)=0;
+protected:
+hkReal m_fEarlyOutDistance;};
+class hkpCollisionAgent:public hkReferencedObject
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+public:
+virtual void ProcessAgent(const hkpCdBody_S&a,const hkpCdBody_S&b,const hkpProcessCollisionInput_S&input,WorldOperationEntry&result)=0;
+protected:
+inline virtual ~hkpCollisionAgent();
+inline hkpCollisionAgent(hkpContactMgr*contactMgr);
+protected:
+hkpContactMgr*m_pContactManager;
+public:
+inline hkpContactMgr*getContactMgr();};
+class hkpTriangleShape;
+class ConvexFeaturePairCache
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
+hkUint16 m_kVertices[4];
+hkUint8 m_ucDimensionA;
+hkUint8 m_ucDimensionB;
+hkUint8 m_ucFeatureTypeA:4;
+hkUint8 m_ucFeatureTypeB:4;
+public:
+void init(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const hkTransform_S&btoa);
+};
+class hkpIterativeLinearCastAgent:public hkpCollisionAgent
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+hkpIterativeLinearCastAgent(hkpContactMgr*contactMgr):hkpCollisionAgent(contactMgr){}
+};
+struct GskAgentData;
+class ConvexShapePairCache;
+class hkpGskBaseAgent_S:public hkpIterativeLinearCastAgent
+{
+public:
+virtual void ProcessAgent(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpProcessCollisionInput_S&input,WorldOperationEntry&result);
+virtual void getPenetrations(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,hkpCdBodyPairCollector&collector);
+static void __cdecl m_pVirtualFunction1(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,hkpCdBodyPairCollector&collector);
+virtual void getClosestPoints(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,class hkpCdPointCollector_S&collector);
+static void __cdecl FUN_00dac450(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,class hkpCdPointCollector_S&collector);
+virtual void cleanup(hkpConstraintOwner&constraintOwner);
+public:
+hkpGskBaseAgent_S(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,hkpContactMgr*mgr);
+private:
+friend class hkpConvexListAgent;
+hkpGskBaseAgent_S(hkpContactMgr*mgr):hkpIterativeLinearCastAgent(mgr){}
+protected:
+__forceinline hkBool_S _getClosestPoint(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,GskAgentData&output);
+static void __cdecl ComputeClosestPoint(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,hkReal earlyOutTolerance,ConvexShapePairCache&gsk,hkVector4&separatingNormalOut);
+hkBool_S ComputeClosestPoints(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,GskAgentData&output);
+static __forceinline hkBool_S staticGetClosestPoint(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkTransform_S&aTb,const hkpCollisionInput_S&input,ConvexFeaturePairCache&cache,struct GskAgentData&output);
+virtual void RemovePoint(const hkpCollisionInput_S&input);
+virtual void WarpTime(hkTime oldTime,hkTime newTime,const hkpCollisionInput_S&input);
+~hkpGskBaseAgent_S(){}
+protected:
+ConvexFeaturePairCache m_pAccessManager;
+hkTime m_fFloatValue;
+hkReal m_fSeparationDistance;
+hkVector4 m_vSeparatingNormal;
+};
+class hkpSphereRepShape:public hkpShape
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+protected:
+virtual int GetNumCollisionSpheres()const=0;
+virtual const hkSphere*GetCollisionSpheres(hkSphere*sphereBuffer)const=0;
+public:
+hkpSphereRepShape(CollisionShapeType type):hkpShape(type){}
+hkpSphereRepShape(FinishingFlag flag):hkpShape(flag){m_type=HK_SHAPE_SPHERE_REP;}
+};
+class hkpConvexShape:public hkpSphereRepShape
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+__forceinline void GetVerticesForIds(const hkpVertexId*ids,int numIds,Vector4WithInt24W*vertixArrayOut)const;
+virtual void GetFirstVertex(hkVector4&v)const=0;
+inline hkReal getRadius()const;enum WeldResult
+{
+WELD_RESULT_REJECT_CONTACT_POINT,
+WELD_RESULT_ACCEPT_CONTACT_POINT_MODIFIED,
+WELD_RESULT_ACCEPT_CONTACT_POINT_UNMODIFIED
+};
+__forceinline hkpConvexShape::WeldResult weldContactPoint(hkpVertexId*featurePoints,hkUint8&numFeaturePoints,
+hkVector4&contactPointWs,const hkTransform_S*thisObjTransform,
+const hkpConvexShape*collidingShape,const hkTransform_S*collidingTransform,hkVector4&separatingNormalInOut)const;
+virtual hkReal getMaximumProjection(const hkVector4&direction)const;
+protected:
+virtual void GetSupportVertex(hkVector4Parameter direction,Vector4WithInt24W&supportingVertexOut)const=0;
+virtual void GetVerticesFromIds(const hkpVertexId*ids,int numIds,Vector4WithInt24W*vertixArrayOut)const=0;
+virtual int WeldContactPoint(hkpVertexId*featurePoints,hkUint8&numFeaturePoints,hkVector4&contactPointWs,const hkTransform_S*thisObjTransform,const hkpConvexShape*collidingShape,const hkTransform_S*collidingTransform,hkVector4&separatingNormalInOut)const;
+protected:
+inline hkpConvexShape(CollisionShapeType type,hkReal radius);
+hkReal m_fSphereRadius;
+public:
+hkpConvexShape(FinishingFlag flag):hkpSphereRepShape(flag){m_type=HK_SHAPE_CONVEX;}
+};
+inline hkReal hkpConvexShape::getRadius()const
+{
+return m_fSphereRadius;
+}
+void hkpConvexShape::GetVerticesForIds(const hkpVertexId*ids,int numIds,Vector4WithInt24W*vertixArrayOut)const
+{
+this->GetVerticesFromIds(ids,numIds,vertixArrayOut);
+}
+hkpConvexShape::WeldResult hkpConvexShape::weldContactPoint(hkpVertexId*featurePoints,hkUint8&numFeaturePoints,
+hkVector4&contactPointWs,const hkTransform_S*thisObjTransform,
+const hkpConvexShape*collidingShape,const hkTransform_S*collidingTransform,hkVector4&separatingNormalInOut)const
+{
+return(WeldResult)this->WeldContactPoint(featurePoints,numFeaturePoints,
+contactPointWs,thisObjTransform,
+collidingShape,collidingTransform,separatingNormalInOut);}
+class hkpTriangleShape:public hkpConvexShape
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+protected:
+hkUint16 m_kWeldingInfo;
+public:
+void setType(){m_type=HK_SHAPE_TRIANGLE;}
+};
+class SegmentSegmentClosestPoint
+{
+public:
+enum
+{
+CLSLS_POINTA_START=1,
+CLSLS_POINTA_END=2,
+CLSLS_POINTB_START=4,
+CLSLS_POINTB_END=8
+};
+struct VectorPairResult
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(SegmentSegmentClosestPoint::VectorPairResult));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+hkVector4 m_kFirstVector;
+hkVector4 m_kClosestPointOnSecond;
+ValueWrapper<hkReal>m_fValue;
+};};
+enum hkpGskStatus
+{
+HK_GSK_OK
+};
+struct ShapePairDistanceData
+{
+hkVector4 m_vPointOnShapeA;
+hkVector4 m_vPointOnShapeB;
+ValueWrapper<hkReal>m_fClosestPointDistanceSquared;
+};
+struct GskAgentData:public ShapePairDistanceData
+{
+hkVector4 m_kLeadingVector;
+hkVector4 m_kSecondVector;
+};
+class ConvexShapePairCache
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
+ConvexShapePairCache():m_uiCacheFlags(0){}
+__forceinline void init(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const ConvexFeaturePairCache&cache);
+hkpGskStatus GetClosestPoint(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const hkTransform_S&aTb,hkVector4&separatingNormalOut);
+__forceinline void checkForChangesAndUpdateCache(ConvexFeaturePairCache&cache)const;
+protected:
+__forceinline void setFeatureChange(int f){m_iFeatureChange=f;}
+public:
+ValueWrapper<int>m_ucDimensionA;
+ValueWrapper<int>m_ucDimensionB;
+ValueWrapper<int>m_ucFeatureTypeA;
+ValueWrapper<int>m_ucFeatureTypeB;
+ValueWrapper<hkUint32>m_uiCacheFlags;
+ValueWrapper<int>m_iFeatureChange;
+Vector4WithInt24W m_akPackedVerticesA[4];
+hkVector4 unk60;hkVector4 unk70;hkVector4 unk80;hkVector4 unk90;
+hkVector4 m_akCachedVectors[4];
+Vector4WithInt24W m_akPackedVerticesB[4];
+hkVector4 m_pSupport;
+SegmentSegmentClosestPoint::VectorPairResult m_kVectorPairResult;
+hkVector4 m_pCachedPoint;
+ValueWrapper<int>m_iCacheState;};
+__forceinline void ConvexShapePairCache::init(const hkpConvexShape*shapeA,const hkpConvexShape*shapeB,const ConvexFeaturePairCache&cache)
+{
+m_ucDimensionA=cache.m_ucDimensionA;
+m_ucDimensionB=cache.m_ucDimensionB;
+m_ucFeatureTypeA=cache.m_ucFeatureTypeA;
+m_ucFeatureTypeB=cache.m_ucFeatureTypeB;
+setFeatureChange(0);
+shapeA->GetVerticesForIds(&cache.m_kVertices[0],m_ucDimensionA,&m_akPackedVerticesA[0]);
+shapeB->GetVerticesForIds(&cache.m_kVertices[m_ucDimensionA],m_ucDimensionB,&m_akPackedVerticesB[0]);}
+__forceinline void ConvexShapePairCache::checkForChangesAndUpdateCache(ConvexFeaturePairCache&cache)const
+{
+if(!m_iFeatureChange)
+{
+return;
+}
+reinterpret_cast<::ThisClass *>((void *)this)->FUN_00da9790((::Dest *)&(cache));
+}
+__forceinline hkBool_S __cdecl hkpGskBaseAgent_S::staticGetClosestPoint(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkTransform_S&aTb,const hkpCollisionInput_S&input,ConvexFeaturePairCache&cache,struct GskAgentData&output)
+{
+const hkpConvexShape*shapeA=static_cast<const hkpConvexShape*>(bodyA.getShape());
+const hkpConvexShape*shapeB=static_cast<const hkpConvexShape*>(bodyB.getShape());
+{
+hkVector4 separatingNormal;
+ConvexShapePairCache gsk;
+gsk.init(shapeA,shapeB,cache);
+const hkpGskStatus gskStatus=gsk.GetClosestPoint(shapeA,shapeB,aTb,separatingNormal);
+if(gskStatus==HK_GSK_OK)
+{
+reinterpret_cast<::FUN_00da9880_cls *>(&(gsk))->FUN_00da9880((const ::SpawnedSrc *)&(separatingNormal),(::SpawnedDst *)&(output));
+output.m_kSecondVector.SetRotatedDirection(bodyA.getTransform().getRotation(),output.m_vPointOnShapeA);
+const hkReal dist=output.m_fClosestPointDistanceSquared-shapeA->getRadius()-shapeB->getRadius();
+output.m_fClosestPointDistanceSquared=dist;
+if(output.m_fClosestPointDistanceSquared<input.getTolerance())
+{
+output.m_vPointOnShapeB.addMul4(-shapeA->getRadius(),output.m_vPointOnShapeA);
+hkVector4 pointBinA;pointBinA.setAddMul4(output.m_vPointOnShapeB,output.m_vPointOnShapeA,-dist);
+output.m_kLeadingVector._setTransformedInversePos(aTb,pointBinA);
+if(shapeB->getType()==HK_SHAPE_TRIANGLE&&input.m_collisionQuality.val())
+{
+gsk.checkForChangesAndUpdateCache(cache);
+hkVector4 weldedNormal=output.m_kSecondVector;
+hkpConvexShape::WeldResult weldResult=shapeB->weldContactPoint(&cache.m_kVertices[cache.m_ucDimensionA],cache.m_ucDimensionB,output.m_kLeadingVector,&bodyB.getTransform(),shapeA,&bodyA.getTransform(),weldedNormal);
+if(weldResult==hkpConvexShape::WELD_RESULT_REJECT_CONTACT_POINT)
+{
+return false;
+}
+else if(weldResult==hkpConvexShape::WELD_RESULT_ACCEPT_CONTACT_POINT_MODIFIED)
+{
+output.m_kSecondVector=weldedNormal;
+}
+}
+return true;
+}
+}
+}
+return false;}
+// @fnv 0x00dac450
+void __cdecl hkpGskBaseAgent_S::FUN_00dac450(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,class hkpCdPointCollector_S&collector)
+{
+{hkMonitorStream_S&mStream=hkMonitorStream_S::GetMonitorStream();if(mStream.memoryAvailable()){hkMonitorStream_S::CommandTimingEntry*h=reinterpret_cast<hkMonitorStream_S::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "Gsk";h->setTime();mStream.setEnd((char*)(h+1));}};
+GskAgentData output;
+ConvexFeaturePairCache cache;
+hkTransform_S aTb;
+{
+const hkpConvexShape*sA=static_cast<const hkpConvexShape*>(bodyA.getShape());
+const hkpConvexShape*sB=static_cast<const hkpConvexShape*>(bodyB.getShape());
+reinterpret_cast<::hkTransformCB22 *>(&(aTb))->FUN_00cb22f0((const ::hkTransformCB22 &)(bodyA.getTransform()),(const ::hkTransformCB22 &)(bodyB.getTransform()));
+if(sB->getType()==HK_SHAPE_TRIANGLE)
+{
+reinterpret_cast<::FUN_00dafe70_cls *>(&(cache))->FUN_00dafe70((::Iface *)(sA),(::Src *)(static_cast<const hkpTriangleShape*>(sB)),(const unsigned int *)&(aTb));
+}
+else
+{
+reinterpret_cast<::Cls_dafcd0 *>(&(cache))->FUN_00dafcd0((::Node *)(sA),(::Node *)(sB),(const ::Vec4Blk *)&(aTb));
+}
+}
+if(staticGetClosestPoint(bodyA,bodyB,aTb,input,cache,output))
+{
+hkpCdPoint_S event(bodyA,bodyB);
+event.m_kPoint.getPosition()._setTransformedPos(bodyB.getTransform(),output.m_kLeadingVector);
+event.m_kPoint.setSeparatingNormal(output.m_kSecondVector,output.m_fClosestPointDistanceSquared);
+collector.AddCdPoint(event);
+}
+{hkMonitorStream_S&mStream=hkMonitorStream_S::GetMonitorStream();if(mStream.memoryAvailable()){hkMonitorStream_S::CommandTimingEntry*h=reinterpret_cast<hkMonitorStream_S::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }

@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstddef>
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -62,6 +63,19 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/ShapeCollectionAgent.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/decl/hkpSphereCapsuleAgent.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00cd7000.h"
+#include "fnv/symbols_00d27000.h"
+#include "fnv/symbols_00d3c000.h"
+#include "fnv/decl/Triangle.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00cd6000.h"
+#include "fnv/symbols_00d36000.h"
 
 
 struct FUN_00d2be30
@@ -97,19 +111,17 @@ int FUN_00d2f220_class::InitializeWithGlobal(int aiValue)
 void __cdecl FUN_00d365d0();
 
 // @fnv 0x00d367b0
-void __cdecl FUN_00d367b0(int pObject)
+void __cdecl FUN_00d367b0(intptr_t pObject)
 {
     ::FUN_00da6fd0((void *)(pObject));
     *(void (**)(void))(pObject + 0x2c) = &FUN_00d365d0;
 }
 
-extern "C" void __cdecl FUN_00d36b70();
-
 // Fills the four function pointers at p[0..3] and sets the bytes at offsets 0x10 and 0x11 to 0 and 1.
 // @fnv 0x00d36bb0
 void __cdecl FUN_00d36bb0(void** p)
 {
-    p[0] = (void*)&FUN_00d36b70;
+    p[0] = (void*)&::FUN_00d36b70;
     p[1] = (void*)&((void (&)())::FUN_00d34790);
     p[2] = (void*)&((void (&)())::QueryClosestPoints);
     p[3] = (void*)&((void (&)())::fnv_00d34810::FUN_00d34810);
@@ -233,41 +245,41 @@ void __cdecl FUN_00d2dc70(Agent* pAgent)
 }
 
 // @fnv 0x00d275a0
-void ReplaceEntry(int pList, int pOldEntry, int pNewEntry, unsigned short usValue)
+void ReplaceEntry(intptr_t pList, intptr_t pOldEntry, intptr_t pNewEntry, unsigned short usValue)
 {
-    int iVar1 = *(int*)(pList + 0x10);
-    int pCached = *(int*)(pList + 0x30);
+    intptr_t iVar1 = *(intptr_t*)(pList + 0x10);
+    intptr_t pCached = *(intptr_t*)(pList + 0x30);
     if (iVar1 == 0)
     {
         if (pCached != 0)
         {
-            *(int*)(pCached + 0xc) = pNewEntry;
+            *(intptr_t*)(pCached + 0xc) = pNewEntry;
             *(unsigned short*)(pCached + 0x10) = usValue;
         }
         return;
     }
     if (iVar1 == pOldEntry)
     {
-        *(int*)(pList + 0x10) = pNewEntry;
+        *(intptr_t*)(pList + 0x10) = pNewEntry;
         if (pCached != 0)
         {
-            *(int*)(pCached + 0xc) = pNewEntry;
+            *(intptr_t*)(pCached + 0xc) = pNewEntry;
             *(unsigned short*)(pCached + 0x10) = usValue;
         }
         return;
     }
-    int pCur = *(int*)(iVar1 + 0x14);
+    intptr_t pCur = *(intptr_t*)(iVar1 + 0x14);
     while (pCur != pOldEntry)
     {
         iVar1 = pCur;
-        pCur = *(int*)(pCur + 0x14);
+        pCur = *(intptr_t*)(pCur + 0x14);
     }
-    *(int*)(iVar1 + 0x14) = pNewEntry;
+    *(intptr_t*)(iVar1 + 0x14) = pNewEntry;
     *(unsigned short*)(iVar1 + 0x12) = usValue;
 }
 
 struct FUN_00d27f50_Obj {
-    void FUN_00d27f50(int param_1, int param_2);
+    void FUN_00d27f50(int param_1, const void* param_2);
 };
 
 struct FUN_00d27f70 {
@@ -355,7 +367,6 @@ int* values=*entries; int* current=*entries; int* end=current+count;while(curren
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
-AllocationManager* __cdecl FUN_00c85750();
 struct IndexRemapper { IndexStorage* entries; int length;  void RemapIndices(IndexBuffer*); };
 // @fnv 0x00d28120
 void IndexRemapper::RemapIndices(IndexBuffer* output) {
@@ -364,7 +375,7 @@ void IndexRemapper::RemapIndices(IndexBuffer* output) {
   int* values=entries->data; int value=values[i];
   if(value<0) {
    value=-value;
-   AllocationManager* manager=FUN_00c85750();
+   AllocationManager* manager=static_cast<AllocationManager*>(::FUN_00c85750());
    if(output->size == (output->capacityFlags & 0x3fffffffU)) ::ResizeAudioStream((::AudioAllocator *)(manager->allocator),(::AudioStream *)(output),4);
    int* slot = output->data + output->size; __assume(slot != 0); new (slot) int(value);
    ++output->size; entries->data[i]=nextIndex++;
@@ -482,7 +493,6 @@ struct D2F240MemoryRouter {
     D2F240Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D2F240MemoryRouter& __cdecl FUN_00c85750();
 
 struct D2F240Shape {
     int unk00;
@@ -519,7 +529,7 @@ public:
     virtual ~D2F240Agent();
 
     static void* operator new(std::size_t uiSize) {
-        void* p = FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        void* p = (*static_cast<D2F240MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
         static_cast<D2F240Agent*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -632,7 +642,6 @@ struct FnvCpu_FUN_00d2f430_CpuAllocatorHolder {
     unsigned int unk0c;
     FnvCpu_FUN_00d2f430_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d2f430_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00d2f430_CpuObject {
     unsigned int unk00;
     unsigned short size;
@@ -643,7 +652,7 @@ FnvCpu_FUN_00d2f430_CpuObject* FnvCpu_FUN_00d2f430_CpuObject::FUN_00d2f430(unsig
 {
     reinterpret_cast<::FUN_00d2f380_cls *>(this)->DestroyArray();
     if (flags & 1) {
-        FnvCpu_FUN_00d2f430_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d2f430_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d2f430_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -683,7 +692,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00d327e0_cls {
     int m_vptr;
@@ -702,7 +710,7 @@ struct FUN_00d327e0_cls {
 FUN_00d327e0_cls* FUN_00d327e0_cls::Destroy(unsigned char acFlags)
 {
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_010ceaa8));
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     m_10 = 0;
     int count = m_uiItemCount;
@@ -713,7 +721,7 @@ FUN_00d327e0_cls* FUN_00d327e0_cls::Destroy(unsigned char acFlags)
     m_uiItemCount = 0x80000000;
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1) {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }
@@ -782,12 +790,11 @@ struct Holder
     Allocator* m_pAllocator;
 };
 
-extern "C" Holder* __cdecl FUN_00c85750();
 
 // @fnv 0x00d36be0
 void* __cdecl FUN_00d36be0(int a1, int a2, int a3, int a4)
 {
-    Holder* pHolder = FUN_00c85750();
+    Holder* pHolder = static_cast<Holder*>(::FUN_00c85750());
     Allocator* pAlloc = pHolder->m_pAllocator;
     FUN_00d36be0_cls* pBlock = (FUN_00d36be0_cls*)pAlloc->v1(0x1c);
     pBlock->m_04 = 0x1c;
@@ -856,7 +863,6 @@ struct FUN_00d36f50_Obj
     FUN_00d36f50_Obj* FUN_00d36f50(unsigned char flag);
 };
 
-void* __cdecl FUN_00c85750();
 
 // @fnv 0x00d36f50
 FUN_00d36f50_Obj* FUN_00d36f50_Obj::FUN_00d36f50(unsigned char flag)
@@ -922,7 +928,6 @@ struct S_00d37da0_Router {
     S_00d37da0_Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-S_00d37da0_Router* FUN_00c85750();
 
 struct S_00d37da0_RefObj {
     unsigned short m_usMemSizeAndFlags;
@@ -931,7 +936,7 @@ struct S_00d37da0_RefObj {
     virtual ~S_00d37da0_RefObj() throw() {}
     void* operator new(std::size_t nbytes)
     {
-        S_00d37da0_RefObj* b = static_cast<S_00d37da0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00d37da0_RefObj* b = static_cast<S_00d37da0_RefObj*>(static_cast<S_00d37da0_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -989,7 +994,6 @@ void __cdecl FUN_00d39130(int a1, int a2, int a3, int a4, int a5)
 }
 
 namespace fnv_00d398c0 {
-extern "C" void* __cdecl FUN_00c85750();
 
 struct FUN_00d398c0_Vtable
 {
@@ -1052,7 +1056,7 @@ extern "C" void* __cdecl CreateObjectFromFactory(
     int aiValue)
 {
     FUN_00d398c0_Factory* factory =
-        reinterpret_cast<FUN_00d398c0_Factory*>(FUN_00c85750());
+        reinterpret_cast<FUN_00d398c0_Factory*>(static_cast<AllocationManager*>(::FUN_00c85750()));
 
     FUN_00d398c0_Object* object =
         reinterpret_cast<FUN_00d398c0_Object*>(
@@ -1067,7 +1071,7 @@ extern "C" void* __cdecl CreateObjectFromFactory(
     object->unk10 = 0xffff;
 
     ::ComputeInverseLengths(
-        (::__m128 *)(reinterpret_cast<const void*>(
+        (__m128 *)(reinterpret_cast<const void*>(
             static_cast<unsigned int>(*reinterpret_cast<int*>(param_2)) + 0x20)),
         (float *)(void *)(reinterpret_cast<void*>(&object->unk14)));
 
@@ -1107,14 +1111,13 @@ struct FUN_00d3b380_singleton
     FUN_00d3b380_allocator* unk10;
 };
 
-extern "C" FUN_00d3b380_singleton* __cdecl FUN_00c85750();
 
 // Allocates a 0x14-byte object from the singleton's allocator and initializes its fields, storing param_4 and a global pointer.
 // @fnv 0x00d3b380
 void __cdecl FUN_00d3b380(int aiUnused1, int aiUnused2, int aiUnused3,
                          unsigned int auiValue)
 {
-    FUN_00d3b380_singleton* singleton = FUN_00c85750();
+    FUN_00d3b380_singleton* singleton = static_cast<FUN_00d3b380_singleton*>(::FUN_00c85750());
     FUN_00d3b380_object* object = singleton->unk10->Allocate(0x14);
 
     object->unk04 = 0x14;
@@ -1139,7 +1142,7 @@ void FnvCpu_FUN_00d3f480_CpuObject::FUN_00d3f480(void* first, void* second, unsi
     data.value = fourth;
     data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    ::FUN_00d3e850((const ::hkpCdBody &)this, (*(const ::hkpCdBody *)(second)), (*(const ::CollisionAgentContext *)(first)), (*(::hkpCdPointCollector *)(third)));
+    ::FUN_00d3e850(*(const ::hkpCdBody *)(second), *(const ::hkpCdBody *)(first), *(const ::CollisionAgentContext *)(std::uintptr_t)third, *(::hkpCdPointCollector *)&data);
 }
 
 
@@ -1170,14 +1173,13 @@ struct S_00d3f620_Router {
     S_00d3f620_Alloc* unk10;
     S_00d3f620_Alloc& heap() { return *unk10; }
 };
-S_00d3f620_Router* FUN_00c85750() throw();
 struct S_00d3f620_RefObj {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     S_00d3f620_RefObj() throw() { m_sReferenceCount = 1; }
     virtual ~S_00d3f620_RefObj() throw();
     void* operator new(std::size_t n) {
-        S_00d3f620_RefObj* b = static_cast<S_00d3f620_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
+        S_00d3f620_RefObj* b = static_cast<S_00d3f620_RefObj*>(static_cast<S_00d3f620_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }
@@ -1586,7 +1588,7 @@ FOUND:
     }
 
     int size = curr->m_usModifierAtomSize;
-    AllocationManager* mgr = FUN_00c85750();
+    AllocationManager* mgr = static_cast<AllocationManager*>(::FUN_00c85750());
     ((D27690_Allocator*)mgr->allocator)->ReleaseBlock(curr, size);
 }
 
@@ -1852,13 +1854,13 @@ void FnvCpu_FUN_00d329b0_CpuObject::DispatchWithBound(void* first, void* second,
 }
 
 // @fnv 0x00d32ac0
-int __cdecl FUN_00d32ac0(int param_1, int param_2)
+void* __cdecl FUN_00d32ac0(void* param_1, unsigned char* param_2)
 {
     return param_2 + 0x10;
 }
 
 // @fnv 0x00d32ad0
-void* __cdecl FUN_00d32ad0(int unused, char* p) {
+void* __cdecl FUN_00d32ad0(const void* unused, char* p) {
     return p + 16;
 }
 
@@ -1973,7 +1975,7 @@ char* __cdecl InitOutputDefaults(FUN_00d390a0_Owner* owner, FUN_00d390a0_Flags* 
     out->unk00 = 0xffff;
     out->unk02 = 0xffff;
     out->unk04 = 0xffff;
-    ::ComputeInverseLengths((::__m128 *)(void *)((char*)leaf + 0x20), (float *)(void *)(&out->unk08));
+    ::ComputeInverseLengths((__m128 *)(void *)((char*)leaf + 0x20), (float *)(void *)(&out->unk08));
     return (char*)out + 0x20;
 }
 
@@ -2073,7 +2075,6 @@ struct hkMemoryRouterD262 {
 };
 
 namespace hkRouterD262 {
-    extern "C" hkMemoryRouterD262& __cdecl FUN_00c85750() throw();
 }
 
 class FUN_00d496d0 {
@@ -2085,7 +2086,7 @@ public:
 
     static void operator delete(void* p) throw()
     {
-        hkRouterD262::FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d496d0*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterD262*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00d496d0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d496d0* FUN_00d262e0(unsigned int uiFlags) throw();
@@ -2125,12 +2126,12 @@ void __cdecl FUN_00d2f540(unsigned char value)
 struct D347D0Query {
     const unsigned char* descriptor;
     float bound;
-    unsigned int filter;
+    void* filter;
 };
 
 // Builds a D347D0Query from DAT_010ce7fc, DAT_0104da48 and filter, then calls GetClosestPointsShapeCollection with b, a, c and the query.
 // @fnv 0x00d347d0
-void __cdecl QueryClosestPoints(void* a, void* b, void* c, unsigned int filter)
+void __cdecl QueryClosestPoints(void* a, void* b, void* c, void* filter)
 {
     D347D0Query query = { &DAT_010ce7fc, ::DAT_0104da48, filter };
     typedef void (__cdecl *Dispatch)(void*, void*, void*, D347D0Query*);
@@ -2149,7 +2150,7 @@ void __cdecl FUN_00d34970(int arg0, int arg1, int arg2, int aiOption) {
     context.pointer = &DAT_010ce7fc;
     context.maxDistance = ::DAT_0104da48;
     context.option = aiOption;
-    FUN_00d339d0(arg1, arg0, arg2, &context);
+    FUN_00d339d0(arg1, arg0, arg2, (int)(std::intptr_t)&context);
 }
 
 
@@ -2194,7 +2195,7 @@ extern unsigned int DAT_010cefdc;
 // @fnv 0x00d3c380
 D3C380_Obj* __cdecl CreateD3C380Obj(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
 {
-    AllocationManager* mgr = FUN_00c85750();
+    AllocationManager* mgr = static_cast<AllocationManager*>(::FUN_00c85750());
     D3C380_Obj* o = (D3C380_Obj*)((D3C380_Allocator*)mgr->allocator)->alloc(0x10);
     o->w4 = 0x10;
     o->w6 = 1;
@@ -2240,7 +2241,7 @@ extern void __cdecl FUN_00cd7160(void* src, void* dst);
 void* __cdecl CreateRetObj(int a1, char** a2, int a3, int aiValue)
 {
     AllocMgr* o;
-    o = (AllocMgr*)FUN_00c85750();
+    o = (AllocMgr*)static_cast<AllocationManager*>(::FUN_00c85750());
     RetObj* mgr = (RetObj*)o->allocator->Alloc(0x20);
     mgr->f04 = 0x20;
     mgr->f06 = 1;
@@ -2276,7 +2277,7 @@ struct D3E270_mgr {
 // @fnv 0x00d3e270
 D3E270_obj* __cdecl FUN_00d3e270(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
 {
-    D3E270_mgr* mgr = (D3E270_mgr*)FUN_00c85750();
+    D3E270_mgr* mgr = (D3E270_mgr*)static_cast<AllocationManager*>(::FUN_00c85750());
     D3E270_obj* o = mgr->r10->alloc(0x10);
     o->f04 = 0x10;
     o->f06 = 1;
@@ -2295,7 +2296,6 @@ D3FE10Entry* __cdecl FUN_00d3fe70(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, 
     return ResetEntryAgents(pkHeader, pkEntry, pkManager, kInfo.pkInfo);
 }
 
-#include <xmmintrin.h>
 
 struct D212D0Seg {
     __m128 a;
@@ -2484,7 +2484,7 @@ struct hkSmallArrayE {
     void Insert(int i, const E48* a, int numtoinsert);
 };
 // @fnv 0x00d27f50
-void FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, int aSecond) {
+void FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, const void* aSecond) {
     reinterpret_cast<::hkSmallArrayE *>((this))->Insert(aFirst, (const ::E48 *)(aSecond), 1);
 }
 
@@ -2555,7 +2555,7 @@ int S00d281b0_Target::MoveLargestToFirst(S00d281b0_IntArray* values)
 
     int* mapping;
     volatile int capacity;
-    S00d281b0_Alloc& a = ((S00d281b0_Router*)FUN_00c85750())->heap();
+    S00d281b0_Alloc& a = ((S00d281b0_Router*)static_cast<AllocationManager*>(::FUN_00c85750()))->heap();
     int n;
     if (size) {
         n = size;
@@ -2579,7 +2579,7 @@ int S00d281b0_Target::MoveLargestToFirst(S00d281b0_IntArray* values)
         int& r = this->indices->data[i];
         r = mapping[r];
     }
-    S00d281b0_Alloc& b = ((S00d281b0_Router*)FUN_00c85750())->heap();
+    S00d281b0_Alloc& b = ((S00d281b0_Router*)static_cast<AllocationManager*>(::FUN_00c85750()))->heap();
     int c = capacity;
     if ((c & 0x80000000) == 0)
         b._bufFree<int>(mapping, c & 0x3fffffff);
@@ -2796,7 +2796,6 @@ struct hkMemoryRouterD2C9 {
 };
 
 struct RouterD2C9 {
-    static hkMemoryRouterD2C9& __cdecl FUN_00c85750() throw();
 };
 
 struct __declspec(align(16)) hkVector4D2C9 {
@@ -2810,14 +2809,14 @@ public:
 
     void* operator new(std::size_t nbytes)
     {
-        hkReferencedObjectD2C9* b = static_cast<hkReferencedObjectD2C9*>(RouterD2C9::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObjectD2C9* b = static_cast<hkReferencedObjectD2C9*>((*static_cast<hkMemoryRouterD2C9*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
 
     void operator delete(void* p, std::size_t nbytes)
     {
-        RouterD2C9::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        (*static_cast<hkMemoryRouterD2C9*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes);
     }
 
     unsigned short m_usMemSizeAndFlags;
@@ -3188,13 +3187,13 @@ struct Record_d2e9 {
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with the key and a4, and calls FUN_00d43b90 with an optional second record for a5.
 // @fnv 0x00d34810
-void __cdecl FUN_00d34810(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+void __cdecl FUN_00d34810(const void* a2, const void* a1, const Input_d2e9* input, void* aiValue, void* aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, ::DAT_010c44d0);
@@ -3241,13 +3240,13 @@ struct Record_d2e9 {
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // XORs input vector with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d33ca0 with an optional second record when a5 is non-zero.
 // @fnv 0x00d349b0
-void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+void __cdecl FUN_00d349b0(const void* a2, const void* a1, const Input_d2e9* input, void* aiValue, void* aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, ::DAT_010c44d0);
@@ -3264,9 +3263,9 @@ void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, 
         rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalValue;
-        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, (int)(&local), (int)(&rec), (int)(&rec2));
+        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, &local, &rec, &rec2);
     } else {
-        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, (int)(&local), (int)(&rec), (int)(0));
+        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, &local, &rec, nullptr);
     }
 }
 }  // namespace fnv_00d349b0
@@ -3522,7 +3521,7 @@ struct FUN_00d36b20
 
     static __forceinline void* operator new(std::size_t size) throw()
     {
-        AllocationManager* manager = FUN_00c85750();
+        AllocationManager* manager = static_cast<AllocationManager*>(::FUN_00c85750());
         FUN_00d36b20* object = static_cast<FUN_00d36b20*>(static_cast<D36B70_Heap*>(manager->allocator)->AllocateMemoryBlock(size));
         object->m_usMemSizeAndFlags = (unsigned short)size;
         return object;
@@ -3553,7 +3552,6 @@ struct D2DC10MemoryRouter {
     D2DC10Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D2DC10MemoryRouter& __cdecl FUN_00c85750();
 
 class D2DC10BaseObject {
 public:
@@ -3569,7 +3567,7 @@ public:
 
     static void* operator new(std::size_t, void* p) { return p; }
     static void operator delete(void*, void*) {}
-    static void operator delete(void* p, std::size_t nbytes) { FUN_00c85750().heap().ReleaseBlock(p, nbytes); }
+    static void operator delete(void* p, std::size_t nbytes) { (*static_cast<D2DC10MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes); }
 
     int unk04;
     int unk08;
@@ -3609,7 +3607,6 @@ struct D37D30MemoryRouter {
     D37D30Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D37D30MemoryRouter& __cdecl FUN_00c85750();
 
 class D37D30ReferencedObject {
 public:
@@ -3630,7 +3627,7 @@ public:
     int m_iCapacityState;
 
     ~D37D30Array() throw() {
-        D37D30Allocator& alloc = FUN_00c85750().heap();
+        D37D30Allocator& alloc = (*static_cast<D37D30MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & CAPACITY_MASK) * sizeof(T));
@@ -3647,7 +3644,7 @@ public:
     FUN_00d37d30();
 
     static void operator delete(void* p) {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<D37D30ReferencedObject*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<D37D30MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<D37D30ReferencedObject*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -3656,14 +3653,7 @@ FUN_00d37d30::FUN_00d37d30() {
 }
 }  // namespace fnv_00d37d30
 
-#include <xmmintrin.h>
 namespace fnv_00d22260 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float f[4]; };
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 struct D22260_Matrix
 {
@@ -3740,8 +3730,8 @@ struct D22260_Object
 // Transforms m_quaternion1/2 by the matrices' rows, crosses each result with the vector's second field, and adds the product to its first field.
 // @fnv 0x00d22260
 void D22260_Object::FUN_00d22260(
-    int ReportDiagnostic,
-    int unused1,
+    const void* ReportDiagnostic,
+    float unused1,
     D22260_Matrix* matrix1,
     D22260_Vector* vector1,
     D22260_Matrix* matrix2,
@@ -3757,7 +3747,6 @@ void D22260_Object::FUN_00d22260(
     vector2->m_uiFilterValue.add(cross2);
 }
 }  // namespace fnv_00d22260
-#include "fnv/symbols_simd.h"
 
 // FUN_00d24650 - function, callee pops 4 bytes (1 stack parameter)
 // @fnv 0x00d24650
@@ -4050,11 +4039,7 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     {
         unsigned char* cur = (unsigned char*)(*(unsigned int*)((char*)tlsblk + 4));
         *(const char**)cur = DAT_010ced28;
-        __asm
-        {
-            rdtsc
-            mov dword ptr[stamped], eax
-        }
+        stamped = (unsigned int)__rdtsc();
         *(unsigned int*)(cur + 4) = stamped;
         *(unsigned int*)((char*)tlsblk + 4) = (unsigned int)cur + 0xc;
     }
@@ -4081,7 +4066,7 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     cb.z.unk04 = -1;
     result = ((int)(::hkpCollectionCollectionAgent3::FUN_00d35770((*(const ::AgentSubtypeMarker *)(&o1)), (::FourByteState *)(a2), (void *)(a3), (::hkVector4 *)(a4), (*(::WorldOperationEntry *)(a5)))));
     int* r18 = &shape->r18_00;
-    AllocationManager* q = FUN_00c85750();
+    AllocationManager* q = static_cast<AllocationManager*>(::FUN_00c85750());
     void* mgr = q->allocator;
     _ReadWriteBarrier();
     int masked = r18[2] & 0x3fffffff;
@@ -4098,11 +4083,7 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     {
         unsigned char* cur2 = (unsigned char*)(*(unsigned int*)((char*)tlsblk2 + 4));
         *(const char**)cur2 = DAT_010c41f8;
-        __asm
-        {
-            rdtsc
-            mov dword ptr[stamped], eax
-        }
+        stamped = (unsigned int)__rdtsc();
         *(unsigned int*)(cur2 + 4) = stamped;
         *(unsigned int*)((char*)tlsblk2 + 4) = (unsigned int)cur2 + 0xc;
     }
@@ -4110,16 +4091,6 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
 }
 
 __declspec(noinline) void __cdecl FUN_00d36c30(void* apObject);
-
-__declspec(noinline) void __cdecl FUN_00d36bb0(CollisionAgentFunctionTable* f)
-{
-    f->a = (void*)(void (__cdecl*)())&FUN_00d36b70;
-    f->b = (void*)&((void (&)())::FUN_00d34790);
-    f->c = (void*)(void (__cdecl*)())&((void (&)())::QueryClosestPoints);
-    f->d = (void*)&((void (&)())::fnv_00d34810::FUN_00d34810);
-    f->e = 0;
-    f->f = 1;
-}
 
 // Fills a function table via FUN_00d36c30 and passes it to agent->FUN_00cfbbe0 with (9, -1), then refills via FUN_00d36bb0 and passes it with (-1, 9).
 // @fnv 0x00d36c60
@@ -4133,8 +4104,771 @@ void __cdecl FUN_00d36c60(void* apAgent)
     reinterpret_cast<::FUN_00cfbbe0_cls *>((agent))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::CollisionAgentFunctionTable *)(&funcs), 9, -1);
     funcs.e = 0;
     funcs.f = 0;
-    FUN_00d36bb0(&funcs);
+    FUN_00d36bb0((void**)&funcs);
     reinterpret_cast<::FUN_00cfbbe0_cls *>((agent))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::CollisionAgentFunctionTable *)(&funcs), -1, 9);
 }
 
+void __cdecl FUN_00d367b0(int pObject);
+
+void __cdecl FUN_00d36bb0(void** p);
+
+void __cdecl FUN_00d36c30(void* apObject);
+
+void __cdecl FUN_00d3dbe0(void* apObject);
+
+void FUN_00d3dc10(void* apObject);
+
+void* __cdecl InitAndGetOffset(void* apUnused1, void* apUnused2, void* apObject);
+
+
+void __cdecl RegisterD3DAgents(DispatcherD3D* pkDispatcher);
+
+void* __cdecl FindSharedEntryValue(PairNode* pNodeA, PairNode* pNodeB);
+
+const char* __cdecl FUN_00d2b360(const char* path, PathHelper* aPathHelper);
+
+void FUN_00d39090();
+
+void __cdecl DispatchFuncs(D3FD30Dispatcher* pkDispatcher);
+
+void FUN_00d3fde0();
+
+void FUN_00d2d460(int, void* b, void* c);
+
+void __cdecl FUN_00d2f530(unsigned char* p);
+
+void __cdecl FUN_00d2f540(unsigned char value);
+
+void* __cdecl CreateRetObj(int a1, char** a2, int a3, int a4);
+
+void __cdecl FUN_00d2f630(const CdBodyD2F630& kA, const CdBodyD2F630& kB, const InputD2F630& kInput, CollectorD2F630& kCollector);
+
+FUN_00d36b20* FUN_00d36b70(int param1, int param2, int* param3, int param4);
+
+void FUN_00d24650(int _param);
+
+int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5);
+
+__declspec(noinline) void __cdecl FUN_00d36c30(void* apObject);
+
+void __cdecl FUN_00d36c60(void* p);
+
+struct hkStepInfo {
+    float m_uiStartTime;
+    float m_fEndTime;
+    float m_fTimeStep;
+    float m_fInverseDeltaTime;
+};
+
+struct SimdScalar {
+    __m128 value;
+    __forceinline SimdScalar(__m128 v) : value(v) {}
+    __forceinline operator float() const { float f; _mm_store_ss(&f, value); return f; }
+    __forceinline __m128 broadcast() const { return _mm_shuffle_ps(value, value, 0); }
+};
+
+struct hkVecQ {
+    __m128 data;
+    __forceinline __m128& getQuad() { return data; }
+    __forceinline const __m128& getQuad() const { return data; }
+
+    __forceinline float& operator()(int a) { return reinterpret_cast<float*>(&data)[a]; }
+    __forceinline const float& operator()(int a) const { return reinterpret_cast<const float*>(&data)[a]; }
+
+    static __forceinline __m128 rotated(const hkVecQ& q, const hkVecQ& v)
+    {
+        __m128 w = _mm_shuffle_ps(q.getQuad(), q.getQuad(), 0xff);
+        __m128 w2 = _mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0);
+        __m128 t1 = _mm_mul_ps(w2, v.getQuad());
+        __m128 qv = _mm_mul_ps(v.getQuad(), q.getQuad());
+        __m128 s1 = _mm_add_ss(_mm_shuffle_ps(qv, qv, 0x55), qv);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(qv, qv, 0xaa), s1);
+        __m128 q2 = _mm_shuffle_ps(q.getQuad(), q.getQuad(), 0xd2);
+        __m128 q1 = _mm_shuffle_ps(q.getQuad(), q.getQuad(), 0xc9);
+        __m128 c2 = _mm_mul_ps(_mm_shuffle_ps(v.getQuad(), v.getQuad(), 0xc9), q2);
+        __m128 c1 = _mm_mul_ps(_mm_shuffle_ps(v.getQuad(), v.getQuad(), 0xd2), q1);
+        __m128 cross = _mm_sub_ps(c1, c2);
+        __m128 t2 = _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q.getQuad());
+        __m128 sum = _mm_add_ps(_mm_mul_ps(cross, w), _mm_add_ps(t1, t2));
+        return _mm_add_ps(sum, sum);
+    }
+
+    static __forceinline SimdScalar dot(__m128 a, __m128 b)
+    {
+        __m128 p = _mm_mul_ps(a, b);
+        __m128 s = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
+        return SimdScalar(_mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), s));
+    }
+
+    __forceinline void setAddMul4(const hkVecQ& a, __m128 b, float r)
+    {
+        __m128 s = _mm_load_ss(&r);
+        getQuad() = _mm_add_ps(a.getQuad(), _mm_mul_ps(_mm_shuffle_ps(s, s, 0), b));
+    }
+
+    __forceinline void normalize3()
+    {
+        __m128 p = _mm_mul_ps(getQuad(), getQuad());
+        __m128 s = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
+        __m128 lenSq = _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), s);
+        __m128 r = _mm_rsqrt_ss(lenSq);
+        __m128 zero = _mm_set_ss(::DAT_01011d78);
+        __m128 three = _mm_set_ss(::DAT_01017718);
+        __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
+        __m128 nr = _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(lenSq, r), r));
+        __m128 sc = _mm_mul_ss(_mm_mul_ss(half, r), nr);
+        __m128 sel = _mm_andnot_ps(_mm_cmpeq_ss(lenSq, zero), sc);
+        getQuad() = _mm_mul_ps(_mm_shuffle_ps(sel, sel, 0), getQuad());
+    }
+
+    __forceinline void setCross(const hkVecQ& a, const hkVecQ& b)
+    {
+        __m128 c2 = _mm_mul_ps(_mm_shuffle_ps(a.getQuad(), a.getQuad(), 0xc9), _mm_shuffle_ps(b.getQuad(), b.getQuad(), 0xd2));
+        __m128 c1 = _mm_mul_ps(_mm_shuffle_ps(a.getQuad(), a.getQuad(), 0xd2), _mm_shuffle_ps(b.getQuad(), b.getQuad(), 0xc9));
+        getQuad() = _mm_sub_ps(c1, c2);
+    }
+
+    __forceinline void setAbs4(const hkVecQ& a)
+    {
+        getQuad() = _mm_and_ps(a.getQuad(), DAT_01017d10);
+    }
+
+    __forceinline int getMajorAxis(hkVecQ& tmp) const
+    {
+        tmp.setAbs4(*this);
+        return tmp(0) < tmp(1) ? (tmp(1) < tmp(2) ? 2 : 1) : (tmp(0) < tmp(2) ? 2 : 0);
+    }
+
+    __forceinline void setMul4(float r, const hkVecQ& a)
+    {
+        __m128 s = _mm_load_ss(&r);
+        getQuad() = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), a.getQuad());
+    }
+};
+
+struct hkpMotionStub {
+    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
+    virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
+    virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c();
+    virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c();
+    virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c();
+    virtual void v50();
+    virtual void ApplyAngularImpulseToBodies(const hkVecQ& imp);
+
+    int unk04, unk08, unk0c;
+    hkVecQ unk10, unk20, unk30, unk40, unk50, unk60;
+    hkVecQ m_rotation;
+    hkVecQ unk90, unka0, unkb0, unkc0, unkd0;
+    hkVecQ m_kAngularVelocity;
+};
+
+struct hkpRigidBodyStub {
+    hkVecQ unk00, unk10, unk20, unk30, unk40, unk50, unk60;
+    hkVecQ unk70, unk80, unk90, unka0, unkb0, unkc0, unkd0;
+    hkpMotionStub m_pMotionState;
+
+
+    __forceinline void ApplyAngularImpulseToBodies(const hkVecQ& imp)
+    {
+        reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
+        m_pMotionState.ApplyAngularImpulseToBodies(imp);
+    }
+};
+
+struct hkOrientHingedBodyAction {
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    hkpRigidBodyStub* m_pEntity;
+    int unk1c;
+    hkVecQ m_vHingeAxisLS;
+    hkVecQ m_forwardAxisLS;
+    hkVecQ m_targetForwardWS;
+    float m_fSpringStrength;
+    float m_fMotorDamping;
+    float m_fConeAngle;
+    bool m_bSlotEnabled;
+
+    void FUN_00d2ad50(const hkStepInfo& stepInfo);
+};
+
+// @fnv 0x00d2ad50
+void hkOrientHingedBodyAction::FUN_00d2ad50(const hkStepInfo& stepInfo)
+{
+    if (m_bSlotEnabled)
+    {
+        hkpRigidBodyStub* rb = m_pEntity;
+
+        hkVecQ forwardWS;
+        __m128 forwardQuad = hkVecQ::rotated(rb->m_pMotionState.m_rotation, m_forwardAxisLS);
+        forwardWS.getQuad() = forwardQuad;
+
+        hkVecQ hingeWS;
+        __m128 hingeQuad = hkVecQ::rotated(rb->m_pMotionState.m_rotation, m_vHingeAxisLS);
+        _mm_store_ps(reinterpret_cast<float*>(&hingeWS), hingeQuad);
+
+        hkVecQ targetProj;
+        targetProj.setAddMul4(m_targetForwardWS, hingeQuad, -hkVecQ::dot(_mm_load_ps(reinterpret_cast<const float*>(&hingeQuad)), m_targetForwardWS.getQuad()));
+        targetProj.normalize3();
+
+        m_fConeAngle = ::ClampedAcos(hkVecQ::dot(targetProj.getQuad(), forwardQuad));
+
+        forwardWS.setCross(targetProj, forwardWS);
+
+        float rotMaj = forwardWS(forwardWS.getMajorAxis(targetProj));
+        float hingeMaj = hingeWS(hingeWS.getMajorAxis(targetProj));
+
+        if ((rotMaj < 0.0f) != (hingeMaj < 0.0f))
+        {
+            m_fConeAngle = -m_fConeAngle;
+        }
+
+        float dampFactor = m_fMotorDamping * stepInfo.m_fInverseDeltaTime;
+        __m128 dampS = _mm_load_ss(&dampFactor);
+        hkVecQ damping;
+        damping.getQuad() = rb->m_pMotionState.m_kAngularVelocity.getQuad();
+        damping.getQuad() = _mm_mul_ps(_mm_shuffle_ps(dampS, dampS, 0), damping.getQuad());
+
+        float strengthFactor = m_fSpringStrength * m_fConeAngle * stepInfo.m_fInverseDeltaTime;
+        __m128 strengthS = _mm_load_ss(&strengthFactor);
+        forwardWS = hingeWS;
+        forwardWS.getQuad() = _mm_mul_ps(_mm_shuffle_ps(strengthS, strengthS, 0), forwardWS.getQuad());
+
+        forwardWS.getQuad() = _mm_sub_ps(forwardWS.getQuad(), damping.getQuad());
+
+        rb->ApplyAngularImpulseToBodies(forwardWS);
+    }
+}
+
+typedef __m128 S00d386c0_Quad;
+
+extern "C" {
+unsigned __int64 __rdtsc(void);
+void _ReadWriteBarrier(void);
+}
+
+extern const char str_010ceed4[];
+
+struct S00d386c0_TimerCommand
+{
+    const char* m_kStringBuffer;
+    unsigned int m_uiStartTicks;
+    unsigned int m_uiEndTicks;
+
+    __forceinline void setTime()
+    {
+        unsigned int ticks;
+        ticks = (unsigned int)__rdtsc();
+        m_uiStartTicks = ticks;
+    }
+};
+
+struct S00d386c0_MonitorStream
+{
+    char* m_kRayStart;
+    char* m_kRayEnd;
+    char* m_pRayCursor;
+    char* m_pCurrentCommand;
+
+    static S00d386c0_MonitorStream& GetMonitorStream() { return *(S00d386c0_MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))); }
+    bool memoryAvailable() const { return m_kRayEnd < m_pCurrentCommand; }
+    char* GetStreamEnd() { return m_kRayEnd; }
+    void setEnd(char* e) { m_kRayEnd = e; }
+};
+
+static __forceinline void S00d386c0_timer(const char* name)
+{
+    S00d386c0_MonitorStream& mStream = S00d386c0_MonitorStream::GetMonitorStream();
+    if (mStream.memoryAvailable())
+    {
+        S00d386c0_TimerCommand* h = (S00d386c0_TimerCommand*)mStream.GetStreamEnd();
+        h->m_kStringBuffer = name;
+        h->setTime();
+        mStream.setEnd((char*)(h + 1));
+    }
+}
+
+struct S00d386c0_SimdReal
+{
+    S00d386c0_Quad m_vValue;
+    __forceinline S00d386c0_SimdReal(float x) { m_vValue = _mm_load_ss(&x); }
+    __forceinline S00d386c0_Quad broadcast() const { return _mm_shuffle_ps(m_vValue, m_vValue, 0); }
+};
+
+struct S00d386c0_Transform;
+
+struct __declspec(align(16)) S00d386c0_Vector4
+{
+    S00d386c0_Quad m_vComponents;
+
+    __forceinline S00d386c0_Vector4() {}
+    __forceinline void operator=(const S00d386c0_Vector4& v) { m_vComponents = v.m_vComponents; }
+    float& operator()(int a) { return reinterpret_cast<float*>(&m_vComponents)[a]; }
+    const float& operator()(int a) const { return reinterpret_cast<const float*>(&m_vComponents)[a]; }
+
+    __forceinline void setAddMul4(const S00d386c0_Vector4& a, const S00d386c0_Vector4& b, const S00d386c0_SimdReal& r)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(r.broadcast(), b.m_vComponents));
+    }
+    __forceinline void _setTransformedPos(const S00d386c0_Transform& t, const S00d386c0_Vector4& b);
+};
+
+struct S00d386c0_Matrix3
+{
+    S00d386c0_Vector4 m_kColumn0;
+    S00d386c0_Vector4 m_kColumn1;
+    S00d386c0_Vector4 m_kColumn2;
+    __forceinline S00d386c0_Matrix3() {}
+    S00d386c0_Vector4& getColumn(int x) { return (&m_kColumn0)[x]; }
+    const S00d386c0_Vector4& getColumn(int x) const { return (&m_kColumn0)[x]; }
+};
+
+struct S00d386c0_Transform
+{
+    S00d386c0_Matrix3 m_rotation;
+    S00d386c0_Vector4 m_vTranslation;
+
+    __forceinline S00d386c0_Transform(const S00d386c0_Transform& t)
+    {
+        const S00d386c0_Vector4 r0 = t.m_rotation.getColumn(0);
+        const S00d386c0_Vector4 r1 = t.m_rotation.getColumn(1);
+        const S00d386c0_Vector4 r2 = t.m_rotation.getColumn(2);
+        const S00d386c0_Vector4 r3 = t.m_rotation.getColumn(3);
+        m_rotation.getColumn(0) = r0;
+        m_rotation.getColumn(1) = r1;
+        m_rotation.getColumn(2) = r2;
+        m_rotation.getColumn(3) = r3;
+    }
+    const S00d386c0_Matrix3& getRotation() const { return m_rotation; }
+    const S00d386c0_Vector4& getTranslation() const { return m_vTranslation; }
+};
+
+__forceinline void S00d386c0_Vector4::_setTransformedPos(const S00d386c0_Transform& t, const S00d386c0_Vector4& b)
+{
+    const S00d386c0_Matrix3& r = t.getRotation();
+    S00d386c0_Quad b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    S00d386c0_Quad r0 = _mm_mul_ps(r.getColumn(0).m_vComponents, b0);
+    S00d386c0_Quad b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    S00d386c0_Quad r1 = _mm_mul_ps(r.getColumn(1).m_vComponents, b1);
+    S00d386c0_Quad b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    S00d386c0_Quad r2 = _mm_mul_ps(r.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), _mm_add_ps(r2, t.getTranslation().m_vComponents));
+}
+
+static __forceinline void S00d386c0_transformPoints(const S00d386c0_Transform& t, const S00d386c0_Vector4* vectorsIn, int numVectors, S00d386c0_Vector4* vectorsOut)
+{
+    S00d386c0_Transform unaliased = t;
+    int i = numVectors - 1;
+    do
+    {
+        vectorsOut[i]._setTransformedPos(unaliased, vectorsIn[i]);
+    } while (--i >= 0);
+}
+
+template <typename T> struct S00d386c0_PadSpu
+{
+    T m_kStorage;
+    operator T() const { return m_kStorage; }
+};
+
+struct S00d386c0_Shape
+{
+    void* m_ppVirtualMethodTable;
+    int m_usMemSizeAndFlags;
+    int m_ulUserData;
+    int m_type;
+};
+
+struct S00d386c0_ConvexShape : S00d386c0_Shape
+{
+    float m_fSphereRadius;
+    float getRadius() const { return m_fSphereRadius; }
+};
+
+struct S00d386c0_TriangleShape : S00d386c0_ConvexShape
+{
+    int unk14;
+    int unk18;
+    int unk1c;
+    S00d386c0_Vector4 m_kVertexA;
+    S00d386c0_Vector4 m_kVertexB;
+    S00d386c0_Vector4 m_kVertexC;
+    const S00d386c0_Vector4* GetIndexedVertices() const { return &m_kVertexA; }
+};
+
+struct S00d386c0_MultiSphereShape : S00d386c0_Shape
+{
+    int m_iSphereCount;
+    int unk14;
+    int unk18;
+    int unk1c;
+    S00d386c0_Vector4 m_kSpheres[8];
+    const S00d386c0_Vector4* getSpheres() const { return m_kSpheres; }
+    int getNumSpheres() const { return m_iSphereCount; }
+};
+
+struct S00d386c0_CdBody
+{
+    const S00d386c0_Shape* m_pCollisionShape;
+    unsigned int m_uiCollisionShapeKey;
+    const void* m_pMotionState;
+    const S00d386c0_CdBody* m_parent;
+    const S00d386c0_Shape* getShape() const { return m_pCollisionShape; }
+    const S00d386c0_Transform& getTransform() const { return *static_cast<const S00d386c0_Transform*>(m_pMotionState); }
+};
+
+struct S00d386c0_CollisionInput
+{
+    void* m_pCollisionDispatcher;
+    int m_collisionQuality;
+    S00d386c0_PadSpu<float> m_fScalar;
+    float getTolerance() const { return m_fScalar; }
+};
+
+struct S00d386c0_ContactPoint
+{
+    S00d386c0_Vector4 m_vContactPosition;
+    S00d386c0_Vector4 m_vSeparatingNormal;
+
+    S00d386c0_Vector4& getPosition() { return m_vContactPosition; }
+    void setSeparatingNormal(const S00d386c0_Vector4& normal, float dist)
+    {
+        m_vSeparatingNormal = normal;
+        m_vSeparatingNormal(3) = dist;
+    }
+};
+
+struct S00d386c0_CdPoint
+{
+    S00d386c0_ContactPoint m_kPoint;
+    const S00d386c0_CdBody& m_pBodyA;
+    const S00d386c0_CdBody& m_pBodyB;
+    S00d386c0_CdPoint(const S00d386c0_CdBody& a, const S00d386c0_CdBody& b) : m_pBodyA(a), m_pBodyB(b) {}
+    S00d386c0_ContactPoint& getContact() { return m_kPoint; }
+};
+
+struct S00d386c0_CdPointCollector
+{
+    virtual ~S00d386c0_CdPointCollector();
+    virtual void AddCdPoint(const S00d386c0_CdPoint& event);
+};
+
+struct S00d386c0_TriangleCache
+{
+    float m_invEdgeLen0;
+    float m_invEdgeLen1;
+    float m_invEdgeLen2;
+    float m_fSecondCacheValue;
+};
+
+struct S00d386c0_TriangleResult
+{
+    S00d386c0_Vector4 m_kNearestPoint;
+    S00d386c0_PadSpu<float> distance;
+};
+
+// @fnv 0x00d386c0
+void __cdecl FUN_00d386c0(const S00d386c0_CdBody& bodyA, const S00d386c0_CdBody& bodyB,
+    const S00d386c0_CollisionInput& input, S00d386c0_CdPointCollector& collector)
+{
+    S00d386c0_timer(str_010ceed4);
+
+    const S00d386c0_MultiSphereShape* msA = static_cast<const S00d386c0_MultiSphereShape*>(bodyA.getShape());
+    const S00d386c0_TriangleShape* triB = static_cast<const S00d386c0_TriangleShape*>(bodyB.getShape());
+
+    const S00d386c0_Vector4* vertices = triB->GetIndexedVertices();
+    S00d386c0_Vector4 triVertices[3];
+    S00d386c0_transformPoints(bodyB.getTransform(), vertices, 3, triVertices);
+
+    const S00d386c0_Vector4* localSpheres = msA->getSpheres();
+    const int numSpheres = msA->getNumSpheres();
+    S00d386c0_Vector4 worldSpheres[8];
+    S00d386c0_transformPoints(bodyA.getTransform(), localSpheres, numSpheres, worldSpheres);
+
+    S00d386c0_CdPoint event(bodyA, bodyB);
+    S00d386c0_TriangleCache cache;
+    {
+        {
+            const S00d386c0_Vector4* verts = triB->GetIndexedVertices();
+            FUN_00cd7160(const_cast<S00d386c0_Vector4*>(verts), &cache);
+        }
+
+        for (int i = 0; i < numSpheres; i++)
+        {
+            const S00d386c0_Vector4& spherePos = worldSpheres[i];
+            float radiusSum = localSpheres[i](3) + triB->getRadius();
+
+            S00d386c0_TriangleResult cptr;
+            ::FUN_00cd7850((const ::S_00cd7850_Vec &)(spherePos), (const ::S_00cd7850_Vec *)(triVertices), (const ::S_00cd7850_Cache &)(cache), (::S_00cd7850_Result &)(cptr), (::S_00cd7850_Features *)(void *)(0));
+
+            float checkDistance = input.getTolerance() + radiusSum;
+            if (cptr.distance < checkDistance)
+            {
+                event.getContact().getPosition().setAddMul4(spherePos, cptr.m_kNearestPoint, triB->getRadius() - cptr.distance);
+                event.getContact().setSeparatingNormal(cptr.m_kNearestPoint, cptr.distance - radiusSum);
+                collector.AddCdPoint(event);
+            }
+        }
+    }
+
+    S00d386c0_timer(::DAT_010c41f8);
+}
+
+struct S_00d3dca0_Fns {
+    void* fn0;
+    void* fn4;
+    void* fn8;
+    void* fnC;
+    char b10;
+    char b11;
+};
+
+struct S_00d3dca0_Obj {
+};
+
+// @fnv 0x00d3dca0
+void FUN_00d3dca0(S_00d3dca0_Obj* o)
+{
+    S_00d3dca0_Fns f;
+    f.b10 = 0;
+    f.b11 = 0;
+    FUN_00d3dc10(&f);
+    reinterpret_cast<::FUN_00cfbcc0_cls *>((o))->AddSpawnEntry((::SpawnRequest *)(::S_00d3dca0_Fns *)(&f), 3, 1);
+    f.b10 = 0;
+    f.b11 = 0;
+    FUN_00d3dbe0(&f);
+    reinterpret_cast<::FUN_00cfbcc0_cls *>((o))->AddSpawnEntry((::SpawnRequest *)(::S_00d3dca0_Fns *)(&f), 1, 3);
+}
+
+void __cdecl FUN_00d36c30(void* p);
+
+void __cdecl FUN_00d3dbe0(void* p);
+
+void FUN_00d3dc10(void* p);
+
+void* __cdecl InitAndGetOffset(void* a, void* b, void* c);
+
+
+
+void* __cdecl FindSharedEntryValue(PairNode* a, PairNode* b);
+
+const char* __cdecl FUN_00d2b360(const char* path, PathHelper* str);
+
+struct Obj_d284f0 {
+    float unk00[52];
+    __m128 m_kFirstVector;   // +0xd0
+    __m128 m_kTrailingVector;   // +0xe0
+};
+
+// @fnv 0x00d284f0
+static __declspec(noinline) float FUN_00d284f0(float t, Obj_d284f0* obj)
+{
+    __m128 sqA = _mm_mul_ps(obj->m_kFirstVector, obj->m_kFirstVector);
+    float a;
+    _mm_store_ss(&a, _mm_add_ss(_mm_shuffle_ps(sqA, sqA, 0xAA), _mm_add_ss(_mm_shuffle_ps(sqA, sqA, 0x55), sqA)));
+    __m128 sqB = _mm_mul_ps(obj->m_kTrailingVector, obj->m_kTrailingVector);
+    float b;
+    _mm_store_ss(&b, _mm_add_ss(_mm_shuffle_ps(sqB, sqB, 0xAA), _mm_add_ss(_mm_shuffle_ps(sqB, sqB, 0x55), sqB)));
+    return t * t * b + a;
+}
+
+volatile int g_in_d284f0;
+
+volatile float g_t_d284f0;
+
+volatile float g_out_d284f0;
+
+void caller_d284f0()
+{
+    g_out_d284f0 = FUN_00d284f0(g_t_d284f0, (Obj_d284f0*)g_in_d284f0);
+}
+
+struct FourFloatVector { __m128 value; };
+
+struct Transform { FourFloatVector x,y,z,translation; };
+
+struct Contact { FourFloatVector position,normal; unsigned int id,unk24,unk28,unk2c; };
+
+struct Body { Shape* shape; void* unk04; Transform* transform; __forceinline Shape* GetShape() const {return shape;} __forceinline const Transform& GetTransform() const {return *transform;} };
+
+struct Header { unsigned short flags; unsigned char count; };
+
+struct Context;
+
+struct Threshold;
+
+struct ContactPair;
+
+struct Manager {
+ virtual void slot0(); virtual void slot1(); virtual void slot2();
+ virtual unsigned short Add(const Body&,const Body&,const Threshold&,Context&,void*,const ContactPair&);
+ virtual int Reserve(int);
+ virtual void Remove(unsigned short,void*);
+};
+
+struct ShapeBase {
+ virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();
+ virtual void slot4();virtual void slot5();virtual void slot6();virtual void slot7();
+ virtual void slot8();virtual void slot9();virtual void slot10();virtual void slot11();
+ virtual void slot12();virtual void slot13();virtual void slot14();virtual void slot15();
+ virtual int Process(unsigned short*,unsigned char&,FourFloatVector&,const Transform&,const Shape*,const Transform&,FourFloatVector&);
+ unsigned int unk04,unk08,unk0c; float radius; unsigned int unk14,unk18,unk1c;
+};
+
+struct Shape : ShapeBase {
+ FourFloatVector vertices[3];
+};
+
+struct Threshold {float unk00,unk04,distance;};
+
+struct Pair {Body* a;Body* b;void* unk08;Threshold* threshold;Manager* manager;};
+
+struct DeferredEntry {Contact* contact; Header* header;unsigned short* ids;};
+
+struct Deferred { DeferredEntry* next; Contact** references; DeferredEntry* begin;DeferredEntry* end;};
+
+struct Context {
+ Contact* next; void* owner;
+ unsigned int unk08,unk0c;
+ Contact storage[256];
+ unsigned int unk3010;
+ unsigned int unk3014;
+ unsigned int unk3018;
+ unsigned int unk301c;
+ unsigned int unk3020;
+ unsigned int unk3024;
+ unsigned int unk3028;
+ unsigned int unk302c;
+ unsigned int unk3030;
+ unsigned int unk3034;
+ unsigned int unk3038;
+ unsigned int unk303c;
+ unsigned int unk3040;
+ unsigned int unk3044;
+ unsigned int unk3048;
+ unsigned int unk304c;
+ unsigned int unk3050;
+ unsigned int unk3054;
+ unsigned int unk3058;
+ unsigned int unk305c;
+ unsigned int unk3060;
+ unsigned int unk3064;
+ unsigned int unk3068;
+ unsigned int unk306c;
+ unsigned int unk3070;
+ unsigned int unk3074;
+ unsigned int unk3078;
+ unsigned int unk307c;
+ Deferred* deferred;
+};
+
+struct ProfileSample { const char* name;unsigned int ticks,unk08;};
+
+struct ProfileState {ProfileSample* begin;ProfileSample* next;ProfileSample* unk08;ProfileSample* end;};
+
+extern char DAT_010ceeec[];
+
+struct ContactTag {unsigned char count,unk01,metadata,unk03;unsigned int unk04;};
+
+struct ContactPair {FourFloatVector position,normal;};
+
+__forceinline void TransformPoints(const Transform& matrix, const FourFloatVector* in, int n, FourFloatVector* out) {
+ FourFloatVector c0=matrix.x, c1=matrix.y, c2=matrix.z, c3=matrix.translation;
+ for(int i=n-1;i>=0;--i) {
+  __m128 v=in[i].value;
+  __m128 sy=_mm_shuffle_ps(v,v,0x55);
+  __m128 sx=_mm_shuffle_ps(v,v,0);
+  __m128 sz=_mm_shuffle_ps(v,v,0xaa);
+  out[i].value=_mm_add_ps(_mm_add_ps(_mm_mul_ps(sy,c1.value),_mm_mul_ps(sx,c0.value)),_mm_add_ps(_mm_mul_ps(sz,c2.value),c3.value));
+ }
+}
+__forceinline unsigned short AddContact(Manager* m,Body* a,Body* b,Threshold* in,Context* out,ContactPair* cp){return m->Add(*a,*b,*in,*out,0,*cp);}
+
+struct ContactWorkspace {FourFloatVector pointsA[2];FourFloatVector pointsB[3];ContactPair contacts[3];};
+
+// @fnv 0x00d39390
+unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourFloatVector* normal,Context* context) {
+ unsigned int count;
+ ProfileState* profile=(ProfileState*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+ ProfileSample* event=profile->next;
+ if(event<profile->end) {
+  event->name=DAT_010ceeec;
+  unsigned int ticks;
+  ticks = (unsigned int)__rdtsc();
+  event->ticks=ticks;
+  profile->next=event+1;
+ }
+ count=0;
+ Shape* shapeA=pair->a->GetShape();
+ Shape* shapeB=pair->b->GetShape();
+ FourFloatVector endPoints[2];
+ FourFloatVector triVertices[3];
+ ContactPair points[3];
+ TransformPoints(pair->a->GetTransform(),shapeA->vertices,2,endPoints);
+ 
+ TransformPoints(pair->b->GetTransform(),shapeB->vertices,3,triVertices);
+ 
+ ContactTag tags[3];
+ ::FUN_00cd6520((const ::ContactVector *)(endPoints),shapeA->radius,(const ::ContactVector *)(triVertices),shapeB->radius,(const float *)(void *)(ids+4),3.40282e+38f,1,(::ContactRecord *)(points),(::Feature *)(tags));
+ int closest=points[0].normal.value[3] < points[1].normal.value[3] ? 0 : 1;
+ int k=0; FourFloatVector* cp=&points[0].normal;
+ for(;k<3;++k, cp+=2) {
+   unsigned short id=ids[k];
+   if((*cp).value[3] < pair->threshold->distance) {
+     if(id==0xffff) {
+       if(context->deferred) {
+         if(pair->manager->Reserve(1)) goto store_id;
+         DeferredEntry* entry=context->deferred->next++;
+         entry->contact=context->next; entry->ids=ids; entry->header=header;
+       } else {
+         id=AddContact(pair->manager,pair->a,pair->b,pair->threshold,context,(ContactPair*)(cp-1));
+         if(id==0xffff) goto store_id;
+       }
+     }
+     unsigned char quality=tags[k].count;
+     if(quality>0) {
+       FourFloatVector scratch=(*cp);
+       int result=shapeB->Process((unsigned short*)&tags[k].metadata,quality,*(cp-1),pair->b->GetTransform(),shapeA,pair->a->GetTransform(),scratch);
+       if(!result) {
+         if(id!=0xffff) {
+           pair->manager->Remove(id,context->owner);
+           ids[k]=0xffff;
+         }
+         continue;
+       }
+       if(result==1) {
+         (*cp).value=_mm_shuffle_ps(scratch.value,_mm_unpackhi_ps(scratch.value,(*cp).value),0xc4);
+       }
+     }
+     Contact* contact=context->next++;
+     ++count;
+     contact->position.value=(*(cp-1)).value;
+     contact->normal.value=(*cp).value;
+     contact->id=id;
+     if(k==closest && context->deferred) {
+       Deferred* deferred=context->deferred;
+       *deferred->references=contact;
+       ++deferred->references;
+     }
+   } else if(id!=0xffff) {
+      pair->manager->Remove(id,context->owner);
+      id=0xffff;
+   }
+   store_id:
+   ids[k]=id;
+ }
+ normal->value=points[closest].normal.value;
+ header->count=(unsigned char)count;
+ profile=(ProfileState*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+ event=profile->next;
+ if(event<profile->end) {
+   event->name=DAT_010c41f8;
+   unsigned int ticks;
+   ticks = (unsigned int)__rdtsc();
+  event->ticks=ticks;
+   profile->next=event+1;
+ }
+ return ids+16;
+}
+
 #include "generated/data/staging/blk_00d20000_o2.inc"
+#include "generated/data/staging/blk_00d20000_o2_rtm_variant.inc"
+#include "generated/data/staging/blk_00d20000_o2_gs_nogs_variant.inc"

@@ -2,6 +2,10 @@
 // src/havok/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00d21000.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -10,8 +14,29 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c8000.h"
 #include "havok/hkpLimitedHingeConstraintData.h"
+#include "havok/hkpConstraintInstance.h"
 
-struct FUN_00cb8a90_class
+// hkpLimitedHingeConstraintData atom members (Havok 7.1 x86 layout; the generated atoms header is padding only).
+struct LimitedHingeFields
+{
+    char pad00[0xa2];
+    unsigned char m_angMotorIsEnabled;      // +0xa2, m_atoms.m_angMotor (+0xa0)
+    char padA3[0xd];
+    void* m_angMotorMotor;                  // +0xb0
+    char padB4[0x2];
+    unsigned char m_angFrictionIsEnabled;   // +0xb6, m_atoms.m_angFriction (+0xb4)
+    char padB7[0x1f];
+    unsigned char m_ballSocketBodiesToNotify;  // +0xd6, m_atoms.m_ballSocket (+0xd4)
+    char padD7[0x1];
+    float m_ballSocketBreachImpulse;        // +0xd8
+};
+// hkConstraintInternal::m_runtime.
+struct LimitedHingeInternalFields
+{
+    char pad00[0x1c];
+    float* m_runtime;  // +0x1c
+};
+struct FUN_00cb8a90_class : LimitedHingeFields
 {
     void SetConstraintFlag(int cl);
 };
@@ -19,20 +44,19 @@ struct FUN_00cb8a90_class
 // @fnv 0x00cb8a90
 void FUN_00cb8a90_class::SetConstraintFlag(int aiBitIndex)
 {
-    ((char*)this)[0xd6] = (char)(1 << aiBitIndex);
+    m_ballSocketBodiesToNotify = (unsigned char)(1 << aiBitIndex);
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void* self, int a, int b);
 
-struct FUN_00cb8af0_cls
+struct FUN_00cb8af0_cls : public hkpLimitedHingeConstraintData
 {
-    void* FUN_00cb8af0(int arg);
+    void FUN_00cb8af0(::GenericConstraintAtomScheme* arg) const;
 };
 
 // @fnv 0x00cb8af0
-void* FUN_00cb8af0_cls::FUN_00cb8af0(int arg)
+void FUN_00cb8af0_cls::FUN_00cb8af0(::GenericConstraintAtomScheme* arg) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0xcc, arg);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0xcc, arg);
 }
 
 struct FUN_00cb8b10Class
@@ -47,20 +71,20 @@ void FUN_00cb8b10Class::FUN_00cb8b10(int* apUnused, int* a2)
     a2[0] = 80;
 }
 
-struct FUN_00cb8a70_class
+struct FUN_00cb8a70_class : LimitedHingeFields
 {
     void FUN_00cb8a70(float v);
 };
 // @fnv 0x00cb8a70
 void FUN_00cb8a70_class::FUN_00cb8a70(float v)
 {
-    *(float*)((char*)this + 0xd8) = v;
+    m_ballSocketBreachImpulse = v;
 }
 
 struct RefObj
 {
 };
-struct FUN_00cb8ac0_class
+struct FUN_00cb8ac0_class : LimitedHingeFields
 {
     void SetReferencedObject(RefObj* obj);
 };
@@ -69,10 +93,10 @@ void FUN_00cb8ac0_class::SetReferencedObject(RefObj* pObject)
 {
     if (pObject)
         reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
-    RefObj* pOldObject = *(RefObj**)((char*)this + 0xb0);
+    RefObj* pOldObject = static_cast<RefObj*>(m_angMotorMotor);
     if (pOldObject)
         reinterpret_cast<::hkReferencedObjectC905 *>((pOldObject))->FUN_00c905b0();
-    *(RefObj**)((char*)this + 0xb0) = pObject;
+    m_angMotorMotor = pObject;
 }
 
 struct DDCC60World
@@ -80,7 +104,7 @@ struct DDCC60World
 };
 struct FUN_00cb8b40_class
 {
-    int m_000;
+    const void* m_000;
     int m_004;
     int m_008;
     int m_00c;
@@ -124,7 +148,7 @@ struct FUN_00cb8b40_class
     int m_0a4;
     int m_0a8;
     int m_0ac;
-    int m_0b0;
+    DDCC60World* m_0b0;
     int m_0b4;
     int m_0b8;
     int m_0bc;
@@ -133,25 +157,26 @@ struct FUN_00cb8b40_class
 // @fnv 0x00cb8b40
 void FUN_00cb8b40_class::DestroyWorldReference()
 {
-    DDCC60World* p = (DDCC60World*)this->m_0b0;
-    *((int*)this) = (int)&DAT_010c89e4;
+    DDCC60World* p = this->m_0b0;
+    m_000 = &DAT_010c89e4;
     if (p)
         reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
-    *((int*)this) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_000 = &::DAT_0102e388;
 }
 
-// Stores b at self+0xa2 and its negation at self+0xb6; if a is non-null, zeroes four floats at a->0x30->0x1c.
+// Enables the angular motor and disables the angular friction (or the reverse) and, if the constraint instance a has a runtime, zeroes its first four floats.
 // @fnv 0x00cb8fe0
-void FUN_00cb8fe0(char* self, int, int a, bool b)
+void FUN_00cb8fe0(char* self, void* a, bool b)
 {
-    self[0xa2] = b;
-    self[0xb6] = !b;
+    LimitedHingeFields* data = reinterpret_cast<LimitedHingeFields*>(self);
+    data->m_angMotorIsEnabled = b;
+    data->m_angFrictionIsEnabled = !b;
     if (a)
     {
-        int* p = *(int**)((char*)a + 0x30);
+        LimitedHingeInternalFields* p = static_cast<LimitedHingeInternalFields*>(static_cast<hkpConstraintInstance*>(a)->m_pConstraintInternal);
         if (p)
         {
-            float* f = *(float**)((char*)p + 0x1c);
+            float* f = p->m_runtime;
             if (f)
             {
                 f[0] = 0.0f;
@@ -239,21 +264,7 @@ hkBoolCB90 hkObjCB90::FUN_00cb9020() const
     return m_kPointA.IsOrthonormal(1e-3f) && m_kPointB.IsOrthonormal(1e-3f) && (!m_hasC || m_cValid);
 }
 
-struct FnvCpu_FUN_00cb9220_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cb9220_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cb9220_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00cb9220_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00cb9220_CpuObject
 {
     unsigned int unk00;
@@ -267,8 +278,8 @@ FnvCpu_FUN_00cb9220_CpuObject* FnvCpu_FUN_00cb9220_CpuObject::Destroy(unsigned i
     reinterpret_cast<::FUN_00cb8b40_class *>(this)->DestroyWorldReference();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cb9220_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
-        pAllocatorHolder->allocator->Invoke(this, size);
+        hkMemoryRouter* pAllocatorHolder = &hkMemoryRouter::getInstance();
+        pAllocatorHolder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -281,10 +292,10 @@ struct FUN_00cb9ce0_cls
 {
     virtual void v0();
     virtual void* v1(int a);
-    virtual void v2(int a);
-    virtual int v3(int a, int b);
+    virtual void v2(void* a);
+    virtual void* v3(void* a, int b);
     virtual void v4(int a, int b);
-    int m_004;
+    void* m_004;
     int m_008;
     int m_00c;
     void FUN_00cb9ce0(int a, int b);
@@ -301,27 +312,20 @@ void FUN_00cb9ce0_cls::FUN_00cb9ce0(int a, int b)
         }
         else
         {
-            int r = reinterpret_cast<int>(v1(a));
-            ::FUN_00cb9930((void *)(reinterpret_cast<FUN_00b5aea0_self*>(this)), (int)(reinterpret_cast<int*>(r)),
-                                                                     (unsigned int *)(int *)(reinterpret_cast<int*>(m_004)), (unsigned int *)(b), {});
+            void* r = v1(a);
+            ::FUN_00cb9930((void *)(reinterpret_cast<FUN_00b5aea0_self*>(this)), 0, (unsigned int *)(r), (unsigned int *)(m_004), (unsigned int)(b));
             v2(m_004);
             m_004 = r;
         }
     }
     else
     {
-        int r = reinterpret_cast<int>(v1(a));
+        void* r = v1(a);
         m_00c = a;
         m_004 = r;
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct hkVector4D4FE
 {
@@ -333,7 +337,7 @@ struct hkVector4D4FE
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 
@@ -462,19 +466,6 @@ FUN_00d4fe80::FUN_00d4fe80() throw()
 }
 
 #include <math.h>
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 union hkVector4q
 {
@@ -589,30 +580,20 @@ void hkpLimitedHingeConstraintDataEx::FUN_00cb8b60(const hkTransform& bodyATrans
 
     hkpLimitedHingeTransforms& t = *reinterpret_cast<hkpLimitedHingeTransforms*>(&m_kBridgeAtoms);
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(axisN.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle1.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((intptr_t)&(bodyATransform.m_rotation), (intptr_t)&(perpToAxle2.m_vec));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(axisN.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle1.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((intptr_t)&(bodyBTransform.m_rotation), (intptr_t)&(perpToAxle2.m_vec));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 
 extern "C"
 {
     void _ReadWriteBarrier(void);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
 
 struct hkVector4_Havok

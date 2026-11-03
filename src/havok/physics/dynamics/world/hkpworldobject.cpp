@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/hkpworldobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworldobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/symbols_00c90000.h"
@@ -15,23 +17,10 @@ int FUN_00cd2930(int a1)
     return 1;
 }
 
-class hkMemoryAllocatorCD2B;
 
-struct hkMemoryRouterCD2B
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCD2B* m_pStreamAllocator;
-    hkMemoryAllocatorCD2B& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterCD2B {
-extern "C" hkMemoryRouterCD2B& __cdecl FUN_00c85750() throw();
+
 }
 
 
@@ -60,7 +49,7 @@ template <class T> class hkArrayCD2B
     }
     T& AllocatePair()
     {
-        hkMemoryAllocatorCD2B& kAlloc = hkRouterCD2B::FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
@@ -101,7 +90,7 @@ struct hkStreamWriter
     virtual void v08();
     virtual void WriteField(const void* field, const void* data, int flags);
     virtual void v10();
-    virtual void WriteArray(int kind, const void* field, const void* data, int bytes, void* allocation);
+    virtual void WriteArray(int kind, const void* field, const void* data, int bytes, int allocatedBytes);
 
     int unk04;
     int unk08;
@@ -112,12 +101,12 @@ struct hkStreamWriter
 
 struct FNVWorldObject : hkpWorldObject
 {
-    void WriteToStream(hkStreamWriter* writer, int unused);
+    void WriteToStream(hkStreamWriter* writer, const void* unused);
 };
 
 // Writes collision shape, collision entries, properties, and bounding volume child shape data to the stream writer.
 // @fnv 0x00cd2b00
-void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
+void FNVWorldObject::WriteToStream(hkStreamWriter* writer, const void* unused)
 {
     writer->WriteField(&(*reinterpret_cast<char *>((void *)&::g_011d26d0_arg1)), m_kCollidable.m_pCollisionShape, 0);
 
@@ -126,16 +115,16 @@ void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
     if ((entryCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* entryData = collisionEntries.m_data;
-        void* copy = ((void *)(::fnv_00d06f80::FUN_00d06f80((const char *)(entryData), (entryCap & 0x3fffffff) * 8)));
-        writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, copy);
+        int allocatedBytes = ::fnv_00d06f80::FUN_00d06f80((const char *)(entryData), (entryCap & 0x3fffffff) * 8);
+        writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, allocatedBytes);
     }
 
     int propCap = m_kProperties.m_iCapacityState;
     if ((propCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* propData = m_kProperties.m_data;
-        void* copy = ((void *)(::fnv_00d06f80::FUN_00d06f80((const char *)(propData), (propCap & 0x3fffffff) * 16)));
-        writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, copy);
+        int allocatedBytes = ::fnv_00d06f80::FUN_00d06f80((const char *)(propData), (propCap & 0x3fffffff) * 16);
+        writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, allocatedBytes);
     }
 
     hkpCollidableBoundingVolumeData& bounds = m_kCollidable.m_kBoundingVolumeData;

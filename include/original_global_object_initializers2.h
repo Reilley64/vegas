@@ -6,26 +6,27 @@
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01018000.h"
 #include "fnv/symbols_01078000.h"
-class GlobalObject2_0040c150
+#include "SettingT.h"
+class GlobalObject2_0040c150 : public SettingT<GameSettingCollection>
 {
   public:
-    GlobalObject2_0040c150(const char*, int);
-    ~GlobalObject2_0040c150();
-    char storage[4];
+    GlobalObject2_0040c150(const char* key, int value) : SettingT(key, value)
+    {
+    }
 };
-class GlobalObject2_0045cfe0
+class GlobalObject2_0045cfe0 : public SettingT<INISettingCollection>
 {
   public:
-    GlobalObject2_0045cfe0(const char*, const char*);
-    ~GlobalObject2_0045cfe0();
-    char storage[4];
+    GlobalObject2_0045cfe0(const char* key, const char* value) : SettingT(key, value)
+    {
+    }
 };
-class GlobalObject2_004a4a40
+class GlobalObject2_004a4a40 : public SettingT<SettingCollection_011f35a4>
 {
   public:
-    GlobalObject2_004a4a40(const char*, const char*);
-    ~GlobalObject2_004a4a40();
-    char storage[4];
+    GlobalObject2_004a4a40(const char* key, const char* value) : SettingT(key, value)
+    {
+    }
 };
 class GlobalObject2_0096a2d0
 {

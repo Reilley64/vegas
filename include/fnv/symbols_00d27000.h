@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class hkpConstraintInstance;
 class hkpModifierConstraintAtom;
 namespace fnv_00d27ac0 { struct Constraint; }
@@ -14,7 +16,7 @@ struct hkpConstraintOwner;
 struct hkpModifierConstraintAtom;
 
 // 0x00d275a0
-void ReplaceEntry(int, int, int, unsigned short);
+void ReplaceEntry(intptr_t, intptr_t, intptr_t, unsigned short);
 // 0x00d27690
 void FUN_00d27690(::D27690_Instance *, ::D27690_Owner *, unsigned int);
 // 0x00d277c0

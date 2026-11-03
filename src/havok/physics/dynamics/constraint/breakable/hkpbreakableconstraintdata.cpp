@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -14,15 +17,24 @@
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpBreakableConstraintData.h"
 
-struct FUN_00d4de80_class
+struct FUN_00d4de80_class : hkpBreakableConstraintData
 {
     void FUN_00d4de80(int, void* out);
 };
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct BreakableRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
+// Bytes of the breakable data's own runtime in front of the child's runtime.
+static const int kBreakableRuntimeBytes = 0x34;
 // @fnv 0x00d4de80
 void FUN_00d4de80_class::FUN_00d4de80(int, void* out)
 {
-    ((int*)out)[1] = *(unsigned short*)((char*)this + 0x1e);
-    ((int*)out)[0] = *(unsigned short*)((char*)this + 0x1c) + 0x34;
+    BreakableRuntimeInfo* info = static_cast<BreakableRuntimeInfo*>(out);
+    info->m_numSolverResults = m_usNumSolverResults;
+    info->m_sizeOfExternalRuntime = m_usRuntimeOffset + kBreakableRuntimeBytes;
 }
 
 struct GenericConstraintAtomScheme
@@ -32,20 +44,18 @@ struct GenericConstraintAtomScheme
     int m_usSizeOfAllAtoms;  // +0x14
 };
 
-struct FUN_00d4de50_class
+struct FUN_00d4de50_class : hkpBreakableConstraintData
 {
-    char pad[0x18];
-    void* m_pHavokConstraint;  // +0x18
     void PopulateInfo(GenericConstraintAtomScheme* info);
 };
 
 // @fnv 0x00d4de50
 void FUN_00d4de50_class::PopulateInfo(GenericConstraintAtomScheme* info)
 {
-    ((void(*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pHavokConstraint)[0x3c / 4]))(
-        m_pHavokConstraint, info);
-    info->m_kBridgeAtoms = (char*)this + 0xc;
-    info->m_usSizeOfAllAtoms = 0xc;
+    ((void(*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pConstraintData)[0x3c / 4]))(
+        m_pConstraintData, info);
+    info->m_kBridgeAtoms = &m_kBridgeAtoms;
+    info->m_usSizeOfAllAtoms = int(sizeof(hkpBridgeAtoms));
 }
 
 struct FUN_00d4dea0_object
@@ -112,21 +122,7 @@ int __cdecl FUN_00d4dec0()
     return 0xc;
 }
 
-struct FnvCpu_FUN_00cc48b0_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cc48b0_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cc48b0_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00cc48b0_CpuObject
 {
     unsigned int unk00;
@@ -140,8 +136,8 @@ FnvCpu_FUN_00cc48b0_CpuObject* FnvCpu_FUN_00cc48b0_CpuObject::Destroy(unsigned i
     reinterpret_cast<::FUN_00d4e000_class *>(this)->FUN_00d4e000();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -445,12 +441,12 @@ __forceinline void store3(const hkVector4& v, hkReal* p)
 
 struct S00d4e0f0_Object : hkpBreakableConstraintData
 {
-    void FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out);
+    void FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, void* out);
 };
 
 // If the runtime flag is clear, saves body velocities and calls FUN_00d72190 or FUN_00d6f460; else calls FUN_00d4de30 and optionally removes the constraint.
 // @fnv 0x00d4e0f0
-void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
+void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, void* out)
 {
     RuntimeD4E0* runtime = reinterpret_cast<RuntimeD4E0*>(in.m_pByteBuffer + m_usRuntimeOffset);
 
@@ -470,16 +466,16 @@ void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
         {
             hkpBoolResultD4E0 flag;
             flag.m_cBooleanValue = 1;
-            ::FUN_00d72190((::Node *)(info.m_kBridgeAtoms), (::Buffer *)&(in), (*(int *)&(const ::hkpBoolResultD4E0 &)(flag)), (int *)(out));
+            ::FUN_00d72190((::Node *)(info.m_kBridgeAtoms), (::Buffer *)&(in), (*(int *)&(const ::hkpBoolResultD4E0 &)(flag)), static_cast<int *>(out));
         }
         else
         {
-            ::FUN_00d6f460((const ::Atom *)(info.m_kBridgeAtoms), info.m_usSizeOfAllAtoms, (const ::QueryIn *)&(in), (::QueryOut *)(out));
+            ::FUN_00d6f460((const ::Atom *)(info.m_kBridgeAtoms), info.m_usSizeOfAllAtoms, (const ::QueryIn *)&(in), static_cast<::QueryOut *>(out));
         }
     }
     else
     {
-        ::FUN_00d4de30((int)&(in), out);
+        ::FUN_00d4de30((intptr_t)&(in), (intptr_t)out);
 
         if (m_bRemoveWhenBroken)
         {
@@ -490,23 +486,7 @@ void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_load_ss(float const*);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_set_ps1(float);
-}
 
 
 struct hkVector4q
@@ -885,7 +865,7 @@ void hkpBreakableConstraintDataD4E0::FUN_00d4e020(BrkInstance* apInstance, hkBoo
         {
             FUN_00d85fa0(&event);
         }
-        ::FUN_00d00b40((::ListenerOwnerQ *)(world), (unsigned long)(&event));
+        ::FUN_00d00b40((::ListenerOwnerQ *)(world), &event);
     }
     else
     {

@@ -8,6 +8,6 @@ namespace ObbQueryDetail {
 struct ObbMachine {
 public:
     // 0x00dd1bf0
-    void FUN_00dd1bf0(const ::ObbQueryDetail::ObbCodeView *, const ::ObbQueryDetail::ObbTransform *, const ::ObbQueryDetail::ObbVector *, float, unsigned int);
+    void FUN_00dd1bf0(const ::ObbQueryDetail::ObbCodeView *, const ::ObbQueryDetail::ObbTransform *, const ::ObbQueryDetail::ObbVector *, float, void *);
 };
 }

@@ -449,9 +449,9 @@ struct Flt
     operator unsigned int();
 };
 // @fnv 0x0051cee0
-unsigned int __cdecl GetFloatAsUInt()
+void* __cdecl GetFloatAsUInt()
 {
-    return ((Flt*)((char*)::FUN_00664840(1) + 0xc))->operator unsigned int();
+    return *(void**)((char*)::FUN_00664840(1) + 0xc);
 }
 }  // namespace fnv_0051cee0
 

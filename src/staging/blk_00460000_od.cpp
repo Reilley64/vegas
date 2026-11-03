@@ -1874,7 +1874,7 @@ int FUN_00462dc0_cls::InvokeAndAccumulate(std::intptr_t a1, int a2, int a3, int 
 // FUN_00464f30 : an identity function.  The module is an /Od build, so even
 // this keeps the full frame: push ebp / mov ebp,esp / mov eax,[ebp+8] / pop ebp / ret.
 // @fnv 0x00464f30
-intptr_t __cdecl FUN_00464f30(intptr_t a)
+std::intptr_t __cdecl FUN_00464f30(std::intptr_t a)
 {
     return a;
 }

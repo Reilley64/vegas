@@ -5652,7 +5652,7 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
         else if (m_iMapDisplayMode == 0x21 && !reinterpret_cast<::FUN_00a01230_shell *>((m_pTiles[11]))->IsTraitNonZero(0xfaf) &&
                  fnv::crt::stricmp(reinterpret_cast<::FUN_00a011f0_shell *>((apTarget))->FUN_00a011f0(::FUN_00a00940("_LocationName", -1)), "Companion"))
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d48e8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d48e8))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(0), 2.0f, false);
         }
         break;
     case 2:

@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <cstddef>
 #include "fnv/symbols_00e5c000.h"
+#include "fnv/decl/Registry_e5c5.h"
 #include <new>
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -347,7 +348,7 @@ struct S00e5cb40_Grp : hkxAttributeGroup
 // @fnv 0x00e5cb40
 int S00e5cb40_Grp::FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuaternion* out)
 {
-    AttributeObj* attr = ((::AttributeObj *)(::fnv_00e5c670::FUN_00e5c670((void *)this)));
+    AttributeObj* attr = reinterpret_cast<::AttributeObj *>(reinterpret_cast<::Registry_e5c5 *>(this)->FUN_00e5c670(name));
     if (attr)
     {
         *(__m128*)out = *(__m128*)attr->m_quaternion;

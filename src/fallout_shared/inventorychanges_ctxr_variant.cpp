@@ -7670,8 +7670,8 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
                                 char message4[260];
                                 ::FUN_00406d00(message4, 260, (*reinterpret_cast<const char (*)[]>(&::fnv_004965d0::DAT_0101dcc4)), DAT_010207c0,
                                              ::FUN_0048e730((::TESForm *)(form), (int)((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))));
-                                ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(formattedItem))))), 0, (int)(::g_011cba4c_arg1),
-                                                      ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form, false, false))), DAT_010162c0,
+                                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(formattedItem))))), 0, (const char *)(::g_011cba4c_arg1),
+                                                      ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form, false, false))), DAT_010162c0,
                                                       0);
                             }
                             reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(source), (int)(form), false, reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770(), (::Transfer4c37Form4 *)(extra), 0, (::Transfer4c37C37Form *)(destination), 0, 0, true,

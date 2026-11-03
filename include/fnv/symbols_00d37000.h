@@ -17,13 +17,13 @@ void FUN_00d37010(const ::RayBody *, const ::RayBody *, void *, ::RayCollector *
 // 0x00d37280
 void FUN_00d37280(const ::hkpCdBody &, const ::hkpCdBody &, const ::CollisionAgentContext &, ::hkpCdPointCollector &);
 // 0x00d374f0
-void FUN_00d374f0(const ::S_00d374f0_CdBody &, const ::S_00d374f0_CdBody &, int, ::S_00d374f0_Collector *);
+void FUN_00d374f0(const ::S_00d374f0_CdBody &, const ::S_00d374f0_CdBody &, const void *, ::S_00d374f0_Collector *);
 // 0x00d37740
-namespace fnv_00d37740 { void FUN_00d37740(int, int, int, int); }
+namespace fnv_00d37740 { void FUN_00d37740(void *, void *, void *, void *); }
 // 0x00d37780
-namespace fnv_00d37780 { void *FUN_00d37780_impl(int, int, int, int); }
+namespace fnv_00d37780 { void *FUN_00d37780_impl(void *, void *, void *, void *); }
 // 0x00d377d0
-void FUN_00d377d0(int);
+void FUN_00d377d0(void *);
 // 0x00d37860
 void FUN_00d37860(void *, void *, void *, int);
 // 0x00d37da0

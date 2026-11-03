@@ -34,7 +34,7 @@ void FUN_00d015a0(::D015A0World *, void *, void *);
 // 0x00d01650
 void FUN_00d01650(::D01650World *, void *, void *);
 // 0x00d01700
-void FUN_00d01700(::hkpWorld *, void *, void *);
+void FUN_00d01700(::hkpWorld *, void *, int);
 // 0x00d017b0
 void NotifyEntityRemoved(::D017B0World *, void *);
 // 0x00d01850

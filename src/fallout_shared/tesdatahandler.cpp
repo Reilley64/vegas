@@ -2379,27 +2379,27 @@ unsigned int FormArray::AddElement(void** element)
 struct MapItem
 {
     MapItem* m_pkNext;
-    unsigned int m_key;
+    std::uintptr_t m_key;
     void* m_val;
 };
 struct MapNewItemHelper;
 struct TMapStandIn
 {
     virtual void Reserved0();
-    virtual unsigned int KeyToHashIndex(unsigned int key);
-    virtual bool IsKeysEqual(unsigned int a, unsigned int b);
-    virtual void SetValue(MapItem* item, unsigned int key, void* val);
+    virtual unsigned int KeyToHashIndex(std::uintptr_t key);
+    virtual bool IsKeysEqual(std::uintptr_t a, std::uintptr_t b);
+    virtual void SetValue(MapItem* item, std::uintptr_t key, void* val);
     virtual void ClearValue(MapItem* item);
     unsigned int m_uiHashSize;
     MapItem** m_ppkHashTable;
     unsigned int m_uiCount;
     bool m_bFlag;
     MapItem* NewItem();
-    void InsertOrUpdate(unsigned int key, void* val);
+    void InsertOrUpdate(std::uintptr_t key, void* val);
 };
 // Looks up the key in the hash bucket, updates the matching item's value, or inserts a new item at the bucket head and increments the count.
 // @fnv 0x00470200
-void TMapStandIn::InsertOrUpdate(unsigned int key, void* val)
+void TMapStandIn::InsertOrUpdate(std::uintptr_t key, void* val)
 {
     unsigned int uiIndex = KeyToHashIndex(key);
     MapItem* pkItem = m_ppkHashTable[uiIndex];

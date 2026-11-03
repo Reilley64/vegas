@@ -16,6 +16,7 @@
 #include "fnv/symbols_0101f000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 struct CB1BC0Allocator;
 
 typedef unsigned __int64 CB1BC0Key;
@@ -352,12 +353,12 @@ struct S00c70de0_Guard
     int m_oldContext;
     __forceinline S00c70de0_Guard(int newContext)
     {
-        m_oldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = newContext;
+        m_oldContext = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = newContext;
     }
     __forceinline ~S00c70de0_Guard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_oldContext;
+        g_tlsBlock.memoryContext = m_oldContext;
     }
 };
 

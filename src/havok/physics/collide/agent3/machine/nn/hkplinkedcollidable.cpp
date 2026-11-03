@@ -2,7 +2,10 @@
 // src/havok/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d04000.h"
 #include "fnv/symbols_00d08000.h"
@@ -39,21 +42,9 @@ void FUN_00d08210_Collidable::UpdateCollisionIndices()
 }
 
 
-class hkMemoryAllocatorD082;
 
-struct hkMemoryRouterD082
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorD082* m_pStreamAllocator;
-
-    hkMemoryAllocatorD082& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterD082 {
-extern "C" hkMemoryRouterD082& __cdecl FUN_00c85750() throw();
 }
 
 
@@ -96,9 +87,9 @@ template <class T> class hkArrayD082
         return m_data;
     }
 
-    __forceinline void _copyFromArray(hkMemoryRouterD082& kRouter, const hkArrayD082& a)
+    __forceinline void _copyFromArray(hkMemoryRouter& kRouter, const hkArrayD082& a)
     {
-        hkMemoryAllocatorD082& kAlloc = kRouter.heap();
+        hkMemoryAllocator& kAlloc = kRouter.heap();
         const int iSize = m_iElementCount;
         const int iSrcSize = a.m_iElementCount;
         int iCopiedCount = (iSrcSize > iSize) ? iSize : iSrcSize;
@@ -114,7 +105,7 @@ template <class T> class hkArrayD082
     }
     __forceinline hkArrayD082& operator=(const hkArrayD082& a)
     {
-        _copyFromArray(hkRouterD082::FUN_00c85750(), a);
+        _copyFromArray(hkMemoryRouter::getInstance(), a);
         return *this;
     }
 };

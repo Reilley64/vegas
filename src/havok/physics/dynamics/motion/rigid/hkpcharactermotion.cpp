@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpcharactermotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "havok/hkpCharacterMotion.h"
 
 struct hkVector4D1E
@@ -52,12 +53,12 @@ void hkpCharacterMotionD1E::SetInertiaAndMassInv(const hkMatrix3D1E& inertia)
     m_kInertiaAndMassInv.z = fInvMaxDiag;
 }
 
-struct FUN_00d1edd0_stub
+struct FUN_00d1edd0_stub : hkpCharacterMotionD1E
 {
     void SetMinOfThree(const float* src);
 };
 
-// Stores the minimum of src[0], src[5], and src[10] into the three floats at offsets 0xc0, 0xc4, and 0xc8 of this.
+// Stores the minimum of src[0], src[5], and src[10] into the x, y and z of m_kInertiaAndMassInv.
 // @fnv 0x00d1edd0
 void FUN_00d1edd0_stub::SetMinOfThree(const float* src)
 {
@@ -66,18 +67,12 @@ void FUN_00d1edd0_stub::SetMinOfThree(const float* src)
     float c = a < b ? a : b;
     float fThird = src[10];
     float fMinAll = c < fThird ? c : fThird;
-    *(float*)((char*)this + 0xc0) = fMinAll;
-    *(float*)((char*)this + 0xc4) = fMinAll;
-    *(float*)((char*)this + 0xc8) = fMinAll;
+    m_kInertiaAndMassInv.x = fMinAll;
+    m_kInertiaAndMassInv.y = fMinAll;
+    m_kInertiaAndMassInv.z = fMinAll;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D1EE
 {
@@ -157,13 +152,7 @@ void hkpSphereMotionD1EE::FUN_00d1ee40(hkMatrix3D1EE& kInertiaInv) const
 }
 
 namespace fnv_00d1ee80 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D1E8x
 {
@@ -244,14 +233,7 @@ void hkpSphereMotionD1E8x::FUN_00d1ee80(hkMatrix3D1E8x& kInertiaInv) const
 }  // namespace fnv_00d1ee80
 
 namespace fnv_00d1ef50 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct hkVector4D1EF
 {
@@ -334,16 +316,16 @@ void FUN_00d1ecc0_Class::FUN_00d1ecc0(FUN_00d1ecc0_Matrix& inertia) const
     inertia.m_Values[10] = value;
 }
 
-struct FUN_00d1ed00_t
+struct FUN_00d1ed00_t : hkpCharacterMotionD1E
 {
     void GetInverseDiagonal(float* out);
 };
 
-// Writes to out three rows of four floats with 1/(float at offset 0xC0) at indices 0, 5 and 10 and zeros elsewhere.
+// Writes to out three rows of four floats with 1/m_kInertiaAndMassInv.x at indices 0, 5 and 10 and zeros elsewhere.
 // @fnv 0x00d1ed00
 void FUN_00d1ed00_t::GetInverseDiagonal(float* out)
 {
-    float inv = 1.0f / ((float*)this)[48];
+    float inv = 1.0f / m_kInertiaAndMassInv.x;
     __m128 z = _mm_setzero_ps();
     *(__m128*)out = z;
     *(__m128*)(out + 4) = z;
@@ -353,10 +335,6 @@ void FUN_00d1ed00_t::GetInverseDiagonal(float* out)
     out[10] = inv;
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 
 struct hkSimdRealX
 {
@@ -435,14 +413,6 @@ void hkpSphereMotionX::FUN_00d1eec0(const hkVector4X& imp, const hkVector4X& p)
     m_kAngularVelocity.add4(deltaVelWs);
 }
 
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 union Vector
 {
     __m128 quad;
@@ -456,8 +426,6 @@ union Scalar
     __m128 quad;
     float real;
 };
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_set_ps(float, float, float, float);
 struct Simd
 {
     __m128 quad;
@@ -520,4 +488,111 @@ void Motion::FUN_00d1ef80(float afTimestep, const Vec& force)
     Vec weighted = impulse;
     weighted.mulSimd(w);
     velocity.add(weighted);
+}
+
+// Moved from hkpcharactermotion_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+
+
+struct S00d1f050_Obj : hkpCharacterMotion
+{
+    void FUN_00d1f050(const hkVector4* pos, const hkVector4* normal, float* out_vel, float* out_inv_mass) const;
+};
+
+// @fnv 0x00d1f050
+void S00d1f050_Obj::FUN_00d1f050(const hkVector4* pos, const hkVector4* normal, float* out_vel,
+                                 float* out_inv_mass) const
+{
+    __m128 com = _mm_load_ps((const float*)&m_kMotionState.m_kSweptTransform.m_vCenterOfMass1);
+    __m128 arm = _mm_sub_ps(_mm_load_ps((const float*)pos), com);
+    __m128 n = _mm_load_ps((const float*)normal);
+    __m128 lin = _mm_mul_ps(_mm_load_ps((const float*)&m_kTranslationalVelocity), n);
+    __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(n, n, 0xc9), _mm_shuffle_ps(arm, arm, 0xd2)),
+                              _mm_mul_ps(_mm_shuffle_ps(n, n, 0xd2), _mm_shuffle_ps(arm, arm, 0xc9)));
+    __m128 ang = _mm_mul_ps(_mm_load_ps((const float*)&m_kAngularVelocity), cross);
+    __m128 a1 = _mm_add_ss(_mm_shuffle_ps(ang, ang, 0x55), ang);
+    __m128 a2 = _mm_add_ss(_mm_shuffle_ps(ang, ang, 0xaa), a1);
+    __m128 l1 = _mm_add_ss(_mm_shuffle_ps(lin, lin, 0x55), lin);
+    __m128 l2 = _mm_add_ss(_mm_shuffle_ps(lin, lin, 0xaa), l1);
+    __m128 sum = _mm_add_ss(a2, l2);
+    float fv = _mm_cvtss_f32(sum);
+    *out_vel = fv;
+    *out_inv_mass = m_kInertiaAndMassInv.w;
+}
+
+// Moved from hkpcharactermotion_rtm_variant.cpp (VEGAS-15).
+
+
+class FUN_00d1efd0_cls
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20(hkVector4& out, int arg3);
+    void FUN_00d1efd0(float s, const hkVector4& v, int arg3);
+};
+
+// @fnv 0x00d1efd0
+void FUN_00d1efd0_cls::FUN_00d1efd0(float s, const hkVector4& v, int arg3)
+{
+    __declspec(align(16)) hkVector4 t;
+    __m128 x = _mm_load_ss(&s);
+    __m128 k = _mm_shuffle_ps(x, x, 0);
+    __m128 r = _mm_mul_ps(k, _mm_load_ps(&v.x));
+    _mm_store_ps(&t.x, r);
+    this->v20(t, arg3);
+}
+
+class hkStatisticsCollector;
+class CharacterTorqueMotion : public hkpCharacterMotion
+{
+  public:
+    virtual const hkClass* GetClassType() const;
+    virtual void CalcContentStatistics(hkStatisticsCollector*, const hkClass*) const;
+    virtual void SetBodyMass(float);
+    virtual void SetMassInv(float);
+    virtual void GetInverseScaleMatrix(hkMatrix3&) const;
+    virtual void GetInertiaLocal(hkMatrix3&) const;
+    virtual void SetInertiaLocal(const hkMatrix3&);
+    virtual void SetInertiaInvLocal(const hkMatrix3&);
+    virtual void GetInertiaInvLocal(hkMatrix3&) const;
+    virtual void GetLocalInverseInertia(hkMatrix3&) const;
+    virtual void SetCenterOfMassInLocal(const hkVector4&);
+    virtual void SetWorldPosition(const hkVector4&);
+    virtual void SetBodyOrientation(const hkQuaternion&);
+    virtual void SetPositionAndRotation(const hkVector4&, const hkQuaternion&);
+    virtual void SetGeometryTransform(const hkTransform&);
+    virtual void SetTranslationalVelocity(const hkVector4&);
+    virtual void SetRotationalVelocity(const hkVector4&);
+    virtual void GetProjectedPointVelocity(const hkVector4&, const hkVector4&, float&, float&) const;
+    virtual void SetCollisionShape(const hkVector4&);
+    virtual void ApplyImpulseAtPoint(const hkVector4&, const hkVector4&);
+    virtual void ApplyAngularImpulseToBodies(const hkVector4&);
+    void FUN_00d1f010(float step, const hkVector4& torque);
+};
+// @fnv 0x00d1f010
+void CharacterTorqueMotion::FUN_00d1f010(float step, const hkVector4& torque)
+{
+    __declspec(align(16)) hkVector4 angularStep;
+    __m128 scalar = _mm_load_ss(&step);
+    __m128 scale = _mm_shuffle_ps(scalar, scalar, 0);
+    _mm_store_ps(&angularStep.x, _mm_mul_ps(scale, _mm_load_ps(&torque.x)));
+    ApplyAngularImpulseToBodies(angularStep);
 }

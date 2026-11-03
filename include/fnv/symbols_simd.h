@@ -3,11 +3,11 @@
 #include <xmmintrin.h>
 
 class FnvHolder;
-namespace fnv_00c66320 { union __m128; }
 namespace fnv_00cb94a0 { struct MyHost; }
 namespace fnv_00dd62e0 { struct VectorArray; }
-namespace fnv_00dd62e0 { union __m128; }
-namespace fnv_00e2ab00 { union __m128; }
+namespace fnv_00dd62e0 { using ::__m128; }
+namespace fnv_00e2ab00 { using ::__m128; }
+namespace fnv_00c66320 { using ::__m128; }
 struct AvgSrc;
 struct BodyPair;
 struct ClosestPointResult;
@@ -27,6 +27,7 @@ struct Obj;
 struct ObjF;
 struct Obj_t;
 struct Out;
+struct SweepOut;
 struct Owner;
 struct Pair409;
 struct PivotPair;
@@ -38,7 +39,7 @@ struct Vector4f;
 struct VertexRecord;
 
 // 0x00c66320
-namespace fnv_00c66320 { void FUN_00c66320(::fnv_00c66320::__m128 *, void *, const ::fnv_00c66320::__m128 *, const ::fnv_00c66320::__m128 *); }
+namespace fnv_00c66320 { void FUN_00c66320(::__m128 *, void *, const ::__m128 *, const ::__m128 *); }
 // 0x00c6ccc0
 extern "C" void SubtractScalarFloat(::__m128 *, const ::__m128 *, const ::__m128 *);
 // 0x00c6cce0
@@ -66,7 +67,7 @@ void FUN_00cf1f80(const ::__m128 &, const ::__m128 &, ::Obj_t *);
 // 0x00d1bd00
 void FUN_00d1bd00(::CompressedTree *, const ::__m128 *, const ::__m128 *, ::LeafCollector *, float);
 // 0x00d21f10
-void SetGlobalVectors(int, int, const ::__m128 *, int, const ::__m128 *);
+void SetGlobalVectors(const void *, const void *, const ::__m128 *, void *, const ::__m128 *);
 // 0x00d231b0
 int FUN_00d231b0(const ::__m128 *, const ::__m128 *, const ::__m128 *, const ::__m128 *, ::ClosestPointResult *);
 // 0x00d39150
@@ -86,11 +87,11 @@ unsigned int PackFloatsToUInt(const ::__m128 *);
 // 0x00d98630
 ::D986Result FUN_00d98630(const ::__m128 *, const ::__m128 *, int);
 // 0x00db4ca0
-float FUN_00db4ca0(void *, const float *, const ::__m128 *, float, float, float, float, int, ::Out *);
+float FUN_00db4ca0(void *, const float *, const ::__m128 *, float, float, float, float, int, ::SweepOut *);
 // 0x00dced90
 namespace fnv_00dced90 { void FUN_00dced90(const ::__m128 *, const ::__m128 *, char **); }
 // 0x00dcedd0
-void FUN_00dcedd0(const ::__m128 *, void *, ::FUN_00dcedd0_Record **);
+void FUN_00dcedd0(const ::__m128 *, unsigned int, ::FUN_00dcedd0_Record **);
 // 0x00dcee10
 void WriteVector(::__m128 *, ::__m128 *, ::__m128 **);
 // 0x00dd62e0
@@ -98,7 +99,7 @@ namespace fnv_00dd62e0 { void FUN_00dd62e0(::fnv_00dd62e0::VectorArray *, int, i
 // 0x00ddd6f0
 int FUN_00ddd6f0(const ::__m128 *, const ::__m128 *, int, ::__m128 *, int *);
 // 0x00df0870
-void FUN_00df0870(int, ::ObjF *__restrict, int, ::__m128 *, int *);
+void FUN_00df0870(int, ::ObjF *__restrict, unsigned char *, ::__m128 *, void **);
 // 0x00df32d0
 void FUN_00df32d0(::MetaEntry *, ::Vector4f *, ::__m128 *, unsigned int, unsigned int);
 // 0x00df3330
@@ -112,7 +113,7 @@ void FUN_00e29510(::__m128 *, const ::__m128 *, const ::__m128 *);
 // 0x00e29a10
 void FUN_00e29a10(::E29SrcList *, const ::__m128 *, const ::__m128 *, char *, ::E29Out1 *, int *, ::E29Out2 *, int *);
 // 0x00e2ab00
-namespace fnv_00e2ab00 { ::fnv_00e2ab00::__m128 *FUN_00e2ab00(::fnv_00e2ab00::__m128 *, ::fnv_00e2ab00::__m128 *, ::fnv_00e2ab00::__m128 *); }
+namespace fnv_00e2ab00 { ::__m128 *FUN_00e2ab00(::__m128 *, ::__m128 *, ::__m128 *); }
 // 0x00e2b510
 void FUN_00e2b510(::Owner *, ::RayBatch *, int, ::__m128 &);
 // 0x00e31180

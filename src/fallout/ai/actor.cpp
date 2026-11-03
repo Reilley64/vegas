@@ -13032,8 +13032,8 @@ void FUN_008ba2f0(ActorValueOwner* apActor, int aiWhich, float afDelta)
             bool bwas = ((FUN_008ba2f0_vt2*)pPlayer)->v358();
             bnow = ((bool)(::fnv_009526b0::FUN_009526b0())) ? false : (reinterpret_cast<::FUN_008a0c20_shell *>((((FUN_008ba2f0_pl*)pPlayer)))->FUN_008a0c20() < afDelta);
             if (bwas && !bnow)
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_008ba2f0::DownloadableContentManager *>(&::g_011d4618))))->IsDLCAvailable()))), 0,
-                                       (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0),
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_008ba2f0::DownloadableContentManager *>(&::g_011d4618))))->IsDLCAvailable()))), 0,
+                                       (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (const char *)(0),
                                        ::DAT_010162c0, 0);
         }
     }
@@ -57908,7 +57908,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
                     FormC* t2c = p0;
                     if (reinterpret_cast<::TESBipedModelForm *>(&(t2c->m_70))->IsPowerArmor())
                     {
-                        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d3540))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)((const char*)0), 2.0f, false);
+                        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d3540))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)((const char*)0), 2.0f, false);
                         return;
                     }
                 }
@@ -57923,7 +57923,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
             {
                 if (this == (ThisC*)DAT_011dea3c)
                 {
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d42ac))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)((const char*)0), 2.0f, false);
+                    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d42ac))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)((const char*)0), 2.0f, false);
                 }
                 return;
             }
@@ -57986,7 +57986,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
         }
         else if (this == (ThisC*)DAT_011dea3c)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d213c))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)((const char*)0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d213c))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)((const char*)0), 2.0f, false);
             aabb6 = 0;
         }
         if (this == (ThisC*)DAT_011dea3c)
@@ -58010,7 +58010,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
         {
             if (this->vcall360())
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d213c))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)((const char*)0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d213c))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)((const char*)0), 2.0f, false);
             }
             aabb6 = 0;
             break;
@@ -58069,7 +58069,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
         {
             if (this == (ThisC*)DAT_011dea3c)
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d201c))))->GetMenuTitle()))), 0, (int)((const char*)0), (int)((const char*)0), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d201c))))->GetMenuTitle()))), 0, (const char *)((const char*)0), (const char *)((const char*)0), 2.0f, false);
                 return;
             }
         }
@@ -58103,7 +58103,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
         }
         else if (this == (ThisC*)DAT_011dea3c)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d39fc))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)((const char*)0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d39fc))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)((const char*)0), 2.0f, false);
         }
         return;
         break;
@@ -58186,7 +58186,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
     {
         if (this == (ThisC*)DAT_011dea3c)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d42ac))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)((const char*)0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0088c830::GlobalObject_0040c150 *>(&::g_011d42ac))))->GetMenuTitle()))), 0, (const char *)(::g_011cba18_arg1), (const char *)((const char*)0), 2.0f, false);
         }
     }
     if (this == (ThisC*)DAT_011dea3c)
@@ -58784,7 +58784,7 @@ bool FUN_0088d7d0_shell::FUN_0088d7d0(TESBoundObject* apObject, int aiCount, Ext
     {
         if (this == g_thePlayer)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&(g_011d3864))->IsDLCAvailable()))), 0, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&(g_011d3864))->IsDLCAvailable()))), 0, (const char *)(0), (const char *)(0), 2.0f, false);
         }
         return bResult;
     }
@@ -100948,9 +100948,9 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
         if (c >= 25.0 && reinterpret_cast<::FUN_004bcdb0_shell *>((item))->FUN_004bcdb0(true) < 25.0)
         {
             if (e && v360())
-                ::DispatchMessageToSink((int)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d45c4))))->GetMenuTitle()))), 2, (int)(0), (int)(str_010849c0), 4.0f, false);
+                ::DispatchMessageToSink((const char *)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d45c4))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(str_010849c0), 4.0f, false);
             else if (k && v360())
-                ::DispatchMessageToSink((int)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d3234))))->GetMenuTitle()))), 2, (int)(0), (int)(str_010849c0), 4.0f, false);
+                ::DispatchMessageToSink((const char *)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d3234))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(str_010849c0), 4.0f, false);
         }
         if (k)
             v3c4();
@@ -101001,7 +101001,7 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
             if (this == (W20Actor*)g_thePlayer)
             {
                 reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((int)(((::fnv_00891360::W20Node *)(reinterpret_cast<::FUN_00950bb0_shell *>((((W20Player*)g_thePlayer)))->FUN_00950bb0(true)))), 0.0f, false);
-                ::DispatchMessageToSink((int)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d291c))))->GetMenuTitle()))), 2, (int)(0), (int)(str_010849c0), 4.0f, false);
+                ::DispatchMessageToSink((const char *)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d291c))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(str_010849c0), 4.0f, false);
             }
             reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((int)(((::fnv_00891360::W20Node *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))), 0.0f, false);
             if (v360() && e && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
@@ -101377,7 +101377,7 @@ int FNVObject::FUN_008929a0(FNVObject* subject, FNVObject* target, int action, i
     bool targetUsable2 = target ? reinterpret_cast<::FUN_00418ab0_shell *>((target))->FUN_00418ab0(0) : false;
     if (this == DAT_011dea3c && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != -1 && targetUsable2)
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_008929a0::FNVObject *>(&::g_011d3264))))->IsDLCAvailable()))), 0, (int)(::g_011cba18_arg1), (int)(0), ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_008929a0::FNVObject *>(&::g_011d3264))))->IsDLCAvailable()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, 0);
         return (int)result2;
     }
     if (((::fnv_008929a0::FNVObject *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
@@ -110410,7 +110410,7 @@ void FUN_00887a80_Class::FUN_00887a80(unsigned char flag)
     FUN_00cb8fe0_Class* receiver = ((::FUN_00cb8fe0_Class *)(reinterpret_cast<::FUN_00887a10_cls *>(this)->FUN_00887a10()));
     if (receiver)
     {
-        ::FUN_00cb8fe0((char *)(receiver), (int)(((void *)(::FUN_004ae750((void *)this)))), (*(int *)&(const ::FUN_00622570 &)(flag)), {});
+        ::FUN_00cb8fe0((char *)(receiver), (void *)(::FUN_004ae750((void *)this)), flag != 0);
     }
 }
 
@@ -123131,7 +123131,7 @@ void ActorStub::FUN_008c3530()
         if ((void*)this == g_thePlayer)
         {
             reinterpret_cast<::OwnerS *>((((PlayerStub*)g_thePlayer)))->PlaySound(::GetSix(::FUN_004065e0(&GetQueuedItem()->list)));
-            ::DispatchMessageToSink((int)(GetQueuedItem()->GetMessageText(effect)), 0, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(GetQueuedItem()->GetMessageText(effect)), 0, (const char *)(0), (const char *)(0), 2.0f, false);
         }
     }
     else
@@ -126833,7 +126833,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
         char message[500];
         ::FUN_00406d00(message, 500, ::DAT_01012058, formatName, reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520());
         BSStringTChar sound(::DAT_01011584);
-        ::DispatchMessageToSink((int)(message), 1, (int)(::g_011cba00_arg1), (int)(sound), ::DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(message), 1, (const char *)(::g_011cba00_arg1), (const char *)(sound), ::DAT_010162c0, false);
     }
     bool alive = !vf22c(0);
     if (damage > 0.0 || limbDamage > 0.0 || hit->partDamage != 0.0)
@@ -146040,7 +146040,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 ;
                 ::std::sprintf(buf, &(*reinterpret_cast<char *>((void *)&::DAT_01012058)), ((void *)(reinterpret_cast<::FUN_0055d520_shell *>((((KillSupport::This55*)this)))->FUN_0055d520())),
                                           ((void *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::KillSupport::Glob1e24 *>(&::g_011d1e24))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(buf), 0, (int)(&(*reinterpret_cast<char *>((void *)&::DAT_01049638))), 0, ::DAT_010162c0, 0);
+                ::DispatchMessageToSink((const char *)(buf), 0, (const char *)(&(*reinterpret_cast<char *>((void *)&::DAT_01049638))), 0, ::DAT_010162c0, 0);
             }
             goto cleanup;
         }

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct C {
 public:
@@ -9,7 +10,7 @@ public:
     // 0x00c85d20
     void FUN_00c85d20(char);
     // 0x00ca9520
-    void NotifyAll(int, char);
+    void NotifyAll(intptr_t, char);
     // 0x00d4ff60
     C();
 };

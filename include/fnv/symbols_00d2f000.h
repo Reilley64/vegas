@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class D2F2C0Dispatcher;
 class D2FA00Agent;
@@ -15,7 +16,7 @@ struct SlotRef;
 struct ValueSource;
 
 // 0x00d2f0d0
-void FUN_00d2f0d0(::MoppCastBody *, ::MoppCastBody *, ::MoppCastInput *, int, int);
+void FUN_00d2f0d0(::MoppCastBody *, ::MoppCastBody *, ::MoppCastInput *, intptr_t, intptr_t);
 // 0x00d2f240
 namespace fnv_00d2f240 { ::fnv_00d2f240::D2F240Agent *CreateAgentForBodyPair(const ::fnv_00d2f240::D2F240CdBody &, const ::fnv_00d2f240::D2F240CdBody &, const void *, void *); }
 // 0x00d2f2c0
@@ -25,8 +26,8 @@ void FUN_00d2f690(::SlotRef *, ::SlotRef *, ::SlotParam *, ::SlotBox *);
 // 0x00d2f710
 void ApplyTransformToTarget(::Holder *, ::Holder *, ::ValueSource *, void *);
 // 0x00d2f9d0
-void FUN_00d2f9d0(int, int, int, int);
+void FUN_00d2f9d0(void *, void *, void *, void *);
 // 0x00d2fa00
 ::D2FA00Agent *FUN_00d2fa00(const void *, const void *, const void *, void *);
 // 0x00d2fa40
-namespace fnv_00d2fa40 { ::fnv_00d2fa40::SpawnedObject *FUN_00d2fa40(::fnv_00d2fa40::FloatOwner *, ::fnv_00d2fa40::FloatOwner *, int, int); }
+namespace fnv_00d2fa40 { ::fnv_00d2fa40::SpawnedObject *FUN_00d2fa40(::fnv_00d2fa40::FloatOwner *, ::fnv_00d2fa40::FloatOwner *, int, void *); }

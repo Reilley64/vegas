@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d21ce0_cls.h"
@@ -14,27 +17,43 @@
 #include "havok/hkpPointToPathConstraintData.h"
 
 // @fnv 0x00dee720
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct PointToPathRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
 void FUN_00dee720(int aiUnused, void* apData)
 {
-    *(int*)((char*)apData + 4) = 7;
-    *(int*)apData = 0x3c;
+    PointToPathRuntimeInfo* info = static_cast<PointToPathRuntimeInfo*>(apData);
+    info->m_numSolverResults = 7;
+    info->m_sizeOfExternalRuntime = 0x3c;
 }
 
-struct FUN_00dee7f0_class
+class hkpConstraintAtom;
+// hkpConstraintData::ConstraintInfo: solver sizes, then the atoms and their total size.
+struct GenericConstraintAtomScheme
 {
-    void FUN_00dee7f0(void* a);
+    int maxSizeOfSchema, sizeOfSchemas, numSolverResults, numSolverElemTemps;
+    const hkpConstraintAtom* atoms;
+    int sizeOfAllAtoms;
 };
 
-// Fills the struct at a with a pointer to this+0xc and constant fields 0, 0x180, 7, 8, 0xc.
-// @fnv 0x00dee7f0
-void FUN_00dee7f0_class::FUN_00dee7f0(void* a)
+struct FUN_00dee7f0_class : hkpPointToPathConstraintData
 {
-    *(int*)((char*)a + 0x10) = (int)((char*)this + 0xc);
-    *(int*)((char*)a + 0x14) = 0xc;
-    *(int*)((char*)a + 0x0) = 0;
-    *(int*)((char*)a + 0x4) = 0x180;
-    *(int*)((char*)a + 0x8) = 7;
-    *(int*)((char*)a + 0xc) = 8;
+    void FUN_00dee7f0(GenericConstraintAtomScheme* info) const;
+};
+
+// Fills the constraint info with the bridge atoms and the fixed solver sizes 0, 0x180, 7, 8.
+// @fnv 0x00dee7f0
+void FUN_00dee7f0_class::FUN_00dee7f0(GenericConstraintAtomScheme* info) const
+{
+    info->atoms = reinterpret_cast<const hkpConstraintAtom*>(&m_kBridgeAtoms);
+    info->sizeOfAllAtoms = 0xc;
+    info->maxSizeOfSchema = 0;
+    info->sizeOfSchemas = 0x180;
+    info->numSolverResults = 7;
+    info->numSolverElemTemps = 8;
 }
 
 extern int DAT_010da004;
@@ -70,7 +89,7 @@ int __cdecl FUN_00dee740()
 
 struct FUN_00c7f640_Class
 {
-    void FUN_00c7f640(unsigned int arg, void* position);
+    void FUN_00c7f640(const void* arg, void* position);
 };
 class FUN_00dee820_Class
 {
@@ -100,10 +119,10 @@ class FUN_00dee820_Class
     unsigned int unk58;
     unsigned int unk5c;
     unsigned int m_60;
-    void FUN_00dee820(unsigned int a, FUN_00c7f640_Class* owner);
+    void FUN_00dee820(const void* a, FUN_00c7f640_Class* owner);
 };
 // @fnv 0x00dee820
-void FUN_00dee820_Class::FUN_00dee820(unsigned int uiValue, FUN_00c7f640_Class* owner)
+void FUN_00dee820_Class::FUN_00dee820(const void* uiValue, FUN_00c7f640_Class* owner)
 {
     owner->FUN_00c7f640(uiValue, &m_60);
 }
@@ -140,13 +159,7 @@ hkBoolDEE8 hkObjectDEE8::FUN_00dee840() const
     return m_18 != 0 && m_20;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4DEE7
 {
@@ -275,14 +288,6 @@ FUN_00dee750::FUN_00dee750() throw() : m_path(0), m_fFriction(0.0f), m_cOrientat
 }
 
 namespace fnv_00dee870 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct Vec_00dee870
 {
@@ -391,13 +396,7 @@ void Obj_00dee870::FUN_00dee870(void* a1, void* a2, void* a3, void* a4, void* a5
 }  // namespace fnv_00dee870
 
 namespace fnv_00deea00 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 namespace hkDEEA {
 struct hkVector4
@@ -535,24 +534,6 @@ void hkpPointToPathConstraintData::FUN_00deea00(const hkVector4& kPivotA, const 
 extern "C" void _WriteBarrier(void);
 extern "C" void _ReadBarrier(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_load_ps(const float*);
-}
 
 
 struct TransformQ;
@@ -797,7 +778,7 @@ struct PointToPathData : public hkpPointToPathConstraintData
 // @fnv 0x00deea90
 void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
 {
-    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(in), (::fnv_00d6f2b0::EventRecord **)&(out), (volatile unsigned int)(in.m_pByteBuffer), 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(in), (::fnv_00d6f2b0::EventRecord **)&(out), in.m_pByteBuffer, 8);
 
     TransformQ pathToWorld;
     pathToWorld.FUN_00cb2240(*in.m_kBodyBLocalFrame, m_kLocalTransforms[1]);
@@ -890,23 +871,6 @@ void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
     }
 }
 
-struct PathDeleteAllocator
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void ReleaseBlock(void* object, int size);
-};
-
-struct PathDeleteRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    PathDeleteAllocator* heap;
-};
-
-PathDeleteRouter* __cdecl FUN_00c85750();
 
 struct PathDeleteData : hkpPointToPathConstraintData
 {
@@ -920,8 +884,8 @@ void* PathDeleteData::FUN_00deef10(unsigned char flags)
     reinterpret_cast<::FUN_00dee7d0_class *>(this)->Destroy();
     if (flags & 1)
     {
-        PathDeleteRouter* router = FUN_00c85750();
-        router->heap->ReleaseBlock(this, m_usMemSizeAndFlags);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        router->m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
 }

@@ -2,21 +2,11 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintchaindrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintchaindrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
+#include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
 #include "fnv/decl/FUN_00de4530Owner.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
 struct __declspec(align(16)) hkVector4
 {
@@ -185,7 +175,7 @@ struct Listener
     virtual void v18();
     virtual void v1c();
     virtual void v20();
-    virtual void Fire(Vec* a, Vec* b, unsigned c, int d, int e);
+    virtual void Fire(Vec* a, Vec* b, unsigned c, hkUlong d, int e);
 };
 struct Obj
 {
@@ -204,14 +194,14 @@ struct Obj
     hkRotation m_kFirstRotation;
     hkRotation m_kSecondRotation;
     Sub mC0;
-    void FireChainConstraints(ChainInstance* c, Listener* l, int a, int b);
+    void FireChainConstraints(ChainInstance* c, Listener* l, hkUlong a, int b);
 };
 
 // @fnv 0x00de6390
-void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, int aiArg1, int aiArg2)
+void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, hkUlong aiArg1, int aiArg2)
 {
     ChainData* data = apChain->m_data;
-    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(apListener));
+    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((apListener));
     int iPairCount = apChain->m_iActorEntryCount - 1;
     for (int iPair = 0; iPair < iPairCount; iPair++)
     {

@@ -7146,7 +7146,7 @@ void SaveScreenshot(const char* pcPath)
         {
             char acMessage[260];
             ::std::sprintf(acMessage, "ScreenShot: File '%s' created.", acPathCur);
-            ::DispatchMessageToSink((std::intptr_t)(acMessage), 0, (std::intptr_t)(0), (std::intptr_t)(0), 2.0f, 0);
+            ::DispatchMessageToSink((const char *)(acMessage), 0, (const char *)(0), (const char *)(0), 2.0f, 0);
             *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) + 1;
             reinterpret_cast<::FUN_008798e0_shell *>((FUN_004de490()))->OpenAtPosition();
         }

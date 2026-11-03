@@ -2,4 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+float DAT_011b5be0 = 2.6874115f;
+float DAT_011b5be4 = 0.37210527f;
 float DAT_011b5be8 = -1.0f;

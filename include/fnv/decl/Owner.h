@@ -77,9 +77,9 @@ public:
     // 0x00d86b40
     int GetTagValue();
     // 0x00d87c20
-    void FUN_00d87c20(int, bool);
+    void FUN_00d87c20(const void *, bool);
     // 0x00d97070
-    void FUN_00d97070(void *);
+    void FUN_00d97070(int);
     // 0x00d9bef0
     unsigned short *AppendElement(unsigned short);
     // 0x00d9e000
@@ -87,7 +87,7 @@ public:
     // 0x00db1990
     void FUN_00db1990(::ContactList *, ::Input *, float);
     // 0x00def3d0
-    volatile unsigned char *CheckPairAgainstThreshold(volatile unsigned char *, int, int);
+    volatile unsigned char *CheckPairAgainstThreshold(volatile unsigned char *, const void *, const void *);
     // 0x00e7b190
     ::Entry *FUN_00e7b190(unsigned int, unsigned int, unsigned int, unsigned int *);
 };

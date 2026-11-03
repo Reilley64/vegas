@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstring>
+#include <d3d9.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -90,7 +91,7 @@ struct Interface_00ebfd20
 
 struct Struct_00ebfd20
 {
-    int unk00;
+    void* unk00;
     int unk04;
     int unk08;
     int unk0C;
@@ -107,6 +108,7 @@ struct Struct_00ebfd20
     int unk38;
     int unk3C;
     Interface_00ebfd20** unk40;
+    int unk44;
 };
 
 struct Standin_011f6238
@@ -249,12 +251,12 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
     unsigned int row = height > edgePitch ? height : edgePitch;  // Maximum required height.
     // Total number of full and partial tiles.
     unsigned int i = ((width + tileSize - 1) / tileSize) * ((height + tileSize - 1) / tileSize);
-    pitch = (Struct_00ebfd20*)reinterpret_cast<::MemoryManagerStandIn *>((((GridAllocator*)&(*reinterpret_cast<::Standin_011f6238 *>(&::g_memoryManager)))))->FUN_00aa3e40(0x48 + i * 4);
+    pitch = (Struct_00ebfd20*)reinterpret_cast<::MemoryManagerStandIn *>((((GridAllocator*)&(*reinterpret_cast<::Standin_011f6238 *>(&::g_memoryManager)))))->FUN_00aa3e40(sizeof(Struct_00ebfd20) + i * sizeof(Interface_00ebfd20*));
     if (!pitch)
         return 0;
-    std::memset(pitch, 0, 0x48);
-    pitch->unk40 = (Interface_00ebfd20**)((char*)pitch + 0x48);
-    pitch->unk00 = (int)device;
+    std::memset(pitch, 0, sizeof(Struct_00ebfd20));
+    pitch->unk40 = (Interface_00ebfd20**)(pitch + 1);
+    pitch->unk00 = device;
     pitch->unk20 = i;
     pitch->unk1C = edgeWidth;
     pitch->unk0C = width;
@@ -362,11 +364,6 @@ void __cdecl ApplyLastEffect(EffectStackEBF* pkStack)
     pkStack->m_ppkStack[pkStack->m_iArrayLength - 1]->Apply(0);
 }
 
-struct D3DLOCKED_RECT
-{
-    int Pitch;
-    void* pBits;
-};
 
 struct IDirect3DTexture9_stub
 {
@@ -469,7 +466,6 @@ int __cdecl LockNextTile(TiledTexture* apTiledTexture, void** ppBits, int* pPitc
 }
 
 namespace fnv_00ebff30 {
-#include <d3d9.h>
 
 struct TileGrid
 {

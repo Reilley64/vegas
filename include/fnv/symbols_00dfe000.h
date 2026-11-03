@@ -36,7 +36,7 @@ void FUN_00dfe320(::FUN_00dfe320_vt *);
 // 0x00dfe340
 void FUN_00dfe340(void *);
 // 0x00dfe350
-unsigned int FUN_00dfe350();
+void* FUN_00dfe350();
 // 0x00dfe410
 void FUN_00dfe410(::FUN_00cb0a70_obj *, int);
 // 0x00dfe430
@@ -72,7 +72,7 @@ void FUN_00dfe6e0(::FUN_00dfe6e0_Class *);
 // 0x00dfe700
 void FUN_00dfe700(int *);
 // 0x00dfe710
-int FUN_00dfe710();
+void* FUN_00dfe710();
 // 0x00dfe970
 void FUN_00dfe970(::FUN_00dfe970_class *);
 // 0x00dfe990
@@ -146,7 +146,7 @@ void FUN_00dfef00(::FUN_00dfef00_vt *);
 // 0x00dfef20
 namespace fnv_00dfef20 { void ResetVtables(::fnv_00dfef20::HavokObject *); }
 // 0x00dfef40
-int FUN_00dfef40();
+void* FUN_00dfef40();
 // 0x00dfef50
 void FUN_00dfef50(int *, int);
 // 0x00dfef80

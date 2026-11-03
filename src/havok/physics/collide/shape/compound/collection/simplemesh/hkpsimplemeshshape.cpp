@@ -2,12 +2,17 @@
 // src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/symbols_00d06000.h"
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_011b2000.h"
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpSimpleMeshShape.h"
+#include "havok/hkpSimpleMeshShapeTriangle.h"
 
 struct FUN_00dfd080Object
 {
@@ -40,7 +45,7 @@ struct FUN_00dfd080Router
 
 FUN_00dfd080Router* _D1A0E0GetMemoryRouter();
 
-struct FUN_00e3c240_s
+struct FUN_00e3c240_s : public ::hkpSimpleMeshShape
 {
     void FUN_00e3c240(int ai, unsigned short aw);
 };
@@ -48,8 +53,7 @@ struct FUN_00e3c240_s
 // @fnv 0x00e3c240
 void FUN_00e3c240_s::FUN_00e3c240(int aiIndex, unsigned short auValue)
 {
-    int* p = *(int**)((char*)this + 0x24);
-    *(unsigned short*)(p + aiIndex * 4 + 3) = auValue;
+    m_uiTriangleCount.m_data[aiIndex].m_kWeldingInfo = auValue;
 }
 
 struct CpuObject
@@ -79,28 +83,8 @@ void CpuObject::FUN_00e3c260(unsigned char arg0)
     value = arg0;
 }
 
-class hkMemoryAllocatorDFCF
-{
-  public:
-    virtual ~hkMemoryAllocatorDFCF() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterDFCF
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorDFCF* m_pStreamAllocator;
 
-    hkMemoryAllocatorDFCF& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-extern "C" hkMemoryRouterDFCF& __cdecl FUN_00c85750() throw();
 
 template <class T> class hkArrayDFCF
 {
@@ -111,10 +95,10 @@ template <class T> class hkArrayDFCF
 
     ~hkArrayDFCF() throw()
     {
-        hkMemoryAllocatorDFCF& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -192,13 +176,7 @@ FUN_00dfd080Object* FUN_00dfd080Object::FUN_00dfd080(unsigned char flags)
 FUN_00dfcfd0::~FUN_00dfcfd0()
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 
 struct hkVector4E3C4

@@ -5,5 +5,5 @@ struct ShapeArg;
 struct CollectionProcessAgent {
 public:
     // 0x00d437a0
-    void FUN_00d437a0(::ShapeArg *, unsigned int, unsigned int, unsigned int);
+    void FUN_00d437a0(::ShapeArg *, void *, void *, void *);
 };

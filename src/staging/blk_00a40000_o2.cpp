@@ -765,8 +765,8 @@ ControllerAllocation* FUN_00a411c0(unsigned int auiUnused1, void* target, unsign
 
 struct FUN_00a413d0_pair
 {
-    unsigned int m_key0;
-    unsigned int m_key1;
+    std::uintptr_t m_key0;
+    std::uintptr_t m_key1;
 };
 
 struct FUN_00a413d0_cls
@@ -775,11 +775,11 @@ struct FUN_00a413d0_cls
     FUN_00a413d0_pair** m_ppItems;
     unsigned short m_unk08;
     unsigned short m_uiItemCount;
-    int FindPairIndex(unsigned int key0, unsigned int key1);
+    int FindPairIndex(std::uintptr_t key0, std::uintptr_t key1);
 };
 
 // @fnv 0x00a413d0
-int FUN_00a413d0_cls::FindPairIndex(unsigned int key0, unsigned int key1)
+int FUN_00a413d0_cls::FindPairIndex(std::uintptr_t key0, std::uintptr_t key1)
 {
     int result = -1;
     for (unsigned int i = 0; i < m_uiItemCount; ++i)

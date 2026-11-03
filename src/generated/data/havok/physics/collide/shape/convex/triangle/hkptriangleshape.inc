@@ -2,6 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+float DAT_011b3b20[6] = {0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
 float DAT_011b3b38[5] = {1.0f, 0.0f, 0.0f, 0.0f, -1.0f};
 unsigned int DAT_011b3b4c[1];
 int DAT_011b3b50[16] = {1, 2, 0, 1, 2, 0, 0, 0, 0x47800000, 0x47800000, 0x47800000, 0x47800000, 0x47800000, 0x47800000, 0x47800000, 0x47800000};

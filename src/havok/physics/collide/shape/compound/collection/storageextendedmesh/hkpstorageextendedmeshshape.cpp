@@ -2,7 +2,11 @@
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include <new>
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/Container.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -61,18 +65,7 @@ ShapeSubpartStorage* ShapeSubpartStorage::FUN_00d4ad20(int deletingFlag)
 }
 
 namespace fnv_00d4b120 {
-struct NineIntegerRecord
-{
-    virtual void method0() = 0;
-    virtual void method1() = 0;
-    virtual void deallocate(void*, unsigned int) = 0;
-};
 
-struct hkMemoryRouterContext
-{
-    unsigned char padding[0x10];
-    NineIntegerRecord* router;
-};
 
 struct hkpStorageExtendedMeshShape_MeshSubpartStorage
 {
@@ -83,7 +76,6 @@ struct hkpStorageExtendedMeshShape_MeshSubpartStorage
     hkpStorageExtendedMeshShape_MeshSubpartStorage* DestroyStorage(unsigned int);
 };
 
-hkMemoryRouterContext* __cdecl _D1A0E0GetMemoryRouter();
 
 // @fnv 0x00d4b120
 hkpStorageExtendedMeshShape_MeshSubpartStorage* hkpStorageExtendedMeshShape_MeshSubpartStorage::DestroyStorage(
@@ -93,8 +85,7 @@ hkpStorageExtendedMeshShape_MeshSubpartStorage* hkpStorageExtendedMeshShape_Mesh
 
     if (deletingDestructor & 1)
     {
-        hkMemoryRouterContext* context = _D1A0E0GetMemoryRouter();
-        context->router->deallocate(this, m_iElementCount);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_iElementCount);
     }
 
     return this;
@@ -105,7 +96,7 @@ extern int DAT_010cfd84;
 
 struct FnvVtObj
 {
-    int m_vptr;
+    const void* m_vptr;
 
     FnvVtObj* FUN_00d4a170(unsigned int unusedArg);
 };
@@ -113,33 +104,11 @@ struct FnvVtObj
 // @fnv 0x00d4a170
 FnvVtObj* FnvVtObj::FUN_00d4a170(unsigned int unusedArg)
 {
-    m_vptr = (int)&DAT_010cfd84;
+    m_vptr = &DAT_010cfd84;
     return this;
 }
 
-struct hkAllocatorD49C
-{
-    virtual void V0();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual void Free(void* p, unsigned int uiNumBytes) throw();
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        Free(p, aiNumElements * sizeof(T));
-    }
-};
 
-struct hkMemoryRouterD49C
-{
-    void* m_apvUnk00[4];
-    hkAllocatorD49C* m_pkHeap;
-    hkAllocatorD49C& heap()
-    {
-        return *m_pkHeap;
-    }
-};
-extern "C" hkMemoryRouterD49C* __cdecl FUN_00c85750() throw();
 
 template <typename T> inline void hkDestructD49C(T* t, int n)
 {
@@ -158,7 +127,7 @@ template <typename T> struct hkArrayD49C
         hkDestructD49C(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    void _clearAndDeallocate(hkAllocatorD49C& kAlloc)
+    void _clearAndDeallocate(hkMemoryAllocator& kAlloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -168,7 +137,7 @@ template <typename T> struct hkArrayD49C
     }
     ~hkArrayD49C()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -391,34 +360,7 @@ FUN_00d4aec0_Class* FUN_00d4aec0_Class::FUN_00d4aec0(unsigned char flags)
 }
 
 namespace fnv_00d4aef0 {
-class hkMemoryAllocatorD4AE
-{
-  public:
-    virtual ~hkMemoryAllocatorD4AE() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterD4AE
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4AE* m_pStreamAllocator;
-    hkMemoryAllocatorD4AE& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4AE& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructD4AE(T* t, int n)
 {
@@ -442,14 +384,14 @@ template <class T> class hkArrayD4AE
 
     __forceinline ~hkArrayD4AE()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructD4AE(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorD4AE& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -526,34 +468,7 @@ FUN_00d4aef0::FUN_00d4aef0() throw()
 }  // namespace fnv_00d4aef0
 
 namespace fnv_00d4af60 {
-class hkMemoryAllocatorD4AF
-{
-  public:
-    virtual ~hkMemoryAllocatorD4AF() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterD4AF
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4AF* m_pStreamAllocator;
-    hkMemoryAllocatorD4AF& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4AF& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructD4AF(T* t, int n)
 {
@@ -575,14 +490,14 @@ template <class T> class hkArrayD4AF
 
     __forceinline ~hkArrayD4AF()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructD4AF(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorD4AF& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -600,7 +515,7 @@ class FUN_00cb0c00_class
     void FUN_00cb0c00() throw();
     ~FUN_00cb0c00_class()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 
@@ -655,29 +570,9 @@ FUN_00d4af60::~FUN_00d4af60() throw()
 {}
 }  // namespace fnv_00d4af60
 
-class hkMemoryAllocatorD4AC
-{
-  public:
-    virtual ~hkMemoryAllocatorD4AC() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4AC
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorD4AC* m_pStreamAllocator;
-
-    hkMemoryAllocatorD4AC& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterD4AC& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayD4AC
@@ -689,10 +584,10 @@ template <class T> class hkArrayD4AC
 
     ~hkArrayD4AC() throw()
     {
-        hkMemoryAllocatorD4AC& kAlloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -741,41 +636,7 @@ FUN_00d4ac70::hkpStorageExtendedMeshShape::ShapeSubpartStorage::~ShapeSubpartSto
 
 #include <xmmintrin.h>
 namespace fnv_00d4aa70 {
-class hkMemoryAllocatorD4AA
-{
-  public:
-    virtual ~hkMemoryAllocatorD4AA() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> T* _bufAlloc(int& iReqNumInOut)
-    {
-        int n = iReqNumInOut * sizeof(T);
-        void* p = AllocateBufferWithSize(n);
-        iReqNumInOut = n / (int)sizeof(T);
-        return (T*)p;
-    }
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterD4AA
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4AA* m_pStreamAllocator;
-    hkMemoryAllocatorD4AA& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4AA& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void copyD4AA(T* dst, const T* src, int n)
 {
@@ -808,9 +669,9 @@ template <class T> class hkArrayD4AA
 
     __forceinline void operator=(const hkArrayD4AA& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray(hkMemoryRouter::getInstance().heap(), a);
     }
-    __forceinline void copyFromArray(hkMemoryAllocatorD4AA& kAlloc, const hkArrayD4AA& a)
+    __forceinline void copyFromArray(hkMemoryAllocator& kAlloc, const hkArrayD4AA& a)
     {
         if (getCapacity() < a.GetLogicalSize())
         {
@@ -1005,20 +866,6 @@ template <class T> class hkRefPtrD4AD
     }
 };
 
-class hkMemoryAllocatorD4AD;
-struct hkMemoryRouterD4AD
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4AD* m_pStreamAllocator;
-    hkMemoryAllocatorD4AD& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4AD& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructD4AD(T* t, int n)
 {
@@ -1047,7 +894,7 @@ template <class T> class hkArrayD4AD
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void reserve(hkMemoryAllocatorD4AD& kAlloc, int n)
+    __forceinline void reserve(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCap = getCapacity();
         if (iCap < n)
@@ -1060,9 +907,9 @@ template <class T> class hkArrayD4AD
 
     __forceinline void operator=(const hkArrayD4AD& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray(hkMemoryRouter::getInstance().heap(), a);
     }
-    __forceinline void copyFromArray(hkMemoryAllocatorD4AD& kAlloc, const hkArrayD4AD& a)
+    __forceinline void copyFromArray(hkMemoryAllocator& kAlloc, const hkArrayD4AD& a)
     {
         int iOldSize = m_iElementCount;
         int iNewSize = a.m_iElementCount;
@@ -1139,28 +986,7 @@ template <class T> __forceinline void constructWithCopy(T* p, int n, const T& t)
         memcpy(p + i, &t, sizeof(T));
 }
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct NineIntegerRecord
-{
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int m_unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-    static __forceinline NineIntegerRecord& GetMonitorStream()
-    {
-        return *static_cast<NineIntegerRecord*>(static_cast<void*>(FUN_00c85750()));
-    }
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct HavokArrayUtilities
 {
@@ -1234,12 +1060,12 @@ template <typename T> struct hkArr
     }
     __forceinline T* expandBy(int n)
     {
-        return _expandBy(NineIntegerRecord::GetMonitorStream().heap(), n);
+        return _expandBy(hkMemoryRouter::getInstance().heap(), n);
     }
 
     __forceinline int expandByIndex(int n)
     {
-        hkMemoryAllocator& alloc = NineIntegerRecord::GetMonitorStream().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         int first = m_iElementCount;
         GrowArrayCapacity(alloc, first + n);
         m_iElementCount += n;
@@ -1247,7 +1073,7 @@ template <typename T> struct hkArr
     }
     __forceinline void AddBack(const T& t)
     {
-        NineIntegerRecord& router = NineIntegerRecord::GetMonitorStream();
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
         {
             HavokArrayUtilities::GrowArray(router.heap(), this, sizeof(T));
@@ -1278,10 +1104,10 @@ struct StorageReferencedObject : hkBaseObject
     hkInt16 m_sReferenceCount;
     __forceinline StorageReferencedObject() : m_sReferenceCount(1)
     {}
-    __forceinline void* operator new(std::size_t nbytes)
+    __forceinline void* operator new(size_t nbytes)
     {
         StorageReferencedObject* b = static_cast<StorageReferencedObject*>(
-            NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(nbytes));
+            hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         return b;
     }
@@ -1554,19 +1380,6 @@ Derived::Derived()
 
 #include <xmmintrin.h>
 namespace fnv_00d56500 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_and_ps(__m128 a, __m128 b);
-    __m128 _mm_cmple_ps(__m128 a, __m128 b);
-    __m128 _mm_set_ps1(float a);
-    int _mm_movemask_ps(__m128 a);
-}
 
 
 typedef float hkReal;
@@ -1576,26 +1389,8 @@ typedef unsigned short hkUint16;
 
 extern const __m128 g_hkQuadAbsMask;
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-};
 
-struct hkMemoryRouterS
-{
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int m_unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
 
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-hkMemoryRouterS* FUN_00c85750();
 
 struct hkArrayUtilS
 {
@@ -1674,7 +1469,7 @@ template <typename T> struct hkArrS
 
     __forceinline T* expandBy(int n)
     {
-        return _expandBy(FUN_00c85750()->heap(), n);
+        return _expandBy(hkMemoryRouter::getInstance().heap(), n);
     }
 };
 
@@ -1741,10 +1536,412 @@ ShapesSubpartS* ShapesSubpartS::FUN_00d56500(hkConvexShapeS* const* childShapes,
         dst[i] = childShapes[i];
     }
 
-    m_rotation.m_vComponents = (*reinterpret_cast<const ::fnv_00d56500::__m128 *>((void *)&::DAT_010c71b0));
-    const int bOffsetNonZero = !equals3(offset, (*reinterpret_cast<const ::fnv_00d56500::__m128 *>(&::DAT_01267e30)), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
+    m_rotation.m_vComponents = (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c71b0));
+    const int bOffsetNonZero = !equals3(offset, (*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
     *(int*)&m_vTranslation.w = bOffsetNonZero | 0x3f000000;
     return this;
 }
 }  // namespace fnv_00d56500
-#include "fnv/symbols_simd.h"
+
+// Moved from hkpstorageextendedmeshshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/OwnerD562.h"
+#include "fnv/decl/fnv_00d56160__FUN_00d56160_cls.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_01269000.h"
+enum hkPlacementNewArg
+{
+    hkPlacementNew
+};
+inline void* operator new(size_t, void* p, hkPlacementNewArg)
+{
+    return p;
+}
+
+struct Subpart
+{
+    unsigned char type;
+    signed char materialIndexType;
+    short materialStride;
+    void* materialIndexBase;
+    unsigned short materialIndexStride, numMaterials;
+    const char* materialBase;
+    const void* materialClass;
+    int numTriangles;
+    const char* vertexBase;
+    int vertexStride, numVertices;
+    __m128 extrusionVector;
+    const char* indexBase;
+    unsigned int indexStride;
+    unsigned char indexType, extrusion;
+    unsigned short flags;
+};
+struct MaterialName
+{
+    const char* value;
+    MaterialName(const char*) throw();
+    MaterialName& operator=(const MaterialName&);
+};
+struct NamedMaterial
+{
+    int filterInfo;
+    MaterialName name;
+    NamedMaterial() throw() : name("Default")
+    {
+        filterInfo = 0;
+    }
+};
+struct MeshMaterial
+{
+    int filterInfo;
+    union
+    {
+        struct
+        {
+            short restitution, friction;
+        };
+        int properties;
+    };
+    int userData;
+};
+struct AllocationRouter
+{
+    virtual void Unused();
+    virtual void* Allocate(int);
+};
+static __declspec(noinline) int FUN_00d49c20(int stride, int triangles)
+{
+    switch (stride)
+    {
+    case 1:
+        return triangles + 2;
+    case 2:
+        return triangles * 2 + 1;
+    default:
+        return triangles * 4;
+    }
+}
+class GlobalObjectO2_00d472a0;
+
+template <class T> inline void initializeItems(T*, int)
+{}
+inline void initializeItems(NamedMaterial* destination, int count)
+{
+    for (int i = 0; i < count; ++i)
+        new (destination + i, hkPlacementNew) NamedMaterial;
+}
+template <class T> struct Buffer
+{
+    T* m_data;
+    int m_iElementCount, m_iCapacityState;
+    inline void reserveUsing(hkMemoryAllocator& allocator, int requested)
+    {
+        int available = m_iCapacityState & 0x3fffffff;
+        if (available < requested)
+        {
+            int next = requested < available * 2 ? available * 2 : requested;
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), next, sizeof(T));
+        }
+    }
+    inline T* growUsing(hkMemoryAllocator& allocator, int count)
+    {
+        int offset = m_iElementCount;
+        reserveUsing(allocator, offset + count);
+        initializeItems(m_data + m_iElementCount, count);
+        m_iElementCount += count;
+        return m_data + offset;
+    }
+    inline T* grow(int count)
+    {
+        return growUsing(hkMemoryRouter::getInstance().heap(), count);
+    }
+};
+struct FUN_00d4aef0
+{
+    int vtable;
+    unsigned short size, flags;
+    Buffer<__m128> vertices;
+    Buffer<unsigned char> indices8;
+    Buffer<unsigned short> indices16;
+    Buffer<unsigned int> indices32;
+    Buffer<unsigned char> materialIndices8;
+    Buffer<MeshMaterial> materials;
+    Buffer<NamedMaterial> namedMaterials;
+    Buffer<unsigned short> materialIndices16;
+    FUN_00d4aef0() throw();
+    static void* operator new(size_t bytes)
+    {
+        hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
+        FUN_00d4aef0* memory = static_cast<FUN_00d4aef0*>(allocator.blockAlloc(bytes));
+        memory->size = static_cast<unsigned short>(bytes);
+        return memory;
+    }
+};
+
+template <class T> inline void copyItems(T* destination, int count, const T& value)
+{
+    for (int i = 0; i < count; ++i)
+        destination[i] = value;
+}
+template <class T, template <class> class A> inline void append(A<T>& a, const T& value)
+{
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
+    if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(void *)(&a), sizeof(T));
+    copyItems(a.m_data + a.m_iElementCount, 1, value);
+    ++a.m_iElementCount;
+}
+inline void append(Buffer<unsigned char>& a, const unsigned char& value)
+{
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
+    if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(void *)(&a), sizeof(unsigned char));
+    unsigned char* slot = a.m_data;
+    _ReadWriteBarrier();
+    slot += a.m_iElementCount;
+    copyItems(slot, 1, value);
+    ++a.m_iElementCount;
+}
+inline void append(Buffer<unsigned short>& a, const unsigned short& value)
+{
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
+    if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(void *)(&a), sizeof(unsigned short));
+    copyItems(a.m_data + a.m_iElementCount, 1, value);
+    _ReadWriteBarrier();
+    ++a.m_iElementCount;
+    _ReadWriteBarrier();
+}
+inline short halfValue(const float& value)
+{
+    return short(*reinterpret_cast<const int*>(&value) >> 16);
+}
+struct SourceArg
+{
+    const Subpart* p;
+    SourceArg(const Subpart* q) : p(q)
+    {}
+};
+struct StorageShape : hkpStorageExtendedMeshShape
+{
+    void FUN_00d4a2b0(SourceArg sourceArg);
+};
+
+// @fnv 0x00d4a2b0
+void StorageShape::FUN_00d4a2b0(SourceArg sourceArg)
+{
+    Subpart* destination = ((::Subpart *)(reinterpret_cast<::OwnerD562 *>(this)->FUN_00d562f0()));
+    const Subpart& source = *sourceArg.p;
+    reinterpret_cast<::hkpExtendedMeshShapeTrianglesSubpartD4AB *>((destination))->FUN_00d4abf0((const ::hkpExtendedMeshShapeTrianglesSubpartD4AB &)(source));
+    FUN_00d4aef0* created = new FUN_00d4aef0;
+    hkArray<hkpStorageExtendedMeshShapeMeshSubpartStorage*>& mesh = m_kMeshSubparts;
+    append(mesh, reinterpret_cast<hkpStorageExtendedMeshShapeMeshSubpartStorage*>(created));
+    _ReadWriteBarrier();
+    FUN_00d4aef0* storage = reinterpret_cast<FUN_00d4aef0*>(mesh.m_data[mesh.m_iElementCount - 1]);
+    __m128* vertices = storage->vertices.grow(source.numVertices);
+    const char* vertex = source.vertexBase;
+    for (int i = 0; i < source.numVertices; ++i)
+    {
+        const float* v = reinterpret_cast<const float*>(vertex);
+        *vertices++ = _mm_setr_ps(v[0], v[1], v[2], 0.0f);
+        vertex += source.vertexStride;
+    }
+    destination->vertexBase = reinterpret_cast<const char*>(storage->vertices.m_data);
+    destination->vertexStride = 16;
+    destination->numVertices = source.numVertices;
+    void* indices;
+    if (source.indexType == 1)
+    {
+        const int inputStride = source.indexStride;
+        const int stride = inputStride <= 2 ? inputStride : 4;
+        destination->indexStride = stride * sizeof(unsigned char);
+        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        unsigned char* data = storage->indices8.grow(count);
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned char));
+        const char* input = source.indexBase;
+        indices = data;
+        for (int i = 0; i < source.numTriangles; ++i)
+        {
+            const unsigned char* p = reinterpret_cast<const unsigned char*>(input);
+            unsigned char* q = reinterpret_cast<unsigned char*>(data);
+            q[0] = p[0];
+            q[1] = p[1];
+            q[2] = p[2];
+            data = reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(data) + destination->indexStride);
+            input += source.indexStride;
+        }
+    }
+    else if (source.indexType == 2)
+    {
+        const unsigned int inputStride = source.indexStride >> 1;
+        const int stride = static_cast<int>(inputStride) <= 2 ? inputStride : 4;
+        destination->indexStride = stride * sizeof(unsigned short);
+        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        unsigned short* data = storage->indices16.grow(count);
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned short));
+        const char* input = source.indexBase;
+        indices = data;
+        for (int i = 0; i < source.numTriangles; ++i)
+        {
+            const unsigned short* p = reinterpret_cast<const unsigned short*>(input);
+            unsigned short* q = reinterpret_cast<unsigned short*>(data);
+            q[0] = p[0];
+            q[1] = p[1];
+            q[2] = p[2];
+            data = reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(data) + destination->indexStride);
+            input += source.indexStride;
+        }
+    }
+    else
+    {
+        const unsigned int inputStride = source.indexStride >> 2;
+        const int stride = static_cast<int>(inputStride) <= 2 ? inputStride : 4;
+        destination->indexStride = stride * sizeof(unsigned int);
+        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        unsigned int* data = storage->indices32.grow(count);
+        ::FUN_00cb1280(data, 0, count * sizeof(unsigned int));
+        const char* input = source.indexBase;
+        indices = data;
+        for (int i = 0; i < source.numTriangles; ++i)
+        {
+            const unsigned int* p = reinterpret_cast<const unsigned int*>(input);
+            unsigned int* q = reinterpret_cast<unsigned int*>(data);
+            q[0] = p[0];
+            q[1] = p[1];
+            q[2] = p[2];
+            data = reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(data) + destination->indexStride);
+            input += source.indexStride;
+        }
+    }
+    destination->indexType = source.indexType;
+    destination->numTriangles = source.numTriangles;
+    destination->extrusion = source.extrusion;
+    destination->indexBase = static_cast<const char*>(indices);
+    destination->materialIndexType = source.materialIndexType;
+    if (source.materialIndexBase)
+    {
+        if (source.materialIndexType == 1)
+        {
+            Buffer<unsigned char>& materialIndices = storage->materialIndices8;
+            if (source.materialIndexStride == 0)
+            {
+                append(materialIndices, *static_cast<const unsigned char*>(source.materialIndexBase));
+                destination->materialIndexBase = materialIndices.m_data + materialIndices.m_iElementCount - 1;
+            }
+            else
+            {
+                unsigned char* data = materialIndices.grow(source.numTriangles);
+                destination->materialIndexBase = data;
+                const char* input = static_cast<const char*>(source.materialIndexBase);
+                for (int i = 0; i < source.numTriangles; ++i)
+                {
+                    data[i] = *reinterpret_cast<const unsigned char*>(input);
+                    input += source.materialIndexStride;
+                }
+            }
+        }
+        else
+        {
+            Buffer<unsigned short>& materialIndices = storage->materialIndices16;
+            if (source.materialIndexStride == 0)
+            {
+                append(materialIndices, *static_cast<const unsigned short*>(source.materialIndexBase));
+                destination->materialIndexBase = materialIndices.m_data + materialIndices.m_iElementCount - 1;
+            }
+            else
+            {
+                unsigned short* data = materialIndices.grow(source.numTriangles);
+                destination->materialIndexBase = data;
+                const char* input = static_cast<const char*>(source.materialIndexBase);
+                for (int i = 0; i < source.numTriangles; ++i)
+                {
+                    data[i] = *reinterpret_cast<const unsigned short*>(input);
+                    input += source.materialIndexStride;
+                }
+            }
+        }
+        destination->materialIndexStride = source.materialIndexStride;
+        if (destination->materialIndexStride)
+        {
+            switch (destination->materialIndexType)
+            {
+            case 1:
+                destination->materialIndexStride = 1;
+                break;
+            case 2:
+                destination->materialIndexStride = 2;
+                break;
+            }
+        }
+    }
+    else
+    {
+        destination->materialIndexBase = 0;
+        destination->materialIndexStride = 0;
+    }
+    if (destination->materialIndexBase)
+    {
+        if (source.materialClass == &g_01269bb4)
+        {
+            NamedMaterial* data = storage->namedMaterials.grow(source.numMaterials);
+            const char* input = source.materialBase;
+            for (int i = 0; i < source.numMaterials; ++i)
+            {
+                NamedMaterial* material = new (data + i, hkPlacementNew) NamedMaterial;
+                const NamedMaterial* original = reinterpret_cast<const NamedMaterial*>(input);
+                material->filterInfo = original->filterInfo;
+                reinterpret_cast<::Cb0StringCopy *>((void *)&(const ::MaterialName &)(material->name))->FUN_00cb0c30((const ::CB0StringPtr &)(original->name));
+                input += source.materialStride;
+            }
+            destination->materialBase = reinterpret_cast<const char*>(storage->namedMaterials.m_data);
+            if (source.materialStride)
+            {
+                destination->materialStride = 8;
+                destination->numMaterials = source.numMaterials;
+            }
+            else
+            {
+                destination->materialStride = 0;
+                destination->numMaterials = 1;
+            }
+        }
+        else
+        {
+            MeshMaterial* data = storage->materials.grow(source.numMaterials);
+            const char* input = source.materialBase;
+            for (int i = 0; i < source.numMaterials; ++i)
+            {
+                const MeshMaterial* original = reinterpret_cast<const MeshMaterial*>(input);
+                if (source.materialClass == &g_01268c8c)
+                {
+                    data->filterInfo = original->filterInfo;
+                    data->properties = original->properties;
+                    data->userData = original->userData;
+                }
+                else
+                {
+                    data->filterInfo = original->filterInfo;
+                    data->friction = halfValue(1.0f);
+                    data->restitution = halfValue(0.0f);
+                }
+                input += source.materialStride;
+                ++data;
+            }
+            destination->materialBase = reinterpret_cast<const char*>(storage->materials.m_data);
+            if (source.materialStride)
+            {
+                destination->materialStride = 12;
+                destination->numMaterials = source.numMaterials;
+            }
+            else
+            {
+                destination->materialStride = 0;
+                destination->numMaterials = 1;
+            }
+        }
+    }
+    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
+    FUN_00d49cb0* fields = reinterpret_cast<FUN_00d49cb0*>(this);
+    int last = reinterpret_cast<FUN_00d56f10*>(this)->m_kTrianglesSubparts.m_iElementCount - 1;
+    fields->m_aiUnkCC[5] += reinterpret_cast<::fnv_00d56160::FUN_00d56160_cls *>(this)->Vec4((::fnv_00d56160::FUN_00d56160_items *)(destination), last);
+}

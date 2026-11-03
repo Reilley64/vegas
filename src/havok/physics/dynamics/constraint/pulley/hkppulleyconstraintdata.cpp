@@ -3,16 +3,20 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkpPulleyConstraintDataAtoms.h"
+#include "havok/hkpConstraintData.h"
 #include "fnv/symbols_00d21000.h"
-struct hkpPulleyConstraintData
+struct hkpPulleyConstraintData : public hkpConstraintData
 {
-    void FUN_00deef40(int a);
+    char padC[0x4];
+    hkpPulleyConstraintDataAtoms m_kBridgeAtoms;  // +0x10
+    void FUN_00deef40(::GenericConstraintAtomScheme* a) const;
 };
 
 // @fnv 0x00deef40
-void hkpPulleyConstraintData::FUN_00deef40(int a)
+void hkpPulleyConstraintData::FUN_00deef40(::GenericConstraintAtomScheme* a) const
 {
-    ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0x70, (::GenericConstraintAtomScheme *)(a));
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x70, a);
 }
 
 // Writes 1 and 8 into b[1] and b[0] when a is nonzero, otherwise writes 0 into both.

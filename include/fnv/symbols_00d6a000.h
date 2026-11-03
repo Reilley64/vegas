@@ -25,4 +25,4 @@ int FUN_00d6aeb0(::VtblForwarder *);
 // 0x00d6aec0
 int FUN_00d6aec0();
 // 0x00d6aef0
-void FUN_00d6aef0(const ::MotionInput *, float);
+void FUN_00d6aef0(const ::MotionInput *, void *);

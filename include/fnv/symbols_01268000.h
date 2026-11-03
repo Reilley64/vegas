@@ -9,6 +9,7 @@ struct FUN_00dcc670_Manager;
 struct GlobalObjectO2_00a7b610;
 struct S_00ca6810_Callable;
 struct VecQ;
+struct _RTL_CRITICAL_SECTION;
 
 // 0x01268078
 extern unsigned int DAT_01268078[];
@@ -301,7 +302,7 @@ extern ::GlobalObjectO2_00a7b610 g_01268740;
 // 0x01268748
 extern ::GlobalObjectO2_00d472a0 g_01268748;
 // 0x01268794
-extern int DAT_01268794;
+extern ::_RTL_CRITICAL_SECTION *DAT_01268794;
 // 0x01268798
 extern ::GlobalObjectO2_00d472a0 g_01268798;
 // 0x012687c8

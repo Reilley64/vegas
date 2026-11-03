@@ -57,16 +57,18 @@ struct IOTask
 struct C_00449210
 {
 public:
-    void FUN_00449210(int, int);
+    void FUN_00449210(int, void*);
 };
 struct FUN_0043d6b0_shell
 {
+    char pad00[0x64];
+    C_00449210* m_pQueues;
     void FUN_0043d6b0(QHeadLocal* aHead);
 };
-// Wraps aHead in a QHeadPtr and passes its priority and the wrapper to the object at this+0x64 via FUN_00449210.
+// Wraps aHead in a QHeadPtr and passes its priority and the wrapper to m_pQueues via FUN_00449210.
 // @fnv 0x0043d6b0
 void FUN_0043d6b0_shell::FUN_0043d6b0(QHeadLocal* aHead)
 {
     QHeadPtr head(aHead);
-    (*(C_00449210**)((char*)this + 0x64))->FUN_00449210(reinterpret_cast<::FUN_0043cc80_shell *>((((IOTask*)aHead)))->FUN_0043cc80(), (int)(&head));
+    m_pQueues->FUN_00449210(reinterpret_cast<::FUN_0043cc80_shell *>((((IOTask*)aHead)))->FUN_0043cc80(), &head);
 }

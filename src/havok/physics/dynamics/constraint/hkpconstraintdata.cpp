@@ -4,18 +4,19 @@
 
 #include "fnv/symbols_00cb1000.h"
 #include "havok/hkpConstraintData.h"
+#include <cstdint>
 
 
 struct FUN_00d21a30_class
 {
-    void FUN_00d21a30(int a, int b, int c);
+    void FUN_00d21a30(int a, void* pBuffer, int uiLength);
 };
 
 // @fnv 0x00d21a30
-void FUN_00d21a30_class::FUN_00d21a30(int a, int pBuffer, int uiLength)
+void FUN_00d21a30_class::FUN_00d21a30(int a, void* pBuffer, int uiLength)
 {
     if (pBuffer)
-        ::FUN_00cb1280((void*)pBuffer, 0, uiLength);
+        ::FUN_00cb1280(pBuffer, 0, uiLength);
 }
 
 // @fnv 0x00d21a50
@@ -132,7 +133,7 @@ void __cdecl FUN_00d21a60(const hkpConstraintAtom* atoms, int sizeOfAllAtoms, Ge
         switch (atom->type)
         {
         case hkpConstraintAtom::INVALID:
-            cursor = reinterpret_cast<const char*>((reinterpret_cast<unsigned long>(cursor) + 15) & ~15UL);
+            cursor = reinterpret_cast<const char*>((reinterpret_cast<uintptr_t>(cursor) + uintptr_t(15)) & ~uintptr_t(15));
             goto dispatchAlignedAtom;
         case hkpConstraintAtom::BALL_SOCKET:
             addSolverSchema(info, 144, 3, 3);

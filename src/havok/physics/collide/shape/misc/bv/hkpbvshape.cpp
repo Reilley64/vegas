@@ -69,9 +69,18 @@ struct MemoryManagerStandIn
     virtual void Free(void* object, unsigned short flags) = 0;
 };
 
-struct hkpBvShapeStandIn
+struct hkpBvShapeStandIn : hkpBvShape
 {
     hkpBvShapeStandIn* Destroy(int flags);
+};
+
+struct BvMemoryRouter
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    MemoryManagerStandIn* m_pStreamAllocator;
 };
 
 void* _D1A0E0GetMemoryRouter();
@@ -323,11 +332,11 @@ hkpBvShapeStandIn* hkpBvShapeStandIn::Destroy(int flags)
 
     if (flags & 1)
     {
-        void* router = _D1A0E0GetMemoryRouter();
-        unsigned short objectFlags = *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 4);
-        void* manager = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(router) + 0x10);
+        BvMemoryRouter* router = static_cast<BvMemoryRouter*>(_D1A0E0GetMemoryRouter());
+        unsigned short objectFlags = m_usMemSizeAndFlags;
+        MemoryManagerStandIn* manager = router->m_pStreamAllocator;
 
-        reinterpret_cast<MemoryManagerStandIn*>(manager)->Free(this, objectFlags);
+        manager->Free(this, objectFlags);
     }
 
     return this;
@@ -340,16 +349,16 @@ void BvShapeReleaseView::FUN_00c9d930()
     hkpBvShape* self = (hkpBvShape*)this;
 
     BvShapeReference* bv = (BvShapeReference*)self->m_pBvShapeReference;
-    *(int*)self = (int)&DAT_010c6ff8;
+    *reinterpret_cast<const void**>(self) = &DAT_010c6ff8;
     reinterpret_cast<::hkReferencedObjectC905 *>((bv))->FUN_00c905b0();
 
     BvShapeReference* child = (BvShapeReference*)self->m_pContainedShape.m_pContainedShape;
-    *(int*)&self->m_pContainedShape = (int)&DAT_010c6fd0;
+    *reinterpret_cast<const void**>(&self->m_pContainedShape) = &DAT_010c6fd0;
     if (child)
         reinterpret_cast<::hkReferencedObjectC905 *>((child))->FUN_00c905b0();
 
-    *(int*)self = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-    *(int*)&self->m_pContainedShape = (int)&DAT_010c6fb0;
+    *reinterpret_cast<const void**>(self) = &::DAT_0102e388;
+    *reinterpret_cast<const void**>(&self->m_pContainedShape) = &DAT_010c6fb0;
 }
 
 #include "generated/data/havok/physics/collide/shape/misc/bv/hkpbvshape.inc"

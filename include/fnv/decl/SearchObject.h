@@ -16,7 +16,7 @@ public:
     // 0x00d5eda0
     int FUN_00d5eda0(unsigned int, unsigned int, uintptr_t);
     // 0x00dba320
-    int FUN_00dba320(unsigned int, unsigned int, unsigned int, unsigned int);
+    int FUN_00dba320(uintptr_t, uintptr_t, uintptr_t, unsigned int);
     // 0x00e5c420
     int FUN_00e5c420(unsigned int, unsigned int, unsigned int, unsigned int);
 };

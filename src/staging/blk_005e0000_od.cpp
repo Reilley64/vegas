@@ -2,6 +2,7 @@
 // src/staging/blk_005e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -3912,7 +3913,7 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                     char message[512];
                     FUN_00406d00(message, 512, "%s   %d\\%d\n%s", found->name.FUN_00408da0(), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
                                  reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(), found->description.GetText(0, 0x43534544));
-                    ::DispatchMessageToSink((intptr_t)(message), 0, (intptr_t)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
+                    ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730((::TESForm *)(found), 0)), (const char *)(0), 2.0f, false);
                     FUN_00706f30(21);
                 }
                 if (reinterpret_cast<::FUN_005f5f60_class *>((found))->FUN_005f5f60() && !reinterpret_cast<::FUN_005f60c0_Class *>((found))->HasFlag8())
@@ -3943,7 +3944,7 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                             FUN_00406d00(message, 512, "%s   %d\\%d\n%s", found->name.FUN_00408da0(),
                                          ((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
                                          found->description.GetText(0, 0x43534544));
-                            ::DispatchMessageToSink((intptr_t)(message), 0, (intptr_t)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
+                            ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730((::TESForm *)(found), 0)), (const char *)(0), 2.0f, false);
                         }
                     }
                 }
@@ -4390,15 +4391,15 @@ struct FUN_005e50f0_Obj
     int unk28;
     int unk2C;
     int unk30;
-    int unk34[16];
-    int GetValueByIndex(int index);
+    std::intptr_t unk34[16];
+    std::intptr_t GetValueByIndex(int index);
 };
 
 // Returns unk34[index] when index is between 0 and 14, otherwise returns 0.
 // @fnv 0x005e50f0
-int FUN_005e50f0_Obj::GetValueByIndex(int index)
+std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(int index)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (index > -1 && index < 15)
         result = unk34[index];
     return result;

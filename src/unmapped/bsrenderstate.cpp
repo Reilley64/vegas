@@ -8,6 +8,44 @@ extern int DAT_011ad8a8[];
 extern unsigned int DAT_011ffa7c;
 extern unsigned int DAT_011ffa80;
 
+struct RenderDevice
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void SetRenderState(unsigned int auiState, int aiValue, int aiUnused1, int aiUnused2);
+};
+
+// The renderer singleton DAT_011f9508 holds its render device after 0x8b8 bytes of other state.
+struct RendererDeviceView
+{
+    char pad000[0x8b8];
+    RenderDevice* m_pDevice;
+};
+
 // Adds c to two counters indexed by DAT_011ffa7c and DAT_011ffa80, first invoking a virtual call with 0x13/0x14 and DAT_011ad8a8[a]/[b] when each counter is zero.
 // @fnv 0x00b97ff0
 void AddToTwoCounters(int aiIndexA, int aiIndexB, int aiAmount)
@@ -15,15 +53,13 @@ void AddToTwoCounters(int aiIndexA, int aiIndexB, int aiAmount)
     int iCounterIndex = DAT_011ffa7c;
     if (DAT_011ff9d8[iCounterIndex] == 0)
     {
-        ((void(*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
-            *(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8), 0x13, DAT_011ad8a8[aiIndexA], 0, 0);
+        reinterpret_cast<RendererDeviceView*>(::DAT_011f9508)->m_pDevice->SetRenderState(0x13, DAT_011ad8a8[aiIndexA], 0, 0);
     }
     DAT_011ff9d8[iCounterIndex] += aiAmount;
     iCounterIndex = DAT_011ffa80;
     if (DAT_011ff9d8[iCounterIndex] == 0)
     {
-        ((void(*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
-            *(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8), 0x14, DAT_011ad8a8[aiIndexB], 0, 0);
+        reinterpret_cast<RendererDeviceView*>(::DAT_011f9508)->m_pDevice->SetRenderState(0x14, DAT_011ad8a8[aiIndexB], 0, 0);
     }
     DAT_011ff9d8[iCounterIndex] += aiAmount;
 }
@@ -647,35 +683,28 @@ extern int DAT_011ad8a8[];
 extern unsigned int DAT_011ffb04;
 extern unsigned int DAT_011ffb08;
 extern unsigned int DAT_011ffb0c;
-struct DeviceView
-{
-    void** vtable;
-};
-// If the three tracked slots are zero, calls device vtable[26] with opcodes 0x35/0x36/0x37 and values from DAT_011ad8a8, then adds delta to the third slot.
+// If the three tracked slots are zero, calls the device's SetRenderState with opcodes 0x35/0x36/0x37 and values from DAT_011ad8a8, then adds delta to the third slot.
 // @fnv 0x00b980c0
 void __cdecl FUN_00b980c0(int aiFirstIndex, int aiSecondIndex, int aiThirdIndex, int delta)
 {
     if (DAT_011ff9d8[DAT_011ffb04] == 0)
     {
         void* renderer = *(void* volatile*)&(*reinterpret_cast<void * *>(&::DAT_011f9508));
-        DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
-        ((void(*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
-            device, 0x35, DAT_011ad8a8[aiFirstIndex + 11], 0, 0);
+        RenderDevice* device = static_cast<RendererDeviceView*>(renderer)->m_pDevice;
+        device->SetRenderState(0x35, DAT_011ad8a8[aiFirstIndex + 11], 0, 0);
     }
     if (DAT_011ff9d8[DAT_011ffb08] == 0)
     {
         void* renderer = *(void* volatile*)&(*reinterpret_cast<void * *>(&::DAT_011f9508));
-        DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
-        ((void(*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
-            device, 0x36, DAT_011ad8a8[aiSecondIndex + 11], 0, 0);
+        RenderDevice* device = static_cast<RendererDeviceView*>(renderer)->m_pDevice;
+        device->SetRenderState(0x36, DAT_011ad8a8[aiSecondIndex + 11], 0, 0);
     }
     unsigned int index = DAT_011ffb0c;
     if (DAT_011ff9d8[index] == 0)
     {
         void* renderer = (*reinterpret_cast<void * *>(&::DAT_011f9508));
-        DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
-        ((void(*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
-            device, 0x37, DAT_011ad8a8[aiThirdIndex + 11], 0, 0);
+        RenderDevice* device = static_cast<RendererDeviceView*>(renderer)->m_pDevice;
+        device->SetRenderState(0x37, DAT_011ad8a8[aiThirdIndex + 11], 0, 0);
     }
     DAT_011ff9d8[index] += delta;
 }
@@ -1273,6 +1302,7 @@ class GraphicsRenderer
     int unk8B4;
     RenderState* state;
 };
+extern int DAT_011ad888[];
 extern unsigned int DAT_011ffb10;
 extern unsigned int DAT_011ffb14;
 extern unsigned int DAT_011ffb18;
@@ -1283,7 +1313,7 @@ void FUN_00b98180(int a, int aiValue39, int aiValue3A, int aiSlotIncrement)
     {
         GraphicsRenderer* renderer = (*reinterpret_cast<::GraphicsRenderer *volatile *>(&::DAT_011f9508));
         RenderState* state = renderer->state;
-        state->Send(0x38, *(reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(&DAT_011ad884) + 4) + a), 0, 0);
+        state->Send(0x38, DAT_011ad888[a], 0, 0);
     }
     if (DAT_011ff9d8[DAT_011ffb14] == 0)
     {
@@ -1948,7 +1978,7 @@ void __cdecl AddToSlot(void* apFirst, int aiSecond)
     int iSlotIndex = (*reinterpret_cast<int *>(&::DAT_011ffb1c));
     if (DAT_011ff9d8[iSlotIndex] == 0)
     {
-        Service* pService = *(Service**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8);
+        Service* pService = reinterpret_cast<Service*>(reinterpret_cast<RendererDeviceView*>(::DAT_011f9508)->m_pDevice);
         pService->V68(0x3b, apFirst, 0, 0);
     }
     DAT_011ff9d8[iSlotIndex] += aiSecond;
@@ -1993,7 +2023,7 @@ void UpdateSpawnedObjectFlags(unsigned char abFlag1, unsigned char abFlag2, unsi
     int iIndex = (*reinterpret_cast<int *>(&::DAT_011ffc90));
     if (DAT_011ff9d8[iIndex] == 0)
     {
-        SpawnedObject* pObject = *(SpawnedObject**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8);
+        SpawnedObject* pObject = reinterpret_cast<SpawnedObject*>(reinterpret_cast<RendererDeviceView*>(::DAT_011f9508)->m_pDevice);
         unsigned int flags = (abFlag1 != 0) ? 1u : 0u;
         flags |= (abFlag2 != 0) ? 2u : 0u;
         flags |= (abFlag3 != 0) ? 4u : 0u;

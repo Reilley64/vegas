@@ -115,7 +115,7 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
     {
         if (i < count - 4)
         {
-            _mm_prefetch((const char*)apCaller->m_20->shapes[(short)(i + 4)], _MM_HINT_NTA);
+            _mm_prefetch(reinterpret_cast<const char*>(apCaller->m_20->shapes[(short)(i + 4)]), _MM_HINT_NTA);
         }
 
         Shape* shape = apCaller->m_20->shapes[(short)i];
@@ -140,7 +140,7 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
                 *(float*)(rec8 + 4) = (float)val;
                 tls2->records = rec8 + 8;
             }
-            ::FUN_00df25f0((int)(*a1), (::CommandRecord *)(char *)(shape->m_10.get()), shape->m_10.m_iElementCount);
+            ::FUN_00df25f0(*a1, (::CommandRecord *)(char *)(shape->m_10.get()), shape->m_10.m_iElementCount);
         }
     }
 
@@ -162,7 +162,7 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
 
     if (apTarget)
     {
-        return reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((int)(apCaller), (int)(apCaller), 0);
+        return reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((intptr_t)(apCaller), (intptr_t)(apCaller), 0);
     }
     else
     {

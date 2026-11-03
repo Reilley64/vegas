@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshapeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/compressedsampledheightfield/hkpcompressedsampledheightfieldshapeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/Foo00d24660.h"
 struct ByteFlag
 {
@@ -37,7 +39,7 @@ struct FUN_00e01140_cls
     int unk54;
     int unk58;
     int unk5c;
-    int unk60;
+    unsigned short* unk60;
     int unk64;
     int unk68;
     char m_cFlag;
@@ -95,23 +97,6 @@ float FUN_00e01150_cls::GetTableValue(int col, int row)
 }
 
 struct FUN_00e01140_cls;
-struct BufferManager
-{
-    virtual void Unknown0() = 0;
-    virtual void Unknown1() = 0;
-    virtual void Destroy(FUN_00e01140_cls*, unsigned short) = 0;
-    virtual void Unknown3() = 0;
-    virtual void Release(unsigned int, unsigned int) = 0;
-};
-struct BufferContext
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    BufferManager* manager;
-};
-BufferContext* __cdecl FUN_00c85750();
 
 struct FUN_00e01180_cls : FUN_00e01140_cls
 {
@@ -121,21 +106,17 @@ struct FUN_00e01180_cls : FUN_00e01140_cls
 // @fnv 0x00e01180
 FUN_00e01180_cls* FUN_00e01180_cls::FUN_00e01180(unsigned int flags)
 {
-    BufferContext* context = FUN_00c85750();
-    BufferManager* manager = context->manager;
     unk64 = 0;
     if (!(unk68 & 0x80000000))
     {
-        manager->Release(unk60, (unk68 & 0x3fffffff) * 2);
+        hkMemoryRouter::getInstance().heap().bufFree(unk60, (unk68 & 0x3fffffff) * 2);
     }
     unk60 = 0;
     unk68 = 0x80000000;
     reinterpret_cast<::Foo00d24660 *>((this))->FUN_00d24660();
     if (flags & 1)
     {
-        BufferContext* context = FUN_00c85750();
-        BufferManager* manager = context->manager;
-        manager->Destroy(this, (unsigned short)unk04);
+        hkMemoryRouter::getInstance().heap().blockFree(this, (unsigned short)unk04);
     }
     return this;
 }

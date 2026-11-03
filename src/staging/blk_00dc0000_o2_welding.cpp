@@ -4,6 +4,7 @@
 // compiled after them; this function takes name in eax and stringTable in ebx, so it gets a file without them. The declarations
 // below are copied from hkpmeshweldingutility.cpp.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/CB0StringPtr.h"
 #include "fnv/symbols_00c90000.h"
@@ -21,7 +22,6 @@ struct S_00ddecf0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00ddecf0_Router* FUN_00c85750();
 
 extern const char DAT_010d8038[];
 
@@ -31,7 +31,7 @@ struct S00ddf070_StringPtr
     S00ddf070_StringPtr* FUN_00cb0b80(const char* s) throw();
     const char* cString() const
     {
-        return (const char*)((unsigned int)m_pcText & ~1u);
+        return (const char*)((uintptr_t)m_pcText & ~(uintptr_t)1);
     }
 };
 struct S00ddf070_StringArray
@@ -105,18 +105,18 @@ static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent,
             {
                 S00ddf070_StringPtr strName;
                 strName.FUN_00cb0b80(name);
-                S00ddf070_Heap& heap = *(S00ddf070_Heap*)&FUN_00c85750()->heap();
+                S00ddf070_Heap& heap = *(S00ddf070_Heap*)&static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
                 if (strings->m_iElementCount == (strings->m_iCapacityState & 0x3fffffff))
                     ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(strings), 4);
                 S00ddf070_StringPtr* dest = strings->m_data + strings->m_iElementCount;
                 if (dest)
                     new ((void *)(dest)) ::CB0StringPtr((const ::CB0StringPtr &)(strName));
                 strings->m_iElementCount++;
-                ::FUN_00cb0c00((int)&(strName));
+                ::FUN_00cb0c00((intptr_t)&(strName));
             }
             name = strings->back().cString();
         }
-        void* mem = ((S00ddf070_Heap*)&FUN_00c85750()->heap())->AllocateMemoryBlock(0x58);
+        void* mem = ((S00ddf070_Heap*)&static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap())->AllocateMemoryBlock(0x58);
         child = mem ? ((S00ddf070_Node*)mem)->FUN_00e0d000(parent, name, 1) : 0;
     }
     child->m_uiFilterValue[0] += (float)value;

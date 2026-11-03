@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/constraint/util/hkpconstraintdatacloningutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/util/hkpconstraintdatacloningutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cb9090.h"
 #include "fnv/decl/FUN_00cdf2f0.h"
@@ -15,25 +17,6 @@
 #include "fnv/decl/fnv_00dee6f0__FUN_00dee6f0_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00d85000.h"
-struct Allocator858
-{
-    virtual void v00();
-    virtual void* Allocate(unsigned int uiSize);
-};
-struct Heap858
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator858* m_pHeapAllocator;
-
-    void* Allocate(unsigned int uiSize)
-    {
-        return m_pHeapAllocator->Allocate(uiSize);
-    }
-};
-extern "C" Heap858* __cdecl FUN_00c85750();
 
 struct Clonable858
 {
@@ -89,7 +72,7 @@ struct Raw858
 
 inline Raw858* Allocate858(unsigned int uiSize)
 {
-    Object858* pkObject = (Object858*)FUN_00c85750()->Allocate(uiSize);
+    Object858* pkObject = (Object858*)hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
     pkObject->usSize = (unsigned short)uiSize;
     return (Raw858*)pkObject;
 }
@@ -137,21 +120,10 @@ Object858* __cdecl FUN_00d858f0(Object858* pkSource)
 struct hkRefObj858
 {
 };
-struct Heap858b
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator858* m_pHeapAllocator;
-    Allocator858& heap()
-    {
-        return *m_pHeapAllocator;
-    }
-};
+
 template <class T> __forceinline T* AllocA(unsigned int uiSize)
 {
-    Object858* p = (Object858*)((Heap858b*)FUN_00c85750())->heap().Allocate(uiSize);
+    Object858* p = (Object858*)hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
     p->usSize = (unsigned short)uiSize;
     return (T*)p;
 }
@@ -231,9 +203,9 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     switch (pkSource->GetType())
     {
     case 0:
-        return ((::Object858 *)(::FUN_00d85360((int)(pkSource))));
+        return ((::Object858 *)(::FUN_00d85360((intptr_t)(pkSource))));
     case 1:
-        return ((::Object858 *)(::fnv_00d853a0::FUN_00d853a0((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d853a0::FUN_00d853a0((intptr_t)(pkSource))));
     case 2:
         return ((::Object858 *)(::fnv_00d853f0::FUN_00d853f0((char *)(pkSource))));
     case 3: {
@@ -251,15 +223,15 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     case 8:
         return ((::Object858 *)(::fnv_00d85530::FUN_00d85530((::fnv_00d85530::SpawnedSource *)(pkSource))));
     case 9:
-        return ((::Object858 *)(::fnv_00d85570::CloneWithInit((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d85570::CloneWithInit((intptr_t)(pkSource))));
     case 14:
         return ((::Object858 *)(::fnv_00d855c0::CloneDataBlock(pkSource)));
     case 15:
-        return ((::Object858 *)(::fnv_00d85610::CloneWithCopiedPayload((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d85610::CloneWithCopiedPayload((intptr_t)(pkSource))));
     case 18:
         return ((::Object858 *)(::FUN_00d85660((const ::D85660Object *)(pkSource))));
     case 19:
-        return ((::Object858 *)(::fnv_00d856b0::CloneWithAllocatedCopy((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d856b0::CloneWithAllocatedCopy((intptr_t)(pkSource))));
     case 12: {
         Breakable858* pkOld = (Breakable858*)pkSource;
         Object858* pkChild = FUN_00d85700(pkOld->GetBreakableObject());
@@ -275,7 +247,7 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     }
     case 13: {
         Node858* pkNode = (Node858*)pkSource;
-        Object858* pkChild = FUN_00d85700(((::Object858 *)(reinterpret_cast<::FUN_00cdf6d0_t *>((pkNode))->FUN_00cdf6d0())));
+        Object858* pkChild = FUN_00d85700(static_cast<::Object858 *>(reinterpret_cast<::FUN_00cdf6d0_t *>((pkNode))->FUN_00cdf6d0()));
         if (!pkChild)
             return 0;
         Node858* pkClone = ((::Node858 *)(new ((void *)(AllocA<Raw858b>(0x20))) ::FUN_00cdf710((::hkReferencedObjectCDF7 *)(pkChild))));

@@ -2,9 +2,12 @@
 // src/havok/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c9000.h"
 #include "havok/hkpRejectChassisListener.h"
+#include "havok/hkpCollidable.h"
 
 struct FUN_00e360f0
 {
@@ -20,17 +23,28 @@ FUN_00e360f0::~FUN_00e360f0()
     m_pVTable = &::DAT_0102e388;
 }
 
-struct FUN_00e36100_StandIn
+// The phantom overlap event: phantom, collidable, and the accept/reject result.
+struct FUN_00e36100_Event
 {
-    int m_unk0;
-    void FUN_00e36100(int* pArg);
+    void* m_pPhantom;
+    const hkpCollidable* m_pCollidable;
+    int m_iCollidableResult;
 };
 
-// @fnv 0x00e36100
-void FUN_00e36100_StandIn::FUN_00e36100(int* pArg)
+// The listener interface inside hkpRejectChassisListener (its pad8 vtable), followed by the chassis collidable.
+struct FUN_00e36100_StandIn
 {
-    if (*(int*)(pArg + 1) == *(int*)(this + 1) || *((unsigned char*)*(int*)(pArg + 1) + 0x18) != 1)
-        *(int*)(pArg + 2) = 1;
+    void* m_pInterfaceVTable;
+    const void* m_pChassisCollidable;
+    void FUN_00e36100(FUN_00e36100_Event* pArg);
+};
+
+// Rejects the collidable when it is the chassis or is not an entity.
+// @fnv 0x00e36100
+void FUN_00e36100_StandIn::FUN_00e36100(FUN_00e36100_Event* pArg)
+{
+    if (pArg->m_pCollidable == m_pChassisCollidable || pArg->m_pCollidable->m_kBroadPhaseHandle.m_type != 1)
+        pArg->m_iCollidableResult = 1;
 }
 
 // @fnv 0x00e360e0
@@ -69,29 +83,6 @@ struct FunAdjust_Derived : FunAdjust_Plat, FunAdjust_Host, FunAdjust_Shim
 FunAdjust_Derived::FunAdjust_Derived()
 {}
 
-class hkMemoryAllocatorXdfbd40
-{
-  public:
-    virtual ~hkMemoryAllocatorXdfbd40() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterXdfbd40
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXdfbd40* m_pStreamAllocator;
-
-    hkMemoryAllocatorXdfbd40& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-extern "C" hkMemoryRouterXdfbd40& __cdecl FUN_00c85750() throw();
 
 class hkObjdfbd40 : public hkpRejectChassisListener
 {
@@ -100,7 +91,7 @@ class hkObjdfbd40 : public hkpRejectChassisListener
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {

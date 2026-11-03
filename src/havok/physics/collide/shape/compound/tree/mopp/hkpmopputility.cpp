@@ -3,12 +3,14 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/hkpmopputility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/hkpmopputility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+
 struct CallTarget_00d5ed80
 {
 };
 struct SearchObject
 {
-    int FUN_00d5eda0(unsigned int arg0, unsigned int arg1, unsigned int arg2);
+    int FUN_00d5eda0(unsigned int arg0, unsigned int arg1, uintptr_t arg2);
 public:
     int Search_00d5ed80(unsigned int, unsigned int, unsigned int, unsigned int);
 };

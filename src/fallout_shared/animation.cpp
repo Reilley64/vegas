@@ -362,7 +362,7 @@ extern int DAT_0101d8e8;
 // @fnv 0x0048f1b0
 int* FUN_0048f1b0(int* pThis)
 {
-    *pThis = (int)&DAT_0101d8e8;
+    *pThis = (std::intptr_t)&DAT_0101d8e8;
     return pThis;
 }
 
@@ -501,7 +501,7 @@ NiAVObject* FUN_00490d90_shell::FUN_00490d90()
                     operator const char*())
             {
                 return reinterpret_cast<NiAVObject*>(
-                    ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((const_cast<TESChallenge*>(
+                    ((std::intptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((const_cast<TESChallenge*>(
                         reinterpret_cast<const TESChallenge*>(reinterpret_cast<const BSStringT<char>&>(
                                                                   reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(
                                                                       reinterpret_cast<char*>(this) + 0x34)
@@ -1051,11 +1051,11 @@ struct FUN_00495f30_shell
     int unk0C;
     int unk10;
 
-    int FUN_00495f30(int* out);
+    std::intptr_t FUN_00495f30(int* out);
 };
 
 // @fnv 0x00495f30
-int FUN_00495f30_shell::FUN_00495f30(int* piValue)
+std::intptr_t FUN_00495f30_shell::FUN_00495f30(int* piValue)
 {
     *piValue = unk0C;
     return unk10;
@@ -1328,12 +1328,12 @@ float FUN_00496550_shell::GetMinBlendValue(NiNode* apNode)
     float fMinBlend = 1.0f;
     if (apNode != 0)
     {
-        float fblendValue = ::GetFloatProperty((int)(apNode), (const char *)(0));
+        float fblendValue = ::GetFloatProperty((std::intptr_t)(apNode), (const char *)(0));
         if (fblendValue < fMinBlend)
             fMinBlend = fblendValue;
         if (apNode != m_pObjectNode)
         {
-            fblendValue = GetMinBlendValue((NiNode*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)apNode)))->FUN_009611e0())));
+            fblendValue = GetMinBlendValue((NiNode*)((std::uintptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)apNode)))->FUN_009611e0())));
             if (fblendValue < fMinBlend)
                 fMinBlend = fblendValue;
         }
@@ -2102,11 +2102,11 @@ struct MagicCaster
 };
 struct FUN_00825c00_shell : public GameTimerRecord
 {
-    unsigned int FUN_00825c00();
+    std::uintptr_t FUN_00825c00();
 };
 
 // @fnv 0x00825c00
-unsigned int FUN_00825c00_shell::FUN_00825c00()
+std::uintptr_t FUN_00825c00_shell::FUN_00825c00()
 {
     return m_uiFirstTimerValue;
 }
@@ -2188,7 +2188,7 @@ struct ArrSI
 };
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct FUN_006317a0_struct
 {
@@ -2281,7 +2281,7 @@ struct NiInterpolator
 struct Flt
 {
     int m;
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct SoundH
@@ -2385,12 +2385,12 @@ void FUN_00493d50_shell::CheckAnimGroupMovement(TESAnimGroup* apAnimGroup)
         return;
     if (eanimGroup == 1 || eanimGroup == 2)
         return;
-    NiAVObject* pbip01 = ((::fnv_00493d50::NiAVObject *)(reinterpret_cast<::fnv_00490d90::FUN_00490d90_shell *>((((FUN_00490d90_shell*)(unsigned int)((Animation_Layout*)this)->m_acReservedBytes)))->FUN_00490d90()));
+    NiAVObject* pbip01 = ((::fnv_00493d50::NiAVObject *)(reinterpret_cast<::fnv_00490d90::FUN_00490d90_shell *>((((FUN_00490d90_shell*)(std::uintptr_t)((Animation_Layout*)this)->m_acReservedBytes)))->FUN_00490d90()));
     if (!pbip01)
     {
         Warning("ANIMATION: Could not find AccumRoot in animation '%s'.",
                 (const char*)((
-                    const NiFixedString_access&)((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObject*)(unsigned int)((Animation_Layout*)this)->m_acHeaderData)))->GetLinkToList())))));
+                    const NiFixedString_access&)((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObject*)(std::uintptr_t)((Animation_Layout*)this)->m_acHeaderData)))->GetLinkToList())))));
         return;
     }
     bool bcheckForMovement = false;
@@ -2484,7 +2484,7 @@ void FUN_00493d50_shell::CheckAnimGroupMovement(TESAnimGroup* apAnimGroup)
                     ::DAT_01197794[apAnimGroup->GetMoveAnimGroup()], ::DAT_011977a4[((int)(reinterpret_cast<::FUN_005f23e0_shell *>((apAnimGroup))->FUN_005f23e0()))],
                     (*reinterpret_cast<fnv_00493d50::AnimGroupInfo (*)[]>(&::DAT_011977d8))[apAnimGroup->GetType()].name,
                     (const char*)((
-                        const NiFixedString_access&)((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObject*)(unsigned int)((Animation_Layout*)this)->m_acHeaderData)))->GetLinkToList())))));
+                        const NiFixedString_access&)((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObject*)(std::uintptr_t)((Animation_Layout*)this)->m_acHeaderData)))->GetLinkToList())))));
         }
         break;
     }
@@ -2700,7 +2700,7 @@ struct FUN_00497040_shell : public AnimIdle
 
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct HA
 {
@@ -2827,13 +2827,13 @@ void SetNegatedGlobal(void* thisPtr)
 struct FUN_00497280_shell
 {
     unsigned int fieldAt124;
-    unsigned int GetFieldAt124();
+    std::uintptr_t GetFieldAt124();
 };
 
 // @fnv 0x00497280
-unsigned int FUN_00497280_shell::GetFieldAt124()
+std::uintptr_t FUN_00497280_shell::GetFieldAt124()
 {
-    return *(unsigned int*)((char*)this + 0xDC);
+    return *(std::uintptr_t*)((char*)this + 0xDC);
 }
 
 extern NiFixedString* DAT_011c61bc;
@@ -2984,22 +2984,22 @@ struct FUN_00498d30_t : public Animation
 // @fnv 0x00498d30
 bool FUN_00498d30_t::HasIdleForm(TESIdleForm* apIdleForm)
 {
-    if (LocalInput && ((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalInput)))->GetIconFormID())) == apIdleForm &&
+    if (LocalInput && ((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalInput)))->GetIconFormID())) == apIdleForm &&
         ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(AnimIdle*)LocalInput)))->GetName())) != 1)
         return true;
-    if (LocalStateValue && ((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalStateValue)))->GetIconFormID())) == apIdleForm &&
+    if (LocalStateValue && ((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalStateValue)))->GetIconFormID())) == apIdleForm &&
         ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(AnimIdle*)LocalStateValue)))->GetName())) != 1)
         return true;
     if (LocalOutput[0])
     {
-        if (((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalOutput[0])))->GetIconFormID())) == apIdleForm)
+        if (((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalOutput[0])))->GetIconFormID())) == apIdleForm)
             return true;
         else if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 && reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)LocalOutput[0])))->FUN_00490e40())
             return true;
     }
     if (LocalOutput[1])
     {
-        if (((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalOutput[1])))->GetIconFormID())) == apIdleForm)
+        if (((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)(AnimIdle*)LocalOutput[1])))->GetIconFormID())) == apIdleForm)
             return true;
         else if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 4 && reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)LocalOutput[1])))->FUN_00490e40())
             return true;
@@ -3118,13 +3118,13 @@ void ST_00493860::FUN_004939b0(bool argument0)
 struct FUN_00495560_shell
 {
     int m_01c4;
-    int GetFieldAt(int index);
+    std::intptr_t GetFieldAt(int index);
 };
 
 // @fnv 0x00495560
-int FUN_00495560_shell::GetFieldAt(int index)
+std::intptr_t FUN_00495560_shell::GetFieldAt(int index)
 {
-    return *(int*)((char*)this + 0x1c4 + index * 4);
+    return ((std::intptr_t*)((char*)this + 0x1c4))[index];
 }
 
 struct FUN_004964a0_shell
@@ -3310,7 +3310,7 @@ void* FUN_004968e0_shell::FUN_004968e0(unsigned int flags)
 namespace fnv_00498230 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct LowProcess
 {
@@ -3340,7 +3340,7 @@ bool Holder::FUN_00498230(void* apActor)
 namespace fnv_004985b0 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct TESObjectREFR_GetFlags_Helper
 {
@@ -3386,7 +3386,7 @@ struct NiTPointerList
 TESForm* NiTPointerList::FindOrSelf(TESForm* const& form)
 {
     void* ptr = Find(form, 0);
-    return ptr ? ((::TESForm *)(reinterpret_cast<::FUN_0049c5d0_cls *>(this)->RemoveNode((::ListLink_b5187 **)(void **)(&ptr)))) : form;
+    return ptr ? ((::TESForm *)(std::uintptr_t)(reinterpret_cast<::FUN_0049c5d0_cls *>(this)->RemoveNode((::ListLink_b5187 **)(void **)(&ptr)))) : form;
 }
 
 struct FUN_004bc1f0_S
@@ -3416,7 +3416,7 @@ void S00739970::FUN_00739970(bool b)
 namespace fnv_00921e30 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct StandIn
 {
@@ -3427,7 +3427,7 @@ struct StandIn
 // @fnv 0x00921e30
 BSAnimGroupSequence* StandIn::FUN_00921e30()
 {
-    return m_kHandle ? reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)(unsigned int)m_kHandle)))->FUN_00490e40() : 0;
+    return m_kHandle ? reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)(std::uintptr_t)m_kHandle)))->FUN_00490e40() : 0;
 }
 }  // namespace fnv_00921e30
 
@@ -3504,7 +3504,7 @@ namespace fnv_00495d50 {
 struct Flt
 {
     unsigned char _d[0x18];
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 struct Holder_00495d50
 {
@@ -3727,7 +3727,7 @@ struct FUN_00490e60_shell : public Animation
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct _FUN_00822510_Class
 {
@@ -3769,7 +3769,7 @@ bool FUN_00490e60_shell::ShouldQueueAnimations()
     }
     else if (*(NiNode**)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false))) ||
              *(NiNode**)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true))) ||
-             reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::fnv_00490e60::_FUN_00822510_Class &)(*(const _FUN_00822510_Class*)((char*)this + 8)))->operator==(((int)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))))))
+             reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::fnv_00490e60::_FUN_00822510_Class &)(*(const _FUN_00822510_Class*)((char*)this + 8)))->operator==(((std::intptr_t)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))))))
     {
         if (!Interface::IsMenuActive((Interface::enumMenus)0x40c, 0))
             bqueueAnims = false;
@@ -3797,7 +3797,7 @@ bool FUN_00490e60_shell::ShouldQueueAnimations()
 namespace fnv_0048f720 {
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_006317a0_struct
 {
@@ -3833,7 +3833,7 @@ char FUN_0048f720_shell::FindSequenceIndex(BSAnimGroupSequence* apSeq)
 namespace fnv_00497100 {
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct FUN_004efb10_shell
 {
@@ -3861,7 +3861,7 @@ unsigned short FUN_00497100_shell::FUN_00497100()
 namespace fnv_004981f0 {
 struct GO
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct Crime
@@ -3878,9 +3878,9 @@ struct FUN_004981f0_shell
 // @fnv 0x004981f0
 bool FUN_004981f0_shell::FUN_004981f0()
 {
-    if (!((GO*)((char*)this + 0x124))->operator unsigned int())
+    if (!((GO*)((char*)this + 0x124))->operator std::uintptr_t())
         return false;
-    return (unsigned int)(std::uintptr_t)((::TESObjectREFR *)(reinterpret_cast<::Twin_0044ddc0 *>((((Crime*)((GO*)((char*)this + 0x124))->operator unsigned int())))->GetName())) == 1;
+    return (std::uintptr_t)((::TESObjectREFR *)(reinterpret_cast<::Twin_0044ddc0 *>((((Crime*)((GO*)((char*)this + 0x124))->operator std::uintptr_t())))->GetName())) == 1;
 }
 }  // namespace fnv_004981f0
 
@@ -5788,7 +5788,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
         }
         if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 3)
             apSequence->Deactivate(0.0f, 0);
-        if (((((std::intptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) != 0 && !((void *)(reinterpret_cast<::ActorMover *>((apSequence))->GetCurrentMoveModeType()))) ||
+        if (((((std::intptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) != 0 && !((void *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((apSequence))->GetCurrentMoveModeType()))) ||
              (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1 && apSequence == previous2)) &&
             (!::FUN_00702360() || ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((apSequence))->GetActiveCombatTarget())) == 1))
         {
@@ -5873,7 +5873,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
             priority = ::GetMaxOfTwoBytes((unsigned char *)(((::AnimationBlend::BlendGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((apSequence))->GetAnimGroup()))));
         if (priority)
             duration = priority / ::DAT_0101db88;
-        if ((::FUN_00702360() && reinterpret_cast<::_FUN_00822510_Class *>(&(node))->operator==((int)(((::AnimationBlend::BlendObject *)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::AnimationBlend::BlendActor * *>(&::_g_thePlayer))))))))) || FUN_00702680(1036, 0))
+        if ((::FUN_00702360() && reinterpret_cast<::_FUN_00822510_Class *>(&(node))->operator==((std::intptr_t)(((::AnimationBlend::BlendObject *)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::AnimationBlend::BlendActor * *>(&::_g_thePlayer))))))))) || FUN_00702680(1036, 0))
             duration = *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AnimationBlend::BlendSettings *>(&::g_011c5740))))));
         if (type4 >= 177 && type4 <= 199 && previous2 && owner2 != (*reinterpret_cast<::AnimationBlend::BlendActor * *>(&::_g_thePlayer)) && duration < ::DAT_01011588)
         {
@@ -7256,11 +7256,11 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
     }
     if (((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f128))))) != 0)
     {
-        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f128)))))), (std::intptr_t)(((void*)this)), *(float*)&this->fd0);
+        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((std::uintptr_t)(::FUN_00559450((int *)(((Span_00499b90*)&this->f128)))))), (std::intptr_t)(((void*)this)), *(float*)&this->fd0);
     }
     else
     {
-        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((unsigned int)(::FUN_00559450((int *)(((Span_00499b90*)&this->f124)))))), (std::intptr_t)(((void*)this)), *(float*)&this->fd0);
+        ::fnv_004975e0::FUN_004975e0(pPi14, (::fnv_004975e0::SavedAnim *)(((std::uintptr_t)(::FUN_00559450((int *)(((Span_00499b90*)&this->f124)))))), (std::intptr_t)(((void*)this)), *(float*)&this->fd0);
     }
     reinterpret_cast<::FUN_008579b0_shell *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&this->f120), 1);
     bFlagVal = 0;
@@ -7276,7 +7276,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
             if (iVar != 0)
             {
                 Chan_00499b90* p38;
-                p38 = (Chan_00499b90*)((int)(reinterpret_cast<::S_FUN_0045bc00 *>((((Bc_00499b90*)iVar)))->FUN_0045bc00(0)));
+                p38 = (Chan_00499b90*)(std::uintptr_t)((reinterpret_cast<::S_FUN_0045bc00 *>((((Bc_00499b90*)iVar)))->FUN_0045bc00(0)));
                 if (p38 != 0)
                 {
                     std::uintptr_t u38;
@@ -7339,7 +7339,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
         u5c = uMark2;
         if (u58 > u5c + 0xffff)
         {
-            FUN_005b5e40(&(*reinterpret_cast<char *>((void *)&::DAT_01015318)), (unsigned int)&(*reinterpret_cast<char *>((void *)&::DAT_0101d930)), 0x1628);
+            FUN_005b5e40(&(*reinterpret_cast<char *>((void *)&::DAT_01015318)), (std::uintptr_t)&(*reinterpret_cast<char *>((void *)&::DAT_0101d930)), 0x1628);
         }
         *(unsigned short*)uMark2 = (unsigned short)(u58 - u5c);
     }
@@ -7733,7 +7733,7 @@ void Target496::DetachObjectModels(Data496* data)
                 if (::FUN_008c7aa0())
                     reinterpret_cast<::fnv_0087ad00::H0087ad00 *>((((::fnv_00496a50::Queue496 *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ad00((::fnv_0087ad00::G00559a40 *)(void *)(((::fnv_00496a50::Object496 *)(::FUN_00559450((int *)&(data->objects[i]))))), (void *)(0));
                 else
-                    ::FUN_00b5b1c0((::ShadowSceneNode *)(((::fnv_00496a50::Shadow496 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), (int)(((::fnv_00496a50::Object496 *)(::FUN_00559450((int *)&(data->objects[i]))))), {});
+                    ::FUN_00b5b1c0((::ShadowSceneNode *)(((::fnv_00496a50::Shadow496 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), (std::intptr_t)(((::fnv_00496a50::Object496 *)(::FUN_00559450((int *)&(data->objects[i]))))), {});
                 void* anim = ((void *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_00496a50::Manager496 *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((data->actor->get()))->FUN_00496940()))))));
                 void* copy7 = anim;
                 ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(void *)(((::fnv_00496a50::Object496 *)(::FUN_00559450((int *)&(data->objects[i]))))), (::S_00a6e8e0_Palette *)(copy7));
@@ -8173,7 +8173,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                 {
                     int iWeaponType =
                         ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pReloader))->GetBaseTexture()))->GetActiveWeapon()
-                            ? ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((WeaponStub*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pReloader))->GetBaseTexture()))->GetActiveWeapon())))->GetName()))
+                            ? ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((WeaponStub*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pReloader))->GetBaseTexture()))->GetActiveWeapon())))->GetName()))
                             : 0;
                     if (((bool)(reinterpret_cast<::FUN_004938c0_class *>((iWeaponType))->GetByteAt384())))
                         bSpecial = true;
@@ -8227,7 +8227,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                 {
                     Warning("'%s' is trying to free a special idle '%s' sequence '%s' that is animating.",
                             m_pAttachedReference->GetName(),
-                            ((::TESForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->GetIconFormID()))->GetName(),
+                            ((::TESForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->GetIconFormID()))->GetName(),
                             (const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((IdleStub*)(AnimIdle*)LocalOutput[iIdle])))->FUN_00490e40()))->GetLinkToList())));
                     LocalOutput[iIdle] = 0;
                 }
@@ -8534,7 +8534,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                 break;
             case 0:
             case 1:
-                if (!((void *)(reinterpret_cast<::ActorMover *>((pSequence))->GetCurrentMoveModeType())))
+                if (!((void *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((pSequence))->GetCurrentMoveModeType())))
                 {
                     while (action[i] < 1 &&
                            reinterpret_cast<::fnv_00493800::FUN_00493800_impl *>(this)->FUN_00493800((::fnv_00493800::BGSCameraShot *)(pSequence)) > reinterpret_cast<::FUN_005f3780_shell *>((((::AnimGroupInfoStub *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(pSequence))->GetAnimGroup()))))->FUN_005f3780(action[i]))
@@ -8880,7 +8880,7 @@ void Target::RemoveItemFromMap(Ref* apRef)
         }
         else if (((::Node *)(::FUN_00559450((int *)&(hold3)))))
         {
-            if (reinterpret_cast<::_FUN_00822510_Class *>(&(hold3))->operator==((int)(current)))
+            if (reinterpret_cast<::_FUN_00822510_Class *>(&(hold3))->operator==((std::intptr_t)(current)))
                 current = 0;
             reinterpret_cast<::CtrlSeqOwner *>((((::Node *)(::FUN_00559450((int *)&(ref))))))->ReleaseObject((::NiRefObject *)(void *)(((::Node *)(::FUN_00559450((int *)&(hold3))))));
         }
@@ -9655,8 +9655,8 @@ void FUN_004975e0(void* apUnused, SavedAnim* apAnim, std::intptr_t aiState, floa
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004975e0::SaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usBlockSize4, 2);
     }
     unsigned int uiRefID4 = 0;
-    if (apAnim && ((::fnv_004975e0::SaveRef *)(reinterpret_cast<::BGSMessageInitAccess *>((apAnim))->GetIconFormID())))
-        uiRefID4 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_004975e0::SaveRef *)(reinterpret_cast<::BGSMessageInitAccess *>((apAnim))->GetIconFormID()))))->FUN_0084e3a0()));
+    if (apAnim && ((::fnv_004975e0::SaveRef *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((apAnim))->GetIconFormID())))
+        uiRefID4 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_004975e0::SaveRef *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((apAnim))->GetIconFormID()))))->FUN_0084e3a0()));
     reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::fnv_004975e0::SaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&uiRefID4), 4);
     if (uiRefID4)
     {
@@ -9720,16 +9720,16 @@ bool AnimationAccess::FUN_00498290()
             {
                 pkSequence =
                     reinterpret_cast<::fnv_00494740::FUN_00494740_t *>(this)->FUN_00494740(((::IdleAnimGroupAccess498 *)(reinterpret_cast<::TESRegionDataMap *>((pkModel))->GetRegionMapName()))->FUN_005f2420(), 1,
-                                 ((unsigned char)(reinterpret_cast<::FUN_005ff770_shell *>((((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()))))->GetRandomValue())),
+                                 ((unsigned char)(reinterpret_cast<::FUN_005ff770_shell *>((((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()))))->GetRandomValue())),
                                  ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->FUN_00825c00())));
             }
             if (pkSequence)
             {
-                if (reinterpret_cast<::FUN_004d8a00_Class *>((((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()))))->GetField3C() > 0.0)
+                if (reinterpret_cast<::FUN_004d8a00_Class *>((((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()))))->GetField3C() > 0.0)
                 {
                     IdleReplayDelayAccess498* pDelay = new IdleReplayDelayAccess498;
-                    pDelay->idle = ((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()));
-                    pDelay->delay = reinterpret_cast<::FUN_004d8a00_Class *>((((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()))))->GetField3C();
+                    pDelay->idle = ((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()));
+                    pDelay->delay = reinterpret_cast<::FUN_004d8a00_Class *>((((::TESIdleForm *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->GetIconFormID()))))->GetField3C();
                     reinterpret_cast<::Callees *>(&(m_acTrailingData))->FUN_00905820((void *)&(reinterpret_cast<IdleReplayDelayEntry*&>(pDelay)));
                 }
                 reinterpret_cast<::fnv_00496fe0::FUN_00496fe0_cls *>((static_cast<AnimIdleAccess*>((AnimIdle*)LocalInput)))->FUN_00496fe0((::NiNode *)(pkSequence));
@@ -9759,7 +9759,7 @@ bool AnimationAccess::FUN_00498290()
 BSAnimGroupSequence* AnimSequenceMultiple::FUN_0048f790(TESAnimGroup* apAnimGroup)
 {
     void* listIt;
-    listIt = (void*)((unsigned int)(::FUN_00559450((int *)(m_pSingleSequence))));
+    listIt = (void*)((std::uintptr_t)(::FUN_00559450((int *)(m_pSingleSequence))));
     while (listIt != 0)
     {
         BSAnimGroupSequence* pseq;

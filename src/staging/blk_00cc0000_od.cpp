@@ -2,7 +2,9 @@
 // src/staging/blk_00cc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "bsmenu/global_string_header.h"
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "fnv/decl/hkMalleableConstraintData.h"
 #include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
 #include "fnv/symbols_00cc9000.h"
@@ -74,6 +76,7 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_0126f000.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 #include "fnv/symbols_simd.h"
 #include <cmath>
@@ -107,34 +110,14 @@ struct MemContextGuard
     int m_iSaved;
     MemContextGuard(int aiMemoryContext)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
-
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void* allocateChunk(int nbytes);
-};
-
-struct hkMemoryRouterStub
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pThreadAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pThreadAllocator;
-    }
-};
-
 
 struct hkVector4
 {
@@ -173,7 +156,7 @@ struct TransformObj
 
     static void* operator new(std::size_t nbytes)
     {
-        TransformObj* p = (TransformObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        TransformObj* p = (TransformObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -220,25 +203,6 @@ struct __declspec(align(16)) Mat
         return *this;
     }
 };
-
-struct HeapAlloc
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void Free(void* p, unsigned int size);
-};
-
-struct ScratchStack
-{
-    char* top;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HeapAlloc* heap;
-};
-
 
 struct Info2
 {
@@ -307,19 +271,17 @@ struct ScratchBuf
     unsigned int count;
     ScratchBuf(unsigned int n)
     {
-        ScratchStack* ss = static_cast<ScratchStack*>(::FUN_00c85750());
-        data = (Mat*)ss->top;
-        ss->top = (char*)data + ((n * sizeof(Mat) + 0x7f) & ~0x7f);
+        data = (Mat*)hkMemoryRouter::getInstance().allocateStack(int((n * sizeof(Mat) + 0x7f) & ~0x7f));
         count = n | 0x80000000;
     }
     void Release()
     {
-        static_cast<ScratchStack*>(::FUN_00c85750())->top = (char*)data;
-        HeapAlloc* h = static_cast<ScratchStack*>(::FUN_00c85750())->heap;
+        hkMemoryRouter::getInstance().deallocateStack(data);
+        hkMemoryAllocator* h = hkMemoryRouter::getInstance().m_heap;
         if (!(count & 0x80000000))
         {
             count &= 0x3fffffff;
-            h->Free(data, count * sizeof(Mat));
+            h->bufFree(data, int(count * sizeof(Mat)));
         }
     }
 };
@@ -362,26 +324,6 @@ struct hkVector4
     __forceinline void operator=(const hkVector4& v)
     {
         m_vComponents = v.m_vComponents;
-    }
-};
-
-struct Cc6830Alloc
-{
-    virtual void unk00();
-    virtual void* allocate(int nbytes);
-};
-
-struct Cc6830Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Cc6830Alloc* m_pThreadAllocator;
-
-    Cc6830Alloc& heap()
-    {
-        return *m_pThreadAllocator;
     }
 };
 
@@ -463,13 +405,13 @@ class Cc6830Motion
 
     static void* operator new(std::size_t nbytes)
     {
-        Cc6830Motion* p = (Cc6830Motion*)static_cast<Cc6830Router*>(::FUN_00c85750())->heap().allocate(nbytes);
+        Cc6830Motion* p = (Cc6830Motion*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
     static void operator delete(void* p, std::size_t nbytes)
     {
-        FUN_00c8b4f0(p, nbytes);
+        FUN_00c8b4f0(p, (int)nbytes);
     }
 
     Cc6830Motion();
@@ -562,28 +504,6 @@ struct hkVector4Pair
     hkVector4 m_kPointB;
 };
 
-struct hkMemoryAllocator;
-
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
-__forceinline hkMemoryAllocator& containerHeap()
-{
-    return static_cast<NineIntegerRecord*>(FUN_00c85750())->heap();
-}
-
 
 template <typename T> struct hkArray
 {
@@ -634,7 +554,7 @@ template <typename T> struct hkArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        _setSize(containerHeap(), n);
+        _setSize(hkMemoryRouter::getInstance().heap(), n);
     }
 };
 
@@ -1031,21 +951,6 @@ PoseTransform& PoseState::FUN_00cda8e0(int index)
     return local[index];
 }
 
-struct SpawnAllocator
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct SpawnHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    SpawnAllocator* m_pAllocator;
-};
-
 struct FUN_00d4f2a0
 {
     int unk00;
@@ -1085,8 +990,7 @@ struct FUN_00d4f2a0
     {}
     static __forceinline void* operator new(std::size_t size) throw()
     {
-        SpawnHolder* h = (SpawnHolder*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        void* p = h->m_pAllocator->Alloc(size);
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc(int(size));
         ((FUN_00d4f2a0*)p)->m_iElementCount = (unsigned short)size;
         return p;
     }
@@ -1271,7 +1175,7 @@ struct EntityObj
     char unk5C, unk5D;
     static void* operator new(std::size_t nbytes)
     {
-        EntityObj* p = (EntityObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        EntityObj* p = (EntityObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1747,7 +1651,7 @@ struct ShapeObj
 
     static void* operator new(std::size_t nbytes)
     {
-        ShapeObj* p = (ShapeObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        ShapeObj* p = (ShapeObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1844,8 +1748,8 @@ struct S00cc4610_Out
     S00cc4610_Out(int a, int b, int c);
     void* operator new(std::size_t n)
     {
-        hkMemoryAllocator& a = static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap();
-        void* p = a.allocateChunk(n);
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
+        void* p = a.blockAlloc((int)n);
         ((S00cc4610_Out*)p)->m_iElementCount = (unsigned short)n;
         return p;
     }
@@ -1870,12 +1774,12 @@ struct S00cc4610_Scope
     int saved;
     S00cc4610_Scope()
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~S00cc4610_Scope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -2163,183 +2067,6 @@ void RotationOwner525::FUN_00ccb810(StringArray525* stream)
     stream->append(value);
 }
 
-struct TlsState
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int unk2b4;
-};
 
 class MemoryManager
 {
@@ -2378,12 +2105,12 @@ struct AutoMemContext
     int m_saved;
     AutoMemContext(int ctx)
     {
-        m_saved = (*reinterpret_cast<::TlsState *>(&::g_tlsBlock)).unk2b4;
-        (*reinterpret_cast<::TlsState *>(&::g_tlsBlock)).unk2b4 = ctx;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = ctx;
     }
     ~AutoMemContext()
     {
-        (*reinterpret_cast<::TlsState *>(&::g_tlsBlock)).unk2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -2454,195 +2181,18 @@ union __declspec(align(16)) Transform
     char bytes[64];
 };
 
-struct TLSData
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int context;
-};
 
 struct Context
 {
     unsigned int previous;
     Context()
     {
-        previous = (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).context;
-        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).context = 0x10;
+        previous = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~Context()
     {
-        (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).context = previous;
+        ::g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -2747,7 +2297,7 @@ struct Name
     ~Name()
     {
         if (value != ::DAT_0109b220)
-            InterlockedDecrement(reinterpret_cast<volatile long*>(value) - 2);
+            InterlockedDecrement(&(reinterpret_cast<StringHeader*>(value) - 1)->refs);
     }
 };
 
@@ -2934,29 +2484,12 @@ struct S00cc2530_ScopedHeap306
     unsigned int old;
     S00cc2530_ScopedHeap306(unsigned int n)
     {
-        old = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = n;
+        old = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = n;
     }
     ~S00cc2530_ScopedHeap306()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
-    }
-};
-
-struct S00cc2530_Alloc306
-{
-    virtual void f0();
-    virtual void* Allocate(int);
-    virtual void Free(void*, int);
-};
-
-struct S00cc2530_Router306
-{
-    int unk00, unk04, unk08, unk0c;
-    S00cc2530_Alloc306* heap;
-    S00cc2530_Alloc306* GetAllocator()
-    {
-        return heap;
+        ::g_tlsBlock.memoryContext = old;
     }
 };
 
@@ -3073,13 +2606,13 @@ struct S00cc2530_FUN_00d4ce10
     S00cc2530_FUN_00d4ce10(int, const __m128*, int);
     static void* operator new(std::size_t n)
     {
-        void* p = static_cast<S00cc2530_Router306*>(::FUN_00c85750())->GetAllocator()->Allocate(n);
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc((int)n);
         static_cast<S00cc2530_FUN_00d4ce10*>(p)->memorySize = (unsigned short)n;
         return p;
     }
     static void operator delete(void* p)
     {
-        static_cast<S00cc2530_Router306*>(::FUN_00c85750())->GetAllocator()->Free(p, 0x170);
+        hkMemoryRouter::getInstance().heap().blockFree(p, 0x170);
     }
 };
 
@@ -3200,8 +2733,7 @@ struct Shape : RefCountedObject
     unsigned char kind;
     static void* operator new(std::size_t bytes)
     {
-        hkMemoryRouterStub* router = static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        Shape* result = static_cast<Shape*>(router->heap().allocateChunk(bytes));
+        Shape* result = static_cast<Shape*>(hkMemoryRouter::getInstance().heap().blockAlloc((int)bytes));
         result->size = (unsigned short)bytes;
         return result;
     }
@@ -3228,8 +2760,7 @@ struct FUN_00cc9d00 : RefCountedObject
     FUN_00cc9d00(ObjectType* type, Shape* shape, SourceGeometry* geometry);
     static void* operator new(std::size_t bytes)
     {
-        hkMemoryRouterStub* router = static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(router->heap().allocateChunk(bytes));
+        FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(hkMemoryRouter::getInstance().heap().blockAlloc((int)bytes));
         result->size = (unsigned short)bytes;
         return result;
     }
@@ -3279,198 +2810,18 @@ void OutputHandler::FUN_00cca6f0(InitializePathingRequestFromPosition* request)
     reinterpret_cast<RequestMethod>((*reinterpret_cast<void***>(this))[0xbc / 4])(this, request);
 }
 
-struct ThreadTlsBlock
-{
-    unsigned int unk0000;
-    unsigned int unk0004;
-    unsigned int unk0008;
-    unsigned int unk000C;
-    unsigned int unk0010;
-    unsigned int unk0014;
-    unsigned int unk0018;
-    unsigned int unk001C;
-    unsigned int unk0020;
-    unsigned int unk0024;
-    unsigned int unk0028;
-    unsigned int unk002C;
-    unsigned int unk0030;
-    unsigned int unk0034;
-    unsigned int unk0038;
-    unsigned int unk003C;
-    unsigned int unk0040;
-    unsigned int unk0044;
-    unsigned int unk0048;
-    unsigned int unk004C;
-    unsigned int unk0050;
-    unsigned int unk0054;
-    unsigned int unk0058;
-    unsigned int unk005C;
-    unsigned int unk0060;
-    unsigned int unk0064;
-    unsigned int unk0068;
-    unsigned int unk006C;
-    unsigned int unk0070;
-    unsigned int unk0074;
-    unsigned int unk0078;
-    unsigned int unk007C;
-    unsigned int unk0080;
-    unsigned int unk0084;
-    unsigned int unk0088;
-    unsigned int unk008C;
-    unsigned int unk0090;
-    unsigned int unk0094;
-    unsigned int unk0098;
-    unsigned int unk009C;
-    unsigned int unk00A0;
-    unsigned int unk00A4;
-    unsigned int unk00A8;
-    unsigned int unk00AC;
-    unsigned int unk00B0;
-    unsigned int unk00B4;
-    unsigned int unk00B8;
-    unsigned int unk00BC;
-    unsigned int unk00C0;
-    unsigned int unk00C4;
-    unsigned int unk00C8;
-    unsigned int unk00CC;
-    unsigned int unk00D0;
-    unsigned int unk00D4;
-    unsigned int unk00D8;
-    unsigned int unk00DC;
-    unsigned int unk00E0;
-    unsigned int unk00E4;
-    unsigned int unk00E8;
-    unsigned int unk00EC;
-    unsigned int unk00F0;
-    unsigned int unk00F4;
-    unsigned int unk00F8;
-    unsigned int unk00FC;
-    unsigned int unk0100;
-    unsigned int unk0104;
-    unsigned int unk0108;
-    unsigned int unk010C;
-    unsigned int unk0110;
-    unsigned int unk0114;
-    unsigned int unk0118;
-    unsigned int unk011C;
-    unsigned int unk0120;
-    unsigned int unk0124;
-    unsigned int unk0128;
-    unsigned int unk012C;
-    unsigned int unk0130;
-    unsigned int unk0134;
-    unsigned int unk0138;
-    unsigned int unk013C;
-    unsigned int unk0140;
-    unsigned int unk0144;
-    unsigned int unk0148;
-    unsigned int unk014C;
-    unsigned int unk0150;
-    unsigned int unk0154;
-    unsigned int unk0158;
-    unsigned int unk015C;
-    unsigned int unk0160;
-    unsigned int unk0164;
-    unsigned int unk0168;
-    unsigned int unk016C;
-    unsigned int unk0170;
-    unsigned int unk0174;
-    unsigned int unk0178;
-    unsigned int unk017C;
-    unsigned int unk0180;
-    unsigned int unk0184;
-    unsigned int unk0188;
-    unsigned int unk018C;
-    unsigned int unk0190;
-    unsigned int unk0194;
-    unsigned int unk0198;
-    unsigned int unk019C;
-    unsigned int unk01A0;
-    unsigned int unk01A4;
-    unsigned int unk01A8;
-    unsigned int unk01AC;
-    unsigned int unk01B0;
-    unsigned int unk01B4;
-    unsigned int unk01B8;
-    unsigned int unk01BC;
-    unsigned int unk01C0;
-    unsigned int unk01C4;
-    unsigned int unk01C8;
-    unsigned int unk01CC;
-    unsigned int unk01D0;
-    unsigned int unk01D4;
-    unsigned int unk01D8;
-    unsigned int unk01DC;
-    unsigned int unk01E0;
-    unsigned int unk01E4;
-    unsigned int unk01E8;
-    unsigned int unk01EC;
-    unsigned int unk01F0;
-    unsigned int unk01F4;
-    unsigned int unk01F8;
-    unsigned int unk01FC;
-    unsigned int unk0200;
-    unsigned int unk0204;
-    unsigned int unk0208;
-    unsigned int unk020C;
-    unsigned int unk0210;
-    unsigned int unk0214;
-    unsigned int unk0218;
-    unsigned int unk021C;
-    unsigned int unk0220;
-    unsigned int unk0224;
-    unsigned int unk0228;
-    unsigned int unk022C;
-    unsigned int unk0230;
-    unsigned int unk0234;
-    unsigned int unk0238;
-    unsigned int unk023C;
-    unsigned int unk0240;
-    unsigned int unk0244;
-    unsigned int unk0248;
-    unsigned int unk024C;
-    unsigned int unk0250;
-    unsigned int unk0254;
-    unsigned int unk0258;
-    unsigned int unk025C;
-    unsigned int unk0260;
-    unsigned int unk0264;
-    unsigned int unk0268;
-    unsigned int unk026C;
-    unsigned int unk0270;
-    unsigned int unk0274;
-    unsigned int unk0278;
-    unsigned int unk027C;
-    unsigned int unk0280;
-    unsigned int unk0284;
-    unsigned int unk0288;
-    unsigned int unk028C;
-    unsigned int unk0290;
-    unsigned int unk0294;
-    unsigned int unk0298;
-    unsigned int unk029C;
-    unsigned int unk02A0;
-    unsigned int unk02A4;
-    unsigned int unk02A8;
-    unsigned int unk02AC;
-    unsigned int unk02B0;
-    unsigned int m_2b4;
-};
 
 struct TlsFlagGuard
 {
-    ThreadTlsBlock* m_blk;
-    unsigned int m_saved;
+    int m_saved;
     TlsFlagGuard()
     {
-        unsigned int index = ::DAT_0126fd98;
-        m_blk = reinterpret_cast<ThreadTlsBlock**>(__readfsdword(0x2c))[index];
-        m_saved = m_blk->m_2b4;
-        m_blk->m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsFlagGuard()
     {
-        m_blk->m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -3739,7 +3090,7 @@ struct hkReferencedObject
 
     __forceinline static void* operator new(std::size_t nbytes)
     {
-        hkReferencedObject* p = (hkReferencedObject*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        hkReferencedObject* p = (hkReferencedObject*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -4577,7 +3928,7 @@ class FUN_00d55240_cls : public ::hkReferencedObject
 
     static void operator delete(void* p, std::size_t nbytes)
     {
-        ::fnv_00cc6830::FUN_00c8b4f0(p, nbytes);
+        ::fnv_00cc6830::FUN_00c8b4f0(p, (int)nbytes);
     }
 
     int unk08;
@@ -4762,7 +4113,7 @@ struct FUN_00d569c0
 
     static void* operator new(std::size_t nbytes)
     {
-        FUN_00d569c0* p = (FUN_00d569c0*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        FUN_00d569c0* p = (FUN_00d569c0*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -4992,22 +4343,6 @@ class FNVSoftContactTarget
     virtual void vtbl18(void);
 };
 
-class FNVAllocator
-{
-  public:
-    virtual void vtbl00(void);
-    virtual void* vtbl04(unsigned int size);
-};
-
-struct FNVAllocHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    FNVAllocator* m_pAllocator;
-};
-
 struct FNVOwner
 {
     unsigned int unk00;
@@ -5059,9 +4394,7 @@ void __cdecl FUN_00cdf850(FNVSoftContactSource* a1, int a2, int a3, FNVSoftConta
     FNVEffectRec* rec = (FNVEffectRec*)((void *)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(p), 0x18)));
     if (rec == 0)
     {
-        FNVAllocHolder* holder = (FNVAllocHolder*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        FNVAllocator* alloc = holder->m_pAllocator;
-        FNVEffectRec* fresh = (FNVEffectRec*)alloc->vtbl04(0x40);
+        FNVEffectRec* fresh = (FNVEffectRec*)hkMemoryRouter::getInstance().heap().blockAlloc(0x40);
         if (fresh != 0)
         {
             fresh->m_sType = 0x18;
@@ -5127,9 +4460,7 @@ void __cdecl FUN_00cdfac0(FNVSoftContactSource* a1, int a2, int a3, FNVSoftConta
     FNVEffectRec* rec = (FNVEffectRec*)((void *)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(p), 0x1c)));
     if (rec == 0)
     {
-        FNVAllocHolder* holder = (FNVAllocHolder*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        FNVAllocator* alloc = holder->m_pAllocator;
-        FNVEffectRec* fresh = (FNVEffectRec*)alloc->vtbl04(0x40);
+        FNVEffectRec* fresh = (FNVEffectRec*)hkMemoryRouter::getInstance().heap().blockAlloc(0x40);
         if (fresh != 0)
         {
             fresh->m_sType = 0x1c;
@@ -5333,7 +4664,7 @@ struct FUN_00d58510
 
     static void* operator new(std::size_t nbytes)
     {
-        FUN_00d58510* p = (FUN_00d58510*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        FUN_00d58510* p = (FUN_00d58510*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -5424,30 +4755,7 @@ void CylinderDisplayOwner::FUN_00ccd6f0(void* pkA, void* pkB)
 
 
 
-
-
-
-
-
-
 void FUN_00cd3c20(S_00cd3c20_Obj* obj);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -5465,197 +4773,10 @@ void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 
 
 
-
-
-
-
-struct ThreadBlock {
-    unsigned int unk0000;
-    unsigned int unk0004;
-    unsigned int unk0008;
-    unsigned int unk000c;
-    unsigned int unk0010;
-    unsigned int unk0014;
-    unsigned int unk0018;
-    unsigned int unk001c;
-    unsigned int unk0020;
-    unsigned int unk0024;
-    unsigned int unk0028;
-    unsigned int unk002c;
-    unsigned int unk0030;
-    unsigned int unk0034;
-    unsigned int unk0038;
-    unsigned int unk003c;
-    unsigned int unk0040;
-    unsigned int unk0044;
-    unsigned int unk0048;
-    unsigned int unk004c;
-    unsigned int unk0050;
-    unsigned int unk0054;
-    unsigned int unk0058;
-    unsigned int unk005c;
-    unsigned int unk0060;
-    unsigned int unk0064;
-    unsigned int unk0068;
-    unsigned int unk006c;
-    unsigned int unk0070;
-    unsigned int unk0074;
-    unsigned int unk0078;
-    unsigned int unk007c;
-    unsigned int unk0080;
-    unsigned int unk0084;
-    unsigned int unk0088;
-    unsigned int unk008c;
-    unsigned int unk0090;
-    unsigned int unk0094;
-    unsigned int unk0098;
-    unsigned int unk009c;
-    unsigned int unk00a0;
-    unsigned int unk00a4;
-    unsigned int unk00a8;
-    unsigned int unk00ac;
-    unsigned int unk00b0;
-    unsigned int unk00b4;
-    unsigned int unk00b8;
-    unsigned int unk00bc;
-    unsigned int unk00c0;
-    unsigned int unk00c4;
-    unsigned int unk00c8;
-    unsigned int unk00cc;
-    unsigned int unk00d0;
-    unsigned int unk00d4;
-    unsigned int unk00d8;
-    unsigned int unk00dc;
-    unsigned int unk00e0;
-    unsigned int unk00e4;
-    unsigned int unk00e8;
-    unsigned int unk00ec;
-    unsigned int unk00f0;
-    unsigned int unk00f4;
-    unsigned int unk00f8;
-    unsigned int unk00fc;
-    unsigned int unk0100;
-    unsigned int unk0104;
-    unsigned int unk0108;
-    unsigned int unk010c;
-    unsigned int unk0110;
-    unsigned int unk0114;
-    unsigned int unk0118;
-    unsigned int unk011c;
-    unsigned int unk0120;
-    unsigned int unk0124;
-    unsigned int unk0128;
-    unsigned int unk012c;
-    unsigned int unk0130;
-    unsigned int unk0134;
-    unsigned int unk0138;
-    unsigned int unk013c;
-    unsigned int unk0140;
-    unsigned int unk0144;
-    unsigned int unk0148;
-    unsigned int unk014c;
-    unsigned int unk0150;
-    unsigned int unk0154;
-    unsigned int unk0158;
-    unsigned int unk015c;
-    unsigned int unk0160;
-    unsigned int unk0164;
-    unsigned int unk0168;
-    unsigned int unk016c;
-    unsigned int unk0170;
-    unsigned int unk0174;
-    unsigned int unk0178;
-    unsigned int unk017c;
-    unsigned int unk0180;
-    unsigned int unk0184;
-    unsigned int unk0188;
-    unsigned int unk018c;
-    unsigned int unk0190;
-    unsigned int unk0194;
-    unsigned int unk0198;
-    unsigned int unk019c;
-    unsigned int unk01a0;
-    unsigned int unk01a4;
-    unsigned int unk01a8;
-    unsigned int unk01ac;
-    unsigned int unk01b0;
-    unsigned int unk01b4;
-    unsigned int unk01b8;
-    unsigned int unk01bc;
-    unsigned int unk01c0;
-    unsigned int unk01c4;
-    unsigned int unk01c8;
-    unsigned int unk01cc;
-    unsigned int unk01d0;
-    unsigned int unk01d4;
-    unsigned int unk01d8;
-    unsigned int unk01dc;
-    unsigned int unk01e0;
-    unsigned int unk01e4;
-    unsigned int unk01e8;
-    unsigned int unk01ec;
-    unsigned int unk01f0;
-    unsigned int unk01f4;
-    unsigned int unk01f8;
-    unsigned int unk01fc;
-    unsigned int unk0200;
-    unsigned int unk0204;
-    unsigned int unk0208;
-    unsigned int unk020c;
-    unsigned int unk0210;
-    unsigned int unk0214;
-    unsigned int unk0218;
-    unsigned int unk021c;
-    unsigned int unk0220;
-    unsigned int unk0224;
-    unsigned int unk0228;
-    unsigned int unk022c;
-    unsigned int unk0230;
-    unsigned int unk0234;
-    unsigned int unk0238;
-    unsigned int unk023c;
-    unsigned int unk0240;
-    unsigned int unk0244;
-    unsigned int unk0248;
-    unsigned int unk024c;
-    unsigned int unk0250;
-    unsigned int unk0254;
-    unsigned int unk0258;
-    unsigned int unk025c;
-    unsigned int unk0260;
-    unsigned int unk0264;
-    unsigned int unk0268;
-    unsigned int unk026c;
-    unsigned int unk0270;
-    unsigned int unk0274;
-    unsigned int unk0278;
-    unsigned int unk027c;
-    unsigned int unk0280;
-    unsigned int unk0284;
-    unsigned int unk0288;
-    unsigned int unk028c;
-    unsigned int unk0290;
-    unsigned int unk0294;
-    unsigned int unk0298;
-    unsigned int unk029c;
-    unsigned int unk02a0;
-    unsigned int unk02a4;
-    unsigned int unk02a8;
-    unsigned int unk02ac;
-    unsigned int unk02b0;
-    unsigned int allocationType;
-};
-
 struct AllocationTypeScope {
     unsigned int previous;
-    AllocationTypeScope(unsigned int type) : previous((*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).allocationType) {(*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).allocationType=type;}
-    ~AllocationTypeScope() {(*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).allocationType=previous;}
-};
-
-struct RouterHeap {
-    virtual void Unk00();
-    virtual void* Allocate(int bytes);
-    virtual void Release(void* memory,int bytes);
+    AllocationTypeScope(unsigned int type) : previous(::g_tlsBlock.memoryContext) {::g_tlsBlock.memoryContext=type;}
+    ~AllocationTypeScope() {::g_tlsBlock.memoryContext=previous;}
 };
 
 struct SimdReal { hkVec4 m; SimdReal(float f){ m.m_vComponents=_mm_load_ss(&f);} };
@@ -5676,14 +4797,13 @@ public:
     MotionVector stateC0,stateD0,stateE0,stateF0,state100,state110,state120,state130,state140,state150;
     FUN_00d4edc0();
     static void* operator new(size_t bytes) {
-        void* memory=static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)bytes);
+        void* memory=hkMemoryRouter::getInstance().heap().blockAlloc((int)bytes);
         ((FUN_00d4edc0*)memory)->allocatedBytes=(unsigned short)bytes;
         return memory;
     }
     static void operator delete(void* memory) {
         FUN_00d4edc0* motion=(FUN_00d4edc0*)memory;
-        RouterHeap* heap=(RouterHeap*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->m_pThreadAllocator;
-        heap->Release(memory,motion->allocatedBytes);
+        hkMemoryRouter::getInstance().heap().blockFree(memory,motion->allocatedBytes);
     }
 };
 
@@ -5714,12 +4834,6 @@ void MotionOwner::FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale) {
     }
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(intptr_t)(scale));
 }
-
-struct BlockAllocator {
-    virtual void unknown00();
-    virtual void* allocate(int);
-    virtual void release(void*, int);
-};
 
 struct Motor513 {
     virtual void unknown00();
@@ -5759,14 +4873,14 @@ struct FUN_00d4fe80 : ConstraintReference513 {
     float minimum,maximum;
     FUN_00d4fe80();
     static void* allocate(hkMemoryAllocator& heap,unsigned int size) {
-        FUN_00d4fe80* result=(FUN_00d4fe80*)heap.allocateChunk(size);
+        FUN_00d4fe80* result=(FUN_00d4fe80*)heap.blockAlloc(int(size));
         result->memorySize=(unsigned short)size;
         return result;
     }
     static void* operator new(std::size_t size) {
-        return allocate(static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap(),size);
+        return allocate(hkMemoryRouter::getInstance().heap(),(unsigned int)size);
     }
-    static void operator delete(void* p) { ((BlockAllocator*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->m_pThreadAllocator)->release(p,((FUN_00d4fe80*)p)->memorySize); }
+    static void operator delete(void* p) { hkMemoryRouter::getInstance().heap().blockFree(p,((FUN_00d4fe80*)p)->memorySize); }
 };
 
 struct CloneData513 { unsigned int unk00,unk04,unk08,unk0c; float scale; };
@@ -7337,7 +6451,6 @@ static __forceinline __m128 splatFloat(const float* f) {
 }
 
 
-
 __forceinline __m128 invLength(__m128 value)
 {
     __m128 squared = _mm_mul_ps(value, value);
@@ -7882,7 +6995,6 @@ extern "C" void _WriteBarrier(void);
  // 1.0 splat
 
 
-
 struct ProfRec2
 {
     const char* m_pName;
@@ -7916,7 +7028,10 @@ static __forceinline DWORD Tick()
 
 struct IkVector4
 {
-    __m128 m_vComponents;
+    union {
+        __m128 m_vComponents;
+        unsigned __int64 m_halves[2];
+    };
     __forceinline IkVector4() {}
     __forceinline void operator=(const IkVector4& v) { m_vComponents = v.m_vComponents; }
 };
@@ -7927,7 +7042,7 @@ struct hkQuaternion
 {
     IkVector4 m_vec;
     __forceinline hkQuaternion() {}
-    __forceinline hkQuaternion(const hkQuaternion& q) { reinterpret_cast<unsigned __int64*>(&m_vec.m_vComponents)[0]=reinterpret_cast<const unsigned __int64*>(&q.m_vec.m_vComponents)[0]; reinterpret_cast<unsigned __int64*>(&m_vec.m_vComponents)[1]=reinterpret_cast<const unsigned __int64*>(&q.m_vec.m_vComponents)[1]; }
+    __forceinline hkQuaternion(const hkQuaternion& q) { m_vec.m_halves[0]=q.m_vec.m_halves[0]; m_vec.m_halves[1]=q.m_vec.m_halves[1]; }
 __forceinline void copyRotation(const hkQuaternion& q) {*(QuadWords*)&m_vec=*(const QuadWords*)&q.m_vec;}
     __declspec(noalias) void FUN_005611c0();
     void FUN_00cb2450(const IkVector4& axis, float angle);
@@ -8394,8 +7509,6 @@ struct hkaPoseTyped
     bool m_bPoseInitialized;
 
 
-
-
     __forceinline const hkQsTransform& getBoneModelSpace(int boneIdx)
     {
         if ((m_pBoneFlags[boneIdx] & 2) == 0)
@@ -8766,7 +7879,6 @@ reinterpret_cast<::Quat_cdb910 *>(&(kIter))->FUN_00cdb910(setup.m_fThirdIkParame
     }
     return hkBool(true);
 }
-
 
 
 // @fnv 0x00cdb910

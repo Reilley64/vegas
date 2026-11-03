@@ -72,7 +72,7 @@ struct __declspec(align(16)) MixDesc
 {
     void* p00;  // owner
     int v04;    // 0
-    void* p08;  // buffer
+    int v08;    // node capacity
     int v0c;    // 0
     int v10;    // channel count
     int v14;
@@ -102,11 +102,11 @@ struct __declspec(align(16)) SoundObject
 
 // Initializes a MixDesc and SoundObject, calls Mix with count, and stores its return value in out.
 // @fnv 0x00d9d880
-void __cdecl MixChannels(void* p1, int* p2, int count, void* p4, int channels, int* p6, int* apResult)
+void __cdecl MixChannels(void* p1, int* p2, intptr_t entries, int p4, int channels, int p6, int* apResult)
 {
     int* p2Copy;
     int one;
-    int* p6Copy;
+    int p6Copy;
     ChannelMix mix;
     MixDesc desc;
     SoundObject soundObj;
@@ -131,13 +131,13 @@ void __cdecl MixChannels(void* p1, int* p2, int count, void* p4, int channels, i
     // The channel settings travel to the mixer as a vector as well.
     *(__m128*)&desc.mix20 = *(__m128*)&mix;
 
-    desc.p08 = p4;
+    desc.v08 = p4;
 
     // Bring the sound object up, let the mixer know about it and run it.
     new ((void *)&(soundObj)) ::FUN_00df3110();
     desc.p30 = &soundObj;
     p6Copy = p6;
-    *apResult = ::FUN_00df56a0((::Node56 *)(::MixDesc *)(&desc), (::Output56 **)(int **)(&p2Copy), count, &one, (int *)(int **)(&p6Copy));
+    *apResult = ::FUN_00df56a0((::Node56 *)(::MixDesc *)(&desc), (::Output56 **)(int **)(&p2Copy), entries, &one, &p6Copy);
 
     // And shut it down again.
     ::FUN_00df3160();

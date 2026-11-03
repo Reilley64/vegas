@@ -377,7 +377,7 @@ hkNamedEntryD473* hkEntryListD473::FUN_00d47300(intptr_t iName)
 {
     for (int i = 0; i < reinterpret_cast<::FnvCpu_FUN_00d46ef0_CpuObject *>((void *)this)->FUN_00d46ef0(); i++)
     {
-        hkNamedEntryD473* pkEntry = ((::hkNamedEntryD473 *)(::GetEntryAt((char *)this, i, {})));
+        hkNamedEntryD473* pkEntry = ((::hkNamedEntryD473 *)(::GetEntryAt((char *)this, 0, i)));
         if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(pkEntry->m_name), (const char *)(iName)) == 0)
             return pkEntry;
     }

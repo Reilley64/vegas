@@ -363,14 +363,14 @@ void e319Cls::FUN_00e31900()
         {
             e319Rec rec;
             rec.raw = *pSrc++;
-            ::FUN_00e31740(*pSrc++, rec.f.lo, (unsigned int *)(char **)(&p));
-            ::FUN_00e31780(*pSrc++, rec.f.mid, (int *)(char **)(&p));
-            ::FUN_00e31740(*pSrc++, rec.f.hi, (unsigned int *)(char **)(&p));
+            ::FUN_00e31740(*pSrc++, rec.f.lo, (uintptr_t *)(char **)(&p));
+            ::FUN_00e31780(*pSrc++, rec.f.mid, (uintptr_t *)(char **)(&p));
+            ::FUN_00e31740(*pSrc++, rec.f.hi, (uintptr_t *)(char **)(&p));
         }
         for (int iTail = 0; iTail < m_14; iTail++)
         {
             unsigned char ucTail = *pSrc++;
-            ::FUN_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, (unsigned int *)(char **)(&p));
+            ::FUN_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, (uintptr_t *)(char **)(&p));
         }
     }
 }

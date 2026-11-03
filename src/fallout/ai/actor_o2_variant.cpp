@@ -2539,9 +2539,9 @@ inline S_Elem* GetPhantom(S_Obj* c)
     return c->unk18 == 2 ? (S_Elem*)GetOwner(c) : 0;
 }
 // @fnv 0x00c7fa90
-int __cdecl FUN_00c7fa90(S_Obj* p)
+intptr_t __cdecl FUN_00c7fa90(S_Obj* p)
 {
-    int result = 0;
+    intptr_t result = 0;
     if (S_Elem* e = GetEntity(p))
     {
         S_Out out;

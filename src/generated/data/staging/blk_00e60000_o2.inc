@@ -60,7 +60,7 @@ const PixelTemplate DAT_011ab218 = {8193u, 15u, 0u, 0xffffffffu, 0u, 18u, 0u, 26
 const PixelTemplate DAT_011ab2a8 = {8193u, 15u, 0u, 0xffffffffu, 0u, 14u, 0u, 264u, 17u, 0u, 280u, 19u, 5u, 256u, 19u, 5u, 256u};
 const PixelTemplate DAT_011ab2f0 = {8193u, 15u, 0u, 0xffffffffu, 0u, 18u, 0u, 260u, 14u, 0u, 260u, 17u, 0u, 280u, 19u, 5u, 256u};
 unsigned int DAT_011bf140[10] = {70u, 71u, 73u, 75u, 77u, 79u, 82u, 83u, 80u};
-int DAT_0126f590;
+void* DAT_0126f590;
 bool g_dsBE7D6B0;
 NiTListE7CF<ItemE7CF *> DAT_0126f5c8;
 ::CriticalSectionE7CF DAT_0126f600;

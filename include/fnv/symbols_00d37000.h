@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class hkpCdBody;
 class hkpCdPointCollector;
 namespace fnv_00d37da0 { struct S_00d37da0_Agent; }

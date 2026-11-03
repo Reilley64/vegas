@@ -4271,7 +4271,7 @@ void E11B00Hull::FUN_00e11b00(const E11B00Vector4& scale)
     for (E11B00Vertex* v = m_kVertices; v; v = v->m_next)
         v->m_vContactPosition.mul4(scale);
     reinterpret_cast<::fnv_00e11a60::FUN_00e11a60_cls *>(this)->ResetNodeVectors();
-    static_cast<::FUN_00e114c0_Class *>(nullptr)->ReleaseSubobject();
+    reinterpret_cast<::FUN_00e114c0_Class *>(this)->ReleaseSubobject();
 }
 
 __declspec(align(16)) struct S_00e12260_Vector4
@@ -5422,7 +5422,7 @@ struct FUN_00c7f640_Obj {
     int z;
     int w;
 
-    void FUN_00c7f640(int value, S_00e11a90_Vec* data);
+    void FUN_00c7f640(intptr_t value, S_00e11a90_Vec* data);
 };
 
 struct S_00e11a90_Node {
@@ -5441,13 +5441,13 @@ struct S_00e11a90_Class {
     int unk10;
     S_00e11a90_Node* head;
 
-    void FUN_00e11a90(int value);
+    void FUN_00e11a90(intptr_t value);
 };
 
 
 // Applies value to each node's vector via FUN_00c7f640, then resets node vectors and releases the subobject.
 // @fnv 0x00e11a90
-void S_00e11a90_Class::FUN_00e11a90(int value) {
+void S_00e11a90_Class::FUN_00e11a90(intptr_t value) {
     for (S_00e11a90_Node* node = head; node != 0; node = node->next) {
         FUN_00c7f640_Obj* source = &node->vec;
         const int* values = &source->x;
@@ -5462,7 +5462,7 @@ void S_00e11a90_Class::FUN_00e11a90(int value) {
     }
 
     reinterpret_cast<::fnv_00e11a60::FUN_00e11a60_cls *>(this)->ResetNodeVectors();
-    static_cast<::FUN_00e114c0_Class *>(nullptr)->ReleaseSubobject();
+    reinterpret_cast<::FUN_00e114c0_Class *>(this)->ReleaseSubobject();
 }
 
 #ifndef _INCLUDED_MM2

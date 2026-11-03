@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "../../include/layout_support.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -892,7 +893,7 @@ void ShapeQ::FUN_00e11b40(const RotationQ* r)
     *(__m128*)&t.m_rot[0] = *(const __m128*)&r->m_col[0];
     *(__m128*)&t.m_rot[4] = *(const __m128*)&r->m_col[4];
     *(__m128*)&t.m_rot[8] = *(const __m128*)&r->m_col[8];
-    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)(&t));
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((intptr_t)(&t));
 }
 
 struct __declspec(align(16)) Rot
@@ -928,7 +929,7 @@ void Owner::FUN_00e11ca0(const __m128* src)
     *(__m128*)xf.r1 = *(__m128*)&rot.d[2];
     *(__m128*)xf.r2 = *(__m128*)&rot.d[4];
     *(__m128*)xf.t = *src;
-    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)(&xf));
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((intptr_t)(&xf));
 }
 
 struct S00e00d70_Arg
@@ -1118,8 +1119,6 @@ struct EdgeRef
     }
 };
 
-struct EdgeAllocator;
-
 template <class T> struct EdgeArray
 {
     T* data;
@@ -1134,30 +1133,10 @@ template <class T> struct EdgeArray
     void grow(int elementSize);
 };
 
-struct EdgeAllocator
-{
-    virtual void f0();
-    virtual void f4();
-    virtual void f8();
-    virtual void fc();
-    virtual void release(void*, int);
-    template <class T> void reserve(EdgeArray<T>& array, int needed, int elementSize);
-    template <class T> void clear(EdgeArray<T>& array, int elementSize);
-};
-
-struct EdgeMemory
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    EdgeAllocator* allocator;
-};
-
 
 float ClampedAcos(float);
 
-template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int needed, int elementSize)
+template <class T> inline void reserveEdges(hkMemoryAllocator& allocator, EdgeArray<T>& array, int needed, int elementSize)
 {
     int available = array.capacity & 0x3fffffff;
     if (available < needed)
@@ -1165,22 +1144,22 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
         int next = available * 2;
         if (needed >= next)
             next = needed;
-        ::FUN_00c908c0((::SpawnedObject *)(void *)(this), (::SpawnedArray *)(void *)(&array), next, elementSize);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(&array), next, elementSize);
     }
 }
 
 template <class T> inline void EdgeArray<T>::grow(int elementSize)
 {
-    EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
+    hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
     if (size == (capacity & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(memory->allocator), (::AudioStream *)(void *)(this), elementSize);
+        ::ResizeAudioStream((::AudioAllocator *)(memory->m_heap), (::AudioStream *)(void *)(this), elementSize);
 }
 
-template <class T> inline void EdgeAllocator::clear(EdgeArray<T>& array, int elementSize)
+template <class T> inline void clearEdges(hkMemoryAllocator& allocator, EdgeArray<T>& array, int elementSize)
 {
     array.size = 0;
     if ((array.capacity & 0x80000000) == 0)
-        release(array.data, (array.capacity & 0x3fffffff) * elementSize);
+        allocator.bufFree(array.data, (array.capacity & 0x3fffffff) * elementSize);
     array.data = 0;
     array.capacity = 0x80000000;
 }
@@ -1258,13 +1237,11 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
     EdgeArray<float> scores;
     {
         int required = mesh->count * 3;
-        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
-        memory->allocator->reserve(refs, required, 8);
+        reserveEdges(hkMemoryRouter::getInstance().heap(), refs, required, 8);
     }
     {
         int required = mesh->count * 3;
-        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
-        memory->allocator->reserve(scores, required, 4);
+        reserveEdges(hkMemoryRouter::getInstance().heap(), scores, required, 4);
     }
     for (EdgeNode* node = mesh->head; node; node = node->next)
     {
@@ -1338,12 +1315,10 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
         }
     }
     {
-        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
-        memory->allocator->clear(scores, 4);
+        clearEdges(hkMemoryRouter::getInstance().heap(), scores, 4);
     }
     {
-        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
-        memory->allocator->clear(refs, 8);
+        clearEdges(hkMemoryRouter::getInstance().heap(), refs, 8);
     }
 }
 
@@ -1548,7 +1523,7 @@ void MatrixOwnerE1::FUN_00e11ba0(const void* input)
     matrix.c2 = *reinterpret_cast<const __m128*>(&identity.c2);
     matrix.c3 = *reinterpret_cast<const __m128*>(&identity.c3);
     reinterpret_cast<::RotationRows *>(&(matrix))->FUN_00cb2d90((void *)(input));
-    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((int)&(matrix));
+    reinterpret_cast<::S_00e11a90_Class *>(this)->FUN_00e11a90((intptr_t)&(matrix));
 }
 
 void* __cdecl FUN_00e005f0();

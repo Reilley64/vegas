@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 struct CollisionKeyEntry;
 
 // 0x00d4d250

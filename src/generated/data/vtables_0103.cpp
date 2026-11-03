@@ -229,7 +229,7 @@ extern "C" void fnv_fn_00c8e670() __asm__("?DispatchCollision@CollisionOwner@@QE
 extern "C" void fnv_fn_00c8ea30() __asm__("?FUN_00c8ea30@Entity_c8ea@@QEAAXPEAD@Z");
 extern "C" void fnv_fn_00c8eb00() __asm__("?FUN_00c8eb00@FUN_00c8eb00_s@@QEAAXXZ");
 extern "C" void fnv_fn_00c8f3c0() __asm__("?FUN_00c8f3c0@bhkRigidBody@@QEAAXPEAUNiStream@@@Z");
-extern "C" void fnv_fn_00c8f400() __asm__("?CreateAndAddLiquidAction@bhkRigidBodyX@@QEAAPEAUbhkLiquidAction@@H@Z");
+extern "C" void fnv_fn_00c8f400() __asm__("?CreateAndAddLiquidAction@bhkRigidBodyX@@QEAAPEAUbhkLiquidAction@@PEAUCloningProcess@@@Z");
 extern "C" void fnv_fn_00c8f5a0() __asm__("?GetOrCreateRigidBodyInfo@FUN_00c8f5a0_Class@@QEAAPEAUFUN_00c8f510@@PEAE@Z");
 extern "C" void fnv_fn_00c8f6e0() __asm__("?FUN_00c8f6e0@Q8f6e0_Obj@@QEAAHPEAUQ8f6e0_Arg@@@Z");
 extern "C" void fnv_fn_00c8f870() __asm__("?FUN_00c8f870@MaterialInspector@@QEAAXPEAUInspectorList@@@Z");

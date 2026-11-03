@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "fnv/decl/Registry_e5c5.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
@@ -250,7 +251,6 @@ struct BoundsRef { F8* p; F8* operator->() const { return p; } operator F8*() co
 
 struct Vec { int* base; int count; int cap; };
 
-struct Resource { int unk00, unk04, unk08, unk0c; void* allocator; };
 
 
 static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff };
@@ -511,8 +511,8 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
       right = op - 48;
     append: {
       Vec* item=vec; unsigned int bounds_test=right; _ReadWriteBarrier(); *(volatile int*)&right=right; bounds_test+=cur->f0;
-      Resource* first = (Resource*)FUN_00c85750();
-      if (item->count == (item->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(first->allocator), (::AudioStream *)(item), 4);
+      hkMemoryRouter* first = &hkMemoryRouter::getInstance();
+      if (item->count == (item->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(first->m_heap), (::AudioStream *)(item), 4);
       int* message = &item->base[item->count++];
       *message = bounds_test;
       return;
@@ -551,8 +551,6 @@ struct __declspec(align(16)) BoundsPair { __m128 minimum; __m128 maximum;
 };
 
 struct OutputArray { int* data; int size; int capacity; };
-
-struct AllocatorContext { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
 
 struct DiagnosticStream {
     void* vtable; int flags; void* writer;
@@ -628,8 +626,8 @@ struct TreeDecoder {
     void FUN_00e5e430(DecodeState*, const unsigned char*, BoundsPair*);
     __forceinline void emit(int value) {
         OutputArray* a = output;
-        AllocatorContext* context = (AllocatorContext*)FUN_00c85750();
-        if (a->size == (a->capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->allocator),(::AudioStream *)(a),4);
+        hkMemoryRouter* context = &hkMemoryRouter::getInstance();
+        if (a->size == (a->capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->m_heap),(::AudioStream *)(a),4);
         int* destination = &a->data[a->size]; ++a->size; *destination = value;
     }
     __forceinline void readBounds(DecodeState* state, const unsigned char* code, int& offset, BoundsPair& bounds, const float& scalar) {

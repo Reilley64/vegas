@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct FUN_00cafbd0_Class {
 public:
     // 0x00cafbd0

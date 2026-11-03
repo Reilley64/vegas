@@ -1,6 +1,7 @@
 // staging/blk_00e40000_o2.cpp: KnotVector, ThunkDerived, FourComponentVector, Quat4 and more (195 functions)
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "fnv/decl/hkMalleableConstraintData.h"
 #include "fnv/symbols_simd.h"
 #include "fnv/symbols_00c90000.h"
@@ -63,6 +64,7 @@
 #include "fnv/symbols_00e42000.h"
 #include "fnv/symbols_00e53000.h"
 #include "fnv/symbols_00e55000.h"
+#include "fnv/symbols_00e59000.h"
 #include "fnv/symbols_00e5d000.h"
 #include "fnv/symbols_00e60000.h"
 #include "fnv/symbols_01012000.h"
@@ -113,8 +115,20 @@ struct Registry_e5c5 {
 };
 
 
+struct E428f0Info
+{
+    char m_pad00[0x20];
+    unsigned char m_20;
+};
+struct E428f0Item
+{
+    char m_pad00[0x1c];
+    E428f0Info* m_1c;
+};
 struct FUN_00e428f0_class
 {
+    char m_pad00[0x14];
+    unsigned short m_14;
     void Remove(void*);
     void FUN_00e428f0(void* p);
 };
@@ -123,19 +137,34 @@ struct FUN_00e428f0_class
 void FUN_00e428f0_class::FUN_00e428f0(void* p)
 {
     reinterpret_cast<::RefPtrArray *>(this)->Remove((::FUN_00d1df70 *)(p));
-    *(unsigned short*)((char*)this + 0x14) -= *(unsigned char*)((char*)*(unsigned int*)((char*)p + 0x1c) + 0x20);
+    m_14 -= static_cast<E428f0Item*>(p)->m_1c->m_20;
 }
+
+struct E42940Info
+{
+    char m_pad00[0x20];
+    int m_20;
+};
+struct E42940Object
+{
+    char m_pad00[0x7c];
+    E42940Info* m_7c;
+};
 
 // @fnv 0x00e42940
 int __cdecl FUN_00e42940(intptr_t pObject)
 {
-    int v = *(int*)(pObject + 0x7c);
-    return *(int*)(v + 0x20) != 2 ? 0 : 256;
+    E42940Info* v = reinterpret_cast<E42940Object*>(pObject)->m_7c;
+    return v->m_20 != 2 ? 0 : 256;
 }
 
 extern "C" void __cdecl FUN_00cb0a60();
 
 struct FUN_00e4e400_class {
+    void* m_pVtbl;
+    void* m_pData;
+    int m_iSize;
+    int m_iCapacityAndFlags;
     FUN_00e4e400_class* FUN_00e4e400();
 };
 
@@ -143,9 +172,9 @@ struct FUN_00e4e400_class {
 FUN_00e4e400_class* FUN_00e4e400_class::FUN_00e4e400()
 {
     FUN_00cb0a60();
-    *(int*)((char*)this + 4) = 0;
-    *(int*)((char*)this + 8) = 0;
-    *(int*)((char*)this + 12) = 0x80000000;
+    m_pData = 0;
+    m_iSize = 0;
+    m_iCapacityAndFlags = 0x80000000;
     return this;
 }
 
@@ -168,17 +197,22 @@ void FUN_00e52ef0(const float* src, float* dst)
 }
 
 struct FUN_00e58780_Class {
+    int* m_pData;
+    int m_iSize;
+    int m_iCapacityAndFlags;
+    int m_iRows;
+    int m_iColumns;
     int* GetElementPtr(int a, int b);
 };
 
 // @fnv 0x00e58780
 int* FUN_00e58780_Class::GetElementPtr(int a, int b)
 {
-    return *(int**)(this + 0) + a * *(int*)((char*)this + 0x10) + b;
+    return m_pData + a * m_iColumns + b;
 }
 
 struct FUN_00e587c0_Class {
-    int m_00;
+    float* m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -188,11 +222,14 @@ struct FUN_00e587c0_Class {
 
 // @fnv 0x00e587c0
 float FUN_00e587c0_Class::GetFloatAt(int iIndex, int base) {
-    return *(float*)((char*)*(void**)((char*)this + 0) + (iIndex * m_10 + base) * 4);
+    return m_00[iIndex * m_10 + base];
 }
 
 
 struct FUN_00e459c0_class {
+    char m_pad00[0x30];
+    bool m_bAll;
+    int m_aiMasks[32];
     void SetBitMaskFlags(int a, int b);
 };
 
@@ -202,19 +239,22 @@ void FUN_00e459c0_class::SetBitMaskFlags(int a, int b)
 {
     if (!a && !b)
     {
-        ((char*)this)[0x30] = 1;
+        m_bAll = true;
         return;
     }
     for (int i = 0; i < 32; i++)
     {
         if (a & (1 << i))
-            ((int*)((char*)this + 0x34))[i] |= b;
+            m_aiMasks[i] |= b;
         if (b & (1 << i))
-            ((int*)((char*)this + 0x34))[i] |= a;
+            m_aiMasks[i] |= a;
     }
 }
 
 struct FUN_00e45a10_class {
+    char m_pad00[0x30];
+    bool m_bAll;
+    int m_aiMasks[32];
     void ClearFlags(int a, int b);
 };
 // If both masks are zero, clears the byte at offset 0x30; otherwise for each of 32 bits, clears the other mask's bits in the corresponding dword at 0x34 + i*4.
@@ -223,15 +263,15 @@ void FUN_00e45a10_class::ClearFlags(int a, int b)
 {
     if (!a && !b)
     {
-        *(unsigned char*)((char*)this + 0x30) = 0;
+        m_bAll = false;
         return;
     }
     for (int i = 0; i < 32; ++i)
     {
         if (a & (1 << i))
-            *(unsigned int*)((char*)this + 0x34 + i * 4) &= ~b;
+            m_aiMasks[i] &= ~b;
         if (b & (1 << i))
-            *(unsigned int*)((char*)this + 0x34 + i * 4) &= ~a;
+            m_aiMasks[i] &= ~a;
     }
 }
 
@@ -294,6 +334,7 @@ extern int DAT_010e62a4;
 
 struct FUN_00e44280_struct {
     int* m_00;
+    unsigned short m_04;
     unsigned short m_06;
     float m_08;
     float m_0c;
@@ -313,7 +354,7 @@ FUN_00e44280_struct* FUN_00e44280_struct::InitializeDefaults()
 {
     m_08 = 1000.0f;
     m_0c = runtimeFloatSettingDefault132;
-    *(unsigned short*)((char*)this + 6) = 1;
+    m_06 = 1;
     m_00 = &DAT_010e62a4;
     m_10 = runtimeFloatSettingDefault255;
     m_14 = g_011c7344_arg1;
@@ -324,16 +365,20 @@ FUN_00e44280_struct* FUN_00e44280_struct::InitializeDefaults()
 }
 
 struct FUN_00e407d0_class {
+    char m_pad00[0x74];
+    float* m_pfWeights;
+    char m_pad78[8];
+    float* m_pfOffsets;
     void SetSlotValue(int idx, char b);
 };
-// Writes 0.0f into the array at this+0x80 when b is set, otherwise writes 1.0f into the array at this+0x74, both indexed by idx.
+// Writes 0.0f into the m_pfOffsets array when b is set, otherwise writes 1.0f into the m_pfWeights array, both indexed by idx.
 // @fnv 0x00e407d0
 void FUN_00e407d0_class::SetSlotValue(int aiIndex, char b)
 {
     if (b)
-        *(float*)(*(int*)((char*)this + 0x80) + aiIndex * 4) = 0.0f;
+        m_pfOffsets[aiIndex] = 0.0f;
     else
-        *(float*)(*(int*)((char*)this + 0x74) + aiIndex * 4) = 1.0f;
+        m_pfWeights[aiIndex] = 1.0f;
 }
 
 struct FUN_00e426f0_class
@@ -357,7 +402,7 @@ struct FUN_00e426f0_class
 void FUN_00e426f0_class::AddByteFromObject(void* p)
 {
     reinterpret_cast<::E426F0Container *>(this)->AddObject((::E426F0Object *)(p));
-    m_14 += ((unsigned char*)*(void**)((char*)p + 0x1c))[0x20];
+    m_14 += static_cast<E428f0Item*>(p)->m_1c->m_20;
 }
 
 struct FUN_00e61480_class {
@@ -366,7 +411,7 @@ struct FUN_00e61480_class {
 struct FUN_00e4ab50_class {
     int m_00;
     int m_04;
-    int* m_08;
+    FUN_00e61480_class** m_08;
     int m_0c;
     void ApplyToAll(int a);
 };
@@ -375,7 +420,7 @@ struct FUN_00e4ab50_class {
 void FUN_00e4ab50_class::ApplyToAll(int aiValue)
 {
     for (int i = 0; i < m_0c; i++)
-        ((FUN_00e61480_class*)m_08[i])->FUN_00e61480(aiValue);
+        m_08[i]->FUN_00e61480(aiValue);
 }
 
 extern int DAT_010ec1fc;
@@ -383,18 +428,19 @@ struct FUN_00cb0a70 {
     void m(int);
 };
 struct FUN_00e4af80 {
-    int vtbl;
+    const void* vtbl;
     int m_04;
     int m_08;
     int m_0c;
     int m_10;
-    FUN_00e4af80* Set(int arg);
+    uintptr_t m_14;
+    FUN_00e4af80* Set(intptr_t arg);
 };
 // @fnv 0x00e4af80
-FUN_00e4af80* FUN_00e4af80::Set(int aiValue)
+FUN_00e4af80* FUN_00e4af80::Set(intptr_t aiValue)
 {
-    *(void**)this = (void*)&DAT_010ec1fc;
-    reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(reinterpret_cast<char*>(this) + 0x14)))->FUN_00cb0a70(aiValue);
+    vtbl = &DAT_010ec1fc;
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&m_14)->FUN_00cb0a70(aiValue);
     return this;
 }
 
@@ -437,14 +483,6 @@ void FUN_00e406d0_cls::ClampBoundsAt(int index, float value)
     m_50[index] = (b > value) ? b : value;
 }
 
-struct HolderStub {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAllocator;
-};
-
 
 struct ValueArray {
     unsigned int* m_pData;
@@ -464,9 +502,9 @@ struct FUN_00e41db0_cls {
 void FUN_00e41db0_cls::AppendValue(unsigned int value)
 {
     ValueArray* arr = &m_08;
-    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (arr->m_iArrayLength == (int)(arr->m_uCapFlags & 0x3fffffffu)) {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(arr), 4);
     }
     unsigned int* slot = arr->m_pData + *(volatile int*)&arr->m_iArrayLength;
     *slot = value;
@@ -908,22 +946,6 @@ S_00e4af60_class* S_00e4af60_class::FUN_00e4af60()
 }
 
 namespace fnv_00e50ca0 {
-struct AudioAllocator {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
 
 struct FUN_00e50ca0_cls {
     int unk00;
@@ -952,52 +974,52 @@ struct FUN_00e50ca0_cls {
 // @fnv 0x00e50ca0
 void FUN_00e50ca0_cls::FUN_00e50ca0()
 {
-    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     unsigned int uCap1 = m_uCap1;
     m_iCount1 = 0;
     if ((uCap1 & 0x80000000u) == 0) {
-        pAllocator->FreeArray(m_pData1, (uCap1 & 0x3fffffffu) * 1);
+        pAllocator->bufFree(m_pData1, (uCap1 & 0x3fffffffu) * 1);
     }
     m_pData1 = 0;
     m_uCap1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
+    hkMemoryRouter* pHolder2 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator2 = pHolder2->m_heap;
     unsigned int uCap2 = m_uCap2;
     m_iCount2 = 0;
     if ((uCap2 & 0x80000000u) == 0) {
-        pAllocator2->FreeArray(m_pData2, (uCap2 & 0x3fffffffu) * 4);
+        pAllocator2->bufFree(m_pData2, (uCap2 & 0x3fffffffu) * 4);
     }
     m_pData2 = 0;
     m_uCap2 = 0x80000000u;
 
-    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
+    hkMemoryRouter* pHolder3 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator3 = pHolder3->m_heap;
     unsigned int uCap3 = m_uCap3;
     m_iCount3 = 0;
     if ((uCap3 & 0x80000000u) == 0) {
-        pAllocator3->FreeArray(m_pData3, (uCap3 & 0x3fffffffu) * 4);
+        pAllocator3->bufFree(m_pData3, (uCap3 & 0x3fffffffu) * 4);
     }
     m_pData3 = 0;
     m_uCap3 = 0x80000000u;
 
-    AudioHolder* pHolder4 = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator4 = pHolder4->m_pAllocator;
+    hkMemoryRouter* pHolder4 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator4 = pHolder4->m_heap;
     unsigned int uCap4 = m_uCap4;
     m_iCount4 = 0;
     if ((uCap4 & 0x80000000u) == 0) {
-        pAllocator4->FreeArray(m_pData4, (uCap4 & 0x3fffffffu) * 4);
+        pAllocator4->bufFree(m_pData4, (uCap4 & 0x3fffffffu) * 4);
     }
     m_pData4 = 0;
     m_uCap4 = 0x80000000u;
 
-    AudioHolder* pHolder5 = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator5 = pHolder5->m_pAllocator;
+    hkMemoryRouter* pHolder5 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator5 = pHolder5->m_heap;
     unsigned int uCap5 = m_uCap5;
     m_iCount5 = 0;
     if ((uCap5 & 0x80000000u) == 0) {
-        pAllocator5->FreeArray(m_pData5, (uCap5 & 0x3fffffffu) * 4);
+        pAllocator5->bufFree(m_pData5, (uCap5 & 0x3fffffffu) * 4);
     }
     m_pData5 = 0;
     m_uCap5 = 0x80000000u;
@@ -1644,28 +1666,28 @@ int __cdecl FUN_00e54930(float **apValues, int count)
     return minimumIndex;
 }
 
-void __cdecl FUN_00e535a0(int a, int b);
-
 struct FUN_00e54ad0_cls
 {
-    int unk00;
-    void FUN_00e54ad0();
+    float x;
+    float y;
+    float z;
+    float w;
+    float FUN_00e54ad0();
+    float GetHelperValueAsFloat();
 };
 
+// Returns the dot product of the vector with itself.
 // @fnv 0x00e54ad0
-void FUN_00e54ad0_cls::FUN_00e54ad0()
+float FUN_00e54ad0_cls::FUN_00e54ad0()
 {
-    FUN_00e535a0((const ::Vec4f *)this, (const ::Vec4f *)this);
+    return ::FUN_00e535a0((const ::Vec4f *)this, (const ::Vec4f *)this);
 }
 
-// The two callees below are unnamed in the binary's symbol table; they bind by position.
-extern double __cdecl helper_value();
-
+// Returns the vector's length: the square root of FUN_00e54ad0.
 // @fnv 0x00e54ae0
-float __cdecl GetHelperValueAsFloat()
+float FUN_00e54ad0_cls::GetHelperValueAsFloat()
 {
-    static_cast<::FUN_00e54ad0_cls *>(nullptr)->FUN_00e54ad0();
-    return (float)helper_value();
+    return (float)sqrt(FUN_00e54ad0());
 }
 
 class FUN_00e54b00_cls
@@ -1731,34 +1753,26 @@ float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB)
     return (float)(E54B50Dot(kA, kB) / (kA.Length() * kB.Length()));
 }
 
-struct FUN_00e54ae0_class
-{
-    void GetHelperValueAsFloat();
-};
-
-struct FUN_00e532b0_class
-{
-    FUN_00e54ae0_class* FUN_00e532b0(void* buffer, void* value);
-};
-
+// Returns the distance between the two points: the length of b - a.
 // @fnv 0x00e54ba0
-void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object)
+float __cdecl FUN_00e54ba0(const FUN_00e54ad0_cls& a, const FUN_00e54ad0_cls& b)
 {
-    void* buffer[4];
-    object->FUN_00e532b0(buffer, value)->GetHelperValueAsFloat();
+    FUN_00e54ad0_cls kDifference = b;
+    reinterpret_cast<FUN_00e531d0_cls*>(&kDifference)->FUN_00e531d0(&a.x);
+    return kDifference.GetHelperValueAsFloat();
 }
 
-char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
+bool* __cdecl IsSampleBoundary(bool* result, int index, float** samples, int endIndex);
 
 // Scans indices starting at a upward, calling IsSampleBoundary, until the returned byte is non-zero, and returns that index.
 // @fnv 0x00e54bd0
 int __cdecl FindFirstNonZero(int aiStartIndex, intptr_t b, int c)
 {
     int i = aiStartIndex;
-    if (*IsSampleBoundary(&aiStartIndex, i, b, c) == 0) {
+    if (*IsSampleBoundary((bool*)&aiStartIndex, i, (float**)b, c) == 0) {
         do {
             i++;
-        } while (*IsSampleBoundary(&aiStartIndex, i, b, c) == 0);
+        } while (*IsSampleBoundary((bool*)&aiStartIndex, i, (float**)b, c) == 0);
     }
     return i;
 }
@@ -1792,7 +1806,7 @@ struct FourFloatVector {
     float z;
     float w;
 };
-void __cdecl FUN_00e54630(FourFloatVector* result, int a, int b, int c, int d, float value);
+void __cdecl FUN_00e54630(FourFloatVector* result, int a, int b, intptr_t knots, intptr_t points, float value);
 float __cdecl LookupAndConsume(const FourFloatVector* a, const FourFloatVector* b);
 
 // @fnv 0x00e55080
@@ -1831,7 +1845,7 @@ unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a
     if (last >= 0) {
         float* thresholds = *thresholdsPtr;
         Float4* vertices = *verticesPtr;
-        int delta = (char*)*valuesPtr - (char*)thresholds;
+        ptrdiff_t delta = (char*)*valuesPtr - (char*)thresholds;
         do {
             Float4 lhsVertex = *vertices;
             Float4 rhs;
@@ -1849,13 +1863,13 @@ unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a
     return result;
 }
 
-extern void __cdecl FUN_00e58440(int, int, int, int, float, int, int, int, int);
+extern void __cdecl FUN_00e58440(int, const float*, const Float4*, int, float, int*, float*, int*, Float4*);
 
 // Passes all nine arguments through unchanged to FUN_00e58440.
 // @fnv 0x00e58740
 void __cdecl FUN_00e58740(int i1, intptr_t i2, intptr_t i3, int i4, float f5, intptr_t i6, intptr_t i7, intptr_t i8, intptr_t i9)
 {
-    FUN_00e58440(i1, i2, i3, i4, f5, i6, i7, i8, i9);
+    FUN_00e58440(i1, (const float*)i2, (const Float4*)i3, i4, f5, (int*)i6, (float*)i7, (int*)i8, (Float4*)i9);
 }
 
 struct FUN_00e58820_cls {
@@ -1926,22 +1940,6 @@ FUN_00e58b50_cls* FUN_00e58b50_cls::ResetSpawnArrays(int a1, int a2)
 }
 
 namespace fnv_00e58b90 {
-struct AudioAllocator {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
 
 struct FUN_00e58b90_cls {
     void* m_pDataC;
@@ -1961,32 +1959,32 @@ struct FUN_00e58b90_cls {
 // @fnv 0x00e58b90
 void FUN_00e58b90_cls::FUN_00e58b90()
 {
-    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
     if ((uCapA & 0x80000000u) == 0) {
-        pAllocator->FreeArray(m_pDataA, (uCapA & 0x3fffffffu) * 4);
+        pAllocator->bufFree(m_pDataA, (uCapA & 0x3fffffffu) * 4);
     }
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
+    hkMemoryRouter* pHolder2 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator2 = pHolder2->m_heap;
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
     if ((uCapB & 0x80000000u) == 0) {
-        pAllocator2->FreeArray(m_pDataB, (uCapB & 0x3fffffffu) * 4);
+        pAllocator2->bufFree(m_pDataB, (uCapB & 0x3fffffffu) * 4);
     }
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
+    hkMemoryRouter* pHolder3 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator3 = pHolder3->m_heap;
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
     if ((uCapC & 0x80000000u) == 0) {
-        pAllocator3->FreeArray(m_pDataC, (uCapC & 0x3fffffffu) * 4);
+        pAllocator3->bufFree(m_pDataC, (uCapC & 0x3fffffffu) * 4);
     }
     m_pDataC = 0;
     m_uCapC = 0x80000000u;
@@ -1995,14 +1993,6 @@ void FUN_00e58b90_cls::FUN_00e58b90()
 
 namespace fnv_00e58c30 {
 extern "C" void _ReadWriteBarrier(void);
-
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAllocator;
-};
 
 
 struct ValueArray {
@@ -2025,27 +2015,27 @@ float* FUN_00e58c30_cls::AppendTriple(int aiFirst, int aiSecond, float afValue)
 {
     if (afValue != 0.0f) {
         ValueArray* arr = &m_arr0c;
-        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(arr), 4);
         }
-        int* slot0 = (int*)((unsigned int)arr->data + *(volatile int*)&arr->count * 4);
+        int* slot0 = arr->data + *(volatile int*)&arr->count;
         *slot0 = aiFirst;
         arr->count++;
 
         arr = &m_arr18;
-        holder = static_cast<AllocHolder*>(::FUN_00c85750());
+        holder = &hkMemoryRouter::getInstance();
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(arr), 4);
         }
-        int* slot1 = (int*)((unsigned int)arr->data + *(volatile int*)&arr->count * 4);
+        int* slot1 = arr->data + *(volatile int*)&arr->count;
         *slot1 = aiSecond;
         arr->count++;
 
         arr = &m_arr00;
-        holder = static_cast<AllocHolder*>(::FUN_00c85750());
+        holder = &hkMemoryRouter::getInstance();
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(arr), 4);
         }
         unsigned int idx = (unsigned int)arr->count;
         float* base = (float*)arr->data;
@@ -2057,24 +2047,6 @@ float* FUN_00e58c30_cls::AppendTriple(int aiFirst, int aiSecond, float afValue)
 }  // namespace fnv_00e58c30
 
 namespace fnv_00e58cf0 {
-struct AllocatorIface
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void* Alloc(int* pSize);
-    virtual void Free(void* pBuffer, unsigned int size);
-};
-
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocatorIface* m_pAllocator;
-};
-
 
 class FUN_00e58cf0_cls
 {
@@ -2098,8 +2070,8 @@ FUN_00e58cf0_cls* FUN_00e58cf0_cls::InitFloatArray(int count, int stride, float 
     m_04 = 0;
     m_08 = 0x80000000u;
     m_10 = (unsigned int)stride;
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    AllocatorIface* alloc = holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = holder->m_heap;
     unsigned int cap = m_08 & 0x3fffffffu;
     if ((int)cap < total)
     {
@@ -2120,14 +2092,6 @@ FUN_00e58cf0_cls* FUN_00e58cf0_cls::InitFloatArray(int count, int stride, float 
 }  // namespace fnv_00e58cf0
 
 namespace fnv_00e58df0 {
-struct HkHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
-
 struct FUN_00e58df0_cls;
 
 struct FUN_00e58df0_cls {
@@ -2147,8 +2111,8 @@ FUN_00e58df0_cls* FUN_00e58df0_cls::CopyFrom(FUN_00e58df0_cls* src) {
     m_0C = src->m_0C;
     m_10 = src->m_10;
     int count = reinterpret_cast<::FUN_00e58890_Class *>(this)->FUN_00e58890();
-    HkHolder* holder = reinterpret_cast<HkHolder*>(FUN_00c85750());
-    void* alloc = holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    void* alloc = holder->m_heap;
     int cap = (int)(m_08 & 0x3fffffffu);
     if (cap < count) {
         int newCap = cap + cap;
@@ -2198,7 +2162,7 @@ void __cdecl DifferenceInPlace(float* samples, unsigned int count)
 
 struct FUN_00e5c490_entry
 {
-    unsigned int m_ptr;
+    uintptr_t m_ptr;
     unsigned int m_unk04;
 };
 
@@ -2219,7 +2183,7 @@ int FUN_00e5c490_cls::FindEntryIndex(uintptr_t a1)
 {
     for (int i = 0; i < m_uiItemCount; i++)
     {
-        unsigned int item = m_pEntries[i].m_ptr & 0xfffffffe;
+        uintptr_t item = m_pEntries[i].m_ptr & ~(uintptr_t)1;
         if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(item), (const char *)(a1)) == 0)
         {
             return i;
@@ -2302,7 +2266,7 @@ int FUN_00e5c6b0_cls::GetBoolAttribute(const char* name, bool required, unsigned
     AttrWriter_b5103 s(buf, 0x200);
     reinterpret_cast<::SinkOwner *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::AttributeFormatter *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::SinkOwner *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::SinkOwner *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("Bool attribute ")))))->FUN_00cc01c0({})))))->FUN_00cc01c0({})))))->WriteName({})))))->FUN_00cc01c0({});
     AttrLog_b5103* log = (*reinterpret_cast<::AttrLog_b5103 * *>(&::DAT_01268360));
-    log->Assert(1, 0xabbaab81, (const char*)&s + 0xc, ".\\Attributes\\hkxAttributeGroup.cpp", 0x32);
+    log->Assert(1, 0xabbaab81, (const char*)buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0x32);
     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
     return 1;
 }
@@ -2355,7 +2319,7 @@ int ConfigTable::GetUnsignedValue(const char* name, bool reportMissing, unsigned
 
 struct FUN_00e5c8b0_Node
 {
-    unsigned int m_00;
+    uintptr_t m_00;
 };
 
 struct FUN_00e5c8b0_Target
@@ -2395,9 +2359,7 @@ struct FUN_00e5c8b0_cls
     int unk04;
     int unk08;
     int unk0C;
-    FUN_00e5c8b0_Rec* FUN_00e5c610(int a);
-    FUN_00e5c8b0_Rec* FUN_00e5c5f0(int a);
-    int GetAttributeValue(int a, bool flag, unsigned int* out);
+    int GetAttributeValue(const char* a, bool flag, uintptr_t* out);
 };
 
 struct FUN_00e5c8b0_Logger
@@ -2409,15 +2371,15 @@ struct FUN_00e5c8b0_Logger
 };
 
 // @fnv 0x00e5c8b0
-int FUN_00e5c8b0_cls::GetAttributeValue(int a, bool bLogMissing, unsigned int* puiValue)
+int FUN_00e5c8b0_cls::GetAttributeValue(const char* a, bool bLogMissing, uintptr_t* puiValue)
 {
-    FUN_00e5c8b0_Rec* pRecord = FUN_00e5c610(a);
+    FUN_00e5c8b0_Rec* pRecord = reinterpret_cast<FUN_00e5c8b0_Rec*>(reinterpret_cast<Registry_e5c5*>(this)->FUN_00e5c610(a));
     if (pRecord != 0)
     {
-        *puiValue = pRecord->m_08->m_00 & 0xfffffffe;
+        *puiValue = pRecord->m_08->m_00 & ~(uintptr_t)1;
         return 0;
     }
-    pRecord = FUN_00e5c5f0(a);
+    pRecord = reinterpret_cast<FUN_00e5c8b0_Rec*>(reinterpret_cast<Registry_e5c5*>(this)->FUN_00e5c5f0(a));
     if (pRecord != 0)
     {
         reinterpret_cast<::hkMapE63E *>((pRecord->m_20))->FindValue((void *)(pRecord->m_08->m_00), puiValue);
@@ -2429,10 +2391,10 @@ int FUN_00e5c8b0_cls::GetAttributeValue(int a, bool bLogMissing, unsigned int* p
         unsigned int buf[0x80];
         new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
         FUN_00e5c8b0_Str* p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0("String attribute ")));
-        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0({})));
-        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0({})));
-        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::AttributeFormatter *>((p))->WriteName({})));
-        reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0({});
+        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0(a)));
+        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0(" not found in ")));
+        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::AttributeFormatter *>((p))->WriteName(reinterpret_cast<::NameReference *>(this))));
+        reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0(" attribute group");
         (*reinterpret_cast<::FUN_00e5c8b0_Logger * *>(&::DAT_01268360))->Report(1, 0xabbaab81, (const char*)buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0x80);
         reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
     }
@@ -2647,7 +2609,7 @@ struct S_00e5cfb0_Object {
     int unk14;
     int unk18;
     int unk1c;
-    int unk20;
+    const unsigned char* unk20;
 };
 
 struct S_00e65ee0_Class
@@ -2671,7 +2633,7 @@ void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value)
     buffer[0] = 0;
     buffer[1] = 0;
 
-    reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(&(local))->FUN_00e65ee0((const ::MoppState *)(buffer), (const unsigned char *)(object->unk20));
+    reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(&(local))->FUN_00e65ee0((const ::MoppState *)(buffer), object->unk20);
 }
 
 
@@ -2693,7 +2655,7 @@ float __cdecl FUN_00e404b0(FloatArray_e404b0* arr)
 }
 
 
-// Scans the float array referenced by param_1 (count in param_1[1], data at param_1[0]) and returns the smallest value, starting from _DAT_0104da48.
+// Scans the float array referenced by param_1 and returns the smallest value, starting from _DAT_0104da48.
 // @fnv 0x00e405c0
 float __cdecl FindMinFloat(int *param_1)
 {
@@ -2704,11 +2666,12 @@ float __cdecl FindMinFloat(int *param_1)
     float fStack_4;
     float fTemp;
 
+    FloatArray_e404b0* arr = reinterpret_cast<FloatArray_e404b0*>(param_1);
     fStack_4 = ::DAT_0104da48;
-    iVar3 = param_1[1];
+    iVar3 = arr->count;
     iVar4 = 0;
     if (iVar3 >= 4) {
-        pfVar1 = (float *)(param_1[0] + 8);
+        pfVar1 = arr->data + 2;
         iVar2 = (iVar3 - 4U >> 2) + 1;
         iVar4 = iVar2 * 4;
         do {
@@ -2725,7 +2688,7 @@ float __cdecl FindMinFloat(int *param_1)
         } while (iVar2 != 0);
     }
     if (iVar4 < iVar3) {
-        pfVar1 = (float *)(param_1[0] + iVar4 * 4);
+        pfVar1 = arr->data + iVar4;
         iVar3 = iVar3 - iVar4;
         do {
             fTemp = *pfVar1;
@@ -2755,9 +2718,10 @@ inline void TimerMark(const char* name)
     }
 }
 struct E42940Inner { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int m_type; };
+struct E42940World { char m_pad00[0x7c]; E42940Inner* m_pInner; };
 __declspec(noinline) int __cdecl FUN_00e42940(intptr_t p)
 {
-    E42940Inner* inner = *(E42940Inner**)((char*)p + 0x7c);
+    E42940Inner* inner = ((E42940World*)p)->m_pInner;
     return inner->m_type == 2 ? 0x100 : 0;
 }
 struct VStepJob {
@@ -2765,6 +2729,8 @@ struct VStepJob {
 void* __cdecl FUN_00c85620(void* alloc, int a, int b);
 void __cdecl FUN_00c85660(void* alloc, void* p);
 struct VWorld {
+    char m_pad000[0x1d0];
+    char m_k1d0[1];
 };
 struct VCollector {
     virtual void v00();
@@ -2784,8 +2750,8 @@ struct VSim {
     virtual void v18();
     virtual void vfn_1c();
     virtual int vfn_20(int n);
-    virtual void vfn_24(VWorld* w, int k, int n, VInfo* info, VStepJob* job, int mark);
-    virtual void vfn_28(void* p, int n, int mark);
+    virtual void vfn_24(VWorld* w, int k, int n, VInfo* info, VStepJob* job, char* mark);
+    virtual void vfn_28(void* p, int n, char* mark);
     void RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int n);
 };
 // Marks a timer, allocates a step job, runs the vehicle sync step via vfn_24, updates the collector, info and world, then frees the job and restores the mark.
@@ -2795,10 +2761,10 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     TimerMark("TtDoVehiclesSynchronously");
     vfn_1c();
     int size = vfn_20(aiCount);
-    HolderStub* h = static_cast<HolderStub*>(::FUN_00c85750());
-    int mark = h->unk00;
-    h->unk00 = mark + ((size + 0x7f) & ~0x7f);
-    void* alloc = static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
+    hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+    char* mark = h->m_stackCurrent;
+    h->m_stackCurrent = mark + ((size + 0x7f) & ~0x7f);
+    void* alloc = hkMemoryRouter::getInstance().m_heap;
     VStepJob* job = (VStepJob*)FUN_00c85620(alloc, 4, 0x80);
     if (job)
         reinterpret_cast<::FUN_00d04350_cls *>((job))->Create(0, 1000);
@@ -2810,10 +2776,10 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     ::FUN_00d04380((void *)(job), {});
     ::FUN_00c911b0();
     reinterpret_cast<::FUN_00d04370_cls *>((job))->FUN_00d04370();
-    HolderStub* h2 = static_cast<HolderStub*>(::FUN_00c85750());
-    FUN_00c85660(h2->m_pAllocator, job);
-    vfn_28((char*)world + 0x1d0, aiCount, mark);
-    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = mark;
+    hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
+    FUN_00c85660(h2->m_heap, job);
+    vfn_28(world->m_k1d0, aiCount, mark);
+    hkMemoryRouter::getInstance().m_stackCurrent = mark;
     TimerMark("Et");
 }
 }  // namespace fnv_00e42960
@@ -3014,8 +2980,8 @@ struct ExtendedListeners {
     HkSmallArray<CListener*> second;
 
     static void* operator new(size_t sz) {
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        return ((AllocationHeap*)mgr->m_pAllocator)->Allocate(sz);
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        return ((AllocationHeap*)mgr->m_heap)->Allocate((unsigned int)sz);
     }
 };
 
@@ -3175,8 +3141,8 @@ struct HkArray {
     int m_iCapacityState;
 
     void ClearAndRelease() {
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        AllocationHeap* heap = (AllocationHeap*)mgr->m_pAllocator;
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        AllocationHeap* heap = (AllocationHeap*)mgr->m_heap;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0) {
@@ -3231,21 +3197,18 @@ FUN_00e46900::~FUN_00e46900() throw() {
 
 struct Ref { void FUN_00c90510(); };
 struct Entry { Ref* name; Ref* pClassInfo; unsigned char type; unsigned char flags; unsigned short reserved; int count; unsigned char storage; unsigned char ReplaceImpactData; unsigned short reserved12; void* data; int unk18; int unk1c; int length() const { int t=type; return ::FUN_00e60cb0(t,count); } };
-struct Allocator {};
-struct Router { int a,b,c,d; Allocator* heap; Allocator& getHeap() {return *heap;} };
-Router* getRouter();
 struct String { void* value; void init() throw(); void assign(const char*) throw(); };
 struct ArrayBase {
  void* data; int size; int capacity;
  ArrayBase():data(0),size(0),capacity(0x80000000){}
  int getCapacity() const {return capacity & 0x3fffffff;}
- static void grow(Allocator& heap,ArrayBase* a,int n,int stride) { int cap=a->getCapacity(); if(cap<n) ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&heap),(::SpawnedArray *)(a),n<2*cap?2*cap:n,stride); }
- void reserve(Allocator& heap,int n,int stride){grow(heap,this,n,stride);}
+ static void grow(hkMemoryAllocator& heap,ArrayBase* a,int n,int stride) { int cap=a->getCapacity(); if(cap<n) ::FUN_00c908c0((::SpawnedObject *)(&heap),(::SpawnedArray *)(a),n<2*cap?2*cap:n,stride); }
+ void reserve(hkMemoryAllocator& heap,int n,int stride){grow(heap,this,n,stride);}
 };
 template<class T> struct Arr : ArrayBase {
- void reserve(Allocator& heap,int n){ArrayBase::reserve(heap,n,sizeof(T));}
- void SetSizeAndGrow(Allocator& heap,int n){reserve(heap,n);size=n;}
- T* expand(Allocator& heap,int n) {int old=size; reserve(heap,old+n); size+=n; return (T*)data+old;}
+ void reserve(hkMemoryAllocator& heap,int n){ArrayBase::reserve(heap,n,sizeof(T));}
+ void SetSizeAndGrow(hkMemoryAllocator& heap,int n){reserve(heap,n);size=n;}
+ T* expand(hkMemoryAllocator& heap,int n) {int old=size; reserve(heap,old+n); size+=n; return (T*)data+old;}
 };
 struct Base { virtual void dummy(); unsigned short flags; short refs; Base(){refs=1;} };
 struct FUN_00e4a1d0:Base {
@@ -3259,10 +3222,10 @@ FUN_00e4a1d0::FUN_00e4a1d0(const Entry* source,int count) {
  new ((void *)&(label)) struct ::FUN_00cb0a60(); reinterpret_cast<::SStringPtr *>(&(label))->FUN_00cb0c10(0);
  int iShortCount=0; int iIntCount=0;
  for(int i=0;i<count;++i) { int n=source[i].length(); switch(source[i].storage){case 1:iShortCount+=n;break;case 2:iIntCount+=n;break;} }
- shorts.reserve(getRouter()->getHeap(),iShortCount); ints.reserve(getRouter()->getHeap(),iIntCount); entries.SetSizeAndGrow(getRouter()->getHeap(),count);
+ shorts.reserve(hkMemoryRouter::getInstance().heap(),iShortCount); ints.reserve(hkMemoryRouter::getInstance().heap(),iIntCount); entries.SetSizeAndGrow(hkMemoryRouter::getInstance().heap(),count);
  for(int i=0;i<count;++i){ Entry& dest=((Entry*)entries.data)[i]; dest=source[i]; reinterpret_cast<::FUN_00c90510_class *>((dest.name))->FUN_00c90510(); if(dest.pClassInfo)reinterpret_cast<::FUN_00c90510_class *>((dest.pClassInfo))->FUN_00c90510();
- switch(source[i].storage){case 2:{int n=source[i].length(); unsigned int* data=ints.expand(getRouter()->getHeap(),n); ::FUN_00cb1260(data,source[i].data,n*4); dest.data=data; break;}
- case 1:{int n=source[i].length(); unsigned short* data=shorts.expand(getRouter()->getHeap(),n); ::FUN_00cb1260(data,source[i].data,n*2); dest.data=data; break;}}
+ switch(source[i].storage){case 2:{int n=source[i].length(); unsigned int* data=ints.expand(hkMemoryRouter::getInstance().heap(),n); ::FUN_00cb1260(data,source[i].data,n*4); dest.data=data; break;}
+ case 1:{int n=source[i].length(); unsigned short* data=shorts.expand(hkMemoryRouter::getInstance().heap(),n); ::FUN_00cb1260(data,source[i].data,n*2); dest.data=data; break;}}
  }
 }
 
@@ -3348,7 +3311,6 @@ void __cdecl FUN_00e54c10(int aiIndex, L* list)
     for (int i = 0; i < bytes; i += 4) *(int*)(d + i) = *(int*)(s + i);
 }
 
-struct HolderView { int unk00; int unk04; int unk08; int unk0c; void* volatile m_pAllocator; };
 struct FloatArrayRef {
     float* data;
     int size;
@@ -3360,8 +3322,7 @@ int __cdecl FUN_00e57210(FloatArrayRef* array, int count) {
     int added = CountRuns(reinterpret_cast<float**>(array), count);
     int destination = added + count;
     int newSize = destination + 1;
-    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
-    E4AAA0Allocator* alloc = reinterpret_cast<E4AAA0Allocator*>(reinterpret_cast<HolderView*>(holder)->m_pAllocator);
+    E4AAA0Allocator* alloc = reinterpret_cast<E4AAA0Allocator*>(hkMemoryRouter::getInstance().m_heap);
     unsigned int capacity = array->capacity & 0x3fffffff;
     if ((int)capacity < newSize) {
         int newCapacity = (int)(capacity * 2);
@@ -3380,31 +3341,21 @@ int __cdecl FUN_00e57210(FloatArrayRef* array, int count) {
     return added - 2;
 }
 
-struct ArrayAllocator;
 struct FloatArray;
 struct FloatArray {
     float* m_data;
     int m_iElementCount;
     int m_iCapacityState;
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
-    void reserve(ArrayAllocator& alloc, int n)
+    void reserve(hkMemoryAllocator& alloc, int n)
     {
         int cap = getCapacity();
         if (cap < n) {
             int c = 2 * cap;
-            ::FUN_00c908c0((::SpawnedObject *)(::ArrayAllocator *)(&alloc), (::SpawnedArray *)(::FloatArray *)(this), n < c ? c : n, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(&alloc), (::SpawnedArray *)(::FloatArray *)(this), n < c ? c : n, 4);
         }
     }
 };
-struct MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    ArrayAllocator* m_pStreamAllocator;
-    ArrayAllocator& heap() { return *m_pStreamAllocator; }
-};
-MemoryRouter* GetMemoryRouter();
 
 // @fnv 0x00e57370
 int RemoveAdjacentDuplicates(FloatArray* arr, int last)
@@ -3417,7 +3368,7 @@ int RemoveAdjacentDuplicates(FloatArray* arr, int last)
     }
     arr->m_data[out] = arr->m_data[last];
     int newSize = out + 1;
-    arr->reserve(GetMemoryRouter()->heap(), newSize);
+    arr->reserve(hkMemoryRouter::getInstance().heap(), newSize);
     arr->m_iElementCount = newSize;
     return last - out - 1;
 }
@@ -3482,8 +3433,8 @@ Stand_e58d90* Stand_e58d90::InitArray(int aiCount, int a2)
     m_uCapFlags = 0x80000000;
     m_iElemSize = a2;
     n = aiCount * a2;
-    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
-    E4AAA0Allocator* alloc = (E4AAA0Allocator*)holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    E4AAA0Allocator* alloc = (E4AAA0Allocator*)holder->m_heap;
     int cap = m_uCapFlags & 0x3fffffff;
     if (cap < n) {
         int cap2 = 2 * cap;
@@ -3659,12 +3610,6 @@ FUN_00e46e80::FUN_00e46e80()
 
 struct E473C0Owner;
 
-struct E473C0Target {
-    virtual void vf00();
-    virtual void vf01();
-    virtual void vf02(E473C0Owner* a1, int a2);
-};
-
 struct E473C0Owner
 {
     int unk00;
@@ -3674,15 +3619,15 @@ struct E473C0Owner
     E473C0Owner* FUN_00e473c0(unsigned char flags);
 };
 
-// Calls FUN_00e47020, then if bit 0 of flags is set, invokes vf02 on the allocator target with unk04, and returns this.
+// Calls FUN_00e47020, then if bit 0 of flags is set, frees this (unk04 bytes) with the heap allocator's blockFree, and returns this.
 // @fnv 0x00e473c0
 E473C0Owner* E473C0Owner::FUN_00e473c0(unsigned char flags) {
     reinterpret_cast<::fnv_00e47020::FUN_00e47020 *>(this)->fnv_00e47020::FUN_00e47020::~FUN_00e47020();
 
     if ((flags & 1) != 0) {
-        HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
-        E473C0Target* target = static_cast<E473C0Target*>(holder->m_pAllocator);
-        target->vf02(this, static_cast<int>(unk04));
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* target = static_cast<hkMemoryAllocator*>(holder->m_heap);
+        target->blockFree(this, static_cast<int>(unk04));
     }
 
     return this;
@@ -3833,13 +3778,13 @@ struct FUN_00e48db0_class {
     int m_08;
     int m_0c;
     void* m_10;
-    FUN_00e48db0_class* InitFromFloatAndPointer(float f, void* p);
+    FUN_00e48db0_class* InitFromFloatAndPointer(float f, int numBits);
 };
-// Calls FUN_00dcd310 with f and p, then stores pointers to DAT_010e8ab0 and DAT_010e8a90 in m_00 and m_10, returning this.
+// Calls FUN_00dcd310 with f and numBits, then stores pointers to DAT_010e8ab0 and DAT_010e8a90 in m_00 and m_10, returning this.
 // @fnv 0x00e48db0
-FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, void* p)
+FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, int numBits)
 {
-    new ((void *)(((FUN_00e48db0_holder*)this))) ::fnv_00dcd310::FUN_00dcd310(f, (int)(p));
+    new ((void *)(((FUN_00e48db0_holder*)this))) ::fnv_00dcd310::FUN_00dcd310(f, numBits);
     m_00 = &DAT_010e8ab0;
     m_10 = &DAT_010e8a90;
     return this;
@@ -3849,11 +3794,11 @@ FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, void* p
 struct Node4a5
 {
     char pad[0x14];
-    unsigned int m_uiName;
+    uintptr_t m_uiName;
 
     const char* GetName() const
     {
-        return (const char*)(m_uiName & ~1);
+        return (const char*)(m_uiName & ~(uintptr_t)1);
     }
 
     Node4a5* FindChildByName(const char* pcName);
@@ -3892,11 +3837,15 @@ void* GtrStand_::FUN_00e4af40()
     return &unk14;
 }
 
-struct HolderStub;
+// Kept for the decorated name of FUN_00e4e3f0.
+struct HolderStub : hkMemoryRouter
+{
+};
+
 // @fnv 0x00e4e3f0
 HolderStub* __cdecl FUN_00e4e3f0()
 {
-    return static_cast<HolderStub*>(::FUN_00c85750());
+    return static_cast<HolderStub*>(&hkMemoryRouter::getInstance());
 }
 
 // @fnv 0x00e52f10
@@ -3956,7 +3905,7 @@ void __cdecl FUN_00e546e0(int a, int b, int c, int d, int count,
 }
 
 struct E58E80Object {
-    void CopyFrom(int setting);
+    void CopyFrom(intptr_t setting);
 };
 // @fnv 0x00e58e80
 E87E0Matrix* FUN_00e58e80(intptr_t setting, intptr_t unused, E58E80Object* object, const E87E0Matrix& right) {
@@ -4005,13 +3954,6 @@ void __cdecl PrefixSum(float* afValues, unsigned int n)
         } while (--uiRemaining != 0);
     }
 }
-
-class hkBool
-{
-public:
-    hkBool(bool b) { m_cBooleanValue = (char)b; }
-    char m_cBooleanValue;
-};
 
 // Inverts a 2x2 matrix if its determinant is not near zero (within fEps), writing the result to out and returning whether it succeeded.
 // @fnv 0x00e59340
@@ -4062,37 +4004,20 @@ int FUN_00e5c8a0(const char* p, bool b, unsigned* u)
     return reinterpret_cast<::ConfigTable *>((void *)(p))->GetUnsignedValue((const char *)(b), (bool)(u), {});
 }
 
-struct UnkRet;
-
-struct FUN_00e47390_obj {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08(void* p, unsigned int bytes);
-};
-
-struct UnkRet {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00e47390_obj* m_10;
-};
-
 struct UnkHolder {
     void* m_00;
     unsigned int m_04;
-    UnkRet* FUN_00c85750();
     void FUN_00e47390();
 };
 
-// When m_04 is nonzero, calls virtual v08(m_00, m_04 * 4) on the m_10 object of the FUN_00c85750 result.
+// When m_04 is nonzero, frees m_00 (m_04 * 4 bytes) with the heap allocator's blockFree.
 // @fnv 0x00e47390
 void UnkHolder::FUN_00e47390() {
     unsigned int count = m_04;
     if (count) {
         void* data = m_00;
-        UnkRet* mgr = static_cast<UnkRet*>(::FUN_00c85750());
-        mgr->m_10->v08(data, count * 4);
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        mgr->m_heap->blockFree(data, count * 4);
     }
 }
 
@@ -4440,9 +4365,9 @@ template<class T> struct EntityArray : HkArray<T> {
         return -1;
     }
     __forceinline void AddBack(const T& element) {
-        HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
         if (this->m_iElementCount == (this->m_iCapacityState & 0x3fffffff)) {
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         }
         T* destination = this->m_data + this->m_iElementCount;
         for (int k = 0; k < 1; ++k) destination[k] = element;
@@ -4476,7 +4401,7 @@ SmallBool EntityShape::AddActor(Actor* apActor) {
     {
         CListener* member = &m_kListener;
         if (apActor->listeners()->second.indexOf(member) < 0) {
-            reinterpret_cast<::FNVOwner *>((apActor))->FUN_00c9c5b0((int)(member));
+            reinterpret_cast<::FNVOwner *>((apActor))->FUN_00c9c5b0(member);
         }
     }
     return true;
@@ -4609,16 +4534,6 @@ struct SrcArray
     int m_uiLogicalSize;
 };
 
-class AllocatorIface
-{
-public:
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void* Alloc(int* pSize);
-    virtual void Free(void* pBuffer, unsigned int size);
-};
-
 
 class SpawnedBase
 {
@@ -4672,15 +4587,15 @@ FUN_00e49900::FUN_00e49900(unsigned int flags, SrcArray* src, float afTimeA, flo
     m_iArrayLength = 0;
     m_uiCapacity = 0x80000000;
     m_bFlag = 0;
-    AllocatorIface* alloc = static_cast<AllocatorIface*>(static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator);
+    hkMemoryAllocator* alloc = static_cast<hkMemoryAllocator*>(hkMemoryRouter::getInstance().m_heap);
     if ((int)(m_uiCapacity & 0x3fffffff) < src->m_uiLogicalSize)
     {
         if ((m_uiCapacity & 0x80000000u) == 0)
         {
-            alloc->Free(m_pData, (m_uiCapacity & 0x3fffffff) * 2);
+            alloc->bufFree(m_pData, (m_uiCapacity & 0x3fffffff) * 2);
         }
         int bytes = src->m_uiLogicalSize * 2;
-        m_pData = (unsigned short*)alloc->Alloc(&bytes);
+        m_pData = (unsigned short*)alloc->bufAlloc(bytes);
         m_uiCapacity = bytes / 2;
     }
     int n = src->m_uiLogicalSize;
@@ -4711,7 +4626,6 @@ struct CopyEntry {
     CopyEntry& operator=(const CopyEntry& other) { m_00 = other.m_00; reinterpret_cast<::Cb0StringCopy *>(&(m_04))->FUN_00cb0c30((*(const ::CB0StringPtr *)(&other.m_04))); return *this; }
     ~CopyEntry() { ::FUN_00cb0c00((intptr_t)&(m_04)); }
 };
-struct CopyAllocator { int m_00, m_04, m_08, m_0c; void* m_10; };
 static __forceinline void destroyEntries(CopyEntry* p, int count) {
     for (int i = 0; i < count; ++i) p[i].~CopyEntry();
 }
@@ -4726,10 +4640,10 @@ struct CopyArray {
     int m_04;
     int m_08;
     __forceinline CopyArray(const CopyArray& src) : m_00(0), m_04(0), m_08(0x80000000) {
-        CopyAllocator* manager = static_cast<CopyAllocator*>(::FUN_00c85750());
+        hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
         int oldSize = m_04;
         int newSize = src.m_04;
-        void* allocator = manager->m_10;
+        void* allocator = manager->m_heap;
         int common = newSize > oldSize ? oldSize : newSize;
         int capacity = m_08 & 0x3fffffff;
         if (capacity < newSize) {
@@ -4760,10 +4674,10 @@ struct Count { int n; };
 void __cdecl DeinterleaveFloats(const float* src, float* dst, Count aCount)
 {
     int count = aCount.n;
-    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
-    unsigned int* scratch = (unsigned int*)holder->unk00;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    unsigned int* scratch = (unsigned int*)holder->m_stackCurrent;
 
-    holder->unk00 = (int)scratch + ((count * 4 + 0x7f) & ~0x7f);
+    holder->m_stackCurrent = (char*)scratch + ((count * 4 + 0x7f) & ~0x7f);
 
     {
         const unsigned int* __restrict s32 = (const unsigned int*)src;
@@ -4780,7 +4694,7 @@ void __cdecl DeinterleaveFloats(const float* src, float* dst, Count aCount)
         dst[half + i] = values[2 * i + 1];
     }
 
-    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)scratch;
+    hkMemoryRouter::getInstance().m_stackCurrent = (char*)scratch;
 }
 
 namespace fnv_00e51070 {
@@ -4791,9 +4705,9 @@ struct Count { int n; };
 void __cdecl FUN_00e51070(const float* src, float* dst, Count value)
 {
     int count = value.n;
-    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
-    unsigned int* scratch = (unsigned int*)holder->unk00;
-    holder->unk00 = (int)scratch + ((count * 4 + 0x7f) & ~0x7f);
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    unsigned int* scratch = (unsigned int*)holder->m_stackCurrent;
+    holder->m_stackCurrent = (char*)scratch + ((count * 4 + 0x7f) & ~0x7f);
 
     {
         const unsigned int* __restrict s32 = (const unsigned int*)src;
@@ -4810,17 +4724,10 @@ void __cdecl FUN_00e51070(const float* src, float* dst, Count value)
         dst[2 * i + 1] = values[half + i];
     }
 
-    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)scratch;
+    hkMemoryRouter::getInstance().m_stackCurrent = (char*)scratch;
 }
 }  // namespace fnv_00e51070
 
-struct ThresholdAllocator {
-    virtual void slot0();
-    virtual void slot1();
-    virtual void slot2();
-    virtual void slot3();
-    virtual void ReleaseBlock(void*, int);
-};
 struct ThresholdCompare { bool descending; };
 void __cdecl FUN_00e50f10(float*, int, int, ThresholdCompare);
 struct ThresholdArray {
@@ -4829,8 +4736,8 @@ struct ThresholdArray {
     int capacity;
     float* original;
     void SetSizeAndGrow(int count) {
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        E4AAA0Allocator* heap = (E4AAA0Allocator*)mgr->m_pAllocator;
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        E4AAA0Allocator* heap = (E4AAA0Allocator*)mgr->m_heap;
         int current = capacity & 0x3fffffff;
         if (current < count) {
             int grown = 2 * current;
@@ -4841,15 +4748,15 @@ struct ThresholdArray {
     void release() {
         float* saved = original;
         if (saved == data) size = 0;
-        static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)saved;
+        hkMemoryRouter::getInstance().m_stackCurrent = (char*)saved;
         ClearAndRelease();
     }
     void ClearAndRelease() {
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        ThresholdAllocator* heap = (ThresholdAllocator*)mgr->m_pAllocator;
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* heap = (hkMemoryAllocator*)mgr->m_heap;
         int cap = capacity;
         size = 0;
-        if ((cap & 0x80000000) == 0) heap->ReleaseBlock(data, (cap & 0x3fffffff) * 4);
+        if ((cap & 0x80000000) == 0) heap->bufFree(data, (cap & 0x3fffffff) * 4);
         data = 0;
         capacity = 0x80000000;
     }
@@ -4868,9 +4775,9 @@ void __cdecl ThresholdValues(float* values, unsigned int count, float threshold,
         magnitudes.data = 0;
         magnitudes.size = 0;
         magnitudes.capacity = 0x80000000;
-        HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
-        float* storage = (float*)holder->unk00;
-        holder->unk00 += (count * 4 + 127) & ~127;
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        float* storage = (float*)holder->m_stackCurrent;
+        holder->m_stackCurrent += (count * 4 + 127) & ~127;
         magnitudes.data = storage;
         magnitudes.capacity = count | 0x80000000;
         magnitudes.original = storage;
@@ -5114,9 +5021,9 @@ struct ChainArray {
     int m_capFlags;
 
     void Add(T const& value) {
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_capFlags & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(mgr->m_pAllocator), (::AudioStream *)(void *)(this), (int)sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(mgr->m_heap), (::AudioStream *)(void *)(this), (int)sizeof(T));
         T* pSlot = &m_data[m_iElementCount];
         pSlot[0] = value;
         pSlot[0] = value;
@@ -5131,7 +5038,7 @@ void __cdecl CollectConnectedNodesAndEdges(ChainArray<void*>* src, void* node, C
         ChainElem* elem = (ChainElem*)src->m_data[i];
         void* a = elem->m_link14;
         if (a == node || elem->m_link18 == node) {
-            void* other = (void*)((unsigned int)elem->m_link18 ^ (unsigned int)a ^ (unsigned int)node);
+            void* other = (void*)((uintptr_t)elem->m_link18 ^ (uintptr_t)a ^ (uintptr_t)node);
             outNodes->Add(other);
             outEdges->Add((void*)elem);
         }
@@ -5257,27 +5164,27 @@ struct Mid : RefObject, CollectorBase {
 };
 
 struct hkpRemoveTerminalsMoppModifier2 : Mid {
-    int m_1c;
-    hkpRemoveTerminalsMoppModifier2(int a, int c) throw();
+    void* m_1c;
+    hkpRemoveTerminalsMoppModifier2(const void* a, void* c) throw();
     virtual ~hkpRemoveTerminalsMoppModifier2() throw();
     virtual void Dummy0() throw();
 };
 
 // Constructs the modifier by calling ConstructTemporaryObject with a large Aabb and resetting m_1c to 0.
 // @fnv 0x00e487a0
-hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(int a, int c) throw() : m_1c(c) {
+hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(const void* a, void* c) throw() : m_1c(c) {
     Aabb aabb;
     *(__m128*)&aabb.maxX = _mm_set1_ps(1e10f);
     *(__m128*)&aabb.minX = _mm_set1_ps(-1e10f);
-    ::ConstructTemporaryObject(a, (int)(&aabb), (int)(this));
+    ::ConstructTemporaryObject(a, &aabb, this);
     m_1c = 0;
 }
 
-struct FnvCpu_FUN_00e49bb0_CpuObject { char* FUN_00e49bb0(); };
+struct FnvCpu_FUN_00e49bb0_CpuObject { char m_pad00[0x30]; char m_k30[1]; char* FUN_00e49bb0(); };
 // @fnv 0x00e49bb0
 char* FnvCpu_FUN_00e49bb0_CpuObject::FUN_00e49bb0()
 {
-    return reinterpret_cast<char*>(this) + 48;
+    return m_k30;
 }
 
 
@@ -5331,14 +5238,34 @@ __declspec(noinline) KnotVector KnotVector::ScaleCopy(float f) const {KnotVector
 __declspec(noinline) KnotVector KnotVector::EvalCopy(float f) const {KnotVector a=*this;return a.DivideByScalar(f);}
 __declspec(noinline) KnotVector FUN_00e533a0(float f,const KnotVector& v) {return v.ScaleCopy(f);}
 
-float __cdecl FUN_00e54ba0(const KnotVector&,const KnotVector&);
+inline float FUN_00e54ba0(const KnotVector& a, const KnotVector& b)
+{
+    return ::FUN_00e54ba0(reinterpret_cast<const FUN_00e54ad0_cls&>(a), reinterpret_cast<const FUN_00e54ad0_cls&>(b));
+}
 
 
-struct CurveArray { float* data; int size; int capacity; };
-struct PointArray { KnotVector* data; int size; int capacity; };
+template<class T> struct KnotArray {
+    T* data; int size; int capacity;
+    __forceinline void reserve(int num) {
+        hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+        void* alloc = h->m_heap;
+        int cap = capacity & 0x3fffffff;
+        if (cap < num) {
+            int doubled = cap * 2;
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(this), num < doubled ? doubled : num, sizeof(T));
+        }
+    }
+    __forceinline void resize(int num) {
+        reserve(num);
+        int added = num - size;
+        T* start = data + size;
+        for (int k = 0; k < added; ++k) new(start + k) T;
+        size = num;
+    }
+};
 // Blends Pw points with knot-ratio alphas from U at parameter u into a temp array, then returns FUN_00e54ba0 applied to the blended values.
 // @fnv 0x00e552f0
-float __cdecl FUN_00e552f0(int n,int p,CurveArray& apKnots,PointArray& apPoints,float afParam,int r,int s)
+float __cdecl FUN_00e552f0(int n,int p,KnotArray<float>& apKnots,KnotArray<KnotVector>& apPoints,float afParam,int r,int s)
 {
     KnotVector temp[7];
     int ord=p+1;
@@ -5364,21 +5291,6 @@ float __cdecl FUN_00e552f0(int n,int p,CurveArray& apKnots,PointArray& apPoints,
     return FUN_00e54ba0(apPoints.data[i],FUN_00e533a0(fAlphaLeft,temp[iLeftIdx+1]).FUN_00e53260(FUN_00e533a0(1.0f-fAlphaLeft,temp[iLeftIdx-1])));
 }
 
-struct MarkHeap {
- virtual void v0(); virtual void v1(); virtual void v2();
- virtual void* Allocate(int&);
- virtual void Free(void*,int);
- template<class T> __forceinline T* reserve(int& count) {
-  int bytes=count*sizeof(T);
-  T* p=(T*)Allocate(bytes);
-  count=bytes/sizeof(T);
-  return p;
- }
- template<class T> __forceinline void freeBuffer(T* p,int count) {Free(p,count*sizeof(T));}
-};
-struct MarkPolicy {
- __forceinline MarkHeap& get(void* owner) {HolderStub* h=static_cast<HolderStub*>(::FUN_00c85750());return *(MarkHeap*)h->m_pAllocator;}
-};
 template<class T> struct MarkStorage {
  T* data; int size; int capacity;
  __forceinline MarkStorage():data(0),size(0),capacity(0x80000000){}
@@ -5387,23 +5299,22 @@ template<class T> struct MarkStorage {
 };
 template<class T> struct MarkArray:MarkStorage<T> {
  __forceinline MarkArray(int count,const T& initial) {
-  MarkHeap& heap=MarkPolicy().get(this);
-  T* p=count ? heap.reserve<T>(count) : 0;
+  hkMemoryAllocator& heap=hkMemoryRouter::getInstance().heap();
+  T* p=count ? heap._bufAlloc<T>(count) : 0;
   int flags=count ? count : (int)0x80000000;
   own(p,count,flags);
   if(size>0) std::memset(data,initial,size);
  }
  __forceinline void release() {
-  MarkHeap* heap=(MarkHeap*)static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
+  hkMemoryAllocator* heap=hkMemoryRouter::getInstance().m_heap;
   int cap=capacity;
   size=0;
-  if((cap&0x80000000)==0) heap->Free(data,cap&0x3fffffff);
+  if((cap&0x80000000)==0) heap->bufFree(data,cap&0x3fffffff);
   data=0;capacity=0x80000000;
  }
 };
 struct MarkBounds { float* data; };
 int FindFloatInterval(int,int,float,MarkBounds*);
-bool* IsSampleBoundary(bool*,int,MarkBounds*,int);
 // Marks the bounds intervals containing each point (shrunk by epsilon); writes 0 to output if any IsSampleBoundary sample is unmarked, else 1.
 // @fnv 0x00e57490
 bool* FUN_00e57490(bool* output,int n,int start,MarkBounds* bounds,int m,MarkBounds* points,float epsilon) {
@@ -5422,7 +5333,7 @@ bool* FUN_00e57490(bool* output,int n,int start,MarkBounds* bounds,int m,MarkBou
  }
  for(int j=0;j<=n;++j) {
   bool result;
-  if(*IsSampleBoundary(&result,start+j,bounds,total) && !marked[j]) { *output=0; marked.release();return output; }
+  if(*IsSampleBoundary(&result,start+j,&bounds->data,total) && !marked[j]) { *output=0; marked.release();return output; }
  }
  *output = 1;
 res:
@@ -5454,23 +5365,19 @@ __declspec(noinline) KnotVector KnotVector::ScaleCopy(float f) const {KnotVector
 __declspec(noinline) KnotVector KnotVector::FUN_00e532b0(const KnotVector& b) const {KnotVector t=*this;return t.FUN_00e531d0(b);}
 __declspec(noinline) KnotVector __cdecl FUN_00e533a0(float s,const KnotVector& b) {return b.ScaleCopy(s);}
 __declspec(noinline) float KnotVector::FUN_00e53580(int i) const {return (&x)[i];}
-struct ElevationAllocator {
- virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2();
- virtual void* allocate(int* bytes); virtual void release(void* data,int bytes);
-};
 template<class T> struct ElevationArray {
  T* data; int count; int capacity;
  __forceinline T& operator[](int i) {return data[i];}
  __forceinline void allocate(int requested) {
-  ElevationAllocator* allocator=(ElevationAllocator*)static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
+  hkMemoryAllocator* allocator=hkMemoryRouter::getInstance().m_heap;
   T* ptr;
-  if(requested) {int bytes=requested*sizeof(T);ptr=(T*)allocator->allocate(&bytes);requested=bytes/(int)sizeof(T);} else ptr=0;
+  if(requested) {int bytes=requested*sizeof(T);ptr=(T*)allocator->bufAlloc(bytes);requested=bytes/(int)sizeof(T);} else ptr=0;
   int flags=requested?requested:0x80000000;
   data=ptr;count=requested;capacity=flags;
  }
  __forceinline void reserve(int requested) {
-  HolderStub* h=static_cast<HolderStub*>(::FUN_00c85750());
-  void* allocator=h->m_pAllocator;
+  hkMemoryRouter* h=(&hkMemoryRouter::getInstance());
+  void* allocator=h->m_heap;
   int cap=capacity&0x3fffffff;
   if(cap<requested) {int doubled=cap*2;::FUN_00c908c0((::SpawnedObject *)(allocator),(::SpawnedArray *)(void *)(this),requested<doubled?doubled:requested,sizeof(T));}
  }
@@ -5482,11 +5389,11 @@ template<class T> struct ElevationArray {
   count=requested;
  }
  __forceinline void free() {
-  HolderStub* h=static_cast<HolderStub*>(::FUN_00c85750());
-  ElevationAllocator* allocator=(ElevationAllocator*)h->m_pAllocator;
+  hkMemoryRouter* h=(&hkMemoryRouter::getInstance());
+  hkMemoryAllocator* allocator=(hkMemoryAllocator*)h->m_heap;
   int cap=capacity;
   count=0;
-  if((cap & 0x80000000)==0) allocator->release(data,(cap&0x3fffffff)*sizeof(T));
+  if((cap & 0x80000000)==0) allocator->bufFree(data,(cap&0x3fffffff)*sizeof(T));
   data=0;capacity=0x80000000;
  }
  void SwapThreeInts(ElevationArray<T>* other);
@@ -5553,7 +5460,7 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
   *result=0;temporary.free();reinterpret_cast<::FUN_00c7b0f0_shell *>(&(rhs.matrix))->FUN_00c7b0f0();reinterpret_cast<::fnv_00e58b90::FUN_00e58b90_cls *>(&(grid))->FUN_00e58b90();return result;
  }
  FitMatrix interior;
- reinterpret_cast<::Stand_e58d90 *>(&(interior))->InitArray(reinterpret_cast<::Dummy_00cc0760 *>(&(rhs.matrix))->FUN_00cc0760(),reinterpret_cast<::FUN_00e587a0_Class *>(&(rhs.matrix))->FUN_00e587a0());
+ reinterpret_cast<::Stand_e58d90 *>(&(interior))->InitArray((int)reinterpret_cast<::Dummy_00cc0760 *>(&(rhs.matrix))->FUN_00cc0760(),reinterpret_cast<::FUN_00e587a0_Class *>(&(rhs.matrix))->FUN_00e587a0());
  int rowIndex=0;
  if(reinterpret_cast<::Dummy_00cc0760 *>(&(interior))->FUN_00cc0760()>0) {
   int width=reinterpret_cast<::FUN_00e587a0_Class *>(&(interior))->FUN_00e587a0();
@@ -5589,7 +5496,6 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
 }
 }  // namespace fnv_00e57620
 
-struct MemoryAllocator;
 // Adapted from an unverified 2026-10-23 saved reconstruction (credited as 'you').
 struct Vertex4 {
 
@@ -5603,7 +5509,7 @@ struct Vertex4 {
 __declspec(noinline) Vertex4::Vertex4(float a,float b,float c,float d):x(a),y(b),z(c),w(d) {}
 __declspec(noinline) Vertex4* Vertex4::FUN_00e53180(const Vertex4* source) { x=source->x; y=source->y; z=source->z; w=source->w; return this; }
 struct FloatVector {
-    void reserve(MemoryAllocator& alloc, int wanted);
+    void reserve(hkMemoryAllocator& alloc, int wanted);
 
     float* data;
 
@@ -5614,7 +5520,7 @@ struct FloatVector {
 };
 struct VertexVector {
     void SetSizeAndGrow(int wanted);
-    void reserve(MemoryAllocator& alloc, int wanted);
+    void reserve(hkMemoryAllocator& alloc, int wanted);
 
     Vertex4* data;
 
@@ -5634,26 +5540,6 @@ struct ScratchIndices {
     int capacity;
 
 };
-struct MemoryAllocator {
-
-    virtual void ReportDiagnostic();
-
-    virtual void unused1();
-
-    virtual void unused2();
-
-    virtual void* Allocate(int* requestedBytes);
-
-    virtual void Free(void* pointer, int requestedBytes);
-
-};
-struct AllocationEnvironment {
-
-    unsigned int unk00, unk04, unk08, unk0c;
-
-    MemoryAllocator* allocator;
-
-};
 extern int __cdecl FUN_00e57210(FloatVector*, int);
 extern int __cdecl RemoveAdjacentDuplicates(FloatVector*, int);
 extern int __cdecl FUN_00e56a00(int*, int, FloatVector*, VertexVector*, int,
@@ -5671,8 +5557,8 @@ extern void __cdecl FUN_00e55cf0(int*, int, FloatVector*, VertexVector*, int);
 extern void __cdecl FUN_00e54fa0(int, const InputVertices*, int, int, FloatVector*, VertexVector*,
 
     ScratchIndices*, const InputFloats*, int, int, float, float, void*);
-__forceinline void FloatVector::reserve(MemoryAllocator& heap, int wanted) {
-    MemoryAllocator* alloc = &heap;
+__forceinline void FloatVector::reserve(hkMemoryAllocator& heap, int wanted) {
+    hkMemoryAllocator* alloc = &heap;
     FloatVector* vec = this;
 
     int cap = (int)(vec->capacity & 0x3fffffff);
@@ -5688,8 +5574,8 @@ __forceinline void FloatVector::reserve(MemoryAllocator& heap, int wanted) {
     }
 
 }
-__forceinline void VertexVector::reserve(MemoryAllocator& heap, int wanted) {
-    MemoryAllocator* alloc = &heap;
+__forceinline void VertexVector::reserve(hkMemoryAllocator& heap, int wanted) {
+    hkMemoryAllocator* alloc = &heap;
     VertexVector* vec = this;
 
     int cap = (int)(vec->capacity & 0x3fffffff);
@@ -5706,8 +5592,8 @@ __forceinline void VertexVector::reserve(MemoryAllocator& heap, int wanted) {
 
 }
 __forceinline void VertexVector::SetSizeAndGrow(int wanted) {
-    HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-    MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
+    hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = (hkMemoryAllocator*)mgr->m_heap;
     reserve(*heap, wanted);
     int remaining=wanted-count;
     Vertex4* current=data+count;
@@ -5716,18 +5602,18 @@ __forceinline void VertexVector::SetSizeAndGrow(int wanted) {
 }
 static __forceinline void FreeScratch(unsigned int* data, int capacity) {
 
-    MemoryAllocator* alloc = ((AllocationEnvironment*)static_cast<HolderStub*>(::FUN_00c85750()))->allocator;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
 
     if ((capacity & 0x80000000) == 0)
 
-        alloc->Free(data, (capacity & 0x3fffffff)*4);
+        alloc->bufFree(data, (capacity & 0x3fffffff)*4);
 
 }
 static __forceinline void FreeScratchEarly(unsigned int* data, int capacity) {
-    HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-    MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
+    hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = (hkMemoryAllocator*)mgr->m_heap;
     int cap=capacity;
-    if ((cap & 0x80000000) == 0) heap->Free(data,(cap & 0x3fffffff)*4);
+    if ((cap & 0x80000000) == 0) heap->bufFree(data,(cap & 0x3fffffff)*4);
 }
 // Loops over passes calling helper routines on the position and vertex vectors and a scratch array, then runs a final step and frees the scratch array.
 // @fnv 0x00e57d60
@@ -5748,8 +5634,8 @@ void __cdecl ProcessGeometryPasses(int initialCount,
 
     const int floatsWanted = initialCount + 3;
 
-    HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-    MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
+    hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = (hkMemoryAllocator*)mgr->m_heap;
     positions->reserve(*heap, floatsWanted);
 
     positions->count = floatsWanted;
@@ -5778,13 +5664,13 @@ void __cdecl ProcessGeometryPasses(int initialCount,
     unsigned int* ownedData;
     int allocatedCount = initialCount + 1;
     int ownedCapacity;
-    HolderStub* scratchRouter = static_cast<HolderStub*>(::FUN_00c85750());
-    MemoryAllocator* scratchHeap = (MemoryAllocator*)scratchRouter->m_pAllocator;
+    hkMemoryRouter* scratchRouter = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* scratchHeap = (hkMemoryAllocator*)scratchRouter->m_heap;
     {
     FitWork work;
     if(allocatedCount) {
         work.bytes = allocatedCount * 4;
-        unsigned int* storage = (unsigned int*)scratchHeap->Allocate(&work.bytes);
+        unsigned int* storage = (unsigned int*)scratchHeap->bufAlloc(work.bytes);
         allocatedCount = work.bytes / 4;
         ownedData = storage;
     } else ownedData = 0;
@@ -5862,22 +5748,6 @@ void __cdecl ProcessGeometryPasses(int initialCount,
 }
 }
 
-struct SpawnedAllocator {
-    virtual void unkV0();
-    virtual void unkV1();
-    virtual void unkV2();
-    virtual void* Alloc(int* size);
-    virtual void Free(void* block, unsigned int size);
-};
-
-struct SpawnedHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    SpawnedAllocator* m_pAllocator;
-};
-
 struct SpawnedBlockRef {
     void* data;
     int count;
@@ -5896,12 +5766,12 @@ void __cdecl FUN_00e58210(int a1, int a2, int a3, float a4, int a5, int a6, int 
     blk.count = 0;
     blk.flags = 0x80000000u;
 
-    SpawnedHolder* h = reinterpret_cast<SpawnedHolder*>(static_cast<HolderStub*>(::FUN_00c85750()));
-    SpawnedAllocator* pAllocator = h->m_pAllocator;
+    hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = h->m_heap;
     void* data;
     if (n != 0) {
         int size = n * 4;
-        void* p = pAllocator->Alloc(&size);
+        void* p = pAllocator->bufAlloc(size);
         n = size / 4;
         data = p;
     } else {
@@ -5914,12 +5784,12 @@ void __cdecl FUN_00e58210(int a1, int a2, int a3, float a4, int a5, int a6, int 
     FUN_00e568f0(a1, a2, &blk);
     ProcessGeometryPasses(a1, a2, &blk, true, a3, a4, a5, a6, a7);
 
-    h = reinterpret_cast<SpawnedHolder*>(static_cast<HolderStub*>(::FUN_00c85750()));
-    pAllocator = h->m_pAllocator;
+    h = &hkMemoryRouter::getInstance();
+    pAllocator = h->m_heap;
     unsigned int f = blk.flags;
     blk.count = 0;
     if ((f & 0x80000000u) == 0) {
-        pAllocator->Free(blk.data, (f & 0x3fffffffu) * 4);
+        pAllocator->bufFree(blk.data, (f & 0x3fffffffu) * 4);
     }
 }
 
@@ -6080,24 +5950,14 @@ void caller(SolverState* s, const BoundaryTable* t, SolverOutput* o) {
     FUN_00e59700(s, t, o);
 }
 
-struct Se5b160_Heap {
-    virtual ~Se5b160_Heap();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
-struct Se5b160_Router {
-    int unk00; int unk04; int unk08; int unk0c;
-    Se5b160_Heap* m_pStreamAllocator;
-    Se5b160_Heap& heap() { return *m_pStreamAllocator; }
-    static Se5b160_Router& GetMonitorStream() { return *reinterpret_cast<Se5b160_Router*>(static_cast<HolderStub*>(::FUN_00c85750())); }
-};
 struct Se5b160_Motor { void FUN_00c90510(); };
 struct Se5b160_RefObj {
     virtual ~Se5b160_RefObj();
-    static Se5b160_Heap& heap() { return reinterpret_cast<Se5b160_Router*>(static_cast<HolderStub*>(::FUN_00c85750()))->heap(); }
+    static hkMemoryAllocator& heap() { return hkMemoryRouter::getInstance().heap(); }
     unsigned short m_usAllocationSize;
     unsigned short m_iObjectReferenceCount;
     static void* operator new(std::size_t nbytes) {
-        Se5b160_RefObj* b = static_cast<Se5b160_RefObj*>(Se5b160_Router::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+        Se5b160_RefObj* b = static_cast<Se5b160_RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usAllocationSize = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -6131,6 +5991,7 @@ static __declspec(noinline) void FUN_00e5b110(const Se5b160_HingeAtoms* source, 
     Se5b160_Motor* m = destination->motor0;
     if (m) m->FUN_00c90510();
 }
+// @fnv 0x00e5b130
 static __declspec(noinline) void FUN_00e5b130(const Se5b160_RagdollAtoms* source, Se5b160_RagdollAtoms* destination) {
     destination->FUN_00d85ba0(source);
     Se5b160_Motor** motor = &destination->motor0;
@@ -6157,7 +6018,7 @@ struct FUN_00cdf2f0 : Se5b160_Data {
 };
 struct Se5b160_StrPtr {
     const char* m_pcText;
-    const char* cString() const { return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(m_pcText) & ~1u); }
+    const char* cString() const { return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(m_pcText) & ~(uintptr_t)1); }
 };
 struct Se5b160_Entity;
 enum Se5b160_Prio { S5b160_PRIO_INVALID, S5b160_PRIO_PSI, S5b160_PRIO_TOI };
@@ -6197,7 +6058,7 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
         FUN_00cb9090* oldData = static_cast<FUN_00cb9090*>(constraintData);
         FUN_00e5b110(&oldData->m_kBridgeAtoms, &newData->m_kBridgeAtoms);
         reinterpret_cast<::FUN_00cb8ac0_class *>((newData))->SetReferencedObject((::RefObj *)(motor));
-        ::FUN_00cb8fe0((char *)(newData), (int)(0), enableMotors, {});
+        ::FUN_00cb8fe0((char *)(newData), nullptr, enableMotors);
         newConstraint = new Se5b160_Instance(entityA, entityB, newData, original->getPriority());
         reinterpret_cast<::hkReferencedObjectC905 *>((newData))->FUN_00c905b0();
         reinterpret_cast<::SStringPtr *>(&(newConstraint->m_name))->FUN_00cb0c10(original->m_name.cString());
@@ -6438,80 +6299,6 @@ processData:
     return count;
 }
 
-struct E5B130Object {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    Ref* items[3];
-    void FUN_00d85ba0(int finishFlags);
-};
-
-// Calls FUN_00d85ba0 with finishFlags, then iterates the three item pointers and calls FUN_00c90510 on each non-null item.
-// @fnv 0x00e5b130
-static __declspec(noinline) void FUN_00e5b130(E5B130Object* object, int finishFlags)
-{
-    reinterpret_cast<::ObjD85 *>((object))->FUN_00d85ba0((*(const ::ObjD85 *)(finishFlags)));
-    Ref** item = object->items;
-    int remaining = 3;
-    do {
-        if (*item)
-            reinterpret_cast<::FUN_00c90510_class *>(((*item)))->FUN_00c90510();
-        ++item;
-    } while (--remaining);
-}
-
-E5B130Object* volatile g_finishObject;
-volatile int g_finishFlags;
-void CallFinishObject() { FUN_00e5b130(g_finishObject, g_finishFlags); }
 
 #include <xmmintrin.h>
 namespace fnv_00e4b6e0 {
@@ -6554,48 +6341,6 @@ extern "C" int ReadCountInput();
 int invoke_target(){return FUN_00e4b6e0(PointArg(pointInput),segmentInput,ReadCountInput(),resultInput,kindInput);}
 }  // namespace fnv_00e4b6e0
 
-struct S00e58310_Allocator {
-    virtual ~S00e58310_Allocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <typename T>
-    inline T* _bufAlloc(int& reqNumInOut)
-    {
-        const int SIZE_ELEM = sizeof(T);
-        int n = reqNumInOut * SIZE_ELEM;
-        void* p = AllocateBufferWithSize(n);
-        reqNumInOut = n / SIZE_ELEM;
-        return static_cast<T*>(p);
-    }
-    template <typename T>
-    inline void _bufFree(void* p, int numElem)
-    {
-        const int SIZE_ELEM = sizeof(T);
-        ReturnMemory(p, numElem * SIZE_ELEM);
-    }
-};
-
-struct S00e58310_Router {
-    int m_aiEntries;
-    int m_pTemp;
-    int m_pSolver;
-    int m_pDebugAllocator;
-    S00e58310_Allocator* m_pStreamAllocator;
-    S00e58310_Allocator& heap() { return *m_pStreamAllocator; }
-    static __forceinline S00e58310_Router& GetMonitorStream();
-};
-
-__forceinline S00e58310_Router& S00e58310_Router::GetMonitorStream()
-{
-    return *(S00e58310_Router*)static_cast<HolderStub*>(::FUN_00c85750());
-}
-
-struct S00e58310_HeapAllocator {
-    S00e58310_Allocator& get(const void*) { return S00e58310_Router::GetMonitorStream().heap(); }
-};
-
 struct S00e58310_TypeIsPod {};
 
 struct S00e58310_Util {
@@ -6628,7 +6373,7 @@ struct S00e58310_ArrayBase {
         S00e58310_Util::destruct(m_data, m_iElementCount, S00e58310_TypeIsPod());
         m_iElementCount = 0;
     }
-    __forceinline void _clearAndDeallocate(S00e58310_Allocator& alloc)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         clear();
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0) {
@@ -6637,7 +6382,7 @@ struct S00e58310_ArrayBase {
         m_data = 0;
         m_iCapacityState = DONT_DEALLOCATE_FLAG;
     }
-    __forceinline S00e58310_ArrayBase<T>& copyFromArray(S00e58310_Allocator& alloc, const S00e58310_ArrayBase<T>& a, S00e58310_TypeIsPod)
+    __forceinline S00e58310_ArrayBase<T>& copyFromArray(hkMemoryAllocator& alloc, const S00e58310_ArrayBase<T>& a, S00e58310_TypeIsPod)
     {
         if (getCapacity() < a.GetLogicalSize()) {
             if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0) {
@@ -6657,12 +6402,12 @@ template <typename T>
 struct S00e58310_Array : S00e58310_ArrayBase<T> {
     __forceinline S00e58310_Array<T>& operator=(const S00e58310_Array<T>& a)
     {
-        copyFromArray(S00e58310_HeapAllocator().get(this), a, S00e58310_TypeIsPod());
+        copyFromArray(hkMemoryRouter::getInstance().heap(), a, S00e58310_TypeIsPod());
         return *this;
     }
     __forceinline void destroy()
     {
-        _clearAndDeallocate(S00e58310_HeapAllocator().get(this));
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -6698,21 +6443,6 @@ void __cdecl FUN_00e58310(int n, const S00e58310_Array<S00e58310_Point>& Q, cons
 struct CurvePoint { float x,y,z,w; CurvePoint(float a=0,float b=0,float c=0,float d=0) throw(); float& FUN_00e53590(int); };
 __declspec(noinline) CurvePoint::CurvePoint(float a,float b,float c,float d) throw():x(a),y(b),z(c),w(d){}
 __declspec(noinline) float& CurvePoint::FUN_00e53590(int i) {return (&x)[i];}
-struct CurveHeap {
- virtual void slot0(); virtual void slot1(); virtual void slot2();
- virtual void* allocate(int& bytes) throw();
- virtual void release(void* ptr,int bytes) throw();
- template<class T> __forceinline T* allocateItems(int& n) {
-  int request=n*(int)sizeof(T);
-  T* ptr=static_cast<T*>(allocate(request));
-  n=request/(int)sizeof(T);
-  return ptr;
- }
- template<class T> __forceinline void freeItems(T* ptr,int n) {release(ptr,n*(int)sizeof(T));}
-};
-struct CurvePolicy {
- __forceinline CurveHeap& get(void*) {return *static_cast<CurveHeap*>(static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator);}
-};
 __forceinline void initializeItems(float*,int) {}
 __forceinline void initializeItems(CurvePoint* ptr,int n) {for(int i=0;i<n;++i) new(ptr+i) CurvePoint;}
 template<class T> struct FitOwnedArrayBase {
@@ -6721,25 +6451,25 @@ template<class T> struct FitOwnedArrayBase {
  __forceinline void set(T* p,int n,int cap) {data=p;size=n;capacity=cap;}
  __forceinline T& operator[](int i) {return data[i];}
  __forceinline const T& operator[](int i) const {return data[i];}
- __forceinline void clear(CurveHeap& heap) {
+ __forceinline void clear(hkMemoryAllocator& heap) {
   size=0;
   int cap=capacity;
-  if(!(cap&0x80000000)) heap.freeItems<T>(data,cap&0x3fffffff);
+  if(!(cap&0x80000000)) heap._bufFree<T>(data,cap&0x3fffffff);
   data=0;capacity=0x80000000;
  }
 };
 template<class T> struct FitOwnedArray:FitOwnedArrayBase<T> {
  __forceinline FitOwnedArray() throw() {}
  __forceinline FitOwnedArray(int n) throw() {
-  HolderStub* holder=static_cast<HolderStub*>(::FUN_00c85750()); CurveHeap* heap=static_cast<CurveHeap*>(holder->m_pAllocator);
-  T* p=n?heap->allocateItems<T>(n):0;
+  hkMemoryRouter* holder=(&hkMemoryRouter::getInstance()); hkMemoryAllocator* heap=static_cast<hkMemoryAllocator*>(holder->m_heap);
+  T* p=n?heap->_bufAlloc<T>(n):0;
   int cap=n?n:0x80000000;
   set(p,n,cap);
   initializeItems(data,n);
  }
- __forceinline ~FitOwnedArray() throw() {HolderStub* holder=static_cast<HolderStub*>(::FUN_00c85750()); CurveHeap* heap=static_cast<CurveHeap*>(holder->m_pAllocator);
+ __forceinline ~FitOwnedArray() throw() {hkMemoryRouter* holder=(&hkMemoryRouter::getInstance()); hkMemoryAllocator* heap=static_cast<hkMemoryAllocator*>(holder->m_heap);
   int cap=capacity; size=0;
-  if(!(cap&0x80000000)) heap->freeItems<T>(data,cap&0x3fffffff);
+  if(!(cap&0x80000000)) heap->_bufFree<T>(data,cap&0x3fffffff);
   data=0;capacity=0x80000000;}
 };
 struct CurveWirePoints {CurvePoint* data;int size;int capacity;};
@@ -6952,7 +6682,7 @@ struct hkVector4 {
 struct RaySegment {
     hkVector4 m_vFrom;
     hkVector4 m_vTo;
-    volatile unsigned int m_pMoppCode;
+    const unsigned char* volatile m_pMoppCode;
 };
 struct PrimitiveInfo {
     unsigned int m_00;
@@ -6963,7 +6693,7 @@ struct PrimitiveInfo {
     unsigned int m_iElementIndex;
 };
 struct RayVirtualMachine {
-    unsigned int m_pRayCastInput;
+    const void* m_pRayCastInput;
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
@@ -6971,7 +6701,7 @@ struct RayVirtualMachine {
     unsigned int m_14;
     unsigned int m_18;
     unsigned int m_1c;
-    unsigned int m_pRayCastOutput;
+    void* m_pRayCastOutput;
     unsigned int m_24;
     unsigned int m_28;
     unsigned int m_2c;
@@ -6984,12 +6714,12 @@ struct RayQuery {
 };
 // Builds a RayQuery from seg and to, then calls FUN_00e5f070 on its ray VM with a primitive info block, seg->m_pMoppCode and the query offset.
 // @fnv 0x00e5d650
-void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input, unsigned int output)
+void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, const void* input, void* output)
 {
     RayQuery q;
     q.m_vm.m_invLength = 1.0f / seg->m_vTo(3);
-    const unsigned int inputCopy = *reinterpret_cast<volatile const unsigned int*>(&input);
-    const unsigned int code = seg->m_pMoppCode;
+    const void* inputCopy = *reinterpret_cast<const void* volatile const*>(&input);
+    const unsigned char* code = seg->m_pMoppCode;
 
     q.m_offset.setZero4();
     q.m_vm.m_pRayCastInput = inputCopy;
@@ -7007,7 +6737,7 @@ void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input
     q.m_vm.m_kRayCastVector.setXYZ(dir);
     q.m_vm.m_kRayCastVector(3) = (*to)(3) + (*to)(3);
     q.m_vm.m_pRayCastOutput = output;
-    reinterpret_cast<::Cls *>(&(q.m_vm))->FUN_00e5f070((::P1 *)(::fnv_00e5d650::PrimitiveInfo *)(&info), (unsigned char *)(code), (::F8 *)(::fnv_00e5d650::hkVector4 *)(&q.m_offset));
+    reinterpret_cast<::Cls *>(&(q.m_vm))->FUN_00e5f070((::P1 *)(::fnv_00e5d650::PrimitiveInfo *)(&info), const_cast<unsigned char *>(code), (::F8 *)(::fnv_00e5d650::hkVector4 *)(&q.m_offset));
 }
 }  // namespace fnv_00e5d650
 
@@ -7019,7 +6749,6 @@ void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input
 #include "fnv/symbols_00e50000.h"
 #include "fnv/symbols_00e51000.h"
 #include "fnv/symbols_00e54000.h"
-#include "fnv/symbols_00e59000.h"
 #include "fnv/symbols_00e5b000.h"
 #include "fnv/symbols_00e5c000.h"
 #include "fnv/symbols_00e57000.h"
@@ -7136,16 +6865,6 @@ inline void operator delete(void*, void*, S00e49e00_Slot) {}
 
 namespace se49e00 {
 
-struct Allocator;
-
-struct AllocatorHolder {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    Allocator* m_pHeapAllocator;
-};
-
 void FUN_00c90510(void* pvObject);
 
 template <class T> struct ObjectArray {
@@ -7155,9 +6874,9 @@ template <class T> struct ObjectArray {
 
     void PushBack(const T& kElement)
     {
-        AllocatorHolder* pkHolder = static_cast<AllocatorHolder*>(::FUN_00c85750());
+        hkMemoryRouter* pkHolder = &hkMemoryRouter::getInstance();
         if (m_uiLogicalSize == (m_iCapacityAndFlags & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(pkHolder->m_pHeapAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(pkHolder->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_pData[m_uiLogicalSize], S00e49e00_Slot()) T(kElement);
         m_uiLogicalSize++;
     }
@@ -7204,8 +6923,8 @@ float FUN_00e535a0(const Vec4f* left, const Vec4f* right)
 }
 
 namespace e54 {
-int __cdecl FindFloatInterval(int a, int degree, float u, float** knots);
-void __cdecl ComputeBasisFunctions(int span, float u, int degree, float** knots, float* basis);
+using ::FindFloatInterval;
+using ::ComputeBasisFunctions;
 // Finds the span for u, computes the basis functions, and accumulates the weighted control points into a KnotVector result.
 // @fnv 0x00e54630
 KnotVector FUN_00e54630(int a, int degree, float** knots, KnotVector** points, float u)
@@ -7279,15 +6998,12 @@ bool* __cdecl IsSampleBoundary(bool* result, int index, float** samples, int end
 
 int __cdecl FUN_00e54930(float **apValues, int count);
 
-float __cdecl GetHelperValueAsFloat();
-
-
 void __cdecl LookupAndConsume(FUN_00e54b20_src* src, unsigned int key);
 
 float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 
 
-void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
+float __cdecl FUN_00e54ba0(const FUN_00e54ad0_cls& a, const FUN_00e54ad0_cls& b);
 
 int __cdecl FindFirstNonZero(int aiStartIndex, intptr_t b, int c);
 
@@ -7412,7 +7128,7 @@ extern double __cdecl FUN_00ec9e10(double x);
 
 KnotVector FUN_00e533a0(float f,const KnotVector& v);
 
-float __cdecl FUN_00e552f0(int n,int p,CurveArray& U,PointArray& Pw,float u,int r,int s);
+float __cdecl FUN_00e552f0(int n,int p,KnotArray<float>& U,KnotArray<KnotVector>& Pw,float u,int r,int s);
 
 void* _fnv_zlib_memset(void*,int,int);
 
@@ -7433,10 +7149,8 @@ void caller(SolverState* s, const BoundaryTable* t, SolverOutput* o);
 
 Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __restrict original, Se5b160_Motor* motor, bool enableMotors);
 
-static void FUN_00e5b130(E5B130Object* object, int finishFlags);
 
 
-void CallFinishObject();
 
 void __cdecl FUN_00e58310(int n, const S00e58310_Array<S00e58310_Point>& Q, const S00e58310_Array<float>& Ub, int degree, float E, int& nh, S00e58310_Array<float>& U, S00e58310_Array<S00e58310_Point>& P);
 
@@ -7449,8 +7163,6 @@ void __cdecl FUN_00e5d360(unsigned codeBits,const PlaneView& input,int output,in
 void __cdecl FUN_00e544c0( int a1, int a2, float** knots, KnotVector** points, float u, int a6, KnotVector* rows, int a8, float a9);
 
 namespace se49e00 {
-
-struct Allocator;
 
 
 void FUN_00c90510(void* pvObject);
@@ -7530,11 +7242,11 @@ template<class T> struct ElevationArray {
     int count;
     int capacity;
     __forceinline void allocate(int requested) {
-        MemoryAllocator* allocator=(MemoryAllocator*)static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
+        hkMemoryAllocator* allocator=hkMemoryRouter::getInstance().m_heap;
         T* ptr;
         if(requested) {
             int bytes=requested*sizeof(T);
-            ptr=(T*)allocator->Allocate(&bytes);
+            ptr=(T*)allocator->bufAlloc(bytes);
             requested=bytes/(int)sizeof(T);
         } else ptr=0;
         int flags=requested?requested:0x80000000;
@@ -7542,10 +7254,10 @@ template<class T> struct ElevationArray {
 
     }
     __forceinline void free() {
-        HolderStub* holder=static_cast<HolderStub*>(::FUN_00c85750());
-        MemoryAllocator* allocator=(MemoryAllocator*)holder->m_pAllocator;
+        hkMemoryRouter* holder=(&hkMemoryRouter::getInstance());
+        hkMemoryAllocator* allocator=(hkMemoryAllocator*)holder->m_heap;
         int cap=capacity;
-        if ((cap & 0x80000000)==0) allocator->Free(data, (cap & 0x3fffffff) * sizeof(T));
+        if ((cap & 0x80000000)==0) allocator->bufFree(data, (cap & 0x3fffffff) * sizeof(T));
     }
     void SwapThreeInts(ElevationArray<T>* other);
 };
@@ -7687,8 +7399,7 @@ void __cdecl FUN_00e568f0(int n, intptr_t a2, void* s)
     S00e568f0_Vec4Array* pts = (S00e568f0_Vec4Array*)a2;
     FloatArray* out = (FloatArray*)s;
     int count = n + 1;
-    HolderView* holder = reinterpret_cast<HolderView*>(static_cast<HolderStub*>(::FUN_00c85750()));
-    S00e568f0_SetArraySize(holder->m_pAllocator, out, count);
+    S00e568f0_SetArraySize(hkMemoryRouter::getInstance().m_heap, out, count);
     out->m_data[0] = 0.0f;
     int i = 1;
     if (i <= n) {
@@ -7717,14 +7428,6 @@ __declspec(nothrow) int __cdecl FindFirstNonZero(int, intptr_t, int);
 
 static __forceinline int getDifference(int saved,int* current){return saved-*current;}
 
-struct FNVTemporaryAllocator {
-    virtual void Other0();
-    virtual void Other1();
-    virtual void Other2();
-    __declspec(nothrow) virtual void* Allocate(int* sizeInBytes);
-    __declspec(nothrow) virtual void Free(void* buffer, int sizeInBytes);
-};
-
 template<class T> struct ArrayStorage { T* data; int size; int capacityAndFlags; __declspec(nothrow) __forceinline T& operator[](int i){return data[i];} };
 
 template<class T> struct TypedTemporary : ArrayStorage<T> {
@@ -7733,10 +7436,10 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
     __declspec(nothrow) __forceinline explicit TypedTemporary(int n){Allocate(n);}
     __declspec(nothrow) __forceinline TypedTemporary(int n,const T& v){Allocate(n,v);}
     __declspec(nothrow) __forceinline TypedTemporary(const TypedTemporary<T>& n){CopyFrom(n);}
-    __declspec(nothrow) static __forceinline T* AllocateTemporaryArray(FNVTemporaryAllocator* allocator, int& count) {
+    __declspec(nothrow) static __forceinline T* AllocateTemporaryArray(hkMemoryAllocator* allocator, int& count) {
         if (count) {
             int bytes = count * 4;
-            T* buffer = (T*)allocator->Allocate(&bytes);
+            T* buffer = (T*)allocator->bufAlloc(bytes);
             int capacity = bytes / 4;
             count = capacity;
             return buffer;
@@ -7744,8 +7447,8 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
         return 0;
     }
     __declspec(nothrow) __forceinline void Allocate(int count) {
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        T* buffer = AllocateTemporaryArray((FNVTemporaryAllocator*)mgr->m_pAllocator, count);
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        T* buffer = AllocateTemporaryArray((hkMemoryAllocator*)mgr->m_heap, count);
         int flags = count ? count : 0x80000000;
         data = buffer;
         size = count;
@@ -7767,11 +7470,11 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
     __declspec(nothrow) __forceinline void CopyFrom(const ArrayStorage<T>& other) {
         data = 0;
         capacityAndFlags = 0x80000000;
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        FNVTemporaryAllocator* allocator = (FNVTemporaryAllocator*)mgr->m_pAllocator;
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* allocator = (hkMemoryAllocator*)mgr->m_heap;
         if (other.size > 0) {
             int bytes = other.size * 4;
-            data = (T*)allocator->Allocate(&bytes);
+            data = (T*)allocator->bufAlloc(bytes);
             capacityAndFlags = bytes / 4;
         }
         int n = other.size;
@@ -7783,12 +7486,12 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
     }
     __declspec(nothrow) __forceinline ~TypedTemporary(){Release();}
     __declspec(nothrow) __forceinline void Release() {
-        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        FNVTemporaryAllocator* allocator = (FNVTemporaryAllocator*)mgr->m_pAllocator;
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* allocator = (hkMemoryAllocator*)mgr->m_heap;
         size=0;
         int cap = capacityAndFlags;
         if ((cap & 0x80000000) == 0)
-            allocator->Free(data, (cap & 0x3fffffff) * 4);
+            allocator->bufFree(data, (cap & 0x3fffffff) * 4);
         data = 0;
         capacityAndFlags = 0x80000000;
     }
@@ -7806,25 +7509,10 @@ __declspec(nothrow) int __cdecl GetRunLength(int index, int end, float** knots);
 
 __declspec(nothrow) void __cdecl FUN_00e54c10(int index, FNVTemporaryFloats* array, int size);
 
-__declspec(nothrow) void __cdecl FUN_00e555f0(int count, int degree, float** knots, int context, FNVTemporaryFloats* temporary, int start, int end);
+void __cdecl FUN_00e555f0(int count, int degree, KnotArray<float>& knots, KnotArray<KnotVector>& points, FNVTemporaryFloats* errors, int start, int end);
 
-__declspec(nothrow) int __cdecl FUN_00e556f0(int count, int degree, float** knots, int context, float value, int index, int removed, int active, float fill);
+int __cdecl FUN_00e556f0(int count, int degree, KnotArray<float>& knots, KnotArray<KnotVector>& points, float value, int index, int removed, int active, float tolerance);
 
-struct ErrorDecision { unsigned char value; };
-
-ErrorDecision* IsSampleBoundary(ErrorDecision*,int,float**,int);
-
-float FUN_00e552f0(int,int,float**,int,float,int,int);
-
-__declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e555f0(int count,int degree,float** knots,int context,FNVTemporaryFloats* bounds,int begin,int end) {
-    int last=count+degree+1;
-    for(int i=begin;i<=end;++i) bounds->data[i]=DAT_010ec990;
-    for(int i=begin;i<=end;++i) {
-        ErrorDecision decision;
-        if(IsSampleBoundary(&decision,i,knots,last)->value)
-            bounds->data[i]=FUN_00e552f0(count,degree,knots,context,(*knots)[i],i,GetRunLength(i,last,knots));
-    }
-}
 __declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e54c10(int first,FNVTemporaryFloats* bounds,int count) {
     --bounds->size;
     for(int i=first;i<bounds->size;++i) bounds->data[i]=bounds->data[i+1];
@@ -7843,7 +7531,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
     FNVTemporaryFloats updatedWeights(pointCount+1,0.0f);
     TypedTemporary<int> lowerLimits(pointCount+1);
     TypedTemporary<int> upperLimits(pointCount+1);
-    FUN_00e555f0(*count, degree, ((float**)knots), ((int)context), &knotErrors, degree + 1, m - degree - 1);
+    FUN_00e555f0(*count, degree, *(KnotArray<float>*)knots, *(KnotArray<KnotVector>*)context, &knotErrors, degree + 1, m - degree - 1);
     int knot = FUN_00e54930(&knotErrors.data, m+1);
     int removalCount = GetRunLength(knot, m, ((float**)knots));
     float* currentError = errorValues + knot;
@@ -7875,7 +7563,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
             FNVTemporaryFloats originalWeights(*((FNVFloatValues*)weights));
             for (int j = lower; j <= upper; ++j)
                 ((FNVFloatValues*)weights)->data[j] = updatedWeights[j];
-            FUN_00e556f0(*count, degree, ((float**)knots), ((int)context), (*((float**)knots))[knot],
+            FUN_00e556f0(*count, degree, *(KnotArray<float>*)knots, *(KnotArray<KnotVector>*)context, (*((float**)knots))[knot],
                            knot, removalCount, 1, DAT_010ec990);
             --m;
             --*count;
@@ -7887,7 +7575,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
             int currentCount = *count;
             int lastAffected = knot - removalCount + degree < currentCount ?
                                knot - removalCount + degree : currentCount;
-            FUN_00e555f0(currentCount, degree, ((float**)knots), ((int)context), &knotErrors,
+            FUN_00e555f0(currentCount, degree, *(KnotArray<float>*)knots, *(KnotArray<KnotVector>*)context, &knotErrors,
                 FindFirstNonZero(firstAffected, (intptr_t)((float**)knots), m),
                 FindFirstNonZero(lastAffected, (intptr_t)((float**)knots), m));
         } else {
@@ -7933,20 +7621,16 @@ extern const float DAT_010ec990 = 3.40282e38f;
 bool* IsSampleBoundary(bool* a, int b, float** c, int d);
 
 
-float FUN_00e552f0(int a1, int a2, float** a3, int a4, float f, int i, int p);
-
 // @fnv 0x00e555f0
-void FUN_00e555f0(int a1, int a2, float** a3, int a4, float** a5, int start, int end)
+void FUN_00e555f0(int n, int p, KnotArray<float>& U, KnotArray<KnotVector>& Pw, FNVTemporaryFloats* errors, int start, int end)
 {
-    int v = a1 + a2 + 1;
+    int v = n + p + 1;
     bool result;
-for(int k=start; k<=end; ++k) (*a5)[k] = DAT_010ec990;
+    for (int k = start; k <= end; ++k)
+        errors->data[k] = DAT_010ec990;
     for (int i = start; i <= end; i++) {
-        if (*IsSampleBoundary(&result, i, a3, v) != 0) {
-            float* src = *a3 + i;
-            float* dst = *a5 + i;
-            *dst = FUN_00e552f0(a1, a2, a3, a4, *src, i, GetRunLength(i, v, a3));
-        }
+        if (*IsSampleBoundary(&result, i, &U.data, v) != 0)
+            errors->data[i] = FUN_00e552f0(n, p, U, Pw, U.data[i], i, GetRunLength(i, v, &U.data));
     }
 }
 
@@ -7967,62 +7651,14 @@ int __cdecl FUN_00e54a00(float** arr, int count)
     return index;
 }
 
-struct RemovalVector : KnotVector {
-    RemovalVector(float a=0,float b=0,float c=0,float d=0);
-    RemovalVector& operator=(const RemovalVector&);
-    RemovalVector& add(const RemovalVector&);
-    RemovalVector& subtract(const RemovalVector&);
-    RemovalVector& scale(float);
-    RemovalVector& divide(float);
-    RemovalVector operator*(float) const;
-    RemovalVector operator-(const RemovalVector&) const;
-    RemovalVector operator+(const RemovalVector&) const;
-    RemovalVector operator/(float) const;
-};
-
-__declspec(noinline) RemovalVector::RemovalVector(float a,float b,float c,float d) : KnotVector(a,b,c,d) {}
-__declspec(noinline) RemovalVector& RemovalVector::operator=(const RemovalVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
-__declspec(noinline) RemovalVector& RemovalVector::add(const RemovalVector& v) {x+=v.x;y+=v.y;z+=v.z;w+=v.w;return *this;}
-__declspec(noinline) RemovalVector& RemovalVector::subtract(const RemovalVector& v) {x-=v.x;y-=v.y;z-=v.z;w-=v.w;return *this;}
-__declspec(noinline) RemovalVector& RemovalVector::scale(float f) {x*=f;y*=f;z*=f;w*=f;return *this;}
-__declspec(noinline) RemovalVector& RemovalVector::divide(float f) {x/=f;y/=f;z/=f;w/=f;return *this;}
-__declspec(noinline) RemovalVector RemovalVector::operator+(const RemovalVector& v) const {RemovalVector a=*this;return a.add(v);}
-__declspec(noinline) RemovalVector RemovalVector::operator-(const RemovalVector& v) const {RemovalVector a=*this;return a.subtract(v);}
-__declspec(noinline) RemovalVector RemovalVector::operator*(float f) const {RemovalVector a=*this;return a.scale(f);}
-__declspec(noinline) RemovalVector RemovalVector::operator/(float f) const {RemovalVector a=*this;return a.divide(f);}
-__declspec(noinline) RemovalVector operator*(float f,const RemovalVector& v) {return v*f;}
-
-float FUN_00e54ba0(const RemovalVector&,const RemovalVector&);
-
-
-template<class T> struct KnotArray {
-    T* data; int size; int capacity;
-    __forceinline void reserve(int num) {
-        HolderStub* h = static_cast<HolderStub*>(::FUN_00c85750());
-        void* alloc = h->m_pAllocator;
-        int cap = capacity & 0x3fffffff;
-        if (cap < num) {
-            int doubled = cap * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(this), num < doubled ? doubled : num, sizeof(T));
-        }
-    }
-    __forceinline void resize(int num) {
-        reserve(num);
-        int added = num - size;
-        T* start = data + size;
-        for (int k = 0; k < added; ++k) new(start + k) T;
-        size = num;
-    }
 // @fnv 0x00e556f0
-};
-
-int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<RemovalVector>& Pw,float u,int r,int s,int num,float TOL) {
+int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<KnotVector>& Pw,float u,int r,int s,int num,float TOL) {
     int m=n+p+1;
     int ord=p+1;
     int fout=(2*r-p-s)/2;
     int last=r-s;
     int first=r-p;
-    RemovalVector temp[7];
+    KnotVector temp[7];
     int t;
     for(t=0;t<num;++t) {
         int off=first-1;
@@ -8033,15 +7669,15 @@ int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<RemovalVector
         while(j-i>t) {
             float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
             float alfj=(u-U.data[j-t])/(U.data[j+ord]-U.data[j-t]);
-            temp[ii]=(Pw.data[i]-(1.0f-alfi)*temp[ii-1])/alfi;
-            temp[jj]=(Pw.data[j]-alfj*temp[jj+1])/(1.0f-alfj);
+            temp[ii]=Pw.data[i].FUN_00e532b0(FUN_00e533a0(1.0f-alfi,temp[ii-1])).EvalCopy(alfi);
+            temp[jj]=Pw.data[j].FUN_00e532b0(FUN_00e533a0(alfj,temp[jj+1])).EvalCopy(1.0f-alfj);
             ++i; ++ii; --j; --jj;
         }
         if(j-i<t) {
             if(!(FUN_00e54ba0(temp[ii-1],temp[jj+1])<=TOL)) break;
         } else {
             float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
-            if(!(FUN_00e54ba0(Pw.data[i],alfi*temp[ii+t+1]+(1.0f-alfi)*temp[ii-1])<=TOL)) break;
+            if(!(FUN_00e54ba0(Pw.data[i],FUN_00e533a0(alfi,temp[ii+t+1]).FUN_00e53260(FUN_00e533a0(1.0f-alfi,temp[ii-1])))<=TOL)) break;
         }
         i=first; j=last;
         while(j-i>t) {
@@ -8227,6 +7863,8 @@ namespace S00e5d070 {
 typedef float hkReal;
 typedef __m128 hkQuadReal;
 
+class hkMatrix3;
+
 class hkVector4
 {
 public:
@@ -8242,8 +7880,8 @@ public:
     {
         m_vComponents = _mm_and_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10)));
     }
-    __forceinline void _setMul3(const class hkMatrix3& a, const hkVector4& b);
-    __forceinline void _setMul4(const class hkMatrix3& r, const hkVector4& v) { _setMul3(r, v); }
+    __forceinline void _setMul3(const hkMatrix3& a, const hkVector4& b);
+    __forceinline void _setMul4(const hkMatrix3& r, const hkVector4& v) { _setMul3(r, v); }
 };
 
 class hkMatrix3
@@ -8514,8 +8152,6 @@ struct MoppPlaneSet {
 
 struct MoppOutput { int* data; int size; int capacity; };
 
-struct MoppMemorySystem { int unk00, unk04, unk08, unk0c; void* allocator; };
-
 
 struct MoppErrorSink {
     virtual void ReportDiagnostic();
@@ -8735,9 +8371,9 @@ void MoppMachine::FUN_00e5d7d0(const MoppState* state, const unsigned char* code
                 static_cast<volatile int&>(secondOffset) = value;
                 value += state->terminalBase;
 
-                MoppMemorySystem* memory = (MoppMemorySystem*)static_cast<HolderStub*>(::FUN_00c85750());
+                hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
                 if (out->size == (out->capacity & 0x3fffffff))
-                    ::ResizeAudioStream((::AudioAllocator *)(void *)(memory->allocator), (::AudioStream *)(void *)(out), 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(void *)(memory->m_heap), (::AudioStream *)(void *)(out), 4);
                 int* next = out->data + out->size;
                 ++out->size;
                 *next = value;
@@ -8971,74 +8607,52 @@ inline VectorComponentValue operator-(hkSimdRealParameter r)
     return _mm_sub_ss(::DAT_010c7160, r.getQuad());
 }
 
-class hkVector4
+// hkBase.h's hkVector4 is four plain floats; these helpers do the SSE maths on it.
+static __forceinline hkQuadReal LoadVector4(const hkVector4& v)
 {
-public:
-    hkVector4() {}
-    hkVector4(const hkVector4& v) { m_vComponents = v.m_vComponents; }
-    void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
-    void setInterpolate4(const hkVector4& v0, const hkVector4& v1, hkSimdRealParameter _t)
-    {
-        hkQuadReal t = _t.broadcast();
-        hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, t);
-        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(t, v1.m_vComponents));
-    }
-    void setAddMul4(hkSimdRealParameter r, const hkVector4& v1, hkSimdRealParameter q, const hkVector4& v2)
-    {
-        m_vComponents = _mm_add_ps(_mm_mul_ps(r.broadcast(), v1.m_vComponents), _mm_mul_ps(q.broadcast(), v2.m_vComponents));
-    }
-    void setMul4(hkSimdRealParameter r, const hkVector4& v1) { m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents); }
-    void addMul4(hkSimdRealParameter r, const hkVector4& v1)
-    {
-        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
-    }
-    VectorComponentValue dot4(const hkVector4& a) const
-    {
-        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
-        hkQuadReal sum0 = _mm_add_ps(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 0, 3, 2)), x2);
-        hkQuadReal sum1 = _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(2, 3, 0, 1));
-        return _mm_add_ps(sum0, sum1);
-    }
-    hkQuadReal m_vComponents;
-};
+    return _mm_loadu_ps(&v.x);
+}
 
-class hkQuaternion
+static __forceinline void StoreVector4(hkVector4& v, hkQuadReal q)
 {
-public:
-    hkQuaternion() {}
-    void operator=(const hkQuaternion& q) { m_vec = q.m_vec; }
-    hkVector4 m_vec;
-};
+    _mm_storeu_ps(&v.x, q);
+}
 
-class hkQsTransform
+static __forceinline void SetInterpolate4(hkVector4& out, const hkVector4& v0, const hkVector4& v1, hkSimdRealParameter _t)
 {
-public:
-    __forceinline hkQsTransform() {}
-    __forceinline hkQsTransform(const hkQsTransform& t)
-    {
-        m_vTranslation = t.m_vTranslation;
-        m_rotation = t.m_rotation;
-        m_vScale = t.m_vScale;
-    }
-    __forceinline void setInterpolate4(const hkQsTransform& a, const hkQsTransform& b, hkSimdRealParameter t)
-    {
-        m_vScale.setInterpolate4(a.m_vScale, b.m_vScale, t);
-        m_vTranslation.setInterpolate4(a.m_vTranslation, b.m_vTranslation, t);
+    hkQuadReal t = _t.broadcast();
+    hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, t);
+    StoreVector4(out, _mm_add_ps(_mm_mul_ps(s, LoadVector4(v0)), _mm_mul_ps(t, LoadVector4(v1))));
+}
 
-        const hkReal oneMinusT = 1.0f - hkReal(t);
+static __forceinline void SetAddMul4(hkVector4& out, hkSimdRealParameter r, const hkVector4& v1, hkSimdRealParameter q, const hkVector4& v2)
+{
+    StoreVector4(out, _mm_add_ps(_mm_mul_ps(r.broadcast(), LoadVector4(v1)), _mm_mul_ps(q.broadcast(), LoadVector4(v2))));
+}
 
-        const hkReal signedT = (a.m_rotation.m_vec.dot4(b.m_rotation.m_vec) < 0.0f) ? -t : t;
+static __forceinline VectorComponentValue Dot4(const hkVector4& a, const hkVector4& b)
+{
+    hkQuadReal x2 = _mm_mul_ps(LoadVector4(a), LoadVector4(b));
+    hkQuadReal sum0 = _mm_add_ps(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 0, 3, 2)), x2);
+    hkQuadReal sum1 = _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(2, 3, 0, 1));
+    return _mm_add_ps(sum0, sum1);
+}
 
-        hkQuaternion out;
-        out.m_vec.setAddMul4(VectorComponentValue(oneMinusT), a.m_rotation.m_vec, VectorComponentValue(signedT), b.m_rotation.m_vec);
-        reinterpret_cast<::FUN_005611c0_t *>(&(out))->FUN_005611c0();
+static __forceinline void SetInterpolate4(hkQsTransform& out, const hkQsTransform& a, const hkQsTransform& b, hkSimdRealParameter t)
+{
+    SetInterpolate4(out.m_vScale, a.m_vScale, b.m_vScale, t);
+    SetInterpolate4(out.m_vTranslation, a.m_vTranslation, b.m_vTranslation, t);
 
-        m_rotation = out;
-    }
-    hkVector4 m_vTranslation;
-    hkQuaternion m_rotation;
-    hkVector4 m_vScale;
-};
+    const hkReal oneMinusT = 1.0f - hkReal(t);
+
+    const hkReal signedT = (Dot4(a.m_rotation.m_vec, b.m_rotation.m_vec) < 0.0f) ? -t : t;
+
+    hkQuaternion rotation;
+    SetAddMul4(rotation.m_vec, VectorComponentValue(oneMinusT), a.m_rotation.m_vec, VectorComponentValue(signedT), b.m_rotation.m_vec);
+    reinterpret_cast<::FUN_005611c0_t *>(&(rotation))->FUN_005611c0();
+
+    out.m_rotation = rotation;
+}
 
 // @fnv 0x00e41bf0
 hkQsTransform FUN_00e41bf0(hkReal time, const hkQsTransform* keys, hkUint32 numKeys, hkReal duration)
@@ -9052,7 +8666,7 @@ hkQsTransform FUN_00e41bf0(hkReal time, const hkQsTransform* keys, hkUint32 numK
     }
     const hkReal delta = frame - (hkReal)index;
     hkQsTransform result;
-    result.setInterpolate4(keys[index], keys[index + 1], VectorComponentValue(delta));
+    SetInterpolate4(result, keys[index], keys[index + 1], VectorComponentValue(delta));
     return result;
 }
 
@@ -9159,30 +8773,6 @@ public:
 __forceinline ValueWrapper(){}
 private:
 TYPE m_kStorage;};
-class hkMemoryAllocator
-{
-public:
-virtual void*AllocateMemoryBlock(int numBytes)=0;
-virtual void ReleaseBlock(void*p,int numBytes)=0;public:
-enum MemoryState
-{
-MEMORY_STATE_OK,
-MEMORY_STATE_OUT_OF_MEMORY
-};};struct StringPointerTriple
-{
-public:
-__forceinline StringPointerTriple();protected:
-ValueWrapper<void*>m_next;};
-class NineIntegerRecord
-{
-public:
-typedef hkMemoryAllocator Allocator;
-static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator&temp(){return*m_pTemp;}
-inline Allocator&heap(){return*m_pStreamAllocator;}
-protected:
-StringPointerTriple m_aiEntries;
-Allocator*m_pTemp;
-Allocator*m_pStreamAllocator;};
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;
@@ -9252,7 +8842,7 @@ class hkRotation;
 class hkVector4
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline void operator=(const hkVector4&v);
 __forceinline void setZero4();
 __forceinline void add4(const hkVector4&a);
@@ -9281,7 +8871,7 @@ return m_vComponents;
 };class hkMatrix3
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4&getColumn(int i)const;
 __forceinline void setZero();
 protected:
@@ -9290,7 +8880,7 @@ hkVector4 m_kColumn1;
 hkVector4 m_kColumn2;};class __declspec(align(16))hkRotation:public hkMatrix3
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};inline void hkVector4::operator=(const hkVector4&v)
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};inline void hkVector4::operator=(const hkVector4&v)
 {
 m_vComponents=v.m_vComponents;
 }
@@ -9426,14 +9016,14 @@ __forceinline void __cdecl hkVector4Util_S::releaseRegisters(hkUint32 registerMa
 struct TimeStepInfo
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 float m_fTimeStep;
 float m_fInverseDeltaTime;};
 struct hkpVehicleFrictionDescription
 {
 struct AxisDescription
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpVehicleFrictionDescription::AxisDescription));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpVehicleFrictionDescription::AxisDescription));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 static const struct ClassMemberDescriptor Members[];static const hkClass&__cdecl staticClass();struct DefaultStruct;
 float m_afFrictionCurveSamples[16];
 float m_fAxisFrictionTuning1;
@@ -9454,7 +9044,7 @@ struct hkpVehicleFrictionStatus
 struct AxisStatus
 {
 static const struct ClassMemberDescriptor Members[];static const hkClass&__cdecl staticClass();struct DefaultStruct;
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(AxisStatus));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(AxisStatus));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkReal m_fAxisStatusMetric1;
 hkReal m_fAxisStatusMetric2;
 hkReal m_fAxisStatusMetric3;
@@ -9481,7 +9071,7 @@ struct AxisStatus m_kAxisEndPoints[2];};
 class QuantizedBoundsData
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 enum RigidBodyType
 {
 HK_RIGID_BODY,

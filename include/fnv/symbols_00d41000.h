@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class SpawnedObject;
 struct AlignedVec;
 struct D41FD0CollisionDispatcher;
@@ -31,10 +33,10 @@ void FUN_00d41930(::Input_s *, const void *, ::hkpGskCache_s *, ::Output_s *);
 // 0x00d41a30
 void *FUN_00d41a30(::Request *, unsigned char *, ::ResultData *, ::AlignedVec *, ::Output *);
 // 0x00d41ec0
-void FUN_00d41ec0(int *);
+void FUN_00d41ec0(void **);
 // 0x00d41f00
 void FUN_00d41f00(::SpawnedObject *, int, int);
 // 0x00d41f50
-void *CreateSpawnObject(int, int, int, int);
+void *CreateSpawnObject(intptr_t, intptr_t, intptr_t, intptr_t);
 // 0x00d41fd0
 void RegisterStaticCollisionAgent(::D41FD0CollisionDispatcher *);

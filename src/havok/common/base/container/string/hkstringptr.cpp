@@ -95,7 +95,7 @@ extern "C"
 // @fnv 0x00cb11b0
 void* __cdecl FUN_00cb11b0(void* apSrc, int anMaxLen, void* p3)
 {
-    intptr_t len = (intptr_t)((void *)(::fnv_00cb10d0::FUN_00cb10d0((const char *)(apSrc))));
+    intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(apSrc));
     if (len > anMaxLen)
         len = anMaxLen;
 

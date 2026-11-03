@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace linear_cast_d9a2a0 { struct Embedded5; }
 namespace linear_cast_d9a2a0 { struct Param2; }
 namespace linear_cast_d9a2a0 { struct Param3; }

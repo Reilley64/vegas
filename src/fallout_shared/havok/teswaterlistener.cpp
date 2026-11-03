@@ -367,7 +367,7 @@ struct VList
     virtual void f20();
     virtual void f21();
     virtual void f22();
-    virtual void Target(float a, int b);
+    virtual void Target(float a, std::intptr_t b);
 };
 struct FUN_00631100_shell
 {

@@ -2,6 +2,7 @@
 
 class E54B50Vector4;
 struct FUN_00e532b0_class;
+struct FUN_00e54ad0_cls;
 struct FUN_00e54b20_src;
 struct KnotVector;
 struct L;
@@ -17,13 +18,12 @@ namespace e54 { ::KnotVector FUN_00e54630(int, int, float **, ::KnotVector **, f
 // 0x00e548f0
 bool *IsSampleBoundary(bool *, int, float **, int);
 // 0x00e54ae0
-float GetHelperValueAsFloat();
 // 0x00e54b20
 void LookupAndConsume(::FUN_00e54b20_src *, unsigned int);
 // 0x00e54b50
 float Vector4NormalizedDot(const ::E54B50Vector4 &, const ::E54B50Vector4 &);
 // 0x00e54ba0
-void FUN_00e54ba0(void *, ::FUN_00e532b0_class *);
+float FUN_00e54ba0(const ::FUN_00e54ad0_cls &, const ::FUN_00e54ad0_cls &);
 // 0x00e54c10
 void FUN_00e54c10(int, ::L *);
 // 0x00e54cb0

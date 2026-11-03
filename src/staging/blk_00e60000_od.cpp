@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include <new>
@@ -489,13 +490,6 @@ struct MoppResults
     int count, capacity;
 };
 
-struct MoppMemoryRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    void* heap;
-};
-
-
 struct MoppErrorSink
 {
     virtual void unknown0();
@@ -739,9 +733,9 @@ void MoppFindAllVM::FUN_00e66290(const MoppQueryState* current, const unsigned c
         terminal:
             primitive += current->primitiveOffset;
             MoppResults* array = results;
-            MoppMemoryRouter* router = (MoppMemoryRouter*)FUN_00c85750();
+            hkMemoryRouter* router = &hkMemoryRouter::getInstance();
             if (array->count == (array->capacity & 0x3fffffff))
-                ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(array), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(array), 4);
             unsigned int* dest = &array->data[array->count++];
             *dest = primitive;
             return;

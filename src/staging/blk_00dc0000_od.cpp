@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -27,22 +28,6 @@ struct VecArray
     int m_iElementCount;
     int m_iCapacityState;
 };
-
-struct MemAllocator;
-
-struct MemRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    MemAllocator* unk10;
-    MemAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
 
 static __forceinline float distanceSquared(__m128 a, __m128 b)
 {
@@ -100,13 +85,13 @@ void __cdecl FUN_00dd68d0(float tol, VecArray* arr, int* outCount)
     }
     *outCount = (int)(out - arr->m_data);
     int count = *outCount;
-    MemAllocator& alloc = ((MemRouter*)FUN_00c85750())->heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
     int cap = arr->m_iCapacityState & 0x3fffffff;
     if (cap < count)
     {
         int cap2 = cap * 2;
         int newCap = (count < cap2) ? cap2 : count;
-        ::FUN_00c908c0((::SpawnedObject *)(::MemAllocator *)(&alloc), (::SpawnedArray *)(arr), newCap, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(&alloc), (::SpawnedArray *)(arr), newCap, 16);
     }
     arr->m_iElementCount = count;
 }
@@ -134,25 +119,6 @@ struct Edge
         a = ia;
         b = ib;
         tri = t;
-    }
-};
-
-struct Allocator
-{
-    virtual void* v00();
-    virtual void* v04();
-    virtual void* v08();
-    virtual void* v0c();
-    virtual void freeBlock(void* data, int size);
-};
-
-struct Holder
-{
-    int unk00, unk04, unk08, unk0c;
-    Allocator* allocator;
-    Allocator& heap()
-    {
-        return *allocator;
     }
 };
 
@@ -184,9 +150,9 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void AddBack(const T& v)
     {
-        Holder* h = static_cast<Holder*>(::FUN_00c85750());
+        hkMemoryRouter* h = &hkMemoryRouter::getInstance();
         if (size == (capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(h->allocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = &data[size];
         if (p)
             *p = v;
@@ -194,18 +160,18 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void pushBackPlain(const T& v)
     {
-        Allocator& a = static_cast<Holder*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         if (size == (capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(::fnv_00dd6a10::Allocator *)(&a), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&a), (::AudioStream *)(void *)(this), sizeof(T));
         hkConstructWithCopy(data + size, 1, v);
         size++;
     }
     __forceinline void clearAndFree()
     {
-        Allocator& a = static_cast<Holder*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         size = 0;
         if ((capacity & 0x80000000) == 0)
-            a.freeBlock(data, (capacity & 0x3fffffff) * sizeof(T));
+            a._bufFree<T>(data, capacity & 0x3fffffff);
     }
 };
 
@@ -353,25 +319,6 @@ struct Pair_00dd6c10
     }
 };
 
-struct Alloc_00dd6c10
-{
-    virtual void* v00();
-    virtual void* v04();
-    virtual void* v08();
-    virtual void* v0c();
-    virtual void freeBlock(void* data, int size);
-};
-
-struct Holder_00dd6c10
-{
-    int unk00, unk04, unk08, unk0c;
-    Alloc_00dd6c10* allocator;
-    __forceinline Alloc_00dd6c10& heap()
-    {
-        return *allocator;
-    }
-};
-
 
 template <class T> struct Arr_00dd6c10
 {
@@ -404,9 +351,9 @@ struct PairList_00dd6c10
     }
     __forceinline void add(const Pair_00dd6c10& item)
     {
-        Holder_00dd6c10* h = static_cast<Holder_00dd6c10*>(FUN_00c85750());
+        hkMemoryRouter* h = &hkMemoryRouter::getInstance();
         if (size == (capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(h->allocator), (::AudioStream *)(void *)(this), sizeof(Pair_00dd6c10));
+            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(void *)(this), sizeof(Pair_00dd6c10));
         Pair_00dd6c10* p = &data[size];
         if (p)
         {
@@ -415,15 +362,15 @@ struct PairList_00dd6c10
         }
         size++;
     }
-    __forceinline void _clearAndDeallocate(Alloc_00dd6c10& a)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& a)
     {
         size = 0;
         if ((capacity & 0x80000000) == 0)
-            a.freeBlock(data, (capacity & 0x3fffffff) * sizeof(Pair_00dd6c10));
+            a._bufFree<Pair_00dd6c10>(data, capacity & 0x3fffffff);
     }
     __forceinline void clearAndFree()
     {
-        _clearAndDeallocate(static_cast<Holder_00dd6c10*>(FUN_00c85750())->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -629,14 +576,6 @@ struct Contact
     hkVector4 m_vHitNormal;
 };
 
-struct MemoryRouter
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void* m_pStreamAllocator;
-};
 
 
 template <class T> struct hkArray
@@ -647,9 +586,9 @@ template <class T> struct hkArray
 
     __forceinline void AddBack(const T& t)
     {
-        MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }

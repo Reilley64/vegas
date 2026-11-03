@@ -1372,7 +1372,7 @@ static __forceinline void expandedVal(hkVector4Real& out, __m128 a, __m128 b)
 
 // Traverses a compressed tree to find nodes overlapping a swept box, collecting leaf hits or reporting hit distances via a collector.
 // @fnv 0x00d1c2b0
-int FUN_00d1c2b0(CompressedTree* tree, int aabb, const SweptBoxQuery* apQuery, LeafCollector* collector, float radius,
+int FUN_00d1c2b0(CompressedTree* tree, intptr_t aabb, const SweptBoxQuery* apQuery, LeafCollector* collector, float radius,
                  int* hits, int capacity)
 {
     if (!tree)

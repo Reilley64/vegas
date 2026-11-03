@@ -11,4 +11,4 @@ const char str_010c900c[31] = "            = softlimit: %10i\n";
 const char str_010c902c[42] = "\n            - reserved:  %10i (%4.1f%%)\n";
 const char str_010c9058[31] = "            totalSize:   %10i\n";
 const char str_010c9078[6] = "\t%s:\n";
-unsigned int DAT_01268418;
+uintptr_t DAT_01268418;

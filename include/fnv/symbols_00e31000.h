@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace SplineMax { struct Points; }
 namespace SplineMax { struct Vec; }
 namespace fnv_00e31800 { struct Buf; }
@@ -18,7 +20,7 @@ struct S00e311f0_V;
 struct hkVector4Stub;
 
 // 0x00e31010
-void AlignAndAdvance(char, int, int, int *);
+void AlignAndAdvance(char, int, int, uintptr_t *);
 // 0x00e310c0
 void FUN_00e310c0(const ::Mat34 *, int, int, int, int, ::hkVector4Stub **, ::hkVector4Stub **, ::hkVector4Stub **);
 // 0x00e311f0
@@ -30,15 +32,15 @@ unsigned char FUN_00e311f0(::S00e311f0_PA, ::S00e311f0_PB, const ::S00e311f0_V *
 // 0x00e31510
 void SwapBytesAndAdvance(int, unsigned char **);
 // 0x00e31570
-namespace fnv_00e31570 { unsigned int FUN_00e31570(unsigned char, unsigned int *); }
+namespace fnv_00e31570 { unsigned int FUN_00e31570(unsigned char, uintptr_t *); }
 // 0x00e315a0
-void FUN_00e315a0(unsigned char, unsigned int, unsigned int, unsigned int *);
+void FUN_00e315a0(unsigned char, unsigned int, unsigned int, uintptr_t *);
 // 0x00e31650
 void FillInterpolatedValues(int, float **, float, float);
 // 0x00e31740
-void FUN_00e31740(unsigned char, unsigned int, unsigned int *);
+void FUN_00e31740(unsigned char, unsigned int, uintptr_t *);
 // 0x00e31780
-void FUN_00e31780(int, int, int *);
+void FUN_00e31780(int, int, uintptr_t *);
 // 0x00e317c0
 void AppendChar(char, ::E317C0CharArray &);
 // 0x00e31800

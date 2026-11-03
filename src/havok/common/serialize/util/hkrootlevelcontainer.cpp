@@ -70,9 +70,9 @@ lNext:
 
 struct Ent_d48150
 {
-    unsigned int unk00;
-    int unk04;
-    int unk08;
+    const char* unk00;
+    const char* unk04;
+    void* unk08;
 };
 
 
@@ -80,7 +80,7 @@ struct Cls_d48150
 {
     Ent_d48150* m_data;
     int m_iElementCount;
-    int idx(int key)
+    int idx(void* key)
     {
         int i = 0;
         Ent_d48150* e;
@@ -89,16 +89,16 @@ struct Cls_d48150
         }
         return i;
     }
-    int FUN_00d48150(void* ctx, int key);
+    void* FUN_00d48150(void* ctx, void* key);
 };
 
 // @fnv 0x00d48150
-int Cls_d48150::FUN_00d48150(void* apContext, int key)
+void* Cls_d48150::FUN_00d48150(void* apContext, void* key)
 {
     int iIndex = idx(key);
     for (; iIndex < m_iElementCount; iIndex++)
     {
-        intptr_t v = (int)m_data[iIndex].unk00;
+        intptr_t v = (intptr_t)m_data[iIndex].unk00;
         if ((v & -2) == 0 || ::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(apContext), (const char *)(v & -2)) != 0)
             continue;
         return m_data[iIndex].unk08;

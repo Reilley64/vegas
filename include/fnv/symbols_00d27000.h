@@ -16,7 +16,7 @@ struct hkpConstraintOwner;
 struct hkpModifierConstraintAtom;
 
 // 0x00d275a0
-void ReplaceEntry(intptr_t, intptr_t, intptr_t, unsigned short);
+void ReplaceEntry(void *, void *, void *, unsigned short);
 // 0x00d27690
 void FUN_00d27690(::D27690_Instance *, ::D27690_Owner *, unsigned int);
 // 0x00d277c0

@@ -503,7 +503,7 @@ void ProjPB::FUN_009becc0(float fUnused)
                 reinterpret_cast<::AlignedVector *>(&(kImpulse))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::A6080Speaker *>((pkWorld))->FUN_009a6080())))));
                 hkSimdRealPB kScale(2.0f);
                 reinterpret_cast<::S_00627920 *>(&(kImpulse))->FUN_00627920((::S_00561240 *)&(kScale));
-                reinterpret_cast<::FUN_00631100_shell *>((pkMotion))->FUN_00631100(fTimeSinceScaleStart, (int)&(kImpulse));
+                reinterpret_cast<::FUN_00631100_shell *>((pkMotion))->FUN_00631100(fTimeSinceScaleStart, (intptr_t)&(kImpulse));
             }
         }
     }
@@ -1590,7 +1590,7 @@ bool RefP9::FUN_009c03f0()
         reinterpret_cast<::InterfaceManager *>(&(kQuery))->FUN_00500a20((::Tile *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::CollHolderP9 *)(::FUN_00559450((int *)&(m_kCollSrc))))))->GetName()))));
     NiPoint3P9 kRay = kWorldPosition * (reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter() - reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070());
     NiPoint3P9 kTargetCenter;
-    reinterpret_cast<::FUN_00c66be0_class *>((pkWorld))->FUN_00c66be0((unsigned int)&(kTargetCenter));
+    reinterpret_cast<::FUN_00c66be0_class *>((pkWorld))->FUN_00c66be0((uintptr_t)&(kTargetCenter));
     BroadphaseP9* pkBroadphase = ((::BroadphaseP9 *)(reinterpret_cast<::ScriptLocals *>((pkWorld))->GetActionEntry()));
     NiPoint3P9 kMaxPoint;
     ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kMaxPoint), (const ::hkVector4 &)(pkBroadphase->m_kMax));

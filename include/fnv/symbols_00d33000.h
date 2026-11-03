@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class hkpCollisionAgentD33D;
 class hkpCollisionDispatcherD331;
 struct hkpCdBodyD33D;

@@ -131907,7 +131907,7 @@ WeaponObject* ActH2::FUN_008a5f20(bool immediate)
             }
             else
             {
-                weapon = ((::fnv_008a5f20::WeaponObject *)(::fnv_00c89540::CreateResourceObject((int)(weaponData), (int)(root), (int)(node), hidden)));
+                weapon = ((::fnv_008a5f20::WeaponObject *)(::fnv_00c89540::CreateResourceObject((intptr_t)(weaponData), (intptr_t)(root), (intptr_t)(node), hidden)));
                 if (weapon && !immediate)
                     weapon->FUN_00c89050(immediate, weaponData, root, hidden);
             }
@@ -138508,7 +138508,7 @@ void LimbForceActor::FUN_008b65f0()
         if (pRoot)
         {
             if (ItemUpdateArray)
-                ::FUN_00c6a270((int)(pRoot), true, true, 0);
+                ::FUN_00c6a270((intptr_t)(pRoot), true, true, 0);
             for (unsigned int i = 0; i < ItemUpdateArray; i++)
             {
                 NiAVObject* pFound = 0;

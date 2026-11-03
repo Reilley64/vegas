@@ -231,8 +231,8 @@ struct FUN_009b7a20_holder
 };
 struct FUN_009ba320_shell
 {
-    void FUN_009ba320(unsigned int a, unsigned int b);
-    void FUN_009ba390(unsigned int);
+    void FUN_009ba320(uintptr_t a, uintptr_t b);
+    void FUN_009ba390(uintptr_t);
 };
 struct ScriptLocalsX
 {
@@ -244,7 +244,7 @@ struct FUN_009ba350_shell
 };
 // Calls FUN_009ba350 with a and FUN_009ba390 with b.
 // @fnv 0x009ba320
-void FUN_009ba320_shell::FUN_009ba320(unsigned int auiFirst, unsigned int auiSecond)
+void FUN_009ba320_shell::FUN_009ba320(uintptr_t auiFirst, uintptr_t auiSecond)
 {
     reinterpret_cast<::FUN_009ba350_shell *>(this)->FUN_009ba350((::ScriptLocalsX *)(auiFirst));
     FUN_009ba390(auiSecond);

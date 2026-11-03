@@ -49,7 +49,7 @@ extern ::GlobalObjectO2_00a7b610 g_0126f554;
 // 0x0126f580
 extern int DAT_0126f580[];
 // 0x0126f590
-extern int DAT_0126f590;
+extern void* DAT_0126f590;
 // 0x0126f594
 extern int g_dsAE7D6B0;
 // 0x0126f59c
@@ -153,7 +153,7 @@ extern "C" extern void *g_0126fa28;
 // 0x0126fa2c
 extern void *DAT_0126fa2c;
 // 0x0126fa30
-extern int DAT_0126fa30;
+extern void* DAT_0126fa30;
 // 0x0126fa34
 extern ::NiGeometryGroup *DAT_0126fa34;
 // 0x0126fa3c
@@ -163,9 +163,9 @@ extern ::GlobalObjectO2_00a7b610 g_0126fa40;
 // 0x0126fa48
 extern ::GlobalObjectO2_00a7b610 g_0126fa48;
 // 0x0126fa58
-extern int DAT_0126fa58;
+extern void* DAT_0126fa58;
 // 0x0126fa94
-extern bool (**DAT_0126fa94)(float, void *, unsigned int, void *, unsigned int);
+extern bool (**DAT_0126fa94)(float, void *, uintptr_t, void *, uintptr_t);
 // 0x0126fa98
 extern int (**DAT_0126fa98)(float, void *, int, void *, int, int, int, int, int, int);
 // 0x0126fa9c

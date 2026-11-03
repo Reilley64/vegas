@@ -2,12 +2,13 @@
 
 namespace fnv_00d50d60 { struct D50D60_Stream; }
 struct FUN_00d503c0_src;
+struct NiStream;
 struct Runtime;
 struct hkSchemeVecs;
 struct hkVector4;
 
 // 0x00d50000
-void FUN_00d50000(int *, int);
+void FUN_00d50000(int *, ::NiStream *);
 // 0x00d503c0
 void FUN_00d503c0(int **, void *, const void *, ::FUN_00d503c0_src *, void *, void *);
 // 0x00d505c0

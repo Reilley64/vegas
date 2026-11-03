@@ -95,22 +95,45 @@ set(STAGING_SOURCES
   src/staging/blk_00c00000_o2.cpp
   src/staging/blk_00c20000_o2.cpp
   src/staging/blk_00c20000_od.cpp
+  src/staging/blk_00c40000_od.cpp
+  src/staging/blk_00c60000_o2.cpp
+  src/staging/blk_00c60000_od.cpp
+  src/staging/blk_00c80000_o2.cpp
+  src/staging/blk_00c80000_od.cpp
+  src/staging/blk_00ca0000_o2.cpp
   src/staging/blk_00ca0000_od.cpp
+  src/staging/blk_00cc0000_o2.cpp
   src/staging/blk_00cc0000_od.cpp
+  src/staging/blk_00ce0000_o2.cpp
   src/staging/blk_00ce0000_od.cpp
   src/staging/blk_00d00000_o2.cpp
+  src/staging/blk_00d00000_od.cpp
+  src/staging/blk_00d20000_o2.cpp
+  src/staging/blk_00d20000_od.cpp
+  src/staging/blk_00d40000_o2.cpp
   src/staging/blk_00d40000_od.cpp
+  src/staging/blk_00d60000_o2.cpp
   src/staging/blk_00d60000_od.cpp
+  src/staging/blk_00d80000_o2.cpp
+  src/staging/blk_00d80000_od.cpp
   src/staging/blk_00da0000_o2.cpp
   src/staging/blk_00da0000_od.cpp
   src/staging/blk_00dc0000_o2.cpp
   src/staging/blk_00dc0000_o2_tokens.cpp
   src/staging/blk_00dc0000_o2_welding.cpp
   src/staging/blk_00dc0000_od.cpp
+  src/staging/blk_00de0000_o2.cpp
   src/staging/blk_00de0000_od.cpp
+  src/staging/blk_00e00000_o2.cpp
+  src/staging/blk_00e00000_od.cpp
+  src/staging/blk_00e20000_o2.cpp
   src/staging/blk_00e20000_od.cpp
+  src/staging/blk_00e40000_o2.cpp
   src/staging/blk_00e40000_od.cpp
+  src/staging/blk_00e60000_o2.cpp
   src/staging/blk_00e60000_od.cpp
+  src/staging/blk_00e80000_o2.cpp
+  src/staging/blk_00ea0000_o2.cpp
   src/staging/blk_00ea0000_od.cpp
   src/staging/blk_00ec0000_od.cpp
   src/staging/blk_00ee0000_o2.cpp

@@ -34,7 +34,7 @@ void FUN_00d88300();
 // 0x00d88340
 void FUN_00d88340(::State *, int);
 // 0x00d883c0
-intptr_t FUN_00d883c0(const ::S883_Island &, char *, int, ::S883_TaskHeader &);
+int FUN_00d883c0(const ::S883_Island &, char *, int, ::S883_TaskHeader &);
 // 0x00d88470
 ::D88310Bool CheckTotalsWithinLimits(::D88470Obj *, ::D88470Elem **, int);
 // 0x00d88580
@@ -44,6 +44,6 @@ void FUN_00d88670(::hkpConstraintSolverResourcesD886 &, ::hkpEntityD886 *const *
 // 0x00d88760
 void FUN_00d88760(::S88_Resources &, ::S88_Instance **, int, ::S88_Array &);
 // 0x00d889f0
-namespace fnv_00d889f0 { void *FUN_00d889f0(void *); }
+namespace fnv_00d889f0 { int FUN_00d889f0(void *); }
 // 0x00d88b50
 int FUN_00d88b50(const ::hkStepInfoD886 &, const void *, ::S88_QueryIn &, ::S88b50_Island &, void *, int, ::S88b50_Entity *const *, int);

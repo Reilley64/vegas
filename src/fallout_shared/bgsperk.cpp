@@ -1508,7 +1508,7 @@ struct FUN_00485990_shell
 {
     void AppendChunk(unsigned int, void*, int);
 };
-struct FUN_005eb0e0_shell
+struct FUN_005eb0e0_shell : ::BGSPerk
 {
     void FUN_005eb0e0();
 };
@@ -1523,16 +1523,16 @@ void AppendChunk(unsigned int, void*, int);
 void FUN_005eb0e0_shell::FUN_005eb0e0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
-    ((FUN_00482cb0_shell*)((char*)this + 0x24))->FUN_00482cb0();
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x2c))))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)static_cast<TESFullName *>(this))))->FUN_00487010();
+    ((FUN_00482cb0_shell*)static_cast<TESDescription *>(this))->FUN_00482cb0();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)static_cast<TESIcon *>(this))))->FUN_0048e370(0x4e4f4349);
     reinterpret_cast<::FUN_00680910_shell *>((((TESConditionSave*)((char*)this + 0x40))))->ProcessItems();
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::TESForm *>((((FUN_005eb0e0_TESForm*)((char*)this + 0x38))))->ClearData();
-    AppendChunk(0x41544144, (char*)this + 0x38, 5);
+    AppendChunk(0x41544144, (char*)&this->Data, 5);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::TESForm *>((((FUN_005eb0e0_TESForm*)((char*)this + 0x38))))->ClearData();
-    BSSimpleList<BGSPerkEntry*>* pCurrentElementNext = (BSSimpleList<BGSPerkEntry*>*)((char*)this + 0x48);
+    BSSimpleList<BGSPerkEntry*>* pCurrentElementNext = &this->m_kEntryList;
     while (pCurrentElementNext)
     {
         BGSPerkEntry* pPerkEntry = (pCurrentElementNext->m_item);

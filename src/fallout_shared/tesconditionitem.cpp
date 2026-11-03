@@ -276,7 +276,7 @@ template <int N> struct EndianSizeTag
 struct FUN_00681110_shell
 {
 };
-struct FUN_00681170_shell
+struct FUN_00681170_shell : ::TESConditionItem
 {
     void SwapEndianAndProcess();
 };
@@ -304,10 +304,10 @@ void TESConditionItem::Load(TESFile* file)
 // @fnv 0x00681170
 void FUN_00681170_shell::SwapEndianAndProcess()
 {
-    ::FUN_00401080(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4));
+    ::FUN_00401080(reinterpret_cast<int*>(&this->m_comparisonValue));
     ::FUN_00401080(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18));
-    ::FUN_00401080(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14));
-    reinterpret_cast<::C81110Header *>((reinterpret_cast<FUN_00681110_shell*>(reinterpret_cast<char*>(this) + 8)))->ClearFields();
+    ::FUN_00401080(&this->m_objectType);
+    reinterpret_cast<::C81110Header *>((reinterpret_cast<FUN_00681110_shell*>(&this->m_usFunctionCode)))->ClearFields();
 }
 
 struct S_006815c0

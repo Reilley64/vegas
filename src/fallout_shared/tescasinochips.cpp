@@ -433,7 +433,7 @@ struct FUN_00485680
 {
 };
 
-struct FUN_00504280_shell
+struct FUN_00504280_shell : ::TESCasinoChips
 {
     void FUN_00504280();
 };
@@ -443,12 +443,12 @@ struct FUN_00504280_shell
 void FUN_00504280_shell::FUN_00504280()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x3c)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x5c)))->FUN_0048e370(0x4e4f4349);
-    reinterpret_cast<FUN_0047a240_shell*>(reinterpret_cast<char*>(this) + 0x68)->FUN_0047a240(0x4f43494d);
-    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x80)))->FUN_00477f20();
-    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((reinterpret_cast<FUN_0047b560_holder*>(reinterpret_cast<char*>(this) + 0x88)))->LogFormIDs();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(static_cast<TESIcon *>(this))))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<FUN_0047a240_shell*>(static_cast<BGSMessageIcon *>(this))->FUN_0047a240(0x4f43494d);
+    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<DoorPart68*>(static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((reinterpret_cast<FUN_0047b560_holder*>(static_cast<BGSPickupPutdownSounds *>(this))))->LogFormIDs();
 
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_004048e0())))
     {

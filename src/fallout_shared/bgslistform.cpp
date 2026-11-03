@@ -151,7 +151,7 @@ struct CallTarget_0063f7b0
 {
     void _ref_0063f7b0();
 };
-struct ThisHolder
+struct ThisHolder : ::BGSListForm
 {
     void FUN_0058ffd0();
 };
@@ -183,10 +183,10 @@ void BGSListForm::LoadGame(BGSLoadFormBuffer* buffer)
 // @fnv 0x0058ffd0
 void ThisHolder::FUN_0058ffd0()
 {
-    while (*(unsigned int*)((char*)this + 0x20) != 0)
+    while (this->m_uiFormCount != 0)
     {
         ((CallTarget_0063f7b0*)((BGSCameraPath*)this)->GetConditions())->_ref_0063f7b0();
-        *(unsigned int*)((char*)this + 0x20) = *(unsigned int*)((char*)this + 0x20) - 1;
+        this->m_uiFormCount = this->m_uiFormCount - 1;
     }
 }
 

@@ -304,7 +304,7 @@ bool FUN_00516c10_shell::IsNotMatchingContainer(TESForm* apCompare)
     return false;
 }
 
-struct FUN_00516a20_shell
+struct FUN_00516a20_shell : ::TESObjectCONT
 {
     void FUN_00516a20();
 };
@@ -347,11 +347,11 @@ struct FUN_00485e00_shell
 void FUN_00516a20_shell::FUN_00516a20()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x3c)))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x48)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<::S_0048cca0 *>((reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x68)))->FUN_0048cca0();
-    reinterpret_cast<FUN_00481b40_shell*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00481b40();
-    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x7c)))->FUN_00477f20();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::S_0048cca0 *>((reinterpret_cast<DoorPart5c*>(static_cast<TESScriptableForm *>(this))))->FUN_0048cca0();
+    reinterpret_cast<FUN_00481b40_shell*>(static_cast<TESContainer *>(this))->FUN_00481b40();
+    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<DoorPart68*>(static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
 
     if (((bool)(::FUN_00401500())))
     {
@@ -366,26 +366,26 @@ void FUN_00516a20_shell::FUN_00516a20()
         reinterpret_cast<TESForm*>(reinterpret_cast<char*>(this) + 0x98)->TESForm::ClearData();
     }
 
-    if (*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x8c))
+    if (this->m_pOpenSound)
     {
         {
-            unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x8c))))->FUN_0084e3a0()));
+            unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((this->m_pOpenSound)))->FUN_0084e3a0()));
             ::FUN_00485910(0x4d414e53, itempint);
         }
     }
 
-    if (*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x90))
+    if (this->m_pSecondarySound)
     {
         {
-            unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x90))))->FUN_0084e3a0()));
+            unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((this->m_pSecondarySound)))->FUN_0084e3a0()));
             ::FUN_00485910(0x4d414e51, itempint);
         }
     }
 
-    if (*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x94))
+    if (this->pLoopingSound)
     {
         {
-            unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x94))))->FUN_0084e3a0()));
+            unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((this->pLoopingSound)))->FUN_0084e3a0()));
             ::FUN_00485910(0x4d414e52, itempint);
         }
     }

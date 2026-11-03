@@ -381,7 +381,7 @@ struct TESSaveLoadGame
 
 TESSaveLoadGame* g_TESSaveLoadGame;
 
-struct FUN_0047f8c0_shell
+struct FUN_0047f8c0_shell : ::TESAIForm
 {
     void FUN_0047f8c0(unsigned int arg1, unsigned int arg2);
 };
@@ -391,11 +391,11 @@ void FUN_0047f8c0_shell::FUN_0047f8c0(unsigned int uiFlags, unsigned int arg2)
 {
     if (uiFlags & 8)
     {
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 4), 1);
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 5), 1);
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 6), 1);
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 7), 1);
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 8), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->aggression), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->confidence), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->energy), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->responsibility), 1);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->mood), 1);
     }
 }
 
@@ -591,7 +591,7 @@ struct TESSaveLoadGame
 {
 };
 
-struct FUN_0047f840_shell
+struct FUN_0047f840_shell : ::TESAIForm
 {
     void FUN_0047f840(unsigned int aFlags);
 };
@@ -602,11 +602,11 @@ void FUN_0047f840_shell::FUN_0047f840(unsigned int aFlags)
 {
     if (aFlags & 8)
     {
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 4, 1);
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 5, 1);
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 6, 1);
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 7, 1);
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 8, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->aggression, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->confidence, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->energy, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->responsibility, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0047f840::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->mood, 1);
     }
 }
 }  // namespace fnv_0047f840

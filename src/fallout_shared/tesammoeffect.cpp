@@ -300,7 +300,7 @@ struct FUN_00485680
 struct FUN_00485e00_shell
 {
 };
-struct FUN_00599ef0_shell
+struct FUN_00599ef0_shell : ::TESAmmoEffect
 {
     void FUN_00599ef0();
 };
@@ -308,12 +308,12 @@ struct FUN_00599ef0_shell
 void FUN_00599ef0_shell::FUN_00599ef0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)static_cast<TESAmmoEffectMap *>(this))))->FUN_00487010();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)((char*)this + 0x24))))->FUN_005a6b10();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x24)), 0xc);
+        reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)&this->effectData[0])))->FUN_005a6b10();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)&this->effectData)), 0xc);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)((char*)this + 0x24))))->FUN_005a6b10();
+        reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)&this->effectData[0])))->FUN_005a6b10();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 

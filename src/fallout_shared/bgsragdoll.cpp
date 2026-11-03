@@ -1106,7 +1106,7 @@ struct FUN_005ee110_String
     operator unsigned int() const;
 };
 
-struct FUN_005ee110_shell
+struct FUN_005ee110_shell : ::BGSRagdoll
 {
     void FUN_005ee110();
 };
@@ -1119,7 +1119,7 @@ void FUN_005ee110_shell::FUN_005ee110()
 
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
 
     ::FUN_00485910(0x5245564e, 1);
 
@@ -1136,19 +1136,19 @@ void FUN_005ee110_shell::FUN_005ee110()
         ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x108)))->GetName()));
 
     *reinterpret_cast<unsigned char*>(&saveData.m_bRagdollAnimationEnabled) =
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x40);
+        *reinterpret_cast<unsigned char*>(&this->m_kRagdollAnimationData.bEnabled);
 
     *reinterpret_cast<unsigned char*>(&saveData.m_bFootIKEnabled) =
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x90);
+        *reinterpret_cast<unsigned char*>(&this->m_kFootIKData.bEnabled);
 
     *reinterpret_cast<unsigned char*>(&saveData.m_bLookIKEnabled) =
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0xd0);
+        *reinterpret_cast<unsigned char*>(&this->m_kLookIKData.bEnabled);
 
     *reinterpret_cast<unsigned char*>(&saveData.m_bGrabIKEnabled) =
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0xf4);
+        *reinterpret_cast<unsigned char*>(&this->m_kGrabIKData.bEnabled);
 
     *reinterpret_cast<unsigned char*>(&saveData.m_bRagdollFeedbackEnabled) =
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x118);
+        *reinterpret_cast<unsigned char*>(&this->m_kRagdollFeedbackProfile.bEnabled);
 
     if (((bool)(::FUN_00401500())))
         ::SwapEndianFourShorts(reinterpret_cast<unsigned short*>(&saveData));
@@ -1158,27 +1158,27 @@ void FUN_005ee110_shell::FUN_005ee110()
     if (((bool)(::FUN_00401500())))
         ::SwapEndianFourShorts(reinterpret_cast<unsigned short*>(&saveData));
 
-    if (*reinterpret_cast<TESActorBase**>(reinterpret_cast<unsigned char*>(this) + 0x144))
+    if (this->m_pActorBase)
     {
         unsigned int itempint;
-        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<TESActorBase**>(reinterpret_cast<unsigned char*>(this) + 0x144))))->FUN_0084e3a0()));
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((this->m_pActorBase)))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e58, itempint);
     }
 
-    if (*reinterpret_cast<BGSBodyPartData**>(reinterpret_cast<unsigned char*>(this) + 0x140))
+    if (this->m_pBodyPartDataCur)
     {
         unsigned int itempint;
-        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<BGSBodyPartData**>(reinterpret_cast<unsigned char*>(this) + 0x140))))->FUN_0084e3a0()));
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((this->m_pBodyPartDataCur)))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e54, itempint);
     }
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005ee380_Data *>((reinterpret_cast<RagdollFeedbackData__RagdollFeedbackSystemData*>(reinterpret_cast<unsigned char*>(this) + 0x44)))->FUN_005ee380();
+        reinterpret_cast<::FUN_005ee380_Data *>((&this->m_kRagdollAnimationData.m_kRagdollFeedbackData))->FUN_005ee380();
 
-    ::AppendChunk(0x44464152, reinterpret_cast<unsigned char*>(this) + 0x44, 0x3c);
+    ::AppendChunk(0x44464152, reinterpret_cast<unsigned char*>(&this->m_kRagdollAnimationData.m_kRagdollFeedbackData), 0x3c);
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005ee380_Data *>((reinterpret_cast<RagdollFeedbackData__RagdollFeedbackSystemData*>(reinterpret_cast<unsigned char*>(this) + 0x44)))->FUN_005ee380();
+        reinterpret_cast<::FUN_005ee380_Data *>((&this->m_kRagdollAnimationData.m_kRagdollFeedbackData))->FUN_005ee380();
 
     if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x80)))->GetName())) > 0)
     {
@@ -1189,12 +1189,12 @@ void FUN_005ee110_shell::FUN_005ee110()
     }
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005ee580_Data *>((reinterpret_cast<PoseMatching_DATA__PoseMatching_System_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x124)))->FUN_005ee580();
+        reinterpret_cast<::FUN_005ee580_Data *>((&this->m_kRagdollFeedbackProfile.m_kRagdollFeedbackData))->FUN_005ee580();
 
-    ::AppendChunk(0x53504152, reinterpret_cast<unsigned char*>(this) + 0x124, 0x18);
+    ::AppendChunk(0x53504152, reinterpret_cast<unsigned char*>(&this->m_kRagdollFeedbackProfile.m_kRagdollFeedbackData), 0x18);
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005ee580_Data *>((reinterpret_cast<PoseMatching_DATA__PoseMatching_System_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x124)))->FUN_005ee580();
+        reinterpret_cast<::FUN_005ee580_Data *>((&this->m_kRagdollFeedbackProfile.m_kRagdollFeedbackData))->FUN_005ee580();
 
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<FUN_005ee110_String*>(reinterpret_cast<unsigned char*>(this) + 0x11c)))->FUN_004048e0())))
     {

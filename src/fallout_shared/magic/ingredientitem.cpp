@@ -126,7 +126,7 @@ struct FUN_0048e370_obj
 {
 };
 
-struct FUN_00409c70_shell
+struct FUN_00409c70_shell : ::IngredientItem
 {
     void FUN_00409c70();
 };

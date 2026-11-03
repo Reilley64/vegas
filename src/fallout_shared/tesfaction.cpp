@@ -769,7 +769,7 @@ struct BGSSaveFormBuffer
 {
     FormChangeMask GetChangeFlags(unsigned int);
 };
-struct FUN_005fd690_s
+struct FUN_005fd690_s : ::TESFaction
 {
     void FUN_005fd690(BGSSaveFormBuffer* buffer);
 };
@@ -777,13 +777,13 @@ struct FUN_005fd690_s
 void FUN_005fd690_s::FUN_005fd690(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((((BGSSaveFormBuffer*)this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::FUN_0048c9d0_Class *>((((BGSSaveFormBuffer*)((char*)this + 0x24))))->FUN_0048c9d0((::FUN_0048c9d0_SaveBuffer *)(buffer));
+    reinterpret_cast<::FUN_0048c9d0_Class *>((((BGSSaveFormBuffer*)static_cast<TESReactionForm *>(this))))->FUN_0048c9d0((::FUN_0048c9d0_SaveBuffer *)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x34, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->data, 4, 0);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x44, 4, 0);
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x48, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->m_iFirstFactionValue, 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->m_iSecondFactionValue, 4, 0);
     }
 }
 

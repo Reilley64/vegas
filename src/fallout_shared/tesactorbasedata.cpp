@@ -1138,7 +1138,7 @@ struct SoundH
 struct FUN_0047cb90_t
 {
 };
-struct FUN_0047cac0_t
+struct FUN_0047cac0_t : ::TESActorBaseData
 {
     void DestroySoundHandles();
 };
@@ -1402,10 +1402,10 @@ struct Header47cb90
 void FUN_0047cac0_t::DestroySoundHandles()
 {
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)((char*)this + 4))))->SwapEndianness();
-    ::AppendChunk(0x53424341, (char*)this + 4, 0x18);
+        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)&this->actorData.m_uiActorFlags)))->SwapEndianness();
+    ::AppendChunk(0x53424341, (char*)&this->actorData, 0x18);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)((char*)this + 4))))->SwapEndianness();
+        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)&this->actorData.m_uiActorFlags)))->SwapEndianness();
     if (*(unsigned int*)((char*)this + 0x1c))
     {
         std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x1c))))->FUN_0084e3a0()));

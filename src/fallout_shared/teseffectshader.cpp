@@ -385,7 +385,7 @@ struct FNStub
 {
 };
 
-struct FUN_005060f0Class
+struct FUN_005060f0Class : ::TESEffectShader
 {
     void FUN_005060f0();
 };
@@ -824,34 +824,34 @@ void FUN_005060f0Class::FUN_005060f0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() == 0)
+    if (reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() == 0)
     {
-        ::FUN_004856f0((void *)(0x4e4f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x14c)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x4e4f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kFillTexture)))->FUN_00408da0())),
+                     (void *)(reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() + 1));
     }
     else
     {
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x14c)))->FUN_0048e370(0x4e4f4349);
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kFillTexture)))->FUN_0048e370(0x4e4f4349);
     }
 
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() == 0)
+    if (reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() == 0)
     {
-        ::FUN_004856f0((void *)(0x324f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x158)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x324f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kParticleShaderTexture)))->FUN_00408da0())),
+                     (void *)(reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() + 1));
     }
     else
     {
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x158)))->FUN_0048e370(0x324f4349);
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kParticleShaderTexture)))->FUN_0048e370(0x324f4349);
     }
 
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() == 0)
+    if (reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() == 0)
     {
-        ::FUN_004856f0((void *)(0x374d414e), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x164)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x374d414e), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kHolesTexture)))->FUN_00408da0())),
+                     (void *)(reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() + 1));
     }
     else
     {
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x164)))->FUN_0048e370(0x374d414e);
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kHolesTexture)))->FUN_0048e370(0x374d414e);
     }
 
     BGSDebris* psaveAddon = reinterpret_cast<FUN_005060f0Data*>(this)->mAddon;
@@ -863,14 +863,14 @@ void FUN_005060f0Class::FUN_005060f0()
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::EffectShaderDataEndian *>((reinterpret_cast<EffectShaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00506850();
+        reinterpret_cast<::EffectShaderDataEndian *>((&this->Data))->FUN_00506850();
     }
 
-    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(reinterpret_cast<char*>(this) + 0x18, 0x134);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(reinterpret_cast<char*>(&this->Data), 0x134);
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::EffectShaderDataEndian *>((reinterpret_cast<EffectShaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00506850();
+        reinterpret_cast<::EffectShaderDataEndian *>((&this->Data))->FUN_00506850();
     }
 
     reinterpret_cast<FUN_005060f0Data*>(this)->mAddon = psaveAddon;

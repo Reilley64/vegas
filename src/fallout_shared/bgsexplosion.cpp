@@ -400,7 +400,7 @@ struct FUN_004fd380_shell
 };
 
 
-struct FUN_004fb3b0_shell
+struct FUN_004fb3b0_shell : ::BGSExplosion
 {
     void FUN_004fb3b0();
 };
@@ -415,10 +415,10 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
     unsigned int psaveSound1;
 
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->FUN_00487010();
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x3C)))->WriteToBuffer((char *)(0x4C444F4D), (void *)(0x54444F4D));
-    reinterpret_cast<FUN_0047bd70_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)->FUN_0047bd70();
-    reinterpret_cast<FUN_00487450_shell*>(reinterpret_cast<unsigned char*>(this) + 0x68)->FUN_00487450();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4C444F4D), (void *)(0x54444F4D));
+    reinterpret_cast<FUN_0047bd70_shell*>(static_cast<TESEnchantableForm *>(this))->FUN_0047bd70();
+    reinterpret_cast<FUN_00487450_shell*>(static_cast<TESImageSpaceModifiableForm *>(this))->FUN_00487450();
 
     psaveLight = reinterpret_cast<EffectSetting*>(this)->GetCastSound();
     reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm(
@@ -445,13 +445,13 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
                                                 : 0));
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)))->SwapAllFields();
+        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(&this->Data.fForce)))->SwapAllFields();
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74), 0x34);
+        reinterpret_cast<EndianConvertibleData*>(&this->Data.fForce), 0x34);
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)))->SwapAllFields();
+        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(&this->Data.fForce)))->SwapAllFields();
 
     reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm((::TESWaterForm *)(psaveLight));
     reinterpret_cast<EffectSetting*>(this)->SetBoltSound(psaveSound2);

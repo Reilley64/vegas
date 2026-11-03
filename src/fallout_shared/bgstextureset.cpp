@@ -273,7 +273,7 @@ struct FUN_00593320_shell
     void FUN_00593320(void*);
 };
 extern unsigned int DAT_0118c574[6];
-struct FUN_00592810_shell
+struct FUN_00592810_shell : ::BGSTextureSet
 {
     void FUN_00592810();
 };
@@ -283,10 +283,10 @@ void FUN_00592810_shell::FUN_00592810()
     int i;
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     for (i = 0; i < 6; ++i)
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))))->FUN_0048e370(DAT_0118c574[i]);
-    if (*(void**)((char*)this + 0x80))
-        ((FUN_00593320_shell*)*(void**)((char*)this + 0x80))->FUN_00593320((void*)0x54444f44);
-    ::FUN_00485950((void *)(0x4d414e44), *(unsigned short*)((char*)this + 0x84));
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)&this->pTextures + i * 0xc))))->FUN_0048e370(DAT_0118c574[i]);
+    if (*(void**)&this->m_pDecalData)
+        ((FUN_00593320_shell*)*(void**)&this->m_pDecalData)->FUN_00593320((void*)0x54444f44);
+    ::FUN_00485950((void *)(0x4d414e44), this->iFlags);
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 

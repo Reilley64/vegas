@@ -61,7 +61,7 @@ template <int N> struct EndianSizeTag
 };
 
 
-struct FUN_00593370_shell
+struct FUN_00593370_shell : ::DecalData
 {
     void SwapEndianFields();
 };
@@ -78,13 +78,13 @@ void DecalData::Load(TESFile* file)
 void FUN_00593370_shell::SwapEndianFields()
 {
     ::FUN_00401080((int*)this);
-    ::FUN_00401080((int*)this + 1);
-    ::FUN_00401080((int*)this + 2);
-    ::FUN_00401080((int*)this + 3);
-    ::FUN_00401080((int*)this + 6);
-    ::FUN_00401080((int*)this + 4);
-    ::FUN_00401080((int*)this + 5);
-    ::FUN_00401080((int*)this + 8);
+    ::FUN_00401080((int*)&this->Data.m_fDecalMaxWidth);
+    ::FUN_00401080((int*)&this->Data.m_fDecalMinHeight);
+    ::FUN_00401080((int*)&this->Data.m_fDecalMaxHeight);
+    ::FUN_00401080((int*)&this->Data.m_fParallaxScale);
+    ::FUN_00401080((int*)&this->Data.m_fProjectionDepth);
+    ::FUN_00401080((int*)&this->Data.m_fShininess);
+    ::FUN_00401080((int*)&this->Data.iColor);
 }
 
 struct FUN_00593320_shell

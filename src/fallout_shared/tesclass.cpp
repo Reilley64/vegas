@@ -284,7 +284,7 @@ struct FUN_0048e370_obj
 {
 };
 
-struct FUN_005f6810_shell
+struct FUN_005f6810_shell : ::TESClass
 {
     void FUN_005f6810(void);
 };
@@ -294,19 +294,19 @@ void FUN_005f6810_shell::FUN_005f6810(void)
 {
     char cAttribData[7];
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00487010();
-    reinterpret_cast<FUN_00482cb0_shell*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00482cb0();
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x2c)))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<FUN_00482cb0_shell*>(static_cast<TESDescription *>(this))->FUN_00482cb0();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(static_cast<TESTexture *>(this))))->FUN_0048e370(0x4e4f4349);
     if (::FUN_00401500())
     {
-        reinterpret_cast<::FUN_005f68d0_shell *>((reinterpret_cast<TESClassData*>(reinterpret_cast<char*>(this) + 0x44)))->SwapEndian();
+        reinterpret_cast<::FUN_005f68d0_shell *>((&this->data))->SwapEndian();
     }
-    ::AppendChunk(0x41544144, reinterpret_cast<char*>(this) + 0x44, 0x1c);
+    ::AppendChunk(0x41544144, reinterpret_cast<char*>(&this->data), 0x1c);
     if (::FUN_00401500())
     {
-        reinterpret_cast<::FUN_005f68d0_shell *>((reinterpret_cast<TESClassData*>(reinterpret_cast<char*>(this) + 0x44)))->SwapEndian();
+        reinterpret_cast<::FUN_005f68d0_shell *>((&this->data))->SwapEndian();
     }
-    reinterpret_cast<FUN_00480100_shell*>(reinterpret_cast<char*>(this) + 0x38)->FUN_00480100(cAttribData);
+    reinterpret_cast<FUN_00480100_shell*>(static_cast<TESAttributes *>(this))->FUN_00480100(cAttribData);
     ::FUN_004856f0((void *)(0x52545441), cAttribData, (void *)(7));
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }

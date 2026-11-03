@@ -267,7 +267,7 @@ struct FUN_004855a0
 struct FUN_00485680
 {
 };
-struct FUN_0051ae80_shell
+struct FUN_0051ae80_shell : ::TESObjectMISC
 {
     void FUN_0051ae80();
 };
@@ -275,17 +275,17 @@ struct FUN_0051ae80_shell
 void FUN_0051ae80_shell::FUN_0051ae80()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x3c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
-    ((FUN_0047a240_shell*)((char*)this + 0x8c))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)((char*)this + 0x84))))->FUN_00477f20();
-    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)((char*)this + 0x9c))))->LogFormIDs();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)static_cast<TESIcon *>(this))))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0047a240_shell*)static_cast<BGSMessageIcon *>(this))->FUN_0047a240(0x4f43494d);
+    ((S_0048cca0*)static_cast<TESScriptableForm *>(this))->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)static_cast<BGSPickupPutdownSounds *>(this))))->LogFormIDs();
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
     if (*(unsigned int*)((char*)this + 0xa8))
     {
-        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm**)((char*)this + 0xa8))[0]))->FUN_0084e3a0()));
+        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm**)&this->pLoopingSound)[0]))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e52, formID);
     }
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();

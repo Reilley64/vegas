@@ -9,13 +9,11 @@
 #include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
-#include "fnv/decl/Controller197.h"
 #include "fnv/decl/FUN_006212c0_shell.h"
 #include "fnv/decl/FUN_00c7f750_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00cac920_Class.h"
 #include "fnv/decl/HostC9C6.h"
-#include "fnv/decl/POwner.h"
 #include "fnv/decl/PhantomListeners.h"
 #include "fnv/decl/WorldQuery.h"
 #include "fnv/decl/hkOwnerXd07da0.h"
@@ -23,6 +21,7 @@
 #include "fnv/decl/hkpEntityC9C.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d06000.h"
+#include "fnv/symbols_simd.h"
 #include "fnv/symbols_00d24000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01013000.h"
@@ -206,15 +205,9 @@ struct FUN_00cade20_Class
 
 struct FUN_00cafbd0_Class
 {
-    void FUN_00cafbd0(int first, int second, int third, int fourth);
+    void FUN_00cafbd0(const void* first, const void* second, void* third, void* fourth);
 };
 
-// Forwards the four arguments to FUN_00cade20 with two trailing zero arguments.
-// @fnv 0x00cafbd0
-void FUN_00cafbd0_Class::FUN_00cafbd0(int first, int second, int third, int fourth)
-{
-    reinterpret_cast<::POwner *>((((FUN_00cade20_Class*)this)))->FUN_00cade20((*(const ::PStep *)(first)), (*(const ::PVec *)(second)), (*(::PCollector *)(third)), (*(::PCollector *)(fourth)), (void *)(0), 0);
-}
 
 
 struct FNVArray {
@@ -406,7 +399,7 @@ struct FUN_00cacf10_cls {
     int unk50; int unk54; int unk58; int unk5C;
     int unk60; int unk64; int unk68; int unk6C;
     int unk70;
-    int m_74;
+    char* m_74;
     int m_78;
 
     float FUN_00cafd90(void* a, void* b);
@@ -428,7 +421,7 @@ int FUN_00cacf10_cls::FUN_00cacf10(void* arg) {
         return -1;
     }
     do {
-        float d = FUN_00cafd90(arg, (void*)(m_74 + i * 0x70));
+        float d = FUN_00cafd90(arg, m_74 + i * 0x70);
         if (d < s.best) {
             s.best = d;
             s.idx = i;
@@ -569,7 +562,7 @@ struct FUN_00cad900_arg {
     virtual void v02();
     virtual void v03();
     virtual void v04();
-    virtual void v05(int code, const char* name, int a, int b, int c);
+    virtual void v05(int code, const char* name, const void* a, int b, int c);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -610,16 +603,16 @@ struct FUN_00cad900_cls {
     unsigned int unk68;
     unsigned int unk6c;
     unsigned int unk70;
-    int m74;
+    char* m74;
     int m78;
     int m7c;
-    int m80;
+    char* m80;
     int m84;
     int m88;
-    int m8c;
+    char* m8c;
     int m90;
     int m94;
-    int m98;
+    char* m98;
     int m9c;
     int ma0;
 
@@ -629,24 +622,24 @@ struct FUN_00cad900_cls {
 // @fnv 0x00cad900
 void FUN_00cad900_cls::FUN_00cad900(FUN_00cad900_arg* apReporter, int aiUnused) {
     if ((m7c & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m74;
-        int r = FUN_00d06f80(p, (m7c & 0x3fffffff) * 0x70);
+        char* p = m74;
+        int r = ::fnv_00d06f80::FUN_00d06f80(p, (m7c & 0x3fffffff) * 0x70);
         apReporter->v05(3, (const char*)str_010c8460, m74, m78 * 0x70, r);
     }
     if ((m94 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m8c;
-        int r = FUN_00d06f80(p, (m94 & 0x3fffffff) * 4);
-        apReporter->v05(3, (const char*)str_010c8450, m8c, m90 * 4, r);
+        char* p = m8c;
+        int r = ::fnv_00d06f80::FUN_00d06f80(p, (m94 & 0x3fffffff) * int(sizeof(void*)));
+        apReporter->v05(3, (const char*)str_010c8450, m8c, m90 * int(sizeof(void*)), r);
     }
     if ((ma0 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m98;
-        int r = FUN_00d06f80(p, (ma0 & 0x3fffffff) * 4);
-        apReporter->v05(3, (const char*)str_010c8460, m98, m9c * 4, r);
+        char* p = m98;
+        int r = ::fnv_00d06f80::FUN_00d06f80(p, (ma0 & 0x3fffffff) * int(sizeof(void*)));
+        apReporter->v05(3, (const char*)str_010c8460, m98, m9c * int(sizeof(void*)), r);
     }
     if ((m88 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m80;
-        int r = FUN_00d06f80(p, (m88 & 0x3fffffff) * 4);
-        apReporter->v05(3, (const char*)str_010c8444, m80, m84 * 4, r);
+        char* p = m80;
+        int r = ::fnv_00d06f80::FUN_00d06f80(p, (m88 & 0x3fffffff) * int(sizeof(void*)));
+        apReporter->v05(3, (const char*)str_010c8444, m80, m84 * int(sizeof(void*)), r);
     }
 }
 
@@ -776,12 +769,6 @@ public:
 struct Query289 {
  void CollectAllContactPoints(void*,void*);
 };
-// Runs a collision query between a and b, gathering all contact points into two hkpAllCdPointCollector instances.
-// @fnv 0x00cafad0
-void Query289::CollectAllContactPoints(void* a,void* b) {
- hkpAllCdPointCollector c2,c1;
- reinterpret_cast<::POwner *>(this)->FUN_00cade20((*(const ::PStep *)(a)),(*(const ::PVec *)(b)),(*(::PCollector *)(&c2)),(*(::PCollector *)(&c1)),(void *)(0),0);
-}
 
 
 
@@ -1392,16 +1379,9 @@ struct S_Collector : S_CdBase {
 };
 
 struct S00cafbf0_Obj {
-    void FUN_00cafbf0(int a, int b, int c, int d) throw();
+    void FUN_00cafbf0(const void* a, const void* b, void* c, int d) throw();
 };
 
-// Creates two S_Collector objects and passes them with a, b, c and d to FUN_00cade20.
-// @fnv 0x00cafbf0
-void S00cafbf0_Obj::FUN_00cafbf0(int a, int b, int c, int d) throw() {
-    S_Collector first;
-    S_Collector second;
-    reinterpret_cast<::POwner *>(this)->FUN_00cade20((*(const ::PStep *)(a)), (*(const ::PVec *)(b)), (*(::PCollector *)(&first)), (*(::PCollector *)(&second)), (void *)(c), d);
-}
 
 // fires added/removed notifications and keeps entity/phantom listeners attached to the touched objects.
 
@@ -1714,7 +1694,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
 }
 
 struct ContactQuery {
-    void FUN_00cafd00(void*, unsigned);
+    void FUN_00cafd00(void*, void*);
 };
 struct CadColl {
     int unk00;
@@ -2245,7 +2225,6 @@ struct S_Inner { int unk0; int unk4; int unk8; float m0c; S_V4 m10; };
 struct S_B { int unk0; int unk4; int unk8; int unkc; S_Inner* m10; };
 struct S_A { S_V4 v; float m10; float m14; float m18; float m1c; float m20; };
 
-extern const S_V4 DAT_010ec7f0;
 
 static inline float Mn(float a, float b) { return a < b ? a : b; }
 static inline float Mx(float a, float b) { return a > b ? a : b; }
@@ -2297,7 +2276,7 @@ float S_00cacc50::FUN_00cacc50(const S_A& a, S_B* b, S_Pad<S_V4> c, S_Pad<S_V4> 
     float r = qc - u / len;
     r = Mx(0.0f, Mn(r, 1.0f));
     __m128 t = CaccSplat(r);
-    _mm_store_ps(&d.val()->x, _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(&DAT_010ec7f0.x), t), _mm_load_ps(&d.val()->x)), _mm_mul_ps(_mm_load_ps(&c.val()->x), t)));
+    _mm_store_ps(&d.val()->x, _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, t), _mm_load_ps(&d.val()->x)), _mm_mul_ps(_mm_load_ps(&c.val()->x), t)));
     return ap->m20 * r;
 }
 
@@ -3078,9 +3057,44 @@ public:
     bool m_bRefreshManifoldInCheckSupport;
     void FUN_00cae900(const S00cae900_Vec& direction, S00cae900_SurfaceInfo& ground, S00cae900_Collector& startPointCollector);
 };
+struct Context197;
+struct Collector197;
+struct Bool197;
+struct Provider197;
+struct Controller197
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    __declspec(nothrow) virtual void Collect(Context197*, Collector197*, Bool197);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    Provider197* provider;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    float margin58, margin5c;
+    void FUN_00cae7f0(Context197* context);
+};
+
 // Creates a local S_Collector and calls FUN_00cae900 with a, b and the collector.
 // @fnv 0x00cafd00
-void ContactQuery::FUN_00cafd00(void* a, unsigned b) {
+void ContactQuery::FUN_00cafd00(void* a, void* b) {
     S_Collector collector;
     reinterpret_cast<::S00cae900_Proxy *>(this)->FUN_00cae900((*(const ::S00cae900_Vec *)(a)),(*(::S00cae900_SurfaceInfo *)(b)),(*(::S00cae900_Collector *)(&collector)));
 }
@@ -3128,7 +3142,7 @@ void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_Sur
         actualSurfaceVelocities[j] = surfaceConstraints[j].m_fVelocity;
         surfaceConstraints[j].m_fVelocity.setZero4();
     }
-    FUN_00d24360(input, output);
+    ::SolverMotionDetail::FUN_00d24360((const ::SolverMotionDetail::SolverMotionInput &)(input), (::SolverMotionDetail::SolverMotionOutput &)(output));
 
     ground.m_vSurfaceVelocity.setZero4();
     ground.m_vNormal.setZero4();
@@ -3643,7 +3657,7 @@ public:
     __forceinline void operator=(const PVec& v) throw(){q=v.q;}
     __forceinline void operator=(const __m128& v) throw(){q=v;}
     const __m128& quad() const throw(){return q;}
-    __forceinline float& component(int i) throw(){return q[i];}
+    __forceinline float& component(int i) throw(){return reinterpret_cast<float*>(&q)[i];}
     __forceinline void set(float x,float y,float z,float w=0.0f) throw(){
         q=_mm_setr_ps(x,y,z,w);
     }
@@ -3779,7 +3793,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
         } else phantom->cast(position,query,cast,&start);
         if(cast.hit()) {
             reinterpret_cast<::SortableArray *>(&(cast))->FUN_00cabad0();
-            ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const __m128 *)(cast.hits().count()));
+            ::FUN_00cac890((::VecNode *)(cast.hits().begin()),cast.hits().count(),(const __m128 *)&(oldDisplacement));
         }
         {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84dc;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         update(start,cast,threaded);
@@ -3819,7 +3833,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
             } else phantom->cast(position,query,cast,0);
             if(cast.hit()) {
                 reinterpret_cast<::SortableArray *>(&(cast))->FUN_00cabad0();
-                ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const __m128 *)(cast.hits().count()));
+                ::FUN_00cac890((::VecNode *)(cast.hits().begin()),cast.hits().count(),(const __m128 *)&(solved.position));
                 while(reinterpret_cast<::FUN_00cacf10_cls *>((void *)this)->FUN_00cacf10((void *)&(cast[0]))!=-1) {
                     removeFirst(cast);
                     if(!cast.hit()) {ok=1;break;}
@@ -3831,7 +3845,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
                     if(!refresh) {
                         PBody* body=getBody(hit.rootB);
                         if(body && bodies.indexOf(body)==-1) {
-                            if(!threaded) reinterpret_cast<::FNVOwner *>((body))->FUN_00c9c5b0((int)(static_cast<PEntityListener*>(this)));
+                            if(!threaded) reinterpret_cast<::FNVOwner *>((body))->FUN_00c9c5b0(static_cast<PEntityListener*>(this));
                             bodies.push(body);
                         }
                         POther* phantom=getOther(hit.rootB);
@@ -3974,36 +3988,6 @@ struct Provider197
     int unk04;
     QueryOwner197* owner;
 };
-struct Controller197
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    __declspec(nothrow) virtual void Collect(Context197*, Collector197*, Bool197);
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    Provider197* provider;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    float margin58, margin5c;
-    void FUN_00cae7f0(Context197* context);
-};
 // @fnv 0x00cae7f0
 void Controller197::FUN_00cae7f0(Context197* context)
 {
@@ -4015,5 +3999,27 @@ void Controller197::FUN_00cae7f0(Context197* context)
     Collect(context, &collector, false);
     collector.Release();
 }
+// Forwards the four arguments to FUN_00cade20 with two trailing zero arguments.
+// @fnv 0x00cafbd0
+void FUN_00cafbd0_Class::FUN_00cafbd0(const void* first, const void* second, void* third, void* fourth)
+{
+    reinterpret_cast<::POwner *>((((FUN_00cade20_Class*)this)))->FUN_00cade20((*(const ::PStep *)(first)), (*(const ::PVec *)(second)), (*(::PCollector *)(third)), (*(::PCollector *)(fourth)), (void *)(0), 0);
+}
+
+// Runs a collision query between a and b, gathering all contact points into two hkpAllCdPointCollector instances.
+// @fnv 0x00cafad0
+void Query289::CollectAllContactPoints(void* a,void* b) {
+ hkpAllCdPointCollector c2,c1;
+ reinterpret_cast<::POwner *>(this)->FUN_00cade20((*(const ::PStep *)(a)),(*(const ::PVec *)(b)),(*(::PCollector *)(&c2)),(*(::PCollector *)(&c1)),(void *)(0),0);
+}
+
+// Creates two S_Collector objects and passes them with a, b, c and d to FUN_00cade20.
+// @fnv 0x00cafbf0
+void S00cafbf0_Obj::FUN_00cafbf0(const void* a, const void* b, void* c, int d) throw() {
+    S_Collector first;
+    S_Collector second;
+    reinterpret_cast<::POwner *>(this)->FUN_00cade20((*(const ::PStep *)(a)), (*(const ::PVec *)(b)), (*(::PCollector *)(&first)), (*(::PCollector *)(&second)), (void *)(c), d);
+}
+
 #include "generated/data/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.inc"
 #include "generated/data/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy_ehsc_noehsc_variant.inc"

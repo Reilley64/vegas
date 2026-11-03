@@ -37,6 +37,8 @@
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011c9000.h"
 #include "layout_support.h"
+
+class BGSListForm;
 class SpellItem;
 class Script;
 class MagicItem;
@@ -566,10 +568,9 @@ class BGSImpactData : public TESForm
 {
   public:
 };
-class ActorValue
+namespace ActorValue
 {
-  public:
-};
+}
 bool FUN_0066eba0(ActorValue__Index);
 union SETTING_VALUE
 {

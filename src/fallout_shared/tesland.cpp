@@ -255,6 +255,7 @@ template <typename T> struct BSSimpleList;
 
 struct TESForm
 {
+    virtual ~TESForm();
 };
 
 // Reads a BSStringT at thisPtr+0xb8, treats it as a TESForm and returns that form's source file list.
@@ -573,11 +574,6 @@ struct UploadBatchItem
     UploadBatchItem* next;
 };
 
-struct Mgr_e74120_CS
-{
-    int f00, f04, f08, f0c, f10, f14;
-};
-
 struct Mgr_e74120_MapItem
 {
     Mgr_e74120_MapItem* m_pkNext;
@@ -677,7 +673,7 @@ class Mgr_e74120_iso
     int unk074;
     int unk078;
     int unk07c;
-    Mgr_e74120_CS cs80;
+    CRITICAL_SECTION cs80;
     int unk098;
     int unk09c;
     int unk0a0;
@@ -704,7 +700,7 @@ class Mgr_e74120_iso
     int unk0f4;
     int unk0f8;
     int unk0fc;
-    Mgr_e74120_CS cs100;
+    CRITICAL_SECTION cs100;
     int unk118;
     int unk11c;
     int unk120;
@@ -1854,8 +1850,8 @@ struct BGSQuestObjective { void SetOwner(TESQuest*); };
 struct FUN_00537e30_cls { char _pad[24]; int _m18; int _m1c; FUN_00537e30_cls* FUN_00537e30(); };
 
 struct FUN_00537e90 {
-    unsigned int quantity;
-    void SetQuantity(unsigned int value);
+    uintptr_t quantity;
+    void SetQuantity(uintptr_t value);
 };
 
 // @fnv 0x00537e30
@@ -1892,7 +1888,7 @@ struct FUN_00538e10_class {
 void FUN_00538e10_class::FUN_00538e10()
 {
     m_vtbl = &DAT_0102e378;
-    ::SetVtable((::FUN_00538e30_class_od *)(((FUN_00538e30_class_od*)this)));
+    ::SetVtable((::FUN_00538e30_class *)this);
 }
 
 namespace fnv_00538e50 {
@@ -1902,7 +1898,7 @@ struct FUN_00538e30_class_od {
 // @fnv 0x00538e50
 void* FUN_00538e30_class_od::FUN_00538e50(unsigned int flags)
 {
-    ::SetVtable((::FUN_00538e30_class_od *)this);
+    ::SetVtable((::FUN_00538e30_class *)this);
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1921,8 +1917,6 @@ void* B1::FUN_00538e80(unsigned int flags)
         ::FUN_00538eb0((::Prm *)(void *)(this));
     return this;
 }
-
-extern "C" void __cdecl FUN_00538f20();
 
 extern int DAT_0102e378;
 
@@ -5358,7 +5352,7 @@ void NormalLand::FUN_0053df30(void* region) {
    if (!region || reinterpret_cast<::B3DA60Object *>(this)->FUN_0053da60((::B3DA60Rect *)(region), (void *)(&data->vertices[quad4][second3]))) reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NormalPoint &)(data->normals[quad4][second3]))->FUN_0063c8a0((void *)&(normal));
    if (!region || reinterpret_cast<::B3DA60Object *>(this)->FUN_0053da60((::B3DA60Rect *)(region), (void *)(&data->vertices[quad4][third4]))) reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NormalPoint &)(data->normals[quad4][third4]))->FUN_0063c8a0((void *)&(normal));
   }
-  ::NormalizePoints((::NiPoint3_od *)(data->normals[quad4]),289,12);
+  ::NormalizePoints((::NiPoint3 *)(data->normals[quad4]),289,12);
  }
 }
 
@@ -5683,12 +5677,7 @@ void HostMesh53_od::FUN_0053fa40(bool show) {
 // @fnv 0x00406d90
 int __cdecl FUN_00406d90(float fValue)
 {
-    int iValue;
-    __asm {
-        fld fValue
-        fistp iValue
-    }
-    return iValue;
+    return fnv_FloatToInt(fValue);
 }
 
 namespace TESLandInit {
@@ -5727,7 +5716,9 @@ struct LandTexturing : LandMemObject {
 
 struct LandShaderData {
     LandShaderData();
-    char data[0x28];
+    char pad[0x18];
+    void* pTexturing;
+    char data[0x0c];
 };
 
 struct LandTextureData {
@@ -5794,7 +5785,7 @@ void __cdecl FUN_00533420() {
     reinterpret_cast<::Holder00592cc0 *>(((*reinterpret_cast<::TESLandInit::LandTexturing * *>(&::g_landShared1))))->SetFullNameByType(1, acPath);
     reinterpret_cast<::FUN_00510130_shell *>((((::TESLandInit::LandShaderList *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::TESLandInit::LandShaderManager * *>(&::g_dataHandler))))->FUN_00726070()))))->RemoveNode((::NiNode *)((*reinterpret_cast<::TESLandInit::LandTexturing * *>(&::g_landShared1))));
     (*reinterpret_cast<::TESLandInit::LandShaderData * *>(&::DAT_011c9f04)) = new LandShaderData();
-    reinterpret_cast<::TESPackage *>(((*reinterpret_cast<::TESLandInit::LandShaderData * *>(&::DAT_011c9f04))))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((*reinterpret_cast<::TESLandInit::LandTexturing * *>(&::g_landShared1))));
+    (*reinterpret_cast<LandShaderData * *>(&::DAT_011c9f04))->pTexturing = (*reinterpret_cast<::TESLandInit::LandTexturing * *>(&::g_landShared1));
     LandTexturePtr kTexture(0);
     (*reinterpret_cast<::TESLandInit::LandTexturing * *>(&::g_landShared1))->kShader.FUN_vt90(0, &kTexture);
     LandTextureData* pTextureDataValue = new LandTextureData(((void *)(::FUN_00559450((int *)&(kTexture)))), 0, 3, 5, 0);
@@ -6106,7 +6097,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
         return;
     Vec3_od originStep;
     originStep = Vec3_od(reinterpret_cast<::FUN_00534050_Class *>(this)->FUN_00534050() + 2048.0, ((float)(reinterpret_cast<::FUN_00534080_Class *>(this)->FUN_00534080())) + 2048.0, 0.0f);
-    Vec3_od coordOut = (*(::Vec3_od *)(reinterpret_cast<::Point3Offset *>(&(grid->processors[row][col]))->ProjectileLaunched((::NiPoint3_od *)&(originStep), {})));
+    Vec3_od coordOut = (*(::Vec3_od *)(reinterpret_cast<::Point3Offset *>(&(grid->processors[row][col]))->ProjectileLaunched((::NiPoint3 *)&(originStep), {})));
     bool northCount = false, lowerNeighborIn = false, westNeighborCur = false, eastNeighbor = false, higherData = false, isBottomRes = false, leftData = false, rightVal = false;
     Vec3_od axis;
     Vec3_od blend;
@@ -6742,7 +6733,7 @@ if (!data->nodes) {
    Scene* node6=data->nodes[quad];
    Scene* childIndex8=((::Scene *)(::fnv_0043b230::FUN_0043b230((const char *)(((::Model *)(reinterpret_cast<::BSFaceGenNiNode *>((node6))->GetAnimationData()))))));
    Range range4; reinterpret_cast<::FUN_0053f390_cls *>(this)->FUN_0053f390((::FUN_0053f390_v2 *)(::Range *)(&range4),quad);
-   reinterpret_cast<::FUN_00439680_class *>((childIndex8))->FUN_00439680((const ::NiPoint3_od &)((const ::Point &)(Point(DAT_010236e0,DAT_010236e0,(range4.y-range4.x)/2.0))));
+   reinterpret_cast<::FUN_00439680_class *>((childIndex8))->FUN_00439680((const ::NiPoint3 &)((const ::Point &)(Point(DAT_010236e0,DAT_010236e0,(range4.y-range4.x)/2.0))));
    NiPoint3_od pos23=::NiPoint3_od::ZERO;
    pos23.x=reinterpret_cast<::FUN_00534050_Class *>(this)->FUN_00534050()+1024.0+(float)((quad%2)<<7<<4);
    pos23.y=reinterpret_cast<::FUN_00534080_Class *>(this)->FUN_00534080()+1024.0+(float)((quad/2)<<7<<4);
@@ -9471,7 +9462,7 @@ bool LandOwner535d_od_rtti::FUN_00535d00()
         if (!(flags & 1) && !(flags & 2) && !(flags & 4))
             return true;
         _fileIndex = ((::LandFile535d *)(reinterpret_cast<::TESFile *>((((::LandFile535d *)(reinterpret_cast<::TESForm_od_rtti *>(this)->GetFile(-1)))))->GetParentTESFile()));
-        if (!reinterpret_cast<::FUN_004734d0_shell *>((_fileIndex))->FUN_004734d0((::TESForm_od_rtti *)(void *)(this)))
+        if (!reinterpret_cast<::FUN_004734d0_shell *>((_fileIndex))->FUN_004734d0((::TESForm *)(void *)(this)))
             failedActor_2 = true;
         if (!failedActor_2)
         {
@@ -9746,15 +9737,9 @@ struct LandDuplicateEntry : LandDuplicateCalls
     return duplicate;
 }
 
-__if_exists(::TESForm_rtti2::Revert)
+struct TESObjectCELL_rtti2 : ::TESForm_rtti2
 {
-    __if_not_exists(::TESObjectCELL_rtti2::Revert)
-    {
-        struct TESObjectCELL_rtti2 : ::TESForm_rtti2
-        {
-        };
-    }
-}
+};
 
 struct LandSaveGroup5391
 {

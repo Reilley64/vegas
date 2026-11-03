@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectweap.cpp: TESObjectWEAP, TransHolder, Weapon, WeaponCopyAccess and more (72 functions)
 
+#include "fnv_asm_helpers.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -4061,15 +4062,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
 // @fnv 0x004169a0
 void __cdecl FUN_004169a0(float fRadians, float& fSin, float& fCos)
 {
-    float s, c;
-    __asm {
-        fld fRadians
-        fsincos
-        fstp c
-        fstp s
-    }
-    fSin = s;
-    fCos = c;
+    fnv_SinCos(fRadians, fSin, fCos);
 }
 
 namespace fnv_00524db0 {

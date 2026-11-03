@@ -1887,6 +1887,24 @@ void __cdecl FUN_00c8ecf0(HavokObject* object)
 
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
+#include <cstdint>
+#include "fnv/decl/C74C20Quat.h"
+#include "fnv/decl/FUN_0040fbf0_shell.h"
+#include "fnv/decl/FUN_005610f0_cls.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/S_00c8cd20_object.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_00626cb0__FUN_00626cb0_Class.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_0106b000.h"
+#include "fnv/symbols_01095000.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/symbols_011af000.h"
+#include <math.h>
 struct hkVector
 {
     __m128 m_vComponents;
@@ -3892,4 +3910,1002 @@ void Target::FUN_00c8f080()
     flags |= 4;
 }
 
+// VEGAS17-CONFLICT: NiStream (variant definition below differs from the one above)
+struct NiStream
+{
+};
+
+void FUN_00c8d440(bool flag);
+
+// VEGAS17-CONFLICT: C8Owner (variant definition below differs from the one above)
+struct C8Owner
+{
+    int unk00;
+    int unk04;
+    C8Obj* obj;
+    bool SetState(int state);
+};
+
+// VEGAS17-CONFLICT: HavokShape (variant definition below differs from the one above)
+struct HavokShape
+{
+};
+
+typedef __m128 hkQuadReal;
+
+// (-0.5f, -0.5f, -0.5f, -0.5f)
+  // sign mask for x,y,z
+  // (1, 1, 1, 1)
+
+struct KFSimdReal
+{
+    hkQuadReal m_vValue;
+    KFSimdReal(float x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+};
+
+struct KFVector4
+{
+    hkQuadReal m_vComponents;
+
+    void setZero4()
+    {
+        m_vComponents = (*reinterpret_cast<::hkVector *>(&::DAT_01267e30)).m_vComponents;
+    }
+    void setAdd4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setSub4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setMul4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    void setMul4(const KFSimdReal& s, const KFVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(b.m_vComponents, _mm_shuffle_ps(s.m_vValue, s.m_vValue, 0));
+    }
+    void add4(const KFVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    void mul4(const KFSimdReal& s)
+    {
+        m_vComponents = _mm_mul_ps(_mm_shuffle_ps(s.m_vValue, s.m_vValue, 0), m_vComponents);
+    }
+    void addMul4(const hkQuadReal& s, const KFVector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(_mm_shuffle_ps(s, s, 0), a.m_vComponents));
+    }
+    void addMul4(const KFVector4& a, const KFVector4& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    void setCross(const KFVector4& a, const KFVector4& b)
+    {
+        hkQuadReal cross0 = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
+                                       _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)));
+        hkQuadReal cross1 = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)),
+                                       _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    hkQuadReal dot3(const KFVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)),
+                          _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2));
+    }
+    float length3() const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, m_vComponents);
+        float r;
+        _mm_store_ss(&r, _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)),
+                                                _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2))));
+        return r;
+    }
+    float getZ() const
+    {
+        float r;
+        _mm_store_ss(&r, _mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(2, 2, 2, 2)));
+        return r;
+    }
+    float& operator()(int i)
+    {
+        return m_vComponents.m128_f32[i];
+    }
+    void setInterpolate4(const KFVector4& v0, const KFVector4& v1, const KFSimdReal& t)
+    {
+        hkQuadReal tt = _mm_shuffle_ps(t.m_vValue, t.m_vValue, 0);
+        hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, tt);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(tt, v1.m_vComponents));
+    }
+};
+
+struct KFQuaternion
+{
+    KFVector4 m_vec;
+
+    void SetConjugate(const KFQuaternion& q)
+    {
+        m_vec.m_vComponents = _mm_xor_ps(DAT_010c4c00, q.m_vec.m_vComponents);
+    }
+                                               // normalize
+                                        // getAngle
+    __declspec(noalias) void FUN_00c74c90(KFVector4& axis) const;  // getAxis
+    void SetInverseProduct(const KFQuaternion& q0, const KFQuaternion& q1)
+    {
+        KFQuaternion inv;
+        inv.SetConjugate(q1);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)this, (void *)&(q0), (const ::fnv_00c66320::__m128 *)&(inv), {});
+    }
+};
+
+__forceinline void SetRotatedDir(KFVector4& out, const KFQuaternion& quat, const KFVector4& direction)
+{
+    KFVector4 minusHalf;
+    minusHalf.m_vComponents = ::DAT_010c71e0;
+    KFVector4 qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+    KFVector4 q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.add4(minusHalf);
+
+    KFVector4 ret;
+    ret.setMul4(direction, q2minus1);
+
+    hkQuadReal imagDotDir = quat.m_vec.dot3(direction);
+
+    ret.addMul4(imagDotDir, quat.m_vec);
+
+    KFVector4 imagCrossDir;
+    imagCrossDir.setCross(quat.m_vec, direction);
+    ret.addMul4(imagCrossDir, qreal);
+
+    out.setAdd4(ret, ret);
+}
+
+inline bool KFGreater(double a, double b)
+{
+    return a > b;
+}
+
+struct KFWorldInfo
+{
+    int unk00, unk04, unk08, unk0C;
+    KFVector4 gravity;
+};
+
+struct KFNativeBody : public NativeThing
+{
+    int unk0ec;
+    int unk0f0, unk0f4, unk0f8, unk0fc;
+    int unk100, unk104, unk108, unk10c;
+    int unk110, unk114, unk118, unk11c;
+    int unk120, unk124, unk128, unk12c;
+    int unk130, unk134, unk138, unk13c;
+    int unk140, unk144, unk148, unk14c;
+    int unk150, unk154, unk158, unk15c;
+    int unk160, unk164, unk168, unk16c;
+    int unk170, unk174, unk178, unk17c;
+    int unk180, unk184, unk188, unk18c;
+    int unk190, unk194, unk198, unk19c;
+    int unk1a0, unk1a4, unk1a8, unk1ac;
+    KFVector4 linearVelocity;
+    KFVector4 angularVelocity;
+
+};
+
+struct KFRigidBody
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2C();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3C();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4C();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5C();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6C();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7C();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8C();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9C();
+    virtual void vA0();
+    virtual void vA4();
+    virtual void vA8();
+    virtual void vAC();
+    virtual void vB0();
+    virtual void vB4();
+    virtual void vB8();
+    virtual void vBC();
+    virtual void vC0();
+    virtual void vC4();
+    virtual void vC8();
+    virtual void vCC();
+    virtual void vD0();
+    virtual void vD4();
+    virtual KFQuaternion GetRotation();
+    virtual void vDC();
+    virtual void vE0();
+    virtual void vE4();
+    virtual void vE8();
+    virtual KFVector4& GetCenterOfMassLocal(KFVector4& out);
+    virtual KFVector4& GetCenterOfMassInWorld(KFVector4& out);
+
+    unsigned int unk04;
+    KFNativeBody* native;
+
+       // max linear velocity
+      // max angular velocity
+      // lock / unlock
+
+    const KFVector4& GetLinearVelocityVector()
+    {
+        KFNativeBody* b = native;
+        return b ? b->linearVelocity : *(const KFVector4*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+    }
+    const KFVector4& GetAngularVelocity()
+    {
+        KFNativeBody* b = native;
+        return b ? b->angularVelocity : *(const KFVector4*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+    }
+    void SetLinearVelocity(const KFVector4& v)
+    {
+        KFNativeBody* b = native;
+        if (b)
+        {
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_005616d0_Owner *>((b))->OnTrigger((::TriggerContext *)&(v));
+            ::FUN_00a29680();
+        }
+    }
+    void SetAngularVelocity(const KFVector4& v)
+    {
+        KFNativeBody* b = native;
+        if (b)
+        {
+            ::FUN_00a29680();
+            reinterpret_cast<::FUN_00561800_Class *>((b))->FUN_00561800((::FUN_00561730_Obj *)&(v));
+            ::FUN_00a29680();
+        }
+    }
+
+    void FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion& nextOrientation, float invDeltaTime,
+                      float blend);
+};
+
+// @fnv 0x00c8de20
+void KFRigidBody::FUN_00c8de20(const KFVector4& nextPosition, const KFQuaternion& nextOrientation, float invDeltaTime,
+                               float blend)
+{
+    KFVector4 center;
+    KFVector4 newCenterOfMassPosition;
+    SetRotatedDir(newCenterOfMassPosition, nextOrientation, GetCenterOfMassLocal(center));
+    newCenterOfMassPosition.add4(nextPosition);
+
+    KFVector4 linearVelocity;
+    linearVelocity.setSub4(newCenterOfMassPosition, GetCenterOfMassInWorld(center));
+    linearVelocity.setMul4(invDeltaTime, linearVelocity);
+
+    float linLen = linearVelocity.length3();
+    float maxLin = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
+    if (linLen > maxLin)
+    {
+        linearVelocity.mul4(maxLin / linLen);
+    }
+
+    KFQuaternion quatDif;
+    quatDif.SetInverseProduct(nextOrientation, GetRotation());
+    reinterpret_cast<::FUN_005611c0_t *>(&(quatDif))->FUN_005611c0();
+
+    KFVector4 angularVelocity;
+    angularVelocity.setZero4();
+    float angle = reinterpret_cast<::C74C20Quat *>((void *)&(quatDif))->GetAngle();
+    if (0.001f < angle)
+    {
+        quatDif.FUN_00c74c90(angularVelocity);
+        angularVelocity.setMul4(angle * invDeltaTime, angularVelocity);
+    }
+
+    float angLen = angularVelocity.length3();
+    float maxAng = reinterpret_cast<::S_00c8cd20_object *>(this)->GetFloatValue();
+    if (angLen > maxAng)
+    {
+        angularVelocity.mul4(maxAng / angLen);
+    }
+
+    KFWorldInfo* world = ((::KFWorldInfo *)(reinterpret_cast<::FUN_00c87a40_obj *>(this)->FUN_00c87a40()));
+    if (world)
+    {
+        float g = world->gravity.getZ();
+        linearVelocity(2) -= g * blend / invDeltaTime;
+    }
+
+    KFVector4 newLin;
+    newLin.setInterpolate4(GetLinearVelocityVector(), linearVelocity, blend);
+    KFVector4 newAng;
+    newAng.setInterpolate4(GetAngularVelocity(), angularVelocity, blend);
+    SetLinearVelocity(newLin);
+    SetAngularVelocity(newAng);
+}
+
+namespace fnv_00c8e160 {
+extern "C" double fabs(double);
+struct V4_160
+{
+    __m128 v;
+    void Set(float x, float y, float z, float w)
+    {
+        v.m128_f32[0] = x;
+        v.m128_f32[1] = y;
+        v.m128_f32[2] = z;
+        v.m128_f32[3] = w;
+    }
+    V4_160& operator=(const V4_160& rhs)
+    {
+        v = rhs.v;
+        return *this;
+    }
+};
+extern float DAT_012681c8;
+extern const float DAT_010c6090 = 1.0000001111620804e-06f;
+extern const float DAT_010959f4 = 9.9999999747524271e-07f;
+namespace threshold160 {
+extern const float DAT_01017d00 = 0.0010000000474974513f;
+}
+struct SmartObj160;
+struct RotationArg160
+{
+    float* volatile rotation;
+    RotationArg160(float* q) : rotation(q)
+    {}
+};
+struct Inner160
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int unk2b4;
+    int unk2b8;
+    int unk2bc;
+    int unk2c0;
+    int unk2c4;
+    int unk2c8;
+    int unk2cc;
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    int unk2dc;
+    int unk2e0;
+    int unk2e4;
+    int unk2e8;
+    int unk2ec;
+    int unk2f0;
+    int unk2f4;
+    int unk2f8;
+    int unk2fc;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30c;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31c;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32c;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33c;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34c;
+    int m_350;
+};
+struct Linked160
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    Inner160* unk08;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    V4_160 linear;
+    V4_160 angular;
+};
+struct This160
+{
+    virtual void slot_000();
+    virtual void slot_004();
+    virtual void slot_008();
+    virtual void slot_00c();
+    virtual void slot_010();
+    virtual void slot_014();
+    virtual void slot_018();
+    virtual void slot_01c();
+    virtual void slot_020();
+    virtual void slot_024();
+    virtual void slot_028();
+    virtual void slot_02c();
+    virtual void slot_030();
+    virtual void slot_034();
+    virtual void slot_038();
+    virtual void slot_03c();
+    virtual void slot_040();
+    virtual void slot_044();
+    virtual void slot_048();
+    virtual void slot_04c();
+    virtual void slot_050();
+    virtual void slot_054();
+    virtual void slot_058();
+    virtual void slot_05c();
+    virtual void slot_060();
+    virtual void slot_064();
+    virtual void slot_068();
+    virtual void slot_06c();
+    virtual void slot_070();
+    virtual void slot_074();
+    virtual void slot_078();
+    virtual void slot_07c();
+    virtual void slot_080();
+    virtual void slot_084();
+    virtual void slot_088();
+    virtual void slot_08c();
+    virtual void slot_090();
+    virtual void slot_094();
+    virtual void slot_098();
+    virtual void slot_09c();
+    virtual void slot_0a0();
+    virtual void slot_0a4();
+    virtual void slot_0a8();
+    virtual void slot_0ac();
+    virtual void slot_0b0();
+    virtual void slot_0b4();
+    virtual void slot_0b8();
+    virtual void slot_0bc();
+    virtual void slot_0c0();
+    virtual void slot_0c4();
+    virtual void slot_0c8();
+    virtual void slot_0cc();
+    virtual void slot_0d0();
+    virtual void GetA160(V4_160* out);
+    virtual void GetB160(V4_160* out);
+    virtual void slot_0dc();
+    virtual void slot_0e0();
+    virtual void slot_0e4();
+    virtual void V160e8(V4_160* a, V4_160* b);
+    virtual V4_160* V160ec(V4_160* out);
+    virtual V4_160* V160f0(V4_160* in);
+    unsigned int unk04;
+    Linked160* m_08;
+    void FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3);
+};
+struct SmartObj160
+{
+    int unk00;
+    int ref04;
+};
+struct Vec50Obj
+{
+    __m128 v;
+    void FUN_00c74c90(V4_160* out);
+};
+extern "C" void _ReadWriteBarrier();
+static __forceinline int MaskBits160(__m128 a)
+{
+    return _mm_movemask_ps(a) & 15;
+}
+struct DotSpeed160
+{
+    float vel;
+    float dot;
+};
+struct Ws160
+{
+    V4_160 v60;
+    V4_160 v70;
+    V4_160 tmpB;
+    V4_160 outB;
+    V4_160 outC;
+    V4_160 outA;
+    V4_160 tmpC0;
+};
+// @fnv 0x00c8e160
+void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
+{
+    V4_160 separate_q;
+    V4_160 separate_p;
+    Vec50Obj separate_v50;
+    Ws160 W;
+    float inv, s1, len;
+    DotSpeed160 pair;
+    SmartObj160* a3;
+    a3 = (SmartObj160*)p3;
+    Linked160* linked = this ? m_08 : 0;
+    Inner160* inner = linked->unk08;
+    if (!inner)
+        return;
+    if (!inner->m_350)
+        return;
+    const float x = p1[0];
+    separate_p.Set(x * DAT_012681c8, p1[1] * DAT_012681c8, p1[2] * DAT_012681c8, 0.0f);
+    float* p2 = input.rotation;
+    separate_q.v.m128_f32[0] = p2[1];
+    separate_q.v.m128_f32[1] = p2[2];
+    separate_q.v.m128_f32[2] = p2[3];
+    separate_q.v.m128_f32[3] = p2[0];
+    GetA160(&W.outA);
+    GetB160(&W.outB);
+    __m128 d = _mm_sub_ps(_mm_load_ps((float*)&separate_p), _mm_load_ps((float*)&W.outA));
+    d = _mm_mul_ps(d, d);
+    __m128 sh = _mm_shuffle_ps(d, d, 0x55);
+    __m128 sum1 = _mm_add_ss(sh, d);
+    __m128 sh2 = _mm_shuffle_ps(d, d, 0xaa);
+    __m128 sum2 = _mm_add_ss(sh2, sum1);
+    _mm_store_ss(&s1, sum2);
+    if (!(s1 > DAT_010c6090))
+    {
+        __m128 b = _mm_load_ps((float*)&W.outB);
+        __m128 prod = _mm_mul_ps(_mm_load_ps((float*)&separate_q), b);
+        __m128 sw = _mm_shuffle_ps(prod, prod, 0x4e);
+        __m128 s1 = _mm_add_ps(sw, prod);
+        __m128 sw2 = _mm_shuffle_ps(s1, s1, 0xb1);
+        __m128 s2 = _mm_add_ps(sw2, s1);
+        _mm_store_ss(&pair.dot, s2);
+        *(volatile float*)&inv = pair.dot - 1.0f;
+        inv = (float)fabs(*(volatile float*)&inv);
+        if (!(*(volatile float*)&inv > ::DAT_010959f4))
+        {
+            Linked160* lk = m_08;
+            V4_160* v1p = lk ? &lk->linear : (V4_160*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+            __m128 eps = _mm_set1_ps(::AngularDashpotApplyD4DCB0::DAT_01017d00);
+            if ((MaskBits160(_mm_cmple_ps(
+                     _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v1p), *(const __m128*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))), ::DAT_01017d10),
+                     eps)) != 15))
+            {
+                _mm_store_ps((float*)&W.v60, eps);
+                if (lk)
+                {
+                    ::FUN_00a29680();
+                    reinterpret_cast<::FUN_005616d0_Owner *>((lk))->OnTrigger((::TriggerContext *)(float *)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+                    ::FUN_00a29680();
+                    eps = W.v60.v;
+                }
+            }
+            else
+            {
+                _mm_store_ps((float*)&W.v60, eps);
+            }
+            __m128 eps2 = eps;
+            lk = m_08;
+            V4_160* v2p = lk ? &lk->angular : (V4_160*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30));
+            int mask2 =
+                _mm_movemask_ps(_mm_cmple_ps(
+                    _mm_and_ps(_mm_sub_ps(_mm_load_ps((float*)v2p), *(const __m128*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))), ::DAT_01017d10),
+                    eps2)) &
+                0xf;
+            if (mask2 != 0xf)
+            {
+                if (lk)
+                {
+                    ::FUN_00a29680();
+                    reinterpret_cast<::FUN_00561800_Class *>((lk))->FUN_00561800((::FUN_00561730_Obj *)(float *)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+                    ::FUN_00a29680();
+                }
+            }
+            return;
+        }
+    }
+    inv = ::DAT_011afe64;
+    if (inv == 0.0f)
+        return;
+    inv = 1.0f / inv;
+    V4_160* ec = V160ec(&W.outC);
+    __m128 b128;
+    (void)b128;
+    __m128 q128 = _mm_load_ps((float*)&separate_q);
+    b128 = _mm_load_ps((float*)ec);
+    __m128 w4 = _mm_shuffle_ps(q128, q128, 0xff);
+    __m128 prodB = q128;
+    prodB = _mm_mul_ps(prodB, b128);
+    __m128 tb = _mm_shuffle_ps(prodB, prodB, 0x55);
+    tb = _mm_add_ss(tb, prodB);
+    __m128 dot4 = _mm_shuffle_ps(prodB, prodB, 0xaa);
+    dot4 = _mm_add_ss(dot4, tb);
+    tb = _mm_shuffle_ps(b128, b128, 0xd2);
+    __m128 cross = _mm_shuffle_ps(q128, q128, 0xc9);
+    const __m128& phaseValue = _mm_mul_ps(cross, tb);
+    __m128 crossAlias = phaseValue;
+    tb = _mm_shuffle_ps(b128, b128, 0xc9);
+    __m128 t2 = _mm_shuffle_ps(q128, q128, 0xd2);
+    t2 = _mm_mul_ps(t2, tb);
+    crossAlias = _mm_sub_ps(crossAlias, t2);
+    __m128 u = _mm_mul_ps(w4, w4);
+    crossAlias = _mm_mul_ps(crossAlias, w4);
+    u = _mm_add_ps(u, ::DAT_010c71e0);
+    u = _mm_mul_ps(u, b128);
+    __m128 v = _mm_mul_ps(_mm_shuffle_ps(dot4, dot4, 0), separate_q.v);
+    u = _mm_add_ps(u, v);
+    crossAlias = _mm_add_ps(crossAlias, u);
+    _mm_store_ps((float*)&separate_v50, crossAlias);
+    V4_160* fr = V160f0(&W.outC);
+    __m128 rv = _mm_load_ps((float*)fr);
+    _ReadWriteBarrier();
+    __m128 t = separate_v50.v;
+    t = _mm_add_ps(t, t);
+    t = _mm_add_ps(t, separate_p.v);
+    t = _mm_sub_ps(t, rv);
+    __m128 invScalar = _mm_load_ss(&inv);
+    __m128 invVector = _mm_shuffle_ps(invScalar, invScalar, 0);
+    t = _mm_mul_ps(t, invVector);
+    _mm_store_ps((float*)&W.v60, t);
+    __m128 sq = _mm_mul_ps(t, t);
+    __m128 sq1 = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 sqs = _mm_add_ss(sq1, sq);
+    __m128 sq2 = _mm_shuffle_ps(sq, sq, 0xaa);
+    __m128 sqs2 = _mm_add_ss(sq2, sqs);
+    _mm_store_ss(&pair.vel, sqs2);
+    len = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
+    if (pair.vel > len * len)
+    {
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&W.tmpC0)), (*(const ::fnv_004a3e00::NiPoint3 *)(p1)));
+        W.tmpB.v.m128_f32[0] = p2[1];
+        W.tmpB.v.m128_f32[1] = p2[2];
+        W.tmpB.v.m128_f32[2] = p2[3];
+        W.tmpB.v.m128_f32[3] = p2[0];
+        V160e8(&W.tmpC0, &W.tmpB);
+        return;
+    }
+    __m128 t60 = _mm_load_ps((float*)&W.v60);
+    __m128 sqC = _mm_mul_ps(t60, t60);
+    __m128 sc1 = _mm_shuffle_ps(sqC, sqC, 0x55);
+    __m128 scs1 = _mm_add_ss(sc1, sqC);
+    __m128 sc2 = _mm_shuffle_ps(sqC, sqC, 0xaa);
+    __m128 scs2 = _mm_add_ss(sc2, scs1);
+    _mm_store_ss(&len, _mm_sqrt_ss(scs2));
+    if (::CombatWeapons::DAT_0106b798 < len)
+    {
+        if (a3)
+            reinterpret_cast<::FUN_0040fbf0_shell *>((a3))->FUN_0040fbf0((char *)(0));
+        reinterpret_cast<::FUN_005610f0_cls *>(this)->FUN_005610f0((int)(p1));
+        if (a3)
+        {
+            if (--a3->ref04 == 0)
+                a3->unk00 = 0;
+        }
+        reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+    }
+    else
+    {
+        reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)((float*)&W.v60));
+    }
+    reinterpret_cast<::Quat74 *>(&(separate_v50))->FUN_00c74ac0((*(const ::Quat74 *)((float*)&separate_q)), (*(const ::Quat74 *)(&W.outB)));
+    reinterpret_cast<::FUN_005611c0_t *>(&(separate_v50))->FUN_005611c0();
+    s1 = reinterpret_cast<::C74C20Quat *>(&(separate_v50))->GetAngle();
+    if (s1 < ::AngularDashpotApplyD4DCB0::DAT_01017d00)
+    {
+        _mm_store_ps((float*)&W.v70, _mm_setzero_ps());
+    }
+    else
+    {
+        separate_v50.FUN_00c74c90(&W.v70);
+        float sc = *(volatile float*)&s1 * inv;
+        __m128 scalar = _mm_load_ss(&sc);
+        __m128 factor = _mm_shuffle_ps(scalar, scalar, 0);
+        __m128 axis = W.v70.v;
+        W.v70.v = _mm_mul_ps(factor, axis);
+    }
+    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((std::intptr_t)((float*)&W.v70));
+}
+}
+
 #include "generated/data/unmapped/bhkrigidbody.inc"
+#include "generated/data/unmapped/bhkrigidbody_rtm_variant.inc"

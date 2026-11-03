@@ -796,6 +796,16 @@ FUN_00b8a9e0::FUN_00b8a9e0() : m_24(0), m_28(0), m_3c(0), m_40(0), m_44(0), m_48
 }
 
 #include <windows.h>
+#include <cstdint>
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_009a4ef0_Class.h"
+#include "fnv/decl/MaterialUploadState.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
+#include "fnv/symbols_004b0000.h"
+#include "fnv/symbols_005e0000.h"
 struct S_00c1e9a0_RefObject
 {
     virtual void v0();
@@ -1396,4 +1406,120 @@ unsigned int ShaderConstantEntryArray::FUN_00e87800(const ElemPtr& element)
         reinterpret_cast<::S_00e87510_Array *>(this)->Resize(grow + oldCount);
     reinterpret_cast<::S_00e86f40_Arr *>(this)->FUN_00e86f40(oldCount, (*(const ::NiPointer< ::NiShaderConstantMapEntry> *)((void*)&element)));
     return oldCount;
+}
+
+// VEGAS17-CONFLICT: RefHolder (variant definition below differs from the one above)
+struct RefHolder
+{
+    void* m_pObject;
+    RefHolder(const RefHolder& apOther);
+    ~RefHolder();
+    operator void*() const;
+};
+
+struct RefList
+{
+    RefHolder& GetAt(unsigned int auiIndex);
+    unsigned int Add(const RefHolder& apRef);
+};
+
+// @fnv 0x00869420
+void __cdecl FUN_00869420(RefList* apSource, RefList* apTarget)
+{
+    for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((void *)(apSource))->GetShortAtOffsetA(); i = i + 1)
+    {
+        RefHolder spRef(apSource->GetAt(i));
+        if (spRef)
+        {
+            apTarget->Add(spRef);
+        }
+    }
+}
+
+// VEGAS17-CONFLICT: NiTObjectArrayA47 (variant definition below differs from the one above)
+class NiTObjectArrayA47
+{
+  public:
+    virtual ~NiTObjectArrayA47();
+
+    NiObjectPtrA47* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+
+    void FUN_0060bef0(uintptr_t uiMaxSize);
+};
+
+// @fnv 0x0060bef0
+void NiTObjectArrayA47::FUN_0060bef0(uintptr_t uiMaxSize)
+{
+    if (uiMaxSize == m_usMaxSize)
+        return;
+
+    unsigned short i;
+    if (uiMaxSize < m_usSize)
+    {
+        for (i = (unsigned short)uiMaxSize; i < m_usSize; i++)
+        {
+            if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::NiPointerA47< ::NiRefObjectA47> &)(m_pBase[i]))->IsNotEqual((const ::DummyStruct_00631820 &)((const ::NiPointerA47< ::NiRefObjectA47> &)(NiObjectPtrA47(0)))))
+            {
+                m_pBase[i] = NiObjectPtrA47(0);
+                m_usESize--;
+            }
+        }
+        m_usSize = (unsigned short)uiMaxSize;
+    }
+
+    NiObjectPtrA47* pSaveBase = m_pBase;
+    m_usMaxSize = (unsigned short)uiMaxSize;
+    if (uiMaxSize > 0)
+    {
+        m_pBase = ((::NiPointerA47< ::NiRefObjectA47> *)(::FUN_005e0ba0(m_usMaxSize)));
+        for (i = 0; i < m_usSize; i++)
+            m_pBase[i] = pSaveBase[i];
+        for (i = m_usSize; i < m_usMaxSize; i++)
+            m_pBase[i] = NiObjectPtrA47(0);
+    }
+    else
+    {
+        m_pBase = 0;
+    }
+    ::FUN_004b0220((int)(pSaveBase));
+}
+
+namespace fnv_009a5a70 {
+struct ItemList
+{
+};
+struct SpawnedObject
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
+    SpawnedObject();
+    ~SpawnedObject();
+};
+struct FUN_009a5a70_cls
+{
+    void FUN_009a5a70(ItemList* list);
+};
+// @fnv 0x009a5a70
+void FUN_009a5a70_cls::FUN_009a5a70(ItemList* list)
+{
+    unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((list))->FUN_00864a60()));
+    for (unsigned int index = 0; index < count; ++index)
+    {
+        bool failed = false;
+        SpawnedObject* object = new SpawnedObject;
+        void* output;
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((list))->FUN_008648e0((unsigned int *)(void **)(&output));
+        reinterpret_cast<::FUN_00537e90 *>((object))->SetQuantity((unsigned int)(output));
+        reinterpret_cast<::FUN_009a4ef0_Class *>((object))->FUN_009a4ef0((::BGSLoadFormBuffer *)(list));
+        if (output == 0)
+            failed = true;
+        if (!failed)
+            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((unsigned int)(output), (unsigned int)(object));
+        else
+            delete object;
+    }
+}
 }

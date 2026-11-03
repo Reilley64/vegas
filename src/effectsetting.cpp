@@ -45,6 +45,19 @@
 #include "fnv/symbols_01183000.h"
 #include "fnv/symbols_011c3000.h"
 #include "effectsetting_decls.h"
+#include "fnv/decl/EndianSwappableData.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_00407820_shell.h"
+#include "fnv/decl/FUN_00482cb0_shell.h"
+#include "fnv/decl/FUN_00487010_shell.h"
+#include "fnv/decl/FUN_004891d0_cls.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/FUN_008ce390_shell.h"
+#include "fnv/decl/Holder.h"
+#include "fnv/decl/fnv_004855a0__ArrSI.h"
+#include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
+#include "fnv/symbols_00472000.h"
+#include "effectsetting_decls_decl_effectsetting.h"
 
 // Compares the effect name with name case-insensitively and, if they differ, sets the full name to name.
 // @fnv 0x00408570
@@ -877,4 +890,129 @@ bool EffT::IsDifferentFrom(void* pObject)
         pbX = ((::ListT *)(reinterpret_cast<::Callees *>((pbX))->FUN_00726070()));
     }
     return 0;
+}
+
+enum
+{
+    CHUNK_ICON = 0x4E4F4349,
+    CHUNK_MODL = 0x4C444F4D,
+    CHUNK_MODT = 0x54444F4D,
+    CHUNK_DATA = 0x41544144,
+    CHUNK_ESCE = 0x45435345
+};
+
+// @fnv 0x00407300
+void EffectSetting::FUN_00407300()
+{
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>(this)->FUN_00487010();
+    reinterpret_cast<::FUN_00482cb0_shell *>(this)->FUN_00482cb0();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>(this)->FUN_0048e370(CHUNK_ICON);
+    reinterpret_cast<::FUN_004891d0_cls *>(this)->WriteToBuffer((char *)(CHUNK_MODL), (void *)(CHUNK_MODT));
+
+    TESSound* pkCastSound = data.m_pCastSound;
+    data.m_pCastSound = (TESSound*)(data.m_pCastSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pCastSound))->FUN_0084e3a0())) : 0);
+    TESSound* pkBoltSound = data.m_pBoltSound;
+    data.m_pBoltSound = (TESSound*)(data.m_pBoltSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pBoltSound))->FUN_0084e3a0())) : 0);
+    TESSound* m_pContactSound = data.m_pContactSound;
+    data.m_pContactSound = (TESSound*)(data.m_pContactSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pContactSound))->FUN_0084e3a0())) : 0);
+    TESSound* m_pAreaEffectSound = data.m_pAreaEffectSound;
+    data.m_pAreaEffectSound = (TESSound*)(data.m_pAreaEffectSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pAreaEffectSound))->FUN_0084e3a0())) : 0);
+    TESEffectShader* pkEffectShaderSave = data.m_pEffectShader;
+    data.m_pEffectShader = (TESEffectShader*)(data.m_pEffectShader ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pEffectShader))->FUN_0084e3a0())) : 0);
+    TESEffectShader* pkEnchantEffect = data.m_pEnchantEffectShader;
+    data.m_pEnchantEffectShader =
+        (TESEffectShader*)(data.m_pEnchantEffectShader ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pEnchantEffectShader))->FUN_0084e3a0())) : 0);
+    TESObjectLIGH* pkLight = data.apTargetLight;
+    data.apTargetLight = (TESObjectLIGH*)(data.apTargetLight ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.apTargetLight))->FUN_0084e3a0())) : 0);
+    TESForm* savedPAssociatedItemOriginal = data.m_pAssociatedForm;
+    data.m_pAssociatedForm = (TESForm*)(data.m_pAssociatedForm ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pAssociatedForm))->FUN_0084e3a0())) : 0);
+
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::EndianSwappableData *>(&(data))->SwapEndianFields();
+    ::AppendChunk(CHUNK_DATA, &data, sizeof(data));
+    if (((bool)(::FUN_00401500())))
+        reinterpret_cast<::EndianSwappableData *>(&(data))->SwapEndianFields();
+
+    data.m_pCastSound = pkCastSound;
+    data.m_pBoltSound = pkBoltSound;
+    data.m_pContactSound = m_pContactSound;
+    data.m_pAreaEffectSound = m_pAreaEffectSound;
+    data.m_pEffectShader = pkEffectShaderSave;
+    data.m_pEnchantEffectShader = pkEnchantEffect;
+    data.apTargetLight = pkLight;
+    data.m_pAssociatedForm = savedPAssociatedItemOriginal;
+
+    EffectSetting* savedPkEffect;
+    for (BSSimpleList<EffectSetting*>* pkIter = &counterEffects; pkIter && (savedPkEffect = ((::EffectSetting *)(new ((void *)(pkIter)) ::Vec3()))) != 0;
+         pkIter = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
+        ::FUN_00485910(CHUNK_ESCE, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(savedPkEffect))->FUN_0084e3a0())));
+
+    reinterpret_cast<::Holder *>(this)->FUN_00485680();
+}
+
+struct BEB3890Body
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    float m_fBoundRadius;
+};
+
+static const float NI_INFINITY = 3.402823466e+38f;
+
+class BEB3890Base
+{
+  public:
+    BEB3890Base(float fA, float fB, float fC, int iD);
+    virtual ~BEB3890Base();
+
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+};
+
+class FUN_00eb3890_cls : public BEB3890Base
+{
+  public:
+    FUN_00eb3890_cls(BEB3890Body* pkBodyA, BEB3890Body* pkBodyB, float fA, float fB, float fC, int iD);
+    virtual ~FUN_00eb3890_cls();
+
+    BEB3890Body* m_pkBodyA;
+    BEB3890Body* m_pkBodyB;
+    float m_fInvRadiusSq;
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+};
+
+// @fnv 0x00eb3890
+FUN_00eb3890_cls::FUN_00eb3890_cls(BEB3890Body* pkBodyA, BEB3890Body* pkBodyB, float fA, float fB, float fC, int iD)
+    : BEB3890Base(fA, fB, fC, iD), m_pkBodyA(pkBodyA), m_pkBodyB(pkBodyB)
+{
+    m_fInvRadiusSq = 1.0f / (pkBodyB->m_fBoundRadius * pkBodyB->m_fBoundRadius);
+    m_fVectorY = NI_INFINITY;
+    m_fVectorZ = NI_INFINITY;
+    m_fScalarPart = NI_INFINITY;
 }

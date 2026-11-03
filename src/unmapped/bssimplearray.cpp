@@ -42,6 +42,13 @@
 #include "fnv/symbols_0106b000.h"
 #include "fnv/symbols_0106c000.h"
 #include "fnv/symbols_010a2000.h"
+#include <cstddef>
+#include "fnv/decl/FUN_00a1c1f0_shell.h"
+#include "fnv/decl/fnv_0069cea0__FUN_0069cea0_class.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_009f6540__FUN_009f6540_Class.h"
+#include "fnv/symbols_006a1000.h"
+#include "fnv/symbols_006b3000.h"
 struct FUN_006cf9d0
 {
     int* vfptr;
@@ -2359,4 +2366,292 @@ void Host9f6340::FUN_009f6460(int arr, int count)
     {
         new ((void*)(arr + i * 16)) FUN_009f6500();
     }
+}
+
+bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
+
+// VEGAS17-CONFLICT: GlobalObject_00869f00 (variant definition below differs from the one above)
+struct GlobalObject_00869f00
+{
+};
+
+// VEGAS17-CONFLICT: PathBuilderDetailedPathInfos (variant definition below differs from the one above)
+struct PathBuilderDetailedPathInfos
+{
+    int* vfptr;
+    virtual ~PathBuilderDetailedPathInfos();
+};
+
+// VEGAS17-CONFLICT: FUN_0069b1d0 (variant definition below differs from the one above)
+struct FUN_0069b1d0
+{
+    virtual ~FUN_0069b1d0();
+};
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+
+// VEGAS17-CONFLICT: FUN_0072ba80_shell (variant definition below differs from the one above)
+struct FUN_0072ba80_shell
+{
+public:
+    void FUN_0072ba80(void *, unsigned int);
+};
+
+// VEGAS17-CONFLICT: FUN_0069cfe0_Dst (variant definition below differs from the one above)
+struct FUN_0069cfe0_Dst
+{
+};
+
+// VEGAS17-CONFLICT: FUN_006cf2a0 (variant definition below differs from the one above)
+struct FUN_006cf2a0 : FUN_005e0510
+{
+    void* m_pStreamAllocator;
+    FUN_006cf2a0(int first, int second, void* heap);
+};
+
+// VEGAS17-CONFLICT: FUN_006cf940_Item (variant definition below differs from the one above)
+struct FUN_006cf940_Item
+{
+};
+
+// VEGAS17-CONFLICT: FUN_006cfac0_cls (variant definition below differs from the one above)
+struct FUN_006cfac0_cls : FUN_006cfac0_base
+{
+    virtual ~FUN_006cfac0_cls();
+};
+
+// VEGAS17-CONFLICT: FUN_006cf780_Pool (variant definition below differs from the one above)
+class FUN_006cf780_Pool : public ContainerBase6CF
+{
+  public:
+    FUN_006cf780_Pool(int iCapacity, int iGrowBy, Allocator6CF* pkAllocator);
+    virtual ~FUN_006cf780_Pool();
+
+    void Initialize(int iCapacity, int iGrowBy);
+
+    Allocator6CF* m_pHeapAllocator;
+};
+
+struct ArrayStub
+{
+    virtual void vf0()
+    {}
+    virtual void* vf1(void* value)
+    {
+        return value;
+    }
+    virtual void vf2(void* value)
+    {}
+    virtual void* vf3(void* first, void* second)
+    {
+        return first;
+    }
+
+    void* unk04;
+    unsigned int unk08;
+    void* unk0C;
+
+    void FUN_00a0cf60(char* dest, char* src, unsigned int count)
+    {
+        if (count == 0)
+            return;
+        if (dest < src)
+        {
+            for (unsigned int i = 0; i < count; i++)
+                copyOne(dest + i * 4, src + i * 4);
+        }
+        else if (dest > src)
+        {
+            for (int j = (int)count - 1; j >= 0; j--)
+                copyOne(dest + j * 4, src + j * 4);
+        }
+    }
+    void copyOne(char* dest, char* src);
+
+    void FUN_00a0d0c0(void* newValue, void* key);
+};
+
+// @fnv 0x00a0d0c0
+void ArrayStub::FUN_00a0d0c0(void* newValue, void* key)
+{
+    if (unk04 != 0)
+    {
+        if (key == unk0C)
+        {
+            unk04 = vf3(unk04, newValue);
+        }
+        else
+        {
+            void* tmp = vf1(newValue);
+            FUN_00a0cf60((char*)tmp, (char*)unk04, (unsigned int)key);
+            vf2(unk04);
+            unk04 = 0;
+            unk04 = tmp;
+        }
+    }
+    else
+    {
+        unk04 = vf1(newValue);
+        unk0C = newValue;
+    }
+}
+
+inline void DeadQ1()
+{
+    int a[1];
+}
+
+inline void DeadQ2()
+{
+    int a[2];
+}
+
+inline void DeadQ3()
+{
+    int a[3];
+}
+
+inline void DeadQ4()
+{
+    int a[4];
+}
+
+inline void DeadQ5()
+{
+    int a[5];
+}
+
+inline void DeadQ6()
+{
+    int a[6];
+}
+
+struct PNQ0cd50
+{
+};
+
+inline void* __cdecl operator new(std::size_t, void* p, PNQ0cd50*)
+{
+    return p;
+}
+
+struct ArrQ0cd50
+{
+    virtual ~ArrQ0cd50();
+    virtual void** Allocate(unsigned int count);
+    virtual void Free(void** p);
+    void** m_pBuffer;
+    unsigned int m_iElementCount;
+    unsigned int m_alloc;
+    void FUN_00a0cf00(void* const& item);
+    bool IsFull()
+    {
+        if (m_iElementCount == m_alloc)
+            return true;
+        return false;
+    }
+    unsigned int GetNewSize()
+    {
+        return m_alloc > 8 ? m_alloc + 8 : m_alloc * 2;
+    }
+    void ConstructItems(void** p, unsigned int n)
+    {
+        for (unsigned int i = 0; i < n; i++)
+            new (&p[i], (PNQ0cd50*)0) void*;
+    }
+    void FUN_00a0cd50(unsigned int index, void* const& item);
+};
+
+// @fnv 0x00a0cd50
+void ArrQ0cd50::FUN_00a0cd50(unsigned int index, void* const& item)
+{
+    DeadQ3();
+    if (index == m_iElementCount)
+    {
+        FUN_00a0cf00(item);
+        return;
+    }
+    if (IsFull())
+    {
+        DeadQ2();
+        unsigned int newSize = GetNewSize();
+        void** p = Allocate(newSize);
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(p), (char *)(m_pBuffer), index);
+        ConstructItems(p + index, 1);
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(void **)(p + index + 1), (char *)(void **)(m_pBuffer + index), m_iElementCount - index);
+        Free(m_pBuffer);
+        m_pBuffer = 0;
+        m_pBuffer = p;
+        m_alloc = newSize;
+    }
+    else
+    {
+        DeadQ4();
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(void **)(m_pBuffer + index + 1), (char *)(void **)(m_pBuffer + index), m_iElementCount - index);
+        ConstructItems(m_pBuffer + index, 1);
+    }
+    m_iElementCount++;
+    m_pBuffer[index] = item;
+}
+
+extern int DAT_0109527c;
+
+struct ArrayVector
+{
+    float x, y, z, w;
+    ArrayVector() : x(0), y(0), z(0), w(0)
+    {}
+};
+
+struct ArrayElement
+{
+    unsigned int unk00, unk04, unk08, unk0c;
+    ArrayVector value;
+};
+
+struct ArrayConstructor;
+
+typedef void*(* ArrayAllocate)(ArrayConstructor*, unsigned int);
+
+struct ArrayConstructor
+{
+    int* vfptr;
+    ArrayElement* data;
+    unsigned int size;
+    unsigned int capacity;
+
+    void ConstructElements(ArrayElement* items, unsigned int count)
+    {
+        for (unsigned int i = 0; i < count; ++i)
+            new (items + i) ArrayElement;
+    }
+
+    __forceinline void Initialize(unsigned int count, unsigned int initial)
+    {
+        data = 0;
+        size = 0;
+        capacity = 0;
+        if (count < initial)
+            count = initial;
+        if (count > 0)
+        {
+            data = (ArrayElement*)((ArrayAllocate)(void*)vfptr[1])(this, count);
+            capacity = count;
+        }
+        if (initial > 0)
+        {
+            reinterpret_cast<::FUN_00a1c1f0_shell *>(this)->ConstructElements((::FUN_00a1c1f0_elem *)(data), initial);
+            size = initial;
+        }
+    }
+
+    ArrayConstructor* FUN_00a1bef0();
+};
+
+// @fnv 0x00a1bef0
+ArrayConstructor* ArrayConstructor::FUN_00a1bef0()
+{
+    vfptr = &DAT_0109527c;
+    Initialize(0, 0);
+    return this;
 }

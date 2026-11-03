@@ -2015,12 +2015,14 @@ void FUN_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& in
 
 typedef void(__cdecl* Da35FuncPtr)(void* entry, void* payload, float fa, float fb, void* holder);
 
+// hkpAgent1nSector: a 512-byte block, the byte count, then the agent entries at +0x10.
 struct Da35Stream
 {
     int m_iElementCount;
     int unk04;
     int unk08;
     int unk0C;
+    unsigned char m_data[512 - 0x10];  // +0x10
 };
 
 // Iterates through Da35Stream chunks, dispatching commands via function pointers and updating float fields based on fa and fb.
@@ -2028,9 +2030,9 @@ struct Da35Stream
 void __cdecl FUN_00da35f0(Da35Stream*** container, float fa, float fb, void** holder)
 {
     Da35Stream* stream = **container;
-    unsigned char* p = (unsigned char*)stream + 0x10;
+    unsigned char* p = stream->m_data;
     unsigned char* end;
-    *(unsigned char* volatile*)&end = (unsigned char*)stream + stream->m_iElementCount + 0x10;
+    *(unsigned char* volatile*)&end = stream->m_data + stream->m_iElementCount;
     int index = 4;
     for (;;)
     {
@@ -2084,8 +2086,8 @@ void __cdecl FUN_00da35f0(Da35Stream*** container, float fa, float fb, void** ho
             }
         } while (p < end);
         stream = *(Da35Stream**)((char*)*container + index);
-        unsigned char* pNewEnd = (unsigned char*)stream + stream->m_iElementCount + 0x10;
-        p = (unsigned char*)stream + 0x10;
+        unsigned char* pNewEnd = stream->m_data + stream->m_iElementCount;
+        p = stream->m_data;
         *(unsigned char* volatile*)&end = pNewEnd;
         index += 4;
     }
@@ -2099,8 +2101,8 @@ static void* __cdecl Da35Search(Da35Stream*** container, int key1, int key2, voi
     streams += 1;
     for (;;)
     {
-        unsigned char* end = (unsigned char*)stream + size + 0x10;
-        unsigned char* p = (unsigned char*)stream + 0x10;
+        unsigned char* end = stream->m_data + size;
+        unsigned char* p = stream->m_data;
         do
         {
             unsigned char cmd = p[0];

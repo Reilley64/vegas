@@ -7,7 +7,7 @@
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "havok/hkpHingeConstraintData.h"
 
-struct FUN_00cbe1b0_class
+struct FUN_00cbe1b0_class : public hkpHingeConstraintData
 {
     void FUN_00cbe1b0(int index);
 };
@@ -15,7 +15,7 @@ struct FUN_00cbe1b0_class
 // @fnv 0x00cbe1b0
 void FUN_00cbe1b0_class::FUN_00cbe1b0(int index)
 {
-    reinterpret_cast<unsigned char*>(this)[0xa6] = (unsigned char)(1 << index);
+    m_kBridgeAtoms.m_ballSocket.m_ucBodiesToNotify = (unsigned char)(1 << index);
 }
 
 

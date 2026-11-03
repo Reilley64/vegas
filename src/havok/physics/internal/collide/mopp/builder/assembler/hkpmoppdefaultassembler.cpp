@@ -3292,7 +3292,7 @@ struct ObjectWriter
     void FUN_00e065f0(int size) throw();
     ObjectWriter(int size) throw()
     {
-        new ((void *)this) ::FUN_00e065f0(size);
+        ::new ((void *)this) ::FUN_00e065f0(size);
     }
     ~ObjectWriter() throw()
     {

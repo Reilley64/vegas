@@ -498,9 +498,9 @@ bool* FUN_00e5af80(bool* out, FnvHolder2* h, float t, float t2)
                 __m128 t2v = _mm_set_ps1(t2);
                 __m128 r = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t2v), v.cb.m),
                                       _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&b->unk120)), t2v));
-                reinterpret_cast<::FUN_00ca8800_Class *>((a))->FUN_00ca8800((int)(&r));
+                reinterpret_cast<::FUN_00ca8800_Class *>((a))->FUN_00ca8800(reinterpret_cast<intptr_t>(&r));
             }
-            reinterpret_cast<::FUN_005616d0_Owner *>((a))->OnTrigger((::TriggerContext *)((int)&b->unk1b0));
+            reinterpret_cast<::FUN_005616d0_Owner *>((a))->OnTrigger((::TriggerContext *)(&b->unk1b0));
             reinterpret_cast<::FUN_00561800_Class *>((a))->FUN_00561800((::FUN_00561730_Obj *)(void *)(&b->unk1c0));
             *out = true;
             return out;

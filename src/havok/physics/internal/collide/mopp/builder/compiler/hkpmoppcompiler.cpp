@@ -325,7 +325,7 @@ struct AssemblerInterface
     virtual int outputSize() throw();
     virtual void* output() throw();
     virtual void slot14() throw();
-    virtual void finalize(int, FourFloatVector*) throw();
+    virtual void finalize(void*, FourFloatVector*) throw();
 };
 struct hkpMoppDefaultAssembler : AssemblerInterface
 {
@@ -383,7 +383,7 @@ inline void* allocateScratch(int n)
 }
 struct MoppBuilder
 {
-    int result;
+    void* result;
     ChunkList* chunks;
     int options;
     int extraPrimitives;
@@ -411,7 +411,7 @@ hkpMoppCode* MoppBuilder::FUN_00dd4cb0(PrimitiveSource* source, void* buffer, in
     int nodeCount = largeBuffer ? 4096 : primitiveCount;
     layout.end = layout.nodes + nodeCount * 124;
     source->SetDataPointer(scratch);
-    int status;
+    void* status;
     {
         hkpMoppDefaultSplitter splitter;
         status = reinterpret_cast<::hkProcessorE0A5 *>(&(splitter))->FUN_00e0a550((::hkInputE0A5 *)(source), &costFunction, (::hkOutputE0A5 *)(::hkpMoppDefaultAssembler *)(&output), (::hkSettingsE0A5 *)(int *)(&options), (::hkBuffersE0A5 *)(::ScratchLayout *)(&layout));

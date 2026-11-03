@@ -676,7 +676,7 @@ __forceinline void Cont::Resize(int need)
 
 struct VecI
 {
-    int* m_pData;
+    void** m_pData;
     int m_iArrayLength;
     int m_iCapacity;
 };
@@ -894,7 +894,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         offsets.m_pData = 0;
         offsets.m_iArrayLength = 0;
         offsets.m_iCapacity = (int)0x80000000;
-        GrowVec0c((Vec*)&offsets, pRec, 4);
+        GrowVec0c((Vec*)&offsets, pRec, sizeof(void*));
         offsets.m_iArrayLength = pRec;
         int boundsCount = pParam->active.count;
         Vec20 item;
@@ -929,7 +929,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
                 }
                 Elem* a = m_contA.m_pData + eo;
                 reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentLo), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentHi));
-                offsets.m_pData[z] = (int)(m_contA.m_pData + eo);
+                offsets.m_pData[z] = m_contA.m_pData + eo;
                 eo += 1;
                 off++;
             } while (++z < pParam->active.count);
@@ -989,7 +989,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
                 }
                 Elem* a = m_contB.m_pData + eo;
                 reinterpret_cast<::FnvCpu_FUN_00de1170_CpuObject *>((a))->FUN_00de1170((::FnvCpu_FUN_00de1170_CpuData0 *)(::Vec4 *)(&currentHi), (::FnvCpu_FUN_00de1170_CpuData1 *)(::Vec4 *)(&currentLo));
-                offsets.m_pData[z] = (int)(m_contB.m_pData + eo);
+                offsets.m_pData[z] = m_contB.m_pData + eo;
                 ++eo;
             } while (++z < islandsB.size());
         }

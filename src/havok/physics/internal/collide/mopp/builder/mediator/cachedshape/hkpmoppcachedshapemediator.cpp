@@ -209,6 +209,7 @@ struct Mgr
     virtual Item* v14(int, int*);
 };
 
+struct Item_00dd5b00;
 class FUN_00dd5cd0_cls
 {
   public:

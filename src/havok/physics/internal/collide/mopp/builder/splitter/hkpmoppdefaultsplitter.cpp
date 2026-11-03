@@ -894,13 +894,13 @@ class hkProcessorE0A5
     int m_34;
     int m_iNumBits;
 
-    int FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+    ::SplitNode* FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                      hkBuffersE0A5* pkBuffers) throw();
 };
 
 // Configures the processor with input, output, settings and buffers, allocates a stack, runs FUN_00e0a270, and finalizes the output.
 // @fnv 0x00e0a550
-int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+::SplitNode* hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                                   hkBuffersE0A5* pkBuffers) throw()
 {
     m_settings = pkSettings;

@@ -123,7 +123,7 @@ struct DelStandIn
 // @fnv 0x006c7970
 void* DelStandIn::FUN_006c7970(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006c79a0 *>((((DtorStandIn*)this)))->FUN_006c79a0::~FUN_006c79a0();
+    reinterpret_cast<::FUN_006c79a0 *>((((DtorStandIn*)this)))->::FUN_006c79a0::~FUN_006c79a0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -164,7 +164,7 @@ struct FUN_006c7940_shell : BaseT
 // @fnv 0x006c7940
 void* FUN_006c7940_shell::FUN_006c7940(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00b00ec0 *>(this)->FUN_00b00ec0::~FUN_00b00ec0();
+    reinterpret_cast<::FUN_00b00ec0 *>(this)->::FUN_00b00ec0::~FUN_00b00ec0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

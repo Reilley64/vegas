@@ -6243,7 +6243,7 @@ struct DelStandIn
 // @fnv 0x00425ff0
 void* DelStandIn::FUN_00425ff0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0083dec0 *>((((DtorStandIn*)this)))->FUN_0083dec0::~FUN_0083dec0();
+    reinterpret_cast<::FUN_0083dec0 *>((((DtorStandIn*)this)))->::FUN_0083dec0::~FUN_0083dec0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -6264,7 +6264,7 @@ struct DelStandIn
 // @fnv 0x0042c5b0
 void* DelStandIn::FUN_0042c5b0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00431260 *>((((DtorStandIn*)this)))->FUN_00431260::~FUN_00431260();
+    reinterpret_cast<::FUN_00431260 *>((((DtorStandIn*)this)))->::FUN_00431260::~FUN_00431260();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -6286,7 +6286,7 @@ struct DelStandIn
 // @fnv 0x0042c7a0
 void* DelStandIn::DestroyAndFreeIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00432040_holder *>((((DtorStandIn*)this)))->FUN_00432040_holder::~FUN_00432040_holder();
+    reinterpret_cast<::FUN_00432040_holder *>((((DtorStandIn*)this)))->::FUN_00432040_holder::~FUN_00432040_holder();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -8586,7 +8586,7 @@ void* ExtraReflectorRefs::FUN_00434af0()
 // @fnv 0x00411c50
 void* ExtraReflectorRefs::FUN_00411c50(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00434af0 *>(this)->FUN_00434af0::~FUN_00434af0();
+    reinterpret_cast<::FUN_00434af0 *>(this)->::FUN_00434af0::~FUN_00434af0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -8972,7 +8972,7 @@ struct ExtraActorCause
 // @fnv 0x0042cb00
 void* ExtraActorCause::FUN_0042cb00(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0042cb30 *>(this)->FUN_0042cb30::~FUN_0042cb30();
+    reinterpret_cast<::FUN_0042cb30 *>(this)->::FUN_0042cb30::~FUN_0042cb30();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -9912,7 +9912,7 @@ struct FUN_00418d20_class
 // @fnv 0x00418d20
 void* FUN_00418d20_class::FUN_00418d20(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0048fb50 *>(this)->FUN_0048fb50::~FUN_0048fb50();
+    reinterpret_cast<::FUN_0048fb50 *>(this)->::FUN_0048fb50::~FUN_0048fb50();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -9948,7 +9948,7 @@ extern "C" void __cdecl _Deallocate(void*);
 // @fnv 0x00419480
 void* FUN_00419480_Class::FUN_00419480(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00589500 *>(this)->FUN_00589500::~FUN_00589500();
+    reinterpret_cast<::FUN_00589500 *>(this)->::FUN_00589500::~FUN_00589500();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -13572,7 +13572,7 @@ void __cdecl _Deallocate(void* p);
 // @fnv 0x0042c550
 void* ExtraLock::ReleaseIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00430ca0 *>(this)->FUN_00430ca0::~FUN_00430ca0();
+    reinterpret_cast<::FUN_00430ca0 *>(this)->::FUN_00430ca0::~FUN_00430ca0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -13589,7 +13589,7 @@ void __cdecl _Deallocate(void* ptr);
 // @fnv 0x0042c890
 void* ExtraTresPassPackage::FUN_0042c890(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00432900 *>((this))->FUN_00432900::~FUN_00432900();
+    reinterpret_cast<::FUN_00432900 *>((this))->::FUN_00432900::~FUN_00432900();
 
     if (flags & 1)
         ::FUN_00401030(this);
@@ -15227,7 +15227,7 @@ class FUN_00420060_cls : public FUN_00420060_base
 // @fnv 0x00420030
 void* ExtraOcclusionPlaneRefData::FUN_00420030(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00420060_cls *>(this)->FUN_00420060_cls::~FUN_00420060_cls();
+    reinterpret_cast<::FUN_00420060_cls *>(this)->::FUN_00420060_cls::~FUN_00420060_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -15305,7 +15305,7 @@ struct FUN_004203b0 : FUN_004203b0_Base
 // @fnv 0x00420380
 void* ExtraPortalRefData::FUN_00420380(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004203b0 *>(this)->FUN_004203b0::~FUN_004203b0();
+    reinterpret_cast<::FUN_004203b0 *>(this)->::FUN_004203b0::~FUN_004203b0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -15834,7 +15834,7 @@ class FUN_0042cd70_cls : public FUN_0042cd70_base
 // @fnv 0x0042cd40
 void* ExtraSecuritronFace::FUN_0042cd40(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0042cd70_cls *>(this)->FUN_0042cd70_cls::~FUN_0042cd70_cls();
+    reinterpret_cast<::FUN_0042cd70_cls *>(this)->::FUN_0042cd70_cls::~FUN_0042cd70_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

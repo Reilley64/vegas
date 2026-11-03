@@ -4200,7 +4200,7 @@ struct Obj56d550
 // @fnv 0x0056d550
 void* Obj56d550::FUN_0056d550(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c8e9c0 *>(this)->FUN_00c8e9c0::~FUN_00c8e9c0();
+    reinterpret_cast<::FUN_00c8e9c0 *>(this)->::FUN_00c8e9c0::~FUN_00c8e9c0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x1c);
     return this;
@@ -11535,7 +11535,7 @@ struct bhkPhantom
 // @fnv 0x0056e420
 void* bhkPhantom::FUN_0056e420(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c9f3b0 *>((this))->FUN_00c9f3b0::~FUN_00c9f3b0();
+    reinterpret_cast<::FUN_00c9f3b0 *>((this))->::FUN_00c9f3b0::~FUN_00c9f3b0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x18);
     return this;
@@ -11571,7 +11571,7 @@ void FUN_00ca0540(void* p);
 // @fnv 0x0056e780
 void* FUN_0056e780_Class::FUN_0056e780(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00ca0540 *>(this)->FUN_00ca0540::~FUN_00ca0540();
+    reinterpret_cast<::FUN_00ca0540 *>(this)->::FUN_00ca0540::~FUN_00ca0540();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -11586,7 +11586,7 @@ struct FUN_0056e7c0_Class
 // @fnv 0x0056e7c0
 void* FUN_0056e7c0_Class::FUN_0056e7c0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c9fb00 *>((this))->FUN_00c9fb00::~FUN_00c9fb00();
+    reinterpret_cast<::FUN_00c9fb00 *>((this))->::FUN_00c9fb00::~FUN_00c9fb00();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -11620,7 +11620,7 @@ struct FUN_0056ea60
 // @fnv 0x0056ea60
 void* FUN_0056ea60::ScalarDeletingDestructor(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00ca0660 *>((this))->FUN_00ca0660::~FUN_00ca0660();
+    reinterpret_cast<::FUN_00ca0660 *>((this))->::FUN_00ca0660::~FUN_00ca0660();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -11816,7 +11816,7 @@ struct bhkWorldObject
 // @fnv 0x0056d4c0
 void* bhkWorldObject::FUN_0056d4c0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c85790 *>(this)->FUN_00c85790::~FUN_00c85790();
+    reinterpret_cast<::FUN_00c85790 *>(this)->::FUN_00c85790::~FUN_00c85790();
     if (flags & 1)
         ::FUN_00aa1460(this, 20);
     return this;
@@ -11845,7 +11845,7 @@ struct bhkAabbPhantom
 // @fnv 0x0056e5e0
 void* bhkAabbPhantom::FUN_0056e5e0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c9f530 *>((this))->FUN_00c9f530::~FUN_00c9f530();
+    reinterpret_cast<::FUN_00c9f530 *>((this))->::FUN_00c9f530::~FUN_00c9f530();
     if (flags & 1)
         ::FUN_00aa1460(this, 24);
     return this;
@@ -11861,7 +11861,7 @@ struct bhkShape
 // @fnv 0x0056e740
 void* bhkShape::FUN_0056e740(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c84c50 *>(this)->FUN_00c84c50::~FUN_00c84c50();
+    reinterpret_cast<::FUN_00c84c50 *>(this)->::FUN_00c84c50::~FUN_00c84c50();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -19809,7 +19809,7 @@ class FUN_0056d500_cls
 // @fnv 0x0056d500
 FUN_0056d500_cls* FUN_0056d500_cls::FUN_0056d500(int nFlag)
 {
-    reinterpret_cast<::FUN_00c9d620_holder *>((this))->FUN_00c9d620_holder::~FUN_00c9d620_holder();
+    reinterpret_cast<::FUN_00c9d620_holder *>((this))->::FUN_00c9d620_holder::~FUN_00c9d620_holder();
     if (nFlag & 1)
     {
         ::FUN_00aa1460(this, 0x14);
@@ -19889,7 +19889,7 @@ struct FUN_0056e460_cls
 // @fnv 0x0056e460
 void* FUN_0056e460_cls::FUN_0056e460(int iFlags)
 {
-    reinterpret_cast<::FUN_00c9eb30 *>((this))->FUN_00c9eb30::~FUN_00c9eb30();
+    reinterpret_cast<::FUN_00c9eb30 *>((this))->::FUN_00c9eb30::~FUN_00c9eb30();
     if (iFlags & 1)
         FUN_00aa1460(this, 0x18);
     return this;
@@ -19979,7 +19979,7 @@ struct FUN_0056e920_cls
 // @fnv 0x0056e920
 FUN_0056e920_cls* FUN_0056e920_cls::FUN_0056e920(unsigned int acFlags)
 {
-    reinterpret_cast<::FUN_00c9fd70_cls *>(this)->FUN_00c9fd70_cls::~FUN_00c9fd70_cls();
+    reinterpret_cast<::FUN_00c9fd70_cls *>(this)->::FUN_00c9fd70_cls::~FUN_00c9fd70_cls();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x14);
@@ -20380,7 +20380,7 @@ struct FUN_0057a8d0 : ExtraDataHeader
 // @fnv 0x0057a8a0
 void* ExtraAnimNoteReceiver::FUN_0057a8a0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0057a8d0 *>((this))->FUN_0057a8d0::~FUN_0057a8d0();
+    reinterpret_cast<::FUN_0057a8d0 *>((this))->::FUN_0057a8d0::~FUN_0057a8d0();
 
     if (flags & 1)
     {
@@ -37792,7 +37792,7 @@ bool Worker57::FUN_0057bd80(Obj57x* obj)
         Vec57 i = l->position();
         Obj57x* ba = ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((l))->FUN_00453470())) == 1 ? ((::Obj57x *)(reinterpret_cast<::NiNode *>((l))->GetAt(0))) : 0;
         if (ba)
-            i = (*(::Vec57 *)(new ((void *)&((*(::Bound57 *)(reinterpret_cast<::FUN_0043d450_Owner *>((ba))->FUN_0043d450())))) ::Vec3()));
+            i = (*(::Vec57 *)((void *)&((*(::Bound57 *)(reinterpret_cast<::FUN_0043d450_Owner *>((ba))->FUN_0043d450())))));
         b->center(i);
         reinterpret_cast<::MyPoint439180 *>((void *)&(const ::Vec57 &)(e))->FUN_00439180(reinterpret_cast<::FUN_008d01e0_Class *>((l))->FUN_008d01e0());
         if (f)
@@ -56977,7 +56977,7 @@ struct MM
 // @fnv 0x00cb30a0
 void* MM::FUN_00cb30a0(unsigned int f)
 {
-    reinterpret_cast<::FUN_00cb2ff0 *>(this)->FUN_00cb2ff0::~FUN_00cb2ff0();
+    reinterpret_cast<::FUN_00cb2ff0 *>(this)->::FUN_00cb2ff0::~FUN_00cb2ff0();
     if (f & 1)
     {
         if (this)
@@ -67442,7 +67442,7 @@ hkSimdRealX* hkVector4X::FUN_005612a0(hkSimdRealX* out) const
     const hkQuadReal half = _mm_set_ss(0.5f);
     const hkQuadReal three = _mm_set_ss(3.0f);
     const hkQuadReal zero = _mm_set_ss(0.0f);
-    const hkQuadReal len2 = (*(const ::__m128 *)(new ((void *)&(dot3(*this))) ::Vec3()));
+    const hkQuadReal len2 = (*(const ::__m128 *)((void *)&(dot3(*this))));
     const hkQuadReal equalsZero = _mm_cmpeq_ss(len2, zero);
     const hkQuadReal e = _mm_rsqrt_ss(len2);
     const hkQuadReal r = _mm_mul_ss(_mm_mul_ss(half, e), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, e), e)));

@@ -1327,7 +1327,7 @@ struct LOSGridMapReal : LOSGridBase
 // @fnv 0x006e0270
 void* PathingLOSGridMap::FUN_006e0270(unsigned int flags)
 {
-    reinterpret_cast<::LOSGridMapReal *>((this))->LOSGridMapReal::~LOSGridMapReal();
+    reinterpret_cast<::LOSGridMapReal *>((this))->::LOSGridMapReal::~LOSGridMapReal();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x54);
     return this;

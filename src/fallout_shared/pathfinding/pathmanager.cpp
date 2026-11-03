@@ -457,7 +457,7 @@ struct DelStandIn
 // @fnv 0x006e9c90
 void* DelStandIn::DestroyAndFree(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e9e20 *>((((DtorStandIn*)this)))->FUN_006e9e20::~FUN_006e9e20();
+    reinterpret_cast<::FUN_006e9e20 *>((((DtorStandIn*)this)))->::FUN_006e9e20::~FUN_006e9e20();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -473,7 +473,7 @@ struct FUN_006e9f60_shell
 // @fnv 0x006e9f60
 void* FUN_006e9f60_shell::FUN_006e9f60(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006cb410_cls *>(this)->FUN_006cb410_cls::~FUN_006cb410_cls();
+    reinterpret_cast<::FUN_006cb410_cls *>(this)->::FUN_006cb410_cls::~FUN_006cb410_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2510,7 +2510,7 @@ struct FUN_006eab30_cls : public BGSChangeFlags_6eab30
 // @fnv 0x006eb890
 void* Tmp_006eb890::FUN_006eb890(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006eab30_cls *>(this)->FUN_006eab30_cls::~FUN_006eab30_cls();
+    reinterpret_cast<::FUN_006eab30_cls *>(this)->::FUN_006eab30_cls::~FUN_006eab30_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -5582,7 +5582,7 @@ struct FUN_006ebd30 : Base_006ebd30
 // @fnv 0x006ebe00
 void* S006ebe00::FUN_006ebe00(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006ebd30 *>(this)->FUN_006ebd30::~FUN_006ebd30();
+    reinterpret_cast<::FUN_006ebd30 *>(this)->::FUN_006ebd30::~FUN_006ebd30();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

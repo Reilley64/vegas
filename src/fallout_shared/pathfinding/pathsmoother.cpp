@@ -63,7 +63,7 @@ struct FUN_006f25d0 : FUN_006f25b0
 // @fnv 0x006ed510
 void FUN_006ed510_shell::FUN_006ed510()
 {
-    reinterpret_cast<::FUN_006f25d0 *>((((FUN_006f25d0_shell*)((char*)this + 0x2c))))->FUN_006f25d0::~FUN_006f25d0();
+    reinterpret_cast<::FUN_006f25d0 *>((((FUN_006f25d0_shell*)((char*)this + 0x2c))))->::FUN_006f25d0::~FUN_006f25d0();
 }
 // Destructor that calls Clear(true) on the global object.
 // @fnv 0x006f25d0

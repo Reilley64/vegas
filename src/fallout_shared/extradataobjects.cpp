@@ -1700,7 +1700,7 @@ struct DelStandIn
 // @fnv 0x00432c60
 void* DelStandIn::FUN_00432c60(unsigned int flags)
 {
-    reinterpret_cast<::ExtraPersistentCell *>((((DtorStandIn*)this)))->ExtraPersistentCell::~ExtraPersistentCell();
+    reinterpret_cast<::ExtraPersistentCell *>((((DtorStandIn*)this)))->::ExtraPersistentCell::~ExtraPersistentCell();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1720,7 +1720,7 @@ struct DelStandIn
 // @fnv 0x00433940
 void* DelStandIn::FUN_00433940(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00433970_holder *>((((DtorStandIn*)this)))->FUN_00433970_holder::~FUN_00433970_holder();
+    reinterpret_cast<::FUN_00433970_holder *>((((DtorStandIn*)this)))->::FUN_00433970_holder::~FUN_00433970_holder();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1740,7 +1740,7 @@ struct DelStandIn
 // @fnv 0x00435270
 void* DelStandIn::FUN_00435270(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004352a0_cls *>((((DtorStandIn*)this)))->FUN_004352a0_cls::~FUN_004352a0_cls();
+    reinterpret_cast<::FUN_004352a0_cls *>((((DtorStandIn*)this)))->::FUN_004352a0_cls::~FUN_004352a0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1761,7 +1761,7 @@ struct DelStandIn
 // @fnv 0x00437a60
 void* DelStandIn::FUN_00437a60(unsigned int flags)
 {
-    reinterpret_cast<::ExtraPatrolRefInUseData *>((((DtorStandIn*)this)))->ExtraPatrolRefInUseData::~ExtraPatrolRefInUseData();
+    reinterpret_cast<::ExtraPatrolRefInUseData *>((((DtorStandIn*)this)))->::ExtraPatrolRefInUseData::~ExtraPatrolRefInUseData();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2321,7 +2321,7 @@ struct FUN_00430950 : public BSExtraData
 // @fnv 0x00430920
 void* ExtraLight::FUN_00430920(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00430950 *>(this)->FUN_00430950::~FUN_00430950();
+    reinterpret_cast<::FUN_00430950 *>(this)->::FUN_00430950::~FUN_00430950();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2359,7 +2359,7 @@ struct ExtraAudioMarker
     void FUN_00431520();
     void* FUN_004314f0(unsigned int flags);
 };
-extern "C" void* __cdecl _Deallocate(void*);
+extern "C" void __cdecl _Deallocate(void*);
 
 // Calls FUN_00431520 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004314f0
@@ -2711,7 +2711,7 @@ struct ExtraLinkedRefChildren
     void* FUN_004335a0(unsigned int flags);
 };
 
-extern "C" void* __cdecl _Deallocate(void* p);
+extern "C" void __cdecl _Deallocate(void* p);
 
 // Calls FUN_004335d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004335a0
@@ -2752,7 +2752,7 @@ struct ExtraActivateRefChildren
 // @fnv 0x00433800
 void* ExtraActivateRefChildren::FUN_00433800(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00433830 *>(this)->FUN_00433830::~FUN_00433830();
+    reinterpret_cast<::FUN_00433830 *>(this)->::FUN_00433830::~FUN_00433830();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2897,7 +2897,7 @@ void ExtraFollowerSwimBreadcrumbs::FUN_00437d10()
 // @fnv 0x00437ce0
 void* ExtraFollowerSwimBreadcrumbs::FUN_00437ce0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00437d10 *>(this)->FUN_00437d10::~FUN_00437d10();
+    reinterpret_cast<::FUN_00437d10 *>(this)->::FUN_00437d10::~FUN_00437d10();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -3003,7 +3003,7 @@ struct ExtraAnim : FUN_00430120
 // @fnv 0x004300f0
 void* ExtraAnim::FUN_004300f0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00430120 *>(this)->FUN_00430120::~FUN_00430120();
+    reinterpret_cast<::FUN_00430120 *>(this)->::FUN_00430120::~FUN_00430120();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -3017,7 +3017,7 @@ struct ExtraDismemberedLimbs
     void* FUN_004302a0(unsigned int flags);
 };
 
-extern "C" void* __cdecl _Deallocate(void*);
+extern "C" void __cdecl _Deallocate(void*);
 
 // @fnv 0x004302a0
 void* ExtraDismemberedLimbs::FUN_004302a0(unsigned int flags)
@@ -3608,7 +3608,6 @@ struct BE
 struct AX
 {
 };
-extern "C" void* _data_011c16bc;
 extern void* DAT_01015b34;
 struct FUN_00430200 : BE
 {
@@ -3659,6 +3658,10 @@ struct LS3de0
 };
 struct FUN_00431030_BSSimpleArray
 {
+    void** m_ppVirtualMethodTable;
+    unsigned int* pBuffer;
+    unsigned int iSize;
+    unsigned int iCapacity;
 };
 struct FUN_00431030_shell : BSExtraData
 {
@@ -3675,7 +3678,7 @@ bool FUN_00431030_shell::FUN_00431030(BSExtraData* apCompare)
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())); ++i)
     {
         if (reinterpret_cast<LS3de0*>(pOtherData + 1)
-                ->Find(((unsigned int)(reinterpret_cast<::S3e60 *>((reinterpret_cast<FUN_00431030_BSSimpleArray*>(this + 1)))->FUN_006a7ad0(i))), 0,
+                ->Find(reinterpret_cast<FUN_00431030_BSSimpleArray*>(this + 1)->pBuffer[i], 0,
                        (bool(__cdecl*)(int const*, int const*))((bool (&)(NavMeshInfo *&, NavMeshInfo *&))::FUN_009a3830)) == (unsigned int)-1)
             return true;
     }
@@ -3967,7 +3970,7 @@ void FUN_004343c0_standin::DeleteAllEntries()
     BGSPerkEntry* pItem;
     while (!kList.IsEmpty())
     {
-        pItem = ((::BGSPerkEntry *)(new ((void *)&(kList)) ::Vec3()));
+        pItem = (kList.m_item);
         kList.RemoveHead();
         pDelete = pItem;
         ::FUN_00401030(pDelete);
@@ -4194,7 +4197,6 @@ void* FUN_00411e70::DeleteThis(unsigned int flags)
     return this;
 }
 
-void __cdecl FUN_0042cca0();
 void __cdecl _Deallocate(void* p);
 
 struct FUN_0042cc70_Class
@@ -4207,7 +4209,7 @@ struct FUN_0042cc70_Class
 // @fnv 0x0042cc70
 void* FUN_0042cc70_Class::FUN_0042cc70(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0042cca0 *>(this)->FUN_0042cca0::~FUN_0042cca0();
+    reinterpret_cast<::FUN_0042cca0 *>(this)->::FUN_0042cca0::~FUN_0042cca0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4400,7 +4402,7 @@ void* __cdecl _Deallocate(void* p);
 // @fnv 0x00432440
 void* ExtraInfoGeneralTopic::FUN_00432440(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004323b0 *>(this)->FUN_004323b0::~FUN_004323b0();
+    reinterpret_cast<::FUN_004323b0 *>(this)->::FUN_004323b0::~FUN_004323b0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4614,7 +4616,7 @@ void _Deallocate(void* ptr);
 // @fnv 0x004353a0
 void* FUN_004353d0::DestroyAndDeallocate(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004353d0 *>(this)->FUN_004353d0::~FUN_004353d0();
+    reinterpret_cast<::FUN_004353d0 *>(this)->::FUN_004353d0::~FUN_004353d0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4634,7 +4636,7 @@ void _Deallocate(void*);
 // @fnv 0x00435a90
 void* FUN_00435ac0::ScalarDeletingDestructor(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435ac0 *>((this))->FUN_00435ac0::~FUN_00435ac0();
+    reinterpret_cast<::FUN_00435ac0 *>((this))->::FUN_00435ac0::~FUN_00435ac0();
 
     if (flags & 1)
         ::FUN_00401030(this);
@@ -4662,7 +4664,7 @@ class ExtraSavedHavokData : public FUN_00435bb0
 // @fnv 0x00435b80
 void* ExtraSavedHavokData::FUN_00435b80(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435bb0 *>(this)->FUN_00435bb0::~FUN_00435bb0();
+    reinterpret_cast<::FUN_00435bb0 *>(this)->::FUN_00435bb0::~FUN_00435bb0();
 
     if (flags & 1)
         ::FUN_00401030(this);
@@ -4682,7 +4684,7 @@ void __cdecl _Deallocate(void*);
 // @fnv 0x00435cb0
 void* ExtraFriendHits::FUN_00435cb0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435ce0_cls *>(this)->FUN_00435ce0_cls::~FUN_00435ce0_cls();
+    reinterpret_cast<::FUN_00435ce0_cls *>(this)->::FUN_00435ce0_cls::~FUN_00435ce0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -5080,7 +5082,7 @@ class FUN_004330e0_cls : public B4330E0Base
 // @fnv 0x004330b0
 void* ExtraRunOncePacks::FUN_004330b0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004330e0_cls *>(this)->FUN_004330e0_cls::~FUN_004330e0_cls();
+    reinterpret_cast<::FUN_004330e0_cls *>(this)->::FUN_004330e0_cls::~FUN_004330e0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -5223,7 +5225,6 @@ struct FUN_004342b0_shell
     ItemList_004342b0 entries;
     void LoadItemsFromArchive(void* archive);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 // @fnv 0x004342b0
 void FUN_004342b0_shell::LoadItemsFromArchive(void* archive)
@@ -5536,7 +5537,7 @@ class FUN_00435740 : public Base435
 // @fnv 0x00435710
 void* FUN_00435710_Class::FUN_00435710(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435740 *>(this)->FUN_00435740::~FUN_00435740();
+    reinterpret_cast<::FUN_00435740 *>(this)->::FUN_00435740::~FUN_00435740();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -6491,7 +6492,7 @@ struct FUN_004377f0
 // @fnv 0x004377c0
 void* ExtraWaterZoneMap::FUN_004377c0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004377f0 *>(this)->FUN_004377f0::~FUN_004377f0();
+    reinterpret_cast<::FUN_004377f0 *>(this)->::FUN_004377f0::~FUN_004377f0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -7821,7 +7822,7 @@ FUN_00431980_Deleter::~FUN_00431980_Deleter()
 void FUN_00431980(void* apDeleter, unsigned int flags)
 {
     FUN_00431980_Deleter* d = static_cast<FUN_00431980_Deleter*>(apDeleter);
-    reinterpret_cast<::FUN_004319b0 *>((d))->FUN_004319b0::~FUN_004319b0();
+    reinterpret_cast<::FUN_004319b0 *>((d))->::FUN_004319b0::~FUN_004319b0();
     if (flags & 1)
         ::FUN_00401030(apDeleter);
 }
@@ -8164,36 +8165,6 @@ int* FUN_00ee8ac0_cls::FUN_00ee8ac0()
     return 0;
 }
 
-// @fnv 0x00438470
-template <> bool BSStringT<char>::Set(const BSStringT<char>& source)
-{
-    unsigned int length = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(source))->FUN_004048e0()));
-    if (length <= GetMaxLength())
-    {
-        if (length)
-            memcpy(pString, ((const char *)(::FUN_00559450((int *)&(source)))), length + 1);
-        else
-        {
-            if (pString)
-                delete[] pString;
-            pString = 0;
-            length = 0;
-            reinterpret_cast<::FUN_00403a00_class *>(this)->FUN_00403a00(length);
-        }
-    }
-    else
-    {
-        char* old = pString;
-        pString = new char[length + 1];
-        memcpy(pString, ((const char *)(::FUN_00559450((int *)&(source)))), length + 1);
-        if (old)
-            delete[] old;
-        reinterpret_cast<::FUN_00403a00_class *>(this)->FUN_00403a00(length);
-    }
-    SetLength(length);
-    return length != 0;
-}
-
 class ExtraDataList
 {
   public:
@@ -8237,7 +8208,7 @@ void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
         }
         else
         {
-            reinterpret_cast<::FUN_0041f840 *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pRef))->FUN_005d43c0()))))->SetEnableParentReference({}, {});
+            reinterpret_cast<::FUN_0041f840 *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pRef))->FUN_005d43c0()))))->SetEnableParentReference((::TESObjectREFR *)(apOwner), true);
             kResolved4.AddHead(pRef);
         }
         pNodeB8 = ((::BSSimpleList< ::LitWaterRef *> *)(reinterpret_cast<::Callees *>((pNodeB8))->FUN_00726070()));

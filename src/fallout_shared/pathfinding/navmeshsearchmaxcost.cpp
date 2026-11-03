@@ -330,7 +330,7 @@ bool FUN_006ab4a0_shell::StartSearch(int aiSearchType, NavMeshSearchLocation* ap
     iSearchType = aiSearchType;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((apInfos))->Clear(false);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((apAltInfos))->Clear(false);
-    reinterpret_cast<::NavMeshSearch *>(this)->NavMeshSearch::~NavMeshSearch();
+    reinterpret_cast<::NavMeshSearch *>(this)->::NavMeshSearch::~NavMeshSearch();
     if (!reinterpret_cast<::FUN_006a9520_Class *>((apGoal))->FUN_006a9520() && reinterpret_cast<::PathingLocationProxy *>((apGoal))->FindContainingTriangle((::FindTriangleForLocationFilter *)(false)))
     {
         NavMeshPtr spGoalNavMesh;

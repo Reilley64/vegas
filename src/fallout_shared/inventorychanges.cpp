@@ -1389,7 +1389,7 @@ void VATS::FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback)
     VATS_CommandList* pCurrentElementNext;
     if (!eMode || (DAT_011f21e0 != 0.0 && m_kCommandList.FUN_008256d0()))
         return;
-    if (!abForceQuit && !m_kCommandList.FUN_008256d0() && (*((::VATSCommand **)(new ((void *)&(m_kCommandList)) ::Vec3())))->eType == 15)
+    if (!abForceQuit && !m_kCommandList.FUN_008256d0() && (*((::VATSCommand **)((void *)&(m_kCommandList))))->eType == 15)
         return;
     if (abFinishCommandPlayback)
     {
@@ -2303,12 +2303,12 @@ bool FUN_004c0c60(FUN_004c0c60_Helper* pThis)
 struct FUN_004c0cd0_This
 {
     char pad[0x1f0];
-    int field_1f0;
+    void* field_1f0;
 };
 
 struct FUN_004c0cd0_Arg
 {
-    int val;
+    void* val;
 };
 
 // @fnv 0x004c0cd0
@@ -6786,7 +6786,7 @@ FUN_0076b630* AmmoInventory::FindBestAmmoChange(AmmoScorer* scorer, int unused)
         if (((::FUN_0096a2d0 *)(::FUN_00559450((int *)(change)))) && ((::Extra *)((void *)(change->extras))))
         {
             changeNode->extras = new FUN_0096a2d0;
-            changeNode->extras->FUN_005ae3d0(&((::Extra *)((void *)(change->extras))));
+            changeNode->extras->FUN_005ae3d0(&change->extras->item);
             reinterpret_cast<::CombatProcedure *>((changeNode))->Initialize((::CombatController *)((int)((::ItemList *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()))));
         }
     }
@@ -14924,7 +14924,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                 if (equipped)
                 {
                     if (actor == ((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))
-                        ::SetField1F0((::FUN_004c0cd0_This *)(((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))), (::FUN_004c0cd0_Arg)(equipped->form));
+                        ::SetField1F0((::FUN_004c0cd0_This *)(((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))), ::FUN_004c0cd0_Arg{equipped->form});
                     else if (FUN_008c7aa0() && actor != ((::EquipActor *)(::FUN_0047b200())))
                         reinterpret_cast<::Host0087b360 *>((((::EquipQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((int)(actor), (int)(equipped->form));
                     else
@@ -15612,7 +15612,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                         if (*((::XExtra17 **)((void *)(((XNodeE17*)found->m_pExtraDataLists)))) == extra || apExtraList == 0)
                         {
                             if (apActor == (XActor17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))
-                                ::SetField1F0((::FUN_004c0cd0_This *)(((XNPC17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))), (::FUN_004c0cd0_Arg)(0));
+                                ::SetField1F0((::FUN_004c0cd0_This *)(((XNPC17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))), ::FUN_004c0cd0_Arg{nullptr});
                             TESObjectWEAP* weap = (TESObjectWEAP*)a1;
                             if (FUN_004c0bf0(weap))
                                 weapon3 = true;
@@ -16034,7 +16034,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
 
         while (!itemList.IsEmpty())
         {
-            pObject = (TESBoundObject*)((::TESForm *)(new ((void *)&(itemList)) ::Vec3()));
+            pObject = (TESBoundObject*)itemList.m_item;
             itemList.RemoveHead();
             int iRemove = iCount;
             ::Actor* pActor = dynamic_cast< ::Actor*>(thisObj);
@@ -16090,7 +16090,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                             case 0x73:
                             case 0x74:
                                 ::DispatchMessageToSink(
-                                    (int)(sMessage), 0, (int)(g_011cba4c_arg1),
+                                    (std::intptr_t)(const char *)(sMessage), 0, (int)(g_011cba4c_arg1),
                                     (int)(iNoMessage
                                         ? 0
                                         : reinterpret_cast<::PickupSoundActorView *>((reinterpret_cast<Player_5b4e90*>((*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))))->FUN_008adcf0(pObject, 0, 0)),
@@ -16098,7 +16098,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                                 break;
                             case 0x18:
                                 ::DispatchMessageToSink(
-                                    (int)(sMessage), 0, (int)(g_011cba4c_arg1),
+                                    (std::intptr_t)(const char *)(sMessage), 0, (int)(g_011cba4c_arg1),
                                     (int)(iNoMessage
                                         ? 0
                                         : reinterpret_cast<::PickupSoundActorView *>((reinterpret_cast<Player_5b4e90*>((*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))))->FUN_008adcf0(pObject, 0, 0)),

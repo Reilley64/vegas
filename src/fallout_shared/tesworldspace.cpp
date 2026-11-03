@@ -1021,7 +1021,7 @@ struct S_00583040
 // @fnv 0x00583040
 void* S_00583040::FUN_00583040(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006fc980 *>(this)->FUN_006fc980::~FUN_006fc980();
+    reinterpret_cast<::FUN_006fc980 *>(this)->::FUN_006fc980::~FUN_006fc980();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2373,7 +2373,7 @@ struct FUN_00582e30 : FUN_00483630_holder, FUN_00591300, TESTexture
 // @fnv 0x00582e00
 void* FUN_00582e00_host::FUN_00582e00(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00582e30 *>(this)->FUN_00582e30::~FUN_00582e30();
+    reinterpret_cast<::FUN_00582e30 *>(this)->::FUN_00582e30::~FUN_00582e30();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

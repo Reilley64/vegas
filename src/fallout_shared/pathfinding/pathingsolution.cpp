@@ -418,7 +418,7 @@ struct FUN_006e7720 : public EBase
 // @fnv 0x006e76f0
 void* DelS::FUN_006e76f0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e7720 *>(this)->FUN_006e7720::~FUN_006e7720();
+    reinterpret_cast<::FUN_006e7720 *>(this)->::FUN_006e7720::~FUN_006e7720();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x44);
     return this;

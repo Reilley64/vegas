@@ -368,7 +368,7 @@ struct FUN_006b4850_t : public NavMeshBounds
 // @fnv 0x006b4850
 void* FUN_006b4850_t::FUN_006b4850(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0069bda0_cls *>(this)->FUN_0069bda0_cls::~FUN_0069bda0_cls();
+    reinterpret_cast<::FUN_0069bda0_cls *>(this)->::FUN_0069bda0_cls::~FUN_0069bda0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

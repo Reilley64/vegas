@@ -254,7 +254,7 @@ struct FUN_006a92c0_cls : public AStarSearchBase
 // @fnv 0x006a9290
 void* FUN_006a9290_shell::DestroyIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006a92c0_cls *>(this)->FUN_006a92c0_cls::~FUN_006a92c0_cls();
+    reinterpret_cast<::FUN_006a92c0_cls *>(this)->::FUN_006a92c0_cls::~FUN_006a92c0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

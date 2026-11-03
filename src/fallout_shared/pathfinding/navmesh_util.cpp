@@ -366,7 +366,6 @@ struct FUN_0069a6c0_S
 // @fnv 0x0069a6c0
 FUN_0069a6c0_S* FUN_0069a6c0_S::FUN_0069a6c0(void* apNav, unsigned short ausTri, int aiEdge)
 {
-    new ((void *)this) ::Vec3();
     nav = apNav;
     tri = ausTri;
     edge = aiEdge;

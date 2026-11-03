@@ -152,7 +152,7 @@ PathingRequest::PathingRequest() : m_pPathingAvoidNodeArray(0)
 // @fnv 0x006e3880
 PathingAvoidNodeArray* PathingAvoidNodeArray::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::PathingAvoidNodeArray *>((reinterpret_cast<PathingAvoidNodeArrayDestructionView*>(this)))->PathingAvoidNodeArray::~PathingAvoidNodeArray();
+    reinterpret_cast<::PathingAvoidNodeArray *>((reinterpret_cast<PathingAvoidNodeArrayDestructionView*>(this)))->::PathingAvoidNodeArray::~PathingAvoidNodeArray();
     if (flags & 1)
         ::FUN_00aa1460(this, 24);
     return this;
@@ -302,7 +302,7 @@ struct FUN_006e39d0 : public FUN_006e3ab0, public FUN_00496910
 // @fnv 0x006e38b0
 PathingAvoidNodeArray::~PathingAvoidNodeArray()
 {
-    reinterpret_cast<::FUN_006e39d0 *>(this)->FUN_006e39d0::~FUN_006e39d0();
+    reinterpret_cast<::FUN_006e39d0 *>(this)->::FUN_006e39d0::~FUN_006e39d0();
 }
 // Destructor that calls Clear(true) on the object at this address.
 // @fnv 0x006e39d0

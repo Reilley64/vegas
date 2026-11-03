@@ -348,7 +348,7 @@ class FUN_006e4bf0 : public E4BF0Base
 // @fnv 0x006e4bb0
 void* FUN_006e4bb0_shell::FUN_006e4bb0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e4bf0 *>((reinterpret_cast<FUN_006e4bf0_shell*>(this)))->FUN_006e4bf0::~FUN_006e4bf0();
+    reinterpret_cast<::FUN_006e4bf0 *>((reinterpret_cast<FUN_006e4bf0_shell*>(this)))->::FUN_006e4bf0::~FUN_006e4bf0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x10c);
     return this;

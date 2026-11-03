@@ -4676,7 +4676,7 @@ struct FUN_006ac1b0_cls : FUN_006ac1b0_base
 // @fnv 0x006ac180
 void* FUN_006ac1b0_shell::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006ac1b0_cls *>(this)->FUN_006ac1b0_cls::~FUN_006ac1b0_cls();
+    reinterpret_cast<::FUN_006ac1b0_cls *>(this)->::FUN_006ac1b0_cls::~FUN_006ac1b0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

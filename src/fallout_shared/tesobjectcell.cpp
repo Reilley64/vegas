@@ -4225,7 +4225,7 @@ struct FUN_0054da00_class
 // @fnv 0x0054da00
 void FUN_0054da00_class::FUN_0054da00()
 {
-    reinterpret_cast<::FUN_00559810 *>(this)->FUN_00559810::~FUN_00559810();
+    reinterpret_cast<::FUN_00559810 *>(this)->::FUN_00559810::~FUN_00559810();
 }
 
 struct FUN_0054de80Class : public TESObjectCELL
@@ -5013,7 +5013,7 @@ void FUN_00552570()
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011ca1a0))))->FUN_0040fbf0((char *)(0));
     while (!reinterpret_cast<::ObsList *>(&((*reinterpret_cast<::fnv_00552570::QueuedAttachList *>(&::g_011ca174))))->FUN_004a4460())
     {
-        SpObst attachdata(((unsigned int *)(new ((void *)&((*reinterpret_cast<::fnv_00552570::QueuedAttachList *>(&::g_011ca174)))) ::Vec3())));
+        SpObst attachdata(((unsigned int *)((void *)&((*reinterpret_cast<::fnv_00552570::QueuedAttachList *>(&::g_011ca174))))));
         reinterpret_cast<::DecalListManager *>(&((*reinterpret_cast<::fnv_00552570::QueuedAttachList *>(&::g_011ca174))))->PopHead();
         ::UpdateSceneGraph((NiAVObject*)(unsigned int)attachdata);
         if ((unsigned int)attachdata && ((QueuedAttachObj*)(unsigned int)attachdata)->v10() &&
@@ -8827,7 +8827,7 @@ struct FUN_0054ab60 : FUN_00440640
 // @fnv 0x0054ab30
 void* CheckWithinMultiBoundTask::FUN_0054ab30(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0054ab60 *>(this)->FUN_0054ab60::~FUN_0054ab60();
+    reinterpret_cast<::FUN_0054ab60 *>(this)->::FUN_0054ab60::~FUN_0054ab60();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -9911,7 +9911,7 @@ struct FUN_00558f20_cls : FUN_00558f20_base
 // @fnv 0x00558df0
 void* FUN_00558df0_StandIn::FUN_00558df0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00558f20_cls *>(this)->FUN_00558f20_cls::~FUN_00558f20_cls();
+    reinterpret_cast<::FUN_00558f20_cls *>(this)->::FUN_00558f20_cls::~FUN_00558f20_cls();
 
     if (flags & 1)
         ::FUN_00401030(this);
@@ -9943,7 +9943,7 @@ class FUN_00559020_cls : public Base_559020
 // @fnv 0x00558e20
 void* FUN_00558e20_StandIn::FUN_00558e20(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00559020_cls *>(this)->FUN_00559020_cls::~FUN_00559020_cls();
+    reinterpret_cast<::FUN_00559020_cls *>(this)->::FUN_00559020_cls::~FUN_00559020_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -9968,7 +9968,7 @@ struct FUN_005591d0 : FUN_00559230
 // @fnv 0x00558e50
 void* FUN_00558e50_StandIn::FUN_00558e50(unsigned int flags)
 {
-    reinterpret_cast<::FUN_005591d0 *>(this)->FUN_005591d0::~FUN_005591d0();
+    reinterpret_cast<::FUN_005591d0 *>(this)->::FUN_005591d0::~FUN_005591d0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -10952,7 +10952,7 @@ struct Cell545030
 // @fnv 0x005417e0
 void* FUN_005417e0_class::FUN_005417e0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00541810_cls *>(this)->FUN_00541810_cls::~FUN_00541810_cls();
+    reinterpret_cast<::FUN_00541810_cls *>(this)->::FUN_00541810_cls::~FUN_00541810_cls();
 
     if (flags & 1)
     {
@@ -19408,8 +19408,8 @@ void Cell::FUN_0054f500(int aiGridX, int aiGridY, ScenePtr* apOut)
     kFrustumLocal.fNear = ::DAT_01016410;
     kFrustumLocal.bOrtho = true;
     NiBound kBound = *((::CellShadow::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::CellShadow::SceneObject *)(reinterpret_cast<::FUN_00545cb0_shell *>(this)->FUN_00545cb0()))))->FUN_0043d450()));
-    kZRange.x = ((::CellShadow::NiPoint3 *)(new ((void *)&(kBound)) ::Vec3()))->z - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
-    kZRange.y = ((::CellShadow::NiPoint3 *)(new ((void *)&(kBound)) ::Vec3()))->z + reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
+    kZRange.x = ((::CellShadow::NiPoint3 *)((void *)&(kBound)))->z - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
+    kZRange.y = ((::CellShadow::NiPoint3 *)((void *)&(kBound)))->z + reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
     int iHalfSizeIn = 0x880;
     kOrthoPos.x = (float)((aiGridX << 12) + 0x1080);
     kOrthoPos.y = (float)((aiGridY << 12) + 0x1080);
@@ -19648,7 +19648,7 @@ struct FUN_00541a60 : FUN_0042f830
 // @fnv 0x00541a30
 void* FUN_00541a30_StandIn::FUN_00541a30(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00541a60 *>(this)->FUN_00541a60::~FUN_00541a60();
+    reinterpret_cast<::FUN_00541a60 *>(this)->::FUN_00541a60::~FUN_00541a60();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -24664,7 +24664,7 @@ void Cell_Sub_ctx::FUN_00544ce0()
     ::FUN_00541ae0((char *)this);
     while (!localList9.FUN_008256d0())
     {
-        TESObjectREFR* item3 = ((::TESObjectREFR *)(new ((void *)&(localList9)) ::Vec3()));
+        TESObjectREFR* item3 = (localList9.m_item);
         ((BSSimpleList_standin*)&localList9)->FUN_0063f7b0();
         TESObjectREFR* other = reinterpret_cast<::fnv_00569ac0::FUN_00569ac0_shell *>((((FUN_00569ac0_shell*)item3)))->FUN_00569ac0();
         CellSubTarget* a8 = (CellSubTarget*)reinterpret_cast<::fnv_00545960::S *>((((FUN_00545960_shell*)this)))->FUN_00545960((::fnv_00545960::A *)(item3));

@@ -684,7 +684,6 @@ struct S6c4350
 // @fnv 0x006c4350
 S6c4350* S6c4350::FUN_006c4350(const S6c4350& aOther)
 {
-    new ((void *)this) ::Vec3();
     a = aOther.a;
     b = aOther.b;
     c = aOther.c;
@@ -1106,7 +1105,7 @@ struct DelStandIn
 // @fnv 0x004ee360
 void* DelStandIn::FUN_004ee360(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004ee840_cls *>((((DtorStandIn*)this)))->FUN_004ee840_cls::~FUN_004ee840_cls();
+    reinterpret_cast<::FUN_004ee840_cls *>((((DtorStandIn*)this)))->::FUN_004ee840_cls::~FUN_004ee840_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -3061,7 +3060,7 @@ struct FUN_006c1520_Class : public FNV_NiRefObjectStandIn
 // @fnv 0x006c14f0
 void* ReferenceObstacleArray::DestroyIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006c1520_Class *>((this))->FUN_006c1520_Class::~FUN_006c1520_Class();
+    reinterpret_cast<::FUN_006c1520_Class *>((this))->::FUN_006c1520_Class::~FUN_006c1520_Class();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x1c);
     return this;
@@ -3301,7 +3300,7 @@ struct FUN_006c24d0 : FUN_00496910_Base
 // @fnv 0x006c2490
 void* ObstacleData_shell::FUN_006c2490(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006c24d0 *>((this))->FUN_006c24d0::~FUN_006c24d0();
+    reinterpret_cast<::FUN_006c24d0 *>((this))->::FUN_006c24d0::~FUN_006c24d0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x8c);
     return this;

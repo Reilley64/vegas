@@ -199,7 +199,7 @@ struct FUN_006aa710 : public FUN_006a7bc0_Class
 // @fnv 0x006aa6e0
 void* SD_006aa6e0::FUN_006aa6e0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006aa710 *>(this)->FUN_006aa710::~FUN_006aa710();
+    reinterpret_cast<::FUN_006aa710 *>(this)->::FUN_006aa710::~FUN_006aa710();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

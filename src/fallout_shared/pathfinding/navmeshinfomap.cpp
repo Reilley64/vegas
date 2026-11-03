@@ -1003,7 +1003,7 @@ struct FUN_006b6b20_shell : public NavMeshInfoMap
 // @fnv 0x006b5cd0
 void* NavMeshInfoMapShell::FUN_006b5cd0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006b5d00 *>(this)->FUN_006b5d00::~FUN_006b5d00();
+    reinterpret_cast<::FUN_006b5d00 *>(this)->::FUN_006b5d00::~FUN_006b5d00();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

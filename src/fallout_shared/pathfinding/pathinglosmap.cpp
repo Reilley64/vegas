@@ -209,7 +209,7 @@ struct FUN_006e1470 : PathingLOSBase
 // @fnv 0x006e1440
 void* PathingLOSMap::DestroyAndFree(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e1470 *>((this))->FUN_006e1470::~FUN_006e1470();
+    reinterpret_cast<::FUN_006e1470 *>((this))->::FUN_006e1470::~FUN_006e1470();
     if (flags & 1)
         operator delete(this, 0x50);
     return this;

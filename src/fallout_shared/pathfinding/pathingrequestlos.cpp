@@ -41,7 +41,7 @@ struct S006e3a50
 // @fnv 0x006e3a50
 void* S006e3a50::FUN_006e3a50(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e39d0 *>((reinterpret_cast<C006e39d0*>(this)))->FUN_006e39d0::~FUN_006e39d0();
+    reinterpret_cast<::FUN_006e39d0 *>((reinterpret_cast<C006e39d0*>(this)))->::FUN_006e39d0::~FUN_006e39d0();
     if (flags & 1)
         ::FUN_00aa1460(this, 24);
     return this;
@@ -350,7 +350,7 @@ struct __declspec(novtable) FUN_006e58d0 : S_006e58d0_Base
 // @fnv 0x006e5890
 void* PathingRequestLOS::DestroyAndFree(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e58d0 *>((this))->FUN_006e58d0::~FUN_006e58d0();
+    reinterpret_cast<::FUN_006e58d0 *>((this))->::FUN_006e58d0::~FUN_006e58d0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0xd8);
     return this;

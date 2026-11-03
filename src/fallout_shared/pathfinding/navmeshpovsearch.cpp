@@ -2924,7 +2924,7 @@ class FUN_0069e200_cls : public Base_69e200
 // @fnv 0x0069e1d0
 void* FUN_0069e1d0_shell::DestroyIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0069e200_cls *>(this)->FUN_0069e200_cls::~FUN_0069e200_cls();
+    reinterpret_cast<::FUN_0069e200_cls *>(this)->::FUN_0069e200_cls::~FUN_0069e200_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

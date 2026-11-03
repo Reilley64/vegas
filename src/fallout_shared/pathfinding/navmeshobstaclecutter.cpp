@@ -14,7 +14,7 @@ struct ObstacleUndoData
 // @fnv 0x006bc300
 void* ObstacleUndoData::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006bc330 *>(this)->FUN_006bc330::~FUN_006bc330();
+    reinterpret_cast<::FUN_006bc330 *>(this)->::FUN_006bc330::~FUN_006bc330();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x70);
     return this;

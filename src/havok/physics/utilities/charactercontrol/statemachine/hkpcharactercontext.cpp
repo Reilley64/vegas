@@ -28,18 +28,6 @@ void FUN_00ca95e0_class::FUN_00ca95e0()
     m_p = &::DAT_0102e388;
 }
 
-struct FUN_00ca9670_cls
-{
-    void FUN_00ca9670(float a, float b, float c);
-};
-// @fnv 0x00ca9670
-void FUN_00ca9670_cls::FUN_00ca9670(float a, float b, float c)
-{
-    *(float*)((char*)this + 0x24) = a;
-    *(float*)((char*)this + 0x20) = b;
-    *(float*)((char*)this + 0x1c) = c;
-}
-
 struct FUN_00ca9660_cls
 {
     unsigned int unk00;
@@ -86,12 +74,25 @@ struct hkpCharacterContext
     int unk10;
     int unk14;
     unsigned char unk18;
-    float unk1C;
-    float unk20;
-    float unk24;
+    float m_maxLinearAcceleration;
+    float m_maxLinearVelocity;
+    float m_gain;
 
     hkpCharacterContext* Initialize(void* arg0, int arg1);
 };
+
+// hkpCharacterContext::setFilterParameters(gain, maxVelocity, maxAcceleration).
+struct FUN_00ca9670_cls : hkpCharacterContext
+{
+    void FUN_00ca9670(float a, float b, float c);
+};
+// @fnv 0x00ca9670
+void FUN_00ca9670_cls::FUN_00ca9670(float a, float b, float c)
+{
+    m_gain = a;
+    m_maxLinearVelocity = b;
+    m_maxLinearAcceleration = c;
+}
 
 // @fnv 0x00ca9580
 hkpCharacterContext* hkpCharacterContext::Initialize(void* arg0, int arg1)
@@ -104,10 +105,9 @@ hkpCharacterContext* hkpCharacterContext::Initialize(void* arg0, int arg1)
     unk08 = 0;
     unk18 = 1;
 
-    float& f20 = unk20;
-    f20 = 20.0f;
-    unk1C = 625.0f;
-    unk24 = 1.0f;
+    m_maxLinearVelocity = 20.0f;
+    m_maxLinearAcceleration = 625.0f;
+    m_gain = 1.0f;
     reinterpret_cast<::FUN_00c90510_class *>((unk0C))->FUN_00c90510();
 
     return this;

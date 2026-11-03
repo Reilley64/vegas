@@ -4,6 +4,7 @@
 
 #include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpEntity.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -201,36 +202,37 @@ struct Owner
     int unk2c;
     int unk30;
     int unk34;
-    void** m_38;
+    hkpEntity** m_38;
     int m_3c;
 };
 
+// The rigid body owning an entity's collidable, or null when the collidable's broad-phase handle is not an entity's.
+static hkpEntity* CollidableOwnerEntity(hkpEntity* entity)
+{
+    hkpLinkedCollidable* collidable = &entity->m_kCollidable;
+    if (collidable->m_kBroadPhaseHandle.m_type != 1)
+        return 0;
+    return reinterpret_cast<hkpEntity*>(reinterpret_cast<char*>(collidable) + collidable->m_iOwnerOffset);
+}
+
 // Computes relative orientation between two objects and applies it via a Callee, then adds a reference to a2.
 // @fnv 0x00e5b440
-void ApplyRelativeOrientation(Owner* a1, char* a2, const __m128* a3, int a4, int a5, int a6)
+void ApplyRelativeOrientation(Owner* a1, hkpEntity* a2, const __m128* a3, int a4, int a5, int a6)
 {
     Callee* pCallee = a1->m_0c;
-    char* e1;
-    char* e2;
-    {
-        char* p = (char*)a1->m_38[a1->m_3c - 1] + 0x10;
-        e1 = (*(unsigned char*)(p + 0x18) == 1) ? p + (signed char)p[0x10] : 0;
-    }
-    {
-        char* p = a2 + 0x10;
-        e2 = (*(unsigned char*)(p + 0x18) == 1) ? p + (signed char)p[0x10] : 0;
-    }
+    hkpEntity* e1 = CollidableOwnerEntity(a1->m_38[a1->m_3c - 1]);
+    hkpEntity* e2 = CollidableOwnerEntity(a2);
     // The two transformed points form one adjacent pair consumed by the callback.
     struct LocalPoints
     {
         FUN_00c7f690_cls first;
         FUN_00c7f690_cls second;
     } points;
-    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.first))->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(e1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
-    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.second))->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(e2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.first))->FUN_00c7f690((const ::S_00c7f690_M *)(&e1->m_pMotionState.m_kMotionState.m_kMotionTransform), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.second))->FUN_00c7f690((const ::S_00c7f690_M *)(&e2->m_pMotionState.m_kMotionState.m_kMotionTransform), (const ::S_00c7f690_V *)(a3));
     // Helper writes the quaternion at offset 0; original also stores arguments at 0x20/24/28.
     RelativeOrientationData relativeOrientation;
-    reinterpret_cast<::Quat74 *>(&(relativeOrientation))->FUN_00c74ac0((*(const ::Quat74 *)(e2 + 0x160)), (*(const ::Quat74 *)(e1 + 0x160)));
+    reinterpret_cast<::Quat74 *>(&(relativeOrientation))->FUN_00c74ac0((*(const ::Quat74 *)(&e2->m_pMotionState.m_kMotionState.m_kSweptTransform.m_qRotation1)), (*(const ::Quat74 *)(&e1->m_pMotionState.m_kMotionState.m_kSweptTransform.m_qRotation1)));
     relativeOrientation.argument4 = a4;
     relativeOrientation.argument5 = a5;
     relativeOrientation.argument6 = a6;

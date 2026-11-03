@@ -8,6 +8,7 @@
 #include <cstddef>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00d22590_Class.h"
+#include "havok/hkpCapsuleShape.h"
 #include "fnv/decl/HK_ASSERT_OBJECT_SIZE_OK_FUNC_t.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
@@ -60,13 +61,14 @@ struct Node;
 
 extern double DAT_010cf218;
 
+// The capsule shape FUN_00d22590 builds.
 struct Node
 {
-    int unk00;
-    short unk04;
-    short unk06;
-    int unk08;
-    int unk0c;
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    void* m_userData;
+    int m_type;
 };
 
 struct ExtendedRecord : FNVTypeRecord
@@ -173,8 +175,8 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
             FNVObject** slot;
             slot = slots[i];
             ExtendedRecord* record = (ExtendedRecord*)(*slot)->record;
-            Node* node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-            node->unk04 = 0x40;
+            Node* node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::hkpCapsuleShape)));
+            node->m_memSizeAndFlags = sizeof(::hkpCapsuleShape);
             float v = record->unk10;
             float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
             node = ((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)&record->m_vertexA), (*(const ::AlignedHKVector4 *)&record->m_vertexB), val)));
@@ -314,11 +316,11 @@ struct D40A10Shape
 
 struct D40A10Node
 {
-    int unk00;
-    short unk04;
-    short unk06;
-    int unk08;
-    int unk0c;
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    void* m_userData;
+    int m_type;
 public:
     D40A10Node* FUN_00d22590(float* p1, float* p2, float val);
 };
@@ -349,8 +351,8 @@ static __declspec(noinline) void FUN_00d40a10(int* a, FNVTypeRecord** apRecords,
         if (a[i] != 0)
         {
             D40A10Shape* shape = (D40A10Shape*)list[i]->record->unknown0;
-            D40A10Node* node = static_cast<D40A10Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-            node->unk04 = 0x40;
+            D40A10Node* node = static_cast<D40A10Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::hkpCapsuleShape)));
+            node->m_memSizeAndFlags = sizeof(::hkpCapsuleShape);
             float t = shape->unk10;
             float val = t + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0() + DAT_010cf218;
             D40A10Node* pResult = ((::D40A10Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)(&shape->unk20)), (*(const ::AlignedHKVector4 *)(&shape->unk30)), val)));
@@ -3956,8 +3958,8 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
 
                 Body** slot = refBodies[j];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                scalarScratch.node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-                scalarScratch.node->unk04 = 0x40;
+                scalarScratch.node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::hkpCapsuleShape)));
+                scalarScratch.node->m_memSizeAndFlags = sizeof(::hkpCapsuleShape);
                 float v = record->unk10;
                 float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
                 scalarScratch.node =
@@ -4085,8 +4087,8 @@ distant:
             {
                 Body** slot = bodies[k];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                Node* node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(64));
-                node->unk04 = 64;
+                Node* node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::hkpCapsuleShape)));
+                node->m_memSizeAndFlags = sizeof(::hkpCapsuleShape);
                 lateScratch.radius = record->unk10;
                 lateScratch.inflated = (float)(reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0() + lateScratch.radius + DAT_010cf218);
                 Shape* shape =

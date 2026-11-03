@@ -41,6 +41,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsmovablestatic.cpp
   src/fallout_shared/bgsmusictype.cpp
   src/fallout_shared/bgsnote.cpp
+  src/fallout_shared/bgsopencloseform.cpp
   src/fallout_shared/bgsperk.cpp
   src/fallout_shared/bgspickupputdownsounds.cpp
   src/fallout_shared/bgsplaceablewater.cpp
@@ -48,6 +49,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsprojectile.cpp
   src/fallout_shared/bgsquestobjective.cpp
   src/fallout_shared/bgsradiation.cpp
+  src/fallout_shared/bgsragdoll.cpp
   src/fallout_shared/bgsrepairitemlist.cpp
   src/fallout_shared/bgssceneinfo.cpp
   src/fallout_shared/bgssleepdeprevation.cpp
@@ -59,6 +61,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgstouchspellform.cpp
   src/fallout_shared/bgsvoicetype.cpp
   src/fallout_shared/bgsworldlocation.cpp
+  src/fallout_shared/bipedanim.cpp
   src/fallout_shared/bsanimgroupsequence.cpp
   src/fallout_shared/bsanimgroupsequence_h_unit.cpp
   src/fallout_shared/bsanimnotereceiver.cpp
@@ -222,6 +225,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/sky/atmosphere.cpp
   src/fallout_shared/sky/clouds.cpp
   src/fallout_shared/sky/precipitation.cpp
+  src/fallout_shared/sky/sky.cpp
   src/fallout_shared/sky/sky_h_unit.cpp
   src/fallout_shared/sky/skyobject.cpp
   src/fallout_shared/sky/skytexturemanager.cpp
@@ -234,10 +238,12 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tempeffects/bstempeffect.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris_copies_026.cpp
+  src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp
   src/fallout_shared/tempeffects/bstempeffectparticle.cpp
   src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp
   src/fallout_shared/tes.cpp
   src/fallout_shared/tesactorbase.cpp
+  src/fallout_shared/tesactorbasedata.cpp
   src/fallout_shared/tesaiform.cpp
   src/fallout_shared/tesammo.cpp
   src/fallout_shared/tesammoeffect.cpp
@@ -253,6 +259,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tescombatstyle.cpp
   src/fallout_shared/tescombatstyle_h_unit.cpp
   src/fallout_shared/tescondition.cpp
+  src/fallout_shared/tesconditionfunctions.cpp
   src/fallout_shared/tesconditionitem.cpp
   src/fallout_shared/tescontainer.cpp
   src/fallout_shared/tescreature.cpp
@@ -266,6 +273,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesfaction.cpp
   src/fallout_shared/tesfile.cpp
   src/fallout_shared/tesflora.cpp
+  src/fallout_shared/tesform.cpp
   src/fallout_shared/tesfullname.cpp
   src/fallout_shared/tesfurniture.cpp
   src/fallout_shared/tesglobal.cpp
@@ -294,6 +302,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesmodeltextureswap.cpp
   src/fallout_shared/tesnpc.cpp
   src/fallout_shared/tesnpc_h_unit.cpp
+  src/fallout_shared/tesobject.cpp
   src/fallout_shared/tesobjectacti.cpp
   src/fallout_shared/tesobjectanio.cpp
   src/fallout_shared/tesobjectarma.cpp
@@ -318,6 +327,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesreactionform.cpp
   src/fallout_shared/tesrecipe.cpp
   src/fallout_shared/tesresponse.cpp
+  src/fallout_shared/tessaveloadgame.cpp
   src/fallout_shared/tesscript.cpp
   src/fallout_shared/tesscriptableform.cpp
   src/fallout_shared/tesscriptcompiler.cpp
@@ -331,6 +341,8 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesspelllist.cpp
   src/fallout_shared/testerrainlodmanager.cpp
   src/fallout_shared/testexture.cpp
+  src/fallout_shared/testopic.cpp
+  src/fallout_shared/testopicinfo.cpp
   src/fallout_shared/tesvalueform.cpp
   src/fallout_shared/tesweather.cpp
   src/fallout_shared/tesweatherlist.cpp
@@ -347,25 +359,13 @@ set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES
 # Units that still keep pointers in 32-bit integers build without the narrowing errors until they are clean.
 set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/animation.cpp
-  src/fallout_shared/bgsopencloseform.cpp
-  src/fallout_shared/bgsragdoll.cpp
-  src/fallout_shared/bipedanim.cpp
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/inventorychanges.cpp
   src/fallout_shared/modelloader.cpp
   src/fallout_shared/sky/moon.cpp
-  src/fallout_shared/sky/sky.cpp
   src/fallout_shared/sky/sun.cpp
-  src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp
-  src/fallout_shared/tesactorbasedata.cpp
-  src/fallout_shared/tesconditionfunctions.cpp
-  src/fallout_shared/tesform.cpp
-  src/fallout_shared/tesobject.cpp
   src/fallout_shared/tesobjectcell.cpp
   src/fallout_shared/tesobjectrefr.cpp
-  src/fallout_shared/tessaveloadgame.cpp
-  src/fallout_shared/testopic.cpp
-  src/fallout_shared/testopicinfo.cpp
   src/fallout_shared/teswater.cpp
   src/fallout_shared/teswaterform.cpp
 )

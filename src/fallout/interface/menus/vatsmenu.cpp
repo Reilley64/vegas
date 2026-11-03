@@ -1591,6 +1591,9 @@ struct QueueX
 };
 struct VATSX
 {
+    void* targetsItem;
+    void* targetsNext;
+    unsigned int mode;
 };
 
 struct InputX
@@ -3199,8 +3202,9 @@ struct TargetList85
 };
 struct Mode85
 {
-    char pad[8];
-    int unk08;
+    void* targetsItem;
+    void* targetsNext;
+    int mode;
     int FUN_0044ddc0();
 };
 struct Menu85
@@ -3295,7 +3299,7 @@ void UpdateVatsTargetHighlight(bool force)
     if (((Menu85*)DAT_011db0d4))
     {
         TargetList85* target13 = ((Menu85*)DAT_011db0d4)->FindListEntryForTarget(((Actor85*)::DAT_011f21cc));
-        if (force || (((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->unk08)) == 2 &&
+        if (force || (((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->mode)) == 2 &&
                       (((Menu85*)DAT_011db0d4)->FUN_007f3bf0(::VATSCreateDAT_011a0b70) !=
                            ((Menu85*)DAT_011db0d4)->FUN_007f3bf0(((Menu85*)DAT_011db0d4)->current->part) ||
                        DAT_011db0d0 != ((Actor85*)::DAT_011f21cc))))
@@ -3316,9 +3320,9 @@ void UpdateVatsTargetHighlight(bool force)
                              !weapon6 || ::FUN_006450c0((::TESObjectWEAP *)(weapon6))))
             {
                 if (force ||
-                    (((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->unk08)) == 2 && DAT_011db0d0 != ((Actor85*)::DAT_011f21cc)))
+                    (((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->mode)) == 2 && DAT_011db0d0 != ((Actor85*)::DAT_011f21cc)))
                 {
-                    if (((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->unk08)) == 3)
+                    if (((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->mode)) == 3)
                         reinterpret_cast<::Target *>((FUN_00705910()))->FUN_00800ac0((::TargetActor *)((*target13->FUN_006815c0())->actor),
                                                      ((Menu85*)DAT_011db0d4)->current->part, 1);
                     else
@@ -3329,7 +3333,7 @@ void UpdateVatsTargetHighlight(bool force)
             }
             else if (actor4 && ((::fnv_007ec3a0::Process85 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor4))->GetBaseTexture())))
             {
-                if (!((Menu85*)DAT_011db0d4)->current->flag && ((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->unk08)) == 3)
+                if (!((Menu85*)DAT_011db0d4)->current->flag && ((std::intptr_t)(((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))->mode)) == 3)
                     reinterpret_cast<::Target *>((FUN_00705910()))->FUN_00800ac0((::TargetActor *)(::fnv_007ec3a0::Actor85 *)(((Actor85*)::DAT_011f21cc)), ((Menu85*)DAT_011db0d4)->current->part, 1);
                 else
                     reinterpret_cast<::Target *>((FUN_00705910()))->FUN_00800ac0((::TargetActor *)(::fnv_007ec3a0::Actor85 *)(((Actor85*)::DAT_011f21cc)), ((Menu85*)DAT_011db0d4)->current->part, 0);
@@ -8354,7 +8358,7 @@ void VATSMenuX::Update()
         ::ShutdownVats();
         return;
     }
-    if (!(*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4)) || !((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) || ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 4 || !xFUN_00702450(0x420))
+    if (!(*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4)) || !((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) || ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 4 || !xFUN_00702450(0x420))
     {
         if (!xFUN_00702450(0x420) && xDAT_011a0b68)
         {
@@ -8383,7 +8387,7 @@ void VATSMenuX::Update()
     InputX* pInputA = ((::InputX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OSGlobalsX * *>(&::g_osGlobals))))->FUN_00877720()));
     if (::FUN_004b71d0())
     {
-        int iDeadZoneCur = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 ? 0x1ea9 : 0x21f1;
+        int iDeadZoneCur = ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 1 ? 0x1ea9 : 0x21f1;
         int iLeftXTwo54 = reinterpret_cast<::FUN_00a23390_t *>((pInputA))->GetAxisState(0, 7);
         int iLeftYZ = reinterpret_cast<::FUN_00a23390_t *>((pInputA))->GetAxisState(0, 8);
         int iRightXNum = reinterpret_cast<::FUN_00a23390_t *>((pInputA))->GetAxisState(0, 9);
@@ -8502,9 +8506,9 @@ void VATSMenuX::Update()
     int iKeyTwo = iRawB >> 16;
     int iMidRes = (iRawB & 0xff00) >> 8;
     int iLowTwo = iRawB & 0xff;
-    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 4)
+    if (((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) != 4)
     {
-        if (reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 1) && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 1)
+        if (reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 1) && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) != 1)
         {
             if (!::FUN_004b71d0() || (iLowTwo != 10 && iLowTwo != 11 && iLowTwo != 0x11))
             {
@@ -8512,7 +8516,7 @@ void VATSMenuX::Update()
                 m_bStateFlag2 = 0;
             }
         }
-        else if (!reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 0) && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1)
+        else if (!reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 0) && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 1)
         {
             reinterpret_cast<::NiPoint3Interpolator *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->CreateObject(2, 0);
             m_bStateFlag2 = 1;
@@ -8525,7 +8529,7 @@ void VATSMenuX::Update()
         if ((!::FUN_004b71d0() && !m_bAdditionalStateFlag) ||
             (::FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(10, 1) == 1))
         {
-            if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
+            if (((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 2 && m_bFirstFlag)
             {
                 UpdateQueueEntry(0, 0, 0);
                 (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->m_fHitChance = (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->FUN_007f48e0();
@@ -8541,7 +8545,7 @@ void VATSMenuX::Update()
     WeaponX* pWeaponOld = pEquippedNew ? ((::WeaponX *)(reinterpret_cast<::InventoryEntryFields *>((pEquippedNew))->m_pItemObject)) : 0;
     bool bHasModsM = pWeaponOld ? reinterpret_cast<::FUN_00474a80_Class *>(&(pWeaponOld->kMods))->FUN_00474a80() : 0;
     FUN_007f3070();
-    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 4)
+    if (((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) != 4)
     {
         ::DAT_011dea34 = 0;
         reinterpret_cast<::fnv_00964260::SelActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_00964260();
@@ -8561,7 +8565,7 @@ void VATSMenuX::Update()
         static int s_iSafeHeight = ::fnv_00717820::FUN_00717820();
         if ((reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x12, 0) && iKeyTwo != 0x12) ||
             (::FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(9, 1) == 2 &&
-             ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize() > 0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2))
+             ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize() > 0 && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 2))
         {
             xFUN_00705780();
             return;
@@ -8665,8 +8669,8 @@ void VATSMenuX::Update()
                 bool bBusy = !::FUN_004b71d0() && ::FUN_007f6af0((::Owner007f6af0 *)this);
                 if (!bBusy && m_pTargetChance->fHitChance > 0)
                 {
-                    if ((::FUN_004b71d0() && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2) ||
-                        (!::FUN_004b71d0() && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 &&
+                    if ((::FUN_004b71d0() && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 2) ||
+                        (!::FUN_004b71d0() && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 2 &&
                          (!m_bAdditionalStateFlag || iModeNum76 != 1)))
                     {
                         int iActionZ = ::FUN_0066dba0(pWeaponOld ? pWeaponOld->GetWeaponType() : 0);
@@ -8860,7 +8864,7 @@ void VATSMenuX::Update()
                             UpdateHitChanceDisplay();
                         }
                         else if (FindEntryForRef() && (int)(((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(FindEntryForRef())->m_item))->fHitChance * 100.0) <= 0 &&
-                                 ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
+                                 ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 2 && m_bFirstFlag)
                         {
                             BSSoundHandleX kSoundIn;
                             reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleX &)(kSoundIn))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleX &)(((::AudioX *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIVATSEnterFail", 0x121))));
@@ -8884,13 +8888,13 @@ void VATSMenuX::Update()
                         }
                         (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->m_fHitChance = (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->FUN_007f48e0();
                     }
-                    else if (!::FUN_004b71d0() && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 &&
+                    else if (!::FUN_004b71d0() && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 1 &&
                              !m_bAdditionalStateFlag)
                     {
                         ::FUN_007f6af0((::Owner007f6af0 *)this);
                     }
                 }
-                else if (!bBusy && m_pTargetChance->bCrippled && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
+                else if (!bBusy && m_pTargetChance->bCrippled && ((std::intptr_t)((*reinterpret_cast<::VATSX *>(&::g_011f2250)).mode)) == 2 && m_bFirstFlag)
                 {
                     AudioMgrX* pAudioMgrK = ((::AudioMgrX *)(::FUN_00ad9060()));
                     BSSoundHandleX kSoundIn;

@@ -119,7 +119,7 @@ void FUN_00c7a410(S_c7a410_Obj* obj, char* apBuffer)
             S_c7a410_A b;
             reinterpret_cast<::FUN_00827200_class *>(&(b))->FUN_00cb26e0((intptr_t)((char*)p + 0x60));
             S_c7a410_C c;
-            ::fnv_00c66320::FUN_00c66320((__m128 *)&(c), (void *)(apBuffer + 0x10 + iIndex * 0x30), (const __m128 *)(::S_c7a410_A *)(&a), {});
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(c), nullptr, (const ::fnv_00c66320::__m128 *)(apBuffer + 0x10 + iIndex * 0x30), (const ::fnv_00c66320::__m128 *)(::S_c7a410_A *)(&a));
             S_c7a410_D d;
             reinterpret_cast<::QuatResult *>(&(d))->FUN_00c74b70((const float *)(::S_c7a410_A *)(&b), (const float *)(::S_c7a410_C *)(&c));
             S_c7a410_Vec v;

@@ -2,6 +2,7 @@
 // src/fallout_shared/tesland_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesland.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -478,7 +479,7 @@ FUN_00537e30_cls* FUN_00537e30_cls::FUN_00537e30()
 }
 
 // @fnv 0x00537e90
-void FUN_00537e90::SetQuantity(unsigned int value)
+void FUN_00537e90::SetQuantity(uintptr_t value)
 {
     quantity = value;
 }

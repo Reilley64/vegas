@@ -2260,7 +2260,7 @@ public:
 
 // Scans m_pEntries for the first entry whose masked m_ptr matches a1 via CompareStringsCaseInsensitive and returns its index, or -1 if none match.
 // @fnv 0x00e5c490
-int FUN_00e5c490_cls::FindEntryIndex(unsigned int a1)
+int FUN_00e5c490_cls::FindEntryIndex(uintptr_t a1)
 {
     for (int i = 0; i < m_uiItemCount; i++)
     {

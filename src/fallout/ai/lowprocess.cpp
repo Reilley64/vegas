@@ -1,5 +1,6 @@
 // fallout/ai/lowprocess.cpp: LowProcess, ActorX, DelStandIn, LowProcessProxy and more (123 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor467.h"
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
@@ -282,7 +283,7 @@ void LowProcess::SetPackageObjectType(int aiValue)
     m_iValue58 = aiValue;
 }
 // @fnv 0x006286d0
-int LowProcess::GetPackageObjectType()
+intptr_t LowProcess::GetPackageObjectType()
 {
     return m_iValue58;
 }

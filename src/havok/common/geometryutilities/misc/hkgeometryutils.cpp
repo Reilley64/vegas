@@ -1,3 +1,4 @@
+#include <new>
 #include <cstdint>
 #include <xmmintrin.h>
 #include <math.h>

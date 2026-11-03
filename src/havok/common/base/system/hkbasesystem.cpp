@@ -46,10 +46,10 @@ int __cdecl ShutdownIfInitialized()
             (*reinterpret_cast<unsigned char *>(&::DAT_01268a44)) = 0;
         }
         if ((*reinterpret_cast<int *>(&::DAT_01268360)))
-            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268360)))))->ReleaseReference();
+            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))))->ReleaseReference();
         (*reinterpret_cast<int *>(&::DAT_01268360)) = 0;
         if ((*reinterpret_cast<int *>(&::DAT_01268364)))
-            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268364)))))->ReleaseReference();
+            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268364)))))->ReleaseReference();
         (*reinterpret_cast<int *>(&::DAT_01268364)) = 0;
         FUN_00cbb990();
         DAT_01268414 = 0;
@@ -513,7 +513,7 @@ int __cdecl FUN_00cbbb10(intptr_t a1, unsigned int auParam1, unsigned int auPara
     obj8->m_vtbl = &DAT_010c8eb8;
     if ((*reinterpret_cast<int *>(&::DAT_01268364)) != 0)
     {
-        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268364)))))->ReleaseReference();
+        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268364)))))->ReleaseReference();
     }
     (*reinterpret_cast<int *>(&::DAT_01268364)) = (intptr_t)obj8;
 
@@ -523,7 +523,7 @@ int __cdecl FUN_00cbbb10(intptr_t a1, unsigned int auParam1, unsigned int auPara
     obj28 = ((::fnv_00cbbb10::SpawnedObject28 *)(reinterpret_cast<::D2B640Object *>((obj28))->Initialize(auParam1, auParam2)));
     if ((*reinterpret_cast<int *>(&::DAT_01268360)) != 0)
     {
-        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268360)))))->ReleaseReference();
+        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))))->ReleaseReference();
     }
     (*reinterpret_cast<int *>(&::DAT_01268360)) = (intptr_t)obj28;
     ::FUN_00cbb9f0();

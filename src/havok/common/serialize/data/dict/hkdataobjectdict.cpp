@@ -9081,7 +9081,7 @@ void DCAAOwner::FUN_00dcaaf0(void* volatile key, DCAAObject* object)
 // @fnv 0x00dc7dc0
 void FUN_00dc7dc0_StandIn::FUN_00dc7dc0(intptr_t piA, intptr_t piB)
 {
-    reinterpret_cast<::DCAB_Owner *>((((FUN_00dcab50_StandIn*)*(int**)((char*)this + 8))))->FUN_00dcab50((::DCAB_Object *)(*(int*)piA), (const char *)(*(int*)piB));
+    reinterpret_cast<::DCAB_Owner *>((((FUN_00dcab50_StandIn*)*(int**)((char*)this + 8))))->FUN_00dcab50((::DCAB_Object *)(*(intptr_t*)piA), (const char *)(*(intptr_t*)piB));
 }
 // Finds the entry for object in m_map by its current name and, if found, removes it and re-inserts it under newName.
 // @fnv 0x00dcab50

@@ -1414,7 +1414,7 @@ void FnvCpu_FUN_00dba8d0_CpuOwner::FUN_00dba8d0(int arg0)
 // [vftable-4]), so the virtual at vtable offset 0x20 is the NINTH one: eight
 // dummies plus the real one.
 //
-// The tail-jump target register follows the callee's stack arguments: a
+// The tail-jump target follows the callee's stack arguments: a
 // virtual call with NO stack argument gets its target in EDX (jmp edx), a
 // call with one 4-byte stack argument forwarded in place gets it in EAX
 // (jmp eax) - which is what the original does.  The virtual therefore takes
@@ -2701,7 +2701,7 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
             intptr_t unk0c = item->m_unk0c;
             if (unk0c == -1)
             {
-                reinterpret_cast<::hkObjDC88 *>((self))->ReleaseRef((*(struct struct ::FUN_00dba660 *)(&hMain)));
+                reinterpret_cast<::hkObjDC88 *>((self))->ReleaseRef((*(struct ::FUN_00dba660 *)(&hMain)));
             }
             else if (item->m_unk08 != -1 && item->m_unk08 != unk0c)
             {

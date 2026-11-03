@@ -445,7 +445,7 @@ struct hkTransform
         hkVector4 shift;
         shift.SetRotatedDirection(a.m_rotation, b.m_vTranslation);
         m_vTranslation.setAdd4(a.m_vTranslation, shift);
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const __m128 *)&(b.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), nullptr, (const ::fnv_00c66320::__m128 *)&(a.m_rotation), (const ::fnv_00c66320::__m128 *)&(b.m_rotation));
         m_vScale.setMul4(a.m_vScale, b.m_vScale);
     }
     __forceinline void SetMulInverse(const hkTransform& a, const hkTransform& b)

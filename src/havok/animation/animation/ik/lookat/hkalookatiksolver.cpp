@@ -530,7 +530,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::FUN_00ce0290(const Setup& setup, cons
 
         {
             S00ce0290_hkQuaternion newRotation;
-            ::fnv_00c66320::FUN_00c66320((__m128 *)&(newRotation), (void *)&(q), (const __m128 *)&(boneModelSpaceInOut.getRotation()), {});
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(newRotation), nullptr, (const ::fnv_00c66320::__m128 *)&(q), (const ::fnv_00c66320::__m128 *)&(boneModelSpaceInOut.getRotation()));
             boneModelSpaceInOut.m_rotation = newRotation;
         }
     }

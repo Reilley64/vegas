@@ -1,3 +1,4 @@
+#include <new>
 #include <cstdint>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb18f0_t.h"

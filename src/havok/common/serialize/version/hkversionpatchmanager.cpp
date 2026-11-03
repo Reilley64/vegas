@@ -386,7 +386,7 @@ int __cdecl FUN_00db7cb0(int* values)
 // NOTE: FUN_00db7d60 is only DECLARED in the original translation unit, but
 // the original code keeps the "key" value in EDX across the call to it (the
 // original callee happens to leave the key in EDX).  To make MSVC 2008 pick
-// the same register the helper is given a stand-in body that does not touch
+// the same the helper is given a stand-in body that does not touch
 // EDX and is marked __declspec(noinline) so that the call is not inlined.
 
 struct Entry_t
@@ -1444,7 +1444,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                 }
                 if (ce->m_08 == -1)
                 {
-                    reinterpret_cast<::hkObjDC88 *>(&(world))->ReleaseRef((*(struct struct ::FUN_00dba660 *)(&oStr)));
+                    reinterpret_cast<::hkObjDC88 *>(&(world))->ReleaseRef((*(struct ::FUN_00dba660 *)(&oStr)));
                 }
                 else
                 {

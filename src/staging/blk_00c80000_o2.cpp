@@ -532,7 +532,7 @@ extern int DAT_0126820c;
 extern void(* DAT_0126820c_enter)(int*);
 extern void(* DAT_0126820c_leave)(int*);
 // @fnv 0x00c9eba0
-void ScriptX::InvokeInterfaceCall(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void ScriptX::InvokeInterfaceCall(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, int aiArg4)
 {
     if (this)
     {

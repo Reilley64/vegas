@@ -2,6 +2,7 @@
 // src/havok/animation/animation/mapper/hkaskeletonmapper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/AttributeFormatter.h"
@@ -127,7 +128,7 @@ void ValidateRagdollMapping(hkaSkeletonMapperData* apMapperData)
                     hkOstream str;
                     new ((void *)&(str)) ::FUN_00cb1600(buf, sizeof(buf));
                     reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::FloatArgStream *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::AttributeFormatter *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstream *)(reinterpret_cast<::AttributeFormatter *>(&((*(::hkOstream *)(reinterpret_cast<::SinkOwner *>(&(str))->FUN_00cc01c0("Bones A:")))))->WriteName((::NameReference *)&(boneA.m_name))))))->FUN_00cc01c0(" and B:")))))->WriteName((::NameReference *)&(boneB.m_name))))))->FUN_00cc01c0(" are not fully aligned (error :")))))->WriteFloat(len)))))->FUN_00cc01c0(").");
-                    ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))
+                    ((hkError*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))
                         ->message(1, 0xabbaefbf, (char*)buf, ".\\Mapper\\hkaSkeletonMapper.cpp", 499);
                     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(str))->FUN_00cc00e0::~FUN_00cc00e0();
                 }
@@ -149,7 +150,7 @@ void ValidateRagdollMapping(hkaSkeletonMapperData* apMapperData)
         new ((void *)&(str)) ::FUN_00cb1600(buf, sizeof(buf));
         reinterpret_cast<::SinkOwner *>(&(str))->FUN_00cc01c0(
             "None of the bones in skeleton have translations locked - did you forget to lock translations ?.");
-        ((hkError*)(*reinterpret_cast<int *>(&::DAT_01268360)))->message(1, 0xabba77a5, (char*)buf, ".\\Mapper\\hkaSkeletonMapper.cpp", 521);
+        ((hkError*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))->message(1, 0xabba77a5, (char*)buf, ".\\Mapper\\hkaSkeletonMapper.cpp", 521);
         reinterpret_cast<struct ::FUN_00cc00e0 *>(&(str))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 }

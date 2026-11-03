@@ -431,7 +431,7 @@ __declspec(noinline) void FUN_00d58590(CylinderMeshBuilder* self)
                 _ReadWriteBarrier();
                 Quaternion& previous = axisWork.previous;
                 previous = rotation;
-                ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)&(previous), (const __m128 *)&(delta), {});
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), nullptr, (const ::fnv_00c66320::__m128 *)&(previous), (const ::fnv_00c66320::__m128 *)&(delta));
                 ++a;
             } while (a < sectors);
         }

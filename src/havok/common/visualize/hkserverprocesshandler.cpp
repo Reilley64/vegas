@@ -195,7 +195,7 @@ struct FUN_00dd9270_Class
 // @fnv 0x00d61240
 void __cdecl FUN_00d61240()
 {
-    reinterpret_cast<::FUN_00dd9270_cls *>((((FUN_00dd9270_Class*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FindEntry({});
+    reinterpret_cast<::FUN_00dd9270_cls *>((((FUN_00dd9270_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))))->FindEntry({});
 }
 
 struct FUN_00d61260_Class
@@ -292,7 +292,7 @@ struct hkObjD60D
 // @fnv 0x00d60d80
 int hkObjD60D::VisitEntryNames()
 {
-    hkEntryArrayD60D& entries = reinterpret_cast<hkRegistryD60D*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))->m_entries;
+    hkEntryArrayD60D& entries = reinterpret_cast<hkRegistryD60D*>((*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))->m_entries;
     for (int i = 0; i < entries.m_iElementCount; i++)
         m_visitor.v04((const char*)(entries.m_data[i].m_name & ~1u), i);
     return 0;
@@ -526,7 +526,7 @@ struct FUN_00dd9240_Class
 // @fnv 0x00d61250
 void __cdecl FUN_00d61250()
 {
-    reinterpret_cast<::FUN_00dd9240_cls *>((((FUN_00dd9240_Class*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9240({});
+    reinterpret_cast<::FUN_00dd9240_cls *>((((FUN_00dd9240_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))))->FUN_00dd9240({});
 }
 
 namespace fnv_00dd9cc0 {
@@ -717,7 +717,7 @@ int OwnerD60E::FUN_00d60e80(int aiSoundId)
 {
     if (reinterpret_cast<::FUN_00d60d40_Class *>(this)->FUN_00d60d40(aiSoundId) >= 0)
         return 0;
-    EntryD60E* pkEntry = ((::EntryD60E *)(reinterpret_cast<::FUN_00dd92f0_cls *>((((EntryFactoryD60E*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->InvokeRecord(aiSoundId, (intptr_t)(&m_unk44))));
+    EntryD60E* pkEntry = ((::EntryD60E *)(reinterpret_cast<::FUN_00dd92f0_cls *>((((EntryFactoryD60E*)(*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))))->InvokeRecord(aiSoundId, (intptr_t)(&m_unk44))));
     if (pkEntry)
     {
         EntryD60E* const receiver = pkEntry;

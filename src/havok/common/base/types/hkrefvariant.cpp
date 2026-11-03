@@ -66,7 +66,7 @@ extern "C" int stub_a(void);
 extern "C" int stub_b(void);
 extern "C" int stub_c(void);
 
-// FUN_00d48560 is reached by the game with a private register convention:
+// FUN_00d48560 is reached by the game with a private convention:
 // the enable flag arrives in eax, the extra word in edx, the value on the
 // stack. The trailing stub_caller exists only so VC9 negotiates that
 // convention for the out-of-line body above.

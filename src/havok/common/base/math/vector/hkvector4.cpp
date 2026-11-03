@@ -8,7 +8,7 @@
 // array.  It forwards to a file-static helper FUN_00c7f4a0(out, self, count).
 //
 // MSVC 2008 gives an internal-linkage (file-static) helper its own internal
-// "register argument" convention: instead of pushing the arguments on the
+// "argument" convention: instead of pushing the arguments on the
 // stack they are passed in registers.  With the helper declared as
 //     static void* FUN_00c7f4a0(void* out, void* self, int count)
 // MSVC 2008 assigns  out->EAX, self->ESI, count->EDX  and the call site

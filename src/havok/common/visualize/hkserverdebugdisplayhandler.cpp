@@ -207,7 +207,7 @@ static __declspec(noinline) int FUN_00dd9d70(const DD9D70StringArray& strings)
     return size;
 }
 
-// Caller so the file-static helper is emitted with its register calling convention.
+// Caller so the file-static helper is emitted with its calling convention.
 int DD9D70ComputeSize(const DD9D70StringArray* a, const DD9D70StringArray* b)
 {
     return FUN_00dd9d70(*a) + FUN_00dd9d70(*b);

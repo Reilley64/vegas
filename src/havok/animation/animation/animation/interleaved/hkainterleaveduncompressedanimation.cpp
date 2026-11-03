@@ -580,7 +580,7 @@ class hkQsTransformE40
         hkVector4E40 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), nullptr, (const ::fnv_00c66320::__m128 *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation));
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };

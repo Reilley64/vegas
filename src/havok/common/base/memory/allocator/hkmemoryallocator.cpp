@@ -124,7 +124,7 @@ extern int DAT_010c3b30;
 
 struct FUN_00cbf1a0_cls
 {
-    int m_vptr00;
+    void* m_vptr00;
 
     void FUN_00cbf1a0();
 };
@@ -132,7 +132,7 @@ struct FUN_00cbf1a0_cls
 // @fnv 0x00cbf1a0
 void FUN_00cbf1a0_cls::FUN_00cbf1a0()
 {
-    m_vptr00 = (int)&DAT_010c3b30;
+    m_vptr00 = &DAT_010c3b30;
 }
 
 struct BhkTarget

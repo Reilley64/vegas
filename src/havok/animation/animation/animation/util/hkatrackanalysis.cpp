@@ -923,7 +923,7 @@ class TrackTransform
     {
         translation.accumulate(weight, other.translation);
         scale.accumulate(weight, other.scale);
-        const TrackScalar signedWeight = rotation.vector.dot4(other.rotation.vector) < 0.0f ? -weight : weight;
+        const TrackScalar signedWeight = rotation.vector.dot4(other.rotation.vector) < 0.0f ? TrackScalar(-weight) : weight;
         rotation.vector.accumulate(signedWeight, other.rotation.vector);
     }
     __forceinline void finish(const TrackScalar& total)

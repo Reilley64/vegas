@@ -629,7 +629,7 @@ int* FUN_00d46fe0_Class::FUN_00d46fe0(const int* name)
     for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00d46f00_s *>(this)->FUN_00d46f00())); i++)
     {
         int* m = ((int *)(reinterpret_cast<::HkClassNode *>(this)->FUN_00d46f20(i)));
-        if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(m[0]), (const char *)((intptr_t)name)) == 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(*(const char* const*)m, (const char *)((intptr_t)name)) == 0)
             return m;
     }
     return 0;

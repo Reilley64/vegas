@@ -148,7 +148,7 @@ static int FUN_00e03100(Obj* apObj) {
 }
 
 // The internal-linkage function above is only called from here, so that the
-// compiler keeps it (and gives it the register argument convention).
+// compiler keeps it (and gives it the argument convention).
 int keep_alive(Obj* p) {
     int r = reinterpret_cast<::OwnerD869 *>((p))->FUN_00d86940();
     return FUN_00e03100(p) + r;
@@ -333,7 +333,7 @@ int FUN_00e04920_cls::FUN_00e04920(uintptr_t a1, uintptr_t a2,
     return success;
 }
 
-// FUN_00e03360: module-local helper (custom register convention: n in EAX, obj in EDI).
+// FUN_00e03360: module-local helper (custom convention: n in EAX, obj in EDI).
 // lets the object fill it, then frees it.
 
 struct HeapAlloc

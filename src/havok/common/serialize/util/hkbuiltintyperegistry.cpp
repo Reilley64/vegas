@@ -129,7 +129,7 @@ void FUN_00d47ad0_class::ProcessRegistryEntries(FUN_00d874b0_class* reg)
     while (flag)
     {
         intptr_t val = ((FUN_00d87440_Class*)reg)->FUN_00d87440(key);
-        (*(void(**)(void*, int, int))(*(int*)this + 0x1c))(this, val, 0);
+        (*(void(**)(void*, int, int))(*(intptr_t*)this + 0x1c))(this, val, 0);
         key = ((SlotBitmap*)reg)->FindNextUsedSlot(key);
         reg->SetBoolFromThreshold(&flag, key);
     }

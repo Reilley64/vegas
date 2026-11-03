@@ -395,9 +395,9 @@ struct Both
 static __forceinline void ThreeDots(const V& first, const V& firstWeight, const V& second, const V& secondWeight,
                                     const V& third, const V& thirdWeight, V& out)
 {
-    register __m128 products0 = _mm_mul_ps(first.q, firstWeight.q);
-    register __m128 products1 = _mm_mul_ps(second.q, secondWeight.q);
-    register __m128 products2 = _mm_mul_ps(third.q, thirdWeight.q);
+    __m128 products0 = _mm_mul_ps(first.q, firstWeight.q);
+    __m128 products1 = _mm_mul_ps(second.q, secondWeight.q);
+    __m128 products2 = _mm_mul_ps(third.q, thirdWeight.q);
     __m128 lower = _mm_unpacklo_ps(products0, products1);
     __m128 upper = _mm_shuffle_ps(_mm_unpackhi_ps(products0, products1), products2, 0xe4);
     products0 = _mm_movelh_ps(lower, products2);

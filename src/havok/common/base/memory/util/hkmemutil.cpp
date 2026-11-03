@@ -123,7 +123,7 @@ struct D2CAC0Elem
     unsigned int hi;
 };
 
-// static: VC9 /O2 gives it a register convention (src in ecx, dst in edx, nbytes in eax)
+// static: VC9 /O2 gives it a convention (src in ecx, dst in edx, nbytes in eax)
 // Copies nbytes/sizeof(D2CAC0Elem) elements from src to dst in reverse order, decrementing nbytes by one element per iteration.
 // @fnv 0x00d2cac0
 static void __declspec(noinline)

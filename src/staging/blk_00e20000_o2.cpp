@@ -2576,7 +2576,7 @@ void* FUN_00e3f340_Class::GetEntryByArg(int arg)
 
 // Scans m_pEntries for the first entry whose masked key matches arg via CompareStringsCaseInsensitive, returning its index or -1.
 // @fnv 0x00e3f230
-int FUN_00e3f230_cls::FindEntryByKey(int arg)
+int FUN_00e3f230_cls::FindEntryByKey(intptr_t arg)
 {
     int i = 0;
     if (m_uiItemCount > 0)

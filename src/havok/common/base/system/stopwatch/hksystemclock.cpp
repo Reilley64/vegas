@@ -28,7 +28,7 @@ unsigned __int64 Obj::FUN_00dd8e20()
     {
         long long t1 = this->GetCounter();
         __int64 q1;
-        QueryPerformanceCounter(&q1);
+        QueryPerformanceCounter((LARGE_INTEGER*)&q1);
         volatile int busy = 1;
         for (int i = 0x1388; i != 0; --i)
         {
@@ -36,8 +36,8 @@ unsigned __int64 Obj::FUN_00dd8e20()
         }
         long long t2 = this->GetCounter();
         __int64 q2;
-        QueryPerformanceCounter(&q2);
-        QueryPerformanceFrequency((__int64*)&g_freq);
+        QueryPerformanceCounter((LARGE_INTEGER*)&q2);
+        QueryPerformanceFrequency((LARGE_INTEGER*)&g_freq);
 
         unsigned __int64 num = (unsigned __int64)(t2 - t1);
         unsigned __int64 den = (unsigned __int64)(q2 - q1);

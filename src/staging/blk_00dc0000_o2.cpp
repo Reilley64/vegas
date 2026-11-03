@@ -1237,7 +1237,7 @@ void SpawnedObject::FUN_00dd7f10()
 
 // Sets the vtable, stores value in m_98, then calls FUN_00dd7f10 to reset the remaining fields and returns this.
 // @fnv 0x00dd8d40
-SpawnedObject* SpawnedObject::Construct(int value)
+SpawnedObject* SpawnedObject::Construct(intptr_t value)
 {
     m_vptr = &DAT_010d7c34;
     m_04 = 0;
@@ -2996,7 +2996,7 @@ class FUN_00dd92f0_cls
 
 // Locks m_pCrit, calls the function pointer in the Record at m_pRecords[index] with arg, unlocks, and returns the result.
 // @fnv 0x00dd92f0
-int FUN_00dd92f0_cls::InvokeRecord(int index, int arg)
+intptr_t FUN_00dd92f0_cls::InvokeRecord(int index, intptr_t arg)
 {
     CRITICAL_SECTION* crit = this->m_pCrit;
     EnterCriticalSection(crit);

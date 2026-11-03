@@ -300,7 +300,7 @@ int FUN_00dda850(intptr_t param)
     switch (*(int*)(param + 0x50))
     {
     case 6:
-        result = ((int)(::FUN_00dda830((const unsigned int *)(*(int*)(param + 8)))));
+        result = ((int)(::FUN_00dda830((const unsigned int *)(*(intptr_t*)(param + 8)))));
         return result + 0x1d;
     case 1:
     case 5:

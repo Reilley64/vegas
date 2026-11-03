@@ -139,7 +139,7 @@ static __declspec(noinline) void FUN_00e625c0(const Matrix* matrix, Shape* shape
     }
 }
 // An ordinary caller keeps this internal helper present and lets the compiler
-// assign its internal register ABI. It forwards genuine function arguments.
+// assign its internal ABI. It forwards genuine function arguments.
 void ProjectShapes(const Matrix* matrix, Shape* shape, Shape* other, const Vec* normal, Result* result)
 {
     FUN_00e625c0(matrix, shape, other, normal, result);

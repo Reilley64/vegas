@@ -931,7 +931,7 @@ struct hkQsXform
         hkVec4 extra;
         extra.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(t1.m_vTranslation, extra);
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), nullptr, (const ::fnv_00c66320::__m128 *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation));
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
     __forceinline void SetConjugate(const hkQsXform& t)
@@ -1281,7 +1281,7 @@ static __forceinline void composeTransforms(Transform& destination, const Transf
     tForward = _mm_add_ps(tForward, _mm_mul_ps(_mm_shuffle_ps(dForward, dForward, 0), qForward));
     tForward = _mm_add_ps(crossForward, tForward);
     destination.translation = _mm_add_ps(_mm_add_ps(tForward, tForward), parent.translation);
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(destination.rotation), (void *)(&parent.rotation), (const __m128 *)(const ::Quaternion *)(&child.rotation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(destination.rotation), nullptr, (const ::fnv_00c66320::__m128 *)(&parent.rotation), (const ::fnv_00c66320::__m128 *)(const ::Quaternion *)(&child.rotation));
     destination.scale = _mm_mul_ps(child.scale, parent.scale);
 }
 template <class T> struct Array

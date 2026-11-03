@@ -31,7 +31,7 @@ extern "C" double cb2550_clobber(double x);
 
 // In-file stand-in for the helper. Its shape (not its bytes) is what matters:
 // pts stays live across an ABI-clobbering call, so it gets a callee-saved
-// register home and the private convention passes it in esi; obj is read
+// home and the private convention passes it in esi; obj is read
 // exactly once, late, so it stays on the stack.
 static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
 {

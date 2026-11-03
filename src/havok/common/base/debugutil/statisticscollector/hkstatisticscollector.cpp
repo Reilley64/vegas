@@ -48,7 +48,7 @@ void FUN_00d06fb0_cls::DispatchWithMode(void* apFirst, void* apSecond, int aiCou
     Dispatch(1, apFirst, apSecond, aiCount, iMode);
 }
 
-extern "C" int __cdecl FUN_00d06f80(const char* s, intptr_t len);
+extern "C" int __cdecl FUN_00d06f80(const char* s, int len);
 
 class Handler
 {
@@ -59,17 +59,17 @@ class Handler
     virtual void v0c();
     virtual void v10();
     virtual void Emit(int kind, intptr_t a, const char* s, intptr_t len, int hash);
-    void EmitString(intptr_t a, unsigned int* str);
+    void EmitString(intptr_t a, uintptr_t* str);
 };
 
 // If the string pointer in str is non-null, computes its length and hash and emits it via Emit with kind 3.
 // @fnv 0x00d07030
-void Handler::EmitString(intptr_t a, unsigned int* str)
+void Handler::EmitString(intptr_t a, uintptr_t* str)
 {
-    const char* s = (const char*)(*str & ~1u);
+    const char* s = (const char*)(*str & ~(uintptr_t)1);
     if (s)
     {
-        intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0(s);
+        int len = (int)::fnv_00cb10d0::FUN_00cb10d0(s);
         Emit(3, a, s, len, FUN_00d06f80(s, len));
     }
 }

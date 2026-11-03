@@ -20,6 +20,7 @@
 #include "fnv/symbols_010e0000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpPoweredChainMapper.h"
+#include "fnv/symbols_00e5b000.h"
 
 class hkMemoryAllocatorE3A5;
 
@@ -188,8 +189,8 @@ struct FnMap
 {
     struct Entry
     {
-        int key;
-        int value;
+        hkUlong key;
+        hkUlong value;
     };
     Entry* data;
     int size;
@@ -208,15 +209,19 @@ struct FnMap
 };
 struct FnNodePair
 {
-    int first;
-    int second;
+    ::S5ba30_Entity* first;
+    ::S5ba30_Entity* second;
+};
+struct ByteFlag
+{
+    unsigned char value;
 };
 struct FnLink
 {
     int offset;
     int count;
-    int fallback;
-    FnLink() : offset(-1), count(0), fallback(0)
+    ::Instance* fallback;
+    FnLink() : offset(-1), count(0), fallback(nullptr)
     {}
 };
 struct FnTarget
@@ -267,8 +272,6 @@ struct FnMapper
     FnMapper() : vtable(&::DAT_010e0654), refs(1)
     {}
 };
-extern "C" int __cdecl FUN_00e5ba30(hkArray<int>*, int, int, FnArray<int>*, FnArray<int>*);
-extern "C" FnObject* __cdecl FUN_00e5b510(FnArray<int>*, unsigned char);
 struct FnDiagnostic
 {
     int stream;
@@ -309,8 +312,8 @@ struct FnFlags
 };
 // Builds an FnMapper by resolving constraint chains for node pairs, populating link offsets, targets, and optionally collecting unlinked ids.
 // @fnv 0x00e3a5b0
-FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, hkArray<FnNodePair>* pairs,
-                                          hkArray<int>* unlinked) throw()
+FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<::S5ba30_ConstraintInstance*>* linkIds,
+                                          hkArray<FnNodePair>* pairs, hkArray<::S5ba30_ConstraintInstance*>* unlinked) throw()
 {
     FnMapper* mapper = new FnMapper;
 
@@ -323,25 +326,27 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
     FnMap table;
     for (int k = 0; k < linkIds->m_iElementCount; ++k)
     {
-        int key = linkIds->m_data[k];
+        ::S5ba30_ConstraintInstance* key = linkIds->m_data[k];
         hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(table))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), key, k);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(table))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), reinterpret_cast<hkUlong>(key), k);
     }
     count = linkIds->m_iElementCount;
     mapper->links.SetSizeAndGrow(hkMemoryRouter::getInstance().heap(), count);
-    ::FUN_00cb1280(mapper->links.data, 0, 12 * mapper->links.size);
+    ::FUN_00cb1280(mapper->links.data, 0, sizeof(FnLink) * mapper->links.size);
     for (int pairIndex = 0; pairIndex < pairs->m_iElementCount; ++pairIndex)
     {
-        FnArray<int> scratch;
-        FnArray<int> chainLinks;
+        FnArray<::S5ba30_Entity*> scratch;
+        FnArray<::S5ba30_ConstraintInstance*> chainLinks;
         FnNodePair& pair = pairs->m_data[pairIndex];
-        if (FUN_00e5ba30(linkIds, pair.first, pair.second, &scratch, &chainLinks) == 1)
+        if ((int)::FUN_00e5ba30(*reinterpret_cast<const ::S5ba30_Array<::S5ba30_ConstraintInstance*>*>(linkIds), pair.first, pair.second,
+                                *reinterpret_cast<::S5ba30_Array<::S5ba30_Entity*>*>(&scratch),
+                                *reinterpret_cast<::S5ba30_Array<::S5ba30_ConstraintInstance*>*>(&chainLinks)) == 1)
         {
             reportError("Cannot find a chain of constraints linking one of the entity pairs.", 0xabbaaa88, 68);
             reinterpret_cast<::hkReferencedObjectC905 *>((((FnObject*)mapper)))->FUN_00c905b0();
             return 0;
         }
-        FnObject* obj = FUN_00e5b510(&chainLinks, flags.includeChains);
+        FnObject* obj = reinterpret_cast<FnObject*>(::FUN_00e5b510(*reinterpret_cast<::Edges*>(&chainLinks), ::ByteFlag{flags.includeChains}));
         if (!obj)
         {
             reportError("Failed to build a chain.", 0xabbaddaa, 78);
@@ -351,8 +356,8 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
         mapper->chains.push(obj);
         for (int j = 0; j < chainLinks.size; ++j)
         {
-            int entity = chainLinks.data[j];
-            int index = reinterpret_cast<::FUN_00cb18f0_t *>(&(table))->FindSlot(entity);
+            ::S5ba30_ConstraintInstance* constraint = chainLinks.data[j];
+            int index = (int)reinterpret_cast<::FUN_00cb18f0_t *>(&(table))->FindSlot(reinterpret_cast<intptr_t>(constraint));
             if (index > table.capacity)
             {
                 reportError("Internal error.", 0xabba99dd, 93);
@@ -375,7 +380,7 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
             v.constraint = obj->constraint;
             v.localIndex = j;
             if (flags.copyFallbacks && !link->fallback)
-                link->fallback = ((int)(::CloneInstanceFromSource((::Instance *)(chainLinks.data[j]))));
+                link->fallback = ::CloneInstanceFromSource((::Instance *)(constraint));
         }
     }
     int total = buildOffsets(mapper, linkCounts);
@@ -394,8 +399,7 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
         {
             if (!mapper->links.data[i].count)
             {
-                int& key = linkIds->m_data[i];
-                ((FnArray<int>*)unlinked)->push(key);
+                ((FnArray<::S5ba30_ConstraintInstance*>*)unlinked)->push(linkIds->m_data[i]);
             }
         }
     }
@@ -403,49 +407,37 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
 }
 
 #include <xmmintrin.h>
-struct TargetRuntime
+class hkpConstraintMotor : public hkReferencedObject
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    __m128 m_vVectorData;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
 };
-
-struct ChainInstance
+struct __declspec(align(16)) ChainConstraintInfo
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    TargetRuntime* m_pRuntime;
+    hkVector4 pivotInA;
+    hkVector4 pivotInB;
+    hkQuaternion rotationA;
+    hkQuaternion rotationB;
+    hkpConstraintMotor* motors[3];
+    hkBool switchBodies;
+};
+class hkpPoweredChainData : public hkReferencedObject
+{
+  public:
+    int unk08, unk0c, unk10, unk14;
+    ChainConstraintInfo* infos;
 };
 
 struct hkpPoweredChainMapperTarget
 {
-    ChainInstance* m_pChainInstance;
-    int m_targetIndex;
+    hkpPoweredChainData* m_chain;
+    int m_infoIndex;
 };
 
+class hkpConstraintInstance;
 struct hkpPoweredChainMapperLinkInfo
 {
-    int m_iChainIndex;
-    int m_iLinkIndex;
-    int unk08;
+    int m_firstTargetIdx;
+    int m_numTargets;
+    hkpConstraintInstance* m_limitConstraint;
 };
 
 struct SomeClass : public hkpPoweredChainMapper
@@ -458,10 +450,10 @@ struct SomeClass : public hkpPoweredChainMapper
 void SomeClass::SetLinkVector(int chainIndex, const __m128& vec)
 {
     hkpPoweredChainMapperLinkInfo& linkInfo = m_ppLinks.m_data[chainIndex];
-    for (int i = 0; i < linkInfo.m_iLinkIndex; ++i)
+    for (int i = 0; i < linkInfo.m_numTargets; ++i)
     {
-        hkpPoweredChainMapperTarget& target = m_kTargets.m_data[linkInfo.m_iChainIndex + i];
-        target.m_pChainInstance->m_pRuntime[target.m_targetIndex].m_vVectorData = vec;
+        hkpPoweredChainMapperTarget& target = m_kTargets.m_data[linkInfo.m_firstTargetIdx + i];
+        _mm_store_ps(&target.m_chain->infos[target.m_infoIndex].rotationA.m_vec.x, vec);
     }
 }
 
@@ -711,38 +703,19 @@ hkpPoweredChainMapper::~hkpPoweredChainMapper()
 // src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "fnv/decl/FUN_00c90510_class.h"
-#include "havok/hkpPoweredChainMapper_decl_hkppoweredchainmapper.h"
 
-class hkpConstraintMotor : public hkReferencedObject
-{
-};
-struct __declspec(align(16)) ChainConstraintInfo
-{
-    hkVector4 pivotInA;
-    hkVector4 pivotInB;
-    hkQuaternion rotationA;
-    hkQuaternion rotationB;
-    hkpConstraintMotor* motors[3];
-    hkBool switchBodies;
-};
-class hkpPoweredChainData : public hkReferencedObject
-{
-  public:
-    int unk08, unk0c, unk10, unk14;
-    ChainConstraintInfo* infos;
-};
 // @fnv 0x00e3a440
 void hkpPoweredChainMapper::FUN_00e3a440(int linkIndex, int motorIndex, hkpConstraintMotor* motor)
 {
     hkpPoweredChainMapperLinkInfo* link = &m_ppLinks.m_data[linkIndex];
-    for (int i = 0; i < link->targetCount; ++i)
+    for (int i = 0; i < link->m_numTargets; ++i)
     {
-        hkpPoweredChainMapperTarget& target = m_kTargets.m_data[link->firstTarget + i];
-        hkpPoweredChainData* data = target.chainData;
-        hkpConstraintMotor* oldMotor = data->infos[target.infoIndex].motors[motorIndex];
+        hkpPoweredChainMapperTarget& target = m_kTargets.m_data[link->m_firstTargetIdx + i];
+        hkpPoweredChainData* data = target.m_chain;
+        hkpConstraintMotor* oldMotor = data->infos[target.m_infoIndex].motors[motorIndex];
         if (oldMotor)
             reinterpret_cast<::hkReferencedObjectC905 *>((void *)(oldMotor))->FUN_00c905b0();
-        data->infos[target.infoIndex].motors[motorIndex] = motor;
+        data->infos[target.m_infoIndex].motors[motorIndex] = motor;
         if (motor)
             reinterpret_cast<::FUN_00c90510_class *>((void *)(motor))->FUN_00c90510();
     }

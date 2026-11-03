@@ -11,6 +11,8 @@ class hkpPoweredChainMapperTarget;
 class hkpPoweredChainMapper : public hkReferencedObject
 {
   public:
+    void FUN_00e3a440(int linkIndex, int motorIndex, class hkpConstraintMotor* motor);
+
     hkArray<hkpPoweredChainMapperLinkInfo> m_ppLinks;        // +0x8
     hkArray<hkpPoweredChainMapperTarget> m_kTargets;         // +0x14
     hkArray<hkpConstraintChainInstance*> m_kChainInstances;  // +0x20

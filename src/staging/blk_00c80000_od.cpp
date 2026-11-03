@@ -1795,7 +1795,7 @@ struct hkLimitedHingeConstraintCinfo : hkConstraintCinfo
 
 typedef hkLimitedHingeConstraintCinfo ConstraintInfo;
 
-void* FUN_00aa13e0(unsigned int);
+void* FUN_00aa13e0(size_t);
 
 void FUN_00aa1450(void*);
 

@@ -2,6 +2,7 @@
 // src/staging/blk_00c60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -159,6 +160,8 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
 struct P03MM
 {
@@ -1463,7 +1466,7 @@ struct FUN_00c6c720_class
 
 // If the float at this+0x50[index] equals FLT_MIN it stores value there, otherwise adds value to it and stores the sum scaled by DAT_01011588.
 // @fnv 0x00c6c720
-void FUN_00c6c720_class::AccumulateValue(intptr_t index, float value)
+void FUN_00c6c720_class::AccumulateValue(int index, float value)
 {
     float* p = (float*)((char*)this + 0x50);
     if (p[index] == 1.1754943508222875e-38f)
@@ -1867,7 +1870,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00c66510_cls
 {
@@ -1886,7 +1888,7 @@ FUN_00c66510_cls* FUN_00c66510_cls::FUN_00c66510(unsigned char acFlags)
     reinterpret_cast<::FUN_00c93e50 *>(this)->FUN_00c93e50::~FUN_00c93e50();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -3398,14 +3400,8 @@ void C67F20List::FUN_00c67f20()
     m_spOwner = NiPointer<C67F20RefObject>(0);
 }
 
-struct CriticalSection
+struct CriticalSection : CRITICAL_SECTION
 {
-    void* debugInfo;
-    long lockCount;
-    long recursionCount;
-    void* ownerThread;
-    void* semaphore;
-    unsigned long spinCount;
     CriticalSection()
     {
         InitializeCriticalSection(this);
@@ -4000,7 +3996,6 @@ struct BhkWorldCinfo
     BhkWorldCinfo* FUN_00c68bc0(int flag);
 };
 
-extern SystemManager* __cdecl FUN_00c85750();
 
 // Calls FUN_00553540, and if flag bit 0 is set notifies the system manager's sink with this and unk04, then returns this.
 // @fnv 0x00c68bc0
@@ -4010,7 +4005,7 @@ BhkWorldCinfo* BhkWorldCinfo::FUN_00c68bc0(int flag)
 
     if (flag & 1)
     {
-        SystemManager* sys = FUN_00c85750();
+        SystemManager* sys = static_cast<SystemManager*>(::FUN_00c85750());
         sys->m_pSink->v08(this, this->unk04);
     }
 
@@ -7018,7 +7013,6 @@ void* FUN_00c6cd90()
 }
 
 namespace fnv_00c6cdc0 {
-extern "C" void* __cdecl FUN_00c85750();
 
 struct S_00c85750_vtbl
 {
@@ -7047,7 +7041,7 @@ void __cdecl FUN_00c6cdc0(void* pObject)
 {
     if (pObject != 0)
     {
-        S_00c85750_object* pOwner = (S_00c85750_object*)FUN_00c85750();
+        S_00c85750_object* pOwner = (S_00c85750_object*)static_cast<AudioHolder*>(::FUN_00c85750());
         S_00c85750_interface* pInterface = pOwner->unk10;
         S_00c85750_vtbl* pVtbl = pInterface->vtbl;
         pVtbl->unk08(pInterface, pObject, 0x80);
@@ -10110,7 +10104,6 @@ struct FUN_00c74f50_Result
     FUN_00c74f50_Target* unk10;
 };
 
-void* __cdecl FUN_00c85750();
 
 // If param_1 is nonzero, obtains a result object via FUN_00c85750 and calls vf08 on its unk10 target with param_1 and 0x38.
 // @fnv 0x00c74f50
@@ -10146,14 +10139,13 @@ struct HolderClass
     AllocClass* m_pAllocator;
 };
 
-HolderClass* FUN_00c85750();
 
 // @fnv 0x00c74f70
 void __cdecl FUN_00c74f70(void* p)
 {
     if (p)
     {
-        HolderClass* holder = FUN_00c85750();
+        HolderClass* holder = static_cast<HolderClass*>(::FUN_00c85750());
         AllocClass* allocator = holder->m_pAllocator;
         allocator->v2(p, 0x48);
     }
@@ -12109,7 +12101,6 @@ struct S_item
     S_listentry m_list14;
 };
 
-extern "C" void* FUN_00c85750();
 
 static __forceinline bool S_IsKind(S_node* r)
 {
@@ -12182,7 +12173,6 @@ struct FUN_00c85750_Object
     virtual void v4(int a, int b);
 };
 
-void* __cdecl FUN_00c85750();
 
 struct FUN_00c7b0b0_class
 {
@@ -12221,7 +12211,6 @@ struct TlsSlot
     int m_iWordAt00;
 };
 
-TlsSlot* FUN_00c85750();
 
 struct FUN_00c7b130_cls
 {
@@ -12233,7 +12222,7 @@ struct FUN_00c7b130_cls
 void FUN_00c7b130_cls::FUN_00c7b130()
 {
     int value = m_iWordAt00;
-    TlsSlot* slot = FUN_00c85750();
+    TlsSlot* slot = static_cast<TlsSlot*>(::FUN_00c85750());
     slot->m_iWordAt00 = value;
 }
 }  // namespace fnv_00c7b130
@@ -12355,7 +12344,6 @@ struct AllocHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct FUN_00c7bf50_cls
 {
@@ -12369,7 +12357,7 @@ struct FUN_00c7bf50_cls
 // @fnv 0x00c7bf50
 void FUN_00c7bf50_cls::FUN_00c7bf50()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_pAllocator;
     unsigned int flags = m_08;
     m_04 = 0;
@@ -12401,7 +12389,6 @@ struct AllocHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct FUN_00c7bf90_cls
 {
@@ -12415,7 +12402,7 @@ struct FUN_00c7bf90_cls
 // @fnv 0x00c7bf90
 void FUN_00c7bf90_cls::ReleaseBuffer()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_pAllocator;
     unsigned int flags = m_08;
     m_04 = 0;
@@ -13864,7 +13851,7 @@ template <class T, class Allocator> class NiTPrimitiveArray
         reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 };
-typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > ViewerStrings;
+typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > ViewerStringArray;
 
 struct ViewerSceneObject
 {
@@ -13978,11 +13965,11 @@ class ViewerCollision
             faceDown = m_sceneObject->m_vScale < 0.0f;
         return faceDown;
     }
-    void AppendDebugInfo(ViewerStrings* strings);
+    void AppendDebugInfo(ViewerStringArray* strings);
 };
 // Appends collision debug strings: base info, bhkWorldObject pointer, and the active/reset/notify/setlocal/keyframe/facedown flags.
 // @fnv 0x00c6c430
-void ViewerCollision::AppendDebugInfo(ViewerStrings* strings)
+void ViewerCollision::AppendDebugInfo(ViewerStringArray* strings)
 {
     ThreadMemoryScope memoryScope;
     reinterpret_cast<::ClaimCls *>(this)->WriteToStream((*(::StreamShell *)(strings)));
@@ -14551,7 +14538,9 @@ void ControllerShell::SetMode(int mode)
         if (paused)
             static_cast<::FUN_00c6ffc0_Class *>(nullptr)->FUN_00c6ffc0();
         selectedMode() = mode;
-        reinterpret_cast<::HostClass *>(this)->FUN_00c6d3f0((::ArgClass *)(((int)(reinterpret_cast<::Holder *>(this)->GetCurrentObject(reinterpret_cast<::NiObject *>(this)->FUN_00621a40())))), {});
+        // FUN_00c6d3f0 ignores its second argument; the release passes the FUN_00621a40 result there.
+        void* pkUnused = reinterpret_cast<::NiObject *>(this)->FUN_00621a40();
+        reinterpret_cast<::HostClass *>(this)->FUN_00c6d3f0((::ArgClass *)reinterpret_cast<::Holder *>(this)->GetCurrentObject(), (int)(std::intptr_t)pkUnused);
         if (paused)
             CallVirtualReset(0);
     }
@@ -15560,7 +15549,7 @@ struct FUN_00c7bf10_cls
 // @fnv 0x00c7bf10
 void FUN_00c7bf10_cls::FUN_00c7bf10()
 {
-    FUN_00c7bf10_Holder* holder = (FUN_00c7bf10_Holder*)FUN_00c85750();
+    FUN_00c7bf10_Holder* holder = (FUN_00c7bf10_Holder*)static_cast<AudioHolder*>(::FUN_00c85750());
     FUN_00c7bf10_Obj* obj = holder->m_sub;
     int state = m_uiContentCount;
     m_flags = 0;
@@ -17913,7 +17902,6 @@ void ReleasePooledEntry(PooledEntry_c7be* pkEntry)
     delete pkEntry;
 }
 
-#include <xmmintrin.h>
 namespace fnv_00c69010 {
 struct ConstructorPhysics;
 struct ConstructorParent : FUN_00c87c30_owner
@@ -21543,7 +21531,7 @@ struct EntryBase
 {
     static void* operator new(std::size_t n)
     {
-        AudioHolder* h = FUN_00c85750();
+        AudioHolder* h = static_cast<AudioHolder*>(::FUN_00c85750());
         void* p = ((MyAlloc*)h->m_pAllocator)->v04(n);
         ((AllocHeader*)p)->m_iElementCount = (unsigned short)n;
         return p;
@@ -21583,7 +21571,7 @@ struct FUN_00cd3c90 : EntryBase
 };
 static void* AllocEntry(unsigned int size)
 {
-    AudioHolder* h = FUN_00c85750();
+    AudioHolder* h = static_cast<AudioHolder*>(::FUN_00c85750());
     void* p = ((MyAlloc*)h->m_pAllocator)->v04(size);
     ((AllocHeader*)p)->m_iElementCount = (unsigned short)size;
     return p;
@@ -22805,12 +22793,14 @@ struct RefPointer
     }
 };
 class NiD3DPixelShader;
-template <> class NiPointer<NiD3DPixelShader>
+}  // namespace fnv_00c705c0
+template <> class NiPointer<fnv_00c705c0::NiD3DPixelShader>
 {
   public:
-    NiD3DPixelShader* p;
+    fnv_00c705c0::NiD3DPixelShader* p;
     ~NiPointer();
 };
+namespace fnv_00c705c0 {
 struct HavokPointer
 {
     hkReferencedObject* p;
@@ -22845,7 +22835,7 @@ struct Array705
     unsigned int capacity;
     ~Array705()
     {
-        Holder705* holder = (Holder705*)FUN_00c85750();
+        Holder705* holder = (Holder705*)static_cast<AudioHolder*>(::FUN_00c85750());
         Allocator705* allocator = holder->allocator;
         _ReadWriteBarrier();
         count = 0;
@@ -23524,7 +23514,6 @@ struct hkMemoryRouterC73
 };
 struct RouterC73
 {
-    static hkMemoryRouterC73& __cdecl FUN_00c85750() throw();
 };
 
 struct EntryC73
@@ -23539,7 +23528,7 @@ struct hkArrayC73
     int m_iCapacityState;
     ~hkArrayC73()
     {
-        hkMemoryAllocatorC73& kHeap = RouterC73::FUN_00c85750().heap();
+        hkMemoryAllocatorC73& kHeap = (*static_cast<hkMemoryRouterC73*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kHeap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(EntryC73));
@@ -24660,7 +24649,6 @@ void ControllerLocal::FUN_00c751f0(void* arg)
         active = 0;
 }
 
-#include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00c77460 {
 extern const float DAT_01013ea4 = 0.01f;
@@ -25959,7 +25947,6 @@ S_00c7fb50_portal* __cdecl FUN_00c7fb50(S_00c7fb50_portal* portal)
 }
 
 namespace fnv_00c68de0 {
-#include <windows.h>
 // Reconstruction of FUN_00c68de0 (0x00c68de0, 74 bytes).
 // member of a Havok-style world object:
 //   * +0x10 holds a pointer to a polymorphic object whose vtable slot 3 takes a float
@@ -26055,7 +26042,6 @@ struct hkMemoryStub
     hkAllocatorStub* m_pThreadAllocator;
 };
 
-hkMemoryStub* FUN_00c85750();
 
 struct hkWorldObjectStub;
 
@@ -26068,7 +26054,7 @@ template <class T> struct hkLocalArrayStub
     {}
     ~hkLocalArrayStub()
     {
-        hkMemoryStub* router = FUN_00c85750();
+        hkMemoryStub* router = static_cast<hkMemoryStub*>(::FUN_00c85750());
         hkAllocatorStub* alloc = router->m_pThreadAllocator;
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -26508,8 +26494,6 @@ void S00c78160_This::FUN_00c78160()
         m_target.setAddMul4(position, difference, DAT_011b05a8);
 }
 
-#include <xmmintrin.h>
-#include "fnv/symbols_simd.h"
 namespace fnv_00c79a50 {
 
 struct Vec3
@@ -28315,7 +28299,7 @@ struct C71120MemoryRouter
 
 inline C71120MemoryRouter& C71120GetMemoryRouter()
 {
-    return *reinterpret_cast<C71120MemoryRouter*>(FUN_00c85750());
+    return *reinterpret_cast<C71120MemoryRouter*>(static_cast<AudioHolder*>(::FUN_00c85750()));
 }
 
 template <class T> inline void C71120ReleaseBuffer(C71120Allocator& alloc, T* p, int numElem)

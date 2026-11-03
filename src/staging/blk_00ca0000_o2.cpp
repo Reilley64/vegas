@@ -1,5 +1,6 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
@@ -82,7 +83,6 @@
 #include "fnv/decl/S_00c8a280_Obj.h"
 #include "fnv/decl/S_00cac150.h"
 #include "fnv/decl/This_2.h"
-#include "fnv/decl/VelocityController.h"
 #include "fnv/decl/ViewerConstraint.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/WorldWithPending.h"
@@ -169,7 +169,32 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/decl/CbfOwner.h"
 #include "../../include/layout_support.h"
+
+struct VelocityNode;
+struct VelocityController
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    VelocityNode* node;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    __m128 velocity;
+    float amount;
+    void FUN_00cb9290();
+};
 
 
 void __cdecl _delete(void* p, int);
@@ -692,8 +717,6 @@ FUN_00ca4440_Class* FUN_00ca4440_Class::FUN_00ca4440(unsigned int flags)
     return this;
 }
 
-extern int(* DAT_00fdf1c4)(void*);
-extern void(* DAT_00fdf1c0)(void*);
 
 struct FUN_00ca47a0_Class
 {
@@ -710,7 +733,7 @@ FUN_00ca47a0_Class* FUN_00ca47a0_Class::AssignFrom(FUN_00ca47a0_Class* other)
     {
         if (p)
         {
-            if (!DAT_00fdf1c4((char*)p + 4))
+            if (!InterlockedDecrement((volatile long*)((char*)p + 4)))
             {
                 (*(void(**)(void*))(*(int*)p + 4))(p);
             }
@@ -718,7 +741,7 @@ FUN_00ca47a0_Class* FUN_00ca47a0_Class::AssignFrom(FUN_00ca47a0_Class* other)
         m_iWordAt00 = other->m_iWordAt00;
         if (m_iWordAt00)
         {
-            DAT_00fdf1c0((char*)m_iWordAt00 + 4);
+            InterlockedIncrement((volatile long*)((char*)m_iWordAt00 + 4));
         }
     }
     m_iWordAt04 = other->m_iWordAt04;
@@ -1645,7 +1668,6 @@ struct FNVTaskMemoryRouter
     void* unk0c;
     FNVTaskAllocator* allocator;
 };
-extern "C" FNVTaskMemoryRouter* __cdecl FUN_00c85750();
 
 struct FNVTaskDynamicBuffer
 {
@@ -1658,7 +1680,7 @@ struct FNVTaskDynamicBuffer
 // @fnv 0x00ca1fb0
 void FNVTaskDynamicBuffer::Clear()
 {
-    FNVTaskAllocator* allocator = FUN_00c85750()->allocator;
+    FNVTaskAllocator* allocator = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator;
     char* entry = (char*)entries;
     if (elementCount > 0)
     {
@@ -1895,7 +1917,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00ca40f0_cls
 {
@@ -1915,7 +1936,7 @@ FUN_00ca40f0_cls* FUN_00ca40f0_cls::FUN_00ca40f0(unsigned char acFlags)
     FUN_00ca3b90();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -3032,7 +3053,7 @@ void* FUN_00ca6600()
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 
 struct OwnerBase
 {
@@ -4337,7 +4358,6 @@ struct FnvCpu_FUN_00ca9b10_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00ca9b10_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00ca9b10_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00ca9b10_CpuObject
 {
     unsigned int unk00;
@@ -4351,7 +4371,7 @@ FnvCpu_FUN_00ca9b10_CpuObject* FnvCpu_FUN_00ca9b10_CpuObject::FUN_00ca9b10(unsig
     reinterpret_cast<::fnv_00cdf7a0::FUN_00cdf7a0Class *>(this)->FUN_00cdf7a0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00ca9b10_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00ca9b10_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00ca9b10_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -4802,7 +4822,6 @@ struct AllocHolder
     SlotAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct SpawnedBase
 {
@@ -4825,7 +4844,7 @@ struct SpawnedObject : SpawnedBase
     {}
     void* operator new(std::size_t size) throw()
     {
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         void* p = holder->m_pAllocator->vSlot04(size);
         ((SpawnedBase*)p)->m_size04 = (unsigned short)size;
         return p;
@@ -5145,7 +5164,7 @@ FUN_00caa140_cls::~FUN_00caa140_cls()
     --DAT_01268318;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 
 struct SpawnedObject20_b9537
 {
@@ -5921,20 +5940,19 @@ struct CB0AD0MemoryRouter
     CB0AD0Allocator* m_pStreamAllocator;
 };
 
-extern "C" CB0AD0MemoryRouter& __cdecl FUN_00c85750();
 char* AllocateWithHeader(CB0AD0Allocator* pkHeap, int iSize);
 void CopyIfNonEmpty(char* pcDst, const char* pcSrc, int iCount);
 
 static inline char* CB0AD0AllocateChars(int iCount)
 {
-    CB0AD0Allocator* pkHeap = FUN_00c85750().m_pStreamAllocator;
+    CB0AD0Allocator* pkHeap = (*static_cast<CB0AD0MemoryRouter*>(::FUN_00c85750())).m_pStreamAllocator;
     return AllocateWithHeader(pkHeap, iCount);
 }
 
 // @fnv 0x00cb0ad0
 static __declspec(noinline) char* FUN_00cb0ad0(const char* pcSrc, int iMaxChars)
 {
-    int iLen = ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)pcSrc));
+    int iLen = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(pcSrc));
     if (iLen > iMaxChars)
         iLen = iMaxChars;
     char* pcCopy = CB0AD0AllocateChars(iLen + 1);
@@ -6270,6 +6288,7 @@ class FUN_00cb9b80 : public CB9B80WorldObject
     FUN_00cb9b80(CB9B80Info* pkInfo);
     virtual ~FUN_00cb9b80();
 
+    void Init(CB9B80BaseInfo* pkInfo);
 
 };
 
@@ -6689,7 +6708,6 @@ void ReleaseItems(FUN_00cba0d0_cls** items, unsigned int count)
     }
 }
 
-extern int(* DAT_00fdf1c4)(void*);
 
 class CBaseOwner
 {
@@ -6761,7 +6779,7 @@ FUN_00cba110::FUN_00cba110() : m_08((*reinterpret_cast<void * *>(&::DAT_0109b220
         m_08.p = ((void *)(::NiGlobalStringTable::AddString((const char *)(0))));
         if (p != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
         {
-            DAT_00fdf1c4((char*)p - 8);
+            InterlockedDecrement((volatile long*)((char*)p - 8));
         }
     }
 }
@@ -6781,7 +6799,7 @@ void FUN_00cbbfb0(uintptr_t a1)
 }
 
 namespace fnv_00cbc5e0 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl FUN_00aa13e0(size_t);
 
 struct FUN_00cbc550
 {
@@ -6897,7 +6915,6 @@ struct CBDCB0MemoryRouter
     }
 };
 
-extern "C" CBDCB0MemoryRouter& __cdecl FUN_00c85750();
 
 
 struct CBDCB0AllocTagScope
@@ -6923,7 +6940,7 @@ class CBDCB0Child
 
     static void* operator new(std::size_t uiSize)
     {
-        void* p = FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        void* p = (*static_cast<CBDCB0MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
         static_cast<CBDCB0Child*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -7026,6 +7043,7 @@ extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00cbe820_sub
 {
+    void Init(float* value);
 };
 
 struct FUN_00cbe820_cls
@@ -7123,7 +7141,6 @@ struct HolderClass
     AllocClass* m_pAllocator;
 };
 
-HolderClass* FUN_00c85750();
 
 // If p is non-null, gets the holder from FUN_00c85750 and calls its allocator's v2 with p and size 0x1c0.
 // @fnv 0x00cbf2d0
@@ -7131,7 +7148,7 @@ void __cdecl FUN_00cbf2d0(void* p)
 {
     if (p)
     {
-        HolderClass* holder = FUN_00c85750();
+        HolderClass* holder = static_cast<HolderClass*>(::FUN_00c85750());
         AllocClass* allocator = holder->m_pAllocator;
         allocator->v2(p, 0x1c0);
     }
@@ -7174,7 +7191,6 @@ struct ResourceService
     int unk00, unk04, unk08, unk0c;
     ResourceDisposer* disposer;
 };
-extern "C" ResourceService* __cdecl FUN_00c85750();
 struct FUN_00cbf2f0_class
 {
     int unk00, unk04, unk08;
@@ -7194,7 +7210,7 @@ void FUN_00cbf2f0_class::FUN_00cbf2f0()
         if (owned != 0)
         {
             reinterpret_cast<::fnv_00d055c0::S_00d055c0_Obj *>((owned))->FUN_00d055c0();
-            ResourceService* s = FUN_00c85750();
+            ResourceService* s = static_cast<ResourceService*>(::FUN_00c85750());
             ResourceDisposer* p = s->disposer;
             p->dispose(owned, 0x1c0);
         }
@@ -7226,7 +7242,6 @@ struct AllocHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct FUN_00cbf3c0_cls
 {
@@ -7244,7 +7259,7 @@ struct FUN_00cbf3c0_cls
 // @fnv 0x00cbf3c0
 void FUN_00cbf3c0_cls::FreeData()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_pAllocator;
     unsigned int flags = m_18;
     m_14 = 0;
@@ -8234,6 +8249,7 @@ struct StrArr
     char** m_pBase;
     unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
     void SetSize(unsigned int size);
+    void SetAt(unsigned int index, char*& value);
     void AppendReference(char*& value)
     {
         unsigned int index = m_usSize;
@@ -8421,7 +8437,7 @@ struct hkReferencedObject
 
     static void* operator new(std::size_t size)
     {
-        FNVTaskMemoryRouter* router = FUN_00c85750();
+        FNVTaskMemoryRouter* router = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
         hkReferencedObject* p = (hkReferencedObject*)((CAC300Allocator*)router->allocator)->Alloc(size);
         p->m_usMemSizeAndFlags = (unsigned short)size;
         return p;
@@ -8649,6 +8665,7 @@ class BCBEA40StringArray
   public:
     virtual ~BCBEA40StringArray();
     void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
     unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
     {
@@ -8710,16 +8727,15 @@ struct hkThreadMemoryStub
     }
 };
 
-hkThreadMemoryStub* FUN_00c85750();
 
 inline void* hkAllocateChunkStub(int nbytes)
 {
-    return FUN_00c85750()->allocateChunk(nbytes);
+    return static_cast<hkThreadMemoryStub*>(::FUN_00c85750())->allocateChunk(nbytes);
 }
 
 inline void hkDeallocateChunkStub(void* p, int nbytes)
 {
-    FUN_00c85750()->deallocateChunk(p, nbytes);
+    static_cast<hkThreadMemoryStub*>(::FUN_00c85750())->deallocateChunk(p, nbytes);
 }
 
 
@@ -8744,7 +8760,7 @@ struct hkPtrArrayStub
     int m_iCapacityState;
     ~hkPtrArrayStub()
     {
-        hkThreadMemoryStub* mem = FUN_00c85750();
+        hkThreadMemoryStub* mem = static_cast<hkThreadMemoryStub*>(::FUN_00c85750());
         hkMemoryAllocatorStub* alloc = mem->m_pThreadAllocator;
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -8857,7 +8873,7 @@ struct ObjB
     }
     static void operator delete(void* p, std::size_t nbytes)
     {
-        FUN_00c85750()->deallocateChunk(p, ((ObjB*)p)->m_usMemSizeAndFlags);
+        static_cast<hkThreadMemoryStub*>(::FUN_00c85750())->deallocateChunk(p, ((ObjB*)p)->m_usMemSizeAndFlags);
     }
     ObjB(CinfoA* info);
 };
@@ -9912,7 +9928,7 @@ struct WalkArray
     {}
     __forceinline ~WalkArray()
     {
-        WalkAlloc& alloc = ((WalkRouter*)FUN_00c85750())->Heap();
+        WalkAlloc& alloc = ((WalkRouter*)static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750()))->Heap();
         ClearAndRelease(alloc);
     }
     void ClearAndRelease(WalkAlloc& alloc)
@@ -9927,7 +9943,7 @@ struct WalkArray
 
     __forceinline void Add(void* const& value)
     {
-        FNVTaskAllocator* alloc = FUN_00c85750()->allocator;
+        FNVTaskAllocator* alloc = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator;
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(void *)(this), 4);
         *new (WalkPlacement(), &data[size]) void* = value;
@@ -9967,7 +9983,7 @@ void CollectLeafObjects(WalkLeaf* leaf, WalkArray* outObjects, WalkArray* outBod
             else
             {
                 void* value = body->body;
-                FNVTaskAllocator* alloc = FUN_00c85750()->allocator;
+                FNVTaskAllocator* alloc = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator;
                 if (bodyArray.size == (bodyArray.capacity & 0x3fffffff))
                     ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(void *)(&bodyArray), 4);
                 bodyArray.data[bodyArray.size++] = value;
@@ -10084,7 +10100,7 @@ template <typename T> struct FNVArray
     }
     ~FNVArray()
     {
-        _clearAndDeallocate(((FNVHeapRouter*)FUN_00c85750())->heap());
+        _clearAndDeallocate(((FNVHeapRouter*)static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750()))->heap());
     }
 };
 
@@ -10477,7 +10493,7 @@ struct FUN_00d2acf0
 
     static void* operator new(std::size_t bytes)
     {
-        FNVTaskMemoryRouter* router = FUN_00c85750();
+        FNVTaskMemoryRouter* router = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
         FUN_00d2acf0* object = (FUN_00d2acf0*)((CAC300Allocator*)router->allocator)->Alloc(bytes);
         object->memorySizeAndFlags = (unsigned short)bytes;
         return object;
@@ -11114,7 +11130,6 @@ void FUN_00ca8a30_Class::PushCommand(NiPoint3* apPoint)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
 void __cdecl _delete(void* p, int size);
 
 struct ScopedMemContext_ca9e60
@@ -11501,7 +11516,6 @@ FUN_00caff80::~FUN_00caff80()
 
 struct FNVTaskMemoryRouter;
 
-extern "C" FNVTaskMemoryRouter* __cdecl FUN_00c85750();
 extern "C" void* __cdecl AllocateWithHeader(void* allocator, unsigned int count);
 
 struct CbobRouter
@@ -11517,10 +11531,10 @@ struct CbobRouter
 // @fnv 0x00cb0aa0
 static __declspec(noinline) void* FUN_00cb0aa0(char* s)
 {
-    unsigned int count = (unsigned int)(::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)s)) + 1);
-    CbobRouter* router = (CbobRouter*)FUN_00c85750();
+    unsigned int count = (unsigned int)(::fnv_00cb10d0::FUN_00cb10d0((const char *)(s)) + 1);
+    CbobRouter* router = (CbobRouter*)static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
     void* block = AllocateWithHeader(router->allocator, count);
-    ::FUN_00cb1090((char *)(block), (const char *)((int)s));
+    ::FUN_00cb1090((char *)(block), (const char *)(s));
     return block;
 }
 
@@ -11807,7 +11821,7 @@ void CBB050Object::FUN_00cbb050(ReadStream* stream)
         reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 
 struct FUN_00cbaf20_class
 {
@@ -11909,7 +11923,6 @@ FUN_00ca5620::~FUN_00ca5620()
 #include "fnv/decl/FUN_00a6d290.h"
 #include "fnv/decl/FUN_00cc9640.h"
 #include "fnv/decl/fnv_00c9eec0__FUN_00c9eec0.h"
-#include "fnv/decl/fnv_00cbf540__FUN_00cbf540_Owner.h"
 #include "fnv/symbols_00ca5000.h"
 #include "fnv/symbols_00ca8000.h"
 #include "fnv/symbols_00ca9000.h"
@@ -11962,7 +11975,6 @@ struct ScopedMemContext
     }
 };
 
-extern int(* DAT_00fdf1c4)(void*);
 
 class NiGlobalStringTable
 {
@@ -11980,7 +11992,7 @@ class NiFixedString
     ~NiFixedString()
     {
         if (m_kHandle != ::DAT_0109b220)
-            DAT_00fdf1c4(m_kHandle - 8);
+            InterlockedDecrement((volatile long*)(m_kHandle - 8));
     }
 };
 
@@ -12293,6 +12305,7 @@ class BufferC520
     {
         reinterpret_cast<::C_00c6cde0 *>(this)->FUN_00c6cde0();
     }
+    void Init() throw();
     int m_aiData0;
     int unk04;
     int unk08;
@@ -12419,7 +12432,7 @@ int CA0F0Object::GetResultValue()
     }
     return value;
 }
-// If bAdd, calls DAT_00fdf1c0 on the shape's refcount, else FUN_00cac410(); sets the Havok object's user data to this or null, then calls UpdateReference(bAdd).
+// If bAdd, calls InterlockedIncrement on the shape's refcount, else FUN_00cac410(); sets the Havok object's user data to this or null, then calls UpdateReference(bAdd).
 // @fnv 0x00cac4b0
 void ShapeRefCAC4B0::FUN_00cac4b0(bool bAdd)
 {
@@ -12430,7 +12443,7 @@ void ShapeRefCAC4B0::FUN_00cac4b0(bool bAdd)
         {
             ShapeHolderCAC4B0* pkHolder = ((::ShapeHolderCAC4B0 *)(reinterpret_cast<::FUN_00cac980_class *>((m_pkHavokObject))->FUN_00cac980()));
             if (pkHolder && pkHolder->m_pkShape)
-                DAT_00fdf1c0(&pkHolder->m_pkShape->m_iRefCount);
+                InterlockedIncrement((volatile long*)(&pkHolder->m_pkShape->m_iRefCount));
         }
     }
     else
@@ -12549,22 +12562,21 @@ void S00cafef0_Obj::UpdateBoundsFromElements()
 
 namespace fnv_00cb0b80 {
 extern "C" void __cdecl FUN_00c856c0(void*, void*);
-extern "C" void __cdecl CopyIfNonEmpty(char*, const char*, int);
 static __declspec(noinline) char* FUN_00cb0ad0(char* text, int count)
 {
-    int length = ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)text));
+    int length = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(text));
     if (length > count)
         length = count;
-    char* result = (char*)AllocateWithHeader(FUN_00c85750()->allocator, length + 1);
+    char* result = (char*)AllocateWithHeader(static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator, length + 1);
     ::CopyIfNonEmpty(result, text, length);
     result[length] = 0;
     return result;
 }
 static __declspec(noinline) void* FUN_00cb0aa0(char* text)
 {
-    int length = ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)text)) + 1;
-    void* result = AllocateWithHeader(FUN_00c85750()->allocator, length);
-    ::FUN_00cb1090((char *)(result), (const char *)((int)text));
+    int length = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(text)) + 1;
+    void* result = AllocateWithHeader(static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator, length);
+    ::FUN_00cb1090((char *)(result), (const char *)(text));
     return result;
 }
 struct StringSlot
@@ -12579,7 +12591,7 @@ static __declspec(noinline) void FUN_00cb0b10(char* text, int count, StringSlot 
     {
         if (old & 1)
         {
-            FUN_00c856c0(FUN_00c85750()->allocator, (void*)(old - 1));
+            FUN_00c856c0(static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator, (void*)(old - 1));
         }
         if (text)
         {
@@ -12624,9 +12636,9 @@ extern "C" char* __cdecl FUN_00cb0ad0(const char* text, int count);
 
 static __declspec(noinline) void* FUN_00cb0aa0(char* s)
 {
-    int n = ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)s)) + 1;
-    void* block = AllocateWithHeader(FUN_00c85750()->allocator, n);
-    ::FUN_00cb1090((char *)(block), (const char *)((int)s));
+    int n = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(s)) + 1;
+    void* block = AllocateWithHeader(static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator, n);
+    ::FUN_00cb1090((char *)(block), (const char *)(s));
     return block;
 }
 void zz_probe_call(char* s)
@@ -12652,7 +12664,7 @@ __declspec(noinline) void AssignStringCB(StringRefCB ref, const char* text, int 
     if ((old & ~1u) == (unsigned int)text)
         return;
     if (old & 1)
-        FUN_00c856c0(FUN_00c85750()->allocator, (void*)(old - 1));
+        FUN_00c856c0(static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator, (void*)(old - 1));
     if (text)
     {
         if (count == -1)
@@ -13545,7 +13557,7 @@ void FUN_00ca8960_Class::EnqueueTransform(const __m128* position, const __m128* 
         Command cmd;
         cmd.type = 0x18;
         cmd.owner = this;
-        FNVTaskMemoryRouter* router = FUN_00c85750();
+        FNVTaskMemoryRouter* router = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
         cmd.data = ((AllocCA8960*)router->allocator)->Allocate(32);
         cmd.data->position = *position;
         cmd.data->rotation = *rotation;
@@ -13721,6 +13733,7 @@ struct CC3320Source
 struct CC3320Base
 {
     int unk00;
+    void GetInfo(CC3320Info* info);
 };
 struct FUN_00cb84a0_cls : CC3320Base
 {
@@ -14936,7 +14949,7 @@ struct Rec9bd0
     void FUN_00ca9aa0();
     static void* operator new(std::size_t size)
     {
-        Rec9bd0* m = (Rec9bd0*)((Router9bd0*)FUN_00c85750())->heap().Allocate(size);
+        Rec9bd0* m = (Rec9bd0*)((Router9bd0*)static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750()))->heap().Allocate(size);
         m->cap = (unsigned short)size;
         return m;
     }
@@ -15149,14 +15162,13 @@ extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
 extern "C" void _ReadWriteBarrier();
 void __cdecl FUN_00c856c0(void*, void*);
-extern "C" void __cdecl CopyIfNonEmpty(void*, int, int);
 static __declspec(noinline) void* FUN_00cb0ad0(char* s, int maxLen)
 {
-    int len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)s));
+    int len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(s));
     if (len > maxLen)
         len = maxLen;
-    char* p = (char*)AllocateWithHeader(FUN_00c85750()->allocator, len + 1);
-    CopyIfNonEmpty(p, (int)s, len);
+    char* p = (char*)AllocateWithHeader(static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->allocator, len + 1);
+    ::CopyIfNonEmpty(p, s, len);
     p[len] = 0;
     return p;
 }
@@ -15175,7 +15187,7 @@ static __declspec(noinline) void FUN_00cb0b10(StringSlot slotRef, char* apString
     if (cur & 1)
     {
         char* old = (char*)(cur - 1);
-        FNVTaskMemoryRouter* r = FUN_00c85750();
+        FNVTaskMemoryRouter* r = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
         if (old)
             _ReadWriteBarrier();
         else
@@ -15477,7 +15489,7 @@ struct ChildLayout
         m_vptr = &::DAT_010c7310;
         if (m_iWordAt04 != 0)
         {
-            (this->*(*reinterpret_cast<void (*::fnv_00ca2140::ChildLayout::*)(void *)>(&::DAT_010c7318)))(m_iWordAt04);
+            ::DAT_010c7318(m_iWordAt04);
             m_iWordAt04 = 0;
             m_iThirdValue = 0;
             m_8 = 0;
@@ -15881,7 +15893,7 @@ struct S_ca5870_Obj
 
     static void* operator new(std::size_t size) throw()
     {
-        S_ca5870_Holder* h = (S_ca5870_Holder*)FUN_00c85750();
+        S_ca5870_Holder* h = (S_ca5870_Holder*)static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
         void* p = h->m_10->Alloc(size);
         ((S_ca5870_Obj*)p)->m_04 = (unsigned short)size;
         return p;
@@ -15966,7 +15978,7 @@ template <typename T> struct hkArray
 
     void AddBack(const T& val)
     {
-        FNVTaskMemoryRouter* router = FUN_00c85750();
+        FNVTaskMemoryRouter* router = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
             ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(void *)(this), sizeof(T));
@@ -15983,7 +15995,7 @@ template <typename T> struct hkArray
 hkBool FUN_00cb1440(const char* str, const char* substr, hkArray<int>& indices, int findAll)
 {
     int len = (int)strlen(substr);
-    char* match = ::fnv_00cb1130::FUN_00cb1130(str, substr);
+    const char* match = ::fnv_00cb1130::FUN_00cb1130(str, substr);
     hkBool result = false;
     while (match != 0)
     {
@@ -16078,32 +16090,13 @@ void S_00cb0030_Cls::FUN_00cb0030(S_00cb0030_Out* out)
     }
 }
 
-// VEGAS17-CONFLICT: FUN_00ca6590_t (variant definition below differs from the one above)
-struct FUN_00ca6590_t
-{
-    FUN_00ca6590_t* FUN_00ca6650(int flags);
-};
 
-// VEGAS17-CONFLICT: MemoryManager (variant definition below differs from the one above)
-struct MemoryManager
-{
-    void Deallocate(void* p);
-};
 
-// VEGAS17-CONFLICT: HC1Base (variant definition below differs from the one above)
-struct HC1Base
-{
-    bool FUN_00ca54c0(NiStream*);
-};
 
 float __cdecl FUN_00ca98e0();
 
 void FUN_00ca9900(int* p);
 
-// VEGAS17-CONFLICT: HandleOwner (variant definition below differs from the one above)
-struct HandleOwner
-{
-};
 
 int* __cdecl FUN_00ca5300();
 
@@ -16122,47 +16115,9 @@ CpuOpaque* __cdecl FUN_00cb9c00();
 
 void* __cdecl FUN_00cba1c0();
 
-// VEGAS17-CONFLICT: FUN_00cbe880_Class (variant definition below differs from the one above)
-struct FUN_00cbe880_Class
-{
-    int m_iWordAt00;
-    void FUN_00cbe880();
-};
 
 void __cdecl ResizeAudioStream(void*, void*, int);
 
-// VEGAS17-CONFLICT: WalkArray (variant definition below differs from the one above)
-struct WalkArray
-{
-    void** data;
-    int size;
-    int capacity;
-    WalkArray() : data(0), size(0), capacity(0x80000000)
-    {}
-    __forceinline ~WalkArray()
-    {
-        WalkAlloc& alloc = ((WalkRouter*)FUN_00c85750())->Heap();
-        ClearAndRelease(alloc);
-    }
-    void ClearAndRelease(WalkAlloc& alloc)
-    {
-        WalkDestruct(data, size);
-        size = 0;
-        if ((capacity & 0x80000000) == 0)
-            WalkDeallocate(alloc, data, capacity & 0x3fffffff);
-        data = 0;
-        capacity = 0x80000000;
-    }
-
-    __forceinline void Add(void* const& value)
-    {
-        FNVTaskAllocator* alloc = FUN_00c85750()->allocator;
-        if (size == (capacity & 0x3fffffff))
-            ResizeAudioStream(alloc, this, 4);
-        *new (WalkPlacement(), &data[size]) void* = value;
-        ++size;
-    }
-};
 
 int __cdecl FUN_00ca6610(int param_1);
 
@@ -16194,13 +16149,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00cbaf80();
 
 void __cdecl FUN_00cbf530();
 
-// VEGAS17-CONFLICT: NiPoint3 (variant definition below differs from the one above)
-struct NiPoint3
-{
-    float x;
-    float y;
-    float z;
-};
 
 void __cdecl DispatchToTarget();
 
@@ -16235,16 +16183,6 @@ void CallerHsv9(float* a, float h, float s, float v, float* r, float* g);
 
 unsigned int __cdecl FUN_00cabe30(float h, float s, float v, float a);
 
-static __declspec(noinline) void* FUN_00cb0ad0(char* s, int maxLen)
-{
-    int len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)s));
-    if (len > maxLen)
-        len = maxLen;
-    char* p = (char*)AllocateWithHeader(FUN_00c85750()->allocator, len + 1);
-    ::CopyIfNonEmpty((char *)(p), (const char *)((int)s), len);
-    p[len] = 0;
-    return p;
-}
 
 static void FUN_00cb0b10(StringSlot slotRef, char* s, int len);
 
@@ -16252,26 +16190,6 @@ void StringSetCaller(unsigned int* slot, char* s, int len);
 
 inline void CopyEntry(ExtraArray& out, int i, const ExtraArray& source);
 
-// VEGAS17-CONFLICT: hkArray (variant definition below differs from the one above)
-template <typename T> struct hkArray
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    void AddBack(const T& val)
-    {
-        FNVTaskMemoryRouter* router = FUN_00c85750();
-        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-        {
-            ResizeAudioStream(router->allocator, this, sizeof(T));
-        }
-        T* slot = m_data + m_iElementCount;
-        _ReadWriteBarrier();
-        *slot = val;
-        m_iElementCount++;
-    }
-};
 
 hkBool FUN_00cb1440(const char* str, const char* substr, hkArray<int>& indices, int findAll);
 
@@ -16599,142 +16517,11 @@ extern "C" void FUN_00ca0bd0(void* a, hkpCollidable* p)
     }
 }
 
-// VEGAS17-CONFLICT: FUN_00cb9b80 (variant definition below differs from the one above)
-class FUN_00cb9b80 : public CB9B80WorldObject
-{
-  public:
-    FUN_00cb9b80(CB9B80Info* pkInfo);
-    virtual ~FUN_00cb9b80();
 
-    void Init(CB9B80BaseInfo* pkInfo);
 
-};
 
-// VEGAS17-CONFLICT: FUN_00cbe820_sub (variant definition below differs from the one above)
-struct FUN_00cbe820_sub
-{
-    void Init(float* value);
-};
 
-// VEGAS17-CONFLICT: StrArr (variant definition below differs from the one above)
-struct StrArr
-{
-    void* vtable;
-    char** m_pBase;
-    unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
-    void AppendReference(char*& value)
-    {
-        unsigned int index = m_usSize;
-        if (index >= m_usMaxSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
-    }
-    __forceinline void Append(char* value)
-    {
-        unsigned int index = m_usSize;
-        if (index >= m_usMaxSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_usGrowBy);
-        if (index >= m_usSize)
-        {
-            m_usSize = (unsigned short)(index + 1);
-            if (value)
-                ++m_usESize;
-        }
-        else if (value)
-        {
-            if (!m_pBase[index])
-                ++m_usESize;
-        }
-        else if (m_pBase[index])
-        {
-            m_usESize += (unsigned short)-1;
-        }
-        m_pBase[index] = value;
-    }
-};
 
-// VEGAS17-CONFLICT: BCBEA40StringArray (variant definition below differs from the one above)
-class BCBEA40StringArray
-{
-  public:
-    virtual ~BCBEA40StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
-
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
-
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
-
-// VEGAS17-CONFLICT: BufferC520 (variant definition below differs from the one above)
-class BufferC520
-{
-  public:
-    static void* operator new(std::size_t uiSize) throw()
-    {
-        return GetMemoryRouterC520()->heap().AllocateMemoryBlock(uiSize);
-    }
-    BufferC520() throw()
-    {
-        reinterpret_cast<::C_00c6cde0 *>(this)->FUN_00c6cde0();
-    }
-    void Init() throw();
-    int m_aiData0;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-};
-
-// VEGAS17-CONFLICT: CC3320Base (variant definition below differs from the one above)
-struct CC3320Base
-{
-    int unk00;
-    void GetInfo(CC3320Info* info);
-};
 
 namespace fnv_00ca0b70 {
 struct World;
@@ -17181,18 +16968,7 @@ unsigned int Ca35Owner::FUN_00ca35d0(unsigned int a1)
     return (v & 0xffffff) | (type << 24);
 }
 
-typedef union __declspec(intrin_type) _CRT_ALIGN(16) S00ca4120_Q
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-} S00ca4120_Q;
+typedef __m128 S00ca4120_Q;
 
 extern float DAT_012682c8;
 
@@ -17326,28 +17102,6 @@ struct VelocityNode
     DynCastHelper* property;
 };
 
-struct VelocityController
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    VelocityNode* node;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    __m128 velocity;
-    float amount;
-    void FUN_00cb9290();
-};
 
 void FUN_00a6d220(void* p);
 
@@ -17358,18 +17112,13 @@ struct MemoryManagerAllocHelper : MemoryManager
 
 class NiTimeController;
 
-class NiObject
+struct CB9320Object
 {
-  public:
     void* m_vtbl;
     int unk04;
     int unk08;
     int unk0c;
     void* unk10;
-public:
-    void *FUN_00621a40();
-public:
-    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 
 // @fnv 0x00cb9290
@@ -17643,11 +17392,11 @@ void __cdecl FUN_00cb9320(NiAVObject* a1, const void* a2, NiAVObject* a3)
         pCtl = (NiTimeController*)(NTCVt*)new NTCVt();
         ((NTCVtable*)pCtl)->vf38(pObj);
     }
-    NiObject* pUnk;
+    CB9320Object* pUnk;
     if (pObj->unk1c == 0)
         pUnk = 0;
     else
-        pUnk = ((NiObject*)pObj->unk1c)->DynamicCast((const ::NiRTTI *)(const void *)((const void*)&g_012043f8));
+        pUnk = (CB9320Object*)((::NiObject*)pObj->unk1c)->DynamicCast((const ::NiRTTI *)(const void *)((const void*)&g_012043f8));
     __m128 vec = _mm_load_ps((const float*)a2);
     if (pUnk != 0 && pUnk->unk10 != 0)
     {
@@ -18619,12 +18368,12 @@ class NiFixedString
     char* m_kHandle;
     __forceinline NiFixedString(const char* s)
     {
-        m_kHandle = (char*)((void *)(::NiGlobalStringTable::AddString((const char *)((int)s))));
+        m_kHandle = (char*)((void *)(::NiGlobalStringTable::AddString((const char *)(s))));
     }
     __forceinline ~NiFixedString()
     {
         if (m_kHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-            DAT_00fdf1c4(m_kHandle - 8);
+            InterlockedDecrement((volatile long*)(m_kHandle - 8));
     }
 };
 
@@ -21084,13 +20833,6 @@ void hkQuaternion::FUN_00cb2ca0(const hkVector4& axis, hkQuaternion& restOut, fl
 }
 
 namespace fnv_00cb94a0 {
-#include <xmmintrin.h>
-#include "fnv/decl/CbfOwner.h"
-#include "fnv/decl/FUN_00ca5620.h"
-#include "fnv/decl/FUN_00cac980_class.h"
-#include "fnv/decl/FUN_00cba1d0.h"
-#include "fnv/decl/S_ca4520.h"
-#include "fnv/decl/ScopeHost_cls.h"
 extern "C" void _ReadWriteBarrier();
 extern void* DAT_010c8a2c;
 class GlobalObjectO2_00a7b610;
@@ -21516,7 +21258,7 @@ void S00cbf950_Target::FUN_00cbf950(S00cbf950_Body* body, const S00cbf950_Input*
         cur++;
     }
     state.size = body->GetSize();
-    FNVTaskMemoryRouter* arena = FUN_00c85750();
+    FNVTaskMemoryRouter* arena = static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750());
     unsigned char* saved = (unsigned char*)arena->unk00;
     arena->unk00 = saved + ((state.size + 127) & ~127);
     body->Fill(&bounds, saved);
@@ -21528,7 +21270,7 @@ void S00cbf950_Target::FUN_00cbf950(S00cbf950_Body* body, const S00cbf950_Input*
         *(volatile int*)&state.offset += step;
         walk++;
     }
-    FUN_00c85750()->unk00 = saved;
+    static_cast<FNVTaskMemoryRouter*>(::FUN_00c85750())->unk00 = saved;
     ((S00cbf950_Trace*)TlsGetValue(DAT_0126835c))->mark(&(*reinterpret_cast<char *>(&::DAT_010c41f8)), state.endTick);
 }
 

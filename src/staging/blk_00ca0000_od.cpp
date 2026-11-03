@@ -2,6 +2,7 @@
 // src/staging/blk_00ca0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <cstddef>
 #include <new>
@@ -1226,7 +1227,6 @@ struct F7_Router
     }
 };
 
-F7_Router* __cdecl FUN_00c85750();
 
 struct F7_Vec
 {
@@ -1245,7 +1245,7 @@ struct F7_Shape
     F7_Shape();
     static void* operator new(std::size_t amount)
     {
-        void* r = FUN_00c85750()->heap().alloc(amount);
+        void* r = static_cast<F7_Router*>(::FUN_00c85750())->heap().alloc(amount);
         ((F7_Shape*)r)->size = (unsigned short)amount;
         return r;
     }
@@ -1412,7 +1412,6 @@ struct MemoryRouter
     unsigned unk00, unk04, unk08, unk0c;
     Allocator* heap;
 };
-MemoryRouter* __cdecl FUN_00c85750();
 template <class T> struct LegacyArray
 {
     T* data;
@@ -1433,7 +1432,7 @@ template <class T> struct LegacyArray
     }
     void ClearAndDeallocate()
     {
-        MemoryRouter* router = FUN_00c85750();
+        MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
         ClearAndDeallocate(*router->heap);
     }
 };

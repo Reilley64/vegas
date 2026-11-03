@@ -2,6 +2,7 @@
 // src/staging/blk_00c80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -60,7 +61,6 @@
 #include "fnv/decl/SerializedObject.h"
 #include "fnv/decl/SerializedRecord.h"
 #include "fnv/decl/ShadowLightData.h"
-#include "fnv/decl/Shape892.h"
 #include "fnv/decl/SinkOwner.h"
 #include "fnv/decl/Stub65800.h"
 #include "fnv/decl/This_2.h"
@@ -134,6 +134,33 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+
+struct Scene892;
+struct SharedBody;
+struct Shape892
+{
+    int unk00, unk04;
+    Scene892* scene;
+    unsigned short flags;
+    unsigned short unk0E;
+    SharedBody* body;
+    int unk14;
+    float scale18, scale1C;
+    int mode;
+    struct Pair
+    {
+        volatile int first, second;
+        Pair& operator=(const Pair& other)
+        {
+            first = other.first;
+            second = other.second;
+            return *this;
+        }
+    } values;
+    void FUN_00c89050(int, int, int, int);
+    void FUN_00c892c0(int, int, int, Shape892*, int);
+};
 
 extern int DAT_010c53dc;
 extern int DAT_01267e60;
@@ -309,13 +336,11 @@ int FUN_00c84ec0(void* apObject)
     return 0;
 }
 
-extern "C" void EnterCriticalSection(void*);
-extern int DAT_0126813c;
-extern void* g_pEnterCriticalSection;
+extern CRITICAL_SECTION DAT_0126813c;
 // @fnv 0x00c876f0
 void FUN_00c876f0()
 {
-    ((void(*)(void*))g_pEnterCriticalSection)(&DAT_0126813c);
+    EnterCriticalSection(&DAT_0126813c);
 }
 
 extern int DAT_010c69f4;
@@ -522,15 +547,13 @@ struct FUN_00c9eba0_IFace
     virtual void v11();
     virtual void v12();
     virtual void v13();
-    virtual void FUN_00c9eba0_call(int a, int b, int c, int d);
+    virtual void FUN_00c9eba0_call(intptr_t a, intptr_t b, intptr_t c, int d);
 };
 struct ScriptX
 {
-    void InvokeInterfaceCall(int a, int b, int c, int d);
+    void InvokeInterfaceCall(intptr_t a, intptr_t b, intptr_t c, int d);
 };
-extern int DAT_0126820c;
-extern void(* DAT_0126820c_enter)(int*);
-extern void(* DAT_0126820c_leave)(int*);
+extern CRITICAL_SECTION DAT_0126820c;
 // @fnv 0x00c9eba0
 void ScriptX::InvokeInterfaceCall(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, int aiArg4)
 {
@@ -539,11 +562,11 @@ void ScriptX::InvokeInterfaceCall(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiA
         FUN_00c9eba0_IFace* iface = *reinterpret_cast<FUN_00c9eba0_IFace**>(reinterpret_cast<unsigned char*>(this) + 8);
         if (iface)
         {
-            DAT_0126820c_enter(&DAT_0126820c);
+            EnterCriticalSection(&DAT_0126820c);
             ::FUN_00a29680();
             iface->FUN_00c9eba0_call(aiArg1, aiArg2, aiArg3, aiArg4);
             ::FUN_00a29680();
-            DAT_0126820c_leave(&DAT_0126820c);
+            LeaveCriticalSection(&DAT_0126820c);
         }
     }
 }
@@ -837,12 +860,10 @@ void FUN_00c87650_t::LoadBinary(NiStream& stream)
     ((void(*)(void*, NiStream&))(*(void***)this)[43])(this, stream);
 }
 
-extern "C" void LeaveCriticalSection(void*);
-void(* DAT_0126813c_leave)(void*);
 // @fnv 0x00c87700
 void FUN_00c87700()
 {
-    DAT_0126813c_leave(&DAT_0126813c);
+    LeaveCriticalSection(&DAT_0126813c);
 }
 
 struct FUN_00c88410_t
@@ -1013,7 +1034,7 @@ struct ArenaRegistry
 };
 
 extern const char DAT_010c53c4[];
-extern unsigned int DAT_01267e48;
+extern CRITICAL_SECTION DAT_01267e48;
 
 struct ArenaOwner
 {
@@ -1191,14 +1212,13 @@ struct SpawnedPtrArray
 };
 
 extern "C" void _ReadWriteBarrier(void);
-SpawnedAllocHolder* FUN_00c85750();
 
 // Resolves an item from a1, grows arr by 4 if full, then stores the item at the next slot and increments the count.
 // @fnv 0x00c809e0
 void AppendSpawnedPtr(void* a1, SpawnedPtrArray* arr)
 {
     void* item = ((void *)(::FUN_00c7fb50((::S_00c7fb50_portal *)(a1))));
-    SpawnedAllocHolder* holder = FUN_00c85750();
+    SpawnedAllocHolder* holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
     if (arr->m_uiCount == (arr->m_uiCapacity & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
@@ -3824,7 +3844,7 @@ FUN_00c894d0::FUN_00c894d0(int a, int b, int c, int d, int e)
 }
 
 namespace fnv_00c89540 {
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl FUN_00aa13e0(size_t);
 struct FUN_00c894d0
 {
     unsigned int unk00;
@@ -6669,12 +6689,7 @@ struct C90830Stream
 
 struct C90830CriticalSection
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
+    CRITICAL_SECTION m_kSection;
 
     C90830CriticalSection(int iSpinCount) throw();
 };
@@ -6743,7 +6758,6 @@ struct AllocHolder
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 
 struct SpawnedObject18
 {
@@ -6760,7 +6774,7 @@ struct SpawnedObject18
 // @fnv 0x00c99f80
 void* __cdecl AllocateSpawnedObject()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedObject18* obj = (SpawnedObject18*)holder->m_pAllocator->Alloc(0x18);
     obj->m_w04 = 0x18;
     return ((void *)(new ((void *)(obj)) ::fnv_00c99eb0::FUN_00c99eb0()));
@@ -8121,7 +8135,6 @@ struct FUN_00c9eae0_holder
     FUN_00c9eae0_alloc* m_pAllocator;
 };
 
-FUN_00c9eae0_holder* FUN_00c85750();
 
 struct FUN_00c9eae0_rec
 {
@@ -8132,7 +8145,7 @@ struct FUN_00c9eae0_rec
 // @fnv 0x00c9eae0
 void __cdecl FUN_00c9eae0(FUN_00c9eae0_rec* rec)
 {
-    FUN_00c9eae0_holder* holder = FUN_00c85750();
+    FUN_00c9eae0_holder* holder = static_cast<FUN_00c9eae0_holder*>(::FUN_00c85750());
     FUN_00c9eae0_alloc* allocator = holder->m_pAllocator;
     unsigned short count = rec->m_w04;
     allocator->v2(rec, count);
@@ -8154,7 +8167,6 @@ struct FnvCpu_FUN_00c9eb00_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00c9eb00_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00c9eb00_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00c9eb00_CpuObject
 {
     unsigned int unk00;
@@ -8167,7 +8179,7 @@ FnvCpu_FUN_00c9eb00_CpuObject* FnvCpu_FUN_00c9eb00_CpuObject::FUN_00c9eb00(unsig
     reinterpret_cast<::FUN_00d08130 *>(this)->FUN_00d08130::~FUN_00d08130();
     if (flags & 1)
     {
-        FnvCpu_FUN_00c9eb00_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00c9eb00_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00c9eb00_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -8206,7 +8218,7 @@ void __cdecl CollectTreeResultValues(TreeNode_cls* node, SpawnedPtrArray* arr)
                 if (data)
                 {
                     value = data->m_pIntegerData;
-                    holder = FUN_00c85750();
+                    holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
                     if (arr->m_uiCount == (arr->m_uiCapacity & 0x3fffffff))
                     {
                         ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
@@ -9665,7 +9677,7 @@ void RefChainOwner::DispatchChainNodes(Dispatcher* pDispatcher)
     reinterpret_cast<::BC87850RefObject *>(this)->SaveSerializeData((*(::BC87850Stream *)(pDispatcher)));
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl FUN_00aa13e0(size_t size);
 
 struct Base_00c8ae60
 {
@@ -9834,7 +9846,6 @@ void C8B4D0Group::ApplyToChildren(int iArg1, int iArg2)
     }
 }
 
-SpawnedAllocHolder* FUN_00c85750();
 
 struct C8B8A0Alloc;
 struct C8B8A0Array;
@@ -9864,7 +9875,7 @@ struct C8B8A0Array
     }
     void SetSizeAndGrow(int n)
     {
-        SpawnedAllocHolder* router = FUN_00c85750();
+        SpawnedAllocHolder* router = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         C8B8A0Alloc* allocator = (C8B8A0Alloc*)router->m_pAllocator;
         _setSize(*allocator, n);
     }
@@ -10027,7 +10038,7 @@ struct ShapeArray
     {}
     ~ShapeArray()
     {
-        SpawnedAllocHolder* holder = FUN_00c85750();
+        SpawnedAllocHolder* holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         ListAllocator* alloc = (ListAllocator*)holder->m_pAllocator;
         size = 0;
         if (!(capacity & 0x80000000))
@@ -10381,6 +10392,7 @@ struct TargetController
     LargeArray_c9ac00 keys;
     int unk50, unk54;
     unsigned int mode;
+    void Reset();
 };
 struct SceneNode;
 struct SceneObject
@@ -12086,7 +12098,7 @@ struct Arr_c891
     }
     ~Arr_c891()
     {
-        SpawnedAllocHolder* r = FUN_00c85750();
+        SpawnedAllocHolder* r = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         Heap_c891* heap = (Heap_c891*)r->m_pAllocator;
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0)
@@ -12393,7 +12405,7 @@ struct hkRefObj_c8b090
 
     static void* operator new(std::size_t size)
     {
-        SpawnedAllocHolder* holder = FUN_00c85750();
+        SpawnedAllocHolder* holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         Alloc8b_c8b090* alloc = (Alloc8b_c8b090*)holder->m_pAllocator;
         hkRefObj_c8b090* b = (hkRefObj_c8b090*)alloc->AllocateMemoryBlock(static_cast<int>(size));
         b->m_usMemSizeAndFlags = (unsigned short)size;
@@ -12401,7 +12413,7 @@ struct hkRefObj_c8b090
     }
     static void operator delete(void* p, std::size_t size)
     {
-        SpawnedAllocHolder* holder = FUN_00c85750();
+        SpawnedAllocHolder* holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         Alloc8b_c8b090* alloc = (Alloc8b_c8b090*)holder->m_pAllocator;
         alloc->ReleaseBlock(p, static_cast<int>(size));
     }
@@ -12812,6 +12824,12 @@ struct FUN_00c90880_Class
 {
     void* m_00;
     unsigned short m_04;
+    unsigned short m_06;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    CRITICAL_SECTION m_kLock;
 
     void* FUN_00c90880(unsigned int flags);
 };
@@ -12819,11 +12837,11 @@ struct FUN_00c90880_Class
 // @fnv 0x00c90880
 void* FUN_00c90880_Class::FUN_00c90880(unsigned int flags)
 {
-    DeleteCriticalSection((char*)this + 0x18);
+    DeleteCriticalSection(&m_kLock);
     m_00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
-        void* holder = FUN_00c85750();
+        void* holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         FUN_00c90880_Srv* pService = *(FUN_00c90880_Srv**)((char*)holder + 0x10);
         pService->m_08(this, m_04);
     }
@@ -13823,7 +13841,6 @@ CommandTarget* CommandDispatcher::DispatchCommand(CommandTarget* target, unsigne
 }
 
 
-SpawnedAllocHolder* FUN_00c85750() throw();
 
 struct C99F10Allocator
 {
@@ -13841,7 +13858,7 @@ struct C99F10Array
     int m_iCapacity;
     ~C99F10Array() throw()
     {
-        SpawnedAllocHolder* pHolder = FUN_00c85750();
+        SpawnedAllocHolder* pHolder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         C99F10Allocator* pAlloc = (C99F10Allocator*)pHolder->m_pAllocator;
         m_uiLogicalSize = 0;
         if (!(m_iCapacity & 0x80000000))
@@ -13863,7 +13880,7 @@ struct C99F10Base
 struct FUN_00c99f10 : C99F10Base
 {
     C99F10Array m_kArray;
-    void* m_pUserData;
+    CRITICAL_SECTION* m_pUserData;
     virtual ~FUN_00c99f10() throw();
 };
 
@@ -13871,13 +13888,13 @@ struct FUN_00c99f10 : C99F10Base
 // @fnv 0x00c99f10
 FUN_00c99f10::~FUN_00c99f10() throw()
 {
-    void* pCS = m_pUserData;
+    CRITICAL_SECTION* pCS = m_pUserData;
     if (pCS)
     {
         DeleteCriticalSection(pCS);
-        SpawnedAllocHolder* pHolder = FUN_00c85750();
+        SpawnedAllocHolder* pHolder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         C99F10Allocator* pAlloc = (C99F10Allocator*)pHolder->m_pAllocator;
-        pAlloc->Free(pCS, 0x18);
+        pAlloc->Free(pCS, sizeof(CRITICAL_SECTION));
     }
 }
 
@@ -16044,7 +16061,7 @@ struct Base674
     unsigned short flags;
     static void* operator new(std::size_t size)
     {
-        SpawnedAllocHolder* r = FUN_00c85750();
+        SpawnedAllocHolder* r = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
         Heap674* heap = (Heap674*)r->m_pAllocator;
         Base674* b = (Base674*)heap->Allocate(size);
         b->size = (unsigned short)size;
@@ -16465,7 +16482,7 @@ bool C8AC00_Self::FUN_00c8ac00()
 }
 
 namespace fnv_00c8af10 {
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 struct NewShape
 {
     int* vtable;
@@ -16745,9 +16762,9 @@ void LoaderLocal::LoadShapes(LoadStreamLocal* stream)
     ListLocal* list = GetList(&shared);
     unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((stream))->FUN_00a63460();
     ArrayLocal& items = list->items;
-    SpawnedAllocHolder* h1 = FUN_00c85750();
+    SpawnedAllocHolder* h1 = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
     ((AllocLocal*)h1->m_pAllocator)->Clear(items);
-    SpawnedAllocHolder* h2 = FUN_00c85750();
+    SpawnedAllocHolder* h2 = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
     items.Reserve(h2->m_pAllocator, count);
     if (count > 0)
     {
@@ -16765,7 +16782,7 @@ void LoaderLocal::LoadShapes(LoadStreamLocal* stream)
                         object = (ShapeLocal*)wrapper;
                 }
                 ShapeLocal* raw = object ? object->object : 0;
-                items.Append(FUN_00c85750(), raw);
+                items.Append(static_cast<SpawnedAllocHolder*>(::FUN_00c85750()), raw);
             }
         } while (--remaining);
     }
@@ -17049,7 +17066,6 @@ void MotionSettings::SetPreset(int preset)
 }
 
 struct SpawnedAllocHolder;
-SpawnedAllocHolder* __cdecl FUN_00c85750();
 
 extern "C" void __cdecl FUN_00c92950(void*);
 extern "C" double clobber_c929e0(double);
@@ -17067,7 +17083,7 @@ struct FUN_00d065e0_class
 static __declspec(noinline) void FUN_00c927c0(void* p, void* q)
 {
     volatile int sink = 0;
-    char* s = (char*)FUN_00c85750();
+    char* s = (char*)static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
     if (p)
         sink = 1;
     if (q)
@@ -17104,7 +17120,7 @@ class FUN_00c929e0_ThisClass
 // @fnv 0x00c929e0
 void* FUN_00c929e0_ThisClass::FUN_00c929e0()
 {
-    SpawnedAllocHolder* holder = FUN_00c85750();
+    SpawnedAllocHolder* holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
     FUN_00c929e0_Alloc* alloc = *(FUN_00c929e0_Alloc**)&holder->m_pAllocator;
     void* b = alloc->vf04(0x44);
     *(unsigned short*)((char*)b + 4) = 0x44;
@@ -17597,13 +17613,12 @@ struct Allocator_00c89dd0
     virtual void reserved();
     virtual void* allocate(unsigned int bytes);
 };
-SpawnedAllocHolder* FUN_00c85750();
 
 struct CloneData_00c89dd0
 {
     int unknown00;
     void* first;
-    void* second;
+    int second;
     void* third;
     void* fourth;
 };
@@ -17662,27 +17677,27 @@ struct Dispatch_00c89dd0
     virtual void reserved44();
     virtual void reserved45();
     virtual void reserved46();
-    virtual void finish(int);
-    void SpawnAndAttach(int data);
+    virtual void finish(intptr_t);
+    void SpawnAndAttach(intptr_t data);
 };
 // Constructs a wrapper that stores the given Havok object via SetReferencedObject and increments the wrapper count.
 // @fnv 0x00c88380
 FUN_00c88380::FUN_00c88380(C88380HavokObject* pkObject)
 {
-    reinterpret_cast<::Dispatch_00c89dd0 *>(this)->SpawnAndAttach((int)(pkObject));
+    reinterpret_cast<::Dispatch_00c89dd0 *>(this)->SpawnAndAttach((intptr_t)(pkObject));
     ++::DAT_01268318;
 }
 
 // Allocates an instance from CloneData, attaches it to the dispatch, releases the refcount, and calls finish with the original data.
 // @fnv 0x00c89dd0
-void Dispatch_00c89dd0::SpawnAndAttach(int data)
+void Dispatch_00c89dd0::SpawnAndAttach(intptr_t data)
 {
     Dispatch_00c89dd0* owner = this;
     unsigned int slot = (*reinterpret_cast<volatile unsigned long *>(&::DAT_0126fd98));
     int* block = (int*)((void**)__readfsdword(0x2c))[slot];
     MemoryCategoryScope_00c89dd0 memoryScope(block);
-    CloneData_00c89dd0* clone = data ? (CloneData_00c89dd0*)(data - 4) : 0;
-    SpawnedAllocHolder* holder = FUN_00c85750();
+    CloneData_00c89dd0* clone = data ? (CloneData_00c89dd0*)(data - offsetof(CloneData_00c89dd0, first)) : 0;
+    SpawnedAllocHolder* holder = static_cast<SpawnedAllocHolder*>(::FUN_00c85750());
     Allocator_00c89dd0* allocator = (Allocator_00c89dd0*)holder->m_pAllocator;
     void* memory = allocator->allocate(0x38);
     *(unsigned short*)((char*)memory + 4) = 0x38;
@@ -17691,7 +17706,7 @@ void Dispatch_00c89dd0::SpawnAndAttach(int data)
         PendingAllocation_00c89dd0 pending(memory);
         void* argFourth = clone->fourth;
         void* argFirst = clone->third;
-        void* argLast = clone->second;
+        int argLast = clone->second;
         void* argThird = clone->first;
         instance = ((::Instance_00c89dd0 *)(new ((void *)(((Instance_00c89dd0*)memory))) ::FUN_00cf3ea0((::ConstraintEntity *)(argFirst), (::ConstraintEntity *)(argFourth), (::ConstraintData *)(argThird), (::ConstraintPriority)(argLast))));
     }
@@ -17702,7 +17717,6 @@ void Dispatch_00c89dd0::SpawnAndAttach(int data)
 }
 
 #include <string.h>
-#include <xmmintrin.h>
 #include "fnv/decl/CC5AE0Owner.h"
 #include "fnv/decl/ColObj_c65f40.h"
 #include "fnv/decl/CollObj.h"
@@ -17723,7 +17737,6 @@ void Dispatch_00c89dd0::SpawnAndAttach(int data)
 #include "fnv/decl/S_00ca8f50_Src.h"
 #include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
 #include "fnv/decl/fnv_00626cb0__FUN_00626cb0_Class.h"
-#include "fnv/decl/fnv_00c9b1a0__FUN_00c9b1a0_cls.h"
 #include "fnv/decl/hkpEntityC9C.h"
 #include "fnv/symbols_0056d000.h"
 #include "fnv/symbols_00624000.h"
@@ -18791,36 +18804,13 @@ void Target_c9b090::FUN_00c9b090(float* apTime)
 
 void FUN_00c8cd00(void* apBlock);
 
-// VEGAS17-CONFLICT: NiPoint3 (variant definition below differs from the one above)
-struct NiPoint3
-{
-    float x, y, z;
-public:
-    static const ::NiPoint3 ZERO;
-};
 
-__forceinline int Sign_00c9a070(float f)
-{
-    return f < 0.0f ? -1 : 1;
-}
 
 int FUN_00c899c0(char* p, int edx);
 
 // FUN_00c81570 : a one-line function - getter
 void* FUN_00c81570();
 
-// VEGAS17-CONFLICT: C815B0Base (variant definition below differs from the one above)
-class C815B0Base
-{
-  public:
-
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-};
 
 ObjA* FUN_00c84880(ObjA* p1, ObjA* p2, ObjA* p3);
 
@@ -18833,101 +18823,24 @@ void* __cdecl FUN_00c88370();
 
 int* __cdecl FUN_00c88400();
 
-// VEGAS17-CONFLICT: FNVTraversalOutput (variant definition below differs from the one above)
-struct FNVTraversalOutput : FNVTransformState
-{
-};
 
 extern GlobalObject g_global;
 
 GlobalObject* __cdecl FUN_00c8a790();
 
-// VEGAS17-CONFLICT: FUN_00c8d090_cls (variant definition below differs from the one above)
-struct FUN_00c8d090_cls
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    FUN_00c8d090_node m_14;
-
-    bool CheckAndNotify(int a);
-};
 
 int __cdecl FUN_00c90820(void);
 
 void* __cdecl FUN_00c99fe0();
 
-SubObject_c9ad60::~SubObject_c9ad60()
-{
-    FUN_00aa10f0(m_00);
-}
 
 // FUN_00c9add0 : a one-line function - getter
 void* FUN_00c9add0();
 
-__forceinline bool GetFlagBit8(unsigned short f)
-{
-    return (f >> 8) & 1;
-}
-__forceinline bool GetFlagBit9(unsigned short f)
-{
-    return (f >> 9) & 1;
-}
 
 unsigned char* CallAndStoreResult(unsigned char* output, FUN_00c84900_object* object, int unused,
                                             FUN_00c84900_vtbl* caller, unsigned int value);
 
-// VEGAS17-CONFLICT: TargetController (variant definition below differs from the one above)
-struct TargetController
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35(float time);
-    int unk04;
-    unsigned short flags;
-    unsigned short unk0a;
-    float frequency, phase, start, end;
-    int unk1c, unk20, unk24, unk28, unk2c, unk30, unk34;
-    LargeArray_c9ac00 keys;
-    int unk50, unk54;
-    unsigned int mode;
-    void Reset();
-};
 
 void* __cdecl FUN_00c85620(FUN_00c85620_heap* pkHeap, unsigned int uiSize, unsigned int uiAlignment);
 
@@ -18961,66 +18874,22 @@ int __cdecl FUN_00c90350();
 
 int FUN_00c90e30(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8);
 
-// VEGAS17-CONFLICT: NiPlane (variant definition below differs from the one above)
-struct NiPlane
-{
-    int unk00;
-    int unk04;
-    int unk08;
-
-    bool operator==(const NiPlane& other) const;
-};
 
 void FUN_00c910c0();
 
 bool FUN_00c911c0();
 
-SpawnedAllocHolder* FUN_00c85750() throw();
 
-// VEGAS17-CONFLICT: WalkMid_c804 (variant definition below differs from the one above)
-class WalkMid_c804
-{
-  public:
-    void Apply(unsigned int value);
-};
 
 // VEGAS17-CONFLICT: FUN_00c65b00_holder (variant definition below differs from the one above)
 // TLS slot +0x2C0 (module index 0x126fd98)
-struct FUN_00c65b00_holder
-{
-};
 
-// VEGAS17-CONFLICT: FUN_00a68bf0_holder (variant definition below differs from the one above)
-struct FUN_00a68bf0_holder
-{
-};
 
-// VEGAS17-CONFLICT: FUN_00c6c290 (variant definition below differs from the one above)
-struct FUN_00c6c290
-{
-};
 
 void __cdecl FUN_00c9e3e0(void);
 
-__forceinline bool Mask135(unsigned int a, unsigned int b)
-{
-    return (DAT_01268078[(a >> 8) & 31] & (1 << ((b >> 8) & 31))) != 0;
-}
-__declspec(noinline) bool C00624070::FUN_00624070()
-{
-    unsigned int layer = value & 127;
-    return layer == 8 || layer == 29;
-}
 
-// VEGAS17-CONFLICT: FUN_00c90030_Transform (variant definition below differs from the one above)
-struct FUN_00c90030_Transform
-{
-};
 
-// VEGAS17-CONFLICT: FUN_00c90030_Result (variant definition below differs from the one above)
-struct FUN_00c90030_Result
-{
-};
 
 extern int DAT_0108ffb4;
 
@@ -20588,30 +20457,6 @@ struct Scene892 : SceneObject
 {
 };
 
-struct Shape892
-{
-    int unk00, unk04;
-    Scene892* scene;
-    unsigned short flags;
-    unsigned short unk0E;
-    SharedBody* body;
-    int unk14;
-    float scale18, scale1C;
-    int mode;
-    struct Pair
-    {
-        volatile int first, second;
-        Pair& operator=(const Pair& other)
-        {
-            first = other.first;
-            second = other.second;
-            return *this;
-        }
-    } values;
-    void FUN_00c89050(int, int, int, int);
-    void FUN_00c892c0(int, int, int, Shape892*, int);
-};
-
 // @fnv 0x00c892c0
 void Shape892::FUN_00c892c0(int arg0, int arg1, int arg2, Shape892* source, int arg4)
 {
@@ -21813,7 +21658,7 @@ void ScaleOwner::FUN_00c8cdf0(float scale)
 {
     float scale3 = scale * scale * scale;
 
-    unkA0 = (_mm_mul_ps)((_mm_shuffle_ps)((_mm_load_ss)(&scale), (_mm_load_ss)(&scale), 0), unkA0);
+    unkA0 = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale), _mm_load_ss(&scale), 0), unkA0);
 
     float* current = &unk80;
     unsigned int count = 3;

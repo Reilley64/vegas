@@ -1256,7 +1256,7 @@ void WorkerNavMap::ValidateNavMeshes()
                 while (iterator)
                 {
                     reinterpret_cast<::C6b7f20_Map *>(&(m_kNavMeshInfosByFormID))->FUN_006b7f20((::C6b7f20_Node **)&(iterator), (unsigned int *)&(identifier), (void **)&((void*&)meshInfo));
-                    if (!((int)(::FUN_00690830((const ::NavMeshInfo *)(meshInfo)))))
+                    if (!((std::uintptr_t)(::FUN_00690830((const ::NavMeshInfo *)(meshInfo)))))
                     {
                         ::FUN_005b5e40();
                         reinterpret_cast<::FUN_00438690 *>(&(invalidatedList))->FUN_007cb2e0((unsigned int *)(void *)(&meshInfo));
@@ -1317,7 +1317,7 @@ void WorkerNavMap::ValidateNavMeshes()
                                 }
                             }
                             LocalList neighborList;
-                            if (((int)(::FUN_00690800((const ::NavMeshInfo *)(meshInfo)))))
+                            if (((std::uintptr_t)(::FUN_00690800((const ::NavMeshInfo *)(meshInfo)))))
                             {
                                 short gridX, gridY;
                                 ::SplitUInt32(meshInfo->m_uiPathingFlags, (unsigned short *)(short *)(&gridX), (unsigned short *)(short *)(&gridY));

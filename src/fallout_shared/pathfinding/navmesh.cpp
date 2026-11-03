@@ -1584,12 +1584,12 @@ void FUN_0042fb60_shell::FUN_0042fb60(char* pDst, char* pSrc, unsigned int n)
 {
     if (n <= 0)
         return;
-    if ((unsigned int)pDst < (unsigned int)pSrc)
+    if ((std::uintptr_t)pDst < (std::uintptr_t)pSrc)
     {
         for (unsigned int i = 0; i < n; ++i)
             std::memmove(pDst + i * 4, pSrc + i * 4, 4);
     }
-    else if ((unsigned int)pDst > (unsigned int)pSrc)
+    else if ((std::uintptr_t)pDst > (std::uintptr_t)pSrc)
     {
         for (int i = (int)n - 1; i >= 0; --i)
             std::memmove(pDst + i * 4, pSrc + i * 4, 4);
@@ -2003,9 +2003,9 @@ bool Searcher::CheckNeighborCells()
 
     float xWorld = (float)(cellX2 << 12);
     ProbeHolder* kWest = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (kWest != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(kWest)))) != 0)
+    if (kWest != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(kWest)))) != 0)
     {
-        for (unsigned int westIdx = 0; westIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(kWest))))))->GetReferenceFlags(); ++westIdx)
+        for (unsigned int westIdx = 0; westIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(kWest))))))->GetReferenceFlags(); ++westIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2016,9 +2016,9 @@ bool Searcher::CheckNeighborCells()
 
     xWorld = (float)(cellX2 << 12) + 4096.0;
     ProbeHolder* east = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (east != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(east)))) != 0)
+    if (east != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(east)))) != 0)
     {
-        for (unsigned int eastIdx = 0; eastIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(east))))))->GetReferenceFlags(); ++eastIdx)
+        for (unsigned int eastIdx = 0; eastIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(east))))))->GetReferenceFlags(); ++eastIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2029,9 +2029,9 @@ bool Searcher::CheckNeighborCells()
 
     float yWorld = (float)(cellY8 << 12);
     ProbeHolder* southVal = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (southVal != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(southVal)))) != 0)
+    if (southVal != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(southVal)))) != 0)
     {
-        for (unsigned int southIdx = 0; southIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(southVal))))))->GetReferenceFlags(); ++southIdx)
+        for (unsigned int southIdx = 0; southIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(southVal))))))->GetReferenceFlags(); ++southIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2042,9 +2042,9 @@ bool Searcher::CheckNeighborCells()
 
     yWorld = (float)(cellY8 << 12) + 4096.0;
     ProbeHolder* north2 = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (north2 != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(north2)))) != 0)
+    if (north2 != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(north2)))) != 0)
     {
-        for (unsigned int northIdx = 0; northIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(north2))))))->GetReferenceFlags(); ++northIdx)
+        for (unsigned int northIdx = 0; northIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(north2))))))->GetReferenceFlags(); ++northIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2395,7 +2395,7 @@ bool NavMeshView::Validate(int a0)
                             continue;
                         }
                     }
-                    if (((unsigned int)(reinterpret_cast<::TESObjectCELL *>((((::InfoView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace())) != ((unsigned int)(::FUN_00690800((const ::NavMeshInfo *)(pRetrievedObject->m_04)))))
+                    if (((std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((((::InfoView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace())) != ((std::uintptr_t)(::FUN_00690800((const ::NavMeshInfo *)(pRetrievedObject->m_04)))))
                     {
                         ::FUN_005b5e40();
                         reinterpret_cast<::fnv_00690e90::FUN_00690e90_shell *>(this)->UpdateTriangleExtraInfo(reinterpret_cast<::FUN_0068f2c0_shell *>((sh))->FUN_0068f2c0(tri7));

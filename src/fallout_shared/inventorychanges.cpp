@@ -1850,7 +1850,7 @@ InventoryStackRecord* FUN_004c7300_shell::FindInventoryItem(TESObjectREFR* pRef,
             *pFound = true;
             if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((std::intptr_t)((TESForm*)item)) > 0)
             {
-                if (index < (unsigned int)next)
+                if (index < (std::uintptr_t)next)
                     result2 = item;
                 else
                     return item;
@@ -2683,19 +2683,19 @@ bool FUN_004bd8d0_shell::FUN_004bd8d0(unsigned char type, float* pfResult)
         {
             InventoryStackRecord* slot = *(InventoryStackRecord**)&this->m_pItemObject;
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)extra)))->CheckExtraByType(1) &&
-                (int)((FUN_004bd880_stand*)slot)->GetSlotPointer(1) == type)
+                (std::uintptr_t)((FUN_004bd880_stand*)slot)->GetSlotPointer(1) == type)
             {
                 *pfResult = ((FUN_004bd9d0_shell*)slot)->FUN_004bd9d0(1, 0);
                 return true;
             }
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)extra)))->CheckExtraByType(2) &&
-                (int)((FUN_004bd880_stand*)slot)->GetSlotPointer(2) == type)
+                (std::uintptr_t)((FUN_004bd880_stand*)slot)->GetSlotPointer(2) == type)
             {
                 *pfResult = ((FUN_004bd9d0_shell*)slot)->FUN_004bd9d0(2, 0);
                 return true;
             }
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)extra)))->CheckExtraByType(4) &&
-                (int)((FUN_004bd880_stand*)slot)->GetSlotPointer(4) == type)
+                (std::uintptr_t)((FUN_004bd880_stand*)slot)->GetSlotPointer(4) == type)
             {
                 *pfResult = ((FUN_004bd9d0_shell*)slot)->FUN_004bd9d0(4, 0);
                 return true;
@@ -7235,8 +7235,8 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                         reinterpret_cast<::TESRegionGrassObject *>((((InventoryCursor4ca330*)apCursor)->m_pTileTemplate))->AssignLandTexture((::TESLandTexture *)(pRecord->m_form));
 
                         if (pChange &&
-                            (((int)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) || reinterpret_cast<::FUN_004bd7a0_stand *>((pChange))->FindFirstNonNegativeValue() >= 0 ||
-                             ((int)(reinterpret_cast<::FUN_004bd740_stand *>((pChange))->GetExtraForm())) != (int)(std::uintptr_t)((::InventoryList4ca330 *)(reinterpret_cast<::Callees *>((((InventoryBaseHost4ca330*)this)))->FUN_00726070()))))
+                            (((std::uintptr_t)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) || reinterpret_cast<::FUN_004bd7a0_stand *>((pChange))->FindFirstNonNegativeValue() >= 0 ||
+                             ((std::uintptr_t)(reinterpret_cast<::FUN_004bd740_stand *>((pChange))->GetExtraForm())) != (int)(std::uintptr_t)((::InventoryList4ca330 *)(reinterpret_cast<::Callees *>((((InventoryBaseHost4ca330*)this)))->FUN_00726070()))))
                         {
                             if (((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))->FUN_005ae380())
                             {
@@ -7308,7 +7308,7 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             else
                                 ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_uiItemCount = change;
                             reinterpret_cast<::TESRegionGrassObject *>((((InventoryCursor4ca330*)apCursor)->m_pTileTemplate))->AssignLandTexture((::TESLandTexture *)(pRecord->m_form));
-                            if (pChange && ((int)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) &&
+                            if (pChange && ((std::uintptr_t)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) &&
                                 ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))->FUN_005ae380())
                             {
                                 if (!((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList)
@@ -8146,11 +8146,11 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                             WeightExtra* extra = *((::WeightExtra **)((void *)(extra2)));
                             if (extra && reinterpret_cast<::FUN_00418ba0_shell *>((extra))->FUN_00418ba0())
                             {
-                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(1) && ((int)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(1))) == 4)
+                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(1) && ((std::uintptr_t)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(1))) == 4)
                                     countTmp += reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(2) && ((int)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(2))) == 4)
+                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(2) && ((std::uintptr_t)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(2))) == 4)
                                     countTmp += reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(4) && ((int)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(4))) == 4)
+                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(4) && ((std::uintptr_t)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(4))) == 4)
                                     countTmp += reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
                             }
                             extra2 = ((::WeightExtraNode *)(reinterpret_cast<::Callees *>((extra2))->FUN_00726070()));
@@ -9505,7 +9505,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
             }
             if (entry7)
             {
-                if (((int)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(entry7->form), 1, 0))))
+                if (((std::uintptr_t)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(entry7->form), 1, 0))))
                     continue;
                 if (flags & 1)
                 {
@@ -16659,7 +16659,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
     {
         if (apExtra != 0)
         {
-            if (((int)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((apExtra))->FUN_00410220(0x4a))))
+            if (((std::uintptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((apExtra))->FUN_00410220(0x4a))))
             {
                 if (aiCount == (int)reinterpret_cast<::FUN_00418770_shell *>((apExtra))->FUN_00418770())
                     reinterpret_cast<::FUN_0042dec0_shell *>((apExtra))->FUN_0042dec0();
@@ -16918,7 +16918,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
 
                 if (abCreateRef != 0)
                 {
-                    if (transferExtra18 == 0 || ((int)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)transferExtra18)))->FUN_0041c8d0())) == 0)
+                    if (transferExtra18 == 0 || ((std::uintptr_t)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)transferExtra18)))->FUN_0041c8d0())) == 0)
                     {
                         resultRef6 = (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(itemChange7->m08), stackCount10, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
                         ((Transfer4c37ResObj*)resultRef6)->Vcall48(0x400);
@@ -16937,11 +16937,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                         }
                         bool copyModel0 = 0;
                         Transfer4c37M68Obj* sourceCell30 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
-                        if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                        if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                         {
                             if (sourceCell30 != 0)
                             {
-                                if (((int)(reinterpret_cast<::DoorCell *>((sourceCell30))->GetOwner())))
+                                if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((sourceCell30))->GetOwner())))
                                 {
                                     if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((sourceCell30))->FUN_00546ca0((::Actor *)(apSource)))))
                                         copyModel0 = 1;
@@ -16958,7 +16958,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                         (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                     if (t70 != 0)
                                     {
-                                        if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(0))))
+                                        if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(0))))
                                             copyModel0 = 1;
                                     }
                                 }
@@ -16997,7 +16997,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                             reinterpret_cast<::ExtraCopyList *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_00412490((::ExtraCopyList *)(void *)((void*)transferExtra18), (int)copyExtra1);
                             reinterpret_cast<::FUN_0041afd0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->RemoveExtraData30();
                             reinterpret_cast<::FUN_0041c900_cls *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041c900();
-                            if (((int)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
+                            if (((std::uintptr_t)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
                             {
                                 reinterpret_cast<::fnv_0041b2a0::FUN_0041b2a0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b2a0((::TESObjectREFR *)(void *)((void*)resultRef6));
                                 ((Transfer4c37ResObj*)resultRef6)->Vcall48(0x400);
@@ -17013,11 +17013,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                             }
                             bool copyReferenceModel20 = 0;
                             Transfer4c37M68Obj* referenceCell8 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
-                            if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                            if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                             {
                                 if (referenceCell8 != 0)
                                 {
-                                    if (((int)(reinterpret_cast<::DoorCell *>((referenceCell8))->GetOwner())))
+                                    if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((referenceCell8))->GetOwner())))
                                     {
                                         if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((referenceCell8))->FUN_00546ca0((::Actor *)(apSource)))))
                                             copyReferenceModel20 = 1;
@@ -17035,7 +17035,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                                 (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                         if (t70b != 0)
                                         {
-                                            if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(0))))
+                                            if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(0))))
                                                 copyReferenceModel20 = 1;
                                         }
                                     }
@@ -17260,11 +17260,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                     {
                         Transfer4c37M68Obj* plainCell18 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                         bool copyPlainModel42 = 0;
-                        if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                        if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                         {
                             if (plainCell18 != 0)
                             {
-                                if (((int)(reinterpret_cast<::DoorCell *>((plainCell18))->GetOwner())))
+                                if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((plainCell18))->GetOwner())))
                                 {
                                     if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((plainCell18))->FUN_00546ca0((::Actor *)(apSource)))))
                                         copyPlainModel42 = 1;
@@ -17282,7 +17282,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                             (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                     if (loopTail != 0)
                                     {
-                                        if (((int)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(0))))
+                                        if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(0))))
                                             copyPlainModel42 = 1;
                                     }
                                 }
@@ -17476,7 +17476,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                         if (abCreateRef != 0)
                         {
                             if (destinationList14 == 0 ||
-                                ((int)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)destinationList14)))->FUN_0041c8d0())) == 0)
+                                ((std::uintptr_t)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)destinationList14)))->FUN_0041c8d0())) == 0)
                             {
 
                                 resultRef6 =
@@ -17484,11 +17484,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                 {
                                     Transfer4c37M68Obj* stackCell3 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                                     bool copyStackModel11 = 0;
-                                    if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                                    if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                                     {
                                         if (stackCell3 != 0)
                                         {
-                                            if (((int)(reinterpret_cast<::DoorCell *>((stackCell3))->GetOwner())))
+                                            if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((stackCell3))->GetOwner())))
                                             {
                                                 if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((stackCell3))->FUN_00546ca0((::Actor *)(apSource)))))
                                                     copyStackModel11 = 1;
@@ -17506,7 +17506,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                                         (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                                 if (t70e != 0)
                                                 {
-                                                    if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(0))))
+                                                    if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(0))))
                                                         copyStackModel11 = 1;
                                                 }
                                             }
@@ -17557,7 +17557,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                     }
                                     reinterpret_cast<::FUN_0041afd0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->RemoveExtraData30();
                                     reinterpret_cast<::FUN_0041c900_cls *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041c900();
-                                    if (((int)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
+                                    if (((std::uintptr_t)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
                                     {
                                         reinterpret_cast<::fnv_0041b2a0::FUN_0041b2a0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b2a0((::TESObjectREFR *)(void *)((void*)resultRef6));
                                         ((Transfer4c37ResObj*)resultRef6)->Vcall48(0x400);
@@ -17576,11 +17576,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                         bool copyStackReferenceModel26 = 0;
                                         Transfer4c37M68Obj* stackReferenceCell32 =
                                             (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
-                                        if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                                        if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                                         {
                                             if (stackReferenceCell32 != 0)
                                             {
-                                                if (((int)(reinterpret_cast<::DoorCell *>((stackReferenceCell32))->GetOwner())))
+                                                if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((stackReferenceCell32))->GetOwner())))
                                                 {
                                                     if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((stackReferenceCell32))->FUN_00546ca0((::Actor *)(apSource)))))
                                                         copyStackReferenceModel26 = 1;
@@ -17599,7 +17599,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                                         (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                                     if (t70f != 0)
                                                     {
-                                                        if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(0))))
+                                                        if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(0))))
                                                             copyStackReferenceModel26 = 1;
                                                     }
                                                 }
@@ -17712,11 +17712,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
             {
                 Transfer4c37M68Obj* remainderCell3 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                 bool copyRemainderModel32 = 0;
-                if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                 {
                     if (remainderCell3 != 0)
                     {
-                        if (((int)(reinterpret_cast<::DoorCell *>((remainderCell3))->GetOwner())))
+                        if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((remainderCell3))->GetOwner())))
                         {
                             if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((remainderCell3))->FUN_00546ca0((::Actor *)(apSource)))))
                                 copyRemainderModel32 = 1;
@@ -17733,7 +17733,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                 (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                             if (t70_110 != 0)
                             {
-                                if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(0))))
+                                if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(0))))
                                     copyRemainderModel32 = 1;
                             }
                         }
@@ -17854,7 +17854,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
     }
     if (updateWeapon9)
     {
-        if (((int)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())) != 0)
+        if (((std::uintptr_t)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())) != 0)
             playerSource2->Vcall3ec(((int)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())), 0, 0, 0);
     }
     return resultRef6;

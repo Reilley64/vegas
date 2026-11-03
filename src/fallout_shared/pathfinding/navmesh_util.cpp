@@ -2457,7 +2457,7 @@ struct FUN_006986d0_cls
 bool FUN_006986d0_cls::FUN_006986d0()
 {
     b9_nav* r = ((::b9_nav *)(reinterpret_cast<::Pathing *>((((::b9_nav *)(reinterpret_cast<::Owner45A *>((((b9_tab*)::g_TES)))->FUN_0045af00()))))->FindReferenceByFormId({})));
-    if (((int)(reinterpret_cast<::FUN_0068efb0_shell *>((this))->FUN_0068efb0())) == 0)
+    if (((std::uintptr_t)(reinterpret_cast<::FUN_0068efb0_shell *>((this))->FUN_0068efb0())) == 0)
     {
         b9_big* q = new b9_big();
         reinterpret_cast<::NavInfo *>((q))->InitializeFromMeshSource((::MeshSource *)(::FUN_006986d0_cls *)(this));

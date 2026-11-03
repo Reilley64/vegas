@@ -140,7 +140,7 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
         if (pdest->FindNavMeshTriangle(spmeshPtr, sgoalTri))
         {
             const NavMeshTriangleReference* thisNode = &(*(const ::NavMeshTriangleReference *)(reinterpret_cast<::TESTopicInfoData *>((void *)(apNode))->GetLinkToList()));
-            if ((unsigned int)thisNode->m_pLocationNavMesh == *(Flt*)&spmeshPtr &&
+            if ((std::uintptr_t)thisNode->m_pLocationNavMesh == *(Flt*)&spmeshPtr &&
                 thisNode->m_usTriangleIdentifier == sgoalTri)
                 return true;
         }

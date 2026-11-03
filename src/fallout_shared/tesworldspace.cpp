@@ -671,7 +671,7 @@ bool FUN_005858b0_shell::IsFileFormIDMatching(FileH* apFile)
         {
             if (((unsigned int)(reinterpret_cast<::FUN_00472660_shell *>((apFile))->FUN_00472660())) == DAT_0118730c)
             {
-                if (((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((apFile))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0())))
+                if (((std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((apFile))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0())))
                     return true;
             }
         }
@@ -1809,7 +1809,7 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
             {
                 pref = *((::TESObjectREFR **)((void *)(pCurrentElementNext)));
 
-                if (((int)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(pref)))->GetTarget())) != reinterpret_cast<int>(cell))
+                if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(pref)))->GetTarget())) != reinterpret_cast<int>(cell))
                 {
                     if (reinterpret_cast<::fnv_00550200::FUN_00550200 *>((reinterpret_cast<FUN_00550200_shell*>(cell)))->IsPointInCell(
                             (*(const ::fnv_00550200::NiPoint3 *)(reinterpret_cast<BSOcclusionPlane*>(pref)->FUN_0125()))))
@@ -2011,7 +2011,7 @@ void FUN_00583270_cls::FUN_00583270()
     {
         if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((void *)(::FUN_00559450((int *)&(sub))))))->FUN_00726070())) == 1)
         {
-            if (((int)(reinterpret_cast<::FUN_00454b30_class *>((reinterpret_cast<FUN_00583270_mid_cls*>(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00454b30())) == (int)((void *)(::FUN_00559450((int *)&(sub)))))
+            if (((std::uintptr_t)(reinterpret_cast<::FUN_00454b30_class *>((reinterpret_cast<FUN_00583270_mid_cls*>(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00454b30())) == (std::uintptr_t)((void *)(::FUN_00559450((int *)&(sub)))))
             {
                 reinterpret_cast<::fnv_00b5ddf0::LocalTarget *>((reinterpret_cast<FUN_00583270_tgt_cls*>(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00b5ddf0((::fnv_00b5ddf0::LocalContext *)(0));
             }

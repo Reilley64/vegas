@@ -147,17 +147,17 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
             if (a00->GetDisabled())
                 continue;
             void* b01 =
-                ((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))
+                ((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))
                     ? reinterpret_cast<void*>(((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
                     : reinterpret_cast<void*>(((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0())));
             switch (restriction)
             {
             case 2:
-                if (((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
                     continue;
                 break;
             case 1:
-                if (((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())) &&
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())) &&
                     reinterpret_cast<TESWorldSpace*>(
                         ((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))) != startWorld)
                     continue;
@@ -196,7 +196,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
             switch (reinterpret_cast<::FUN_006f3e30_shell *>(this)->InsertOrUpdateNode((std::uintptr_t)(b01), a01, (::AStarNodeTD **)&(a08)))
             {
             case 0:
-                if (((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
                 {
                     a08->exterior = true;
                     a08->cell = 0;

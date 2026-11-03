@@ -1283,7 +1283,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                              j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))))->GetName())); ++j)
                         {
                             if (*((Arr*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))->GetAt(j) ==
-                                (unsigned int)pinfo->Portal.m_pNavMeshInfo)
+                                (std::uintptr_t)pinfo->Portal.m_pNavMeshInfo)
                             {
                                 reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))))->FUN_009a4320(j, 1);
                                 reinterpret_cast<::FUN_00438690 *>((((NavMeshPortalIndexArray*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x34))))->FUN_007cb2e0((unsigned int *)&((NavMesh* const&)pinfo->Portal.m_pNavMeshInfo));

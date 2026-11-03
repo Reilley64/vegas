@@ -829,7 +829,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
         for (unsigned int d = 0; d < count; ++d)
             reinterpret_cast<::FUN_00438690 *>(&(doors))->FUN_007cb2e0((unsigned int *)&((*(::NavInfo *const *)(reinterpret_cast<::FUN_0068f6b0_shell *>((source))->FUN_0068f6b0((unsigned short)d)))));
     }
-    if (((int)(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetParentWorldSpace())))
+    if (((std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetParentWorldSpace())))
         cellKey = ::PackShortPair(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridY());
     else
         cellKey = 0;

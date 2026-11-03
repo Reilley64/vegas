@@ -7496,13 +7496,13 @@ bool DialX::FUN_006c8f50(void* pkA, void* pkB)
         if (reinterpret_cast<::BGSTerrainManager *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetMinLevel())
         {
             if (reinterpret_cast<::BGSTerrainManager *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetMinLevel() == reinterpret_cast<::BGSTerrainManager *>((((::FormX *)(::FUN_006a9540((char *)(m_pkActor))))))->GetMinLevel() &&
-                ((int)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetAssociatedNavMesh())) && ((int)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::FUN_006a9540((char *)(m_pkActor))))))->GetAssociatedNavMesh())))
+                ((std::uintptr_t)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetAssociatedNavMesh())) && ((std::uintptr_t)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::FUN_006a9540((char *)(m_pkActor))))))->GetAssociatedNavMesh())))
                 return false;
         }
         else
         {
-            if (((int)(reinterpret_cast<::PathingLocation *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetContainingCell())) == ((int)(reinterpret_cast<::PathingLocation *>((((::FormX *)(::FUN_006a9540((char *)(m_pkActor))))))->GetContainingCell())) &&
-                ((int)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetAssociatedNavMesh())) && ((int)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::FUN_006a9540((char *)(m_pkActor))))))->GetAssociatedNavMesh())))
+            if (((std::uintptr_t)(reinterpret_cast<::PathingLocation *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetContainingCell())) == ((std::uintptr_t)(reinterpret_cast<::PathingLocation *>((((::FormX *)(::FUN_006a9540((char *)(m_pkActor))))))->GetContainingCell())) &&
+                ((std::uintptr_t)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::GetOffsetC((::std::intptr_t)(m_pkActor))))))->GetAssociatedNavMesh())) && ((std::uintptr_t)(reinterpret_cast<::PathingLocationProxy *>((((::FormX *)(::FUN_006a9540((char *)(m_pkActor))))))->GetAssociatedNavMesh())))
                 return false;
         }
         reinterpret_cast<::BSSimpleArray_006cefa0 *>(&(m_pkActorGroup->kList))->FreeArray(0);

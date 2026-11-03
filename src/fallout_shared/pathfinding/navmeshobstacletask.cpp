@@ -561,8 +561,8 @@ bool ObstacleTaskShell::FUN_006c85e0()
         ObstacleCell* pCell = ((::ObstacleCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((ObstacleMesh*)m_spSourceNavMesh)))->GetCurrentMoveModeType()));
         if (pCell)
         {
-            reinterpret_cast<::NavShell2 *>((((::ObstacleCellChild *)(::FUN_0070ec90((char *)(pCell))))))->FUN_00469500((*(::NavMeshPtr *)&(const ::ObstacleMeshHandle &)(m_spWorkingNavMesh)));
-            ((::ObstacleCellChild *)(::FUN_0070ec90((char *)(pCell))))->FUN_0069bb00(m_spSourceNavMesh);
+            reinterpret_cast<::NavShell2 *>((((::ObstacleCellChild *)(std::uintptr_t)(::FUN_0070ec90((char *)(pCell))))))->FUN_00469500((*(::NavMeshPtr *)&(const ::ObstacleMeshHandle &)(m_spWorkingNavMesh)));
+            ((::ObstacleCellChild *)(std::uintptr_t)(::FUN_0070ec90((char *)(pCell))))->FUN_0069bb00(m_spSourceNavMesh);
         }
         reinterpret_cast<::NavMesh *>((((ObstacleMesh*)m_spSourceNavMesh)))->ForceSetFormID(0);
         reinterpret_cast<::HX *>((((ObstacleMesh*)m_spSourceNavMesh)))->FUN_006d3100((::CombatCoverPointData *)(::NavMeshInfo *)(0));

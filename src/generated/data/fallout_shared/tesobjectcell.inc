@@ -54,5 +54,5 @@ int DAT_011ca08c;
 namespace fnv_00547ad0 { bool DAT_011ca090; }
 float runtimeInitializationFloat2390;
 StatsCell *DAT_011ca218;
-unsigned int DAT_011ca438;
+void* DAT_011ca438;
 ::TESWaterForm *DAT_011ca53c;

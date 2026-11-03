@@ -1412,7 +1412,7 @@ bool FUN_006d91d0(BSSimpleArray<NavMeshPtr, 1024>* apRetNavMeshes)
     NavMeshCollection* parray;
     unsigned int i;
 
-    if (((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath())))
+    if (((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath())))
     {
         parray = reinterpret_cast<NavMeshCollection*>(
             ((int)(::FUN_0070ec90((char *)(reinterpret_cast<EffectSetting*>(((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(::g_TES)))->GetPrevPath()))))))));
@@ -5808,13 +5808,13 @@ unsigned char __cdecl FUN_006d8a40(SearchObject* search, float radius, SearchOut
 
             SearchNavCell* cell = reinterpret_cast<SearchNavCell*>(*located.FUN_00877a30(i));
 
-            if (cell && ((::NavMeshLinks *)(::FUN_0070ec90((char *)(cell)))))
+            if (cell && ((::NavMeshLinks *)(std::uintptr_t)(::FUN_0070ec90((char *)(cell)))))
             {
 
-                for (unsigned int k = 0; k < reinterpret_cast<::FUN_00620b80_shell *>((((::NavMeshLinks *)(::FUN_0070ec90((char *)(cell))))))->GetReferenceFlags(); ++k)
+                for (unsigned int k = 0; k < reinterpret_cast<::FUN_00620b80_shell *>((((::NavMeshLinks *)(std::uintptr_t)(::FUN_0070ec90((char *)(cell))))))->GetReferenceFlags(); ++k)
                 {
 
-                    reinterpret_cast<::S2f850 *>((result))->AppendValue((const ::NavMeshPtr &)((const ::LocationBlock &)(((::NavMeshLinks *)(::FUN_0070ec90((char *)(cell))))->FUN_00464f60(k))));
+                    reinterpret_cast<::S2f850 *>((result))->AppendValue((const ::NavMeshPtr &)((const ::LocationBlock &)(((::NavMeshLinks *)(std::uintptr_t)(::FUN_0070ec90((char *)(cell))))->FUN_00464f60(k))));
                 }
             }
         }
@@ -5894,7 +5894,7 @@ unsigned char __cdecl FUN_006d8a40(SearchObject* search, float radius, SearchOut
                             continue;
                         }
                     }
-                    else if (((int)(reinterpret_cast<::TESObjectCELL *>((centralCell))->GetParentWorldSpace())) != ((int)(reinterpret_cast<::TESObjectCELL *>((cell2))->GetParentWorldSpace())))
+                    else if (((std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((centralCell))->GetParentWorldSpace())) != ((std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((cell2))->GetParentWorldSpace())))
                     {
 
                         continue;

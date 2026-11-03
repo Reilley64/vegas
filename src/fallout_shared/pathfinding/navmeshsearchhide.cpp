@@ -362,7 +362,7 @@ public:
 // @fnv 0x006aa000
 bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* pkList)
 {
-    NiPoint3 kPosX = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kPosX = ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     for (int i9 = 0; i9 < 3; i9++)
     {
         NavMeshStandIn* pMesh5;

@@ -933,7 +933,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
     unsigned int qQMZREG;
     if (!apCell)
         return;
-    qfTOqo = ((::NavArrX *)(::FUN_0070ec90((char *)(apCell))));
+    qfTOqo = ((::NavArrX *)(std::uintptr_t)(::FUN_0070ec90((char *)(apCell))));
     if (!qfTOqo)
         return;
     qQMZREG = reinterpret_cast<::FUN_00620b80_shell *>((qfTOqo))->GetReferenceFlags();

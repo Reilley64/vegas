@@ -1230,10 +1230,10 @@ struct MgrX
 {
 };
 
-extern int DAT_011d6e2c;
+extern void* DAT_011d6e2c;
 
 // @fnv 0x00552ba0
-int __cdecl FUN_00552ba0()
+void* __cdecl FUN_00552ba0()
 {
     return DAT_011d6e2c;
 }

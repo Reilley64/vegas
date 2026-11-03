@@ -4394,7 +4394,7 @@ void FUN_006aefc0_cls::FUN_006aefc0()
             reinterpret_cast<::FUN_00438690 *>(&(this->m_kPathPoints))->FUN_007cb2e0((unsigned int *)&(cur));
             reinterpret_cast<::FUN_00438690 *>(&(this->m_kRequestPathPoints))->FUN_007cb2e0((unsigned int *)&(cur));
 
-            if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((avoid))->FUN_007af430())) == 2)
+            if (((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((avoid))->FUN_007af430())) == 2)
             {
                 PathSmootherPOVPoint* pov2 = new PathSmootherPOVPoint();
                 pov2->eType = 5;

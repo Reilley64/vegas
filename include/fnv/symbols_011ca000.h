@@ -138,7 +138,7 @@ extern ::GlobalObject_0045cf30 g_011ca3ec;
 // 0x011ca430
 namespace TerrainLOD { extern bool DAT_011ca430; }
 // 0x011ca438
-extern unsigned int DAT_011ca438;
+extern void *DAT_011ca438;
 // 0x011ca43c
 namespace fnv_0057de00 { extern ::fnv_0057de00::NiPoint3 *DAT_011ca43c; }
 // 0x011ca440

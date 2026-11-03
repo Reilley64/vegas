@@ -689,7 +689,7 @@ unsigned char TESSound::GetField45()
 }
 
 // @fnv 0x0054f4c0
-unsigned int FUN_0054f4c0()
+void* FUN_0054f4c0()
 {
     return DAT_011ca438;
 }
@@ -3324,7 +3324,7 @@ bool FUN_00550280_shell::FUN_00550280(TESFile* apFile)
             if (pworld)
                 reinterpret_cast<::WorldReader *>((((WorldH*)pworld)))->SeekToCellInWorld((::FileReader *)(apFile), GetCellGridX(), GetCellGridY());
         }
-        if (reinterpret_cast<::FUN_00472660_shell *>((((FileH*)apFile)))->FUN_00472660() == 0x39 && ((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((((FileH*)apFile)))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0())))
+        if (reinterpret_cast<::FUN_00472660_shell *>((((FileH*)apFile)))->FUN_00472660() == 0x39 && ((std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((((FileH*)apFile)))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0())))
             return true;
     }
     return false;
@@ -4556,7 +4556,7 @@ void FUN_0054ae30()
             ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)(unsigned int)data.m_pSceneObject)))->FUN_009611e0())) != (NiNode*)(unsigned int)data.m_pParent)
         {
             TESObjectREFR* pref = ::FUN_0056f930((NiAVObject*)(unsigned int)data.m_pSceneObject);
-            if (pref && ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))
+            if (pref && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))
                 reinterpret_cast<::FUN_005496b0_shell *>((((FUN_005496b0_shell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))))->FUN_005496b0(pref, (NiNode*)(unsigned int)data.m_pParent);
         }
     }
@@ -8324,7 +8324,7 @@ void FUN_005455c0_cls::FUN_005455c0(FUN_005455c0_ref* ref)
         FUN_005455c0_node* prev = 0;
         while (cur != 0 && !cur->FUN_008256d0())
         {
-            if (((::FUN_005455c0_item *)((void *)(cur)))->m_00 == (unsigned int)ref)
+            if (((::FUN_005455c0_item *)((void *)(cur)))->m_00 == (std::uintptr_t)ref)
             {
                 return;
             }
@@ -8890,7 +8890,7 @@ void FUN_0054dcf0_shell::CollectCellReferences(ReferenceCollectorDC* collector)
                         if (baseForm->FUN_00401170() == 0x1c && baseForm != (*reinterpret_cast<::BaseFormDC * *>(&::DAT_011ca258)))
                         {
                             BaseFormDC* currentForm = ((::BaseFormDC *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
-                            if (((int)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData())) || ((unsigned char)(reinterpret_cast<::FUN_005194d0_shell_base *>((currentForm))->FUN_005194d0())))
+                            if (((std::uintptr_t)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData())) || ((unsigned char)(reinterpret_cast<::FUN_005194d0_shell_base *>((currentForm))->FUN_005194d0())))
                             {
                                 collector->FUN_005ae3d0(&reference);
                             }
@@ -10383,9 +10383,9 @@ void CollectionView::FUN_00526f20(ReferenceView* reference)
         reinterpret_cast<::LoadedReferenceMap *>(&(actors))->AddReference((::TESObjectREFR *)(reference));
     if (((::TypeForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == (*reinterpret_cast<::TypeForm * *>(&::DAT_011ca264)))
         reinterpret_cast<::LoadedReferenceMap *>(&(special))->AddReference((::TESObjectREFR *)(reference));
-    if (a == 0x51 && ((int)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraData(0x5d))))
+    if (a == 0x51 && ((std::uintptr_t)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraData(0x5d))))
         reinterpret_cast<::LoadedReferenceMap *>(&(special))->AddReference((::TESObjectREFR *)(reference));
-    if (a == 0x1c && ((int)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData())))
+    if (a == 0x1c && ((std::uintptr_t)(reinterpret_cast<::TESObjectREFR *>((reference))->GetExtraRadioData())))
         reinterpret_cast<::LoadedReferenceMap *>(&(animated))->AddReference((::TESObjectREFR *)(reference));
 }
 
@@ -11399,7 +11399,7 @@ Widget* FUN_00545cf0_Cls::GetOrCreateWidget()
         reinterpret_cast<::FUN_004512a0_shell *>(this)->SetState(3);
     }
     d = ((::ManagerResult *)(reinterpret_cast<::FUN_00545b30_shell *>(this)->GetPortalGraph()));
-    if (!((int)(::fnv_00546930::FUN_00546930((::fnv_00546930::FUN_00546930_Class *)(d)))))
+    if (!((std::uintptr_t)(::fnv_00546930::FUN_00546930((::fnv_00546930::FUN_00546930_Class *)(d)))))
     {
         Widget* item = new FUN_00a5ecb0(0);
         ::AssignFixedString((char *)(item), (std::intptr_t)(&ResultSlot(TemporaryName(&DAT_0102ed50))), {});
@@ -12100,7 +12100,7 @@ bool FUN_005497c0_shell::FUN_005497c0(AObj* apRefr, P2Obj* apTarget, std::intptr
                             {
                                 foundSecond3 = 1;
                                 if (reinterpret_cast<::FUN_009611e0_shell *>((((FUN_009611e0_shell*)apTarget)))->FUN_009611e0() !=
-                                    (int)(void*)this->GetDynamicNode())
+                                    (std::uintptr_t)(void*)this->GetDynamicNode())
                                 {
                                     if (!apRefr->f100())
                                     {
@@ -12167,7 +12167,7 @@ bool FUN_005497c0_shell::FUN_005497c0(AObj* apRefr, P2Obj* apTarget, std::intptr
             }
             if (!foundFirst9)
             {
-                if (reinterpret_cast<::FUN_009611e0_shell *>((((FUN_009611e0_shell*)apTarget)))->FUN_009611e0() != (int)(VObj*)(void*)objTmp.operator->())
+                if (reinterpret_cast<::FUN_009611e0_shell *>((((FUN_009611e0_shell*)apTarget)))->FUN_009611e0() != (std::uintptr_t)(VObj*)(void*)objTmp.operator->())
                 {
                     {
                         BSPortalGraph* graph;
@@ -14239,7 +14239,7 @@ unsigned int Cell54D::FUN_0054dc00(const Point54D& kPos, float afRadius, RefArra
         if (pkRef && !reinterpret_cast<::FUN_00437b90_shell *>((pkRef))->FUN_00437b90())
         {
             Form54D* pkBase = ((::Form54D *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkRef))->FUN_007af430()));
-            if (pkBase->GetFormType() == 0x1c && pkBase != (*reinterpret_cast<::Form54D * *>(&::DAT_011ca258)) && ((int)(reinterpret_cast<::TESObjectREFR *>((pkRef))->GetExtraRadioData())))
+            if (pkBase->GetFormType() == 0x1c && pkBase != (*reinterpret_cast<::Form54D * *>(&::DAT_011ca258)) && ((std::uintptr_t)(reinterpret_cast<::TESObjectREFR *>((pkRef))->GetExtraRadioData())))
             {
                 Point54D kDiff = kPos - pkRef->GetPos();
                 if (reinterpret_cast<::TESCombatStyle *>((void *)&(kDiff))->UpdateCombatStyle() < fRadiusSqr)
@@ -14713,7 +14713,7 @@ float RegionCell::FUN_0054fd70(void* point, int kind, RegionQuery* query)
         {
             b = ((::RegionDataManager *)(reinterpret_cast<::FUN_00740940_shell *>((((RegionLoadHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetRegionDataManager()))->GetRecord6(i);
             q = query;
-            if (!((int)(reinterpret_cast<::FUN_004f5f80_cls *>((b->FindPair(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((q->GetForm()))->FUN_0084e3a0())), q->GetSecondary() ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((q->GetSecondary()))->FUN_0084e3a0())) : -1)))->FUN_004f5f80({}, {}))))
+            if (!((std::uintptr_t)(reinterpret_cast<::FUN_004f5f80_cls *>((b->FindPair(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((q->GetForm()))->FUN_0084e3a0())), q->GetSecondary() ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((q->GetSecondary()))->FUN_0084e3a0())) : -1)))->FUN_004f5f80({}, {}))))
             {
                 a = ((::RegionNode *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
                 continue;
@@ -15793,7 +15793,7 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
     kRotationBasis = (*(::fnv_00557dd0::RenderMatrix *)(::FUN_006a9540((char *)(((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))));
     if (all)
     {
-        RenderMeshes* meshes = ((::fnv_00557dd0::RenderMeshes *)(::FUN_0070ec90((char *)(cell))));
+        RenderMeshes* meshes = ((::fnv_00557dd0::RenderMeshes *)(std::uintptr_t)(::FUN_0070ec90((char *)(cell))));
         if (meshes && reinterpret_cast<::FUN_00620b80_shell *>((meshes))->GetReferenceFlags())
         {
             unsigned count = 0;
@@ -17372,7 +17372,7 @@ void FNV_Cell::FUN_00548880(FNV_Ref* reference, int unused)
     if (((::fnv_00548880::FNV_Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))->FUN_00401170() == 0x23)
     {
         reinterpret_cast<::fnv_005456b0::FUN_005456b0StandIn *>(this)->AddValueToHead((std::intptr_t)(reference));
-        reinterpret_cast<::S_004e46b0_Cls *>((((::fnv_00548880::FNV_TESResult *)(::FUN_0070ec90((char *)(((FNV_TES*)DAT_011dea10)))))))->FUN_004e46b0({});
+        reinterpret_cast<::S_004e46b0_Cls *>((((::fnv_00548880::FNV_TESResult *)(std::uintptr_t)(::FUN_0070ec90((char *)(((FNV_TES*)DAT_011dea10)))))))->FUN_004e46b0({});
     }
 
     if (Dir2)
@@ -17783,7 +17783,7 @@ bool Cell::FUN_00550500(File* file)
     TESRecordHeader* hdr4 = ((::fnv_00550500::TESRecordHeader *)(reinterpret_cast<::TESFile *>((file))->GetRecordHeader()));
     if (hdr4->sig == ::DAT_011872b4)
     {
-        if (((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())) != ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
+        if (((std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())) != ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
             return false;
         reinterpret_cast<::FUN_00472150_shell *>((file))->FUN_00472150(true);
         hdr4 = ((::fnv_00550500::TESRecordHeader *)(reinterpret_cast<::TESFile *>((file))->GetRecordHeader()));
@@ -18281,7 +18281,7 @@ void S_005574d0_Owner::ProcessPerkEntries()
         if (entry != 0)
         {
             reinterpret_cast<::BGSLoadedReferenceCollection *>((((S_005270b0_Coll*)(*reinterpret_cast<::fnv_005574d0::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->FUN_005270b0((::TESObjectREFR *)(entry));
-            if (((int)(reinterpret_cast<::BGSCameraPath *>((DAT_011dea10))->GetPrevPath())) == 0 && ((int)(reinterpret_cast<::EffectSetting *>((DAT_011dea10))->GetHitSound())) != 0 &&
+            if (((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((DAT_011dea10))->GetPrevPath())) == 0 && ((std::uintptr_t)(reinterpret_cast<::EffectSetting *>((DAT_011dea10))->GetHitSound())) != 0 &&
                 reinterpret_cast<::FUN_00549580_shell *>((((::fnv_005574d0::S_00549580_Owner *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((entry))->FUN_007af430()))))->FUN_00549580())
             {
                 S_00575d70_Owner* refs = ((::fnv_005574d0::S_00575d70_Owner *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((entry))->FUN_00575d70()));
@@ -20502,7 +20502,7 @@ void FUN_0054db50_cls::FUN_0054db50(ListArg* pOut)
                     {
                         if (pForm != (*reinterpret_cast<void * *>(&::DAT_011ca258)))
                         {
-                            if (((int)(reinterpret_cast<::TESObjectREFR *>((pItem))->GetExtraRadioData())))
+                            if (((std::uintptr_t)(reinterpret_cast<::TESObjectREFR *>((pItem))->GetExtraRadioData())))
                             {
                                 reinterpret_cast<::FUN_00438690 *>((pOut))->FUN_007cb2e0((unsigned int *)(::fnv_0054db50::ItemX **)(&pItem));
                             }
@@ -24317,7 +24317,7 @@ void Cell::FUN_00542d40()
                 ::FUN_005b5e40();
         }
 
-        if (((unsigned int)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate())))
+        if (((std::uintptr_t)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate())))
         {
             unsigned int handle = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate()));
             ::ResolveFormID(&handle, (::TESFile *)(((reinterpret_cast<::TESForm_ctx4 *>(this)->GetFile(-1)))));
@@ -24359,11 +24359,11 @@ void Cell::FUN_00542d40()
         }
     }
 
-    if (((::CellLoading::Collection *)(::FUN_0070ec90((char *)this))))
+    if (((::CellLoading::Collection *)(std::uintptr_t)(::FUN_0070ec90((char *)this))))
     {
-        for (unsigned int i = 0; i < reinterpret_cast<::FUN_00620b80_shell *>((((::CellLoading::Collection *)(::FUN_0070ec90((char *)this)))))->GetReferenceFlags(); i++)
+        for (unsigned int i = 0; i < reinterpret_cast<::FUN_00620b80_shell *>((((::CellLoading::Collection *)(std::uintptr_t)(::FUN_0070ec90((char *)this)))))->GetReferenceFlags(); i++)
         {
-            Pointer item = ((::CellLoading::Collection *)(::FUN_0070ec90((char *)this)))->FUN_00464f60(i);
+            Pointer item = ((::CellLoading::Collection *)(std::uintptr_t)(::FUN_0070ec90((char *)this)))->FUN_00464f60(i);
             ((::CellLoading::Reference *)(::FUN_00559450((int *)&(item))))->Load();
             reinterpret_cast<::SaveLoadGame_8495d0 *>(((*reinterpret_cast<::CellLoading::World * *>(&::g_BGSSaveLoadGame))))->ApplyUnloadedChanges((::TESForm *)(::CellLoading::Reference *)(item.FUN_00458b50()));
         }

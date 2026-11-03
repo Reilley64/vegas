@@ -18861,7 +18861,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                         bool shouldRemove = false;
                         if (followerID)
                         {
-                            followerID = followerID ? (unsigned int)dynamic_cast<Actor*>(FUN_004839c0(followerID)) : 0;
+                            followerID = followerID ? (std::uintptr_t)dynamic_cast<Actor*>(FUN_004839c0(followerID)) : 0;
                             if (followerID)
                                 current->SetItem(followerID);
                             else

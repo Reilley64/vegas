@@ -444,8 +444,9 @@ void FUN_00caa840_shell::WriteToStream(Ctx_00caa840* ctx)
 // @fnv 0x00c90e40
 void FUN_00c90e40(void* self, int arg)
 {
-    (*(void (**)(void*, const char*))(*(char**)self + 0x18))(self, "hkpContactMgrFactory");
-    (*(void (**)(void*))(*(char**)self + 0x1c))(self);
+    void** vtable = *static_cast<void***>(self);
+    reinterpret_cast<void (*)(void*, const char*)>(vtable[6])(self, "hkpContactMgrFactory");
+    reinterpret_cast<void (*)(void*)>(vtable[7])(self);
 }
 
 struct FUN_00cf86e0_class : public hkpSimulation {

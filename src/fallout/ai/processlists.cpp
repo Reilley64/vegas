@@ -1566,11 +1566,6 @@ void* FUN_00978e70(void* pThis)
     return pThis;
 }
 
-struct _LARGE_INTEGER
-{
-    long HighPart;
-    unsigned long LowPart;
-};
 struct FUN_0096b050_shell : public ProcessLists
 {
     void UpdateLowProcesses(float, bool);
@@ -3249,7 +3244,7 @@ void FUN_0096b050_shell::UpdateLowProcesses(float afDelta, bool abSleeping)
     pmob = 0;
     TempList = new BSSimpleList<MobileObject*>;
     iProcessIndex = 0;
-    QueryPerformanceCounter(&imaxTime);
+    QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&imaxTime));
     imaxTime += ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011e0e64))))))->u * DAT_011e0e20 / 1000;
     bfirst = true;
     ihigh = reinterpret_cast<::FUN_005be5c0_shell *>((void *)&(((ProcessLists*)this)->m_kMobileObjectProcessList))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_LOW)));
@@ -3266,7 +3261,7 @@ void FUN_0096b050_shell::UpdateLowProcesses(float afDelta, bool abSleeping)
         if (!abSleeping && i % 5 == 0)
         {
             __int64 icurrentTime;
-            QueryPerformanceCounter(&icurrentTime);
+            QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&icurrentTime));
             if (icurrentTime >= imaxTime)
                 bstopflag = true;
         }
@@ -6136,7 +6131,6 @@ struct Settings970d50
 {
     int FUN_00867d20();
 };
-extern Settings970d50 DAT_011de7b8;
 struct Actor970d50 : Actor
 {
 };
@@ -8563,8 +8557,6 @@ struct RandomData
 {
     int FUN_00867d20();
 };
-extern "C" SingletonData DAT_011e0e80;
-extern "C" RandomData DAT_011de7b8;
 struct FUN_009eb500
 {
     int field00;
@@ -9661,7 +9653,6 @@ struct DetectionLists
     DetectArray actors;
     void UpdateDetection();
 };
-extern DetectionLists DAT_011e0e80;
 // @fnv 0x0096c330
 void DetectionLists::UpdateDetection()
 {
@@ -10064,7 +10055,6 @@ struct Array96
 struct Global96
 {
 };
-extern Global96 DAT_011e0e80;
 struct TimeGlobal
 {
 };
@@ -12101,7 +12091,6 @@ struct S_972aa0_List
 struct S_972aa0_Lists
 {
 };
-extern S_972aa0_Lists DAT_011e0e80;
 
 struct S_972aa0_Owner
 {
@@ -12908,7 +12897,6 @@ void ProcessListsEx::UpdateCrimeLists()
 }  // namespace fnv_009723f0
 
 namespace fnv_0096dcb0 {
-extern "C" char DAT_011de7b8;
 struct State96
 {
     int FUN_0041ca90();
@@ -13192,7 +13180,7 @@ void Owner96::UpdateActorsFromList(FUN_0096a2d0* pInputList)
             !reinterpret_cast<::TESForm *>((actor2))->GetDisabled() && !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor2))->FUN_00493bb0())))
         {
             float last = reinterpret_cast<::ActiveEffect *>((((::fnv_0096dcb0::Proc96 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))))->GetDuration();
-            float now = reinterpret_cast<::Calendar *>((((Clock96*)&DAT_011de7b8)))->GetGameTime();
+            float now = reinterpret_cast<::Calendar *>((((Clock96*)&::g_011de7b8)))->GetGameTime();
             float elapsed3 = now - last;
             if (now < last)
                 elapsed3 = now + 24.0 - last;
@@ -15377,7 +15365,6 @@ struct Sh00717e50
 {
 };
 
-extern "C" char DAT_011e0e80;
 
 struct Menu75x
 {
@@ -15387,7 +15374,7 @@ struct Menu75x
 // @fnv 0x00970810
 void Menu75x::FUN_00970810(int arg)
 {
-    void* list = ((void *)(reinterpret_cast<::BaseProcess *>((((Sh00717e50*)&DAT_011e0e80)))->GetCurrentProcessData()));
+    void* list = ((void *)(reinterpret_cast<::BaseProcess *>((((Sh00717e50*)&::g_011e0e80)))->GetCurrentProcessData()));
     for (unsigned int i = ((int)(reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((((Sh005de0f0*)list)))->FUN_005de0f0(0))); i < reinterpret_cast<::FUN_005be5c0_shell *>((((Sh005be5c0*)list)))->FUN_005be5c0(3); ++i)
     {
         void* a = ((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((Sh00968670*)list)))->FUN_00968670(i)));

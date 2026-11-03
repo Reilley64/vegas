@@ -37,13 +37,9 @@ struct Data
     int unk1c;
     volatile Data* value;
 };
-struct TargetBase
-{
-};
 struct FUN_00df72c0_class
 {
     int unk00;
-    int unk04;
     void ForwardToBase(volatile Data* value);
 };
 struct Param
@@ -55,19 +51,29 @@ struct Param
 };
 struct This
 {
+    int unk00;
     int FUN_00df72e0(Param*);
 };
 namespace fnv_00df7300 {
 struct Param;
 struct This
 {
-    float CastAgainstCollidable(Param*);
+    int unk00;
     bool* SetResultTrue(bool*, Param*);
+};
+struct OwnerHead
+{
+    int unk00;
+};
+// This is the interface at +4.
+struct Owner : OwnerHead, This
+{
+    float CastAgainstCollidable(Param*);
 };
 // @fnv 0x00df7300
 bool* This::SetResultTrue(bool* pbResult, Param* pParam)
 {
-    ((This*)((char*)this - 4))->CastAgainstCollidable(pParam);
+    static_cast<Owner*>(this)->CastAgainstCollidable(pParam);
     *pbResult = true;
     return pbResult;
 }
@@ -256,12 +262,15 @@ struct DF7230Filter
     DF7230CollidableCollidableFilter m_collidableFilter;
 };
 
-struct DF7230CastCollector
+struct DF7230CollectorHead
 {
     int unk00;
     int unk04;
-    int unk08;
-    int unk0C;
+};
+
+// FUN_00df72c0_class is the interface at +8, This the one at +0xc.
+struct DF7230CastCollector : DF7230CollectorHead, FUN_00df72c0_class, This
+{
     const DF7230Filter* m_iFilter;
     DF7230CdPointCollector* m_pPointCollector;
     const DF7230Collidable* m_pCollidableA;
@@ -274,16 +283,14 @@ struct DF7230CastCollector
 void FUN_00df72c0_class::ForwardToBase(volatile Data* value)
 {
     value = value->value;
-    char* p = (char*)this;
-    p -= 8;
-    reinterpret_cast<::DF7230CastCollector *>((((TargetBase*)p)))->CastAgainstCollidable((const ::DF7230Collidable *)(value));
+    static_cast<::DF7230CastCollector *>(this)->CastAgainstCollidable((const ::DF7230Collidable *)(value));
 }
 // @fnv 0x00df72e0
 int This::FUN_00df72e0(Param* pParam)
 {
     Param* pNext = pParam;
     pNext = pNext->next0c;
-    return ((int)(reinterpret_cast<::DF7230CastCollector *>((((This*)((char*)this - 0xc))))->CastAgainstCollidable((const ::DF7230Collidable *)(pNext))));
+    return ((int)(static_cast<::DF7230CastCollector *>(this)->CastAgainstCollidable((const ::DF7230Collidable *)(pNext))));
 }
 
 // @fnv 0x00df7230

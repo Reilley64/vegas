@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -525,7 +526,7 @@ struct DataHandle{int handle;DataHandle(int n):handle(n) {}};
 struct InputA { Root* root; int unk04; int data; };
 struct Path {int unk00; int unk04; int unk08; int subIndex;};
 struct InputB {Path* path;};
-struct InputC {unsigned char* state; int unk04;int unk08;int unk0c;int unk10;int tableFlag;};
+struct InputC {const hkpCollisionDispatcher* state; int unk04;int unk08;int unk0c;int unk10;int tableFlag;};
 __declspec(align(16)) struct WorkArea {
     void* entries[44];
     void CopyFrom(struct DataHandle data);
@@ -538,10 +539,6 @@ struct CallbackArgs {
     InputA* source;
 };
 typedef int (__cdecl *Handler)(CallbackArgs*,InputB*,InputC*,int);
-struct HandlerEntry {
-    Handler handler;
-    int unk04; int unk08; int unk0c; int unk10;
-};
 // Allocates a 16-byte Header, fills tag/format/userValue, runs workspace setup, selects a handler by kind from a table and stores its return in header->result.
 // @fnv 0x00d42a70
 Header* __cdecl BuildHeaderAndDispatchHandler(InputA* pSource,InputB* pPathInput,InputC* pStateInput,int value) {
@@ -558,12 +555,12 @@ Header* __cdecl BuildHeaderAndDispatchHandler(InputA* pSource,InputB* pPathInput
     CallbackArgs callbackArgs = {meta,0,&workspace,pSource};
     Path* path=pPathInput->path;
     bool flag=pStateInput->tableFlag!=0;
-    unsigned char* data=pStateInput->state;
+    const hkpCollisionDispatcher* data=pStateInput->state;
     int subIndex=path->subIndex;
     int iSequence=meta->sequence;
-    unsigned char* pKindTable=flag ? data+0x5a0 : data+0x1a0;
-    unsigned char kind=pKindTable[(iSequence<<5)+subIndex];
-    Handler handler=((HandlerEntry*)(data+0x9a0))[kind].handler;
+    const signed char (*pKindTable)[32]=flag ? data->m_agent2TypesPred : data->m_agent2Types;
+    unsigned char kind=pKindTable[iSequence][subIndex];
+    Handler handler=reinterpret_cast<Handler>(data->m_agent2Func[kind].m_createFunc);
     header->result=handler(&callbackArgs,pPathInput,pStateInput,value);
     return header;
 }

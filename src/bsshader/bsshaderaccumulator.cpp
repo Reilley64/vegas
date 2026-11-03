@@ -21,7 +21,6 @@
 #include "fnv/decl/FUN_00aa45a0_Class.h"
 #include "fnv/decl/FUN_00b63bf0_cls.h"
 #include "fnv/decl/FUN_00b63e90_cls.h"
-#include "fnv/decl/FUN_00c4ed40_cls.h"
 #include "fnv/decl/FUN_00c4edb0_Class.h"
 #include "fnv/decl/Lighting30Shader.h"
 #include "fnv/decl/Manager.h"
@@ -92,8 +91,24 @@ class AccumWIP : public BSShaderAccumulator
 
 #include "bsshaderaccumulator_batchrenderer.h"
 #include "MemoryManager.h"
-#include "fnv/decl/FUN_00b64a00_Pass.h"
-#include "fnv/decl/RenderAccumulator.h"
+
+class Handler
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+};
+
+class FUN_00c4ed40_cls
+{
+  public:
+    Handler* m_00;
+
+    void FUN_00c4ed40();
+};
+
+struct ShCamera;
 
 
 typedef BSSimpleList<unsigned short> BSShaderAccumulatorPassIndexList;
@@ -4230,21 +4245,9 @@ FUN_00b660d0::FUN_00b660d0(int flags, unsigned count, unsigned pass)
     silhouette = LocalColor(0.3f, 0.3f, 0.3f, 1.0f);
 }
 
-class Handler
-{
-  public:
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-};
 
-class FUN_00c4ed40_cls
-{
-  public:
-    Handler* m_00;
 
-    void FUN_00c4ed40();
-};
+
 
 // @fnv 0x00c4ed40
 void FUN_00c4ed40_cls::FUN_00c4ed40()

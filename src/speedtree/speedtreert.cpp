@@ -8,25 +8,13 @@
 #include "fnv/decl/CB28.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aca270.h"
-#include "fnv/decl/FUN_00b0b530_Tree.h"
-#include "fnv/decl/FUN_00b0b5b0_Tree.h"
-#include "fnv/decl/FUN_00b0b630_Tree.h"
-#include "fnv/decl/FUN_00b0b6b0_Tree.h"
-#include "fnv/decl/FUN_00b0b730_Tree.h"
-#include "fnv/decl/FUN_00b0b7b0_Tree.h"
-#include "fnv/decl/FUN_00b0b830_Class.h"
-#include "fnv/decl/FUN_00b0b8b0_Tree.h"
 #include "fnv/decl/FUN_00b0cf90_class.h"
 #include "fnv/decl/FUN_00b0cff0_class.h"
 #include "fnv/decl/FUN_00b30730_Tree.h"
-#include "fnv/decl/FrameC780.h"
 #include "fnv/decl/GvManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/MyClass.h"
-#include "fnv/decl/SpeedTreeRTB0AA20.h"
 #include "fnv/decl/asgnac2__AsVector.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
-#include "fnv/decl/fnv_00b0a9a0__FUN_00b0a9a0_Tree.h"
 #include "fnv/symbols_00b09000.h"
 #include "fnv/symbols_00b0c000.h"
 #include "fnv/symbols_01017000.h"
@@ -43,9 +31,6 @@
 #include "fnv/decl/CTreeEngine.h"
 #include "fnv/decl/CTreeEngineImpl.h"
 #include "fnv/decl/Class_00b1c6d0.h"
-#include "fnv/decl/FUN_00b04420_class.h"
-#include "fnv/decl/FUN_00b08530_class.h"
-#include "fnv/decl/FUN_00b085a0_local_shell.h"
 #include "fnv/decl/FUN_00b0dc10_Vector.h"
 #include "fnv/decl/FUN_00b0dce0.h"
 #include "fnv/decl/FUN_00b181b0.h"
@@ -73,7 +58,6 @@
 #include "fnv/decl/Matrix4f.h"
 #include "fnv/decl/MatrixRange.h"
 #include "fnv/decl/NiD3DHLSLPixelShader.h"
-#include "fnv/decl/S.h"
 #include "fnv/decl/S00b28280_Leaf.h"
 #include "fnv/decl/S_00b3cf40.h"
 #include "fnv/decl/S_00b3ed80.h"
@@ -103,6 +87,2502 @@
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01023000.h"
 #include "fnv/symbols_010a4000.h"
+
+struct Vec3C780
+{
+    float x;
+    float y;
+    float z;
+    Vec3C780()
+    {}
+    Vec3C780(float fX, float fY, float fZ) : x(fX), y(fY), z(fZ)
+    {}
+    const float& operator[](int i) const
+    {
+        return (&x)[i];
+    }
+};
+
+struct FrameC780
+{
+    Vec3C780 m_akRows[4];
+    bool m_bBuilt;
+    bool IsBuilt() const
+    {
+        return m_bBuilt;
+    }
+    FrameC780* FUN_00b0c780(float fScale, float m_fProjectionDepth);
+    ::FrameC780 *FUN_00b0c780(float, float);
+};
+
+
+struct AuxB8B0;
+
+class ContainerBaseAuxAllocB8B0
+{
+  public:
+    AuxB8B0* m_pkMyownedaux;
+    int m_iAlaux;
+};
+
+class VectorValB8B0 : public ContainerBaseAuxAllocB8B0
+{
+  public:
+    int m_iAlval;
+};
+
+template <class T> class VectorB8B0 : public VectorValB8B0
+{
+  public:
+    unsigned int size() const
+    {
+        return (unsigned int)(m_pMylast - m_pMyfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    T& operator[](unsigned int uiPos)
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pMyfirst + uiPos);
+    }
+    T* m_pMyfirst;
+    T* m_pMylast;
+    T* m_pMyend;
+};
+
+class FUN_00b0b8b0_Tree
+{
+  public:
+    unsigned char* FUN_00b0b8b0();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    VectorB8B0<unsigned char> m_kValues;
+};
+
+
+struct AuxB7B0;
+
+class ContainerBaseAuxAllocB7B0
+{
+  public:
+    AuxB7B0* m_pkMyownedaux;
+    int m_iAlaux;
+};
+
+class VectorValB7B0 : public ContainerBaseAuxAllocB7B0
+{
+  public:
+    int m_iAlval;
+};
+
+template <class T> class VectorB7B0 : public VectorValB7B0
+{
+  public:
+    unsigned int size() const
+    {
+        return (unsigned int)(m_pMylast - m_pMyfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    T& operator[](unsigned int uiPos)
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pMyfirst + uiPos);
+    }
+    T* m_pMyfirst;
+    T* m_pMylast;
+    T* m_pMyend;
+};
+
+class FUN_00b0b7b0_Tree
+{
+  public:
+    float* FUN_00b0b7b0();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    VectorB7B0<float> m_kValues;
+};
+
+
+struct AuxB730;
+
+class ContainerBaseAuxAllocB730
+{
+  public:
+    AuxB730* m_pkMyownedaux;
+    int m_iAlaux;
+};
+
+class VectorValB730 : public ContainerBaseAuxAllocB730
+{
+  public:
+    int m_iAlval;
+};
+
+template <class T> class VectorB730 : public VectorValB730
+{
+  public:
+    unsigned int size() const
+    {
+        return (unsigned int)(m_pMylast - m_pMyfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    T& operator[](unsigned int uiPos)
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pMyfirst + uiPos);
+    }
+    T* m_pMyfirst;
+    T* m_pMylast;
+    T* m_pMyend;
+};
+
+class FUN_00b0b730_Tree
+{
+  public:
+    float* FUN_00b0b730();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    VectorB730<float> m_kValues;
+};
+
+
+struct AuxB6B0;
+
+class ContainerBaseAuxAllocB6B0
+{
+  public:
+    AuxB6B0* m_pkMyownedaux;
+    int m_iAlaux;
+};
+
+class VectorValB6B0 : public ContainerBaseAuxAllocB6B0
+{
+  public:
+    int m_iAlval;
+};
+
+template <class T> class VectorB6B0 : public VectorValB6B0
+{
+  public:
+    unsigned int size() const
+    {
+        return (unsigned int)(m_pMylast - m_pMyfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    T& operator[](unsigned int uiPos)
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pMyfirst + uiPos);
+    }
+    T* m_pMyfirst;
+    T* m_pMylast;
+    T* m_pMyend;
+};
+
+class FUN_00b0b6b0_Tree
+{
+  public:
+    float* FUN_00b0b6b0();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    VectorB6B0<float> m_kValues;
+};
+
+
+struct AuxB630;
+
+class ContainerBaseAuxAllocB630
+{
+  public:
+    AuxB630* m_pkMyownedaux;
+    int m_iAlaux;
+};
+
+class VectorValB630 : public ContainerBaseAuxAllocB630
+{
+  public:
+    int m_iAlval;
+};
+
+template <class T> class VectorB630 : public VectorValB630
+{
+  public:
+    unsigned int size() const
+    {
+        return (unsigned int)(m_pMylast - m_pMyfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    T& operator[](unsigned int uiPos)
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pMyfirst + uiPos);
+    }
+    T* m_pMyfirst;
+    T* m_pMylast;
+    T* m_pMyend;
+};
+
+class FUN_00b0b630_Tree
+{
+  public:
+    float* FUN_00b0b630();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    VectorB630<float> m_kValues;
+};
+
+
+struct AuxB5B0;
+
+class ContainerBaseAuxAllocB5B0
+{
+  public:
+    AuxB5B0* m_pkMyownedaux;
+    int m_iAlaux;
+};
+
+class VectorValB5B0 : public ContainerBaseAuxAllocB5B0
+{
+  public:
+    int m_iAlval;
+};
+
+template <class T> class VectorB5B0 : public VectorValB5B0
+{
+  public:
+    unsigned int size() const
+    {
+        return (unsigned int)(m_pMylast - m_pMyfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    T& operator[](unsigned int uiPos)
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pMyfirst + uiPos);
+    }
+    T* m_pMyfirst;
+    T* m_pMylast;
+    T* m_pMyend;
+};
+
+class FUN_00b0b5b0_Tree
+{
+  public:
+    float* FUN_00b0b5b0();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    VectorB5B0<float> m_kValues;
+};
+
+
+struct AuxB530;
+
+class ContainerBaseAuxAllocB530
+{
+  public:
+    AuxB530* m_pkMyownedaux;
+    int m_iAlaux;
+};
+
+class VectorValB530 : public ContainerBaseAuxAllocB530
+{
+  public:
+    int m_iAlval;
+};
+
+template <class T> class VectorB530 : public VectorValB530
+{
+  public:
+    unsigned int size() const
+    {
+        return (unsigned int)(m_pMylast - m_pMyfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    T& operator[](unsigned int uiPos)
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pMyfirst + uiPos);
+    }
+    T* m_pMyfirst;
+    T* m_pMylast;
+    T* m_pMyend;
+};
+
+class FUN_00b0b530_Tree
+{
+  public:
+    float* FUN_00b0b530();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    VectorB530<float> m_kValues;
+};
+
+
+// namespace fnv_00b0a9a0
+
+template <class T> struct VectorB0AA20
+{
+    void* m_pkProxy;
+    int m_iAux;
+    int m_iAlval;
+    T* m_pFirst;
+    T* m_pLast;
+    T* m_pRecordEnd;
+    unsigned int size() const
+    {
+        return m_pLast - m_pFirst;
+    }
+    bool empty() const
+    {
+        return size() == 0;
+    }
+    const T& operator[](unsigned int uiPos) const
+    {
+        if (!(uiPos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return *(m_pFirst + uiPos);
+    }
+};
+
+struct SpeedTreeRTB0AA20
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    unsigned short m_usValueAt28;
+    unsigned short unk22;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    VectorB0AA20<VectorB0AA20<short> > m_vLodStrips;
+    const short* FUN_00b0aa20(short nLod) const;
+};
+
+
+// namespace fnv_00b08200
+
+struct input_iterator_tagS
+{
+};
+
+struct output_iterator_tagS
+{
+};
+
+struct forward_iterator_tagS : public input_iterator_tagS
+{
+};
+
+struct bidirectional_iterator_tagS : public forward_iterator_tagS
+{
+};
+
+struct random_access_iterator_tagS : public bidirectional_iterator_tagS
+{
+};
+
+struct _Range_checked_iterator_tagS
+{
+};
+
+struct _Unchanged_checked_iterator_base_type_tagS
+{
+};
+
+struct _Nonscalar_ptr_iterator_tagS
+{
+};
+
+struct _Scalar_ptr_iterator_tagS
+{
+};
+
+template <class _Iter> struct iterator_traitsS
+{
+    typedef typename _Iter::iterator_category iterator_category;
+};
+
+template <class _Cat1, class _Cat2> struct _Iter_random_helperS
+{
+    typedef forward_iterator_tagS _Iter_random_cat;
+};
+
+template <class _T1, class _T2> struct _Ptr_cat_helperS
+{
+    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
+};
+
+template <class _Iter> struct _Checked_iterator_base_helperS
+{
+    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
+    typedef _Iter _Checked_iterator_base_type;
+};
+
+void __cdecl InvalidParameterNoInfoS();
+
+struct _Iterator_base_universalS
+{
+};
+
+class _Container_base_auxS;
+
+class _Aux_contS
+{
+  public:
+    const _Container_base_auxS* _Getcont() const
+    {
+        return _Mycontainer;
+    }
+    const _Container_base_auxS* _Mycontainer;
+};
+
+class _Container_base_auxS
+{
+  public:
+    _Aux_contS* _Myownedaux;
+};
+
+template <class _Ty> class allocatorS
+{
+  public:
+    typedef _Ty* pointer;
+    void destroy(pointer _Ptr)
+    {
+        _DestroyS(_Ptr);
+    }
+};
+
+template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
+{
+  public:
+    _Alloc _Alaux;
+};
+
+class _Iterator_base_auxS : public _Iterator_base_universalS
+{
+  public:
+    _Iterator_base_auxS() : _Myaux(0)
+    {}
+    void _Set_container(const _Container_base_auxS* const _Pcont)
+    {
+        _Myaux = _Pcont->_Myownedaux;
+    }
+    const _Container_base_auxS* _Getmycont() const
+    {
+        return _Myaux ? _Myaux->_Getcont() : 0;
+    }
+    bool _Same_container(const _Iterator_base_auxS& _Other) const
+    {
+        return _Myaux == _Other._Myaux;
+    }
+    bool _Has_container() const
+    {
+        return _Myaux != 0;
+    }
+    const _Aux_contS* _Myaux;
+};
+
+template <class _Ty> class _RanitS : public _Iterator_base_auxS
+{
+};
+
+template <class _Ty> class vectorS;
+
+template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Myt;
+    typedef vectorS<_Ty> _Myvec;
+    typedef _Ty* _Tptr;
+    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
+    {
+        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
+            InvalidParameterNoInfoS();
+        do
+        {
+        } while (0);
+        this->_Set_container(_Pvector);
+        _Myptr = _Ptr;
+    }
+    _Ty& operator*() const
+    {
+        if (!(this->_Has_container()))
+            InvalidParameterNoInfoS();
+        do
+        {
+        } while (0);
+        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
+            InvalidParameterNoInfoS();
+        do
+        {
+        } while (0);
+        return (*_Myptr);
+    }
+    bool operator==(const _Myt& _Right) const
+    {
+        if (!(this->_Has_container() && this->_Same_container(_Right)))
+            InvalidParameterNoInfoS();
+        do
+        {
+        } while (0);
+        return (_Myptr == _Right._Myptr);
+    }
+    bool operator!=(const _Myt& _Right) const
+    {
+        return (!(*this == _Right));
+    }
+    _Tptr _Myptr;
+};
+
+template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Mybase;
+    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
+    {}
+};
+
+template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
+{
+  public:
+    allocatorS<_Ty> _Alval;
+};
+
+template <class _Ty> class vectorS : public _Vector_valS<_Ty>
+{
+  public:
+    typedef _Vector_iteratorS<_Ty> iterator;
+    typedef _Vector_const_iteratorS<_Ty> const_iterator;
+    typedef _Ty* pointer;
+    typedef unsigned int size_type;
+    typedef _Ty& reference;
+    size_type size() const
+    {
+        return (_Mylast - _Myfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    reference operator[](size_type _Pos)
+    {
+        if (!(_Pos < size()))
+            InvalidParameterNoInfoS();
+        do
+        {
+        } while (0);
+        return (*(_Myfirst + _Pos));
+    }
+    iterator begin()
+    {
+        return (iterator(_Myfirst, this));
+    }
+    iterator end()
+    {
+        return (iterator(_Mylast, this));
+    }
+    iterator _Make_iter(const_iterator _Where) const
+    {
+        return (iterator(_Where._Myptr, this));
+    }
+    iterator erase(const_iterator _Where)
+    {
+        unchecked_copyS(_Where._Myptr + 1, _Mylast, _Where._Myptr);
+        _Destroy(_Mylast - 1, _Mylast);
+        --_Mylast;
+        return (_Make_iter(_Where));
+    }
+    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
+    {
+        iterator _First = _Make_iter(_First_arg);
+        iterator _Last = _Make_iter(_Last_arg);
+        if (_First != _Last)
+        {
+            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
+            _Destroy(_Ptr, _Mylast);
+            _Mylast = _Ptr;
+        }
+        return (_First);
+    }
+    void clear()
+    {
+        erase(begin(), end());
+    }
+    void _Destroy(pointer _First, pointer _Last)
+    {
+        _Destroy_rangeS(_First, _Last, this->_Alval);
+    }
+    pointer _Myfirst;
+    pointer _Mylast;
+    pointer _Myend;
+};
+
+// namespace fnv_00b0a7a0
+
+namespace fnv_00b0a9a0 {
+struct input_iterator_tagS
+{
+};
+struct output_iterator_tagS
+{
+};
+struct forward_iterator_tagS : public input_iterator_tagS
+{
+};
+struct bidirectional_iterator_tagS : public forward_iterator_tagS
+{
+};
+struct random_access_iterator_tagS : public bidirectional_iterator_tagS
+{
+};
+struct _Range_checked_iterator_tagS
+{
+};
+struct _Unchanged_checked_iterator_base_type_tagS
+{
+};
+struct _Nonscalar_ptr_iterator_tagS
+{
+};
+struct _Scalar_ptr_iterator_tagS
+{
+};
+template <class _Iter> struct iterator_traitsS
+{
+    typedef typename _Iter::iterator_category iterator_category;
+};
+template <class _Ty> struct iterator_traitsS<_Ty*>
+{
+    typedef random_access_iterator_tagS iterator_category;
+};
+template <class _Cat1, class _Cat2> struct _Iter_random_helperS
+{
+    typedef forward_iterator_tagS _Iter_random_cat;
+};
+template <> struct _Iter_random_helperS<random_access_iterator_tagS, random_access_iterator_tagS>
+{
+    typedef random_access_iterator_tagS _Iter_random_cat;
+};
+template <class _Iter1, class _Iter2>
+inline typename _Iter_random_helperS<typename iterator_traitsS<_Iter1>::iterator_category,
+                                     typename iterator_traitsS<_Iter2>::iterator_category>::_Iter_random_cat
+_Iter_randomS(const _Iter1&, const _Iter2&)
+{
+    typename _Iter_random_helperS<typename iterator_traitsS<_Iter1>::iterator_category,
+                                  typename iterator_traitsS<_Iter2>::iterator_category>::_Iter_random_cat _Cat;
+    return (_Cat);
+}
+template <class _T1, class _T2> struct _Ptr_cat_helperS
+{
+    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
+};
+template <class _T1, class _T2> inline typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Ptr_catS(_T1&, _T2&)
+{
+    typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Cat;
+    return (_Cat);
+}
+template <class _Iter> struct _Checked_iterator_base_helperS
+{
+    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
+    typedef _Iter _Checked_iterator_base_type;
+};
+template <class _Iter>
+inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(
+    _Iter& _It, _Unchanged_checked_iterator_base_type_tagS)
+{
+    return _It;
+}
+template <class _Iter>
+inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(_Iter& _It)
+{
+    typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type_tag _Base_tag;
+    return _Checked_baseS(_It, _Base_tag);
+}
+template <class _InIt, class _OutIt, class _InOutItCat>
+inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Nonscalar_ptr_iterator_tagS,
+                         _Range_checked_iterator_tagS)
+{
+    for (; _First != _Last; ++_Dest, ++_First)
+        *_Dest = *_First;
+    return (_Dest);
+}
+template <class _InIt, class _OutIt>
+inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_iterator_tagS,
+                         _Nonscalar_ptr_iterator_tagS, _Range_checked_iterator_tagS)
+{
+    _OutIt _Result = _Dest + (_Last - _First);
+    _Copy_optS(_First, _Last, _Checked_baseS(_Dest), forward_iterator_tagS(), _Nonscalar_ptr_iterator_tagS(),
+               _Range_checked_iterator_tagS());
+    return _Result;
+}
+struct _Iterator_base_universalS
+{
+};
+class _Container_base_auxS;
+class _Aux_contS
+{
+  public:
+    const _Container_base_auxS* _Getcont() const
+    {
+        return _Mycontainer;
+    }
+    const _Container_base_auxS* _Mycontainer;
+};
+class _Container_base_auxS
+{
+  public:
+    _Aux_contS* _Myownedaux;
+};
+template <class _Ty> class allocatorS
+{
+  public:
+    typedef _Ty* pointer;
+    void destroy(pointer _Ptr)
+    {
+        _DestroyS(_Ptr);
+    }
+};
+template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
+{
+    (_Ptr)->~_Ty();
+}
+template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
+{
+  public:
+    _Alloc _Alaux;
+};
+class _Iterator_base_auxS : public _Iterator_base_universalS
+{
+  public:
+    _Iterator_base_auxS() : _Myaux(0)
+    {}
+    void _Set_container(const _Container_base_auxS* const _Pcont)
+    {
+        _Myaux = _Pcont->_Myownedaux;
+    }
+    const _Container_base_auxS* _Getmycont() const
+    {
+        return _Myaux ? _Myaux->_Getcont() : 0;
+    }
+    bool _Same_container(const _Iterator_base_auxS& _Other) const
+    {
+        return _Myaux == _Other._Myaux;
+    }
+    bool _Has_container() const
+    {
+        return _Myaux != 0;
+    }
+    const _Aux_contS* _Myaux;
+};
+template <class _Ty> class _RanitS : public _Iterator_base_auxS
+{
+};
+template <class _Ty> class vectorS;
+template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Myt;
+    typedef vectorS<_Ty> _Myvec;
+    typedef _Ty* _Tptr;
+    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
+    {
+        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
+            std::abort();
+        do
+        {
+        } while (0);
+        this->_Set_container(_Pvector);
+        _Myptr = _Ptr;
+    }
+    _Ty& operator*() const
+    {
+        if (!(this->_Has_container()))
+            std::abort();
+        do
+        {
+        } while (0);
+        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (*_Myptr);
+    }
+    bool operator==(const _Myt& _Right) const
+    {
+        if (!(this->_Has_container() && this->_Same_container(_Right)))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (_Myptr == _Right._Myptr);
+    }
+    bool operator!=(const _Myt& _Right) const
+    {
+        return (!(*this == _Right));
+    }
+    _Tptr _Myptr;
+};
+template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Mybase;
+    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
+    {}
+};
+template <class _Alloc>
+inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al)
+{
+    _Destroy_rangeS(_First, _Last, _Al, _Ptr_catS(_First, _Last));
+}
+template <class _Alloc>
+inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al,
+                            _Nonscalar_ptr_iterator_tagS)
+{
+    for (; _First != _Last; ++_First)
+        _Al.destroy(_First);
+}
+template <class _InIt, class _OutIt> inline _OutIt unchecked_copyS(_InIt _First, _InIt _Last, _OutIt _Dest)
+{
+    return (_Copy_optS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Iter_randomS(_First, _Dest),
+                       _Ptr_catS(_First, _Dest), _Range_checked_iterator_tagS()));
+}
+template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
+{
+  public:
+    allocatorS<_Ty> _Alval;
+};
+template <class _Ty> class vectorS : public _Vector_valS<_Ty>
+{
+  public:
+    typedef _Vector_iteratorS<_Ty> iterator;
+    typedef _Vector_const_iteratorS<_Ty> const_iterator;
+    typedef _Ty* pointer;
+    typedef unsigned int size_type;
+    typedef _Ty& reference;
+    size_type size() const
+    {
+        return (_Mylast - _Myfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    reference operator[](size_type _Pos)
+    {
+        if (!(_Pos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (*(_Myfirst + _Pos));
+    }
+    iterator begin()
+    {
+        return (iterator(_Myfirst, this));
+    }
+    iterator end()
+    {
+        return (iterator(_Mylast, this));
+    }
+    iterator _Make_iter(const_iterator _Where) const
+    {
+        return (iterator(_Where._Myptr, this));
+    }
+    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
+    {
+        iterator _First = _Make_iter(_First_arg);
+        iterator _Last = _Make_iter(_Last_arg);
+        if (_First != _Last)
+        {
+            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
+            _Destroy(_Ptr, _Mylast);
+            _Mylast = _Ptr;
+        }
+        return (_First);
+    }
+    void clear()
+    {
+        erase(begin(), end());
+    }
+    void _Destroy(pointer _First, pointer _Last)
+    {
+        _Destroy_rangeS(_First, _Last, this->_Alval);
+    }
+    pointer _Myfirst;
+    pointer _Mylast;
+    pointer _Myend;
+};
+class FUN_00b0a9a0_Tree
+{
+  public:
+    short FUN_00b0a9a0(short m_sIndex);
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    vectorS<vectorS<int> > m_kLists;
+};
+
+// @fnv 0x00b0a9a0
+short FUN_00b0a9a0_Tree::FUN_00b0a9a0(short m_sIndex)
+{
+    return (m_sIndex > -1) ? (short)m_kLists[m_sIndex].size() : (short)0;
+}
+}
+
+namespace fnv_00b0df00 {
+struct input_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct output_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct forward_iterator_tagS : public input_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct bidirectional_iterator_tagS : public forward_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct random_access_iterator_tagS : public bidirectional_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct _Range_checked_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct _Unchanged_checked_iterator_base_type_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct _Nonscalar_ptr_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+struct _Scalar_ptr_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Iter> struct iterator_traitsS
+{
+    typedef typename _Iter::iterator_category iterator_category;
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Cat1, class _Cat2> struct _Iter_random_helperS
+{
+    typedef forward_iterator_tagS _Iter_random_cat;
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _T1, class _T2> struct _Ptr_cat_helperS
+{
+    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Iter> struct _Checked_iterator_base_helperS
+{
+    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
+    typedef _Iter _Checked_iterator_base_type;
+};
+}
+
+namespace fnv_00b0df00 {
+struct _Iterator_base_universalS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+class _Container_base_auxS;
+}
+
+namespace fnv_00b0df00 {
+class _Aux_contS
+{
+  public:
+    const _Container_base_auxS* _Getcont() const
+    {
+        return _Mycontainer;
+    }
+    const _Container_base_auxS* _Mycontainer;
+};
+}
+
+namespace fnv_00b0df00 {
+class _Container_base_auxS
+{
+  public:
+    _Aux_contS* _Myownedaux;
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Ty> class allocatorS
+{
+  public:
+    typedef _Ty* pointer;
+    void destroy(pointer _Ptr)
+    {
+        _DestroyS(_Ptr);
+    }
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
+{
+  public:
+    _Alloc _Alaux;
+};
+}
+
+namespace fnv_00b0df00 {
+class _Iterator_base_auxS : public _Iterator_base_universalS
+{
+  public:
+    _Iterator_base_auxS() : _Myaux(0)
+    {}
+    void _Set_container(const _Container_base_auxS* const _Pcont)
+    {
+        _Myaux = _Pcont->_Myownedaux;
+    }
+    const _Container_base_auxS* _Getmycont() const
+    {
+        return _Myaux ? _Myaux->_Getcont() : 0;
+    }
+    bool _Same_container(const _Iterator_base_auxS& _Other) const
+    {
+        return _Myaux == _Other._Myaux;
+    }
+    bool _Has_container() const
+    {
+        return _Myaux != 0;
+    }
+    const _Aux_contS* _Myaux;
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Ty> class _RanitS : public _Iterator_base_auxS
+{
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Ty> class vectorS;
+}
+
+namespace fnv_00b0df00 {
+template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Myt;
+    typedef vectorS<_Ty> _Myvec;
+    typedef _Ty* _Tptr;
+    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
+    {
+        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
+            std::abort();
+        do
+        {
+        } while (0);
+        this->_Set_container(_Pvector);
+        _Myptr = _Ptr;
+    }
+    _Ty& operator*() const
+    {
+        if (!(this->_Has_container()))
+            std::abort();
+        do
+        {
+        } while (0);
+        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (*_Myptr);
+    }
+    bool operator==(const _Myt& _Right) const
+    {
+        if (!(this->_Has_container() && this->_Same_container(_Right)))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (_Myptr == _Right._Myptr);
+    }
+    bool operator!=(const _Myt& _Right) const
+    {
+        return (!(*this == _Right));
+    }
+    _Tptr _Myptr;
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Mybase;
+    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
+    {}
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
+{
+  public:
+    allocatorS<_Ty> _Alval;
+};
+}
+
+namespace fnv_00b0df00 {
+template <class _Ty> class vectorS : public _Vector_valS<_Ty>
+{
+  public:
+    typedef _Vector_iteratorS<_Ty> iterator;
+    typedef _Vector_const_iteratorS<_Ty> const_iterator;
+    typedef _Ty* pointer;
+    typedef unsigned int size_type;
+    typedef _Ty& reference;
+    size_type size() const
+    {
+        return (_Mylast - _Myfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    reference operator[](size_type _Pos)
+    {
+        if (!(_Pos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (*(_Myfirst + _Pos));
+    }
+    iterator begin()
+    {
+        return (iterator(_Myfirst, this));
+    }
+    iterator end()
+    {
+        return (iterator(_Mylast, this));
+    }
+    iterator _Make_iter(const_iterator _Where) const
+    {
+        return (iterator(_Where._Myptr, this));
+    }
+    iterator erase(const_iterator _Where)
+    {
+        unchecked_copyS(_Where._Myptr + 1, _Mylast, _Where._Myptr);
+        _Destroy(_Mylast - 1, _Mylast);
+        --_Mylast;
+        return (_Make_iter(_Where));
+    }
+    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
+    {
+        iterator _First = _Make_iter(_First_arg);
+        iterator _Last = _Make_iter(_Last_arg);
+        if (_First != _Last)
+        {
+            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
+            _Destroy(_Ptr, _Mylast);
+            _Mylast = _Ptr;
+        }
+        return (_First);
+    }
+    void clear()
+    {
+        erase(begin(), end());
+    }
+    void _Destroy(pointer _First, pointer _Last)
+    {
+        _Destroy_rangeS(_First, _Last, this->_Alval);
+    }
+    pointer _Myfirst;
+    pointer _Mylast;
+    pointer _Myend;
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct input_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct output_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct forward_iterator_tagS : public input_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct bidirectional_iterator_tagS : public forward_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct random_access_iterator_tagS : public bidirectional_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct _Range_checked_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct _Unchanged_checked_iterator_base_type_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct _Nonscalar_ptr_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct _Scalar_ptr_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Iter> struct iterator_traitsS
+{
+    typedef typename _Iter::iterator_category iterator_category;
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Cat1, class _Cat2> struct _Iter_random_helperS
+{
+    typedef forward_iterator_tagS _Iter_random_cat;
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _T1, class _T2> struct _Ptr_cat_helperS
+{
+    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Iter> struct _Checked_iterator_base_helperS
+{
+    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
+    typedef _Iter _Checked_iterator_base_type;
+};
+}
+
+namespace fnv_00b0ebb0 {
+struct _Iterator_base_universalS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+class _Container_base_auxS;
+}
+
+namespace fnv_00b0ebb0 {
+class _Aux_contS
+{
+  public:
+    const _Container_base_auxS* _Getcont() const
+    {
+        return _Mycontainer;
+    }
+    const _Container_base_auxS* _Mycontainer;
+};
+}
+
+namespace fnv_00b0ebb0 {
+class _Container_base_auxS
+{
+  public:
+    _Aux_contS* _Myownedaux;
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Ty> class allocatorS
+{
+  public:
+    typedef _Ty* pointer;
+    void destroy(pointer _Ptr)
+    {
+        _DestroyS(_Ptr);
+    }
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
+{
+  public:
+    _Alloc _Alaux;
+};
+}
+
+namespace fnv_00b0ebb0 {
+class _Iterator_base_auxS : public _Iterator_base_universalS
+{
+  public:
+    _Iterator_base_auxS() : _Myaux(0)
+    {}
+    void _Set_container(const _Container_base_auxS* const _Pcont)
+    {
+        _Myaux = _Pcont->_Myownedaux;
+    }
+    const _Container_base_auxS* _Getmycont() const
+    {
+        return _Myaux ? _Myaux->_Getcont() : 0;
+    }
+    bool _Same_container(const _Iterator_base_auxS& _Other) const
+    {
+        return _Myaux == _Other._Myaux;
+    }
+    bool _Has_container() const
+    {
+        return _Myaux != 0;
+    }
+    const _Aux_contS* _Myaux;
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Ty> class _RanitS : public _Iterator_base_auxS
+{
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Ty> class vectorS;
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Myt;
+    typedef vectorS<_Ty> _Myvec;
+    typedef _Ty* _Tptr;
+    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
+    {
+        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
+            std::abort();
+        do
+        {
+        } while (0);
+        this->_Set_container(_Pvector);
+        _Myptr = _Ptr;
+    }
+    _Ty& operator*() const
+    {
+        if (!(this->_Has_container()))
+            std::abort();
+        do
+        {
+        } while (0);
+        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (*_Myptr);
+    }
+    bool operator==(const _Myt& _Right) const
+    {
+        if (!(this->_Has_container() && this->_Same_container(_Right)))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (_Myptr == _Right._Myptr);
+    }
+    bool operator!=(const _Myt& _Right) const
+    {
+        return (!(*this == _Right));
+    }
+    _Tptr _Myptr;
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Mybase;
+    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
+    {}
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
+{
+  public:
+    allocatorS<_Ty> _Alval;
+};
+}
+
+namespace fnv_00b0ebb0 {
+template <class _Ty> class vectorS : public _Vector_valS<_Ty>
+{
+  public:
+    typedef _Vector_iteratorS<_Ty> iterator;
+    typedef _Vector_const_iteratorS<_Ty> const_iterator;
+    typedef _Ty* pointer;
+    typedef unsigned int size_type;
+    typedef _Ty& reference;
+    size_type size() const
+    {
+        return (_Mylast - _Myfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    reference operator[](size_type _Pos)
+    {
+        if (!(_Pos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (*(_Myfirst + _Pos));
+    }
+    iterator begin()
+    {
+        return (iterator(_Myfirst, this));
+    }
+    iterator end()
+    {
+        return (iterator(_Mylast, this));
+    }
+    iterator _Make_iter(const_iterator _Where) const
+    {
+        return (iterator(_Where._Myptr, this));
+    }
+    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
+    {
+        iterator _First = _Make_iter(_First_arg);
+        iterator _Last = _Make_iter(_Last_arg);
+        if (_First != _Last)
+        {
+            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
+            _Destroy(_Ptr, _Mylast);
+            _Mylast = _Ptr;
+        }
+        return (_First);
+    }
+    void clear()
+    {
+        erase(begin(), end());
+    }
+    void _Destroy(pointer _First, pointer _Last)
+    {
+        _Destroy_rangeS(_First, _Last, this->_Alval);
+    }
+    pointer _Myfirst;
+    pointer _Mylast;
+    pointer _Myend;
+};
+}
+
+namespace fnv_00b06180 {
+struct input_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct output_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct forward_iterator_tagS : public input_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct bidirectional_iterator_tagS : public forward_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct random_access_iterator_tagS : public bidirectional_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct _Range_checked_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct _Unchanged_checked_iterator_base_type_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct _Nonscalar_ptr_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+struct _Scalar_ptr_iterator_tagS
+{
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Iter> struct iterator_traitsS
+{
+    typedef typename _Iter::iterator_category iterator_category;
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Cat1, class _Cat2> struct _Iter_random_helperS
+{
+    typedef forward_iterator_tagS _Iter_random_cat;
+};
+}
+
+namespace fnv_00b06180 {
+template <class _T1, class _T2> struct _Ptr_cat_helperS
+{
+    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Iter> struct _Checked_iterator_base_helperS
+{
+    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
+    typedef _Iter _Checked_iterator_base_type;
+};
+}
+
+namespace fnv_00b06180 {
+struct _Iterator_base_universalS
+{
+};
+}
+
+namespace fnv_00b06180 {
+class _Container_base_auxS;
+}
+
+namespace fnv_00b06180 {
+class _Aux_contS
+{
+  public:
+    const _Container_base_auxS* _Getcont() const
+    {
+        return _Mycontainer;
+    }
+    const _Container_base_auxS* _Mycontainer;
+};
+}
+
+namespace fnv_00b06180 {
+class _Container_base_auxS
+{
+  public:
+    _Aux_contS* _Myownedaux;
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Ty> class allocatorS
+{
+  public:
+    typedef _Ty* pointer;
+    void destroy(pointer _Ptr)
+    {
+        _DestroyS(_Ptr);
+    }
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
+{
+  public:
+    _Alloc _Alaux;
+};
+}
+
+namespace fnv_00b06180 {
+class _Iterator_base_auxS : public _Iterator_base_universalS
+{
+  public:
+    _Iterator_base_auxS() : _Myaux(0)
+    {}
+    void _Set_container(const _Container_base_auxS* const _Pcont)
+    {
+        _Myaux = _Pcont->_Myownedaux;
+    }
+    const _Container_base_auxS* _Getmycont() const
+    {
+        return _Myaux ? _Myaux->_Getcont() : 0;
+    }
+    bool _Same_container(const _Iterator_base_auxS& _Other) const
+    {
+        return _Myaux == _Other._Myaux;
+    }
+    bool _Has_container() const
+    {
+        return _Myaux != 0;
+    }
+    const _Aux_contS* _Myaux;
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Ty> class _RanitS : public _Iterator_base_auxS
+{
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Ty> class vectorS;
+}
+
+namespace fnv_00b06180 {
+template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Myt;
+    typedef vectorS<_Ty> _Myvec;
+    typedef _Ty* _Tptr;
+    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
+    {
+        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
+            std::abort();
+        this->_Set_container(_Pvector);
+        _Myptr = _Ptr;
+    }
+    bool operator==(const _Myt& _Right) const
+    {
+        if (!(this->_Has_container() && this->_Same_container(_Right)))
+            std::abort();
+        return (_Myptr == _Right._Myptr);
+    }
+    bool operator!=(const _Myt& _Right) const
+    {
+        return (!(*this == _Right));
+    }
+    _Tptr _Myptr;
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
+{
+  public:
+    typedef _Vector_const_iteratorS<_Ty> _Mybase;
+    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
+    {}
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
+{
+  public:
+    allocatorS<_Ty> _Alval;
+};
+}
+
+namespace fnv_00b06180 {
+template <class _Ty> class vectorS : public _Vector_valS<_Ty>
+{
+  public:
+    typedef _Vector_iteratorS<_Ty> iterator;
+    typedef _Vector_const_iteratorS<_Ty> const_iterator;
+    typedef _Ty* pointer;
+    typedef unsigned int size_type;
+    typedef _Ty& reference;
+    size_type size() const
+    {
+        return (_Mylast - _Myfirst);
+    }
+    bool empty() const
+    {
+        return (size() == 0);
+    }
+    reference operator[](size_type _Pos)
+    {
+        if (!(_Pos < size()))
+            std::abort();
+        do
+        {
+        } while (0);
+        return (*(_Myfirst + _Pos));
+    }
+    iterator begin()
+    {
+        return (iterator(_Myfirst, this));
+    }
+    iterator end()
+    {
+        return (iterator(_Mylast, this));
+    }
+    iterator _Make_iter(const_iterator _Where) const
+    {
+        return (iterator(_Where._Myptr, this));
+    }
+    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
+    {
+        iterator _First = _Make_iter(_First_arg);
+        iterator _Last = _Make_iter(_Last_arg);
+        if (_First != _Last)
+        {
+            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
+            _Destroy(_Ptr, _Mylast);
+            _Mylast = _Ptr;
+        }
+        return (_First);
+    }
+    void clear()
+    {
+        erase(begin(), end());
+    }
+    void _Destroy(pointer _First, pointer _Last)
+    {
+        _Destroy_rangeS(_First, _Last, this->_Alval);
+    }
+    pointer _Myfirst;
+    pointer _Mylast;
+    pointer _Myend;
+};
+}
+
+
+namespace std {
+template <typename T> class vector
+{
+  public:
+    void* m00;
+    void* m04;
+    void* m08;
+    T* _Myfirst;
+    T* _Mylast;
+    T* _Myend;
+
+    inline bool empty() const
+    {
+        return size() == 0;
+    }
+
+    inline unsigned int size() const
+    {
+        return _Mylast - _Myfirst;
+    }
+
+    inline T& operator[](unsigned int i)
+    {
+        if (size() <= i)
+        {
+            std::abort();
+        }
+        do
+        {
+        } while (0);
+        return _Myfirst[i];
+    }
+};
+}
+
+struct FUN_00b0b830_Class
+{
+    void* m_000;
+    void* m_004;
+    void* m_008;
+    void* m_00c;
+    void* m_010;
+    void* m_014;
+    void* m_018;
+    void* m_01c;
+    void* m_020;
+    void* m_024;
+    void* m_028;
+    void* m_02c;
+    void* m_030;
+    void* m_034;
+    void* m_038;
+    void* m_03c;
+    void* m_040;
+    void* m_044;
+    void* m_048;
+    void* m_04c;
+    void* m_050;
+    void* m_054;
+    void* m_058;
+    void* m_05c;
+    void* m_060;
+    void* m_064;
+    void* m_068;
+    void* m_06c;
+    void* m_070;
+    void* m_074;
+    void* m_078;
+    void* m_07c;
+    void* m_080;
+    void* m_084;
+    void* m_088;
+    void* m_08c;
+    void* m_090;
+    void* m_094;
+    void* m_098;
+    void* m_09c;
+    void* m_0a0;
+    void* m_0a4;
+    void* m_0a8;
+    void* m_0ac;
+    void* m_0b0;
+    void* m_0b4;
+    void* m_0b8;
+    void* m_0bc;
+    void* m_0c0;
+    void* m_0c4;
+    void* m_0c8;
+    void* m_0cc;
+    void* m_0d0;
+    void* m_0d4;
+    void* m_0d8;
+    void* m_0dc;
+    void* m_0e0;
+    void* m_0e4;
+    void* m_0e8;
+    void* m_0ec;
+    void* m_0f0;
+    void* m_0f4;
+    void* m_0f8;
+    void* m_0fc;
+    void* m_100;
+    void* m_104;
+    void* m_108;
+    void* m_10c;
+    void* m_110;
+    void* m_114;
+    void* m_118;
+    void* m_11c;
+    void* m_120;
+    void* m_124;
+    void* m_128;
+    void* m_12c;
+    void* m_130;
+    void* m_134;
+    void* m_138;
+    void* m_13c;
+    void* m_140;
+    void* m_144;
+    void* m_148;
+    void* m_14c;
+    void* m_150;
+    void* m_154;
+    void* m_158;
+    void* m_15c;
+
+    std::vector<float> m_vec;
+
+    float* FUN_00b0b830();
+};
+
+
+struct MyVector
+{
+    int unk00, unk04, unk08;
+    int* _Myfirst;
+    int* _Mylast;
+    int* _Myend;
+
+    inline bool empty() const
+    {
+        return (_Mylast - _Myfirst) == 0;
+    }
+
+    inline int* operator[](unsigned int idx)
+    {
+        if ((_Mylast - _Myfirst) <= idx)
+        {
+            std::abort();
+        }
+        do
+        {
+        } while (0);
+        return &_Myfirst[idx];
+    }
+};
+
+struct MyClass
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
+    int unk60, unk64, unk68, unk6c;
+    MyVector m_vec;
+
+    int* FUN_00b0b4b0();
+};
+
+struct M;
+struct R;
+struct StrArray;
+struct Tile;
+struct V;
 struct FUN_00b02e00_class
 {
     void FUN_00b02e00();
@@ -2031,6 +4511,7 @@ struct S
 {
     float x, y, z;
     V* FUN_00b05000(V* out, M* m);
+    void Reset();
 };
 // Applies the 4x4 matrix m to the vector (x, y, z) and stores the resulting x, y, z components in out.
 // @fnv 0x00b05000
@@ -2217,41 +4698,9 @@ FUN_00b09480::FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno)
                                 "]"))
 {}
 
-struct MyVector
-{
-    int unk00, unk04, unk08;
-    int* _Myfirst;
-    int* _Mylast;
-    int* _Myend;
 
-    inline bool empty() const
-    {
-        return (_Mylast - _Myfirst) == 0;
-    }
 
-    inline int* operator[](unsigned int idx)
-    {
-        if ((_Mylast - _Myfirst) <= idx)
-        {
-            std::abort();
-        }
-        do
-        {
-        } while (0);
-        return &_Myfirst[idx];
-    }
-};
 
-struct MyClass
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64, unk68, unk6c;
-    MyVector m_vec;
-
-    int* FUN_00b0b4b0();
-};
 
 // @fnv 0x00b0b4b0
 int* MyClass::FUN_00b0b4b0()
@@ -2260,135 +4709,10 @@ int* MyClass::FUN_00b0b4b0()
 }
 
 namespace std {
-template <typename T> class vector
-{
-  public:
-    void* m00;
-    void* m04;
-    void* m08;
-    T* _Myfirst;
-    T* _Mylast;
-    T* _Myend;
 
-    inline bool empty() const
-    {
-        return size() == 0;
-    }
-
-    inline unsigned int size() const
-    {
-        return _Mylast - _Myfirst;
-    }
-
-    inline T& operator[](unsigned int i)
-    {
-        if (size() <= i)
-        {
-            std::abort();
-        }
-        do
-        {
-        } while (0);
-        return _Myfirst[i];
-    }
-};
 }
 
-struct FUN_00b0b830_Class
-{
-    void* m_000;
-    void* m_004;
-    void* m_008;
-    void* m_00c;
-    void* m_010;
-    void* m_014;
-    void* m_018;
-    void* m_01c;
-    void* m_020;
-    void* m_024;
-    void* m_028;
-    void* m_02c;
-    void* m_030;
-    void* m_034;
-    void* m_038;
-    void* m_03c;
-    void* m_040;
-    void* m_044;
-    void* m_048;
-    void* m_04c;
-    void* m_050;
-    void* m_054;
-    void* m_058;
-    void* m_05c;
-    void* m_060;
-    void* m_064;
-    void* m_068;
-    void* m_06c;
-    void* m_070;
-    void* m_074;
-    void* m_078;
-    void* m_07c;
-    void* m_080;
-    void* m_084;
-    void* m_088;
-    void* m_08c;
-    void* m_090;
-    void* m_094;
-    void* m_098;
-    void* m_09c;
-    void* m_0a0;
-    void* m_0a4;
-    void* m_0a8;
-    void* m_0ac;
-    void* m_0b0;
-    void* m_0b4;
-    void* m_0b8;
-    void* m_0bc;
-    void* m_0c0;
-    void* m_0c4;
-    void* m_0c8;
-    void* m_0cc;
-    void* m_0d0;
-    void* m_0d4;
-    void* m_0d8;
-    void* m_0dc;
-    void* m_0e0;
-    void* m_0e4;
-    void* m_0e8;
-    void* m_0ec;
-    void* m_0f0;
-    void* m_0f4;
-    void* m_0f8;
-    void* m_0fc;
-    void* m_100;
-    void* m_104;
-    void* m_108;
-    void* m_10c;
-    void* m_110;
-    void* m_114;
-    void* m_118;
-    void* m_11c;
-    void* m_120;
-    void* m_124;
-    void* m_128;
-    void* m_12c;
-    void* m_130;
-    void* m_134;
-    void* m_138;
-    void* m_13c;
-    void* m_140;
-    void* m_144;
-    void* m_148;
-    void* m_14c;
-    void* m_150;
-    void* m_154;
-    void* m_158;
-    void* m_15c;
 
-    std::vector<float> m_vec;
-
-    float* FUN_00b0b830();
-};
 
 // @fnv 0x00b0b830
 float* FUN_00b0b830_Class::FUN_00b0b830()
@@ -6583,58 +8907,32 @@ void SpdTreeQ::FUN_00b08200()
 }
 }
 
-// namespace fnv_00b08200
 
-struct input_iterator_tagS
-{
-};
 
-struct output_iterator_tagS
-{
-};
 
-struct forward_iterator_tagS : public input_iterator_tagS
-{
-};
 
-struct bidirectional_iterator_tagS : public forward_iterator_tagS
-{
-};
 
-struct random_access_iterator_tagS : public bidirectional_iterator_tagS
-{
-};
 
-struct _Range_checked_iterator_tagS
-{
-};
 
-struct _Unchanged_checked_iterator_base_type_tagS
-{
-};
 
-struct _Nonscalar_ptr_iterator_tagS
-{
-};
 
-struct _Scalar_ptr_iterator_tagS
-{
-};
 
-template <class _Iter> struct iterator_traitsS
-{
-    typedef typename _Iter::iterator_category iterator_category;
-};
+
+
+
+
+
+
+
+
+
 
 template <class _Ty> struct iterator_traitsS<_Ty*>
 {
     typedef random_access_iterator_tagS iterator_category;
 };
 
-template <class _Cat1, class _Cat2> struct _Iter_random_helperS
-{
-    typedef forward_iterator_tagS _Iter_random_cat;
-};
+
 
 template <> struct _Iter_random_helperS<random_access_iterator_tagS, random_access_iterator_tagS>
 {
@@ -6651,10 +8949,7 @@ _Iter_randomS(const _Iter1&, const _Iter2&)
     return (_Cat);
 }
 
-template <class _T1, class _T2> struct _Ptr_cat_helperS
-{
-    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
-};
+
 
 template <class _Ty> struct _Ptr_cat_helperS<_Ty**, _Ty**>
 {
@@ -6707,11 +9002,7 @@ template <class _T1, class _T2> inline typename _Ptr_cat_helperS<_T1, _T2>::_Ptr
     return (_Cat);
 }
 
-template <class _Iter> struct _Checked_iterator_base_helperS
-{
-    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
-    typedef _Iter _Checked_iterator_base_type;
-};
+
 
 template <class _Iter>
 inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(
@@ -6759,134 +9050,34 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
     return _Result;
 }
 
-void __cdecl InvalidParameterNoInfoS();
 
-struct _Iterator_base_universalS
-{
-};
 
-class _Container_base_auxS;
 
-class _Aux_contS
-{
-  public:
-    const _Container_base_auxS* _Getcont() const
-    {
-        return _Mycontainer;
-    }
-    const _Container_base_auxS* _Mycontainer;
-};
 
-class _Container_base_auxS
-{
-  public:
-    _Aux_contS* _Myownedaux;
-};
 
-template <class _Ty> class allocatorS
-{
-  public:
-    typedef _Ty* pointer;
-    void destroy(pointer _Ptr)
-    {
-        _DestroyS(_Ptr);
-    }
-};
+
+
+
+
+
+
 
 template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
 {
     (_Ptr)->~_Ty();
 }
 
-template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
-{
-  public:
-    _Alloc _Alaux;
-};
 
-class _Iterator_base_auxS : public _Iterator_base_universalS
-{
-  public:
-    _Iterator_base_auxS() : _Myaux(0)
-    {}
-    void _Set_container(const _Container_base_auxS* const _Pcont)
-    {
-        _Myaux = _Pcont->_Myownedaux;
-    }
-    const _Container_base_auxS* _Getmycont() const
-    {
-        return _Myaux ? _Myaux->_Getcont() : 0;
-    }
-    bool _Same_container(const _Iterator_base_auxS& _Other) const
-    {
-        return _Myaux == _Other._Myaux;
-    }
-    bool _Has_container() const
-    {
-        return _Myaux != 0;
-    }
-    const _Aux_contS* _Myaux;
-};
 
-template <class _Ty> class _RanitS : public _Iterator_base_auxS
-{
-};
 
-template <class _Ty> class vectorS;
 
-template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Myt;
-    typedef vectorS<_Ty> _Myvec;
-    typedef _Ty* _Tptr;
-    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
-    {
-        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
-        do
-        {
-        } while (0);
-        this->_Set_container(_Pvector);
-        _Myptr = _Ptr;
-    }
-    _Ty& operator*() const
-    {
-        if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
-        do
-        {
-        } while (0);
-        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
-        do
-        {
-        } while (0);
-        return (*_Myptr);
-    }
-    bool operator==(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
-        do
-        {
-        } while (0);
-        return (_Myptr == _Right._Myptr);
-    }
-    bool operator!=(const _Myt& _Right) const
-    {
-        return (!(*this == _Right));
-    }
-    _Tptr _Myptr;
-};
 
-template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Mybase;
-    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
-    {}
-};
+
+
+
+
+
+
 
 template <class _Alloc>
 inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al)
@@ -6913,80 +9104,9 @@ template <class _InIt, class _OutIt> inline _OutIt unchecked_copyS(_InIt _First,
                        _Ptr_catS(_First, _Dest), _Range_checked_iterator_tagS()));
 }
 
-template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
-{
-  public:
-    allocatorS<_Ty> _Alval;
-};
 
-template <class _Ty> class vectorS : public _Vector_valS<_Ty>
-{
-  public:
-    typedef _Vector_iteratorS<_Ty> iterator;
-    typedef _Vector_const_iteratorS<_Ty> const_iterator;
-    typedef _Ty* pointer;
-    typedef unsigned int size_type;
-    typedef _Ty& reference;
-    size_type size() const
-    {
-        return (_Mylast - _Myfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    reference operator[](size_type _Pos)
-    {
-        if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
-        do
-        {
-        } while (0);
-        return (*(_Myfirst + _Pos));
-    }
-    iterator begin()
-    {
-        return (iterator(_Myfirst, this));
-    }
-    iterator end()
-    {
-        return (iterator(_Mylast, this));
-    }
-    iterator _Make_iter(const_iterator _Where) const
-    {
-        return (iterator(_Where._Myptr, this));
-    }
-    iterator erase(const_iterator _Where)
-    {
-        unchecked_copyS(_Where._Myptr + 1, _Mylast, _Where._Myptr);
-        _Destroy(_Mylast - 1, _Mylast);
-        --_Mylast;
-        return (_Make_iter(_Where));
-    }
-    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
-    {
-        iterator _First = _Make_iter(_First_arg);
-        iterator _Last = _Make_iter(_Last_arg);
-        if (_First != _Last)
-        {
-            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
-            _Destroy(_Ptr, _Mylast);
-            _Mylast = _Ptr;
-        }
-        return (_First);
-    }
-    void clear()
-    {
-        erase(begin(), end());
-    }
-    void _Destroy(pointer _First, pointer _Last)
-    {
-        _Destroy_rangeS(_First, _Last, this->_Alval);
-    }
-    pointer _Myfirst;
-    pointer _Mylast;
-    pointer _Myend;
-};
+
+
 
 struct PT;
 
@@ -9059,389 +11179,11 @@ void SpeedTreeRTB0A7A0::FUN_00b0a7a0()
 }
 }
 
-// namespace fnv_00b0a7a0
 
-namespace fnv_00b0a9a0 {
-struct input_iterator_tagS
-{
-};
-struct output_iterator_tagS
-{
-};
-struct forward_iterator_tagS : public input_iterator_tagS
-{
-};
-struct bidirectional_iterator_tagS : public forward_iterator_tagS
-{
-};
-struct random_access_iterator_tagS : public bidirectional_iterator_tagS
-{
-};
-struct _Range_checked_iterator_tagS
-{
-};
-struct _Unchanged_checked_iterator_base_type_tagS
-{
-};
-struct _Nonscalar_ptr_iterator_tagS
-{
-};
-struct _Scalar_ptr_iterator_tagS
-{
-};
-template <class _Iter> struct iterator_traitsS
-{
-    typedef typename _Iter::iterator_category iterator_category;
-};
-template <class _Ty> struct iterator_traitsS<_Ty*>
-{
-    typedef random_access_iterator_tagS iterator_category;
-};
-template <class _Cat1, class _Cat2> struct _Iter_random_helperS
-{
-    typedef forward_iterator_tagS _Iter_random_cat;
-};
-template <> struct _Iter_random_helperS<random_access_iterator_tagS, random_access_iterator_tagS>
-{
-    typedef random_access_iterator_tagS _Iter_random_cat;
-};
-template <class _Iter1, class _Iter2>
-inline typename _Iter_random_helperS<typename iterator_traitsS<_Iter1>::iterator_category,
-                                     typename iterator_traitsS<_Iter2>::iterator_category>::_Iter_random_cat
-_Iter_randomS(const _Iter1&, const _Iter2&)
-{
-    typename _Iter_random_helperS<typename iterator_traitsS<_Iter1>::iterator_category,
-                                  typename iterator_traitsS<_Iter2>::iterator_category>::_Iter_random_cat _Cat;
-    return (_Cat);
-}
-template <class _T1, class _T2> struct _Ptr_cat_helperS
-{
-    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
-};
-template <class _T1, class _T2> inline typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Ptr_catS(_T1&, _T2&)
-{
-    typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Cat;
-    return (_Cat);
-}
-template <class _Iter> struct _Checked_iterator_base_helperS
-{
-    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
-    typedef _Iter _Checked_iterator_base_type;
-};
-template <class _Iter>
-inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(
-    _Iter& _It, _Unchanged_checked_iterator_base_type_tagS)
-{
-    return _It;
-}
-template <class _Iter>
-inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(_Iter& _It)
-{
-    typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type_tag _Base_tag;
-    return _Checked_baseS(_It, _Base_tag);
-}
-template <class _InIt, class _OutIt, class _InOutItCat>
-inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Nonscalar_ptr_iterator_tagS,
-                         _Range_checked_iterator_tagS)
-{
-    for (; _First != _Last; ++_Dest, ++_First)
-        *_Dest = *_First;
-    return (_Dest);
-}
-template <class _InIt, class _OutIt>
-inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_iterator_tagS,
-                         _Nonscalar_ptr_iterator_tagS, _Range_checked_iterator_tagS)
-{
-    _OutIt _Result = _Dest + (_Last - _First);
-    _Copy_optS(_First, _Last, _Checked_baseS(_Dest), forward_iterator_tagS(), _Nonscalar_ptr_iterator_tagS(),
-               _Range_checked_iterator_tagS());
-    return _Result;
-}
-struct _Iterator_base_universalS
-{
-};
-class _Container_base_auxS;
-class _Aux_contS
-{
-  public:
-    const _Container_base_auxS* _Getcont() const
-    {
-        return _Mycontainer;
-    }
-    const _Container_base_auxS* _Mycontainer;
-};
-class _Container_base_auxS
-{
-  public:
-    _Aux_contS* _Myownedaux;
-};
-template <class _Ty> class allocatorS
-{
-  public:
-    typedef _Ty* pointer;
-    void destroy(pointer _Ptr)
-    {
-        _DestroyS(_Ptr);
-    }
-};
-template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
-{
-    (_Ptr)->~_Ty();
-}
-template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
-{
-  public:
-    _Alloc _Alaux;
-};
-class _Iterator_base_auxS : public _Iterator_base_universalS
-{
-  public:
-    _Iterator_base_auxS() : _Myaux(0)
-    {}
-    void _Set_container(const _Container_base_auxS* const _Pcont)
-    {
-        _Myaux = _Pcont->_Myownedaux;
-    }
-    const _Container_base_auxS* _Getmycont() const
-    {
-        return _Myaux ? _Myaux->_Getcont() : 0;
-    }
-    bool _Same_container(const _Iterator_base_auxS& _Other) const
-    {
-        return _Myaux == _Other._Myaux;
-    }
-    bool _Has_container() const
-    {
-        return _Myaux != 0;
-    }
-    const _Aux_contS* _Myaux;
-};
-template <class _Ty> class _RanitS : public _Iterator_base_auxS
-{
-};
-template <class _Ty> class vectorS;
-template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Myt;
-    typedef vectorS<_Ty> _Myvec;
-    typedef _Ty* _Tptr;
-    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
-    {
-        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            std::abort();
-        do
-        {
-        } while (0);
-        this->_Set_container(_Pvector);
-        _Myptr = _Ptr;
-    }
-    _Ty& operator*() const
-    {
-        if (!(this->_Has_container()))
-            std::abort();
-        do
-        {
-        } while (0);
-        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (*_Myptr);
-    }
-    bool operator==(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (_Myptr == _Right._Myptr);
-    }
-    bool operator!=(const _Myt& _Right) const
-    {
-        return (!(*this == _Right));
-    }
-    _Tptr _Myptr;
-};
-template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Mybase;
-    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
-    {}
-};
-template <class _Alloc>
-inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al)
-{
-    _Destroy_rangeS(_First, _Last, _Al, _Ptr_catS(_First, _Last));
-}
-template <class _Alloc>
-inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al,
-                            _Nonscalar_ptr_iterator_tagS)
-{
-    for (; _First != _Last; ++_First)
-        _Al.destroy(_First);
-}
-template <class _InIt, class _OutIt> inline _OutIt unchecked_copyS(_InIt _First, _InIt _Last, _OutIt _Dest)
-{
-    return (_Copy_optS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Iter_randomS(_First, _Dest),
-                       _Ptr_catS(_First, _Dest), _Range_checked_iterator_tagS()));
-}
-template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
-{
-  public:
-    allocatorS<_Ty> _Alval;
-};
-template <class _Ty> class vectorS : public _Vector_valS<_Ty>
-{
-  public:
-    typedef _Vector_iteratorS<_Ty> iterator;
-    typedef _Vector_const_iteratorS<_Ty> const_iterator;
-    typedef _Ty* pointer;
-    typedef unsigned int size_type;
-    typedef _Ty& reference;
-    size_type size() const
-    {
-        return (_Mylast - _Myfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    reference operator[](size_type _Pos)
-    {
-        if (!(_Pos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (*(_Myfirst + _Pos));
-    }
-    iterator begin()
-    {
-        return (iterator(_Myfirst, this));
-    }
-    iterator end()
-    {
-        return (iterator(_Mylast, this));
-    }
-    iterator _Make_iter(const_iterator _Where) const
-    {
-        return (iterator(_Where._Myptr, this));
-    }
-    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
-    {
-        iterator _First = _Make_iter(_First_arg);
-        iterator _Last = _Make_iter(_Last_arg);
-        if (_First != _Last)
-        {
-            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
-            _Destroy(_Ptr, _Mylast);
-            _Mylast = _Ptr;
-        }
-        return (_First);
-    }
-    void clear()
-    {
-        erase(begin(), end());
-    }
-    void _Destroy(pointer _First, pointer _Last)
-    {
-        _Destroy_rangeS(_First, _Last, this->_Alval);
-    }
-    pointer _Myfirst;
-    pointer _Mylast;
-    pointer _Myend;
-};
-class FUN_00b0a9a0_Tree
-{
-  public:
-    short FUN_00b0a9a0(short m_sIndex);
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    vectorS<vectorS<int> > m_kLists;
-};
 
-// @fnv 0x00b0a9a0
-short FUN_00b0a9a0_Tree::FUN_00b0a9a0(short m_sIndex)
-{
-    return (m_sIndex > -1) ? (short)m_kLists[m_sIndex].size() : (short)0;
-}
-}
 
-// namespace fnv_00b0a9a0
 
-template <class T> struct VectorB0AA20
-{
-    void* m_pkProxy;
-    int m_iAux;
-    int m_iAlval;
-    T* m_pFirst;
-    T* m_pLast;
-    T* m_pRecordEnd;
-    unsigned int size() const
-    {
-        return m_pLast - m_pFirst;
-    }
-    bool empty() const
-    {
-        return size() == 0;
-    }
-    const T& operator[](unsigned int uiPos) const
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pFirst + uiPos);
-    }
-};
 
-struct SpeedTreeRTB0AA20
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    unsigned short m_usValueAt28;
-    unsigned short unk22;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    VectorB0AA20<VectorB0AA20<short> > m_vLodStrips;
-    const short* FUN_00b0aa20(short nLod) const;
-};
 
 // @fnv 0x00b0aa20
 const short* SpeedTreeRTB0AA20::FUN_00b0aa20(short nLod) const
@@ -9771,86 +11513,15 @@ struct S0b
     void FUN_00b0b1d0(I0b* pArg, short sLod);
 };
 
-struct AuxB530;
 
-class ContainerBaseAuxAllocB530
-{
-  public:
-    AuxB530* m_pkMyownedaux;
-    int m_iAlaux;
-};
 
-class VectorValB530 : public ContainerBaseAuxAllocB530
-{
-  public:
-    int m_iAlval;
-};
 
-template <class T> class VectorB530 : public VectorValB530
-{
-  public:
-    unsigned int size() const
-    {
-        return (unsigned int)(m_pMylast - m_pMyfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    T& operator[](unsigned int uiPos)
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pMyfirst + uiPos);
-    }
-    T* m_pMyfirst;
-    T* m_pMylast;
-    T* m_pMyend;
-};
 
-class FUN_00b0b530_Tree
-{
-  public:
-    float* FUN_00b0b530();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    VectorB530<float> m_kValues;
-};
+
+
+
+
+
 
 // @fnv 0x00b0b530
 float* FUN_00b0b530_Tree::FUN_00b0b530()
@@ -9858,98 +11529,15 @@ float* FUN_00b0b530_Tree::FUN_00b0b530()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-struct AuxB5B0;
 
-class ContainerBaseAuxAllocB5B0
-{
-  public:
-    AuxB5B0* m_pkMyownedaux;
-    int m_iAlaux;
-};
 
-class VectorValB5B0 : public ContainerBaseAuxAllocB5B0
-{
-  public:
-    int m_iAlval;
-};
 
-template <class T> class VectorB5B0 : public VectorValB5B0
-{
-  public:
-    unsigned int size() const
-    {
-        return (unsigned int)(m_pMylast - m_pMyfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    T& operator[](unsigned int uiPos)
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pMyfirst + uiPos);
-    }
-    T* m_pMyfirst;
-    T* m_pMylast;
-    T* m_pMyend;
-};
 
-class FUN_00b0b5b0_Tree
-{
-  public:
-    float* FUN_00b0b5b0();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    VectorB5B0<float> m_kValues;
-};
+
+
+
+
+
 
 // @fnv 0x00b0b5b0
 float* FUN_00b0b5b0_Tree::FUN_00b0b5b0()
@@ -9957,104 +11545,15 @@ float* FUN_00b0b5b0_Tree::FUN_00b0b5b0()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-struct AuxB630;
 
-class ContainerBaseAuxAllocB630
-{
-  public:
-    AuxB630* m_pkMyownedaux;
-    int m_iAlaux;
-};
 
-class VectorValB630 : public ContainerBaseAuxAllocB630
-{
-  public:
-    int m_iAlval;
-};
 
-template <class T> class VectorB630 : public VectorValB630
-{
-  public:
-    unsigned int size() const
-    {
-        return (unsigned int)(m_pMylast - m_pMyfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    T& operator[](unsigned int uiPos)
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pMyfirst + uiPos);
-    }
-    T* m_pMyfirst;
-    T* m_pMylast;
-    T* m_pMyend;
-};
 
-class FUN_00b0b630_Tree
-{
-  public:
-    float* FUN_00b0b630();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    VectorB630<float> m_kValues;
-};
+
+
+
+
+
 
 // @fnv 0x00b0b630
 float* FUN_00b0b630_Tree::FUN_00b0b630()
@@ -10062,110 +11561,15 @@ float* FUN_00b0b630_Tree::FUN_00b0b630()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-struct AuxB6B0;
 
-class ContainerBaseAuxAllocB6B0
-{
-  public:
-    AuxB6B0* m_pkMyownedaux;
-    int m_iAlaux;
-};
 
-class VectorValB6B0 : public ContainerBaseAuxAllocB6B0
-{
-  public:
-    int m_iAlval;
-};
 
-template <class T> class VectorB6B0 : public VectorValB6B0
-{
-  public:
-    unsigned int size() const
-    {
-        return (unsigned int)(m_pMylast - m_pMyfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    T& operator[](unsigned int uiPos)
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pMyfirst + uiPos);
-    }
-    T* m_pMyfirst;
-    T* m_pMylast;
-    T* m_pMyend;
-};
 
-class FUN_00b0b6b0_Tree
-{
-  public:
-    float* FUN_00b0b6b0();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    int unkE0;
-    int unkE4;
-    VectorB6B0<float> m_kValues;
-};
+
+
+
+
+
 
 // @fnv 0x00b0b6b0
 float* FUN_00b0b6b0_Tree::FUN_00b0b6b0()
@@ -10173,116 +11577,15 @@ float* FUN_00b0b6b0_Tree::FUN_00b0b6b0()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-struct AuxB730;
 
-class ContainerBaseAuxAllocB730
-{
-  public:
-    AuxB730* m_pkMyownedaux;
-    int m_iAlaux;
-};
 
-class VectorValB730 : public ContainerBaseAuxAllocB730
-{
-  public:
-    int m_iAlval;
-};
 
-template <class T> class VectorB730 : public VectorValB730
-{
-  public:
-    unsigned int size() const
-    {
-        return (unsigned int)(m_pMylast - m_pMyfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    T& operator[](unsigned int uiPos)
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pMyfirst + uiPos);
-    }
-    T* m_pMyfirst;
-    T* m_pMylast;
-    T* m_pMyend;
-};
 
-class FUN_00b0b730_Tree
-{
-  public:
-    float* FUN_00b0b730();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    int unkE0;
-    int unkE4;
-    int unkE8;
-    int unkEC;
-    int unkF0;
-    int unkF4;
-    int unkF8;
-    int unkFC;
-    VectorB730<float> m_kValues;
-};
+
+
+
+
+
 
 // @fnv 0x00b0b730
 float* FUN_00b0b730_Tree::FUN_00b0b730()
@@ -10290,134 +11593,15 @@ float* FUN_00b0b730_Tree::FUN_00b0b730()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-struct AuxB7B0;
 
-class ContainerBaseAuxAllocB7B0
-{
-  public:
-    AuxB7B0* m_pkMyownedaux;
-    int m_iAlaux;
-};
 
-class VectorValB7B0 : public ContainerBaseAuxAllocB7B0
-{
-  public:
-    int m_iAlval;
-};
 
-template <class T> class VectorB7B0 : public VectorValB7B0
-{
-  public:
-    unsigned int size() const
-    {
-        return (unsigned int)(m_pMylast - m_pMyfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    T& operator[](unsigned int uiPos)
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pMyfirst + uiPos);
-    }
-    T* m_pMyfirst;
-    T* m_pMylast;
-    T* m_pMyend;
-};
 
-class FUN_00b0b7b0_Tree
-{
-  public:
-    float* FUN_00b0b7b0();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    int unkE0;
-    int unkE4;
-    int unkE8;
-    int unkEC;
-    int unkF0;
-    int unkF4;
-    int unkF8;
-    int unkFC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    VectorB7B0<float> m_kValues;
-};
+
+
+
+
+
 
 // @fnv 0x00b0b7b0
 float* FUN_00b0b7b0_Tree::FUN_00b0b7b0()
@@ -10425,146 +11609,15 @@ float* FUN_00b0b7b0_Tree::FUN_00b0b7b0()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-struct AuxB8B0;
 
-class ContainerBaseAuxAllocB8B0
-{
-  public:
-    AuxB8B0* m_pkMyownedaux;
-    int m_iAlaux;
-};
 
-class VectorValB8B0 : public ContainerBaseAuxAllocB8B0
-{
-  public:
-    int m_iAlval;
-};
 
-template <class T> class VectorB8B0 : public VectorValB8B0
-{
-  public:
-    unsigned int size() const
-    {
-        return (unsigned int)(m_pMylast - m_pMyfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    T& operator[](unsigned int uiPos)
-    {
-        if (!(uiPos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return *(m_pMyfirst + uiPos);
-    }
-    T* m_pMyfirst;
-    T* m_pMylast;
-    T* m_pMyend;
-};
 
-class FUN_00b0b8b0_Tree
-{
-  public:
-    unsigned char* FUN_00b0b8b0();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    int unkE0;
-    int unkE4;
-    int unkE8;
-    int unkEC;
-    int unkF0;
-    int unkF4;
-    int unkF8;
-    int unkFC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    VectorB8B0<unsigned char> m_kValues;
-};
+
+
+
+
+
 
 // @fnv 0x00b0b1d0
 void S0b::FUN_00b0b1d0(I0b* pArg, short sLod)
@@ -10953,31 +12006,9 @@ float __cdecl FUN_00b0c470(const float* p)
     }
 }
 
-struct Vec3C780
-{
-    float x;
-    float y;
-    float z;
-    Vec3C780()
-    {}
-    Vec3C780(float fX, float fY, float fZ) : x(fX), y(fY), z(fZ)
-    {}
-    const float& operator[](int i) const
-    {
-        return (&x)[i];
-    }
-};
 
-struct FrameC780
-{
-    Vec3C780 m_akRows[4];
-    bool m_bBuilt;
-    bool IsBuilt() const
-    {
-        return m_bBuilt;
-    }
-    FrameC780* FUN_00b0c780(float fScale, float m_fProjectionDepth);
-};
+
+
 
 // @fnv 0x00b0c780
 FrameC780* FrameC780::FUN_00b0c780(float fScale, float m_fProjectionDepth)
@@ -11339,45 +12370,21 @@ void VecQ_acad60::FUN_00b0ddc0(const int& _Val)
 }
 
 namespace fnv_00b0df00 {
-struct input_iterator_tagS
-{
-};
-struct output_iterator_tagS
-{
-};
-struct forward_iterator_tagS : public input_iterator_tagS
-{
-};
-struct bidirectional_iterator_tagS : public forward_iterator_tagS
-{
-};
-struct random_access_iterator_tagS : public bidirectional_iterator_tagS
-{
-};
-struct _Range_checked_iterator_tagS
-{
-};
-struct _Unchanged_checked_iterator_base_type_tagS
-{
-};
-struct _Nonscalar_ptr_iterator_tagS
-{
-};
-struct _Scalar_ptr_iterator_tagS
-{
-};
-template <class _Iter> struct iterator_traitsS
-{
-    typedef typename _Iter::iterator_category iterator_category;
-};
+
+
+
+
+
+
+
+
+
+
 template <class _Ty> struct iterator_traitsS<_Ty*>
 {
     typedef random_access_iterator_tagS iterator_category;
 };
-template <class _Cat1, class _Cat2> struct _Iter_random_helperS
-{
-    typedef forward_iterator_tagS _Iter_random_cat;
-};
+
 template <> struct _Iter_random_helperS<random_access_iterator_tagS, random_access_iterator_tagS>
 {
     typedef random_access_iterator_tagS _Iter_random_cat;
@@ -11391,10 +12398,7 @@ _Iter_randomS(const _Iter1&, const _Iter2&)
                                   typename iterator_traitsS<_Iter2>::iterator_category>::_Iter_random_cat _Cat;
     return (_Cat);
 }
-template <class _T1, class _T2> struct _Ptr_cat_helperS
-{
-    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
-};
+
 template <class _Ty> struct _Ptr_cat_helperS<_Ty**, _Ty**>
 {
     typedef _Scalar_ptr_iterator_tagS _Ptr_cat;
@@ -11436,11 +12440,7 @@ template <class _T1, class _T2> inline typename _Ptr_cat_helperS<_T1, _T2>::_Ptr
     typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Cat;
     return (_Cat);
 }
-template <class _Iter> struct _Checked_iterator_base_helperS
-{
-    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
-    typedef _Iter _Checked_iterator_base_type;
-};
+
 template <class _Iter>
 inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(
     _Iter& _It, _Unchanged_checked_iterator_base_type_tagS)
@@ -11481,121 +12481,21 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-struct _Iterator_base_universalS
-{
-};
-class _Container_base_auxS;
-class _Aux_contS
-{
-  public:
-    const _Container_base_auxS* _Getcont() const
-    {
-        return _Mycontainer;
-    }
-    const _Container_base_auxS* _Mycontainer;
-};
-class _Container_base_auxS
-{
-  public:
-    _Aux_contS* _Myownedaux;
-};
-template <class _Ty> class allocatorS
-{
-  public:
-    typedef _Ty* pointer;
-    void destroy(pointer _Ptr)
-    {
-        _DestroyS(_Ptr);
-    }
-};
+
+
+
+
+
 template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
 {
     (_Ptr)->~_Ty();
 }
-template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
-{
-  public:
-    _Alloc _Alaux;
-};
-class _Iterator_base_auxS : public _Iterator_base_universalS
-{
-  public:
-    _Iterator_base_auxS() : _Myaux(0)
-    {}
-    void _Set_container(const _Container_base_auxS* const _Pcont)
-    {
-        _Myaux = _Pcont->_Myownedaux;
-    }
-    const _Container_base_auxS* _Getmycont() const
-    {
-        return _Myaux ? _Myaux->_Getcont() : 0;
-    }
-    bool _Same_container(const _Iterator_base_auxS& _Other) const
-    {
-        return _Myaux == _Other._Myaux;
-    }
-    bool _Has_container() const
-    {
-        return _Myaux != 0;
-    }
-    const _Aux_contS* _Myaux;
-};
-template <class _Ty> class _RanitS : public _Iterator_base_auxS
-{
-};
-template <class _Ty> class vectorS;
-template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Myt;
-    typedef vectorS<_Ty> _Myvec;
-    typedef _Ty* _Tptr;
-    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
-    {
-        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            std::abort();
-        do
-        {
-        } while (0);
-        this->_Set_container(_Pvector);
-        _Myptr = _Ptr;
-    }
-    _Ty& operator*() const
-    {
-        if (!(this->_Has_container()))
-            std::abort();
-        do
-        {
-        } while (0);
-        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (*_Myptr);
-    }
-    bool operator==(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (_Myptr == _Right._Myptr);
-    }
-    bool operator!=(const _Myt& _Right) const
-    {
-        return (!(*this == _Right));
-    }
-    _Tptr _Myptr;
-};
-template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Mybase;
-    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
-    {}
-};
+
+
+
+
+
+
 template <class _Alloc>
 inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al)
 {
@@ -11617,79 +12517,8 @@ template <class _InIt, class _OutIt> inline _OutIt unchecked_copyS(_InIt _First,
     return (_Copy_optS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Iter_randomS(_First, _Dest),
                        _Ptr_catS(_First, _Dest), _Range_checked_iterator_tagS()));
 }
-template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
-{
-  public:
-    allocatorS<_Ty> _Alval;
-};
-template <class _Ty> class vectorS : public _Vector_valS<_Ty>
-{
-  public:
-    typedef _Vector_iteratorS<_Ty> iterator;
-    typedef _Vector_const_iteratorS<_Ty> const_iterator;
-    typedef _Ty* pointer;
-    typedef unsigned int size_type;
-    typedef _Ty& reference;
-    size_type size() const
-    {
-        return (_Mylast - _Myfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    reference operator[](size_type _Pos)
-    {
-        if (!(_Pos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (*(_Myfirst + _Pos));
-    }
-    iterator begin()
-    {
-        return (iterator(_Myfirst, this));
-    }
-    iterator end()
-    {
-        return (iterator(_Mylast, this));
-    }
-    iterator _Make_iter(const_iterator _Where) const
-    {
-        return (iterator(_Where._Myptr, this));
-    }
-    iterator erase(const_iterator _Where)
-    {
-        unchecked_copyS(_Where._Myptr + 1, _Mylast, _Where._Myptr);
-        _Destroy(_Mylast - 1, _Mylast);
-        --_Mylast;
-        return (_Make_iter(_Where));
-    }
-    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
-    {
-        iterator _First = _Make_iter(_First_arg);
-        iterator _Last = _Make_iter(_Last_arg);
-        if (_First != _Last)
-        {
-            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
-            _Destroy(_Ptr, _Mylast);
-            _Mylast = _Ptr;
-        }
-        return (_First);
-    }
-    void clear()
-    {
-        erase(begin(), end());
-    }
-    void _Destroy(pointer _First, pointer _Last)
-    {
-        _Destroy_rangeS(_First, _Last, this->_Alval);
-    }
-    pointer _Myfirst;
-    pointer _Mylast;
-    pointer _Myend;
-};
+
+
 class FUN_00b0df00_Vector : public vectorS<int>
 {
   public:
@@ -11826,45 +12655,21 @@ void VecQ_acda90::FUN_00b0e090(const ElQ_acda90& _Val)
 }
 
 namespace fnv_00b0ebb0 {
-struct input_iterator_tagS
-{
-};
-struct output_iterator_tagS
-{
-};
-struct forward_iterator_tagS : public input_iterator_tagS
-{
-};
-struct bidirectional_iterator_tagS : public forward_iterator_tagS
-{
-};
-struct random_access_iterator_tagS : public bidirectional_iterator_tagS
-{
-};
-struct _Range_checked_iterator_tagS
-{
-};
-struct _Unchanged_checked_iterator_base_type_tagS
-{
-};
-struct _Nonscalar_ptr_iterator_tagS
-{
-};
-struct _Scalar_ptr_iterator_tagS
-{
-};
-template <class _Iter> struct iterator_traitsS
-{
-    typedef typename _Iter::iterator_category iterator_category;
-};
+
+
+
+
+
+
+
+
+
+
 template <class _Ty> struct iterator_traitsS<_Ty*>
 {
     typedef random_access_iterator_tagS iterator_category;
 };
-template <class _Cat1, class _Cat2> struct _Iter_random_helperS
-{
-    typedef forward_iterator_tagS _Iter_random_cat;
-};
+
 template <> struct _Iter_random_helperS<random_access_iterator_tagS, random_access_iterator_tagS>
 {
     typedef random_access_iterator_tagS _Iter_random_cat;
@@ -11878,20 +12683,13 @@ _Iter_randomS(const _Iter1&, const _Iter2&)
                                   typename iterator_traitsS<_Iter2>::iterator_category>::_Iter_random_cat _Cat;
     return (_Cat);
 }
-template <class _T1, class _T2> struct _Ptr_cat_helperS
-{
-    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
-};
+
 template <class _T1, class _T2> inline typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Ptr_catS(_T1&, _T2&)
 {
     typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Cat;
     return (_Cat);
 }
-template <class _Iter> struct _Checked_iterator_base_helperS
-{
-    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
-    typedef _Iter _Checked_iterator_base_type;
-};
+
 template <class _Iter>
 inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(
     _Iter& _It, _Unchanged_checked_iterator_base_type_tagS)
@@ -11921,121 +12719,21 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-struct _Iterator_base_universalS
-{
-};
-class _Container_base_auxS;
-class _Aux_contS
-{
-  public:
-    const _Container_base_auxS* _Getcont() const
-    {
-        return _Mycontainer;
-    }
-    const _Container_base_auxS* _Mycontainer;
-};
-class _Container_base_auxS
-{
-  public:
-    _Aux_contS* _Myownedaux;
-};
-template <class _Ty> class allocatorS
-{
-  public:
-    typedef _Ty* pointer;
-    void destroy(pointer _Ptr)
-    {
-        _DestroyS(_Ptr);
-    }
-};
+
+
+
+
+
 template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
 {
     (_Ptr)->~_Ty();
 }
-template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
-{
-  public:
-    _Alloc _Alaux;
-};
-class _Iterator_base_auxS : public _Iterator_base_universalS
-{
-  public:
-    _Iterator_base_auxS() : _Myaux(0)
-    {}
-    void _Set_container(const _Container_base_auxS* const _Pcont)
-    {
-        _Myaux = _Pcont->_Myownedaux;
-    }
-    const _Container_base_auxS* _Getmycont() const
-    {
-        return _Myaux ? _Myaux->_Getcont() : 0;
-    }
-    bool _Same_container(const _Iterator_base_auxS& _Other) const
-    {
-        return _Myaux == _Other._Myaux;
-    }
-    bool _Has_container() const
-    {
-        return _Myaux != 0;
-    }
-    const _Aux_contS* _Myaux;
-};
-template <class _Ty> class _RanitS : public _Iterator_base_auxS
-{
-};
-template <class _Ty> class vectorS;
-template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Myt;
-    typedef vectorS<_Ty> _Myvec;
-    typedef _Ty* _Tptr;
-    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
-    {
-        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            std::abort();
-        do
-        {
-        } while (0);
-        this->_Set_container(_Pvector);
-        _Myptr = _Ptr;
-    }
-    _Ty& operator*() const
-    {
-        if (!(this->_Has_container()))
-            std::abort();
-        do
-        {
-        } while (0);
-        if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (*_Myptr);
-    }
-    bool operator==(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (_Myptr == _Right._Myptr);
-    }
-    bool operator!=(const _Myt& _Right) const
-    {
-        return (!(*this == _Right));
-    }
-    _Tptr _Myptr;
-};
-template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Mybase;
-    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
-    {}
-};
+
+
+
+
+
+
 template <class _Alloc>
 inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al)
 {
@@ -12053,72 +12751,8 @@ template <class _InIt, class _OutIt> inline _OutIt unchecked_copyS(_InIt _First,
     return (_Copy_optS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Iter_randomS(_First, _Dest),
                        _Ptr_catS(_First, _Dest), _Range_checked_iterator_tagS()));
 }
-template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
-{
-  public:
-    allocatorS<_Ty> _Alval;
-};
-template <class _Ty> class vectorS : public _Vector_valS<_Ty>
-{
-  public:
-    typedef _Vector_iteratorS<_Ty> iterator;
-    typedef _Vector_const_iteratorS<_Ty> const_iterator;
-    typedef _Ty* pointer;
-    typedef unsigned int size_type;
-    typedef _Ty& reference;
-    size_type size() const
-    {
-        return (_Mylast - _Myfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    reference operator[](size_type _Pos)
-    {
-        if (!(_Pos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (*(_Myfirst + _Pos));
-    }
-    iterator begin()
-    {
-        return (iterator(_Myfirst, this));
-    }
-    iterator end()
-    {
-        return (iterator(_Mylast, this));
-    }
-    iterator _Make_iter(const_iterator _Where) const
-    {
-        return (iterator(_Where._Myptr, this));
-    }
-    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
-    {
-        iterator _First = _Make_iter(_First_arg);
-        iterator _Last = _Make_iter(_Last_arg);
-        if (_First != _Last)
-        {
-            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
-            _Destroy(_Ptr, _Mylast);
-            _Mylast = _Ptr;
-        }
-        return (_First);
-    }
-    void clear()
-    {
-        erase(begin(), end());
-    }
-    void _Destroy(pointer _First, pointer _Last)
-    {
-        _Destroy_rangeS(_First, _Last, this->_Alval);
-    }
-    pointer _Myfirst;
-    pointer _Mylast;
-    pointer _Myend;
-};
+
+
 struct ElemEBB0
 {
     int unk00;
@@ -12190,45 +12824,21 @@ void FUN_00b10990(ElQ* first, unsigned int n, const ElQ& val)
 }
 
 namespace fnv_00b06180 {
-struct input_iterator_tagS
-{
-};
-struct output_iterator_tagS
-{
-};
-struct forward_iterator_tagS : public input_iterator_tagS
-{
-};
-struct bidirectional_iterator_tagS : public forward_iterator_tagS
-{
-};
-struct random_access_iterator_tagS : public bidirectional_iterator_tagS
-{
-};
-struct _Range_checked_iterator_tagS
-{
-};
-struct _Unchanged_checked_iterator_base_type_tagS
-{
-};
-struct _Nonscalar_ptr_iterator_tagS
-{
-};
-struct _Scalar_ptr_iterator_tagS
-{
-};
-template <class _Iter> struct iterator_traitsS
-{
-    typedef typename _Iter::iterator_category iterator_category;
-};
+
+
+
+
+
+
+
+
+
+
 template <class _Ty> struct iterator_traitsS<_Ty*>
 {
     typedef random_access_iterator_tagS iterator_category;
 };
-template <class _Cat1, class _Cat2> struct _Iter_random_helperS
-{
-    typedef forward_iterator_tagS _Iter_random_cat;
-};
+
 template <> struct _Iter_random_helperS<random_access_iterator_tagS, random_access_iterator_tagS>
 {
     typedef random_access_iterator_tagS _Iter_random_cat;
@@ -12242,20 +12852,13 @@ _Iter_randomS(const _Iter1&, const _Iter2&)
                                   typename iterator_traitsS<_Iter2>::iterator_category>::_Iter_random_cat _Cat;
     return (_Cat);
 }
-template <class _T1, class _T2> struct _Ptr_cat_helperS
-{
-    typedef _Nonscalar_ptr_iterator_tagS _Ptr_cat;
-};
+
 template <class _T1, class _T2> inline typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Ptr_catS(_T1&, _T2&)
 {
     typename _Ptr_cat_helperS<_T1, _T2>::_Ptr_cat _Cat;
     return (_Cat);
 }
-template <class _Iter> struct _Checked_iterator_base_helperS
-{
-    typedef _Unchanged_checked_iterator_base_type_tagS _Checked_iterator_base_type_tag;
-    typedef _Iter _Checked_iterator_base_type;
-};
+
 template <class _Iter>
 inline typename _Checked_iterator_base_helperS<_Iter>::_Checked_iterator_base_type _Checked_baseS(
     _Iter& _It, _Unchanged_checked_iterator_base_type_tagS)
@@ -12285,101 +12888,21 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-struct _Iterator_base_universalS
-{
-};
-class _Container_base_auxS;
-class _Aux_contS
-{
-  public:
-    const _Container_base_auxS* _Getcont() const
-    {
-        return _Mycontainer;
-    }
-    const _Container_base_auxS* _Mycontainer;
-};
-class _Container_base_auxS
-{
-  public:
-    _Aux_contS* _Myownedaux;
-};
-template <class _Ty> class allocatorS
-{
-  public:
-    typedef _Ty* pointer;
-    void destroy(pointer _Ptr)
-    {
-        _DestroyS(_Ptr);
-    }
-};
+
+
+
+
+
 template <class _Ty> inline void _DestroyS(_Ty* _Ptr)
 {
     (_Ptr)->~_Ty();
 }
-template <class _Alloc> class _Container_base_aux_alloc_realS : public _Container_base_auxS
-{
-  public:
-    _Alloc _Alaux;
-};
-class _Iterator_base_auxS : public _Iterator_base_universalS
-{
-  public:
-    _Iterator_base_auxS() : _Myaux(0)
-    {}
-    void _Set_container(const _Container_base_auxS* const _Pcont)
-    {
-        _Myaux = _Pcont->_Myownedaux;
-    }
-    const _Container_base_auxS* _Getmycont() const
-    {
-        return _Myaux ? _Myaux->_Getcont() : 0;
-    }
-    bool _Same_container(const _Iterator_base_auxS& _Other) const
-    {
-        return _Myaux == _Other._Myaux;
-    }
-    bool _Has_container() const
-    {
-        return _Myaux != 0;
-    }
-    const _Aux_contS* _Myaux;
-};
-template <class _Ty> class _RanitS : public _Iterator_base_auxS
-{
-};
-template <class _Ty> class vectorS;
-template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Myt;
-    typedef vectorS<_Ty> _Myvec;
-    typedef _Ty* _Tptr;
-    _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
-    {
-        if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            std::abort();
-        this->_Set_container(_Pvector);
-        _Myptr = _Ptr;
-    }
-    bool operator==(const _Myt& _Right) const
-    {
-        if (!(this->_Has_container() && this->_Same_container(_Right)))
-            std::abort();
-        return (_Myptr == _Right._Myptr);
-    }
-    bool operator!=(const _Myt& _Right) const
-    {
-        return (!(*this == _Right));
-    }
-    _Tptr _Myptr;
-};
-template <class _Ty> class _Vector_iteratorS : public _Vector_const_iteratorS<_Ty>
-{
-  public:
-    typedef _Vector_const_iteratorS<_Ty> _Mybase;
-    _Vector_iteratorS(_Ty* _Ptr, const _Container_base_auxS* _Pvector) : _Mybase(_Ptr, _Pvector)
-    {}
-};
+
+
+
+
+
+
 template <class _Alloc>
 inline void _Destroy_rangeS(typename _Alloc::pointer _First, typename _Alloc::pointer _Last, _Alloc& _Al)
 {
@@ -12397,72 +12920,8 @@ template <class _InIt, class _OutIt> inline _OutIt unchecked_copyS(_InIt _First,
     return (_Copy_optS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Iter_randomS(_First, _Dest),
                        _Ptr_catS(_First, _Dest), _Range_checked_iterator_tagS()));
 }
-template <class _Ty> class _Vector_valS : public _Container_base_aux_alloc_realS<allocatorS<_Ty> >
-{
-  public:
-    allocatorS<_Ty> _Alval;
-};
-template <class _Ty> class vectorS : public _Vector_valS<_Ty>
-{
-  public:
-    typedef _Vector_iteratorS<_Ty> iterator;
-    typedef _Vector_const_iteratorS<_Ty> const_iterator;
-    typedef _Ty* pointer;
-    typedef unsigned int size_type;
-    typedef _Ty& reference;
-    size_type size() const
-    {
-        return (_Mylast - _Myfirst);
-    }
-    bool empty() const
-    {
-        return (size() == 0);
-    }
-    reference operator[](size_type _Pos)
-    {
-        if (!(_Pos < size()))
-            std::abort();
-        do
-        {
-        } while (0);
-        return (*(_Myfirst + _Pos));
-    }
-    iterator begin()
-    {
-        return (iterator(_Myfirst, this));
-    }
-    iterator end()
-    {
-        return (iterator(_Mylast, this));
-    }
-    iterator _Make_iter(const_iterator _Where) const
-    {
-        return (iterator(_Where._Myptr, this));
-    }
-    iterator erase(const_iterator _First_arg, const_iterator _Last_arg)
-    {
-        iterator _First = _Make_iter(_First_arg);
-        iterator _Last = _Make_iter(_Last_arg);
-        if (_First != _Last)
-        {
-            pointer _Ptr = unchecked_copyS(_Last._Myptr, _Mylast, _First._Myptr);
-            _Destroy(_Ptr, _Mylast);
-            _Mylast = _Ptr;
-        }
-        return (_First);
-    }
-    void clear()
-    {
-        erase(begin(), end());
-    }
-    void _Destroy(pointer _First, pointer _Last)
-    {
-        _Destroy_rangeS(_First, _Last, this->_Alval);
-    }
-    pointer _Myfirst;
-    pointer _Mylast;
-    pointer _Myend;
-};
+
+
 class FUN_00b06180_Reader
 {
   public:

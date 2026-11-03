@@ -6,9 +6,7 @@
 #include "fnv/decl/IndexSet.h"
 #include "fnv/decl/Outer_b33110.h"
 #include "fnv/decl/PbContainer.h"
-#include "fnv/decl/Vec.h"
 #include "fnv/decl/Vec18.h"
-#include "fnv/decl/VecQ_acad60.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00b0d000.h"
 #include <cstddef>
@@ -4873,6 +4871,13 @@ void Target::FUN_00b2af80(float elapsed)
 
 namespace fnv_00b2c890 {
 #include <string.h>
+struct CMutIter;
+
+
+
+
+
+
 
 void* operator new(std::size_t);
 namespace std {

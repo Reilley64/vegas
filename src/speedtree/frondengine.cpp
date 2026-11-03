@@ -6,14 +6,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "fnv/decl/FUN_0044a4c0.h"
 #include "fnv/decl/Target18.h"
 #include "fnv/decl/VecAlloc.h"
 #include "fnv/decl/VecStandIn.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
-#include "fnv/decl/fnv_00b1ebc0__FUN_00b1ebc0.h"
-#include "fnv/decl/fnv_00b20c30__FUN_00b20c30.h"
-#include "fnv/decl/fnv_00b22650__FUN_00b22650.h"
 #include "fnv/decl/xlenb0f__BxVecBase.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00b12000.h"
@@ -40,9 +36,6 @@
 #include "fnv/decl/FUN_00b3f130_shell.h"
 #include "fnv/decl/FloatVec.h"
 #include "fnv/decl/Outer_b33110.h"
-#include "fnv/decl/Pool_00b1f920.h"
-#include "fnv/decl/S00b1dd80_Obj.h"
-#include "fnv/decl/S00b24a80_Obj.h"
 #include "fnv/decl/S00b30660_Obj.h"
 #include "fnv/decl/S_00b3ed80.h"
 #include "fnv/decl/ScaledVec6.h"
@@ -68,6 +61,433 @@
 #include "fnv/symbols_011c1000.h"
 #include "fnv/symbols_011f8000.h"
 #include <math.h>
+namespace fnv_00b22650 { namespace vecdb226 { struct VdElemV; } }
+
+namespace vecdb1d2 {
+struct VdInner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+};
+}
+
+namespace vecdb1d2 {
+struct VdElemV : public VdVector<VdInner>
+{
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+};
+}
+
+struct Proxy
+{
+    int* pCont;
+};
+
+struct Alloc
+{
+    inline bool operator==(const Alloc&) const
+    {
+        return true;
+    }
+};
+
+struct FUN_0065f240
+{
+    Proxy* pProxy;
+    int i4;
+    Alloc al;
+    int* pFirst;
+    int* pLast;
+    int* pEnd;
+    ~FUN_0065f240();
+public:
+    void Clear();
+};
+
+// namespace fnv_00b21e00
+
+namespace fnv_00b22650 {
+namespace vecdb226 {
+struct VdNonscalarTag
+{
+};
+struct VdScalarTag
+{
+};
+template <class T> inline VdNonscalarTag VdPtrCat(T*&, T*&)
+{
+    VdNonscalarTag _Cat;
+    return _Cat;
+}
+inline VdScalarTag VdPtrCat(unsigned short*&, unsigned short*&)
+{
+    VdScalarTag _Cat;
+    return _Cat;
+}
+template <class T> inline void VdDestroyOne(T* _Ptr)
+{
+    _Ptr->~T();
+}
+template <class T> struct VdAlloc
+{
+    typedef T* pointer;
+    void deallocate(T* _Ptr, unsigned int)
+    {
+        ::FUN_00401030 delete(_Ptr);
+    }
+    void destroy(T* _Ptr)
+    {
+        VdDestroyOne(_Ptr);
+    }
+};
+template <class A>
+inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al, VdNonscalarTag)
+{
+    for (; _First != _Last; ++_First)
+    {
+        _Al.destroy(_First);
+    }
+}
+template <class A> inline void VdDestroyRange(typename A::pointer, typename A::pointer, A&, VdScalarTag)
+{}
+template <class A> inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al)
+{
+    VdDestroyRange<A>(_First, _Last, _Al, VdPtrCat(_First, _Last));
+}
+struct VdAuxCont
+{
+    int unk00;
+};
+struct VdAuxBase
+{
+    VdAuxCont* _Myownedaux;
+    VdAlloc<VdAuxCont> _Alaux;
+    ~VdAuxBase()
+    {
+        _Alaux.deallocate(_Myownedaux, 1);
+    }
+};
+template <class T> struct VdVector : VdAuxBase
+{
+    VdAlloc<T> _Alval;
+    T* _Myfirst;
+    T* _Mylast;
+    T* _Myend;
+    ~VdVector()
+    {
+        reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
+    }
+    void _Destroy(T* _First, T* _Last)
+    {
+        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
+    }
+    void _Tidy()
+    {
+        if (_Myfirst != 0)
+        {
+            _Destroy(_Myfirst, _Mylast);
+            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
+        }
+        _Myfirst = 0;
+        _Mylast = 0;
+        _Myend = 0;
+    }
+};
+template <class T> struct VdVectorImpl : VdAuxBase
+{
+    VdAlloc<T> _Alval;
+    T* _Myfirst;
+    T* _Mylast;
+    T* _Myend;
+    void _Destroy(T* _First, T* _Last)
+    {
+        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
+    }
+    void _Tidy()
+    {
+        if (_Myfirst != 0)
+        {
+            _Destroy(_Myfirst, _Mylast);
+            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
+        }
+        _Myfirst = 0;
+        _Mylast = 0;
+        _Myend = 0;
+    }
+};
+}
+using namespace vecdb226;
+
+namespace vecdb226 {
+struct VdElemV : public VdVector<unsigned short>
+{
+};
+}
+struct FUN_00b22650 : public VdVectorImpl<VdElemV>
+{
+    void FUN_00b22650_Destroy(VdElemV* _First, VdElemV* _Last);
+};
+
+// @fnv 0x00b22650
+void FUN_00b22650::FUN_00b22650_Destroy(VdElemV* _First, VdElemV* _Last)
+{
+    VdDestroyRange<VdAlloc<VdElemV> >(_First, _Last, _Alval);
+}
+}
+
+namespace fnv_00b20c30 { namespace vecdb20c { struct VdElemW; } }
+
+namespace vecdb1d2 {
+
+}
+
+namespace vecdb1d2 {
+
+}
+
+namespace fnv_00b1ebc0 {
+struct FUN_00b1ebc0 : public VdVectorImpl<VdElemV>
+{
+    void FUN_00b1ebc0_Destroy(VdElemV* _First, VdElemV* _Last);
+};
+}
+
+struct FUN_00b1ec70_class
+{
+    int i0;
+    int i4;
+    int i8;
+    int* p;
+    int* q;
+    int* r;
+    void FUN_00b1ec70();
+    void FUN_00b1ebc0(int* a, int* b);
+};
+
+// namespace fnv_00b20ba0
+
+namespace fnv_00b20c30 {
+namespace vecdb20c {
+struct VdNonscalarTag
+{
+};
+struct VdScalarTag
+{
+};
+template <class T> inline VdNonscalarTag VdPtrCat(T*&, T*&)
+{
+    VdNonscalarTag _Cat;
+    return _Cat;
+}
+inline VdScalarTag VdPtrCat(unsigned short*&, unsigned short*&)
+{
+    VdScalarTag _Cat;
+    return _Cat;
+}
+template <class T> inline void VdDestroyOne(T* _Ptr)
+{
+    _Ptr->~T();
+}
+template <class T> struct VdAlloc
+{
+    typedef T* pointer;
+    void deallocate(T* _Ptr, unsigned int)
+    {
+        ::FUN_00401030 delete(_Ptr);
+    }
+    void destroy(T* _Ptr)
+    {
+        VdDestroyOne(_Ptr);
+    }
+};
+template <class A>
+inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al, VdNonscalarTag)
+{
+    for (; _First != _Last; ++_First)
+        _Al.destroy(_First);
+}
+template <class A> inline void VdDestroyRange(typename A::pointer, typename A::pointer, A&, VdScalarTag)
+{}
+template <class A> inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al)
+{
+    VdDestroyRange<A>(_First, _Last, _Al, VdPtrCat(_First, _Last));
+}
+struct VdAuxCont
+{
+    int unk00;
+};
+struct VdAuxBase
+{
+    void _Orphan_all() const
+    {}
+    VdAuxCont* _Myownedaux;
+    VdAlloc<VdAuxCont> _Alaux;
+    ~VdAuxBase()
+    {
+        _Myownedaux->~VdAuxCont();
+        _Alaux.deallocate(_Myownedaux, 1);
+    }
+};
+template <class T> struct VdVector : VdAuxBase
+{
+    VdAlloc<T> _Alval;
+    T* _Myfirst;
+    T* _Mylast;
+    T* _Myend;
+    ~VdVector()
+    {
+        reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
+    }
+    void _Destroy(T* _First, T* _Last)
+    {
+        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
+    }
+    void _Tidy()
+    {
+        if (_Myfirst != 0)
+        {
+            _Destroy(_Myfirst, _Mylast);
+            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
+        }
+        _Myfirst = 0;
+        _Mylast = 0;
+        _Myend = 0;
+    }
+};
+template <class T> struct VdVectorImpl : VdAuxBase
+{
+    VdAlloc<T> _Alval;
+    T* _Myfirst;
+    T* _Mylast;
+    T* _Myend;
+    void _Destroy(T* _First, T* _Last)
+    {
+        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
+    }
+    void _Tidy()
+    {
+        if (_Myfirst != 0)
+        {
+            _Destroy(_Myfirst, _Mylast);
+            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
+        }
+        _Myfirst = 0;
+        _Mylast = 0;
+        _Myend = 0;
+    }
+};
+}
+using namespace vecdb20c;
+
+namespace vecdb20c {
+struct VdInner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+};
+struct VdElemV : public VdVector<VdInner>
+{
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+};
+struct VdElemW : public VdVector<VdElemV>
+{
+};
+}
+struct FUN_00b20c30 : public VdVectorImpl<VdElemW>
+{
+    void FUN_00b20c30_Destroy(VdElemW* _First, VdElemW* _Last);
+};
+
+// @fnv 0x00b20c30
+void FUN_00b20c30::FUN_00b20c30_Destroy(VdElemW* _First, VdElemW* _Last)
+{
+    VdDestroyRange<VdAlloc<VdElemW> >(_First, _Last, _Alval);
+}
+}
+
+namespace fnv_00b1ebc0 { namespace vecdb1eb { struct VdElemV; } }
+
+namespace vecdb1d2 {
+
+}
+
+namespace vecdb1d2 {
+
+}
+
+namespace fnv_00b1ebc0 {
+
+}
+
+
+unsigned int g_010173f0;
+
+struct FUN_0044a4c0
+{
+    int iAl;
+    char acBuf[16];
+    int iSize;
+    int iRes;
+    FUN_0044a4c0()
+    {
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+    }
+    FUN_0044a4c0(const char* s);
+    FUN_0044a4c0(const FUN_0044a4c0& r)
+    {
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
+        AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
+    }
+    ~FUN_0044a4c0()
+    {
+        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
+    }
+    FUN_0044a4c0& AssignSubstring(const FUN_0044a4c0& r, unsigned o, unsigned n);
+    FUN_0044a4c0& operator=(const FUN_0044a4c0& r)
+    {
+        return AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
+    }
+    FUN_0044a4c0 FUN_00b09f90();
+};
+
 struct FUN_00b1ada0_class
 {
     float a;
@@ -209,17 +629,7 @@ int FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
 }
 
 void __cdecl operator delete(void*);
-struct FUN_00b1ec70_class
-{
-    int i0;
-    int i4;
-    int i8;
-    int* p;
-    int* q;
-    int* r;
-    void FUN_00b1ec70();
-    void FUN_00b1ebc0(int* a, int* b);
-};
+
 // Frees the buffer at p after calling FUN_00b1ebc0 on p and q, then resets p, q and r to null.
 // @fnv 0x00b1ec70
 void FUN_00b1ec70_class::FUN_00b1ec70()
@@ -577,7 +987,7 @@ C00b1d5d0& C00b1d5d0::FUN_00b1d5d0(const C00b1d5d0& rhs)
     return *this;
 }
 
-unsigned int g_010173f0;
+
 struct StringLike
 {
 };
@@ -1865,10 +2275,7 @@ template <class T> inline void Swp(T& a, T& b)
     }
 }
 
-struct Proxy
-{
-    int* pCont;
-};
+
 
 struct VecBase
 {
@@ -1976,26 +2383,9 @@ inline void DeadX()
     int d80;
 }
 
-struct Alloc
-{
-    inline bool operator==(const Alloc&) const
-    {
-        return true;
-    }
-};
 
-struct FUN_0065f240
-{
-    Proxy* pProxy;
-    int i4;
-    Alloc al;
-    int* pFirst;
-    int* pLast;
-    int* pEnd;
-    ~FUN_0065f240();
-public:
-    void Clear();
-};
+
+
 
 struct FUN_00b22ff0 : VecBase
 {
@@ -3382,33 +3772,7 @@ FUN_00b181b0::~FUN_00b181b0()
 
 extern int DAT_010173f0;
 
-struct FUN_0044a4c0
-{
-    int iAl;
-    char acBuf[16];
-    int iSize;
-    int iRes;
-    FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-    }
-    FUN_0044a4c0(const char* s);
-    FUN_0044a4c0(const FUN_0044a4c0& r)
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(false, 0);
-        AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
-    }
-    ~FUN_0044a4c0()
-    {
-        reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
-    }
-    FUN_0044a4c0& AssignSubstring(const FUN_0044a4c0& r, unsigned o, unsigned n);
-    FUN_0044a4c0& operator=(const FUN_0044a4c0& r)
-    {
-        return AssignSubstring(r, 0, *(unsigned*)&(*reinterpret_cast<int *>(&::g_010173f0)));
-    }
-    FUN_0044a4c0 FUN_00b09f90();
-};
+
 
 struct FUN_00b096a0
 {
@@ -5136,34 +5500,8 @@ template <class T> struct VdVectorImpl : VdAuxBase
 using namespace vecdb1d2;
 
 namespace vecdb1d2 {
-struct VdInner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-};
-struct VdElemV : public VdVector<VdInner>
-{
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-};
+
+
 }
 
 struct FUN_00b1da90 : public VdVectorImpl<VdElemV>
@@ -8094,10 +8432,7 @@ struct VdElemV : public VdVector<VdInner>
     int unk34;
 };
 }
-struct FUN_00b1ebc0 : public VdVectorImpl<VdElemV>
-{
-    void FUN_00b1ebc0_Destroy(VdElemV* _First, VdElemV* _Last);
-};
+
 
 // @fnv 0x00b1ebc0
 void FUN_00b1ebc0::FUN_00b1ebc0_Destroy(VdElemV* _First, VdElemV* _Last)
@@ -11588,165 +11923,7 @@ FUN_00b20ba0::FUN_00b20ba0(GvAlloc<char> _Al) : _Alaux(_Al)
 }
 }
 
-// namespace fnv_00b20ba0
 
-namespace fnv_00b20c30 {
-namespace vecdb20c {
-struct VdNonscalarTag
-{
-};
-struct VdScalarTag
-{
-};
-template <class T> inline VdNonscalarTag VdPtrCat(T*&, T*&)
-{
-    VdNonscalarTag _Cat;
-    return _Cat;
-}
-inline VdScalarTag VdPtrCat(unsigned short*&, unsigned short*&)
-{
-    VdScalarTag _Cat;
-    return _Cat;
-}
-template <class T> inline void VdDestroyOne(T* _Ptr)
-{
-    _Ptr->~T();
-}
-template <class T> struct VdAlloc
-{
-    typedef T* pointer;
-    void deallocate(T* _Ptr, unsigned int)
-    {
-        ::FUN_00401030 delete(_Ptr);
-    }
-    void destroy(T* _Ptr)
-    {
-        VdDestroyOne(_Ptr);
-    }
-};
-template <class A>
-inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al, VdNonscalarTag)
-{
-    for (; _First != _Last; ++_First)
-        _Al.destroy(_First);
-}
-template <class A> inline void VdDestroyRange(typename A::pointer, typename A::pointer, A&, VdScalarTag)
-{}
-template <class A> inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al)
-{
-    VdDestroyRange<A>(_First, _Last, _Al, VdPtrCat(_First, _Last));
-}
-struct VdAuxCont
-{
-    int unk00;
-};
-struct VdAuxBase
-{
-    void _Orphan_all() const
-    {}
-    VdAuxCont* _Myownedaux;
-    VdAlloc<VdAuxCont> _Alaux;
-    ~VdAuxBase()
-    {
-        _Myownedaux->~VdAuxCont();
-        _Alaux.deallocate(_Myownedaux, 1);
-    }
-};
-template <class T> struct VdVector : VdAuxBase
-{
-    VdAlloc<T> _Alval;
-    T* _Myfirst;
-    T* _Mylast;
-    T* _Myend;
-    ~VdVector()
-    {
-        reinterpret_cast<::FUN_00b1ec70_class *>(this)->FUN_00b1ec70();
-    }
-    void _Destroy(T* _First, T* _Last)
-    {
-        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
-    }
-    void _Tidy()
-    {
-        if (_Myfirst != 0)
-        {
-            _Destroy(_Myfirst, _Mylast);
-            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
-        }
-        _Myfirst = 0;
-        _Mylast = 0;
-        _Myend = 0;
-    }
-};
-template <class T> struct VdVectorImpl : VdAuxBase
-{
-    VdAlloc<T> _Alval;
-    T* _Myfirst;
-    T* _Mylast;
-    T* _Myend;
-    void _Destroy(T* _First, T* _Last)
-    {
-        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
-    }
-    void _Tidy()
-    {
-        if (_Myfirst != 0)
-        {
-            _Destroy(_Myfirst, _Mylast);
-            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
-        }
-        _Myfirst = 0;
-        _Mylast = 0;
-        _Myend = 0;
-    }
-};
-}
-using namespace vecdb20c;
-
-namespace vecdb20c {
-struct VdInner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-};
-struct VdElemV : public VdVector<VdInner>
-{
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-};
-struct VdElemW : public VdVector<VdElemV>
-{
-};
-}
-struct FUN_00b20c30 : public VdVectorImpl<VdElemW>
-{
-    void FUN_00b20c30_Destroy(VdElemW* _First, VdElemW* _Last);
-};
-
-// @fnv 0x00b20c30
-void FUN_00b20c30::FUN_00b20c30_Destroy(VdElemW* _First, VdElemW* _Last)
-{
-    VdDestroyRange<VdAlloc<VdElemW> >(_First, _Last, _Alval);
-}
-}
 
 // namespace fnv_00b20c30
 
@@ -12462,136 +12639,7 @@ void VecQ::FUN_00b21e00(CItQ _Where, unsigned _Count, const ElQ& _Val)
 }
 }
 
-// namespace fnv_00b21e00
 
-namespace fnv_00b22650 {
-namespace vecdb226 {
-struct VdNonscalarTag
-{
-};
-struct VdScalarTag
-{
-};
-template <class T> inline VdNonscalarTag VdPtrCat(T*&, T*&)
-{
-    VdNonscalarTag _Cat;
-    return _Cat;
-}
-inline VdScalarTag VdPtrCat(unsigned short*&, unsigned short*&)
-{
-    VdScalarTag _Cat;
-    return _Cat;
-}
-template <class T> inline void VdDestroyOne(T* _Ptr)
-{
-    _Ptr->~T();
-}
-template <class T> struct VdAlloc
-{
-    typedef T* pointer;
-    void deallocate(T* _Ptr, unsigned int)
-    {
-        ::FUN_00401030 delete(_Ptr);
-    }
-    void destroy(T* _Ptr)
-    {
-        VdDestroyOne(_Ptr);
-    }
-};
-template <class A>
-inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al, VdNonscalarTag)
-{
-    for (; _First != _Last; ++_First)
-    {
-        _Al.destroy(_First);
-    }
-}
-template <class A> inline void VdDestroyRange(typename A::pointer, typename A::pointer, A&, VdScalarTag)
-{}
-template <class A> inline void VdDestroyRange(typename A::pointer _First, typename A::pointer _Last, A& _Al)
-{
-    VdDestroyRange<A>(_First, _Last, _Al, VdPtrCat(_First, _Last));
-}
-struct VdAuxCont
-{
-    int unk00;
-};
-struct VdAuxBase
-{
-    VdAuxCont* _Myownedaux;
-    VdAlloc<VdAuxCont> _Alaux;
-    ~VdAuxBase()
-    {
-        _Alaux.deallocate(_Myownedaux, 1);
-    }
-};
-template <class T> struct VdVector : VdAuxBase
-{
-    VdAlloc<T> _Alval;
-    T* _Myfirst;
-    T* _Mylast;
-    T* _Myend;
-    ~VdVector()
-    {
-        reinterpret_cast<::FUN_0065f240 *>(this)->Clear();
-    }
-    void _Destroy(T* _First, T* _Last)
-    {
-        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
-    }
-    void _Tidy()
-    {
-        if (_Myfirst != 0)
-        {
-            _Destroy(_Myfirst, _Mylast);
-            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
-        }
-        _Myfirst = 0;
-        _Mylast = 0;
-        _Myend = 0;
-    }
-};
-template <class T> struct VdVectorImpl : VdAuxBase
-{
-    VdAlloc<T> _Alval;
-    T* _Myfirst;
-    T* _Mylast;
-    T* _Myend;
-    void _Destroy(T* _First, T* _Last)
-    {
-        VdDestroyRange<VdAlloc<T> >(_First, _Last, _Alval);
-    }
-    void _Tidy()
-    {
-        if (_Myfirst != 0)
-        {
-            _Destroy(_Myfirst, _Mylast);
-            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
-        }
-        _Myfirst = 0;
-        _Mylast = 0;
-        _Myend = 0;
-    }
-};
-}
-using namespace vecdb226;
-
-namespace vecdb226 {
-struct VdElemV : public VdVector<unsigned short>
-{
-};
-}
-struct FUN_00b22650 : public VdVectorImpl<VdElemV>
-{
-    void FUN_00b22650_Destroy(VdElemV* _First, VdElemV* _Last);
-};
-
-// @fnv 0x00b22650
-void FUN_00b22650::FUN_00b22650_Destroy(VdElemV* _First, VdElemV* _Last)
-{
-    VdDestroyRange<VdAlloc<VdElemV> >(_First, _Last, _Alval);
-}
-}
 
 // namespace fnv_00b22650
 

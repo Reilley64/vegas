@@ -12,14 +12,9 @@
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_004e7560_shell.h"
 #include "fnv/decl/FUN_00559a70_Class.h"
-#include "fnv/decl/FUN_00a012d0_t.h"
-#include "fnv/decl/FUN_00a03c90_shell.h"
-#include "fnv/decl/FUN_00a087d0_shell.h"
-#include "fnv/decl/FUN_00a0abe0.h"
 #include "fnv/decl/FUN_00a0c6c0_cls.h"
 #include "fnv/decl/FUN_00a20650_cls.h"
 #include "fnv/decl/FUN_00a59d30_C.h"
-#include "fnv/decl/FadeList.h"
 #include "fnv/decl/Interface.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/Node185.h"
@@ -30,8 +25,6 @@
 #include "fnv/decl/StartMenu.h"
 #include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/decl/TextString.h"
-#include "fnv/decl/fnv_00a01350__FUN_00a01350_shell.h"
-#include "fnv/decl/fnv_00a09410__EvalValue.h"
 #include "fnv/symbols_00406000.h"
 #include "fnv/symbols_00408000.h"
 #include "fnv/symbols_00450000.h"
@@ -2511,7 +2504,6 @@ unsigned int FUN_00a0d1b0_cls::HashKey(const char* key) {
 #include "fnv/decl/FUN_00ad8d60_shell.h"
 #include "fnv/decl/FUN_00ad8f20_shell.h"
 #include "fnv/decl/FUN_00ae8010_cls.h"
-#include "fnv/decl/FUN_00bb79d0_class.h"
 #include "fnv/decl/FaceBinaryReadReceiver.h"
 #include "fnv/decl/InterfaceManager.h"
 #include "fnv/decl/NiGeometryData.h"
@@ -2539,7 +2531,6 @@ unsigned int FUN_00a0d1b0_cls::HashKey(const char* key) {
 #include "fnv/decl/fnv_00a0ab70__OH2TileTemplate.h"
 #include "fnv/decl/fnv_00ad88f0__FUN_00ad88f0_h.h"
 #include "fnv/decl/fnv_00adddd0__FUN_00a1b940.h"
-#include "fnv/decl/sa040a0__Owner.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_00416000.h"
@@ -2564,13 +2555,201 @@ unsigned int FUN_00a0d1b0_cls::HashKey(const char* key) {
 #include "fnv/decl/SoundPlayback.h"
 #include "fnv/decl/UpdateTreeNode.h"
 #include "fnv/decl/fnv_006db720__FUN_006db720_Class.h"
-#include "fnv/decl/fnv_009ff690__ReleaseTile.h"
 #include "fnv/symbols_00a09000.h"
 #include "fnv/symbols_00a0a000.h"
 #include "fnv/symbols_01020000.h"
 #include "fnv/symbols_01021000.h"
 #include "fnv/symbols_0106c000.h"
 #include <math.h>
+
+namespace fnv_00a09410 {
+struct EvalTile;
+}
+
+namespace fnv_00a09410 {
+struct EvalValue;
+}
+
+namespace fnv_00a09410 {
+struct EvalReference { int trait; EvalTile* tile; float value; const char* text; };
+}
+
+namespace fnv_00a09410 {
+struct EvalAction {
+ virtual float GetFloat();
+ virtual EvalReference* GetReference();
+ int operation; EvalAction* next;
+};
+}
+
+namespace fnv_00a09410 {
+struct EvalTile {
+ virtual void v0(); virtual void v1(); virtual void v2();
+ virtual void v3(); virtual void v4(); virtual void v5();
+ virtual int ChangeValue(int,float,const char*);
+ int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c;
+ unsigned flags;
+ __forceinline bool Flag(unsigned mask) { return (flags&mask)!=0; }
+};
+}
+
+namespace fnv_00a09410 {
+struct EvalValue {
+ int m_iValueId; EvalTile* pTile; float fValue; char* pString; EvalAction* actions;
+ __forceinline char* String() { return pString; }
+ void FUN_00a09410(bool);
+};
+}
+
+struct FadeRecord;
+
+class NiNode;
+
+class NiExtraData;
+
+class NiFixedString;
+
+class NiAVObject {
+public:
+    virtual ~NiAVObject();
+    virtual void* GetRTTI() const;
+    virtual NiNode* IsFadeNode();
+    virtual NiNode* IsSceneNode();
+    virtual void* IsSwitchNode();
+    virtual void* IsMultiBoundNode();
+    virtual void* IsGeometry();
+public:
+    ::NiExtraData *GetExtraData(const ::NiFixedString &);
+};
+
+template<class T> class ChildPtr {
+public:
+    T* m_pObject;
+    __forceinline operator T*() const { return m_pObject; }
+};
+
+template<class T> class ChildArray {
+public:
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    __forceinline T& GetAt(unsigned int uiIndex) const { return m_pBase[uiIndex]; }
+};
+
+class NiNode : public NiAVObject {
+public:
+    ChildArray<ChildPtr<NiAVObject> >& GetChildren() { return *(ChildArray<ChildPtr<NiAVObject> >*)((char*)this + 0xa0); }
+};
+
+struct NiAVObject;
+
+// namespace fnv_00a1e1d0
+
+
+
+class NiFixedString {
+public:
+    char* text;
+    __forceinline NiFixedString(const char* str) {
+        if (str == 0) {
+            text = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+            return;
+        }
+        text = ::NiGlobalStringTable::AddString(str);
+    }
+    __forceinline ~NiFixedString() {
+        if (text == (char*)(*reinterpret_cast<int *>(&::DAT_0109b220))) {} else {
+            char* p = text - 8;
+            InterlockedDecrement((long volatile*)p);
+        }
+    }
+};
+
+class NiAVObject;
+
+struct FadeTile {
+    virtual void V0(); virtual void V1(); virtual void V2(); virtual int GetType();
+    int field04; int field08; int field0c; int field10; int field14; int field18; int field1c;
+    int field20; int field24; FadeTile* parent; NiAVObject* model;
+};
+
+struct FadeRecord {
+    float start; float end; unsigned int time; float duration; int trait; FadeTile* tile; unsigned int type;
+};
+
+struct LocalManager { void Deallocate(void*); void* Allocate(unsigned int); };
+
+struct FadeList {
+    FadeRecord* item; FadeList* next;
+    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::LocalManager *>(&::g_memoryManager))))->FUN_00aa4060(p); }
+    ~FadeList() { RemoveAll(); }
+    inline void RemoveAll() { while (next) { FadeList* after=next->next; next->next=0; delete next; next=after; } item=0; }
+    inline void FUN_00a0cbe0(FadeRecord*& p) {
+        if (!p || (!next && !item)) return;
+        FadeList* cur=this; FadeList* prev=this;
+        while(cur && cur->item != p) { prev=cur; cur=cur->next; }
+        if(!cur) return;
+        if(cur==this) { if(next) { prev=next; next=prev->next; item=prev->item; prev->next=0; delete prev; } else item=0; }
+        else { prev->next=cur->next; cur->next=0; delete cur; }
+    }
+};
+
+class Tile;
+
+// namespace fnv_00a03f70
+
+struct FUN_00a087d0_shell : public Tile {
+    void FUN_00a087d0(Tile*, Tile*);
+};
+
+
+namespace fnv_00a01350 {
+struct FUN_00a01350_shell : public Tile {
+    void FUN_00a01350(int, char*, bool);
+};
+}
+
+
+struct FUN_00a012d0_t {
+    void FUN_00a012d0(int aiTrait, float afValue, bool abClearActions);
+};
+
+
+struct GO {
+    GO& operator=(void*);
+};
+
+struct Member0C {
+    char pad[0x28];
+    int member_28;
+    GO member_2c;
+};
+
+struct Member10 {
+    char pad[0x18];
+    void* member_18;
+};
+
+struct __declspec(novtable) Base_00a0abe0 {
+    virtual ~Base_00a0abe0() {
+        reinterpret_cast<::FUN_00a7b300_shell *>((this))->FUN_00a7b300();
+    }
+};
+
+struct FUN_00a0abe0 : Base_00a0abe0 {
+    char pad_04[0x08];
+    Member0C* member_0c;
+    Member10* member_10;
+
+    virtual ~FUN_00a0abe0();
+};
+
+class Menu;
+
+struct FUN_00a03c90_shell : public Tile {
+    Menu* FUN_00a03c90();
+};
+
 
 extern int DAT_011d8e64;
 extern int DAT_011d8e68;
@@ -2948,45 +3127,21 @@ void GeomData_S::FUN_00a670c0(unsigned short usVertices, NiPoint3* pkVertex, NiP
     m_usTrianglePoints = (m_usTrianglePoints & 0xffe) | (usNumTextureSets & 1) | eNBTMethod;
 }
 
-class NiNode;
+
 
 class NiProperty;
 
-class NiExtraData;
 
-class NiFixedString;
 
-class NiAVObject {
-public:
-    virtual ~NiAVObject();
-    virtual void* GetRTTI() const;
-    virtual NiNode* IsFadeNode();
-    virtual NiNode* IsSceneNode();
-    virtual void* IsSwitchNode();
-    virtual void* IsMultiBoundNode();
-    virtual void* IsGeometry();
-public:
-    ::NiExtraData *GetExtraData(const ::NiFixedString &);
-};
 
-template<class T> class ChildPtr {
-public:
-    T* m_pObject;
-    __forceinline operator T*() const { return m_pObject; }
-};
 
-template<class T> class ChildArray {
-public:
-    T* m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    __forceinline T& GetAt(unsigned int uiIndex) const { return m_pBase[uiIndex]; }
-};
 
-class NiNode : public NiAVObject {
-public:
-    ChildArray<ChildPtr<NiAVObject> >& GetChildren() { return *(ChildArray<ChildPtr<NiAVObject> >*)((char*)this + 0xa0); }
-};
+
+
+
+
+
+
 
 struct FUN_00a08720_t {
     void FUN_00a08720(NiAVObject* apObject, float afPct);
@@ -3010,7 +3165,7 @@ void FUN_00a08720_t::FUN_00a08720(NiAVObject* apObject, float afPct)
     }
 }
 
-struct NiAVObject;
+
 
 struct SoundPlaybackHandle {
     void Clear();
@@ -3114,9 +3269,7 @@ void S00a0d390::FUN_00a0d390()
     ::FUN_00aa10f0(f8);
 }
 
-struct FUN_00a03c90_shell : public Tile {
-    Menu* FUN_00a03c90();
-};
+
 
 // @fnv 0x00a0b110
 void FUN_00a0b110_shell::FUN_00a0b110(int aiSoundType) {
@@ -3164,34 +3317,15 @@ Menu* FUN_00a03c90_shell::FUN_00a03c90() {
     return 0;
 }
 
-struct GO {
-    GO& operator=(void*);
-};
 
-struct Member0C {
-    char pad[0x28];
-    int member_28;
-    GO member_2c;
-};
 
-struct Member10 {
-    char pad[0x18];
-    void* member_18;
-};
 
-struct __declspec(novtable) Base_00a0abe0 {
-    virtual ~Base_00a0abe0() {
-        reinterpret_cast<::FUN_00a7b300_shell *>((this))->FUN_00a7b300();
-    }
-};
 
-struct FUN_00a0abe0 : Base_00a0abe0 {
-    char pad_04[0x08];
-    Member0C* member_0c;
-    Member10* member_10;
 
-    virtual ~FUN_00a0abe0();
-};
+
+
+
+
 
 // @fnv 0x00a0abe0
 FUN_00a0abe0::~FUN_00a0abe0() {
@@ -3254,9 +3388,7 @@ struct TileValue_00a0a270 {
 struct TileValueOwner_00a01000 {
 };
 
-struct FUN_00a012d0_t {
-    void FUN_00a012d0(int aiTrait, float afValue, bool abClearActions);
-};
+
 
 // @fnv 0x00a012d0
 void FUN_00a012d0_t::FUN_00a012d0(int aiTrait, float afValue, bool abClearActions)
@@ -3274,9 +3406,7 @@ struct EmptyPolymorphicObject {
     void* __vecDelDtor(unsigned int);
     char _pad_0[1];
 };
-struct FUN_00a01350_shell : public Tile {
-    void FUN_00a01350(int, char*, bool);
-};
+
 
 struct FUN_00a01350_Value;
 struct FUN_00a01350_Obj {
@@ -3441,11 +3571,7 @@ Tile* FUN_00a03f70_shell::FUN_00a03f70(int aiTrait, int* aiType)
 }
 }
 
-// namespace fnv_00a03f70
 
-struct FUN_00a087d0_shell : public Tile {
-    void FUN_00a087d0(Tile*, Tile*);
-};
 
 struct TileListNode_00a087d0 {
     TileListNode_00a087d0* m_pkNext;
@@ -6167,27 +6293,7 @@ void A1E1D0_Holder::FUN_00a1e1d0(FUN_00a0c190* entry)
 }
 }
 
-// namespace fnv_00a1e1d0
 
-
-
-class NiFixedString {
-public:
-    char* text;
-    __forceinline NiFixedString(const char* str) {
-        if (str == 0) {
-            text = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
-            return;
-        }
-        text = ::NiGlobalStringTable::AddString(str);
-    }
-    __forceinline ~NiFixedString() {
-        if (text == (char*)(*reinterpret_cast<int *>(&::DAT_0109b220))) {} else {
-            char* p = text - 8;
-            InterlockedDecrement((long volatile*)p);
-        }
-    }
-};
 
 class FUN_00a7b2e0
 {
@@ -7077,36 +7183,17 @@ UITile* FUN_00a08b20(UITile* pTile, const char* pcPath)
 
 }
 
-class NiAVObject;
 
-struct FadeTile {
-    virtual void V0(); virtual void V1(); virtual void V2(); virtual int GetType();
-    int field04; int field08; int field0c; int field10; int field14; int field18; int field1c;
-    int field20; int field24; FadeTile* parent; NiAVObject* model;
-};
+
+
 
 struct FadePtr { FadeTile* ptr; inline FadeTile* operator->() const { return ptr; } };
 
-struct FadeRecord {
-    float start; float end; unsigned int time; float duration; int trait; FadeTile* tile; unsigned int type;
-};
 
-struct LocalManager { void Deallocate(void*); void* Allocate(unsigned int); };
 
-struct FadeList {
-    FadeRecord* item; FadeList* next;
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::LocalManager *>(&::g_memoryManager))))->FUN_00aa4060(p); }
-    ~FadeList() { RemoveAll(); }
-    inline void RemoveAll() { while (next) { FadeList* after=next->next; next->next=0; delete next; next=after; } item=0; }
-    inline void FUN_00a0cbe0(FadeRecord*& p) {
-        if (!p || (!next && !item)) return;
-        FadeList* cur=this; FadeList* prev=this;
-        while(cur && cur->item != p) { prev=cur; cur=cur->next; }
-        if(!cur) return;
-        if(cur==this) { if(next) { prev=next; next=prev->next; item=prev->item; prev->next=0; delete prev; } else item=0; }
-        else { prev->next=cur->next; cur->next=0; delete cur; }
-    }
-};
+
+
+
 
 extern FadeList DAT_011f3348;
 
@@ -8280,22 +8367,11 @@ struct EvalStack {
   size-=count;
  }
 };
-struct EvalTile;
-struct EvalValue;
-struct EvalReference { int trait; EvalTile* tile; float value; const char* text; };
-struct EvalAction {
- virtual float GetFloat();
- virtual EvalReference* GetReference();
- int operation; EvalAction* next;
-};
-struct EvalTile {
- virtual void v0(); virtual void v1(); virtual void v2();
- virtual void v3(); virtual void v4(); virtual void v5();
- virtual int ChangeValue(int,float,const char*);
- int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c;
- unsigned flags;
- __forceinline bool Flag(unsigned mask) { return (flags&mask)!=0; }
-};
+
+
+
+
+
 struct TraitLookup {  };
 __forceinline float Minimum(float a,float b) { return a<b?a:b; }
 __forceinline float Maximum(float a,float b) { return a>b?a:b; }
@@ -8303,11 +8379,7 @@ __forceinline float FloorValue(float a) { return (float)std::floor(a); }
 __forceinline float CeilValue(float a) { return (float)std::ceil(a); }
 __forceinline float AbsValue(float a) { return (float)std::fabs(a); }
 __forceinline double RoundMultiple(float a,const float& b) { float quotient=a/b; return ((int)quotient+(quotient-(int)quotient<0.5?0:1))*b; }
-struct EvalValue {
- int m_iValueId; EvalTile* pTile; float fValue; char* pString; EvalAction* actions;
- __forceinline char* String() { return pString; }
- void FUN_00a09410(bool);
-};
+
 // @fnv 0x00a09410
 void EvalValue::FUN_00a09410(bool update) {
  if((pTile->flags&0x10000) && m_iValueId!=4004) return;

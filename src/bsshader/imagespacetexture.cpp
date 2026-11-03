@@ -1,16 +1,12 @@
 #include <cstddef>
 // bsshader/imagespacetexture.cpp: free functions (1 function)
 
-#include "fnv/decl/BA3760Object.h"
-#include "fnv/decl/H_00ba39a0.h"
-#include "fnv/decl/Holder00ba37f0.h"
 #include "fnv/decl/Manager.h"
 #include "fnv/symbols_011f9000.h"
 #include "imagespacetexture_decls.h"
 #include <windows.h>
 #include "fnv/decl/E7DE90Owner.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
-#include "fnv/decl/FUN_0041fd00_shell.h"
 #include "fnv/decl/FUN_004bc320_shell.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/decl/HolderForAccum.h"
@@ -23,6 +19,63 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01200000.h"
 #include "fnv/symbols_01272000.h"
+
+class BA3760Object
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int m_iValue;
+
+    void FUN_00ba3760(int iValue);
+};
+
+
+struct R_00ba39a0
+{
+    virtual void f0();
+    virtual void f1();
+    long m_rc;
+};
+
+struct H_00ba39a0
+{
+    bool b0;
+    bool b1;
+    bool b2;
+    R_00ba39a0* p;
+    int i1;
+    int i2;
+    void FUN_00ba39a0();
+};
+
+struct Tex00ba37f0;
+
+struct Tex00ba37f0
+{
+    virtual void F0();
+    virtual void F1();
+    long m_Ref;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_Ref);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_Ref) == 0)
+            F1();
+    }
+};
+
+struct Holder00ba37f0
+{
+    bool b0;
+    bool b1;
+    Tex00ba37f0* pTileTexture;
+    void FUN_00ba37f0(Tex00ba37f0* apTex);
+};
+
 
 struct EnchantmentItem;
 struct TESForm;
@@ -78,29 +131,9 @@ int FUN_00ba3770_struct::FUN_00ba3770()
     return 0;
 }
 
-struct Tex00ba37f0
-{
-    virtual void F0();
-    virtual void F1();
-    long m_Ref;
-    void IncRefCount()
-    {
-        InterlockedIncrement(&m_Ref);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement(&m_Ref) == 0)
-            F1();
-    }
-};
 
-struct Holder00ba37f0
-{
-    bool b0;
-    bool b1;
-    Tex00ba37f0* pTileTexture;
-    void FUN_00ba37f0(Tex00ba37f0* apTex);
-};
+
+
 
 // @fnv 0x00ba37f0
 void Holder00ba37f0::FUN_00ba37f0(Tex00ba37f0* apTex)
@@ -154,23 +187,9 @@ void UnkBA38F0::FUN_00ba38f0(BeamStage* pkStage)
     }
 }
 
-struct R_00ba39a0
-{
-    virtual void f0();
-    virtual void f1();
-    long m_rc;
-};
 
-struct H_00ba39a0
-{
-    bool b0;
-    bool b1;
-    bool b2;
-    R_00ba39a0* p;
-    int i1;
-    int i2;
-    void FUN_00ba39a0();
-};
+
+
 
 // @fnv 0x00ba39a0
 void H_00ba39a0::FUN_00ba39a0()
@@ -347,16 +366,7 @@ TextureReceiver* FUN_00ba3780_struct::FUN_00ba3780()
     return ptr;
 }
 
-class BA3760Object
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int m_iValue;
 
-    void FUN_00ba3760(int iValue);
-};
 
 // @fnv 0x00ba3760
 void BA3760Object::FUN_00ba3760(int iValue)

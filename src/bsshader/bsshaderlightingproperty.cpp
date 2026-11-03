@@ -56,7 +56,8 @@
 #include "bsshaderlightingproperty_types_BSShaderLightingProperty.h"
 #include "bsshaderlightingproperty_globals.h"
 #include "fnv/decl/FUN_00700270_class.h"
-#include "fnv/decl/fnv_00b6f540__FUN_00b6f540_shell.h"
+class BSShaderLightingProperty;
+namespace fnv_00b6f540 { struct CloningProcess; }
 
 // @fnv 0x00b70490
 ShadowSceneLight* BSShaderLightingProperty::GetFirstAttachedLight(void*& iter)

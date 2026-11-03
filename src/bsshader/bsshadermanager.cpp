@@ -26,7 +26,6 @@
 #include "fnv/decl/Lighting30Shader.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiGeometryData_shell.h"
-#include "fnv/decl/NiGlobalStringTable.h"
 #include "fnv/decl/NiRenderer.h"
 #include "fnv/decl/ParticleShader.h"
 #include "fnv/decl/S654.h"
@@ -114,6 +113,14 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011aa000.h"
 #include <math.h>
+
+class NiGlobalStringTable
+{
+
+  public:
+    static char* AddString(const char*);
+};
+
 
 class NiRTTI;
 class NiRenderer;
@@ -4793,12 +4800,7 @@ class PixelOwner
 
 int FUN_004dc060(int);
 
-class NiGlobalStringTable
-{
 
-  public:
-    static char* AddString(const char*);
-};
 
 struct InternedStringHeader
 {

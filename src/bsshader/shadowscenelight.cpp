@@ -1493,7 +1493,7 @@ extern "C" void _ReadWriteBarrier(void);
 #include <string.h>
 #include "fnv/decl/FUN_00c4a070.h"
 #include "fnv/decl/FUN_00c4a1e0.h"
-#include "fnv/decl/ShadowSceneLight_b9f480.h"
+struct Geom_b9f480;
 namespace fnv_00b9dfc0 {
 // Views extend the pack's intentionally abbreviated object declarations.
 struct ShadowVector : NiPoint3

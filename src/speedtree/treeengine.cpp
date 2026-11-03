@@ -4,7 +4,6 @@
 
 #include "fnv/decl/B2AE90_Object.h"
 #include "fnv/decl/FUN_00b3f130_shell.h"
-#include "fnv/decl/OwnerB2BC70.h"
 #include "fnv/decl/S_00b3ed80.h"
 #include "fnv/decl/V3cdd0.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
@@ -46,6 +45,99 @@
 #include "fnv/symbols_00b3f000.h"
 #include "fnv/symbols_00b40000.h"
 #include "fnv/symbols_0101e000.h"
+
+struct Point3B2BC70
+{
+    float x;
+    float y;
+    float z;
+    float& operator[](int i)
+    {
+        return (&x)[i];
+    }
+    void Set(float fX, float fY, float fZ)
+    {
+        x = fX;
+        y = fY;
+        z = fZ;
+    }
+};
+
+struct OwnerB2BC70
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    Point3B2BC70 m_kExtent;
+    Point3B2BC70 m_kOffset;
+    float m_fScale;
+    void FUN_00b2bc70(float fScale);
+};
+
 struct FUN_00b2bcf0_shell
 {
     void FUN_00b2bcf0(float* a, float* b);
@@ -1876,97 +1968,9 @@ extern float DAT_010a5664;
 
 extern float DAT_010a5668;
 
-struct Point3B2BC70
-{
-    float x;
-    float y;
-    float z;
-    float& operator[](int i)
-    {
-        return (&x)[i];
-    }
-    void Set(float fX, float fY, float fZ)
-    {
-        x = fX;
-        y = fY;
-        z = fZ;
-    }
-};
 
-struct OwnerB2BC70
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    Point3B2BC70 m_kExtent;
-    Point3B2BC70 m_kOffset;
-    float m_fScale;
-    void FUN_00b2bc70(float fScale);
-};
+
+
 
 // @fnv 0x00b2bc70
 void OwnerB2BC70::FUN_00b2bc70(float fScale)

@@ -5,7 +5,6 @@
 #include <cwchar>
 #include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
-#include "fnv/decl/FileObject.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/WStr.h"
 #include "fnv/decl/WideString.h"
@@ -15,6 +14,38 @@
 #include "fnv/decl/NiLODData.h"
 #include "fnv/symbols_01272000.h"
 #include <string.h>
+
+class FileObject
+{
+  public:
+    virtual ~FileObject();
+    virtual void vfn04();
+    virtual void vfn08();
+    virtual void vfn0c();
+    virtual void vfn10();
+    virtual void vfn14();
+    virtual void vfn18();
+    virtual unsigned int GetFileSize();
+
+    unsigned int unk04;
+    void* m_pReadHandler;
+    void* m_pWriteHandler;
+    unsigned int m_uiBufferAllocSize;
+    unsigned int m_uiBufferReadSize;
+    unsigned int m_uiPos;
+    unsigned int unk1c;
+    char* m_pBuffer;
+    void* m_pFile;
+    unsigned int m_eMode;
+    bool m_bGood;
+
+    bool IsOpen() const
+    {
+        return m_pFile != 0;
+    }
+    void FUN_00aff490();
+};
+
 
 // @fnv 0x00affc60
 bool BSFile::Write()
@@ -572,36 +603,7 @@ inline void* FileAlloc(unsigned int uiSize)
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::GlobalAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
 }
 
-class FileObject
-{
-  public:
-    virtual ~FileObject();
-    virtual void vfn04();
-    virtual void vfn08();
-    virtual void vfn0c();
-    virtual void vfn10();
-    virtual void vfn14();
-    virtual void vfn18();
-    virtual unsigned int GetFileSize();
 
-    unsigned int unk04;
-    void* m_pReadHandler;
-    void* m_pWriteHandler;
-    unsigned int m_uiBufferAllocSize;
-    unsigned int m_uiBufferReadSize;
-    unsigned int m_uiPos;
-    unsigned int unk1c;
-    char* m_pBuffer;
-    void* m_pFile;
-    unsigned int m_eMode;
-    bool m_bGood;
-
-    bool IsOpen() const
-    {
-        return m_pFile != 0;
-    }
-    void FUN_00aff490();
-};
 
 // @fnv 0x00aff490
 void FileObject::FUN_00aff490()

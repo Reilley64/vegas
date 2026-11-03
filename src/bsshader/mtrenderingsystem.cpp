@@ -1,6 +1,5 @@
 // bsshader/mtrenderingsystem.cpp: TaskThreadManager, AILinearTaskThread (4 functions)
 
-#include "fnv/decl/ThreadOwner.h"
 #include "fnv/symbols_00b6b000.h"
 #include "fnv/symbols_00ba3000.h"
 #include "fnv/symbols_011f9000.h"
@@ -18,6 +17,64 @@
 #include "fnv/symbols_0101e000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126f000.h"
+
+struct BSThread
+{
+    void Initialize(int stackSize, const char* name, bool suspended);
+    void SetThreadPriority(int);
+    void SetName(const char*);
+public:
+    void SetSchedulingPriority(unsigned int);
+};
+
+struct BSLinearTaskThread : BSThread
+{
+    BSLinearTaskThread();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+extern void* DAT_010b7f50;
+
+struct RenderTaskThread : BSLinearTaskThread
+{
+    void(__cdecl* m_pTaskFunction)();
+    RenderTaskThread(void(__cdecl* f)())
+    {
+        *(void**)this = &DAT_010b7f50;
+        m_pTaskFunction = f;
+    }
+    void* operator new(size_t s)
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(s);
+    }
+    void operator delete(void*);
+};
+
+struct ThreadOwner
+{
+    RenderTaskThread* m_threads[2];
+    void FUN_00ba2e00(int index, unsigned int affinity, void(__cdecl* task)(), const char* name,
+                      unsigned int stackSize);
+};
+
 // @fnv 0x004ea970
 TaskThreadManager* TaskThreadManager::GetSingleton()
 {
@@ -503,62 +560,15 @@ void FUN_00ba2d80(RenderTaskManager* manager)
 
 }
 
-struct BSThread
-{
-    void Initialize(int stackSize, const char* name, bool suspended);
-    void SetThreadPriority(int);
-    void SetName(const char*);
-public:
-    void SetSchedulingPriority(unsigned int);
-};
 
-struct BSLinearTaskThread : BSThread
-{
-    BSLinearTaskThread();
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-};
 
-extern void* DAT_010b7f50;
 
-struct RenderTaskThread : BSLinearTaskThread
-{
-    void(__cdecl* m_pTaskFunction)();
-    RenderTaskThread(void(__cdecl* f)())
-    {
-        *(void**)this = &DAT_010b7f50;
-        m_pTaskFunction = f;
-    }
-    void* operator new(size_t s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(s);
-    }
-    void operator delete(void*);
-};
 
-struct ThreadOwner
-{
-    RenderTaskThread* m_threads[2];
-    void FUN_00ba2e00(int index, unsigned int affinity, void(__cdecl* task)(), const char* name,
-                      unsigned int stackSize);
-};
+
+
+
+
+
 
 // @fnv 0x00ba2e00
 void ThreadOwner::FUN_00ba2e00(int index, unsigned int affinity, void(__cdecl* task)(), const char* name,

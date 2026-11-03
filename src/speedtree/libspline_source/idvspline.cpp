@@ -10,9 +10,7 @@
 #include "fnv/decl/FUN_00594d40_class.h"
 #include "fnv/decl/FUN_00b1c7a0_cls.h"
 #include "fnv/decl/Holder5934d0.h"
-#include "fnv/decl/OwnerB380.h"
 #include "fnv/decl/fnv_00b3a050__treeb3a__TrTree.h"
-#include "fnv/decl/fnv_00b3b880__Tree.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_004b1000.h"
 #include "fnv/symbols_005b5000.h"
@@ -29,7 +27,6 @@
 #include "fnv/decl/FUN_00b16830_Iterator.h"
 #include "fnv/decl/FUN_00b2ac30_t.h"
 #include "fnv/decl/FUN_00b3c600_class.h"
-#include "fnv/decl/FUN_00b3f130_shell.h"
 #include "fnv/decl/FloatVec.h"
 #include "fnv/decl/MapLookupDetail__LookupMap.h"
 #include "fnv/decl/Owner.h"
@@ -41,6 +38,342 @@
 #include "fnv/symbols_005ac000.h"
 #include "fnv/symbols_00b25000.h"
 #include "fnv/symbols_011f8000.h"
+namespace fnv_00b3b880 { struct NodeX; }
+
+// namespace fnv_00b3a9b0
+
+struct Key
+{
+    char allocator;
+    union Storage
+    {
+        char text[16];
+        char* pointer;
+    } storage;
+    unsigned length, capacity;
+    static int textCompare(const char*, const char*, unsigned);
+    static void rangeError();
+    const char* data() const
+    {
+        return capacity < 16 ? storage.text : storage.pointer;
+    }
+    unsigned size() const
+    {
+        return length;
+    }
+    int compare(unsigned offset, unsigned count, const char* text, unsigned otherCount) const
+    {
+        if (length < offset)
+            rangeError();
+        if (length - offset < count)
+            count = length - offset;
+        unsigned answer = textCompare(data() + offset, text, count < otherCount ? count : otherCount);
+        return answer != 0 ? (int)answer : count < otherCount ? -1 : count == otherCount ? 0 : 1;
+    }
+    int FUN_00ac9da0(const Key& right) const
+    {
+        const Key* receiver = this;
+        return receiver->compare(0, receiver->length, right.data(), right.size());
+    }
+};
+
+struct Node
+{
+    Node *left, *parent, *right;
+    Key key;
+    unsigned mapped;
+    signed char color, isNil;
+};
+
+struct Less
+{
+    bool operator()(const Key& left, const Key& right) const
+    {
+        return left < right;
+    }
+};
+
+struct Tree
+{
+    Less compare;
+    unsigned unk04, unk08, unk0c, unk10, unk14;
+    Node* head;
+    Node* FUN_00b3afe0(const Key& key);
+};
+
+// namespace fnv_00b3b6f0
+
+namespace fnv_00b3b880 {
+inline void* __cdecl operator new(std::size_t, void* where)
+{
+    return where;
+}
+
+namespace std {
+
+class exception
+{
+  public:
+    exception(const char* const& msg);
+    virtual ~exception();
+    int u4;
+    int u8;
+};
+
+class bad_alloc : public exception
+{
+  public:
+    bad_alloc(const char* const& msg) : exception(msg)
+    {}
+};
+
+template <class _Ty> inline _Ty* _Allocate(unsigned int _Count, _Ty*)
+{
+    if (_Count <= 0)
+        _Count = 0;
+    else if (((unsigned int)(-1) / _Count) < sizeof(_Ty))
+        throw bad_alloc(0);
+    return (_Ty*)::FUN_00401000(_Count * sizeof(_Ty));
+}
+
+template <class _T1, class _T2> inline void _Construct(_T1* _Ptr, const _T2& _Val)
+{
+    void* _Vptr = _Ptr;
+    ::new (_Vptr) _T1(_Val);
+}
+
+template <class _Ty> inline void _Destroy(_Ty* _Ptr)
+{
+    _Ptr->~_Ty();
+}
+
+template <class _Ty> class allocator
+{
+  public:
+    typedef _Ty* pointer;
+    typedef unsigned int size_type;
+    pointer allocate(size_type _Count)
+    {
+        unsigned int x = _Count;
+        unsigned int s1, s2, s3, s4;
+        s1 = x;
+        s2 = s1;
+        s3 = s2;
+        s4 = s3;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        x = x + 1;
+        return _Allocate(x, (pointer)0);
+    }
+    void deallocate(pointer _Ptr, size_type)
+    {
+        ::FUN_00401030 delete(_Ptr);
+    }
+    void construct(pointer _Ptr, const _Ty& _Val)
+    {
+        _Construct(_Ptr, _Val);
+    }
+    void destroy(pointer _Ptr)
+    {
+        _Destroy(_Ptr);
+    }
+};
+
+}
+
+struct NodeX
+{
+    NodeX* _Left;
+    NodeX* _Parent;
+    NodeX* _Right;
+    int v0c, v10, v14, v18, v1c, v20, v24, v28;
+    char _Color;
+    char _Isnil;
+};
+
+struct Tree
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    std::allocator<NodeX> _Alnod;
+    std::allocator<NodeX*> _Alptr;
+
+    static NodeX*& _Left(NodeX* _Pnode)
+    {
+        return _Pnode->_Left;
+    }
+    static NodeX*& _Parent(NodeX* _Pnode)
+    {
+        return _Pnode->_Parent;
+    }
+    static NodeX*& _Right(NodeX* _Pnode)
+    {
+        return _Pnode->_Right;
+    }
+    static char& _Color(NodeX* _Pnode)
+    {
+        return _Pnode->_Color;
+    }
+    static char& _Isnil(NodeX* _Pnode)
+    {
+        return _Pnode->_Isnil;
+    }
+
+    NodeX* FUN_00b3b880();
+    ::fnv_00b3b880::NodeX *FUN_00b3b880();
+};
+
+// @fnv 0x00b3b880
+NodeX* Tree::FUN_00b3b880()
+{
+    NodeX* _Wherenode = this->_Alnod.allocate(1);
+    int _Linkcnt = 0;
+    try
+    {
+        this->_Alptr.construct(&_Left(_Wherenode), 0);
+        ++_Linkcnt;
+        this->_Alptr.construct(&_Parent(_Wherenode), 0);
+        ++_Linkcnt;
+        this->_Alptr.construct(&_Right(_Wherenode), 0);
+    }
+    catch (...)
+    {
+        if (1 < _Linkcnt)
+            this->_Alptr.destroy(&_Parent(_Wherenode));
+        if (0 < _Linkcnt)
+            this->_Alptr.destroy(&_Left(_Wherenode));
+        this->_Alnod.deallocate(_Wherenode, 1);
+        throw;
+    }
+    _Color(_Wherenode) = 1;
+    _Isnil(_Wherenode) = 0;
+    return _Wherenode;
+}
+}
+
+namespace std {
+template <class T> class allocator
+{
+  public:
+    unsigned int state;
+    void deallocate(T* _Ptr, unsigned int)
+    {
+        ::FUN_00401030 delete(_Ptr);
+    }
+};
+}
+
+namespace std {
+class exception
+{
+  public:
+    virtual ~exception();
+    virtual const char* what() const;
+    const char* _m_what;
+    int _m_doFree;
+};
+}
+
+struct VecB37;
+
+struct VecB37
+{
+    float x, y;
+};
+
+// namespace fnv_00b37a00
+
+struct ValueB380
+{
+    float m00, m04, m08, m0c, m10;
+    int m14;
+    ValueB380(float, float);
+    ~ValueB380();
+    ValueB380 ScaleData(float) const;
+    ValueB380 FUN_00b3c660(const ValueB380&) const;
+    ValueB380 Subtract(const ValueB380&) const;
+};
+
+template <class T> struct VectorB380
+{
+    int m00, m04, m08;
+    T* m0c;
+    T* m10;
+    T* m14;
+    bool empty() const
+    {
+        return m10 - m0c == 0;
+    }
+    unsigned size() const
+    {
+        return m10 - m0c;
+    }
+    T& at(unsigned index)
+    {
+        if (index >= unsigned(m10 - m0c))
+            std::abort();
+        return m0c[index];
+    }
+    void FUN_00b39100(const T&);
+    void PushBack(const T&);
+};
+
+struct OwnerB380
+{
+    int m00, m04, m08;
+    VectorB380<ValueB380> m0c, m24;
+    VectorB380<float> m3c;
+    int m54, m58, m5c, m60, m64, m68;
+    VectorB380<ValueB380> m6c;
+    void FUN_00b380e0(VecB37*, VecB37*, float);
+};
+
 
 // @fnv 0x00593DB0
 double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TESObjectREFR* container, Script* script,
@@ -769,10 +1102,7 @@ struct InputB37
     unsigned int length;
     unsigned int capacity;
 };
-struct VecB37
-{
-    float x, y;
-};
+
 struct HostB37
 {
     float x, y, z;
@@ -1787,52 +2117,11 @@ void __cdecl FUN_00b37a00()
 }
 }
 
-// namespace fnv_00b37a00
 
-struct ValueB380
-{
-    float m00, m04, m08, m0c, m10;
-    int m14;
-    ValueB380(float, float);
-    ~ValueB380();
-    ValueB380 ScaleData(float) const;
-    ValueB380 FUN_00b3c660(const ValueB380&) const;
-    ValueB380 Subtract(const ValueB380&) const;
-};
 
-template <class T> struct VectorB380
-{
-    int m00, m04, m08;
-    T* m0c;
-    T* m10;
-    T* m14;
-    bool empty() const
-    {
-        return m10 - m0c == 0;
-    }
-    unsigned size() const
-    {
-        return m10 - m0c;
-    }
-    T& at(unsigned index)
-    {
-        if (index >= unsigned(m10 - m0c))
-            std::abort();
-        return m0c[index];
-    }
-    void FUN_00b39100(const T&);
-    void PushBack(const T&);
-};
 
-struct OwnerB380
-{
-    int m00, m04, m08;
-    VectorB380<ValueB380> m0c, m24;
-    VectorB380<float> m3c;
-    int m54, m58, m5c, m60, m64, m68;
-    VectorB380<ValueB380> m6c;
-    void FUN_00b380e0(VecB37*, VecB37*, float);
-};
+
+
 
 inline void FrameB380()
 {
@@ -2760,71 +3049,18 @@ PairQ TreeQ::FUN_00b3a9b0(const ValQ& _Val)
 }
 }
 
-// namespace fnv_00b3a9b0
 
-struct Key
-{
-    char allocator;
-    union Storage
-    {
-        char text[16];
-        char* pointer;
-    } storage;
-    unsigned length, capacity;
-    static int textCompare(const char*, const char*, unsigned);
-    static void rangeError();
-    const char* data() const
-    {
-        return capacity < 16 ? storage.text : storage.pointer;
-    }
-    unsigned size() const
-    {
-        return length;
-    }
-    int compare(unsigned offset, unsigned count, const char* text, unsigned otherCount) const
-    {
-        if (length < offset)
-            rangeError();
-        if (length - offset < count)
-            count = length - offset;
-        unsigned answer = textCompare(data() + offset, text, count < otherCount ? count : otherCount);
-        return answer != 0 ? (int)answer : count < otherCount ? -1 : count == otherCount ? 0 : 1;
-    }
-    int FUN_00ac9da0(const Key& right) const
-    {
-        const Key* receiver = this;
-        return receiver->compare(0, receiver->length, right.data(), right.size());
-    }
-};
 
-struct Node
-{
-    Node *left, *parent, *right;
-    Key key;
-    unsigned mapped;
-    signed char color, isNil;
-};
+
 
 inline bool operator<(const Key& left, const Key& right)
 {
     return left.FUN_00ac9da0(right) < 0;
 }
 
-struct Less
-{
-    bool operator()(const Key& left, const Key& right) const
-    {
-        return left < right;
-    }
-};
 
-struct Tree
-{
-    Less compare;
-    unsigned unk04, unk08, unk0c, unk10, unk14;
-    Node* head;
-    Node* FUN_00b3afe0(const Key& key);
-};
+
+
 
 // @fnv 0x00b3afe0
 Node* Tree::FUN_00b3afe0(const Key& key)
@@ -4575,200 +4811,7 @@ ElemMOVE* __cdecl FUN_00b3b6f0(ElemMOVE* _First, ElemMOVE* _Last, ElemMOVE* _Des
 }
 }
 
-// namespace fnv_00b3b6f0
 
-namespace fnv_00b3b880 {
-inline void* __cdecl operator new(std::size_t, void* where)
-{
-    return where;
-}
-
-namespace std {
-
-class exception
-{
-  public:
-    exception(const char* const& msg);
-    virtual ~exception();
-    int u4;
-    int u8;
-};
-
-class bad_alloc : public exception
-{
-  public:
-    bad_alloc(const char* const& msg) : exception(msg)
-    {}
-};
-
-template <class _Ty> inline _Ty* _Allocate(unsigned int _Count, _Ty*)
-{
-    if (_Count <= 0)
-        _Count = 0;
-    else if (((unsigned int)(-1) / _Count) < sizeof(_Ty))
-        throw bad_alloc(0);
-    return (_Ty*)::FUN_00401000(_Count * sizeof(_Ty));
-}
-
-template <class _T1, class _T2> inline void _Construct(_T1* _Ptr, const _T2& _Val)
-{
-    void* _Vptr = _Ptr;
-    ::new (_Vptr) _T1(_Val);
-}
-
-template <class _Ty> inline void _Destroy(_Ty* _Ptr)
-{
-    _Ptr->~_Ty();
-}
-
-template <class _Ty> class allocator
-{
-  public:
-    typedef _Ty* pointer;
-    typedef unsigned int size_type;
-    pointer allocate(size_type _Count)
-    {
-        unsigned int x = _Count;
-        unsigned int s1, s2, s3, s4;
-        s1 = x;
-        s2 = s1;
-        s3 = s2;
-        s4 = s3;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        x = x + 1;
-        return _Allocate(x, (pointer)0);
-    }
-    void deallocate(pointer _Ptr, size_type)
-    {
-        ::FUN_00401030 delete(_Ptr);
-    }
-    void construct(pointer _Ptr, const _Ty& _Val)
-    {
-        _Construct(_Ptr, _Val);
-    }
-    void destroy(pointer _Ptr)
-    {
-        _Destroy(_Ptr);
-    }
-};
-
-}
-
-struct NodeX
-{
-    NodeX* _Left;
-    NodeX* _Parent;
-    NodeX* _Right;
-    int v0c, v10, v14, v18, v1c, v20, v24, v28;
-    char _Color;
-    char _Isnil;
-};
-
-struct Tree
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    std::allocator<NodeX> _Alnod;
-    std::allocator<NodeX*> _Alptr;
-
-    static NodeX*& _Left(NodeX* _Pnode)
-    {
-        return _Pnode->_Left;
-    }
-    static NodeX*& _Parent(NodeX* _Pnode)
-    {
-        return _Pnode->_Parent;
-    }
-    static NodeX*& _Right(NodeX* _Pnode)
-    {
-        return _Pnode->_Right;
-    }
-    static char& _Color(NodeX* _Pnode)
-    {
-        return _Pnode->_Color;
-    }
-    static char& _Isnil(NodeX* _Pnode)
-    {
-        return _Pnode->_Isnil;
-    }
-
-    NodeX* FUN_00b3b880();
-};
-
-// @fnv 0x00b3b880
-NodeX* Tree::FUN_00b3b880()
-{
-    NodeX* _Wherenode = this->_Alnod.allocate(1);
-    int _Linkcnt = 0;
-    try
-    {
-        this->_Alptr.construct(&_Left(_Wherenode), 0);
-        ++_Linkcnt;
-        this->_Alptr.construct(&_Parent(_Wherenode), 0);
-        ++_Linkcnt;
-        this->_Alptr.construct(&_Right(_Wherenode), 0);
-    }
-    catch (...)
-    {
-        if (1 < _Linkcnt)
-            this->_Alptr.destroy(&_Parent(_Wherenode));
-        if (0 < _Linkcnt)
-            this->_Alptr.destroy(&_Left(_Wherenode));
-        this->_Alnod.deallocate(_Wherenode, 1);
-        throw;
-    }
-    _Color(_Wherenode) = 1;
-    _Isnil(_Wherenode) = 0;
-    return _Wherenode;
-}
-}
 
 // namespace fnv_00b3b880
 
@@ -4778,15 +4821,7 @@ void CopyStringStorage(char*, unsigned int, const char*, unsigned int);
 
 namespace std {
 template <class T> struct char_traits;
-template <class T> class allocator
-{
-  public:
-    unsigned int state;
-    void deallocate(T* _Ptr, unsigned int)
-    {
-        ::FUN_00401030 delete(_Ptr);
-    }
-};
+
 template <class C, class T, class A> class basic_string;
 template <> class basic_string<char, char_traits<char>, allocator<char> >
 {
@@ -4829,14 +4864,7 @@ template <> class basic_string<char, char_traits<char>, allocator<char> >
   public:
 };
 typedef basic_string<char, char_traits<char>, allocator<char> > string;
-class exception
-{
-  public:
-    virtual ~exception();
-    virtual const char* what() const;
-    const char* _m_what;
-    int _m_doFree;
-};
+
 class logic_error : public exception
 {
   public:

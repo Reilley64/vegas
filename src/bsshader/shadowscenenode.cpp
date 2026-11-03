@@ -31,7 +31,6 @@
 #include "fnv/decl/FUN_00c47a70_Class.h"
 #include "fnv/decl/FUN_00c47ae0_cls.h"
 #include "fnv/decl/FUN_00c48800_cls.h"
-#include "fnv/decl/FUN_00c5b5a0_cls.h"
 #include "fnv/decl/FUN_00c5b5d0_class.h"
 #include "fnv/decl/FUN_00cd2530_cls.h"
 #include "fnv/decl/MemoryManager.h"
@@ -10051,6 +10050,12 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
 #include "fnv/symbols_00653000.h"
 #include "fnv/symbols_00655000.h"
 #include "fnv/symbols_0104a000.h"
+
+struct FUN_00c5b5a0_cls
+{
+    int FUN_00c5b5a0(int idx);
+};
+
 struct LightObj
 {
     virtual void v0();
@@ -11669,10 +11674,7 @@ FUN_00b5e5a0::~FUN_00b5e5a0()
     unk128 = 0;
 }
 
-struct FUN_00c5b5a0_cls
-{
-    int FUN_00c5b5a0(int idx);
-};
+
 
 // @fnv 0x00c5b5a0
 int FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)

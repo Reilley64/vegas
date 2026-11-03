@@ -4,7 +4,6 @@
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00b00cf0_shell.h"
 #include "fnv/decl/FUN_00b01f00_class.h"
-#include "fnv/decl/JobThread.h"
 #include "fnv/symbols_005e0000.h"
 #include "fnv/symbols_00b00000.h"
 #include "fnv/symbols_011f6000.h"
@@ -13,6 +12,105 @@
 #include "fnv/decl/B02670Task.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00b02000.h"
+
+struct CritSection
+{
+    void* DebugInfo;
+    long LockCount;
+    long RecursionCount;
+    void* OwningThread;
+    void* LockSemaphore;
+    unsigned long SpinCount;
+};
+
+struct JobSemaphore
+{
+    long cnt;
+    void* h;
+    void Wait()
+    {
+        WaitForSingleObject(h, -1);
+        InterlockedDecrement(&cnt);
+    }
+    void Signal()
+    {
+        ReleaseSemaphore(h, 1, 0);
+        InterlockedIncrement(&cnt);
+    }
+};
+
+struct JobOwner
+{
+    int unk00;
+    int unk04;
+    JobSemaphore completion;
+    int unk10;
+    CritSection kLock;
+    bool enabled;
+    bool pending;
+    bool bBusy;
+    char unk2F;
+    unsigned int priority;
+    unsigned int count;
+    unsigned int completed;
+    void CompleteTask()
+    {
+        EnterCriticalSection(&kLock);
+        ++completed;
+        bool done = !pending && completed == count;
+        LeaveCriticalSection(&kLock);
+        if (done)
+            completion.Signal();
+    }
+    bool IsBusy()
+    {
+        return bBusy;
+    }
+};
+
+struct Job
+{
+    virtual void Release();
+    virtual bool HasFinished();
+    virtual void Run();
+    virtual void Cancel();
+    bool bHasCallback;
+    JobOwner* pOwner;
+    bool bPending;
+    int unk10;
+    Job* pNext;
+};
+
+struct JobThread
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    bool bStop;
+    CritSection kLock;
+    Job* m_pQueueHeads[64];
+    Job** pQueueTails[64];
+    JobSemaphore kSemaphore;
+    void FUN_00b02460();
+};
+
 
 // Initializes the object's fields to zero/default values and clears the three primitive arrays.
 // @fnv 0x005dd590
@@ -372,103 +470,15 @@ bool Owner_b02010::FUN_00b02010(Spawned_b02010** out)
     return v != 0;
 }
 
-struct CritSection
-{
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
-};
 
-struct JobSemaphore
-{
-    long cnt;
-    void* h;
-    void Wait()
-    {
-        WaitForSingleObject(h, -1);
-        InterlockedDecrement(&cnt);
-    }
-    void Signal()
-    {
-        ReleaseSemaphore(h, 1, 0);
-        InterlockedIncrement(&cnt);
-    }
-};
 
-struct JobOwner
-{
-    int unk00;
-    int unk04;
-    JobSemaphore completion;
-    int unk10;
-    CritSection kLock;
-    bool enabled;
-    bool pending;
-    bool bBusy;
-    char unk2F;
-    unsigned int priority;
-    unsigned int count;
-    unsigned int completed;
-    void CompleteTask()
-    {
-        EnterCriticalSection(&kLock);
-        ++completed;
-        bool done = !pending && completed == count;
-        LeaveCriticalSection(&kLock);
-        if (done)
-            completion.Signal();
-    }
-    bool IsBusy()
-    {
-        return bBusy;
-    }
-};
 
-struct Job
-{
-    virtual void Release();
-    virtual bool HasFinished();
-    virtual void Run();
-    virtual void Cancel();
-    bool bHasCallback;
-    JobOwner* pOwner;
-    bool bPending;
-    int unk10;
-    Job* pNext;
-};
 
-struct JobThread
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    bool bStop;
-    CritSection kLock;
-    Job* m_pQueueHeads[64];
-    Job** pQueueTails[64];
-    JobSemaphore kSemaphore;
-    void FUN_00b02460();
-};
+
+
+
+
+
 
 // @fnv 0x00b02460
 void JobThread::FUN_00b02460()

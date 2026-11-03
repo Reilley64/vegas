@@ -17,7 +17,6 @@
 #include "fnv/decl/Fake_FUN_004a2020.h"
 #include "fnv/decl/Group00e7eed0.h"
 #include "fnv/decl/NiRenderer.h"
-#include "fnv/decl/S00bbe6b0_Renderer.h"
 #include "fnv/decl/ShaderSelection__Shader.h"
 #include "fnv/decl/ShaderUpdater.h"
 #include "fnv/decl/StateGroup.h"
@@ -5867,6 +5866,54 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
 #include <math.h>
 #include <cstring>
 #include "fnv/symbols_00b79000.h"
+struct S00bbe6b0_Src;
+
+struct S00bbe6b0_Mat
+{
+    float _11, _12, _13, _14;
+    float _21, _22, _23, _24;
+    float _31, _32, _33, _34;
+    float _41, _42, _43, _44;
+};
+
+struct S00bbe6b0_Node
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    S00bbe6b0_Mat world;
+};
+
+struct S00bbe6b0_Pair
+{
+    S00bbe6b0_Node* first;
+    S00bbe6b0_Node* second;
+};
+
+struct S00bbe6b0_Src
+{
+    int unk00;
+    int unk04;
+    unsigned char unk08;
+    unsigned char count;
+    unsigned char unk0a;
+    unsigned char unk0b;
+    S00bbe6b0_Pair* pair;
+};
+
+struct S00bbe6b0_Renderer
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    char* m_18;
+    void FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out);
+};
+
 namespace fnv_00bbe9c0 {
 class SolPosition : public NiMemObject
 {
@@ -6245,13 +6292,7 @@ FUN_00bbc9c0::~FUN_00bbc9c0()
     m_pGeometryBufferData = 0;
 }
 
-struct S00bbe6b0_Mat
-{
-    float _11, _12, _13, _14;
-    float _21, _22, _23, _24;
-    float _31, _32, _33, _34;
-    float _41, _42, _43, _44;
-};
+
 
 struct __declspec(align(16)) S00bbe6b0_MatA16 : S00bbe6b0_Mat
 {
@@ -6271,53 +6312,23 @@ struct S00bbe6b0_Setting
     bool bEnabled;
 };
 
-struct S00bbe6b0_Node
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S00bbe6b0_Mat world;
-};
+
 
 struct S00bbe6b0_NodeRef
 {
     char* base;
 };
 
-struct S00bbe6b0_Pair
-{
-    S00bbe6b0_Node* first;
-    S00bbe6b0_Node* second;
-};
 
-struct S00bbe6b0_Src
-{
-    int unk00;
-    int unk04;
-    unsigned char unk08;
-    unsigned char count;
-    unsigned char unk0a;
-    unsigned char unk0b;
-    S00bbe6b0_Pair* pair;
-};
+
+
 
 struct S00bbe6b0_Cam
 {
     int unk00;
 };
 
-struct S00bbe6b0_Renderer
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    char* m_18;
-    void FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out);
-};
+
 
 // @fnv 0x00bbe6b0
 void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out)

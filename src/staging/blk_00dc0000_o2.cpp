@@ -1,6 +1,7 @@
 // staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (96 functions)
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
@@ -2752,9 +2753,6 @@ void Owner::FUN_00dcb460(unsigned int i)
 #include "fnv/symbols_00dd6000.h"
 #include "fnv/symbols_00dd7000.h"
 #include "fnv/symbols_00ddf000.h"
-#include "fnv/decl/FUN_00dd9270_cls.h"
-#include "fnv/decl/FUN_00dd92f0_cls.h"
-#include "fnv/decl/hkLargeBlockAllocatorDD8.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00c90000.h"
 // Text reader: read the next number as a double.
@@ -2919,7 +2917,7 @@ class FUN_00dd92f0_cls
     struct Record
     {
         int m_i00;
-        int(__cdecl* m_pFn)(int);
+        intptr_t(__cdecl* m_pFn)(intptr_t);
         int m_i08;
     };
 
@@ -2931,7 +2929,7 @@ class FUN_00dd92f0_cls
     int m_i14;
     CRITICAL_SECTION* m_pCrit;
 
-    int InvokeRecord(int index, int arg);
+    intptr_t InvokeRecord(int index, intptr_t arg);
 };
 
 // Locks m_pCrit, calls the function pointer in the Record at m_pRecords[index] with arg, unlocks, and returns the result.
@@ -2941,7 +2939,7 @@ intptr_t FUN_00dd92f0_cls::InvokeRecord(int index, intptr_t arg)
     CRITICAL_SECTION* crit = this->m_pCrit;
     EnterCriticalSection(crit);
     Record* rec = &this->m_pRecords[index];
-    int result = rec->m_pFn(arg);
+    intptr_t result = rec->m_pFn(arg);
     LeaveCriticalSection(crit);
     return result;
 }
@@ -3506,7 +3504,6 @@ CpuOpaque* __cdecl FUN_00dccb50();
 
 static int FUN_00dd3120(const __m128* self, OW other, const __m128* a);
 
-volatile int g_s, g_a, g_o, g_r;
 
 void mask_test_caller();
 
@@ -3531,7 +3528,6 @@ static void FactorTridiagonal(int numConstraints, float cfm, S00dd0ff0_Jacobian*
                               const S00dd0ff0_VelocityAccumulator* accumsBase, S00dd0ff0_Triple* triple,
                               int bufferSize);
 
-volatile int g_S00dd0ff0_n;
 
 void S00dd0ff0_Caller();
 
@@ -3856,8 +3852,6 @@ static __declspec(noinline) Comparison4 FUN_00dd31b0(const __m128* l, const __m1
     return result;
 }
 
-extern const __m128 g_a, g_b;
-
 void hcaller(const __m128* ca, const __m128* cb, __m128* cd)
 {
     *cd = FUN_00dd31b0(ca, cb).value;
@@ -3865,7 +3859,6 @@ void hcaller(const __m128* ca, const __m128* cb, __m128* cd)
 
 static bool FUN_00dd2fb0(const __m128* a, const __m128* b);
 
-volatile int g_in0, g_in1;
 
 void caller_dd2fb0();
 

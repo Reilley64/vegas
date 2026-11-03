@@ -765,7 +765,7 @@ SplineMax::Vec __cdecl FUN_00e314c0(const SplineMax::Points& input)
 
 struct MinVec4 {
     __m128 m_vComponents;
-    void setMin4(const MinVec4& a, const MinVec4& b) { m_vComponents = (_mm_min_ps)(a.m_vComponents, b.m_vComponents); }
+    void setMin4(const MinVec4& a, const MinVec4& b) { m_vComponents = _mm_min_ps(a.m_vComponents, b.m_vComponents); }
 };
 
 struct MinVec4Array {
@@ -927,20 +927,6 @@ void FrameE3B::FUN_00e3b630(const void* pSource)
 }
 
 
-// VEGAS17-CONFLICT: hkArray_e3a1 (variant definition below differs from the one above)
-template <class T> struct hkArray_e3a1 {
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    void AddBack(const T& t)
-    {
-        Router_e3a1* router = static_cast<Router_e3a1*>(::FUN_00c85750());
-        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
-        new (&m_data[m_iElementCount]) T(t);
-        m_iElementCount++;
-    }
-};
 
 void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pSrc, JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto);
 
@@ -1041,7 +1027,7 @@ struct S00e29b80_Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void reserve(int size) { GrowArrayCapacity(S00e29b80_HeapAllocator().get(this), size); }
@@ -1482,25 +1468,9 @@ void __cdecl FUN_00e33440(float u, int iDegree, const float* pfKnots, const hkVe
     kOut.m_vComponents = sum;
 }
 
-extern float DAT_01016248;
-
 typedef __m128 S2d6c0_Simd;
 
-namespace S2d6c0_Intrinsics {
-using _mm_load_ss;
-using _mm_mul_ps;
-using _mm_mul_ss;
-using _mm_add_ss;
-using _mm_sub_ss;
-using _mm_shuffle_ps;
-using _mm_rsqrt_ss;
-using _mm_set_ss;
-using _mm_cmpeq_ss;
-using _mm_andnot_ps;
-using _mm_store_ss;
-}
-
-using ::DAT_01016248;
+using ::fnv_00c88020::DAT_01016248;
 
 struct S2d6c0_Vector
 {
@@ -1508,29 +1478,29 @@ struct S2d6c0_Vector
 
     __forceinline float dot3(const S2d6c0_Vector& o) const
     {
-        S2d6c0_Simd x = (_mm_mul_ps)(m_vComponents, o.m_vComponents);
-        S2d6c0_Simd r = (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0xaa), (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0x55), x));
+        S2d6c0_Simd x = _mm_mul_ps(m_vComponents, o.m_vComponents);
+        S2d6c0_Simd r = _mm_add_ss(_mm_shuffle_ps(x, x, 0xaa), _mm_add_ss(_mm_shuffle_ps(x, x, 0x55), x));
         float f;
-        (_mm_store_ss)(&f, r);
+        _mm_store_ss(&f, r);
         return f;
     }
     __forceinline void setMul4(float s, const S2d6c0_Vector& v)
     {
-        m_vComponents = (_mm_mul_ps)((_mm_load_ps1)(&s), v.m_vComponents);
+        m_vComponents = _mm_mul_ps(_mm_load_ps1(&s), v.m_vComponents);
     }
     __forceinline void addMul4(float s, const S2d6c0_Vector& v)
     {
-        m_vComponents = (_mm_add_ps)((_mm_mul_ps)((_mm_shuffle_ps)((_mm_load_ss)(&s),(_mm_load_ss)(&s),0), v.m_vComponents), m_vComponents);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&s),_mm_load_ss(&s),0), v.m_vComponents), m_vComponents);
     }
     __forceinline void normalize3()
     {
-        S2d6c0_Simd x = (_mm_mul_ps)(m_vComponents, m_vComponents);
-        S2d6c0_Simd r = (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0xaa), (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0x55), x));
-        S2d6c0_Simd e = (_mm_rsqrt_ss)(r);
-        S2d6c0_Simd ret = (_mm_mul_ss)((_mm_mul_ss)((_mm_set_ss)(0.5f), e),
-                                (_mm_sub_ss)((_mm_set_ss)(3.0f), (_mm_mul_ss)((_mm_mul_ss)(r, e), e)));
-        S2d6c0_Simd inv = (_mm_andnot_ps)((_mm_cmpeq_ss)(r, (_mm_set_ss)(0.0f)), ret);
-        m_vComponents = (_mm_mul_ps)((_mm_shuffle_ps)(inv, inv, 0), m_vComponents);
+        S2d6c0_Simd x = _mm_mul_ps(m_vComponents, m_vComponents);
+        S2d6c0_Simd r = _mm_add_ss(_mm_shuffle_ps(x, x, 0xaa), _mm_add_ss(_mm_shuffle_ps(x, x, 0x55), x));
+        S2d6c0_Simd e = _mm_rsqrt_ss(r);
+        S2d6c0_Simd ret = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), e),
+                                _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(r, e), e)));
+        S2d6c0_Simd inv = _mm_andnot_ps(_mm_cmpeq_ss(r, _mm_set_ss(0.0f)), ret);
+        m_vComponents = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), m_vComponents);
     }
 };
 
@@ -1635,10 +1605,6 @@ extern "C" void __cdecl FUN_00e2d6c0(::Hull* a, ::Hull* b, S2d6c0_Vector* out,
     out->m_vComponents[3] = S2d6c0_sqrt(dd).value;
 }
 
-static __forceinline __m128 inverseSpan(__m128 a, __m128 b)
-{
-    return _mm_div_ss(_mm_load_ss(&DAT_01012068), _mm_add_ss(a, b));
-}
 
 // @fnv 0x00e33760
 void FUN_00e33760(float t, int unused, const float* knots, const __m128* ctrl, __m128* out)

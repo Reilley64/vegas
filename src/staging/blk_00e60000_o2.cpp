@@ -10421,8 +10421,6 @@ int* FUN_00e60660_Cls::FUN_00e60660()
 namespace fnv_00e68010 {
 #include <d3d9.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/decl/fnv_00e7bb50__FUN_00e7bb50_Class.h"
-#include "fnv/decl/fnv_00e7d4e0__FUN_00e7d4e0_cls.h"
 #include "fnv/symbols_00e7d000.h"
 #include "fnv/symbols_00ee6000.h"
 #include "fnv/symbols_01267000.h"
@@ -10430,11 +10428,8 @@ namespace fnv_00e68010 {
 #include <math.h>
 #include <math.h>
 #include "fnv/decl/DFB0B0_Owner.h"
-#include "fnv/decl/GskCollisionSolver.h"
 #include "fnv/decl/fnv_00e63ba0__TetraHull.h"
 #include "fnv/decl/fnv_00e67740__Hull.h"
-#include "fnv/decl/fnv_00e7bb50__FUN_00e7bb50_Class.h"
-#include "fnv/decl/fnv_00e7d4e0__FUN_00e7d4e0_cls.h"
 #include "fnv/symbols_00e7d000.h"
 #include "fnv/symbols_00ee6000.h"
 #include "fnv/symbols_01032000.h"
@@ -10443,8 +10438,6 @@ namespace fnv_00e68010 {
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/SinkOwner.h"
-#include "fnv/decl/fnv_00e7bb50__FUN_00e7bb50_Class.h"
-#include "fnv/decl/fnv_00e7d4e0__FUN_00e7d4e0_cls.h"
 #include "fnv/symbols_00e7d000.h"
 #include "fnv/symbols_01268000.h"
 
@@ -12912,31 +12905,31 @@ struct Solver
 
 static __forceinline void transposeThree(__m128& a, __m128& b, __m128& c)
 {
-    __m128 lo = (_mm_unpacklo_ps)(a, b);
-    __m128 hi = (_mm_unpackhi_ps)(a, b);
-    a = (_mm_movelh_ps)(lo, c);
-    b = (_mm_shuffle_ps)((_mm_movehl_ps)(a, lo), c, 0xd4);
-    c = (_mm_shuffle_ps)(hi, c, 0xe4);
+    __m128 lo = _mm_unpacklo_ps(a, b);
+    __m128 hi = _mm_unpackhi_ps(a, b);
+    a = _mm_movelh_ps(lo, c);
+    b = _mm_shuffle_ps(_mm_movehl_ps(a, lo), c, 0xd4);
+    c = _mm_shuffle_ps(hi, c, 0xe4);
 }
 
 static __forceinline int expand(Solver* self, E63Hull& hull, E63Face* face, E63Vert* vert, int& status,
                                 E63Edge*& outEdge)
 {
     __m128 v = vert->m_00;
-    __m128 d0 = (_mm_sub_ps)(v, face->m_v0->m_00);
-    __m128 d1 = (_mm_sub_ps)(v, face->m_v1->m_00);
-    __m128 d2 = (_mm_sub_ps)(v, face->m_v2->m_00);
+    __m128 d0 = _mm_sub_ps(v, face->m_v0->m_00);
+    __m128 d1 = _mm_sub_ps(v, face->m_v1->m_00);
+    __m128 d2 = _mm_sub_ps(v, face->m_v2->m_00);
     transposeThree(d0, d1, d2);
     __m128 r2 = d2;
     __m128 r1 = d1;
     __m128 r0 = d0;
     __m128 n = face->m_vHitNormal;
-    __m128 s01 = (_mm_add_ps)(
-        (_mm_mul_ps)(r1, (_mm_shuffle_ps)(n, n, 0x55)),
-        (_mm_mul_ps)((_mm_shuffle_ps)(n, n, 0x00), r0));
-    __m128 dots = (_mm_add_ps)(
-        s01, (_mm_mul_ps)(r2, (_mm_shuffle_ps)(n, n, 0xaa)));
-    if (((_mm_movemask_ps)((_mm_cmplt_ps)(dots, self->m_40)) & 7) != 0)
+    __m128 s01 = _mm_add_ps(
+        _mm_mul_ps(r1, _mm_shuffle_ps(n, n, 0x55)),
+        _mm_mul_ps(_mm_shuffle_ps(n, n, 0x00), r0));
+    __m128 dots = _mm_add_ps(
+        s01, _mm_mul_ps(r2, _mm_shuffle_ps(n, n, 0xaa)));
+    if ((_mm_movemask_ps(_mm_cmplt_ps(dots, self->m_40)) & 7) != 0)
     {
         status = 0;
         return 1;
@@ -13034,19 +13027,19 @@ int Solver::FUN_00e63770(E63Out* out)
 
                 m_6c = 3;
                 *(float*)&outEdge = (float)(double)bary.lanes.x;
-                __m128 bx = (_mm_load_ss)((float*)&outEdge);
+                __m128 bx = _mm_load_ss((float*)&outEdge);
                 *(float*)&outEdge = (float)(double)bary.lanes.y;
-                __m128 by = (_mm_load_ss)((float*)&outEdge);
+                __m128 by = _mm_load_ss((float*)&outEdge);
                 *(float*)&outEdge = (float)(double)bary.lanes.z;
-                __m128 bz = (_mm_load_ss)((float*)&outEdge);
+                __m128 bz = _mm_load_ss((float*)&outEdge);
                 __m128* p60 = m_60;
-                out->m_10 = (_mm_add_ps)(
-                    (_mm_add_ps)(
-                        (_mm_mul_ps)((_mm_shuffle_ps)(by, by, 0), p60[1]),
-                        (_mm_mul_ps)((_mm_shuffle_ps)(bx, bx, 0),
+                out->m_10 = _mm_add_ps(
+                    _mm_add_ps(
+                        _mm_mul_ps(_mm_shuffle_ps(by, by, 0), p60[1]),
+                        _mm_mul_ps(_mm_shuffle_ps(bx, bx, 0),
                                                             p60[0])),
-                    (_mm_mul_ps)((_mm_shuffle_ps)(bz, bz, 0), p60[2]));
-                out->m_00 = (_mm_xor_ps)(face->m_vHitNormal, ::DAT_010c44d0);
+                    _mm_mul_ps(_mm_shuffle_ps(bz, bz, 0), p60[2]));
+                out->m_00 = _mm_xor_ps(face->m_vHitNormal, ::DAT_010c44d0);
                 out->m_0c = -face->m_40;
                 return status;
             }
@@ -13065,7 +13058,7 @@ int Solver::FUN_00e63770(E63Out* out)
             bary.lanes.x = *(float*)&outEdge;
             bary.lanes.y = *(float*)&outEdge;
             bary.lanes.z = *(float*)&outEdge;
-            bary = (_mm_add_ps)(bary, m_30);
+            bary = _mm_add_ps(bary, m_30);
             m_30 = bary;
             continue;
         }

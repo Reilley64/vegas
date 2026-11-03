@@ -573,13 +573,13 @@ struct CullMachine {
         __m128 extent = _mm_sub_ps(bounds.maximum, bounds.minimum);
         for (int n=count; --n >= 0; ++p, ++q) {
             __m128 radius = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&q->x)),_mm_shuffle_ps(extent,extent,0)),
-                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&q->y)),_mm_shuffle_ps(extent,extent,0x55))),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&q->z)),_mm_shuffle_ps(extent,extent,0xaa)),_mm_load_ps(reinterpret_cast<float*>(&q->w))));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&q->x)),_mm_shuffle_ps(extent,extent,0)),
+                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&q->y)),_mm_shuffle_ps(extent,extent,0x55))),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&q->z)),_mm_shuffle_ps(extent,extent,0xaa)),_mm_load_ps(reinterpret_cast<const float*>(&q->w))));
             __m128 distance = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->x)),_mm_shuffle_ps(center,center,0)),
-                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->y)),_mm_shuffle_ps(center,center,0x55))),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->z)),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(reinterpret_cast<float*>(&p->w))));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&p->x)),_mm_shuffle_ps(center,center,0)),
+                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&p->y)),_mm_shuffle_ps(center,center,0x55))),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&p->z)),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(reinterpret_cast<const float*>(&p->w))));
             if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance,radius),_mm_setzero_ps())) != 15) return 0;
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
@@ -606,8 +606,8 @@ struct CullMachine {
                 _mm_add_ps(_mm_mul_ps(q->z,_mm_shuffle_ps(extent,extent,0xaa)),q->w));
             __m128 distance = _mm_add_ps(
                 _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(center,center,0),px),
-                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->y)),_mm_shuffle_ps(center,center,0x55))),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->z)),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(reinterpret_cast<float*>(&p->w))));
+                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&p->y)),_mm_shuffle_ps(center,center,0x55))),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&p->z)),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(reinterpret_cast<const float*>(&p->w))));
             if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance,radius),_mm_setzero_ps())) != 15) return 0;
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
@@ -1225,7 +1225,10 @@ int AttributeHolder::FUN_00e5ca80(const char* name, unsigned char warn, hkVector
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0(str_010ecd48)))->FUN_00cc01c0(name)))->FUN_00cc01c0(str_010eccfc)))->WriteName((::NameReference *)((const void*)this))))->FUN_00cc01c0(str_010ecd0c);
+        ::SinkOwner* sink = reinterpret_cast<::SinkOwner*>(&ostr);
+        sink->FUN_00cc01c0(str_010ecd48)->FUN_00cc01c0(name)->FUN_00cc01c0(str_010eccfc);
+        reinterpret_cast<::AttributeFormatter*>(sink)->WriteName((::NameReference*)((const void*)this));
+        sink->FUN_00cc01c0(str_010ecd0c);
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbaab81, assertBuf, str_010eccc8, 0xa2);
     }
     return 1;

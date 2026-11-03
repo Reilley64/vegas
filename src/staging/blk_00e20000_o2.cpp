@@ -4948,11 +4948,6 @@ inline TyremarkWheelView* allocateTyremarkWheel();
 
 namespace RaySimilarityMath {
 typedef __m128 __m128;
-using _mm_sub_ps;
-using _mm_mul_ps;
-using _mm_add_ss;
-using _mm_shuffle_ps;
-using _mm_store_ss;
 
 struct RayScalar
 {

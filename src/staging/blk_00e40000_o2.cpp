@@ -7034,9 +7034,6 @@ void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input
 #include "fnv/symbols_00e5c000.h"
 #include "fnv/symbols_00e57000.h"
 #include "fnv/symbols_00e58000.h"
-#include "fnv/decl/FUN_00e58a20_cls.h"
-#include "fnv/decl/KnotVector.h"
-#include "fnv/decl/Registry_e5c5.h"
 #include "fnv/symbols_00df2000.h"
 #include "fnv/symbols_01032000.h"
 namespace fnv_00e5d710 {
@@ -8877,11 +8874,11 @@ struct MoppPlaneSet {
             __m128 dy = _mm_shuffle_ps(difference, difference, 0x55);
             __m128 dz = _mm_shuffle_ps(difference, difference, 0xaa);
             __m128 radius = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->x)), dx), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->y)), dy)),
-                _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->z)), dz));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&absolutePlane->x)), dx), _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&absolutePlane->y)), dy)),
+                _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&absolutePlane->z)), dz));
             __m128 distance = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->y)), sy), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->x)), sx)),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->z)), sz), _mm_load_ps(reinterpret_cast<float*>(&plane->w))));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&plane->y)), sy), _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&plane->x)), sx)),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&plane->z)), sz), _mm_load_ps(reinterpret_cast<const float*>(&plane->w))));
             if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance, radius), _mm_setzero_ps())) != 15)
                 return 0;
             inside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance, radius), _mm_setzero_ps()));

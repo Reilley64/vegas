@@ -11,11 +11,8 @@
 #include "fnv/decl/FUN_00438af0_Class.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/MoviePlayerA.h"
 #include "fnv/decl/NiRenderer.h"
-#include "fnv/decl/NiTStringMapCopy.h"
 #include "fnv/decl/fnv_00853130__NiTMapBase.h"
-#include "fnv/decl/fnv_00ec15e0__BSMoviePlayer.h"
 #include "fnv/symbols_0040f000.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_005b5000.h"
@@ -2351,10 +2348,7 @@ unsigned int FUN_00ec1d50_class::HashString(const char* apString)
 
 namespace fnv_00ec1940 {
 #include <windows.h>
-#include "fnv/decl/EC1060File.h"
 #include "fnv/decl/MapOwnerStandIn.h"
-#include "fnv/decl/MovieSignalState.h"
-#include "fnv/decl/fnv_00ec25e0__FUN_00ec25e0_cls.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01063000.h"
 #include "fnv/symbols_01272000.h"

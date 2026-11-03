@@ -1497,10 +1497,6 @@ class TESObject
   public:
 };
 
-template <> class BSSimpleList<Actor*>
-{
-  public:
-};
 
 int _FNV_GetFormType(TESForm*);
 void __cdecl DebugLog(char const*, ...);
@@ -5228,7 +5224,7 @@ struct TESFullName_Helper
     static const char* __cdecl GetFullName(TESForm*);
 };
 void __cdecl DebugLog(char const*, ...);
-struct PCH
+struct PCH_Actor
 {
 };
 struct PlayerCharacterHelper_00953c50
@@ -5243,7 +5239,7 @@ bool __cdecl GetActorInCombat(TESObjectREFR* apRefObject, void* apParam1, void* 
     Actor* pact = 0;
     if (apRefObject && apRefObject->IsActor())
         pact = (Actor*)apRefObject;
-    if (pact && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)pact)))->FUN_00493bb0())))
+    if (pact && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH_Actor*)pact)))->FUN_00493bb0())))
         *afReturnValue = 1.0;
     bool bsearch = false;
     if ((PlayerCharacter*)pact == ::_g_thePlayer)
@@ -5986,7 +5982,7 @@ struct FUN_00401170_s
 {
     int FUN_00401170();
 };
-struct PCH
+struct PCH_Actor
 {
 };
 struct ActorShell
@@ -6289,7 +6285,7 @@ bool FUN_0059ed30(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         pact9 = (Actor*)apRefObject;
     if (pact9 && pactor)
     {
-        bool m_bCombatState = ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)pactor)))->FUN_00493bb0()));
+        bool m_bCombatState = ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH_Actor*)pactor)))->FUN_00493bb0()));
         FIGHT_REACTION ereaction;
         int kIreaction;
         int aidisp8 = 0;
@@ -7134,7 +7130,7 @@ class TES
 {
   public:
 };
-class PCH
+class PCH_Actor
 {
   public:
 };
@@ -7174,7 +7170,7 @@ bool FUN_0059d6e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         if (pdetector == (Actor*)::_g_thePlayer)
             bincombat = ((bool)(reinterpret_cast<::FUN_00953c50_Class *>((((PlayerOps_59d6e0*)::_g_thePlayer)))->FUN_00953c50((char *)(bool *)(&bsearch))));
         else
-            bincombat = ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)pdetector)))->FUN_00493bb0()));
+            bincombat = ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH_Actor*)pdetector)))->FUN_00493bb0()));
         iCount =
             ((DetActorHelper*)pactor)->CalculateDetectionLevel(0, pdetector, &blinesight, false, bincombat, false, 0);
         if (iCount > 0)
@@ -7854,7 +7850,7 @@ bool __cdecl FUN_0059d1d0(TESObjectREFR* reference, void* apUnused1, void* apUnu
 
 namespace fnv_0059fb00 {
 __declspec(thread) unsigned char g_tlsDebugFlag;
-extern "C" int __cdecl _DebugLog(const char*, ...);
+extern "C" void __cdecl _DebugLog(const char*, ...);
 // Stores the value returned by FUN_00600910 in afReturnValue, logs it when g_tlsDebugFlag is set, and returns true.
 // @fnv 0x0059fb00
 bool __cdecl FUN_0059fb00(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
@@ -7875,7 +7871,7 @@ class Sky
 {
   public:
 };
-extern "C" int __cdecl _DebugLog(const char*, ...);
+extern "C" void __cdecl _DebugLog(const char*, ...);
 // Sets result to the sky's wind speed and returns true when the TES log date is available, otherwise returns false; logs the value if debug logging is enabled.
 // @fnv 0x005a1880
 bool __cdecl FUN_005a1880(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
@@ -16710,7 +16706,6 @@ bool __cdecl FUN_005a4540(TESObjectREFR* reference, void* apUnused1, void* apUnu
 }
 }  // namespace fnv_005a4540
 
-extern "C" void __cdecl FUN_00703c00(const char*, int);
 extern "C" const char DAT_01035f64[];
 struct RuntimeState
 {
@@ -22104,8 +22099,8 @@ bool __cdecl FUN_0059c990(TESObjectREFR* reference, void* target, void*, double&
                     NiPoint3 maxBounds;
                     NiPoint3 minBounds;
                     float height = other->GetBoundsMaximum(&maxBounds)->z - other->GetBoundsMinimum(&minBounds)->z;
-                    float heights[3] = {height * 0.75 + destination.z, height * 0.5 + destination.z,
-                                        height * 0.25 + destination.z};
+                    float heights[3] = {(float)(height * 0.75 + destination.z), (float)(height * 0.5 + destination.z),
+                                        (float)(height * 0.25 + destination.z)};
                     for (int i = 0; i < 3; i++)
                     {
                         destination.z = heights[i];

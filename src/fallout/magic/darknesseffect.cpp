@@ -54,7 +54,7 @@ void DarknessEffect::FUN_0080c850(Actor* apActor)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apActor);
     if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0())))
-        ::FUN_00b55b00((::PropHelper *)(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0()))), 1.0F);
+        ::FUN_00b55b00((::PropHelper *)(((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0()))), 1.0F);
 }
 
 struct FUN_0080c730_shell : public FUN_0080c460_shell
@@ -670,5 +670,5 @@ void FUN_0080c7b0_shell::FUN_0080c7b0(Actor* apActor)
         fnewDarkness = 1.0f;
 
     if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0())) != 0)
-        ::FUN_00b55b00((::PropHelper *)(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0()))), fnewDarkness);
+        ::FUN_00b55b00((::PropHelper *)(((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0()))), fnewDarkness);
 }

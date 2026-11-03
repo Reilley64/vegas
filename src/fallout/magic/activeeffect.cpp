@@ -1605,7 +1605,7 @@ void ActiveEffectUpdateShell::FUN_00804560(float afSecondsElapsed)
         AdvanceEffect(afSecondsElapsed, false);
     if (afSecondsElapsed > 0.0 && !bPickResultFound)
     {
-        MagicItem* pspell = (MagicItem*)((unsigned int)(reinterpret_cast<::ActiveEffectFields *>(this)->spell));
+        MagicItem* pspell = (MagicItem*)((reinterpret_cast<::ActiveEffectFields *>(this)->spell));
         MagicTarget* ptarget = (MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target;
         TESObjectREFR* ptargetStatsObject = ((MagicTargetStatsDispatch*)ptarget)->GetMagicTargetReference();
         bool bpermanent = ::FUN_00804b30(m_eSpellType);

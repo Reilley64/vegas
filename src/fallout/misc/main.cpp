@@ -4870,7 +4870,7 @@ class PlayerVT
 // @fnv 0x00877260
 void __cdecl FUN_00877260(::NiPoint3 apos)
 {
-    TESObjectCELL* pcell = (TESObjectCELL*)((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)::g_TES)))->GetPrevPath()));
+    TESObjectCELL* pcell = (TESObjectCELL*)((reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)::g_TES)))->GetPrevPath()));
     UpdData UpdateData;
     ::NiPoint3 rot = ::NiPoint3::ZERO;
     if (!pcell)
@@ -14747,7 +14747,7 @@ void RenderSystem::FUN_0086d590()
     reinterpret_cast<::BSA_ *>((this->resource8c.FUN_00559450()))->FUN_004a1020(p);
     reinterpret_cast<::BSA_ *>((this->resource90.FUN_00559450()))->FUN_004a1020(p);
     reinterpret_cast<::BSA_ *>((this->resource94.FUN_00559450()))->FUN_004a1020(p);
-    reinterpret_cast<::BSA_ *>((this->resource98.FUN_00559450()))->FUN_004a1020((void*)((int)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))));
+    reinterpret_cast<::BSA_ *>((this->resource98.FUN_00559450()))->FUN_004a1020((void*)((::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))));
     ::FUN_0086e500(0);
     ::FUN_0086e510(0);
     unsigned int f = (((bool)(::fnv_0086e540::FUN_0086e540())) == 1 ? 1u : 0u);

@@ -2155,7 +2155,7 @@ void S_008294e0_Summon::SpawnSummonedActor(void* unused)
     else
     {
         ref = ((::S_008294e0_Ref *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::S_008294e0_Handler * *>(&::g_dataHandler))))->PlaceObjectReference(pCreatureForm, (::NiPoint3 *)(::S_008294e0_Point *)(&unk58), (::NiPoint3 *)(::S_008294e0_Point *)(&unk64),
-                                                 (::TESObjectCELL *)(((int)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))), (::TESWorldSpace *)(0), (::TESObjectREFR *)(0), (const char *)(0), {})));
+                                                 (::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((actor))->GetTarget()))), (::TESWorldSpace *)(0), (::TESObjectREFR *)(0), (const char *)(0), {})));
         if (ref)
         {
             if (ref->IsActor())

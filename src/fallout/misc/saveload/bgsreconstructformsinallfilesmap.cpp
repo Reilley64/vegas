@@ -882,7 +882,7 @@ struct SaveGameSizeState : public S5460
 unsigned int SaveGameSizeState::FUN_00844eb0(Elem* apElem)
 {
     unsigned int idx = FUN_00845460();
-    reinterpret_cast<::Walker8 *>(this)->ConstructArray((::Pair8 *)((unsigned int)&arr[idx]), 1);
+    reinterpret_cast<::Walker8 *>(this)->ConstructArray((::Pair8 *)((&arr)[idx]), 1);
     arr[idx] = *apElem;
     return idx;
 }

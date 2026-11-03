@@ -882,7 +882,7 @@ unsigned int FUN_00853500_shell::FUN_00853500()
         uiValue |= 0xff000000;
         return uiValue;
     }
-    return ((FUN_00846d20_shell*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)g_BGSSaveLoadGame)))->GetName())))->FUN_00846d20(uiValue);
+    return ((FUN_00846d20_shell*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)g_BGSSaveLoadGame)))->GetName())))->FUN_00846d20(uiValue);
 }
 
 

@@ -22,16 +22,20 @@ extern int DAT_010cfb34;
 
 struct FUN_00d496d0
 {
-    int vtbl;
+    const void* vtbl;
+    unsigned char m_pad04[0x5c];
+    void* m_storage;              // +0x60
+    unsigned char m_pad64[0xc];
+    char m_ownsStorage;           // +0x70, the destructor frees m_storage when set
     ~FUN_00d496d0();
 };
 
 // @fnv 0x00d496d0
 FUN_00d496d0::~FUN_00d496d0()
 {
-    *(void**)this = &DAT_010cfb34;
-    if (*(char*)((char*)this + 0x70))
-        ::FUN_00401030(*(void**)((char*)this + 0x60));
+    vtbl = &DAT_010cfb34;
+    if (m_ownsStorage)
+        ::FUN_00401030(m_storage);
     reinterpret_cast<::Foo00d24660 *>(this)->FUN_00d24660();
 }
 

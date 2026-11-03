@@ -36,24 +36,28 @@ void* __cdecl FUN_00bb0d10()
 
 struct FUN_00bb0d20_shell
 {
+    char pad00[0x94];
+    void* m_p94;
     void* FUN_00bb0d20();
 };
 
 // @fnv 0x00bb0d20
 void* FUN_00bb0d20_shell::FUN_00bb0d20()
 {
-    return *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94);
+    return m_p94;
 }
 
 struct FUN_00bb0d30_shell
 {
+    char pad00[0x94];
+    int m_i94;
     void FUN_00bb0d30(int value);
 };
 
 // @fnv 0x00bb0d30
 void FUN_00bb0d30_shell::FUN_00bb0d30(int value)
 {
-    *(int*)((char*)this + 0x94) = value;
+    m_i94 = value;
 }
 
 void* __cdecl FUN_00bb0550();

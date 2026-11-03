@@ -45,16 +45,27 @@ struct NiPropertyState
     void* m_spProperties[16];
 };
 
+struct SkyPropertyView_b8a1a0
+{
+    char pad00[0x8c];
+    int m_eSkyObjectType;
+};
+struct StencilPropertyView_b8a1a0
+{
+    char pad00[0x18];
+    unsigned char m_ucFlags;
+};
+
 // @fnv 0x00b8a1a0
 void FUN_00b8a1a0(const NiPropertyState* apState)
 {
-    void* pkSkyProp = apState->m_spProperties[3];
-    int val = *(int*)((char*)pkSkyProp + 0x8c);
+    SkyPropertyView_b8a1a0* pkSkyProp = (SkyPropertyView_b8a1a0*)apState->m_spProperties[3];
+    int val = pkSkyProp->m_eSkyObjectType;
     if (val == 0 || val == 6)
         AddToTwoCounters(6, 7, 0);
 
-    void* rendererSpecific = apState->m_spProperties[4];
-    if (rendererSpecific && (*(unsigned char*)((char*)rendererSpecific + 0x18) & 1))
+    StencilPropertyView_b8a1a0* rendererSpecific = (StencilPropertyView_b8a1a0*)apState->m_spProperties[4];
+    if (rendererSpecific && (rendererSpecific->m_ucFlags & 1))
         ::UpdateRendererStateCount(0, 0);
 }
 

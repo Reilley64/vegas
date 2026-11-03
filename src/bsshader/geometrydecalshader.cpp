@@ -70,10 +70,16 @@ struct FUN_00bcbc90_shell
     NiGPUProgram* FUN_00bcbc90(void* obj, void* extra);
 };
 
+struct GeometryView_bcbc90
+{
+    char pad00[0xbc];
+    void* m_pSkinInstance;
+};
+
 // @fnv 0x00bcbc90
 NiGPUProgram* FUN_00bcbc90_shell::FUN_00bcbc90(void* obj, void* extra)
 {
-    return *(NiGPUProgram**)((char*)obj + 0xbc) ? DAT_012021e4 : DAT_012021e0;
+    return static_cast<GeometryView_bcbc90*>(obj)->m_pSkinInstance ? DAT_012021e4 : DAT_012021e0;
 }
 
 
@@ -107,7 +113,8 @@ struct FUN_00bcb4d0_shell : public GeometryDecalShader
 void FUN_00bcbc70_shell::FUN_00bcbc70()
 {
     reinterpret_cast<::FUN_00bcb4d0_shell *>(this)->CreateDecalShaders();
-    void(* fn)(FUN_00bcbc70_shell*) = *(void(**)(FUN_00bcbc70_shell*))(*(char**)this + 0x13c);
+    typedef void(* Fn)(FUN_00bcbc70_shell*);
+    Fn fn = (*(Fn**)this)[0x13c / 4];
     fn(this);
 }
 
@@ -139,7 +146,8 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     char pTempFileName[260];
     const char* pPixelShaderProfile;
     char pCacheFileName[260];
-    PassReference* pShaderPasses = (PassReference*)((char*)this + 0x74);
+    PassReference* pVertexShaders = (PassReference*)m_spVertexShaders;
+    PassReference* pPixelShaders = (PassReference*)m_spPixelShaders;
 
     ShaderSourceInfo VSbaseParam;
     VSbaseParam.path = "lighting\\2x\\v\\decal.v.hlsl";
@@ -153,7 +161,7 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     std::memset(&VSbaseParam.macros[7], 0, 11 * sizeof(const char*));
     ::FUN_00be0c00(VSbaseParam.path, pCacheFileName);
     ::FUN_00406d00(pTempFileName, 0x104, "GDECAL.vso");
-    pShaderPasses[0] =
+    pVertexShaders[0] =
         ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(pCacheFileName, (::_D3DXMACRO *)(VSbaseParam.macros), "vs_1_1", pTempFileName)));
 
     ShaderSourceInfo vsSkinnedParams = {
@@ -161,7 +169,7 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
         {"DECAL", ::DAT_01011584, "GEOMDECAL", ::DAT_01011584, "MAXDECALS", DAT_01063f48, "SKIN", ::DAT_01011584}};
     ::FUN_00be0c00(vsSkinnedParams.path, pCacheFileName);
     ::FUN_00406d00(pTempFileName, 0x104, "GDECALS.vso");
-    pShaderPasses[1] =
+    pVertexShaders[1] =
         ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(pCacheFileName, (::_D3DXMACRO *)(vsSkinnedParams.macros), "vs_1_1", pTempFileName)));
 
     pPixelShaderProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
@@ -177,9 +185,9 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     std::memset(&PSbaseParam.macros[7], 0, 11 * sizeof(const char*));
     ::FUN_00be0c00(PSbaseParam.path, pCacheFileName);
     ::FUN_00406d00(pTempFileName, 0x104, "GDECAL.pso");
-    pShaderPasses[2] =
+    pPixelShaders[0] =
         reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(pCacheFileName), (void *)((const _D3DXMACRO*)PSbaseParam.macros), (char *)(pPixelShaderProfile), (char *)(pTempFileName));
-    AssignRef(pShaderPasses[3], pShaderPasses[2]);
+    AssignRef(pPixelShaders[1], pPixelShaders[0]);
 }
 
 struct StageReturn

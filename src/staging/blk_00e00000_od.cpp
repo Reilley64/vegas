@@ -1555,9 +1555,7 @@ void* __cdecl FUN_00e005f0();
 
 void* FUN_00e01710();
 
-void FUN_00c908c0(void*, void*, int, int);
 
-void FUN_00c90940(void*, void*, int);
 
 struct hkVector4
 {

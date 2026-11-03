@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
@@ -6803,7 +6804,6 @@ struct Array
     Array() : data(0), size(0), capacity(0x80000000)
     {}
 };
-void __cdecl FUN_00c908c0(Alloc*, Array*, int, int);
 struct Entry
 {
     Node* key;
@@ -6871,7 +6871,7 @@ int Target::ResolveLinkNodes()
                     int grown = cap * 2;
                     if (total >= grown)
                         grown = total;
-                    FUN_00c908c0(allocator, a, grown, 4);
+                    ::FUN_00c908c0((::SpawnedObject *)(void *)(allocator), (::SpawnedArray *)(void *)(a), grown, 4);
                 }
                 int remaining = total - a->size;
                 Node** end = a->data + a->size;
@@ -7290,7 +7290,6 @@ struct hkMemoryRouterE030
 
 namespace hkRouterE030 {
 }
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T> class hkArrayE030
 {
@@ -7307,7 +7306,7 @@ template <class T> class hkArrayE030
     {
         hkMemoryRouterE030& router = (*static_cast<hkMemoryRouterE030*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedE030<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -7315,7 +7314,7 @@ template <class T> class hkArrayE030
     {
         hkMemoryRouterE030& router = (*static_cast<hkMemoryRouterE030*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         for (int i = 0; i < 1; ++i)
             new (m_data + m_iElementCount + i) T;
         return m_data[m_iElementCount++];
@@ -7628,7 +7627,7 @@ template <class T> struct ExportStorage
     __forceinline T& addWith(ExportHeap& router)
     {
         if (size == capacityValue())
-            ResizeAudioStream(router.heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         createExportObjects(data + size, 1);
         return data[size++];
     }

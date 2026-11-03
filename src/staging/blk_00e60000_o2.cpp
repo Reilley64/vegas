@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 #include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
@@ -11736,9 +11737,7 @@ int* __cdecl FUN_00e7d550();
 
 void* __cdecl FUN_00e7d680(void);
 
-void __cdecl FUN_00c908c0(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
 
-void __cdecl ResizeAudioStream(HeapAlloc* alloc, void* arr, int elemSize);
 
 // VEGAS17-CONFLICT: IntArray (variant definition below differs from the one above)
 struct IntArray
@@ -11750,7 +11749,7 @@ struct IntArray
     {
         MemRouter* rr = getRouter();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(rr->heap, this, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(rr->heap), (::AudioStream *)(void *)(this), 4);
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -11758,9 +11757,7 @@ struct IntArray
 
 void __cdecl BuildIndexArray(IndexSource* src, IntArray* out);
 
-void __cdecl FUN_00c908c0(void*, IndexArray*, int, int);
 
-void __cdecl FUN_00c908c0(AllocatorE60F& kAlloc, void* pArray, int iNumElements, int iSizeElem);
 
 // VEGAS17-CONFLICT: hkArrayE60F (variant definition below differs from the one above)
 template <class T> class hkArrayE60F
@@ -11784,7 +11781,7 @@ template <class T> class hkArrayE60F
         {
             int iCap2 = 2 * getCapacity();
             int iNewCap = (iNewSize < iCap2) ? iCap2 : iNewSize;
-            FUN_00c908c0(kAlloc, this, iNewCap, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(kAlloc), (::SpawnedArray *)(void *)(this), iNewCap, sizeof(T));
         }
         m_iElementCount += n;
         return m_data + iOldSize;
@@ -11831,7 +11828,7 @@ struct IntArrayX
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0((IndexAllocator*)&alloc, (IndexArray*)this, newSize, sizeof(int));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)((IndexAllocator*)&alloc), (::SpawnedArray *)(void *)((IndexArray*)this), newSize, sizeof(int));
         }
     }
     __forceinline int* expandBy(int n)
@@ -13131,7 +13128,6 @@ struct HavokMemory
     void* allocator;
 };
 
-extern void __cdecl ResizeAudioStream(void*, void*, int);
 
 struct MoppErrorStream
 {
@@ -13461,7 +13457,7 @@ append:
 
     if (output->size == (output->capacityAndFlags & 0x3fffffff))
 
-        ResizeAudioStream(memory->allocator, output, sizeof(unsigned int));
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(memory->allocator), (::AudioStream *)(void *)(output), sizeof(unsigned int));
 
     unsigned int* dest = output->data + output->size;
 

@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include <cmath>
@@ -4858,7 +4859,6 @@ template <typename T> struct hkArrayStub
 };
 
 
-void __cdecl ResizeAudioStream(int param1, S_00e3ed00_List* param2, int param3);
 
 void __cdecl FUN_00e36f40();
 
@@ -4916,7 +4916,6 @@ void __cdecl FUN_00e2cfc0();
 
 void FUN_00e2cfd0();
 
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE3A3* allocator, void* array, int capacity, int elementSize);
 
 // VEGAS17-CONFLICT: TyremarkArray (variant definition below differs from the one above)
 template <class T> struct TyremarkArray
@@ -4939,7 +4938,7 @@ template <class T> struct TyremarkArray
         if (capacity < count)
         {
             int doubled = capacity * 2;
-            FUN_00c908c0(&allocator, this, count < doubled ? doubled : count, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), count < doubled ? doubled : count, sizeof(T));
         }
         m_iElementCount = count;
     }

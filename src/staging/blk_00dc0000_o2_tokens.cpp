@@ -47,7 +47,7 @@ static __declspec(noinline) void SkipWhitespace(S00dcc240_Stream* stream)
 
 // Skips whitespace, then parses an optional sign and a decimal, octal, or hexadecimal integer from the stream, storing the sign in negative.
 // @fnv 0x00dcc240
-static __declspec(noinline) unsigned __int64 FUN_00dcc240(S00dcc240_Stream* stream, bool* negative)
+__declspec(noinline) unsigned __int64 FUN_00dcc240(S00dcc240_Stream* stream, bool* negative)
 {
     int storage[64];
 

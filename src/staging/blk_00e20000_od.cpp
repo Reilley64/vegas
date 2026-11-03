@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include <new>
@@ -925,7 +926,6 @@ void FrameE3B::FUN_00e3b630(const void* pSource)
     reinterpret_cast<::RotationRows *>(&(m_pChildAtom))->FUN_00cb2d90((void *)(pSource));
 }
 
-void __cdecl ResizeAudioStream(void* mem, void* array, int sizeOfElement);
 
 // VEGAS17-CONFLICT: hkArray_e3a1 (variant definition below differs from the one above)
 template <class T> struct hkArray_e3a1 {
@@ -936,7 +936,7 @@ template <class T> struct hkArray_e3a1 {
     {
         Router_e3a1* router = static_cast<Router_e3a1*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
         m_iElementCount++;
     }
@@ -959,7 +959,6 @@ struct S00e29b80_HeapAllocator
     S00e29b80_Allocator& get(const void*) { return S00e29b80_Router::GetMonitorStream().heap(); }
 };
 
-void __cdecl FUN_00c908c0(S00e29b80_Allocator& alloc, void* array, int reqElem, int sizeElem);
 
 typedef __m128 S00e29b80_QuadReal;
 
@@ -1042,7 +1041,7 @@ struct S00e29b80_Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
     __forceinline void reserve(int size) { GrowArrayCapacity(S00e29b80_HeapAllocator().get(this), size); }

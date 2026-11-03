@@ -1,6 +1,7 @@
 // staging/blk_00e40000_o2.cpp: KnotVector, ThunkDerived, FourComponentVector, Quat4 and more (195 functions)
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -7245,11 +7246,9 @@ struct FUN_00e58b10_class {
     void FUN_00e58b10(int a, int b, int c);
 };
 
-void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiNewSize);
 
 float __cdecl ComputeScaledRatio(float param_1, float afDivisor, float afValue, float afScale);
 
-void __cdecl FUN_00c908c0(E4AAA0Allocator* alloc, void* array, int numElements, int sizeElem);
 
 // VEGAS17-CONFLICT: E4AAA0Array (variant definition below differs from the one above)
 struct E4AAA0Array {
@@ -7265,7 +7264,7 @@ struct E4AAA0Array {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(E4AAA0Element));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(E4AAA0Element));
         }
     }
 
@@ -7371,14 +7370,13 @@ float __cdecl FUN_00e404b0(FloatArray_e404b0* arr);
 
 float __cdecl FindMinFloat(int *param_1);
 
-extern "C" void FUN_00c908c0(Allocator*,void*,int,int);
 
 // VEGAS17-CONFLICT: ArrayBase (variant definition below differs from the one above)
 struct ArrayBase {
  void* data; int size; int capacity;
  ArrayBase():data(0),size(0),capacity(0x80000000){}
  int getCapacity() const {return capacity & 0x3fffffff;}
- static void grow(Allocator& heap,ArrayBase* a,int n,int stride) { int cap=a->getCapacity(); if(cap<n) FUN_00c908c0(&heap,a,n<2*cap?2*cap:n,stride); }
+ static void grow(Allocator& heap,ArrayBase* a,int n,int stride) { int cap=a->getCapacity(); if(cap<n) ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(a), n<2*cap?2*cap:n, stride); }
  void reserve(Allocator& heap,int n,int stride){grow(heap,this,n,stride);}
 };
 
@@ -7390,7 +7388,6 @@ void __cdecl FUN_00e54c10(int aiIndex, L* list);
 
 int __cdecl FUN_00e57210(FloatArrayRef* array, int count);
 
-void FUN_00c908c0(ArrayAllocator* alloc, FloatArray* arr, int newCap, int elemSize);
 
 // VEGAS17-CONFLICT: FloatArray (variant definition below differs from the one above)
 struct FloatArray {
@@ -7403,7 +7400,7 @@ struct FloatArray {
         int cap = getCapacity();
         if (cap < n) {
             int c = 2 * cap;
-            FUN_00c908c0(&alloc, this, n < c ? c : n, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), n < c ? c : n, 4);
         }
     }
 };
@@ -7465,7 +7462,7 @@ template<class T> struct EntityArray : HkArray<T> {
     __forceinline void AddBack(const T& element) {
         HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
         if (this->m_iElementCount == (this->m_iCapacityState & 0x3fffffff)) {
-            ResizeAudioStream(holder->m_pAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(holder->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         }
         T* destination = this->m_data + this->m_iElementCount;
         for (int k = 0; k < 1; ++k) destination[k] = element;
@@ -7512,7 +7509,7 @@ struct ThresholdArray {
         int current = capacity & 0x3fffffff;
         if (current < count) {
             int grown = 2 * current;
-            FUN_00c908c0(heap, this, count < grown ? grown : count, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(heap), (::SpawnedArray *)(void *)(this), count < grown ? grown : count, 4);
         }
         size = count;
     }
@@ -7558,7 +7555,7 @@ struct ChainArray {
     void Add(T const& value) {
         HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         if (m_iElementCount == (m_capFlags & 0x3fffffff))
-            ResizeAudioStream(mgr->m_pAllocator, this, (int)sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(mgr->m_pAllocator), (::AudioStream *)(void *)(this), (int)sizeof(T));
         T* pSlot = &m_data[m_iElementCount];
         pSlot[0] = value;
         pSlot[0] = value;
@@ -7566,7 +7563,6 @@ struct ChainArray {
     }
 };
 
-void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int auiNewSize);
 
 
 // VEGAS17-CONFLICT: hkRefPtr_e5c5 (variant definition below differs from the one above)
@@ -7640,7 +7636,7 @@ __forceinline void FloatVector::reserve(MemoryAllocator& heap, int wanted) {
 
         const int newCapacity = wanted < doubled ? doubled : wanted;
 
-        FUN_00c908c0((E4AAA0Allocator*)alloc, vec, newCapacity, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)((E4AAA0Allocator*)alloc), (::SpawnedArray *)(void *)(vec), newCapacity, 4);
 
     }
 
@@ -7657,7 +7653,7 @@ __forceinline void VertexVector::reserve(MemoryAllocator& heap, int wanted) {
 
         const int newCapacity = wanted < doubled ? doubled : wanted;
 
-        FUN_00c908c0((E4AAA0Allocator*)alloc, vec, newCapacity, 16);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)((E4AAA0Allocator*)alloc), (::SpawnedArray *)(void *)(vec), newCapacity, 16);
 
     }
 
@@ -7704,7 +7700,6 @@ namespace se49e00 {
 struct Allocator;
 
 
-void ResizeAudioStream(Allocator* pkAllocator, void* apvArray, unsigned int uiStride);
 void FUN_00c90510(void* pvObject);
 
 template <class T> struct ObjectArray {
@@ -7716,7 +7711,7 @@ template <class T> struct ObjectArray {
     {
         AllocatorHolder* pkHolder = static_cast<AllocatorHolder*>(::FUN_00c85750());
         if (m_uiLogicalSize == (m_iCapacityAndFlags & 0x3fffffff))
-            ResizeAudioStream(pkHolder->m_pHeapAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(pkHolder->m_pHeapAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_pData[m_uiLogicalSize], S00e49e00_Slot()) T(kElement);
         m_uiLogicalSize++;
     }
@@ -8297,7 +8292,6 @@ __declspec(noinline) RemovalVector operator*(float f,const RemovalVector& v) {re
 
 float FUN_00e54ba0(const RemovalVector&,const RemovalVector&);
 
-void FUN_00c908c0(void*,void*,int,int);
 
 template<class T> struct KnotArray {
     T* data; int size; int capacity;
@@ -8307,7 +8301,7 @@ template<class T> struct KnotArray {
         int cap = capacity & 0x3fffffff;
         if (cap < num) {
             int doubled = cap * 2;
-            FUN_00c908c0(alloc, this, num < doubled ? doubled : num, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(this), num < doubled ? doubled : num, sizeof(T));
         }
     }
     __forceinline void resize(int num) {
@@ -8527,7 +8521,6 @@ struct Entry
 
 int FUN_00e60cb0(unsigned char type, int count);
 
-extern "C" void FUN_00c908c0(Allocator*, void*, int, int);
 
 void FUN_00cb1260(void*, const void*, int);
 
@@ -8547,7 +8540,7 @@ struct ArrayBase
     {
         int cap = a->getCapacity();
         if (cap < n)
-            FUN_00c908c0(&heap, a, n < 2 * cap ? 2 * cap : n, stride);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(a), n < 2 * cap ? 2 * cap : n, stride);
     }
     void reserve(Allocator& heap, int n, int stride)
     {
@@ -8907,7 +8900,6 @@ struct MoppOutput { int* data; int size; int capacity; };
 
 struct MoppMemorySystem { int unk00, unk04, unk08, unk0c; void* allocator; };
 
-void __cdecl ResizeAudioStream(void*, void*, int);
 
 struct MoppErrorSink {
     virtual void ReportDiagnostic();
@@ -9129,7 +9121,7 @@ void MoppMachine::FUN_00e5d7d0(const MoppState* state, const unsigned char* code
 
                 MoppMemorySystem* memory = (MoppMemorySystem*)static_cast<HolderStub*>(::FUN_00c85750());
                 if (out->size == (out->capacity & 0x3fffffff))
-                    ResizeAudioStream(memory->allocator, out, 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(void *)(memory->allocator), (::AudioStream *)(void *)(out), 4);
                 int* next = out->data + out->size;
                 ++out->size;
                 *next = value;

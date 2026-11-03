@@ -1,6 +1,7 @@
 // staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (96 functions)
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
@@ -467,7 +468,6 @@ struct AllocatorState
         return pool;
     }
 };
-extern "C" void __cdecl FUN_00c908c0(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {
     int unk00, unk04, unk08;
@@ -486,7 +486,7 @@ void ArrayHost::ResizeArray(int desired)
         int nextCapacity = capacity * 2;
         if (desired >= nextCapacity)
             nextCapacity = desired;
-        FUN_00c908c0(pool, values, nextCapacity, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(pool), (::SpawnedArray *)(void *)(values), nextCapacity, 4);
     }
     int extra = desired - values->size;
     unsigned int* next = values->values + values->size;
@@ -517,7 +517,6 @@ struct AllocHolder
     AllocatorIface* m_pAllocator;
 };
 
-void FUN_00c908c0(AllocatorIface* alloc, void* arr, unsigned int newCap, int elemSize);
 
 struct DwordArray
 {
@@ -552,7 +551,7 @@ void FUN_00dc9e20_cls::ReserveDwordArray(int count)
         {
             newCap = count;
         }
-        FUN_00c908c0(alloc, arr, (unsigned int)newCap, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(arr), (unsigned int)newCap, 4);
     }
 }
 }  // namespace fnv_00dc9e20
@@ -1184,7 +1183,7 @@ struct SpawnedObject
     int m_bc;
     int m_c0;
     void FUN_00dd7f10();
-    SpawnedObject* Construct(int value);
+    SpawnedObject* Construct(intptr_t value);
 };
 
 void SpawnedObject::FUN_00dd7f10()
@@ -1263,7 +1262,6 @@ struct AllocHolder
     void* m_pAllocator;
 };
 
-extern "C" void ResizeAudioStream(void* pAllocator, RecArray* pArray, int iElementSize);
 
 // Grows the array via the allocator when full, writes uiValue at the count index, and increments the count.
 // @fnv 0x00dd8db0
@@ -1273,7 +1271,7 @@ void AppendToRecArray(unsigned int uiValue, unsigned int uiUnused, RecArray* pAr
 
     if (pArray->m_uiCount == (pArray->m_uiCapacity & 0x3fffffff))
     {
-        ResizeAudioStream(pHolder->m_pAllocator, pArray, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(pHolder->m_pAllocator), (::AudioStream *)(void *)(pArray), 4);
     }
 
     unsigned int* pSlot = (unsigned int*)((unsigned int)pArray->m_pData + *(volatile int*)&pArray->m_uiCount * 4);
@@ -1543,35 +1541,23 @@ int* FUN_00dcc130_Class::FUN_00dcc130(int* value)
     return (int*)this;
 }
 
+struct S00dcc240_Stream;
+unsigned __int64 FUN_00dcc240(S00dcc240_Stream* stream, bool* negative);
+
 struct S_00dcc740_Cls
 {
     unsigned int m_00;
     unsigned int m_04;
-    unsigned int m_08;
+    S00dcc240_Stream* m_08;
     S_00dcc740_Cls* ReadSignedShort(unsigned short* out);
 };
 
-struct IniTokenStream
-{
-    void* m_vt;
-};
-
-extern "C" void ReadIniLine(void);
-
-// Stand-in for the unit's integer parser: its body is not this function's code, it only makes
-// the compiler reproduce the original custom convention (stream on the stack, sign flag in eax).
-static __declspec(noinline) unsigned short FUN_00dcc240(IniTokenStream* stream, unsigned char* negative)
-{
-    *negative = 0;
-    ReadIniLine();
-    return (unsigned short)(int)(stream != 0);
-}
 
 // @fnv 0x00dcc740
 S_00dcc740_Cls* S_00dcc740_Cls::ReadSignedShort(unsigned short* out)
 {
-    unsigned char flag;
-    short r = (short)FUN_00dcc240((IniTokenStream*)m_08, &flag);
+    bool flag;
+    short r = (short)FUN_00dcc240(m_08, &flag);
     *out = flag != 0 ? (unsigned short)(-r) : (unsigned short)r;
     return this;
 }
@@ -1623,7 +1609,7 @@ struct Base_00d60b40
 
 struct FUN_00dda690 : Base_00d60b40
 {
-    FUN_00dda690(int a);
+    FUN_00dda690(intptr_t a);
 };
 
 // @fnv 0x00dda690
@@ -1633,37 +1619,22 @@ FUN_00dda690::FUN_00dda690(intptr_t a)
     vft = &DAT_010d7db8;
 }
 
-struct S_00dcc240_Reader
-{
-    int unk00;
-    int unk04;
-    unsigned short unk08;
-};
-
 struct S_00dcc790_Class
 {
     unsigned int m_00;
     unsigned int m_04;
-    S_00dcc240_Reader* m_08;
+    S00dcc240_Stream* m_08;
 
     S_00dcc790_Class* ReadSignedValue(unsigned short* result);
 };
 
-extern "C" void __cdecl SkipWhitespace(void);
-
-static __declspec(noinline) unsigned short FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader)
-{
-    *ok = 0;
-    SkipWhitespace();
-    return reader->unk08;
-}
 
 // Reads a 16-bit value via FUN_00dcc240 and stores it negated into result when ok is set, otherwise as-is; returns this.
 // @fnv 0x00dcc790
 S_00dcc790_Class* S_00dcc790_Class::ReadSignedValue(unsigned short* result)
 {
-    unsigned char ok;
-    unsigned short value = FUN_00dcc240(&ok, m_08);
+    bool ok;
+    unsigned short value = (unsigned short)FUN_00dcc240(m_08, &ok);
 
     *result = ok ? (unsigned short)-(int)value : value;
     return this;
@@ -1918,7 +1889,6 @@ struct hkMemoryRouterDDFB
 namespace hkRouterDDFB {
 }
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 struct hkPairDDFB
 {
@@ -1944,7 +1914,7 @@ template <class T> class hkArrayDDFB
     {
         hkMemoryAllocatorDDFB& kAlloc = (*static_cast<hkMemoryRouterDDFB*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }
@@ -2044,28 +2014,11 @@ FUN_00dcc5c0_cls* FUN_00dcc5c0_cls::GetFloatValue(float* out)
 // ReadSignedInt: thiscall member returning this; parses an int through FUN_00dcc240
 // (per-TU private convention: stream on the stack, sign-flag address in EAX),
 // negates it when the flag byte is set, and stores it through the int* argument.
-struct S_00dcc7e0_Stream
-{
-    void* m_vt;
-};
-
-extern "C" void ReadIniLine(void);
-
-// Stand-in for the unit's integer parser (int flavour): its body is not this
-// function's code, it only makes the compiler reproduce the original custom
-// convention (stream on the stack, sign flag in eax).
-static __declspec(noinline) int FUN_00dcc240(S_00dcc7e0_Stream* stream, unsigned char* negative)
-{
-    *negative = 0;
-    ReadIniLine();
-    return (int)(stream != 0);
-}
-
 struct FUN_00dcc7e0_Class
 {
     unsigned int m_00;
     unsigned int m_04;
-    unsigned int m_08;
+    S00dcc240_Stream* m_08;
 
     FUN_00dcc7e0_Class* ReadSignedInt(int* out);
 };
@@ -2074,8 +2027,8 @@ struct FUN_00dcc7e0_Class
 // @fnv 0x00dcc7e0
 FUN_00dcc7e0_Class* FUN_00dcc7e0_Class::ReadSignedInt(int* out)
 {
-    unsigned char flag;
-    int value = FUN_00dcc240((S_00dcc7e0_Stream*)m_08, &flag);
+    bool flag;
+    int value = (int)FUN_00dcc240(m_08, &flag);
     *out = flag != 0 ? -value : value;
     return this;
 }
@@ -2176,7 +2129,7 @@ void S00dcd1b0_Obj::FUN_00dcd1b0(int value)
         AllocatorState* allocator = static_cast<AllocatorState*>(::FUN_00c85750());
         if ((int)(block->reservedAndFlags & 0x3fffffff) < total)
         {
-            FUN_00c908c0(allocator->GetPool(), block, total, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(allocator->GetPool()), (::SpawnedArray *)(void *)(block), total, 2);
         }
 
         allocator = static_cast<AllocatorState*>(::FUN_00c85750());
@@ -2189,7 +2142,7 @@ void S00dcd1b0_Obj::FUN_00dcd1b0(int value)
             {
                 newSize = total;
             }
-            FUN_00c908c0(pool, block, newSize, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(pool), (::SpawnedArray *)(void *)(block), newSize, 2);
         }
         block->size = total;
     }
@@ -2233,7 +2186,6 @@ struct S00dcd270_Arr
     int m_iElementCount;
     int m_cap;
 };
-extern "C" void __cdecl ResizeAudioStream(void*, S00dcd270_Arr*, int);
 struct S00dcd270_cls
 {
     int unk00;
@@ -2260,7 +2212,7 @@ S00dcd270_Rec* S00dcd270_cls::AddRecord(const S00dcd270_Rec* apRecord)
     S00dcd270_Arr* a = &arr;
     AllocatorState* h = static_cast<AllocatorState*>(::FUN_00c85750());
     if (a->m_iElementCount == (a->m_cap & 0x3fffffff))
-        ResizeAudioStream(h->GetPool(), a, 0x38);
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(h->GetPool()), (::AudioStream *)(void *)(a), 0x38);
     S00dcd270_Rec* r = &a->m_data[a->m_iElementCount];
     if (r)
     {
@@ -3110,7 +3062,6 @@ struct TokenStream
 };
 
 extern "C" void _ReadWriteBarrier(void);
-void __cdecl ResizeAudioStream(int alloc, TokenBuffer* buf, int n);
 namespace TokenParsing {
 static __declspec(noinline) void SkipWhitespace(TokenStream* stream)
 {
@@ -3173,7 +3124,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
             AllocatorState* h = static_cast<AllocatorState*>(::FUN_00c85750());
             if (buf->m_len == (buf->m_cap & 0x3fffffff))
             {
-                ResizeAudioStream(h->unk0C, buf, one);
+                ::ResizeAudioStream((::AudioAllocator *)(void *)(h->unk0C), (::AudioStream *)(void *)(buf), one);
             }
             char* slot = buf->m_data + buf->m_len;
             char value = (char)c;
@@ -3187,7 +3138,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
     AllocatorState* h2 = static_cast<AllocatorState*>(::FUN_00c85750());
     if (buf->m_len == (buf->m_cap & 0x3fffffff))
     {
-        ResizeAudioStream(h2->unk0C, buf, one);
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(h2->unk0C), (::AudioStream *)(void *)(buf), one);
     }
     char* slot2 = buf->m_data + buf->m_len;
     _ReadWriteBarrier();
@@ -3532,7 +3483,6 @@ int __cdecl FUN_00dced40();
 
 
 
-static unsigned short FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader);
 
 void __cdecl FUN_00dccb20();
 
@@ -3787,18 +3737,12 @@ void AllocatorStatisticsDD8D::FUN_00dd8d70(unsigned int* out)
 
 void __cdecl FUN_00dccae0(void* a, void* b);
 
-static __declspec(noinline) __int64 FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader)
-{
-    *ok = 0;
-    SkipWhitespace();
-    return reader->unk08;
-}
 
 struct S_00dcc820_Class
 {
     unsigned int m_00;
     unsigned int m_04;
-    S_00dcc240_Reader* m_08;
+    S00dcc240_Stream* m_08;
 
     S_00dcc820_Class* FUN_00dcc820(int* result);
 };
@@ -3806,8 +3750,8 @@ struct S_00dcc820_Class
 // @fnv 0x00dcc820
 S_00dcc820_Class* S_00dcc820_Class::FUN_00dcc820(int* result)
 {
-    unsigned char ok;
-    int value = FUN_00dcc240(&ok, m_08);
+    bool ok;
+    int value = (int)FUN_00dcc240(m_08, &ok);
 
     *result = ok ? -value : value;
     return this;

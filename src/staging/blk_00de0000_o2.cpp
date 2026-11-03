@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
 #include <emmintrin.h>
 #include <cstddef>
@@ -8848,7 +8849,6 @@ void FUN_00dfb5a0_cls::FUN_00dfb5a0()
     ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)this)));
 }
 
-void __cdecl ResizeAudioStream(AudioAllocator* alloc, void* array, int sizeOfElement);
 
 struct Pair_de30
 {
@@ -8867,7 +8867,7 @@ template <class T> struct hkArray_de30
     {
         AudioHolder* router = static_cast<AudioHolder*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router->m_pAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(router->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
         m_iElementCount++;
     }
@@ -8897,7 +8897,6 @@ void __cdecl FUN_00de9b00()
 {}
 
 namespace fnv_00df2640 {
-void __cdecl ResizeAudioStream(AudioAllocator* pAllocator, void* pArray, unsigned int auiNewSize);
 
 struct S00df2640_list
 {
@@ -9033,7 +9032,7 @@ int S00df2640_cls::FUN_00df2640(S00df2640_a1* a1, S00df2640_a2* a2)
                 AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
                 if (list->size == (int)(list->capBits & 0x3fffffffu))
                 {
-                    ResizeAudioStream(holder->m_pAllocator, list, 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(void *)(holder->m_pAllocator), (::AudioStream *)(void *)(list), 4);
                 }
                 void** slot = list->data + list->size;
                 __assume(slot != 0);

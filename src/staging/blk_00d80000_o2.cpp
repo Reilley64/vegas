@@ -2188,7 +2188,7 @@ struct FUN_00d9fb30_Stub {
 // @fnv 0x00d9fb30
 void FUN_00d9fb30_Stub::FUN_00d9fb30()
 {
-    *(int*)this = (int)&(*reinterpret_cast<char *>(&::DAT_0102e388));
+    *(void**)this = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
 }
 
 // @fnv 0x00d9fb40

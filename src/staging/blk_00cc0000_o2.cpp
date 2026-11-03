@@ -595,9 +595,9 @@ struct FUN_00cdf7a0Class {
 void FUN_00cdf7a0Class::FUN_00cdf7a0()
 {
     hkReferencedObject* ref = m_ref;
-    *(int*)this = (int)&DAT_010c82a4;
+    *(void**)this = (void*)&DAT_010c82a4;
     reinterpret_cast<::hkReferencedObjectC905 *>((ref))->FUN_00c905b0();
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(void**)this = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00cdf7a0
 

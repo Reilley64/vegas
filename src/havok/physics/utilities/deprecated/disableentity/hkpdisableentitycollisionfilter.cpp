@@ -37,21 +37,7 @@ struct FUN_00e46900_Obj
 {
 };
 
-struct FUN_00dff930_Alloc
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08(void* p, int n);
-};
 
-struct FUN_00dff930_Mgr
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00dff930_Alloc* m_10;
-};
 
 struct FUN_00dff930_class : hkpDisableEntityCollisionFilter
 {
@@ -64,8 +50,8 @@ void* FUN_00dff930_class::FUN_00dff930(unsigned char uiFlags)
     reinterpret_cast<::FUN_00e46900 *>((reinterpret_cast<FUN_00e46900_Obj*>(this)))->FUN_00e46900::~FUN_00e46900();
     if (uiFlags & 1)
     {
-        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(&hkMemoryRouter::getInstance());
-        mgr->m_10->slot08(this, m_usMemSizeAndFlags);
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        mgr->m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
 }

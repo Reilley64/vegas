@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/dashpot/hkpdashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include <new>
@@ -36,21 +37,7 @@ FUN_00d4d980_Class* FUN_00d4d980_Class::FUN_00d4d980(hkpEntity* entityA, hkpEnti
 
 
 
-class DashHeap1
-{
-  public:
-    virtual void unk00();
-    virtual void* allocate(int size);
-};
 
-struct DashRouter1
-{
-    void* u00;
-    void* u04;
-    void* u08;
-    void* u0c;
-    DashHeap1* u10;
-};
 
 class hkpDashpotActionX : public hkpDashpotAction
 {
@@ -68,8 +55,7 @@ hkpAction* hkpDashpotActionX::FUN_00d4d9d0(const hkArray<hkpEntity*>& newEntitie
     if (removedEntities.m_iElementCount != 0)
         return 0;
 
-    DashRouter1* router = static_cast<DashRouter1*>(FUN_00c85750());
-    hkpDashpotAction* pDashpot = (hkpDashpotAction*)router->u10->allocate(0x60);
+    hkpDashpotAction* pDashpot = static_cast<hkpDashpotAction*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x60));
     pDashpot->m_usMemSizeAndFlags = 0x60;
     pDashpot = reinterpret_cast<::FUN_00d4d980_Class *>(pDashpot)->FUN_00d4d980(newEntities.m_data[0], newEntities.m_data[1], m_ulUserData);
 

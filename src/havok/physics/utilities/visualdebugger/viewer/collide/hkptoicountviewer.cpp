@@ -172,19 +172,6 @@ FUN_00d67ce0::FUN_00d67ce0(int context) : FUN_00ddccb0(context)
 }
 
 namespace fnv_00d67d60 {
-struct Heap
-{
-    virtual void* unused();
-    virtual void* Allocate(unsigned int);
-};
-struct Global
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Heap* heap10;
-};
 struct hkpToiCountViewer
 {
     void* vtable;
@@ -196,8 +183,8 @@ struct hkpToiCountViewer
 // @fnv 0x00d67d60
 void* __cdecl AllocateToiCountViewer(unsigned int arg)
 {
-    Global* global = (Global*)&hkMemoryRouter::getInstance();
-    hkpToiCountViewer* pViewer = (hkpToiCountViewer*)global->heap10->Allocate(0x40);
+    hkMemoryRouter* global = &hkMemoryRouter::getInstance();
+    hkpToiCountViewer* pViewer = (hkpToiCountViewer*)global->m_heap->blockAlloc(0x40);
     pViewer->size = 0x40;
     pViewer = ((::fnv_00d67d60::hkpToiCountViewer *)(new ((void *)(pViewer)) ::FUN_00d67ce0(arg)));
     if (pViewer)
@@ -219,11 +206,6 @@ void RegisterToiCounter()
 }
 
 
-struct AudioHeap
-{
-    char pad[0x10];
-    void* heap;
-};
 
 struct ItemList
 {
@@ -282,7 +264,7 @@ struct Member : MemberBase
     __declspec(nothrow) void Release(void* heap);
     ~Member()
     {
-        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((AudioHeap*)&hkMemoryRouter::getInstance())->heap));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(hkMemoryRouter::getInstance().m_heap));
     }
 };
 
@@ -718,13 +700,6 @@ void FUN_00d67da0_cls::FUN_00d67da0()
 }
 
 
-struct AudioCoreView
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    hkMemoryAllocator* m_pThreadAllocator;
-};
 
 struct BSAudioString
 {
@@ -744,7 +719,7 @@ struct BSAudioString
 
     void Release()
     {
-        hkMemoryAllocator* allocator = ((AudioCoreView*)&hkMemoryRouter::getInstance())->m_pThreadAllocator;
+        hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_temp;
         m_fRestLength = 0;
         if ((m_pRayCursor & 0x80000000) == 0)
             allocator->bufFree(m_data, m_pRayCursor & 0x3fffffff);

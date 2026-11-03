@@ -84,40 +84,22 @@ MBG* FUN_00e45150_class::Initialize(int a)
     return self;
 }
 
-struct hkMemoryAllocatorQ
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
-
-struct hkMemoryRouterQ
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocatorQ* m_pStreamAllocator;
-    hkMemoryAllocatorQ& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
-inline hkMemoryRouterQ& getRouter()
+
+inline hkMemoryRouter& getRouter()
 {
-    return *(hkMemoryRouterQ*)&hkMemoryRouter::getInstance();
+    return hkMemoryRouter::getInstance();
 }
 
 template <typename T> inline T* hkAllocateChunkQ(int n)
 {
-    return (T*)getRouter().heap().AllocateMemoryBlock(n * sizeof(T));
+    return (T*)getRouter().heap().blockAlloc(n * sizeof(T));
 }
 
 template <typename T> inline void hkDeallocateChunkQ(T* p, int n)
 {
-    getRouter().heap().ReleaseBlock(p, n * sizeof(T));
+    getRouter().heap().blockFree(p, n * sizeof(T));
 }
 
 struct hkpRigidBody;

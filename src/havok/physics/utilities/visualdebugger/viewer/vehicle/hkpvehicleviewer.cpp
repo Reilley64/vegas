@@ -316,26 +316,6 @@ FUN_00d63c50::FUN_00d63c50(ViewerArg* arg) : WorldViewerBase(arg)
     m_38 = 0x80000000;
 }
 
-struct S_Heap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void ReturnMemory(void* p, int n) throw();
-};
-struct S_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_Heap* m10;
-    S_Heap& heap()
-    {
-        return *m10;
-    }
-};
 struct S_P
 {
     int unk00;
@@ -408,10 +388,10 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        S_Heap& heap = ((S_Holder*)&hkMemoryRouter::getInstance())->heap();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_cap & 0x3fffffff) * (int)sizeof(void*));
+            heap.bufFree(m_data, (m_cap & 0x3fffffff) * (int)sizeof(void*));
         m_data = 0;
         m_cap = 0x80000000;
     }
@@ -450,7 +430,7 @@ struct FUN_00d63d60_obj
 // @fnv 0x00d63d60
 void* AllocAndInitObject(::ViewerArg* a1)
 {
-    hkMemoryRouter* pAllocHolder = reinterpret_cast<hkMemoryRouter*>(&hkMemoryRouter::getInstance());
+    hkMemoryRouter* pAllocHolder = &hkMemoryRouter::getInstance();
     FUN_00d63d60_obj* obj = reinterpret_cast<FUN_00d63d60_obj*>(pAllocHolder->m_heap->blockAlloc(0x3c));
     obj->m_wSize = 0x3c;
     void* pResult = ((void *)(new ((void *)(obj)) ::FUN_00d63c50(a1)));

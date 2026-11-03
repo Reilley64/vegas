@@ -262,20 +262,7 @@ FUN_00d62720::~FUN_00d62720() throw()
 // block size into the record header and then runs the record's constructor.
 struct Viewer;
 
-struct Pool
-{
-    virtual void dummy0();
-    virtual Viewer* alloc0x2c(int n);
-};
 
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Pool* unk10;
-};
 
 struct Viewer
 {
@@ -288,8 +275,8 @@ struct Viewer
 // @fnv 0x00d62e20
 void* __cdecl FUN_00d62e20_impl(void* arg)
 {
-    Manager* pManager = (Manager*)&hkMemoryRouter::getInstance();
-    Viewer* pViewer = pManager->unk10->alloc0x2c(0x2c);
+    hkMemoryRouter* pManager = &hkMemoryRouter::getInstance();
+    Viewer* pViewer = static_cast<Viewer*>(pManager->m_heap->blockAlloc(0x2c));
     pViewer->unk04 = 0x2c;
     ::FUN_00d626b0* pResult = new ((void *)(pViewer)) ::FUN_00d626b0(arg);
     return static_cast<S_00d626b0_B*>(pResult);

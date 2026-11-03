@@ -156,22 +156,6 @@ struct S_P
     S_Elem2** m6c;
     int m70;
 };
-struct S_Heap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void ReturnMemory(void* p, int n) throw();
-};
-struct S_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_Heap* m10;
-};
 struct S_B0
 {
     virtual void b0v0();
@@ -243,14 +227,14 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        S_Heap* heap = ((S_Holder*)&hkMemoryRouter::getInstance())->m10;
+        hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
         int n = m_iElementCount;
         S_Elem* d = m_data;
         for (int i = 0; i < n; i++)
             d[i].~S_Elem();
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0)
-            heap->ReturnMemory(m_data, (m_cap & 0x3fffffff) * (int)sizeof(S_Elem));
+            heap->bufFree(m_data, (m_cap & 0x3fffffff) * (int)sizeof(S_Elem));
         m_data = 0;
         m_cap = 0x80000000;
     }
@@ -509,24 +493,7 @@ struct Count
     }
 };
 struct Vec;
-struct DeallocCtx
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4(void* pData, int iSize);
-    __forceinline void Grow(Vec* v, int need, int elemSize);
-};
 
-struct Singleton
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    DeallocCtx* m_0c;
-    DeallocCtx* m_10;
-};
 
 struct Vec
 {
@@ -535,7 +502,7 @@ struct Vec
     int m_iCapacity;
 };
 
-__forceinline void DeallocCtx::Grow(Vec* v, int need, int elemSize)
+static __forceinline void GrowVec(hkMemoryAllocator* allocator, Vec* v, int need, int elemSize)
 {
     _ReadWriteBarrier();
     int cap = v->m_iCapacity & 0x3fffffff;
@@ -544,22 +511,22 @@ __forceinline void DeallocCtx::Grow(Vec* v, int need, int elemSize)
         int g = cap + cap;
         if (need >= g)
             g = need;
-        ::FUN_00c908c0((::SpawnedObject *)this, (::SpawnedArray *)(v), g, elemSize);
+        ::FUN_00c908c0((::SpawnedObject *)allocator, (::SpawnedArray *)(v), g, elemSize);
     }
 }
 inline void GrowVec10(Vec* v, int need, int elemSize)
 {
-    Singleton* router = (Singleton*)&hkMemoryRouter::getInstance();
-    DeallocCtx* ctx = router->m_10;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* ctx = router->m_heap;
     _ReadWriteBarrier();
-    ctx->Grow(v, need, elemSize);
+    GrowVec(ctx, v, need, elemSize);
 }
 inline void GrowVec0c(Vec* v, int need, int elemSize)
 {
-    Singleton* router = (Singleton*)&hkMemoryRouter::getInstance();
-    DeallocCtx* ctx = router->m_0c;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* ctx = router->m_temp;
     _ReadWriteBarrier();
-    ctx->Grow(v, need, elemSize);
+    GrowVec(ctx, v, need, elemSize);
 }
 
 struct Vec4
@@ -904,22 +871,22 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         }
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
         i->v14(&offsets, (int)0xff0000ff, 0, ::g_D651E0Value);
-        Singleton* freeBoundsRouter;
-        freeBoundsRouter = (Singleton*)&hkMemoryRouter::getInstance();
-        DeallocCtx* need = freeBoundsRouter->m_0c;
+        hkMemoryRouter* freeBoundsRouter;
+        freeBoundsRouter = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* need = freeBoundsRouter->m_temp;
         item.m_iArrayLength = 0;
         if ((item.m_iCapacity & 0x80000000) == 0)
         {
-            need->v4(item.m_pData, (item.m_iCapacity & 0x3fffffff) * 32);
+            need->bufFree(item.m_pData, (item.m_iCapacity & 0x3fffffff) * 32);
         }
         item.m_pData = 0;
         item.m_iCapacity = (int)0x80000000;
-        Singleton* offsetCount = (Singleton*)&hkMemoryRouter::getInstance();
-        DeallocCtx* val = offsetCount->m_0c;
+        hkMemoryRouter* offsetCount = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* val = offsetCount->m_temp;
         offsets.m_iArrayLength = 0;
         if ((offsets.m_iCapacity & 0x80000000) == 0)
         {
-            val->v4(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * 4);
+            val->bufFree(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * (int)sizeof(void*));
         }
     }
     if (m_05)
@@ -933,7 +900,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         offsets.m_pData = 0;
         offsets.m_iArrayLength = 0;
         offsets.m_iCapacity = (int)0x80000000;
-        GrowVec10((Vec*)&offsets, pRec, 4);
+        GrowVec10((Vec*)&offsets, pRec, sizeof(void*));
         offsets.m_iArrayLength = pRec;
         int z = 0;
         if (z < islandsB.size())
@@ -963,12 +930,12 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         }
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
         i->v14(&offsets, (int)0xff008000, 0, ::g_D651E0Value);
-        Singleton* offsetCount = (Singleton*)&hkMemoryRouter::getInstance();
-        DeallocCtx* val = offsetCount->m_10;
+        hkMemoryRouter* offsetCount = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* val = offsetCount->m_heap;
         offsets.m_iArrayLength = 0;
         if ((offsets.m_iCapacity & 0x80000000) == 0)
         {
-            val->v4(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * 4);
+            val->bufFree(offsets.m_pData, (offsets.m_iCapacity & 0x3fffffff) * (int)sizeof(void*));
         }
     }
     TraceBuffer* pBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);

@@ -424,21 +424,9 @@ unsigned char* FUN_00cc0b50(unsigned char* apResult, unsigned int a2, unsigned i
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cc0000.h"
 
-struct hkMemoryRouterS
+inline hkMemoryRouter* getRouter()
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-inline hkMemoryRouterS* getRouter()
-{
-    return (hkMemoryRouterS*)&hkMemoryRouter::getInstance();
+    return &hkMemoryRouter::getInstance();
 }
 
 struct HavokElementArray;

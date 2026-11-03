@@ -429,7 +429,7 @@ struct Array
     unsigned int capacity;
     ~Array() throw()
     {
-        hkMemoryRouter* mgr = (hkMemoryRouter*)&hkMemoryRouter::getInstance();
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
         hkMemoryAllocator* alloc = mgr->m_heap;
         count = 0;
         if (!(capacity & 0x80000000))

@@ -269,26 +269,10 @@ struct Ms_cls
 };
 
 namespace fnv_00cbb790 {
-struct hkAllocatorCBB7
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void V2() throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCBB7
+inline hkMemoryAllocator& heapCBB7()
 {
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    hkAllocatorCBB7* m_pStreamAllocator;
-};
-inline hkAllocatorCBB7& heapCBB7()
-{
-    return *((hkMemoryRouterCBB7*)&hkMemoryRouter::getInstance())->m_pStreamAllocator;
+    return *hkMemoryRouter::getInstance().m_heap;
 }
 
 template <typename T> inline void copyCBB7(T* pDst, const T* pSrc, int n)
@@ -317,13 +301,13 @@ template <typename T> struct hkArrayCBB7
     }
     __forceinline hkArrayCBB7& operator=(const hkArrayCBB7& kOther)
     {
-        hkAllocatorCBB7& kAlloc = heapCBB7();
+        hkMemoryAllocator& kAlloc = heapCBB7();
         if (getCapacity() < kOther.m_iElementCount)
         {
             if ((m_iCapacityState & 0x80000000) == 0)
-                kAlloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+                kAlloc.bufFree(m_data, getCapacity() * sizeof(T));
             int iNumBytes = kOther.m_iElementCount * sizeof(T);
-            m_data = (T*)kAlloc.AllocateBufferWithSize(iNumBytes);
+            m_data = (T*)kAlloc.bufAlloc(iNumBytes);
             m_iCapacityState = iNumBytes / (int)sizeof(T);
         }
         m_iElementCount = kOther.m_iElementCount;
@@ -360,8 +344,8 @@ class FUN_00cbb4e0 : public hkpUnaryAction
 
     void* operator new(size_t uiSize)
     {
-        hkMemoryRouterCBB7* pkRouter = (hkMemoryRouterCBB7*)&hkMemoryRouter::getInstance();
-        hkReferencedObject* pkObj = (hkReferencedObject*)pkRouter->m_pStreamAllocator->AllocateMemoryBlock(uiSize);
+        hkMemoryRouter* pkRouter = &hkMemoryRouter::getInstance();
+        hkReferencedObject* pkObj = (hkReferencedObject*)pkRouter->m_heap->blockAlloc(uiSize);
         pkObj->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return pkObj;
     }

@@ -283,21 +283,13 @@ found:
     }
 }
 
-struct S_Heap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void ReturnMemory(void* p, int n) throw();
-};
 struct S_Holder
 {
     int unk00;
     int unk04;
     int unk08;
     int unk0c;
-    S_Heap* m10;
+    hkMemoryAllocator* m10;
 };
 struct S_B0
 {
@@ -332,29 +324,17 @@ struct S_D2c
     virtual ~S_D2c() throw()
     {}
 };
-struct S_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_Heap* m10;
-    __forceinline S_Heap& heap()
-    {
-        return *m10;
-    }
-};
 struct S_Arr
 {
     void** m_data;
     int m_iElementCount;
     int m_cap;
-    __forceinline void _clearAndDeallocate(S_Heap& h) throw()
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& h) throw()
     {
         int cap = m_cap;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
-            h.ReturnMemory(m_data, (cap & 0x3fffffff) * (int)sizeof(void*));
+            h.bufFree(m_data, (cap & 0x3fffffff) * (int)sizeof(void*));
         m_data = 0;
         m_cap = 0x80000000;
     }
@@ -703,7 +683,7 @@ FUN_00d690d0::~FUN_00d690d0() throw()
 {
     for (int i = m30.m_iElementCount - 1; i >= 0; i--)
         reinterpret_cast<::Phantom_d65f *>(this)->FUN_00d69010(i);
-    m30._clearAndDeallocate(((S_Router*)&hkMemoryRouter::getInstance())->heap());
+    m30._clearAndDeallocate(hkMemoryRouter::getInstance().heap());
 }
 
 extern "C" void _ReadWriteBarrier(void);
@@ -1349,14 +1329,6 @@ struct SpawnItem
     HkArr arr;
 };
 
-struct Holder_d68b20
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* volatile m_pAllocator;
-};
 
 
 struct FUN_00d68b20_cls
@@ -1398,8 +1370,8 @@ void FUN_00d68b20_cls::FUN_00d68b20(int idx)
         m_18->v05(item->arr.data[i], DAT_01269010, 0);
     }
     HkArr* a = &item->arr;
-    Holder_d68b20* h = (Holder_d68b20*)&hkMemoryRouter::getInstance();
-    void* alloc = h->m_pAllocator;
+    hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+    void* alloc = h->m_heap;
     int cap = (int)(a->m_iCapacity & 0x3fffffff);
     if (cap < 0)
     {

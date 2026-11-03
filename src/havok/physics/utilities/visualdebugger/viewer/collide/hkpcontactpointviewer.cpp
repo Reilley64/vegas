@@ -434,27 +434,11 @@ struct ProfList
     ProfEntry* end;
 };
 
-struct Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void Free(void* p, unsigned size);
-};
 
-struct StackHeap
-{
-    char* top;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* alloc;
-};
 
-inline StackHeap* GetStackHeap67()
+inline hkMemoryRouter* GetStackHeap67()
 {
-    return (StackHeap*)&hkMemoryRouter::getInstance();
+    return &hkMemoryRouter::getInstance();
 }
 
 struct Sub
@@ -502,11 +486,11 @@ struct Arr
         return data[index];
     }
 
-    __forceinline void Clear(Allocator* a)
+    __forceinline void Clear(hkMemoryAllocator* a)
     {
         count = 0;
         if ((cap & 0x80000000) == 0)
-            a->Free(data, (cap & 0x3fffffff) * 2);
+            a->bufFree(data, (cap & 0x3fffffff) * 2);
         data = 0;
         cap = 0x80000000;
     }
@@ -799,12 +783,12 @@ void Node::FUN_00de2da0(Cont* apCont)
                             m.count = 0;
                             m.cap = 0x80000000;
 
-                            StackHeap* pStackHeap = GetStackHeap67();
+                            hkMemoryRouter* pStackHeap = GetStackHeap67();
 
                             {
-                                unsigned short* pStackTop = (unsigned short*)pStackHeap->top;
+                                unsigned short* pStackTop = (unsigned short*)pStackHeap->m_stackCurrent;
 
-                                pStackHeap->top = pStackHeap->top + 0x200;
+                                pStackHeap->m_stackCurrent = pStackHeap->m_stackCurrent + 0x200;
 
                                 m.data = pStackTop;
                                 m.stk = pStackTop;
@@ -845,9 +829,9 @@ void Node::FUN_00de2da0(Cont* apCont)
                                 if (0 != result)
                                     m.count = 0;
 
-                                GetStackHeap67()->top = (char*)pStackSaved;
+                                GetStackHeap67()->m_stackCurrent = (char*)pStackSaved;
 
-                                m.Clear(GetStackHeap67()->alloc);
+                                m.Clear(GetStackHeap67()->m_heap);
                             }
                         }
                     }

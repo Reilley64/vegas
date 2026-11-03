@@ -21,21 +21,11 @@
 #include "fnv/symbols_01268000.h"
 
 
-struct AudioMgr
-{
-    int unk00, unk04, unk08;
-    hkMemoryAllocator* unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
 
 struct hkMemoryRouter;
-inline AudioMgr* audio()
+inline hkMemoryRouter* audio()
 {
-    return (AudioMgr*)&hkMemoryRouter::getInstance();
+    return &hkMemoryRouter::getInstance();
 }
 
 struct hkBool

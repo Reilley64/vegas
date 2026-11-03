@@ -71,14 +71,6 @@ void __cdecl RegisterSnapshotCommands()
 
 struct FUN_00c7be20_cls;
 
-struct FUN_00c7be20_holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
 
 struct FUN_00c7be20_src
 {
@@ -129,8 +121,8 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
     if (pSource != 0)
     {
         int iCount = pSource->m_0c;
-        FUN_00c7be20_holder* pAllocHolder = reinterpret_cast<FUN_00c7be20_holder*>(&hkMemoryRouter::getInstance());
-        void* allocator = pAllocHolder->m_pAllocator;
+        hkMemoryRouter* pAllocHolder = &hkMemoryRouter::getInstance();
+        void* allocator = pAllocHolder->m_heap;
         unsigned int uiCapacity = out->m_capFlags & 0x3fffffffu;
         if ((int)uiCapacity < iCount)
         {
@@ -338,25 +330,12 @@ class hkBool
 };
 
 
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-
-    hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct FUN_00c7be20_arr;
 
 inline hkMemoryAllocator& containerHeap()
 {
-    return ((NineIntegerRecord*)&hkMemoryRouter::getInstance())->heap();
+    return hkMemoryRouter::getInstance().heap();
 }
 
 struct hkCharArray

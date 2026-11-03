@@ -210,7 +210,7 @@ bool MagicTarget::FUN_00822f70(ActorValue::Index aeActorValue)
         ActiveEffect* effect = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
         if (effect && EFFECT_ITEM(effect)->GetAffectedActorValue() == aeActorValue)
         {
-            bool permanent = (int)((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((LocationDescriptor*)effect)))->GetIconFormID())) == 4 && !reinterpret_cast<::FUN_007df210_shell *>((effect))->FUN_007df210() ? 1 : 0;
+            bool permanent = reinterpret_cast<::ActiveEffectFields *>(effect)->spellType == 4 && !reinterpret_cast<::FUN_007df210_shell *>((effect))->FUN_007df210() ? 1 : 0;
             if (((MagicTargetActorDispatch*)a)->IsPlayerRef() && permanent &&
                 reinterpret_cast<::S3e60 *>((effect->GetEffectSetting()))->FUN_00403e60(2))
             {
@@ -887,7 +887,7 @@ void MagicTargetUpd::UpdateEffectsByFlags(uintptr_t auiFlags)
     {
         BSSimpleList<ActiveEffect*>* pNextEntry = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         ActiveEffect* pEffect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
-        if (pEffect && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ActiveEffectS*)pEffect)))->GetName())) == auiFlags)
+        if (pEffect && reinterpret_cast<std::uintptr_t>(reinterpret_cast<::ActiveEffectFields *>(pEffect)->spell) == auiFlags)
         {
             if (!((bool)(::GetByteAtOffset17((const char *)(pEffect)))))
             {
@@ -1589,7 +1589,7 @@ void MagicTarget::UpdateActiveEffects(float delta)
         {
             bool done = reinterpret_cast<::FUN_008240f0_shell *>((pEffect))->FUN_008240f0();
             bool bShouldUpdate = !done;
-            if (bShouldUpdate && ::FUN_00804b30((int)(((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((LocationDescriptor*)pEffect)))->GetIconFormID())))) &&
+            if (bShouldUpdate && ::FUN_00804b30(reinterpret_cast<::ActiveEffectFields *>(pEffect)->spellType) &&
                 reinterpret_cast<::S3e60 *>((pEffect->GetEffectSetting()))->FUN_00403e60(2) && ((bool)(::GetByteAtOffset17((const char *)(pEffect)))))
             {
                 bShouldUpdate = reinterpret_cast<::FUN_007df210_shell *>((pEffect))->FUN_007df210() || ((LowProcess*)pEffect)->GetActiveCombatTarget();
@@ -2005,6 +2005,14 @@ bool MagicTarget::AddActiveEffect(MagicCaster* caster, MagicItem* spell, ActiveE
     }
 }
 
+// The equip type component (BGSEquipType) of an AlchemyItem. Equip type 13 is alcohol.
+struct AlchemyEquipTypeView
+{
+    char pad00[0x9c];
+    void** m_ppEquipTypeVtable;
+    unsigned int uiEquipType;
+};
+
 // Scans the active effect list for a matching effect and, if found, adds apEffect's magnitude to it and returns whether stacking occurred.
 // @fnv 0x00824c00
 bool FUN_00824c00_cls::StackActiveEffect(MagicItem* apItem, MagicCaster* apCaster, ActiveEffect* apEffect)
@@ -2015,7 +2023,7 @@ bool FUN_00824c00_cls::StackActiveEffect(MagicItem* apItem, MagicCaster* apCaste
     if (apItem->GetType() == 7)
     {
         AlchemyItem* pAlchemy = dynamic_cast<AlchemyItem*>(apItem);
-        if (pAlchemy && ((unsigned int)(reinterpret_cast<::Callees *>((((CombatNode*)((char*)pAlchemy + 0x9c))))->FUN_00726070())) == 0xd)
+        if (pAlchemy && reinterpret_cast<AlchemyEquipTypeView*>(pAlchemy)->uiEquipType == 0xd)
             bAddictionValue = true;
     }
     while (!bStackedValue && pNode && !pNode->IsEmpty())
@@ -2027,7 +2035,7 @@ bool FUN_00824c00_cls::StackActiveEffect(MagicItem* apItem, MagicCaster* apCaste
         {
             AlchemyItem* pOther = dynamic_cast<AlchemyItem*>(apItem);
             if (pOther)
-                bTmpSame = ((unsigned int)(reinterpret_cast<::Callees *>((((CombatNode*)((char*)pOther + 0x9c))))->FUN_00726070())) == 0xd;
+                bTmpSame = reinterpret_cast<AlchemyEquipTypeView*>(pOther)->uiEquipType == 0xd;
         }
         if (pActive_2 && !pActive_2->IsDone() && bTmpSame &&
             (apCaster ? ((FUN_0045cd60_shell*)pActive_2)->FUN_0045cd60() == apCaster : true) &&

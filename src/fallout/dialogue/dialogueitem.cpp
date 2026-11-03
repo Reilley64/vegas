@@ -1,5 +1,6 @@
 // fallout/dialogue/dialogueitem.cpp: DialogueItem, DelStandIn, StandIn, DialogueItemResolver and more (14 functions)
 
+#include "fnv/save_load_game_view.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -231,7 +232,7 @@ struct FUN_0083ca90_t : DialogueItem
 void FUN_0083ca90_t::SaveDialogueItem()
 {
     char cCount4 = 0;
-    char* pCountPos8 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+    char* pCountPos8 = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&cCount4, 1);
     BSSimpleList<DialogueResponse*>* plist2 = &m_kResponseList;
     while (plist2 && !plist2->IsEmpty())

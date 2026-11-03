@@ -1,4 +1,7 @@
 // fallout/misc/main.cpp: Interface, SomeClass, BSFadeNodeCuller, Mover and more (192 functions)
+#include "fnv/av_object_fields.h"
+#include "fnv/vats_camera_data_view.h"
+#include "fnv/dx9_renderer_view.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <windows.h>
@@ -594,6 +597,28 @@
 #include "fnv/decl/FUN_00b63e90_cls.h"
 #include <stdio.h>
 
+// The camera of a rendered menu (FORenderedMenu), read by 0x008b6200.
+struct RenderedMenuCameraView
+{
+    char pad00[0x24];
+    NiCamera* camera;
+};
+
+// The scene graph node of a menu, read by 0x0056c7f0.
+struct MenuNodeView
+{
+    char pad00[0x2c];
+    NiNode* pNode;
+};
+
+// The leading OSGlobals members: state flags, the main window and the process instance.
+struct OSGlobalsView
+{
+    bool flags[8];
+    HWND window;
+    HINSTANCE instance;
+};
+
 
 // @fnv 0x004dc310
 bool __cdecl FUN_004dc310()
@@ -1123,7 +1148,7 @@ void Mover::FUN_0086f260()
         ::FUN_00aa4e40();
     reinterpret_cast<::GameTimerRecord *>((((GameTimerRecord*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->Update();
     ::DAT_011afe60 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::originalRuntimeFloatSetting807))))));
-    ::FUN_00c66760(reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->GetStoredFloatValue(), ((bool)(::FUN_00525420())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0086f260::TESObjectREFR *>(&::g_011f2250))))->GetName())) == 4);
+    ::FUN_00c66760(reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->GetStoredFloatValue(), ((bool)(::FUN_00525420())), reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4);
     ::FUN_0086f330();
     ::DAT_011dea30 =
         (float)(::DAT_011dea2b ? 0.0 : reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_0086f260::TG *>(&::g_timeGlobal)))))->GetStoredFloatValue() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::g_011c5724)))))));
@@ -1315,7 +1340,7 @@ void FUN_0086f390_shell::FUN_0086f390()
     reinterpret_cast<::FUN_00a257c0_Class *>((((::fnv_0086f390::HotkeyWheelDisplay *)(::FUN_007fdf30()))))->FUN_00a257c0(reinterpret_cast<::FUN_007013e0_shell *>(&((*reinterpret_cast<::fnv_0086f390::TimeGlobal *>(&::g_timeGlobal))))->FUN_007013e0());
     if (!*((unsigned char*)this + 6) && !(*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))->V8B(0))
     {
-        if ((((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0086f390::TESObjectREFR *>(&::g_011f2250))))->GetName())) == 4 && !reinterpret_cast<::C7D1360Actor *>(((*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_007d1360()) || ::FUN_00709bc0())
+        if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4 && !reinterpret_cast<::C7D1360Actor *>(((*reinterpret_cast<::fnv_0086f390::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_007d1360()) || ::FUN_00709bc0())
         {
             if (!Interface::IsMenuActive((Interface::enumMenus)0x3e9, 0) && !((bool)(::IsStartMenuFlag1Set())))
                 ((::fnv_0086f390::HotkeyWheelDisplay *)(::FUN_007fdf30()))->FUN_00a253d0();
@@ -4002,7 +4027,7 @@ void FUN_008746d0_shell::FUN_008746d0(BSRenderedTexture* apRenderTexture)
     Renderer_008746d0* prenderer = FUN_004a0e90();
     NiNode* pscenegraph = ((::fnv_008746d0::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_00950bb0(true)));
     SceneGraph_008746d0* p1stperson3d = ((::fnv_008746d0::SceneGraph_008746d0 *)(::FUN_0045c670()));
-    FUN_004a0fd0_shell* pculler = ((::fnv_008746d0::FUN_004a0fd0_shell *)(reinterpret_cast<::MiddleLowProcess *>((((MiddleLowProcess*)p1stperson3d)))->GetProcessInteger()));
+    FUN_004a0fd0_shell* pculler = ((::fnv_008746d0::FUN_004a0fd0_shell *)(reinterpret_cast<::SceneGraph *>(p1stperson3d)->cullingProcess));
     bool m_kFieldAfterWeaponFlags = reinterpret_cast<::FUN_008bbc10_shell *>((((FUN_008bbc10_shell*)::_g_thePlayer)))->FUN_008bbc10();
     BSRenderedTexture* p1stpersonBuffer = 0;
     ImageSpaceEffectParam savedBackground(0.0f, 0.0f, 0.0f, 0.0f);
@@ -4108,13 +4133,13 @@ struct FUN_00875e40_shell
 void FUN_00875e40_shell::FUN_00875e40(BSShaderAccumulator* pAccum, BSRenderedTexture* pTexture)
 {
     BSFaceGenNiNode* pkSceneGraph = (BSFaceGenNiNode*)::FUN_0045c670();
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00875e40::ArrSI *>(&::g_011f2250))))->GetName())) != 4)
+    if (reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode != 4)
         reinterpret_cast<::C52020Obj *>((pkSceneGraph))->FUN_00c52020(::FUN_00710ab0((::FUN_00710ab0_Class *)(::fnv_00875e40::FUN_00710ab0_Class *)((FUN_00710ab0_Class*)::_g_thePlayer)), 0, (::C52020Obj *)(void *)(0), 0);
     ::BSShaderManager::SetFOV(::FUN_00710ab0((::FUN_00710ab0_Class *)(::fnv_00875e40::FUN_00710ab0_Class *)((FUN_00710ab0_Class*)::_g_thePlayer)));
     {
         NiObjectCopyInfo kInfo(0x101);
         FUN_00875e40_Clone* pkCamera = ((FUN_00875e40_Src*)pkSceneGraph->GetAnimationData())->Clone(kInfo);
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00875e40::ArrSI *>(&::g_011f2250))))->GetName())) != 4)
+        if (reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode != 4)
             reinterpret_cast<::C52020Obj *>((pkSceneGraph))->FUN_00c52020(::FUN_00874900((const char*)::_g_thePlayer), 0, (::C52020Obj *)(pkCamera), 0);
         AutoMemHelper kMemHelper(0x27, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0x234c);
         reinterpret_cast<::BSShaderAccumulator *>((pAccum))->SetupDepth((::NiCamera *)(::fnv_00875e40::NiCamera *)((NiCamera*)pkSceneGraph->GetAnimationData()), (::NiCamera *)(::fnv_00875e40::NiCamera *)((NiCamera*)pkCamera), (::BSRenderedTexture *)(pTexture));
@@ -4517,7 +4542,7 @@ struct ArrSI
 struct FUN_004d61b0
 {
     char pad[0x30];
-    FUN_004d61b0(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, int, int);
+    FUN_004d61b0(HINSTANCE, HWND, unsigned int, const char*, unsigned int, unsigned int, int, int);
 };
 
 // @fnv 0x00876850
@@ -4525,10 +4550,10 @@ void FUN_00876850_shell::FUN_00876850(BSRenderedTexture* apRenderTexture, ImageS
                                       GraphicsRenderer* apRenderer, Sun* apSun)
 {
     Dev9* pd3ddevice;
-    int apCuller;
-    uintptr_t apSceneGraph;
+    NiCullingProcess* apCuller;
+    std::uintptr_t apSceneGraph;
     apSceneGraph = ::FUN_0045c670();
-    apCuller = reinterpret_cast<::MiddleLowProcess *>((((MiddleLowProcess*)apSceneGraph)))->GetProcessInteger();
+    apCuller = reinterpret_cast<::SceneGraph *>(apSceneGraph)->cullingProcess;
     if (apSun)
         reinterpret_cast<::FUN_00642890_Class *>((((FUN_00642890_Class*)apSun)))->FUN_00642890();
     ::FUN_00ba9420((const ::Source215 *)(void *)(((BSFaceGenNiNode*)apSceneGraph)->GetAnimationData()));
@@ -4541,14 +4566,14 @@ void FUN_00876850_shell::FUN_00876850(BSRenderedTexture* apRenderTexture, ImageS
     reinterpret_cast<::FUN_00876a00_Class *>((((FUN_00876a00_Class*)((::fnv_00876850::S5 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((((S4*)apImagespaceManager)))->FUN_004ebbc0(4))))))->FUN_00876a00();
     if (::DAT_011f9440)
         ::FUN_00bad4a0();
-    pd3ddevice = ((::fnv_00876850::Dev9 *)(reinterpret_cast<::FUN_004dc020_Class *>((((FUN_004dc020_Class*)FUN_004a0e90())))->FUN_004dc020()));
+    pd3ddevice = ((::fnv_00876850::Dev9 *)(reinterpret_cast<::NiDX9RendererView *>(FUN_004a0e90())->m_pkD3DDevice9));
     pd3ddevice->v104(0);
     pd3ddevice->v100(0, 0, 0, 0);
     if (((intptr_t)(::FUN_00683a60())))
         ::FUN_00714900();
     if ((unsigned int)(*reinterpret_cast<::fnv_00876850::Flt *>(&::DAT_011fa008)))
     {
-        new FUN_004d61b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())), (unsigned int)(*reinterpret_cast<::fnv_00876850::Flt *>(&::DAT_011fa008)),
+        new FUN_004d61b0(reinterpret_cast<::OSGlobalsView *>(this)->instance, reinterpret_cast<::OSGlobalsView *>(this)->window, (unsigned int)(*reinterpret_cast<::fnv_00876850::Flt *>(&::DAT_011fa008)),
                          "Render Passes", 0x80000000, 0x80000000, 800, 600);
         (GO&)(*reinterpret_cast<::fnv_00876850::Flt *>(&::DAT_011fa008)) = 0;
     }
@@ -6871,7 +6896,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                     if (GetActiveWindow() == gameWindow3 || ((unsigned char)(reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>((((Receiver86*)(*reinterpret_cast<uintptr_t *>(&::g_TES)))))->FUN_00451530())) ||
                         (*reinterpret_cast<::Receiver86 *>(&::g_011deb30)).FUN_00559450() || *(*reinterpret_cast<::Setting86 *>(&::g_011deed8)).FUN_00408d60())
                     {
-                        deviceStatus13 = ((::Device86 *)(reinterpret_cast<::FUN_004dc020_Class *>((((::Receiver86 *)(::FUN_0043c4b0()))))->FUN_004dc020()))->TestCooperativeLevel();
+                        deviceStatus13 = ((::Device86 *)(reinterpret_cast<::NiDX9RendererView *>(::FUN_0043c4b0())->m_pkD3DDevice9))->TestCooperativeLevel();
                         if (deviceStatus13 < 0)
                         {
                             ((::Receiver86 *)(::FUN_0043c4b0()))->FUN_0086ba10();
@@ -8545,7 +8570,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     DAT_011dea20 = ((::SkyInit *)(::Sky::GetInstance()));
     ::fnv_00877730::FUN_00877730();
     int mode = FUN_0086d470();
-    ScenePart* root_2 = ((::ScenePart *)(::FUN_007a1480()));
+    ScenePart* root_2 = reinterpret_cast<::ScenePart *>(::DAT_011dea14);
     if (root_2)
     {
         ::FUN_00a89af0((std::intptr_t)(((::ScenePart *)(reinterpret_cast<::FUN_004505a0_cls *>((DAT_011dea20))->FUN_004505a0()))));
@@ -8930,7 +8955,7 @@ void MainLoop::FUN_0086e650()
     reinterpret_cast<::TESForm *>(this)->ClearData();
     ::FUN_0049fff0((::BGSDecalManager *)(FUN_0049fef0()));
     ((::FrameUpdate::Service *)(::FUN_00524c90()))->FUN_00712e60(&::DAT_011ad840);
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011f2250))))->GetName())) != 4)
+    if (reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode != 4)
         reinterpret_cast<::C52020Obj *>((((::FrameUpdate::Service *)(::FUN_0045c670()))))->FUN_00c52020(::FUN_00710ab0((::FUN_00710ab0_Class *)((*reinterpret_cast<::FrameUpdate::Service * *>(&::_g_thePlayer)))), 0, (::C52020Obj *)(0), true);
     ::BSShaderManager::SetFOV(::FUN_00710ab0((::FUN_00710ab0_Class *)((*reinterpret_cast<::FrameUpdate::Service * *>(&::_g_thePlayer)))));
     void* sceneB = (*reinterpret_cast<::FrameUpdate::Service *>(&::g_011deb7c)).FUN_00559450()->FUN_006629f0();
@@ -9117,7 +9142,7 @@ void RenderMgr::FUN_008707c0(void* p1, bool p2)
     {
         AnimData* anim3 = ((::fnv_008707c0::AnimData *)(::FUN_00524c90()));
         FGen* fg7 = (FGen*)((::BSFaceGenNiNode *)(::FUN_0045c670()));
-        FNode* pNode = ((::fnv_008707c0::FNode *)(reinterpret_cast<::MiddleLowProcess *>((fg7))->GetProcessInteger()));
+        FNode* pNode = ((::fnv_008707c0::FNode *)(reinterpret_cast<::SceneGraph *>(fg7)->cullingProcess));
         reinterpret_cast<::FUN_004a0fd0_shell *>((pNode))->FUN_004a0fd0((::NiNode *)(name));
         reinterpret_cast<::FUN_0041fd00_shell *>((pNode))->FUN_0041fd00((intptr_t)(anim3));
         reinterpret_cast<::fnv_00b5e870::Self *>((((::fnv_008707c0::SSN *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5e870((::fnv_00b5e870::ParamObj *)(pNode));
@@ -9450,8 +9475,8 @@ void ShadowHost::FUN_00871290()
             if (playerNode50)
             {
                 ShadowScene* scene9 = (ShadowScene*)((::BSFaceGenNiNode *)(::FUN_0045c670()));
-                ShadowView* view8 = ((::ShadowView *)(reinterpret_cast<::MiddleLowProcess *>((scene9))->GetProcessInteger()));
-                reinterpret_cast<::FUN_0041fd00_shell *>((view8))->FUN_0041fd00((intptr_t)(scene9->FUN_006629f0()));
+                ShadowView* view8 = ((::ShadowView *)(reinterpret_cast<::SceneGraph *>(scene9)->cullingProcess));
+                reinterpret_cast<::FUN_0041fd00_shell *>((view8))->FUN_0041fd00((int)(scene9->FUN_006629f0()));
                 reinterpret_cast<::S694a0 *>((view8))->FUN_00a694a0(((void *)&(reinterpret_cast<::NiCamera *>((scene9->FUN_006629f0()))->GetViewFrustum())));
                 bool playerHidden14 = reinterpret_cast<::FUN_00456630_helper *>((playerNode50))->FUN_00456610();
                 reinterpret_cast<::TaskQueueInterface *>((playerNode50))->QueueActorDisarm(true);
@@ -9588,7 +9613,7 @@ void HudRenderPass::FUN_00871a50()
             RenderNode* node_2 = 0;
             if (hide)
             {
-                node_2 = ((::fnv_00871a50::RenderNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::fnv_00871a50::UiMenu *)(::FUN_00a09030(1001)))))->FUN_0056c7f0()));
+                node_2 = ((::fnv_00871a50::RenderNode *)(reinterpret_cast<::MenuNodeView *>((::fnv_00871a50::UiMenu *)(::FUN_00a09030(1001)))->pNode));
                 previous5 = reinterpret_cast<::FUN_00456630_helper *>((node_2))->FUN_00456610();
                 reinterpret_cast<::TaskQueueInterface *>((node_2))->QueueActorDisarm(true);
             }
@@ -9876,8 +9901,8 @@ void FUN_00871dc0_class::FUN_00871dc0()
     if (FUN_00702680(0x40c, 0) && ((bool)(::IsStartMenuFlag1Set())))
     {
         BSCullingProcess cull(0);
-        void* camera = ((void *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>((((::fnv_00871dc0::RenderMenu *)(::FUN_00707ad0()))))->GetFlt()));
-        reinterpret_cast<::FUN_0041fd00_shell *>(&(cull))->FUN_0041fd00((intptr_t)(camera));
+        void* camera = ((void *)(reinterpret_cast<::RenderedMenuCameraView *>(::FUN_00707ad0())->camera));
+        reinterpret_cast<::FUN_0041fd00_shell *>(&(cull))->FUN_0041fd00((int)(camera));
         reinterpret_cast<::FUN_004a0fd0_shell *>(&(cull))->FUN_004a0fd0((::NiNode *)(::fnv_00871dc0::MenuTarget *)(unk98.Get()));
         reinterpret_cast<::BSA_ *>((((SceneObject*)unk98.Get())))->FUN_004a1020(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))));
         ::FUN_00b6bee0(camera, ((void *)(reinterpret_cast<::TESRegionDataMap *>((((::fnv_00871dc0::RenderMenu *)(::FUN_00707ad0()))))->GetRegionMapName())), (::BSShaderAccumulator *)(::fnv_00871dc0::BSCullingProcess *)(&cull));
@@ -10702,7 +10727,7 @@ struct Main
 void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pass)
 {
     Scene* renderSlot52 = ((::SetRenderCamera::Scene *)(::FUN_0045c670()));
-    Context* contextSlot26 = ((::SetRenderCamera::Context *)(reinterpret_cast<::MiddleLowProcess *>((renderSlot52))->GetProcessInteger()));
+    Context* contextSlot26 = ((::SetRenderCamera::Context *)(reinterpret_cast<::SceneGraph *>(renderSlot52)->cullingProcess));
     Scene* playerSceneSlot0 = ((::SetRenderCamera::Scene *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer))))->FUN_00950bb0(1)));
     reinterpret_cast<::TaskQueueInterface *>((playerSceneSlot0))->QueueActorDisarm(0);
     Scene* viewSlot23 = renderSlot52->FUN_006629f0();
@@ -10765,7 +10790,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
                 offset = ([&] { ::SetRenderCamera::Vec difference(0, 0, 0); reinterpret_cast<::FUN_00439ef0_class *>((((::SetRenderCamera::Vec *)(::FUN_0045bb80((intptr_t)(((::SetRenderCamera::Scene *)(::FUN_007721a0((char *)((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer))))))))))))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(*((::SetRenderCamera::Vec *)(::FUN_0045bb80((intptr_t)((*reinterpret_cast<::SetRenderCamera::Scene * *>(&::DAT_011e07d0))))))))); return difference; }());
             Scene* render2Slot14 = ((::SetRenderCamera::Scene *)(::FUN_0045c670()));
             Scene* view2Slot10 = render2Slot14->FUN_006629f0();
-            Context* context2Slot0 = ((::SetRenderCamera::Context *)(reinterpret_cast<::MiddleLowProcess *>((render2Slot14))->GetProcessInteger()));
+            Context* context2Slot0 = ((::SetRenderCamera::Context *)(reinterpret_cast<::SceneGraph *>(render2Slot14)->cullingProcess));
             Pointer texture2Slot11(texture);
             Vec savedPosSlot10 = *((::SetRenderCamera::Vec *)(::FUN_0045bb80((intptr_t)(view2Slot10))));
             reinterpret_cast<::FUN_004f00e0_shell *>((view2Slot10))->FUN_004f00e0((void *)&(const ::SetRenderCamera::Vec &)((*(::SetRenderCamera::Vec *)(reinterpret_cast<::Point3Offset *>(&(savedPosSlot10))->ProjectileLaunched((::NiPoint3 *)&(offset), {})))));
@@ -10815,7 +10840,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
         ::FUN_00870790((::_Fake_FUN_00870790 *)(((::SetRenderCamera::Scene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), (*(::NiPoint3 *)&(const ::SetRenderCamera::Vec &)(*((::SetRenderCamera::Vec *)&(reinterpret_cast<::NiAVObject *>((((::SetRenderCamera::VecRef *)(reinterpret_cast<::FUN_009611e0_shell *>((viewSlot23))->FUN_009611e0()))))->FUN_0043c490())))));
         reinterpret_cast<::_Fake_FUN_008750e0 *>((((::SetRenderCamera::Scene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_008750e0((*(::NiPoint3 *)&(const ::SetRenderCamera::Vec &)((*reinterpret_cast<::SetRenderCamera::Vec *>((void *)&::NiPoint3::ZERO)))));
     }
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::SetRenderCamera::Mode *>(&::g_011f2250))))->GetName())) != 4)
+    if (reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode != 4)
         reinterpret_cast<::C52020Obj *>((((::SetRenderCamera::Scene *)(::FUN_0045c670()))))->FUN_00c52020(::FUN_00710ab0((::FUN_00710ab0_Class *)((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer)))), 0, (::C52020Obj *)(0), 0);
     ::BSShaderManager::SetFOV(::FUN_00710ab0((::FUN_00710ab0_Class *)((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer)))));
     if (extra && !reinterpret_cast<::FUN_00456630_helper *>((((::SetRenderCamera::Scene *)(::fnv_0043b230::FUN_0043b230((const char *)(extra))))))->FUN_00456610())
@@ -10824,7 +10849,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
         reinterpret_cast<::TaskQueueInterface *>((((::SetRenderCamera::Scene *)(::fnv_0043b230::FUN_0043b230((const char *)(extra))))))->QueueActorDisarm(0);
         Scene* render4Slot20 = ((::SetRenderCamera::Scene *)(::FUN_0045c670()));
         Scene* view4Slot48 = render4Slot20->FUN_006629f0();
-        Context* context4 = ((::SetRenderCamera::Context *)(reinterpret_cast<::MiddleLowProcess *>((render4Slot20))->GetProcessInteger()));
+        Context* context4 = ((::SetRenderCamera::Context *)(reinterpret_cast<::SceneGraph *>(render4Slot20)->cullingProcess));
         Pointer texture4(texture);
         reinterpret_cast<::FUN_004a0fd0_shell *>((context4))->FUN_004a0fd0((::NiNode *)(::SetRenderCamera::Scene *)(texture4.FUN_00559450()));
         reinterpret_cast<::FUN_00936aa0_shell *>((texture4.FUN_00559450()))->FUN_00936aa0(1);
@@ -11124,8 +11149,8 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     float e;
     V876 j;
     p = (Player876*)((::BSFaceGenNiNode *)(::FUN_0045c670()));
-    s = ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::MiddleLowProcess *>((p))->GetProcessInteger()));
-    i = ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>((((::fnv_008761e0::Camera876 *)(::FUN_00707ad0()))))->GetFlt()));
+    s = ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::SceneGraph *>(p)->cullingProcess));
+    i = ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::RenderedMenuCameraView *>(::FUN_00707ad0())->camera));
     reinterpret_cast<::S148c0 *>((input))->FUN_007148c0(0, 4);
     f = ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::TESRegionDataMap *>((((::fnv_008761e0::Camera876 *)(::FUN_00707ad0()))))->GetRegionMapName()));
     reinterpret_cast<::BGSExplosion *>((s))->FUN_004fb0b0((::BGSImpactDataSet *)(true));
@@ -11141,11 +11166,11 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
         reinterpret_cast<::FUN_00a59c60_cls *>((f))->FUN_00a59c60((std::intptr_t)(&cf));
         reinterpret_cast<::FUN_00440460_S *>((f))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)(&ba.pos));
         reinterpret_cast<::NiTransform *>(&(b))->ResetToIdentity();
-        if (a && ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0())))
+        if (a && ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent)))
         {
-            b = *((::fnv_008761e0::T876 *)(::FUN_006a9540((char *)(((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))));
-            reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)((V876*)((::fnv_008761e0::Camera876 *)(::FUN_0045bb80((intptr_t)((*reinterpret_cast<::fnv_008761e0::Camera876 * *>(&::DAT_011e07d0))))))));
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00a59c60((std::intptr_t)(&cf));
+            b = *((::fnv_008761e0::T876 *)(::FUN_006a9540((char *)(((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))));
+            reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)((V876*)((::fnv_008761e0::Camera876 *)(::FUN_0045bb80((int)((*reinterpret_cast<::fnv_008761e0::Camera876 * *>(&::DAT_011e07d0))))))));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))->FUN_00a59c60((std::intptr_t)(&cf));
         }
 
         ((::_Fake_FUN_008750e0 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))->FUN_008750e0(*(NiPoint3*)((::fnv_008761e0::V876 *)(reinterpret_cast<::P3 *>((((::fnv_008761e0::Camera876 *)(::FUN_0045bb80((intptr_t)(f))))))->FUN_004a0bd0((::P3 *)(::fnv_008761e0::V876 *)(&j)))));
@@ -11205,10 +11230,10 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     {
         reinterpret_cast<::FUN_00a59c60_cls *>((f))->FUN_00a59c60((std::intptr_t)(&cf));
         reinterpret_cast<::FUN_00546780_shell *>((f))->FUN_00546780(eb);
-        if (a && ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0())))
+        if (a && ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent)))
         {
-            reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)(&b.pos));
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::FUN_009611e0_shell *>((a))->FUN_009611e0()))))->FUN_00a59c60((std::intptr_t)(&cf));
+            reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)(&b.pos));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))->FUN_00a59c60((std::intptr_t)(&cf));
         }
         ((::_Fake_FUN_008750e0 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))->FUN_008750e0(*(NiPoint3*)&(*reinterpret_cast<::fnv_008761e0::V876 *>((void *)&::NiPoint3::ZERO)));
     }
@@ -11934,7 +11959,7 @@ struct MainView
 void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool drawInterface)
 {
     ViewNode* root3 = ((::fnv_00873200::ViewNode *)(::FUN_0045c670()));
-    ViewNode* process = ((::fnv_00873200::ViewNode *)(reinterpret_cast<::MiddleLowProcess *>((root3))->GetProcessInteger()));
+    ViewNode* process = ((::fnv_00873200::ViewNode *)(reinterpret_cast<::SceneGraph *>(root3)->cullingProcess));
     ViewNode* otherProcess;
     ViewNode* cameraX;
     void* renderer2;
@@ -12239,7 +12264,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
     ::FUN_008746c0();
     // Render the auxiliary scene views through the secondary culling process.
     renderer2 = FUN_004a0e90();
-    otherProcess = ((::fnv_00873200::ViewNode *)(reinterpret_cast<::MiddleLowProcess *>((((::fnv_00873200::ViewNode *)(::FUN_0045c670()))))->GetProcessInteger()));
+    otherProcess = ((::fnv_00873200::ViewNode *)(reinterpret_cast<::SceneGraph *>(((::fnv_00873200::ViewNode *)(::FUN_0045c670())))->cullingProcess));
     reinterpret_cast<::BGSExplosion *>((otherProcess))->FUN_004fb0b0((::BGSImpactDataSet *)(true));
     ::FUN_00b803b0((::Camera_00b803b0 *)(::fnv_00873200::ViewNode *)((*reinterpret_cast<::fnv_00873200::ViewHandle *>(&::g_011deb7c)).FUN_00559450()->FUN_006629f0()));
     reinterpret_cast<::FUN_0041fd00_shell *>((otherProcess))->FUN_0041fd00((intptr_t)(FUN_00874690()));
@@ -12250,7 +12275,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
     reinterpret_cast<::BGSExplosion *>((otherProcess))->FUN_004fb0b0((::BGSImpactDataSet *)(false));
     ::FUN_008746c0();
     renderer2 = FUN_004a0e90();
-    otherProcess = ((::fnv_00873200::ViewNode *)(reinterpret_cast<::MiddleLowProcess *>((((::fnv_00873200::ViewNode *)(::FUN_0045c670()))))->GetProcessInteger()));
+    otherProcess = ((::fnv_00873200::ViewNode *)(reinterpret_cast<::SceneGraph *>(((::fnv_00873200::ViewNode *)(::FUN_0045c670())))->cullingProcess));
     reinterpret_cast<::BGSExplosion *>((otherProcess))->FUN_004fb0b0((::BGSImpactDataSet *)(true));
     ::FUN_00b803b0((::Camera_00b803b0 *)(::fnv_00873200::ViewNode *)((*reinterpret_cast<::fnv_00873200::ViewHandle *>(&::g_011deb7c)).FUN_00559450()->FUN_006629f0()));
     reinterpret_cast<::FUN_0041fd00_shell *>((otherProcess))->FUN_0041fd00((intptr_t)(((::fnv_00873200::ViewNode *)(::fnv_008746b0::FUN_008746b0()))));
@@ -12693,7 +12718,7 @@ struct MainX
 void* MainX::UpdateCamera()
 {
     reinterpret_cast<::_Cam_00712e60 *>((((ISMgr*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))->FUN_00712e60((const ::_Rect16_00712e60 &)((*reinterpret_cast<::fnv_00872b00::ImageSpaceEffectParam *>(&::DAT_011ad840))));
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00872b00::StateObj *>(&::g_011f2250))))->GetName())) != 4)
+    if (reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode != 4)
     {
         reinterpret_cast<::C52020Obj *>((((ISHolder*)((::BSFaceGenNiNode *)(::FUN_0045c670())))))->FUN_00c52020(::FUN_00710ab0((::FUN_00710ab0_Class *)((*reinterpret_cast<::fnv_00872b00::PlayerCharacter * *>(&::_g_thePlayer)))), 0, (::C52020Obj *)(0), true);
     }
@@ -15004,9 +15029,9 @@ void S00875bf0_Shell875::FUN_00875bf0()
     if (!(*reinterpret_cast<::Receiver86 *>(&::g_011deb38)).FUN_00559450() && ::FUN_00707ad0() && ::FUN_00707ad0() != ((::FORenderedMenu *)(::fnv_00705990::FUN_00705990())))
     {
         S00875bf0_FaceNode875* face = (S00875bf0_FaceNode875*)((::BSFaceGenNiNode *)(::FUN_0045c670()));
-        S00875bf0_Scene875* scene = ((::S00875bf0_Scene875 *)(reinterpret_cast<::MiddleLowProcess *>((((S00875bf0_Face875*)face)))->GetProcessInteger()));
+        S00875bf0_Scene875* scene = ((::S00875bf0_Scene875 *)(reinterpret_cast<::SceneGraph *>(((S00875bf0_Face875*)face))->cullingProcess));
         reinterpret_cast<::FUN_00c4f270_Class *>((scene))->FUN_00c4f270(1);
-        S00875bf0_Cam875* camera = ((::S00875bf0_Cam875 *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>((::FUN_00707ad0()))->GetFlt())) ? ((::S00875bf0_Cam875 *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>((::FUN_00707ad0()))->GetFlt()))
+        S00875bf0_Cam875* camera = ((::S00875bf0_Cam875 *)(reinterpret_cast<::RenderedMenuCameraView *>(::FUN_00707ad0())->camera)) ? ((::S00875bf0_Cam875 *)(reinterpret_cast<::RenderedMenuCameraView *>(::FUN_00707ad0())->camera))
                                                                   : (S00875bf0_Cam875*)face->GetAnimationData();
         reinterpret_cast<::FUN_0041fd00_shell *>((scene))->FUN_0041fd00((intptr_t)(camera));
         reinterpret_cast<::FUN_004a0fd0_shell *>((scene))->FUN_004a0fd0((::NiNode *)(void *)(this->scene.FUN_00559450()));

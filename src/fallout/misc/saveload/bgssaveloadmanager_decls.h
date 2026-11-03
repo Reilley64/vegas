@@ -167,6 +167,9 @@ class ModelLoader
 class TES
 {
   public:
+    void** m_ppVirtualMethodTable;
+    void* pGridDistantArray;
+    void* pGridCellArray;
 };
 class ActorMover
 {

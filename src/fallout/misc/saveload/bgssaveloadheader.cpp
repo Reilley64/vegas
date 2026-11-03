@@ -200,7 +200,7 @@ void FUN_0084d4b0(HeaderFile* file)
     }
     reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&height5), 4, false);
     reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&width2), 4, false);
-    unsigned int numberVal = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->GetName()));
+    unsigned int numberVal = reinterpret_cast<::BGSSaveLoadManager *>(::DAT_011de134)->m_uiSaveLoadSubstate;
     reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&numberVal), 4, false);
     reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(reinterpret_cast<::FUN_0055d520_shell *>(((*reinterpret_cast<::HeaderPlayer * *>(&::_g_thePlayer))))->FUN_0055d520(), false);
     reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(::FUN_0047e0e0((::Actor *)((*reinterpret_cast<::HeaderPlayer * *>(&::_g_thePlayer)))), false);

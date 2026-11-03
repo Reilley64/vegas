@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/form_fields.h"
 #include "fnv/decl/C857A10Buffer.h"
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/FUN_00407820_shell.h"
@@ -338,9 +339,9 @@ void FUN_0082b200_shell::SaveLoad(Actor* apActor)
     unsigned int irefID;
     reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(apActor);
     irefID = 0;
-    if (*(unsigned int*)((char*)this + 0x58))
-        irefID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0_shell*)*(uintptr_t*)((char*)this + 0x58))))->FUN_0084e3a0()));
-    reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10((const unsigned int *)((intptr_t)&irefID), 4);
+    if (*(void**)((char*)this + 0x58))
+        irefID = reinterpret_cast<::FormFields *>(*(void**)((char*)this + 0x58))->iFormID;
+    reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10((const unsigned int *)((int)&irefID), 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x40)
     {
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((char*)this + 0x50, 4);

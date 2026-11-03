@@ -1,6 +1,7 @@
 // fallout/magic/magichiteffect.cpp: MagicHitEffect (17 functions)
 
 #include <cstdint>
+#include "fnv/magic_hit_effect_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -497,16 +498,16 @@ struct FUN_0081bc70_s
 // @fnv 0x0081bc70
 void FUN_0081bc70_s::FUN_0081bc70(Node* apArg)
 {
-    if (((::Node *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel())))
+    if (((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pTarget)))
     {
-        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((int)(((void *)(reinterpret_cast<::LowProcess *>((((::Node *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel()))))->GetTarget()))));
+        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((int)(((void *)(reinterpret_cast<::LowProcess *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pTarget))))->GetTarget()))));
         if (apArg)
         {
-            if (((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) && ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00545cb0())))
+            if (((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell)) && ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell))))->FUN_00545cb0())))
             {
-                if (!((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0())) || ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00545cb0())) != ((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0()))))->FUN_009611e0())))
+                if (!((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0())) || ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell))))->FUN_00545cb0())) != ((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0()))))->FUN_009611e0())))
                 {
-                    VObj* m = ((::VObj *)(reinterpret_cast<::TESObjectCELL *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->GetDynamicNode()));
+                    VObj* m = ((::VObj *)(reinterpret_cast<::TESObjectCELL *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell))))->GetDynamicNode()));
                     m->v55(apArg, 1);
                 }
             }

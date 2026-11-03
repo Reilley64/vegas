@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/magic_projectile_fields.h"
+#include "fnv/active_effect_fields.h"
 #include <new>
 #include "fnv/decl/EffectSetting.h"
 #include "fnv/decl/FUN_00404420_shell.h"
@@ -237,10 +239,10 @@ struct ArrSI
 struct FUN_0081aa80
 {
     Form* m_pForm;
-    unsigned int m_uiCurrentValue;
+    EffectItem* m_pEffect;
     FUN_0081aa80* m_pNext;
 
-    FUN_0081aa80(Form* pForm, unsigned int value, FUN_0081aa80* pNext);
+    FUN_0081aa80(Form* pForm, EffectItem* pEffect, FUN_0081aa80* pNext);
 };
 
 struct S3c60
@@ -258,16 +260,16 @@ bool S3c60::AddAudioFormEntry(Form* pForm, ArrSI* pAudio)
     if (!pForm || !pAudio)
         return false;
 
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pAudio))->GetName())) != reinterpret_cast<::EffectSetting *>(this)->GetArchetype())
+    if (reinterpret_cast<::ActiveEffectFields *>(pAudio)->spell != reinterpret_cast<::MagicProjectileFields *>(this)->spell)
         return true;
 
     Form* form = pForm->FUN_00800004();
-    unsigned int value = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pAudio))->FUN_0084e3a0()));
+    EffectItem* value = reinterpret_cast<::ActiveEffectFields *>(pAudio)->effect;
 
     FUN_0081aa80* node = m_pEntries;
     while (node)
     {
-        if (node->m_pForm == form && node->m_uiCurrentValue == value)
+        if (node->m_pForm == form && node->m_pEffect == value)
             return false;
         node = node->m_pNext;
     }
@@ -1838,44 +1840,51 @@ struct Host096d450
 };
 
 
+// The caster's current spell, used when no spell is passed in.
+struct CasterSpellView
+{
+    char pad00[0x14];
+    void* pCurrentSpell;
+};
+
 struct FUN_0080f810
 {
     unsigned char m_data[0xc4];
 
-    FUN_0080f810(void* a, int b, GameTimerRecord* c, unsigned int d, Vector3 e, Vector3 f, unsigned int g, unsigned int h);
+    FUN_0080f810(void* a, int b, GameTimerRecord* c, void* d, Vector3 e, Vector3 f, unsigned int g, unsigned int h);
 };
 
 struct FUN_00811980
 {
     unsigned char m_data[0xd8];
 
-    FUN_00811980(void* a, int b, GameTimerRecord* c, unsigned int d, Vector3 e, Vector3 f);
+    FUN_00811980(void* a, int b, GameTimerRecord* c, void* d, Vector3 e, Vector3 f);
 };
 
 struct FUN_00819360
 {
     unsigned char m_data[0xd0];
 
-    FUN_00819360(void* a, int b, GameTimerRecord* c, unsigned int d, Vector3 e, Vector3 f, unsigned int g, unsigned int h);
+    FUN_00819360(void* a, int b, GameTimerRecord* c, void* d, Vector3 e, Vector3 f, unsigned int g, unsigned int h);
 };
 
 struct FUN_00822920
 {
     unsigned char m_data[0xa8];
 
-    FUN_00822920(void* a, int b, GameTimerRecord* c, unsigned int d, Vector3 e, Vector3 f);
+    FUN_00822920(void* a, int b, GameTimerRecord* c, void* d, Vector3 e, Vector3 f);
 };
 
-FUN_0080f810::FUN_0080f810(void*, int, GameTimerRecord*, unsigned int, Vector3, Vector3, unsigned int, unsigned int)
+FUN_0080f810::FUN_0080f810(void*, int, GameTimerRecord*, void*, Vector3, Vector3, unsigned int, unsigned int)
 {}
 
-FUN_00811980::FUN_00811980(void*, int, GameTimerRecord*, unsigned int, Vector3, Vector3)
+FUN_00811980::FUN_00811980(void*, int, GameTimerRecord*, void*, Vector3, Vector3)
 {}
 
-FUN_00819360::FUN_00819360(void*, int, GameTimerRecord*, unsigned int, Vector3, Vector3, unsigned int, unsigned int)
+FUN_00819360::FUN_00819360(void*, int, GameTimerRecord*, void*, Vector3, Vector3, unsigned int, unsigned int)
 {}
 
-FUN_00822920::FUN_00822920(void*, int, GameTimerRecord*, unsigned int, Vector3, Vector3)
+FUN_00822920::FUN_00822920(void*, int, GameTimerRecord*, void*, Vector3, Vector3)
 {}
 
 // Constructs one of four class instances based on projectile->FUN_004086a0() and passes it to DAT_011e0e80.
@@ -1884,9 +1893,9 @@ void __cdecl FUN_0081e040(void* a, unsigned int b, unsigned int c, int d, GameTi
                           Vector3 first, Vector3 second)
 {
     void* result = 0;
-    unsigned int currentTime;
+    void* currentTime;
 
-    currentTime = projectile ? (uintptr_t)projectile : reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(timer))->FUN_00825c00();
+    currentTime = projectile ? static_cast<void*>(projectile) : reinterpret_cast<CasterSpellView *>(timer)->pCurrentSpell;
 
     switch (reinterpret_cast<::S86a0 *>((projectile))->FUN_004086a0())
     {
@@ -3007,8 +3016,8 @@ void Actor80F::FUN_0080feb0()
         if (!reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::Game80F * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())
         {
             Target80F* pkTarget = 0;
-            if (((::Owner80F *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())))
-                pkTarget = ((::Owner80F *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->GetTarget();
+            if (((::Owner80F *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)))
+                pkTarget = ((::Owner80F *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->GetTarget();
             if (pkTarget)
             {
                 if (pkTarget->IsActor())
@@ -4185,8 +4194,8 @@ void Actor80F::FUN_00813f30()
         if (!reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::fnv_00813f30::Game80F * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())
         {
             Target80F* pkTarget = 0;
-            if (((::fnv_00813f30::Owner80F *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())))
-                pkTarget = ((::fnv_00813f30::Owner80F *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->GetTarget();
+            if (((::fnv_00813f30::Owner80F *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)))
+                pkTarget = ((::fnv_00813f30::Owner80F *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->GetTarget();
             if (pkTarget)
             {
                 if (pkTarget->IsActor())
@@ -5354,9 +5363,9 @@ void Actor::FUN_00819ca0()
         reinterpret_cast<::FUN_008105c0_Class *>(&(state))->SetPointer(new ColorData(1.0f, 1));
         reinterpret_cast<::FUN_00810530_c *>(&(state))->FUN_00810530(0);
         Resource* texture = 0;
-        if (((::fnv_00819ca0::Scene *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())))
+        if (((::fnv_00819ca0::Scene *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)))
         {
-            Scene* sceneObject = ((::fnv_00819ca0::Scene *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()));
+            Scene* sceneObject = ((::fnv_00819ca0::Scene *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster));
             texture = sceneObject->getTexture();
         }
         if (!reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::fnv_00819ca0::RenderGlobals * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())

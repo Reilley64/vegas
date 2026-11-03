@@ -1,6 +1,7 @@
 // fallout/magic/activeeffect.cpp: Interface, EffectSetting, Self, EffectSaveShell (47 functions)
 
 #include <cstdint>
+#include "fnv/save_load_game_view.h"
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
@@ -272,11 +273,11 @@ void ActiveEffect::Finalize()
 // @fnv 0x00804bc0
 void ActiveEffect::SetEffectiveness(float effectiveness)
 {
-    if (reinterpret_cast<::FUN_00408680_shell *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<EffectItem*>(((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<MagicCaster*>(this)))->FUN_0084e3a0())))))->FUN_00825c00()))))->HasAllFlags(0x180))
+    if (reinterpret_cast<::FUN_00408680_shell *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->HasAllFlags(0x180))
         return;
     if (effectiveness == 1.0)
         return;
-    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<EffectItem*>(((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<MagicCaster*>(this)))->FUN_0084e3a0())))))->FUN_00825c00()))))->FUN_00403e60(0x100))
+    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x100))
     {
         reinterpret_cast<::FUN_00693d50_shell *>(this)->FUN_00693d50(reinterpret_cast<::ActiveEffect *>(this)->GetDuration() * effectiveness);
     }
@@ -1969,7 +1970,7 @@ void EffectSaveShell::FUN_008050d0(Actor* actor)
         if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 42)
         {
             a = 0;
-            f = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectSaveStream*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+            f = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>((((EffectSaveStream*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
             reinterpret_cast<::FUN_008579b0_shell *>((((EffectSaveStream*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&a, 1);
             b = (HitEffectSaveNode*)pHitEffectList;
             while (b && !b->FUN_008256d0())
@@ -2254,18 +2255,18 @@ void FUN_00805b40(AENode* apList, Actor* apActor)
 {
     unsigned short usZero6 = 0;
     char* pSizePos8 = 0;
-    char* pStart4 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* pStart4 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     if (*(*reinterpret_cast<::fnv_00805b40::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
-        pStart4 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pStart4 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiMarker = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiMarker, 4);
-        pSizePos8 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pSizePos8 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usZero6, 2);
     }
     unsigned short usCount2 = 0;
-    char* pCountPos3 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* pCountPos3 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usCount2, 2);
     while (apList && !apList->IsEmpty())
     {
@@ -2276,7 +2277,7 @@ void FUN_00805b40(AENode* apList, Actor* apActor)
     *(unsigned short*)pCountPos3 = usCount2;
     if (*(*reinterpret_cast<::fnv_00805b40::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
     {
-        char* pEnd6 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* pEnd6 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         FormIDEntry* pHeader2 = ((::fnv_00805b40::FormIDEntry *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pHeader2)
         {
@@ -2290,7 +2291,7 @@ void FUN_00805b40(AENode* apList, Actor* apActor)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        char* pCur = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* pCur = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         {
             char* pBlockStart = pSizePos8;
             if (pCur > pBlockStart + 0xffff)
@@ -2761,7 +2762,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
     float p;
     int h;
     unsigned short a = 0;
-    unsigned int i = 0;
+    char* i = 0;
     unsigned short s;
     ActiveEffectList_5d40* f;
     unsigned int eb;
@@ -2772,7 +2773,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
     VampirismEffect* k;
     ActiveEffect* l;
     SaveLoadRecord_5d40* c;
-    unsigned int e;
+    char* e;
     TESFormStandin_5d40* j;
 
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00862110())
@@ -2793,7 +2794,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
                     );
             }
         }
-        i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        i = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_008579e0(&a, 2);
     }
 
@@ -2829,17 +2830,17 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
 
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00862110())
     {
-        e = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        e = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         c = (SaveLoadRecord_5d40*)((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))));
         if (c)
         {
             j = (TESFormStandin_5d40*)FUN_004839c0(c->formID);
-            if (e > (unsigned int)a + i)
+            if (e > i + a)
             {
                 ::FUN_005b5e40(
                     );
             }
-            else if (e < (unsigned int)a + i)
+            else if (e < i + a)
             {
                 ::FUN_005b5e40(
                     );
@@ -2847,12 +2848,12 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
         }
         else
         {
-            if (e > (unsigned int)a + i)
+            if (e > i + a)
             {
                 ::FUN_005b5e40(
                     );
             }
-            else if (e < (unsigned int)a + i)
+            else if (e < i + a)
             {
                 ::FUN_005b5e40(
                     );

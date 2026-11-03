@@ -1,6 +1,7 @@
 // fallout/misc/saveload/bgsloadgamesubbuffer.cpp: BGSLoadGameSubBuffer, LoadGameSubBufferQueue, SubBufferMap, Holder and more (20 functions)
 
 #include <cstdint>
+#include "fnv/form_fields.h"
 #include <cstring>
 #include "fnv/decl/AnimSelf.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -166,14 +167,14 @@ void BGSLoadGameSubBuffer::RestoreAnimation(TESForm* form)
                     reinterpret_cast<::AnimSelf *>((animation))->Load(loadBuffer);
                 else
                     ::FUN_00845cc0("ANIMATION: Actor '%s' %08X with queued animation does not have one to load",
-                               form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                               form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
             }
             else
                 reinterpret_cast<::fnv_005636e0::FUN_005636e0_shell *>((reinterpret_cast<TESObjectREFR*>(reference)))->FUN_005636e0((::fnv_005636e0::BGSLoadFormBuffer *)(loadBuffer));
         }
         else
             ::FUN_00845cc0("SAVELOAD: Form '%s' %08X with queued havok data is not a reference", form->GetName(),
-                       ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                       reinterpret_cast<::FormFields *>(form)->iFormID);
         delete reinterpret_cast<BGSLoadGameBuffer*>(loadBuffer);
     }
 }
@@ -197,15 +198,15 @@ void BGSLoadGameSubBuffer::ReadAnimationState(TESForm* form)
             }
             else
                 ::FUN_00845cc0("SAVELOAD: Mobile Object '%s' %08X with queued char controller does not have one to load",
-                           form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                           form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
         }
         else
             ::FUN_00845cc0("SAVELOAD: Reference '%s' %08X with queued char controller is not a mobile object",
-                       form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                       form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
     }
     else
         ::FUN_00845cc0("SAVELOAD: Form '%s' %08X with queued char controller is not a reference", form->GetName(),
-                   ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                   reinterpret_cast<::FormFields *>(form)->iFormID);
     delete reinterpret_cast<BGSLoadGameBuffer*>(loadBuffer);
 }
 
@@ -432,7 +433,7 @@ void FUN_00864d80_shell::LoadQueuedHavokData(TESForm* form)
     }
     else
         ::FUN_00845cc0("SAVELOAD: Form '%s' %08X with queued havok data is not a reference", form->GetName(),
-                   ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                   reinterpret_cast<::FormFields *>(form)->iFormID);
     delete reinterpret_cast<BGSLoadGameBuffer*>(buffer);
 }
 
@@ -758,7 +759,7 @@ void SubBufferSaveShell::FUN_00865020(TESForm* form)
     {
         ReferenceSaveAccess* ref = static_cast<ReferenceSaveAccess*>(form);
         FUN_008659c0_Buffer buffer;
-        reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>(&(buffer))->InitFormEntry(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())), (*(unsigned int *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(4))), (uintptr_t)(static_cast<ReferenceSaveAccess*>(form)->FUN_00401170()),
+        reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>(&(buffer))->InitFormEntry(reinterpret_cast<::FormFields *>(form)->iFormID, (*(unsigned int *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(4))), (unsigned int)(static_cast<ReferenceSaveAccess*>(form)->FUN_00401170()),
                             (unsigned char)(reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::SaveContext_00851110 * *>(&::DAT_011de134))))->GetConstant27()));
         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(&(buffer))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(form));
         reinterpret_cast<::fnv_00562de0::FUN_00562de0_cls *>((ref))->FUN_00562de0((::fnv_00562de0::TargetRef *)(::FUN_008659c0_Buffer *)(&buffer));
@@ -766,7 +767,7 @@ void SubBufferSaveShell::FUN_00865020(TESForm* form)
     }
     else
     {
-        ::FUN_00845cc0(DAT_01082228, form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+        ::FUN_00845cc0(DAT_01082228, form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
     }
 }
 

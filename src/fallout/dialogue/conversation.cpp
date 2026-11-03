@@ -1,6 +1,7 @@
 // fallout/dialogue/conversation.cpp: ConversationLoad, DialogueItem, ListNode, Conversation and more (11 functions)
 
 #include <cstdint>
+#include "fnv/save_load_game_view.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -230,7 +231,7 @@ struct ConversationLoad : Conversation
 void ConversationLoad::LoadFromSave()
 {
     unsigned short usBlockSize = 0;
-    unsigned int uiStartBufferPosition = 0;
+    char* uiStartBufferPosition = 0;
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int uiBlockHeader;
@@ -250,7 +251,7 @@ void ConversationLoad::LoadFromSave()
                     );
             }
         }
-        uiStartBufferPosition = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)g_TESSaveLoadGame)))->FUN_00825c00();
+        uiStartBufferPosition = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&usBlockSize, 2);
     }
     unsigned short icount;
@@ -269,7 +270,7 @@ void ConversationLoad::LoadFromSave()
         m_pConversationLoadContext = 0;
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
-        unsigned int uiCurrentBufferPosition = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)g_TESSaveLoadGame)))->FUN_00825c00();
+        char* uiCurrentBufferPosition = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         FormRecordMetadata* pheader = ((::FormRecordMetadata *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)g_TESSaveLoadGame)))));
         if (pheader)
         {
@@ -610,18 +611,18 @@ void CVConv::SaveConversation()
 {
     short sCount_ = 0;                                  // slot -0x10
     short* pSizeTmp = 0;                                // slot -0x04
-    unsigned int pCount7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x14
+    char* pCount7 = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;  // slot -0x14
     if (*(*reinterpret_cast<::SettingStub *>(&::g_011de4e8)).Bool())
-        pCount7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        pCount7 = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiBlok9 = 0x424c4f4b;  // slot -0x20
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiBlok9, 4);
-        pSizeTmp = (short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        pSizeTmp = (short*)reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&sCount_, 2);
     }
     short sIndex5 = 0;                                  // slot -0x1c
-    short* sVer7 = (short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x0c
+    short* sVer7 = (short*)reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;  // slot -0x0c
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&sIndex5, 2);
     CVNode* uiStartTime4 = this;  // slot -0x18
     while (uiStartTime4 && !uiStartTime4->IsEmpty())
@@ -638,7 +639,7 @@ void CVConv::SaveConversation()
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&pNode2, 2);
     if (*(*reinterpret_cast<::SettingStub *>(&::g_011de4e8)).Bool())
     {
-        unsigned int uiEndTime4 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x2c
+        char* uiEndTime4 = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;  // slot -0x2c
         void* _pWorld = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->GetHitSound()));             // slot -0x28
         if (_pWorld)
         {
@@ -652,8 +653,8 @@ void CVConv::SaveConversation()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiEnd7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x34
-        uintptr_t uiStart2 = (uintptr_t)pSizeTmp;    // slot -0x38
+        char* uiEnd7 = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;  // slot -0x34
+        char* uiStart2 = (char*)pSizeTmp;    // slot -0x38
         if (uiEnd7 > uiStart2 + 0xffff)
             ::FUN_005b5e40();
         *pSizeTmp = (short)(uiEnd7 - uiStart2);

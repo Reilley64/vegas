@@ -390,11 +390,11 @@ void FUN_0064de90_class::FUN_0064de90()
 struct FUN_0064deb0_Class
 {
     void Insert(int, int, int, int);
-    void ForwardToFUN0064df50(int a, int b, intptr_t c, int d);
+    void ForwardToFUN0064df50(int a, int b, int c, intptr_t d);
 };
 // Calls Insert with the four integer arguments a, b, c and d.
 // @fnv 0x0064deb0
-void FUN_0064deb0_Class::ForwardToFUN0064df50(int a, int b, intptr_t c, int d)
+void FUN_0064deb0_Class::ForwardToFUN0064df50(int a, int b, int c, intptr_t d)
 {
     Insert(a, b, c, d);
 }
@@ -1628,7 +1628,7 @@ void __cdecl FUN_00652fc0(float a1, int a2, int a3)
 {
     if (a3 != 0 && a2 != 0)
     {
-        reinterpret_cast<::NoiseGridBuilder *>((((Holder00aad6b0*)((char*)((void *)(::BSFaceGenManager::GetFaceGenManager())) + 0x118))))->FUN_00aad6b0({}, {}, {});
+        reinterpret_cast<::NoiseGridBuilder *>((((Holder00aad6b0*)((char*)((void *)(::BSFaceGenManager::GetFaceGenManager())) + 0x118))))->FUN_00aad6b0(a1, (NoiseGrid (*)[2])(intptr_t)(a2), (NoiseGrid (*)[2])(intptr_t)(a3));
     }
 }
 
@@ -3376,9 +3376,9 @@ struct Object_006428b0
 float Object_006428b0::GetLinkedValueFloat()
 {
     Value_006428b0* value =
-        (((::Value_006428b0 *)(reinterpret_cast<::FUN_00a59d30_C *>((((::Link_006428b0 *)(::FUN_00559450((int *)&(unk14))))))->FUN_00a59d30({}))) == 0 ? false
-                                                    : ((int)(reinterpret_cast<::BGSTerrainManager *>((((::Value_006428b0 *)(reinterpret_cast<::FUN_00a59d30_C *>((((::Link_006428b0 *)(::FUN_00559450((int *)&(unk14))))))->FUN_00a59d30({})))))->GetMinLevel())) == 13)
-            ? ((::Value_006428b0 *)(reinterpret_cast<::FUN_00a59d30_C *>((((::Link_006428b0 *)(::FUN_00559450((int *)&(unk14))))))->FUN_00a59d30({})))
+        (((::Value_006428b0 *)(reinterpret_cast<::FUN_00a59d30_C *>((((::Link_006428b0 *)(::FUN_00559450((int *)&(unk14))))))->FUN_00a59d30(3))) == 0 ? false
+                                                    : ((int)(reinterpret_cast<::BGSTerrainManager *>((((::Value_006428b0 *)(reinterpret_cast<::FUN_00a59d30_C *>((((::Link_006428b0 *)(::FUN_00559450((int *)&(unk14))))))->FUN_00a59d30(3)))))->GetMinLevel())) == 13)
+            ? ((::Value_006428b0 *)(reinterpret_cast<::FUN_00a59d30_C *>((((::Link_006428b0 *)(::FUN_00559450((int *)&(unk14))))))->FUN_00a59d30(3)))
             : 0;
     if (value)
         return value->unk6c;
@@ -3965,7 +3965,11 @@ class FUN_0064dc50_cls
 // @fnv 0x0064db70
 void Vector64D::FUN_0064db70()
 {
-    reinterpret_cast<::FUN_0064dc50_cls *>(this)->FUN_0064dc50((*(int *)&(const ::ConstIter64D &)((*(::Iter64D *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170({}))))), (*(int *)&(const ::ConstIter64D &)((*(::Iter64D *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf({}))))), {}, {});
+    PairDword first;
+    PairDword last;
+    reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&first));
+    reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(void *)(&last));
+    reinterpret_cast<::FUN_0064dc50_cls *>(this)->FUN_0064dc50(first.a, first.b, last.a, last.b);
 }
 
 // @fnv 0x0064dc50
@@ -4034,7 +4038,7 @@ void FUN_0064dcf0_cls::ApplyToCopy(int a1, const Vector4f* pSource)
     Vec2i t4;
     Ret8 r = Combine(b, a);
     Vec2i c6 = *((::Vec2i *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(::Vec2i *)(&t4))));
-    reinterpret_cast<::FUN_0064deb0_Class *>(this)->ForwardToFUN0064df50((*(int *)&(const ::Vec2i &)(c6)), a1, (intptr_t)(&local2), {});
+    reinterpret_cast<::FUN_0064deb0_Class *>(this)->ForwardToFUN0064df50(c6.x, c6.y, a1, (intptr_t)(&local2));
 }
 
 struct FUN_0064dda0_target
@@ -4651,7 +4655,7 @@ void* FUN_00657c50_cls::FUN_00657c50(void* a, Pair_657c50 pair, int c, int d)
     int dummy;
     void* x = !reinterpret_cast<::FUN_00662820_shell *>(this)->FUN_00662820() ? 0 : ((void *)(intptr_t)(reinterpret_cast<::FUN_006580b0_cls *>(&(pair))->GetEntryOffset((::FUN_006580b0_cls *)(void *)(((void *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&t12))))))));
     Apply(pair.m_iWordAt00, c, 1, d);
-    reinterpret_cast<::S8 *>((((::Holder_657c50 *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&t14))))))->FUN_0060b820({}, {});
+    reinterpret_cast<::S8 *>((((::Holder_657c50 *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&t14))))))->FUN_0060b820((::S8 *)(a), (int)(intptr_t)(x));
     return a;
 }
 
@@ -5099,7 +5103,9 @@ FUN_00659600::~FUN_00659600()
 // @fnv 0x0065cd70
 void B65CD70Vector::FUN_0065cd70()
 {
-    erase((*(::B65CD70Iterator *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170({}))), (*(::B65CD70Iterator *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf({}))));
+    B65CD70Iterator first;
+    B65CD70Iterator last;
+    erase((*(::B65CD70Iterator *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&first)))), (*(::B65CD70Iterator *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(void *)(&last)))));
 }
 
 namespace fnv_0065cdd0 {
@@ -5578,7 +5584,7 @@ void FUN_0065cef0_cls::FUN_0065cef0()
 
     x = *((::FNVPair8 *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::FNVPair8 *)(&tmpA3))));
     y3 = *((::FNVPair8 *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(::FNVPair8 *)(&tmpB))));
-    reinterpret_cast<::FUN_0065d8e0_cls *>(this)->BuildAndComparePair((::Lay_d8e0_Pair *)(::FNVPair8 *)(&out), (*(int *)&(const ::FNVPair8 &)(y3)), (*(int *)&(const ::FNVPair8 &)(x)), {}, {});
+    reinterpret_cast<::FUN_0065d8e0_cls *>(this)->BuildAndComparePair((::Lay_d8e0_Pair *)(::FNVPair8 *)(&out), (int)y3.lo, (int)y3.hi, (int)x.lo, (int)x.hi);
 }
 
 // Builds two pairs from the given values, and if the first is less than the second, combines and stores values before returning the first pair.
@@ -6202,8 +6208,10 @@ class C65F700List
 C65F700Iterator C65F700List::FUN_0065f700(void* pvFirstCont, C65F700Node* pitFirst, void* pvLastCont,
                                           C65F700Node* pitLast)
 {
-    C65F700Iterator itFirst = (*(::C65F700Iterator *)(reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(pvFirstCont), (intptr_t)(pitFirst), {})));
-    C65F700Iterator itLast = (*(::C65F700Iterator *)(reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(pvLastCont), (intptr_t)(pitLast), {})));
+    C65F700Iterator itFirst;
+    C65F700Iterator itLast;
+    reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(void *)(&itFirst), (intptr_t)(pvFirstCont), (int)(intptr_t)(pitFirst));
+    reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(void *)(&itLast), (intptr_t)(pvLastCont), (int)(intptr_t)(pitLast));
     if (reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::C65F700Iterator &)(itFirst))->FUN_0065dfd0((intptr_t)&(itLast)))
     {
         C65F700Node* pkNewHead = C65F700Unlink(itLast.m_pkNode, m_pkHead, itFirst.m_pkNode);
@@ -7600,7 +7608,9 @@ FUN_0065fc10::FUN_0065fc10(FUN_0065fc10& arSource) : FUN_0065d3a0(*(FUN_006815c0
     {
         try
         {
-            m_last = FUN_0065ff60((*(::ItQ *)(reinterpret_cast<::FUN_0065fd10_class *>(&(arSource))->FUN_0065fd10({}))), (*(::ItQ *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>(&(arSource))->FUN_0065fd40({}))), m_pHeadNode);
+            ItQ first;
+            ItQ last;
+            m_last = FUN_0065ff60((*(::ItQ *)(reinterpret_cast<::FUN_0065fd10_class *>(&(arSource))->FUN_0065fd10((::FUN_0065e000_class *)(void *)(&first)))), (*(::ItQ *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>(&(arSource))->FUN_0065fd40((::fnv_0065fd40::FUN_0065e000_class *)(void *)(&last)))), m_pHeadNode);
         }
         catch (...)
         {
@@ -7762,7 +7772,9 @@ FUN_0065fb10::FUN_0065fb10(const FUN_0065fb10& other) : S_0065fb10_Base(other._A
     {
         try
         {
-            _Mylast = FUN_0065ff30((*(::S_0065fb10_Iter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)&(other))->FUN_0065fd10({}))), (*(::S_0065fb10_Iter *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>((void *)&(other))->FUN_0065fd40({}))), _Myfirst);
+            S_0065fb10_Iter first;
+            S_0065fb10_Iter last;
+            _Mylast = FUN_0065ff30((*(::S_0065fb10_Iter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)&(other))->FUN_0065fd10((::FUN_0065e000_class *)(void *)(&first)))), (*(::S_0065fb10_Iter *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>((void *)&(other))->FUN_0065fd40((::fnv_0065fd40::FUN_0065e000_class *)(void *)(&last)))), _Myfirst);
         }
         catch (...)
         {

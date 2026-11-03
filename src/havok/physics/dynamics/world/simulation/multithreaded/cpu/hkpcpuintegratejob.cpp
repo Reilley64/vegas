@@ -3,6 +3,7 @@
 
 #include "havok/hkpApplyForcesStep.h"
 #include "fnv/symbols_00d28000.h"
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <intrin.h>
@@ -97,11 +98,9 @@ struct BlockList { Block* head; unsigned int count; };
 struct EntryListNode { Entry* data; int count; };
 struct Special { Entry entry; Record* record; unsigned int field0c; };
 struct SpecialList { Special* data; int count; };
-struct Allocator { virtual void unused(); virtual void* allocate(unsigned int size); };
-struct AllocationContext { unsigned int field00, field04, field08, field0c; Allocator* allocator; void* allocate(unsigned int size) { return allocator->allocate(size); } };
 
-inline void* Block::operator new(size_t) throw() { return ((AllocationContext*)::FUN_00c85750())->allocate(0x1000); }
-inline void* Group::operator new(size_t) throw() { return ((AllocationContext*)::FUN_00c85750())->allocate(0x30); }
+inline void* Block::operator new(size_t) throw() { return hkMemoryRouter::getInstance().heap().blockAlloc(0x1000); }
+inline void* Group::operator new(size_t) throw() { return hkMemoryRouter::getInstance().heap().blockAlloc(0x30); }
 
 struct SizePointer { unsigned int* value; SizePointer(unsigned int* p):value(p) {} unsigned int& operator*() const { return *value; } };
 // Allocates a Block, links it into the block list, copies entries into records, and optionally creates a Group tracking size ranges.
@@ -215,34 +214,8 @@ struct FlagByte {
     FlagByte operator==(bool b) const { return int(value)==int(b); }
     FlagByte operator!=(bool b) const { return int(value)!=int(b); }
 };
-struct TaskAllocator {
-    virtual void unused();
-    virtual void* allocate(int bytes) throw();
-    virtual void release(void* ptr,int bytes) throw();
-    virtual void unused0c();
-    virtual void freeBuffer(void* ptr,int bytes) throw();
-    template<class T> void freeElements(void* ptr,int n) {
-        const int stride=sizeof(T);
-        freeBuffer(ptr,n*stride);
-    }
-};
-struct TaskMemory {
-    unsigned char* stackTop;
-    int unknown04,unknown08;
-    TaskAllocator* temporary;
-    TaskAllocator* heap;
-    static TaskMemory& GetMonitorStream() { return *(TaskMemory*)::FUN_00c85750(); }
-    TaskAllocator& tempAllocator() { return *temporary; }
-    TaskAllocator& heapAllocator() { return *heap; }
-    template<class T> T* takeStack(int n) {
-        unsigned char* result=stackTop;
-        stackTop += (n*int(sizeof(T))+127)&~127;
-        return (T*)result;
-    }
-    void returnStack(void* ptr) { stackTop=(unsigned char*)ptr; }
-};
-struct HeapPolicy { static TaskAllocator& get(const void*) { return TaskMemory::GetMonitorStream().heapAllocator(); } };
-struct TempPolicy { static TaskAllocator& get(const void*) { return TaskMemory::GetMonitorStream().tempAllocator(); } };
+struct HeapPolicy { static hkMemoryAllocator& get(const void*) { return hkMemoryRouter::getInstance().heap(); } };
+struct TempPolicy { static hkMemoryAllocator& get(const void*) { return hkMemoryRouter::getInstance().temp(); } };
 template<class T> struct SmallList {
     T* data;
     unsigned short count;
@@ -273,7 +246,7 @@ public:
     const T& operator[](int i) const { return data[i]; }
     void clear() { destroyRange(data,count); count=0; }
     void setSizeUnchecked(int n) { destroyRange(data+n,count-n); defaultRange(data+count,n-count); count=n; }
-    void reserveWith(TaskAllocator& alloc,int n) {
+    void reserveWith(hkMemoryAllocator& alloc,int n) {
         int old=capacity&0x3fffffff;
         if (old<n) { int grown=old+old; if(n>=grown) grown=n; ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc),(::SpawnedArray *)(void *)(this),grown,sizeof(T)); }
     }
@@ -282,9 +255,9 @@ public:
         ++count;
     }
     T* expandByUnchecked(int n) { int old=count; count=old+n; defaultRange(data+old,count-old); return data+old; }
-    void releaseWith(TaskAllocator& alloc) {
+    void releaseWith(hkMemoryAllocator& alloc) {
         clear();
-        if(!(capacity&(int)0x80000000)) alloc.freeElements<T>(data,capacity&0x3fffffff);
+        if(!(capacity&(int)0x80000000)) alloc._bufFree<T>(data,capacity&0x3fffffff);
         data=0; capacity=(int)0x80000000;
     }
 };
@@ -299,26 +272,26 @@ public:
 template<class T> class StackArray : public TaskArray<T> {
     T* local;
 public:
-    StackArray(int n) { data=TaskMemory::GetMonitorStream().takeStack<T>(n); capacity=n|(int)0x80000000; local=data; }
+    StackArray(int n) { data=static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n*int(sizeof(T))+127)&~127)); capacity=n|(int)0x80000000; local=data; }
     void closeStack() {
         if(data==local) clear();
-        TaskMemory::GetMonitorStream().returnStack(local);
+        hkMemoryRouter::getInstance().deallocateStack(local);
         TaskArray<T>::closeArray();
     }
 };
-template<class T> T* taskTempAllocate(int n) { return (T*)TaskMemory::GetMonitorStream().temporary->allocate(n*int(sizeof(T))); }
-template<class T> void taskTempFree(T* ptr,int n) { TaskMemory::GetMonitorStream().temporary->release(ptr,n*int(sizeof(T))); }
-template<class T> T* taskHeapAllocate(int n,int) { return (T*)TaskMemory::GetMonitorStream().heap->allocate(n*int(sizeof(T))); }
+template<class T> T* taskTempAllocate(int n) { return (T*)hkMemoryRouter::getInstance().m_temp->blockAlloc(n*int(sizeof(T))); }
+template<class T> void taskTempFree(T* ptr,int n) { hkMemoryRouter::getInstance().m_temp->blockFree(ptr,n*int(sizeof(T))); }
+template<class T> T* taskHeapAllocate(int n,int) { return (T*)hkMemoryRouter::getInstance().m_heap->blockAlloc(n*int(sizeof(T))); }
 struct IndexPair { unsigned long key,value; };
 class EntityIndexMap {
     IndexPair* data;
     int count,mask;
     unsigned long FUN_00cb1930(unsigned long,unsigned long) const throw();
-    void growMap(TaskAllocator*,int) throw();
+    void growMap(hkMemoryAllocator*,int) throw();
 public:
     EntityIndexMap(void* ptr,int bytes) { new ((void *)this) ::FUN_00cb1830(ptr,bytes); }
-    void closeMap() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(TaskMemory::GetMonitorStream().heap)); ::FUN_00a29680(); }
-    void insert(uintptr_t key,uintptr_t val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(TaskMemory::GetMonitorStream().heap)),key,val); }
+    void closeMap() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(hkMemoryRouter::getInstance().m_heap)); ::FUN_00a29680(); }
+    void insert(uintptr_t key,uintptr_t val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(hkMemoryRouter::getInstance().m_heap)),key,val); }
     uintptr_t FindValueForKey(uintptr_t key,uintptr_t value) const { return (uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry((intptr_t)key,(intptr_t)value)); }
 };
 __declspec(noinline) unsigned long EntityIndexMap::FUN_00cb1930(unsigned long key,unsigned long fallback) const throw() {
@@ -467,7 +440,7 @@ struct __declspec(align(128)) BuildTask {
     unsigned char* m_akBuildBuffer;
     int m_iBuildItemCount;
     BuildTaskData m_akBuildTaskEntries[144];
-    static void* operator new(size_t n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
+    static void* operator new(size_t n) throw() { return hkMemoryRouter::getInstance().m_heap->blockAlloc(n); }
     BuildTask() { m_iBuildItemCount=0; m_akBuildBuffer=0; m_next=0; }
 };
 struct __declspec(align(16)) SolveTask {
@@ -481,7 +454,7 @@ struct __declspec(align(16)) SolveTask {
     unsigned short m_usSolverElementCount;
     SolveTask* m_pNextSolveTask;
     int unknown24,unknown28,unknown2c;
-    static void* operator new(size_t n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
+    static void* operator new(size_t n) throw() { return hkMemoryRouter::getInstance().m_heap->blockAlloc(n); }
     SolveTask() { m_next=0; m_kSolveTaskFlagByte=false; m_usSolverElementCount=0; m_pNextSolveTask=0; }
 };
 struct BuildCollection {
@@ -738,7 +711,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
     SolveTask* priorBatch = 0;
     SolveTask* thisBatch = 0;
     StackArray<ProbeEntry> pending(144);
-    int* groups = (int*)TaskMemory::GetMonitorStream().temporary->allocate(finalPhase.bytes);
+    int* groups = (int*)hkMemoryRouter::getInstance().m_temp->blockAlloc(finalPhase.bytes);
     for (int pass = 0; pass < 2; ++pass) {
         FlagByte ppuOnly = false;
         TaskArray<ProbeEntry,TempPolicy>* source;
@@ -773,7 +746,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             source->setSizeUnchecked(int(deferred - source->begin()));
         }
     }
-    TaskMemory::GetMonitorStream().temporary->release(groups,finalPhase.bytes);
+    hkMemoryRouter::getInstance().m_temp->blockFree(groups,finalPhase.bytes);
     if (makeSolve) {
         SolveTask* walk = priorBatch;
         unsigned short size = *batchSize;
@@ -885,41 +858,14 @@ __forceinline void MonitorStream::CommandTimingEntry::setTime() {
 
 __forceinline MonitorStream& MonitorStream::GetMonitorStream() { return *(*reinterpret_cast<::fnv_00d95cf0::TlsSlot< ::fnv_00d95cf0::MonitorStream *> *>(&::DAT_0126835c)).get(); }
 
-struct TaskAllocator {
-    virtual ~TaskAllocator();
-    virtual void* allocate(int bytes);
-    virtual void release(void* p, int bytes);
-    virtual void* acquireBuffer(int& reqBytesInOut);
-    virtual void releaseBuffer(void* p, int bytes);
-    template <class T> __forceinline T* allocBuf(int& reqCountInOut) {
-        const int elemSize = sizeof(T);
-        int n = reqCountInOut * elemSize;
-        void* p = acquireBuffer(n);
-        reqCountInOut = n / elemSize;
-        return static_cast<T*>(p);
-    }
-    template <class T> __forceinline void freeBuf(void* p, int count) {
-        const int elemSize = sizeof(T);
-        releaseBuffer(p, count * elemSize);
-    }
-};
 
-struct TaskMemory {
-    int stack0, stack1, stack2, stack3;
-    TaskAllocator* heapAlloc;
-    TaskAllocator* debugAlloc;
-    TaskAllocator* solverAlloc;
-    static __forceinline TaskMemory& GetMonitorStream() { return *(TaskMemory*)::FUN_00c85750(); }
-    __forceinline TaskAllocator& heap() { return *heapAlloc; }
-    __forceinline TaskAllocator& solver() { return *solverAlloc; }
-};
 
 template <class T> __forceinline T* solverBufAlloc(int& reqCountInOut) {
-    return TaskMemory::GetMonitorStream().solver().allocBuf<T>(reqCountInOut);
+    return hkMemoryRouter::getInstance().solver()._bufAlloc<T>(reqCountInOut);
 }
 
 template <class T> __forceinline void solverBufFree(T* p, int count) {
-    TaskMemory::GetMonitorStream().solver().freeBuf<T>(p, count);
+    hkMemoryRouter::getInstance().solver()._bufFree<T>(p, count);
 }
 
 template <class T> struct TaskArrayBase {
@@ -1092,7 +1038,7 @@ struct SolveCollection {
 };
 
 struct JobHeader {
-    __forceinline void* operator new(size_t nbytes) { return TaskMemory::GetMonitorStream().heap().allocate(nbytes); }
+    __forceinline void* operator new(size_t nbytes) { return hkMemoryRouter::getInstance().heap().blockAlloc(nbytes); }
     unsigned int openJobs;
     unsigned int unfinishedJobs;
     unsigned int shouldDeactivate;

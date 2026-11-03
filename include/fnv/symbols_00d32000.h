@@ -39,6 +39,6 @@ void FUN_00d32ba0(void *, ::hkpShapeD32 *, void *, void *, void *);
 // 0x00d32c40
 void FUN_00d32c40(int, ::Arg1 *, int, ::Arg3 *, int, int, int);
 // 0x00d32ca0
-void FUN_00d32ca0(int, int, int, int);
+void FUN_00d32ca0(void *, const void *, void *, void *);
 // 0x00d32cd0
-namespace fnv_00d32cd0 { void *FUN_00d32cd0(::fnv_00d32cd0::Context *, int, ::fnv_00d32cd0::Agent *, ::fnv_00d32cd0::CollisionResult *, ::fnv_00d32cd0::Output *); }
+namespace fnv_00d32cd0 { void *FUN_00d32cd0(::fnv_00d32cd0::Context *, unsigned char *, ::fnv_00d32cd0::Agent *, ::fnv_00d32cd0::CollisionResult *, ::fnv_00d32cd0::Output *); }

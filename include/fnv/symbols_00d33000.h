@@ -7,7 +7,7 @@ struct hkpCollisionInputD33D;
 struct hkpContactMgrD33D;
 
 // 0x00d33140
-void FUN_00d33140(int);
+void FUN_00d33140(struct hkpAgent3FuncsD331 *);
 // 0x00d331a0
 void RegisterAgent3Entries(::hkpCollisionDispatcherD331 *);
 // 0x00d339d0

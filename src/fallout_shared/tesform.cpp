@@ -3074,7 +3074,7 @@ void* FUN_004867a0_cls::FUN_004867a0(void* unused, void* arg)
     if (obj != 0)
     {
         FUN_004867a0_holder holder(((void *)(reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())));
-        this->v4D("");
+        this->v4D((void*)"");
         obj->v42(this);
         if (((void *)(::FUN_00559450((int *)&(holder)))) != 0)
         {
@@ -3865,7 +3865,7 @@ bool FUN_00484150_shell::IsFormTypeBelowThreshold(FormRecordHeader* apGroupForm)
 
 namespace fnv_004861f0 {
 /* rework: avoid defining TESUsesForm/TESHealthForm/... which clash with tesform.cpp structs (C2011) */
-extern "C" void* __cdecl FUN_00ec43fb(void* in, int vfDelta, void* srcType, void* targetType, int isReference);
+extern "C" void* __cdecl FUN_00ec43fb(void* in, int vfDelta, const void* srcType, const void* targetType, int isReference);
 extern char DAT_01183028[]; /* .?AVTESForm@@ */
 extern char DAT_01186b88[]; /* .?AVTESUsesForm@@ */
 extern char DAT_01186b6c[]; /* .?AVTESValueForm@@ */
@@ -4013,7 +4013,7 @@ void Form_004861f0::FUN_004861f0(TESFile* file, void* dest, unsigned short count
 
 namespace form_load_legacy {
 
-extern "C" void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
+extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 extern char DAT_01183028[];
 extern char DAT_011841cc[];
 

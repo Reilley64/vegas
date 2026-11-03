@@ -2340,7 +2340,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
         if (flag140)
             m1Value12 = *((::M3 *)(::FUN_006a9540((char *)(apParam))));
         else
-            m1Value12 = *((::M3 *)(::FUN_00461130((int)(apParam))));
+            m1Value12 = *((::M3 *)(::FUN_00461130((std::intptr_t)(apParam))));
 
         reinterpret_cast<::ThreeByThreeMatrix *>(&(m1Value12))->FUN_004b45b0((::ThreeByThreeMatrix *)(::M3 *)(&mecValue16));
         fValue3 = mecValue16.FUN_004b4500(&d40Value6);

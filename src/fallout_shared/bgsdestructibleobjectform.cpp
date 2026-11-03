@@ -319,7 +319,7 @@ int FUN_0045bb80(int param_1)
 }
 
 // @fnv 0x00461130
-int FUN_00461130(int pThis)
+std::intptr_t FUN_00461130(std::intptr_t pThis)
 {
     return pThis + 0x68;
 }
@@ -517,7 +517,8 @@ void FUN_005df560_S::GetRowFloats(unsigned int row, float* pfOut0, float* pfOut1
 }
 
 namespace fnv_004753d0 {
-extern "C" void* __cdecl FUN_00475400(void*);
+struct FUN_004759a0_First;
+FUN_004759a0_First* __cdecl FUN_00475400(void*);
 
 struct FUN_00475a00_shell
 {
@@ -947,7 +948,7 @@ NiPoint3 TargetLocation::GetTargetPosition()
     NiPoint3 kPos = NiPoint3::ZERO;
     if ((const char*)kName)
     {
-        kPos = ((::NamedTarget *)(::FUN_00461130((int)(kName))))->GetTargetPos(&unk08);
+        kPos = ((::NamedTarget *)(::FUN_00461130((std::intptr_t)(const char*)(kName))))->GetTargetPos(&unk08);
     }
     else if (pRef)
     {
@@ -2209,7 +2210,6 @@ struct DestructibleFormStandin
 {
 };
 
-extern "C" DestructibleFormStandin* __cdecl FUN_00475400(TESBoundObject*);
 
 // @fnv 0x00477bc0
 unsigned int __cdecl GetDestructionStageSelfDamage(TESObjectREFR* refr, float damage)
@@ -2217,7 +2217,7 @@ unsigned int __cdecl GetDestructionStageSelfDamage(TESObjectREFR* refr, float da
     if (refr == 0 || damage == ::_DAT_01012060)
         return 0;
 
-    DestructibleFormStandin* aActorData = FUN_00475400(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refr))->FUN_007af430())));
+    DestructibleFormStandin* aActorData = (DestructibleFormStandin*)FUN_00475400(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refr))->FUN_007af430())));
     if (aActorData == 0)
         return 0;
 
@@ -2278,7 +2278,7 @@ void FUN_00477780_shell::FUN_00477780(::TESBoundObject* apBoundObject)
 
     if (!reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)->GO::operator unsigned int())
     {
-        reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0=((::ObjA *)(void *)(new FUN_00c3c590_QueuedFile(5)));
+        reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0(((::ObjA *)(void *)(new FUN_00c3c590_QueuedFile(5))));
 
         QueueResourceLoad(apBoundObject, static_cast< ::IO_TASK_PRIORITY>(5),
                           reinterpret_cast< ::QueuedFile*>(
@@ -2288,7 +2288,7 @@ void FUN_00477780_shell::FUN_00477780(::TESBoundObject* apBoundObject)
         if (!((int)(reinterpret_cast<::fnv_00446990::FUN_00446990_StandIn *>((reinterpret_cast<GO*>(reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)
                                        ->GO::operator unsigned int())))->GetObjectFlags())))
         {
-            reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0=((::ObjA *)(void *)(0));
+            reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0(((::ObjA *)(void *)(0)));
         }
     }
 

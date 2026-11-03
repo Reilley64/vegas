@@ -85,7 +85,7 @@ Sun::Sun()
 }
 
 // @fnv 0x00461110
-int FUN_00461110(int param_1)
+std::intptr_t FUN_00461110(std::intptr_t param_1)
 {
     return param_1 + 0x78;
 }
@@ -1003,9 +1003,9 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         if (pshadeProperty)
         {
             *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[0],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[1],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[2], fDiscAlpha);
+                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fDiscAlpha);
         }
         pshadeProperty =
             ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x14))))->FUN_00a59d30(3))) == 0)
@@ -1016,9 +1016,9 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         if (pshadeProperty)
         {
             *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[0],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[1],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[2], fGlareAlpha);
+                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fGlareAlpha);
         }
         {
             float fxNewAim = 0.0f;

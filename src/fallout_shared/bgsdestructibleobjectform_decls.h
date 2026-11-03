@@ -549,14 +549,10 @@ class DestructibleData
     unsigned short pad;
     DestructionStage** stages;
 };
-class ActorValue
+namespace ActorValue
 {
-  public:
-    enum Index
-    {
-        kAV0
-    };
-};
+enum Index;
+}
 class ActorValueOwner
 {
   public:

@@ -3070,13 +3070,6 @@ void* FUN_004601a0Class::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 
-class _ULARGE_INTEGER
-{
-  public:
-    unsigned int LowPart;
-    unsigned int HighPart;
-};
-
 
 struct FUN_00471af0_shell : public TESFile
 {

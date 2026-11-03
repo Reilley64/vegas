@@ -1289,7 +1289,7 @@ void ThisObj::BuildSkinPartitions()
     flagsLocalBC = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::CtrlObj *)(::fnv_0043b230::FUN_0043b230((const char *)(((SkinBase*)skinInstLocalAA)))))))->GetName()));
 
 
-    nineLocalBC = *((::NineDw *)(::FUN_00461130((int)(((ConvObjA*)((const char *)(::FUN_00559450((int *)&(m_2c)))))))));
+    nineLocalBC = *((::NineDw *)(::FUN_00461130((std::intptr_t)(((ConvObjA*)((const char *)(::FUN_00559450((int *)&(m_2c)))))))));
 
     reinterpret_cast<::ThreeByThreeMatrix *>(&(nineLocalBC))->FUN_004b45b0((::ThreeByThreeMatrix *)(void *)(&obj1bcLocalAE));
 
@@ -1298,7 +1298,7 @@ void ThisObj::BuildSkinPartitions()
     reinterpret_cast<::FUN_004a0c90_shell *>(&(sph3LocalCK))->FUN_004a0c90(m_54);
     sph1LocalAC = sph3LocalCK.FUN_0043f8d0(FUN_00c4b600(m_44));
 
-    thirteenLocalAI = *((::ThirteenDw *)(::FUN_00461130((int)(((ConvObjB*)((const char *)(::FUN_00559450((int *)&(m_2c)))))))));
+    thirteenLocalAI = *((::ThirteenDw *)(::FUN_00461130((std::intptr_t)(((ConvObjB*)((const char *)(::FUN_00559450((int *)&(m_2c)))))))));
     reinterpret_cast<::NiPoint3 *>((((Obj160*)&thirteenLocalAI.m_24)))->Subtract((*(const ::NiPoint3 *)(&m_38)));
 
     ::FUN_00534550((::PathingActorData *)&(s1LocalBB));
@@ -2493,7 +2493,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
     reinterpret_cast<::FUN_0043fa80_s *>((objA))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((int)(::FUN_006a9540((char *)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry))))))))))));
     reinterpret_cast<::FUN_00440490_shell *>((objA))->FUN_00440490(reinterpret_cast<::FUN_009cdae0_shell *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->GetFloatAt64());
     reinterpret_cast<::FUN_004f00e0_shell *>((objA))->FUN_004f00e0((void *)(::FUN_0045bb80((int)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))));
-    reinterpret_cast<::FUN_00688430_shell *>((objA))->FUN_00688430((::NineDwords688430 *)(::NineDw *)(((::NineDw *)(::FUN_00461130((int)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))))));
+    reinterpret_cast<::FUN_00688430_shell *>((objA))->FUN_00688430((::NineDwords688430 *)(::NineDw *)(((::NineDw *)(::FUN_00461130((std::intptr_t)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))))));
     reinterpret_cast<::FUN_006427a0_Class *>((objA))->SetValue(reinterpret_cast<::FUN_008d01e0_Class *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->FUN_008d01e0());
     objA->v47();
     reinterpret_cast<::FUN_00a5a040_Class *>((objA))->FUN_00a5a040();

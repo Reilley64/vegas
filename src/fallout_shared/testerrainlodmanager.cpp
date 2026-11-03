@@ -661,7 +661,7 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
     kFrust.m_fFarPlane = kViewFrustum_2.m_fFarPlane;
     kFrust.m_fNearPlane = kViewFrustum_2.m_fNearPlane;
     FUN_0045c620 kTester;
-    reinterpret_cast<::FrustumPlanes::Planes *>(&(kTester))->SetFromFrustum((const ::FrustumPlanes::Frustum *)(const void *)(&kFrust), (const ::FrustumPlanes::Transform *)(void *)(((void *)(::FUN_00461130((int)(((CamNode*)((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((((::Node45 *)(::FUN_0045c670()))))->GetAnimationData())))))))));
+    reinterpret_cast<::FrustumPlanes::Planes *>(&(kTester))->SetFromFrustum((const ::FrustumPlanes::Frustum *)(const void *)(&kFrust), (const ::FrustumPlanes::Transform *)(void *)(((void *)(::FUN_00461130((std::intptr_t)(((CamNode*)((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((((::Node45 *)(::FUN_0045c670()))))->GetAnimationData())))))))));
     for (iQuad = 0; iQuad < 4; iQuad++)
     {
         CellObj* pCell = ((::CellObj *)(reinterpret_cast<::FUN_0045c9a0_shell *>((apMgr))->GetCellNodeAt(iQuad)));

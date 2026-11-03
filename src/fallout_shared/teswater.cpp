@@ -10878,7 +10878,7 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                     return;
                 state->camera.FUN_0066b0d0(new FUN_00a712f0);
                 reinterpret_cast<::FUN_00440460_S *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_00440460((const ::V3 *)(void *)(((void *)(::FUN_0045bb80((int)(camera))))));
-                reinterpret_cast<::FUN_0043fa80_s *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((void *)(::FUN_00461130((int)(camera)))))));
+                reinterpret_cast<::FUN_0043fa80_s *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((void *)(::FUN_00461130((std::intptr_t)(camera)))))));
                 reinterpret_cast<::FUN_00440490_shell *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_00440490(reinterpret_cast<::FUN_008d01e0_Class *>((camera))->FUN_008d01e0());
                 reinterpret_cast<::FUN_00507700_cls *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->FUN_00507700(reinterpret_cast<::NiCamera *>((void *)(camera))->GetMaxFarNearRatio());
                 reinterpret_cast<::NiCamera *>((((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera))))))->UpdateViewFrustum((*(const ::NiFrustum *)(((void *)&(reinterpret_cast<::NiCamera *>((void *)(camera))->GetViewFrustum())))));

@@ -22,6 +22,9 @@
 #include "fnv/decl/HungerStageData.h"
 #include "fnv/decl/InterfaceManager.h"
 #include "fnv/decl/S3c60.h"
+#include "NiRefObject.h"
+#include "TESFile.h"
+#include "TESFullName.h"
 #include "fnv/decl/S3e60.h"
 #include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_004045e0__FUN_004045e0_shell.h"
@@ -54,26 +57,23 @@ int* FUN_00401280_Class::FUN_00401280()
     return &$SG3295;
 }
 
-struct FUN_00401660_Class
-{
-    unsigned int GetField25C();
-};
-
 // @fnv 0x00401660
 unsigned int FUN_00401660_Class::GetField25C()
 {
-    return *(unsigned int*)((char*)this + 0x25c);
+    return reinterpret_cast<::TESFile*>(this)->m_uiChunkSize;
 }
 
 struct FUN_004036b0_Class
 {
+    char pad[0xb8];
+    unsigned int unkb8;
     unsigned int FUN_004036b0();
 };
 
 // @fnv 0x004036b0
 unsigned int FUN_004036b0_Class::FUN_004036b0()
 {
-    return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xb8);
+    return unkb8;
 }
 
 struct Dummy
@@ -156,24 +156,28 @@ void EffectSetting::FUN_00405e60()
 
 struct FUN_00407860_class
 {
+    char pad[0x90];
+    float unk90;
     void FUN_00407860(float value);
 };
 
 // @fnv 0x00407860
 void FUN_00407860_class::FUN_00407860(float value)
 {
-    *(float*)((char*)this + 0x90) = value;
+    unk90 = value;
 }
 
 struct FUN_00407880_Class
 {
+    char pad[0x94];
+    float unk94;
     void FUN_00407880(float value);
 };
 
 // @fnv 0x00407880
 void FUN_00407880_Class::FUN_00407880(float value)
 {
-    *(float*)((char*)this + 0x94) = value;
+    unk94 = value;
 }
 
 extern "C" void* DAT_01183320;
@@ -197,13 +201,15 @@ int FUN_00409130_Class::FUN_00409130()
 
 struct FUN_00409700_Class
 {
+    char pad[0xc0];
+    unsigned char unkc0;
     bool FUN_00409700();
 };
 
 // @fnv 0x00409700
 bool FUN_00409700_Class::FUN_00409700()
 {
-    return (((const unsigned char*)this)[0xc0] & 1) ? true : false;
+    return (this->unkc0 & 1) ? true : false;
 }
 
 struct ContainerItemExtraFileData
@@ -212,17 +218,19 @@ struct ContainerItemExtraFileData
 
 struct FUN_004098d0_class
 {
+    char pad[0x34];
+    ContainerItemExtraFileData unk34;
     void FUN_004098d0();
 };
 
 // @fnv 0x004098d0
 void FUN_004098d0_class::FUN_004098d0()
 {
-    reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)((char*)this + 0x34))))->FUN_005a6b10();
+    reinterpret_cast<::Class005a6b10 *>((&unk34))->FUN_005a6b10();
 }
 
 
-struct FUN_0040c130_Class
+struct FUN_0040c130_Class : ::NiRefObject
 {
     int FUN_0040c130();
 };
@@ -230,7 +238,7 @@ struct FUN_0040c130_Class
 // @fnv 0x0040c130
 int FUN_0040c130_Class::FUN_0040c130()
 {
-    return ((int)(::WaitForSingleObjectEx((long *)(void *)((char*)this + 4))));
+    return ((int)(::WaitForSingleObjectEx((long *)(void *)&m_uiRefCount)));
 }
 
 // @fnv 0x0040ca10
@@ -284,7 +292,7 @@ FUN_0040f6b0::FUN_0040f6b0() : BE(0x0b)
 
 int __cdecl InitScriptRunLock(void*);
 
-struct FUN_0040f6e0_class
+struct FUN_0040f6e0_class : ::NiRefObject
 {
     int FUN_0040f6e0();
 };
@@ -292,7 +300,7 @@ struct FUN_0040f6e0_class
 // @fnv 0x0040f6e0
 int FUN_0040f6e0_class::FUN_0040f6e0()
 {
-    return InitScriptRunLock((char*)this + 4);
+    return InitScriptRunLock(&m_uiRefCount);
 }
 
 struct FUN_00413ff0_class
@@ -310,13 +318,15 @@ FUN_00413ff0_class* FUN_00413ff0_class::SetFromFloat(const float* apValue)
 
 struct FUN_004181c0_class
 {
+    char pad[0xec];
+    int unkec[1];
     void SetIndexedValue(int index, int value);
 };
 
 // @fnv 0x004181c0
 void FUN_004181c0_class::SetIndexedValue(int index, int value)
 {
-    *(int*)((char*)this + 0xec + index * 4) = value;
+    unkec[index] = value;
 }
 
 struct BSExtraData;
@@ -467,6 +477,8 @@ void* __cdecl FUN_004027e0(unsigned int index)
 
 struct FUN_00402a20_class
 {
+    char pad[0xbc];
+    unsigned char unkbc;
     void FUN_00402a20(unsigned int flags, bool set);
 };
 
@@ -474,7 +486,7 @@ struct FUN_00402a20_class
 // @fnv 0x00402a20
 void FUN_00402a20_class::FUN_00402a20(unsigned int flags, bool set)
 {
-    set ? ((unsigned char*)(this))[0xbc] |= flags : ((unsigned char*)(this))[0xbc] &= ~flags;
+    set ? this->unkbc |= flags : this->unkbc &= ~flags;
 }
 
 // If the 16-byte slot at index param_1 has a zero second field, stores param_2 there and returns true; otherwise returns false.
@@ -507,6 +519,8 @@ void* FUN_004055a0_Class::FUN_004055a0(unsigned int flags)
 extern int DAT_01012238;
 struct FUN_004055d0 : public FUN_00405600_class
 {
+    char pad[0x10];
+    char unk10;
     FUN_004055d0(int, char);
 };
 // Calls FUN_004055d0 with the arguments, stores the address of DAT_01012298 into this, and returns this.
@@ -523,7 +537,7 @@ FUN_004055d0::FUN_004055d0(int a, char b)
 {
     FUN_00405600(a);
     *(int**)this = &DAT_01012238;
-    *(char*)((char*)this + 0x10) = b;
+    this->unk10 = b;
 }
 
 extern "C" void* DAT_01012278;
@@ -601,7 +615,7 @@ struct Flt
 {
     operator unsigned int();
 };
-struct FUN_00408da0_Class
+struct FUN_00408da0_Class : ::TESFullName
 {
     int* FUN_00408da0();
 };
@@ -609,16 +623,20 @@ struct FUN_00408da0_Class
 // @fnv 0x00408da0
 int* FUN_00408da0_Class::FUN_00408da0()
 {
-    return ((Flt*)((char*)this + 4))->operator unsigned int() ? (int*)(uintptr_t)((Flt*)((char*)this + 4))->operator unsigned int()
+    return ((Flt*)&m_kName)->operator unsigned int() ? (int*)(uintptr_t)((Flt*)&m_kName)->operator unsigned int()
                                                               : (int*)&$SG3295;
 }
 
-struct Inner0040e230
+struct Inner0040e230_Head
 {
+    char pad[0x18];
 };
 struct Outer00409100
 {
     void FUN_00409100(bool);
+};
+struct Inner0040e230 : Inner0040e230_Head, Outer00409100
+{
 };
 struct TESSound;
 extern TESSound* DAT_011c3538;
@@ -670,6 +688,7 @@ SettingBase_01012120* SettingBase_01012120::FUN_0040e130(const char* a, float af
 
 struct FUN_0040e230_Class
 {
+    char pad[0x40];
     unsigned char bFlags;
     void FUN_0040e230(unsigned int flags, bool set);
 };
@@ -677,14 +696,14 @@ struct FUN_0040e230_Class
 // @fnv 0x00409100
 void Outer00409100::FUN_00409100(bool b)
 {
-    reinterpret_cast<::FUN_0040e230_Class *>((((Inner0040e230*)((char*)this - 0x18))))->FUN_0040e230(1, !b);
+    reinterpret_cast<::FUN_0040e230_Class *>((static_cast<Inner0040e230*>(this)))->FUN_0040e230(1, !b);
 }
 
 // Sets or clears the given flag bits in the byte at offset 0x40 of this object.
 // @fnv 0x0040e230
 void FUN_0040e230_Class::FUN_0040e230(unsigned int flags, bool set)
 {
-    set ? ((unsigned char*)this)[0x40] |= flags : ((unsigned char*)this)[0x40] &= ~flags;
+    set ? bFlags |= flags : bFlags &= ~flags;
 }
 
 int _FNV_GetFormType(void*);
@@ -747,13 +766,15 @@ template <int N> struct EndianSizeTag
 };
 struct FUN_004141e0_class
 {
+    unsigned int chunk;
+    unsigned short length;
     void FUN_004141e0();
 };
 // @fnv 0x004141e0
 void FUN_004141e0_class::FUN_004141e0()
 {
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
-    ::FUN_00407a90((short *)(unsigned char *)((unsigned char*)this + 4));
+    ::FUN_00401080((int *)&chunk);
+    ::FUN_00407a90((short *)&length);
 }
 
 extern int DAT_010151c0;
@@ -1210,11 +1231,6 @@ class TESBoundObject : public TESObject
 {
   public:
     int GetFormType() const;
-};
-class BaseFormComponent
-{
-  public:
-    virtual ~BaseFormComponent();
 };
 class TESEnchantableForm : public BaseFormComponent
 {

@@ -1184,7 +1184,6 @@ class TaskQueueInterface
 public:
     void QueueActorDisarm(bool);
 };
-int strcat_s(char*, unsigned int, const char*);
 class FileFinder
 {
   public:

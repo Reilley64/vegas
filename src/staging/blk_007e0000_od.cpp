@@ -1849,7 +1849,7 @@ bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(_
         menu->SetMenuVisibility(false);
         return true;
     }
-    else if (menu && ((int)(reinterpret_cast<::Callees *>((menu))->FUN_00726070())))
+    else if (menu && ((int)(uintptr_t)(reinterpret_cast<::Callees *>((menu))->FUN_00726070())))
     {
         delete menu;
     }

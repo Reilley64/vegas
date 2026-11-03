@@ -869,7 +869,7 @@ struct FUN_004f5590 : FUN_004f5600_shell
 // @fnv 0x004f5590
 FUN_004f5590::FUN_004f5590(int aiFirst, int aiSecond)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01023ec4);
+    *reinterpret_cast<void**>(this) = &DAT_01023ec4;
     this->m8 = aiFirst;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8) = aiSecond;
 }
@@ -3054,7 +3054,7 @@ FUN_004ed3e0::~FUN_004ed3e0()
     ptr94.FUN_0066b0d0(0);
     ptr98.FUN_0066b0d0(0);
     reinterpret_cast<::Cls58a0 *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_004ed3e0::CleanupRegistry * *>(&::g_TES))))))))->ClearTextureAndShaderTextures({}, {}, {});
-    if (owner && ((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node)))) && ((unsigned int)(reinterpret_cast<::Callees *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node))))))->FUN_00726070())) == 2)
+    if (owner && ((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node)))) && ((unsigned int)(uintptr_t)(reinterpret_cast<::Callees *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node))))))->FUN_00726070())) == 2)
     {
         reinterpret_cast<::Manager *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_004a0ea0()))))->FUN_00b6da10({});
         owner->node.FUN_0066b0d0(0);

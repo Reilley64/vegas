@@ -624,7 +624,7 @@ NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
         int count = m_24 * m_28;
         unsigned char* cursor = 0;
         float value;
-        if (((int)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 0)
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 0)
         {
             pixelData = new NiPixelData(m_24, m_28, ::DAT_011aa2e8, 1, 1);
             cursor = (unsigned char*)((void *)(reinterpret_cast<::S_0064dac0 *>((pixelData))->FUN_0064dac0(0, 0)));
@@ -683,7 +683,7 @@ NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
             result.FUN_0066b0d0(((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData), (void *)(0), (const ::fnv_00a5ff10::OwnerTriple *)(void *)(&DAT_011a9598)))));
         }
 
-        if (((int)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 1 || ((int)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 0)
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 1 || ((int)(uintptr_t)(reinterpret_cast<::Callees *>((((ParamObj*)srcv)))->FUN_00726070())) == 0)
         {
             m_08.FUN_006e5cc0(result);
         }

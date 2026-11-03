@@ -403,7 +403,7 @@ struct ArrSI
 // @fnv 0x005113d0
 unsigned int ArrSI::HasFlag10000000()
 {
-    return (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) & 0x10000000) != 0;
+    return (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) & 0x10000000) != 0;
 }
 
 struct FUN_00519020_Class
@@ -2838,7 +2838,7 @@ FUN_0050a5a0::FUN_0050a5a0()
 // @fnv 0x00511370
 void TESObjectREFR_Flags::SetRefFlag40000000(bool set)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (set)
         flags |= 0x40000000;
     else

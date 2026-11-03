@@ -1812,10 +1812,10 @@ void Owner::FUN_006271b0(Cell* next, int flag)
         char dummy;
         if (!reinterpret_cast<::FUN_005609f0_shell *>((((Test*)reinterpret_cast<::FUN_0062e120_shell *>((list))->FUN_0062e120(&dummy))))->FUN_005609f0())
         {
-            int count = ((int)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+            int count = ((int)(uintptr_t)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
             ObjArray first;
             ObjArray second;
-            reinterpret_cast<::FUN_00629a20_Class *>(&(second))->FUN_00629a20(((int)(reinterpret_cast<::Callees *>((list))->FUN_00726070())));
+            reinterpret_cast<::FUN_00629a20_Class *>(&(second))->FUN_00629a20(((int)(uintptr_t)(reinterpret_cast<::Callees *>((list))->FUN_00726070())));
             for (int j = 0; j < count; j++)
             {
                 Node* a = ((::fnv_006271b0::Node *)(::FUN_004b59f0(((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>((list))->FUN_00629ab0(j))))));
@@ -1828,7 +1828,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                         reinterpret_cast<::FUN_006299c0_cls *>(&(first))->FUN_006299c0((int)(&b));
                 }
             }
-            for (int j = 0; j < ((int)(reinterpret_cast<::Callees *>(&(first))->FUN_00726070())); j++)
+            for (int j = 0; j < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(first))->FUN_00726070())); j++)
             {
                 if (interior)
                 {
@@ -1842,7 +1842,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                 }
             }
             ObjArray seen;
-            for (int j = 0; j < ((int)(reinterpret_cast<::Callees *>(&(second))->FUN_00726070())); j++)
+            for (int j = 0; j < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(second))->FUN_00726070())); j++)
             {
                 Node* node = ((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(second))->FUN_00629ab0(j)));
                 if (reinterpret_cast<::FUN_00629f10_Class *>(&(seen))->FUN_00629f10((int *)(::fnv_006271b0::Node **)(&node), 0, -1) == -1)
@@ -1874,7 +1874,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                         {
                             ObjArray more;
                             reinterpret_cast<::Mover628 *>(this)->MoveToDestination((::Body628 *)(other), (::Group628 *)(::fnv_006271b0::ObjArray *)(&more));
-                            for (int k = 0; k < ((int)(reinterpret_cast<::Callees *>(&(more))->FUN_00726070())); k++)
+                            for (int k = 0; k < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(more))->FUN_00726070())); k++)
                                 reinterpret_cast<::FUN_006299c0_cls *>(&(seen))->FUN_006299c0((int)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(more))->FUN_00629ab0(k))));
                         }
                     }
@@ -1898,7 +1898,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
         if (!reinterpret_cast<::FUN_00629cf0_cls *>(&(fresh))->LookupValue((int)(key), &bits))
             reinterpret_cast<::FUN_00438690 *>(&(removals))->FUN_007cb2e0((unsigned int *)(::fnv_006271b0::Node **)(&key));
     }
-    for (unsigned i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(removals))->GetName())); i++)
+    for (unsigned i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(removals))->GetName())); i++)
         reinterpret_cast<::NiTMap_S *>(&(map))->RemoveKey((unsigned int)(removals.FUN_00877a30(i)));
 }
 }
@@ -2259,11 +2259,11 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
     new ((void *)&(text)) ::fnv_00437c10::FUN_00437c10();
     Challenge628980* topic = 0;
     List628980 collected;
-    for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++i)
+    for (int i = 0; i < ((int)(uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++i)
     {
         topic = (Challenge628980*)((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((Topic628980*)((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>((input))->FUN_00629ab0(i))))))->FUN_009611e0()));
         List628980* responses = ((::List628980 *)(reinterpret_cast<::FUN_00624700_shell *>((((Topic628980*)((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>((input))->FUN_00629ab0(i))))))->FUN_00624700()));
-        for (int j = 0; j < ((int)(reinterpret_cast<::Callees *>((responses))->FUN_00726070())); ++j)
+        for (int j = 0; j < ((int)(uintptr_t)(reinterpret_cast<::Callees *>((responses))->FUN_00726070())); ++j)
         {
             Voice628980* voice = (Voice628980*)((void *)(::FUN_00460140((int)(((Response628980*)((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>((responses))->FUN_00629ab0(j))))))));
             if (::FUN_00559450((int *)(voice)))
@@ -2281,14 +2281,14 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
         }
     }
     List628980 visited;
-    for (int k = 0; k < ((int)(reinterpret_cast<::Callees *>(&(collected))->FUN_00726070())); ++k)
+    for (int k = 0; k < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(collected))->FUN_00726070())); ++k)
     {
         if (reinterpret_cast<::FUN_00629f10_Class *>(&(visited))->FUN_00629f10((int *)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(collected))->FUN_00629ab0(k))), 0, -1) == -1)
         {
             void* item = FUN_004b5a80(((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(collected))->FUN_00629ab0(k))));
             List628980 expanded;
             reinterpret_cast<::Mover628 *>(this)->MoveToDestination((::Body628 *)(item), (::Group628 *)(::List628980 *)(&expanded));
-            for (int n = 0; n < ((int)(reinterpret_cast<::Callees *>(&(expanded))->FUN_00726070())); ++n)
+            for (int n = 0; n < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(expanded))->FUN_00726070())); ++n)
                 reinterpret_cast<::FUN_006299c0_cls *>(&(visited))->FUN_006299c0((int)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(expanded))->FUN_00629ab0(n))));
         }
     }
@@ -3681,7 +3681,7 @@ bool SpawnAreaB::FUN_006281d0(TESObjectREFRB* pkRef, GridB* pkGrid, hkAabbB* pkO
         {
             SkeletonB* pkSkeleton = ((::SkeletonB *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pk3D))->FUN_007af430()));
             PartListB* pkParts = ((::PartListB *)(reinterpret_cast<::FUN_00624700_shell *>((pkSkeleton))->FUN_00624700()));
-            for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((pkParts))->FUN_00726070())); i++)
+            for (int i = 0; i < ((int)(uintptr_t)(reinterpret_cast<::Callees *>((pkParts))->FUN_00726070())); i++)
             {
                 bhkCollisionB* pkCollision = ((::bhkCollisionB *)(::FUN_00460140((int)((*((::PartB **)&(reinterpret_cast<::FUN_00629ab0_shell *>((pkParts))->FUN_00629ab0(i))))))));
                 if (((NiPointerB*)pkCollision)->operator->())

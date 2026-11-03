@@ -96,7 +96,7 @@ extern int DAT_0104a090;
 
 struct FUN_006010d0_Class
 {
-    int m_field_0;
+    void* m_field_0;
     int FUN_00601100(int);
     int InitializeWithGlobal(int param);
 };
@@ -133,7 +133,7 @@ struct GlobalObject_00869f00
 // @fnv 0x0060bac0
 void GlobalObject_00869f00::Reset()
 {
-    *(int*)this = (int)&DAT_0104ab04;
+    *(void**)this = &DAT_0104ab04;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
 }
 
@@ -340,7 +340,7 @@ struct FUN_0061fa10_class
 int FUN_0061fa10_class::FUN_0061fa10(int a)
 {
     FUN_0061fa70(a);
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0104d948);
+    *reinterpret_cast<void**>(this) = &DAT_0104d948;
     return reinterpret_cast<int>(this);
 }
 
@@ -527,7 +527,7 @@ struct FUN_00601100_cls
 int FUN_006010d0_Class::InitializeWithGlobal(int param)
 {
     reinterpret_cast<::FUN_00601100_cls *>(this)->FUN_00601100(param);
-    m_field_0 = (int)&DAT_0104a090;
+    m_field_0 = &DAT_0104a090;
     return (int)this;
 }
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes them into b, and returns this.

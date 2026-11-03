@@ -350,7 +350,7 @@ struct FUN_0056f690
 FUN_0056f690::FUN_0056f690()
 {
     reinterpret_cast<::FUN_0056d610Class *>((((FUN_0056d610*)this)))->FUN_0056d610();
-    *(int*)this = (int)&DAT_01030dc0;
+    *(void**)this = &DAT_01030dc0;
 }
 
 struct FUN_00456630_helper
@@ -446,7 +446,7 @@ float& FUN_005770e0_shell::GetCharacterControllerValue(unsigned int a, unsigned 
 extern int DAT_01030f6c;
 struct FUN_0057c470Class
 {
-    int m;
+    void* m;
     int* FUN_0057c470(int);
 };
 struct WaterShaderSettings
@@ -590,7 +590,7 @@ void FUN_00564d20_Class::SetFlag100000(unsigned char abSet)
 {
     if (!((bool(*)(void*))(*reinterpret_cast<void***>(this))[0x40])(this))
     {
-        unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName()));
+        unsigned int flags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName()));
         if (abSet)
             flags |= 0x100000;
         else
@@ -607,7 +607,7 @@ struct ArrSI
 // @fnv 0x00564d80
 bool ArrSI::FUN_00564d80()
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (flags & 0x40000)
         return true;
     else
@@ -990,7 +990,7 @@ struct FUN_0057c440 : FUN_00559b40
 // @fnv 0x0057c440
 FUN_0057c440::FUN_0057c440(int aiValue) : FUN_00559b40(aiValue)
 {
-    *(int*)this = (int)&DAT_01030f4c;
+    *(void**)this = &DAT_01030f4c;
 }
 
 struct Node
@@ -1063,8 +1063,8 @@ struct FUN_0057c7e0_Class
 int* FUN_0057c470Class::FUN_0057c470(int a)
 {
     reinterpret_cast<::FUN_0057c7e0_Class *>(this)->InitArray(a);
-    m = (int)&DAT_01030f6c;
-    return &m;
+    m = &DAT_01030f6c;
+    return reinterpret_cast<int*>(&m);
 }
 // @fnv 0x0057c7e0
 int* FUN_0057c7e0_Class::InitArray(int count)
@@ -1083,7 +1083,7 @@ extern int DAT_01030fb4;
 // @fnv 0x0057c930
 void FUN_0057c930_class::FUN_0057c930()
 {
-    *(int*)this = (int)&DAT_01030fb4;
+    *(void**)this = &DAT_01030fb4;
     reinterpret_cast<::FUN_00438af0_Class *>((((FUN_0057ca30_Class*)this)))->FUN_00438af0();
     ::FUN_00aa10f0(((void**)this)[2]);
 }

@@ -243,7 +243,7 @@ struct GlobalObject_00869f00
 // @fnv 0x006e1050
 void GlobalObject_00869f00::FUN_006e1050()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106cef8);
+    *reinterpret_cast<void**>(this) = &DAT_0106cef8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
 }
 
@@ -281,7 +281,7 @@ void FUN_006e10a0_Class::FUN_006e10a0()
 
 struct FUN_006e2080_Class
 {
-    int m;
+    void* m;
     int FUN_006e2080(int a1);
 };
 struct Copy9
@@ -467,7 +467,7 @@ FUN_006ec410_Class::~FUN_006ec410_Class()
 // @fnv 0x006ec430
 void FUN_006ec430_Class::FUN_006ec430()
 {
-    *(int*)this = (int)&DAT_0106d710;
+    *(void**)this = &DAT_0106d710;
 }
 
 extern "C" void __cdecl FUN_006ecc00();
@@ -550,7 +550,7 @@ struct FUN_006ecf20_Class
 // @fnv 0x006ecf20
 void FUN_006ecf20_Class::FUN_006ecf20()
 {
-    *(int*)this = (int)&DAT_0106d7a0;
+    *(void**)this = &DAT_0106d7a0;
 }
 
 struct FUN_006ed0e0_Class
@@ -776,7 +776,7 @@ struct Dummy_0061bf20
 // @fnv 0x006f4b10
 Dummy_0061bf20* Dummy_0061bf20::FUN_006f4b10()
 {
-    *(int*)this = (int)&DAT_0106d974;
+    *(void**)this = &DAT_0106d974;
     reinterpret_cast<::FUN_006b3f40_Class *>((this))->FUN_006b3f40(0, 0);
     return this;
 }
@@ -874,7 +874,7 @@ struct FUN_006f98c0_Class
 };
 struct FUN_006f9680_Class
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     int FUN_006f9680(int a1);
 };
 extern int DAT_0106df58;
@@ -931,7 +931,7 @@ struct FUN_006f9870_Class
 // @fnv 0x006f9870
 AX* FUN_006f9870_Class::FUN_006f9870()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106df8c);
+    *reinterpret_cast<void**>(this) = &DAT_0106df8c;
     reinterpret_cast<AX*>(this)->FUN_006b3eb0(0, 0);
     return reinterpret_cast<AX*>(this);
 }
@@ -949,7 +949,7 @@ struct FUN_006f98a0_Class
 // @fnv 0x006f98a0
 void FUN_006f98a0_Class::FUN_006f98a0()
 {
-    *(int*)this = (int)&::fnv_006f9870::DAT_0106df8c;
+    *(void**)this = &::fnv_006f9870::DAT_0106df8c;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_006f98a0
@@ -1066,7 +1066,7 @@ struct FUN_006ffc00_Class
 // @fnv 0x006ff9a0
 void FUN_006ffc00_Class::FUN_006ff9a0()
 {
-    *(int*)this = (int)&DAT_0106e7a4;
+    *(void**)this = &DAT_0106e7a4;
     if (*(unsigned char*)((char*)this + 4) & 1)
         UnregisterSteamCallback();
 }
@@ -1074,7 +1074,7 @@ void FUN_006ffc00_Class::FUN_006ff9a0()
 extern int DAT_0106e7c4;
 struct FUN_006ffa40_Class
 {
-    int m_vtbl;
+    void* m_vtbl;
     bool m_flag;
     void FUN_006ffa40();
 };
@@ -1082,7 +1082,7 @@ struct FUN_006ffa40_Class
 // @fnv 0x006ffa40
 void FUN_006ffa40_Class::FUN_006ffa40()
 {
-    m_vtbl = (int)&DAT_0106e7c4;
+    m_vtbl = &DAT_0106e7c4;
     if (m_flag & 1)
         reinterpret_cast<::FUN_006ffc00_Class *>(this)->UnregisterSteamCallback();
 }
@@ -1258,7 +1258,7 @@ struct FUN_006e20e0_Class
 int FUN_006e2080_Class::FUN_006e2080(int a1)
 {
     new ((void *)this) ::FUN_006e20e0_Class(a1);
-    m = (int)&DAT_0106cf68;
+    m = &DAT_0106cf68;
     return (int)this;
 }
 // Sets the vtable, stores a1 and zeroes a newly allocated buffer of a1*4 bytes.
@@ -1332,7 +1332,7 @@ struct FUN_006e5fa0 : public PathingRequestClosePoint
 // @fnv 0x006e5fa0
 FUN_006e5fa0::FUN_006e5fa0()
 {
-    *(int*)this = (int)&DAT_0106d414;
+    *(void**)this = &DAT_0106d414;
     m_B8 = 0;
 }
 
@@ -1507,7 +1507,7 @@ struct FUN_006ec090_Class
 FUN_006ec090_Class* FUN_006ec090_Class::FUN_006ec090(int aiValue)
 {
     ((FUN_006ecb40_Class*)this)->FUN_006ecb40();
-    *(int*)this = (int)&DAT_0106d678;
+    *(void**)this = &DAT_0106d678;
     this->f8 = aiValue;
     this->fC = 0;
     this->f10 = (void*)((char*)&this->fC);
@@ -1542,7 +1542,7 @@ struct Holder_6ec340
 Holder_6ec340* Holder_6ec340::FUN_006ec340()
 {
     new ((void *)(((Call_6ecb70*)this))) ::fnv_006ecb70::FUN_006ecb70_Class();
-    *(int*)this = (int)&DAT_0106d6d0;
+    *(void**)this = &DAT_0106d6d0;
     *(int*)((char*)this + 0x408) = 0;
     *(int*)((char*)this + 0x40C) = 0;
     *(int*)((char*)this + 0x410) = 0;
@@ -1896,7 +1896,7 @@ void* __cdecl __memcpy(void* dst, const void* src, unsigned int n);
 void* FUN_006f2c40_Class::ReallocateArray(int pOldBuffer, int a2)
 {
     void* dst = m_pStreamAllocator->FUN_00aa54a0(a2 * 0x28, DAT_010a2720);
-    __memcpy(dst, (const void*)pOldBuffer, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) * 0x28);
+    __memcpy(dst, (const void*)pOldBuffer, ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) * 0x28);
     reinterpret_cast<::SHStub *>((m_pStreamAllocator))->FUN_00aa5610((void*)pOldBuffer);
     return dst;
 }
@@ -1936,7 +1936,7 @@ struct FUN_006f2ed0_Class
 void* FUN_006f2ed0_Class::FUN_006f2ed0(const void* src, unsigned int n)
 {
     void* p = reinterpret_cast<::FUN_00aa54a0_s *>((reinterpret_cast<FUN_00aa54a0_s*>(*(void**)((char*)this + 0x10))))->FUN_00aa54a0(n << 4, ::DAT_010a2720);
-    __memcpy(p, src, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())) << 4);
+    __memcpy(p, src, ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())) << 4);
     reinterpret_cast<::SHStub *>((reinterpret_cast<FUN_00aa54a0_s*>(*(void**)((char*)this + 0x10))))->FUN_00aa5610((void*)src);
     return p;
 }
@@ -2866,7 +2866,7 @@ struct FUN_006f98c0_Class2
 int FUN_006f9680_Class::FUN_006f9680(int aiValue)
 {
     new ((void *)(((FUN_006f98c0_Class*)this))) ::FUN_006f98c0_Class2(aiValue);
-    m_iWordAt00 = (int)&DAT_0106df38;
+    m_iWordAt00 = &DAT_0106df38;
     return (int)this;
 }
 // Sets the vtable, stores count and zeroes a newly allocated count*4-byte buffer when count is non-zero.
@@ -3340,7 +3340,7 @@ struct FUN_006f02e0_Class
 // @fnv 0x006f02e0
 void FUN_006f02e0_Class::CopyNodePositions()
 {
-    for (int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x90)))->GetName())); ++i)
+    for (int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x90)))->GetName())); ++i)
     {
         *reinterpret_cast<FUN_006f02e0_Point*>(
             reinterpret_cast<unsigned char*>(*reinterpret_cast<FUN_006f02e0_Node**>(
@@ -3842,7 +3842,7 @@ void FUN_006ee5d0_Class::CreateNavMeshEdges()
                 reinterpret_cast<FUN_006ee5d0_Edge*>(q)->m_short = node.m_flags;
                 reinterpret_cast<FUN_006ee5d0_Edge*>(q)->m_value10 = 0xffffffff;
                 reinterpret_cast<FUN_006ee5d0_Edge*>(q)->m_flags =
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0x68)))->GetName()));
+                    ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0x68)))->GetName()));
 
                 r = CreateSize28(this);
                 reinterpret_cast<FUN_006ee5d0_Edge*>(r)->m_vContactPosition.m_uiX =
@@ -3853,7 +3853,7 @@ void FUN_006ee5d0_Class::CreateNavMeshEdges()
                 reinterpret_cast<FUN_006ee5d0_Edge*>(r)->m_short = node.m_flags;
                 reinterpret_cast<FUN_006ee5d0_Edge*>(r)->m_value10 = 0xffffffff;
                 reinterpret_cast<FUN_006ee5d0_Edge*>(r)->m_flags =
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0x7c)))->GetName()));
+                    ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0x7c)))->GetName()));
 
                 reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0x40)))->FUN_007cb2e0((unsigned int *)&(p));
                 reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0x54)))->FUN_007cb2e0((unsigned int *)&(p));
@@ -4467,8 +4467,8 @@ bool FUN_006e7190_cls::UpdateAndCheck(void* a1, void* a2)
     reinterpret_cast<::FUN_0062a2b0_Class *>(&(m_80->m_30))->FUN_0062a2b0();
     reinterpret_cast<::FUN_0062a290_Class *>((m_84))->FUN_0062a290();
     m_88 = m_88 + 1;
-    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>((m_80))->FUN_004a3da0((void *)((int)a1));
-    reinterpret_cast<::FUN_004a3eb0_shell *>((m_80))->FUN_004a3eb0((void *)((int)a2));
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>((m_80))->FUN_004a3da0((void *)(a1));
+    reinterpret_cast<::FUN_004a3eb0_shell *>((m_80))->FUN_004a3eb0((void *)(a2));
     if (m_7c->Check(m_80) != 0)
     {
         return false;
@@ -5074,7 +5074,7 @@ void FUN_006eec00_Class::SetEntry(unsigned int index, void* value, unsigned char
     {
         reinterpret_cast<::FUN_006f23d0_Class *>((reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x68)))->FUN_006f23d0(index, value);
         for (unsigned int i = index;
-             i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x68)))->GetName())); ++i)
+             i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x68)))->GetName())); ++i)
         {
             (*reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x68)->FUN_00877a30(i))->index = i;
         }
@@ -5083,7 +5083,7 @@ void FUN_006eec00_Class::SetEntry(unsigned int index, void* value, unsigned char
     {
         reinterpret_cast<::FUN_006f23d0_Class *>((reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x7c)))->FUN_006f23d0(index, value);
         for (unsigned int j = index;
-             j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x7c)))->GetName())); ++j)
+             j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x7c)))->GetName())); ++j)
         {
             (*reinterpret_cast<FUN_006eec00_Array*>(reinterpret_cast<char*>(this) + 0x7c)->FUN_00877a30(j))->index = j;
         }
@@ -5125,7 +5125,7 @@ void FUN_006eecc0_Owner::AssignRecordIndices(unsigned int first, unsigned int la
 {
     reinterpret_cast<::FUN_006f23d0_Class *>((reinterpret_cast<IndexCollection*>(reinterpret_cast<char*>(this) + 0x90)))->FUN_006f23d0(first, (*(void * *)(&last)));
     for (unsigned int index = first;
-         index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<IndexCollection*>(reinterpret_cast<char*>(this) + 0x90)))->GetName())); ++index)
+         index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<IndexCollection*>(reinterpret_cast<char*>(this) + 0x90)))->GetName())); ++index)
     {
         (*reinterpret_cast<IndexCollection*>(reinterpret_cast<char*>(this) + 0x90)->FUN_00877a30(index))->unk48 = index;
     }
@@ -5159,12 +5159,12 @@ void F08::FUN_006eef80()
     ((::N08 *)&(::GetFirstForm((::NiFormArray *)&(unk40))))->copy = ((::N08 *)&(::GetFirstForm((::NiFormArray *)&(unk40))))->original;
     ((::N08 *)&(::GetFirstForm((::NiFormArray *)&(unk54))))->copy = ((::N08 *)&(::GetFirstForm((::NiFormArray *)&(unk54))))->original;
     unsigned int i = 1;
-    while (i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(unk40))->GetName())) - 1)
+    while (i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(unk40))->GetName())) - 1)
     {
         i = UpdateNodeDirection(i, unk2c, true);
     }
     i = 1;
-    while (i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(unk54))->GetName())) - 1)
+    while (i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(unk54))->GetName())) - 1)
     {
         i = UpdateNodeDirection(i, unk2c, false);
     }
@@ -5209,7 +5209,7 @@ struct Host_6f03a0
 // @fnv 0x006f03a0
 void Host_6f03a0::FUN_006f03a0()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr90))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr90))->GetName())); ++i)
     {
         arr90.GetAt(i)->pos08 = (arr90.GetAt(i)->pos20 + arr90.GetAt(i)->pos2c) * ::fnv_00c88020::DAT_01016248;
     }
@@ -6372,7 +6372,7 @@ class FNVOwner_cls
 // @fnv 0x006f9740
 FUN_006f9740_Class* FUN_006f9740_Class::FUN_006f9740()
 {
-    *(int*)this = (int)&DAT_0106df78;
+    *(void**)this = &DAT_0106df78;
     reinterpret_cast<::FakeArray *>(this)->ResizeAndFill(0, 0);
     return this;
 }
@@ -7717,7 +7717,7 @@ void Class_6e7230::ComputeBounds(FUN_006cee10_shell* pNodeList)
     min = Point3_stub(3.402823466e+38F, 3.402823466e+38F, 3.402823466e+38F);
     max = Point3_stub(::DAT_01015f5c, ::DAT_01015f5c, ::DAT_01015f5c);
 
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNodeList))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pNodeList))->GetName())); i++)
     {
         min.x = ::FUN_0040ebd0(((Node_6cee10*)reinterpret_cast<::FUN_006cee10_shell *>((pNodeList))->FUN_006cee10(i))->pt.x, min.x);
         min.y = ::FUN_0040ebd0(((Node_6cee10*)reinterpret_cast<::FUN_006cee10_shell *>((pNodeList))->FUN_006cee10(i))->pt.y, min.y);
@@ -8164,7 +8164,7 @@ unsigned int HostP059::UpdateNodeDirection(unsigned int index, float radius, boo
     b = *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index + 1))) - *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
     if (reinterpret_cast<::NiPoint3 *>(&(f))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::fnv_006ef0c0::PointP059 *>((void *)&::NiPoint3::ZERO)))) && index > 1)
         f = *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 2))) - *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
-    if (reinterpret_cast<::NiPoint3 *>(&(b))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::fnv_006ef0c0::PointP059 *>((void *)&::NiPoint3::ZERO)))) && index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((l))->GetName())) - 2)
+    if (reinterpret_cast<::NiPoint3 *>(&(b))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::fnv_006ef0c0::PointP059 *>((void *)&::NiPoint3::ZERO)))) && index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((l))->GetName())) - 2)
         b = *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index + 2))) - *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
     f.z = 0.0f;
     b.z = 0.0f;
@@ -8387,7 +8387,7 @@ bool FNV_006ef920::CheckEdges()
 {
     FNV_006ef920_Nodes* prevA = reinterpret_cast<FNV_006ef920_Entry*>(*edges.FUN_00877a30(0))->sideA;
     FNV_006ef920_Nodes* prevB = reinterpret_cast<FNV_006ef920_Entry*>(*edges.FUN_00877a30(0))->sideB;
-    for (unsigned int index = 1; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++index)
+    for (unsigned int index = 1; index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++index)
     {
         FNV_006ef920_Nodes* nextA = reinterpret_cast<FNV_006ef920_Entry*>(*edges.FUN_00877a30(index))->sideA;
         FNV_006ef920_Nodes* nextB = reinterpret_cast<FNV_006ef920_Entry*>(*edges.FUN_00877a30(index))->sideB;
@@ -8434,7 +8434,7 @@ bool FNV_006ef920::CheckEdges()
         prevA = nextA;
         prevB = nextB;
     }
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++index)
     {
         FNV_006ef920_Nodes* nodesA = reinterpret_cast<FNV_006ef920_Entry*>(*edges.FUN_00877a30(index))->sideA;
         FNV_006ef920_Nodes* nodesB = reinterpret_cast<FNV_006ef920_Entry*>(*edges.FUN_00877a30(index))->sideB;
@@ -8757,9 +8757,9 @@ void PSSolution::BuildLocations()
     int iPreviousNodeIndex = -1;
     int i = 1;
     float fAccum = 0.0f;
-    while (i < ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName())) + 1)
+    while (i < ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName())) + 1)
     {
-        if (i != ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName())))
+        if (i != ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName())))
             fAccum += 1.0f - kNodes.GetAt(i - 1)->m_fPathingCostCur;
 
         bool bAdd = false;
@@ -8769,7 +8769,7 @@ void PSSolution::BuildLocations()
         }
         else
         {
-            PSNode* pNode = (i == ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName()))) ? 0 : kNodes.GetAt(i);
+            PSNode* pNode = (i == ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName()))) ? 0 : kNodes.GetAt(i);
             if (pNode && pNode->pPathNodeDoor)
             {
                 bAdd = true;
@@ -8777,7 +8777,7 @@ void PSSolution::BuildLocations()
             else
             {
                 PSPoint3 kFrom = (iPreviousNodeIndex == -1) ? kStart : kNodes.GetAt(iPreviousNodeIndex)->kPosition;
-                PSPoint3 kTo = (i == ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName()))) ? kEnd : kNodes.GetAt(i)->kPosition;
+                PSPoint3 kTo = (i == ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodes))->GetName()))) ? kEnd : kNodes.GetAt(i)->kPosition;
                 if (!reinterpret_cast<::FUN_006ed7d0_Class *>(this)->FUN_006ed7d0(iPreviousNodeIndex + 1, i - 1, (const ::NiPoint3 &)(kFrom), (const ::NiPoint3 &)(kTo)))
                     bAdd = true;
             }
@@ -8922,7 +8922,7 @@ void AvoidPath::ClipPathAgainstObstacles()
     if (objects)
     {
         FUN_006f2d80 obstacles;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((objects))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((objects))->GetName())); ++i)
         {
             AvoidObject object = objects->FUN_006a1400(i);
             bool include = true;
@@ -8934,9 +8934,9 @@ void AvoidPath::ClipPathAgainstObstacles()
                 reinterpret_cast<::Arr16 *>(&(obstacles))->AppendElement((const ::Elem16 *)&(sphere));
             }
         }
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(obstacles))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(obstacles))->GetName())); ++i)
         {
-            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())) - 1; ++j)
+            for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())) - 1; ++j)
             {
                 if (!FUN_006ba9e0((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j + 1)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))),
                                   ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius))
@@ -8949,13 +8949,13 @@ void AvoidPath::ClipPathAgainstObstacles()
                 entryValid2[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[0]));
                 entryValid2[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[1]));
                 unsigned int end14 = j + 1;
-                while (end14 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())))
+                while (end14 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())))
                 {
                     if (!reinterpret_cast<::C6F1BC0Sphere *>((((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))))->FUN_006f1bc0((const ::NiPoint3 &)((const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))))
                         break;
                     ++end14;
                 }
-                if (end14 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())))
+                if (end14 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())))
                 {
                     FUN_006815c0 exit[2];
                     if (ComputeCircleTangents(((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius,
@@ -9111,7 +9111,7 @@ void FUN_006f1c10_Path::AppendSegments(bool abIncludeStart, bool abIncludeEnd)
         PathSegment kFirst(kStart, ((int)(reinterpret_cast<::FUN_0068efb0_shell *>((((::PathCell *)&(::GetFirstElement((const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(pCells))))))->FUN_0068efb0())));
         reinterpret_cast<::FUN_006ed7a0_Class *>(this)->FUN_006ed7a0((const ::PathingLocation &)(kFirst));
     }
-    for (unsigned int i = 1; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kSegments))->GetName())) - 1; i++)
+    for (unsigned int i = 1; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kSegments))->GetName())) - 1; i++)
         reinterpret_cast<::FUN_006ed7a0_Class *>(this)->FUN_006ed7a0((const ::PathingLocation &)(kSegments.FUN_00691750(i)));
     if (abIncludeEnd)
     {
@@ -9197,13 +9197,13 @@ class F1ED0Area
 // @fnv 0x006f1ed0
 bool F1ED0Area::IsSegmentClear(const F1ED0Point3& kStart, const F1ED0Point3& kEnd)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kOuterEdges))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kOuterEdges))->GetName())); i++)
     {
         if (F1ED0SegmentsIntersect(kStart, kEnd, m_kOuterEdges.GetAt(i)->m_pkStart->m_kPos,
                                    m_kOuterEdges.GetAt(i)->m_pkEnd->m_kPos))
             return false;
     }
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kInnerEdges))->GetName())); j++)
+    for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kInnerEdges))->GetName())); j++)
     {
         if (F1ED0SegmentsIntersect(kStart, kEnd, m_kInnerEdges.GetAt(j)->m_pkStart->m_kPos,
                                    m_kInnerEdges.GetAt(j)->m_pkEnd->m_kPos))
@@ -9266,7 +9266,7 @@ bool Host1fc0::FUN_006f1fc0(int apPoint)
     if (FUN_006b9cf0(pt08, (*arr90.FUN_00877a30(0))->second->pt, (*arr90.FUN_00877a30(0))->first->pt,
                      *(const NiPoint3*)apPoint, f6, DAT_0106b158, DAT_0106b158))
         return true;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr90))->GetName())) - 1; i++)
+    for (i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr90))->GetName())) - 1; i++)
     {
         if ((*arr90.FUN_00877a30(i))->first == (*arr90.FUN_00877a30(i + 1))->first)
         {
@@ -9829,9 +9829,9 @@ FUN_006f5370::~FUN_006f5370()
         ((::SceneRelease *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((((::OwnerRef *)(::FUN_00559450((int *)(owner))))))->FUN_004ea9c0()))->Detach(scene10);
     }
     if ((void*)queue18)
-        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::Helper_b9266 * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)((unsigned int)(void*)queue18), 0);
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::Helper_b9266 * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)((void*)queue18), 0);
     if ((void*)queue1c)
-        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::Helper_b9266 * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)((unsigned int)(void*)queue1c), 0);
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::Helper_b9266 * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)((void*)queue1c), 0);
     ::FUN_00c45830((::MyRef *)(void *)(scene08));
     ::FUN_00c45830((::MyRef *)(void *)(scene10));
     reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::QueueHandle &)(queue18))->FUN_006f74f0((::ObjA *)(void *)(0));
@@ -10075,7 +10075,7 @@ FUN_006fa420::~FUN_006fa420()
     }
     else if (queued)
     {
-        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::Helper_b9266 * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)((unsigned int)(QueuedFile*)queued), 0);
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::Helper_b9266 * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)((QueuedFile*)queued), 0);
     }
     reinterpret_cast<::detach6fb::D6Detacher *>(this)->FUN_006fb3d0(0);
     ::FUN_00c45830((::MyRef *)(::NiNode *)(node10));
@@ -10233,7 +10233,7 @@ SearchNode* Search::StepSearch()
         }
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(neighbours5))->Clear(false);
         Expand(current, &neighbours5);
-        for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(neighbours5))->GetName())); ++index)
+        for (unsigned int index = 0; index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(neighbours5))->GetName())); ++index)
         {
             SearchNode* node = neighbours5.At(index);
             reinterpret_cast<::FUN_006f4430_Class *>(&(open))->UnlinkFromList((int *)(node));
@@ -10407,8 +10407,8 @@ public:
 // @fnv 0x006f0d20
 void HeightPath::FlattenPathPoints()
 {
-    HeightFlags flags9(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())));
-    for (unsigned index4 = 0; index4 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())); ++index4)
+    HeightFlags flags9(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())));
+    for (unsigned index4 = 0; index4 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())); ++index4)
     {
         HeightPtr mesh6;
         if (reinterpret_cast<::NavMeshInfo *>((points.GetAt(index4)->info))->ResolveNavMesh((::NavMeshPtr &)(mesh6)))
@@ -10420,11 +10420,11 @@ void HeightPath::FlattenPathPoints()
     {
         unsigned last5 = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((int)&(const bool &)(false), firstB + 1, (bool (*)(int, int))(AreBytesEqual))));
         if (last5 == -1)
-            last5 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1;
+            last5 = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1;
         else
             --last5;
         HeightEntry* beforeB = firstB == 0 ? 0 : points.GetAt(firstB - 1);
-        HeightEntry* after5 = last5 == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1 ? 0 : points.GetAt(last5 + 1);
+        HeightEntry* after5 = last5 == ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1 ? 0 : points.GetAt(last5 + 1);
         if (beforeB)
             beforeB->boundary = 1;
         if (after5)
@@ -10438,7 +10438,7 @@ void HeightPath::FlattenPathPoints()
             float distance4 = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::HeightVec &)((points.GetAt(cursorA)->position - fromB)))->FUN_00589850();
             points.GetAt(cursorA)->position.z = fromB.z + delta5 * distance4 / lengthVal;
         }
-        if (last5 != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1)
+        if (last5 != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags9))->GetName())) - 1)
         {
             firstB = ((unsigned int)(reinterpret_cast<::FUN_006cf700_cls *>(&(flags9))->FindIndexIf((int)&(const bool &)(true), last5 + 1, (bool (*)(int, int))(AreBytesEqual))));
         }
@@ -10500,7 +10500,7 @@ struct PathSmoother
 void PathSmoother::FUN_006ed850()
 {
     reinterpret_cast<::EDBC0Builder *>(this)->FUN_006edbc0();
-    for (unsigned int i8 = 0; i8 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m24))->GetName())); i8++)
+    for (unsigned int i8 = 0; i8 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m24))->GetName())); i8++)
     {
         P3 a;
         P3 b;
@@ -10664,7 +10664,7 @@ Node* FUN_006ee740_Class::SplitNode(unsigned index, bool side, const NiPoint3& s
     Node* added = ((::Node *)(reinterpret_cast<::Host_006edc40 *>(this)->FUN_006edc40()));
     added->origin = old->origin;
     added->info.FUN_0069a690(&old->info);
-    unsigned count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(old->edges))->GetName()));
+    unsigned count = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(old->edges))->GetName()));
     old->position = start;
     old->direction = old->position - old->origin;
     added->position = end;
@@ -10778,7 +10778,7 @@ void PBBuilder::AddPathFromContext(const Position_006edd30* apPosition, int aiIn
     pRetrievedObject->nextIndex = (pContext9->m_iEdgeNumber + 1) % 3;
     pRetrievedObject->active =
         ((unsigned char)(reinterpret_cast<::FUN_0068f200_shell *>((((::PBTriangle *)(reinterpret_cast<::NavMesh *>((pContext9->m_pLocationNavMesh))->GetTriangle(pContext9->usIndex)))))->FUN_0068f200(pRetrievedObject->nextIndex)));
-    pRetrievedObject->state = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kStartEdges))->GetName()));
+    pRetrievedObject->state = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kStartEdges))->GetName()));
 
     Path_006edd30* pPath2 = ((::Path_006edd30 *)(reinterpret_cast<::FUN_006ee070_cls *>(this)->CreateObject()));
     pPath2->start = pLocation;
@@ -10786,7 +10786,7 @@ void PBBuilder::AddPathFromContext(const Position_006edd30* apPosition, int aiIn
     pPath2->stamp = ((unsigned int)(reinterpret_cast<::FUN_0068efb0_shell *>((pContext9->m_pLocationNavMesh))->FUN_0068efb0()));
     pPath2->index = pContext9->usIndex;
     pPath2->formID = pContext9->m_iEdgeNumber;
-    pPath2->state = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kPaths))->GetName()));
+    pPath2->state = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kPaths))->GetName()));
     pPath2->startEdge = pRetrievedObject;
     pPath2->finishEdge = (PathEdge_006edd30*)*reinterpret_cast<::FUN_006f2270 *>(&(kEndEdges))->GetLast();
     reinterpret_cast<::FUN_00438690 *>(&(pLocation->relatedPaths))->FUN_007cb2e0((unsigned int *)(void **)((void**)&pPath2));
@@ -10819,14 +10819,14 @@ void Builder390::AddPathFromEdge(const Vec390* position, int index)
     link->triangle = parent->triangle;
     link->edge = (parent->edge + 2) % 3;
     link->flag = ((unsigned char)(reinterpret_cast<::FUN_0068f200_shell *>((((::Tri390 *)(reinterpret_cast<::NavMesh *>((parent->mesh))->GetTriangle(parent->triangle)))))->FUN_0068f200(link->edge)));
-    link->index = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(links))->GetName()));
+    link->index = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(links))->GetName()));
     Path390* path8 = ((::Path390 *)(reinterpret_cast<::FUN_006ee070_cls *>(this)->CreateObject()));
     path8->previous = ((::Path390 *)(reinterpret_cast<::FUN_006f2270 *>(&(paths))->GetLast()));
     path8->location = location5;
     path8->info = ((::Info390 *)(reinterpret_cast<::FUN_0068efb0_shell *>((parent->mesh))->FUN_0068efb0()));
     path8->triangle = parent->triangle;
     path8->edge = parent->edge;
-    path8->index = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(allPaths))->GetName()));
+    path8->index = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(allPaths))->GetName()));
     path8->prior = ((::Path390 *)(reinterpret_cast<::FUN_006f2270 *>(&(other))->GetLast()));
     path8->link = link;
     reinterpret_cast<::FUN_00438690 *>(&(location5->paths))->FUN_007cb2e0((unsigned int *)&(path8));
@@ -11858,7 +11858,7 @@ public:
 // @fnv 0x006f0450
 void SMPPath::SmoothNodes()
 {
-    for (int i = 0; i < ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())); i++)
+    for (int i = 0; i < ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())); i++)
     {
         SMPPoint kBeforeNew(0.0f, 0.0f, 0.0f);
         unsigned int uiBeforeNext = 0;
@@ -11870,12 +11870,12 @@ void SMPPath::SmoothNodes()
                 uiBeforeNext++;
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::SMPPoint &)(kBeforeNew))->FUN_0063c8a0((void *)&(m_kStartPoint));
             }
-            else if (iIndex == ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
+            else if (iIndex == ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
             {
                 uiBeforeNext++;
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::SMPPoint &)(kBeforeNew))->FUN_0063c8a0((void *)&(m_kEnd));
             }
-            else if (iIndex >= 0 && iIndex < ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
+            else if (iIndex >= 0 && iIndex < ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
             {
                 uiBeforeNext++;
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::SMPPoint &)(kBeforeNew))->FUN_0063c8a0((void *)&(m_kNodeArray.FUN_00877a30(iIndex)->m_kPos));
@@ -11895,12 +11895,12 @@ void SMPPath::SmoothNodes()
                 uiAfter++;
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::SMPPoint &)(kAfterIn))->FUN_0063c8a0((void *)&(m_kStartPoint));
             }
-            else if (iIndex2 == ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
+            else if (iIndex2 == ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
             {
                 uiAfter++;
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::SMPPoint &)(kAfterIn))->FUN_0063c8a0((void *)&(m_kEnd));
             }
-            else if (iIndex2 >= 0 && iIndex2 < ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
+            else if (iIndex2 >= 0 && iIndex2 < ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())))
             {
                 uiAfter++;
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::SMPPoint &)(kAfterIn))->FUN_0063c8a0((void *)&(m_kNodeArray.FUN_00877a30(iIndex2)->m_kPos));

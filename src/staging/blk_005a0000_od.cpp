@@ -632,7 +632,7 @@ void FUN_005a7a90_shell::FUN_005a7a90()
     ((FUN_00487010_shell*)&this->unk18)->FUN_00487010();
     if (FUN_00401500())
         reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)&this->unk24)))->ClearData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e20_shell*)this)))->FUN_00485e20((const void *)((int)((char*)&this->unk24)), 1);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e20_shell*)this)))->FUN_00485e20((const void *)(((char*)&this->unk24)), 1);
     if (FUN_00401500())
         reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)&this->unk24)))->ClearData();
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();

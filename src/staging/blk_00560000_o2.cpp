@@ -494,7 +494,7 @@ void Ref56D::FUN_0056d7e0()
         kXform.m_fScale = 1.0f;
         Layer56D* pkLayer = ((::Layer56D *)(reinterpret_cast<::FUN_004211a0_StandIn *>((((::ExtraList56D *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_004211a0()));
         unsigned int uiLayer = pkLayer ? ((unsigned int)(::FUN_00559450((int *)(pkLayer)))) : 0x16;
-        if (uiLayer != 0x17 && ((int)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 1 && reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Matrix56D &)(kXform.m_kRotate))->operator==((const ::ThreeByThreeMatrix &)((*reinterpret_cast<const ::Matrix56D *>(&::DAT_011a9448)))))
+        if (uiLayer != 0x17 && ((int)(uintptr_t)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 1 && reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Matrix56D &)(kXform.m_kRotate))->operator==((const ::ThreeByThreeMatrix &)((*reinterpret_cast<const ::Matrix56D *>(&::DAT_011a9448)))))
         {
             BoxBodyCinfo56D kInfo;
             hkVector4_56D kVec;
@@ -513,12 +513,12 @@ void Ref56D::FUN_0056d7e0()
         }
         else
         {
-            if (((int)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 1)
+            if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 1)
             {
                 ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(m_kPoint2), (const ::fnv_004a3e00::NiPoint3 &)((const ::Point56D &)(pkBound->GetExtents())));
                 pkShape = new BoxShape56D(m_kPoint2);
             }
-            if (((int)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 2)
+            if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 2)
                 pkShape = new SphereShape56D(FUN_004a3e90(pkBound->GetExtents().x), 0);
             BodyCinfo56D kInfo;
             kInfo.m_pvShape = ((void *)(reinterpret_cast<::FUN_00620b80_shell *>((pkShape))->GetReferenceFlags()));

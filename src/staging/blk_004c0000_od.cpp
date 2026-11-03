@@ -183,7 +183,7 @@ struct FUN_004d7d50_StandIn
 // @fnv 0x004d7d50
 unsigned int FUN_004d7d50_StandIn::FUN_004d7d50()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xC8))))->GetName()));
+    return ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xC8))))->GetName()));
 }
 
 struct FUN_004d8510_StandIn
@@ -262,7 +262,7 @@ int FUN_004d8a20_Class::GetEntry(unsigned short index)
 extern int DAT_01020fe4;
 struct FUN_004d8fa0_StandIn
 {
-    int m_p;
+    void* m_p;
     FUN_004d8fa0_StandIn* FUN_004d8fa0(int a);
 };
 struct FUN_004d9190_Class
@@ -776,7 +776,7 @@ struct FUN_004d8fa0_Class
 FUN_004d8fa0_StandIn* FUN_004d8fa0_StandIn::FUN_004d8fa0(int a)
 {
     reinterpret_cast<::FUN_004d8fa0_Class *>(this)->FUN_004d9000(a);
-    m_p = (int)&DAT_01020fe4;
+    m_p = &DAT_01020fe4;
     return this;
 }
 
@@ -3317,7 +3317,7 @@ void HostClass::SendModifierMessages(int a1, NiObject* apObject)
 // @fnv 0x004d7d70
 void* Owner::GetByIndex(unsigned int idx)
 {
-    if (idx >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kList))->GetName())))
+    if (idx >= ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kList))->GetName())))
         return 0;
     unsigned int i = 0;
     void* n = ((void *)(::FUN_00559450((int *)&(kList))));
@@ -3500,7 +3500,7 @@ void RecreateRenderDevice()
         bool bSuccess = reinterpret_cast<::fnv_00e73eb0::DX9RendererE73E *>((((E73shell*)FUN_004bc3f0())))->FUN_00e73eb0(DAT_011c70e0, DAT_011c70e4) != 0;
         if (bSuccess)
         {
-            unsigned int uiFlags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals))))->GetName()));
+            unsigned int uiFlags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals))))->GetName()));
             OutT outVal = {0, 0};
             int v1 = reinterpret_cast<::TESObjectCELL *>((((GO45*)&::g_011c73dc)))->GetCellStandValue();
             int v3 = reinterpret_cast<::TESObjectCELL *>((((GO45*)&::g_011c718c)))->GetCellStandValue();

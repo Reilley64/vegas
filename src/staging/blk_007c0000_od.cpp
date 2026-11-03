@@ -137,7 +137,7 @@ struct GlobalObject_007da090
 
 struct NavMeshSearchLOSArray
 {
-    int m_p;
+    void* m_p;
     void FUN_007d8e20(bool);
     void Init();
 };
@@ -145,7 +145,7 @@ struct NavMeshSearchLOSArray
 // @fnv 0x007da0f0
 void NavMeshSearchLOSArray::Init()
 {
-    m_p = (int)&DAT_01077200;
+    m_p = &DAT_01077200;
     reinterpret_cast<::NavMeshSearchLOSArray *>(this)->FUN_007d8e20(true);
 }
 }  // namespace fnv_007da0f0
@@ -938,7 +938,7 @@ void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48) < 9)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
                                          reinterpret_cast<char*>(this) + 0x70 +
                                          (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->GetName()));
              ++i)
@@ -951,7 +951,7 @@ void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
                                  (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->FUN_006a7ad0(i))));
         }
         for (unsigned int uiSecondaryIndex = 0;
-             uiSecondaryIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
+             uiSecondaryIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
                                     reinterpret_cast<char*>(this) + 0x60 +
                                     (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->GetName()));
              ++uiSecondaryIndex)

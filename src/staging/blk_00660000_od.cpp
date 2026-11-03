@@ -245,7 +245,7 @@ struct FUN_0067ad70_Class
 // @fnv 0x0067ad70
 void FUN_0067ad70_Class::FUN_0067ad70()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01068884);
+    *reinterpret_cast<void**>(this) = &DAT_01068884;
 }
 
 extern "C" int DAT_01068aa4;
@@ -268,14 +268,14 @@ ActorPackageData* ActorPackageData::FUN_0067d920()
 
 struct FUN_0067d970_Class
 {
-    int m;
+    void* m;
     void FUN_0067d970();
 };
 
 // @fnv 0x0067d970
 void FUN_0067d970_Class::FUN_0067d970()
 {
-    m = (int)&DAT_01068aa4;
+    m = &DAT_01068aa4;
 }
 
 struct FUN_0067f4b0_class

@@ -454,7 +454,7 @@ struct FUN_00695370_class
 // @fnv 0x00695370
 unsigned int FUN_00695370_class::GetArrFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName()));
+    return ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName()));
 }
 
 // @fnv 0x00695390
@@ -898,7 +898,7 @@ struct FUN_0068abb0 : BaseForAbb0
 FUN_0068abb0::FUN_0068abb0(int a, int b)
 {
     FUN_0068ac40(a, b);
-    *(int*)this = (int)&DAT_01069d84;
+    *(void**)this = &DAT_01069d84;
 }
 
 struct FUN_0068ab60_shell
@@ -1320,14 +1320,14 @@ struct FUN_0069bca0_class : public FUN_0042f830_struct
 void FUN_0069bca0_class::FUN_0069bca0()
 {
     unsigned int i = 0;
-    for (; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); ++i)
+    for (; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); ++i)
         AddNavMeshToGarbageCollector(*(NavMeshPtr*)FUN_0069b2c0(i));
     reinterpret_cast<::FUN_0042f9c0_Class *>(this)->FUN_0042f9c0(1);
 }
 
 struct FUN_0069cd10_class
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     FUN_0069cd10_class* FUN_0069cd10();
 };
 
@@ -1653,7 +1653,7 @@ struct FUN_0069d140_class
 // @fnv 0x0069cd10
 FUN_0069cd10_class* FUN_0069cd10_class::FUN_0069cd10()
 {
-    m_iWordAt00 = (int)&DAT_0106b28c;
+    m_iWordAt00 = &DAT_0106b28c;
     reinterpret_cast<::FUN_0069d140_class *>(this)->InitializeBuffer(0, 0);
     return this;
 }
@@ -2731,7 +2731,7 @@ struct PlacementRange
 // @fnv 0x0069b2c0
 int* Dummy_0069af30::FUN_0069b2c0()
 {
-    *(int*)this = (int)&DAT_0106b1e0;
+    *(void**)this = &DAT_0106b1e0;
     reinterpret_cast<::FUN_0069b310_S *>(this)->ResetAndWrite(0, 0);
     return (int*)this;
 }
@@ -2789,7 +2789,7 @@ class B69BB90List
 // @fnv 0x0069bb90
 unsigned int B69BB90List::FindIndex(B69BB90Handle kHandle)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
     {
         if (GetAt(i)->IsEqual(kHandle))
             return i;
@@ -3173,7 +3173,7 @@ NiPoint3 NavMeshBounds::FUN_0069c070(const NiPoint3& point)
     {
         float fPointHeight = 3.402823466e38f;
         NiPoint3 kClosest;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(triangles))->GetName())); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(triangles))->GetName())); i++)
         {
             float m_fGlyphExtent;
             float fZ;
@@ -3335,7 +3335,7 @@ void LDMesh::ReadFromBuffer(char* apData, LDFile* apFile, int aiUnused)
 
     if (!reinterpret_cast<::FUN_0076b610_Class *>((void *)&(kVertices))->FUN_0076b610())
     {
-        memcpy_s(kVertices.GetAt(0), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kVertices))->GetName())) * sizeof(LDPoint3), apData, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kVertices))->GetName())) * sizeof(LDPoint3));
+        memcpy_s(kVertices.GetAt(0), ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kVertices))->GetName())) * sizeof(LDPoint3), apData, ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kVertices))->GetName())) * sizeof(LDPoint3));
         if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
         {
             for (unsigned int i = 0; i < usVertexCountA; i++)
@@ -3345,10 +3345,10 @@ void LDMesh::ReadFromBuffer(char* apData, LDFile* apFile, int aiUnused)
                 ::FUN_00401080((int*)&kVertices.GetAt(i)->z);
             }
         }
-        apData += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kVertices))->GetName())) * sizeof(LDPoint3);
+        apData += ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kVertices))->GetName())) * sizeof(LDPoint3);
 
-        memcpy_s(((::LDTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(kTriangles))->FUN_0069ccf0(0))), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kTriangles))->GetName())) * sizeof(LDTriangle), apData,
-                 ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kTriangles))->GetName())) * sizeof(LDTriangle));
+        memcpy_s(((::LDTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(kTriangles))->FUN_0069ccf0(0))), ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kTriangles))->GetName())) * sizeof(LDTriangle), apData,
+                 ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kTriangles))->GetName())) * sizeof(LDTriangle));
         if (reinterpret_cast<::TESFile *>((apFile))->IsEndianConversionRequired())
         {
             for (unsigned int j = 0; j < usTriangleCount4; j++)
@@ -3358,7 +3358,7 @@ void LDMesh::ReadFromBuffer(char* apData, LDFile* apFile, int aiUnused)
                 ::FUN_00407a90(&((::LDTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(kTriangles))->FUN_0069ccf0(j)))->c);
             }
         }
-        apData += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kTriangles))->GetName())) * sizeof(LDTriangle);
+        apData += ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kTriangles))->GetName())) * sizeof(LDTriangle);
     }
 }
 
@@ -3416,7 +3416,7 @@ void Sub0069d4b0::FUN_0069d4b0(Pt_0069d4b0* a1, Pt_0069d4b0* a2, Out_0069d4b0* a
         for (int x7 = x9; x7 <= x5; x7++)
         {
             Tris_0069d4b0* tris = ((::Tris_0069d4b0 *)(reinterpret_cast<::FUN_006967c0_shell *>(this)->FUN_006967c0(x7, y7)));
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((tris))->GetName())); i++)
+            for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((tris))->GetName())); i++)
             {
                 reinterpret_cast<::FUN_00691820_arr *>((apOut))->Append(&reinterpret_cast<::FUN_0069dec0_class *>((tris))->FUN_0069dec0(i));
             }
@@ -3426,7 +3426,7 @@ void Sub0069d4b0::FUN_0069d4b0(Pt_0069d4b0* a1, Pt_0069d4b0* a2, Out_0069d4b0* a
         return;
     reinterpret_cast<::FUN_0069aeb0_class *>((apOut))->FUN_0069aeb0((int)(FUN_0069ae60));
     Dups_0069d4b0 dups_;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apOut))->GetName())) - 1; i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apOut))->GetName())) - 1; i++)
     {
         if (reinterpret_cast<::FUN_0069dec0_class *>((apOut))->FUN_0069dec0(i + 1) == reinterpret_cast<::FUN_0069dec0_class *>((apOut))->FUN_0069dec0(i))
         {
@@ -3435,7 +3435,7 @@ void Sub0069d4b0::FUN_0069d4b0(Pt_0069d4b0* a1, Pt_0069d4b0* a2, Out_0069d4b0* a
     }
     if (reinterpret_cast<::FUN_0076b610_Class *>(&(dups_))->FUN_0076b610())
         return;
-    for (int j = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dups_))->GetName())) - 1; j >= 0; j--)
+    for (int j = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dups_))->GetName())) - 1; j >= 0; j--)
     {
         reinterpret_cast<::FUN_0069add0_class *>((apOut))->FUN_0069add0(dups_.FUN_00877a30(j), 1);
     }
@@ -5952,14 +5952,14 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011d6dcc)))
         {
             unsigned int i;
-            for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName())); i++)
+            for (i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName())); i++)
             {
                 unsigned int j;
-                for (j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrObj*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(i))))))->GetName())); j++)
+                for (j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrObj*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(i))))))->GetName())); j++)
                 {
                     AuxObj* auxPtr;
-                    ObjA objA(0.0f, (float)(1.0 - (double)i / (double)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName()))),
-                              (float)((double)i / (double)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName()))), ::g_011db5ec_arg1);
+                    ObjA objA(0.0f, (float)(1.0 - (double)i / (double)((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName()))),
+                              (float)((double)i / (double)((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName()))), ::g_011db5ec_arg1);
                     {
                         ObjB objB2(
                             ((void *)(::FUN_00c56680(*(float*)((char*)*(((ArrObj*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(i))))->FUN_00877a30(j)) + 0x10),
@@ -5998,7 +5998,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
             m_207c->m_v4 = (*(::fnv_0069f010::Vec3 *)&(reinterpret_cast<::TaskQueueInterface *>((apEnd))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
             m_207c->m_10 = 0.0f;
             m_207c->m_34 = 0xffff;
-            reinterpret_cast<::FUN_00438690 *>((((LinkT*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName())) - 2))))))->FUN_007cb2e0((unsigned int *)(::fnv_0069f010::Node **)(&m_207c));
+            reinterpret_cast<::FUN_00438690 *>((((LinkT*)((void *)(reinterpret_cast<::FUN_00558dd0_class *>(&(m_2068))->FUN_00558dd0(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2068))->GetName())) - 2))))))->FUN_007cb2e0((unsigned int *)(::fnv_0069f010::Node **)(&m_207c));
         }
         {
             raw2.p = m_2078;
@@ -6009,7 +6009,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
         }
         {
             unsigned int k;
-            for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_20e8))->GetName())); k++)
+            for (k = 0; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_20e8))->GetName())); k++)
             {
                 StrObj str1((char*)(&((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_1c),
                             ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((NavLike*)((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_10)))->FUN_0068efb0())));
@@ -6028,7 +6028,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
         }
         {
             unsigned int m;
-            for (m = 0; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2058))->GetName())); m++)
+            for (m = 0; m < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_2058))->GetName())); m++)
             {
                 delete (DelObj*)*m_2058.FUN_00877a30(m);
             }

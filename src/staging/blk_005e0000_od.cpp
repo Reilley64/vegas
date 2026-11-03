@@ -179,7 +179,7 @@ extern int DAT_0103d3e8;
 
 struct FUN_005e02e0
 {
-    int m0;
+    void* m0;
     int m4;
     void Init();
 };
@@ -188,7 +188,7 @@ struct FUN_005e02e0
 // @fnv 0x005e02e0
 void FUN_005e02e0::Init()
 {
-    m0 = (int)&DAT_0103d3e8;
+    m0 = &DAT_0103d3e8;
     ::FUN_004b0220(m4);
 }
 
@@ -207,7 +207,7 @@ struct NiTMallocInterface_
 
 struct FUN_005e0340Class
 {
-    int m_vtbl;
+    void* m_vtbl;
     ActorCombatGroup** m_ptr;
     void FUN_005e0340();
 };
@@ -218,7 +218,7 @@ extern int DAT_0103d3f8;
 // @fnv 0x005e0340
 void FUN_005e0340Class::FUN_005e0340()
 {
-    m_vtbl = (int)&DAT_0103d3f8;
+    m_vtbl = &DAT_0103d3f8;
     ::FUN_004ede70(m_ptr);
 }
 
@@ -400,7 +400,7 @@ struct FUN_005ef1d0
 // @fnv 0x005ef1d0
 void FUN_005ef1d0::Init()
 {
-    *(int*)this = (int)&::DAT_0104730c;
+    *(void**)this = &::DAT_0104730c;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_005ef1d0
@@ -1847,7 +1847,7 @@ struct FUN_005e0a30_t
 // @fnv 0x005e0a30
 void* FUN_005e0a30_t::FUN_005e0a30(unsigned short ausCapacity, unsigned short b)
 {
-    *(int*)this = (int)&::DAT_0103d418;
+    *(void**)this = &::DAT_0103d418;
     *(unsigned short*)((char*)this + 8) = ausCapacity;
     *(unsigned short*)((char*)this + 14) = b;
     *(unsigned short*)((char*)this + 10) = 0;
@@ -2447,18 +2447,18 @@ void StringEntryData::FUN_005ecfd0(StringEntryData* other)
     char* str;
 
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(entries))->Clear(true);
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
+    for (i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
     {
         delete strings.GetAt(i);
     }
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(strings))->Clear(true);
-    reinterpret_cast<::fnv_005ef1f0::FUN_005ef1f0_Arr *>(&(entries))->FUN_005ef1f0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
-    for (j3 = 0; j3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j3++)
+    reinterpret_cast<::fnv_005ef1f0::FUN_005ef1f0_Arr *>(&(entries))->FUN_005ef1f0(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
+    for (j3 = 0; j3 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j3++)
     {
         entries.GetAt(j3) = other->entries.GetAt(j3);
     }
-    for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
+    for (k = 0; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
     {
         len3 = ((int)(::FUN_0044a670(other->strings.GetAt(k)))) + 1;
         str = new char[len3];
@@ -2499,18 +2499,18 @@ struct FUN_005eedc0_cls
 void Data005ecb30::FUN_005ecb30(Data005ecb30* other)
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(entries))->Clear(true);
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
     {
         delete strings.GetAt(i);
     }
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(strings))->Clear(true);
-    reinterpret_cast<::fnv_005ef010::FUN_005ef010_Arr *>(&(entries))->FUN_005ef010(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j++)
+    reinterpret_cast<::fnv_005ef010::FUN_005ef010_Arr *>(&(entries))->FUN_005ef010(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
+    for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j++)
     {
         *((::Entry38 *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(entries))->FUN_005eedc0(j))) = *((::Entry38 *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(other->entries))->FUN_005eedc0(j)));
     }
-    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
+    for (unsigned int k = 0; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
     {
         unsigned int len = ((int)(::FUN_0044a670(other->strings.GetAt(k)))) + 1;
         char* str = new char[len];
@@ -3672,18 +3672,18 @@ struct CompareData
 bool CompareData::FUN_005ec920(CompareData* other)
 {
     bool different = false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) && !different; ++index)
+        for (unsigned int index = 0; index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) && !different; ++index)
             different = different || reinterpret_cast<::FUN_005ec8f0_class *>((((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(entries))->FUN_005eedc0(index)))))->FUN_005ec8f0((int)(((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(other->entries))->FUN_005eedc0(index)))));
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int textIndex = 0; textIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) && !different; ++textIndex)
+        for (unsigned int textIndex = 0; textIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) && !different; ++textIndex)
             different = different || ::FUN_00408b20(strings.At(textIndex), other->strings.At(textIndex)) != 0;
     }
     if (different || flag != other->flag || f04 != other->f04 || f08 != other->f08 || f0C != other->f0C ||
@@ -3723,18 +3723,18 @@ struct Target005ed1e0
 bool Target005ed1e0::FUN_005ed1e0(Target005ed1e0* other)
 {
     bool different = false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries_14))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries_14))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) && !different; ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) && !different; ++i)
             different = different || reinterpret_cast<::FUN_005ed1b0_Class *>((((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(entries_14))->FUN_0069ccf0(i)))))->FUN_005ed1b0((int)(((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(other->entries_14))->FUN_0069ccf0(i)))));
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings_04))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings_04))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) && !different; ++j)
+        for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) && !different; ++j)
             different = different || FUN_00408b20(strings_04.FUN_00877a30(j), other->strings_04.FUN_00877a30(j));
     }
     if (different || unknown_00 != other->unknown_00)
@@ -3791,7 +3791,7 @@ class E5EF9A0Allocator
 // @fnv 0x005ef1a0
 FUN_005ef1a0_Class* FUN_005ef1a0_Class::FUN_005ef1a0()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0104730c);
+    *reinterpret_cast<void**>(this) = &DAT_0104730c;
     reinterpret_cast<::FUN_005efb30_class *>(this)->FUN_005efb30(0, 0);
     return this;
 }
@@ -3968,11 +3968,11 @@ unsigned char FUN_005ece50_class::FUN_005ece50(FUN_005ece50_class* other)
     unsigned int uStack_18;
     {
         unsigned int uStack_c;
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->m14))->GetName())))
+        if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->m14))->GetName())))
             bStack_5 = 1;
         if (bStack_5 == 0)
         {
-            for (uStack_18 = 0; uStack_18 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) && bStack_5 == 0; ++uStack_18)
+            for (uStack_18 = 0; uStack_18 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) && bStack_5 == 0; ++uStack_18)
             {
                 bStack_5 =
                     (bStack_5 == 0 &&
@@ -3981,11 +3981,11 @@ unsigned char FUN_005ece50_class::FUN_005ece50(FUN_005ece50_class* other)
                         : 1;
             }
         }
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(other->m4))->GetName())))
+        if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(other->m4))->GetName())))
             bStack_5 = 1;
         if (bStack_5 == 0)
         {
-            for (uStack_c = 0; uStack_c < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) && bStack_5 == 0; ++uStack_c)
+            for (uStack_c = 0; uStack_c < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) && bStack_5 == 0; ++uStack_c)
             {
                 bStack_5 = (bStack_5 == 0 && FUN_00408b20(m4.GetAt((int)uStack_c), other->m4.GetAt((int)uStack_c)) == 0)
                                ? 0

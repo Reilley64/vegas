@@ -1565,7 +1565,7 @@ struct C77a400
 // @fnv 0x0077a400
 unsigned int C77a400::GetFirstOrFallback()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->m_Arr708))->GetName())) > 0 ? (unsigned int)*((int *)(reinterpret_cast<::FUN_00558dd0_class *>(&(this->m_Arr708))->FUN_00558dd0(0))) : (unsigned int)this->m_unk6f4;
+    return ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->m_Arr708))->GetName())) > 0 ? (unsigned int)*((int *)(reinterpret_cast<::FUN_00558dd0_class *>(&(this->m_Arr708))->FUN_00558dd0(0))) : (unsigned int)this->m_unk6f4;
 }
 
 class HKTile

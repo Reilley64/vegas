@@ -234,7 +234,7 @@ void FUN_00446f20_cls::FUN_00446f20()
 // @fnv 0x00446f40
 void ArrSI::FUN_00446f40()
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) != gm_GetCurrentThreadId())
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) != gm_GetCurrentThreadId())
         reinterpret_cast<::fnv_00446f70::FUN_00446f70_Cl *>(this)->FUN_00446f70();
 }
 
@@ -287,7 +287,7 @@ struct FUN_00446fc0_Class
 // @fnv 0x00446fc0
 void FUN_00446fc0_Class::FUN_00446fc0()
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) != gm_GetCurrentThreadId())
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) != gm_GetCurrentThreadId())
         reinterpret_cast<::FUN_00446ff0 *>((((Elem00c3e7d0*)this)))->FUN_00446ff0_();
 }
 }  // namespace fnv_00446fc0
@@ -2162,7 +2162,7 @@ struct FUN_004505f0 : NiNode
 // @fnv 0x004505f0
 FUN_004505f0::FUN_004505f0() : NiNode(0)
 {
-    *(int*)this = (int)&DAT_010178bc;
+    *(void**)this = &DAT_010178bc;
 }
 }  // namespace fnv_004505f0
 
@@ -2349,7 +2349,7 @@ struct S_456a60
 // @fnv 0x00456a60
 void S_456a60::FUN_00456a60()
 {
-    S554910* p = (S554910*)((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath()));
+    S554910* p = (S554910*)((reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath()));
     if (p)
     {
         reinterpret_cast<::ExtraDataList *>((p))->FUN_00554910();

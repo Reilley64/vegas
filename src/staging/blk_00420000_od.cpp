@@ -198,7 +198,7 @@ struct GlobalObject_00869f00
 // @fnv 0x0042ff80
 void GlobalObject_00869f00::FUN_0042ff80()
 {
-    *(int*)this = (int)&DAT_01015a08;
+    *(void**)this = &DAT_01015a08;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
@@ -294,7 +294,7 @@ struct FUN_004385a0Class
 // @fnv 0x004385a0
 void FUN_004385a0Class::FUN_004385a0()
 {
-    *(int*)this = (int)&::DAT_01015ffc;
+    *(void**)this = &::DAT_01015ffc;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_004385a0
@@ -2126,7 +2126,7 @@ struct FUN_00435e40_cls
 // @fnv 0x00435e40
 void FUN_00435e40_cls::FUN_00435e40()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0c))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0c))->GetName())); i++)
     {
         FUN_00435e40_key key;
         key.m_v = *((unsigned int *)(reinterpret_cast<::S3e60 *>(&(m_0c))->FUN_006a7ad0(i)));
@@ -3055,7 +3055,7 @@ class FUN_00438610_cls
 void FUN_00435d40_cls::FUN_00435d40()
 {
     reinterpret_cast<::FUN_00435e40_cls *>(this)->FUN_00435e40();
-    int n = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0c))->GetName()));
+    int n = ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0c))->GetName()));
     if (n > 0)
     {
         FloatSlot v;

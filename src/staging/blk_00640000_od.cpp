@@ -4375,7 +4375,7 @@ void S_006503b0_Owner::FUN_006503b0()
     while (pos2 != 0)
     {
         reinterpret_cast<::Map62d0 *>(&(list04))->FUN_00559120((*(::MapItem62d0 * *)(&pos2)), (*(void * *)(&item3)), (*(::Helper62d0 *)(&slot)));
-        if (((int)(reinterpret_cast<::Callees *>((((::S_006503b0_Elem *)(::FUN_00559450((int *)&(((::S_006503b0_Elem *)(::FUN_00559450((int *)&(slot))))->slot08))))))->FUN_00726070())) == 1)
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((((::S_006503b0_Elem *)(::FUN_00559450((int *)&(((::S_006503b0_Elem *)(::FUN_00559450((int *)&(slot))))->slot08))))))->FUN_00726070())) == 1)
         {
             reinterpret_cast<::NiTMap_S *>(&(list04))->RemoveKey(item3);
         }

@@ -254,7 +254,7 @@ struct FUN_0048b800 : BFC_s
 // @fnv 0x0048b800
 FUN_0048b800::FUN_0048b800()
 {
-    *(int*)this = (int)&DAT_0101d398;
+    *(void**)this = &DAT_0101d398;
     ((FUN_008c6060_shell*)this)->FUN_008c6060();
 }
 
@@ -277,7 +277,7 @@ struct FUN_0048e7a0 : BFC_s
 // @fnv 0x0048e7a0
 FUN_0048e7a0::FUN_0048e7a0()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0101d81c);
+    *reinterpret_cast<void**>(this) = &DAT_0101d81c;
     reinterpret_cast<::FUN_008c6060_shell *>(this)->FUN_008c6060();
 }
 }  // namespace fnv_0048e7a0
@@ -695,7 +695,7 @@ struct FUN_0048b560 : BFC_s
 // @fnv 0x0048b560
 FUN_0048b560::FUN_0048b560() : BFC_s()
 {
-    *(int*)this = (int)&DAT_0101d2a4;
+    *(void**)this = &DAT_0101d2a4;
     ((FUN_0048b590_shell*)this)->ClearFields();
 }
 
@@ -3263,7 +3263,7 @@ void AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
         {
             if (slot7 != -1)
                 ((FUN_004970e0_shell*)((void *)(::FUN_00559450((int *)(((PtrBox*)&m_124))))))->AssignGO(m_e0[slot7]);
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((hkpTypedBroadPhaseHandle*)((void *)(::FUN_00559450((int *)(((PtrBox*)&m_124))))))))->GetName())) == 1)
+            if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((hkpTypedBroadPhaseHandle*)((void *)(::FUN_00559450((int *)(((PtrBox*)&m_124))))))))->GetName())) == 1)
             {
                 reinterpret_cast<::FUN_004974a0_shell *>(this)->FUN_004974a0();
                 reinterpret_cast<::AnimationAccess *>(((Animation*)this))->FUN_00498290();
@@ -3671,7 +3671,7 @@ struct FUN_0048f200
 void __cdecl BuildWaterSurfaces(CellView* cell)
 {
     AutoMemContext context4(MEM_CONTEXT_MEM_CONTEXT_WATER, true, DAT_0101e018, 0x20a);
-    while (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))))->GetName())) > 0)
+    while (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))))->GetName())) > 0)
     {
         PointChain* chainX = (PointChain*)new FUN_0049f1c0;
         reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((chainX))->AddItem((const ::fnv_0049f210::NiPoint3 &)((*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))->FUN_006a7af0(0)));
@@ -3683,13 +3683,13 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
         {
             changed3 = false;
             int i3 = 0;
-            while (i3 < (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))))->GetName())))
+            while (i3 < (int)((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))))->GetName())))
             {
                 NiPoint3 b = (*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))->FUN_006a7af0(i3);
                 NiPoint3 a = (*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))->FUN_006a7af0(i3 + 1);
                 if (::AreVectorsEqual((const float *)&(b), (const float *)&((*(::NiPoint3 *)(reinterpret_cast<::FUN_006ced90_stand *>((chainX))->GetLastEdge()))), ::DAT_01013ea4) &&
                     !::AreVectorsEqual((const float *)&(a), (const float *)&((*(::NiPoint3 *)(reinterpret_cast<::EdgeArr *>((chainX))->FUN_006ced70()))), ::DAT_01013ea4) &&
-                    !::AreVectorsEqual((const float *)&(a), (const float *)&(chainX->FUN_006a7af0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((chainX))->GetName())) - 2)), ::DAT_01013ea4))
+                    !::AreVectorsEqual((const float *)&(a), (const float *)&(chainX->FUN_006a7af0(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((chainX))->GetName())) - 2)), ::DAT_01013ea4))
                 {
                     reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((chainX))->AddItem((const ::fnv_0049f210::NiPoint3 &)(a));
                     reinterpret_cast<::FUN_0049f3c0_Class *>(((*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))))->FUN_0049f3c0(i3, 2, true);
@@ -3698,7 +3698,7 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
                 }
                 else if (::AreVectorsEqual((const float *)&(a), (const float *)&((*(::NiPoint3 *)(reinterpret_cast<::FUN_006ced90_stand *>((chainX))->GetLastEdge()))), ::DAT_01013ea4) &&
                          !::AreVectorsEqual((const float *)&(b), (const float *)&((*(::NiPoint3 *)(reinterpret_cast<::EdgeArr *>((chainX))->FUN_006ced70()))), ::DAT_01013ea4) &&
-                         !::AreVectorsEqual((const float *)&(b), (const float *)&(chainX->FUN_006a7af0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((chainX))->GetName())) - 2)), ::DAT_01013ea4))
+                         !::AreVectorsEqual((const float *)&(b), (const float *)&(chainX->FUN_006a7af0(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((chainX))->GetName())) - 2)), ::DAT_01013ea4))
                 {
                     reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((chainX))->AddItem((const ::fnv_0049f210::NiPoint3 &)(b));
                     reinterpret_cast<::FUN_0049f3c0_Class *>(((*reinterpret_cast<::PointChain * *>(&::DAT_011c57ac))))->FUN_0049f3c0(i3, 2, true);

@@ -669,7 +669,7 @@ extern int DAT_0101a8fc;
 
 struct FUN_00479190_holder
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     FUN_00479190_holder* Construct(int a);
 };
 
@@ -1414,14 +1414,14 @@ struct FUN_004791f0_holder2
 FUN_00479190_holder* FUN_00479190_holder::Construct(int a)
 {
     reinterpret_cast<::FUN_004791f0_holder2 *>((((FUN_004791f0_holder*)this)))->InitArrayHolder(a);
-    m_iWordAt00 = (int)&DAT_0101a8fc;
+    m_iWordAt00 = &DAT_0101a8fc;
     return this;
 }
 // Sets the vtable, stores the element count, allocates count*4 zeroed bytes and stores the pointer at offset 8.
 // @fnv 0x004791f0
 void* FUN_004791f0_holder2::InitArrayHolder(int aiCount)
 {
-    *(int*)this = (int)&DAT_0101a91c;
+    *(void**)this = &DAT_0101a91c;
     *(int*)(this + 4) = aiCount;
     *(int*)(this + 0xc) = 0;
     unsigned int uiSize = *(int*)(this + 4) << 2;
@@ -1799,7 +1799,7 @@ char FUN_0046fdd0_Class::IsFieldEqual(int aiValue)
 // @fnv 0x00470070
 void FUN_0045d950_Class::FUN_00470070()
 {
-    *(int*)this = (int)&DAT_01019a24;
+    *(void**)this = &DAT_01019a24;
     ::FUN_004ede70(*(ActorCombatGroup**)((char*)this + 4));
 }
 
@@ -1824,7 +1824,7 @@ struct BSSimpleArrayActor
 // @fnv 0x00479140
 void FUN_00479140_class::FUN_00479140()
 {
-    *(int*)this = (int)&vftable__ShadowSceneArray;
+    *(void**)this = &vftable__ShadowSceneArray;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((BSSimpleArrayActor*)this)))->Clear(true);
 }
 
@@ -4035,7 +4035,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                 DArray branch;
                 DTransform j;
                 reinterpret_cast<::FUN_00477230_cls *>(this)->FUN_00477230((::FUN_00477230_node *)(::DNode *)(ref->GetNode()), (::FUN_00477230_arg *)(::DArray *)(&branch));
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(branch))->GetName())))
+                if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(branch))->GetName())))
                     j = ((::DNode *)(reinterpret_cast<::S3e60 *>(&(branch))->FUN_006a7ad0(0)))->Transform();
                 bool total;
                 total = false;
@@ -4064,11 +4064,11 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                     health = s ? s->AsFade() : 0;
                     if (health)
                         ::FUN_00476ab0((::BSFadeNode_Dummy *)(health));
-                    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(branch))->GetName())))
+                    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(branch))->GetName())))
                     {
                         DArray bound;
                         reinterpret_cast<::FUN_00477230_cls *>(this)->FUN_00477230((::FUN_00477230_node *)(q), (::FUN_00477230_arg *)(::DArray *)(&bound));
-                        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(bound))->GetName())))
+                        if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(bound))->GetName())))
                         {
                             DTransform found = ((::DNode *)(reinterpret_cast<::S3e60 *>(&(bound))->FUN_006a7ad0(0)))->Transform();
                             DMatrix i = found.InverseRotation();

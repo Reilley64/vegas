@@ -322,7 +322,7 @@ struct FUN_00621ad0_Class
 // @fnv 0x00621ad0
 void FUN_00621ad0_Class::FUN_00621ad0()
 {
-    ::FUN_00621480((::HighProcess *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((ObjHelper*)this)->FUN_00621a90())))->GetName()))));
+    ::FUN_00621480((::HighProcess *)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((ObjHelper*)this)->FUN_00621a90())))->GetName()))));
 }
 
 struct FUN_00621b20_Class
@@ -1092,7 +1092,7 @@ struct FUN_00629eb0_Class
 // @fnv 0x00629eb0
 void FUN_00629eb0_Class::FUN_00629eb0()
 {
-    *(int*)this = (int)&DAT_0104e170;
+    *(void**)this = &DAT_0104e170;
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap_00629eb0*)this)))->FUN_00438af0();
     ::FUN_00aa10f0(*(void**)((char*)this + 8));
 }
@@ -1161,7 +1161,7 @@ FUN_00620810_List* FUN_00620810_List::FindByFlags(unsigned int flags)
     FUN_00620810_List* cur = this;
     while (cur)
     {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(cur)))->GetName())) == flags)
+        if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(cur)))->GetName())) == flags)
             break;
         cur = reinterpret_cast<FUN_00620810_List*>(((::BSSimpleList<int *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<int*>*>(cur)))->FUN_00726070())));
     }
@@ -1319,7 +1319,7 @@ struct FUN_00cac980_Holder
 // @fnv 0x00621a90
 void* ObjHelper::FUN_00621a90()
 {
-    FUN_00cac980_Holder* p = (FUN_00cac980_Holder*)((int)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
+    FUN_00cac980_Holder* p = (FUN_00cac980_Holder*)((reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
     return p ? reinterpret_cast<::FUN_00cac980_class *>((p))->FUN_00cac980() : 0;
 }
 
@@ -1489,7 +1489,7 @@ struct FUN_00623150_Class
 void FUN_00623150_Class::FUN_00623150(void* arg)
 {
     void* result = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
-    if (result && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)result)))->GetName())))
+    if (result && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)result)))->GetName())))
     {
         ::FUN_00a29680();
         ((void(*)(void*, int, int)) * (int**)(*(int**)result + 0x44 / 4))(result, (int)arg, 0);
@@ -1866,7 +1866,7 @@ struct FUN_0062d680_Class
     int m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    int m_iFourthElementInteger;
+    void* m_iFourthElementInteger;
     int m_usTrailingValue;
     int m_f;
     int m_g;
@@ -1899,7 +1899,7 @@ void* FUN_0062d680_Class::FUN_0062d680()
     new ((void *)(((FUN_0062a480_Class*)this))) ::FUN_0061f4d0((void *)(0));
     ((FUN_0062d6f0_shell*)&this->m_iFourthElementInteger)->FUN_0062d6f0();
     m_vtbl = (int*)&DAT_0104e3a4;
-    this->m_iFourthElementInteger = (int)&DAT_0104e38c;
+    m_iFourthElementInteger = &DAT_0104e38c;
     return this;
 }
 
@@ -1959,7 +1959,7 @@ struct FUN_00631850_Class : FUN_006318b0_Class
 FUN_00631850_Class* FUN_00631850_Class::FUN_00631850(int count)
 {
     FUN_006318b0(count);
-    *(int*)this = (int)&DAT_0104e4f0;
+    *(void**)this = &DAT_0104e4f0;
     return this;
 }
 
@@ -7151,7 +7151,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
             new ((void *)&(bounds)) ::fnv_00437c10::FUN_00437c10();
             reinterpret_cast<::FUN_006295a0_shell *>(&(bounds))->FUN_006295a0();
             Collision628* collision = body->collision();
-            for (int index = 0; index < ((int)(reinterpret_cast<::Callees *>(&(group))->FUN_00726070())); ++index)
+            for (int index = 0; index < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(group))->FUN_00726070())); ++index)
             {
                 Bounds628 itemBounds;
                 new ((void *)&(itemBounds)) ::fnv_00437c10::FUN_00437c10();
@@ -7161,7 +7161,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 reinterpret_cast<::FUN_00629560_Class *>(&(bounds))->FUN_00629560((int)(&itemBounds.min));
             }
             *(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(delta))->FUN_004a51b0(2)) += reinterpret_cast<::bhkCharacterController *>(&(bounds.max))->GetVectorElement(2) - reinterpret_cast<::bhkCharacterController *>(&(bounds.min))->GetVectorElement(2);
-            for (int moveIndex = 0; moveIndex < ((int)(reinterpret_cast<::Callees *>(&(group))->FUN_00726070())); ++moveIndex)
+            for (int moveIndex = 0; moveIndex < ((int)(uintptr_t)(reinterpret_cast<::Callees *>(&(group))->FUN_00726070())); ++moveIndex)
             {
                 Point628 position;
                 new ((void *)&(position)) ::Vec3();

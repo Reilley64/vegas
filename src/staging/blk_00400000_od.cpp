@@ -514,7 +514,7 @@ struct FUN_004055d0 : public FUN_00405600_class
 FUN_00405570_cls* FUN_00405570_cls::InitFromGlobal(int a, char b)
 {
     new ((void *)this) ::FUN_004055d0(a, b);
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01012298);
+    *reinterpret_cast<void**>(this) = &DAT_01012298;
     return this;
 }
 // Calls the base constructor with a, installs the vtable from DAT_01012238, and stores b at offset 0x10.
@@ -540,7 +540,7 @@ struct FUN_00405630_s
 void* FUN_00405600_class::FUN_00405600(int param_2)
 {
     reinterpret_cast<::FUN_00405630_s *>(this)->Init(param_2);
-    *(int*)this = (int)&DAT_01012258;
+    *(void**)this = &DAT_01012258;
     return this;
 }
 // Sets the vtable, stores count, allocates count*4 zeroed bytes into data and returns this.
@@ -574,7 +574,7 @@ struct FUN_004056a0
 // @fnv 0x004056a0
 FUN_004056a0::FUN_004056a0()
 {
-    *(int*)this = (int)&DAT_01012508;
+    *(void**)this = &DAT_01012508;
     hostile = 0;
 }
 

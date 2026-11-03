@@ -157,7 +157,7 @@ struct FUN_00588fd0Class
 int* FUN_00588fd0Class::FUN_00588fd0(int a)
 {
     FUN_005891c0(a);
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01031fcc);
+    *reinterpret_cast<void**>(this) = &DAT_01031fcc;
     return reinterpret_cast<int*>(this);
 }
 
@@ -235,7 +235,7 @@ bool FUN_0058ce30_Class::IsFlag2Set() const
 extern int DAT_01033470;
 struct FUN_0058f820_class
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     int FUN_0058f820(int a);
 };
 
@@ -305,7 +305,7 @@ struct FUN_00589190 : NiTPointerMap<int, int>
 // @fnv 0x00589190
 void FUN_00589190::Init()
 {
-    *(int*)((char*)this + 0) = (int)&DAT_0103200c;
+    *(void**)((char*)this + 0) = &DAT_0103200c;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
@@ -358,7 +358,7 @@ struct FUN_00582000_Class
 // @fnv 0x00581fd0
 FUN_00581fd0::FUN_00581fd0()
 {
-    *(int*)this = (int)&DAT_01031838;
+    *(void**)this = &DAT_01031838;
     reinterpret_cast<::FUN_00582000_Class *>((((S82000*)this)))->ClearArray();
 }
 
@@ -514,7 +514,7 @@ struct FUN_005892c0_t
 void* FUN_005892c0_t::InitArray(unsigned int count)
 {
     unsigned int size;
-    *(int*)this = (int)&::DAT_0103204c;
+    *(void**)this = &::DAT_0103204c;
     ((unsigned int*)this)[1] = count;
     ((unsigned int*)this)[3] = 0;
     size = ((unsigned int*)this)[1] << 2;
@@ -531,7 +531,7 @@ struct FUN_00589390_Holder
 // @fnv 0x00589390
 void FUN_00589390_Holder::FUN_00589390()
 {
-    *(int*)this = (int)&DAT_0103204c;
+    *(void**)this = &DAT_0103204c;
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
     ::FUN_00aa10f0(*(void**)((char*)this + 8));
 }
@@ -787,7 +787,7 @@ struct FUN_0058f850_class
 extern int DAT_01033490;
 struct FUN_0058f960_Obj
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     int m_iWordAt04;
     void* m_8;
     void FUN_0058f960();
@@ -795,7 +795,7 @@ struct FUN_0058f960_Obj
 // @fnv 0x0058f960
 void FUN_0058f960_Obj::FUN_0058f960()
 {
-    m_iWordAt00 = (int)&DAT_01033490;
+    m_iWordAt00 = &DAT_01033490;
     if (m_8 != 0)
     {
         void* p = m_8;
@@ -858,7 +858,7 @@ struct TESSoundFile : BFC_s
 TESSoundFile* TESSoundFile::FUN_005912d0()
 {
     ::FUN_00402d30((int *)(this));
-    *(int*)this = (int)&DAT_01033ab8;
+    *(void**)this = &DAT_01033ab8;
     new ((void *)&(s)) ::StrMem();
     return this;
 }
@@ -981,7 +981,7 @@ struct ContainerItemExtra
 int FUN_0058f820_class::FUN_0058f820(int a)
 {
     reinterpret_cast<::ContainerItemExtra *>(this)->InitContainerItemExtra(a);
-    m_iWordAt00 = (int)&DAT_01033470;
+    m_iWordAt00 = &DAT_01033470;
     return (int)this;
 }
 // Sets the vtable, stores count, zeroes m_0c, and if count is nonzero allocates count*4 bytes for pItem and zero-fills them.

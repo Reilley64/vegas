@@ -115,7 +115,7 @@ struct AX
 // @fnv 0x007ab610
 AX* AX::FUN_007ab610()
 {
-    *(int*)this = (int)&::DAT_010757a8;
+    *(void**)this = &::DAT_010757a8;
     FUN_006b3eb0(0, 0);
     return this;
 }
@@ -134,7 +134,7 @@ void GlobalObject_00869f00::Clear(bool)
 // @fnv 0x007ab670
 void GlobalObject_00869f00::FUN_007ab670()
 {
-    *(int*)this = (int)&DAT_010757a8;
+    *(void**)this = &DAT_010757a8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 

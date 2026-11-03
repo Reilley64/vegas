@@ -530,7 +530,7 @@ struct FUN_004b0530_Class
 // @fnv 0x004b0530
 void FUN_004b0530_Class::FUN_004b0530()
 {
-    *(int*)this = (int)&DAT_0101fc80;
+    *(void**)this = &DAT_0101fc80;
 }
 
 struct FUN_004b1030_Class
@@ -732,7 +732,7 @@ struct FUN_004a9d20_Class
 // @fnv 0x004a9d20
 void FUN_004a9d20_Class::FUN_004a9d20()
 {
-    *(int*)this = (int)&DAT_0101ed8c;
+    *(void**)this = &DAT_0101ed8c;
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
     ::FUN_00aa10f0(*(void**)((char*)this + 8));
 }
@@ -1203,7 +1203,7 @@ struct FUN_004a98e0_class
 // @fnv 0x004a98e0
 int FUN_004a98e0_class::FUN_004a98e0(int count)
 {
-    *(int*)this = (int)&DAT_0101ed4c;
+    *(void**)this = &DAT_0101ed4c;
     *(int*)((char*)this + 4) = count;
     *(int*)((char*)this + 12) = 0;
     unsigned int size = *(int*)((char*)this + 4) * 4;
@@ -1491,7 +1491,7 @@ struct FUN_004b0eb0_class
 void FUN_004b0eb0_class::FUN_004b0eb0()
 {
     if (f0 && f4)
-        reinterpret_cast<::FUN_004b0910_cls *>((((FUN_004b0910_This*)((int)(::GetOrCreateInstance(1))))))->AddKeyedItems((::Key4b0910 *)(f0), (unsigned int)(f4));
+        reinterpret_cast<::FUN_004b0910_cls *>((((FUN_004b0910_This*)((::GetOrCreateInstance(1))))))->AddKeyedItems((::Key4b0910 *)(f0), (unsigned int)(f4));
 }
 }  // namespace fnv_004b0eb0
 
@@ -3020,7 +3020,7 @@ extern int DAT_010205d4;
 
 struct FUN_004b99b0_cls
 {
-    int m_00;
+    void* m_00;
     int m_04;
     void* m_08;
     unsigned int m_0C;
@@ -3039,7 +3039,7 @@ FUN_004b9950_class* FUN_004b9950_class::FUN_004b9950(int arg)
 // @fnv 0x004b99b0
 FUN_004b99b0_cls* FUN_004b99b0_cls::FUN_004b99b0(int count)
 {
-    m_00 = (int)&DAT_010205d4;
+    m_00 = &DAT_010205d4;
     m_04 = count;
     m_0C = 0;
     unsigned int size = m_04 << 2;
@@ -3925,7 +3925,7 @@ struct Owner4a4
 // @fnv 0x004a4340
 void Owner4a4::FUN_004a4340()
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNode))->GetName())) > 0)
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNode))->GetName())) > 0)
     {
         ::FUN_004a0370((char *)(::Renderer4a4 *)(((::Renderer4a4 *)(::FUN_0043c4b0()))));
         void* pos = ((void *)(::FUN_00559450((int *)&(m_kNode))));
@@ -3972,7 +3972,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
     {
         void* bResult = 0;
 
-        if (3 == ((int)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())))
+        if (3 == ((int)(uintptr_t)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())))
         {
             NiColorA004a4d40 colorA;
             {
@@ -3988,7 +3988,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
             }
         }
 
-        if (((int)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 1)
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 1)
         {
             NiColorA004a4d40 colorA;
             {
@@ -3998,7 +3998,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
             }
         }
 
-        if (((int)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 2)
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 2)
         {
             NiColorA004a4d40 cnt;
             reinterpret_cast<::FUN_00413f90_cls *>((pTarget))->FUN_00413f90((::FUN_00413f90_vec *)(::NiColorA004a4d40 *)(&cnt));

@@ -686,7 +686,7 @@ struct FUN_005516f0_Class
 // @fnv 0x005516f0
 void FUN_005516f0_Class::SetFlag400(bool set)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int flags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     if (set)
         flags |= 0x400;
     else
@@ -1791,7 +1791,7 @@ void FUN_005593a0_cls::FUN_005593a0(ItemNode** apNode, int* piValue, FUN_0055990
 // @fnv 0x00559460
 void FUN_005422b0Class::FUN_00559460()
 {
-    *(int*)this = (int)&DAT_0102f3b8;
+    *(void**)this = &DAT_0102f3b8;
     ::FUN_004ede70((void *)(*(int*)((char*)this + 4)));
 }
 
@@ -2232,7 +2232,7 @@ FUN_00559e50_Class* FUN_00559e50_Class::InitializeWithGlobal(int arg)
 // @fnv 0x00559eb0
 FUN_00559eb0::FUN_00559eb0(int aiCount)
 {
-    *(int*)this = (int)&DAT_0102f468;
+    *(void**)this = &DAT_0102f468;
     this->count = aiCount;
     this->flags = 0;
     unsigned int byteCount = (unsigned int)(this->count << 2);

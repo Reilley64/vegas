@@ -5,6 +5,8 @@
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/inventory_fields.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/AGOwner.h"
@@ -2456,7 +2458,7 @@ RcTile* CreateRecipeMenu(int vendor, int type)
         reinterpret_cast<::CMMenu *>((((RcMenu*)DAT_011d8e90)))->PopulateChallengeList(0, type);
         return tile2;
     }
-    else if (DAT_011d8e90 && ((std::intptr_t)(reinterpret_cast<::Callees *>((((RcMenu*)DAT_011d8e90)))->FUN_00726070())))
+    else if (DAT_011d8e90 && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((((RcMenu*)DAT_011d8e90)))->tile)))
     {
         delete (RcMenu*)DAT_011d8e90;
     }
@@ -2883,6 +2885,10 @@ struct CategoryChallenge
 };
 struct CategoryArray
 {
+    void* vtable;
+    void** data;
+    unsigned int size;
+    unsigned int capacity;
 };
 struct CategoryList
 {
@@ -2948,8 +2954,8 @@ void CategoryMenu::OnAction(int action, RcTile* tile)
         FUN_00706f30(unk68);
         DAT_0119fbf4 += action ? 1 : -1;
         if (DAT_0119fbf4 < -1)
-            DAT_0119fbf4 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CategoryArray*)FUN_00726f10())))->GetName())) - 1;
-        else if ((unsigned int)DAT_0119fbf4 >= ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CategoryArray*)FUN_00726f10())))->GetName())))
+            DAT_0119fbf4 = ((unsigned int)(((CategoryArray*)FUN_00726f10())->size)) - 1;
+        else if ((unsigned int)DAT_0119fbf4 >= ((std::uintptr_t)(((CategoryArray*)FUN_00726f10())->size)))
             DAT_0119fbf4 = -1;
         if (DAT_0119fbf4 != -1)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles[1]))->FUN_00a01350(
@@ -3659,7 +3665,7 @@ int __cdecl FUN_00727920(void* apChallenge)
             if (pObject)
             {
                 ItemEntry* pEntry = ((::ItemEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((pOwner))->FUN_00576260((::fnv_00576260::TESBoundObject *)(pObject), 0)));
-                unsigned int uiHave = pEntry ? ((unsigned int)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())) : 0;
+                unsigned int uiHave = pEntry ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((pEntry))->m_iCountChange)) : 0;
                 delete pEntry;
                 if (uiHave < ((unsigned int)(::FUN_00559450((int *)(pReq)))))
                 {
@@ -4008,7 +4014,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                         if (bound)
                         {
                             FUN_004459e0* have = ((::FUN_004459e0 *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((owner))->FUN_00576260((::fnv_00576260::TESBoundObject *)(bound), 0)));
-                            unsigned inventory = have ? ((unsigned int)(reinterpret_cast<::Callees *>((((RecipeInventoryCount*)have)))->FUN_00726070())) : 0;
+                            unsigned inventory = have ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((((RecipeInventoryCount*)have)))->m_iCountChange)) : 0;
                             delete have;
                             if (alternate)
                                 FUN_00406d00(label, 256, "%s (%d)", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)name)))->FUN_00408da0())),

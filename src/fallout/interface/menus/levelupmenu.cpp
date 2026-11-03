@@ -2,6 +2,8 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fnv/effect_item_fields.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/Actor.h"
@@ -236,7 +238,7 @@ void __cdecl UpdateLevelUpMenu()
             reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_007851d0::PC7d * *>(&::_g_thePlayer))))->ConfigureActorState(true, false);
         ::fnv_007df4e0::UpdateStatsMenuLevelText();
         ::StatsMenu::UpdateStatusEffects();
-        ((::fnv_007851d0::Tile *)(reinterpret_cast<::Callees *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->FUN_00726070()))->Set(0x1772, 1);
+        ((::fnv_007851d0::Tile *)(reinterpret_cast<::MenuFields *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->tile))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->FUN_00a1d910();
         ::DAT_011d9fdc = 0;
     }
@@ -1876,7 +1878,7 @@ void Holder::UpdateTileEffects(Tile* tile)
             {
                 recVal.mag = recVal.mag * -1;
             }
-            if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)))))->FUN_00825c00()))->IsDetrimentalToActorValue(av7))
+            if (((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)))))->setting))->IsDetrimentalToActorValue(av7))
             {
                 recVal.mag = recVal.mag * -1;
             }
@@ -3745,7 +3747,7 @@ int FUN_00784c80()
         ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)->f60 = 1;
         if (!((ListObj*)((char*)(void*)(unsigned int)DAT_011d9fdc + 0xc4))->FUN_005ae380())
         {
-            reinterpret_cast<::Tile *>((((HeadO*)((::fnv_00784c80::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)(void*)(unsigned int)DAT_011d9fdc))->FUN_00726070())))))->Set(::FUN_00a01860(s_endpage), 0);
+            reinterpret_cast<::Tile *>((((HeadO*)((::fnv_00784c80::ContNode *)(reinterpret_cast<::MenuFields *>(((ContNode*)(void*)(unsigned int)DAT_011d9fdc))->tile)))))->Set(::FUN_00a01860(s_endpage), 0);
         }
         reinterpret_cast<::fnv_00785540::SkillsMenu *>((((DatObj*)(void*)(unsigned int)DAT_011d9fdc)))->UpdateSkillsAndPerks();
         reinterpret_cast<::Target *>((((DatObj*)(void*)(unsigned int)DAT_011d9fdc)))->SetPage(0);
@@ -3755,7 +3757,7 @@ int FUN_00784c80()
     {
         if (DAT_011d9fdc)
         {
-            if (((::fnv_00784c80::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)(void*)(unsigned int)DAT_011d9fdc))->FUN_00726070())))
+            if (((::fnv_00784c80::ContNode *)(reinterpret_cast<::MenuFields *>(((ContNode*)(void*)(unsigned int)DAT_011d9fdc))->tile)))
                 delete (DelObj*)(void*)(unsigned int)DAT_011d9fdc;
         }
     }

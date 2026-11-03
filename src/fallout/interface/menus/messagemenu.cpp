@@ -4,6 +4,7 @@
 #include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include <cctype>
 #include <cstdlib>
@@ -168,7 +169,7 @@ void __cdecl FUN_007a8df0()
 {
     if ((*reinterpret_cast<void * *>(&::DAT_011da4f0)))
     {
-        ((::fnv_007a8df0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00726070()))->Set(0x1772, 1);
+        ((::fnv_007a8df0::Tile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->tile))->Set(0x1772, 1);
         if (((std::intptr_t)(::FUN_00707ad0())))
             reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00a1d9e0();
         else
@@ -490,6 +491,10 @@ void FUN_007aa6a0(unsigned char value)
 namespace fnv_007aaf20 {
 struct ArrSI
 {
+    void* vtable;
+    void** data;
+    unsigned int size;
+    unsigned int capacity;
 };
 
 extern unsigned char DAT_011da594;
@@ -499,7 +504,7 @@ void __cdecl FUN_007aaf20(bool abFlag)
 {
     if (abFlag)
     {
-        ::DAT_011da4f4 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007aaf20::ArrSI *>(&::g_011da53c))))->GetName()));
+        ::DAT_011da4f4 = ((unsigned int)(((*reinterpret_cast<::fnv_007aaf20::ArrSI *>(&::g_011da53c))).size));
         ::fnv_007a8df0::FUN_007a8df0();
         DAT_011da594 = (*reinterpret_cast<unsigned char *>(&::DAT_011da4ec));
         ::fnv_007aa6b0::FUN_007aa6b0(0);
@@ -1232,7 +1237,7 @@ void MsgMenu::PopulateFromMessageData()
     if (pMessagePtr->uiWidth > 0)
         fMaxWidthCur = ::InterfaceManager::UpdateInterfaceState() * (pMessagePtr->uiWidth / ::FUN_00706e50());
     else
-        fMaxWidthCur = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))))->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth));
+        fMaxWidthCur = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))))->tile))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth));
     fMaxWidthCur = fMaxWidthCur - fHorBuf * 2;
     if (reinterpret_cast<::FUN_00a01230_shell *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->m_pTiles[2]))->IsTraitNonZero(0xfa3))
         fMaxWidthCur = fMaxWidthCur - 120.0;
@@ -1352,7 +1357,7 @@ bool __cdecl FUN_007a8ba0()
         }
         if (flag)
         {
-            reinterpret_cast<::FUN_00a012d0_t *>((((Helper*)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((Helper*)(reinterpret_cast<::Callees *>((((Helper*)::DAT_011da4f0)))->FUN_00726070()))))->FUN_00a03da0((char *)((char*)"MM_Background"))))))->FUN_00a012d0(0xfa9, *(float*)(((void *)&(::FUN_00403e20((float *)(((Helper*)&(*reinterpret_cast<char *>(&::g_011d3bc8)))))))) * ::DAT_0101e568, 1);
+            reinterpret_cast<::FUN_00a012d0_t *>((((Helper*)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((Helper*)(reinterpret_cast<::MenuFields *>((((Helper*)::DAT_011da4f0)))->tile))))->FUN_00a03da0((char *)((char*)"MM_Background"))))))->FUN_00a012d0(0xfa9, *(float*)(((void *)&(::FUN_00403e20((float *)(((Helper*)&(*reinterpret_cast<char *>(&::g_011d3bc8)))))))) * ::DAT_0101e568, 1);
         }
         if (((unsigned char)(::fnv_007050d0::FUN_007050d0())))
         {
@@ -1364,7 +1369,7 @@ bool __cdecl FUN_007a8ba0()
     }
     else
     {
-        if (::DAT_011da4f0 != 0 && reinterpret_cast<::Callees *>((((Helper*)::DAT_011da4f0)))->FUN_00726070() != 0)
+        if (::DAT_011da4f0 != 0 && reinterpret_cast<::MenuFields *>((((Helper*)::DAT_011da4f0)))->tile != 0)
         {
             delete (VDel*)::DAT_011da4f0;
         }

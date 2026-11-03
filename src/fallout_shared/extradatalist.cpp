@@ -450,13 +450,20 @@ bool FUN_0040f700_shell::IsDifferentFrom(BSExtraData* apCompare)
 }
 
 extern int DAT_01014300;
-// Sets pThis[0] to the address of DAT_01014300, clears pThis[1], zeroes 0x15 bytes at offset 8, and returns pThis.
+struct FUN_0040f740_View
+{
+    void* pVtbl;
+    int iField04;
+    char acData08[0x15];
+};
+// Sets the vtable to DAT_01014300, clears the field after it, zeroes the 0x15 data bytes, and returns pThis.
 // @fnv 0x0040f740
 void* FUN_0040f740(int* pThis)
 {
-    pThis[0] = reinterpret_cast<int>(&DAT_01014300);
-    pThis[1] = 0;
-    ::FUN_00403d30(reinterpret_cast<char*>(pThis) + 8, 0, 0x15);
+    FUN_0040f740_View* pView = reinterpret_cast<FUN_0040f740_View*>(pThis);
+    pView->pVtbl = &DAT_01014300;
+    pView->iField04 = 0;
+    ::FUN_00403d30(pView->acData08, 0, 0x15);
     return pThis;
 }
 
@@ -5239,14 +5246,14 @@ extern int DAT_010159d4;
 
 struct FUN_0042f830_struct
 {
-    int vftable;
+    void* vftable;
     void FUN_0042f9c0(unsigned char);
 };
 
 // @fnv 0x0042f830
 void FUN_0042f830(FUN_0042f830_struct* pThis)
 {
-    pThis->vftable = (int)&DAT_010159d4;
+    pThis->vftable = &DAT_010159d4;
     pThis->FUN_0042f9c0(1);
 }
 
@@ -6008,7 +6015,7 @@ intptr_t FUN_009611e0_shell::FUN_009611e0()
 
 struct Arr_009f2b30
 {
-    unsigned int& GetAt(unsigned int);
+    void*& GetAt(unsigned int);
     unsigned int GetFlags();
 };
 struct ER_009f2b30
@@ -8508,7 +8515,7 @@ bool FUN_0056aac0_t::FUN_0056aac0()
             {
                 TESObjectREFR* parent = reinterpret_cast<::EnableParentRef *>((static_cast<FUN_0056aac0_t*>(ref)))->FUN_0056a9f0();
                 if (parent)
-                    ref = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(parent)));
+                    ref = dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(parent)));
                 else
                     ref = 0;
             }
@@ -11359,7 +11366,7 @@ struct FUN_00410020_shell
 };
 struct FUN_0041fd00_shell
 {
-    void FUN_0041fd00(int);
+    void FUN_0041fd00(std::intptr_t);
 };
 struct FUN_004202d0 : BSExtraData
 {
@@ -11398,7 +11405,7 @@ void FUN_00420440_shell::FUN_00420440(MagicItem* spell)
     if (spell)
     {
         extra = new FUN_00420500;
-        reinterpret_cast<::FUN_0041fd00_shell *>((((FUN_00420500*)extra)))->FUN_0041fd00((int)(spell));
+        reinterpret_cast<::FUN_0041fd00_shell *>((((FUN_00420500*)extra)))->FUN_0041fd00((std::intptr_t)(spell));
         reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(this)->FUN_0040ff60(extra);
     }
 }
@@ -14750,9 +14757,9 @@ class Unit_59097dfe3b9e
 // @fnv 0x0041cc30
 char Unit_59097dfe3b9e::GetByteAtOffset26()
 {
-    int value = ((int)(std::uintptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x19)));
+    char* value = (char*)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x19));
     if (value)
-        return *(char*)(value + 0x1a);
+        return *(value + 0x1a);
     else
         return 0;
 }
@@ -15491,7 +15498,7 @@ struct LocalTemp
 class FUN_004208b0_cls
 {
   public:
-    int FUN_004208b0();
+    void* FUN_004208b0();
 };
 
 struct RoomSearch;
@@ -15523,7 +15530,7 @@ struct RoomSearch
 };
 // Looks up object 0x7b, returns 0 if missing or FUN_00420810 is true, else builds a LocalTemp(0x25) and returns FUN_00420950 on it.
 // @fnv 0x004208b0
-int FUN_004208b0_cls::FUN_004208b0()
+void* FUN_004208b0_cls::FUN_004208b0()
 {
     void* p = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x7b)));
     if (p == 0)
@@ -15535,7 +15542,7 @@ int FUN_004208b0_cls::FUN_004208b0()
         return 0;
     }
     LocalTemp t(0x25);
-    return ((int)(reinterpret_cast<::RoomSearch *>(this)->FUN_00420950((::VisitedReferences *)(::LocalTemp *)(&t))));
+    return reinterpret_cast<::RoomSearch *>(this)->FUN_00420950((::VisitedReferences *)(::LocalTemp *)(&t));
 }
 // @fnv 0x00420950
 SearchReference* RoomSearch::FUN_00420950(VisitedReferences* visited)
@@ -17363,7 +17370,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
     case 0x4e574f58: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>(this)->FUN_00419700((::fnv_00419700::TESForm *)(value));
+        reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>(this)->FUN_00419700((::fnv_00419700::TESForm *)(std::uintptr_t)(value));
         break;
     }
     case 0x424c4758: {
@@ -17375,7 +17382,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
     case 0x4b4e5258: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(value));
+        reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(std::uintptr_t)(value));
         break;
     }
     case 0x544c4858: {
@@ -17412,13 +17419,13 @@ void loader::List::LoadExtraData(File* file, void* owner)
         int value = 0;
         file->ReadChunkInt(&value);
         if (((::loader::Ammo *)(reinterpret_cast<::FUN_0042eb40_shell *>(this)->GetExtraAmmo())))
-            reinterpret_cast<::FUN_0042eb60_shell *>(this)->SetOwnership((void *)(((::loader::Ammo *)(reinterpret_cast<::FUN_0042eb40_shell *>(this)->GetExtraAmmo()))->ammo), (void *)(value));
+            reinterpret_cast<::FUN_0042eb60_shell *>(this)->SetOwnership((void *)(std::uintptr_t)(((::loader::Ammo *)(reinterpret_cast<::FUN_0042eb40_shell *>(this)->GetExtraAmmo()))->ammo), (void *)(std::uintptr_t)(value));
         break;
     }
     case 0x544d4158: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_0042eb60_shell *>(this)->SetOwnership((void *)(value), (void *)(999));
+        reinterpret_cast<::FUN_0042eb60_shell *>(this)->SetOwnership((void *)(std::uintptr_t)(value), (void *)(999));
         break;
     }
     case 0x47484358: {
@@ -17430,7 +17437,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
     case 0x4e535058: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_00419d10 *>(this)->SetExtra((void *)(value));
+        reinterpret_cast<::FUN_00419d10 *>(this)->SetExtra((void *)(std::uintptr_t)(value));
         break;
     }
     case 0x434f4c58: {
@@ -17545,7 +17552,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
     case 0x4f4d4358: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_0041bd10::FUN_0041bd10_shell *>(this)->FUN_0041bd10((::fnv_0041bd10::BGSMusicType *)(value));
+        reinterpret_cast<::fnv_0041bd10::FUN_0041bd10_shell *>(this)->FUN_0041bd10((::fnv_0041bd10::BGSMusicType *)(std::uintptr_t)(value));
         break;
     }
     case 0x54454358: {
@@ -17556,25 +17563,25 @@ void loader::List::LoadExtraData(File* file, void* owner)
     case 0x53414358: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_0041c090::FUN_0041c090_shell *>(this)->SetAcousticSpace((::fnv_0041c090::BGSAcousticSpace *)(value));
+        reinterpret_cast<::fnv_0041c090::FUN_0041c090_shell *>(this)->SetAcousticSpace((::fnv_0041c090::BGSAcousticSpace *)(std::uintptr_t)(value));
         break;
     }
     case 0x4d434358: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_0041c190::FUN_0041c190_shell *>(this)->SetClimate((::fnv_0041c190::TESClimate *)(value));
+        reinterpret_cast<::fnv_0041c190::FUN_0041c190_shell *>(this)->SetClimate((::fnv_0041c190::TESClimate *)(std::uintptr_t)(value));
         break;
     }
     case 0x4d494358: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_0041c290::FUN_0041c290_shell *>(this)->SetImageSpaceExtra((::fnv_0041c290::TESImageSpace *)(value));
+        reinterpret_cast<::fnv_0041c290::FUN_0041c290_shell *>(this)->SetImageSpaceExtra((::fnv_0041c290::TESImageSpace *)(std::uintptr_t)(value));
         break;
     }
     case 0x54574358: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_0041e160::FUN_0041e160_shell *>(this)->SetCellWaterType((::fnv_0041e160::TESWaterForm *)(value));
+        reinterpret_cast<::fnv_0041e160::FUN_0041e160_shell *>(this)->SetCellWaterType((::fnv_0041e160::TESWaterForm *)(std::uintptr_t)(value));
         break;
     }
     case 0x4c535058: {
@@ -17583,7 +17590,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
         reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data), 0x14);
         if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
             reinterpret_cast<::FUN_00414220_shell *>(&(data))->FUN_00414220();
-        reinterpret_cast<::fnv_0041ad00::FUN_0041ad00_shell *>(this)->FUN_0041ad00((::fnv_0041ad00::TESWorldSpace *)(data.ref), (::TESObjectCELL *)(0), &data.posX, data.heading);
+        reinterpret_cast<::fnv_0041ad00::FUN_0041ad00_shell *>(this)->FUN_0041ad00((::fnv_0041ad00::TESWorldSpace *)(std::uintptr_t)(data.ref), (::TESObjectCELL *)(0), &data.posX, data.heading);
         break;
     }
     case 0x44475258:
@@ -17624,20 +17631,20 @@ void loader::List::LoadExtraData(File* file, void* owner)
         reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&data), 8);
         if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
             reinterpret_cast<::fnv_00503210::Unk *>(&(data))->FUN_00503210();
-        reinterpret_cast<::FUN_0041da40_shell *>(this)->FUN_0041da40((::TESObjectREFR *)(data.ref));
+        reinterpret_cast<::FUN_0041da40_shell *>(this)->FUN_0041da40((::TESObjectREFR *)(std::uintptr_t)(data.ref));
         reinterpret_cast<::FUN_0041dc70_shell *>(this)->SetExtraFlags(data.flags);
         break;
     }
     case 0x4d545258: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_0041e250_cls *>(this)->FUN_0041e250((void *)(value));
+        reinterpret_cast<::FUN_0041e250_cls *>(this)->FUN_0041e250((void *)(std::uintptr_t)(value));
         break;
     }
     case 0x524b4c58: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_0041e440_shell *>(this)->FUN_0041e440((::TESObjectREFR *)(value));
+        reinterpret_cast<::FUN_0041e440_shell *>(this)->FUN_0041e440((::TESObjectREFR *)(std::uintptr_t)(value));
         break;
     }
     case 0x44504158: {
@@ -17724,37 +17731,37 @@ void loader::List::LoadExtraData(File* file, void* owner)
             ::FUN_00401080((int *)(void *)(&data.rotY));
             ::FUN_00401080((int *)(void *)(&data.rotZ));
         }
-        reinterpret_cast<::FUN_0041f080_cls *>(this)->FUN_0041f080((::TESObjectREFR *)(data.ref), (*(const ::NiPoint3 *)(&data.posX)), (*(const ::NiPoint3 *)(&data.rotX)));
+        reinterpret_cast<::FUN_0041f080_cls *>(this)->FUN_0041f080((::TESObjectREFR *)(std::uintptr_t)(data.ref), (*(const ::NiPoint3 *)(&data.posX)), (*(const ::NiPoint3 *)(&data.rotX)));
         break;
     }
     case 0x43524d58: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_00421430_shell *>(this)->FUN_00421430((::TESObjectREFR *)(value));
+        reinterpret_cast<::FUN_00421430_shell *>(this)->FUN_00421430((::TESObjectREFR *)(std::uintptr_t)(value));
         break;
     }
     case 0x47525458: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_00421b70_shell *>(this)->FUN_00421b70((::TESObjectREFR *)(value));
+        reinterpret_cast<::FUN_00421b70_shell *>(this)->FUN_00421b70((::TESObjectREFR *)(std::uintptr_t)(value));
         break;
     }
     case 0x4e5a4558: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_00421c60::FUN_00421c60_shell *>(this)->FUN_00421c60((::fnv_00421c60::BGSEncounterZone *)(value));
+        reinterpret_cast<::fnv_00421c60::FUN_00421c60_shell *>(this)->FUN_00421c60((::fnv_00421c60::BGSEncounterZone *)(std::uintptr_t)(value));
         break;
     }
     case 0x494d4558: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::fnv_00421d50::FUN_00421d50_shell *>(this)->SetEmittanceSource((::fnv_00421d50::TESForm *)(value));
+        reinterpret_cast<::fnv_00421d50::FUN_00421d50_shell *>(this)->SetEmittanceSource((::fnv_00421d50::TESForm *)(std::uintptr_t)(value));
         break;
     }
     case 0x52424d58: {
         int value = 0;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_00421e40_shell *>(this)->FUN_00421e40((::TESObjectREFR *)(value));
+        reinterpret_cast<::FUN_00421e40_shell *>(this)->FUN_00421e40((::TESObjectREFR *)(std::uintptr_t)(value));
         break;
     }
     case 0x4f424d58: {
@@ -17816,9 +17823,9 @@ void loader::List::LoadExtraData(File* file, void* owner)
             ::FUN_00401080((int *)(void *)(&pData.flags));
         }
         if (pData.flags & 1)
-            reinterpret_cast<::RefFlagExtraList *>(this)->FUN_0041f1a0((::TESObjectREFR *)(pData.ref), true);
+            reinterpret_cast<::RefFlagExtraList *>(this)->FUN_0041f1a0((::TESObjectREFR *)(std::uintptr_t)(pData.ref), true);
         if (pData.flags & 2)
-            reinterpret_cast<::fnv_0041f330::FUN_0041f330_shell *>(this)->SetRefInReflectorList((::TESObjectREFR *)(pData.ref), true);
+            reinterpret_cast<::fnv_0041f330::FUN_0041f330_shell *>(this)->SetRefInReflectorList((::TESObjectREFR *)(std::uintptr_t)(pData.ref), true);
         break;
     }
     case 0x57544c58: {
@@ -17827,7 +17834,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
             break;
         int value;
         file->ReadChunkInt(&value);
-        reinterpret_cast<::FUN_0041f940_shell *>(this)->AddOrRemoveRef((::TESObjectREFR *)(value), true);
+        reinterpret_cast<::FUN_0041f940_shell *>(this)->AddOrRemoveRef((::TESObjectREFR *)(std::uintptr_t)(value), true);
         break;
     }
     case 0x4d525058: {
@@ -17903,7 +17910,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
             unsigned int value = 0;
             reinterpret_cast<::TESFile *>((file))->NextChunk();
             file->ReadChunkInt(&value);
-            roomData->refs.FUN_005ae3d0((void*)value);
+            roomData->refs.FUN_005ae3d0((void*)(std::uintptr_t)value);
         }
         reinterpret_cast<::fnv_00420440::FUN_00420440_shell *>(this)->FUN_00420440((::MagicItem *)(roomData));
         break;
@@ -19610,7 +19617,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
             {
                 unsigned int value;
                 reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&value, 4);
-                reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(value));
+                reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(std::uintptr_t)(value));
             }
             break;
         }
@@ -24507,14 +24514,14 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         reinterpret_cast<::FUN_004197d0_shell *>(this)->SetExtraDataValue((std::intptr_t)(((ExtraGlobal_ctx*)apExtra)->pGlobalForm));
         break;
     case 0x23:
-        reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(((ExtraRank*)apExtra)->m_iRank));
+        reinterpret_cast<::fnv_004198a0::FUN_004198a0 *>(this)->SetTeleportData((::fnv_004198a0::TeleportableReference *)(std::uintptr_t)(((ExtraRank*)apExtra)->m_iRank));
         break;
     case 0x24:
         reinterpret_cast<::FUN_00419ad0_shell *>(this)->FUN_00419ad0(((ExtraCount_ctx*)apExtra)->m_sCount);
         break;
     case 0x6E: {
         ExtraAmmo* pAmmo = (ExtraAmmo*)apExtra;
-        reinterpret_cast<::FUN_0042eb60_shell *>(this)->SetOwnership(pAmmo->pAmmo, (void *)(pAmmo->iCount));
+        reinterpret_cast<::FUN_0042eb60_shell *>(this)->SetOwnership(pAmmo->pAmmo, (void *)(std::uintptr_t)(pAmmo->iCount));
         break;
     }
     case 0x16:

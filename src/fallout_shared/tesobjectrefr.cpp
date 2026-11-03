@@ -11337,9 +11337,9 @@ void FUN_00562020(TESObjectREFR* self)
             pmob = (MobileObject*)self;
             pcon = ((::fnv_00562020::CharCtl_S *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((S_00931f80*)pmob)))->FUN_009306d0()));
             if (pcon)
-                reinterpret_cast<::S005620e0_Object *>((pcon))->FUN_005620e0((const ::S005620e0_Source *)(void *)((char*)self + 0x30));
+                reinterpret_cast<::S005620e0_Object *>((pcon))->FUN_005620e0((const ::S005620e0_Source *)(void *)((char*)&self->afPosition));
         }
-        reinterpret_cast<::FUN_00440460_S *>((((FUN_00440460_S*)pobj3D2)))->FUN_00440460((const ::V3 *)(const void *)((char*)self + 0x30));
+        reinterpret_cast<::FUN_00440460_S *>((((FUN_00440460_S*)pobj3D2)))->FUN_00440460((const ::V3 *)(const void *)((char*)&self->afPosition));
         reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject_H*)pobj3D2)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::fnv_00562020::M3 &)(((F56_H*)self)->FUN_0056fa00())));
         ::FUN_00c69f50((::S_00c69f50_Obj *)(pobj3D2), 1, 0);
         UpDataB.NiUpdateData(0.0f, false, false);

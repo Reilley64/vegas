@@ -4896,13 +4896,13 @@ bool __cdecl FUN_006d2c80(NavMeshContext* context, NavMeshRoute* route)
         reinterpret_cast<::PathingRequest *>(&(currentVal))->SetDestination((::PathingLocation *)&(candidate));
         if (::CombatPosition::FindCombatPosition((::CombatPosition::Actor *)(&currentVal), thresholdRes, true))
         {
-            NavMeshBuffer replacement(((void *)(::FUN_006377e0((int)&(currentVal)))), candidate);
+            NavMeshBuffer replacement(((void *)(::FUN_006377e0((intptr_t)&(currentVal)))), candidate);
             reinterpret_cast<::PathingRequest *>(&(currentVal))->SetDestination((::PathingLocation *)&(replacement));
             NavMeshResult resultTmp;
             bool found = ::FUN_006d0b10((::PathingRequest *)(&currentVal), (::PathingSolution *)(&resultTmp));
             if (found)
             {
-                reinterpret_cast<::FUN_006d30b0_Class2 *>((context))->FUN_006d30b0((*(const ::NiPoint3 *)(((void *)(::FUN_006377e0((int)&(currentVal)))))));
+                reinterpret_cast<::FUN_006d30b0_Class2 *>((context))->FUN_006d30b0((*(const ::NiPoint3 *)(((void *)(::FUN_006377e0((intptr_t)&(currentVal)))))));
                 reinterpret_cast<::PathingRequest *>((context))->SetDestination((::PathingLocation *)&(replacement));
                 reinterpret_cast<::FUN_006d3120_Class *>(&(currentVal))->FUN_006d3120();
                 reinterpret_cast<::MyClass *>(&(resultTmp))->FUN_006e8ab0((::MyClass *)(route));

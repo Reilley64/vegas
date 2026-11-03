@@ -363,8 +363,8 @@ struct FUN_007614c0_shell
 struct FUN_007616d0_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
-    int iSize;
+    virtual void* Write(unsigned int);
+    void* iSize;
     int iPosition;
     int iDataLength;
     void InitializeBuffer(unsigned int requested, unsigned int savedSize);
@@ -386,7 +386,7 @@ void FUN_007616d0_class::InitializeBuffer(unsigned int requested, unsigned int s
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_00761630_shell *>(this)->ConstructSlotItems((int *)(iSize), savedSize);
+        reinterpret_cast<::FUN_00761630_shell *>(this)->ConstructSlotItems((int *)iSize, savedSize);
         iPosition = savedSize;
     }
 }
@@ -473,7 +473,7 @@ unsigned int FUN_00761540_cls::FUN_00761540()
         else
         {
             int p = reinterpret_cast<::FUN_009a3910_cls *>(this)->FUN_009a3910();
-            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00((void *)(p), m_08);
+            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00((void *)(intptr_t)(p), m_08);
             m_0c = p;
         }
     }
@@ -1681,7 +1681,7 @@ void HKMenu::UpdateHighlight()
     if (pkNodeTmp)
         ::__memcpy(acWordNext, *((char **)(new ((void *)(pkNodeTmp)) ::Vec3())), m_uiWordLength);
     else if (!m_kSymbols.FUN_0049c680(&uiElapsedMilliseconds, 0))
-        reinterpret_cast<::FUN_0076a670_cls *>(this)->FUN_0076a670((int)(acWordNext), reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4) + reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue());
+        reinterpret_cast<::FUN_0076a670_cls *>(this)->FUN_0076a670((intptr_t)(acWordNext), reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4) + reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue());
     else
         acWordNext[0] = reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()];
     if (m_kGuessed.FUN_0076a3d0(acWordNext))
@@ -1697,7 +1697,7 @@ void HKMenu::UpdateHighlight()
             HKSoundHandle kSound = (*(::HKSoundHandle *)(reinterpret_cast<::AudioClass_ae5680 *>((((::HKAudio *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)("UIHackingCharSingle"), 0x121, {})));
             reinterpret_cast<::Owner *>(&((*reinterpret_cast<::HKSoundList *>(&::g_011d9604))))->FUN_0076b6a0((::Flt *)&(kSound));
             if (ItemUpdateArray)
-                reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->SchedulePlayback((int)(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(m_kGuessed))->FUN_0044edb0())) * ItemUpdateArray * 1.5), {});
+                reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->SchedulePlayback((int)(((unsigned int)(uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(m_kGuessed))->FUN_0044edb0())) * ItemUpdateArray * 1.5), {});
             else
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(kSound))->FUN_00ad8830(false);
         }

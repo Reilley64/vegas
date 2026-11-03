@@ -541,7 +541,7 @@ void FUN_0066dae0_Class::FUN_0066dae0(void* pTarget)
 {
     reinterpret_cast<::Range62A *>(this)->DestroyRange();
     if (!(state & 0x80000000))
-        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)pTarget)))->FUN_0066db70((intptr_t)(p), (intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)pTarget)))->FUN_0066db70((intptr_t)(p), (intptr_t)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()));
     p = 0;
     state = 0x80000000;
 }
@@ -947,7 +947,7 @@ FUN_0044d000* FUN_00665e30_Class::FUN_00665e30(int index)
 {
     AutoMemHelper helper(6, true, "..\\BSMain\\ThreadSafeStructures.h", 398);
     return new FUN_0044d000((intptr_t)this, (intptr_t)(data + index * 3), (intptr_t)(data + index * 3 + 1),
-                            (int)(data + index * 3 + 2));
+                            (intptr_t)(data + index * 3 + 2));
 }
 
 
@@ -1232,12 +1232,12 @@ void FUN_006665c0_cls::FUN_006665c0()
         {
             item = m_08[i].m_item;
             pItemCopy = item;
-            (void)((pItemCopy != 0) ? ((int)(reinterpret_cast<::FUN_0044ed80_Class *>((pItemCopy))->FUN_0044ed80(1))) : 0);
+            (void)((pItemCopy != 0) ? ((uintptr_t)(reinterpret_cast<::FUN_0044ed80_Class *>((pItemCopy))->FUN_0044ed80(1))) : 0);
         }
         pEntries = m_08;
         FUN_00401030(pEntries);
     }
-    ::FUN_0044e360((unsigned long)(m_04));
+    ::FUN_0044e360((unsigned long)(uintptr_t)(m_04));
 }
 
 extern unsigned char g_counter;
@@ -1360,7 +1360,7 @@ float __cdecl GetObjectValue(SpawnedObject* obj)
     {
         f = FUN_0066dc70(b);
     }
-    ::ApplyPerkModifiers(0x28, (::Actor *)((*reinterpret_cast<int *>(&::_g_thePlayer))), obj ? (int)obj : (*reinterpret_cast<int *>(&::DAT_011ca278)), &f);
+    ::ApplyPerkModifiers(0x28, (*reinterpret_cast<::Actor **>(&::_g_thePlayer)), obj ? (int)(intptr_t)obj : (*reinterpret_cast<int *>(&::DAT_011ca278)), &f);
     return f;
 }
 
@@ -1689,7 +1689,7 @@ struct E640Cls : DetClassCls
 // @fnv 0x0066e640
 void E640Cls::FUN_0066e640(SaveBufCls* buffer)
 {
-    m_00 = m_00 ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(m_00))) : 0;
+    m_00 = m_00 ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)(m_00))) : 0;
     SaveNodeCls* n = m_04;
     while (n)
     {
@@ -1902,9 +1902,9 @@ struct FUN_00660070_cls
 
 // Copies 6-byte elements in [a1, a2) to a3 via a4->FUN_006601f0; on exception calls a4->FUN_0065e9a0 on those already copied; returns the new dest end.
 // @fnv 0x00660070
-int __cdecl CopyRange(int apSrc, int apEnd, int apDst, FUN_00660070_cls* a4)
+intptr_t __cdecl CopyRange(intptr_t apSrc, intptr_t apEnd, intptr_t apDst, FUN_00660070_cls* a4)
 {
-    int pRollback = apDst;
+    intptr_t pRollback = apDst;
     try
     {
         for (; apSrc != apEnd; apDst += 6, apSrc += 6)

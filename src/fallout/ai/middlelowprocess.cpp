@@ -808,11 +808,11 @@ class FUN_00501c10_cls
 {
   public:
     void FUN_00438470(int arg);
-    FUN_00501c10_cls* CallAndReturnSelf(int arg);
+    FUN_00501c10_cls* CallAndReturnSelf(intptr_t arg);
 };
 
 // @fnv 0x00501c10
-FUN_00501c10_cls* FUN_00501c10_cls::CallAndReturnSelf(int arg)
+FUN_00501c10_cls* FUN_00501c10_cls::CallAndReturnSelf(intptr_t arg)
 {
     FUN_00438470(arg);
     return this;

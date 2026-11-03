@@ -203,7 +203,7 @@ struct RaceSexMenu
 // @fnv 0x007fe910
 void RaceSexMenu::FUN_007fe910(void* apList)
 {
-    reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180((int)(apList));
+    reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180((int)(intptr_t)(apList));
 }
 
 struct NavMeshPtr
@@ -284,7 +284,7 @@ struct Loader_S
 void FUN_007ffe00()
 {
     if ((unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))
-        reinterpret_cast<::FUN_00445300_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_00445300((char*)DAT_011a0bb0, true, true);
+        reinterpret_cast<::FUN_00445300_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_00445300(*reinterpret_cast<char **>(&DAT_011a0bb0), true, true);
     *(GO*)&(*reinterpret_cast<::Flt *>(&::g_011db63c)) = 0;
 }
 
@@ -473,9 +473,9 @@ FUN_007e0d80_shell* FUN_007e0d80_shell::AppendString(FUN_007e0d80_shell* other)
             unsigned int newLength = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())) + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((other))->FUN_004048e0()));
             if (newLength > FUN_004039a0())
             {
-                reinterpret_cast<::TextString *>(this)->FUN_004037f0((char*)(unsigned int)*this, newLength);
+                reinterpret_cast<::TextString *>(this)->FUN_004037f0((char*)(uintptr_t)(unsigned int)*this, newLength);
             }
-            memcpy(m_buffer + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())), (char*)(unsigned int)*other, reinterpret_cast<::S7010 *>((other))->GetLengthPlusOne());
+            memcpy(m_buffer + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())), (char*)(uintptr_t)(unsigned int)*other, reinterpret_cast<::S7010 *>((other))->GetLengthPlusOne());
             FUN_004039c0(newLength);
         }
         else
@@ -1822,7 +1822,7 @@ class TextEditMenu : public Menu
 // @fnv 0x007e6320
 bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(__cdecl* callback)(const char*))
 {
-    Menu* previous = ((::Menu *)(::FUN_00a09030(0x41b)));
+    Menu* previous = ((::Menu *)(uintptr_t)(::FUN_00a09030(0x41b)));
     if (previous)
         delete previous;
 

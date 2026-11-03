@@ -1909,21 +1909,21 @@ struct CF_0081c630
 };
 struct FUN_0044d000
 {
-    int a;
-    int b;
-    int c;
-    int d;
+    intptr_t a;
+    intptr_t b;
+    intptr_t c;
+    intptr_t d;
     int e;
     CF_0081c630 f;
     CF_0081c630 g;
     int h;
     int i;
     int j;
-    FUN_0044d000(intptr_t p1, intptr_t p2, intptr_t p3, int p4);
+    FUN_0044d000(intptr_t p1, intptr_t p2, intptr_t p3, intptr_t p4);
 };
 // Initializes the four given values into a-d and zeroes e, h and i.
 // @fnv 0x0044d000
-FUN_0044d000::FUN_0044d000(intptr_t aiA, intptr_t aiB, intptr_t aiC, int aiD)
+FUN_0044d000::FUN_0044d000(intptr_t aiA, intptr_t aiB, intptr_t aiC, intptr_t aiD)
 {
     a = aiA;
     b = aiB;

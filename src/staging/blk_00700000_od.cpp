@@ -111,7 +111,7 @@
 
 struct FUN_00700270_class
 {
-    bool operator==(int other);
+    bool operator==(intptr_t other);
 };
 
 struct BSStr
@@ -121,7 +121,7 @@ struct BSStr
 };
 // Returns true when Equals returns zero for the given value.
 // @fnv 0x00700270
-bool FUN_00700270_class::operator==(int other)
+bool FUN_00700270_class::operator==(intptr_t other)
 {
     return !((unsigned char)(reinterpret_cast<::BSStr *>(this)->Equals((const char *)(other))));
 }
@@ -477,7 +477,7 @@ struct SL
 };
 struct FUN_0071f5d0
 {
-    int m;
+    void* m;
     SL s;
     FUN_0071f5d0();
 };
@@ -485,7 +485,7 @@ struct FUN_0071f5d0
 // @fnv 0x0071f5d0
 FUN_0071f5d0::FUN_0071f5d0() : s()
 {
-    m = (int)&DAT_01070028;
+    m = &DAT_01070028;
 }
 
 struct FUN_0071fb20_Class
@@ -908,7 +908,7 @@ struct S71df20
 void S71df20::AssignString(const BSStringTCharAssign& aString)
 {
     void* tmp = ((A71e0d0*)this)->FUN_0071e0d0();
-    reinterpret_cast<::FUN_00501c10_cls *>((((BSStringTCharAssign*)((char*)tmp + 8))))->CallAndReturnSelf((int)&(aString));
+    reinterpret_cast<::FUN_00501c10_cls *>((((BSStringTCharAssign*)((char*)tmp + 8))))->CallAndReturnSelf((intptr_t)&(aString));
     reinterpret_cast<::FUN_0049fa20_List *>((((B49fa20*)this)))->FUN_0049fa20((::FUN_0049fa20_Node *)(tmp));
 }
 
@@ -929,7 +929,7 @@ void FUN_0071e1a0_cls::FUN_0071e1a0(const void* apObject)
         a = apObject;
         b = (FUN_0071e200_Helper*)a;
     }
-    b ? ((int)(reinterpret_cast<::S_0071e200 *>((b))->FUN_0071e200(1))) : 0;
+    b ? ((uintptr_t)(reinterpret_cast<::S_0071e200 *>((b))->FUN_0071e200(1))) : 0;
 }
 // @fnv 0x0071e200
 void* S_0071e200::FUN_0071e200(unsigned int flags)
@@ -1104,8 +1104,8 @@ extern int DAT_0106e8dc;
 FUN_00700560::FUN_00700560(void* ausSize, void* b)
 {
     *(void**)this = &DAT_0106e8dc;
-    *(unsigned short*)((char*)this + 0x08) = (unsigned short)(unsigned int)ausSize;
-    *(unsigned short*)((char*)this + 0x0e) = (unsigned short)(unsigned int)b;
+    *(unsigned short*)((char*)this + 0x08) = (unsigned short)(uintptr_t)ausSize;
+    *(unsigned short*)((char*)this + 0x0e) = (unsigned short)(uintptr_t)b;
     *(unsigned short*)((char*)this + 0x0a) = 0;
     *(unsigned short*)((char*)this + 0x0c) = 0;
     if (*(unsigned short*)((char*)this + 0x08) > 0)
@@ -1819,7 +1819,7 @@ TESSound* GetDialogCastSound()
 {
     if (((void *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((((Modifier*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
     {
-        TileStandIn* pTile = (TileStandIn*)((void *)(::FUN_00a09030(0x3f1)));
+        TileStandIn* pTile = (TileStandIn*)((void *)(uintptr_t)(::FUN_00a09030(0x3f1)));
         DialogMenu* pDialogMenu = pTile != 0 ? dynamic_cast<DialogMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((pTile))->FUN_00a03c90()) : 0;
         if (pDialogMenu != 0)
             return reinterpret_cast<::EffectSetting *>((pDialogMenu))->GetCastSound();
@@ -2573,7 +2573,7 @@ void __cdecl GetControlLabel(int control, char* output, bool prefix)
             text = output;
         else
             text = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d37b0))))->GetMenuTitle()));
-        if (setting && setting->name && ((int)(::FUN_004b75a0(setting->name, "trigger"))))
+        if (setting && setting->name && ((uintptr_t)(::FUN_004b75a0(setting->name, "trigger"))))
             sprintf(output, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d4a08))))->GetMenuTitle())), ((const char *)(::FUN_00559450((int *)&(text)))));
         else
             sprintf(output, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3fc4))))->GetMenuTitle())), ((const char *)(::FUN_00559450((int *)&(text)))));
@@ -2727,7 +2727,7 @@ class FUN_00701520_cls
 // @fnv 0x00701520
 void FUN_00701520_cls::FUN_00701520()
 {
-    void* a = ((void *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<int *>(&::_g_thePlayer))))));
+    void* a = ((void *)(::InventoryChanges::CreateForReference((*reinterpret_cast<::TESObjectREFR **>(&::_g_thePlayer)))));
 
     for (int i = 0; i < 8; i++)
     {
@@ -2735,7 +2735,7 @@ void FUN_00701520_cls::FUN_00701520()
 
         if (b != 0 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((GameObjStub*)b)))->GetName())) != 0)
         {
-            void* c = ((void *)(::GetBipedModelTextureSwap((::TESForm *)(uintptr_t)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName()))), (::TESObjectREFR *)((*reinterpret_cast<int *>(&::_g_thePlayer))))));
+            void* c = ((void *)(::GetBipedModelTextureSwap((::TESForm *)(uintptr_t)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName()))), (*reinterpret_cast<::TESObjectREFR **>(&::_g_thePlayer)))));
 
             if (c == 0)
             {

@@ -402,7 +402,7 @@ FUN_0078e0f0::~FUN_0078e0f0()
     ((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))
         ->v58((*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int());
 
-    reinterpret_cast<::FUN_00572160_shell *>((((NiNodeDetachHelper*)(NiNode*)(unsigned int)(*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int())))->FUN_00572160();
+    reinterpret_cast<::FUN_00572160_shell *>((((NiNodeDetachHelper*)(NiNode*)(uintptr_t)(*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int())))->FUN_00572160();
 
     (*reinterpret_cast<::GO *>(&::g_011da24c)).operator=(0);
     (*reinterpret_cast<::GO *>(&::g_011da224)).operator=(0);

@@ -110,7 +110,7 @@ void* S_007e7b00::DestroyIfFlagged(unsigned int flags)
 // @fnv 0x007e7b30
 void Holder::FUN_007e7b30()
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_01077abc));
+    *(void**)this = &::DAT_01077abc;
     DAT_011db00c = 0;
     reinterpret_cast<::fnv_00a1c520::FUN_00a1c520 *>((this))->fnv_00a1c520::FUN_00a1c520::~FUN_00a1c520();
 }

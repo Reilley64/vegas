@@ -118,7 +118,7 @@ struct FUN_00700110_cls
     int unk18;
     int unk1C;
     int unk20;
-    int m_24;
+    char* m_24;
     unsigned char unk28;
     unsigned char m_29;
 

@@ -64,7 +64,7 @@ struct FUN_0073acb0 : Menu
 // @fnv 0x0073acb0
 FUN_0073acb0::FUN_0073acb0() : Menu()
 {
-    *reinterpret_cast<unsigned int*>(this) = (unsigned int)&DAT_01070ecc;
+    *reinterpret_cast<void**>(this) = &DAT_01070ecc;
     m_pHighlightedTile = 0;
     m_pObject = 0;
 }
@@ -637,7 +637,7 @@ struct FUN_007e7a80 : Menu
 // @fnv 0x007e7a80
 FUN_007e7a80::FUN_007e7a80()
 {
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_01077abc);
+    *reinterpret_cast<void**>(this) = &DAT_01077abc;
     m_78 = -1;
     m_7c = -1;
 }
@@ -693,7 +693,7 @@ struct FUN_00a1c520_shell
 // @fnv 0x0073ad30
 void FUN_0073ad00_shell::FUN_0073ad30()
 {
-    *reinterpret_cast<unsigned int*>(this) = (unsigned int)&DAT_01070ecc;
+    *reinterpret_cast<void**>(this) = &DAT_01070ecc;
     reinterpret_cast<::fnv_00a1c520::FUN_00a1c520 *>((reinterpret_cast<FUN_00a1c520_shell*>(this)))->fnv_00a1c520::FUN_00a1c520::~FUN_00a1c520();
 }
 

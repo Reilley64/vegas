@@ -70,8 +70,8 @@ int DAT_011d5c44;
 BGSAcousticSpace *DAT_011dcfb8;
 namespace SetRenderCamera { bool DAT_011de9d1; }
 std::uintptr_t DAT_011dea14;
-int DAT_011dea18;
-int DAT_011dea1c;
+intptr_t DAT_011dea18;
+intptr_t DAT_011dea1c;
 ::SkyInit *DAT_011dea20;
 bool DAT_011dea28;
 bool DAT_011dea29;

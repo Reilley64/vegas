@@ -275,7 +275,7 @@ bool FUN_006e1500_class::BuildNavMeshMap(NavMeshCollection* pNavMeshArray)
     unsigned int i;
     unsigned int j2;
     m_uTotalCount = 0;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshArray))->GetName())); i++)
+    for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshArray))->GetName())); i++)
     {
         reinterpret_cast<::FUN_00844700_Class *>(&(m_map))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::NavMesh *)(::FUN_00559450((int *)&(pNavMeshArray->FUN_00877a30(i)))))))->FUN_0084e3a0())), m_uTotalCount);
         m_uTotalCount += ::FUN_00558200((char *)(((::NavMesh *)(::FUN_00559450((int *)&(pNavMeshArray->FUN_00877a30(i)))))));
@@ -353,7 +353,7 @@ char FUN_006e1670_cls::FUN_006e1670(unsigned int limit, SpawnedTarget* target, u
     }
 
     i = 0;
-    for (accum = 0; accum < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((SeqList*)&this->unk1c)))->GetName())); accum++)
+    for (accum = 0; accum < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((SeqList*)&this->unk1c)))->GetName())); accum++)
     {
         unsigned int len;
         Script* script = ((::Script *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SeqEntry *)(::FUN_00559450((int *)(((SeqList*)&this->unk1c)->FUN_00877a30(accum)))))))->FUN_0084e3a0()));

@@ -3244,11 +3244,11 @@ struct NavOwner
 // @fnv 0x006a0ac0
 float NavOwner::ComputePathCost(NavObj* apSelf, const Pt3& aStart, const Pt3& aEnd, NavObj* apIgnore)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); i++)
     {
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::InnerArr *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i)))))->GetName())); j++)
+        for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i)))))->GetName())); j++)
         {
-            NavObj* pObj = ((::InnerArr *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i)))->GetAt(j);
+            NavObj* pObj = ((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i)))->GetAt(j);
             if (pObj == apIgnore)
                 continue;
             if (pObj == apSelf)
@@ -5588,32 +5588,32 @@ struct Owner
 // @fnv 0x0069e3b0
 bool Owner::BuildGroups(Input* input, Groups* output)
 {
-    reinterpret_cast<::FUN_006a1720_class *>(&(groups))->FUN_006a1720(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((input))->GetName())) + 1, 1);
-    GroupHandles first3(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())));
-    GroupHandles second7(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())));
+    reinterpret_cast<::FUN_006a1720_class *>(&(groups))->FUN_006a1720(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((input))->GetName())) + 1, 1);
+    GroupHandles first3(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())));
+    GroupHandles second7(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())));
     Words indices3;
-    for (unsigned int outer = 0; outer < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((input))->GetName())); outer++)
+    for (unsigned int outer = 0; outer < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((input))->GetName())); outer++)
     {
         unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_0069a830::FUN_0069a830_shell *>((((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh))->CollectTrianglePOVs(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->index, (::BSSimpleArray<unsigned short, 1024> *)(::Words *)(&indices3))));
         for (unsigned int inner = 0; inner < count; inner++)
         {
             Handle handle(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh, reinterpret_cast<::FUN_005eeda0_this *>(&(indices3))->GetBufferEntry(inner));
-            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handle)))
-                reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handle));
+            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handle)))
+                reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handle));
         }
         count = reinterpret_cast<::fnv_0069a940::FUN_0069a940_shell *>((((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh))->FUN_0069a940(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->index, (::fnv_0069a940::GlobalObject_00869f00 *)(::Words *)(&indices3));
         for (unsigned int innerB = 0; innerB < count; innerB++)
         {
             Handle handleB(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh, reinterpret_cast<::FUN_005eeda0_this *>(&(indices3))->GetBufferEntry(innerB));
-            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handleB)) && !reinterpret_cast<::S006a1460 *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handleB)))
-                reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handleB));
+            if (!reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handleB)) && !reinterpret_cast<::S006a1460 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006a1460((int)&(handleB)))
+                reinterpret_cast<::FUN_006dba30_Class *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(outer)))))->FUN_006dba30((const ::S0069a690 *)&(handleB));
         }
     }
-    for (unsigned int groupA = 0; groupA < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(first3))->GetName())); groupA++)
+    for (unsigned int groupA = 0; groupA < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(first3))->GetName())); groupA++)
     {
-        for (unsigned int indexA = 0; indexA < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(groupA)))))->GetName())); indexA++)
+        for (unsigned int indexA = 0; indexA < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(groupA)))))->GetName())); indexA++)
         {
-            Handle* current2 = ((::Handle *)(reinterpret_cast<::S006950d0 *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(groupA)))))->GetElement(indexA)));
+            Handle* current2 = ((::Handle *)(reinterpret_cast<::S006950d0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(first3))->FUN_00558dd0(groupA)))))->GetElement(indexA)));
             EdgePair edges7;
             if (!current2->mesh->FUN_0069a9d0(current2->index, &edges7))
                 continue;
@@ -5634,44 +5634,44 @@ bool Owner::BuildGroups(Input* input, Groups* output)
             recordA->directionB = *pointsB3.end - *pointsB3.start;
             recordA->directionA.z = 0.0f;
             recordA->directionB.z = 0.0f;
-            reinterpret_cast<::FUN_00438690 *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupA)))))->FUN_007cb2e0((unsigned int *)&(recordA));
+            reinterpret_cast<::FUN_00438690 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupA)))))->FUN_007cb2e0((unsigned int *)&(recordA));
         }
     }
-    for (unsigned int groupB = 0; groupB < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(second7))->GetName())); groupB++)
+    for (unsigned int groupB = 0; groupB < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(second7))->GetName())); groupB++)
     {
-        for (unsigned int indexB = 0; indexB < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(groupB)))))->GetName())); indexB++)
+        for (unsigned int indexB = 0; indexB < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(groupB)))))->GetName())); indexB++)
         {
-            Handle* currentB = ((::Handle *)(reinterpret_cast<::S006950d0 *>((((::Handles *)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(groupB)))))->GetElement(indexB)));
+            Handle* currentB = ((::Handle *)(reinterpret_cast<::S006950d0 *>((((::Handles *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(second7))->FUN_00558dd0(groupB)))))->GetElement(indexB)));
             Record* recordB5 = new Record;
             recordB5->type = 2;
             recordB5->position = (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((currentB->mesh))->FUN_0068f0a0(currentB->index)));
             recordB5->radius = ::GetFloatAtOffset68((const char *)(request));
             recordB5->index = currentB->index;
-            reinterpret_cast<::FUN_00438690 *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupB)))))->FUN_007cb2e0((unsigned int *)&(recordB5));
+            reinterpret_cast<::FUN_00438690 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupB)))))->FUN_007cb2e0((unsigned int *)&(recordB5));
             Record* partner2 = new Record;
             partner2->type = 2;
             partner2->position = (*(const ::Vec *)(reinterpret_cast<::FUN_0068f0a0_shell *>((currentB->mesh))->FUN_0068f0a0(currentB->index)));
             partner2->radius = 10.0f;
             partner2->index = currentB->index;
             partner2->cost = 2.0f;
-            reinterpret_cast<::FUN_00438690 *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupB)))))->FUN_007cb2e0((unsigned int *)&(partner2));
+            reinterpret_cast<::FUN_00438690 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(groupB)))))->FUN_007cb2e0((unsigned int *)&(partner2));
             reinterpret_cast<::FUN_00438690 *>((recordB5->links))->FUN_007cb2e0((unsigned int *)&(partner2));
             reinterpret_cast<::FUN_00438690 *>((partner2->links))->FUN_007cb2e0((unsigned int *)&(recordB5));
         }
     }
     Pairs removalsTmp;
     float threshold9 = 25.0f;
-    for (unsigned int group = 0; group < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName())); group++)
+    for (unsigned int group = 0; group < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName())); group++)
     {
-        for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))))->GetName())); index++)
+        for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))))->GetName())); index++)
         {
-            for (unsigned int other = group; other < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName())); other++)
+            for (unsigned int other = group; other < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName())); other++)
             {
                 if (other == group)
                 {
-                    for (unsigned int next = index + 1; next < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))))->GetName())); next++)
+                    for (unsigned int next = index + 1; next < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))))->GetName())); next++)
                     {
-                        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(next)->position)))->UpdateCombatStyle() < threshold9)
+                        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(next)->position)))->UpdateCombatStyle() < threshold9)
                         {
                             if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((int)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
                                 reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
@@ -5680,9 +5680,9 @@ bool Owner::BuildGroups(Input* input, Groups* output)
                 }
                 else
                 {
-                    for (unsigned int nextOther = 0; nextOther < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))))->GetName())); nextOther++)
+                    for (unsigned int nextOther = 0; nextOther < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))))->GetName())); nextOther++)
                     {
-                        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(nextOther)->position)))->UpdateCombatStyle() < threshold9)
+                        if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(nextOther)->position)))->UpdateCombatStyle() < threshold9)
                         {
                             if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((int)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
                                 reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
@@ -5692,7 +5692,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
             }
         }
     }
-    for (int remove = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(removalsTmp))->GetName())) - 1; remove >= 0; remove--)
+    for (int remove = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(removalsTmp))->GetName())) - 1; remove >= 0; remove--)
     {
         delete ((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))->At(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index);
         reinterpret_cast<::FUN_006bf8f0_Class *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))))->FUN_006bf8f0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index, true);
@@ -7976,12 +7976,12 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
 {
     P072Input* info = ((::P072Input *)(reinterpret_cast<::TESTopicInfoData *>((pInputNode))->GetLinkToList()));
     P072Details* groupCount = ((::P072Details *)(reinterpret_cast<::NonActorMagicTarget *>((pInputNode))->GetActiveEffectList()));
-    unsigned int details = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName()));
+    unsigned int details = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName()));
     for (unsigned int group = info->group; group < details; group++)
     {
         unsigned int objects;
-        P072Inner* objectCount = ((::P072Inner *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(group)));
-        objects = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((objectCount))->GetName()));
+        P072Inner* objectCount = ((::P072Inner *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(group)));
+        objects = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((objectCount))->GetName()));
         for (unsigned int item = 0; item < objects; item++)
         {
             P072Data* object = objectCount->FUN_00877a30(item);
@@ -10489,11 +10489,11 @@ float NavOwnerArc::FUN_006a0940(NavObj* apSelf, ArcStandIn aArc, NavObj* apIgnor
 {
     SphereStandIn kSelf(apSelf->pos, apSelf->radius);
     Vec3 kPoint = kSelf.Center + aArc.start.PointAt(kSelf.fRadius);
-    for (unsigned int i_ = 0; i_ < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); i_++)
+    for (unsigned int i_ = 0; i_ < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); i_++)
     {
-        for (unsigned int j2 = 0; j2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::InnerArr *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i_)))))->GetName())); j2++)
+        for (unsigned int j2 = 0; j2 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i_)))))->GetName())); j2++)
         {
-            NavObj* pObj = ((::InnerArr *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i_)))->GetAt(j2);
+            NavObj* pObj = ((::InnerArr *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(i_)))->GetAt(j2);
             if (pObj == apIgnore)
                 continue;
             if (pObj == apSelf)

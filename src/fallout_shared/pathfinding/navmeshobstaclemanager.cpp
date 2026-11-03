@@ -204,7 +204,7 @@ void NavMeshObstacleManager::AddProcessedTask(ObstacleTaskData* task)
 // @fnv 0x006c4540
 bool NavMeshObstacleManager::ClearBackgroundTasks()
 {
-    unsigned int size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)this + 0x14c))))->GetName()));
+    unsigned int size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)this + 0x14c))))->GetName()));
     for (unsigned int i = 0; i < size; i++)
     {
         delete (ObstacleTaskData*)((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)this + 0x14c))
@@ -253,7 +253,7 @@ void NavMeshObstacleManager::ClearObstacles()
                 ->GetAt((bhkRigidBody*)auiFormId, (NiPointer<ObstacleData>&)spReference))
         {
             for (unsigned int i = 0;
-                 i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)(AnimIdle*)spReference + 0xc))))->GetName()));
+                 i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)(AnimIdle*)spReference + 0xc))))->GetName()));
                  i++)
             {
                 reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<ObstacleData> >*)((char*)this + 0x3c))))->FUN_00631620((const ::NodeValue &)((const NiPointer<
@@ -715,7 +715,7 @@ namespace fnv_006c44d0 {
 bool FUN_006c44d0_shell::FUN_006c44d0()
 {
     bool bNavmeshesUpdated = false;
-    unsigned int icount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)((char*)this + 0x14c))))->GetName()));
+    unsigned int icount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)((char*)this + 0x14c))))->GetName()));
     for (unsigned int t = 0; t < icount; ++t)
     {
         unsigned int ptask = ((BSSimpleArray<unsigned int, 1024>*)((char*)this + 0x14c))->GetAt(t);
@@ -1017,7 +1017,7 @@ struct FUN_006c4540_obj
 // @fnv 0x006c4540
 bool ClearOwnedObjects(char* this_ptr)
 {
-    unsigned int icount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(this_ptr + 0x14c))))->GetName()));
+    unsigned int icount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(this_ptr + 0x14c))))->GetName()));
     for (unsigned int t = 0; t < icount; t++)
     {
         delete (FUN_006c4540_obj*)*((Arr*)(this_ptr + 0x14c))->GetAt(t);
@@ -1787,7 +1787,7 @@ bool FUN_006c2050(const Flt* apData, S2f850* apReturnNavMeshArray)
     CellArr cells(0x20, 0, 0);
     if (CollectCellsNearObstacle(apData, &cells))
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&cells)))->GetName())); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&cells)))->GetName())); i++)
         {
             NMA* parray = (NMA*)((int)(::FUN_0070ec90((char *)(((EffectSetting*)*((Arr*)&cells)->GetAt(i))))));
             if (parray)
@@ -1959,7 +1959,7 @@ void FUN_006c47e0_shell::FUN_006c47e0()
         GO spArray(0);
         if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x1c))))->FUN_006c62d0((unsigned int)((void*)prefID), (void **)&(spArray)))
         {
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)&spArray + 0xc))))->GetName())); i++)
+            for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)&spArray + 0xc))))->GetName())); i++)
                 reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<BSTempEffect> >*)((char*)this + 0x3c))))->FUN_00631620((const ::NodeValue &)(*(NiPointer<BSTempEffect>*)((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i)));
         }
         RemoveObstaclesForReference(prefID);
@@ -2039,11 +2039,11 @@ bool FUN_006c4fb0_shell::ProcessDoorObstacles()
         if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x110))))->FUN_006c62d0((unsigned int)((void*)doorId), (void **)&(spArray)))
         {
             unsigned int i;
-            for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)&spArray + 0xc))))->GetName())); i++)
+            for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)&spArray + 0xc))))->GetName())); i++)
             {
                 unsigned int j;
                 for (j = 0;
-                     j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i) + 0x78))))->GetName()));
+                     j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i) + 0x78))))->GetName()));
                      j++)
                 {
                     reinterpret_cast<::ObstacleTaskData *>((((::fnv_006c4fb0::ObstacleTaskData_Op *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(((FUN_006c5ef0_shell*)this)), 
@@ -2585,7 +2585,7 @@ void FUN_006c45e0_shell::ProcessAddedRefs()
             }
         }
     }
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&addedRefs)))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&addedRefs)))->GetName())); i++)
         reinterpret_cast<::ItemChangeListNode *>((((FUN_00905330_s*)((char*)this + 0x2c))))->FUN_00905330((*(::InventoryStackRecord *const *)(((Arr*)&addedRefs)->GetAt(i))));
 }
 }  // namespace fnv_006c45e0
@@ -3263,7 +3263,7 @@ void FUN_006c4c30_shell::FUN_006c4c30()
         unsigned int formID;
         SpArr spArray(0);
         reinterpret_cast<::Map62d0 *>((((MapX*)((char*)this + 0x1c))))->FUN_00559120((::MapItem62d0 *&)(it), (void *&)(formID), (::Helper62d0 &)(spArray));
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(static_cast<ObstArr*>(spArray)->arr))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(static_cast<ObstArr*>(spArray)->arr))->GetName())); ++i)
         {
             SpObst m_spRegisteredObstacle(static_cast<ObstArr*>(spArray)->arr.GetAt(i));
             reinterpret_cast<::ObstacleMgrX *>((((MgrX*)this)))->FUN_006c1760((const ::ObstPtrX &)(m_spRegisteredObstacle));
@@ -3822,7 +3822,7 @@ void ManagerView::FUN_006c09f0()
     while (position)
     {
         reinterpret_cast<::Map62d0 *>(&(obstacles))->FUN_00559120((::MapItem62d0 *&)(position), (void *&)(key), (::Helper62d0 &)(records));
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(static_cast<ObstArr*>(records)->arr))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(static_cast<ObstArr*>(records)->arr))->GetName())); ++i)
         {
             NiPointer<ObstacleData> obstacle(
                 *reinterpret_cast<NiPointer<ObstacleData>*>(static_cast<ObstArr*>(records)->arr.GetAt(i)));
@@ -4525,7 +4525,7 @@ bool UpdateObstacleBounds(Obstacle* obstacle)
     Collision* collision = ((::ObstacleBounds::Collision *)(::FUN_00559450((int *)&(obstacle->collision))));
     if (!collision)
         return false;
-    Body* body = ((::ObstacleBounds::Body *)(reinterpret_cast<::FUN_00620b80_shell *>((collision))->GetReferenceFlags()));
+    Body* body = ((::ObstacleBounds::Body *)(std::uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((collision))->GetReferenceFlags()));
     if (!body)
         return false;
     HkTransform hkTransform(((const void *)(::FUN_004b4f00((::TESDataHandler *)(body)))));
@@ -4955,7 +4955,7 @@ void DebugObstacleManager::SetEnabled(bool show)
             unsigned int l;
             DebugPointer<DebugObstacleArray> k(0);
             reinterpret_cast<::Map62d0 *>(&(obstacles))->FUN_00559120((::MapItem62d0 *&)(position), (void *&)(l), (::Helper62d0 &)(k));
-            for (unsigned int c = 0; c < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(k->objects))->GetName())); ++c)
+            for (unsigned int c = 0; c < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(k->objects))->GetName())); ++c)
             {
                 DebugPointer<DebugSceneObject> e(k->objects.GetAt(c));
                 DebugPointer<DebugSceneObject> j(0);
@@ -5295,7 +5295,7 @@ void ObstacleMgrX::FUN_006c1760(const ObstPtrX& apObstacle)
 {
     if (((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->bFlag74)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos))->GetName())); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos))->GetName())); i++)
         {
             reinterpret_cast<::ObstacleTaskData *>((((::TaskDataX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos.GetAt(i))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(apObstacle), (::OBSTACLE_TASK_TYPE)(0x21));
         }
@@ -5312,7 +5312,7 @@ void ObstacleMgrX::FUN_006c1760(const ObstPtrX& apObstacle)
         NavMeshPtrArrX kArr;
         if (::fnv_006c2050::FUN_006c2050((const ::fnv_006c2050::Flt *)&(apObstacle), (::fnv_006c2050::S2f850 *)&(kArr)))
         {
-            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kArr))->GetName())); j++)
+            for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kArr))->GetName())); j++)
             {
                 reinterpret_cast<::ObstacleTaskData *>((((::TaskDataX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kArr.GetAt(j)))))))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(apObstacle), (::OBSTACLE_TASK_TYPE)(0x11));
                 NavMeshInfoX* pInfo = ((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kArr.GetAt(j)))))))->FUN_0068efb0()));
@@ -5331,7 +5331,7 @@ void Mgr_c1190::RegisterKey(Key_c1190* key)
         FUN_006c34f0(key, spHolder);
         reinterpret_cast<::Map6920 *>((((HolderMap_c1190*)((char*)this + 0x1c))))->FUN_006c6920(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((key))->FUN_0084e3a0())), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Holder_c1190> &)(spHolder)));
     }
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(spHolder->kObstacles))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(spHolder->kObstacles))->GetName())); i++)
     {
         Ptr_c1190<Obs_c1190> spObst(spHolder->kObstacles.FUN_00877a30(i));
         reinterpret_cast<::Map6920 *>((((ObsMap_c1190*)((char*)this + 0xe0))))->FUN_006c6920((unsigned int)(::Kind_c1190 *)(spObst->m_spKind), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Obs_c1190> &)(spObst)));
@@ -5350,7 +5350,7 @@ void Mgr_c1190::RegisterKey(Key_c1190* key)
             MeshArr_c1190 kMeshes;
             if (::fnv_006c2050::FUN_006c2050((const ::fnv_006c2050::Flt *)&(spObst), (::fnv_006c2050::S2f850 *)&(kMeshes)))
             {
-                for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kMeshes))->GetName())); j++)
+                for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kMeshes))->GetName())); j++)
                 {
                     reinterpret_cast<::ObstacleTaskData *>((((::Task_c1190 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::Info_c1190 *)(reinterpret_cast<::FUN_0068efb0_shell *>(((kMeshes.FUN_00877a30(j)).operator->()))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst), (::OBSTACLE_TASK_TYPE)(0x10));
                     reinterpret_cast<::FUN_00438690 *>(&(spObst->kInfos))->FUN_007cb2e0((unsigned int *)&(const ::Info_c1190 *const &)(((::Info_c1190 *)(reinterpret_cast<::FUN_0068efb0_shell *>(((kMeshes.FUN_00877a30(j)).operator->()))->FUN_0068efb0()))));
@@ -5601,7 +5601,7 @@ void HostA::RemoveEntry(unsigned int key)
     if (!reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0(key, (void **)&(array)))
         return;
     reinterpret_cast<::NiTMap_S *>(&(map))->RemoveKey(key);
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ObstArr*)array)->arr))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ObstArr*)array)->arr))->GetName())); i++)
     {
         SpObst item(((ObstArr*)array)->arr.GetAt(i));
         reinterpret_cast<::NiTMap_S *>(&(ptrMap))->RemoveKey((unsigned int)(((void *)(::FUN_00559450((int *)&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->inner))))));
@@ -5610,7 +5610,7 @@ void HostA::RemoveEntry(unsigned int key)
             reinterpret_cast<::Owner6C5 *>(this)->AttachChildFromSource((::Handle6C5 &)(item));
         if (!reinterpret_cast<::FUN_0076b610_Class *>(&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr))->FUN_0076b610())
         {
-            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr))->GetName())); j++)
+            for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr))->GetName())); j++)
                 reinterpret_cast<::ObstacleTaskData *>((((::TaskView *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(*((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr.FUN_00877a30(j))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(item), (::OBSTACLE_TASK_TYPE)(0x20));
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr))->Clear(true);
         }
@@ -5624,12 +5624,12 @@ void ObstMgr1920::RebuildRefObstacles(unsigned int formID, void* pRef)
     {
         return;
     }
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::RefObstData1920 *)(::FUN_00559450((int *)&(spArr))))->kObstacles))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::RefObstData1920 *)(::FUN_00559450((int *)&(spArr))))->kObstacles))->GetName())); i++)
     {
         ObstPtr1920 spObst = ((::RefObstData1920 *)(::FUN_00559450((int *)&(spArr))))->kObstacles.GetAt(i);
         if (((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->bFlag74)
         {
-            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->kNavMeshInfos))->GetName())); j++)
+            for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->kNavMeshInfos))->GetName())); j++)
             {
                 reinterpret_cast<::ObstacleTaskData *>((((::TaskData1920 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(this), ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->kNavMeshInfos.GetAt(j))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst), (::OBSTACLE_TASK_TYPE)(0x21));
             }
@@ -5644,7 +5644,7 @@ void ObstMgr1920::RebuildRefObstacles(unsigned int formID, void* pRef)
         reinterpret_cast<::ListReader *>(&(this->list3C))->FUN_00631620((const ::NodeValue &)(spObst));
     }
     BuildRefObstacles1920(pRef, spArr);
-    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::RefObstData1920 *)(::FUN_00559450((int *)&(spArr))))->kObstacles))->GetName())); k++)
+    for (unsigned int k = 0; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::RefObstData1920 *)(::FUN_00559450((int *)&(spArr))))->kObstacles))->GetName())); k++)
     {
         ObstPtr1920 spObst2 = ((::RefObstData1920 *)(::FUN_00559450((int *)&(spArr))))->kObstacles.GetAt(k);
         UpdateObstacle1920(spObst2);
@@ -5653,7 +5653,7 @@ void ObstMgr1920::RebuildRefObstacles(unsigned int formID, void* pRef)
             NavMeshPtrArrX kNavMeshes;
             if (::fnv_006c2050::FUN_006c2050((const ::fnv_006c2050::Flt *)&(spObst2), (::fnv_006c2050::S2f850 *)&(kNavMeshes)))
             {
-                for (unsigned int m = 0; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNavMeshes))->GetName())); m++)
+                for (unsigned int m = 0; m < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNavMeshes))->GetName())); m++)
                 {
                     reinterpret_cast<::ObstacleTaskData *>((((::TaskData1920 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(this), ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kNavMeshes.GetAt(m)))))))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst2), (::OBSTACLE_TASK_TYPE)(0x11));
                     NavMeshInfoX* pInfo = ((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kNavMeshes.GetAt(m)))))))->FUN_0068efb0()));
@@ -5717,7 +5717,7 @@ struct InfoEntryArrY
 void InfoEntryArrY::RebuildFromNavMesh(const NavMeshPtrY& apNavMesh)
 {
     unsigned int ItemUpdateArray = reinterpret_cast<::S006911c0 *>(((apNavMesh).operator->()))->FUN_006911c0();
-    if (!m_pNavigationMesh || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) != ItemUpdateArray)
+    if (!m_pNavigationMesh || ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) != ItemUpdateArray)
     {
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(false);
         reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(this)->FUN_0084b5c0(ItemUpdateArray);
@@ -6458,12 +6458,12 @@ bool SelfX::FUN_006c5190()
             PtrX spScreenData(new NewX);
             if (FUN_006c34f0(pkObj, &spScreenData))
             {
-                for (unsigned i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))->arr))->GetName())); i++)
+                for (unsigned i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))->arr))->GetName())); i++)
                 {
                     QArrX kArr;
                     if (::fnv_006c2050::FUN_006c2050((const ::fnv_006c2050::Flt *)&(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))->arr.FUN_00877a30(i)), (::fnv_006c2050::S2f850 *)(::fnv_006c5190::QArrX *)(&kArr)))
                     {
-                        for (unsigned j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kArr))->GetName())); j++)
+                        for (unsigned j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kArr))->GetName())); j++)
                         {
                             reinterpret_cast<::ObstacleTaskData *>((((::fnv_006c5190::TblX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((reinterpret_cast<::FUN_0068efb0_shell *>((((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(kArr.FUN_00877a30(j)))))))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))->arr.FUN_00877a30(i)), (::OBSTACLE_TASK_TYPE)(0x30));
                             reinterpret_cast<::FUN_00438690 *>(&(((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))
@@ -6708,14 +6708,14 @@ struct ObstacleManager
 // @fnv 0x006c3ba0
 bool ObstacleManager::MatchPortalEdges()
 {
-    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kObstacles))->GetName()));
+    unsigned int ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kObstacles))->GetName()));
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
     {
         Obstacle* pkOwner = m_kObstacles.FUN_00877a30(i);
         if (!pkOwner->m_spNavMesh.FUN_00458b50())
             continue;
         PortalSet* pkSet = &pkOwner->m_kPortalSet;
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkSet->m_kPortals))->GetName())); j++)
+        for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkSet->m_kPortals))->GetName())); j++)
         {
             PortalInfo kFirstPortal(pkSet->m_kPortals.FUN_006a1440(j));
             if (kFirstPortal.m_usTriangle >= ::FUN_00558200((char *)(((NavMesh*)pkOwner->m_spNavMesh))))
@@ -6738,7 +6738,7 @@ bool ObstacleManager::MatchPortalEdges()
                 if (!pkOtherObstacle->m_spNavMesh.FUN_00458b50())
                     continue;
                 PortalSet* pkOtherPortals = &pkOtherObstacle->m_kPortalSet;
-                for (unsigned int l = 0; l < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkOtherPortals->m_kPortals))->GetName())); l++)
+                for (unsigned int l = 0; l < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkOtherPortals->m_kPortals))->GetName())); l++)
                 {
                     PortalInfo kOther(pkOtherPortals->m_kPortals.FUN_006a1440(l));
                     if (kOther.m_usTriangle >= ::FUN_00558200((char *)(((NavMesh*)pkOtherObstacle->m_spNavMesh))))
@@ -6776,7 +6776,7 @@ bool ObstacleManager::MatchPortalEdges()
             }
             if (!bPortalEdgeMatched)
             {
-                for (unsigned int m = 0; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkSet->m_kOpenPortals))->GetName())); m++)
+                for (unsigned int m = 0; m < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkSet->m_kOpenPortals))->GetName())); m++)
                 {
                     PortalInfo kOpenInfo(pkSet->m_kOpenPortals.FUN_006a1440(m));
                     PortalInfo kLinked;
@@ -7001,7 +7001,7 @@ void ObsMgr::FUN_006c4d30()
         ObstPtr1920 item((*(::fnv_006c4d30::ObstPtr1920 *)((void *)(node))));
         node = ((::fnv_006c4d30::ObstList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         Holder3 h;
-        new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::fnv_006c4d30::BodyRef *)(reinterpret_cast<::FUN_00620b80_shell *>((((::fnv_006c4d30::RigidBody *)(::FUN_00559450((int *)&(((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->m_pRigidBody))))))->GetReferenceFlags()))->FUN_004b4ec0())));
+        new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::fnv_006c4d30::BodyRef *)(std::uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((((::fnv_006c4d30::RigidBody *)(::FUN_00559450((int *)&(((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->m_pRigidBody))))))->GetReferenceFlags()))->FUN_004b4ec0())));
         V3 v;
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&v)), (*(const ::hkVector4 *)(&h)));
         V3 tmp;
@@ -7128,7 +7128,7 @@ void RemoveObstacleManagerView::FUN_006c0c80(::TESObjectREFR* ref)
         unsigned int i;
         if (reinterpret_cast<::Map62d0 *>(&(references))->FUN_006c62d0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast< ::TESForm*>(ref)))->FUN_0084e3a0())), (void **)&(spArray)))
         {
-            for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::RefObstData1920 *)(::FUN_00559450((int *)&(spArray))))->kObstacles))->GetName())); i++)
+            for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::RefObstData1920 *)(::FUN_00559450((int *)&(spArray))))->kObstacles))->GetName())); i++)
                 reinterpret_cast< ::S_this*>(this)->FUN_006c1e00(
                     static_cast< ::S_param*>(((void *)(::FUN_00559450((int *)&(((::ObstData1920 *)(::FUN_00559450((int *)&(((::RefObstData1920 *)(::FUN_00559450((int *)&(spArray))))->kObstacles.GetAt(i)))))->m_pRigidBody))))));
             reinterpret_cast<::Callees *>(&(removed))->FUN_00905820((void *)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast< ::TESForm*>(ref)))->FUN_0084e3a0()))));
@@ -7265,7 +7265,7 @@ void ObsMgr_nogf::FUN_006c4ad0()
         if (reinterpret_cast<::Map62d0 *>(&(mapE0))->FUN_006c62d0((unsigned int)(body), (void **)(::S006c4ad0_Ptr *)(&sp)))
         {
             S006c4ad0_Holder3 h;
-            new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::S006c4ad0_Ref2 *)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()))->FUN_004b4ec0())));
+            new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::S006c4ad0_Ref2 *)(std::uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()))->FUN_004b4ec0())));
             V3 v;
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&v)), (*(const ::hkVector4 *)(&h)));
             V3 tmp;

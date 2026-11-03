@@ -2845,7 +2845,7 @@ struct ExtraFriendHits : public BSExtraData
 int ExtraFriendHits::FUN_00435e20()
 {
     reinterpret_cast<::FUN_00435e40_cls *>(this)->FUN_00435e40();
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kHits))->GetName()));
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kHits))->GetName()));
 }
 
 struct ExtraSayTopicInfoOnceADay
@@ -3673,9 +3673,9 @@ bool FUN_00431030_shell::FUN_00431030(BSExtraData* apCompare)
     if (!reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
     FUN_00431030_shell* pOtherData = static_cast<FUN_00431030_shell*>(apCompare);
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pOtherData + 1)))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pOtherData + 1)))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())))
         return true;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())); ++i)
     {
         if (reinterpret_cast<LS3de0*>(pOtherData + 1)
                 ->Find(reinterpret_cast<FUN_00431030_BSSimpleArray*>(this + 1)->pBuffer[i], 0,
@@ -4234,7 +4234,7 @@ struct FUN_004305f0
 void FUN_004305f0::Run(int arg1, char arg2)
 {
     unsigned int i;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x20))))->GetName())); ++i)
+    for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x20))))->GetName())); ++i)
     {
         unsigned int v = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
         if (v != 0)
@@ -4815,7 +4815,7 @@ struct FUN_004302d0 : FUN_0040ecb0
 // @fnv 0x004302d0
 FUN_004302d0::~FUN_004302d0()
 {
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(members))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(members))->GetName())); ++index)
     {
         delete ((::FUN_00430390 *)(reinterpret_cast<::S3e60 *>(&(members))->FUN_006a7ad0(index)));
     }
@@ -6004,9 +6004,9 @@ bool EntryCollection::FUN_00430660(EntryCollection* other)
 {
     if (other->unk0C != unk0C)
         return false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())))
         return false;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); i++)
     {
         ComparisonEntry* mine = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(i)));
         ComparisonEntry* theirs = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(other->entries))->FUN_006a7ad0(i)));
@@ -7713,7 +7713,7 @@ class xQuestQ
 // @fnv 0x00431120
 void xQuestQ::NotifyQuestActors(int a, int b)
 {
-    for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kArr))->GetName())); uiIndex++)
+    for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kArr))->GetName())); uiIndex++)
     {
         unsigned int uiFormId = ((unsigned int)(reinterpret_cast<::S3e60 *>(&(m_kArr))->FUN_006a7ad0(uiIndex)));
         xFormQ* pForm = ((::xFormQ *)(::FUN_004839c0(uiFormId)));

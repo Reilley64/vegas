@@ -550,7 +550,7 @@ bool FUN_006ab180_shell::FUN_006ab180(SeqObj* pkObj)
     if (cLineOfSightValue < 0)
     {
         LOSPortalArray* pkArray = ((::LOSPortalArray *)(reinterpret_cast<::BSMultiBoundRoom *>((m_pkRoom))->FUN_006ab360()));
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkArray))->GetName())); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkArray))->GetName())); i++)
         {
             NiPoint3Ex kTargetCenter = (*(::NiPoint3Ex *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&(pkObj->m_kNode))->FUN_006a6eb0({})));
             NiPoint3Ex kDiff = kTargetCenter - pkArray->FUN_006a1440(i);

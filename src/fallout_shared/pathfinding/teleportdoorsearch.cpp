@@ -141,7 +141,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
         TESObjectCELL* a07;
         bool a05;
         unsigned int a03;
-        for (a03 = 0; a03 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&doors)))->GetName())); ++a03)
+        for (a03 = 0; a03 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&doors)))->GetName())); ++a03)
         {
             a00 = reinterpret_cast<TESObjectREFR*>(reinterpret_cast<NiFormArray*>(&doors)->FUN_00877a30(a03));
             if (a00->GetDisabled())
@@ -2386,9 +2386,9 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
 {
     reinterpret_cast<::PathingLocation *>((((LocationCopy*)&location)))->operator=((*(const ::PathingLocation *)(start)));
     void* a;
-    if (((void *)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel())))
+    if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel())))
     {
-        startState.world = ((void *)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel()));
+        startState.world = ((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel()));
         startState.exterior = true;
         startState.cell = 0;
         a = startState.world;
@@ -2409,9 +2409,9 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
     disposition = disp;
     if (restriction != 3)
     {
-        if (((void *)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel())))
+        if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel())))
         {
-            goalState.world = ((void *)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel()));
+            goalState.world = ((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel()));
             goalState.exterior = true;
             goalState.cell = 0;
         }

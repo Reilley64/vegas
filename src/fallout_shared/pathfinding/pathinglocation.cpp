@@ -526,7 +526,7 @@ void SetupPathingLocation::FUN_006dd280(const NiPoint3& position, TESObjectCELL*
             m_uiPathingFlags = 0xDEADDEAD;
         }
     }
-    if (pNavMeshInfoArray && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((const_cast<BSSimpleArray<NavMeshInfo_const*, 1024>*>(pNavMeshInfoArray)))->GetName())) == 1)
+    if (pNavMeshInfoArray && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((const_cast<BSSimpleArray<NavMeshInfo_const*, 1024>*>(pNavMeshInfoArray)))->GetName())) == 1)
     {
         reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
         m_pLocationNavMesh = reinterpret_cast<const NavMeshInfo*>(
@@ -677,11 +677,11 @@ bool MeshBounds::ContainsPoint(const MeshPoint* pkPoint)
         {
             float m_fGlyphExtent = m_kMax.z - m_kMin.z;
             float fOut;
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kTris))->GetName())); i++)
+            for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kTris))->GetName())); i++)
             {
-                MeshPoint kA = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v0);
-                MeshPoint kB = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v1);
-                MeshPoint kC = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v2);
+                MeshPoint kA = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v0);
+                MeshPoint kB = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v1);
+                MeshPoint kC = *m_kVerts.FUN_006a1440(((::MeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_0069ccf0_class *>(&(m_kTris))->FUN_0069ccf0(i)))->v2);
                 if (::FUN_006b9cf0((*(const ::NiPoint3 *)(&kA)), (*(const ::NiPoint3 *)(&kB)), (*(const ::NiPoint3 *)(&kC)), (*(const ::NiPoint3 *)(pkPoint)), (*(float *)(&fOut)), m_fGlyphExtent, m_fGlyphExtent))
                     return true;
             }
@@ -802,7 +802,7 @@ struct DebugLocation
 // @fnv 0x006de790
 void DebugLocation::FormatDebugString(char* acBuffer, unsigned int capacity)
 {
-    if (!mesh || (meshes && !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName()))))
+    if (!mesh || (meshes && !((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName()))))
     {
         if (!world)
         {
@@ -838,12 +838,12 @@ void DebugLocation::FormatDebugString(char* acBuffer, unsigned int capacity)
             ::FUN_00406d00(list7, capacity, "[");
             {
                 unsigned int i3;
-                for (i3 = 0; i3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())); i3++)
+                for (i3 = 0; i3 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())); i3++)
                 {
                     char entry2[64];
                     ::FUN_00406d00(entry2, 64, "%08x", ((unsigned int)(::FUN_00559450((int *)(((::DebugMesh *)(reinterpret_cast<::S3e60 *>((meshes))->FUN_006a7ad0(i3))))))));
                     FUN_00406d50(list7, 256, entry2);
-                    if (i3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())) - 1)
+                    if (i3 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((meshes))->GetName())) - 1)
                         FUN_00406d50(list7, 256, ", ");
                 }
                 FUN_00406d50(list7, 256, "]");
@@ -1041,8 +1041,8 @@ bool FUN_006de490_cls::HasAllNodes()
         if (m_14 != 0 && !reinterpret_cast<::FUN_0076b610_Class *>((m_14))->FUN_0076b610())
         {
             reinterpret_cast<::FUN_00438690 *>(&(list))->FUN_007cb2e0((unsigned int *)(::Node_cls **)(((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0)))));
-            aJ = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_24))->GetName()));
-            b = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_34))->GetName()));
+            aJ = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_24))->GetName()));
+            b = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*((::Node_cls **)(reinterpret_cast<::S3e60 *>((m_14))->FUN_006a7ad0(0))))->m_34))->GetName()));
             for (iG = 0; iG < aJ + b; iG++)
             {
                 if (iG < aJ)
@@ -1058,19 +1058,19 @@ bool FUN_006de490_cls::HasAllNodes()
                     reinterpret_cast<::FUN_00438690 *>(&(list))->FUN_007cb2e0((unsigned int *)(::Node_cls **)(&itemB));
                 }
             }
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
+            if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
             {
                 return true;
             }
             do
             {
                 changed2 = false;
-                for (k = 1; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())); k++)
+                for (k = 1; k < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())); k++)
                 {
                     fCur = list.GetAt(k);
-                    aJ = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName()));
-                    b = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_34))->GetName()));
-                    for (j6 = 0; j6 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName())); j6++)
+                    aJ = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName()));
+                    b = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_34))->GetName()));
+                    for (j6 = 0; j6 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(fCur->m_24))->GetName())); j6++)
                     {
                         if (j6 < aJ)
                         {
@@ -1091,7 +1091,7 @@ bool FUN_006de490_cls::HasAllNodes()
                     }
                 }
             } while (changed2);
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
+            if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_14))->GetName())))
             {
                 return true;
             }
@@ -1326,7 +1326,7 @@ bool NLLocation::UpdateMeshLocation()
         int iClosest = -1;
         unsigned short usBestTri = kClearTriangleDataValue1;
         bool bValidFound = false;
-        unsigned int uiNumMeshes = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshInfoArray))->GetName()));
+        unsigned int uiNumMeshes = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pNavMeshInfoArray))->GetName()));
         bool bClose = false;
         if (reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::NLTES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(Location), (::CellView *)(pCell)) + 25.0 > Location.z)
             bClose = true;

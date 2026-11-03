@@ -745,7 +745,7 @@ struct ArrSI
 // @fnv 0x00586230
 char ArrSI::HasFlag80000()
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (flags & 0x80000)
         return 1;
     return 0;
@@ -2008,7 +2008,7 @@ void FUN_00583270_cls::FUN_00583270()
 {
     if (((void *)(::FUN_00559450((int *)&(sub)))))
     {
-        if (((int)(reinterpret_cast<::Callees *>((((void *)(::FUN_00559450((int *)&(sub))))))->FUN_00726070())) == 1)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((void *)(::FUN_00559450((int *)&(sub))))))->FUN_00726070())) == 1)
         {
             if (((int)(reinterpret_cast<::FUN_00454b30_class *>((reinterpret_cast<FUN_00583270_mid_cls*>(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00454b30())) == (int)((void *)(::FUN_00559450((int *)&(sub)))))
             {
@@ -3114,7 +3114,7 @@ CellOperations* WorldCellLoader::FUN_00585b30(int x, int y)
                     reinterpret_cast<::FUN_00544c90_shell *>((p))->SetExteriorCellCoordinates(x, y);
                     reinterpret_cast<::FUN_00587670_shell *>(this)->FUN_00587670((::TESObjectCELL *)(p));
                     void* worldData = 0;
-                    worldData = reinterpret_cast<::Own61 *>(((*reinterpret_cast<::SaveLoadOperations * *>(&::g_TESSaveLoadGame))))->RemoveCommand((const char *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))), x, y);
+                    worldData = reinterpret_cast<::Own61 *>(((*reinterpret_cast<::SaveLoadOperations * *>(&::g_TESSaveLoadGame))))->RemoveCommand((const char *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))), x, y);
                     if (worldData)
                         p->SetWorldData(worldData, true);
                     i = ::TESDataHandler::LoadForm((::TESForm *)(p), (::TESFile *)(file));
@@ -3709,7 +3709,7 @@ bool WorldQuery::ContainsPoint(const NiPoint3* position)
         return true;
     QueryPoint2 point3(position->x, position->y);
     bool found = false;
-    CellQueryNode* node2 = ((::CellQueryNode *)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::QueryData * *>(&::g_dataHandler))))->FUN_004169d0()));
+    CellQueryNode* node2 = ((::CellQueryNode *)(std::uintptr_t)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::QueryData * *>(&::g_dataHandler))))->FUN_004169d0()));
     while (node2 && *((::CellQuery **)((void *)(node2))))
     {
         CellQuery* cell2 = *((::CellQuery **)((void *)(node2)));
@@ -4538,7 +4538,7 @@ bool World65::FUN_00586500(String65* output, Pos65 pos)
     {
         Region65* region4;
         Area65* area;
-        RegionNode65* node5 = ((::RegionHead65 *)(reinterpret_cast<::FUN_004169d0_shell *>((((Handler65*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_004169d0()));
+        RegionNode65* node5 = ((::RegionHead65 *)(std::uintptr_t)(reinterpret_cast<::FUN_004169d0_shell *>((((Handler65*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_004169d0()));
         AreaList65* areas = 0;
         Point65 point2(pos);
         int priority6 = -1;
@@ -4548,8 +4548,8 @@ bool World65::FUN_00586500(String65* output, Pos65 pos)
         {
             contains3 = false;
             region4 = *((::Region65 **)((void *)(node5)));
-            if (reinterpret_cast<::FUN_00440d80_shell *>((region4))->FUN_00440d80() || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((region4))->FUN_007af430())) != this || !((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel())) ||
-                ((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()))->FUN_008256d0())
+            if (reinterpret_cast<::FUN_00440d80_shell *>((region4))->FUN_00440d80() || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((region4))->FUN_007af430())) != this || !((::AreaList65 *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel())) ||
+                ((::AreaList65 *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()))->FUN_008256d0())
             {
                 node5 = ((::RegionNode65 *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
                 continue;
@@ -4561,7 +4561,7 @@ bool World65::FUN_00586500(String65* output, Pos65 pos)
                 node5 = ((::RegionNode65 *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
                 continue;
             }
-            areas = ((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()));
+            areas = ((::AreaList65 *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()));
             while (areas && *((::Area65 **)((void *)(areas))))
             {
                 area = *((::Area65 **)((void *)(areas)));

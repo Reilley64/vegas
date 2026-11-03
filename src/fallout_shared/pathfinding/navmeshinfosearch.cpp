@@ -50,7 +50,7 @@ bool NavMeshInfoSearch::CollectConnections(const AStarNodeType* pNode,
     const NavMeshInfo* m_pNavigationMesh = pNode->ObjectResolver;
     float fCostMultiplier = 1.0f - reinterpret_cast<::ActiveEffect *>((void *)(m_pNavigationMesh))->GetDuration() * 100.0;
     FUN_005330e0(fCostMultiplier, 0.1f, 1.0f);
-    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_pNavigationMesh->m_kConnectedNavMeshInfos))->GetName()));
+    unsigned int ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_pNavigationMesh->m_kConnectedNavMeshInfos))->GetName()));
     for (unsigned int i = 0; i < ItemUpdateArray; ++i)
     {
         const NavMeshInfo* pNextMesh = m_pNavigationMesh->m_kConnectedNavMeshInfos.GetAt(i);
@@ -75,7 +75,7 @@ bool NavMeshInfoSearch::CollectConnections(const AStarNodeType* pNode,
             break;
         }
     }
-    unsigned int uiPreferredConnections = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_pNavigationMesh->m_kPreferredConnections))->GetName()));
+    unsigned int uiPreferredConnections = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_pNavigationMesh->m_kPreferredConnections))->GetName()));
     for (unsigned int i = 0; i < uiPreferredConnections; ++i)
     {
         const NavMeshInfo* pNextMesh = m_pNavigationMesh->m_kPreferredConnections.GetAt(i);
@@ -102,7 +102,7 @@ bool NavMeshInfoSearch::CollectConnections(const AStarNodeType* pNode,
     }
     if (m_pPathingActorData || m_eDoorLockDisposition == Pathing::ALLOW_LOCKS)
     {
-        ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_pNavigationMesh->m_kDoorReferences))->GetName()));
+        ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_pNavigationMesh->m_kDoorReferences))->GetName()));
         for (unsigned int i = 0; i < ItemUpdateArray; ++i)
         {
             TESObjectREFR* pPathNodeDoor = m_pNavigationMesh->m_kDoorReferences.GetAt(i);

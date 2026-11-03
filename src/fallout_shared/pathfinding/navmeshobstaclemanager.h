@@ -8,6 +8,7 @@
 #define FNV_NAVMESHOBSTACLEMANAGER_H
 
 
+#include <cstdint>
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "layout_support.h"
@@ -43,7 +44,7 @@ const char kGetBackgroundTaskCountLabel[] = "NavMeshObstacleManager::GetBackgrou
 unsigned int NavMeshObstacleManager::GetProcessedTaskCount()
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kTaskLock))->FUN_0040fbf0((char *)(kGetProcessedTaskCountLabel));
-    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kBackgroundTasks))->GetName()));
+    unsigned int ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kBackgroundTasks))->GetName()));
     reinterpret_cast<::RecursiveSpinLock *>(&(m_kTaskLock))->FUN_0040fba0();
     return ItemUpdateArray;
 }
@@ -52,7 +53,7 @@ unsigned int NavMeshObstacleManager::GetProcessedTaskCount()
 unsigned int NavMeshObstacleManager::GetBackgroundTaskCount()
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kTaskLock))->FUN_0040fbf0((char *)(kGetBackgroundTaskCountLabel));
-    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kProcessedTasks))->GetName()));
+    unsigned int ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kProcessedTasks))->GetName()));
     reinterpret_cast<::RecursiveSpinLock *>(&(m_kTaskLock))->FUN_0040fba0();
     return ItemUpdateArray;
 }

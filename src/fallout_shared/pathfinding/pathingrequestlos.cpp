@@ -161,7 +161,7 @@ void FUN_006e5b20_shell::FUN_006e5b20(BGSSaveFormBuffer* apSaveGameBuffer)
 
     unsigned int isaveGameCount =
         (reinterpret_cast<unsigned int>(this) + 0xB4) != 0
-            ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(reinterpret_cast<char*>(this) + 0xB4)))->GetName()))
+            ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(reinterpret_cast<char*>(this) + 0xB4)))->GetName()))
             : 0;
 
     reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->FUN_00865f60(isaveGameCount);

@@ -64,7 +64,7 @@ QueuedMessage& QueuedMessage::operator=(const QueuedMessage& source)
 bool PathingTaskData::HasPendingMessages()
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0040fbf0((char *)(0));
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)this + 0x50))))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)this + 0x50))))->GetName())); ++i)
     {
         if (((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)this + 0x50))->GetAt(i)->state == 0)
         {
@@ -221,7 +221,7 @@ struct FUN_006e9e20 : public Base_006e9e20
 // @fnv 0x006e9e20
 FUN_006e9e20::~FUN_006e9e20()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m40))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m40))->GetName())); ++i)
     {
         delete m40.GetAt(i);
         delete m50.GetAt(i);
@@ -1127,7 +1127,7 @@ int ManagerView::FUN_006ea350()
 {
     int total = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(first))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(first))->GetName())); i++)
     {
         if (second.FUN_00877a30(i)->flags == 0)
         {
@@ -5666,7 +5666,7 @@ int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, 
     int result = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(spin))->FUN_0040fbf0(0);
     int i2 = 0;
-    for (; i2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr50))->GetName())); ++i2)
+    for (; i2 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr50))->GetName())); ++i2)
     {
         if (arr50.GetAt(i2)->type0 == 2)
         {
@@ -5755,7 +5755,7 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
 {
     unsigned int status = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(((RequestManager*)this)->lock))->FUN_0040fbf0((char *)(0));
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((RequestManager*)this)->statuses))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((RequestManager*)this)->statuses))->GetName())); i++)
     {
         if (((RequestManager*)this)->statuses.FUN_00877a30(i)->type == !(unsigned char)bTypeFlag &&
             reinterpret_cast<::FUN_006deeb0_cls *>(&(((RequestManager*)this)->requests.FUN_00877a30(i)->location))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(iLocation), 0.1f))

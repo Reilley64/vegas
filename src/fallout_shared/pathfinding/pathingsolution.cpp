@@ -638,7 +638,7 @@ bool FUN_006e7e70_shell::FUN_006e7e70(float afCurrentParameter, float afDist, bo
         int icurrentSpline = (int)afCurrentParameter;
         if (icurrentSpline < 0)
             icurrentSpline = 0;
-        if (icurrentSpline >= (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&member2)))->GetName())) - 1)
+        if (icurrentSpline >= (int)((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&member2)))->GetName())) - 1)
             --icurrentSpline;
         float fcurrentParam = afCurrentParameter;
         float fdist = afDist;
@@ -1308,7 +1308,7 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&flags, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk18, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&unk1c, 4, 0);
-    unsigned int countA9 = &first ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&first)))->GetName())) : 0;
+    unsigned int countA9 = &first ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&first)))->GetName())) : 0;
     reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countA9);
     for (unsigned int indexA = 0; indexA < countA9; ++indexA)
     {
@@ -1316,7 +1316,7 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
         reinterpret_cast<::FUN_006f50b0_shell *>((entryA8))->FUN_006f50b0((::BGSSaveFormBuffer *)(buffer));
     }
     {
-        unsigned int countB8 = &second ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&second)))->GetName())) : 0;
+        unsigned int countB8 = &second ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&second)))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countB8);
         for (unsigned int indexB6 = 0; indexB6 < countB8; ++indexB6)
         {
@@ -1326,7 +1326,7 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
     }
     AvoidArray avoided5;
     {
-        unsigned int countCA = &avoided5 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&avoided5)))->GetName())) : 0;
+        unsigned int countCA = &avoided5 ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&avoided5)))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countCA);
         for (unsigned int indexC5 = 0; indexC5 < countCA; ++indexC5)
         {
@@ -1335,7 +1335,7 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
         }
     }
     {
-        unsigned int countD8 = &fourth ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&fourth)))->GetName())) : 0;
+        unsigned int countD8 = &fourth ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CountView*)&fourth)))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countD8);
         for (unsigned int indexD = 0; indexD < countD8; ++indexD)
         {

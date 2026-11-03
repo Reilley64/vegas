@@ -275,8 +275,8 @@ bool NavMeshSearch::ComputePath(const PathingRequest* request, const NavMeshTria
     m_pNavMeshInfos = solution;
     if (m_pNavMeshInfos)
     {
-        BSSimpleArray<NavMeshPtr> meshes(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())));
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())); i++)
+        BSSimpleArray<NavMeshPtr> meshes(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())));
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())); i++)
         {
             NavMeshPtr mesh;
             if (((::NavMeshInfo *)(reinterpret_cast<::S3e60 *>((m_pNavMeshInfos))->FUN_006a7ad0(i)))->ResolveNavMesh(mesh))
@@ -664,7 +664,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                     revisitPenalty4 = 1.0f;
                     if (m_pNavMeshTriangleEdges != 0)
                     {
-                        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshTriangleEdges))->GetName())); ++i)
+                        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshTriangleEdges))->GetName())); ++i)
                         {
                             if (m_pNavMeshTriangleEdges->GetAt(i).m_usTriangleIdentifier ==
                                     current->Node.m_usTriangleIdentifier &&
@@ -695,7 +695,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                             if (neighborMesh->GetStaticAvoidNodesForTriangle(neighborTriangle, staticAvoids))
                             {
                                 float staticPenalty = 0.0f;
-                                for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(staticAvoids))->GetName())); ++i)
+                                for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(staticAvoids))->GetName())); ++i)
                                     staticPenalty += ::GetFloatAtOffset1C((char *)(staticAvoids.GetAt(i)));
                                 baseDistance7 *= staticPenalty;
                             }

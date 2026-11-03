@@ -744,7 +744,7 @@ BSExtraData* FUN_004102d0_shell::FUN_004102d0(unsigned char acType)
             break;
 
         prev = work;
-        work = reinterpret_cast<BSExtraData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(work)))->GetName())));
+        work = reinterpret_cast<BSExtraData*>(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(work)))->GetName())));
     }
 
     reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_004102d0::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fba0();
@@ -4988,11 +4988,11 @@ void FUN_0042d9e0_shell::FUN_0042d9e0(BGSLoadFormBuffer* apLoadGameBuffer)
             {
                 if (*(int*)((char*)pextraSayToTopicInfo + 0x10) && *(int*)((char*)pextraSayToTopicInfo + 0xc))
                 {
-                    ::HandleMobileObjectResult((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)pref)))->FUN_0084e3a0()))), true);
+                    ::HandleMobileObjectResult((void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)pref)))->FUN_0084e3a0()))), true);
                 }
                 else
                 {
-                    ::HandleMobileObjectResult((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)pref)))->FUN_0084e3a0()))), false);
+                    ::HandleMobileObjectResult((void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)pref)))->FUN_0084e3a0()))), false);
                 }
             }
             else
@@ -6025,7 +6025,7 @@ struct P_009f2b30
 // @fnv 0x009f2b30
 void P_009f2b30::FUN_009f2b30()
 {
-    if (idx < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Arr_009f2b30*)&this->arr[0])))->GetName())))
+    if (idx < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Arr_009f2b30*)&this->arr[0])))->GetName())))
     {
         TESObjectREFR* poldRef = (TESObjectREFR*)((Arr_009f2b30*)&this->arr[0])->GetAt(idx);
         ExtraDataList* poldExtra = poldRef ? ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((poldRef))->FUN_005d43c0())) : 0;
@@ -6381,7 +6381,7 @@ BSExtraData* FUN_0040ff60_shell::FUN_0040ff60(BSExtraData* apExtra)
         work = ((BaseExtraList*)this)->pHead;
         if (work)
         {
-            while (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName())))
+            while (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName())))
             {
                 work = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName()));
             }
@@ -13444,7 +13444,7 @@ void FUN_00420a60_Class::FUN_00420a60(int aiWhich, TESObjectREFR* apRef)
         pdata->refs[aiWhich] = apRef;
     }
 
-    pportal = (BSPortal*)((unsigned int *)(reinterpret_cast<::Holder00420dd0 *>((((Holder00420dd0*)this)))->FUN_00420dd0()));
+    pportal = (BSPortal*)((unsigned int *)(std::uintptr_t)(reinterpret_cast<::Holder00420dd0 *>((((Holder00420dd0*)this)))->FUN_00420dd0()));
 
     pmasterRoom = apRef ? ((FUN_004208b0_Class*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0())))->FUN_004208b0() : 0;
 
@@ -15287,7 +15287,7 @@ struct FUN_00420130_cls
 // @fnv 0x00420130
 void* FUN_00420130_cls::FUN_00420130(int index)
 {
-    PtrArrayHolder* holder = ((::PtrArrayHolder *)(reinterpret_cast<::FUN_00420100_cls *>(this)->GetValue76()));
+    PtrArrayHolder* holder = ((::PtrArrayHolder *)(std::uintptr_t)(reinterpret_cast<::FUN_00420100_cls *>(this)->GetValue76()));
     if (holder == 0)
     {
         return 0;
@@ -16476,7 +16476,7 @@ void ExtraList::WriteToSave()
             RadioRecord* radioSlot0 = &extra->radio;
             Form* formSlot0 = radioSlot0->form;
             if (formSlot0)
-                radioSlot0->form = (Form*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((formSlot0))->FUN_0084e3a0()));
+                radioSlot0->form = (Form*)(std::uintptr_t)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((formSlot0))->FUN_0084e3a0()));
             if (((bool)(::FUN_00401500())))
                 reinterpret_cast<::FUN_00414220_shell *>((radioSlot0))->FUN_00414220();
             ::AppendChunk('ODRX', radioSlot0, 16);
@@ -16830,7 +16830,7 @@ void ExtraList::WriteToSave()
             Primitive* primitiveSlot0 = extra->primitive;
             recordSlot10.bounds = primitiveSlot0->FUN_00413fc0();
             recordSlot10.color = (*(::ExtraSave::Color4 *)(reinterpret_cast<::FUN_00413f90_cls *>((primitiveSlot0))->FUN_00413f90({})));
-            recordSlot10.type = ((unsigned int)(reinterpret_cast<::Callees *>((primitiveSlot0))->FUN_00726070()));
+            recordSlot10.type = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((primitiveSlot0))->FUN_00726070()));
             if (((bool)(::FUN_00401500())))
                 reinterpret_cast<::FUN_00414290 *>(&(recordSlot10))->Init();
             ::AppendChunk('MRPX', &recordSlot10, 32);
@@ -17490,7 +17490,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
         break;
     }
     case 0x4b524d41: {
-        AcousticMarker* data = ((::loader::AcousticMarker *)(reinterpret_cast<::FUN_004184f0_cls *>(this)->GetEntryValue()));
+        AcousticMarker* data = ((::loader::AcousticMarker *)(std::uintptr_t)(reinterpret_cast<::FUN_004184f0_cls *>(this)->GetEntryValue()));
         if (!data)
         {
             data = new AcousticMarker;
@@ -17529,7 +17529,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
             if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
                 ::FUN_00401080((int *)(void *)(&pRegions[index]));
             ::ResolveFormID(&pRegions[index], (::TESFile *)(file));
-            pRegion = ((::loader::Region *)(reinterpret_cast<::FUN_004f66c0_shell *>((((::loader::RegionList *)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::loader::DataHandler * *>(&::g_dataHandler))))->FUN_004169d0()))))->FUN_004f66c0(pRegions[index])));
+            pRegion = ((::loader::Region *)(reinterpret_cast<::FUN_004f66c0_shell *>((((::loader::RegionList *)(std::uintptr_t)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::loader::DataHandler * *>(&::g_dataHandler))))->FUN_004169d0()))))->FUN_004f66c0(pRegions[index])));
             if (pRegion)
                 reinterpret_cast<::TESRegionList *>((m_pRegions))->AddRegion((::TESRegion *)(pRegion));
         }
@@ -18114,7 +18114,7 @@ class B9A0Ref
 // @fnv 0x004543c0
 void* FUN_004543c0_cls::FUN_004543c0()
 {
-    return reinterpret_cast<::TESObjectCELL *>(this)->IsCellInterior() ? ((void *)(reinterpret_cast<::B9A0Ref *>((reinterpret_cast<BPSubObj_b9834*>((char*)this + 0x28)))->GetExtraHandleCount())) : ((void *)(::FUN_00451010()));
+    return reinterpret_cast<::TESObjectCELL *>(this)->IsCellInterior() ? ((void *)(std::uintptr_t)(reinterpret_cast<::B9A0Ref *>((reinterpret_cast<BPSubObj_b9834*>((char*)this + 0x28)))->GetExtraHandleCount())) : ((void *)(::FUN_00451010()));
 }
 
 // @fnv 0x0041b9a0
@@ -18198,7 +18198,7 @@ void FUN_0041d7b0_cls::RemoveRunOnceItems(char abKeepFlag)
             {
                 TESPackage* pkg = item->pPackage;
                 DurationData* sched = reinterpret_cast<FUN_0041d8a0_shell*>(pkg)->FUN_0041d8a0();
-                if (((signed char)(reinterpret_cast<::Calendar *>((sched))->GetGameHour())) + (int)((::RunOnceListNode *)(reinterpret_cast<::Callees *>(((RunOnceListNode*)sched))->FUN_00726070())) >= 0x15)
+                if (((signed char)(reinterpret_cast<::Calendar *>((sched))->GetGameHour())) + (int)(std::uintptr_t)((::RunOnceListNode *)(reinterpret_cast<::Callees *>(((RunOnceListNode*)sched))->FUN_00726070())) >= 0x15)
                 {
                     match = true;
                 }
@@ -18271,10 +18271,10 @@ class C420160ExtraData
 // @fnv 0x00420160
 void C420160ExtraData::FUN_00420160(int iValue, unsigned int uiIndex)
 {
-    if (!((int *)(reinterpret_cast<::FUN_00420100_cls *>(this)->GetValue76())) && iValue)
+    if (!((int *)(std::uintptr_t)(reinterpret_cast<::FUN_00420100_cls *>(this)->GetValue76())) && iValue)
         reinterpret_cast<::fnv_0041fec0::FUN_0041fec0_shell *>(this)->FUN_0041fec0((::fnv_0041fec0::PatrolReferenceData *)(::C420160Values *)(new C420160Values));
 
-    int* piValues = ((int *)(reinterpret_cast<::FUN_00420100_cls *>(this)->GetValue76()));
+    int* piValues = ((int *)(std::uintptr_t)(reinterpret_cast<::FUN_00420100_cls *>(this)->GetValue76()));
     if (piValues)
         piValues[uiIndex] = iValue;
 }
@@ -20418,7 +20418,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             case 0x45: {
                 Node* record2 = node;
                 reinterpret_cast<::FUN_00435e40_cls *>((record2))->FUN_00435e40();
-                unsigned int cnt = ((Cont45*)&record2->m_0c) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Cont45*)&record2->m_0c)))->GetName())) : 0;
+                unsigned int cnt = ((Cont45*)&record2->m_0c) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Cont45*)&record2->m_0c)))->GetName())) : 0;
                 reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(cnt);
                 for (unsigned int i = 0; i < cnt; i++)
                 {
@@ -20472,7 +20472,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
 
             case 0x7c: {
                 Node* record2 = node;
-                unsigned int cnt = ((Cont7c*)&record2->m_0c) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Cont7c*)&record2->m_0c)))->GetName())) : 0;
+                unsigned int cnt = ((Cont7c*)&record2->m_0c) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Cont7c*)&record2->m_0c)))->GetName())) : 0;
                 reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(cnt);
                 for (unsigned int i = 0; i < cnt; i++)
                 {
@@ -20600,7 +20600,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&record2->m_18, 4, 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&record2->m_1c, 1, 0);
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(record2->m_14), 0);
-                unsigned int cnt = ((Cont5f*)&record2->m_20) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Cont5f*)&record2->m_20)))->GetName())) : 0;
+                unsigned int cnt = ((Cont5f*)&record2->m_20) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Cont5f*)&record2->m_20)))->GetName())) : 0;
                 reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(cnt);
                 for (unsigned int i = 0; i < cnt; i++)
                 {
@@ -20609,7 +20609,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&payload->f0->value01, 1, 0);
                     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&payload->f0->value02, 1, 0);
                     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&payload->f0->value03, 1, 0);
-                    unsigned int cnt2 = (&payload->f0->entries) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((&payload->f0->entries)))->GetName())) : 0;
+                    unsigned int cnt2 = (&payload->f0->entries) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((&payload->f0->entries)))->GetName())) : 0;
                     reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(cnt2);
                     for (unsigned int j = 0; j < cnt2; j++)
                     {
@@ -22790,7 +22790,7 @@ void FUN_00410020_t::FUN_00410020(BSExtraData* apExtra, bool abDelete)
     if (pprev)
         reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)pprev)))->AssignLandTexture((::TESLandTexture *)(((reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)apExtra)))->GetName()))));
     else
-        *(unsigned int*)((char*)this + 4) = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)apExtra)))->GetName()));
+        *(unsigned int*)((char*)this + 4) = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)apExtra)))->GetName()));
     FUN_0040f7d0(this, etype);
     if (abDelete)
         delete (BSExtraData_vd*)apExtra;
@@ -28068,7 +28068,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                     AnimItem* pAnim = (AnimItem*)((void **)(reinterpret_cast<::S3e60 *>(&(extra_->kArray))->FUN_006a7ad0(j)));
                     reinterpret_cast<::CombatTargetTimestamp *>((pAnim))->LoadGame((::BGSLoadGameBuffer *)(buf));
                 }
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(extra_->kArray))->GetName())) == 0)
+                if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(extra_->kArray))->GetName())) == 0)
                 {
                     reinterpret_cast<::FUN_00422670_Cls *>(this)->RemoveExtra045();
                 }
@@ -28312,7 +28312,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                         reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buf))->FUN_008648e0((unsigned int *)(ppItem));
                     }
                     {
-                        unsigned int uiValid = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*ppList)->kItems))->GetName()));
+                        unsigned int uiValid = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*ppList)->kItems))->GetName()));
                         for (unsigned int m = 0; m < uiValid; m++)
                         {
                             bool bBad = false;

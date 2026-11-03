@@ -187,7 +187,7 @@ void ObstacleTaskData::Process()
         m_spWorkingNavMesh = reinterpret_cast<NavMeshPtr(__cdecl*)(NavMesh*)>(&MakeNavMeshPointer)(new NavMesh);
         NAVMESH_FROM(m_spSourceNavMesh)->CopyNavMeshDataTo(m_spWorkingNavMesh);
         reinterpret_cast<::FUN_006c8150_shell *>(this)->FUN_006c8150();
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
         {
             switch (OPERATION_AT(Operations, i).eType)
             {
@@ -224,14 +224,14 @@ void ObstacleTaskData::Process()
                 break;
             }
         }
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParentChildLinks.parents))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParentChildLinks.parents))->GetName())); ++i)
             EDGE_AT(m_kParentChildLinks.parents, i).pInfo = pInfo;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParentChildLinks.children))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParentChildLinks.children))->GetName())); ++i)
             EDGE_AT(m_kParentChildLinks.children, i).pInfo = pInfo;
     }
     else
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
             OPERATION_AT(Operations, i).m_kResult = 1;
     }
     ((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))->AddProcessedTask(this);
@@ -383,7 +383,7 @@ bool ObstacleTaskData::AddOperation(const NiPointer<ObstacleData>& obstacle, OBS
     case REMOVE:
     case REMOVE_UPDATE: {
         bool bCanAdd = true;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
         {
             if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
             {
@@ -405,7 +405,7 @@ bool ObstacleTaskData::AddOperation(const NiPointer<ObstacleData>& obstacle, OBS
     }
     case ADD:
     case ADD_UPDATE: {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
         {
             if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
             {
@@ -416,7 +416,7 @@ bool ObstacleTaskData::AddOperation(const NiPointer<ObstacleData>& obstacle, OBS
         break;
     }
     case ADD_DOOR: {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
         {
             if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
             {
@@ -427,7 +427,7 @@ bool ObstacleTaskData::AddOperation(const NiPointer<ObstacleData>& obstacle, OBS
         break;
     }
     case REMOVE_DOOR: {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); ++i)
         {
             if (reinterpret_cast<::FUN_004b0460_class *>((void *)&(const ::NiPointer< ::NiAVObject> &)(reinterpret_cast<const NiPointer<NiAVObject>&>(OPERATION_AT(Operations, i).m_spRegisteredObstacle)))->FUN_004b0460((const void **)&(reinterpret_cast<const NiPointer<NiAVObject>&>(obstacle))))
             {
@@ -542,9 +542,9 @@ bool ObstacleTaskShell::FUN_006c85e0()
     bool bFound = false;
     if (!bForce)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(Operations))->GetName())); i++)
         {
-            if (((::ObstacleOperation *)(reinterpret_cast<::FUN_00558dd0_class *>(&(Operations))->FUN_00558dd0(i)))->m_kResult == 0)
+            if (((::ObstacleOperation *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(Operations))->FUN_00558dd0(i)))->m_kResult == 0)
             {
                 bFound = true;
                 break;
@@ -558,7 +558,7 @@ bool ObstacleTaskShell::FUN_006c85e0()
     if (bFound)
     {
         unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ObstacleMesh*)m_spSourceNavMesh)))->FUN_0084e3a0()));
-        ObstacleCell* pCell = ((::ObstacleCell *)(reinterpret_cast<::ActorMover *>((((ObstacleMesh*)m_spSourceNavMesh)))->GetCurrentMoveModeType()));
+        ObstacleCell* pCell = ((::ObstacleCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((ObstacleMesh*)m_spSourceNavMesh)))->GetCurrentMoveModeType()));
         if (pCell)
         {
             reinterpret_cast<::NavShell2 *>((((::ObstacleCellChild *)(::FUN_0070ec90((char *)(pCell))))))->FUN_00469500((*(::NavMeshPtr *)&(const ::ObstacleMeshHandle &)(m_spWorkingNavMesh)));

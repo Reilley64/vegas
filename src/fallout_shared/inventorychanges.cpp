@@ -730,9 +730,9 @@ bool FUN_004bfc80_shell::FUN_004bfc80()
     while (pkCurrentObject && *((::InventoryStackRecord **)((void *)(pkCurrentObject))))
     {
         pchange3 = *((::InventoryStackRecord **)((void *)(pkCurrentObject)));
-        if (pchange3 && _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()))) == 24 && !bfound7)
+        if (pchange3 && _FNV_GetFormType(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()))) == 24 && !bfound7)
         {
-            unsigned int flags3 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()));
+            unsigned int flags3 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()));
             ExtraNode* pkFirst2 = *(ExtraNode**)pchange3;
             ExtraDataList* pextra = 0;
             while (pkFirst2 && *((::ExtraDataList **)((void *)(pkFirst2))) && !bfound7)
@@ -1179,7 +1179,7 @@ void FUN_004c3380_shell::FUN_004c3380(InventoryStackRecord* apChange, bool abDel
     if (pitem)
     {
         BSSimpleList<ExtraDataList*>* pChangeFirst;
-        reinterpret_cast<::CombatProcedure *>((((ItemChangeAccess*)pitem)))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())) + ((int)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)apChange)))->FUN_00726070()))));
+        reinterpret_cast<::CombatProcedure *>((((ItemChangeAccess*)pitem)))->Initialize((::CombatController *)(std::uintptr_t)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())) + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)apChange)))->FUN_00726070()))));
         if (!apChange->m_pExtraDataLists || !apChange->m_pExtraDataLists->IsEmpty())
         {
             pChangeFirst = pitem->m_pExtraDataLists;
@@ -1231,7 +1231,7 @@ void FUN_004c3380_shell::FUN_004c3380(InventoryStackRecord* apChange, bool abDel
 
         pitem = ((InventoryChangesAccess*)this)->FUN_004bfba0(pobject, true, false);
         if (pitem && (!pitem->m_pExtraDataLists || pitem->m_pExtraDataLists->IsEmpty()) &&
-            !((int)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())))
+            !((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())))
         {
             reinterpret_cast<::ItemChangeListNode *>(((*(BSSimpleListAccess<InventoryStackRecord*>**)this)))->FUN_00905330(pitem);
             delete pitem;
@@ -1504,11 +1504,11 @@ int FUN_004bcf00_stand::GetModdedValue(bool abAddMod)
     if (abAddMod)
     {
         return (int)((double)reinterpret_cast<::FUN_004bcf60_shell *>((((GetModHelper_4bcf00*)this)))->GetEffectValue(10, 0) +
-                     (double)(unsigned int)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070())));
+                     (double)(unsigned int)(std::uintptr_t)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070())));
     }
     else
     {
-        return (int)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070()));
+        return (int)(std::uintptr_t)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070()));
     }
 }
 
@@ -2638,7 +2638,7 @@ void FUN_004d17a0_t::FUN_004d17a0()
                 if (((void *)(reinterpret_cast<::FUN_00418720_shell *>((pExtra))->GetExtraLeveledItem())))
                 {
                     reinterpret_cast<::FUN_0041d000_shell *>((pExtra))->FUN_0041d000();
-                    reinterpret_cast<::CombatProcedure *>((((ItemCount_004d17a0*)pItem)))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770()));
+                    reinterpret_cast<::CombatProcedure *>((((ItemCount_004d17a0*)pItem)))->Initialize((::CombatController *)(std::uintptr_t)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770()));
                     reinterpret_cast<::ItemChangeListNode *>((pkExtraNode))->FUN_00905330((*(::InventoryStackRecord *const *)(&pExtra)));
                     delete pExtra;
                     pkExtraNode = (ExtraNode_004d17a0*)pItem->m_pExtraDataLists;
@@ -2650,7 +2650,7 @@ void FUN_004d17a0_t::FUN_004d17a0()
                 pkExtraNode = ((::ExtraNode_004d17a0 *)(reinterpret_cast<::Callees *>((pkExtraNode))->FUN_00726070()));
         }
         if (pItem && pItem->m_pExtraDataLists && ((ExtraNode_004d17a0*)pItem->m_pExtraDataLists)->_ref_008256d0() &&
-            !((int)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())))
+            !((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())))
         {
             reinterpret_cast<::ItemChangeListNode *>((m_pEntryList))->FUN_00905330((*(::InventoryStackRecord *const *)(&pItem)));
             delete pItem;
@@ -2958,7 +2958,7 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
                 if (iAbsCount < 0)
                     iAbsCount *= -1;
                 if (pitem && pitem->m_iCountChange + iAbsCount > 0 &&
-                    (ioriginalcount >= 0 || !pitem || ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) > ioriginalcount))
+                    (ioriginalcount >= 0 || !pitem || ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) > ioriginalcount))
                 {
                     if (pitem->m_pExtraDataLists && (pitem->m_pExtraDataLists->m_item))
                     {
@@ -3029,7 +3029,7 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
                 icount++;
             if (reinterpret_cast<::FUN_004bc8f0_stand *>((((FUN_004bc8f0_shell*)pitem)))->FUN_004bc8f0(false) < pitem->m_iCountChange)
                 icount++;
-            if (((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) < 0 &&
+            if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) < 0 &&
                 !((unsigned int)*(const Flt*)pitem &&
                   ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item) &&
                   ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item)->HasExtraDataType0x2F()))
@@ -3378,7 +3378,7 @@ void Inv_4bf330::ClearExtraForSlot(RefBase_4bf330* apRef, int aiSlot)
         {
             delete pChange->m_pExtraDataLists;
             pChange->m_pExtraDataLists = 0;
-            if (!((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())))
+            if (!((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())))
             {
                 reinterpret_cast<::ItemChangeListNode *>((m_pEntryList))->FUN_00905330((::InventoryStackRecord *const &)(pChange));
                 delete pChange;
@@ -3456,10 +3456,10 @@ TESBoundObject* Inv4c6ba0::FindFirstItemOfType(int aType, int* apCount)
         if (pForm && FNV_GetFormType((TESForm*)pForm) == aType)
         {
             pChange = ((::Change4c6ba0 *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(pForm, 1, 0)));
-            if (!pChange || (pChange && ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count))
+            if (!pChange || (pChange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count))
             {
                 if (pChange)
-                    *apCount = ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
+                    *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
                 else
                     *apCount = (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
             }
@@ -3479,8 +3479,8 @@ TESBoundObject* Inv4c6ba0::FindFirstItemOfType(int aType, int* apCount)
         {
             if (!reinterpret_cast<::TESContainer *>((((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pForm)))
             {
-                if (((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pChangeNode4))))))->FUN_00726070())) > 0)
-                    *apCount = ((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pChangeNode4))))))->FUN_00726070()));
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pChangeNode4))))))->FUN_00726070())) > 0)
+                    *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pChangeNode4))))))->FUN_00726070()));
             }
         }
         else
@@ -4157,7 +4157,7 @@ int Changes::FUN_004cba70(TESLevItem* pLeveledItem)
                     Extra* extra = *((::fnv_004cba70::Extra **)((void *)(extraNode)));
                     if (extra && reinterpret_cast<::FUN_0041d360_shell *>((extra))->FUN_0041d360() == index)
                     {
-                        result = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((change))->GetName()));
+                        result = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((change))->GetName()));
                         break;
                     }
                     extraNode = ((::fnv_004cba70::ExtraNode *)(reinterpret_cast<::Callees *>((extraNode))->FUN_00726070()));
@@ -4225,7 +4225,7 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
             {
                 weightModifier = ::TESWeightForm::GetWeightForForm((::TESForm *)(form), FUN_004d1360((*reinterpret_cast<char * *>(&::_g_thePlayer))));
             }
-            int count = reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30(((int)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())));
+            int count = reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())));
             if (form->FUN_00401170() == 0x18)
             {
                 int evaluated = FUN_00ec43fb(form, 0, DAT_01183128, DAT_01183a34, 0);
@@ -4238,8 +4238,8 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
                     InventoryStackRecord* weapon = process->GetActiveWeapon();
                     InventoryStackRecord* pSecondAmmo = process->GetCurrentAmmo();
                     if (weapon && pSecondAmmo &&
-                        ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(weapon)))->GetName())) ==
-                            ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(pSecondAmmo)))->GetName())))
+                        ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(weapon)))->GetName())) ==
+                            ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(pSecondAmmo)))->GetName())))
                     {
                         count = 1;
                     }
@@ -4323,7 +4323,7 @@ int FUN_004d43c0_cls::FindItemIndex(int a1, InventoryItemEntry* pTargetItem)
     {
         InventoryItemEntry* itemTmp = *((::InventoryItemEntry **)((void *)(node7)));
         node7 = ((::ContNode *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
-        if (itemTmp != 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemTmp))->GetName())) == a1)
+        if (itemTmp != 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemTmp))->GetName())) == a1)
         {
             ContNode* inner6;
             int count2 = 0;
@@ -4370,7 +4370,7 @@ int ItemChangeList::GetExtraValueAtPosition(int form, int position)
     {
         ChangeEntry* entry = *((::ChangeEntry **)((void *)(node)));
         node = ((::ItemChangeNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
-        if (entry != 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == form)
+        if (entry != 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == form)
         {
             int index = 0;
             ItemExtraNode* extra = ((::ItemExtraNode *)(::FUN_00559450((int *)(entry))));
@@ -4446,7 +4446,7 @@ void Host_004d4b00::FindEntriesByType(int type, Output_004d4b00* output)
         entry = GetNextInventoryEntry(iterator);
         if (entry != 0)
         {
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == type)
+            if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == type)
             {
                 found5 = true;
                 output->FUN_005ae3d0(&entry);
@@ -4673,7 +4673,7 @@ void Animation90::LoadFromSave(TESObjectREFR* ref)
         ((Ptr90*)LocalInput)->FUN_0066b0d0(((::Idle90 *)(::LoadIdleAnimation((::Actor *)(actor), (::Animation *)(::Animation90 *)(this), time))));
         if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::Load90 * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 76)
             ((Ptr90*)LocalStateValue)->FUN_0066b0d0(((::Idle90 *)(::LoadIdleAnimation((::Actor *)(actor), (::Animation *)(::Animation90 *)(this), time))));
-        if ((Idle90*)*(Ptr90*)LocalInput && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Idle90*)*(Ptr90*)LocalInput)))->GetName())) == 1)
+        if ((Idle90*)*(Ptr90*)LocalInput && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Idle90*)*(Ptr90*)LocalInput)))->GetName())) == 1)
             ((Seq90**)m_pChildTile)[7] = 0;
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::Load90 * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&m_cSkipNextBlend, 1);
         k = true;
@@ -5274,7 +5274,7 @@ void InventorySlot::SetInventorySlotExtraData(RefSlot* ref, ExtraDataList* extra
         {
             ExtraDataList* created = (ExtraDataList*)new FUN_00410360;
             reinterpret_cast<::FUN_0042dde0_cls *>((((ExtraSlot*)created)))->SetHotKey((unsigned char)slot);
-            reinterpret_cast<::FUN_00419ad0_shell *>((((ExtraSlot*)created)))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((context))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((context))->FUN_004bc8f0(false) -
+            reinterpret_cast<::FUN_00419ad0_shell *>((((ExtraSlot*)created)))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((context))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((context))->FUN_004bc8f0(false) -
                                (reinterpret_cast<::FUN_004bddd0_shell *>((context))->FUN_004bddd0(false) ? 1 : 0));
             context->m_pExtraDataLists->AddHead(created);
         }
@@ -5285,7 +5285,7 @@ void InventorySlot::SetInventorySlotExtraData(RefSlot* ref, ExtraDataList* extra
     }
     else
     {
-        InventoryStackRecord* pNewChange = (InventoryStackRecord*)new FUN_004bc550(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())), ((int)(reinterpret_cast<::Callees *>((ref))->FUN_00726070())));
+        InventoryStackRecord* pNewChange = (InventoryStackRecord*)new FUN_004bc550(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((ref))->FUN_00726070())));
         ExtraDataList* pNewExtra = (ExtraDataList*)new FUN_00410360;
         pNewChange->m_pExtraDataLists = new BSSimpleList<ExtraDataList*>;
         reinterpret_cast<::FUN_0042dde0_cls *>((((ExtraSlot*)pNewExtra)))->SetHotKey((unsigned char)slot);
@@ -6172,7 +6172,7 @@ void ChangesShell::AddItemExtraData(BoundShell* item, int number, int unknown, E
                 else
                 {
 
-                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0((int)((::ExtraNodeShell *)(reinterpret_cast<::Callees *>((((ExtraNodeShell*)itemCount)))->FUN_00726070())));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0((int)(std::uintptr_t)((::ExtraNodeShell *)(reinterpret_cast<::Callees *>((((ExtraNodeShell*)itemCount)))->FUN_00726070())));
                 }
 
                 remaining = false;
@@ -6668,10 +6668,10 @@ TESBoundObject* Inv4c6a10::FindInventoryItemByType(int aType, int* apCount)
         if (pFound5 && FUN_00679ba0(pFound5) == aType)
         {
             Change4c6ba0* pChange = ((::Change4c6ba0 *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(pFound5, 1, 0)));
-            if (!pChange || (pChange && ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count))
+            if (!pChange || (pChange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count))
             {
                 if (pChange)
-                    *apCount = ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
+                    *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
                 else
                     *apCount = (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
             }
@@ -6688,8 +6688,8 @@ TESBoundObject* Inv4c6a10::FindInventoryItemByType(int aType, int* apCount)
         pFound5 = (*((::Change4c6ba0 **)((void *)(pIter_))))->m_pItemObject;
         if (pFound5 && FUN_00679ba0(pFound5) == aType)
         {
-            if (!reinterpret_cast<::TESContainer *>((((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pFound5)) && ((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pIter_))))))->FUN_00726070())) > 0)
-                *apCount = ((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pIter_))))))->FUN_00726070()));
+            if (!reinterpret_cast<::TESContainer *>((((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pFound5)) && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pIter_))))))->FUN_00726070())) > 0)
+                *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pIter_))))))->FUN_00726070()));
         }
         else
         {
@@ -6877,7 +6877,7 @@ Change64* Inventory64::FUN_004c94f0(int requested)
             int count9 = reinterpret_cast<::TESContainer *>((baseContainer43))->GetObjectCount((::TESObject *)(base14->form));
             if (base14 && change32 && count9 <= 0)
                 result1 = 0;
-            else if ((count9 < 0 && change32) || (change32 && count9 + ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= 0) ||
+            else if ((count9 < 0 && change32) || (change32 && count9 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= 0) ||
                      (change32 && ((::ExtraNode64 *)(::FUN_00559450((int *)(change32)))) && *((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(change32))))))) &&
                       reinterpret_cast<::ExtraDataList *>(((*((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(change32))))))))))->HasExtraDataType0x2F()))
                 result1 = 0;
@@ -6930,8 +6930,8 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                             if (index14 == requested)
                             {
                                 int extraCount = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (extraCount > count9 + ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())))
-                                    extraCount = count9 + ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070()));
+                                if (extraCount > count9 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())))
+                                    extraCount = count9 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070()));
                                 result1 = new Change64(change32->form, extraCount);
                                 result1->extras->FUN_005ae3d0(extra);
                             }
@@ -6953,7 +6953,7 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                                         weapon109->FUN_00446390() == 13))))
                         skip5 = true;
                     if (!skip5 && reinterpret_cast<::FUN_004bc8f0_stand *>((change32))->FUN_004bc8f0(1) < count9 + change32->count &&
-                        (!reinterpret_cast<::InventoryStackRecord *>((change32))->HasPerkEntry() || ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= count9))
+                        (!reinterpret_cast<::InventoryStackRecord *>((change32))->HasPerkEntry() || ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= count9))
                     {
                         if (index14 == requested)
                         {
@@ -7044,12 +7044,12 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                         entryNode = ((::ExtraNode64 *)(reinterpret_cast<::Callees *>((entryNode))->FUN_00726070()));
                     }
                 }
-                else if (((int)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) == sum34)
+                else if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) == sum34)
                     index14 += reinterpret_cast<::FUN_004bca80_shell *>((entry20))->CountAndPruneEntries();
                 else
                 {
                     int unused = 0;
-                    if (((int)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) > sum34)
+                    if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) > sum34)
                     {
                         int remainingVariants = reinterpret_cast<::FUN_004bca80_shell *>((entry20))->CountAndPruneEntries();
                         if (remainingVariants > 0)
@@ -7205,7 +7205,7 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                 }
                 else
                 {
-                    if ((change < 0 && pChange) || (pChange && ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change <= 0) ||
+                    if ((change < 0 && pChange) || (pChange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change <= 0) ||
                         (pChange && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && *((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))) &&
                          ((unsigned char)(reinterpret_cast<::ExtraDataList *>(((*((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))))))->HasExtraDataType0x2F()))))
                     {
@@ -7235,7 +7235,7 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
 
                         if (pChange &&
                             (((int)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) || reinterpret_cast<::FUN_004bd7a0_stand *>((pChange))->FindFirstNonNegativeValue() >= 0 ||
-                             ((int)(reinterpret_cast<::FUN_004bd740_stand *>((pChange))->GetExtraForm())) != (int)((::InventoryList4ca330 *)(reinterpret_cast<::Callees *>((((InventoryBaseHost4ca330*)this)))->FUN_00726070()))))
+                             ((int)(reinterpret_cast<::FUN_004bd740_stand *>((pChange))->GetExtraForm())) != (int)(std::uintptr_t)((::InventoryList4ca330 *)(reinterpret_cast<::Callees *>((((InventoryBaseHost4ca330*)this)))->FUN_00726070()))))
                         {
                             if (((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))->FUN_005ae380())
                             {
@@ -7268,8 +7268,8 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((extra))->HasOnlyAllowedExtraData(0))
                             {
                                 int quantity = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (quantity > ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change)
-                                    quantity = ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change;
+                                if (quantity > ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change)
+                                    quantity = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change;
                                 ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate =
                                     (InventoryOutput4ca330*)new InventoryOutputFromForm4ca330(pChange->m_form,
                                                                                               quantity);
@@ -7298,7 +7298,7 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                                 skipItem = true;
                         }
                         if (!skipItem && reinterpret_cast<::FUN_004bc8f0_stand *>((pChange))->FUN_004bc8f0(1) < (change + pChange->m_quantity) &&
-                            (!reinterpret_cast<::InventoryStackRecord *>((pChange))->HasPerkEntry() || (int)((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) <= change))
+                            (!reinterpret_cast<::InventoryStackRecord *>((pChange))->HasPerkEntry() || (int)((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) <= change))
                         {
                             ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate = new InventoryOutput4ca330;
                             if (pChange)
@@ -7402,14 +7402,14 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                         count = !((InventoryCursor4ca330*)apCursor)->m_extrasToCopy ||
                                 !*((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)));
                     }
-                    else if ((int)((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) == total)
+                    else if ((int)((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) == total)
                     {
                         reinterpret_cast<::FUN_004bca80_shell *>((pChange))->CountAndPruneEntries();
                     }
                     if (!((InventoryCursor4ca330*)apCursor)->m_pTileTemplate)
                     {
                         int unusedCount = 0;
-                        if (((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) > total)
+                        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) > total)
                         {
                             int extraCount = reinterpret_cast<::FUN_004bca80_shell *>((pChange))->CountAndPruneEntries();
                         }
@@ -7489,7 +7489,7 @@ int Inv4cb320::GetCountableItemCount()
             Change4cb320* pChange = ((::Change4cb320 *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(pObj7), 1, 0)));
             if (pChange)
             {
-                iTotal += ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4cb320 **)((void *)(pNode))))->count;
+                iTotal += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4cb320 **)((void *)(pNode))))->count;
             }
             else
             {
@@ -7505,8 +7505,8 @@ int Inv4cb320::GetCountableItemCount()
         pObj7 = (*((::Change4cb320 **)((void *)(pChangeNode4))))->pObj;
         if (pObj7 && ::FUN_00481f10((::TESObject *)(pObj7)))
         {
-            if (!pCont3 || (!reinterpret_cast<::TESContainer *>((pCont3))->HasObjectOfType((::TESObject *)(pObj7)) && ((int)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070())) > 0))
-                iTotal += ((int)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070()));
+            if (!pCont3 || (!reinterpret_cast<::TESContainer *>((pCont3))->HasObjectOfType((::TESObject *)(pObj7)) && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070())) > 0))
+                iTotal += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070()));
         }
         pChangeNode4 = ((::ChangeNode4cb320 *)(reinterpret_cast<::Callees *>((pChangeNode4))->FUN_00726070()));
     }
@@ -7696,7 +7696,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
             if (magnitudeSlot60 < 0)
                 magnitudeSlot60 *= -1;
             if (itemSlot25)
-                totalSlot2 += magnitudeSlot60 + ((int)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+                totalSlot2 += magnitudeSlot60 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
             else
                 totalSlot2 += magnitudeSlot60;
             if (totalSlot2 > 0)
@@ -7711,7 +7711,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
                     reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone));
                     int quantity = baseCountSlot31;
                     if (itemSlot25)
-                        quantity += ((int)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+                        quantity += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
                     copySlot14 = new Item((TESBoundObject*)clone, quantity);
 
                     if (itemSlot25 && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25)))) && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25))))->FUN_005ae380())
@@ -7762,7 +7762,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
     while (nodeSlot26 && !nodeSlot26->FUN_008256d0())
     {
         changedSlot20 = *((::InventoryCopy::FUN_004bc550 **)((void *)(nodeSlot26)));
-        if (changedSlot20 && ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
+        if (changedSlot20 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
         {
             formSlot11 = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName()));
             reinterpret_cast<::AGOwner *>((changedSlot20))->FUN_004bcd10();
@@ -7774,7 +7774,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
                 ::FUN_004ce300((::TESForm *)(clone2), 0);
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone2));
                 reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone2));
-                copySlot14 = new Item((TESBoundObject*)clone2, ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                copySlot14 = new Item((TESBoundObject*)clone2, ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
                 if (changedSlot20 && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
                 {
                     ExtraNode* nodeC = ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))));
@@ -7797,7 +7797,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
             }
             else
             {
-                copySlot14 = new Item(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())), ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                copySlot14 = new Item(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
                 if (changedSlot20 && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
                 {
                     ExtraNode* nodeD = ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))));
@@ -8088,9 +8088,9 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                 {
                     result5 += (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2 * valueA;
                 }
-                else if (item9 && ((int)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2)
+                else if (item9 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2)
                 {
-                    result5 += (((int)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2) * valueA;
+                    result5 += (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2) * valueA;
                 }
             }
             nodeX = ((::WeightBaseNode *)(reinterpret_cast<::Callees *>((nodeX))->FUN_00726070()));
@@ -8134,7 +8134,7 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                     TESBoundObject* formX = 0;
                     if (form4 && ((ObjectForm*)form4)->FUN_00401170() == 0x18)
                         formX = form4;
-                    int count_2 = ((int)(reinterpret_cast<::Callees *>((item7))->FUN_00726070()));
+                    int count_2 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item7))->FUN_00726070()));
                     if (((::WeightExtraNode *)(::FUN_00559450((int *)(item7)))) && current && reinterpret_cast<::FUN_004bc8f0_stand *>((item7))->FUN_004bc8f0(true) > 0)
                     {
                         WeightWeapon* weaponTmp = ((::WeightWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((item7))->GetName()));
@@ -8233,8 +8233,8 @@ int ValueInventory::FUN_004d0f40(bool includeQuestItems, bool includeType15)
                 ValueChange* change = ((::ValueChange *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(object), 1, 0)));
                 if (!change)
                     changeNode += value * (*((::ValueBaseEntry **)((void *)(baseNode))))->count;
-                else if (change && ((int)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)((void *)(baseNode))))->count)
-                    changeNode += (((int)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)((void *)(baseNode))))->count) * value;
+                else if (change && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)((void *)(baseNode))))->count)
+                    changeNode += (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)((void *)(baseNode))))->count) * value;
             }
         }
         baseNode = ((::ValueBaseNode *)(reinterpret_cast<::Callees *>((baseNode))->FUN_00726070()));
@@ -8250,8 +8250,8 @@ int ValueInventory::FUN_004d0f40(bool includeQuestItems, bool includeType15)
             int value = ::FUN_0048e8a0((::TESForm *)(change));
             if (value == -1)
                 value = 0;
-            if (value && ((int)(reinterpret_cast<::Callees *>((object))->FUN_00726070())))
-                changeNode += ((int)(reinterpret_cast<::Callees *>((object))->FUN_00726070())) * value;
+            if (value && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((object))->FUN_00726070())))
+                changeNode += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((object))->FUN_00726070())) * value;
         }
         total = ((::ValueChangeNode *)(reinterpret_cast<::Callees *>((total))->FUN_00726070()));
     }
@@ -8565,7 +8565,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     {
                         Extra* extraA = new Extra;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraA))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraA))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraA))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraA);
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
@@ -8586,7 +8586,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 {
                     Extra* extraB = *((::InventoryTransfer::Extra **)((void *)(extrasSlot23)));
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(current->form));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(reinterpret_cast<::FUN_00418770_shell *>((extraB))->FUN_00418770()));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_00418770_shell *>((extraB))->FUN_00418770()));
                     if (!transferSlot3->list)
                         transferSlot3->list = new ExtraNode;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraB))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
@@ -8608,7 +8608,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     {
                         Extra* extraC = new Extra;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraC))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraC))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraC))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraC);
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
@@ -8639,7 +8639,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
         if (!transferSlot3->list)
             transferSlot3->list = new ExtraNode;
         Item* changed = *((::InventoryTransfer::Item **)((void *)(nodeSlot1)));
-        if (changed && ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) > 0 && (!((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(changed->form))))
+        if (changed && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) > 0 && (!((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(changed->form))))
         {
             if (reinterpret_cast<::FUN_004bc8f0_stand *>((changed))->FUN_004bc8f0(0) || ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changed))->FUN_004bde40())))
             {
@@ -8680,11 +8680,11 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 }
                 reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
                 reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
-                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                 {
                     Extra* extraF = new Extra;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraF))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                    reinterpret_cast<::FUN_00419ad0_shell *>((extraF))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - countSlot56);
+                    reinterpret_cast<::FUN_00419ad0_shell *>((extraF))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - countSlot56);
                     transferSlot3->list->FUN_005ae3d0(&extraF);
                 }
                 if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
@@ -8718,11 +8718,11 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                             transferSlot3->list = new ExtraNode;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
                         transferSlot3->list->FUN_005ae3d0(&chosen);
-                        if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && count2Slot41 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                        if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && count2Slot41 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                         {
                             Extra* extraG = new Extra;
                             reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraG))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                            reinterpret_cast<::FUN_00419ad0_shell *>((extraG))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - count2Slot41);
+                            reinterpret_cast<::FUN_00419ad0_shell *>((extraG))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - count2Slot41);
                             transferSlot3->list->FUN_005ae3d0(&extraG);
                         }
                     }
@@ -8730,7 +8730,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     {
                         Extra* extraH = new Extra;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraH))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraH))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraH))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraH);
                     }
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
@@ -8754,7 +8754,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     chosen = new Extra;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                     transferSlot3->list->FUN_005ae3d0(&chosen);
                     reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                 }
@@ -9383,7 +9383,7 @@ int WalkInventory::ForEachInventoryItem(bool(__cdecl* callback)(WalkTemp*, void*
                         continue;
                 }
             }
-            int countB = ((int)(reinterpret_cast<::Callees *>((change3))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::WalkContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form5));
+            int countB = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change3))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::WalkContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form5));
             if (!countB)
                 continue;
             WalkTemp temp6;
@@ -9553,7 +9553,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
                             continue;
                     }
                 }
-                int iChangeCount = ((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::IterContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form2));
+                int iChangeCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::IterContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form2));
                 if (iChangeCount <= 0)
                     continue;
                 *out = entry2;
@@ -9611,7 +9611,7 @@ void FUN_004d4ca0_shell::CollectTopicEntries(TESForm* pkForm, TopicList4d4* pkLi
         {
             if (FNV_GetFormType(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((TopicEntry4d4*)pkItem)))->GetName()))) == 0x67)
             {
-                uiFlagsCur = (unsigned int)((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((TopicEntry4d4*)pkItem)))->GetName()));
+                uiFlagsCur = (unsigned int)(std::uintptr_t)((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((TopicEntry4d4*)pkItem)))->GetName()));
                 if (uiFlagsCur == reinterpret_cast<::FUN_004bd570_this *>((pNewkTopic))->FUN_004bd570(1))
                     pkList->FUN_005ae3d0(pkItem);
                 else if (uiFlagsCur == reinterpret_cast<::FUN_004bd570_this *>((pNewkTopic))->FUN_004bd570(2))
@@ -10566,7 +10566,7 @@ struct InvHost
 void InvHost::FUN_009687b0(void* object, InvExtra* extra, int amount)
 {
     bool found = false;
-    for (unsigned index = 0; !found && index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++index)
+    for (unsigned index = 0; !found && index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++index)
     {
         InvEntry* entry = entries.FUN_00877a30(index);
         if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((entries.FUN_00877a30(index)))->GetName())) == object)
@@ -10577,7 +10577,7 @@ void InvHost::FUN_009687b0(void* object, InvExtra* extra, int amount)
             {
                 if (empty)
                 {
-                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
+                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
                     found = true;
                 }
             }
@@ -10589,7 +10589,7 @@ void InvHost::FUN_009687b0(void* object, InvExtra* extra, int amount)
                     if (!reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>(((*((::InvExtra **)((void *)(node))))))->FUN_004126c0((::ExtraDataList *)(extra), 1, 0) &&
                         !reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((extra))->FUN_004126c0((::ExtraDataList *)(*((::InvExtra **)((void *)(node)))), 1, 0))
                     {
-                        reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
+                        reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
                         reinterpret_cast<::FUN_00419ad0_shell *>(((*((::InvExtra **)((void *)(node))))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>(((*((::InvExtra **)((void *)(node))))))->FUN_00418770() + amount);
                         found = true;
                     }
@@ -10602,7 +10602,7 @@ void InvHost::FUN_009687b0(void* object, InvExtra* extra, int amount)
                     if (!((::InvNode *)(::FUN_00559450((int *)(entry)))))
                         entry->list = new InvNode;
                     ((::InvNode *)(::FUN_00559450((int *)(entry))))->FUN_005ae3d0(copy);
-                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
+                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
                     found = true;
                 }
             }
@@ -11542,7 +11542,7 @@ FUN_0076b630* Target::FUN_004c8c10(int slot, int bOnlyArmor)
                     result5->extras = new FUN_0096a2d0();
                 }
                 result5->extras->FUN_005ae3d0((Extra**)&foundExtra6);
-                reinterpret_cast<::CombatProcedure *>((result5))->Initialize((::CombatController *)(reinterpret_cast<::FUN_00418770_shell *>((foundExtra6))->FUN_00418770()));
+                reinterpret_cast<::CombatProcedure *>((result5))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_00418770_shell *>((foundExtra6))->FUN_00418770()));
                 equipped2 = false;
                 return result5;
             }
@@ -11639,7 +11639,7 @@ void* CTargetC5::FUN_004cafe0()
         if ((pB && pB->sub.v4()) || (pA7 && pA7->sub.v4()))
         {
             CItemC5* pNew = ((::CItemC5 *)(reinterpret_cast<::FUN_004bfba0_shell *>((this))->FUN_004bfba0(pObj7, 1, 0)));
-            if (!pNew || (pNew && ((int)(reinterpret_cast<::Callees *>((pNew))->FUN_00726070())) + (*((::E4C5 **)((void *)(pList))))->count != 0))
+            if (!pNew || (pNew && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pNew))->FUN_00726070())) + (*((::E4C5 **)((void *)(pList))))->count != 0))
             {
                 if (!pNew)
                     pItem = new CItemC5(pObj7, 0);
@@ -11667,7 +11667,7 @@ void* CTargetC5::FUN_004cafe0()
         {
             if (!reinterpret_cast<::TESContainer *>((((::CContainerC5 *)(reinterpret_cast<::FUN_004bffb0_shell *>((this))->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pObj7)))
             {
-                if (((int)(reinterpret_cast<::Callees *>(((*((::E4C5 **)((void *)(pInv8))))))->FUN_00726070())) > 0)
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::E4C5 **)((void *)(pInv8))))))->FUN_00726070())) > 0)
                     return *((::E4C5 **)((void *)(pInv8)));
             }
         }
@@ -11939,7 +11939,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
                 else
                 {
                     if (pItem != 0)
-                        total += ((int)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070())) + (*((::ContObj6 **)((void *)(pNode))))->count;
+                        total += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070())) + (*((::ContObj6 **)((void *)(pNode))))->count;
                     else
                         total += (*((::ContObj6 **)((void *)(pNode))))->count;
                 }
@@ -11967,7 +11967,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
         if (a1 != 0)
         {
             Item2_6* pItem2 = ((::Item2_6 *)(reinterpret_cast<::FUN_004bfba0_shell *>((this))->FUN_004bfba0((::TESBoundObject *)(a1), 1, 0)));
-            if (pItem2 != 0 && ((int)(reinterpret_cast<::Callees *>((pItem2))->FUN_00726070())) >= iRequiredCount)
+            if (pItem2 != 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pItem2))->FUN_00726070())) >= iRequiredCount)
             {
                 if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
                     ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
@@ -11982,7 +11982,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
             {
                 void* pObj2 = (*((::ItemCh6 **)((void *)(pNode2))))->m_pItemObject;
                 if (pObj2 != 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj2), (int)(a2)) &&
-                    ((int)(reinterpret_cast<::Callees *>(((*((::ItemCh6 **)((void *)(pNode2))))))->FUN_00726070())) >= iRequiredCount)
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::ItemCh6 **)((void *)(pNode2))))))->FUN_00726070())) >= iRequiredCount)
                 {
                     if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
                         ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
@@ -12045,7 +12045,7 @@ FUN_004bc550* Inventory::FUN_004d0650(Object* object, int arg)
     if (source3)
     {
         int count2 = reinterpret_cast<::TESContainer *>((((::Rebuild004d0650::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(object));
-        result2 = new FUN_004bc550(object, count2 + ((int)(reinterpret_cast<::Callees *>((source3))->FUN_00726070())));
+        result2 = new FUN_004bc550(object, count2 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((source3))->FUN_00726070())));
         if (((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(source3)))) && ((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(source3))))->FUN_005ae380())
         {
             if (!((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(result2)))))
@@ -13202,7 +13202,7 @@ void InvInventory::FUN_004d1960()
         FUN_004bc550_Inventory* itemB5 = *((::fnv_004d1960::FUN_004bc550_Inventory **)((void *)(change)));
         InvForm* formB22 = ((::fnv_004d1960::InvForm *)(reinterpret_cast<::Twin_0044ddc0 *>((itemB5))->GetName()));
         InvScript* scriptB46 = ((::fnv_004d1960::InvScript *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(formB22))));
-        int numberB11 = ((int)(reinterpret_cast<::Callees *>((itemB5))->FUN_00726070()));
+        int numberB11 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemB5))->FUN_00726070()));
         int countB11 = std::abs(numberB11);
         if (scriptB46 && countB11 > 0)
         {
@@ -13803,7 +13803,7 @@ void InventoryClean::FUN_004cbbc0()
                     reinterpret_cast<::fnv_004d1960::InvInventory *>(this)->FUN_004d1960();
                 else
                 {
-                    int missingScope19 = ((int)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) - nodeScope18->FUN_005ae380();
+                    int missingScope19 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) - nodeScope18->FUN_005ae380();
                     while (nodeScope18 && *((::CleanExtra **)((void *)(nodeScope18))))
                     {
                         CleanExtra* extraScope20 = *((::CleanExtra **)((void *)(nodeScope18)));
@@ -13903,7 +13903,7 @@ void InventoryClean::FUN_004cbbc0()
             if (baseCountScope33 < 0)
                 baseCountScope33 *= -1;
             if (itemScope4Local28)
-                totalScope32 += ((int)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) + baseCountScope33;
+                totalScope32 += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) + baseCountScope33;
             else
                 totalScope32 += baseCountScope33;
             if (totalScope32 > 0 && itemScope4Local28 && ((::CleanNode *)(::FUN_00559450((int *)(itemScope4Local28)))) &&
@@ -13983,7 +13983,7 @@ void InventoryClean::FUN_004cbbc0()
         int baseCountScope41 = 0;
         if (((::CleanContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) && itemScope39)
             baseCountScope41 = reinterpret_cast<::TESContainer *>((((::CleanContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(itemScope39->form));
-        int totalScope8 = ((int)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) + baseCountScope41;
+        int totalScope8 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) + baseCountScope41;
 
         if (itemScope39)
         {
@@ -14064,7 +14064,7 @@ void InventoryClean::FUN_004cbbc0()
                     reinterpret_cast<::fnv_004d1960::InvInventory *>(this)->FUN_004d1960();
                 else
                 {
-                    int missingScope56 = ((int)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) - nodeScope55->FUN_005ae380();
+                    int missingScope56 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) - nodeScope55->FUN_005ae380();
                     while (nodeScope55 && *((::CleanExtra **)((void *)(nodeScope55))))
                     {
                         CleanExtra* extraScope57 = *((::CleanExtra **)((void *)(nodeScope55)));
@@ -14730,7 +14730,7 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                 if (weapon->FUN_00446390() == 10 ||
                                                                     weapon->FUN_00446390() == 11 ||
                                                                     weapon->FUN_00446390() == 13)
-                                                                    reinterpret_cast<::CombatProcedure *>((f))->Initialize((::CombatController *)(reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30((int)(((::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((f))->GetName()))))));
+                                                                    reinterpret_cast<::CombatProcedure *>((f))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30((int)(std::uintptr_t)(((::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((f))->GetName()))))));
                                                             }
                                                         }
                                                     }
@@ -14830,7 +14830,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                 else
                 {
                     reinterpret_cast<::FUN_0041aa20_shell *>((selected9))->SetWornState(true, left);
-                    reinterpret_cast<::FUN_00419ad0_shell *>((selected9))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((entry36))->FUN_00726070())));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((selected9))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry36))->FUN_00726070())));
                 }
                 created3 = false;
             }
@@ -14995,7 +14995,7 @@ void FUN_004bfe50_t::RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef
                 }
                 if (pact)
                     reinterpret_cast<::FUN_008248e0_shell *>((pact))->FUN_008248e0((::MagicItem *)(::TESBoundObject *)((TESBoundObject*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))), true);
-                reinterpret_cast<::XHost17 *>((((FUN_004c0cf0_t*)this)))->FUN_004c0cf0(&bremoved, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())), iwornCount, (::XActor17 *)(::Actor *)((Actor*)pact), pextra, 0, true,
+                reinterpret_cast<::XHost17 *>((((FUN_004c0cf0_t*)this)))->FUN_004c0cf0(&bremoved, ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())), iwornCount, (::XActor17 *)(::Actor *)((Actor*)pact), pextra, 0, true,
                                    pitem, (bool *)(0));
                 if (bremoved)
                     pInvNode = (FUN_004bfe50_inode*)m_pEntryList;
@@ -15049,7 +15049,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
             if (quest && reinterpret_cast<::FUN_004bddd0_shell *>((quest))->FUN_004bddd0(false))
             {
                 int baseCountScope1 = reinterpret_cast<::TESContainer *>((((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)((*((::MoveBaseEntry **)((void *)(base5))))->form));
-                int countScope9 = ((int)(reinterpret_cast<::Callees *>((quest))->FUN_00726070())) + baseCountScope1;
+                int countScope9 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((quest))->FUN_00726070())) + baseCountScope1;
                 bool removedScope4 = false;
                 reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope4, (unsigned int)(form3), countScope9, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), false, false, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
             }
@@ -15064,7 +15064,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                 if (baseCountScope2 < 0)
                     baseCountScope2 *= -1;
                 if (itemScope1)
-                    countScope2 += ((int)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())) + baseCountScope2;
+                    countScope2 += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())) + baseCountScope2;
                 else
                     countScope2 += baseCountScope2;
                 if (countScope2 > 0)
@@ -15104,7 +15104,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                     if (owner->IsActor())
                                     {
                                         void* actorOwnerScope1 = 0;
-                                        actorOwnerScope1 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                                        actorOwnerScope1 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                                         if (!actorOwnerScope1)
                                             actorOwnerScope1 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                                         ownershipScope5 = actorOwnerScope1;
@@ -15136,7 +15136,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                     {
                                         bool removedScope2 = false;
                                         bool handled5 = false;
-                                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope2, (unsigned int)(form3), ((int)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())),
+                                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope2, (unsigned int)(form3), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())),
                                                      (::XActor17 *)(::MoveOwner *)(owner->IsActor() ? owner : 0), (::ExtraDataList *)(extraScope1), false, false,
                                                      (::InventoryStackRecord *)(itemScope1), &handled5);
                                         if (!handled5)
@@ -15163,7 +15163,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                         {
                             itemScope1 = new MoveItem(form3, countScope2);
                             void* ownershipScope5 = 0;
-                            ownershipScope5 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                            ownershipScope5 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                             if (!ownershipScope5)
                                 ownershipScope5 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                             reinterpret_cast<::ItemChange_4bd5c0 *>((itemScope1))->FUN_004bd5c0(ownershipScope5);
@@ -15243,20 +15243,20 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                 {
                     if (itemScope6 && reinterpret_cast<::FUN_004bddd0_shell *>((itemScope6))->FUN_004bddd0(false))
                     {
-                        int countScope3 = ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
+                        int countScope3 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
                         bool removedScope6 = false;
                         bool equipped7 = false;
                         equipped7 = reinterpret_cast<::FUN_004bddd0_shell *>((itemScope6))->FUN_004bddd0(true);
-                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope6, (unsigned int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName()))), countScope3, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), equipped7,
+                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope6, (unsigned int)(std::uintptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName()))), countScope3, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), equipped7,
                                      itemScope6 != 0, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
                     }
                     change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
                 }
-                else if (itemScope6 && ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())) > 0 &&
+                else if (itemScope6 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())) > 0 &&
                          (!skipQuest3 || !reinterpret_cast<MoveForm*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName())))->IsQuestItem()))
                 {
                     form3 = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName()));
-                    weight7 += static_cast<float>(::FUN_0048e8a0((::TESForm *)(form3)) * ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())));
+                    weight7 += static_cast<float>(::FUN_0048e8a0((::TESForm *)(form3)) * ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())));
                     bool lastScope2 = false;
                     int baseCountScope4 = 0;
                     if (((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) && itemScope6)
@@ -15348,7 +15348,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                 if (owner->IsActor())
                                 {
                                     void* actorOwnerScope2 = 0;
-                                    actorOwnerScope2 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                                    actorOwnerScope2 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                                     if (!actorOwnerScope2)
                                         actorOwnerScope2 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                                     ownershipScope3 = actorOwnerScope2;
@@ -15489,7 +15489,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                         if (owner->IsActor())
                         {
                             void* actorOwnerScope3 = 0;
-                            actorOwnerScope3 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                            actorOwnerScope3 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                             if (!actorOwnerScope3)
                                 actorOwnerScope3 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                             ownershipScope5 = actorOwnerScope3;
@@ -15501,8 +15501,8 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                             extraScope8 = new MoveExtra;
                             reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((extraScope8))->FUN_00419700((::fnv_00419700::TESForm *)(ownershipScope5));
                         }
-                        int countScope5 = ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
-                        reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(owner), (int)(form3), retainOwner, ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())), (::Transfer4c37Form4 *)(extraScope8), 0, (::Transfer4c37C37Form *)(destination),
+                        int countScope5 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
+                        reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(owner), (int)(form3), retainOwner, ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())), (::Transfer4c37Form4 *)(extraScope8), 0, (::Transfer4c37C37Form *)(destination),
                                      0, 0, true, 0, (::Transfer4c37Entry *)(::MoveItem *)(removedItem5 ? 0 : itemScope6));
                         if (destination == (*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))
                         {
@@ -15592,9 +15592,9 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                 {
                 case 26: {
                     XDism17* dism = ((::XDism17 *)(reinterpret_cast<::ExtraDataList *>((((::XExtra17 *)(reinterpret_cast<::FUN_005d43c0_ *>((apActor))->FUN_005d43c0()))))->GetDismemberedLimbs()));
-                    if (dism != 0 && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism))->GetInfoAt(0))) != 0)
+                    if (dism != 0 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism))->GetInfoAt(0))) != 0)
                     {
-                        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())); i++)
+                        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())); i++)
                         {
                             XDism17Part17* part = ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism))->GetInfoAt(i)));
                             if (part->b0 == 0 && part->b1 != 0)
@@ -15618,7 +15618,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                                 weapon3 = true;
                             if (FUN_008c7aa0())
                             {
-                                reinterpret_cast<::H *>((((XTQ17*)((::EquipQueue *)(::TaskQueueInterface::GetSingleton())))))->SendCommand22((unsigned int)(apActor), ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((XFound17*)found)))->GetName())));
+                                reinterpret_cast<::H *>((((XTQ17*)((::EquipQueue *)(::TaskQueueInterface::GetSingleton())))))->SendCommand22((unsigned int)(apActor), ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((XFound17*)found)))->GetName())));
                             }
                             else
                             {
@@ -15635,9 +15635,9 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                     if (reinterpret_cast<::TESBipedModelForm *>(&(((XArmor17*)a1)->biped))->IsPowerArmor() || reinterpret_cast<::TESBipedModelForm *>(&(((XArmor17*)a1)->biped))->GetIsHeavyArmor())
                         armors2 = true;
                     XDism17* dism2 = ((::XDism17 *)(reinterpret_cast<::ExtraDataList *>((((::XExtra17 *)(reinterpret_cast<::FUN_005d43c0_ *>((apActor))->FUN_005d43c0()))))->GetDismemberedLimbs()));
-                    if (dism2 != 0 && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism2))->GetInfoAt(0))) != 0)
+                    if (dism2 != 0 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism2))->GetInfoAt(0))) != 0)
                     {
-                        for (unsigned int i2 = 0; i2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())); i2++)
+                        for (unsigned int i2 = 0; i2 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())); i2++)
                         {
                             XDism17Part17* part2 = ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism2))->GetInfoAt(i2)));
                             if (part2->b0 == 0 && part2->b1 != 0)
@@ -15668,7 +15668,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                 if ((char)((char)(reinterpret_cast<::FUN_0042de90_cls *>((extra))->GetExtraByteValue())) >= 0)
                 {
                     reinterpret_cast<::FUN_00419ad0_shell *>((extra))->FUN_00419ad0(
-                        (short)(((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((((XChange17*)entry0)))->FUN_004bc8f0(false)));
+                        (short)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((((XChange17*)entry0)))->FUN_004bc8f0(false)));
                 }
                 else
                 {
@@ -15744,13 +15744,13 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
         ((XInv17*)this)->pRef->MarkAsModified(0x20);
     count = reinterpret_cast<::FUN_004bffb0_shell *>((((XInv17*)this)))->FUN_004bffb0()->GetObjectCount((TESObject*)a1);
     if (entry0 != 0 && entry0->m_pExtraDataLists != 0 && ((XNodeE17*)entry0->m_pExtraDataLists)->_ref_008256d0() &&
-        (((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) == 0 || count == ((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070()))))
+        (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) == 0 || count == ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070()))))
     {
         reinterpret_cast<::ItemChangeListNode *>((((XNodeC17*)((InventoryChanges*)this)->m_pEntryList)))->FUN_00905330((*(::InventoryStackRecord *const *)(&entry0)));
         delete (XChange17*)entry0;
         return false;
     }
-    else if (((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) < 0 && ((void *)(::FUN_00559450((int *)(((XChange17*)entry0))))) != 0)
+    else if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) < 0 && ((void *)(::FUN_00559450((int *)(((XChange17*)entry0))))) != 0)
     {
         reinterpret_cast<::FileMatchList *>((((XListObj17*)((void *)(::FUN_00559450((int *)(((XChange17*)entry0))))))))->RemoveAll();
     }
@@ -15863,7 +15863,7 @@ InventoryStackRecord* FUN_004c8220_shell::FUN_004c8220(TESActorBase* apActorBase
     {
         TESObjectARMO* pObj = dynamic_cast<TESObjectARMO*>(((InventoryStackRecord*)((void *)((void *)(pListInv))))->m_pItemObject);
         InventoryStackRecord* pitem = (InventoryStackRecord*)((void *)((void *)(pListInv)));
-        if (pObj && ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) &&
+        if (pObj && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) &&
             !((FUN_004bffb0_shell*)this)->FUN_004bffb0()->HasObjectOfType((TESObject*)pObj) && aeBodySlot != -1 &&
             reinterpret_cast<::TESBipedModelForm *>((((FUN_00480af0_shell*)((char*)pObj + 0x70))))->HasBipedModel((::BIPED_OBJECT)(aeBodySlot), false, (::BGSBipedModelList *)(void *)(0)) &&
             pitem->m_iCountChange >= 0)
@@ -16357,13 +16357,13 @@ float ItemChangeValueShell::FUN_004bd400()
         {
             if (iSlotFlags & 1)
                 fConditionValue +=
-                    ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(1) + 0x7c))))->FUN_00726070()));
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(1) + 0x7c))))->FUN_00726070()));
             if (iSlotFlags & 2)
                 fConditionValue +=
-                    ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(2) + 0x7c))))->FUN_00726070()));
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(2) + 0x7c))))->FUN_00726070()));
             if (iSlotFlags & 4)
                 fConditionValue +=
-                    ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(4) + 0x7c))))->FUN_00726070()));
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(4) + 0x7c))))->FUN_00726070()));
         }
     }
     return InventoryStackRecord::RoundToNearestStep(fConditionValue, 0.1f);
@@ -16399,8 +16399,8 @@ bool FUN_004cfe20_t::HasItem(unsigned int aId)
             }
             else
             {
-                if (pchange && ((int)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)((void *)(pList))))->count)
-                    iProcessIndex += ((int)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)((void *)(pList))))->count;
+                if (pchange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)((void *)(pList))))->count)
+                    iProcessIndex += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)((void *)(pList))))->count;
                 else
                     iProcessIndex += (*((::ContEntry4cfe20 **)((void *)(pList))))->count;
             }
@@ -16462,9 +16462,9 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
         {
             equipped = true;
             if (process->ammoA())
-                reinterpret_cast<::CombatProcedure *>((process->ammoA()))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((process->ammoA()))->FUN_00726070())) + count));
+                reinterpret_cast<::CombatProcedure *>((process->ammoA()))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((process->ammoA()))->FUN_00726070())) + count));
             if (process->p())
-                reinterpret_cast<::CombatProcedure *>((process->p()))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((process->p()))->FUN_00726070())) + count));
+                reinterpret_cast<::CombatProcedure *>((process->p()))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((process->p()))->FUN_00726070())) + count));
             if (!entry2 || !reinterpret_cast<::FUN_004bddd0_shell *>((entry2))->FUN_004bddd0(false))
             {
                 if (!extra)
@@ -16494,7 +16494,7 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
     }
     else
     {
-        if (((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) <= 0 && extra && !((::AddRef *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660())) && !((void *)(reinterpret_cast<::FUN_00418800_shell *>((extra))->FUN_00418800())) &&
+        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) <= 0 && extra && !((::AddRef *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660())) && !((void *)(reinterpret_cast<::FUN_00418800_shell *>((extra))->FUN_00418800())) &&
             entry2->extras && entry2->extras->_ref_005ae380() && reinterpret_cast<::ExtraDataList *>((((::AddExtra *)((void *)(entry2->extras)))))->HasExtraDataType0x2F())
         {
             reinterpret_cast<::FUN_00419ad0_shell *>((((::AddExtra *)((void *)(entry2->extras)))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>((((::AddExtra *)((void *)(entry2->extras)))))->FUN_00418770() + count);
@@ -16554,11 +16554,11 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
         }
         AddContainer* base = ((::AddContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()));
         int baseCount = base ? reinterpret_cast<::TESContainer *>((base))->GetObjectCount((::TESObject *)(form)) : 0;
-        if (((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) < 0 && baseCount <= 0)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) < 0 && baseCount <= 0)
             reinterpret_cast<::CombatProcedure *>((entry2))->Initialize((::CombatController *)(count));
         else
-            reinterpret_cast<::CombatProcedure *>((entry2))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + count));
-        if (entry2->extras && entry2->extras->_ref_008256d0() && !((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())))
+            reinterpret_cast<::CombatProcedure *>((entry2))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + count));
+        if (entry2->extras && entry2->extras->_ref_008256d0() && !((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())))
         {
             reinterpret_cast<::ItemChangeListNode *>((changes))->FUN_00905330((::InventoryStackRecord *const &)(entry2));
             delete entry2;
@@ -16649,7 +16649,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
         {
             if (((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((playerSource2))->GetBaseTexture()))->Vcall14c())
             {
-                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((playerSource2))->GetBaseTexture()))->Vcall14c()))->GetName())) == p1)
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((playerSource2))->GetBaseTexture()))->Vcall14c()))->GetName())) == p1)
                     updateWeapon9 = 1;
             }
         }
@@ -16712,14 +16712,14 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
     (void)leveledItem0;
     (void)hasRemainder15;
     (void)unusedChange80;
-    while (itemChange7 != 0 && aiCount > 0 && ((int)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 > 0)
+    while (itemChange7 != 0 && aiCount > 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 > 0)
     {
         if (transferEntry7 != 0)
         {
             delete transferEntry7;
         }
         transferEntry7 = new Transfer4c37NewObj;
-        transferEntry7->m08 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
+        transferEntry7->m08 = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
         void* extraNode6 = itemChange7->m00;
         bool searchExtra78 = 1;
 
@@ -16765,7 +16765,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             goto flag52_done;
                         }
                     }
-                    didUnequip10 = apSource->Vcall188(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())), (int)reinterpret_cast<::FUN_00418770_shell *>((sourceExtra3))->FUN_00418770(),
+                    didUnequip10 = apSource->Vcall188(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())), (int)reinterpret_cast<::FUN_00418770_shell *>((sourceExtra3))->FUN_00418770(),
                                                       sourceExtra3);
                 flag52_done:
                     if (!didUnequip10 || onlyWorn39)
@@ -16803,7 +16803,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     {
                         int flag_ed;
                         leveledItem0 = (int)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem()));
-                        flag_ed = FUN_00401170(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())));
+                        flag_ed = FUN_00401170(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())));
                         if (((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem())) != 0 && ((void *)(reinterpret_cast<::FUN_00418800_shell *>((sourceExtra3))->FUN_00418800())) != 0 &&
                             flag_ed != 0x18 && flag_ed != 0x1a)
                         {
@@ -16858,7 +16858,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     {
 
                         itemChange7->m04 -= stackCount10;
-                        reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + stackCount10));
+                        reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + stackCount10));
                         transferExtra18 = (Transfer4c37Obj20*)sourceExtra3;
                         aiCount = aiCount - stackCount10;
                         reinterpret_cast<::ItemChangeListNode *>((((Transfer4c37EntryHeadS*)itemChange7->m00)))->FUN_00905330((*(::InventoryStackRecord *const *)(&sourceExtra3)));
@@ -16867,7 +16867,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         {
                             if ((int)((signed char)(reinterpret_cast<::FUN_0042de90_cls *>((sourceExtra3))->GetExtraByteValue())) >= 0)
                             {
-                                if (((int)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) > 0)
+                                if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) > 0)
                                 {
                                     reinterpret_cast<::InventorySlot *>((this))->SetInventorySlotExtraData(
                                         (::RefSlot *)(itemChange7),
@@ -17077,7 +17077,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                             reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((raw1ec))->FUN_00419700((::fnv_00419700::TESForm *)(void *)((void*)item88));
                                     }
                                 }
-                                apTarget->Vcall190(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
+                                apTarget->Vcall190(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
                                 node84 = ((::Transfer4c37Node84 *)(reinterpret_cast<::Callees *>((node84))->FUN_00726070()));
                             }
                             {
@@ -17110,7 +17110,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                         reinterpret_cast<::FUN_00419ad0_shell *>((raw1ec))->FUN_00419ad0((unsigned short)aiCount);
                                     }
                                 }
-                                apTarget->Vcall190(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
+                                apTarget->Vcall190(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
                             }
                             {
                                 delete transferEntry7;
@@ -17306,7 +17306,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     if (apSource->Vcall100())
                     {
                         void* dc_e0 = 0;
-                        dc_e0 = (void*)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
+                        dc_e0 = (void*)(std::uintptr_t)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                         if (dc_e0 == 0)
                             dc_e0 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                         dc_dc = dc_e0;
@@ -17361,7 +17361,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         transferEntry7 = new Transfer4c37NewObj;
                     }
                     if (itemChange7 != 0)
-                        transferEntry7->m08 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
+                        transferEntry7->m08 = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
                     if ((int)reinterpret_cast<::FUN_00418770_shell *>((sourceList32))->FUN_00418770() < 0)
                     {
                         validStack1 = 0;
@@ -17377,7 +17377,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             onlyWornFlag14 = 1;
                         }
                         (void)onlyWornFlag14;
-                        bool unequipped41 = apSource->Vcall188(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())),
+                        bool unequipped41 = apSource->Vcall188(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())),
                                                                (int)reinterpret_cast<::FUN_00418770_shell *>((sourceList32))->FUN_00418770(), sourceList32);
                         if (unequipped41)
                         {
@@ -17449,7 +17449,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         else
                         {
                             itemChange7->m04 -= transferCount2;
-                            reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + transferCount2));
+                            reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + transferCount2));
                             destinationList14 = (int)sourceList32;
                             aiCount = aiCount - transferCount2;
                             reinterpret_cast<::ItemChangeListNode *>((((Transfer4c37EntryHeadS*)itemChange7->m00)))->FUN_00905330((*(::InventoryStackRecord *const *)((Transfer4c37ItemObj**)&destinationList14)));
@@ -17652,7 +17652,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             {
                                 reinterpret_cast<::FUN_0041aed0_shell *>((item_fc))->FUN_0041aed0();
                             }
-                            apTarget->Vcall190(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), item_fc, transferCount2);
+                            apTarget->Vcall190(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), item_fc, transferCount2);
 
                             {
                                 delete transferEntry7;
@@ -17838,7 +17838,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
 
         if (itemChange7 != 0)
         {
-            if (((int)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 < 0)
+            if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 < 0)
             {
                 if (!reinterpret_cast<::FUN_004bddd0_shell *>((itemChange7))->FUN_004bddd0(0))
                 {
@@ -19305,7 +19305,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
             if (magnitudeSlot60 < 0)
                 magnitudeSlot60 *= -1;
             if (itemSlot25)
-                totalSlot2 += magnitudeSlot60 + ((int)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+                totalSlot2 += magnitudeSlot60 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
             else
                 totalSlot2 += magnitudeSlot60;
             if (totalSlot2 > 0)
@@ -19320,7 +19320,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
                     reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone));
                     int quantity = baseCountSlot31;
                     if (itemSlot25)
-                        quantity += ((int)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+                        quantity += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
                     copySlot14 = new Item_ctxr((TESBoundObject*)clone, quantity);
 
                     if (itemSlot25 && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25)))) && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25))))->FUN_005ae380())
@@ -19371,7 +19371,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
     while (nodeSlot26 && !nodeSlot26->FUN_008256d0())
     {
         changedSlot20 = *((::InventoryCopy::FUN_004bc550_ctxr **)((void *)(nodeSlot26)));
-        if (changedSlot20 && ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
+        if (changedSlot20 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
         {
             formSlot11 = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName()));
             reinterpret_cast<::AGOwner *>((changedSlot20))->FUN_004bcd10();
@@ -19383,7 +19383,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
                 ::FUN_004ce300((::TESForm *)(clone2), 0);
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone2));
                 reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone2));
-                copySlot14 = new Item_ctxr((TESBoundObject*)clone2, ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                copySlot14 = new Item_ctxr((TESBoundObject*)clone2, ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
                 if (changedSlot20 && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
                 {
                     ExtraNode_ctxr* nodeC = ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))));
@@ -19406,7 +19406,7 @@ void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
             }
             else
             {
-                copySlot14 = new Item_ctxr(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())), ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                copySlot14 = new Item_ctxr(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
                 if (changedSlot20 && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
                 {
                     ExtraNode_ctxr* nodeD = ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))));
@@ -19631,7 +19631,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                     {
                         Extra_ctxr* extraA = new Extra_ctxr;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraA))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraA))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraA))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraA);
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
@@ -19652,7 +19652,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                 {
                     Extra_ctxr* extraB = *((::InventoryTransfer::Extra_ctxr **)((void *)(extrasSlot23)));
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(current->form));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(reinterpret_cast<::FUN_00418770_shell *>((extraB))->FUN_00418770()));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_00418770_shell *>((extraB))->FUN_00418770()));
                     if (!transferSlot3->list)
                         transferSlot3->list = new ExtraNode_ctxr;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraB))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
@@ -19674,7 +19674,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                     {
                         Extra_ctxr* extraC = new Extra_ctxr;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraC))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraC))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraC))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraC);
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
@@ -19705,7 +19705,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
         if (!transferSlot3->list)
             transferSlot3->list = new ExtraNode_ctxr;
         Item_ctxr* changed = *((::InventoryTransfer::Item_ctxr **)((void *)(nodeSlot1)));
-        if (changed && ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) > 0 && (!((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(changed->form))))
+        if (changed && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) > 0 && (!((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(changed->form))))
         {
             if (reinterpret_cast<::FUN_004bc8f0_stand *>((changed))->FUN_004bc8f0(0) || ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changed))->FUN_004bde40())))
             {
@@ -19746,11 +19746,11 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                 }
                 reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
                 reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
-                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                 {
                     Extra_ctxr* extraF = new Extra_ctxr;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraF))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                    reinterpret_cast<::FUN_00419ad0_shell *>((extraF))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - countSlot56);
+                    reinterpret_cast<::FUN_00419ad0_shell *>((extraF))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - countSlot56);
                     transferSlot3->list->FUN_005ae3d0(&extraF);
                 }
                 if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
@@ -19784,11 +19784,11 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                             transferSlot3->list = new ExtraNode_ctxr;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
                         transferSlot3->list->FUN_005ae3d0(&chosen);
-                        if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && count2Slot41 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                        if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && count2Slot41 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                         {
                             Extra_ctxr* extraG = new Extra_ctxr;
                             reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraG))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                            reinterpret_cast<::FUN_00419ad0_shell *>((extraG))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - count2Slot41);
+                            reinterpret_cast<::FUN_00419ad0_shell *>((extraG))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - count2Slot41);
                             transferSlot3->list->FUN_005ae3d0(&extraG);
                         }
                     }
@@ -19796,7 +19796,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                     {
                         Extra_ctxr* extraH = new Extra_ctxr;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraH))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraH))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraH))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraH);
                     }
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
@@ -19820,7 +19820,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                     reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     chosen = new Extra_ctxr;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                     transferSlot3->list->FUN_005ae3d0(&chosen);
                     reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                 }
@@ -20061,7 +20061,7 @@ FUN_004bc550_ctxr* Inventory_ctxr::FUN_004d0650(Object_ctxr* object, int arg)
     if (source3)
     {
         int count2 = reinterpret_cast<::TESContainer *>((((::Rebuild004d0650::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(object));
-        result2 = new FUN_004bc550_ctxr(object, count2 + ((int)(reinterpret_cast<::Callees *>((source3))->FUN_00726070())));
+        result2 = new FUN_004bc550_ctxr(object, count2 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((source3))->FUN_00726070())));
         if (((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(source3)))) && ((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(source3))))->FUN_005ae380())
         {
             if (!((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(result2)))))
@@ -20134,7 +20134,7 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
         item = *((::MoveItem **)((void *)(itemNode)));
         bool restartItems = false;
 
-        if (item && ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())) > 0 && !((MoveForm*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))->IsQuestItem())
+        if (item && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())) > 0 && !((MoveForm*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))->IsQuestItem())
         {
             MoveExtraNode* pExtra = ((::MoveExtraNode *)(::FUN_00559450((int *)(item))));
             form = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));

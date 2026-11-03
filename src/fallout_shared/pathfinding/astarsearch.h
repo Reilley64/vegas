@@ -1,6 +1,7 @@
 #ifndef FNV_ASTARSEARCH_H
 #define FNV_ASTARSEARCH_H
 
+#include <cstdint>
 #include "fnv/decl/A83A0ScrapHeap.h"
 #include "fnv/decl/HX.h"
 #include "fnv/decl/FUN_006a83f0_cls.h"
@@ -173,7 +174,7 @@ AStarNode<BoundingVolumeNode, TLink>* AStarSearch<BoundingVolumeNode, TLink>::Co
         }
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(ConnectionArray))->Clear(0);
         CollectConnections(m_pCurrentNode, &ConnectionArray);
-        for (pSavedLastNode = 0; pSavedLastNode < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(ConnectionArray))->GetName())); pSavedLastNode++)
+        for (pSavedLastNode = 0; pSavedLastNode < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(ConnectionArray))->GetName())); pSavedLastNode++)
         {
             pCurNode = ConnectionArray[pSavedLastNode];
             reinterpret_cast<::FUN_006a8490_class *>(&(AStarBucketQueue))->UnlinkNode((::FUN_006a8490_node *)(pCurNode));

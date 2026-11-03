@@ -360,7 +360,7 @@ void FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
     {
         unsigned int count;
 
-        count = ((char*)this + 4) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_aiIndexedValues))->GetName())) : 0;
+        count = ((char*)this + 4) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_aiIndexedValues))->GetName())) : 0;
         buffer->FUN_00865f60(count);
 
         for (unsigned int i = 0; i < count; ++i)
@@ -532,7 +532,7 @@ bool FUN_006e05f0_shell::AddNavMeshes(ArrSI* aArg)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(reinterpret_cast<Lock*>(reinterpret_cast<unsigned char*>(this) + 0x4c)));
 
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((aArg))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((aArg))->GetName())); ++index)
     {
         NiPointer<NavMesh> ptrNavMesh2(reinterpret_cast<NavMesh*>(reinterpret_cast<Arr*>(aArg)->GetAt(index)));
         unsigned int navMeshID = 0;
@@ -611,10 +611,10 @@ bool FUN_006df440_owner::InitFromLookup(NavMeshLookup* apLookup)
         return false;
 
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(results))->Clear(0);
-    reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())), 1);
+    reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())), 1);
     valid = true;
 
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())); ++index)
     {
         *results.AddOffset(index) = bytes[*((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((indices))->FUN_0069dec0(index)))];
         if (*results.AddOffset(index) <= 0 || *results.AddOffset(index) == 0x7f)
@@ -1121,8 +1121,8 @@ bool Owner6df780::UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2)
         else
         {
             valid = false;
-            reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())), 1);
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
+            reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())), 1);
+            for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
             {
                 unsigned short w = *((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((list3))->FUN_0069dec0(i)));
                 if (w == a1->GetShortValueAtOffset24())
@@ -1135,9 +1135,9 @@ bool Owner6df780::UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2)
     }
     else
     {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((IndexList*)&results)))->GetName())))
+        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((IndexList*)&results)))->GetName())))
             return false;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
         {
             unsigned short w = *((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((list3))->FUN_0069dec0(i)));
             if (w == a1->GetShortValueAtOffset24())
@@ -1181,7 +1181,7 @@ class FUN_006e04b0 : public E04B0Array
 // @fnv 0x006e04b0
 FUN_006e04b0::~FUN_006e04b0()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
         delete GetAt(i);
 }
 

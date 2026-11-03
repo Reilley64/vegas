@@ -16,7 +16,7 @@ void NoiseImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEffectPa
     ImageSpaceShaderParam* shader = new ImageSpaceShaderParam;
     shader->AllocateShaderConstants(0, 4);
     reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(0, (::KeyPair **)&(shader));
-    ::SetEffectParamAt((char *)this, 0, 1, 0, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, manager->effects->noise, shader, 0);
 }
 

@@ -2112,8 +2112,7 @@ void TallGrassPrograms::FUN_00baafc0()
                         ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
                         vertexShaderProfile = "vs_3_0";
                     }
-                    vertexPrograms[index] = ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(::GrassMacro *)((GrassMacro*)vertex[index].macros),
-                                                         vertexShaderProfile)));
+                    vertexPrograms[index] = ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0(sourcePath, (::_D3DXMACRO *)(vertex[index].macros), vertexShaderProfile, binaryShaderName)));
                 }
             }
         }
@@ -2130,7 +2129,7 @@ void TallGrassPrograms::FUN_00baafc0()
                     vertexShaderProfile = "vs_3_0";
                 }
                 vertexPrograms[index] =
-                    ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(::GrassMacro *)((GrassMacro*)vertex[index].macros), vertexShaderProfile)));
+                    ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0(sourcePath, (::_D3DXMACRO *)(vertex[index].macros), vertexShaderProfile, binaryShaderName)));
             }
         }
         for (int index = 0, pixelOffset = 0; pixelOffset < (int)sizeof(pixel);

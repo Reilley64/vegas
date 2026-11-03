@@ -95,7 +95,7 @@ void ImageSpaceEffectX::SetupEffect(ImageSpaceManagerX* manager, ImageSpaceEffec
     reinterpret_cast<::ImageSpaceEffect *>(this)->SetTextureArraySize(4);
     reinterpret_cast<::FUN_00a41520_cls *>((((ImageSpaceTextureArrayX*)&pTextures)))->FUN_00a90180(4);
     reinterpret_cast<::FUN_00a41520_cls *>(&(Params()))->FUN_00ba3aa0(0, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
-    ::SetEffectParamAt((char *)this, 0, 1, 0, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, manager->GetEffect(34), 0, 2);
     reinterpret_cast<::FUN_00a41520_cls *>(&(Params()))->FUN_00ba3aa0(1, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(1, 2, 3, 0, 0);

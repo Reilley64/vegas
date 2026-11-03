@@ -729,7 +729,7 @@ void ImageSpaceEffect::InitFromEffectInitData(EffectInitData* initData, int unus
     ImageSpaceTexture* texture = initData->unk08->unk104;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(texture), (::ImageSpaceEffectParam *)(param), 2);
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
-    ::SetEffectParamAt((char *)this, 0, 1, 1, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
 
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(1, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(0));
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(1, 2, 3, 0, 0);
@@ -772,7 +772,7 @@ void ImageSpaceEffect::InitFromEffectInitData(EffectInitData* initData, int unus
     ImageSpaceTexture* texture8 = initData->unk08->unk104;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(8, (::ImageSpaceEffect *)(texture8), (::ImageSpaceEffectParam *)(param), 0);
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(8, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
-    ::SetEffectParamAt((char *)this, 8, 2, 1, {});
+    ::SetEffectParamAt((char *)this, 0, 8, 2, 1);
 
     param = new ImageSpaceShaderParam();
     param->AllocateShaderConstants(0, 0x18);
@@ -780,14 +780,14 @@ void ImageSpaceEffect::InitFromEffectInitData(EffectInitData* initData, int unus
     ImageSpaceTexture* texture9 = initData->unk08->unk104;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(9, (::ImageSpaceEffect *)(texture9), (::ImageSpaceEffectParam *)(param), 0);
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(9, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
-    ::SetEffectParamAt((char *)this, 9, 2, 1, {});
+    ::SetEffectParamAt((char *)this, 0, 9, 2, 1);
 
     param = new ImageSpaceShaderParam();
     param->AllocateShaderConstants(0, 0x18);
     ImageSpaceTexture* texture10 = initData->unk08->unk88;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(10, (::ImageSpaceEffect *)(texture10), (::ImageSpaceEffectParam *)(param), 0);
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(10, (::KeyPair **)&(const ::ImageSpaceShaderParam *const &)(+param));
-    ::SetEffectParamAt((char *)this, 10, 1, 0, {});
+    ::SetEffectParamAt((char *)this, 0, 10, 1, 0);
 }
 
 namespace fnv_00ba04c0 {

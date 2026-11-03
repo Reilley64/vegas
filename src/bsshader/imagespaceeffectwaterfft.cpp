@@ -261,7 +261,7 @@ void ImageSpaceEffectX::SetupShaderPasses(EffectSource* apSource, int unused)
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(65)), param, 2);
         reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
     }
-    ::SetEffectParamAt((char *)this, 0, 1, 1, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
     reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(1, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(1, 2, 3, 0, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(18)), 0, 2);

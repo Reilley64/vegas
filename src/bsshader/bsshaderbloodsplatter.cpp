@@ -155,10 +155,10 @@ void BSShaderBloodSplatter::InitializeShaderData()
     char outputFile[260];
     ::FUN_00be0c00(vertex.file, shaderPath);
     ::FUN_00406d00(outputFile, 260, "BS.vso");
-    m_spTreeVertexShader[0] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(vertex.macros), "vs_1_1")));
+    m_spTreeVertexShader[0] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(vertex.macros), "vs_1_1", outputFile)));
     ::FUN_00be0c00(flareVertexShader.file, shaderPath);
     ::FUN_00406d00(outputFile, 260, "BSF.vso");
-    m_spTreeVertexShader[1] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(flareVertexShader.macros), "vs_1_1")));
+    m_spTreeVertexShader[1] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(flareVertexShader.macros), "vs_1_1", outputFile)));
     ::FUN_00be0c00(pixel.file, shaderPath);
     ::FUN_00406d00(outputFile, 260, "BS.pso");
     m_spPixelShaderVariants[0] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(shaderPath), (void *)(pixel.macros), (char *)("ps_2_a"), (char *)(outputFile));

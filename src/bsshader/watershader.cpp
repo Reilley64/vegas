@@ -283,7 +283,7 @@ struct Pass112
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
-    void* stages;
+    unsigned int stages;
     unsigned int unk18;
     unsigned int unk1c;
     unsigned int unk20;
@@ -346,23 +346,23 @@ bool Water112::InitWaterPasses()
             ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
             ::ConfigureBeamStage((::BeamStage *)(declaration.p), 0, 3, 2, 1);
             reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
-            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((unsigned int)((*slot)->stages), (::Stage321 *)(declaration.p));
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
             ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
             ::ConfigureBeamStage((::BeamStage *)(declaration.p), 1, 3, 2, 1);
             reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
-            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((unsigned int)((*slot)->stages), (::Stage321 *)(declaration.p));
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
             ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
             ::ConfigureBeamStage((::BeamStage *)(declaration.p), 2, 1, 2, 1);
             reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
-            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((unsigned int)((*slot)->stages), (::Stage321 *)(declaration.p));
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
             ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
             ::ConfigureBeamStage((::BeamStage *)(declaration.p), 3, 1, 2, 1);
             reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
-            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((unsigned int)((*slot)->stages), (::Stage321 *)(declaration.p));
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
             ::AssignStageFromPool((*(::StageReturn * *)(&declaration.p)));
             ::ConfigureBeamStage((::BeamStage *)(declaration.p), 4, 3, 2, 1);
             reinterpret_cast<::E7DEF0TextureStage *>((declaration.p))->FUN_00e7def0(1);
-            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((unsigned int)((*slot)->stages), (::Stage321 *)(declaration.p));
+            reinterpret_cast<::StageSet *>(((*slot)))->FUN_00e802b0((*slot)->stages, (::Stage321 *)(declaration.p));
             AssignPassConstant(*slot, 0x0f, 1, 1);
             AssignPassConstant(*slot, 0x18, 0, 1);
             AssignPassConstant(*slot, 0x19, 5, 1);
@@ -1067,17 +1067,17 @@ void WaterShaderLoader::FUN_00b827c0()
     InitWaterVertexBase(scratch.kVertexDelta);
     ::FUN_00be0c00(scratch.kVertexDelta.pcFile, scratch.acFile);
     ::FUN_00406d00(scratch.acName, 0x104, "WATER000.vso");
-    m_spVertexShader1 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(scratch.acFile), (const char *)(scratch.kVertexDelta.kMacros), "vs_1_1")));
+    m_spVertexShader1 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(scratch.acFile, (::_D3DXMACRO *)(scratch.kVertexDelta.kMacros), "vs_1_1", scratch.acName)));
 
     InitWaterVertexVariant(scratch.kVertexVc, "VERTEX_COLORS");
     ::FUN_00be0c00(scratch.kVertexVc.pcFile, scratch.acFile);
     ::FUN_00406d00(scratch.acName, 0x104, "WATER001.vso");
-    m_spVertexShader2 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(scratch.acFile), (const char *)(scratch.kVertexVc.kMacros), "vs_1_1")));
+    m_spVertexShader2 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(scratch.acFile, (::_D3DXMACRO *)(scratch.kVertexVc.kMacros), "vs_1_1", scratch.acName)));
 
     InitWaterVertexVariant(scratch.kVertexLighting, "LIGHTING");
     ::FUN_00be0c00(scratch.kVertexLighting.pcFile, scratch.acFile);
     ::FUN_00406d00(scratch.acName, 0x104, "WATER002.vso");
-    m_spVertexShader3 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(scratch.acFile), (const char *)(scratch.kVertexLighting.kMacros), "vs_1_1")));
+    m_spVertexShader3 = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(scratch.acFile, (::_D3DXMACRO *)(scratch.kVertexLighting.kMacros), "vs_1_1", scratch.acName)));
 
     int iLevel = ::DAT_011f91c0;
     const char* pcProfile = "ps_2_0";
@@ -1854,7 +1854,7 @@ __forceinline void SetWaterAlpha(WaterMaterial* material, unsigned int mode)
     if (mode == 0x288 || mode == 0x289)
     {
 
-        ::AddToSlot((void *)(material->alpha), 0);
+        ::AddToSlot((void *)(std::uintptr_t)(material->alpha), 0);
 
         return;
     }

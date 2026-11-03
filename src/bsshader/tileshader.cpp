@@ -512,7 +512,7 @@ void FUN_00bca0d0_shell::CreateTileVertexShaders()
         {
             ::FUN_00be0c00(kDefs[i].pFile, acPath);
             ::FUN_00406d00(acName, 260, "TILE1%03i.vso", i);
-            m_spVertexShaders[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(acPath), (const char *)(kDefs[i].kMacros), "vs_1_1")));
+            m_spVertexShaders[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(acPath, (::_D3DXMACRO *)(kDefs[i].kMacros), "vs_1_1", acName)));
         }
     }
 }

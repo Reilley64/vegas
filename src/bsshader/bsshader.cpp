@@ -1489,7 +1489,8 @@ struct Data818
 struct Input818
 {
     Alpha818* alpha;
-    int unk04, unk08;
+    void* unk04;
+    void* unk08;
     Data818* data;
 };
 void __cdecl AddToTwoCounters(int, int, int);

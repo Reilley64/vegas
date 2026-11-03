@@ -231,6 +231,6 @@ void FUN_00baa240_cls::Initialize(FUN_00baa240_cls* a1, int aiArg)
         FUN_00b8a9e0* toStore = obj;
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(0, (::KeyPair **)&(toStore));
     }
-    ::SetEffectParamAt((char *)this, 0, 1, 0, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(a1->m_08->m_c0), (::ImageSpaceEffectParam *)(obj), 0);
 }

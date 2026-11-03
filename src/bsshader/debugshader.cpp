@@ -397,7 +397,7 @@ void SpeedTreeFrondShaderX::CreateShaders()
         {
             FUN_00be0c00(kVertexShaders[i].pFile, acPath);
             ::FUN_00406d00(acName, 0x104, "STFROND%03i.vso", i);
-            m_pFrondVertexShaderVariants[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(acPath), (const char *)(kVertexShaders[i].kMacros), "vs_1_1")));
+            m_pFrondVertexShaderVariants[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(acPath, (::_D3DXMACRO *)(kVertexShaders[i].kMacros), "vs_1_1", acName)));
         }
         else
         {
@@ -472,7 +472,7 @@ void DebugShaderLoader::LoadDebugShaders()
     std::memset(&vertexDesc.kMacros[1], 0, 16 * sizeof(const char*));
     FUN_00be0c00(vertexDesc.pFile, path);
     ::FUN_00406d00(name, 260, "DEBUG.vso");
-    m_spTreeVertexShader = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(vertexDesc.kMacros), "vs_1_1")));
+    m_spTreeVertexShader = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(path, (::_D3DXMACRO *)(vertexDesc.kMacros), "vs_1_1", name)));
 
     ShaderDescX pixelDesc;
     pixelDesc.pFile = "imagespace\\1x\\p\\copy.p.hlsl";

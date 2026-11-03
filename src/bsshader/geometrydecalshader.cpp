@@ -154,7 +154,7 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     ::FUN_00be0c00(VSbaseParam.path, pCacheFileName);
     ::FUN_00406d00(pTempFileName, 0x104, "GDECAL.vso");
     pShaderPasses[0] =
-        ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(pCacheFileName), (const char *)(const ::_D3DXMACRO *)((const _D3DXMACRO*)VSbaseParam.macros), "vs_1_1")));
+        ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(pCacheFileName, (::_D3DXMACRO *)(VSbaseParam.macros), "vs_1_1", pTempFileName)));
 
     ShaderSourceInfo vsSkinnedParams = {
         "lighting\\2x\\v\\decal.v.hlsl",
@@ -162,7 +162,7 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     ::FUN_00be0c00(vsSkinnedParams.path, pCacheFileName);
     ::FUN_00406d00(pTempFileName, 0x104, "GDECALS.vso");
     pShaderPasses[1] =
-        ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(pCacheFileName), (const char *)(const ::_D3DXMACRO *)((const _D3DXMACRO*)vsSkinnedParams.macros), "vs_1_1")));
+        ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(pCacheFileName, (::_D3DXMACRO *)(vsSkinnedParams.macros), "vs_1_1", pTempFileName)));
 
     pPixelShaderProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     ShaderSourceInfo PSbaseParam;

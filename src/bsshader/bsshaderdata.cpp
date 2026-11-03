@@ -269,7 +269,7 @@ void FUN_00bb01c0_t::CreatePrecipitationVertexShaders()
         ::FUN_00be0c00(shaderDefs[i].pFile, shaderPath);
         ::FUN_00406d00(shaderName, 260, "PRECIP%03i.vso", i);
         (*reinterpret_cast<ShaderPtr<NiD3DVertexShader> (*)[4]>(&::g_aspLarge))[i] =
-            ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(shaderDefs[i].Macros), ::NiD3DGPUProgramCache::GetVertexShaderProfile())));
+            ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(shaderDefs[i].Macros), ::NiD3DGPUProgramCache::GetVertexShaderProfile(), shaderName)));
     }
 }
 

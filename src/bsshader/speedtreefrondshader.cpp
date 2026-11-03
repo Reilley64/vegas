@@ -185,7 +185,7 @@ void BranchShader::FUN_00bd3280()
         {
             FUN_00be0c00(shaderPrograms1x[i].file, shaderPath);
             FUN_00406d00(name, 260, "STB1%03i.vso", i);
-            vertexShaders1[i] = ((::NiRefObject_s *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(shaderPrograms1x[i].defines), "vs_1_1")));
+            vertexShaders1[i] = ((::NiRefObject_s *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(shaderPrograms1x[i].defines), "vs_1_1", name)));
         }
         else
         {
@@ -198,7 +198,7 @@ void BranchShader::FUN_00bd3280()
         {
             FUN_00be0c00(shaderPrograms2x[i].file, shaderPath);
             FUN_00406d00(name, 260, "STB2%03i.vso", i);
-            vertexShaders2[i] = ((::NiRefObject_s *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(shaderPrograms2x[i].defines), "vs_2_0")));
+            vertexShaders2[i] = ((::NiRefObject_s *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(shaderPrograms2x[i].defines), "vs_2_0", name)));
         }
     }
 }

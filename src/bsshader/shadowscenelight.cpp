@@ -263,7 +263,7 @@ RefPtr_b9e7c0 FUN_00b9e7c0_list::PopFront()
     else
         m_pkTail = 0;
     RefPtr_b9e7c0 element = pkNode->m_element;
-    ::ReleaseRefCountedNode((void *)this);
+    ::ReleaseRefCountedNode((void *)(pkNode));
     m_uiCount--;
     return element;
 }
@@ -385,7 +385,7 @@ RefPtr_b9e850 FUN_00b9e850_list::PopBack()
     else
         m_pkHead = 0;
     RefPtr_b9e850 element = pkNode->m_element;
-    ::ReleaseRefCountedNode((void *)this);
+    ::ReleaseRefCountedNode((void *)(pkNode));
     m_uiCount--;
     return element;
 }
@@ -1482,7 +1482,7 @@ RefPtr_b9fcc0 RemovalList::FUN_00b9efa0(void*& position)
     if (next)
         next->m_pkPrev = previous;
     RefPtr_b9fcc0 element = item->m_element;
-    ::ReleaseRefCountedNode((void *)this);
+    ::ReleaseRefCountedNode((void *)(item));
     --m_uiCount;
     return element;
 }
@@ -3488,7 +3488,7 @@ void ShadowUpdate_b9e::FUN_00b9e970(CameraCullView_b9e* camera)
     bool contained = true;
     if (castShadow && m_pCamera.m_pObject)
     {
-        uiCullMask = ((bool)(::FUN_00b9c020((::FNVCuboid *)this, (::FNVCuboid *)(::LightPositionView_b9e *)(camera->GetCamera())))) ? 0 : 255;
+        uiCullMask = ((bool)(::FUN_00b9c020((::FNVCuboid *)(::LightPositionView_b9e *)(camera->GetCamera()), (::FNVCuboid *)(m_pCamera.m_pObject)))) ? 0 : 255;
     }
     else
     {

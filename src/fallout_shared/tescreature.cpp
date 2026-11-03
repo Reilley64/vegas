@@ -580,13 +580,6 @@ void* FUN_005f9b70_shell::GetOffset12C()
     return (char*)this + 0x12c;
 }
 
-struct ActorValue
-{
-    enum Index
-    {
-        kNone
-    };
-};
 struct FUN_006078e0_s
 {
     virtual void v0();
@@ -1084,13 +1077,6 @@ void FUN_005f12d0_shell::ApplyCommand(int command, int value)
 }
 
 namespace fnv_005fa200 {
-struct ActorValue
-{
-    enum Index
-    {
-        index_0 = 0
-    };
-};
 
 struct P09AV
 {
@@ -1164,7 +1150,7 @@ void FUN_005fa200_shell::FUN_005fa200(ActorValue::Index index, int value)
     {
         switch (index)
         {
-        case static_cast<ActorValue::Index>(0x38):
+        case 0x38:
             if (value < 0)
             {
                 reinterpret_cast<::FUN_0047ff50_class *>((reinterpret_cast<FUN_0047ff50_class*>(reinterpret_cast<char*>(this) + 0x10c)))->FUN_0047ff50(0);

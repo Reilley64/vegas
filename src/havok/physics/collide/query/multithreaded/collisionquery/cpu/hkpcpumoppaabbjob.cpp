@@ -224,7 +224,7 @@ void __cdecl ExecuteMoppAabbQuery(S_00df7010_Output* out, const S_00df7010_Input
         S_00df7010_Query& query = input->m_queries[i];
         S_00df7010_HitArray hits(query.m_pResultBuffer, 0, 0x1000);
         S_00df7010_VirtualMachine vm;
-        reinterpret_cast<::GridCell *>(&(vm))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)&(query.m_kBounds), (int)(&hits));
+        reinterpret_cast<::GridCell *>(&(vm))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)&(query.m_kBounds), &hits);
         hits.AddBack(0xffffffff);
     }
 

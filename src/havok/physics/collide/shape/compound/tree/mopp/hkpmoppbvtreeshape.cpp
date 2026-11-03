@@ -188,14 +188,14 @@ struct FUN_00d54350_Obj
     int unk10;
     void* unk14;
 
-    void ForwardToTarget(int a, int b, float c, int d);
+    void ForwardToTarget(const ::ObbQueryDetail::ObbTransform* a, const ::ObbQueryDetail::ObbVector* b, float c, void* d);
 };
 
 // @fnv 0x00d54350
-void FUN_00d54350_Obj::ForwardToTarget(int a, int b, float c, int d)
+void FUN_00d54350_Obj::ForwardToTarget(const ::ObbQueryDetail::ObbTransform* a, const ::ObbQueryDetail::ObbVector* b, float c, void* d)
 {
     FUN_00dd1bf0_Obj local;
-    reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(local))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(unk14), (const ::ObbQueryDetail::ObbTransform *)(a), (const ::ObbQueryDetail::ObbVector *)(b), c, d);
+    reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(local))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(unk14), a, b, c, d);
 }
 
 namespace fnv_00d543e0 {
@@ -559,7 +559,7 @@ S54520_Out* S54520_Owner::FUN_00d54520(S54520_Out* out, int p1, S54520_Params* p
         }
     }
     params->m_depth++;
-    S54520_Box& box = *(S54520_Box*)(((unsigned int)&frame.m_codeStorage[0] + 15) & ~15u);
+    S54520_Box& box = *(S54520_Box*)(((uintptr_t)&frame.m_codeStorage[0] + 15) & ~(uintptr_t)15);
     int size = m_kPointB;
     box.m_vComponents = m_vComponents;
     box.m_kPointA = m_kPointA;
@@ -963,7 +963,7 @@ void S00d54720_MoppShape::FUN_00d54720(const void* apInput, const void* cdBody, 
         vm.unk44 = 0;
         frame.body.unk08 = ((const S00d54720_Body*)cdBody)->unk08;
         const int zeroVal = 0;
-        S00d54720_Code* code = (S00d54720_Code*)(((unsigned int)&frame.codePtrBuffer + 15) & ~15U);
+        S00d54720_Code* code = (S00d54720_Code*)(((uintptr_t)&frame.codePtrBuffer + 15) & ~(uintptr_t)15);
         int codeSize = m_uiMoppDataSize;
         code->info = m_kMoppInfo;
         code->data = m_pMoppData;
@@ -1097,13 +1097,12 @@ void hkpMoppBvTreeShapeD543::FUN_00d54380(const hkAabbD543& kAabbIn, hkArrayD543
     kAabb.m_kMaximumCorner.setMin4(kMaxPoint, kAabbIn.m_kMaximumCorner);
 
     hkMoppObbVirtualMachineD543 kQuery;
-    reinterpret_cast<::GridCell *>(&(kQuery))->FUN_00dd1da0((::GridSource *)(m_pMoppCode), (::GridBounds *)&(kAabb), (int)(&kHits));
+    reinterpret_cast<::GridCell *>(&(kQuery))->FUN_00dd1da0((::GridSource *)(m_pMoppCode), (::GridBounds *)&(kAabb), &kHits);
 }
 }  // namespace fnv_00d54380
 
 // Moved from hkpmoppbvtreeshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/decl/BundleMachine.h"
-#include "fnv/decl/fnv_00d543e0__FUN_00d543e0.h"
 #include "fnv/symbols_01091000.h"
 
 struct hkVector4q
@@ -1243,7 +1242,7 @@ int hkMoppBvTreeShapeBaseQ::FUN_00d54810(const hkAabbq& aabbIn, unsigned int* hi
         _mm_min_ps(_mm_add_ps(_mm_set_ps1(extent), offset.m_vComponents), aabbIn.m_kMaximumCorner.m_vComponents);
     hkArr<unsigned int> hitsArray(hits, 0, maxNumKeys);
     hkMoppHitsQ machine;
-    reinterpret_cast<::GridCell *>(&(machine))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)(&aabb), (int)(&hitsArray));
+    reinterpret_cast<::GridCell *>(&(machine))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)(&aabb), &hitsArray);
     int numHits = machine.m_kHits->m_iElementCount;
     hitsArray._clearAndDeallocate(static_cast<hkMemoryRouterD548*>(::FUN_00c85750())->heap());
     return numHits;

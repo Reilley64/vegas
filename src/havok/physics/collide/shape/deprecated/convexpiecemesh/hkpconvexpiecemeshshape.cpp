@@ -225,16 +225,6 @@ class hkStatisticsCollectorE494
             AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
         }
     }
-public:
-    template <class T> void addArray(const char* pcName, const hkArrayE494<T>& kArray)
-    {
-        if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
-        {
-            const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
-            AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
-        }
-    }
 };
 
 class hkxStreamE494;

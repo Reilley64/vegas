@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -598,7 +600,7 @@ class FUN_00cb0c00_class
     void FUN_00cb0c00() throw();
     ~FUN_00cb0c00_class()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 
@@ -1728,7 +1730,6 @@ ShapesSubpartS* ShapesSubpartS::FUN_00d56500(hkConvexShapeS* const* childShapes,
     return this;
 }
 }  // namespace fnv_00d56500
-#include "fnv/symbols_simd.h"
 
 // Moved from hkpstorageextendedmeshshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/decl/Cb0StringCopy.h"
@@ -1736,12 +1737,6 @@ ShapesSubpartS* ShapesSubpartS::FUN_00d56500(hkConvexShapeS* const* childShapes,
 #include "fnv/decl/fnv_00d56160__FUN_00d56160_cls.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_01269000.h"
-template <typename T> inline void hkDestructD49C(T* t, int n)
-{
-    for (int i = 0; i < n; ++i)
-        t[i].~T();
-}
-
 enum hkPlacementNewArg
 {
     hkPlacementNew

@@ -38,22 +38,22 @@ void FUN_00d58d60_t::FUN_00d58d60(float* out)
     out[3] = 0.0f;
 }
 
-struct FUN_00d591d0_class
+struct FUN_00d591d0_class : hkpConvexVerticesShape
 {
-    void FUN_00d591d0(void*, float, int);
+    void FUN_00d591d0(const ::hkTransformD262*, float, ::hkAabbD262*);
 };
 
 
 // Calls FUN_00d26230 with this+0x20, this+0x30, the float at this+0x10 plus b, and c.
 // @fnv 0x00d591d0
-void FUN_00d591d0_class::FUN_00d591d0(void* a, float afDelta, int c)
+void FUN_00d591d0_class::FUN_00d591d0(const ::hkTransformD262* a, float afDelta, ::hkAabbD262* c)
 {
     ::FUN_00d26230(
-        (*(const ::hkTransformD262 *)(a)),
-        (*(const ::hkVector4D262 *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x20))),
-        (*(const ::hkVector4D262 *)(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x30))),
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x10) + afDelta,
-        (*(::hkAabbD262 *)(c))
+        *a,
+        reinterpret_cast<const ::hkVector4D262&>(m_kAabbHalfExtents),
+        reinterpret_cast<const ::hkVector4D262&>(m_kAabbCenter),
+        m_fSphereRadius + afDelta,
+        *c
     );
 }
 
@@ -829,7 +829,7 @@ extern "C" void _ReadWriteBarrier();
 
 
 struct InputValues {
-    int x;
+    const float* x;
     int y;
     int z;
 };
@@ -1255,7 +1255,7 @@ FUN_00d59bd0::FUN_00d59bd0(InputValues* input, const ArrayD5A360<Vector4D5A360>&
     : ConvexPart(6, r), convexPiece(0), connectivity(0)
 {
     ResizePlanes(planes, source);
-    reinterpret_cast<::ConvexVerticesShape *>((((FinalCall*)this)))->FUN_00d59900((const float *)(input->x), input->z, input->y);
+    reinterpret_cast<::ConvexVerticesShape *>((((FinalCall*)this)))->FUN_00d59900(input->x, input->z, input->y);
 }
 
 // Stores numVertices, copies vertexIn into m_kRotatedVertices padded to a multiple of four, and computes the AABB center and half-extents.
@@ -1302,31 +1302,6 @@ void ConvexVerticesShape::FUN_00d59900(const float* vertexIn, int byteStriding, 
 static Vec4* __cdecl FUN_00d58d40(Vec4* base, int index);
 Vec4* caller_d58d40(Vec4* base, int index);
 void __cdecl ArrayUtilReserve_c908c0(hkMemoryAllocator& alloc, void* array, int numElements, int sizeElem);
-template <class T> struct Array
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    __forceinline int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
-    __forceinline void GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
-    {
-        const int capacity = getCapacity();
-        if (capacity < n)
-        {
-            int cap2 = 2 * capacity;
-            int newSize = (n < cap2) ? cap2 : n;
-            ArrayUtilReserve_c908c0(alloc, this, newSize, sizeof(T));
-        }
-    }
-    __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
-    {
-        GrowArrayCapacity(alloc, n);
-        m_iElementCount = n;
-    }
-    __forceinline void SetSizeAndGrow(int n) { _setSize(GetMemoryRouter_c85750()->heap(), n); }
-    __forceinline T& operator[](int i) { return m_data[i]; }
-};
 
 
 
@@ -1817,7 +1792,7 @@ if (reinterpret_cast<PlaneVector&>(normal).normalize()==PlaneSuccess) {
 
         reinterpret_cast<::SearchObject *>((reinterpret_cast<FUN_00d5a4c0_Helper*>(&planeEquations)))->FUN_00d5a4c0(
 
-            (unsigned int)(mem->m_pMemoryAllocator), index, (unsigned int)(planes.begin()), planes.GetLogicalSize());
+            (uintptr_t)(mem->m_pMemoryAllocator), index, (uintptr_t)(planes.begin()), planes.GetLogicalSize());
 
     }
 

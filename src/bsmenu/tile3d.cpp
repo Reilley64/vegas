@@ -1,5 +1,6 @@
 // bsmenu/tile3d.cpp: Tile3D, Tile3DCalc, AnimTile, Interface and more (12 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -196,6 +197,22 @@ struct AVObj
     virtual void v05();
     virtual PropHelper* IsGeometry();
 };
+// The children array of a NiNode (a NiTArray); the pad stands for members not named here.
+struct NiNodeChildView
+{
+    void* m_pVtbl;
+    void** m_ppBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+struct NiNodeChildrenView
+{
+    char pad00[0x9c];
+    NiNodeChildView m_kChildren;
+};
+
 struct FUN_00a21570_shell : public Tile3D
 {
     void ApplyAlphaToChildren(NiNode* apNode, float afAlpha, const RgbaColor* apTextColor);
@@ -206,7 +223,7 @@ void FUN_00a21570_shell::ApplyAlphaToChildren(NiNode* apNode, float afAlpha, con
 {
     if (!apNode)
         return;
-    for (unsigned int ui = 0; ui < *(unsigned short*)((char*)apNode + 0xa6); ui++)
+    for (unsigned int ui = 0; ui < ((NiNodeChildrenView*)apNode)->m_kChildren.m_usSize; ui++)
     {
         AVObj* pchild;
         {
@@ -216,7 +233,7 @@ void FUN_00a21570_shell::ApplyAlphaToChildren(NiNode* apNode, float afAlpha, con
                 {
                     char* ptsp;
                     {
-                        AVObj** pp = &(*(AVObj***)((char*)apNode + 0xa0))[ui];
+                        AVObj** pp = &((AVObj**)((NiNodeChildrenView*)apNode)->m_kChildren.m_ppBase)[ui];
                         {
                             AVObj* p = *pp;
                             pchild = p;
@@ -263,12 +280,13 @@ void FUN_00a20ba0_X::RemovePropertyRecursive(char* pTarget)
     char* val;
     int unused[5];
     reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectRP*)pTarget)))->FUN_00a5b230(2);
-    reinterpret_cast<::ObjPtrArray *>((pTarget + 0x9c))->FUN_004afc80();
-    reinterpret_cast<::Pn4afe *>((pTarget + 0x9c))->TrimTrailingNullPointers();
-    for (a = 0; a < *(unsigned short*)(pTarget + 0xa8); a++)
+    NiNodeChildView* pChildren = &((NiNodeChildrenView*)pTarget)->m_kChildren;
+    reinterpret_cast<::ObjPtrArray *>(pChildren)->FUN_004afc80();
+    reinterpret_cast<::Pn4afe *>(pChildren)->TrimTrailingNullPointers();
+    for (a = 0; a < pChildren->m_usESize; a++)
     {
         {
-            void** tB = &(*(void***)(pTarget + 0xa0))[a];
+            void** tB = &pChildren->m_ppBase[a];
             void* tA = *tB;
             pobj = tA;
         }
@@ -576,7 +594,7 @@ struct NiNodeChildArray
     ~NiNodeChildArray();
     void RemoveAll();
     void* vtbl;
-    int m_pBase;
+    void** m_pBase;
     int m_usMaxSize;
     int m_usGrowBy;
 };
@@ -994,7 +1012,7 @@ bool AnimTile::UpdateAnimation(float value, bool force)
     if (sequence->GetTime() == -DAT_01095728)
     {
         UpdateData update(0.0f);
-        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(update));
     }
     else if (value == -1.0)
     {
@@ -1006,7 +1024,7 @@ bool AnimTile::UpdateAnimation(float value, bool force)
             time3 -= ptr;
         reinterpret_cast<::FUN_00aa4ee0_t *>(&(DAT_011f3560))->FUN_00aa4ee0(GetTickCount());
         UpdateData loopUpdate7(time3);
-        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((int)&(loopUpdate7));
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(loopUpdate7));
         if (Interface::PlayNifSounds((NiControllerSequence*)sequence))
         {
             manager->StopSequence(sequence);
@@ -1020,12 +1038,12 @@ bool AnimTile::UpdateAnimation(float value, bool force)
         kSeekTime = sequence->GetDuration();
         float c = MinTime(MaxTime(kSeekTime * value, 0.0f), kSeekTime);
         UpdateData seekUpdate9(c);
-        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((int)&(seekUpdate9));
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(seekUpdate9));
     }
     else
     {
         UpdateData update(value);
-        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetNode()))->FUN_00a59c60((std::intptr_t)&(update));
     }
     return true;
 }

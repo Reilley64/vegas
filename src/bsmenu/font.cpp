@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsmenu/font.cpp: Font, FontManager, OwnQ, SBox and more (57 functions)
 
@@ -498,6 +499,12 @@ struct FUN_00a19f70_t {
     void WrapLine(void* apSource, unsigned int auiStart);
 };
 
+// The font number of the source that FUN_00a1bd40 lays out; the pad stands for members not named yet.
+struct TextLineSource {
+    char pad00[0x18];
+    unsigned int uiFontNum;
+};
+
 struct FUN_00a1bd40 {
     NiTPointerList<TextItem*> kItemList;
     unsigned int uiNumItems;
@@ -515,7 +522,7 @@ struct FUN_00a1bd40 {
 // @fnv 0x00a1bd40
 FUN_00a1bd40::FUN_00a1bd40(void* apOwner, void* apSource, unsigned int auiFlags, unsigned int auiMaxWidth) {
     uiNumItems = 0;
-    uiFontNum = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apSource) + 0x18);
+    uiFontNum = static_cast<TextLineSource*>(apSource)->uiFontNum;
     uiMaxWidth = auiMaxWidth;
     pOwner = apOwner;
     uiStart = 0;
@@ -662,7 +669,9 @@ struct AttachWrap {
 };
 struct NiGeometryData_SetConsistency_View { void SetDataConsistency(int); };
 struct TileShaderProperty : BSFadeNode {
-    char pad[0xb0];
+    char pad[0x68];
+    RgbaColor m_kColor;
+    char pad78[0x38];
     TileShaderProperty(bool);
 };
 namespace L {
@@ -736,10 +745,10 @@ NiTriShape* FUN_00a14a20_shell::CreateTextShape(int aiChars, void* axColor, bool
     ((NiGeometryData_SetConsistency_View*)pshape->GetModelData())->SetDataConsistency(0x4000);
     ptsp = new TileShaderProperty(false);
     ((AttachWrap*)pshape)->AttachProperty((NiObject*)ptsp);
-    *(RgbaColor*)((char*)ptsp + 0x68) = *(const RgbaColor*)axColor;
+    ptsp->m_kColor = *(const RgbaColor*)axColor;
     if (abPrepareObject)
         ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject*)pshape, false, false);
-    reinterpret_cast<::TileShaderProperty *>((ptsp))->FUN_00bb7a10((::NiTexture *)(::fnv_00a14a20::NiTexture *)(((L::TexProp*)((L::TexPtr*)((char*)this + 0xc))[0])->GetBaseTexture()));
+    reinterpret_cast<::TileShaderProperty *>((ptsp))->FUN_00bb7a10((::NiTexture *)(::fnv_00a14a20::NiTexture *)(((L::TexProp*)*(L::TexPtr*)&m_kTextureSlots[0])->GetBaseTexture()));
     reinterpret_cast<::FUN_00a5a040_Class *>((pshape))->FUN_00a5a040();
     ::AttachFaceGenAnimationData((::NiAVObject*)pshape);
     return (NiTriShape*)pshape;
@@ -944,14 +953,14 @@ NiPoint3 FUN_00a1b020_t::FUN_00a1b020(const char* strText, int aiFont, float afW
 
     returnDims = ::NiPoint3::ZERO;
     uistrLength = std::strlen(strText);
-    plettersA = (FontCharacterInfo*)(*(char**)&pFont[aiFont - 1]->m_pFontData + 0x128);
+    plettersA = ((::fnv_00a19c00::SFontDataView*)pFont[aiFont - 1]->m_pFontData)->kLetters;
     fwrapPointWidth = 0;
     fcurrLineWidth = 0;
     flinePadding = reinterpret_cast<::FUN_00a1b3a0_shell *>((((FUN_00a1b3a0_shell*)this)))->FUN_00a1b3a0(aiFont);
     fprevLetterWidth = 0;
     bsoftHyphen = false;
     inumLines = 1;
-    returnDims.y = *(float*)((char*)plettersA + 0x728);
+    returnDims.y = plettersA[32].m_fGlyphExtent;
     for (int iletterCt = aiStartIndex; iletterCt < uistrLength; iletterCt++) {
         unsigned char cletter = strText[iletterCt];
         float fcurrLetterWidth = 0;
@@ -987,7 +996,7 @@ NiPoint3 FUN_00a1b020_t::FUN_00a1b020(const char* strText, int aiFont, float afW
                 fcurrLineWidth = fcurrLetterWidth + fprevLetterWidth;
             }
             returnDims.x = returnDims.x > fwrapPointWidth ? returnDims.x : fwrapPointWidth;
-            returnDims.y = flinePadding + **(float**)&pFont[aiFont - 1]->m_pFontData + returnDims.y;
+            returnDims.y = flinePadding + ((::fnv_00a19c00::SFontDataView*)pFont[aiFont - 1]->m_pFontData)->m_fFontSize + returnDims.y;
             fwrapPointWidth = 0;
             inumLines++;
         }
@@ -1238,7 +1247,7 @@ struct FUN_00a12020 {
     float m_fLineHeight;
     float m_fDrop;
     int m_iOverlap;
-    int m_pFontData;
+    void* m_pFontData;
     FontStr iconName;
     FontIconArray icons;
     FUN_00a12020(int fontNum, const char* file, bool load);
@@ -4160,9 +4169,9 @@ Vec glyphPosition=position;glyphPosition.x+=runSlot0->offset;if(runSlot0->letter
 
 }
 
-bool attachedSlot0=false;for(unsigned int finishIndex=0;finishIndex<8;finishIndex++){if(shapesSlot32[finishIndex]){Vec* vertices=shapesSlot32[finishIndex]->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(shapesSlot32[finishIndex]->GetData()->GetBound()))->ComputeBoundingSphere(shapesSlot32[finishIndex]->GetData()->GetCount(),(const ::Vec88 *)(vertices));shapesSlot32[finishIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));reinterpret_cast<::FUN_00a5a040_Class *>((shapesSlot32[finishIndex]))->FUN_00a5a040();Update update;reinterpret_cast<::FUN_00a59c60_cls *>((shapesSlot32[finishIndex]))->FUN_00a59c60((int)&(update));node->Attach(shapesSlot32[finishIndex],true);attachedSlot0=true;}}
+bool attachedSlot0=false;for(unsigned int finishIndex=0;finishIndex<8;finishIndex++){if(shapesSlot32[finishIndex]){Vec* vertices=shapesSlot32[finishIndex]->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(shapesSlot32[finishIndex]->GetData()->GetBound()))->ComputeBoundingSphere(shapesSlot32[finishIndex]->GetData()->GetCount(),(const ::Vec88 *)(vertices));shapesSlot32[finishIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));reinterpret_cast<::FUN_00a5a040_Class *>((shapesSlot32[finishIndex]))->FUN_00a5a040();Update update;reinterpret_cast<::FUN_00a59c60_cls *>((shapesSlot32[finishIndex]))->FUN_00a59c60((std::intptr_t)&(update));node->Attach(shapesSlot32[finishIndex],true);attachedSlot0=true;}}
 
-while(imagesSlot52.Count()){Shape* finishedImageSlot0=((::PageMeshes::Shape *)(reinterpret_cast<::FUN_00a1c080_Class *>(&(imagesSlot52))->PopFront()));Vec* imageVerticesSlot0=finishedImageSlot0->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(finishedImageSlot0->GetData()->GetBound()))->ComputeBoundingSphere(finishedImageSlot0->GetData()->GetCount(),(const ::Vec88 *)(imageVerticesSlot0));finishedImageSlot0->position=(*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO));reinterpret_cast<::FUN_00a5a040_Class *>((finishedImageSlot0))->FUN_00a5a040();Update imageUpdateSlot0;reinterpret_cast<::FUN_00a59c60_cls *>((finishedImageSlot0))->FUN_00a59c60((int)&(imageUpdateSlot0));node->Attach(finishedImageSlot0,true);}}
+while(imagesSlot52.Count()){Shape* finishedImageSlot0=((::PageMeshes::Shape *)(reinterpret_cast<::FUN_00a1c080_Class *>(&(imagesSlot52))->PopFront()));Vec* imageVerticesSlot0=finishedImageSlot0->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(finishedImageSlot0->GetData()->GetBound()))->ComputeBoundingSphere(finishedImageSlot0->GetData()->GetCount(),(const ::Vec88 *)(imageVerticesSlot0));finishedImageSlot0->position=(*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO));reinterpret_cast<::FUN_00a5a040_Class *>((finishedImageSlot0))->FUN_00a5a040();Update imageUpdateSlot0;reinterpret_cast<::FUN_00a59c60_cls *>((finishedImageSlot0))->FUN_00a59c60((std::intptr_t)&(imageUpdateSlot0));node->Attach(finishedImageSlot0,true);}}
 
 reinterpret_cast<::RequestQueue *>(&(GetDebrisManager()->GetFont(0)->icons))->FUN_00a1bfa0(true);
 

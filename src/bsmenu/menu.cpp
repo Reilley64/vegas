@@ -68,6 +68,36 @@ class TileMenu : public Tile
 {
 };
 
+struct TileListItem
+{
+    TileListItem* m_pkNext;
+    TileListItem* m_pkPrev;
+    Tile* m_element;
+};
+struct TileChildList
+{
+    TileListItem* m_pkHead;
+    void* GetHeadPos() const
+    {
+        return m_pkHead;
+    }
+    Tile*& GetNext(void*& kPos) const
+    {
+        Tile*& element = ((TileListItem*)kPos)->m_element;
+        kPos = ((TileListItem*)kPos)->m_pkNext;
+        return element;
+    }
+};
+struct NiNode;
+// The Tile members used below; the pads stand for members not named yet.
+struct TileView
+{
+    void* m_pVtbl;
+    TileChildList m_kChildren;
+    char pad08[0x24];
+    NiNode* m_pNode;
+};
+
 class Tile;
 class Interface
 {
@@ -677,7 +707,7 @@ void FUN_00a1d9e0_shell::FUN_00a1d9e0()
         pTile_c = pMenu;
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 0.0f, true);
         pTile_b = pMenu;
-        pTile_a = (TileMenu*)*(void**)((char*)pTile_b + 0x2c);
+        pTile_a = (TileMenu*)((TileView*)pTile_b)->m_pNode;
         ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 2;
         if (m_iModalMenuId)
@@ -709,7 +739,7 @@ void FUN_00a1daa0_shell::FUN_00a1daa0()
         pTile_c = pMenu;
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 1.0f, true);
         pTile_b = pMenu;
-        pTile_a = *(void**)((char*)pTile_b + 0x2c);
+        pTile_a = ((TileView*)pTile_b)->m_pNode;
         ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 1;
         ::FUN_00706f90((int)(this));
@@ -731,7 +761,7 @@ void FUN_00a1dba0_shell::FUN_00a1dba0()
         pTile_c = pMenu;
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 0.0f, true);
         pTile_b = pMenu;
-        pTile_a = *(void**)((char*)pTile_b + 0x2c);
+        pTile_a = ((TileView*)pTile_b)->m_pNode;
         ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 4;
         ::FUN_00706f90((int)(this));
@@ -922,26 +952,6 @@ struct NiPoint3
     float z;
 };
 
-struct TileListItem
-{
-    TileListItem* m_pkNext;
-    TileListItem* m_pkPrev;
-    Tile* m_element;
-};
-struct TileChildList
-{
-    TileListItem* m_pkHead;
-    void* GetHeadPos() const
-    {
-        return m_pkHead;
-    }
-    Tile*& GetNext(void*& kPos) const
-    {
-        Tile*& element = ((TileListItem*)kPos)->m_element;
-        kPos = ((TileListItem*)kPos)->m_pkNext;
-        return element;
-    }
-};
 struct NiNode;
 template <class T> class NiPointer
 {
@@ -974,6 +984,13 @@ inline float NiMaxF(float a, float b)
     return a > b ? a : b;
 }
 
+// The local translation of a NiNode; the pad stands for members not named here.
+struct NiNodeView
+{
+    char pad00[0x58];
+    NiPoint3 m_kLocalTranslate;
+};
+
 // @fnv 0x00a1dfb0
 float FUN_00a1dfb0()
 {
@@ -982,10 +999,10 @@ float FUN_00a1dfb0()
     float z;
     Tile* proot = ::Interface::GetPrimaryInterfaceTile();
 
-    xelem = ((TileChildList*)((char*)proot + 4))->GetHeadPos();
+    xelem = ((TileView*)proot)->m_kChildren.GetHeadPos();
     while (xelem)
     {
-        Tile* ptile = ((TileChildList*)((char*)proot + 4))->GetNext(xelem);
+        Tile* ptile = ((TileView*)proot)->m_kChildren.GetNext(xelem);
         if (ptile && reinterpret_cast<::FUN_00a03c90_shell *>((((TileH*)ptile)))->FUN_00a03c90())
         {
             float fdepth =
@@ -999,9 +1016,9 @@ float FUN_00a1dfb0()
         reinterpret_cast<::FUN_00a012d0_t *>((GetNextTile()))->FUN_00a012d0(4013, z, true);
         NiPoint3 xyz;
         Tile* pcursor = GetNextTile();
-        xyz = *(NiPoint3*)((char*)((NiPointer<NiNode>*)((char*)pcursor + 0x2c))->operator->() + 0x58);
+        xyz = ((NiNodeView*)((TileView*)pcursor)->m_pNode)->m_kLocalTranslate;
         xyz.y = z * ::DAT_0106f290;
-        *(NiPoint3*)((char*)((NiPointer<NiNode>*)((char*)pcursor + 0x2c))->operator->() + 0x58) = xyz;
+        ((NiNodeView*)((TileView*)pcursor)->m_pNode)->m_kLocalTranslate = xyz;
     }
     return fmaxdepth + 2.0;
 }
@@ -1167,6 +1184,11 @@ void* g_pTileItemFreeList;
 void LockTileItemPool();
 void UnlockTileItemPool();
 
+struct TileItemFreeNode
+{
+    void* m_pNext;
+    void* m_pElement;
+};
 template <class T> class NiTPointerAllocator
 {
   public:
@@ -1175,8 +1197,8 @@ template <class T> class NiTPointerAllocator
         void* pFree = apMem;
         LockTileItemPool();
         void* pOld = g_pTileItemFreeList;
-        ((void**)pFree)[1] = 0;
-        ((void**)pFree)[0] = pOld;
+        ((TileItemFreeNode*)pFree)->m_pElement = 0;
+        ((TileItemFreeNode*)pFree)->m_pNext = pOld;
         g_pTileItemFreeList = pFree;
         UnlockTileItemPool();
     }
@@ -1790,9 +1812,11 @@ extern MemoryManager g_memoryManager;
 class InputManager
 {
   public:
+    char pad00[0x1b92];
+    unsigned short m_usFlags;
     void SetFlag(unsigned short flag)
     {
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x1b92) |= flag;
+        m_usFlags |= flag;
     }
 };
 class OSGlobals

@@ -2,6 +2,8 @@
 // src/bsmenu/debugtext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/debugtext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdarg>
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include <cstring>
@@ -17,26 +19,33 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01202000.h"
-struct DebugText {
+// The DebugText members used below; the pad stands for members not named yet.
+struct DebugTextLines
+{
+    char pad00[0x2280];
+    int m_iLineHeight;
+    int m_aiLines[8];
+};
+
+struct DebugText : DebugTextLines {
     int GetEntry(int);
 };
 
 // @fnv 0x00a0e750
 int DebugText::GetEntry(int aiIndex)
 {
-    return *(int*)((char*)this + aiIndex * 4 + 0x2284);
+    return m_aiLines[aiIndex];
 }
 
 namespace fnv_00a11860 {
 enum DEBUGTEXT_LOCATION { DTL_NONE };
-struct DebugText {
-    int m_lines[0x861];
+struct DebugText : ::DebugTextLines {
     void SetLine(DEBUGTEXT_LOCATION aeLoc, int aiLine);
 };
 // @fnv 0x00a11860
 void DebugText::SetLine(DEBUGTEXT_LOCATION aeLoc, int aiLine)
 {
-    *(int*)((char*)this + 0x2284 + (int)aeLoc * 4) = aiLine;
+    m_aiLines[(int)aeLoc] = aiLine;
 }
 }  // namespace fnv_00a11860
 
@@ -53,15 +62,15 @@ GlobalObject_00a7b610* FUN_00a11b70_shell::GetGlobalObject()
     return &::g_011f33d4;
 }
 
-struct DebugText_00a0e430 {
+struct DebugText_00a0e430 : DebugTextLines {
     void AddScaledValue(int a, int b);
 };
 
-// Adds the value at this+0x2280 multiplied by b to the int at this+0x2284 indexed by a.
+// Adds m_iLineHeight multiplied by aiMultiplier to m_aiLines[aiIndex].
 // @fnv 0x00a0e430
 void DebugText_00a0e430::AddScaledValue(int aiIndex, int aiMultiplier)
 {
-    *(int*)((char*)this + 0x2284 + aiIndex * 4) += *(int*)((char*)this + 0x2280) * aiMultiplier;
+    m_aiLines[aiIndex] += m_iLineHeight * aiMultiplier;
 }
 
 struct VCall_00a0e470 {
@@ -177,10 +186,11 @@ struct Thiss {
 // @fnv 0x00a0e710
 int FUN_00a0e710(Thiss* pThis, const RgbaColor* apTextColor, DEBUGTEXT_LOCATION aeLocation, DEBUGTEXT_JUSTIFY aeJustify, const char* apFormatString, ...)
 {
-    va_list args;
+    ::va_list args;
     int iret;
-    args = (va_list)&apFormatString + 4;
+    va_start(args, apFormatString);
     iret = pThis->vf18(aeLocation, aeJustify, apFormatString, args, apTextColor);
+    va_end(args);
     return iret;
 }
 }  // namespace fnv_00a0e710
@@ -1865,7 +1875,7 @@ TESObjectDoorController* A0FE20Cls::FUN_00a0fe20(char* pcText, float fX, float f
     A0FE20Upd ah;
     ah.fTime = 0.0f;
     ah.b0 = 0; ah.b1 = 0; ah.b2 = 0; ah.b3 = 0; ah.b4 = 0;
-    reinterpret_cast<::FUN_00a59c60_cls *>((aw))->FUN_00a59c60((int)&(ah));
+    reinterpret_cast<::FUN_00a59c60_cls *>((aw))->FUN_00a59c60((std::intptr_t)&(ah));
 
     ::ReleaseLock();
     return aw;
@@ -3461,7 +3471,7 @@ FUN_0051cf00* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,
     reinterpret_cast<::FUN_00a5a040_Class *>((a))->FUN_00a5a040();
     U107 f;
     f.FUN_0043d410(0.0f,false,false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((int)&(f));
+    reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((std::intptr_t)&(f));
     return a;
 }
 }
@@ -3658,7 +3668,7 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,const char* text,int height,fl
  static_cast<NiAVObject*>(root)->Attach(nodeB,true);
  reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<fnv_00a10770::FUN_0051cf00*>(nodeB)))->FUN_00a5a040();
  NiUpdateData updateD3(0,false,false);
- reinterpret_cast<::FUN_00a59c60_cls *>((nodeB))->FUN_00a59c60((int)&(updateD3));
+ reinterpret_cast<::FUN_00a59c60_cls *>((nodeB))->FUN_00a59c60((std::intptr_t)&(updateD3));
  TextEntry* entry7=(TextEntry*)new FUN_00a11880;
  entry7->x=(float)total2;
  entry7->y=(float)total2;

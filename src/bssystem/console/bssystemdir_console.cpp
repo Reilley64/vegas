@@ -24,17 +24,17 @@ BSSystemFile__ErrorCode DirectoryIterator::NextEntry(bool& finished)
     return m_eErrorCode;
 }
 
-struct FUN_00b007d0_shell
+struct FUN_00b007d0_shell : DirectoryIterator
 {
     int FUN_00b007d0();
 };
-// Closes the handle stored at the start of the object unless it is -1, then returns the int at offset 0x248.
+// Closes m_pFindHandle unless it is -1, then returns m_eErrorCode.
 // @fnv 0x00b007d0
 int FUN_00b007d0_shell::FUN_00b007d0()
 {
-    if (*(int*)this != -1)
-        FindClose(*(void**)this);
-    return *(int*)((char*)this + 0x248);
+    if (m_pFindHandle != (void*)-1)
+        FindClose(m_pFindHandle);
+    return m_eErrorCode;
 }
 
 // @fnv 0x00b00800

@@ -219,6 +219,12 @@ unsigned int FUN_0043c030(const char* pThis)
 }
 
 class bhkCharacterController;
+// The character flags of a bhkCharacterController; the pad stands for members not named here.
+struct CharControllerView
+{
+    char pad00[0x410];
+    char m_kCharacterFlags[4];
+};
 
 struct NiPoint3
 {
@@ -397,7 +403,7 @@ bool MobileObject::FUN_008b2f90(const NiPoint3& targetPos, float radius, bool ad
                 if (charCtrl)
                 {
                     charRadius = FUN_004587d0(reinterpret_cast<::FUN_00c6e280_cls *>((charCtrl))->GetSettingFloat());
-                    if (::FUN_008a5170((const ::_Dummy_008a5170 *)(void *)((char*)charCtrl + 0x410)))
+                    if (::FUN_008a5170((const ::_Dummy_008a5170 *)(void *)(((CharControllerView*)charCtrl)->m_kCharacterFlags)))
                     {
                         charRadius *= 2.0f;
                     }
@@ -590,8 +596,11 @@ struct Owner25Group
     unsigned int hash0, hash1, count;
     Owner25Entry* entries;
 };
+// The pad stands for the archive's file and header members, not named here.
 struct Owner25
 {
+    char pad00[0x184];
+    Owner25Group* m_pGroups;
     bool FUN_00afa120(int a, FileNameHash* b, int* out, const char* c, bool d);
     Owner25Entry* FUN_00afa6e0(FileNameHash* a, FileNameHash* b, const char* c);
 };
@@ -602,7 +611,7 @@ Owner25Entry* Owner25::FUN_00afa6e0(FileNameHash* a, FileNameHash* b, const char
     int index2;
     if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry(a, &index1, c) && FUN_00afa120(index1, b, &index2, c, true))
     {
-        return &(*(Owner25Group**)((char*)this + 0x184))[index1].entries[index2];
+        return &m_pGroups[index1].entries[index2];
     }
     return 0;
 }
@@ -1115,7 +1124,7 @@ FUN_00afc430::FUN_00afc430(int a, int b, int c, int d, int e) : FUN_00afb300(a, 
 {
     *(int**)this = &::DAT_010a464c;
     ((CompressedArchiveFile*)this)->CompressedArchiveFile::SetEndianSwap(false);
-    reinterpret_cast<::S_afbb *>((((S_afbb*)this)))->FUN_00afbbf0((char*)this + 0x168, 4);
+    reinterpret_cast<::S_afbb *>((((S_afbb*)this)))->FUN_00afbbf0(&((CompressedArchiveFile*)this)->m_uiCompressedSize, 4);
     char* pStream;
     int pTmp;
     void* err = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x1be0);
@@ -1220,12 +1229,12 @@ bool ArchiveStandIn::FUN_00afd020()
 {
     ArgPair p[5];
     return (DAT_011acdf9 || DAT_011f8154 || (unsigned char)+((uiFlags & 0x80) != 0) ||
-            (p[4].i = DAT_011acdfc, p[4].b = (uiFlags & 8) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[4].b))) ||
-            (p[3].i = DAT_011ace00, p[3].b = (uiFlags & 0x10) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[3].b))) ||
-            (p[2].i = DAT_011ace04, p[2].b = (uiFlags & 0x20) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[2].b)))) &&
+            (p[4].i = DAT_011acdfc, p[4].b = (uiFlags & 8) != 0, ::FUN_00afb170((void *)this, ::FUN_00afb170_Args{p[4].b, p[4].i})) ||
+            (p[3].i = DAT_011ace00, p[3].b = (uiFlags & 0x10) != 0, ::FUN_00afb170((void *)this, ::FUN_00afb170_Args{p[3].b, p[3].i})) ||
+            (p[2].i = DAT_011ace04, p[2].b = (uiFlags & 0x20) != 0, ::FUN_00afb170((void *)this, ::FUN_00afb170_Args{p[2].b, p[2].i}))) &&
            (!(unsigned short)(usTypes & 0x10) ||
-            (p[1].i = DAT_011ace00, p[1].b = (uiFlags & 0x10) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[1].b))) ||
-            (p[0].i = DAT_011ace04, p[0].b = (uiFlags & 0x20) != 0, ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(p[0].b))));
+            (p[1].i = DAT_011ace00, p[1].b = (uiFlags & 0x10) != 0, ::FUN_00afb170((void *)this, ::FUN_00afb170_Args{p[1].b, p[1].i})) ||
+            (p[0].i = DAT_011ace04, p[0].b = (uiFlags & 0x20) != 0, ::FUN_00afb170((void *)this, ::FUN_00afb170_Args{p[0].b, p[0].i})));
 }
 
 class MemoryManager;
@@ -1502,6 +1511,8 @@ struct FUN_00afac20_group
 };
 struct S_af9
 {
+    char pad00[0x184];
+    FUN_00afac20_group* m_pGroups;
     bool FUN_00afac20(::FileNameHash* a, ::FileNameHash* b, const char* c);
 };
 // Looks up an entry via FUN_00af9bf0 and, if found, sets its size to 0 and returns true; otherwise returns false.
@@ -1512,9 +1523,7 @@ bool S_af9::FUN_00afac20(::FileNameHash* a, ::FileNameHash* b, const char* c)
     int idx;
     if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a, b, &iGroupIndex, &idx, 0))
     {
-        FUN_00afac20_entry* e =
-            (FUN_00afac20_entry*)((char*)((FUN_00afac20_group*)*(char**)((char*)this + 0x184) + iGroupIndex)->entries +
-                                  idx * 16);
+        FUN_00afac20_entry* e = &m_pGroups[iGroupIndex].entries[idx];
         e->SetSize(0);
         return true;
     }
@@ -1543,6 +1552,8 @@ struct FUN_00afac90_group
 };
 struct S_af9
 {
+    char pad00[0x184];
+    FUN_00afac90_group* m_pGroups;
     bool FUN_00afa120(int, ::FileNameHash*, int*, const char*, bool);
     bool FUN_00afac90(int a, ::FileNameHash* b, int c);
 };
@@ -1552,9 +1563,7 @@ bool S_af9::FUN_00afac90(int aiGroupIndex, ::FileNameHash* b, int aiUnused)
     int idx;
     if (FUN_00afa120(aiGroupIndex, b, &idx, 0, false))
     {
-        FUN_00afac90_entry* e =
-            (FUN_00afac90_entry*)((char*)((FUN_00afac90_group*)*(char**)((char*)this + 0x184) + aiGroupIndex)->entries +
-                                  idx * 16);
+        FUN_00afac90_entry* e = &m_pGroups[aiGroupIndex].entries[idx];
         e->SetSize(0);
         return true;
     }
@@ -1766,13 +1775,18 @@ struct FileNameHash
 struct S_af9
 {
 };
+// The pads stand for the BSFile members (0x158 bytes on 32-bit) and members not named yet.
 struct Archive : public S_af9
 {
+    char pad00[0x158];
+    NiRefObject m_kRefCount;
+    char pad160[0x20];
+    unsigned short m_usArchiveTypes;
     void* OpenFile(unsigned int auiFolderIndex, unsigned int auiFileIndex, unsigned int auiBufferSize,
                    const char* apFileName);
     unsigned short HasArchiveTypeFlags(unsigned int auiFlags)
     {
-        return *(unsigned short*)((char*)this + 0x180) & auiFlags;
+        return m_usArchiveTypes & auiFlags;
     }
 };
 template <class T> class NiPointer
@@ -1781,12 +1795,12 @@ template <class T> class NiPointer
     NiPointer(const NiPointer& ptr) : m_pObject(ptr.m_pObject)
     {
         if (m_pObject)
-            ((NiRefObject*)((char*)m_pObject + 0x158))->IncRefCount();
+            m_pObject->m_kRefCount.IncRefCount();
     }
     ~NiPointer()
     {
         if (m_pObject)
-            ((NiRefObject*)((char*)m_pObject + 0x158))->DecRefCount();
+            m_pObject->m_kRefCount.DecRefCount();
     }
     operator T*() const
     {
@@ -1865,13 +1879,18 @@ struct FileNameHash
 struct S_af9
 {
 };
+// The pads stand for the BSFile members (0x158 bytes on 32-bit) and members not named yet.
 struct Archive : public S_af9
 {
+    char pad00[0x158];
+    NiRefObject m_kRefCount;
+    char pad160[0x20];
+    unsigned short m_usArchiveTypes;
     void* OpenFile(unsigned int auiFolderIndex, unsigned int auiFileIndex, unsigned int auiBufferSize,
                    const char* apFileName);
     unsigned short HasArchiveTypeFlags(unsigned int auiFlags)
     {
-        return *(unsigned short*)((char*)this + 0x180) & auiFlags;
+        return m_usArchiveTypes & auiFlags;
     }
 };
 template <class T> class NiPointer
@@ -1880,12 +1899,12 @@ template <class T> class NiPointer
     NiPointer(const NiPointer& ptr) : m_pObject(ptr.m_pObject)
     {
         if (m_pObject)
-            ((NiRefObject*)((char*)m_pObject + 0x158))->IncRefCount();
+            m_pObject->m_kRefCount.IncRefCount();
     }
     ~NiPointer()
     {
         if (m_pObject)
-            ((NiRefObject*)((char*)m_pObject + 0x158))->DecRefCount();
+            m_pObject->m_kRefCount.DecRefCount();
     }
     operator T*() const
     {
@@ -2729,11 +2748,16 @@ struct FileNameHash
 struct Owner25
 {
 };
+// The pads stand for the BSFile members (0x158 bytes on 32-bit) and members not named yet.
 struct Archive : public Owner25
 {
+    char pad00[0x158];
+    NiRefObject m_kRefCount;
+    char pad160[0x20];
+    unsigned short m_usArchiveTypes;
     unsigned short HasArchiveType(int aeArchiveTypeIndex)
     {
-        return *(unsigned short*)((char*)this + 0x180) & (1 << aeArchiveTypeIndex);
+        return m_usArchiveTypes & (1 << aeArchiveTypeIndex);
     }
 };
 template <class T> class NiPointer
@@ -2742,12 +2766,12 @@ template <class T> class NiPointer
     NiPointer(const NiPointer& ptr) : m_pObject(ptr.m_pObject)
     {
         if (m_pObject)
-            ((NiRefObject*)((char*)m_pObject + 0x158))->IncRefCount();
+            m_pObject->m_kRefCount.IncRefCount();
     }
     ~NiPointer()
     {
         if (m_pObject)
-            ((NiRefObject*)((char*)m_pObject + 0x158))->DecRefCount();
+            m_pObject->m_kRefCount.DecRefCount();
     }
     operator T*() const
     {
@@ -3026,7 +3050,7 @@ struct ArcStand : public ArcStream
     }
     inline bool CheckCache(bool abFlag, int aiVal)
     {
-        return ::FUN_00afb170((void *)this, (::FUN_00afb170_Args)(abFlag));
+        return ::FUN_00afb170((void *)this, ::FUN_00afb170_Args{abFlag, aiVal});
     }
     static inline int GetCacheVal()
     {

@@ -205,15 +205,17 @@ void FUN_00b02420_Data::ResumeAllThreads()
 
 struct FUN_00b02600_shell
 {
+    char pad00[0x38];
+    int m_aiValues[6];
     bool ContainsValue(int);
 };
-// Scans the six ints at offset 0x38 of this object and returns true if any equals a, otherwise false.
+// Returns true if any of the six m_aiValues equals aiValue, otherwise false.
 // @fnv 0x00b02600
 bool FUN_00b02600_shell::ContainsValue(int aiValue)
 {
     for (unsigned int i = 0; i < 6; ++i)
     {
-        if (((int*)((char*)this + 0x38))[i] == aiValue)
+        if (m_aiValues[i] == aiValue)
             return true;
     }
     return false;

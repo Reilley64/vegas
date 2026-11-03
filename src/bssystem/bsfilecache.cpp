@@ -59,10 +59,6 @@ struct FUN_00b01020
 FUN_00b01020::~FUN_00b01020()
 {}
 
-struct Unk00b01040
-{
-    void CallVirtualWithField38();
-};
 struct VBase
 {
     virtual void f0();
@@ -78,11 +74,17 @@ struct VBase
     virtual void f10();
     virtual void f11(int, int, int, int);
 };
-// Calls the virtual f11 on this with arguments 0, the int at offset 0x38, 1 and 0.
+struct Unk00b01040 : VBase
+{
+    char pad04[0x34];
+    int m_i38;
+    void CallVirtualWithField38();
+};
+// Calls the virtual f11 on this with arguments 0, m_i38, 1 and 0.
 // @fnv 0x00b01040
 void Unk00b01040::CallVirtualWithField38()
 {
-    ((VBase*)this)->f11(0, *(int*)((char*)this + 0x38), 1, 0);
+    f11(0, m_i38, 1, 0);
 }
 
 struct FUN_00b01070_Class
@@ -195,12 +197,14 @@ void FUN_00b01360_Cls::FUN_00b01360(int a, int b, int c, int d)
 
 struct StandIn
 {
+    char pad00[0x60];
+    void* m_p60;
     void ClearPointerAt60();
 };
 // @fnv 0x00b01370
 void StandIn::ClearPointerAt60()
 {
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x60) = 0;
+    m_p60 = 0;
 }
 
 

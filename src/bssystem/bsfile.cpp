@@ -221,13 +221,16 @@ int __cdecl ForwardVTableCall(DummyVTable_00aff9d0* apObject, int aiArg1, int ai
 
 struct FUN_005d43c0_
 {
+    char pad00[0x44];
+    char m_kExtraList;
     void* FUN_005d43c0();
 };
 
+// Returns the address of the reference's extra data list.
 // @fnv 0x005d43c0
 void* FUN_005d43c0_::FUN_005d43c0()
 {
-    return (char*)this + 0x44;
+    return &m_kExtraList;
 }
 
 struct FUN_00afbf60_shell
@@ -246,7 +249,7 @@ bool FUN_00afbf60_shell::IsField158NonZero()
 // @fnv 0x00afc410
 bool FUN_00afc410(void* this_ptr)
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<char*>(this_ptr) + 0x158) != 0;
+    return static_cast<FUN_00afbf60_shell*>(this_ptr)->field_158 != 0;
 }
 
 // @fnv 0x00aff9f0

@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bscore/scrapheap.cpp: ScrapHeapBuffer, SHStub (21 functions)
 
@@ -51,14 +52,6 @@ struct FUN_00aa5e90_dummy
     void method(char* pBase, unsigned int uiTotalSize, unsigned int uiFreeSize);
 };
 
-// If FreeTailOfBlock is a free function with , MSVC /Od spills both ecx and edx (`sub esp, 8`).
-// Here only `push ecx` and `mov [ebp-4], ecx` is emitted, which means only 1 register parameter or a method,
-// OR a function with one unreferenced local variable!
-// Wait: in , `push ecx` reserves 4 bytes of stack, and `mov [ebp-4], ecx` would NOT happen unless it's `this`.
-// Wait: no! If it's a free function named FreeTailOfBlock, how can `mov [ebp-4], ecx` be emitted without `mov [ebp-8], edx`?
-// In MSVC x86, `` with ONLY ONE register parameter (and the rest... no, 2nd param goes in edx unless it's > 4 bytes, e.g. a struct of size > 4 or double/int64!).
-// Wait: if parameter 1 is `void*` ( goes in ecx ), and parameter 2 is a 12-byte struct (passed on stack! Because > 4 bytes, it does not fit in edx!), then edx is not used!
-// Let's check: in MSVC ``, arguments <= 4 bytes go into ECX then EDX. If an argument is larger than 4 bytes (like a struct of 12 bytes, or 8 bytes), it is passed on the stack, and does NOT use EDX (and if a third 4-byte arg followed an 8-byte arg, THAT would go in EDX, so all remaining args must make up the 12 bytes, e.g. one 12-byte struct!).
 struct Args12
 {
     char* a;
@@ -114,7 +107,7 @@ void SHStub::FUN_00aa5610(void* apMem)
     }
     if (apMem == 0)
         return;
-    pheader = (SHHeader*)((char*)apMem - 8);
+    pheader = (SHHeader*)apMem - 1;
     if ((pheader->size & 0x80000000) == 0)
     {
         pheader->size |= 0x80000000;
@@ -127,7 +120,7 @@ void SHStub::FUN_00aa5610(void* apMem)
             }
             else if ((pLast->size & 0x80000000) == 0)
             {
-                pCur = (char*)pLast + pLast->size + 8;
+                pCur = (char*)(pLast + 1) + pLast->size;
                 break;
             }
             else
@@ -181,13 +174,13 @@ struct FUN_00aa5e30_shell : public ScrapHeapManager
 void* FUN_00aa54a0_s::FUN_00aa54a0(unsigned int aiSize, unsigned int aAlignment)
 {
     void* pmem = 0;
-    char* pmemLoc = pCurrent + 8;
-    unsigned int uialignmentOffset = aAlignment ? (aAlignment - 1) & (unsigned int)pmemLoc : 0;
+    char* pmemLoc = pCurrent + sizeof(Header);
+    unsigned int uialignmentOffset = aAlignment ? (unsigned int)((aAlignment - 1) & (std::uintptr_t)pmemLoc) : 0;
     Header* pheader;
     if (uialignmentOffset)
     {
         pmemLoc = aAlignment - uialignmentOffset + pmemLoc;
-        pheader = (Header*)(pmemLoc - 8);
+        pheader = (Header*)pmemLoc - 1;
     }
     else
     {
@@ -271,16 +264,15 @@ void* FUN_00aa55e0_s::AllocateWithSize(unsigned int a, unsigned int uiUnused2, u
 
 struct FUN_00aa5710_shell
 {
-    int FUN_00aa5710(int param);
+    unsigned int FUN_00aa5710(void* apMem);
 };
 
 // @fnv 0x00aa5710
-int FUN_00aa5710_shell::FUN_00aa5710(int param)
+unsigned int FUN_00aa5710_shell::FUN_00aa5710(void* apMem)
 {
-    if (param == 0)
+    if (apMem == 0)
         return 0;
-    int* p = (int*)(param - 8);
-    return *p & 0x7fffffff;
+    return ((SHHeader*)apMem - 1)->size & 0x7fffffff;
 }
 
 struct FUN_00aa5740_holder

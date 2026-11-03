@@ -13515,7 +13515,7 @@ void FUN_00ca8960_Class::EnqueueTransform(const __m128* position, const __m128* 
         reinterpret_cast<::WorldWithPending *>((queue08))->FUN_00c91160();
     }
     else
-        reinterpret_cast<::FUN_00ca8860_cls *>(this)->FUN_00ca8860((int)(position), (int)(rotation));
+        reinterpret_cast<::FUN_00ca8860_cls *>(this)->FUN_00ca8860((const void *)(position), (const void *)(rotation));
 }
 
 namespace fnv_00cabf30 {

@@ -837,8 +837,7 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
                 worldPoseB.SetProduct(worldFromModelB, poseB[i]);
                 reinterpret_cast<::FUN_005611c0_t *>(&(worldPoseB.m_rotation))->FUN_005611c0();
 
-                reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((int)&(reinterpret_cast<const hkVector4&>(worldPoseB.m_vTranslation)),
-                                   (int)&(reinterpret_cast<const hkQuaternion&>(worldPoseB.m_rotation)));
+                reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((const void *)&(reinterpret_cast<const hkVector4&>(worldPoseB.m_vTranslation)), (const void *)&(reinterpret_cast<const hkQuaternion&>(worldPoseB.m_rotation)));
 
                 PoseVelocity_MyVector4 linearVelocity;
                 linearVelocity.setSub4(worldPoseB.m_vTranslation, worldPoseA.m_vTranslation);

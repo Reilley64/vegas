@@ -38,7 +38,7 @@ void bhkRigidBody::SetPosition(const NiPoint3& p)
         if (body)
         {
             ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
-            reinterpret_cast<::FUN_00ca8800_Class *>((body))->FUN_00ca8800((int)&(p));
+            reinterpret_cast<::FUN_00ca8800_Class *>((body))->FUN_00ca8800(&(p));
             ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
         }
     }
@@ -52,7 +52,7 @@ void bhkRigidBody::SetRotation(const NiQuaternion& p)
         if (body)
         {
             ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
-            reinterpret_cast<::CA8830Object *>((body))->FUN_00ca8830((int)&(p));
+            reinterpret_cast<::CA8830Object *>((body))->FUN_00ca8830(&(p));
             ((void(*)(bhkRigidBody*))((void (&)(const char *))::FUN_00a29680))(this);
         }
     }
@@ -109,7 +109,7 @@ void bhkRigidBody::FUN_00c8d1d0(const NiPoint3& p, const NiQuaternion& q)
         if (body)
         {
             reinterpret_cast<::FUN_00c87a50_t *>(this)->FUN_00c87a50();
-            reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((int)&(p), (int)&(q));
+            reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860(&(p), &(q));
         }
     }
 }

@@ -87,7 +87,7 @@ void FUN_004ee7d0()
     FUN_004ee7d0_node* node = &(*reinterpret_cast<::FUN_004ee7d0_node *>(&::g_011c7d20));
     while (node)
     {
-        FUN_004ee7d0_obj* obj = *((::FUN_004ee7d0_obj **)(new ((void *)(node)) ::Vec3()));
+        FUN_004ee7d0_obj* obj = *((::FUN_004ee7d0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         if (obj)
             reinterpret_cast<::FUN_004ee770_cls *>((obj))->FUN_004ee770();
         node = ((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -111,8 +111,8 @@ FUN_004f66c0_item* FUN_004f66c0_shell::FUN_004f66c0(int id)
     FUN_004f66c0_node* node = this ? (FUN_004f66c0_node*)((char*)this + 4) : 0;
     while (node)
     {
-        if (*((::FUN_004f66c0_item **)(new ((void *)(node)) ::Vec3())) && reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_004f66c0_item **)(new ((void *)(node)) ::Vec3())))))->FUN_0084e3a0() == id)
-            return *((::FUN_004f66c0_item **)(new ((void *)(node)) ::Vec3()));
+        if (*((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) && reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))))->FUN_0084e3a0() == id)
+            return *((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         node = ((::FUN_004f66c0_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return 0;
@@ -135,9 +135,9 @@ struct FUN_005549d0_shell
 void FUN_005549d0_shell::FUN_005549d0(bool flag)
 {
     FUN_005549d0_node* node = (FUN_005549d0_node*)((char*)this + 0xac);
-    while (node && *((::FUN_005549d0_obj **)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node && *((::FUN_005549d0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) != 0)
     {
-        (*((::FUN_005549d0_obj **)(new ((void *)(node)) ::Vec3())))->FUN_00577390(flag);
+        (*((::FUN_005549d0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->FUN_00577390(flag);
         node = ((::FUN_005549d0_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
@@ -160,7 +160,7 @@ void FUN_0060f3a0_shell::FUN_0060f3a0()
     FUN_0060f3a0_node* node = ((::FUN_0060f3a0_node *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     while (node && !node->_ref_008256d0())
     {
-        FUN_0060f3a0_obj* item = *((::FUN_0060f3a0_obj **)(new ((void *)(node)) ::Vec3()));
+        FUN_0060f3a0_obj* item = *((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         FUN_0060f3a0_obj* pItem = item;
         pItem ? reinterpret_cast<::FUN_0060f410_class *>((pItem))->FUN_0060f410(1) : 0;
         node->_ref_0063f7b0();
@@ -176,6 +176,8 @@ struct FUN_006137b0_node
 struct FUN_006137b0_shell;
 struct FUN_006137b0_shell
 {
+    char unk00[0x8c];
+    FUN_006137b0_node kList;
     FUN_006137b0_obj* FindByKey(int key);
 };
 
@@ -183,11 +185,11 @@ struct FUN_006137b0_shell
 // @fnv 0x006137b0
 FUN_006137b0_obj* FUN_006137b0_shell::FindByKey(int key)
 {
-    FUN_006137b0_node* node = ((::FUN_006137b0_node *)(::FUN_0045bb80((int)(this))));
-    while (node && *((::FUN_006137b0_obj **)(new ((void *)(node)) ::Vec3())) != 0)
+    FUN_006137b0_node* node = &kList;
+    while (node && *((::FUN_006137b0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) != 0)
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_006137b0_obj **)(new ((void *)(node)) ::Vec3())))))->FUN_0084e3a0() == key)
-            return *((::FUN_006137b0_obj **)(new ((void *)(node)) ::Vec3()));
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_006137b0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))))->FUN_0084e3a0() == key)
+            return *((::FUN_006137b0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         node = ((::FUN_006137b0_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return 0;
@@ -204,13 +206,13 @@ struct FUN_00613810_shell
     void FUN_00613810(char* item);
 };
 
-// Adds item to the list returned by FUN_0045bb80 unless item is null or FindByKey reports it already present.
+// Adds item to kList unless item is null or FindByKey reports it already present.
 // @fnv 0x00613810
 void FUN_00613810_shell::FUN_00613810(char* item)
 {
-    if (item == 0 || ((int)(reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey(reinterpret_cast<::FUN_0084e3a0_Class *>((((FUN_00613810_item*)item)))->FUN_0084e3a0()))))
+    if (item == 0 || ((reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey(reinterpret_cast<::FUN_0084e3a0_Class *>((((FUN_00613810_item*)item)))->FUN_0084e3a0()))))
         return;
-    reinterpret_cast<::Callees *>((((::SoundListView *)(::FUN_0045bb80((int)(this))))))->FUN_00905820((void *)&(item));
+    reinterpret_cast<::Callees *>(&reinterpret_cast<::FUN_006137b0_shell *>(this)->kList)->FUN_00905820((void *)&(item));
 }
 
 struct FUN_006138b0_item
@@ -228,10 +230,10 @@ struct FUN_006138b0_shell
 FUN_006138b0_item* FUN_006138b0_shell::FindRecipeCategoryById(int id)
 {
     FUN_006138b0_node* node = ((::FUN_006138b0_node *)(reinterpret_cast<::FUN_00503650_shell *>(this)->FUN_00503650()));
-    while (node && *((::FUN_006138b0_item **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::FUN_006138b0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_006138b0_item **)(new ((void *)(node)) ::Vec3())))))->FUN_0084e3a0() == id)
-            return *((::FUN_006138b0_item **)(new ((void *)(node)) ::Vec3()));
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_006138b0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))))->FUN_0084e3a0() == id)
+            return *((::FUN_006138b0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         node = ((::FUN_006138b0_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     return 0;
@@ -253,7 +255,7 @@ struct FUN_00613910_shell
 // @fnv 0x00613910
 void FUN_00613910_shell::FUN_00613910(char* item)
 {
-    if (item == 0 || ((int)(reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById(reinterpret_cast<::FUN_0084e3a0_Class *>((((FUN_00613910_item*)item)))->FUN_0084e3a0()))))
+    if (item == 0 || ((reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById(reinterpret_cast<::FUN_0084e3a0_Class *>((((FUN_00613910_item*)item)))->FUN_0084e3a0()))))
         return;
     reinterpret_cast<::Callees *>((((::fnv_00613910::SoundListView *)(reinterpret_cast<::FUN_00503650_shell *>((this))->FUN_00503650()))))->FUN_00905820((void *)&(item));
 }
@@ -354,7 +356,7 @@ bool FUN_0083e110_shell::AdvanceAndCheckNode()
 {
     if (cur)
         cur = ((::FUN_0083e110_node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
-    return cur && *((int **)(new ((void *)(cur)) ::Vec3())) != 0;
+    return cur && *((int **)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item)) != 0;
 }
 
 struct FUN_008c5000_item
@@ -372,13 +374,13 @@ struct FUN_008c5000_shell
 FUN_008c5000_item* FUN_008c5000_shell::FUN_008c5000(int id)
 {
     FUN_008c5000_item* found = 0;
-    if (id && *((::FUN_008c5000_item **)(new ((void *)(((FUN_008c5000_node*)((char*)this + 0xf4)))) ::Vec3())))
+    if (id && *((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_008c5000_node*)((char*)this + 0xf4)))->m_item)))
     {
         FUN_008c5000_node* node = (FUN_008c5000_node*)((char*)this + 0xf4);
         while (node && !found)
         {
-            if (*((::FUN_008c5000_item **)(new ((void *)(node)) ::Vec3())) && (*((::FUN_008c5000_item **)(new ((void *)(node)) ::Vec3())))->id == id)
-                found = *((::FUN_008c5000_item **)(new ((void *)(node)) ::Vec3()));
+            if (*((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) && (*((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->id == id)
+                found = *((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
             node = ((::FUN_008c5000_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
     }
@@ -399,7 +401,7 @@ void FUN_008c5090_shell::DeleteAllItems()
     FUN_008c5090_node* node = (FUN_008c5090_node*)((char*)this + 0xf4);
     while (node)
     {
-        int* item = *((int **)(new ((void *)(node)) ::Vec3()));
+        int* item = *((int **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         if (item)
             delete item;
         node = ((::FUN_008c5090_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -451,9 +453,9 @@ FUN_00964100_item* FUN_00964100_shell::FUN_00964100(int id)
         return 0;
     FUN_00964100_node* node = *(FUN_00964100_node**)((char*)this + 0x60c);
     FUN_00964100_item* found = 0;
-    while (node && *((::FUN_00964100_item **)(new ((void *)(node)) ::Vec3())) && !item)
+    while (node && *((::FUN_00964100_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) && !item)
     {
-        found = *((::FUN_00964100_item **)(new ((void *)(node)) ::Vec3()));
+        found = *((::FUN_00964100_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         if (found && found->id == id)
             item = found;
         node = ((::FUN_00964100_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -475,10 +477,10 @@ FUN_00966bb0_item* FUN_00966bb0_shell::GetItemAt(int index)
 {
     FUN_00966bb0_node* node = (FUN_00966bb0_node*)((char*)this + 0x5e4);
     int iCurrent = 0;
-    while (node && *((::FUN_00966bb0_item **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::FUN_00966bb0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))
     {
         if (iCurrent == index)
-            return *((::FUN_00966bb0_item **)(new ((void *)(node)) ::Vec3()));
+            return *((::FUN_00966bb0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         node = ((::FUN_00966bb0_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         iCurrent++;
     }
@@ -504,7 +506,7 @@ unsigned int FUN_00978990_shell::CountReferencedNodes()
     pNode = this;
     while (pNode)
     {
-        if (*((::Flt *)(new ((void *)(pNode)) ::Vec3())))
+        if (*((::Flt *)(&reinterpret_cast<::BSSimpleList<void*>*>(pNode)->m_item)))
             result = result + 1;
         pNode = ((::FUN_00978990_shell *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
@@ -555,7 +557,7 @@ bool FUN_004f6730_shell::FUN_004f6730(FUN_004f6730_shell* other)
     }
     while (list2)
     {
-        if (*((::FUN_004f66c0_item **)(new ((void *)(list2)) ::Vec3())) != *((::FUN_004f66c0_item **)(new ((void *)(list1)) ::Vec3())))
+        if (*((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(list2)->m_item)) != *((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(list1)->m_item)))
         {
             return false;
         }
@@ -589,9 +591,9 @@ bool FUN_005a6280(void* apUnused, void* apRegion, void* apUnused2, double& resul
     result = 0.0;
     FUN_004f66c0_item* region = (FUN_004f66c0_item*)apRegion;
     RegionList* iter = (RegionList*)(*reinterpret_cast<::FUN_004f2770_Class * *>(&::_g_thePlayer))->FUN_004f2770();
-    while (iter && *((::FUN_004f66c0_item **)(new ((void *)(iter)) ::Vec3())))
+    while (iter && *((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(iter)->m_item)))
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_004f66c0_item **)(new ((void *)(iter)) ::Vec3())))))->FUN_0084e3a0() == reinterpret_cast<::FUN_0084e3a0_Class *>((region))->FUN_0084e3a0())
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(iter)->m_item)))))->FUN_0084e3a0() == reinterpret_cast<::FUN_0084e3a0_Class *>((region))->FUN_0084e3a0())
         {
             result = 1.0;
             return true;
@@ -601,7 +603,7 @@ bool FUN_005a6280(void* apUnused, void* apRegion, void* apUnused2, double& resul
     return true;
 }
 
-bool __cdecl FUN_0061f420(unsigned int, unsigned int);
+bool __cdecl FUN_0061f420(std::uintptr_t, std::uintptr_t);
 
 // @fnv 0x0061f360
 void FUN_0061f360(void* pItem, void* pNode)
@@ -617,11 +619,11 @@ void FUN_0061f360(void* pItem, void* pNode)
             void* node = pNode;
             while (node && !((FUN_0060f3a0_node*)node)->_ref_008256d0())
             {
-                void* item = *((::FUN_0060f3a0_obj **)(new ((void *)(((FUN_0060f3a0_node*)node))) ::Vec3()));
+                void* item = *((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_0060f3a0_node*)node))->m_item));
                 if (item == pItem)
                     return;
 
-                if (FUN_0061f420((unsigned int)item, (unsigned int)pItem))
+                if (FUN_0061f420((std::uintptr_t)item, (std::uintptr_t)pItem))
                 {
                     ((G2*)node)->AddHead((FUN_0066deb0* const&)pItem);
                     return;
@@ -664,7 +666,7 @@ bool FUN_007d8040_shell::RemoveByKey(void* pKey)
 
     Standin_ListBase* _pNode = this;
     Standin_ListBase* pPrevNode = this;
-    while (_pNode && (*((::Standin_Item **)(new ((void *)(_pNode)) ::Vec3())))->m_key != pKey)
+    while (_pNode && (*((::Standin_Item **)(&reinterpret_cast<::BSSimpleList<void*>*>(_pNode)->m_item)))->m_key != pKey)
     {
         pPrevNode = _pNode;
         _pNode = ((::Standin_ListBase *)(reinterpret_cast<::Callees *>((_pNode))->FUN_00726070()));
@@ -709,7 +711,7 @@ void FUN_008363a0_shell::FUN_008363a0(BGSLoadFormBuffer* pBuffer)
     FUN_008363a0_node* prev = 0;
     while (list && !list->_ref_008256d0())
     {
-        FUN_008363a0_item* item = *((::FUN_008363a0_item **)(new ((void *)(list)) ::Vec3()));
+        FUN_008363a0_item* item = *((::FUN_008363a0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(list)->m_item));
         bool remove = false;
         if (item)
         {
@@ -726,7 +728,7 @@ void FUN_008363a0_shell::FUN_008363a0(BGSLoadFormBuffer* pBuffer)
         {
             if (prev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((prev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::FUN_008363a0_item **)(new ((void *)(list)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((prev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::FUN_008363a0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(list)->m_item)))));
                 list = ((::FUN_008363a0_node *)(reinterpret_cast<::Callees *>((prev))->FUN_00726070()));
             }
             else
@@ -774,7 +776,7 @@ FUN_0083dec0::~FUN_0083dec0()
         FUN_0083dec0_node* node = (FUN_0083dec0_node*)&m_kNode;
         while (node && !node->_ref_008256d0())
         {
-            FUN_0083dec0_item* item = *((::FUN_0083dec0_item **)(new ((void *)(node)) ::Vec3()));
+            FUN_0083dec0_item* item = *((::FUN_0083dec0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
             FUN_0083dec0_item* p = item;
             p ? reinterpret_cast<::FUN_0083c750_class *>((p))->FUN_0083c720(1) : 0;
             node->_ref_0063f7b0();
@@ -815,7 +817,7 @@ void FUN_009b1630_shell::FUN_009b1630(Container_009b1630* container, int id, flo
     while (pNode && !pNode->_ref_008256d0() && (!pItem || pItem->id != id))
     {
         iNodeCount++;
-        Item_009b1630* item = *((::Item_009b1630 **)(new ((void *)(pNode)) ::Vec3()));
+        Item_009b1630* item = *((::Item_009b1630 **)(&reinterpret_cast<::BSSimpleList<void*>*>(pNode)->m_item));
         pNode = ((::FUN_009b1630_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         if (!pItem || pItem->value > item->value || pItem->id == id)
         {
@@ -854,7 +856,7 @@ void Standin_009b3400::ClearList()
     *(float*)((char*)this + 0x150) = 0.0f;
     while (!((FUN_0060f3a0_node*)((char*)this + 0x88))->_ref_008256d0())
     {
-        FUN_009b3490_shell* item = *(FUN_009b3490_shell**)((::FUN_0060f3a0_obj **)(new ((void *)(((FUN_0060f3a0_node*)((char*)this + 0x88)))) ::Vec3()));
+        FUN_009b3490_shell* item = *(FUN_009b3490_shell**)((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_0060f3a0_node*)((char*)this + 0x88)))->m_item));
         delete item;
         ((FUN_0060f3a0_node*)((char*)this + 0x88))->_ref_0063f7b0();
     }
@@ -937,7 +939,7 @@ Item_009b0e00* S009b0e00::FindOrCreateItem(int iKey, bool bA, bool bB)
         pNode = &m_kNode;
         while (pNode && !pNode->_ref_008256d0())
         {
-            pItem = *((::Item_009b0e00 **)(new ((void *)(pNode)) ::Vec3()));
+            pItem = *((::Item_009b0e00 **)(&reinterpret_cast<::BSSimpleList<void*>*>(pNode)->m_item));
             if (pItem && pItem->m_iKey == iKey)
             {
                 if (bA && !pItem->m_bA)
@@ -981,7 +983,7 @@ void B3B930List::FUN_0083b930()
     B3B930List* pkList = this;
     while (pkList && !pkList->IsEmpty())
     {
-        delete *((::B3B930Item **)(new ((void *)(pkList)) ::Vec3()));
+        delete *((::B3B930Item **)(&reinterpret_cast<::BSSimpleList<void*>*>(pkList)->m_item));
         pkList->RemoveHead();
     }
     m_iArrayLength = 0;
@@ -1004,7 +1006,7 @@ void FUN_00408b60::DestroyAllItems()
 {
     CleanupItem* item;
     for (FUN_004ee7d0_node* current = (FUN_004ee7d0_node*)this;
-         current && (item = (CleanupItem*)*((::FUN_004ee7d0_obj **)(new ((void *)(current)) ::Vec3()))) != 0; current = ((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((current))->FUN_00726070())))
+         current && (item = (CleanupItem*)*((::FUN_004ee7d0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(current)->m_item))) != 0; current = ((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((current))->FUN_00726070())))
     {
         CleanupItem* object = item;
         CleanupItem* callObject = object;
@@ -1058,14 +1060,14 @@ void RangeConsumer::FUN_004f61d0(float input, RangeHolder* holder, float other)
         return;
     }
     position4 = static_cast<RangeNode*>(holder);
-    while (position4 && *((::RangeEntry **)(new ((void *)(position4)) ::Vec3())))
+    while (position4 && *((::RangeEntry **)(&reinterpret_cast<::BSSimpleList<void*>*>(position4)->m_item)))
     {
-        if (!(*((::RangeEntry **)(new ((void *)(position4)) ::Vec3())))->Enabled())
+        if (!(*((::RangeEntry **)(&reinterpret_cast<::BSSimpleList<void*>*>(position4)->m_item)))->Enabled())
         {
             position4 = ((::RangeNode *)(reinterpret_cast<::Callees *>((position4))->FUN_00726070()));
             continue;
         }
-        item = (*((::RangeEntry **)(new ((void *)(position4)) ::Vec3())))->Get(0);
+        item = (*((::RangeEntry **)(&reinterpret_cast<::BSSimpleList<void*>*>(position4)->m_item)))->Get(0);
         reinterpret_cast<::LH *>(this)->AddIfAbsent((::Actor *)(item));
         position4 = ((::RangeNode *)(reinterpret_cast<::Callees *>((position4))->FUN_00726070()));
     }
@@ -1132,8 +1134,8 @@ void* FUN_00591a40_class::GetRandomItem()
             node = ((::BSSimpleList< ::InventoryStackRecord *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
 
-        if (node != 0 && ((::InventoryStackRecord *)(new ((void *)(node)) ::Vec3())) != 0)
-            return ((::InventoryStackRecord *)(new ((void *)(node)) ::Vec3()));
+        if (node != 0 && ((::InventoryStackRecord *)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) != 0)
+            return ((::InventoryStackRecord *)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
     }
 
     return ((void *)(reinterpret_cast<::FUN_00408da0_Class *>(&(m_fallback))->FUN_00408da0()));
@@ -1171,9 +1173,9 @@ void CopyOwner::CopyFromSource(CopySource* source)
         if (input9 && !input9->FUN_008256d0())
         {
             CopyList* output = list;
-            while (input9 && *((::CopyPair **)(new ((void *)(input9)) ::Vec3())))
+            while (input9 && *((::CopyPair **)(&reinterpret_cast<::BSSimpleList<void*>*>(input9)->m_item)))
             {
-                CopyPair* original3 = *((::CopyPair **)(new ((void *)(input9)) ::Vec3()));
+                CopyPair* original3 = *((::CopyPair **)(&reinterpret_cast<::BSSimpleList<void*>*>(input9)->m_item));
                 CopyPair* copy = new CopyPair;
                 copy->first = original3->first;
                 copy->second = original3->second;
@@ -1228,19 +1230,19 @@ void FUN_00832010()
     Node_00832010* node = &(*reinterpret_cast<::Node_00832010 *>(&::g_011dd554));
     while (node && !node->_ref_008256d0())
     {
-        if ((*((::Entry_00832010 **)(new ((void *)(node)) ::Vec3())))->unk04)
+        if ((*((::Entry_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->unk04)
         {
-            delete (*((::Entry_00832010 **)(new ((void *)(node)) ::Vec3())))->unk04;
-            (*((::Entry_00832010 **)(new ((void *)(node)) ::Vec3())))->unk04 = 0;
+            delete (*((::Entry_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->unk04;
+            (*((::Entry_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->unk04 = 0;
         }
-        delete *((::Entry_00832010 **)(new ((void *)(node)) ::Vec3()));
+        delete *((::Entry_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         node = ((::Node_00832010 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::Node_00832010 *>(&::g_011dd554))))->RemoveAll();
     Node2_00832010* iter = &(*reinterpret_cast<::Node2_00832010 *>(&::g_011dd58c));
     while (iter && !iter->_ref_008256d0())
     {
-        delete *((::Entry2_00832010 **)(new ((void *)(iter)) ::Vec3()));
+        delete *((::Entry2_00832010 **)(&reinterpret_cast<::BSSimpleList<void*>*>(iter)->m_item));
         iter = ((::Node2_00832010 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::Node2_00832010 *>(&::g_011dd58c))))->RemoveAll();
@@ -1293,12 +1295,12 @@ void FUN_0095ec40_shell::ClearActorList()
         BSSimpleList<Actor*>* pNode = pList;
         while (pNode && !pNode->IsEmpty())
         {
-            if (((::Actor *)(new ((void *)(pNode)) ::Vec3())))
+            if (((::Actor *)(&reinterpret_cast<::BSSimpleList<void*>*>(pNode)->m_item)))
             {
-                TESEnchantableForm* pEnchantable = dynamic_cast<TESEnchantableForm*>((TESBoundObject*)((::Actor *)(new ((void *)(pNode)) ::Vec3())));
+                TESEnchantableForm* pEnchantable = dynamic_cast<TESEnchantableForm*>((TESBoundObject*)((::Actor *)(&reinterpret_cast<::BSSimpleList<void*>*>(pNode)->m_item)));
                 EnchantmentItem* pEnchantmentItem = pEnchantable ? ((::EnchantmentItem *)(reinterpret_cast<::Callees *>((pEnchantable))->FUN_00726070())) : 0;
                 if (pEnchantmentItem)
-                    kEffects.Unk_05(pEnchantmentItem, (TESBoundObject*)((::Actor *)(new ((void *)(pNode)) ::Vec3())), 0);
+                    kEffects.Unk_05(pEnchantmentItem, (TESBoundObject*)((::Actor *)(&reinterpret_cast<::BSSimpleList<void*>*>(pNode)->m_item)), 0);
             }
             pNode = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
@@ -1381,7 +1383,7 @@ struct Key_009b1510
     virtual void v00();
     virtual void v04();
     virtual void v08();
-    virtual int GetKey();
+    virtual void* GetKey();
 };
 struct Cont_009b1510
 {
@@ -1405,7 +1407,7 @@ void Shell_009b1510::FUN_009b1510(Cont_009b1510* pContainer, Key_009b1510* key, 
         while (node2 && !node2->_ref_008256d0())
         {
             count2++;
-            Item_009b1630* item3 = *((::Item_009b1630 **)(new ((void *)(node2)) ::Vec3()));
+            Item_009b1630* item3 = *((::Item_009b1630 **)(&reinterpret_cast<::BSSimpleList<void*>*>(node2)->m_item));
             node2 = ((::FUN_009b1630_node *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
             if (!best3 || best3->value > item3->value)
                 best3 = item3;
@@ -1439,7 +1441,7 @@ bool Thing::FUN_006c4970()
     Node* node = &m_pFirstNode;
     while (node != 0 && !node->FUN_008256d0())
     {
-        int value = *((int *)(new ((void *)(node)) ::Vec3()));
+        int value = *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         ::FUN_00694500(value, 1);
         node = ((::Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -1476,9 +1478,9 @@ void FUN_004d65a0_Class::FUN_004d65a0(unsigned int key)
             node = (HTREEITEM)SendMessageA(window, 0x110a, 3, (LPARAM)node);
         }
         BSSimpleList<HTREEITEM>* current = &list;
-        while (current && ((::_TREEITEM *)(new ((void *)(current)) ::Vec3())))
+        while (current && ((::_TREEITEM *)(&reinterpret_cast<::BSSimpleList<void*>*>(current)->m_item)))
         {
-            HTREEITEM hItem = ((::_TREEITEM *)(new ((void *)(current)) ::Vec3()));
+            HTREEITEM hItem = ((::_TREEITEM *)(&reinterpret_cast<::BSSimpleList<void*>*>(current)->m_item));
             SendMessageA(window, 0x1102, 2, (LPARAM)hItem);
             current = ((::BSSimpleList< ::_TREEITEM *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         }
@@ -1503,7 +1505,7 @@ class TESModelTextureSwap
 
 
 // @fnv 0x0048b310
-bool FUN_0048b310(void* form, int variant)
+bool FUN_0048b310(void* form, void* variant)
 {
     bool bFound = false;
     TESModelTextureSwap* pkPath = ((::TESModelTextureSwap *)(::FUN_00481010((::TESForm *)(form), (::TESObjectREFR *)(variant))));

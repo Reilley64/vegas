@@ -12203,7 +12203,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
         FUN_00603ad0(packet);
         if (!packet.flags && ((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())) &&
             !((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650()))->FUN_008256d0())
-            packet.flags = *((unsigned int *)(new ((void *)(((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())))) ::Vec3()));
+            packet.flags = *((unsigned int *)(&reinterpret_cast<::BSSimpleList<void*>*>(((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())))->m_item));
         for (unsigned k = 0; k < 8; k++)
         {
             reinterpret_cast<::S_0060ba10 *>(&(packet.primary))->FUN_0096a610((int)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::FUN_00613970_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00613970(FUN_005f0cc0(), k)))));

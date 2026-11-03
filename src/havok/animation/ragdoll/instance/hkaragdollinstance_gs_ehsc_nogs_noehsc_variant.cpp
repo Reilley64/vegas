@@ -2261,7 +2261,7 @@ void RagInstance::FUN_00ce1ad0(const RagQsTransform* pose, const RagQsTransform&
             RagQsTransform rbWorld;
             rbWorld.SetProduct(worldFromModel, *pose);
             reinterpret_cast<::FUN_005611c0_t *>(&(rbWorld.m_rotation))->FUN_005611c0();
-            reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((int)(&rbWorld.m_vTranslation), (int)(&rbWorld.m_rotation));
+            reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((const void *)(&rbWorld.m_vTranslation), (const void *)(&rbWorld.m_rotation));
 
             const float* zero = &::DAT_01267e30;
             if (!equals4(rb->m_kTranslationalVelocity, zero))

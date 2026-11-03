@@ -369,7 +369,7 @@ struct AudioInterfaceVTable
     void* slot24;
     void* slot28;
     void* slot2C;
-    void(* dispatch)(AudioInterface*, int);
+    void(* dispatch)(AudioInterface*, const void*);
 };
 struct AudioInterface
 {
@@ -434,7 +434,7 @@ struct FUN_00ca8800_Class
     int unkD8;
     int unkDC;
     AudioInterface interfaceE0;
-    void FUN_00ca8800(int value);
+    void FUN_00ca8800(const void* value);
 };
 struct CA8830Member
 {
@@ -451,7 +451,7 @@ struct CA8830Member
     virtual void unk28();
     virtual void unk2C();
     virtual void unk30();
-    virtual void setValue(int value);
+    virtual void setValue(const void* value);
 };
 struct CA8830Object;
 struct CA8830Object
@@ -459,10 +459,10 @@ struct CA8830Object
     char unk000[0xe0];
     CA8830Member m_kMemberDescriptor;
 
-    void FUN_00ca8830(int value);
+    void FUN_00ca8830(const void* value);
 };
 struct SubObject;
-typedef void(* SubDoFn)(SubObject* apThis, int aiFirst, int aiSecond);
+typedef void(* SubDoFn)(SubObject* apThis, const void* aiFirst, const void* aiSecond);
 struct SubObjectVtbl
 {
     void* fn00;
@@ -544,7 +544,7 @@ struct FUN_00ca8860_cls
     int unkd8;
     int unkdc;
     SubObject m_sub;
-    void FUN_00ca8860(int aiFirst, int aiSecond);
+    void FUN_00ca8860(const void* aiFirst, const void* aiSecond);
 };
 struct CA8B80Point3
 {
@@ -1026,7 +1026,7 @@ struct CA8890Member
     virtual void unk30();
     virtual void unk34();
     virtual void unk38();
-    virtual void setValue(int value);
+    virtual void setValue(const void* value);
 };
 struct CA8890Object;
 struct CA8890Object
@@ -1089,7 +1089,7 @@ struct CA8890Object
     int unkDC;
     CA8890Member m_kMemberDescriptor;
 
-    void FUN_00ca8890(int value);
+    void FUN_00ca8890(const void* value);
 };
 struct SpawnedSub
 {

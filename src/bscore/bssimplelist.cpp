@@ -261,7 +261,7 @@ GObj* GList::FUN_004f35b0(int key)
     GObj* pObj = 0;
     while (node)
     {
-        pObj = *((::GObj **)(new ((void *)(node)) ::Vec3()));
+        pObj = *((::GObj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         if (pObj && reinterpret_cast<int(*)(GObj*)>((*reinterpret_cast<void***>(pObj))[4])(pObj) == key)
             return pObj;
         node = ((::GNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -438,9 +438,9 @@ FormFlagRecord* ActList::FUN_005a90b0(TESForm* form, bool create)
     FormFlagRecord* empty4;
     ActNode* cur = head;
     empty4 = 0;
-    while (cur && *((::FormFlagRecord **)(new ((void *)(cur)) ::Vec3())))
+    while (cur && *((::FormFlagRecord **)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item)))
     {
-        FormFlagRecord* obj = *((::FormFlagRecord **)(new ((void *)(cur)) ::Vec3()));
+        FormFlagRecord* obj = *((::FormFlagRecord **)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item));
         if (obj->pForm == form)
             return obj;
         if (obj->pForm == 0)
@@ -765,7 +765,7 @@ struct TopicS
 bool TopicS::HasCur()
 {
     cur = reinterpret_cast<Cur*>(reinterpret_cast<char*>(this) + 0xc);
-    return (cur && *((int *)(new ((void *)(cur)) ::Vec3())) != 0) ? 1 : 0;
+    return (cur && *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item)) != 0) ? 1 : 0;
 }
 
 struct ItemChangeList : BSSimpleList<InventoryStackRecord*>
@@ -908,9 +908,9 @@ void FUN_00967290_struct::FUN_00967290()
     if (m_kNode)
     {
         void* item = 0;
-        while (m_kNode && *((void **)(new ((void *)(m_kNode)) ::Vec3())))
+        while (m_kNode && *((void **)(&reinterpret_cast<::BSSimpleList<void*>*>(m_kNode)->m_item)))
         {
-            item = *((void **)(new ((void *)(m_kNode)) ::Vec3()));
+            item = *((void **)(&reinterpret_cast<::BSSimpleList<void*>*>(m_kNode)->m_item));
             void* pItem = item;
             ::FUN_00401030(pItem);
             m_kNode->_ref_0063f7b0();

@@ -330,22 +330,28 @@ void AbstractHeap::PushBlock(MemoryBlockHeader* block)
     ++m_iFreeBlockCount;
 }
 
-struct FUN_00aaa560_shell
+struct FUN_00aaa560_node
 {
-    int FUN_00aaa560(int arg);
+    char unk00[0x4c];
+    FUN_00aaa560_node* pNext;
 };
 
-// Returns -1 if arg is null, otherwise counts nodes by following the pointer at offset 0x4C until it is null.
+struct FUN_00aaa560_shell
+{
+    int FUN_00aaa560(FUN_00aaa560_node* pNode);
+};
+
+// Returns -1 if pNode is null, otherwise counts the nodes that follow it through pNext.
 // @fnv 0x00aaa560
-int FUN_00aaa560_shell::FUN_00aaa560(int pNode)
+int FUN_00aaa560_shell::FUN_00aaa560(FUN_00aaa560_node* pNode)
 {
     if (!pNode)
         return -1;
     int count = 0;
-    while (*(int*)(pNode + 0x4C))
+    while (pNode->pNext)
     {
         ++count;
-        pNode = *(int*)(pNode + 0x4C);
+        pNode = pNode->pNext;
     }
     return count;
 }

@@ -11,7 +11,7 @@ bool BSTCommonLLMessageQueue<QueuedMessage>::RemoveMessage(QueuedMessage& output
     bool bResult;
     if (pElem)
     {
-        output = *reinterpret_cast<QueuedMessage*>(((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pElem))) ::Vec3())));
+        output = *reinterpret_cast<QueuedMessage*>(pElem->raw);
         pHead = pElem->pNext;
         pSizeClassFreeList->Elem(pElem);
         bResult = true;

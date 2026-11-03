@@ -25,23 +25,23 @@ template <>
 // @fnv 0x00aa4860
 void BSMapBase<void*, PointerMapValue*>::SetAt(void* key, PointerMapValue* data)
 {
-    unsigned int index = this->Hash((unsigned int)key);
+    unsigned int index = this->Hash((std::uintptr_t)key);
     BSMapEntry<void*, PointerMapValue*>* item =
         ((BSMapEntry<void*, PointerMapValue*>**)this->m_ppkHashTable)[index];
     unsigned int count = 0;
     while (item)
     {
         ++count;
-        if (this->Equal((unsigned int)key, (unsigned int)item->m_key))
+        if (this->Equal((std::uintptr_t)key, (std::uintptr_t)item->m_key))
         {
             this->UnlinkEntry(item);
-            this->FillEntry(item, (unsigned int)key, data);
+            this->FillEntry(item, (std::uintptr_t)key, data);
             return;
         }
         item = item->m_pkNext;
     }
     item = (BSMapEntry<void*, PointerMapValue*>*)this->AllocateEntry();
-    this->FillEntry(item, (unsigned int)key, data);
+    this->FillEntry(item, (std::uintptr_t)key, data);
     item->m_pkNext = ((BSMapEntry<void*, PointerMapValue*>**)this->m_ppkHashTable)[index];
     ((BSMapEntry<void*, PointerMapValue*>**)this->m_ppkHashTable)[index] = item;
     ++this->m_uiCount;

@@ -1096,7 +1096,7 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
         }
         GetError()->SetErrorCodeEnabled(0x2ff8c16f, bErrorEnabled);
         reinterpret_cast<::FUN_00ce50b0_cls *>((void *)&(combined))->FUN_00ce50b0((::CB2FC0Object *)(void *)(&kXform));
-        reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((int)&(kXform));
+        reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((const void *)&(kXform));
         if (body->m_bFlag != 5)
         {
             hkVec4 lc;

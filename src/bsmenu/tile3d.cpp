@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <new>
 #include <cstring>
+#include "bscore/bssimplelist_decls.h"
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/ExtraOwnerB.h"
@@ -113,7 +114,7 @@ typedef void(* FUN_0078bb60_t)(void*, int);
 // @fnv 0x0078a9f0
 void FUN_0078a9f0(char* pThis)
 {
-    *(int*)(pThis + 0x1dc) = *((int *)(new ((void *)(*(void**)(pThis + 0x1d8))) ::Vec3()));
+    *(int*)(pThis + 0x1dc) = *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(*(void**)(pThis + 0x1d8))->m_item));
     *(void**)(pThis + 0x1d8) = reinterpret_cast<::Callees *>((*(void**)(pThis + 0x1d8)))->FUN_00726070();
     if (*(void**)(pThis + 0x1d8) == 0)
     {
@@ -121,7 +122,7 @@ void FUN_0078a9f0(char* pThis)
     }
     if (*(void**)(pThis + 0x1d8) != 0)
     {
-        int item = *((int *)(new ((void *)(*(void**)(pThis + 0x1d8))) ::Vec3()));
+        int item = *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(*(void**)(pThis + 0x1d8))->m_item));
         if (item != 0)
         {
             ((void(*)(void*, int))FUN_0078bb60)(pThis, *(int*)(pThis + 0x1dc));

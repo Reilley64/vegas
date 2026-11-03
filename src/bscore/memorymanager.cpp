@@ -1,5 +1,6 @@
 // bscore/memorymanager.cpp: MemoryManager, TESQuest, TESActorBaseData, Actor and more (21 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
@@ -60,7 +61,7 @@ unsigned int MemoryManager::Size(const void* pointer)
         size = pool->GetBlockSize();
     else
     {
-        IMemoryHeap* heap = ((::IMemoryHeap *)(reinterpret_cast<::FUN_00aa45a0_Class *>(this)->FindItemByArg((int)(pointer))));
+        IMemoryHeap* heap = ((::IMemoryHeap *)(reinterpret_cast<::FUN_00aa45a0_Class *>(this)->FindItemByArg((intptr_t)(pointer))));
         if (heap)
             size = heap->Size(pointer, 0);
         else

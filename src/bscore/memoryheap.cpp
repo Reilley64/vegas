@@ -1,5 +1,6 @@
 // bscore/memoryheap.cpp: MemoryHeap, FakeHeap (17 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/AbstractHeapBlockInfo.h"
 #include "fnv/decl/AbstractHeapBuckets.h"
@@ -140,7 +141,7 @@ void FUN_00aa7d60_cls::FUN_00aa7d60(FUN_00aa7d60_blk* pBlock)
     if (uiSize >= m_uiPage)
     {
         char* pFirst = (char*)(pBlock + 1);
-        char* pAligned = (char*)(((unsigned int)pFirst + m_uiPage - 1) & ~(m_uiPage - 1));
+        char* pAligned = (char*)(((std::uintptr_t)pFirst + m_uiPage - 1) & ~(std::uintptr_t)(m_uiPage - 1));
         uiSize = (uiSize - (pAligned - pFirst)) & ~(m_uiPage - 1);
         if (uiSize >= m_uiPage)
         {

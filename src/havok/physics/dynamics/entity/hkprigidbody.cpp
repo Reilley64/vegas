@@ -437,7 +437,7 @@ struct AudioInterfaceVTable
     void* slot24;
     void* slot28;
     void* slot2C;
-    void(* dispatch)(AudioInterface*, int);
+    void(* dispatch)(AudioInterface*, const void*);
 };
 struct AudioInterface
 {
@@ -502,11 +502,11 @@ struct FUN_00ca8800_Class
     int unkD8;
     int unkDC;
     AudioInterface interfaceE0;
-    void FUN_00ca8800(int value);
+    void FUN_00ca8800(const void* value);
 };
 // Calls the interface's dispatch with value, then invokes FUN_00ca8700 on this object.
 // @fnv 0x00ca8800
-void FUN_00ca8800_Class::FUN_00ca8800(int value)
+void FUN_00ca8800_Class::FUN_00ca8800(const void* value)
 {
     interfaceE0.vtbl->dispatch(&interfaceE0, value);
     ::FUN_00ca8700((::Entity *)(::FUN_00ca8800_Class *)(this));
@@ -527,7 +527,7 @@ struct CA8830Member
     virtual void unk28();
     virtual void unk2C();
     virtual void unk30();
-    virtual void setValue(int value);
+    virtual void setValue(const void* value);
 };
 
 struct CA8830Object;
@@ -538,12 +538,12 @@ struct CA8830Object
     char unk000[0xe0];
     CA8830Member m_kMemberDescriptor;
 
-    void FUN_00ca8830(int value);
+    void FUN_00ca8830(const void* value);
 };
 
 // Calls setValue on the member with value, then passes this to FUN_00ca8700.
 // @fnv 0x00ca8830
-void CA8830Object::FUN_00ca8830(int value)
+void CA8830Object::FUN_00ca8830(const void* value)
 {
     m_kMemberDescriptor.setValue(value);
     ::FUN_00ca8700((::Entity *)(::CA8830Object *)(this));
@@ -551,7 +551,7 @@ void CA8830Object::FUN_00ca8830(int value)
 
 struct SubObject;
 
-typedef void(* SubDoFn)(SubObject* apThis, int aiFirst, int aiSecond);
+typedef void(* SubDoFn)(SubObject* apThis, const void* aiFirst, const void* aiSecond);
 
 struct SubObjectVtbl
 {
@@ -637,12 +637,12 @@ struct FUN_00ca8860_cls
     int unkd8;
     int unkdc;
     SubObject m_sub;
-    void FUN_00ca8860(int aiFirst, int aiSecond);
+    void FUN_00ca8860(const void* aiFirst, const void* aiSecond);
 };
 
 // Calls the sub-object's Do virtual with aiFirst and aiSecond, then invokes FUN_00ca8700 on this.
 // @fnv 0x00ca8860
-void FUN_00ca8860_cls::FUN_00ca8860(int aiFirst, int aiSecond)
+void FUN_00ca8860_cls::FUN_00ca8860(const void* aiFirst, const void* aiSecond)
 {
     m_sub.m_pVtbl->Do(&m_sub, aiFirst, aiSecond);
     ::FUN_00ca8700((::Entity *)(void *)(this));
@@ -1202,7 +1202,7 @@ struct CA8890Member
     virtual void unk30();
     virtual void unk34();
     virtual void unk38();
-    virtual void setValue(int value);
+    virtual void setValue(const void* value);
 };
 
 struct CA8890Object;
@@ -1268,12 +1268,12 @@ struct CA8890Object
     int unkDC;
     CA8890Member m_kMemberDescriptor;
 
-    void FUN_00ca8890(int value);
+    void FUN_00ca8890(const void* value);
 };
 
 // Calls setValue on the member with value, then calls FUN_00ca8700 on this object.
 // @fnv 0x00ca8890
-void CA8890Object::FUN_00ca8890(int value)
+void CA8890Object::FUN_00ca8890(const void* value)
 {
     m_kMemberDescriptor.setValue(value);
     ::FUN_00ca8700((::Entity *)(::CA8890Object *)(this));

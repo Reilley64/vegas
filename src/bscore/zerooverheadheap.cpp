@@ -1,5 +1,6 @@
 // bscore/zerooverheadheap.cpp: ZeroOverheadHeap (5 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -82,11 +83,11 @@ void FUN_00aa7630_t::FUN_00aa7630(MemoryHeapStats* apStats, bool abFullBlockInfo
     apStats->m_pHeapName = GetName();
     apStats->m_uiMaximumHeapSize = iSize;
     apStats->m_uiHeapCommitted = iSize;
-    apStats->m_iAllocatedToBlocks = (int)m_pCurrent - (int)m_pPoolBase;
+    apStats->m_iAllocatedToBlocks = (int)((char*)m_pCurrent - (char*)m_pPoolBase);
     apStats->m_iFreeBlockCount = m_iAllocationCount;
     apStats->m_uiFreeBlockCount = 0;
     apStats->m_iFreeInBlocks = 0;
-    apStats->m_iUsedInBlocks = (int)m_pCurrent - (int)m_pPoolBase;
+    apStats->m_iUsedInBlocks = (int)((char*)m_pCurrent - (char*)m_pPoolBase);
     apStats->m_iSmallestFreeBlock = 0;
     apStats->m_iLargestFreeBlock = 0;
     apStats->m_iHeapOverhead = 0x40;

@@ -182,7 +182,7 @@ struct FUN_004046b0_cls
 FUN_004046b0_arg* FUN_004046b0_cls::AssignFromSub(FUN_004046b0_arg* apArg)
 {
     unsigned int flag = 0;
-    apArg->AssignFromString(((unsigned int)(reinterpret_cast<::BaseProcess *>(&(m_38))->GetCurrentProcessData())));
+    apArg->AssignFromString(((std::uintptr_t)(reinterpret_cast<::BaseProcess *>(&(m_38))->GetCurrentProcessData())));
     flag |= 1;
     return apArg;
 }

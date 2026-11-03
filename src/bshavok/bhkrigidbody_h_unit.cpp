@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bshavok/bhkrigidbody_h_unit.cpp: WorldObject (4 functions)
 
@@ -63,7 +64,7 @@ struct FUN_00c8f510
 __forceinline void* __cdecl operator new(std::size_t size, AllocationManager& allocator)
 {
     unsigned char* storage = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&(allocator))->FUN_00aa3e40(0xf0));
-    unsigned char adjustment = static_cast<unsigned char>(16 - (reinterpret_cast<unsigned int>(storage) & 15));
+    unsigned char adjustment = static_cast<unsigned char>(16 - (reinterpret_cast<std::uintptr_t>(storage) & 15));
     storage += adjustment;
     storage[-1] = adjustment;
     return storage;

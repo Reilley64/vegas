@@ -2590,7 +2590,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                         canReuse = false;
                 }
             }
-            if (canReuse && ::FUN_0048b310(this, (int)(reference)))
+            if (canReuse && ::FUN_0048b310(this, (void *)(reference)))
                 canReuse = false;
             if (canReuse && ::FUN_00569410((::NiAVObject *)(h)))
                 canReuse = false;

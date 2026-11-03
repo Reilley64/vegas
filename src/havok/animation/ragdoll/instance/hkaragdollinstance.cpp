@@ -848,7 +848,7 @@ void RagdollHelper::FUN_00ce1560(PoseW pose)
             hkpRigidBody* rb = (hkpRigidBody*)m_ppRigidBodies.m_data[rbIndex];
             if (rb)
             {
-                reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((int)&(cursor->m_vTranslation), (int)&(cursor->m_rotation));
+                reinterpret_cast<::FUN_00ca8860_cls *>((rb))->FUN_00ca8860((const void *)&(cursor->m_vTranslation), (const void *)&(cursor->m_rotation));
 
                 __m128 kZeroVec = *(const __m128*)&zero;
                 __m128 kLinVel = *(const __m128*)&rb->m_pMotionState.m_kTranslationalVelocity;

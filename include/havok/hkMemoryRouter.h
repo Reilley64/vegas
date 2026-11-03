@@ -25,7 +25,7 @@ class hkMemoryAllocator
     virtual void blockAllocBatch(void** ptrsOut, int numPtrs, int blockSize);         // +0x18
     virtual void blockFreeBatch(void** ptrsIn, int numPtrs, int blockSize);           // +0x1c
     // Unidentified: the base version (0x00cbf260) passes its argument on to canAllocTotal.
-    virtual void forwardToCanAllocTotal(int numBytes);                                // +0x20
+    virtual bool forwardToCanAllocTotal(int numBytes);                                // +0x20
     virtual bool canAllocTotal(int numBytes);                                         // +0x24
     virtual void getMemoryStatistics(MemoryStatistics& u);                            // +0x28
     virtual int getAllocatedSize(const void* obj, int numBytes);                      // +0x2c

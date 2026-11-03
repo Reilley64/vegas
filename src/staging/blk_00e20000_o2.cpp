@@ -2044,7 +2044,7 @@ class FUN_00e3dfb0_cls
     int unk34;
     int m_38;
 
-    int FUN_00e3dfb0(FUN_00e3dfb0_arg* rec);
+    intptr_t FUN_00e3dfb0(FUN_00e3dfb0_arg* rec);
 };
 
 // Selects one of the object's fields based on rec->m_type and returns rec->value plus that field, or 0 for unknown types.
@@ -2556,7 +2556,7 @@ struct FUN_00e3f230_cls
     int unk04;
     FUN_00e3f230_Entry* m_pEntries;
     int m_uiItemCount;
-    int FindEntryByKey(int arg);
+    int FindEntryByKey(intptr_t arg);
 };
 // @fnv 0x00e3f340
 void* FUN_00e3f340_Class::GetEntryByArg(int arg)
@@ -4793,70 +4793,6 @@ void __cdecl CallHandlerByIndex(int iHandlerIndex, int b, int c);
 
 void __cdecl FUN_00e2ba90();
 
-// VEGAS17-CONFLICT: hkArrayStub (variant definition below differs from the one above)
-template <typename T> struct hkArrayStub
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-
-    __forceinline void destruct(T* p, int n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            p[i].~T();
-        }
-    }
-
-    __forceinline void copy(T* dst, const T* src, int n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            dst[i] = src[i];
-        }
-    }
-
-    __forceinline void constructWithCopy(T* dst, int n, const T* src)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            new (dst + i) T(src[i]);
-        }
-    }
-
-    __forceinline void reserve(hkMemoryAllocator& alloc, int n)
-    {
-        if (getCapacity() < n)
-        {
-            int cap2 = 2 * getCapacity();
-            int newCap = n < cap2 ? cap2 : n;
-            hkArrayUtilStub::reserve(alloc, this, newCap, sizeof(T));
-        }
-    }
-
-    __forceinline hkArrayStub& operator=(const hkArrayStub& a)
-    {
-        copyFromArray(GetMemoryRouterStub()->heap(), a);
-        return *this;
-    }
-
-    __forceinline void copyFromArray(hkMemoryAllocator& alloc, const hkArrayStub& a)
-    {
-        const int oldSize = m_iElementCount;
-        const int newSize = a.m_iElementCount;
-        const int copiedSize = newSize > oldSize ? oldSize : newSize;
-        reserve(alloc, newSize);
-        destruct(m_data + newSize, oldSize - newSize);
-        copy(m_data, a.m_data, copiedSize);
-        constructWithCopy(m_data + copiedSize, newSize - copiedSize, a.m_data + copiedSize);
-        m_iElementCount = newSize;
-    }
-};
 
 
 
@@ -4875,7 +4811,6 @@ __int64 __cdecl __time64(__int64* t);
 
 static __int64 FUN_00e29900(__int64* t);
 
-__int64* volatile g_ptr;
 
 __int64 probe_caller(void);
 
@@ -4890,21 +4825,6 @@ static unsigned short FUN_00e34b20(unsigned short v);
 unsigned short call_e34b20();
 
 
-// VEGAS17-CONFLICT: hkRefPtr_e3e8 (variant definition below differs from the one above)
-template <class T> struct hkRefPtr_e3e8
-{
-    T* m_pRetainedObject;
-    ~hkRefPtr_e3e8() throw()
-    {
-        if (m_pRetainedObject)
-            m_pRetainedObject->FUN_00c905b0();
-    }
-    T* FUN_00d477a0() throw();
-    T* val() const
-    {
-        return m_pRetainedObject;
-    }
-};
 
 Resource_e3e8* FUN_00e3e8e0(const char* name, Resource_e3e8* expected);
 
@@ -4917,32 +4837,6 @@ void __cdecl FUN_00e2cfc0();
 void FUN_00e2cfd0();
 
 
-// VEGAS17-CONFLICT: TyremarkArray (variant definition below differs from the one above)
-template <class T> struct TyremarkArray
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    void initialize()
-    {
-        m_data = 0;
-        m_iElementCount = 0;
-        m_iCapacityState = 0x80000000;
-    }
-
-    void SetSizeAndGrow(int count)
-    {
-        hkMemoryAllocatorE3A3& allocator = reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap();
-        int capacity = m_iCapacityState & 0x3fffffff;
-        if (capacity < count)
-        {
-            int doubled = capacity * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), count < doubled ? doubled : count, sizeof(T));
-        }
-        m_iElementCount = count;
-    }
-};
 
 inline TyremarkWheelView* allocateTyremarkWheel();
 
@@ -5293,10 +5187,10 @@ void FUN_00e2b070(const Input* input, BundleCommand* src, void* filter, RayVecto
     fractions.set(limits[0], limits[1], limits[2], limits[3]);
 }
 
-class Vec4
+class RayVec4
 {
   public:
-    void operator=(const Vec4& v)
+    void operator=(const RayVec4& v)
     {
         m_vComponents = v.m_vComponents;
     }
@@ -5315,7 +5209,7 @@ class Vec4
 
 struct Bundle
 {
-    Vec4 m_data[3];
+    RayVec4 m_data[3];
 };
 
 struct RayQuerySet
@@ -5328,14 +5222,14 @@ struct RayQuerySet
 };
 
 // @fnv 0x00e2baf0
-RayQuerySet __cdecl FUN_00e2baf0(const Vec4& from0, const Vec4& invDir0, const Vec4& from1, const Vec4& invDir1,
-                                 const Vec4& from2, const Vec4& invDir2, const Vec4& from3, const Vec4& invDir3,
+RayQuerySet __cdecl FUN_00e2baf0(const RayVec4& from0, const RayVec4& invDir0, const RayVec4& from1, const RayVec4& invDir1,
+                                 const RayVec4& from2, const RayVec4& invDir2, const RayVec4& from3, const RayVec4& invDir3,
                                  int mask)
 {
     Bundle bundleFrom;
-    Vec4 tmpFrom;
+    RayVec4 tmpFrom;
     Bundle bundleInvDir;
-    Vec4 tmpInvDir;
+    RayVec4 tmpInvDir;
     bundleFrom.m_data[0] = from0;
     bundleFrom.m_data[1] = from1;
     bundleFrom.m_data[2] = from2;
@@ -5636,14 +5530,11 @@ void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays
             else
                 query->callback = 0;
         }
-        struct Batch
-        {
-            __m128 originX, originY, originZ, inverseX, inverseY, inverseZ;
-            int mask;
-        } batch;
-        ::FUN_00e2baf0((*(const ::Vec4 *)(&batch)), (*(const ::Vec4 *)(&rays[index4[0]].origin.v)), (*(const ::Vec4 *)(&rays[index4[0]].invDirection.v)), (*(const ::Vec4 *)(&rays[index4[1]].origin.v)),
-                     (*(const ::Vec4 *)(&rays[index4[1]].invDirection.v)), (*(const ::Vec4 *)(&rays[index4[2]].origin.v)), (*(const ::Vec4 *)(&rays[index4[2]].invDirection.v)),
-                     (*(const ::Vec4 *)(&rays[index4[3]].origin.v)), (int)(&rays[index4[3]].invDirection.v));
+        RayQuerySet batch = ::FUN_00e2baf0(
+            *(const RayVec4*)&rays[index4[0]].origin.v, *(const RayVec4*)&rays[index4[0]].invDirection.v,
+            *(const RayVec4*)&rays[index4[1]].origin.v, *(const RayVec4*)&rays[index4[1]].invDirection.v,
+            *(const RayVec4*)&rays[index4[2]].origin.v, *(const RayVec4*)&rays[index4[2]].invDirection.v,
+            *(const RayVec4*)&rays[index4[3]].origin.v, *(const RayVec4*)&rays[index4[3]].invDirection.v, DAT_011b3830[n]);
         Collector* collectors[4] = {queries, queries + 1, queries + 2, 3 + queries};
         FUN_00d1bfa0(tree, node, arg3, &batch, collectors, oldFraction);
         for (int i = 0; i < n; ++i)

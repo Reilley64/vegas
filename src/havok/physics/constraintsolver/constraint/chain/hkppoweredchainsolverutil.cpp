@@ -44,17 +44,17 @@ void __cdecl CopyChannelValue(int index, int channel, FUN_00df0810_Source* sourc
 
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
-static __forceinline void CopyHelper(__m128* d, const void* s)
+static __forceinline void CopyHelper(__m128* d, const __m128* s)
 {
-    d[0] = ((__m128*)s)[0];
-    d[1] = ((__m128*)s)[1];
-    d[2] = ((__m128*)s)[2];
-    d[3] = ((__m128*)s)[3];
-    d[4] = ((__m128*)s)[4];
-    d[5] = ((__m128*)s)[5];
-    d[6] = ((__m128*)s)[6];
-    d[7] = ((__m128*)s)[7];
-    d[8] = ((__m128*)s)[8];
+    d[0] = s[0];
+    d[1] = s[1];
+    d[2] = s[2];
+    d[3] = s[3];
+    d[4] = s[4];
+    d[5] = s[5];
+    d[6] = s[6];
+    d[7] = s[7];
+    d[8] = s[8];
 }
 
 struct ObjF
@@ -603,7 +603,7 @@ void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, unsigned char* arg2, _
     arg3[0] = *(__m128*)&obj->f300;
     arg3[1] = *(__m128*)&obj->f310;
     arg3[2] = *(__m128*)&obj->f320;
-    CopyHelper(arg3 + 3, &obj->f330);
+    CopyHelper(arg3 + 3, reinterpret_cast<const __m128*>(&obj->f330));
 
     *arg4 = p180;
 }

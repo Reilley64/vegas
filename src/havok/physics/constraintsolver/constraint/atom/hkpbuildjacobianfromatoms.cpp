@@ -371,6 +371,13 @@ struct Ea70Src
     unsigned int unk7c;
 };
 
+// hkContactPoint: position, then the separating normal with the distance in w.
+struct Ea70ContactPoint
+{
+    float m_position[4];
+    float m_separatingNormal[4];
+};
+
 struct Ea70Obj
 {
     unsigned short type;
@@ -389,11 +396,32 @@ struct Ea70Obj
     unsigned int unk1c;
     float f20;
     float f24;
+    unsigned int unk28;
+    unsigned int unk2c;
 
+    // The contact points (stride reserved) follow the 0x30-byte header, then the point properties.
+    const Ea70ContactPoint* points() const
+    {
+        return reinterpret_cast<const Ea70ContactPoint*>(this + 1);
+    }
     const float* vert(int i) const
     {
-        return (const float*)((const char*)this + 0x4c + i * 32);
+        return &points()[i].m_separatingNormal[3];
     }
+    char* properties()
+    {
+        return reinterpret_cast<char*>(const_cast<Ea70ContactPoint*>(points() + stride));
+    }
+};
+
+// hkpContactPointProperties: the solver data used by the step starts at +0x10.
+struct Ea70Properties
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    float m_internalData[4];
 };
 
 struct Ea70Flag
@@ -426,14 +454,14 @@ static __declspec(noinline) void FUN_00d6ea70(Ea70Src* src, Ea70Obj* self, int* 
     do
         node = node->next;
     while (node->type >= 0x17);
-    char* rec = (char*)node + 0x30 + (node->stride << 5);
+    char* rec = node->properties();
     int count;
     count = node->count;
     long recStride = node->recStride;
 
     for (int m = 0; m < count; m++)
     {
-        Ea70Step(node->vert(m), (float*)(rec + 0x10), self, src, a);
+        Ea70Step(node->vert(m), reinterpret_cast<Ea70Properties*>(rec)->m_internalData, self, src, a);
         rec += recStride;
     }
     Ea70Obj* next = self->next;
@@ -802,9 +830,25 @@ struct F4
     float x, y, z, w;
 };
 
+// hkTransform: rotation columns, then the translation.
+struct Transform4
+{
+    F4 m_col[3];
+    F4 m_translation;
+};
+
+// hkpLinLimitConstraintAtom.
+struct LinLimitAtom
+{
+    unsigned short m_type;
+    unsigned char m_ucAxisIndex;
+    float m_kMinimumCorner;
+    float m_kMaximumCorner;
+};
+
 // Builds a local buffer of three vectors and two floats from b, d and a2, then calls FUN_00dcfa30 with it, a1 and a3.
 // @fnv 0x00d6d280
-static __declspec(noinline) void FUN_00d6d280(char* b, char* d, void* a1, char* a2, void* a3)
+static __declspec(noinline) void FUN_00d6d280(const Transform4* b, const LinLimitAtom* d, void* a1, const Transform4* a2, void* a3)
 {
     __declspec(align(16)) struct Buf
     {
@@ -815,16 +859,16 @@ static __declspec(noinline) void FUN_00d6d280(char* b, char* d, void* a1, char* 
         float m_f4;
     } buf;
 
-    buf.m_f3 = *(float*)(d + 4);
-    _mm_store_ps(&buf.m_v0.x, *(const __m128*)((const char*)a2 + 0x30));
-    buf.m_f4 = *(float*)(d + 8);
-    _mm_store_ps(&buf.m_v1.x, *(const __m128*)((const char*)b + 0x30));
-    _mm_store_ps(&buf.m_v2.x, *(const __m128*)(b + ((unsigned int)(unsigned char)d[2] << 4)));
+    buf.m_f3 = d->m_kMinimumCorner;
+    _mm_store_ps(&buf.m_v0.x, *(const __m128*)&a2->m_translation);
+    buf.m_f4 = d->m_kMaximumCorner;
+    _mm_store_ps(&buf.m_v1.x, *(const __m128*)&b->m_translation);
+    _mm_store_ps(&buf.m_v2.x, *(const __m128*)&b->m_col[d->m_ucAxisIndex]);
 
     ::FUN_00dcfa30((::Info_dcf880 *)(void *)((void*)&buf), (::S_00dcf100_Cfg *)(a1), (::Jac_dcf880 **)(a3));
 }
 
-void S00d6d280_Entry(char* d, char* b, void* a1, char* a2, void* a3)
+void S00d6d280_Entry(const LinLimitAtom* d, const Transform4* b, void* a1, const Transform4* a2, void* a3)
 {
     FUN_00d6d280(b, d, a1, a2, a3);
 }
@@ -2901,13 +2945,6 @@ struct LinSoftAtom
     unsigned char m_ucAxisIndex;
     float m_fTau;
     float m_fMotorDamping;
-};
-struct LinLimitAtom
-{
-    unsigned short m_type;
-    unsigned char m_ucAxisIndex;
-    float m_kMinimumCorner;
-    float m_kMaximumCorner;
 };
 struct LinFrictionAtom
 {

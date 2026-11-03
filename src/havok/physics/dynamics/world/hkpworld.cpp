@@ -11851,20 +11851,13 @@ extern const char str_010c68c8[];
 extern const char str_010c41f8[];
 struct Sbp_TimerEntry { const char* name; unsigned int tick; unsigned int unk08; };
 struct Sbp_Timer { void* unk00; Sbp_TimerEntry* unk04; void* unk08; Sbp_TimerEntry* unk0C; };
-struct Sbp_Allocator {
-    virtual void slot0(); virtual void slot1(); virtual void slot2();
-    virtual void* BufAlloc(int& bytes);
-    virtual void BufFree(void* p, int bytes);
-};
-struct Sbp_Router { int unk00; int unk04; int unk08; int unk0C; Sbp_Allocator* unk10; };
-static inline Sbp_Router* Sbp_router() { return (Sbp_Router*)::FUN_00c85750(); }
 struct Sbp_Pair { void* a; void* b; };
 template <class T> struct Sbp_Array {
     T* data; int size; int capacity;
-    void destroy() { ClearAndRelease(Sbp_router()->unk10); }
-    void ClearAndRelease(Sbp_Allocator* heap) {
+    void destroy() { ClearAndRelease(hkMemoryRouter::getInstance().m_heap); }
+    void ClearAndRelease(hkMemoryAllocator* heap) {
         size = 0;
-        if ((capacity & 0x80000000) == 0) heap->BufFree(data, (capacity & 0x3fffffff) * sizeof(T));
+        if ((capacity & 0x80000000) == 0) heap->bufFree(data, (capacity & 0x3fffffff) * sizeof(T));
     }
 };
 struct Sbp_Vec {
@@ -11940,22 +11933,21 @@ struct Sbp_Island {
     int unk40; int unk44;
     Sbp_Array<Sbp_Entity*> m_kActorEntries;
 };
-template <class T> static __forceinline T* Sbp_bufAlloc(Sbp_Allocator* heap, int& n) {
+template <class T> static __forceinline T* Sbp_bufAlloc(hkMemoryAllocator* heap, int& n) {
     int bytes = n * sizeof(T);
-    T* p = (T*)heap->BufAlloc(bytes);
+    T* p = static_cast<T*>(heap->bufAlloc(bytes));
     n = bytes / (int)sizeof(T);
     return p;
 }
-template <class T> static __forceinline void Sbp_freeArray(Sbp_Allocator* heap, T* data, int cap) {
-    if ((cap & 0x80000000) == 0) heap->BufFree(data, (cap & 0x3fffffff) * sizeof(T));
+template <class T> static __forceinline void Sbp_freeArray(hkMemoryAllocator* heap, T* data, int cap) {
+    if ((cap & 0x80000000) == 0) heap->bufFree(data, (cap & 0x3fffffff) * sizeof(T));
 }
 template <class T> static inline void Sbp_copy(T* dst, const T* src, int n) {
     for (int i = 0; i < n; i++) dst[i] = src[i];
 }
 static __forceinline void Sbp_initArray(Sbp_Island**& data, int& size, int& cap, int n) {
     size = n;
-    Sbp_Router* r = Sbp_router();
-    Sbp_Allocator* heap = r->unk10;
+    hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
     _ReadWriteBarrier();
     data = size ? Sbp_bufAlloc<Sbp_Island*>(heap, size) : 0;
     cap = size ? size : 0x80000000;
@@ -12016,15 +12008,15 @@ static __forceinline void doShift(Sbp_World* self,const __m128& rawShift, __m128
             for (int j = 0; j < island->m_kActorEntries.size; j++) {
                 Sbp_Entity*& entity = island->m_kActorEntries.data[j];
                 if (entity->unk10 != 0) {
-                    Sbp_Router* router = Sbp_router();
-                    if (entities.size == (entities.capacity & 0x3fffffff)) ResizeAudioStream(router->unk10, &entities, 4);
+                    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+                    if (entities.size == (entities.capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(&entities), 4);
                     entities.data[entities.size++] = entity;
                 }
             }
         }
         ::FUN_00d1a330((const ::CollisionContext *)(self->m_pCollisionInput), (::EntityNode *const *)(entities.data), entities.size);
         {
-            Sbp_freeArray(Sbp_router()->unk10, islandData, islandCap);
+            Sbp_freeArray(hkMemoryRouter::getInstance().m_heap, islandData, islandCap);
         }
         entities.destroy();
     }

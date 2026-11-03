@@ -602,6 +602,9 @@ extern int DAT_01080048;
 struct FUN_00852fd0_cls
 {
     void* m_p;
+    int m_iCount;
+    void* m_pBuffer;
+    int m_0c;
     void* InitializeBuffer(unsigned int arg);
     void* FUN_00852fd0(unsigned int arg);
 };
@@ -1756,12 +1759,12 @@ void FUN_0084ff90_shell::BuildWeaponPath(char* weapon, char* name, bool tmp)
 // @fnv 0x00853270
 void* FUN_00852fd0_cls::InitializeBuffer(unsigned int aiCount)
 {
-    *(void**)this = &DAT_010800a8;
-    ((int*)this)[1] = aiCount;
-    ((int*)this)[3] = 0;
-    int size = ((int*)this)[1] << 2;
-    *(void**)((int*)this + 2) = ::FUN_00aa1070(size);
-    ::FUN_00403d30(*(void**)((int*)this + 2), 0, ((int*)this)[1] << 2);
+    m_p = &DAT_010800a8;
+    m_iCount = aiCount;
+    m_0c = 0;
+    int size = m_iCount << 2;
+    m_pBuffer = ::FUN_00aa1070(size);
+    ::FUN_00403d30(m_pBuffer, 0, m_iCount << 2);
     return this;
 }
 

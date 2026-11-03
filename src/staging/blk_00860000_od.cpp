@@ -470,6 +470,7 @@ namespace fnv_00877d80 {
 struct BSTCommonMessageQueue
 {
     virtual ~BSTCommonMessageQueue();
+    int m_04;
     void* FUN_00877df0();
     void* Construct();
 };
@@ -479,7 +480,7 @@ void* BSTCommonMessageQueue::Construct()
 {
     FUN_00877df0();
     *reinterpret_cast<void**>(this) = &(*reinterpret_cast<int *>(&::DAT_01082f24));
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = 0;
+    m_04 = 0;
     return this;
 }
 }  // namespace fnv_00877d80
@@ -1680,7 +1681,10 @@ bool FUN_008798e0_shell::OpenAtPosition()
 struct FUN_0087d340_Class
 {
     virtual void vfn_00();
-    virtual int vfn_04(unsigned int);
+    virtual char* vfn_04(unsigned int);
+    char* m_pData;
+    int m_iSize;
+    int m_iCapacity;
     void FUN_0087d340(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x0087d2c0
@@ -2483,22 +2487,22 @@ struct FUN_0087d3d0_Class
 // @fnv 0x0087d340
 void FUN_0087d340_Class::FUN_0087d340(unsigned int requested, unsigned int savedSize)
 {
-    *(int*)((char*)this + 4) = 0;
-    *(int*)((char*)this + 8) = 0;
-    *(int*)((char*)this + 12) = 0;
+    m_pData = nullptr;
+    m_iSize = 0;
+    m_iCapacity = 0;
     if (savedSize > requested)
     {
         requested = savedSize;
     }
     if (requested > 0)
     {
-        *(int*)((char*)this + 4) = vfn_04(requested);
-        *(int*)((char*)this + 12) = requested;
+        m_pData = vfn_04(requested);
+        m_iCapacity = requested;
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_0087d3d0_Class *>(this)->FUN_0087d3d0(*(char**)((char*)this + 4), savedSize);
-        *(int*)((char*)this + 8) = savedSize;
+        reinterpret_cast<::FUN_0087d3d0_Class *>(this)->FUN_0087d3d0(m_pData, savedSize);
+        m_iSize = savedSize;
     }
 }
 

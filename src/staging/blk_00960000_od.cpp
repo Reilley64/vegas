@@ -1460,13 +1460,14 @@ struct FUN_0097be80_Class
     int m_8;
     int m_iThirdValue;
     int m_10;
+    BSSimpleListPerk m_14;
     BGSPerk* FUN_0097be80(BGSPerk* dst);
 };
 // Copies the perk returned by the list at offset 0x14 into dst and returns dst.
 // @fnv 0x0097be80
 BGSPerk* FUN_0097be80_Class::FUN_0097be80(BGSPerk* apPerkOut)
 {
-    *apPerkOut = *((::BGSPerk *)(((::Vec3 *)(void *)(reinterpret_cast<BSSimpleListPerk*>(reinterpret_cast<char*>(this) + 0x14)))));
+    *apPerkOut = *((::BGSPerk *)(((::Vec3 *)(void *)(&m_14))));
     return apPerkOut;
 }
 

@@ -1105,6 +1105,9 @@ struct FUN_009836a0_Class
 struct FUN_00983670_v
 {
     void* m_p;
+    int m_iCount;
+    void* m_pBuffer;
+    int m_0c;
     void* FUN_009837b0(int arg);
 };
 // Calls FUN_009837b0 with arg, sets m_p to the address of DAT_0108d104, and returns this.
@@ -1120,11 +1123,11 @@ void* FUN_00983670::Init(int arg)
 void* FUN_00983670_v::FUN_009837b0(int arg)
 {
     m_p = &DAT_0108d138;
-    ((int*)this)[1] = arg;
-    ((int*)this)[3] = 0;
-    int size = ((int*)this)[1] << 2;
-    *(void**)((int*)this + 2) = ::FUN_00aa1070(size);
-    ::FUN_00403d30(*(void**)((int*)this + 2), 0, ((int*)this)[1] << 2);
+    m_iCount = arg;
+    m_0c = 0;
+    int size = m_iCount << 2;
+    m_pBuffer = ::FUN_00aa1070(size);
+    ::FUN_00403d30(m_pBuffer, 0, m_iCount << 2);
     return this;
 }
 

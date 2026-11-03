@@ -79,23 +79,62 @@
 
 extern volatile long DAT_011f4400;
 
+struct E8StatePair
+{
+    int m_iValue;
+    int m_iDefault;
+};
+// The renderer's render state block (0x00e87a40..0x00e88ae0 work on it): cached D3D render states
+// (value/default pairs and lock bytes), the texture stage table at +0x10a0, the device at +0x10f8.
+struct E8RenderState
+{
+    char m_pad0000[0x120];
+    E8StatePair m_aStates[256];
+    unsigned char m_aucStateLocked[256];
+    char m_pad0a20[0x10a0 - 0xa20];
+    unsigned int m_auiTable[16];
+    int m_i10e0;
+    int m_i10e4;
+    int m_i10e8;
+    int m_i10ec;
+    int unk10f0;
+    unsigned char m_b10f4;
+    unsigned char m_b10f5;
+    void* m_pD3DDevice;
+    void* m_pRenderer;
+};
+// The renderer fields the render state code reads: its D3D device (+0x288) and the object at +0x8b8.
+struct E8Renderer
+{
+    char m_pad000[0x288];
+    void* m_pD3DDevice;
+    char m_pad28c[0x8b8 - 0x28c];
+    void* m_pRenderState;
+};
+// The shader factory's member at +0xf8 that 0x00e87a40 and 0x00e87ab0 work on.
+struct E87AB0Factory
+{
+    char m_pad00[0xf8];
+    char m_kPoint3[1];
+};
+
 struct FUN_00e87a40_This {
     void FUN_00e87a40();
 };
 
-struct FUN_00e87a70_Class {
+struct FUN_00e87a70_Class : E8RenderState {
     void FUN_00e87a70();
 };
 
 // @fnv 0x00e87a70
 void FUN_00e87a70_Class::FUN_00e87a70()
 {
-    volatile char* p = (volatile char*)this;
-    *(int*)(p + 0x10e4) = *(int*)(p + 0x10e0);
-    *(int*)(p + 0x10ec) = *(int*)(p + 0x10e8);
+    volatile E8RenderState* p = this;
+    p->m_i10e4 = p->m_i10e0;
+    p->m_i10ec = p->m_i10e8;
 }
 
-struct FUN_00e888b0_Class
+struct FUN_00e888b0_Class : E8RenderState
 {
     int FUN_00e888b0();
 };
@@ -103,64 +142,77 @@ struct FUN_00e888b0_Class
 // @fnv 0x00e888b0
 int FUN_00e888b0_Class::FUN_00e888b0()
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x10e8);
+    return m_i10e8;
 }
 
-struct FUN_00e88a50_Class {
+struct FUN_00e88a50_Class : E8RenderState {
     int FUN_00e88a50(int index);
 };
 
 // @fnv 0x00e88a50
 int FUN_00e88a50_Class::FUN_00e88a50(int index)
 {
-    return *(int*)((char*)this + 0x10a0 + index * 4);
+    return (int)m_auiTable[index];
 }
 
-struct FUN_00e87a50_Class {
+struct FUN_00e87a50_Class : E8RenderState {
     void FUN_00e87a50();
 };
 // Sets four consecutive int fields at offsets 0x10e0-0x10ec to 0, 1, 0, 1.
 // @fnv 0x00e87a50
 void FUN_00e87a50_Class::FUN_00e87a50()
 {
-    *(int*)((char*)this + 0x10e0) = 0;
-    *(int*)((char*)this + 0x10e4) = 1;
-    *(int*)((char*)this + 0x10e8) = 0;
-    *(int*)((char*)this + 0x10ec) = 1;
+    m_i10e0 = 0;
+    m_i10e4 = 1;
+    m_i10e8 = 0;
+    m_i10ec = 1;
 }
 
 struct FUN_00e87ea0_Class {
     int CallVirtualWithFlags(void* p);
 };
+struct E87EA0Property
+{
+    char m_pad00[0x18];
+    unsigned char m_ucFlags;
+};
 // Calls the virtual function at offset 0x68 of this with arguments 9, 2 or 1 depending on bit 0 of p[0x18], and 0, 0.
 // @fnv 0x00e87ea0
 int FUN_00e87ea0_Class::CallVirtualWithFlags(void* pObject)
 {
-    return reinterpret_cast<int(*)(void*, int, int, int, int)>(
-        reinterpret_cast<int**>(reinterpret_cast<int**>(this)[0])[0x68 / 4])(
-        this, 9, (reinterpret_cast<char*>(pObject)[0x18] & 1) ? 2 : 1, 0, 0);
+    return reinterpret_cast<int(*)(void*, int, int, int, int)>((*reinterpret_cast<void***>(this))[26])(
+        this, 9, (static_cast<E87EA0Property*>(pObject)->m_ucFlags & 1) ? 2 : 1, 0, 0);
 }
 
-struct FUN_00e88710_Class {
+struct E8DepthRange
+{
+    char m_pad00[0x78];
+    float m_fMin;
+    float m_fMax;
+    float m_fRange;
+    float m_f84;
+    float m_f88;
+};
+struct FUN_00e88710_Class : E8DepthRange {
     void FUN_00e88710(float* a, float* b);
 };
 // @fnv 0x00e88710
 void FUN_00e88710_Class::FUN_00e88710(float* a, float* b)
 {
-    *a = *(float*)((char*)this + 0x78);
-    *b = *(float*)((char*)this + 0x7c);
+    *a = m_fMin;
+    *b = m_fMax;
 }
 
-struct FUN_00e88730_Class {
+struct FUN_00e88730_Class : E8DepthRange {
     void SetRange(float a, float b);
 };
 
 // @fnv 0x00e88730
 void FUN_00e88730_Class::SetRange(float afMin, float afMax)
 {
-    *(float*)((char*)this + 0x78) = afMin;
-    *(float*)((char*)this + 0x7c) = afMax;
-    *(float*)((char*)this + 0x80) = afMax - afMin;
+    m_fMin = afMin;
+    m_fMax = afMax;
+    m_fRange = afMax - afMin;
 }
 
 struct FUN_00e88760_Class {
@@ -175,18 +227,25 @@ int FUN_00e88760_Class::SetFlag(bool b)
     return m_flag;
 }
 
-struct FUN_00e888c0_Class {
+struct FUN_00e888c0_Class : E8RenderState {
     int CallVirtualWithMember();
 };
 // @fnv 0x00e888c0
 int FUN_00e888c0_Class::CallVirtualWithMember()
 {
     void** vtbl = *reinterpret_cast<void***>(this);
-    void* arg = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x10ec);
+    void* arg = (void*)(intptr_t)m_i10ec;
     return reinterpret_cast<int(*)(void*, void*, int)>(vtbl[31])(this, arg, 0);
 }
 
 struct FUN_00e891f0_Class {
+    int unk00;
+    int m_i04;
+    char m_pad08[0x24];
+    unsigned char m_auc2c[8];
+    int m_i34;
+    char m_pad38[0x24];
+    unsigned char m_auc5c[8];
     void FUN_00e891f0();
 };
 
@@ -195,11 +254,11 @@ struct FUN_00e891f0_Class {
 void FUN_00e891f0_Class::FUN_00e891f0()
 {
     for (int i = 0; i < 8; ++i) {
-        ((char*)this)[0x2c + i] = 0;
-        ((char*)this)[0x5c + i] = 0;
+        m_auc2c[i] = 0;
+        m_auc5c[i] = 0;
     }
-    *(int*)((char*)this + 0x34) = 0;
-    *(int*)((char*)this + 4) = 0;
+    m_i34 = 0;
+    m_i04 = 0;
 }
 
 extern int DAT_010efc34;
@@ -253,16 +312,18 @@ void __cdecl FUN_00e941a0(void* apData)
 }
 
 struct FUN_00e95b80_Class {
+    char m_pad00[0x10];
+    void** m_pObject;
     void FUN_00e95b80();
 };
 // @fnv 0x00e95b80
 void FUN_00e95b80_Class::FUN_00e95b80()
 {
-    void** p = *(void***)((char*)this + 0x10);
+    void** p = m_pObject;
     if (p) {
         void** vtbl = *(void***)p;
         ((void (*)(void**))vtbl[2])(p);
-        *(void***)((char*)this + 0x10) = 0;
+        m_pObject = 0;
     }
 }
 
@@ -286,6 +347,9 @@ struct FUN_00e98640_Class {
     char m_pad00[0x2c];
     const void* m_pVtbl2c;
     void* m_p30;
+    int unk34;
+    int unk38;
+    FUN_00e98640_Class* m_pNext;
     void FUN_00e98640();
 };
 
@@ -312,7 +376,7 @@ void FUN_00e81d00_Class::FUN_00e81d00(void* renderer)
     m_pShaderObject = renderer;
     if (renderer)
     {
-        void* state = *(void**)((char*)renderer + 0x288);
+        void* state = static_cast<E8Renderer*>(renderer)->m_pD3DDevice;
         if (m_pRenderState)
         {
             typedef void (*ReleaseFunction)(void*);
@@ -326,7 +390,7 @@ void FUN_00e81d00_Class::FUN_00e81d00(void* renderer)
             AddRefFunction addRef = (AddRefFunction)(*(void***)state)[1];
             addRef(state);
         }
-        m_pD3DDevice = *(void**)((char*)m_pShaderObject + 0x8b8);
+        m_pD3DDevice = static_cast<E8Renderer*>(m_pShaderObject)->m_pRenderState;
     }
     else
     {
@@ -354,30 +418,30 @@ void NiD3DShaderFactory::FUN_00e87ab0()
     ((void (*)(void*))(*(void***)this)[28])(this);
     ((void (*)(void*))(*(void***)this)[47])(this);
     ((void (*)(void*))(*(void***)this)[54])(this);
-    ((NiD3DShaderFactory*)((char*)this + 0xf8))->ShutdownPoint3();
+    reinterpret_cast<NiD3DShaderFactory*>(&static_cast<E87AB0Factory*>(static_cast<void*>(this))->m_kPoint3)->ShutdownPoint3();
 }
 
-struct FUN_00e87af0_This {
+struct FUN_00e87af0_This : E8RenderState {
     void FUN_00e87af0(void* renderer);
 };
 // @fnv 0x00e87af0
 void FUN_00e87af0_This::FUN_00e87af0(void* renderer)
 {
-    *(void**)((char*)this + 0x10fc) = renderer;
+    m_pRenderer = renderer;
     if (renderer) {
-        void* state = *(void**)((char*)renderer + 0x288);
-        void* old = *(void**)((char*)this + 0x10f8);
+        void* state = static_cast<E8Renderer*>(renderer)->m_pD3DDevice;
+        void* old = m_pD3DDevice;
         if (old) ((void (*)(void*))(*(void***)old)[2])(old);
-        *(void**)((char*)this + 0x10f8) = state;
+        m_pD3DDevice = state;
         if (state) ((void (*)(void*))(*(void***)state)[1])(state);
     } else {
-        void* old = *(void**)((char*)this + 0x10f8);
+        void* old = m_pD3DDevice;
         if (old) ((void (*)(void*))(*(void***)old)[2])(old);
-        *(void**)((char*)this + 0x10f8) = 0;
+        m_pD3DDevice = 0;
     }
 }
 
-struct FUN_00e886d0_Class {
+struct FUN_00e886d0_Class : E8DepthRange {
     void FUN_00e886d0(float a);
 };
 // Clamps a to a tiny minimum, stores it at offset 0x88, and stores 1/a - 1 at offset 0x84.
@@ -386,28 +450,28 @@ void FUN_00e886d0_Class::FUN_00e886d0(float afValue)
 {
     if (afValue <= 0.0f)
         afValue = 9.999999747378752e-06f;
-    *(float*)((char*)this + 0x88) = afValue;
-    *(float*)((char*)this + 0x84) = 1.0f / afValue - 1.0f;
+    m_f88 = afValue;
+    m_f84 = 1.0f / afValue - 1.0f;
 }
 
-struct FUN_00e88860_Class {
+struct FUN_00e88860_Class : E8RenderState {
     int FUN_00e88860(int idx);
 };
 
 // @fnv 0x00e88860
 int FUN_00e88860_Class::FUN_00e88860(int idx)
 {
-    return *(int*)((char*)this + 0x120 + idx * 8);
+    return m_aStates[idx].m_iValue;
 }
 
-struct FUN_00e889b0_Class {
+struct FUN_00e889b0_Class : E8RenderState {
     void ClearBlock();
 };
 // Zeroes sixteen consecutive ints starting at offset 0x10a0 of this object.
 // @fnv 0x00e889b0
 void FUN_00e889b0_Class::ClearBlock()
 {
-    int* p = (int*)((char*)this + 0x10a0);
+    unsigned int* p = m_auiTable;
     p[0] = 0;
     p[1] = 0;
     p[2] = 0;
@@ -426,22 +490,22 @@ void FUN_00e889b0_Class::ClearBlock()
     p[15] = 0;
 }
 
-struct FUN_00e88ab0_Class {
+struct FUN_00e88ab0_Class : E8RenderState {
     void FUN_00e88ab0(bool b);
 };
 // @fnv 0x00e88ab0
 void FUN_00e88ab0_Class::FUN_00e88ab0(bool b)
 {
-    ((char*)this)[0x10f4] = b;
+    m_b10f4 = b;
 }
 
-struct FUN_00e88ad0_Class {
+struct FUN_00e88ad0_Class : E8RenderState {
     void FUN_00e88ad0(bool v);
 };
 // @fnv 0x00e88ad0
 void FUN_00e88ad0_Class::FUN_00e88ad0(bool v)
 {
-    *(char*)((char*)this + 0x10f5) = v;
+    m_b10f5 = v;
 }
 
 struct FUN_00e88bb0_Class {
@@ -456,24 +520,36 @@ void FUN_00e88bb0_Class::ApplyFromArray(int* aiValues) {
     ((void (*)(void*, int))(*reinterpret_cast<void***>(this))[6])(this, aiValues[2]);
 }
 
+struct E89220Object
+{
+    char m_pad00[0x64];
+    int m_i64;
+    char m_pad68[0x18];
+    unsigned char m_auc80[5];
+    int m_i88;
+    char m_pad8c[0x18];
+    unsigned char m_aucA4[5];
+    int m_iAC;
+    unsigned char m_aucB0[5];
+};
 // @fnv 0x00e89220
 void ClearFields(void* self)
 {
-    char* p = (char*)self + 0xa4;
-    for (int i = 5; i; --i) {
-        p[-0x24] = 0;
-        *p = 0;
-        p[0xc] = 0;
-        ++p;
+    E89220Object* pkObject = static_cast<E89220Object*>(self);
+    for (int i = 0; i < 5; ++i) {
+        pkObject->m_auc80[i] = 0;
+        pkObject->m_aucA4[i] = 0;
+        pkObject->m_aucB0[i] = 0;
     }
-    *(int*)((char*)self + 0x88) = 0;
-    *(int*)((char*)self + 0x64) = 0;
-    *(int*)((char*)self + 0xac) = 0;
+    pkObject->m_i88 = 0;
+    pkObject->m_i64 = 0;
+    pkObject->m_iAC = 0;
 }
 
 struct FUN_00e89560_Class {
     void* m_ptr;
     void* m_obj;
+    FUN_00e89560_Class* m_pNext;
     void FUN_00e89560();
 };
 // @fnv 0x00e89560
@@ -481,10 +557,10 @@ void FUN_00e89560_Class::FUN_00e89560()
 {
     if (m_ptr)
         FUN_00aa1490((char*)m_ptr - 4, 0xb8);
-    void* obj = *(void**)((char*)this + 8);
+    FUN_00e89560_Class* obj = m_pNext;
     if (obj)
     {
-        ((FUN_00e89560_Class*)obj)->FUN_00e89560();
+        obj->FUN_00e89560();
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(obj);
     }
 }
@@ -532,42 +608,46 @@ struct NiConsoleRenderStateStub {
     void* m_ppVirtualMethodTable;
 };
 struct FUN_00e89760_Class {
+    char m_pad00[0x20];
+    NiConsoleRenderStateStub* m_pState;
+    NiConsoleRendererStub* m_pRenderer;
+    void* m_pRenderState28;
     void FUN_00e89760(NiConsoleRendererStub* renderer);
 };
 // @fnv 0x00e89760
 void FUN_00e89760_Class::FUN_00e89760(NiConsoleRendererStub* renderer)
 {
-    *(NiConsoleRendererStub**)((char*)this + 0x24) = renderer;
+    m_pRenderer = renderer;
     if (renderer)
     {
-        NiConsoleRenderStateStub* state = (NiConsoleRenderStateStub*)*(void**)((char*)renderer + 0x288);
-        NiConsoleRenderStateStub* old = *(NiConsoleRenderStateStub**)((char*)this + 0x20);
+        NiConsoleRenderStateStub* state = (NiConsoleRenderStateStub*)reinterpret_cast<E8Renderer*>(renderer)->m_pD3DDevice;
+        NiConsoleRenderStateStub* old = m_pState;
         if (old)
         {
             void (*Release)(NiConsoleRenderStateStub*) =
-                (void (*)(NiConsoleRenderStateStub*))*(void**)((void**)old->m_ppVirtualMethodTable + 2);
+                (void (*)(NiConsoleRenderStateStub*))((void**)old->m_ppVirtualMethodTable)[2];
             Release(old);
         }
-        *(NiConsoleRenderStateStub**)((char*)this + 0x20) = state;
+        m_pState = state;
         if (state)
         {
             void (*AddRef)(NiConsoleRenderStateStub*) =
-                (void (*)(NiConsoleRenderStateStub*))*(void**)((void**)state->m_ppVirtualMethodTable + 1);
+                (void (*)(NiConsoleRenderStateStub*))((void**)state->m_ppVirtualMethodTable)[1];
             AddRef(state);
         }
-        *(void**)((char*)this + 0x28) = *(void**)((char*)*(NiConsoleRendererStub**)((char*)this + 0x24) + 0x8b8);
+        m_pRenderState28 = reinterpret_cast<E8Renderer*>(m_pRenderer)->m_pRenderState;
     }
     else
     {
-        NiConsoleRenderStateStub* old = *(NiConsoleRenderStateStub**)((char*)this + 0x20);
-        *(void**)((char*)this + 0x28) = 0;
+        NiConsoleRenderStateStub* old = m_pState;
+        m_pRenderState28 = 0;
         if (old)
         {
             void (*Release)(NiConsoleRenderStateStub*) =
-                (void (*)(NiConsoleRenderStateStub*))*(void**)((void**)old->m_ppVirtualMethodTable + 2);
+                (void (*)(NiConsoleRenderStateStub*))((void**)old->m_ppVirtualMethodTable)[2];
             Release(old);
         }
-        *(NiConsoleRenderStateStub**)((char*)this + 0x20) = 0;
+        m_pState = 0;
     }
 }
 
@@ -868,34 +948,55 @@ FUN_00e89350_Class::FUN_00e89350_Class()
 }
 
 struct NiColor { float m_r; float m_g; float m_kPointB; float m_kPointA; };
-struct FUN_00e93fb0_Class {
+struct E93FB0Cache
+{
+    float m_afColor00[4];
+    float m_afColor10[4];
+    float m_afColor20[4];
+    float m_afColor30[4];
+    float m_f40;
+    int m_iRevision;
+};
+struct E93FB0Material
+{
+    char m_pad00[0x1c];
+    float m_afColor1c[3];
+    float m_afColor28[3];
+    NiColor* m_pkColor;
+    float m_f38;
+    float m_fAlpha;
+    int unk40;
+    int m_iRevision;
+};
+struct FUN_00e93fb0_Class : E93FB0Cache {
     char CopyColorIfChanged(FUN_00e93fb0_Class* p);
 };
 // If the value at offset 0x44 differs from p's, copies p's color, alpha and related floats into this and returns 1; otherwise returns 0.
 // @fnv 0x00e93fb0
 char FUN_00e93fb0_Class::CopyColorIfChanged(FUN_00e93fb0_Class* apSource)
 {
-    if (*(int*)((char*)this + 0x44) != *(int*)((char*)apSource + 0x44)) {
-        *(int*)((char*)this + 0x44) = *(int*)((char*)apSource + 0x44);
-        NiColor* c = (NiColor*)(*(NiColor**)((char*)apSource + 0x34) ? *(NiColor**)((char*)apSource + 0x34) : (NiColor*)((char*)apSource + 0x28));
-        float a = *(float*)((char*)apSource + 0x3c);
-        *(float*)((char*)this + 0x30) = c->m_r;
-        *(float*)((char*)this + 0x34) = c->m_g;
-        *(float*)((char*)this + 0x38) = c->m_kPointB;
-        *(float*)((char*)this + 0x3c) = a;
-        *(float*)((char*)this + 0x10) = DAT_011f4998.m_r;
-        *(float*)((char*)this + 0x14) = DAT_011f499c.m_r;
-        *(float*)((char*)this + 0x18) = DAT_011f49a0.m_r;
-        *(float*)((char*)this + 0x1c) = a;
-        *(float*)((char*)this + 0x00) = DAT_011f4998.m_r;
-        *(float*)((char*)this + 0x04) = DAT_011f499c.m_r;
-        *(float*)((char*)this + 0x08) = DAT_011f49a0.m_r;
-        *(float*)((char*)this + 0x0c) = a;
-        *(float*)((char*)this + 0x20) = *(float*)((char*)apSource + 0x1c);
-        *(float*)((char*)this + 0x24) = *(float*)((char*)apSource + 0x20);
-        *(float*)((char*)this + 0x28) = *(float*)((char*)apSource + 0x24);
-        *(float*)((char*)this + 0x2c) = a;
-        *(float*)((char*)this + 0x40) = *(float*)((char*)apSource + 0x38);
+    const E93FB0Material* pkSource = reinterpret_cast<const E93FB0Material*>(apSource);
+    if (m_iRevision != pkSource->m_iRevision) {
+        m_iRevision = pkSource->m_iRevision;
+        NiColor* c = pkSource->m_pkColor ? pkSource->m_pkColor : (NiColor*)pkSource->m_afColor28;
+        float a = pkSource->m_fAlpha;
+        m_afColor30[0] = c->m_r;
+        m_afColor30[1] = c->m_g;
+        m_afColor30[2] = c->m_kPointB;
+        m_afColor30[3] = a;
+        m_afColor10[0] = DAT_011f4998.m_r;
+        m_afColor10[1] = DAT_011f499c.m_r;
+        m_afColor10[2] = DAT_011f49a0.m_r;
+        m_afColor10[3] = a;
+        m_afColor00[0] = DAT_011f4998.m_r;
+        m_afColor00[1] = DAT_011f499c.m_r;
+        m_afColor00[2] = DAT_011f49a0.m_r;
+        m_afColor00[3] = a;
+        m_afColor20[0] = pkSource->m_afColor1c[0];
+        m_afColor20[1] = pkSource->m_afColor1c[1];
+        m_afColor20[2] = pkSource->m_afColor1c[2];
+        m_afColor20[3] = a;
+        m_f40 = pkSource->m_f38;
         return 1;
     }
     return 0;
@@ -962,7 +1063,7 @@ void NiD3DRenderStateStub::ClearRenderState(int arg)
         m_10ec = 0;
 }
 
-struct FUN_00e879e0_Class {
+struct FUN_00e879e0_Class : E8RenderState {
     void FUN_00e879e0(float* p);
 };
 
@@ -970,7 +1071,7 @@ struct FUN_00e879e0_Class {
 // @fnv 0x00e879e0
 void FUN_00e879e0_Class::FUN_00e879e0(float* pfValue)
 {
-    if (pfValue[0xc] >= 0.99f && pfValue[0xc] <= 1.01f && !*(unsigned char*)((char*)this + 0x10f5) && !*(unsigned char*)((char*)this + 0x10f4))
+    if (pfValue[0xc] >= 0.99f && pfValue[0xc] <= 1.01f && !m_b10f5 && !m_b10f4)
     {
         void** vtbl = *(void***)this;
         ((void (*)(void*, int, int, int, int))vtbl[0x1a])(this, 0x8f, 0, 0, 0);
@@ -1069,6 +1170,9 @@ void* FUN_00e8b4e0_Class::FUN_00e8b4e0(unsigned int flags)
 }
 
 struct FUN_00e8b520_Class : NiTMapBaseStub {
+    void* m_pVtbl;
+    unsigned int m_uiHashSize;
+    void** m_ppHashTable;
     void* FUN_00e8b520(int deletingFlag);
 };
 
@@ -1086,7 +1190,7 @@ void* FUN_00e8b520_Class::FUN_00e8b520(int deletingFlag)
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_010efdd8);
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
 
-    _NiFree(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 8));
+    _NiFree(m_ppHashTable);
 
     if (deletingFlag & 1) {
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
@@ -1500,7 +1604,7 @@ struct FUN_00e94070_Class {
 // @fnv 0x00e87a40
 void FUN_00e87a40_This::FUN_00e87a40()
 {
-    reinterpret_cast<::FUN_00e94070_Class *>((((FUN_00e87a40_This*)((char*)this + 0xf8))))->ReleaseOwnedObject({});
+    reinterpret_cast<::FUN_00e94070_Class *>(&static_cast<E87AB0Factory*>(static_cast<void*>(this))->m_kPoint3)->ReleaseOwnedObject({});
 }
 // If p and p->m_ptr are set, clears p->m_ptr, clears m_obj when it matched the old pointer, and deletes the old block.
 // @fnv 0x00e94070
@@ -2234,7 +2338,7 @@ struct C00e87ed0 {
 
 // @fnv 0x00e87ed0
 void C00e87ed0::FUN_00e87ed0(void* apData) {
-    int flag = ((unsigned char*)apData)[0x18] & 1;
+    int flag = static_cast<E87EA0Property*>(apData)->m_ucFlags & 1;
     this->v26(0x1d, flag, 0, 0);
 }
 
@@ -2896,13 +3000,14 @@ void FUN_00e88780_Class::SetIndexedValue(
 ) {
     unsigned char* self = reinterpret_cast<unsigned char*>(this);
 
-    if (self[0x920 + index] == 0) {
-        self[0x920 + index] = flag;
+    E8RenderState* pkState = reinterpret_cast<E8RenderState*>(self);
+    if (pkState->m_aucStateLocked[index] == 0) {
+        pkState->m_aucStateLocked[index] = flag;
 
-        int* slot = reinterpret_cast<int*>(self + 0x120 + index * 8);
+        int* slot = &pkState->m_aStates[index].m_iValue;
         if (*slot != value) {
             FUN_00e88780_D3DObject* pObject =
-                *reinterpret_cast<FUN_00e88780_D3DObject**>(self + 0x10f8);
+                static_cast<FUN_00e88780_D3DObject*>(pkState->m_pD3DDevice);
 
             void** vtable = reinterpret_cast<void**>(pObject->m_ppVirtualMethodTable);
             FUN_00e88780_D3DCall call =
@@ -3054,7 +3159,7 @@ void FUN_00e88830_cls::FUN_00e88830(int aiValue, int unused1, int unused2)
 {
     if (m_1f8 != aiValue)
     {
-        void* holder = *(void**)((char*)this + 0x10f8);
+        void* holder = reinterpret_cast<E8RenderState*>(this)->m_pD3DDevice;
         FUN_00e88830_Slot fn = (FUN_00e88830_Slot)(*(void***)holder)[0xe4 / 4];
         fn(holder, 0x1b, aiValue);
     }
@@ -5142,11 +5247,12 @@ typedef void (*FUN_00e88a20_Slot)(void* self, int code, int value);
 // @fnv 0x00e88a20
 void FUN_00e88a20_cls::FUN_00e88a20(int aiIndex, int auiValue)
 {
-    unsigned int* table = (unsigned int*)((char*)this + 0x10a0);
+    E8RenderState* pkState = reinterpret_cast<E8RenderState*>(this);
+    unsigned int* table = pkState->m_auiTable;
     if (table[aiIndex] != (unsigned int)auiValue)
     {
         table[aiIndex] = auiValue;
-        void* holder = *(void**)((char*)this + 0x10f8);
+        void* holder = pkState->m_pD3DDevice;
         FUN_00e88a20_Slot fn = (FUN_00e88a20_Slot)(*(void***)holder)[0x104 / 4];
         fn(holder, aiIndex, auiValue);
     }
@@ -5247,7 +5353,7 @@ void FUN_00e88a60_Class::ClearSlotByValue(int value)
 // @fnv 0x00e88ac0
 char FUN_00e88ac0(void* self)
 {
-    return ((const char*)self)[0x10f4];
+    return (char)static_cast<const E8RenderState*>(self)->m_b10f4;
 }
 
 class FUN_00e88ae0_cls {
@@ -8254,7 +8360,7 @@ FUN_00e8a9e0_cls* FUN_00e8a9e0_cls::FUN_00e8a9e0(unsigned char acFlags)
     FUN_00e8a9e0_child* pChild = m_pChildObject;
     m_vptr = &DAT_010efb7c;
     if (pChild != 0) {
-        FUN_00e8a9e0_mgr* pMgr = *(FUN_00e8a9e0_mgr**)((char*)m_pSharedOwner + 0x8b8);
+        FUN_00e8a9e0_mgr* pMgr = static_cast<FUN_00e8a9e0_mgr*>(reinterpret_cast<E8Renderer*>(m_pSharedOwner)->m_pRenderState);
         pMgr->Call57(pChild);
         m_pChildObject->Release();
         m_pChildObject = 0;
@@ -10176,10 +10282,14 @@ struct E98CB0Arr {
     int unk10;
     void FUN_00e98cb0(bool bFree);
 };
+struct E98E10Owner {
+    char m_pad00[0x18];
+    E98CB0Arr m_kArray;
+};
 // @fnv 0x00e98e10
 void FnvCpu_FUN_00e98e10_CpuOwner::FUN_00e98e10()
 {
-    reinterpret_cast<::E98CB0Arr *>((reinterpret_cast<FnvCpu_FUN_00e98e10_CpuTarget*>(reinterpret_cast<char*>(this) + (24))))->FUN_00e98cb0({});
+    reinterpret_cast<E98E10Owner*>(this)->m_kArray.FUN_00e98cb0({});
 }
 // Resets unk10 to 0 and, when bFree is set, releases both pointers of every pair, nulls the base entries and clears the size counters.
 // @fnv 0x00e98cb0
@@ -10520,14 +10630,9 @@ FUN_00e881a0::FUN_00e881a0(void* renderer)
     DAT_0126f948[5] = 6;
     DAT_0126f948[6] = 7;
 
-    ((int*)DAT_0126f92c)[0] = -1;
-    ((int*)DAT_0126f92c)[3] = -1;
-    ((int*)DAT_0126f92c)[1] = -1;
-    ((int*)DAT_0126f92c)[2] = -1;
+    for (int k = 0; k < 14; ++k)
+        DAT_0126f92c[k] = 0xffff;
     DAT_0126f948[7] = 0x18;
-    ((int*)DAT_0126f92c)[4] = -1;
-    ((int*)DAT_0126f92c)[5] = -1;
-    ((int*)DAT_0126f92c)[6] = -1;
     DAT_0126f92c[1] = 0;
     DAT_0126f92c[2] = 1;
     DAT_0126f92c[5] = 2;
@@ -12824,6 +12929,14 @@ extern char DAT_010efcf0[];
 
 struct CubeTextureResource
 {
+    char m_pad00[0xc];
+    unsigned int m_uiEdgeLength;
+    char m_pad10[0x10];
+    D3DFORMAT m_eFormat;
+    char m_pad24[0x3c];
+    ::E8Renderer* m_pRenderer;
+    IDirect3DCubeTexture9* m_pTexture;
+    unsigned int m_uiLevels;
     bool FUN_00e8aa70();
 };
 
@@ -12831,15 +12944,12 @@ struct CubeTextureResource
 // @fnv 0x00e8aa70
 bool CubeTextureResource::FUN_00e8aa70()
 {
-    const D3DFORMAT format =
-        *reinterpret_cast<D3DFORMAT*>(reinterpret_cast<char*>(this) + 0x20);
-    IDirect3DDevice9* const device =
-        *reinterpret_cast<IDirect3DDevice9**>(
-            *reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0x60) + 0x288);
+    const D3DFORMAT format = m_eFormat;
+    IDirect3DDevice9* const device = static_cast<IDirect3DDevice9*>(m_pRenderer->m_pD3DDevice);
     IDirect3DCubeTexture9* texture = 0;
     HRESULT result = device->CreateCubeTexture(
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x0c),
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x68),
+        m_uiEdgeLength,
+        m_uiLevels,
         DAT_0126f0d0 ? 0x200 : 0,
         format,
         DAT_0126f0d0 ? D3DPOOL_DEFAULT : D3DPOOL_MANAGED,
@@ -12850,7 +12960,7 @@ bool CubeTextureResource::FUN_00e8aa70()
         ::FUN_00a29680();
         return false;
     }
-    *reinterpret_cast<IDirect3DCubeTexture9**>(reinterpret_cast<char*>(this) + 0x64) = texture;
+    m_pTexture = texture;
     return true;
 }
 }  // namespace fnv_00e8aa70
@@ -14632,8 +14742,7 @@ FUN_00e98910_Class::FUN_00e98910(int* context) {
     this->unk84 = context;
 
     if (context != 0) {
-        this->unk80 = reinterpret_cast<FUN_00e98910_Target*>(
-            *reinterpret_cast<int*>(reinterpret_cast<char*>(context) + 0x288));
+        this->unk80 = static_cast<FUN_00e98910_Target*>(reinterpret_cast<E8Renderer*>(context)->m_pD3DDevice);
     }
 
     if (this->unk80 != 0) {
@@ -15379,8 +15488,7 @@ void __cdecl FUN_00e94290()
         FUN_00e98640_Class* next;
         do
         {
-            next = reinterpret_cast<FUN_00e98640_Class*>(
-                reinterpret_cast<int*>(node)[0x3c / 4]);
+            next = node->m_pNext;
             node->FUN_00e98640();
             operator delete(node, 0x44);
             node = next;

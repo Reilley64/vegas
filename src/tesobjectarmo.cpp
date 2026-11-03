@@ -1,5 +1,6 @@
 // tesobjectarmo.cpp: TESObjectARMO, ArmorSerializer, ArmorCopy, TESObjectARMOFoley and more (15 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
@@ -81,17 +82,17 @@ void TESObjectARMO::InitItem()
     BGSPickupPutdownSounds::InitItem(this);
     if (!m_bUsesSoundList && m_pSoundSourceArmor)
     {
-        m_pSoundSourceArmor = static_cast<TESObjectARMO*>(::FUN_004839c0((unsigned int)m_pSoundSourceArmor));
+        m_pSoundSourceArmor = static_cast<TESObjectARMO*>(::FUN_004839c0(static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(m_pSoundSourceArmor))));
     }
     else if (m_bUsesSoundList && m_pPickupPutdownSoundList)
     {
         BSSimpleList<SoundDescriptor*>* soundList = m_pPickupPutdownSoundList;
-        while (soundList && ((::SoundDescriptor *)(new ((void *)(soundList)) ::Vec3())))
+        while (soundList && *((::SoundDescriptor **)(new ((void *)(soundList)) ::Vec3())))
         {
-            SoundDescriptor* sound = ((::SoundDescriptor *)(new ((void *)(soundList)) ::Vec3()));
+            SoundDescriptor* sound = *((::SoundDescriptor **)(new ((void *)(soundList)) ::Vec3()));
             soundList = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((soundList))->FUN_00726070()));
             if (sound->SoundAssetTmp)
-                sound->SoundAssetTmp = (TESSound*)::FUN_004839c0((unsigned int)sound->SoundAssetTmp);
+                sound->SoundAssetTmp = (TESSound*)::FUN_004839c0(static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(sound->SoundAssetTmp)));
         }
     }
     SetInitializationState(true);
@@ -126,7 +127,7 @@ bool TESObjectARMO::Load(TESFile* file)
         case 'IRCS': {
             unsigned int uiScriptFormID = 0;
             file->GetChunkData(&uiScriptFormID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::Script *)((Script*)uiScriptFormID));
+            TESScriptableForm::m_pFormScript = reinterpret_cast<Script*>(static_cast<std::uintptr_t>(uiScriptFormID));
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -134,7 +135,7 @@ bool TESObjectARMO::Load(TESFile* file)
         case 'MTIE': {
             unsigned int uiEnchantmentFormID = 0;
             file->GetChunkData(&uiEnchantmentFormID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::EnchantmentItem *)((EnchantmentItem*)uiEnchantmentFormID));
+            TESEnchantableForm::m_pEnchantment = reinterpret_cast<EnchantmentItem*>(static_cast<std::uintptr_t>(uiEnchantmentFormID));
             break;
         }
         case 'MANA':
@@ -254,31 +255,31 @@ bool TESObjectARMO::Load(TESFile* file)
         case 'LPER': {
             unsigned int uiListFormID = 0;
             file->GetChunkData(&uiListFormID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::BGSListForm *)((BGSListForm*)uiListFormID));
+            BGSRepairItemList::pListForm = reinterpret_cast<BGSListForm*>(static_cast<std::uintptr_t>(uiListFormID));
             break;
         }
         case 'LPIB': {
             unsigned int uiListFormID = 0;
             file->GetChunkData(&uiListFormID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::BGSListForm *)((BGSListForm*)uiListFormID));
+            BGSBipedModelList::pListForm = reinterpret_cast<BGSListForm*>(static_cast<std::uintptr_t>(uiListFormID));
             break;
         }
         case 'PYTE': {
             unsigned int uiEquipType = 0;
             file->GetChunkData(&uiEquipType);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((*(::CombatController * *)&(const ::BGSEquipType__EQUIP_TYPE &)((BGSEquipType__EQUIP_TYPE)uiEquipType)));
+            m_eEquipType = (BGSEquipType__EQUIP_TYPE)uiEquipType;
             break;
         }
         case 'MANY': {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)sound));
+            m_pPickupSound = reinterpret_cast<TESSound*>(static_cast<std::uintptr_t>(sound));
             break;
         }
         case 'MANZ': {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)sound));
+            m_pPutdownSound = reinterpret_cast<TESSound*>(static_cast<std::uintptr_t>(sound));
             break;
         }
         case 'MANB': {
@@ -295,7 +296,7 @@ bool TESObjectARMO::Load(TESFile* file)
             {
                 unsigned int formID = 0;
                 file->GetChunkData(&formID);
-                m_pSoundSourceArmor = (TESObjectARMO*)formID;
+                m_pSoundSourceArmor = reinterpret_cast<TESObjectARMO*>(static_cast<std::uintptr_t>(formID));
             }
             break;
         }
@@ -726,9 +727,9 @@ void ArmorSerializer::Save()
     else if (m_pPickupPutdownSoundList)
     {
         FoleyNode* node = (FoleyNode*)m_pPickupPutdownSoundList;
-        while (node && ((::SoundDescriptor *)(new ((void *)(node)) ::Vec3())))
+        while (node && (*((::SoundDescriptor **)(new ((void *)(node)) ::Vec3()))))
         {
-            SoundDescriptor* sound = ((::SoundDescriptor *)(new ((void *)(node)) ::Vec3()));
+            SoundDescriptor* sound = (*((::SoundDescriptor **)(new ((void *)(node)) ::Vec3())));
             node = ((::FoleyNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             if (sound && sound->SoundAssetTmp)
             {
@@ -767,9 +768,9 @@ void ArmorCopy::CopyArmorData(TESForm* form)
     if (m_bUsesSoundList && m_pPickupPutdownSoundList)
     {
         node_ = m_pPickupPutdownSoundList;
-        while (node_ && ((::SoundDescriptor *)(new ((void *)(node_)) ::Vec3())))
+        while (node_ && (*((::SoundDescriptor **)(new ((void *)(node_)) ::Vec3()))))
         {
-            sound = ((::SoundDescriptor *)(new ((void *)(node_)) ::Vec3()));
+            sound = (*((::SoundDescriptor **)(new ((void *)(node_)) ::Vec3())));
             ::FUN_00401030(sound);
             node_ = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((node_))->FUN_00726070()));
         }
@@ -785,9 +786,9 @@ void ArmorCopy::CopyArmorData(TESForm* form)
         if (source3->m_pPickupPutdownSoundList)
         {
             iter = source3->m_pPickupPutdownSoundList;
-            while (iter && ((::SoundDescriptor *)(new ((void *)(iter)) ::Vec3())))
+            while (iter && (*((::SoundDescriptor **)(new ((void *)(iter)) ::Vec3()))))
             {
-                original9 = ((::SoundDescriptor *)(new ((void *)(iter)) ::Vec3()));
+                original9 = (*((::SoundDescriptor **)(new ((void *)(iter)) ::Vec3())));
                 iter = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
                 if (original9 && original9->SoundAssetTmp)
                 {
@@ -819,7 +820,7 @@ TESSound* TESObjectARMOFoley::GetFoleySound(int eType)
                                   : (m_pSoundSourceArmor ? m_pSoundSourceArmor->m_pPickupPutdownSoundList : 0);
     while (pFoleyList && !pFoleyList->IsEmpty() && !pkSound)
     {
-        pkFoley = ((::SoundDescriptor *)(new ((void *)(pFoleyList)) ::Vec3()));
+        pkFoley = (*((::SoundDescriptor **)(new ((void *)(pFoleyList)) ::Vec3())));
         pFoleyList = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((pFoleyList))->FUN_00726070()));
         if (pkFoley->SoundAssetTmp && pkFoley->eType == eType && (int)(DialogueRandom() & 0x63) < pkFoley->layoutPadding4[0])
             pkSound = pkFoley->SoundAssetTmp;
@@ -861,18 +862,18 @@ bool ArmorCompare::IsDifferentFrom(TESForm* form)
     else
     {
         if (pOther->m_pPickupPutdownSoundList && m_pPickupPutdownSoundList &&
-            ((::SoundDescriptor *)(new ((void *)(pOther->m_pPickupPutdownSoundList)) ::Vec3())) == ((::SoundDescriptor *)(new ((void *)(m_pPickupPutdownSoundList)) ::Vec3())))
+            (*((::SoundDescriptor **)(new ((void *)(pOther->m_pPickupPutdownSoundList)) ::Vec3()))) == (*((::SoundDescriptor **)(new ((void *)(m_pPickupPutdownSoundList)) ::Vec3()))))
         {
             BSSimpleList<SoundDescriptor*>* pCurrent = m_pPickupPutdownSoundList;
-            while (pCurrent && ((::SoundDescriptor *)(new ((void *)(pCurrent)) ::Vec3())))
+            while (pCurrent && (*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3()))))
             {
                 bool bFound = false;
                 BSSimpleList<SoundDescriptor*>* search = pOther->m_pPickupPutdownSoundList;
-                while (search && ((::SoundDescriptor *)(new ((void *)(search)) ::Vec3())))
+                while (search && (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3()))))
                 {
-                    if (((::SoundDescriptor *)(new ((void *)(pCurrent)) ::Vec3()))->SoundAssetTmp == ((::SoundDescriptor *)(new ((void *)(search)) ::Vec3()))->SoundAssetTmp &&
-                        ((::SoundDescriptor *)(new ((void *)(pCurrent)) ::Vec3()))->layoutPadding4[0] == ((::SoundDescriptor *)(new ((void *)(search)) ::Vec3()))->layoutPadding4[0] &&
-                        ((::SoundDescriptor *)(new ((void *)(pCurrent)) ::Vec3()))->eType == ((::SoundDescriptor *)(new ((void *)(search)) ::Vec3()))->eType)
+                    if ((*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3())))->SoundAssetTmp == (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3())))->SoundAssetTmp &&
+                        (*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3())))->layoutPadding4[0] == (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3())))->layoutPadding4[0] &&
+                        (*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3())))->eType == (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3())))->eType)
                     {
                         bFound = true;
                         break;

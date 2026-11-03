@@ -1191,7 +1191,7 @@ struct FUN_0042e2a0_shell
 };
 struct FUN_004534f0_shell
 {
-    void FUN_004534f0(unsigned int);
+    void FUN_004534f0(std::uintptr_t);
 };
 struct FUN_00568f30_shell
 {

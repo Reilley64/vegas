@@ -157,7 +157,7 @@ bool TESObjectTREE::Load(TESFile* file)
                 if (file->IsEndianConversionRequired())
                     ::FUN_00401080((int *)(unsigned int *)(&seeds.values[i]));
                 if (seeds.values[i] > 0)
-                    reinterpret_cast<::S_0060ba10 *>(&(m_kSeedArray))->FUN_0096a610((int)&(seeds.values[i]));
+                    reinterpret_cast<::S_0060ba10 *>(&(m_kSeedArray))->FUN_0096a610((std::intptr_t)&(seeds.values[i]));
             }
             delete[] seeds.values;
             break;
@@ -1386,7 +1386,7 @@ void SaveTree::FUN_0051bfb0()
             if (uiSeedValue > 0)
                 count[value] = uiSeedValue;
         }
-        ::FUN_00485710((void *)(0x4d414e53), count, (void *)(values));
+        ::FUN_00485710((void *)(0x4d414e53), count, (void *)(std::uintptr_t)(values));
     }
     if (data.unk14 < 0)
         data.unk14 = 128;
@@ -1775,7 +1775,7 @@ class FUN_00a74480 : public TreeSceneObject
     unsigned int unkB8;
     unsigned int unkBC;
     unsigned int unkC0;
-    FUN_00a74480(unsigned int texture);
+    FUN_00a74480(void* apData);
 };
 class FUN_00ba8630 : public TreeSceneObject
 {
@@ -1916,7 +1916,7 @@ TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
     AutoMemContext eb(0x23, true, treeSourceFile, 470);
     NiPointer<NiSourceTexture> a(0);
     reinterpret_cast<::TreeObj *>(this)->CreateTreeGeometry(variant, (::SpPtr< ::CreatedObj> *)(::NiPointer< ::fnv_0051cba0::NiSourceTexture> *)(&a));
-    FUN_00a74480* h = new FUN_00a74480((unsigned int)(NiSourceTexture*)a);
+    FUN_00a74480* h = new FUN_00a74480((NiSourceTexture*)a);
     TreeSceneObject* f = ((::fnv_0051cba0::TreeSceneObject *)(::fnv_0051cee0::GetFloatAsUInt()));
     if (f)
         reinterpret_cast<::FUN_00439410_cls *>((h))->FUN_00439410((::ArgObject *)(::NiObject *)((NiObject*)f));
@@ -1963,13 +1963,13 @@ struct TreeWork
     int unk10;
     int unk14;
     int unk18;
-    TreeWork(void*, int, int, int, int, int, int);
+    TreeWork(void*, void*, void*, void*, unsigned int, const void*, const void*);
 };
 struct TextureInfo
 {
     int flags;
     TreeWork* work;
-    unsigned int id;
+    const char* id;
     TextureInfo();
 };
 struct Loader
@@ -1977,11 +1977,11 @@ struct Loader
 };
 struct TreeTexture
 {
-    void ProcessTreeTexture(int, int, int, int, int, int, int, int);
+    void ProcessTreeTexture(::Vec3*, int, float*, int, void*, unsigned int, ::Obj3*, int);
 };
 // Validates inputs and texture readiness, loads or queues the tree texture, then processes it and deletes the work object.
 // @fnv 0x0051d440
-void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int f, int g, int unused2)
+void TreeTexture::ProcessTreeTexture(::Vec3* a, int unused, float* c, int d, void* e, unsigned int f, ::Obj3* g, int unused2)
 {
     AutoMemContext context4(0x23, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectTREE.cpp",
                             0x228);
@@ -1992,7 +1992,7 @@ void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int
     if (!reinterpret_cast<::FUN_0051d250_Class *>(this)->FUN_0051d250())
         return;
     TreeWork* work2 = 0;
-    if (!::IsNamedObjectPresent((const char *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
+    if (!::IsNamedObjectPresent((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
     {
         char path3[260];
         char normalized[260];
@@ -2002,8 +2002,8 @@ void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int
         ::FindTextureByPath(normalized, (::NiTexture **)(::fnv_0051d440::TexturePtr *)(&texture5));
         if (!texture5)
         {
-            TreeWork* request = new TreeWork(this, e, f, g, d, a, c);
-            reinterpret_cast<::fnv_00447980::OwnerX *>(((*reinterpret_cast<::fnv_0051d440::Loader * *>(&::g_modelLoader))))->RunIdleTask((int)(normalized), (int)(request));
+            TreeWork* request = new TreeWork(this, e, (void*)(std::uintptr_t)f, g, d, a, c);
+            reinterpret_cast<::fnv_00447980::OwnerX *>(((*reinterpret_cast<::fnv_0051d440::Loader * *>(&::g_modelLoader))))->RunIdleTask((std::uintptr_t)(normalized), (std::uintptr_t)(request));
             return;
         }
         else
@@ -2014,10 +2014,10 @@ void TreeTexture::ProcessTreeTexture(int a, int unused, int c, int d, int e, int
             return;
     }
     TextureInfo info2;
-    info2.id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()));
+    info2.id = (const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0());
     info2.work = work2;
     info2.flags = 0;
-    ::FUN_00b59ae0((void *)(e), f, (::Obj3 *)(g), (::ObjA4 *)(::fnv_0051d440::TextureInfo *)(&info2), (::Vec3 *)(a), (float *)(c), (unsigned short)d);
+    ::FUN_00b59ae0(e, f, g, (::ObjA4 *)(::fnv_0051d440::TextureInfo *)(&info2), a, c, (unsigned short)d);
     delete info2.work;
 }
 }  // namespace fnv_0051d440

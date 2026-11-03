@@ -133,7 +133,7 @@ void BGSImpactDataSet::InitItem()
         return;
     for (int i = 0; i < 12; ++i)
     {
-        unsigned int formID = (unsigned int)m_apImpactData[i];
+        unsigned int formID = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(m_apImpactData[i]));
         if (formID)
         {
             ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -157,7 +157,7 @@ void BGSImpactDataSet::QueueResourceLoad(int priority, QueuedFile* pQueuedFile)
         if (data)
         {
             if (data->GetModelLength())
-                reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(data), priority, (int)(pQueuedFile), true, true, false, false);
+                reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30(reinterpret_cast<std::uintptr_t>(data), priority, reinterpret_cast<std::uintptr_t>(pQueuedFile), true, true, false, false);
             BGSTextureSet* textureSet = data->GetDecalTextureSet();
             if (textureSet)
                 textureSet->LoadTextures(priority, pQueuedFile, false);
@@ -315,9 +315,9 @@ void FUN_0058f080::Save()
                 data.type = i;
                 reinterpret_cast<::C6b7f20_Map *>((m_pData[i]))->FUN_006b7f20((::C6b7f20_Node **)&(cur), (unsigned int *)&(data.orig), (void **)&(data.repl));
                 if (data.orig)
-                    data.orig = (BGSImpactData*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((data.orig))->FUN_0084e3a0()));
+                    data.orig = reinterpret_cast<BGSImpactData*>(static_cast<std::uintptr_t>(reinterpret_cast<::FUN_0084e3a0_Class *>((data.orig))->FUN_0084e3a0()));
                 if (data.repl)
-                    data.repl = (BGSImpactData*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((data.repl))->FUN_0084e3a0()));
+                    data.repl = reinterpret_cast<BGSImpactData*>(static_cast<std::uintptr_t>(reinterpret_cast<::FUN_0084e3a0_Class *>((data.repl))->FUN_0084e3a0()));
                 if (((bool)(::FUN_00401500())))
                     reinterpret_cast<::Class005a6b10 *>(&(data))->FUN_005a6b10();
                 ::AppendChunk(0x53504d49, &data, 12);
@@ -375,24 +375,24 @@ struct DummyPointerMap
 struct FUN_0058f6f0
 {
     DummyPointerMap* m[1];
-    unsigned int Get(unsigned int idx, unsigned int def);
+    BGSImpactData* Get(unsigned int idx, BGSImpactData* def);
 };
 // @fnv 0x0058e9d0
 BGSImpactData* BGSImpactDataSet::GetImpactDataForMaterial(int material)
 {
     if (DAT_011ca834)
-        return ((::BGSImpactData *)(reinterpret_cast<::FUN_0058f6f0 *>((DAT_011ca834))->Get(material, (unsigned int)(m_apImpactData[material]))));
+        return reinterpret_cast<::FUN_0058f6f0 *>((DAT_011ca834))->Get(material, m_apImpactData[material]);
     return m_apImpactData[material];
 }
 // Looks up idx in the pointer map and returns the stored value for def, or def itself when the slot is null.
 // @fnv 0x0058f6f0
-unsigned int FUN_0058f6f0::Get(unsigned int auiIndex, unsigned int auiDefault)
+BGSImpactData* FUN_0058f6f0::Get(unsigned int auiIndex, BGSImpactData* apDefault)
 {
-    unsigned int result = 0;
+    BGSImpactData* result = 0;
     if (m[auiIndex])
-        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(m[auiIndex]))->FUN_00853130(auiDefault, (::fnv_00853130::CombatThreatRecord *&)(result));
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(m[auiIndex]))->FUN_00853130(reinterpret_cast<std::uintptr_t>(apDefault), (::fnv_00853130::CombatThreatRecord *&)(result));
     else
-        result = auiDefault;
+        result = apDefault;
     return result;
 }
 
@@ -485,7 +485,7 @@ bool FUN_0058f5c0_shell::IsImpactSwapDifferent(ImpactSwap* apSwap)
                     polddata = 0;
                     reinterpret_cast<::C6b7f20_Map *>((reinterpret_cast<NiTMap*>(reinterpret_cast<MapX**>(this)[i])))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(reinterpret_cast<unsigned int&>(pnewdata)), (void **)&(reinterpret_cast<void*&>(polddata)));
 
-                    if (((::BGSImpactData *)(reinterpret_cast<::FUN_0058f6f0 *>((apSwap))->Get(i, (unsigned int)(pnewdata)))) != polddata)
+                    if (reinterpret_cast<::FUN_0058f6f0 *>((apSwap))->Get(i, pnewdata) != polddata)
                         return true;
                 }
             }
@@ -561,7 +561,7 @@ void SomeClass::RemapImpactData(TESForm* apForm)
                 oldImpact6 = 0;
                 if (entries3[j_].oldImpact)
                 {
-                    oldFormID = (unsigned int)entries3[j_].oldImpact;
+                    oldFormID = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(entries3[j_].oldImpact));
                     ResolveFormID(&oldFormID, apForm->GetFile(-1));
                     oldImpact6 = dynamic_cast<BGSImpactData*>(FUN_004839c0(oldFormID));
                     if (!oldImpact6)
@@ -573,7 +573,7 @@ void SomeClass::RemapImpactData(TESForm* apForm)
                 newImpact = 0;
                 if (entries3[j_].newImpact)
                 {
-                    newFormID4 = (unsigned int)entries3[j_].newImpact;
+                    newFormID4 = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(entries3[j_].newImpact));
                     ResolveFormID(&newFormID4, apForm->GetFile(-1));
                     newImpact = dynamic_cast<BGSImpactData*>(FUN_004839c0(newFormID4));
                     if (!newImpact)

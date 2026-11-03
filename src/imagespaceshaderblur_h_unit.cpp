@@ -12,17 +12,18 @@ void __cdecl FUN_00c03a20();
 
 struct FUN_00b8e420_shell
 {
-    int m_vft;
-    int m_06c;
+    const void* m_vft;
+    char pad[0x68];
+    const void* m_vft6c;
     FUN_00b8e420_shell* FUN_00b8e420(int);
 };
 
-// Sets two vtable pointers, calls FUN_00c03a20, and if f has bit 1 set, deletes this with size 0xd0.
+// Sets the two vtable pointers, calls FUN_00c03a20, and if f has bit 1 set, deletes this with size 0xd0.
 // @fnv 0x00b8e420
 FUN_00b8e420_shell* FUN_00b8e420_shell::FUN_00b8e420(int aiFlags)
 {
-    m_vft = (int)&DAT_010b1640;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b1620;
+    m_vft = &DAT_010b1640;
+    m_vft6c = &DAT_010b1620;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);

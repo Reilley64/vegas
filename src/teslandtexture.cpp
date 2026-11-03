@@ -1,5 +1,6 @@
 // teslandtexture.cpp: TESLandTexture, BGSTextureSet, LTCopy (11 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
@@ -105,7 +106,7 @@ void TESLandTexture::InitItem()
             unsigned int formID;
             TESGrass* grass;
         } grassEntry;
-        grassEntry.formID = reinterpret_cast<unsigned int>(((::TESGrass *)(new ((void *)(current)) ::Vec3())));
+        grassEntry.formID = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(current->m_item));
         ::ResolveFormID((unsigned int *)&(grassEntry.formID), GetFile(-1));
         grassEntry.grass = dynamic_cast<TESGrass*>(::FUN_004839c0(grassEntry.formID));
         if (!grassEntry.grass)
@@ -113,7 +114,7 @@ void TESLandTexture::InitItem()
             ::FUN_005b5e40();
             if (previous)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((const ::TESGrass *const &)(reinterpret_cast<TESGrass*>(grassEntry.formID))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((const ::TESGrass *const &)(reinterpret_cast<TESGrass*>(static_cast<std::uintptr_t>(grassEntry.formID)))));
                 current = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
@@ -130,7 +131,7 @@ void TESLandTexture::InitItem()
     }
     if (m_pTextureSet)
     {
-        unsigned int textureID = reinterpret_cast<unsigned int>(m_pTextureSet);
+        unsigned int textureID = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(m_pTextureSet));
         ::ResolveFormID((unsigned int *)&(textureID), GetFile(-1));
         m_pTextureSet = dynamic_cast<BGSTextureSet*>(::FUN_004839c0(textureID));
         if (!m_pTextureSet)
@@ -240,7 +241,7 @@ void LTCopy::FUN_00540de0(TESForm* pForm)
     node = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::BGSCameraPath *>((src))->GetShotList()));
     while (node && !node->IsEmpty())
     {
-        TESGrass* g = ((::TESGrass *)(new ((void *)(node)) ::Vec3()));
+        TESGrass* g = (*((::TESGrass **)(new ((void *)(node)) ::Vec3())));
         reinterpret_cast<::Callees *>(&(m_kGrassList))->FUN_00905820((void *)&(g));
         node = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -281,7 +282,7 @@ void FUN_00541440_cls::WriteToStream()
         node3 = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList()));
         while (node3 != 0 && !node3->IsEmpty())
         {
-            grass = ((::TESGrass *)(new ((void *)(node3)) ::Vec3()));
+            grass = (*((::TESGrass **)(new ((void *)(node3)) ::Vec3())));
             grassId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((grass))->FUN_0084e3a0()));
             ::FUN_00485910(0x4d414e47, grassId);
             node3 = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::Callees *>((node3))->FUN_00726070()));
@@ -317,7 +318,7 @@ bool FUN_00540ec0_shell::IsDifferentFrom(TESForm* apOther)
     BSSimpleList<TESGrass*>* pOtherGrassList = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::BGSCameraPath *>((other))->GetShotList()));
     while (pGrassList && pOtherGrassList)
     {
-        if (((::TESGrass *)(new ((void *)(pGrassList)) ::Vec3())) != ((::TESGrass *)(new ((void *)(pOtherGrassList)) ::Vec3())))
+        if ((*((::TESGrass **)(new ((void *)(pGrassList)) ::Vec3()))) != (*((::TESGrass **)(new ((void *)(pOtherGrassList)) ::Vec3()))))
             return true;
         pOtherGrassList = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::Callees *>((pOtherGrassList))->FUN_00726070()));
         pGrassList = ((::BSSimpleList< ::TESGrass *> *)(reinterpret_cast<::Callees *>((pGrassList))->FUN_00726070()));

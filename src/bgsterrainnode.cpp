@@ -416,6 +416,8 @@ struct NiNode
 };
 struct Tile
 {
+    unsigned char pad[0x2c];
+    void* m_pSceneNode;
 };
 struct NiPoint2
 {
@@ -452,7 +454,7 @@ void FUN_006ff2c0_shell::UpdateTileFromChunk()
     int a;
     c = reinterpret_cast<::Cls6fabc0 *>((holder->chunk))->FUN_006fabc0(0);
     a = reinterpret_cast<::Cls6fabc0 *>((holder->chunk))->FUN_006fabc0(1);
-    b = ((::fnv_006ff2c0::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()));
+    b = ((::fnv_006ff2c0::NiNode *)(tile->m_pSceneNode));
     if (b)
     {
         b->SetBool(0, 1, c);
@@ -531,6 +533,8 @@ struct NiNode
 };
 struct Tile
 {
+    unsigned char pad[0x2c];
+    void* m_pSceneNode;
 };
 struct Tile;
 struct FUN_006ff380_shell
@@ -546,7 +550,7 @@ void FUN_006ff380_shell::FUN_006ff380()
 {
     NiNode* node;
     flag = 0;
-    node = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()));
+    node = ((::NiNode *)(tile->m_pSceneNode));
     if (node)
     {
         reinterpret_cast<::FUN_006fb940_shell *>((node))->FUN_006fb940(0.0f, 0.0f, 1.0f);
@@ -556,11 +560,9 @@ void FUN_006ff380_shell::FUN_006ff380()
 }
 
 namespace fnv_006ff4c0 {
-struct Inner
-{
-};
 struct Mgr
 {
+    void* m_pWorldSpace;
 };
 struct Block
 {
@@ -580,11 +582,11 @@ struct FUN_006ff4c0_shell
 // @fnv 0x006ff4c0
 void FUN_006ff4c0_shell::ProcessBlock()
 {
-    if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) == reinterpret_cast<::ActorMover *>((pManager))->GetCurrentMoveModeType() && pBlock)
+    if (iLevel == reinterpret_cast<::ActorMover *>((pManager))->GetCurrentMoveModeType() && pBlock)
     {
-        reinterpret_cast<::fnv_006f6270::BlockLoader *>((pBlock))->FUN_006f6270((void *)(((unsigned int)(::FUN_00559450((int *)(((::fnv_006ff4c0::Inner *)(::FUN_00559450((int *)this)))))))), (void *)(iLevel), m_sX, m_sY);
+        reinterpret_cast<::fnv_006f6270::BlockLoader *>((pBlock))->FUN_006f6270(pManager->m_pWorldSpace, (void *)(std::uintptr_t)(iLevel), m_sX, m_sY);
     }
-    else if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) > reinterpret_cast<::ActorMover *>((pManager))->GetCurrentMoveModeType())
+    else if (iLevel > reinterpret_cast<::ActorMover *>((pManager))->GetCurrentMoveModeType())
     {
         for (int i = 0; i < 4; i++)
         {
@@ -651,7 +653,7 @@ void FUN_006ff3f0_shell::FUN_006ff3f0()
     unsigned int section = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00()));
     delta = section - f50;
 
-    if (!tile || !((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0())))
+    if (!tile || !((::NiNode *)(tile->m_pSceneNode)))
         return;
 
     if (delta > (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011d8740)))))
@@ -662,7 +664,7 @@ void FUN_006ff3f0_shell::FUN_006ff3f0()
     {
         float f = (double)delta / (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011d8740))));
         NiPoint2 pt = ((FUN_006ff210_shell*)this)->FUN_006ff210();
-        reinterpret_cast<::FUN_006fb940_shell *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))))->FUN_006fb940(pt.x, pt.y, f);
+        reinterpret_cast<::FUN_006fb940_shell *>((((::NiNode *)(tile->m_pSceneNode))))->FUN_006fb940(pt.x, pt.y, f);
     }
 }
 
@@ -835,10 +837,12 @@ struct WorldUpdate
 };
 struct TerrainMgrUpdate
 {
+    void* m_pWorldSpace;
 };
 struct ChunkUpdate
 {
-    int f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
+    int f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28;
+    void* m_pSceneNode;
     ChunkUpdate(TerrainUpdate*, unsigned int, short, short);
 };
 struct WorldRefUpdate
@@ -919,8 +923,8 @@ void TerrainUpdate::UpdateTerrainNode(void* arg, bool update)
             if (reinterpret_cast<::FOPipboyManager *>((chunk))->IsUnk28Set() && !((bool)(reinterpret_cast<::FUN_00759d80_Class *>((chunk))->FUN_00759d80())) && (!parent || reinterpret_cast<::FUN_006fe920_Class *>((parent))->FUN_006fe920(true)))
             {
                 reinterpret_cast<::Target006fac *>((chunk))->FUN_006facb0();
-                reinterpret_cast<::FUN_00507700_cls *>((((::SceneUpdate *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((chunk))->FUN_0056c7f0()))))->FUN_00507700((float)((level / 4.0) * *((float *)&(::FUN_00403e20((float *)&(::g_011d86f8))))));
-                SceneUpdate* root7 = ((::SceneUpdate *)(reinterpret_cast<::TESRegionDataMap *>((((::WorldRefUpdate *)(::FUN_00559450((int *)this)))))->GetRegionMapName()));
+                reinterpret_cast<::FUN_00507700_cls *>((((::SceneUpdate *)(chunk->m_pSceneNode))))->FUN_00507700((float)((level / 4.0) * *((float *)&(::FUN_00403e20((float *)&(::g_011d86f8))))));
+                SceneUpdate* root7 = ((::SceneUpdate *)(reinterpret_cast<::TESRegionDataMap *>(manager)->GetRegionMapName()));
                 reinterpret_cast<::TaskQueueInterface *>((root7))->SetTaskFlag2000(false);
                 root7->Refresh();
                 reinterpret_cast<::TaskQueueInterface *>((root7))->SetTaskFlag2000(true);
@@ -933,7 +937,7 @@ void TerrainUpdate::UpdateTerrainNode(void* arg, bool update)
                     reinterpret_cast<::FUN_006fd980_shell *>((children[unloadIndex4]))->FUN_006fd980(1);
             childrenLoaded = false;
         }
-        if (oldRoot && ((::WorldUpdate *)(::FUN_00559450((int *)(((::WorldRefUpdate *)(::FUN_00559450((int *)this))))))) != ((::WorldUpdate *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESUpdate * *>(&::g_TES))))->GetHitSound())))
+        if (oldRoot && ((::WorldUpdate *)(manager->m_pWorldSpace)) != ((::WorldUpdate *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESUpdate * *>(&::g_TES))))->GetHitSound())))
         {
             WorldUpdate* worldVal = ((::WorldUpdate *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TESUpdate * *>(&::g_TES))))->GetHitSound()));
             if (reinterpret_cast<::Unk00586340 *>((worldVal))->FUN_00586340(1) && !reinterpret_cast<::Unk00586340 *>((worldVal))->FUN_00586340(0) && reinterpret_cast<::HitRect *>(this)->FUN_006fede0())
@@ -969,20 +973,20 @@ struct TerrainSceneX
 
 struct TerrainNodeX : BGSTerrainNode
 {
-    void FUN_006fe330(int iArg);
+    void FUN_006fe330(void* apPosition);
 };
 
 // @fnv 0x006fe330
-void TerrainNodeX::FUN_006fe330(int iArg)
+void TerrainNodeX::FUN_006fe330(void* apPosition)
 {
     AutoMemContext kMemContext((MEM_CONTEXT)0x25, true, kBGSTerrainNodeFileLabel, 0x1ed);
-    if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) == ((unsigned int)(::fnv_006fe510::FUN_006fe510())))
+    if (iLevel == ((unsigned int)(::fnv_006fe510::FUN_006fe510())))
     {
         if (!((bool)(::FUN_006fe540())))
         {
-            ::LoadTreeLodResources((::Fake076 *)(((const char *)(::FUN_00559450((int *)(((::TerrainSceneX *)(::FUN_00559450((int *)this)))))))));
+            ::LoadTreeLodResources((::Fake076 *)(pManager->m_pWorldSpace));
         }
-        if (reinterpret_cast<::S_006fe780_Foo *>(this)->FUN_006fe780((const ::FUN_00452dc0 *)(iArg)))
+        if (reinterpret_cast<::S_006fe780_Foo *>(this)->FUN_006fe780((const ::FUN_00452dc0 *)(apPosition)))
         {
             if (pTrees == 0)
             {
@@ -1003,13 +1007,13 @@ void TerrainNodeX::FUN_006fe330(int iArg)
             pTrees = 0;
         }
     }
-    else if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) > ((unsigned int)(::fnv_006fe510::FUN_006fe510())))
+    else if (iLevel > ((unsigned int)(::fnv_006fe510::FUN_006fe510())))
     {
         for (int i = 0; i < 4; i++)
         {
             if (pChildren[i] != 0)
             {
-                ((TerrainNodeX*)pChildren[i])->FUN_006fe330(iArg);
+                ((TerrainNodeX*)pChildren[i])->FUN_006fe330(apPosition);
             }
         }
     }
@@ -1088,6 +1092,7 @@ struct FUN_00404eb0
 };
 struct Thread006f
 {
+    void* m_pWorldSpace;
 };
 struct Ret006f
 {
@@ -1109,7 +1114,7 @@ struct Node006f
     FUN_006f5160* block;
     int f18, f1c;
     Node006f* children[4];
-    void UpdateBlock(int, bool);
+    void UpdateBlock(void*, bool);
 };
 struct NodeObj
 {
@@ -1155,10 +1160,10 @@ struct FeeNode
     void FUN_006fee90(int a);
 };
 // @fnv 0x006fdfc0
-void Node006f::UpdateBlock(int a, bool abFlag)
+void Node006f::UpdateBlock(void* a, bool abFlag)
 {
     FUN_00404eb0 guard(0x24, true, &DAT_0106e4e0, 0x1ae);
-    if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) == reinterpret_cast<::ActorMover *>((thread))->GetCurrentMoveModeType())
+    if ((unsigned int)f4 == reinterpret_cast<::ActorMover *>((thread))->GetCurrentMoveModeType())
     {
         if (reinterpret_cast<::FUN_006fe620_cls *>(this)->FUN_006fe620((::Vec2 *)(a)))
         {
@@ -1177,9 +1182,9 @@ void Node006f::UpdateBlock(int a, bool abFlag)
             if (block)
             {
                 if (reinterpret_cast<::FUN_006f6070_shell *>((block))->GetByteAtOffset35() && flag)
-                    reinterpret_cast<::S_006f6370_Mgr *>((block))->ResetAndCreateTask((::TESWorldSpace *)(::Ret006f *)(((::Ret006f *)(::FUN_00559450((int *)(((::Ret006f *)(::FUN_00559450((int *)this)))))))), f4, f8, fa);
+                    reinterpret_cast<::S_006f6370_Mgr *>((block))->ResetAndCreateTask((::TESWorldSpace *)(thread->m_pWorldSpace), f4, f8, fa);
                 else if (!reinterpret_cast<::FUN_006f6070_shell *>((block))->GetByteAtOffset35() && !flag)
-                    reinterpret_cast<::fnv_006f6540::FUN_006f6540_cls *>((block))->FUN_006f6540(((::Ret006f *)(::FUN_00559450((int *)(((::Ret006f *)(::FUN_00559450((int *)this))))))), (void *)(f4), f8, fa);
+                    reinterpret_cast<::fnv_006f6540::FUN_006f6540_cls *>((block))->FUN_006f6540((::Ret006f *)(thread->m_pWorldSpace), (void *)(std::intptr_t)(f4), f8, fa);
             }
             if (reinterpret_cast<::TESObjectCELL *>((block))->GetField24())
                 reinterpret_cast<::Block *>((block))->FUN_006f5af0();
@@ -1190,7 +1195,7 @@ void Node006f::UpdateBlock(int a, bool abFlag)
             block = 0;
         }
     }
-    else if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) > reinterpret_cast<::ActorMover *>((thread))->GetCurrentMoveModeType())
+    else if ((unsigned int)f4 > reinterpret_cast<::ActorMover *>((thread))->GetCurrentMoveModeType())
     {
         for (int i = 0; i < 4; ++i)
         {
@@ -1199,6 +1204,12 @@ void Node006f::UpdateBlock(int a, bool abFlag)
         }
     }
 }
+struct DistantObjectBlockNodes
+{
+    unsigned char pad[0x10];
+    void* m_pSelectedNode;
+};
+
 // @fnv 0x006fee90
 void FeeNode::FUN_006fee90(int a)
 {
@@ -1251,16 +1262,16 @@ void FeeNode::FUN_006fee90(int a)
     }
     if (pBlock)
     {
-        if (((void *)(reinterpret_cast<::FUN_006f5800_shell *>((pBlock))->GetSelectedValue(1))))
+        if (((void *)(reinterpret_cast<DistantObjectBlockNodes *>(pBlock)->m_pSelectedNode)))
         {
             if (reinterpret_cast<::HitRect *>(this)->FUN_006fede0())
             {
                 reinterpret_cast<::fnv_006f5970::LodVisitor *>((pBlock))->UpdateLodVisibility(
-                    (::fnv_006f5970::LodObject *)(void *)(((void *)(reinterpret_cast<::FUN_006f5800_shell *>((pBlock))->GetSelectedValue(1)))), {}, {}, {});
+                    (::fnv_006f5970::LodObject *)(void *)(((void *)(reinterpret_cast<DistantObjectBlockNodes *>(pBlock)->m_pSelectedNode))), {}, {}, {});
             }
             else
             {
-                reinterpret_cast<::NodeVisitor *>((pBlock))->VisitNodeTree((::SceneNode *)(void *)(((void *)(reinterpret_cast<::FUN_006f5800_shell *>((pBlock))->GetSelectedValue(1)))));
+                reinterpret_cast<::NodeVisitor *>((pBlock))->VisitNodeTree((::SceneNode *)(void *)(((void *)(reinterpret_cast<DistantObjectBlockNodes *>(pBlock)->m_pSelectedNode))));
             }
         }
     }

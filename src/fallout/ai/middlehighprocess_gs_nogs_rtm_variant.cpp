@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /Od /Oy- /GS- /EHsc /Gy (unit lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AIFormFlags.h"
 #include "fnv/decl/AcquireSortProcess.h"
@@ -7225,7 +7226,7 @@ struct FUN_00905330
 };
 struct FUN_004534f0_shell
 {
-    void FUN_004534f0(unsigned int a);
+    void FUN_004534f0(std::uintptr_t a);
 };
 struct MobileObject;
 struct Proxy758a0

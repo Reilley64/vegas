@@ -436,9 +436,9 @@ void RegionSoundWriter::WriteRegionSoundData()
     if (count)
     {
         RegionListAccess<unsigned int>* node = (RegionListAccess<unsigned int>*)&Battle;
-        for (unsigned int i = 0; node && ((unsigned int)(new ((void *)(node)) ::Vec3())) && i < count; i++)
+        for (unsigned int i = 0; node && *((unsigned int *)(new ((void *)(node)) ::Vec3())) && i < count; i++)
         {
-            ::FUN_00485910(0x42534452, ((unsigned int)(new ((void *)(node)) ::Vec3())));
+            ::FUN_00485910(0x42534452, *((unsigned int *)(new ((void *)(node)) ::Vec3())));
             node = ((::RegionListAccess<unsigned int> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
     }
@@ -448,9 +448,9 @@ void RegionSoundWriter::WriteRegionSoundData()
     {
         RegionListAccess<RegionSoundEntry*>* records = (RegionListAccess<RegionSoundEntry*>*)&Sounds;
         RegionSoundEntry* node = new RegionSoundEntry[count];
-        for (unsigned int i = 0; records && ((::RegionSoundEntry *)(new ((void *)(records)) ::Vec3())) && i < count; i++)
+        for (unsigned int i = 0; records && (*((::RegionSoundEntry **)(new ((void *)(records)) ::Vec3()))) && i < count; i++)
         {
-            sound = ((::RegionSoundEntry *)(new ((void *)(records)) ::Vec3()));
+            sound = (*((::RegionSoundEntry **)(new ((void *)(records)) ::Vec3())));
             node[i] = *sound;
             records = ((::RegionListAccess< ::RegionSoundEntry *> *)(reinterpret_cast<::Callees *>((records))->FUN_00726070()));
         }
@@ -571,11 +571,11 @@ struct FUN_004f4f90_node : BSSimpleList<unsigned int>
 
 struct FUN_004f4f90_shell : TESRegionDataSound
 {
-    int FUN_004f4f90();
+    TESForm* FUN_004f4f90();
 };
 
 // @fnv 0x004f4f90
-int FUN_004f4f90_shell::FUN_004f4f90()
+TESForm* FUN_004f4f90_shell::FUN_004f4f90()
 {
     unsigned int found;
     FUN_004f4f90_node* node7 = (FUN_004f4f90_node*)&Battle;
@@ -599,7 +599,7 @@ int FUN_004f4f90_shell::FUN_004f4f90()
     {
         reinterpret_cast<::ItemChangeListNode *>((((FUN_004f4f90_node*)&Battle)))->FUN_00905330((*(::InventoryStackRecord *const *)(&found)));
         ((FUN_004f4f90_node*)&Battle)->FUN_005ae3d0(&found);
-        return ((int)(::FUN_004839c0(found)));
+        return ::FUN_004839c0(found);
     }
     return 0;
 }

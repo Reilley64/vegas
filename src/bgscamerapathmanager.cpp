@@ -222,9 +222,7 @@ struct SceneNode
     int unk80;
     int unk84;
     int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
+    float m_kWorldTranslate[3];
     int unk98;
     int unk9C;
     int unkA0;
@@ -292,7 +290,7 @@ void FUN_0058ccf0_Class::SetSceneNode(SceneNode* node)
     else
     {
         node64 = new SceneNode(0);
-        reinterpret_cast<::FUN_004f00e0_shell *>((((SceneNode*)node64)))->FUN_004f00e0(((void *)(::FUN_0045bb80((int)(node)))));
+        reinterpret_cast<::FUN_004f00e0_shell *>((((SceneNode*)node64)))->FUN_004f00e0(node->m_kWorldTranslate);
     }
     SceneNode* root = node;
     while (root != 0 && root->IsRootCandidate() == 0)

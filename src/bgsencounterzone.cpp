@@ -129,7 +129,7 @@ void BGSEncounterZone::InitItem()
             unsigned int formID;
             TESForm* owner;
         } ownerResolution;
-        ownerResolution.formID = (unsigned int)Data.m_pOwnerForm;
+        ownerResolution.formID = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(Data.m_pOwnerForm));
         ::ResolveFormID((unsigned int *)&(ownerResolution.formID), GetFile(-1));
         ownerResolution.owner = ::FUN_004839c0(ownerResolution.formID);
         if (!ownerResolution.owner)
@@ -147,6 +147,8 @@ class ExtraDataList
 class TESWorldSpace
 {
   public:
+    char pad[0xd0];
+    BGSEncounterZone* m_pEncounterZone;
 };
 class TESObjectREFR
 {
@@ -166,7 +168,7 @@ BGSEncounterZone* TESObjectREFR::FindEncounterZone()
         if (!zone)
         {
             if (((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70())))
-                zone = ((::BGSEncounterZone *)(reinterpret_cast<::FUN_00458400_cls *>((void *)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))))->GetFieldD0()));
+                zone = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))->m_pEncounterZone;
         }
     }
     return zone;
@@ -434,7 +436,7 @@ bool FUN_005262a0(BGSEncounterZone* apZone)
         }
         else
         {
-            unsigned int next = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apZone)))->FUN_007af430()));
+            unsigned int next = apZone->GameData.m_uiDetachTime;
             if (next)
             {
                 unsigned int now = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameHoursPassed();
@@ -511,7 +513,7 @@ struct FUN_00526570_shell : BGSEncounterZone
 // @fnv 0x00526570
 void FUN_00526570_shell::RevertAndClearIfChanged(BGSLoadFormBuffer* pLoadBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<unsigned int>(pLoadBuffer));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<std::uintptr_t>(pLoadBuffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00526570::FormChangeMask &)(pLoadBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(static_cast<int>(0x80000000)))
         memset((char*)&this->GameData, 0, 0x10);
 }

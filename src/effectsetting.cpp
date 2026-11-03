@@ -2,6 +2,7 @@
 
 #include <new>
 #include <cmath>
+#include <cstdint>
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/decl/B408A80String.h"
@@ -52,6 +53,17 @@
 #include "fnv/decl/fnv_004855a0__ArrSI.h"
 #include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
 #include "fnv/symbols_00472000.h"
+
+// Load and the save writer keep form IDs in the form pointer fields until InitItem resolves them.
+template <class T> static unsigned int FormIDInField(T* apField)
+{
+    return static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(apField));
+}
+
+template <class T> static T* FormIDAsField(std::uintptr_t auiFormID)
+{
+    return reinterpret_cast<T*>(auiFormID);
+}
 
 // Compares the effect name with name case-insensitively and, if they differ, sets the full name to name.
 // @fnv 0x00408570
@@ -283,10 +295,10 @@ void EffectSetting::InitItem()
         return;
     if (::IsArchetypeFlagSet((::EffectSetting *)this) && !GetFlag(0x180000))
     {
-        unsigned int associatedID = reinterpret_cast<unsigned int>(data.m_pAssociatedForm);
+        unsigned int associatedID = FormIDInField(data.m_pAssociatedForm);
         if (associatedID)
         {
-            ::ResolveFormID((unsigned int *)&(associatedID), GetFile(-1));
+            ::ResolveFormID(&associatedID, GetFile(-1));
             data.m_pAssociatedForm = ::FUN_004839c0(associatedID);
             if (!data.m_pAssociatedForm)
                 ::FUN_005b5e40();
@@ -294,60 +306,60 @@ void EffectSetting::InitItem()
     }
     else
         data.m_pAssociatedForm = 0;
-    formID = reinterpret_cast<unsigned int>(((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>(this)->FUN_004fd380())));
+    formID = FormIDInField(data.apTargetLight);
     if (formID)
     {
-        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
-        reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>(this)->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(dynamic_cast<TESObjectLIGH*>(::FUN_004839c0(formID))));
-        if (!((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>(this)->FUN_004fd380())))
+        ::ResolveFormID(&formID, GetFile(-1));
+        data.apTargetLight = dynamic_cast<TESObjectLIGH*>(::FUN_004839c0(formID));
+        if (!data.apTargetLight)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(GetCastSound());
+    formID = FormIDInField(data.m_pCastSound);
     if (formID)
     {
-        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
-        reinterpret_cast<::FUN_008ac890_shell *>(this)->SetWaterForm((::TESWaterForm *)(::TESSound *)(dynamic_cast<TESSound*>(::FUN_004839c0(formID))));
-        if (!GetCastSound())
+        ::ResolveFormID(&formID, GetFile(-1));
+        data.m_pCastSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!data.m_pCastSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))));
+    formID = FormIDInField(data.m_pBoltSound);
     if (formID)
     {
-        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
-        SetBoltSound(dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
-        if (!((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))))
+        ::ResolveFormID(&formID, GetFile(-1));
+        data.m_pBoltSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!data.m_pBoltSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(GetHitSound());
+    formID = FormIDInField(data.m_pContactSound);
     if (formID)
     {
-        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
-        reinterpret_cast<::FUN_00857230_shell *>(this)->SetSound(dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
-        if (!GetHitSound())
+        ::ResolveFormID(&formID, GetFile(-1));
+        data.m_pContactSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!data.m_pContactSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390());
+    formID = FormIDInField(data.m_pAreaEffectSound);
     if (formID)
     {
-        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
-        reinterpret_cast<::FUN_008cc6d0_class *>(this)->FUN_008cc6d0((int)(dynamic_cast<TESSound*>(::FUN_004839c0(formID))));
-        if (!reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390())
+        ::ResolveFormID(&formID, GetFile(-1));
+        data.m_pAreaEffectSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
+        if (!data.m_pAreaEffectSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820());
+    formID = FormIDInField(data.m_pEffectShader);
     if (formID)
     {
-        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
-        reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(::TESEffectShader *)(dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID))));
-        if (!reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())
+        ::ResolveFormID(&formID, GetFile(-1));
+        data.m_pEffectShader = dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID));
+        if (!data.m_pEffectShader)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(((::TESEffectShader *)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())));
+    formID = FormIDInField(data.m_pEnchantEffectShader);
     if (formID)
     {
-        ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
-        SetEnchantEffectShader(dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID)));
-        if (!((::TESEffectShader *)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())))
+        ::ResolveFormID(&formID, GetFile(-1));
+        data.m_pEnchantEffectShader = dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID));
+        if (!data.m_pEnchantEffectShader)
             ::FUN_005b5e40();
     }
     SetInitializationState(true);
@@ -463,10 +475,6 @@ struct S501c60
 {
     bool IsNotOne(const char*);
 };
-struct Flt
-{
-    operator unsigned int() const;
-};
 struct FUN_00501c90_shell : BSStringT<char>
 {
     int CompareString(BSStringT<char> const* arString, bool abIgnoreCase);
@@ -486,7 +494,7 @@ bool S501c60::IsNotOne(const char* a)
 // @fnv 0x00501c90
 int FUN_00501c90_shell::CompareString(BSStringT<char> const* apString, bool abIgnoreCase)
 {
-    return reinterpret_cast<::B408A80String *>((void *)this)->FUN_00408a80((char const*)((Flt const*)apString)->operator unsigned int(), abIgnoreCase);
+    return reinterpret_cast<::B408A80String *>((void *)this)->FUN_00408a80(apString->pString, abIgnoreCase);
 }
 
 struct TESChallenge
@@ -580,7 +588,7 @@ struct TESEffectShaderAux
 {
 };
 
-struct FUN_00408600_class
+struct FUN_00408600_class : public EffectSetting
 {
     void CopyValuesFromList(void* value);
 };
@@ -603,8 +611,7 @@ void FUN_00407600_class::CopyFromEffectSetting(TESForm* apCopy)
     reinterpret_cast<LowProcess*>(this)->SetPackageObjectType(
         reinterpret_cast<::LowProcess *>((reinterpret_cast<TESChallenge*>(psetting)))->GetPackageObjectType());
     reinterpret_cast<::FUN_004ee4b0_shell *>((reinterpret_cast<EffectSettingAux*>(this)))->FUN_004ee4b0(reinterpret_cast<TESGrass*>(psetting)->GetLowestAllowedSlope());
-    reinterpret_cast<::FUN_00810570_shell *>((reinterpret_cast<EffectSettingAux*>(this)))->SetAssociatedActorValue(
-        ((int)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(psetting)))->FUN_00586150())));
+    reinterpret_cast<::FUN_00810570_shell *>((reinterpret_cast<EffectSettingAux*>(this)))->SetAssociatedActorValue(psetting->data.m_iAssociatedActorValue);
     reinterpret_cast<MiddleHighProcess*>(this)->AddDeferredHideLimb(
         reinterpret_cast<TargetDoorController*>(((int)(::FUN_0070ec90((char *)(reinterpret_cast<EffectSettingAux*>(psetting)))))));
     reinterpret_cast<::MiddleHighProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->SetFaceAnimationData(
@@ -615,14 +622,14 @@ void FUN_00407600_class::CopyFromEffectSetting(TESForm* apCopy)
     reinterpret_cast<PathingRequest*>(this)->SetCenterRadius(
         reinterpret_cast<PathingRequest*>(psetting)->GetCenterRadius());
     reinterpret_cast<::FUN_004078a0_shell *>((reinterpret_cast<EffectSettingAux*>(this)))->SetEffectID(reinterpret_cast<::EffectSetting *>((reinterpret_cast<S3c60*>(psetting)))->GetArchetype());
-    reinterpret_cast<FUN_009e3360_Class*>(this)->SetMode(((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<TESChallenge*>(psetting)))->FUN_005f5f80())));
+    data.m_pAssociatedForm = psetting->data.m_pAssociatedForm;
     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>(this)->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((psetting))->FUN_004fd380()))));
     reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(::TESEffectShader *)(reinterpret_cast<::FUN_00407820_shell *>((psetting))->FUN_00407820()));
-    SetEnchantEffectShader(((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((psetting))->GetRefCount())));
+    data.m_pEnchantEffectShader = psetting->data.m_pEnchantEffectShader;
     reinterpret_cast<::FUN_008ac890_shell *>(this)->SetWaterForm((::TESWaterForm *)(::TESSound *)(psetting->GetCastSound()));
     SetBoltSound(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(psetting)))));
     reinterpret_cast<::FUN_00857230_shell *>(this)->SetSound(psetting->GetHitSound());
-    reinterpret_cast<::FUN_008cc6d0_class *>(this)->FUN_008cc6d0((int)(reinterpret_cast<::FUN_008ce390_shell *>((psetting))->FUN_008ce390()));
+    data.m_pAreaEffectSound = psetting->data.m_pAreaEffectSound;
     reinterpret_cast<FUN_00408600_class*>(this)->CopyValuesFromList(
         reinterpret_cast<::FUN_004077e0_shell *>((reinterpret_cast<TESDataHandler*>(psetting)))->FUN_004077e0());
 
@@ -777,67 +784,21 @@ EffectSettingList::~EffectSettingList()
 
 struct SubListA0
 {
-    unsigned int unk00;
-    void AddItem(int* item);
+    void AddItem(EffectSetting** item);
 };
 
-struct TESFormLike
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned short m_6c;
-    unsigned short unk6E;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7C;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8C;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9C;
-    SubListA0 m_a0;
-};
-
-// Resets m_a0 and m_6c, then walks the list from arg, adding each non-zero GetVal result to m_a0 and counting them in m_6c.
+// Clears the counter effects, then copies each non-null effect from the source list into them and counts them.
 // @fnv 0x00408600
 void FUN_00408600_class::CopyValuesFromList(void* pSourceList)
 {
-    int val;
-    reinterpret_cast<::FileMatchList *>(&(((TESFormLike*)this)->m_a0))->RemoveAll();
-    ((TESFormLike*)this)->m_6c = 0;
-    for (TESFormLike* cur = (TESFormLike*)pSourceList; cur != 0 && (val = *((int *)(new ((void *)(cur)) ::Vec3()))) != 0; cur = ((::TESFormLike *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
+    EffectSetting* val;
+    reinterpret_cast<::FileMatchList *>(&counterEffects)->RemoveAll();
+    data.m_sCounterEffectCount = 0;
+    for (BSSimpleList<EffectSetting*>* cur = (BSSimpleList<EffectSetting*>*)pSourceList; cur != 0 && (val = *((EffectSetting **)(new ((void *)(cur)) ::Vec3()))) != 0;
+         cur = ((BSSimpleList<EffectSetting*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
-        ((TESFormLike*)this)->m_a0.AddItem(&val);
-        ((TESFormLike*)this)->m_6c++;
+        reinterpret_cast<SubListA0*>(&counterEffects)->AddItem(&val);
+        data.m_sCounterEffectCount++;
     }
 }
 
@@ -860,20 +821,20 @@ bool EffT::IsDifferentFrom(void* pObject)
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pObject)))
         return 1;
     if (reinterpret_cast<::LowProcess *>(this)->GetPackageObjectType() != reinterpret_cast<::LowProcess *>((other))->GetPackageObjectType() || !(((double)(reinterpret_cast<::TESGrass *>(this)->GetLowestAllowedSlope())) == ((double)(reinterpret_cast<::TESGrass *>((other))->GetLowestAllowedSlope()))) ||
-        ((int)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150())) != ((int)(reinterpret_cast<::InterfaceManager *>((other))->FUN_00586150())) || ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>(this)->FUN_005f5f80())) != ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((other))->FUN_005f5f80())) ||
-        ((int)(::FUN_0070ec90((char *)this))) != ((int)(::FUN_0070ec90((char *)(other)))) || ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) != ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((other))->GetBaseTexture())) ||
-        ((int)(reinterpret_cast<::FUN_004fd380_shell *>(this)->FUN_004fd380())) != ((int)(reinterpret_cast<::FUN_004fd380_shell *>((other))->FUN_004fd380())) || ((int)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())) != ((int)(reinterpret_cast<::FUN_00407820_shell *>((other))->FUN_00407820())) ||
+        (reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()) != (reinterpret_cast<::InterfaceManager *>((other))->FUN_00586150()) || (reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>(this)->FUN_005f5f80()) != (reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((other))->FUN_005f5f80()) ||
+        (::FUN_0070ec90((char *)this)) != (::FUN_0070ec90((char *)(other))) || (reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()) != (reinterpret_cast<::BSShaderNoLightingProperty *>((other))->GetBaseTexture()) ||
+        (reinterpret_cast<::FUN_004fd380_shell *>(this)->FUN_004fd380()) != (reinterpret_cast<::FUN_004fd380_shell *>((other))->FUN_004fd380()) || (reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820()) != (reinterpret_cast<::FUN_00407820_shell *>((other))->FUN_00407820()) ||
         ((int)(reinterpret_cast<::TESPackage *>(this)->GetRefCount())) != ((int)(reinterpret_cast<::TESPackage *>((other))->GetRefCount())) || !(((double)(reinterpret_cast<::PathingRequest *>(this)->GetCenterRadius())) == ((double)(reinterpret_cast<::PathingRequest *>((other))->GetCenterRadius()))) ||
-        ((int)(reinterpret_cast<::EffectSetting *>(this)->GetCastSound())) != ((int)(reinterpret_cast<::EffectSetting *>((other))->GetCastSound())) || ((int)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))) != ((int)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(other)))) ||
-        ((int)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())) != ((int)(reinterpret_cast<::EffectSetting *>((other))->GetHitSound())) || ((int)(reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390())) != ((int)(reinterpret_cast<::FUN_008ce390_shell *>((other))->FUN_008ce390())) ||
+        (reinterpret_cast<::EffectSetting *>(this)->GetCastSound()) != (reinterpret_cast<::EffectSetting *>((other))->GetCastSound()) || (::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this)) != (::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(other))) ||
+        (reinterpret_cast<::EffectSetting *>(this)->GetHitSound()) != (reinterpret_cast<::EffectSetting *>((other))->GetHitSound()) || (reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390()) != (reinterpret_cast<::FUN_008ce390_shell *>((other))->FUN_008ce390()) ||
         reinterpret_cast<::FUN_00408550_Cls *>(this)->GetShortValue() != reinterpret_cast<::FUN_00408550_Cls *>((other))->GetShortValue() || reinterpret_cast<::EffectSetting *>(this)->GetArchetype() != reinterpret_cast<::EffectSetting *>((other))->GetArchetype())
         return 1;
     ListT* pa4 = &m_a0;
     ListT* pbX = &other->m_a0;
     while (pa4 && pbX)
     {
-        unsigned int av = *((unsigned int *)(new ((void *)(pa4)) ::Vec3()));
-        unsigned int bv5 = *((unsigned int *)(new ((void *)(pbX)) ::Vec3()));
+        EffectSetting* av = *((EffectSetting **)(new ((void *)(pa4)) ::Vec3()));
+        EffectSetting* bv5 = *((EffectSetting **)(new ((void *)(pbX)) ::Vec3()));
         if (av != bv5)
             return 1;
         pa4 = ((::ListT *)(reinterpret_cast<::Callees *>((pa4))->FUN_00726070()));
@@ -901,22 +862,21 @@ void EffectSetting::FUN_00407300()
     reinterpret_cast<::FUN_004891d0_cls *>(this)->WriteToBuffer((char *)(CHUNK_MODL), (void *)(CHUNK_MODT));
 
     TESSound* pkCastSound = data.m_pCastSound;
-    data.m_pCastSound = (TESSound*)(data.m_pCastSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pCastSound))->FUN_0084e3a0())) : 0);
+    data.m_pCastSound = FormIDAsField<TESSound>(data.m_pCastSound ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.m_pCastSound)->FUN_0084e3a0()) : 0);
     TESSound* pkBoltSound = data.m_pBoltSound;
-    data.m_pBoltSound = (TESSound*)(data.m_pBoltSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pBoltSound))->FUN_0084e3a0())) : 0);
+    data.m_pBoltSound = FormIDAsField<TESSound>(data.m_pBoltSound ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.m_pBoltSound)->FUN_0084e3a0()) : 0);
     TESSound* m_pContactSound = data.m_pContactSound;
-    data.m_pContactSound = (TESSound*)(data.m_pContactSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pContactSound))->FUN_0084e3a0())) : 0);
+    data.m_pContactSound = FormIDAsField<TESSound>(data.m_pContactSound ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.m_pContactSound)->FUN_0084e3a0()) : 0);
     TESSound* m_pAreaEffectSound = data.m_pAreaEffectSound;
-    data.m_pAreaEffectSound = (TESSound*)(data.m_pAreaEffectSound ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pAreaEffectSound))->FUN_0084e3a0())) : 0);
+    data.m_pAreaEffectSound = FormIDAsField<TESSound>(data.m_pAreaEffectSound ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.m_pAreaEffectSound)->FUN_0084e3a0()) : 0);
     TESEffectShader* pkEffectShaderSave = data.m_pEffectShader;
-    data.m_pEffectShader = (TESEffectShader*)(data.m_pEffectShader ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pEffectShader))->FUN_0084e3a0())) : 0);
+    data.m_pEffectShader = FormIDAsField<TESEffectShader>(data.m_pEffectShader ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.m_pEffectShader)->FUN_0084e3a0()) : 0);
     TESEffectShader* pkEnchantEffect = data.m_pEnchantEffectShader;
-    data.m_pEnchantEffectShader =
-        (TESEffectShader*)(data.m_pEnchantEffectShader ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pEnchantEffectShader))->FUN_0084e3a0())) : 0);
+    data.m_pEnchantEffectShader = FormIDAsField<TESEffectShader>(data.m_pEnchantEffectShader ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.m_pEnchantEffectShader)->FUN_0084e3a0()) : 0);
     TESObjectLIGH* pkLight = data.apTargetLight;
-    data.apTargetLight = (TESObjectLIGH*)(data.apTargetLight ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.apTargetLight))->FUN_0084e3a0())) : 0);
+    data.apTargetLight = FormIDAsField<TESObjectLIGH>(data.apTargetLight ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.apTargetLight)->FUN_0084e3a0()) : 0);
     TESForm* savedPAssociatedItemOriginal = data.m_pAssociatedForm;
-    data.m_pAssociatedForm = (TESForm*)(data.m_pAssociatedForm ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(data.m_pAssociatedForm))->FUN_0084e3a0())) : 0);
+    data.m_pAssociatedForm = FormIDAsField<TESForm>(data.m_pAssociatedForm ? static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>(data.m_pAssociatedForm)->FUN_0084e3a0()) : 0);
 
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::EndianSwappableData *>(&(data))->SwapEndianFields();
@@ -934,7 +894,7 @@ void EffectSetting::FUN_00407300()
     data.m_pAssociatedForm = savedPAssociatedItemOriginal;
 
     EffectSetting* savedPkEffect;
-    for (BSSimpleList<EffectSetting*>* pkIter = &counterEffects; pkIter && (savedPkEffect = ((::EffectSetting *)(new ((void *)(pkIter)) ::Vec3()))) != 0;
+    for (BSSimpleList<EffectSetting*>* pkIter = &counterEffects; pkIter && (savedPkEffect = (*((::EffectSetting **)(new ((void *)(pkIter)) ::Vec3())))) != 0;
          pkIter = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
         ::FUN_00485910(CHUNK_ESCE, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(savedPkEffect))->FUN_0084e3a0())));
 

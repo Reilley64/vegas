@@ -1,5 +1,6 @@
 // tesloadscreen.cpp: TESLoadScreen, LoadScreenA6C, FormT (13 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
@@ -119,7 +120,7 @@ void TESLoadScreen::ClearLoadScreenData()
     BSSimpleList<WorldCellRecord*>* item = &m_kWorldCellRecordList;
     while (item && !item->IsEmpty())
     {
-        WorldCellRecord* data = ((::WorldCellRecord *)(new ((void *)(item)) ::Vec3()));
+        WorldCellRecord* data = (*((::WorldCellRecord **)(new ((void *)(item)) ::Vec3())));
         delete data;
         item = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
     }
@@ -135,7 +136,7 @@ void TESLoadScreen::InitItem()
     BSSimpleList<WorldCellRecord*>* previous = 0;
     while (item && !item->IsEmpty())
     {
-        WorldCellRecord* data = ((::WorldCellRecord *)(new ((void *)(item)) ::Vec3()));
+        WorldCellRecord* data = (*((::WorldCellRecord **)(new ((void *)(item)) ::Vec3())));
         if (data->auiFormId)
             ::ResolveFormID((unsigned int *)&(data->auiFormId), GetFile(-1));
         if (data->uiWorldID)
@@ -146,7 +147,7 @@ void TESLoadScreen::InitItem()
     if (m_pLoadScreenType)
     {
         unsigned int formID = 0;
-        formID = reinterpret_cast<unsigned int>(m_pLoadScreenType);
+        formID = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(m_pLoadScreenType));
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         m_pLoadScreenType = (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetLoadScreenType(formID);
     }
@@ -228,7 +229,7 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
         BSSimpleList<WorldCellRecord*>* item = &m_kWorldCellRecordList;
         while (item && !item->IsEmpty())
         {
-            WorldCellRecord* data = ((::WorldCellRecord *)(new ((void *)(item)) ::Vec3()));
+            WorldCellRecord* data = (*((::WorldCellRecord **)(new ((void *)(item)) ::Vec3())));
             if (location.auiFormId)
             {
                 if (data->auiFormId == location.auiFormId)
@@ -442,7 +443,7 @@ bool FormT::FUN_005a6d30(void* pOther)
     }
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pOtherForm)))
         return true;
-    if (((int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) != ((int)(reinterpret_cast<::BGSCameraPath *>((pOtherForm))->GetPrevPath())))
+    if (reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath() != reinterpret_cast<::BGSCameraPath *>((pOtherForm))->GetPrevPath())
         return true;
     return false;
 }

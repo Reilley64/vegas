@@ -15,16 +15,11 @@
 #include "fnv/decl/BSWin32TaskletManager.h"
 #include "fnv/decl/B_004b6100.h"
 #include "fnv/decl/Builder.h"
-#include "fnv/decl/C41Owner.h"
-#include "fnv/decl/CloneOwner.h"
-#include "fnv/decl/EB90Obj.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
-#include "fnv/decl/FUN_00438690.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
 #include "fnv/decl/FUN_0044e010_class.h"
 #include "fnv/decl/FUN_0045bb20_cls.h"
-#include "fnv/decl/FUN_0045c620.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_004a0c90_shell.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -53,14 +48,7 @@
 #include "fnv/decl/FUN_00c32fb0_cls.h"
 #include "fnv/decl/FUN_00c347d0_cls.h"
 #include "fnv/decl/FUN_00c3fa70_cls.h"
-#include "fnv/decl/FUN_00c40aa0.h"
-#include "fnv/decl/FUN_00c455a0_cls.h"
-#include "fnv/decl/FUN_00c4a070.h"
-#include "fnv/decl/FUN_00c4a1e0.h"
-#include "fnv/decl/FUN_00c504e0.h"
-#include "fnv/decl/FUN_00c51df0.h"
 #include "fnv/decl/FUN_00c5db90.h"
-#include "fnv/decl/FrustumArrayConstruction.h"
 #include "fnv/decl/FrustumPlanes__Planes.h"
 #include "fnv/decl/GraphicsRenderer.h"
 #include "fnv/decl/HashTableBase.h"
@@ -71,34 +59,25 @@
 #include "fnv/decl/MyIsEqual.h"
 #include "fnv/decl/MyOwner.h"
 #include "fnv/decl/NiCamera.h"
-#include "fnv/decl/NiFixedString_c43500.h"
 #include "fnv/decl/NiNodeEq.h"
 #include "fnv/decl/NiObject_00a7b3d0.h"
 #include "fnv/decl/NiRenderer.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/NodeA5E8.h"
-#include "fnv/decl/Owner.h"
-#include "fnv/decl/Owner5b.h"
 #include "fnv/decl/PaletteFieldFlags.h"
 #include "fnv/decl/ParticleModifierBinary.h"
 #include "fnv/decl/PositionState.h"
 #include "fnv/decl/RectangleClip.h"
-#include "fnv/decl/S00c46080_Arr.h"
-#include "fnv/decl/S00c4db20_Self.h"
 #include "fnv/decl/SHStub.h"
 #include "fnv/decl/S_0060ba10.h"
 #include "fnv/decl/S_00a59e00.h"
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "fnv/decl/S_00a742a0.h"
 #include "fnv/decl/S_00c1c300.h"
-#include "fnv/decl/S_00c42960.h"
 #include "fnv/decl/SettingS.h"
-#include "fnv/decl/ShapeList.h"
 #include "fnv/decl/Sphere.h"
 #include "fnv/decl/StrArr.h"
 #include "fnv/decl/TrailSystem.h"
 #include "fnv/decl/X.h"
-#include "fnv/decl/fnv5b5f0__Owner_c5b5f0.h"
 #include "fnv/decl/fnv_00a5dd40__FUN_00a5dd40_shell.h"
 #include "fnv/decl/fnv_00a74690__FUN_00a74690_shell.h"
 #include "fnv/decl/fnv_00a9a4e0__Cls_00a9a4e0.h"
@@ -106,14 +85,6 @@
 #include "fnv/decl/fnv_00c34350__RectangleClip.h"
 #include "fnv/decl/fnv_00c344c0__SSNode.h"
 #include "fnv/decl/fnv_00c3f8c0__FUN_00c3f8c0.h"
-#include "fnv/decl/fnv_00c416a0__QueueSearch.h"
-#include "fnv/decl/fnv_00c42b80__C42List.h"
-#include "fnv/decl/fnv_00c45b20__ResizeArray.h"
-#include "fnv/decl/fnv_00c5ac00__FUN_00c5ac00.h"
-#include "fnv/decl/fnv_00c5dcd0__FUN_00c5dcd0_cls.h"
-#include "fnv/decl/fnv_00c5f240__S00c5f240_Holder.h"
-#include "fnv/decl/fnv_00c5f390__ArrX.h"
-#include "fnv/decl/mb__FUN_00c46af0.h"
 #include "fnv/decl/sa5e9d0__Node.h"
 #include "fnv/symbols_00406000.h"
 #include "fnv/symbols_0044a000.h"
@@ -164,7 +135,85 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01203000.h"
 #include "fnv/symbols_01204000.h"
+#include <cstddef>
+#include <cstdio>
+#include "fnv/decl/B00C20Pool.h"
+#include "fnv/decl/BSShaderLightingProperty.h"
+#include "fnv/decl/BSThread.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/FUN_0042fc00_shell.h"
+#include "fnv/decl/FUN_00439410_cls.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_0045cee0_shell.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_004b0260_shell.h"
+#include "fnv/decl/FUN_005efdd0_class.h"
+#include "fnv/decl/FUN_00691820_arr.h"
+#include "fnv/decl/FUN_00692290_class.h"
+#include "fnv/decl/FUN_0084d310_class.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a53c90_cls.h"
+#include "fnv/decl/FUN_00a54060_class.h"
+#include "fnv/decl/FUN_00a54110.h"
+#include "fnv/decl/FUN_00a5bca0_shell.h"
+#include "fnv/decl/FUN_00a63460_shell.h"
+#include "fnv/decl/FUN_00a745c0_This.h"
+#include "fnv/decl/FUN_00b00ae0_class.h"
+#include "fnv/decl/FUN_00b00b40_cls.h"
+#include "fnv/decl/FUN_00b00bc0_cls.h"
+#include "fnv/decl/FUN_00c35980_Class.h"
+#include "fnv/decl/FUN_00c3f750_Class.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/NiObject_b.h"
+#include "fnv/decl/NiStreamLinkIDSetShell.h"
+#include "fnv/decl/NiTimeController.h"
+#include "fnv/decl/Node2.h"
+#include "fnv/decl/Owner62B.h"
+#include "fnv/decl/ParticleModifier.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S654.h"
+#include "fnv/decl/S_00a5eb20_Arr.h"
+#include "fnv/decl/Tbl00b57f20.h"
+#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
+#include "fnv/decl/fnv_008c74b0__FUN_008c74b0_shell.h"
+#include "fnv/decl/fnv_00a5e780__NodeStandIn.h"
+#include "fnv/decl/fnv_00a5ed10__ChildNode.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_0040f000.h"
+#include "fnv/symbols_00438000.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_004a4000.h"
+#include "fnv/symbols_00aa2000.h"
+#include "fnv/symbols_00c42000.h"
+#include "fnv/symbols_00c44000.h"
+#include "fnv/symbols_00c52000.h"
+#include "fnv/symbols_00c5c000.h"
+#include "fnv/symbols_00c5d000.h"
+#include "fnv/symbols_00c5e000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/symbols_0106a000.h"
+#include "fnv/symbols_01083000.h"
+#include "fnv/symbols_0109a000.h"
+#include "fnv/symbols_011a9000.h"
+#include "fnv/symbols_011c3000.h"
+#include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_01272000.h"
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_00c4a000.h"
+#include "fnv/symbols_00c58000.h"
 #include "../../include/layout_support.h"
+class NiBoolInterpolator;
+
+// Glue functions for the shared non-template NiTPointerListBase methods; layout_support.h makes NiTPointerListBase a template here.
+void ClearPointerList(void* list);
+void RemovePointerListPos(void* list, void*& position);
 
 extern int DAT_010c1670;
 
@@ -184,12 +233,6 @@ struct FUN_00c42b60_class {
     void FUN_00c42b60();
 };
 
-// @fnv 0x00c42b60
-void FUN_00c42b60_class::FUN_00c42b60()
-{
-    while (*(int*)((char*)this + 0xc))
-        reinterpret_cast<::fnv_00c42b80::C42List *>(this)->FUN_00c42b80();
-}
 
 
 struct FUN_00c42da0_Class {
@@ -288,10 +331,13 @@ char NiStringExtraData::FUN_00c43160(const char* other)
 struct NiFixedString;
 class NiExtraData;
 class NiFixedString;
+class NiUpdateData;
 struct NiAVObject {  void FUN_00c43470(); public:
     void EnsureWorldBound();
 public:
     ::NiExtraData *GetExtraData(const ::NiFixedString &);
+    void SetName(const NiFixedString&);
+    void UpdateWorldData(::NiUpdateData &);
 };
 // @fnv 0x00c43470
 void NiAVObject::FUN_00c43470()
@@ -502,7 +548,11 @@ void* FUN_00c47650_Class::FUN_00c47650()
     return &(*reinterpret_cast<void * *>(&::g_01202e74));
 }
 
-struct P03MM {  void* AllocateScaled(unsigned int count); };
+struct P03MM
+{
+    void* Allocate(unsigned int);
+    void* AllocateScaled(unsigned int count);
+};
 
 // @fnv 0x00c4a860
 void* P03MM::AllocateScaled(unsigned int count)
@@ -1125,14 +1175,6 @@ struct MemoryManager {
 struct FUN_00c409b0_Class {
     void* FUN_00c409b0(unsigned int flags);
 };
-// @fnv 0x00c409b0
-void* FUN_00c409b0_Class::FUN_00c409b0(unsigned int flags)
-{
-    reinterpret_cast<::ShapeList *>((((FUN_00c409e0_Class*)this)))->FUN_00c409e0();
-    if (flags & 1)
-        ((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))->Deallocate(this);
-    return this;
-}
 }  // namespace fnv_00c409b0
 
 namespace fnv_00c40a70 {
@@ -1140,14 +1182,6 @@ struct MemoryManager { void Deallocate(void*); };
 struct FUN_00c40a70_Class {
     void* FUN_00c40a70(unsigned int flags);
 };
-// @fnv 0x00c40a70
-void* FUN_00c40a70_Class::FUN_00c40a70(unsigned int flags)
-{
-    reinterpret_cast<::FUN_00c40aa0 *>(this)->FUN_00c40aa0::~FUN_00c40aa0();
-    if (flags & 1)
-        ((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))->Deallocate(this);
-    return this;
-}
 }  // namespace fnv_00c40a70
 
 namespace fnv_00c40b40 {
@@ -1324,7 +1358,9 @@ void* FUN_00c4a990_class::FUN_00c4a990(unsigned int flags)
 }
 }  // namespace fnv_00c4a990
 
-struct NiTPrimitiveArray_unsigned_int_ {
+struct NiTPrimitiveArray_unsigned_int_
+{
+    void AddFirstEmpty(unsigned int&);
 };
 struct FUN_00c4ab00_Class {
     void FUN_00c4ab00(int a);
@@ -1351,17 +1387,6 @@ struct FUN_00c505c0_Class {
 struct FUN_00c50f30_class {
     int GetEntryValue(int a);
 };
-// @fnv 0x00c505c0
-void FUN_00c505c0_Class::FUN_00c505c0(int aiIndex, void* pEmitter)
-{
-    FUN_00c5dcd0_Class* p = ((::FUN_00c5dcd0_Class *)(reinterpret_cast<::FUN_00c50f30_class *>((reinterpret_cast<FUN_00c50f30_Class*>(this)))->GetEntryValue(aiIndex)));
-    if (p)
-        reinterpret_cast<::fnv_00c5dcd0::FUN_00c5dcd0_cls *>((p))->FUN_00c5dcd0((::fnv_00c5dcd0::RefQ *)(pEmitter));
-    else {
-        void* s = *(void**)((char*)pEmitter + 8);
-        ::FUN_005b5e40();
-    }
-}
 
 // @fnv 0x00c50f30
 int FUN_00c50f30_class::GetEntryValue(int aiIndex)
@@ -1404,19 +1429,13 @@ void* FUN_00c51640_Class::FUN_00c51640()
     return this;
 }
 
-struct FUN_00878690_shell {
+struct FUN_00878690_shell
+{
+    void FUN_00c51df0();
 };
 struct FUN_00c52830_class {
     void* FUN_00c52830(unsigned int flags);
 };
-// @fnv 0x00c52830
-void* FUN_00c52830_class::FUN_00c52830(unsigned int flags)
-{
-    reinterpret_cast<::FUN_00c51df0 *>((reinterpret_cast<FUN_00878690_shell*>(this)))->FUN_00c51df0::~FUN_00c51df0();
-    if (flags & 1)
-        operator delete(this, 0xc0);
-    return this;
-}
 
 namespace fnv_00c54d70 {
 struct MemoryManager { void Deallocate(void*); };
@@ -1479,15 +1498,6 @@ struct FUN_00c5ac00_class {
     void* FUN_00c5bae0(unsigned int flags);
 };
 
-// Calls FUN_00c5ac00, then frees this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00c5bae0
-void* FUN_00c5ac00_class::FUN_00c5bae0(unsigned int flags)
-{
-    reinterpret_cast<::fnv_00c5ac00::FUN_00c5ac00 *>(this)->fnv_00c5ac00::FUN_00c5ac00::~FUN_00c5ac00();
-    if (flags & 1)
-        operator delete(this, 0x78);
-    return this;
-}
 }  // namespace fnv_00c5bae0
 
 extern int DAT_010c2d54;
@@ -1600,20 +1610,6 @@ void FUN_00c5cfd0_class::FUN_00c5cfd0(int a, int b, int c, int d)
 extern "C" void __cdecl FUN_00c55200();
 extern "C" unsigned char DAT_01204364;
 
-// @fnv 0x00c5d4e0
-void __cdecl FUN_00c5d4e0()
-{
-    if (!DAT_01204364) {
-        ::fnv_00c65530::FUN_00c65530();
-        FUN_00c55200();
-        ::fnv_00c546c0::FUN_00c546c0();
-        ::fnv_00c618f0::FUN_00c618f0();
-        ::fnv_00c5f240::S00c5f240_Holder::FUN_00c5f240();
-        ::fnv_00c616c0::FUN_00c616c0();
-        ::NiFixedString_c43500::FUN_00c43500();
-        DAT_01204364 = 1;
-    }
-}
 
 extern unsigned char DAT_01204364;
 void __cdecl FUN_00c552a0();
@@ -1720,14 +1716,6 @@ struct FUN_00c5f500_class {
     int* data;
     unsigned int count;
 };
-// Calls FUN_00c5f390 on other with count and 1, then copies count elements from data into other->data.
-// @fnv 0x00c5f500
-void FUN_00c5f500_class::FUN_00c5f500(FUN_00c5f500_class* other)
-{
-    reinterpret_cast<::fnv_00c5f390::ArrX *>((((FUN_00c5f390_class*)other)))->FUN_00c5f390(count, 1);
-    for (unsigned int i = 0; i < count; ++i)
-        other->data[i] = data[i];
-}
 
 struct FUN_00c5fc20_class {
     void* FUN_00c5fc20(unsigned int flags);
@@ -1811,11 +1799,44 @@ GlobalObject_00a7b610* FUN_00c46960_Class::FUN_00c46960()
 }
 
 struct Elem_00c48a10 { int p; int a; int b; };
-struct Arr_00c48a10 {
+struct ElemY
+{
+    int a, b, c;
+};
+struct FUN_00c4a1e0
+{
+    virtual void v00();
+    virtual ElemY* Allocate(unsigned int uiElementCount);
+    ElemY* m_pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiCapacity;
+    void ConstructItems(ElemY* pkItems, unsigned int uiElementCount)
+    {
+        int aiA[4];
+        for (unsigned int i = 0; i < uiElementCount; i++)
+            new (&pkItems[i]) ElemY;
+    }
+    void ConstructItems2(ElemY* pkItems, unsigned int uiElementCount)
+    {
+        int aiB[3];
+        for (unsigned int i = 0; i < uiElementCount; i++)
+            new (&pkItems[i]) ElemY;
+    }
+    void DestructItems(ElemY* pkItems, unsigned int uiElementCount)
+    {
+        for (unsigned int i = 0; i < uiElementCount; i++)
+            pkItems[i].~ElemY();
+    }
+    void SetSize(unsigned int uiNewSize, bool bFree);
+};
+
+struct Arr_00c48a10
+{
     int _0;
     Elem_00c48a10* m_pData;
     int _8;
     int m_iCapacity;
+    void FUN_00c4a1e0(int, bool);
 };
 struct FUN_00c48a10_t {
     int unk00;
@@ -2249,7 +2270,10 @@ void FUN_00c5e620_Class::FUN_00c5e620(NiStream* stream)
     }
 }
 
-struct ObjA {  };
+struct ObjA
+{
+    void FUN_0044dd60();
+};
 struct FUN_00c40910_Class {
     ObjA* m_p;
     void CallObjA();
@@ -2330,7 +2354,9 @@ struct NiExtraDataX {
     virtual void* vfn_0008();
 };
 
-struct NiAVObjectX {
+struct NiAVObjectX
+{
+    NiExtraDataX* GetExtraData(NiFixedString* name);
 };
 
 
@@ -2495,14 +2521,6 @@ struct A51BF0Base {
     A51BF0Base* FUN_00c46ba0(int a);
 };
 
-// Allocates a new A51BF0Base, initialises it from a via FUN_00c46c30, and returns the new object.
-// @fnv 0x00c46ba0
-A51BF0Base* A51BF0Base::FUN_00c46ba0(int aiValue)
-{
-    A51BF0Base* copy = new A51BF0Base;
-    reinterpret_cast<::CloneOwner *>(this)->FUN_00c46c30((::CloneOwner *)(copy), aiValue);
-    return copy;
-}
 
 struct GO {
     void operator=(void*);
@@ -2552,15 +2570,6 @@ void FUN_00c46cd0_Class::LoadFromStream(void* stream)
 struct FUN_00c46af0 {
     void* FUN_00c47610(unsigned int flags);
 };
-// Calls Destruct, then frees this with operator delete when flags has bit 0 set, and returns this.
-// @fnv 0x00c47610
-void* FUN_00c46af0::FUN_00c47610(unsigned int flags)
-{
-    reinterpret_cast<::mb::FUN_00c46af0 *>(this)->mb::FUN_00c46af0::~FUN_00c46af0();
-    if (flags & 1)
-        operator delete(this, 0xb4);
-    return this;
-}
 
 struct FUN_00c47a00_Class {
     char pad0[0x18];
@@ -2893,8 +2902,11 @@ void* FUN_00c514c0_Class::FUN_00c514c0(void* source)
 }
 }  // namespace fnv_00c514c0
 
-struct NiPSysEmitterCtlr_StandIn {
+struct NiPSysEmitterCtlr_StandIn
+{
     void FUN_00c5cb20(NiPSysEmitterCtlr_StandIn* a, void* b);
+public:
+    ::NiBoolInterpolator *FUN_00639b60();
 };
 
 // @fnv 0x00c5cb20
@@ -3093,17 +3105,6 @@ void FUN_00c4afa0_class::FUN_00c4afa0(int aiArg1, int aiArg2)
 {
     reinterpret_cast<::FUN_00c451b0_class *>(this)->CopyStateTo(aiArg1, aiArg2);
 }
-// @fnv 0x00c451b0
-void FUN_00c451b0_class::CopyStateTo(int pTarget, int b)
-{
-    reinterpret_cast<::FUN_00c5fb60_class *>((((FUN_00c5fb60_Class*)this)))->ForwardToBase((::S_00a953b0_Node *)(pTarget), (void *)(b));
-    char c3 = *(char*)((char*)this + 0xae);
-    *(char*)(pTarget + 0xae) = c3;
-    char c1 = *(char*)((char*)this + 0xaf);
-    *(char*)(pTarget + 0xaf) = c1;
-    unsigned char c2 = *(unsigned char*)((char*)this + 0xad);
-    reinterpret_cast<::FUN_00c455a0_cls *>((((FUN_00c455a0_Class*)pTarget)))->FUN_00c455a0(c2);
-}
 
 // @fnv 0x00c5fb60
 void FUN_00c5fb60_class::ForwardToBase(S_00a953b0_Node* apNode, void* apArg)
@@ -3152,7 +3153,9 @@ void C40B20Timer::FUN_00c40b20()
     m_uiElapsedTime = 0;
 }
 
-struct S_0044dd60 {
+struct S_0044dd60
+{
+    void FUN_0044dd60();
 };
 
 extern "C" void (*FUN_00fdf1c0)(void*);
@@ -3186,7 +3189,7 @@ FUN_00c41050_Class* FUN_00c41050_Class::AssignRef(S_0044dd60** other)
 }
 
 struct FUN_00c42b60_class;
-struct SpawnHeap_cls {  };
+struct SpawnHeap_cls { void FUN_00aa4060(void* pObject); };
 typedef void (*S_00c422d0_IAT_Fn)(void*);
 extern "C" S_00c422d0_IAT_Fn DAT_0fdf050;
 struct S_00c422d0_Entry { unsigned int unk00; FUN_00c42b60_class* m_pObject; };
@@ -3211,19 +3214,8 @@ public:
     void FUN_00c42b40();
 };
 
-// Calls Step repeatedly while m_20 is non-zero, stopping once it reaches zero.
-// @fnv 0x00c42b40
-void FUN_00c42b40_cls::FUN_00c42b40()
-{
-    unsigned int scratch[22];
-    int tmp;
-    while (m_20 != 0)
-    {
-        reinterpret_cast<::S_00c42960 *>(this)->FUN_00c42960();
-    }
-}
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 
 struct SpawnedObject_b9874 {
     char m00[0x10];
@@ -3252,7 +3244,7 @@ S_00c437c0_Obj* S_00c437c0::CreateObject(unsigned int stream)
     return p;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 
 struct SpawnedObject_b9504 : FUN_00c43660 {
 };
@@ -3437,8 +3429,10 @@ public:
     bool m_bFlagAF;
 };
 
-class BSNodeC45 : public NiNodeC45 {
-public:
+class BSNodeC45 : public NiNodeC45
+{
+  public:
+    void SetFlag(bool m_bHeaderParsed);
     void FUN_00c45220(NiStream& kStream);
 };
 // @fnv 0x00c4ab40
@@ -3452,24 +3446,6 @@ void FUN_00c4b000_class::FUN_00c4b000(int aiValue)
     reinterpret_cast<::BSNodeC45 *>(this)->FUN_00c45220((*(::NiStream *)(aiValue)));
 }
 
-// Loads the base node binary, reads three booleans from the stream into m_bFlagAE, m_bFlagAF and SetFlag.
-// @fnv 0x00c45220
-void BSNodeC45::FUN_00c45220(NiStream& kStream)
-{
-    reinterpret_cast<::fnv_00a5dd40::FUN_00a5dd40_shell *>(this)->FUN_00a5dd40((::NiStream *)&(kStream));
-
-    bool m_bHeaderParsed;
-    ::FUN_00a643b0((::BA643B0Stream &)(kStream), (char *)&(m_bHeaderParsed));
-    bool bFirst = m_bHeaderParsed;
-    m_bFlagAE = bFirst;
-
-    ::FUN_00a643b0((::BA643B0Stream &)(kStream), (char *)&(m_bHeaderParsed));
-    bool bSecond = m_bHeaderParsed;
-    m_bFlagAF = bSecond;
-
-    ::FUN_00a643b0((::BA643B0Stream &)(kStream), (char *)&(m_bHeaderParsed));
-    reinterpret_cast<::FUN_00c455a0_cls *>(this)->FUN_00c455a0(m_bHeaderParsed);
-}
 
 struct S_00c45380_Base {  };
 struct S_00c45380_Obj : S_00c45380_Base {
@@ -3557,8 +3533,10 @@ char S_00c45380_Obj::FUN_00c45380(S_00c45380_Obj* other) {
 }
 
 
-class GameLockA {
-public:
+class GameLockA
+{
+  public:
+    void FUN_0040fbf0(int a);
 };
 
 class GameLockB {
@@ -3580,35 +3558,6 @@ struct FUN_00c459d0_frame {
     int unk20;
 };
 
-// @fnv 0x00c459d0
-void __cdecl FUN_00c459d0(unsigned char a1)
-{
-    FUN_00c459d0_frame frame;
-    bool flag = true;
-    bool got;
-    if (a1 != 0) {
-        flag = reinterpret_cast<::FUN_0078d200_cls *>(&(DAT_01202e40))->FUN_0078d200();
-    } else {
-        reinterpret_cast<::FUN_0040fbf0_shell *>(&(DAT_01202e40))->FUN_0040fbf0((char *)(0));
-    }
-    if (flag) {
-        got = TryEnterCriticalSection(&DAT_011f4380) ? true : false;
-        if (!got) {
-            if (--DAT_01202e44 == 0) {
-                *reinterpret_cast<unsigned int*>(&DAT_01202e40) = 0;
-            }
-            return;
-        }
-    }
-    if (flag) {
-        reinterpret_cast<::S00c46080_Arr *>(&(DAT_01202e20))->FUN_00c46080();
-        ::fnv_00c45a80::TruncateStringToMaxLength();
-        LeaveCriticalSection(&DAT_011f4380);
-        if (--DAT_01202e44 == 0) {
-            *reinterpret_cast<unsigned int*>(&DAT_01202e40) = 0;
-        }
-    }
-}
 
 namespace fnv_00c45a80 {
 // TruncateStringToMaxLength: clamps the maximum length of the global fixed string object
@@ -3654,16 +3603,6 @@ struct ScratchBuffer
     int m_i100;
 };
 
-// If the string's length exceeds 100, resizes it to a maximum length of 100 via FUN_00c45b20.
-// @fnv 0x00c45a80
-void TruncateStringToMaxLength()
-{
-    ScratchBuffer scratch;
-    if ((unsigned int)::fnv_00c45ae0::DAT_01202e2a > 100u)
-    {
-        reinterpret_cast<::fnv_00c45b20::ResizeArray *>(&((*reinterpret_cast<::fnv_00c45a80::FUN_00c45a80_cls *>(&::DAT_01202e20))))->FUN_00c45b20(100);
-    }
-}
 }  // namespace fnv_00c45a80
 
 namespace fnv_00c45ae0 {
@@ -3701,16 +3640,6 @@ struct FUN_00c45ae0_LocalState {
     int field64;
 };
 
-// If the global DAT_01202e2a is less than value, calls FUN_00c45b20 on DAT_01202e20 with value.
-// @fnv 0x00c45ae0
-void __cdecl FUN_00c45ae0(unsigned int value)
-{
-    FUN_00c45ae0_LocalState localState;
-
-    if (DAT_01202e2a < value) {
-        reinterpret_cast<::fnv_00c45b20::ResizeArray *>(&((*reinterpret_cast<::fnv_00c45ae0::FUN_00c45b20_Class *>(&::DAT_01202e20))))->FUN_00c45b20(value);
-    }
-}
 }  // namespace fnv_00c45ae0
 
 // AppendElement @ 0x00c45e00 (75 bytes) - member, 1 stack parameter (ret 4).
@@ -4048,7 +3977,7 @@ bool FUN_00c46da0_class::FUN_00c46da0(NiObject* other)
     return result;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 
 struct NewObject_b9649 {
     unsigned int unk00;
@@ -4310,7 +4239,46 @@ struct FNV_Proc {
     int unk90;
 };
 
-struct FNV_Local {
+struct GeometryPoint
+{
+    float x, y, z;
+    GeometryPoint()
+    {}
+};
+struct FUN_00a699d0
+{
+    GeometryPoint normal;
+    float distance;
+    FUN_00a699d0();
+    FUN_00a699d0(const GeometryPoint*, const GeometryPoint*, const GeometryPoint*);
+    int ClassifyPoint(const GeometryPoint* point)
+    {
+        float value = normal.x * point->x + normal.y * point->y + normal.z * point->z - distance;
+        if (value < 0.0)
+            return 2;
+        else if (value > 0.0)
+            return 1;
+        else
+            return 0;
+    }
+};
+
+struct FUN_0045c620
+{
+    FUN_00a699d0 planes[6];
+    int unk60;
+    FUN_0045c620()
+    {
+        unk60 = 0x3f;
+    }
+    __forceinline void ClearPlane(int bit)
+    {
+        unk60 &= ~(1 << bit);
+    }
+};
+
+struct FNV_Local
+{
     int unk00;
     int unk04;
     int unk08;
@@ -4336,6 +4304,7 @@ struct FNV_Local {
     int unk58;
     int unk5C;
     int unk60;
+    void FUN_0045c620();
 };
 
 struct FNV_Target {
@@ -4616,53 +4585,6 @@ struct Obj_c477f0 {
     Vec12 m_kVec94;
     void CopyTo(Obj_c477f0* dst);
 };
-// Copies scalar fields, m_kVec94, m_kRec30 and both arrays (resizing the destination arrays first) from this object into dst.
-// @fnv 0x00c477f0
-void Obj_c477f0::CopyTo(Obj_c477f0* apDest)
-{
-    unsigned int i;
-    unsigned int j;
-    apDest->unk28 = unk28;
-    apDest->unk24 = unk24;
-    apDest->unk2C = unk2C;
-    apDest->m_kVec94 = m_kVec94;
-    apDest->m_kRec30 = m_kRec30;
-    apDest->b00 = b00;
-    {
-        unsigned int uiSize = m_kArr14.m_uiSize;
-        reinterpret_cast<::FUN_00c4a1e0 *>(&(apDest->m_kArr14))->SetSize(uiSize, true);
-    }
-    {
-    unsigned int ItemUpdateArray;
-    for (i = 0; i < (ItemUpdateArray = m_kArr14.m_uiSize); i++) {
-        {
-            Elem0C* pA = &m_kArr14.m_pData[i];
-            apDest->m_kArr14.m_pData[i].a = pA->a;
-        }
-        {
-            Elem0C* pB = &m_kArr14.m_pData[i];
-            apDest->m_kArr14.m_pData[i].b = pB->b;
-        }
-        {
-            Elem0C* pC = &m_kArr14.m_pData[i];
-            apDest->m_kArr14.m_pData[i].c = pC->c;
-        }
-    }
-    }
-    {
-        unsigned int uiRecCount = m_kArr04.m_uiSize;
-        reinterpret_cast<::FUN_00c4a070 *>(&(apDest->m_kArr04))->SetSize(uiRecCount, true);
-    }
-    {
-    unsigned int uiCount2;
-    for (j = 0; j < (uiCount2 = m_kArr04.m_uiSize); j++) {
-        {
-            Rec64* pR = &m_kArr04.m_pData[j];
-            apDest->m_kArr04.m_pData[j] = *pR;
-        }
-    }
-    }
-}
 
 class FUN_00c47980_sub
 {
@@ -4802,6 +4724,7 @@ void FUN_00c47980_cls::InitFromArg(FUN_00c47980_arg* a1)
 struct Sub_c47ae0
 {
     int unk00;
+    void FUN_00c4a1e0(int, bool);
 };
 
 struct FUN_00c47ae0_cls
@@ -4841,8 +4764,10 @@ struct NavEntryItem {
     int m_60;
 };
 
-class NavAllocator {
-public:
+class NavAllocator
+{
+  public:
+    int* Alloc(unsigned int size, unsigned int tag);
 };
 
 class NavHolder {
@@ -4935,6 +4860,8 @@ void ActorTable::SetActorList(int* list)
 class NiPoint3 { public: float x,y,z; public:
     char *FUN_00a59af0(const char *);
 public:
+    bool FUN_004390c0(const ::NiPoint3 &);
+    float GetLengthSquared();
     static const ::NiPoint3 ZERO;
 };
 struct SSNode {
@@ -5107,6 +5034,7 @@ struct FUN_00c4a6e0_cls
 
 struct CallerObj_b3918
 {
+    int ClassifySphereAgainstPlane(void* p);
 };
 
 struct EntrySet_b3918
@@ -5637,20 +5565,6 @@ struct FUN_00c509a0_Class {
 
 extern "C" char DAT_010c2580;
 
-// @fnv 0x00c509a0
-void FUN_00c509a0_Class::FUN_00c509a0(int a)
-{
-    int local1;
-    int local2;
-    int local3;
-    void* p = ((void *)(reinterpret_cast<::FUN_00c50f30_class *>((this))->GetEntryValue(a)));
-
-    if (p != 0) {
-        reinterpret_cast<::Owner *>((this))->FUN_00c51700((int)(p));
-    } else {
-        ::FUN_005b5e40();
-    }
-}
 
 // FUN_00c50dd0: clears (releases) the pointer held by the second argument's
 // smart-pointer holder. The two dword locals reproduce the original /Od frame
@@ -5981,15 +5895,6 @@ struct FUN_00c51590_cls {
     FUN_00c51590_cls* FUN_00c51590(unsigned int acFlags);
 };
 
-// @fnv 0x00c51590
-FUN_00c51590_cls* FUN_00c51590_cls::FUN_00c51590(unsigned int acFlags)
-{
-    reinterpret_cast<::FUN_00c504e0 *>(this)->FUN_00c504e0::~FUN_00c504e0();
-    if (acFlags & 1) {
-        FUN_00aa1460(this, 0xb8);
-    }
-    return this;
-}
 
 namespace fnv_00c515d0 {
 struct FNVHeap {
@@ -6271,6 +6176,7 @@ struct SpawnedSubObject
     int unk00;
     int unk04;
     int unk08;
+    void Attach(int a1);
 };
 
 struct FUN_00c54e30_cls
@@ -6696,7 +6602,9 @@ struct EmitterObjectStub {
     EmitterObjectStub();
 };
 
-struct EmitterOwnerStub {
+struct EmitterOwnerStub
+{
+    void Attach(EmitterObjectStub* pkObject, int iParam);
     EmitterObjectStub* CreateAndAttachEmitterObject(int iParam);
 };
 
@@ -6769,7 +6677,7 @@ void FUN_00c5d0a0_cls::CopyVec4AndHelper(FUN_00c5d0a0_cls* apOther, int aiArg) {
     ::FUN_00a744c0();
 }
 
-typedef void* HKEY_t;
+typedef HKEY HKEY_t;
 
 struct RegSetting {
     int unk00;
@@ -7255,20 +7163,6 @@ struct S_00c5e3d0 {
     void FUN_00c5e3d0(float* p, int b);
 };
 struct S_00c5e3d0_pad { int a, b, c, d; float saved; };
-// Calls FUN_00c5e080, then if unkb8 > 0 or FUN_00c5eb90() adds *p to unkdc, passes the sum to FUN_00a5ded0, and restores *p.
-// @fnv 0x00c5e3d0
-void S_00c5e3d0::FUN_00c5e3d0(float* p, int b)
-{
-    S_00c5e3d0_pad tmp;
-    FUN_00c5e080();
-    if (unkb8 > 0 || reinterpret_cast<::EB90Obj *>(this)->FUN_00c5eb90()) {
-        unkdc += *p;
-        tmp.saved = *p;
-        *p = unkdc;
-        reinterpret_cast<::NiNode *>(this)->UpdateSelectedDownwardPass((*(::NiUpdateData *)(p)), b);
-        *p = tmp.saved;
-    }
-}
 
 struct FUN_00c5e450_cls {
     int unk00;
@@ -7332,25 +7226,6 @@ struct FUN_00c5e450_cls {
     void FUN_00c5e450(float* f, int b);
 };
 
-// Calls FUN_00c5e080, then if m_b8 > 0 or FUN_00c5eb90() is true, adds *f to m_dc, passes the sum to FUN_00a5e1f0, and restores *f.
-// @fnv 0x00c5e450
-void FUN_00c5e450_cls::FUN_00c5e450(float* pfValue, int b)
-{
-    float saved;
-    int a0;
-    int a1;
-    int a2;
-    int a3;
-    reinterpret_cast<::S_00c5e3d0 *>(this)->FUN_00c5e080();
-    if (m_b8 > 0 || ((unsigned char)(reinterpret_cast<::EB90Obj *>(this)->FUN_00c5eb90())))
-    {
-        m_dc += *pfValue;
-        saved = *pfValue;
-        *pfValue = m_dc;
-        ::FUN_00a5e1f0((::NiNode *)this, (int)(pfValue), (*(::NiUpdateData *)(b)), {});
-        *pfValue = saved;
-    }
-}
 
 class C5E7A0Object;
 
@@ -7648,16 +7523,6 @@ public:
     void FUN_00c5ef50(int a1);
 };
 
-// @fnv 0x00c5ef50
-void FUN_00c5ef50_cls::FUN_00c5ef50(int pTarget) {
-    int n;
-    reinterpret_cast<::NiExtraData *>((((FUN_00a7b4a0_cls*)this)))->LoadBinary((*(::NiStream *)(pTarget)));
-    ::FUN_00a26df0((::MyStream *)(pTarget), &n);
-    for (int i = 0; i < n; ++i) {
-        ((FUN_00a645b0_cls*)pTarget)->FUN_00a645b0();
-    }
-    reinterpret_cast<::fnv_00c5f390::ArrX *>((((FUN_00c5f390_class*)((char*)this + 0xc))))->FUN_00c5f390(n, 1);
-}
 
 class FUN_00c5f100_cls {
 public:
@@ -7799,6 +7664,7 @@ struct FUN_00c5fb80_rec
 
 struct FUN_00c5fb80_pool
 {
+    char* Alloc(unsigned int size);
 };
 
 
@@ -7837,7 +7703,7 @@ void FUN_00c5fd50_cls::FUN_00c5fd50()
     reinterpret_cast<::PositionState *>(this)->FUN_00c31750();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl FUN_00aa13e0(size_t);
 struct PositionModifierInstance {
     FUN_00c5fd30 modifier;
     void* name;
@@ -7875,7 +7741,6 @@ void ParticlePositionModifier::FUN_00c5ff60(MyStream* stream)
 }
 
 namespace fnv_00c41610 {
-#include <windows.h>
 
 
 class SlotValueSource {
@@ -8110,28 +7975,6 @@ struct Target462f0 {
  unsigned short grow;
  void SetSlot(unsigned int index, const Slot462f0& value);
 };
-// Appends uiElement to the array, growing it by m_usGrowBy if full, and returns the index where it was stored.
-// @fnv 0x00c45e00
-unsigned int FUN_00c45e00_class::AppendElement(unsigned int uiElement)
-{
-    struct FUN_00c45e00_pad
-    {
-        int m00; int m04; int m08; int m0c; int m10; int m14;
-        int m18; int m1c; int m20; int m24; int m28; int m2c;
-        int m30; int m34; int m38; int m3c; int m40; int m44;
-        int m48; int m4c; int m50; int m54; int m58; int m5c;
-    };
-    FUN_00c45e00_pad kPad;
-    {
-        unsigned int uiIndex = m_usSize;
-        if (uiIndex >= m_usMaxSize)
-        {
-            reinterpret_cast<::fnv_00c45b20::ResizeArray *>(this)->FUN_00c45b20(m_usGrowBy + uiIndex);
-        }
-        reinterpret_cast<::Target462f0 *>(this)->SetSlot(uiIndex, (*(const ::Slot462f0 *)(uiElement)));
-        return uiIndex;
-    }
-}
 // @fnv 0x00c462f0
 void Target462f0::SetSlot(unsigned int index, const Slot462f0& aSlot) {
  Ref462f0* j;
@@ -8367,20 +8210,6 @@ struct Target {
     float elapsed_dc;
     void UpdateTimed(float* time, int arg);
 };
-// Calls FUN_00c5e080, then if count_b8 > 0 or FUN_00c5eb90() adds *time to elapsed_dc and calls FUN_00a5dd70 with elapsed_dc, restoring *time.
-// @fnv 0x00c5e350
-void Target::UpdateTimed(float* time, int arg) {
-    float savedTime;
-    reinterpret_cast<::S_00c5e3d0 *>(this)->FUN_00c5e080();
-    if (count_b8 > 0 || ((unsigned char)(reinterpret_cast<::EB90Obj *>(this)->FUN_00c5eb90()))) {
-        elapsed_dc += *time;
-        float previousTime, accumulatedTime, updateTime, deltaTime;
-        savedTime = *time;
-        *time = elapsed_dc;
-        reinterpret_cast<::NiNode *>(this)->UpdateDownwardPass((*(::NiUpdateData *)(time)), arg);
-        *time = savedTime;
-    }
-}
 }  // namespace fnv_00c5e350
 
 // Refresh every key whose time lags the given time by more than the controller's threshold.
@@ -8543,101 +8372,6 @@ struct Lock5b
     bool TryAcquireAndFire(unsigned int a, unsigned int b, unsigned int c);
 };
 
-// @fnv 0x00c403d0
-bool Lock5b::TryAcquireAndFire(unsigned int a, unsigned int b, unsigned int c)
-{
-    bool result2 = false;
-    Tag5b t1;
-    Tag5b t2;
-    Tag5b t7;
-    {
-        Scratch5b scratch;
-    }
-    while (true)
-    {
-        unsigned int* aP_m10;
-        bool _ok5;
-        unsigned int aNVv;
-        Tag5b* _pt1;
-        unsigned int AEQ;
-        Tag5b* pt3_2;
-        unsigned int node;
-        Tag5b* pt3b;
-        unsigned int* p14b3;
-        bool aOk5;
-        unsigned int nodeB5;
-        unsigned int* p14bLen;
-        unsigned int inv5;
-        Tag5b* pt2_2;
-        unsigned int _oldJk;
-        Tag5b* pt1bPtr;
-        unsigned int _v18;
-        unsigned int* _p18a;
-        unsigned int v18a;
-        unsigned int* p18aP;
-
-        if (!reinterpret_cast<::fnv_00c416a0::QueueSearch *>(this)->FUN_00c416a0(a, (::NodeKey)(b)))
-        {
-            result2 = false;
-            break;
-        }
-
-        p18aP = &m18;
-        v18a = *p18aP & ~1u;
-        t1.bits = v18a;
-        reinterpret_cast<::FUN_0044e010_class *>(&(t1))->FUN_0044e010(0);
-
-        _p18a = &m18;
-        _v18 = *_p18a & ~1u;
-        t2.bits = _v18;
-        reinterpret_cast<::FUN_0044e010_class *>(&(t2))->FUN_0044e010(1);
-
-        pt1bPtr = &t1;
-        _oldJk = pt1bPtr->bits;
-        pt2_2 = &t2;
-        inv5 = pt2_2->bits;
-        p14bLen = &m14;
-        nodeB5 = *p14bLen & ~1u;
-        aOk5 = InterlockedCompareExchange((long volatile*)(nodeB5 + 0xc), (long)inv5, (long)_oldJk) == (long)_oldJk;
-        if (!aOk5)
-            continue;
-
-        p14b3 = &m14;
-        node = *p14b3 & ~1u;
-        t7.bits = node;
-        pt3b = &t7;
-        if (0)
-            pt3b->bits |= 1u;
-        else
-            pt3b->bits &= ~1u;
-
-        pt3_2 = &t7;
-        AEQ = pt3_2->bits;
-        _pt1 = &t1;
-        aNVv = _pt1->bits;
-        aP_m10 = m10;
-        _ok5 = InterlockedCompareExchange((long volatile*)aP_m10, (long)aNVv, (long)AEQ) == (long)AEQ;
-        if (_ok5)
-        {
-            Pad16_5b aOld2;
-            unsigned int* p14c = &m14;
-            reinterpret_cast<::C41Owner *>(this)->FUN_00c41f40((::C41Node *)(*p14c & ~1u));
-        }
-        else
-        {
-            reinterpret_cast<::fnv_00c416a0::QueueSearch *>(this)->FUN_00c416a0(a, (::NodeKey)(b));
-        }
-
-        m00->Fire();
-        result2 = true;
-        break;
-    }
-
-    *m04 = 0;
-    *m08 = 0;
-    *m0c = 0;
-    return result2;
-}
 
 struct RefObj {
     int unk00;
@@ -8737,135 +8471,6 @@ struct FUN_00c42560_pad {
     int unk94;
 };
 
-// @fnv 0x00c42560
-bool NodeQueue::FUN_00c42560(int arg, NodeKey* pKey, RefPtr* pOut)
-{
-    FUN_00c42560_pad pad;
-    bool it;
-    {
-        RefObj* bit;
-        int AA;
-        int AC;
-        int BL;
-        NodeFlags* it9;
-        Node* aIt;
-        TaggedNodePtr* nx;
-        RefPtr* itP;
-        RefObj* itZ;
-        TaggedNodePtr* nx5;
-        TaggedNodePtr* unX;
-        NodeFlags* enX;
-        Node* itK;
-        TaggedNodePtr* ret;
-        TaggedNodePtr* val;
-        RefObj* itH;
-        NodeFlags* itX;
-        Node* hit;
-        TaggedNodePtr* itC;
-        RefPtr* src1;
-        RefObj* nX;
-        TaggedNodePtr* aIT;
-        TaggedNodePtr* aNx;
-        NodeFlags* it7;
-        Node* lim;
-        TaggedNodePtr* tag;
-        TaggedNodePtr* iT;
-        int A9;
-        it = false;
-        while (1) {
-            it = reinterpret_cast<::fnv_00c416a0::QueueSearch *>(this)->FUN_00c416a0(arg, *pKey);
-            if (it) {
-                iT = &m_kFirst;
-                if ((iT->m_uiBits & ~1u) != 0) {
-                    tag = &m_kFirst;
-                    lim = (Node*)(tag->m_uiBits & ~1u);
-                    it7 = &lim->m_flags;
-                    if (it7->m_uiValue1 & 1 ? true : false)
-                        continue;
-                    aNx = &m_kFirst;
-                    m_pHandler->Process(((Node*)(aNx->m_uiBits & ~1u))->m_key, pKey);
-                    aIT = &m_kFirst;
-                    src1 = &((Node*)(aIT->m_uiBits & ~1u))->m_pReferencedObject;
-                    if (pOut->m_pObject != src1->m_pObject) {
-                        if (pOut->m_pObject)
-                            ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
-                        pOut->m_pObject = src1->m_pObject;
-                        if (pOut->m_pObject) {
-                            nX = pOut->m_pObject;
-                            FUN_00fdf1c0((void*)&nX->m_iObjectReferenceCount);
-                        }
-                    }
-                    it = true;
-                    itC = &m_kFirst;
-                    hit = (Node*)(itC->m_uiBits & ~1u);
-                    itX = &hit->m_flags;
-                    if (itX->m_uiValue1 & 1 ? true : false) {
-                        if (pOut->m_pObject != 0) {
-                            if (pOut->m_pObject)
-                                ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
-                            pOut->m_pObject = 0;
-                            if (pOut->m_pObject) {
-                                itH = pOut->m_pObject;
-                                FUN_00fdf1c0((void*)&itH->m_iObjectReferenceCount);
-                            }
-                        }
-                        continue;
-                    }
-                    break;
-                } else {
-                    it = false;
-                    break;
-                }
-            } else {
-                val = &m_kSecond;
-                if ((val->m_uiBits & ~1u) != 0) {
-                    ret = &m_kSecond;
-                    itK = (Node*)(ret->m_uiBits & ~1u);
-                    enX = &itK->m_flags;
-                    if (enX->m_uiValue1 & 1 ? true : false)
-                        continue;
-                    unX = &m_kSecond;
-                    m_pHandler->Process(((Node*)(unX->m_uiBits & ~1u))->m_key, pKey);
-                    nx5 = &m_kSecond;
-                    itP = &((Node*)(nx5->m_uiBits & ~1u))->m_pReferencedObject;
-                    if (pOut->m_pObject != itP->m_pObject) {
-                        if (pOut->m_pObject)
-                            ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
-                        pOut->m_pObject = itP->m_pObject;
-                        if (pOut->m_pObject) {
-                            itZ = pOut->m_pObject;
-                            FUN_00fdf1c0((void*)&itZ->m_iObjectReferenceCount);
-                        }
-                    }
-                    it = true;
-                    nx = &m_kSecond;
-                    aIt = (Node*)(nx->m_uiBits & ~1u);
-                    it9 = &aIt->m_flags;
-                    if (it9->m_uiValue1 & 1 ? true : false) {
-                        if (pOut->m_pObject != 0) {
-                            if (pOut->m_pObject)
-                                ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
-                            pOut->m_pObject = 0;
-                            if (pOut->m_pObject) {
-                                bit = pOut->m_pObject;
-                                FUN_00fdf1c0((void*)&bit->m_iObjectReferenceCount);
-                            }
-                        }
-                        continue;
-                    }
-                    break;
-                } else {
-                    it = false;
-                    break;
-                }
-            }
-        }
-        *m_p04 = 0;
-        *m_p08 = 0;
-        *m_p0C = 0;
-    }
-    return it;
-}
 
 struct C45440_Obj : FUN_00c450d0 {
     int u64;
@@ -8909,14 +8514,6 @@ struct C5EDC0_AnimExtra {
     unsigned int AddAnimation(Animation* apAnim);
 };
 
-// @fnv 0x00c5edc0
-unsigned int C5EDC0_AnimExtra::AddAnimation(Animation* apAnim)
-{
-    unsigned int uiIndex;
-    unsigned int ItemUpdateArray;
-    unsigned int uiCapacity;
-    return reinterpret_cast<::FUN_00438690 *>(&(m_kAnimations))->FUN_007cb2e0((unsigned int *)&(apAnim));
-}
 
 struct BSFaceGenMorphData { };
 namespace c30 {
@@ -9080,56 +8677,6 @@ struct FUN_00c47b50Class {
 };
 
 
-// @fnv 0x00c47b50
-void FUN_00c47b50Class::UpdateRecords(FUN_00c47b50Arg* arg, int unused)
-{
-    long itemsCapacity5;
-    int itemsCapacityAgain5;
-    int recordsCapacity;
-    long recordsCapacityAgain;
-    FUN_00c47b50Vec3 v1;
-    FUN_00c47b50Transform matrix8;
-    FUN_00c47b50Vec3 v;
-    FUN_00c47b50Vec3 aV2;
-    float fStack_8;
-    int iStack_5c7;
-    FUN_00c47b50Vec3* p5;
-
-    itemsCapacity5 = second.m_iCapacity;
-    if (count + 2 >= itemsCapacity5) {
-        itemsCapacityAgain5 = second.m_iCapacity;
-        reinterpret_cast<::FUN_00c4a1e0 *>(&(second))->SetSize(itemsCapacityAgain5 + 10, true);
-    }
-    recordsCapacity = first.m_iCapacity;
-    if (1 + index >= recordsCapacity) {
-        recordsCapacityAgain = first.m_iCapacity;
-        reinterpret_cast<::FUN_00c4a070 *>(&(first))->SetSize(recordsCapacityAgain + 4, true);
-    }
-    iStack_5c7 = 4;
-    p5 = &v1;
-    while (--iStack_5c7 >= 0) {
-        p5++;
-    }
-    reinterpret_cast<::Builder *>((arg))->FUN_00c35c10((::Point *)(::FUN_00c47b50Vec3 *)(&v1));
-    reinterpret_cast<::FUN_00a699d0_Class *>(&(v))->FUN_00a699d0((const ::NiPoint3 *)(::FUN_00c47b50Vec3 *)(&v1), (const ::NiPoint3 *)(::FUN_00c47b50Vec3 *)(&aV2), (const ::NiPoint3 *)(::FUN_00c47b50Transform *)(&matrix8));
-    second.m_pData[count].value = 7;
-    count += 1;
-    second.m_pData[count].value = index;
-    count++;
-    arg->FUN_00c33870(position, &first.m_pData[index]);
-    {
-        float records;
-        records = reinterpret_cast<::FUN_004b6190_shell *>(&(v))->DotProduct(&position) - fStack_8;
-    if ((float)std::fabs((double)records) > 5.0) {
-        FUN_00c47b50Record* r1 = &first.m_pData[index];
-        r1->m60 = 0x3f;
-    } else {
-        FUN_00c47b50Record* r2 = &first.m_pData[index];
-        r2->m60 = 0;
-    }
-    }
-    index++;
-}
 
 struct S_00c4dd60_Key {
     unsigned short unk00;
@@ -10023,32 +9570,6 @@ struct FUN_00c49fe0_Cls
     FUN_00c49fe0_Cls();
 };
 
-// Sets vtbl to DAT_010c1e88 and zeroes data, unk08 and unk0C; the size is a constant 0, so the allocation path is never reached.
-// @fnv 0x00c49fe0
-FUN_00c49fe0_Cls::FUN_00c49fe0_Cls()
-{
-    int u1;
-    int u2;
-    int u3;
-    int u4;
-    int u5;
-    vtbl = (void*)&DAT_010c1e88;
-    {
-    unsigned int nSize = 0;
-    data = 0;
-    unk08 = 0;
-    unk0C = 0;
-    if (nSize < 0)
-        nSize = 0;
-    if (nSize > 0) {
-        data = ((S00c49fe0_Vt*)this)->v1(nSize);
-        unk0C = nSize;
-    }
-    }
-    if ((0, (unsigned)0) > 0u) {
-        reinterpret_cast<::FrustumArrayConstruction *>(this)->FUN_00c4a360(data, 0);
-        unk08 = 0;
-    }}
 
 struct c4a790_Plane {
     unsigned int normalX;
@@ -10351,6 +9872,14 @@ struct C52020Filler {
     int m_14;
 };
 
+struct CameraViewportC52
+{
+    float left, right, top, bottom;
+    inline CameraViewportC52()
+    {}
+    inline CameraViewportC52(float x0, float x1, float y1, float y0) : left(x0), right(x1), top(y1), bottom(y0)
+    {}
+};
 struct C52020Obj {
     virtual void vfn_00();
     virtual void vfn_04();
@@ -10425,10 +9954,7 @@ struct C52020Obj {
     float m_bc;
     char pad3[0x3c];
     float m_fc;
-    float m_100;
-    float m_104;
-    float m_108;
-    float m_10c;
+    CameraViewportC52 viewport;
     float m_110;
     void FUN_00c52020(float m_fFirstFloat, unsigned char ucFlag, C52020Obj* pObj, unsigned char ucArg4);
 };
@@ -10491,13 +10017,13 @@ void C52020Obj::FUN_00c52020(float afFov, unsigned char ucFlag, C52020Obj* apTar
     aValue = (*reinterpret_cast<::C52020Dev * *>(&::NiRenderer::ms_pRenderer));
     if (aValue)
     {
-        aStart = (float)reinterpret_cast<::GraphicsRenderer *>((aValue))->GetRenderTargetHeight() * (aTarget->m_108 - aTarget->m_10c);
-        aLen = (float)reinterpret_cast<::GraphicsRenderer *>((aValue))->GetRenderTargetWidth() * (aTarget->m_104 - aTarget->m_100);
+        aStart = (float)reinterpret_cast<::GraphicsRenderer *>((aValue))->GetRenderTargetHeight() * (aTarget->viewport.top - aTarget->viewport.bottom);
+        aLen = (float)reinterpret_cast<::GraphicsRenderer *>((aValue))->GetRenderTargetWidth() * (aTarget->viewport.right - aTarget->viewport.left);
     }
     else
     {
-        aStart = aTarget->m_108 - aTarget->m_10c;
-        aLen = aTarget->m_104 - aTarget->m_100;
+        aStart = aTarget->viewport.top - aTarget->viewport.bottom;
+        aLen = aTarget->viewport.right - aTarget->viewport.left;
     }
     if (aValue)
     {
@@ -10660,45 +10186,6 @@ struct SpawnedObject {
 struct LoopPadA { unsigned int a; unsigned int b; unsigned int c; unsigned int d; };
 struct LoopPadB { unsigned int a; unsigned int b; unsigned int c; unsigned int d; unsigned int e; unsigned int f; unsigned int g; };
 
-// Under a critical section, calls FUN_00c5b5f0 on each element of m_50 and FUN_00c5b740 on each of m_5c, removing all entries from each list afterward.
-// @fnv 0x00c5b8d0
-void SpawnedObject::FUN_00c5b8d0()
-{
-    EnterCriticalSection(&DAT_01203328);
-    void* value;
-    SpawnNode* node;
-    {
-        SpawnNode* head = m_50.m_pkHead;
-        node = head;
-        value = 0;
-        while (node != 0) {
-            NiPointer<NiProperty>* ref = &node->m_element;
-            LoopPadA tmp;
-            node = node->m_pkNext;
-            value = ref->m_pObject;
-            if (value != 0) {
-                reinterpret_cast<::fnv5b5f0::Owner_c5b5f0 *>(this)->FUN_00c5b5f0((::fnv5b5f0::RefObj *)(value));
-            }
-        }
-    }
-    m_50.RemoveAll();
-    {
-        SpawnNode* head = m_5c.m_pkHead;
-        node = head;
-        value = 0;
-        while (node != 0) {
-            NiPointer<NiProperty>* ref = &node->m_element;
-            LoopPadB tmp;
-            node = node->m_pkNext;
-            value = ref->m_pObject;
-            if (value != 0) {
-                reinterpret_cast<::Owner5b *>(this)->FUN_00c5b740((::RefObj5b *)(value));
-            }
-        }
-    }
-    m_5c.RemoveAll();
-    LeaveCriticalSection(&DAT_01203328);
-}
 
 
 struct S00c5cd80_Scratch {
@@ -10803,7 +10290,7 @@ void S_00c5e3d0::FUN_00c5e080()
         a = *f;
         Flag = a->m_uiRefCount;
         if (Flag == 1 || (bool)(a->m_uiValue1 & 1 ? 1 : 0)) {
-            reinterpret_cast<::NiTPointerListBase *>((((MapHelper_00c5e080*)&this->unkac)))->FUN_00c5bfb0((*(::NiTListItem< ::NiPointer< ::NiRefObject>> * *)(&n)));
+            RemovePointerListPos(&this->unkac, reinterpret_cast<void*&>(n));
             if (n) {
                 Tmp = n;
                 if (!InterlockedDecrement(&Tmp->m_uiRefCount)) {
@@ -10890,65 +10377,6 @@ struct C48Owner {
     void FUN_00c48db0(C48Owner* src, C48Obj* obj);
 };
 
-// Copies entry data from src into this owner, compacting the entry array and updating the record table.
-// @fnv 0x00c48db0
-void C48Owner::FUN_00c48db0(C48Owner* src, C48Obj* obj)
-{
-    int kRemovedZ = 0;
-    int TKz3 = 0;
-    int BN = src->m_28;
-    int PIn;
-    bool ok;
-    C48Entry* nXT;
-    C48Rec* rec;
-    C48Entry* FCur;
-    C48Entry* unXT;
-    C48Rec* rec2;
-    C48Entry* aNxT;
-    C48Entry* nxT;
-    C48Rec* aDst4;
-    C48Entry* sCur;
-
-    reinterpret_cast<::FUN_00c4a1e0 *>(&(m_14))->SetSize(BN, true);
-    reinterpret_cast<::FUN_00c4a070 *>(&(m_04))->SetSize(src->m_24, true);
-
-    for (PIn = 0; PIn < BN; PIn++) {
-        ok = true;
-        switch (src->m_14.m_18[PIn].type) {
-        case 7:
-        case 8:
-            {
-                nXT = &src->m_14.m_18[PIn + 1];
-                rec = &src->m_04.m_08[nXT->type];
-                ok = ((bool)(reinterpret_cast<::fnv_00c34350::RectangleClip *>((obj))->FUN_00c34350((::fnv_00c34350::ClipVolume *)(rec))));
-                FCur = &src->m_14.m_18[PIn];
-                m_14.m_18[PIn - kRemovedZ].type = FCur->type;
-                m_28++;
-                m_14.m_18[PIn - kRemovedZ + 1].type = m_24;
-                m_28++;
-                unXT = &src->m_14.m_18[PIn + 1];
-                rec2 = &src->m_04.m_08[unXT->type];
-                aNxT = &src->m_14.m_18[PIn + 1];
-                m_04.m_08[aNxT->type - TKz3] = *rec2;
-                m_24++;
-                if (ok && ((int)(reinterpret_cast<::PaletteFieldFlags *>((obj))->GetPackedZeroFlags())) == 0xf) {
-                    nxT = &src->m_14.m_18[PIn + 1];
-                    aDst4 = &m_04.m_08[nxT->type - TKz3];
-                    aDst4->m_60 = 0;
-                }
-                PIn++;
-            }
-            break;
-        default:
-            sCur = &src->m_14.m_18[PIn];
-            m_14.m_18[PIn - kRemovedZ].type = sCur->type;
-            m_28++;
-            break;
-        }
-    }
-    m_28 = BN - kRemovedZ;
-    reinterpret_cast<::Target *>(this)->CompactEntries();
-}
 
 struct S_Pt {
     float x;
@@ -10976,21 +10404,6 @@ public:
     int m_uiItemCount;
     float FUN_00c4d9d0();
 };
-// @fnv 0x00c4cdc0
-void FUN_00c4cdc0_cls::FUN_00c4cdc0()
-{
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    if (((double)(reinterpret_cast<::S_cls *>(this)->FUN_00c4d9d0())) >= ::_DAT_01012060)
-    {
-        reinterpret_cast<::S_00c4e900_Arr *>((m_pChildObject))->ReverseElements();
-    }
-    reinterpret_cast<::S00c4db20_Self *>(this)->FUN_00c4db20();
-}
 // @fnv 0x00c4d9d0
 float S_cls::FUN_00c4d9d0()
 {
@@ -11025,11 +10438,120 @@ struct NiPoint3;
 struct NiPoint2;
 struct RgbaColor;
 enum NiGeometryDataFlags { NI_GEOM_DATA_DEFAULT = 0 };
-struct NiTriShape {
+class NiTriShape
+{
+  public:
     NiTriShape(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal,
                RgbaColor* pkColor, NiPoint2* pkTexture, unsigned short usNumTextureSets,
                NiGeometryDataFlags eNBTMethod, unsigned short usTriangles,
                unsigned short* pusTriList);
+    virtual ~NiTriShape();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void Method58();
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    unsigned int unkA0;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    unsigned int unkB8;
+    unsigned int unkBC;
+    unsigned int unkC0;
 };
 struct FUN_00c5cf30 : NiTriShape {
     FUN_00c5cf30(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal,
@@ -11056,88 +10578,6 @@ FUN_00c5cf30::FUN_00c5cf30(unsigned short usVertices, NiPoint3* pkVertex,
 }
 
 namespace fnv_00c4b500 {
-#include <windows.h>
-#include <cstddef>
-#include <cstdio>
-#include "fnv/decl/B00C20Pool.h"
-#include "fnv/decl/BSShaderLightingProperty.h"
-#include "fnv/decl/BSThread.h"
-#include "fnv/decl/ControllerOwner.h"
-#include "fnv/decl/FUN_0042fc00_shell.h"
-#include "fnv/decl/FUN_00439410_cls.h"
-#include "fnv/decl/FUN_00439ef0_class.h"
-#include "fnv/decl/FUN_0045cee0_shell.h"
-#include "fnv/decl/FUN_004a0c10_s.h"
-#include "fnv/decl/FUN_004b0260_shell.h"
-#include "fnv/decl/FUN_005efdd0_class.h"
-#include "fnv/decl/FUN_00691820_arr.h"
-#include "fnv/decl/FUN_00692290_class.h"
-#include "fnv/decl/FUN_0084d310_class.h"
-#include "fnv/decl/FUN_00a41520_cls.h"
-#include "fnv/decl/FUN_00a53c90_cls.h"
-#include "fnv/decl/FUN_00a54060_class.h"
-#include "fnv/decl/FUN_00a54110.h"
-#include "fnv/decl/FUN_00a5bca0_shell.h"
-#include "fnv/decl/FUN_00a63460_shell.h"
-#include "fnv/decl/FUN_00a745c0_This.h"
-#include "fnv/decl/FUN_00b00ae0_class.h"
-#include "fnv/decl/FUN_00b00b40_cls.h"
-#include "fnv/decl/FUN_00b00bc0_cls.h"
-#include "fnv/decl/FUN_00c35980_Class.h"
-#include "fnv/decl/FUN_00c3f750_Class.h"
-#include "fnv/decl/FUN_00c44d30_cls.h"
-#include "fnv/decl/NiGlobalStringTable.h"
-#include "fnv/decl/NiObjectNET.h"
-#include "fnv/decl/NiObject_b.h"
-#include "fnv/decl/NiStreamLinkIDSetShell.h"
-#include "fnv/decl/NiTimeController.h"
-#include "fnv/decl/Node2.h"
-#include "fnv/decl/ObjectDE80.h"
-#include "fnv/decl/Owner62B.h"
-#include "fnv/decl/ParticleModifier.h"
-#include "fnv/decl/Point3Offset.h"
-#include "fnv/decl/S654.h"
-#include "fnv/decl/S_00a5eb20_Arr.h"
-#include "fnv/decl/S_00c454c0.h"
-#include "fnv/decl/S_00c4dd60_Owner.h"
-#include "fnv/decl/S_cls_2.h"
-#include "fnv/decl/Tbl00b57f20.h"
-#include "fnv/decl/c4a790_Owner.h"
-#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
-#include "fnv/decl/fnv_008c74b0__FUN_008c74b0_shell.h"
-#include "fnv/decl/fnv_00a5e780__NodeStandIn.h"
-#include "fnv/decl/fnv_00a5ed10__ChildNode.h"
-#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
-#include "fnv/decl/fnv_00c4e160__FUN_00c4e160_Class.h"
-#include "fnv/decl/fnv_00c5f570__FUN_00c5f570.h"
-#include "fnv/symbols_00401000.h"
-#include "fnv/symbols_0040f000.h"
-#include "fnv/symbols_00438000.h"
-#include "fnv/symbols_00457000.h"
-#include "fnv/symbols_004a4000.h"
-#include "fnv/symbols_00aa2000.h"
-#include "fnv/symbols_00c42000.h"
-#include "fnv/symbols_00c44000.h"
-#include "fnv/symbols_00c52000.h"
-#include "fnv/symbols_00c5c000.h"
-#include "fnv/symbols_00c5d000.h"
-#include "fnv/symbols_00c5e000.h"
-#include "fnv/symbols_01016000.h"
-#include "fnv/symbols_0101d000.h"
-#include "fnv/symbols_01022000.h"
-#include "fnv/symbols_0106a000.h"
-#include "fnv/symbols_01083000.h"
-#include "fnv/symbols_0109a000.h"
-#include "fnv/symbols_011a9000.h"
-#include "fnv/symbols_011c3000.h"
-#include "fnv/symbols_0126f000.h"
-#include "fnv/symbols_01272000.h"
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
 
 struct Node;
 struct NodeV { void* v0; void* v1; void* v2; Node* (*GetNode)(Node*); };
@@ -11507,88 +10947,20 @@ bool RegistryOpen::FUN_00c5d920(bool create)
 
 int FUN_00c42da0(FUN_00c42da0_Class* p);
 
-// VEGAS17-CONFLICT: NiIntegerExtraData (variant definition below differs from the one above)
-struct NiIntegerExtraData
-{
-};
 
-// VEGAS17-CONFLICT: NiAVObject (variant definition below differs from the one above)
-struct NiAVObject
-{
-    void SetName(const NiFixedString&);
-    void FUN_00c43470();
-public:
-    ::NiExtraData *GetExtraData(const ::NiFixedString &);
-public:
-    void UpdateWorldData(::NiUpdateData &);
-};
 
 bool FUN_00c45ab0();
 
-// VEGAS17-CONFLICT: NiPSysModifier (variant definition below differs from the one above)
-struct NiPSysModifier
-{
-    void FUN_00c467f0(NiStream& stream);
-public:
-    void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
-public:
-    void LoadBinary(::NiStream &);
-};
 
-// VEGAS17-CONFLICT: P03MM (variant definition below differs from the one above)
-struct P03MM
-{
-    void* Allocate(unsigned int);
-    void* AllocateScaled(unsigned int count);
-};
 
-extern P03MM g_memoryManager;
 
-void FUN_00c452a0_class::FUN_00c452a0(int a)
-{}
 
-void FUN_00c452f0_cls::FUN_00c452f0(int a1)
-{}
 
-// VEGAS17-CONFLICT: FUN_00c51570_Class (variant definition below differs from the one above)
-struct FUN_00c51570_Class
-{
-    void* FUN_00c51570(void* arg);
-};
 
-// VEGAS17-CONFLICT: NiExtraData (variant definition below differs from the one above)
-struct NiExtraData
-{
-public:
-    void LoadBinary(::NiStream &);
-};
 
-// VEGAS17-CONFLICT: NiPSysEmitterCtlr (variant definition below differs from the one above)
-struct NiPSysEmitterCtlr
-{
-public:
-    void CopyMemberData(::NiPSysEmitterCtlr *, ::CloningProcess &);
-public:
-    void ProcessClone(::CloningProcess &);
-public:
-    void LoadBinary(::NiStream &);
-};
 
-// VEGAS17-CONFLICT: FUN_00c1be10_shell (variant definition below differs from the one above)
-struct FUN_00c1be10_shell
-{
-    char FUN_00c5ccb0(NiStream&);
-};
 
-FUN_00a744a0::FUN_00a744a0()
-{}
 
-// VEGAS17-CONFLICT: MemoryManager (variant definition below differs from the one above)
-struct MemoryManager
-{
-public:
-    ::ScrapHeapBuffer *GetGeneralAllocator();
-};
 
 extern "C" char* __cdecl _strchr(const char*, int);
 
@@ -11596,15 +10968,6 @@ extern "C" int __cdecl _strcpy_s(char*, unsigned int, const char*);
 
 void __cdecl CopyMainNameFromPath(int param_1, char* param_2);
 
-// VEGAS17-CONFLICT: FUN_00c448f0_Class (variant definition below differs from the one above)
-struct FUN_00c448f0_Class
-{
-    char pad[0x50];
-    int m50;
-    int m54;
-    int m58;
-    void FUN_00c448f0();
-};
 
 void FUN_00c45820(int value);
 
@@ -11614,100 +10977,23 @@ void __cdecl FUN_00c45b10(unsigned short value);
 
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
-// VEGAS17-CONFLICT: NiTPrimitiveArray_unsigned_int_ (variant definition below differs from the one above)
-struct NiTPrimitiveArray_unsigned_int_
-{
-    void AddFirstEmpty(unsigned int&);
-};
 
-// VEGAS17-CONFLICT: FUN_00878690_shell (variant definition below differs from the one above)
-struct FUN_00878690_shell
-{
-    void FUN_00c51df0();
-};
 
-// VEGAS17-CONFLICT: NiColor (variant definition below differs from the one above)
-struct NiColor
-{
-};
 
-// VEGAS17-CONFLICT: S_00c1be40 (variant definition below differs from the one above)
-struct S_00c1be40
-{
-};
 
-// VEGAS17-CONFLICT: NiObject (variant definition below differs from the one above)
-struct NiObject
-{
-    char pad[0xb0];
-    int p;
-    unsigned char flag;
-};
 
-// VEGAS17-CONFLICT: Arr_00c48a10 (variant definition below differs from the one above)
-struct Arr_00c48a10
-{
-    int _0;
-    Elem_00c48a10* m_pData;
-    int _8;
-    int m_iCapacity;
-    void FUN_00c4a1e0(int, bool);
-};
 
-// VEGAS17-CONFLICT: FUN_00c5f570_Class (variant definition below differs from the one above)
-struct FUN_00c5f570_Class
-{
-};
 
 FUN_00c465a0* __cdecl FUN_00c46740();
 
-// VEGAS17-CONFLICT: NiStream (variant definition below differs from the one above)
-struct NiStream
-{
-public:
-    ::NiObject *GetLoadedObject();
-};
 
-// VEGAS17-CONFLICT: ObjA (variant definition below differs from the one above)
-struct ObjA
-{
-    void FUN_0044dd60();
-};
 
-// VEGAS17-CONFLICT: NiAVObjectX (variant definition below differs from the one above)
-struct NiAVObjectX
-{
-    NiExtraDataX* GetExtraData(NiFixedString* name);
-};
 
-// VEGAS17-CONFLICT: FUN_00c4f270_Class (variant definition below differs from the one above)
-struct FUN_00c4f270_Class
-{
-    char pad[0x90];
-    int m_type;
-    char pad2[0x28];
-    int m_uiItemCount;
-    int m_aiEntries[1];
-    void FUN_00c4f270(int aeType);
-};
 
-class NiBoolInterpolator;
 
-// VEGAS17-CONFLICT: NiPSysEmitterCtlr_StandIn (variant definition below differs from the one above)
-struct NiPSysEmitterCtlr_StandIn
-{
-    void FUN_00c5cb20(NiPSysEmitterCtlr_StandIn* a, void* b);
-public:
-    ::NiBoolInterpolator *FUN_00639b60();
-};
 
 float __cdecl EvaluateQuinticPolynomial(float x);
 
-// VEGAS17-CONFLICT: S_0044dd60 (variant definition below differs from the one above)
-struct S_0044dd60
-{
-    void FUN_0044dd60();
-};
 
 extern "C" void(* FUN_00fdf1c0)(void*);
 
@@ -11727,222 +11013,34 @@ extern "C" void __cdecl FNV_CopyPath(char* dest, unsigned int destSize, const ch
 
 void __cdecl CopyStringBeforeColon(FUN_00c43e00_Obj* pObj, char* pDest);
 
-// VEGAS17-CONFLICT: S_00c44d90_Cls (variant definition below differs from the one above)
-struct S_00c44d90_Cls
-{
-    void(__cdecl* m_pfnWork)(int, int);
-    int* m_pArg;
-    unsigned int m_uiCount;
-    volatile long m_lIndex;
-};
 
-// VEGAS17-CONFLICT: BSNodeC45 (variant definition below differs from the one above)
-class BSNodeC45 : public NiNodeC45
-{
-  public:
-    void SetFlag(bool m_bHeaderParsed);
-    void FUN_00c45220(NiStream& kStream);
-};
 
-// VEGAS17-CONFLICT: GameLockA (variant definition below differs from the one above)
-class GameLockA
-{
-  public:
-    void FUN_0040fbf0(int a);
-};
 
 extern void* __cdecl FUN_00c46170(unsigned int count);
 
-// @fnv 0x00c46530
-S_00c46530_Class* S_00c46530_Class::FUN_00c46530(unsigned short param1, unsigned short param2)
-{
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-
-    this->m_vtbl = &DAT_010c1c5c;
-    this->m_uiItemCount = param1;
-    this->m_field_0e = param2;
-    this->m_field_0a = 0;
-    this->m_field_0c = 0;
-
-    if (this->m_uiItemCount > 0)
-    {
-        this->m_result = FUN_00c46170(this->m_uiItemCount);
-    }
-    else
-    {
-        this->m_result = 0;
-    }
-
-    return this;
-}
 
 void __cdecl FUN_00c468c0(float a1, float a2);
 
-// VEGAS17-CONFLICT: UpdateContext (variant definition below differs from the one above)
-struct UpdateContext
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
-    int unk80, unk84, unk88, unk8c;
-    int state;
-};
 
-// VEGAS17-CONFLICT: BoundReference (variant definition below differs from the one above)
-struct BoundReference
-{
-    int unk00, unk04, unk08;
-    BoundTester* object;
-};
 
-// VEGAS17-CONFLICT: UpdateOwner (variant definition below differs from the one above)
-struct UpdateOwner
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
-    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
-    UpdateChild** children;
-    unsigned short capacity, count, enabled, unkAA;
-    BoundReference* reference;
-    int replacement;
-    void FUN_00c46f60(UpdateContext*);
-};
 
-// VEGAS17-CONFLICT: FNV_Local (variant definition below differs from the one above)
-struct FNV_Local
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    void FUN_0045c620();
-};
 
-// VEGAS17-CONFLICT: FNV_Plane (variant definition below differs from the one above)
-struct FNV_Plane
-{
-};
 
-// VEGAS17-CONFLICT: Sub_c47ae0 (variant definition below differs from the one above)
-struct Sub_c47ae0
-{
-    int unk00;
-    void FUN_00c4a1e0(int, bool);
-};
 
-// VEGAS17-CONFLICT: NavAllocator (variant definition below differs from the one above)
-class NavAllocator
-{
-  public:
-    int* Alloc(unsigned int size, unsigned int tag);
-};
 
 extern NavHolder g_navHolder;
 
-// VEGAS17-CONFLICT: NiPoint3 (variant definition below differs from the one above)
-class NiPoint3
-{
-  public:
-    float x, y, z;
-public:
-    bool FUN_004390c0(const ::NiPoint3 &);
-public:
-    float GetLengthSquared();
-public:
-    static const ::NiPoint3 ZERO;
-};
 
-// VEGAS17-CONFLICT: CallerObj_b3918 (variant definition below differs from the one above)
-struct CallerObj_b3918
-{
-    int ClassifySphereAgainstPlane(void* p);
-};
 
-// VEGAS17-CONFLICT: FNV_MemoryManager (variant definition below differs from the one above)
-struct FNV_MemoryManager
-{
-public:
-    void FUN_00aa4060(void *);
-};
 
 extern FNV_MemoryManager FNV_g_memoryManager;
 
-// VEGAS17-CONFLICT: SpawnedSubObject (variant definition below differs from the one above)
-struct SpawnedSubObject
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    void Attach(int a1);
-};
 
 void FUN_00c55cd0(const C55CD0Point3& kTargetCenter, float fSize, unsigned int uiColor);
 
-void FUN_00c3a250_Obj::FUN_00c3a250(int* a1)
-{}
 
-// VEGAS17-CONFLICT: EmitterOwnerStub (variant definition below differs from the one above)
-struct EmitterOwnerStub
-{
-    void Attach(EmitterObjectStub* pkObject, int iParam);
-    EmitterObjectStub* CreateAndAttachEmitterObject(int iParam);
-};
 
-bool __cdecl FUN_00c5e010(int object)
-{
-    FUN_00c5e010_Node* initial = *reinterpret_cast<FUN_00c5e010_Node**>(reinterpret_cast<char*>(object) + 0x0C);
-    FUN_00c5e010_Node* current = initial;
 
-    while (current != 0)
-    {
-        bool found;
-        if (current == 0)
-            found = false;
-        else
-            found = current->vf08() == reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_01203340)));
-
-        if (found)
-            return true;
-
-        FUN_00c5e010_Node* next = current->next;
-        current = next;
-    }
-
-    return false;
-}
-
-// VEGAS17-CONFLICT: FUN_00c5fb80_pool (variant definition below differs from the one above)
-struct FUN_00c5fb80_pool
-{
-    char* Alloc(unsigned int size);
-};
 
 extern "C" char DAT_011f6238;
 
@@ -11956,146 +11054,9 @@ char* __cdecl ConcatPrefixAndSuffix(FUN_00c5fb80_rec* rec, const char* suffix);
 
 int __cdecl FUN_00ec658f(void(__cdecl*)());
 
-// VEGAS17-CONFLICT: MeshStatsData (variant definition below differs from the one above)
-struct MeshStatsData
-{
-    unsigned int unk00, unk04;
-    unsigned short vertices, unk0a;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned short triangles;
-};
 
-// VEGAS17-CONFLICT: MeshStatsEntry (variant definition below differs from the one above)
-struct MeshStatsEntry
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6c;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7c;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8c;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9c;
-    unsigned int unka0;
-    unsigned int unka4;
-    unsigned int unka8;
-    unsigned int unkac;
-    unsigned int unkb0;
-    unsigned int unkb4;
-    MeshStatsData* data;
-    unsigned int unkbc, unkc0, unkc4, unkc8, unkcc;
-    unsigned int bytes;
-};
 
-// VEGAS17-CONFLICT: Statistics (variant definition below differs from the one above)
-struct Statistics
-{
-    unsigned int meshes, triangles, vertices, materials, other, bytes;
-};
 
-// VEGAS17-CONFLICT: MeshCollection (variant definition below differs from the one above)
-struct MeshCollection
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6c;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7c;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8c;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9c;
-    unsigned int unka0;
-    unsigned int unka4;
-    unsigned int unka8;
-    unsigned int unkac;
-    unsigned int unkb0;
-    unsigned int other;
-    unsigned short materials, unkba;
-    unsigned int unkbc, unkc0, unkc4, unkc8, unkcc;
-    MeshStatsEntry** meshes;
-    unsigned short capacity, used;
-    void AccumulateStatistics(Statistics*);
-};
 
 C45440_Obj* __cdecl CreateC45440Obj(void);
 
@@ -12113,6 +11074,17 @@ struct ShapeList
     unsigned count;
     void FUN_00c409e0();
 };
+
+namespace fnv_00c409b0 {
+// @fnv 0x00c409b0
+void* FUN_00c409b0_Class::FUN_00c409b0(unsigned int flags)
+{
+    reinterpret_cast<::ShapeList *>((((FUN_00c409e0_Class*)this)))->FUN_00c409e0();
+    if (flags & 1)
+        ((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))->Deallocate(this);
+    return this;
+}
+}  // namespace fnv_00c409b0
 
 static inline void FreeShapeArray(void* memory)
 {
@@ -12151,6 +11123,17 @@ struct FUN_00c40aa0 : FNV_Base_c40aa0
     void* m_pData;
     virtual ~FUN_00c40aa0();
 };
+
+namespace fnv_00c40a70 {
+// @fnv 0x00c40a70
+void* FUN_00c40a70_Class::FUN_00c40a70(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00c40aa0 *>(this)->FUN_00c40aa0::~FUN_00c40aa0();
+    if (flags & 1)
+        ((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))->Deallocate(this);
+    return this;
+}
+}  // namespace fnv_00c40a70
 
 typedef void* HANDLE;
 
@@ -13034,125 +12017,11 @@ class NiPoint2
     float x, y;
 };
 
-// VEGAS17-CONFLICT: NiTriShape (variant definition below differs from the one above)
-class NiTriShape
-{
-  public:
-    NiTriShape(unsigned short, NiPoint3*, NiPoint3*, void*, NiPoint2*, unsigned short, unsigned int, unsigned short,
-               unsigned short*);
-    virtual ~NiTriShape();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void Method58();
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6C;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7C;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8C;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9C;
-    unsigned int unkA0;
-    unsigned int unkA4;
-    unsigned int unkA8;
-    unsigned int unkAC;
-    unsigned int unkB0;
-    unsigned int unkB4;
-    unsigned int unkB8;
-    unsigned int unkBC;
-    unsigned int unkC0;
-};
 
 // @fnv 0x00c55360
 NiTriShape* __cdecl FUN_00c55360(float extent, NiPoint3* center, ColorA* color)
 {
-    NiPoint3* srcPtr4 = center ? center : &::NiPoint3::ZERO;
+    const NiPoint3* srcPtr4 = center ? center : &::NiPoint3::ZERO;
     NiPoint3 centerVal2 = *srcPtr4;
     Vec3A* verts = new Vec3A[4];
     Vec3A* normals = new Vec3A[4];
@@ -13186,7 +12055,7 @@ NiTriShape* __cdecl FUN_00c55360(float extent, NiPoint3* center, ColorA* color)
     indices[4] = 1;
     indices[5] = 3;
     NiTriShape* shape5 =
-        new NiTriShape(4, (NiPoint3*)verts, (NiPoint3*)normals, colors, (NiPoint2*)tex, 0, 0, 2, indices);
+        new NiTriShape(4, (NiPoint3*)verts, (NiPoint3*)normals, (RgbaColor*)colors, (NiPoint2*)tex, 0, (NiGeometryDataFlags)0, 2, indices);
     shape5->Method58();
     return shape5;
 }
@@ -13342,6 +12211,7 @@ struct Owner5b
 
     void FUN_00c5b740(RefObj5b* pkObj);
 };
+
 
 // @fnv 0x00c5b740
 void Owner5b::FUN_00c5b740(RefObj5b* pkObj)
@@ -14371,6 +13241,137 @@ bool QueueSearch::FUN_00c416a0(int index, NodeKey key)
 }
 }
 
+
+// @fnv 0x00c42560
+bool NodeQueue::FUN_00c42560(int arg, NodeKey* pKey, RefPtr* pOut)
+{
+    FUN_00c42560_pad pad;
+    bool it;
+    {
+        RefObj* bit;
+        int AA;
+        int AC;
+        int BL;
+        NodeFlags* it9;
+        Node* aIt;
+        TaggedNodePtr* nx;
+        RefPtr* itP;
+        RefObj* itZ;
+        TaggedNodePtr* nx5;
+        TaggedNodePtr* unX;
+        NodeFlags* enX;
+        Node* itK;
+        TaggedNodePtr* ret;
+        TaggedNodePtr* val;
+        RefObj* itH;
+        NodeFlags* itX;
+        Node* hit;
+        TaggedNodePtr* itC;
+        RefPtr* src1;
+        RefObj* nX;
+        TaggedNodePtr* aIT;
+        TaggedNodePtr* aNx;
+        NodeFlags* it7;
+        Node* lim;
+        TaggedNodePtr* tag;
+        TaggedNodePtr* iT;
+        int A9;
+        it = false;
+        while (1) {
+            it = reinterpret_cast<::fnv_00c416a0::QueueSearch *>(this)->FUN_00c416a0(arg, *pKey);
+            if (it) {
+                iT = &m_kFirst;
+                if ((iT->m_uiBits & ~1u) != 0) {
+                    tag = &m_kFirst;
+                    lim = (Node*)(tag->m_uiBits & ~1u);
+                    it7 = &lim->m_flags;
+                    if (it7->m_uiValue1 & 1 ? true : false)
+                        continue;
+                    aNx = &m_kFirst;
+                    m_pHandler->Process(((Node*)(aNx->m_uiBits & ~1u))->m_key, pKey);
+                    aIT = &m_kFirst;
+                    src1 = &((Node*)(aIT->m_uiBits & ~1u))->m_pReferencedObject;
+                    if (pOut->m_pObject != src1->m_pObject) {
+                        if (pOut->m_pObject)
+                            ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
+                        pOut->m_pObject = src1->m_pObject;
+                        if (pOut->m_pObject) {
+                            nX = pOut->m_pObject;
+                            FUN_00fdf1c0((void*)&nX->m_iObjectReferenceCount);
+                        }
+                    }
+                    it = true;
+                    itC = &m_kFirst;
+                    hit = (Node*)(itC->m_uiBits & ~1u);
+                    itX = &hit->m_flags;
+                    if (itX->m_uiValue1 & 1 ? true : false) {
+                        if (pOut->m_pObject != 0) {
+                            if (pOut->m_pObject)
+                                ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
+                            pOut->m_pObject = 0;
+                            if (pOut->m_pObject) {
+                                itH = pOut->m_pObject;
+                                FUN_00fdf1c0((void*)&itH->m_iObjectReferenceCount);
+                            }
+                        }
+                        continue;
+                    }
+                    break;
+                } else {
+                    it = false;
+                    break;
+                }
+            } else {
+                val = &m_kSecond;
+                if ((val->m_uiBits & ~1u) != 0) {
+                    ret = &m_kSecond;
+                    itK = (Node*)(ret->m_uiBits & ~1u);
+                    enX = &itK->m_flags;
+                    if (enX->m_uiValue1 & 1 ? true : false)
+                        continue;
+                    unX = &m_kSecond;
+                    m_pHandler->Process(((Node*)(unX->m_uiBits & ~1u))->m_key, pKey);
+                    nx5 = &m_kSecond;
+                    itP = &((Node*)(nx5->m_uiBits & ~1u))->m_pReferencedObject;
+                    if (pOut->m_pObject != itP->m_pObject) {
+                        if (pOut->m_pObject)
+                            ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
+                        pOut->m_pObject = itP->m_pObject;
+                        if (pOut->m_pObject) {
+                            itZ = pOut->m_pObject;
+                            FUN_00fdf1c0((void*)&itZ->m_iObjectReferenceCount);
+                        }
+                    }
+                    it = true;
+                    nx = &m_kSecond;
+                    aIt = (Node*)(nx->m_uiBits & ~1u);
+                    it9 = &aIt->m_flags;
+                    if (it9->m_uiValue1 & 1 ? true : false) {
+                        if (pOut->m_pObject != 0) {
+                            if (pOut->m_pObject)
+                                ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(((ObjA*)pOut->m_pObject)));
+                            pOut->m_pObject = 0;
+                            if (pOut->m_pObject) {
+                                bit = pOut->m_pObject;
+                                FUN_00fdf1c0((void*)&bit->m_iObjectReferenceCount);
+                            }
+                        }
+                        continue;
+                    }
+                    break;
+                } else {
+                    it = false;
+                    break;
+                }
+            }
+        }
+        *m_p04 = 0;
+        *m_p08 = 0;
+        *m_p0C = 0;
+    }
+    return it;
+}
+
 // namespace fnv_00c416a0
 
 struct RttiX
@@ -14473,76 +13474,167 @@ struct FUN_00c4a070
     void SetSize(unsigned int uiNewSize, bool bFree);
 };
 
-// @fnv 0x00c4a070
-void FUN_00c4a070::SetSize(unsigned int uiNewSize, bool bFree)
+// Copies scalar fields, m_kVec94, m_kRec30 and both arrays (resizing the destination arrays first) from this object into dst.
+// @fnv 0x00c477f0
+void Obj_c477f0::CopyTo(Obj_c477f0* apDest)
 {
-    if (uiNewSize == 0)
+    unsigned int i;
+    unsigned int j;
+    apDest->unk28 = unk28;
+    apDest->unk24 = unk24;
+    apDest->unk2C = unk2C;
+    apDest->m_kVec94 = m_kVec94;
+    apDest->m_kRec30 = m_kRec30;
+    apDest->b00 = b00;
     {
-        reinterpret_cast<::FUN_00c4a9c0_class *>(this)->ReleaseBuffer(bFree);
-        return;
+        unsigned int uiSize = m_kArr14.m_uiSize;
+        reinterpret_cast<::FUN_00c4a1e0 *>(&(apDest->m_kArr14))->SetSize(uiSize, true);
     }
-    if (uiNewSize > m_uiCapacity)
     {
-        if (m_uiCapacity == 0)
+    unsigned int ItemUpdateArray;
+    for (i = 0; i < (ItemUpdateArray = m_kArr14.m_uiSize); i++) {
         {
-            m_pBuffer = Allocate(uiNewSize);
-            m_uiCapacity = uiNewSize;
+            Elem0C* pA = &m_kArr14.m_pData[i];
+            apDest->m_kArr14.m_pData[i].a = pA->a;
         }
-        else
         {
-            reinterpret_cast<::CachedRef_b5611 *>(this)->UpdateCachedRef(uiNewSize, m_uiSize);
-            m_uiCapacity = uiNewSize;
+            Elem0C* pB = &m_kArr14.m_pData[i];
+            apDest->m_kArr14.m_pData[i].b = pB->b;
         }
-        reinterpret_cast<::FrustumArrayConstruction *>(this)->FUN_00c4a360(m_pBuffer + m_uiSize, uiNewSize - m_uiSize);
-        m_uiSize = uiNewSize;
-    }
-    else if (uiNewSize < m_uiSize)
-    {
-        DestructItems(m_pBuffer + uiNewSize, m_uiSize - uiNewSize);
-        m_uiSize = uiNewSize;
-        if (bFree && uiNewSize <= m_uiCapacity >> 2)
         {
-            Shrink(uiNewSize);
+            Elem0C* pC = &m_kArr14.m_pData[i];
+            apDest->m_kArr14.m_pData[i].c = pC->c;
         }
     }
-    else
+    }
     {
-        reinterpret_cast<::FrustumArrayConstruction *>(this)->FUN_00c4a360(m_pBuffer + m_uiSize, uiNewSize - m_uiSize);
-        m_uiSize = uiNewSize;
+        unsigned int uiRecCount = m_kArr04.m_uiSize;
+        reinterpret_cast<::FUN_00c4a070 *>(&(apDest->m_kArr04))->SetSize(uiRecCount, true);
+    }
+    {
+    unsigned int uiCount2;
+    for (j = 0; j < (uiCount2 = m_kArr04.m_uiSize); j++) {
+        {
+            Rec64* pR = &m_kArr04.m_pData[j];
+            apDest->m_kArr04.m_pData[j] = *pR;
+        }
+    }
     }
 }
 
-struct ElemY
+// @fnv 0x00c47b50
+void FUN_00c47b50Class::UpdateRecords(FUN_00c47b50Arg* arg, int unused)
 {
-    int a, b, c;
-};
+    long itemsCapacity5;
+    int itemsCapacityAgain5;
+    int recordsCapacity;
+    long recordsCapacityAgain;
+    FUN_00c47b50Vec3 v1;
+    FUN_00c47b50Transform matrix8;
+    FUN_00c47b50Vec3 v;
+    FUN_00c47b50Vec3 aV2;
+    float fStack_8;
+    int iStack_5c7;
+    FUN_00c47b50Vec3* p5;
 
-struct FUN_00c4a1e0
+    itemsCapacity5 = second.m_iCapacity;
+    if (count + 2 >= itemsCapacity5) {
+        itemsCapacityAgain5 = second.m_iCapacity;
+        reinterpret_cast<::FUN_00c4a1e0 *>(&(second))->SetSize(itemsCapacityAgain5 + 10, true);
+    }
+    recordsCapacity = first.m_iCapacity;
+    if (1 + index >= recordsCapacity) {
+        recordsCapacityAgain = first.m_iCapacity;
+        reinterpret_cast<::FUN_00c4a070 *>(&(first))->SetSize(recordsCapacityAgain + 4, true);
+    }
+    iStack_5c7 = 4;
+    p5 = &v1;
+    while (--iStack_5c7 >= 0) {
+        p5++;
+    }
+    reinterpret_cast<::Builder *>((arg))->FUN_00c35c10((::Point *)(::FUN_00c47b50Vec3 *)(&v1));
+    reinterpret_cast<::FUN_00a699d0_Class *>(&(v))->FUN_00a699d0((const ::NiPoint3 *)(::FUN_00c47b50Vec3 *)(&v1), (const ::NiPoint3 *)(::FUN_00c47b50Vec3 *)(&aV2), (const ::NiPoint3 *)(::FUN_00c47b50Transform *)(&matrix8));
+    second.m_pData[count].value = 7;
+    count += 1;
+    second.m_pData[count].value = index;
+    count++;
+    arg->FUN_00c33870(position, &first.m_pData[index]);
+    {
+        float records;
+        records = reinterpret_cast<::FUN_004b6190_shell *>(&(v))->DotProduct(&position) - fStack_8;
+    if ((float)std::fabs((double)records) > 5.0) {
+        FUN_00c47b50Record* r1 = &first.m_pData[index];
+        r1->m60 = 0x3f;
+    } else {
+        FUN_00c47b50Record* r2 = &first.m_pData[index];
+        r2->m60 = 0;
+    }
+    }
+    index++;
+}
+
+// Copies entry data from src into this owner, compacting the entry array and updating the record table.
+// @fnv 0x00c48db0
+void C48Owner::FUN_00c48db0(C48Owner* src, C48Obj* obj)
 {
-    virtual void v00();
-    virtual ElemY* Allocate(unsigned int uiElementCount);
-    ElemY* m_pBuffer;
-    unsigned int m_uiSize;
-    unsigned int m_uiCapacity;
-    void ConstructItems(ElemY* pkItems, unsigned int uiElementCount)
-    {
-        int aiA[4];
-        for (unsigned int i = 0; i < uiElementCount; i++)
-            new (&pkItems[i]) ElemY;
+    int kRemovedZ = 0;
+    int TKz3 = 0;
+    int BN = src->m_28;
+    int PIn;
+    bool ok;
+    C48Entry* nXT;
+    C48Rec* rec;
+    C48Entry* FCur;
+    C48Entry* unXT;
+    C48Rec* rec2;
+    C48Entry* aNxT;
+    C48Entry* nxT;
+    C48Rec* aDst4;
+    C48Entry* sCur;
+
+    reinterpret_cast<::FUN_00c4a1e0 *>(&(m_14))->SetSize(BN, true);
+    reinterpret_cast<::FUN_00c4a070 *>(&(m_04))->SetSize(src->m_24, true);
+
+    for (PIn = 0; PIn < BN; PIn++) {
+        ok = true;
+        switch (src->m_14.m_18[PIn].type) {
+        case 7:
+        case 8:
+            {
+                nXT = &src->m_14.m_18[PIn + 1];
+                rec = &src->m_04.m_08[nXT->type];
+                ok = ((bool)(reinterpret_cast<::fnv_00c34350::RectangleClip *>((obj))->FUN_00c34350((::fnv_00c34350::ClipVolume *)(rec))));
+                FCur = &src->m_14.m_18[PIn];
+                m_14.m_18[PIn - kRemovedZ].type = FCur->type;
+                m_28++;
+                m_14.m_18[PIn - kRemovedZ + 1].type = m_24;
+                m_28++;
+                unXT = &src->m_14.m_18[PIn + 1];
+                rec2 = &src->m_04.m_08[unXT->type];
+                aNxT = &src->m_14.m_18[PIn + 1];
+                m_04.m_08[aNxT->type - TKz3] = *rec2;
+                m_24++;
+                if (ok && ((int)(reinterpret_cast<::PaletteFieldFlags *>((obj))->GetPackedZeroFlags())) == 0xf) {
+                    nxT = &src->m_14.m_18[PIn + 1];
+                    aDst4 = &m_04.m_08[nxT->type - TKz3];
+                    aDst4->m_60 = 0;
+                }
+                PIn++;
+            }
+            break;
+        default:
+            sCur = &src->m_14.m_18[PIn];
+            m_14.m_18[PIn - kRemovedZ].type = sCur->type;
+            m_28++;
+            break;
+        }
     }
-    void ConstructItems2(ElemY* pkItems, unsigned int uiElementCount)
-    {
-        int aiB[3];
-        for (unsigned int i = 0; i < uiElementCount; i++)
-            new (&pkItems[i]) ElemY;
-    }
-    void DestructItems(ElemY* pkItems, unsigned int uiElementCount)
-    {
-        for (unsigned int i = 0; i < uiElementCount; i++)
-            pkItems[i].~ElemY();
-    }
-    void SetSize(unsigned int uiNewSize, bool bFree);
-};
+    m_28 = BN - kRemovedZ;
+    reinterpret_cast<::Target *>(this)->CompactEntries();
+}
+
+
+
 
 // @fnv 0x00c48ca0
 void TokStack_c48ca0::FUN_00c48ca0()
@@ -15031,6 +14123,26 @@ void ArrX::FUN_00c5f390(unsigned int n, bool b)
         m8 = n;
     }
 }
+}
+
+// Calls FUN_00c5f390 on other with count and 1, then copies count elements from data into other->data.
+// @fnv 0x00c5f500
+void FUN_00c5f500_class::FUN_00c5f500(FUN_00c5f500_class* other)
+{
+    reinterpret_cast<::fnv_00c5f390::ArrX *>((((FUN_00c5f390_class*)other)))->FUN_00c5f390(count, 1);
+    for (unsigned int i = 0; i < count; ++i)
+        other->data[i] = data[i];
+}
+
+// @fnv 0x00c5ef50
+void FUN_00c5ef50_cls::FUN_00c5ef50(int pTarget) {
+    int n;
+    reinterpret_cast<::NiExtraData *>((((FUN_00a7b4a0_cls*)this)))->LoadBinary((*(::NiStream *)(pTarget)));
+    ::FUN_00a26df0((::MyStream *)(pTarget), &n);
+    for (int i = 0; i < n; ++i) {
+        ((FUN_00a645b0_cls*)pTarget)->FUN_00a645b0();
+    }
+    reinterpret_cast<::fnv_00c5f390::ArrX *>((((FUN_00c5f390_class*)((char*)this + 0xc))))->FUN_00c5f390(n, 1);
 }
 
 // namespace fnv_00c5f390
@@ -15586,6 +14698,102 @@ struct C41Owner
     }
     bool FUN_00c41ac0(int, C41Object**);
 };
+
+// @fnv 0x00c403d0
+bool Lock5b::TryAcquireAndFire(unsigned int a, unsigned int b, unsigned int c)
+{
+    bool result2 = false;
+    Tag5b t1;
+    Tag5b t2;
+    Tag5b t7;
+    {
+        Scratch5b scratch;
+    }
+    while (true)
+    {
+        unsigned int* aP_m10;
+        bool _ok5;
+        unsigned int aNVv;
+        Tag5b* _pt1;
+        unsigned int AEQ;
+        Tag5b* pt3_2;
+        unsigned int node;
+        Tag5b* pt3b;
+        unsigned int* p14b3;
+        bool aOk5;
+        unsigned int nodeB5;
+        unsigned int* p14bLen;
+        unsigned int inv5;
+        Tag5b* pt2_2;
+        unsigned int _oldJk;
+        Tag5b* pt1bPtr;
+        unsigned int _v18;
+        unsigned int* _p18a;
+        unsigned int v18a;
+        unsigned int* p18aP;
+
+        if (!reinterpret_cast<::fnv_00c416a0::QueueSearch *>(this)->FUN_00c416a0(a, (::NodeKey)(b)))
+        {
+            result2 = false;
+            break;
+        }
+
+        p18aP = &m18;
+        v18a = *p18aP & ~1u;
+        t1.bits = v18a;
+        reinterpret_cast<::FUN_0044e010_class *>(&(t1))->FUN_0044e010(0);
+
+        _p18a = &m18;
+        _v18 = *_p18a & ~1u;
+        t2.bits = _v18;
+        reinterpret_cast<::FUN_0044e010_class *>(&(t2))->FUN_0044e010(1);
+
+        pt1bPtr = &t1;
+        _oldJk = pt1bPtr->bits;
+        pt2_2 = &t2;
+        inv5 = pt2_2->bits;
+        p14bLen = &m14;
+        nodeB5 = *p14bLen & ~1u;
+        aOk5 = InterlockedCompareExchange((long volatile*)(nodeB5 + 0xc), (long)inv5, (long)_oldJk) == (long)_oldJk;
+        if (!aOk5)
+            continue;
+
+        p14b3 = &m14;
+        node = *p14b3 & ~1u;
+        t7.bits = node;
+        pt3b = &t7;
+        if (0)
+            pt3b->bits |= 1u;
+        else
+            pt3b->bits &= ~1u;
+
+        pt3_2 = &t7;
+        AEQ = pt3_2->bits;
+        _pt1 = &t1;
+        aNVv = _pt1->bits;
+        aP_m10 = m10;
+        _ok5 = InterlockedCompareExchange((long volatile*)aP_m10, (long)aNVv, (long)AEQ) == (long)AEQ;
+        if (_ok5)
+        {
+            Pad16_5b aOld2;
+            unsigned int* p14c = &m14;
+            reinterpret_cast<::C41Owner *>(this)->FUN_00c41f40((::C41Node *)(*p14c & ~1u));
+        }
+        else
+        {
+            reinterpret_cast<::fnv_00c416a0::QueueSearch *>(this)->FUN_00c416a0(a, (::NodeKey)(b));
+        }
+
+        m00->Fire();
+        result2 = true;
+        break;
+    }
+
+    *m04 = 0;
+    *m08 = 0;
+    *m0c = 0;
+    return result2;
+}
 
 // @fnv 0x00c41ac0
 bool C41Owner::FUN_00c41ac0(int index, C41Object** wanted)
@@ -16342,6 +15550,18 @@ struct S_00c42960
     void FUN_00c42960();
 };
 
+// Calls Step repeatedly while m_20 is non-zero, stopping once it reaches zero.
+// @fnv 0x00c42b40
+void FUN_00c42b40_cls::FUN_00c42b40()
+{
+    unsigned int scratch[22];
+    int tmp;
+    while (m_20 != 0)
+    {
+        reinterpret_cast<::S_00c42960 *>(this)->FUN_00c42960();
+    }
+}
+
 // @fnv 0x00c42960
 void S_00c42960::FUN_00c42960()
 {
@@ -16793,6 +16013,37 @@ struct FUN_00c455a0_cls
     bool FUN_00c455a0(unsigned char ucLevel);
 };
 
+// @fnv 0x00c451b0
+void FUN_00c451b0_class::CopyStateTo(int pTarget, int b)
+{
+    reinterpret_cast<::FUN_00c5fb60_class *>((((FUN_00c5fb60_Class*)this)))->ForwardToBase((::S_00a953b0_Node *)(pTarget), (void *)(b));
+    char c3 = *(char*)((char*)this + 0xae);
+    *(char*)(pTarget + 0xae) = c3;
+    char c1 = *(char*)((char*)this + 0xaf);
+    *(char*)(pTarget + 0xaf) = c1;
+    unsigned char c2 = *(unsigned char*)((char*)this + 0xad);
+    reinterpret_cast<::FUN_00c455a0_cls *>((((FUN_00c455a0_Class*)pTarget)))->FUN_00c455a0(c2);
+}
+
+// Loads the base node binary, reads three booleans from the stream into m_bFlagAE, m_bFlagAF and SetFlag.
+// @fnv 0x00c45220
+void BSNodeC45::FUN_00c45220(NiStream& kStream)
+{
+    reinterpret_cast<::fnv_00a5dd40::FUN_00a5dd40_shell *>(this)->FUN_00a5dd40((::NiStream *)&(kStream));
+
+    bool m_bHeaderParsed;
+    ::FUN_00a643b0((::BA643B0Stream &)(kStream), (char *)&(m_bHeaderParsed));
+    bool bFirst = m_bHeaderParsed;
+    m_bFlagAE = bFirst;
+
+    ::FUN_00a643b0((::BA643B0Stream &)(kStream), (char *)&(m_bHeaderParsed));
+    bool bSecond = m_bHeaderParsed;
+    m_bFlagAF = bSecond;
+
+    ::FUN_00a643b0((::BA643B0Stream &)(kStream), (char *)&(m_bHeaderParsed));
+    reinterpret_cast<::FUN_00c455a0_cls *>(this)->FUN_00c455a0(m_bHeaderParsed);
+}
+
 // @fnv 0x00c455a0
 bool FUN_00c455a0_cls::FUN_00c455a0(unsigned char ucLevel)
 {
@@ -16880,52 +16131,6 @@ inline void GameLockA::FUN_0040fbf0(int a)
     spins = passes;
 }
 
-inline unsigned int FUN_00c45e00_class::AppendElement(unsigned int uiElement)
-{
-    int slot;
-    slot = uiElement;
-    slot = slot + 1;
-    slot = slot + 2;
-    slot = slot + 3;
-    slot = slot + 4;
-    slot = slot + 5;
-    slot = slot + 6;
-    slot = slot + 7;
-    slot = slot + 8;
-    slot = slot + 9;
-    slot = slot + 10;
-    slot = slot + 11;
-    slot = slot + 12;
-    slot = slot + 13;
-    slot = slot + 14;
-    slot = slot + 15;
-    slot = slot + 16;
-    slot = slot + 17;
-    slot = slot + 18;
-    slot = slot + 19;
-    slot = slot + 20;
-    slot = slot + 21;
-    slot = slot + 22;
-    slot = slot + 23;
-    slot = slot + 24;
-    slot = slot + 25;
-    slot = slot + 26;
-    slot = slot + 27;
-    slot = slot + 28;
-    slot = slot + 29;
-    slot = slot + 30;
-    slot = slot + 31;
-    slot = slot + 32;
-    slot = slot + 33;
-    slot = slot + 34;
-    slot = slot + 35;
-    slot = slot + 36;
-    slot = slot + 37;
-    slot = slot + 38;
-    slot = slot + 39;
-    slot = slot + 40;
-    return slot;
-}
 
 // @fnv 0x00c45830
 void __cdecl FUN_00c45830(MyRef* object)
@@ -17048,6 +16253,36 @@ struct S00c46080_Arr
 
     void FUN_00c46080();
 };
+
+// @fnv 0x00c459d0
+void __cdecl FUN_00c459d0(unsigned char a1)
+{
+    FUN_00c459d0_frame frame;
+    bool flag = true;
+    bool got;
+    if (a1 != 0) {
+        flag = reinterpret_cast<::FUN_0078d200_cls *>(&(DAT_01202e40))->FUN_0078d200();
+    } else {
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&(DAT_01202e40))->FUN_0040fbf0((char *)(0));
+    }
+    if (flag) {
+        got = TryEnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4380)) ? true : false;
+        if (!got) {
+            if (--DAT_01202e44 == 0) {
+                *reinterpret_cast<unsigned int*>(&DAT_01202e40) = 0;
+            }
+            return;
+        }
+    }
+    if (flag) {
+        reinterpret_cast<::S00c46080_Arr *>(&(DAT_01202e20))->FUN_00c46080();
+        ::fnv_00c45a80::TruncateStringToMaxLength();
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4380));
+        if (--DAT_01202e44 == 0) {
+            *reinterpret_cast<unsigned int*>(&DAT_01202e40) = 0;
+        }
+    }
+}
 
 // @fnv 0x00c46080
 void S00c46080_Arr::FUN_00c46080()
@@ -17196,6 +16431,16 @@ struct FUN_00c46af0 : BSNiNodeC46
 };
 }
 
+// Calls Destruct, then frees this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00c47610
+void* FUN_00c46af0::FUN_00c47610(unsigned int flags)
+{
+    reinterpret_cast<::mb::FUN_00c46af0 *>(this)->mb::FUN_00c46af0::~FUN_00c46af0();
+    if (flags & 1)
+        operator delete(this, 0xb4);
+    return this;
+}
+
 // @fnv 0x00c46af0
 mb::FUN_00c46af0::~FUN_00c46af0()
 {
@@ -17283,44 +16528,8 @@ int FUN_00c47570_cls::FUN_00c47570(int a1)
 }
 
 // Geometry command emission for a polygon and its adjoining polygon.
-struct GeometryPoint
-{
-    float x, y, z;
-    GeometryPoint()
-    {}
-};
 
-struct FUN_00a699d0
-{
-    GeometryPoint normal;
-    float distance;
-    FUN_00a699d0();
-    FUN_00a699d0(const GeometryPoint*, const GeometryPoint*, const GeometryPoint*);
-    int ClassifyPoint(const GeometryPoint* point)
-    {
-        float value = normal.x * point->x + normal.y * point->y + normal.z * point->z - distance;
-        if (value < 0.0)
-            return 2;
-        else if (value > 0.0)
-            return 1;
-        else
-            return 0;
-    }
-};
 
-struct FUN_0045c620
-{
-    FUN_00a699d0 planes[6];
-    int unk60;
-    FUN_0045c620()
-    {
-        unk60 = 0x3f;
-    }
-    __forceinline void ClearPlane(int bit)
-    {
-        unk60 &= ~(1 << bit);
-    }
-};
 
 struct CommandPolygon
 {
@@ -18477,7 +17686,6 @@ struct NiMemManager086
     NiAlloc086* allocator;
 };
 
-extern NiMemManager086* DAT_011f6080;
 
 struct FUN_00438690
 {
@@ -18527,6 +17735,15 @@ struct FUN_00438690
     }
     ~FUN_00438690();
 };
+
+// @fnv 0x00c5edc0
+unsigned int C5EDC0_AnimExtra::AddAnimation(Animation* apAnim)
+{
+    unsigned int uiIndex;
+    unsigned int ItemUpdateArray;
+    unsigned int uiCapacity;
+    return reinterpret_cast<::FUN_00438690 *>(&(m_kAnimations))->FUN_007cb2e0((unsigned int *)&(apAnim));
+}
 
 struct WrappedIndex086
 {
@@ -18755,7 +17972,7 @@ struct FUN_00a5ecb0 : RefBase086
             size = 1;
         unsigned int requested = size;
         unsigned int alignment = 4;
-        return DAT_011f6080->allocator->Allocate(requested, alignment, 1, true, 0, -1, 0);
+        return reinterpret_cast<NiMemManager086*>(DAT_011f6080)->allocator->Allocate(requested, alignment, 1, true, 0, -1, 0);
     }
     static void operator delete(void*);
 };
@@ -18890,6 +18107,22 @@ struct S00c4db20_Self
     }
 };
 
+// @fnv 0x00c4cdc0
+void FUN_00c4cdc0_cls::FUN_00c4cdc0()
+{
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    if (((double)(reinterpret_cast<::S_cls *>(this)->FUN_00c4d9d0())) >= ::_DAT_01012060)
+    {
+        reinterpret_cast<::S_00c4e900_Arr *>((m_pChildObject))->ReverseElements();
+    }
+    reinterpret_cast<::S00c4db20_Self *>(this)->FUN_00c4db20();
+}
+
 // @fnv 0x00c4db20
 void S00c4db20_Self::FUN_00c4db20()
 {
@@ -18923,7 +18156,6 @@ void S00c4db20_Self::FUN_00c4db20()
 }
 
 // Reconstruction of 0x00c4e1e0
-typedef unsigned int size_t;
 
 struct MMgr
 {
@@ -19474,6 +18706,16 @@ struct FUN_00c504e0 : ScopeBase_c5
     int m_b0;
     FUN_00c504e0_task* m_b4;
 };
+
+// @fnv 0x00c51590
+FUN_00c51590_cls* FUN_00c51590_cls::FUN_00c51590(unsigned int acFlags)
+{
+    reinterpret_cast<::FUN_00c504e0 *>(this)->FUN_00c504e0::~FUN_00c504e0();
+    if (acFlags & 1) {
+        FUN_00aa1460(this, 0xb8);
+    }
+    return this;
+}
 
 FUN_00c504e0::~FUN_00c504e0()
 {
@@ -20205,6 +19447,15 @@ struct FUN_00c51df0 : BaseForC51df0
     virtual ~FUN_00c51df0();
 };
 
+// @fnv 0x00c52830
+void* FUN_00c52830_class::FUN_00c52830(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00c51df0 *>((reinterpret_cast<FUN_00878690_shell*>(this)))->FUN_00c51df0::~FUN_00c51df0();
+    if (flags & 1)
+        operator delete(this, 0xc0);
+    return this;
+}
+
 // @fnv 0x00c51df0
 FUN_00c51df0::~FUN_00c51df0()
 {
@@ -20392,6 +19643,21 @@ void Owner::FUN_00c51f20()
     }
 }
 
+}
+
+// @fnv 0x00c509a0
+void FUN_00c509a0_Class::FUN_00c509a0(int a)
+{
+    int local1;
+    int local2;
+    int local3;
+    void* p = ((void *)(reinterpret_cast<::FUN_00c50f30_class *>((this))->GetEntryValue(a)));
+
+    if (p != 0) {
+        reinterpret_cast<::Owner *>((this))->FUN_00c51700((int)(p));
+    } else {
+        ::FUN_005b5e40();
+    }
 }
 
 namespace fnv_00c52450 {
@@ -21075,7 +20341,7 @@ struct FUN_004ed900_class : ListFields
     }
     __forceinline ~FUN_004ed900_class()
     {
-        reinterpret_cast<::NiTPointerListBase *>(this)->FUN_004ed900();
+        ClearPointerList(this);
     }
 };
 struct FUN_00e74d40_class : ListFields
@@ -21141,12 +20407,24 @@ FUN_00c5ac00::~FUN_00c5ac00()
 {
     reinterpret_cast<::BSShaderLightingProperty *>(&(sub14))->ClearLights();
     ::FUN_004a4650((::FUN_004a4650_ListBase *)&(sub20));
-    reinterpret_cast<::NiTPointerListBase *>(&(sub08))->FUN_004ed900();
+    ClearPointerList(&sub08);
     arr3c.FUN_004dffa0();
     ptr2c.FUN_0066b0d0(0);
     ptr4c.FUN_0066b0d0(0);
 }
 }
+
+namespace fnv_00c5bae0 {
+// Calls FUN_00c5ac00, then frees this with operator delete when flags has bit 0 set, and returns this.
+// @fnv 0x00c5bae0
+void* FUN_00c5ac00_class::FUN_00c5bae0(unsigned int flags)
+{
+    reinterpret_cast<::fnv_00c5ac00::FUN_00c5ac00 *>(this)->fnv_00c5ac00::FUN_00c5ac00::~FUN_00c5ac00();
+    if (flags & 1)
+        operator delete(this, 0x78);
+    return this;
+}
+}  // namespace fnv_00c5bae0
 
 // namespace fnv_00c5ac00
 
@@ -21585,6 +20863,46 @@ void Owner_c5b5f0::FUN_00c5b5f0(RefObj* pkObj)
 }
 }
 
+// Under a critical section, calls FUN_00c5b5f0 on each element of m_50 and FUN_00c5b740 on each of m_5c, removing all entries from each list afterward.
+// @fnv 0x00c5b8d0
+void SpawnedObject::FUN_00c5b8d0()
+{
+    EnterCriticalSection(&DAT_01203328);
+    void* value;
+    SpawnNode* node;
+    {
+        SpawnNode* head = m_50.m_pkHead;
+        node = head;
+        value = 0;
+        while (node != 0) {
+            NiPointer<NiProperty>* ref = &node->m_element;
+            LoopPadA tmp;
+            node = node->m_pkNext;
+            value = ref->m_pObject;
+            if (value != 0) {
+                reinterpret_cast<::fnv5b5f0::Owner_c5b5f0 *>(this)->FUN_00c5b5f0((::fnv5b5f0::RefObj *)(value));
+            }
+        }
+    }
+    m_50.RemoveAll();
+    {
+        SpawnNode* head = m_5c.m_pkHead;
+        node = head;
+        value = 0;
+        while (node != 0) {
+            NiPointer<NiProperty>* ref = &node->m_element;
+            LoopPadB tmp;
+            node = node->m_pkNext;
+            value = ref->m_pObject;
+            if (value != 0) {
+                reinterpret_cast<::Owner5b *>(this)->FUN_00c5b740((::RefObj5b *)(value));
+            }
+        }
+    }
+    m_5c.RemoveAll();
+    LeaveCriticalSection(&DAT_01203328);
+}
+
 struct NavObject
 {
     virtual void Dtor();
@@ -21748,89 +21066,6 @@ inline unsigned int FindIndex(FUN_00c5bef0_class* self, unsigned int value)
     return 0xffffffffu;
 }
 
-inline void FUN_00c5bef0_class::RemoveRange(unsigned int a, unsigned int b)
-{
-    unsigned int u0, u1, u2, u3, u4, u5, u6;
-    u0 = a;
-    u1 = b;
-    u2 = a;
-    u3 = b;
-    u4 = a;
-    u5 = b;
-    u6 = a;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    u0 = u1;
-    u1 = u2;
-    u2 = u3;
-    u3 = u4;
-    u4 = u5;
-    u5 = u6;
-    u6 = u0;
-    if (u0 == u6)
-        RemoveRange(a + 1, b);
-}
 
 struct S_00c5ba50_Class
 {
@@ -23053,6 +22288,18 @@ void FUN_00c5dcd0_cls::FUN_00c5dcd0(RefQ* pObj)
 }
 }
 
+// @fnv 0x00c505c0
+void FUN_00c505c0_Class::FUN_00c505c0(int aiIndex, void* pEmitter)
+{
+    FUN_00c5dcd0_Class* p = ((::FUN_00c5dcd0_Class *)(reinterpret_cast<::FUN_00c50f30_class *>((reinterpret_cast<FUN_00c50f30_Class*>(this)))->GetEntryValue(aiIndex)));
+    if (p)
+        reinterpret_cast<::fnv_00c5dcd0::FUN_00c5dcd0_cls *>((p))->FUN_00c5dcd0((::fnv_00c5dcd0::RefQ *)(pEmitter));
+    else {
+        void* s = *(void**)((char*)pEmitter + 8);
+        ::FUN_005b5e40();
+    }
+}
+
 // namespace fnv_00c5dcd0
 
 struct EB90Sub
@@ -23122,6 +22369,58 @@ struct EB90Obj
 
     bool FUN_00c5eb90();
 };
+
+// Calls FUN_00c5e080, then if unkb8 > 0 or FUN_00c5eb90() adds *p to unkdc, passes the sum to FUN_00a5ded0, and restores *p.
+// @fnv 0x00c5e3d0
+void S_00c5e3d0::FUN_00c5e3d0(float* p, int b)
+{
+    S_00c5e3d0_pad tmp;
+    FUN_00c5e080();
+    if (unkb8 > 0 || reinterpret_cast<::EB90Obj *>(this)->FUN_00c5eb90()) {
+        unkdc += *p;
+        tmp.saved = *p;
+        *p = unkdc;
+        reinterpret_cast<::NiNode *>(this)->UpdateSelectedDownwardPass((*(::NiUpdateData *)(p)), b);
+        *p = tmp.saved;
+    }
+}
+
+// Calls FUN_00c5e080, then if m_b8 > 0 or FUN_00c5eb90() is true, adds *f to m_dc, passes the sum to FUN_00a5e1f0, and restores *f.
+// @fnv 0x00c5e450
+void FUN_00c5e450_cls::FUN_00c5e450(float* pfValue, int b)
+{
+    float saved;
+    int a0;
+    int a1;
+    int a2;
+    int a3;
+    reinterpret_cast<::S_00c5e3d0 *>(this)->FUN_00c5e080();
+    if (m_b8 > 0 || ((unsigned char)(reinterpret_cast<::EB90Obj *>(this)->FUN_00c5eb90())))
+    {
+        m_dc += *pfValue;
+        saved = *pfValue;
+        *pfValue = m_dc;
+        ::FUN_00a5e1f0((::NiNode *)this, (int)(pfValue), (*(::NiUpdateData *)(b)), {});
+        *pfValue = saved;
+    }
+}
+
+namespace fnv_00c5e350 {
+// Calls FUN_00c5e080, then if count_b8 > 0 or FUN_00c5eb90() adds *time to elapsed_dc and calls FUN_00a5dd70 with elapsed_dc, restoring *time.
+// @fnv 0x00c5e350
+void Target::UpdateTimed(float* time, int arg) {
+    float savedTime;
+    reinterpret_cast<::S_00c5e3d0 *>(this)->FUN_00c5e080();
+    if (count_b8 > 0 || ((unsigned char)(reinterpret_cast<::EB90Obj *>(this)->FUN_00c5eb90()))) {
+        elapsed_dc += *time;
+        float previousTime, accumulatedTime, updateTime, deltaTime;
+        savedTime = *time;
+        *time = elapsed_dc;
+        reinterpret_cast<::NiNode *>(this)->UpdateDownwardPass((*(::NiUpdateData *)(time)), arg);
+        *time = savedTime;
+    }
+}
+}  // namespace fnv_00c5e350
 
 // /Ob1 inlines this. The comma reads the uninitialized parameter slot, then
 // overwrites that return temporary with the real pointer. That is the
@@ -23367,7 +22666,6 @@ struct C5F190Holder
     void FUN_00c5f190(NiTPrimitiveArray_unsigned_int_* out);
 };
 
-extern "C" char* __cdecl FUN_00a7d5e0(const char* name, const char* value);
 
 // @fnv 0x00c5f190
 void C5F190Holder::FUN_00c5f190(NiTPrimitiveArray_unsigned_int_* out)
@@ -23386,7 +22684,7 @@ void C5F190Holder::FUN_00c5f190(NiTPrimitiveArray_unsigned_int_* out)
         C5F190Elem** ptr = m_ppItems + it;
         const char** row = &(*ptr)->m_pcObjectName;
         const char* pName = *row;
-        elem = (unsigned int)FUN_00a7d5e0("ObjectName", pName);
+        elem = (unsigned int)::fnv_00a7d5e0::FUN_00a7d5e0("ObjectName", pName);
         reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(elem));
     }
 }
@@ -23424,6 +22722,7 @@ void S00c5f240_Holder::FUN_00c5f240()
     (*reinterpret_cast<::fnv_00c5f240::S00c5f240_Holder * *>(&::DAT_01204374)) = new S00c5f240_Holder(str_010c3194);
 }
 }
+
 
 // namespace fnv_00c5f240
 
@@ -23512,7 +22811,6 @@ void FUN_00c5f5a0_cls::FUN_00c5f5a0(NodeQ* pParent, void* pVal)
 // namespace fnv_00c5f5a0
 
 
-extern void* DAT_0109b220;
 
 struct S00c5fc70_Source;
 
@@ -24206,6 +23504,15 @@ struct CloneOwner
     void FUN_00c46c30(CloneOwner* a1, unsigned int a2);
 };
 
+// Allocates a new A51BF0Base, initialises it from a via FUN_00c46c30, and returns the new object.
+// @fnv 0x00c46ba0
+A51BF0Base* A51BF0Base::FUN_00c46ba0(int aiValue)
+{
+    A51BF0Base* copy = new A51BF0Base;
+    reinterpret_cast<::CloneOwner *>(this)->FUN_00c46c30((::CloneOwner *)(copy), aiValue);
+    return copy;
+}
+
 // @fnv 0x00c46c30
 void CloneOwner::FUN_00c46c30(CloneOwner* pDest, unsigned int kCloning)
 {
@@ -24221,9 +23528,8 @@ extern char DAT_010c1ad4[];
 extern int DAT_010c1af0[];
 unsigned long RunThreadProc(void*);
 
-struct ThreadCriticalSection
+struct ThreadCriticalSection : CRITICAL_SECTION
 {
-    int unk04, unk08, unk0c, unk10, unk14, unk18;
     ThreadCriticalSection()
     {
         InitializeCriticalSection(this);
@@ -24471,6 +23777,55 @@ void ResizeArray::FUN_00c45b20(unsigned int newSize)
         data = 0;
     freePointers(oldData);
 }
+}
+
+namespace fnv_00c45a80 {
+// If the string's length exceeds 100, resizes it to a maximum length of 100 via FUN_00c45b20.
+// @fnv 0x00c45a80
+void TruncateStringToMaxLength()
+{
+    ScratchBuffer scratch;
+    if ((unsigned int)::fnv_00c45ae0::DAT_01202e2a > 100u)
+    {
+        reinterpret_cast<::fnv_00c45b20::ResizeArray *>(&((*reinterpret_cast<::fnv_00c45a80::FUN_00c45a80_cls *>(&::DAT_01202e20))))->FUN_00c45b20(100);
+    }
+}
+}  // namespace fnv_00c45a80
+
+namespace fnv_00c45ae0 {
+// If the global DAT_01202e2a is less than value, calls FUN_00c45b20 on DAT_01202e20 with value.
+// @fnv 0x00c45ae0
+void __cdecl FUN_00c45ae0(unsigned int value)
+{
+    FUN_00c45ae0_LocalState localState;
+
+    if (DAT_01202e2a < value) {
+        reinterpret_cast<::fnv_00c45b20::ResizeArray *>(&((*reinterpret_cast<::fnv_00c45ae0::FUN_00c45b20_Class *>(&::DAT_01202e20))))->FUN_00c45b20(value);
+    }
+}
+}  // namespace fnv_00c45ae0
+
+// Appends uiElement to the array, growing it by m_usGrowBy if full, and returns the index where it was stored.
+// @fnv 0x00c45e00
+unsigned int FUN_00c45e00_class::AppendElement(unsigned int uiElement)
+{
+    struct FUN_00c45e00_pad
+    {
+        int m00; int m04; int m08; int m0c; int m10; int m14;
+        int m18; int m1c; int m20; int m24; int m28; int m2c;
+        int m30; int m34; int m38; int m3c; int m40; int m44;
+        int m48; int m4c; int m50; int m54; int m58; int m5c;
+    };
+    FUN_00c45e00_pad kPad;
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+        {
+            reinterpret_cast<::fnv_00c45b20::ResizeArray *>(this)->FUN_00c45b20(m_usGrowBy + uiIndex);
+        }
+        reinterpret_cast<::Target462f0 *>(this)->SetSlot(uiIndex, (*(const ::Slot462f0 *)(uiElement)));
+        return uiIndex;
+    }
 }
 
 // namespace fnv_00c45b20
@@ -25072,8 +24427,6 @@ bool NiBSBoneLODController::FUN_00c52d80(Node_cls* arg)
 // namespace fnv_00c52d80
 
 namespace fnv_00c53030 {
-#include <string.h>
-#include <stdlib.h>
 
 
 struct TreeNode
@@ -25306,7 +24659,6 @@ NiExtraDataX* __cdecl FUN_00c55170(AvCaller* a)
 }
 
 namespace fnv_00c57d70 {
-#include <math.h>
 
 extern float DAT_010c2c34;
 extern double DAT_01011590;
@@ -25810,7 +25162,7 @@ struct FUN_00aa3e40_alloc
     void* FUN_00aa3e40(unsigned int size);
 };
 extern "C" char DAT_011f6238;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 extern "C" double __cdecl cos(double angle);
 extern "C" double __cdecl sin(double angle);
 
@@ -25920,7 +25272,6 @@ void* __cdecl FUN_00c58f00(float radius, unsigned short count, Vec4Item* color)
 }
 
 namespace fnv_00c5a0f0 {
-#include <math.h>
 
 struct Vec3
 {
@@ -25975,7 +25326,7 @@ extern const float DAT_01016248;
 extern const float DAT_01012054;
 extern char DAT_010c2c80[];
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl FUN_00aa13e0(size_t size);
 int* __cdecl FUN_00a5b690(const char* value);
 extern int DAT_0109b220;
 
@@ -26247,128 +25598,6 @@ MeshRoot* FUN_00c5a0f0(const Vec3& start, const Vec3& end, float width, float he
 }
 
 namespace fnv_00c5a800 {
-#include <math.h>
-#include "fnv/decl/NiGlobalStringTable.h"
-#include "fnv/decl/S_cls_2.h"
-#include "fnv/decl/fnv_00c5f570__FUN_00c5f570.h"
-#include "fnv/symbols_00c42000.h"
-#include "fnv/symbols_00c44000.h"
-#include "fnv/symbols_00c5c000.h"
-#include "fnv/symbols_00c5d000.h"
-#include "fnv/symbols_00c5e000.h"
-#include "fnv/symbols_0109b000.h"
-#include <cstddef>
-#include "fnv/decl/B00C20Pool.h"
-#include "fnv/decl/ControllerOwner.h"
-#include "fnv/decl/FUN_00439410_cls.h"
-#include "fnv/decl/FUN_004b0260_shell.h"
-#include "fnv/decl/FUN_005efdd0_class.h"
-#include "fnv/decl/FUN_00691820_arr.h"
-#include "fnv/decl/FUN_00692290_class.h"
-#include "fnv/decl/FUN_00a5bca0_shell.h"
-#include "fnv/decl/FUN_00a63460_shell.h"
-#include "fnv/decl/FUN_00a745c0_This.h"
-#include "fnv/decl/FUN_00b00ae0_class.h"
-#include "fnv/decl/FUN_00b00b40_cls.h"
-#include "fnv/decl/FUN_00b00bc0_cls.h"
-#include "fnv/decl/FUN_00c35980_Class.h"
-#include "fnv/decl/FUN_00c3f750_Class.h"
-#include "fnv/decl/FUN_00c44d30_cls.h"
-#include "fnv/decl/NiGlobalStringTable.h"
-#include "fnv/decl/NiObjectNET.h"
-#include "fnv/decl/NiObject_b.h"
-#include "fnv/decl/NiStreamLinkIDSetShell.h"
-#include "fnv/decl/NiTimeController.h"
-#include "fnv/decl/Node2.h"
-#include "fnv/decl/ObjectDE80.h"
-#include "fnv/decl/Owner62B.h"
-#include "fnv/decl/ParticleModifier.h"
-#include "fnv/decl/S654.h"
-#include "fnv/decl/S_00a5eb20_Arr.h"
-#include "fnv/decl/S_00c454c0.h"
-#include "fnv/decl/S_00c4dd60_Owner.h"
-#include "fnv/decl/S_cls_2.h"
-#include "fnv/decl/fnv_008c74b0__FUN_008c74b0_shell.h"
-#include "fnv/decl/fnv_00a5ed10__ChildNode.h"
-#include "fnv/decl/fnv_00c4e160__FUN_00c4e160_Class.h"
-#include "fnv/decl/fnv_00c52d80__NiBSBoneLODController.h"
-#include "fnv/decl/fnv_00c5f570__FUN_00c5f570.h"
-#include "fnv/decl/fnv_00c5f5a0__FUN_00c5f5a0_cls.h"
-#include "fnv/symbols_00401000.h"
-#include "fnv/symbols_0040f000.h"
-#include "fnv/symbols_00457000.h"
-#include "fnv/symbols_00aa2000.h"
-#include "fnv/symbols_00c42000.h"
-#include "fnv/symbols_00c44000.h"
-#include "fnv/symbols_00c4a000.h"
-#include "fnv/symbols_00c52000.h"
-#include "fnv/symbols_00c5c000.h"
-#include "fnv/symbols_00c5d000.h"
-#include "fnv/symbols_00c5e000.h"
-#include "fnv/symbols_01016000.h"
-#include "fnv/symbols_01022000.h"
-#include "fnv/symbols_0106a000.h"
-#include "fnv/symbols_0109b000.h"
-#include "fnv/symbols_011a9000.h"
-#include "fnv/symbols_011c3000.h"
-#include "fnv/symbols_0126f000.h"
-#include "fnv/symbols_01272000.h"
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <string.h>
-#include <cstddef>
-#include "fnv/decl/B00C20Pool.h"
-#include "fnv/decl/ControllerOwner.h"
-#include "fnv/decl/FUN_004b0260_shell.h"
-#include "fnv/decl/FUN_005efdd0_class.h"
-#include "fnv/decl/FUN_00691820_arr.h"
-#include "fnv/decl/FUN_00692290_class.h"
-#include "fnv/decl/FUN_00a63460_shell.h"
-#include "fnv/decl/FUN_00a745c0_This.h"
-#include "fnv/decl/FUN_00c35980_Class.h"
-#include "fnv/decl/FUN_00c3f750_Class.h"
-#include "fnv/decl/FUN_00c44d30_cls.h"
-#include "fnv/decl/NiGlobalStringTable.h"
-#include "fnv/decl/NiStreamLinkIDSetShell.h"
-#include "fnv/decl/ObjectDE80.h"
-#include "fnv/decl/ParticleModifier.h"
-#include "fnv/decl/S_00a5eb20_Arr.h"
-#include "fnv/decl/S_00c454c0.h"
-#include "fnv/decl/S_00c4dd60_Owner.h"
-#include "fnv/decl/S_cls_2.h"
-#include "fnv/decl/fnv_008c74b0__FUN_008c74b0_shell.h"
-#include "fnv/decl/fnv_00c4e160__FUN_00c4e160_Class.h"
-#include "fnv/decl/fnv_00c52d80__NiBSBoneLODController.h"
-#include "fnv/decl/fnv_00c5f570__FUN_00c5f570.h"
-#include "fnv/symbols_00401000.h"
-#include "fnv/symbols_0040f000.h"
-#include "fnv/symbols_00457000.h"
-#include "fnv/symbols_00aa2000.h"
-#include "fnv/symbols_00c42000.h"
-#include "fnv/symbols_00c44000.h"
-#include "fnv/symbols_00c4a000.h"
-#include "fnv/symbols_00c52000.h"
-#include "fnv/symbols_00c58000.h"
-#include "fnv/symbols_00c5c000.h"
-#include "fnv/symbols_00c5d000.h"
-#include "fnv/symbols_00c5e000.h"
-#include "fnv/symbols_01016000.h"
-#include "fnv/symbols_0106a000.h"
-#include "fnv/symbols_0109b000.h"
-#include "fnv/symbols_011a9000.h"
-#include "fnv/symbols_011c3000.h"
-#include "fnv/symbols_0126f000.h"
-#include "fnv/symbols_01272000.h"
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
-#include <math.h>
 
 struct PerpPoint
 {
@@ -26945,6 +26174,21 @@ struct NiFixedString_c43500
     static void __cdecl FUN_00c43500();
 };
 
+// @fnv 0x00c5d4e0
+void __cdecl FUN_00c5d4e0()
+{
+    if (!DAT_01204364) {
+        ::fnv_00c65530::FUN_00c65530();
+        FUN_00c55200();
+        ::fnv_00c546c0::FUN_00c546c0();
+        ::fnv_00c618f0::FUN_00c618f0();
+        ::fnv_00c5f240::S00c5f240_Holder::FUN_00c5f240();
+        ::fnv_00c616c0::FUN_00c616c0();
+        ::NiFixedString_c43500::FUN_00c43500();
+        DAT_01204364 = 1;
+    }
+}
+
 // @fnv 0x00c43500
 void __cdecl NiFixedString_c43500::FUN_00c43500()
 {
@@ -26978,86 +26222,7 @@ void __cdecl FUN_00c435a0()
 
 // namespace fnv_00c435a0
 
-struct CameraViewportC52
-{
-    float left, right, top, bottom;
-    inline CameraViewportC52()
-    {}
-    inline CameraViewportC52(float x0, float x1, float y1, float y0) : left(x0), right(x1), top(y1), bottom(y0)
-    {}
-};
 
-// VEGAS17-CONFLICT: C52020Obj (variant definition below differs from the one above)
-struct C52020Obj
-{
-    virtual void vfn_00();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    int unke0;
-    int unke4;
-    int unke8;
-    int unkec;
-    int unkf0;
-    int unkf4;
-    int unkf8;
-    int unkfc;
-    CameraViewportC52 viewport;
-public:
-    void FUN_00c52020(float, unsigned char, ::C52020Obj *, unsigned char);
-};
 
 struct C52520Camera
 {
@@ -27129,7 +26294,6 @@ struct BoxColor
     float r, g, b, a;
 };
 
-extern const float DAT_01016248;
 
 // Inlined under /Ob1. Its locals are reserved after the caller's new-expression
 // temps, which is where this function's frame puts the cursor and colour state.
@@ -27255,7 +26419,7 @@ NiTriShape* __cdecl FUN_00c55920(const NiPoint3& size, const BoxColor* color)
                                 unsigned short* indexAllocation;
                                 buildBox(corners, size, color, colors, indices, vertices, i, j, vertexResult,
                                          vertexAllocation, colorResult, colorAllocation, indexAllocation);
-                                shape = new NiTriShape(8, vertices, 0, colors, 0, 0, 0, 12, indices);
+                                shape = new NiTriShape(8, vertices, 0, (RgbaColor*)colors, 0, 0, (NiGeometryDataFlags)0, 12, indices);
                                 shape->Method58();
                                 return shape;
                             }
@@ -27361,7 +26525,10 @@ FUN_00a746e0* __cdecl FUN_00c59660(float length, ColorA* color)
     FUN_00a746e0* obj4 = new FUN_00a746e0(5, pts, cols, 0, 0, 0, flags2);
     obj4->m58 = ::NiPoint3::ZERO;
     obj4->m34 = *(ThreeByThreeMatrix*)&(*reinterpret_cast<::S00c43b90_Bound *>(&::DAT_011a9448));
-    obj4->SetName((const NiFixedString&)S00c5fc70_FixedString((S00c5fc70_Source*)"BSTestObjects Arrow"));
+    {
+        S00c5fc70_FixedString kName((S00c5fc70_Source*)"BSTestObjects Arrow");
+        obj4->SetName((const NiFixedString&)kName);
+    }
     return obj4;
 }
 
@@ -27758,7 +26925,7 @@ FUN_00c5f680::FUN_00c5f680(C5Src* pkSource, bool bCopy) : C5Base(0)
         rotation = pkSource->rotation;
         scale = (float)fabs(pkSource->GetScale());
 
-        EnterCriticalSection(&DAT_011f4380);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4380));
         reinterpret_cast<::NiObjectNET *>(this)->ResizeExtraData(pkSource->GetExtraCount());
         while (pkSource->GetExtraCount() != 0)
         {
@@ -27766,7 +26933,7 @@ FUN_00c5f680::FUN_00c5f680(C5Src* pkSource, bool bCopy) : C5Base(0)
             reinterpret_cast<::FUN_00a5bca0_shell *>(this)->SetExtraDataName((::NiExtraData *)(pkExtra));
             reinterpret_cast<::NiObjectNET *>((pkSource))->FUN_00a5bf50(0);
         }
-        LeaveCriticalSection(&DAT_011f4380);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4380));
 
         if (pCtl != 0)
         {
@@ -28116,7 +27283,6 @@ extern float DAT_010c2c34;
 
 extern double DAT_01011590;
 
-extern const float DAT_01016248;
 
 extern const float DAT_01012054;
 
@@ -28607,7 +27773,6 @@ struct C42List
     C42Node* m_10;
     void FUN_00c42b80();
 };
-extern "C" void* __cdecl memmove(void*, const void*, unsigned);
 // @fnv 0x00c42b80
 void C42List::FUN_00c42b80()
 {
@@ -28649,33 +27814,22 @@ void C42List::FUN_00c42b80()
 }
 }
 
-// VEGAS17-CONFLICT: NiColor (variant definition below differs from the one above)
-struct NiColor {
-public:
-    void LoadBinary(::NiStream &);
-};
+// @fnv 0x00c42b60
+void FUN_00c42b60_class::FUN_00c42b60()
+{
+    while (*(int*)((char*)this + 0xc))
+        reinterpret_cast<::fnv_00c42b80::C42List *>(this)->FUN_00c42b80();
+}
 
-// VEGAS17-CONFLICT: SpawnHeap_cls (variant definition below differs from the one above)
-struct SpawnHeap_cls { void FUN_00aa4060(void* pObject); };
 
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
+
 
 int __cdecl FUN_00ec658f(void (__cdecl*)());
 
-// VEGAS17-CONFLICT: FUN_00c47b50Arg (variant definition below differs from the one above)
-struct FUN_00c47b50Arg {
-
-
-
-};
 
 extern "C" double __cdecl FUN_00ec6cde(double);
 
-// VEGAS17-CONFLICT: GraphHeap (variant definition below differs from the one above)
-struct GraphHeap {
-};
 
 void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
@@ -28704,138 +27858,23 @@ void __cdecl FUN_00c55200()
     (*reinterpret_cast<::BBXRef * *>(&::g_pkString_c55)) = new BBXRef("BBX");
 }
 
-// VEGAS17-CONFLICT: NiAVObject (variant definition below differs from the one above)
-struct NiAVObject
-{
-    void FUN_00c43470();
-public:
-    void UpdateWorldData(::NiUpdateData &);
-};
 
-// VEGAS17-CONFLICT: NiPoint3 (variant definition below differs from the one above)
-class NiPoint3
-{
-  public:
-    float x, y, z;
-public:
-    bool FUN_004390c0(const ::NiPoint3 &);
-public:
-    static const ::NiPoint3 ZERO;
-};
 
-// VEGAS17-CONFLICT: Array354 (variant definition below differs from the one above)
-struct Array354
-{
-};
 
-inline void* Node_00c474a0::vf08()
-{
-    return 0;
-}
-__forceinline bool ContainsActor(Node_00c474a0* p)
-{
-    bool found;
-    if (p == 0)
-        found = false;
-    else
-        found = p->vf08() == &(*reinterpret_cast<void * *>(&::g_01202e74));
-    return found;
-}
 Node_00c474a0* __cdecl FUN_00c474a0(Node_00c474a0* a1);
 
 void __cdecl use_all();
 
-// VEGAS17-CONFLICT: FixedString_c55 (variant definition below differs from the one above)
-struct FixedString_c55
-{
-    int m_str;
-    ~FixedString_c55()
-    {
-        if (m_str == (*reinterpret_cast<int *>(&::DAT_0109b220)))
-        {
-        }
-        else
-        {
-            long* p = (long*)(m_str - 8);
-            InterlockedDecrement(p);
-        }
-    }
-};
 
 void FUN_00c552a0();
 
 NiTriShape* __cdecl FUN_00c55360(float extent, NiPoint3* center, ColorA* color);
 
-// VEGAS17-CONFLICT: SArray5b (variant definition below differs from the one above)
-struct SArray5b
-{
-    virtual ~SArray5b();
-    SPtr5b* data;
-    unsigned short capacity, size, used, grow;
-    const SPtr5b& GetAt(unsigned int i) const
-    {
-        return data[i];
-    }
-    unsigned short GetSize() const
-    {
-        return size;
-    }
 
-};
-
-// VEGAS17-CONFLICT: MapSI (variant definition below differs from the one above)
-struct MapSI
-{
-    ListItemSI* m_pkHead;
-    ListItemSI* GetHeadPos() const
-    {
-        return m_pkHead;
-    }
-    RefPtrSI& GetNext(ListItemSI*& pos) const
-    {
-        RefPtrSI& e = pos->m_element;
-        pos = pos->m_pkNext;
-        return e;
-    }
-    ListItemSI* FindPos(const RefPtrSI& key, ListItemSI* pos = 0) const
-    {
-        if (!pos)
-            pos = GetHeadPos();
-        while (pos)
-        {
-            ListItemSI* cur = pos;
-            if (key == GetNext(pos))
-                return cur;
-        }
-        return 0;
-    }
-    RefPtrSI FUN_00c5bda0(const RefPtrSI& key);
-};
 
 extern "C" char* __cdecl FUN_00ec7750(const char* pcString, const char* pcSearch);
 
-// VEGAS17-CONFLICT: C41FE0_Owner (variant definition below differs from the one above)
-class C41FE0_Owner
-{
-  public:
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10(Pair41fe0 pair);
 
-};
-
-// VEGAS17-CONFLICT: S_00c42960_Heap (variant definition below differs from the one above)
-struct S_00c42960_Heap
-{
-};
 
 void* __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 
@@ -28845,218 +27884,24 @@ char* __cdecl FUN_00ec6370(char*, const char*);
 
 int __cdecl FUN_00eca4a6(const char*, const char*, ...);
 
-// VEGAS17-CONFLICT: CommandPolygon (variant definition below differs from the one above)
-struct CommandPolygon
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    int type;
-    int unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
-    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
-    int unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc;
-    int unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8, unkdc;
-    int unke0, unke4, unke8;
-    CommandPolygon* neighbors[4];
-    __forceinline CommandPolygon* NeighborAt(int i) const
-    {
-        return neighbors[i];
-    }
-    __forceinline int GetType() const
-    {
-        int value = type;
-        return value;
-    }
-    __forceinline int SideIndex() const
-    {
-        int value = neighbors[1] ? 1 : 3;
-        return value;
-    }
-    __forceinline int EndIndex() const
-    {
-        int value = neighbors[0] ? 0 : 2;
-        return value;
-    }
-    __forceinline CommandPolygon* SideNeighbor() const
-    {
-        int index1 = SideIndex();
-        return NeighborAt(index1);
-    }
-    __forceinline CommandPolygon* EndNeighbor() const
-    {
-        int index1 = neighbors[0] ? 0 : 2;
-        return NeighborAt(index1);
-    }
-};
 
 void __cdecl FUN_00c4b220(FUN_00546780_shell* obj);
 
-// VEGAS17-CONFLICT: Alloc086 (variant definition below differs from the one above)
-struct Alloc086
-{
-};
 
-// VEGAS17-CONFLICT: Q52Obj (variant definition below differs from the one above)
-struct Q52Obj
-{
-    char pad[0x34];
-    unsigned m_cur;
-    unsigned m_num;
-    char pad3c[4];
-    Q52Arr** m_arrs;
-    char pad44[2];
-    unsigned short m_arrCount;
-    bool FUN_00c52960(unsigned idx);
-};
 
-// VEGAS17-CONFLICT: Q5Obj (variant definition below differs from the one above)
-struct Q5Obj
-{
-    virtual void v00(), v04(), v08(), v0c(), v10(), v14(), v18(), v1c(), v20(), v24(), v28(), v2c(), v30(), v34(),
-        v38(), v3c(), v40(), v44(), v48(), v4c(), v50(), v54(), v58(), v5c(), v60(), v64(), v68(), v6c(), v70(), v74(),
-        v78(), v7c(), v80(), v84(), v88(), v8c(), v90(), v94();
-    virtual void v98(Q5Item*);
-    char pad[0x48];
-    Q5Obj();
-};
 
 bool __cdecl FUN_00c52a80(void* param);
 
-// VEGAS17-CONFLICT: RefSetB06 (variant definition below differs from the one above)
-struct RefSetB06
-{
-    void* m_pUserData;
-};
 
 double __cdecl FUN_00ec9130(double x, double y);
 
-inline float FMod(float x, float y)
-{
-    return ((float)FUN_00ec9130((double)x, (double)y));
-}
 
-// VEGAS17-CONFLICT: S00c5fc70_FixedString (variant definition below differs from the one above)
-class S00c5fc70_FixedString
-{
-  public:
-    S00c5fc70_FixedString(S00c5fc70_Source* pSource)
-    {
-        if (pSource == 0)
-            m_handle = (*reinterpret_cast<void * *>(&::DAT_0109b220));
-        else
-            m_handle = ((void *)(::NiGlobalStringTable::AddString((const char *)(pSource))));
-    }
-    ~S00c5fc70_FixedString()
-    {
-        if (m_handle == (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-            return;
-        long* pRef = (long*)((char*)m_handle - 8);
-        InterlockedDecrement(pRef);
-    }
-    void* m_handle;
-};
 
-// VEGAS17-CONFLICT: Pool41f40_cls (variant definition below differs from the one above)
-struct Pool41f40_cls
-{
-    Pool41f40_owner* m_pkOwnerManager;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    Pool41f40_node* m_pkFreeList;
-    unsigned int m_uiFreeCount;
-    Pool41f40_node* GetFreeList()
-    {
-        Pool41f40_node* p = m_pkFreeList;
-        return p;
-    }
-    unsigned int GetMaxFree()
-    {
-        unsigned int u = m_pkOwnerManager->m_uiMaxFree;
-        return u;
-    }
-    void FUN_00c42960();
-};
 
 extern "C++" 
-class NiFixedStringQ
-{
-  public:
-    void* m_p;
-    __forceinline NiFixedStringQ(const char* text)
-    {
-        if (!text)
-            m_p = (*reinterpret_cast<void * *>(&::DAT_0109b220));
-        else
-            m_p = ((void *)(::NiGlobalStringTable::AddString(text)));
-    }
-};
 
 FUN_00a746e0* __cdecl FUN_00c59660(float length, ColorA* color);
 
-// VEGAS17-CONFLICT: C5Base (variant definition below differs from the one above)
-struct C5Base
-{
-    C5Base(unsigned int uiFlags);
-    ~C5Base();
-    virtual void vfn_base();
-    int unk04;
-    C5Fixed name;
-    NiPointer<C5Chain> chain;
-    void** extraData;
-    unsigned short extraCount, extraCapacity;
-    C5Ctl* controller;
-    NiPointer<C5Collision> collision;
-    int unk20;
-    C5List properties;
-    int unk30;
-    C5Mat3 rotation;
-    C5Vec3 translation;
-    float scale;
-    C5Mat3 worldRotation;
-    C5Vec3 worldTranslation;
-    float worldScale;
-    C5Children children;
-    C5Chain* GetControllers() const
-    {
-        return chain;
-    }
-    void* GetChild(unsigned int index) const
-    {
-        return children.GetAt(index);
-    }
-    void* GetCollision() const
-    {
-        return collision;
-    }
-    unsigned short GetExtraCount() const
-    {
-        return extraCount;
-    }
-    void* GetExtra(unsigned short index) const
-    {
-        return extraData[index];
-    }
-    float GetScale() const
-    {
-        return scale;
-    }
-    void AttachTarget(void* pkArg)
-    {
-        collision = static_cast<C5Collision*>(pkArg);
-        if (collision && collision->GetOwner() != this)
-            collision->SetOwner(this);
-    }
-    void ForwardToSubobject(std::intptr_t iValue)
-    {
-        NiPointer<C5RefObj> property(reinterpret_cast<C5RefObj*>(iValue));
-        C5List& propertyList = properties;
-        propertyList.Remove(property);
-    }
-};
 
 inline void NiMemcpyC509(void* pvDest, const void* pvSrc, unsigned int ItemUpdateArray)
 {
@@ -29238,6 +28083,72 @@ struct FrustumArrayConstruction
     void FUN_00c4a360(void* elements, int count);
 };
 
+// Sets vtbl to DAT_010c1e88 and zeroes data, unk08 and unk0C; the size is a constant 0, so the allocation path is never reached.
+// @fnv 0x00c49fe0
+FUN_00c49fe0_Cls::FUN_00c49fe0_Cls()
+{
+    int u1;
+    int u2;
+    int u3;
+    int u4;
+    int u5;
+    vtbl = (void*)&DAT_010c1e88;
+    {
+    unsigned int nSize = 0;
+    data = 0;
+    unk08 = 0;
+    unk0C = 0;
+    if (nSize < 0)
+        nSize = 0;
+    if (nSize > 0) {
+        data = ((S00c49fe0_Vt*)this)->v1(nSize);
+        unk0C = nSize;
+    }
+    }
+    if ((0, (unsigned)0) > 0u) {
+        reinterpret_cast<::FrustumArrayConstruction *>(this)->FUN_00c4a360(data, 0);
+        unk08 = 0;
+    }}
+
+// @fnv 0x00c4a070
+void FUN_00c4a070::SetSize(unsigned int uiNewSize, bool bFree)
+{
+    if (uiNewSize == 0)
+    {
+        reinterpret_cast<::FUN_00c4a9c0_class *>(this)->ReleaseBuffer(bFree);
+        return;
+    }
+    if (uiNewSize > m_uiCapacity)
+    {
+        if (m_uiCapacity == 0)
+        {
+            m_pBuffer = Allocate(uiNewSize);
+            m_uiCapacity = uiNewSize;
+        }
+        else
+        {
+            reinterpret_cast<::CachedRef_b5611 *>(this)->UpdateCachedRef(uiNewSize, m_uiSize);
+            m_uiCapacity = uiNewSize;
+        }
+        reinterpret_cast<::FrustumArrayConstruction *>(this)->FUN_00c4a360(m_pBuffer + m_uiSize, uiNewSize - m_uiSize);
+        m_uiSize = uiNewSize;
+    }
+    else if (uiNewSize < m_uiSize)
+    {
+        DestructItems(m_pBuffer + uiNewSize, m_uiSize - uiNewSize);
+        m_uiSize = uiNewSize;
+        if (bFree && uiNewSize <= m_uiCapacity >> 2)
+        {
+            Shrink(uiNewSize);
+        }
+    }
+    else
+    {
+        reinterpret_cast<::FrustumArrayConstruction *>(this)->FUN_00c4a360(m_pBuffer + m_uiSize, uiNewSize - m_uiSize);
+        m_uiSize = uiNewSize;
+    }
+}
+
 // @fnv 0x00c4a360
 void FrustumArrayConstruction::FUN_00c4a360(void* elements, int count)
 {
@@ -29247,739 +28158,63 @@ void FrustumArrayConstruction::FUN_00c4a360(void* elements, int count)
     }
 }
 
-// VEGAS17-CONFLICT: NiPoint3 (variant definition below differs from the one above)
-class NiPoint3 { public: float x,y,z; public:
-    bool FUN_004390c0(const ::NiPoint3 &);
-public:
-    static const ::NiPoint3 ZERO;
-};
 
-// VEGAS17-CONFLICT: ShapeEntry (variant definition below differs from the one above)
-struct ShapeEntry {virtual ~ShapeEntry();};
 
-// VEGAS17-CONFLICT: ShapeList (variant definition below differs from the one above)
-struct ShapeList {
- void* vtable;ShapeEntry** data;unsigned count;
- void FUN_00c409e0();
-};
 
-static inline void FreeShapeArray(void* memory){reinterpret_cast<::FNV_MemoryManager *>((((SpawnHeap_cls*)&DAT_011f6238)))->FUN_00aa4060(memory);}
 
 typedef unsigned long (*LPTHREAD_START_ROUTINE)(void*);
 
-// VEGAS17-CONFLICT: Semaphore42A (variant definition below differs from the one above)
-struct Semaphore42A {
- long count;
- HANDLE handle;
- long maximum;
- Semaphore42A() {
-  count = 0;
-  maximum = 0x7fffffff;
-  handle = CreateSemaphoreA(0,count,maximum,0);
- }
- ~Semaphore42A();
-};
-
-// VEGAS17-CONFLICT: Semaphore42B (variant definition below differs from the one above)
-struct Semaphore42B {
- long count;
- HANDLE handle;
- long maximum;
- Semaphore42B() {
-  count = 1;
-  maximum = 1;
-  handle = CreateSemaphoreA(0,count,maximum,0);
- }
- ~Semaphore42B();
-};
-
-inline void LockState354::FUN_0040fbf0(int) {
-    unsigned int thread=gm_GetCurrentThreadId();
-    if (owner == thread) {
-        ++recursion;
-    } else {
-        unsigned int attempts=0;
-        while (FUN_0043b460((volatile long*)&owner,0,thread)) {
-            ++attempts;
-            if (attempts>10000) FUN_0040fca0(1);
-            else FUN_0040fca0(0);
-        }
-        FUN_0040fbe0();
-        recursion=1;
-    }
-}
-
-// VEGAS17-CONFLICT: Vec3A (variant definition below differs from the one above)
-struct Vec3A { float x,y,z; Vec3A() {} Vec3A(float a,float b,float c) : x(a),y(b),z(c) {} };
-
-// VEGAS17-CONFLICT: Vec2A (variant definition below differs from the one above)
-struct Vec2A { float x,y; Vec2A() {} Vec2A(float a,float b) : x(a),y(b) {} };
-
-// VEGAS17-CONFLICT: ColorA (variant definition below differs from the one above)
-struct ColorA { float r,g,b,a; ColorA() : r(0),g(0),b(0),a(0) {} };
-
-// VEGAS17-CONFLICT: RefObj5b (variant definition below differs from the one above)
-struct RefObj5b {
-
-    virtual ~RefObj5b();
-
-    virtual void DeleteThis();
-
-    volatile long m_uiRefCount;
-
-    int unk08;
-
-    int unk0C;
-
-    int unk10;
-
-    int unk14;
-
-    int unk18;
-
-    int unk1C;
-
-    int unk20;
-
-    int unk24;
-
-    int unk28;
-
-    int unk2C;
-
-    unsigned int m_uiValue1;
-
-    void IncRefCount(){InterlockedIncrement(&m_uiRefCount);}
-    void DecRefCount(){if(InterlockedDecrement(&m_uiRefCount)==0)DeleteThis();}
-    void SetBit(bool bVal, unsigned int uiMask) {
-
-        if (bVal) m_uiValue1 |= uiMask;
-
-        else m_uiValue1 &= ~uiMask;
-
-    }
-
-};
-
-// VEGAS17-CONFLICT: SArray5b (variant definition below differs from the one above)
-struct SArray5b {
- virtual ~SArray5b();
- SPtr5b* data;unsigned short capacity,size,used,grow;
- const SPtr5b& GetAt(unsigned int i)const{return data[i];}
- unsigned short GetSize()const{return size;}
 
 
-};
 
-// VEGAS17-CONFLICT: RefObjSI (variant definition below differs from the one above)
-struct RefObjSI {
-    virtual ~RefObjSI();
-    virtual void DeleteThis();
-    volatile long m_uiRefCount;
-    void IncRefCount() {InterlockedIncrement(&m_uiRefCount);}
-    void DecRefCount() {if(InterlockedDecrement(&m_uiRefCount)==0) DeleteThis();}
-};
 
-// VEGAS17-CONFLICT: RefPtrSI (variant definition below differs from the one above)
-struct RefPtrSI {
-    RefObjSI* m_pObject;
-    RefPtrSI(const RefPtrSI& o) : m_pObject(o.m_pObject) {
-        if (m_pObject) m_pObject->IncRefCount();
-    }
-    ~RefPtrSI() {
-        if(m_pObject) m_pObject->DecRefCount();
-    }
-    bool operator==(const RefPtrSI& o) const { return m_pObject == o.m_pObject; }
-};
 
-// VEGAS17-CONFLICT: C41Object (variant definition below differs from the one above)
-struct C41Object : C41RefObject {};
+
+
+
+
+
 
 extern "C" U32 (*FUN_00fdf1bc)(void*, U32, U32);
 
-// VEGAS17-CONFLICT: C41Link (variant definition below differs from the one above)
-struct C41Link {
-    U32 m_00;
-    C41Link() {}
-    C41Link(C41Node* p) : m_00((U32)p) {}
-    inline void Initialize(C41Node* p, bool b) { m_00=(U32)p; Flag(b); }
-    inline C41Node* Get() volatile { return (C41Node*)(m_00 & ~1U); }
-    inline U32 Raw() volatile { return m_00; }
-    inline U32 Flag() { C41Link* link = this; return link->m_00 & 1U; }
-    inline void Flag(bool b) volatile { if (b) m_00 |= 1; else m_00 &= ~1U; }
-    inline bool Compare(U32 desired, U32 expected) volatile { bool success = FUN_00fdf1bc((void*)this, desired, expected) == expected; return success; }
-    inline bool Equal(const C41Link& r) const { return m_00 == r.m_00; }
-};
 
-// VEGAS17-CONFLICT: RefObject (variant definition below differs from the one above)
-struct RefObject {
- virtual ~RefObject(); int unk04; long references;
- inline void FUN_0044dd60() { long count=((int)(::WaitForSingleObjectEx((long *)(void *)(&references)))); if(count==0) delete this; }
- __forceinline void AddRef() { InterlockedIncrement(&references); }
-};
 
-// VEGAS17-CONFLICT: ObjectRef (variant definition below differs from the one above)
-struct ObjectRef {
-    RefObject* ptr;
-    __forceinline ObjectRef& operator=(const ObjectRef& rhs) {
-        if(ptr != rhs.ptr) {
-            if(ptr) ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)(ptr));
-            ptr=rhs.ptr;
-            if(ptr) ptr->AddRef();
-        }
-        return *this;
-    }
-};
 
-__forceinline bool TaggedPointer::NextMarked() const {
-    const TaggedPointer* self=this;
-    MapEntry* n6=reinterpret_cast<MapEntry*>(self->raw & ~1u);
-    TaggedPointer* nX2=&n6->next;
-    return (nX2->raw & 1) != 0 ? true : false;
-}
 
 typedef void (__cdecl *CbQ)(void*, bool);
 
-// VEGAS17-CONFLICT: FUN_00c455a0_cls (variant definition below differs from the one above)
-struct FUN_00c455a0_cls {
-    char pad[0x30]; unsigned int m_uiObjectFlags; char pad2[0xae-0x34]; unsigned char m_ucLo; unsigned char m_ucHi;
-    void SetBitQ(bool b, unsigned int m) { if (b) m_uiObjectFlags |= m; else m_uiObjectFlags &= ~m; }
-    bool IsHiddenQ() { return (m_uiObjectFlags & 1) != 0; }
-    unsigned char GetLo() { unsigned char c = m_ucLo; return c; }
-    unsigned char GetHi() { unsigned char c = m_ucHi; return c; }
-    bool FUN_00c455a0(unsigned char ucLevel);
-};
 
-// VEGAS17-CONFLICT: MultiBoundPtr (variant definition below differs from the one above)
-// operator= is inline but far past VC9's /Ob1 size limit, so the call stays
-// out of line and its two locals remain reserved in the caller frame.
-template<class T>
-struct MultiBoundPtr {
-    T* m_pObject;
-    __forceinline ~MultiBoundPtr() {
-        if (m_pObject)
-            m_pObject->DecRefCount();
-    }
-    inline MultiBoundPtr& operator=(T* p);
-};
 
-template<class T>
-inline MultiBoundPtr<T>& MultiBoundPtr<T>::operator=(T* p) {
-    int gap0;
-    int gap1;
-    gap0 = (int)p;
-    gap1 = gap0;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    gap0 = gap1 + 1; gap1 = gap0 + 2; gap0 = gap1 + 3; gap1 = gap0 + 4;
-    if (p == (T*)1)
-        return operator=((T*)0);
-    return *this;
-}
 
-// VEGAS17-CONFLICT: TreeEvaluator (variant definition below differs from the one above)
-class TreeEvaluator {
-public:
-    int unk00; int unk04;
-    TreeEntry* m_pkEntryArray;          // +0x08
-    int unk0c; int unk10; int unk14;
-    TreeNode* m_pkNodes;             // +0x18
-    int unk1c; int unk20; int unk24;
-    int m_iNodeCount;                // +0x28
-    int m_iRoot;                     // +0x2c
-    TreeEntry m_kRootEntry;          // +0x30
-    int unk94; int unk98; int unk9c;
-    bool m_bSkipRoot;                // +0xa0
 
-    TreeEntry* GetEntry(int index) { TreeNode* pkNext = &m_pkNodes[index]; return &m_pkEntryArray[pkNext->m_iType]; }
-    template<class Bound>
-    bool ProcessEntries(Bound* pkVector, TreeEntry* pkEntry) {
-        if (!pkEntry->activePlanes) return true;
-        else {
-            int planeIndex;
-            for (planeIndex = 0; planeIndex < 6; ++planeIndex) {
-                if (pkEntry->activePlanes & (1 << planeIndex)) {
-                    int side = pkVector->ClassifySphereAgainstPlane(&pkEntry->planes[planeIndex]);
-                    if (side == 2) break;
-                    if (side == 1) pkEntry->activePlanes &= ~(1 << planeIndex);
-                }
-            }
-            if (planeIndex == 6) return true;
-        }
-        return false;
-    }
-    bool FUN_00c4a790(TreeVector* pkVector, TreeEntry* pkEntry) {
-        if (!pkEntry->activePlanes) return false;
-        else {
-            int planeIndex;
-            for (planeIndex = 0; planeIndex < 6; ++planeIndex) {
-                if (pkEntry->activePlanes & (1 << planeIndex)) {
-                    int side = pkVector->ClassifySphereAgainstPlane(&pkEntry->planes[planeIndex]);
-                    if (side != 1) break;
-                    else if (side == 1) pkEntry->activePlanes &= ~(1 << planeIndex);
-                }
-            }
-            if (planeIndex == 6) return false;
-        }
-        return true;
-    }
-    bool FUN_00c491a0(TreeQuery* pkQuery);
-};
 
-// VEGAS17-CONFLICT: BasisVector (variant definition below differs from the one above)
-class BasisVector : public NiPoint3 {
-public:
-    float SquaredLength() const;
-    inline void FUN_004a0c10() {
-        float squaredLength = SquaredLength();
-        float length = FUN_004579e0(squaredLength);
-        if (length > DAT_01017cf8) {
-            float inverse = 1.0f / length;
-            x *= inverse; y *= inverse; z *= inverse;
-        } else { x=0.0f; y=0.0f; z=0.0f; }
-    }
-    inline BasisVector Cross(const BasisVector& other) const {
-        return BasisVector(y*other.z-z*other.y, z*other.x-x*other.z, x*other.y-y*other.x);
-    }
-    __forceinline BasisVector() {}
-    __forceinline BasisVector(float a, float b, float c) { x=a; y=b; z=c; }
-};
 
-// VEGAS17-CONFLICT: FUN_00c4ccd0 (variant definition below differs from the one above)
-struct FUN_00c4ccd0 {
-    Obj* m00; int u04,u08,u0c,u10,u14,u18,u1c,u20,u24; int m28;
-    Ref r2c; Ref r30;
-    ~FUN_00c4ccd0();
-};
 
-// VEGAS17-CONFLICT: Point370 (variant definition below differs from the one above)
-struct Point370 {
-    float x,y,z;
-    Point370() {}
-    Point370* FUN_00416870(float, float, float);
-    Point370(float a, float b, float c) { FUN_00416870(a,b,c); }
-    Point370 FUN_0053d280(float scale) const {
-        float inverse=1.0f/scale;
-        return Point370(x*inverse,y*inverse,z*inverse);
-    }
-    Point370 FUN_00439ef0(const Point370& other) const {
-        return Point370(x-other.x,y-other.y,z-other.z);
-    }
-};
 
-// VEGAS17-CONFLICT: Points370 (variant definition below differs from the one above)
-struct Points370 {
-    unsigned int unk00;
-    Point370* points;
-    Point370& GetPoint(int index) { return points[index]; }
-    void SetPoint(int index, const Point370& point) { points[index]=point; }
-};
 
-// VEGAS17-CONFLICT: Mesh370 (variant definition below differs from the one above)
-struct Mesh370 {
-    Points370* data;
-    unsigned int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;
-    int count;
-    unsigned int unk28,unk2c,unk30;
-    Point370 center;
-    void FUN_00c4ce00();
-};
 
-inline long NiIncrement086(volatile long* value) { long result=InterlockedIncrement(value); return result; }
 
-inline long NiDecrement086(volatile long* value) { long result=InterlockedDecrement(value); return result; }
 
-// VEGAS17-CONFLICT: NiAlloc086 (variant definition below differs from the one above)
-struct NiAlloc086 {
-    virtual void v00();
-    virtual void* Allocate(unsigned int&,unsigned int&,int,bool,const char*,int,const char*);
-};
 
-// VEGAS17-CONFLICT: FUN_00438690 (variant definition below differs from the one above)
-struct FUN_00438690 {
-    int* table;
-    unsigned int* data;
-    unsigned int size;
-    unsigned int capacity;
-    void FUN_006b3eb0(unsigned int, unsigned int);
-    unsigned int FUN_007cad50();
-    void Construct(unsigned int*,unsigned int);
-    inline unsigned int FUN_007cb2e0(unsigned int* value) {
-        unsigned int index=FUN_007cad50();
-        Construct(&data[index],1);
-        data[index]=*value;
-        return index;
-    }
-    __forceinline FUN_00438690() { table=&DAT_01016024; FUN_006b3eb0(0,0); }
-    __forceinline void Wrap(int& index) {
-        volatile int divisor=size;
-        if(divisor<0) return;
-        if(index<0) { index=index%divisor+divisor; return; }
-        else index=index%divisor;
-    }
-    __forceinline unsigned int GetSize() const { return size; }
-    __forceinline const unsigned int& GetAt(unsigned int index) { return data[index]; }
-    __forceinline unsigned int& operator[](unsigned int index) { return data[index]; }
-    ~FUN_00438690();
 
-};
 
-// VEGAS17-CONFLICT: WrappedIndex086 (variant definition below differs from the one above)
-struct WrappedIndex086 {
-    union { int value; unsigned int bits:32; };
-    __forceinline void Wrap(const FUN_00438690& array) {
-        volatile int divisor=array.size;
-        if(divisor<0) return;
-        if(value<0) { value=(int)bits%divisor+divisor; return; }
-        else value=(int)bits%divisor;
-    }
-};
 
-// VEGAS17-CONFLICT: Vertex086 (variant definition below differs from the one above)
-struct Vertex086 {
-    union { struct {float x,y,z;}; float coordinates[3]; };
-    inline bool operator==(const Vertex086& rhs) const {
-        for(unsigned int i=0;i<3;i++) if(coordinates[i]!=rhs.coordinates[i]) return false;
-        return true;
-    }
-    inline bool operator!=(const Vertex086& rhs) const { return !(reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vertex086 &)(*this))->FUN_004390c0((const ::NiPoint3 &)(rhs))); }
-};
 
-__forceinline bool ShortEquals(const unsigned short& a,const unsigned int& b) { return a==b; }
 
-// VEGAS17-CONFLICT: Shorts086 (variant definition below differs from the one above)
-struct Shorts086 {
-    int* table;
-    unsigned short* data;
-    unsigned int size;
-    unsigned int capacity;
-    unsigned int GetNextPosition();
-    void FUN_005ef650(unsigned short*,unsigned int);
-    inline unsigned int Append(const unsigned short& value) {
-        unsigned int index=GetNextPosition();
-        FUN_005ef650(&data[index],1);
-        data[index]=value;
-        return index;
-    }
-    __forceinline unsigned int Find(const unsigned int& value) {
-        for (unsigned int i=0;i<size;i++) {
-            if (data && ShortEquals(data[i],value)) return i;
-        }
-        return -1;
-    }
 
-};
 
-// VEGAS17-CONFLICT: NewShorts086 (variant definition below differs from the one above)
-struct NewShorts086 : Shorts086 {
-    __forceinline NewShorts086() { table=&DAT_0106abe4; reinterpret_cast<::FUN_00692290_class *>(this)->FUN_00692290(0,0); }
-};
 
-// VEGAS17-CONFLICT: RefBase086 (variant definition below differs from the one above)
-struct RefBase086 {
-    virtual void v0();
-    virtual void v1();
-    int unk04;
-    inline void AcquireReference() { NiIncrement086((volatile long*)&unk04); }
-    inline void DecRef() { if(!NiDecrement086((volatile long*)&unk04)) v1(); }
-};
 
-// VEGAS17-CONFLICT: FUN_00a5ecb0 (variant definition below differs from the one above)
-struct FUN_00a5ecb0 : RefBase086 {
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void Attach(void*, int);
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    FUN_00a5ecb0(unsigned int);
-    static inline void* operator new(std::size_t size) {
-        if(size==0) size=1;
-        unsigned int requested=size;
-        unsigned int alignment=4;
-        return DAT_011f6080->allocator->Allocate(requested,alignment,1,true,0,-1,0);
-    }
-    static void operator delete(void*);
-};
 
-// VEGAS17-CONFLICT: Holder086 (variant definition below differs from the one above)
-struct Holder086 {
-    FUN_00a5ecb0* value;
-    inline Holder086& operator=(FUN_00a5ecb0* object) {
-        if(value!=object) {
-            if(value) value->DecRef();
-            value=object;
-            if(value) value->AcquireReference();
-        }
-        return *this;
-    }
-    __forceinline operator FUN_00a5ecb0*() const { return value; }
-    __forceinline FUN_00a5ecb0* operator->() const { return value; }
-};
 
-// VEGAS17-CONFLICT: Triangulator086 (variant definition below differs from the one above)
-struct Triangulator086 {
-    Vertices086* vertices;
-    Shorts086* reflex;
-    Shorts086* triangles;
-    int unk0c,unk10,unk14,unk18,unk1c,unk20,unk24;
-    int count;
-    Holder086 node,mesh;
-    void FUN_00c4cf80();
-};
 
-__forceinline void WrapIndex(int& index,const int& size) {
-    if(size<0) return;
-    if(index<0) { index=index%size+size; return; }
-    else index=index%size;
-}
 
-// VEGAS17-CONFLICT: Q4E9 (variant definition below differs from the one above)
-struct Q4E9 { virtual void v0(); virtual int* Allocate(unsigned n); virtual void Free(int* p);
-  int* m_data; unsigned m_iElementCount; unsigned m_alloc;
-  inline bool ShouldShrink() {
-    if (m_alloc > 0x400) { if (m_iElementCount <= m_alloc - 0x800) return true; }
-    else { if (m_iElementCount <= m_alloc >> 2) return true; }
-    return false; }
-  inline unsigned GetShrinkSize() { return m_alloc > 0x800 ? m_alloc - 0x400 : m_alloc >> 1; }
-  inline void DestructItemsA(int* p, unsigned n) { int pad[1]; unsigned uiIdx; int pad2[2]; for (uiIdx = 0; uiIdx < n; uiIdx++) {} }
-  inline void DestructItems(int* p, unsigned n) { int pad[2]; unsigned uiIdx; int pad2[1]; for (uiIdx = 0; uiIdx < n; uiIdx++) {} }
-  void FUN_00c4e9b0(unsigned idx, bool resize); };
 
-// VEGAS17-CONFLICT: Q4E (variant definition below differs from the one above)
-struct Q4E { virtual void v0(); virtual short* Allocate(unsigned n); virtual void Free(short* p);
-  short* m_data; unsigned m_iElementCount; unsigned m_alloc;
-  inline bool ShouldShrink() {
-    if (m_alloc > 0x400) { if (m_iElementCount <= m_alloc - 0x800) return true; }
-    else { if (m_iElementCount <= m_alloc >> 2) return true; }
-    return false; }
-  inline unsigned GetShrinkSize() { return m_alloc > 0x800 ? m_alloc - 0x400 : m_alloc >> 1; }
-  inline void DestructItemsA(short* p, unsigned n) { int pad[1]; unsigned uiIdx; int pad2[2]; for (uiIdx = 0; uiIdx < n; uiIdx++) {} }
-  inline void DestructItems(short* p, unsigned n) { int pad[2]; unsigned uiIdx; int pad2[1]; for (uiIdx = 0; uiIdx < n; uiIdx++) {} }
-  void FUN_00c4eb50(unsigned idx, bool resize); };
 
-// VEGAS17-CONFLICT: Q52Arr (variant definition below differs from the one above)
-struct Q52Arr { Q52Ent** m_data; unsigned pad4; unsigned m_uiItemCount; inline unsigned Count(){ return m_uiItemCount; } };
 
-// VEGAS17-CONFLICT: Q5Obj (variant definition below differs from the one above)
-struct Q5Obj { virtual void v00(),v04(),v08(),v0c(),v10(),v14(),v18(),v1c(),v20(),v24(),v28(),v2c(),v30(),v34(),v38(),v3c(),v40(),v44(),v48(),v4c(),v50(),v54(),v58(),v5c(),v60(),v64(),v68(),v6c(),v70(),v74(),v78(),v7c(),v80(),v84(),v88(),v8c(),v90(),v94(); virtual void v98(Q5Item*);
- char pad[0x48];
-  Q5Obj();
-    };
 
-// VEGAS17-CONFLICT: SeqNode (variant definition below differs from the one above)
-struct SeqNode {
-    int u00,u04,u08,u0c,u10,u14,u18,u1c,u20,u24,u28,u2c,u30,u34,u38,u3c;
-    int u40,u44,u48,u4c,u50,u54,u58,u5c,u60,u64,u68,u6c,u70,u74,u78,u7c;
-    int u80,u84,u88,u8c,u90,u94,u98,u9c,ua0,ua4,ua8,uac,ub0,ub4,ub8,ubc;
-    int uc0,uc4,uc8,ucc,ud0;
-    float m_d4;
-};
 
-// VEGAS17-CONFLICT: SeqInner (variant definition below differs from the one above)
-struct SeqInner {
-    int u00,u04,u08,u0c,u10,u14,u18,u1c,u20,u24,u28,u2c,u30,u34,u38,u3c;
-    int u40,u44,u48,u4c,u50,u54,u58,u5c,u60,u64,u68,u6c,u70,u74,u78,u7c;
-    int u80,u84,u88,u8c,u90,u94,u98,u9c,ua0,ua4,ua8,uac,ub0,ub4;
-    unsigned short m_b8;
-};
 
-// VEGAS17-CONFLICT: SeqBase (variant definition below differs from the one above)
-struct SeqBase {
-    int unk00;
-    int unk04;
-    unsigned short m_flags;
-    unsigned short unk0A;
-    float m_0c;
-    float m_10;
-    int unk14;
-    float m_18;
-    float m_1c;
-    float m_20;
-    float m_24;
-    float m_28;
-    SeqNode* m_2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int m_3c;
-    int unk40;
-    int unk44;
-    float m_48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    SeqInner* m_5c;
-
-    inline bool GetBit(unsigned short mask) const { return (m_flags & mask) != 0; }
-    inline bool GetActive() const { return GetBit(8); }
-    inline bool GetForceUpdate() const { return GetBit(0x80); }
-
-    inline SeqIface* FUN_00639b60() {
-        unsigned a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10;
-        if (m_flags) return ((::SeqIface *)(reinterpret_cast<::NiPSysEmitterCtlr_StandIn *>(this)->FUN_00639b60()));
-        a0=a1=a2=a3=a4=a5=a6=a7=a8=a9=a10=0;
-        return 0;
-    }
-};
-
-// VEGAS17-CONFLICT: RecursiveSpinLock (variant definition below differs from the one above)
-class RecursiveSpinLock {
-public:
- volatile long owner;unsigned int recursion;
- void Lock(const char*) {
-  unsigned int thread=FUN_0040fc90();
-  if(owner==(long)thread) ++recursion;
-  else {
-   unsigned int attempts=0;
-   while(FUN_0043b460(&owner,0,thread)) {++attempts;FUN_0040fca0(attempts>10000 ? 1:0);}
-   FUN_0040fbe0();recursion=1;
-  }
- }
- void Unlock() {FUN_0040fbe0();if(--recursion==0) owner=0;}
-public:
-    void FUN_0040fba0();
-};
-
-template<> inline void NiTPointerAllocator<unsigned int>::Deallocate(void* pointer) {
- reinterpret_cast<::FUN_0040fbf0_shell *>(&(ms_kPoolState))->FUN_0040fbf0((char *)(0));
- LinkedListEntry* node=static_cast<LinkedListEntry*>(pointer);
- node->m_pUserData=0;
- node->m_pkNext=ms_pFreeList;
- ms_pFreeList=node;
- reinterpret_cast<::RecursiveSpinLock *>(&(ms_kPoolState))->FUN_0040fba0();
-}
-
-template<>
-class NiPointer<MyNode> {
-public:
-    MyNode* m_pObject;
-    __forceinline NiPointer() : m_pObject(0) {}
-    __forceinline NiPointer(MyNode* p) : m_pObject(p) {
-        if (m_pObject) m_pObject->IncRefCount();
-    }
-    __forceinline NiPointer(const NiPointer<MyNode>& other) : m_pObject(other.m_pObject) {
-        if (m_pObject) m_pObject->IncRefCount();
-    }
-    __forceinline ~NiPointer() {
-        if (m_pObject) m_pObject->DecRefCount();
-    }
-    NiPointer<MyNode>& operator=(MyNode* p) {
-        if(m_pObject!=p) {
-            if(m_pObject) m_pObject->DecRefCount();
-            m_pObject=p;
-            if(m_pObject) m_pObject->IncRefCount();
-        }
-        return *this;
-    }
-};
 
 struct ParticleDetachAt {
 

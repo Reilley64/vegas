@@ -18881,8 +18881,6 @@ bool FUN_00c911c0();
 
 
 
-// VEGAS17-CONFLICT: FUN_00c65b00_holder (variant definition below differs from the one above)
-// TLS slot +0x2C0 (module index 0x126fd98)
 
 
 

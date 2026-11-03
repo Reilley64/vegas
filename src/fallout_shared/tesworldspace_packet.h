@@ -22,6 +22,59 @@ class TESFile;
 class TESForm
 {
   public:
+    virtual ~TESForm();
+    virtual void F01();
+    virtual void F02();
+    virtual void F03();
+    virtual void F04();
+    virtual void F05();
+    virtual void F06();
+    virtual void F07();
+    virtual void F08();
+    virtual void F09();
+    virtual void F10();
+    virtual void F11();
+    virtual void F12();
+    virtual void F13();
+    virtual void F14();
+    virtual void F15();
+    virtual TESForm* CloneForm(bool temporary, TESFile* file);
+    virtual void F17();
+    virtual void F18();
+    virtual void F19();
+    virtual void F20();
+    virtual void F21();
+    virtual void F22();
+    virtual void F23();
+    virtual void F24();
+    virtual void F25();
+    virtual void F26();
+    virtual void F27();
+    virtual void F28();
+    virtual void F29();
+    virtual void F30();
+    virtual void F31();
+    virtual void F32();
+    virtual void F33();
+    virtual void F34();
+    virtual void F35();
+    virtual void F36();
+    virtual void F37();
+    virtual void F38();
+    virtual void F39();
+    virtual void F40();
+    virtual void F41();
+    virtual void F42();
+    virtual void F43();
+    virtual void F44();
+    virtual void F45();
+    virtual void F46();
+    virtual void F47();
+    virtual void F48();
+    virtual void F49();
+    virtual void SetAltered(bool altered);
+public:
+    bool GetInitialized() const;
 public:
     void SetInitializationState(bool);
 public:
@@ -38,12 +91,13 @@ template <class T, int N> class BSSimpleArray
     char data[16];
 };
 class TESRegionList;
-class TESObjectCELL
+class TESObjectCELL : public TESForm
 {
   public:
-    char pad[0x24];
+    char pad[0x20];
     unsigned char flags;
     bool IsCellInterior() const;
+    ::TESWorldSpace *GetParentWorldSpace();
 public:
     int GetCellGridX();
 public:
@@ -84,7 +138,7 @@ public:
 class TESRegion : public TESForm
 {
   public:
-    char pad[0x20];
+    char pad[0x1c];
     TESWorldSpace* world;
     void AssignWorldSpace(TESWorldSpace*);
 };
@@ -100,13 +154,14 @@ public:
 class TESWorldSpace
 {
   public:
+    virtual ~TESWorldSpace();
     enum PARENT_USE_FLAG
     {
         USE_LAND = 1
     };
-    char pad0[0x30];
+    char pad0[0x2c];
     NiTPointerMap<unsigned int, TESObjectREFR*>* cellMap;
-    void* unk34;
+    TESObjectCELL* m_pCell;
     char pad38[0x4];
     BGSTerrainManager* terrain;
     void* unk40;

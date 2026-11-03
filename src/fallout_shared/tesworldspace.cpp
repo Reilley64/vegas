@@ -499,7 +499,7 @@ char* FUN_005832f0_shell::FUN_005832f0()
 {
     return ((Flt*)((char*)this + 0xc0))->operator unsigned int()
                ? (char*)((Flt*)((char*)this + 0xc0))->operator unsigned int()
-               : "";
+               : (char*)"";
 }
 
 struct FUN_00587670_shell : public TESWorldSpace
@@ -522,9 +522,9 @@ bool FUN_00587670_shell::FUN_00587670(TESObjectCELL* apCell)
         return false;
     if (reinterpret_cast<::FUN_005516c0 *>((((CellH*)apCell)))->IsCellPersistent())
     {
-        if (*(TESObjectCELL**)&this->unk34)
+        if (*(TESObjectCELL**)&this->m_pCell)
             return false;
-        *(TESObjectCELL**)&this->unk34 = apCell;
+        *(TESObjectCELL**)&this->m_pCell = apCell;
     }
     else
     {
@@ -633,13 +633,13 @@ struct FUN_00544630_shell
 // @fnv 0x00588070
 TESObjectCELL* FUN_00588070_shell::GetOrCreateCell()
 {
-    if (!*(stub::TESObjectCELL**)&this->unk34)
+    if (!*(stub::TESObjectCELL**)&this->m_pCell)
     {
-        *(stub::TESObjectCELL**)&this->unk34 = new stub::TESObjectCELL;
-        reinterpret_cast<::FUN_005516f0_Class *>(((*(FUN_005516f0_s**)&this->unk34)))->SetFlag400(1);
-        (*(FUN_00544630_shell**)&this->unk34)->ResetCellData();
+        *(stub::TESObjectCELL**)&this->m_pCell = new stub::TESObjectCELL;
+        reinterpret_cast<::FUN_005516f0_Class *>(((*(FUN_005516f0_s**)&this->m_pCell)))->SetFlag400(1);
+        (*(FUN_00544630_shell**)&this->m_pCell)->ResetCellData();
     }
-    return *(TESObjectCELL**)&this->unk34;
+    return *(TESObjectCELL**)&this->m_pCell;
 }
 
 struct FileH
@@ -3730,7 +3730,6 @@ bool WorldQuery::ContainsPoint(const NiPoint3* position)
 }
 
 namespace fnv_00583560 {
-extern "C" void* _alloca(unsigned int);
 class File583
 {
   public:

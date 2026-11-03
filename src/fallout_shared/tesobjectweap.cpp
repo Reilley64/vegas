@@ -834,12 +834,14 @@ NiFixedString* FUN_00524cc0()
 }
 
 struct FUN_00524d30_shell {
+    char pad[0x1f8];
+    char cUnk1f8;
     void SetByteAtOffset1F8(char arg);
 };
 
 // @fnv 0x00524d30
 void FUN_00524d30_shell::SetByteAtOffset1F8(char acValue) {
-    ((char*)this)[0x1f8] = acValue;
+    cUnk1f8 = acValue;
 }
 
 struct FUN_00525be0_shell : public ::TESObjectWEAP
@@ -987,24 +989,28 @@ void FUN_005230f0_shell::FUN_005230f0(BGSSaveFormBuffer* buffer)
 
 struct FUN_00524cd0_shell
 {
+    char pad[0xd];
+    unsigned char ucUnk0d;
     unsigned char GetByteAt0D();
 };
 
 // @fnv 0x00524cd0
 unsigned char FUN_00524cd0_shell::GetByteAt0D()
 {
-    return ((unsigned char*)this)[0x0d];
+    return ucUnk0d;
 }
 
 struct FUN_00524d50_shell
 {
+    char pad[0x1f8];
+    char cUnk1f8;
     char GetByteAtOffset1F8();
 };
 
 // @fnv 0x00524d50
 char FUN_00524d50_shell::GetByteAtOffset1F8()
 {
-    return ((char*)this)[0x1f8];
+    return cUnk1f8;
 }
 
 struct FUN_0051dad0_This {
@@ -1256,7 +1262,7 @@ void FUN_00525450_shell::QueueModelsForLoad(int aiIndex, class QueuedFile* apFil
     if (((::BGSProjectile *)(reinterpret_cast<::Thing *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this)))->GetOrFallback((int)(0)))))
         reinterpret_cast<TESModel*>(static_cast<BGSPreloadable *>((::BGSProjectile *)(reinterpret_cast<::Thing *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this)))->GetOrFallback((int)(0)))))->vfn_10(aiIndex, apFile);
     if (static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_pImpactDataSet)
-        reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_pImpactDataSet) + 0x18)->vfn_10(aiIndex, apFile);
+        reinterpret_cast<TESModelTextureSwap*>(static_cast<BGSPreloadable *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_pImpactDataSet))->vfn_10(aiIndex, apFile);
 }
 
 struct GlobalObject_0045cfe0 {  };

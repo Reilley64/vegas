@@ -524,6 +524,8 @@ struct TileValueAccessor
 };
 struct FUN_007b4210_shell
 {
+    void* head;
+
     TileValueAccessor* FindByColor(unsigned int);
 };
 // Walks the tile list from this object, returning the first entry whose _04 equals aiColor, or null if none matches.
@@ -532,7 +534,7 @@ TileValueAccessor* FUN_007b4210_shell::FindByColor(unsigned int aiColor)
 {
     void* piter;
     TileValueAccessor* popt;
-    piter = (void*)((Flt*)this)->operator unsigned int();
+    piter = head;
     while (piter)
     {
         popt = (TileValueAccessor*)(Tile*)((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)this)))->FUN_0057cbe0((int **)&(piter))));

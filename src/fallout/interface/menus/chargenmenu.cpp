@@ -1843,28 +1843,28 @@ bool Proxy_754a00::SetTraitSelected(void* pTarget, int action)
         {
             if (reinterpret_cast<::ListOwner *>((((Proxy_7242f0*)this)))->ContainsKey((void *)(pTarget)))
             {
-                static void* selectedTrait = ((void *)(::FUN_00a00940("_selected", -1)));
+                static int selectedTrait = ::FUN_00a00940("_selected", -1);
 
-                bool selected = reinterpret_cast<::FUN_00a01230_shell *>((((Proxy_a01230*)pTarget)))->IsTraitNonZero((intptr_t)(selectedTrait));
+                bool selected = reinterpret_cast<::FUN_00a01230_shell *>((((Proxy_a01230*)pTarget)))->IsTraitNonZero(selectedTrait);
 
                 switch (action)
                 {
                 case 0:
                     if (!selected)
                     {
-                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((intptr_t)(selectedTrait), 1);
+                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set(selectedTrait, 1);
                         return true;
                     }
                     break;
                 case 1:
                     if (selected)
                     {
-                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((intptr_t)(selectedTrait), 0);
+                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set(selectedTrait, 0);
                         return true;
                     }
                     break;
                 case 2:
-                    reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((intptr_t)(selectedTrait), selected ? 0 : 1);
+                    reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set(selectedTrait, selected ? 0 : 1);
                     return true;
                 }
             }

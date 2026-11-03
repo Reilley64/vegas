@@ -5,6 +5,8 @@
 #include <cstring>
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/list_box_fields.h"
+#include "fnv/decl/FUN_00a01230_shell.h"
 #include <new>
 #include "fnv/decl/BSS.h"
 #include "fnv/decl/Callees.h"
@@ -1383,7 +1385,6 @@ namespace fnv_00721bf0 {
 const char* __cdecl FUN_00a00940(const char*, int);
 struct TileLink
 {
-    bool IsTraitNonZero(const char*);
 };
 struct TargetMenu
 {
@@ -1401,7 +1402,7 @@ struct TargetMenu
 bool TargetMenu::FUN_00721bf0(TileLink* item)
 {
     if (IsScrollBarTraitEnabled() &&
-        (item == 0 || (ContainsKey(item) && item->IsTraitNonZero(((const char *)(::FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))))
+        (item == 0 || (ContainsKey(item) && reinterpret_cast<::FUN_00a01230_shell *>(item)->IsTraitNonZero(::FUN_00a00940((*reinterpret_cast<char (*)[]>((void *)&::kListBoxEnabled)), -1)))))
     {
         selected = item;
         UpdateTraitDisplay();
@@ -1595,7 +1596,6 @@ FUN_00722880::~FUN_00722880()
 namespace fnv_00722b50 {
 struct Entry
 {
-    bool IsTraitNonZero(void*);
 };
 struct Holder
 {
@@ -1610,7 +1610,7 @@ extern "C" void* __cdecl FUN_00a00940(const void*, int);
 // @fnv 0x00722b50
 bool Holder::SelectEntry(Entry* pEntry)
 {
-    if (FUN_007255a0() && (!pEntry || (ContainsKey(pEntry) && pEntry->IsTraitNonZero(((void *)(::FUN_00a00940((const char *)(const void *)(&(*reinterpret_cast<int *>((void *)&::kListBoxEnabled))), -1)))))))
+    if (FUN_007255a0() && (!pEntry || (ContainsKey(pEntry) && reinterpret_cast<::FUN_00a01230_shell *>(pEntry)->IsTraitNonZero(::FUN_00a00940((const char *)(const void *)(&(*reinterpret_cast<int *>((void *)&::kListBoxEnabled))), -1)))))
     {
         selected = pEntry;
         UpdateSpeechChallengeTrait();
@@ -1645,7 +1645,6 @@ void* S_00724170::FUN_00724170(unsigned int flags)
 namespace fnv_00723340 {
 struct FUN_00723340_arg
 {
-    bool IsTraitNonZero(void* param);
 };
 
 void* __cdecl FUN_00a00940(const char* name, int len);
@@ -1663,7 +1662,7 @@ struct FUN_00723340_cls
 // @fnv 0x00723340
 bool FUN_00723340_cls::FUN_00723340(FUN_00723340_arg* arg)
 {
-    if (FUN_00725b70() && (arg == 0 || (ContainsKey(arg) && arg->IsTraitNonZero(((void *)(::FUN_00a00940("_enabled", -1)))))))
+    if (FUN_00725b70() && (arg == 0 || (ContainsKey(arg) && reinterpret_cast<::FUN_00a01230_shell *>(arg)->IsTraitNonZero(::FUN_00a00940("_enabled", -1)))))
     {
         m_pArg = arg;
         reinterpret_cast<::FUN_00725c20_shell *>(this)->UpdateHighlightTiles();
@@ -2408,10 +2407,6 @@ void FUN_007a6480_cls::FUN_007a6480()
 
 int __cdecl FUN_00a00940(const char*, int);
 
-struct FUN_00a01230_shell
-{
-    bool IsTraitNonZero(int);
-};
 // Returns true if the tile pointer is non-null and its _enabled trait evaluates to true.
 // @fnv 0x007a6bd0
 bool FUN_007a6bd0_shell::FUN_007a6bd0()
@@ -2466,8 +2461,8 @@ bool B726160Menu::FUN_00726160()
 // @fnv 0x00730e20
 bool FUN_00730e20_cls::FUN_00730e20()
 {
-    static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
+    static int sKey = ::FUN_00a00940("_enabled", -1);
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero(sKey)) ? 1 : 0;
 }
 // Returns true if m_pTile0c is set and its IsTraitNonZero check passes for the cached s_trait value.
 // @fnv 0x00764e40
@@ -2573,8 +2568,8 @@ int __cdecl FUN_00a00940(const char* s, int n);
 // @fnv 0x007a81b0
 bool FUN_007a81b0_cls::FUN_007a81b0()
 {
-    static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
+    static int sKey = ::FUN_00a00940("_enabled", -1);
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero(sKey)) ? 1 : 0;
 }
 
 extern int DAT_01077094;
@@ -4521,8 +4516,8 @@ int __cdecl FUN_00a00940(const char* s, int n);
 // @fnv 0x00725b70
 bool FUN_00725b70_cls::FUN_00725b70()
 {
-    static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
+    static int sKey = ::FUN_00a00940("_enabled", -1);
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero(sKey)) ? 1 : 0;
 }
 
 namespace fnv_00726210 {
@@ -4670,10 +4665,10 @@ void FUN_00724360_cls::FUN_00724360()
     for (cur = (FUN_00724360_Item*)((this != 0) ? (char*)&this->unk04 : 0); cur != 0 && *((int **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)) != 0;
          cur = (FUN_00724360_Item*)reinterpret_cast<::Callees *>((cur))->FUN_00726070())
     {
-        if (((unsigned char*)*((int **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))[8] == 0)
+        if (!reinterpret_cast<::ListBoxItemFields *>(reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)->isFiltered)
         {
-            reinterpret_cast<::Tile *>((((FUN_00724360_Obj*)**((int **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))))->Set(0xfac, (unsigned int)m_1c++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(**((int **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item))));
+            reinterpret_cast<::ListBoxItemFields *>(reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)->tile->Set(0xfac, (unsigned int)m_1c++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(reinterpret_cast<::ListBoxItemFields *>(reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)->tile));
         }
     }
     FUN_00724800();

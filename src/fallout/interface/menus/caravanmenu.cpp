@@ -684,7 +684,8 @@ struct S148c0
 
 struct MiddleLowProcess
 {
-    int GetProcessInteger();
+    char pad[0xb4];
+    Accum_00733500* unkB4;
 };
 
 struct BSFaceGenNiNode
@@ -707,7 +708,7 @@ struct Mgr_00733500
 
 struct GO
 {
-    unsigned int value;
+    uintptr_t value;
 
     GO(intptr_t value);
     operator unsigned int() const;
@@ -764,20 +765,20 @@ void __cdecl FUN_00740f30()
     ((::S148c0 *)(::FUN_0043c4b0()))->FUN_007148c0(0, 4);
 
     pBase = (void*)FUN_0045c670();
-    uiGlobal = (Accum_00733500*)((MiddleLowProcess*)pBase)->GetProcessInteger();
+    uiGlobal = ((MiddleLowProcess*)pBase)->unkB4;
     reinterpret_cast<::FUN_00c4f270_Class *>((uiGlobal))->FUN_00c4f270(1);
 
-    pPackage = ::g_011d91a8.operator unsigned int();
+    pPackage = ::g_011d91a8.value;
     ::UpdateCameraFrustum((::NiCamera *)(::AnimIdle *)((AnimIdle*)pPackage), g_011db5ec_arg1);
 
-    GO animation((int)((reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+    GO animation((intptr_t)((reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
 
-    reinterpret_cast<::FUN_004a0fd0_shell *>((uiGlobal))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)animation.operator unsigned int()));
+    reinterpret_cast<::FUN_004a0fd0_shell *>((uiGlobal))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)animation.value));
 
     pSelected = pPackage ? (AnimIdle*)pPackage : (AnimIdle*)((BSFaceGenNiNode*)pBase)->GetAnimationData();
 
     ::FUN_00b6bee0(pSelected, NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1), (::BSShaderAccumulator *)(uiGlobal));
-    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(pSelected), (::BSShaderAccumulator *)(::AnimIdle *)((AnimIdle*)animation.operator unsigned int()), false);
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(pSelected), (::BSShaderAccumulator *)(::AnimIdle *)((AnimIdle*)animation.value), false);
 
     reinterpret_cast<::FUN_004a0fd0_shell *>((uiGlobal))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)(0));
     animation.operator=(0);
@@ -1890,7 +1891,7 @@ struct FUN_00a59c60_shell
 
 struct Entry_0074ecb0
 {
-    unsigned int m_slots[7];
+    void* m_slots[7];
 };
 
 struct FUN_0074ecb0_cls
@@ -5236,7 +5237,7 @@ struct TileView
 };
 struct PlayerName
 {
-    const char* FUN_005ae380();
+    int FUN_005ae380();
 };
 struct Player
 {

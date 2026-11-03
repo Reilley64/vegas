@@ -394,12 +394,14 @@ struct NoArgumentMethodObject
 };
 struct TileProcessor
 {
+    void* head;
+
     void ProcessAllTiles();
 };
 // @fnv 0x00759f50
 void TileProcessor::ProcessAllTiles()
 {
-    void* piter = (void*)((Flt*)this)->operator unsigned int();
+    void* piter = head;
     while (piter)
     {
         reinterpret_cast<::FUN_00700110_cls *>((((NoArgumentMethodObject*)((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)this)))->FUN_0057cbe0((int **)&(piter)))))))->FUN_00700110();
@@ -2931,14 +2933,14 @@ void AnimationList::ClearEntries()
 // @fnv 0x0075abd0
 void HighlightList::UpdateHighlight()
 {
-    static const char* highlightY = ((const char *)(::FUN_00a00940("_highlight_y", -1)));
-    static const char* selectedHeight = ((const char *)(::FUN_00a00940("_selected_height", -1)));
+    static int highlightY = ::FUN_00a00940("_highlight_y", -1);
+    static int selectedHeight = ::FUN_00a00940("_selected_height", -1);
     if (root)
     {
         if (selected)
         {
-            HighlightValue* heightValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30((intptr_t)(highlightY))));
-            HighlightValue* yValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30((intptr_t)(selectedHeight))));
+            HighlightValue* heightValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30(highlightY)));
+            HighlightValue* yValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30(selectedHeight)));
             reinterpret_cast<::AGOwner *>((heightValue))->FUN_00a09130(2000, (::Tile *)(selected), 4002);
             reinterpret_cast<::fnv_00a09410::EvalValue *>((heightValue))->FUN_00a09410(0);
             reinterpret_cast<::AGOwner *>((yValue))->FUN_00a09130(2000, (::Tile *)(selected), 4016);
@@ -2994,8 +2996,8 @@ void HighlightList::UpdateHighlight()
         }
         else
         {
-            reinterpret_cast<::Tile *>((root))->Set((intptr_t)(highlightY), -1);
-            reinterpret_cast<::Tile *>((root))->Set((intptr_t)(selectedHeight), 0);
+            reinterpret_cast<::Tile *>((root))->Set(highlightY, -1);
+            reinterpret_cast<::Tile *>((root))->Set(selectedHeight, 0);
         }
     }
 }

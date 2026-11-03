@@ -878,8 +878,8 @@ class FUN_007315e0 : public SetBase
 // @fnv 0x007315e0
 FUN_007315e0::FUN_007315e0()
 {
-    DAT_011d9044 = ((void *)(::FUN_00a00940("_Value", -1)));
-    DAT_011d9048 = ((void *)(::FUN_00a00940("_x", -1)));
+    DAT_011d9044 = (void *)(std::intptr_t)::FUN_00a00940("_Value", -1);
+    DAT_011d9048 = (void *)(std::intptr_t)::FUN_00a00940("_x", -1);
     unk28 = 10;
     m7C = 0;
     if (((void *)(reinterpret_cast<::FUN_007316d0_Class *>((DAT_011d9058))->FUN_007316d0())) != 0)

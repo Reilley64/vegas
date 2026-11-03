@@ -113,6 +113,8 @@ struct FUN_00791a80_shell
 
 struct Flt
 {
+    void* object;
+
     operator unsigned int();
 };
 struct Glob
@@ -536,7 +538,7 @@ void FUN_007948d0()
     ManagerHelper* manager = ((::ManagerHelper *)(::FUN_0045c670()));
     CameraHelper* camera = ((::CameraHelper *)(manager->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((camera))->FUN_00c4f270(true);
-    uintptr_t localNode = (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da2f4));
+    uintptr_t localNode = (uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).object;
     ::UpdateCameraFrustum((::NiCamera *)(localNode), 0.65f);
     NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
     reinterpret_cast<::FUN_004a0fd0_shell *>((camera))->FUN_004a0fd0((::NiNode *)((intptr_t)node));
@@ -2008,7 +2010,7 @@ void __cdecl FUN_007c9ca0()
         ManagerHelper* mgr = ((::ManagerHelper *)(::FUN_0045c670()));
         CameraHelper* cam = ((::CameraHelper *)(mgr->unkB4));
         reinterpret_cast<::FUN_00c4f270_Class *>((cam))->FUN_00c4f270(true);
-        uintptr_t scene = (*reinterpret_cast<::Flt *>(&::g_011daa9c));
+        uintptr_t scene = (uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011daa9c)).object;
         ::UpdateCameraFrustum((::NiCamera *)(scene), 0.15f);
         NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
         reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)((intptr_t)node));
@@ -2937,10 +2939,10 @@ void InputMenu::HandleButton(int button, int unused)
                 NiPick local38019(0, 8);
                 reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
                 local38019.FUN_00705fc0(
-                    (void*)(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(groups[mode].objects)), local610845))))->object.operator unsigned int());
+                    (*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(groups[mode].objects)), local610845))))->object.object);
                 reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
                 reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
-                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
+                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).object)))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
                 if (reinterpret_cast<::NiPick *>(&(local38019))->PerformPick((const ::NiPoint3 &)(local960365), (const ::NiPoint3 &)(local282417), false))
                 {
                     unsigned int local919856 = 0;
@@ -2959,10 +2961,10 @@ void InputMenu::HandleButton(int button, int unused)
                 Vec3 local282417;
                 NiPick local38019(0, 8);
                 reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
-                local38019.FUN_00705fc0((void*)(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(arr1a4)), local966572))))->object.operator unsigned int());
+                local38019.FUN_00705fc0((*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(arr1a4)), local966572))))->object.object);
                 reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
                 reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
-                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
+                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).object)))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
                 if (reinterpret_cast<::NiPick *>(&(local38019))->PerformPick((const ::NiPoint3 &)(local960365), (const ::NiPoint3 &)(local282417), false))
                 {
                     unsigned int local919856 = 0;

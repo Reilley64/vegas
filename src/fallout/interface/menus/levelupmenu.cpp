@@ -765,8 +765,8 @@ struct FUN_007877a0_Object
 // @fnv 0x007877a0
 bool FUN_007877a0_Object::FUN_007877a0(LevelOption* option)
 {
-    static void* cached = ((void *)(::FUN_00a00940((const char *)(const void *)(&(*reinterpret_cast<int *>((void *)&::DAT_01071b64))), -1)));
-    return cached != 0 && option != 0 && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero((intptr_t)(cached));
+    static int cached = ::FUN_00a00940((const char *)(const void *)(&(*reinterpret_cast<int *>((void *)&::DAT_01071b64))), -1);
+    return cached != 0 && option != 0 && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero(cached);
 }
 
 struct LevelValue
@@ -2428,8 +2428,8 @@ struct FUN_00787b70_cls
 // @fnv 0x00787b70
 bool FUN_00787b70_cls::FUN_00787b70()
 {
-    static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
+    static int sKey = ::FUN_00a00940("_enabled", -1);
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero(sKey)) ? 1 : 0;
 }
 
 struct TileStandIn

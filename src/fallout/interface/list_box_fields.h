@@ -12,3 +12,11 @@ struct ListBoxFields
     Tile* selected;
     Tile* scrollBar;
 };
+
+// One entry of a ListBox<T> list: the item's tile, its object and whether the filter hides it.
+struct ListBoxItemFields
+{
+    Tile* tile;
+    void* object;
+    bool isFiltered;
+};

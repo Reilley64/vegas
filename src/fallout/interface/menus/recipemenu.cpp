@@ -383,7 +383,7 @@ struct FUN_0072bab0_shell
 // @fnv 0x0072ba50
 void FUN_0072ba50_shell::FUN_0072ba50()
 {
-    ((void(*)(void*, int))(*(int**)this)[5])(this, reinterpret_cast<::FUN_0072bab0_shell *>(this)->GetFilteredCount() - 1);
+    ((void(*)(void*, int))(*(void***)this)[5])(this, reinterpret_cast<::FUN_0072bab0_shell *>(this)->GetFilteredCount() - 1);
 }
 // Returns the VATS menu's count minus the float value read from m_tile for the _num_filtered setting.
 // @fnv 0x0072bab0
@@ -1067,8 +1067,8 @@ struct MenuTileControl
 // @fnv 0x0072c200
 bool MenuTileControl::FUN_0072c200()
 {
-    static void* cachedValue = ((void *)(::FUN_00a00940((*reinterpret_cast<const char (*)[]>((void *)&::kListBoxEnabled)), -1)));
-    return tile != 0 && reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero((intptr_t)(cachedValue));
+    static int cachedValue = ::FUN_00a00940((*reinterpret_cast<const char (*)[]>((void *)&::kListBoxEnabled)), -1);
+    return tile != 0 && reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(cachedValue);
 }
 }  // namespace fnv_0072c200
 

@@ -5,6 +5,7 @@
 
 // Returns a divided by the product of FUN_005b9e80(b) and c.
 // @fnv 0x009a7dd0
+#include "fnv/decl/S_009a7670_P3.h"
 #include "fnv/combat_controller_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include <cstdint>
@@ -2338,12 +2339,6 @@ bool IsWithinAimLimits(S_009a6d70_Actor* actor, NiPoint3* target, float afMaxHea
     return true;
 }
 
-struct S_009a7670_P3
-{
-    float x, y, z;
-    S_009a7670_P3()
-    {}
-};
 struct S_009a7670_Setting
 {
 };

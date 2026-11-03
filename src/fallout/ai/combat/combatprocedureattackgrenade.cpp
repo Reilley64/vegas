@@ -2,6 +2,8 @@
 // src/fallout/ai/combat/combatprocedureattackgrenade.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattackgrenade.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_009a7670_P3.h"
+#include "fnv/symbols_009a7000.h"
 #include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -262,12 +264,9 @@ struct NonPodPoint3
 };
 NiPoint3* __cdecl FUN_009a8050(NiPoint3* result, void* actor);
 void __cdecl GetTargetLocationWithOffset(NiPoint3* result, void* target, int mode);
-unsigned char __cdecl FUN_009a7670(void* actor, void* target, unsigned int flags, NiPoint3 origin, NiPoint3 direction,
-                                   NonPodPoint3 offset, unsigned int mode, unsigned int category, float scale);
-
 // @fnv 0x009a7580
-unsigned char __cdecl FUN_009a7580(void* actor, void* target, unsigned int flags, NiPoint3* optionalOrigin,
-                                   unsigned int mode, unsigned int category, float scale)
+unsigned char __cdecl FUN_009a7580(void* actor, void* target, FUN_009a7f00_obj* apObject, NiPoint3* optionalOrigin,
+                                   unsigned char* apFlag, S_009a7670_P3* apResult, float scale)
 {
     if (!actor || !target)
         return 0;
@@ -283,7 +282,9 @@ unsigned char __cdecl FUN_009a7580(void* actor, void* target, unsigned int flags
     NiPoint3 origin;
     GetTargetLocationWithOffset(&origin, target, 2);
     NonPodPoint3 direction = (*(::NonPodPoint3 *)(::GetTriple12((::Triple12 *)(target), {})));
-    return FUN_009a7670(actor, target, flags, offset, origin, direction, mode, category, scale);
+    return ::FUN_009a7670(actor, target, apObject, *reinterpret_cast<S_009a7670_P3*>(&offset),
+                          *reinterpret_cast<S_009a7670_P3*>(&origin), *reinterpret_cast<S_009a7670_P3*>(&direction), apFlag,
+                          apResult, scale);
 }
 
 struct Vec3
@@ -1186,7 +1187,6 @@ struct GlobalObj
 struct Member34
 {
 };
-unsigned char __cdecl FUN_009a7580(ActorObj* a, ActorObj* b, MidObj* c, void* d, unsigned char* e, Pt3* f, float g);
 
 struct Package
 {
@@ -1293,7 +1293,7 @@ void Package::UpdateWeaponFire()
     pForm = ((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((intptr_t)(actor2))));
     if (!m_14)
     {
-        if (!FUN_009a7580(actor2, i, pForm, 0, &m_30, &m_24, -1.0f))
+        if (!::FUN_009a7580(actor2, i, (::FUN_009a7f00_obj *)(pForm), 0, &m_30, reinterpret_cast<::S_009a7670_P3 *>(&m_24), -1.0f))
         {
             return;
         }

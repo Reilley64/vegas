@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
+#include "fnv/decl/S_009a7670_P3.h"
 #include "fnv/combat_manager_fields.h"
 #include "fnv/inventory_entry_fields.h"
 #include "fnv/combat_controller_fields.h"
@@ -9357,7 +9358,6 @@ struct A1_99
 
 
 void __cdecl FUN_009a8050(Vec3*, void*);
-bool __cdecl FUN_009a7670(void*, void*, Ammo99*, Vec3, P3, Vec3, char*, P3*, float);
 
 struct FUN_0099b5a0_holder
 {
@@ -9419,7 +9419,7 @@ bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
                 continue;
         }
         P3 tB;
-        if (FUN_009a7670(mobj3, spellB, ammoA, posVal, v9, (*reinterpret_cast<::fnv_0099b5a0::Vec3 *>((void *)&::NiPoint3::ZERO)), acArg, &tB, -1.0f))
+        if (::FUN_009a7670(mobj3, spellB, (::FUN_009a7f00_obj *)(ammoA), *reinterpret_cast<::S_009a7670_P3 *>(&posVal), *reinterpret_cast<::S_009a7670_P3 *>(&v9), *reinterpret_cast<const ::S_009a7670_P3 *>(&::NiPoint3::ZERO), (unsigned char *)(acArg), reinterpret_cast<::S_009a7670_P3 *>(&tB), -1.0f))
         {
             if (snd2)
             {

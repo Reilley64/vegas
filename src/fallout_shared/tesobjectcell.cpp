@@ -1385,7 +1385,7 @@ void FUN_005452c0_shell::RegisterReferenceInCell(TESObjectREFR* apRef)
         return;
 
     reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(
-        (char*)this->pRenderData + 0xc)))->FUN_00844700(reinterpret_cast<unsigned int>(apRef), reinterpret_cast<VClass1d0*>(apRef)->vfn_1d0()->vfn_0c());
+        (char*)this->pRenderData + 0xc)))->FUN_00844700(reinterpret_cast<std::uintptr_t>(apRef), reinterpret_cast<VClass1d0*>(apRef)->vfn_1d0()->vfn_0c());
 
     if (reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430()))))->FUN_0050ebf0() > DAT_0102ed48)
     {
@@ -12696,7 +12696,7 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
                         {
                             if (ref->Test2(owner))
                             {
-                                reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::Pending *>(&::g_011ca0e0))))->FUN_00844700((std::uintptr_t)(ref), (unsigned int)(key33));
+                                reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::Pending *>(&::g_011ca0e0))))->FUN_00844700((std::uintptr_t)(ref), (std::uintptr_t)(key33));
                                 Obj* original9 = ref->Get3D();
                                 Task* taskA = new Task(key33, original9);
                                 (*reinterpret_cast<::Manager * *>(&::DAT_01202d98))->Queue(taskA);
@@ -15531,7 +15531,7 @@ void Cell::LoadChanged(unsigned int auiChangedFlags, int file)
         {
             unsigned int uiLinkedRefId2;
             reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&uiLinkedRefId2, 4);
-            reinterpret_cast<::FUN_00421850_shell *>((((::CellLoad::Ref *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList()))))->FUN_00421850((::BSExtraData *)(uiLinkedRefId2));
+            reinterpret_cast<::FUN_00421850_shell *>((((::CellLoad::Ref *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList()))))->FUN_00421850((::BSExtraData *)(std::uintptr_t)(uiLinkedRefId2));
         }
         if (auiChangedFlags & 4)
         {
@@ -16513,7 +16513,7 @@ struct FNV_Primitive
     virtual void v_10();
     virtual void* v14(NiPoint3*);
     virtual void v_18();
-    virtual int v1c();
+    virtual void* v1c();
 };
 
 struct ClassEC : public NiMemObject
@@ -20071,7 +20071,7 @@ void CellOffsets::FUN_005453b0(FNV_Ref* reference)
             {
                 void* property = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(2)));
                 ::SetPropertyValueRecursive((::B55480AVObject *)(object), (int)(node));
-                reinterpret_cast<::FUN_00844700_Class *>(&(unkc4->others))->FUN_00844700((std::uintptr_t)target, (unsigned int)reference);
+                reinterpret_cast<::FUN_00844700_Class *>(&(unkc4->others))->FUN_00844700((std::uintptr_t)target, (std::uintptr_t)reference);
             }
         }
     }

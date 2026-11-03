@@ -128,6 +128,7 @@ void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, const ArrowDrawVec
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "fnv/symbols_01011000.h"
+#include "fnv/symbols_simd.h"
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_0101f000.h"
 
@@ -140,15 +141,28 @@ class __declspec(align(16)) hkVector4
     {}
     hkVector4(const hkVector4& v)
     {
-        m_v = v.m_v;
+        m_vComponents = v.m_vComponents;
     }
     void setSubMul4(const hkVector4& a, const hkVector4& b, hkReal r)
     {
         __m128 s = _mm_load_ss(&r);
         s = _mm_shuffle_ps(s, s, 0);
-        m_v = _mm_sub_ps(a.m_v, _mm_mul_ps(s, b.m_v));
+        m_vComponents = _mm_sub_ps(a.m_vComponents, _mm_mul_ps(s, b.m_vComponents));
     }
-    __m128 m_v;
+    __forceinline void normalize3()
+    {
+        __m128 m = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 len2 = _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
+        __m128 est = _mm_rsqrt_ss(len2);
+        __m128 zero = _mm_set_ss(0.0f);
+        __m128 three = _mm_set_ss(3.0f);
+        __m128 half = _mm_set_ss(0.5f);
+        __m128 step = _mm_mul_ss(_mm_mul_ss(half, est), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, est), est)));
+        __m128 inv = _mm_andnot_ps(_mm_cmpeq_ss(len2, zero), step);
+        m_vComponents = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), m_vComponents);
+    }
+    void FUN_00c7f700(const struct hkRotation* r, const hkVector4* v);
+    __m128 m_vComponents;
 };
 
 class hkMatrix3
@@ -249,7 +263,7 @@ static __forceinline __m128 RotateInitial(const Quat& quat, const __m128& vector
     const __m128& v = vector;
     __m128 q = *(const __m128*)&quat;
     __m128 w = _mm_shuffle_ps(q, q, 0xff);
-    __m128 factor = _mm_add_ps(*(const __m128*)(*reinterpret_cast<float (*)[4]>((void *)&::DAT_010c71e0)), _mm_mul_ps(w, w));
+    __m128 factor = _mm_add_ps(::DAT_010c71e0, _mm_mul_ps(w, w));
     __m128 scaled = _mm_mul_ps(v, factor);
     __m128 m = _mm_mul_ps(q, v);
     __m128 sumxy = _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m);
@@ -268,7 +282,7 @@ static __forceinline __m128 Rotate(const Quat& quat, const __m128& vector)
     __m128 v = vector;
     __m128 q = *(const __m128*)&quat;
     __m128 w = _mm_shuffle_ps(q, q, 0xff);
-    __m128 factor = _mm_add_ps(*(const __m128*)(*reinterpret_cast<float (*)[4]>((void *)&::DAT_010c71e0)), _mm_mul_ps(w, w));
+    __m128 factor = _mm_add_ps(::DAT_010c71e0, _mm_mul_ps(w, w));
     __m128 scaled = _mm_mul_ps(v, factor);
     __m128 m = _mm_mul_ps(q, v);
     __m128 sumxy = _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m);
@@ -362,7 +376,7 @@ extern const double DAT_010eacc0;
 
 static __forceinline __m128 PlaneDrawRotate(__m128 q, __m128 p)
 {
-    __m128 nh = (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c71e0));
+    __m128 nh = ::DAT_010c71e0;
     __m128 qw = _mm_shuffle_ps(q, q, 0xff);
     __m128 factor = _mm_add_ps(nh, _mm_mul_ps(qw, qw));
     __m128 sum = _mm_mul_ps(p, factor);

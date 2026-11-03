@@ -115,6 +115,7 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpWorld.h"
+#include "havok/hkpSimulation.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "fnv/decl/S_00ce5290.h"
 #include "fnv/symbols_simd.h"
@@ -447,13 +448,14 @@ void FUN_00c90e40(void* self, int arg)
     (*(void (**)(void*))(*(char**)self + 0x1c))(self);
 }
 
-struct FUN_00cf86e0_class {
+struct FUN_00cf86e0_class : public hkpSimulation {
     void FUN_00cf86e0(float);
 };
+// Forwards the value to the world's simulation.
 // @fnv 0x00c91040
 void FUN_00c91040(void* p, int edx, float afValue)
 {
-    ((FUN_00cf86e0_class*)*((char**)p + 2))->FUN_00cf86e0(afValue);
+    static_cast<FUN_00cf86e0_class*>(static_cast<hkpWorld*>(p)->m_pSimulation)->FUN_00cf86e0(afValue);
 }
 
 struct RefObj {  };

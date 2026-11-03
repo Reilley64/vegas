@@ -838,10 +838,10 @@ extern int DAT_01066e2c;
 struct FUN_0066d6a0 : bhkConvexShape
 {
     int* vtbl;
-    FUN_0066d6a0(int a);
+    FUN_0066d6a0(intptr_t a);
 };
 // @fnv 0x0066d6a0
-FUN_0066d6a0::FUN_0066d6a0(int a)
+FUN_0066d6a0::FUN_0066d6a0(intptr_t a)
 {
     vtbl = &DAT_01066e2c;
     reinterpret_cast<::SpawnedSourceOwner *>(this)->FUN_00cab820((::SpawnedSource *)(a));

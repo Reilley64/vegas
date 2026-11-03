@@ -223,10 +223,10 @@ char FUN_005a7c00_class::FUN_005a7c00(BSSimpleListBase* other)
 
 struct FUN_005a8e20_cls
 {
-    char FUN_005a8ef0(int param_2, int param_3);
+    char FUN_005a8ef0(intptr_t param_2, int param_3);
 };
 // @fnv 0x005a8ef0
-char FUN_005a8e20_cls::FUN_005a8ef0(int param_2, int param_3)
+char FUN_005a8e20_cls::FUN_005a8ef0(intptr_t param_2, int param_3)
 {
     int result = ((int)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(void *)((void*)param_2), false)));
     if (!result)
@@ -470,11 +470,11 @@ struct FUN_005a7b00_Class
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int m_24;
-    void InitializeFromRecord(unsigned int id);
+    void InitializeFromRecord(uintptr_t id);
 };
 // Looks up a record by id, copies its m_24 field into this object's m_24, then calls FUN_004851b0 with the id.
 // @fnv 0x005a7b00
-void FUN_005a7b00_Class::InitializeFromRecord(unsigned int id)
+void FUN_005a7b00_Class::InitializeFromRecord(uintptr_t id)
 {
     FUN_005a7b00_Record* record = FUN_00ec43fb(id, 0, &DAT_01183028, &DAT_01186490, 0);
     if (record == 0)

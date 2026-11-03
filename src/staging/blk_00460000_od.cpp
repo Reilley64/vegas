@@ -236,11 +236,11 @@ void FUN_00464f40_class::FUN_00464f40()
 
 struct NavMesh
 {
-    NavMesh* FUN_00464ff0(int);
+    NavMesh* FUN_00464ff0(intptr_t);
 };
 
 // @fnv 0x00464ff0
-NavMesh* NavMesh::FUN_00464ff0(int a)
+NavMesh* NavMesh::FUN_00464ff0(intptr_t a)
 {
     reinterpret_cast<::Holder42 *>(this)->FUN_0042fd70((char *)(a));
     return this;

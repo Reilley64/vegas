@@ -399,7 +399,7 @@ void FUN_0064deb0_Class::ForwardToFUN0064df50(int a, int b, intptr_t c, int d)
     Insert(a, b, c, d);
 }
 
-extern "C" void __cdecl FUN_0064e3f0(int, int, intptr_t);
+extern "C" void __cdecl FUN_0064e3f0(intptr_t, intptr_t, intptr_t);
 
 struct FUN_0064dee0_Class
 {
@@ -467,7 +467,7 @@ void FUN_0064e7d0_class::FUN_0064e7d0(void* apFirst, void* apSecond)
     ::CopyConstructBlock(apFirst, (::S_0064e8c0_Blk *)(apSecond));
 }
 
-extern "C" void __cdecl FUN_0064e920(int, int, int, int);
+extern "C" void __cdecl FUN_0064e920(int, int, intptr_t, intptr_t);
 
 // @fnv 0x0064e840
 void __cdecl ForwardToHandler(int aiArg1, int aiArg2, intptr_t aiArg3, intptr_t aiArg4)
@@ -491,7 +491,7 @@ void DecalStub::FUN_00654700(float afValue)
 
 struct FUN_00657880_class
 {
-    bool FUN_00658160(int);
+    bool FUN_00658160(intptr_t);
     bool operator==(int other);
 };
 
@@ -521,7 +521,7 @@ struct FUN_00657fd0
 {
     void Method_00657fd0();
 };
-extern "C" void __cdecl FUN_00658bd0(int a1, int a2, int a3);
+extern "C" void __cdecl FUN_00658bd0(intptr_t a1, intptr_t a2, int a3);
 
 struct FUN_00657ff0_Class
 {
@@ -1070,7 +1070,7 @@ void FUN_0065e970(void* apBegin, void* apEnd, void* apTarget)
         ((FUN_0065ea60_class*)apTarget)->FUN_0065ea60(apBegin);
 }
 
-extern "C" void __cdecl FUN_0065eb00(int);
+extern "C" void __cdecl FUN_0065eb00(intptr_t);
 
 struct FUN_0065e9c0_class
 {
@@ -1096,7 +1096,6 @@ void FUN_0065e9e0_Class::FUN_0065e9e0(void* a)
     FUN_0065eb10(a);
 }
 
-extern "C" void __cdecl FUN_0065eb30(int);
 
 struct FUN_0065ea20_Class
 {
@@ -1109,7 +1108,7 @@ void FUN_0065ea20_Class::FUN_0065ea20(int aiValue)
     FUN_0065eb30(aiValue);
 }
 
-void FUN_0065eb40(int a);
+void FUN_0065eb40(intptr_t a);
 
 struct FUN_0065ea40_class
 {
@@ -1514,21 +1513,21 @@ int FUN_0064e300_Class::FUN_0064e300()
 
 struct FUN_0064e340_class
 {
-    void* FUN_0064e340(int a, int b, int c);
+    void* FUN_0064e340(intptr_t a, intptr_t b, intptr_t c);
 };
 
 // Calls FUN_0064e550 with a, b, c and this+8, then returns a + (b << 4).
 // @fnv 0x0064e340
-void* FUN_0064e340_class::FUN_0064e340(int pBase, int b, int c)
+void* FUN_0064e340_class::FUN_0064e340(intptr_t pBase, intptr_t b, intptr_t c)
 {
     ::FUN_0064e550((::C64E550Element *)(pBase), (::C64E550Element *)(b), (::C64E550Element *)(c), (::C64E550Allocator *)(void *)((char*)this + 8));
     return (char*)pBase + (b << 4);
 }
 
 char __cdecl FUN_0065e750(int*, int*);
-extern "C" void __cdecl FUN_0064e3f0(int, int, intptr_t);
+extern "C" void __cdecl FUN_0064e3f0(intptr_t, intptr_t, intptr_t);
 // @fnv 0x0064e3f0
-extern "C" void __cdecl FUN_0064e3f0(int a, int b, intptr_t c)
+extern "C" void __cdecl FUN_0064e3f0(intptr_t a, intptr_t b, intptr_t c)
 {
     char v = FUN_0065e750(&a, &b);
     ::FUN_0064e600((int *)(a), (int *)(b), (::FUN_0065e9a0_holder *)(c));
@@ -1536,7 +1535,7 @@ extern "C" void __cdecl FUN_0064e3f0(int a, int b, intptr_t c)
 
 int __cdecl CallWithFlag(int* p);
 // @fnv 0x0064e4b0
-void __cdecl FUN_0064e4b0(int a, int b, int c)
+void __cdecl FUN_0064e4b0(int a, int b, intptr_t c)
 {
     ::FUN_0064e680((::FUN_0064e680_S *)(CallWithFlag(&a)), (::FUN_0064e680_S *)(CallWithFlag(&b)), (::FUN_0064e680_S *)(c));
 }
@@ -1664,7 +1663,7 @@ unsigned Dummy658130::FUN_00658130()
 unsigned char __cdecl FUN_0065e750(void*, void*);
 // Computes a byte from a1 and a2 via FUN_0065e750, then passes a1, a2, a3 and that byte to FUN_00659260.
 // @fnv 0x00658bd0
-void FUN_00658bd0(int a1, int a2, intptr_t a3)
+void FUN_00658bd0(intptr_t a1, intptr_t a2, intptr_t a3)
 {
     unsigned char tmp = FUN_0065e750(&a1, &a2);
     ::FUN_00659260((void *)(a1), (void *)(a2), (::FUN_006592f0 *)(a3));
@@ -1674,9 +1673,9 @@ namespace fnv_00658c60 {
 unsigned char __cdecl FUN_0065e750(int*, int*);
 // Calls FUN_0065e750 on a and b to get a byte, then passes a, b, c and that byte to ForEachItem.
 // @fnv 0x00658c60
-void FUN_00658c60(int a, int b, intptr_t c)
+void FUN_00658c60(intptr_t a, intptr_t b, intptr_t c)
 {
-    unsigned char d = FUN_0065e750(&a, &b);
+    unsigned char d = FUN_0065e750((int*)&a, (int*)&b);
     ::ForEachItem((void *)(a), (void *)(b), (::FUN_00659310_ *)(c));
 }
 }  // namespace fnv_00658c60
@@ -1811,7 +1810,7 @@ struct FUN_00659380_cls
 };
 
 // @fnv 0x00659360
-void __cdecl FUN_00659360(int a)
+void __cdecl FUN_00659360(intptr_t a)
 {
     ((FUN_00659380_cls*)a)->FUN_00659380(0);
 }
@@ -1821,7 +1820,7 @@ struct FUN_006593b0_class
     void FUN_006593b0(int a);
 };
 // @fnv 0x00659370
-void __cdecl FUN_00659370(int a)
+void __cdecl FUN_00659370(intptr_t a)
 {
     ((FUN_006593b0_class*)a)->FUN_006593b0(0);
 }
@@ -1900,11 +1899,11 @@ struct FUN_00659500_Holder
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    FUN_00659500_Holder* InitSemaphore(int a, int b);
+    FUN_00659500_Holder* InitSemaphore(intptr_t a, intptr_t b);
 };
 // Stores the two integer arguments and creates a semaphore with them as initial and maximum counts, returning this.
 // @fnv 0x00659500
-FUN_00659500_Holder* FUN_00659500_Holder::InitSemaphore(int aiInitialCount, int aiMaxCount)
+FUN_00659500_Holder* FUN_00659500_Holder::InitSemaphore(intptr_t aiInitialCount, intptr_t aiMaxCount)
 {
     m_iWordAt00 = (void*)aiInitialCount;
     m_iWordAt04 = (void*)aiMaxCount;
@@ -2293,7 +2292,7 @@ struct S_0065eb90
 {
 };
 // @fnv 0x0065eac0
-int FUN_0065eac0(int pBegin, int pEnd, int pDest)
+int FUN_0065eac0(intptr_t pBegin, int pEnd, intptr_t pDest)
 {
     for (; pBegin != pEnd; pDest += 0x58, pBegin += 0x58)
         reinterpret_cast<::FUN_0065eb90 *>((((S_0065eb90*)pDest)))->operator=((*(const ::FUN_0065eb90 *)(pBegin)));
@@ -2306,7 +2305,7 @@ struct FUN_0065ec10_class
 };
 
 // @fnv 0x0065eb00
-void __cdecl FUN_0065eb00(int a)
+void __cdecl FUN_0065eb00(intptr_t a)
 {
     ((FUN_0065ec10_class*)(void*)a)->FUN_0065ec10(0);
 }
@@ -2340,7 +2339,7 @@ struct FUN_0065ed00_Class
     void FUN_0065ed00(int a);
 };
 // @fnv 0x0065eb50
-void __cdecl FUN_0065eb50(int a)
+void __cdecl FUN_0065eb50(intptr_t a)
 {
     ((FUN_0065ed00_Class*)a)->FUN_0065ed00(0);
 }
@@ -2391,7 +2390,7 @@ struct FUN_0065ecd0_class
     void* FUN_0065ecd0(unsigned int flags);
 };
 // @fnv 0x0065eb40
-void FUN_0065eb40(int a)
+void FUN_0065eb40(intptr_t a)
 {
     reinterpret_cast<::FUN_0065ecd0_class *>((((FUN_0065ecd0_Class*)a)))->FUN_0065ecd0(0);
 }
@@ -2750,7 +2749,7 @@ struct H_0060b3b0
 {
 };
 // @fnv 0x00658160
-bool FUN_00657880_class::FUN_00658160(int other)
+bool FUN_00657880_class::FUN_00658160(intptr_t other)
 {
     if (*(unsigned int*)((char*)other + 0x18) != *(unsigned int*)((char*)this + 0x18) ||
         *(unsigned int*)((char*)other + 0x1c) != *(unsigned int*)((char*)this + 0x1c))
@@ -3242,7 +3241,7 @@ unsigned int FUN_0065def0_class::FUN_0065def0()
 }
 
 // @fnv 0x0065eb30
-void* __cdecl FUN_0065eb30(unsigned int a)
+void* __cdecl FUN_0065eb30(uintptr_t a)
 {
     return ((FUN_0065eca0_class*)a)->FUN_0065eca0(0);
 }
@@ -4233,7 +4232,7 @@ struct CheckedTag64e9
 {
 };
 // @fnv 0x0064e920
-extern "C" void __cdecl FUN_0064e920(int a, int b, int c, int iFourth)
+extern "C" void __cdecl FUN_0064e920(int a, int b, intptr_t c, intptr_t iFourth)
 {
     FlagBox5317 flag1 = {};
     unsigned char flag2 = FUN_0065e750((void*)&a, (void*)&c);
@@ -4601,11 +4600,11 @@ struct FUN_00657ee0_cls
     unsigned int m_14;
 
     static void __cdecl Grow();
-    bool FUN_00657ee0(unsigned int a);
+    bool FUN_00657ee0(uintptr_t a);
 };
 
 // @fnv 0x00657ee0
-bool FUN_00657ee0_cls::FUN_00657ee0(unsigned int a)
+bool FUN_00657ee0_cls::FUN_00657ee0(uintptr_t a)
 {
     m_0c = 0;
     m_10 = 0;
@@ -7160,7 +7159,7 @@ struct Tag
 
 
 // @fnv 0x0064e5a0
-int __cdecl FUN_0064e5a0(int a1, int a2, int a3)
+int __cdecl FUN_0064e5a0(intptr_t a1, intptr_t a2, int a3)
 {
     int value = (((a2 - a1) >> 4) << 4) + a3;
     Tag x1 = {};
@@ -7879,7 +7878,7 @@ void FUN_006592f0_Class::FUN_006592f0(int a)
 }  // namespace fnv_006592f0
 
 namespace fnv_00659310 {
-extern "C" int __cdecl FUN_00659370(int);
+extern "C" int __cdecl FUN_00659370(intptr_t);
 
 struct FUN_00659310_Class
 {
@@ -7976,7 +7975,7 @@ FUN_00658f30::FUN_00658f30(const FUN_00658f30& other) : rows(other.rows), column
 
 unsigned int __cdecl FUN_00ec7c56(void);
 
-void FUN_00658bd0(int a1, int a2, int a3);
+void FUN_00658bd0(intptr_t a1, intptr_t a2, int a3);
 
 unsigned int __cdecl FUN_00ec7c56(void);
 
@@ -7986,7 +7985,7 @@ void FUN_0065e510(int a, int b, int c);
 
 void __cdecl FUN_0065e5a0(int a, int b, int c);
 
-void __cdecl FUN_0065eb00(int a);
+void __cdecl FUN_0065eb00(intptr_t a);
 
 void FUN_0065ee50_Helper(void*, unsigned int, int, void (*)());
 

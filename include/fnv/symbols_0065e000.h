@@ -68,14 +68,14 @@ void FUN_0065e970(void *, void *, void *);
 // 0x0065ea80
 char *FUN_0065ea80(char *, char *, char *);
 // 0x0065eac0
-int FUN_0065eac0(int, int, int);
+int FUN_0065eac0(intptr_t, int, intptr_t);
 // 0x0065eb10
 void FUN_0065eb10(::FUN_0065ec40_class *, int);
 // 0x0065eb20
 void FUN_0065eb20(::FUN_0065ec70_class *);
 // 0x0065eb30
-void *FUN_0065eb30(unsigned int);
+void *FUN_0065eb30(uintptr_t);
 // 0x0065eb40
-void FUN_0065eb40(int);
+void FUN_0065eb40(intptr_t);
 // 0x0065eb50
-void FUN_0065eb50(int);
+void FUN_0065eb50(intptr_t);

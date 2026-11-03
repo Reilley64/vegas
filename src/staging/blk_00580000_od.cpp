@@ -318,11 +318,11 @@ struct FUN_00589030_Class
 struct FUN_00580680_Class
 {
     virtual ~FUN_00580680_Class();
-    virtual void FUN_00580680(int a);
+    virtual void FUN_00580680(intptr_t a);
 };
 
 // @fnv 0x00580680
-void FUN_00580680_Class::FUN_00580680(int a)
+void FUN_00580680_Class::FUN_00580680(intptr_t a)
 {
     if (this == (FUN_00580680_Class*)a)
     {
@@ -672,11 +672,11 @@ struct Holder730
 {
     char _pad[0x2c];
     int m_2c;
-    void FUN_0058b730(int);
+    void FUN_0058b730(intptr_t);
 };
 // If a1 and m_2c are both nonzero, calls FUN_0058b680 with a1 and passes its result to RemoveSoundAt.
 // @fnv 0x0058b730
-void Holder730::FUN_0058b730(int a1)
+void Holder730::FUN_0058b730(intptr_t a1)
 {
     int v;
     if (a1 != 0 && m_2c != 0)
@@ -875,7 +875,7 @@ void* FUN_005922a0(unsigned int index)
 
 // Returns true when aiType is 1 and the int at aiParam+4 is one of 0,1,2,3,9,10; otherwise false.
 // @fnv 0x00594d60
-bool IsValidTypeValue(int aiParam, int aiType)
+bool IsValidTypeValue(intptr_t aiParam, int aiType)
 {
     bool bResult = false;
     if (aiType == 1)

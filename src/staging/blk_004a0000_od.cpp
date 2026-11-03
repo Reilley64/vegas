@@ -360,10 +360,10 @@ unsigned short FUN_004a8ab0_shell::GetActorBaseFatigue()
 
 struct FUN_004a9950_Class
 {
-    void SetValue(int a, int b, char c);
+    void SetValue(intptr_t a, int b, char c);
 };
 // @fnv 0x004a9950
-void FUN_004a9950_Class::SetValue(int a, int iValue, char c)
+void FUN_004a9950_Class::SetValue(intptr_t a, int iValue, char c)
 {
     *(int*)((char*)a + 4) = iValue;
     *(char*)((char*)a + 8) = c;

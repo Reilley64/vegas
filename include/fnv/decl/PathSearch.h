@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class SearchNode;
 struct PathNode;
@@ -8,7 +9,7 @@ public:
     // 0x006b3a30
     ::SearchNode *FUN_006b3a30();
     // 0x006f3d90
-    bool FindPath(int, int, bool);
+    bool FindPath(intptr_t, intptr_t, bool);
     // 0x00996860
     ::PathNode *FindPath();
 };

@@ -280,7 +280,7 @@ void FUN_00709c80(bool abValue)
 
 
 // @fnv 0x00709d20
-void __cdecl FUN_00709d20(int aiValue)
+void __cdecl FUN_00709d20(intptr_t aiValue)
 {
     ::FUN_007a1880((::EffectSetting *)(aiValue));
 }
@@ -391,14 +391,14 @@ void FUN_0071aa60_class::FUN_0071aa60(bool value)
 
 
 // @fnv 0x0071cfd0
-void __cdecl FUN_0071cfd0(int aiArg1, int aiArg2, int aiArg3)
+void __cdecl FUN_0071cfd0(intptr_t aiArg1, intptr_t aiArg2, int aiArg3)
 {
     fnv::crt::strnicmp((const char *)(aiArg1), (const char *)(aiArg2), aiArg3);
 }
 
 
 // @fnv 0x0071cff0
-void __cdecl FUN_0071cff0(int aiArg1, int aiArg2, int aiArg3)
+void __cdecl FUN_0071cff0(intptr_t aiArg1, intptr_t aiArg2, int aiArg3)
 {
     fnv::crt::strnicmp((const char *)(aiArg1), (const char *)(aiArg2), aiArg3);
 }
@@ -801,7 +801,7 @@ struct FUN_00719250_class
     void* a;
     void* b;
     int c;
-    FUN_00719250_class* Construct(int, int, int);
+    FUN_00719250_class* Construct(intptr_t, int, int);
 };
 void __cdecl FUN_007192c0();
 struct FUN_00719290_class
@@ -1423,7 +1423,7 @@ class FUN_00719160_cls
 };
 // Calls FUN_00719160 with p2 and p4, sets vtbl to DAT_0106f430 and c to p3, then returns this.
 // @fnv 0x00719250
-FUN_00719250_class* FUN_00719250_class::Construct(int aiArg1, int aiValue, int aiArg2)
+FUN_00719250_class* FUN_00719250_class::Construct(intptr_t aiArg1, int aiValue, int aiArg2)
 {
     new ((void *)this) ::FUN_00719160_cls((const char *)(aiArg1), aiArg2);
     vtbl = &DAT_0106f430;

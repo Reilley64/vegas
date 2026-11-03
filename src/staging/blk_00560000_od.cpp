@@ -1133,7 +1133,7 @@ struct FUN_0057cb20_Class
     void* m_iWordAt00;
     int m_iWordAt04;
     unsigned int m_8;
-    void FUN_0057cb20(int a);
+    void FUN_0057cb20(intptr_t a);
 };
 struct FUN_0057cc10_Cls
 {
@@ -1150,7 +1150,7 @@ struct FUN_0057cc10_Cls
     void FUN_0057cc10(intptr_t, intptr_t);
 };
 // @fnv 0x0057cb20
-void FUN_0057cb20_Class::FUN_0057cb20(int pTarget)
+void FUN_0057cb20_Class::FUN_0057cb20(intptr_t pTarget)
 {
     reinterpret_cast<::FUN_00621c90_Class *>((this))->FUN_00626870();
     if (!(m_8 & 0x80000000))
@@ -2805,11 +2805,11 @@ class Ref56B0
     {
         return static_cast<TESForm56B0*>(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<RefObj*>(this)))->FUN_007af430())));
     }
-    void FUN_0056b020(int iA, int iB);
+    void FUN_0056b020(intptr_t iA, intptr_t iB);
 };
 
 // @fnv 0x0056b020
-void Ref56B0::FUN_0056b020(int iA, int iB)
+void Ref56B0::FUN_0056b020(intptr_t iA, intptr_t iB)
 {
     if (((::TESForm56B0 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((::TESForm56B0 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->vf0F8())
     {

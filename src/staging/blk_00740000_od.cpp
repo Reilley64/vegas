@@ -154,11 +154,11 @@ void FUN_00753210Class::FUN_00753210()
 
 struct FUN_00754a00_cls
 {
-    void FUN_00754930(int a1);
+    void FUN_00754930(intptr_t a1);
 };
 
 // @fnv 0x00754930
-void FUN_00754a00_cls::FUN_00754930(int a1)
+void FUN_00754a00_cls::FUN_00754930(intptr_t a1)
 {
     reinterpret_cast<::Proxy_754a00 *>(this)->SetTraitSelected((void *)(a1), 2);
 }

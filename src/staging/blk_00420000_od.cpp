@@ -4124,11 +4124,11 @@ struct FUN_00436b20 : BE
     unsigned int unk04;
     unsigned int unk08;
     CloneRef* unk0c;
-    FUN_00436b20(unsigned int first, unsigned int second);
+    FUN_00436b20(uintptr_t first, unsigned int second);
 };
 // Sets the vtable pointer, stores the result of FUN_00436780(first, second) in unk0c, then calls FUN_00575830 on it with second's v125() point.
 // @fnv 0x00436b20
-FUN_00436b20::FUN_00436b20(unsigned int first, unsigned int second) : BE(0x55)
+FUN_00436b20::FUN_00436b20(uintptr_t first, unsigned int second) : BE(0x55)
 {
     *(void**)this = (void*)&DAT_01015f24;
     unk0c = ((CloneFactory*)this)->FUN_00436780((void*)first, (CloneSource*)second);

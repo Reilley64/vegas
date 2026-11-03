@@ -612,10 +612,10 @@ struct TESObjectREFR
 };
 struct FUN_00626d00_Class
 {
-    void SetObjectFlags(unsigned int flags);
+    void SetObjectFlags(uintptr_t flags);
 };
 // @fnv 0x00626d00
-void FUN_00626d00_Class::SetObjectFlags(unsigned int flags)
+void FUN_00626d00_Class::SetObjectFlags(uintptr_t flags)
 {
     reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)((char*)this + 0x14))))->AssignLandTexture((::TESLandTexture *)(flags));
 }
@@ -697,12 +697,12 @@ FUN_006299f0_Class* FUN_006299f0_Class::Construct(int aiValue)
 
 struct FUN_00629e20_Class
 {
-    void FUN_00629e20(int a, int b, int c);
+    void FUN_00629e20(intptr_t a, int b, int c);
 };
 
 // Stores c at offset 4 and the low 16 bits of b at offset 8 of the object at a.
 // @fnv 0x00629e20
-void FUN_00629e20_Class::FUN_00629e20(int pObject, int iValue, int sValue)
+void FUN_00629e20_Class::FUN_00629e20(intptr_t pObject, int iValue, int sValue)
 {
     *(int*)((char*)pObject + 4) = iValue;
     *(short*)((char*)pObject + 8) = (short)sValue;
@@ -1358,7 +1358,7 @@ struct FUN_00621c90_Class
     int m_kPointB;
     int m_auiShapeKeys;
     void FUN_00626870();
-    void FUN_00621c90(int arg);
+    void FUN_00621c90(intptr_t arg);
 };
 struct S_621ce0
 {
@@ -1375,7 +1375,7 @@ struct S_621ce0
     void FUN_00621ce0(int, intptr_t);
 };
 // @fnv 0x00621c90
-void FUN_00621c90_Class::FUN_00621c90(int arg)
+void FUN_00621c90_Class::FUN_00621c90(intptr_t arg)
 {
     FUN_00626870();
     if (!(m_kPointB & 0x80000000))
@@ -1747,10 +1747,10 @@ struct H_A100
 };
 struct FUN_00629f70_Class
 {
-    void FUN_00629f70(int a, int c);
+    void FUN_00629f70(intptr_t a, int c);
 };
 // @fnv 0x00629f70
-void FUN_00629f70_Class::FUN_00629f70(int a, int c)
+void FUN_00629f70_Class::FUN_00629f70(intptr_t a, int c)
 {
     int d = (int)((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()));
     if (d < c)
@@ -2446,7 +2446,7 @@ struct FUN_00620680_Class
 {
     int m_auiShapeKeys;
     FUN_00620300_Class* m_kNode;
-    AnimIdle* FUN_00620680(int key, int pad);
+    AnimIdle* FUN_00620680(intptr_t key, int pad);
 };
 
 struct FUN_00620850 : public GO
@@ -2607,7 +2607,7 @@ struct FUN_00620300_cls
     Derived_620* FindDerivedByKey(void* key);
 };
 // @fnv 0x00620680
-AnimIdle* FUN_00620680_Class::FUN_00620680(int key, int pad)
+AnimIdle* FUN_00620680_Class::FUN_00620680(intptr_t key, int pad)
 {
     if (m_kNode)
     {
@@ -2980,13 +2980,13 @@ struct Obj
 struct TileSetHelper
 {
     Obj* FUN_006232f0(int a1);
-    void SetTileSetValues(int a1, int a2, int a3);
+    void SetTileSetValues(int a1, intptr_t a2, intptr_t a3);
 };
 
 
 // Looks up an object by index and stores its two values into the given slots via FUN_00458620.
 // @fnv 0x00623370
-void TileSetHelper::SetTileSetValues(int aiIndex, int a2, int a3)
+void TileSetHelper::SetTileSetValues(int aiIndex, intptr_t a2, intptr_t a3)
 {
     Obj* obj = FUN_006232f0(aiIndex);
     ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(a2)), (*(const ::hkVector4 *)(((int)(new ((void *)(obj)) ::Vec3())))));

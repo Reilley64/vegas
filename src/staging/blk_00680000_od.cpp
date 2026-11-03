@@ -319,11 +319,11 @@ struct GO
 struct FUN_00691a30_class
 {
     GO m0;
-    void FUN_00691a30(int a);
+    void FUN_00691a30(intptr_t a);
 };
 // Clears the pointer at offset 8 of the passed object and forwards it to FUN_00659080 on this+0xc.
 // @fnv 0x00691a30
-void FUN_00691a30_class::FUN_00691a30(int pObject)
+void FUN_00691a30_class::FUN_00691a30(intptr_t pObject)
 {
     ((GO*)((char*)pObject + 8))->operator=(0);
     reinterpret_cast<::FUN_00659080_Class *>((((FUN_00691a30_class*)((char*)this + 0xc))))->FUN_00659080((::FUN_00659140_Class *)(pObject));
@@ -1925,7 +1925,7 @@ struct BSSimpleArrayActor
     unsigned int mCapacity;
 
     void Clear(bool shrink);
-    void Resize(unsigned int size, bool shrink);
+    void Resize(uintptr_t size, bool shrink);
 };
 
 struct FUN_0072ba80_shell
@@ -1933,7 +1933,7 @@ struct FUN_0072ba80_shell
 };
 
 // @fnv 0x0069cd60
-void BSSimpleArrayActor::Resize(unsigned int size, bool shrink)
+void BSSimpleArrayActor::Resize(uintptr_t size, bool shrink)
 {
     if (size == 0)
     {
@@ -2845,12 +2845,12 @@ struct FUN_0069d050_cls
     int unk00;
     char* m_04;
     unsigned int m_08;
-    void CopyRecordsTo(int a1);
+    void CopyRecordsTo(intptr_t a1);
 };
 
 // Calls Resize with m_08 and 1, then copies each 6-byte record from m_04 into the destination obtained via FUN_0069ccf0.
 // @fnv 0x0069d050
-void FUN_0069d050_cls::CopyRecordsTo(int apTarget)
+void FUN_0069d050_cls::CopyRecordsTo(intptr_t apTarget)
 {
     reinterpret_cast<::fnv_0069cd60::BSSimpleArrayActor *>((((FUN_0069cd60_class*)apTarget)))->Resize(m_08, 1);
     for (unsigned int i = 0; i < m_08; i++)

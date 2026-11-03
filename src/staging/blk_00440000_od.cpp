@@ -511,7 +511,7 @@ void* __cdecl FUN_0044e440(void* a, uintptr_t b, void* c, uintptr_t d)
 
 
 // @fnv 0x0044e460
-void __cdecl FUN_0044e460(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void __cdecl FUN_0044e460(intptr_t aiArg1, int aiArg2, int aiArg3, intptr_t aiArg4)
 {
     ::FUN_0044e480((void *)(aiArg1), aiArg2, aiArg3, (void *)(aiArg4));
 }
@@ -1946,7 +1946,7 @@ struct FUN_0044d5c0_Cls
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    int FUN_0044d5c0(int);
+    int FUN_0044d5c0(intptr_t);
 };
 struct S_0044dbc0
 {
@@ -2374,7 +2374,7 @@ struct FUN_00541570_shell
 };
 struct FUN_00457880_Class
 {
-    unsigned int FUN_00457880(int);
+    unsigned int FUN_00457880(intptr_t);
 };
 struct NiPoint3
 {
@@ -2753,11 +2753,11 @@ struct TL
 };
 struct FUN_0045c570_Class : BSFaceGenNiNode
 {
-    void FUN_0045c570(unsigned int a);
+    void FUN_0045c570(uintptr_t a);
 };
 // Sets the given flags on this node's object 3D and on each node in the linked list at offset 0xd0.
 // @fnv 0x0045c570
-void FUN_0045c570_Class::FUN_0045c570(unsigned int uiFlags)
+void FUN_0045c570_Class::FUN_0045c570(uintptr_t uiFlags)
 {
     reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((Model*)GetAnimationData()))))))))->AssignLandTexture((::TESLandTexture *)(uiFlags));
     unsigned int p = *(Flt*)((char*)this + 0xd0);
@@ -2833,7 +2833,7 @@ struct FUN_0044e3a0_Class
     int FUN_0044e3a0(FUN_0044e3a0_Arg* arg);
 };
 // @fnv 0x0044d5c0
-int FUN_0044d5c0_Cls::FUN_0044d5c0(int a)
+int FUN_0044d5c0_Cls::FUN_0044d5c0(intptr_t a)
 {
     int r;
     r = FUN_0044d5b0(m_iWordAt04);
@@ -3009,7 +3009,7 @@ struct FUN_00451900_shell
     Vector3* FUN_00457720(const Vector2*);
 };
 // @fnv 0x00457880
-unsigned int FUN_00457880_Class::FUN_00457880(int arg)
+unsigned int FUN_00457880_Class::FUN_00457880(intptr_t arg)
 {
     unsigned int pRes;
     FUN_00541570_shell* pObj;
@@ -3338,7 +3338,7 @@ struct C44E4A0RangeTag
 };
 // Calls FUN_0044e4a0 with the results of CallWithFlag on p1 and p2, p3, a char from FUN_0065fd70, and the bool from FUN_0065e750.
 // @fnv 0x0044d600
-void __cdecl FUN_0044d600(Value aValue1, Value aValue2, int aiArg)
+void __cdecl FUN_0044d600(Value aValue1, Value aValue2, intptr_t aiArg)
 {
     Flag zero = {};
     bool result = ((bool)(::FUN_0065e750(&aValue1, &aiArg)));
@@ -4669,7 +4669,7 @@ struct Obj_00458440
     int unk04;
     GridCellArray* m_08;
     void Notify(int a);
-    int ApplyOrNotify(int a, bool b);
+    int ApplyOrNotify(intptr_t a, bool b);
 };
 // @fnv 0x00458420
 void FUN_00458420_cls::FUN_00458420(int aiValue)
@@ -4717,7 +4717,7 @@ struct Source08
 };
 // If b is set, finds a Target_00458440 (falling back to a grid cell) and applies a to it, returning the result or 0; otherwise calls Notify(a).
 // @fnv 0x00458440
-int Obj_00458440::ApplyOrNotify(int a, bool abApply)
+int Obj_00458440::ApplyOrNotify(intptr_t a, bool abApply)
 {
     if (abApply)
     {

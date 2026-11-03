@@ -123,12 +123,12 @@ struct TESSaveLoadGame
 
 struct FUN_00484d20_Class
 {
-    void ForwardToSaveLoadGame(int a, int b);
+    void ForwardToSaveLoadGame(intptr_t a, int b);
 };
 
 // Calls FUN_00857a10 on g_TESSaveLoadGame, passing both arguments through.
 // @fnv 0x00484d20
-void FUN_00484d20_Class::ForwardToSaveLoadGame(int a, int b)
+void FUN_00484d20_Class::ForwardToSaveLoadGame(intptr_t a, int b)
 {
     reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(a), b);
 }
@@ -439,12 +439,12 @@ namespace fnv_0048b500 {
 
 struct FUN_0048b500_Class
 {
-    void ResetAndDeallocate(int param_2);
+    void ResetAndDeallocate(intptr_t param_2);
 };
 
 // Clears the int at offset 8 of the given object, then passes that object to Deallocate.
 // @fnv 0x0048b500
-void FUN_0048b500_Class::ResetAndDeallocate(int pObject)
+void FUN_0048b500_Class::ResetAndDeallocate(intptr_t pObject)
 {
     *(int*)(pObject + 8) = 0;
     int local = pObject;
@@ -632,7 +632,7 @@ void* S486f40::FUN_00486f40(intptr_t aiArg, bool abFlag)
 struct IdleAnimationManager
 {
 };
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl FUN_004858f0(uintptr_t, unsigned char);
 struct FUN_00489240_Class
 {
     void FUN_00489240(unsigned a);
@@ -1302,7 +1302,7 @@ void __cdecl FUN_00485820(void* destination, void* source, unsigned int count)
 }
 
 // @fnv 0x004858f0
-void __cdecl FUN_004858f0(unsigned int a, unsigned char ucValue)
+void __cdecl FUN_004858f0(uintptr_t a, unsigned char ucValue)
 {
     ::AppendChunk((unsigned int)((void*)a), &ucValue, 1);
 }

@@ -371,11 +371,11 @@ void* FUN_005ef150_class::FUN_005ef150(int a)
 
 struct FUN_005ef180_Class
 {
-    void* FUN_005ef180(int n, int m);
+    void* FUN_005ef180(intptr_t n, int m);
 };
 
 // @fnv 0x005ef180
-void* FUN_005ef180_Class::FUN_005ef180(int n, int iCount)
+void* FUN_005ef180_Class::FUN_005ef180(intptr_t n, int iCount)
 {
     return ::Reallocate((void*)n, iCount * 0x38);
 }
@@ -421,11 +421,11 @@ void* FUN_005ef330_Class::FUN_005ef330(int aiCount)
 
 struct FUN_005ef360_class
 {
-    void* FUN_005ef360(unsigned int n, unsigned int m);
+    void* FUN_005ef360(uintptr_t n, unsigned int m);
 };
 
 // @fnv 0x005ef360
-void* FUN_005ef360_class::FUN_005ef360(unsigned int n, unsigned int m)
+void* FUN_005ef360_class::FUN_005ef360(uintptr_t n, unsigned int m)
 {
     return Reallocate((void*)n, m * 0x28);
 }
@@ -1074,7 +1074,7 @@ void FUN_005ec700_shell::SetFlag20(bool abSet)
 
 struct FUN_005ed160_Class
 {
-    bool Equals(int arg);
+    bool Equals(intptr_t arg);
 };
 // Returns the logical negation of Equals(arg).
 // @fnv 0x005ed1b0
@@ -1085,7 +1085,7 @@ bool FUN_005ed1b0_Class::FUN_005ed1b0(intptr_t arg)
 
 // Compares three consecutive 16-bit values at this and arg, returning true only if all three pairs match.
 // @fnv 0x005ed160
-bool FUN_005ed160_Class::Equals(int arg)
+bool FUN_005ed160_Class::Equals(intptr_t arg)
 {
     bool equal = false;
     if (*(short*)this == *(short*)arg && *(short*)(this + 2) == *(short*)(arg + 2) &&
@@ -1942,7 +1942,7 @@ struct FUN_005ef910 : FUN_005ef910_vt
     int iSize;
     int iPosition;
     int iDataLength;
-    void ConstructSpawnItems(int, int);
+    void ConstructSpawnItems(intptr_t, int);
     void RecordRequestedSize(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x005eefc0
@@ -3756,7 +3756,7 @@ struct SpawnItem : FUN_005ef7f0_Data
 
 // Constructs count SpawnItem objects in place at base + i * 0x38 for each i from 0 to count-1.
 // @fnv 0x005ef750
-void FUN_005ef910::ConstructSpawnItems(int base, int count)
+void FUN_005ef910::ConstructSpawnItems(intptr_t base, int count)
 {
     unsigned int i;
 

@@ -357,7 +357,7 @@ struct FUN_007614c0_shell
 {
     int m_iElementCount;
     int* m_data;
-    unsigned int FUN_007614c0(unsigned int index);
+    unsigned int FUN_007614c0(uintptr_t index);
 };
 
 struct FUN_007616d0_class
@@ -451,7 +451,7 @@ struct FUN_00761540_cls
     unsigned int FUN_00761540();
 };
 // @fnv 0x007614c0
-unsigned int FUN_007614c0_shell::FUN_007614c0(unsigned int index)
+unsigned int FUN_007614c0_shell::FUN_007614c0(uintptr_t index)
 {
     unsigned int size = reinterpret_cast<::FUN_00761540_cls *>((((S2f850*)this)))->FUN_00761540();
     ((FUN_00761630_shell*)this)->ConstructSlotItems(m_data + size, 1);

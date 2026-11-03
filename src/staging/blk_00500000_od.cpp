@@ -735,11 +735,11 @@ struct LH
 };
 struct FUN_00519500_class
 {
-    bool HasEntry(int a);
+    bool HasEntry(intptr_t a);
 };
 // Returns true if a is non-zero, passes FUN_00519570, and is contained in the list at this+0x88.
 // @fnv 0x00519500
-bool FUN_00519500_class::HasEntry(int aiValue)
+bool FUN_00519500_class::HasEntry(intptr_t aiValue)
 {
     bool r = false;
     if (aiValue && ::FUN_00519570((::TESForm *)(aiValue)) && reinterpret_cast<::RefList *>((((LH*)((char*)this + 0x88))))->FUN_005f65d0((void **)&(aiValue)))
@@ -1739,7 +1739,7 @@ struct S_0050de20_A
 };
 struct S_0050de20_Class
 {
-    bool FUN_0050de20(S_0050de20_A* a, int b);
+    bool FUN_0050de20(S_0050de20_A* a, intptr_t b);
 };
 
 // @fnv 0x0050f6e0
@@ -2221,7 +2221,7 @@ struct Host
 };
 // Forwards the object pointer and the int field of the given entry to FUN_0050de60 along with b and returns its result.
 // @fnv 0x0050de20
-bool S_0050de20_Class::FUN_0050de20(S_0050de20_A* a, int b)
+bool S_0050de20_Class::FUN_0050de20(S_0050de20_A* a, intptr_t b)
 {
     return reinterpret_cast<::Host *>(this)->FUN_0050de60((*(::Ptr *)&(const ::NiPointer< ::S_0050de20_Obj> &)(a->unk00)), (float *)(int *)(&a->unk04), (::P3 *)(b));
 }

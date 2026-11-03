@@ -180,7 +180,7 @@ void FUN_00554650_Class::FUN_00554650()
 
 
 // @fnv 0x005586c0
-void __cdecl FUN_005586c0(int a)
+void __cdecl FUN_005586c0(intptr_t a)
 {
     ::WriteRenderStatsFile((::RenderStats *)(a));
 }
@@ -2609,7 +2609,7 @@ struct Sweep540
 {
     int m0;
     int m4;
-    void SetSize(int a, int b);
+    void SetSize(intptr_t a, int b);
 };
 // @fnv 0x00540750
 void FUN_00540750_Class::FUN_00540750(int aiValue)
@@ -2623,7 +2623,7 @@ struct Tag540
 
 // Calls ReserveCapacity(a, b), runs FUN_0040fbe0 on the ranges between m4 and b, then sets m4 to b.
 // @fnv 0x00540860
-void Sweep540::SetSize(int a, int b)
+void Sweep540::SetSize(intptr_t a, int b)
 {
     reinterpret_cast<::C540BC0Array *>(this)->ReserveCapacity((*(::C540BC0Allocator *)(a)), b);
     ::FUN_0040fbe0();

@@ -1134,11 +1134,11 @@ struct QCellQueue
     virtual void v2();
     virtual void v3();
     virtual bool Insert(int key, QTaskPtr* ptr, int flag);
-    void FUN_005283c0(QWorldSpace* ws, int x, int y);
+    void FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y);
 };
 
 // @fnv 0x005283c0
-void QCellQueue::FUN_005283c0(QWorldSpace* ws, int x, int y)
+void QCellQueue::FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y)
 {
     if (!ws)
         return;
@@ -2147,10 +2147,10 @@ struct Thing
 {
     char pad[0x118];
     int m_uiFilterValue;
-    int GetOrFallback(int arg);
+    int GetOrFallback(intptr_t arg);
 };
 // @fnv 0x00525a90
-int Thing::GetOrFallback(int arg)
+int Thing::GetOrFallback(intptr_t arg)
 {
     Obj* result = ((::Obj *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(arg))));
     if (result != 0)

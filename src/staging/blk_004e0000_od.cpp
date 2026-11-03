@@ -410,11 +410,11 @@ struct FUN_0043ba10_shell
 
 struct FUN_004eeae0_shell
 {
-    void FUN_004eeae0(int arg);
+    void FUN_004eeae0(intptr_t arg);
 };
 
 // @fnv 0x004eeae0
-void FUN_004eeae0_shell::FUN_004eeae0(int arg)
+void FUN_004eeae0_shell::FUN_004eeae0(intptr_t arg)
 {
     ((FUN_0043ba10_shell*)((char*)this + 0x5c))->FUN_0043ba10((FUN_0043ba10_shell*)arg);
 }
@@ -2405,7 +2405,7 @@ struct FUN_004f6850_Class
 {
     int m0;
     RDLNode m_node;
-    RDLItem* FUN_004f6850(int arg0, int arg1, int arg2);
+    RDLItem* FUN_004f6850(int arg0, intptr_t arg1, int arg2);
 };
 
 class TESForm
@@ -3353,7 +3353,7 @@ struct Polygon : PolygonNode
     bool FUN_004f8360(PolygonPoint*);
 };
 // @fnv 0x004f6850
-RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
+RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, intptr_t arg1, int arg2)
 {
     bool foundC = false;
     unsigned short bestPrioB = 0;

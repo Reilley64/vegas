@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESFile;
 
@@ -13,7 +14,7 @@ void FUN_00485730(void *, void *, void *);
 // 0x00485820
 void FUN_00485820(void *, void *, unsigned int);
 // 0x004858f0
-void FUN_004858f0(unsigned int, unsigned char);
+void FUN_004858f0(uintptr_t, unsigned char);
 // 0x00485910
 void FUN_00485910(unsigned int, int);
 // 0x00485950

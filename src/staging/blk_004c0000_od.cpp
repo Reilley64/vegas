@@ -1440,7 +1440,7 @@ struct Owner64
     ClearMap64 messageMap;
     int unk1c, unk20, unk24, unk28;
     const char* defaultText;
-    void FUN_004d64c0(int value, const char* text);
+    void FUN_004d64c0(intptr_t value, const char* text);
 };
 extern void(* DAT_00fdf01c)(void*);
 struct FUN_004d7470_StandIn
@@ -4714,7 +4714,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
 }
 
 // @fnv 0x004d64c0
-void Owner64::FUN_004d64c0(int value, const char* text)
+void Owner64::FUN_004d64c0(intptr_t value, const char* text)
 {
     reinterpret_cast<::FUN_00438af0_Class *>(&(messageMap))->FUN_00438af0();
     DAT_00fdf28c(dialog, 0x1109, 0, hwndContext);

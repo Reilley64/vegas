@@ -165,7 +165,7 @@ AX* AX::FUN_0060bdd0()
 }  // namespace fnv_0060bdd0
 
 // @fnv 0x0060be50
-void FUN_0060be50(int start, int end, const float* apfSrc)
+void FUN_0060be50(intptr_t start, int end, const float* apfSrc)
 {
     for (; start != end; start += 4)
         *(float*)start = *apfSrc;
@@ -622,11 +622,11 @@ struct FUN_0060bd90_cls
     unsigned short m8;
     char _a[4];
     unsigned short mE;
-    unsigned int FUN_0060bd90(unsigned int, unsigned int);
+    unsigned int FUN_0060bd90(unsigned int, uintptr_t);
 };
 // Grows the array to mE + a when a is at least m8, then calls FUN_0060c120(a, b) and returns a.
 // @fnv 0x0060bd90
-unsigned int FUN_0060bd90_cls::FUN_0060bd90(unsigned int uiIndex, unsigned int b)
+unsigned int FUN_0060bd90_cls::FUN_0060bd90(unsigned int uiIndex, uintptr_t b)
 {
     if (uiIndex >= m8)
     {
@@ -1117,9 +1117,9 @@ int CallWithFlag(int*);
 
 // Calls CallWithFlagByte with CallWithFlag results for param1 and param2, param3, and FUN_0065fd70/FUN_0065e750 results plus a TagC.
 // @fnv 0x0060bba0
-void __cdecl FUN_0060bba0(int param1, int param2, int param3)
+void __cdecl FUN_0060bba0(int param1, int param2, intptr_t param3)
 {
-    ::CallWithFlagByte((void *)(CallWithFlag(&param1)), (void *)(CallWithFlag(&param2)), (void *)(param3), (*(unsigned char *)&(const ::S_0060bba0_TagA &)(FUN_0065fd70(&param1, &param3))));
+    ::CallWithFlagByte((void *)(CallWithFlag(&param1)), (void *)(CallWithFlag(&param2)), (void *)(param3), (*(unsigned char *)&(const ::S_0060bba0_TagA &)(FUN_0065fd70(&param1, (int*)&param3))));
 }
 
 struct B60BC10PtrCatTag

@@ -1718,7 +1718,7 @@ struct FUN_006ecd60_stub
 };
 struct FUN_006ece00_Obj
 {
-    void AssignFrom(int);
+    void AssignFrom(intptr_t);
 };
 void __cdecl _Deallocate(void*);
 struct FUN_006ecf40_Class
@@ -1888,12 +1888,12 @@ struct FUN_006f2c40_Class
     int m_8;
     int m_iThirdValue;
     FUN_00aa54a0_s* m_pStreamAllocator;
-    void* ReallocateArray(int a1, int a2);
+    void* ReallocateArray(intptr_t a1, int a2);
 };
 void* __cdecl __memcpy(void* dst, const void* src, unsigned int n);
 // Allocates a new block of a2*0x28 bytes, copies GetFlags()*0x28 bytes from a1 into it, frees a1 and returns the new block.
 // @fnv 0x006f2c40
-void* FUN_006f2c40_Class::ReallocateArray(int pOldBuffer, int a2)
+void* FUN_006f2c40_Class::ReallocateArray(intptr_t pOldBuffer, int a2)
 {
     void* dst = m_pStreamAllocator->FUN_00aa54a0(a2 * 0x28, DAT_010a2720);
     __memcpy(dst, (const void*)pOldBuffer, ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) * 0x28);
@@ -2555,7 +2555,7 @@ struct FUN_006ffb20_Class
 };
 struct FUN_006ff920 : public FUN_006ff970_Class
 {
-    FUN_006ff920(int a1, int a2);
+    FUN_006ff920(intptr_t a1, intptr_t a2);
 };
 
 struct FUN_006e3e70_Class
@@ -2593,7 +2593,7 @@ struct FUN_006e9700_Class
 {
     virtual void* v0();
     virtual int v1(unsigned int a1);
-    void ConstructArray(int a1, unsigned int a2);
+    void ConstructArray(intptr_t a1, unsigned int a2);
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
@@ -2766,10 +2766,10 @@ struct FUN_006f4e40_Class
 {
     void* p;
     PathingLocation loc;
-    FUN_006f4e40_Class(int a1);
+    FUN_006f4e40_Class(intptr_t a1);
 };
 // @fnv 0x006f4e40
-FUN_006f4e40_Class::FUN_006f4e40_Class(int aiValue)
+FUN_006f4e40_Class::FUN_006f4e40_Class(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_006dd3e0_shell *>(&(loc))->FUN_006dd3e0((const ::NavMeshInfo *)(aiValue));
     *(int*)((char*)this + 0x2c) = 0;
@@ -2842,10 +2842,10 @@ struct FUN_006f4f90_Class
     int m_y3;
     int m_z3;
     int m_a2;
-    FUN_006f4f90_Class(int a1, int a2);
+    FUN_006f4f90_Class(intptr_t a1, intptr_t a2);
 };
 // @fnv 0x006f4f90
-FUN_006f4f90_Class::FUN_006f4f90_Class(int aiFirst, int aiSecond)
+FUN_006f4f90_Class::FUN_006f4f90_Class(intptr_t aiFirst, intptr_t aiSecond)
 {
     reinterpret_cast<::FUN_006dd3e0_shell *>(&(m_loc))->FUN_006dd3e0((const ::NavMeshInfo *)(aiSecond));
     this->m_i = 0;
@@ -2972,7 +2972,7 @@ struct FUN_006edce0_Class
     int p2;
     BSSimpleList<BGSPerk*> l3;
     FUN_006f2510_Class f;
-    FUN_006edce0_Class* FUN_006edce0(int a1);
+    FUN_006edce0_Class* FUN_006edce0(intptr_t a1);
 };
 struct NavMeshSearchLOSArray
 {
@@ -3107,10 +3107,10 @@ struct FUN_006f4f00_Class
     int m_h;
     int m_i;
     int m_iUnknownValue;
-    FUN_006f4f00_Class(int a1, int a2, int a3);
+    FUN_006f4f00_Class(intptr_t a1, intptr_t a2, int a3);
 };
 // @fnv 0x006f4f00
-FUN_006f4f00_Class::FUN_006f4f00_Class(int a1, int a2, int a3)
+FUN_006f4f00_Class::FUN_006f4f00_Class(intptr_t a1, intptr_t a2, int a3)
 {
     reinterpret_cast<::FUN_006dd3e0_shell *>(&(m_loc))->FUN_006dd3e0((const ::NavMeshInfo *)(a1));
     m_iUnknownValue = a3;
@@ -3242,7 +3242,7 @@ struct Unk006fec00
 };
 struct Unk006fec90_Class
 {
-    int GetActiveMenu(int a1);
+    int GetActiveMenu(intptr_t a1);
     bool FUN_006fec00(int a1);
     int m_iWordAt00;
     int m_cByteAtOffset1;
@@ -3751,7 +3751,7 @@ struct FUN_006fed30_Callee
 
 struct FUN_006fed30_Class
 {
-    int FUN_006fed30(int a1);
+    int FUN_006fed30(intptr_t a1);
 };
 
 struct LocalUnk006fec90_Class
@@ -5296,7 +5296,7 @@ struct FUN_006f2510 : S_006f2510_Base
 };
 // Calls GetItem on the four perk lists, invokes FUN_006f2510 with (0, 0, a1), and returns this.
 // @fnv 0x006edce0
-FUN_006edce0_Class* FUN_006edce0_Class::FUN_006edce0(int a1)
+FUN_006edce0_Class* FUN_006edce0_Class::FUN_006edce0(intptr_t a1)
 {
     new ((void *)&(l0)) ::Vec3();
     new ((void *)&(l1)) ::Vec3();
@@ -6827,7 +6827,7 @@ struct FUN_006fea70_Class
     unsigned char m_5d;
 
 
-    void SetValue(int value);
+    void SetValue(intptr_t value);
 };
 
 // Stand-in for the game's NiPoint2 (float x, float y).  The real constructor
@@ -6867,7 +6867,7 @@ struct FnvScaleNode
     float GetScaleAtPoint(NiPoint2* arg);
 };
 // @fnv 0x006fea70
-void FUN_006fea70_Class::SetValue(int value)
+void FUN_006fea70_Class::SetValue(intptr_t value)
 {
     if (m_10 != 0 && reinterpret_cast<::FOPipboyManager *>((m_10))->IsUnk28Set())
     {
@@ -6945,7 +6945,7 @@ class C6FEC00Cell
     bool FUN_006fec00(const C6FEC00Point2* pkPoint);
 };
 // @fnv 0x006fec90
-int Unk006fec90_Class::GetActiveMenu(int a1)
+int Unk006fec90_Class::GetActiveMenu(intptr_t a1)
 {
     int result = 0;
     if (reinterpret_cast<::C6FEC00Cell *>(this)->FUN_006fec00((const ::C6FEC00Point2 *)(a1)))
@@ -6967,7 +6967,7 @@ int Unk006fec90_Class::GetActiveMenu(int a1)
     return result;
 }
 // @fnv 0x006fed30
-int FUN_006fed30_Class::FUN_006fed30(int a1)
+int FUN_006fed30_Class::FUN_006fed30(intptr_t a1)
 {
     int result = 0;
 
@@ -7200,7 +7200,7 @@ class B6FFB20Request
     void SetSourceAndTarget(void* pvSource, void* pvTarget);
 };
 // @fnv 0x006ff920
-FUN_006ff920::FUN_006ff920(int a1, int a2)
+FUN_006ff920::FUN_006ff920(intptr_t a1, intptr_t a2)
 {
     m_p = (int*)&DAT_0106e7a4;
     *(int*)((char*)this + 0xc) = a1;
@@ -7817,7 +7817,7 @@ struct FUN_006ece00_Empty
 
 // Clears the object, then placement-constructs an S_006eaa00 copy from value into this object.
 // @fnv 0x006ece00
-void FUN_006ece00_Obj::AssignFrom(int apSource)
+void FUN_006ece00_Obj::AssignFrom(intptr_t apSource)
 {
     reinterpret_cast<::TESForm *>((((FUN_006ece00_Empty*)this)))->ClearData();
     new (this) S_006eaa00((S_006eaa00*)apSource);
@@ -9245,7 +9245,7 @@ struct Host1fc0
     int m60, m64, m68, m6c, m70, m74, m78, m7c;
     int m80, m84, m88, m8c;
     Arr1fc0 arr90;
-    bool FUN_006f1fc0(int);
+    bool FUN_006f1fc0(intptr_t);
 };
 // Returns true when the second argument passes FUN_006f1fc0 and the pair passes IsSegmentClear; otherwise false.
 // @fnv 0x006f1e90
@@ -9257,7 +9257,7 @@ bool S006F1E90::FUN_006f1e90(intptr_t aiFirst, intptr_t aiSecond)
         return false;
 }
 // @fnv 0x006f1fc0
-bool Host1fc0::FUN_006f1fc0(int apPoint)
+bool Host1fc0::FUN_006f1fc0(intptr_t apPoint)
 {
     float f6;
     int i;
@@ -11084,11 +11084,11 @@ struct ThreadOwner
 unsigned long __cdecl FUN_0040fc90();
 struct PathSearch : public Search
 {
-    bool FindPath(int a, int b, bool useBest);
+    bool FindPath(intptr_t a, intptr_t b, bool useBest);
 };
 // Steps the search, picks the target node (best or none), copies its node list into arrays, and returns whether a path was found.
 // @fnv 0x006f3d90
-bool PathSearch::FindPath(int a, int b, bool useBest)
+bool PathSearch::FindPath(intptr_t a, intptr_t b, bool useBest)
 {
     yielding = ((::ThreadOwner *)&(::GetTaskletManager()))->IsOwnerThread(FUN_0040fc90());
     bool found;
@@ -11194,7 +11194,7 @@ Derived::Derived()
 
 // Places a2 instances of FUN_006e2210 into the memory block at a1 by calling the constructor at each offset.
 // @fnv 0x006e9700
-void FUN_006e9700_Class::ConstructArray(int a1, unsigned int a2)
+void FUN_006e9700_Class::ConstructArray(intptr_t a1, unsigned int a2)
 {
     for (unsigned int i = 0; i < a2; i++)
     {

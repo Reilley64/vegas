@@ -278,7 +278,7 @@ struct FUN_006a1b20_class
 };
 
 // @fnv 0x006a1b00
-void __cdecl CallMethodOnObject(int pObject, int b)
+void __cdecl CallMethodOnObject(intptr_t pObject, int b)
 {
     ((FUN_006a1b20_class*)pObject)->MatchesPair(b);
 }
@@ -357,11 +357,11 @@ extern "C" void* __cdecl Reallocate(void* p, size_t size);
 
 struct FUN_006a28b0_Class
 {
-    void* FUN_006a28b0(int m, int n);
+    void* FUN_006a28b0(intptr_t m, int n);
 };
 
 // @fnv 0x006a28b0
-void* FUN_006a28b0_Class::FUN_006a28b0(int m, int n)
+void* FUN_006a28b0_Class::FUN_006a28b0(intptr_t m, int n)
 {
     return Reallocate((void*)m, n * 8);
 }
@@ -1052,11 +1052,11 @@ struct FUN_006a1cf0_shell
 
 struct FUN_006a1fb0_class
 {
-    void UnlinkFromList(int param_1);
+    void UnlinkFromList(intptr_t param_1);
 };
 // Unlinks the node at param_1 from its doubly linked list by patching the neighbours' next/prev pointers, then clears its own pointers.
 // @fnv 0x006a1fb0
-void FUN_006a1fb0_class::UnlinkFromList(int pNode)
+void FUN_006a1fb0_class::UnlinkFromList(intptr_t pNode)
 {
     if (*(void**)((char*)pNode + 0x58))
         *(void**)(*(void**)((char*)pNode + 0x58)) = *(void**)((char*)pNode + 0x5c);
@@ -2281,7 +2281,7 @@ void FUN_006a2270_class::FUN_006a2270(char* dst, char* src, unsigned int count)
 
 struct FUN_006a26d0_class
 {
-    void ConstructItems(int a, int b);
+    void ConstructItems(intptr_t a, int b);
 };
 // @fnv 0x006a2310
 void FUN_006a19b0::FUN_006a2310(int a, int b)
@@ -2695,7 +2695,7 @@ struct FUN_006a69b0_Class
     int m_iThirdValue;
     virtual int v0();
     virtual int v1(int);
-    void ConstructParams(int, int);
+    void ConstructParams(intptr_t, int);
     void FUN_006a69b0(unsigned int a, unsigned int b);
 };
 // Sets the stored string pointer to SG6202, then calls FUN_006a69b0 with the same argument twice.
@@ -3635,7 +3635,7 @@ struct S_006a26d0_Item
 
 // Placement-constructs count S_006a26d0_Item objects at base + i * 16.
 // @fnv 0x006a26d0
-void FUN_006a26d0_class::ConstructItems(int base, int count)
+void FUN_006a26d0_class::ConstructItems(intptr_t base, int count)
 {
     for (unsigned int i = 0; i < (unsigned int)count; i++)
     {
@@ -3841,7 +3841,7 @@ struct ImageSpaceEffectParam
 
 
 // @fnv 0x006a68f0
-void FUN_006a69b0_Class::ConstructParams(int aiBaseAddress, int aiCount)
+void FUN_006a69b0_Class::ConstructParams(intptr_t aiBaseAddress, int aiCount)
 {
     for (unsigned int i = 0; i < (unsigned int)aiCount; ++i)
     {
@@ -12695,11 +12695,11 @@ struct FUN_006b8f40_cls
     int unk204C;
     int unk2050;
     unsigned char m_2054;
-    bool ProcessWithFallback(int a1, int a2, bool a3);
+    bool ProcessWithFallback(intptr_t a1, intptr_t a2, bool a3);
 };
 
 // @fnv 0x006b8f40
-bool FUN_006b8f40_cls::ProcessWithFallback(int a1, int a2, bool abUseFallback)
+bool FUN_006b8f40_cls::ProcessWithFallback(intptr_t a1, intptr_t a2, bool abUseFallback)
 {
     bool ok;
     void* q;

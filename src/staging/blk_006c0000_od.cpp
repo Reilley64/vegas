@@ -162,7 +162,7 @@ struct FUN_006dc1d0_Class
     int m_vContactPosition;
     int m_dataLength;
     virtual int Write(unsigned int);
-    void ConstructPlacementObjects(int, unsigned int);
+    void ConstructPlacementObjects(intptr_t, unsigned int);
     void FUN_006dc1d0(unsigned int requested, unsigned int savedSize);
 };
 
@@ -1287,7 +1287,7 @@ struct FUN_006daeb0_Class
     Elem* m_data;
     unsigned int m_uiBufferCapacity;
     unsigned int m_cap;
-    void FUN_006daeb0(unsigned int pos);
+    void FUN_006daeb0(uintptr_t pos);
 };
 namespace fnv_006db0d0 {
 struct FUN_0072ba80_shell
@@ -1925,7 +1925,7 @@ struct FUN_006dbfc0_Class
     void FUN_006dbfc0(char* data, unsigned int size);
 };
 // @fnv 0x006daeb0
-void FUN_006daeb0_Class::FUN_006daeb0(unsigned int pos)
+void FUN_006daeb0_Class::FUN_006daeb0(uintptr_t pos)
 {
     if (pos == m_cap)
         return;
@@ -2921,7 +2921,7 @@ class PathHandler
     PathingSolution* m_pPathingSolution;
     void* m_unk08;
 
-    bool FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, int flag);
+    bool FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, intptr_t flag);
 };
 
 struct PathBuilder
@@ -3047,12 +3047,12 @@ struct Array6cff
     unsigned int m_uiSize;
     unsigned int m_uiCapacity;
     void FUN_006d00a0(Elem6cff* pkItems, unsigned int ItemUpdateArray);
-    void FUN_006cff60(unsigned int uiNewSize, bool bFree);
+    void FUN_006cff60(uintptr_t uiNewSize, bool bFree);
 };
 
 // Resizes the array to uiNewSize: frees when zero, grows capacity and constructs new items, or shrinks and optionally reallocates when bFree is set.
 // @fnv 0x006cff60
-void Array6cff::FUN_006cff60(unsigned int uiNewSize, bool bFree)
+void Array6cff::FUN_006cff60(uintptr_t uiNewSize, bool bFree)
 {
     if (uiNewSize == 0)
     {
@@ -4193,7 +4193,7 @@ struct PlacementObject32 : FUN_006d4550_Class
 
 // Placement-constructs count PlacementObject32 objects at 32-byte intervals starting at base.
 // @fnv 0x006dc130
-void FUN_006dc1d0_Class::ConstructPlacementObjects(int base, unsigned int count)
+void FUN_006dc1d0_Class::ConstructPlacementObjects(intptr_t base, unsigned int count)
 {
     for (unsigned int index = 0; index < count; ++index)
     {
@@ -5309,7 +5309,7 @@ FUN_006d32e0::FUN_006d32e0()
 
 // Finds a navmesh path between two points, building a pathing solution with intermediate nodes and a final node or item.
 // @fnv 0x006ce8b0
-bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, int flag)
+bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, intptr_t flag)
 {
     FUN_006dcee0 loc1(pt1, ctx->cell, ctx->worldSpace);
     FUN_006dcee0 loc4(pt2, ctx->cell, ctx->worldSpace);

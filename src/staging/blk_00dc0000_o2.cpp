@@ -348,7 +348,7 @@ struct FUN_00cb0a70
 struct DCCAE0Object
 {
     int unk00;
-    FUN_00cb0a70 m_kMember;
+    const char* m_kMember;
 };
 // @fnv 0x00dccae0
 void __cdecl FUN_00dccae0(void* a, void* iValue)

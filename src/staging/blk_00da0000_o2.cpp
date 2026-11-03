@@ -61,7 +61,7 @@ struct DA07B0Object
 {
     void* m_pVtbl;
     char m_pad04[0x60];
-    FUN_00da07b0_class m_kMember;
+    const char* m_kMember;
 };
 
 // @fnv 0x00da07b0
@@ -263,7 +263,7 @@ struct DA0760Object
 {
     void* m_pVtbl;
     int unk04;
-    FUN_00cb0a70_class m_kMember;
+    const char* m_kMember;
 };
 // @fnv 0x00da0760
 void __cdecl FUN_00da0760(void* pObject, void* b)

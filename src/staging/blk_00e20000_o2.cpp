@@ -142,7 +142,7 @@ struct FUN_00e34800
     void* vtbl;
     int a;
     int b;
-    int c;
+    const char* c;
     void m(int);
     FUN_00e34800(int x);
 };

@@ -364,6 +364,8 @@ int FUN_00bad4d0_Class::FUN_00bad4d0()
 
 struct NiAVObject
 {
+    char pad00[0x9c];
+    char unk9c;
 };
 struct FUN_00bae780_Class
 {
@@ -405,53 +407,61 @@ void* FUN_00bb3140_Class::FUN_00bb3140(bool abDelete)
 }
 }  // namespace fnv_00bb3140
 
+struct FUN_00bb3220_Entry
+{
+    void* unk00;
+    void* unk04;
+    void* m_pData;
+    unsigned short m_usValue;
+};
+
 struct FUN_00bb3220_Class
 {
     char pad00[0x104];
-    void * unk104;
+    FUN_00bb3220_Entry* unk104;
     void* GetEntryValue();
 };
 
 // @fnv 0x00bb3220
 void* FUN_00bb3220_Class::GetEntryValue()
 {
-    void* entry = this->unk104;
+    FUN_00bb3220_Entry* entry = this->unk104;
     if (entry)
-        return *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(entry) + 8);
+        return entry->m_pData;
     return 0;
 }
 
 struct FUN_00bb3240_Class
 {
     char pad00[0x104];
-    void * unk104;
+    FUN_00bb3220_Entry* unk104;
     unsigned int FUN_00bb3240();
 };
 
 // @fnv 0x00bb3240
 unsigned int FUN_00bb3240_Class::FUN_00bb3240()
 {
-    void* p = this->unk104;
+    FUN_00bb3220_Entry* p = this->unk104;
     if (p)
-        return *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(p) + 0xc);
+        return p->m_usValue;
     return 0;
 }
 
 struct FUN_00bb3260_Class
 {
     char pad00[0x104];
-    void * unk104;
+    FUN_00bb3220_Entry* unk104;
     void* FUN_00bb3260(void* a, unsigned short b);
 };
 
 // @fnv 0x00bb3260
 void* FUN_00bb3260_Class::FUN_00bb3260(void* apData, unsigned short ausValue)
 {
-    void* p = this->unk104;
+    FUN_00bb3220_Entry* p = this->unk104;
     if (p)
     {
-        *(void**)((char*)p + 8) = apData;
-        *(unsigned short*)((char*)p + 0xc) = ausValue;
+        p->m_pData = apData;
+        p->m_usValue = ausValue;
     }
     return p;
 }
@@ -474,33 +484,33 @@ void* FUN_00bb36d0_Class::GetThirdElement()
 struct FUN_00bb36f0_Class
 {
     char pad00[0x84];
-    void * unk84;
+    FUN_00bb3220_Entry* unk84;
     int FUN_00bb36f0();
 };
 
 // @fnv 0x00bb36f0
 int FUN_00bb36f0_Class::FUN_00bb36f0()
 {
-    void* p = this->unk84;
+    FUN_00bb3220_Entry* p = this->unk84;
     if (p)
-        return *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(p) + 0xc);
+        return p->m_usValue;
     return 0;
 }
 
 struct FUN_00bb3710_Class
 {
     char pad00[0x84];
-    void * unk84;
+    FUN_00bb3220_Entry* unk84;
     void* FUN_00bb3710(void* a, short b);
 };
 // @fnv 0x00bb3710
 void* FUN_00bb3710_Class::FUN_00bb3710(void* apValue, short asValue)
 {
-    void* p = this->unk84;
+    FUN_00bb3220_Entry* p = this->unk84;
     if (p)
     {
-        *(void**)((char*)p + 8) = apValue;
-        *(short*)((char*)p + 12) = asValue;
+        p->m_pData = apValue;
+        p->m_usValue = asValue;
     }
     return p;
 }
@@ -525,16 +535,16 @@ void* FUN_00bb38e0_Class::FUN_00bb38e0(int flags)
 struct FUN_00bb3c90_Class
 {
     char pad00[0x88];
-    void * unk88;
+    FUN_00bb3220_Entry* unk88;
     void* FUN_00bb3c90();
 };
 
 // @fnv 0x00bb3c90
 void* FUN_00bb3c90_Class::FUN_00bb3c90()
 {
-    void* p = this->unk88;
+    FUN_00bb3220_Entry* p = this->unk88;
     if (p)
-        return *reinterpret_cast<void**>(reinterpret_cast<char*>(p) + 8);
+        return p->m_pData;
     return 0;
 }
 
@@ -614,15 +624,15 @@ void* FUN_00bb8990_Class::FUN_00bb8990(int aiFlags)
 
 struct FUN_00bb9540_Class
 {
-    void* m_ppVirtualMethodTable;
+    void** m_ppVirtualMethodTable;
     void CallVirtualSlots83And84();
 };
 // @fnv 0x00bb9540
 void FUN_00bb9540_Class::CallVirtualSlots83And84()
 {
     typedef void(* Fn)(FUN_00bb9540_Class*);
-    ((Fn*)m_ppVirtualMethodTable)[83](this);
-    ((Fn*)m_ppVirtualMethodTable)[84](this);
+    ((Fn)m_ppVirtualMethodTable[83])(this);
+    ((Fn)m_ppVirtualMethodTable[84])(this);
 }
 
 struct BeamStage
@@ -855,10 +865,14 @@ void FUN_00bb36b0_Class::FUN_00bb36b0(int a)
 }
 
 namespace fnv_00bb79e0 {
+struct NiTexture;
 struct NiObjectNET_stub
 {
+    char pad00[0x60];
+    NiTexture* m_spTexture;
+    char pad64[0x94 - 0x64];
+    const char* m_pcTextureName;
 };
-struct NiTexture;
 struct BSShaderManager
 {
 };
@@ -866,15 +880,15 @@ struct FUN_00bb79e0_Class
 {
     void FUN_00bb79e0(intptr_t arg);
 };
-// Calls FUN_00a5c6a0 on this, then if the pointer at offset 0x94 is set, calls BSShaderManager::GetTexture with it and the texture at offset 0x60.
+// Calls FUN_00a5c6a0 on this, then if the texture name is set, calls BSShaderManager::GetTexture with it and the texture pointer.
 // @fnv 0x00bb79e0
 void FUN_00bb79e0_Class::FUN_00bb79e0(intptr_t arg)
 {
     NiObjectNET_stub* p = (NiObjectNET_stub*)this;
     reinterpret_cast<::LinkObjectA5 *>((p))->FUN_00a5c6a0((*(::NiStream *)(arg)));
-    intptr_t tex = *(int*)((char*)p + 0x94);
+    const char* tex = p->m_pcTextureName;
     if (tex)
-        ::BSShaderManager::GetTexture((const char*)tex, true, (::NiPointer< ::NiTexture> &)(*(NiTexture**)((char*)p + 0x60)), false, false);
+        ::BSShaderManager::GetTexture(tex, true, (::NiPointer< ::NiTexture> &)(p->m_spTexture), false, false);
 }
 }  // namespace fnv_00bb79e0
 
@@ -888,14 +902,14 @@ struct ImageSpaceTexture
 struct FUN_00bb9010_Class
 {
     char pad00[0x2c];
-    void * unk2c;
+    ImageSpaceTexture** unk2c;
     void FUN_00bb9010();
 };
 // @fnv 0x00bb9010
 void FUN_00bb9010_Class::FUN_00bb9010()
 {
-    void* p = this->unk2c;
-    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)*(NiTexture**)((char*)p + 4))))->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTexture *)(0));
+    ImageSpaceTexture** p = this->unk2c;
+    reinterpret_cast<::Holder00ba37f0 *>(p[1])->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTexture *)(0));
 }
 
 namespace fnv_00bb9560 {
@@ -1097,7 +1111,7 @@ struct FUN_00baeeb0_Class : FUN_00baec90_Class
 };
 struct FUN_00bb1a70_Class
 {
-    void* m_vft;
+    void** m_vft;
     void CallVirtualMethodWithField();
     char pad04[0x380];
     void * unk384;
@@ -1107,7 +1121,7 @@ void FUN_00bb1a70_Class::CallVirtualMethodWithField()
 {
     typedef void(* Fn)(void*, void*);
     void* arg = this->unk384;
-    Fn fn = (Fn)(*(void**)((char*)*(void**)((char*)this + 0) + 0x128));
+    Fn fn = (Fn)m_vft[74];
     fn(this, arg);
 }
 
@@ -1409,14 +1423,14 @@ void* FUN_00bb91e0_Class::FUN_00bb91e0(unsigned char flags)
 
 struct FUN_00bb9590_Class
 {
-    void* m_vft;
+    void** m_vft;
     void FUN_00bb9590();
 };
 
 // @fnv 0x00bb9590
 void FUN_00bb9590_Class::FUN_00bb9590()
 {
-    ((void(*)(void*))(*(void***)((char*)m_vft + 0x148)))(this);
+    ((void(*)(void*))m_vft[82])(this);
     reinterpret_cast<::PassManager *>(this)->ConfigureAllPasses();
 }
 
@@ -6437,9 +6451,11 @@ struct ImageSpaceTextureDescriptor
 };
 struct ImageSource
 {
+    char pad00[0xb8];
+    ImageSpaceTextureDescriptor* m_pDescriptor;
     ImageSpaceTextureDescriptor* descriptor() const
     {
-        return *reinterpret_cast<ImageSpaceTextureDescriptor* const*>(reinterpret_cast<const char*>(this) + 0xb8);
+        return m_pDescriptor;
     }
 };
 struct ImageBuffer
@@ -13252,6 +13268,11 @@ void WorkerSource::UpdateWorkerObject(WorkerTarget* target)
         reinterpret_cast<::FUN_00439410_cls *>((target))->FUN_00439410((::ArgObject *)(object));
     }
 }
+struct NiGlobalStringHeader
+{
+    long m_lRefCount;
+    unsigned int m_uiLength;
+};
 struct S00bafd50_Ptr
 {
     void* p;
@@ -13264,7 +13285,7 @@ struct S00bafd50_Ptr
     ~S00bafd50_Ptr()
     {
         if (p != DAT_0109b220)
-            DAT_00fdf1c4((char*)p - 8);
+            DAT_00fdf1c4((NiGlobalStringHeader*)p - 1);
     }
 };
 typedef int(* S00bafd50_GetFn)(void*, int);
@@ -13341,10 +13362,11 @@ struct S00ba1770_Tex
 
 struct S00ba1770_Src
 {
-    int unk00;
+    char pad00[0x174];
+    uintptr_t m_auiEntries[1];
     uintptr_t GetAt(int i)
     {
-        return ((uintptr_t*)((char*)&unk00 + 0x174))[i];
+        return m_auiEntries[i];
     }
 };
 struct S00ba1770_Data
@@ -14581,14 +14603,14 @@ struct FUN_00a5a040_Class
 // @fnv 0x00bae780
 char FUN_00bae780_Class::FUN_00bae780(NiAVObject* apObject)
 {
-    if ((*reinterpret_cast<char *>(&::DAT_011f941e)) && !((char*)apObject + 0x9c))
+    if ((*reinterpret_cast<char *>(&::DAT_011f941e)) && !(&apObject->unk9c))
         reinterpret_cast<::FUN_00a5a040_Class *>((apObject))->FUN_00a5a040();
     return 1;
 }
 // @fnv 0x00bb3400
 int FUN_00bb3400_Class::FUN_00bb3400(NiAVObject* apObject, int b, int c)
 {
-    if (reinterpret_cast<char*>(apObject) + 0x9c == 0)
+    if (&apObject->unk9c == 0)
         reinterpret_cast<::FUN_00a5a040_Class *>((apObject))->FUN_00a5a040();
 
     if (*m_ac == 0 || *m_b0 == 0)

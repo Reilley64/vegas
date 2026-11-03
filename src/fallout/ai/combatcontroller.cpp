@@ -1,5 +1,6 @@
 // fallout/ai/combatcontroller.cpp: CombatController, CombatPlanner, Owner, OuterObj and more (89 functions)
 
+#include "fnv/simple_array_item.h"
 #include <new>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/Actor8A7.h"
@@ -1712,7 +1713,7 @@ void CombatController::FUN_009819f0(BGSSaveFormBuffer* apSaveGameBuffer)
         for (unsigned int i = 0; i < uiProcedureCount; i++)
         {
             CombatProcedure** pbackgroundProcedure =
-                (CombatProcedure**)&((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 2>*)arr8c)))->FUN_006a7ad0(i)));
+                &(SimpleArrayItem<CombatProcedure*>(((BSSimpleArray<unsigned int, 2>*)arr8c), i));
             FUN_00982350(pbackgroundProcedure, apSaveGameBuffer);
         }
     }
@@ -2742,7 +2743,7 @@ void CombatController::FUN_00980270(CombatProcedure* apBackgroundProcedure)
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x8c))))->GetName())); ++i)
     {
         CombatProcedure* pbackgroundProcedure =
-            (CombatProcedure*)((void *)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<void*, 1024>*)((char*)this + 0x8c))))->FUN_006a7ad0(i)));
+            (CombatProcedure*)(SimpleArrayItem<void *>(((BSSimpleArray<void*, 1024>*)((char*)this + 0x8c)), i));
         if (pbackgroundProcedure->GetType() == apBackgroundProcedure->GetType())
         {
             pbackgroundProcedure->Unk0c();
@@ -2788,7 +2789,7 @@ void FUN_00980360_shell::FUN_00980360()
 {
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&targets)))->GetName())); i++)
     {
-        Item* item = ((::Item *)(reinterpret_cast<::S3e60 *>(&(targets))->FUN_006a7ad0(i)));
+        Item* item = (SimpleArrayItem<::Item *>(&(targets), i));
         item->Func_0c();
         delete item;
     }
@@ -3834,7 +3835,7 @@ SpawnedObject* FUN_00980400_cls::FUN_00980400(int target)
 {
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNode))->GetName())); i++)
     {
-        SpawnedObject* obj = *((::SpawnedObject **)(reinterpret_cast<::S3e60 *>(&(m_kNode))->FUN_006a7ad0(i)));
+        SpawnedObject* obj = *(SimpleArrayItem<::SpawnedObject **>(&(m_kNode), i));
         if (obj->v34() == target)
         {
             return obj;
@@ -6546,7 +6547,7 @@ void CombatStand::FUN_00981d00(LoadBufferStand* buffer)
     reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(unk8C))->FUN_006f2290(count4, true);
     for (unsigned int i3 = 0; i3 < count4; i3++)
     {
-        ProcedureStand** proc = &((::fnv_00981d00::ProcedureStand *)(reinterpret_cast<::S3e60 *>(&(unk8C))->FUN_006a7ad0(i3)));
+        ProcedureStand** proc = &(SimpleArrayItem<::fnv_00981d00::ProcedureStand *>(&(unk8C), i3));
         reinterpret_cast<::FUN_009823c0_shell *>(this)->LoadCombatProcedure((::CombatProcedure **)(proc), (::BGSLoadFormBuffer *)(buffer));
     }
     bool hasPlan = false;
@@ -6810,7 +6811,7 @@ void CombatUpdater::FUN_0097da50()
         return;
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(actions))->GetName())); ++i)
     {
-        UpdateAction* item = ((::UpdateAction *)(reinterpret_cast<::S3e60 *>(&(actions))->FUN_006a7ad0(i)));
+        UpdateAction* item = (SimpleArrayItem<::UpdateAction *>(&(actions), i));
         item->Update();
         if (reinterpret_cast<::FUN_00666f00_shell *>((item))->FUN_00666f00() || reinterpret_cast<::FUN_0097e310_shell *>((item))->IsField8One())
         {
@@ -6971,7 +6972,7 @@ void C982080Controller::FUN_00982080(C982080SaveGame* pkSaveGame)
     unsigned int uiNavMeshCount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNavMeshes))->GetName()));
     for (unsigned int i = 0; i < uiNavMeshCount; i++)
     {
-        C982080NavMeshInfo*& rpkInfo = ((::C982080NavMeshInfo *)(reinterpret_cast<::S3e60 *>(&(m_kNavMeshes))->FUN_006a7ad0(i)));
+        C982080NavMeshInfo*& rpkInfo = (SimpleArrayItem<::C982080NavMeshInfo *>(&(m_kNavMeshes), i));
         rpkInfo->Revert(pkSaveGame);
     }
 

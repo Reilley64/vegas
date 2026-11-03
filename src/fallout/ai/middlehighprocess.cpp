@@ -45434,7 +45434,7 @@ class PathingLocation_iso
     ~PathingLocation_iso();
 };
 class PathingLocation_iso;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 class PathingRequest_iso
 {
   public:

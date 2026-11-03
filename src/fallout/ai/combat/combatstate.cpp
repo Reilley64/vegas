@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
+#include "fnv/simple_array_item.h"
 #include <new>
 #include "fnv/decl/ActionOwner.h"
 #include "fnv/decl/ActorAvoidanceDataArray.h"
@@ -1240,7 +1241,7 @@ struct ParentSpaceNode
     int b;
     int c;
 };
-template <class T, int N> struct BSSimpleArray
+template <class T, unsigned int N> struct BSSimpleArray
 {
     T& GetAt(int);
 };
@@ -8840,7 +8841,7 @@ void UpdateState::FUN_00998a50()
                         int remaining = GetRandomNumberInRange(0, actor - 1);
                         for (unsigned index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName())); ++index)
                         {
-                            int entry = ((int)(reinterpret_cast<::S3e60 *>(&(targets))->FUN_006a7ad0(index)));
+                            int entry = (SimpleArrayItem<int>(&(targets), index));
                             if (entry == target)
                                 continue;
                             if (remaining == 0)
@@ -8854,7 +8855,7 @@ void UpdateState::FUN_00998a50()
                     else
                     {
                         int choice = GetRandomNumberInRange(0, actor);
-                        selected = ((int)(reinterpret_cast<::S3e60 *>(&(targets))->FUN_006a7ad0(choice)));
+                        selected = (SimpleArrayItem<int>(&(targets), choice));
                     }
                     if (selected != target)
                     {
@@ -9162,7 +9163,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
         reinterpret_cast<::BGSSaveGameBuffer *>((pSaveBuffer))->FUN_00865f60(count);
         for (unsigned j = 0; j < count; j++)
         {
-            void** item = ((void **)(reinterpret_cast<::S3e60 *>(&(list24))->FUN_006a7ad0(j)));
+            void** item = (SimpleArrayItem<void **>(&(list24), j));
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pSaveBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*item), 0);
         }
     }
@@ -11636,7 +11637,7 @@ void CombatLoadState::FUN_009a2040(CombatLoadBuffer* buffer)
         for (unsigned int i = 0; i < weaponCount; i++)
         {
 
-            TESObjectWEAP** item = ((::TESObjectWEAP **)(reinterpret_cast<::S3e60 *>(&(otherWeapons))->FUN_006a7ad0(i)));
+            TESObjectWEAP** item = (SimpleArrayItem<::TESObjectWEAP **>(&(otherWeapons), i));
 
             *item = dynamic_cast<TESObjectWEAP*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
         }

@@ -75,7 +75,7 @@ public:
 // @fnv 0x00978ed0
 void Projectile::FUN_00978ed0(ActorCause* apCause)
 {
-    reinterpret_cast<::Holder0042f780 *>((((NiPointer*)((char*)this + 0x120))))->FUN_0042f780=((::AC_0042f730 *)(apCause));
+    reinterpret_cast<::Holder0042f780 *>((((NiPointer*)((char*)this + 0x120))))->FUN_0042f780((::AC_0042f730 *)(apCause));
 }
 
 namespace fnv_00979260 {

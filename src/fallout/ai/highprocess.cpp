@@ -1,5 +1,6 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
+#include "fnv/simple_array_item.h"
 #include <new>
 #include <cmath>
 #include <cstdio>
@@ -17806,7 +17807,7 @@ bool FUN_008eea80_Class::FUN_008eea80()
 }
 
 class PathingLocation;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 enum PATHING_REQUEST_TYPE;
 class PathingRequest
 {
@@ -71941,12 +71942,12 @@ void Actor::FUN_008db810(Actor* actor)
         if (count > 0)
         {
             reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((actor))->FUN_00881680(0);
-            actor->Start(*((void **)(reinterpret_cast<::S3e60 *>(&(targetsSlot0))->FUN_006a7ad0(0))), 1, 1, 1, 0, 0, ::DAT_01012054, ::DAT_01012054);
+            actor->Start(*(SimpleArrayItem<void **>(&(targetsSlot0), 0)), 1, 1, 1, 0, 0, ::DAT_01012054, ::DAT_01012054);
             ::FleePackage* following = dynamic_cast< ::FleePackage*>(reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0());
             if (following)
             {
                 for (int index = 0; index < count; index++)
-                    following->FUN_009f1310((::TESObjectREFR *)(::Actor *)(static_cast< ::Actor*>(*((void **)(reinterpret_cast<::S3e60 *>(&(targetsSlot0))->FUN_006a7ad0(index))))));
+                    following->FUN_009f1310((::TESObjectREFR *)(::Actor *)(static_cast< ::Actor*>(*(SimpleArrayItem<void **>(&(targetsSlot0), index)))));
             }
             return;
         }

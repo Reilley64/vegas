@@ -846,7 +846,7 @@ void GPShell::HandleContactHit(GPContact* apContact)
         kPTarget = pRefB;
         ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((void *)(((::Vec3 *)(void *)(apContact->pPoint)))));
         ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
-        reinterpret_cast<::MyPoint439180 *>((((NiColor*)&_kNormal)))->FUN_00439180*=(-1.0f);
+        reinterpret_cast<::MyPoint439180 *>((((NiColor*)&_kNormal)))->FUN_00439180(-1.0f);
         iShapeKey = (int)apContact->pBodyB->GetLastNode();
         iBody5 = (int)((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<TESFile*>*)apContact->pBodyB)))->FUN_00726070()));
     }

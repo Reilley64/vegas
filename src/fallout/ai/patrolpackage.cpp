@@ -1,5 +1,6 @@
 // fallout/ai/patrolpackage.cpp: PatrolActorPackageData, DelStandIn, PatrolData, PatrolData2 (13 functions)
 
+#include "fnv/simple_array_item.h"
 #include <new>
 #include "fnv/decl/ActorPackageData.h"
 #include "fnv/decl/BGSSaveGameBuffer.h"
@@ -386,7 +387,7 @@ struct FUN_009f30d0_shell : public PatrolActorPackageData
 };
 
 struct NavMeshEdgeSegment;
-template <class T, int N> struct BSSimpleArray
+template <class T, unsigned int N> struct BSSimpleArray
 {
     bool FUN_0076b610() const;
     unsigned int& GetAt(unsigned int);
@@ -557,7 +558,7 @@ void FUN_009f33d0_shell::FUN_009f33d0(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::BGSSaveGameBuffer *>((apSaveGameBuffer))->FUN_00865f60(isaveGameCount);
     for (unsigned int i = 0; i < isaveGameCount; ++i)
     {
-        TESObjectREFR** ppRefr = (TESObjectREFR**)&((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray*)((char*)this + 0x1c))))->FUN_006a7ad0(i)));
+        TESObjectREFR** ppRefr = &(SimpleArrayItem<TESObjectREFR*>(((BSSimpleArray*)((char*)this + 0x1c)), i));
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*ppRefr), 0);
     }
 }
@@ -1119,7 +1120,7 @@ void PatrolLoadShell::FUN_009f34e0(LoadBuf* apBuffer)
     reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(kArray))->FUN_006f2290(ItemUpdateArray, true);
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
     {
-        NavMeshInfo*& rEntry = ((::NavMeshInfo *)(reinterpret_cast<::S3e60 *>(&(kArray))->FUN_006a7ad0(i)));
+        NavMeshInfo*& rEntry = (SimpleArrayItem<::NavMeshInfo *>(&(kArray), i));
         reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&rEntry));
     }
 }
@@ -1290,7 +1291,7 @@ void PatrolData9f3610::FUN_009f3610(PatrolLoadBuf* apBuf)
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
     {
         bool bRemove = false;
-        PatrolRef*& rRef = ((::PatrolRef *)(reinterpret_cast<::S3e60 *>(&(kRefs))->FUN_006a7ad0(i)));
+        PatrolRef*& rRef = (SimpleArrayItem<::PatrolRef *>(&(kRefs), i));
         rRef =
             rRef ? reinterpret_cast<PatrolRef*>(dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)rRef)))
                  : 0;

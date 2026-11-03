@@ -6551,7 +6551,7 @@ void FUN_009c4da0_shell::ClearCombatStyleAndActorCause()
         ((BSSimpleList_standin*)((char*)this + 0x88))->_ref_0063f7b0();
     }
 
-    reinterpret_cast<::Holder0042f780 *>((((NiPointer<ActorCause>*)((char*)this + 0x120))))->FUN_0042f780=((::AC_0042f730 *)(::ActorCause *)(0));
+    reinterpret_cast<::Holder0042f780 *>((((NiPointer<ActorCause>*)((char*)this + 0x120))))->FUN_0042f780((::AC_0042f730 *)(::ActorCause *)(0));
 
     if (((FUN_008d8b80Class*)this)->FUN_008d8b80())
     {

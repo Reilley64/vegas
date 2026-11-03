@@ -1,5 +1,6 @@
 // fallout/ai/processlists.cpp: ProcessLists, ProcessListsEx, TESObjectREFR, BGSProjectile and more (133 functions)
 
+#include "fnv/simple_array_item.h"
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -3077,7 +3078,7 @@ struct AnimUpdateHelper
 bool FUN_0096cb20(BSSimpleArray<unsigned int, 1024>* array, int index)
 {
     BSSimpleArray<unsigned int, 1024>* pArray = array;
-    AnimUpdateHelper* pHelper = (AnimUpdateHelper*)((unsigned int)(reinterpret_cast<::S3e60 *>((pArray))->FUN_006a7ad0(index)));
+    AnimUpdateHelper* pHelper = (SimpleArrayItem<AnimUpdateHelper*>((void *)pArray, index));
     return reinterpret_cast<::C00493930 *>((pHelper))->FUN_00493930();
 }
 }  // namespace fnv_0096cb20
@@ -3613,7 +3614,7 @@ void ExecElementAt(BSSimpleArray<unsigned int, 0x400>* apArray, int aiIndex)
 {
     BSSimpleArray<unsigned int, 0x400>* arr = apArray;
     {
-        Dummy_96cf60* obj = reinterpret_cast<Dummy_96cf60*>(((unsigned int)(reinterpret_cast<::S3e60 *>((arr))->FUN_006a7ad0(aiIndex))));
+        Dummy_96cf60* obj = ((SimpleArrayItem<Dummy_96cf60*>((void *)arr, aiIndex)));
         obj->Exec();
     }
 }

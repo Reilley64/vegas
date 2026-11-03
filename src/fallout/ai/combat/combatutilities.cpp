@@ -5,6 +5,8 @@
 
 // Returns a divided by the product of FUN_005b9e80(b) and c.
 // @fnv 0x009a7dd0
+#include "fnv/simple_array_item.h"
+#include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/AngleView.h"
 #include "fnv/decl/BGSImpactData.h"
@@ -4035,7 +4037,7 @@ bool AssignCombatPlanAngles(Ref* apRef, Ref* apTargetRef)
                 value = FUN_0042f5a0(value, 0x40);
                 for (unsigned int e = 0; e < value; e++)
                 {
-                    Ref* slot = *((::Ref **)(reinterpret_cast<::S3e60 *>((ptr))->FUN_006a7ad0(e)));
+                    Ref* slot = *(SimpleArrayItem<::Ref **>((void *)ptr, e));
                     {
                         CombatPlan* m;
                         m = slot ? slot->GetCombatPlan() : 0;
@@ -4910,7 +4912,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
     }
     else
     {
-        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&e0)))->FUN_00439ef0-((::NiPoint3 *)&(*(NiPoint3*)&s0), *(const ::NiPoint3 *)nullptr)));
+        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&e0)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(*(NiPoint3*)&s0))));
         float v448 = FUN_004b54c0(diff.z / reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude());
         diff.z = 0.0f;
         float v44c = reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude();
@@ -4959,7 +4961,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
         }
         if (outPt)
         {
-            *outPt = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((NiPoint3Ex*)&((NiPoint3_helper*)&(*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&pos)))->FUN_00439ef0-((::NiPoint3 *)&(vecStart), *(const ::NiPoint3 *)nullptr))))->operator*(frac))))->ProjectileLaunched+((::NiPoint3 *)&(vecStart), {})));
+            *outPt = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((NiPoint3Ex*)&((NiPoint3_helper*)&(*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&pos)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(vecStart)))))->operator*(frac))))->ProjectileLaunched(&ResultSlot(::NiPoint3()), (::NiPoint3 *)&(vecStart))));
         }
         if (outFrac)
         {

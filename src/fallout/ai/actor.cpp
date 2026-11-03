@@ -1,5 +1,7 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include "fnv/simple_array_item.h"
+#include "fnv/result_slot.h"
 #include <intrin.h>
 #include <cstddef>
 #include <windows.h>
@@ -18759,7 +18761,7 @@ bool FUN_0088c570_shell::IsPointInConeFOV(void* arPoint, float afConeFOV)
     float ftargetangle;
     float fignore;
     float ftargetangledelta;
-    NiPoint3 vec = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)arPoint)))->FUN_00439ef0-((::NiPoint3 *)&(*((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((((TopicH*)this)))->GetAddTopicList()))), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3 vec = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)arPoint)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(*((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((((TopicH*)this)))->GetAddTopicList()))))));
     ftargetangle = ::GetDirectionAngle((const ::NiPoint3 *)&(vec));
     ftargetangledelta =
         FUN_004b15e0(((float(*)(void*, int))(*(void***)this)[0x2bc / 4])(this, 0), ftargetangle, &fignore);
@@ -42391,7 +42393,7 @@ struct FUN_008bbd60_Class
 // @fnv 0x008bbd60
 unsigned int FUN_008bbd60_Class::GetElementAsUInt(int idx)
 {
-    return (Flt&)((unsigned int)(reinterpret_cast<::S3e60 *>(&(arr))->FUN_006a7ad0(idx)));
+    return (Flt&)(SimpleArrayItem<unsigned int>(&(arr), idx));
 }
 }  // namespace fnv_008bbd60
 
@@ -45676,7 +45678,7 @@ bool FUN_004387b0_shell::FUN_004387b0(ArrSI* other)
         return false;
     for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
     {
-        if (*(unsigned int*)&((unsigned int)(reinterpret_cast<::S3e60 *>((other))->FUN_006a7ad0(i))) != *(unsigned int*)&((unsigned int)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i))))
+        if (*(unsigned int*)&(SimpleArrayItem<unsigned int>((void *)other, i)) != *(unsigned int*)&(SimpleArrayItem<unsigned int>((void *)this, i)))
             return false;
     }
     return true;

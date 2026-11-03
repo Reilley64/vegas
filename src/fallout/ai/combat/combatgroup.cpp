@@ -2,6 +2,8 @@
 // src/fallout/ai/combat/combatgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_array_item.h"
+#include "fnv/result_slot.h"
 #include <cstdint>
 #include <new>
 #include <malloc.h>
@@ -215,9 +217,6 @@ struct FUN_0096a2b0_stub
     void FUN_0096a2b0(int state);
 };
 
-void FUN_0096a2b0_stub::FUN_0096a2b0(int state)
-{}
-
 struct FUN_009871c0_shell
 {
     void FUN_009871c0(int state);
@@ -374,11 +373,6 @@ int FUN_0098a310_shell::GetFieldOrZero(int param)
     return 0;
 }
 
-int FUN_009865f0_shell::FUN_009865f0(int a1)
-{
-    return 0;
-}
-
 struct FUN_0098a360_shell
 {
     void FUN_0098a360(int a1, int a2);
@@ -410,7 +404,7 @@ int FUN_0098de60_shell::GetArrayItem(char index)
 {
     if (index < 0)
         return 0;
-    return ((unsigned int)(reinterpret_cast<::S3e60 *>(&(arr))->FUN_006a7ad0(index)));
+    return (SimpleArrayItem<unsigned int>(&(arr), index));
 }
 
 extern int DAT_0108d6f4;
@@ -2391,7 +2385,7 @@ void FUN_00989eb0_shell::FUN_00989eb0(NiPoint3* result)
 
     *result = reinterpret_cast<::Point3_0053d280 *>((void *)(void *)&(const ::NiPoint3 &)((points[0] + points[7])))->FUN_0053d280(::DAT_010162c0);
 
-    P3 difference = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((P3OperatorMinusHelper*)&points[0])))->FUN_00439ef0-((::NiPoint3 *)&(*(P3*)&points[7]), *(const ::NiPoint3 *)nullptr)));
+    P3 difference = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((P3OperatorMinusHelper*)&points[0])))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(*(P3*)&points[7]))));
 
     reinterpret_cast<::TESCombatStyle *>((void *)(((TESCombatStyle*)&difference)))->UpdateCombatStyle();
 }
@@ -3741,36 +3735,36 @@ bool Grp_Call2::FUN_009899a0()
     {
         ActorPos* obj = (ActorPos*)((void *)(reinterpret_cast<::Target *>(this)->GetIntAt(i)));
         arr1[i] = *obj->GetPos();
-        reinterpret_cast<::FUN_0063c8a0_shell *>((((NiPoint3_ext*)&v29)))->FUN_0063c8a0+=((void *)&(arr1[i]));
+        reinterpret_cast<::FUN_0063c8a0_shell *>((((NiPoint3_ext*)&v29)))->FUN_0063c8a0((void *)&(arr1[i]));
     }
     for (unsigned int j = 0; j < b; j++)
     {
         ActorPos* obj = ((::ActorPos *)(reinterpret_cast<::FUN_00968630_stub *>(this)->FUN_00968630(j)));
         arr2[j] = *obj->GetPos();
-        reinterpret_cast<::FUN_0063c8a0_shell *>((((NiPoint3_ext*)&vTmp)))->FUN_0063c8a0+=((void *)&(arr2[j]));
+        reinterpret_cast<::FUN_0063c8a0_shell *>((((NiPoint3_ext*)&vTmp)))->FUN_0063c8a0((void *)&(arr2[j]));
     }
     NiPoint3 sum23 = v29 + vTmp;
     ((FUN_004941c0_shell*)&v29)->ScaleByInverse((float)a3);
     ((FUN_004941c0_shell*)&vTmp)->ScaleByInverse((float)b);
     ((FUN_004941c0_shell*)&sum23)->ScaleByInverse((float)(a3 + b));
-    NiPoint3 d23 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&vTmp)))->FUN_00439ef0-((::NiPoint3 *)&(v29), *(const ::NiPoint3 *)nullptr)));
-    NiPoint3 d5 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&sum23)))->FUN_00439ef0-((::NiPoint3 *)&(v29), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3 d23 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&vTmp)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(v29))));
+    NiPoint3 d5 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&sum23)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(v29))));
     float f6 = reinterpret_cast<::FUN_004b6190_shell *>((void *)(((NiPoint3_ext*)&d5)))->DotProduct((void *)&(d23));
     float t20 = FUN_004579e0(f6);
     float t4 = reinterpret_cast<::NiPoint3 *>((((FUN_00457910_shell*)&d23)))->GetLengthSquared();
     NiPoint3 base = v29 + ((NiPoint3_helper*)&d23)->operator*(t20);
-    NiPoint3 resid8 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&v29)))->FUN_00439ef0-((::NiPoint3 *)&(base), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3 resid8 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&v29)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(base))));
     unsigned int countA21 = 0;
     unsigned int countB = 0;
     for (unsigned int i = 0; i < a3; i++)
     {
-        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&arr1[i])))->FUN_00439ef0-((::NiPoint3 *)&(base), *(const ::NiPoint3 *)nullptr)));
+        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&arr1[i])))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(base))));
         if (reinterpret_cast<::FUN_004b6190_shell *>((void *)(((NiPoint3_ext*)&diff)))->DotProduct((void *)&(resid8)) < 0.0)
             countA21++;
     }
     for (unsigned int j = 0; j < b; j++)
     {
-        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&arr2[j])))->FUN_00439ef0-((::NiPoint3 *)&(base), *(const ::NiPoint3 *)nullptr)));
+        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3_ext*)&arr2[j])))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(base))));
         if (reinterpret_cast<::FUN_004b6190_shell *>((void *)(((NiPoint3_ext*)&diff)))->DotProduct((void *)&(resid8)) < 0.0)
             countB++;
     }
@@ -3970,7 +3964,7 @@ void BoundsGroup::ExpandBounds(BoundsVector* points, bool append)
         {
             for (unsigned int axis = 0; axis < 3; ++axis)
             {
-                ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))) = DAT_0108d57c[corner][axis] ? -DAT_0108d540 : DAT_0108d540;
+                (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))) = DAT_0108d57c[corner][axis] ? -DAT_0108d540 : DAT_0108d540;
             }
         }
     }
@@ -3983,16 +3977,16 @@ void BoundsGroup::ExpandBounds(BoundsVector* points, bool append)
         {
             for (unsigned int axis = 0; axis < 3; ++axis)
             {
-                float value = ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(position))->FUN_004a51b0(axis)));
+                float value = (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(position))->FUN_004a51b0(axis)));
                 if (DAT_0108d57c[corner][axis])
                 {
-                    if (value > ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))))
-                        ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))) = value;
+                    if (value > (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))))
+                        (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))) = value;
                 }
                 else
                 {
-                    if (value < ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))))
-                        ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))) = value;
+                    if (value < (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))))
+                        (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[corner]))->FUN_004a51b0(axis))) = value;
                 }
             }
         }
@@ -4154,7 +4148,7 @@ void CornerAccumulator::UpdateBoundsFromActors(PointAccess* points, bool initial
         {
             for (eb = 0; eb < 3; ++eb)
             {
-                ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[f]))->FUN_004a51b0(eb))) = (*reinterpret_cast<unsigned char (*)[8][3]>(&::DAT_0108d57c))[f][eb] ? -::DAT_0108d540 : ::DAT_0108d540;
+                (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[f]))->FUN_004a51b0(eb))) = (*reinterpret_cast<unsigned char (*)[8][3]>(&::DAT_0108d57c))[f][eb] ? -::DAT_0108d540 : ::DAT_0108d540;
             }
         }
     }
@@ -4167,16 +4161,16 @@ void CornerAccumulator::UpdateBoundsFromActors(PointAccess* points, bool initial
         {
             for (k = 0; k < 3; ++k)
             {
-                l = ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(b))->FUN_004a51b0(k)));
+                l = (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(b))->FUN_004a51b0(k)));
                 if ((*reinterpret_cast<unsigned char (*)[8][3]>(&::DAT_0108d57c))[ba][k])
                 {
-                    if (l > ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))))
-                        ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))) = l;
+                    if (l > (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))))
+                        (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))) = l;
                 }
                 else
                 {
-                    if (l < ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))))
-                        ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))) = l;
+                    if (l < (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))))
+                        (*(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(points[ba]))->FUN_004a51b0(k))) = l;
                 }
             }
         }
@@ -6775,7 +6769,7 @@ FUN_00985f90::~FUN_00985f90()
     }
     for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(member138))->GetName())); k++)
     {
-        char* pEntry = ((char *)(reinterpret_cast<::S3e60 *>(&(member138))->FUN_006a7ad0(k)));
+        char* pEntry = (SimpleArrayItem<char *>(&(member138), k));
         delete pEntry;
     }
     reinterpret_cast<::DebugGroup *>(this)->RebuildDebugVisuals(true);
@@ -6807,7 +6801,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
     {
         for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())); ++i)
         {
-            DebugSearchPoint* spot = ((::DebugSearchPoint *)(reinterpret_cast<::S3e60 *>(&(points))->FUN_006a7ad0(i)));
+            DebugSearchPoint* spot = (SimpleArrayItem<::DebugSearchPoint *>(&(points), i));
             if (!((::DebugNode *)(::FUN_00559450((int *)&(debug)))))
                 debug.FUN_0066b0d0(new DebugNode(0));
             DebugColor color(0.5f, 0.0f, 0.5f, 0.5f);
@@ -9185,7 +9179,7 @@ void GroupLoad::FUN_0098e3d0(LoadBuf* buffer)
         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(items))->FUN_006f2290(countItems, true);
         for (unsigned int indexItems = 0; indexItems < countItems; indexItems++)
         {
-            LoadItem*& item = ((::LoadItem *)(reinterpret_cast<::S3e60 *>(&(items))->FUN_006a7ad0(indexItems)));
+            LoadItem*& item = (SimpleArrayItem<::LoadItem *>(&(items), indexItems));
             item = new LoadItem;
             reinterpret_cast<::FUN_00985b10_shell *>((item))->FUN_00985b10((::BGSLoadFormBuffer *)(buffer), (int)(this));
         }

@@ -1,5 +1,6 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
+#include "fnv/result_slot.h"
 #include <new>
 #include <cmath>
 #include "fnv/decl/Actor87.h"
@@ -1809,7 +1810,7 @@ void FUN_009bf370_shell::ApplySpeedAndVector(float afSpeed, NiPoint3 arVector)
     }
     reinterpret_cast<::fnv_0092f260::FUN_0092f260_shell *>(this)->FUN_0092f260(afSpeed, (::NiPoint3 *)&(arVector), 0xf);
     NiPoint3 vecEndPos = *GetPos();
-    reinterpret_cast<::Dummy009c4e60 *>(this)->FUN_009c4e60((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3Ex*)&vecEndPos)))->FUN_00439ef0-((::NiPoint3 *)&(vecStartPos), *(const ::NiPoint3 *)nullptr))), true);
+    reinterpret_cast<::Dummy009c4e60 *>(this)->FUN_009c4e60((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3Ex*)&vecEndPos)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(vecStartPos)))), true);
 }
 }  // namespace fnv_009bf370
 
@@ -2685,7 +2686,7 @@ bool FUN_009c5af0_shell::GetWaterPlaneIntersection(Proxy* apProxy, float* apWate
 
         if (kPos9.z > fRate && kPos2.z <= fRate)
         {
-            NiPoint3 kDiff2 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3Ex*)&kPos2)))->FUN_00439ef0-((::NiPoint3 *)&(*(NiPoint3*)&kPos9), *(const ::NiPoint3 *)nullptr)));
+            NiPoint3 kDiff2 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3Ex*)&kPos2)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(*(NiPoint3*)&kPos9))));
             float fDist = fRate - kPos9.z;
             *apWaterHeight = fDist / ((_ref_006815c0*)&kDiff2)->z;
             return true;

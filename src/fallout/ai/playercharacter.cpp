@@ -1,5 +1,6 @@
 // fallout/ai/playercharacter.cpp: PlayerView, PlayerCharacter_StandIn, PlayerCharacter, PlayerStub and more (251 functions)
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -37674,7 +37675,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
         reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(uiArraySize);
         for (unsigned int n = 0; n < uiArraySize; n++)
         {
-            ElementX*& rElement = ((::ElementX *)(reinterpret_cast<::S3e60 *>(&(kArraydf4))->FUN_006a7ad0(n)));
+            ElementX*& rElement = (SimpleArrayItem<::ElementX *>(&(kArraydf4), n));
             reinterpret_cast<::FUN_004bed60_shell *>((rElement))->SavePerkList((::BGSSaveFormBuffer *)(apBuffer));
         }
     }
@@ -62716,7 +62717,7 @@ void PlayerLoadState::FUN_0095a3b0(WkBuf* buf)
         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((WkList*)(&((PlayerLoadFields*)this)->unkdf4))))->FUN_006f2290(n3, 1);
         for (unsigned int i3 = 0; i3 < n3; i3++)
         {
-            void** slot = ((void **)(reinterpret_cast<::S3e60 *>((((WkList*)(&((PlayerLoadFields*)this)->unkdf4))))->FUN_006a7ad0(i3)));
+            void** slot = (SimpleArrayItem<void **>(((WkList*)(&((PlayerLoadFields*)this)->unkdf4)), i3));
             *slot = new WkC12;
             reinterpret_cast<::fnv_004bee00::FUN_004bee00_shell *>((((WkC12*)*slot)))->FUN_004bee00((::fnv_004bee00::BGSLoadFormBuffer *)(buf));
         }

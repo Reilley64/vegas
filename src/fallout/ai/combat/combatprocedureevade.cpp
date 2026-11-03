@@ -186,7 +186,7 @@ class PathingLocation
     ~PathingLocation();
 };
 struct EvadeActor;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 class PathingRequest
 {
   public:

@@ -302,17 +302,17 @@ struct FUN_00759470_Class
 // @fnv 0x00759470
 void FUN_00759470_Class::UpdateNoteDisplay(BGSNote* pNote)
 {
-    ((TileProcessor*)*((int*)this + 0x3a))->ProcessAllTiles();
-    ((Tile*)*((int*)this + 0xb))->Set(0xfa3, 0);
-    ((Tile*)*((int*)this + 0xc))->Set(0xfa9, 255);
-    ((Tile*)*((int*)this + 0xc))->Set(0xfa3, 1);
-    ((Tile*)*((int*)this + 0x18))->Set(0xfa3, 0);
-    if (((FUN_00759540_class*)*((int*)this + 0x2a))->IsFlag8Set())
+    ((TileProcessor*)(intptr_t)*((int*)this + 0x3a))->ProcessAllTiles();
+    ((Tile*)(intptr_t)*((int*)this + 0xb))->Set(0xfa3, 0);
+    ((Tile*)(intptr_t)*((int*)this + 0xc))->Set(0xfa9, 255);
+    ((Tile*)(intptr_t)*((int*)this + 0xc))->Set(0xfa3, 1);
+    ((Tile*)(intptr_t)*((int*)this + 0x18))->Set(0xfa3, 0);
+    if (((FUN_00759540_class*)(intptr_t)*((int*)this + 0x2a))->IsFlag8Set())
     {
-        ((Tile*)*((int*)this + 0x11))->Set(0xfa3, 0);
-        ((Tile*)*((int*)this + 0x19))->Set(0xfa3, 0);
+        ((Tile*)(intptr_t)*((int*)this + 0x11))->Set(0xfa3, 0);
+        ((Tile*)(intptr_t)*((int*)this + 0x19))->Set(0xfa3, 0);
     }
-    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Tile*)*((int*)this + 0xc))))->FUN_00a01350(0xfcc, (char *)(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((pNote->GetNoteTexture()))->FUN_00408da0()))), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Tile*)(intptr_t)*((int*)this + 0xc))))->FUN_00a01350(0xfcc, (char *)(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((pNote->GetNoteTexture()))->FUN_00408da0()))), true);
 }
 
 struct SL

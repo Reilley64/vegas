@@ -1147,7 +1147,7 @@ extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
     SpawnedFlagBox flagA3 = {};
     bool flagB;
     flagB = ((bool)(::FUN_0065e750(&a, &c)));
-    CopyConstructRange(((void *)(::CallWithFlag((int *)(void *)(&a)))), ((void *)(::CallWithFlag((int *)(void *)(&b)))), c, d, flagB, flagA3.v);
+    CopyConstructRange(((void *)(intptr_t)(::CallWithFlag((int *)(void *)(&a)))), ((void *)(intptr_t)(::CallWithFlag((int *)(void *)(&b)))), c, d, flagB, flagA3.v);
 }
 
 // std::_Construct for a 0x58-byte element: copy-construct in place.
@@ -1825,7 +1825,7 @@ extern "C" void __cdecl FUN_00660340(void* first, void* last, void* destCont, vo
 {
     SpawnedFlagBox checked = {};
     bool ptrCat = ((bool)(::FUN_0065e750(&first, &destCont)));
-    FUN_00660510(((void *)(::CallWithFlag((int *)(void *)(&first)))), ((void *)(::CallWithFlag((int *)(void *)(&last)))), destCont, destPtr, ptrCat, checked.v);
+    FUN_00660510(((void *)(intptr_t)(::CallWithFlag((int *)(void *)(&first)))), ((void *)(intptr_t)(::CallWithFlag((int *)(void *)(&last)))), destCont, destPtr, ptrCat, checked.v);
 }
 
 struct FUN_006e6da0

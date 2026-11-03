@@ -2575,7 +2575,7 @@ FUN_00632ec0::FUN_00632ec0()
 void FUN_00632e30()
 {
     if (!DAT_011cc694)
-        DAT_011cc694 = (int)new FUN_00632ec0;
+        DAT_011cc694 = (int)(intptr_t)new FUN_00632ec0;
 }
 
 // @fnv 0x006397b0
@@ -3005,7 +3005,7 @@ struct S_006265c0_Tail
 void FUN_00626470_Class::CallAndForwardResult(int aiArg1, int aiArg2)
 {
     S_006265c0_Q q = {};
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<S_006265c0_Tail*>(this)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(q.FUN_004a4840(this, aiArg1, aiArg2))), {}, {});
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<S_006265c0_Tail*>(this)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(intptr_t)(q.FUN_004a4840(this, aiArg1, aiArg2))), {}, {});
 }
 
 struct C626680Element
@@ -4555,7 +4555,7 @@ Obj* ParticleMgr::CreateParticleShape(Obj* node, int unused, unsigned char flag)
             }
             if (empty2)
             {
-                Obj* tgtD = ((::fnv_00637890::Obj *)(reinterpret_cast<::fnv_00639a60::C639a60 *>((empty2))->GetElementAt(0)))->v03();
+                Obj* tgtD = ((::fnv_00637890::Obj *)(uintptr_t)(reinterpret_cast<::fnv_00639a60::C639a60 *>((empty2))->GetElementAt(0)))->v03();
                 if (tgtD)
                 {
                     aSrc5 = ((::fnv_00637890::Obj *)(::FUN_00653270((const ::NiRTTI *)(::fnv_00637890::Rtti *)(&(*reinterpret_cast<::fnv_00637890::Rtti *>(&::g_011f4acc))), (::NiObject *)(::fnv_00637890::Obj *)(((::fnv_00637890::Obj *)(reinterpret_cast<::S_FUN_0045bc00 *>((tgtD))->FUN_0045bc00(0)))))));
@@ -4739,14 +4739,14 @@ Obj* ParticleMgr::CreateParticleShape(Obj* node, int unused, unsigned char flag)
         else if (::FUN_0043b300((const ::NiRTTI *)(::fnv_00637890::Rtti *)(&(*reinterpret_cast<::fnv_00637890::Rtti *>(&::g_01202500))), (::NiAVObject *)(lim3)))
         {
             meanB = ((::fnv_00637890::Obj *)(::FUN_00653270((const ::NiRTTI *)(::fnv_00637890::Rtti *)(&(*reinterpret_cast<::fnv_00637890::Rtti *>(&::g_01202500))), (::NiObject *)(lim3))));
-            Xform m4 = ((::fnv_00637890::Obj *)(reinterpret_cast<::fnv_00639ac0::FUN_00639ac0_Class *>((meanB))->GetAtChecked(0)))->GetWorld();
+            Xform m4 = ((::fnv_00637890::Obj *)(uintptr_t)(reinterpret_cast<::fnv_00639ac0::FUN_00639ac0_Class *>((meanB))->GetAtChecked(0)))->GetWorld();
             Xform m6 = node->GetWorld();
             float radiusX;
             Xform minDistTmp;
             reinterpret_cast<::NiTransform *>((void *)&(m6))->CalculateInverse((::NiTransform &)(minDistTmp));
             XA = minDistTmp * m4;
             local7 = XA * v30;
-            Bnd m_ = *((::fnv_00637890::Bnd *)(::GetSourceFilesFromForm((char *)(((::fnv_00637890::Obj *)(reinterpret_cast<::fnv_00639ac0::FUN_00639ac0_Class *>((meanB))->GetAtChecked(0)))))));
+            Bnd m_ = *((::fnv_00637890::Bnd *)(::GetSourceFilesFromForm((char *)(((::fnv_00637890::Obj *)(uintptr_t)(reinterpret_cast<::fnv_00639ac0::FUN_00639ac0_Class *>((meanB))->GetAtChecked(0)))))));
             Pt3 kTargetCenter = (*(const ::fnv_00637890::Pt3 *)(new ((void *)&(m_)) ::Vec3()));
             radiusX = reinterpret_cast<::Twin_0084d030 *>((void *)&(m_))->GetStoredFloatValue();
             minPt3 = Pt3(kTargetCenter.x - radiusX, kTargetCenter.y - radiusX,
@@ -4829,7 +4829,7 @@ Obj* ParticleMgr::CreateParticleShape(Obj* node, int unused, unsigned char flag)
         Bnd bound9 = *((::fnv_00637890::Bnd *)(::GetSourceFilesFromForm((char *)(sA))));
         reinterpret_cast<::FUN_0063f790_shell *>(&(bound9))->FUN_0063f790((mask2.x - minPt3.x) / ::DAT_01011590);
         reinterpret_cast<::FUN_006397f0_Obj *>(&(bound9))->SetFromFloats(0.0f, 0.0f, 0.0f);
-        reinterpret_cast<::s4a5200::Owner *>((sA))->FUN_004a5200((int)(&bound9));
+        reinterpret_cast<::s4a5200::Owner *>((sA))->FUN_004a5200((int)(intptr_t)(&bound9));
         modeB = 1;
         if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(::fnv_00637890::Rtti *)(&(*reinterpret_cast<::fnv_00637890::Rtti *>(&::g_011f4aa0))), (const ::fnv_0045bad0::NiObject *)(::fnv_00637890::Obj *)(((::fnv_00637890::Obj *)(reinterpret_cast<::FUN_009611e0_shell *>((node))->FUN_009611e0())))))
         {
@@ -5421,7 +5421,7 @@ class IntArray629
 void FUN_006299c0_cls::FUN_006299c0(intptr_t a)
 {
     FUN_004a4840_cls obj = {};
-    reinterpret_cast<::IntArray629 *>((((FUN_00629ad0_cls*)this)))->FUN_00629ad0((*(::HeapAllocator629 *)(obj.FUN_004a4840(this))), a);
+    reinterpret_cast<::IntArray629 *>((((FUN_00629ad0_cls*)this)))->FUN_00629ad0((*(::HeapAllocator629 *)(intptr_t)(obj.FUN_004a4840(this))), a);
 }
 
 // Grows the array if it is at capacity, then constructs one element from iValue at the end and increments the count.
@@ -6475,7 +6475,7 @@ class FUN_006264f0 : public FUN_00a29680
 // @fnv 0x006264f0
 FUN_006264f0::~FUN_006264f0()
 {
-    reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(TagA626().FUN_004a4840(this)));
+    reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(intptr_t)(TagA626().FUN_004a4840(this)));
 }
 
 struct Node626930;
@@ -7066,7 +7066,7 @@ struct Body628
     virtual void v1c4();
     virtual void v1c8();
     virtual void v1cc();
-    virtual int actorArg();
+    virtual void* actorArg();
     int unk004;
     int unk008;
     int unk00c;
@@ -7140,7 +7140,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
         BodyCollection628* bodies = ((::BodyCollection628 *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()));
         for (int scan = 0; scan < ::FUN_00c9c380((void *)(bodies), {}) && !grouped; ++scan)
         {
-            Shape628* shape = ((::Shape628 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ShapeWrapper628 *)(reinterpret_cast<::FUN_00c9c390_Class *>((bodies))->GetEntry(scan)))))->FUN_0084e3a0()));
+            Shape628* shape = ((::Shape628 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ShapeWrapper628 *)(intptr_t)(reinterpret_cast<::FUN_00c9c390_Class *>((bodies))->GetEntry(scan)))))->FUN_0084e3a0()));
             grouped = shape->type() != 11;
         }
         if (grouped)
@@ -7190,7 +7190,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 if (actor->controller)
                 {
                     Smart628 smart;
-                    reinterpret_cast<::Manager *>((actor->controller))->FUN_00ca2ad0((void *)(reference->actorArg()), (unsigned int)(((void *)(::FUN_00559450((int *)(actor->FUN_00931ed0(&smart)))))));
+                    reinterpret_cast<::Manager *>((actor->controller))->FUN_00ca2ad0(reference->actorArg(), (unsigned int)(uintptr_t)(((void *)(::FUN_00559450((int *)(actor->FUN_00931ed0(&smart)))))));
                 }
             }
         }

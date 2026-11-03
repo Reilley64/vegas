@@ -1127,7 +1127,7 @@ int CallWithFlag(int*);
 // @fnv 0x0060bba0
 void __cdecl FUN_0060bba0(int param1, int param2, intptr_t param3)
 {
-    ::CallWithFlagByte((void *)(CallWithFlag(&param1)), (void *)(CallWithFlag(&param2)), (void *)(param3), (*(unsigned char *)&(const ::S_0060bba0_TagA &)(FUN_0065fd70(&param1, (int*)&param3))));
+    ::CallWithFlagByte((void *)(intptr_t)(CallWithFlag(&param1)), (void *)(intptr_t)(CallWithFlag(&param2)), (void *)(param3), (*(unsigned char *)&(const ::S_0060bba0_TagA &)(FUN_0065fd70(&param1, (int*)&param3))));
 }
 
 struct B60BC10PtrCatTag

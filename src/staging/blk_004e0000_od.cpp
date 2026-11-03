@@ -4367,7 +4367,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                                                                          (void *)(::FUN_00559450((int *)&(pprop->m_134))),
                                                                          (void *)(::FUN_00559450((int *)&(obj->m_30))), nullptr, (void *)(std::uintptr_t)1);
                                 }
-                                reinterpret_cast<::FUN_0084d310_class *>(&(m_6c))->FUN_0084d310((int)(obj), true);
+                                reinterpret_cast<::FUN_0084d310_class *>(&(m_6c))->FUN_0084d310((int)(intptr_t)(obj), true);
                             }
                         }
                     }

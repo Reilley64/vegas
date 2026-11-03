@@ -1793,7 +1793,7 @@ void FUN_007031e0(DbgRef* ref)
             int x = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011debac))))));
             reinterpret_cast<::A0F8Self *>((((::DbgText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)&(text)))), 640.0f, (float)x, 2, -1, -1.0f, 0, (::A0F8Color *)(0));
         }
-        reinterpret_cast<::FUN_00714d70 *>((((::DbgIface *)(::fnv_004b7210::FUN_004b7210()))))->SetField((int)(ref));
+        reinterpret_cast<::FUN_00714d70 *>((((::DbgIface *)(::fnv_004b7210::FUN_004b7210()))))->SetField((int)(intptr_t)(ref));
     }
 }
 
@@ -2300,7 +2300,7 @@ void MenuState::UpdateMenuSelection()
             actor = ((::MenuActor *)(reinterpret_cast<::FUN_00a03c90_shell *>((pSource))->FUN_00a03c90()));
         if (actor && ((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) && !((bool)(reinterpret_cast<::QueuedFileLoad *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->GetFileIndex())))
         {
-            float amount = ::FUN_00716660((int)(actor));
+            float amount = ::FUN_00716660((int)(intptr_t)(actor));
             bool leftSlot = FUN_00408840(amount) == ::g_01012070;
             int selection = ((int)(reinterpret_cast<::ActorMover *>((actor))->GetCurrentMoveModeType()));
             int rightSlot = reinterpret_cast<::InterfaceManager *>(this)->GetTopEnterStackEntry();

@@ -1899,7 +1899,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
             reinterpret_cast<::FUN_00438690 *>(&(removals))->FUN_007cb2e0((unsigned int *)(::fnv_006271b0::Node **)(&key));
     }
     for (unsigned i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(removals))->GetName())); i++)
-        reinterpret_cast<::NiTMap_S *>(&(map))->RemoveKey((unsigned int)(removals.FUN_00877a30(i)));
+        reinterpret_cast<::NiTMap_S *>(&(map))->RemoveKey((unsigned int)(uintptr_t)(removals.FUN_00877a30(i)));
 }
 }
 

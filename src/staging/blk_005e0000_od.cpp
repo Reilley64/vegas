@@ -3015,7 +3015,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     if (pExt6 != 0 && GetKind() >= 0xb1 && GetKind() <= 0xc7)
                         fMultVal *= reinterpret_cast<::FUN_00507b20Class *>((ref->GetExt()))->FUN_00507b20();
                     AudioPlaybackHandle snd = ((::AudioMgr *)(::FUN_00453a70()))->Make(
-                        ((int)(::FUN_00511840((char *)(pEntry7->pForm)))),
+                        ((int)(intptr_t)(::FUN_00511840((char *)(pEntry7->pForm)))),
                         pEntry7->pForm);
                     reinterpret_cast<::FUN_00ad8b60_h *>(&(snd))->FUN_00ad8b60(pos3.x, pos3.y, pos3.z);
                     reinterpret_cast<::FUN_00ad89e0_shell *>(&(snd))->FUN_00ad89e0((float)(pEntry7->ucType / ::DAT_0101e568));
@@ -3094,7 +3094,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     if (ref->IsActor())
                     {
                         Ref* pActor = ref;
-                        Holder* pHolder3 = ((::Holder *)(reinterpret_cast<::s891b90::Owner *>((pActor))->FUN_00891b90(2)));
+                        Holder* pHolder3 = ((::Holder *)(intptr_t)(reinterpret_cast<::s891b90::Owner *>((pActor))->FUN_00891b90(2)));
                         if (pHolder3 != 0)
                         {
                             SndTable* pSearchEntries = ((::SndTable *)(reinterpret_cast<::Twin_0044ddc0 *>((pHolder3))->GetName()));

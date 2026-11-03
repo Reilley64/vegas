@@ -1228,11 +1228,11 @@ void QueuedMap::FUN_00528e40(bool abFreeNodes)
     count = 0;
     for (unsigned int i = 0; i < bucketCount; i++)
     {
-        QueuedNode* node = (QueuedNode*)::ClearLowBit((int *)&(buckets[i]));
+        QueuedNode* node = (QueuedNode*)(intptr_t)::ClearLowBit((int *)&(buckets[i]));
         reinterpret_cast<::FUN_006665a0_shell *>(&(buckets[i]))->FUN_006665a0();
         while (node)
         {
-            QueuedNode* nextNode = (QueuedNode*)::ClearLowBit((int *)&(node->next));
+            QueuedNode* nextNode = (QueuedNode*)(intptr_t)::ClearLowBit((int *)&(node->next));
             reinterpret_cast<::FUN_006665a0_shell *>(&(node->next))->FUN_006665a0();
             reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::QueuedRefPtr &)(node->ref))->FUN_006f74f0((::ObjA *)(void *)(0));
             reinterpret_cast<::FUN_0044edd0_owner *>(this)->DispatchAndDelete((::FUN_0044edd0_Disposable *)(node));

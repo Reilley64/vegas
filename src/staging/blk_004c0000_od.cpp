@@ -2185,7 +2185,7 @@ void TreeCtrl4d88::AddBlendInterpTreeItems(void* hParentItem, BlendInterp4d88* p
         kInsert.hParent = hBlendItem;
         for (unsigned short us = 0; us < reinterpret_cast<::FUN_004d8a00_Class *>((pkBlend))->GetField3C(); us++)
         {
-            Target4d88* pkTarget = ((::Target4d88 *)(reinterpret_cast<::FUN_004d8a20_Class *>((pkBlend))->GetEntry(us)));
+            Target4d88* pkTarget = ((::Target4d88 *)(intptr_t)(reinterpret_cast<::FUN_004d8a20_Class *>((pkBlend))->GetEntry(us)));
             if (pkTarget)
             {
                 Interp4d88* pkInterp = ((::Interp4d88 *)(reinterpret_cast<::NiAVObject_004b5b00 *>((pkBlend))->GetExtraDataAt(us)));
@@ -3605,7 +3605,7 @@ unsigned char __cdecl FUN_004dc710()
     float screenAspect = (float)screenWidth / (float)screenHeight;
     if (::FUN_004dce30())
     {
-        DisplayAdapter* adapter = ((::fnv_004dc710::DisplayAdapter *)(::fnv_004dcdb0::GetFltValueAt(FUN_004dc210())));
+        DisplayAdapter* adapter = ((::fnv_004dc710::DisplayAdapter *)(uintptr_t)(::fnv_004dcdb0::GetFltValueAt(FUN_004dc210())));
         if (adapter)
         {
             success = ::FUN_00446e10();
@@ -3623,7 +3623,7 @@ unsigned char __cdecl FUN_004dc710()
                 unsigned int selectedHeight = 0;
                 while (indexInfo-- && !success)
                 {
-                    D3DDISPLAYMODE* mode = ((::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(indexInfo)));
+                    D3DDISPLAYMODE* mode = ((::_D3DDISPLAYMODE *)(uintptr_t)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(indexInfo)));
                     if (mode->RefreshRate >= 32 && mode->Format == MapIndexToValue(::FUN_004dc270()))
                     {
                         if (!::FUN_00446e10())
@@ -3665,8 +3665,8 @@ unsigned char __cdecl FUN_004dc710()
                 }
                 else if (!success && selectedPos <= adapter->FUN_004dcce0())
                 {
-                    ::DAT_0118947c = ((::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Width;
-                    (*reinterpret_cast<unsigned int *>(&::DAT_01189480)) = ((::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Height;
+                    ::DAT_0118947c = ((::_D3DDISPLAYMODE *)(uintptr_t)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Width;
+                    (*reinterpret_cast<unsigned int *>(&::DAT_01189480)) = ((::_D3DDISPLAYMODE *)(uintptr_t)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Height;
                     success = 1;
                     ::fnv_004da670::DAT_011c70ec = 1;
                 }
@@ -4505,7 +4505,7 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
                         treeItem.item.selectedImage = treeItem.item.image;
                         treeItem.parent = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
                         treeItem.item.data = 0;
-                        reinterpret_cast<::FUN_00844700_Class *>(&(entries))->FUN_00844700((unsigned int)object, (unsigned int)treeItem.parent);
+                        reinterpret_cast<::FUN_00844700_Class *>(&(entries))->FUN_00844700((unsigned int)(uintptr_t)object, (unsigned int)(uintptr_t)treeItem.parent);
                         treeItem.item.text = ((const char *)(::FUN_00464f30((intptr_t)("Attributes"))));
                         treeItem.item.image = 5;
                         treeItem.item.selectedImage = treeItem.item.image;

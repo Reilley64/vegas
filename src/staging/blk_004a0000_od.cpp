@@ -1948,7 +1948,7 @@ char FUN_004b05d0_Class::AddPairIfMissing(float* pfFirst, float* pfSecond)
     char r = 0;
     if (reinterpret_cast<::FUN_004b06b0_Class *>(this)->FindPairIndex((intptr_t)(pfFirst), (intptr_t)(pfSecond)) == -1)
     {
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)((char*)this + 8))))->FUN_0096a610((int)&(const unsigned int &)((unsigned int)new Struct_004b0680(pfFirst, pfSecond)));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)((char*)this + 8))))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)(uintptr_t)new Struct_004b0680(pfFirst, pfSecond)));
     }
     return r;
 }
@@ -1959,7 +1959,7 @@ int FUN_004b06b0_Class::FindPairIndex(intptr_t aiFirst, intptr_t aiSecond)
     int result = -1;
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(&(arr))->GetShortAtOffsetA(); ++i)
     {
-        if ((int)*(int*)*arr.GetAt(i) == aiFirst && (int)*(int*)((char*)*arr.GetAt(i) + 4) == aiSecond)
+        if ((intptr_t)((Struct_004b0680*)(uintptr_t)*arr.GetAt(i))->p == aiFirst && (intptr_t)((Struct_004b0680*)(uintptr_t)*arr.GetAt(i))->q == aiSecond)
             result = i;
     }
     return result;
@@ -2346,7 +2346,7 @@ void AddToRefCountIfNotFlagged(TESObjectREFR* pkRef, int iAmount, int** ppiCount
         if (!bSkipB || !bSkipA)
         {
             **ppiTarget += iAmount;
-            reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::RefBoolMap4A8 *>(&::g_011c5c40))))->FUN_0084d310((int)(pkRef), true);
+            reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::RefBoolMap4A8 *>(&::g_011c5c40))))->FUN_0084d310((int)(intptr_t)(pkRef), true);
         }
     }
 }

@@ -1091,7 +1091,7 @@ struct FUN_007cb330 : Menu
 // @fnv 0x007cb330
 FUN_007cb330::FUN_007cb330() : unk1b8(0)
 {
-    unk1d0 = ((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)));
+    unk1d0 = ((void *)(intptr_t)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)));
     FUN_00403d30(&unk028, 0, 0x5c);
     unk1a8 = 0;
     unk1a4 = 0;

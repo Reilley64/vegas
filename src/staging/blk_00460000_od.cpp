@@ -4088,7 +4088,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                             ::fnv_00562020::FUN_00562020((::TESObjectREFR *)(ref));
                         }
                     }
-                    ::FUN_00c6a270((int)(q), true, true, 0);
+                    ::FUN_00c6a270((int)(intptr_t)(q), true, true, 0);
                 }
                 if (total)
                     reinterpret_cast<::FUN_004778a0_cls *>(this)->ReleaseScriptRunLock();
@@ -4101,11 +4101,11 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
         }
         if (oldIndex && val > 0.0)
         {
-            reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::DMap *>(&::g_011c4104))))->FUN_00844700((unsigned int)(ref), oldIndex);
+            reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::DMap *>(&::g_011c4104))))->FUN_00844700((unsigned int)(uintptr_t)(ref), oldIndex);
             newPercent = oldIndex;
         }
         else
-            reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::DMap *>(&::g_011c4104))))->RemoveKey((unsigned int)(ref));
+            reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::DMap *>(&::g_011c4104))))->RemoveKey((unsigned int)(uintptr_t)(ref));
     }
     for (unsigned int stageIndex = n; stageIndex < result; ++stageIndex)
     {
@@ -4175,7 +4175,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
             rate = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting479))))));
     }
     if (rate != -1.0)
-        reinterpret_cast<::S_9a54a0_Class *>((((::DManager *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->FUN_009a54a0((int)(ref), (::S_9a54a0_Actor *)(replacement), rate);
+        reinterpret_cast<::S_9a54a0_Class *>((((::DManager *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->FUN_009a54a0((intptr_t)(ref), (::S_9a54a0_Actor *)(replacement), rate);
     else
         reinterpret_cast<::EntryMap9A5 *>((((::DManager *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->RemoveEntryForRef((::Ref9A5 *)(ref));
 }

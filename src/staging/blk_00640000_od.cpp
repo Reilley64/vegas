@@ -1541,7 +1541,7 @@ int __cdecl CallWithFlag(int* p);
 // @fnv 0x0064e4b0
 void __cdecl FUN_0064e4b0(int a, int b, intptr_t c)
 {
-    ::FUN_0064e680((::FUN_0064e680_S *)(CallWithFlag(&a)), (::FUN_0064e680_S *)(CallWithFlag(&b)), (::FUN_0064e680_S *)(c));
+    ::FUN_0064e680((::FUN_0064e680_S *)(intptr_t)(CallWithFlag(&a)), (::FUN_0064e680_S *)(intptr_t)(CallWithFlag(&b)), (::FUN_0064e680_S *)(c));
 }
 
 struct FUN_0064e680_S
@@ -4204,7 +4204,7 @@ struct S_0064e860_TagC
 S_0064e860_Block* __cdecl FUN_0064e860(S_0064e860_Block* first, S_0064e860_Block* last, S_0064e860_Block* dest)
 {
     S_0064e860_Block* result = dest - (last - first);
-    ::CopyBlocksBackward(first, (::FUN_0064e980_Block *)(last), (::FUN_0064e980_Block *)(CallWithFlag((int*)&dest)));
+    ::CopyBlocksBackward(first, (::FUN_0064e980_Block *)(last), (::FUN_0064e980_Block *)(intptr_t)(CallWithFlag((int*)&dest)));
     return result;
 }
 
@@ -4240,7 +4240,7 @@ extern "C" void __cdecl FUN_0064e920(int a, int b, intptr_t c, intptr_t iFourth)
 {
     FlagBox5317 flag1 = {};
     unsigned char flag2 = FUN_0065e750((void*)&a, (void*)&c);
-    ::FUN_0064e9c0((::Elem64e9 *)(CallWithFlag((int*)&a)), (::Elem64e9 *)(CallWithFlag((int*)&b)), (::Elem64e9 *)(c), (*(::Alloc64e9 *)(iFourth)), ::NonscalarTag64e9{}, ::CheckedTag64e9{});
+    ::FUN_0064e9c0((::Elem64e9 *)(intptr_t)(CallWithFlag((int*)&a)), (::Elem64e9 *)(intptr_t)(CallWithFlag((int*)&b)), (::Elem64e9 *)(c), (*(::Alloc64e9 *)(iFourth)), ::NonscalarTag64e9{}, ::CheckedTag64e9{});
 }
 
 struct FUN_0064fcd0_Other
@@ -4429,8 +4429,8 @@ bool Target::FUN_00650480(FileNames* pFileNames)
         return false;
     bool p = false;
     FUN_00652140();
-    if (reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(((const char *)(uintptr_t)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue()))), (void **)&(a)) ||
-        (::FUN_00650600((char *)(pFileNames)) && reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(::FUN_00650600((char *)(pFileNames))), (void **)&(a))))
+    if (reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(uintptr_t)(((const char *)(uintptr_t)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue()))), (void **)&(a)) ||
+        (::FUN_00650600((char *)(pFileNames)) && reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(uintptr_t)(::FUN_00650600((char *)(pFileNames))), (void **)&(a))))
     {
         ((::ModelRecord *)(::FUN_00559450((int *)&(a))))->time = ((unsigned int)(::FUN_00457fe0()));
         reinterpret_cast<::fnv_00650ba0::BSFaceGenModelMap_t *>(this)->FUN_00650ba0(((::ModelRecord *)(::FUN_00559450((int *)&(a)))));
@@ -4649,7 +4649,7 @@ void* FUN_00657c50_cls::FUN_00657c50(void* a, Pair_657c50 pair, int c, int d)
     Blk_657c50 t14;
     int t12;
     int dummy;
-    void* x = !reinterpret_cast<::FUN_00662820_shell *>(this)->FUN_00662820() ? 0 : ((void *)(reinterpret_cast<::FUN_006580b0_cls *>(&(pair))->GetEntryOffset((::FUN_006580b0_cls *)(void *)(((void *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&t12))))))));
+    void* x = !reinterpret_cast<::FUN_00662820_shell *>(this)->FUN_00662820() ? 0 : ((void *)(intptr_t)(reinterpret_cast<::FUN_006580b0_cls *>(&(pair))->GetEntryOffset((::FUN_006580b0_cls *)(void *)(((void *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&t12))))))));
     Apply(pair.m_iWordAt00, c, 1, d);
     reinterpret_cast<::S8 *>((((::Holder_657c50 *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)(void *)(&t14))))))->FUN_0060b820({}, {});
     return a;
@@ -5541,7 +5541,7 @@ FNVPair8* FUN_0065d740_cls::FUN_0065d740(FNVPair8* out, unsigned int a, unsigned
     if (reinterpret_cast<::FUN_0065dfd0_class *>(&(local1))->FUN_0065dfd0((intptr_t)(&local7)))
     {
         unsigned int t = FUN_0065e1f0(local7.hi, m_10, local1.hi);
-        reinterpret_cast<::FUN_0065df10_class *>(this)->FUN_0065df10((void *)(t), (void *)(m_10));
+        reinterpret_cast<::FUN_0065df10_class *>(this)->FUN_0065df10((void *)(uintptr_t)(t), (void *)(uintptr_t)(m_10));
         m_10 = t;
     }
     *out = local1;
@@ -6125,7 +6125,7 @@ FNVPair8* FUN_0065f5a0_cls::FUN_0065f5a0(FNVPair8* out, int a, int b, int c, int
     reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(::fnv_0065f5a0::FNVPair8 *)(&B), c, d);
     if (reinterpret_cast<::FUN_0065dfd0_class *>(&(A5))->FUN_0065dfd0((intptr_t)(&B)))
     {
-        intptr_t t = (intptr_t)FUN_0065f820((Elem_65eed0*)B.hi, (Elem_65eed0*)m_10, (Elem_65eed0*)A5.hi);
+        intptr_t t = (intptr_t)FUN_0065f820((Elem_65eed0*)(uintptr_t)B.hi, (Elem_65eed0*)(uintptr_t)m_10, (Elem_65eed0*)(uintptr_t)A5.hi);
         reinterpret_cast<::FUN_0065f400_class *>(this)->FUN_0065f400(t, m_10);
         m_10 = t;
     }
@@ -7169,7 +7169,7 @@ int __cdecl FUN_0064e5a0(intptr_t a1, intptr_t a2, int a3)
     Tag x1 = {};
     Tag xTmp = {};
     Tag x3;
-    ::CopyStructRange((::FUN_0064e7f0_S *)(a1), (::FUN_0064e7f0_S *)(a2), (::FUN_0064e7f0_S *)(CallWithFlag(&a3)));
+    ::CopyStructRange((::FUN_0064e7f0_S *)(a1), (::FUN_0064e7f0_S *)(a2), (::FUN_0064e7f0_S *)(intptr_t)(CallWithFlag(&a3)));
     return value;
 }
 

@@ -3058,7 +3058,7 @@ Vector3* FUN_00451900_shell::FUN_00457720(const Vector2* position)
 
         if (cell7)
         {
-            yBlock = ((::Vector3 *)(reinterpret_cast<::FUN_0053a5e0_cls *>((reinterpret_cast<::S00546fb0_Cell *>((cell7))->FUN_00546fb0()))->FUN_0053a5e0({})));
+            yBlock = ((::Vector3 *)(intptr_t)(reinterpret_cast<::FUN_0053a5e0_cls *>((reinterpret_cast<::S00546fb0_Cell *>((cell7))->FUN_00546fb0()))->FUN_0053a5e0((int)(intptr_t)(position))));
 
             if (yBlock)
             {
@@ -3230,16 +3230,16 @@ void LockFreeQueue::Enqueue(const QHeadPtr& rkValue)
             continue;
         if (pNext2)
         {
-            ::FUN_004491c0((volatile long *)(void *)(&pRoot->pTail), (int)pNext2, (int)pTail);
+            ::FUN_004491c0((volatile long *)(void *)(&pRoot->pTail), (int)(intptr_t)pNext2, (int)(intptr_t)pTail);
             continue;
         }
-        if (::FUN_004491c0((volatile long *)(pTail), (int)pNode2, 0))
+        if (::FUN_004491c0((volatile long *)(pTail), (int)(intptr_t)pNode2, 0))
         {
             pRoot->Signal();
             break;
         }
     }
-    ::FUN_004491c0((volatile long *)(void *)(&pRoot->pTail), (int)pNode2, (int)pTail);
+    ::FUN_004491c0((volatile long *)(void *)(&pRoot->pTail), (int)(intptr_t)pNode2, (int)(intptr_t)pTail);
     *ppHazard = 0;
 }
 
@@ -3315,7 +3315,7 @@ bool Object::InsertOrReplaceNode(int a, int b, int* value, bool replace)
         TaggedPointer previous2(0, list.ClearLowBit());
         TaggedPointer current2(0, node7);
         node7->next = previous2.node;
-        if (::FUN_004491c0((volatile long *)(lock), (long)(((::Node **)(::FUN_00559450((int *)&(current2))))), (long)(((::Node **)(::FUN_00559450((int *)&(previous2)))))))
+        if (::FUN_004491c0((volatile long *)(intptr_t)(lock), (long)(intptr_t)(((::Node **)(::FUN_00559450((int *)&(current2))))), (long)(intptr_t)(((::Node **)(::FUN_00559450((int *)&(previous2)))))))
         {
             object->notify();
             break;
@@ -3346,7 +3346,7 @@ void __cdecl FUN_0044d600(Value aValue1, Value aValue2, intptr_t aiArg)
     Flag zero = {};
     bool result = ((bool)(::FUN_0065e750(&aValue1, &aiArg)));
     (void)result;
-    ::FUN_0044e4a0((void **)(::CallWithFlag((int *)(::Value *)(&aValue1))), (void **)(::CallWithFlag((int *)(::Value *)(&aValue2))), (void **)(aiArg), ::C44E4A0ScalarTag{}, ::C44E4A0RangeTag{});
+    ::FUN_0044e4a0((void **)(intptr_t)(::CallWithFlag((int *)(::Value *)(&aValue1))), (void **)(intptr_t)(::CallWithFlag((int *)(::Value *)(&aValue2))), (void **)(intptr_t)(aiArg), ::C44E4A0ScalarTag{}, ::C44E4A0RangeTag{});
 }
 
 
@@ -3599,7 +3599,7 @@ bool Walker_44ea60::FindAndProcessNode(int a, int* b, int* apiValueOut)
         *unk08 = ClearLowBit((int*)&m_list14);
         FUN_0040fbe0();
         ListIter_44ea60 kNode;
-        reinterpret_cast<::FUN_006ecba0_class *>(&(kNode))->FUN_006ecba0(false, (void*)ClearLowBit((int*)&m_list14));
+        reinterpret_cast<::FUN_006ecba0_class *>(&(kNode))->FUN_006ecba0(false, (void*)(intptr_t)ClearLowBit((int*)&m_list14));
         if ((void*)*unk10 != (void*)kNode)
         {
             continue;
@@ -3831,7 +3831,7 @@ void Stand_456b10::FUN_00456b10(const char* name)
         {
             ::TaskQueueInterface::CopyStringToBuffer(hkxPath, 260, name);
             FUN_00406d50(hkxPath, 260, ".hkx");
-            reinterpret_cast<::Owner67430 *>((hkWorld))->FUN_00c67430((int)(hkxPath));
+            reinterpret_cast<::Owner67430 *>((hkWorld))->FUN_00c67430((int)(intptr_t)(hkxPath));
         }
     }
 }
@@ -4182,7 +4182,7 @@ bool TSMap::InsertOrReplace(int aiKey, int aiHash, const QHeadPtr& arValue, bool
         TSMapTaggedPtr kOldTop(false, kList.GetHead());
         TSMapTaggedPtr kNewTop(false, pNewNode2);
         pNewNode2->pNext = kOldTop.pNode;
-        if (::FUN_004491c0((volatile long *)(aiNumVertices), (long)(((::TSMapNode **)(::FUN_00559450((int *)&(kNewTop))))), (long)(((::TSMapNode **)(::FUN_00559450((int *)&(kOldTop)))))))
+        if (::FUN_004491c0((volatile long *)(intptr_t)(aiNumVertices), (long)(intptr_t)(((::TSMapNode **)(::FUN_00559450((int *)&(kNewTop))))), (long)(intptr_t)(((::TSMapNode **)(::FUN_00559450((int *)&(kOldTop)))))))
         {
             pFactory->Notify();
             break;
@@ -5103,7 +5103,7 @@ void World::FUN_0045b070(View* view)
 {
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::SceneUpdate::Marker *>(&::g_011c3c0f))))->ClearData();
     Query query(0);
-    reinterpret_cast<::FUN_0041fd00_shell *>(&(query))->FUN_0041fd00((int)(view));
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(query))->FUN_0041fd00((int)(intptr_t)(view));
     reinterpret_cast<::S694a0 *>(&(query))->FUN_00a694a0(((::SceneUpdate::Bound *)&(reinterpret_cast<::NiCamera *>((view))->GetViewFrustum())));
     Vec3 origin4 = view->FUN_0045bb80();
     Renderer* renderer = ((::SceneUpdate::Renderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));

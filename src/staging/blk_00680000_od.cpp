@@ -6004,7 +6004,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
             raw2.p = m_2078;
             raw2.a = 0;
             raw2.b = 0;
-            reinterpret_cast<::PSSearchView *>(this)->InsertNode((unsigned int)(((void *)(reinterpret_cast<::FUN_0069f900_shell *>(this)->FUN_0069f900((::PathSmootherPOVPoint *)(m_2078), 0)))), *(const ::PathSmootherPOVAvoidanceNode *)nullptr, {});
+            reinterpret_cast<::PSSearchView *>(this)->InsertNode(reinterpret_cast<::FUN_0069f900_shell *>(this)->FUN_0069f900((::PathSmootherPOVPoint *)(m_2078), 0), *(const ::PathSmootherPOVAvoidanceNode *)nullptr, {});
             ok = reinterpret_cast<::FUN_006a1630_class *>(this)->ProcessSearchNode((::FUN_006b3cb0_arg2 *)(::fnv_0069f010::Obj20d8 *)(&m_20d8), (::FUN_006b3cb0_arg3 *)(::fnv_0069f010::ArrE *)(&m_20e8), 1);
         }
         {

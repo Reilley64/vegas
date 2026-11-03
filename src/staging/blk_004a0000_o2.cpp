@@ -330,12 +330,12 @@ void ImpactTask::FUN_004a2d50()
                     Ref* target = 0;
                     if (landscape)
                     {
-                        target = ((::Ref *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>(((*reinterpret_cast<::TESView * *>(&::g_TES))))->FUN_00457620((const float *)&(position))));
+                        target = ((::Ref *)(intptr_t)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>(((*reinterpret_cast<::TESView * *>(&::g_TES))))->FUN_00457620((const float *)&(position))));
                         if (target && ((::Ref *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0())))
                             target = ((::Ref *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0()));
                     }
                     else
-                        target = ((::Ref *)(::FUN_00c7fa90((::S_Obj *)(body))));
+                        target = ((::Ref *)(intptr_t)(::FUN_00c7fa90((::S_Obj *)(body))));
                     void* object = ((void *)(::FUN_0056f930((::NiAVObject *)(target))));
                     if (!landscape && (!object || !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(object), true)))
                         continue;

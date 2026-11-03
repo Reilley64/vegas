@@ -900,20 +900,7 @@ void FUN_00d2f000_class::LinearCastFlip(void* a1, void* a2, S_00d2f000_Input* in
 }  // namespace fnv_00d2f000
 
 namespace fnv_00d2e5a0 {
-struct Allocator
-{
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* m_pAllocator;
-};
 
 
 struct Dispatch
@@ -960,16 +947,12 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
         {
         case 0:
         case 2: {
-            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-            Allocator* pAllocator = holder->m_pAllocator;
-            SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
+            SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
             obj->m_iElementCount = 0x40;
             return ((void *)(reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a1, a2, (int *)(a3), a4)));
         }
         case 1: {
-            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-            Allocator* pAllocator = holder->m_pAllocator;
-            SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x38);
+            SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
             obj->m_iElementCount = 0x38;
             return ((void *)(new ((void *)(((FUN_00d440f0_cls*)obj))) ::FUN_00d440f0((*(const ::CdBodyS *)(a1)), (*(const ::CdBodyS *)(a2)), (*(const ::CollisionInputS *)(a3)), (::ContactMgrS *)(a4))));
         }
@@ -978,9 +961,7 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
         }
     }
 
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    Allocator* pAllocator = holder->m_pAllocator;
-    SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
     obj->m_iElementCount = 0x40;
     reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a2, a1, (int *)(a3), (int)(0));
     obj->SpawnedObject::~SpawnedObject();
@@ -1078,24 +1059,8 @@ static const VTable g_vtblAgent = {
 static const VTable g_vtblBase = {{(void*)&AgentFlush, (void*)&AgentRelease, (void*)&AgentFlush, (void*)&AgentRelease}};
 
 // The handler that owns the agents.
-struct AgentHandler
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void release(hkpBvTreeStreamAgent* agent, unsigned short id);
-    virtual void unk0c();
-    virtual void flush(void* buffer, int bytes);
-};
 
 // The global that hands out the manager of the agents.
-struct AgentManagerHolder
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    AgentHandler* unk10;
-};
 
 
 // Resets the vtable, frees its buffer through the handler if owned, and if flags bit 0 is set calls the handler's release(this, id); returns this.
@@ -1104,13 +1069,12 @@ void* hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
 {
     vtbl = &g_vtblAgent;
 
-    AgentManagerHolder* holder = static_cast<AgentManagerHolder*>(::FUN_00c85750());
-    AgentHandler* handler = holder->unk10;
+    hkMemoryAllocator& handler = hkMemoryRouter::getInstance().heap();
 
     int count = unk38;
     unk34 = 0;
     if (!(count & 0x80000000))
-        handler->flush(buffer, (count & 0x3fffffff) * 4);
+        handler.bufFree(buffer, (count & 0x3fffffff) * 4);
 
     buffer = 0;
     unk38 = 0x80000000;
@@ -1118,8 +1082,7 @@ void* hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
 
     if (flags & 1)
     {
-        AgentManagerHolder* holder2 = static_cast<AgentManagerHolder*>(::FUN_00c85750());
-        holder2->unk10->release(this, id);
+        hkMemoryRouter::getInstance().heap().blockFree(this, id);
     }
 
     return this;

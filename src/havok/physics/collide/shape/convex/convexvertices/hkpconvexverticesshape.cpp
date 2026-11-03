@@ -1115,16 +1115,6 @@ void ConvexVertsQ_d59200::FUN_00d59200(VertArray96Q& vertices) const
 extern __m128 DAT_010c71d0;
 
 struct hkMemoryAllocator;
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-    __forceinline hkMemoryAllocator& heap() { return *m_pStreamAllocator; }
-};
-NineIntegerRecord* GetMemoryRouter_c85750();
 
 struct FourFloatVector
 {
@@ -1161,7 +1151,7 @@ template <class T> struct Array
         GrowArrayCapacity(alloc, n);
         m_iElementCount = n;
     }
-    __forceinline void SetSizeAndGrow(int n) { _setSize(GetMemoryRouter_c85750()->heap(), n); }
+    __forceinline void SetSizeAndGrow(int n) { _setSize(hkMemoryRouter::getInstance().heap(), n); }
     __forceinline T& operator[](int i) { return m_data[i]; }
 };
 

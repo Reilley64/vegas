@@ -11,7 +11,6 @@
 #include "fnv/decl/FUN_00c9e340.h"
 #include "fnv/decl/FUN_00d1f1e0_class.h"
 #include "fnv/decl/RotationRows.h"
-#include "fnv/decl/S_00d55950.h"
 #include "fnv/decl/Standin_2.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/decl/hkpExtendedMeshShapeTrianglesSubpartD4AB.h"
@@ -29,6 +28,7 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_00d554a0_class
 {
+    char m_pad00[0xd0];
     int m_d0;
     int GetOrInitValue();
 };
@@ -36,21 +36,11 @@ struct FUN_00d554a0_class
 // @fnv 0x00d554a0
 int FUN_00d554a0_class::GetOrInitValue()
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) < 0)
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) = reinterpret_cast<::FUN_00d1f1e0_class *>(this)->FUN_00d1f1e0();
-    return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0);
+    if (m_d0 < 0)
+        m_d0 = reinterpret_cast<::FUN_00d1f1e0_class *>(this)->FUN_00d1f1e0();
+    return m_d0;
 }
 
-struct FUN_00d56040_shell
-{
-    void FUN_00d56040(void* first, float value, int last);
-};
-// Calls FUN_00d26230 with first, the two buffers at offsets 0x90 and 0xa0 of this, value and last.
-// @fnv 0x00d56040
-void FUN_00d56040_shell::FUN_00d56040(void* first, float value, int last)
-{
-    ::FUN_00d26230((*(const ::hkTransformD262 *)(first)), (*(const ::hkVector4D262 *)((unsigned char*)this + 0x90)), (*(const ::hkVector4D262 *)((unsigned char*)this + 0xa0)), value, (*(::hkAabbD262 *)(last)));
-}
 
 struct hkMemoryAllocator;
 
@@ -584,7 +574,7 @@ struct S_00d55bd0_ShapesSubpart
     int unk3c;
 };
 
-static const float DAT_011b2e90 = 1e-07f;
+extern float DAT_011b2e90;
 
 struct S_00d55bd0_MeshShape
 {
@@ -1921,7 +1911,7 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
 
     if (!(key & 0x80000000))
     {
-        void* subpartBuffer = (void*)(((unsigned int)subpartStorage + 0x5f) & ~0x5f);
+        void* subpartBuffer = (void*)(((uintptr_t)subpartStorage + 0x5f) & ~(uintptr_t)0x5f);
         const MeshSubpartTriangle* r;
         if (m_numTrianglesSubparts == 1)
         {
@@ -1995,7 +1985,7 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
     }
     else
     {
-        void* subpartBuffer = (void*)(((unsigned int)subpartStorage + 0x3f) & ~0x3f);
+        void* subpartBuffer = (void*)(((uintptr_t)subpartStorage + 0x3f) & ~(uintptr_t)0x3f);
         ::FUN_00d570d0((int *)(subpartBuffer), (const int *)(const void *)((const char*)m_kShapesSubparts + (uiSubpartIndex << 6)));
         const MeshSubpartShape* pSubpartShape = (const MeshSubpartShape*)subpartBuffer;
 
@@ -2355,14 +2345,14 @@ struct SpawnedOwnerQ
     unsigned int numGroups;
     int unkBC;
     ChanGroupNeg* negGroups;
-    int FUN_00d55530(int aiIndex);
+    unsigned char* FUN_00d55530(int aiIndex);
 };
 // Looks up the entry for aiKey via FUN_00d55530 on the owning object and returns its first int, or the owner's m_0xdc when not found.
 // @fnv 0x00d555d0
 int FUN_00d555d0_cls::GetSpawnedValue(int aiKey)
 {
     SpawnedOwner* outer = (SpawnedOwner*)((char*)this - 0x10);
-    int* v = (int*)reinterpret_cast<::SpawnedOwnerQ *>((outer))->FUN_00d55530(aiKey);
+    int* v = reinterpret_cast<int*>(reinterpret_cast<::SpawnedOwnerQ *>((outer))->FUN_00d55530(aiKey));
     if (v != 0)
     {
         return *v;
@@ -2371,7 +2361,7 @@ int FUN_00d555d0_cls::GetSpawnedValue(int aiKey)
 }
 // Splits aiIndex into a group number and offset, picks an entry from groups, negGroups (high bit set) or the inline entry, and returns its get(offset) or 0.
 // @fnv 0x00d55530
-int SpawnedOwnerQ::FUN_00d55530(int aiIndex)
+unsigned char* SpawnedOwnerQ::FUN_00d55530(int aiIndex)
 {
     unsigned int m_iGridX = ((unsigned int)aiIndex & 0x7fffffff) >> (32 - bits);
     unsigned int iOffset = (0xffffffffu >> bits) & aiIndex;
@@ -2392,7 +2382,7 @@ int SpawnedOwnerQ::FUN_00d55530(int aiIndex)
         pArr = &negGroups[m_iGridX].ch;
     pEntry = pArr;
 have:
-    return (int)pEntry->get(iOffset);
+    return pEntry->get(iOffset);
 }
 
 
@@ -2772,7 +2762,7 @@ ShapesSubpartT* ShapesSubpartT::FUN_00d56660(hkConvexShapeS* const* childShapes,
 {
     initSubpart(1);
     m_kChildShapes.init();
-    reinterpret_cast<::FUN_00827200_class *>(&(m_rotation))->FUN_00cb26e0((int)(&transform));
+    reinterpret_cast<::FUN_00827200_class *>(&(m_rotation))->FUN_00cb26e0((intptr_t)(&transform));
     m_vTranslation = transform.m_vTranslation;
 
     hkRefPtrS<hkConvexShapeS>* dst = m_kChildShapes.expandBy(numChildShapes);
@@ -2886,117 +2876,7 @@ template <typename T> struct hkArray
     }
 };
 
-struct Base1
-{
-    virtual void v1();
-    int unk04, unk08, unk0c;
-};
-
-struct Base2
-{
-    virtual void v2();
-    int unk14, unk18, unk1c;
-};
-
-struct FUN_00d21410 : public Base1, public Base2
-{
-    FUN_00d21410(int, int) throw();
-};
-
-struct FUN_00d56ab0 : public FUN_00d21410
-{
-    virtual void v1();
-    virtual void v2();
-
-    WeldingElem m_sub;
-    __m128 m_c80;
-    int m_p90_0, m_p90_4, m_p90_8, m_p90_c, m_p90_10, m_p90_14, m_p90_18, m_p90_1c;
-    int m_cb0;
-    hkArray<WeldingElem> m_aiIndexedValues;
-    hkArray<int> m_arr2;
-    hkArray<unsigned short> m_w;
-    char m_cd8;
-    char m_pd9_0, m_pd9_1, m_pd9_2;
-    int m_cdc;
-    int m_ce0;
-    float m_ce4;
-
-    FUN_00d56ab0(Src& input);
-};
-
-// Constructs the object by copying fields from input, allocating and copying m_w, initializing m_aiIndexedValues from input.arr, and calling FUN_00d55950.
-// @fnv 0x00d56ab0
-FUN_00d56ab0::FUN_00d56ab0(Src& input) : FUN_00d21410(14, 1)
-{
-    Src* s = &input;
-    hkArray<WeldingElem>& arr = m_aiIndexedValues;
-    m_c80 = s->v20;
-    m_ce4 = s->f50;
-    m_cb0 = s->f30;
-    m_cd8 = s->f4c;
-    AudioMgr* m = audio();
-    hkMemoryAllocator* pAllocator = m->unk10;
-    int cap = m_w.m_cap;
-    int curCap = cap & 0x3fffffff;
-    if (curCap < s->m_usPassCountLocal)
-    {
-        if ((cap & 0x80000000) == 0)
-            pAllocator->ReturnMemory(m_w.m_data, curCap * 2);
-        {
-            int iSize = s->m_usPassCountLocal * 2;
-            m_w.m_data = (unsigned short*)pAllocator->AllocateBufferWithSize(&iSize);
-            m_w.m_cap = iSize / 2;
-        }
-    }
-    int num = s->m_usPassCountLocal;
-    m_w.m_iElementCount = num;
-    unsigned short* dst = m_w.m_data;
-    const unsigned short* src = s->us;
-    for (int i = 0; i < num; i++)
-        dst[i] = src[i];
-    int count = s->count;
-    if (count == 1)
-    {
-        arr.m_data = &m_sub;
-        arr.m_iElementCount = 1;
-        arr.m_cap = 0x80000001;
-    }
-    else
-    {
-        arr.reserve(count);
-        int oldSize = arr.m_iElementCount;
-        int n = count - oldSize;
-        WeldingElem* p = arr.m_data + oldSize;
-        for (int i = 0; i < n; i++)
-            new (p + i) WeldingElem();
-        arr.m_iElementCount = count;
-    }
-    m_cdc = 0;
-    for (unsigned i = 0; (int)i < s->count; i++)
-    {
-        arr.m_data[i].a14 = s->arr[i].f1c;
-        arr.m_data[i].a4 = s->arr[i].f20;
-        arr.m_data[i].a8 = s->arr[i].f24;
-        arr.m_data[i].a1 = s->arr[i].f11;
-        arr.m_data[i].ac = s->arr[i].f28;
-        arr.m_data[i].a2 = s->arr[i].f2c;
-        arr.m_data[i].aa = s->arr[i].f30;
-        arr.m_data[i].a18 = s->arr[i].f0;
-        arr.m_data[i].a1c = s->arr[i].f4;
-        arr.m_data[i].a20 = s->arr[i].f8;
-        arr.m_data[i].a40 = s->arr[i].fc;
-        arr.m_data[i].a48 = s->arr[i].f10;
-        arr.m_data[i].a44 = s->arr[i].f14;
-        arr.m_data[i].a4c = s->arr[i].f34;
-        arr.m_data[i].a30 = _mm_setzero_ps();
-        arr.m_data[i].a49 = s->arr[i].f18;
-    }
-    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
-    m_ce0 = reinterpret_cast<::FUN_00d1f1e0_class *>((reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))))->FUN_00d1f1e0();
-}
-
 // Moved from hkpextendedmeshshape_gs_nogs_variant.cpp (VEGAS-15).
-#include "fnv/decl/SpawnedOwnerQ.h"
 #include "fnv/symbols_00ceb000.h"
 void FUN_00d554e0(int a);
 void FUN_00d554f0(int a0);
@@ -3135,4 +3015,125 @@ void S_00d55950::FUN_00d55950()
     this->m_kCenterPosition = _mm_mul_ps(_mm_add_ps(bounds.m_kMaximumCorner, bounds.m_kMinimumCorner), DAT_010c71d0);
     this->m_vHalfExtents = _mm_mul_ps(_mm_sub_ps(bounds.m_kMaximumCorner, bounds.m_kMinimumCorner), DAT_010c71d0);
 }
+
+struct FUN_00d56040_shell : S_00d55950
+{
+    void FUN_00d56040(void* first, float value, void* last);
+};
+// Calls FUN_00d26230 with first, the AABB half extents and centre, value and last.
+// @fnv 0x00d56040
+void FUN_00d56040_shell::FUN_00d56040(void* first, float value, void* last)
+{
+    ::FUN_00d26230((*(const ::hkTransformD262 *)(first)), (*reinterpret_cast<const ::hkVector4D262 *>(&m_vHalfExtents)), (*reinterpret_cast<const ::hkVector4D262 *>(&m_kCenterPosition)), value, (*static_cast<::hkAabbD262 *>(last)));
+}
+
+struct Base1
+{
+    virtual void v1();
+    int unk04, unk08, unk0c;
+};
+
+struct Base2
+{
+    virtual void v2();
+    int unk14, unk18, unk1c;
+};
+
+struct FUN_00d21410 : public Base1, public Base2
+{
+    FUN_00d21410(int, int) throw();
+};
+
+struct FUN_00d56ab0 : public FUN_00d21410
+{
+    virtual void v1();
+    virtual void v2();
+
+    WeldingElem m_sub;
+    __m128 m_c80;
+    int m_p90_0, m_p90_4, m_p90_8, m_p90_c, m_p90_10, m_p90_14, m_p90_18, m_p90_1c;
+    int m_cb0;
+    hkArray<WeldingElem> m_aiIndexedValues;
+    hkArray<int> m_arr2;
+    hkArray<unsigned short> m_w;
+    char m_cd8;
+    char m_pd9_0, m_pd9_1, m_pd9_2;
+    int m_cdc;
+    int m_ce0;
+    float m_ce4;
+
+    FUN_00d56ab0(Src& input);
+};
+
+// Constructs the object by copying fields from input, allocating and copying m_w, initializing m_aiIndexedValues from input.arr, and calling FUN_00d55950.
+// @fnv 0x00d56ab0
+FUN_00d56ab0::FUN_00d56ab0(Src& input) : FUN_00d21410(14, 1)
+{
+    Src* s = &input;
+    hkArray<WeldingElem>& arr = m_aiIndexedValues;
+    m_c80 = s->v20;
+    m_ce4 = s->f50;
+    m_cb0 = s->f30;
+    m_cd8 = s->f4c;
+    AudioMgr* m = audio();
+    hkMemoryAllocator* pAllocator = m->unk10;
+    int cap = m_w.m_cap;
+    int curCap = cap & 0x3fffffff;
+    if (curCap < s->m_usPassCountLocal)
+    {
+        if ((cap & 0x80000000) == 0)
+            pAllocator->ReturnMemory(m_w.m_data, curCap * 2);
+        {
+            int iSize = s->m_usPassCountLocal * 2;
+            m_w.m_data = (unsigned short*)pAllocator->AllocateBufferWithSize(&iSize);
+            m_w.m_cap = iSize / 2;
+        }
+    }
+    int num = s->m_usPassCountLocal;
+    m_w.m_iElementCount = num;
+    unsigned short* dst = m_w.m_data;
+    const unsigned short* src = s->us;
+    for (int i = 0; i < num; i++)
+        dst[i] = src[i];
+    int count = s->count;
+    if (count == 1)
+    {
+        arr.m_data = &m_sub;
+        arr.m_iElementCount = 1;
+        arr.m_cap = 0x80000001;
+    }
+    else
+    {
+        arr.reserve(count);
+        int oldSize = arr.m_iElementCount;
+        int n = count - oldSize;
+        WeldingElem* p = arr.m_data + oldSize;
+        for (int i = 0; i < n; i++)
+            new (p + i) WeldingElem();
+        arr.m_iElementCount = count;
+    }
+    m_cdc = 0;
+    for (unsigned i = 0; (int)i < s->count; i++)
+    {
+        arr.m_data[i].a14 = s->arr[i].f1c;
+        arr.m_data[i].a4 = s->arr[i].f20;
+        arr.m_data[i].a8 = s->arr[i].f24;
+        arr.m_data[i].a1 = s->arr[i].f11;
+        arr.m_data[i].ac = s->arr[i].f28;
+        arr.m_data[i].a2 = s->arr[i].f2c;
+        arr.m_data[i].aa = s->arr[i].f30;
+        arr.m_data[i].a18 = s->arr[i].f0;
+        arr.m_data[i].a1c = s->arr[i].f4;
+        arr.m_data[i].a20 = s->arr[i].f8;
+        arr.m_data[i].a40 = s->arr[i].fc;
+        arr.m_data[i].a48 = s->arr[i].f10;
+        arr.m_data[i].a44 = s->arr[i].f14;
+        arr.m_data[i].a4c = s->arr[i].f34;
+        arr.m_data[i].a30 = _mm_setzero_ps();
+        arr.m_data[i].a49 = s->arr[i].f18;
+    }
+    reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
+    m_ce0 = reinterpret_cast<::FUN_00d1f1e0_class *>((reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))))->FUN_00d1f1e0();
+}
+
 #include "generated/data/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.inc"

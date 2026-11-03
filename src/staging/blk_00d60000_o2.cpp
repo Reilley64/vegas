@@ -1555,11 +1555,11 @@ struct Base2_d632c0
 
 struct Obj_d632c0 : Base1_d632c0, Base2_d632c0
 {
-    Obj_d632c0* FUN_00d63280(int a, int b);
+    Obj_d632c0* FUN_00d63280(int a, const void* b);
 };
 
 // @fnv 0x00d632c0
-Base2_d632c0* FUN_00d632c0(int aiValue)
+Base2_d632c0* FUN_00d632c0(const void* aiValue)
 {
     Holder_d632c0* holder = (Holder_d632c0*)FUN_00c85750();
     Obj_d632c0* obj = (Obj_d632c0*)holder->allocator->Allocate(0x54);
@@ -5287,7 +5287,7 @@ void __cdecl FUN_00d2caa0(void* value1, unsigned int value2, unsigned int value3
 void* __cdecl AllocateRecordWithData(void* data);
 
 
-Base2_d632c0* FUN_00d632c0(int a1);
+Base2_d632c0* FUN_00d632c0(const void* a1);
 
 
 extern int DAT_01268fc8;

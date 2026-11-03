@@ -26,7 +26,7 @@ namespace fnv_00d34810 { void FUN_00d34810(const void *, const void *, const ::f
 // 0x00d34930
 void InitSpawnedBuffer(intptr_t, intptr_t, intptr_t, int);
 // 0x00d34970
-void FUN_00d34970(int, int, int, int);
+void FUN_00d34970(const void *, const void *, const void *, int);
 // 0x00d349b0
 namespace fnv_00d349b0 { void FUN_00d349b0(intptr_t, intptr_t, const ::fnv_00d349b0::Input_d2e9 *, int, int); }
 // 0x00d34d30

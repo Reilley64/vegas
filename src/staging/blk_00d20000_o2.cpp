@@ -15,7 +15,6 @@
 #include "fnv/decl/FUN_00cfbcc0_cls.h"
 #include "fnv/decl/FUN_00d04350_cls.h"
 #include "fnv/decl/FUN_00d2f380_cls.h"
-#include "fnv/decl/FUN_00d2f980.h"
 #include "fnv/decl/FUN_00d33b70_cls.h"
 #include "fnv/decl/FUN_00d368c0_cls.h"
 #include "fnv/decl/FUN_00d37690_Class.h"
@@ -94,6 +93,12 @@ void FUN_00d2be30::SetFile(const char* acPath, const char* acMode)
 
 extern int DAT_010ce930;
 
+// The bv tree agent (hkpbvtreeagent.cpp defines it); only its constructor is called here.
+struct FUN_00d2f980
+{
+    FUN_00d2f980(void* pContactMgr);
+};
+
 struct FUN_00d2f220_class
 {
     int* p;
@@ -103,7 +108,7 @@ struct FUN_00d2f220_class
 // @fnv 0x00d2f220
 void* FUN_00d2f220_class::InitializeWithGlobal(void* aiValue)
 {
-    new (aiValue) struct ::FUN_00d2f980({});
+    new (aiValue) ::FUN_00d2f980(nullptr);
     p = &DAT_010ce930;
     return this;
 }
@@ -1186,7 +1191,7 @@ void FnvCpu_FUN_00d3f480_CpuObject::FUN_00d3f480(void* first, void* second, unsi
     data.value = fourth;
     data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    ::FUN_00d3e850(*(const ::hkpCdBody *)(second), *(const ::hkpCdBody *)(first), *(const ::CollisionAgentContext *)(std::uintptr_t)third, *(::hkpCdPointCollector *)&data);
+    ::fnv_00d3e850::FUN_00d3e850(*(const ::fnv_00d3e850::hkpCdBody *)(second), *(const ::fnv_00d3e850::hkpCdBody *)(first), *(const ::fnv_00d3e850::CollisionAgentContext *)(std::uintptr_t)third, *(::fnv_00d3e850::hkpCdPointCollector *)&data);
 }
 
 
@@ -1419,7 +1424,7 @@ struct Wrapper {
 void Wrapper::FUN_00d37bd0(intptr_t a,intptr_t b,intptr_t c,int d) {
     SpawnedBuf s;
     s.m_8=d; s.m_iWordAt04=0; s.m_iWordAt00=&(*reinterpret_cast<int *>(&::DAT_010ce81c));
-    reinterpret_cast<::FUN_00d37690_Class *>(this)->ForwardToFunction(b,a,c,(intptr_t)(&s));
+    reinterpret_cast<::FUN_00d37690_Class *>(this)->ForwardToFunction((void*)b,(void*)a,(const void*)c,&s);
 }
 
 typedef void (*CallbackD3D)();
@@ -1948,7 +1953,7 @@ void FnvCpu_FUN_00d34b00_CpuObject::DispatchCpuCall(void* first, void* second, u
     data.value = fourth;
     data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    reinterpret_cast<::FUN_00d33b70_cls *>(this)->FUN_00d33b70((intptr_t)(second), (intptr_t)(first), third, (intptr_t)(&data));
+    reinterpret_cast<::FUN_00d33b70_cls *>(this)->FUN_00d33b70(second, first, (const void*)third, &data);
 }
 
 // Scans the first three entries of table for key and, if found, replaces it with 0xffff and returns.
@@ -2190,12 +2195,12 @@ struct D34970Context {
 };
 // Builds a D34970Context from DAT_010ce7fc, DAT_0104da48, and arg3, then calls FUN_00d339d0 with arg1, arg0, arg2, and the context.
 // @fnv 0x00d34970
-void __cdecl FUN_00d34970(int arg0, int arg1, int arg2, int aiOption) {
+void __cdecl FUN_00d34970(const void* arg0, const void* arg1, const void* arg2, int aiOption) {
     D34970Context context;
     context.pointer = &DAT_010ce7fc;
     context.maxDistance = ::DAT_0104da48;
     context.option = aiOption;
-    FUN_00d339d0(arg1, arg0, arg2, (std::intptr_t)&context);
+    FUN_00d339d0(arg1, arg0, arg2, &context);
 }
 
 
@@ -3764,8 +3769,8 @@ struct D22260_Object
     D22260_Math m_quaternion2;
 
     void FUN_00d22260(
-        int ReportDiagnostic,
-        int unused1,
+        const void* ReportDiagnostic,
+        float unused1,
         D22260_Matrix* matrix1,
         D22260_Vector* vector1,
         D22260_Matrix* matrix2,

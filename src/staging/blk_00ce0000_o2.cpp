@@ -2139,7 +2139,7 @@ struct FUN_00cfc5a0
     unsigned short unk04;
     unsigned short unk06;
     int unk08;
-    int unk0c;
+    intptr_t unk0c;
     S_00cfc5a0* unk10;
     S_00cfc5a0* unk14;
     unsigned short unk18;

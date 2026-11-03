@@ -30,7 +30,7 @@
 #include "fnv/decl/FUN_00d440f0.h"
 #include "fnv/decl/FUN_00d493a0_cls.h"
 #include "fnv/decl/FUN_00dabf10_cls.h"
-#include "fnv/decl/FUN_00dacbd0.h"
+#include "havok/hkpGskfAgent.h"
 #include "fnv/decl/FUN_00dc72a0_class.h"
 #include "fnv/decl/FUN_00dcc670_Class.h"
 #include "fnv/decl/FnvClassNameNode.h"
@@ -475,22 +475,11 @@ struct ObjAllocator
     virtual void* Alloc(unsigned int size);
 };
 
-struct SpawnSmall
-{
-    int unk00;
-    unsigned short m_w04;
-};
-
-struct SpawnLarge
-{
-    void* m_vptr;
-    unsigned short m_w04;
-};
 
 extern char DAT_010ceb94[];
 
 
-// Allocates a 0x80-byte SpawnLarge (or 0x30-byte SpawnSmall when a4 is 0) from the holder's allocator, sets its size field and initializes it.
+// Allocates an hkpGskfAgent (or an hkpGskBaseAgent when a4 is 0) from the holder's allocator, sets its size field and initializes it.
 // @fnv 0x00d41f50
 void* __cdecl CreateSpawnObject(intptr_t a1, intptr_t a2, intptr_t a3, intptr_t a4)
 {
@@ -498,17 +487,17 @@ void* __cdecl CreateSpawnObject(intptr_t a1, intptr_t a2, intptr_t a3, intptr_t 
     {
         AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         ObjAllocator* allocator = (ObjAllocator*)holder->m_pAllocator;
-        SpawnLarge* obj = (SpawnLarge*)allocator->Alloc(0x80);
-        obj->m_w04 = 0x80;
-        new ((void *)(obj)) ::FUN_00dacbd0(a1, a2, a4);
-        obj->m_vptr = DAT_010ceb94;
+        hkpGskfAgent* obj = (hkpGskfAgent*)allocator->Alloc(sizeof(hkpGskfAgent));
+        obj->m_memSizeAndFlags = sizeof(hkpGskfAgent);
+        new ((void *)(obj)) ::hkpGskfAgent((::GskNode *)(a1), (::GskNode *)(a2), (void *)(a4));
+        obj->m_vtable = DAT_010ceb94;
         return obj;
     }
     AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     ObjAllocator* allocator = (ObjAllocator*)holder->m_pAllocator;
-    SpawnSmall* obj = (SpawnSmall*)allocator->Alloc(0x30);
-    obj->m_w04 = 0x30;
-    return ((::SpawnSmall *)(reinterpret_cast<::FUN_00dabf10_cls *>((obj))->FUN_00dabf10((::GskNode *)(a1), (::GskNode *)(a2), 0)));
+    hkpGskBaseAgent* obj = (hkpGskBaseAgent*)allocator->Alloc(sizeof(hkpGskBaseAgent));
+    obj->m_memSizeAndFlags = sizeof(hkpGskBaseAgent);
+    return reinterpret_cast<::FUN_00dabf10_cls *>((obj))->FUN_00dabf10((::GskNode *)(a1), (::GskNode *)(a2), 0);
 }
 
 namespace fnv_00d42800 {
@@ -7534,7 +7523,7 @@ void* __cdecl FUN_00d54a40(void* arg0, void* arg1, Arg2Struct* arg2, ::SearchObj
         hkQuadReal tmp;
         _mm_store_ps((float*)&sub3.v, _mm_load_ps((const float*)arg2->GetValue(&tmp)));
         sub3.b24 = flag17;
-        reinterpret_cast<::Destination *>(&(big_obj))->CopyFromSourceData((uintptr_t)(&sub3));
+        reinterpret_cast<::Destination *>(&(big_obj))->CopyFromSourceData((const ::SourceData *)(&sub3));
     }
 
     {

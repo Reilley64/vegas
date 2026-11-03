@@ -328,10 +328,7 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
         __m128 zeroRaw, threeRaw, halfRaw;
         // Transform the first normalized cross product.
         {
-            int offset117 = src->index117 << 4;
-            int offset118 = src->index118 << 4;
-            unsigned int base1 = (unsigned int)columnBase1;
-            __m128 cr = cross0(*(Vec4*)(base1 + offset117), *(Vec4*)(base1 + offset118));
+            __m128 cr = cross0(columnBase1[src->index117], columnBase1[src->index118]);
             __m128 sq = _mm_mul_ps(cr, cr);
             __m128 ds = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq));
             __m128 rsq;
@@ -348,14 +345,11 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
             _mm_store_ps((float*)&geometry.out70, _mm_mul_ps(prod5, cr));
             ((VecObj*)&geometry.out70)->FUN_00c7f700(&self->unk90, &geometry.out70);
         }
-        ((VecObj*)&geometry.v60)->FUN_00c7f700(&self->unk90, (Vec4*)((unsigned int)columnBase1 + (src->index118 << 4)));
+        ((VecObj*)&geometry.v60)->FUN_00c7f700(&self->unk90, &columnBase1[src->index118]);
         // Transform the second normalized cross product.
         {
-            int offset117 = src->index117 << 4;
-            int offset118 = src->index118 << 4;
-            unsigned int base2 = (unsigned int)columnBase2;
             __m128 cr;
-            cross1(cr, *(Vec4*)(base2 + offset118), *(Vec4*)(base2 + offset117));
+            cross1(cr, columnBase2[src->index118], columnBase2[src->index117]);
             __m128 sq;
             sq = _mm_mul_ps(cr, cr);
             __m128 ds = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq));
@@ -370,7 +364,7 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
             ((VecObj*)&geometry.v48)->FUN_00c7f700(&self->unk60, &geometry.outB0);
         }
     }
-    ((VecObj*)&geometry.v30)->FUN_00c7f700(&self->unk60, (Vec4*)((unsigned int)columnBase2 + (src->indexEF << 4)));
+    ((VecObj*)&geometry.v30)->FUN_00c7f700(&self->unk60, &columnBase2[src->indexEF]);
 }
 __forceinline void drawGroups(Cls* self, Renderer* a1, hkUlong a2, int a3, Cls* objectD0, Cls* object160, Cls* object280)
 {
@@ -501,16 +495,14 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, hkUlong a2, int a3)
     SourceView* src = &srcHome->body;
     prepareAxes(this, src, geometry);
     float prod1 = f1c * f0c;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((((SubC0*)&unkc0)))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(object50), (int)(&geometry.v80), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.out70), 0xff008000, prod1, a2, a3);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((((SubC0*)&unkc0)))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(object50), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.v80), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.out70), 0xff008000, prod1, a2, a3);
     float prod2 = f0c * f1c;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((((SubC0*)&unkc0)))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&unk40), (int)(&geometry.v30), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.v48), ((int)(::PackBytesBigEndian(0xff, 0xff, 0, 0xff))), prod2, a2, a3);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((((SubC0*)&unkc0)))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&unk40), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.v30), (const ::ArrowDraw::ArrowDrawVector *)(void *)(&geometry.v48), ((int)(::PackBytesBigEndian(0xff, 0xff, 0, 0xff))), prod2, a2, a3);
 
     arcs.objectD0 = (Cls*)&unkd0;
     float prod3 = f1c;
     prod3 *= f10;
-    void* self18;
-    self18 = (void*)p18;
-    ((Cls*)arcs.objectD0)->FUN_00de5370(srcHome->body.u10c, prod3, (int)self18, &geometry.v80, object50);
+    ((Cls*)arcs.objectD0)->FUN_00de5370(srcHome->body.u10c, prod3, p18, &geometry.v80, object50);
     Cls* object280 = (Cls*)&unk280;
     float n = f14 * f1c;
     geometry.scaleVector.q = _mm_set1_ps(n);

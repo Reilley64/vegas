@@ -806,7 +806,7 @@ int FUN_00d50510()
     return 10;
 }
 
-class CFoo
+class CFoo : public hkpGenericConstraintData
 {
   public:
     void* FUN_00d504f0();
@@ -815,7 +815,7 @@ class CFoo
 // @fnv 0x00d504f0
 void* CFoo::FUN_00d504f0()
 {
-    return (void*)((char*)this + 0x18);
+    return &m_kConstraintDataScheme;
 }
 
 #include "fnv/symbols_simd.h"
@@ -1075,6 +1075,19 @@ FUN_00d50c90::FUN_00d50c90()
     reinterpret_cast<::FUN_00d21ce0_cls *>(&(atom))->FUN_00d21ce0(this);
 }
 
+// The generic constraint scratch FUN_00d50e10 reads: three axis pairs for bodies A and B, then a row count.
+struct D50E10_BasisPair
+{
+    __m128 m_bodyA;
+    __m128 m_bodyB;
+};
+struct D50E10_Scratch
+{
+    char pad00[0x50];
+    D50E10_BasisPair m_basis[3];  // +0x50
+    char padB0[0x8];
+    int m_iRowCount;              // +0xb8
+};
 struct S00d50e10_Rows
 {
     __m128 v0;
@@ -1083,30 +1096,30 @@ struct S00d50e10_Rows
 };
 
 
-// Builds three S00d50e10_Rows from vectors in p, calls FUN_00dcee80 on each with d and e, and adds 3 to the int at p+0xB8.
+// Builds three S00d50e10_Rows from vectors in p, calls FUN_00dcee80 on each with d and e, and adds 3 to its row count.
 // @fnv 0x00d50e10
 void FUN_00d50e10(int** a0, void* a1, const void* a2, void* p, const void* d, void* e)
 {
-    float* base = reinterpret_cast<float*>(p);
+    D50E10_Scratch* base = static_cast<D50E10_Scratch*>(p);
     S00d50e10_Rows out1;
     S00d50e10_Rows out;
 
-    out1.v0 = (*reinterpret_cast<const __m128*>(base + 0x14));
-    out1.v2 = (*reinterpret_cast<const __m128*>(base + 0x24));
-    out1.v1 = (*reinterpret_cast<const __m128*>(base + 0x1C));
+    out1.v0 = base->m_basis[0].m_bodyA;
+    out1.v2 = base->m_basis[2].m_bodyA;
+    out1.v1 = base->m_basis[1].m_bodyA;
     ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&out1)), (*(const ::S_00dcee80_QueryIn *)(d)), (*(::S_00dcee80_QueryOut *)(e)));
 
-    out.v0 = (*reinterpret_cast<const __m128*>(base + 0x18));
-    out.v2 = (*reinterpret_cast<const __m128*>(base + 0x28));
+    out.v0 = base->m_basis[0].m_bodyB;
+    out.v2 = base->m_basis[2].m_bodyB;
     out.v1 = out1.v0;
     ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&out)), (*(const ::S_00dcee80_QueryIn *)(d)), (*(::S_00dcee80_QueryOut *)(e)));
 
-    out.v2 = (*reinterpret_cast<const __m128*>(base + 0x20));
+    out.v2 = base->m_basis[1].m_bodyB;
     out.v1 = out.v0;
     out.v0 = out1.v1;
     ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&out)), (*(const ::S_00dcee80_QueryIn *)(d)), (*(::S_00dcee80_QueryOut *)(e)));
 
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0xB8) += 3;
+    base->m_iRowCount += 3;
 }
 
 struct __declspec(align(16)) hkVector4D510

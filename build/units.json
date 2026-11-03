@@ -44383,7 +44383,8 @@
     "?FUN_005a4320@@YAIPAD@Z": "0x005a4320",
     "?FUN_00524cf0@@YAPAVNiAVObject@@PAUTESObjectCELL@@@Z": "0x00524cf0",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
-    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150"
+    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150",
+    "?FUN_005d8550@@YAPBXI@Z": "0x005d8550"
    }
   },
   {
@@ -120803,7 +120804,9 @@
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "?FUN_004e2190@FUN_004e2190_shell@@QAEPAVBSShaderAccumulator@@XZ": "0x004e2190",
     "?FUN_004e6540@fnv_004e6540@@YAPBDPAD@Z": "0x004e6540",
-    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150"
+    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150",
+    "?FUN_00552ba0@@YAPAXXZ": "0x00552ba0",
+    "?FUN_0054f4c0@@YAPAXXZ": "0x0054f4c0"
    },
    "literal_symbols": [
     "??_C@_06NDELCHGE@3DMenu?$AA@"
@@ -131667,8 +131670,8 @@
     "?FUN_0043fad0@fnv_0043fad0@@YAPBDPBD@Z": "0x0043fad0",
     "?FUN_005495f0@fnv_005495f0@@YAPBDPBD@Z": "0x005495f0",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300"
    },
    "eh_tails": [
     {
@@ -139346,7 +139349,6 @@
     "__ehhandler$??1FUN_004a9970@@UAE@XZ": "0x00ef01c8",
     "??_7FUN_004a9970@@6B@": "0x0101ed0c",
     "?FUN_004a99d0@S_004a99d0@@QAEXXZ": "0x004a99d0",
-    "?GetBufferElementAddress@DummyArr@@QAEHI@Z": "0x006b30e0",
     "?ClearToZero@FUN_004a7c80_shell@@QAEPAXXZ": "0x004a7c80",
     "?LoadSceneModels@LoadScenes@@QAEXXZ": "0x004a80c0",
     "?AccumulateSceneStatistics@FUN_004a8230_shell@@QAEXPAUNiNode@@PAX_N2@Z": "0x004a82d0",
@@ -139390,7 +139392,8 @@
     "?FUN_005495f0@fnv_005495f0@@YAPBDPBD@Z": "0x005495f0",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_006fa820@fnv_006fa820@@YAPBDPBD@Z": "0x006fa820",
-    "?FUN_00545710@@YAPAXH@Z": "0x00545710"
+    "?FUN_00545710@@YAPAXH@Z": "0x00545710",
+    "?GetBufferElementAddress@DummyArr@@QAEPAXI@Z": "0x006b30e0"
    },
    "eh_tails": [
     {
@@ -147053,7 +147056,7 @@
     },
     {
      "address": "0x004208b0",
-     "symbol": "?FUN_004208b0@FUN_004208b0_cls@@QAEHXZ",
+     "symbol": "?FUN_004208b0@FUN_004208b0_cls@@QAEPAXXZ",
      "size": 147
     },
     {
@@ -149492,12 +149495,12 @@
     "?FUN_004103d0@ExtraDataListEx_ctx@@QAEXPAVBSExtraDataEx@@@Z": "0x004103d0",
     "?FUN_0043d4d0@@YAAAHPAH@Z": "0x0043d4d0",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
-    "?FUN_0042fda0@@YAXPAH@Z": "0x0042fda0",
     "?FUN_0040ecb0@@YAXPAH@Z": "0x0040ecb0",
     "?FUN_00548230@CellView_rtti@@QAEXPAVRefView@@_N@Z": "0x00548230",
     "?FUN_0055a400@@YAPAUReferenceIntersectionData@@PAU1@@Z": "0x0055a400",
     "?GetScriptLocalsSerializedSize@@YAGPAVScriptLocals@@@Z": "0x005a94f0",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?FUN_0042fda0@@YAXPAPAD@Z": "0x0042fda0"
    },
    "eh_tails": [
     {
@@ -158155,7 +158158,7 @@
     },
     {
      "address": "0x00620260",
-     "symbol": "?FUN_00620260@S_00620260_C@@QAEPAUS_00620260_T@@HH@Z",
+     "symbol": "?FUN_00620260@S_00620260_C@@QAEPAUS_00620260_T@@HPAX@Z",
      "size": 147
     }
    ],
@@ -158808,7 +158811,7 @@
    "functions": [
     {
      "address": "0x0062a510",
-     "symbol": "?FUN_0062a510@FUN_0062a510_cls@@QAEXH@Z",
+     "symbol": "?FUN_0062a510@FUN_0062a510_cls@@QAEXPAX@Z",
      "size": 348
     },
     {
@@ -158818,7 +158821,7 @@
     },
     {
      "address": "0x0062a690",
-     "symbol": "?FUN_0062a690@S_0062a690_Class@fnv_0062a690@@QAEXH@Z",
+     "symbol": "?FUN_0062a690@S_0062a690_Class@fnv_0062a690@@QAEXPAX@Z",
      "size": 335
     }
    ],
@@ -167297,7 +167300,7 @@
     },
     {
      "address": "0x004491c0",
-     "symbol": "?FUN_004491c0@@YA_NPCJJJ@Z",
+     "symbol": "?FUN_004491c0@@YA_NPCJHH@Z",
      "size": 47
     },
     {
@@ -168244,7 +168247,6 @@
     "__ftol2": "0x00ec62f6",
     "?DAT_01017138@@3HA": "0x01017138",
     "?DAT_011c3b38@@3HA": "0x011c3b38",
-    "?FUN_004491c0@@YA_NPCJJJ@Z": "0x004491c0",
     "?FUN_0043b460@@YAHPCJJJ@Z": "0x0043b460",
     "?FUN_00449f80@Q449@@QAEPAUR449@@PAX@Z": "0x00449f80",
     "?FUN_0044c270@FUN_004492c0_shell@@QAEXHHH@Z": "0x00449f50",
@@ -169531,7 +169533,8 @@
     "?FUN_005d9f90@@YAHPAD@Z": "0x005d9f90",
     "?FUN_006a9540@@YAPAXPAD@Z": "0x006a9540",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
-    "?GetOffsetC@@YAHH@Z": "0x0048d150"
+    "?GetOffsetC@@YAHH@Z": "0x0048d150",
+    "?FUN_004491c0@@YA_NPCJHH@Z": "0x004491c0"
    },
    "eh_tails": [
     {
@@ -171876,7 +171879,7 @@
     },
     {
      "address": "0x0067bb40",
-     "symbol": "?FUN_0067bb40@TESEatPackageData_StandIn@@QAEEH@Z",
+     "symbol": "?FUN_0067bb40@TESEatPackageData_StandIn@@QAEEPAX@Z",
      "size": 109
     },
     {
@@ -171928,7 +171931,7 @@
    "functions": [
     {
      "address": "0x0067ba40",
-     "symbol": "?FUN_0067ba40@TESEatPackageData_Copy@@QAEXH@Z",
+     "symbol": "?FUN_0067ba40@TESEatPackageData_Copy@@QAEXPAX@Z",
      "size": 255
     }
    ],
@@ -173459,7 +173462,7 @@
     },
     {
      "address": "0x0042fda0",
-     "symbol": "?FUN_0042fda0@@YAXPAH@Z",
+     "symbol": "?FUN_0042fda0@@YAXPAPAD@Z",
      "size": 32
     },
     {
@@ -173519,7 +173522,7 @@
     },
     {
      "address": "0x0068f160",
-     "symbol": "?GetTriangleVertexPositions@NH@fnv_0068f160@@QAEXGPAI00@Z",
+     "symbol": "?GetTriangleVertexPositions@NH@fnv_0068f160@@QAEXGPAPBX00@Z",
      "size": 112
     },
     {
@@ -174085,7 +174088,6 @@
     "?FindAdjacentEdge@MeshX@@QAE_NGHPAPAU1@PAGPAH@Z": "0x0068f460",
     "?DestroyNavMesh@FUN_0068ed30_impl@@QAEPAXI@Z": "0x0068ed30",
     "?IsEqual@FUN_00691e50_shell@@QAE_NGG@Z": "0x00691e50",
-    "?GetTriangleVertexPositions@NH@fnv_0068f160@@QAEXGPAI00@Z": "0x0068f160",
     "?SetArrayElement@FUN_00690df0_shell@@QAEXIG@Z": "0x00690df0",
     "?MatchNavMesh@Holder670@@QAE_NPAUIn670@@PAUOut670@@@Z": "0x0068f670",
     "?GetPackedFlags@FUN_00691040_shell@@QAEXGPAGPA_N1@Z": "0x00691040",
@@ -174122,7 +174124,8 @@
     "?FUN_00691800@@YAXPAVGlobalObject_00869f00@@@Z": "0x00691800",
     "?InitNavMeshClosedDoorInfo@@YAPAUNavMeshClosedDoorInfo@@PAU1@@Z": "0x00692870",
     "?FUN_00558200@@YAIPAD@Z": "0x00558200",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?GetTriangleVertexPositions@NH@fnv_0068f160@@QAEXGPAPBX00@Z": "0x0068f160"
    },
    "eh_tails": [
     {
@@ -175937,7 +175940,7 @@
     },
     {
      "address": "0x006b77e0",
-     "symbol": "?FUN_006b77e0@FUN_006b77e0_shell@fnv_006b77e0@@QAEHPAUTESObjectCELL@2@@Z",
+     "symbol": "?FUN_006b77e0@FUN_006b77e0_shell@fnv_006b77e0@@QAEPAXPAUTESObjectCELL@2@@Z",
      "size": 98
     },
     {
@@ -175947,7 +175950,7 @@
     },
     {
      "address": "0x006b78b0",
-     "symbol": "?LookupScriptMessageValue@Holder@fnv_006b78b0@@QAEIPBD@Z",
+     "symbol": "?LookupScriptMessageValue@Holder@fnv_006b78b0@@QAEPAXPBD@Z",
      "size": 82
     },
     {
@@ -176113,7 +176116,6 @@
     "?LoadNavMeshInfo@FUN_006b4b50_shell@@QAEXPADPAVTESFile@@H@Z": "0x006b4b50",
     "?IsLessThan@TESFormSortProxy@@QAE_NPAVTESForm@@@Z": "0x00484020",
     "?ClearNavMeshInfoMaps@FUN_006b6b20_shell@@QAEXXZ": "0x006b6b20",
-    "?LookupScriptMessageValue@Holder@fnv_006b78b0@@QAEIPBD@Z": "0x006b78b0",
     "?ValidateNavMeshes@WorkerNavMap@@QAEXXZ": "0x006b6c60",
     "__ehhandler$?ActivateNavigationEntry@NavigationOwner@@QAEXH@Z": "0x00f02fa8",
     "?PackShortPair@@YAHFF@Z": "0x00587410",
@@ -176157,7 +176159,8 @@
     "??1?$BSSimpleArray@PAVNavMeshInfo@@$0EAA@@@QAE@XZ": "0x0069af10",
     "?Delete@NavMeshInfo@@QAEXXZ": "0x006b6390",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
-    "?FUN_005e04f0@@YAXPAVGlobalObject_00869f00@@@Z": "0x005e04f0"
+    "?FUN_005e04f0@@YAXPAVGlobalObject_00869f00@@@Z": "0x005e04f0",
+    "?LookupScriptMessageValue@Holder@fnv_006b78b0@@QAEPAXPBD@Z": "0x006b78b0"
    },
    "eh_tails": [
     {
@@ -176390,7 +176393,7 @@
     },
     {
      "address": "0x00552ba0",
-     "symbol": "?FUN_00552ba0@@YAHXZ",
+     "symbol": "?FUN_00552ba0@@YAPAXXZ",
      "size": 10
     },
     {
@@ -176600,7 +176603,7 @@
     },
     {
      "address": "0x006c1da0",
-     "symbol": "?FUN_006c1da0@ScriptLocalsX@fnv_006c1da0@@QAEXH@Z",
+     "symbol": "?FUN_006c1da0@ScriptLocalsX@fnv_006c1da0@@QAEXPAX@Z",
      "size": 44
     },
     {
@@ -176720,7 +176723,7 @@
     },
     {
      "address": "0x006c4540",
-     "symbol": "?ClearOwnedObjects@@YI_NPAD@Z",
+     "symbol": "?ClearOwnedObjects@@YA_NPAD@Z",
      "size": 153
     },
     {
@@ -176750,7 +176753,7 @@
     },
     {
      "address": "0x006c4ec0",
-     "symbol": "?ProcessObstacleTasks@@YIXPAVNavMeshObstacleManager@@@Z",
+     "symbol": "?ProcessObstacleTasks@@YAXPAVNavMeshObstacleManager@@@Z",
      "size": 170
     },
     {
@@ -177064,7 +177067,6 @@
     "?FUN_006c4d30@NMOM@fnv_006c39c0@@QAEXXZ": "0x006c4d30",
     "?FUN_006c5190@NMOM@fnv_006c39c0@@QAEXXZ": "0x006c5190",
     "_DAT_0106c398": "0x0106c398",
-    "?FUN_00552ba0@@YAHXZ": "0x00552ba0",
     "?FUN_00552bb0@TESObjectCELL@@QAEEXZ": "0x00552bb0",
     "?FUN_006a5ca0@PaddedBooleanState@fnv_006a5ca0@@QAEXXZ": "0x006a5ca0",
     "?FUN_006ebcd0@FUN_006ebcd0_shell@@QAEXXZ": "0x006ebcd0",
@@ -177106,7 +177108,6 @@
     "??_7FUN_00807790@fnv_00807790@@6BFUN_006c0100@1@@": "0x01079718",
     "??0CF845@fnv_00807790@@QAE@H@Z": "0x008c71b0",
     "?FUN_008078b0@FUN_008078b0_Class@@QAEXPAX@Z": "0x008078b0",
-    "?FUN_006c1da0@ScriptLocalsX@fnv_006c1da0@@QAEXH@Z": "0x006c1da0",
     "??0GO@fnv_006c1cb0@@QAE@H@Z": "0x00633c90",
     "??BGO@fnv_006c1cb0@@QBEIXZ": "0x00559450",
     "?FUN_004839c0@@YAPAVTESForm@@I@Z": "0x004839c0",
@@ -177352,8 +177353,6 @@
     "?AppendValue@S2f850@@QAEIABUNavMeshPtr@@@Z": "0x0042f850",
     "__ehhandler$?RegisterCollisionObstacles@fnv_006c2210@@YA_NPAVNiAVObject@1@PAUFlt@1@@Z": "0x00f0388a",
     "__ehhandler$?ProcessDoorObstacles@FUN_006c4fb0_shell@fnv_006c4fb0@@QAE_NXZ": "0x00f039f8",
-    "?ClearOwnedObjects@@YI_NPAD@Z": "0x006c4540",
-    "?ProcessObstacleTasks@@YIXPAVNavMeshObstacleManager@@@Z": "0x006c4ec0",
     "?ProcessAddedRefs@NMOM@fnv_006c39c0@@QAEXXZ": "0x006c45e0",
     "?ProcessDoorObstacles@FUN_006c4fb0_shell@fnv_006c4fb0@@QAE_NXZ": "0x006c4fb0",
     "__ehhandler$?ProcessAddedRefs@FUN_006c45e0_shell@fnv_006c45e0@@QAEXXZ": "0x00f0393b",
@@ -177452,7 +177451,11 @@
     "?FUN_00558200@@YAIPAD@Z": "0x00558200",
     "?FUN_0044dee0@@YAPAUBGSLoadGameSubBuffer@@PAU1@@Z": "0x0044dee0",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
-    "?FUN_005e04f0@@YAXPAVGlobalObject_00869f00@@@Z": "0x005e04f0"
+    "?FUN_005e04f0@@YAXPAVGlobalObject_00869f00@@@Z": "0x005e04f0",
+    "?FUN_00552ba0@@YAPAXXZ": "0x00552ba0",
+    "?FUN_006c1da0@ScriptLocalsX@fnv_006c1da0@@QAEXPAX@Z": "0x006c1da0",
+    "?ClearOwnedObjects@@YA_NPAD@Z": "0x006c4540",
+    "?ProcessObstacleTasks@@YAXPAVNavMeshObstacleManager@@@Z": "0x006c4ec0"
    },
    "eh_tails": [
     {
@@ -178463,7 +178466,6 @@
     "?g_TES@@3HA": "0x011dea10",
     "?IsCellInterior@TESObjectCELL@@QBE_NXZ": "0x00425fd0",
     "?g_011c63cc@@3VGlobalObject_0045cfe0@@A": "0x011c63cc",
-    "?FUN_00552ba0@@YAHXZ": "0x00552ba0",
     "__real@3ea8f5c3": "0x01026994",
     "__real@3e99999a": "0x01017870",
     "?FUN_00401000@@YAPAXI@Z": "0x00401000",
@@ -178576,7 +178578,8 @@
     "?vf00@FUN_00438af0_Class@@UAEXXZ": "0x00438af0",
     "?FUN_0042fa40@@YAXPAX@Z": "0x0042fa40",
     "?FUN_0043d4d0@@YAAAHPAH@Z": "0x0043d4d0",
-    "?FUN_00558200@@YAIPAD@Z": "0x00558200"
+    "?FUN_00558200@@YAIPAD@Z": "0x00558200",
+    "?FUN_00552ba0@@YAPAXXZ": "0x00552ba0"
    },
    "eh_tails": [
     {
@@ -179716,7 +179719,6 @@
     "?ComputeMagnitude@NiPoint3@@QBEMXZ": "0x00457990",
     "?FUN_006a6eb0@GetCenterX_006a6eb0@@QAEPAUP3@@PAU2@@Z": "0x006a6eb0",
     "?FUN_006ac8b0@Host@fnv_006ac8b0@@QAE_NPAUNiPoint3@@0PAUNavMesh@@0@Z": "0x006ac8b0",
-    "?GetTriangleVertexPositions@NH@fnv_0068f160@@QAEXGPAI00@Z": "0x0068f160",
     "?DotProduct@FUN_004b6190_shell@@QAEMPAX@Z": "0x004b6190",
     "??DVec@@QBE?AU0@M@Z": "0x0045bb20",
     "??HVec@@QBE?AU0@ABU0@@Z": "0x00439e90",
@@ -179739,7 +179741,8 @@
     "?SearchPath@FUN_006ac220_shell@@QAE_NPAUPathingRequestS@@ABUNavMeshTriangleReference@@1@Z": "0x006ac220",
     "?GetFieldB4Float@@YAMPAD@Z": "0x006d2c40",
     "?GetFloatAtOffset68@@YAMPBD@Z": "0x0069ef80",
-    "?FUN_006a9540@@YAPAXPAD@Z": "0x006a9540"
+    "?FUN_006a9540@@YAPAXPAD@Z": "0x006a9540",
+    "?GetTriangleVertexPositions@NH@fnv_0068f160@@QAEXGPAPBX00@Z": "0x0068f160"
    },
    "eh_tails": [
     {
@@ -179998,7 +180001,7 @@
     },
     {
      "address": "0x006cd8a0",
-     "symbol": "?FUN_006cd8a0@PathX@fnv_006cd8a0@@QAE_NPAULocX@2@0HPAUListX@2@H@Z",
+     "symbol": "?FUN_006cd8a0@PathX@fnv_006cd8a0@@QAE_NPAULocX@2@0PAXPAUListX@2@1@Z",
      "size": 665
     },
     {
@@ -181044,7 +181047,6 @@
     "?DAT_011a5cfc@@3MA": "0x011a5cfc",
     "__ehhandler$??1FUN_006d0b80@@QAE@XZ": "0x00f0481b",
     "?g_TES@@3HA": "0x011dea10",
-    "?FUN_006b77e0@FUN_006b77e0_shell@fnv_006b77e0@@QAEHPAUTESObjectCELL@2@@Z": "0x006b77e0",
     "?FUN_006b7850@FUN_006b7850_shell@fnv_006b7850@@QAEPAXPAVTESWorldSpace@@H@Z": "0x006b7850",
     "?IsNotEqual@DummyStruct_00631820@@QBE_NABU1@@Z": "0x00631820",
     "?FUN_00401970@WaitableObject@@QAEXXZ": "0x00401970",
@@ -181565,7 +181567,8 @@
     "?FUN_006a9540@@YAPAXPAD@Z": "0x006a9540",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "?FUN_005e0540@fnv_005e0540@@YAXPAVGlobalObject_00869f00@1@@Z": "0x005e0540",
-    "?GetOffsetC@@YAHH@Z": "0x0048d150"
+    "?GetOffsetC@@YAHH@Z": "0x0048d150",
+    "?FUN_006b77e0@FUN_006b77e0_shell@fnv_006b77e0@@QAEPAXPAUTESObjectCELL@2@@Z": "0x006b77e0"
    },
    "eh_tails": [
     {
@@ -184080,7 +184083,7 @@
     },
     {
      "address": "0x006e8480",
-     "symbol": "?FUN_006e8480@FUN_006e8480_shell@@QAEHXZ",
+     "symbol": "?FUN_006e8480@FUN_006e8480_shell@@QAEPAXXZ",
      "size": 44
     },
     {
@@ -184120,7 +184123,7 @@
     },
     {
      "address": "0x006e8f60",
-     "symbol": "?FUN_006e8f60@PathBuilder@fnv_006e8f60@@QAEPAXPAX@Z",
+     "symbol": "?FUN_006e8f60@PathBuilder@fnv_006e8f60@@QAEPAXI@Z",
      "size": 25
     },
     {
@@ -184211,7 +184214,6 @@
     "??1PathingAvoidNodeArray@@QAE@XZ": "0x006e38b0",
     "__ehhandler$?FUN_006e8d50@FUN_006e8d50_shell@@QAEXPAUBGSLoadFormBuffer@@@Z": "0x00f06188",
     "?FUN_006e90a0@FUN_006e90a0_class@@QAEXI_N@Z": "0x006e90a0",
-    "?FUN_006e8f60@PathBuilder@fnv_006e8f60@@QAEPAXPAX@Z": "0x006e8f60",
     "?FUN_006f5100@LoadHolder6F51@@QAEXPAVBGSLoadFormBuffer@@@Z": "0x006f5100",
     "?FUN_006e9280@FUN_006e9280_shell@@QAEXI_N@Z": "0x006e9280",
     "?FUN_006e8fa0@S3e60@@QAE_NI@Z": "0x006e8fa0",
@@ -184275,7 +184277,8 @@
     "?InitZeroPoints@@YAPAXPAX@Z": "0x006e7bd0",
     "?FUN_006e7c20@@YAXPAXM@Z": "0x006e7c20",
     "?FUN_006e7d10@@YAPAU_S_006e7d10@@PAU1@U_Arg_006e7d10@@@Z": "0x006e7d10",
-    "?FUN_005a4320@@YAIPAD@Z": "0x005a4320"
+    "?FUN_005a4320@@YAIPAD@Z": "0x005a4320",
+    "?FUN_006e8f60@PathBuilder@fnv_006e8f60@@QAEPAXI@Z": "0x006e8f60"
    },
    "eh_tails": [
     {
@@ -184639,7 +184642,7 @@
     },
     {
      "address": "0x006ebf60",
-     "symbol": "?FUN_006ebf60@S006ebf60@fnv_006ebf60@@QAEPAU12@H@Z",
+     "symbol": "?FUN_006ebf60@S006ebf60@fnv_006ebf60@@QAEPAU12@PAD@Z",
      "size": 45
     },
     {
@@ -185299,12 +185302,12 @@
     },
     {
      "address": "0x006b30e0",
-     "symbol": "?GetBufferElementAddress@DummyArr@@QAEHI@Z",
+     "symbol": "?GetBufferElementAddress@DummyArr@@QAEPAXI@Z",
      "size": 25
     },
     {
      "address": "0x006b3100",
-     "symbol": "?FUN_006b3100@DummyArr@fnv_006b3100@@QAEHXZ",
+     "symbol": "?FUN_006b3100@DummyArr@fnv_006b3100@@QAEPAXXZ",
      "size": 29
     },
     {
@@ -185637,7 +185640,6 @@
     "?IntersectLineCircle@CircleIntersection@@YA_NPAUCircle@1@PBULine@1@PAUResult@1@@Z": "0x006bac20",
     "?GetByteAtOffset9B@FUN_006a9560_Class@@QBEEXZ": "0x006a9560",
     "?DistanceToSegment@@YAMPAUV006b9b10@@00PAE@Z": "0x006b9b10",
-    "?GetBufferElementAddress@DummyArr@@QAEHI@Z": "0x006b30e0",
     "?GetElementAt@FUN_006b3120_shell@@QAEPADI@Z": "0x006b3120",
     "?GetNextIndex@FUN_006b4060_class@@QAEHXZ": "0x006b4060",
     "?ConstructElements@C6B40F0Allocator@@QAEXPAVC6B40F0Element@@I@Z": "0x006b40f0",
@@ -185779,7 +185781,8 @@
     "?InitSimpleArray@@YAXPAV?$BSSimpleArray@VNavMeshEdgeSegment@@$0EAA@@@@Z": "0x006b3640",
     "?FUN_006b3710@fnv_006b3710@@YAXPAVGlobalObject_00869f00@1@@Z": "0x006b3710",
     "?FUN_006b37e0@fnv_006b37e0@@YAXPAPAD@Z": "0x006b37e0",
-    "?FUN_006a9540@@YAPAXPAD@Z": "0x006a9540"
+    "?FUN_006a9540@@YAPAXPAD@Z": "0x006a9540",
+    "?GetBufferElementAddress@DummyArr@@QAEPAXI@Z": "0x006b30e0"
    },
    "eh_tails": [
     {
@@ -190636,7 +190639,7 @@
     },
     {
      "address": "0x00664820",
-     "symbol": "?SetGlobalValue@@YAXI@Z",
+     "symbol": "?SetGlobalValue@@YAXPAX@Z",
      "size": 19
     },
     {
@@ -190811,7 +190814,6 @@
     "?Initialize@CombatProcedure@@QAEXPAVCombatController@@@Z": "0x006ecd40",
     "__ehhandler$??1FUN_00664740@@QAE@XZ": "0x00effc9c",
     "?FUN_00664cd0@Entry664@@SAX_N@Z": "0x00664cd0",
-    "?SetGlobalValue@@YAXI@Z": "0x00664820",
     "?FUN_00451570@@YAXPAX@Z": "0x00451570",
     "?FUN_00451520@@YAXE@Z": "0x00451520",
     "?ClearGlobalObjects@@YAXXZ": "0x004f3310",
@@ -190922,7 +190924,8 @@
     "?FUN_0043d4d0@@YAAAHPAH@Z": "0x0043d4d0",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?IsFieldCZero@@YA_NPAUDummy_0069b080@@@Z": "0x0069b080",
-    "?FUN_004568c0@TESTexLoader@@QAEXPBDAAU?$TexPtr@VNiSourceTexture@@@@_N2@Z": "0x004568c0"
+    "?FUN_004568c0@TESTexLoader@@QAEXPBDAAU?$TexPtr@VNiSourceTexture@@@@_N2@Z": "0x004568c0",
+    "?SetGlobalValue@@YAXPAX@Z": "0x00664820"
    },
    "eh_tails": [
     {
@@ -195940,14 +195943,14 @@
     "?FUN_00b631d0@FUN_00b631d0_cls_o2@@QAEXXZ": "0x00b631d0",
     "?FUN_00c6b540@C6B540Manager_o2@@QAEX_N@Z": "0x00c6b540",
     "?FUN_00c44ed0@StandNode_ob1@@QAEXM@Z": "0x00c44ed0",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
     "?FUN_0053f0e0@TESObjectLAND@fnv_0053f0e0@@QAEPAUNiGeometry@2@ABUNiPoint3_od@2@@Z": "0x0053f0e0",
     "?FUN_0053fa40@HostMesh53_od@fnv_0053fa40@@QAEX_N@Z": "0x0053fa40",
     "?FindEncounterZone@TESObjectCELL@@QBEPAUBGSEncounterZone@@XZ": "0x00546c20",
     "?FUN_00553820@fnv_00553820@@YAXPAVTESObjectCELL@@@Z": "0x00553820",
     "?FUN_009938b0@@YAIPBG@Z": "0x009938b0",
     "?FUN_00565730@FUN_00565730_shell_ctx@@QAEXXZ": "0x00565730",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300"
    },
    "eh_tails": [
     {
@@ -200145,7 +200148,7 @@
     },
     {
      "address": "0x0059e300",
-     "symbol": "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ",
+     "symbol": "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ",
      "size": 17
     },
     {
@@ -202052,7 +202055,6 @@
     "?FUN_0043b230@fnv_0043b230@@YAPBDPBD@Z": "0x0043b230",
     "?FUN_0059cee0@@YAXPAX@Z": "0x0059cee0",
     "?FUN_0059cf00@@YAXPAPAX@Z": "0x0059cf00",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
     "?FUN_005a1e50@@YA_NPB_N@Z": "0x005a1e50",
     "?FUN_005a4320@@YAIPAD@Z": "0x005a4320",
     "?FUN_005a60d0@@YAIPBD@Z": "0x005a60d0",
@@ -202062,7 +202064,8 @@
     "?FUN_00558310@@YAPAVNiAVObject@@PAUNiNode_00558310@@@Z": "0x00558310",
     "?FUN_004216f0@@YAHPAUBaseExtraList@@@Z": "0x004216f0",
     "?FUN_005673e0@FUN_005673e0_shell@@QAEPAVScriptLocals@@XZ": "0x005673e0",
-    "?FUN_006447d0@@YAMPBD@Z": "0x006447d0"
+    "?FUN_006447d0@@YAMPBD@Z": "0x006447d0",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300"
    },
    "eh_tails": [
     {
@@ -211588,11 +211591,11 @@
     "?NextChunk@TESFile@@QAE_NXZ": "0x004726f0",
     "?FUN_0053a940@LayerOwner53a940@@QAEXXZ": "0x0053a940",
     "?DAT_0102dfe8@@3QBDB": "0x0102dfe8",
-    "?FindParentFile@FUN_00585ee0_shell@@QAE_NHHPAI0@Z": "0x00585ee0",
     "?ResolveFormID@@YAXPAIPAVTESFile@@@Z": "0x00485d50",
     "?GetY@FUN_00534010_od@fnv_00534010@@QAEHXZ": "0x00534010",
     "?FUN_005340b0@FUN_005340b0_Class@@QAEPAVTESWorldSpace@@XZ": "0x005340b0",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?FindParentFile@FUN_00585ee0_shell@@QAE_NHHPAPAXPAI@Z": "0x00585ee0"
    },
    "eh_tails": [
     {
@@ -218382,7 +218385,7 @@
     },
     {
      "address": "0x0054f4c0",
-     "symbol": "?FUN_0054f4c0@@YAIXZ",
+     "symbol": "?FUN_0054f4c0@@YAPAXXZ",
      "size": 10
     },
     {
@@ -219486,7 +219489,6 @@
     "?FUN_0054af40@FUN_0054af40_cls@@QAEXE@Z": "0x0054af40",
     "?FUN_00546c70@TESObjectCELL_s@fnv_00546c70@@QAEXXZ": "0x00546c70",
     "?FUN_0054b950@FUN_0054b950_shell@@QAEX_N@Z": "0x0054b950",
-    "?FUN_00552ba0@@YAHXZ": "0x00552ba0",
     "?IsRenderTargetId@BSShaderRenderUtility@@QAE_NI@Z": "0x00469860",
     "?HasFormChanges@BGSSaveLoadGame@@QAEXPAVTESForm@@@Z": "0x0084a7c0",
     "?FUN_009d9f20@FUN_009d9f20_shell@fnv_009d9f20@@QAEPAUBSPortalGraph@2@XZ": "0x009d9f20",
@@ -219738,7 +219740,6 @@
     "__real@4040000000000000": "0x0102f070",
     "__real@4024000000000000": "0x01020758",
     "?FUN_0054f4f0@@YAPAVNiAVObject@@XZ": "0x0054f4f0",
-    "?FUN_0054f4c0@@YAIXZ": "0x0054f4c0",
     "?FUN_0054f4b0@@YAEXZ": "0x0054f4b0",
     "?FUN_004e20b0@@YAXE@Z": "0x004e20b0",
     "??4RenderPtr@@QAEAAU0@PAURenderObject@@@Z": "0x0066b0d0",
@@ -219908,7 +219909,6 @@
     "?AssignFixedString@@YIXPADHPAPAD@Z": "0x00a5b950",
     "?FUN_00549610@FUN_00549610_Class@@QAEXPAX@Z": "0x00549610",
     "?FUN_00420410@C420410ExtraList@@QAEHXZ": "0x00420410",
-    "?FUN_004208b0@FUN_004208b0_cls@@QAEHXZ": "0x004208b0",
     "?FUN_004ed8c0@FUN_004ed8c0_shell@@QAEXPAH@Z": "0x004ed8c0",
     "?FUN_009707f0@FUN_009707f0_shell@@QAEXH@Z": "0x009707f0",
     "?FUN_00420ba0@FUN_00420ba0_Class@@QAEXH@Z": "0x00420ba0",
@@ -220461,7 +220461,10 @@
     "?FUN_00524cf0@@YAPAVNiAVObject@@PAUTESObjectCELL@@@Z": "0x00524cf0",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "?GetOffsetC@@YAHH@Z": "0x0048d150",
-    "?FUN_00586070@@YAPAVTESWaterForm@@PAVTESWorldSpace@@@Z": "0x00586070"
+    "?FUN_00586070@@YAPAVTESWaterForm@@PAVTESWorldSpace@@@Z": "0x00586070",
+    "?FUN_004208b0@FUN_004208b0_cls@@QAEPAXXZ": "0x004208b0",
+    "?FUN_00552ba0@@YAPAXXZ": "0x00552ba0",
+    "?FUN_0054f4c0@@YAPAXXZ": "0x0054f4c0"
    },
    "literal_symbols": [
     "_kTESObjectCELLCellRefLockEnter"
@@ -226662,7 +226665,6 @@
     "?FUN_004ed8c0@FUN_004ed8c0_shell@@QAEXPAH@Z": "0x004ed8c0",
     "?GetShadowSceneNodeForIndex@NiAdditionalGeometryData@@SAPAVShadowSceneNode@@H@Z": "0x00450b80",
     "?FUN_00b5eed0@B5Owner@@QAEXI@Z": "0x00b5eed0",
-    "?FUN_004208b0@FUN_004208b0_cls@@QAEHXZ": "0x004208b0",
     "?FUN_00569920@TESObjectREFR569@@QAEPAVData569@@XZ": "0x00569920",
     "?FUN_005699b0@Ref5699@@QAEPAV1@XZ": "0x005699b0",
     "?FUN_0057c6a0@FUN_0057c6a0Class@@QAEPAXPAX0@Z": "0x0057c6a0",
@@ -227647,7 +227649,6 @@
     "?FUN_006fa820@fnv_006fa820@@YAPBDPBD@Z": "0x006fa820",
     "?FUN_006c0c80@RemoveObstacleManagerView@@QAEXPAVTESObjectREFR@@@Z": "0x006c0c80",
     "?FUN_004511e0@FUN_004511e0_cls@@QAE_NPAXE@Z": "0x004511e0",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
     "?FUN_0040ecb0@@YAXPAH@Z": "0x0040ecb0",
     "?FUN_00509490@@YAHPAD@Z": "0x00509490",
     "?FUN_00538f40@S_00538f40_od_oy_noo2@@QAEXXZ": "0x00538f40",
@@ -227716,7 +227717,9 @@
     "?FUN_00561730@S00561730_Vector_o2_od_oy_noo2@@QBE_NPBV1@M@Z": "0x00561730",
     "?FUN_005620e0@S005620e0_Object_o2_od_oy_noo2@@QAEXPBVS005620e0_Source@@@Z": "0x005620e0",
     "?FUN_0056e810@S0056e810_Object_o2_od_oy_noo2@@QAEXABVS0056e810_Vector@@@Z": "0x0056e810",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?FUN_004208b0@FUN_004208b0_cls@@QAEPAXXZ": "0x004208b0",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300"
    },
    "eh_tails": [
     {
@@ -233777,7 +233780,6 @@
     "?vf00@FUN_00438af0_Class@@UAEXXZ": "0x00438af0",
     "?FUN_0044dd60@fnv_0044dd60@@YAXPAUVirtualDeletable@1@@Z": "0x0044dd60",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
     "?FUN_00461190@@YAHH@Z": "0x00461190",
     "?FUN_004720a0@@YAHPAD@Z": "0x004720a0",
     "?FUN_00473180@B473180Stream@@QAEIPAXI@Z": "0x00473180",
@@ -233790,7 +233792,8 @@
     "?vf00@FUN_00863b40_Class@@UAEXXZ": "0x00863b40",
     "?FUN_00c3e490@S_00c3e490_ob1@@QAE_NI@Z": "0x00c3e490",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
-    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150"
+    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300"
    }
   },
   {
@@ -234557,11 +234560,11 @@
     "?FUN_004fd3c0@fnv_004fd3c0@@YAPAUFormRecordMetadata@1@PAUTESSaveLoadGame@1@@Z": "0x004fd3c0",
     "?DeleteItemChange@@YAXPAVInventoryStackRecord@@@Z": "0x004459e0",
     "?FUN_007d9ec0@@YAXPAV?$BSStringT@D@@@Z": "0x007d9ec0",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
     "?FUN_005673e0@FUN_005673e0_shell@@QAEPAVScriptLocals@@XZ": "0x005673e0",
     "?FUN_005a8c00@@YAXPAX@Z": "0x005a8c00",
     "?GetScriptLocalsSerializedSize@@YAGPAVScriptLocals@@@Z": "0x005a94f0",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300"
    },
    "eh_tails": [
     {
@@ -234815,7 +234818,7 @@
     },
     {
      "address": "0x005afe10",
-     "symbol": "?FUN_005afe10@@YAXHHH@Z",
+     "symbol": "?FUN_005afe10@@YAIPBDPAPADH@Z",
      "size": 25
     },
     {
@@ -239165,7 +239168,7 @@
     },
     {
      "address": "0x005d8550",
-     "symbol": "?FUN_005d8550@@YAHI@Z",
+     "symbol": "?FUN_005d8550@@YAPBXI@Z",
      "size": 28
     },
     {
@@ -241104,7 +241107,6 @@
     "?FUN_00878250@@YAX_N@Z": "0x00878250",
     "?FUN_00878200@@YAXPAE@Z": "0x00878200",
     "?FUN_00703c00@@YAXPBD0@Z": "0x00703c00",
-    "?FUN_0054f4c0@@YAIXZ": "0x0054f4c0",
     "?ClearCaches@TallGrassShaderProperty@@SAXXZ": "0x00b62a20",
     "?GetAnimationData@BSFaceGenNiNode@@UAEPAVBSFaceGenAnimationData@@XZ": "0x006629f0",
     "?ZERO@NiPoint3@@2V1@B": "0x011f426c",
@@ -241794,7 +241796,6 @@
     "??_C@_0CF@HJHEOBMO@?9?9?9?9INI?5SETTINGS?9?9?9?9?9?9?9?9?9?9?9?9?9?9?9?9@": "0x0103a0ec",
     "?FUN_0044f560@@YAPAUSettingCollection@@XZ": "0x0044f560",
     "?FUN_004d9190@FUN_004d9190_Class@@QAEXXZ": "0x004d9190",
-    "?FUN_00552ba0@@YAHXZ": "0x00552ba0",
     "?FUN_00552bb0@TESObjectCELL@@QAEEXZ": "0x00552bb0",
     "?DAT_011d6e28@@3_NA": "0x011d6e28",
     "?DAT_011d6e24@@3IA": "0x011d6e24",
@@ -242460,7 +242461,6 @@
     "?CmdExtractArgs@fnv_005d8420@@YA_NPAX0PAI0000ZZ": "0x005accb0",
     "??0CmdPoint3@fnv_005d8420@@QAE@MMM@Z": "0x00416870",
     "?CmdStrLen@fnv_005d8420@@YAIPBD@Z": "0x00ec6130",
-    "?FUN_005d8550@@YAHI@Z": "0x005d8550",
     "?SetTraitValue@Twin_005578e0@@UAEPAVTile@@HMPBD@Z": "0x005578e0",
     "?FUN_0046dce0@FUN_0046dce0_class@@QAEXM@Z": "0x0046dce0",
     "??_R0?AVBGSPerk@@@8": "0x011861dc",
@@ -243669,7 +243669,6 @@
     "?FUN_006fa820@fnv_006fa820@@YAPBDPBD@Z": "0x006fa820",
     "?FUN_004511e0@FUN_004511e0_cls@@QAE_NPAXE@Z": "0x004511e0",
     "?FUN_004568c0@TESTexLoader@@QAEXPBDAAU?$TexPtr@VNiSourceTexture@@@@_N2@Z": "0x004568c0",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
     "?FUN_005a60d0@@YAIPBD@Z": "0x005a60d0",
     "?FUN_005a6150@@YAIPBE@Z": "0x005a6150",
     "?FUN_005a6260@@YAIPAD@Z": "0x005a6260",
@@ -243699,7 +243698,11 @@
     "?GetOffsetC@@YAHH@Z": "0x0048d150",
     "?FUN_004e2190@FUN_004e2190_shell@@QAEPAVBSShaderAccumulator@@XZ": "0x004e2190",
     "?FUN_004e6540@fnv_004e6540@@YAPBDPAD@Z": "0x004e6540",
-    "?FUN_0095f530@FUN_0095f530_shell@@QAEPAVBGSCameraPath@@PAVTESObjectREFR@@0@Z": "0x0095f530"
+    "?FUN_0095f530@FUN_0095f530_shell@@QAEPAVBGSCameraPath@@PAVTESObjectREFR@@0@Z": "0x0095f530",
+    "?FUN_00552ba0@@YAPAXXZ": "0x00552ba0",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300",
+    "?FUN_0054f4c0@@YAPAXXZ": "0x0054f4c0",
+    "?FUN_005d8550@@YAPBXI@Z": "0x005d8550"
    },
    "eh_tails": [
     {
@@ -244199,7 +244202,7 @@
     },
     {
      "address": "0x005df040",
-     "symbol": "?FUN_005df040@fnv_005df040@@YA_NPBVScriptParameter@@PBDPAVTESObjectREFR@@2PAVScript@@PAVScriptLocals@@AANAAI@Z",
+     "symbol": "?FUN_005df040@fnv_005df040@@YA_NPBVScriptParameter@@PBDPAVTESObjectREFR_o2_od_oy_noo2@@2PAVScript_o2_od_oy_noo2@@PAVScriptLocals@@AANAAI@Z",
      "size": 1232
     }
    ],
@@ -244248,10 +244251,10 @@
     "?FUN_008bcd20@FUN_008bcd20_shell@fnv_008bcd20@@QAEXXZ": "0x008bcd20",
     "?FUN_00568bd0@Ref39@@QAEXM@Z": "0x00568bd0",
     "?FUN_005accb0@@YA_NPBUExtractParameter@@PBDPAIPAVTESObjectREFR@@3PAUExtractScript@@PAVScriptLocals@@ZZ": "0x005accb0",
-    "?FUN_005df040@fnv_005df040@@YA_NPBVScriptParameter@@PBDPAVTESObjectREFR@@2PAVScript@@PAVScriptLocals@@AANAAI@Z": "0x005df040",
     "?GetItem@?$BSSimpleList@PAVInventoryStackRecord@@@@QAEAAPAVInventoryStackRecord@@XZ": "0x006815c0",
     "?FUN_00461130@@YAHH@Z": "0x00461130",
-    "?FUN_005df5b0@@YAPAXPAD@Z": "0x005df5b0"
+    "?FUN_005df5b0@@YAPAXPAD@Z": "0x005df5b0",
+    "?FUN_005df040@fnv_005df040@@YA_NPBVScriptParameter@@PBDPAVTESObjectREFR_o2_od_oy_noo2@@2PAVScript_o2_od_oy_noo2@@PAVScriptLocals@@AANAAI@Z": "0x005df040"
    }
   },
   {
@@ -244457,9 +244460,9 @@
     "?GetNthRefByIndex@FUN_005ac4f0_shell@fnv_005ac4f0@@QAEPAVScriptReferencedObject@@IPAVScriptLocals@@@Z": "0x005ac4f0",
     "?GetFunctionByOpcode@@YAPAVScriptFunctionInfo@@W4SCRIPT_OUTPUT@@@Z": "0x005b1120",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
-    "?GetScriptLocalData@TESQuest@@QAEPAUScriptLocals@@XZ": "0x0059e300",
     "?FUN_005673e0@FUN_005673e0_shell@@QAEPAVScriptLocals@@XZ": "0x005673e0",
-    "?FUN_005b5e40@@YAHZZ": "0x005b5e40"
+    "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
+    "?GetScriptLocalData@TESQuest@@QAEPAVScriptLocals@@XZ": "0x0059e300"
    },
    "eh_tails": [
     {
@@ -249300,7 +249303,7 @@
     },
     {
      "address": "0x00585ee0",
-     "symbol": "?FindParentFile@FUN_00585ee0_shell@@QAE_NHHPAI0@Z",
+     "symbol": "?FindParentFile@FUN_00585ee0_shell@@QAE_NHHPAPAXPAI@Z",
      "size": 246
     },
     {
@@ -249925,7 +249928,6 @@
     "?FindEntryByName@FUN_00588560_shell@fnv_00588560@@QAEPAXPBD@Z": "0x00588560",
     "?TransformWorldPoint@FUN_00588e40_shell@@QAEXPAUPt3@@_N@Z": "0x00588e40",
     "?FindCellByEditorID@WorldData@@QAE_NPBDPAH1@Z": "0x00585940",
-    "?FindParentFile@FUN_00585ee0_shell@@QAE_NHHPAI0@Z": "0x00585ee0",
     "?BuildRegionResults@World@@QAEXMMMMPAURegionResult@@I@Z": "0x00586990",
     "?BuildMapNameList@FUN_005883c0_shell@@QAEPAUWsNameList@@_N@Z": "0x005883c0",
     "?ProcessCellsInRadius@WORLD_SHELL@@QAEXPBUNiPoint3@@M0MHI@Z": "0x005885f0",
@@ -249970,7 +249972,8 @@
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "?FUN_00586070@@YAPAVTESWaterForm@@PAVTESWorldSpace@@@Z": "0x00586070",
     "?FUN_005860c0@FUN_005860c0_shell@@QAEPAVTESWaterForm@@XZ": "0x005860c0",
-    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150"
+    "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150",
+    "?FindParentFile@FUN_00585ee0_shell@@QAE_NHHPAPAXPAI@Z": "0x00585ee0"
    },
    "eh_tails": [
     {
@@ -462764,7 +462767,8 @@
     "?FUN_005495f0@fnv_005495f0@@YAPBDPBD@Z": "0x005495f0",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_0044a540@@YAXPAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z": "0x0044a540",
-    "?FUN_0044dee0@@YAPAUBGSLoadGameSubBuffer@@PAU1@@Z": "0x0044dee0"
+    "?FUN_0044dee0@@YAPAUBGSLoadGameSubBuffer@@PAU1@@Z": "0x0044dee0",
+    "?FUN_004491c0@@YA_NPCJHH@Z": "0x004491c0"
    },
    "eh_tails": [
     {
@@ -475593,7 +475597,8 @@
     "?FUN_00538f40@S_00538f40_od_oy_noo2@@QAEXXZ": "0x00538f40",
     "?FUN_00517670@@YAHPAVTESDataHandler@@@Z": "0x00517670",
     "?FUN_00560d80@fnv_00560d80@@YAABUhkVector4@1@PAX@Z": "0x00560d80",
-    "?FUN_00560dc0@@YAHPAVTESDataHandler@@@Z": "0x00560dc0"
+    "?FUN_00560dc0@@YAHPAVTESDataHandler@@@Z": "0x00560dc0",
+    "?FUN_00620260@S_00620260_C@@QAEPAUS_00620260_T@@HPAX@Z": "0x00620260"
    },
    "eh_tails": [
     {
@@ -482089,7 +482094,8 @@
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_00691800@@YAXPAVGlobalObject_00869f00@@@Z": "0x00691800",
     "?FUN_0069af60@@YAXPAVGlobalObject_00869f00@@@Z": "0x0069af60",
-    "??1?$BSSimpleArray@PAVNavMeshInfo@@$0EAA@@@QAE@XZ": "0x0069af10"
+    "??1?$BSSimpleArray@PAVNavMeshInfo@@$0EAA@@@QAE@XZ": "0x0069af10",
+    "?GetBufferElementAddress@DummyArr@@QAEPAXI@Z": "0x006b30e0"
    },
    "eh_tails": [
     {
@@ -484140,7 +484146,8 @@
     "?FUN_006b3710@fnv_006b3710@@YAXPAVGlobalObject_00869f00@1@@Z": "0x006b3710",
     "?FUN_00558200@@YAIPAD@Z": "0x00558200",
     "?FUN_006dcbb0@fnv_006dcbb0@@YAPAUPathingLocation@1@PAU21@@Z": "0x006dcbb0",
-    "?FUN_005e04f0@@YAXPAVGlobalObject_00869f00@@@Z": "0x005e04f0"
+    "?FUN_005e04f0@@YAXPAVGlobalObject_00869f00@@@Z": "0x005e04f0",
+    "?GetBufferElementAddress@DummyArr@@QAEPAXI@Z": "0x006b30e0"
    },
    "eh_tails": [
     {
@@ -485621,7 +485628,8 @@
     "?FUN_0044dee0@@YAPAUBGSLoadGameSubBuffer@@PAU1@@Z": "0x0044dee0",
     "?FUN_006a9540@@YAPAXPAD@Z": "0x006a9540",
     "?FUN_006dcbb0@fnv_006dcbb0@@YAPAUPathingLocation@1@PAU21@@Z": "0x006dcbb0",
-    "?GetOffsetC@@YAHH@Z": "0x0048d150"
+    "?GetOffsetC@@YAHH@Z": "0x0048d150",
+    "?FUN_004491c0@@YA_NPCJHH@Z": "0x004491c0"
    },
    "eh_tails": [
     {

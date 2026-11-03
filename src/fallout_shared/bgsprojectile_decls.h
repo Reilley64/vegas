@@ -71,11 +71,33 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     void InitItem(TESForm*);
 };
 
+// The PROJ record's DATA chunk. The form references hold form IDs after the raw load and pointers after InitItem.
 class ProjectileProperties
 {
-    unsigned char data[84];
-
   public:
+    unsigned short m_usFlags;           // +0x00
+    unsigned short m_usType;            // +0x02
+    float m_fGravity;                   // +0x04
+    float m_fSpeed;                     // +0x08
+    float m_fRange;                     // +0x0C
+    TESForm* m_pLight;                  // +0x10
+    TESForm* m_pMuzzleFlashLight;       // +0x14
+    float m_fTracerChance;              // +0x18
+    float m_fExplosionProximity;        // +0x1C
+    float m_fExplosionTimer;            // +0x20
+    TESForm* m_pExplosion;              // +0x24
+    TESForm* m_pSound;                  // +0x28
+    float m_fMuzzleFlashDuration;       // +0x2C
+    float m_fFadeDuration;              // +0x30
+    float m_fImpactForce;               // +0x34
+    TESForm* m_pCountdownSound;         // +0x38
+    TESForm* m_pDisableSound;           // +0x3C
+    TESForm* m_pDefaultWeaponSource;    // +0x40
+    float m_fRotationX;                 // +0x44
+    float m_fRotationY;                 // +0x48
+    float m_fRotationZ;                 // +0x4C
+    float m_fBouncyMult;                // +0x50
+
     void InitializeDefaults();
 };
 

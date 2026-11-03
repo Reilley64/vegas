@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niblendinterpolator.cpp: NiBlendInterpolator, InterpItem, LoadInterpItem, BlendSerializer and more (19 functions)
 
+#include "fnv/symbols_00a81000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
@@ -743,7 +744,7 @@ struct BlendInterpS : InterpS
 // @fnv 0x00a36f80
 bool FUN_00a36f80(BlendInterpS* self, int, StreamS& kStream)
 {
-    if (!self->FUN_00a81fe0(kStream))
+    if (!reinterpret_cast<::FUN_00a81fe0_shell *>(self)->FUN_00a81fe0((::NiStream &)kStream))
         return false;
     if (!(self->m_uiObjectFlags & 1))
     {

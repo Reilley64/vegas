@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplineinterpolator.cpp: SplineShell, NiBSplineInterpolator (10 functions)
 
+#include "fnv/symbols_00a81000.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00a57f80_cls.h"
@@ -76,7 +77,7 @@ struct FUN_00a57e50_shell : public NiBSplineInterpolator
 // @fnv 0x00a57e50
 bool FUN_00a57e50_shell::LoadNiBSplineInterpolator(NiStream& kStream)
 {
-    if (!((BaseThunk*)this)->FUN_00a81fe0(kStream))
+    if (!reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0((::NiStream &)kStream))
         return false;
     ThunkReg* pFirstStreamable = *(ThunkReg**)&m_spTransformData;
     if (pFirstStreamable)

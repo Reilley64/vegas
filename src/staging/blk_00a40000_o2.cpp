@@ -4504,20 +4504,20 @@ struct StreamDev
     virtual void vf06();
     virtual void vf07();
     virtual void vf08();
-    virtual void vf09(void* pOwner);
+    virtual bool vf09(void* pOwner);
     void FUN_00a5d310();
 };
 
 struct FUN_00a5d2f0_class
 {
-    void FUN_00a5d2f0(StreamDev* pStream);
+    bool FUN_00a5d2f0(StreamDev* pStream);
 };
 
 // Invokes the virtual vf09 on pStream, passing this object as the owner argument.
 // @fnv 0x00a5d2f0
-void FUN_00a5d2f0_class::FUN_00a5d2f0(StreamDev* pStream)
+bool FUN_00a5d2f0_class::FUN_00a5d2f0(StreamDev* pStream)
 {
-    pStream->vf09(this);
+    return pStream->vf09(this);
 }
 
 void StreamDev::FUN_00a5d310()

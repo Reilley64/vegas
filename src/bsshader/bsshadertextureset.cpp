@@ -1,5 +1,6 @@
 // bsshader/bsshadertextureset.cpp: BipedAnim, BSShaderTextureSet (8 functions)
 
+#include "fnv/symbols_00a81000.h"
 #include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -118,9 +119,9 @@ int FUN_00ba87e0(int* self, int unused, int index)
 }
 
 // @fnv 0x00a81fe0
-void __cdecl FUN_00a81fe0(intptr_t a)
+bool FUN_00a81fe0_shell::FUN_00a81fe0(::NiStream& kStream)
 {
-    reinterpret_cast<::FUN_00a5d2f0_class *>((a))->FUN_00a5d2f0({});
+    return reinterpret_cast<::FUN_00a5d2f0_class *>(this)->FUN_00a5d2f0((::StreamDev *)&kStream);
 }
 
 

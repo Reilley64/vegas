@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+class NiStream;
 struct BSFadeNode;
 struct FUN_00a81760_obj;
 struct S;
@@ -27,4 +28,4 @@ int FUN_00a81b80(const unsigned short *, const unsigned short *);
 // 0x00a81fb0
 ::BSFadeNode *FUN_00a81fb0();
 // 0x00a81fe0
-void FUN_00a81fe0(intptr_t);
+struct FUN_00a81fe0_shell { bool FUN_00a81fe0(::NiStream &); };

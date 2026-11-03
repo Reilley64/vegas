@@ -639,30 +639,10 @@ void FUN_00d027c0_cls::ProcessPairEntry(PairEntry* entry)
 }  // namespace fnv_00d027c0
 
 namespace fnv_00d03030 {
-struct HkMemRouter
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void free(void* p, int size);
-    virtual void v3();
-    virtual void freeSized(void* p, int size);
-};
-
-struct HkMemHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HkMemRouter* m10;
-};
 
 
 
-inline HkMemRouter& GetMemRouter()
-{
-    return *static_cast<HkMemHolder*>(::FUN_00c85750())->m10;
-}
+
 
 struct HkFloatHolder
 {
@@ -1049,16 +1029,14 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
         ::AccumulateShapes((::Worker **)(::fnv_00d03030::HkCollector *)(&collector), (::TargetClass *)(0), (::Caller *)(::fnv_00d03030::HkInput2 *)(&input2));
         if (collector.sub2.unk64)
         {
-            HkMemHolder* h = static_cast<HkMemHolder*>(::FUN_00c85750());
-            h->m10->free(collector.sub2.unk64, 0x200);
+            hkMemoryRouter::getInstance().heap().blockFree(collector.sub2.unk64, 0x200);
         }
     }
 
-    HkMemHolder* holder = static_cast<HkMemHolder*>(::FUN_00c85750());
-    HkMemRouter* pMemRouter = holder->m10;
+    hkMemoryAllocator* pMemRouter = hkMemoryRouter::getInstance().m_heap;
     if ((capacity & 0x80000000) == 0)
     {
-        pMemRouter->freeSized(paiData, (capacity & 0x3fffffff) * 4);
+        pMemRouter->bufFree(paiData, (capacity & 0x3fffffff) * 4);
     }
 }
 }  // namespace fnv_00d03030
@@ -1132,7 +1110,7 @@ struct CpuObject
     void FUN_00d02da0();
     CpuObject* FUN_00d04320(unsigned int flags);
 };
-// Calls FUN_00d02da0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
+// Calls FUN_00d02da0, then if bit 0 of flags is set, frees this to the heap allocator with size, and returns this.
 // @fnv 0x00d04320
 CpuObject* CpuObject::FUN_00d04320(unsigned int flags)
 {
@@ -1390,22 +1368,6 @@ struct __declspec(align(16)) ResultJob : JobHeader
 struct JobQueue
 {
 };
-struct Allocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void freeBlock(void*, int);
-};
-struct ThreadState
-{
-    char* top;
-    int unk04, unk08, unk0C;
-    Allocator* allocator;
-    __forceinline Allocator& heap()
-    {
-        return *allocator;
-    }
-};
 struct Processor;
 struct __declspec(align(16)) ProcessingContext
 {
@@ -1439,34 +1401,10 @@ struct Group
     BuildJob* job;
     int unk14;
 };
-struct hkMemoryAllocatorQ
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-
-struct hkStackMemoryQ
-{
-    char* m_pTileTemplate;
-};
-
-struct hkMemoryRouterQ
-{
-    hkStackMemoryQ m_aiEntries;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocatorQ* m_pStreamAllocator;
-};
 
 
-__forceinline hkMemoryRouterQ& getRouter()
-{
-    return *(hkMemoryRouterQ*)static_cast<char*>(::FUN_00c85750());
-}
+
+
 
 template <class T> struct hkArrayQ
 {
@@ -1480,19 +1418,19 @@ template <class T> struct hkArrayQ
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void _clearAndDeallocate(hkMemoryAllocatorQ& alloc)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     __forceinline void ClearAndRelease()
     {
-        _clearAndDeallocate(*getRouter().m_pStreamAllocator);
+        _clearAndDeallocate(*hkMemoryRouter::getInstance().m_heap);
     }
-    __forceinline void _pushBack(hkMemoryAllocatorQ& alloc, const T& t)
+    __forceinline void _pushBack(hkMemoryAllocator& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
@@ -1500,21 +1438,18 @@ template <class T> struct hkArrayQ
     }
     __forceinline void AddBack(const T& t)
     {
-        _pushBack(*getRouter().m_pStreamAllocator, t);
+        _pushBack(*hkMemoryRouter::getInstance().m_heap, t);
     }
 };
 
 template <class T> __forceinline T* hkAllocateStackQ(int n)
 {
-    hkStackMemoryQ& s = getRouter().m_aiEntries;
-    char* p = s.m_pTileTemplate;
-    s.m_pTileTemplate = p + ((n * sizeof(T) + 0x7f) & ~0x7f);
-    return (T*)p;
+    return static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n * int(sizeof(T)) + 0x7f) & ~0x7f));
 }
 
 template <class T> __forceinline void hkDeallocateStackQ(T* p)
 {
-    getRouter().m_aiEntries.m_pTileTemplate = (char*)p;
+    hkMemoryRouter::getInstance().deallocateStack(p);
 }
 
 template <class T> struct hkLocalArrayQ : hkArrayQ<T>
@@ -1678,7 +1613,7 @@ void CollideSimQ::ProcessCollisionEntries(EntityQ** entities, int numEntities, v
                     {
                         reinterpret_cast<::FUN_00c90510_class *>((entity))->FUN_00c90510();
                         key = entity->m_d4;
-                        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((collInput))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(getRouter().m_pStreamAllocator)), key, (uintptr_t)(entity));
+                        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((collInput))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(hkMemoryRouter::getInstance().m_heap)), key, (uintptr_t)(entity));
                     }
                 }
             }
@@ -1708,14 +1643,6 @@ struct S00d02880_Elem
     int unk14;
 };
 
-struct S00d02880_Heap
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* unk10;
-};
 
 struct S00d02880_Arr
 {
@@ -1760,10 +1687,10 @@ static __declspec(noinline) S00d02880_Elem* FUN_00d02880(S00d02880_Arr* apArray,
             p++;
         } while (i < apArray->m_uiItemCount);
     }
-    S00d02880_Heap* h = reinterpret_cast<S00d02880_Heap*>(static_cast<char*>(::FUN_00c85750()));
+    hkMemoryRouter* h = &hkMemoryRouter::getInstance();
     if (apArray->m_uiItemCount == (int)(0x3fffffffu & apArray->m_capFlags))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(h->unk10), (::AudioStream *)(::PairArray *)(reinterpret_cast<PairArray*>(apArray)), 0x18u);
+        ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(::PairArray *)(reinterpret_cast<PairArray*>(apArray)), 0x18u);
     }
     S00d02880_Zero(apArray->m_data + apArray->m_uiItemCount);
     S00d02880_Zero(apArray->m_data + apArray->m_uiItemCount++);
@@ -3059,9 +2986,7 @@ void Processor::ProcessGroups(int** items, int total, Group* groups, int count, 
     {
         int batch = owner->batchSize;
         Group* pSpecialGroup = 0;
-        ThreadState* pThreadState = (ThreadState*)static_cast<char*>(::FUN_00c85750());
-        BuildJob* jobs = (BuildJob*)pThreadState->top;
-        pThreadState->top += (count * sizeof(BuildJob) + 127) & ~127;
+        BuildJob* jobs = static_cast<BuildJob*>(hkMemoryRouter::getInstance().allocateStack((count * int(sizeof(BuildJob)) + 127) & ~127));
         for (int i = 0; i < count; ++i)
         {
             Group* group = groups + i;
@@ -3106,12 +3031,12 @@ void Processor::ProcessGroups(int** items, int total, Group* groups, int count, 
                 context.shared = &DAT_01269210;
                 ::AccumulateShapes((::Worker **)(::ProcessingContext *)(&context), (::TargetClass *)(::JobQueue *)(0), (::Caller *)(::ResultJob *)(&job));
                 if (context.input.scratch)
-                    ((ThreadState*)static_cast<char*>(::FUN_00c85750()))->heap().freeBlock(context.input.scratch, 512);
+                    hkMemoryRouter::getInstance().heap().blockFree(context.input.scratch, 512);
             }
         }
         if (pSpecialGroup)
             ::FUN_00d0c9c0((::ThingX **)(items + pSpecialGroup->start), pSpecialGroup->count, (::ThingP *)input, pSpecialGroup->id, false);
-        ((ThreadState*)static_cast<char*>(::FUN_00c85750()))->top = (char*)jobs;
+        hkMemoryRouter::getInstance().deallocateStack(jobs);
     }
     else
     {
@@ -3929,26 +3854,6 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 extern "C" void _ReadWriteBarrier(void);
 unsigned __int64 __cdecl __rdtsc(void);
 
-struct DeallocCtx
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4(void* pData, int iSize);
-};
-struct Singleton
-{
-    int* m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    DeallocCtx* m_10;
-};
-static inline Singleton* GetSingleton()
-{
-    return (Singleton*)static_cast<char*>(::FUN_00c85750());
-}
 
 struct Pair
 {
@@ -3996,9 +3901,9 @@ struct ArrGroup
             if (key == m_pData[k].id)
                 return m_pData[k];
         }
-        Singleton* allocator = GetSingleton();
+        hkMemoryRouter* allocator = &hkMemoryRouter::getInstance();
         if (m_iArrayLength == (m_iCapacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(allocator->m_10), (::AudioStream *)(::PairArray *)((PairArray*)this), 24);
+            ::ResizeAudioStream((::AudioAllocator *)(allocator->m_heap), (::AudioStream *)(::PairArray *)((PairArray*)this), 24);
         ZeroNew(m_iArrayLength);
         Group* added = m_pData + m_iArrayLength++;
         if (added != 0)
@@ -6402,8 +6307,8 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
     L.seen.m_00 = 0;
     L.seen.m_04 = 0;
     L.seen.m_08 = -1;
-    Singleton* pSingleton = GetSingleton();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(L.seen))->EnsureCapacity((intptr_t)(pSingleton->m_10), 0);
+    hkMemoryRouter* pSingleton = &hkMemoryRouter::getInstance();
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(L.seen))->EnsureCapacity((intptr_t)(pSingleton->m_heap), 0);
     int sentinel = (int)0x80000000;
     pairs.m_pData = 0;
     pairs.m_iArrayLength = 0;
@@ -6445,11 +6350,11 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
                     uintptr_t h = right ^ left ^ (uintptr_t)savedElem;
                     key = ((Elem*)h)->m_cc;
                 }
-                Singleton* pSingleton1 = GetSingleton();
-                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(L.seen))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pSingleton1->m_10)), (uintptr_t)(e2), 1);
-                Singleton* pSingleton2 = GetSingleton();
+                hkMemoryRouter* pSingleton1 = &hkMemoryRouter::getInstance();
+                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(L.seen))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pSingleton1->m_heap)), (uintptr_t)(e2), 1);
+                hkMemoryRouter* pSingleton2 = &hkMemoryRouter::getInstance();
                 if (pairs.m_iArrayLength == (pairs.m_iCapacity & 0x3fffffff))
-                    ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_10), (::AudioStream *)(::PairArray *)((PairArray*)&pairs), 8);
+                    ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_heap), (::AudioStream *)(::PairArray *)((PairArray*)&pairs), 8);
                 pairs.AppendN(e2, key, 1);
                 Group& entry = groups.FindOrAdd(key);
                 ++entry.count;
@@ -6458,12 +6363,12 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
         }
         reinterpret_cast<::hkReferencedObjectC905 *>((savedElem))->FUN_00c905b0();
         i = p1->Next(i);
-        Singleton* pSingleton4 = GetSingleton();
-        DeallocCtx* ctx = pSingleton4->m_10;
+        hkMemoryRouter* pSingleton4 = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* ctx = pSingleton4->m_heap;
         int iContactCap = L.contacts.m_iCapacity;
         L.contacts.m_iArrayLength = 0;
         if ((iContactCap & sentinel) == 0)
-            ctx->v4(L.contacts.m_pData, (iContactCap & 0x3fffffff) * 8);
+            ctx->bufFree(L.contacts.m_pData, (iContactCap & 0x3fffffff) * 8);
         L.contacts.m_pData = 0;
         L.contacts.m_iCapacity = sentinel;
     }
@@ -6475,9 +6380,8 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
         groups.m_pData[k2].unk0C = acc;
         acc += groups.m_pData[k2].count;
     }
-    Singleton* pSingleton5 = GetSingleton();
-    p1 = (ParamObj*)pSingleton5->m_00;
-    pSingleton5->m_00 = (int*)((char*)p1 + ((total * sizeof(void*) + 0x7f) & ~0x7f));
+    hkMemoryRouter* pSingleton5 = &hkMemoryRouter::getInstance();
+    p1 = static_cast<ParamObj*>(pSingleton5->allocateStack((total * int(sizeof(void*)) + 0x7f) & ~0x7f));
     for (int pi = 0; pi < pairs.m_iArrayLength; pi++)
     {
         void* pfirst = pairs.m_pData[pi].m_00;
@@ -6507,26 +6411,26 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
         pTraceRec2->counter = tick2;
         pTraceBuf2->next = pTraceRec2 + 1;
     }
-    Singleton* pSingleton7 = GetSingleton();
-    pSingleton7->m_00 = (int*)p1;
-    Singleton* pSingleton8 = GetSingleton();
-    DeallocCtx* pDeallocCtx8 = pSingleton8->m_10;
+    hkMemoryRouter* pSingleton7 = &hkMemoryRouter::getInstance();
+    pSingleton7->deallocateStack(p1);
+    hkMemoryRouter* pSingleton8 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pDeallocCtx8 = pSingleton8->m_heap;
     int iGroupCap = groups.m_iCapacity;
     groups.m_iArrayLength = 0;
     if ((iGroupCap & sentinel) == 0)
-        pDeallocCtx8->v4(groups.m_pData, (iGroupCap & 0x3fffffff) * 24);
+        pDeallocCtx8->bufFree(groups.m_pData, (iGroupCap & 0x3fffffff) * 24);
     groups.m_pData = 0;
     groups.m_iCapacity = sentinel;
-    Singleton* pSingleton9 = GetSingleton();
-    DeallocCtx* pDeallocCtx9 = pSingleton9->m_10;
+    hkMemoryRouter* pSingleton9 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pDeallocCtx9 = pSingleton9->m_heap;
     int iPairCap = pairs.m_iCapacity;
     pairs.m_iArrayLength = 0;
     if ((iPairCap & sentinel) == 0)
-        pDeallocCtx9->v4(pairs.m_pData, (iPairCap & 0x3fffffff) * 8);
+        pDeallocCtx9->bufFree(pairs.m_pData, (iPairCap & 0x3fffffff) * 8);
     pairs.m_pData = 0;
     pairs.m_iCapacity = sentinel;
-    Singleton* pSingleton10 = GetSingleton();
-    reinterpret_cast<::CB1A90Owner *>(&(L.seen))->ProcessArgument((::CB1A90Argument *)(pSingleton10->m_10));
+    hkMemoryRouter* pSingleton10 = &hkMemoryRouter::getInstance();
+    reinterpret_cast<::CB1A90Owner *>(&(L.seen))->ProcessArgument((::CB1A90Argument *)(pSingleton10->m_heap));
     ::FUN_00a29680();
 }
 
@@ -6662,28 +6566,6 @@ struct S4cObj
     virtual void v0c();
     virtual void v10();
     virtual void v14(Obj* o, Vec4* v);
-};
-struct GlobObj
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual bool v20(int v);
-};
-struct Glob
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    GlobObj* m_18;
 };
 struct Sub
 {
@@ -7108,8 +6990,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
     ::FUN_00cb55d0((::S55Owner *)(m_0c));
     MemoryInfo outVal;
     reinterpret_cast<::FUN_00c92b50_Class *>((m_0c))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::StepBeginDetail::MemoryInfo *)(&outVal));
-    Glob* g = (Glob*)static_cast<char*>(::FUN_00c85750());
-    bool ok = g->m_18->v20(outVal.maximum);
+    bool ok = hkMemoryRouter::getInstance().m_solver->forwardToCanAllocTotal(outVal.maximum);
     if (!ok)
     {
         if (reinterpret_cast<::WorldWatchDogHolder *>((m_0c))->FUN_00c93570())

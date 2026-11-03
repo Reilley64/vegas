@@ -2617,7 +2617,7 @@ void ReconstructMapHelper::FUN_008438b0(ExtendedForm* form, unsigned int arg2, u
     if (!form)
         return;
 
-    TESFile* file = reinterpret_cast<::FUN_00843fe0_Holder *>((this))->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(form)))), arg4);
+    TESFile* file = reinterpret_cast<::FUN_00843fe0_Holder *>((this))->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(form)))), arg4);
     if (!file)
     {
         FUN_00845cc0("Worldspace %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",
@@ -3691,9 +3691,9 @@ void FUN_00843750_shell::FUN_00843750(FUN_00843750_Form* apRef, unsigned int aui
         return;
     TESFile* pFile = 0;
     if (reinterpret_cast<::TESObjectCELL *>((apRef))->IsCellInterior())
-        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(apRef)))), auiArg1);
+        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(apRef)))), auiArg1);
     else
-        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((::FUN_00843750_Form *)(reinterpret_cast<::TESObjectCELL *>((apRef))->GetParentWorldSpace())))))), auiArg1);
+        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(((::FUN_00843750_Form *)(reinterpret_cast<::TESObjectCELL *>((apRef))->GetParentWorldSpace())))))), auiArg1);
     if (!pFile)
     {
         FUN_00845cc0("Cell %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",

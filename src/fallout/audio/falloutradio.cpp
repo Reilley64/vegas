@@ -521,7 +521,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
                 ((RadioSignal*)((char*)pstation + 4))->FUN_00834210(true);
                 reinterpret_cast<::FUN_00458b30_class *>((((RadioSignal*)((char*)pstation + 4))))->SetByteAtOffset17(0);
             }
-            if (bmatch && DAT_011dd430 == (unsigned int)pstation)
+            if (bmatch && DAT_011dd430 == (std::uintptr_t)pstation)
             {
                 BSStringT<char> strtemp;
                 BSSoundHandleEx alertSound =
@@ -1080,10 +1080,10 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
     }
     if (::DAT_011dd42c)
         ::DAT_011dd42c =
-            reinterpret_cast<unsigned int>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(::DAT_011dd42c)));
+            reinterpret_cast<std::uintptr_t>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(::DAT_011dd42c)));
     if (DAT_011dd430)
         DAT_011dd430 =
-            reinterpret_cast<unsigned int>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(DAT_011dd430)));
+            reinterpret_cast<std::uintptr_t>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(DAT_011dd430)));
     if (buffer->vfn_0() >= 10)
     {
         locals.idNode = &(*reinterpret_cast<::BSSimpleList<unsigned int> *>(&::g_011dd59c));
@@ -1990,7 +1990,7 @@ void UpdateRadio(bool force)
         if (((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())) && ((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(static_cast<void *>(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))))
         {
             kindB = ::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(static_cast<void *>(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))));
-            hasSound3 = kindB > 2 && reinterpret_cast<::FUN_00700270_class *>((((::RadioUpdate::Info *)(::FUN_00460140((int)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))->operator==(0);
+            hasSound3 = kindB > 2 && reinterpret_cast<::FUN_00700270_class *>((((::RadioUpdate::Info *)(::FUN_00460140((std::intptr_t)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))->operator==(0);
             if (!hasSound3 && ((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430())) &&
                 ((int)(std::uintptr_t)(std::strstr((char *)(::FUN_00511840((char *)(((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430()))))), DAT_0107ce2c))))
                 hasSound3 = true;
@@ -2005,7 +2005,7 @@ void UpdateRadio(bool force)
                 reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdate::Sound &)((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdate::Sound &)(((::RadioUpdate::Manager *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430())))),
                                                             0x100101, ((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430()))))));
             else
-                reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdate::Sound &)((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdate::Sound &)(((::RadioUpdate::Manager *)(::FUN_00453a70()))->FUN_00ad7480(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::Info *)(::FUN_00460140((int)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))))))))), 0x100101, 0))));
+                reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdate::Sound &)((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdate::Sound &)(((::RadioUpdate::Manager *)(::FUN_00453a70()))->FUN_00ad7480(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::Info *)(::FUN_00460140((std::intptr_t)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))))))))), 0x100101, 0))));
             reinterpret_cast<::SoundPlaybackHandle *>(&((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(RadioUpdate::Station *))::FUN_008357e0)), (*reinterpret_cast<::RadioUpdate::Station * *>(&::DAT_011dd42c)));
             reinterpret_cast<::fnv_00ad8fd0::FUN_00ad8fd0_h *>(&((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->FUN_00ad8fd0((*reinterpret_cast<::RadioUpdate::Station * *>(&::DAT_011dd42c))->state.elapsed);
             if (((bool)(::FUN_00833cf0())))
@@ -2198,7 +2198,7 @@ void FUN_008359e0(RadioSource* source, bool enabled)
     if (DAT_011dd436)
         return;
     RadioStation* station = FUN_00832830(((::fnv_008359e0::RadioRef *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((source))->FUN_007af430())));
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008359e0::GlobalObject_0044fae0 *>(&::g_011dd5e8))))->FUN_004538a0((int)("FalloutRadio::SetBroadcastState"));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008359e0::GlobalObject_0044fae0 *>(&::g_011dd5e8))))->FUN_004538a0((std::intptr_t)("FalloutRadio::SetBroadcastState"));
     reinterpret_cast<::TESObjectREFR_Flags *>((((::fnv_008359e0::RadioRef *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((source))->FUN_007af430()))))->SetRefFlag40000000(enabled);
     if (station)
     {
@@ -2214,7 +2214,7 @@ void FUN_008359e0(RadioSource* source, bool enabled)
                 }
                 node = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             }
-            if (::DAT_011dd42c == (unsigned int)station && DAT_011dd434)
+            if (::DAT_011dd42c == (std::uintptr_t)station && DAT_011dd434)
             {
                 reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
                 (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
@@ -2782,9 +2782,9 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
 {
 
-    unsigned int secondID5;
+    void* secondID5;
 
-    unsigned int receiverNode4;
+    void* receiverNode4;
 
     FalloutRadio::RadioReceiver* formID;
 
@@ -2868,7 +2868,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
     if (::DAT_011dd42c)
 
-        secondID5 = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)::DAT_011dd42c)))->FUN_007af430()));
+        secondID5 = reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)::DAT_011dd42c)))->FUN_007af430();
 
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(secondID5), 0);
 
@@ -2876,7 +2876,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
     if (DAT_011dd430)
 
-        receiverNode4 = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)DAT_011dd430)))->FUN_007af430()));
+        receiverNode4 = reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)DAT_011dd430)))->FUN_007af430();
 
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(receiverNode4), 0);
 
@@ -3224,7 +3224,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
     float aBound = 3000.0f;
     RadioUpdateVec3 aLight;
     ((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad78e0(&aLight);
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::RadioUpdateProf *>(&::g_011dd5e8))))->FUN_004538a0((int)(radioUpdateProfile));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::RadioUpdateProf *>(&::g_011dd5e8))))->FUN_004538a0((std::intptr_t)(radioUpdateProfile));
     RadioUpdateObj* aActor =
         ((RadioUpdateState*)apState)->sub.ptr ? ((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((((RadioUpdateState*)apState)->sub.ptr))->GetActiveResponse())) : 0;
     RadioUpdateRList* aNext = &((RadioUpdateState*)apState)->list;
@@ -3492,7 +3492,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 if (((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())) && ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(static_cast<void *>(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))))))))
                 {
                     aCont = ::FUN_0044a670((const char *)(::RadioUpdateObj *)((RadioUpdateObj*)((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(static_cast<void *>(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))))))))));
-                    aSame = aCont > 1 && ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((int)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))))))));
+                    aSame = aCont > 1 && ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((std::intptr_t)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))))))));
                 }
                 if (aEnabled)
                 {
@@ -3514,7 +3514,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 }
                 else if (aSame)
                 {
-                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x104, ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((int)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))))))))));
+                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x104, ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((std::intptr_t)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))))))))));
                     reinterpret_cast<::FUN_00833c40_shell *>(&(((RadioUpdateState*)apState)->sub))->FUN_00833c40(0);
                 }
                 else
@@ -3666,11 +3666,11 @@ void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
 
     f = 0;
     f = dynamic_cast< ::TESBoundObject*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((RadioLoadBufferView*)apBuffer)))->FUN_008648a0()));
-    ::DAT_011dd42c = (unsigned int)f;
+    ::DAT_011dd42c = (std::uintptr_t)f;
 
     eb = 0;
     eb = dynamic_cast< ::TESBoundObject*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((RadioLoadBufferView*)apBuffer)))->FUN_008648a0()));
-    DAT_011dd430 = (unsigned int)eb;
+    DAT_011dd430 = (std::uintptr_t)eb;
 
     if (apBuffer->vfn_0() >= 10)
     {
@@ -3738,7 +3738,7 @@ void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
     if (!station || reinterpret_cast<::TESForm *>(station->form)->GetDisabled())
         return;
     bool f = reinterpret_cast<::FUN_00833040_shell *>(&(station->station))->IsFlag20Set();
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->FUN_004538a0((int)("FalloutRadio::StartRadioConversation"));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->FUN_004538a0((std::intptr_t)("FalloutRadio::StartRadioConversation"));
     if (station->station.conversation)
         while (reinterpret_cast<::FUN_0083b9f0_shell *>((station->station.conversation))->FUN_0083b9f0())
         {

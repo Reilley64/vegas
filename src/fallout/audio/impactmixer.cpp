@@ -2340,7 +2340,7 @@ void FUN_00837550(ImpactData* apImpact)
     if (apImpact->pObjectA == apImpact->pObjectB && apImpact->pObjectA)
         return;
     static ImpactTimer s_kTimer;
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(s_kTimer))->FUN_004538a0((int)(s_szTimerName));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(s_kTimer))->FUN_004538a0((std::intptr_t)(s_szTimerName));
     float fScaledImpulseRes = apImpact->fImpulse * 0.014287499710917473;
     float fWaterLevelItem = apImpact->fImpulse / ::DAT_010179e0;
     unsigned int uiFlagsTmp = 0;

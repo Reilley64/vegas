@@ -625,7 +625,7 @@ void FUN_00b5d930(OwnerD* self, int, LightD* l)
         V3D p = l->v100;
         if (((PosD*)&p)->_Call_439090(&d->pos) && l->s110 != 0xff)
         {
-            reinterpret_cast<::FUN_00b5a9d0_class *>((l))->SetTripleInts((*(int *)&(const ::V3D &)(d->pos)), {}, {});
+            reinterpret_cast<::FUN_00b5a9d0_class *>((l))->SetTripleInts(*(const int *)&d->pos.x, *(const int *)&d->pos.y, *(const int *)&d->pos.z);
             self->FUN_00b5d300(l);
         }
     }
@@ -2177,11 +2177,11 @@ struct ShadowSceneNodeX
     int unk120;
     int unk124;
     RefPtr<ShadowRenderTarget> m_spReferencedObject;
-    void FUN_00b5b880(int arg);
+    void FUN_00b5b880(void* arg);
 };
 
 // @fnv 0x00b5b880
-void ShadowSceneNodeX::FUN_00b5b880(int arg)
+void ShadowSceneNodeX::FUN_00b5b880(void* arg)
 {
     AutoMemContext ctx(0x20);
     if (!m_spReferencedObject)
@@ -2216,7 +2216,7 @@ void ShadowSceneNodeX::FUN_00b5b880(int arg)
             }
         }
         for (int i = n + 0x11; i < 0x15; i++)
-            ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)&((*reinterpret_cast<::RenderHelper *>(&::g_01200088))), (void *)(1), i, {});
+            ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)&((*reinterpret_cast<::RenderHelper *>(&::g_01200088))), 0, 1, i);
     }
     m_spReferencedObject->sp130 = 0;
 }
@@ -2542,11 +2542,11 @@ struct SPShader
     int unk1D8;
     bool bDefaultEnabled;
 
-    void FUN_00b5ba80(int aiPass, SPPass* apPass);
+    void FUN_00b5ba80(void* aiPass, SPPass* apPass);
 };
 
 // @fnv 0x00b5ba80
-void SPShader::FUN_00b5ba80(int aiPass, SPPass* apPass)
+void SPShader::FUN_00b5ba80(void* aiPass, SPPass* apPass)
 {
     SPRenderer* pRenderer = apPass->pOwner->pRenderer;
     SPGeometry* pGeomA = apPass->pGeomA;
@@ -4168,7 +4168,7 @@ void Root::SetProcessEnabled(bool enable)
             InterfaceArray array;
             FUN_00cd1ed0();
             WorldContext* item = new WorldContext;
-            reinterpret_cast<::FUN_00cd2530_cls *>((item))->AddItem((int)(GetWorld()));
+            reinterpret_cast<::FUN_00cd2530_cls *>((item))->AddItem(GetWorld());
             array.AddBack(item);
             process = new Process(array, 0);
             reinterpret_cast<::hkVisualDebuggerCD0D *>((process))->CreateServer(0x61a9);
@@ -4818,7 +4818,7 @@ void NodeTarget::RemoveLightFromNode(void** object, void* apLight)
             {
                 int index = reinterpret_cast<::FUN_00b5a930_cls *>(&(item->container))->FindFirstMatch(object, 0, (bool (*)(void **, void *))(int (*)(int *, int *))(&::FUN_00b5a980));
                 if (index != -1)
-                    ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(item->container), index, true, {});
+                    ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(item->container), 0, index, true);
             }
             node = (LightNode*)*object;
         }
@@ -4843,7 +4843,7 @@ void NodeTarget::RemoveLightFromNode(void** object, void* apLight)
                         }
                     }
                     if (index != -1)
-                        ::FUN_00b5ade0((::FUN_00b5ade0_arr *)(c), index, true, {});
+                        ::FUN_00b5ade0((::FUN_00b5ade0_arr *)(c), 0, index, true);
                 }
             }
             node = (LightNode*)*object;
@@ -5832,7 +5832,7 @@ void LocalTarget::FUN_00b5ddf0(LocalContext* apContext)
                         LocalObject* obj = (LocalObject*)geometry->objects.data[i];
                         unsigned index = obj->geometryLinks.find(geometry);
                         if (index != ~0u)
-                            ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(obj->geometryLinks), index, true, {});
+                            ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(obj->geometryLinks), 0, index, true);
                     }
                     geometry->objects.clear();
                     LocalLink<LocalLight>* lightPos = geometry->lights;
@@ -8202,7 +8202,7 @@ extern float DAT_01200558;
 struct LinkArray
 {
     virtual void v0();
-    unsigned int* data;
+    void** data;
     unsigned int count, capacity;
     unsigned int FindFirstMatch(const RefPtr_b9fcc0*, unsigned int, int(__cdecl*)(int*, int*));
     void FUN_00b5ade0(unsigned int, bool);
@@ -8928,7 +8928,7 @@ class Self
 
     unsigned int FUN_00a5dbe0(void* p);
 
-    unsigned int FUN_00b5e870(ParamObj* arg);
+    std::uintptr_t FUN_00b5e870(ParamObj* arg);
 };
 
 __declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9efa0(void*& p)
@@ -8983,7 +8983,7 @@ __declspec(noinline) void Self::RemoveLightFromNode(RefPtr_b9fcc0& value, void*&
                 unsigned int index = ~0u;
                 for (unsigned int j = 0; j < data->links.count; ++j)
                 {
-                    if (data->links.data && data->links.data[j] == reinterpret_cast<unsigned int>(item))
+                    if (data->links.data && data->links.data[j] == item)
                     {
                         index = j;
                         break;
@@ -9003,7 +9003,7 @@ __declspec(noinline) void Self::RemoveLightFromNode(RefPtr_b9fcc0& value, void*&
 
 // Processes entries in m_listB4, updates globals from arg and m_134, and returns a value derived from m_134 or FUN_00a5dbe0.
 // @fnv 0x00b5e870
-unsigned int Self::FUN_00b5e870(ParamObj* arg)
+std::uintptr_t Self::FUN_00b5e870(ParamObj* arg)
 
 {
 
@@ -9108,7 +9108,7 @@ unsigned int Self::FUN_00b5e870(ParamObj* arg)
 
     Obj134* val;
     val = m_134;
-    unsigned result = reinterpret_cast<unsigned>(val);
+    std::uintptr_t result = reinterpret_cast<std::uintptr_t>(val);
     if (val)
     {
         ptr = val->m_kDiffuseColor;
@@ -9394,7 +9394,7 @@ ShadowSceneLight* S00b5eca0_Node::FUN_00b5eca0(ShadowSceneLight* pkLight)
         if (((S00b5eca0_Settings*)0)->m_bUseRenderedShadows)
         {
             pkTexture = ((::S00b5eca0_Tex *)(reinterpret_cast<::Pool *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6e110((std::uintptr_t)(DAT_011f9508), 0x2a, 0, 0, 0)));
-            ((::S00b5eca0_Group *)(reinterpret_cast<::BSRenderedTexture *>((pkTexture))->GetGroup()))->SetBuffer(((void *)(reinterpret_cast<::CpuObject *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6d120())));
+            ((::S00b5eca0_Group *)(reinterpret_cast<::BSRenderedTexture *>((pkTexture))->GetGroup()))->SetBuffer(reinterpret_cast<::CpuObject *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6d120());
         }
         else
         {
@@ -9923,7 +9923,7 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
                                 if (process->FUN_00c4f320(object))
                                 {
                                     void* camera = process->camera;
-                                    reinterpret_cast<::SPShader *>(this)->FUN_00b5ba80((int)(camera), (::SPPass *)(entry));
+                                    reinterpret_cast<::SPShader *>(this)->FUN_00b5ba80(camera, (::SPPass *)(entry));
                                     entry->object->Cull(process);
                                 }
                             }
@@ -10893,7 +10893,7 @@ void OwnerD::FUN_00b5d300(LightD* apLight)
         }
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_00c5b5d0_class *>((((FUN_00c5b5d0_class*)m_1e0)))->FUN_00c5b5d0(); i++)
         {
-            void* pElement = (void*)reinterpret_cast<::FUN_00c5b5a0_cls *>((((FUN_00c5b5a0_cls*)m_1e0)))->FUN_00c5b5a0(i);
+            void* pElement = reinterpret_cast<::FUN_00c5b5a0_cls *>((((FUN_00c5b5a0_cls*)m_1e0)))->FUN_00c5b5a0(i);
             if (pElement)
                 reinterpret_cast<::ShadowSceneLight *>((apLight))->AddObject((::NiAVObject *)(pElement));
         }
@@ -11652,10 +11652,10 @@ FUN_00b5e5a0::~FUN_00b5e5a0()
 
 
 // @fnv 0x00c5b5a0
-int FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)
+void* FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)
 {
-    int* p = *(int**)((char*)this + 0x40) + idx;
-    int result = *p;
+    void** p = *(void***)((char*)this + 0x40) + idx;
+    void* result = *p;
     return result;
 }
 
@@ -11808,8 +11808,8 @@ struct UpdateObject;
 
 struct UpdateList
 {
-    unsigned vtable;
-    unsigned buffer;
+    void* vtable;
+    void* buffer;
     unsigned size;
     unsigned capacity;
 };
@@ -11836,10 +11836,10 @@ struct NodeRecord
 struct UpdatePacket
 {
     NodeRecord records[4];
-    unsigned identity;
+    void* identity;
     unsigned region;
     float weight;
-    unsigned flags;
+    void* flags;
     unsigned sex;
     UpdateList primary;
     UpdateList secondary;
@@ -12122,7 +12122,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
         return;
     UpdateObject* rootNode = object->GetRoot();
     unsigned entry = 0;
-    UpdateObject* currentNode = ((::UpdateObject *)(::FUN_00559450((int *)&(current.FUN_0066b0d0(object->GetRenderNode(0))))));
+    UpdateObject* currentNode = current.FUN_0066b0d0(object->GetRenderNode(0)).root;
     UpdateObject* found = ((::UpdateObject *)(::FUN_004aae30((::NiAVObject *)(rootNode), (::NiFixedString *)(::FUN_00605d40(0)))));
     UpdateObject* node = found ? found->GetNode() : 0;
     if (!node || !currentNode)
@@ -12130,7 +12130,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
     UpdateObject* nested;
     UpdateObject* list;
     UpdateObject* root;
-    unsigned count;
+    ::ItemA59D* count;
     UpdateObject* key;
     if (!currentNode->IsReady())
     {
@@ -12153,7 +12153,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
                             root = found ? found->GetNode() : 0;
                             if (root)
                             {
-                                count = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2)));
+                                count = reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2);
                                 key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
                                 if (key && !fnv::crt::strnicmp(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
                                 {
@@ -12176,7 +12176,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
                         root = found ? found->GetNode() : 0;
                         if (root)
                         {
-                            count = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2)));
+                            count = reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2);
                             key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
                             if (key && !fnv::crt::strnicmp(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
                             {
@@ -12195,21 +12195,24 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
     if (((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070())))
     {
         UpdatePacket packet;
-        packet.identity = ((unsigned int)(reinterpret_cast<::TESNPC *>(this)->GetHair()));
+        packet.identity = reinterpret_cast<::TESNPC *>(this)->GetHair();
         packet.weight = reinterpret_cast<::FUN_00602130_shell *>(this)->FUN_00602130();
-        packet.flags = ((unsigned int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetAnimation()));
+        packet.flags = reinterpret_cast<::MiddleHighProcess *>(this)->GetAnimation();
         packet.sex = FUN_005f0cc0();
         packet.region = reinterpret_cast<::FUN_004169d0_shell *>(this)->FUN_004169d0();
         FUN_00603ad0(packet);
         if (!packet.flags && ((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())) &&
             !((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650()))->FUN_008256d0())
-            packet.flags = *((unsigned int *)(&reinterpret_cast<::BSSimpleList<void*>*>(((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())))->m_item));
+            packet.flags = reinterpret_cast<::BSSimpleList<void*>*>(((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())))->m_item;
         for (unsigned k = 0; k < 8; k++)
         {
-            reinterpret_cast<::S_0060ba10 *>(&(packet.primary))->FUN_0096a610((int)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::FUN_00613970_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00613970(FUN_005f0cc0(), k)))));
-            reinterpret_cast<::S_0060ba10 *>(&(packet.secondary))->FUN_0096a610((int)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::FUN_00613b20_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->GetBodyPartTexture(FUN_005f0cc0(), k)))));
+            ::TESModel* model = reinterpret_cast<::FUN_00613970_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00613970(FUN_005f0cc0(), k);
+            reinterpret_cast<::S_0060ba10 *>(&(packet.primary))->FUN_0096a610((std::intptr_t)&(model));
+            ::TESTexture* texture = reinterpret_cast<::FUN_00613b20_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->GetBodyPartTexture(FUN_005f0cc0(), k);
+            reinterpret_cast<::S_0060ba10 *>(&(packet.secondary))->FUN_0096a610((std::intptr_t)&(texture));
             reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
-            reinterpret_cast<::S_0060ba10 *>(&(packet.names))->FUN_0096a610((int)&(const unsigned int &)((unsigned)::FUN_00605d40(k)));
+            void* name = ::FUN_00605d40(k);
+            reinterpret_cast<::S_0060ba10 *>(&(packet.names))->FUN_0096a610((std::intptr_t)&(name));
             reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
             if (((bool)(::FUN_00605d50())))
             {
@@ -12220,8 +12223,8 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
         }
         reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
         packet.enabled = ((bool)(::FUN_00605d50()));
-        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(::UpdateObject *)(((::UpdateObject *)(::FUN_00559450((int *)&(previous))))), (::fnv_00655fa0::FaceGenData *)&(packet));
-        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(::UpdateObject *)(((::UpdateObject *)(::FUN_00559450((int *)&(current))))), (::fnv_00655fa0::FaceGenData *)&(packet));
+        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(previous.root), (::fnv_00655fa0::FaceGenData *)&(packet));
+        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(current.root), (::fnv_00655fa0::FaceGenData *)&(packet));
     }
 }
 

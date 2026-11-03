@@ -3,7 +3,7 @@
 struct CpuObject {
 public:
     // 0x00b6d120
-    int FUN_00b6d120();
+    void *FUN_00b6d120();
     // 0x00c91020
     float FUN_00c91020();
     // 0x00cac910

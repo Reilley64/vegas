@@ -1217,7 +1217,7 @@ struct FUN_00c93a60_cls
 struct Sink
 {
     virtual void vfunc00();
-    virtual void vfunc04(int value);
+    virtual void vfunc04(void* value);
 };
 
 struct FUN_00cd2530_cls
@@ -1256,12 +1256,12 @@ struct FUN_00cd2530_cls
     Sink** m_sinks;
     int m_sinkCount;
 
-    void AddItem(int value);
+    void AddItem(void* value);
 };
 
 // If value is not already in m_items, appends it, notifies each sink via vfunc04 and calls RegisterWithRegistry.
 // @fnv 0x00cd2530
-void FUN_00cd2530_cls::AddItem(int pItem)
+void FUN_00cd2530_cls::AddItem(void* pItem)
 {
     PointerArray* items = &m_items;
     int count = items->count;

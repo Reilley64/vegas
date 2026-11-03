@@ -1723,16 +1723,10 @@ void* FUN_0045c650_shell::FUN_0045c650()
     return reinterpret_cast<char*>(this) + 0xD0;
 }
 
-struct Flt
-{
-    operator unsigned int(void) const;
-};
-
-
 // @fnv 0x0045c670
-unsigned int FUN_0045c670()
+std::uintptr_t FUN_0045c670()
 {
-    return (*reinterpret_cast<::Flt *>(&::g_011deb7c));
+    return *reinterpret_cast<std::uintptr_t *>(&::g_011deb7c);
 }
 
 struct TESObjectREFR;

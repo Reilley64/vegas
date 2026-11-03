@@ -1424,7 +1424,7 @@ void AccumWIP::SetShaderPassEnabled(unsigned int uiGroupIndex, bool bFlag)
     {
         for (unsigned int i = 0; i < m_uiRendererCount; ++i)
         {
-            ::FUN_00b9a4d0((::FUN_00b9a4d0_Obj *)(reinterpret_cast<BRView*>(m_pGroupRenderer[i])->m_pGeometryGroups[uiGroupIndex]), bFlag, {});
+            ::FUN_00b9a4d0((::FUN_00b9a4d0_Obj *)(reinterpret_cast<BRView*>(m_pGroupRenderer[i])->m_pGeometryGroups[uiGroupIndex]), 0, bFlag);
         }
     }
     else

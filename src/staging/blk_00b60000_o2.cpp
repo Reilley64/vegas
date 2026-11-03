@@ -3716,11 +3716,11 @@ struct CpuObject
     unsigned int unk9c;
     unsigned int unka0;
     unsigned int unka4;
-    int value;
-    int FUN_00b6d120();
+    void* value;
+    void* FUN_00b6d120();
 };
 // @fnv 0x00b6d120
-int CpuObject::FUN_00b6d120()
+void* CpuObject::FUN_00b6d120()
 {
     return value;
 }

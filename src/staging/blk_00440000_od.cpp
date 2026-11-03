@@ -2608,11 +2608,11 @@ struct S_FUN_0045bc00
 {
     char _pad[156];
     Arr arr;
-    unsigned int FUN_0045bc00(unsigned int i);
+    std::uintptr_t FUN_0045bc00(unsigned int i);
 };
 // Returns the element at index i converted to unsigned int, or 0 when i is out of range.
 // @fnv 0x0045bc00
-unsigned int S_FUN_0045bc00::FUN_0045bc00(unsigned int uiIndex)
+std::uintptr_t S_FUN_0045bc00::FUN_0045bc00(unsigned int uiIndex)
 {
     if (reinterpret_cast<::FUN_00658930_class *>(&(arr))->GetShortAtOffsetA() <= uiIndex)
     {

@@ -9495,7 +9495,7 @@ void ShadowHost::FUN_00871290()
                 if (specialNode3)
                     reinterpret_cast<::TaskQueueInterface *>((specialNode3))->QueueActorDisarm(specialHidden29);
                 ::FUN_004e20b0(true);
-                reinterpret_cast<::ShadowSceneNodeX *>((system))->FUN_00b5b880((int)(view8));
+                reinterpret_cast<::ShadowSceneNodeX *>((system))->FUN_00b5b880((void *)(view8));
                 reinterpret_cast<::TaskQueueInterface *>((playerNode50))->QueueActorDisarm(playerHidden14);
             }
         }
@@ -12104,7 +12104,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
                             {
                                 if (::FUN_00874480((char *)(object)) && ((int)(reinterpret_cast<::FUN_009b4440_shell *>((object))->FUN_009b4440())))
                                 {
-                                    reinterpret_cast<::SPShader *>((((::fnv_00873200::ViewNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5ba80((int)(((::fnv_00873200::ViewNode *)(reinterpret_cast<::FUN_0084e3a0_Class *>((process))->FUN_0084e3a0()))), (::SPPass *)(object));
+                                    reinterpret_cast<::SPShader *>((((::fnv_00873200::ViewNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5ba80((((::fnv_00873200::ViewNode *)(reinterpret_cast<::FUN_0084e3a0_Class *>((process))->FUN_0084e3a0()))), (::SPPass *)(object));
                                 }
                                 if (visibleCount % 2)
                                     reinterpret_cast<::FUN_004ed8c0_shell *>(&(leftList2))->FUN_004ed8c0((int *)&(geometry));

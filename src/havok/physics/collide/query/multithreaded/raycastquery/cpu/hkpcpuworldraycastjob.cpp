@@ -62,7 +62,7 @@ struct S_00df8d60
     int unk4;
     int unk8;
     int unkC;
-    int unk10;
+    const void* unk10;
     float unk14;
     float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
 };
@@ -311,23 +311,23 @@ struct Source
     unsigned int m_24;
     unsigned int unk28;
     unsigned int unk2c;
-    unsigned int m_30;
-    unsigned int m_34;
+    unsigned int* m_30;
+    unsigned int* m_34;
     unsigned int unk38;
     unsigned char m_3c;
 };
 
 struct Spawned
 {
-    unsigned int m_00;
+    const void* m_00;
     float m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
-    unsigned int m_10;
+    unsigned int* m_08;
+    unsigned int* m_0c;
+    unsigned int* m_10;
     unsigned int m_14;
     unsigned int m_18;
-    Spawned(unsigned int first, unsigned int last)
-        : m_00((unsigned int)DAT_010dbb04), m_04(1.0f), m_08(first), m_0c(first), m_10(last), m_14(0), m_18(0)
+    Spawned(unsigned int* first, unsigned int* last)
+        : m_00(DAT_010dbb04), m_04(1.0f), m_08(first), m_0c(first), m_10(last), m_14(0), m_18(0)
     {}
 };
 
@@ -354,8 +354,8 @@ struct Output
     unsigned int unk18;
     Source* m_1c;
     Source* m_20;
-    unsigned int m_24;
-    unsigned int m_28;
+    unsigned int* m_24;
+    unsigned int* m_28;
     unsigned int unk2c;
     unsigned int unk30;
     unsigned int unk34;
@@ -446,7 +446,7 @@ void __cdecl FUN_00df89b0(Interface* apInterface, Source* apSource, Output* apOu
     else
         apOutput->m_60 = 0;
 
-    unsigned int* target = (unsigned int*)apSource->m_30;
+    unsigned int* target = apSource->m_30;
     *(float*)&target[4] = one;
     target[5] = 0xffffffffu;
     target[8] = 0xffffffffu;
@@ -487,7 +487,7 @@ struct hkTransform
 
 __forceinline void hkVector4::_setRotatedDir(const hkRotation& r, const hkVector4& b)
 {
-    const __m128 c1 = _mm_load_ps(&r.m_kColumn1.m_vComponents[0]);
+    const __m128 c1 = _mm_load_ps(reinterpret_cast<const float*>(&r.m_kColumn1.m_vComponents));
     const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
     const __m128 r1 = _mm_mul_ps(c1, b1);
     const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
@@ -730,7 +730,7 @@ struct RayCaster_00df8aa0 : S_00df8d60
 
     const hkpCollisionFilter* filter() const
     {
-        return (const hkpCollisionFilter*)unk10;
+        return static_cast<const hkpCollisionFilter*>(unk10);
     }
 
     __forceinline WorldRayCastOutput* getOutputSlot(float hitFraction, float& oldFraction)
@@ -818,7 +818,6 @@ S_00df8d60_Bool RayCaster_00df8aa0::FUN_00df8aa0(const void* apBody)
 
 // Moved from hkpcpuworldraycastjob_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/decl/LunaOwner.h"
-#include "fnv/decl/RayCaster_00df8aa0.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00df8000.h"
 #include "fnv/symbols_00e2a000.h"
@@ -1159,8 +1158,8 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             at->option = queryType;
             ++at;
         } while (queryRemaining-- != 1);
-        ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), (int)(vertices.data), (int)(querySource), queryType, (int)(fields), (int)(iteration.destination), count);
-        ::FUN_00e2cc30((::SplitInput *)(request->passB), (int)(vertices.data), (int)(querySource), queryType, (int)(fields), (int)(iteration.destination), count);
+        ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), vertices.data, querySource, queryType, fields, iteration.destination, count);
+        ::FUN_00e2cc30((::SplitInput *)(request->passB), vertices.data, querySource, queryType, fields, iteration.destination, count);
         pool()->cursor = iteration.destination;
         Field* end = fields + 4;
         int remaining = 3;
@@ -1191,9 +1190,9 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             do
             {
                 *(__m128*)&scratch.range = *(__m128*)&shared.unit;
-                ::FUN_00e2b070((const ::Input *)(request->passA), (::BundleCommand *)(face), (void *)(queryType), (*(::RayVector *)(&scratch.range)), (void *)(0), (void *)(0), (void *)(0), (void *)(0), (int *)(0));
+                ::FUN_00e2b070((const ::Input *)(request->passA), (::BundleCommand *)(face), (void *)(intptr_t)(queryType), (*(::RayVector *)(&scratch.range)), (void *)(0), (void *)(0), (void *)(0), (void *)(0), (int *)(0));
                 ::FUN_00e2b510((::Owner *)(request->passB), (::RayBatch *)(face), queryType, (*(__m128 *)(&scratch.range)));
-                ::FUN_00e2acf0(queryFinal, (::InputStruct *)(face), (void *)(queryType), (float *)(void *)(&scratch.range));
+                ::FUN_00e2acf0(queryFinal, (::InputStruct *)(face), (void *)(intptr_t)(queryType), (float *)(void *)(&scratch.range));
                 ++face;
             } while (--iteration.count != 0);
         }

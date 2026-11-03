@@ -679,7 +679,7 @@ struct FUN_006f90a0_shell
 void FUN_006f90a0_shell::UpdateInstances(FUN_006f90a0_params params)
 {
     unsigned int count = FUN_0042f5a0(
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(params.owner) + 8)))->GetName())), FUN_00bb6030());
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(params.owner) + 8)))->GetName())), FUN_00bb6030());
 
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -977,12 +977,12 @@ void TreeLODManager::AddTreeInstance(unsigned int auiType, TreeInstance* apInsta
         pBlock->pType = ((void *)(reinterpret_cast<::FUN_006b3120_shell *>(&((*reinterpret_cast<::TreeTypeArray *>(&::g_011d85d0))))->GetElementAt(auiType)));
         reinterpret_cast<::FUN_00438690 *>(&(kBlocks))->FUN_007cb2e0((unsigned int *)&(pBlock));
         kBlockMap.SetAt(auiType, pBlock);
-        pBlock->iIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kBlocks))->GetName())) - 1;
+        pBlock->iIndex = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kBlocks))->GetName())) - 1;
         reinterpret_cast<::FUN_006f9790_class *>(&(pBlock->kInstances))->FUN_006f9790(FUN_00bb6030());
         pBlock->bFull = 0;
     }
     reinterpret_cast<::FakeArray *>(&(pBlock->kInstances))->AppendInstance((::InstanceData *)(apInstance));
-    int iLast = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pBlock->kInstances))->GetName())) - 1;
+    int iLast = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pBlock->kInstances))->GetName())) - 1;
     TreeInstance* pInst6 = ((::TreeInstance *)(reinterpret_cast<::FUN_006b3120_shell *>(&(pBlock->kInstances))->GetElementAt(iLast)));
     pInst6->iBlockIndex = pBlock->iIndex;
     pInst6->bFlag = 0;
@@ -1787,7 +1787,7 @@ void OwnerX::FUN_006f8c40()
         {
             EntryX* aA = entries.GetAt(index4);
             aA->node = new NewNodeX(entries.GetAt(index4)->type->name);
-            reinterpret_cast<::FUN_00705b10_Dummy *>((((NodeX*)aA->node)))->Set(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrayX*)&aA->instances)))->GetName())) * 4);
+            reinterpret_cast<::FUN_00705b10_Dummy *>((((NodeX*)aA->node)))->Set(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrayX*)&aA->instances)))->GetName())) * 4);
             PropertyX* propertyA = new PropertyX;
             reinterpret_cast<::FUN_006f90a0_shell *>(this)->UpdateInstances({(FUN_00bb7290_shell*)propertyA, (FUN_006f90a0_owner*)aA});
             reinterpret_cast<::FUN_00439410_cls *>((((NodeX*)aA->node)))->FUN_00439410((::ArgObject *)(propertyA));

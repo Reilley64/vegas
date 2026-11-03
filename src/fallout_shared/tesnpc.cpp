@@ -705,7 +705,7 @@ void TESNPC::InitItem()
     BGSDestructibleObjectForm::InitItem(this);
     if (m_pClass)
     {
-        classID = reinterpret_cast<unsigned int>(m_pClass);
+        classID = (unsigned int)reinterpret_cast<std::uintptr_t>(m_pClass);
         ::ResolveFormID((unsigned int *)&(classID), GetFile(-1));
         m_pClass = dynamic_cast<TESClass*>(::FUN_004839c0(classID));
     }
@@ -713,7 +713,7 @@ void TESNPC::InitItem()
         UpdateActorBaseData(false);
     if (m_pCombatStyle)
     {
-        combatID = reinterpret_cast<unsigned int>(GetCombatStyle());
+        combatID = (unsigned int)reinterpret_cast<std::uintptr_t>(GetCombatStyle());
         if (combatID)
         {
             ::ResolveFormID((unsigned int *)&(combatID), GetFile(-1));
@@ -2508,7 +2508,7 @@ struct PC7d
 struct FUN_00484d20_Class
 {
 public:
-    void ForwardToSaveLoadGame(int, int);
+    void ForwardToSaveLoadGame(std::intptr_t, int);
 };
 struct FUN_00608e00_shell
 {
@@ -2528,7 +2528,7 @@ void FUN_00608e00_shell::FUN_00608e00(unsigned int aiFlags)
         if (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x1d4))
             icombatstyleID =
                 ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x1d4))))->FUN_0084e3a0()));
-        reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame((int)(&icombatstyleID), 4);
+        reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame((std::intptr_t)(&icombatstyleID), 4);
     }
 }
 
@@ -4477,7 +4477,7 @@ void TESNPC::UpdateModel3D(TESObjectREFR* refr, bool armor, bool weapon, bool up
                 else
                     pExtraData = 0;
                 Actor* pActorRefr = static_cast<Actor*>(refr);
-                reinterpret_cast<::fnv_0088c830::ThisC *>((pActorRefr))->FUN_0088c830((::fnv_0088c830::FormC *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pArmorItem))->GetName()))), ((int)(reinterpret_cast<::Callees *>((pArmorItem))->FUN_00726070())), pExtraData, true, false,
+                reinterpret_cast<::fnv_0088c830::ThisC *>((pActorRefr))->FUN_0088c830((::fnv_0088c830::FormC *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pArmorItem))->GetName()))), ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((pArmorItem))->FUN_00726070())), pExtraData, true, false,
                                         true);
                 if (bDeleteItem)
                     delete pArmorItem;
@@ -6537,7 +6537,7 @@ void FUN_00609d60_shell::SerializeFaceGenData(int unused)
                 for (; col < cols; ++col)
                 {
                     float value = *((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceGenCoordinateValue &)(this->m_kFaceGenCoordinates[i2][j].FUN_0060b370(row, col)))->FUN_00629ab0({})));
-                    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&value), 4);
+                    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)&value), 4);
                 }
             }
         }
@@ -6547,27 +6547,27 @@ void FUN_00609d60_shell::SerializeFaceGenData(int unused)
     {
         hairID = (int)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESRace *)(reinterpret_cast<::Callees *>((void *)(this))->FUN_00726070()))))->FUN_0084e3a0()));
     }
-    ((FUN_00484d20_Class*)this)->ForwardToSaveLoadGame((int)(&hairID), 4);
+    ((FUN_00484d20_Class*)this)->ForwardToSaveLoadGame((std::intptr_t)(&hairID), 4);
     int raceID = 0;
     if (this->m_pHair != 0)
     {
         raceID = (int)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->m_pHair))->FUN_0084e3a0()));
     }
-    ((FUN_00484d20_Class*)this)->ForwardToSaveLoadGame((int)(&raceID), 4);
+    ((FUN_00484d20_Class*)this)->ForwardToSaveLoadGame((std::intptr_t)(&raceID), 4);
     int eyeID = 0;
     if (this->m_pEyes != 0)
     {
         eyeID = (int)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->m_pEyes))->FUN_0084e3a0()));
     }
-    ((FUN_00484d20_Class*)this)->ForwardToSaveLoadGame((int)(&eyeID), 4);
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&this->m_fHairLength), 4);
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&this->iHairColor), 4);
+    ((FUN_00484d20_Class*)this)->ForwardToSaveLoadGame((std::intptr_t)(&eyeID), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)&this->m_fHairLength), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)&this->iHairColor), 4);
     unsigned char sex = 0;
     if (this->GetSex() == 1)
     {
         sex = 1;
     }
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&sex), 1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)&sex), 1);
 }
 
 struct BipedModelView : TESBipedModelForm
@@ -7730,7 +7730,7 @@ void NPC75::FUN_00609220(Buffer75* buffer)
                     node17 = ((::Node75 *)(reinterpret_cast<::Callees *>((node17))->FUN_00726070()));
                 }
 
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(saved14))->GetName())))
+                if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(saved14))->GetName())))
                     partsChanged41 = true;
             }
         }
@@ -9095,7 +9095,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
                 }
                 TESObjectREFR* bEquipWeapon;
                 bEquipWeapon = a2;
-                reinterpret_cast<::fnv_0088c830::ThisC *>((bEquipWeapon))->FUN_0088c830((::fnv_0088c830::FormC *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pWeaponExtra))->GetName()))), ((int)(reinterpret_cast<::Callees *>((pWeaponExtra))->FUN_00726070())), fWeight, true,
+                reinterpret_cast<::fnv_0088c830::ThisC *>((bEquipWeapon))->FUN_0088c830((::fnv_0088c830::FormC *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pWeaponExtra))->GetName()))), ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((pWeaponExtra))->FUN_00726070())), fWeight, true,
                                           false, true);
                 if (pItem)
                 {

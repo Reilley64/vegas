@@ -3724,8 +3724,8 @@ void Surface::FUN_005400e0()
      std::uintptr_t h=((std::uintptr_t)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));
      float f=(float)data->x-i;
      float s=(float)data->y-a;
-     cf.x=(f+k.x)/((unsigned int)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));
-     cf.y=(s+k.y)/((unsigned int)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));
+     cf.x=(f+k.x)/((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));
+     cf.y=(s+k.y)/((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));
      while(cf.x>1.0)cf.x-=1.0;
      while(cf.x<0.0)cf.x+=1.0;
      while(cf.y>1.0)cf.y-=1.0;

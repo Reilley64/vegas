@@ -211,7 +211,7 @@ void* FUN_006606b0_shell::Destroy(unsigned int flags)
 // @fnv 0x006606e0
 void FUN_006606e0_shell::SetVTable()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_01065cb8;
+    *reinterpret_cast<const void**>(this) = &DAT_01065cb8;
 }
 
 struct B65EB90Entry

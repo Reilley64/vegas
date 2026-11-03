@@ -611,8 +611,8 @@ void FUN_005aa420_shell::CopyFromScript(Script* apScriptToCopy)
     FUN_005aa2e0();
     ::fnv_005ab930::CopyListToView((::fnv_005ab930::FUN_008256d0 *)(::BSSimpleList< ::ScriptVariableInfo *> *)(((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>((apScriptToCopy))->FUN_005d43e0()))), (::fnv_005ab930::SoundListView *)(::BSSimpleList< ::ScriptVariableInfo *> *)(((::BSSimpleList< ::ScriptVariableInfo *> *)(reinterpret_cast<::FUN_005d43e0_shell *>(this)->FUN_005d43e0()))));
 
-    if (((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apScriptToCopy))->GetIconFormID())))
-        reinterpret_cast<::FUN_005abe50_shell *>(this)->FUN_005abe50((char *)(((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apScriptToCopy))->GetIconFormID()))));
+    if (apScriptToCopy->m_pText)
+        reinterpret_cast<::FUN_005abe50_shell *>(this)->FUN_005abe50((char *)(apScriptToCopy->m_pText));
     else
         reinterpret_cast<::FUN_005abe50_shell *>(this)->FUN_005abe50((char *)(0));
 
@@ -2486,14 +2486,14 @@ bool ScriptCompareOwner::IsDifferentFrom(Script* apOther)
         if (m_data[i8] != pData6[i8])
             return true;
     }
-    if (((char *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) && ((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apOther))->GetIconFormID())))
+    if (this->m_pText && apOther->m_pText)
     {
-        if (strlen(((char *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))) != strlen(((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apOther))->GetIconFormID()))))
+        if (strlen(this->m_pText) != strlen(apOther->m_pText))
             return true;
-        else if (::FUN_00469880((void *)((const unsigned char*)((char *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))), (void *)((const unsigned char*)((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apOther))->GetIconFormID())))))
+        else if (::FUN_00469880((void *)((const unsigned char*)this->m_pText), (void *)((const unsigned char*)apOther->m_pText)))
             return true;
     }
-    else if (((char *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) || ((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apOther))->GetIconFormID())))
+    else if (this->m_pText || apOther->m_pText)
         return true;
     pOtherIter7 = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apOther))->FUN_005d43c0()));
     kPIter = ((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
@@ -2526,7 +2526,7 @@ struct FUN_005ab8b0
 // @fnv 0x005ab8b0
 ns5a::FUN_005ab8b0::FUN_005ab8b0(const FUN_005ab8b0& src)
 {
-    reinterpret_cast<::FUN_00501c10_cls *>((((FUN_00501c10_s*)this)))->CallAndReturnSelf((int)(&src));
+    reinterpret_cast<::FUN_00501c10_cls *>((((FUN_00501c10_s*)this)))->CallAndReturnSelf((std::intptr_t)(&src));
     unk = src.unk;
     unk0C = src.unk0C;
 }

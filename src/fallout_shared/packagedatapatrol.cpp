@@ -104,16 +104,19 @@ struct Param6450
 };
 struct S6450 : Base6450
 {
+    const void* m_pVtable;
+    unsigned char m_a;
+    unsigned char m_b;
     S6450* FUN_0067c450(Param6450 v);
 };
-// Calls FUN_0067ad20, stores a pointer to DAT_010689e4 at offset 0 and copies v.a and v.b into bytes at offsets 4 and 5, then returns this.
+// Calls FUN_0067ad20, stores the DAT_010689e4 vtable and copies v.a and v.b into the two byte fields, then returns this.
 // @fnv 0x0067c450
 S6450* S6450::FUN_0067c450(Param6450 aParams)
 {
     new ((void *)this) ::FUN_0067ad20_Class();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_010689e4);
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 4) = aParams.a;
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 5) = aParams.b;
+    m_pVtable = &DAT_010689e4;
+    m_a = aParams.a;
+    m_b = aParams.b;
     return this;
 }
 

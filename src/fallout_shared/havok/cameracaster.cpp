@@ -34,13 +34,14 @@ extern int DAT_0104da3c;
 
 struct FUN_00621100_shell
 {
+    const void* m_pVtable;
     void SetVtable();
 };
 
 // @fnv 0x00621100
 void FUN_00621100_shell::SetVtable()
 {
-    *(int*)this = (int)&DAT_0104da3c;
+    m_pVtable = &DAT_0104da3c;
 }
 
 struct bhkCharacterListener
@@ -514,9 +515,9 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
                 if (!TARGET)
                     TARGET = (*reinterpret_cast<::xActor * *>(&::_g_thePlayer));
             }
-            while (!FOUND && I < ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00726070())))
+            while (!FOUND && I < ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((std::intptr_t)&(COL))))))->FUN_00726070())))
             {
-                void* SHAPE = ((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I)))->m_48;
+                void* SHAPE = ((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((std::intptr_t)&(COL))))))->FUN_00807770(I)))->m_48;
                 xFilter FILTER(::FUN_0043b540((char *)(SHAPE)));
                 int TYPE = reinterpret_cast<::FUN_0043b4d0_shell *>(&(FILTER))->FUN_0043b4d0();
                 xNode* NODE = ((::xNode *)(::FUN_00c7fa90((::S_Obj *)(SHAPE))));
@@ -559,11 +560,11 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
                 if (!FOUND)
                     I++;
                 else if (ISX)
-                    void* LAST = ((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I)))->m_48;
+                    void* LAST = ((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((std::intptr_t)&(COL))))))->FUN_00807770(I)))->m_48;
             }
             if (FOUND)
             {
-                reinterpret_cast<::FUN_006212c0_shell *>((apOut))->FUN_006212c0(((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((int)&(COL))))))->FUN_00807770(I))));
+                reinterpret_cast<::FUN_006212c0_shell *>((apOut))->FUN_006212c0(((::xHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::xHitList *)(::FUN_00460140((std::intptr_t)&(COL))))))->FUN_00807770(I))));
                 ::SetNiPoint3FromHkVector4((::NiPoint3 &)(akTo), (*(const ::hkVector4 *)(((::xVec4 *)((void *)(apOut))))));
             }
             else

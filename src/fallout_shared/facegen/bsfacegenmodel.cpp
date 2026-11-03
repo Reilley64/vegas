@@ -1332,8 +1332,8 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
         uiMorphCountVal = ((unsigned int)(reinterpret_cast<::FUN_00657c00_shell *>((void *)&(m_pGeometryModel->m_pModelData->modes[uiMode]))->GetCount()));
         for (unsigned int i = 0; i < uiMorphCountVal; i++)
         {
-            if (((unsigned int)(::FUN_00657bc0((int)&(reinterpret_cast<::fnv_00657c20::EGMMorphList *>((void *)&(const ::FaceGenVector< ::FaceGenMorphTarget> &)(m_pGeometryModel->m_pModelData->modes[uiMode]))->GetMorphEntry(i).kVertexPositionLocal)))) < uiNumVertices)
-                uiNumVertices = ((unsigned int)(::FUN_00657bc0((int)&(reinterpret_cast<::fnv_00657c20::EGMMorphList *>((void *)&(const ::FaceGenVector< ::FaceGenMorphTarget> &)(m_pGeometryModel->m_pModelData->modes[uiMode]))->GetMorphEntry(i).kVertexPositionLocal))));
+            if (((unsigned int)(::FUN_00657bc0((std::intptr_t)&(reinterpret_cast<::fnv_00657c20::EGMMorphList *>((void *)&(const ::FaceGenVector< ::FaceGenMorphTarget> &)(m_pGeometryModel->m_pModelData->modes[uiMode]))->GetMorphEntry(i).kVertexPositionLocal)))) < uiNumVertices)
+                uiNumVertices = ((unsigned int)(::FUN_00657bc0((std::intptr_t)&(reinterpret_cast<::fnv_00657c20::EGMMorphList *>((void *)&(const ::FaceGenVector< ::FaceGenMorphTarget> &)(m_pGeometryModel->m_pModelData->modes[uiMode]))->GetMorphEntry(i).kVertexPositionLocal))));
         }
     }
 

@@ -546,7 +546,7 @@ struct FUN_005f90c0_shell : TESActorBaseData
 // @fnv 0x005f90c0
 bool FUN_005f90c0_shell::FUN_005f90c0()
 {
-    return ((TESActorBaseData*)((char*)this + 0x30))->GetFlag((unsigned int)&DAT_01000000);
+    return ((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x01000000);
 }
 
 struct FUN_005f90e0_shell : TESActorBaseData
@@ -671,11 +671,11 @@ int FUN_005f8e90_shell::FUN_005f8e90()
         short factor = ((short)(reinterpret_cast<::FUN_0047ded0_shell *>((reinterpret_cast<FUN_005f8e90_shell*>(reinterpret_cast<char*>(this) - 0x80)))->FUN_0047ded0()));
         if (factor < 1)
             factor = 1;
-        result = factor * ((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
+        result = factor * ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
     }
     else
     {
-        result = ((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
+        result = ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
     }
     return result;
 }
@@ -1184,7 +1184,7 @@ struct PC7d
 
 struct FUN_00484d20_Class
 {
-    void ForwardToSaveLoadGame(int, int);
+    void ForwardToSaveLoadGame(std::intptr_t, int);
 };
 
 
@@ -1212,7 +1212,7 @@ void FUN_005fb1e0_shell::FUN_005fb1e0(unsigned int flags)
     {
         unsigned int result =
             ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((*reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x140)))->FUN_0084e3a0()));
-        reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&result), 4);
+        reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame((std::intptr_t)(&result), 4);
     }
 }
 
@@ -2543,7 +2543,7 @@ void CreatureEquipment::FUN_005f9e00(TESObjectREFR* reference, int unused, bool 
             ExtraDataList* extra = 0;
             if (((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))
                 extra = ((::ExtraDataList *)((void *)(((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))));
-            reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())), ((int)(reinterpret_cast<::Callees *>((aWeapon))->FUN_00726070())), extra, false);
+            reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())), ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((aWeapon))->FUN_00726070())), extra, false);
         }
     }
     delete weapon;

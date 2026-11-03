@@ -143,7 +143,7 @@ TESPackage* PackageList::GetPackageForActor(Actor* actor)
                         (reinterpret_cast<::FUN_00678cc0_shell *>((selection.schedule))->GetSecondByte() == -1 || reinterpret_cast<::fnv_00678d40::FUN_00678d40_shell *>((selection.package))->IsPackageScheduledForDay(false) ||
                          bDayOfWeek) &&
                         (selection.schedule->FUN_0086a460() == -1 ||
-                         IsHourInRange(selection.schedule->FUN_0086a460(), ((int)(reinterpret_cast<::Callees *>((selection.schedule))->FUN_00726070())),
+                         IsHourInRange(selection.schedule->FUN_0086a460(), ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((selection.schedule))->FUN_00726070())),
                                        (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTime())))
                     {
                         struct PackageTargetState
@@ -213,7 +213,7 @@ void PackageList::InitItem(TESForm* form)
             unsigned int formID;
             TESPackage* package;
         } packageEntry;
-        packageEntry.formID = reinterpret_cast<unsigned int>((cursor.list->m_item));
+        packageEntry.formID = (unsigned int)reinterpret_cast<std::uintptr_t>((cursor.list->m_item));
         if (form)
             ::ResolveFormID((unsigned int *)&(packageEntry.formID), cursor.file);
         packageEntry.package = dynamic_cast<TESPackage*>(::FUN_004839c0(packageEntry.formID));

@@ -318,7 +318,7 @@ void TESObjectWEAP::QueueResourceLoad(int priority, QueuedFile* file, bool inclu
     if(m_kModel.GetModelLength())
         reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(&m_kModel),priority,(std::uintptr_t)(file),false,true,false,false);
     if(includeScope && reinterpret_cast<::FUN_004ad010_shell *>(this)->IsFlag4Set() && m_kModel1stPerson.GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel1stPerson),priority,(int)(file),::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)(this)),true,false,false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::intptr_t)(&m_kModel1stPerson),priority,(int)(file),::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)(this)),true,false,false);
     if(((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))->QueueResourceLoad(priority,file);
     if(m_pImpactDataSet) m_pImpactDataSet->QueueResourceLoad(priority,file);
 }

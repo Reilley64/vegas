@@ -1510,7 +1510,7 @@ struct FUN_00620b80_shell : public NavMeshCollection
 // @fnv 0x00620b80
 std::uintptr_t FUN_00620b80_shell::GetReferenceFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(this)))->GetName()));
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(this)))->GetName()));
 }
 
 struct FUN_009c1a50_shell : public TESDataHandler
@@ -6909,7 +6909,7 @@ void InventoryHandler::UpdateInventoryForReference(TESObjectREFR* reference)
                     }
                     count = ((::ExtraNode *)(reinterpret_cast<::Callees *>((count))->FUN_00726070()));
                 }
-                reinterpret_cast<::CombatProcedure *>((actor))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) - iExtraCount));
+                reinterpret_cast<::CombatProcedure *>((actor))->Initialize((::CombatController *)(((int)(std::intptr_t)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) - iExtraCount));
                 if (((std::intptr_t)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) <= 0 || !((::ExtraNode *)(::FUN_00559450((int *)(actor)))) || ((::ExtraNode *)(::FUN_00559450((int *)(actor))))->FUN_008256d0() ||
                     reinterpret_cast<::FUN_004bddd0_shell *>((actor))->FUN_004bddd0(false))
                     reinterpret_cast<::ItemChangeListNode *>((inventory->entries))->FUN_00905330((::InventoryStackRecord *const &)(actor));

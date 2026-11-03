@@ -6287,7 +6287,7 @@ void FUN_006738b0_shell::FUN_006738b0()
     if (((char *)(reinterpret_cast<::PackedByteIntRecord *>((reinterpret_cast<PackedByteIntRecord*>(this)))->Endian())))
         reinterpret_cast<::FUN_00680910_shell *>((reinterpret_cast<TESConditionSave*>(((char *)(reinterpret_cast<::PackedByteIntRecord *>((reinterpret_cast<PackedByteIntRecord*>(this)))->Endian())))))->ProcessItems();
 
-    if (((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))
+    if (((int)(std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))
         reinterpret_cast<::FUN_004799f0_shell *>((reinterpret_cast<FUN_004799f0_shell*>(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>(this)))->GetPrevPath())))))->FUN_004799f0();
 
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest())

@@ -234,23 +234,29 @@ struct FUN_0067ffa0_cls
 {
     unsigned char m_uiTargetType;
     char pad[3];
-    unsigned int ref;
+    union
+    {
+        unsigned int uiFormID;
+        void* pObject;
+    } ref;
+    int iValue;
+    float m_fTargetValue;
     FUN_0067ffa0_cls* LoadFromPTFile(PTFile* f);
 };
 // @fnv 0x0067ffa0
 FUN_0067ffa0_cls* FUN_0067ffa0_cls::LoadFromPTFile(PTFile* apFile)
 {
     reinterpret_cast<::PackageTargetRecord *>(this)->SetTargetKind((::PACK_TARG_TYPE)(apFile->m_uiTargetType));
-    reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(apFile->iValue));
-    reinterpret_cast<::FUN_0063f790_shell *>(this)->FUN_0063f790(apFile->m_fTargetValue);
+    iValue = apFile->iValue;
+    m_fTargetValue = apFile->m_fTargetValue;
     switch (m_uiTargetType)
     {
     case 0:
     case 1:
-        ref = apFile->iFormID;
+        ref.uiFormID = apFile->iFormID;
         break;
     case 2:
-        ref = apFile->iFormID;
+        ref.uiFormID = apFile->iFormID;
         break;
     }
     return this;
@@ -455,7 +461,7 @@ void FUN_00680830_shell::FUN_00680830(void* unused)
     {
     case PACK_TARG_TYPE_PTT_REFERENCE:
     case PACK_TARG_TYPE_PTT_OBJECT:
-        pTargetForm = pTargetForm ? ::FUN_004839c0((unsigned int)pTargetForm) : 0;
+        pTargetForm = pTargetForm ? ::FUN_004839c0((unsigned int)(std::uintptr_t)pTargetForm) : 0;
         break;
     }
 }
@@ -523,7 +529,7 @@ void FUN_006806e0_target::ResolveTargetForm()
     {
     case PACK_TARG_TYPE_PTT_REFERENCE:
     case PACK_TARG_TYPE_PTT_OBJECT:
-        unsigned int formID = reinterpret_cast<unsigned int>(pTargetForm);
+        unsigned int formID = (unsigned int)reinterpret_cast<std::uintptr_t>(pTargetForm);
         pTargetForm = FUN_004839c0(formID);
     }
 }

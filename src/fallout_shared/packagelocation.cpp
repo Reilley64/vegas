@@ -1081,9 +1081,15 @@ class Actor
 public:
     void SetActorLifeState(::ACTOR_LIFE_STATE);
 };
+class MagicTarget;
+class MagicCaster;
 class ActiveEffect
 {
   public:
+    const void* m_pVtable;
+    char pad04[0x20];
+    MagicTarget* pTarget;
+    MagicCaster* pCaster;
 };
 struct FUN_00826be0_shell : public ActiveEffect
 {
@@ -1094,9 +1100,9 @@ struct FUN_00826be0_shell : public ActiveEffect
 void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
 {
     Actor* ptarget =
-        reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->GetOwnerActor() : 0;
+        pTarget ? pTarget->GetOwnerActor() : 0;
     Actor* pcaster =
-        ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
+        pCaster ? pCaster->GetCasterActor() : 0;
     if (!pcaster)
     {
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
@@ -1231,7 +1237,7 @@ void LocationDescriptor::InitItem(TESForm* owner)
     if (GetLocType() == PLT_TYPE)
         return;
 
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pLocationObject);
+    unsigned int formID = (unsigned int)reinterpret_cast<std::uintptr_t>(m_pLocationObject);
     ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
     switch (m_ucLocationType)
     {
@@ -1529,11 +1535,15 @@ struct FUN_0067fb20_holder
     unsigned char flags1;
     unsigned short flags2;
     unsigned int metadata;
-    int storedValue;
+    union
+    {
+        unsigned int uiFormID;
+        TESForm* pForm;
+    } storedValue;
     void UpdateStoredValue();
 };
 
-// For status 0-4, replaces storedValue with the result of FUN_004839c0(storedValue); other statuses do nothing.
+// For status 0-4, replaces the stored form ID with the form FUN_004839c0 returns for it; other statuses do nothing.
 // @fnv 0x0067fb20
 void FUN_0067fb20_holder::UpdateStoredValue()
 {
@@ -1544,8 +1554,7 @@ void FUN_0067fb20_holder::UpdateStoredValue()
     case 2:
     case 3:
     case 4: {
-        int originalValue = storedValue;
-        storedValue = ((int)(::FUN_004839c0(originalValue)));
+        storedValue.pForm = ::FUN_004839c0(storedValue.uiFormID);
         break;
     }
     default:
@@ -1703,7 +1712,7 @@ void FUN_0067fc50_shell::ResolveObject(std::intptr_t unused)
     case PLT_CURRLOC:
     case PLT_EDITORLOC:
     case PLT_OBJECT:
-        pObject = pObject ? FUN_004839c0(reinterpret_cast<unsigned int>(pObject)) : 0;
+        pObject = pObject ? FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pObject)) : 0;
     }
 }
 

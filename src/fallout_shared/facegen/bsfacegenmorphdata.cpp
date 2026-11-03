@@ -62,7 +62,7 @@ void __cdecl FUN_00662760()
 }
 
 
-// Bounds-checks _Pos against the array size, then returns the DifferentialEntry at data[3] + _Pos * 0x34.
+// Bounds-checks _Pos against the array size, then returns the 0x34-byte DifferentialEntry at first + _Pos * 0x34.
 // @fnv 0x00662860
 DifferentialEntry* DifferentialArray::FUN_00662860(unsigned int _Pos)
 {
@@ -71,7 +71,7 @@ DifferentialEntry* DifferentialArray::FUN_00662860(unsigned int _Pos)
     do
     {
     } while (0);
-    return (DifferentialEntry*)(data[3] + _Pos * 0x34);
+    return (DifferentialEntry*)(first + _Pos * 0x34);
 }
 
 
@@ -550,12 +550,13 @@ struct PathingInfo
 };
 struct FUN_00661d10_shell : PathingInfo
 {
+    const void* m_pVtable;
     FUN_00661d10_shell();
 };
 // @fnv 0x00661d10
 FUN_00661d10_shell::FUN_00661d10_shell()
 {
-    *(int*)this = (int)&DAT_01065f04;
+    m_pVtable = &DAT_01065f04;
 }
 
 struct FUN_006620d0_Class

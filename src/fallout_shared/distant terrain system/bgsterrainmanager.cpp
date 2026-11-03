@@ -939,13 +939,13 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
                 reinterpret_cast<::FUN_0045cac0_tes *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045cac0();
                 if (*::g_011d869c.Bool())
                 {
-                    reinterpret_cast<::Node006f *>((lodNode))->UpdateBlock((int)&(pos), b2);
+                    reinterpret_cast<::Node006f *>((lodNode))->UpdateBlock(&(pos), b2);
                 }
             }
             if (m_bShaderFeatureActive && *::g_011d8680.Bool())
             {
                 std::uintptr_t count;
-                reinterpret_cast<::TerrainNodeX *>((lodNode))->FUN_006fe330((int)&(pos));
+                reinterpret_cast<::TerrainNodeX *>((lodNode))->FUN_006fe330(&(pos));
                 if (FUN_006fcda0() > 0u && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName())) > 0)
                 {
                     LocalRefArray kept;

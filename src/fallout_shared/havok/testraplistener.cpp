@@ -65,7 +65,7 @@ struct hkpCdBodyPairCollector
 // @fnv 0x0062d420
 void hkpCdBodyPairCollector::FUN_0062d420()
 {
-    *(int*)this = (int)&DAT_0104e328;
+    *reinterpret_cast<const void**>(this) = &DAT_0104e328;
 }
 
 struct bhkTrapListener
@@ -135,7 +135,7 @@ struct FUN_0062e040_shell
 // @fnv 0x0062e040
 void FUN_0062e040_shell::FUN_0062e040()
 {
-    *(int*)this = (int)&DAT_0104e3f4;
+    *reinterpret_cast<const void**>(this) = &DAT_0104e3f4;
 }
 
 struct FUN_0062c700_shell

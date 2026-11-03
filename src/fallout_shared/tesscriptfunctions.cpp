@@ -2922,11 +2922,18 @@ bool __cdecl FUN_005d5420(const ScriptParameter* paramInfo, const char* scriptDa
 
 extern int DAT_0103cf5c;
 
+struct FUN_005d8b10_obj
+{
+    const void* m_pVtable;
+    int m_iValue;
+};
+
 // @fnv 0x005d8b10
 int* FUN_005d8b10(int* pThis)
 {
-    pThis[0] = (int)&DAT_0103cf5c;
-    pThis[1] = 0;
+    FUN_005d8b10_obj* pObj = reinterpret_cast<FUN_005d8b10_obj*>(pThis);
+    pObj->m_pVtable = &DAT_0103cf5c;
+    pObj->m_iValue = 0;
     return pThis;
 }
 
@@ -5318,10 +5325,11 @@ bool __cdecl FUN_005d7940(const ScriptParameter* apParameters, const char* apCom
 
 extern int DAT_01203258;
 
+// Returns the address of the 16-byte debug colour entry a % 10 of the table at DAT_01203258.
 // @fnv 0x005d8550
-int __cdecl FUN_005d8550(unsigned int a)
+const void* __cdecl FUN_005d8550(unsigned int a)
 {
-    return (int)&DAT_01203258 + ((a % 10) << 4);
+    return (const char*)&DAT_01203258 + ((a % 10) << 4);
 }
 
 extern "C" bool __cdecl FUN_005a4540(TESObjectREFR* apThis, void* apArg1, void* apArg2, double& afValue);
@@ -7048,7 +7056,7 @@ void FUN_005ce040_class::FUN_005ce040(bool b)
 Holder* Holder::FUN_005e0490(unsigned int a, unsigned int b)
 {
     reinterpret_cast<::fnv_005e0a30::FUN_005e0a30_t *>((((BaseFor_5e0490*)this)))->FUN_005e0a30(a, b);
-    *(int*)this = (int)&DAT_0103d420;
+    *reinterpret_cast<const void**>(this) = &DAT_0103d420;
     return (Holder*)this;
 }
 
@@ -10739,7 +10747,7 @@ bool FUN_005b9540()
     if ((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES))) {
         if (DAT_011cae45)
             reinterpret_cast<::Sky *>((reinterpret_cast<Sky*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetBaseTexture())))))->SetMode((*(::Sky__SKY_MODE *)&(const ::fnv_005b9540::Sky__SKY_MODE &)(SKY_OFF)));
-        else if (((int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetPrevPath()))) {
+        else if (((int)(std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetPrevPath()))) {
             if (((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((reinterpret_cast<FUN_00455400_cell*>(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<CP_008c48d0*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetPrevPath())))))->GetFakeExterior())))
                 reinterpret_cast<::Sky *>((reinterpret_cast<Sky*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetBaseTexture())))))->SetMode((*(::Sky__SKY_MODE *)&(const ::fnv_005b9540::Sky__SKY_MODE &)(SKY_AUTO)));
             else
@@ -11746,7 +11754,7 @@ bool FUN_005bac90(const ScriptParameter*, const char*, TESObjectREFR* object)
 
     FUN_004d61b0* sceneGraph = new FUN_004d61b0(
         ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::fnv_005bac90::BSAudio * *>(&::g_osGlobals))))->FUN_0084e3a0())),
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_005bac90::BSAudio * *>(&::g_osGlobals))))->GetName())),
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_005bac90::BSAudio * *>(&::g_osGlobals))))->GetName())),
         ::FUN_0045c670(),
         "Fallout World Scene Graph",
         0x80000000,
@@ -12019,7 +12027,7 @@ bool FUN_005beb00(const ScriptParameter* apParameters, const char* apCompiledPar
                 ::std::atoi(settingValue));
             if(FUN_005beb00_tls.debugLogEnabled)
                 _DebugLog("GameSetting %s >> %i",
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
+                    ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
                     *((int *)&(::FUN_0043d4d0((int *)(reinterpret_cast<GlobalObject_0045cfe0*>(pGS))))));
             break;
 
@@ -12028,7 +12036,7 @@ bool FUN_005beb00(const ScriptParameter* apParameters, const char* apCompiledPar
                 static_cast<float>(::std::atof(settingValue)));
             if(FUN_005beb00_tls.debugLogEnabled)
                 _DebugLog("GameSetting %s >> %.2f",
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
+                    ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
                     *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(pGS))))));
             break;
 
@@ -12036,7 +12044,7 @@ bool FUN_005beb00(const ScriptParameter* apParameters, const char* apCompiledPar
             reinterpret_cast<::Setting *>((pGS))->FUN_005e0190(settingValue);
             if(FUN_005beb00_tls.debugLogEnabled)
                 _DebugLog("GameSetting %s >> '%s'",
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
+                    ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
                     ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<StartMenu*>(pGS)))->GetMenuTitle())));
             break;
 
@@ -25091,7 +25099,7 @@ bool __cdecl FUN_005b4630(const ScriptParameter* parameters, const char* compile
     } else if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(&p))->FUN_004048e0()))) {
         ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(p))))))))), 0,
             (const char *)(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID())) ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID()))->fullName))->FUN_00408da0())) : 0), (const char *)(0),
-            (float)((unsigned int)(reinterpret_cast<::Twin_00639b40 *>((i))->GetEntryPoint())), false);
+            (float)((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>((i))->GetEntryPoint())), false);
     }
     return true;
 }
@@ -25568,7 +25576,7 @@ bool __cdecl FUN_005b5e60(const ScriptParameter* apParameters, const char* apCom
                     char line6[0x200];
                     _sprintf_s(line6, 0x200, "TEXTURES: %d:\t%s\t%s\t%dx%d\t%d\t%s\trefcount %d\t%s\t%s\r\n",
                     i + 1, category7, nameVal, ((FormV*)((void *)(::FUN_00559450((int *)(void *)(&arr19[i])))))->V94(), ((FormV*)((void *)(::FUN_00559450((int *)(void *)(&arr19[i])))))->V98(), sz9 >> 10, t2620,
-                    ((int)(reinterpret_cast<::Callees *>((((FormR*)((void *)(::FUN_00559450((int *)(void *)(&arr19[i])))))))->FUN_00726070())) - 1, (reinterpret_cast<::ParentByteQuery *>((((void *)(::FUN_00559450((int *)(void *)(&arr19[i]))))))->FUN_0043c430() == 3) ? "L" : "H", s261c3);
+                    ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((((FormR*)((void *)(::FUN_00559450((int *)(void *)(&arr19[i])))))))->FUN_00726070())) - 1, (reinterpret_cast<::ParentByteQuery *>((((void *)(::FUN_00559450((int *)(void *)(&arr19[i]))))))->FUN_0043c430() == 3) ? "L" : "H", s261c3);
                     ::FUN_005b5e40();
                     reinterpret_cast<::FUN_00aff950_shell *>(&(file33))->FUN_00aff950((void *)(line6), ::std::strlen(line6) + 1);
                 }
@@ -26068,7 +26076,7 @@ bool FUN_005b7590(void* paramInfo, void* scriptData, void* thisObj, void* contai
   if (!FUN_005accb0(paramInfo, scriptData, opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &iValue, &iFlag_xafirk))
     return false;
   SkyQ* pWeatherSky = FUN_0046dd00();
-  if (((int)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0()))) {
+  if (((int)(std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((pWeatherSky))->FUN_0044edb0()))) {
     if (iFlag_xafirk) pWeatherSky->iVal1c = iValue;
     else {
       pWeatherSky->iVal18 = iValue;
@@ -27838,14 +27846,14 @@ if (ref && ref->GetScene()) {
 const char* name = 0;
 name = reinterpret_cast<::FUN_0055d520_shell *>((ref))->FUN_0055d520();
 if (ref == (ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer))) {
-viewer = new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ref->GetScene(), reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60() ? "Player 3rd Person" : "Player 1st Person", (-2147483647-1), (-2147483647-1), 800, 600);
+viewer = new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ref->GetScene(), reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60() ? "Player 3rd Person" : "Player 1st Person", (-2147483647-1), (-2147483647-1), 800, 600);
 reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_00950bb0(reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60())))), reinterpret_cast<::FUN_004eaf60_shell *>((((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_004eaf60() ? "Player 1st Person" : "Player 3rd Person");
 if (((void *)(::fnv_00490f80::FUN_00490f80((char *)(((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::fnv_00490f80::FUN_00490f80((char *)(((ViewerRef*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))))), "Player Inventory Menu");
 } else {
-new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ref->GetScene(), name, (-2147483647-1), (-2147483647-1), 800, 600);
+new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ref->GetScene(), name, (-2147483647-1), (-2147483647-1), 800, 600);
 }
 } else {
-viewer = new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ((void *)(::FUN_0045c670())), "Fallout World Scene Graph", (-2147483647-1), (-2147483647-1), 800, 600);
+viewer = new SceneViewer(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->FUN_0084e3a0())), ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ViewerOS * *>(&::g_osGlobals))))->GetName())), ((void *)(::FUN_0045c670())), "Fallout World Scene Graph", (-2147483647-1), (-2147483647-1), 800, 600);
 reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::FUN_005bac60()))), "Fallout Interface Scene Graph");
 reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(FUN_005bac70()), "Fallout Interface 3D Object Scene Graph");
 if (((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))) reinterpret_cast<::Owner64 *>((viewer))->FUN_004d64c0((std::intptr_t)(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))), "Fallout Menu Object 3D Scene Graph");
@@ -42120,13 +42128,13 @@ bool FUN_005d6d40(const ScriptParameter* parameters,const char* data,InventoryDi
                     InventoryDiagnosticForm* form3=((::InventoryDiagnosticForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()));
                     switch(form3->FUN_00401170()) {
                     case 40:
-                        FUN_00703c00(DAT_0103cc30,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584,actor_11&&!reinterpret_cast<::ActionOwner *>((actor_11))->FUN_008bc9d0((::TargetObject *)(form3),true)?DAT_0103cc5c:DAT_01011584);
+                        FUN_00703c00(DAT_0103cc30,((int)(std::intptr_t)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584,actor_11&&!reinterpret_cast<::ActionOwner *>((actor_11))->FUN_008bc9d0((::TargetObject *)(form3),true)?DAT_0103cc5c:DAT_01011584);
                         break;
                     case 24:
-                        FUN_00703c00(DAT_0103cc10,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
+                        FUN_00703c00(DAT_0103cc10,((int)(std::intptr_t)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
                         break;
                     default:
-                        FUN_00703c00(DAT_0103cbfc,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
+                        FUN_00703c00(DAT_0103cbfc,((int)(std::intptr_t)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
                         break;
                     }
                     InventoryDiagnosticEnchant* enchant=((::InventoryDiagnosticEnchant *)(::BGSBipedModelList::GetBipedModelList((::TESForm *)(form3))));
@@ -42443,7 +42451,7 @@ struct CmdPoint3 {
 };
 
 struct CmdProcess {
-    void FUN_005578e0(CmdPoint3* apPos, const char* apName, int aiValue);
+    void FUN_005578e0(CmdPoint3* apPos, const char* apName, const void* apColor);
 };
 
 struct CmdPlayer {
@@ -45443,7 +45451,7 @@ bool FUN_005dfe90(const ScriptParameter* paParams, const char* apData, TESObject
     arResult = 0;
     while (kIter) {
         reinterpret_cast<::C6b7f20_Map *>(((*reinterpret_cast<::Map5df * *>(&::fnv_00483370::DAT_011c54c0))))->FUN_006b7f20((::C6b7f20_Node **)&(kIter), (unsigned int *)&(auiFormId), (void **)&(pkRef));
-        if (pkRef && pkRef->IsPersistent5df() && (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkRef))->GetName())) & 0x400))
+        if (pkRef && pkRef->IsPersistent5df() && (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkRef))->GetName())) & 0x400))
             count++;
     }
     arResult = count;
@@ -50549,7 +50557,7 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
     if (::BuildPathWithDoors((::Location *)(::fnv_005c25f0::PathingLocation *)(&locA6), (::Location *)(::fnv_005c25f0::PathingLocation *)(&aArr), (::Result *)(::fnv_005c25f0::FUN_006f48b0 *)(&aBId), (std::intptr_t)(&wrap8), outA8 != 0))
     {
         unsigned int aD1x = 0;
-        for (; aD1x < (unsigned int)((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(aBId.m_10))->GetName())); ++aD1x)
+        for (; aD1x < (unsigned int)((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(aBId.m_10))->GetName())); ++aD1x)
         {
             if (aBId.FUN_006a1440(aD1x)->m_00)
                 _DebugLog("Worldspace %s (%08x)", ((PathRef*)aBId.FUN_006a1440(aD1x)->m_04)->EditorID(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((PathRef*)aBId.FUN_006a1440(aD1x)->m_04)))->FUN_0084e3a0())));
@@ -50570,7 +50578,7 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
                 if (!reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(aDy1))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(::fnv_005c25f0::FUN_00502670_stand *)(&wrap8), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(shell_))->QueueActorAnimationTask(kNavStart)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(shell_))->GetAssociatedNavMesh())), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(goal4))->QueueActorAnimationTask(kNavGoal)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(goal4))->GetAssociatedNavMesh())), &aB15, &flags0, outA8 != 0))
                     valid4 = false;
                 else
-                    for (unsigned int j = 0; j < (unsigned int)((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags0))->GetName())); ++j)
+                    for (unsigned int j = 0; j < (unsigned int)((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags0))->GetName())); ++j)
                         if (*flags0.FUN_00877a30(j) != 0) valid4 = false;
             }
             if (!valid4)

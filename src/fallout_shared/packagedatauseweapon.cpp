@@ -1,7 +1,6 @@
 // fallout_shared/packagedatauseweapon.cpp: TESUseWeaponPackageData, UseWeaponActorPackageData, DelStandIn, UseWeaponLoader and more (16 functions)
 
 #include <cstdint>
-#include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/C80720Target.h"
 #include "fnv/decl/DurationData.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -42,6 +41,7 @@
 #include "fnv/symbols_0119b000.h"
 #include "fnv/symbols_011ca000.h"
 #include "packagedatauseweapon_decls.h"
+#include "packagelocation_package.h"
 
 // @fnv 0x0067d1c0
 void TESUseWeaponPackageData::InitItem(TESForm* item)
@@ -49,7 +49,7 @@ void TESUseWeaponPackageData::InitItem(TESForm* item)
     LocationDescriptor* package = reinterpret_cast<LocationDescriptor*>(item);
     bool initializeTarget;
     {
-        LocationDescriptor* location = reinterpret_cast<LocationDescriptor*>(((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())));
+        LocationDescriptor* location = reinterpret_cast<::TESPackage*>(item)->pPackageLocation;
         initializeTarget = true;
         if (!m_pUseTarget && location && reinterpret_cast<::DurationData *>((reinterpret_cast<TESObjectREFR*>(location)))->FUN_00678ca0() == 0)
         {
@@ -76,7 +76,7 @@ void TESUseWeaponPackageData::InitItem(TESForm* item)
         }
         if (m_pUseTarget && initializeTarget)
             m_pUseTarget->InitItem(item);
-        unsigned int weaponID = reinterpret_cast<unsigned int>(pWeapon);
+        unsigned int weaponID = (unsigned int)reinterpret_cast<std::uintptr_t>(pWeapon);
         pWeapon = dynamic_cast<TESObjectWEAP*>(::FUN_004839c0(weaponID));
     }
 }

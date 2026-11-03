@@ -114,7 +114,7 @@ bool BSFaceGenKeyframeMultiple::ClearData(bool initialize)
     if (vfn_0c() != 0.0)
         changed = true;
     vfn_10(0.0f);
-    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
+    for (unsigned int i = 0; i < m_uiFaceGenValueCount; ++i)
     {
         if (IsQuantityInRange(i))
         {
@@ -122,7 +122,7 @@ bool BSFaceGenKeyframeMultiple::ClearData(bool initialize)
             break;
         }
     }
-    ApplyFaceGenValues(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())), initialize);
+    ApplyFaceGenValues(m_uiFaceGenValueCount, initialize);
     return changed;
 }
 
@@ -151,7 +151,7 @@ extern int DAT_010653fc;
 
 struct FUN_0064ea80_helper
 {
-    int vtable;
+    const void* vtable;
     int iType;
     float fTime;
     void* Init(int aeType);
@@ -161,7 +161,7 @@ struct FUN_0064ea80_helper
 // @fnv 0x0064ea80
 void* FUN_0064ea80_helper::Init(int aeType)
 {
-    vtable = (int)&DAT_010653fc;
+    vtable = &DAT_010653fc;
     iType = aeType;
     fTime = 0.0f;
     return this;
@@ -224,7 +224,7 @@ bool FUN_0064f690_shell::DiffersFrom(BSFaceGenKeyframe* apOther)
     {
         return true;
     }
-    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<OSGlobals*>(this)))->FUN_0044edb0())); ++i)
+    for (unsigned int i = 0; i < m_uiFaceGenValueCount; ++i)
     {
         if (reinterpret_cast<::Sd4e0 *>((reinterpret_cast<RotationValues*>(pkeyframe)))->FUN_005dd4e0(i) !=
             reinterpret_cast<::Sd4e0 *>((reinterpret_cast<RotationValues*>(this)))->FUN_005dd4e0(i))
@@ -324,7 +324,7 @@ FUN_0064ec10_obj::FUN_0064ec10_obj(const FUN_0064ec10_obj& aOther) : BSFaceGenKe
     m_pfFaceGenValues = 0;
     m_uiFaceGenValueCount = 0;
     ((BSFaceGenKeyframeMultiple*)this)
-        ->BSFaceGenKeyframeMultiple::ApplyFaceGenValues(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((OSGlobals*)&aOther)))->FUN_0044edb0())), true);
+        ->BSFaceGenKeyframeMultiple::ApplyFaceGenValues(aOther.m_uiFaceGenValueCount, true);
     for (unsigned int i = 0; i < m_uiFaceGenValueCount; i++)
         reinterpret_cast<::BSFaceGenKeyframeMultiple *>((((KFXLoop*)this)))->FUN_0064a4d0(i, reinterpret_cast<::Sd4e0 *>((((KFX2*)&aOther)))->FUN_005dd4e0(i));
 }
@@ -390,7 +390,7 @@ void KFThis::CopyFromKeyframe(BSFaceGenKeyframe* apFrom)
         return;
     SetType(pSourceMultiple->GetType());
     vfn_10(pSourceMultiple->vfn_0c());
-    ApplyFaceGenValues(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((OSGlobals*)pSourceMultiple)))->FUN_0044edb0())), true);
+    ApplyFaceGenValues(((BSFaceGenKeyframeMultiple*)pSourceMultiple)->m_uiFaceGenValueCount, true);
     for (unsigned int i = 0; i < m_uiFaceGenValueCount; i++)
         reinterpret_cast<::BSFaceGenKeyframeMultiple *>((((KFXLoop*)this)))->FUN_0064a4d0(i, reinterpret_cast<::Sd4e0 *>((pSourceMultiple))->FUN_005dd4e0(i));
 }
@@ -491,7 +491,7 @@ bool KFShell::AddToCompatibleList(KFList* apList)
         return false;
     if (GetAttributeStrength() < 0.0)
         return false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apList))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apList))->GetName())))
     {
         KFShell* pFirst = *((::KFShell **)(reinterpret_cast<::InventoryStackRecord *>((apList))->GetPayloadAddress()));
         KFShell* pValid = (pFirst && pFirst->IsValid()) ? pFirst : 0;

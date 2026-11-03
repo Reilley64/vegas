@@ -1518,7 +1518,7 @@ struct FUN_00458f70_shell
 // @fnv 0x00458f70
 void FUN_00458f70_shell::FUN_00458f70()
 {
-    *(int*)this = (int)&DAT_01017d24;
+    *reinterpret_cast<const void**>(this) = &DAT_01017d24;
     reinterpret_cast<class ::FUN_00a5e930 *>((this))->FUN_00a5e930::~FUN_00a5e930();
 }
 
@@ -3289,7 +3289,7 @@ struct S_004bac20
 // @fnv 0x00455690
 void FUN_00455690_shell::FUN_00455690()
 {
-    if (((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))
+    if (((int)(std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))
         reinterpret_cast<::fnv_005538e0::Cell5538 *>((((S_005538e0*)((reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)this)))->GetPrevPath())))))->PlayCellSoundEffects();
     else
         reinterpret_cast<::FUN_004bac20_shell *>((((S_004bac20*)m_pGridCells)))->FUN_004bac20();
@@ -4037,7 +4037,7 @@ bool CellStand::FUN_00454e20(void* pElement)
 namespace fnv_00458ef0 {
 struct NiNode
 {
-    int vtbl;
+    const void* vtbl;
     char pad[0xa8];
     float f0ac;
     NiNode(unsigned short);
@@ -4050,7 +4050,7 @@ struct FUN_00458ef0_shell : NiNode
 // @fnv 0x00458ef0
 FUN_00458ef0_shell::FUN_00458ef0_shell(float value) : NiNode(0)
 {
-    vtbl = (int)&::DAT_01017d24;
+    vtbl = &::DAT_01017d24;
     f0ac = value;
 }
 }  // namespace fnv_00458ef0

@@ -183,7 +183,7 @@ struct BSXFlags
 {
 };
 // @fnv 0x00624b70
-unsigned int GetBSXFlags(unsigned int a, unsigned int uiFlags)
+unsigned int GetBSXFlags(std::uintptr_t a, unsigned int uiFlags)
 {
     BSXFlags* p = (BSXFlags*)((::GetExtraDataChecked((::NiAVObjectX *)(a))));
     return p ? reinterpret_cast<::FUN_00448a60_struct *>((p))->GetMaskedValue(uiFlags) : 0;
@@ -880,7 +880,7 @@ struct Ref96
     virtual void slot113();
     virtual void slot114();
     virtual void slot115();
-    virtual unsigned int GetNode();
+    virtual std::uintptr_t GetNode();
     virtual void slot117();
     virtual void slot118();
     virtual void slot119();

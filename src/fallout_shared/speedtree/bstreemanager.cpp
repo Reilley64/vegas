@@ -402,7 +402,7 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
     {
         if ((*reinterpret_cast<::TES * *>(&::g_TES)) && ((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))
         {
-            if (((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetPrevPath())))
+            if (((int)(std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetPrevPath())))
                 *(float*)(((unsigned char *)(::FUN_00664840(1))) + 0x14) = 0.0f;
             else
                 *(float*)(((unsigned char *)(::FUN_00664840(1))) + 0x14) =

@@ -651,7 +651,7 @@ class Refr62C3C0
 
 // Returns true if refr is non-null and passes vfn100/vfn22C/vfn230 checks, or if GetBSXFlags(handle, 0x48) equals 0x48.
 // @fnv 0x0062c3c0
-bool FUN_0062c3c0(Refr62C3C0* refr, unsigned int handle)
+bool FUN_0062c3c0(Refr62C3C0* refr, std::uintptr_t handle)
 {
     if (refr != 0 && refr->vfn100() && (refr->vfn22C(0) || refr->vfn230()))
     {
@@ -775,7 +775,7 @@ extern "C" RuntimeNode* __cdecl FUN_0043b610(SceneNode* node);
 
 // Recursively updates the physics collision scale of a scene node and its children based on a size coefficient and material type.
 // @fnv 0x0062b660
-void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float size, MaterialSelector* material)
+void __cdecl SetCollisionScale(SceneNode* node, std::uintptr_t operation, float size, MaterialSelector* material)
 {
     if (node)
     {
@@ -812,7 +812,7 @@ void __cdecl SetCollisionScale(SceneNode* node, unsigned int operation, float si
                 PhysicsData volume;
                 new ((void *)&(volume)) ::FUN_005dbf20(scale);
                 reinterpret_cast<::S_00627920 *>(&(transform))->FUN_00627920((::S_00561240 *)(void *)(&volume));
-                reinterpret_cast<::V *>(&(transform))->FUN_00553f70((*(const ::V *)(::FUN_00560dc0((::TESDataHandler *)(state)))));
+                reinterpret_cast<::V *>(&(transform))->FUN_00553f70((*(const ::V *)(std::uintptr_t)(::FUN_00560dc0((::TESDataHandler *)(state)))));
                 reinterpret_cast<::FUN_005616d0_Owner *>((state))->OnTrigger((::TriggerContext *)(::PhysicsTransform *)(&transform));
             }
         }

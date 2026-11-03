@@ -6970,6 +6970,30 @@ void** __cdecl FUN_00dffff0()
 }
 
 #include "fnv/symbols_simd.h"
+#include "fnv/decl/FUN_00cdf760.h"
+#include "fnv/decl/FUN_00cf56f0.h"
+#include "fnv/decl/FUN_00e2ebc0_class.h"
+#include "fnv/decl/FUN_00e3dbd0.h"
+#include "fnv/decl/FUN_00e3e380.h"
+#include "fnv/decl/FUN_00e46300.h"
+#include "fnv/decl/fnv_00d53df0__FUN_00d53df0.h"
+#include "fnv/decl/fnv_00dfb2d0__FUN_00dfb2d0.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d1b000.h"
+#include "fnv/symbols_00de4000.h"
+#include "fnv/symbols_00df0000.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_00dfb000.h"
+#include "fnv/symbols_00dfc000.h"
+#include "fnv/symbols_00dfd000.h"
+#include "fnv/symbols_00dfe000.h"
+#include "fnv/symbols_00dff000.h"
+#include "fnv/symbols_010cd000.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00df8000.h"
+#include "fnv/symbols_00df9000.h"
+#include "fnv/symbols_00e2b000.h"
+#include "fnv/symbols_0126e000.h"
 
 class hkVector4_de1210
 {
@@ -12674,6 +12698,2595 @@ extern "C" ByteAnswer __cdecl FUN_00df2750(const PTree* tree, PCast& input, PCol
     }
     restoreStack(base);
     return sink->finish();
+}
+
+void __cdecl FUN_00df64d0(void* p, int b);
+
+void FUN_00dfb490(FUN_00cb0c00_class* self);
+
+void FUN_00dfb9d0(hkReferencedObject** p);
+
+void __cdecl FUN_00dfd770(void* arg1, void* arg2);
+
+void FUN_00dfda10(char* b, char* a);
+
+// VEGAS17-CONFLICT: FUN_00cb0a70 (variant definition below differs from the one above)
+struct FUN_00cb0a70
+{
+};
+
+void CopyFields(void* a, void* b);
+
+void FUN_00dfbc70(FUN_00cb0c00_class* self);
+
+void __cdecl FUN_00dfd7c0(void* arg);
+
+void __cdecl FUN_00dfd940(FUN_00dfd940_vt* p);
+
+void __cdecl FUN_00dfdb40(void* p);
+
+void __cdecl FUN_00dfdf90(int a, int b);
+
+void __cdecl FUN_00de81a0(void* self, void* arg);
+
+void __cdecl FUN_00de8550(FUN_00de8550_t* a, int b);
+
+void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_m_helper* a, int v);
+
+void __cdecl FUN_00dfbbf0(void* p, int a);
+
+void __cdecl FUN_00dfbc20(S_00d49310_Lock* self);
+
+void __cdecl FUN_00dfbc30(void* a, void* b);
+
+void __cdecl DispatchToHelper(void* a, int b);
+
+void __cdecl FUN_00dfbca0(S_00dfb720_Elem* p);
+
+void __cdecl FUN_00dfc040(FUN_00dfc040_vt* p);
+
+void __cdecl FUN_00dfcd80(FUN_00dd0420_Class* self, int a);
+
+void __cdecl FUN_00dfd240(FUN_00dfd240_vt* p);
+
+void __cdecl FUN_00dfd670(DFD680MeshData* p);
+
+void FUN_00dfdad0(int* a, int b);
+
+void __cdecl CallHelperMethod(FUN_00cb0a70_m_helper* a, int b);
+
+void __cdecl FUN_00dfdd50(S_00e3eaa0_Elem* p);
+
+void __cdecl FUN_00dfdd60(FUN_00e3f900_class* p, int a);
+
+void CallHelperWithInt(FUN_00cb0a70_m_helper* p, int a);
+
+void __cdecl FUN_00dfe0c0(ArrayPair* p);
+
+void __cdecl FUN_00dff370(FUN_00dff370_vt* p);
+
+int __cdecl FUN_00de8150();
+
+int* __cdecl FUN_00de8170();
+
+void* FUN_00de8190();
+
+void* __cdecl FUN_00de81d0();
+
+CpuOpaque* __cdecl FUN_00de81f0();
+
+void* __cdecl FUN_00de8210();
+
+int* FUN_00de8230();
+
+extern GlobalObject g_global;
+
+GlobalObject* __cdecl FUN_00de8250();
+
+CpuOpaque* __cdecl FUN_00de8270();
+
+void* __cdecl FUN_00de8290();
+
+void* __cdecl FUN_00de82b0();
+
+GlobalObjectO2_00d472a0* __cdecl FUN_00de82d0();
+
+void* __cdecl FUN_00de82f0();
+
+void* __cdecl FUN_00de8310();
+
+void* __cdecl FUN_00de8330();
+
+// FUN_00de8350 : a one-line function - getter
+void* FUN_00de8350();
+
+void* __cdecl FUN_00de8390();
+
+int* FUN_00de83b0();
+
+CpuOpaque* __cdecl FUN_00de83d0();
+
+void* __cdecl FUN_00de83f0();
+
+void* __cdecl FUN_00de8410();
+
+int* __cdecl FUN_00de8430();
+
+void* __cdecl FUN_00de8450();
+
+void* __cdecl FUN_00de8470();
+
+int* __cdecl FUN_00de8490();
+
+void* __cdecl FUN_00de84b0();
+
+FUN_00de87c0_class* __cdecl FUN_00de84d0();
+
+// FUN_00de84f0 : returns the address of a global data object.
+// Original: mov eax, offset DAT_0126a228 ; ret
+int* __cdecl FUN_00de84f0();
+
+CpuOpaque* __cdecl FUN_00de8510();
+
+int* __cdecl FUN_00de8530();
+
+void __cdecl FUN_00de8570(FUN_00de8570_cls* pTarget, int nIndex);
+
+void* __cdecl FUN_00de8750();
+
+void* __cdecl FUN_00de8770();
+
+static void SetOwnerStateFlags(void* pkItem, DF25D0Owner* pkOwner, unsigned char m_ucEntryType);
+
+void DF25D0Attach(void* pkItem, DF25D0Owner* pkOwner, unsigned char m_ucEntryType);
+
+void CopyPairToIndex(FUN_00df3140_pair* dst, unsigned int idx, FUN_00df3140_pair* src);
+
+// VEGAS17-CONFLICT: Handler_cls (variant definition below differs from the one above)
+struct Handler_cls
+{
+    void Handle(int value);
+};
+
+int* __cdecl FUN_00df6490();
+
+void* __cdecl FUN_00df64b0();
+
+CpuOpaque* __cdecl FUN_00dfb260();
+
+int* __cdecl FUN_00dfb280();
+
+// VEGAS17-CONFLICT: FUN_00dfb2d0_class (variant definition below differs from the one above)
+struct FUN_00dfb2d0_class
+{
+};
+
+int* __cdecl FUN_00dfb360();
+
+void* __cdecl FUN_00dfb380();
+
+int* __cdecl FUN_00dfb3c0(void);
+
+void* __cdecl FUN_00dfb420();
+
+// VEGAS17-CONFLICT: FUN_00e2ebc0_cls (variant definition below differs from the one above)
+struct FUN_00e2ebc0_cls
+{
+};
+
+int* __cdecl FUN_00dfb480(void);
+
+int __cdecl FUN_00dfb4d0();
+
+void* __cdecl FUN_00dfb4f0();
+
+void* __cdecl FUN_00dfb510();
+
+int __cdecl FUN_00dfb540();
+
+int* __cdecl FUN_00dfb560();
+
+void* __cdecl FUN_00dfb590();
+
+int* __cdecl FUN_00dfb860();
+
+void* FUN_00dfb880();
+
+// FUN_00dfb8a0 : a one-line function - getter
+void* FUN_00dfb8a0();
+
+void* FUN_00dfb8d0();
+
+CpuOpaque* __cdecl FUN_00dfb920();
+
+void* __cdecl FUN_00dfb940();
+
+void __cdecl FUN_00dfb950(CalleeObj* pFirst, void* pSecond);
+
+int* __cdecl FUN_00dfb970();
+
+void __cdecl FUN_00dfb980(FUN_00ce5370_cls* p);
+
+int* __cdecl FUN_00dfb990();
+
+int* __cdecl FUN_00dfb9b0(void);
+
+int* FUN_00dfba40();
+
+void* __cdecl FUN_00dfbaa0();
+
+CpuOpaque* __cdecl FUN_00dfbb20();
+
+void* __cdecl FUN_00dfbb40();
+
+void* __cdecl FUN_00dfbb70();
+
+CpuOpaque* __cdecl FUN_00dfbc50();
+
+int* __cdecl FUN_00dfbc60();
+
+void* __cdecl FUN_00dfbce0();
+
+void* __cdecl FUN_00dfbd30();
+
+void* __cdecl FUN_00dfbdc0();
+
+void* __cdecl FUN_00dfbde0();
+
+void* __cdecl FUN_00dfbe90();
+
+void* __cdecl FUN_00dfbeb0();
+
+void* __cdecl FUN_00dfbed0();
+
+CpuOpaque* __cdecl FUN_00dfbef0();
+
+void* __cdecl FUN_00dfbf20();
+
+int* __cdecl FUN_00dfbf40();
+
+void* __cdecl FUN_00dfc030();
+
+// FUN_00dfc050 : a constant getter - MSVC emits mov eax, OFFSET <global> ; ret.
+// The global is declared extern so the store becomes a relocation; the checker
+// binds it to the original's own immediate.
+void* __cdecl FUN_00dfc050();
+
+// FUN_00dfc070 : a one-line function - getter
+void* FUN_00dfc070();
+
+int* __cdecl FUN_00dfc100();
+
+int* __cdecl FUN_00dfc120();
+
+void* __cdecl FUN_00dfc220();
+
+char* __cdecl FUN_00dfc260();
+
+void* FUN_00dfc290();
+
+// FUN_00dfc360: cdecl no-arg getter returning the address of a global.
+int* __cdecl FUN_00dfc360();
+
+void* __cdecl FUN_00dfc370();
+
+void* FUN_00dfc390();
+
+void __cdecl FUN_00dfc3a0(FUN_00e05c20_class* p);
+
+void __cdecl FUN_00dfc3b0(FUN_00dfc3b0_target* pTarget);
+
+// FUN_00dfc440 : a one-line function - getter
+void* FUN_00dfc440();
+
+int __cdecl FUN_00dfc460();
+
+void* __cdecl FUN_00dfc480();
+
+void* __cdecl FUN_00dfc4d0();
+
+int* __cdecl FUN_00dfc4f0();
+
+int* __cdecl FUN_00dfc510();
+
+int* __cdecl FUN_00dfc590(void);
+
+// FUN_00dfc5b0 : a one-line function - getter
+void* FUN_00dfc5b0();
+
+int* __cdecl FUN_00dfc5d0();
+
+void* __cdecl FUN_00dfc5f0();
+
+void* __cdecl FUN_00dfc610();
+
+int* __cdecl FUN_00dfc660();
+
+// FUN_00dfc680 : a one-line function - getter
+void* FUN_00dfc680();
+
+void* __cdecl FUN_00dfc6a0();
+
+void* FUN_00dfc6f0();
+
+GlobalObjectO2_00d472a0* __cdecl FUN_00dfc710();
+
+int* __cdecl FUN_00dfc760();
+
+int* __cdecl FUN_00dfc7c0();
+
+int* __cdecl FUN_00dfc7e0();
+
+void* __cdecl FUN_00dfc800();
+
+// VEGAS17-CONFLICT: DFC810Object (variant definition below differs from the one above)
+class DFC810Object
+{
+  public:
+};
+
+int* __cdecl FUN_00dfc8c0();
+
+int* __cdecl FUN_00dfc8e0();
+
+int* __cdecl FUN_00dfc930();
+
+void* __cdecl FUN_00dfc950();
+
+int* __cdecl FUN_00dfc9c0();
+
+int* __cdecl FUN_00dfc9e0();
+
+void* __cdecl FUN_00dfca30();
+
+void* __cdecl FUN_00dfca50();
+
+void* __cdecl FUN_00dfca70();
+
+int* __cdecl FUN_00dfcac0();
+
+int __cdecl FUN_00dfcae0();
+
+void* __cdecl FUN_00dfcb30();
+
+int* __cdecl FUN_00dfcb90();
+
+int* __cdecl FUN_00dfcbb0();
+
+void* __cdecl FUN_00dfcbd0();
+
+// FUN_00dfcc20 : a one-line function - getter
+void* FUN_00dfcc20();
+
+S_00dfcc40_Obj* __cdecl FUN_00dfcc40();
+
+// FUN_00dfcc70 : a one-line function - getter
+void* FUN_00dfcc70();
+
+int* __cdecl FUN_00dfcc90();
+
+// FUN_00dfccb0 : a one-line function - getter
+void* FUN_00dfccb0();
+
+void* __cdecl FUN_00dfcce0();
+
+void* __cdecl FUN_00dfcd00();
+
+CpuOpaque* __cdecl FUN_00dfcd20();
+
+int* __cdecl FUN_00dfcd70();
+
+void* __cdecl FUN_00dfcda0();
+
+void __cdecl FUN_00dfcdb0(FUN_00dfcdb0_target* pTarget);
+
+void* __cdecl FUN_00dfcdd0();
+
+// VEGAS17-CONFLICT: DFD5E0 (variant definition below differs from the one above)
+struct DFD5E0
+{
+};
+
+void* __cdecl FUN_00dfce30();
+
+int* __cdecl FUN_00dfce50();
+
+void* __cdecl FUN_00dfce70();
+
+CpuOpaque* __cdecl FUN_00dfcec0();
+
+void* __cdecl FUN_00dfcef0();
+
+void* __cdecl FUN_00dfcf10();
+
+// VEGAS17-CONFLICT: FUN_00dfcf20_cls (variant definition below differs from the one above)
+struct FUN_00dfcf20_cls
+{
+};
+
+void* FUN_00dfd0c0();
+
+void* FUN_00dfd0e0();
+
+void* __cdecl FUN_00dfd120();
+
+unsigned char* __cdecl FUN_00dfd1b0();
+
+void* __cdecl FUN_00dfd1d0();
+
+// VEGAS17-CONFLICT: FUN_00dfd1e0_cls (variant definition below differs from the one above)
+// FUN_00dfd1e0: null-guarded forwarding of a second argument to a
+// member function of the first (object) argument.
+class FUN_00dfd1e0_cls
+{
+  public:
+};
+
+int* __cdecl FUN_00dfd230();
+
+// FUN_00dfd250 : a one-line function - getter
+void* FUN_00dfd250();
+
+int* __cdecl FUN_00dfd2a0();
+
+int* __cdecl FUN_00dfd2c0();
+
+GlobalObjectO2_00d472a0* __cdecl FUN_00dfd2d0();
+
+// FUN_00dfd2f0 : a one-line function - getter
+void* FUN_00dfd2f0();
+
+// VEGAS17-CONFLICT: FUN_00e3dbd0_class (variant definition below differs from the one above)
+struct FUN_00e3dbd0_class
+{
+};
+
+void __cdecl FUN_00dfd360(int* param_1);
+
+void __cdecl FUN_00dfd370(FnvCpu_FUN_00dfd370_CpuTarget* target);
+
+// FUN_00dfd4e0 : a one-line function - getter
+void* FUN_00dfd4e0();
+
+void* __cdecl FUN_00dfd500();
+
+CpuOpaque* __cdecl FUN_00dfd540();
+
+int* __cdecl FUN_00dfd560();
+
+void __cdecl FUN_00dfd570(FUN_00dfd570_cls* pObject, int a1);
+
+int* __cdecl FUN_00dfd590();
+
+int __cdecl FUN_00dfd5f0();
+
+// VEGAS17-CONFLICT: FUN_00dfd600_cls (variant definition below differs from the one above)
+class FUN_00dfd600_cls
+{
+  public:
+};
+
+// FUN_00dfd650 : a one-line function - getter
+void* FUN_00dfd650();
+
+int* __cdecl FUN_00dfd790();
+
+void* __cdecl FUN_00dfd7b0();
+
+void* __cdecl FUN_00dfd930();
+
+int* __cdecl FUN_00dfd950();
+
+void* FUN_00dfda40();
+
+int* __cdecl FUN_00dfdaa0();
+
+void __cdecl FUN_00dfdab0(AdjacentObjects* objects);
+
+void* __cdecl FUN_00dfdaf0();
+
+// FUN_00dfdb10 : a one-line function - getter
+void* FUN_00dfdb10();
+
+void* __cdecl FUN_00dfdb30();
+
+void* __cdecl FUN_00dfdb80();
+
+int* FUN_00dfdd20();
+
+int __cdecl FUN_00dfdd80();
+
+int* __cdecl FUN_00dfddc0();
+
+void* FUN_00dfdde0();
+
+CpuOpaque* __cdecl FUN_00dfde00();
+
+int __cdecl FUN_00dfde20();
+
+char* __cdecl FUN_00dfde70(void);
+
+void* __cdecl FUN_00dfde90();
+
+CpuOpaque* __cdecl FUN_00dfdeb0();
+
+void __cdecl FUN_00dfdec0(FUN_00dfdec0_cls* pObject, int a1);
+
+void* __cdecl FUN_00dfdee0();
+
+void __cdecl FUN_00dfdef0(FUN_00dfdef0_cls* pObject, int a1);
+
+void* __cdecl FUN_00dfdf10();
+
+int* __cdecl FUN_00dfdf30();
+
+CpuOpaque* __cdecl FUN_00dfdf40();
+
+int* __cdecl FUN_00dfdf60();
+
+void __cdecl FUN_00dfdfd0(FUN_00ddc870_class* self);
+
+int* __cdecl FUN_00dfe090();
+
+void* __cdecl FUN_00dfe0a0();
+
+void* __cdecl FUN_00dfe0e0();
+
+void* __cdecl FUN_00dfe100();
+
+// FUN_00dfe120 : a one-line function - getter
+void* FUN_00dfe120();
+
+void* __cdecl FUN_00dfe140();
+
+// FUN_00dfe160 : a one-line function - getter
+void* FUN_00dfe160();
+
+int* __cdecl FUN_00dfe180();
+
+int __cdecl FUN_00dfe1a0();
+
+int* __cdecl FUN_00dfe1c0();
+
+void* __cdecl FUN_00dfe1e0();
+
+void* __cdecl FUN_00dfe1f0();
+
+// FUN_00dfe2a0: cdecl, returns the address of a global object.
+void* __cdecl FUN_00dfe2a0();
+
+int __cdecl FUN_00dfe2c0();
+
+// FUN_00dfe330 : a one-line function - getter
+void* FUN_00dfe330();
+
+// FUN_00dfe460 : a one-line function - getter
+void* FUN_00dfe460();
+
+void* __cdecl FUN_00dfe480();
+
+// FUN_00dfe4f0: cdecl, returns the address of a global object.
+void* __cdecl FUN_00dfe4f0();
+
+// FUN_00dfe5a0: cdecl, returns the address of a global object.
+void* __cdecl FUN_00dfe5a0();
+
+CpuOpaque* __cdecl FUN_00dfe680();
+
+void* __cdecl FUN_00dfe6f0();
+
+void* __cdecl FUN_00dfe980();
+
+int __cdecl FUN_00dfeab0();
+
+int* __cdecl FUN_00dfeb50();
+
+int* __cdecl FUN_00dfebc0();
+
+int* __cdecl FUN_00dfec00();
+
+// FUN_00dfec40 : a constant getter - MSVC emits mov eax, OFFSET <global> ; ret.
+// The global is declared extern so the store becomes a relocation; the checker
+// binds it to the original's own immediate.
+void* __cdecl FUN_00dfec40();
+
+// FUN_00dfec60 : a one-line function - getter
+void* FUN_00dfec60();
+
+void* __cdecl FUN_00dfeca0();
+
+void* __cdecl FUN_00dfecc0();
+
+// FUN_00dfed00 : a one-line function - getter
+void* FUN_00dfed00();
+
+int __cdecl FUN_00dfedf0();
+
+int* __cdecl FUN_00dfee90();
+
+void* __cdecl FUN_00dfeeb0();
+
+int __cdecl FUN_00dfeed0();
+
+void* __cdecl FUN_00dfef10();
+
+// FUN_00dfefc0: returns the address of the global object at DAT_0126d190.
+int* FUN_00dfefc0();
+
+void* __cdecl FUN_00dfefe0();
+
+void* __cdecl FUN_00dff0c0();
+
+// Getter returning the address of a global object.
+int* __cdecl FUN_00dff160();
+
+int __cdecl FUN_00dff1c0();
+
+int __cdecl FUN_00dff1e0();
+
+void* __cdecl FUN_00dff260();
+
+int* __cdecl FUN_00dff330();
+
+int __cdecl FUN_00dff3b0();
+
+int* __cdecl FUN_00dff3d0();
+
+// VEGAS17-CONFLICT: FUN_00e46300_class (variant definition below differs from the one above)
+struct FUN_00e46300_class
+{
+};
+
+void* __cdecl FUN_00dff510();
+
+int __cdecl FUN_00dff570();
+
+CpuOpaque* __cdecl FUN_00dff590();
+
+CpuOpaque* __cdecl FUN_00dff5b0();
+
+void* __cdecl FUN_00dff5d0();
+
+int* __cdecl FUN_00dff880();
+
+// VEGAS17-CONFLICT: FUN_00dff890_cls (variant definition below differs from the one above)
+// FUN_00dff890: forwards a second argument to a method of the first argument
+// when that pointer is non-null.
+struct FUN_00dff890_cls
+{
+};
+
+void* __cdecl FUN_00dffa20();
+
+void* __cdecl FUN_00dffa40();
+
+int* __cdecl FUN_00dffbd0();
+
+void* __cdecl FUN_00dffc50();
+
+CpuOpaque* __cdecl FUN_00dffc70();
+
+void* FUN_00dffd90();
+
+// FUN_00dffdd0 : a one-line function - getter
+void* FUN_00dffdd0();
+
+void* FUN_00dffe10();
+
+void* __cdecl FUN_00dffe30();
+
+void* __cdecl FUN_00dffe50();
+
+void* __cdecl FUN_00dffe70();
+
+void* __cdecl FUN_00dffed0();
+
+int __cdecl FUN_00dfff10();
+
+int* __cdecl FUN_00dfff70();
+
+// VEGAS17-CONFLICT: S_00dfff80_Foo (variant definition below differs from the one above)
+struct S_00dfff80_Foo
+{
+};
+
+// FUN_00dfffd0 : a one-line function - getter
+void* FUN_00dfffd0();
+
+void FUN_00df6500(void* p, int finishing);
+
+void __cdecl FUN_00de8140();
+
+void __cdecl FUN_00de8160();
+
+void __cdecl FUN_00de8180(void);
+
+void FUN_00de81c0();
+
+void FUN_00de81e0();
+
+void __cdecl FUN_00de8200();
+
+void FUN_00de8220();
+
+void __cdecl FUN_00de8240();
+
+void __cdecl FUN_00de8260();
+
+void __cdecl FUN_00de8280();
+
+void __cdecl FUN_00de82a0();
+
+void __cdecl FUN_00de82c0();
+
+void __cdecl FUN_00de82e0();
+
+void __cdecl FUN_00de8300();
+
+void __cdecl FUN_00de8320();
+
+void __cdecl FUN_00de8340();
+
+void __cdecl FUN_00de8360();
+
+void __cdecl FUN_00de8380(void);
+
+void __cdecl FUN_00de83a0();
+
+void __cdecl FUN_00de83c0();
+
+void FUN_00de83e0();
+
+void FUN_00de8400();
+
+void __cdecl FUN_00de8420();
+
+void FUN_00de8440();
+
+void FUN_00de8460();
+
+void __cdecl FUN_00de8480();
+
+void FUN_00de84a0();
+
+void __cdecl FUN_00de84c0();
+
+void __cdecl FUN_00de84e0();
+
+void FUN_00de8500();
+
+void FUN_00de8520();
+
+void FUN_00de8540();
+
+void FUN_00de8590();
+
+void FUN_00de85a0();
+
+void FUN_00de85b0();
+
+void FUN_00de85c0();
+
+void __cdecl FUN_00de85d0();
+
+void FUN_00de85e0();
+
+void __cdecl FUN_00de85f0();
+
+void __cdecl FUN_00de8600(void);
+
+void __cdecl FUN_00de8610();
+
+void __cdecl FUN_00de8620();
+
+void __cdecl FUN_00de8630();
+
+void __cdecl FUN_00de8640();
+
+void __cdecl FUN_00de8650();
+
+void __cdecl FUN_00de8660();
+
+void FUN_00de8670();
+
+void __cdecl FUN_00de8680();
+
+void FUN_00de8690();
+
+void FUN_00de86a0();
+
+void FUN_00de86b0();
+
+void __cdecl FUN_00de86c0();
+
+void FUN_00de86d0();
+
+void __cdecl FUN_00de86e0();
+
+void FUN_00de86f0();
+
+void __cdecl FUN_00de8700();
+
+void FUN_00de8710();
+
+void FUN_00de8720();
+
+void __cdecl FUN_00de8730();
+
+void __cdecl FUN_00de8740();
+
+void __cdecl FUN_00de8760();
+
+static void FUN_00df30c0(stub_cls* self, int v);
+
+void stub_caller(stub_cls* self);
+
+static void CopyPairAtIndex(DF30D0Pair* dst, unsigned int idx, const DF30D0Pair* src);
+
+void DF30D0Caller(DF30D0Pair* dst, unsigned int idx, const DF30D0Pair* src);
+
+void FUN_00df64a0();
+
+void __cdecl FUN_00df6540();
+
+void __cdecl FUN_00df9870();
+
+void FUN_00df9b10();
+
+void __cdecl FUN_00dfb250();
+
+void FUN_00dfb350();
+
+void FUN_00dfb370();
+
+void FUN_00dfb4b0();
+
+void __cdecl FUN_00dfb4c0();
+
+void __cdecl FUN_00dfb4e0();
+
+void __cdecl FUN_00dfb500(void);
+
+void __cdecl FUN_00dfb520();
+
+void FUN_00dfb530();
+
+void __cdecl FUN_00dfb850();
+
+void __cdecl FUN_00dfb870();
+
+void __cdecl FUN_00dfb910();
+
+void FUN_00dfb930(void);
+
+void __cdecl FUN_00dfb9c0();
+
+void __cdecl FUN_00dfbab0();
+
+void FUN_00dfbb00();
+
+void __cdecl FUN_00dfbb10();
+
+void __cdecl FUN_00dfbcb0();
+
+void __cdecl FUN_00dfbdb0();
+
+void __cdecl FUN_00dfbe80();
+
+void FUN_00dfbea0();
+
+void FUN_00dfbec0();
+
+void FUN_00dfbee0();
+
+void __cdecl FUN_00dfbf00();
+
+void __cdecl FUN_00dfbf10();
+
+void FUN_00dfc020();
+
+void FUN_00dfc0f0();
+
+void FUN_00dfc210();
+
+void __cdecl FUN_00dfc270();
+
+void FUN_00dfc3c0();
+
+void __cdecl FUN_00dfc3d0();
+
+void __cdecl FUN_00dfc430(void);
+
+void __cdecl FUN_00dfc4c0();
+
+void __cdecl FUN_00dfc4e0();
+
+void FUN_00dfc570();
+
+void FUN_00dfc580();
+
+void __cdecl FUN_00dfc5a0();
+
+void FUN_00dfc5c0();
+
+void __cdecl FUN_00dfc5e0();
+
+void FUN_00dfc640();
+
+void __cdecl FUN_00dfc650();
+
+void FUN_00dfc670();
+
+void FUN_00dfc6b0();
+
+void __cdecl FUN_00dfc6e0();
+
+void __cdecl FUN_00dfc720(void);
+
+void __cdecl FUN_00dfc750();
+
+void __cdecl FUN_00dfc7d0();
+
+void __cdecl FUN_00dfc8b0();
+
+void __cdecl FUN_00dfc8f0();
+
+void FUN_00dfc920();
+
+void FUN_00dfc960();
+
+void __cdecl FUN_00dfc9b0();
+
+void FUN_00dfc9f0();
+
+void __cdecl FUN_00dfca40();
+
+void __cdecl FUN_00dfca80();
+
+void __cdecl FUN_00dfcab0();
+
+void FUN_00dfcaf0();
+
+void __cdecl FUN_00dfcb20(void);
+
+void FUN_00dfcba0();
+
+void __cdecl FUN_00dfcbe0();
+
+void __cdecl FUN_00dfcc10();
+
+void __cdecl FUN_00dfcc50();
+
+void __cdecl FUN_00dfcc80();
+
+void FUN_00dfccc0();
+
+void __cdecl FUN_00dfccf0();
+
+void __cdecl FUN_00dfcd30();
+
+void FUN_00dfcd60();
+
+void FUN_00dfcdc0();
+
+void FUN_00dfce40();
+
+void FUN_00dfce80();
+
+void __cdecl FUN_00dfceb0();
+
+void FUN_00dfced0();
+
+void __cdecl FUN_00dfcee0();
+
+void __cdecl FUN_00dfd0b0();
+
+void __cdecl FUN_00dfd1a0();
+
+void __cdecl FUN_00dfd220();
+
+void __cdecl FUN_00dfd2b0();
+
+void __cdecl FUN_00dfd340();
+
+void FUN_00dfd350();
+
+void __cdecl FUN_00dfd4d0();
+
+void __cdecl FUN_00dfd4f0();
+
+void __cdecl FUN_00dfd510();
+
+void __cdecl FUN_00dfd520();
+
+void __cdecl FUN_00dfd530();
+
+void __cdecl FUN_00dfd550();
+
+void __cdecl FUN_00dfd660();
+
+void FUN_00dfd960();
+
+void FUN_00dfddd0();
+
+void FUN_00dfddf0();
+
+void __cdecl FUN_00dfde60();
+
+void __cdecl FUN_00dfde80();
+
+void __cdecl FUN_00dfdea0();
+
+void __cdecl FUN_00dfdf20();
+
+void __cdecl FUN_00dfe080();
+
+void __cdecl FUN_00dfe0b0();
+
+void __cdecl FUN_00dfe0d0(void);
+
+void FUN_00dfe0f0();
+
+void FUN_00dfe110();
+
+void FUN_00dfe130();
+
+void FUN_00dfe150();
+
+void FUN_00dfe170();
+
+void FUN_00dfe190();
+
+void FUN_00dfe1b0();
+
+void __cdecl FUN_00dfe1d0();
+
+void __cdecl FUN_00dfe200();
+
+void __cdecl FUN_00de0fe0(int arg1, int arg2, int arg3, int arg4);
+
+GlobalObjectO2_00d472a0* __cdecl FUN_00de8370();
+
+static void FUN_00def530(float value, cls_d530* target);
+
+void d530_caller(cls_d530* self, float f);
+
+static void FUN_00def540(float a, float b, d540_cls* t);
+
+void d540_caller(float fa, float fb);
+
+static void SetVec4(float a, float b, float c, float d, def550_vec4* t);
+
+void def550_caller(float a, float b, float c, float d);
+
+void FUN_00df0690();
+
+static void FUN_00df30a0(int* piTarget, int iValue);
+
+void E30A0Store(int* piTarget, int iValue);
+
+static float FUN_00df9ae0(unsigned int state);
+
+volatile float df9ae0_sink;
+
+void q_call_df9ae0(void);
+
+static void WriteFloatToVector(float a, float b, float* out);
+
+void dummy_caller(void);
+
+extern "C" void* df3210_target(void);
+
+// @fnv 0x00df3210
+static __declspec(noinline) void FUN_00df3210(__m128* p)
+{
+    __m128 z = _mm_setzero_ps();
+    *p++ = z;
+    *p++ = z;
+    *p++ = z;
+    *p++ = z;
+    *p++ = z;
+    *p++ = z;
+    *p++ = z;
+    *p++ = z;
+}
+
+void df3210_caller(void)
+{
+    FUN_00df3210((__m128*)df3210_target());
+}
+
+struct Dst
+{
+    __m128 q;
+};
+
+// @fnv 0x00df3170
+static __declspec(noinline) void FUN_00df3170(const unsigned short* src, Dst* d)
+{
+    __m128i zero = _mm_setzero_si128();
+    __m128i data = _mm_loadu_si128((const __m128i*)src);
+    __m128i lo = _mm_unpacklo_epi16(data, zero);
+    __m128i hi = _mm_unpackhi_epi16(data, zero);
+    __declspec(align(16)) float k2[4] = {DAT_010cd644, DAT_010cd644, DAT_010cd644, DAT_010cd644};
+    __declspec(align(16)) float k1[4] = {DAT_010cd644, DAT_010cd644, DAT_010cd644, DAT_010cd644};
+    d->q = _mm_sub_ps(_mm_add_ps(_mm_mul_ps(_mm_cvtepi32_ps(_mm_srli_epi32(hi, 16)), _mm_load_ps(k1)),
+                                 _mm_cvtepi32_ps(_mm_srli_epi32(_mm_slli_epi32(hi, 16), 16))),
+                      _mm_add_ps(_mm_mul_ps(_mm_cvtepi32_ps(_mm_srli_epi32(lo, 16)), _mm_load_ps(k2)),
+                                 _mm_cvtepi32_ps(_mm_srli_epi32(_mm_slli_epi32(lo, 16), 16))));
+}
+
+void CallerStandIn(Dst* d, const unsigned short* src)
+{
+    FUN_00df3170(src, d);
+}
+
+typedef void (*VTable0)(void*, int);
+
+typedef int (*VFunc0)(void*, int);
+
+typedef void (*VTableFn)(void*, int);
+
+typedef int (*Vfn)(void*, int);
+
+typedef void (*Vfn0)(void*, int);
+
+typedef int (*VFunc_00dfb270)(void*, int);
+
+typedef void (*VFunc00dfb3f0)(void*, int);
+
+typedef void (*VTable0_00dfba70)(void*, int);
+
+typedef void (*VFn0)(void*, int);
+
+typedef void (*VTable0)(void*, int);
+
+typedef void (*VFunc1)(void*, int);
+
+typedef void (*V00dfc790)(void*, int);
+
+typedef void (*Vfn_00dfcb60)(void*, int);
+
+typedef void (*Vfn_00dfd620)(void*, int);
+
+typedef void (*Vfn_00dfe270)(void*, int);
+
+typedef void (*Vfn0)(void*, int);
+
+typedef int (*Vfn_00dfeec0)(void*, int);
+
+typedef void (*VTable0)(void*, int);
+
+typedef void (*VTable0)(void*, int);
+
+typedef void (*VTable0)(void*, int);
+
+typedef void (*VTblFn0)(void*, int);
+
+typedef void (*VTableFn)(void*, int);
+
+typedef void (*Vfn0)(void*, int);
+
+// VEGAS17-CONFLICT: ParserContext (variant definition below differs from the one above)
+struct ParserContext { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,result44; int FUN_00e63af0(int, void*,float*); };
+
+// VEGAS17-CONFLICT: FloatPair (variant definition below differs from the one above)
+struct FloatPair { float first,second;  int FUN_00dfb040(ParserContext*,int,int*,ParserContext**); };
+
+void __cdecl FUN_00dfb950(CalleeObj *pFirst, void *pSecond);
+
+void S_00dfc110_vt::m0(int) {
+}
+
+void __cdecl FUN_00dfd570(FUN_00dfd570_cls *pObject, int a1);
+
+void __cdecl FUN_00dfdec0(FUN_00dfdec0_cls *pObject, int a1);
+
+void __cdecl FUN_00dfdef0(FUN_00dfdef0_cls *pObject, int a1);
+
+// VEGAS17-CONFLICT: FourFloatVector (variant definition below differs from the one above)
+struct FourFloatVector { float x,y,z,w; };
+
+// VEGAS17-CONFLICT: Matrix64 (variant definition below differs from the one above)
+struct Matrix64 { FourFloatVector a,b,c,d; };
+
+// VEGAS17-CONFLICT: Input (variant definition below differs from the one above)
+struct Input {
+ int count; float a,b; FourFloatVector vector;
+ unsigned* values; void* source; Matrix64* matrices; float scale; unsigned flags;
+};
+
+// VEGAS17-CONFLICT: Header (variant definition below differs from the one above)
+struct Header {
+ union {float epsilon; unsigned char type;};
+ unsigned short count,pad06;
+ unsigned flags,unk0c,size;
+ float scale,a,b;
+};
+
+void __cdecl FUN_00de9b00();
+
+static void FUN_00df30b0(stub_cls* target, int value);
+
+void df30b0_caller(stub_cls* target);
+
+static void FUN_00df30f0(__m128* d, int idx, const __m128* s);
+
+void hcaller(__m128* d, int idx, const __m128* s);
+
+void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p);
+
+Derived::Derived()
+{
+}
+
+extern const float DAT_0104da4c = 1.1920928955078125e-07f;
+
+// @fnv 0x00de9410
+bool __cdecl FUN_00de9410(const __m128* start,const __m128* end,const __m128* plane,float* out) {
+__m128 a = *start;
+__m128 b = *end;
+__m128 p = *plane;
+__m128 prod = _mm_mul_ps(_mm_sub_ps(b,a),p);
+__m128 xy = _mm_add_ss(_mm_shuffle_ps(prod,prod,0x55),prod);
+__m128 dot = _mm_add_ss(_mm_shuffle_ps(prod,prod,0xaa),xy);
+__m128 sq=_mm_mul_ss(dot,dot);
+float tmp; _mm_store_ss(&tmp,sq);
+if (tmp > DAT_0104da4c) {
+__m128 w=_mm_shuffle_ps(p,p,0xff);
+p=_mm_mul_ps(p,a);
+__m128 xy2=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);
+__m128 xyz=_mm_add_ss(_mm_shuffle_ps(p,p,0xaa),xy2);
+__m128 dist=_mm_add_ss(xyz,w);
+__m128 t=_mm_div_ss(_mm_sub_ss(DAT_010c7160,dist),dot);
+_mm_store_ss(&tmp,t);
+*out=tmp; return true; }
+return false;
+}
+
+class TransformRadiusInput {
+public:
+    __m128 v00;
+    __m128 v10;
+    __m128 v20;
+    __m128 v30;
+    __m128 v40;
+    float m50;
+    int m54;
+    int m58;
+    int m5c;
+    int m60;
+    int m64;
+    int m68;
+    int m6c;
+
+    void FUN_00dfb1e0(int a1, int a2, const __m128* source,
+                                float a4, int a5, int a6, int a7, int a8);
+};
+
+// @fnv 0x00dfb1e0
+void TransformRadiusInput::FUN_00dfb1e0(
+    int a1, int a2, const __m128* source, float a4,
+    int a5, int a6, int a7, int a8)
+{
+    v00 = source[0];
+    v10 = source[1];
+    v20 = source[2];
+    v30 = source[3];
+
+    m50 = a4 * a4;
+    m54 = a1;
+    m58 = a2;
+    m60 = a5;
+    m64 = a6;
+    v40 = _mm_set_ps1(a4);
+    m5c = 0;
+    m68 = a7;
+    m6c = a8;
+}
+
+typedef float hkReal;
+
+typedef signed char hkInt8;
+
+typedef signed short hkInt16;
+
+typedef signed int hkInt32;
+
+typedef unsigned char hkUchar;
+
+typedef unsigned char hkUint8;
+
+typedef unsigned short hkUint16;
+
+typedef unsigned int hkUint32;
+
+typedef unsigned long __w64 hkUlong;
+
+typedef unsigned __w64 hk_size_t;
+
+class FinishingFlag
+{
+public:
+FinishingFlag():m_bFinishing(0){}
+int m_bFinishing;
+};
+
+class hkClass;
+
+class hkBool
+{
+public:
+typedef char CompileTimeTrueType;inline hkBool(bool b)
+{
+m_cBooleanValue=static_cast<char>(b);
+}
+inline operator bool()const
+{
+return m_cBooleanValue !=0;
+}
+private:
+char m_cBooleanValue;};
+
+template<typename ENUM,typename STORAGE>
+class hkEnum
+{
+public:
+hkEnum()
+{
+}
+hkEnum(ENUM e)
+{
+m_kStorage=static_cast<STORAGE>(e);
+}
+private:
+STORAGE m_kStorage;};
+
+template<typename TYPE>
+class ValueWrapper
+{
+public:
+__forceinline ValueWrapper(){}
+__forceinline void operator=(TYPE e)
+{
+m_kStorage=e;
+}
+__forceinline TYPE val()const
+{
+return m_kStorage;
+}
+__forceinline operator TYPE()const
+{
+return val();
+}
+private:
+TYPE m_kStorage;};
+
+template<typename T>
+class hkThreadLocalData
+{
+public:
+hkThreadLocalData()
+{
+m_slotID=TlsAlloc();
+}
+__forceinline T getData()const
+{
+return(T)(hkUlong)TlsGetValue(m_slotID);
+}
+unsigned long m_slotID;};
+
+class hkMemoryAllocator
+{
+public:
+virtual void*AllocateMemoryBlock(int numBytes)=0;
+virtual void ReleaseBlock(void*p,int numBytes)=0;public:
+enum MemoryState
+{
+MEMORY_STATE_OK,
+MEMORY_STATE_OUT_OF_MEMORY
+};};
+
+struct StringPointerTriple
+{
+public:
+__forceinline StringPointerTriple();protected:
+ValueWrapper<void*>m_next;};
+
+class NineIntegerRecord
+{
+public:
+typedef hkMemoryAllocator Allocator_S;
+static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator_S&heap(){return*m_pStreamAllocator;}
+protected:
+StringPointerTriple m_aiEntries;
+Allocator_S*m_pTemp;
+Allocator_S*m_pStreamAllocator;};
+
+class hkBaseObject
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+__forceinline virtual ~hkBaseObject(){}
+public:
+__forceinline hkBaseObject(){}
+};
+
+class hkStatisticsCollector;
+
+class hkReferencedObject_S:public hkBaseObject
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+virtual const hkClass*GetClassType()const;
+virtual void CalcContentStatistics(hkStatisticsCollector*collector,const hkClass*cls)const;
+public:
+enum
+{
+MASK_MEMSIZE=0x7fff
+};
+hkUint16 m_usMemSizeAndFlags;
+public:
+hkReferencedObject_S(class FinishingFlag flag){}
+};
+
+typedef __m128 hkQuadReal;
+
+class hkMatrix3_S;
+
+class hkRotation;
+
+class hkTransform;
+
+class hkVector4_S
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void operator=(const hkVector4_S&v);
+__forceinline void setSub4(const hkVector4_S&a,const hkVector4_S&b);
+__forceinline void _setMul3(const hkMatrix3_S&a,const hkVector4_S&b);
+__forceinline void _setRotatedDir(const hkRotation&a,const hkVector4_S&b);
+__forceinline void _setRotatedInverseDir(const hkRotation&a,const hkVector4_S&b);
+__forceinline void _setTransformedInversePos(const hkTransform&a,const hkVector4_S&b);
+private:
+hkQuadReal m_vComponents;
+public:
+operator hkQuadReal()const
+{
+return m_vComponents;
+}
+};
+
+class hkMatrix3_S
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline const hkVector4_S&getColumn(int i)const;
+protected:
+hkVector4_S m_kColumn0;
+hkVector4_S m_kColumn1;
+hkVector4_S m_kColumn2;};
+
+class __declspec(align(16))hkRotation:public hkMatrix3_S
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+
+class hkTransform
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline const hkVector4_S&getTranslation()const;
+__forceinline const hkRotation&getRotation()const;
+private:
+hkRotation m_rotation;
+hkVector4_S m_vTranslation;};
+
+inline void hkVector4_S::operator=(const hkVector4_S&v)
+{
+m_vComponents=v.m_vComponents;
+}
+
+inline void hkVector4_S::setSub4(const hkVector4_S&v0,const hkVector4_S&v1)
+{
+m_vComponents=_mm_sub_ps(v0.m_vComponents,v1.m_vComponents);
+}
+
+inline void hkVector4_S::_setMul3(const hkMatrix3_S&a,const hkVector4_S&b)
+{
+const hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+const hkQuadReal r0=_mm_mul_ps(a.getColumn(0).m_vComponents,b0);
+const hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+const hkQuadReal r1=_mm_mul_ps(a.getColumn(1).m_vComponents,b1);
+const hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+const hkQuadReal r2=_mm_mul_ps(a.getColumn(2).m_vComponents,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),r2);}
+
+inline void hkVector4_S::_setRotatedDir(const hkRotation&r,const hkVector4_S&v)
+{
+_setMul3(r,v);
+}
+
+inline void hkVector4_S::_setRotatedInverseDir(const hkRotation&r,const hkVector4_S&b)
+{
+hkQuadReal c0=r.getColumn(0).m_vComponents;
+hkQuadReal c1=r.getColumn(1).m_vComponents;
+hkQuadReal c2=r.getColumn(2).m_vComponents;
+{hkQuadReal _tmp,_ctmp;_tmp=_mm_unpacklo_ps(c0,c1);_ctmp=_mm_shuffle_ps(_mm_unpackhi_ps(c0,c1),c2,(((3)<<6)|((2)<<4)|((1)<<2)|((0))));c0=_mm_movelh_ps(_tmp,c2);c1=_mm_shuffle_ps(_mm_movehl_ps(c0,_tmp),c2,(((3)<<6)|((1)<<4)|((1)<<2)|((0))));c2=_ctmp;};
+const hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+const hkQuadReal r0=_mm_mul_ps(c0,b0);
+const hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+const hkQuadReal r1=_mm_mul_ps(c1,b1);
+const hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+const hkQuadReal r2=_mm_mul_ps(c2,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),r2);}
+
+inline void hkVector4_S::_setTransformedInversePos(const hkTransform&a,const hkVector4_S&b)
+{
+hkVector4_S t0;t0.setSub4(b,a.getTranslation());
+_setRotatedInverseDir(a.getRotation(),t0);
+}
+
+inline const hkVector4_S&hkMatrix3_S::getColumn(int x)const
+{
+return(&m_kColumn0)[x];
+}
+
+const hkVector4_S&hkTransform::getTranslation()const
+{
+return m_vTranslation;
+}
+
+const hkRotation&hkTransform::getRotation()const
+{
+return m_rotation;
+}
+
+class StringCursor
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
+{
+return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
+}
+public:
+__forceinline char*__cdecl GetStreamStart(){return m_kRayStart.val();}
+__forceinline char*__cdecl GetStreamEnd(){return m_kRayEnd.val();}
+__forceinline char*__cdecl getCapacityMinus16(){return m_pCurrentCommand.val();}
+__forceinline hkBool __cdecl memoryAvailable()
+{
+return GetStreamEnd()<getCapacityMinus16();
+}
+__forceinline void __cdecl setEnd(char*ptr){m_kRayEnd=ptr;}
+public:
+static void __cdecl init();
+public:
+ValueWrapper<char*>m_kRayStart;
+ValueWrapper<char*>m_kRayEnd;
+ValueWrapper<char*>m_pRayCursor;
+ValueWrapper<char*>m_pCurrentCommand;
+public:
+struct Command
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+const char*m_pCommandName;
+};
+struct TimerCommand_S:public StringCursor::Command
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::TimerCommand_S));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+hkUint32 m_uiStartTicks;
+hkUint32 m_uiEndTicks;
+__forceinline void setTime();
+};};
+
+void StringCursor::TimerCommand_S::setTime()
+{
+hkUint32 ticks;
+__asm{
+rdtsc
+mov dword ptr[ticks],eax
+}
+m_uiStartTicks=ticks;
+}
+
+class hkAabb
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+public:
+hkVector4_S m_kMinimumCorner;};
+
+__declspec(align(16))struct hkAabbUint32
+{};
+
+enum CollisionShapeType
+{
+HK_SHAPE_INVALID=0,
+HK_SHAPE_SPHERE,
+HK_FIRST_SHAPE_TYPE=HK_SHAPE_SPHERE,
+HK_SHAPE_CYLINDER,
+HK_SHAPE_TRIANGLE,
+HK_SHAPE_BOX,
+HK_SHAPE_CAPSULE,
+HK_SHAPE_CONVEX_VERTICES,
+HK_SHAPE_COLLECTION,
+HK_SHAPE_BV_TREE,
+HK_SHAPE_LIST,
+HK_SHAPE_MOPP,
+HK_SHAPE_CONVEX_TRANSLATE,
+HK_SHAPE_CONVEX_TRANSFORM,
+HK_SHAPE_SAMPLED_HEIGHT_FIELD,
+HK_SHAPE_EXTENDED_MESH,
+HK_SHAPE_TRANSFORM,
+HK_SHAPE_COMPRESSED_MESH,
+HK_SHAPE_MAX_ID_SPU=HK_SHAPE_COMPRESSED_MESH+1,
+HK_SHAPE_CONVEX,
+HK_SHAPE_PACKED_CONVEX_VERTICES,
+HK_SHAPE_MOPP_EMBEDDED,
+HK_SHAPE_CONVEX_PIECE,
+HK_SHAPE_MULTI_SPHERE,
+HK_SHAPE_CONVEX_LIST,
+HK_SHAPE_TRIANGLE_COLLECTION,
+HK_SHAPE_MULTI_RAY,
+HK_SHAPE_HEIGHT_FIELD,
+HK_SHAPE_SPHERE_REP,
+HK_SHAPE_BV,
+HK_SHAPE_PLANE,
+HK_SHAPE_PHANTOM_CALLBACK,
+HK_SHAPE_USER0,
+HK_SHAPE_USER1,
+HK_SHAPE_USER2,
+HK_SHAPE_MAX_ID,
+HK_SHAPE_ALL=-1
+};
+
+struct ShapeRayCastQuery;
+
+struct ShapeRayCastOutput;
+
+class hkpRayHitCollector;
+
+class hkpCdBody;
+
+class hkpShapeContainer;
+
+typedef hkUint32 hkpShapeKey;
+
+class hkpShape:public hkReferencedObject_S
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+virtual hkReal getMaximumProjection(const hkVector4_S&direction)const;
+__forceinline hkBool RayCast(const ShapeRayCastQuery&input,ShapeRayCastOutput&output)const;
+__forceinline void castRayWithCollector(const ShapeRayCastQuery&input,const hkpCdBody&cdBody,hkpRayHitCollector&collector)const;
+virtual const hkpShapeContainer*GetShapeContainer()const{return 0;}
+virtual bool isConvex()const{return false;}
+struct PhysicsShape
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpShape::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+bool m_bIsConvex;
+bool m_bIsConvexPiece;
+bool m_bIsComposite;
+};
+virtual int CalcSizeForSpu(const PhysicsShape&input,int spuBufferSizeLeft)const;
+protected:
+virtual void CalculateAabb(const hkTransform&localToWorld,hkReal tolerance,hkAabb&out)const=0;
+virtual hkBool IntersectRayWithShape(const ShapeRayCastQuery&input,ShapeRayCastOutput&output)const=0;
+virtual void CastRayWithCollector(const ShapeRayCastQuery&input,const hkpCdBody&cdBody,hkpRayHitCollector&collector)const=0;
+public:
+static void __cdecl resetShapeFunctions();
+public:
+public:
+hkUlong m_ulUserData;
+public:
+hkEnum<::CollisionShapeType,hkUint32>m_type;
+public:
+hkpShape(class FinishingFlag flag):hkReferencedObject_S(flag)
+{
+if(flag.m_bFinishing)
+{
+m_type=HK_SHAPE_INVALID;
+}
+}
+};
+
+hkBool hkpShape::RayCast(const ShapeRayCastQuery&input,ShapeRayCastOutput&output)const
+{
+return IntersectRayWithShape(input,output);
+}
+
+void hkpShape::castRayWithCollector(const ShapeRayCastQuery&input,const hkpCdBody&cdBody,hkpRayHitCollector&collector)const
+{
+return CastRayWithCollector(input,cdBody,collector);
+}
+
+struct RayCastHitResult
+{
+inline RayCastHitResult();
+inline void reset();
+hkVector4_S m_vHitNormal;
+hkReal m_fHitFraction;
+int m_iExtraInfo;
+int unkPad0;int unkPad1;};
+
+void RayCastHitResult::reset()
+{
+m_fHitFraction=1.0f;
+m_iExtraInfo=-1;
+}
+RayCastHitResult::RayCastHitResult()
+{
+reset();
+}
+
+struct ShapeRayCastOutput:public RayCastHitResult
+{
+public:
+enum{MAX_HIERARCHY_DEPTH=8};
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline ShapeRayCastOutput();
+__forceinline void reset();
+private:
+__forceinline void _reset();
+public:
+hkpShapeKey m_uiShapeKeys[MAX_HIERARCHY_DEPTH];
+private:
+int m_uiShapeKeyIndex;};
+
+void ShapeRayCastOutput::_reset()
+{
+m_uiShapeKeyIndex=0;
+m_uiShapeKeys[0]=0xffffffff;
+}
+
+void ShapeRayCastOutput::reset()
+{
+RayCastHitResult::reset();
+_reset();
+}
+ShapeRayCastOutput::ShapeRayCastOutput()
+{
+_reset();
+}
+
+class hkpCdBody
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline const hkTransform&getTransform()const;
+public:
+explicit __forceinline hkpCdBody(const hkpCdBody*parent);
+public:
+const hkpShape*m_pCollisionShape;
+hkpShapeKey m_uiCollisionShapeKey;
+const void*m_pMotionState;};
+
+const hkTransform&hkpCdBody::getTransform()const
+{
+;
+return*static_cast<const hkTransform*>(m_pMotionState);
+}
+
+struct GskAgentInput;
+
+class hkpCollidable:public hkpCdBody
+{
+public:
+static const struct ClassMemberDescriptor Members[];
+inline const hkpShape*getShape()const;
+public:
+__forceinline hkUint32 GetFilterInfoForKey()const;
+public:
+struct BoundingVolumeData
+{
+static const struct ClassMemberDescriptor Members[];static const hkClass&__cdecl staticClass();struct DefaultStruct;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpCollidable::BoundingVolumeData));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+BoundingVolumeData();
+BoundingVolumeData(class FinishingFlag flag);
+__forceinline bool hasAllocations()const;
+void deallocate();
+void allocate(int numChildShapes);
+__forceinline void invalidate(){m_kMinimumCorner[0]=1;m_kMaximumCorner[0]=0;}
+__forceinline bool isValid()const{return m_kMinimumCorner[0]<=m_kMaximumCorner[0];}
+public:
+hkUint32 m_kMinimumCorner[3];
+hkUint8 m_ucExpansionMin[3];
+hkUint8 m_ucExpansionShift;
+hkUint32 m_kMaximumCorner[3];
+hkUint8 m_ucExpansionMax[3];
+hkUint8 m_ucUnknownByte;
+hkUint16 m_uiNumChildShapeAabbs;
+hkUint16 m_uiCapacityChildShapeAabbs;
+hkAabbUint32*m_pChildShapeAabbs;
+hkpShapeKey*m_pChildShapeKeys;
+};
+protected:
+hkInt8 m_iOwnerOffset;
+public:
+hkUint8 m_uiForceCollideOntoPpu;
+public:
+struct BoundingVolumeData m_kBoundingVolumeData;};
+
+__forceinline const hkpShape*hkpCollidable::getShape()const
+{
+return m_pCollisionShape;
+}
+
+class PhysicsSimulationContext
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+public:
+CRITICAL_SECTION m_kCriticalSection;};
+
+class BusyWaitingSemaphore
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+protected:
+protected:void*m_pCompletionSemaphore;};
+
+typedef BusyWaitingSemaphore hkSemaphoreBusyWait;
+
+template<typename T>
+class CapacityGrowingArray
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+private:
+inline void increaseCapacity();};
+
+typedef hkUint8 hkJobSubType;
+
+enum JobCategory
+{
+HK_JOB_TYPE_DYNAMICS,
+HK_JOB_TYPE_COLLIDE,
+HK_JOB_TYPE_COLLISION_QUERY,
+HK_JOB_TYPE_RAYCAST_QUERY,
+HK_JOB_TYPE_ANIMATION,
+HK_JOB_TYPE_BEHAVIOR,
+HK_JOB_TYPE_CLOTH,
+HK_JOB_TYPE_PATHFINDING,
+HK_JOB_TYPE_UNIT_TEST,
+HK_JOB_TYPE_CHARACTER_PROXY,
+HK_JOB_TYPE_HAVOK_MAX,
+HK_JOB_TYPE_USER_0=HK_JOB_TYPE_HAVOK_MAX,
+HK_JOB_TYPE_MAX
+};
+
+struct JobDescriptor
+{__declspec(align(16))hkJobSubType m_ucSubType;};
+
+struct JobQueueConstructionInfo
+{};
+
+class JobDispatcher
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+enum{JOB_QUEUE_ENTRY_SIZE=128};
+struct JobQueueSlot:public JobDescriptor
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(JobQueueSlot));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+JobQueueSlot(){}
+hkUchar m_data[JOB_QUEUE_ENTRY_SIZE-sizeof(JobDescriptor)];
+};
+struct Queue:public CapacityGrowingArray<JobQueueSlot>
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Queue));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+};
+enum WaitPolicy
+{
+WAIT_UNTIL_ALL_WORK_COMPLETE,
+WAIT_INDEFINITELY
+};
+struct JobQueueWaitState
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(JobQueueWaitState));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__declspec(align(16))hkInt16 m_sQueueCounts[HK_JOB_TYPE_MAX];
+int m_iWaitCount;
+WaitPolicy m_eWaitPolicy;
+hkBool m_bWaiting;
+hkUint16 m_auiThreadIds[2+2+1];
+Queue m_kQueues[2+2+1+HK_JOB_TYPE_MAX];
+};
+enum JobPopFuncResult
+{
+POP_QUEUE_ENTRY,
+DO_NOT_POP_QUEUE_ENTRY
+};
+enum NextJobWaitMode
+{
+WAIT_FOR_NEXT_JOB,
+DO_NOT_WAIT_FOR_NEXT_JOB
+};
+enum JobStatus
+{
+JOB_INVALID=-1,
+GOT_NEXT_JOB,
+NO_JOBS_AVAILABLE,
+ALL_JOBS_FINISHED,
+JOBS_AVAILABLE_BUT_NOT_FOR_CURRENT_ELF,
+};
+public:
+JobDispatcher(const JobQueueConstructionInfo&cinfo);
+JobStatus GetNextJob(const JobQueueSlot*oldJob,JobQueueSlot&jobOut,NextJobWaitMode waitStatus=WAIT_FOR_NEXT_JOB);
+public:
+void releaseOneWaitingThread(JobQueueWaitState*data);
+public:
+__declspec(align(64))PhysicsSimulationContext m_pWorldLock;
+public:
+int iFirstInteger;};
+
+struct ShapeRayCastQuery
+{
+hkVector4_S m_vFrom;
+hkVector4_S m_vTo;
+hkUint32 m_uiFilterInfo;};
+
+struct WorldRayCastOutput;
+
+struct CollisionQueryJobHeader
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+
+struct RayCastQueryJobDescriptor:public JobDescriptor
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+enum JobSubType
+{
+RAYCAST_QUERY_SHAPE_RAYCAST,
+RAYCAST_QUERY_WORLD_RAYCAST,
+RAYCAST_QUERY_KD_TREE_BUILD_FAST,
+RAYCAST_QUERY_KD_TREE_BUILD_FAST_DISTRIBUTED_JOB,
+RAYCAST_QUERY_KD_TREE_BUILD_FAST_DISTRIBUTED_SUBJOB,
+RAYCAST_QUERY_KD_TREE_BUILD_SETUP_JOB,
+RAYCAST_QUERY_KD_TREE_BUILD_COORDINATOR_JOB,
+RAYCAST_QUERY_WORLD_RAYCAST_WITH_AUTOBUNDLE,
+RAYCAST_QUERY_JOB_END
+};
+protected:
+__forceinline RayCastQueryJobDescriptor(JobSubType subType,hkUint16 size);
+public:
+hkSemaphoreBusyWait*m_pCompletionSemaphore;};
+
+struct WorldRayCastCommand
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+public:
+ShapeRayCastQuery m_kRayCastQuery;
+hkUint32 m_uiCollisionFilterInfo;
+hkInt32 m_iCommandParameter;
+const hkpCollidable**m_kCollidables;
+int m_iCollidableCount;
+WorldRayCastOutput*m_pResultBuffer;
+int m_iResultCount;
+int m_iResultCapacity;
+hkBool m_bResultFlag;};
+
+struct WorldRayCastJob:public RayCastQueryJobDescriptor
+{
+public:
+friend struct RayCastCommandTaskFriend;
+enum{MAXIMUM_NUMBER_OF_COMMANDS_PER_TASK=90};
+public:
+__forceinline WorldRayCastJob(const GskAgentInput*input,CollisionQueryJobHeader*jobHeader,const WorldRayCastCommand*commandArray,int numCommands,hkSemaphoreBusyWait*semaphore,int numCommandsPerTask=MAXIMUM_NUMBER_OF_COMMANDS_PER_TASK);
+public:
+__forceinline JobDispatcher::JobPopFuncResult popJobTask(WorldRayCastJob&out);
+int m_iCommandCapacity;
+const WorldRayCastCommand*m_pCommands;
+int m_iCommandCount;};
+
+struct WorldRayCastOutput:public ShapeRayCastOutput
+{
+inline WorldRayCastOutput();
+inline void reset();
+const hkpCollidable*m_pRootCollidable;};
+
+typedef WorldRayCastOutput hkpWorldRayCastOutputPpu;
+
+void WorldRayCastOutput::reset()
+{
+m_pRootCollidable=0;
+ShapeRayCastOutput::reset();
+}
+WorldRayCastOutput::WorldRayCastOutput():
+m_pRootCollidable(0)
+{
+}
+
+class WorldRayCastResultHelper
+{
+public:
+__forceinline static hkpWorldRayCastOutputPpu*getNextFreeResult(WorldRayCastCommand*command,hkpWorldRayCastOutputPpu*resultsArray,hkpWorldRayCastOutputPpu*&nextFreeResult,hkReal hitFraction);
+};
+
+template<typename COMMAND,typename OUTPUT>
+class RayCastResultAllocator
+{
+public:
+__forceinline static OUTPUT*getNextFreeResult(COMMAND*command,OUTPUT*resultsArray,OUTPUT*&nextFreeResult,hkReal hitFraction,hkReal&maxHitFractionOut);
+};
+
+__forceinline hkpWorldRayCastOutputPpu*WorldRayCastResultHelper::getNextFreeResult(WorldRayCastCommand*command,hkpWorldRayCastOutputPpu*resultsArray,hkpWorldRayCastOutputPpu*&nextFreeResult,hkReal hitFraction)
+{
+hkReal dummy=1.0f;
+return RayCastResultAllocator<WorldRayCastCommand,hkpWorldRayCastOutputPpu>::getNextFreeResult(command,resultsArray,nextFreeResult,hitFraction,dummy);}
+
+template<typename COMMAND,typename OUTPUT>
+OUTPUT*RayCastResultAllocator<COMMAND,OUTPUT>::getNextFreeResult(COMMAND*command,OUTPUT*resultsArray,OUTPUT*&nextFreeResult,hkReal hitFraction,hkReal&maxHitFractionOut)
+{
+OUTPUT*resultToReturn=0;
+if(command->m_iResultCapacity<command->m_iResultCount)
+{
+resultToReturn=nextFreeResult;
+command->m_iResultCapacity++;
+nextFreeResult=nextFreeResult+1;
+maxHitFractionOut=1.0f;
+}
+else
+{
+OUTPUT*furthestHit=resultsArray;
+OUTPUT*currentHitInArray=resultsArray+1;
+{
+for(int i=1;i<command->m_iResultCapacity;i++)
+{
+if(currentHitInArray->m_fHitFraction>furthestHit->m_fHitFraction)
+{
+furthestHit=currentHitInArray;
+}
+currentHitInArray++;
+}
+}
+if(hitFraction<furthestHit->m_fHitFraction)
+{
+maxHitFractionOut=furthestHit->m_fHitFraction;
+resultToReturn=furthestHit;
+}
+}
+return resultToReturn;}
+
+class hkpRayHitCollector
+{
+public:
+inline hkpRayHitCollector();
+virtual void CollectRayHit(const hkpCdBody&cdBody,const RayCastHitResult&hitInfo)=0;
+inline void reset();
+public:
+hkReal m_fEarlyOutHitFraction;};
+
+inline void hkpRayHitCollector::reset()
+{
+m_fEarlyOutHitFraction=1.f;
+}
+
+inline hkpRayHitCollector::hkpRayHitCollector()
+{
+reset();
+}
+
+class hkpFixedBufferRayHitCollector:public hkpRayHitCollector
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+public:
+__forceinline hkpFixedBufferRayHitCollector(WorldRayCastOutput*buffer,int capacity);
+public:
+protected:
+virtual __forceinline void CollectRayHit(const hkpCdBody&cdBody,const RayCastHitResult&hitInfo);
+public:
+ValueWrapper<WorldRayCastOutput*>m_pRayHitBuffer;
+ValueWrapper<WorldRayCastOutput*>m_pHitBufferEnd;
+ValueWrapper<int>m_pRayCursor;
+ValueWrapper<int>m_iHitCount;
+ValueWrapper<const hkpCollidable*>m_pCollidable;};
+
+typedef void(__cdecl*hkFixedBufferRayHitCollectorAddRayHitCallbackFunc)(const hkpCdBody&cdBody,const RayCastHitResult&hitInfo,class hkpFixedBufferRayHitCollector*collector);
+
+__forceinline void registerFixedBufferRayHitCollectorAddRayHitCallbackFunction(hkFixedBufferRayHitCollectorAddRayHitCallbackFunc func)
+{
+(*reinterpret_cast<void (**)(const hkpCdBody &, const RayCastHitResult &, hkpFixedBufferRayHitCollector *)>(&::DAT_0126ec04))=func;
+}
+hkpFixedBufferRayHitCollector::hkpFixedBufferRayHitCollector(WorldRayCastOutput*buffer,int capacity):hkpRayHitCollector()
+{
+;
+m_pRayHitBuffer=buffer;
+m_pHitBufferEnd=buffer;
+m_pRayCursor=capacity;
+m_iHitCount=0;
+m_pCollidable=0;
+}
+__forceinline void __cdecl hkCpuShapeRayCastJobProcessCommand(const WorldRayCastCommand&raycastCommand)
+{
+WorldRayCastCommand*command=const_cast<WorldRayCastCommand*>(&raycastCommand);
+ShapeRayCastQuery input=command->m_kRayCastQuery;
+WorldRayCastOutput output;
+WorldRayCastOutput*nextFreeResult=command->m_pResultBuffer;
+{
+hkpFixedBufferRayHitCollector fixedBufferRayHitCollector(command->m_pResultBuffer,command->m_iResultCount);
+registerFixedBufferRayHitCollectorAddRayHitCallbackFunction(((void (&)(const hkpCdBody &, const RayCastHitResult &, hkpFixedBufferRayHitCollector *))::FUN_00e2b9b0));
+for(int i=0;i<command->m_iCollidableCount;i++)
+{
+const hkpCollidable*collidable=command->m_kCollidables[i];
+const hkpShape*shape=collidable->getShape();
+if(shape)
+{
+const hkTransform&transform=collidable->getTransform();
+input.m_vTo._setTransformedInversePos(transform,command->m_kRayCastQuery.m_vTo);
+input.m_vFrom._setTransformedInversePos(transform,command->m_kRayCastQuery.m_vFrom);
+output.reset();
+if(!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(command->m_bResultFlag))->FUN_005609f0())
+{
+hkBool hit=shape->RayCast(input,output);
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(hit))->FUN_005609f0())
+{
+WorldRayCastOutput*aiRecipeIndex=WorldRayCastResultHelper::getNextFreeResult(command,command->m_pResultBuffer,nextFreeResult,output.m_fHitFraction);
+if(aiRecipeIndex)
+{
+output.m_vHitNormal._setRotatedDir(transform.getRotation(),output.m_vHitNormal);
+*aiRecipeIndex=output;
+aiRecipeIndex->m_pRootCollidable=collidable;
+}
+}
+}
+else
+{
+shape->castRayWithCollector(input,*collidable,fixedBufferRayHitCollector);
+}
+}
+}
+if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(command->m_bResultFlag))->FUN_005609f0())
+{
+command->m_iResultCapacity=fixedBufferRayHitCollector.m_iHitCount;
+}
+}
+}
+
+// @fnv 0x00df94b0
+JobDispatcher::JobStatus __cdecl FUN_00df94b0(JobDispatcher&jobQueue,JobDispatcher::JobQueueSlot&nextJobOut)
+{
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::TimerCommand_S*h=reinterpret_cast<StringCursor::TimerCommand_S*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CollQueryShapeRayCast";h->setTime();mStream.setEnd((char*)(h+1));}};
+const WorldRayCastJob&raycastJob=reinterpret_cast<WorldRayCastJob&>(nextJobOut);
+for(int i=0;i<raycastJob.m_iCommandCount;i++)
+{
+hkCpuShapeRayCastJobProcessCommand(raycastJob.m_pCommands[i]);
+}
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::TimerCommand_S*h=reinterpret_cast<StringCursor::TimerCommand_S*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
+return jobQueue.GetNextJob(&nextJobOut,nextJobOut);
+}
+
+int __cdecl FUN_00df3250(int arg);
+
+void FUN_00df3160();
+
+static void FUN_00df3210(__m128* p);
+
+void df3210_caller(void);
+
+static void FUN_00df3170(const unsigned short* src, Dst* d);
+
+void CallerStandIn(Dst* d, const unsigned short* src);
+
+class KdSimdReal
+{
+  public:
+    __forceinline KdSimdReal(float x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline __m128 broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __m128 m_vValue;
+};
+
+class KdVector4
+{
+  public:
+    __forceinline void set(float a, float b, float c, float d)
+    {
+        m_vComponents = _mm_setr_ps(a, b, c, d);
+    }
+    __forceinline void setMul4(const KdVector4& a, const KdVector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setMul4(const KdSimdReal& r, const KdVector4& v1)
+    {
+        m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents);
+    }
+    __forceinline void setAdd4(const KdVector4& a, const KdVector4& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void mul4(const KdVector4& a)
+    {
+        m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents);
+    }
+    __forceinline float& operator()(int a)
+    {
+        return ((float*)&m_vComponents)[a];
+    }
+    __forceinline const float& operator()(int a) const
+    {
+        return ((const float*)&m_vComponents)[a];
+    }
+    __m128 m_vComponents;
+};
+
+class KdVector4Comparison
+{
+  public:
+    enum Mask
+    {
+        MASK_X = 1,
+        MASK_Y = 2,
+        MASK_Z = 4
+    };
+    __forceinline int GetLaneMask() const
+    {
+        return _mm_movemask_ps(m_uiMask);
+    }
+    __m128 m_uiMask;
+};
+
+class KdBool
+{
+  public:
+    __forceinline KdBool(bool b)
+    {
+        m_cBooleanValue = static_cast<char>(b);
+    }
+    __forceinline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+    char m_cBooleanValue;
+};
+
+struct KdProjectedEntry
+{
+    __declspec(align(16)) unsigned short m_kMinimumCorner[3];
+    unsigned short m_usFirstVectorPadding;
+    unsigned short m_kMaximumCorner[3];
+    unsigned short m_usSecondVectorPadding;
+    __forceinline void operator=(const KdProjectedEntry& other)
+    {
+        *(__m128*)this = *(const __m128*)&other;
+    }
+};
+
+struct KdWorkingSet
+{
+    KdProjectedEntry* m_pProjectedEntryBegin;
+    KdProjectedEntry* m_pProjectedEntryEnd;
+};
+
+struct KdSplitResults
+{
+    int m_iFirstSplitValue;
+    int m_iSecondSplitValue;
+    unsigned short m_eLeftSplitType;
+    unsigned short m_eRightSplitType;
+};
+
+namespace KdMath {
+template <typename T> __forceinline T max2(T x, T y)
+{
+    return x > y ? x : y;
+}
+template <typename T> __forceinline T min2(T x, T y)
+{
+    return x < y ? x : y;
+}
+}
+
+static __forceinline __m128 KdToF32(__m128i v)
+{
+    __m128 two16 = _mm_setr_ps(DAT_010cd644, DAT_010cd644, DAT_010cd644, DAT_010cd644);
+    __m128i hi = _mm_srli_epi32(v, 16);
+    __m128i lo = _mm_srli_epi32(_mm_slli_epi32(v, 16), 16);
+    return _mm_add_ps(_mm_mul_ps(_mm_cvtepi32_ps(hi), two16), _mm_cvtepi32_ps(lo));
+}
+
+static __declspec(noinline) void FUN_00df3170(const KdProjectedEntry& bounds, KdVector4& extentOut)
+{
+    __m128i packed = _mm_loadu_si128((const __m128i*)&bounds);
+    __m128i zero = _mm_setzero_si128();
+    __m128 lo = KdToF32(_mm_unpacklo_epi16(packed, zero));
+    __m128 hi = KdToF32(_mm_unpackhi_epi16(packed, zero));
+    extentOut.m_vComponents = _mm_sub_ps(hi, lo);
+}
+
+static __declspec(noinline) void FUN_00df3210(void* dst)
+{
+    __m128 zero = _mm_setzero_ps();
+    __m128* p = (__m128*)dst;
+    p[0] = zero;
+    p[1] = zero;
+    p[2] = zero;
+    p[3] = zero;
+    p[4] = zero;
+    p[5] = zero;
+    p[6] = zero;
+    p[7] = zero;
+}
+__declspec(noinline) int __cdecl FUN_00df3250(unsigned short x)
+{
+    int y = x - 0x100;
+    int n = (y >> 16) & 8;
+    x = (unsigned short)(x << n);
+    y = x - 0x1000;
+    int m = (y >> 16) & 4;
+    n += m;
+    x = (unsigned short)(x << m);
+    y = x - 0x4000;
+    m = (y >> 16) & 2;
+    n += m;
+    x = (unsigned short)(x << m);
+    y = x >> 14;
+    m = y & ~(y >> 1);
+    return n + 2 - m;
+}
+
+int __cdecl FUN_00df33b0(const KdWorkingSet& buffersIn, int startPrimIdx, int endPrimIdx, KdSplitResults& results,
+                         KdWorkingSet& buffersOut, const KdProjectedEntry& bounds);
+
+static __forceinline void KdGetDeltaSurfaceArea(const KdVector4& extent, KdVector4& areaOut, KdVector4& deltaOut)
+{
+    KdVector4 a;
+    a.set(extent(1), extent(2), extent(0), 0.0f);
+    KdVector4 b;
+    b.set(extent(2), extent(0), extent(1), 0.0f);
+    areaOut.setMul4(a, b);
+    KdVector4 c;
+    c.setMul4(0.125f, extent);
+    deltaOut.setAdd4(a, b);
+    deltaOut.mul4(c);
+}
+
+static __forceinline void initializeIterator(const KdProjectedEntry*& it, const KdProjectedEntry* p)
+{
+    it = p;
+}
+
+static __forceinline void reinitializeIterator(const KdProjectedEntry*& it, const KdProjectedEntry* p)
+{
+    it = p;
+}
+
+static __forceinline void initializeIterator(KdProjectedEntry* __restrict& it, KdProjectedEntry* p)
+{
+    it = p;
+}
+
+struct KdTreeBuilder
+{
+    static int __cdecl FUN_00df4ec0(const KdWorkingSet& buffersIn, int startPrimIdx, int endPrimIdx,
+                                    KdSplitResults& results, int& numAvailableEmptyNodes, KdWorkingSet& buffersOut,
+                                    const KdProjectedEntry& bounds, const KdVector4Comparison& allowedEmptySplits);
+};
+
+// @fnv 0x00df4ec0
+int __cdecl KdTreeBuilder::FUN_00df4ec0(const KdWorkingSet& buffersIn, int startPrimIdx, int endPrimIdx,
+                                        KdSplitResults& results, int& numAvailableEmptyNodes, KdWorkingSet& buffersOut,
+                                        const KdProjectedEntry& bounds, const KdVector4Comparison& allowedEmptySplits)
+{
+    const int numPrims = endPrimIdx - startPrimIdx;
+    if (numPrims == 2)
+    {
+        const KdProjectedEntry* readIt;
+        initializeIterator(readIt, buffersIn.m_pProjectedEntryBegin + startPrimIdx);
+        KdProjectedEntry* __restrict writeIt;
+        initializeIterator(writeIt, buffersIn.m_pProjectedEntryEnd + startPrimIdx);
+        KdProjectedEntry pe0 = *readIt;
+        readIt++;
+        KdProjectedEntry pe1 = *readIt;
+        unsigned short size[3];
+        size[0] = (unsigned short)(bounds.m_kMaximumCorner[0] - bounds.m_kMinimumCorner[0]);
+        size[1] = (unsigned short)(bounds.m_kMaximumCorner[1] - bounds.m_kMinimumCorner[1]);
+        size[2] = (unsigned short)(bounds.m_kMaximumCorner[2] - bounds.m_kMinimumCorner[2]);
+        const int axis = size[0] > size[1] ? (size[0] > size[2] ? 0 : 2) : (size[1] > size[2] ? 1 : 2);
+        const int splitIndex = startPrimIdx + 1;
+        if (pe0.m_kMinimumCorner[axis] > pe1.m_kMinimumCorner[axis])
+        {
+            *writeIt = pe1;
+            writeIt++;
+            *writeIt = pe0;
+            writeIt++;
+            results.m_eRightSplitType = pe1.m_kMaximumCorner[axis];
+            results.m_eLeftSplitType = pe0.m_kMinimumCorner[axis];
+        }
+        else
+        {
+            *writeIt = pe0;
+            writeIt++;
+            *writeIt = pe1;
+            writeIt++;
+            results.m_eRightSplitType = pe0.m_kMaximumCorner[axis];
+            results.m_eLeftSplitType = pe1.m_kMinimumCorner[axis];
+        }
+        results.m_iFirstSplitValue = axis;
+        results.m_iSecondSplitValue = splitIndex;
+        buffersOut.m_pProjectedEntryEnd = buffersIn.m_pProjectedEntryBegin;
+        buffersOut.m_pProjectedEntryBegin = buffersIn.m_pProjectedEntryEnd;
+        return 0;
+    }
+    if (numPrims < 8)
+    {
+        return FUN_00df33b0(buffersIn, startPrimIdx, endPrimIdx, results, buffersOut, bounds);
+    }
+
+    const KdProjectedEntry* entriesIn = buffersIn.m_pProjectedEntryBegin;
+    KdVector4 surfaceArea, surfaceDelta;
+    KdVector4 extent;
+    FUN_00df3170(bounds, extent);
+    int splitBin = 0;
+    int splitAxis = 0;
+    KdGetDeltaSurfaceArea(extent, surfaceArea, surfaceDelta);
+    __declspec(align(128)) int minBins[8][4];
+    __declspec(align(128)) int maxBins[8][4];
+    FUN_00df3210(minBins);
+    FUN_00df3210(maxBins);
+    int binShift[4];
+    binShift[0] =
+        KdMath::max2(13 - FUN_00df3250((unsigned short)(bounds.m_kMaximumCorner[0] - bounds.m_kMinimumCorner[0])), 0);
+    binShift[1] =
+        KdMath::max2(13 - FUN_00df3250((unsigned short)(bounds.m_kMaximumCorner[1] - bounds.m_kMinimumCorner[1])), 0);
+    binShift[2] =
+        KdMath::max2(13 - FUN_00df3250((unsigned short)(bounds.m_kMaximumCorner[2] - bounds.m_kMinimumCorner[2])), 0);
+
+    const KdProjectedEntry* readIt;
+    initializeIterator(readIt, entriesIn + startPrimIdx);
+    int step = 1;
+    if (numPrims > 10)
+        step = 2;
+    if (numPrims > 100)
+        step = 3;
+    if (numPrims > 1000)
+        step = 4;
+    if (numPrims > 10000)
+        step = 5;
+
+    for (int i = startPrimIdx; i < endPrimIdx; i += step)
+    {
+        KdProjectedEntry e = *readIt;
+        minBins[(e.m_kMinimumCorner[0] - bounds.m_kMinimumCorner[0]) >> binShift[0]][0]++;
+        maxBins[(e.m_kMaximumCorner[0] - bounds.m_kMinimumCorner[0]) >> binShift[0]][0]++;
+        minBins[(e.m_kMinimumCorner[1] - bounds.m_kMinimumCorner[1]) >> binShift[1]][1]++;
+        maxBins[(e.m_kMaximumCorner[1] - bounds.m_kMinimumCorner[1]) >> binShift[1]][1]++;
+        minBins[(e.m_kMinimumCorner[2] - bounds.m_kMinimumCorner[2]) >> binShift[2]][2]++;
+        maxBins[(e.m_kMaximumCorner[2] - bounds.m_kMinimumCorner[2]) >> binShift[2]][2]++;
+        readIt += step;
+    }
+
+    const int numSamples = (numPrims + step - 1) / step;
+    int bestLeft = numSamples;
+    int bestRight = numSamples;
+    float bestCost = 3.40282e+38f;
+    KdBool allowEmpty = numAvailableEmptyNodes > 1;
+    int masks[3] = {KdVector4Comparison::MASK_X, KdVector4Comparison::MASK_Y, KdVector4Comparison::MASK_Z};
+
+    for (int axis = 0; axis < 3; axis++)
+    {
+        const float delta = surfaceDelta(axis);
+        int numLeft = 0;
+        int numRight = numSamples;
+        float areaLeft = surfaceArea(axis);
+        float areaRight = (float)(delta * 8.0 + surfaceArea(axis));
+        for (int bin = 0; bin < 7; bin++)
+        {
+            numLeft += minBins[bin][axis];
+            numRight -= maxBins[bin][axis];
+            areaLeft += delta;
+            areaRight -= delta;
+            const float cost = numLeft * areaLeft + numRight * areaRight;
+            KdBool valid =
+                (allowEmpty && (allowedEmptySplits.GetLaneMask() & masks[axis]) != 0) || (numLeft > 0 && numRight > 0);
+            if (cost < bestCost && valid)
+            {
+                splitAxis = axis;
+                bestCost = cost;
+                splitBin = bin;
+                bestLeft = numLeft;
+                bestRight = numRight;
+            }
+        }
+    }
+
+    const int splitValue =
+        bounds.m_kMinimumCorner[(short)splitAxis] + (1 << binShift[(short)splitAxis]) * (splitBin + 1);
+    unsigned short rightMin = bounds.m_kMaximumCorner[(short)splitAxis];
+    unsigned short leftMax = bounds.m_kMinimumCorner[(short)splitAxis];
+    KdProjectedEntry* __restrict left;
+    initializeIterator(left, buffersIn.m_pProjectedEntryEnd + startPrimIdx);
+    KdProjectedEntry* __restrict right;
+    initializeIterator(right, buffersIn.m_pProjectedEntryEnd + (endPrimIdx - 1));
+    reinitializeIterator(readIt, entriesIn + startPrimIdx);
+    const KdProjectedEntry* endIt = entriesIn + endPrimIdx;
+    int splitIndex;
+    if (bestLeft >= numSamples && bestRight >= numSamples)
+    {
+        splitIndex = startPrimIdx + (numPrims >> 1);
+        int i;
+        for (i = startPrimIdx; i < splitIndex; i++)
+        {
+            const unsigned short maxE = readIt->m_kMaximumCorner[(short)splitAxis];
+            *left = *readIt;
+            left++;
+            leftMax = KdMath::max2(leftMax, maxE);
+            readIt++;
+        }
+        for (; i < endPrimIdx; i++)
+        {
+            const unsigned short minE = readIt->m_kMinimumCorner[(short)splitAxis];
+            *left = *readIt;
+            left++;
+            rightMin = KdMath::min2(rightMin, minE);
+            readIt++;
+        }
+    }
+    else if (bestLeft >= numSamples)
+    {
+        while (readIt < endIt)
+        {
+            const unsigned short minE = readIt->m_kMinimumCorner[(short)splitAxis];
+            const unsigned short maxE = readIt->m_kMaximumCorner[(short)splitAxis];
+            if (maxE >= splitValue)
+            {
+                *right = *readIt;
+                right--;
+                rightMin = KdMath::min2(rightMin, minE);
+            }
+            else
+            {
+                *left = *readIt;
+                left++;
+                leftMax = KdMath::max2(leftMax, maxE);
+            }
+            readIt++;
+        }
+        splitIndex = (int)(left - buffersIn.m_pProjectedEntryEnd);
+    }
+    else
+    {
+        while (readIt < endIt)
+        {
+            const unsigned short minE = readIt->m_kMinimumCorner[(short)splitAxis];
+            const unsigned short maxE = readIt->m_kMaximumCorner[(short)splitAxis];
+            if (minE >= splitValue)
+            {
+                *right = *readIt;
+                right--;
+                rightMin = KdMath::min2(rightMin, minE);
+            }
+            else
+            {
+                *left = *readIt;
+                left++;
+                leftMax = KdMath::max2(leftMax, maxE);
+            }
+            readIt++;
+        }
+        splitIndex = (int)(left - buffersIn.m_pProjectedEntryEnd);
+    }
+
+    if (splitIndex == startPrimIdx || splitIndex == endPrimIdx)
+    {
+        numAvailableEmptyNodes -= 2;
+    }
+    results.m_eLeftSplitType = rightMin;
+    results.m_eRightSplitType = leftMax;
+    results.m_iSecondSplitValue = splitIndex;
+    results.m_iFirstSplitValue = splitAxis;
+    buffersOut.m_pProjectedEntryEnd = buffersIn.m_pProjectedEntryBegin;
+    buffersOut.m_pProjectedEntryBegin = buffersIn.m_pProjectedEntryEnd;
+    return 0;
 }
 
 #include "generated/data/staging/blk_00de0000_o2.inc"

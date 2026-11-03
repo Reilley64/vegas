@@ -2798,6 +2798,22 @@ void Owner::FUN_00dcb460(unsigned int i)
 
 #include <stdlib.h>
 #include "fnv/symbols_simd.h"
+#include "fnv/decl/FUN_00d4dfc0.h"
+#include "fnv/decl/FUN_00dd8350_Alloc.h"
+#include "fnv/symbols_00cbf000.h"
+#include "fnv/symbols_00dc5000.h"
+#include "fnv/symbols_00dce000.h"
+#include "fnv/symbols_00dcf000.h"
+#include "fnv/symbols_00dd1000.h"
+#include "fnv/symbols_00dd4000.h"
+#include "fnv/symbols_00dd6000.h"
+#include "fnv/symbols_00dd7000.h"
+#include "fnv/symbols_00ddf000.h"
+#include "fnv/decl/FUN_00dd9270_cls.h"
+#include "fnv/decl/FUN_00dd92f0_cls.h"
+#include "fnv/decl/hkLargeBlockAllocatorDD8.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 // Text reader: read the next number as a double.
 
 class DCC5E0Stream
@@ -3509,6 +3525,634 @@ static __declspec(noinline) V FUN_00dd3020(V B, V A, V C, V O, Wrap E, V D, V M1
 void call_interleave(V B, V A, V C, V O, Wrap E, V D, V M1, V M2)
 {
     FUN_00dd3020(B, A, C, O, E, D, M1, M2);
+}
+
+void __cdecl FUN_00dccae0(void* a, void* iValue);
+
+void __cdecl FUN_00dccb10(char* p);
+
+// VEGAS17-CONFLICT: D2B3D0Map (variant definition below differs from the one above)
+struct D2B3D0Map
+{
+    void clear();
+};
+
+int FUN_00dc1660(int a1);
+
+int* __cdecl FUN_00dccb00();
+
+int* __cdecl FUN_00dccb30();
+
+int __cdecl FUN_00dced40();
+
+// VEGAS17-CONFLICT: FUN_00d4dfc0_class (variant definition below differs from the one above)
+struct FUN_00d4dfc0_class
+{
+};
+
+// VEGAS17-CONFLICT: Lock_dd9 (variant definition below differs from the one above)
+struct Lock_dd9
+{
+    int unk;
+    int unkCur;
+    int unkValue;
+    int unk0c;
+    int uNewnk;
+    int uTmpnk;
+    int* m_pkCriticalSection;
+    int FUN_00dd9330(int iKey, int iArg);
+};
+
+static unsigned short FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader);
+
+void __cdecl FUN_00dccb20();
+
+void __cdecl FUN_00dccb40();
+
+static void FUN_00dd8fd0(unsigned char* a, unsigned char* b);
+
+void Caller(unsigned char* a);
+
+static float FUN_00dcc3b0(int arg);
+
+float stub_caller(void);
+
+int FUN_00dc1be0();
+
+static void SkipWhitespace(TokenReader* stream);
+
+void MatchCaller();
+
+CpuOpaque* __cdecl FUN_00dccb50();
+
+static int FUN_00dd3120(const __m128* self, OW other, const __m128* a);
+
+volatile int g_s, g_a, g_o, g_r;
+
+void mask_test_caller();
+
+static void CopyFloatsFromBytes(float* dst, const unsigned char* src);
+
+void caller();
+
+static void StoreBigEndian(BEStoreTarget* self, unsigned int value);
+
+void be_store_caller(BEStoreTarget* self);
+
+double FUN_00ecdf2d(const char* s, char** end);
+
+static float FUN_00dcc3b0(TokenReader* stream);
+
+float MatchCaller(TokenReader* s);
+
+void FUN_00dccb60(int value);
+
+static void FactorTridiagonal(int numConstraints, float cfm, S00dd0ff0_Jacobian* jac,
+                              S00dd0ff0_AccumulatorOffset* accumsOffsets,
+                              const S00dd0ff0_VelocityAccumulator* accumsBase, S00dd0ff0_Triple* triple,
+                              int bufferSize);
+
+volatile int g_S00dd0ff0_n;
+
+void S00dd0ff0_Caller();
+
+static V FUN_00dd3020(V B, V A, V C, V O, Wrap E, V D, V M1, V M2);
+
+void call_interleave(V B, V A, V C, V O, Wrap E, V D, V M1, V M2);
+
+struct S00dcfec0_SimdReal
+{
+    __m128 m_vValue;
+    __forceinline S00dcfec0_SimdReal(float x) : m_vValue(_mm_load_ss(&x))
+    {}
+    __forceinline S00dcfec0_SimdReal(__m128 r) : m_vValue(r)
+    {}
+    __forceinline operator float() const
+    {
+        float s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+};
+
+struct S00dcfec0_V
+{
+    __m128 m_vComponents;
+
+    template <int I> __forceinline S00dcfec0_V permuted() const
+    {
+        S00dcfec0_V r;
+        r.m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, I);
+        return r;
+    }
+    __forceinline void permuteC()
+    {
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xc9);
+    }
+    __forceinline void permuteD()
+    {
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xd2);
+    }
+    __forceinline S00dcfec0_V operator*(const S00dcfec0_V& other) const
+    {
+        S00dcfec0_V r;
+        r.m_vComponents = _mm_mul_ps(m_vComponents, other.m_vComponents);
+        return r;
+    }
+    __forceinline S00dcfec0_V operator-(const S00dcfec0_V& other) const
+    {
+        S00dcfec0_V r;
+        r.m_vComponents = _mm_sub_ps(m_vComponents, other.m_vComponents);
+        return r;
+    }
+
+    __forceinline void setSum(const S00dcfec0_V& a, const S00dcfec0_V& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline S00dcfec0_SimdReal length() const
+    {
+        return _mm_sqrt_ss(dot3(*this).m_vValue);
+    }
+    __forceinline void scale(const S00dcfec0_SimdReal& x)
+    {
+        m_vComponents = _mm_mul_ps(_mm_shuffle_ps(x.m_vValue, x.m_vValue, 0), m_vComponents);
+    }
+
+    __forceinline S00dcfec0_V()
+    {}
+    __forceinline S00dcfec0_V(const S00dcfec0_V& v) : m_vComponents(v.m_vComponents)
+    {}
+    __forceinline void operator=(const S00dcfec0_V& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline S00dcfec0_SimdReal dot3(const S00dcfec0_V& b) const
+    {
+        __m128 m = _mm_mul_ps(m_vComponents, b.m_vComponents);
+        __m128 y = _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m);
+        return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), y);
+    }
+    __forceinline void crossFirst(const S00dcfec0_V& v0, const S00dcfec0_V& v1)
+    {
+        *this = v0.permuted<0xc9>() * v1.permuted<0xd2>() - v0.permuted<0xd2>() * v1.permuted<0xc9>();
+    }
+    __forceinline void crossSecond(const S00dcfec0_V& v0, const S00dcfec0_V& v1)
+    {
+        __m128 y = v1.m_vComponents;
+        __m128 x = v0.m_vComponents;
+        __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(x, x, 0xc9), _mm_shuffle_ps(y, y, 0xd2));
+        __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(x, x, 0xd2), _mm_shuffle_ps(y, y, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+};
+
+struct S00dcfec0_Basis
+{
+    S00dcfec0_V cols[3];
+    __forceinline S00dcfec0_V& column(int i)
+    {
+        return cols[i];
+    }
+};
+
+// @fnv 0x00dcfec0
+void __cdecl FUN_00dcfec0(const S00dcfec0_V& a, const S00dcfec0_V& b, const S00dcfec0_V& c, const S00dcfec0_V& d,
+                          S00dcfec0_V& out, float& outAngle)
+{
+    S00dcfec0_V axis;
+    axis.setSum(b, a);
+    float len = axis.length();
+    if (len > (double)1e-16f)
+    {
+        axis.scale(1.0f / len);
+    }
+    else
+    {
+        axis = b;
+    }
+    S00dcfec0_Basis basis;
+    {
+        S00dcfec0_V& first = basis.column(0);
+        S00dcfec0_V& second = basis.column(1);
+        S00dcfec0_V& third = basis.column(2);
+        first = axis;
+        second.crossFirst(axis, d);
+        third.crossSecond(second, first);
+    }
+    float dr = basis.column(1).dot3(c);
+    float dq = basis.column(2).dot3(c);
+    float angle = Atan2(dr, dq);
+    outAngle = angle;
+    out = axis;
+}
+
+struct LargestBlockDD8D
+{
+};
+
+struct AllocatorStatisticsDD8D
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+    int m_48;
+    int m_4c;
+    int m_50;
+    int m_54;
+    int m_58;
+    int m_5c;
+    int m_60;
+    int m_64;
+    int m_68;
+    int m_6c;
+    int m_70;
+    int m_74;
+    int m_78;
+    int m_7c;
+    int m_80;
+    int m_84;
+    int m_88;
+    int m_8c;
+    int m_90;
+    int m_94;
+    int m_98;
+    int m_9c;
+    int m_a0;
+    int m_a4;
+    int m_a8;
+    int m_ac;
+    int m_b0;
+    int m_b4;
+    int m_b8;
+    int m_bc;
+    int m_c0;
+    void FUN_00dd8d70(unsigned int* out);
+};
+
+// @fnv 0x00dd8d70
+void AllocatorStatisticsDD8D::FUN_00dd8d70(unsigned int* out)
+{
+    out[0] = ((FUN_00dd8c20_class*)this)->SumListValues();
+    out[1] = (unsigned int)m_c0;
+    out[3] = out[0] - (unsigned int)m_c0;
+    out[5] = (unsigned int)reinterpret_cast<::FUN_00dd8350_Alloc *>((((LargestBlockDD8D*)this)))->FUN_00dd8350();
+    out[4] = 0;
+}
+
+// VEGAS17-CONFLICT: FUN_00cb0a70 (variant definition below differs from the one above)
+struct FUN_00cb0a70
+{
+};
+
+void __cdecl FUN_00dccae0(void* a, void* b);
+
+static __declspec(noinline) __int64 FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader)
+{
+    *ok = 0;
+    SkipWhitespace();
+    return reader->unk08;
+}
+
+struct S_00dcc820_Class
+{
+    unsigned int m_00;
+    unsigned int m_04;
+    S_00dcc240_Reader* m_08;
+
+    S_00dcc820_Class* FUN_00dcc820(int* result);
+};
+
+// @fnv 0x00dcc820
+S_00dcc820_Class* S_00dcc820_Class::FUN_00dcc820(int* result)
+{
+    unsigned char ok;
+    int value = FUN_00dcc240(&ok, m_08);
+
+    *result = ok ? -value : value;
+    return this;
+}
+
+struct Stream285
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual int Read(char*, int);
+    virtual void Advance(int);
+    virtual void slot6();
+    virtual void BeginPeek(int);
+    virtual void EndPeek();
+};
+
+inline bool Space285(char c)
+{
+    return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+}
+
+static __declspec(noinline) void SkipWhitespace285(Stream285* stream)
+{
+    char buffer[64];
+    stream->BeginPeek(64);
+    int count = stream->Read(buffer, 64);
+    while (count)
+    {
+        int i = 0;
+        for (; i < count; ++i)
+            if (!Space285(buffer[i]))
+            {
+                stream->EndPeek();
+                stream->Advance(i);
+                return;
+            }
+        stream->BeginPeek(64);
+        count = stream->Read(buffer, 64);
+    }
+}
+
+struct Reader285
+{
+    int unk00, unk04;
+    Stream285* stream;
+    Reader285* FUN_00dcc4a0(bool* value);
+};
+
+// @fnv 0x00dcc4a0
+Reader285* Reader285::FUN_00dcc4a0(bool* value)
+{
+    SkipWhitespace285(stream);
+    char buffer[6];
+    stream->BeginPeek(6);
+    int count = stream->Read(buffer, 6);
+    if (count >= 4 && FUN_00cb0fd0(buffer, "true", 4) == 0 && (count == 4 || Space285(buffer[4])))
+    {
+        *value = true;
+        stream->EndPeek();
+        stream->Advance(4);
+        return this;
+    }
+    if (count >= 5 && FUN_00cb0fd0(buffer, "false", 4) == 0 && (count == 5 || Space285(buffer[5])))
+    {
+        *value = false;
+        stream->EndPeek();
+        stream->Advance(5);
+        return this;
+    }
+    stream->EndPeek();
+    return this;
+}
+
+// @fnv 0x00dd2fb0
+static __declspec(noinline) bool FUN_00dd2fb0(const __m128* a, const __m128* b)
+{
+    __m128 r = _mm_or_ps(_mm_andnot_ps(*a, DAT_010ce1c0), *b);
+    return _mm_movemask_ps(r) == 15;
+}
+
+volatile int g_in0, g_in1;
+
+volatile int g_out;
+
+void caller_dd2fb0()
+{
+    g_out = FUN_00dd2fb0((const __m128*)g_in0, (const __m128*)g_in1);
+}
+
+struct Comparison4
+{
+    __m128 value;
+};
+
+// @fnv 0x00dd31b0
+static __declspec(noinline) Comparison4 FUN_00dd31b0(const __m128* l, const __m128* r)
+{
+    Comparison4 result;
+    result.value = _mm_cmplt_ps(_mm_mul_ps(*l, *r), _mm_setzero_ps());
+    return result;
+}
+
+extern const __m128 g_a, g_b;
+
+void hcaller(const __m128* ca, const __m128* cb, __m128* cd)
+{
+    *cd = FUN_00dd31b0(ca, cb).value;
+}
+
+static bool FUN_00dd2fb0(const __m128* a, const __m128* b);
+
+volatile int g_in0, g_in1;
+
+void caller_dd2fb0();
+
+static Comparison4 FUN_00dd31b0(const __m128* l, const __m128* r);
+
+void hcaller(const __m128* ca, const __m128* cb, __m128* cd);
+
+extern "C" void _ReadWriteBarrier(void);
+
+extern "C" void _WriteBarrier(void);
+
+extern "C" void _ReadBarrier(void);
+
+struct VectorComponentValue
+{
+    __m128 m;
+    VectorComponentValue(float f)
+    {
+        m = _mm_set_ss(f);
+    }
+};
+
+inline __m128 bcast(const VectorComponentValue& r)
+{
+    return _mm_shuffle_ps(r.m, r.m, 0);
+}
+
+struct hkVector4
+{
+    union
+    {
+        __m128 m_vComponents;
+        float m_q[4];
+    };
+    __m128& q()
+    {
+        return m_vComponents;
+    }
+    const __m128& q() const
+    {
+        return m_vComponents;
+    }
+    void setZero4()
+    {
+        q() = _mm_setzero_ps();
+    }
+    void setSub4(const hkVector4& a, const hkVector4& b)
+    {
+        q() = _mm_sub_ps(a.q(), b.q());
+    }
+    void mul4(const float& s)
+    {
+        __m128 t = _mm_load_ss(&s);
+        q() = _mm_mul_ps(_mm_shuffle_ps(t, t, 0), q());
+    }
+    void setSubMul(const hkVector4& a, const hkVector4& b, const VectorComponentValue& s)
+    {
+        q() = _mm_mul_ps(_mm_shuffle_ps(s.m, s.m, 0), _mm_sub_ps(a.q(), b.q()));
+    }
+    void setMul4(const VectorComponentValue& s, const hkVector4& a)
+    {
+        q() = _mm_mul_ps(_mm_shuffle_ps(s.m, s.m, 0), a.q());
+    }
+    void mul4s(const VectorComponentValue& s)
+    {
+        q() = _mm_mul_ps(_mm_shuffle_ps(s.m, s.m, 0), q());
+    }
+    void scale(const __m128& s)
+    {
+        q() = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), q());
+    }
+    void operator=(const hkVector4& v)
+    {
+        q() = v.q();
+    }
+};
+
+struct hkBool
+{
+    char m_cBooleanValue;
+    hkBool()
+    {}
+    hkBool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+};
+
+struct MoppCodeInfo
+{
+    hkVector4 m_offset;
+};
+
+struct MoppCode
+{
+    int m_00, m_04, m_08, m_0c;
+    MoppCodeInfo m_info;
+    const unsigned char* m_data;
+};
+
+struct RayInput
+{
+    hkVector4 m_vFrom;
+    hkVector4 m_vTo;
+    unsigned int m_uiFilterInfo;
+    const void* m_pRayShapeCollectionFilter;
+};
+
+struct MachineVectorIndexRecord
+{
+    hkVector4 m_offset;
+    int m_iIndex;
+    float m_FtoBoxScale;
+    unsigned int m_uiPropertyCount;
+    unsigned int m_kProperties[1];
+};
+
+struct Vector4Pair
+{
+    hkVector4 m_kPointBundles[2];
+};
+
+struct RayCollector
+{
+    int unk00;
+    float m_fEarlyOutHitFraction;
+};
+
+struct LongRayQueryFloat;
+
+struct LongRayQueryInt;
+
+struct LongRayVm
+{
+    int m_00, m_04, m_08, m_0c;
+    const MoppCode* m_pMoppCode;
+    float m_vRayDirectionVector;
+    int m_18, m_1c;
+    RayInput m_kRayCastVector;
+    hkBool m_bRayCastEnabled;
+    float m_fEarlyOutHitFraction;
+    void* m_rayResult;
+    RayCollector* m_kCollector;
+    const void* m_kCollisionBody;
+    const void* m_pShapeCollection;
+    int m_iCurrentChunkId;
+    __declspec(noinline) void FUN_00dd1f30(const MachineVectorIndexRecord* query, const unsigned char* PC,
+                                           Vector4Pair* fq, int level);
+    void FUN_00dd2ed0(const void* collection, const MoppCode* code, const RayInput& input, const void* body,
+                      RayCollector* collector);
+public:
+    void FUN_00dd1f30(const ::LongRayQueryInt *, const unsigned char *, ::LongRayQueryFloat *, int);
+};
+
+// @fnv 0x00dd2ed0
+void LongRayVm::FUN_00dd2ed0(const void* collection, const MoppCode* code, const RayInput& input, const void* body,
+                             RayCollector* collector)
+{
+    m_pShapeCollection = collection;
+    m_kCollector = collector;
+    m_kCollisionBody = body;
+    m_rayResult = 0;
+    m_fEarlyOutHitFraction = collector->m_fEarlyOutHitFraction;
+    m_pMoppCode = code;
+    const unsigned char* PC = m_pMoppCode->m_data;
+
+    MachineVectorIndexRecord query;
+    query.m_offset.setZero4();
+    m_vRayDirectionVector = 1.0f / m_pMoppCode->m_info.m_offset.m_q[3];
+    query.m_FtoBoxScale = (float)(code->m_info.m_offset.m_q[3] * (1.0 / 65536.0));
+
+    {
+        Vector4Pair fq;
+        fq.m_kPointBundles[0].setSub4(input.m_vFrom, code->m_info.m_offset);
+        fq.m_kPointBundles[1].setSub4(input.m_vTo, code->m_info.m_offset);
+        __m128 s1 = _mm_load_ss(&query.m_FtoBoxScale);
+        __m128 s2 = _mm_load_ss(&query.m_FtoBoxScale);
+        fq.m_kPointBundles[0].scale(s1);
+        fq.m_kPointBundles[1].scale(s2);
+        m_kRayCastVector = input;
+        m_bRayCastEnabled = false;
+
+        query.m_uiPropertyCount = 0;
+        query.m_iIndex = 0;
+        query.m_kProperties[0] = 0;
+        m_iCurrentChunkId = (*PC == 0xd) ? -1 : 0;
+        reinterpret_cast<::LongRayVm *>(this)->FUN_00dd1f30((const ::LongRayQueryInt *)(const ::MachineVectorIndexRecord *)(&query), PC, (::LongRayQueryFloat *)(::Vector4Pair *)(&fq), 0);
+    }
+}
+
+extern void consumeRay(LongRayVm*, const MachineVectorIndexRecord*, float, float, unsigned int, int);
+
+void LongRayVm::FUN_00dd1f30(const MachineVectorIndexRecord* query, const unsigned char* PC, Vector4Pair* fq, int level)
+{
+    consumeRay(this, query, fq->m_kPointBundles[0].m_q[0], fq->m_kPointBundles[1].m_q[0],
+               query->m_uiPropertyCount + *PC, level);
 }
 
 #include "generated/data/staging/blk_00dc0000_o2.inc"

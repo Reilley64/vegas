@@ -83,6 +83,29 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/ArrayClass.h"
+#include "fnv/decl/BufferRequirements.h"
+#include "fnv/decl/Destination.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/FUN_00d4a180.h"
+#include "fnv/decl/FUN_00da2560.h"
+#include "fnv/decl/FUN_00dd4b10_struct.h"
+#include "fnv/decl/FUN_00dd4b40_Class.h"
+#include "fnv/decl/MoppBuilder.h"
+#include "fnv/decl/fnv_00d4ba30__FUN_00d4ba30.h"
+#include "fnv/decl/fnv_00d549d0__DummyClass.h"
+#include "fnv/symbols_00d3f000.h"
+#include "fnv/symbols_00d46000.h"
+#include "fnv/symbols_00d47000.h"
+#include "fnv/symbols_00d49000.h"
+#include "fnv/symbols_00d4b000.h"
+#include "fnv/symbols_00d4d000.h"
+#include "fnv/symbols_00d50000.h"
+#include "fnv/symbols_00d51000.h"
+#include "fnv/symbols_00d54000.h"
+#include "fnv/symbols_00d57000.h"
+#include "fnv/symbols_00dd4000.h"
+#include "fnv/symbols_010d0000.h"
 
 struct FUN_00c9ce00_cls
 {
@@ -6969,6 +6992,808 @@ FUN_00d54de0::FUN_00d54de0()
     MoppInputSetBool(m_flag1F, true);
     MoppInputSetBool(m_flag20, false);
     MoppInputSetBool(m_flag1E, false);
+}
+
+void __cdecl FUN_00d400f0(void* apObject);
+
+void __cdecl FUN_00d4b250(FUN_00d4b250_vt* p);
+
+void __cdecl FUN_00d4be50(FUN_00d4be50_vt* p);
+
+void __cdecl FUN_00d4b1f0(FUN_00d4b1f0_vt* p);
+
+void __cdecl FUN_00d4bf30(FUN_00d4bf30_vt* p);
+
+const char* const* __cdecl FUN_00d4bf60();
+
+int __cdecl DispatchToType1dNodes(FNVDispatchNode* pNodeA, FNVDispatchNode* pNodeB, int iCode);
+
+void* __cdecl FUN_00d48340();
+
+// VEGAS17-CONFLICT: KeyTemp (variant definition below differs from the one above)
+// InitAndCall: cdecl, 5 stack args. Builds a 12-byte temp from (a1, a2),
+// reads a field of the temp's returned pointer, calls a 4-arg cdecl helper,
+// then disposes the temp and returns the helper result.
+struct KeyTemp
+{
+    unsigned int m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+    KeyTemp* Init(void* a, void* b);
+};
+
+void* __cdecl InitAndCall(void* volatile a1, void* volatile a2, void* volatile a3, void* volatile a4,
+                          void* volatile a5);
+
+int* __cdecl FUN_00d49520();
+
+int __cdecl FUN_00d49590();
+
+void* __cdecl FUN_00d4b1c0();
+
+int __cdecl FUN_00d4b220();
+
+// VEGAS17-CONFLICT: FUN_00d4a180_cls (variant definition below differs from the one above)
+// Forwarding helper: if the object pointer is valid, pass the second
+// argument on to the object's own handler.
+struct FUN_00d4a180_cls
+{
+};
+
+int* __cdecl FUN_00d4b280();
+
+void* __cdecl FUN_00d4b2a0();
+
+void* __cdecl FUN_00d4b2c0();
+
+void __cdecl FUN_00d4b2d0(FUN_00d4b2d0_cls* pObject, int aiValue);
+
+void* __cdecl FUN_00d4b2f0();
+
+void* FUN_00d4b350();
+
+void __cdecl FUN_00d4b380(TailTarget* pTarget);
+
+int* FUN_00d4be80();
+
+// VEGAS17-CONFLICT: FUN_00d4ba30_class (variant definition below differs from the one above)
+struct FUN_00d4ba30_class
+{
+};
+
+void* __cdecl FUN_00d4bee0();
+
+void* __cdecl FUN_00d4bf00();
+
+void ComputeByteScale(int bits);
+
+// VEGAS17-CONFLICT: CallTarget_00d5ecc0 (variant definition below differs from the one above)
+struct CallTarget_00d5ecc0
+{
+};
+
+// VEGAS17-CONFLICT: SearchObject (variant definition below differs from the one above)
+struct SearchObject
+{
+    int Search(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+public:
+    int Search_00d5ed80(unsigned int, unsigned int, unsigned int, unsigned int);
+};
+
+void __cdecl ResizeAudioStream(void*, void*, int);
+
+void __cdecl FUN_00c908c0(D53970Alloc* alloc, D53970Array* arr, int n, int elemSize);
+
+inline void D53970Array::Reserve(D53970Alloc& alloc, int n)
+{
+    if (GetCapacity() < n)
+    {
+        int cap2 = 2 * GetCapacity();
+        int newSize = (n < cap2) ? cap2 : n;
+        FUN_00c908c0(&alloc, this, newSize, 4);
+    }
+}
+
+void __cdecl ResizeAudioStream(void*, void*, int);
+
+namespace d51 {
+template <class T> struct hkArray
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    void AddBack(const T& e)
+    {
+        AllocHolder* a = FUN_00c85750();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ResizeAudioStream(a->m_pAllocator, this, sizeof(T));
+        new (&m_data[m_iElementCount], PlaceTag()) T(e);
+        m_iElementCount++;
+    }
+};
+struct Writer
+{
+    int unk;
+    int m_iBytes;
+    int m_iArrayLength;
+    int m_iCount2;
+    char pad[0x1c - 0x10];
+    hkArray<int> m_kArr;
+    void Add()
+    {
+        m_iArrayLength++;
+        m_iCount2++;
+        m_iBytes += 0x30;
+    }
+};
+struct Owner
+{
+    int unk;
+    Writer* m_pkWriter;
+    void AppendPairAndAdvance(int v);
+};
+// Appends 0xc and v to the writer's int array, then calls Add twice to advance the writer's counters and byte count.
+// @fnv 0x00d51ef0
+void Owner::AppendPairAndAdvance(int aiValue)
+{
+    m_pkWriter->m_kArr.AddBack(0xc);
+    m_pkWriter->m_kArr.AddBack(aiValue);
+    m_pkWriter->Add();
+    m_pkWriter->Add();
+}
+}
+
+void FUN_00d42760();
+
+int FUN_00d46e00(int arg0);
+
+int FUN_00d46e10(int arg0);
+
+void __cdecl FUN_00d47f40(FUN_00d48300_Obj* obj, int aiValue);
+
+GlobalObjectO2_00d472a0* __cdecl FUN_00d47f60();
+
+void __cdecl FUN_00d47f70(FnvCpu_FUN_00d47f70_CpuTarget* pCpuTarget, int value);
+
+void __cdecl FUN_00d47fa0(void* obj);
+
+void __cdecl FUN_00d47fd0(FUN_00d47fe0_cls* object);
+
+void* __cdecl FUN_00d491b0(void* pvSource, void* pvArg, void* pvArgCur, void* kvArg);
+
+void FUN_00d4b150();
+
+void __cdecl FUN_00d4b290();
+
+void __cdecl FUN_00d4b2b0();
+
+void FUN_00d4b360();
+
+void FUN_00d4b370();
+
+void FUN_00d4bef0();
+
+void __cdecl FUN_00c908c0(hkMemoryAllocatorD539& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+
+// VEGAS17-CONFLICT: hkArrayD539 (variant definition below differs from the one above)
+template <class T> class hkArrayD539
+{
+  public:
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline void reserve(hkMemoryAllocatorD539& kAlloc, int n)
+    {
+        const int iCap = getCapacity();
+        if (iCap < n)
+        {
+            int iCap2 = 2 * iCap;
+            int iNewCap = (n < iCap2) ? iCap2 : n;
+            FUN_00c908c0(kAlloc, this, iNewCap, sizeof(T));
+        }
+    }
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        reserve(hkRouterD539::FUN_00c85750().heap(), n);
+        m_iElementCount = n;
+    }
+};
+
+// VEGAS17-CONFLICT: hkVectorD541 (variant definition below differs from the one above)
+struct hkVectorD541
+{
+    float m_uiX;
+    float m_uiY;
+    float m_uiZ;
+    float m_w;
+
+};
+
+void __cdecl FUN_00d55510();
+
+void FUN_00d57150();
+
+int FUN_00d584f0(int iUnused0, int iUnused1);
+
+// VEGAS17-CONFLICT: hkReferencedObject (variant definition below differs from the one above)
+class hkReferencedObject
+{
+  public:
+    void removeReference() throw();
+};
+
+__declspec(noinline) static int Hk48fc0_ReadTagfile(Hk48fc0_Data* pObj, void* pError, void* pStream, void* pAllocator)
+{
+    Hk48fc0_Contents kBuf;
+    FUN_00dc5d50(&kBuf, &pStream, pObj);
+    if (pError)
+    {
+        if (FUN_00d48950(pObj, pError, DAT_01269b70, pAllocator) == 0)
+        {
+            return 1;
+        }
+    }
+    kBuf.FUN_00dba0d0(pObj, pAllocator);
+    return 0;
+}
+__declspec(noinline) static void* Hk48fc0_LoadPackfile(void* pAllocator, void* pStream, Hk48fc0_Format* pFormat,
+                                                       void* pError, void* pLoader)
+{
+    if (pAllocator == 0)
+    {
+        return 0;
+    }
+    FUN_00dc5d50(pAllocator, &pStream, &pFormat);
+    return ((void *)(::FUN_00dc32c0(&pError, &pLoader, 0)));
+}
+
+void* __cdecl FUN_00d48fc0(void* pStream, void* pError, void* pAllocator, void* pLoader);
+
+static int FUN_00d49c20(d20base* self, int sel);
+
+int d20_probe(void);
+
+static int FUN_00d4b390(int base, int code);
+
+void elem_size_case_d4b390(void);
+
+// VEGAS17-CONFLICT: FUN_00dd0420_Class (variant definition below differs from the one above)
+class FUN_00dd0420_Class
+{
+  public:
+
+    int unk00;
+};
+
+// VEGAS17-CONFLICT: hkArrayUtilD53 (variant definition below differs from the one above)
+struct hkArrayUtilD53
+{
+    static void __cdecl GrowArrayCapacity(hkMemoryAllocatorD53& kAlloc, void* apvArray, int iNumElements,
+                                          int iSizeElem);
+};
+
+// VEGAS17-CONFLICT: hkArrayD53 (variant definition below differs from the one above)
+template <typename T> struct hkArrayD53
+{
+    hkArrayD53() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline ~hkArrayD53()
+    {
+        hkMemoryAllocatorD53& kAlloc = GetMemoryRouterD53().heap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    void clear()
+    {
+        m_iElementCount = 0;
+    }
+    __forceinline void reserve(hkMemoryAllocatorD53& kAlloc, int n)
+    {
+        const int iCap = getCapacity();
+        if (iCap < n)
+        {
+            int iCap2 = 2 * iCap;
+            int iNewSize = (n < iCap2) ? iCap2 : n;
+            hkArrayUtilD53::GrowArrayCapacity(kAlloc, this, iNewSize, sizeof(T));
+        }
+    }
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        reserve(GetMemoryRouterD53().heap(), n);
+        m_iElementCount = n;
+    }
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+
+static char* FUN_00d48420(char* p);
+
+volatile char* g_d48420_p;
+
+char* d48420_caller();
+
+void __cdecl ResizeAudioStream(void* mem, void* array, int sizeOfElement);
+
+// VEGAS17-CONFLICT: hkArray_d51b (variant definition below differs from the one above)
+template <class T> struct hkArray_d51b
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    void AddBack(const T& t)
+    {
+        AllocHolder* router = FUN_00c85750();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ResizeAudioStream(router->m_pAllocator, this, sizeof(T));
+        T* p = &m_data[m_iElementCount];
+        __assume(p != 0);
+        new (p) T(t);
+        m_iElementCount++;
+    }
+};
+
+// VEGAS17-CONFLICT: hkRefPtrD47F (variant definition below differs from the one above)
+template <class T> class hkRefPtrD47F
+{
+  public:
+    T* m_pRetainedObject;
+    ~hkRefPtrD47F()
+    {
+        if (m_pRetainedObject)
+            m_pRetainedObject->removeReference();
+        m_pRetainedObject = 0;
+    }
+};
+
+static void FUN_00d409b0(S* dst, S* src, int b, int c);
+
+volatile S* g_dst;
+
+void caller();
+
+// VEGAS17-CONFLICT: hkpRagdollDataS (variant definition below differs from the one above)
+struct hkpRagdollDataS : hkpConstraintDataS
+{
+};
+
+struct RecordVector
+{
+    union
+    {
+        __m128 quad;
+        float component[4];
+    };
+    __forceinline void set(float x, float y, float z, float w)
+    {
+        quad = _mm_setr_ps(x, y, z, w);
+    }
+    __forceinline RecordVector()
+    {}
+    __forceinline RecordVector(const RecordVector& other)
+    {
+        quad = other.quad;
+    }
+    __forceinline void operator=(const RecordVector& other)
+    {
+        quad = other.quad;
+    }
+};
+
+template <class T> __forceinline void CopyItems(T* destination, int count, const T& item)
+{
+    for (int i = 0; i < count; ++i)
+        destination[i] = item;
+}
+
+template <class T> struct RecordQueue
+{
+    T* data;
+    int count;
+    int capacity;
+    __forceinline int GetLogicalSize() const
+    {
+        return count;
+    }
+    __forceinline void AddBack(const T& item)
+    {
+        AllocHolder* arena = FUN_00c85750();
+        if (count == (capacity & 0x3fffffff))
+            ResizeAudioStream(arena->m_pAllocator, this, sizeof(T));
+        CopyItems(data + count, 1, item);
+        ++count;
+    }
+};
+
+struct ConstraintState
+{
+    int unk00, unk04, unk08, unk0C;
+    RecordQueue<RecordVector> values;
+    RecordQueue<int> events;
+};
+
+struct ConstraintBuilder
+{
+    int unk00;
+    ConstraintState* state;
+    int count;
+    int FUN_00d52ae0(float value);
+};
+
+// @fnv 0x00d52ae0
+int ConstraintBuilder::FUN_00d52ae0(float value)
+{
+    ++count;
+    state->events.AddBack(0x16);
+    RecordVector record;
+    record.set(value, 0.0f, 0.0f, 0.0f);
+    int result = state->values.GetLogicalSize();
+    state->values.AddBack(record);
+    return result;
+}
+
+struct Scalar380
+{
+    __m128 value;
+    Scalar380(float scalar)
+    {
+        value = _mm_load_ss(&scalar);
+    }
+    __m128 Broadcast() const
+    {
+        return _mm_shuffle_ps(value, value, 0);
+    }
+};
+
+struct Vector380
+{
+    __m128 value;
+    void SetSub(const Vector380& a, const Vector380& b)
+    {
+        value = _mm_sub_ps(a.value, b.value);
+    }
+    void SetAdd(const Vector380& a, const Vector380& b)
+    {
+        value = _mm_add_ps(a.value, b.value);
+    }
+    void Multiply(const Scalar380& scalar)
+    {
+        value = _mm_mul_ps(scalar.Broadcast(), value);
+    }
+};
+
+struct Bounds380
+{
+    Vector380 minimum, maximum;
+};
+
+struct ConvexBase380
+{
+    const void** vtable;
+    unsigned short memorySize, references;
+    unsigned int userData, shapeType;
+    float radius;
+    ConvexBase380(float r) : userData(0), shapeType(6), radius(r)
+    {}
+};
+
+template <class T> struct Array380
+{
+    T* data;
+    int size;
+    unsigned int capacityAndFlags;
+    Array380(T* p, int n) : data(p), size(n), capacityAndFlags((unsigned int)n | 0x80000000u)
+    {}
+};
+
+struct TransposedPoints380
+{
+    Vector380 x, y, z;
+};
+
+struct PointArray380
+{
+    TransposedPoints380* data;
+    int size;
+    unsigned int capacityAndFlags;
+    PointArray380(TransposedPoints380* p, int n)
+    {
+        data = p;
+        size = ((n + 3) & ~3) / 4;
+        capacityAndFlags = (unsigned int)size | 0x80000000u;
+    }
+};
+
+struct FUN_00d59760 : ConvexBase380
+{
+    Vector380 halfExtents, center;
+    PointArray380 vertices;
+    int vertexCount;
+    unsigned int unk50;
+    Array380<Vector380> planes;
+    void* connectivity;
+
+    FUN_00d59760(TransposedPoints380*, int, Vector380*, int, const Bounds380&, float);
+};
+
+// @fnv 0x00d59760
+FUN_00d59760::FUN_00d59760(TransposedPoints380* vertexData, int count, Vector380* planeData, int planeCount,
+                           const Bounds380& bounds, float r)
+    : ConvexBase380(r), vertices((vtable = (*reinterpret_cast<const void * (*)[]>(&::DAT_010d0fc4)), references = 1, vertexData), count), vertexCount(count),
+      unk50(0), planes(planeData, planeCount), connectivity(0)
+{
+    halfExtents.SetSub(bounds.maximum, bounds.minimum);
+    halfExtents.Multiply(0.5f);
+    center.SetAdd(bounds.minimum, bounds.maximum);
+    center.Multiply(0.5f);
+}
+
+struct AngularFrictionRecord : ::D4F2A0Vector
+{
+    AngularFrictionRecord()
+    {}
+    AngularFrictionRecord(const AngularFrictionRecord& other)
+    {
+        _mm_store_ps(&x, _mm_load_ps(&other.x));
+    }
+};
+
+struct AngularFrictionBudget
+{
+    int unk00;
+    int counter04;
+    int counter08;
+    int counter0c;
+    void add(int bytes, int count, int results)
+    {
+        counter04 += bytes;
+        counter08 += count;
+        counter0c += results;
+    }
+};
+
+struct AngularFrictionState
+{
+    AngularFrictionBudget budget;
+    d51::hkArray<AngularFrictionRecord> records;
+    d51::hkArray<int> values;
+};
+
+struct AngularFrictionWriter
+{
+    int unk00;
+    AngularFrictionState* state;
+    int FUN_00d528e0(unsigned char value, float f);
+};
+
+// @fnv 0x00d528e0
+int AngularFrictionWriter::FUN_00d528e0(unsigned char value, float f)
+{
+    state->values.AddBack(0x14);
+    state->values.AddBack(value);
+    AngularFrictionRecord tmp;
+    _mm_store_ps(&tmp.x, _mm_setr_ps(f, 0.0f, 0.0f, 0.0f));
+    int result = state->records.m_iElementCount;
+    state->records.AddBack(tmp);
+    state->budget.add(0x30, 1, 2);
+    return result;
+}
+
+typedef ::D4F2A0Vector hkQuadReal;
+
+struct FUN_00dd5150_Class
+{
+    float f0, f1, f2, f3, f4, f5;
+    FUN_00dd5150_Class(int);
+};
+
+struct FUN_00dd50f0_Class
+{
+    float m_00;
+    int m_04, m_08, m_0c, m_10;
+    bool m_14;
+    FUN_00dd50f0_Class(int);
+};
+
+struct Sub3
+{
+    float f0;
+    float f1;
+    float f2;
+    hkQuadReal v;
+    int i20;
+    bool b24;
+
+    __forceinline Sub3() : f0(0.5f), f1(0.2f), f2(1.0f), i20(5), b24(true)
+    {
+        __declspec(align(16))__m128 q = _mm_setr_ps(0.2f, 0.2f, 0.05f, 0.0f);
+        v = *reinterpret_cast<const hkQuadReal*>(&q);
+    }
+};
+
+struct FUN_00d549d0_Class
+{
+    int m_00;
+    int* m_arr1_data;
+    int m_arr1_size;
+    int m_arr1_capacity;
+    int* m_arr2_data;
+    int m_arr2_size;
+    int m_arr2_capacity;
+    int m_1c;
+    int m_20;
+
+};
+
+struct FUN_00dd4bf0_Class
+{
+    int m_unk00;
+    void* m_ptr4;
+    FUN_00dd50f0_Class m_sub1;
+    FUN_00dd5150_Class m_sub2;
+    int m_unk38;
+    int m_unk3c;
+    Sub3 m_sub3;
+
+    FUN_00dd4bf0_Class(int);
+};
+
+struct Arg2Struct
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
+    unsigned char m_1c;
+    unsigned char m_1d;
+    unsigned char m_1e;
+    unsigned char m_1f;
+
+    hkQuadReal* GetValue(hkQuadReal* out);
+};
+
+struct StackAllocator
+{
+    virtual void v00();
+    virtual void* allocate(int size);
+    virtual void deallocate(void* ptr, int size);
+};
+
+class MyHkError : public ::hkErrorD53
+{
+  public:
+    virtual void SetErrorCodeEnabled(int id, ::hkBool enable);
+    virtual ::hkBool isEnabled(int id);
+};
+
+__forceinline void DisableSub2Tail(FUN_00dd5150_Class& sub2, ::hkBool bNoFirst, const Arg2Struct* arg2)
+{
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(bNoFirst))->FUN_005609f0() || arg2->m_1e)
+    {
+        sub2.f4 = 0.0f;
+    }
+}
+
+struct SearchCall_d54a40
+{
+    int Search(unsigned int, unsigned int, unsigned int, unsigned int);
+};
+
+__forceinline void ReportResults(::SearchObject* s3, int* data, int size)
+{
+    ::AllocHolder* alloc = FUN_00c85750();
+    reinterpret_cast<::SearchObject *>((((SearchCall_d54a40*)s3)))->Search_00d5ed80((unsigned int)alloc->m_pAllocator, 0, (unsigned int)data, size);
+}
+
+__forceinline MyHkError& GetHkError()
+{
+    return *(MyHkError*)(*reinterpret_cast<::hkErrorD53 * *>(&::DAT_01268360));
+}
+
+// @fnv 0x00d54a40
+void* __cdecl FUN_00d54a40(void* arg0, void* arg1, Arg2Struct* arg2, ::SearchObject* arg3)
+{
+    void* buffer;
+    bool flag17;
+
+    FUN_00dd4bf0_Class big_obj(0);
+    {
+        FUN_00dd5150_Class sub2(0);
+        sub2.f0 = 1.0f;
+        DisableSub2Tail(sub2, arg2->m_1c == 0, arg2);
+        reinterpret_cast<::FUN_00dd4b40_Class *>(&(big_obj))->SetValues((const unsigned int *)(const ::FUN_00dd5150_Class *)(&sub2));
+    }
+
+    flag17 = arg2->m_1f != 0;
+    if (arg2->m_1e)
+    {
+        flag17 = false;
+    }
+
+    {
+        Sub3 sub3;
+        sub3.f0 = reinterpret_cast<::FnvCpu_FUN_00d54db0_CpuObject *>((arg2))->FUN_00d54db0();
+        sub3.f1 = ::FUN_00d54dd0((char *)(arg2), {});
+        sub3.f2 = reinterpret_cast<::FnvCpu_FUN_00d54d70_CpuObject *>((arg2))->FUN_00d54d70();
+        hkQuadReal tmp;
+        _mm_store_ps((float*)&sub3.v, _mm_load_ps((const float*)arg2->GetValue(&tmp)));
+        sub3.b24 = flag17;
+        reinterpret_cast<::Destination *>(&(big_obj))->CopyFromSourceData((unsigned int)(&sub3));
+    }
+
+    {
+        FUN_00dd50f0_Class sub1(0);
+        if (arg2->m_1d)
+        {
+            sub1.m_08 = 0x32;
+        }
+        else
+        {
+            sub1.m_04 = 0;
+            sub1.m_08 = 0;
+        }
+        sub1.m_0c = 5;
+        sub1.m_14 = flag17;
+        reinterpret_cast<::FUN_00dd4b10_struct *>(&(big_obj))->AssignFromSource(&sub1);
+    }
+
+    int size = reinterpret_cast<::BufferRequirements *>(&(big_obj))->ComputeRequiredSize((::CountProvider *)(arg0));
+    ::AllocHolder* a = FUN_00c85750();
+    buffer = ((StackAllocator*)a->unk0c)->allocate(size);
+
+    FUN_00d549d0_Class struct4c;
+    struct4c.m_00 = 0x200;
+    struct4c.m_arr1_data = 0;
+    struct4c.m_arr1_size = 0;
+    struct4c.m_arr1_capacity = 0x80000000;
+    struct4c.m_arr2_data = 0;
+    struct4c.m_arr2_size = 0;
+    struct4c.m_arr2_capacity = 0x80000000;
+    struct4c.m_1c = 0;
+    struct4c.m_20 = 0x14;
+
+    if (arg2->m_1e)
+    {
+        big_obj.m_ptr4 = &struct4c;
+    }
+
+    ::hkBool prevWarning = ((MyHkError*)(*reinterpret_cast<::hkErrorD53 * *>(&::DAT_01268360)))->isEnabled(0x7dd65995);
+    GetHkError().SetErrorCodeEnabled(0x7dd65995, false);
+
+    void* retVal = ((void *)(reinterpret_cast<::MoppBuilder *>(&(big_obj))->FUN_00dd4cb0((::PrimitiveSource *)(arg0), buffer, size)));
+
+    ((MyHkError*)(*reinterpret_cast<::hkErrorD53 * *>(&::DAT_01268360)))->SetErrorCodeEnabled(0x7dd65995, prevWarning);
+
+    ::SearchObject* s3 = arg3;
+    if (s3 != 0)
+    {
+        ReportResults(s3, struct4c.m_arr1_data, struct4c.m_arr1_size);
+    }
+
+    ::AllocHolder* a2 = FUN_00c85750();
+    ((StackAllocator*)a2->unk0c)->deallocate(buffer, size);
+
+    reinterpret_cast<::fnv_00d549d0::DummyClass *>(&(struct4c))->ClearArrays();
+    ::FUN_00dd4b00();
+
+    return retVal;
 }
 
 #include "generated/data/staging/blk_00d40000_o2.inc"

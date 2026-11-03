@@ -6849,6 +6849,22 @@ void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input
 
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
+#include "fnv/decl/E5C4Foo.h"
+#include "fnv/decl/FUN_00e46f20.h"
+#include "fnv/symbols_00e4e000.h"
+#include "fnv/symbols_00e50000.h"
+#include "fnv/symbols_00e51000.h"
+#include "fnv/symbols_00e54000.h"
+#include "fnv/symbols_00e59000.h"
+#include "fnv/symbols_00e5b000.h"
+#include "fnv/symbols_00e5c000.h"
+#include "fnv/symbols_00e57000.h"
+#include "fnv/symbols_00e58000.h"
+#include "fnv/decl/FUN_00e58a20_cls.h"
+#include "fnv/decl/KnotVector.h"
+#include "fnv/decl/Registry_e5c5.h"
+#include "fnv/symbols_00df2000.h"
+#include "fnv/symbols_01032000.h"
 namespace fnv_00e5d710 {
 union __declspec(align(16)) QueryVector {
     __m128 quad;
@@ -7046,4 +7062,3957 @@ KnotVector FUN_00e54630(int a, int degree, float** knots, KnotVector** points, f
 }
 }
 
+void FUN_00e52860(const float* src, float* dst);
+
+void FUN_00e52ef0(const float* src, float* dst);
+
+int __cdecl Factorial(int count);
+
+// VEGAS17-CONFLICT: FUN_00e58b10_class (variant definition below differs from the one above)
+struct FUN_00e58b10_class {
+    void FUN_00e58b10(int a, int b, int c);
+};
+
+void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiNewSize);
+
+float __cdecl ComputeScaledRatio(float param_1, float afDivisor, float afValue, float afScale);
+
+void __cdecl FUN_00c908c0(E4AAA0Allocator* alloc, void* array, int numElements, int sizeElem);
+
+// VEGAS17-CONFLICT: E4AAA0Array (variant definition below differs from the one above)
+struct E4AAA0Array {
+    E4AAA0Element* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
+
+    void reserve(E4AAA0Allocator& alloc, int n)
+    {
+        const int cap = getCapacity();
+        if (cap < n) {
+            int cap2 = 2 * cap;
+            int newSize = (n < cap2) ? cap2 : n;
+            FUN_00c908c0(&alloc, this, newSize, sizeof(E4AAA0Element));
+        }
+    }
+
+    void InsertElements(E4AAA0Allocator& alloc, int index, int numdel, const E4AAA0Element* p, int numtoinsert);
+};
+
+void __cdecl FUN_00e51330(float* afValues, unsigned int n);
+
+void FUN_00e51f60(const float* afSource, unsigned int count, const PackedFormat* format, unsigned char* pucDest);
+
+void __cdecl PackFourFloatsToNibbles(const float* afValues, unsigned char* aucPacked);
+
+float __cdecl FUN_00e52f40();
+
+float __cdecl FUN_00e52f50();
+
+float __cdecl FUN_00e52f60();
+
+float __cdecl FUN_00e52f70();
+
+float __cdecl FUN_00e52f80();
+
+float __cdecl FUN_00e52f90(void);
+
+void __cdecl SwapBytes(void* pData);
+
+void __cdecl FUN_00e53000(unsigned char* bytes);
+
+void __cdecl FUN_00e53030(unsigned char* pucBuffer);
+
+// VEGAS17-CONFLICT: SpawnedObject (variant definition below differs from the one above)
+struct SpawnedObject {
+    void Method(float* pOut, float f);
+};
+
+float* __cdecl FUN_00e533a0(float* pOut, float fValue, SpawnedObject* pObj);
+
+float* __cdecl SetValueAndReturn(float* pOut, float fValue, FUN_00e533c0_cls* pObj);
+
+double __cdecl FUN_00ec6940(double value);
+
+__declspec(noinline) Vec4f::Vec4f(float a, float b, float c, float d)
+{
+    x = a;
+    y = b;
+    z = c;
+    w = d;
+}
+__declspec(noinline) float Vec4f::operator[](int i) const
+{
+    return (&x)[i];
+}
+__declspec(noinline) float& Vec4f::operator[](int i)
+{
+    return (&x)[i];
+}
+Vec4f FUN_00e53720(const Vec4f& a, const Vec4f& b);
+
+int __cdecl FindFloatInterval(int aiLeft, int aiRight, float value, float** pp);
+
+void __cdecl ComputeBasisFunctions(int span, float u, int degree, float** knots, float* basis);
+
+int __cdecl FindInsertIndex(float value, float **table, int count);
+
+int __cdecl CountRuns(float** apValues, int aiCount);
+
+bool* __cdecl IsSampleBoundary(bool* result, int index, float** samples, int endIndex);
+
+int __cdecl FUN_00e54930(float **apValues, int count);
+
+float __cdecl GetHelperValueAsFloat();
+
+// VEGAS17-CONFLICT: FUN_00e54b20_src (variant definition below differs from the one above)
+struct FUN_00e54b20_src
+{
+};
+
+void __cdecl LookupAndConsume(FUN_00e54b20_src* src, unsigned int key);
+
+float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB);
+
+// VEGAS17-CONFLICT: FUN_00e532b0_class (variant definition below differs from the one above)
+struct FUN_00e532b0_class
+{
+};
+
+void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
+
+int __cdecl FindFirstNonZero(int aiStartIndex, int b, int c);
+
+void RemoveAndDecrement(int index, E54C50IntArray& array, int end);
+
+unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a, int b, int c, int d, int last, Float4** verticesPtr, float** valuesPtr, float** thresholdsPtr);
+
+void __cdecl FUN_00e58740(int i1, int i2, int i3, int i4, float f5, int i6, int i7, int i8, int i9);
+
+void __cdecl DifferenceInPlace(float* samples, unsigned int count);
+
+// VEGAS17-CONFLICT: AttrWriter_b5103 (variant definition below differs from the one above)
+class AttrWriter_b5103 {
+public:
+    AttrWriter_b5103(unsigned int* buf, unsigned int size) throw();
+    int m_unk00;
+    int m_unk04;
+    int m_unk08;
+    AttrWriter_b5103& Step3() throw();
+    void Release() throw();
+    unsigned int* GetBuf() throw();
+};
+
+// VEGAS17-CONFLICT: FUN_00e5c6b0_cls (variant definition below differs from the one above)
+class FUN_00e5c6b0_cls {
+public:
+    int GetBoolAttribute(const char* name, bool required, unsigned char* out);
+};
+
+// VEGAS17-CONFLICT: ConfigTable (variant definition below differs from the one above)
+struct ConfigTable {
+    int GetUnsignedValue(const char*, bool, unsigned*);
+};
+
+// VEGAS17-CONFLICT: FUN_00e5c8b0_Str (variant definition below differs from the one above)
+struct FUN_00e5c8b0_Str
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    void Release();
+};
+
+// VEGAS17-CONFLICT: FUN_00e5c8b0_cls (variant definition below differs from the one above)
+struct FUN_00e5c8b0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int GetAttributeValue(int a, bool flag, unsigned int* out);
+};
+
+// VEGAS17-CONFLICT: FUN_00e5c9b0_cls (variant definition below differs from the one above)
+class FUN_00e5c9b0_cls {
+public:
+    int GetFloatAttribute(const char* name, bool log, float* out);
+};
+
+// VEGAS17-CONFLICT: FUN_00e5cdb0_class (variant definition below differs from the one above)
+// FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
+// with a literal zero inserted as the third argument.
+struct FUN_00e5cdb0_class {
+    void FUN_00e5cec0(int a, int b, int c, int d);
+};
+
+void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value);
+
+float __cdecl FUN_00e404b0(FloatArray_e404b0* arr);
+
+float __cdecl FindMinFloat(int *param_1);
+
+extern "C" void FUN_00c908c0(Allocator*,void*,int,int);
+
+// VEGAS17-CONFLICT: ArrayBase (variant definition below differs from the one above)
+struct ArrayBase {
+ void* data; int size; int capacity;
+ ArrayBase():data(0),size(0),capacity(0x80000000){}
+ int getCapacity() const {return capacity & 0x3fffffff;}
+ static void grow(Allocator& heap,ArrayBase* a,int n,int stride) { int cap=a->getCapacity(); if(cap<n) FUN_00c908c0(&heap,a,n<2*cap?2*cap:n,stride); }
+ void reserve(Allocator& heap,int n,int stride){grow(heap,this,n,stride);}
+};
+
+void __cdecl InitFormatFromData(float* data, unsigned int count, E51F00Format* format, unsigned int numBits, unsigned int rawStart);
+
+Vec4f VectorMax(const Vec4f& a, const Vec4f& b);
+
+void __cdecl FUN_00e54c10(int aiIndex, L* list);
+
+int __cdecl FUN_00e57210(FloatArrayRef* array, int count);
+
+void FUN_00c908c0(ArrayAllocator* alloc, FloatArray* arr, int newCap, int elemSize);
+
+// VEGAS17-CONFLICT: FloatArray (variant definition below differs from the one above)
+struct FloatArray {
+    float* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
+    void reserve(ArrayAllocator& alloc, int n)
+    {
+        int cap = getCapacity();
+        if (cap < n) {
+            int c = 2 * cap;
+            FUN_00c908c0(&alloc, this, n < c ? c : n, 4);
+        }
+    }
+};
+
+int RemoveAdjacentDuplicates(FloatArray* arr, int last);
+
+float __cdecl DotProduct(CE588A0Vector* pkA, CE588A0Vector* pkB);
+
+void UnpackQuaternion(const unsigned int* packed, float* quat);
+
+// VEGAS17-CONFLICT: FUN_00c905b0_class (variant definition below differs from the one above)
+struct FUN_00c905b0_class {
+    void FUN_00c905b0();
+};
+
+void FUN_00e52f10();
+
+void __cdecl FUN_00e52f20();
+
+void FUN_00e52f30();
+
+void __cdecl FUN_00e546e0(int a, int b, int c, int d, int count, float** inputs, FUN_00e53180_Obj** outputs);
+
+E87E0Matrix* FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right);
+
+static void FUN_00e5b110(E5B110Obj* obj, void* p);
+
+void E5B110Caller(char* q, int a, int b, int c);
+
+int FUN_00e5c8a0(const char* p, bool b, unsigned* u);
+
+unsigned char __cdecl FUN_00e48460(unsigned char value);
+
+static unsigned int FUN_00e48470(unsigned int uiValue);
+
+unsigned int E48470Shift(unsigned int uiValue);
+
+static void FUN_00e48480(e48480_cls* dst, unsigned char val);
+
+void e48480_caller(void);
+
+static int FUN_00e48490(E48490Cell* cell, int value);
+
+void E48490Driver();
+
+static void FUN_00e51dd0(float* outMin, float* outMax, const float* values, int count);
+
+void mm_caller(void);
+
+static void FUN_00e593d0(Dst* dst, Src* src);
+
+void e593d0_apply_pair();
+
+// VEGAS17-CONFLICT: LoadedObject (variant definition below differs from the one above)
+struct LoadedObject {
+    void* vtable;
+    int unk04;
+    unsigned char type;
+    LoadedObject* Initialize(LoadedFlag flag);
+};
+
+// VEGAS17-CONFLICT: EntityArray (variant definition below differs from the one above)
+template<class T> struct EntityArray : HkArray<T> {
+    __forceinline int indexOf(const T& element) const {
+        for (int i = 0; i < this->m_iElementCount; ++i) {
+            if (this->m_data[i] == element) return i;
+        }
+        return -1;
+    }
+    __forceinline void AddBack(const T& element) {
+        HolderStub* holder = FUN_00c85750();
+        if (this->m_iElementCount == (this->m_iCapacityState & 0x3fffffff)) {
+            ResizeAudioStream(holder->m_pAllocator, this, sizeof(T));
+        }
+        T* destination = this->m_data + this->m_iElementCount;
+        for (int k = 0; k < 1; ++k) destination[k] = element;
+        ++this->m_iElementCount;
+    }
+};
+
+namespace se49080 {
+
+
+void FUN_00c90510(void* pvObject);
+
+struct Shape;
+
+struct ShapeBase {
+    const char* m_pVtbl;
+    int unk004;
+    int unk008;
+    int unk00c;
+    const char* m_pVtbl2;
+
+};
+
+struct KeyedPointerEntry : ShapeBase {
+    int unk14;
+    Shape* m_pkShapeB;
+    Shape* m_pkShapeA;
+    float m_fBoundRadius;
+
+    KeyedPointerEntry* FUN_00e49080(Shape* pkShapeA, Shape* pkShapeB, float fRadius);
+};
+
+// @fnv 0x00e49080
+KeyedPointerEntry* KeyedPointerEntry::FUN_00e49080(Shape* pkShapeA, Shape* pkShapeB, float fRadius)
+{
+    new ((void *)this) class ::FUN_00d21410(7, 3);
+    m_fBoundRadius = fRadius;
+    m_pVtbl = DAT_010e8e94;
+    m_pVtbl2 = DAT_010e8e74;
+    m_pkShapeB = pkShapeB;
+    m_pkShapeA = pkShapeA;
+    reinterpret_cast<::FUN_00c90510_class *>((pkShapeA))->FUN_00c90510();
+    reinterpret_cast<::FUN_00c90510_class *>((m_pkShapeB))->FUN_00c90510();
+    return this;
+}
+
+}
+
+void __cdecl FUN_00e4b560();
+
+// VEGAS17-CONFLICT: ThresholdArray (variant definition below differs from the one above)
+struct ThresholdArray {
+    float* data;
+    int size;
+    int capacity;
+    float* original;
+    void SetSizeAndGrow(int count) {
+        HolderStub* mgr = FUN_00c85750();
+        E4AAA0Allocator* heap = (E4AAA0Allocator*)mgr->m_pAllocator;
+        int current = capacity & 0x3fffffff;
+        if (current < count) {
+            int grown = 2 * current;
+            FUN_00c908c0(heap, this, count < grown ? grown : count, 4);
+        }
+        size = count;
+    }
+    void release() {
+        float* saved = original;
+        if (saved == data) size = 0;
+        FUN_00c85750()->unk00 = (int)saved;
+        ClearAndRelease();
+    }
+    void ClearAndRelease() {
+        HolderStub* mgr = FUN_00c85750();
+        ThresholdAllocator* heap = (ThresholdAllocator*)mgr->m_pAllocator;
+        int cap = capacity;
+        size = 0;
+        if ((cap & 0x80000000) == 0) heap->ReleaseBlock(data, (cap & 0x3fffffff) * 4);
+        data = 0;
+        capacity = 0x80000000;
+    }
+};
+
+void __cdecl ThresholdValues(float* values, unsigned int count, float threshold, ThresholdCompare relative);
+
+void FUN_00e52880(const unsigned char* src, QRef out);
+
+float __cdecl EvaluateBasisFunction(int iDegree, int iNumKnots, const float* const* ppKnots, int i, float fT);
+
+int __cdecl GetRunLength(int lo, int hi, float** arr);
+
+// VEGAS17-CONFLICT: CurvePointOps (variant definition below differs from the one above)
+struct CurvePointOps {
+};
+
+void __cdecl FUN_00e54fa0(int n, CurveArg<float**> a2, CurveArg<int> a3, CurveArg<int> a4, CurveArg<int> a5, CurveArg<int> a6, CurveArg<float**> a7, CurveArg<float**> a8, CurveArg<int> a9, CurveArg<int> a10, float a11, float a12, bool a13);
+
+__declspec(noalias) float __cdecl LookupAndConsume(const Float4* left, const Float4* right);
+
+unsigned char* __cdecl CheckAllSamplesBelowThreshold(unsigned char* result, int a, int b, int c, int d, int last, Float4** samples, float threshold);
+
+// VEGAS17-CONFLICT: ChainArray (variant definition below differs from the one above)
+template <class T>
+struct ChainArray {
+    T* m_data;
+    int m_iElementCount;
+    int m_capFlags;
+
+    void Add(T const& value) {
+        HolderStub* mgr = FUN_00c85750();
+        if (m_iElementCount == (m_capFlags & 0x3fffffff))
+            ResizeAudioStream(mgr->m_pAllocator, this, (int)sizeof(T));
+        T* pSlot = &m_data[m_iElementCount];
+        pSlot[0] = value;
+        pSlot[0] = value;
+        ++m_iElementCount;
+    }
+};
+
+void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int auiNewSize);
+
+// VEGAS17-CONFLICT: Resource_e5c5 (variant definition below differs from the one above)
+struct Resource_e5c5 {
+    void FUN_00c905b0() throw();
+};
+
+// VEGAS17-CONFLICT: hkRefPtr_e5c5 (variant definition below differs from the one above)
+template <class T> struct hkRefPtr_e5c5 {
+    T* m_pRetainedObject;
+    ~hkRefPtr_e5c5() throw()
+    {
+        if (m_pRetainedObject)
+            m_pRetainedObject->FUN_00c905b0();
+    }
+    T* FUN_00d477a0() throw();
+    T* val() const { return m_pRetainedObject; }
+};
+
+// VEGAS17-CONFLICT: Registry_e5c5 (variant definition below differs from the one above)
+struct Registry_e5c5 {
+    Resource_e5c5* FUN_00e5c540(const char* name, Resource_e5c5* expected);
+};
+
+extern double __cdecl FUN_00ec9e10(double x);
+
+inline float ConvertComponent(float x) { return (float)FUN_00ec9e10(x); }
+
+inline float ConvertEarly(float x, volatile float& temp) {
+    temp = x;
+    temp = (float)FUN_00ec9e10(temp);
+    return temp;
+}
+
+// VEGAS17-CONFLICT: KnotVector (variant definition below differs from the one above)
+struct KnotVector {
+    float x,y,z,w;
+    KnotVector(float a=0,float b=0,float c=0,float d=0);
+    KnotVector& FUN_00e53180(const KnotVector&);
+    KnotVector& operator=(const KnotVector& v) { return (*(::KnotVector *)(new ((void *)this) ::FUN_00e53180_cls((const float *)&(v)))); }
+    KnotVector& FUN_00e531a0(const KnotVector&);
+    KnotVector& FUN_00e531d0(const KnotVector&);
+    KnotVector& FUN_00e53200(float);
+    KnotVector& DivideByScalar(float);
+    KnotVector ScaleCopy(float) const;
+    KnotVector FUN_00e532b0(const KnotVector&) const;
+    KnotVector FUN_00e53260(const KnotVector&) const;
+};
+
+__declspec(noinline) KnotVector::KnotVector(float a,float b,float c,float d) : x(a),y(b),z(c),w(d) {}
+__declspec(noinline) KnotVector& KnotVector::FUN_00e53180(const KnotVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
+__declspec(noinline) KnotVector& KnotVector::FUN_00e531a0(const KnotVector& v) {x+=v.x;y+=v.y;z+=v.z;w+=v.w;return *this;}
+__declspec(noinline) KnotVector& KnotVector::FUN_00e531d0(const KnotVector& v) {x-=v.x;y-=v.y;z-=v.z;w-=v.w;return *this;}
+__declspec(noinline) KnotVector& KnotVector::FUN_00e53200(float f) {x*=f;y*=f;z*=f;w*=f;return *this;}
+__declspec(noinline) KnotVector& KnotVector::DivideByScalar(float f) {x/=f;y/=f;z/=f;w/=f;return *this;}
+__declspec(noinline) KnotVector KnotVector::ScaleCopy(float f) const {KnotVector a=*this;return a.FUN_00e53200(f);}
+KnotVector FUN_00e533a0(float f,const KnotVector& v);
+
+float __cdecl FUN_00e552f0(int n,int p,CurveArray& U,PointArray& Pw,float u,int r,int s);
+
+void* _fnv_zlib_memset(void*,int,int);
+
+// VEGAS17-CONFLICT: MarkArray (variant definition below differs from the one above)
+template<class T> struct MarkArray:MarkStorage<T> {
+ __forceinline MarkArray(int count,const T& initial) {
+  MarkHeap& heap=MarkPolicy().get(this);
+  T* p=count ? heap.reserve<T>(count) : 0;
+  int flags=count ? count : (int)0x80000000;
+  own(p,count,flags);
+  if(size>0) _fnv_zlib_memset(data,initial,size);
+ }
+ __forceinline void release() {
+  MarkHeap* heap=(MarkHeap*)FUN_00c85750()->m_pAllocator;
+  int cap=capacity;
+  size=0;
+  if((cap&0x80000000)==0) heap->Free(data,cap&0x3fffffff);
+  data=0;capacity=0x80000000;
+ }
+};
+
+void* _fnv_zlib_memset(void*,int,int);
+
+bool* FUN_00e57490(bool* output,int n,int start,MarkBounds* bounds,int m,MarkBounds* points,float epsilon);
+
+__forceinline void FloatVector::reserve(MemoryAllocator& heap, int wanted) {
+    MemoryAllocator* alloc = &heap;
+    FloatVector* vec = this;
+
+    int cap = (int)(vec->capacity & 0x3fffffff);
+
+    if (cap < wanted) {
+
+        const int doubled = cap + cap;
+
+        const int newCapacity = wanted < doubled ? doubled : wanted;
+
+        FUN_00c908c0((E4AAA0Allocator*)alloc, vec, newCapacity, 4);
+
+    }
+
+}
+__forceinline void VertexVector::reserve(MemoryAllocator& heap, int wanted) {
+    MemoryAllocator* alloc = &heap;
+    VertexVector* vec = this;
+
+    int cap = (int)(vec->capacity & 0x3fffffff);
+
+    if (cap < wanted) {
+
+        const int doubled = cap + cap;
+
+        const int newCapacity = wanted < doubled ? doubled : wanted;
+
+        FUN_00c908c0((E4AAA0Allocator*)alloc, vec, newCapacity, 16);
+
+    }
+
+}
+__forceinline void VertexVector::SetSizeAndGrow(int wanted) {
+    HolderStub* mgr = FUN_00c85750();
+    MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
+    reserve(*heap, wanted);
+    int remaining=wanted-count;
+    Vertex4* current=data+count;
+    for(int index=0; index<remaining; ++index) new(current+index) Vertex4;
+    count = wanted;
+}
+
+void __cdecl ProcessGeometryPasses(int initialCount, const InputVertices* inputVertices, const InputFloats* inputFloats, void* geometry, int passes, float factor, int& countOutput, FloatVector& positionOutput, VertexVector& vertexOutput);
+
+void __cdecl FUN_00e58210(int a1, int a2, int a3, float a4, int a5, int a6, int a7);
+
+static void FUN_00e59700(SolverState* __restrict state, const BoundaryTable* table, SolverOutput* output);
+
+void caller(SolverState* s, const BoundaryTable* t, SolverOutput* o);
+
+// VEGAS17-CONFLICT: Se5b160_RefObj (variant definition below differs from the one above)
+struct Se5b160_RefObj {
+    virtual ~Se5b160_RefObj();
+    static Se5b160_Heap& heap() { return reinterpret_cast<Se5b160_Router*>(FUN_00c85750())->heap(); }
+    unsigned short m_usAllocationSize;
+    unsigned short m_iObjectReferenceCount;
+    static void* operator new(std::size_t nbytes) {
+        Se5b160_RefObj* b = static_cast<Se5b160_RefObj*>(Se5b160_Router::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+        b->m_usAllocationSize = static_cast<unsigned short>(nbytes);
+        return b;
+    }
+    static void operator delete(void*) {}
+    void FUN_00c905b0();
+};
+
+Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __restrict original, Se5b160_Motor* motor, bool enableMotors);
+
+static void FUN_00e5b130(E5B130Object* object, int finishFlags);
+
+E5B130Object* volatile g_finishObject;
+
+void CallFinishObject();
+
+void __cdecl FUN_00e58310(int n, const S00e58310_Array<S00e58310_Point>& Q, const S00e58310_Array<float>& Ub, int degree, float E, int& nh, S00e58310_Array<float>& U, S00e58310_Array<S00e58310_Point>& P);
+
+void __cdecl FUN_00e58440(int count,const float* values,const Float4* points,int degree,float tolerance,int* knotCount,float* knots,int* pointCount,Float4* resultPoints);
+
+void __cdecl FUN_00e58900(E589Destination* destination,E589Values* values,const float* scale,E589ScaledValues* scaleValues);
+
+void __cdecl FUN_00e5d360(unsigned codeBits,const PlaneView& input,int output,int properties);
+
+void __cdecl FUN_00e544c0( int a1, int a2, float** knots, KnotVector** points, float u, int a6, KnotVector* rows, int a8, float a9);
+
+namespace se49e00 {
+
+struct Allocator;
+
+struct AllocatorHolder {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    Allocator* m_pHeapAllocator;
+};
+
+AllocatorHolder* FUN_00c85750();
+void ResizeAudioStream(Allocator* pkAllocator, void* apvArray, unsigned int uiStride);
+void FUN_00c90510(void* pvObject);
+
+template <class T> struct ObjectArray {
+    T* m_pData;
+    int m_uiLogicalSize;
+    int m_iCapacityAndFlags;
+
+    void PushBack(const T& kElement)
+    {
+        AllocatorHolder* pkHolder = FUN_00c85750();
+        if (m_uiLogicalSize == (m_iCapacityAndFlags & 0x3fffffff))
+            ResizeAudioStream(pkHolder->m_pHeapAllocator, this, sizeof(T));
+        new (&m_pData[m_uiLogicalSize], S00e49e00_Slot()) T(kElement);
+        m_uiLogicalSize++;
+    }
+};
+
+struct Child;
+
+struct Container {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    ObjectArray<Child*> m_kChildList;
+
+    void FUN_00e49e00(Child* pkChild);
+};
+
+// @fnv 0x00e49e00
+void Container::FUN_00e49e00(Child* pkChild)
+{
+    reinterpret_cast<::FUN_00c90510_class *>((pkChild))->FUN_00c90510();
+    m_kChildList.PushBack(pkChild);
+}
+
+}
+
+float FUN_00e535a0(const Vec4f* left, const Vec4f* right);
+
+// @fnv 0x00e53a80
+__declspec(noinline) void __cdecl FUN_00e53a80(int span, float u, int degree, int order, float** knots, float* ders)
+{
+    float ndu[4][4];
+    float left[4], right[4];
+    float a[2][4];
+    ndu[0][0] = 1.0f;
+    for (int j = 1; j <= degree; ++j) {
+        left[j] = u - (*knots)[span + 1 - j];
+        right[j] = (*knots)[span + j] - u;
+        float saved = 0.0f;
+        for (int r = 0; r < j; ++r) {
+            ndu[j][r] = left[j - r] + right[r + 1];
+            float temp = ndu[r][j - 1] / ndu[j][r];
+            ndu[r][j] = saved + temp * right[r + 1];
+            saved = left[j - r] * temp;
+        }
+        ndu[j][j] = saved;
+    }
+    for (int j = 0; j <= degree; ++j) ders[j] = ndu[j][degree];
+    for (int r = 0; r <= degree; ++r) {
+        int s1 = 0, s2 = 1;
+        a[0][0] = 1.0f;
+        for (int k = 1; k <= order; ++k) {
+            float d = 0.0f;
+            int rk = r - k;
+            int pk = degree - k;
+            if (r >= k) {
+                a[s2][0] = a[s1][0] / ndu[pk + 1][rk];
+                d = a[s2][0] * ndu[rk][pk];
+            }
+            int j1 = rk >= -1 ? 1 : -rk;
+            int j2 = r - 1 <= pk ? k - 1 : degree - r;
+            for (int j = j1; j <= j2; ++j) {
+                a[s2][j] = (a[s1][j] - a[s1][j - 1]) / ndu[pk + 1][rk + j];
+                d += a[s2][j] * ndu[rk + j][pk];
+            }
+            if (r <= pk) {
+                a[s2][k] = -a[s1][k - 1] / ndu[pk + 1][r];
+                d += a[s2][k] * ndu[r][pk];
+            }
+            ders[k*4+r] = d;
+            int swap = s1; s1 = s2; s2 = swap;
+        }
+    }
+    int factor = degree;
+    for (int k = 1; k <= order; ++k) {
+        for (int j = 0; j <= degree; ++j)
+            ders[k*4+j] *= factor;
+        factor *= degree - k;
+    }
+}
+
+int __cdecl CountRuns(float**, int);
+
+__declspec(noinline) int __cdecl Factorial(int n) {
+ int factorials[11]={1,1,2,6,24,120,720,5040,40320,362880,3628800};
+ if(n<=0) return 1;if(n<=10)return factorials[n];int result=factorials[10];
+ for(int i=11;i<=n;++i)result*=i;return result;
+}
+__declspec(noinline) int __cdecl BinomialCoefficient(int n, int k) {
+ int denominator=Factorial(n-k);denominator*=Factorial(k);return Factorial(n)/denominator;
+}
+
+typedef KnotVector ElevationPoint;
+
+template<class T> struct ElevationArray {
+    T* data;
+    int count;
+    int capacity;
+    __forceinline void allocate(int requested) {
+        MemoryAllocator* allocator=(MemoryAllocator*)FUN_00c85750()->m_pAllocator;
+        T* ptr;
+        if(requested) {
+            int bytes=requested*sizeof(T);
+            ptr=(T*)allocator->Allocate(&bytes);
+            requested=bytes/(int)sizeof(T);
+        } else ptr=0;
+        int flags=requested?requested:0x80000000;
+        data=ptr;count=requested;capacity=flags;
+
+    }
+    __forceinline void free() {
+        HolderStub* holder=FUN_00c85750();
+        MemoryAllocator* allocator=(MemoryAllocator*)holder->m_pAllocator;
+        int cap=capacity;
+        if ((cap & 0x80000000)==0) allocator->Free(data, (cap & 0x3fffffff) * sizeof(T));
+    }
+    void SwapThreeInts(ElevationArray<T>* other);
+};
+
+// @fnv 0x00e55cf0
+void __cdecl FUN_00e55cf0(int* degreeAndLast, int p, FloatVector* knotVector, VertexVector* pointVector, int t) {
+    ElevationArray<float>* knots = reinterpret_cast<ElevationArray<float>*>(knotVector);
+    ElevationArray<ElevationPoint>* points = reinterpret_cast<ElevationArray<ElevationPoint>*>(pointVector);
+    int n = *degreeAndLast;
+    int m = n + p + 1;
+    if (t == 0) return;
+    ElevationPoint bpts[4];
+    float bezalfs[4][4];
+    ElevationPoint ebpts[4], nextbpts[4];
+    float alfs[4];
+    int segments = CountRuns((float**)knots,m);
+    int nh = (segments-1)*t + n;
+    ElevationArray<float> Uh;
+    Uh.allocate(nh+p+t+2);
+    float* UhData=Uh.data;
+    ElevationArray<ElevationPoint> Qw;
+    Qw.allocate(nh+1);
+    ElevationPoint* QwData=Qw.data;
+    int npoints=Qw.count;
+    for(int i=0;i<npoints;++i) new(QwData+i) ElevationPoint;
+    int ph = p+t;
+    int ph2=ph/2;
+    bezalfs[0][0]=bezalfs[ph][p]=1.0f;
+    for(int i=1;i<=ph2;++i) {
+        float inv=1.0f/BinomialCoefficient(ph,i);
+        int mpi=p<i?p:i;
+        for(int j=(i-t)<0?0:i-t;j<=mpi;++j)
+            bezalfs[i][j]=inv*BinomialCoefficient(p,j)*BinomialCoefficient(t,i-j);
+    }
+    for(int i=ph2+1;i<=ph-1;++i) {
+        int mpi=p<i?p:i;
+        for(int j=(i-t)<0?0:i-t;j<=mpi;++j) bezalfs[i][j]=bezalfs[ph-i][p-j];
+    }
+    int mh=ph, kind=ph+1, r=-1, a=p, b=p+1, cind=1;
+    float ua=knots->data[0];
+    new ((void *)&(QwData[0])) ::FUN_00e53180_cls((const float *)&(points->data[0]));
+    for(int i=0;i<=ph;++i) UhData[i]=ua;
+    for(int i=0;i<=p;++i) new ((void *)&(bpts[i])) ::FUN_00e53180_cls((const float *)&(points->data[i]));
+    while(b<m) {
+        int i=b;
+        while(b<m && knots->data[b]==knots->data[b+1]) ++b;
+        int mul=b-i+1;
+        float ub=knots->data[b];
+        int oldr=r;
+        r=p-mul;
+        int lbz=oldr>0?(oldr+2)/2:1;
+        int rbz=r>0?ph-(r+1)/2:ph;
+        if(r>0) {
+            float numer=ub-ua;
+            for(int k=p;k>mul;--k) alfs[k-mul-1]=numer/(knots->data[a+k]-ua);
+            for(int j=1;j<=r;++j) {
+                int save=r-j, s=mul+j;
+                for(int k=p;k>=s;--k) {
+                    new ((void *)&(bpts[k])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(alfs[k-s],bpts[k]).FUN_00e53260(FUN_00e533a0(1.0f-alfs[k-s],bpts[k-1]))));
+                }
+                new ((void *)&(nextbpts[save])) ::FUN_00e53180_cls((const float *)&(bpts[p]));
+            }
+        }
+        for(int i=lbz;i<=ph;++i) {
+            new ((void *)&(ebpts[i])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(ElevationPoint()));
+            int mpi=p<i?p:i;
+            for(int j=(i-t)<0?0:i-t;j<=mpi;++j) {
+                new ((void *)&(ebpts[i])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(ebpts[i].FUN_00e53260(FUN_00e533a0(bezalfs[i][j],bpts[j]))));
+            }
+        }
+        if(oldr>1) {
+            int first=kind-2,last=kind;
+            float den=ub-ua;
+            float bet=(ub-UhData[kind-1])/den;
+            for(int tr=1;tr<oldr;++tr) {
+                int i=first,j=last,kj=j-kind+1;
+                while(j-i>tr) {
+                    if(i<cind) {
+                        float alf=(ub-UhData[i])/(ua-UhData[i]);
+                        new ((void *)&(QwData[i])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(alf,QwData[i]).FUN_00e53260(FUN_00e533a0(1.0f-alf,QwData[i-1]))));
+                    }
+                    if(j>=lbz) {
+                        if(j-tr<=kind-ph+oldr) {
+                            float gam=(ub-UhData[j-tr])/den;
+                            new ((void *)&(ebpts[kj])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(gam,ebpts[kj]).FUN_00e53260(FUN_00e533a0(1.0f-gam,ebpts[kj+1]))));
+                        } else {
+                            new ((void *)&(ebpts[kj])) ::FUN_00e53180_cls((const float *)&(const ::KnotVector &)(FUN_00e533a0(bet,ebpts[kj]).FUN_00e53260(FUN_00e533a0(1.0f-bet,ebpts[kj+1]))));
+                        }
+                    }
+                    ++i;--j;--kj;
+                }
+                --first;++last;
+            }
+        }
+        if(a!=p) for(int i=0;i<ph-oldr;++i) UhData[kind++]=ua;
+        for(int j=lbz;j<=rbz;++j) {new ((void *)&(QwData[cind])) ::FUN_00e53180_cls((const float *)&(ebpts[j]));++cind;}
+        if(b<m) {
+            for(int j=0;j<r;++j) new ((void *)&(bpts[j])) ::FUN_00e53180_cls((const float *)&(nextbpts[j]));
+            for(int j=r;j<=p;++j) new ((void *)&(bpts[j])) ::FUN_00e53180_cls((const float *)&(points->data[b-p+j]));
+            a=b;++b;ua=ub;
+        } else for(int i=0;i<=ph;++i) UhData[kind+i]=ub;
+    }
+    reinterpret_cast<::FUN_00d9ec10_cls *>((points))->SwapThreeInts((int *)(::ElevationArray< ::KnotVector> *)(&Qw));
+    reinterpret_cast<::FUN_00d9ec10_cls *>(&(Uh))->SwapThreeInts((int *)(knots));
+    *degreeAndLast=nh;
+    Qw.free();Uh.free();
+}
+
+struct S00e568f0_Vec4 {
+    float x;
+    float y;
+    float z;
+    float w;
+    S00e568f0_Vec4 FUN_00e532b0(const S00e568f0_Vec4& o) const;
+    float GetHelperValueAsFloat() const;
+};
+
+void ArrayReserve(void* heap, void* arr, int newCap, int elemSize);
+
+struct S00e568f0_Vec4Array {
+    S00e568f0_Vec4* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+
+static void S00e568f0_SetArraySize(void* heap, FloatArray* arr, int size)
+{
+    int cap = arr->getCapacity();
+    if (cap < size) {
+        int doubled = cap + cap;
+        ArrayReserve(heap, arr, size < doubled ? doubled : size, 4);
+    }
+    arr->m_iElementCount = size;
+}
+
+// @fnv 0x00e568f0
+void __cdecl FUN_00e568f0(int n, int a2, void* s)
+{
+    S00e568f0_Vec4Array* pts = (S00e568f0_Vec4Array*)a2;
+    FloatArray* out = (FloatArray*)s;
+    int count = n + 1;
+    HolderView* holder = reinterpret_cast<HolderView*>(FUN_00c85750());
+    S00e568f0_SetArraySize(holder->m_pAllocator, out, count);
+    out->m_data[0] = 0.0f;
+    int i = 1;
+    if (i <= n) {
+        const S00e568f0_Vec4* cur = pts->m_data + 1;
+        const S00e568f0_Vec4* prev = pts->m_data;
+        for (; i <= n; ++i, ++cur, ++prev) {
+            out->m_data[i] = cur->FUN_00e532b0(*prev).GetHelperValueAsFloat() + out->m_data[i - 1];
+        }
+    }
+    for (i = 1; i < n; ++i) {
+        out->m_data[i] /= out->m_data[n];
+    }
+    out->m_data[n] = 1.0f;
+}
+
+struct CountCopy {int n;};
+
+static const float errorLimit=3.40282e38f;
+
+__declspec(nothrow) HolderStub* __cdecl FUN_00c85750();
+
+__declspec(nothrow) int __cdecl FUN_00e54930(float**,int);
+
+__declspec(nothrow) int __cdecl FindInsertIndex(float,float**,int);
+
+__declspec(nothrow) int __cdecl FindFirstNonZero(int,int,int);
+
+static __forceinline int getDifference(int saved,int* current){return saved-*current;}
+
+struct FNVTemporaryAllocator {
+    virtual void Other0();
+    virtual void Other1();
+    virtual void Other2();
+    __declspec(nothrow) virtual void* Allocate(int* sizeInBytes);
+    __declspec(nothrow) virtual void Free(void* buffer, int sizeInBytes);
+};
+
+template<class T> struct ArrayStorage { T* data; int size; int capacityAndFlags; __declspec(nothrow) __forceinline T& operator[](int i){return data[i];} };
+
+template<class T> struct TypedTemporary : ArrayStorage<T> {
+
+    __declspec(nothrow) __forceinline TypedTemporary(){}
+    __declspec(nothrow) __forceinline explicit TypedTemporary(int n){Allocate(n);}
+    __declspec(nothrow) __forceinline TypedTemporary(int n,const T& v){Allocate(n,v);}
+    __declspec(nothrow) __forceinline TypedTemporary(const TypedTemporary<T>& n){CopyFrom(n);}
+    __declspec(nothrow) static __forceinline T* AllocateTemporaryArray(FNVTemporaryAllocator* allocator, int& count) {
+        if (count) {
+            int bytes = count * 4;
+            T* buffer = (T*)allocator->Allocate(&bytes);
+            int capacity = bytes / 4;
+            count = capacity;
+            return buffer;
+        }
+        return 0;
+    }
+    __declspec(nothrow) __forceinline void Allocate(int count) {
+        HolderStub* mgr = FUN_00c85750();
+        T* buffer = AllocateTemporaryArray((FNVTemporaryAllocator*)mgr->m_pAllocator, count);
+        int flags = count ? count : 0x80000000;
+        data = buffer;
+        size = count;
+        capacityAndFlags = flags;
+    }
+    __declspec(nothrow) __forceinline void Allocate(int count, const T& value) {
+        Allocate(count);
+        T* next = data;
+        for (int remaining = size; remaining > 0; --remaining)
+            *next++ = value;
+    }
+    __declspec(nothrow) __forceinline void AllocateFilled(int count, const T& value, T*& start) {
+        Allocate(count);
+        start = data;
+        T* next = data;
+        for (int remaining = size; remaining > 0; --remaining)
+            *next++ = value;
+    }
+    __declspec(nothrow) __forceinline void CopyFrom(const ArrayStorage<T>& other) {
+        data = 0;
+        capacityAndFlags = 0x80000000;
+        HolderStub* mgr = FUN_00c85750();
+        FNVTemporaryAllocator* allocator = (FNVTemporaryAllocator*)mgr->m_pAllocator;
+        if (other.size > 0) {
+            int bytes = other.size * 4;
+            data = (T*)allocator->Allocate(&bytes);
+            capacityAndFlags = bytes / 4;
+        }
+        int n = other.size;
+        T* d = data;
+        const T* src = other.data;
+        size = n;
+        for (int i = 0; i < n; ++i)
+            d[i] = src[i];
+    }
+    __declspec(nothrow) __forceinline ~TypedTemporary(){Release();}
+    __declspec(nothrow) __forceinline void Release() {
+        HolderStub* mgr = FUN_00c85750();
+        FNVTemporaryAllocator* allocator = (FNVTemporaryAllocator*)mgr->m_pAllocator;
+        size=0;
+        int cap = capacityAndFlags;
+        if ((cap & 0x80000000) == 0)
+            allocator->Free(data, (cap & 0x3fffffff) * 4);
+        data = 0;
+        capacityAndFlags = 0x80000000;
+    }
+};
+
+typedef TypedTemporary<float> FNVTemporaryFloats;
+
+typedef TypedTemporary<float> FNVFloatValues;
+
+extern const float DAT_010ec990;
+
+__declspec(nothrow) float __cdecl EvaluateBasisFunction(int degree, int total, float** knots, int index, float value);
+
+__declspec(nothrow) int __cdecl GetRunLength(int index, int end, float** knots);
+
+__declspec(nothrow) void __cdecl FUN_00e54c10(int index, FNVTemporaryFloats* array, int size);
+
+__declspec(nothrow) void __cdecl FUN_00e555f0(int count, int degree, float** knots, int context, FNVTemporaryFloats* temporary, int start, int end);
+
+__declspec(nothrow) int __cdecl FUN_00e556f0(int count, int degree, float** knots, int context, float value, int index, int removed, int active, float fill);
+
+struct ErrorDecision { unsigned char value; };
+
+ErrorDecision* IsSampleBoundary(ErrorDecision*,int,float**,int);
+
+float FUN_00e552f0(int,int,float**,int,float,int,int);
+
+__declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e555f0(int count,int degree,float** knots,int context,FNVTemporaryFloats* bounds,int begin,int end) {
+    int last=count+degree+1;
+    for(int i=begin;i<=end;++i) bounds->data[i]=DAT_010ec990;
+    for(int i=begin;i<=end;++i) {
+        ErrorDecision decision;
+        if(IsSampleBoundary(&decision,i,knots,last)->value)
+            bounds->data[i]=FUN_00e552f0(count,degree,knots,context,(*knots)[i],i,GetRunLength(i,last,knots));
+    }
+}
+__declspec(nothrow) __declspec(noinline) int __cdecl FUN_00e54930(float** data,int count) {
+    if(count<=0)return -1;
+    float minimum=(*data)[0]; int index=0;
+    for(int i=1;i<count;++i) if((*data)[i]<minimum){minimum=(*data)[i];index=i;}
+    return index;
+}
+__declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e54c10(int first,FNVTemporaryFloats* bounds,int count) {
+    --bounds->size;
+    for(int i=first;i<bounds->size;++i) bounds->data[i]=bounds->data[i+1];
+}
+
+// @fnv 0x00e56a00
+int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVector* context,
+                         int pointCount, const InputFloats* values, ScratchIndices* weights,
+                         float tolerance, const InputVertices* unusedPoints)
+{
+    int m=*count;CountCopy original={m};m+=degree+1;CountCopy saved;for(unsigned i=0;i<sizeof saved;++i)((unsigned char*)&saved)[i]=((unsigned char*)&original)[i];int initialCount=saved.n;
+    FNVTemporaryFloats knotErrors;
+    float* errorValues;
+    knotErrors.AllocateFilled(m + 1, errorLimit, errorValues);
+    FNVTemporaryFloats contributions(pointCount+1,0.0f);
+    FNVTemporaryFloats updatedWeights(pointCount+1,0.0f);
+    TypedTemporary<int> lowerLimits(pointCount+1);
+    TypedTemporary<int> upperLimits(pointCount+1);
+    FUN_00e555f0(*count, degree, ((float**)knots), ((int)context), &knotErrors, degree + 1, m - degree - 1);
+    int knot = FUN_00e54930(&knotErrors.data, m+1);
+    int removalCount = GetRunLength(knot, m, ((float**)knots));
+    float* currentError = errorValues + knot;
+    if (*currentError != ::DAT_0104e138) { for(;;) {
+        float blend;
+        int first = knot;
+        if (((removalCount + degree) % 2) == 0) {
+            blend = 0.0f;
+            first -= (removalCount + degree) / 2;
+        } else {
+            int half = (degree + 1 + removalCount) / 2;
+            blend = ((*((float**)knots))[first] - (*((float**)knots))[first - half + 1]) /
+                    ((*((float**)knots))[first - half + degree + 2] - (*((float**)knots))[first - half + 1]);
+            first = first - half + 1;
+        }
+        float* knotValues = *((float**)knots);
+        int lower = FindInsertIndex(knotValues[first], ((float**)values), pointCount);
+        int upper = FindInsertIndex(knotValues[first + degree + 1], ((float**)values), pointCount) - 1;
+        float maximum = 0.0f;
+        for (int j = lower; j <= upper; ++j) {
+            float error = (float)((double)*currentError * (1.0 - blend) *
+                               EvaluateBasisFunction(degree, m, ((float**)knots), first, (*((float**)values))[j]));
+            contributions[j] = error;
+            updatedWeights[j] = error + ((FNVFloatValues*)weights)->data[j];
+            float updated = updatedWeights[j];
+            maximum = maximum > updated ? maximum : updated;
+        }
+        if (maximum <= tolerance) {
+            FNVTemporaryFloats originalWeights(*((FNVFloatValues*)weights));
+            for (int j = lower; j <= upper; ++j)
+                ((FNVFloatValues*)weights)->data[j] = updatedWeights[j];
+            FUN_00e556f0(*count, degree, ((float**)knots), ((int)context), (*((float**)knots))[knot],
+                           knot, removalCount, 1, DAT_010ec990);
+            --m;
+            --*count;
+            if ((m+1) <= 2 * degree + 2) {
+                break;
+            }
+            FUN_00e54c10(knot, &knotErrors, (m+1));
+            int firstAffected = knot - degree > degree + 1 ? knot - degree : degree + 1;
+            int currentCount = *count;
+            int lastAffected = knot - removalCount + degree < currentCount ?
+                               knot - removalCount + degree : currentCount;
+            FUN_00e555f0(currentCount, degree, ((float**)knots), ((int)context), &knotErrors,
+                FindFirstNonZero(firstAffected, (int)((float**)knots), m),
+                FindFirstNonZero(lastAffected, (int)((float**)knots), m));
+        } else {
+            *currentError = DAT_010ec990;
+        }
+        knot = FUN_00e54930(&knotErrors.data, (m+1));
+        removalCount = GetRunLength(knot, m, ((float**)knots));
+        currentError = knotErrors.data + knot;
+    if (*currentError == ::DAT_0104e138) break;
+    } }
+    int removedTotal=getDifference(initialCount,count);
+    return removedTotal;
+}
+
+// @fnv 0x00e58960
+void __cdecl FUN_00e58960(
+    FUN_00e587b0_Class* obj,
+    float* factor,
+    FUN_00e58880_Class* values)
+{
+    int count = reinterpret_cast<FUN_00e58890_Class*>(obj)->FUN_00e58890();
+    for (int i = 0; i < count; ++i) {
+        float* destination =
+            reinterpret_cast<float*>(obj->FUN_00e587b0(i));
+        *destination = values->FUN_00e58880(i) * *factor + *destination;
+    }
+}
+
+// @fnv 0x00e589a0
+void __cdecl FUN_00e589a0(FUN_00e587b0_Class* p, FUN_00e58880_Class* q)
+{
+    int count = reinterpret_cast<::FUN_00e58890_Class *>((p))->FUN_00e58890();
+    for (int i = 0; i < count; ++i)
+    {
+        float* dst = reinterpret_cast<float*>(p->FUN_00e587b0(i));
+        *dst = -q->FUN_00e58880(i);
+    }
+}
+
+// @fnv 0x00e532b0
+KnotVector KnotVector::FUN_00e532b0(const KnotVector& other) const
+{
+    KnotVector result = *this;
+    return (*(::KnotVector *)(reinterpret_cast<::FUN_00e531d0_cls *>(&(result))->FUN_00e531d0((const float *)&(other))));
+}
+
+extern const float DAT_010ec990 = 3.40282e38f;
+
+bool* IsSampleBoundary(bool* a, int b, float** c, int d);
+
+__declspec(noinline) int GetRunLength(int index, int last, float** samples)
+{
+    int right = 0;
+    for (int j = index; j <= last; ++j) {
+        if ((*samples)[index] != (*samples)[j]) break;
+        ++right;
+    }
+    int left = 1;
+    for (int j = index - 1; j >= 0; --j) {
+        if ((*samples)[index] != (*samples)[j]) break;
+        ++left;
+    }
+    return left + right - 1;
+}
+
+float FUN_00e552f0(int a1, int a2, float** a3, int a4, float f, int i, int p);
+
+// @fnv 0x00e555f0
+void FUN_00e555f0(int a1, int a2, float** a3, int a4, float** a5, int start, int end)
+{
+    int v = a1 + a2 + 1;
+    bool result;
+for(int k=start; k<=end; ++k) (*a5)[k] = DAT_010ec990;
+    for (int i = start; i <= end; i++) {
+        if (*IsSampleBoundary(&result, i, a3, v) != 0) {
+            float* src = *a3 + i;
+            float* dst = *a5 + i;
+            *dst = FUN_00e552f0(a1, a2, a3, a4, *src, i, GetRunLength(i, v, a3));
+        }
+    }
+}
+
+// @fnv 0x00e54a00
+int __cdecl FUN_00e54a00(float** arr, int count)
+{
+    if (count <= 0) {
+        return -1;
+    }
+    float best = (*arr)[0];
+    int index = 0;
+    for (int i = 1; i < count; i++) {
+        if ((*arr)[i] > best) {
+            best = (*arr)[i];
+            index = i;
+        }
+    }
+    return index;
+}
+
+struct RemovalVector : KnotVector {
+    RemovalVector(float a=0,float b=0,float c=0,float d=0);
+    RemovalVector& operator=(const RemovalVector&);
+    RemovalVector& add(const RemovalVector&);
+    RemovalVector& subtract(const RemovalVector&);
+    RemovalVector& scale(float);
+    RemovalVector& divide(float);
+    RemovalVector operator*(float) const;
+    RemovalVector operator-(const RemovalVector&) const;
+    RemovalVector operator+(const RemovalVector&) const;
+    RemovalVector operator/(float) const;
+};
+
+__declspec(noinline) RemovalVector::RemovalVector(float a,float b,float c,float d) : KnotVector(a,b,c,d) {}
+__declspec(noinline) RemovalVector& RemovalVector::operator=(const RemovalVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
+__declspec(noinline) RemovalVector& RemovalVector::add(const RemovalVector& v) {x+=v.x;y+=v.y;z+=v.z;w+=v.w;return *this;}
+__declspec(noinline) RemovalVector& RemovalVector::subtract(const RemovalVector& v) {x-=v.x;y-=v.y;z-=v.z;w-=v.w;return *this;}
+__declspec(noinline) RemovalVector& RemovalVector::scale(float f) {x*=f;y*=f;z*=f;w*=f;return *this;}
+__declspec(noinline) RemovalVector& RemovalVector::divide(float f) {x/=f;y/=f;z/=f;w/=f;return *this;}
+__declspec(noinline) RemovalVector RemovalVector::operator+(const RemovalVector& v) const {RemovalVector a=*this;return a.add(v);}
+__declspec(noinline) RemovalVector RemovalVector::operator-(const RemovalVector& v) const {RemovalVector a=*this;return a.subtract(v);}
+__declspec(noinline) RemovalVector RemovalVector::operator*(float f) const {RemovalVector a=*this;return a.scale(f);}
+__declspec(noinline) RemovalVector RemovalVector::operator/(float f) const {RemovalVector a=*this;return a.divide(f);}
+__declspec(noinline) RemovalVector operator*(float f,const RemovalVector& v) {return v*f;}
+
+float FUN_00e54ba0(const RemovalVector&,const RemovalVector&);
+
+void FUN_00c908c0(void*,void*,int,int);
+
+template<class T> struct KnotArray {
+    T* data; int size; int capacity;
+    __forceinline void reserve(int num) {
+        HolderStub* h = FUN_00c85750();
+        void* alloc = h->m_pAllocator;
+        int cap = capacity & 0x3fffffff;
+        if (cap < num) {
+            int doubled = cap * 2;
+            FUN_00c908c0(alloc, this, num < doubled ? doubled : num, sizeof(T));
+        }
+    }
+    __forceinline void resize(int num) {
+        reserve(num);
+        int added = num - size;
+        T* start = data + size;
+        for (int k = 0; k < added; ++k) new(start + k) T;
+        size = num;
+    }
+// @fnv 0x00e556f0
+};
+
+int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<RemovalVector>& Pw,float u,int r,int s,int num,float TOL) {
+    int m=n+p+1;
+    int ord=p+1;
+    int fout=(2*r-p-s)/2;
+    int last=r-s;
+    int first=r-p;
+    RemovalVector temp[7];
+    int t;
+    for(t=0;t<num;++t) {
+        int off=first-1;
+        temp[0]=Pw.data[off];
+        temp[last+1-off]=Pw.data[last+1];
+        int i=first, j=last;
+        int ii=1, jj=last-off;
+        while(j-i>t) {
+            float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
+            float alfj=(u-U.data[j-t])/(U.data[j+ord]-U.data[j-t]);
+            temp[ii]=reinterpret_cast<::FUN_00e53350_cls *>((void *)&(const ::RemovalVector &)((reinterpret_cast<::KnotVector *>((void *)&(const ::RemovalVector &)(Pw.data[i]))->FUN_00e532b0((const ::KnotVector &)((const ::RemovalVector &)((1.0f-alfi)*temp[ii-1]))))))->EvalCopy(alfi);
+            temp[jj]=reinterpret_cast<::FUN_00e53350_cls *>((void *)&(const ::RemovalVector &)((reinterpret_cast<::KnotVector *>((void *)&(const ::RemovalVector &)(Pw.data[j]))->FUN_00e532b0((const ::KnotVector &)((const ::RemovalVector &)(alfj*temp[jj+1]))))))->EvalCopy((1.0f-alfj));
+            ++i; ++ii; --j; --jj;
+        }
+        if(j-i<t) {
+            if(!(FUN_00e54ba0(temp[ii-1],temp[jj+1])<=TOL)) break;
+        } else {
+            float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
+            if(!(FUN_00e54ba0(Pw.data[i],reinterpret_cast<::FourFloatVector *>((void *)&(const ::RemovalVector &)(alfi*temp[ii+t+1]))->FUN_00e53260((int)&(const ::RemovalVector &)((1.0f-alfi)*temp[ii-1])))<=TOL)) break;
+        }
+        i=first; j=last;
+        while(j-i>t) {
+            Pw.data[i]=temp[i-off];
+            Pw.data[j]=temp[j-off];
+            ++i; --j;
+        }
+        --first; ++last;
+    }
+    if(t==0) return 0;
+    for(int k=r+1;k<=m;++k) U.data[k-t]=U.data[k];
+    int j=fout, i=j;
+    for(int k=1;k<t;++k) {
+        if(k&1) ++i; else --j;
+    }
+    for(int k=i+1;k<=n;++k) { Pw.data[j]=Pw.data[k]; ++j; }
+    Pw.resize(Pw.size-num);
+    U.resize(U.size-num);
+    return t;
+}
+
+// VEGAS17-CONFLICT: FUN_00e428f0_class (variant definition below differs from the one above)
+struct FUN_00e428f0_class
+{
+    void Remove(void*);
+    void FUN_00e428f0(void* p);
+};
+
+int __cdecl FUN_00e42940(int p);
+
+void FUN_00e5c5b0(int a);
+
+extern GlobalObjectO2_00d472a0 g_0126c5f0;
+
+void FUN_00e5c5f0(int a);
+
+extern const float g_011c7344_arg1;
+
+// VEGAS17-CONFLICT: FUN_00e426f0_class (variant definition below differs from the one above)
+struct FUN_00e426f0_class
+{
+    unsigned short m_00;
+    unsigned short m_02;
+    unsigned short m_04;
+    unsigned short m_06;
+    unsigned short m_08;
+    unsigned short m_0a;
+    unsigned short m_0c;
+    unsigned short m_0e;
+    unsigned short m_10;
+    unsigned short m_12;
+    unsigned short m_14;
+    void AddObject(void* p);
+    void AddByteFromObject(void* p);
+};
+
+// VEGAS17-CONFLICT: FUN_00e58b10_class (variant definition below differs from the one above)
+struct FUN_00e58b10_class
+{
+    void FillWithValue(float* out);
+    void FUN_00e58a20(int a, int b, int c);
+    void FUN_00e58b10(int a, int b, int c);
+};
+
+extern const char* const g_0126c5f0_arg1;
+
+void FUN_00e5c5d0(int a);
+
+extern GlobalObjectO2_00d472a0 g_0126eb10;
+
+void FUN_00e5c630(int a);
+
+extern GlobalObjectO2_00d472a0 g_0126eac8;
+
+void CallWithGlobalObject(int a);
+
+extern "C" int DAT_010e5e9c;
+
+extern double DAT_01012638;
+
+extern double DAT_0101ff48;
+
+float __cdecl ComputeScaledRatio(float param_1, float param_2, float param_3, float param_4);
+
+extern "C" int DAT_010e5ff4;
+
+void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int nbytes);
+
+ThunkDerived::ThunkDerived()
+{}
+
+// VEGAS17-CONFLICT: S_00e4af60_helper (variant definition below differs from the one above)
+struct S_00e4af60_helper
+{
+    void FUN_00cb0a60();
+};
+
+void __cdecl AccumulateNeighborSum(float k, const float* src, float* dst, int n);
+
+extern float DAT_0102295c;
+
+extern float DAT_0101622c;
+
+void __cdecl FUN_00e51330(float* base, unsigned int n);
+
+void FUN_00e51f60(const float* src, unsigned int count, const PackedFormat* format, unsigned char* dst);
+
+void __cdecl PackFourFloatsToNibbles(const float* src, unsigned char* dst);
+
+extern const float g_x;
+
+extern const float g_010af2f0;
+
+extern float DAT_0104da4c;
+
+void __cdecl SwapBytes(void* arg);
+
+void __cdecl FUN_00e53030(unsigned char* p);
+
+// VEGAS17-CONFLICT: FourFloatVector (variant definition below differs from the one above)
+struct FourFloatVector
+{
+    float x;
+    float y;
+    float z;
+    float w;
+
+    FourFloatVector& FUN_00e531a0(int parameter);
+    FourFloatVector FUN_00e53260(int parameter);
+};
+
+// VEGAS17-CONFLICT: Quad4 (variant definition below differs from the one above)
+struct Quad4
+{
+    unsigned int m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+    unsigned int m_0c;
+    Quad4* Eval(float t);
+};
+
+float* __cdecl FUN_00e533a0(float* pOut, float f, SpawnedObject* pObj);
+
+// VEGAS17-CONFLICT: FUN_00e533c0_cls (variant definition below differs from the one above)
+// Thin cdecl wrapper: forwards its first argument and a float to a
+// thiscall method of the object given as the third argument, then hands
+// the first argument back to the caller.
+struct FUN_00e533c0_cls
+{
+    void SetValue(float* pOut, float fValue);
+};
+
+int __cdecl FindFloatInterval(int a, int b, float value, float** pp);
+
+int __cdecl FindInsertIndex(float value, float** table, int count);
+
+int __cdecl CountRuns(float** param_1, int param_2);
+
+int __cdecl FUN_00e54930(float** array, int count);
+
+float __cdecl FUN_00e535a0(const void* a, const void* b);
+
+// The two callees below are unnamed in the binary's symbol table; they bind by position.
+extern void __cdecl helper_before();
+
+// VEGAS17-CONFLICT: FUN_00e54b00_cls (variant definition below differs from the one above)
+class FUN_00e54b00_cls
+{
+  public:
+    float GetHelperValueAsFloat();
+    void EvalCopy(int a, float b);
+    int FUN_00e54b00(int p);
+};
+
+int __cdecl FindFirstNonZero(int a, int b, int c);
+
+extern const double DAT_01016978;
+
+int CompareStringsCaseInsensitive(unsigned int item, unsigned int ctx);
+
+// VEGAS17-CONFLICT: AttrWriter_b5103 (variant definition below differs from the one above)
+class AttrWriter_b5103
+{
+  public:
+    AttrWriter_b5103(unsigned int* buf, unsigned int size) throw();
+    int m_unk00;
+    int m_unk04;
+    int m_unk08;
+    AttrWriter_b5103& Write5(const char* a, const char* name, const char* b, const void* self, const char* c) throw();
+    AttrWriter_b5103& Step1() throw();
+    AttrWriter_b5103& Step2() throw();
+    AttrWriter_b5103& Step3() throw();
+    AttrWriter_b5103& Step4() throw();
+    AttrWriter_b5103& Step5();
+    void Release() throw();
+    unsigned int* GetBuf() throw();
+};
+
+extern AttrLog_b5103* DAT_01268360_b5103;
+
+// VEGAS17-CONFLICT: CharBuffer (variant definition below differs from the one above)
+struct CharBuffer
+{
+    char* destination;
+    unsigned capacity, length;
+    void FUN_00cb1600(char*, unsigned);
+    CharBuffer* FUN_00cc01c0(const char*);
+    CharBuffer* WriteName(const void*);
+    void FUN_00cc00e0();
+};
+
+extern DiagnosticLogger* DAT_01268360;
+
+extern const char str_010ecd20[], str_010eccfc[], str_010ecd0c[], str_010eccc8[];
+
+// VEGAS17-CONFLICT: FUN_00e5c8b0_Target (variant definition below differs from the one above)
+struct FUN_00e5c8b0_Target
+{
+    void FindValue(unsigned int a, unsigned int* b);
+};
+
+// VEGAS17-CONFLICT: FUN_00e5c8b0_Str (variant definition below differs from the one above)
+struct FUN_00e5c8b0_Str
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    void Set(char* buf, unsigned int len);
+    FUN_00e5c8b0_Str* Chain5(const char* s0, int a1, const char* s2, int a3, const char* s4);
+    FUN_00e5c8b0_Str* Chain0();
+    FUN_00e5c8b0_Str* ChainB();
+    FUN_00e5c8b0_Str* ChainC();
+    void Release();
+};
+
+extern FUN_00e5c8b0_Logger* g_01268360;
+
+// VEGAS17-CONFLICT: AttrLogBuilder (variant definition below differs from the one above)
+class AttrLogBuilder
+{
+  public:
+    char* m_pString;
+    unsigned short m_sLen;
+    unsigned short m_sMaxLen;
+    unsigned int m_08;
+    void Init(AttrLogBuf* buf, unsigned int size);
+    AttrLogBuilder* Build(const char* a, const char* name, const char* b, void* self, const char* c);
+    AttrLogBuilder* Chain();
+    AttrLogBuilder* Other();
+    void Free();
+};
+
+extern LogSink* g_pAttrLogger;
+
+// VEGAS17-CONFLICT: FUN_00e5cdb0_class (variant definition below differs from the one above)
+// FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
+// with a literal zero inserted as the third argument.
+struct FUN_00e5cdb0_class
+{
+    void SpliceArray(int a, int b, int c, int d, int e);
+    void FUN_00e5cec0(int a, int b, int c, int d);
+};
+
+// VEGAS17-CONFLICT: S_00e65ee0_Class (variant definition below differs from the one above)
+struct S_00e65ee0_Class
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+
+    void FUN_00e65ee0(int* buffer, int value);
+};
+
+extern float DAT_0104e148;
+
+extern float _DAT_0104da48;
+
+float __cdecl FindMinFloat(int* param_1);
+
+// VEGAS17-CONFLICT: SlotTableE45 (variant definition below differs from the one above)
+class SlotTableE45
+{
+  public:
+    __forceinline SlotTableE45()
+        : m_pv00(0), m_pv04(0), m_pv08(0), m_pv0C(0), m_pv10(0), m_pv14(0), m_pv18(0), m_pv1C(0), m_pv20(0), m_pv24(0),
+          m_pv28(0), m_pv2C(0), m_pv30(0), m_pv34(0), m_pv38(0), m_pv3C(0), m_pv40(0), m_pv44(0), m_pv48(0), m_pv4C(0),
+          m_pv50(0), m_pv54(0), m_pv58(0), m_pv5C(0), m_pv60(0), m_pv64(0), m_pv68(0), m_pv6C(0), m_pv70(0), m_pv74(0),
+          m_pv78(0), m_pv7C(0)
+    {}
+
+    void* m_pv00;
+    void* m_pv04;
+    void* m_pv08;
+    void* m_pv0C;
+    void* m_pv10;
+    void* m_pv14;
+    void* m_pv18;
+    void* m_pv1C;
+    void* m_pv20;
+    void* m_pv24;
+    void* m_pv28;
+    void* m_pv2C;
+    void* m_pv30;
+    void* m_pv34;
+    void* m_pv38;
+    void* m_pv3C;
+    void* m_pv40;
+    void* m_pv44;
+    void* m_pv48;
+    void* m_pv4C;
+    void* m_pv50;
+    void* m_pv54;
+    void* m_pv58;
+    void* m_pv5C;
+    void* m_pv60;
+    void* m_pv64;
+    void* m_pv68;
+    void* m_pv6C;
+    void* m_pv70;
+    void* m_pv74;
+    void* m_pv78;
+    void* m_pv7C;
+};
+
+// VEGAS17-CONFLICT: ActorEntry (variant definition below differs from the one above)
+struct ActorEntry
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    ExtendedListeners* m_pExtendedListeners;
+
+    ExtendedListeners* getExtendedListeners()
+    {
+        if (!m_pExtendedListeners)
+        {
+            m_pExtendedListeners = new ExtendedListeners;
+        }
+        return m_pExtendedListeners;
+    }
+
+    void FUN_00c9c670(CListener* el);
+};
+
+int FUN_00e60cb0(unsigned char, int);
+
+// VEGAS17-CONFLICT: Entry (variant definition below differs from the one above)
+struct Entry
+{
+    Ref* name;
+    Ref* pClassInfo;
+    unsigned char type;
+    unsigned char flags;
+    unsigned short reserved;
+    int count;
+    unsigned char storage;
+    unsigned char ReplaceImpactData;
+    unsigned short reserved12;
+    void* data;
+    int unk18;
+    int unk1c;
+    int length() const
+    {
+        int t = type;
+        return FUN_00e60cb0(t, count);
+    }
+};
+
+// VEGAS17-CONFLICT: Allocator (variant definition below differs from the one above)
+struct Allocator
+{
+};
+
+// VEGAS17-CONFLICT: Router (variant definition below differs from the one above)
+struct Router
+{
+    int a, b, c, d;
+    Allocator* heap;
+    Allocator& getHeap()
+    {
+        return *heap;
+    }
+};
+
+int FUN_00e60cb0(unsigned char type, int count);
+
+extern "C" void FUN_00c908c0(Allocator*, void*, int, int);
+
+void FUN_00cb1260(void*, const void*, int);
+
+// VEGAS17-CONFLICT: ArrayBase (variant definition below differs from the one above)
+struct ArrayBase
+{
+    void* data;
+    int size;
+    int capacity;
+    ArrayBase() : data(0), size(0), capacity(0x80000000)
+    {}
+    int getCapacity() const
+    {
+        return capacity & 0x3fffffff;
+    }
+    static void grow(Allocator& heap, ArrayBase* a, int n, int stride)
+    {
+        int cap = a->getCapacity();
+        if (cap < n)
+            FUN_00c908c0(&heap, a, n < 2 * cap ? 2 * cap : n, stride);
+    }
+    void reserve(Allocator& heap, int n, int stride)
+    {
+        grow(heap, this, n, stride);
+    }
+};
+
+// VEGAS17-CONFLICT: Arr (variant definition below differs from the one above)
+template <class T> struct Arr : ArrayBase
+{
+    void reserve(Allocator& heap, int n)
+    {
+        ArrayBase::reserve(heap, n, sizeof(T));
+    }
+    void SetSizeAndGrow(Allocator& heap, int n)
+    {
+        reserve(heap, n);
+        size = n;
+    }
+    T* expand(Allocator& heap, int n)
+    {
+        int old = size;
+        reserve(heap, old + n);
+        size += n;
+        return (T*)data + old;
+    }
+};
+
+// VEGAS17-CONFLICT: Base (variant definition below differs from the one above)
+struct Base
+{
+    virtual void dummy();
+    unsigned short flags;
+    short refs;
+    Base()
+    {
+        refs = 1;
+    }
+};
+
+// VEGAS17-CONFLICT: FUN_00e4a1d0 (variant definition below differs from the one above)
+struct FUN_00e4a1d0 : Base
+{
+    Arr<Entry> entries;
+    Arr<unsigned short> shorts;
+    Arr<unsigned int> ints;
+    String label;
+    FUN_00e4a1d0(const Entry* source, int count);
+    virtual void dummy();
+};
+
+void __cdecl FUN_00e54c10(int idx, L* list);
+
+// VEGAS17-CONFLICT: CE588A0Vector (variant definition below differs from the one above)
+class CE588A0Vector
+{
+  public:
+    double Get(int iIndex);
+    int GetSize();
+};
+
+extern int DAT_010c3b8c;
+
+extern int DAT_010c3bac;
+
+extern int DAT_010c3b98;
+
+extern int DAT_010c3b80;
+
+extern int DAT_0102e388;
+
+// VEGAS17-CONFLICT: E473C0Owner (variant definition below differs from the one above)
+struct E473C0Owner
+{
+    int unk00;
+    unsigned short unk04;
+
+    void FUN_00e47020();
+    E473C0Owner* FUN_00e473c0(unsigned char flags);
+};
+
+// VEGAS17-CONFLICT: SourceData (variant definition below differs from the one above)
+struct SourceData
+{
+    void* m_ppVirtualMethodTable;
+    unsigned short m_unknown04, m_flags;
+    unsigned char m_uiContentCount, m_unknown09, m_unknown0a, m_unknown0b;
+    float m_pHeadNode, m_iSecondInteger;
+    int m_third, m_fourth, m_fifth, m_sixth, m_seventh;
+};
+
+// VEGAS17-CONFLICT: FUN_00e48400 (variant definition below differs from the one above)
+struct FUN_00e48400
+{
+    int* m_ppVirtualMethodTable;
+    unsigned short m_unknown04, m_flags;
+    unsigned char m_uiContentCount, m_unknown09, m_unknown0a, m_unknown0b;
+    float m_pHeadNode, m_iSecondInteger;
+    int m_third, m_fourth, m_fifth, m_sixth, m_seventh;
+    FUN_00e48400(const SourceData* source);
+};
+
+extern "C" int DAT_010e8ab0;
+
+extern "C" int DAT_010e8a90;
+
+// VEGAS17-CONFLICT: FUN_00e48db0_holder (variant definition below differs from the one above)
+struct FUN_00e48db0_holder
+{
+    void FUN_00dcd310(float f, void* p);
+};
+
+int CompareStringsCaseInsensitive(const char* a, const char* b);
+
+// VEGAS17-CONFLICT: Node4a5 (variant definition below differs from the one above)
+struct Node4a5
+{
+    char pad[0x14];
+    unsigned int m_uiName;
+
+    const char* GetName() const
+    {
+        return (const char*)(m_uiName & ~1);
+    }
+
+    Node4a5* FindChildByName(const char* pcName);
+};
+
+HolderStub* __cdecl FUN_00e4e3f0();
+
+// VEGAS17-CONFLICT: FUN_00e53180_Obj (variant definition below differs from the one above)
+struct FUN_00e53180_Obj
+{
+    float x;
+    float y;
+    float z;
+    float w;
+    void FUN_00e53180(const Float4* source);
+};
+
+void __cdecl PrefixSum(float* p, unsigned int n);
+
+hkBool __cdecl InvertMatrix2x2(const float* m, float* out, float fEps);
+
+int GetUnsignedValue(const char*, bool, unsigned*);
+
+extern float DAT_0108cb00;
+
+// VEGAS17-CONFLICT: SampleField (variant definition below differs from the one above)
+struct SampleField
+{
+    int FUN_00e587a0();
+    float* GetElementPtr(int index, int component);
+    void FillWithValue(float* value);
+    float GetFloatAt(int index, int component);
+};
+
+// VEGAS17-CONFLICT: FUN_00e54b00_cls (variant definition below differs from the one above)
+class FUN_00e54b00_cls
+{
+public:
+    int FUN_00e54b00(int p);
+};
+
+// VEGAS17-CONFLICT: FUN_00e54b20_sink (variant definition below differs from the one above)
+struct FUN_00e54b20_sink
+{
+};
+
+// VEGAS17-CONFLICT: E54B50Vector4 (variant definition below differs from the one above)
+class E54B50Vector4 {
+public:
+
+    float x;
+    float y;
+    float z;
+    float w;
+};
+
+// VEGAS17-CONFLICT: FUN_00e54ae0_class (variant definition below differs from the one above)
+struct FUN_00e54ae0_class
+{
+};
+
+// VEGAS17-CONFLICT: String (variant definition below differs from the one above)
+struct String { void* value;   };
+
+// VEGAS17-CONFLICT: CurveLengthOps (variant definition below differs from the one above)
+struct CurveLengthOps {
+};
+
+// VEGAS17-CONFLICT: KnotVector (variant definition below differs from the one above)
+struct KnotVector {
+    float x,y,z,w;
+    KnotVector(float a=0,float b=0,float c=0,float d=0);
+    KnotVector& FUN_00e53180(const KnotVector&);
+    KnotVector& operator=(const KnotVector& v) { return (*(::KnotVector *)(new ((void *)this) ::FUN_00e53180_cls((const float *)&(v)))); }
+    KnotVector& FUN_00e531a0(const KnotVector&);
+    KnotVector& FUN_00e531d0(const KnotVector&);
+    KnotVector& FUN_00e53200(float);
+    KnotVector& DivideByScalar(float);
+    KnotVector ScaleCopy(float) const;
+    KnotVector FUN_00e532b0(const KnotVector&) const;
+};
+
+__declspec(noinline) KnotVector::KnotVector(float a,float b,float c,float d) : x(a),y(b),z(c),w(d) {}
+__declspec(noinline) KnotVector& KnotVector::FUN_00e53180(const KnotVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
+__declspec(noinline) KnotVector& KnotVector::FUN_00e531a0(const KnotVector& v) {x+=v.x;y+=v.y;z+=v.z;w+=v.w;return *this;}
+__declspec(noinline) KnotVector& KnotVector::FUN_00e531d0(const KnotVector& v) {x-=v.x;y-=v.y;z-=v.z;w-=v.w;return *this;}
+__declspec(noinline) KnotVector& KnotVector::FUN_00e53200(float f) {x*=f;y*=f;z*=f;w*=f;return *this;}
+__declspec(noinline) KnotVector& KnotVector::DivideByScalar(float f) {x/=f;y/=f;z/=f;w/=f;return *this;}
+__declspec(noinline) KnotVector KnotVector::ScaleCopy(float f) const {KnotVector a=*this;return a.FUN_00e53200(f);}
+
+// hkMoppUsingFloatAabbVirtualMachine_queryPlanesOptimized (hkpMoppMachine.cpp)
+// with hkpMoppUsingFloatAabbVirtualMachine<...>::QueryAabbPrimitives and
+ // setAbs4 absMask
+
+namespace S00e5d070 {
+
+typedef float hkReal;
+typedef __m128 hkQuadReal;
+
+class hkVector4
+{
+public:
+    hkQuadReal m_vComponents;
+
+    __forceinline hkReal& operator()(int a) { return reinterpret_cast<hkReal*>(&m_vComponents)[a]; }
+    __forceinline const hkReal& operator()(int a) const { return reinterpret_cast<const hkReal*>(&m_vComponents)[a]; }
+    __forceinline void set(hkReal a, hkReal b, hkReal c, hkReal d) { m_vComponents = _mm_setr_ps(a, b, c, d); }
+    __forceinline void setAll3(hkReal a) { m_vComponents = _mm_set_ps1(a); }
+    __forceinline void setZero4() { m_vComponents = _mm_setzero_ps(); }
+    __forceinline void add4(const hkVector4& v) { m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents); }
+    __forceinline void setAbs4(const hkVector4& v)
+    {
+        m_vComponents = _mm_and_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10)));
+    }
+    __forceinline void _setMul3(const class hkMatrix3& a, const hkVector4& b);
+    __forceinline void _setMul4(const class hkMatrix3& r, const hkVector4& v) { _setMul3(r, v); }
+};
+
+class hkMatrix3
+{
+public:
+    hkVector4 m_kColumn0;
+    hkVector4 m_kColumn1;
+    hkVector4 m_kColumn2;
+    __forceinline hkVector4& getColumn(int x) { return (&m_kColumn0)[x]; }
+    __forceinline const hkVector4& getColumn(int x) const { return (&m_kColumn0)[x]; }
+};
+
+class hkRotation : public hkMatrix3 {};
+
+__forceinline void hkVector4::_setMul3(const hkMatrix3& a, const hkVector4& b)
+{
+    const hkQuadReal b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(0, 0, 0, 0));
+    const hkQuadReal r0 = _mm_mul_ps(a.getColumn(0).m_vComponents, b0);
+    const hkQuadReal b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(1, 1, 1, 1));
+    const hkQuadReal r1 = _mm_mul_ps(a.getColumn(1).m_vComponents, b1);
+    const hkQuadReal b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(2, 2, 2, 2));
+    const hkQuadReal r2 = _mm_mul_ps(a.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
+}
+
+class hkTransform
+{
+public:
+    hkRotation m_rotation;
+    hkVector4 m_vTranslation;
+    __forceinline hkVector4& getColumn(int x) { return m_rotation.getColumn(x); }
+    __forceinline hkRotation& getRotation() { return m_rotation; }
+    __forceinline void setRows4(const hkVector4& r0, const hkVector4& r1, const hkVector4& r2, const hkVector4& r3)
+    {
+        getColumn(0).set(r0(0), r1(0), r2(0), r3(0));
+        getColumn(1).set(r0(1), r1(1), r2(1), r3(1));
+        getColumn(2).set(r0(2), r1(2), r2(2), r3(2));
+        getColumn(3).set(r0(3), r1(3), r2(3), r3(3));
+    }
+};
+
+class hkAabb
+{
+public:
+    hkVector4 m_kMinimumCorner;
+    hkVector4 m_kMaximumCorner;
+};
+
+struct hkpMoppPrimitiveInfoArray;
+
+class hkpMoppCode
+{
+public:
+    struct CodeInfo
+    {
+        hkVector4 m_offset;
+        __forceinline hkReal getScale() const { return m_offset(3); }
+    };
+    void* m_ppVirtualMethodTable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    int m_unk08;
+    int m_unk0c;
+    CodeInfo m_info;
+    unsigned char* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+
+struct PlaneArrayDescriptor
+{
+    int m_iValue;
+    const hkVector4* m_kPlaneArray;
+};
+
+class MoppPrimitiveQueryContext
+{
+public:
+    hkpMoppPrimitiveInfoArray* m_pPrimitiveInfoArray;
+    int m_unk04;
+    int m_unk08;
+    int m_unk0c;
+    __forceinline void initQuery(hkpMoppPrimitiveInfoArray* primitives_out) { m_pPrimitiveInfoArray = primitives_out; }
+};
+
+class MoppPlaneQueryData : public MoppPrimitiveQueryContext
+{
+public:
+    int m_iValue;
+    hkTransform m_kPlaneArray[8];
+    hkTransform m_absPlanes[8];
+
+    __forceinline void initializeQueryObject(const PlaneArrayDescriptor& input, const hkpMoppCode* code)
+    {
+        int numPlanes4 = input.m_iValue & ~3;
+        hkTransform* planes = &m_kPlaneArray[0];
+        const hkVector4* p = input.m_kPlaneArray;
+        m_iValue = 0;
+        int i;
+        for (i = 0; i < numPlanes4; i += 4)
+        {
+            planes->setRows4(p[0], p[1], p[2], p[3]);
+            planes++;
+            m_iValue++;
+            p += 4;
+        }
+        {
+            const hkVector4* p0 = p;
+            const hkVector4* p1 = p + 1;
+            const hkVector4* p2 = p + 2;
+            const hkVector4* p3 = p + 3;
+            switch (input.m_iValue - i)
+            {
+            case 1:
+                p1 = p0;
+            case 2:
+                p2 = p0;
+            case 3:
+                p3 = p0;
+                planes->setRows4(*p0, *p1, *p2, *p3);
+                planes++;
+                m_iValue++;
+            default:
+                break;
+            }
+        }
+        hkTransform* absPlanes = &m_absPlanes[m_iValue];
+        absPlanes--;
+        planes--;
+        while (planes >= &m_kPlaneArray[0])
+        {
+            absPlanes->getColumn(0).setAbs4(planes->getColumn(0));
+            absPlanes->getColumn(1).setAbs4(planes->getColumn(1));
+            absPlanes->getColumn(2).setAbs4(planes->getColumn(2));
+            absPlanes->getColumn(3).setZero4();
+            hkVector4 offset;
+            offset._setMul4(planes->getRotation(), code->m_info.m_offset);
+            planes->getColumn(3).add4(offset);
+            planes->getColumn(3).add4(planes->getColumn(3));
+            planes--;
+            absPlanes--;
+        }
+    }
+};
+
+class hkpMoppUsingFloatAabbVirtualMachine
+{
+public:
+    struct MachineVectorIndexRecord
+    {
+        int m_uiPropertyCount;
+        int m_kProperties[1];
+        int m_iFirstPostRadiusValue;
+        int m_iSecondPostRadiusValue;
+        int m_iThirdPostRadiusValue;
+        int m_iIndex;
+    };
+    struct AxisAlignedBoundingBoxWrapper : public hkAabb {};
+
+    hkpMoppPrimitiveInfoArray* m_pPrimitiveInfoArray;
+    int m_unk04;
+    int m_unk08;
+    int m_unk0c;
+    hkReal m_ReciprocalScale;
+    int m_unk14;
+    int m_unk18;
+    int m_unk1c;
+    MoppPlaneQueryData m_kSphereQueryObject;
+
+    __forceinline void initQuery(hkpMoppPrimitiveInfoArray* primitives_out) { m_pPrimitiveInfoArray = primitives_out; }
+
+    void FUN_00e5d7d0(const MachineVectorIndexRecord* query, const unsigned char* PC, AxisAlignedBoundingBoxWrapper& aabb);
+
+    __forceinline void QueryAabbPrimitives(const hkpMoppCode* code, const PlaneArrayDescriptor& input,
+                                 hkpMoppPrimitiveInfoArray* primitives_out, hkpMoppPrimitiveInfoArray* hits)
+    {
+        const unsigned char* PC = &code->m_data[0];
+        initQuery(primitives_out);
+        AxisAlignedBoundingBoxWrapper aabb;
+        m_ReciprocalScale = 1.0f / code->m_info.getScale();
+        MachineVectorIndexRecord query;
+        query.m_iFirstPostRadiusValue = 0;
+        query.m_iSecondPostRadiusValue = 0;
+        query.m_iThirdPostRadiusValue = 0;
+        query.m_iIndex = 16;
+        query.m_uiPropertyCount = 0;
+        for (int i = 0; i < 1; i++)
+        {
+            query.m_kProperties[i] = 0;
+        }
+        aabb.m_kMinimumCorner.setZero4();
+        hkReal size = m_ReciprocalScale * 16777216.0;
+        aabb.m_kMaximumCorner.setAll3(size);
+        m_kSphereQueryObject.initializeQueryObject(input, code);
+        m_kSphereQueryObject.m_pPrimitiveInfoArray = hits;
+        FUN_00e5d7d0(&query, PC, aabb);
+    }
+};
+
+}
+
+// @fnv 0x00e5d070
+void __cdecl FUN_00e5d070(const S00e5d070::hkpMoppCode* code, const S00e5d070::PlaneArrayDescriptor& input,
+                                       S00e5d070::hkpMoppPrimitiveInfoArray* primitives_out,
+                                       S00e5d070::hkpMoppPrimitiveInfoArray* hits)
+{
+    S00e5d070::hkpMoppUsingFloatAabbVirtualMachine machine;
+    machine.QueryAabbPrimitives(code, input, primitives_out, hits);
+}
+
+static __forceinline int moppHighLast(int middle,const volatile unsigned char& high,const volatile unsigned char& last){middle+=int(high)<<8;return(middle<<8)+last;}
+
+static __forceinline int moppRead24(const unsigned char* p) { int middle = p[1]; middle += int(p[0]) << 8; return (middle << 8) + p[2]; }
+
+extern "C" void _ReadBarrier();
+
+struct MoppState {
+    int terminalBase;
+    int properties[1];
+    int origin[3];
+    int shift;
+};
+
+struct __declspec(align(16)) MoppBox { float low[4]; float high[4];
+    __forceinline MoppBox& operator=(const MoppBox& b) { *(__m128*)low = *(const __m128*)b.low; *(__m128*)high = *(const __m128*)b.high; return *this; }
+};
+
+struct MoppPlaneBlock { __m128 x, y, z, w; };
+
+struct MoppPlaneSet {
+    int unk00, unk04, unk08, unk0c;
+    int count, unk14, unk18, unk1c;
+    MoppPlaneBlock planes[8];
+    MoppPlaneBlock absolutePlanes[8];
+    __forceinline int test(const MoppBox& box, const MoppState* state, const unsigned char* code) {
+        int inside = 15;
+        const MoppPlaneBlock* plane = planes;
+        __m128 sum = _mm_add_ps(*(const __m128*)box.high, *(const __m128*)box.low);
+        __m128 difference = _mm_sub_ps(*(const __m128*)box.high, *(const __m128*)box.low);
+        const MoppPlaneBlock* absolutePlane = absolutePlanes;
+        int n = count - 1;
+        for (; n >= 0; --n) {
+            __m128 sx = _mm_shuffle_ps(sum, sum, 0);
+            __m128 sy = _mm_shuffle_ps(sum, sum, 0x55);
+            __m128 sz = _mm_shuffle_ps(sum, sum, 0xaa);
+            __m128 dx = _mm_shuffle_ps(difference, difference, 0);
+            __m128 dy = _mm_shuffle_ps(difference, difference, 0x55);
+            __m128 dz = _mm_shuffle_ps(difference, difference, 0xaa);
+            __m128 radius = _mm_add_ps(
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->x)), dx), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->y)), dy)),
+                _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->z)), dz));
+            __m128 distance = _mm_add_ps(
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->y)), sy), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->x)), sx)),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->z)), sz), _mm_load_ps(reinterpret_cast<float*>(&plane->w))));
+            if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance, radius), _mm_setzero_ps())) != 15)
+                return 0;
+            inside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance, radius), _mm_setzero_ps()));
+            ++plane;
+            ++absolutePlane;
+        }
+        if (inside == 15) {
+            reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(this)->FUN_00e65ee0(state, code);
+            return 1;
+        }
+        return 2;
+    }
+};
+
+struct MoppOutput { int* data; int size; int capacity; };
+
+struct MoppMemorySystem { int unk00, unk04, unk08, unk0c; void* allocator; };
+
+void __cdecl ResizeAudioStream(void*, void*, int);
+
+struct MoppErrorSink {
+    virtual void ReportDiagnostic();
+    virtual void unused1();
+    virtual void unused2();
+    virtual int __declspec(nothrow) report(int, unsigned, const char*, const char*, int);
+};
+
+struct MoppErrorStream {
+    int unk00, unk04, unk08;
+    void __declspec(nothrow) close();
+    void __declspec(nothrow) text(const char*);
+};
+
+struct MoppMachine {
+    MoppOutput* output;
+    int unk04, unk08, unk0c;
+    float scale;
+    int unk14, unk18, unk1c;
+    MoppPlaneSet planeSet;
+    void FUN_00e5d7d0(const MoppState*, const unsigned char*, MoppBox*);
+};
+
+// @fnv 0x00e5d7d0
+void MoppMachine::FUN_00e5d7d0(const MoppState* state, const unsigned char* code, MoppBox* box)
+{
+    MoppState localState;
+    MoppBox other;
+    int firstOffset, secondOffset;
+    int opcode;
+    for (;;) {
+        opcode = *code;
+        switch (opcode) {
+        case 0: return;
+        case 0x13: case 0x14: case 0x15: case 0x16: case 0x17:
+        case 0x18: case 0x19: case 0x1a: case 0x1b: case 0x1c:
+            {
+                secondOffset = code[3];
+                other = *box;
+                code += 4;
+                FUN_00e5d7d0(state, code, &other);
+                code += secondOffset;
+                break;
+            }
+        case 0x10: case 0x11: case 0x12:
+            other = *box;
+            {
+            secondOffset = code[2];
+            box->high[opcode - 0x10] = float((code[1] << state->shift) + state->origin[opcode - 0x10]) * scale;
+            other.low[opcode - 0x10] = float((secondOffset << state->shift) + state->origin[opcode - 0x10]) * scale;
+            }
+            firstOffset = 0;
+            secondOffset = code[3];
+            code += 4;
+            goto split;
+        case 0x20: case 0x21: case 0x22:
+            other = *box;
+            {
+            secondOffset = code[1] + 1;
+            other.low[opcode - 0x20] = float((code[1] << state->shift) + state->origin[opcode - 0x20]) * scale;
+            box->high[opcode - 0x20] = float((secondOffset << state->shift) + state->origin[opcode - 0x20]) * scale;
+            }
+            firstOffset = 0;
+            secondOffset = code[2];
+            code += 3;
+            goto split;
+        case 0x23: case 0x24: case 0x25:
+            other = *box;
+            {
+            secondOffset = code[2];
+            box->high[opcode - 0x23] = float((code[1] << state->shift) + state->origin[opcode - 0x23]) * scale;
+            other.low[opcode - 0x23] = float((secondOffset << state->shift) + state->origin[opcode - 0x23]) * scale;
+            }
+            firstOffset = code[3];
+            secondOffset = code[5];
+            firstOffset = (firstOffset << 8) + code[4];
+            secondOffset = (secondOffset << 8) + code[6];
+            code += 7;
+        split:
+            {
+                int op = code[firstOffset];
+                while (op >= 0x26 && op <= 0x2b) {
+                    if (op >= 0x29) {
+                        _ReadWriteBarrier();
+                        int leading = code[firstOffset+1];
+                        _ReadWriteBarrier();
+                        int following = code[firstOffset+2];
+                        box->low[op - 0x29] = float(((following + (leading << 8)) << 8) + code[firstOffset+3]) * scale;
+                        box->high[op - 0x29] = float((((code[firstOffset+4] << 8) + code[firstOffset+5]) << 8) + code[firstOffset+6]) * scale;
+                        firstOffset += 7;
+                    } else {
+                        box->low[op - 0x26] = float((code[firstOffset+1] << state->shift) + state->origin[op-0x26]) * scale;
+                        box->high[op - 0x26] = float((code[firstOffset+2] << state->shift) + state->origin[op-0x26]) * scale;
+                        firstOffset += 3;
+                    }
+                    op = code[firstOffset];
+                }
+                op = code[secondOffset];
+                while (op >= 0x26 && op <= 0x2b) {
+                    if (op >= 0x29) {
+                        other.low[op - 0x29] = float((((code[secondOffset+1] << 8) + code[secondOffset+2]) << 8) + code[secondOffset+3]) * scale;
+                        other.high[op - 0x29] = float(moppRead24(code+secondOffset+4)) * scale;
+                        secondOffset += 7;
+                    } else {
+                        other.low[op - 0x26] = float((code[secondOffset+1] << state->shift) + state->origin[op-0x26]) * scale;
+                        other.high[op - 0x26] = float((code[secondOffset+2] << state->shift) + state->origin[op-0x26]) * scale;
+                        secondOffset += 3;
+                    }
+                    op = code[secondOffset];
+                }
+                int secondResult = planeSet.test(other, state, code + secondOffset);
+                int firstResult = planeSet.test(*box, state, code + firstOffset);
+                if (secondResult != 2) {
+                    if (firstResult != 2) return;
+                    code += firstOffset;
+                } else if (firstResult != 2) {
+                    *box = other;
+                    code += secondOffset;
+                } else {
+                    FUN_00e5d7d0(state, code + secondOffset, &other);
+                    code += firstOffset;
+                }
+                break;
+            }
+        case 0x29: case 0x2a: case 0x2b:
+            box->low[opcode - 0x29] = float(moppHighLast(code[2],code[1],code[3])) * scale;
+            {
+                int leading = code[4];
+                _ReadWriteBarrier();
+                int following = code[5];
+                box->high[opcode - 0x29] = float(((following + (leading << 8)) << 8) + code[6]) * scale;
+            }
+            code += 7;
+            goto clip;
+        case 0x26: case 0x27: case 0x28:
+            box->low[opcode - 0x26] = float((code[1] << state->shift) + state->origin[opcode - 0x26]) * scale;
+            box->high[opcode - 0x26] = float((code[2] << state->shift) + state->origin[opcode - 0x26]) * scale;
+            code += 3;
+        clip:
+            if (code[0] >= 0x26 && code[0] <= 0x2b) break;
+            {
+                int result = planeSet.test(*box, state, code);
+                if (result != 2) return;
+                break;
+            }
+        case 5: code += code[1] + 2; break;
+        case 6: code += (code[1] << 8) + code[2] + 3; break;
+        case 7: code += (((code[1] << 8) + code[2]) << 8) + code[3] + 4; break;
+        case 1: case 2: case 3: case 4:
+            localState.origin[0] = (code[1] << state->shift) + state->origin[0];
+            localState.origin[1] = (code[2] << state->shift) + state->origin[1];
+            localState.origin[2] = (code[3] << state->shift) + state->origin[2];
+            localState.shift = state->shift - opcode;
+            localState.properties[0] = state->properties[0];
+            localState.terminalBase = state->terminalBase;
+            state = &localState;
+            code += 4;
+            break;
+        case 9:
+            {
+                int value = code[1];
+                if (state != &localState) { localState = *state; state = &localState; }
+                localState.terminalBase += value;
+                code += 2;
+                break;
+            }
+        case 10:
+            {
+                int value = (code[1] << 8) + code[2];
+                if (state != &localState) { localState = *state; state = &localState; }
+                localState.terminalBase += value;
+                code += 3;
+                break;
+            }
+        case 11:
+            {
+                int value = (((((code[1] << 8) + code[2]) << 8) + code[3]) << 8) + code[4];
+                if (state != &localState) { localState = *state; state = &localState; }
+                localState.terminalBase = value;
+                code += 5;
+                break;
+            }
+        case 0x60: case 0x61: case 0x62: case 0x63: {
+            int propertyByte = code[1];
+            code += 2;
+            localState.properties[opcode-0x60] = propertyByte;
+            goto property; }
+        case 0x64: case 0x65: case 0x66: case 0x67:
+            localState.properties[opcode-0x64] = (code[1] << 8) + code[2];
+            code += 3;
+            goto property;
+        case 0x68: case 0x69: case 0x6a: case 0x6b:
+            localState.properties[opcode-0x68] = (((((code[1] << 8) + code[2]) << 8) + code[3]) << 8) + code[4];
+            code += 5;
+        property:
+            {
+                const int& propertyValue = localState.properties[0];
+                int value = propertyValue;
+                if (state != &localState) { localState = *state; state = &localState; }
+                localState.properties[0] = value;
+                break;
+            }
+        case 0x50: secondOffset = code[1]; goto terminal;
+        case 0x51: secondOffset = (code[1] << 8) + code[2]; goto terminal;
+        case 0x52: secondOffset = (((code[1] << 8) + code[2]) << 8) + code[3]; goto terminal;
+        case 0x53: secondOffset = (((((code[1] << 8) + code[2]) << 8) + code[3]) << 8) + code[4]; goto terminal;
+        case 0x30: case 0x31: case 0x32: case 0x33: case 0x34: case 0x35: case 0x36: case 0x37:
+        case 0x38: case 0x39: case 0x3a: case 0x3b: case 0x3c: case 0x3d: case 0x3e: case 0x3f:
+        case 0x40: case 0x41: case 0x42: case 0x43: case 0x44: case 0x45: case 0x46: case 0x47:
+        case 0x48: case 0x49: case 0x4a: case 0x4b: case 0x4c: case 0x4d: case 0x4e: case 0x4f:
+            secondOffset = opcode - 0x30;
+        terminal:
+            {
+                MoppOutput* out = output;
+                int value = secondOffset;
+                static_cast<volatile int&>(secondOffset) = value;
+                value += state->terminalBase;
+
+                MoppMemorySystem* memory = (MoppMemorySystem*)FUN_00c85750();
+                if (out->size == (out->capacity & 0x3fffffff))
+                    ResizeAudioStream(memory->allocator, out, 4);
+                int* next = out->data + out->size;
+                ++out->size;
+                *next = value;
+                return;
+            }
+        default:
+            {
+                unsigned int buffer[128];
+                MoppErrorStream stream;
+                new ((void *)&(stream)) ::FUN_00cb1600(reinterpret_cast<char*>(buffer), 512);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+                if (((MoppErrorSink*)(*reinterpret_cast<::DiagnosticLogger * *>(&::DAT_01268360)))->report(3, 0x1298fedd, reinterpret_cast<char*>(buffer), "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Physics/Internal/Collide/Mopp/Machine/hkpMoppUsingFloatAabbVirtualMachine.inl", 301))
+                    fnv_Breakpoint();
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+                break;
+            }
+        }
+    }
+}
+
+// VEGAS17-CONFLICT: FUN_00cb0a70 (variant definition below differs from the one above)
+struct FUN_00cb0a70
+{
+};
+
+// VEGAS17-CONFLICT: S_e53300_Vec (variant definition below differs from the one above)
+struct S_e53300_Vec
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0c;
+    S_e53300_Vec ScaleCopy(float f);
+};
+
+// VEGAS17-CONFLICT: AttrLogBuilder (variant definition below differs from the one above)
+class AttrLogBuilder
+{
+  public:
+    char* m_pString;
+    unsigned short m_sLen;
+    unsigned short m_sMaxLen;
+    unsigned int m_08;
+};
+
+// VEGAS17-CONFLICT: Ref (variant definition below differs from the one above)
+struct Ref
+{
+};
+
+// VEGAS17-CONFLICT: Entry (variant definition below differs from the one above)
+struct Entry
+{
+    Ref* name;
+    Ref* pClassInfo;
+    unsigned char type;
+    unsigned char flags;
+    unsigned short reserved;
+    int count;
+    unsigned char storage;
+    unsigned char ReplaceImpactData;
+    unsigned short reserved12;
+    void* data;
+    int unk18;
+    int unk1c;
+    int length() const
+    {
+        int t = type;
+        return ::FUN_00e60cb0(t, count);
+    }
+};
+
+// VEGAS17-CONFLICT: ArrayBase (variant definition below differs from the one above)
+struct ArrayBase
+{
+    void* data;
+    int size;
+    int capacity;
+    ArrayBase() : data(0), size(0), capacity(0x80000000)
+    {}
+    int getCapacity() const
+    {
+        return capacity & 0x3fffffff;
+    }
+    static void grow(Allocator& heap, ArrayBase* a, int n, int stride)
+    {
+        int cap = a->getCapacity();
+        if (cap < n)
+            ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&heap), (::SpawnedArray *)(a), n < 2 * cap ? 2 * cap : n, stride);
+    }
+    void reserve(Allocator& heap, int n, int stride)
+    {
+        grow(heap, this, n, stride);
+    }
+};
+
+struct SampleVec
+{
+
+    float x, y, z, w;
+    SampleVec(int)
+    {}
+    SampleVec()
+    {
+        new ((void *)this) ::FUN_00e53160(0, 0, 0, 0);
+    }
+
+    SampleVec* FUN_00e53160(float, float, float, float);
+
+    float FUN_00e53580(int i) const;
+
+    SampleVec& FUN_00e531d0(const SampleVec&);
+
+    float FUN_00e54ad0() const;
+
+    float GetHelperValueAsFloat() const;
+};
+
+SampleVec* SampleVec::FUN_00e53160(float x, float y, float z, float w)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->w = w;
+    return this;
+}
+
+float SampleVec::FUN_00e53580(int i) const
+{
+    return reinterpret_cast<const float*>(this)[i];
+}
+SampleVec& SampleVec::FUN_00e531d0(const SampleVec& b)
+{
+    x -= b.x;
+    y -= b.y;
+    z -= b.z;
+    w -= b.w;
+    return *this;
+}
+
+float FUN_00e535a0(const void* va, const void* vb)
+{
+
+    const SampleVec* a = static_cast<const SampleVec*>(va);
+    const SampleVec* b = static_cast<const SampleVec*>(vb);
+
+    return a->FUN_00e53580(1) * b->FUN_00e53580(1) + a->FUN_00e53580(0) * b->FUN_00e53580(0) +
+           a->FUN_00e53580(2) * b->FUN_00e53580(2) + a->FUN_00e53580(3) * b->FUN_00e53580(3);
+}
+
+float SampleVec::FUN_00e54ad0() const
+{
+    return FUN_00e535a0(this, this);
+}
+
+float SampleVec::GetHelperValueAsFloat() const
+{
+    return (float)sqrt(FUN_00e54ad0());
+}
+
+void FUN_00e54630(SampleVec*, int, int, float**, void*, float);
+
+float LookupAndConsume(const SampleVec*, const SampleVec*);
+
+void FUN_00e544c0(int, int, float**, void*, float, int, SampleVec*);
+
+float Vector4NormalizedDot(const SampleVec&, const SampleVec&);
+
+// @fnv 0x00e54cb0
+float FUN_00e54cb0(int leftIndex, int degree, float** knots, void* context, const SampleVec* target, int scanSteps,
+                   int refineSteps, float tolerance, float angleTolerance)
+{
+
+    long endKnot = leftIndex + degree + 1;
+    float* knotValues;
+
+    knotValues = *knots;
+
+    float param = knotValues[0];
+
+    float bestCost;
+
+    bestCost = DAT_010ec990;
+
+    int step = 0;
+
+    if (scanSteps >= 0)
+    {
+
+        double span;
+
+        span = knotValues[endKnot] - knotValues[0];
+
+        float denominator;
+
+        denominator = (float)scanSteps;
+
+        for (; scanSteps >= step; ++step)
+        {
+
+            float c;
+
+            c = (float)(((float)step / denominator) * span + knotValues[0]);
+
+            SampleVec value(0);
+
+            FUN_00e54630(&value, leftIndex, degree, knots, context, c);
+
+            float sampleCost = LookupAndConsume(&value, target);
+
+            if (sampleCost < bestCost)
+            {
+                bestCost = sampleCost;
+                param = c;
+            }
+        }
+    }
+
+    for (step = 0; step < refineSteps; ++step)
+    {
+
+        SampleVec cost[3];
+
+        FUN_00e544c0(leftIndex, degree, knots, context, param, 2, cost);
+
+        reinterpret_cast<::FUN_00e531d0_cls *>(&(cost[0]))->FUN_00e531d0((const float *)&(*target));
+
+        bool angleOK;
+
+        bool distanceOK = cost[0].GetHelperValueAsFloat() <= tolerance;
+
+        angleOK = Vector4NormalizedDot(cost[1], cost[0]) <= angleTolerance;
+
+        if (distanceOK && angleOK)
+            return param;
+
+        float previous = param;
+
+        param = param -
+                FUN_00e535a0(&cost[1], &cost[0]) / (float)(FUN_00e535a0(&cost[2], &cost[0]) + cost[1].FUN_00e54ad0());
+
+        float lower = knotValues[0];
+        param = (param > lower) ? param : lower;
+
+        float upper = knotValues[endKnot];
+        param = (param < upper) ? param : upper;
+
+        bool converged = fabsf(param - previous) * cost[1].GetHelperValueAsFloat() <= tolerance;
+
+        if (distanceOK || angleOK || converged)
+            return param;
+    }
+
+    return param;
+}
+
+// VEGAS17-CONFLICT: FUN_00c90510_Reference (variant definition below differs from the one above)
+struct FUN_00c90510_Reference
+{
+};
+
+// VEGAS17-CONFLICT: E5B110Ref (variant definition below differs from the one above)
+struct E5B110Ref
+{
+};
+
+// VEGAS17-CONFLICT: E5B110Obj (variant definition below differs from the one above)
+struct E5B110Obj
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
+    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
+    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
+    E5B110Ref* unka0;
+};
+
+// @fnv 0x00e50e50
+void __cdecl FUN_00e50e50(float w, float* out, const float* in, int n)
+{
+    for (int i = 1; i < n; ++i)
+        out[i] += (in[i - 1] + in[i]) * w;
+    out[0] += (w + w) * in[0];
+}
+
+// VEGAS17-CONFLICT: String (variant definition below differs from the one above)
+struct String { void* value; void init() throw();  };
+
+void __cdecl FUN_00e5d070(const S00e5d070::hkpMoppCode* code, const S00e5d070::PlaneArrayDescriptor& input, S00e5d070::hkpMoppPrimitiveInfoArray* primitives_out, S00e5d070::hkpMoppPrimitiveInfoArray* hits);
+
+// VEGAS17-CONFLICT: MoppErrorStream (variant definition below differs from the one above)
+struct MoppErrorStream {
+    int unk00, unk04, unk08;
+    void __declspec(nothrow) init(char*, int);
+    void __declspec(nothrow) close();
+    void __declspec(nothrow) text(const char*);
+};
+
+typedef float hkReal;
+
+typedef unsigned int hkUint32;
+
+typedef __m128 hkQuadReal;
+
+class VectorComponentValue
+{
+public:
+    VectorComponentValue(const hkQuadReal& x) : m_vValue(x) {}
+    VectorComponentValue(hkReal x) { m_vValue = _mm_load_ss(&x); }
+    VectorComponentValue() {}
+    operator hkReal() const
+    {
+        hkReal s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+    __forceinline hkQuadReal broadcast() const { return _mm_shuffle_ps(m_vValue, m_vValue, 0); }
+    __forceinline const hkQuadReal& getQuad() const { return m_vValue; }
+
+private:
+    hkQuadReal m_vValue;
+};
+
+typedef const VectorComponentValue& hkSimdRealParameter;
+
+inline VectorComponentValue operator-(hkSimdRealParameter r)
+{
+    return _mm_sub_ss(::DAT_010c7160, r.getQuad());
+}
+
+class hkVector4
+{
+public:
+    hkVector4() {}
+    hkVector4(const hkVector4& v) { m_vComponents = v.m_vComponents; }
+    void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
+    void setInterpolate4(const hkVector4& v0, const hkVector4& v1, hkSimdRealParameter _t)
+    {
+        hkQuadReal t = _t.broadcast();
+        hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, t);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(t, v1.m_vComponents));
+    }
+    void setAddMul4(hkSimdRealParameter r, const hkVector4& v1, hkSimdRealParameter q, const hkVector4& v2)
+    {
+        m_vComponents = _mm_add_ps(_mm_mul_ps(r.broadcast(), v1.m_vComponents), _mm_mul_ps(q.broadcast(), v2.m_vComponents));
+    }
+    void setMul4(hkSimdRealParameter r, const hkVector4& v1) { m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents); }
+    void addMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
+    }
+    VectorComponentValue dot4(const hkVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        hkQuadReal sum0 = _mm_add_ps(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 0, 3, 2)), x2);
+        hkQuadReal sum1 = _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(2, 3, 0, 1));
+        return _mm_add_ps(sum0, sum1);
+    }
+    hkQuadReal m_vComponents;
+};
+
+class hkQuaternion
+{
+public:
+    hkQuaternion() {}
+    void operator=(const hkQuaternion& q) { m_vec = q.m_vec; }
+    hkVector4 m_vec;
+};
+
+class hkQsTransform
+{
+public:
+    __forceinline hkQsTransform() {}
+    __forceinline hkQsTransform(const hkQsTransform& t)
+    {
+        m_vTranslation = t.m_vTranslation;
+        m_rotation = t.m_rotation;
+        m_vScale = t.m_vScale;
+    }
+    __forceinline void setInterpolate4(const hkQsTransform& a, const hkQsTransform& b, hkSimdRealParameter t)
+    {
+        m_vScale.setInterpolate4(a.m_vScale, b.m_vScale, t);
+        m_vTranslation.setInterpolate4(a.m_vTranslation, b.m_vTranslation, t);
+
+        const hkReal oneMinusT = 1.0f - hkReal(t);
+
+        const hkReal signedT = (a.m_rotation.m_vec.dot4(b.m_rotation.m_vec) < 0.0f) ? -t : t;
+
+        hkQuaternion out;
+        out.m_vec.setAddMul4(VectorComponentValue(oneMinusT), a.m_rotation.m_vec, VectorComponentValue(signedT), b.m_rotation.m_vec);
+        reinterpret_cast<::FUN_005611c0_t *>(&(out))->FUN_005611c0();
+
+        m_rotation = out;
+    }
+    hkVector4 m_vTranslation;
+    hkQuaternion m_rotation;
+    hkVector4 m_vScale;
+};
+
+// @fnv 0x00e41bf0
+hkQsTransform FUN_00e41bf0(hkReal time, const hkQsTransform* keys, hkUint32 numKeys, hkReal duration)
+{
+    const hkUint32 lastKey = numKeys - 1;
+    const hkReal frame = time / duration * (hkReal)lastKey;
+    const hkUint32 index = (hkUint32)frame;
+    if (index > lastKey - 1)
+    {
+        return keys[lastKey];
+    }
+    const hkReal delta = frame - (hkReal)index;
+    hkQsTransform result;
+    result.setInterpolate4(keys[index], keys[index + 1], VectorComponentValue(delta));
+    return result;
+}
+
+extern const __m128 DAT_010ec850, DAT_010ec840, DAT_010ec830, DAT_010ec820;
+
+extern const __m128 DAT_010ec800;
+
+extern const __m128 DAT_010ec7d0, DAT_010ec7c0, DAT_010ec790;
+
+extern const __m128 DAT_010ec7e0;
+
+extern const __m128 DAT_010ec7a0;
+
+void __cdecl FUN_00e51070(float*, float*, int);
+
+class WaveScalar {
+    __m128 q;
+public:
+    WaveScalar(float value) { q = _mm_load_ss(&value); }
+    __forceinline __m128 broadcast() const { return _mm_shuffle_ps(q,q,0); }
+};
+
+struct WaveVector {
+private:
+    __m128 q;
+public:
+    __forceinline void splat(float value) { q = _mm_set_ps1(value); }
+    __forceinline __m128& quad() { return q; }
+    __forceinline void accumulate(const WaveScalar& value, const WaveVector& coefficients) {
+        q = _mm_add_ps(q, _mm_mul_ps(value.broadcast(),coefficients.q));
+    }
+    __forceinline float& lane(int index) { return reinterpret_cast<float*>(&q)[index]; }
+    __forceinline operator __m128() const { return q; }
+};
+
+// @fnv 0x00e51140
+extern "C" void __cdecl FUN_00e51140(float* data, unsigned int count) {
+    static const __m128 rowsA[8] = {::DAT_010ec7f0,DAT_010ec850,DAT_010ec840,DAT_010ec830,DAT_010ec820,::C17,DAT_010ec800,::C14};
+    static const __m128 rowsB[8] = {::DAT_010ec7f0,DAT_010ec7e0,DAT_010ec7d0,DAT_010ec7c0,C14,DAT_010ec7a0,DAT_010ec790,C17};
+    {
+        WaveVector sumA, sumB, termA, termB;
+        sumA.splat(data[0]);
+        sumB.splat(data[0]);
+        for (int j=1; j<8; ++j) {
+            termA.quad()=rowsA[j];
+            termB.quad()=rowsB[j];
+            sumA.accumulate(data[j],termA);
+            sumB.accumulate(data[j],termB);
+        }
+        data[0]=sumA.lane(0); data[1]=sumA.lane(1); data[2]=sumA.lane(2); data[3]=sumA.lane(3);
+        float* lower=data+4;
+        lower[0]=sumB.lane(0); lower[1]=sumB.lane(1); lower[2]=sumB.lane(2); lower[3]=sumB.lane(3);
+    }
+    unsigned int span=8;
+    while (span<count) {
+        float* scale=data;
+        float* detail=data+span;
+        ::FUN_00e50e50(-0.25f,scale,detail,span);
+        ::AccumulateNeighborSum(0.5f,scale,detail,span);
+        span<<=1;
+        FUN_00e51070(data,data,span);
+    }
+}
+
+namespace VehicleFrictionApply {
+typedef float hkReal;
+typedef unsigned char hkUint8;
+typedef unsigned int hkUint32;
+typedef unsigned __w64 hk_size_t;
+class hkClass;
+class hkBoolR
+{
+public:
+typedef char CompileTimeTrueType;
+inline hkBoolR()
+{
+}
+inline hkBoolR(bool b)
+{
+m_cBooleanValue=static_cast<char>(b);
+}
+inline operator bool()const
+{
+return m_cBooleanValue !=0;
+}
+private:
+char m_cBooleanValue;};template<typename ENUM,typename STORAGE>
+class hkEnum
+{
+public:
+hkEnum()
+{
+}
+hkEnum(ENUM e)
+{
+m_kStorage=static_cast<STORAGE>(e);
+}
+private:
+STORAGE m_kStorage;};
+template<typename TYPE>
+class ValueWrapper
+{
+public:
+__forceinline ValueWrapper(){}
+private:
+TYPE m_kStorage;};
+class hkMemoryAllocator
+{
+public:
+virtual void*AllocateMemoryBlock(int numBytes)=0;
+virtual void ReleaseBlock(void*p,int numBytes)=0;public:
+enum MemoryState
+{
+MEMORY_STATE_OK,
+MEMORY_STATE_OUT_OF_MEMORY
+};};struct StringPointerTriple
+{
+public:
+__forceinline StringPointerTriple();protected:
+ValueWrapper<void*>m_next;};
+class NineIntegerRecord
+{
+public:
+typedef hkMemoryAllocator Allocator;
+static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator&temp(){return*m_pTemp;}
+inline Allocator&heap(){return*m_pStreamAllocator;}
+protected:
+StringPointerTriple m_aiEntries;
+Allocator*m_pTemp;
+Allocator*m_pStreamAllocator;};
+typedef __m128 hkQuadReal;
+class hkVector4;
+typedef const hkVector4&hkVector4Parameter;
+class VectorComponentValue
+{
+public:
+VectorComponentValue(const hkQuadReal&x)
+:m_vValue(x)
+{
+}
+VectorComponentValue(hkReal x)
+{
+m_vValue=_mm_load_ss(&x);
+}
+operator hkReal()const
+{
+hkReal s;
+_mm_store_ss(&s,m_vValue);
+return s;
+}
+__forceinline hkQuadReal broadcast()const
+{
+return _mm_shuffle_ps(m_vValue,m_vValue,0);
+}
+__forceinline const hkQuadReal&getQuad()const
+{
+return m_vValue;
+}
+private:
+hkQuadReal m_vValue;};
+typedef const VectorComponentValue&hkSimdRealParameter;__forceinline void hkSimdReal_store(hkSimdRealParameter a,float*f)
+{
+_mm_store_ss(f,a.getQuad());
+}
+inline VectorComponentValue __cdecl operator+(hkSimdRealParameter r,hkSimdRealParameter s)
+{
+return _mm_add_ss(r.getQuad(),s.getQuad());
+}
+namespace MathUtilities
+{
+inline hkReal __cdecl sqrt(hkReal r){return::sqrtf(r);}
+inline hkReal __cdecl fabs(hkReal r){return::fabsf(r);}
+inline hkBoolR __cdecl equal(hkReal x,hkReal y,hkReal tolerance2=1e-5f)
+{
+return MathUtilities::fabs(x-y)<tolerance2;
+}
+template<typename T>
+inline T __cdecl max2(T x,T y)
+{
+return x>y ? x:y;
+}
+template<typename T>
+inline T __cdecl min2(T x,T y)
+{
+return x<y ? x:y;
+}
+template<typename T>
+inline T __cdecl clamp(T x,T mi,T ma)
+{
+if(x<mi)return mi;
+if(x>ma)return ma;
+return x;
+}
+}
+class hkMatrix3;
+class hkRotation;
+class hkVector4
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void operator=(const hkVector4&v);
+__forceinline void setZero4();
+__forceinline void add4(const hkVector4&a);
+__forceinline void add3clobberW(const hkVector4&a);
+__forceinline void setAdd4(const hkVector4&a,const hkVector4&b);
+__forceinline void sub3clobberW(const hkVector4&a);
+__forceinline void setSub4(const hkVector4&a,const hkVector4&b);
+__forceinline void mul4(const hkVector4&a);
+__forceinline void setMul4(hkVector4Parameter a,hkVector4Parameter b);
+__forceinline void setMul4(hkSimdRealParameter r,const hkVector4&a);
+__forceinline void setCross(const hkVector4&a,const hkVector4&b);
+__forceinline void _setMul3(const hkMatrix3&a,const hkVector4&b);
+__forceinline void _setRotatedDir(const hkRotation&a,const hkVector4&b);
+__forceinline VectorComponentValue horizontalAdd3()const;
+__forceinline VectorComponentValue horizontalAdd4()const;
+__forceinline void setW(const hkVector4&v);
+__forceinline void setBroadcast(hkVector4Parameter v,int i);
+__forceinline void setBroadcast3clobberW(hkVector4Parameter v,int i);
+private:
+hkQuadReal m_vComponents;
+public:
+operator hkQuadReal()const
+{
+return m_vComponents;
+}
+};class hkMatrix3
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline const hkVector4&getColumn(int i)const;
+__forceinline void setZero();
+protected:
+hkVector4 m_kColumn0;
+hkVector4 m_kColumn1;
+hkVector4 m_kColumn2;};class __declspec(align(16))hkRotation:public hkMatrix3
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};inline void hkVector4::operator=(const hkVector4&v)
+{
+m_vComponents=v.m_vComponents;
+}
+inline void hkVector4::add4(const hkVector4&v)
+{
+m_vComponents=_mm_add_ps(m_vComponents,v.m_vComponents);
+}
+inline void hkVector4::add3clobberW(const hkVector4&v)
+{
+m_vComponents=_mm_add_ps(m_vComponents,v.m_vComponents);
+}
+inline void hkVector4::setAdd4(const hkVector4&v0,const hkVector4&v1)
+{
+m_vComponents=_mm_add_ps(v0.m_vComponents,v1.m_vComponents);
+}
+inline void hkVector4::sub3clobberW(const hkVector4&v)
+{
+m_vComponents=_mm_sub_ps(m_vComponents,v.m_vComponents);
+}
+inline void hkVector4::setSub4(const hkVector4&v0,const hkVector4&v1)
+{
+m_vComponents=_mm_sub_ps(v0.m_vComponents,v1.m_vComponents);
+}
+inline void hkVector4::mul4(const hkVector4&v)
+{
+m_vComponents=_mm_mul_ps(m_vComponents,v.m_vComponents);
+}
+inline void hkVector4::setMul4(const hkVector4&a,const hkVector4&b)
+{
+m_vComponents=_mm_mul_ps(a.m_vComponents,b.m_vComponents);
+}
+inline void hkVector4::setMul4(hkSimdRealParameter r,const hkVector4&v1)
+{
+m_vComponents=_mm_mul_ps(r.broadcast(),v1.m_vComponents);
+}
+inline void hkVector4::setCross(const hkVector4&v0,const hkVector4&v1)
+{
+hkQuadReal cross0;
+cross0=_mm_mul_ps(
+_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))),
+_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))));
+hkQuadReal cross1;
+cross1=_mm_mul_ps(
+_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))),
+_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))));
+m_vComponents=_mm_sub_ps(cross0,cross1);}
+inline void hkVector4::_setMul3(const hkMatrix3&a,const hkVector4&b)
+{
+const hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+const hkQuadReal r0=_mm_mul_ps(a.getColumn(0).m_vComponents,b0);
+const hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+const hkQuadReal r1=_mm_mul_ps(a.getColumn(1).m_vComponents,b1);
+const hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+const hkQuadReal r2=_mm_mul_ps(a.getColumn(2).m_vComponents,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),r2);}
+inline void hkVector4::_setRotatedDir(const hkRotation&r,const hkVector4&v)
+{
+_setMul3(r,v);
+}
+inline VectorComponentValue hkVector4::horizontalAdd3()const
+{
+hkQuadReal xySum=_mm_add_ss(_mm_shuffle_ps(m_vComponents,m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1)))),m_vComponents);
+return _mm_add_ss(_mm_shuffle_ps(m_vComponents,m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2)))),xySum);
+}
+inline VectorComponentValue hkVector4::horizontalAdd4()const
+{
+hkQuadReal sum0=_mm_add_ps(_mm_shuffle_ps(m_vComponents,m_vComponents,(((1)<<6)|((0)<<4)|((3)<<2)|((2)))),m_vComponents);
+hkQuadReal sum1=_mm_shuffle_ps(sum0,sum0,(((2)<<6)|((3)<<4)|((0)<<2)|((1))));
+return _mm_add_ps(sum0,sum1);}
+inline void hkVector4::setW(const hkVector4&w)
+{
+m_vComponents=_mm_shuffle_ps(m_vComponents,_mm_unpackhi_ps(m_vComponents,w.m_vComponents),(((3)<<6)|((0)<<4)|((1)<<2)|((0))));
+}
+inline void hkVector4::setBroadcast(const hkVector4&v,int i)
+{
+if(i==0)
+{
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+}
+else if(i==1)
+{
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+}
+else if(i==2)
+{
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+}
+else if(i==3)
+{
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((3)<<6)|((3)<<4)|((3)<<2)|((3))));
+}
+}
+inline void hkVector4::setBroadcast3clobberW(const hkVector4&v,int i)
+{
+setBroadcast(v,i);
+}
+inline const hkVector4&hkMatrix3::getColumn(int x)const
+{
+return(&m_kColumn0)[x];
+}
+namespace HavokMatrixMath
+{
+extern "C" inline hkBoolR __cdecl InvertMatrix2x2(const hkReal*m,hkReal*out,hkReal tolerance);}
+hkBoolR __cdecl HavokMatrixMath::InvertMatrix2x2(const hkReal*m,hkReal*out,hkReal tolerance)
+{
+const hkReal*co0=m;
+const hkReal*co1=co0+2;
+hkReal D=(co0[0]*co1[1])-(co0[1]*co1[0]);
+if(D*D<tolerance*tolerance){
+return false;
+}
+hkReal DI=1.0f/D;
+hkReal a1=co1[1]*DI;
+hkReal b1=-co0[1]*DI;
+hkReal a2=-co1[0]*DI;
+hkReal b2=co0[0]*DI;
+hkReal*o_co0=out;
+hkReal*o_co1=o_co0+2;
+o_co0[0]=a1;
+o_co1[0]=b1;
+o_co0[1]=a2;
+o_co1[1]=b2;return true;}
+namespace hkVector4Util_S
+{
+__forceinline void __cdecl reserveRegisters(hkUint32 registerMask);
+__forceinline void __cdecl releaseRegisters(hkUint32 registerMask);}
+__forceinline void __cdecl hkVector4Util_S::reserveRegisters(hkUint32 registerMask)
+{
+}
+__forceinline void __cdecl hkVector4Util_S::releaseRegisters(hkUint32 registerMask)
+{
+}
+struct TimeStepInfo
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+float m_fTimeStep;
+float m_fInverseDeltaTime;};
+struct hkpVehicleFrictionDescription
+{
+struct AxisDescription
+{
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpVehicleFrictionDescription::AxisDescription));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+static const struct ClassMemberDescriptor Members[];static const hkClass&__cdecl staticClass();struct DefaultStruct;
+float m_afFrictionCurveSamples[16];
+float m_fAxisFrictionTuning1;
+float m_fAxisFrictionTuning2;
+hkReal m_fAxisFrictionTuning3;
+hkReal m_fAxisFrictionTuning4;
+hkReal m_fAxisFrictionTuning5;
+hkReal m_fAxisFrictionTuning6;
+hkReal m_fAxisFrictionTuning7;
+hkReal m_fAxisFrictionTuning8;
+hkReal m_fAxisFrictionTuning9;
+};
+hkReal m_fFrictionEqualizer;
+hkReal m_fMaxVelocityForPositionalFriction;
+struct AxisDescription m_kAxisDescriptions[2];};
+struct hkpVehicleFrictionStatus
+{
+struct AxisStatus
+{
+static const struct ClassMemberDescriptor Members[];static const hkClass&__cdecl staticClass();struct DefaultStruct;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(AxisStatus));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+hkReal m_fAxisStatusMetric1;
+hkReal m_fAxisStatusMetric2;
+hkReal m_fAxisStatusMetric3;
+hkReal m_fAxisStatusMetric4;
+hkReal m_fAxisStatusMetric5;
+hkReal m_fAxisStatusMetric6;
+hkReal m_fAxisStatusMetric7;
+hkReal m_fAxisStatusMetric8;
+hkReal m_fAxisStatusMetric9;
+void init()
+{
+m_fAxisStatusMetric1=0.0f;
+m_fAxisStatusMetric2=0.0f;
+m_fAxisStatusMetric3=0.0f;
+m_fAxisStatusMetric4=0.0f;
+m_fAxisStatusMetric5=0.0f;
+m_fAxisStatusMetric6=0.0f;
+m_fAxisStatusMetric7=0.0f;
+m_fAxisStatusMetric8=0.0f;
+m_fAxisStatusMetric9=0.0f;
+}
+};
+struct AxisStatus m_kAxisEndPoints[2];};
+class QuantizedBoundsData
+{
+public:
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+enum RigidBodyType
+{
+HK_RIGID_BODY,
+HK_KEYFRAMED_RIGID_BODY,
+HK_NO_GRAVITY_RIGID_BODY,
+HK_END
+};
+hkEnum<RigidBodyType,hkUint8>m_type;
+hkReal m_fGravityFactor;
+hkVector4 m_vLinearVelocity;
+hkVector4 m_vAngularVelocity;
+hkVector4 m_vInverseInertiaAndMass;
+hkVector4&getCenterOfMassInWorld(){return getScratch0();}
+const hkVector4&getCenterOfMassInWorld()const{return getScratch0();}
+hkRotation&getCoreFromWorldMatrix(){return m_kCoreFromWorldMatrix;}
+const hkRotation&getCoreFromWorldMatrix()const{return m_kCoreFromWorldMatrix;}
+hkVector4&getScratch0(){return m_vCenterOfMass;}
+const hkVector4&getScratch0()const{return m_vCenterOfMass;}
+const hkVector4&getScratch1()const{return m_kCoreFromWorldMatrix.getColumn(0);}
+public:
+hkVector4 m_vCenterOfMass;
+hkRotation m_kCoreFromWorldMatrix;
+public:
+__forceinline void setFixed()
+{
+m_type=QuantizedBoundsData::HK_KEYFRAMED_RIGID_BODY;
+m_fGravityFactor=0.0f;
+this->m_vInverseInertiaAndMass.setZero4();
+this->m_vLinearVelocity.setZero4();
+this->m_vAngularVelocity.setZero4();
+this->getCenterOfMassInWorld().setZero4();
+this->getCoreFromWorldMatrix().setZero();
+}
+};
+struct VehicleAxleParameters
+{
+hkVector4 m_kFirstVector;
+hkVector4 m_kSecondAxleVector;
+hkVector4 m_kThirdVector;
+class QuantizedBoundsData*m_pFirstPointer;
+class QuantizedBoundsData*m_pSecondPointer;
+hkReal m_fFirstScalar;
+hkReal m_fSecondScalar;
+hkReal m_fThirdValue;
+hkReal m_fFourthValue;
+hkReal m_fFifthScalar;
+hkReal m_fSixthValue;
+hkUint8 m_ucValue;};
+struct VehicleSimulationData
+{
+VehicleAxleParameters m_akAxleParams[2];
+hkReal m_fTorquePitchFactor;
+class QuantizedBoundsData m_pChassisCollidable;
+class QuantizedBoundsData m_kSecondAccumulator;};
+struct FloatRecord
+{
+union
+{
+hkReal m_fAccumulatedImpulse;
+hkReal m_fSecondUnionFloat;
+hkReal m_fAccumulatedMotorRhs;
+};};struct __declspec(align(16))hkVec4F{float x,y,z,w;};
+static __forceinline hkVector4&H(hkVec4F&v){return*(hkVector4*)&v;}
+static __forceinline const hkVector4&H(const hkVec4F&v){return*(const hkVector4*)&v;}
+struct ConstraintJacobian
+{
+hkVec4F m_kLinearJacobian;
+hkVec4F m_angular0;
+hkVec4F m_angular1;
+__forceinline void setInvJacDiag(hkReal v){m_angular0.w=v;}
+__forceinline hkReal getInvJacDiag()const{return m_angular0.w;}
+__forceinline void setUserValue(hkReal v){m_angular1.w=v;}
+__forceinline hkReal getUserValue()const{return m_angular1.w;}
+__forceinline hkReal getDiag(const QuantizedBoundsData&mA,const QuantizedBoundsData&mB)const
+{
+const ConstraintJacobian*jac=this;
+hkVector4 ang0;ang0.setMul4(H(jac->m_angular0),H(jac->m_angular0));
+hkVector4 ang1;ang1.setMul4(H(jac->m_angular1),H(jac->m_angular1));
+ang0.mul4(mA.m_vInverseInertiaAndMass);
+ang1.mul4(mB.m_vInverseInertiaAndMass);
+ang0.add4(ang1);
+hkVector4 sm;sm.setAdd4(mA.m_vInverseInertiaAndMass,mB.m_vInverseInertiaAndMass);
+ang0.setW(sm);
+const hkReal dot=ang0.horizontalAdd4();
+return dot+1.192092896e-07F;
+}
+__forceinline hkReal getNonDiagOptimized(const QuantizedBoundsData&mA,const QuantizedBoundsData&mB,const ConstraintJacobian&jacB)const
+{
+const ConstraintJacobian*jacA=this;
+hkVector4 lin;lin.setMul4(H(jacB.m_kLinearJacobian),H(jacA->m_kLinearJacobian));
+hkVector4 ang0;ang0.setMul4(H(jacA->m_angular0),H(jacB.m_angular0));
+hkVector4 ang1;ang1.setMul4(H(jacA->m_angular1),H(jacB.m_angular1));
+hkVector4 mA3;mA3.setBroadcast3clobberW(mA.m_vInverseInertiaAndMass,3);
+hkVector4 mB3;mB3.setBroadcast3clobberW(mB.m_vInverseInertiaAndMass,3);
+hkVector4 lin0;lin0.setMul4(mA3,lin);
+hkVector4 lin1;lin1.setMul4(mB3,lin);
+ang0.mul4(mA.m_vInverseInertiaAndMass);
+ang1.mul4(mB.m_vInverseInertiaAndMass);
+lin0.add4(lin1);
+ang0.add4(ang1);
+ang0.add4(lin0);
+const hkReal d=ang0.horizontalAdd3();
+return d;
+}
+__forceinline hkReal getNonDiagSameObjects(const QuantizedBoundsData&mA,const QuantizedBoundsData&mB,const ConstraintJacobian&jacB)const
+{
+return getNonDiagOptimized(mA,mB,jacB);
+}
+__forceinline hkReal getNonDiagDifferentObjects(const QuantizedBoundsData&mA,const ConstraintJacobian&jacB)const
+{
+const ConstraintJacobian*jacA=this;
+hkVector4 lin;lin.setMul4(H(jacA->m_kLinearJacobian),H(jacB.m_kLinearJacobian));
+hkVector4 ang0;ang0.setMul4(H(jacA->m_angular0),H(jacB.m_angular0));
+hkVector4 mA3;mA3.setBroadcast(mA.m_vInverseInertiaAndMass,3);
+hkVector4 lin0;lin0.setMul4(mA3,lin);
+ang0.mul4(mA.m_vInverseInertiaAndMass);
+ang0.add4(lin0);
+const hkReal d=ang0.horizontalAdd3();
+return d;
+}
+};
+struct ConstraintJacobianData
+{
+ConstraintJacobian m_kFirstConstraintJacobian;
+ConstraintJacobian m_kSecondConstraintJacobian;
+hkReal m_fScalar1;
+hkReal m_fScalar2;
+hkReal m_fThirdScalar;
+hkReal m_fFourthScalar;
+hkReal m_fScalar5;
+hkReal m_fSixthScalar;
+hkReal m_fSeventhScalar;
+hkReal m_fEighthScalar;
+hkReal m_fTenthScalar;
+hkReal m_fNinthScalar;
+hkReal m_fTwelfthScalar;
+hkReal m_fThirteenthScalar;
+hkReal m_fFourteenthScalar;
+hkReal m_fFifteenthScalar;
+hkReal m_fEleventhScalar;};
+namespace QuantizedBoundsBuilder
+{
+__forceinline void initBuilder(const QuantizedBoundsData*opaA,const QuantizedBoundsData*opaB,hkReal rhsFactor)
+{
+hkVector4Util_S::reserveRegisters(0x0fff0000);
+}
+__forceinline void exitBuilder()
+{
+hkVector4Util_S::releaseRegisters(0x0fff0000);
+}
+__forceinline void flush()
+{
+}
+__forceinline void buildLinearBegin(const QuantizedBoundsData*opaA,const QuantizedBoundsData*opaB,const hkVector4&position,const hkVector4&direction,hkReal invJacFactor,ConstraintJacobian&jac)
+{
+H(jac.m_kLinearJacobian)=direction;
+hkVector4 massCenterRelative0;massCenterRelative0.setSub4(position,opaA->getCenterOfMassInWorld());
+hkVector4 massCenterRelative1;massCenterRelative1.setSub4(position,opaB->getCenterOfMassInWorld());
+hkVector4 cross0;cross0.setCross(massCenterRelative0,direction);
+hkVector4 cross1;cross1.setCross(direction,massCenterRelative1);
+H(jac.m_angular0)._setRotatedDir(opaA->getCoreFromWorldMatrix(),cross0);
+H(jac.m_angular1)._setRotatedDir(opaB->getCoreFromWorldMatrix(),cross1);
+hkReal a=jac.getDiag(*opaA,*opaB);
+jac.setUserValue(a);
+jac.setInvJacDiag(invJacFactor / a);
+}
+__forceinline void buildLinearEnd(ConstraintJacobian&jac)
+{
+}
+__forceinline hkReal getNonDiagSameObjects(const QuantizedBoundsData*opaA,const QuantizedBoundsData*opaB,ConstraintJacobian&last,ConstraintJacobian&other)
+{
+return last.getNonDiagSameObjects(*opaA,*opaB,other);
+}
+__forceinline hkReal getNonDiagDifferentObjects(const QuantizedBoundsData*opaA,ConstraintJacobian&last,ConstraintJacobian&other)
+{
+return last.getNonDiagDifferentObjects(*opaA,other);
+}
+}
+namespace HavokRegisterUtilities
+{
+__forceinline void loadFixedRegisters()
+{
+}
+__forceinline void loadVelocityAccumulators(const QuantizedBoundsData&mA,const QuantizedBoundsData&mB)
+{
+hkVector4Util_S::reserveRegisters(0xffff0000);
+}
+__forceinline void storeVelocityAccumulators(QuantizedBoundsData&mA,QuantizedBoundsData&mB)
+{
+hkVector4Util_S::releaseRegisters(0xffff0000);
+}
+__forceinline void popVelocityAccumulators()
+{
+hkVector4Util_S::releaseRegisters(0xffff0000);
+}
+__forceinline VectorComponentValue getVelocity(const ConstraintJacobian&jac,const QuantizedBoundsData&mA,const QuantizedBoundsData&mB)
+{
+hkVector4 c;c.setSub4(mA.m_vLinearVelocity,mB.m_vLinearVelocity);
+hkVector4 a;a.setMul4(mA.m_vAngularVelocity,H(jac.m_angular0));
+hkVector4 b;b.setMul4(mB.m_vAngularVelocity,H(jac.m_angular1));
+c.mul4(H(jac.m_kLinearJacobian));
+a.add4(b);
+a.add4(c);
+const VectorComponentValue vel=a.horizontalAdd3();
+return vel;
+}
+__forceinline void applyImpulse(hkSimdRealParameter imp,const ConstraintJacobian&jac,QuantizedBoundsData&mA,QuantizedBoundsData&mB,FloatRecord&sr)
+{
+hkVector4 impA;impA.setMul4(imp,mA.m_vInverseInertiaAndMass);
+hkVector4 impB;impB.setMul4(imp,mB.m_vInverseInertiaAndMass);
+hkVector4 impLinA;impLinA.setBroadcast3clobberW(impA,3);
+hkVector4 negImpLinB;negImpLinB.setBroadcast3clobberW(impB,3);
+impLinA.mul4(H(jac.m_kLinearJacobian));
+negImpLinB.mul4(H(jac.m_kLinearJacobian));
+mA.m_vLinearVelocity.add3clobberW(impLinA);
+mB.m_vLinearVelocity.sub3clobberW(negImpLinB);
+impA.mul4(H(jac.m_angular0));
+impB.mul4(H(jac.m_angular1));
+VectorComponentValue s=sr.m_fAccumulatedImpulse;
+mA.m_vAngularVelocity.add3clobberW(impA);
+mB.m_vAngularVelocity.add3clobberW(impB);
+s=s+imp;
+hkSimdReal_store(s,&sr.m_fAccumulatedImpulse);
+}
+}
+extern "C" hkBoolR DAT_0126efb9;
+inline void hkVehicleFrictionSolverCalcRelativeForces(const ConstraintJacobianData&axis,hkpVehicleFrictionStatus::AxisStatus&status)
+{
+status.m_fAxisStatusMetric8=axis.m_fNinthScalar*axis.m_fFifteenthScalar;
+status.m_fAxisStatusMetric9=axis.m_fTenthScalar*axis.m_fFourteenthScalar;}
+static __declspec(noinline)void FUN_00e59700(const VehicleAxleParameters&apar,ConstraintJacobianData&atmp,const hkpVehicleFrictionDescription::AxisDescription&adesc,hkpVehicleFrictionStatus::AxisStatus&astatus)
+{
+const hkReal xs=atmp.m_fNinthScalar*atmp.m_fFifteenthScalar;
+const hkReal ys=atmp.m_fTenthScalar*atmp.m_fFourteenthScalar;
+hkReal restSideImpulse;
+astatus.m_fAxisStatusMetric8=xs;{
+hkReal x=adesc.m_fAxisFrictionTuning2*xs;
+hkReal x1=0.0f;
+hkReal y1=0.0f;
+hkReal w1=0.0f;
+int i=0;
+hkReal y;
+hkReal w0;
+while(true)
+{
+y=adesc.m_afFrictionCurveSamples[i]*ys;
+w0=x*x+y*y;
+if(w0>1.0f ||++i>=16)
+{
+break;
+}
+x1=x;
+y1=y;
+w1=w0;
+x=x*adesc.m_fAxisFrictionTuning1;
+}
+w0=MathUtilities::sqrt(w0)-1.0;
+w1=MathUtilities::sqrt(w1)-1.0;
+hkReal diff=w0-w1;
+if(MathUtilities::equal(diff,0.0f,1.1920929e-7f))
+{
+diff=1.1920929e-7f;
+}
+const hkReal invDiff=1.0f / diff;
+const hkReal a0=-w1*invDiff;
+const hkReal a1=w0*invDiff;
+const hkReal scaleX=MathUtilities::clamp(x*a0+x1*a1,-1.1f,1.1f);
+const hkReal scaleY=MathUtilities::clamp(y*a0+y1*a1,-1.1f,1.1f);
+const hkReal impX=scaleX*atmp.m_fThirteenthScalar;
+const hkReal impY=scaleY*atmp.m_fTwelfthScalar;
+restSideImpulse=atmp.m_fNinthScalar-impX;
+atmp.m_fNinthScalar=impX;
+atmp.m_fEleventhScalar=atmp.m_fTenthScalar-impY;
+atmp.m_fTenthScalar=impY;
+}
+{
+hkReal velOverGroundSqr=atmp.m_fScalar1*atmp.m_fScalar1+atmp.m_fThirdScalar*atmp.m_fThirdScalar;
+if(MathUtilities::equal(velOverGroundSqr,0.0f,1.1920929e-7f))
+{
+velOverGroundSqr=1.1920929e-7f;
+}
+const hkReal velOverGroundSqrInv=1.0f / velOverGroundSqr;
+const hkReal energyForward=atmp.m_fEleventhScalar*atmp.m_fEighthScalar*atmp.m_fTwelfthScalar;
+const hkReal energySide=restSideImpulse*atmp.m_fSixthScalar*atmp.m_fThirteenthScalar;
+const hkReal energySquare=energyForward*energyForward+energySide*energySide;
+astatus.m_fAxisStatusMetric3=MathUtilities::sqrt(energySquare*velOverGroundSqrInv);
+}
+}
+inline float slipFloor(float y) { return ::DAT_01032980 > y ? 0.0001f : y; }
+// @fnv 0x00e59a40
+extern "C" __declspec(noinline) void __cdecl FUN_00e59a40(const TimeStepInfo&stepInfo,const hkpVehicleFrictionDescription&descr,VehicleSimulationData&params,hkpVehicleFrictionStatus&status)
+{
+if(!DAT_0126efb9)
+{
+::ValidateHavokKeyCode((bool *)(::VehicleFrictionApply::hkBoolR *)(&DAT_0126efb9));
+if(!DAT_0126efb9)
+{
+return;
+}
+}
+ConstraintJacobianData m_kAxisEndPoints[2];
+float slidingMagnitude[2];
+float massMatrix[4];
+{
+float nonDiag;
+{
+for(int a=0;a<2;a++)
+{
+VehicleAxleParameters*apar=&params.m_akAxleParams[a];
+ConstraintJacobianData*atmp=&m_kAxisEndPoints[a];
+hkpVehicleFrictionStatus::AxisStatus*astatus;
+{
+QuantizedBoundsData*opaA=&params.m_pChassisCollidable;
+QuantizedBoundsData*opaB=apar->m_pFirstPointer;
+QuantizedBoundsBuilder::initBuilder(opaA,opaB,0.0f);
+QuantizedBoundsBuilder::buildLinearBegin(opaA,opaB,apar->m_kFirstVector,apar->m_kThirdVector,1.0f,atmp->m_kFirstConstraintJacobian);
+QuantizedBoundsBuilder::buildLinearEnd(atmp->m_kFirstConstraintJacobian);
+QuantizedBoundsBuilder::flush();
+atmp->m_fEighthScalar=atmp->m_kFirstConstraintJacobian.getUserValue()+descr.m_kAxisDescriptions[a].m_fAxisFrictionTuning4;
+atmp->m_fSeventhScalar=1.0f / atmp->m_fEighthScalar;
+QuantizedBoundsBuilder::buildLinearBegin(opaA,opaB,apar->m_kFirstVector,apar->m_kSecondAxleVector,1.0f,atmp->m_kSecondConstraintJacobian);
+QuantizedBoundsBuilder::buildLinearEnd(atmp->m_kSecondConstraintJacobian);
+QuantizedBoundsBuilder::flush();
+atmp->m_fScalar5=atmp->m_kSecondConstraintJacobian.getInvJacDiag();
+atmp->m_fSixthScalar=atmp->m_kSecondConstraintJacobian.getUserValue();
+QuantizedBoundsBuilder::exitBuilder();
+}
+astatus=&status.m_kAxisEndPoints[a];
+{
+QuantizedBoundsData*opaA=&params.m_kSecondAccumulator;
+QuantizedBoundsData*opaB=apar->m_pSecondPointer;
+HavokRegisterUtilities::loadVelocityAccumulators(*opaA,*opaB);
+HavokRegisterUtilities::loadFixedRegisters();
+const float forwardVel=HavokRegisterUtilities::getVelocity(atmp->m_kFirstConstraintJacobian,*opaA,*opaB);
+const float sideVel=HavokRegisterUtilities::getVelocity(atmp->m_kSecondConstraintJacobian,*opaA,*opaB);
+astatus->m_fAxisStatusMetric6+=sideVel;
+astatus->m_fAxisStatusMetric7+=forwardVel;
+HavokRegisterUtilities::popVelocityAccumulators();
+}
+}
+}
+{
+QuantizedBoundsData*opaA=&params.m_pChassisCollidable;
+QuantizedBoundsData*opaB=params.m_akAxleParams[0].m_pFirstPointer;
+QuantizedBoundsBuilder::initBuilder(opaA,opaB,0.0f);
+nonDiag=(opaB==params.m_akAxleParams[1].m_pFirstPointer)
+? QuantizedBoundsBuilder::getNonDiagSameObjects(opaA,opaB,m_kAxisEndPoints[0].m_kSecondConstraintJacobian,m_kAxisEndPoints[1].m_kSecondConstraintJacobian)
+:QuantizedBoundsBuilder::getNonDiagDifferentObjects(opaA,m_kAxisEndPoints[0].m_kSecondConstraintJacobian,m_kAxisEndPoints[1].m_kSecondConstraintJacobian);
+QuantizedBoundsBuilder::exitBuilder();
+}
+massMatrix[0]=m_kAxisEndPoints[0].m_fSixthScalar;
+massMatrix[3]=m_kAxisEndPoints[1].m_fSixthScalar;
+massMatrix[1]=nonDiag;
+massMatrix[2]=nonDiag;
+}
+HavokRegisterUtilities::loadFixedRegisters();
+{
+for(int a=0;a<2;a++)
+{
+ConstraintJacobianData*atmp=&m_kAxisEndPoints[a];
+const float impulse=status.m_kAxisEndPoints[a].m_fAxisStatusMetric5;
+if(impulse==0.0f)
+{
+continue;
+}
+QuantizedBoundsData*opaA=&params.m_pChassisCollidable;
+QuantizedBoundsData*opaB=params.m_akAxleParams[a].m_pFirstPointer;
+ConstraintJacobian*jac=&atmp->m_kFirstConstraintJacobian;
+HavokRegisterUtilities::loadVelocityAccumulators(*opaA,*opaB);
+{
+FloatRecord sr;
+sr.m_fAccumulatedImpulse=0.0f;
+HavokRegisterUtilities::applyImpulse(impulse,*jac,*opaA,*opaB,sr);
+}
+HavokRegisterUtilities::storeVelocityAccumulators(*opaA,*opaB);
+}
+}
+{
+const float w0=params.m_akAxleParams[0].m_fFourthValue;
+const float w1=params.m_akAxleParams[1].m_fFourthValue;
+const float sum=w0+w1;
+m_kAxisEndPoints[0].m_fFourthScalar=descr.m_kAxisDescriptions[0].m_fAxisFrictionTuning8*w0+descr.m_kAxisDescriptions[0].m_fAxisFrictionTuning9*sum;
+m_kAxisEndPoints[1].m_fFourthScalar=descr.m_kAxisDescriptions[1].m_fAxisFrictionTuning8*w1+descr.m_kAxisDescriptions[1].m_fAxisFrictionTuning9*sum;
+}
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric3=0.0f;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric3=0.0f;
+{
+for(int i=0;i<2;i++)
+{
+ConstraintJacobianData*atmp=&m_kAxisEndPoints[i];
+VehicleAxleParameters*apar=&params.m_akAxleParams[i];
+hkpVehicleFrictionStatus::AxisStatus*astatus=&status.m_kAxisEndPoints[i];
+float forwardSlipForFriction;
+float forwardForce;
+float downImpulse;
+{
+QuantizedBoundsData*opaA=&params.m_pChassisCollidable;
+QuantizedBoundsData*opaB=apar->m_pFirstPointer;
+HavokRegisterUtilities::loadVelocityAccumulators(*opaA,*opaB);
+{
+ConstraintJacobian*jac=&atmp->m_kFirstConstraintJacobian;
+atmp->m_fScalar1=HavokRegisterUtilities::getVelocity(*jac,*opaA,*opaB);
+}
+{
+ConstraintJacobian*jac=&atmp->m_kSecondConstraintJacobian;
+atmp->m_fThirdScalar=HavokRegisterUtilities::getVelocity(*jac,*opaA,*opaB);
+}
+atmp->m_fThirdScalar=astatus->m_fAxisStatusMetric6*0.25+atmp->m_fThirdScalar;
+HavokRegisterUtilities::popVelocityAccumulators();
+}
+downImpulse=MathUtilities::fabs(atmp->m_fFourthScalar)*stepInfo.m_fTimeStep;
+forwardForce=apar->m_fFifthScalar;
+if(apar->m_ucValue)
+{
+const float wheelChassisMassRatio=atmp->m_fScalar5*atmp->m_fEighthScalar;
+atmp->m_fScalar2=-atmp->m_fScalar1;
+forwardSlipForFriction=atmp->m_fScalar2;
+float extra=(astatus->m_fAxisStatusMetric7*0.5+atmp->m_fScalar1)*wheelChassisMassRatio*0.5;
+float maxExtra=downImpulse*apar->m_fFirstScalar*atmp->m_fEighthScalar;
+if(MathUtilities::fabs(extra)>maxExtra)
+{
+extra=(extra>0.0f)? maxExtra:-maxExtra;
+}
+atmp->m_fScalar2=atmp->m_fScalar2-extra;
+forwardForce=0.0f;
+}
+else
+{
+astatus->m_fAxisStatusMetric7=0.0f;
+atmp->m_fScalar2=status.m_kAxisEndPoints[i].m_fAxisStatusMetric1;
+forwardSlipForFriction=atmp->m_fScalar2;
+}
+{
+float friction=apar->m_fFirstScalar;
+if(apar->m_fSecondScalar !=0.0f)
+{
+const float slipVelocitySquared=forwardSlipForFriction*forwardSlipForFriction+atmp->m_fThirdScalar*atmp->m_fThirdScalar;
+const float slipVelocity=MathUtilities::sqrt(slipVelocitySquared);
+friction=slipVelocity*apar->m_fSecondScalar+friction;
+friction=MathUtilities::min2(friction,apar->m_fThirdValue);
+friction=MathUtilities::max2(0.0f,friction);
+}
+atmp->m_fTwelfthScalar=downImpulse*friction;
+atmp->m_fThirteenthScalar=atmp->m_fTwelfthScalar;
+atmp->m_fFourteenthScalar=1.0f /(atmp->m_fThirteenthScalar+1.192092896e-07F);
+atmp->m_fFifteenthScalar=atmp->m_fFourteenthScalar;
+const float stopTheWheelFromSlidingImpulse=atmp->m_fScalar2*atmp->m_fSeventhScalar+stepInfo.m_fTimeStep*forwardForce;
+atmp->m_fTenthScalar=stopTheWheelFromSlidingImpulse;
+}
+}
+}
+if(params.m_akAxleParams[0].m_fSixthValue+params.m_akAxleParams[1].m_fSixthValue>0.0f)
+{
+float totalDownForce=MathUtilities::fabs(params.m_akAxleParams[0].m_fFourthValue)+MathUtilities::fabs(params.m_akAxleParams[1].m_fFourthValue);
+float sideAccelBase=totalDownForce*descr.m_fMaxVelocityForPositionalFriction;
+float taus[2];
+{
+for(int a=0;a<2;a++)
+{
+float Z=sideAccelBase*stepInfo.m_fTimeStep;
+float N=MathUtilities::max2(params.m_akAxleParams[a].m_fSixthValue,0.0f);
+taus[a]=(Z>=N)? 1.0:Z / N;
+taus[a]=slipFloor(taus[a]);
+}
+}
+massMatrix[0]*=taus[0];
+massMatrix[2]*=taus[1];
+{
+float f=MathUtilities::sqrt(taus[0]*taus[1]);
+massMatrix[1]*=f;
+massMatrix[3]*=f;
+for(int a=0;a<2;a++)
+{
+ConstraintJacobianData*atmp=&m_kAxisEndPoints[a];
+atmp->m_fScalar5=atmp->m_fScalar5*taus[a];
+atmp->m_fSixthScalar=atmp->m_fSixthScalar / taus[a];
+}
+}
+}
+{
+float invMassMatrix[4]={1.0f,0.0f,0.0f,1.0f};
+{
+hkBoolR success=HavokMatrixMath::InvertMatrix2x2(massMatrix,invMassMatrix,0.0f);
+;
+}
+m_kAxisEndPoints[0].m_fNinthScalar=-(invMassMatrix[0]*m_kAxisEndPoints[0].m_fThirdScalar+invMassMatrix[1]*m_kAxisEndPoints[1].m_fThirdScalar);
+m_kAxisEndPoints[1].m_fNinthScalar=-(invMassMatrix[2]*m_kAxisEndPoints[0].m_fThirdScalar+invMassMatrix[3]*m_kAxisEndPoints[1].m_fThirdScalar);
+{
+for(int a=0;a<2;a++)
+{
+ConstraintJacobianData*atmp=&m_kAxisEndPoints[a];
+const float x=atmp->m_fTenthScalar*atmp->m_fFourteenthScalar;
+const float y=atmp->m_fNinthScalar*atmp->m_fFifteenthScalar;
+slidingMagnitude[a]=x*x+y*y;
+}
+}
+}
+if(MathUtilities::fabs(m_kAxisEndPoints[0].m_fScalar1)>=params.m_fTorquePitchFactor)
+{
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric6=0.0f;
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric7=0.0f;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric6=0.0f;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric7=0.0f;
+}
+if(slidingMagnitude[0]>1.0f || slidingMagnitude[1]>1.0f)
+{
+int first_sliding;
+int other;
+if(slidingMagnitude[0]>1.0f)
+{
+float inv=1.0f / slidingMagnitude[0];
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric6*=inv;
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric7*=inv;
+}
+if(slidingMagnitude[1]>1.0f)
+{
+float inv=1.0f / slidingMagnitude[1];
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric6*=inv;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric7*=inv;
+}
+if(slidingMagnitude[0]>slidingMagnitude[1])
+{
+first_sliding=0;
+other=1;
+}
+else
+{
+first_sliding=1;
+other=0;
+}
+{
+for(int i=0;i<2;i++)
+{
+ConstraintJacobianData*atmp=&m_kAxisEndPoints[first_sliding];
+atmp->m_fNinthScalar=-atmp->m_fThirdScalar*atmp->m_fScalar5;
+FUN_00e59700(params.m_akAxleParams[first_sliding],*atmp,descr.m_kAxisDescriptions[first_sliding],status.m_kAxisEndPoints[first_sliding]);
+m_kAxisEndPoints[other].m_fThirdScalar+=atmp->m_fNinthScalar*massMatrix[1];
+first_sliding=other;
+}
+}
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric1=m_kAxisEndPoints[0].m_fEleventhScalar*m_kAxisEndPoints[0].m_fEighthScalar;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric1=m_kAxisEndPoints[1].m_fEleventhScalar*m_kAxisEndPoints[1].m_fEighthScalar;
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric2=m_kAxisEndPoints[0].m_fThirdScalar;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric2=m_kAxisEndPoints[1].m_fThirdScalar;
+}
+else
+{
+hkVehicleFrictionSolverCalcRelativeForces(m_kAxisEndPoints[0],status.m_kAxisEndPoints[0]);
+hkVehicleFrictionSolverCalcRelativeForces(m_kAxisEndPoints[1],status.m_kAxisEndPoints[1]);
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric1=0.0f;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric1=0.0f;
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric2=0.0f;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric2=0.0f;
+}
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric5=m_kAxisEndPoints[0].m_fTenthScalar;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric5=m_kAxisEndPoints[1].m_fTenthScalar;
+status.m_kAxisEndPoints[0].m_fAxisStatusMetric4=m_kAxisEndPoints[0].m_fNinthScalar*stepInfo.m_fInverseDeltaTime;
+status.m_kAxisEndPoints[1].m_fAxisStatusMetric4=m_kAxisEndPoints[1].m_fNinthScalar*stepInfo.m_fInverseDeltaTime;
+{
+for(int a=0;a<2;a++)
+{
+ConstraintJacobianData*atmp=&m_kAxisEndPoints[a];
+QuantizedBoundsData*opaA=&params.m_pChassisCollidable;
+QuantizedBoundsData*opaB=params.m_akAxleParams[a].m_pFirstPointer;
+ConstraintJacobian*jac=&atmp->m_kSecondConstraintJacobian;
+HavokRegisterUtilities::loadVelocityAccumulators(*opaA,*opaB);
+{
+FloatRecord sr;
+sr.m_fAccumulatedImpulse=0.0f;
+HavokRegisterUtilities::applyImpulse(atmp->m_fNinthScalar,*jac,*opaA,*opaB,sr);
+}
+HavokRegisterUtilities::storeVelocityAccumulators(*opaA,*opaB);
+}
+}
+}
+
+
+
+
+
+}
+
 #include "generated/data/staging/blk_00e40000_o2.inc"
+#include "generated/data/staging/blk_00e40000_o2_gs_nogs_variant_rtm_variant.inc"

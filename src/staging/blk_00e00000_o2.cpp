@@ -50,6 +50,15 @@
 #include "fnv/symbols_0126d000.h"
 #include "fnv/symbols_0126e000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_00d46d40_s.h"
+#include "fnv/decl/FUN_00d50c00.h"
+#include "fnv/symbols_00e00000.h"
+#include "fnv/symbols_00e01000.h"
+#include "fnv/symbols_00e10000.h"
+#include "fnv/symbols_0102e000.h"
+#include "fnv/decl/FUN_00e004f0.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01267000.h"
 
 extern int DAT_010c749c;
 
@@ -8027,6 +8036,1001 @@ int MeshQ::FUN_00e11990(const VectorQ& plane, int aiComponent)
     if (negative)
         result += 2;
     return result;
+}
+
+int IsInRange(int aiValue, int aiLowerBound, int aiUpperBound);
+
+void FUN_00e04a60(void* pData);
+
+void __cdecl FUN_00e002d0(FUN_00e002d0_vt* p);
+
+void __cdecl FUN_00e017d0(FUN_00e017d0_vt* p);
+
+int __cdecl FUN_00e020e0(FUN_00e020e0_vt* c);
+
+int __cdecl FUN_00e00e70(FUN_00e00e70_vt* p);
+
+int* __cdecl FUN_00e01460();
+
+void __cdecl FUN_00e114b0();
+
+int __cdecl FUN_00e000b0();
+
+// VEGAS17-CONFLICT: FUN_00d50c00_cls (variant definition below differs from the one above)
+// Forward a value to the owner object when the owner pointer is present.
+struct FUN_00d50c00_cls
+{
+};
+
+CpuOpaque* __cdecl FUN_00e00110();
+
+int* __cdecl FUN_00e00170();
+
+void* __cdecl FUN_00e00190();
+
+int* __cdecl FUN_00e001b0();
+
+void* __cdecl FUN_00e00230();
+
+// FUN_00e002e0 : a one-line function - getter
+void* FUN_00e002e0();
+
+void* __cdecl FUN_00e00340();
+
+void* __cdecl FUN_00e00380();
+
+int* __cdecl FUN_00e00440(void);
+
+void* FUN_00e00480();
+
+int* __cdecl FUN_00e004a0();
+
+int* __cdecl FUN_00e00560();
+
+void* __cdecl FUN_00e005c0();
+
+int* FUN_00e00680();
+
+int __cdecl FUN_00e00730();
+
+CpuOpaque* __cdecl FUN_00e007a0();
+
+CpuOpaque* __cdecl FUN_00e00800();
+
+// FUN_00e00940 : a one-line function - getter
+void* FUN_00e00940();
+
+CpuOpaque* __cdecl FUN_00e009d0();
+
+// FUN_00e00a30 : a one-line function - getter
+void* FUN_00e00a30();
+
+// VEGAS17-CONFLICT: FUN_00e00a40_cls (variant definition below differs from the one above)
+struct FUN_00e00a40_cls
+{
+};
+
+char* __cdecl FUN_00e00af0(void);
+
+void* FUN_00e00b30();
+
+void* __cdecl FUN_00e00b50();
+
+CpuOpaque* __cdecl FUN_00e00c80();
+
+int* __cdecl FUN_00e00d00();
+
+int* __cdecl FUN_00e00d40();
+
+void* __cdecl FUN_00e00da0();
+
+void* __cdecl FUN_00e00e80();
+
+void* __cdecl FUN_00e00ef0();
+
+void* FUN_00e00f40();
+
+int* __cdecl FUN_00e00f60();
+
+int* __cdecl FUN_00e01060();
+
+void* __cdecl FUN_00e010b0();
+
+void* __cdecl FUN_00e010d0(void);
+
+void* __cdecl FUN_00e01130();
+
+void* __cdecl FUN_00e01200();
+
+int* __cdecl FUN_00e01330(void);
+
+int __cdecl FUN_00e01390();
+
+void* __cdecl FUN_00e013e0();
+
+int* __cdecl FUN_00e01400();
+
+// FUN_00e01520 : a one-line function - getter
+void* FUN_00e01520();
+
+void* __cdecl FUN_00e01560();
+
+int* __cdecl FUN_00e015a0();
+
+void* __cdecl FUN_00e015c0();
+
+CpuOpaque* __cdecl FUN_00e01650();
+
+void* __cdecl FUN_00e01670();
+
+void* __cdecl FUN_00e01690();
+
+int __cdecl FUN_00e016d0();
+
+int* __cdecl FUN_00e017e0();
+
+int* __cdecl FUN_00e018d0();
+
+void* __cdecl FUN_00e018f0();
+
+int __cdecl FUN_00e019e0();
+
+CpuOpaque* __cdecl FUN_00e01a20();
+
+void* __cdecl FUN_00e01a40();
+
+void* __cdecl FUN_00e01b00();
+
+void* __cdecl FUN_00e01c20();
+
+void* FUN_00e01ce0();
+
+int* __cdecl FUN_00e01e10();
+
+// VEGAS17-CONFLICT: FUN_00e01e20_cls (variant definition below differs from the one above)
+// Null-guarded forwarder: the first argument is an object pointer; when it
+// is non-null the second argument is forwarded to a member function of that
+// object (called with the object as 'this').
+class FUN_00e01e20_cls
+{
+  public:
+    void Handle(int a1);
+};
+
+int* __cdecl FUN_00e01e70();
+
+int* __cdecl FUN_00e01f40();
+
+void* __cdecl FUN_00e02110();
+
+void* __cdecl FUN_00e02130();
+
+extern GlobalObject g_global;
+
+GlobalObject* __cdecl FUN_00e02270();
+
+Data_0126e8d0* __cdecl FUN_00e02350();
+
+void* __cdecl FUN_00e02370();
+
+int* __cdecl FUN_00e02390();
+
+int* __cdecl FUN_00e02470();
+
+void* __cdecl FUN_00e02490();
+
+// FUN_00e024b0 : a one-line function - getter
+void* FUN_00e024b0();
+
+int* __cdecl FUN_00e024f0();
+
+void* FUN_00e02550();
+
+void* __cdecl FUN_00e02570();
+
+void* FUN_00e02620();
+
+unsigned char* __cdecl FUN_00e026d0();
+
+int* __cdecl FUN_00e02750();
+
+int* __cdecl FUN_00e02770();
+
+void* __cdecl FUN_00e027a0();
+
+void __cdecl UpdateStateFlags(void* pData);
+
+int __cdecl FUN_00e09620();
+
+void ReverseBytesInGroupsOfFour(unsigned char* pucData);
+
+// VEGAS17-CONFLICT: S_e05_res (variant definition below differs from the one above)
+struct S_e05_res
+{
+};
+
+static bool FUN_00e050c0(S_e05_obj* obj, int arg, int value);
+
+void e05_probe_caller(void);
+
+static void FUN_00e0bf50(S00e0bf50_Acc* dst, S00e0bf50_Acc* src);
+
+void S00e0bf50_Call(S00e0bf50_Acc* dst, S00e0bf50_Acc* src);
+
+// VEGAS17-CONFLICT: Mgr00e04e10 (variant definition below differs from the one above)
+struct Mgr00e04e10
+{
+};
+
+static bool __cdecl FUN_00e04e10(Slot00e04e10* obj, int a, int b);
+
+bool keep_alive_b11536(Slot00e04e10* obj, int a, int b);
+
+int FUN_00e16e20(int a, int b, float c);
+
+void __cdecl FUN_00e0cce0();
+
+struct SortItem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    float fPriority;
+};
+
+struct SortedList
+{
+    int iCount;
+    int unk04;
+    SortItem** ppItems;
+
+    void FUN_00e09670(SortItem* apItem);
+};
+
+// @fnv 0x00e09670
+void SortedList::FUN_00e09670(SortItem* apItem)
+{
+    float fPriority = apItem->fPriority;
+    int i;
+    for (i = iCount - 1; i >= 0; i--)
+    {
+        if (!ppItems[i] || !(ppItems[i]->fPriority < fPriority))
+            break;
+        ppItems[i + 1] = ppItems[i];
+    }
+    ppItems[i + 1] = apItem;
+    iCount++;
+}
+
+extern int DAT_010305a8;
+
+void __cdecl FUN_00e00570(int* a, int b);
+
+extern int DAT_010305a8;
+
+void FUN_00e007b0(int* p, int flag);
+
+extern int DAT_010305a8;
+
+void FUN_00e00b00(int* p, int flag);
+
+extern int DAT_010305a8;
+
+void FUN_00e01340(int* a, int b);
+
+extern int DAT_010305a8;
+
+extern int DAT_010c70b4;
+
+void __cdecl FUN_00e01410(int* p, int a);
+
+void FUN_00e01c30(void* b, void* c);
+
+extern int DAT_010c9314;
+
+void FUN_00e02780(void* p);
+
+int IsInRange(int a, int b, int c);
+
+void FUN_00e04a60(void* a);
+
+int __cdecl FUN_00e10740(const FUN_00e10740_a* p, const FUN_00e10740_b* q);
+
+void __cdecl FUN_00e000a0(FUN_00e000a0_vt* p);
+
+extern int DAT_010c59f4;
+
+void __cdecl FUN_00e00120(int* p, int flag);
+
+void __cdecl FUN_00e00180(int* p);
+
+extern int DAT_010c59f4;
+
+void __cdecl FUN_00e002f0(int* p, int flag);
+
+void __cdecl FUN_00e00350(int* a);
+
+void __cdecl FUN_00e00720(void* p);
+
+extern int DAT_010305a8;
+
+extern int DAT_010c6fd0;
+
+void __cdecl FUN_00e00740(int* a, int b);
+
+void __cdecl FUN_00e00810(int* p);
+
+void __cdecl FUN_00e00930(FUN_00e00930_vt* p);
+
+void __cdecl FUN_00e00b40(int* p);
+
+void __cdecl FUN_00e00c70(FUN_00e00c70_vt* p);
+
+void __cdecl FUN_00e00d10(int* p);
+
+int __cdecl FUN_00e00d30(int* p);
+
+void __cdecl FUN_00e00db0(int* a);
+
+extern int DAT_010305a8;
+
+extern int DAT_010c6fd0;
+
+void __cdecl FUN_00e00e90(int* a, int b);
+
+extern int DAT_010305a8;
+
+extern int DAT_010c6fd0;
+
+void __cdecl FUN_00e00f00(int** a, int b);
+
+extern int DAT_010305a8;
+
+void __cdecl FUN_00e010e0(int* p, int a);
+
+void __cdecl FUN_00e011f0(void* a);
+
+extern int DAT_010305a8;
+
+extern int DAT_010c6fd0;
+
+void __cdecl FUN_00e013a0(int** p, int b);
+
+void FUN_00e01530(int* p);
+
+void FUN_00e01570(int* p);
+
+void FUN_00e015b0(int** p);
+
+void __cdecl FUN_00e01640(int* p);
+
+void __cdecl FUN_00e01660(int* p);
+
+void __cdecl FUN_00e016a0(int* p);
+
+void FUN_00e017f0(FUN_00cb0a70** a, int b);
+
+void FUN_00e018e0(int* a);
+
+void __cdecl FUN_00e019f0(int* p);
+
+void __cdecl FUN_00e01a30(int* p);
+
+void __cdecl FUN_00e01b10(int* a);
+
+void __cdecl FUN_00e01f50(int* p);
+
+void __cdecl FUN_00e02140(int* a, int b);
+
+void __cdecl FUN_00e02260(int** p);
+
+int __cdecl FUN_00e02340(void* obj);
+
+void __cdecl FUN_00e02360(int* p);
+
+void FUN_00e023a0(int* p);
+
+void FUN_00e02480(int* p);
+
+void __cdecl FUN_00e024c0(int* p);
+
+int __cdecl FUN_00e024e0(void* p);
+
+void FUN_00e02500(int* a);
+
+void __cdecl FUN_00e02540(int** p);
+
+void __cdecl FUN_00e02580(int* a);
+
+void FUN_00e02630(int* p);
+
+int __cdecl FUN_00e026c0(FUN_00e026c0_vtbl* p);
+
+void __cdecl FUN_00e026e0(int* p);
+
+void FUN_00e02720(FUN_00e02720_vtbl* p);
+
+void __cdecl FUN_00e02760(void* p);
+
+// VEGAS17-CONFLICT: FUN_00e0bf20_s (variant definition below differs from the one above)
+struct FUN_00e0bf20_s
+{
+    int a;
+    int b;
+    void FUN_00cb0a60();
+    FUN_00e0bf20_s();
+};
+
+int __cdecl FUN_00e00100(void* p);
+
+void FUN_00e00160(FUN_00e000a0_vt* p);
+
+void __cdecl FUN_00e001a0(FUN_00e001a0_vt* p);
+
+extern int DAT_010cc2fc;
+
+void FUN_00e001c0(FUN_00cb0a70* obj, int arg);
+
+int* __cdecl FUN_00e00320();
+
+void __cdecl FUN_00e00330(FUN_00e00330_vt* p);
+
+void __cdecl FUN_00e00370(FUN_00e00370_vt* p);
+
+void __cdecl FUN_00e00430(FUN_00e00430_vt* p);
+
+extern int DAT_010c59f4;
+
+extern int DAT_010c6dc4;
+
+void __cdecl FUN_00e00450(void* p, int flag);
+
+void __cdecl FUN_00e00550(void* p);
+
+void __cdecl FUN_00e005b0(FUN_00e005b0_vt* p);
+
+void __cdecl FUN_00e00670(FUN_00e00670_vt* p);
+
+void __cdecl FUN_00e00790(FUN_00e00790_vt* p);
+
+void __cdecl FUN_00e007f0(FUN_00e007f0_vt* p);
+
+void __cdecl FUN_00e00a20(FUN_00e00a20_vt* p);
+
+void __cdecl FUN_00e00ae0(FUN_00e00930_vt* p);
+
+// VEGAS17-CONFLICT: FUN_00dcd380_cls (variant definition below differs from the one above)
+struct FUN_00dcd380_cls
+{
+    void FUN_00dcd380(int b);
+};
+
+extern int DAT_010e8a90;
+
+extern int DAT_010e8ab0;
+
+void __cdecl FUN_00e00c90(void* a, int b);
+
+void __cdecl FUN_00e00cf0(FUN_00e00cf0_vt* p);
+
+void __cdecl FUN_00e00d90(FUN_00e00d90_vt* p);
+
+void __cdecl FUN_00e010c0(FUN_00e000a0_vt* p);
+
+void __cdecl FUN_00e01380(FUN_00e01380_vt* p);
+
+void __cdecl FUN_00e013f0(void* p);
+
+int __cdecl FUN_00e01450(void* p);
+
+extern int DAT_0126e330;
+
+void __cdecl FUN_00e01470(FUN_00e01470_s* a, int b);
+
+void __cdecl FUN_00e01510(FUN_00cb0a70* p);
+
+void __cdecl FUN_00e01550(FUN_00e01550_vt* p);
+
+void __cdecl FUN_00e018c0(int* p);
+
+void __cdecl FUN_00e019d0(void* p);
+
+void __cdecl FUN_00e01a10(FUN_00e01a10_vt* p);
+
+void __cdecl FUN_00e01af0(void* p);
+
+void __cdecl FUN_00e01c10(FUN_00e01c10_vt* p);
+
+void __cdecl FUN_00e01cd0(FUN_00e01cd0_vt* p);
+
+void FUN_00e01cf0(void* a, void* b);
+
+void __cdecl FUN_00e01e40(FUN_00e01e40_vt* p);
+
+void __cdecl FUN_00e01f30(int* p);
+
+void __cdecl FUN_00e02280(int* a, int b);
+
+void __cdecl FUN_00e02380(void* p);
+
+int __cdecl FUN_00e024a0(void* p);
+
+int* __cdecl FUN_00e02510();
+
+int __cdecl FUN_00e02560(FUN_00e02560_vt* p);
+
+int __cdecl FUN_00e02610(FUN_00e026c0_vtbl* p);
+
+void* __cdecl FUN_00e114a0();
+
+// VEGAS17-CONFLICT: FUN_00d752e0_cls (variant definition below differs from the one above)
+struct FUN_00d752e0_cls
+{
+    void FUN_00d752e0();
+};
+
+extern int DAT_0126d9a0;
+
+void __cdecl FUN_00e000c0(FUN_00d50c00_cls* pOwner, int value);
+
+extern CpuOpaque DAT_0126d9e8;
+
+int* FUN_00e00150();
+
+extern int DAT_0126da30;
+
+extern int DAT_0126da78;
+
+void __cdecl FUN_00e00220(FUN_00e00220_Class* param_1);
+
+extern int g_unk0126dac0;
+
+// FUN_00e002e0 : a one-line function - getter
+extern int g_target_00e002e0;
+
+extern int g_unk0126db50;
+
+int* __cdecl FUN_00e00360();
+
+extern unsigned char DAT_0126db98;
+
+void FUN_00e00390(void* p, int finishing);
+
+extern int DAT_0126dbe0;
+
+extern int DAT_010c6dc4;
+
+void __cdecl FUN_00e00490(S_00e00490_vt* p);
+
+extern int DAT_0126dc28;
+
+void __cdecl FUN_00e004b0(FUN_00e004f0_class* object, int value);
+
+extern int DAT_0126dc70;
+
+int* FUN_00e005a0();
+
+extern int DAT_0126dcb8;
+
+void __cdecl FUN_00e005d0(Handler_cls* pHandler, int value);
+
+extern int DAT_0126dd00;
+
+void __cdecl FUN_00e00690(FUN_00e00690_cls* pObject, int a1);
+
+extern int DAT_010c6fd0;
+
+extern int DAT_0126dd48;
+
+int* __cdecl FUN_00e00780();
+
+extern CpuOpaque DAT_0126dd90;
+
+int* __cdecl FUN_00e007e0();
+
+extern CpuOpaque DAT_0126ddd8;
+
+int* FUN_00e00820();
+
+// VEGAS17-CONFLICT: S_00e00830_Ref (variant definition below differs from the one above)
+struct S_00e00830_Ref
+{
+    void* m_ptr;
+    void FUN_00cb0c00() throw();
+    ~S_00e00830_Ref() throw()
+    {
+        FUN_00cb0c00();
+    }
+};
+
+// VEGAS17-CONFLICT: S_00e00830_Target (variant definition below differs from the one above)
+struct S_00e00830_Target
+{
+    void FUN_00c905b0() throw();
+};
+
+// VEGAS17-CONFLICT: S_00e00830_Ptr (variant definition below differs from the one above)
+struct S_00e00830_Ptr
+{
+    S_00e00830_Target* m_p;
+    ~S_00e00830_Ptr() throw()
+    {
+        if (m_p)
+            m_p->FUN_00c905b0();
+        m_p = 0;
+    }
+};
+
+// FUN_00e00940 : a one-line function - getter
+extern int g_target_00e00940;
+
+void __cdecl FUN_00e00950(int* p);
+
+int __cdecl FUN_00e00970();
+
+extern CpuOpaque DAT_0126de68;
+
+extern int DAT_010d0e18;
+
+int* __cdecl FUN_00e00a10();
+
+// FUN_00e00a30 : a one-line function - getter
+extern int g_target_00e00a30;
+
+void __cdecl FUN_00e00a40(FUN_00e00a40_cls* p, int a);
+
+extern char DAT_0126def8;
+
+extern int g_unk0126df40;
+
+void ConstructObjectWithFinishFlag(void* p, int finishing);
+
+extern CpuOpaque DAT_0126df88;
+
+extern int DAT_0126dfd0;
+
+int* __cdecl FUN_00e00d20();
+
+extern int DAT_0126e018;
+
+// VEGAS17-CONFLICT: FUN_00d57b20_class (variant definition below differs from the one above)
+struct FUN_00d57b20_class
+{
+    void FUN_00d57b20(int value);
+};
+
+void __cdecl FUN_00e00d50(FUN_00d57b20_class* p, int value);
+
+extern int DAT_0126e060;
+
+int* __cdecl FUN_00e00dc0();
+
+extern int DAT_0126e0a8;
+
+int* __cdecl FUN_00e00ed0();
+
+void __cdecl FUN_00e00ee0(S_00e00ee0_vt* p);
+
+extern int DAT_0126e0f0;
+
+void __cdecl FUN_00e00f50(FUN_00e00f50_cls* pObj);
+
+extern int DAT_0126e138;
+
+void __cdecl FUN_00e00f70(FUN_00e00f70_cls* pObject, int value);
+
+extern int DAT_010305a8;
+
+extern int DAT_010c6fb0;
+
+extern int DAT_010cc364;
+
+extern int DAT_010cc344;
+
+extern int DAT_010e8e94;
+
+extern int DAT_010e8e74;
+
+void __cdecl FUN_00e01050(VirtualSlotObject* p);
+
+extern int DAT_0126e180;
+
+extern int DAT_010c6fb0;
+
+void __cdecl InitObjectFields(volatile InitObject* pObject, int iFlag);
+
+extern int DAT_0126e1c8;
+
+extern int DAT_0126e210;
+
+void __cdecl FUN_00e01320(FUN_00e01320_cls* pObject);
+
+extern int DAT_0126e258;
+
+int* __cdecl FUN_00e01370();
+
+extern int DAT_0126e2a0;
+
+extern int DAT_0126e2e8;
+
+extern int DAT_010c70b4;
+
+int* __cdecl FUN_00e01440();
+
+// FUN_00e01520 : a one-line function - getter
+extern int g_target_00e01520;
+
+int* FUN_00e01540();
+
+extern int DAT_0126e3c0;
+
+int* __cdecl FUN_00e01580();
+
+void __cdecl FUN_00e01590(FnvCpu_FUN_00e01590_CpuInterface* object);
+
+extern int DAT_0126e408;
+
+extern CpuOpaque DAT_0126e450;
+
+int __cdecl FUN_00e01680(CallerVtbl* p);
+
+extern int DAT_0126e498;
+
+int* __cdecl FUN_00e016b0();
+
+void __cdecl FUN_00e016c0(FUN_00e016c0_cls* pObject);
+
+extern int DAT_0126e4e0;
+
+// VEGAS17-CONFLICT: EffectSubObject (variant definition below differs from the one above)
+struct EffectSubObject
+{
+    int unk00;
+    void Release(int flags);
+};
+
+void __cdecl FUN_00e016e0(EffectHolder* p, int flags);
+
+extern int DAT_0126e528;
+
+extern int DAT_0126e570;
+
+extern int DAT_0126e5b8;
+
+int* __cdecl FUN_00e01a00();
+
+extern CpuOpaque DAT_0126e600;
+
+extern int g_unk0126e648;
+
+int* FUN_00e01b20();
+
+extern int DAT_0126e690;
+
+extern int g_unkGlobal;
+
+void __cdecl FUN_00e01e00(FUN_00e01e00_vt* p);
+
+extern int DAT_0126e720;
+
+void __cdecl CallHandleIfNotNull(FUN_00e01e20_cls* pObject, int a1);
+
+extern int DAT_0126e768;
+
+void __cdecl FUN_00e01e80(FUN_00e01e80_obj* param_1, int param_2);
+
+extern int DAT_0126e7b0;
+
+unsigned int __cdecl FUN_00e01f60();
+
+// VEGAS17-CONFLICT: FUN_00e4ae80_Obj (variant definition below differs from the one above)
+struct FUN_00e4ae80_Obj
+{
+    void FUN_00e4ae80(int value);
+};
+
+void __cdecl FUN_00e020c0(FUN_00e4ae80_Obj* param_1, int param_2);
+
+extern int g_unk0126e7f8;
+
+void FUN_00e02120(FUN_00e02120_cls* obj);
+
+extern int g_unk0126e840;
+
+extern Data_0126e8d0 DAT_0126e8d0;
+
+extern int DAT_0126e918;
+
+int* __cdecl FUN_00e023b0();
+
+void FUN_00e02460(E02460Object* pkObject);
+
+extern int DAT_0126e960;
+
+// FUN_00e024b0 : a one-line function - getter
+extern int g_target_00e024b0;
+
+int __cdecl FUN_00e024d0();
+
+extern int DAT_0126e9f0;
+
+void FUN_00e02520(E02520Object* pkObject);
+
+extern unsigned char DAT_0126ea80;
+
+int __cdecl FUN_00e02590();
+
+extern int DAT_0126eac8;
+
+int __cdecl FUN_00e02640();
+
+extern unsigned char DAT_0126eb10;
+
+int* FUN_00e026f0();
+
+// VEGAS17-CONFLICT: E02700Object (variant definition below differs from the one above)
+class E02700Object
+{
+  public:
+    void Process(void* pvData);
+};
+
+void __cdecl FUN_00e02700(E02700Object* pkObject, void* pvData);
+
+extern int g_0126eb58;
+
+extern int DAT_0126eba0;
+
+extern int DAT_010c9314;
+
+int __cdecl ReadIntAtOffset(int index, int* data);
+
+void __cdecl UpdateStateFlags(void* a);
+
+void __cdecl SwapHeaderBytesAndAdvance(unsigned char* p);
+
+void __cdecl SwapQuadBytes(unsigned char* p);
+
+void __cdecl FUN_00e05eb0(unsigned char* p);
+
+void __cdecl SwapHeaderEndianness(E05F60Header* pkHeader);
+
+void __cdecl FUN_00e05fe0(unsigned char* buf);
+
+void __cdecl FUN_00e06010(unsigned char* p);
+
+SearchItem* FUN_00e10820(SearchContainer* c, double key, int index);
+
+void __cdecl ConstructDerivedObject(void* pvObject, int iFinishing);
+
+char* __cdecl ReadPaddedString(char* base, int* offset);
+
+// VEGAS17-CONFLICT: BE04D90PointerMap (variant definition below differs from the one above)
+class BE04D90PointerMap
+{
+  public:
+    BE04D90PointerMap() : m_pPointerArray(0), m_iCapacityFlags(0), m_iPairCount(-1)
+    {}
+    ~BE04D90PointerMap() throw();
+
+    void Init(BE04D90Allocator* pkAlloc, int iCapacity) throw();
+    void ClearAndDeallocate(BE04D90Allocator* pkAlloc) throw();
+
+    void* m_pPointerArray;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+};
+
+void __cdecl RegisterContextHandlers(BE04D90Object* pkObject, BE04D90PointerMap* pkMap, int iArg) throw();
+
+void __cdecl ProcessObjectArray(BE04D90Object** ppkObjects, int iArg);
+
+void SwapHeaderBytesAndAdvance(Input*);
+
+void SwapQuadBytes(Input*);
+
+void FUN_00e05eb0(Input*);
+
+int FUN_00dcd4d0(unsigned int);
+
+void SwapHkHeaderE05E(Payload*);
+
+void SwapHeaderEndianness(Payload*);
+
+void FUN_00e05fe0(Payload*);
+
+void FUN_00e06010(void*);
+
+void ProcessListBlocks(Context**, void*);
+
+void ProcessInput(Context** context, Input* input, void* argument, bool reverse, int* type, bool* changed);
+
+void __cdecl ProcessInput(int a1, char* pos, ListEntryE061* cur, FlagE061 flag, int* consumed, bool* pbOut);
+
+void __cdecl ProcessListBlocks(int a1, ListE061* list);
+
+void __cdecl SwapHkHeaderE05E(hkHeaderE05E* h);
+
+// VEGAS17-CONFLICT: FUN_00e004f0_class (variant definition below differs from the one above)
+struct FUN_00e004f0_class
+{
+};
+
+extern int DAT_01267e34;
+
+extern int DAT_01267e38;
+
+extern int DAT_01267e3c;
+
+class FUN_00d752d0_obj
+{
+  public:
+    __m128* FUN_00d752d0();
+};
+
+struct FUN_00e11670_Node
+{
+    FUN_00e11670_Node* m_00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    __m128 m_10;
+};
+
+class FUN_00e11670_cls
+{
+  public:
+    int unk00, unk04, unk08, unk0c, unk10;
+    FUN_00e11670_Node* m_14;
+    int m_18;
+    int unk1c, unk20;
+    int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
+    int unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
+    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
+    int unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
+    int unkC0, unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC;
+    int unkE0;
+    FUN_00d752d0_obj* m_e4;
+
+    __m128* FUN_00e11670(__m128* __restrict out);
+};
+
+// @fnv 0x00e11670
+__m128* FUN_00e11670_cls::FUN_00e11670(__m128* __restrict out)
+{
+    struct Words
+    {
+        int x, y, z, w;
+    };
+    *(Words*)out = *(Words*)&(*reinterpret_cast<int *>(&::DAT_01267e30));
+    int count = m_18;
+    if (count > 0)
+    {
+        FUN_00e11670_Node* n = m_14;
+        if (n != 0)
+        {
+            __m128 acc = *out;
+            do
+            {
+                acc = _mm_add_ps(n->m_10, acc);
+                n = n->m_00;
+            } while (n != 0);
+            *out = acc;
+        }
+        float scale = 1.0f / (float)count;
+        __m128 s = _mm_load_ss(&scale);
+        s = _mm_shuffle_ps(s, s, 0);
+        *out = _mm_mul_ps(s, *out);
+    }
+    else
+    {
+        FUN_00d752d0_obj* p = m_e4;
+        if (p != 0)
+        {
+            *out = *p->FUN_00d752d0();
+        }
+    }
+    return out;
 }
 
 #include "generated/data/staging/blk_00e00000_o2.inc"

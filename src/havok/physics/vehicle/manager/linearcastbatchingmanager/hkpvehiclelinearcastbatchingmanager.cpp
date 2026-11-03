@@ -17,7 +17,7 @@ struct FUN_00e42fe0
 
 struct FUN_00e43060
 {
-    void DoWork(int a, int b, int* out);
+    void DoWork(char* a, intptr_t b, char** out);
 };
 
 struct FUN_00e43010
@@ -58,7 +58,7 @@ struct FUN_00e42fe0_impl
 };
 // Computes four aligned offsets from GetCount() and the 16-bit count at this+0x14, writes them to out, and advances a by each padding.
 // @fnv 0x00e43060
-void FUN_00e43060::DoWork(int iBaseOffset, int iUnused, int* paiOffsets)
+void FUN_00e43060::DoWork(char* iBaseOffset, intptr_t iUnused, char** paiOffsets)
 {
     int iCount = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
     unsigned int n = *(unsigned short*)((char*)this + 0x14);
@@ -262,10 +262,10 @@ struct Slot433
 
 struct Out433
 {
-    int m_00;
+    char* m_00;
     char* m_04;
-    int m_08;
-    int m_0c;
+    char* m_08;
+    char* m_0c;
 };
 
 struct S00e43320_Mgr
@@ -298,7 +298,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     Out433 out;
     S00e43320_Mgr* self = this;
     int count = self->m_uiItemCount;
-    reinterpret_cast<::FUN_00e43060 *>(this)->DoWork((int)(param3), (int)(param2), (int *)(::Out433 *)(&out));
+    reinterpret_cast<::FUN_00e43060 *>(this)->DoWork((char *)(param3), (intptr_t)(param2), &out.m_00);
     char* savedVal = out.m_04;
     Slot433 slot;
     HkArr& arr = slot.m_aiIndexedValues;
@@ -625,7 +625,7 @@ int E430B0Mgr::FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN
 	int vehicleCount = count;
 	const int& countRef = vehicleCount;
 	E430B0Batch batch;
-	((FUN_00e43060*)this)->DoWork((int)buffer, numJobs, (int*)&batch);
+	((FUN_00e43060*)this)->DoWork((char*)buffer, numJobs, (char**)&batch);
 
 	int total = 0;
 	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "TtBuildCommands");

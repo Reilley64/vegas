@@ -344,7 +344,7 @@ struct S00e41f30_impl
     virtual void vf28();
     virtual void vf2C();
     virtual void vf30();
-    virtual void vf34(unsigned int shape, hkAabb* aabb);
+    virtual void vf34(const void* shape, hkAabb* aabb);
 
     int unk04;
     int unk08;
@@ -365,7 +365,7 @@ void S00e41f30_impl::CreateWheelPhantom(S00e41f30_arg* arg)
 {
     hkAabb aabb;
 
-    this->vf34(reinterpret_cast<unsigned int>(arg), &aabb);
+    this->vf34(arg, &aabb);
 
     FUN_00c85750_host* host = static_cast<FUN_00c85750_host*>(::FUN_00c85750());
 
@@ -1083,27 +1083,6 @@ int S00e42460_RayCastWheelCollide::FUN_00e42460(const S00e42460_VehicleInstance*
 }
 
 // Moved from hkpvehicleraycastwheelcollide_rtm_variant.cpp (VEGAS-15).
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
-template <class T> class hkArrayXe42610
-{
-  public:
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    void AddBack(const T& t)
-    {
-        hkMemoryAllocatorXe42610& kAlloc = (*static_cast<hkMemoryRouterXe42610*>(::FUN_00c85750())).heap();
-        if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
-        constructWithCopyXe42610(m_data + m_iElementCount, 1, t);
-        m_iElementCount++;
-    }
-};
 void FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb);
 
 struct Tab34

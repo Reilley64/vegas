@@ -150765,18 +150765,17 @@ struct BlendAccess {
     int valueB() {return *((int *)(reinterpret_cast<::FUN_00cdb290 *>(this)->GetPlus4()));}
 };
 struct BlendAllocator { char* top; };
-extern BlendAllocator* __cdecl FUN_00c85750();
 struct BlendBuffer {
     BlendTransform* data; int size;
     static BlendTransform* allocate(int n) {
-        BlendAllocator* a=FUN_00c85750();
+        BlendAllocator* a=static_cast<BlendAllocator *>(FUN_00c85750());
         BlendTransform* result=(BlendTransform*)a->top;
         int bytes=(n*(int)sizeof(BlendTransform)+127)&~127;
         a->top = a->top + bytes;
         return result;
     }
     BlendBuffer(int n) { data=allocate(n); }
-    ~BlendBuffer() { FUN_00c85750()->top=(char*)data; }
+    ~BlendBuffer() { static_cast<BlendAllocator *>(FUN_00c85750())->top=(char*)data; }
 };
 struct BlendController {
     int unk000;
@@ -151081,7 +151080,7 @@ struct C7C2B0_Array
     int m_iCapacityState;
     __forceinline ~C7C2B0_Array()
     {
-        Holder* holder = _FUN_00c85750();
+        Holder* holder = static_cast<::Holder *>(::FUN_00c85750());
         C7C2B0_Heap* heap = (C7C2B0_Heap*)holder->p;
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -151105,6 +151104,13 @@ struct ShapeArrays
     C7C2B0_Array m_kPointB;
     C7C2B0_Array m_kPointA;
     ~ShapeArrays();
+};
+class hkBool {
+public:
+    __forceinline hkBool() {}
+    __forceinline hkBool(bool b) { m_cBooleanValue = (char)b; }
+    __forceinline operator bool() const { return m_cBooleanValue != 0; }
+    char m_cBooleanValue;
 };
 struct Head
 {
@@ -151509,7 +151515,6 @@ public:
     __forceinline T operator->() const { return stored; }
     __forceinline operator T() const { return val(); }
 };
-extern BlendAllocator* FUN_00c85750();
 extern float DAT_011b02e8;
 
 struct ScratchAllocator {
@@ -151616,7 +151621,6 @@ void Controller::FUN_00c7b6a0(bool enable) {
     active=enable;
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern void* UNK_010c4dec;
 static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
  template<> struct S7de60_PodTrait<Entry> { typedef S7de60_IsClass type; };
@@ -151686,7 +151690,7 @@ struct C74NiQuaternion {
 
 struct C74Vector4 {
     VectorBits m_vComponents;
-    float& operator()(int i) { return m_vComponents[i]; }
+    float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
 };
 
 struct C74Quaternion {
@@ -151719,14 +151723,6 @@ C74QsTransform* FUN_00c74dd0(C74QsTransform* out, const C74Transform* in)
     return out;
 }
 
-namespace EntryHardware {
-
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    PackedVector storage;
-    struct { float x,y,z,w; };
-};
-extern "C" __m128 _mm_setr_ps(float,float,float,float);
-}
 
 extern double DAT_010c4dd0;
 extern double DAT_010c4dc8;
@@ -151742,7 +151738,7 @@ struct __declspec(align(16)) Scratch {
     int owner;
     short first, second, third, unk0a;
     int unk0c;
-    EntryHardware::__m128 axisA, axisB, axisC, axisD;
+    __m128 axisA, axisB, axisC, axisD;
     float strength, f54, f58, f5c, f60, f64, f68, threshold, radius;
     bool flag;
 };
@@ -151903,7 +151899,7 @@ void ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
     int owner=ownerTable->owner;
     if (!ready) return;
     scratch.owner=owner;
-    scratch.axisC=EntryHardware::_mm_setr_ps(::DAT_01011d78,::DAT_01011d78,DAT_01012068,::DAT_01011d78);
+    scratch.axisC=_mm_setr_ps(::DAT_01011d78,::DAT_01011d78,DAT_01012068,::DAT_01011d78);
     scratch.axisD=scratch.axisC;
     scratch.strength=DAT_01267d90;
     entries.resize(count);
@@ -151954,10 +151950,6 @@ void ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
     complete=success;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128,__m128);
-extern "C" __m128 _mm_shuffle_ps(__m128,__m128,int);
-extern "C" __m128 _mm_add_ss(__m128,__m128);
-extern "C" void _mm_store_ss(float*,__m128);
 struct VectorStorage {protected:__m128 value; __forceinline VectorStorage(){} __forceinline VectorStorage(const __m128& v):value(v){} };
 struct VecLane:private VectorStorage {
 private:
@@ -152346,10 +152338,6 @@ struct RagdollUpdateController {
  BlendData* blend;
  void FUN_00c7d030(const Transform48* input);
 };
-extern "C" __m128 _mm_setzero_ps();
-namespace ControllerFloatHardware {
- extern "C" __m128 _mm_set_ps1(float);
-}
 extern void* DAT_010c4ddc;
 extern const float DAT_010c4df8;
 extern const float DAT_01022958;
@@ -152605,7 +152593,7 @@ FUN_00c7f060::FUN_00c7f060(NodeArg* a,NodeOrFlag b,void* c) {
     ref2a4.clear();
     unk88=0; unk290=1.0f; unk8c=0; unk28c=0; unk28d=0; unk244=0.0f;
     unk28e=0; unk28f=0; unk294=0; unk243=0; unk223=0; unk90=0;
-    unk0c=2; unk10=zero.value; unk20=DAT_010c71b0; unk30=ControllerFloatHardware::_mm_set_ps1(1.0f);
+    unk0c=2; unk10=zero.value; unk20=DAT_010c71b0; unk30=_mm_set_ps1(1.0f);
     unk280=10000.0f; unk27c=20.0f; unk23a=0; unk08=0.0f;
     unk40=0; unk284=1; unk288=-1; unk44=0; unk04=0; unk198=0; unk224=1; unk238=0;
     NiNode* first=a?a->get():0;
@@ -152620,12 +152608,6 @@ FUN_00c7f060::FUN_00c7f060(NodeArg* a,NodeOrFlag b,void* c) {
     unk2b8=0;
 }
 
-namespace InversePositionHardware {
-
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-}
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_rcp_ps(__m128);
 
 struct InversePositionVector : Vec4 {
     void FUN_00c7f840(const Vec4* t, const Vec4* p);
@@ -152634,7 +152616,7 @@ struct InversePositionVector : Vec4 {
 // @fnv 0x00c7f840
 void InversePositionVector::FUN_00c7f840(const Vec4* t, const Vec4* p)
 {
-    const __m128 d = InversePositionHardware::_mm_sub_ps(p->value, t[0].value);
+    const __m128 d = _mm_sub_ps(p->value, t[0].value);
     const __m128 q = t[1].value;
     const __m128 w4 = _mm_shuffle_ps(q, q, 0xff);
     const __m128 qd = _mm_mul_ps(q, d);
@@ -152642,7 +152624,7 @@ void InversePositionVector::FUN_00c7f840(const Vec4* t, const Vec4* p)
     dot = _mm_add_ss(_mm_shuffle_ps(qd, qd, 0xaa), dot);
     const __m128 c1 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), _mm_shuffle_ps(d, d, 0xd2));
     const __m128 c2 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2), _mm_shuffle_ps(d, d, 0xc9));
-    const __m128 cr = InversePositionHardware::_mm_sub_ps(c2, c1);
+    const __m128 cr = _mm_sub_ps(c2, c1);
     __m128 r = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w4, w4), ::DAT_010c71e0), d);
     r = _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
     r = _mm_add_ps(_mm_mul_ps(cr, w4), r);
@@ -152651,22 +152633,9 @@ void InversePositionVector::FUN_00c7f840(const Vec4* t, const Vec4* p)
     const __m128 s = t[2].value;
     const __m128 rc = _mm_rcp_ps(s);
     const __m128 e = _mm_mul_ps(_mm_mul_ps(rc, s), rc);
-    value = _mm_mul_ps(InversePositionHardware::_mm_sub_ps(_mm_add_ps(rc, rc), e), v);
+    value = _mm_mul_ps(_mm_sub_ps(_mm_add_ps(rc, rc), e), v);
 }
 
-namespace FloatHardware {
- extern "C" ::__m128 _mm_sub_ps(::__m128,::__m128);
-}
-extern "C" {
-extern ::__m128 _mm_load_ss(float const*);
-extern void _mm_store_ss(float*, ::__m128);
-extern ::__m128 _mm_mul_ps(::__m128, ::__m128);
-extern ::__m128 _mm_add_ps(::__m128, ::__m128);
-extern ::__m128 _mm_add_ss(::__m128, ::__m128);
-extern ::__m128 _mm_unpackhi_ps(::__m128, ::__m128);
-extern ::__m128 _mm_rsqrt_ps(::__m128);
-extern void _mm_prefetch(char const*, int);
-}
 
 typedef ::__m128 hkQuadReal;
 typedef float hkReal;
@@ -152681,14 +152650,6 @@ public:
 };
 typedef const VectorComponentValue& hkSimdRealParameter;
 
-class hkBool {
-public:
-    __forceinline hkBool() {}
-    __forceinline hkBool(bool b) { m_cBooleanValue = (char)b; }
-    __forceinline operator bool() const { return m_cBooleanValue != 0; }
-    char m_cBooleanValue;
-};
-
 class hkQuaternion;
 class hkQsTransform;
 
@@ -152700,8 +152661,8 @@ public:
     __forceinline void SetAllComponents(hkSimdRealParameter a) { m_vComponents = _mm_shuffle_ps(a.getQuad(), a.getQuad(), 0); }
     __forceinline void add4(const hkVector4& v) { m_vComponents = (_mm_add_ps)(m_vComponents, v.m_vComponents); }
     __forceinline void setAdd4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (_mm_add_ps)(v0.m_vComponents, v1.m_vComponents); }
-    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (FloatHardware::_mm_sub_ps)(v0.m_vComponents, v1.m_vComponents); }
-    __forceinline void sub4(const hkVector4& v) { m_vComponents = (FloatHardware::_mm_sub_ps)(m_vComponents, v.m_vComponents); }
+    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (_mm_sub_ps)(v0.m_vComponents, v1.m_vComponents); }
+    __forceinline void sub4(const hkVector4& v) { m_vComponents = (_mm_sub_ps)(m_vComponents, v.m_vComponents); }
     __forceinline void mul4(const hkVector4& v) { m_vComponents = (_mm_mul_ps)(m_vComponents, v.m_vComponents); }
     __forceinline void setMul4(const hkVector4& a, const hkVector4& b) { m_vComponents = (_mm_mul_ps)(a.m_vComponents, b.m_vComponents); }
     __forceinline void mul4(hkSimdRealParameter s) { m_vComponents = (_mm_mul_ps)(s.broadcast(), m_vComponents); }
@@ -152713,7 +152674,7 @@ public:
         cross0 = (_mm_mul_ps)(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
         hkQuadReal cross1;
         cross1 = (_mm_mul_ps)(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
-        m_vComponents = (FloatHardware::_mm_sub_ps)(cross0, cross1);
+        m_vComponents = (_mm_sub_ps)(cross0, cross1);
     }
     __forceinline VectorComponentValue dot3(const hkVector4& a) const {
         hkQuadReal x2 = (_mm_mul_ps)(m_vComponents, a.m_vComponents);
@@ -152729,7 +152690,7 @@ public:
         hkQuadReal e = (_mm_rsqrt_ps)(r);
         hkQuadReal he = (_mm_mul_ps)(::DAT_010c71d0, e);
         hkQuadReal ree = (_mm_mul_ps)((_mm_mul_ps)(r, e), e);
-        m_vComponents = (_mm_mul_ps)(he, (FloatHardware::_mm_sub_ps)(::DAT_010c71c0, ree));
+        m_vComponents = (_mm_mul_ps)(he, (_mm_sub_ps)(::DAT_010c71c0, ree));
     }
     __forceinline VectorComponentValue getSimdAt(int i) const {
         switch (i) {
@@ -153279,7 +153240,7 @@ void __cdecl NiFree(void* p);
 struct MM {
 };
 extern MM _g_memoryManager;
-typedef RecordHardware::__m128 ReviewedVector;
+typedef __m128 ReviewedVector;
 struct ReviewedRTTI { const char* name; ReviewedRTTI* parent; };
 struct ReviewedNode {
     virtual void slot00();
@@ -153536,15 +153497,9 @@ template<class T> struct HkArray {
     T& operator[](int i) { return m_data[i]; }
 };
 
-namespace SkeletonBuildHardware {
-
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float x, y, z, w;
-};
-}
 
 struct hkVector4 {
-    SkeletonBuildHardware::__m128 m_vComponents;
+    __m128 m_vComponents;
     void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
 };
 struct hkBool {
@@ -154128,7 +154083,6 @@ void* FUN_00cdb290::GetPlus4()
     return (char*)this + 4;
 }
 
-Holder* _FUN_00c85750();
 struct Outer
 {
     int _0;
@@ -154366,7 +154320,7 @@ struct RagScrapMarker
     unsigned int size;
     RagScrapMarker(unsigned int count)
     {
-        char** top = (char**)_FUN_00c85750();
+        char** top = (char**)static_cast<::Holder *>(::FUN_00c85750());
         unsigned int size = (count * 48 + 0x7f) & ~0x7fu;
         char* old = *top;
         *top = old + size;
@@ -154374,7 +154328,7 @@ struct RagScrapMarker
     }
     ~RagScrapMarker()
     {
-        *(char**)_FUN_00c85750() = p;
+        *(char**)static_cast<::Holder *>(::FUN_00c85750()) = p;
     }
 };
 union __declspec(align(16)) VecStorage_c79680 { ::__m128 quad; ::PackedVector storage; };
@@ -154389,13 +154343,13 @@ struct V4 {
     __forceinline void setCross(const V4& a, const V4& b) {
         ::__m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a.bits.quad, a.bits.quad, 0xc9), _mm_shuffle_ps(b.bits.quad, b.bits.quad, 0xd2));
         ::__m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(a.bits.quad, a.bits.quad, 0xd2), _mm_shuffle_ps(b.bits.quad, b.bits.quad, 0xc9));
-        bits.quad = PoseFloatHardware::_mm_sub_ps(cross0, cross1);
+        bits.quad = _mm_sub_ps(cross0, cross1);
     }
     __forceinline void setNeg4(const V4& a) { bits.quad = _mm_xor_ps(a.bits.quad, ::DAT_010c44d0); }
     __forceinline void setReciprocal4(const V4& a) {
         ::__m128 v = _mm_shuffle_ps(a.bits.quad, _mm_unpackhi_ps(a.bits.quad, ::DAT_010c7170), 0xc4);
         ::__m128 r = _mm_rcp_ps(v);
-        bits.quad = PoseFloatHardware::_mm_and_ps(PoseFloatHardware::_mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, v), r)), ::DAT_010c4c10);
+        bits.quad = _mm_and_ps(_mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, v), r)), ::DAT_010c4c10);
     }
 };
 struct Quat {
@@ -154754,7 +154708,7 @@ struct FUN_00c7d890_cls
 // @fnv 0x00c7d890
 void FUN_00c7d890_cls::FUN_00c7d890()
 {
-    VObjExt* p = (VObjExt*)_FUN_00c85750()->p;
+    VObjExt* p = (VObjExt*)static_cast<::Holder *>(::FUN_00c85750())->p;
     int count = _4;
     char* base = (char*)_0;
     for (int i = 0; i < count; i++)
@@ -154942,7 +154896,7 @@ struct ScopeGuard
     {}
     __forceinline ~ScopeGuard()
     {
-        Holder* h = _FUN_00c85750();
+        Holder* h = static_cast<::Holder *>(::FUN_00c85750());
         FreeIface* a = (FreeIface*)h->p;
         unsigned int flags = owner->m_08;
         owner->m_04 = 0;
@@ -154964,7 +154918,7 @@ void FUN_00c7d480_cls::FUN_00c7d480()
     {
         m_04 = 0;
     }
-    *(unsigned int*)_FUN_00c85750() = count;
+    *(unsigned int*)static_cast<::Holder *>(::FUN_00c85750()) = count;
 }
 
 namespace fnv_00c7d520 {
@@ -154995,7 +154949,7 @@ struct ScopeGuard
     {}
     __forceinline ~ScopeGuard()
     {
-        Holder* h = _FUN_00c85750();
+        Holder* h = static_cast<::Holder *>(::FUN_00c85750());
         FreeIface* a = (FreeIface*)h->p;
         unsigned int flags = owner->m_08;
         owner->m_04 = 0;
@@ -155017,7 +154971,7 @@ void FUN_00c7d520_cls::FUN_00c7d520()
     {
         m_04 = 0;
     }
-    *(unsigned int*)_FUN_00c85750() = count;
+    *(unsigned int*)static_cast<::Holder *>(::FUN_00c85750()) = count;
 }
 }  // namespace fnv_00c7d520
 
@@ -155039,7 +154993,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00c7d5c0_elem
 {
@@ -155058,7 +155011,7 @@ struct FUN_00c7d5c0_cls
 // @fnv 0x00c7d5c0
 void FUN_00c7d5c0_cls::FUN_00c7d5c0()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder *>(FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     FUN_00c7d5c0_elem* pElem = m_pData;
     if (m_iArrayLength > 0)
@@ -156455,7 +156408,7 @@ struct AllocHolderX
 };
 __forceinline void FreeObjX(void* p, unsigned int n)
 {
-    Holder* h = _FUN_00c85750();
+    Holder* h = static_cast<::Holder *>(::FUN_00c85750());
     h->p->f2(p, n);
 }
 template <class T> struct HkArrX
@@ -156465,7 +156418,7 @@ template <class T> struct HkArrX
     int m_capFlags;
     ~HkArrX()
     {
-        AllocHolderX* h = (AllocHolderX*)_FUN_00c85750();
+        AllocHolderX* h = (AllocHolderX*)static_cast<::Holder *>(::FUN_00c85750());
         HkAllocator* alloc = h->GetAllocator();
         m_iElementCount = 0;
         if (!(m_capFlags & 0x80000000))
@@ -157161,7 +157114,7 @@ template <class T> struct Array
     int m_iCapacityState;
     __forceinline ~Array()
     {
-        AudioAllocator& alloc = *FUN_00c85750()->m_pAllocator;
+        AudioAllocator& alloc = *static_cast<AudioHolder *>(FUN_00c85750())->m_pAllocator;
         int sz = m_iElementCount;
         T* p = m_data;
         for (int i = 0; i < sz; ++i, ++p)
@@ -157186,7 +157139,7 @@ template <> struct Array<LocalFrameOnBone>
     int m_iCapacityState;
     __forceinline ~Array()
     {
-        AudioHolder* holder = FUN_00c85750();
+        AudioHolder* holder = static_cast<AudioHolder *>(FUN_00c85750());
         AudioAllocator& alloc = *holder->m_pAllocator;
         int sz = m_iElementCount;
         LocalFrameOnBone* const p = m_data;
@@ -157217,7 +157170,7 @@ template <> struct Array<short>
     int m_iCapacityState;
     __forceinline ~Array()
     {
-        AudioHolder* holder = FUN_00c85750();
+        AudioHolder* holder = static_cast<AudioHolder *>(FUN_00c85750());
         AudioAllocator& alloc = *holder->m_pAllocator;
         unsigned int flag = 0x80000000;
         unsigned int cap = m_iCapacityState;
@@ -157237,7 +157190,7 @@ template <> struct Array<QsTransform>
     int m_iCapacityState;
     __forceinline ~Array()
     {
-        AudioHolder* holder = FUN_00c85750();
+        AudioHolder* holder = static_cast<AudioHolder *>(FUN_00c85750());
         AudioAllocator& alloc = *holder->m_pAllocator;
         unsigned int flag = 0x80000000;
         unsigned int cap = m_iCapacityState;
@@ -157274,7 +157227,7 @@ Outer* Outer::FUN_00c7e970(unsigned int a)
     reinterpret_cast<::FUN_00c7dc40 *>(this)->FUN_00c7dc40::~FUN_00c7dc40();
     if (a & 1)
     {
-        Holder* h = _FUN_00c85750();
+        Holder* h = static_cast<::Holder *>(::FUN_00c85750());
         h->p->f2(this, _4);
     }
     return this;
@@ -159331,12 +159284,6 @@ void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int n);
 // namespace SkeletonBuild
 
 extern "C" {
-::__m128 _mm_xor_ps(::__m128,::__m128);
-}
-namespace PoseFloatHardware {
-
-extern "C" ::__m128 _mm_sub_ps(::__m128,::__m128);
-extern "C" ::__m128 _mm_and_ps(::__m128,::__m128);
 }
 static __forceinline ::__m128 LoadScalar(const float* f) { ::__m128 t=_mm_load_ss(f); return _mm_shuffle_ps(t,t,0); }
 __forceinline ::__m128 Dot3(const V4& a, const V4& b) {
@@ -159409,10 +159356,10 @@ __declspec(noinline) void Quat::FUN_00c66320(const Quat* a,const Quat* b) {
     ::__m128 product=_mm_mul_ps(av,bv);
     ::__m128 sum=_mm_add_ss(_mm_shuffle_ps(product,product,85),product);
     sum=_mm_add_ss(_mm_shuffle_ps(product,product,170),sum);
-    ::__m128 w=PoseFloatHardware::_mm_sub_ps(product,_mm_shuffle_ps(sum,sum,0));
+    ::__m128 w=_mm_sub_ps(product,_mm_shuffle_ps(sum,sum,0));
     ::__m128 c0=_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2));
     ::__m128 c1=_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9));
-    ::__m128 cross=PoseFloatHardware::_mm_sub_ps(c0,c1);
+    ::__m128 cross=_mm_sub_ps(c0,c1);
     ::__m128 aw=_mm_shuffle_ps(av,av,255); aw=_mm_shuffle_ps(aw,aw,0);
     ::__m128 bw=_mm_shuffle_ps(bv,bv,255); bw=_mm_shuffle_ps(bw,bw,0);
     ::__m128 xyz=_mm_add_ps(_mm_mul_ps(bw,av),_mm_add_ps(_mm_mul_ps(aw,bv),cross));
@@ -159420,17 +159367,6 @@ __declspec(noinline) void Quat::FUN_00c66320(const Quat* a,const Quat* b) {
     FUN_00cb1260(this,&result,sizeof(result));
 }
 
-namespace RecordHardware {
-
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    PackedVector storage;
-    struct { float x, y, z, w; };
-};
-extern "C" __m128 __cdecl _mm_load_ss(const float*);
-extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 __cdecl _mm_set_ss(float);
-extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
-}
 struct ReviewedMemory {  };
 extern ReviewedMemory DAT_011f6238;
 inline bool IsKindOfType(const ReviewedRTTI* target, ReviewedNode* object) {
@@ -159448,9 +159384,9 @@ void ReviewedContext::FUN_00c7b4f0(ReviewedNode* node, ReviewedArray* output, Re
         unsigned int value = index;
         record->index = (unsigned short)value;
         if ((short)value != -1) {
-            ReviewedVector single = RecordHardware::_mm_load_ss(&settings->scale);
-            ReviewedVector scale = RecordHardware::_mm_shuffle_ps(single, single, 0);
-            record->transform0 = RecordHardware::_mm_mul_ps(scale, record->transform0);
+            ReviewedVector single = _mm_load_ss(&settings->scale);
+            ReviewedVector scale = _mm_shuffle_ps(single, single, 0);
+            record->transform0 = _mm_mul_ps(scale, record->transform0);
         }
     }
     reinterpret_cast<::MapTable *>((lookup))->InsertOrUpdate((unsigned int)(node), output->count);
@@ -159469,9 +159405,6 @@ void ReviewedContext::FUN_00c7b4f0(ReviewedNode* node, ReviewedArray* output, Re
 }
 
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ps(float*,__m128);
 __forceinline __m128 ScalePrimaryLine(const float* v, float f) {
     __m128 low = _mm_load_ss(&f);
     return _mm_mul_ps(_mm_shuffle_ps(low, low, 0), _mm_load_ps(v));

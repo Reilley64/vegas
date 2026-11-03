@@ -10,7 +10,7 @@ struct hkpCdBody;
 struct hkpCdPointCollector;
 
 // 0x00d3e110
-void FUN_00d3e110(int, int, int, int);
+void FUN_00d3e110(const void *, const void *, const void *, void *);
 // 0x00d3e270
 ::D3E270_obj *FUN_00d3e270(int, int, int, int);
 // 0x00d3e2f0

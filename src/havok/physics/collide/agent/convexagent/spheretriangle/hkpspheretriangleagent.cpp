@@ -107,7 +107,7 @@ struct TargetAgent
     char m_pAccessManager[0x10];
 
     TargetAgent(const void* bodyA, void* mgr)
-        : m_usMemSizeAndFlags(0x20), m_sReferenceCount(1), m_pContactManager(mgr), m_padC(0xffff)
+        : m_usMemSizeAndFlags(sizeof(TargetAgent)), m_sReferenceCount(1), m_pContactManager(mgr), m_padC(0xffff)
     {
         vtable = &(*reinterpret_cast<const void * *>(&::DAT_010cf060));
         const hkpTriangleShape* triangle = *(const hkpTriangleShape* const*)bodyA;
@@ -116,11 +116,11 @@ struct TargetAgent
     }
 };
 
-// Allocates a 0x20-byte chunk from the thread memory and constructs a TargetAgent from bodyA and mgr, returning it.
+// Allocates a TargetAgent-sized chunk from the thread memory and constructs a TargetAgent from bodyA and mgr, returning it.
 // @fnv 0x00d3d240
 void* __cdecl CreateTargetAgent(void* bodyA, void* bodyB, void* input, void* mgr)
 {
-    TargetAgent* agent = static_cast<TargetAgent*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x20));
+    TargetAgent* agent = static_cast<TargetAgent*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(TargetAgent)));
     agent->TargetAgent::TargetAgent(bodyA, mgr);
     return agent;
 }

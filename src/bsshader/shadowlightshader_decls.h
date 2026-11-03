@@ -105,7 +105,12 @@ class ShadowLightShader
     unsigned char layoutPadding1c[0x14];
     NiPointer<NiD3DShaderConstantMap> m_spFirstShaderConstantMap;
     NiPointer<NiD3DShaderConstantMap> m_spSecondShaderConstantMap;
-    unsigned char layoutPadding38[0x44];
+    int m_i38;
+    unsigned char layoutPadding3c[0x30];
+    void* m_pDeclaration6c;
+    void* m_pDeclaration70;
+    void* m_pDeclaration74;
+    void* m_pDeclaration78;
     NiPointer<NiD3DShaderConstantMap> m_spFillColorConstantMap;
     NiPointer<NiD3DShaderConstantMap> m_spFogConstantMap;
     NiPointer<NiD3DShaderConstantMap> m_spFirstPassConstantMap;

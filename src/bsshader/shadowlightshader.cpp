@@ -251,6 +251,28 @@ void ShadowLightShader::UpdateShaderConstants()
     }
 }
 
+class NiShaderConstantMapEntry : public NiRefObject
+{
+  public:
+    unsigned char active;
+    unsigned char unk9;
+    unsigned short unka;
+    unsigned int unkc, unk10, unk14, unk18, unk1c;
+    unsigned int value;
+};
+
+struct LightingPropertyView
+{
+    char pad00[0x20];
+    unsigned int uiFlags20;
+    unsigned int uiFlags24;
+    char pad28[0xe0 - 0x28];
+    float fValueE0;
+    int iValueE4;
+    char padE8[0xf0 - 0xe8];
+    float afValueF0[4];
+};
+
 struct __declspec(align(16)) Mat16
 {
     float m[4][4];
@@ -260,7 +282,7 @@ struct __declspec(align(16)) Mat16
 // @fnv 0x00b79050
 void ResetTransform(const void* param_1)
 {
-    if ((*(char**)&DAT_011fec08)[8] != 0 && param_1 != 0)
+    if (DAT_011fec08.m_pObject->active != 0 && param_1 != 0)
     {
         Mat16 identityMat;
         identityMat.m[0][1] = identityMat.m[0][2] = identityMat.m[0][3] = identityMat.m[1][0] = identityMat.m[1][2] =
@@ -272,13 +294,13 @@ void ResetTransform(const void* param_1)
 }
 
 
-// If the byte at offset 8 of DAT_011fec14.m_pObject is non-zero, writes a scaled value derived from param_1's int at offset 0xe4 to DAT_011fd868.
+// If DAT_011fec14 is active, writes a scaled value derived from param_1's iValueE4 to DAT_011fd868.
 // @fnv 0x00b790d0
 void UpdateScaledValue(const char* param_1)
 {
-    if (*((const char*)DAT_011fec14.m_pObject + 8) != 0)
+    if (DAT_011fec14.m_pObject->active != 0)
     {
-        *(float*)DAT_011fd868 = (::DAT_011f940c / ::DAT_01012640) * ::_DAT_0104eea0 * *(const int*)(param_1 + 0xe4);
+        *(float*)DAT_011fd868 = (::DAT_011f940c / ::DAT_01012640) * ::_DAT_0104eea0 * reinterpret_cast<const LightingPropertyView*>(param_1)->iValueE4;
     }
 }
 
@@ -310,7 +332,7 @@ void FUN_00b79410(unsigned int uiMessageId, unsigned char* pucPayload)
         int iValue = pucPayload[9] + 2;
         if (iValue <= 3)
             iValue = 3;
-        *(int*)((char*)DAT_011fec38.m_pObject + 0x20) = iValue;
+        DAT_011fec38.m_pObject->value = iValue;
         break;
     }
     case 0x1f6:
@@ -333,10 +355,11 @@ extern float DAT_011fd948;
 // @fnv 0x00b796f0
 void FUN_00b796f0(const char* param_1)
 {
-    if (*((const char*)DAT_011fec70.m_pObject + 8) != 0)
+    if (DAT_011fec70.m_pObject->active != 0)
     {
-        *const_cast<float*>(DAT_011fd944) = *(const float*)(param_1 + 0xe0);
-        if ((*(const unsigned int*)(param_1 + 0x24) & 0x10) > 0)
+        const LightingPropertyView* pProperty = reinterpret_cast<const LightingPropertyView*>(param_1);
+        *const_cast<float*>(DAT_011fd944) = pProperty->fValueE0;
+        if ((pProperty->uiFlags24 & 0x10) > 0)
             DAT_011fd948 = ::DAT_010177e8;
         else
             DAT_011fd948 = 1.0f;
@@ -352,27 +375,34 @@ struct Float4
     float x, y, z, w;
 };
 
-// If the byte at offset 8 of DAT_011fec80.m_pObject is non-zero, copies four floats from param_1[0x3c..0x3f] into DAT_011fa300 as a Float4.
+// If DAT_011fec80 is active, copies the property's four afValueF0 floats into DAT_011fa300 as a Float4.
 // @fnv 0x00b798c0
 void FUN_00b798c0(const float* afSource)
 {
-    if (*reinterpret_cast<const char*>(reinterpret_cast<const char*>(DAT_011fec80.m_pObject) + 8) != 0)
+    if (DAT_011fec80.m_pObject->active != 0)
     {
+        const float* afValue = reinterpret_cast<const LightingPropertyView*>(afSource)->afValueF0;
         Float4 v;
-        v.x = afSource[0x3c];
-        v.y = afSource[0x3d];
-        v.w = afSource[0x3e];
-        v.z = afSource[0x3f];
+        v.x = afValue[0];
+        v.y = afValue[1];
+        v.w = afValue[2];
+        v.z = afValue[3];
 
         *reinterpret_cast<Float4*>(const_cast<float*>(DAT_011fa300)) = v;
     }
 }
 
-// Assigns pObj to the NiPointer at pThis+0x5c, releasing the old object and incrementing the new one's reference count.
+struct PassView_b79950
+{
+    char pad[0x5c];
+    NiPointer<NiRefObject> spMember5c;
+};
+
+// Assigns pObj to the pass's NiPointer spMember5c, releasing the old object and incrementing the new one's reference count.
 // @fnv 0x00b79950
 void FUN_00b79950(char* pThis, intptr_t, NiRefObject* pObj)
 {
-    NiPointer<NiRefObject>& spMember = *(NiPointer<NiRefObject>*)(pThis + 0x5c);
+    NiPointer<NiRefObject>& spMember = reinterpret_cast<PassView_b79950*>(pThis)->spMember5c;
     if (spMember.m_pObject != pObj)
     {
         if (spMember.m_pObject)
@@ -389,40 +419,142 @@ class ThreeByThreeMatrix;
 class NiPoint3;
 
 
+struct TransformView_b799a0
+{
+    float afRotate[9];
+    float afTranslate[3];
+    float fScale;
+};
+
 // @fnv 0x00b799a0
 void __cdecl FUN_00b799a0(float* pDest, const char* pTransform)
 {
-    BuildTransformMatrix(pDest, *(const ThreeByThreeMatrix*)pTransform, *(const NiPoint3*)(pTransform + 0x24),
-                         *(const float*)(pTransform + 0x30));
+    const TransformView_b799a0* pView = reinterpret_cast<const TransformView_b799a0*>(pTransform);
+    BuildTransformMatrix(pDest, *(const ThreeByThreeMatrix*)pView->afRotate, *(const NiPoint3*)pView->afTranslate,
+                         pView->fScale);
 }
+
+struct FieldsView_b79db0
+{
+    char pad[0x60];
+    int iValue60;
+    char cValue64;
+};
 
 // @fnv 0x00b79db0
 void SetField60And64(char* thisPtr, int, int aiValue, char b)
 {
-    *(int*)(thisPtr + 0x60) = aiValue;
-    *(thisPtr + 0x64) = b;
+    FieldsView_b79db0* pView = reinterpret_cast<FieldsView_b79db0*>(thisPtr);
+    pView->iValue60 = aiValue;
+    pView->cValue64 = b;
 }
 
-// @fnv 0x00b7a6f0
-int FUN_00b7a6f0(unsigned char* _this, int, unsigned char* a1, unsigned char* pFlagsSource)
+struct GeometryView_b7a6f0
 {
-    if (*reinterpret_cast<int*>(a1 + 0xbc) != 0)
-        return *reinterpret_cast<int*>(_this + 0x70);
-    if (pFlagsSource && (*reinterpret_cast<unsigned int*>(pFlagsSource + 0x20) & 0x1000) > 0)
-        return *reinterpret_cast<int*>(_this + 0x74);
-    if ((*reinterpret_cast<unsigned int*>(pFlagsSource + 0x20) & 0x4000) > 0)
-        return *reinterpret_cast<int*>(_this + 0x78);
-    return *reinterpret_cast<int*>(_this + 0x6c);
+    char pad[0xbc];
+    void* m_spSkinInstance;
+};
+
+// Picks the vertex declaration: skinned geometry first, then by the property's 0x1000 and 0x4000 flags.
+// @fnv 0x00b7a6f0
+void* FUN_00b7a6f0(unsigned char* _this, int, unsigned char* a1, unsigned char* pFlagsSource)
+{
+    ShadowLightShader* pShader = reinterpret_cast<ShadowLightShader*>(_this);
+    const LightingPropertyView* pProperty = reinterpret_cast<const LightingPropertyView*>(pFlagsSource);
+    if (reinterpret_cast<GeometryView_b7a6f0*>(a1)->m_spSkinInstance != 0)
+        return pShader->m_pDeclaration70;
+    if (pProperty && (pProperty->uiFlags20 & 0x1000) > 0)
+        return pShader->m_pDeclaration74;
+    if ((pProperty->uiFlags20 & 0x4000) > 0)
+        return pShader->m_pDeclaration78;
+    return pShader->m_pDeclaration6c;
 }
 
-typedef void(* Fn128)(void*, void*);
+struct VirtualSlots_b78a40
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void Slot4a(void* pPass);
+};
 
-// Calls the virtual function at offset 0x128 on self for each of the 759 passes in DAT_011fdff8.
+// Calls self's virtual at vtable offset 0x128 for each of the 759 passes in DAT_011fdff8.
 // @fnv 0x00b78a40
 void FUN_00b78a40(void** self)
 {
     for (int i = 0; i < 759; ++i)
-        reinterpret_cast<Fn128*>(*self)[0x128 / 4](self, (*reinterpret_cast<void* (*)[759]>(&::fnv_00b7a730::DAT_011fdff8))[i]);
+        reinterpret_cast<VirtualSlots_b78a40*>(self)->Slot4a((*reinterpret_cast<void* (*)[759]>(&::fnv_00b7a730::DAT_011fdff8))[i]);
 }
 
 
@@ -448,7 +580,7 @@ struct FUN_00b79100_quad
 // @fnv 0x00b79100
 void FUN_00b79100(const void* unused)
 {
-    if ((*reinterpret_cast<char**>(&DAT_011fec18))[8])
+    if (DAT_011fec18.m_pObject->active)
     {
         FUN_00b79100_quad v;
         v.a = DAT_011f95f4 - (*reinterpret_cast<float *>(&::DAT_011f474c));
@@ -466,13 +598,19 @@ struct NiBound
 extern float DAT_011fd8b8;
 extern float DAT_011fd8bc;
 
+struct GeometryView_b79180
+{
+    char pad[0x20];
+    float* pfBound;
+};
+
 // @fnv 0x00b79180
 void FUN_00b79180(void* param_1)
 {
-    NiShaderConstantMapEntry* p = *(NiShaderConstantMapEntry**)(void*)&DAT_011fec1c;
-    if (*(unsigned char*)((unsigned char*)p + 8) != 0)
+    NiShaderConstantMapEntry* p = DAT_011fec1c.m_pObject;
+    if (p->active != 0)
     {
-        float* pFloats = *(float**)((unsigned char*)param_1 + 0x20);
+        float* pFloats = reinterpret_cast<GeometryView_b79180*>(param_1)->pfBound;
         if (pFloats == 0)
             pFloats = (float*)&::g_defaultBound;
 
@@ -564,10 +702,96 @@ struct FUN_00b78980_shell
     void InitializeParticleShaderRenderer();
 };
 
+struct VirtualSlots_b78980
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v4a();
+    virtual void v4b();
+    virtual void v4c();
+    virtual void v4d();
+    virtual void v4e();
+    virtual void v4f();
+    virtual void v50();
+    virtual void Slot51();
+};
+
 // @fnv 0x00b78980
 void FUN_00b78980_shell::InitializeParticleShaderRenderer()
 {
-    ((void(*)(void*))(*(void***)this)[0x51])(this);
+    reinterpret_cast<VirtualSlots_b78980*>(this)->Slot51();
     ::fnv_00beb070::FUN_00beb070();
     ::FUN_00be22b0();
     ConfigureRenderPasses();
@@ -615,7 +839,7 @@ extern float DAT_011fa2a8;
 // @fnv 0x00b78ef0
 void UpdateEyePosition(unsigned int type, char* geom, Matrix_b78ef0 matrix)
 {
-    if ((*(char**)&DAT_011febfc)[8] || (*(char**)&(*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011fec44)))[8])
+    if (DAT_011febfc.m_pObject->active || (*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011fec44)).m_pObject->active)
     {
         float* eyePos = (float*)DAT_011fd894;
         float* eyeDir = (float*)DAT_011fd8a4;
@@ -633,10 +857,11 @@ void UpdateEyePosition(unsigned int type, char* geom, Matrix_b78ef0 matrix)
             pos.x = (*reinterpret_cast<float *>(&::DAT_011fa2a0));
             pos.y = DAT_011fa2a4;
             pos.z = DAT_011fa2a8;
+            const ::TransformView_b799a0* pTransform = reinterpret_cast<const ::TransformView_b799a0*>(geom);
             NiPoint3 dir;
-            dir.x = pos.x - *(float*)(geom + 0x24);
-            dir.y = pos.y - *(float*)(geom + 0x28);
-            dir.z = pos.z - *(float*)(geom + 0x2c);
+            dir.x = pos.x - pTransform->afTranslate[0];
+            dir.y = pos.y - pTransform->afTranslate[1];
+            dir.z = pos.z - pTransform->afTranslate[2];
             reinterpret_cast<::FUN_004a0c10_s *>(&(dir))->FUN_004a0c10();
             eyeDir[0] = dir.x;
             eyeDir[1] = dir.y;
@@ -661,7 +886,7 @@ void UpdateEyePosition(unsigned int type, char* geom, Matrix_b78ef0 matrix)
             eyePos[0] = out.x;
             eyePos[1] = out.y;
             eyePos[2] = out.z;
-            eyePos[3] = *(float*)(geom + 0x30);
+            eyePos[3] = reinterpret_cast<const ::TransformView_b799a0*>(geom)->fScale;
             break;
         }
         }
@@ -856,7 +1081,7 @@ struct ShaderS
 // @fnv 0x00b795b0
 void ShaderS::ApplyFogAndAlpha(unsigned int uiPass, void* pArg2, GeomS* pGeom, void* pArg4, PropS* pProp, MatS* pMatrix)
 {
-    if (!(*(char**)&DAT_011fec40)[8])
+    if (!DAT_011fec40.m_pObject->active)
         return;
     if (uiPass - 0x1f7 <= 0x37)
         ::FUN_00c02c30(pArg2, 0, (::FUN_00c02c30_Obj *)(pGeom), 0);
@@ -3990,7 +4215,7 @@ struct NLPlane
 // @fnv 0x00b79730
 void __cdecl UpdatePlaneFromPoint()
 {
-    if (reinterpret_cast<char*>(DAT_011fec7c.m_pObject)[8])
+    if (DAT_011fec7c.m_pObject->active)
     {
 
         NLPt3 pt(DAT_011fa2a0.x, DAT_011fa2a0.y, DAT_011fa2a0.z);
@@ -11753,16 +11978,6 @@ struct Renderer119
     unsigned int unk150;
     unsigned int colorX, colorY, colorZ, colorW;
 };
-class NiShaderConstantMapEntry
-{
-  public:
-    unsigned int unk0, unk4;
-    unsigned char active;
-    unsigned char unk9;
-    unsigned short unka;
-    unsigned int unkc, unk10, unk14, unk18, unk1c;
-    unsigned int value;
-};
 extern Quad119 DAT_011fa170[];
 static inline void Scl(P3_bbb890& v, float f)
 {
@@ -12453,6 +12668,30 @@ typedef void*(* FindConstantFn)(void*, const char*, void*, unsigned short, int, 
 typedef void(* ApplyConstantFn)(void*, void*);
 typedef void(* ApplyConstantDataFn)(void*, void*, void*, unsigned short, int, void*);
 
+struct SkinView_b7a2c0
+{
+    char pad[0x28];
+    void* pBoneData;
+};
+struct PartitionView_b7a2c0
+{
+    void* pVtable;
+    void* m_pusBones;
+    void* m_pfWeights;
+    void* m_pusVertexMap;
+    void* m_pucBonePalette;
+    void* m_pusTriList;
+    void* m_pusStripLengths;
+    unsigned short m_usVertices;
+    unsigned short m_usTriangles;
+    unsigned short m_usBones;
+};
+struct RendererView_b7a2c0
+{
+    char pad[0x5c];
+    ShaderVirtualObject* pDevice;
+};
+
 struct ShaderAdapter : ShadowLightShader
 {
     int ApplyShaderConstants(void* a1, void* geometry, void* constantData, void* a4, void* a5, void* a6, ::Xf* transform,
@@ -12464,32 +12703,33 @@ struct ShaderAdapter : ShadowLightShader
 int ShaderAdapter::ApplyShaderConstants(void* a1, void* geometry, void* constantData, void* a4, void* a5, void* a6,
                                         ::Xf* transform, void* a8)
 {
-    if ((constantData && *reinterpret_cast<int*>(layoutPadding38) == 0 && DAT_011fec00.m_pObject &&
+    if ((constantData && m_i38 == 0 && DAT_011fec00.m_pObject &&
          *reinterpret_cast<char*>(&DAT_011fec00.m_pObject->active)) ||
         m_spSecondShaderConstantMap.m_pObject == m_spFogConstantMap.m_pObject)
     {
         reinterpret_cast<::BoneHost *>(((*reinterpret_cast<::LightManager * *>(&::DAT_011f9508))))->FUN_00e6fe30((::SkinMatrixBlock *)(geometry), transform, 0, 3, 1);
-        void* geometryData = *reinterpret_cast<void**>(reinterpret_cast<char*>(geometry) + 0x28);
+        void* geometryData = reinterpret_cast<SkinView_b7a2c0*>(geometry)->pBoneData;
+        PartitionView_b7a2c0* pPartition = reinterpret_cast<PartitionView_b7a2c0*>(constantData);
         if (m_spSecondShaderConstantMap.m_pObject == m_spFogConstantMap.m_pObject)
         {
             ShaderVirtualObject* pass =
-                *reinterpret_cast<ShaderVirtualObject**>(reinterpret_cast<char*>((*reinterpret_cast<void * *>(&::DAT_0126f74c))) + 0x5c);
+                (*reinterpret_cast<RendererView_b7a2c0 * *>(&::DAT_0126f74c))->pDevice;
             ShaderVirtualObject* map = reinterpret_cast<ShaderVirtualObject*>(m_spFogConstantMap.m_pObject);
             void** applySlot = pass->vtable + 30;
             void* result = reinterpret_cast<FindConstantFn>(reinterpret_cast<void* volatile*>(map->vtable)[28])(
                 map, DAT_010A1CAC, geometryData,
-                *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(constantData) + 0x20), 3,
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(constantData) + 4));
+                pPartition->m_usBones, 3,
+                pPartition->m_pusBones);
             reinterpret_cast<ApplyConstantFn>(*applySlot)(pass, result);
         }
         else
         {
             ShaderVirtualObject* pass =
-                *reinterpret_cast<ShaderVirtualObject**>(reinterpret_cast<char*>((*reinterpret_cast<void * *>(&::DAT_0126f74c))) + 0x5c);
+                (*reinterpret_cast<RendererView_b7a2c0 * *>(&::DAT_0126f74c))->pDevice;
             reinterpret_cast<ApplyConstantDataFn>(pass->vtable[30])(
                 pass, DAT_011fec00.m_pObject, geometryData,
-                *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(constantData) + 0x20), 3,
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(constantData) + 4));
+                pPartition->m_usBones, 3,
+                pPartition->m_pusBones);
         }
     }
     return 0;

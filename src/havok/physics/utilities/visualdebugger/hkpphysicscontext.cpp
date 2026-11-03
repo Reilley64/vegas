@@ -76,14 +76,14 @@ struct Owner
 };
 struct FUN_00cd1f60_cls
 {
-    void FUN_00cd1f60(int);
+    void FUN_00cd1f60(void*);
 };
 // @fnv 0x00cd1f60
-void FUN_00cd1f60_cls::FUN_00cd1f60(int value)
+void FUN_00cd1f60_cls::FUN_00cd1f60(void* value)
 {
     Owner* owner = *(Owner**)((char*)this - 0x50);
     if (owner)
-        reinterpret_cast<::Debugger836 *>((owner))->UntrackObject((void *)(value));
+        reinterpret_cast<::Debugger836 *>((owner))->UntrackObject(value);
 }
 
 struct CD1FA0Target
@@ -119,19 +119,19 @@ struct CD1FA0Primary
 
 struct CD1FA0Listener
 {
-    virtual void FUN_00cd1fa0(int value);
+    virtual void FUN_00cd1fa0(void* value);
 };
 
 struct CD1FA0Object : CD1FA0Primary, CD1FA0Listener
 {
-    virtual void FUN_00cd1fa0(int value);
+    virtual void FUN_00cd1fa0(void* value);
 };
 
 // @fnv 0x00cd1fa0
-void CD1FA0Object::FUN_00cd1fa0(int value)
+void CD1FA0Object::FUN_00cd1fa0(void* value)
 {
     if (m_target)
-        reinterpret_cast<::Debugger836 *>((m_target))->UntrackObject((void *)(value));
+        reinterpret_cast<::Debugger836 *>((m_target))->UntrackObject(value);
 }
 
 namespace fnv_00cd1ff0 {
@@ -211,19 +211,19 @@ struct Prefix
 struct Context
 {
     int contextState;
-    void FUN_00cd2020(int value);
+    void FUN_00cd2020(void* value);
 };
 struct Owner : Prefix, Context
 {
 };
 // Forwards value to the owner object's AddElementAndNotify with the Actions category and zero flags, if an owner exists.
 // @fnv 0x00cd2020
-void Context::FUN_00cd2020(int value)
+void Context::FUN_00cd2020(void* value)
 {
     Owner* object = reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - sizeof(Prefix));
     FUN_00cd12b0_cls* target = object->owner;
     if (target)
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((target))->AddElementAndNotify(value, (int)(&(*reinterpret_cast<::fnv_00cd2020::GlobalObjectO2_00d472a0 *>(&::g_012690d4))), (int)("Actions"), 0);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((target))->AddElementAndNotify(value, &::g_012690d4, "Actions", 0);
 }
 }  // namespace fnv_00cd2020
 
@@ -232,15 +232,15 @@ struct FUN_00cd10a0_Class
 };
 struct FUN_00cd2040_Class
 {
-    void ForwardToTarget(int value);
+    void ForwardToTarget(void* value);
 };
 // Reads a pointer stored at this-0x5c and, if non-null, forwards value to its UntrackObject method.
 // @fnv 0x00cd2040
-void FUN_00cd2040_Class::ForwardToTarget(int value)
+void FUN_00cd2040_Class::ForwardToTarget(void* value)
 {
     FUN_00cd10a0_Class* target = *(FUN_00cd10a0_Class**)((char*)this - 0x5c);
     if (target)
-        reinterpret_cast<::Debugger836 *>((target))->UntrackObject((void *)(value));
+        reinterpret_cast<::Debugger836 *>((target))->UntrackObject(value);
 }
 
 struct Prefix
@@ -325,14 +325,14 @@ struct Candidate
     int unk7C;
     int unk80;
     PointerArray items;
-    void* FindOrAddPointer(void* value);
+    void FindOrAddPointer(void* value);
 };
 // Searches items for value and returns its index; if absent, appends value to items and returns the new slot pointer.
 // @fnv 0x00cd2470
-void* Candidate::FindOrAddPointer(void* value)
+void Candidate::FindOrAddPointer(void* value)
 {
     PointerArray* array = &items;
-    register int index = 0;
+    int index = 0;
     int count = array->count;
     if (count > 0)
     {
@@ -348,15 +348,14 @@ void* Candidate::FindOrAddPointer(void* value)
     goto append;
 found:
     if (index >= 0)
-        return (void*)index;
+        return;
 append:
     hkMemoryRouter* state = &hkMemoryRouter::getInstance();
     if (array->count == (array->capacity & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(state->m_heap), (::AudioStream *)(array), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(state->m_heap), (::AudioStream *)(array), sizeof(void*));
     void** slot = array->data + array->count;
     *slot = value;
     ++array->count;
-    return slot;
 }
 
 namespace fnv_00cd27f0 {
@@ -364,7 +363,7 @@ struct FUN_00cd27f0
 {
     virtual void v0() = 0;
     int unk04;
-    int buffer2;
+    void** buffer2;
     int unk0c;
     int count2;
     int unk14;
@@ -373,7 +372,7 @@ struct FUN_00cd27f0
     int unk20;
     int unk24;
     int unk28;
-    int buffer1;
+    void** buffer1;
     volatile int unk30;
     int count1;
     virtual ~FUN_00cd27f0();
@@ -388,8 +387,8 @@ FUN_00cd27f0::~FUN_00cd27f0()
     if ((unsigned int)count & 0x80000000)
         goto skipFirstRelease;
     {
-        unsigned int bytes = (count & 0x3fffffff) * 4;
-        device->bufFree((void*)buffer1, bytes);
+        unsigned int bytes = (count & 0x3fffffff) * sizeof(void*);
+        device->bufFree(buffer1, bytes);
     }
 skipFirstRelease:
     buffer1 = 0;
@@ -401,8 +400,8 @@ skipFirstRelease:
     if ((unsigned int)secondCount & 0x80000000)
         goto skipSecondRelease;
     {
-        unsigned int bytes = (secondCount & 0x3fffffff) * 4;
-        device->bufFree((void*)buffer2, bytes);
+        unsigned int bytes = (secondCount & 0x3fffffff) * sizeof(void*);
+        device->bufFree(buffer2, bytes);
     }
 skipSecondRelease:
     buffer2 = 0;
@@ -462,7 +461,7 @@ void Receiver::DispatchEntityPayload(void* input)
     Container* owner = reinterpret_cast<Container*>(reinterpret_cast<char*>(this) - sizeof(Container::Prefix));
     Handler* handler = owner->prefix.handler;
     if (handler)
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((handler))->AddElementAndNotify((int)(input), (int)(&g_012688c8), (int)("Entities"), (int)(reinterpret_cast<char*>(input) + 0x10));
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((handler))->AddElementAndNotify(input, &g_012688c8, "Entities", reinterpret_cast<hkUlong>(input) + 0x10);
 }
 
 struct CD1F70Stats
@@ -524,7 +523,7 @@ class CD1F70World : public CD1F70Primary, public CD1F70Secondary
 void CD1F70World::CollectPhantoms(CD1F70Stats* stats)
 {
     if (m_kPhantoms)
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_kPhantoms))->AddElementAndNotify((int)(stats), (int)((*reinterpret_cast<const char (*)[]>(&::g_0126902c))), (int)("Phantoms"), (int)(&stats->m_childStats));
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_kPhantoms))->AddElementAndNotify(stats, &::g_0126902c, "Phantoms", reinterpret_cast<hkUlong>(&stats->m_childStats));
 }
 
 struct CD1FB0Collector
@@ -601,7 +600,7 @@ void CD1FB0World::CollectConstraints(CD1FB0Stats* stats)
     {
         CD1FB0Collector* collector = stats->m_kCollector;
         if (collector && collector->getType() != 11)
-            reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_ppConstraints))->AddElementAndNotify((int)(stats), (int)((*reinterpret_cast<const char (*)[]>(&::g_0126908c))), (int)("Constraints"), (int)(0));
+            reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_ppConstraints))->AddElementAndNotify(stats, &::g_0126908c, "Constraints", 0);
     }
 }
 
@@ -673,16 +672,16 @@ struct S_00cd2080_Lists
 {
     int unk00;
     int unk04;
-    int* m_08;
+    void** m_08;
     int m_0c;
     int m_10;
-    int* m_14;
+    void** m_14;
     int m_18;
     int m_1c;
-    int* m_20;
+    void** m_20;
     int m_24;
     int m_28;
-    int* m_2c;
+    void** m_2c;
     int m_30;
     int m_34;
 
@@ -765,7 +764,7 @@ done_search:
 
     if (this->m_target && idx != -1)
     {
-        reinterpret_cast<::Debugger836 *>((this->m_target))->UntrackObject((void *)((int)&this->m_elements[idx]));
+        reinterpret_cast<::Debugger836 *>((this->m_target))->UntrackObject(&this->m_elements[idx]);
         this->m_elements[idx].~S_00cd2080_Element();
         this->m_elementCount--;
         if (this->m_elementCount != idx)
@@ -780,19 +779,19 @@ done_search:
     S_00cd2080_Lists* lists = ((::S_00cd2080_Lists *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((param))->FUN_00c929e0()));
     for (int iItem = 0; iItem < lists->m_0c; iItem++)
     {
-        pListener0->onEvent((void*)lists->m_08[iItem]);
+        pListener0->onEvent(lists->m_08[iItem]);
     }
     for (int iItem = 0; iItem < lists->m_30; iItem++)
     {
-        pListener1->onEvent((void*)lists->m_2c[iItem]);
+        pListener1->onEvent(lists->m_2c[iItem]);
     }
     for (int iItem = 0; iItem < lists->m_24; iItem++)
     {
-        pListener3->onEvent((void*)lists->m_20[iItem]);
+        pListener3->onEvent(lists->m_20[iItem]);
     }
     for (int iItem = 0; iItem < lists->m_18; iItem++)
     {
-        pListener2->onEvent((void*)lists->m_14[iItem]);
+        pListener2->onEvent(lists->m_14[iItem]);
     }
     reinterpret_cast<::hkReferencedObjectC905 *>((lists))->FUN_00c905b0();
 }
@@ -1086,7 +1085,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
 
     if (m_0c != 0)
     {
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_0c))->AddElementAndNotify((int)(e), (int)((*reinterpret_cast<char (*)[]>(&::g_01269104))), (int)(::g_01269104_arg0), 0);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_0c))->AddElementAndNotify(e, &::g_01269104, ::g_01269104_arg0, 0);
     }
 
     CD22Table* tbl = ((::CD22Table *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((reg))->FUN_00c929e0()));
@@ -1177,7 +1176,7 @@ struct FUN_00c93a60_cls
 struct Sink
 {
     virtual void vfunc00();
-    virtual void vfunc04(int value);
+    virtual void vfunc04(void* value);
 };
 
 struct FUN_00cd2530_cls
@@ -1216,12 +1215,12 @@ struct FUN_00cd2530_cls
     Sink** m_sinks;
     int m_sinkCount;
 
-    void AddItem(int value);
+    void AddItem(void* value);
 };
 
 // If value is not already in m_items, appends it, notifies each sink via vfunc04 and calls RegisterWithRegistry.
 // @fnv 0x00cd2530
-void FUN_00cd2530_cls::AddItem(int pItem)
+void FUN_00cd2530_cls::AddItem(void* pItem)
 {
     PointerArray* items = &m_items;
     int count = items->count;
@@ -1231,7 +1230,7 @@ void FUN_00cd2530_cls::AddItem(int pItem)
         void** p = items->data;
         do
         {
-            if (*p == (void*)pItem)
+            if (*p == pItem)
             {
                 goto found;
             }
@@ -1256,12 +1255,12 @@ notFound:
     hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (items->count == (items->capacity & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(items), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(items), sizeof(void*));
     }
     int n = *(int volatile*)&items->count;
     void** volatile* ppData = &items->data;
     void** slot = (*ppData) + n;
-    *slot = (void*)pItem;
+    *slot = pItem;
     items->count++;
 
     for (int i = 0; i < m_sinkCount; ++i)
@@ -1936,17 +1935,17 @@ CD28F0Derived::CD28F0Derived()
 struct FUN_00cd1eb0_StandIn
 {
     void* unk00;
-    int FUN_00cd1eb0(int param);
+    void* FUN_00cd1eb0(int param);
 };
 
 
 // @fnv 0x00cd1eb0
-int FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
+void* FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
 {
     unk00 = fnv_vftable_DFFA90ListenerE;
     if (aiFlags & 1)
     {
         FUN_00401030(this);
     }
-    return (int)this;
+    return this;
 }

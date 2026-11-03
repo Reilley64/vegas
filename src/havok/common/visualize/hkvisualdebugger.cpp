@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkvisualdebugger.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkvisualdebugger.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CC0280Writer.h"
@@ -436,9 +437,9 @@ struct Router
 
 struct Elem
 {
-    int m_iWordAt00;
-    int m_iWordAt04;
-    int m_8;
+    void* m_iWordAt00;
+    const void* m_iWordAt04;
+    hkUlong m_8;
 };
 
 template <typename T> struct hkArray
@@ -481,7 +482,7 @@ class hkBool
     char m_cBooleanValue;
 };
 
-typedef void (*CallbackFn)(int, int, hkBool, int, void*);
+typedef void (*CallbackFn)(void*, const void*, hkBool, hkUlong, void*);
 
 struct FUN_00cd1330_cls
 {
@@ -500,11 +501,11 @@ struct FUN_00cd1330_cls
     hkArray<CallbackFn> m_kCallbackFunctions;
     hkArray<void*> m_kCallbackUserHandles;
 
-    void AddElementAndNotify(int a1, int a2, int a3, int a4);
+    void AddElementAndNotify(void* a1, const void* a2, const char* a3, hkUlong a4);
 };
 
 // @fnv 0x00cd1330
-void FUN_00cd1330_cls::AddElementAndNotify(int a1, int a2, int a3, int a4)
+void FUN_00cd1330_cls::AddElementAndNotify(void* a1, const void* a2, const char* a3, hkUlong a4)
 {
     Elem& e = m_ppData.AllocatePair();
     e.m_iWordAt00 = a1;

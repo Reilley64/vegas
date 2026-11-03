@@ -1030,6 +1030,7 @@ struct CE50Body
     CE50Vector center;
     CE50Matrix inertia;
 };
+static_assert(sizeof(CE50Body) == 0x50, "CE50Body views hkMassProperties");
 
 struct CEFBTri
 {
@@ -1946,7 +1947,8 @@ struct ScaledShape
     int m00, m04, m08, m0c, m10, m14, m18, m1c;
     Vec4CE m20, m30;
 };
-void __cdecl FUN_00cebaf0(Vec4CE*, float, MassBody*);
+struct MassProperties;
+int __cdecl FUN_00cebaf0(const float* halfExtents, float mass, MassProperties* result);
 struct RawBody
 {
     float volume, mass;
@@ -2035,7 +2037,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         __m128 halfExtents = (const __m128&)apShape->v20;
         radius = _mm_add_ps(radius, halfExtents);
         _mm_store_ps(&radii.x, radius);
-        FUN_00cebaf0(&radii, 1.0f, &body);
+        FUN_00cebaf0(&radii.x, 1.0f, reinterpret_cast<MassProperties*>(&body));
         break;
     }
     case 6: {
@@ -2295,37 +2297,39 @@ struct BoxInertia : Mat3
         (*this)(2, 2) = 1.0f;
     }
 };
+// hkMassProperties.
 struct MassProperties
 {
-    float m_iBufferSize;
-    float m_fViscosityFriction;
+    float m_volume;
+    float m_mass;
     float unk08;
     float unk0C;
     V4 m_kCenterOfMass1;
     BoxInertia m_kInertiaTensor;
 };
+static_assert(sizeof(MassBody) == sizeof(MassProperties), "MassBody views hkMassProperties");
 
 // Fills result with the inertia tensor, zero center of mass, volume and mass for a box of given halfExtents and mass, returning 1 if mass is not positive.
 // @fnv 0x00cebaf0
-int __cdecl FUN_00cebaf0(const V4& halfExtents, float mass, MassProperties& result)
+int __cdecl FUN_00cebaf0(const float* halfExtents, float mass, MassProperties* result)
 {
     if (mass <= 0.0f)
         return 1;
 
-    float x = halfExtents(0);
-    float y = halfExtents(1);
-    float z = halfExtents(2);
+    float x = halfExtents[0];
+    float y = halfExtents[1];
+    float z = halfExtents[2];
     float k = mass * (1.0f / 3.0f);
 
-    result.m_kInertiaTensor.setIdentity();
-    result.m_kCenterOfMass1.setZero4();
+    result->m_kInertiaTensor.setIdentity();
+    result->m_kCenterOfMass1.setZero4();
 
-    result.m_kInertiaTensor(0, 0) = (y * y + z * z) * k;
-    result.m_kInertiaTensor(1, 1) = (x * x + z * z) * k;
-    result.m_kInertiaTensor(2, 2) = (x * x + y * y) * k;
+    result->m_kInertiaTensor(0, 0) = (y * y + z * z) * k;
+    result->m_kInertiaTensor(1, 1) = (x * x + z * z) * k;
+    result->m_kInertiaTensor(2, 2) = (x * x + y * y) * k;
 
-    result.m_iBufferSize = (float)(x * y * z * ::DAT_010240b0);
-    result.m_fViscosityFriction = mass;
+    result->m_volume = (float)(x * y * z * ::DAT_010240b0);
+    result->m_mass = mass;
     return 0;
 }
 
@@ -2666,141 +2670,12 @@ struct MassPropertiesSV
     Vector center;
     Matrix inertia;
 };
-__declspec(noinline) void __cdecl FUN_00cec7f0(Vec4* v, int n, Vec4* center, Vec4* dims)
-{
-    __m128 lo = _mm_load_ps(&v->x);
-    __m128 hi = lo;
-    __m128 s0 = lo;
-    Vec4* p = v + 1;
-    Vec4* e = v + n;
-    while (p < e)
-    {
-        __m128 q = _mm_load_ps(&p->x);
-        lo = _mm_min_ps(lo, q);
-        hi = _mm_max_ps(hi, q);
-        s0 = _mm_add_ps(s0, q);
-        _mm_store_ps(&dims[(int)(p - v) & 1].x, hi);
-        _mm_store_ps(&center[(int)(e - p) & 1].x, s0);
-        ++p;
-    }
-    __m128 a = _mm_add_ps(lo, hi);
-    __m128 b = _mm_xor_ps(lo, s0);
-    _mm_store_ps(&center->x, _mm_mul_ps(a, b));
-    _mm_store_ps(&dims->x, _mm_add_ps(b, hi));
-}
-__declspec(noinline) int __cdecl FUN_00cebaf0(Vec4* d, float m, MassPropertiesSV* p)
-{
-    if (m <= 0.0f)
-        return 1;
-    float x = d->x, y = d->y, z = d->z;
-    _mm_store_ps(&p->inertia.c0.x, _mm_setzero_ps());
-    _mm_store_ps(&p->inertia.c1.x, _mm_setzero_ps());
-    _mm_store_ps(&p->inertia.c2.x, _mm_setzero_ps());
-    _mm_store_ps(&p->center.x, _mm_setzero_ps());
-    float k = m * 0.33333334f;
-    p->inertia.c0.x = k * (y * y + z * z);
-    p->inertia.c1.y = k * (x * x + z * z);
-    p->inertia.c2.z = k * (x * x + y * y);
-    p->volume = x * y * z * 8.0f;
-    p->mass = m;
-    return 0;
-}
-struct Integrator
-{
-    Vec4 basisX, basisY, basisZ, translation, boundsMin, boundsMax;
-    float m_60, m_64, m_68, m_6C, m_70, m_74, m_78, m_7C, m_80, m_84, m_88;
-    void FUN_00ced390(Geometry*, Vec4*);
-    void FUN_00cec6b0(float, float, float*, float*);
-};
-__declspec(noinline) void Integrator::FUN_00ced390(Geometry* g, Vec4* off)
-{
-    __m128 o = _mm_load_ps(&off->x);
-    __m128 acc = _mm_load_ps(&basisY.x);
-    for (int i = 0; i < g->triangleCount; ++i)
-    {
-        int* t = g->triangles + i * 3;
-        __m128 a = _mm_add_ps(_mm_load_ps(&g->vertices[t[0]].x), o);
-        __m128 b = _mm_add_ps(_mm_load_ps(&g->vertices[t[1]].x), o);
-        __m128 c = _mm_load_ps(&g->vertices[t[2]].x);
-        acc = _mm_add_ps(acc, _mm_mul_ps(a, b));
-        _mm_store_ps(&basisX.x, _mm_add_ps(_mm_load_ps(&basisX.x), _mm_mul_ps(a, c)));
-        m_64 += g->vertices[t[2]].x * m_60 + m_68;
-    }
-    _mm_store_ps(&basisY.x, acc);
-}
-__declspec(noinline) void Integrator::FUN_00cec6b0(float a, float b, float* p, float* M)
-{
-    float s = b / m_64;
-    p[0] = m_68 * s;
-    p[1] = m_6C * s;
-    p[2] = m_70 * s;
-    for (int i = 0; i < 3; ++i)
-    {
-        M[i * 5] = (&m_74)[i] * a - p[i] * b;
-        M[i + 4] = M[i] + (&m_80)[i];
-    }
-}
+static_assert(sizeof(MassPropertiesSV) == 0x50, "MassPropertiesSV views hkMassProperties");
 static inline float maximum(float a, float b)
 {
     return a < b ? b : a;
 }
 // Computes volume, mass, center of mass, and inertia tensor for a Geometry, falling back to an axis-aligned box when the integrated volume is non-positive.
-// @fnv 0x00ced6b0
-void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* result)
-{
-    float zero = 0.0f;
-    if (mass <= zero)
-        mass = 1.0f;
-    Vec4 center;
-    MassPropertiesSV boxProperties;
-    {
-        Vec4 dimensions;
-        FUN_00cec7f0(geometry->vertices, geometry->vertexCount, &center, &dimensions);
-        boxProperties.volume = zero;
-        boxProperties.mass = zero;
-        _mm_store_ps(&boxProperties.center.x, _mm_setzero_ps());
-        _mm_store_ps(&boxProperties.inertia.c0.x, _mm_setzero_ps());
-        _mm_store_ps(&boxProperties.inertia.c1.x, _mm_setzero_ps());
-        _mm_store_ps(&boxProperties.inertia.c2.x, _mm_setzero_ps());
-        FUN_00cebaf0(&dimensions, mass, &boxProperties);
-    }
-    __m128 centerValue = *(__m128*)&center;
-    *(__m128*)&boxProperties.center = centerValue;
-    Integrator integrator;
-    {
-        Vec4 shift;
-        *(__m128*)&shift = _mm_xor_ps(DAT_010c44d0, centerValue);
-        integrator.FUN_00ced390(geometry, &shift);
-    }
-    if (integrator.m_64 <= 0.0f)
-    {
-        *result = boxProperties;
-        return;
-    }
-    result->volume = integrator.m_64;
-    result->mass = mass;
-    float density = mass / integrator.m_64;
-    reinterpret_cast<::FUN_00cec6b0_cls *>(&(integrator))->FUN_00cec6b0(mass, density, (float*)&result->center, (float*)&result->inertia.c0);
-    *(__m128*)&result->center = _mm_add_ps(*(__m128*)&result->center, *(__m128*)&boxProperties.center);
-    float* inertia = (float*)&result->inertia.c0;
-    float* boxInertia = (float*)&boxProperties.inertia.c0;
-    for (int i = 0; i < 3; ++i)
-    {
-        if (inertia[i * 5] < (double)0.1f * boxInertia[i * 5])
-        {
-            inertia[i * 5] = (float)((double)0.1f * boxInertia[i * 5]);
-            ((float*)&result->center)[i] = ((float*)&center)[i];
-            for (int j = 0; j < 3; ++j)
-            {
-                if (j != i)
-                {
-                    float v = inertia[i * 4 + j];
-                    inertia[i * 4 + j] = inertia[j * 4 + i] = S_MaxGT(0.0f, v);
-                }
-            }
-        }
-    }
-}
 
 // Moved from hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 #include "fnv/decl/FUN_00c6cd00_cls.h"
@@ -2838,17 +2713,6 @@ struct CE50Body
         _mm_store_ps(&inertia.row2.x, _mm_setzero_ps());
     }
 };
-// Diagnostic hypothesis: box mass-property helper implementations.
-__declspec(noinline) void __cdecl FUN_00cebaf0(const float* radii, float mass, CE50Body* result)
-{
-    _mm_store_ps(&result->center.x, _mm_setzero_ps());
-    result->mass = mass;
-    result->volume = (float)(radii[0] * DAT_010240b0 * radii[1] * radii[2]);
-    float scale = mass / 3.0f;
-    result->inertia.row0.x = scale * (radii[1] * radii[1] + radii[2] * radii[2]);
-    result->inertia.row1.y = scale * (radii[0] * radii[0] + radii[2] * radii[2]);
-    result->inertia.row2.z = scale * (radii[0] * radii[0] + radii[1] * radii[1]);
-}
 static __declspec(noinline) void FUN_00cebfd0(CE50Body* body, float scale)
 {
     body->mass *= scale;
@@ -2876,8 +2740,8 @@ int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out,
         float innerVolume = (float)(inner.x * DAT_010240b0 * inner.y * inner.z);
         CE50Body outer;
         CE50Body inside;
-        FUN_00cebaf0(src, outerVolume, &outer);
-        FUN_00cebaf0(&inner.x, innerVolume, &inside);
+        FUN_00cebaf0(src, outerVolume, reinterpret_cast<MassProperties*>(&outer));
+        FUN_00cebaf0(&inner.x, innerVolume, reinterpret_cast<MassProperties*>(&inside));
         _mm_store_ps(&out->center.x, _mm_setzero_ps());
         reinterpret_cast<::FUN_00c6cd00_cls *>(&(out->inertia))->FUN_00c6cd00((const ::FUN_00c6cd00_cls *)(const ::CE50Matrix *)(&outer.inertia));
         out->inertia.Subtract(&inside.inertia);
@@ -2888,7 +2752,6 @@ int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out,
     }
     return 1;
 }
-__int64 __cdecl FUN_00cebaf0(float* source, float value, void* dest);
 
 __declspec(align(16)) struct Vec4F
 {
@@ -2925,44 +2788,11 @@ __declspec(align(16)) struct Mat4
     float row2_3;
 };
 
-__declspec(align(16)) struct Solver
-{
-    float unk00;
-    float unk04;
-    float unk08;
-    float unk0C;
-    float unk10;
-    float unk14;
-    float unk18;
-    float unk1C;
-    float unk20;
-    float unk24;
-    float unk28;
-    float unk2C;
-    float unk30;
-    float unk34;
-    float unk38;
-    float unk3C;
-    float unk40;
-    float unk44;
-    float unk48;
-    float unk4C;
-    float unk50;
-    float unk54;
-    float unk58;
-    float unk5C;
-    float unk60;
-    float unk64;
-    float unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88;
-    void FUN_00ced390(State* self, float* a);
-    void FUN_00cec6b0(float value, float ratio, float* vec, float* mat);
-};
 
 __declspec(align(16)) struct Work
 {
     Pair pair;
     Mat4 mat;
-    Solver solver;
 };
 
 struct OutBlock
@@ -2977,161 +2807,16 @@ struct OutBlock
     float m20, m21, m22, m23;
 };
 
-__declspec(noinline) __int64 __cdecl FUN_00cebaf0(float* source, float value, void* dest)
-{
-    if (value <= 0.0f)
-        return 1;
-    OutBlock* result = (OutBlock*)dest;
-    float x = source[0], y = source[1], z = source[2];
-    _mm_store_ps(&result->m00, _mm_setzero_ps());
-    _mm_store_ps(&result->m10, _mm_setzero_ps());
-    _mm_store_ps(&result->m20, _mm_setzero_ps());
-    result->m00 = result->m11 = result->m22 = 1.0f;
-    result->vec10 = _mm_setzero_ps();
-    float factor = value * (1.0 / 3.0);
-    result->m00 = factor * (y * y + z * z);
-    result->m11 = factor * (x * x + z * z);
-    result->m22 = factor * (x * x + y * y);
-    result->unk00 = x * y * z * 8.0;
-    result->unk04 = value;
-    return 0;
-}
 
-__declspec(noinline) void Solver::FUN_00cec6b0(float value, float ratio, float* vec, float* mat)
-{
-    vec[0] = unk68 / unk64;
-    vec[1] = unk6c / unk64;
-    vec[2] = unk70 / unk64;
-    mat[0] = ratio * (unk78 + unk7c);
-    mat[5] = ratio * (unk74 + unk7c);
-    mat[10] = ratio * (unk74 + unk78);
-    float negative = -ratio;
-    mat[1] = mat[4] = negative * unk80;
-    mat[6] = mat[9] = negative * unk84;
-    mat[8] = mat[2] = negative * unk88;
-    mat[0] -= value * (vec[1] * vec[1] + vec[2] * vec[2]);
-    mat[5] -= value * (vec[0] * vec[0] + vec[2] * vec[2]);
-    mat[10] -= value * (vec[0] * vec[0] + vec[1] * vec[1]);
-    mat[1] = mat[4] = mat[1] + value * vec[0] * vec[1];
-    mat[6] = mat[9] = mat[6] + value * vec[1] * vec[2];
-    mat[8] = mat[2] = mat[8] + value * vec[2] * vec[0];
-}
 
-struct MeshTriangle
-{
-    int a, b, c, material;
-};
-struct MeshInput
-{
-    __m128* vertices;
-    int count, context;
-    MeshTriangle* triangles;
-    int triangleCount;
-};
 
 // Accumulate signed tetrahedron moments from the translated boundary mesh.
-__declspec(noinline) void Solver::FUN_00ced390(State* self, float* shift)
-{
-    MeshInput* mesh = (MeshInput*)self;
-    unk64 = unk68 = unk6c = unk70 = unk74 = unk78 = unk7c = unk80 = unk84 = unk88 = 0.0f;
-    for (int i = 0; i < mesh->triangleCount; ++i)
-    {
-        MeshTriangle& face = mesh->triangles[i];
-        Vec4F p, q, r, n;
-        __m128 offset = _mm_load_ps(shift);
-        __m128 a = _mm_add_ps(mesh->vertices[face.a], offset);
-        __m128 b = _mm_add_ps(mesh->vertices[face.b], offset);
-        __m128 c = _mm_add_ps(mesh->vertices[face.c], offset);
-        _mm_store_ps(&p.x, a);
-        _mm_store_ps(&q.x, b);
-        _mm_store_ps(&r.x, c);
-        b = _mm_sub_ps(b, a);
-        c = _mm_sub_ps(c, a);
-        __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(b, b, 0xc9), _mm_shuffle_ps(c, c, 0xd2)),
-                                  _mm_mul_ps(_mm_shuffle_ps(c, c, 0xc9), _mm_shuffle_ps(b, b, 0xd2)));
-        _mm_store_ps(&n.x, cross);
-        float volume = (p.x * n.x + p.y * n.y + p.z * n.z) / 6.0f;
-        unk64 += volume;
-        float* pp = &p.x;
-        float* qq = &q.x;
-        float* rr = &r.x;
-        float* first = &unk68;
-        float* second = &unk74;
-        float* product = &unk80;
-        for (int j = 0; j < 3; ++j)
-        {
-            int k = (j + 1) % 3;
-            first[j] += volume * (pp[j] + qq[j] + rr[j]) / 4.0f;
-            second[j] +=
-                volume *
-                (pp[j] * pp[j] + qq[j] * qq[j] + rr[j] * rr[j] + pp[j] * qq[j] + qq[j] * rr[j] + rr[j] * pp[j]) / 10.0f;
-            product[j] += volume *
-                          (2.0f * (pp[j] * pp[k] + qq[j] * qq[k] + rr[j] * rr[k]) + pp[j] * qq[k] + qq[j] * pp[k] +
-                           pp[j] * rr[k] + rr[j] * pp[k] + qq[j] * rr[k] + rr[j] * qq[k]) /
-                          20.0f;
-        }
-    }
-}
 
 inline float MaxVal(float a, float b)
 {
     return a > b ? a : b;
 }
 
-// @fnv 0x00ced8e0
-int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
-{
-    if (value <= 0.0f)
-        return 1;
-    Vec4F b;
-    Vec4F a;
-    FUN_00cec7f0(self->first, self->count, reinterpret_cast<__m128*>(&b), reinterpret_cast<__m128*>(&a));
-    Work w;
-    w.pair.x = 0.0f;
-    w.pair.y = 0.0f;
-    _mm_store_ps(&w.mat.unk00_0, _mm_setzero_ps());
-    _mm_store_ps(&w.mat.row0_0, _mm_setzero_ps());
-    _mm_store_ps(&w.mat.row1_0, _mm_setzero_ps());
-    _mm_store_ps(&w.mat.row2_0, _mm_setzero_ps());
-    FUN_00cebaf0((float*)&a, value, &w.pair);
-    __m128 bv = _mm_load_ps((float*)&b);
-    _mm_store_ps(&w.mat.unk00_0, bv);
-    _mm_store_ps((float*)&a, _mm_xor_ps(DAT_010c44d0, bv));
-    w.solver.FUN_00ced390(self, (float*)&a);
-    float r = w.solver.unk64;
-    if (r <= 0.0f)
-    {
-        return 1;
-    }
-    out->unk00 = r;
-    out->unk04 = value;
-    reinterpret_cast<::FUN_00cec6b0_cls *>(&(w.solver))->FUN_00cec6b0(value, value / r, (float*)&out->vec10, &out->m00);
-    out->vec10 = _mm_add_ps(out->vec10, bv);
-    float* bf = (float*)&b;
-    float* u = &w.mat.row0_0;
-    float* M = &out->m00;
-    double scale = 0.10000000149011612;
-    for (int i = 0; i < 3; ++i)
-    {
-        double t = u[i * 5] * scale;
-        if (t > M[i * 5])
-        {
-            M[i * 5] = t;
-            ((float*)&out->vec10)[i] = bf[i];
-            for (int j = 0; j < 3; ++j)
-            {
-                if (j != i)
-                {
-                    float temp = MaxVal(0.0f, M[i * 4 + j]);
-                    float v = temp;
-                    M[j * 4 + i] = v;
-                    M[i * 4 + j] = v;
-                }
-            }
-        }
-    }
-    return 0;
-}
 
 struct __declspec(align(16)) S00cf0690_Vec
 {
@@ -4377,11 +4062,10 @@ void Integrals159::FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset)
         products[2] = 0.0f;
     if (triangleCount > 0)
     {
-        int byteOff = 0;
         int remaining = triangleCount;
         do
         {
-            Triangle159 tri = *(Triangle159*)((char*)mesh->triangles + byteOff);
+            Triangle159 tri = mesh->triangles[triangleCount - remaining];
             IntegralVector159 points[3];
             points[1].quad() = _mm_add_ps(mesh->vertices[tri.b].quad(), offset->quad());
             points[2].quad() = _mm_add_ps(mesh->vertices[tri.c].quad(), offset->quad());
@@ -4422,7 +4106,6 @@ void Integrals159::FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset)
                 products[axisB] += normal[axisB] * face[10];
                 products[axisC] += normal[axisC] * face[11];
             }
-            byteOff += 16;
         } while (--remaining);
     }
     for (int i = 0; i < 3; ++i)
@@ -4431,6 +4114,119 @@ void Integrals159::FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset)
         second[i] = (float)(second[i] / 3.0);
     for (int i = 0; i < 3; ++i)
         products[i] = (float)(products[i] * 0.5);
+}
+
+// @fnv 0x00ced8e0
+int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
+{
+    if (value <= 0.0f)
+        return 1;
+    Vec4F b;
+    Vec4F a;
+    FUN_00cec7f0(self->first, self->count, reinterpret_cast<__m128*>(&b), reinterpret_cast<__m128*>(&a));
+    Work w;
+    w.pair.x = 0.0f;
+    w.pair.y = 0.0f;
+    _mm_store_ps(&w.mat.unk00_0, _mm_setzero_ps());
+    _mm_store_ps(&w.mat.row0_0, _mm_setzero_ps());
+    _mm_store_ps(&w.mat.row1_0, _mm_setzero_ps());
+    _mm_store_ps(&w.mat.row2_0, _mm_setzero_ps());
+    FUN_00cebaf0((float*)&a, value, reinterpret_cast<MassProperties*>(&w.pair));
+    __m128 bv = _mm_load_ps((float*)&b);
+    _mm_store_ps(&w.mat.unk00_0, bv);
+    _mm_store_ps((float*)&a, _mm_xor_ps(DAT_010c44d0, bv));
+    Integrals159 integrals;
+    integrals.FUN_00ced390(reinterpret_cast<Mesh159*>(self), reinterpret_cast<const IntegralVector159*>(&a));
+    float r = integrals.volume;
+    if (r <= 0.0f)
+    {
+        return 1;
+    }
+    out->unk00 = r;
+    out->unk04 = value;
+    reinterpret_cast<::FUN_00cec6b0_cls *>(&(integrals))->FUN_00cec6b0(value, value / r, (float*)&out->vec10, &out->m00);
+    out->vec10 = _mm_add_ps(out->vec10, bv);
+    float* bf = (float*)&b;
+    float* u = &w.mat.row0_0;
+    float* M = &out->m00;
+    double scale = 0.10000000149011612;
+    for (int i = 0; i < 3; ++i)
+    {
+        double t = u[i * 5] * scale;
+        if (t > M[i * 5])
+        {
+            M[i * 5] = t;
+            ((float*)&out->vec10)[i] = bf[i];
+            for (int j = 0; j < 3; ++j)
+            {
+                if (j != i)
+                {
+                    float temp = MaxVal(0.0f, M[i * 4 + j]);
+                    float v = temp;
+                    M[j * 4 + i] = v;
+                    M[i * 4 + j] = v;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+// @fnv 0x00ced6b0
+void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* result)
+{
+    float zero = 0.0f;
+    if (mass <= zero)
+        mass = 1.0f;
+    Vec4 center;
+    MassPropertiesSV boxProperties;
+    {
+        Vec4 dimensions;
+        FUN_00cec7f0(reinterpret_cast<const __m128*>(geometry->vertices), geometry->vertexCount, reinterpret_cast<__m128*>(&center), reinterpret_cast<__m128*>(&dimensions));
+        boxProperties.volume = zero;
+        boxProperties.mass = zero;
+        _mm_store_ps(&boxProperties.center.x, _mm_setzero_ps());
+        _mm_store_ps(&boxProperties.inertia.c0.x, _mm_setzero_ps());
+        _mm_store_ps(&boxProperties.inertia.c1.x, _mm_setzero_ps());
+        _mm_store_ps(&boxProperties.inertia.c2.x, _mm_setzero_ps());
+        FUN_00cebaf0(&dimensions.x, mass, reinterpret_cast<MassProperties*>(&boxProperties));
+    }
+    __m128 centerValue = *(__m128*)&center;
+    *(__m128*)&boxProperties.center = centerValue;
+    Integrals159 integrator;
+    {
+        Vec4 shift;
+        *(__m128*)&shift = _mm_xor_ps(DAT_010c44d0, centerValue);
+        integrator.FUN_00ced390(reinterpret_cast<Mesh159*>(geometry), reinterpret_cast<const IntegralVector159*>(&shift));
+    }
+    if (integrator.volume <= 0.0f)
+    {
+        *result = boxProperties;
+        return;
+    }
+    result->volume = integrator.volume;
+    result->mass = mass;
+    float density = mass / integrator.volume;
+    reinterpret_cast<::FUN_00cec6b0_cls *>(&(integrator))->FUN_00cec6b0(mass, density, (float*)&result->center, (float*)&result->inertia.c0);
+    *(__m128*)&result->center = _mm_add_ps(*(__m128*)&result->center, *(__m128*)&boxProperties.center);
+    float* inertia = (float*)&result->inertia.c0;
+    float* boxInertia = (float*)&boxProperties.inertia.c0;
+    for (int i = 0; i < 3; ++i)
+    {
+        if (inertia[i * 5] < (double)0.1f * boxInertia[i * 5])
+        {
+            inertia[i * 5] = (float)((double)0.1f * boxInertia[i * 5]);
+            ((float*)&result->center)[i] = ((float*)&center)[i];
+            for (int j = 0; j < 3; ++j)
+            {
+                if (j != i)
+                {
+                    float v = inertia[i * 4 + j];
+                    inertia[i * 4 + j] = inertia[j * 4 + i] = S_MaxGT(0.0f, v);
+                }
+            }
+        }
+    }
 }
 #include "generated/data/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.inc"
 #include "generated/data/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

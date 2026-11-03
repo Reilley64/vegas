@@ -63,6 +63,11 @@ struct hkMemoryRouter
         m_stackCurrent = static_cast<char*>(p);
     }
 
+    void shrinkAllocatedStack(void* p, int newSize)
+    {
+        m_stackCurrent = static_cast<char*>(p) + newSize;
+    }
+
     hkMemoryAllocator& temp()
     {
         return *m_temp;

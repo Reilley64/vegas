@@ -2916,14 +2916,14 @@ public:
 void FUN_00b66850_class::FUN_00b66850()
 {
     char* p = (char*)this;
-    *(int*)p = (int)&DAT_010ae0c0;
+    *(void**)p = (void*)&DAT_010ae0c0;
     if (p[8] && *(void**)(p + 0xc))
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(*(void**)(p + 0xc));
     *(void**)(p + 0xc) = 0;
     if (p[8] && *(void**)(p + 0x10))
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(*(void**)(p + 0x10));
     *(void**)(p + 0x10) = 0;
-    *(int*)p = (int)&::DAT_0101dce4;
+    *(void**)p = (void*)&::DAT_0101dce4;
     DAT_00fdf1c4((void*)&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 

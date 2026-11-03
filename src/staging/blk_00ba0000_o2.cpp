@@ -1270,7 +1270,7 @@ struct FUN_00bb4520_Class : NewObj
 // @fnv 0x00bb4520
 FUN_00bb4520_Class::FUN_00bb4520_Class()
 {
-    *(int*)this = (int)&DAT_010b9910;
+    *(void**)this = (void*)&DAT_010b9910;
     *(int*)((char*)this + 0x100) = 0;
 }
 

@@ -333,7 +333,7 @@ BSFadeNode* __cdecl FUN_00c283b0()
     {
         new ((void *)(p)) class ::FUN_00a6d220();
         *(float*)((char*)p + 0x34) = ::DAT_01015f5c;
-        *(int*)p = (int)&DAT_010be8e4;
+        *(void**)p = (void*)&DAT_010be8e4;
         return p;
     }
     return 0;
@@ -358,7 +358,7 @@ BSFadeNode* __cdecl FUN_00c2ba60()
         *(int*)((char*)p + 24) = 0;
         *(int*)((char*)p + 28) = 0;
         *(int*)((char*)p + 32) = 0;
-        *(int*)p = (int)&DAT_010bfd54;
+        *(void**)p = (void*)&DAT_010bfd54;
     }
     else
     {
@@ -616,7 +616,7 @@ FUN_00c31ff0* __cdecl FUN_00c27350()
     {
         new ((void *)(p)) ::FUN_00c31ff0();
         *(float*)&p->m_30 = 0.0f;
-        *(int*)p = (int)&DAT_010be774;
+        *(void**)p = (void*)&DAT_010be774;
         *(float*)&p->m_38 = ::DAT_01015f5c;
         *(float*)&p->m_34 = DAT_01022958;
         return p;

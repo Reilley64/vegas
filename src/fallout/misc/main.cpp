@@ -1434,6 +1434,8 @@ bool FUN_0086f860()
 struct FUN_0086f890_shell : public Main
 {
     void FUN_0086f890();
+    unsigned char pad00[0x7];
+    unsigned char unk07;
 };
 
 struct GlobalObject2_0040c150
@@ -1450,7 +1452,7 @@ void FUN_0086f890_shell::FUN_0086f890()
         reinterpret_cast<::fnv_0096eb40::FUN_0096eb40_cls *>((&(*reinterpret_cast<int *>(&::g_011e0e80))))->FUN_0096eb40();
     }
 
-    if ((!DAT_011dea2b || DAT_011dea2d) && !DAT_011dea2e && !((unsigned char*)this)[7])
+    if ((!DAT_011dea2b || DAT_011dea2d) && !DAT_011dea2e && !unk07)
     {
         if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
         {
@@ -1459,7 +1461,7 @@ void FUN_0086f890_shell::FUN_0086f890()
         }
         reinterpret_cast<::fnv_0096d810::FUN_0096d810_shell *>((&(*reinterpret_cast<int *>(&::g_011e0e80))))->FUN_0096d810();
     }
-    else if (DAT_011dea2b || ((unsigned char*)this)[7])
+    else if (DAT_011dea2b || unk07)
     {
         reinterpret_cast<::fnv_00964260::SelActor *>((::_g_thePlayer))->FUN_00964260();
     }
@@ -1548,14 +1550,21 @@ void FUN_00870610_shell::FUN_00870610()
 
 void __cdecl FUN_00706320(int);
 
-// If the byte at offset 0x4cc is set, calls FUN_00706320(0) and clears that byte.
+// The object FUN_00870680 takes, as far as it reads it.
+struct FUN_00870680_Object
+{
+    char pad00[0x4cc];
+    unsigned char unk4cc;
+};
+
+// If unk4cc is set, calls FUN_00706320(0) and clears it.
 // @fnv 0x00870680
 void FUN_00870680(void* param_1)
 {
-    if (*((unsigned char*)param_1 + 0x4cc))
+    if (static_cast<FUN_00870680_Object*>(param_1)->unk4cc)
     {
         FUN_00706320(0);
-        *((unsigned char*)param_1 + 0x4cc) = 0;
+        static_cast<FUN_00870680_Object*>(param_1)->unk4cc = 0;
     }
 }
 
@@ -3188,13 +3197,15 @@ struct BSRenderedTexture;
 struct ImageSpaceTexture
 {
     void FUN_008748d0();
+    char pad00[0x7c];
+    unsigned int unk7c;
 };
 
 // @fnv 0x008748d0
 void ImageSpaceTexture::FUN_008748d0()
 {
-    reinterpret_cast<::H_00ba3840 *>((((ImageSpaceTexture*)((char*)this + 0x7c))))->FUN_00ba3840((*(int *)&(const ::BSTextureManager::RenderTargetType &)((BSTextureManager::RenderTargetType)0x27)));
-    reinterpret_cast<::FUN_00ba3770_struct *>((void *)(((ImageSpaceTexture*)((char*)this + 0x7c))))->FUN_00ba3770();
+    reinterpret_cast<::H_00ba3840 *>(&this->unk7c)->FUN_00ba3840((*(int *)&(const ::BSTextureManager::RenderTargetType &)((BSTextureManager::RenderTargetType)0x27)));
+    reinterpret_cast<::FUN_00ba3770_struct *>(&this->unk7c)->FUN_00ba3770();
 }
 
 struct AutoMemHelper
@@ -3270,24 +3281,24 @@ bool FUN_0086ba60_Class::FUN_0086ba60(void* apUnused, void* a2)
 }
 
 namespace fnv_0086bb20 {
-struct GlobalObject_00869b10
-{
-};
-
 struct SomeClass
 {
     bool FUN_0086bb20(uintptr_t index);
+    char pad00[0xad4];
+    ::PtrArrayView unkad4;
+    char padad5[0xf];
+    ::PtrArrayView unkae4;
 };
 
-// Looks up index via FUN_0086bb70; if found, removes that entry from the two lists at offsets 0xad4 and 0xae4 and returns true, else false.
+// Looks up index via FUN_0086bb70; if found, removes that entry from the lists unkad4 and unkae4 and returns true, else false.
 // @fnv 0x0086bb20
 bool SomeClass::FUN_0086bb20(uintptr_t index)
 {
     int result = reinterpret_cast<::SomeClass *>(this)->FUN_0086bb70(index);
     if (result == -1)
         return false;
-    reinterpret_cast<::PtrArrayView *>(((reinterpret_cast<GlobalObject_00869b10*>(reinterpret_cast<unsigned char*>(this) + 0xad4))))->FUN_009e98d0(result);
-    reinterpret_cast<::PtrArrayView *>(((reinterpret_cast<GlobalObject_00869b10*>(reinterpret_cast<unsigned char*>(this) + 0xae4))))->FUN_009e98d0(result);
+    unkad4.FUN_009e98d0(result);
+    unkae4.FUN_009e98d0(result);
     return true;
 }
 }  // namespace fnv_0086bb20
@@ -3377,12 +3388,14 @@ struct SoundPlaybackHandle
 {
     bool StopWithFade(unsigned int);
     bool FUN_00877700();
+    char pad00[0x77c];
+    unsigned int unk77c;
 };
 
 // @fnv 0x00877700
 bool SoundPlaybackHandle::FUN_00877700()
 {
-    return ((SoundPlaybackHandle*)((char*)this + 0x77c))->StopWithFade(0x3e8);
+    return reinterpret_cast<SoundPlaybackHandle*>(&unk77c)->StopWithFade(0x3e8);
 }
 
 struct FUN_0086ef70_Class
@@ -3500,38 +3513,60 @@ void FUN_00877a50Class::FUN_00877a50(int param_2)
     reinterpret_cast<::FUN_00877e10_Class *>(this)->FUN_00877e10(m_000a, param_2);
 }
 
+// The 8-byte entries FUN_00a23490 indexes.
+struct FUN_00a23490_Entry
+{
+    int unk00;
+    int unk04;
+};
+
 struct FUN_00a23490_Class
 {
     int FUN_00a23490(int a, unsigned int b);
+    char pad00[0x18b8];
+    FUN_00a23490_Entry unk18b8[1];
 };
 
-// Returns whether the bit at position b is set in the int stored at this + a*8 + 0x18b8.
+// Returns whether the bit at position b is set in entry a of unk18b8.
 // @fnv 0x00a23490
 int FUN_00a23490_Class::FUN_00a23490(int aiIndex, unsigned int auiBit)
 {
-    return (1 << auiBit) & *(int*)((char*)this + aiIndex * 8 + 0x18b8);
+    return (1 << auiBit) & unk18b8[aiIndex].unk00;
 }
+
+// The 0x2c-byte records FUN_00a23690 and FUN_00a236d0 index.
+struct FUN_00a23690_Record
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int pad0c[0x8];
+};
 
 struct FUN_00a23690_class
 {
     int FUN_00a23690(int index);
+    char pad00[0x1760];
+    FUN_00a23690_Record unk1760[1];
 };
 
 // @fnv 0x00a23690
 int FUN_00a23690_class::FUN_00a23690(int index)
 {
-    return *(int*)((char*)this + 0x1760 + index * 0x2c);
+    return unk1760[index].unk00;
 }
 
 struct FUN_00a236d0_class
 {
     int FUN_00a236d0(int index);
+    char pad00[0x1760];
+    FUN_00a23690_Record unk1760[1];
 };
 
 // @fnv 0x00a236d0
 int FUN_00a236d0_class::FUN_00a236d0(int index)
 {
-    return *(int*)((char*)this + 0x1768 + index * 0x2c);
+    return unk1760[index].unk08;
 }
 
 
@@ -4413,6 +4448,10 @@ struct ImageSpaceManager
 struct FUN_00876850_shell : public Main
 {
     void FUN_00876850(BSRenderedTexture*, ImageSpaceManager*, GraphicsRenderer*, Sun*);
+    char pad00[0x88];
+    Flt unk88;
+    char pad89[0xb];
+    Flt unk94;
 };
 
 struct Dev9
@@ -4586,8 +4625,8 @@ void FUN_00876850_shell::FUN_00876850(BSRenderedTexture* apRenderTexture, ImageS
     ::FUN_00ba9420((const ::Source215 *)(void *)(((BSFaceGenNiNode*)apSceneGraph)->GetAnimationData()));
     if (apRenderTexture)
         reinterpret_cast<::Manager *>((FUN_004a0ea0()))->FUN_00b6da10((::Item *)(apRenderTexture));
-    reinterpret_cast<::FUN_00b65660_StandIn *>((((FUN_00b65660_s*)(uintptr_t)*(Flt*)((char*)this + 0x88))))->FUN_00b65660();
-    reinterpret_cast<::FUN_00b630c0_class *>((((FUN_00b630c0_s*)(uintptr_t)*(Flt*)((char*)this + 0x94))))->FUN_00b630c0();
+    reinterpret_cast<::FUN_00b65660_StandIn *>(((FUN_00b65660_s*)(uintptr_t)unk88))->FUN_00b65660();
+    reinterpret_cast<::FUN_00b630c0_class *>(((FUN_00b630c0_s*)(uintptr_t)unk94))->FUN_00b630c0();
     ::FUN_00b540b0();
     ::FUN_00b4f510();
     reinterpret_cast<::FUN_00876a00_Class *>((((FUN_00876a00_Class*)((::fnv_00876850::S5 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((((S4*)apImagespaceManager)))->FUN_004ebbc0(4))))))->FUN_00876a00();
@@ -15087,32 +15126,35 @@ void S00875bf0_Shell875::FUN_00875bf0()
 
 struct BSBatchRenderer__PassList
 {
-    unsigned int pad00[0x1];
+    unsigned int unk00;
     int unk04;
     int unk08;
     int unk0c;
-    unsigned int pad10[0x10];
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
+    int unk10;
+};
+
+// The pass lists FUN_00b65660 resets: two groups of four.
+struct BSBatchRendererPassListsView
+{
+    char pad00[0x9c];
+    BSBatchRenderer__PassList unk9c[8];
 };
 // @fnv 0x00b65660
 void FUN_00b65660_StandIn::FUN_00b65660()
 {
-    BSBatchRenderer__PassList* p = (BSBatchRenderer__PassList*)((char*)this + 0xa0);
-    for (int i = 0; i < 4; ++i, p = (BSBatchRenderer__PassList*)((char*)p + 0x14))
+    BSBatchRenderer__PassList* p = reinterpret_cast<BSBatchRendererPassListsView*>(this)->unk9c;
+    for (int i = 0; i < 4; ++i, ++p)
     {
-        reinterpret_cast<::FUN_00b63e90_cls *>((((BSBatchRenderer__PassList*)((char*)p - 4))))->ReleasePoolNodes();
-        p->unk08 = *(int*)p;
-        *(int*)p = 0;
+        reinterpret_cast<::FUN_00b63e90_cls *>(p)->ReleasePoolNodes();
+        p->unk0c = p->unk04;
         p->unk04 = 0;
-        p->unk0c = 0;
-        reinterpret_cast<::FUN_00b63e90_cls *>((((BSBatchRenderer__PassList*)((char*)p + 0x4c))))->ReleasePoolNodes();
-        p->unk58 = p->unk50;
-        p->unk50 = 0;
-        p->unk54 = 0;
-        p->unk5c = 0;
+        p->unk08 = 0;
+        p->unk10 = 0;
+        reinterpret_cast<::FUN_00b63e90_cls *>(p + 4)->ReleasePoolNodes();
+        p[4].unk0c = p[4].unk04;
+        p[4].unk04 = 0;
+        p[4].unk08 = 0;
+        p[4].unk10 = 0;
     }
 }
 

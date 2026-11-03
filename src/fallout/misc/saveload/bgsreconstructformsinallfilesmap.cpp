@@ -130,12 +130,12 @@ void BGSReconstructFormsInAllFilesMap::Clear()
     reinterpret_cast<::S3240 *>(&(m_kFormChangeMap))->FUN_00843240();
     iCount = 0;
 }
-// Calls Resize(0, 1) on this and on the object at offset 0x10.
+// Calls Resize(0, 1) on both form change arrays.
 // @fnv 0x00843240
 void S3240::FUN_00843240()
 {
-    Resize(0, 1);
-    reinterpret_cast<S3240*>(reinterpret_cast<char*>(this) + 0x10)->Resize(0, 1);
+    reinterpret_cast<S3240*>(&reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges)->Resize(0, 1);
+    reinterpret_cast<S3240*>(&reinterpret_cast<::FormChangeMap *>(this)->m_kSpecialFormChanges)->Resize(0, 1);
 }
 
 struct FUN_00843bb0_shell : public FormChangeMap
@@ -367,12 +367,14 @@ struct FUN_00845260_holder
 struct FUN_00844500_shell
 {
     void ForwardToHolder();
+    char pad00[0xc];
+    FUN_00845260_holder unk0c;
 };
 
 // @fnv 0x00844500
 void FUN_00844500_shell::ForwardToHolder()
 {
-    reinterpret_cast<::FUN_0069b8a0_cls *>((((FUN_00845260_holder*)((char*)this + 0xc))))->CreateObj_00845260();
+    reinterpret_cast<::FUN_0069b8a0_cls *>(&unk0c)->CreateObj_00845260();
 }
 
 namespace fnv_00844fa0 {
@@ -628,11 +630,11 @@ unsigned int FUN_008432e0_Host::FUN_008432e0(unsigned int auiIndex)
     unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (auiIndex < flags)
     {
-        return reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(auiIndex);
+        return reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges)->FUN_00844160(auiIndex);
     }
     else
     {
-        return reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)((char*)this + 16))))->FUN_00844160(auiIndex - flags);
+        return reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kSpecialFormChanges)->FUN_00844160(auiIndex - flags);
     }
 }
 }  // namespace fnv_008432e0
@@ -645,18 +647,18 @@ struct ArrSI
 struct FUN_00844160_shell
 {
 };
-// Returns the element at index from this array if index is below GetFlags(), otherwise from the array at offset 0x10 with index minus flags.
+// Returns the element at index from this array if index is below GetFlags(), otherwise from m_kSpecialFormChanges with index minus flags.
 // @fnv 0x00843330
 unsigned int ArrSI::GetElementAt(unsigned int index)
 {
     unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (index < flags)
     {
-        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(index);
+        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges)->FUN_00844160(index);
     }
     else
     {
-        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)((char*)this + 0x10))))->FUN_00844160(index - flags);
+        return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>(&reinterpret_cast<::FormChangeMap *>(this)->m_kSpecialFormChanges)->FUN_00844160(index - flags);
     }
 }
 }  // namespace fnv_00843330

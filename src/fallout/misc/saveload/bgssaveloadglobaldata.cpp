@@ -547,6 +547,8 @@ void FUN_0084cc40_shell::FUN_0084cc40(bool abValue)
 struct FUN_0084d050_shell : public ImageSpaceModifierInstance
 {
     bool IsFlagSet();
+    unsigned int pad00[0x6];
+    unsigned int unk18;
 };
 // @fnv 0x0084d160
 void SaveGameLoader::UnloadGameData()
@@ -579,7 +581,7 @@ void SaveGameLoader::UnloadGameData()
 // @fnv 0x0084d050
 bool FUN_0084d050_shell::IsFlagSet()
 {
-    return (*(unsigned int*)((char*)this + 0x18) & 1) ? true : false;
+    return (unk18 & 1) ? true : false;
 }
 
 class FUN_0084c580_shell

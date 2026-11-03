@@ -210,16 +210,16 @@ void BGSSaveLoadGame::ClearFormChanges()
         Actor* actor;
         void* pos;
     } state;
-    state.pos = ((BGSReconstructFormsInAllFilesMap*)((char*)this + 0x34))->GetFirstPos();
+    state.pos = (&this->unk34)->GetFirstPos();
     while (state.pos)
     {
         state.formID = 0;
         state.actor = 0;
-        reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)((char*)this + 0x34))))->FUN_006b7f20((::C6b7f20_Node **)&(state.pos), (unsigned int *)&((TESFile*&)state.formID), (void **)&((BGSReconstructFormsInFileMap*&)state.actor));
+        reinterpret_cast<::C6b7f20_Map *>(((&this->unk34)))->FUN_006b7f20((::C6b7f20_Node **)&(state.pos), (unsigned int *)&((TESFile*&)state.formID), (void **)&((BGSReconstructFormsInFileMap*&)state.actor));
         if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((state.actor))->GetBaseTexture())))
             reinterpret_cast<::fnv_00893340::FUN_00893340_shell *>((state.actor))->FUN_00893340(true);
     }
-    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<unsigned int, unsigned int>*)((char*)this + 0x34))))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>(((NiTPointerMap<unsigned int, unsigned int>*)&this->unk34))->FUN_00438af0();
 }
 // @fnv 0x0084a620
 bool BGSSaveLoadGame::ShouldSaveForm(TESForm* form, bool force)
@@ -286,9 +286,9 @@ struct FUN_00848ca0_shell : public BGSSaveLoadGame
 void FUN_00848ca0_shell::FUN_00848ca0(bool abValue)
 {
     if (abValue)
-        *(unsigned int*)((char*)this + 0x244) |= 2;
+        this->unk244 |= 2;
     else
-        *(unsigned int*)((char*)this + 0x244) &= ~2;
+        this->unk244 &= ~2;
 }
 
 namespace fnv_00848dd0 {
@@ -409,15 +409,22 @@ struct FUN_00849540_shell : public BGSSaveLoadGame
 void FUN_00849540_shell::SetFlag8(bool abValue)
 {
     if (abValue)
-        *(unsigned int*)((char*)this + 0x244) |= 8;
+        this->unk244 |= 8;
     else
-        *(unsigned int*)((char*)this + 0x244) &= ~8;
+        this->unk244 &= ~8;
 }
+
+// The object FUN_00849590 tests, as far as it reads it.
+struct FUN_00849590_Object
+{
+    char pad00[0x28];
+    unsigned int unk28;
+};
 
 // @fnv 0x00849590
 bool FUN_00849590(const void* pObject)
 {
-    return (*(const unsigned int*)((const char*)pObject + 0x28) & 0x10) ? true : false;
+    return (static_cast<const FUN_00849590_Object*>(pObject)->unk28 & 0x10) ? true : false;
 }
 
 // @fnv 0x008495b0
@@ -446,13 +453,10 @@ struct FUN_00849c80_shell : public BGSReconstructFormsInAllFilesMap
     unsigned int FUN_00849c80();
 };
 
-struct FormChangeMap
-{
-};
 // @fnv 0x00849c80
 unsigned int FUN_00849c80_shell::FUN_00849c80()
 {
-    return reinterpret_cast<::FUN_00843bb0_shell *>((((FormChangeMap*)((char*)this + 0x10))))->GetCombinedFlags();
+    return reinterpret_cast<::FUN_00843bb0_shell *>((&this->unk10))->GetCombinedFlags();
 }
 
 struct ST_00849cc0
@@ -481,7 +485,7 @@ template <> class NiTPointerMap<unsigned int, void*>
 // @fnv 0x0084a580
 void FUN_0084a580_shell::RemoveActorFromMap(Actor* apActor)
 {
-    reinterpret_cast<::NiTMap_S *>((reinterpret_cast<NiTPointerMap<unsigned int, void*>*>(reinterpret_cast<char*>(this) + 0x34)))->RemoveKey(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apActor)))->FUN_0084e3a0())));
+    reinterpret_cast<::NiTMap_S *>((reinterpret_cast<NiTPointerMap<unsigned int, void*>*>(&this->unk34)))->RemoveKey(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apActor)))->FUN_0084e3a0())));
 }
 
 namespace fnv_0084a810 {
@@ -576,13 +580,10 @@ enum QUEUED_SUB_BUFFER_TYPE
 {
     QSB_DUMMY
 };
-struct LoadGameSubBufferQueue
-{
-};
 // @fnv 0x0084a810
 void FUN_0084a810_shell::FUN_0084a810(int type, BGSLoadFormBuffer* buffer, TESForm* form)
 {
-    reinterpret_cast<::LoadGameSubBufferQueue *>(((*(LoadGameSubBufferQueue**)((char*)this + 0x14))))->ProcessSubBuffer((*(::QUEUED_SUB_BUFFER_TYPE *)&(const ::fnv_0084a810::QUEUED_SUB_BUFFER_TYPE &)((QUEUED_SUB_BUFFER_TYPE)type)), (::BGSLoadFormBuffer *)(buffer), form);
+    this->unk14->ProcessSubBuffer((*(::QUEUED_SUB_BUFFER_TYPE *)&(const ::fnv_0084a810::QUEUED_SUB_BUFFER_TYPE &)((QUEUED_SUB_BUFFER_TYPE)type)), (::BGSLoadFormBuffer *)(buffer), form);
 }
 }  // namespace fnv_0084a810
 
@@ -1049,9 +1050,9 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
             {
                 reinterpret_cast<::FUN_0084e6a0_shell *>(&(refData))->FUN_0084e6a0(pcell, (::TESWorldSpace *&)(pworld));
                 if (pcell)
-                    reinterpret_cast<::FUN_00843750_shell *>(((*(ReconstructFormsH**)((char*)this + 0x20))))->FUN_00843750((::FUN_00843750_Form *)(pcell), iformID, false);
+                    reinterpret_cast<::FUN_00843750_shell *>(((ReconstructFormsH*)this->unk20))->FUN_00843750((::FUN_00843750_Form *)(pcell), iformID, false);
                 else
-                    reinterpret_cast<::ReconstructMapHelper *>(((*(ReconstructFormsH**)((char*)this + 0x20))))->FUN_008438b0((::ExtendedForm *)(pworld), refData.m_iGridPositionX, refData.m_iGridCoordinateY, iformID, false);
+                    reinterpret_cast<::ReconstructMapHelper *>(((ReconstructFormsH*)this->unk20))->FUN_008438b0((::ExtendedForm *)(pworld), refData.m_iGridPositionX, refData.m_iGridCoordinateY, iformID, false);
                 reinterpret_cast<::BGSChangeFlagsState *>((apLoadGameBuffer))->CombineFlags(true);
                 apLoadGameBuffer->FUN_0084a360(true);
             }
@@ -1098,8 +1099,8 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
                 FormBufferContext unloadedFormBuffer = ((ChangesMapH*)m_pFormChangesMap)->FUN_00845760(iformID);
                 if (((void *)(::FUN_00559450((int *)&(unloadedFormBuffer)))))
                 {
-                    FormIDConverter* pcurrentFormIDMap = *(FormIDConverter**)((char*)this + 8);
-                    *(FormIDConverter**)((char*)this + 8) = apOldFormIDMap;
+                    FormIDConverter* pcurrentFormIDMap = (FormIDConverter*)this->unk08;
+                    this->unk08 = apOldFormIDMap;
                     ReferencePlacementData refData;
                     FUN_0084e930(((void *)(reinterpret_cast<::FormBufferContext *>(&(unloadedFormBuffer))->FUN_00866390())), eoldInitialDataType, &refData);
                     TESObjectCELL* pcell = 0;
@@ -1107,11 +1108,11 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
                     reinterpret_cast<::FUN_0084e6a0_shell *>(&(refData))->FUN_0084e6a0(pcell, (::TESWorldSpace *&)(pworld));
                     if (pcell && reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00849d00::TES * *>(&::g_TES))))->IsCellBuffered(pcell, false))
                     {
-                        reinterpret_cast<::FUN_00843750_shell *>(((*(ReconstructFormsH**)((char*)this + 0x20))))->FUN_00843750((::FUN_00843750_Form *)(pcell), iformID, false);
+                        reinterpret_cast<::FUN_00843750_shell *>(((ReconstructFormsH*)this->unk20))->FUN_00843750((::FUN_00843750_Form *)(pcell), iformID, false);
                         reinterpret_cast<::BGSChangeFlagsState *>((apLoadGameBuffer))->CombineFlags(true);
                         apLoadGameBuffer->FUN_0084a360(true);
                     }
-                    *(FormIDConverter**)((char*)this + 8) = pcurrentFormIDMap;
+                    this->unk08 = pcurrentFormIDMap;
                 }
             }
             else if (((TESObjectREFR*)pform)->IsReference())
@@ -1265,12 +1266,14 @@ void FUN_00847590_shell::SaveCompiledFileList(void* apFile)
 struct FUN_00849ca0_shell
 {
     void FUN_00849ca0(int state);
+    char pad00[0x10];
+    unsigned int unk10[4];
 };
 
 // @fnv 0x00849ca0
 void FUN_00849ca0_shell::FUN_00849ca0(int state)
 {
-    reinterpret_cast<::fnv_00843330::ArrSI *>((((FUN_00849ca0_shell*)((char*)this + 0x10))))->GetElementAt(state);
+    reinterpret_cast<::fnv_00843330::ArrSI *>((&this->unk10))->GetElementAt(state);
 }
 
 struct TESSaveLoadGame

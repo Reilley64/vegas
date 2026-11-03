@@ -225,7 +225,7 @@ struct BGSSaveLoadGame;
 struct FUN_00853570_shell
 {
     void WriteFormIDBytes(unsigned int numericID);
-    char pad00[0x1];
+    unsigned char unk00;
     unsigned char unk01;
     unsigned char unk02;
     char pad03[0x1];
@@ -238,7 +238,7 @@ void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
     unsigned int ifileIndex = iElementIndex >> 24;
     if (ifileIndex == 0xFF)
         iElementIndex |= 0x800000;
-    ((unsigned char*)this)[0] = (unsigned char)(iElementIndex >> 16);
+    this->unk00 = (unsigned char)(iElementIndex >> 16);
     this->unk01 = (unsigned char)(iElementIndex >> 8);
     this->unk02 = (unsigned char)iElementIndex;
 }

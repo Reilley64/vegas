@@ -499,19 +499,21 @@ struct FUN_0050f5a0_struct
 struct FUN_00572160_shell
 {
     void FUN_00572160();
+    char pad00[0x9c];
+    GlobalObject_00869f00 unk9c;
 };
 // @fnv 0x00572160
 void FUN_00572160_shell::FUN_00572160()
 {
     unsigned int i;
-    unsigned int count = reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)((char*)this + 0x9c))))->GetShortAtOffsetA();
+    unsigned int count = reinterpret_cast<::FUN_00658930_class *>(&unk9c)->GetShortAtOffsetA();
     for (i = 0; i < count; ++i)
     {
-        uintptr_t effect = (Flt&)((GlobalObject_00869f00*)((char*)this + 0x9c))->GetAt(i);
+        uintptr_t effect = (Flt&)unk9c.GetAt(i);
         if (effect)
             ((FUN_0050f5a0_struct*)effect)->FUN_0050f5a0();
     }
-    reinterpret_cast<::fnv_00c5ac00::ArrObj *>((((GlobalObject_004aff00*)((char*)this + 0x9c))))->FUN_004dffa0();
+    reinterpret_cast<::fnv_00c5ac00::ArrObj *>(&unk9c)->FUN_004dffa0();
 }
 
 // @fnv 0x00868770

@@ -805,30 +805,22 @@ struct BGSLoadFormBuffer
 
 struct FUN_0043aaa0_shell
 {
-    char pad1[4];
-    char pad2[4];
-    char pad3[4];
-    char pad4[4];
-    char pad5[4];
-    char pad6[4];
-    char pad7[4];
+    unsigned int unk00;
+    unsigned char unk04[12];
+    unsigned char unk10[12];
     unsigned char unk1c;
     char pad1d[0x3];
-    char pad9[4];
-    char pad10[4];
-    char pad11[4];
-    char pad12[4];
-    char pad13[4];
+    char pad20[0x14];
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 // @fnv 0x0043aaa0
 void FUN_0043aaa0_shell::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 4), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x10), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this->unk04), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this->unk10), 0xc);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->unk1c), 1);
-    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(this));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0(&this->unk00);
 }
 }  // namespace fnv_0043aaa0
 

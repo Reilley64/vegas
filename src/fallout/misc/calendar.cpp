@@ -37,12 +37,12 @@ DAYS_OF_THE_WEEK Calendar::GetGameDayOfWeek()
 // @fnv 0x00450d80
 void Calendar::ResetCachedValues()
 {
-    *((unsigned int*)((char*)this + 0x24)) = 0x7fffffff;
-    *((unsigned int*)((char*)this + 0x28)) = 0x7fffffff;
-    *((unsigned int*)((char*)this + 0x2c)) = 0x7fffffff;
-    *((unsigned int*)((char*)this + 0x30)) = 0x7fffffff;
-    *((unsigned int*)((char*)this + 0x48)) = 0x7fffffff;
-    *((unsigned int*)((char*)this + 0x4c)) = 0x7fffffff;
+    unk24 = 0x7fffffff;
+    unk28 = 0x7fffffff;
+    unk2c = 0x7fffffff;
+    unk30 = 0x7fffffff;
+    unk48 = 0x7fffffff;
+    unk4c = 0x7fffffff;
 }
 
 struct FUN_00867c60_shell : public Calendar
@@ -71,7 +71,7 @@ bool FUN_008aced0_cls::HasCachedFlag(unsigned int aeWhich)
 // @fnv 0x00867a20
 void FUN_00867a20(void* aThis)
 {
-    *(char*)((char*)aThis + 0x1C) = 1;
+    static_cast<Calendar*>(aThis)->bUnknown1C = 1;
 }
 
 struct StartMenu

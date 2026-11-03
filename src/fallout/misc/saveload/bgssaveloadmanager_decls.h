@@ -431,6 +431,10 @@ class BGSSaveLoadManager
     bool m_bSaveOperationActive;
     bool m_bLoadOperationPending;
     bool m_bLoadingGame;
+    unsigned char pad27[0x9];
+    unsigned int unk30[2];
+    unsigned char pad38[0x754];
+    unsigned int unk78c;
     bool LoadGame(const char*, int, bool, bool);
     bool CanLoadSaveGame(SaveLoadFile*);
     void FinishLoadingGame();

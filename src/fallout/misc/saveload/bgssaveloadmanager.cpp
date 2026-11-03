@@ -401,7 +401,7 @@ bool BGSSaveLoadManager::IsSaveFileNameLegacyAutosave(const char* name)
 // @fnv 0x00851d10
 void BGSSaveLoadManager::UpdateSaveTimestamp()
 {
-    *(unsigned int*)((char*)this + 0x78c) = ((unsigned int)(::FUN_00457fe0()));
+    unk78c = ((unsigned int)(::FUN_00457fe0()));
 }
 
 struct FUN_0084fec0_shell : public BGSSaveLoadManager
@@ -1033,9 +1033,9 @@ void BGSSaveLoadManager::FUN_00850a90()
 
     BGSSaveLoadManager::BuildAutosaveName(autosaveName);
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_004048e0())) == 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&unk30)->FUN_004048e0())) == 0)
     {
-        reinterpret_cast<::TextString *>((reinterpret_cast<BSStr*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_004037f0(autosaveName, 0);
+        reinterpret_cast<::TextString *>(&unk30)->FUN_004037f0(autosaveName, 0);
     }
 
     reinterpret_cast<::SaveManager *>(this)->FUN_008503b0(autosaveName, -1, false);

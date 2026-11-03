@@ -456,7 +456,7 @@ void FUN_0087b2b0_shell::FUN_0087b2b0(TESObjectREFR* apRef)
     union
     {
         BSPackedTask task;
-        char buf[32];
+        ::BSPackedTask buf;
     } u;
     u.task.m_akPackedTaskVariantData[0].iData = 0x2a;
     u.task.m_akPackedTaskVariantData[1].iData = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(apRef)))->FUN_0084e3a0()));
@@ -502,19 +502,21 @@ void FUN_0087b650_shell::QueueActorLocationTask(Actor* apActor, void* aLocation)
     ProcessPackedTask(task);
 }
 
+struct DummyFlags
+{
+};
+
 struct FUN_0087cee0_shell : public bhkCharacterController
 {
     bool FUN_0087cee0();
-};
-
-struct DummyFlags
-{
+    char pad00[0x410];
+    DummyFlags unk410;
 };
 
 // @fnv 0x0087cee0
 bool FUN_0087cee0_shell::FUN_0087cee0()
 {
-    return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this + 0x410))))->FUN_00621270(0x80))) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>((&unk410))->FUN_00621270(0x80))) != 0;
 }
 
 struct FUN_0087cf10_shell
@@ -580,12 +582,14 @@ extern int __cdecl InitScriptRunLock(void*);
 struct FUN_0087adf0_shell
 {
     int InitScriptRunLockForSelf();
+    char pad00[0x60];
+    long unk60;
 };
 
 // @fnv 0x0087adf0
 int FUN_0087adf0_shell::InitScriptRunLockForSelf()
 {
-    return InitScriptRunLock((char*)this + 0x60);
+    return InitScriptRunLock(&unk60);
 }
 
 float __cdecl GetFloatByType(int, int, int);
@@ -622,9 +626,9 @@ struct FUN_0087aa90_shell : TaskQueueInterface
 // @fnv 0x0087aa90
 void FUN_0087aa90_shell::FUN_0087aa90()
 {
-    char task[32];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[0].iData = 4;
-    ProcessPackedTask((BSPackedTask&)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 4;
+    ProcessPackedTask(task);
 }
 
 struct GlobalObject_0045cf30
@@ -693,7 +697,7 @@ void Owner0087ac00::QueueTaskWithTwoObjects(G00559a40* pFirstObject, G00559a40* 
     union U
     {
         BSPackedTask task;
-        char buf[32];
+        ::BSPackedTask buf;
     };
     U u;
     u.task.m_akPackedTaskVariantData[0].iData = 7;
@@ -724,7 +728,7 @@ void FUN_0087AC60_Holder::FUN_0087ac60(G00559a40* pObject)
         union
         {
             BSPackedTask task;
-            char buf[32];
+            ::BSPackedTask buf;
         };
         task.m_akPackedTaskVariantData[0].iData = 8;
         task.m_akPackedTaskVariantData[1].pData = pObject;
@@ -829,14 +833,14 @@ struct FUN_0087ada0_shell : public TaskQueueInterface
 // @fnv 0x0087ada0
 void FUN_0087ada0_shell::FUN_0087ada0(intptr_t aiTaskArg, FUN_0087adf0_shell* a2)
 {
-    char buf[32];
+    ::BSPackedTask buf;
     if (a2)
     {
-        ((BSPackedTask*)buf)->m_akPackedTaskVariantData[0].iData = 11;
-        ((BSPackedTask*)buf)->m_akPackedTaskVariantData[1].iData = aiTaskArg;
-        ((BSPackedTask*)buf)->m_akPackedTaskVariantData[2].pData = a2;
+        buf.m_akPackedTaskVariantData[0].iData = 11;
+        buf.m_akPackedTaskVariantData[1].iData = aiTaskArg;
+        buf.m_akPackedTaskVariantData[2].pData = a2;
         reinterpret_cast<::FUN_0087adf0_shell *>((a2))->InitScriptRunLockForSelf();
-        ProcessPackedTask(*(BSPackedTask*)buf);
+        ProcessPackedTask(buf);
     }
 }
 }  // namespace fnv_0087ada0
@@ -852,14 +856,14 @@ struct FUN_0087ae10_shell : TaskQueueInterface
 // @fnv 0x0087ae10
 void FUN_0087ae10_shell::FUN_0087ae10(intptr_t a, FUN_0087adf0_shell* b)
 {
-    char task[32];
+    ::BSPackedTask task;
     if (b)
     {
-        ((int*)task)[0] = 17;
-        ((int*)task)[1] = a;
-        ((FUN_0087adf0_shell**)task)[2] = b;
+        task.m_akPackedTaskVariantData[0].iData = 17;
+        task.m_akPackedTaskVariantData[1].iData = a;
+        task.m_akPackedTaskVariantData[2].pData = b;
         reinterpret_cast<::FUN_0087adf0_shell *>((b))->InitScriptRunLockForSelf();
-        ProcessPackedTask(*(BSPackedTask*)task);
+        ProcessPackedTask(task);
     }
 }
 }  // namespace fnv_0087ae10
@@ -1013,10 +1017,10 @@ void Host::QueueCheckTask(FakeObj* pObj)
 {
     if (pObj && pObj->Check())
     {
-        char buf[32];
-        ((int*)buf)[0] = 12;
-        ((FakeObj**)buf)[1] = pObj;
-        ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)buf);
+        ::BSPackedTask buf;
+        buf.m_akPackedTaskVariantData[0].iData = 12;
+        buf.m_akPackedTaskVariantData[1].pData = pObj;
+        ((TaskQueueInterface*)this)->ProcessPackedTask(buf);
     }
 }
 
@@ -1084,12 +1088,12 @@ void FUN_0087b040_shell::QueuePowerAttackTask(Actor* apActor, bool abPowerAttack
 {
     if (apActor)
     {
-        char task[32];
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[0].iData = 15;
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[1].pData = apActor;
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[2].bData = abPowerAttack;
-        reinterpret_cast<BSPackedTask&>(task).m_akPackedTaskVariantData[3].bData = abInCombatAttack;
-        ProcessPackedTask(reinterpret_cast<BSPackedTask&>(task));
+        ::BSPackedTask task;
+        task.m_akPackedTaskVariantData[0].iData = 15;
+        task.m_akPackedTaskVariantData[1].pData = apActor;
+        task.m_akPackedTaskVariantData[2].bData = abPowerAttack;
+        task.m_akPackedTaskVariantData[3].bData = abInCombatAttack;
+        ProcessPackedTask(task);
     }
 }
 
@@ -1107,10 +1111,10 @@ void FUN_0087b0f0_shell::FUN_0087b0f0(G00559a40* p)
     if (p)
     {
         reinterpret_cast<::FUN_0040f6e0_class *>((p))->FUN_0040f6e0();
-        char task[32];
-        ((BSPackedTask*)task)->m_akPackedTaskVariantData[0].iData = 0x13;
-        ((BSPackedTask*)task)->m_akPackedTaskVariantData[1].pData = p;
-        ProcessPackedTask(*(BSPackedTask*)task);
+        ::BSPackedTask task;
+        task.m_akPackedTaskVariantData[0].iData = 0x13;
+        task.m_akPackedTaskVariantData[1].pData = p;
+        ProcessPackedTask(task);
     }
 }
 }  // namespace fnv_0087b0f0
@@ -1126,13 +1130,13 @@ struct FUN_0087b140_Holder : public TaskQueueInterface
 // @fnv 0x0087b140
 void FUN_0087b140_Holder::QueueTaskIfPresent(G00559a40* a)
 {
-    char buf[32];
+    ::BSPackedTask buf;
     if (a)
     {
         reinterpret_cast<::FUN_0040f6e0_class *>((a))->FUN_0040f6e0();
-        ((int*)buf)[0] = 20;
-        ((G00559a40**)buf)[1] = a;
-        ProcessPackedTask(*(BSPackedTask*)buf);
+        buf.m_akPackedTaskVariantData[0].iData = 20;
+        buf.m_akPackedTaskVariantData[1].pData = a;
+        ProcessPackedTask(buf);
     }
 }
 }  // namespace fnv_0087b140
@@ -1144,7 +1148,7 @@ struct G00559a40
 union TaskUnion
 {
     BSPackedTask task;
-    char buf[32];
+    ::BSPackedTask buf;
 };
 struct Holder : TaskQueueInterface
 {
@@ -1172,10 +1176,10 @@ struct FUN_0087b230_Holder : TaskQueueInterface
 // @fnv 0x0087b230
 void FUN_0087b230_Holder::FUN_0087b230(int aiValue)
 {
-    char task[32];
-    ((int*)task)[0] = 45;
-    ((int*)task)[1] = aiValue;
-    ProcessPackedTask(*reinterpret_cast<BSPackedTask*>(task));
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 45;
+    task.m_akPackedTaskVariantData[1].iData = aiValue;
+    ProcessPackedTask(task);
 }
 
 struct FUN_0087b440_holder
@@ -1234,10 +1238,10 @@ struct FUN_0087b540_Holder : public TaskQueueInterface
 // @fnv 0x0087b540
 void FUN_0087b540_Holder::FUN_0087b540(intptr_t a1)
 {
-    char buf[32];
-    *reinterpret_cast<int*>(buf) = 0x1B;
-    *reinterpret_cast<int*>(buf + 4) = a1;
-    ProcessPackedTask(*reinterpret_cast<BSPackedTask*>(buf));
+    ::BSPackedTask buf;
+    buf.m_akPackedTaskVariantData[0].iData = 0x1B;
+    buf.m_akPackedTaskVariantData[1].iData = a1;
+    ProcessPackedTask(buf);
 }
 
 struct TaskBuf87580
@@ -1280,12 +1284,12 @@ struct FUN_0087b600_Holder : TaskQueueInterface
 // @fnv 0x0087b600
 void FUN_0087b600_Holder::FUN_0087b600(intptr_t aiValue, bool abFlag1, bool abFlag2)
 {
-    char buf[32];
-    ((int*)buf)[0] = 30;
-    ((int*)buf)[1] = aiValue;
-    buf[8] = abFlag1;
-    buf[12] = abFlag2;
-    ProcessPackedTask(*(BSPackedTask*)buf);
+    ::BSPackedTask buf;
+    buf.m_akPackedTaskVariantData[0].iData = 30;
+    buf.m_akPackedTaskVariantData[1].iData = aiValue;
+    buf.m_akPackedTaskVariantData[2].bData = abFlag1;
+    buf.m_akPackedTaskVariantData[3].bData = abFlag2;
+    ProcessPackedTask(buf);
 }
 
 struct FUN_0087b6b0_shell : TaskQueueInterface
@@ -1295,11 +1299,11 @@ struct FUN_0087b6b0_shell : TaskQueueInterface
 // @fnv 0x0087b6b0
 void FUN_0087b6b0_shell::FUN_0087b6b0(intptr_t aiValue, bool abFlag)
 {
-    char task[32];
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[0].iData = 0x23;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[1].iData = aiValue;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[2].bData = abFlag;
-    ProcessPackedTask(*(BSPackedTask*)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x23;
+    task.m_akPackedTaskVariantData[1].iData = aiValue;
+    task.m_akPackedTaskVariantData[2].bData = abFlag;
+    ProcessPackedTask(task);
 }
 
 struct FUN_0087b700_shell : TaskQueueInterface
@@ -1309,13 +1313,13 @@ struct FUN_0087b700_shell : TaskQueueInterface
 // @fnv 0x0087b700
 void FUN_0087b700_shell::FUN_0087b700(float afValue, NiPoint3* apPoint)
 {
-    char task[32];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[0].iData = 0x24;
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[1].fData = afValue;
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[2].fData = ((float*)apPoint)[0];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[3].fData = apPoint->y;
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[4].fData = apPoint->z;
-    ProcessPackedTask((BSPackedTask&)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x24;
+    task.m_akPackedTaskVariantData[1].fData = afValue;
+    task.m_akPackedTaskVariantData[2].fData = apPoint->x;
+    task.m_akPackedTaskVariantData[3].fData = apPoint->y;
+    task.m_akPackedTaskVariantData[4].fData = apPoint->z;
+    ProcessPackedTask(task);
 }
 
 struct Holder
@@ -1326,13 +1330,13 @@ struct Holder
 // @fnv 0x0087b760
 void Holder::FUN_0087b760(float afValue, NiPoint3* apPoint)
 {
-    char task[32];
-    ((int*)task)[0] = 0x25;
-    ((float*)task)[1] = afValue;
-    ((float*)task)[2] = ((float*)apPoint)[0];
-    ((float*)task)[3] = apPoint->y;
-    ((float*)task)[4] = apPoint->z;
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)task);
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x25;
+    task.m_akPackedTaskVariantData[1].fData = afValue;
+    task.m_akPackedTaskVariantData[2].fData = apPoint->x;
+    task.m_akPackedTaskVariantData[3].fData = apPoint->y;
+    task.m_akPackedTaskVariantData[4].fData = apPoint->z;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct FUN_0087b7c0_Proxy : TaskQueueInterface
@@ -1342,12 +1346,12 @@ struct FUN_0087b7c0_Proxy : TaskQueueInterface
 // @fnv 0x0087b7c0
 void FUN_0087b7c0_Proxy::FUN_0087b7c0(int aiValue, bool abFlag1, bool abFlag2)
 {
-    char buf[32];
-    ((int*)buf)[0] = 0x26;
-    ((int*)buf)[1] = aiValue;
-    buf[8] = abFlag1;
-    buf[12] = abFlag2;
-    ProcessPackedTask(*(BSPackedTask*)buf);
+    ::BSPackedTask buf;
+    buf.m_akPackedTaskVariantData[0].iData = 0x26;
+    buf.m_akPackedTaskVariantData[1].iData = aiValue;
+    buf.m_akPackedTaskVariantData[2].bData = abFlag1;
+    buf.m_akPackedTaskVariantData[3].bData = abFlag2;
+    ProcessPackedTask(buf);
 }
 
 struct FUN_0087b810_Host : TaskQueueInterface
@@ -1359,7 +1363,7 @@ void FUN_0087b810_Host::QueueTaskWithId(intptr_t aiValue)
 {
     union U
     {
-        char buf[32];
+        ::BSPackedTask buf;
         BSPackedTask task;
     } u;
     u.task.m_akPackedTaskVariantData[0].iData = 39;
@@ -1375,10 +1379,10 @@ struct Holder
 // @fnv 0x0087b850
 void Holder::FUN_0087b850(intptr_t aiValue)
 {
-    char task[32];
-    *reinterpret_cast<int*>(task) = 0x28;
-    *reinterpret_cast<int*>(task + 4) = aiValue;
-    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(*reinterpret_cast<const BSPackedTask*>(task));
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x28;
+    task.m_akPackedTaskVariantData[1].iData = aiValue;
+    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(task);
 }
 }  // namespace fnv_0087b850
 
@@ -1392,7 +1396,7 @@ void MyOwner::QueueTaskWithValue(int aiValue)
     union
     {
         BSPackedTask task;
-        char buf[32];
+        ::BSPackedTask buf;
     } u;
     u.task.m_akPackedTaskVariantData[0].iData = 46;
     u.task.m_akPackedTaskVariantData[1].iData = aiValue;
@@ -1402,12 +1406,14 @@ void MyOwner::QueueTaskWithValue(int aiValue)
 struct S_0087cea0
 {
     void ReleaseScriptRunLock();
+    char pad00[0x60];
+    long unk60;
 };
 // Releases the script run lock at offset 0x60; if that fails, deallocates this object.
 // @fnv 0x0087cea0
 void S_0087cea0::ReleaseScriptRunLock()
 {
-    if (!((int)(::WaitForSingleObjectEx((long *)(void *)((void*)((char*)this + 0x60))))))
+    if (!((int)(::WaitForSingleObjectEx(&unk60))))
     {
         void* p = this;
         ::FUN_00401030(p);
@@ -2385,13 +2391,13 @@ void __cdecl FUN_0087a8b0(TaskQueueInterface* queue, unsigned int opcode, FormTa
     int h;
     int p;
     unsigned short a;
-    char task[32];
-    ((int*)task)[0] = 31;
-    ((int*)task)[1] = opcode;
+    ::BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 31;
+    task.m_akPackedTaskVariantData[1].iData = opcode;
     if (form)
-        ((int*)task)[2] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0()));
+        task.m_akPackedTaskVariantData[2].iData = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0()));
     else
-        ((int*)task)[2] = 0;
+        task.m_akPackedTaskVariantData[2].iData = 0;
     {
         va_list args;
         va_start(args, form);
@@ -2405,19 +2411,19 @@ void __cdecl FUN_0087a8b0(TaskQueueInterface* queue, unsigned int opcode, FormTa
                 switch ((*reinterpret_cast<ScriptCommandInfo (*)[]>(&::g_scriptCommands))[p].params[s].type)
                 {
                 case 2:
-                    ((float*)task)[h++] = (float)va_arg(args, double);
+                    task.m_akPackedTaskVariantData[h++].fData = (float)va_arg(args, double);
                     break;
                 case 1:
                 case 8:
-                    ((int*)task)[h++] = va_arg(args, int);
+                    task.m_akPackedTaskVariantData[h++].iData = va_arg(args, int);
                     break;
                 case 4:
                 case 6: {
                     FormTaskRef* k = va_arg(args, FormTaskRef*);
                     if (k)
-                        ((int*)task)[h] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((k))->FUN_0084e3a0()));
+                        task.m_akPackedTaskVariantData[h].iData = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((k))->FUN_0084e3a0()));
                     else
-                        ((int*)task)[h] = 0;
+                        task.m_akPackedTaskVariantData[h].iData = 0;
                     h++;
                     break;
                 }
@@ -2426,7 +2432,7 @@ void __cdecl FUN_0087a8b0(TaskQueueInterface* queue, unsigned int opcode, FormTa
         }
         va_end(args);
     }
-    queue->ProcessPackedTask(*(const BSPackedTask*)&task);
+    queue->ProcessPackedTask(task);
 }
 
 // NiAVObject in the pack has no IncRefCount: use the game's out-of-line ctor/dtor.

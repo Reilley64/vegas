@@ -149,22 +149,24 @@ BGSNumericIDIndex3* ClearNumericIDIndex(BGSNumericIDIndex3* self)
 }
 
 namespace fnv_0084eb20 {
-struct BGSNumericIDIndex3
-{
-    BGSNumericIDIndex3* FUN_0084eb20();
-    void FUN_0084eac0();
-};
 struct Dummy84eaf0
 {
     void ClearNumericIDIndex();
 };
+struct BGSNumericIDIndex3
+{
+    BGSNumericIDIndex3* FUN_0084eb20();
+    void FUN_0084eac0();
+    char pad00[0x1c];
+    Dummy84eaf0 unk1c;
+};
 
-// Calls FUN_0084eac0 on this object, then ClearNumericIDIndex on the sub-object at offset 0x1C, and returns this.
+// Calls FUN_0084eac0 on this object, then ClearNumericIDIndex on unk1c, and returns this.
 // @fnv 0x0084eb20
 BGSNumericIDIndex3* BGSNumericIDIndex3::FUN_0084eb20()
 {
     FUN_0084eac0();
-    ((Dummy84eaf0*)((char*)this + 0x1C))->ClearNumericIDIndex();
+    unk1c.ClearNumericIDIndex();
     return this;
 }
 }  // namespace fnv_0084eb20

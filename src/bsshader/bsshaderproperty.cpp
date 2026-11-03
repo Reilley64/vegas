@@ -1,5 +1,6 @@
 // bsshader/bsshaderproperty.cpp: ShaderPassEntry, ShaderPassList, NiShadeProperty, ShaderPropertyRecord (23 functions)
 
+#include <cstdarg>
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AA4610Allocator.h"
@@ -83,102 +84,123 @@ void BSShaderProperty::ShaderPassList::Add(NiGeometry* geometry, unsigned short 
 
 struct FUN_00ba8ab0_shell : public BSShaderProperty
 {
+    char pad00[0x28];
+    float fAlpha;
+    char pad2c[0x38 - 0x2c];
+    int iLastRenderPassState;
     void FUN_00ba8ab0(float);
 };
 
-// Resets the int at offset 0x38 when the stored float at 0x28 crosses the 1.0 threshold, then stores afAlpha at 0x28.
+// Resets the last render pass state when the stored alpha crosses the 1.0 threshold, then stores afAlpha.
 // @fnv 0x00ba8ab0
 void FUN_00ba8ab0_shell::FUN_00ba8ab0(float afAlpha)
 {
-    if ((*(float*)((char*)this + 0x28) >= 1.0f && afAlpha < 1.0f) ||
-        (*(float*)((char*)this + 0x28) < 1.0f && afAlpha >= 1.0f))
+    if ((fAlpha >= 1.0f && afAlpha < 1.0f) || (fAlpha < 1.0f && afAlpha >= 1.0f))
     {
-        *(int*)((char*)this + 0x38) = 0;
+        iLastRenderPassState = 0;
     }
-    *(float*)((char*)this + 0x28) = afAlpha;
+    fAlpha = afAlpha;
 }
 
-// Resets the count at offset 4, frees the light pointer at offset 0xC if set, and clears the byte at offset 0xB.
+struct LightListView_ba8cd0
+{
+    char pad00[4];
+    unsigned short m_usCount;
+    char pad06[0xb - 6];
+    unsigned char m_ucIndex;
+    void* m_pLights;
+};
+
+// Resets the count, frees the light array if set, and clears the index byte.
 // @fnv 0x00ba8cd0
 void FUN_00ba8cd0(char* pThis)
 {
-    *(unsigned short*)(pThis + 4) = 0;
-    void* pLights = *(void**)(pThis + 0xC);
+    LightListView_ba8cd0* list = reinterpret_cast<LightListView_ba8cd0*>(pThis);
+    list->m_usCount = 0;
+    void* pLights = list->m_pLights;
     if (pLights)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pLights);
-        *(void**)(pThis + 0xC) = 0;
+        list->m_pLights = 0;
     }
-    *(unsigned char*)(pThis + 0xB) = 0;
+    list->m_ucIndex = 0;
 }
 
 struct FUN_00baa000_shell : public BSShaderProperty
 {
+    char pad00[0x38];
+    int iLastRenderPassState;
+    ::FUN_00ba9520* pRenderPassList;
+    ::FUN_00ba9520* m_pRenderPassArray1;
+    ::FUN_00ba9520* m_pRenderPassArray2;
+    ::FUN_00ba9520* m_pRenderPassArray3;
+    ::FUN_00ba9520* m_pRenderPassArray4;
+    ::FUN_00ba9520* m_pRenderPassArray5;
+    ::FUN_00ba9520* m_pRenderPassArray6;
     void FUN_00baa000();
 };
 
 
-// Clears the int at offset 0x38, then for each pointer at offsets 0x3c-0x54 calls FUN_00ba9520, deallocates it via g_memoryManager and nulls it.
+// Clears the last render pass state, then destroys and frees each render pass array and nulls it.
 // @fnv 0x00baa000
 void FUN_00baa000_shell::FUN_00baa000()
 {
-    char* self = reinterpret_cast<char*>(this);
-    *reinterpret_cast<int*>(self + 0x38) = 0;
+    iLastRenderPassState = 0;
 
-    void* p = *reinterpret_cast<void**>(self + 0x3c);
+    ::FUN_00ba9520* p = pRenderPassList;
     if (p)
     {
-        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        p->FUN_00ba9520::~FUN_00ba9520();
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        *reinterpret_cast<void**>(self + 0x3c) = 0;
+        pRenderPassList = 0;
     }
 
-    p = *reinterpret_cast<void**>(self + 0x40);
+    p = m_pRenderPassArray1;
     if (p)
     {
-        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        p->FUN_00ba9520::~FUN_00ba9520();
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        *reinterpret_cast<void**>(self + 0x40) = 0;
+        m_pRenderPassArray1 = 0;
     }
 
-    p = *reinterpret_cast<void**>(self + 0x48);
+    p = m_pRenderPassArray3;
     if (p)
     {
-        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        p->FUN_00ba9520::~FUN_00ba9520();
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        *reinterpret_cast<void**>(self + 0x48) = 0;
+        m_pRenderPassArray3 = 0;
     }
 
-    p = *reinterpret_cast<void**>(self + 0x4c);
+    p = m_pRenderPassArray4;
     if (p)
     {
-        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        p->FUN_00ba9520::~FUN_00ba9520();
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        *reinterpret_cast<void**>(self + 0x4c) = 0;
+        m_pRenderPassArray4 = 0;
     }
 
-    p = *reinterpret_cast<void**>(self + 0x44);
+    p = m_pRenderPassArray2;
     if (p)
     {
-        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        p->FUN_00ba9520::~FUN_00ba9520();
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        *reinterpret_cast<void**>(self + 0x44) = 0;
+        m_pRenderPassArray2 = 0;
     }
 
-    p = *reinterpret_cast<void**>(self + 0x50);
+    p = m_pRenderPassArray5;
     if (p)
     {
-        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        p->FUN_00ba9520::~FUN_00ba9520();
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        *reinterpret_cast<void**>(self + 0x50) = 0;
+        m_pRenderPassArray5 = 0;
     }
 
-    p = *reinterpret_cast<void**>(self + 0x54);
+    p = m_pRenderPassArray6;
     if (p)
     {
-        reinterpret_cast<struct ::FUN_00ba9520 *>((p))->FUN_00ba9520::~FUN_00ba9520();
+        p->FUN_00ba9520::~FUN_00ba9520();
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        *reinterpret_cast<void**>(self + 0x54) = 0;
+        m_pRenderPassArray6 = 0;
     }
 }
 
@@ -343,10 +365,8 @@ struct S_00ba8c50_Slot
 
 // Grows the light array to numLights if needed, then stores numLights and copies the variadic ShadowSceneLight pointers into it.
 // @fnv 0x00ba8c50
-void __cdecl BSShaderProperty::ShaderPassEntry::FUN_00ba8c50(unsigned char numLights, ShadowSceneLight*, ...)
+void __cdecl BSShaderProperty::ShaderPassEntry::FUN_00ba8c50(unsigned char numLights, ShadowSceneLight* light0, ...)
 {
-    ShadowSceneLight** args = (ShadowSceneLight**)((unsigned int*)&numLights + 1);
-
     if (numLights > m_ucLightCapacity)
     {
         if (m_ppShadowSceneLights != 0)
@@ -361,10 +381,14 @@ void __cdecl BSShaderProperty::ShaderPassEntry::FUN_00ba8c50(unsigned char numLi
     if (numLights > 0)
     {
         int count = numLights;
-        for (int i = 0; i < count; ++i)
+        m_ppShadowSceneLights[0] = light0;
+        va_list args;
+        va_start(args, light0);
+        for (int i = 1; i < count; ++i)
         {
-            m_ppShadowSceneLights[i] = args[i];
+            m_ppShadowSceneLights[i] = va_arg(args, ShadowSceneLight*);
         }
+        va_end(args);
     }
 }
 
@@ -806,6 +830,23 @@ struct FUN_00ba95e0_shell : public BSShaderProperty
 {
 };
 
+struct MaterialPropertyView_bb73f0
+{
+    char pad00[0x3c];
+    float m_fAlpha;
+};
+struct PropertyState_bb73f0
+{
+    void* m_pAlphaProperty;
+    void* m_pCullingProperty;
+    MaterialPropertyView_bb73f0* m_pMaterialProperty;
+};
+struct GeometryView_bb73f0
+{
+    char pad00[0x9c];
+    PropertyState_bb73f0 m_kProperties;
+};
+
 struct FUN_00bb73f0_shell
 {
     void* vtable;
@@ -840,17 +881,17 @@ struct FUN_00bb73f0_shell
 BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(NiGeometry* geometry, unsigned int arg2, int aiUnused,
                                                                    unsigned int arg4, int aiUnused2, int aiUnused3)
 {
-    void** shaderSlot = (void**)((char*)geometry + 0x9c);
+    PropertyState_bb73f0* properties = &reinterpret_cast<GeometryView_bb73f0*>(geometry)->m_kProperties;
     float alpha;
     unsigned int pass = (arg4 << 8) | arg2;
     if (arg4 == 7)
         return 0;
 
-    if (shaderSlot)
+    if (properties)
     {
-        char* shader = (char*)shaderSlot[2];
-        if (shader)
-            alpha = *(float*)((char*)shader + 0x3c) * m_fAlpha;
+        MaterialPropertyView_bb73f0* material = properties->m_pMaterialProperty;
+        if (material)
+            alpha = material->m_fAlpha * m_fAlpha;
         else
             alpha = m_fAlpha;
         reinterpret_cast<::FUN_00ba8ab0_shell *>((((FUN_00ba8ab0_shell*)this)))->FUN_00ba8ab0(alpha);

@@ -539,9 +539,14 @@ struct BSShader
 {
     BSShader();
     virtual ~BSShader();
-    char pad04[0x24];
+    char pad04[0x18 - 4];
+    void* m_pShaderObject;
+    char pad1c[0x28 - 0x1c];
     RefPtr_bacd00 m_spDecl;
-    char pad2c[0x3c];
+    char pad2c[0x30 - 0x2c];
+    RefPtr_bacd00 m_spFirstShaderConstantMap;
+    RefPtr_bacd00 m_spSecondShaderConstantMap;
+    char pad38[0x68 - 0x38];
     int m_i68;
 };
 struct V4_bacd00
@@ -643,17 +648,22 @@ struct NiD3DVertexDeclaration
     virtual void d44();
     virtual void Finish();
 };
+struct TLS_bacf00
+{
+    char pad[0x2b4];
+    int m_eMemoryContext;
+};
 struct QAutoMemContext
 {
     int m_eMemoryContext;
     QAutoMemContext(int iNew)
     {
-        m_eMemoryContext = (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4];
-        (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = iNew;
+        m_eMemoryContext = reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext;
+        reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext = iNew;
     }
     ~QAutoMemContext()
     {
-        (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = m_eMemoryContext;
+        reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext = m_eMemoryContext;
     }
 };
 struct FUN_00bacd00 : BSFadeNode
@@ -879,24 +889,33 @@ static __forceinline void S_BinRead(S_00ba9380_Bin* bin, void* v, unsigned int b
     unsigned int sz = 4;
     bin->m_uiPos += bin->Read(v, bytes, &sz, 1);
 }
+struct S_00ba9380_Stream
+{
+    char pad00[0x250];
+    S_00ba9380_Bin* m_pkBin;
+};
 struct FUN_00ba9380_cls
 {
+    char pad00[0x20];
+    unsigned int m_auiFlags[2];
+    char pad28[0x30 - 0x28];
+    float m_fEnvMapScale;
+    char pad34[0x58 - 0x34];
+    unsigned int m_uiShaderType;
     void FUN_00ba9380(void* pOther);
 };
-// Calls SaveToStream, then reads four 4-byte values from the stream at pOther+0x250 into this+0x58, this+0x20, this+0x24 and this+0x30.
+// Calls SaveToStream, then reads the shader type, the two flag words and the environment map scale from the stream's bin.
 // @fnv 0x00ba9380
 void FUN_00ba9380_cls::FUN_00ba9380(void* pOther)
 {
-    char* pObj = (char*)pOther;
+    S_00ba9380_Stream* pStream = (S_00ba9380_Stream*)pOther;
     reinterpret_cast<::fnv_00a815c0::NiShadeProperty *>(this)->SaveToStream((*(::fnv_00a815c0::NiStream *)(pOther)));
-    S_BinRead(*(S_00ba9380_Bin**)(pObj + 0x250), (char*)this + 0x58, 4);
-    char* p = (char*)this + 0x20;
+    S_BinRead(pStream->m_pkBin, &m_uiShaderType, 4);
     for (int i = 0; i < 2; i++)
     {
-        S_BinRead(*(S_00ba9380_Bin**)(pObj + 0x250), p, 4);
-        p += 4;
+        S_BinRead(pStream->m_pkBin, &m_auiFlags[i], 4);
     }
-    S_BinRead(*(S_00ba9380_Bin**)(pObj + 0x250), (char*)this + 0x30, 4);
+    S_BinRead(pStream->m_pkBin, &m_fEnvMapScale, 4);
 }
 
 extern int DAT_010b8480;
@@ -1023,7 +1042,7 @@ struct ShaderVariableMap : RefObj_bacd00
         return reinterpret_cast<LookupFn>((*reinterpret_cast<void***>(this))[28])(this, name);
     }
 };
-struct ShaderRegister
+struct ShaderRegister : FUN_00bacd00
 {
     void InitializeShaderVariableMaps();
 };
@@ -1032,11 +1051,11 @@ struct ShaderRegister
 void ShaderRegister::InitializeShaderVariableMaps()
 {
     AllocationScope allocScope;
-    RefPtr_bacd00& mainGroup = *reinterpret_cast<RefPtr_bacd00*>(reinterpret_cast<char*>(this) + 0x34);
-    RefPtr_bacd00& extraGroup = *reinterpret_cast<RefPtr_bacd00*>(reinterpret_cast<char*>(this) + 0x30);
+    RefPtr_bacd00& mainGroup = m_spSecondShaderConstantMap;
+    RefPtr_bacd00& extraGroup = m_spFirstShaderConstantMap;
     if (!mainGroup.m_pObject)
     {
-        mainGroup = new ShaderVariableMap(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18), 0);
+        mainGroup = new ShaderVariableMap(m_pShaderObject, 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
             ->Register(&(*reinterpret_cast<char *>((void *)&::DAT_010A1E50)), 0x20000009, 0, 9, 4, 0, 0, 0, 0, 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
@@ -1047,25 +1066,25 @@ void ShaderRegister::InitializeShaderVariableMaps()
             ->Register(&DAT_010b8c48, 0x10000007, 0, 14, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &(*reinterpret_cast<char *>((void *)&::DAT_011FA290)), 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
             ->Register(&(*reinterpret_cast<char *>((void *)&::DAT_010B8C34)), 0x10000009, 0, 0, 9, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x90, 4, &DAT_01200510, 0);
-        unsigned int count = *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x1ac);
+        unsigned int count = m_usElementCount;
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
             ->Register(&DAT_010b8c24, 0x10000009, 0, 20, count, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), count << 4, 4,
-                       *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x1a4), 0);
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1a8) =
+                       m_pReferencedObject, 0);
+        m_i1a8 =
             static_cast<ShaderVariableMap*>(mainGroup.m_pObject)->Lookup(&DAT_010b8c24);
     }
     if (!extraGroup.m_pObject)
     {
-        extraGroup = new ShaderVariableMap(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18), 2);
+        extraGroup = new ShaderVariableMap(m_pShaderObject, 2);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
             ->Register(&DAT_010b8c10, 0x10000007, 0, 2, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
-                       reinterpret_cast<char*>(this) + 0x1b0, 0);
+                       &m_k1, 0);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
             ->Register(&DAT_010b8bfc, 0x10000007, 0, 4, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
-                       reinterpret_cast<char*>(this) + 0x1c0, 0);
+                       &m_k2, 0);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
             ->Register(&DAT_010b8bec, 0x10000007, 0, 3, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
-                       reinterpret_cast<char*>(this) + 0x1d0, 0);
+                       &m_k3, 0);
     }
 }
 
@@ -1632,15 +1651,13 @@ struct GrassThreadMemory
     int unk2b0;
     int context;
 };
-extern "C" unsigned long __readfsdword(unsigned long);
 struct GrassMemoryScope
 {
     GrassThreadMemory* thread;
     int previous;
     GrassMemoryScope()
     {
-        unsigned int index = ::DAT_0126fd98;
-        thread = ((GrassThreadMemory**)__readfsdword(0x2c))[index];
+        thread = reinterpret_cast<GrassThreadMemory*>(&::g_tlsBlock);
         previous = thread->context;
         thread->context = 28;
     }

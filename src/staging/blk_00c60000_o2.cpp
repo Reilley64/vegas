@@ -9890,13 +9890,13 @@ void CopyEntries(C749F0Entry* pkDst, const C749F0Entry* pkSrc, unsigned int Item
 
 namespace fnv_00c74f50 {
 
-// If aiValue is nonzero, frees it as a 0x38-byte block through the Havok heap allocator.
+// If pBlock is not null, frees it as a 0x38-byte block through the Havok heap allocator.
 // @fnv 0x00c74f50
-void __cdecl FUN_00c74f50(int aiValue)
+void __cdecl FUN_00c74f50(void* pBlock)
 {
-    if (aiValue != 0)
+    if (pBlock)
     {
-        hkMemoryRouter::getInstance().heap().blockFree(reinterpret_cast<void*>(static_cast<intptr_t>(aiValue)), 0x38);
+        hkMemoryRouter::getInstance().heap().blockFree(pBlock, 0x38);
     }
 }
 }  // namespace fnv_00c74f50

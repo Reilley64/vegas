@@ -230,9 +230,6 @@ struct TESPackageData_rtti2
     TESForm* m_form;
 };
 
-extern TESPackageData_rtti2* __cdecl FUN_00ec43fb(BGSLoadFormBuffer* pBuffer, int arg2, const void* arg3, const void* arg4,
-                                            int arg5);
-
 struct EscortLocationComparison
 {
 };

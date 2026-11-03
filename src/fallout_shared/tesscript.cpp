@@ -95,21 +95,7 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "tesscript_decls.h"
-#include "fnv/decl/FUN_005a8e20_cls.h"
-#include "fnv/decl/FUN_005a9140_shell.h"
-#include "fnv/decl/FUN_005a9290_shell.h"
-#include "fnv/decl/FUN_005a9460_This.h"
-#include "fnv/decl/FUN_005aa420_shell.h"
-#include "fnv/decl/FUN_005aae70_shell.h"
-#include "fnv/decl/FUN_005abe50_shell.h"
-#include "fnv/decl/FUN_005abed0_shell.h"
-#include "fnv/decl/FUN_005abf60_shell.h"
-#include "fnv/decl/FUN_005ac1e0_shell.h"
-#include "fnv/decl/FUN_005ae2e0_shell.h"
-#include "fnv/decl/FUN_00792760_shell.h"
 #include "fnv/decl/TextString.h"
-#include "fnv/decl/fnv_005aa350__ClsX.h"
-#include "fnv/decl/fnv_005ac4f0__FUN_005ac4f0_shell.h"
 // @fnv 0x005ac740
 bool Script::IsConsolePlatform()
 {

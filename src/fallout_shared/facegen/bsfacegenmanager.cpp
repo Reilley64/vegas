@@ -156,8 +156,6 @@
 #include "bsfacegenmanager_decls.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/symbols_011c5000.h"
-#include "fnv/decl/FG_00659100_cls.h"
-#include "fnv/decl/FUN_0065fd10_class.h"
 #include <vector>
 #include <string.h>
 // @fnv 0x006521e0

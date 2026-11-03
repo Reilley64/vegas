@@ -11,13 +11,10 @@
 #include "fnv/decl/Vec3.h"
 #include "fnv/symbols_00621000.h"
 #include "fnv/symbols_0104d000.h"
-#include "fnv/decl/DummyFlagsShell.h"
 #include "fnv/decl/FUN_0043b4d0_shell.h"
 #include "fnv/decl/FUN_00456630_helper.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/decl/FUN_006212c0_shell.h"
 #include "fnv/decl/FUN_00807770_Class.h"
-#include "fnv/decl/Hld621210.h"
 #include "fnv/decl/ListHolder.h"
 #include "fnv/decl/ScriptX.h"
 #include "fnv/decl/SortableArray.h"
@@ -322,7 +319,6 @@ void* hkpAllCdPointCollector::FUN_00621140(unsigned int aiFlags)
 FUN_006211b0_cls::~FUN_006211b0_cls()
 {}
 
-extern float DAT_0104da4c;
 
 struct FUN_00621290_shell_o2
 {

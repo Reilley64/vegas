@@ -1112,7 +1112,7 @@ void FUN_0064bcc0_shell::FUN_0064bcc0(float afX, float afY, float afZ, int)
 {
     if (reinterpret_cast<::NiPoint3 *>((((NiPlane*)((char*)this + 0x124))))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::fnv_0064bcc0::NiPoint3 *>((void *)&::NiPoint3::ZERO)))))
     {
-        if (reinterpret_cast<::NiPlane *>((((NiPlane*)&afX)))->operator====((const ::NiPlane &)((*reinterpret_cast<::fnv_0064bcc0::NiPoint3 *>((void *)&::NiPoint3::ZERO)))))
+        if (reinterpret_cast<::NiPlane *>(&afX)->operator==(*reinterpret_cast<const ::NiPlane *>(&::NiPoint3::ZERO)))
         {
             *(int*)((char*)this + 0x174) = 1;
             *(float*)((char*)this + 0x178) = 0.0f;

@@ -64,7 +64,6 @@
 #include "fnv/symbols_006fd000.h"
 #include "fnv/symbols_011c7000.h"
 #include "fnv/decl/FUN_00c3cee0_shell.h"
-#include "fnv/decl/SelfX.h"
 #include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
 struct FUN_006fa840_shell
 {

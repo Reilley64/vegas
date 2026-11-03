@@ -37,7 +37,6 @@
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/decl/FUN_0042e250_shell.h"
-#include "fnv/decl/FUN_00573eb0_Class.h"
 #include "fnv/decl/FUN_005d43c0_.h"
 #include "fnv/decl/NiAdditionalGeometryData.h"
 #include "fnv/decl/S00b5d9f0_Owner.h"

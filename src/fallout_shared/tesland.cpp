@@ -182,7 +182,6 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 #include <string.h>
-#include "fnv/decl/Point3_0053d280.h"
 #include "fnv/decl/fnv_00534010__FUN_00534010.h"
 #include "fnv/decl/fnv_00535b30__FUN_00535b30_class.h"
 #include "fnv/decl/fnv_00538fb0__FUN_00538fb0.h"

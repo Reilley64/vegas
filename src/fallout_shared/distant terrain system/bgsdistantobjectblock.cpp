@@ -2100,7 +2100,7 @@ void MenuModelImpl::UpdateMenuNodes()
             pkTexX = pkCloneTmp2;
             reinterpret_cast<::FUN_00439410_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00439410((::ArgObject *)(pkTexX));
         }
-        reinterpret_cast<::FUN_00874460_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->set((int)(((void *)(::FUN_00b55560(((void *)(reinterpret_cast<::LowProcess *>((pkTexX))->GetPackageObjectType())))))));
+        reinterpret_cast<::FUN_00874460_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->set((int)(((void *)(::FUN_00b55560((unsigned int)reinterpret_cast<::LowProcess *>(pkTexX)->GetPackageObjectType())))));
         MmTransform kTransformTmp(0.0f, 0, 0);
         reinterpret_cast<::FUN_00a5a040_Class *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a5a040();
         reinterpret_cast<::FUN_00a59c60_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59c60((std::intptr_t)(&kTransformTmp));

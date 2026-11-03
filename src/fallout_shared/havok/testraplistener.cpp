@@ -43,7 +43,6 @@
 #include "fnv/symbols_0069b000.h"
 #include "fnv/symbols_0104e000.h"
 #include "fnv/symbols_011dd000.h"
-#include "fnv/decl/FUN_0062dfe0.h"
 struct FUN_0062d2f0_shell
 {
     void* GetOffset160();

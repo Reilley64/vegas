@@ -234,7 +234,7 @@ struct FUN_0067c490 : S_0067c490_Base
 // @fnv 0x0067c420
 void* FUN_0067c420_shell::FUN_0067c420(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0067c490 *>(this)->FUN_0067c490::~FUN_0067c490();
+    reinterpret_cast<struct FUN_0067c490 *>(this)->FUN_0067c490::~FUN_0067c490();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

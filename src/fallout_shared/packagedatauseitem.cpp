@@ -94,8 +94,6 @@ bool FUN_0067c960_shell::FUN_0067c960(TESPackageData* apCompare)
 
 // src/fallout_shared/packagedatauseitem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedatauseitem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_004856d0(int);
-
 struct TESPackageData_rtti
 {
     virtual ~TESPackageData_rtti();  // the original class is polymorphic (rtti_variants.py)

@@ -55,8 +55,6 @@
 #include "fnv/symbols_011de000.h"
 #include "bsfacegenmodel_decls.h"
 #include <cstring>
-#include "fnv/decl/FUN_0065a620_shell.h"
-#include "fnv/decl/FUN_0065a970_shell.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 #include "fnv/symbols_01017000.h"
 

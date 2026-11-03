@@ -68,10 +68,8 @@
 #include "fnv/symbols_01200000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/decl/Point3_0053d280.h"
-#include "fnv/decl/fnv_006f8830__FUN_006f8830.h"
 #include "fnv/symbols_006f7000.h"
 #include "fnv/symbols_00afd000.h"
-#include "fnv/decl/FUN_006f94a0.h"
 #include "fnv/symbols_011f9000.h"
 struct NP
 {
@@ -228,7 +226,7 @@ void FUN_006f88e0_shell::FUN_006f88e0()
 {
     *(char*)(this + 0x48) = 1;
     ((MiddleHighProcess*)((Flt*)(*(void**)((char*)this + 0x44)))->operator unsigned int())->FUN_00929260(1);
-    reinterpret_cast<::FUN_006f74f0_cls *>((((QIdlePtr*)this)))->FUN_006f74f0=((::ObjA *)(void *)(0));
+    reinterpret_cast<::FUN_006f74f0_cls *>(this)->FUN_006f74f0(nullptr);
 }
 
 namespace fnv_006f91a0 {
@@ -1791,7 +1789,7 @@ void OwnerX::FUN_006f8c40()
             aA->node = new NewNodeX(entries.GetAt(index4)->type->name);
             reinterpret_cast<::FUN_00705b10_Dummy *>((((NodeX*)aA->node)))->Set(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrayX*)&aA->instances)))->GetName())) * 4);
             PropertyX* propertyA = new PropertyX;
-            reinterpret_cast<::FUN_006f90a0_shell *>(this)->UpdateInstances((::FUN_006f90a0_params)(propertyA));
+            reinterpret_cast<::FUN_006f90a0_shell *>(this)->UpdateInstances({(FUN_00bb7290_shell*)propertyA, (FUN_006f90a0_owner*)aA});
             reinterpret_cast<::FUN_00439410_cls *>((((NodeX*)aA->node)))->FUN_00439410((::ArgObject *)(propertyA));
             ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::NodeX *)(aA->node), 0, 0);
             reinterpret_cast<::FUN_00439410_cls *>((((NodeX*)aA->node)))->FUN_00439410((::ArgObject *)(void *)(((NiPtrS<void>*)&(*reinterpret_cast<::NP *>(&::g_011d85bc)))->operator void*()));

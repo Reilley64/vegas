@@ -122,8 +122,6 @@
 #include "fnv/symbols_011dd000.h"
 #include "fnv/symbols_011df000.h"
 #include "tescreature_decls.h"
-#include "fnv/decl/FUN_005f75e0.h"
-#include "fnv/decl/FUN_005f77b0.h"
 #include "fnv/decl/s428110__Owner.h"
 #include "fnv/decl/ActorBaseInitItemView.h"
 #include "fnv/decl/ActorMover.h"
@@ -138,12 +136,6 @@
 #include "tescreature_decls_rtti_variant.h"
 #include "fnv/decl/FUN_00509540_obj.h"
 #include "fnv/decl/FUN_005f06f0_shell.h"
-#include "fnv/decl/FUN_005f9100_shell.h"
-#include "fnv/decl/FUN_005f91d0_shell.h"
-#include "fnv/decl/FUN_005f9ad0_shell.h"
-#include "fnv/decl/FUN_005f9b30_shell.h"
-#include "fnv/decl/FUN_005f9b70_shell.h"
-#include "fnv/decl/FUN_00821660_shell.h"
 #include "tescreature_decls_rtti_variant_decl_tescreature_rtti_variant.h"
 #include <string.h>
 

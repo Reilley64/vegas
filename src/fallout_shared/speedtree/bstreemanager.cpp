@@ -1,5 +1,6 @@
 // fallout_shared/speedtree/bstreemanager.cpp: BSTreeManager, LFFreeList, TreeManager (27 functions)
 
+#include <cmath>
 #include <new>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -911,8 +912,9 @@ NiSourceTexture* FUN_00665610()
             }
         }
         reinterpret_cast<::NiGlobalStringTable *>((pixels))->AddString();
+        NiFixedString kName("CanopyShadowTexture");
         ((TreeTextureState*)FUN_00664840(true))
-            ->shadow.FUN_0066b0d0(((::NiSourceTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixels), (void *)(NiFixedString("CanopyShadowTexture")), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<const ::fnv_00665610::TextureFormatPrefs *>(&::DAT_011a9598)))))));
+            ->shadow.FUN_0066b0d0(((::NiSourceTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixels), &kName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<const ::fnv_00665610::TextureFormatPrefs *>(&::DAT_011a9598)))))));
         SetGlobalValue((unsigned int)((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
     }
     return ((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow))));
@@ -1036,9 +1038,6 @@ struct Pair6658
     float x, y;
 };
 float FUN_0063c600(float);
-namespace std {
-double abs(float);
-}
 void FUN_00bb1390(float, float, float, float);
 struct C6658
 {

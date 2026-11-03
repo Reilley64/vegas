@@ -5039,7 +5039,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), nullptr, (const __m128 *)&(r.end.rotation), (const __m128 *)&(input[b].rotation));
         }
     }
-    if(additive) ::FUN_00ce2f40((unsigned int)(output),(uintptr_t)(second->reference.begin()),(unsigned int)(mapB),second->bones.count(),(unsigned int)(output));
+    if(additive) ::FUN_00ce2f40((uintptr_t)(output),(uintptr_t)(second->reference.begin()),(uintptr_t)(mapB),second->bones.count(),(uintptr_t)(output));
     {
         ClockX& timer=ClockX::instance();
         if(timer.current<timer.end) {

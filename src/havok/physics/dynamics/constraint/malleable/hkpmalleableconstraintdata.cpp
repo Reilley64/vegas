@@ -165,12 +165,12 @@ hkpConstraintData* MalleableGetterStandIn::FUN_00cdf6c0()
 struct FUN_00cdf6d0_t
 {
     int m_auiShapeKeys[3];
-    int m_field_c;
-    int FUN_00cdf6d0();
+    void* m_field_c;
+    void* FUN_00cdf6d0();
 };
 
 // @fnv 0x00cdf6d0
-int FUN_00cdf6d0_t::FUN_00cdf6d0()
+void* FUN_00cdf6d0_t::FUN_00cdf6d0()
 {
     return m_field_c;
 }

@@ -413,12 +413,12 @@ class FUN_00c9e910_Class
     __m128 unkD0;
     __m128 unkE0;
 
-    void FUN_00c9e910(int value);
+    void FUN_00c9e910(intptr_t value);
 };
 
 // Copies 16 floats from value into unkB0..unkE0; if unk08 is set, calls unk10's method with value and a scaled factor, then passes the result to FUN_00d07ec0.
 // @fnv 0x00c9e910
-void FUN_00c9e910_Class::FUN_00c9e910(int value)
+void FUN_00c9e910_Class::FUN_00c9e910(intptr_t value)
 {
     const float* pMatrixData = reinterpret_cast<const float*>(value);
 

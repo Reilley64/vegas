@@ -7941,7 +7941,7 @@ int __cdecl FinishJobWithPair(KdQueue* queue, KdJob* job)
     TimerCommandKdWrite(DAT_010dba3c);
     KdPair pair = job->m_38;
     int out = 0;
-    ::MixChannels(&pair, (int *)(job->m_24), job->m_28, (void *)(job->m_30), job->m_20, (int *)(job->m_34), &out);
+    ::MixChannels(&pair, (int *)(job->m_24), job->m_28, job->m_30, job->m_20, job->m_34, &out);
     *job->m_2c = out;
     TimerCommandKdWrite(DAT_010c41f8);
     return reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);

@@ -690,8 +690,8 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
     if (mediator.GetNumEntries() < 8)
     {
         int numReservedEmptyNodes = tree->getNumReservedEmptyNodes();
-        ::MixChannels((void *)&(buffers), (int *)(::S00d9db60_Node *)(tree->m_kNodeCollection.begin()), (int)(tree->getProjectedEntries()),
-                    (void *)(tree->m_kNodeCollection.GetLogicalSize()), mediator.GetNumEntries(), (int *)(numReservedEmptyNodes),
+        ::MixChannels((void *)&(buffers), (int *)(::S00d9db60_Node *)(tree->m_kNodeCollection.begin()), (intptr_t)(tree->getProjectedEntries()),
+                    tree->m_kNodeCollection.GetLogicalSize(), mediator.GetNumEntries(), numReservedEmptyNodes,
                     (int *)&(tree->m_iNumNodes));
         entriesB.ClearAndRelease();
         entriesA.ClearAndRelease();

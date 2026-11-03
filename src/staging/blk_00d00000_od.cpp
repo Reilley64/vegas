@@ -425,8 +425,8 @@ void __cdecl FUN_00d05df0(hkpPhantom* phantom, const hkTransform& transform)
         current.m_kColumn1 = c1.q;
         current.m_kColumn2 = c2.q;
         current.m_vTranslation = t.q;
-        reinterpret_cast<::Obj *>(&(current))->FUN_00cb23e0((int)&(transform));
-        reinterpret_cast<::FUN_00c9e910_Class *>((sp))->FUN_00c9e910((int)&(current));
+        reinterpret_cast<::Obj *>(&(current))->FUN_00cb23e0((intptr_t)&(transform));
+        reinterpret_cast<::FUN_00c9e910_Class *>((sp))->FUN_00c9e910((intptr_t)&(current));
         break;
     }
     case 0: {

@@ -1,6 +1,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <intrin.h>
 #include <windows.h>
@@ -34,30 +35,7 @@ extern const char str_010d3e38[];
 
 struct StepWords { u32 start, end, delta, inverseDelta; };
 struct BreachWords {u32 word0,word1,word2,word3;};
-struct S93ba0_Alloc {
-    virtual void v0();
-    virtual void v1();
-    virtual void ReleaseBlock(void* p, int size);
-    virtual void v3();
-    virtual void ReturnMemory(void* p, int size);
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual bool hasSpace(int size);
-};
 
-struct S93ba0_Mem {
-    char* lifoCursor;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S93ba0_Alloc* AllocateMemoryBlock;
-    int unk14;
-    S93ba0_Alloc* heapAlloc;
-    __forceinline S93ba0_Alloc& solver() { return *heapAlloc; }
-    __forceinline S93ba0_Alloc* getBlockAlloc() { return AllocateMemoryBlock; }
-};
 
 
 
@@ -103,12 +81,10 @@ struct S93ba0_LocalArray {
 
     __forceinline S93ba0_LocalArray(int n) : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        S93ba0_Mem* mem = static_cast<S93ba0_Mem*>(::FUN_00c85750());
-        char* p = mem->lifoCursor;
-        mem->lifoCursor = p + ((n * 8 + 127) & ~127);
-        m_data = (S93ba0_Pair*)p;
+        void* p = hkMemoryRouter::getInstance().allocateStack((n * 8 + 127) & ~127);
+        m_data = static_cast<S93ba0_Pair*>(p);
         m_iCapacityState = n | 0x80000000;
-        m_pTrailingData = (S93ba0_Pair*)p;
+        m_pTrailingData = static_cast<S93ba0_Pair*>(p);
     }
     __forceinline void SetNodeCount(int v){m_iCapacityState=v;}
     __forceinline void setData(S93ba0_Pair* v){m_data=v;}
@@ -119,11 +95,11 @@ struct S93ba0_LocalArray {
     {
         S93ba0_Pair* local = m_pTrailingData;
         if (local == m_data) m_iElementCount = 0;
-        static_cast<S93ba0_Mem*>(::FUN_00c85750())->lifoCursor = (char*)local;
-        S93ba0_Alloc* a = static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc();
+        hkMemoryRouter::getInstance().deallocateStack(local);
+        hkMemoryAllocator* a = hkMemoryRouter::getInstance().m_heap;
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000u) == 0)
-            a->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * 8);
+            a->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * 8);
         m_data=0;
         m_iCapacityState=0x80000000;
     }
@@ -627,9 +603,7 @@ int __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job*
             total = 0;
             for (S93ba0_Chunk* c = block->chunks; c; c = c->next)
                 total += c->count;
-            S93ba0_Mem* mem = static_cast<S93ba0_Mem*>(::FUN_00c85750());
-            copy = mem->lifoCursor;
-            mem->lifoCursor = copy + ((total * 16 + 127) & ~127);
+            copy = static_cast<char*>(hkMemoryRouter::getInstance().allocateStack((total * 16 + 127) & ~127));
             index = 0;
             for (S93ba0_Chunk* c = block->chunks; c; c = c->next) {
                 int n = c->count * 4;
@@ -638,7 +612,7 @@ int __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job*
                 index += c->count;
             }
             ::FUN_00d01700((::hkpWorld *)(owner->device), copy, total);
-            static_cast<S93ba0_Mem*>(::FUN_00c85750())->lifoCursor = copy;
+            hkMemoryRouter::getInstance().deallocateStack(copy);
         }
         *marker = 2;
     } else {
@@ -662,7 +636,7 @@ int __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job*
             reinterpret_cast<::FUN_00c911d0_Class *>((device))->EnterLock((void *)((*conn)->m_shape));
             reinterpret_cast<::Dispatcher *>((device->stager))->DispatchPairs((::Pair *)(second.m_data), second.m_iElementCount);
             const int needed = first.m_iElementCount;
-            if (!static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->hasSpace(needed << 10)) {
+            if (!hkMemoryRouter::getInstance().m_heap->canAllocTotal(needed << 10)) {
                 reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->m_shape));
             } else {
                 S93ba0_timer( ::DAT_010cc5d8);
@@ -679,32 +653,32 @@ int __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job*
         while (block->bigNodes) {
             S93ba0_Node* n = block->bigNodes;
             block->bigNodes = n->next;
-            static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReleaseBlock(n, 0x1000);
+            hkMemoryRouter::getInstance().m_heap->blockFree(n, 0x1000);
         }
         while (block->smallNodes) {
             S93ba0_Node* n = block->smallNodes;
             block->smallNodes = n->next;
-            static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReleaseBlock(n, 0x30);
+            hkMemoryRouter::getInstance().m_heap->blockFree(n, 0x30);
         }
         void* buffer = block->buffer;
         if (buffer) {
             int bufferSize = block->bufferSize;
-            static_cast<S93ba0_Mem*>(::FUN_00c85750())->solver().ReturnMemory(buffer,bufferSize);
+            hkMemoryRouter::getInstance().solver().bufFree(buffer,bufferSize);
             block->buffer = 0;
         }
         if (block->numThreads > 1) {
             int tableCount = block->tableCount;
             void* table = block->table;
-            static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReturnMemory(table, tableCount * 4);
+            hkMemoryRouter::getInstance().m_heap->bufFree(table, tableCount * 4);
             block->table = 0;
         }
-        S93ba0_Alloc* a = static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc();
+        hkMemoryAllocator* a = hkMemoryRouter::getInstance().m_heap;
         block->arrSize = 0;
         if ((block->arrCapacityAndFlags & 0x80000000u) == 0)
-            a->ReturnMemory(block->arrData, (block->arrCapacityAndFlags & 0x3fffffff) * 4);
+            a->bufFree(block->arrData, (block->arrCapacityAndFlags & 0x3fffffff) * 4);
         block->arrData = 0;
         block->arrCapacityAndFlags = 0x80000000;
-        static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReleaseBlock(block, 0x80);
+        hkMemoryRouter::getInstance().m_heap->blockFree(block, 0x80);
     }
 
 

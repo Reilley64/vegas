@@ -1543,8 +1543,8 @@ void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b
     const S_00d42b50_Motion* src = bodyA.m_pMotionState;
     _mm_store_ps(&ms.unk40.x, _mm_load_ps(&src->unk40.x));
     _mm_store_ps(&ms.unk50.x, _mm_load_ps(&src->unk50.x));
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk60), (void *)((const S_00d42b50_Vec*)&src->unk60), (const ::fnv_00c66320::__m128 *)(&scratch.shape->m_rotation), {});
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk70), (void *)((const S_00d42b50_Vec*)&src->unk70), (const ::fnv_00c66320::__m128 *)(&scratch.shape->m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk60), nullptr, (const ::fnv_00c66320::__m128 *)&src->unk60, (const ::fnv_00c66320::__m128 *)(&scratch.shape->m_rotation));
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk70), nullptr, (const ::fnv_00c66320::__m128 *)&src->unk70, (const ::fnv_00c66320::__m128 *)(&scratch.shape->m_rotation));
 
     __m128 delta = _mm_sub_ps(_mm_load_ps(&src->unk80.x), _mm_load_ps(&xf.t.x));
     __m128 xcol = _mm_load_ps(&xf.c0.x);

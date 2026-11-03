@@ -171,17 +171,21 @@ class TESWorldSpace
     unsigned char flags4C;
     char pad4D[1];
     unsigned short field4E;
-    char pad50[0x20];
+    NiTPointerMap<unsigned int, TESObjectREFR*> kFixedPersistentRefMap;  // +0x50
+    void* kMobilePersistentRefs[2];                                      // +0x60, a BSSimpleList
+    void* pFileOffsetMap;                                                // +0x68
+    void* pCellPointerMap;                                               // +0x6C
     TESWorldSpace* parent;
     void* unk74;
     void* unk78;
     float unk7c;
-    char pad80[0x10];
+    unsigned char kMapData[0x10];  // +0x80
     float unk90;
     float unk94;
     float unk98;
     void* unk9c;
-    char pada0[0x20];
+    char pada0[0x10];
+    NiTPointerMap<unsigned int, void*> kOffsetMapByFile;  // +0xB0
     BSStringT<char> mapName;
     char padC1[7];
     float fC8;

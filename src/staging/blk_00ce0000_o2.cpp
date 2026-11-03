@@ -66,7 +66,7 @@ void __cdecl FUN_00d86220();
 
 struct FUN_00cf45d0_class
 {
-    int vtable;
+    intptr_t vtable;
     FUN_00cf45d0_class();
 };
 
@@ -74,7 +74,7 @@ struct FUN_00cf45d0_class
 FUN_00cf45d0_class::FUN_00cf45d0_class()
 {
     FUN_00d86220();
-    vtable = (int)&DAT_010cc164;
+    vtable = (intptr_t)&DAT_010cc164;
 }
 
 struct hkReferencedObject
@@ -104,9 +104,9 @@ struct FUN_00d06d50_cls
 
 // Calls FindClass on b with a; if it returns nonzero, passes a, the result and b to FUN_00cf6920.
 // @fnv 0x00cf6950
-void __cdecl FUN_00cf6950(int a, int apObject)
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t apObject)
 {
-    int c = ((int)(reinterpret_cast<::D06D50Finder *>((((FUN_00d06d50_cls*)apObject)))->FindClass((const ::D06D50Object *)(a))));
+    intptr_t c = ((intptr_t)(reinterpret_cast<::D06D50Finder *>((((FUN_00d06d50_cls*)apObject)))->FindClass((const ::D06D50Object *)(a))));
     if (c)
         ::FUN_00cf6920((void *)(a), (::Node *)(c), (void *)(apObject));
 }
@@ -141,37 +141,37 @@ struct FUN_00ce4ae0_cls
 };
 struct FUN_00ce4a20_cls
 {
-    int m_kPointA;
+    intptr_t m_kPointA;
     short m_kPointB;
     short m_iThirdValue;
     int m_iFourthElementInteger;
-    int FUN_00ce4a20(int a);
+    intptr_t FUN_00ce4a20(intptr_t a);
 };
 extern int DAT_0102e378;
 // @fnv 0x00cf69a0
-void __cdecl FUN_00cf69a0(int* a)
+void __cdecl FUN_00cf69a0(intptr_t* a)
 {
     if (a)
-        *a = (int)&DAT_0102e378;
+        *a = (intptr_t)&DAT_0102e378;
 }
 
 struct FUN_00cf69c0_class
 {
-    int m_kPointA;
+    intptr_t m_kPointA;
     int m_auiShapeKeys;
-    int m_kPointB;
-    int FUN_00cf69c0(int a);
+    intptr_t m_kPointB;
+    intptr_t FUN_00cf69c0(intptr_t a);
 };
 
 
 // @fnv 0x00cf69c0
-int FUN_00cf69c0_class::FUN_00cf69c0(int a)
+intptr_t FUN_00cf69c0_class::FUN_00cf69c0(intptr_t a)
 {
     FUN_00cf69c0_class* self = this;
     for (;;)
     {
         if (self->m_kPointA && !::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(a), (const char *)(self->m_kPointA)))
-            return (int)self;
+            return (intptr_t)self;
         if (!self->m_kPointB)
             return 0;
         self = (FUN_00cf69c0_class*)self->m_kPointB;
@@ -219,7 +219,7 @@ struct FUN_00cf86d0_cls
 // @fnv 0x00cf86d0
 void FUN_00cf86d0_cls::FUN_00cf86d0()
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(intptr_t*)this = (intptr_t)&::DAT_0102e388;
 }
 
 // FUN_00ce29e0: member function that (re)initialises the object.
@@ -292,9 +292,9 @@ bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
 
 
 // @fnv 0x00ce2cf0
-void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3)
+void __cdecl FUN_00ce2cf0(intptr_t pObject, intptr_t param_2, intptr_t param_3)
 {
-    ::FUN_00ce2ca0((void *)(*reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x74)), (__m128 *)(param_3),
+    ::FUN_00ce2ca0((void *)(*reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(pObject) + 0x74)), (__m128 *)(param_3),
                  (const __m128 *)(int *)(reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40)), (const __m128 *)(param_2));
 }
 
@@ -314,7 +314,7 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -498,20 +498,20 @@ struct PacketSerializer
 struct SerializedObject
 {
     int base00, base04, base08, base0C, base10, word14, word18;
-    void SerializeToStream(int source);
+    void SerializeToStream(intptr_t source);
 };
 // Writes word14 and word18 to the stream at source+0x250, accumulating bytesWritten, after calling FUN_00d86160.
 // @fnv 0x00cf4670
-void SerializedObject::SerializeToStream(int source)
+void SerializedObject::SerializeToStream(intptr_t source)
 {
-    int saved = source;
+    intptr_t saved = source;
     ::FUN_00d86160((*(::NiStreamD8616 *)(saved)), (::DataD8616 *)(::SerializedObject *)(this));
     PacketSerializer* __restrict stream = *reinterpret_cast<PacketSerializer**>(saved + 0x250);
-    source = 4;
-    stream->bytesWritten += stream->write(stream, &word14, 4, &source, 1);
+    int size = 4;
+    stream->bytesWritten += stream->write(stream, &word14, 4, &size, 1);
     stream = *reinterpret_cast<PacketSerializer**>(saved + 0x250);
-    source = 4;
-    stream->bytesWritten += stream->write(stream, &word18, 4, &source, 1);
+    size = 4;
+    stream->bytesWritten += stream->write(stream, &word18, 4, &size, 1);
 }
 
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
@@ -761,7 +761,7 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -776,7 +776,7 @@ struct SubObject_b3813
 
 struct FUN_00cf4eb0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     int unk08;
@@ -790,9 +790,9 @@ struct FUN_00cf4eb0_cls
 // @fnv 0x00cf4eb0
 FUN_00cf4eb0_cls* FUN_00cf4eb0_cls::Destroy(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010cc2fc;
+    m_vptr = (intptr_t)&DAT_010cc2fc;
     ::FUN_00cb0c00((intptr_t)&(m_sub));
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = (intptr_t)&::DAT_0102e388;
     if (acFlags & 1)
     {
         AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
@@ -1551,7 +1551,7 @@ extern "C" unsigned int __cdecl SaveUIntArray(CF4BC0Stream& kStream, const Array
 extern int DAT_010cc064;
 struct FUN_00cdf560
 {
-    int m0;
+    intptr_t m0;
     int m4;
     int m8;
     FUN_00cdf560(float);
@@ -1563,7 +1563,7 @@ struct FUN_00cf4190 : FUN_00cdf560
 // @fnv 0x00cf4190
 FUN_00cf4190::FUN_00cf4190() : FUN_00cdf560(0.0f)
 {
-    m0 = (int)&DAT_010cc064;
+    m0 = (intptr_t)&DAT_010cc064;
 }
 
 
@@ -3763,9 +3763,10 @@ void SelectionMapper::MapSelection(const Selection& sel, hkArrayX<hkInt16>& sour
             hkInt16 linkIndex = i;
             hkArrayX<hkInt16> a;
             hkArrayX<hkInt16> b;
-            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)(src), (::ScanRec *)(m_ppLinks[linkIndex].m_kPointA), m_ppLinks[linkIndex].m_kPointB, (short)&(a), {}))))
+            ::hkBoolX found;
+            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)&(found), (::ScanRec *)(src), m_ppLinks[linkIndex].m_kPointA, m_ppLinks[linkIndex].m_kPointB, (::ScanObj *)&(a)))))
                 continue;
-            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)(dst), (::ScanRec *)(m_ppLinks[linkIndex].m_iThirdValue), m_ppLinks[linkIndex].m_iFourthElementInteger, (short)&(b), {}))))
+            if (!(*(::hkBoolX *)(::WalkChainUntilLimit((unsigned char *)&(found), (::ScanRec *)(dst), m_ppLinks[linkIndex].m_iThirdValue, m_ppLinks[linkIndex].m_iFourthElementInteger, (::ScanObj *)&(b)))))
                 continue;
             bool complete = true;
             for (int j = 0; j < a.GetLogicalSize(); ++j)
@@ -3925,7 +3926,7 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -4150,7 +4151,7 @@ void __cdecl FUN_00ce43e0(CEMap* map)
             }
         }
     }
-    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = reinterpret_cast<int>(data);
+    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = reinterpret_cast<intptr_t>(data);
     CEAllocator* allocator = reinterpret_cast<CEAllocator*>(static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator);
     if ((counts.m_iCapacityState & (int)0x80000000) == 0)
         allocator->free(data, (counts.m_iCapacityState & 0x3fffffff) * 4);
@@ -4187,13 +4188,13 @@ struct MapperInitialization
     void FUN_00ce5310();
 };
 // @fnv 0x00ce4a20
-int FUN_00ce4a20_cls::FUN_00ce4a20(int a)
+intptr_t FUN_00ce4a20_cls::FUN_00ce4a20(intptr_t a)
 {
     m_iThirdValue = 1;
-    m_kPointA = (int)&DAT_010cb864;
+    m_kPointA = (intptr_t)&DAT_010cb864;
     reinterpret_cast<::MapperInitialization *>((((FUN_00ce4ae0_cls*)((char*)this + 0x10))))->FUN_00ce5310();
     reinterpret_cast<::ShapeData *>((((FUN_00ce4ae0_cls*)((char*)this + 0x10))))->FUN_00ce4ae0((*(const ::ShapeData *)(a)));
-    return (int)this;
+    return (intptr_t)this;
 }
 
 // @fnv 0x00ce5310
@@ -4219,12 +4220,12 @@ void MapperInitialization::FUN_00ce5310()
     _mm_store_ps(reinterpret_cast<float*>(&data->unk50), _mm_set1_ps(DAT_01012068));
 }
 
-void __cdecl FUN_00cf6950(int a, int apObject);
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t apObject);
 
 
 
 
-void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3);
+void __cdecl FUN_00ce2cf0(intptr_t pObject, intptr_t param_2, intptr_t param_3);
 
 void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pKeyBox);
 
@@ -4474,9 +4475,9 @@ void __cdecl FUN_00ce4e20(QsTransform* xforms, const float* volatile weights, un
     }
 }
 
-void __cdecl FUN_00cf6950(int a, int b);
+void __cdecl FUN_00cf6950(intptr_t a, intptr_t b);
 
-void __cdecl FUN_00ce2cf0(int param_1, int param_2, int param_3);
+void __cdecl FUN_00ce2cf0(intptr_t param_1, intptr_t param_2, intptr_t param_3);
 
 void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pBox);
 
@@ -4881,13 +4882,13 @@ struct MapperX {
     ArrayX<short> unmapped;
     PoseX motion;
     BoolX keepLocal;
-    int property;
+    intptr_t property;
     void __cdecl FUN_00ce3090(const PoseX*, PoseX*, const short*, const short*, bool) const;
 };
 
 // Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
 // @fnv 0x00ce4330
-void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4)
+void __cdecl FUN_00ce4330(intptr_t a1, intptr_t a2, intptr_t a3, int a4)
 {
     reinterpret_cast<::MapperX *>((a1))->FUN_00ce3090((const ::PoseX *)(a2), (::PoseX *)(a3), (const short *)(0), (const short *)(0), a4);
 }
@@ -5038,7 +5039,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), nullptr, (const __m128 *)&(r.end.rotation), (const __m128 *)&(input[b].rotation));
         }
     }
-    if(additive) ::FUN_00ce2f40((unsigned int)(output),(unsigned int)(second->reference.begin()),(unsigned int)(mapB),second->bones.count(),(unsigned int)(output));
+    if(additive) ::FUN_00ce2f40((unsigned int)(output),(uintptr_t)(second->reference.begin()),(unsigned int)(mapB),second->bones.count(),(unsigned int)(output));
     {
         ClockX& timer=ClockX::instance();
         if(timer.current<timer.end) {

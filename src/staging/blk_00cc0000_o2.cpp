@@ -854,12 +854,12 @@ void hkMalleableConstraintData::FUN_00cdea90(hkMalleableContactNormal* normal)
 }
 
 struct FUN_00cdf290_cls {
-    void SetFlagAndClearFloats(int a, char b);
+    void SetFlagAndClearFloats(intptr_t a, char b);
 };
 
 // Stores b at offset 0xa2 and its inverse at 0xf2, then zeroes twelve floats at the object reached via a+0x30 when present.
 // @fnv 0x00cdf290
-void FUN_00cdf290_cls::SetFlagAndClearFloats(int a, char b)
+void FUN_00cdf290_cls::SetFlagAndClearFloats(intptr_t a, char b)
 {
     ((char*)this)[0xa2] = b;
     ((char*)this)[0xf2] = !b;
@@ -11098,7 +11098,7 @@ struct FUN_00ccd1d0_cls {
 
 // @fnv 0x00ccd1d0
 void FUN_00ccd1d0_cls::WriteLimitedHingeData(void* out) {
-    ::FUN_00c9fb70((::MyObj *)(((ccd1_stage_t*)this)), (int)(out), {});
+    ::FUN_00c9fb70((::MyObj *)(((ccd1_stage_t*)this)), 0, (::OutS *)(out));
     char* o = (char*)out;
     char* a;
     if (this != 0 && m_pInner != 0) {
@@ -11872,7 +11872,7 @@ struct S_00ccd610_Obj : S_00ccd610_RefObj {
     int unk54;
     int unk58;
     int unk5c;
-    S_00ccd610_Obj(int a, int b, float c, float d);
+    S_00ccd610_Obj(intptr_t a, intptr_t b, float c, float d);
 };
 
 struct S_00ccd610_Cls {
@@ -11912,12 +11912,12 @@ struct S_00ccd610_Cls {
     virtual void vfn_84();
     virtual void vfn_88();
     virtual void vfn_8c(S_00ccd610_RefObj* o);
-    void CreateAndDispatchObject(int a, int b, float c);
+    void CreateAndDispatchObject(intptr_t a, intptr_t b, float c);
 };
 
 // Allocates an S_00ccd610_Obj with the given arguments and DAT_011b153c, passes it to vfn_8c, then calls its FUN_00c905b0.
 // @fnv 0x00ccd610
-void S_00ccd610_Cls::CreateAndDispatchObject(int aiArg1, int aiArg2, float afValue)
+void S_00ccd610_Cls::CreateAndDispatchObject(intptr_t aiArg1, intptr_t aiArg2, float afValue)
 {
     S_00ccd610_Ctx ctx(0x10);
     S_00ccd610_Obj* o = new S_00ccd610_Obj(aiArg1, aiArg2, afValue, ::DAT_011b153c);
@@ -20257,7 +20257,7 @@ CCFFD0Settings* CCFFD0Owner::GetOrCreateSettings(bool* pbCreated)
 void FE50Wrap::FillOutput(FE50Out* out)
 {
     TlsHeapGuard kGuard;
-    ::FUN_00c9fb70((::MyObj *)this, (int)(out), {});
+    ::FUN_00c9fb70((::MyObj *)this, 0, (::OutS *)(out));
     out->mc = GetF();
     out->m8 = GetB();
     unsigned int n = GetCount();
@@ -20757,13 +20757,13 @@ struct FUN_00cdea20_cls {
     int unkD4;
     int unkD8;
     int unkDC;
-    int m_e0;
+    intptr_t m_e0;
 
-    int FUN_00cdea20() const;
+    intptr_t FUN_00cdea20() const;
 };
 
 // @fnv 0x00cdea20
-int FUN_00cdea20_cls::FUN_00cdea20() const
+intptr_t FUN_00cdea20_cls::FUN_00cdea20() const
 {
     return m_e0;
 }
@@ -25600,7 +25600,7 @@ CCE1C0Child* CCE1C0Owner::GetOrCreateChild(bool* pbCreated)
 // @fnv 0x00cce010
 void CopyOwner::FUN_00cce010(CopyOutput* apOutput)
 {
-    ::FUN_00c9fb70((::MyObj *)this, (int)(apOutput), {});
+    ::FUN_00c9fb70((::MyObj *)this, 0, (::OutS *)(apOutput));
     CopyShape* p = this ? shape : 0;
     if (p) {
         reinterpret_cast<::ConvexVertsQ_d59200 *>((p))->FUN_00d59200((*(::VertArray96Q *)(&apOutput->vertices)));

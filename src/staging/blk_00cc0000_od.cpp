@@ -283,7 +283,7 @@ struct Sub18
 
 struct Obj
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -298,7 +298,7 @@ struct Obj
     int unk30;
     int unk34;
     Info* unk38;
-    void FUN_00cdb7c0(float t, Mat* src, const Mat& xf, int a4);
+    void FUN_00cdb7c0(float t, Mat* src, const Mat& xf, intptr_t a4);
 };
 
 struct ScratchBuf
@@ -324,7 +324,7 @@ struct ScratchBuf
     }
 };
 // @fnv 0x00cdb7c0
-void Obj::FUN_00cdb7c0(float t, Mat* src, const Mat& xf, int a4)
+void Obj::FUN_00cdb7c0(float t, Mat* src, const Mat& xf, intptr_t a4)
 {
     Params p;
     p.n = unk2c;
@@ -1995,7 +1995,7 @@ struct Cc7Owner
     void* m08;
     char* m0c;
     char* m10;
-    void* m14;
+    int m14;
     void* m18;
     void FUN_00cc7fe0(void* arg);
 };
@@ -2012,7 +2012,7 @@ void Cc7Owner::FUN_00cc7fe0(void* arg)
     reinterpret_cast<::hkTransformCB22 *>(&(second))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(base + 0xf0)), (*(const ::hkTransformCB22 *)(arg)));
     reinterpret_cast<::fnv_00d52000::D52Class *>(&(kit))->FUN_00d52000((*(const ::fnv_00d52000::VecD52 *)(&first.translation)));
     reinterpret_cast<::D51Writer *>(&(kit))->FUN_00d51c30((*(const ::D51Input *)(&first)));
-    m14 = ((void *)(reinterpret_cast<::PivotBWriter *>(&(kit))->FUN_00d520a0((*(const ::D51Vector4 *)(&second.translation)))));
+    m14 = reinterpret_cast<::PivotBWriter *>(&(kit))->FUN_00d520a0((*(const ::D51Vector4 *)(&second.translation)));
     m18 = kit.FUN_00d51d40(&second);
     reinterpret_cast<::Kit_d51b *>(&(kit))->AddBridgeAtoms();
     reinterpret_cast<::fnv_00d51f90::S_00d51f90_Obj *>(&(kit))->AppendEntryAndAdvance();
@@ -2401,7 +2401,7 @@ struct Holder
 inline void* AllocAligned(unsigned int size)
 {
     unsigned char* p = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    unsigned char pad = (unsigned char)(0x10 - ((unsigned int)p & 0xf));
+    unsigned char pad = (unsigned char)(0x10 - ((uintptr_t)p & 0xf));
     p += pad;
     p[-1] = pad;
     return p;
@@ -3517,14 +3517,14 @@ class NamedShape
     void FUN_00ccd960(NameArr* arr);
 };
 
-static void AddName(NameArr* arr, const unsigned int& v)
+static void AddName(NameArr* arr, char* const& v)
 {
     unsigned int n = arr->m_usSize;
     if (n >= arr->m_usMaxSize)
     {
         reinterpret_cast<::ViewerStrings *>((arr))->SetSize(n + arr->m_usGrowBy);
     }
-    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(n, (char *&)(v));
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(n, const_cast<char *&>(v));
 }
 
 // @fnv 0x00ccd960
@@ -3532,7 +3532,7 @@ void NamedShape::FUN_00ccd960(NameArr* arr)
 {
     TlsFlagGuard guard;
     reinterpret_cast<::SphereShape *>(this)->FUN_00c9fc50((::ViewerStringArray *)(arr));
-    unsigned int item = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_01268694))))));
+    char* item = ::FUN_00a7d330(*reinterpret_cast<const char* const*>(&::g_01268694));
     AddName(arr, item);
 
     TagObj t1;
@@ -3549,18 +3549,18 @@ void NamedShape::FUN_00ccd960(NameArr* arr)
     b.w2 = 0.0f;
     b.w3 = 0.0f;
     reinterpret_cast<::fnv_00ccd1d0::FUN_00ccd1d0_cls *>(this)->WriteLimitedHingeData(&b);
-    item = ((unsigned int)(::FUN_00a7d550(g_011d3e74_arg1, b.z0)));
+    item = ::FUN_00a7d550(g_011d3e74_arg1, b.z0);
     AddName(arr, item);
 
     hkVec4 v1;
     *reinterpret_cast<__m128*>(&v1) = _mm_setr_ps(b.v0, b.v1, b.v2, b.v3);
     ::FUN_004a3970((*(::NiPoint3_local *)(&t1)), (*(const ::hkVector4 *)(reinterpret_cast<const __m128*>(&v1))));
-    item = ((unsigned int)(reinterpret_cast<::NiPoint3 *>(&(t1))->FUN_00a59af0(str_010ca918)));
+    item = reinterpret_cast<::NiPoint3 *>(&(t1))->FUN_00a59af0(str_010ca918);
     AddName(arr, item);
 
     *reinterpret_cast<__m128*>(&v1) = _mm_setr_ps(b.w0, b.w1, b.w2, b.w3);
     ::FUN_004a3970((*(::NiPoint3_local *)(&t1)), (*(const ::hkVector4 *)(reinterpret_cast<const __m128*>(&v1))));
-    item = ((unsigned int)(reinterpret_cast<::NiPoint3 *>(&(t1))->FUN_00a59af0(str_010ca914)));
+    item = reinterpret_cast<::NiPoint3 *>(&(t1))->FUN_00a59af0(str_010ca914);
     AddName(arr, item);
 }
 
@@ -3929,7 +3929,7 @@ void CylinderInitOwner::FUN_00ccd8c0(ParamSrc* p)
     hi.m_vComponents = _mm_setr_ps(p->m_20, p->m_24, p->m_28, p->m_2c);
     hkVec4 lo;
     lo.m_vComponents = _mm_setr_ps(p->m_10, p->m_14, p->m_18, p->m_1c);
-    reinterpret_cast<::fnv_00ccd610::S_00ccd610_Cls *>(this)->CreateAndDispatchObject((int)&(lo.m_vComponents), (int)&(hi.m_vComponents), p->m_30);
+    reinterpret_cast<::fnv_00ccd610::S_00ccd610_Cls *>(this)->CreateAndDispatchObject((intptr_t)&(lo.m_vComponents), (intptr_t)&(hi.m_vComponents), p->m_30);
     v47(p);
 }
 
@@ -4350,7 +4350,7 @@ void ExtendedMeshBuilder::FUN_00ccc980(ExtendedMeshInput* input)
 
             void* allocation = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(24);
 
-            unsigned char adj = (unsigned char)(16 - ((unsigned)allocation & 15));
+            unsigned char adj = (unsigned char)(16 - ((uintptr_t)allocation & 15));
 
             unsigned adjustment = (unsigned char)adj;
 
@@ -4481,7 +4481,7 @@ struct FUN_00ccea00Holder
 // @fnv 0x00ccea00
 void FUN_00ccea00Holder::FUN_00ccea00(FUN_00ccea00Out* out)
 {
-    ::FUN_00c9fb70((::MyObj *)(this), (int)(out), {});
+    ::FUN_00c9fb70((::MyObj *)(this), 0, (::OutS *)(out));
 
     out->unk08 = (this != 0 && m_08 != 0) ? m_08->unk18 : 0;
 

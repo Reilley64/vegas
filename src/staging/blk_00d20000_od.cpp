@@ -448,11 +448,11 @@ struct LinearCastState
 
 struct CastObj
 {
-    void FUN_00d31610(int a1, int a2, int a3, LinearCastState& st);
+    void FUN_00d31610(intptr_t a1, intptr_t a2, intptr_t a3, LinearCastState& st);
 };
 
 // @fnv 0x00d31610
-void CastObj::FUN_00d31610(int a1, int a2, int a3, LinearCastState& st)
+void CastObj::FUN_00d31610(intptr_t a1, intptr_t a2, intptr_t a3, LinearCastState& st)
 {
     LinearCastState* s = &st;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -521,11 +521,11 @@ struct Simplex
 class SimplexProcessor
 {
   public:
-    void FUN_00d36d60(int a, int b, int c, Simplex* s);
+    void FUN_00d36d60(intptr_t a, intptr_t b, intptr_t c, Simplex* s);
 };
 
 // @fnv 0x00d36d60
-void SimplexProcessor::FUN_00d36d60(int a, int b, int c, Simplex* s)
+void SimplexProcessor::FUN_00d36d60(intptr_t a, intptr_t b, intptr_t c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -727,11 +727,11 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d32850(int a, int b, int c, Simplex* s);
+    void FUN_00d32850(intptr_t a, intptr_t b, intptr_t c, Simplex* s);
 };
 
 // @fnv 0x00d32850
-void Agent::FUN_00d32850(int a, int b, int c, Simplex* s)
+void Agent::FUN_00d32850(intptr_t a, intptr_t b, intptr_t c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -868,7 +868,7 @@ class hkpCollisionDispatcherD367
 void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher)
 {
     __declspec(align(16)) hkpAgent3FuncsD367 kFuncs;
-    ::FUN_00d367b0((int)&(kFuncs));
+    ::FUN_00d367b0((intptr_t)&(kFuncs));
     reinterpret_cast<::FUN_00cfbd60_cls *>((pkDispatcher))->AddEntry((::SrcRec *)&(kFuncs), 0x12, 7);
 }
 
@@ -1012,11 +1012,11 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d37c10(int a, int b, int c, Simplex* s);
+    void FUN_00d37c10(intptr_t a, intptr_t b, intptr_t c, Simplex* s);
 };
 
 // @fnv 0x00d37c10
-void Agent::FUN_00d37c10(int a, int b, int c, Simplex* s)
+void Agent::FUN_00d37c10(intptr_t a, intptr_t b, intptr_t c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -1160,11 +1160,11 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d3f500(int a, int b, int c, Simplex* s);
+    void FUN_00d3f500(intptr_t a, intptr_t b, intptr_t c, Simplex* s);
 };
 
 // @fnv 0x00d3f500
-void Agent::FUN_00d3f500(int a, int b, int c, Simplex* s)
+void Agent::FUN_00d3f500(intptr_t a, intptr_t b, intptr_t c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -1486,11 +1486,11 @@ struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
 
 struct D2fWorld
 {
-    void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
+    void FUN_00d2f460(intptr_t a1, intptr_t a2, const D2fInput* a3, intptr_t a4, void* a5);
 };
 
 // @fnv 0x00d2f460
-void D2fWorld::FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5)
+void D2fWorld::FUN_00d2f460(intptr_t a1, intptr_t a2, const D2fInput* a3, intptr_t a4, void* a5)
 {
     D2fInput tmp = *a3;
     tmp.m_vec.setNeg4(a3->m_vec);
@@ -1927,7 +1927,7 @@ struct MoppCastCastGeometry
 };
 
 // @fnv 0x00d2f0d0
-void __cdecl FUN_00d2f0d0(MoppCastBody* a, MoppCastBody* b, MoppCastInput* c, int d, int e)
+void __cdecl FUN_00d2f0d0(MoppCastBody* a, MoppCastBody* b, MoppCastInput* c, intptr_t d, intptr_t e)
 {
     ProfMark(DAT_010ce8e8);
     MoppCastCastGeometry ls;
@@ -1991,7 +1991,7 @@ typedef unsigned short hkUint16;
 
 typedef unsigned int hkUint32;
 
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 
 typedef unsigned __w64 hk_size_t;
 

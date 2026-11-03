@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class D2F2C0Dispatcher;
 class D2FA00Agent;
@@ -15,7 +16,7 @@ struct SlotRef;
 struct ValueSource;
 
 // 0x00d2f0d0
-void FUN_00d2f0d0(::MoppCastBody *, ::MoppCastBody *, ::MoppCastInput *, int, int);
+void FUN_00d2f0d0(::MoppCastBody *, ::MoppCastBody *, ::MoppCastInput *, intptr_t, intptr_t);
 // 0x00d2f240
 namespace fnv_00d2f240 { ::fnv_00d2f240::D2F240Agent *CreateAgentForBodyPair(const ::fnv_00d2f240::D2F240CdBody &, const ::fnv_00d2f240::D2F240CdBody &, const void *, void *); }
 // 0x00d2f2c0

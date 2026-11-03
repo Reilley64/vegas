@@ -111,7 +111,7 @@ int FUN_00d2f220_class::InitializeWithGlobal(int aiValue)
 void __cdecl FUN_00d365d0();
 
 // @fnv 0x00d367b0
-void __cdecl FUN_00d367b0(int pObject)
+void __cdecl FUN_00d367b0(intptr_t pObject)
 {
     ::FUN_00da6fd0((void *)(pObject));
     *(void (**)(void))(pObject + 0x2c) = &FUN_00d365d0;

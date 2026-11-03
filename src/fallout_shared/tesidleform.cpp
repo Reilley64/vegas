@@ -744,7 +744,7 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(m_pIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pIdleForm;
     p = static_cast<TESIdleForm*>(h);
-    reinterpret_cast<::ValueModifierEffect *>((static_cast<IdleCopy*>(i)))->SetActorValue((::ActorValue::Index)(p));
+    reinterpret_cast<::TESIdleForm *>((static_cast<IdleCopy*>(i)))->m_pIdleForm = (::TESIdleForm *)(p);
     if (m_pParentPath)
     {
         reinterpret_cast<IdleArrayMethods*>(m_pParentPath)->FUN_0061bdc0();
@@ -833,14 +833,14 @@ void IdleFormDetach::DetachFromIdleList()
                 {
                     if (reinterpret_cast<::TESForm *>((void *)(pNext2))->GetInitialized())
                     {
-                        reinterpret_cast<::ValueModifierEffect *>((pNext2))->SetActorValue((::ActorValue::Index)(GetPrevIdle()));
+                        reinterpret_cast<::TESIdleForm *>((pNext2))->m_pIdleForm = (::TESIdleForm *)(GetPrevIdle());
                     }
                     else
                     {
                         IdleFormLinks* pPrev8 = GetPrevIdle();
-                        reinterpret_cast<::ValueModifierEffect *>((pNext2))->SetActorValue((::ActorValue::Index)((IdleFormLinks*)(pPrev8 ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPrev8))->FUN_0084e3a0())) : 0)));
+                        reinterpret_cast<::TESIdleForm *>((pNext2))->m_pIdleForm = (::TESIdleForm *)((std::uintptr_t)(pPrev8 ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPrev8))->FUN_0084e3a0())) : 0));
                     }
-                    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(0));
+                    reinterpret_cast<::TESIdleForm *>(this)->m_pIdleForm = nullptr;
                 }
             }
         }
@@ -935,7 +935,7 @@ FUN_005fe180::~FUN_005fe180()
                 {
                     IdleLink* next = (IdleLink*)((::IdleBase *)(reinterpret_cast<::FUN_004d6170_shell *>((array))->FUN_004d6170(index + 1)));
                     if (next)
-                        reinterpret_cast<::ValueModifierEffect *>((next))->SetActorValue((::ActorValue::Index)(Previous()));
+                        reinterpret_cast<::TESIdleForm *>((next))->m_pIdleForm = (::TESIdleForm *)(Previous());
                     array->Remove(index);
                     array->Compact();
                 }
@@ -1022,7 +1022,7 @@ void IdleInit::InitLoad()
             GetDebugName(&name);
             ::FUN_005b5e40();
         }
-        reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(previous));
+        reinterpret_cast<::TESIdleForm *>(this)->m_pIdleForm = (::TESIdleForm *)(previous);
     }
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }

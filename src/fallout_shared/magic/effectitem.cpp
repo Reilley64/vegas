@@ -621,7 +621,6 @@ bool EffectItem_shell::FUN_00404470(int range)
 }
 
 namespace fnv_00404f30 {
-extern "C" unsigned int __tls_index;
 
 __declspec(thread) int tlsVar[0x2b4 / 4 + 1];
 

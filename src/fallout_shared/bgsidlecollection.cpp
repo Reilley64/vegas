@@ -83,6 +83,16 @@ void BGSIdleCollection::Load(TESFile* file)
     }
 }
 
+struct Arr
+{
+    void** GetAt(int);
+};
+struct SArgs
+{
+    int i;
+    void* const* v;
+};
+
 // @fnv 0x0047a030
 unsigned int BGSIdleCollection::GetAvailableIdles(Actor* actor, TESObjectREFR* target,
                                                   BSSimpleArray<TESIdleForm*, 1024>* idles)
@@ -102,7 +112,7 @@ unsigned int BGSIdleCollection::GetAvailableIdles(Actor* actor, TESObjectREFR* t
                 if (idles)
                 {
                     if (count < size)
-                        ::FUN_0047a110((::Arr *)(idles), (::SArgs)(count));
+                        ::FUN_0047a110((::Arr *)(idles), ::SArgs{(int)count, (void* const*)&idle});
                     else
                         reinterpret_cast<::FUN_00438690 *>((idles))->FUN_007cb2e0((unsigned int *)&(idle));
                 }
@@ -149,15 +159,6 @@ void* FUN_00479790(BaseFormComponent* pThis)
     return pThis;
 }
 
-struct Arr
-{
-    unsigned int* GetAt(int);
-};
-struct SArgs
-{
-    int i;
-    unsigned int* v;
-};
 // Stores the value pointed to by a.v into the element of self at index a.i.
 // @fnv 0x0047a110
 void FUN_0047a110(Arr* self, SArgs aArgs)

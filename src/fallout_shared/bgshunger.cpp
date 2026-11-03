@@ -308,8 +308,6 @@ void FUN_00591e10_shell::InitDehydrationStage()
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
-extern char DAT_01183028;
-
 
 class FUN_00401c50_cls : public BGSHungerStage
 {

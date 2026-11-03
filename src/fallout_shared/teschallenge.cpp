@@ -331,7 +331,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                 continue;
             }
             challenge->FUN_005f60e0(count);
-            if (((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList())) >= reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType())
+            if (challenge->progress.iProgress >= reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType())
             {
                 if (((::Script *)(reinterpret_cast<::Callees *>((challenge))->FUN_00726070())))
                     reinterpret_cast<::FUN_005ac340_t *>((((::Script *)(reinterpret_cast<::Callees *>((challenge))->FUN_00726070()))))->RunScriptOnTarget(reinterpret_cast<TESObjectREFR*>(::_g_thePlayer), 0);
@@ -351,7 +351,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                 }
                 if (reinterpret_cast<::FUN_005f5f60_class *>((challenge))->FUN_005f5f60() && !reinterpret_cast<::FUN_005f60c0_Class *>((challenge))->HasFlag8())
                 {
-                    int excess = ((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList())) - reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType();
+                    int excess = challenge->progress.iProgress - reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType();
                     reinterpret_cast<::FUN_005f5820_shell *>((challenge))->ClearField6C();
                     reinterpret_cast<::FUN_005f6060_class *>((challenge))->FUN_005f6060(true);
                     challenge->FUN_005f60e0(excess);
@@ -369,7 +369,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                     int interval;
                     int progress;
                 } values;
-                values.progress = ((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList()));
+                values.progress = challenge->progress.iProgress;
                 values.interval = ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) ? ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) : 100;
                 for (int value = values.progress; value >= 0; value -= values.interval)
                 {
@@ -380,7 +380,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                         {
                             char message[512];
                             ::FUN_00406d00(message, sizeof(message), "%s   %d\\%d\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((challenge))->FUN_00408da0())),
-                                      ((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType(),
+                                      challenge->progress.iProgress, reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType(),
                                       challenge->GetDescription(0, (CHUNK_ID)0x43534544));
                             ::DispatchMessageToSink((int)(message), 0, (int)(::FUN_0048e730(challenge, (int)(0))),
                                                    (int)(0), ::DAT_010162c0, false);

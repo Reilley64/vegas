@@ -462,7 +462,7 @@ void FUN_004fbfe0_shell::FUN_004fbfe0(int arg)
     if (result == 0)
         return;
     {
-        reinterpret_cast<::FUN_004fbf00_shell *>((reinterpret_cast<FUN_004fbf00_shell*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_004fbf00(reinterpret_cast<TESSound*>(((int)(reinterpret_cast<::DialogueItem *>((reinterpret_cast<TESChallenge*>(result)))->SelectDefaultResponseList()))));
+        reinterpret_cast<::FUN_004fbf00_shell *>((reinterpret_cast<FUN_004fbf00_shell*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_004fbf00(reinterpret_cast<TESSound*>(reinterpret_cast<BGSMovableStatic*>(result)->pSoundLoop_db));
 
         reinterpret_cast<::FUN_004fc060_shell *>((reinterpret_cast<FUN_004fc060_shell*>(this->_pdbpad_5c)))->SetByteFromPtr(reinterpret_cast<const unsigned char*>(reinterpret_cast<BGSMovableStatic*>(result)->data));
 
@@ -612,8 +612,7 @@ bool MovableStaticFormComparison::FUN_004fc080(::TESForm* apCompare)
         return true;
     if (reinterpret_cast<::Unk004fc130 *>((((MovableStaticDataComparison*)this->_pdbpad_5c)))->IsByteDifferent((unsigned char*)pMovableStatic->data))
         return true;
-    if (((::TESSound *)(reinterpret_cast<::DialogueItem *>((((MovableStaticSoundComparison*)((char*)this - 0x14))))->SelectDefaultResponseList())) !=
-        ((::TESSound *)(reinterpret_cast<::DialogueItem *>((((MovableStaticSoundComparison*)pMovableStatic)))->SelectDefaultResponseList())))
+    if (reinterpret_cast<::BGSMovableStatic*>((char*)this - 0x14)->pSoundLoop_db != pMovableStatic->pSoundLoop_db)
         return true;
     return false;
 }
@@ -822,7 +821,7 @@ void TESObjectSTAT_rtm::FUN_004fbb70()
         return;
 
     ((BGSMovableStaticOwner*)((char*)this - 0x14))
-        ->BGSDestructibleObjectForm::InitItem(
+        ->BGSDestructibleObjectForm_rtm::InitItem(
             ((BGSMovableStaticOwner*)((char*)this - 0x14))
                 ? static_cast<TESForm_rtm *>((BGSMovableStaticOwner*)((char*)this - 0x14))
                 : (TESForm_rtm*)0);

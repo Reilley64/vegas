@@ -482,8 +482,8 @@ struct RefObj
 struct TESRegionData;
 template <class T> struct BSSimpleList
 {
-    T* data;
-    BSSimpleList* next;
+    T m_item;
+    BSSimpleList* m_pkNext;
     bool FUN_008256d0();
     T& GetItem();
     BSSimpleList* GetNext();

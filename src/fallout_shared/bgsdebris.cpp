@@ -214,7 +214,7 @@ DebrisModelEntry* BGSDebris::AddDebrisModel(char chance, const char* path, char 
         data->chance = chance;
         reinterpret_cast<::FUN_004fa670_shell *>((data))->FUN_004fa670((char *)(path));
         data->flags = flags;
-        ::InsertDebrisIfValid((char *)this, (::DArg)(data));
+        ::InsertDebrisIfValid((char *)this, ::DArg{(DebrisData *)data});
         return data;
     }
     return 0;

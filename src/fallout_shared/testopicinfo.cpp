@@ -798,7 +798,7 @@ TESResponseList* TESTopicInfo::DuplicateResponseList(TESResponseList* pResponseL
                         idle = static_cast<TESIdleForm*>(reference.form);
                     if (reference.formID && !idle)
                         ::FUN_005b5e40();
-                    reinterpret_cast<::TESRecipe *>((responseReader.response))->SetRequiredSkill((::ActorValue::Index)(idle));
+                    responseReader.response->m_pSecondIdleForm = idle;
                 }
                 break;
             }
@@ -1759,7 +1759,7 @@ void TopicInfoCopy::FUN_0061e330(TESForm* form)
     reinterpret_cast<FUN_0061e0f0_shell*>(this)->FUN_0061e0f0(reinterpret_cast<::BGSCameraPath *>((static_cast<TopicInfoCopy*>(topic)))->GetConditions());
     if (((::TESTopicInfoData *)(::GetField38((char *)(static_cast<TopicInfoCopy*>(topic))))))
         reinterpret_cast<::TESTopicInfo *>(this)->SetTopicInfoData(((::TESTopicInfoData *)(::GetField38((char *)(static_cast<TopicInfoCopy*>(topic))))));
-    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(static_cast<TopicInfoCopy*>(topic)->FUN_006733e0()));
+    m_pOwnerQuest = topic->m_pOwnerQuest;
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(reinterpret_cast<::TESForm *>((static_cast<TopicInfoCopy*>(topic)))->GetInitialized());
 }
 

@@ -1142,7 +1142,7 @@ void Shot::UpdateCamera(float afTime)
                 bReset = true;
             }
             NiPoint3 kPos = ((::Node60 *)(::FUN_00559450((int *)&(m60))))->FUN_0045bb80();
-            reinterpret_cast<::FUN_0063c8a0_shell *>((((PtSub*)&pt)))->FUN_0063c8a0-=((void *)&(kPos));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((((PtSub*)&pt)))->FUN_0063c8a0((void *)&(kPos));
             reinterpret_cast<::ThisShell *>((reinterpret_cast<GObj*>((*reinterpret_cast<::PlayerObj * *>(&::_g_thePlayer)))))->FUN_0094a0c0(&pt, &kPos, 0);
             DAT_011e0808 = pt;
             if ((*reinterpret_cast<unsigned char *>(&::xbSlowMo)))

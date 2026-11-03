@@ -116,7 +116,7 @@ bool BGSAcousticSpace::Load(TESFile* file)
         case 0x54414452:  // RDAT
             soundFormID = 0;
             file->GetChunkData(&soundFormID);
-            reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(reinterpret_cast<TESRegion*>(soundFormID)));
+            pRegion = reinterpret_cast<TESRegion*>(static_cast<std::uintptr_t>(soundFormID));
             break;
         case 0x4D414E41:  // ANAM
             file->GetChunkData(&soundFormID);
@@ -307,7 +307,7 @@ void FUN_0058a120_shell::CopyFromAcousticSpace(TESForm* apCopy)
     reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)pcopy)))->GetTarget()))));
     reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::LowProcess *>((((Idle_008b2010*)pcopy)))->GetActiveCombatTarget()))));
     ((BGSAddonNode*)this)->SetIndex(((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((((BGSAddonNode*)pcopy)))->GetGrass())));
-    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(((TESTopicInfo*)pcopy)->GetParentQuest()));
+    pRegion = ((TESTopicInfo*)pcopy)->GetParentQuest();
     reinterpret_cast<::FUN_00589f50_shell *>(this)->SetSound((*(void * *)&(const ::CELL_ENVIRO_TYPE &)((CELL_ENVIRO_TYPE)reinterpret_cast<::FUN_0068a810_class *>((((FUN_0068a810_shell*)pcopy)))->GetField4C())));
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
 }

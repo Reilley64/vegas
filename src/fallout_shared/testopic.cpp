@@ -1089,7 +1089,6 @@ DialogueItem* FUN_0061b320_shell::FUN_0061b320(TESObjectREFR* apSpeaker, TESObje
 }
 
 namespace fnv_00618aa0 {
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct TESFileRef
 {
@@ -1132,11 +1131,15 @@ struct NavMeshTriangleEdgeReference
     int b;
     int c;
 };
-template <> class BSSimpleArray<NavMeshTriangleEdgeReference, 1024>
+}  // namespace fnv_00618aa0
+
+template <> class BSSimpleArray<fnv_00618aa0::NavMeshTriangleEdgeReference, 1024>
 {
   public:
-    unsigned int Add(const NavMeshTriangleEdgeReference&);
+    unsigned int Add(const fnv_00618aa0::NavMeshTriangleEdgeReference&);
 };
+
+namespace fnv_00618aa0 {
 typedef BSSimpleArray<ParentSpaceNode, 1024> PSNArr;
 struct FUN_006195d0_shell : public TESTopic
 {
@@ -1169,7 +1172,7 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
         {
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)pQuestInfo + 0x1c))))->Clear(true);
         }
-        pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)((reinterpret_cast<::Callees *>((void *)(pQuestInfoList))->FUN_00726070()));
+        pQuestInfoList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((void *)(pQuestInfoList))->FUN_00726070()));
     }
 
     int chunkid;
@@ -1857,7 +1860,7 @@ void TESTopic_Shell::InitializeTopic()
                     TESTopicInfo* curInfo = array->GetAt(i);
                     if (curInfo)
                     {
-                        reinterpret_cast<::ValueModifierEffect *>((((TopicInfoStandin*)curInfo)))->SetActorValue((::ActorValue::Index)(questInfo->pQuest));
+                        curInfo->m_pOwnerQuest = questInfo->pQuest;
                         curInfo->InitItem();
                         reinterpret_cast<::FUN_0061f340_shell *>((((TopicInfoStandin*)curInfo)))->FUN_0061f340((unsigned short)i);
                     }
@@ -2202,7 +2205,7 @@ TESTopicInfo* FUN_0061af30(TESTopicInfo* input, bool& deferredResult, TESObjectR
     while (a && (a->m_item) && !h)
     {
         TESTopicInfo* info = (a->m_item);
-        TESQuest* quest = info->FUN_006733e0();
+        TESQuest* quest = info->m_pOwnerQuest;
         a = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
         if (quest && reinterpret_cast<::TESFaction_RankDataView *>((quest))->FUN_00455620() && quest->GetConditions()->ContainsTrait(speaker, listener))
         {

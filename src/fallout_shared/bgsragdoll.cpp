@@ -256,7 +256,7 @@ struct FUN_005eefc0
 struct FUN_005ed850
 {
     char b0;
-    FUN_005ed8c0 m4;
+    struct FUN_005ed8c0 m4;
     FUN_005eede0 m20;
     FUN_005eefc0 m30;
     FUN_005ed850();

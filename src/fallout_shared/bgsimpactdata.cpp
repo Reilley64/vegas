@@ -322,7 +322,7 @@ bool BGSImpactData::Load(TESFile* file)
         {
             unsigned int textureSetID = 0;
             file->GetChunkData(&textureSetID);
-            reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(reinterpret_cast<BGSTextureSet*>(textureSetID)));
+            m_pDecalTextureSet = reinterpret_cast<BGSTextureSet*>(static_cast<std::uintptr_t>(textureSetID));
             break;
         }
         case 0x4D414E53:  // SNAM

@@ -743,7 +743,8 @@ struct Flt
 // @fnv 0x005f0060
 char* FUN_005f0060_shell::FUN_005f0060()
 {
-    return (unsigned int)(*(Flt*)((char*)this + 0x1c)) ? (char*)(unsigned int)(*(Flt*)((char*)this + 0x1c)) : "";
+    char* pText = *reinterpret_cast<char**>((char*)this + 0x1c);
+    return pText ? pText : (char*)"";
 }
 
 namespace fnv_005fe0f0 {

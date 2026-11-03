@@ -140,9 +140,11 @@ struct FUN_00aa4790_Class
 };
 
 // @fnv 0x00aa4bf0
-void SetByteAtOffset(char* p, char c)
+extern unsigned char DAT_011f6370[0x18];
+
+void SetByteAtOffset(unsigned int index, char c)
 {
-    p[0x11f6370] = c;
+    DAT_011f6370[index] = c;
 }
 
 struct FUN_00aa4c10_class
@@ -156,7 +158,7 @@ struct FUN_00aa4c10_class
 void FUN_00aa4c10_class::FUN_00aa4c10(int arg)
 {
     int local = arg;
-    ::FUN_00aa4be0((char *)(local));
+    ::FUN_00aa4be0(local);
 }
 
 
@@ -168,7 +170,7 @@ struct FUN_00aa4c40_class
 // @fnv 0x00aa4c40
 void FUN_00aa4c40_class::FUN_00aa4c40(int a)
 {
-    ::SetByteAtOffset((char *)(a), 1);
+    ::SetByteAtOffset(a, 1);
 }
 
 
@@ -281,7 +283,7 @@ struct FUN_00aa8a20_class
 // @fnv 0x00aa8a20
 void FUN_00aa8a20_class::FUN_00aa8a20()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010a2980);
+    *reinterpret_cast<const void**>(this) = &DAT_010a2980;
 }
 
 struct P03MM
@@ -593,7 +595,7 @@ void FUN_00aaa6e0_Class::SetFlags(unsigned int flags, int unused)
 
 struct FUN_00aa47e0_Class
 {
-    int m0;
+    const void* m0;
     int m4;
     void* m8;
     int mC;
@@ -605,7 +607,7 @@ FUN_00aa47e0_Class* FUN_00aa47e0_Class::FUN_00aa47e0(unsigned int count)
 {
     unsigned int bytes;
     void* p5;
-    m0 = (int)&DAT_010a2618;
+    m0 = &DAT_010a2618;
     m4 = count;
     mC = 0;
     if (count)
@@ -683,9 +685,9 @@ char FUN_00aa4760_Class::CallBaseWithOffset(int aiValue, unsigned char b, int c)
 }
 
 // @fnv 0x00aa4be0
-unsigned char __cdecl FUN_00aa4be0(char* p)
+unsigned char __cdecl FUN_00aa4be0(unsigned int index)
 {
-    return p[0x11f6370];
+    return DAT_011f6370[index];
 }
 
 struct FUN_00aa4ca0_class
@@ -705,15 +707,17 @@ void FUN_00aa4ca0_class::FUN_00aa4ca0(unsigned int a, unsigned int b, float c, u
 
 struct FUN_00aa5fc0_Class
 {
-    int ClearFields();
+    int field00;
+    int field04;
+    FUN_00aa5fc0_Class* ClearFields();
 };
 // Sets the two int fields at offsets 0 and 4 of this object to zero and returns this.
 // @fnv 0x00aa5fc0
-int FUN_00aa5fc0_Class::ClearFields()
+FUN_00aa5fc0_Class* FUN_00aa5fc0_Class::ClearFields()
 {
-    *(int*)this = 0;
-    *(int*)((char*)this + 4) = 0;
-    return (int)this;
+    field00 = 0;
+    field04 = 0;
+    return this;
 }
 
 struct FUN_00aa6920_Class
@@ -1299,18 +1303,18 @@ struct AllocBlock
 {
     void* m0;
     void* m4;
-    int m8;
+    void* m8;
     int mC;
 };
 
 struct FUN_00aa8b80_class;
 
 // @fnv 0x00aa86b0
-void __cdecl SetBlockValue(int aiValue)
+void __cdecl SetBlockValue(void* aiValue)
 {
     void* lock = DAT_011f6bfc;
     DAT_00fdf05c(lock);
-    int a = aiValue;
+    void* a = aiValue;
     BlockSource* src2 = DAT_011f6c00;
     AllocBlock* aBlock = (AllocBlock*)src2->v1();
     aBlock->m8 = a;
@@ -1399,7 +1403,7 @@ FUN_00aa8ca0_cls* FUN_00aa8ca0_cls::FUN_00aa8ca0(int a1, int a2, int a3, int a4)
     m_40 = 0;
     CRITICAL_SECTION* cs = (CRITICAL_SECTION*)((char*)this + 0x20d8);
     InitializeCriticalSection(cs);
-    m_0c = (int)((char*)0 + 8) + 8;
+    m_0c = 8 + 8;
     *(int*)((char*)this + 0x2050) = 0;
     *(int*)((char*)this + 0x2054) = 0;
     return this;
@@ -2953,7 +2957,7 @@ void __cdecl FUN_00aa81d0()
 {
     ShutdownMessage message;
     message.type = 4;
-    ::SetBlockValue((int)(&message));
+    ::SetBlockValue(&message);
     (*reinterpret_cast<::ShutdownHandle * *>(&::IoTaskGlobals::DAT_011f6bf8))->Wait();
     reinterpret_cast<::FUN_00aa64f0_t *>(((*reinterpret_cast<::ShutdownWorker * *>(&::IoTaskGlobals::DAT_011f6bf0))))->StopAndCloseHandle();
     delete (*reinterpret_cast<::ShutdownWorker * *>(&::IoTaskGlobals::DAT_011f6bf0));
@@ -4602,7 +4606,7 @@ void* S00aa8950_Obj::FUN_00aa8950(unsigned int flags)
         S00aa8950_ReleaseGuard guard;
         ClearList();
     }
-    ((int*)this)[0] = (int)&DAT_010a2980;
+    ((const void**)this)[0] = &DAT_010a2980;
     if (flags & 1)
     {
         reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<S_00aa8950_MM*>(&::g_memoryManager)))->FUN_00aa4060(this);
@@ -8373,8 +8377,8 @@ struct ReaderChars
 };
 struct FUN_00ac5490 : FUN_00aaaa80
 {
-    int m40;
-    int m44;
+    ReaderStream* m40;
+    ReaderReference* m44;
     FUN_00ac5490(std::Str s) : FUN_00aaaa80(s), m40(0), m44(0)
     {}
     virtual ~FUN_00ac5490()
@@ -8386,12 +8390,12 @@ struct FUN_00ac5490 : FUN_00aaaa80
         if (m44)
         {
             m40 = 0;
-            ((ReaderReference*)m44)->Release();
+            m44->Release();
             m44 = 0;
         }
         else
         {
-            delete (ReaderStream*)m40;
+            delete m40;
             m40 = 0;
         }
     }
@@ -8401,13 +8405,13 @@ struct FUN_00ac5490 : FUN_00aaaa80
         ReaderRef reference(readerDirectory ? readerDirectory->Find(s._Myptr()) : 0);
         if (reference.p)
         {
-            m44 = (int)reference.p;
+            m44 = reference.p;
             reference.p->AddRef();
             reference.p->used = true;
-            m40 = (int)reference.p->stream;
+            m40 = reference.p->stream;
         }
         else
-            m40 = (int)OpenReaderStream(s._Myptr(), 0, 0x2800, mode);
+            m40 = OpenReaderStream(s._Myptr(), 0, 0x2800, mode);
         if (!m40)
         {
             ReportReaderError(4, s);
@@ -10815,7 +10819,7 @@ inline void ReservePad()
 }
 
 // @fnv 0x00ab5e20
-bool FUN_00ab5e20(int arg)
+bool FUN_00ab5e20(const void* arg)
 {
 
     ReservePad();
@@ -19859,7 +19863,7 @@ __forceinline S_0065eb90* BackwardLoop(S_0065eb90* _First, S_0065eb90* _Last, S_
     {
         --_Last;
         --_Dest;
-        reinterpret_cast<::FUN_0065eb90 *>((_Dest))->operator=((*(const ::FUN_0065eb90 *)((int)_Last)));
+        reinterpret_cast<::FUN_0065eb90 *>((_Dest))->operator=((*(const ::FUN_0065eb90 *)(_Last)));
     }
     return _Dest;
 }
@@ -22215,7 +22219,7 @@ struct EntryVector
     {
         uncheckedFill(p, n, v, allocator_ygxh);
     }
-    void FUN_00aae3a0(int owner_ai, Entry* where_tmoy, unsigned int count_mi, const Entry& value_bayk);
+    void FUN_00aae3a0(void* owner_ai, Entry* where_tmoy, unsigned int count_mi, const Entry& value_bayk);
 };
 
 // @fnv 0x00aadf50
@@ -22223,7 +22227,7 @@ void VecQ_aadf50::FUN_00aadf50(unsigned int _Newsize, FUN_006593e0 _Val)
 {
     int _Unused;
     if (size() < _Newsize)
-        reinterpret_cast<::EntryVector *>(this)->FUN_00aae3a0((*(int *)&(const ::CItQ_aadf50_aadf50 &)(end())), (::Entry *)(_Newsize - size()), (unsigned int)&(_Val), *(const ::Entry *)nullptr);
+        reinterpret_cast<::EntryVector *>(this)->FUN_00aae3a0(end()._Myaux, (::Entry *)(end()._Myptr), _Newsize - size(), *(const ::Entry *)&(_Val));
     else if (_Newsize < size())
     {
         reinterpret_cast<::VecQ *>(this)->FUN_00aae200((*(::CItQ *)&(const ::CItQ_aadf50_aadf50 &)(begin() + _Newsize)), (*(::CItQ *)&(const ::CItQ_aadf50_aadf50 &)(end())));
@@ -22232,7 +22236,7 @@ void VecQ_aadf50::FUN_00aadf50(unsigned int _Newsize, FUN_006593e0 _Val)
 }
 
 // @fnv 0x00aae3a0
-void EntryVector::FUN_00aae3a0(int owner_ai, Entry* where_tmoy, unsigned int count_mi, const Entry& value_bayk)
+void EntryVector::FUN_00aae3a0(void* owner_ai, Entry* where_tmoy, unsigned int count_mi, const Entry& value_bayk)
 {
     unsigned int capacityValue_ea = capacity();
     if (count_mi == 0)

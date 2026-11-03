@@ -823,16 +823,15 @@ int FUN_00d61640_cls::FindLastCharInRange(char c, int startIndex, int endIndex)
 
 struct FUN_00d61680_Obj
 {
-    int unk00;
-    void FUN_00d61680(unsigned int param);
+    const char* unk00;
+    int FUN_00d61680(const char* pcValue);
+    int FUN_00d616e0(const char* pcValue);
 };
 
-int __cdecl FUN_00cb0fa0(int, int);
-
 // @fnv 0x00d61680
-void FUN_00d61680_Obj::FUN_00d61680(unsigned int uiValue)
+int FUN_00d61680_Obj::FUN_00d61680(const char* pcValue)
 {
-    FUN_00cb0fa0(unk00, uiValue);
+    return ::fnv_00cb0fa0::FUN_00cb0fa0(unk00, pcValue);
 }
 
 void __cdecl CompareStringsCaseInsensitive(void* pvOwner, int iValue);
@@ -850,12 +849,10 @@ void FUN_00d616a0_cls::FUN_00d616a0(int iValue)
     CompareStringsCaseInsensitive(m_pOwnerObject, iValue);
 }
 
-int FUN_00d61680(unsigned int value);
-
 // @fnv 0x00d616e0
-int FUN_00d616e0(unsigned int value)
+int FUN_00d61680_Obj::FUN_00d616e0(const char* pcValue)
 {
-    return FUN_00d61680(value) == 0;
+    return FUN_00d61680(pcValue) == 0;
 }
 
 struct FUN_00d61700_cls
@@ -5251,7 +5248,6 @@ void FUN_00d60900(char* p);
 
 
 
-int FUN_00d616e0(unsigned int value);
 
 
 

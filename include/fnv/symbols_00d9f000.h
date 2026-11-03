@@ -14,9 +14,9 @@ extern "C" void FUN_00d9f250(const ::Point &, float, ::Params &, ::Motion *, ::M
 // 0x00d9f6b0
 void FUN_00d9f6b0(::FnvCpu_FUN_00d9f6b0_CpuInterface *);
 // 0x00d9f6d0
-void FUN_00d9f6d0(int *);
+void FUN_00d9f6d0(void **);
 // 0x00d9f6e0
-unsigned int FUN_00d9f6e0();
+void *FUN_00d9f6e0();
 // 0x00d9f6f0
 int FUN_00d9f6f0(void *, const ::Header *, const ::State *, int, float *);
 // 0x00d9fb40

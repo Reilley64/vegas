@@ -1191,7 +1191,7 @@ void S00d08740_cls::Collect(void* kFrom, void* kTo, void* pkRoot, void* pkFilter
         kCollector.m_04 = (int)&DAT_010ccfe0;
         kCollector.m_24 = 0;
         kCollector.m_80 = ::DAT_0104da4c;
-        reinterpret_cast<::linear_cast_d9a2a0::PathBuilder *>(&(kCollector))->FUN_00d9a2a0((int)(m_0c), (::linear_cast_d9a2a0::Param2 *)(kFrom), (::linear_cast_d9a2a0::Param3 *)(kTo), (int)(pkRoot), (::linear_cast_d9a2a0::Embedded5 *)(pkFilter), (int)(pkShapeFilter), (int)(pkOutput), (volatile int)(pkCollector));
+        reinterpret_cast<::linear_cast_d9a2a0::PathBuilder *>(&(kCollector))->FUN_00d9a2a0((intptr_t)(m_0c), (::linear_cast_d9a2a0::Param2 *)(kFrom), (::linear_cast_d9a2a0::Param3 *)(kTo), (intptr_t)(pkRoot), (::linear_cast_d9a2a0::Embedded5 *)(pkFilter), (intptr_t)(pkShapeFilter), (intptr_t)(pkOutput), (volatile intptr_t)(pkCollector));
     }
 }
 

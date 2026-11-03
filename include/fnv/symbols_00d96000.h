@@ -4,6 +4,7 @@ namespace fnv_00d969e0 { struct A0Cls; }
 namespace fnv_00d969e0 { struct Ev; }
 namespace fnv_00d969e0 { struct Out; }
 struct D96600Blob;
+struct PoolSet;
 struct DynamicsJob;
 struct JobRecord;
 struct S00d967a0_Rec;
@@ -18,4 +19,4 @@ int SplitRecord(int, int, ::S00d967a0_Rec *, ::S00d967a0_Rec *);
 // 0x00d968e0
 int TryCreateSubtype14Job(void *, void *, const ::DynamicsJob &, ::JobRecord &);
 // 0x00d969e0
-namespace fnv_00d969e0 { int FUN_00d969e0(::fnv_00d969e0::A0Cls *, int, ::fnv_00d969e0::Ev *, ::fnv_00d969e0::Out *); }
+namespace fnv_00d969e0 { int FUN_00d969e0(::fnv_00d969e0::A0Cls *, ::PoolSet *, ::fnv_00d969e0::Ev *, ::fnv_00d969e0::Out *); }

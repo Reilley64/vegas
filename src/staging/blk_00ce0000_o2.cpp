@@ -113,13 +113,17 @@ void __cdecl FUN_00cf6950(intptr_t a, intptr_t apObject)
 
 struct FUN_00cf86f0_class
 {
+    char pad00[0x14];
+    float m_fBase;
+    char pad18[0x8];
+    float m_fValue;
     int IsFieldEqual();
 };
 
 // @fnv 0x00cf86f0
 int FUN_00cf86f0_class::IsFieldEqual()
 {
-    if (*(float*)((char*)this + 0x14) == *(float*)((char*)this + 0x20))
+    if (m_fBase == m_fValue)
         return 1;
     return 0;
 }
@@ -145,6 +149,8 @@ struct FUN_00ce4a20_cls
     short m_kPointB;
     short m_iThirdValue;
     int m_iFourthElementInteger;
+    char pad0c[0x4];
+    FUN_00ce4ae0_cls m_kShape;
     intptr_t FUN_00ce4a20(intptr_t a);
 };
 extern int DAT_0102e378;
@@ -180,12 +186,16 @@ intptr_t FUN_00cf69c0_class::FUN_00cf69c0(intptr_t a)
 
 struct FUN_00cf86e0_class
 {
+    char pad00[0x14];
+    float m_fBase;
+    char pad18[0x8];
+    float m_fValue;
     void FUN_00cf86e0(float f);
 };
 // @fnv 0x00cf86e0
 void FUN_00cf86e0_class::FUN_00cf86e0(float f)
 {
-    *(float*)((char*)this + 0x20) = *(float*)((char*)this + 0x14) + f;
+    m_fValue = m_fBase + f;
 }
 
 extern int DAT_010cc2e0;
@@ -291,11 +301,19 @@ bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
 }
 
 
+struct CE2CF0Object
+{
+    char pad00[0x40];
+    __m128 m_offset;
+    char pad50[0x24];
+    void* m_property;
+};
+
 // @fnv 0x00ce2cf0
 void __cdecl FUN_00ce2cf0(intptr_t pObject, intptr_t param_2, intptr_t param_3)
 {
-    ::FUN_00ce2ca0((void *)(*reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(pObject) + 0x74)), (__m128 *)(param_3),
-                 (const __m128 *)(int *)(reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40)), (const __m128 *)(param_2));
+    CE2CF0Object* object = reinterpret_cast<CE2CF0Object*>(pObject);
+    ::FUN_00ce2ca0(object->m_property, (__m128 *)(param_3), &object->m_offset, (const __m128 *)(param_2));
 }
 
 
@@ -1588,9 +1606,11 @@ struct BinaryStream
 };
 struct StreamView
 {
+    char pad000[0x24c];
+    BinaryStream* m_pIstr;
     BinaryStream* stream()
     {
-        return *reinterpret_cast<BinaryStream**>(reinterpret_cast<char*>(this) + 0x24c);
+        return m_pIstr;
     }
 };
 struct SerializedRecord
@@ -2891,9 +2911,11 @@ struct BinaryStreamCF0
 
 struct StreamViewCF0
 {
+    char pad000[0x24c];
+    BinaryStreamCF0* m_pIstr;
     BinaryStreamCF0* stream()
     {
-        return *reinterpret_cast<BinaryStreamCF0**>(reinterpret_cast<char*>(this) + 0x24c);
+        return m_pIstr;
     }
 };
 
@@ -4192,8 +4214,8 @@ intptr_t FUN_00ce4a20_cls::FUN_00ce4a20(intptr_t a)
 {
     m_iThirdValue = 1;
     m_kPointA = (intptr_t)&DAT_010cb864;
-    reinterpret_cast<::MapperInitialization *>((((FUN_00ce4ae0_cls*)((char*)this + 0x10))))->FUN_00ce5310();
-    reinterpret_cast<::ShapeData *>((((FUN_00ce4ae0_cls*)((char*)this + 0x10))))->FUN_00ce4ae0((*(const ::ShapeData *)(a)));
+    reinterpret_cast<::MapperInitialization *>(&m_kShape)->FUN_00ce5310();
+    reinterpret_cast<::ShapeData *>(&m_kShape)->FUN_00ce4ae0((*(const ::ShapeData *)(a)));
     return (intptr_t)this;
 }
 

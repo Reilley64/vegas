@@ -2444,13 +2444,6 @@ void* WorldWatchDogHolder::FUN_00c93570() {
 
 struct hkpPhantom;
 
-struct ThreadMemHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_alloc;
-};
 
 
 void ResizeAudioStream(void* alloc, void* array, int elemSize);
@@ -2504,9 +2497,9 @@ hkpPhantom* FUN_00c936a0_World::FUN_00c936a0(hkpPhantom* phantom)
     reinterpret_cast<::FUN_00c90510_class *>((((RefObj*)phantom)))->FUN_00c90510();
 
     hkArray<hkpPhantom*>& phantoms = m_kPhantoms;
-    ThreadMemHolder* mem = (ThreadMemHolder*)::FUN_00c85750();
+    hkMemoryRouter* mem = &hkMemoryRouter::getInstance();
     if (phantoms.m_iElementCount == (phantoms.m_iCapacityState & 0x3FFFFFFF)) {
-        ResizeAudioStream(mem->m_alloc, &phantoms, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(mem->m_heap), (::AudioStream *)(void *)(&phantoms), 4);
     }
 
     void* p = phantoms.m_data + phantoms.m_iElementCount;
@@ -6654,31 +6647,14 @@ void hkOwnerXc937a0::FUN_00c937a0(void* item)
     m_kNode.AddBack(item);
 }
 
-class hkMemoryAllocatorC93 {
-public:
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-struct hkMemoryRouterC93 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocatorC93* m_pStreamAllocator;
-    hkMemoryAllocatorC93& heap() { return *m_pStreamAllocator; }
-};
-hkMemoryRouterC93& __cdecl GetMemoryRouterC93() throw();
 
 template <typename T> struct hkArrayC93 {
     __forceinline ~hkArrayC93() throw()
     {
-        hkMemoryAllocatorC93& kAlloc = GetMemoryRouterC93().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -6722,13 +6698,13 @@ public:
 struct ChunkBufferC93 {
     __forceinline ~ChunkBufferC93() throw()
     {
-        if (m_pBuffer) GetMemoryRouterC93().heap().ReleaseBlock(m_pBuffer, 0x200);
+        if (m_pBuffer) hkMemoryRouter::getInstance().heap().blockFree(m_pBuffer, 0x200);
     }
     void* m_pBuffer;
 };
 
 struct MtSimulationJobDataC93 {
-    __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(MtSimulationJobDataC93)); }
+    __forceinline void operator delete(void* p) throw() { if (p) hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(MtSimulationJobDataC93)); }
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -6804,7 +6780,7 @@ struct MtSimulationJobDataC93 {
 };
 
 struct CollisionAgentConfigC93 {
-    __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(CollisionAgentConfigC93)); }
+    __forceinline void operator delete(void* p) throw() { if (p) hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(CollisionAgentConfigC93)); }
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -6812,7 +6788,7 @@ struct CollisionAgentConfigC93 {
 };
 
 struct ProcessCollisionInputC93 {
-    __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(ProcessCollisionInputC93)); }
+    __forceinline void operator delete(void* p) throw() { if (p) hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(ProcessCollisionInputC93)); }
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -6849,13 +6825,13 @@ struct ProcessCollisionInputC93 {
 
 
 struct CriticalSectionC93 {
-    __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(CriticalSectionC93)); }
+    __forceinline void operator delete(void* p) throw() { if (p) hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(CriticalSectionC93)); }
     __forceinline ~CriticalSectionC93() throw() { DeleteCriticalSection(&m_kCriticalSection); }
     CRITICAL_SECTION m_kCriticalSection;
 };
 
 struct BroadPhaseDispatcherC93 {
-    __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(BroadPhaseDispatcherC93)); }
+    __forceinline void operator delete(void* p) throw() { if (p) hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(BroadPhaseDispatcherC93)); }
     ~BroadPhaseDispatcherC93() throw();
     unsigned int unk00;
     unsigned int unk04;
@@ -6927,7 +6903,7 @@ struct BroadPhaseDispatcherC93 {
 };
 
 struct WorldOperationQueueC93 {
-    __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(WorldOperationQueueC93)); }
+    __forceinline void operator delete(void* p) throw() { if (p) hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(WorldOperationQueueC93)); }
     ~WorldOperationQueueC93() throw();
     unsigned int unk00;
     unsigned int unk04;
@@ -6942,7 +6918,7 @@ struct WorldOperationQueueC93 {
 };
 
 struct ViolatedConstraintArrayC93 {
-    __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(ViolatedConstraintArrayC93)); }
+    __forceinline void operator delete(void* p) throw() { if (p) hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(ViolatedConstraintArrayC93)); }
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -7230,23 +7206,6 @@ FUN_00c93e50::~FUN_00c93e50() throw()
     delete m_pViolatedConstraintArray;
 }
 
-class hkMemoryAllocatorC97 {
-public:
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-struct hkMemoryRouterC97 {
-    void* m_aiEntries;
-    void* m_stackStart;
-    void* m_stackEnd;
-    hkMemoryAllocatorC97* m_pTemp;
-    hkMemoryAllocatorC97* m_pStreamAllocator;
-    hkMemoryAllocatorC97& heap() { return *m_pStreamAllocator; }
-};
-hkMemoryRouterC97& __cdecl GetMemoryRouterC97() throw();
 
 template <typename T> struct hkArrayC97 {
     int GetLogicalSize() const { return m_iElementCount; }
@@ -7265,10 +7224,10 @@ template <typename T, int N> struct hkInplaceArrayC97 : public hkArrayC97<T> {
     }
     __forceinline ~hkInplaceArrayC97() throw()
     {
-        hkMemoryAllocatorC97& kAlloc = GetMemoryRouterC97().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         this->m_iElementCount = 0;
         if ((this->m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(T));
     }
     T m_kStorage[N];
 };
@@ -13300,9 +13259,9 @@ bhkRefObject* caa4a0_Target::FUN_00caa4a0(void* param) {
 }
 
 static inline void** AddBack(hkArray<void*>* arr, void* listener) {
-    ThreadMemHolder* mem = (ThreadMemHolder*)::FUN_00c85750();
+    hkMemoryRouter* mem = &hkMemoryRouter::getInstance();
     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff)) {
-        ResizeAudioStream(mem->m_alloc, arr, 4);
+        ::ResizeAudioStream((::AudioAllocator *)(mem->m_heap), (::AudioStream *)(void *)(arr), 4);
     }
     void** p = &arr->m_data[arr->m_iElementCount];
     *p = listener;

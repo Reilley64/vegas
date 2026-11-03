@@ -13,8 +13,29 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c8000.h"
 #include "havok/hkpLimitedHingeConstraintData.h"
+#include "havok/hkpConstraintInstance.h"
 
-struct FUN_00cb8a90_class
+// hkpLimitedHingeConstraintData atom members (Havok 7.1 x86 layout; the generated atoms header is padding only).
+struct LimitedHingeFields
+{
+    char pad00[0xa2];
+    unsigned char m_angMotorIsEnabled;      // +0xa2, m_atoms.m_angMotor (+0xa0)
+    char padA3[0xd];
+    void* m_angMotorMotor;                  // +0xb0
+    char padB4[0x2];
+    unsigned char m_angFrictionIsEnabled;   // +0xb6, m_atoms.m_angFriction (+0xb4)
+    char padB7[0x1f];
+    unsigned char m_ballSocketBodiesToNotify;  // +0xd6, m_atoms.m_ballSocket (+0xd4)
+    char padD7[0x1];
+    float m_ballSocketBreachImpulse;        // +0xd8
+};
+// hkConstraintInternal::m_runtime.
+struct LimitedHingeInternalFields
+{
+    char pad00[0x1c];
+    float* m_runtime;  // +0x1c
+};
+struct FUN_00cb8a90_class : LimitedHingeFields
 {
     void SetConstraintFlag(int cl);
 };
@@ -22,7 +43,7 @@ struct FUN_00cb8a90_class
 // @fnv 0x00cb8a90
 void FUN_00cb8a90_class::SetConstraintFlag(int aiBitIndex)
 {
-    ((char*)this)[0xd6] = (char)(1 << aiBitIndex);
+    m_ballSocketBodiesToNotify = (unsigned char)(1 << aiBitIndex);
 }
 
 
@@ -49,20 +70,20 @@ void FUN_00cb8b10Class::FUN_00cb8b10(int* apUnused, int* a2)
     a2[0] = 80;
 }
 
-struct FUN_00cb8a70_class
+struct FUN_00cb8a70_class : LimitedHingeFields
 {
     void FUN_00cb8a70(float v);
 };
 // @fnv 0x00cb8a70
 void FUN_00cb8a70_class::FUN_00cb8a70(float v)
 {
-    *(float*)((char*)this + 0xd8) = v;
+    m_ballSocketBreachImpulse = v;
 }
 
 struct RefObj
 {
 };
-struct FUN_00cb8ac0_class
+struct FUN_00cb8ac0_class : LimitedHingeFields
 {
     void SetReferencedObject(RefObj* obj);
 };
@@ -71,10 +92,10 @@ void FUN_00cb8ac0_class::SetReferencedObject(RefObj* pObject)
 {
     if (pObject)
         reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
-    RefObj* pOldObject = *(RefObj**)((char*)this + 0xb0);
+    RefObj* pOldObject = static_cast<RefObj*>(m_angMotorMotor);
     if (pOldObject)
         reinterpret_cast<::hkReferencedObjectC905 *>((pOldObject))->FUN_00c905b0();
-    *(RefObj**)((char*)this + 0xb0) = pObject;
+    m_angMotorMotor = pObject;
 }
 
 struct DDCC60World
@@ -142,18 +163,19 @@ void FUN_00cb8b40_class::DestroyWorldReference()
     m_000 = &::DAT_0102e388;
 }
 
-// Stores b at self+0xa2 and its negation at self+0xb6; if a is non-null, zeroes four floats at a->0x30->0x1c.
+// Enables the angular motor and disables the angular friction (or the reverse) and, if the constraint instance a has a runtime, zeroes its first four floats.
 // @fnv 0x00cb8fe0
 void FUN_00cb8fe0(char* self, void* a, bool b)
 {
-    self[0xa2] = b;
-    self[0xb6] = !b;
+    LimitedHingeFields* data = reinterpret_cast<LimitedHingeFields*>(self);
+    data->m_angMotorIsEnabled = b;
+    data->m_angFrictionIsEnabled = !b;
     if (a)
     {
-        int* p = *(int**)((char*)a + 0x30);
+        LimitedHingeInternalFields* p = static_cast<LimitedHingeInternalFields*>(static_cast<hkpConstraintInstance*>(a)->m_pConstraintInternal);
         if (p)
         {
-            float* f = *(float**)((char*)p + 0x1c);
+            float* f = p->m_runtime;
             if (f)
             {
                 f[0] = 0.0f;

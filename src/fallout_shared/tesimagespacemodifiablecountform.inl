@@ -9,7 +9,7 @@ void TESImageSpaceModifiableCountForm_6_::InitItem(TESForm* owner)
 {
     for (unsigned int i = 0; i < 6; ++i) {
         if (m_pImageSpaceModifier[i]) {
-            unsigned int formID = (unsigned int)m_pImageSpaceModifier[i];
+            unsigned int formID = (unsigned int)(std::uintptr_t)m_pImageSpaceModifier[i];
             if (owner)
                 ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
             m_pImageSpaceModifier[i] = dynamic_cast<TESImageSpaceModifier*>(::FUN_004839c0(formID));

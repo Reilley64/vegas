@@ -264,7 +264,7 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
         {
             if (data->stages[i]->explosion)
             {
-                unsigned int explosionID = (unsigned int)data->stages[i]->explosion;
+                unsigned int explosionID = (unsigned int)(std::uintptr_t)data->stages[i]->explosion;
                 ::ResolveFormID((unsigned int *)&(explosionID), owner->GetFile(-1));
                 data->stages[i]->explosion = dynamic_cast<BGSExplosion*>(::FUN_004839c0(explosionID));
                 if (!data->stages[i]->explosion)
@@ -282,7 +282,7 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
             }
             if (data->stages[i]->debris)
             {
-                unsigned int debrisID = (unsigned int)data->stages[i]->debris;
+                unsigned int debrisID = (unsigned int)(std::uintptr_t)data->stages[i]->debris;
                 ::ResolveFormID((unsigned int *)&(debrisID), owner->GetFile(-1));
                 data->stages[i]->debris = dynamic_cast<BGSDebris*>(::FUN_004839c0(debrisID));
                 if (!data->stages[i]->debris)

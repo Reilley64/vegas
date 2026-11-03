@@ -35,7 +35,7 @@ void BGSTouchSpellForm::InitItem(TESForm* owner)
     if (m_pMagicItem)
     {
 
-        unsigned int checkedForm = (unsigned int)m_pMagicItem;
+        std::uintptr_t checkedForm = (std::uintptr_t)m_pMagicItem;
         if (owner)
             ::ResolveFormID((unsigned int *)&(checkedForm), owner->GetFile(-1));
 

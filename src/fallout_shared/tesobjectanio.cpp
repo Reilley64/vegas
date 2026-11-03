@@ -28,7 +28,7 @@ void TESObjectANIO::InitItem()
     static_cast<TESModelTextureSwap *>(this)->InitItem(this);
     if (pObject)
     {
-        unsigned int formID = (unsigned int)pObject;
+        unsigned int formID = (unsigned int)(std::uintptr_t)pObject;
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         pObject = dynamic_cast<TESObjectANIO*>(::FUN_004839c0(formID));
     }

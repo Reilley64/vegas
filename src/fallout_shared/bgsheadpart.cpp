@@ -952,7 +952,7 @@ void HeadPartInit::FUN_005e77b0()
     HeadPartList* pPrev = 0;
     while (pIter && !pIter->IsEmpty())
     {
-        unsigned int auiFormId = (unsigned int)((::BGSHeadPart *)((void *)(pIter)));
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)((::BGSHeadPart *)((void *)(pIter)));
         ::ResolveFormID(&auiFormId, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
         BGSHeadPart* m_pModel = dynamic_cast<BGSHeadPart*>(::FUN_004839c0(auiFormId));
         if (!m_pModel)

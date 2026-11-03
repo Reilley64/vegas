@@ -115,7 +115,7 @@ void BGSListForm::InitItem()
     TESForm* form;
     while (current != 0 && !current->IsEmpty())
     {
-        unsigned int formID = (unsigned int)((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current))->m_item);
+        unsigned int formID = (unsigned int)(std::uintptr_t)((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current))->m_item);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         form = ::FUN_004839c0(formID);
         if (form != 0)

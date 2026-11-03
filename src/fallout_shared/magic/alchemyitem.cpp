@@ -54,7 +54,7 @@ void AlchemyItem::InitItem()
     ((MagicItemObject*)this)->MagicItemObject::InitItem();
     ((BGSPickupPutdownSounds*)((char*)this + 0xAC))->InitItem((TESForm*)this);
 
-    unsigned int formID = (unsigned int)FUN_004030b0();
+    unsigned int formID = (unsigned int)(std::uintptr_t)FUN_004030b0();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), ((TESForm*)this)->GetFile(-1));

@@ -14,7 +14,7 @@
 // @fnv 0x0047b8e0
 void BGSRepairItemList::InitItem(TESForm* owner)
 {
-    unsigned int formID = (unsigned int)pRepairItemList;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pRepairItemList;
     if (formID)
     {
         TESFile* file = owner ? owner->GetFile(-1) : 0;

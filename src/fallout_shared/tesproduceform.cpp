@@ -221,7 +221,7 @@ void FUN_0048b720_Cls::ResolveIngredient(FUN_00485b60_Cls* apArg)
 {
     if (pIngredient != 0)
     {
-        unsigned int formID = (unsigned int)pIngredient;
+        unsigned int formID = (unsigned int)(std::uintptr_t)pIngredient;
         ::ResolveFormID(&formID, reinterpret_cast<::TESForm *>((apArg))->GetFile(-1));
         pIngredient = dynamic_cast<IngredientItem*>(::FUN_004839c0(formID));
         if (pIngredient == 0)

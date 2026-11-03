@@ -80,7 +80,7 @@ void BGSBodyPart::InitItem(TESForm* form)
 {
     if (!form || form->GetInitialized())
         return;
-    unsigned int formID = (unsigned int)((DialogueItem*)this)->SelectDefaultResponseList();
+    unsigned int formID = (unsigned int)(std::uintptr_t)((DialogueItem*)this)->SelectDefaultResponseList();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));

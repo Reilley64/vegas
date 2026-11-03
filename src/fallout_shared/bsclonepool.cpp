@@ -77,7 +77,7 @@ unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(unsigned int arg)
 {
     unsigned int result2;
     unsigned int found8 = 0;
-    unsigned int cur = (unsigned int)this;
+    std::uintptr_t cur = (std::uintptr_t)this;
     while (cur != 0 && found8 == 0 && !((SpawnedObject*)cur)->FUN_008256d0())
     {
         unsigned int tmp = *((unsigned int *)((void *)(((SpawnedObject*)cur))));

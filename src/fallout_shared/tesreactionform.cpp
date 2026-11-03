@@ -814,7 +814,7 @@ void FUN_0048c930_shell::ResolveGroupReactionForms(unsigned int flags, unsigned 
             GROUP_REACTION_dummy* entry = *((::GROUP_REACTION_dummy **)((void *)(iter)));
             if (entry != 0)
             {
-                unsigned int formID = (unsigned int)entry->pForm;
+                unsigned int formID = (unsigned int)(std::uintptr_t)entry->pForm;
                 entry->pForm = (TESForm*)((unsigned int)(::FUN_004839c0(formID)));
                 if (entry->pForm == 0)
                 {

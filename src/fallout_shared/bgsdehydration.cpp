@@ -3356,7 +3356,7 @@ void FUN_009f2220_obj::ResolveReferences()
     while (iter5 && !iter5->IsEmpty())
     {
         TESObjectREFR* ref = (iter5->m_item);
-        unsigned int formID3 = (unsigned int)ref;
+        unsigned int formID3 = (unsigned int)(std::uintptr_t)ref;
         if (formID3)
             ref = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID3));
         if (!ref)
@@ -3379,10 +3379,10 @@ void FUN_009f2220_obj::ResolveReferences()
             iter5 = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((iter5))->FUN_00726070()));
         }
     }
-    unsigned int actorID2 = (unsigned int)actorA4;
+    unsigned int actorID2 = (unsigned int)(std::uintptr_t)actorA4;
     if (actorID2)
         actorA4 = dynamic_cast<Actor*>(FUN_004839c0(actorID2));
-    unsigned int refID9 = (unsigned int)refA0;
+    unsigned int refID9 = (unsigned int)(std::uintptr_t)refA0;
     if (refID9)
         refA0 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(refID9));
 }

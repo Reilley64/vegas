@@ -1152,7 +1152,7 @@ void LevListData::FUN_005e6b70(TESForm* apOwner)
 {
     if (pLevItem)
     {
-        unsigned int itempint = (unsigned int)pLevItem;
+        std::uintptr_t itempint = (std::uintptr_t)pLevItem;
         ::ResolveFormID((unsigned int *)&(itempint), apOwner->GetFile(-1));
         pLevItem = dynamic_cast<TESLevItem*>(FUN_004839c0(itempint));
         if (!pLevItem)

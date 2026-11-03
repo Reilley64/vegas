@@ -998,7 +998,7 @@ void IdleInit::InitLoad()
             break;
         }
     }
-    unsigned int uiFormId = (unsigned int)m_pParentIdleForm;
+    unsigned int uiFormId = (unsigned int)(std::uintptr_t)m_pParentIdleForm;
     if (uiFormId)
     {
         ResolveFormID(&uiFormId, GetFile(-1));

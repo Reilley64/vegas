@@ -3601,7 +3601,7 @@ struct Slot4
 void __cdecl FUN_00485750(void* apDestination, void* apSource, void* aiCount)
 {
     Slot4* p4;
-    unsigned int bytes7 = (unsigned int)aiCount * 4;
+    std::uintptr_t bytes7 = (std::uintptr_t)aiCount * 4;
 
     if (((bool)(::FUN_00401500())))
     {

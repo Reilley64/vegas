@@ -377,7 +377,7 @@ __declspec(thread) unsigned char g_bConsoleOutput[0x269];
 // @fnv 0x0059c0c0
 bool __cdecl GetPositionComponent(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int iAxis = (int)apParam1;
+    std::intptr_t iAxis = (std::intptr_t)apParam1;
     if (apRefObject)
     {
         Pos3 pos = *((ObjRef*)apRefObject)->vtbl->GetPos(apRefObject);
@@ -422,7 +422,7 @@ __declspec(thread) extern unsigned char tls_pad_0059c170[0x268];
 // @fnv 0x0059c170
 bool __cdecl FUN_0059c170(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int iAxis = (int)apParam1;
+    std::intptr_t iAxis = (std::intptr_t)apParam1;
     if (apRefObject)
     {
         AngleVec3 pos = *(AngleVec3*)((TESRecipe*)apRefObject)->GetData();
@@ -498,7 +498,7 @@ __declspec(thread) extern unsigned char tls_pad[0x269];
 // @fnv 0x0059c4f0
 bool __cdecl FUN_0059c4f0(TESObjectREFR* reference, void* uiAvCode, void* pUnused, double& result)
 {
-    unsigned int avCode = (unsigned int)uiAvCode;
+    std::uintptr_t avCode = (std::uintptr_t)uiAvCode;
     ActorView* actor = 0;
     if (reference && reference->IsActor())
     {
@@ -2269,7 +2269,7 @@ struct ConsoleEchoTLS
 bool __cdecl FUN_0059fa90(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    int formtype = (int)apParam1;
+    std::intptr_t formtype = (std::intptr_t)apParam1;
     if (formtype && IdleAnimationManager::GetCurrentUsedItem() &&
         _FNV_GetFormType(IdleAnimationManager::GetCurrentUsedItem()) == formtype)
     {
@@ -3455,7 +3455,7 @@ void __cdecl DebugLog(const char*, ...);
 // @fnv 0x005a3310
 bool __cdecl GetPlayerMiscStatValue(TESObjectREFR* reference, void* aiStat, void* apUnused, double& result)
 {
-    int stat = (int)aiStat;
+    std::intptr_t stat = (std::intptr_t)aiStat;
     result = ::FUN_005a3370(stat);
     if ((*reinterpret_cast<::fnv_005a3310::TLSData *>(&::g_tlsBlock)).consoleOutput)
     {
@@ -4633,7 +4633,7 @@ struct TESQuest_GetObjective_View : public TESQuest
 bool __cdecl FUN_005a5d30(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     TESQuest_GetObjective_View* pquest = (TESQuest_GetObjective_View*)apParam1;
-    int iElementIndex = (int)apParam2;
+    std::intptr_t iElementIndex = (std::intptr_t)apParam2;
 
     if (pquest)
     {
@@ -4663,7 +4663,7 @@ bool __cdecl GetQuestObjectiveDisplayed(TESObjectREFR* apRefObject, void* apPara
                                         double& afReturnValue)
 {
     TESQuest* pquest = (TESQuest*)apParam1;
-    int iElementIndex = (int)apParam2;
+    std::intptr_t iElementIndex = (std::intptr_t)apParam2;
     if (pquest)
     {
         BGSQuestObjective* pobjective = reinterpret_cast<::TESQuest *>((((TESQuest_GetObjective*)pquest)))->GetObjective(iElementIndex);
@@ -5172,7 +5172,7 @@ void __cdecl DebugLog(const char*, ...);
 bool __cdecl FUN_005a5cb0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     ReputationStub* pRep = (ReputationStub*)arg1;
-    unsigned int bHigh = (unsigned int)arg2;
+    std::uintptr_t bHigh = (std::uintptr_t)arg2;
     if (pRep)
     {
         result = reinterpret_cast<::Comparison *>((pRep))->FUN_00616a90(bHigh);
@@ -7501,7 +7501,7 @@ __declspec(thread) unsigned char pDebugLog;
 bool __cdecl FUN_005a02f0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
-    unsigned int ibit = (unsigned int)apParam1;
+    std::uintptr_t ibit = (std::uintptr_t)apParam1;
     if (reinterpret_cast<::FUN_005a03f0_obj *>((((FUN_005a03f0_obj*)::_g_thePlayer)))->FUN_005a03f0(ibit))
         afReturnValue = 1.0;
     if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
@@ -7642,7 +7642,7 @@ bool __cdecl FUN_005a05e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             pweap = (TESObjectWEAP*)::DAT_011ca278;
         if (pweap)
         {
-            int key = (int)pweap;
+            std::intptr_t key = (std::intptr_t)pweap;
             if (reinterpret_cast<::RefList *>((((LH*)((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((((Script*)pformlist)))->GetConditions())))))->FUN_005f65d0((void **)&(key)))
                 afReturnValue = 1.0;
         }
@@ -17706,7 +17706,7 @@ class RefA
 // @fnv 0x0059c2d0
 bool FUN_0059c2d0(RefA* reference, void* acAxis, void* apUnused, double& afAngle)
 {
-    int iAxis = (int)acAxis;
+    std::intptr_t iAxis = (std::intptr_t)acAxis;
     if (reference)
     {
         Pt3 kAngle;
@@ -17935,7 +17935,7 @@ class ActorV
 // @fnv 0x0059c680
 bool FUN_0059c680(ActorV* apActor, void* aiActorValue, void* apUnused, double& afValue)
 {
-    int eAV = (int)aiActorValue;
+    std::intptr_t eAV = (std::intptr_t)aiActorValue;
     ActorV* pActor = 0;
     if (apActor && apActor->IsActor())
         pActor = apActor;
@@ -18599,7 +18599,7 @@ class CrimeC
 bool FUN_005a0f90(ActorC* apActor, FormC* apVictim, void* aiCrimeType, double& result)
 {
     result = 0;
-    int e = (int)aiCrimeType;
+    std::intptr_t e = (std::intptr_t)aiCrimeType;
     FormC* pVictim = 0;
     if (apVictim)
     {
@@ -19586,7 +19586,7 @@ class ActorS
 bool FUN_005a2910(ActorS* apActor, void* aiStage, void* apUnused, double& result)
 {
     result = 0;
-    int iStage = (int)aiStage;
+    std::intptr_t iStage = (std::intptr_t)aiStage;
     if (apActor->IsActor())
     {
         ActorS* pActor = apActor;
@@ -20573,7 +20573,7 @@ class RefT
 bool FUN_005a4410(RefT* reference, void* aiType, void* apUnused, double& result)
 {
     result = 0;
-    int iType = (int)aiType;
+    std::intptr_t iType = (std::intptr_t)aiType;
     if (((::fnv_005a4410::FormT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))->FUN_00401170() == iType)
         result = 1;
     if ((*reinterpret_cast<::fnv_005a4410::TlsData *>(&::g_tlsBlock)).bDebug)
@@ -21126,7 +21126,7 @@ class ActorV
 bool FUN_005a4dd0(ActorV* apActor, void* aiAlignment, void* apUnused, double& result)
 {
     result = 0;
-    int iAlignment = (int)aiAlignment;
+    std::intptr_t iAlignment = (std::intptr_t)aiAlignment;
     if (apActor && apActor->IsActor())
     {
         ActorV* pActor = apActor;
@@ -21156,7 +21156,7 @@ int FUN_00479430(void*);
 bool FUN_005a4ea0(void* reference, void* aiEquipType, void* apUnused, double& result)
 {
     result = 0;
-    int iType = (int)aiEquipType;
+    std::intptr_t iType = (std::intptr_t)aiEquipType;
     if (FUN_006008f0() && FUN_00479430(FUN_006008f0()) == iType)
         result = 1;
     if ((*reinterpret_cast<::fnv_005a4ea0::TlsData *>(&::g_tlsBlock)).bDebug)
@@ -21632,7 +21632,7 @@ void __cdecl DebugLog(const char* fmt, ...);
 bool __cdecl FUN_005a5580(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
-    unsigned int arg = (unsigned int)arg1;
+    std::uintptr_t arg = (std::uintptr_t)arg1;
     if (reference != 0)
     {
         if (((refv_a5580*)reference)->BackAreaFree())
@@ -21793,7 +21793,7 @@ class RepR
 bool FUN_005a5c40(void* reference, void* apRep, void* aiType, double& afReputation)
 {
     RepR* pRep = (RepR*)apRep;
-    int iType = (int)aiType;
+    std::intptr_t iType = (std::intptr_t)aiType;
     if (pRep)
     {
         afReputation = pRep->FUN_00616a60(iType);

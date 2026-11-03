@@ -89,7 +89,7 @@ void BGSDefaultObjectManager::InitItem()
         return;
     for (int i = 0; i < 34; ++i)
     {
-        unsigned int uiFormId = (unsigned int)m_apDefaultObjects[i];
+        unsigned int uiFormId = (unsigned int)(std::uintptr_t)m_apDefaultObjects[i];
         if (uiFormId)
         {
             ::ResolveFormID((unsigned int *)&(uiFormId), GetFile(-1));

@@ -59,7 +59,7 @@ void TESObjectMISC::InitItem()
     static_cast<TESModelTextureSwap *>(this)->InitItem(this);
     static_cast<BGSPickupPutdownSounds *>(this)->InitItem(this);
 
-    unsigned int formID = (unsigned int)pLoopingSound;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pLoopingSound;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

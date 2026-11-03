@@ -40,7 +40,7 @@ BGSBipedModelList* BGSBipedModelList::GetBipedModelList(TESForm* form)
 // @fnv 0x00474da0
 void BGSBipedModelList::InitItem(TESForm* owner)
 {
-    unsigned int formID = (unsigned int)list;
+    unsigned int formID = (unsigned int)(std::uintptr_t)list;
     if (formID)
     {
         TESFile* file = owner ? owner->GetFile(-1) : 0;

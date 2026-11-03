@@ -906,7 +906,7 @@ void SaveActorBase::FUN_005f18c0(unsigned int flags)
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int current = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
-        unsigned int block = (unsigned int)pos2;
+        std::uintptr_t block = (std::uintptr_t)pos2;
         if (current > block + 0xffff)
             ::FUN_005b5e40();
         *pos2 = (unsigned short)(current - block);

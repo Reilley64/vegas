@@ -457,7 +457,7 @@ struct FUN_004fbfe0_shell : public BGSMovableStatic
 // @fnv 0x004fbfe0
 void FUN_004fbfe0_shell::FUN_004fbfe0(int arg)
 {
-    int result = (int)FUN_00ec43fb(arg, 0, &(*reinterpret_cast<void * *>(&::DAT_01183028)), &DAT_01189d4c, 0);
+    std::intptr_t result = (std::intptr_t)FUN_00ec43fb(arg, 0, &(*reinterpret_cast<void * *>(&::DAT_01183028)), &DAT_01189d4c, 0);
 
     if (result == 0)
         return;

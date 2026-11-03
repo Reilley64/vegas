@@ -17,7 +17,7 @@ void TESImageSpaceModifiableForm::InitItem(TESForm* owner)
 {
     if (m_pImageSpaceModifier)
     {
-        unsigned int formID = (unsigned int)m_pImageSpaceModifier;
+        unsigned int formID = (unsigned int)(std::uintptr_t)m_pImageSpaceModifier;
         if (owner)
             ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
         m_pImageSpaceModifier = dynamic_cast<TESImageSpaceModifier*>(::FUN_004839c0(formID));

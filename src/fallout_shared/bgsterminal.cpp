@@ -272,7 +272,7 @@ void BGSTerminal::InitItem()
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
     reinterpret_cast<::FUN_00510770_shell *>(this)->FUN_00510770();
-    unsigned int formID = (unsigned int)pPassword;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pPassword;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

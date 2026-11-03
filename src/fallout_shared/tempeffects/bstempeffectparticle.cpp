@@ -1579,8 +1579,8 @@ void SGTempEffectParticle::FUN_00689cb0()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiEnd = (unsigned int)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
-        unsigned int uiStart = (unsigned int)pSizeLoc;
+        std::uintptr_t uiEnd = (std::uintptr_t)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        std::uintptr_t uiStart = (std::uintptr_t)pSizeLoc;
         if (uiEnd > uiStart + 0xFFFF)
         {
             ::FUN_005b5e40();

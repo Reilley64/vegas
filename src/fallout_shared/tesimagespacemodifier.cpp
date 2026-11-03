@@ -377,7 +377,7 @@ void TESImageSpaceModifier::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    unsigned int formID = (unsigned int)pIntroSound;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pIntroSound;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

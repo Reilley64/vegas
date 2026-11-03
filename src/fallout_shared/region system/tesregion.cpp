@@ -72,7 +72,7 @@ void TESRegion::InitItem()
     if (GetInitialized())
         return;
     {
-        unsigned int worldID = (unsigned int)((::TESWorldSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((void *)this)->FUN_007af430()));
+        unsigned int worldID = (unsigned int)(std::uintptr_t)((::TESWorldSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((void *)this)->FUN_007af430()));
         ::ResolveFormID((unsigned int *)&(worldID), GetFile(-1));
         world = dynamic_cast<TESWorldSpace*>(::FUN_004839c0(worldID));
     }

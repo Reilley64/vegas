@@ -1806,7 +1806,7 @@ void TESTopic_Shell::InitializeTopic()
                     }
                     else
                     {
-                        unsigned int uiChunkType = (unsigned int)questInfo->pQuest;
+                        std::uintptr_t uiChunkType = (std::uintptr_t)questInfo->pQuest;
                         TESQuest* quest = dynamic_cast<TESQuest*>(::FUN_004839c0(uiChunkType));
                         reinterpret_cast<::FUN_0061bf70_Class *>((((BSSimpleArray_Helper*)&questInfo->m_kInfoLinks)))->FUN_0061bf70(i, true);
                         count--;
@@ -1816,12 +1816,12 @@ void TESTopic_Shell::InitializeTopic()
 
                 if (questInfo->pQuest)
                 {
-                    unsigned int uiChunkType = (unsigned int)questInfo->pQuest;
+                    std::uintptr_t uiChunkType = (std::uintptr_t)questInfo->pQuest;
                     questInfo->pQuest = dynamic_cast<TESQuest*>(::FUN_004839c0(uiChunkType));
                 }
                 else if (questInfo->m_pAlternateQuest)
                 {
-                    unsigned int formID = (unsigned int)questInfo->m_pAlternateQuest;
+                    unsigned int formID = (unsigned int)(std::uintptr_t)questInfo->m_pAlternateQuest;
                     ::ResolveFormID(&formID, GetFile(-1));
                     questInfo->m_pAlternateQuest = dynamic_cast<TESQuest*>(::FUN_004839c0(formID));
                 }

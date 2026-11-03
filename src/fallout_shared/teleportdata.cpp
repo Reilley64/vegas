@@ -495,7 +495,7 @@ struct TeleportFormTypeName
 // @fnv 0x0043a590
 bool FUN_0043a590_shell::FUN_0043a590(TESForm* form)
 {
-    unsigned int formID = (unsigned int)m_pLinkedDoorReference;
+    unsigned int formID = (unsigned int)(std::uintptr_t)m_pLinkedDoorReference;
     ::ResolveFormID(&formID, form->GetFile(-1));
     m_pLinkedDoorReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
     if (!m_pLinkedDoorReference)

@@ -637,7 +637,7 @@ void S_004f95a0::LoadFormReferences()
     if (reinterpret_cast<::TESForm *>(this)->GetInitialized())
         return;
     reinterpret_cast<::TESObjectMISC *>(this)->InitItem();
-    unsigned int id = (unsigned int)unkac;
+    unsigned int id = (unsigned int)(std::uintptr_t)unkac;
     if (id)
     {
         ::ResolveFormID(&id, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));

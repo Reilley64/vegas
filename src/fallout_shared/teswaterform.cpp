@@ -111,7 +111,7 @@ void TESWaterForm::InitItem()
 {
     if (GetInitialized())
         return;
-    unsigned int id = (unsigned int)m_pWaterSound;
+    unsigned int id = (unsigned int)(std::uintptr_t)m_pWaterSound;
     if (id)
     {
         ::ResolveFormID((unsigned int *)&(id), GetFile(-1));

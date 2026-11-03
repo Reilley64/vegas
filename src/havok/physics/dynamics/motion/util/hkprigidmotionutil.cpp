@@ -11,6 +11,7 @@
 #include <cstdint>
 
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FUN_005611c0_t.h"
@@ -188,7 +189,7 @@ TargetItem* __cdecl FUN_00d29830(ContextA0* a0, SourceItem** a1, int a2, int a3,
                 SubItem* sub = &item->sub;
                 reinterpret_cast<::CD4BA0Matrix3 *>((((StubMatrix*)&last[-2].vector)))->Transpose((*(const ::CD4BA0Matrix3 *)(sub)));
                 a4->cells[0].header.unk00 = 0;
-                last[-4].vector = _mm_load_ps((const volatile float*)&item->unkC0);
+                last[-4].vector = (*(const volatile __m128*)(&item->unkC0));
                 last[-6].vector = item->unkD0;
 
                 float ldt = (a0->unk00 - sub->unk4C) * sub->unk5C;
@@ -198,9 +199,9 @@ TargetItem* __cdecl FUN_00d29830(ContextA0* a0, SourceItem** a1, int a2, int a3,
 
                 __m128 v = item->unkE0;
                 __m128 c1 =
-                    _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), _mm_load_ps((const volatile float*)&last[-1].vector));
+                    _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), (*(const volatile __m128*)(&last[-1].vector)));
                 __m128 c0 =
-                    _mm_mul_ps(_mm_shuffle_ps(v, v, 0x00), _mm_load_ps((const volatile float*)&last[-2].vector));
+                    _mm_mul_ps(_mm_shuffle_ps(v, v, 0x00), (*(const volatile __m128*)(&last[-2].vector)));
                 __m128 res = _mm_add_ps(c1, c0);
                 __m128 c2 = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), last[0].vector);
                 last[-5].vector = _mm_add_ps(res, c2);
@@ -227,7 +228,7 @@ TargetItem* __cdecl FUN_00d29830(ContextA0* a0, SourceItem** a1, int a2, int a3,
                 __m128 s2 = broadcast(0.0f > d2 ? 0.0f : d2);
                 item->unkE0 = _mm_mul_ps(s2, item->unkE0);
 
-                last[-4].vector = _mm_load_ps((const volatile float*)&item->unkC0);
+                last[-4].vector = (*(const volatile __m128*)(&item->unkC0));
 
                 float ldt = (a0->unk00 - item->sub.unk4C) * item->sub.unk5C;
                 __m128 dtv = broadcast(ldt);

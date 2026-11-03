@@ -5,9 +5,7 @@
 #include "fnv_simd.h"
 #include <cstddef>
 #include <cstdint>
-#include "fnv/decl/S00d76120_cls.h"
 namespace fnv_00d76cf0 { struct D76Child; }
-#include "fnv/decl/hkgpConvexHullImpl.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00d74000.h"
 #include "fnv/symbols_00d75000.h"
@@ -23,11 +21,7 @@ struct PoolEntry;
 struct D7Node;
 struct D7Pair;
 #include "fnv/decl/FnvCpu_FUN_00d76d80_CpuOwner.h"
-#include "fnv/decl/H77ConvexHull.h"
 #include <cstdint>
-#include "fnv/decl/fnv_00d75140__Owner.h"
-#include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
-#include "fnv/decl/hkMatrix3.h"
 #include "fnv/decl/hkMatrix4.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_00cb1000.h"
@@ -48,10 +42,8 @@ struct D7Pair;
 #include "fnv/decl/MProduct.h"
 #include "fnv/decl/RotationRows.h"
 #include "fnv/decl/S00cd4cc0_M.h"
-#include "fnv/decl/S00d81510_Hull.h"
 #include "fnv/decl/S_00cd4b60.h"
 #include "fnv/decl/SinkOwner.h"
-#include "fnv/decl/fnv_00d7aea0__PoolAllocator48.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cd4000.h"
 #include "fnv/symbols_00d78000.h"
@@ -71,6 +63,29 @@ struct D7Pair;
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv_asm_helpers.h"
+struct Cc0080Stream;
+struct H77Vector4;
+struct H77StridedVertices
+{
+    const float* m_kVertices;
+    int m_iStridedVertexCount;
+    int m_iVertexStride;
+};
+
+struct H77ConvexHull
+{
+    int FUN_00d771c0(const H77Vector4* points, int numPoints, intptr_t config) throw();
+    int FUN_00d77200(const H77StridedVertices& points, intptr_t config);
+};
+
+struct FUN_00cc02d0_cls {
+    int m_00;
+    int m_04;
+    Cc0080Stream* m_08;
+
+    FUN_00cc02d0_cls* FUN_00cc02d0(int arg);
+};
+
 // src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -103,9 +118,9 @@ struct FUN_00d75850_class {
     void FUN_00d75850();
 };
 // @fnv 0x00d76300
-int FUN_00d76300(const int* pValues, int iIndex)
+intptr_t FUN_00d76300(const int* pValues, int iIndex)
 {
-    return (pValues[iIndex + 5] & ~3);
+    return (((const intptr_t*)pValues)[iIndex + 5] & ~3);
 }
 
 struct FUN_00d7c200_cls {  };
@@ -114,9 +129,9 @@ struct FUN_00d7c950_cls {
     void FUN_00d7c950();
 };
 // @fnv 0x00d752c0
-int FUN_00d752c0(int* arr, int idx)
+intptr_t FUN_00d752c0(intptr_t* arr, int idx)
 {
-    return *(int*)((char*)arr + idx * 4 + 8);
+    return arr[idx + 2];
 }
 
 struct CpuScalar {
@@ -541,7 +556,7 @@ struct Owner {
 // @fnv 0x00d75120
 intptr_t FUN_00d75120(int* p)
 {
-    return *p;
+    return *(const intptr_t*)p;
 }
 
 struct D75130Inner {
@@ -597,7 +612,7 @@ int* Owner::FUN_00d75140() { return unk08->unk3C; }
 }  // namespace fnv_00d75140
 
 // @fnv 0x00d75200
-int FUN_00d75200(const int* value)
+intptr_t FUN_00d75200(const intptr_t* value)
 {
     return *value;
 }
@@ -835,13 +850,6 @@ struct FUN_00d771c0_Owner {
     void FUN_00d771c0(intptr_t a, int b, const Vec4i& v);
 };
 
-// Stores v into the m_00 field of unk08, then calls unk08's FUN_00d81510 with a, b, 0, 0.
-// @fnv 0x00d771c0
-void FUN_00d771c0_Owner::FUN_00d771c0(intptr_t a, int b, const Vec4i& v)
-{
-    unk08->m_00 = v;
-    reinterpret_cast<::S00d81510_Hull *>((unk08))->FUN_00d81510((const ::S00d81510_Vector4 *)(a), b, 0, (const ::S00d81510_Hull *)(0));
-}
 
 struct FUN_00d83430_class {
 };
@@ -849,7 +857,7 @@ struct FUN_00d790a0_class {
     int unk00;
     int unk04;
     FUN_00d83430_class* unk08;
-    void FUN_00d790a0(int a, int b, int c, float d);
+    void FUN_00d790a0(intptr_t a, intptr_t b, intptr_t c, float d);
 };
 
 struct S_00d79f90_Opts
@@ -1063,7 +1071,7 @@ struct PtrArrayBase {
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
         if ((uCapacity & 0x80000000) == 0)
-            pAllocator->FreeArray(m_ppData, (uCapacity & 0x3fffffff) * 4);
+            pAllocator->FreeArray(m_ppData, (uCapacity & 0x3fffffff) * sizeof(void*));
         m_uCapacity = 0x80000000;
         m_ppData = 0;
     }
@@ -1663,7 +1671,7 @@ struct FUN_00d76100_cls {
     void* unk00;
     void* unk04;
     FUN_00d7b330_cls* m_08;
-    void FUN_00d76100(int a1, int a2, float a3);
+    void FUN_00d76100(intptr_t a1, int a2, float a3);
 };
 
 struct FUN_00d7caa0_class {
@@ -1673,7 +1681,7 @@ struct FUN_00d76920_class {
     void* m_00;
     void* m_04;
     FUN_00d7caa0_class* m_08;
-    void FUN_00d76920(float, int);
+    void FUN_00d76920(float, intptr_t);
 };
 
 struct SpawnedObject {
@@ -1703,11 +1711,6 @@ struct FUN_00d77bd0_cls
     void FUN_00d77bd0();
 };
 
-// @fnv 0x00d77bd0
-void FUN_00d77bd0_cls::FUN_00d77bd0()
-{
-    reinterpret_cast<::S00d82ad0_Hull *>((m_pInner))->FUN_00d82ad0({}, {});
-}
 }  // namespace fnv_00d77bd0
 
 struct ArgPair
@@ -2046,7 +2049,7 @@ void* FUN_00d7c2a0_cls::FUN_00d7c2a0()
     // Grow the item array when it is full.
     GlobalManager* pManager2 = (GlobalManager*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
     if (m_04 == (m_08 & 0x3fffffff)) {
-        ::ResizeAudioStream((::AudioAllocator *)(pManager2->m_10), (::AudioStream *)(void *)(this), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(pManager2->m_10), (::AudioStream *)(void *)(this), sizeof(void*));
     }
 
     // Append the new object and move the previous first item to the end.
@@ -2263,24 +2266,12 @@ struct FUN_00d77320_cls {
     void CopyAndDispatch(int* a1, int a2, const __m128* a3, const unsigned int* a4);
 };
 
-// Copies four unsigned ints from a4 into m_08, stores the __m128 from a3 at offset 0xe0, then calls FUN_00d81510 on m_08 with a1, a2, 1, 0.
-// @fnv 0x00d77320
-void FUN_00d77320_cls::CopyAndDispatch(int* a1, int a2, const __m128* pVec, const unsigned int* pUInts)
-{
-    unsigned int* dst = (unsigned int*)m_08;
-    dst[0] = pUInts[0];
-    dst[1] = pUInts[1];
-    dst[2] = pUInts[2];
-    dst[3] = pUInts[3];
-    *(__m128*)((char*)m_08 + 0xe0) = *pVec;
-    reinterpret_cast<::S00d81510_Hull *>((m_08))->FUN_00d81510((const ::S00d81510_Vector4 *)((intptr_t)a1), a2, 1, (const ::S00d81510_Hull *)(0));
-}
 
 struct FnvCpu_FUN_00d74e00_CpuObject {
     unsigned int unk00;
     unsigned int unk04;
-    int value;
-    int FUN_00d74e00();
+    intptr_t value;
+    intptr_t FUN_00d74e00();
 };
 // @fnv 0x00d74e00
 intptr_t FnvCpu_FUN_00d74e00_CpuObject::FUN_00d74e00()
@@ -3204,7 +3195,7 @@ struct D7Node {
     D7ListNode* n00;
     D7ListNode* n04;
     D7ListNode* elems[3];
-    int child[3];
+    uintptr_t child[3];
     D7Vec3 v;
     int u2c;
     int lo30; int hi34;
@@ -3225,7 +3216,7 @@ struct D7Pair {
     __forceinline D7Pair Prev() const { D7Pair n; n.node=node; n.idx=(18>>(idx*2))&3; return n; }
     __forceinline D7Pair Adjacent() const {
         uintptr_t p=node->child[idx];
-        D7Pair n; n.idx=p&3; n.node=(D7Node*)(p&~3u); return n;
+        D7Pair n; n.idx=p&3; n.node=(D7Node*)(p&~(uintptr_t)3); return n;
     }
     __forceinline void Unlink()
     {
@@ -3351,7 +3342,7 @@ struct hkgpTriangle {
     hkgpTriangle* m_next;
     hkgpTriangle* m_pSecondNode;
     hkgpVertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 static inline unsigned int HKGP_NEXT(unsigned int i) { return (9 >> (i << 1)) & 3; }
@@ -3387,7 +3378,7 @@ struct hkgpEdge {
     hkgpEdge next() const { return hkgpEdge(m_pkTriangle, HKGP_NEXT(m_uiEdgeIndex)); }
     hkgpVertex* start() const { return m_pkTriangle->m_kVertices[m_uiEdgeIndex]; }
     hkgpVertex* end() const { return m_pkTriangle->m_kVertices[HKGP_NEXT(m_uiEdgeIndex)]; }
-    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & ~3u) == 0; }
+    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & ~(uintptr_t)3) == 0; }
     __forceinline bool isCanonical() const { return !isGreater(start(), end()) || isNaked(); }
     __forceinline bool isCanonicalB() const { return !isGreaterB(start(), end()) || isNaked(); }
 };
@@ -3425,7 +3416,7 @@ struct HullTriangle {
     HullTriangle* m_next;
     HullTriangle* m_pSecondNode;
     HullVertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 static inline int nextIndex(int i) { return (9 >> (i << 1)) & 3; }
 static __forceinline bool greater(const HullVertex* a, const HullVertex* b)
@@ -3452,7 +3443,7 @@ struct HullEdge {
     HullEdge next() const { return HullEdge(m_pkTriangle, nextIndex(m_uiEdgeIndex)); }
     HullVertex* start() const { return m_pkTriangle->m_kVertices[m_uiEdgeIndex]; }
     HullVertex* end() const { return m_pkTriangle->m_kVertices[nextIndex(m_uiEdgeIndex)]; }
-    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & ~3u) == 0; }
+    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & ~(uintptr_t)3) == 0; }
     __forceinline bool isCanonical() const { return !greater(start(), end()) || isNaked(); }
     __forceinline bool isCanonicalL() const { return !less(end(), start()) || isNaked(); }
 };
@@ -3594,13 +3585,16 @@ struct FUN_00d7f6a0 : S_00d7f6a0_Head {
     int unk1a8;
     int unk1ac;
     long m_iOwnerObjectOffset;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
     FUN_00d7f6a0();
 };
 
 struct D76250Allocator {
     virtual void v00();
-    virtual void v04();
-    virtual void v08();
+    virtual void* AllocateMemoryBlock(int numBytes);
+    virtual void ReleaseBlock(void* p, int bytes);
     virtual void v0c();
     virtual void ReturnMemory(void* p, int numBytes);
 };
@@ -3651,7 +3645,7 @@ struct S76320_Cls {
     int unk00;
     int unk04;
     S76320_Owner* m_pOwnerObject;
-    void FUN_00d76320(int a1, int a2);
+    void FUN_00d76320(intptr_t a1, intptr_t a2);
 };
 // XORs the input with DAT_010c44d0, passes it to ShapeHelper, and returns three component products summed with the input's w.
 // @fnv 0x00d76840
@@ -3840,7 +3834,7 @@ void FUN_00d75850_class::FUN_00d75850()
 {
     reinterpret_cast<::FUN_00d7ac40_cls *>((m2))->FUN_00d7ac40(0);
     if (m4) {
-        void (*fn)(int, int) = *(void (**)(int, int))*reinterpret_cast<void (**)(int, int)>(m4);
+        void (*fn)(intptr_t, int) = *(void (**)(intptr_t, int))*reinterpret_cast<void (**)(intptr_t, int)>(m4);
         fn(m4, 1);
     }
     m4 = 0;
@@ -3925,7 +3919,7 @@ struct S_00d790d0_Arr {
     __forceinline void AddBack(S_00d790d0_Item* v) {
         S_00d7c340_Router* r = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), sizeof(S_00d790d0_Item*));
         S_00d790d0_Item** p = m_data + m_iElementCount;
         for (int k = 0; k < 1; k++)
             p[k] = v;
@@ -3934,7 +3928,7 @@ struct S_00d790d0_Arr {
     __forceinline void pushBackRef(S_00d790d0_Item*& v) {
         S_00d7c340_Router* r = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), sizeof(S_00d790d0_Item*));
         S_00d790d0_Item** p = m_data + m_iElementCount;
         for (int k = 0; k < 1; k++)
             p[k] = v;
@@ -4424,7 +4418,7 @@ void FUN_00d76940_cls::FUN_00d76940()
         reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pObj))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
         AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(pObj, 0x1c0);
+        pAllocator->Free(pObj, sizeof(::FUN_00d7f6a0));
     }
     FUN_00d76940_member* pMember = m_10;
     if (pMember != 0) {
@@ -4471,7 +4465,7 @@ struct FUN_00d76ca0 : S_00d76ca0_Base {
 // @fnv 0x00d76ca0
 FUN_00d76ca0::FUN_00d76ca0() {
     S_00d76ca0_Alloc& h = static_cast<S_00d76ca0_Router*>(::FUN_00c85750())->heap();
-    void* p = h.AllocateMemoryBlock(0x1c0);
+    void* p = h.AllocateMemoryBlock(sizeof(::FUN_00d7f6a0));
     m08 = p ? ((::fnv_00d76ca0::S_00d76ca0_Inner *)(new ((void *)(((S_00d76ca0_Inner*)p))) ::FUN_00d7f6a0())) : 0;
     m0c = 0;
     m10 = 0;
@@ -4527,34 +4521,6 @@ struct FUN_00d76cf0_cls {
     D76Child* FUN_00d76cf0();
 };
 
-// Allocates a D76Child, releases its existing m_08 object, then initializes m_08, m_0c, and m_10 from source fields.
-// @fnv 0x00d76cf0
-D76Child* FUN_00d76cf0_cls::FUN_00d76cf0()
-{
-    FUN_00c85750_return* pHolder = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
-    D76Allocator* pAllocator = (D76Allocator*)pHolder->unk10;
-    D76Child* pNew = (D76Child*)pAllocator->Alloc(0x14);
-    pNew->m_04 = 0x14;
-    pNew = ((::fnv_00d76cf0::D76Child *)(new ((void *)(pNew)) ::fnv_00d76ca0::FUN_00d76ca0()));
-    D76Old* pOld = (D76Old*)pNew->m_08;
-    if (pOld != 0) {
-        reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pOld))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
-        FUN_00c85750_return* pHolder2 = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
-        D76Allocator* pAllocator2 = (D76Allocator*)pHolder2->unk10;
-        pAllocator2->FreeArray(pOld, 0x1c0);
-    }
-    pNew->m_08 = 0;
-    pNew->m_08 = ((void *)(reinterpret_cast<::ThisCls *>((((D76Sub*)m_08)))->FUN_00d7f720()));
-    pNew->m_0c = m_0c;
-    void* pVal;
-    if (m_10 != 0) {
-        pVal = ((D76Iface*)m_10)->v04();
-    } else {
-        pVal = 0;
-    }
-    pNew->m_10 = pVal;
-    return pNew;
-}
 }  // namespace fnv_00d76cf0
 
 struct TriangleVertex {
@@ -4711,7 +4677,7 @@ struct D79580_Array : S_00d7a010_Array<S_00d79f90_Result*> {
     __forceinline void AddBack(S_00d79f90_Result* const& item) {
         S_00d7c340_Router* router = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->unk10), (::AudioStream *)(void *)(this), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->unk10), (::AudioStream *)(void *)(this), sizeof(S_00d79f90_Result*));
         MakeSlot((void**)m_data, m_iElementCount) = item;
         ++m_iElementCount;
     }
@@ -4767,7 +4733,7 @@ typedef float hkReal;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 enum hkResult
 {
 HK_SUCCESS = 0,
@@ -4850,7 +4816,8 @@ MASK_MEMSIZE = 0x7fff
 hkUint16 m_usMemSizeAndFlags;
 public:
 hkReferencedObject( class FinishingFlag flag ) {}
-};template <typename T>
+};class hkError;
+template <typename T>
 class hkSingleton
 {
 public:
@@ -5059,10 +5026,7 @@ return (*(hkQuadReal*)&m_realS);
 }
 private:
 S00d7b600_Quad m_realS;};
-typedef const VectorComponentValue& hkSimdRealParameter;extern "C" {
-double __cdecl fabs([SA_Pre(Null=SA_No)] [SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)] double _X);inline float fabsf([SA_Pre(Null=SA_No)] [SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)] float _X)
-{return ((float)fabs((double)_X)); }
-}
+typedef const VectorComponentValue& hkSimdRealParameter;
 namespace MathUtilities
 {inline hkReal __cdecl fabs(hkReal r) { return fabsf(r); }
 }
@@ -5123,6 +5087,7 @@ void sub( const hkMatrix3& a ) throw();
 inline void operator= ( const hkMatrix3& a );
 VectorComponentValue GetDeterminant() throw();
 hkResult DiagonalizeSymmetric( hkMatrix3& eigenVec, hkVector4& eigenVal, int maxIter=5, hkReal epsilon=1e-4f ) const throw();
+int FUN_00cd4f10(float);
 protected:
 hkVector4 m_kColumn0;
 hkVector4 m_kColumn1;
@@ -5606,12 +5571,14 @@ struct D78ea0Item
 
 };
 
+struct HullImpl;
 struct FUN_00d76ca0
 {
     virtual ~FUN_00d76ca0();
     unsigned short m_iElementCount;
     unsigned short referenceCount;
-    int unk08, unk0c;
+    HullImpl* m_pImpl;
+    int unk0c;
     D78ea0Listener* m10;
     FUN_00d76ca0() throw();
     static void* operator new(std::size_t bytes)
@@ -5623,88 +5590,6 @@ struct FUN_00d76ca0
 
 };
 
-// @fnv 0x00d78ea0
-void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
-{
-    D78ea0Item** items = (D78ea0Item**)apPairs;
-
-    if (count > 0)
-    {
-        D78ea0Arr arr;
-        arr.m_data = 0;
-        arr.m_iElementCount = 0;
-        arr.m_pRayCursor = 0x80000000;
-
-        D78ea0Key key;
-        const volatile D78ea0Key* src = ((::D78ea0Key *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((items[0]))->FUN_00d74e00()));
-        key.a = src->a;
-        key.b = src->b;
-        int keyC = src->c;
-        int keyD = src->d;
-
-        int sum = 0;
-        D78ea0Child* firstChild = 0;
-        key.c = keyC;
-        key.d = keyD;
-        D78ea0Listener* listener = 0;
-        ((unsigned char*)&key)[0] = 1;
-
-        for (int i = 0; i < count; ++i)
-        {
-            sum += reinterpret_cast<::FUN_00d75050_cls *>((items[i]))->FUN_00d75050();
-            if (firstChild == 0)
-            {
-                D78ea0Child* c = items[i]->m10;
-                if (c != 0)
-                {
-                    firstChild = c;
-                }
-            }
-        }
-        if (firstChild != 0)
-        {
-            listener = firstChild->v04();
-        }
-
-        D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
-        if ((arr.m_pRayCursor & 0x3fffffff) < sum)
-        {
-            int cap = arr.m_pRayCursor & 0x3fffffff;
-            int newcap = cap + cap;
-            if (sum >= newcap)
-            {
-                newcap = sum;
-            }
-            ::FUN_00c908c0((::SpawnedObject *)(::D76250Allocator *)(&alloc), (::SpawnedArray *)(void *)(&arr), newcap, 16);
-        }
-
-        for (int i = 0; i < count; ++i)
-        {
-            if (listener != 0)
-            {
-                D78ea0Child* c = items[i]->m10;
-                if (c != 0 && c != firstChild)
-                {
-                    listener->v08(c);
-                }
-            }
-            reinterpret_cast<::S00d76120_cls *>((items[i]))->FUN_00d76120(first, (*(::S00d76120_Arr *)(&arr)));
-        }
-
-        FUN_00d76ca0* obj = new FUN_00d76ca0;
-        obj->m10 = listener;
-        reinterpret_cast<::FUN_00d771c0_Owner *>((obj))->FUN_00d771c0((intptr_t)arr.m_data, arr.m_iElementCount, (const ::Vec4i &)(key));
-
-        if (reinterpret_cast<::FUN_00d74e10_cls *>((obj))->FUN_00d74e10() != -1)
-        {
-            arr.clear();
-            return obj;
-        }
-        delete obj;
-        arr.clear();
-    }
-    return 0;
-}
 
 extern "C" void __debugbreak();
 struct __declspec(align(16)) QuantVector
@@ -6196,26 +6081,26 @@ struct CloneFace
 {
     CloneNode* m_00;
     CloneNode* m_04;
-    unsigned long vertices[3];
-    unsigned long links[3];
+    uintptr_t vertices[3];
+    uintptr_t links[3];
 };
-static __forceinline unsigned long packEdge(void* ptr, unsigned int tag)
+static __forceinline uintptr_t packEdge(void* ptr, unsigned int tag)
 {
-    return *(const unsigned long*)&ptr + (unsigned long)tag;
+    return *(const uintptr_t*)&ptr + (uintptr_t)tag;
 }
 template <class Derived> struct EdgeStorage
 {
     CloneFace* face;
     unsigned int corner;
-    __forceinline EdgeStorage(unsigned long k)
+    __forceinline EdgeStorage(uintptr_t k)
     {
         corner = k & 3;
-        k &= ~3UL;
+        k &= ~(uintptr_t)3;
         face = *(CloneFace**)&k;
     }
     __forceinline EdgeStorage(CloneFace* f, unsigned int c) : face(f), corner(c)
     {}
-    __forceinline unsigned long key() const
+    __forceinline uintptr_t key() const
     {
         return packEdge(face, corner);
     }
@@ -6232,7 +6117,7 @@ template <class Derived> struct EdgeStorage
 };
 struct CloneEdge : EdgeStorage<CloneEdge>
 {
-    __forceinline CloneEdge(unsigned long k) : EdgeStorage<CloneEdge>(k)
+    __forceinline CloneEdge(uintptr_t k) : EdgeStorage<CloneEdge>(k)
     {}
     __forceinline CloneEdge(CloneFace* f, unsigned int c) : EdgeStorage<CloneEdge>(f, c)
     {}
@@ -6261,7 +6146,7 @@ struct CloneMapBase
 {
     struct Entry
     {
-        unsigned long key, value;
+        uintptr_t key, value;
     };
     Entry* data;
     int size, mask;
@@ -6271,7 +6156,7 @@ struct CloneMapBase
     {
         ::FUN_00a29680();
     }
-    MapStatus FUN_00cb1fb0(unsigned long);
+    MapStatus FUN_00cb1fb0(uintptr_t);
 };
 struct CloneHeapMap : CloneMapBase
 {
@@ -6288,7 +6173,7 @@ struct CloneHeapMap : CloneMapBase
         Singleton* s = (Singleton*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(s->m_10), n);
     }
-    __forceinline int insert(unsigned long k, unsigned long v)
+    __forceinline int insert(uintptr_t k, uintptr_t v)
     {
         Singleton* s = (Singleton*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(s->m_10)), k, v);
@@ -6304,15 +6189,15 @@ template <class K, class V> struct CloneMap
     CloneHeapMap map;
     __forceinline V find(K k, V v) const
     {
-        return (V)((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(map))->LookupHashEntry((unsigned long)k, (unsigned long)v)));
+        return (V)((uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(map))->LookupHashEntry((uintptr_t)k, (uintptr_t)v)));
     }
     __forceinline int insert(K k, V v)
     {
-        return map.insert((unsigned long)k, (unsigned long)v);
+        return map.insert((uintptr_t)k, (uintptr_t)v);
     }
     MapStatus remove(K k)
     {
-        return map.FUN_00cb1fb0((unsigned long)k);
+        return map.FUN_00cb1fb0((uintptr_t)k);
     }
     void reserve(int n)
     {
@@ -6405,7 +6290,7 @@ ThisCls* ThisCls::FUN_00d7f720()
     Singleton* s = reinterpret_cast<Singleton*>(static_cast<S_00d7c340_Router*>(::FUN_00c85750()));
     Allocator* alloc = s->m_10;
     ThisCls* dst;
-    void* fields2 = alloc->Alloc(0x1c0);
+    void* fields2 = alloc->Alloc(sizeof(::FUN_00d7f6a0));
     if (fields2 != 0)
     {
         dst = ((::ThisCls *)(new ((void *)(((ThisCls*)fields2))) ::FUN_00d7f6a0()));
@@ -6454,7 +6339,7 @@ ThisCls* ThisCls::FUN_00d7f720()
                 ++i;
             } while (i < m_54.m_iArrayLength);
     }
-    CloneMap<unsigned long, unsigned long> low;
+    CloneMap<uintptr_t, uintptr_t> low;
     if (m_18.m_10)
     {
         low.reserve(m_18.m_10);
@@ -6471,14 +6356,14 @@ ThisCls* ThisCls::FUN_00d7f720()
     }
     if (m_30.m_10)
     {
-        CloneMap<unsigned long, unsigned long> a;
+        CloneMap<uintptr_t, uintptr_t> a;
         a.reserve(m_30.m_10);
         CloneNode* node = firstNode(m_30.m_0c);
         if (node)
             do
             {
                 CloneFace* base = ((::CloneFace *)(reinterpret_cast<::FUN_00d7efc0_cls *>(&(dst->m_30))->FUN_00d7efc0((const ::PoolEntry *)(node))));
-                unsigned long* x = base->vertices;
+                uintptr_t* x = base->vertices;
                 int count = 3;
                 do
                 {
@@ -6497,7 +6382,7 @@ ThisCls* ThisCls::FUN_00d7f720()
                     }
                     else
                     {
-                        a.insert((unsigned long)CloneEdge((CloneFace*)node, i).key(), current.key());
+                        a.insert((uintptr_t)CloneEdge((CloneFace*)node, i).key(), current.key());
                     }
                 }
                 node = node->m_04;
@@ -6506,14 +6391,28 @@ ThisCls* ThisCls::FUN_00d7f720()
 
     return dst;
 }
-int FUN_00d752c0(int* arr, int idx);
+intptr_t FUN_00d752c0(intptr_t* arr, int idx);
 int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
-extern float DAT_0104da4c;
 void __cdecl ResizeAudioStream(void*, void*, int);
 void __cdecl FUN_00c908c0(D76250Allocator* alloc, void* array, intptr_t numElements, int sizeElem);
 
 
-extern float DAT_0104da48;
+
+struct S_00d75cb0_Vector4
+{
+    __m128 m_vComponents;
+
+    void operator=(const S_00d75cb0_Vector4& v) { m_vComponents = v.m_vComponents; }
+    void setSub4(const S_00d75cb0_Vector4& a, const S_00d75cb0_Vector4& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
+    void mul4(const S_00d75cb0_Vector4& v) { m_vComponents = _mm_mul_ps(m_vComponents, v.m_vComponents); }
+    void add4(const S_00d75cb0_Vector4& v) { m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents); }
+    VectorComponentValue lengthSquared3() const
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 s = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+        return _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), s);
+    }
+};
 
 struct S_00d75cb0_Node
 {
@@ -6521,7 +6420,7 @@ struct S_00d75cb0_Node
     int unk04;
     int unk08;
     int unk0C;
-    hkVector4 m_pos;
+    S_00d75cb0_Vector4 m_pos;
     int m_uiX;
     int m_uiY;
     int m_uiZ;
@@ -6589,12 +6488,12 @@ struct S_00d75cb0_Obj
     int unkE4;
     int unkE8;
     int unkEC;
-    hkVector4 m_offset;
+    S_00d75cb0_Vector4 m_offset;
     int unk100;
     int unk104;
     int unk108;
     int unk10C;
-    hkVector4 m_vScale;
+    S_00d75cb0_Vector4 m_vScale;
 };
 
 struct S_00d75cb0
@@ -6603,23 +6502,23 @@ struct S_00d75cb0
     int unk04;
     S_00d75cb0_Obj* m_obj;
 
-    void FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& closest);
+    void FUN_00d75cb0(int mode, const S_00d75cb0_Vector4& point, S_00d75cb0_Vector4& closest);
 };
 
 // @fnv 0x00d75cb0
-void S_00d75cb0::FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& closest)
+void S_00d75cb0::FUN_00d75cb0(int mode, const S_00d75cb0_Vector4& point, S_00d75cb0_Vector4& closest)
 {
     VectorComponentValue best(DAT_0104da48);
 
     if (mode == 0)
     {
-        const hkVector4* pp = &point;
+        const S_00d75cb0_Vector4* pp = &point;
         S_00d75cb0_Obj* obj = m_obj;
-        hkVector4* cp = &closest;
+        S_00d75cb0_Vector4* cp = &closest;
         *cp = *pp;
         for (S_00d75cb0_Node* node = obj->m_pFirstNode; node; node = node->m_next)
         {
-            hkVector4 d;
+            S_00d75cb0_Vector4 d;
             d.setSub4(*pp, node->m_pos);
             VectorComponentValue dist = d.lengthSquared3();
             if (dist < best)
@@ -6631,17 +6530,17 @@ void S_00d75cb0::FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& close
     }
     else
     {
-        const hkVector4* pp = &point;
+        const S_00d75cb0_Vector4* pp = &point;
         S_00d75cb0_Obj* obj = m_obj;
-        hkVector4* cp = &closest;
+        S_00d75cb0_Vector4* cp = &closest;
         *cp = *pp;
         for (S_00d75cb0_Node* node = obj->m_pFirstNode; node; node = node->m_next)
         {
-            hkVector4 v;
+            S_00d75cb0_Vector4 v;
             v.m_vComponents = _mm_setr_ps((float)node->m_uiX, (float)node->m_uiY, (float)node->m_uiZ, 0.0f);
             v.mul4(obj->m_vScale);
             v.add4(obj->m_offset);
-            hkVector4 d;
+            S_00d75cb0_Vector4 d;
             d.setSub4(*pp, v);
             VectorComponentValue dist = d.lengthSquared3();
             if (dist < best)
@@ -6667,14 +6566,6 @@ static __declspec(noinline) void FUN_00cc0080(Cc0080Stream* out, const char* str
     else
         out->Write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((intptr_t)str)));
 }
-
-struct FUN_00cc02d0_cls {
-    int m_00;
-    int m_04;
-    Cc0080Stream* m_08;
-
-    FUN_00cc02d0_cls* FUN_00cc02d0(int arg);
-};
 
 // @fnv 0x00cc02d0
 FUN_00cc02d0_cls* FUN_00cc02d0_cls::FUN_00cc02d0(int arg) {
@@ -6721,9 +6612,7 @@ void GridOwner::FUN_00d74e80(GridVec4& out, const GridCell& c) const
 }
 
 
-extern const __m128 DAT_010c7170;
 extern const __m128 DAT_01017d10;
-extern const __m128 DAT_010c7160;
 
 struct S00d756a0_Ostream {
     int m_00;
@@ -6876,19 +6765,19 @@ Box Self::FUN_00d75920(int index, float a2, float a3)
         PointNode* node;
         if (idx == 0) {
             node = ((::PointNode *)(reinterpret_cast<::D75060Outer *>((((HullAccess*)this)))->FUN_00d75060()));
-            Vec4* p = ((::Vec4 *)(::FUN_00d74ed0((::PayloadOwner *)(((HullAccess*)this)))));
+            Vec4* p = ((::Vec4 *)(::FUN_00d74ed0((::PayloadOwner *)(node))));
             box->lo.q = ( p->q);
             box->hi.q = ( p->q);
-            node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
+            node = ((::PointNode *)(::FUN_00d75120((int *)(node))));
             if (!node)
                 goto tail;
             for (;;) {
-                Vec4* q = ((::Vec4 *)(::FUN_00d74ed0((::PayloadOwner *)(((HullAccess*)this)))));
+                Vec4* q = ((::Vec4 *)(::FUN_00d74ed0((::PayloadOwner *)(node))));
                 box->lo.q = ( _mm_min_ps(box->lo.q,
                                                           q->q));
                 box->hi.q = ( _mm_max_ps(box->hi.q,
                                                           q->q));
-                node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
+                node = ((::PointNode *)(::FUN_00d75120((int *)(node))));
                 if (!node)
                     break;
             }
@@ -6898,7 +6787,7 @@ Box Self::FUN_00d75920(int index, float a2, float a3)
                 ((HullAccess*)this)->FUN_00d74e80(&temp.lo, node)->q);
             box->hi.q = (
                 ((HullAccess*)this)->FUN_00d74e80(&temp.lo, node)->q);
-            node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
+            node = ((::PointNode *)(::FUN_00d75120((int *)(node))));
             if (!node)
                 goto tail;
             for (;;) {
@@ -6906,7 +6795,7 @@ Box Self::FUN_00d75920(int index, float a2, float a3)
                 __m128 rq=r->q; _ReadWriteBarrier();
                 box->lo.q=_mm_min_ps(box->lo.q,rq); _ReadWriteBarrier();
                 box->hi.setMax(box->hi,*r);
-                node = ((::PointNode *)(::FUN_00d75120((int *)(((HullAccess*)this)))));
+                node = ((::PointNode *)(::FUN_00d75120((int *)(node))));
                 if (!node)
                     break;
             }
@@ -7579,8 +7468,8 @@ BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const 
     reinterpret_cast<::FUN_00d74d40_cls *>(&(options))->FUN_00d74d40();
     options.m_00=1;
     h=router();
-    BlendObject* obj=(BlendObject*)h->factory->alloc(20);
-    obj->size=20;
+    BlendObject* obj=(BlendObject*)h->factory->alloc(sizeof(::fnv_00d76ca0::FUN_00d76ca0));
+    obj->size=sizeof(::fnv_00d76ca0::FUN_00d76ca0);
     result=((::BlendObject *)(new ((void *)(obj)) ::fnv_00d76ca0::FUN_00d76ca0()));
     BlendSpan span;
     span.data=out.data;
@@ -7894,7 +7783,6 @@ void PoolAllocator48::FUN_00d7aea0(PoolItem48* item)
 }
 }  // namespace fnv_00d7aea0
 
-extern __m128 DAT_010c44d0;
 struct ProjectionAllocator {
     virtual void v0(); virtual void v4(); virtual void v8(); virtual void vc();
     virtual void ReturnMemory(void*,int);
@@ -7939,6 +7827,12 @@ struct ProjectionHull {
     }
     float FUN_00d7c610(const D76250Vector4& direction,float& lower,float& upper);
 };
+static __forceinline float dot3(const D76250Vector4& a,const D76250Vector4& b) {
+    __m128 p=_mm_mul_ps(a.m_vComponents,b.m_vComponents);
+    __m128 y=_mm_shuffle_ps(p,p,0x55);
+    __m128 z=_mm_shuffle_ps(p,p,0xaa);
+    float f; _mm_store_ss(&f,_mm_add_ss(z,_mm_add_ss(y,p))); return f;
+}
 // @fnv 0x00d7c610
 float ProjectionHull::FUN_00d7c610(const D76250Vector4& direction,float& lower,float& upper) {
     D76250Vector4 opposite;
@@ -8013,7 +7907,7 @@ struct ExportFace {
     ExportFace* next;
     int unk04;
     ExportVertex* vertices[3];
-    unsigned int links[3];
+    uintptr_t links[3];
     int unk20,unk24,unk28,unk2c,unk30,unk34;
     int mark;
 };
@@ -8027,10 +7921,10 @@ struct ExportEdge {
     __forceinline ExportEdge next() const { return ExportEdge(face,(9>>(corner*2))&3); }
     __forceinline ExportEdge adjacent() const {
         uintptr_t link=face->links[corner];
-        return ExportEdge((ExportFace*)(link&~3u),link&3);
+        return ExportEdge((ExportFace*)(link&~(uintptr_t)3),link&3);
     }
 };
-static __forceinline ExportFace* Adjacent(ExportFace* f,int i) { return (ExportFace*)(f->links[i]&~3u); }
+static __forceinline ExportFace* Adjacent(ExportFace* f,int i) { return (ExportFace*)(f->links[i]&~(uintptr_t)3); }
 static __forceinline int NextCorner(int i) { return (9>>(i*2))&3; }
 
 union ExportWorkspace { ExportStream stream; ExportArray<ExportFace*> sorted; ExportArray<ExportVertex*> map; };
@@ -8366,7 +8260,7 @@ struct PolygonTriangle {
     PolygonTriangle* next;
     int unk04;
     PolygonVertex* vertices[3];
-    unsigned int links[3];
+    uintptr_t links[3];
     int unk20, unk24, unk28, unk2c, unk30, unk34;
     int component;
     __forceinline PolygonTriangle* neighbor(intptr_t edge) const {
@@ -8745,7 +8639,6 @@ float PlaneHull::FUN_00d75880(PlaneArgument point) {
 extern "C" unsigned __int64 __rdtsc(void);
 
 
-extern const __m128 DAT_010c7160;
 
 struct Tt_ProfRec {
     const char* m_pName;
@@ -8843,8 +8736,8 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
     case 0: {
         array.init();
         array.reserve(reinterpret_cast<::FUN_00d75050_cls *>((owner))->FUN_00d75050());
-        for(PayloadOwner* node=((::PayloadOwner *)(reinterpret_cast<::D75060Outer *>((owner))->FUN_00d75060()));node;node=((::PayloadOwner *)(::FUN_00d75120((int *)(owner))))) {
-            __m128* point=((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
+        for(PayloadOwner* node=((::PayloadOwner *)(reinterpret_cast<::D75060Outer *>((owner))->FUN_00d75060()));node;node=((::PayloadOwner *)(::FUN_00d75120((int *)(node))))) {
+            __m128* point=((::__m128 *)(::FUN_00d74ed0(node)));
             __m128 c=center;
             __m128 delta=_mm_sub_ps(*point,c);
             __m128 q=_mm_mul_ps(delta,delta);
@@ -8977,7 +8870,6 @@ int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector
     return -1;
 }
 
-extern const __m128 DAT_010c7160;
 
 class S00d79ab0_SimdReal {
 public:
@@ -9289,7 +9181,7 @@ struct S00d7cf00_Triangle {
     S00d7cf00_Triangle* m_next;
     S00d7cf00_Triangle* m_pSecondNode;
     S00d7cf00_Vertex* m_kVertices[3];
-    unsigned long m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     int unk20;
     int unk24;
     int unk28;
@@ -9300,17 +9192,17 @@ struct S00d7cf00_Triangle {
 };
 struct S00d7cf00_HullEdge;
 template <typename T>
-static __forceinline void S00d7cf00_ulong2uid(unsigned long uid, T*& t, unsigned& i)
+static __forceinline void S00d7cf00_ulong2uid(uintptr_t uid, T*& t, unsigned& i)
 {
     i = (unsigned)(uid & 3);
     uid &= ~3;
     t = *(T**)&uid;
 }
 template <typename T>
-static __forceinline void S00d7cf00_unpackUid(unsigned long uid, T*& t, unsigned& i) { S00d7cf00_ulong2uid(uid, t, i); }
+static __forceinline void S00d7cf00_unpackUid(uintptr_t uid, T*& t, unsigned& i) { S00d7cf00_ulong2uid(uid, t, i); }
 struct S00d7cf00_TopoEdge {
     __forceinline S00d7cf00_TopoEdge(S00d7cf00_Triangle* t, unsigned i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
-    __forceinline S00d7cf00_TopoEdge(const unsigned long& id) { S00d7cf00_unpackUid(id, m_pkTriangle, m_uiEdgeIndex); }
+    __forceinline S00d7cf00_TopoEdge(const uintptr_t& id) { S00d7cf00_unpackUid(id, m_pkTriangle, m_uiEdgeIndex); }
     static __forceinline unsigned ip1mod3(unsigned i) { return (9 >> (i << 1)) & 3; }
     __forceinline S00d7cf00_HullEdge link() const;
     __forceinline S00d7cf00_Triangle* triangle() const { return m_pkTriangle; }
@@ -9324,7 +9216,7 @@ struct S00d7cf00_TopoEdge {
 };
 struct S00d7cf00_HullEdge : S00d7cf00_TopoEdge {
     __forceinline S00d7cf00_HullEdge(S00d7cf00_Triangle* t, int i) : S00d7cf00_TopoEdge(t, i) {}
-    __forceinline S00d7cf00_HullEdge(unsigned long id) : S00d7cf00_TopoEdge(id) {}
+    __forceinline S00d7cf00_HullEdge(uintptr_t id) : S00d7cf00_TopoEdge(id) {}
     __forceinline bool samePlane() const { return triangle()->m_iTriangleValueAtOffset0x38 == link().triangle()->m_iTriangleValueAtOffset0x38; }
 };
 __forceinline S00d7cf00_HullEdge S00d7cf00_TopoEdge::link() const { return S00d7cf00_HullEdge(m_pkTriangle->m_ppLinks[m_uiEdgeIndex]); }
@@ -9528,7 +9420,6 @@ float S00d7cf00_Hull::FUN_00d7cf00() const
 
 
 extern double DAT_01032980;
-extern __m128 DAT_010c44d0;
 
 struct __declspec(align(16)) S_00d827b0_V4 {
     __m128 quad;
@@ -9668,9 +9559,9 @@ struct S00d82ad0_Tri {
     S00d82ad0_Tri* next;
     S00d82ad0_Tri* prev;
     S00d82ad0_Vtx* m_kVertices[3];
-    unsigned long m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     __forceinline S00d82ad0_Vtx*& vertex(unsigned i) { return m_kVertices[i]; }
-    __forceinline unsigned long& link(unsigned i) { return m_ppLinks[i]; }
+    __forceinline uintptr_t& link(unsigned i) { return m_ppLinks[i]; }
 };
 
 struct S00d82ad0_E {
@@ -9680,13 +9571,13 @@ struct S00d82ad0_E {
     static __forceinline unsigned ip2mod3(unsigned i) { return (0x12 >> (i << 1)) & 3; }
     __forceinline S00d82ad0_E() {}
     __forceinline S00d82ad0_E(S00d82ad0_Tri* t, unsigned i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
-    __forceinline S00d82ad0_E(const unsigned long& id) { unsigned long uid = id; m_uiEdgeIndex = (unsigned)(uid & 3); uid &= ~3; m_pkTriangle = *(S00d82ad0_Tri**)&uid; }
+    __forceinline S00d82ad0_E(const uintptr_t& id) { uintptr_t uid = id; m_uiEdgeIndex = (unsigned)(uid & 3); uid &= ~3; m_pkTriangle = *(S00d82ad0_Tri**)&uid; }
     __forceinline S00d82ad0_E next() const { return S00d82ad0_E(m_pkTriangle, ip1mod3(m_uiEdgeIndex)); }
     __forceinline S00d82ad0_E prev() const { return S00d82ad0_E(m_pkTriangle, ip2mod3(m_uiEdgeIndex)); }
     __forceinline S00d82ad0_E link() const { return S00d82ad0_E(m_pkTriangle->link(m_uiEdgeIndex)); }
     __forceinline S00d82ad0_E turnCcw() const { return link().next(); }
     __forceinline S00d82ad0_E turnCw() const { return prev().link(); }
-    __forceinline unsigned long uid() const { return (*(const unsigned long*)&m_pkTriangle) + (unsigned long)m_uiEdgeIndex; }
+    __forceinline uintptr_t uid() const { return (*(const uintptr_t*)&m_pkTriangle) + (uintptr_t)m_uiEdgeIndex; }
     __forceinline S00d82ad0_Vtx*& start() const { return m_pkTriangle->vertex(m_uiEdgeIndex); }
     __forceinline S00d82ad0_Vtx*& end() const { return m_pkTriangle->vertex(ip1mod3(m_uiEdgeIndex)); }
     __forceinline S00d82ad0_Vtx*& apex() const { return m_pkTriangle->vertex(ip2mod3(m_uiEdgeIndex)); }
@@ -10234,7 +10125,6 @@ void* CentroidHull::FUN_00d7aa30()
 }
 
 
-extern const __m128 DAT_010c7160;
 struct MessageStream {
     int unk00, unk04, unk08;
     MessageStream* FUN_00cc01c0(const char*, int, const char*);
@@ -10249,6 +10139,13 @@ struct PlaneShape {
     ChildData* state;
     void FUN_00d76a20(PlaneVector* planes);
 };
+static __forceinline __m128 dot3(const __m128& a, const __m128& b) {
+    __m128 p = _mm_mul_ps(a,b);
+    __m128 y = _mm_shuffle_ps(p,p,0x55);
+    __m128 z = _mm_shuffle_ps(p,p,0xaa);
+    y = _mm_add_ss(y,p);
+    return _mm_add_ss(z,y);
+}
 static __forceinline float scalarValue(__m128 v) {
     float value;
     _mm_store_ss(&value,v);
@@ -10556,7 +10453,7 @@ struct HullFace {
     HullFace* m_pNext;
     int unk04;
     IndexVertex* m_vert[3];
-    unsigned int m_kEdge[3];
+    uintptr_t m_kEdge[3];
     int unk20;
     int unk24;
     int unk28;
@@ -10574,7 +10471,7 @@ template<class E> struct IndexEdgeBase {
     uintptr_t m_ucOperationType;
     IndexEdgeBase() {}
     IndexEdgeBase(HullFace* f,int t):m_face(f),m_ucOperationType(t) {}
-    IndexEdgeBase(uintptr_t packed) { m_ucOperationType=packed&3; m_face=(HullFace*)(packed&~3u); }
+    IndexEdgeBase(uintptr_t packed) { m_ucOperationType=packed&3; m_face=(HullFace*)(packed&~(uintptr_t)3); }
     HullFace* triangle() const { return m_face; }
     E next() const { return E(m_face,(9>>(m_ucOperationType*2))&3); }
     E prev() const { return E(m_face,(18>>(m_ucOperationType*2))&3); }
@@ -10583,7 +10480,7 @@ template<class E> struct IndexEdgeBase {
 struct IndexEdge:IndexEdgeBase<IndexEdge> {
     IndexEdge() {}
     IndexEdge(HullFace*f,int i):IndexEdgeBase<IndexEdge>(f,i) {}
-    IndexEdge(unsigned int packed):IndexEdgeBase<IndexEdge>(packed) {}
+    IndexEdge(uintptr_t packed):IndexEdgeBase<IndexEdge>(packed) {}
     IndexEdge(const IndexEdge& e) { m_face=e.m_face; m_ucOperationType=e.m_ucOperationType; }
 };
 struct FaceArea {
@@ -10639,7 +10536,7 @@ inline void PushEdge(HullArray<IndexEdge>& a, const IndexEdge& e)
 {
     AllocHolder* h = Holder();
     if (a.m_iElementCount == (a.m_capAndFlags & 0x3fffffff)) {
-        ResizeAudioStream((void*)h->m_pHeap, (void*)&a, 8);
+        ResizeAudioStream((void*)h->m_pHeap, (void*)&a, sizeof(IndexEdge));
     }
     new (&a.m_data[a.m_iElementCount]) IndexEdge(e);
     a.m_iElementCount++;
@@ -10825,7 +10722,7 @@ void HullBuilder::FUN_00d7d2a0()
     if (numFaces != 0) {
         AllocHolder* h = Holder();
         if ((areas.m_capAndFlags & 0x3fffffff) < numFaces) {
-            FUN_00c908c0(h->m_pHeap, &areas, numFaces, 8);
+            FUN_00c908c0(h->m_pHeap, &areas, numFaces, sizeof(FaceArea));
         }
         for (HullFace* f = m_faces; f != 0; f = f->m_pNext) {
             int k = areas.m_iElementCount++;
@@ -10927,7 +10824,7 @@ void HullBuilder::FUN_00d7d2a0()
         int scap = stack.m_capAndFlags;
         stack.m_iElementCount = 0;
         if ((scap & 0x80000000) == 0) {
-            heap->BufFree(stack.m_data, (scap & 0x3fffffff) * 8);
+            heap->BufFree(stack.m_data, (scap & 0x3fffffff) * sizeof(IndexEdge));
         }
     } else if (m_dimension == 2) {
         HullFloat4 centroid = *((::HullFloat4 *)(reinterpret_cast<::CentroidHull *>(this)->FUN_00d7aa30()));
@@ -11026,7 +10923,7 @@ void HullBuilder::FUN_00d7d2a0()
         int cap = areas.m_capAndFlags;
         areas.m_iElementCount = 0;
         if ((cap & 0x80000000) == 0) {
-            heap->BufFree(areas.m_data, (cap & 0x3fffffff) * 8);
+            heap->BufFree(areas.m_data, (cap & 0x3fffffff) * sizeof(FaceArea));
         }
     }
 }
@@ -11106,7 +11003,6 @@ void ProbeObj::FUN_00d75e30(int mode,const MatchVector& input,MatchVector& outpu
     else probeScan<ProbeTransform>(hull,input,output);
 }
 
-extern float DAT_0104da4c;
 extern const __m128 DAT_010ec7f0;
 struct ClipStream {
     int unk00,unk04,unk08;
@@ -11359,7 +11255,7 @@ struct BevelTri {
     BevelTri* m_next;
     BevelTri* m_pSecondNode;
     BevelVertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     int unk20;
     int unk24;
     int unk28;
@@ -11368,7 +11264,7 @@ struct BevelTri {
     int unk34;
     int m_kTriangleNormal;
     __forceinline BevelVertex*& vertex(int i) { return m_kVertices[i]; }
-    __forceinline unsigned int& link(int i) { return m_ppLinks[i]; }
+    __forceinline uintptr_t& link(int i) { return m_ppLinks[i]; }
 };
 
 
@@ -11380,8 +11276,8 @@ protected:
 public:
     __forceinline BevelEdgeBase() {}
     __forceinline BevelEdgeBase(BevelTri* f,unsigned i):face(f),corner(i) {}
-    __forceinline BevelEdgeBase(const unsigned int& id) {
-        unsigned int value=id;
+    __forceinline BevelEdgeBase(const uintptr_t& id) {
+        uintptr_t value=id;
         corner=value&3; value&=~3;
         face=*(BevelTri**)&value;
     }
@@ -11395,7 +11291,7 @@ public:
 };
 struct BevelEdge: BevelEdgeBase<BevelEdge> {
     __forceinline BevelEdge(BevelTri* f,int i):BevelEdgeBase<BevelEdge>(f,i) {}
-    __forceinline BevelEdge(const unsigned int& id):BevelEdgeBase<BevelEdge>(id) {}
+    __forceinline BevelEdge(const uintptr_t& id):BevelEdgeBase<BevelEdge>(id) {}
     __forceinline BevelEdge(const BevelEdge& e) { face=e.face; corner=e.corner; }
     __forceinline bool samePlane() const { return triangle()->m_kTriangleNormal==link().triangle()->m_kTriangleNormal; }
 };
@@ -11527,7 +11423,6 @@ public:
     __forceinline void cross(const BoxVector& a,const BoxVector& b);
     __forceinline int normalize();
 };
-extern float DAT_0104da48;
 
 class BoxScalar {
     __m128 m_vValue;
@@ -11599,7 +11494,7 @@ struct BoxFace {
     int unk08;
     int unk0c;
     int unk10;
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     int unk20;
     int unk24;
     int unk28;
@@ -11741,7 +11636,7 @@ struct BoxHull {
 void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
     D81340Workspace workspace;
     if (m_1a8 < 3) {
-        reinterpret_cast<::BoxHull *>(this)->FUN_00d7f090((::BoxPointer<const ::BoxVector *>)((int)&m_e0), (*(::BoxVector *)(&a0)), (*(::BoxTransform *)(&a1)));
+        reinterpret_cast<::BoxHull *>(this)->FUN_00d7f090(::BoxPointer<const ::BoxVector *>{(const ::BoxVector *)&m_e0}, (*(::BoxVector *)(&a0)), (*(::BoxTransform *)(&a1)));
         return;
     }
     if (!m_1b5) {
@@ -11768,7 +11663,7 @@ void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
         r = reinterpret_cast<::ProjectionHull *>(this)->FUN_00d7c610((*(const ::D76250Vector4 *)(elem)), (*(float *)(&u18)), (*(float *)(&u1c)));
         if (r < t24) {
             intptr_t elem2 = (intptr_t)m_54 + i * 16;
-            t14 = reinterpret_cast<::BoxHull *>(this)->FUN_00d7f090((::BoxPointer<const ::BoxVector *>)(elem2), (*(::BoxVector *)(&v30)), (*(::BoxTransform *)(&v40))) * (u1c - u18);
+            t14 = reinterpret_cast<::BoxHull *>(this)->FUN_00d7f090(::BoxPointer<const ::BoxVector *>{(const ::BoxVector *)elem2}, (*(::BoxVector *)(&v30)), (*(::BoxTransform *)(&v40))) * (u1c - u18);
             if (t14 < t2c) {
                 t24 = r;
                 t2c = t14;
@@ -11894,8 +11789,6 @@ int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 
 namespace S00d81510_Intrinsics {
 }
 extern const char str_010d3718[];
-extern const __m128 DAT_010c7160;
-extern const __m128 DAT_010c7170;
 extern const __m128 DAT_01017d10;
 
 namespace S00d81510_Constants {
@@ -12097,6 +11990,11 @@ struct S00d81510_Vertex : S00d81510_Item {
     int m_refs;
     int m_uiEdgeIndex;
 };
+__forceinline bool operator==(const S00d81510_Vertex& a, const S00d81510_Vertex& b)
+{
+    return a.m_uiX[0] == b.m_uiX[0] && a.m_uiX[1] == b.m_uiX[1];
+}
+__forceinline bool operator!=(const S00d81510_Vertex& a, const S00d81510_Vertex& b) { return !(a == b); }
 __forceinline int S00d81510_round(float x) { return (int)(x + (x < 0 ? -0.5f : 0.5f)); }
 
 struct S00d81510_Less {};
@@ -12583,10 +12481,10 @@ struct HullPlaneOwner {
 void HullPlaneOwner::FUN_00d75b80(__m128& out, const int* triangle)
 {
     OffsetOwner* owner = (OffsetOwner*)this;
-    __m128 p0 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
-    __m128 p1 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
+    __m128 p0 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(intptr_t)::FUN_00d752c0((intptr_t *)triangle, 0))));
+    __m128 p1 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(intptr_t)::FUN_00d752c0((intptr_t *)triangle, 1))));
     __m128 e1 = _mm_sub_ps(p1, p0);
-    __m128 p2 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));
+    __m128 p2 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(intptr_t)::FUN_00d752c0((intptr_t *)triangle, 2))));
     __m128 e2 = _mm_sub_ps(p2, p0);
 
     __m128 a = _mm_mul_ps(_mm_shuffle_ps(e2, e2, 0xc9), _mm_shuffle_ps(e1, e1, 0xd2));
@@ -13092,7 +12990,6 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
 }
 
 extern const char str_010d36ec[];
-extern const __m128 DAT_010c7160;
 
 struct S00d7fb80_Stream {
     int unk00;
@@ -13276,7 +13173,7 @@ struct S00d7fb80_Plane {
     __int64 m_offset;
     int m_uiEdgeIndex;
 };
-typedef unsigned long S00d7fb80_Uid;
+typedef uintptr_t S00d7fb80_Uid;
 struct S00d7fb80_Triangle;
 template <typename VERTEX>
 struct S00d7fb80_TriangleBase : S00d7fb80_Item<S00d7fb80_Triangle> {
@@ -13292,10 +13189,10 @@ struct S00d7fb80_Triangle : S00d7fb80_TriangleBase<S00d7fb80_Vertex*> {
     int m_40;
     int m_uiEdgeIndex;
 };
-__forceinline S00d7fb80_Uid S00d7fb80_uid2ulong(void* t, unsigned int i) { return (*(const unsigned long*)&t) + (unsigned long)i; }
+__forceinline S00d7fb80_Uid S00d7fb80_uid2ulong(void* t, unsigned int i) { return (*(const uintptr_t*)&t) + (uintptr_t)i; }
 __forceinline S00d7fb80_Uid S00d7fb80_packUid(void* t, unsigned int i) { return S00d7fb80_uid2ulong(t, i); }
 template <typename T>
-__forceinline void S00d7fb80_ulong2uid(unsigned long uid, T*& t, unsigned int& i)
+__forceinline void S00d7fb80_ulong2uid(uintptr_t uid, T*& t, unsigned int& i)
 {
     i = (unsigned int)(uid & 3);
     uid &= ~3;
@@ -14060,11 +13957,11 @@ seed.bits.w=source->first->point.bits.w;
         ExpandArray& points=av.points; points.init();
         ExpandVector seed=FUN_00d752d0();
         ExpandVector normal;
-        reinterpret_cast<::FUN_00d74e50_cls *>((void *)this)->GetValueBlock();
+        *(::ValueBlock *)&normal = reinterpret_cast<::FUN_00d74e50_cls *>((void *)this)->GetValueBlock();
         points.reserve(3*reinterpret_cast<::FUN_00d75050_cls *>((void *)this)->FUN_00d75050());
         reinterpret_cast<::S00d76120_cls *>((void *)this)->FUN_00d76120(0,(::S00d76120_Arr &)(points));
-        for (intptr_t v=reinterpret_cast<::D75060Outer *>((void *)this)->FUN_00d75060();v;v=::FUN_00d75120((int *)this)) {
-            const ExpandVector* position=&(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)this)));
+        for (intptr_t v=reinterpret_cast<::D75060Outer *>((void *)this)->FUN_00d75060();v;v=::FUN_00d75120((int *)v)) {
+            const ExpandVector* position=&(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)v)));
             const ExpandVector& pos=*position;
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(radius));
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(-radius));
@@ -14084,13 +13981,13 @@ seed.bits.w=source->first->point.bits.w;
         ExpandArray& points=av.points; points.init();
         points.reserve(6*reinterpret_cast<::D75130Outer *>((void *)this)->FUN_00d75130());
         reinterpret_cast<::S00d76120_cls *>((void *)this)->FUN_00d76120(0,(::S00d76120_Arr &)(points));
-        for (intptr_t f=((intptr_t)(reinterpret_cast<::fnv_00d75140::Owner *>((void *)this)->FUN_00d75140()));f;f=::FUN_00d75200((const int *)this)) {
+        for (intptr_t f=((intptr_t)(reinterpret_cast<::fnv_00d75140::Owner *>((void *)this)->FUN_00d75140()));f;f=::FUN_00d75200((const intptr_t *)f)) {
             ExpandVector plane;
             FUN_00d75b80(&plane,f);
 
             if (*(unsigned char*)plane.FUN_00c7f520(&av.validity.valid,DAT_010141cc)) {
                 for (int i=0;i<3;++i) {
-                    const ExpandVector& pos=(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)this::FUN_00d752c0((int *)this, f))));
+                    const ExpandVector& pos=(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)(intptr_t)::FUN_00d752c0((intptr_t *)f, i))));
                     points.AllocatePair().setAddMul(pos,plane,ExpandScalar(radius));
                 }
             }
@@ -14197,19 +14094,6 @@ struct H77VectorArray
     }
 };
 
-struct H77StridedVertices
-{
-    const float* m_kVertices;
-    int m_iStridedVertexCount;
-    int m_iVertexStride;
-};
-
-struct H77ConvexHull
-{
-    int FUN_00d771c0(const H77Vector4* points, int numPoints, int config) throw();
-    int FUN_00d77200(const H77StridedVertices& points, int config);
-};
-
 // @fnv 0x00d77200
 int H77ConvexHull::FUN_00d77200(const H77StridedVertices& points, intptr_t config)
 {
@@ -14299,7 +14183,7 @@ void FUN_00d76c50_cls::DispatchToSink(void* apKey, void* apFirst, void* apSecond
 }
 // Calls FUN_00d83430 on the object stored at unk08, passing the four arguments through unchanged.
 // @fnv 0x00d790a0
-void FUN_00d790a0_class::FUN_00d790a0(int aiArg1, int aiArg2, int aiArg3, float afArg4) {
+void FUN_00d790a0_class::FUN_00d790a0(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, float afArg4) {
     reinterpret_cast<::HullImpl *>((unk08))->FUN_00d83430((*(const ::HullVec *)(aiArg1)), (::FUN_00d76ca0 **)(aiArg2), (::FUN_00d76ca0 **)(aiArg3), afArg4);
 }
 
@@ -14334,12 +14218,12 @@ void FUN_00d75820_cls::CallTargetWithTemp(intptr_t a1, float a2, intptr_t a3)
 }
 
 // @fnv 0x00d76100
-void FUN_00d76100_cls::FUN_00d76100(int a1, int a2, float a3) {
+void FUN_00d76100_cls::FUN_00d76100(intptr_t a1, int a2, float a3) {
     reinterpret_cast<::QuantizedHull *>((m_08))->FUN_00d7b330((*(const ::QuantVector *)(a1)), a2, a3);
 }
 
 // @fnv 0x00d76920
-void FUN_00d76920_class::FUN_00d76920(float f, int i) {
+void FUN_00d76920_class::FUN_00d76920(float f, intptr_t i) {
     reinterpret_cast<::BevelHull *>((m_08))->FUN_00d7caa0(f, (*(::BevelArray *)(i)));
 }
 
@@ -14510,7 +14394,7 @@ hkVector4 eigenValues;
 if (inertiaM.DiagonalizeSymmetric(eigenVectors, eigenValues, 128, 1e-4f) == HK_FAILURE)
 {
 
-if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(str_010d36a0)))->FUN_00cc02d0(m_uiUniqueId)))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078))); if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0(); } else;
+if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; ::new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(str_010d36a0)))->FUN_00cc02d0(m_uiUniqueId)))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078))); if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0(); } else;
 }
 reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
 reinterpret_cast<::CB2FC0Object *>(&(eigenVectors))->FUN_00cb2fc0();
@@ -14573,3 +14457,146 @@ m_kLocalTransform = hkTransform::GetIdentityTransform();
 return m_bFirstImplementationFlag ? HK_SUCCESS : HK_FAILURE;}
 
 #include "generated/data/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.inc"
+
+// Stores v into the m_00 field of unk08, then calls unk08's FUN_00d81510 with a, b, 0, 0.
+// @fnv 0x00d771c0
+void FUN_00d771c0_Owner::FUN_00d771c0(intptr_t a, int b, const Vec4i& v)
+{
+    unk08->m_00 = v;
+    reinterpret_cast<::S00d81510_Hull *>((unk08))->FUN_00d81510((const ::S00d81510_Vector4 *)(a), b, 0, (const ::S00d81510_Hull *)(0));
+}
+
+// Copies four unsigned ints from a4 into m_08, stores the __m128 from a3 at offset 0xe0, then calls FUN_00d81510 on m_08 with a1, a2, 1, 0.
+// @fnv 0x00d77320
+void FUN_00d77320_cls::CopyAndDispatch(int* a1, int a2, const __m128* pVec, const unsigned int* pUInts)
+{
+    unsigned int* dst = (unsigned int*)m_08;
+    dst[0] = pUInts[0];
+    dst[1] = pUInts[1];
+    dst[2] = pUInts[2];
+    dst[3] = pUInts[3];
+    *(__m128*)((char*)m_08 + 0xe0) = *pVec;
+    reinterpret_cast<::S00d81510_Hull *>((m_08))->FUN_00d81510((const ::S00d81510_Vector4 *)((intptr_t)a1), a2, 1, (const ::S00d81510_Hull *)(0));
+}
+
+namespace fnv_00d77bd0 {
+// @fnv 0x00d77bd0
+void FUN_00d77bd0_cls::FUN_00d77bd0()
+{
+    reinterpret_cast<::S00d82ad0_Hull *>((m_pInner))->FUN_00d82ad0({}, {});
+}
+}  // namespace fnv_00d77bd0
+
+namespace fnv_00d76cf0 {
+// Allocates a D76Child, releases its existing m_08 object, then initializes m_08, m_0c, and m_10 from source fields.
+// @fnv 0x00d76cf0
+D76Child* FUN_00d76cf0_cls::FUN_00d76cf0()
+{
+    FUN_00c85750_return* pHolder = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
+    D76Allocator* pAllocator = (D76Allocator*)pHolder->unk10;
+    D76Child* pNew = (D76Child*)pAllocator->Alloc(sizeof(::fnv_00d76ca0::FUN_00d76ca0));
+    pNew->m_04 = sizeof(::fnv_00d76ca0::FUN_00d76ca0);
+    pNew = ((::fnv_00d76cf0::D76Child *)(new ((void *)(pNew)) ::fnv_00d76ca0::FUN_00d76ca0()));
+    D76Old* pOld = (D76Old*)pNew->m_08;
+    if (pOld != 0) {
+        reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pOld))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
+        FUN_00c85750_return* pHolder2 = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
+        D76Allocator* pAllocator2 = (D76Allocator*)pHolder2->unk10;
+        pAllocator2->FreeArray(pOld, sizeof(::FUN_00d7f6a0));
+    }
+    pNew->m_08 = 0;
+    pNew->m_08 = ((void *)(reinterpret_cast<::ThisCls *>((((D76Sub*)m_08)))->FUN_00d7f720()));
+    pNew->m_0c = m_0c;
+    void* pVal;
+    if (m_10 != 0) {
+        pVal = ((D76Iface*)m_10)->v04();
+    } else {
+        pVal = 0;
+    }
+    pNew->m_10 = pVal;
+    return pNew;
+}
+}  // namespace fnv_00d76cf0
+
+// @fnv 0x00d78ea0
+void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
+{
+    D78ea0Item** items = (D78ea0Item**)apPairs;
+
+    if (count > 0)
+    {
+        D78ea0Arr arr;
+        arr.m_data = 0;
+        arr.m_iElementCount = 0;
+        arr.m_pRayCursor = 0x80000000;
+
+        D78ea0Key key;
+        const volatile D78ea0Key* src = ((::D78ea0Key *)(reinterpret_cast<::FnvCpu_FUN_00d74e00_CpuObject *>((items[0]))->FUN_00d74e00()));
+        key.a = src->a;
+        key.b = src->b;
+        int keyC = src->c;
+        int keyD = src->d;
+
+        int sum = 0;
+        D78ea0Child* firstChild = 0;
+        key.c = keyC;
+        key.d = keyD;
+        D78ea0Listener* listener = 0;
+        ((unsigned char*)&key)[0] = 1;
+
+        for (int i = 0; i < count; ++i)
+        {
+            sum += reinterpret_cast<::FUN_00d75050_cls *>((items[i]))->FUN_00d75050();
+            if (firstChild == 0)
+            {
+                D78ea0Child* c = items[i]->m10;
+                if (c != 0)
+                {
+                    firstChild = c;
+                }
+            }
+        }
+        if (firstChild != 0)
+        {
+            listener = firstChild->v04();
+        }
+
+        D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
+        if ((arr.m_pRayCursor & 0x3fffffff) < sum)
+        {
+            int cap = arr.m_pRayCursor & 0x3fffffff;
+            int newcap = cap + cap;
+            if (sum >= newcap)
+            {
+                newcap = sum;
+            }
+            ::FUN_00c908c0((::SpawnedObject *)(::D76250Allocator *)(&alloc), (::SpawnedArray *)(void *)(&arr), newcap, 16);
+        }
+
+        for (int i = 0; i < count; ++i)
+        {
+            if (listener != 0)
+            {
+                D78ea0Child* c = items[i]->m10;
+                if (c != 0 && c != firstChild)
+                {
+                    listener->v08(c);
+                }
+            }
+            reinterpret_cast<::S00d76120_cls *>((items[i]))->FUN_00d76120(first, (*(::S00d76120_Arr *)(&arr)));
+        }
+
+        FUN_00d76ca0* obj = new FUN_00d76ca0;
+        obj->m10 = listener;
+        reinterpret_cast<::FUN_00d771c0_Owner *>((obj))->FUN_00d771c0((intptr_t)arr.m_data, arr.m_iElementCount, (const ::Vec4i &)(key));
+
+        if (reinterpret_cast<::FUN_00d74e10_cls *>((obj))->FUN_00d74e10() != -1)
+        {
+            arr.clear();
+            return obj;
+        }
+        delete obj;
+        arr.clear();
+    }
+    return 0;
+}

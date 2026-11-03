@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
+#include "fnv/symbols_simd.h"
 #include <cstddef>
 #include "fnv/decl/FUN_00d76100_cls.h"
 struct S00e25cd0_Edge;
@@ -11,7 +12,6 @@ template <class> struct S00e25cd0_Array;
 struct S_00e16e50_Vec;
 struct S_e1ce10_Geometry;
 struct S_e1ce10_Transform;
-#include "fnv/decl/TriangleChecker.h"
 namespace fnv_00e12640 { struct E12640VectorArray; }
 namespace fnv_00e23710 { struct S_00e23710_Block; }
 namespace fnv_00e247c0 { struct Node; }
@@ -64,7 +64,6 @@ struct S00e24650_Vtx;
 #include "fnv/decl/fnv_00d76ca0__FUN_00d76ca0.h"
 #include "fnv/decl/fnv_00d9c010__FUN_00d9c010_cls.h"
 #include "fnv/decl/fnv_00e18b70__Target.h"
-#include "fnv/decl/fnv_00e230f0__MeshClass.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00a29000.h"
 #include "fnv/symbols_00c74000.h"
@@ -250,8 +249,8 @@ bool S_00e120e0::TestShapeHit(S_00e120e0_Shape* pShape, float fValue, bool bFlag
 
 struct E122D0Face {
     E122D0Face* m_next;
-    int unk04;
-    int m_kVertices[3];
+    E122D0Face* m_prev;
+    void* m_kVertices[3];
 };
 
 struct E122D0Edge {
@@ -276,11 +275,11 @@ struct E122D0Mesh {
     int unk28;
     E122D0Face* m_faces;
 
-    E122D0Edge FindEdge(int vertexA, int vertexB);
+    E122D0Edge FindEdge(void* vertexA, void* vertexB);
 };
 
 // @fnv 0x00e122d0
-E122D0Edge E122D0Mesh::FindEdge(int vertexA, int vertexB)
+E122D0Edge E122D0Mesh::FindEdge(void* vertexA, void* vertexB)
 {
     for (E122D0Face* face = m_faces; face; face = face->m_next) {
         for (int prev = 2, i = 0; i < 3; prev = i++) {
@@ -293,7 +292,7 @@ E122D0Edge E122D0Mesh::FindEdge(int vertexA, int vertexB)
 }
 
 struct Allocator { virtual void v00(); virtual void* allocate(int); virtual void v08(); virtual void v0c(); __declspec(nothrow) virtual void freeBlock(void*,int); };
-struct Router {int unk00,unk04,unk08,unk0c; Allocator* heap; Allocator& getHeap() {return *heap;} };
+struct Router {void *unk00,*unk04,*unk08,*unk0c; Allocator* heap; Allocator& getHeap() {return *heap;} };
 struct FourFloatVector {float x,y,z,w;};
 struct VectorArray {FourFloatVector* data; int size; int capacity;
  VectorArray():data(0),size(0),capacity(0x80000000) {}
@@ -409,24 +408,6 @@ struct ErrorReporter
     virtual int Report(int, unsigned int, const char*, const char*, int);
 };
 
-// Calls FUN_00e230f0(1); if report is set and an error is returned, builds a message and reports it via DAT_01268360, returning whether the error is zero.
-// @fnv 0x00e14b30
-bool CheckError(bool report)
-{
-    int error = reinterpret_cast<::fnv_00e230f0::MeshClass *>((1))->FUN_00e230f0({});
-    if (report && error)
-    {
-        CharBuffer message;
-        unsigned int storage[128];
-        char* text = reinterpret_cast<char*>(storage);
-        new ((void *)&(message)) ::FUN_00cb1600(text, 512);
-        reinterpret_cast<::SinkOwner *>((((::CharBuffer *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0(DAT_010eaf08)))->WriteInt(error)))->FUN_00cc01c0((*reinterpret_cast<char (*)[]>(&::DAT_0103d078)));
-        if (DAT_01268360->Report(3, 0x4c5c2afa, text, DAT_010eaeb4, 0xb29))
-            __debugbreak();
-        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
-    }
-    return error == 0;
-}
 
 struct FUN_00e14fe0_node {
     FUN_00e14fe0_node* m_pNext;
@@ -1442,7 +1423,7 @@ struct E25FB0Node {
     int unk08;
     int unk0C;
     int unk10;
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct E25FB0Edge {
@@ -1683,8 +1664,8 @@ void FUN_00e12230_cls::ReplaceValueInList(int oldValue, intptr_t newValue)
 
 struct S_00e12920_Node {
     S_00e12920_Node* next;
-    int unk04, unk08, unk0C, unk10;
-    unsigned int flags[3];
+    void *unk04, *unk08, *unk0C, *unk10;
+    uintptr_t flags[3];
 };
 struct S_00e12920 {
     int unk00,unk04,unk08,unk0C,unk10,unk14,unk18,unk1C,unk20,unk24,unk28;
@@ -1697,7 +1678,7 @@ bool S_00e12920::FUN_00e12920()
 {
     for (S_00e12920_Node* n = head; n; n = n->next) {
         for (int i = 0; i < 3; i++) {
-            if ((n->flags[i] & 0xfffffffc) == 0)
+            if ((n->flags[i] & ~(uintptr_t)3) == 0)
                 return false;
         }
     }
@@ -1710,7 +1691,7 @@ struct S_00e13910_Triangle {
     intptr_t m_unk00;
     intptr_t m_unk04;
     void* m_kVertices[3];
-    hkUint32 m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct S_00e13910_Edge {
@@ -1721,7 +1702,7 @@ struct S_00e13910_Edge {
     S_00e13910_Edge(S_00e13910_Triangle* t, uintptr_t i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
     S_00e13910_Edge(uintptr_t l) {
         m_uiEdgeIndex = l & 3u;
-        m_pkTriangle = (S_00e13910_Triangle*)(l & ~3u);
+        m_pkTriangle = (S_00e13910_Triangle*)(l & ~(uintptr_t)3);
     }
 
     __forceinline bool isValid() const {
@@ -2373,7 +2354,7 @@ struct Entry {
     int unk08;
     int unk0c;
     int unk10;
-    unsigned int links[3];
+    uintptr_t links[3];
     unsigned int flags;
 };
 
@@ -2421,9 +2402,9 @@ bool Scanner::CheckLinks()
             for (; i < 3; i++) {
                 ref.extra = i;
                 unsigned int link = e->links[i];
-                if (link & 0xfffffffc) {
+                if (link & ~(uintptr_t)3) {
                     m.extra = link & 3;
-                    m.value = e->links[i] & 0xfffffffc;
+                    m.value = e->links[i] & ~(uintptr_t)3;
                     if (reinterpret_cast<::SearchOwner *>(this)->LookupPairResult((::SearchPath *)(::Ref *)(&ref))) {
                         t.good++;
                     } else if (reinterpret_cast<::SearchOwner *>(this)->LookupPairResult((::SearchPath *)(::Ref *)(&m))) {
@@ -3533,7 +3514,7 @@ S_00e23710_Block* S_00e23710_Array::FUN_00e23710()
 
     S_00e23710_Router* r = static_cast<S_00e23710_Router*>(::FUN_00c85750());
     if (m_iElementCount == (m_cap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)&(r->heap()), (::AudioStream *)(void *)(this), 4);
+        ::ResizeAudioStream((::AudioAllocator *)&(r->heap()), (::AudioStream *)(void *)(this), sizeof(S_00e23710_Block*));
     S_00e23710_Block** p = m_data + m_iElementCount;
     for (int k = 0; k < 1; k++) p[k] = block;
     m_iElementCount++;
@@ -4625,7 +4606,7 @@ float FUN_00e136c0_cls::FUN_00e136c0() throw()
 }
 }  // namespace fnv_00e136c0
 
-typedef unsigned int HullU32;
+typedef uintptr_t HullU32;
 struct HullTriAN
 {
     HullTriAN* m_next;
@@ -4640,14 +4621,14 @@ struct HullEdgeAN
     __forceinline HullEdgeAN(HullU32 l)
     {
         m_uiEdgeIndex = l & 3u;
-        m_pkTriangle = (HullTriAN*)(l & ~3u);
+        m_pkTriangle = (HullTriAN*)(l & ~(HullU32)3);
     }
     __forceinline bool isValid() const { return m_pkTriangle != 0; }
 };
 __forceinline void UnlinkAN(HullU32& link)
 {
     HullU32 l = link;
-    if (l & ~3u)
+    if (l & ~(HullU32)3)
     {
         HullEdgeAN e(l);
         e.m_pkTriangle->m_ppLinks[e.m_uiEdgeIndex] = 0;
@@ -5288,7 +5269,7 @@ _ReadWriteBarrier();
             opposite.prev().bind(nullMeshEdge());
         }
         unsigned int packedLink = opposite.m_pkTriangle->m_ppLinks[opposite.m_uiEdgeIndex];
-        if (packedLink & ~3u) {
+        if (packedLink & ~(uintptr_t)3) {
             S_00e13910_Edge linked(packedLink);
             linked.m_pkTriangle->m_ppLinks[linked.m_uiEdgeIndex] = 0;
         }
@@ -5355,7 +5336,7 @@ struct T27Node {
     int unk08;
     int unk0c;
     int unk10;
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct T27Edge {
@@ -5366,7 +5347,7 @@ struct T27Edge {
 inline T27Edge T27MakeEdge(uintptr_t packed) {
     T27Edge e;
     e.m_uiEdgeIndex = packed & 3;
-    e.m_node = (T27Node*)(packed & 0xfffffffc);
+    e.m_node = (T27Node*)(packed & ~(uintptr_t)3);
     return e;
 }
 
@@ -5419,7 +5400,7 @@ unsigned __int64 T27Cls::FUN_00e27ae0(T27Edge edge, T27Item* items) {
         unsigned int packed = node->m_ppLinks[index];
         result.parts.previous = node;
         result.parts.last = packed;
-        if ((packed & 0xfffffffc) == 0)
+        if ((packed & ~(uintptr_t)3) == 0)
             break;
 
         edge = T27MakeEdge((unsigned int)packed);
@@ -5563,7 +5544,7 @@ struct HullFloodTriangle {
     int unk08;
     int unk0c;
     int unk10;
-    int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     int unk20;
     int unk24;
     int unk28;
@@ -5585,7 +5566,7 @@ struct HullFloodStack {
 };
 inline void HullFloodStack::release(Allocator& heap) {
     m_iElementCount = 0;
-    if (!(m_cap & 0x80000000)) heap.freeBlock(m_data, (m_cap & 0x3fffffff) * 8);
+    if (!(m_cap & 0x80000000)) heap.freeBlock(m_data, (m_cap & 0x3fffffff) * sizeof(HullFloodEdge));
 }
 inline void HullFloodStack::AddBack(const HullFloodEdge& edge) {
     Router& mgr = (*static_cast<Router*>(::FUN_00c85750()));
@@ -5645,7 +5626,7 @@ struct Triangle {
     Triangle* m_next;
     unsigned int unk04;
     Vertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 static inline int nextIndex(int i) { return (9 >> (i << 1)) & 3; }
@@ -5656,7 +5637,7 @@ struct Edge {
 
     Edge(Triangle* triangle, int index) : m_pkTriangle(triangle), m_uiEdgeIndex(index) {}
     uintptr_t uid() const { return (uintptr_t)m_pkTriangle + m_uiEdgeIndex; }
-    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & ~3u) == 0; }
+    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & ~(uintptr_t)3) == 0; }
     Vertex* start() const { return m_pkTriangle->m_kVertices[m_uiEdgeIndex]; }
     Vertex* end() const { return m_pkTriangle->m_kVertices[nextIndex(m_uiEdgeIndex)]; }
     void bind(const Edge& other) const
@@ -6079,7 +6060,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
                 for (int i = 0; i < 3; ++i) {
                     Router& r = (*static_cast<Router*>(::FUN_00c85750()));
                     if (arr.m_iElementCount == (int)(arr.m_cap & 0x3fffffff)) {
-                        ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)((int*)&arr.m_data), 8);
+                        ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)((int*)&arr.m_data), sizeof(PairItem));
                     }
                     PairItem* p = &arr.m_data[arr.m_iElementCount];
                     if (p != 0) {
@@ -6097,7 +6078,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
     for (int k = 0; k < arr.m_iElementCount; ++k) {
         PairItem& pr = arr.m_data[k];
         unsigned int v = pr.m_pkTriangle->m_ppLinks[pr.m_uiEdgeIndex];
-        if ((v & ~3u) != 0) {
+        if ((v & ~(uintptr_t)3) != 0) {
             PairItem other(v);
             other.m_pkTriangle->m_ppLinks[other.m_uiEdgeIndex] = 0;
         }
@@ -6112,7 +6093,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
     int cap = arr.m_cap;
     arr.m_iElementCount = 0;
     if ((cap & 0x80000000) == 0) {
-        alloc->freeBlock(arr.m_data, (cap & 0x3fffffff) * 8);
+        alloc->freeBlock(arr.m_data, (cap & 0x3fffffff) * sizeof(PairItem));
     }
 }
 
@@ -6410,10 +6391,10 @@ struct MemAllocator {
 };
 
 struct BSAudio {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     MemAllocator* m_pAllocator;
 };
 
@@ -6589,7 +6570,7 @@ struct FUN_00e25ba0_cls {
 // @fnv 0x00e25ba0
 void FUN_00e25ba0_cls::FUN_00e25ba0() {
     BSAudio* audio1 = (BSAudio*)&(*static_cast<Router*>(::FUN_00c85750()));
-    FUN_00e25ba0_Table* t = (FUN_00e25ba0_Table*)audio1->m_pAllocator->Alloc(0x10);
+    FUN_00e25ba0_Table* t = (FUN_00e25ba0_Table*)audio1->m_pAllocator->Alloc(sizeof(FUN_00e25ba0_Table));
     if (t != 0) {
     t->m_pSlots = 0;
     t->m_cap = (int)0x80000000;
@@ -6604,25 +6585,24 @@ void FUN_00e25ba0_cls::FUN_00e25ba0() {
         if (cap <= 0x407) {
             cap = 0x407;
         }
-        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(t), cap, 0xc);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(t), cap, sizeof(FUN_00e25ba0_Slot));
     }
 
     int n = t->m_uiItemCount - 0x407;
-    int* base = (int*)((char*)t->m_pSlots + 0x3054);
+    FUN_00e25ba0_Slot* w = t->m_pSlots + 0x407;
     _ReadWriteBarrier();
     if (n > 0) {
-        int* w = base + 2;
         int k = n;
         do {
             BSAudio* audio3 = (BSAudio*)&(*static_cast<Router*>(::FUN_00c85750()));
             MemAllocator* a3 = audio3->m_pAllocator;
-            w[-1] = 0;
-            if ((w[0] & 0x80000000) == 0) {
-                a3->Free((void*)w[-2], (*w & 0x3fffffff) * 12);
+            w->m_unk04 = 0;
+            if ((w->m_flags & 0x80000000) == 0) {
+                a3->Free(w->m_pData, (w->m_flags & 0x3fffffff) * 12);
             }
-            w[-2] = 0;
-            w[0] = (int)0x80000000;
-            w += 3;
+            w->m_pData = 0;
+            w->m_flags = (int)0x80000000;
+            w++;
             k--;
         } while (k != 0);
     }
@@ -6642,11 +6622,8 @@ void FUN_00e25ba0_cls::FUN_00e25ba0() {
     }
 
     t->m_uiItemCount = 0x407;
-    for (int i = 0; i < 0x3054; ) {
-        FUN_00e25ba0_Slot* s = (FUN_00e25ba0_Slot*)((char*)t->m_pSlots + i);
-        i += 12;
-        s->m_unk04 = 0;
-    }
+    for (int i = 0; i < 0x407; ++i)
+        t->m_pSlots[i].m_unk04 = 0;
     m_pTable = t;
     } else {
         m_pTable = 0;
@@ -6658,11 +6635,11 @@ struct Vertex { int unk00; int unk04; int m_uiX; int m_uiY; };
 struct VKey { int m_k; VKey(const Vertex* v) : m_k((v->m_uiX << 15) + v->m_uiY) {} };
 struct Triangle { int unk00; int unk04; Vertex* m_v[3]; };
 struct EdgeRef { Triangle* m_tri; int m_idx; };
-struct EdgeEntry { Vertex* m_kPointA; Vertex* m_kPointB; int m_uiFilterValue; };
+struct EdgeEntry { Vertex* m_kPointA; Vertex* m_kPointB; intptr_t m_uiFilterValue; };
 __forceinline void copyEntry(void* dst, const void* src)
 {
     int i = 0;
-    do { static_cast<int*>(dst)[i] = static_cast<const int*>(src)[i]; } while (++i < 3);
+    do { static_cast<intptr_t*>(dst)[i] = static_cast<const intptr_t*>(src)[i]; } while (++i < 3);
 }
 struct EdgeBucket {
     EdgeEntry* m_data;
@@ -6861,18 +6838,6 @@ struct EdgeOwner {
     void FUN_00e27450(const EdgeRef& e);
     void FUN_00e27400();
 };
-// If m_map exists, looks up e's edge, passes its filter value to m_set.FUN_00e24e40 and removes it, then calls FUN_00e27400 if m_map is empty.
-// @fnv 0x00e27450
-void EdgeOwner::FUN_00e27450(const EdgeRef& e)
-{
-    if (m_map) {
-        Vertex* a = e.m_tri->m_v[e.m_idx];
-        Vertex* b = e.m_tri->m_v[(9 >> (e.m_idx * 2)) & 3];
-        EdgeEntry* entry = m_map->get(a,b);
-        if (entry) { reinterpret_cast<::GpPoolAllocator *>(&(m_set))->FUN_00e24e40((::GpPoolItem *)(entry->m_uiFilterValue)); m_map->remove(a,b); }
-        if (m_map->m_uiItemCount == 0) FUN_00e27400();
-    }
-}
 }  // namespace fnv_00e27450
 
 namespace fnv_00e126c0 {
@@ -7046,7 +7011,7 @@ float __cdecl FUN_00e13870(char* self, unsigned int idx)
 {
     uintptr_t tagged = *(unsigned int*)(self + 0x14 + idx * 4);
     uintptr_t tag = tagged & 3;
-    char* ptr = (char*)(tagged & 0xfffffffcu);
+    char* ptr = (char*)(tagged & ~(uintptr_t)3);
     if (ptr == 0) {
         return 0.0f;
     }
@@ -7370,7 +7335,7 @@ struct LocTriangle
     LocTriangle* m_next;
     LocTriangle* m_pSecondNode;
     LocVertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct LocEdge
@@ -7387,7 +7352,7 @@ struct LocEdge
     LocEdge link() const
     {
         const uintptr_t l = m_pkTriangle->m_ppLinks[m_uiEdgeIndex];
-        LocEdge e; e.m_uiEdgeIndex = l & 3; e.m_pkTriangle = (LocTriangle*)(l & ~3u); return e;
+        LocEdge e; e.m_uiEdgeIndex = l & 3; e.m_pkTriangle = (LocTriangle*)(l & ~(uintptr_t)3); return e;
     }
     LocVertex* start() const { return m_pkTriangle->m_kVertices[m_uiEdgeIndex]; }
     LocVertex* end() const { return m_pkTriangle->m_kVertices[next(m_uiEdgeIndex)]; }
@@ -7650,9 +7615,6 @@ LocResult LocTriangulator::LocatePoint(int x, int y)
 #ifndef _INCLUDED_MM2
 
 #endif
-#ifndef _INCLUDED_MM2
-static __m128 _mm_set1_ps(const float& f) {__m128 a=_mm_load_ss(&f);return _mm_shuffle_ps(a,a,0);}
-#endif
 extern const float DAT_010141cc;
 extern const float DAT_0104da4c=1.1920928955078125e-7f;
 struct EVec {
@@ -7663,7 +7625,7 @@ struct EVec {
 };
 struct EVertex { int unk00,unk04,unk08,unk0c; EVec position; };
 struct ELocalVec {union {EVec scalar; __m128 simd;}; ELocalVec(const EVec& v) {scalar=v;}};
-struct EFace { EFace* next; int unk04; EVertex* vertices[3]; unsigned int edges[3]; EVec normal; };
+struct EFace { EFace* next; EFace* unk04; EVertex* vertices[3]; uintptr_t edges[3]; EVec normal; };
 struct ENode { ENode* next; int unk04,unk08,unk0c; EVec position,normal; };
 struct EParams {float value,spacing,tolerance,offset,angle; unsigned char flag14,flag15,flag16,flag17; int filter;};
 struct EArray {EVec* data; int size; unsigned int capacity;};
@@ -8056,10 +8018,10 @@ bool TriangleChecker::FUN_00e11710(const CheckVector& a, const CheckVector& b, c
 }
 
 struct S00e124d0_Obj {
-    unsigned int m_h0;
-    unsigned int m_h4;
-    unsigned int m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_h0;
+    uintptr_t m_h4;
+    uintptr_t m_kVertices[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct S00e124d0_Entry {
@@ -8348,14 +8310,14 @@ struct NakedArray
         {
             int n = (int)(cap & 0x3fffffff)*2;
             if (n <= capacity) n = capacity;
-            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(::FUN_00e22970_Cls *)((FUN_00e22970_Cls*)this), n, 8);
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(::FUN_00e22970_Cls *)((FUN_00e22970_Cls*)this), n, sizeof(NakedEdgeRef));
         }
     }
     void clear() { size=0; }
     void deallocate(Allocator& heap)
     {
         if (!(cap & 0x80000000))
-            heap.freeBlock(data, (cap & 0x3fffffff)*8);
+            heap.freeBlock(data, (cap & 0x3fffffff)*sizeof(NakedEdgeRef));
     }
     void release(Allocator& heap) { clear(); deallocate(heap); }
     void removeAt(int index)
@@ -8367,7 +8329,7 @@ struct NakedArray
     {
         Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if (size == (int)(cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(void *)(this), 8);
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(void *)(this), sizeof(NakedEdgeRef));
         new (data + size) NakedEdgeRef(edge);
         ++size;
     }
@@ -8466,10 +8428,10 @@ void MeshEdgeRepair::FUN_00e14d10()
     for (NakedFace* face = m_pHead2c; face != 0; face = (NakedFace*)face->m_unk00)
     {
         int k = 0;
-        unsigned int* pe = face->m_ppLinks;
+        uintptr_t* pe = face->m_ppLinks;
         for (; k < 3; ++k, ++pe)
         {
-            if ((*pe & 0xfffffffc) == 0)
+            if ((*pe & ~(uintptr_t)3) == 0)
             {
                 arr.append(NakedEdgeRef(face, k));
             }
@@ -8662,7 +8624,7 @@ struct ZNode {
 ;
 template<> void ZArray<ZNode*>::append(ZNode* const& item) {
     Allocator& a=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
-    if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&a),(::AudioStream *)(void *)(this),4);
+    if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&a),(::AudioStream *)(void *)(this),sizeof(ZNode*));
     data[size++]=item;
 }
 struct ZTree {
@@ -8965,10 +8927,10 @@ struct S00e24650_Vtx {
 };
 
 struct S00e24650_Tri {
-    unsigned int unk00;
-    unsigned int unk04;
+    S00e24650_Tri* unk00;
+    S00e24650_Tri* unk04;
     S00e24650_Vtx* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct S00e24650_Edge {
@@ -8976,21 +8938,21 @@ struct S00e24650_Edge {
     uintptr_t m_uiEdgeIndex;
     S00e24650_Edge() {}
     S00e24650_Edge(S00e24650_Tri* t, unsigned int i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
-    S00e24650_Edge(uintptr_t tagged) {m_pkTriangle=(S00e24650_Tri*)tagged; m_uiEdgeIndex=(uintptr_t)m_pkTriangle&3; m_pkTriangle=(S00e24650_Tri*)((uintptr_t)m_pkTriangle&~3u);}
+    S00e24650_Edge(uintptr_t tagged) {m_pkTriangle=(S00e24650_Tri*)tagged; m_uiEdgeIndex=(uintptr_t)m_pkTriangle&3; m_pkTriangle=(S00e24650_Tri*)((uintptr_t)m_pkTriangle&~(uintptr_t)3);}
     S00e24650_Edge(const S00e24650_Edge& o) { m_pkTriangle=o.m_pkTriangle; m_uiEdgeIndex=o.m_uiEdgeIndex; }
     S00e24650_Edge next() const { S00e24650_Edge r(*this); r.m_uiEdgeIndex=(9 >> (r.m_uiEdgeIndex << 1)) & 3; return r; }
     S00e24650_Edge prev() const { return S00e24650_Edge(m_pkTriangle, (0x12 >> (m_uiEdgeIndex << 1)) & 3); }
     S00e24650_Edge link() const { return S00e24650_Edge(m_pkTriangle->m_ppLinks[m_uiEdgeIndex]); }
-    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & 0xfffffffcu) == 0; }
+    bool isNaked() const { return (m_pkTriangle->m_ppLinks[m_uiEdgeIndex] & ~(uintptr_t)3) == 0; }
     S00e24650_Vtx* start() const { return m_pkTriangle->m_kVertices[m_uiEdgeIndex]; }
     S00e24650_Vtx* end() const { return m_pkTriangle->m_kVertices[(9>>(m_uiEdgeIndex<<1))&3]; }
 };
 
-struct EdgeWalker { S00e24650_Edge FUN_00e23df0(S00e24650_Edge k, unsigned int a4); S00e24650_Edge FUN_00e24650(S00e24650_Edge e, unsigned int a4, S00e24650_Vtx* v); };
+struct EdgeWalker { S00e24650_Edge FUN_00e23df0(S00e24650_Edge k, uintptr_t a4); S00e24650_Edge FUN_00e24650(S00e24650_Edge e, uintptr_t a4, S00e24650_Vtx* v); };
 
 // Walks edge e (FUN_00e23df0, then link/next to a naked edge for border start vertices, then prev/link) until an edge ending at v is found.
 // @fnv 0x00e24650
-S00e24650_Edge EdgeWalker::FUN_00e24650(S00e24650_Edge e, unsigned int a4, S00e24650_Vtx* v)
+S00e24650_Edge EdgeWalker::FUN_00e24650(S00e24650_Edge e, uintptr_t a4, S00e24650_Vtx* v)
 {
     S00e24650_Edge arg(e); e=FUN_00e23df0(arg,a4);
     if (e.end() == v)
@@ -9008,10 +8970,10 @@ S00e24650_Edge EdgeWalker::FUN_00e24650(S00e24650_Edge e, unsigned int a4, S00e2
 }
 
 struct S_00e248b0_Tri {
-    int unk00;
-    int unk04;
-    int v[3];
-    unsigned int link[3];
+    intptr_t unk00;
+    intptr_t unk04;
+    intptr_t v[3];
+    uintptr_t link[3];
 };
 
 static __forceinline int S_00e248b0_next(intptr_t e) { return (9 >> (e * 2)) & 3; }
@@ -9021,8 +8983,8 @@ struct S_00e248b0_Edge {
     intptr_t e;
     S_00e248b0_Edge() {}
     S_00e248b0_Edge(S_00e248b0_Tri* t, int i) : tri(t), e(i) {}
-    bool isNaked() const { return (tri->link[e] & ~3u) == 0; }
-    S_00e248b0_Edge link() const { uintptr_t l = tri->link[e]; S_00e248b0_Edge r; r.e = l & 3; r.tri = (S_00e248b0_Tri*)(l & ~3u); return r; }
+    bool isNaked() const { return (tri->link[e] & ~(uintptr_t)3) == 0; }
+    S_00e248b0_Edge link() const { uintptr_t l = tri->link[e]; S_00e248b0_Edge r; r.e = l & 3; r.tri = (S_00e248b0_Tri*)(l & ~(uintptr_t)3); return r; }
     S_00e248b0_Edge next() const { return S_00e248b0_Edge(tri, S_00e248b0_next(e)); }
     int start() const { return tri->v[e]; }
     int end() const { return tri->v[S_00e248b0_next(e)]; }
@@ -9309,7 +9271,7 @@ void HostE10::FUN_00e11e10()
     for (VertE10* v = list14; v != 0; v = v->next)
         _mm_store_ps(&v->acc20.x, _mm_load_ps((const float*)&(*reinterpret_cast<unsigned int *>(&::DAT_01267e30))));
     for (FaceE10* f = faces2c; f != 0; f = f->next) {
-        if (!f ? false:f->nrm20.FUN_00c7f520(DAT_010141cc)) {
+        if (!f ? false:(bool)f->nrm20.FUN_00c7f520(DAT_010141cc)) {
             for (int i = 0; i < 3; ++i) {
                 VertE10* A = f->verts[i];
                 VertE10* B = f->verts[(i + 1) % 3];
@@ -9382,7 +9344,7 @@ struct MeshVertex : ListLinks<MeshVertex> {
 struct FaceLinks { int unk00, unk04; };
 template<class V> struct FaceBase : FaceLinks {
     V m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     __forceinline V& vertex(int i) { return m_kVertices[i]; }
     __forceinline V vertex(int i) const { return m_kVertices[i]; }
 };
@@ -9584,7 +9546,7 @@ void hkgpMeshStub::FUN_00e13210(const MeshPoint* apPoint, MeshResult* apResult)
             break;
         case 6: {
             uintptr_t l = t->m_ppLinks[1];
-            if (l & ~3u) apResult->m_vHitNormal.add4(((MeshTriangle*)(l & ~3u))->m_kTriangleNormal);
+            if (l & ~(uintptr_t)3) apResult->m_vHitNormal.add4(((MeshTriangle*)(l & ~(uintptr_t)3))->m_kTriangleNormal);
             apResult->m_bHasHit = MeshHit(2, MeshLocation((uintptr_t)t, 1));
             break;
         }
@@ -9594,13 +9556,13 @@ void hkgpMeshStub::FUN_00e13210(const MeshPoint* apPoint, MeshResult* apResult)
             break;
         case 5: {
             uintptr_t l = t->m_ppLinks[2];
-            if (l & ~3u) apResult->m_vHitNormal.add4(((MeshTriangle*)(l & ~3u))->m_kTriangleNormal);
+            if (l & ~(uintptr_t)3) apResult->m_vHitNormal.add4(((MeshTriangle*)(l & ~(uintptr_t)3))->m_kTriangleNormal);
             apResult->m_bHasHit = MeshHit(2, MeshLocation((uintptr_t)t, 2));
             break;
         }
         case 3: {
             uintptr_t l = t->m_ppLinks[0];
-            if (l & ~3u) apResult->m_vHitNormal.add4(((MeshTriangle*)(l & ~3u))->m_kTriangleNormal);
+            if (l & ~(uintptr_t)3) apResult->m_vHitNormal.add4(((MeshTriangle*)(l & ~(uintptr_t)3))->m_kTriangleNormal);
             apResult->m_bHasHit = MeshHit(2, MeshLocation((uintptr_t)t, 0));
             break;
         }
@@ -9618,7 +9580,7 @@ void hkgpMeshStub::FUN_00e13210(const MeshPoint* apPoint, MeshResult* apResult)
 }
 
 
-void FUN_00c7f640(int arg, void* p);
+void FUN_00c7f640(intptr_t arg, void* p);
 
 struct Ex_Holder {
     int unk00;
@@ -9710,12 +9672,12 @@ struct LocalOwner {
     unsigned char unk100;
     unsigned char m_101;
     void RemoveTriangle(Ex_Node* n);
-    void FUN_00e15020(int key, int arg2, unsigned int arg3, unsigned char flag);
+    void FUN_00e15020(int key, intptr_t arg2, uintptr_t arg3, unsigned char flag);
 };
 
 // For each node with m_30 == key, averages its three vertex vectors, applies FUN_00c7f640, runs FUN_00e13210, and removes the node if m_44 == flag.
 // @fnv 0x00e15020
-void LocalOwner::FUN_00e15020(int key, int arg2, unsigned int arg3, unsigned char flag) {
+void LocalOwner::FUN_00e15020(int key, intptr_t arg2, uintptr_t arg3, unsigned char flag) {
     Ex_Node* node = m_2c;
     if (node != 0) {
         Ex_Node* next;
@@ -9732,7 +9694,7 @@ __m128 K = _mm_shuffle_ps(t,t,0);
                 FUN_00c7f640(arg2, &a);
                 Ex_Scratch obj;
                 new ((void *)&(obj)) ::FUN_00e22ca0_cls();
-                reinterpret_cast<::hkgpMeshStub *>((((Ex_Target*)(*(volatile unsigned int*)&arg3))))->FUN_00e13210((const ::MeshPoint *)(::LocalVec *)(&a), (::MeshResult *)(::Ex_Scratch *)(&obj));
+                reinterpret_cast<::hkgpMeshStub *>((((Ex_Target*)(*(volatile uintptr_t*)&arg3))))->FUN_00e13210((const ::MeshPoint *)(::LocalVec *)(&a), (::MeshResult *)(::Ex_Scratch *)(&obj));
                 if ((int)obj.m_44 == (int)flag) {
                     reinterpret_cast<::HullImplAN *>(this)->RemoveTriangle((::HullTriAN *)(node));
                 }
@@ -9761,9 +9723,9 @@ __forceinline E17Mem& e17Heap() { return *(E17Mem*)&(*static_cast<Router*>(::FUN
 struct E17Face
 {
     E17Face* m_next;
-    int unk04;
-    int m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    E17Face* unk04;
+    intptr_t m_kVertices[3];
+    uintptr_t m_ppLinks[3];
     int unk20;
     int unk24;
     int unk28;
@@ -9889,7 +9851,7 @@ int E17Mesh::FUN_00e17b00(E17LoopList* apOutLoops, int material) throw()
         {
             for (int j = 0; j < 3; j++)
             {
-                if ((face->m_ppLinks[j] & 0xfffffffc) == 0)
+                if ((face->m_ppLinks[j] & ~(uintptr_t)3) == 0)
                 {
                     E17Loop* loop = new E17Loop;
                     loop->AddBack(E17Edge(face, j));
@@ -9962,7 +9924,7 @@ int E17Mesh::FUN_00e17b00(E17LoopList* apOutLoops, int material) throw()
 
 struct SplitFace : S_00e13910_Triangle {
     __forceinline void*& vertex(int i) { return m_kVertices[i]; }
-    __forceinline hkUint32& link(int i) { return m_ppLinks[i]; }
+    __forceinline uintptr_t& link(int i) { return m_ppLinks[i]; }
     __forceinline void corners(void* const& a, void* const& b, void* const& c) {
         m_kVertices[0] = a; m_kVertices[1] = b; m_kVertices[2] = c;
     }
@@ -9975,7 +9937,7 @@ template<class E, class T> struct SplitCore {
     __forceinline SplitCore(T* t, unsigned i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
     __forceinline SplitCore(const hkUint32& packed) { unpack(packed, m_pkTriangle, m_uiEdgeIndex); }
     static __forceinline void unpack(uintptr_t packed, T*& tri, hkUint32& idx) {
-        idx = packed & 3; packed &= ~3u; tri = (T*)packed;
+        idx = packed & 3; packed &= ~(uintptr_t)3; tri = (T*)packed;
     }
     __forceinline E next() const { return E(m_pkTriangle, (9 >> (m_uiEdgeIndex << 1)) & 3); }
     __forceinline E prev() const { return E(m_pkTriangle, (0x12 >> (m_uiEdgeIndex << 1)) & 3); }
@@ -9985,7 +9947,7 @@ template<class E, class T> struct SplitCore {
     __forceinline void*& end() const { return m_pkTriangle->vertex((9 >> (m_uiEdgeIndex << 1)) & 3); }
     __forceinline void*& apex() const { return m_pkTriangle->vertex((0x12 >> (m_uiEdgeIndex << 1)) & 3); }
     __forceinline void bind(const E& other) const {
-        m_pkTriangle->link(m_uiEdgeIndex) = (hkUint32)other.m_pkTriangle + other.m_uiEdgeIndex;
+        m_pkTriangle->link(m_uiEdgeIndex) = (uintptr_t)other.m_pkTriangle + other.m_uiEdgeIndex;
         if (other.m_pkTriangle) other.m_pkTriangle->link(other.m_uiEdgeIndex) = (uintptr_t)m_pkTriangle + m_uiEdgeIndex;
     }
     static __forceinline const E& null() { static const E e(0, 0); return e; }
@@ -10071,12 +10033,12 @@ struct VertexCopy:ListLinks<VertexCopy> {
     __forceinline VertexCopy(const VertexCopy& v):ListLinks<VertexCopy>(v),position(v.position),normal(v.normal),data(v.data),refs(v.refs),tag(v.tag) {}
 };
 struct TriangleCopy:ListLinks<TriangleCopy> {
-    VertexCopy* vertices[3]; unsigned links[3];
+    VertexCopy* vertices[3]; uintptr_t links[3];
     PositionBits plane;
     int part,planeId,material,tag; unsigned leaf;
     __forceinline VertexCopy*& vertex(int i) {return vertices[i];}
     __forceinline VertexCopy* vertex(int i) const {return vertices[i];}
-    __forceinline unsigned& link(int i) {return links[i];}
+    __forceinline uintptr_t& link(int i) {return links[i];}
 };
 template<class T> struct CopyPool {
     struct Block {T entries[32];T* free;int used;};
@@ -10105,7 +10067,7 @@ struct PartsMap {
     __forceinline PartsMap():data(0),size(0),mask(-1) {reserve(0);}
     static void* operator new(std::size_t n,Allocator* heap){return heap->allocate(n);}
     __forceinline void reserve(int n){reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap()),n);}
-    __forceinline uintptr_t lookup(uintptr_t k)const{return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(k,0)));}
+    __forceinline uintptr_t lookup(uintptr_t k)const{return ((uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(k,0)));}
     __forceinline void insert(uintptr_t k,uintptr_t v){reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap())),k,v);}
     __forceinline void record(Allocator& a,uintptr_t k,uintptr_t v){reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&a)),k,v);}
 };
@@ -10143,7 +10105,7 @@ int PartMesh::FUN_00e1b820(PartArray<PartMesh*>& output,bool simplify,bool conve
     {
         Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         int c=maps.capacity&0x3fffffff;
-        if(c<parts){int n=c+c;if(parts>=n)n=parts;::FUN_00c908c0((::SpawnedObject *)((intptr_t)&heap),(::SpawnedArray *)(void *)(&maps),n,4);}
+        if(c<parts){int n=c+c;if(parts>=n)n=parts;::FUN_00c908c0((::SpawnedObject *)((intptr_t)&heap),(::SpawnedArray *)(void *)(&maps),n,sizeof(PartsMap*));}
     }
     maps.size=parts;
     for(int i=0;i<parts;++i){
@@ -10213,7 +10175,7 @@ int PartMesh::FUN_00e1b820(PartArray<PartMesh*>& output,bool simplify,bool conve
     ::FUN_00a29680();
     Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     maps.size=0;
-    if(!(maps.capacity&0x80000000u))heap.freeBlock(maps.data,(maps.capacity&0x3fffffff)*4);
+    if(!(maps.capacity&0x80000000u))heap.freeBlock(maps.data,(maps.capacity&0x3fffffff)*sizeof(PartsMap*));
     return result;
 }
 }  // namespace fnv_00e1b820
@@ -10254,9 +10216,9 @@ struct CutVertex : CutLinks<CutVertex> {
 struct CutTriangle;
 template<class T> struct CutTopology : CutLinks<T> {
     CutVertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     __forceinline CutVertex*& vertex(int i) {return m_kVertices[i];}
-    __forceinline unsigned int& link(int i) {return m_ppLinks[i];}
+    __forceinline uintptr_t& link(int i) {return m_ppLinks[i];}
 };
 struct CutWords {unsigned int x,y,z,w;};
 struct __declspec(align(16)) CutPlaneBits : CutWords {};
@@ -10266,11 +10228,11 @@ struct CutTriangle : CutTopology<CutTriangle> {
     typedef CutTriangle Data;
 };
 static __forceinline uintptr_t cutPack(void* tri,unsigned int index) {
-    return reinterpret_cast<const unsigned long&>(tri)+(unsigned long)index;
+    return reinterpret_cast<const uintptr_t&>(tri)+(uintptr_t)index;
 }
 template<class T> static __forceinline void cutUnpack(uintptr_t bits,T*& tri,unsigned int& index) {
     index=bits&3;
-    bits&=~3u;
+    bits&=~(uintptr_t)3;
     tri=reinterpret_cast<T*&>(bits);
 }
 struct CutEdge;
@@ -10410,7 +10372,7 @@ static __forceinline const CutEdge& cutNullEdge() {
 }
 static __forceinline void cutUnlink(CutTriangle* face,int index) {
     unsigned int link=face->m_ppLinks[index];
-    if(link&~3u) {
+    if(link&~(uintptr_t)3) {
         S_00e13910_Edge other(link);
         other.m_pkTriangle->m_ppLinks[other.m_uiEdgeIndex]=0;
     }
@@ -10490,7 +10452,7 @@ int* CutMesh::FUN_00e1bd30(int* result,const CutVec& p,bool splitSides) {
         float sum=distances[0]+distances[1]+distances[2];
         if(sum==0.0f) {
             Router& r=(*static_cast<Router*>(::FUN_00c85750()));
-            if(remove.size==(remove.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(r.heap),(::AudioStream *)(void *)(&remove),4);
+            if(remove.size==(remove.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(r.heap),(::AudioStream *)(void *)(&remove),sizeof(CutTriangle*));
             remove.data[remove.size++]=face;
         } else face->side=sum>=0.0f?0:1;
     }
@@ -10515,7 +10477,7 @@ int* CutMesh::FUN_00e1bd30(int* result,const CutVec& p,bool splitSides) {
     Router& r=(*static_cast<Router*>(::FUN_00c85750()));
     Allocator* allocator=r.heap;
     remove.size=0;
-    if((remove.capacity&0x80000000)==0) allocator->freeBlock(remove.data,(remove.capacity&0x3fffffff)*4);
+    if((remove.capacity&0x80000000)==0) allocator->freeBlock(remove.data,(remove.capacity&0x3fffffff)*sizeof(CutTriangle*));
     return result;
     } else {
     for(CutTriangle* face=faces.head;face;face=face->next) face->side=0;
@@ -10678,13 +10640,13 @@ struct LayerVertex {
 };
 struct Face {
     Face* m_next;
-    int unk04;
+    Face* unk04;
     LayerVertex* m_kVertices[3];
-    unsigned int m_kEdges[3];
+    uintptr_t m_kEdges[3];
     struct { unsigned short marks:3; unsigned short root:1; unsigned short region:12; } bits;
     unsigned short unk22;
     __forceinline LayerVertex*& vertex(int i) { return m_kVertices[i]; }
-    __forceinline unsigned int& link(int i) { return m_kEdges[i]; }
+    __forceinline uintptr_t& link(int i) { return m_kEdges[i]; }
 };
 template<class E, class T> struct LayerCore {
     T* m_face;
@@ -10693,7 +10655,7 @@ template<class E, class T> struct LayerCore {
     __forceinline LayerCore(T* t, unsigned i):m_face(t),m_uiEdgeIndex(i){}
     __forceinline LayerCore(const unsigned int& id) { unpack(id,m_face,m_uiEdgeIndex); }
     static __forceinline void unpack(uintptr_t id,T*& t,unsigned& i) {
-        i=id & 3; id &= ~3u; t=(T*)id;
+        i=id & 3; id &= ~(uintptr_t)3; t=(T*)id;
     }
     __forceinline E next() const { return E(m_face,(9 >> (m_uiEdgeIndex << 1)) & 3); }
     __forceinline E link() const { return E(m_face->link(m_uiEdgeIndex)); }
@@ -10824,7 +10786,7 @@ int Mesh::FUN_00e24b70() {
     return layer + 1;
 }
 
-typedef unsigned long S00e25cd0_Ulong;
+typedef uintptr_t S00e25cd0_Ulong;
 template<class T> static __forceinline void S00e25cd0_constructWithCopy(T* t, int n, const T& tcopy) {
     for(int i=0; i<n; ++i) {
         t[i] = tcopy;
@@ -11330,7 +11292,7 @@ struct AllocOps { virtual void v0(); virtual void v1(); virtual void Free(void* 
 struct Iface { virtual void s0(); virtual void s1(); virtual void s2(); virtual void Do(); };
 struct Vert { intptr_t unk0,unk4,x,y; unsigned constrained:1,data:31; Vert() {} };
 struct TriE275 : TriBase<Vert*> {
- unsigned int m_ppLinks[3]; unsigned short edges:3,root:1,region:12; unsigned short sets;
+ uintptr_t m_ppLinks[3]; unsigned short edges:3,root:1,region:12; unsigned short sets;
  __forceinline Vert*& vertex(int i) { return m_vtx[i]; }
 __forceinline void corners(Vert* const& a,Vert* const& b,Vert* const& c) {m_vtx[0]=a;m_vtx[1]=b;m_vtx[2]=c;}
 TriE275() {} __declspec(noinline) TriE275& FUN_00e23080(const TriE275& value);};
@@ -11364,7 +11326,7 @@ __declspec(noinline) TriE275* TPool::FUN_00e24850(const TriE275& value) {
  item->m_unk04=0;item->m_unk00=(intptr_t)head;if(head)head->m_unk04=(intptr_t)item;head=item;++numUsed;
  return item;
 }
-struct MeshBoundaryEdge { TriE275* face; unsigned int index; MeshBoundaryEdge(TriE275* t,unsigned int i):face(t),index(i){}uintptr_t uid() const {return (uintptr_t)face+index;} unsigned int& link() const {return face->m_ppLinks[index];}void bind(MeshBoundaryEdge other) const {link()=other.uid();other.link()=uid();}};
+struct MeshBoundaryEdge { TriE275* face; unsigned int index; MeshBoundaryEdge(TriE275* t,unsigned int i):face(t),index(i){}uintptr_t uid() const {return (uintptr_t)face+index;} uintptr_t& link() const {return face->m_ppLinks[index];}void bind(MeshBoundaryEdge other) const {link()=other.uid();other.link()=uid();}};
 struct EdgeWorkStack { S_00e13910_Edge* data; int size,capacity; S_00e13910_Edge storage[64]; };
 struct Mesh {
     int unk0, unk4;
@@ -11968,7 +11930,7 @@ void FUN_00e12890_cls::FUN_00e12890(FUN_00e12890_List* apList, int flag) {
     int need = m_30;
     FUN_00e12890_Holder* holder = (FUN_00e12890_Holder*)static_cast<FUN_00e12890_Holder*>(::FUN_00c85750());
     if ((int)(apList->m_08 & 0x3fffffff) < need) {
-        ::FUN_00c908c0((::SpawnedObject *)(holder->m_10), (::SpawnedArray *)(apList), need, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(holder->m_10), (::SpawnedArray *)(apList), need, sizeof(FUN_00e12890_Node*));
     }
     FUN_00e12890_Node* node = m_2c;
     int one = 1;
@@ -12053,7 +12015,7 @@ struct S_00e15830_Node {
     int unk8;
     int unkC;
     int unk10;
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     int unk20;
     int unk24;
     int unk28;
@@ -12068,11 +12030,11 @@ struct S_00e15830_Edge {
     int m_uiEdgeIndex;
     S_00e15830_Edge(S_00e15830_Node* n, intptr_t i) throw() : m_node(n), m_uiEdgeIndex(i) {}
     uintptr_t link() const throw() { return m_node->m_ppLinks[m_uiEdgeIndex]; }
-    S_00e15830_Edge linked() const throw() { return S_00e15830_Edge((S_00e15830_Node*)(link() & ~3u), link() & 3); }
+    S_00e15830_Edge linked() const throw() { return S_00e15830_Edge((S_00e15830_Node*)(link() & ~(uintptr_t)3), link() & 3); }
     bool sameMaterial() const throw()
     {
         uintptr_t l = link();
-        return (l & ~3u) == 0 || m_node->m_iMaterialIndex == ((S_00e15830_Node*)(l & ~3u))->m_iMaterialIndex;
+        return (l & ~(uintptr_t)3) == 0 || m_node->m_iMaterialIndex == ((S_00e15830_Node*)(l & ~(uintptr_t)3))->m_iMaterialIndex;
     }
 };
 
@@ -12135,7 +12097,7 @@ typedef float QhkReal;
 typedef unsigned char QhkUint8;
 typedef unsigned short QhkUint16;
 typedef unsigned int QhkUint32;
-typedef unsigned long __w64 QhkUlong;
+typedef uintptr_t QhkUlong;
 enum QhkResult
 {
 HK_SUCCESS=0,
@@ -12887,7 +12849,7 @@ struct S_00e1a7a0_Triangle {
     S_00e1a7a0_Triangle* m_next;
     S_00e1a7a0_Triangle* m_pSecondNode;
     S_00e1a7a0_Vertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct S_00e1a7a0_Edge {
@@ -12905,7 +12867,7 @@ struct S_00e1a7a0_Edge {
         uintptr_t l = m_pkTriangle->m_ppLinks[m_uiEdgeIndex];
         S_00e1a7a0_Edge e;
         e.m_uiEdgeIndex = l & 3;
-        e.m_pkTriangle = (S_00e1a7a0_Triangle*)(l & ~3u);
+        e.m_pkTriangle = (S_00e1a7a0_Triangle*)(l & ~(uintptr_t)3);
         return e;
     }
 };
@@ -13200,10 +13162,10 @@ struct S_e1ce10_Vertex : S_e1ce10_Item<S_e1ce10_Vertex> {
 };
 struct S_e1ce10_TriangleBase : S_e1ce10_Item<S_e1ce10_Triangle> {
     S_e1ce10_Vertex* m_kVertices[3];
-    unsigned int m_ppLinks[3]; // triangle pointer + edge index
+    uintptr_t m_ppLinks[3]; // triangle pointer + edge index
     __forceinline void setVertices(S_e1ce10_Vertex* const& a, S_e1ce10_Vertex* const& b, S_e1ce10_Vertex* const& c) { m_kVertices[0] = a; m_kVertices[1] = b; m_kVertices[2] = c; }
     __forceinline S_e1ce10_Vertex*& vertex(int i) { return m_kVertices[i]; }
-    __forceinline unsigned int& link(int i) { return m_ppLinks[i]; }
+    __forceinline uintptr_t& link(int i) { return m_ppLinks[i]; }
 };
 struct S_e1ce10_Triangle : S_e1ce10_TriangleBase {
     S_e1ce10_Vec4 m_kTriangleNormal;
@@ -13269,10 +13231,10 @@ template <class T> struct S_e1ce10_List {
     }
 };
 // edge hash
-__forceinline unsigned long S_e1ce10_uid2ulong(void* t, unsigned int i) { return (*(const unsigned long*)&t) + (unsigned long)i; }
-__forceinline unsigned long S_e1ce10_packUid(void* t, unsigned int i) { return S_e1ce10_uid2ulong(t, i); }
-template <class T> __forceinline void S_e1ce10_ulong2uid(unsigned long uid, T*& t, unsigned int& i) { i = (unsigned int)(uid & 3); uid &= ~3; t = *(T**)&uid; }
-template <class T> __forceinline void S_e1ce10_unpackUid(unsigned long uid, T*& t, unsigned int& i) { S_e1ce10_ulong2uid(uid, t, i); }
+__forceinline uintptr_t S_e1ce10_uid2ulong(void* t, unsigned int i) { return (*(const uintptr_t*)&t) + (uintptr_t)i; }
+__forceinline uintptr_t S_e1ce10_packUid(void* t, unsigned int i) { return S_e1ce10_uid2ulong(t, i); }
+template <class T> __forceinline void S_e1ce10_ulong2uid(uintptr_t uid, T*& t, unsigned int& i) { i = (unsigned int)(uid & 3); uid &= ~3; t = *(T**)&uid; }
+template <class T> __forceinline void S_e1ce10_unpackUid(uintptr_t uid, T*& t, unsigned int& i) { S_e1ce10_ulong2uid(uid, t, i); }
 struct S_e1ce10_Link {
     S_e1ce10_Triangle* m_pkTriangle;
     unsigned int m_uiEdgeIndex;
@@ -13282,7 +13244,7 @@ struct S_e1ce10_Link {
         static const S_e1ce10_Link s_null(0, 0);
         return s_null;
     }
-    __forceinline unsigned long uid() const { return S_e1ce10_packUid(m_pkTriangle, m_uiEdgeIndex); }
+    __forceinline uintptr_t uid() const { return S_e1ce10_packUid(m_pkTriangle, m_uiEdgeIndex); }
     __forceinline S_e1ce10_Triangle* triangle() const { return m_pkTriangle; }
     __forceinline bool isValid() const { return triangle() != 0; }
     __forceinline void bind(const S_e1ce10_Link& edge) const;
@@ -13542,7 +13504,7 @@ void S_e1ce10_Mesh::FUN_00e1ce10(const S_e1ce10_Geometry& geom, const S_e1ce10_T
     if (invalid.GetLogicalSize()) {
         unsigned int reportBuf[128];
         S_e1ce10_Ostream ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::CC0280Writer *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Removing ")))->WriteInt(invalid.GetLogicalSize())))->FUN_00cc01c0(" invalid triangles");
+        reinterpret_cast<::SinkOwner *>((void *)&(reinterpret_cast<::CC0280Writer *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Removing ")))->WriteInt(invalid.GetLogicalSize())))->FUN_00cc01c0(" invalid triangles");
         DAT_01268360->Report(0, (unsigned int)-1, (const char*)reportBuf, ".\\GeometryProcessing\\Mesh\\hkgpMesh.cpp", 0x695);
     }
     for (int i = 0; i < invalid.GetLogicalSize(); i++) {
@@ -13595,10 +13557,10 @@ struct SubArr {
 };
 
 struct GridTag {};
-template<class Payload> struct GridLinks:Payload {int next,prev;__forceinline GridLinks(){} __forceinline GridLinks(const GridLinks& b):Payload(b){} __forceinline GridLinks& operator=(const GridLinks&){return *this;}};
+template<class Payload> struct GridLinks:Payload {intptr_t next,prev;__forceinline GridLinks(){} __forceinline GridLinks(const GridLinks& b):Payload(b){} __forceinline GridLinks& operator=(const GridLinks&){return *this;}};
 struct GridCore:GridLinks<GridTag> {};
 struct RecPoint : GridCore {
-intptr_t x,y;unsigned long constraint:1; unsigned long data:31;
+int x,y;unsigned long constraint:1; unsigned long data:31;
 };
 struct Rec {
     intptr_t m_00;
@@ -13779,7 +13741,7 @@ struct RecPayload {
     intptr_t m_08;
     intptr_t m_0c;
     intptr_t m_10;
-    int m_14[3];
+    uintptr_t m_14[3];
     NormalWords m_20;
     int m_30;
     int m_34; int m_38; int m_3c; int m_40;
@@ -13975,7 +13937,7 @@ struct MeshPoolView {
 };
 struct BuildStatus { int code; BuildStatus() {} BuildStatus(int value) : code(value) {} };
 
-__forceinline BoundaryEdge LookupEdge51(PartsMap& map,intptr_t value) { return BoundaryEdge(((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(map))->LookupHashEntry(value,0)))); }
+__forceinline BoundaryEdge LookupEdge51(PartsMap& map,intptr_t value) { return BoundaryEdge(((uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(map))->LookupHashEntry(value,0)))); }
 struct SlotToken{unsigned long data:32;};
 struct ThisCls {
     int unk_00_000;     int unk_00_004;     int unk_00_008;     int unk_00_00c;     int unk_00_010;     int unk_00_014;
@@ -14062,7 +14024,7 @@ template<class E> struct MeshEdgeCore {
  MeshFace* face;int index;
  MeshEdgeCore(){}
  MeshEdgeCore(MeshFace* f,int n):face(f),index(n){}
- MeshEdgeCore(uintptr_t packed):face((MeshFace*)(packed&~3u)),index(packed&3u){}
+ MeshEdgeCore(uintptr_t packed):face((MeshFace*)(packed&~(uintptr_t)3)),index(packed&3u){}
  bool valid()const {return face!=0;}
  MeshVertex*& start()const {return face->corner(index);}
  MeshVertex*& end()const {return face->corner((9>>(index*2))&3);}
@@ -14090,7 +14052,7 @@ template<class T,int N> struct MeshInplaceArray: MeshArray<T> {
  T storage[N];
  MeshInplaceArray() throw():MeshArray<T>(storage,0,0x80000000|N) {}
 };
-struct GridVertex {intptr_t unk00,unk04,x,y; unsigned int encoded;};
+struct GridVertex {intptr_t unk00,unk04; int x,y; unsigned int encoded;};
 struct GridFace {GridFace* next;int unk04;GridVertex* vertices[3];int unk14,unk18,unk1c; unsigned int flags;};
 struct GridResult {int status;GridFace* face;int side;};
 struct EdgeRange {void* data;int count;int stride;};
@@ -14168,7 +14130,6 @@ int unkd4; int unkd8; int unkdc; int unke0; int unke4; int unke8; int unkec; int
  void FUN_00e21100();
 };
 namespace fnv_00e23530 {
-#include <windows.h>
 
 
 struct DynamicMemoryAllocator {
@@ -14219,7 +14180,7 @@ void* FUN_00e23530_cls::FUN_00e23530()
 
     PoolHolder* pHolder2 = static_cast<PoolHolder*>(::FUN_00c85750());
     if (m_iArrayLength == (int)(m_uCapFlags & 0x3fffffffu)) {
-        ::ResizeAudioStream((::AudioAllocator *)(pHolder2->m_pAllocator), (::AudioStream *)(void *)(this), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(pHolder2->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(void*));
     }
 
     void** pSlot = &m_ppData[m_iArrayLength];
@@ -14236,7 +14197,6 @@ void* FUN_00e23530_cls::FUN_00e23530()
 }  // namespace fnv_00e23530
 
 namespace fnv_00e235d0 {
-#include <windows.h>
 
 
 struct DynamicMemoryAllocator {
@@ -14287,7 +14247,7 @@ void* FUN_00e235d0_cls::FUN_00e235d0()
 
     PoolHolder* pHolder2 = static_cast<PoolHolder*>(::FUN_00c85750());
     if (m_iArrayLength == (int)(m_uCapFlags & 0x3fffffffu)) {
-        ::ResizeAudioStream((::AudioAllocator *)(pHolder2->m_pAllocator), (::AudioStream *)(void *)(this), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(pHolder2->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(void*));
     }
 
     void** pSlot = m_ppData + m_iArrayLength;
@@ -14328,7 +14288,7 @@ double FUN_00e237b0_Owner::FUN_00e237b0(FUN_00e237b0_Input* input) {
     FUN_00e237b0_List* values = &list;
     FUN_00e237b0_Allocation* alloc = static_cast<FUN_00e237b0_Allocation*>(::FUN_00c85750());
     if (values->size == (values->capacityAndFlags & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(alloc->allocator), (::AudioStream *)(values), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(alloc->allocator), (::AudioStream *)(values), sizeof(void*));
     void** destination = values->data + values->size;
     __assume(destination != 0);
     new (destination) void*(entry);
@@ -14357,10 +14317,10 @@ struct Holder {
 };
 
 struct TlsHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Holder* unk10;
 };
 
@@ -14376,7 +14336,7 @@ struct FUN_00e23800_Class {
 // @fnv 0x00e23800
 void* FUN_00e23800_Class::FUN_00e23800(int flags)
 {
-    TlsHolder* holder = (TlsHolder*)(*static_cast<Router*>(::FUN_00c85750()));
+    TlsHolder* holder = static_cast<TlsHolder*>(::FUN_00c85750());
     Holder* h = holder->unk10;
     int c = this->unk0c;
 
@@ -14539,9 +14499,9 @@ struct Point61 {
     }
 };
 template<class P,class T> struct FaceCore61 {
-  T* next;T* previous;P* vertices[3]; unsigned int links[3];
+  T* next;T* previous;P* vertices[3]; uintptr_t links[3];
   __forceinline P*& vertex(int i){return vertices[i];}
-  __forceinline unsigned int& link(int i){return links[i];}
+  __forceinline uintptr_t& link(int i){return links[i];}
 };
 struct Face61 : FaceCore61<Point61,Face61> {
  unsigned short constraints:3; unsigned short root:1;unsigned short region:12;unsigned short sets;
@@ -14551,13 +14511,13 @@ template<class E,class V,class T> struct Topology61 {
     unsigned int index;
     __forceinline Topology61() {}
     __forceinline Topology61(T* t,unsigned i):face(t),index(i) {}
-    __forceinline Topology61(const unsigned long& value) { unpack(value,face,index); }
+    __forceinline Topology61(const uintptr_t& value) { unpack(value,face,index); }
     static __forceinline void unpack(uintptr_t value,T*& t,unsigned& i) {
-        i=value&3; value&=~3u; t=(T*)value;
+        i=value&3; value&=~(uintptr_t)3; t=(T*)value;
     }
     __forceinline E next() const { return E(face,(9>>(index<<1))&3); }
     __forceinline E prev() const { return E(face,(0x12>>(index<<1))&3); }
-    __forceinline E linked() const { return E((unsigned long)face->link(index)); }
+    __forceinline E linked() const { return E((uintptr_t)face->link(index)); }
     __forceinline bool valid() const { return face!=0; }
     __forceinline bool unbound() const { return !linked().valid(); }
     __forceinline bool primary() const { return V::before(start(),end()) || unbound(); }
@@ -14602,7 +14562,7 @@ struct Edge61:Topology61<Edge61,Point61,Face61> {
     typedef Topology61<Edge61,Point61,Face61> Base;
     __forceinline Edge61() {}
     __forceinline Edge61(Face61* t,unsigned i):Base(t,i) {}
-    __forceinline Edge61(unsigned long value):Base(value) {}
+    __forceinline Edge61(uintptr_t value):Base(value) {}
     __forceinline Edge61(const Edge61& e):Base(e.face,e.index) {}
     __forceinline void operator=(const Edge61& e) { face=e.face;index=e.index; }
     __forceinline bool constrained() const {const Base& e=canonical(); return 0!=(e.face->constraints & (1<<e.index));}
@@ -14666,7 +14626,7 @@ void Mesh61::FUN_00e24fa0() {
 }
 
 struct PointSol {
-    int unk00, unk04;
+    intptr_t unk00, unk04;
     int x, y;
     __forceinline int compare(const PointSol& b) const {
         if(x<b.x) return -1;
@@ -14677,12 +14637,12 @@ struct PointSol {
     }
 };
 struct FaceSol {
-    int unk00, unk04;
+    intptr_t unk00, unk04;
     PointSol* vertices[3];
-    unsigned int links[3];
+    uintptr_t links[3];
     unsigned short flags:3;
     __forceinline PointSol*& vertex(int i) { return vertices[i]; }
-    __forceinline unsigned int& link(int i) { return links[i]; }
+    __forceinline uintptr_t& link(int i) { return links[i]; }
 };
 static __forceinline bool orderedSol(const PointSol* a,const PointSol* b) { const int c=a->compare(*b); if(c<0) return true; if(c>0) return false; return true; }
 struct S00e25570_CBool {
@@ -14696,8 +14656,8 @@ template<class D> struct EdgeBaseSol {
     unsigned int index;
     EdgeBaseSol() {}
     EdgeBaseSol(FaceSol* f,unsigned int i):face(f),index(i){}
-    static __forceinline void decode(uintptr_t p,FaceSol*& f,unsigned int& i) { i=p&3; p&=~3u; f=(FaceSol*)p; }
-    EdgeBaseSol(const unsigned int& p) { decode(p,face,index); }
+    static __forceinline void decode(uintptr_t p,FaceSol*& f,unsigned int& i) { i=p&3; p&=~(uintptr_t)3; f=(FaceSol*)p; }
+    EdgeBaseSol(const uintptr_t& p) { decode(p,face,index); }
     __forceinline D next() const { return D(face,(9>>(2*index))&3); }
     __forceinline D prev() const { return D(face,(0x12>>(2*index))&3); }
     __forceinline D link() const { return D(face->link(index)); }
@@ -14712,7 +14672,7 @@ template<class D> struct EdgeBaseSol {
         return link();
     }
     __forceinline void bind(const D& b) const {
-        face->link(index)=(unsigned int)b.face+b.index;
+        face->link(index)=(uintptr_t)b.face+b.index;
         if(b.face) b.face->link(b.index)=(uintptr_t)face+index;
     }
     __forceinline D rotateDiagonal() const {
@@ -14736,7 +14696,7 @@ struct EdgeSol:EdgeBaseSol<EdgeSol> {
     typedef EdgeBaseSol<EdgeSol> Base;
     EdgeSol() {}
     EdgeSol(FaceSol* f,unsigned int i):Base(f,i){}
-    EdgeSol(unsigned int p):Base(p){}
+    EdgeSol(uintptr_t p):Base(p){}
     EdgeSol(const EdgeSol& e):Base(e.face,e.index){}
     __forceinline void operator=(const EdgeSol& e) { face=e.face; index=e.index; }
     __forceinline bool flagged() const {
@@ -14824,7 +14784,7 @@ struct StackSol {
     __forceinline void popBack() { --size; }
     __forceinline void push(const EdgeSol& value) {
         Router& r=(*static_cast<Router*>(::FUN_00c85750()));
-        if(size==(cap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(r.heap),(::AudioStream *)(void *)(this),8);
+        if(size==(cap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(r.heap),(::AudioStream *)(void *)(this),sizeof(EdgeSol));
         new(data+size) EdgeSol(value);
         ++size;
     }
@@ -15043,7 +15003,7 @@ struct Tri14
     Tri14* m_next;
     int unk04;
     void* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 
 struct Edge14
@@ -15084,7 +15044,7 @@ bool Mesh14::FUN_00e14bd0(Edge14 edge, bool abSkipLinked, bool report)
     unsigned int index = edge.m_uiEdgeIndex;
     Tri14* tri = edge.m_pkTriangle;
 
-    if ((tri->m_ppLinks[index] & ~3u) == 0)
+    if ((tri->m_ppLinks[index] & ~(uintptr_t)3) == 0)
     {
         void* v = tri->m_kVertices[index];
         void* vNext = tri->m_kVertices[(9 >> (index << 1)) & 3];
@@ -15093,7 +15053,7 @@ bool Mesh14::FUN_00e14bd0(Edge14 edge, bool abSkipLinked, bool report)
         {
             for (int i = 0; i < 3; i++)
             {
-                if (abSkipLinked && (node->m_ppLinks[i] & ~3u))
+                if (abSkipLinked && (node->m_ppLinks[i] & ~(uintptr_t)3))
                     continue;
                 if (node->m_kVertices[(9 >> (i << 1)) & 3] != v)
                     continue;
@@ -15275,7 +15235,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
                 int mask=(ClipReal160(_mm_mul_ss(distances[0],distances[1]))<0.0f?1:0)
                     +(ClipReal160(_mm_mul_ss(distances[1],distances[2]))<0.0f?2:0)
                     +(ClipReal160(_mm_mul_ss(distances[2],distances[0]))<0.0f?4:0);
-                unsigned long bit=1;
+                uintptr_t bit=1;
                 for(int edge=0;edge<3;++edge,bit=(bit<<1)|((unsigned int)bit>>31)) {
                     if(!(mask&bit)) continue;
                     if(ClipReal160(Distance160(intersections[edge],pointA))<=ClipReal160(epsilon)
@@ -15329,7 +15289,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
         if(i<original.size()) {
         int iVertexOffset=0;
         do {
-            unsigned long base=apOutputMesh->vertices.count;
+            uintptr_t base=apOutputMesh->vertices.count;
             Allocator& vertexHeap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
             int oldCount=apOutputMesh->vertices.count;
             long needed=oldCount+3;
@@ -15356,7 +15316,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
     }
     Allocator& allocator=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     contacts.count=0;
-    if(!(contacts.capacity&0x80000000u)) allocator.freeBlock(contacts.data,(contacts.capacity&0x3fffffff)*4);
+    if(!(contacts.capacity&0x80000000u)) allocator.freeBlock(contacts.data,(contacts.capacity&0x3fffffff)*sizeof(CollisionTriangle*));
     contacts.data=0;contacts.capacity=0x80000000u;contacts.vtable=(*reinterpret_cast<void * (*)[]>(&::DAT_010cd664));
     Release160(generated,48);
     Release160(original,48);
@@ -15443,7 +15403,7 @@ struct Bits4 { unsigned a,b,c,d; };
 struct __declspec(align(16)) PositionBits:Bits4 { __m128 get() const {return reinterpret_cast<const __m128&>(*this);} };
 typedef PositionBits SplitPoint;
 struct SplitVertex:ListLinks<SplitVertex> { int unk08,unk0c; SplitPoint position; };
-struct PartSplitFace:ListLinks<PartSplitFace> { SplitVertex* vertices[3]; int links[3]; SplitPoint m_20; int m_30;
+struct PartSplitFace:ListLinks<PartSplitFace> { SplitVertex* vertices[3]; uintptr_t links[3]; SplitPoint m_20; int m_30;
     const SplitPoint& point(int i) const { return vertices[i]->position; }
 };
 struct SplitPair { int first, second; };
@@ -15591,7 +15551,7 @@ void SplitHull::FUN_00e1aec0(int firstTag, int secondTag) {
     flag101=0;
     Allocator& allocator=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     pairs.size=0;
-    if(!(pairs.capacity & 0x80000000u)) allocator.freeBlock(pairs.data,(pairs.capacity&0x3fffffff)*8);
+    if(!(pairs.capacity & 0x80000000u)) allocator.freeBlock(pairs.data,(pairs.capacity&0x3fffffff)*sizeof(SplitPair));
 }
 
 struct EdgeByte {char value;EdgeByte(int b):value((char)b) {} __forceinline operator bool() const {return value!=0;}};
@@ -15631,7 +15591,7 @@ struct ConstraintPoint {
 
 struct ConstraintVertex {
 
-    int unk00, unk04;
+    intptr_t unk00, unk04;
 
     ConstraintPoint pos;
 
@@ -15658,15 +15618,15 @@ template<class E> struct ConstraintEdgeCore {
 
 __forceinline ConstraintEdgeCore() {}
 __forceinline ConstraintEdgeCore(ConstraintTriangle* t,unsigned i):m_pkTriangle(t),m_uiEdgeIndex(i) {}
-__forceinline ConstraintEdgeCore(const unsigned long& word) {unpack(word,m_pkTriangle,m_uiEdgeIndex);}
-static __forceinline void unpack(unsigned long word,ConstraintTriangle*& t,unsigned& index) {index=word&3;word&=~3ul;t=*(ConstraintTriangle**)&word;}
+__forceinline ConstraintEdgeCore(const uintptr_t& word) {unpack(word,m_pkTriangle,m_uiEdgeIndex);}
+static __forceinline void unpack(uintptr_t word,ConstraintTriangle*& t,uintptr_t& index) {index=word&3;word&=~(uintptr_t)3;t=*(ConstraintTriangle**)&word;}
 
 ConstraintTriangle* m_pkTriangle;
 uintptr_t m_uiEdgeIndex;
 __forceinline ConstraintVertex* const& end() const {return (ConstraintVertex* const&)m_pkTriangle->m_kVertices[(9>>(m_uiEdgeIndex<<1))&3];}
 __forceinline ConstraintVertex* const& apex() const {return (ConstraintVertex* const&)m_pkTriangle->m_kVertices[(18>>(m_uiEdgeIndex<<1))&3];}
-__forceinline void turnLeft() {uintptr_t link=m_pkTriangle->m_ppLinks[m_uiEdgeIndex];m_uiEdgeIndex=(9>>((link&3)<<1))&3;m_pkTriangle=(ConstraintTriangle*)(link&~3u);}
-__forceinline void turnRight() {unsigned index=(18>>(m_uiEdgeIndex<<1))&3;uintptr_t link=m_pkTriangle->m_ppLinks[index];m_uiEdgeIndex=link&3;m_pkTriangle=(ConstraintTriangle*)(link&~3u);}
+__forceinline void turnLeft() {uintptr_t link=m_pkTriangle->m_ppLinks[m_uiEdgeIndex];m_uiEdgeIndex=(9>>((link&3)<<1))&3;m_pkTriangle=(ConstraintTriangle*)(link&~(uintptr_t)3);}
+__forceinline void turnRight() {unsigned index=(18>>(m_uiEdgeIndex<<1))&3;uintptr_t link=m_pkTriangle->m_ppLinks[index];m_uiEdgeIndex=link&3;m_pkTriangle=(ConstraintTriangle*)(link&~(uintptr_t)3);}
 __forceinline bool isValid() const { return m_pkTriangle!=0; }
 __forceinline E next() const { return E(m_pkTriangle,(9>>(m_uiEdgeIndex<<1))&3); }
 __forceinline E prev() const { return E(m_pkTriangle,(0x12>>(m_uiEdgeIndex<<1))&3); }
@@ -15678,7 +15638,7 @@ __forceinline void bindPacked(uintptr_t packed) const {
 
         uintptr_t index=packed&3u;
 
-        ConstraintTriangle* other=(ConstraintTriangle*)(packed&~3u);
+        ConstraintTriangle* other=(ConstraintTriangle*)(packed&~(uintptr_t)3);
 
         m_pkTriangle->m_ppLinks[m_uiEdgeIndex]=(uintptr_t)other+index;
 
@@ -15744,7 +15704,7 @@ __forceinline ConstraintEdge() {}
 void operator=(const ConstraintEdge& e) {unsigned* d=reinterpret_cast<unsigned*>(this);const unsigned* q=reinterpret_cast<const unsigned*>(&e);d[0]=q[0];d[1]=q[1];}
 __forceinline ConstraintEdge(const ConstraintEdge& e):ConstraintEdgeCore<ConstraintEdge>(e.m_pkTriangle,e.m_uiEdgeIndex) {}
 __forceinline ConstraintEdge(ConstraintTriangle* t,unsigned i):ConstraintEdgeCore<ConstraintEdge>(t,i) {}
-__forceinline ConstraintEdge(unsigned long l):ConstraintEdgeCore<ConstraintEdge>(l) {}
+__forceinline ConstraintEdge(uintptr_t l):ConstraintEdgeCore<ConstraintEdge>(l) {}
 __forceinline int canFlip() const {
 
         if(!link().isValid() || constrained()) return 0;
@@ -15860,7 +15820,7 @@ struct ConstraintEdges {
 
         Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
 
-        if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
+        if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),sizeof(ConstraintEdge));
 
         new(data+size) ConstraintEdge(edge);
 
@@ -16112,7 +16072,7 @@ struct ConstraintMesh {
 
     }
 
-    ConstraintResult* FUN_00e26010(ConstraintResult* out,intptr_t x0,intptr_t y0,intptr_t x1,int y1,bool optimizeEdge,const int* data);
+    ConstraintResult* FUN_00e26010(ConstraintResult* out,int x0,int y0,int x1,int y1,bool optimizeEdge,const int* data);
 
 };
 // Builds a boundary mesh from TriNode faces by projecting vertices, detecting overlaps, and linking edges into a PooledRec pool.
@@ -16204,12 +16164,12 @@ union SharedB51 {TriNode* face; SubArr* array;}; SharedB51 scratchB;
                                 if (!bAlreadyInList)
                                 {
                                     SubArr *base;
-                                    base = ((::SubArr *)(::FUN_00e248b0((::S_00e248b0_Edge)(scratchB.face))));
+                                    base = ((::SubArr *)(::FUN_00e248b0(::S_00e248b0_Edge((::S_00e248b0_Tri *)(scratchB.face), basis3))));
                                     if (base)
                                     {
                                         AllocSvc *val = capMemory();
                                         if (y.m_iArrayLength == (y.m_iCap & 0x3fffffff))
-                                            ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)val->m_10), (::AudioStream *)(void *)(&y), 4);
+                                            ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)val->m_10), (::AudioStream *)(void *)(&y), sizeof(SubArr*));
                                         ((SubArr **)y.m_pData)[y.m_iArrayLength] = base;
                                         y.m_iArrayLength++;
                                     }
@@ -16292,7 +16252,7 @@ union SharedB51 {TriNode* face; SubArr* array;}; SharedB51 scratchB;
                 float fAbsZ = fabs(apNormal[2]);
                 long iAxis;
                 iAxis = 0;
-                unsigned long zz = 1 + iAxis;
+                uintptr_t zz = 1 + iAxis;
                 long recA = iAxis + 2;
                 if (absoluteY < extent)
                 {
@@ -16451,10 +16411,11 @@ if(va==q)continue;reinterpret_cast<::HullMesh *>(this)->FUN_00e12bc0((*(::Vertex
                     {
                         Rec* x = (Rec*)segmentRing->m_pData;
                         RecPoint* next = &x[(pVertexPos + 1) % segmentRing->m_iArrayLength].point;
-                        Out26010 result51 = (*(::Out26010 *)(reinterpret_cast<::ConstraintMesh *>(&(slotPtr))->FUN_00e26010((::ConstraintResult *)(x[pVertexPos].point.x), x[pVertexPos].point.y, next->x, next->y, 1, 0, {})));
+                        ConstraintResult result51;
+                        reinterpret_cast<::ConstraintMesh *>(&(slotPtr))->FUN_00e26010(&result51, x[pVertexPos].point.x, x[pVertexPos].point.y, next->x, next->y, true, 0);
 
                         _ReadWriteBarrier();
-                        if (result51.m_00 != 0)
+                        if (result51.status != 0)
                         {
                             *res = 6;
                             {
@@ -16549,7 +16510,7 @@ if(va==q)continue;reinterpret_cast<::HullMesh *>(this)->FUN_00e12bc0((*(::Vertex
                             BoundaryEdge sourceEdge((intptr_t)scratchB.face->m_aiIndexedValues[3 + mn]);
                             intptr_t ptr;
                             ptr = sourceEdge.packed();
-                            BoundaryEdge targetEdge(((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(edgeRecords))->LookupHashEntry(ptr, 0))));
+                            BoundaryEdge targetEdge(((uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(edgeRecords))->LookupHashEntry(ptr, 0))));
                             uintptr_t sum;
                             TriNode *p = targetEdge.face;
                             sum = targetEdge.index;
@@ -16650,7 +16611,7 @@ cap:
 
 // Inserts a constraint edge between two points in the mesh, locating the inner edge, walking to the target, and flipping edges to maintain validity.
 // @fnv 0x00e26010
-ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,intptr_t x0,intptr_t y0,intptr_t x1,int y1,bool optimizeEdge,const int* data) {
+ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,int x0,int y0,int x1,int y1,bool optimizeEdge,const int* data) {
 
     if(x0==x1 && y0==y1) return apResult->assign(9,nullConstraintEdge());
 
@@ -16690,7 +16651,7 @@ ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,intptr
 
         innerEdge.setConstraint();
 
-        if(data) reinterpret_cast<::S00e25cd0_Tri *>(this)->FUN_00e25cd0((*(const ::S00e25cd0_Edge *)(&innerEdge)),(*(const ::S00e25cd0_Array<unsigned long> *)(data)));
+        if(data) reinterpret_cast<::S00e25cd0_Tri *>(this)->FUN_00e25cd0((*(const ::S00e25cd0_Edge *)(&innerEdge)),(*(const ::S00e25cd0_Array<uintptr_t> *)(data)));
 
         if(optimizeEdge) {
  ConstraintVertex* queueStart=innerEdge.vertex();
@@ -16828,7 +16789,7 @@ ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,intptr
 
     innerEdge.setConstraint();
 
-    if(data) reinterpret_cast<::S00e25cd0_Tri *>(this)->FUN_00e25cd0((*(const ::S00e25cd0_Edge *)(&innerEdge)),(*(const ::S00e25cd0_Array<unsigned long> *)(data)));
+    if(data) reinterpret_cast<::S00e25cd0_Tri *>(this)->FUN_00e25cd0((*(const ::S00e25cd0_Edge *)(&innerEdge)),(*(const ::S00e25cd0_Array<uintptr_t> *)(data)));
 
     if(optimizeEdge) innerEdge=optimize(innerEdge);
 
@@ -16872,7 +16833,7 @@ __declspec(noinline) void ConstraintMesh::FUN_00e25cd0(ConstraintEdge* edge,cons
 
         ++links->size;
 
-        if(bucket.size==(bucket.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)((*static_cast<Router*>(::FUN_00c85750())).heap),(::AudioStream *)(void *)(&bucket),12);
+        if(bucket.size==(bucket.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)((*static_cast<Router*>(::FUN_00c85750())).heap),(::AudioStream *)(void *)(&bucket),sizeof(ConstraintHashEntry));
 
         new(bucket.data+bucket.size) ConstraintHashEntry();
 
@@ -16950,7 +16911,7 @@ void RebuildMesh::FUN_00e21100() {
   if(group>=0) {
    tags.data[group]=face->tag;
    for(int side=0;side<3;++side) {
-    if((face->links[side]&~3u)==0 || MeshEdge(face->links[side]).face->group!=group)
+    if((face->links[side]&~(uintptr_t)3)==0 || MeshEdge(face->links[side]).face->group!=group)
      edges.data[group].push(MeshEdge(face,side));
    }
   }
@@ -16994,7 +16955,8 @@ void RebuildMesh::FUN_00e21100() {
    _ReadWriteBarrier();
    MeshInplaceArray<MeshEdge*,4> constraint;
    constraint.push(&edge);
-   reinterpret_cast<::ConstraintMesh *>(&(grid))->FUN_00e26010((::ConstraintResult *)(first.x),first.y,last.x,last.y,1,(bool)(&constraint), {});
+   ConstraintResult constrained;
+   reinterpret_cast<::ConstraintMesh *>(&(grid))->FUN_00e26010(&constrained,first.x,first.y,last.x,last.y,true,(const int *)&constraint);
   }
   if(reinterpret_cast<::Mesh *>(&(grid))->FUN_00e24b70()>1) {
    reinterpret_cast<::Mesh61 *>(&(grid))->FUN_00e24fa0();
@@ -17083,10 +17045,10 @@ struct LogMid {
 struct LogObj { int state; LogMid m_04; LogSub m_08; void FUN_00cc00e0(); };
 
 struct SubArrInt {
-    int *m_pData;
+    intptr_t *m_pData;
     int m_iArrayLength;
     int m_iCap;
-    __forceinline void append(const int &value) throw();
+    __forceinline void append(const intptr_t &value) throw();
 };
 
 struct ParameterHandle;
@@ -17107,7 +17069,7 @@ struct NodeRes {
 struct Node123 {
     void *m_00;
     char field_004; char field_005; char field_006; char field_007; char field_008; char field_009; char field_00a; char field_00b; char field_00c; char field_00d; char field_00e; char field_00f; char field_010; char field_011; char field_012; char field_013;
-    int m_14[3];
+    uintptr_t m_14[3];
 };
 
 struct ObjB {
@@ -17130,7 +17092,7 @@ struct PairArrRaw {
     Pair *m_pData; int m_iArrayLength; int m_iCap;
     __forceinline void append(const Pair& value) throw() {
         Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
-        if(m_iArrayLength==(m_iCap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
+        if(m_iArrayLength==(m_iCap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),sizeof(Pair));
         new(m_pData+m_iArrayLength) Pair(value);
         ++m_iArrayLength;
     }
@@ -17259,7 +17221,7 @@ __forceinline void initializeMap() throw() {edgeMap=0;}
         Allocator& ctx=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         int cap=m_40arr.m_iCap;
         m_40arr.m_iArrayLength=0;
-        if((cap&0x80000000)==0) ctx.freeBlock(m_40arr.m_pData,(cap&0x3fffffff)*8);
+        if((cap&0x80000000)==0) ctx.freeBlock(m_40arr.m_pData,(cap&0x3fffffff)*sizeof(Pair));
         m_40arr.m_pData=0; m_40arr.m_iCap=0x80000000;
     }
 };
@@ -17293,22 +17255,22 @@ initializeMap();
 struct PairArr : HArr<Pair> {
     __forceinline void append(const Pair& value) throw() {
         Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
-        if(m_iArrayLength==(m_iCap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
+        if(m_iArrayLength==(m_iCap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),sizeof(Pair));
         new(m_pData+m_iArrayLength) Pair(value);
         ++m_iArrayLength;
     }
 };
 
-__forceinline void SubArrInt::append(const int &value) throw()
+__forceinline void SubArrInt::append(const intptr_t &value) throw()
 {
     Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
     if (m_iArrayLength == (m_iCap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(this), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(this), sizeof(intptr_t));
     m_pData[m_iArrayLength] = value;
     m_iArrayLength += 1;
 }
 struct InplaceIntArr4 : SubArrInt {
-    int m_kStorage[4];
+    intptr_t m_kStorage[4];
 };
 struct ArrView {
     void *m_pData;
@@ -17340,9 +17302,9 @@ static __forceinline unsigned int operator&(const LowFlags56& a,const unsigned i
 struct Flags56 {unsigned short bits; __forceinline LowFlags56 get() const {LowFlags56 x(bits);x.value&=7;return x;}};
 struct BoundingVolumeNode {
     BoundingVolumeNode *m_00;
-    int unk_04;
+    BoundingVolumeNode *unk_04;
     TEnt *m_08[3];
-    int m_14[3];
+    uintptr_t m_14[3];
     union {
         unsigned short m_20;
         Flags56 word56;
@@ -17359,13 +17321,13 @@ struct VertexRecord {
     OptVec4 position;
 };
 struct BNode {
-    __forceinline int& edgeLink(int i) {return m_14[i];}
-    __forceinline void setCorners(const int& a,const int& b,const int& c) {vertices[0]=a;vertices[1]=b;vertices[2]=c;}
+    __forceinline uintptr_t& edgeLink(int i) {return m_14[i];}
+    __forceinline void setCorners(const intptr_t& a,const intptr_t& b,const intptr_t& c) {vertices[0]=a;vertices[1]=b;vertices[2]=c;}
 
-    __forceinline int& corner(int i) {return vertices[i];}
+    __forceinline intptr_t& corner(int i) {return vertices[i];}
     BNode *next; BNode *previous;
-    int vertices[3];
-    int m_14[3];
+    intptr_t vertices[3];
+    uintptr_t m_14[3];
     OptVec4 plane;
     int m_30; int unk_34; int m_38; int field_3c;
     int field_40; int field_44; int field_48; int field_4c;
@@ -17425,8 +17387,8 @@ static __forceinline intptr_t Orient(const TEnt *b, const TEnt *a, const TEnt *c
 struct HBool { char m_cBooleanValue; __forceinline HBool(bool b) { m_cBooleanValue = (char)b; } __forceinline operator bool() const { return m_cBooleanValue != 0; } };
 
 struct SavedFlag56 {unsigned int state; __forceinline SavedFlag56(const FlagValue56& x):state((char)x.value!=0) {} __forceinline operator int() const {return state;}};
-static __forceinline uintptr_t packEdgeUid(void* triangle,uintptr_t index) {return *(const unsigned long*)&triangle+(unsigned long)index;}
-template<class T,class I> static __forceinline void unpackEdgeUid(const unsigned long& value,T*& triangle,I& index) {unsigned long packed=value;index=I(packed&3);packed&=~3;triangle=*(T**)&packed;}
+static __forceinline uintptr_t packEdgeUid(void* triangle,uintptr_t index) {return *(const uintptr_t*)&triangle+(uintptr_t)index;}
+template<class T,class I> static __forceinline void unpackEdgeUid(const uintptr_t& value,T*& triangle,I& index) {uintptr_t packed=value;index=I(packed&3);packed&=~3;triangle=*(T**)&packed;}
 static __forceinline bool clearOrdered(const TEnt* a,const TEnt* b){return a->compareClear(*b)<=0;}
 struct TEdge {
     BoundingVolumeNode *t; intptr_t i;
@@ -17452,10 +17414,10 @@ __forceinline int take() const {const int r=isConstrained();if(r)clearConstraine
     }
 };
 
-static __forceinline unsigned __int64 bindingBitsCw(const TEdge& e){return *(const unsigned __int64*)&e;}
-static __forceinline void bindSourceCw(unsigned __int64 bits,TEdge target){((BoundingVolumeNode*)(unsigned)bits)->m_14[(unsigned)(bits>>32)]=packEdgeUid(target.t,target.i);if(target.t)target.t->m_14[target.i]=(unsigned)bits+(unsigned)(bits>>32);}
-static __forceinline void bindPackedCw(TEdge self,unsigned __int64 bits){BoundingVolumeNode* t=(BoundingVolumeNode*)(unsigned)bits;unsigned i=(unsigned)(bits>>32);self.t->m_14[self.i]=packEdgeUid(t,i);if(t)t->m_14[i]=packEdgeUid(self.t,self.i);}
-static __forceinline unsigned __int64 linkedBitsCw(TEdge e){uintptr_t raw=e.t->m_14[e.i];TEdge r;r.i=raw&3;r.t=(BoundingVolumeNode*)(raw&~3);return *(const unsigned __int64*)&r;}
+static __forceinline TEdge bindingBitsCw(const TEdge& e){return e;}
+static __forceinline void bindSourceCw(TEdge source,TEdge target){source.t->m_14[source.i]=packEdgeUid(target.t,target.i);if(target.t)target.t->m_14[target.i]=packEdgeUid(source.t,source.i);}
+static __forceinline void bindPackedCw(TEdge self,TEdge other){self.t->m_14[self.i]=packEdgeUid(other.t,other.i);if(other.t)other.t->m_14[other.i]=packEdgeUid(self.t,self.i);}
+static __forceinline TEdge linkedBitsCw(TEdge e){uintptr_t raw=e.t->m_14[e.i];TEdge r;r.i=raw&3;r.t=(BoundingVolumeNode*)(raw&~(uintptr_t)3);return r;}
 __forceinline void ObjASub8::removeVertex(VertexRecord *v) throw()
 {
     VertexRecord *nxt = v->next;
@@ -17472,11 +17434,11 @@ __forceinline void ObjASub8::removeVertex(VertexRecord *v) throw()
 struct TEdgeB {
     BNode *t; int i;
     __forceinline TEdgeB(BNode *tt, int ii) : t(tt), i(ii) {}
-    __forceinline int start() const { return t->vertices[i]; }
-    __forceinline int end() const { return t->vertices[(9 >> (i << 1)) & 3]; }
+    __forceinline intptr_t start() const { return t->vertices[i]; }
+    __forceinline intptr_t end() const { return t->vertices[(9 >> (i << 1)) & 3]; }
 };
-static __forceinline int PStart(const Pair &x) { return ((BNode *)x.a)->vertices[x.b]; }
-static __forceinline int PEnd(const Pair &x) { return ((BNode *)x.a)->vertices[(9 >> (x.b << 1)) & 3]; }
+static __forceinline intptr_t PStart(const Pair &x) { return ((BNode *)x.a)->vertices[x.b]; }
+static __forceinline intptr_t PEnd(const Pair &x) { return ((BNode *)x.a)->vertices[(9 >> (x.b << 1)) & 3]; }
 struct EdgeMapEntry { TEnt *start; TEnt *end; void *value; };
 struct EdgeMapBucket { EdgeMapEntry *m_pData; int m_iArrayLength; int m_iCap; };
 struct EdgeMap { EdgeMapBucket *buckets; unsigned int numBuckets; };
@@ -17517,24 +17479,18 @@ int BigSolver::CheckLinks() throw()
         for (int i = 0; i < 3; i++) {
             TEdge e(t, i);
             if (!e.hasLink()) {
-                if (((void *)(reinterpret_cast<::SearchOwner *>(this)->LookupPairResult((::SearchPath *)(void *)(&e))))) mapped++;
+                if (LookupPairResult(&e)) mapped++;
                 else missing++;
             } else {
                 TEdge l = e.link();
-                if (((void *)(reinterpret_cast<::SearchOwner *>(this)->LookupPairResult((::SearchPath *)(void *)(&e))))) mapped++;
-                else if (((void *)(reinterpret_cast<::SearchOwner *>(this)->LookupPairResult((::SearchPath *)(void *)(&l))))) missing++;
+                if (LookupPairResult(&e)) mapped++;
+                else if (LookupPairResult(&l)) missing++;
             }
         }
     }
     return mapped > missing;
 }
 
-enum { VerifySolverSize = 1 / (sizeof(BigSolver)==0x6e0 ) };
-enum { VerifyBoundarySize = 1 / (sizeof(BoundaryEntry)==0x40 ) };
-enum { VerifyOptionsSize = 1 / (sizeof(ObjB)==0x10 ) };
-enum { VerifyViewSize = 1 / (sizeof(View)==0x0c ) };
-enum { VerifyVertexSize = 1 / (sizeof(VertexRecord)==0x20 ) };
-enum { VerifyTriangleSize = 1 / (sizeof(BNode)==0x50 ) };
 
 
 __forceinline OptVec4 BigSolver::projectWorld(const OptVec4& p) const {
@@ -17581,8 +17537,8 @@ static __forceinline void scanFlip(BigSolver& solver, const PairArr& pairs, cons
                 TEdge e(tn, tidx);
                 if ((e.link().t->m_20 & 0xfff0) != 0x10)
                     continue;
-                const int va = arr2.m_pData[e.start()->userIndex];
-                const int vb = arr2.m_pData[e.end()->userIndex];
+                const intptr_t va = arr2.m_pData[e.start()->userIndex];
+                const intptr_t vb = arr2.m_pData[e.end()->userIndex];
                 for (int p = 0; p < pairs.m_iArrayLength; p++) {
                     if (!((PStart(pd[p]) == va && PEnd(pd[p]) == vb) || (PStart(pd[p]) == vb && PEnd(pd[p]) == va)))
                         continue;
@@ -17720,7 +17676,7 @@ state=DAT_0126ebf0;selection.first=nextBlank(state);selection.second=nextBlank(s
                 intptr_t bi = selection.first.b;
                 intptr_t bs = selection.second.b;
                 intptr_t vA = (intptr_t)bn->m_08[(9 >> (bi << 1)) & 3];
-                int closingVertices[2]={(intptr_t)bn->m_08[bi],(intptr_t)other->m_08[(9 >> (bs << 1)) & 3]};
+                intptr_t closingVertices[2]={(intptr_t)bn->m_08[bi],(intptr_t)other->m_08[(9 >> (bs << 1)) & 3]};
                 BNode *nb = owner.m_uiTriangleCount.FUN_00e241a0(&nodeStorage);
                 nb->m_30 = ((BNode*)bn)->m_30;
                 nb->m_14[0] = 0;
@@ -17732,12 +17688,12 @@ state=DAT_0126ebf0;selection.first=nextBlank(state);selection.second=nextBlank(s
                 nb->vertices[2] = closingVertices[1];
 
                 reinterpret_cast<::TriangleChecker *>((((BoundsMesh*)&owner)))->FUN_00e11710((*(const ::CheckVector *)((const __m128*)&((VertexRecord*)nb->corner(0))->position)),(*(const ::CheckVector *)((const __m128*)&((VertexRecord*)nb->corner(1))->position)),(*(const ::CheckVector *)((const __m128*)&((VertexRecord*)nb->corner(2))->position)),(*(::CheckVector *)((__m128*)&nb->plane)),true);
-                unsigned __int64 packedOther=*(unsigned __int64*)&selection.second;
+                Pair packedOther=selection.second;
                 bn->m_14[bi] = (intptr_t)nb;
                 nb->m_14[0] = packEdgeUid(bn,bi);
-                nb->m_14[2] = packEdgeUid((BoundingVolumeNode*)(unsigned)packedOther,(unsigned)(packedOther>>32));
-                if ((BoundingVolumeNode*)(unsigned)packedOther)
-                    ((BoundingVolumeNode*)(unsigned)packedOther)->m_14[(unsigned)(packedOther>>32)] = packEdgeUid(nb,2);
+                nb->m_14[2] = packEdgeUid((BoundingVolumeNode*)packedOther.a,packedOther.b);
+                if ((BoundingVolumeNode*)packedOther.a)
+                    ((BoundingVolumeNode*)packedOther.a)->m_14[packedOther.b] = packEdgeUid(nb,2);
                 counterB8 += 1;
                 y = true;
             } else {
@@ -17802,7 +17758,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
         for (int idx = 0; 3 > idx; idx++) {
             if ((node->m_14[idx] & ~3) != 0)
                 continue;
-            res = ((::NodeRes *)(::FUN_00e248b0((::S_00e248b0_Edge)(node))));
+            res = ((::NodeRes *)(::FUN_00e248b0(::S_00e248b0_Edge((::S_00e248b0_Tri *)(node), idx))));
             if (!res)
                 continue;
             if (res->m_04 < 3)
@@ -17880,7 +17836,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             const Pair &source = res->m_00[iConstraint].edge;
                             Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
-                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), 8);
+                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), sizeof(Pair));
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(source);
                             ++pairs.m_iArrayLength;
                         }
@@ -17892,7 +17848,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             Router *svc;
                             svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
-                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), 8);
+                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), sizeof(Pair));
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(value);
                             ++pairs.m_iArrayLength;
                         }
@@ -17904,7 +17860,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             Router *svc;
                             svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
-                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), 8);
+                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), sizeof(Pair));
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(value);
                             ++pairs.m_iArrayLength;
                         }
@@ -17916,7 +17872,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             Router *svc;
                             svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (intArr.m_iArrayLength == (intArr.m_iCap & 0x3fffffff))
-                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&intArr), 4);
+                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&intArr), sizeof(intptr_t));
                             intArr.m_pData[intArr.m_iArrayLength] = iConstraint;
                             intArr.m_iArrayLength += 1;
                         }
@@ -17926,7 +17882,8 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                         int idxA = (9 >> (ecnt << 1)) & 3;
                         const TEnt endPoint=solver.transformWorld(((VertexRecord*)pEdgeNode->vertices[idxA])->position);
                         const TEnt startPoint=solver.transformWorld(((VertexRecord*)pEdgeNode->vertices[ecnt])->position);
-                        HoleQuery out26010=(*(::HoleQuery *)(reinterpret_cast<::ConstraintMesh *>(&(solver))->FUN_00e26010((::ConstraintResult *)(startPoint.m_08),startPoint.m_0c,endPoint.m_08,endPoint.m_0c,1,(bool)(&intArr), {})));
+                        ConstraintResult out26010;
+                        reinterpret_cast<::ConstraintMesh *>(&(solver))->FUN_00e26010(&out26010,startPoint.m_08,startPoint.m_0c,endPoint.m_08,endPoint.m_0c,true,(const int *)&intArr);
                         if (0 != out26010.status)
                             flag = false;
                         {
@@ -17935,7 +17892,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             int cap = intArr.m_iCap;
                             intArr.m_iArrayLength = 0;
                             if ((cap & 0x80000000) == 0)
-                                ctx->freeBlock(intArr.m_pData, (cap & 0x3fffffff) * 4);
+                                ctx->freeBlock(intArr.m_pData, (cap & 0x3fffffff) * sizeof(intptr_t));
                         }
 
                     }
@@ -17955,7 +17912,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                 if (flag) {
                     int iSavedCount = arr2.m_iArrayLength;
                     PairArr aUnlinkedEdges;
-                    HArr<int> aNewNodes;
+                    HArr<intptr_t> aNewNodes;
                     for (BoundingVolumeNode *pNode = (BoundingVolumeNode *)solver.mesh.triangles.head; pNode; pNode = pNode->m_00) {
                         if ((pNode->m_20 & 0xfff0) != 0x10)
                             continue;
@@ -17976,11 +17933,11 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
                             (*(const ::CheckVector *)(&((VertexRecord*)pNewNode->corner(1))->position)),
                             (*(const ::CheckVector *)(&((VertexRecord*)pNewNode->corner(2))->position)), (*(::CheckVector *)(&pNewNode->plane)), 1);
                         for (int bi = 0; bi < 3; bi++) {
-                            int raw = pNode->m_14[bi];
+                            uintptr_t raw = pNode->m_14[bi];
                             Pair kPair;
                             kPair.b = raw & 3;
                             kPair.a = raw & ~3;
-                            void *found = ((void *)(reinterpret_cast<::SearchOwner *>(&(solver))->LookupPairResult((::SearchPath *)(void *)(&kPair))));
+                            void *found = solver.LookupPairResult(&kPair);
                             if (found) {
                                 int eidx = **(int**)found;
                                 BoundaryEntry *pEntry = &res->m_00[eidx];
@@ -17995,7 +17952,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
                             Router *svc;
                             svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (aNewNodes.m_iArrayLength == (aNewNodes.m_iCap & 0x3fffffff))
-                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&aNewNodes), 4);
+                                ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&aNewNodes), sizeof(intptr_t));
                             aNewNodes.m_pData[aNewNodes.m_iArrayLength] = (intptr_t)pNewNode;
                             aNewNodes.m_iArrayLength++;
                         }
@@ -18020,7 +17977,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
                             int capacity;
                             capacity = cap&0x3fffffff;
                             if (capacity < iSavedCount)
-                                ::FUN_00c908c0((::SpawnedObject *)((intptr_t)ctx), (::SpawnedArray *)(void *)(&arr2), iSavedCount<capacity*2 ? capacity*2 : iSavedCount, 4);
+                                ::FUN_00c908c0((::SpawnedObject *)((intptr_t)ctx), (::SpawnedArray *)(void *)(&arr2), iSavedCount<capacity*2 ? capacity*2 : iSavedCount, sizeof(intptr_t));
                             arr2.m_iArrayLength = iSavedCount;
                         }
                     }
@@ -18044,7 +18001,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
         int cap = arr2.m_iCap;
         arr2.m_iArrayLength = 0;
         if ((cap & 0x80000000) == 0)
-            ctx->freeBlock(arr2.m_pData, (cap & 0x3fffffff) * 4);
+            ctx->freeBlock(arr2.m_pData, (cap & 0x3fffffff) * sizeof(intptr_t));
     }
 
     }
@@ -18134,7 +18091,7 @@ struct WalkTriangle {
     WalkTriangle* nextNode;
     int unk04;
     Point2I* vertices[3];
-    unsigned links[3];
+    uintptr_t links[3];
     __forceinline Point2I*& vertex(intptr_t i) { return vertices[i]; }
 };
 template<class T> struct WalkEdgeBase {
@@ -18147,7 +18104,7 @@ struct WalkEdge:WalkEdgeBase<WalkTriangle> {
     WalkEdge() {}
     WalkEdge(WalkTriangle* t,unsigned i):WalkEdgeBase<WalkTriangle>(t,i) {}
     WalkEdge(const WalkEdge& e):WalkEdgeBase<WalkTriangle>(e.m_pkTriangle,e.m_uiEdgeIndex) {}
-    WalkEdge(uintptr_t packed) { m_uiEdgeIndex=packed&3u; m_pkTriangle=(WalkTriangle*)(packed&~3u); }
+    WalkEdge(uintptr_t packed) { m_uiEdgeIndex=packed&3u; m_pkTriangle=(WalkTriangle*)(packed&~(uintptr_t)3); }
     __forceinline Point2I*& end() const { return m_pkTriangle->vertex((9>>(2*m_uiEdgeIndex))&3); }
     __forceinline WalkEdge next() const { return WalkEdge(m_pkTriangle,(9>>(2*m_uiEdgeIndex))&3); }
     __forceinline WalkEdge prev() const { return WalkEdge(m_pkTriangle,(18>>(2*m_uiEdgeIndex))&3); }
@@ -18242,7 +18199,7 @@ struct PTri {
     void* m_08;
     void* m_0C;
     void* m_10;
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     Plane m_kTriangleNormal;
     int m_30;
     int unk34;
@@ -18288,7 +18245,7 @@ __forceinline void TriPtrArr::AddBack(PTri* t)
 {
     Router& r = (*static_cast<Router*>(::FUN_00c85750()));
     if (size == (int)(cap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)(this), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)(this), sizeof(PTri*));
     PTri** dst = data + size;
     __assume(dst != 0);
     *dst = t;
@@ -18300,7 +18257,7 @@ static __forceinline void PushEdge(EdgeArr& arr, const PEdge& e)
 {
     Router& r = (*static_cast<Router*>(::FUN_00c85750()));
     if (arr.size == (int)(arr.cap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)(&arr), 8);
+        ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)(&arr), sizeof(PEdge));
     PEdge* dst = arr.data + arr.size;
     if (dst) {
         *dst = e;
@@ -18399,7 +18356,7 @@ int E13B00This::FUN_00e13b00(float afMinDot, float afMaxWDiff, bool a3)
                         PEdge ed = arrB.data[arrB.size - 1];
                         uintptr_t V = ed.tri->m_ppLinks[ed.index];
                         intptr_t tmp = (int)(V & 3);
-                        PTri* pNextTri = (PTri*)(V & ~3u);
+                        PTri* pNextTri = (PTri*)(V & ~(uintptr_t)3);
                         arrB.size--;
                         if (!pNextTri)
                             continue;
@@ -18458,13 +18415,13 @@ struct CollapseTriangle {
     CollapseTriangle* next;
     CollapseTriangle* prev;
     CollapseVertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
 };
 struct CollapseEdgeFields { CollapseTriangle* m_pkTriangle; uintptr_t m_uiEdgeIndex; };
 struct CollapseEdge : CollapseEdgeFields {
     CollapseEdge() {}
     CollapseEdge(CollapseTriangle* t,unsigned int i) {m_pkTriangle=t; m_uiEdgeIndex=i;}
-    CollapseEdge(uintptr_t packed) {m_uiEdgeIndex=packed&3; m_pkTriangle=(CollapseTriangle*)(packed&~3u);}
+    CollapseEdge(uintptr_t packed) {m_uiEdgeIndex=packed&3; m_pkTriangle=(CollapseTriangle*)(packed&~(uintptr_t)3);}
     __forceinline bool isValid() const {return m_pkTriangle!=0;}
     __forceinline CollapseEdge next() const {return CollapseEdge(m_pkTriangle,(9>>(m_uiEdgeIndex*2))&3);}
     __forceinline CollapseEdge prev() const {return CollapseEdge(m_pkTriangle,(18>>(m_uiEdgeIndex*2))&3);}
@@ -18516,14 +18473,14 @@ struct CollapseEdgeArray {
     __forceinline CollapseEdgeArray() throw(): data(reinterpret_cast<CollapseEdge*>(storage)),size(0),capacity(0x80000010) {}
     __forceinline void append(const CollapseEdge& e) throw() {
         Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
-        if (size == (capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
+        if (size == (capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),sizeof(CollapseEdge));
         new(data+size) CollapseEdge(e); ++size;
     }
     __forceinline void operator()(const CollapseEdge& e) throw() {append(e);}
     __forceinline ~CollapseEdgeArray() throw() {
         Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         size=0;
-        if (!(capacity & 0x80000000)) heap.freeBlock(data,(capacity & 0x3fffffff)*8);
+        if (!(capacity & 0x80000000)) heap.freeBlock(data,(capacity & 0x3fffffff)*sizeof(CollapseEdge));
         data=0; capacity=0x80000000;
     }
 };
@@ -18591,7 +18548,7 @@ void E17F40Hull::FUN_00e17f40(float* options)
             for (int edgeIndex=0,nextIndex=0;nextIndex<3;nextIndex=edgeIndex+1,(volatile int&)edgeIndex=nextIndex) {
                 CollapseEdge edge(face,edgeIndex);
                 CollapseEdge opposite=edge.link();
-                if(!(edge.m_pkTriangle->m_ppLinks[edge.m_uiEdgeIndex]&~3u)) continue;
+                if(!(edge.m_pkTriangle->m_ppLinks[edge.m_uiEdgeIndex]&~(uintptr_t)3)) continue;
                 CollapseContext context(this,edge.endPosition());
                 walkFan(edge,context);
                 if(!(context.minDot >= options[0])) continue;
@@ -18631,7 +18588,6 @@ void E17F40Hull::FUN_00e17f40(float* options)
 }
 
 #include <math.h>
-#include "fnv/symbols_simd.h"
 
 namespace MeshTransformE27 {
 
@@ -18750,7 +18706,7 @@ void __cdecl ResizeAudioStream(void*, void*, int) throw();
 void __cdecl ResizeAudioStream(void*, void*, int);
 
 // hkgpMesh::clone() (Havok 7.1.0-r1, hkInternal/hkgpMesh.obj), written in the SDK's shape:
-typedef unsigned long S00e1c5e0_Ulong;
+typedef uintptr_t S00e1c5e0_Ulong;
 typedef S00e1c5e0_Ulong S00e1c5e0_Uid;
 
 struct S00e1c5e0_EmptyBase
@@ -18798,7 +18754,7 @@ template <typename T, int N> struct S00e1c5e0_PoolAllocator
     Pool* FUN_00e23530();
     Pool* GetOrCreatePool()
     {
-        return ((::S00e1c5e0_PoolAllocator< ::S00e1c5e0_Triangle, 32>::Pool *)(((::S00e1c5e0_PoolAllocator< ::S00e1c5e0_Vertex, 32>::Pool *)(reinterpret_cast<::fnv_00e23530::FUN_00e23530_cls *>(this)->FUN_00e23530()));
+        return (Pool *)(reinterpret_cast<::fnv_00e23530::FUN_00e23530_cls *>(this)->FUN_00e23530());
     }
     PoolArray m_pools;
 };
@@ -18974,7 +18930,7 @@ template <typename K, typename V> struct S00e1c5e0_PointerMap
     }
     __forceinline V FindValueForKey(K key, V def) const
     {
-        return (V)((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_map))->LookupHashEntry(S00e1c5e0_Ulong(key), S00e1c5e0_Ulong(def))));
+        return (V)((uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_map))->LookupHashEntry(S00e1c5e0_Ulong(key), S00e1c5e0_Ulong(def))));
     }
     __forceinline int remove(K key)
     {
@@ -19111,7 +19067,7 @@ struct TopoFace : S_00e13910_Triangle
     {
         return m_kVertices[i];
     }
-    __forceinline hkUint32& link(int i)
+    __forceinline uintptr_t& link(int i)
     {
         return m_ppLinks[i];
     }
@@ -19132,7 +19088,7 @@ template <class E, class T> struct EdgeCore
     static __forceinline void unpack(uintptr_t packed, T*& tri, hkUint32& idx)
     {
         idx = packed & 3;
-        packed &= ~3u;
+        packed &= ~(uintptr_t)3;
         tri = (T*)packed;
     }
     __forceinline E next() const
@@ -19219,6 +19175,7 @@ struct MeshClass
     }
 
     int FUN_00e230f0(bool checkCount) const;
+    bool CheckError(bool report) const;
 };
 
 // @fnv 0x00e230f0
@@ -19304,6 +19261,25 @@ int MeshClass::FUN_00e230f0(bool checkCount) const
 
     return 0;
 }
+
+// Calls FUN_00e230f0(1); if report is set and an error is returned, builds a message and reports it via DAT_01268360, returning whether the error is zero.
+// @fnv 0x00e14b30
+bool MeshClass::CheckError(bool report) const
+{
+    int error = FUN_00e230f0(true);
+    if (report && error)
+    {
+        ::CharBuffer message;
+        unsigned int storage[128];
+        char* text = reinterpret_cast<char*>(storage);
+        new ((void *)&(message)) ::FUN_00cb1600(text, 512);
+        reinterpret_cast<::SinkOwner *>((((::CharBuffer *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0(DAT_010eaf08)))->WriteInt(error)))->FUN_00cc01c0((*reinterpret_cast<char (*)[]>(&::DAT_0103d078)));
+        if (DAT_01268360->Report(3, 0x4c5c2afa, text, DAT_010eaeb4, 0xb29))
+            __debugbreak();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    return error == 0;
+}
 }
 void ResizeAudioStream(void*, void*, int);
 struct ProbeVertexBase
@@ -19359,18 +19335,18 @@ template <class T, class Payload, class V> struct ProbeTriangleCore : ProbeList<
     {
         return vertices[n];
     }
-    __forceinline unsigned long& link(int n)
+    __forceinline uintptr_t& link(int n)
     {
         return links[n];
     }
-    __forceinline unsigned long link(int n) const
+    __forceinline uintptr_t link(int n) const
     {
         return links[n];
     }
 
   private:
     V vertices[3];
-    unsigned long links[3];
+    uintptr_t links[3];
 };
 struct ProbeVertex : ProbeVertexCore<ProbeVertex, ProbeVertexBase>
 {
@@ -19410,19 +19386,19 @@ template <class E, class V, class T> struct ProbeTopology
     {}
     __forceinline ProbeTopology(T* p, unsigned i) : owner(p), number(i)
     {}
-    __forceinline ProbeTopology(const unsigned long& packed)
+    __forceinline ProbeTopology(const uintptr_t& packed)
     {
         unpack(packed, owner, number);
     }
-    static __forceinline void unpack(unsigned long word, T*& p, unsigned& i)
+    static __forceinline void unpack(uintptr_t word, T*& p, unsigned& i)
     {
         i = word & 3;
-        word &= ~3u;
+        word &= ~(uintptr_t)3;
         p = *(T**)&word;
     }
-    static __forceinline unsigned long pack(void* p, unsigned i)
+    static __forceinline uintptr_t pack(void* p, unsigned i)
     {
-        return *(const unsigned long*)&p + i;
+        return *(const uintptr_t*)&p + i;
     }
     static __forceinline unsigned after(unsigned i)
     {
@@ -19500,7 +19476,7 @@ template <class E, class V, class T> struct ProbeTopology
         else
             return link();
     }
-    __forceinline unsigned long uid() const
+    __forceinline uintptr_t uid() const
     {
         return pack(owner, number);
     }
@@ -19518,7 +19494,7 @@ struct ProbeEdge : ProbeTopology<ProbeEdge, ProbeVertex, ProbeTriangle>
     {}
     __forceinline ProbeEdge(ProbeTriangle* p, unsigned i) : Base(p, i)
     {}
-    __forceinline ProbeEdge(unsigned long value) : Base(value)
+    __forceinline ProbeEdge(uintptr_t value) : Base(value)
     {}
     __forceinline ProbeEdge(const ProbeEdge& e) : Base(e.owner, e.number)
     {}
@@ -19649,7 +19625,7 @@ template <class T, int N> struct ProbeArray : ProbeArrayOwned<T>
 struct ProbeAttr
 {
     bool present;
-    ProbeArray<unsigned long, 4> tags;
+    ProbeArray<uintptr_t, 4> tags;
     ProbeAttr() : present(false)
     {}
     ~ProbeAttr()
@@ -19882,7 +19858,6 @@ ProbeOutput ProbeThis::FUN_00e27ea0(int x, int y, bool conform, const ProbeLocat
     }
     return ProbeOutput(10, ProbeEdge::null());
 }
-extern const float DAT_0104da4c = 1.1920928955078125e-7f;
 extern double DAT_010d5370;
 extern char str_010eb06c[];
 class Scalar56
@@ -19989,11 +19964,39 @@ struct NavVertex : NodeLinks56<NavVertex>
 struct StandinNode : NodeLinks56<StandinNode>
 {
     NavVertex* m_pElements[3];
-    unsigned m_flags[3];
+    uintptr_t m_flags[3];
     __forceinline NavVertex*& vertex(int i)
     {
         return m_pElements[i];
     }
+};
+template <class E> struct StandinEdgeBase
+{
+    StandinNode* node;
+    unsigned index;
+    StandinEdgeBase(StandinNode* p, unsigned n) : node(p), index(n)
+    {}
+    bool linked() const
+    {
+        return (node->m_flags[index] & ~(uintptr_t)3) != 0;
+    }
+    E previous() const
+    {
+        return E(node, (0x12 >> (index << 1)) & 3);
+    }
+    NavVertex*& start() const
+    {
+        return node->vertex(index);
+    }
+    NavVertex*& end() const
+    {
+        return node->vertex((9 >> (index << 1)) & 3);
+    }
+};
+struct StandinEdge : StandinEdgeBase<StandinEdge>
+{
+    StandinEdge(StandinNode* p, unsigned n) : StandinEdgeBase<StandinEdge>(p, n)
+    {}
 };
 template <class T> struct PointerArrayBase56
 {
@@ -20064,7 +20067,7 @@ struct StandinCollector : CollectorHeader56
 };
 struct StandinClass : FUN_00e14fe0_cls
 {
-    EdgeSol FUN_00e18ed0(EdgeSol, NavVertex*, bool) throw();
+    StandinEdge FUN_00e18ed0(StandinEdge, NavVertex*, bool) throw();
     void FUN_00e1ab00(float, bool);
 };
 struct MsgB0280
@@ -20084,7 +20087,7 @@ void StandinClass::FUN_00e1ab00(float tolerance, bool report)
         {
             for (int corner = 0; corner < 3; ++corner)
             {
-                EdgeSol edge(face, corner);
+                StandinEdge edge(face, corner);
                 if (!edge.linked())
                 {
                     Bounds56 box;
@@ -20103,7 +20106,7 @@ void StandinClass::FUN_00e1ab00(float tolerance, bool report)
                         {
                             for (int k = 0; k < 3; ++k)
                             {
-                                if (!EdgeSol(other, k).linked() || !EdgeSol(other, k).previous().linked())
+                                if (!StandinEdge(other, k).linked() || !StandinEdge(other, k).previous().linked())
                                 {
                                     NavVertex* vertex = other->vertex(k);
                                     if (vertex->m_pos.distanceToSquared3(edge.start()->m_pos) > squared &&
@@ -20244,8 +20247,56 @@ struct InitA
     int m_10;
     int m_14;
 };
+struct VecC940
+{
+    void* m_00;
+    int m_04;
+    int m_08;
+    __forceinline void release(int elemSize);
+};
+template <int ES> struct HArrC940 : VecC940
+{
+    __forceinline HArrC940()
+    {
+        m_00 = 0;
+        m_04 = 0;
+        m_08 = (int)0x80000000;
+    }
+    __forceinline ~HArrC940()
+    {
+        release(ES);
+    }
+};
+struct ThisClsC940
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+};
+void VecC940::release(int elemSize)
+{
+    Allocator& ao = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
+    int cap = m_08;
+    m_04 = 0;
+    if (!((unsigned int)cap & 0x80000000))
+        ao.freeBlock(m_00, (cap & 0x3fffffff) * elemSize);
+    m_00 = 0;
+    m_08 = (int)0x80000000;
+}
 // @fnv 0x00e1c940
-__declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
+__declspec(noinline) Obj* FUN_00e1c940(ThisClsC940* self, void*, float a, int n)
 {
     Obj* obj = ((::Obj *)(reinterpret_cast<::S00e1c5e0_Mesh *>((self))->FUN_00e1c5e0()));
     InitA ia;
@@ -20253,8 +20304,8 @@ __declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
     ia.m_0c = 0;
     ia.m_10 = 0;
     ia.m_14 = self->m_38;
-    ResetNodeVectors(obj);
-    FUN_00e11e10(obj);
+    reinterpret_cast<::fnv_00e11a60::FUN_00e11a60_cls *>(obj)->ResetNodeVectors();
+    reinterpret_cast<::HostE10 *>(obj)->FUN_00e11e10();
     reinterpret_cast<::FUN_00e11d80_class *>((obj))->SetValueForAllNodes(0, 0.0f);
     ia.m_04 = (float)(a * 0.5);
     reinterpret_cast<::FUN_00e11d80_class *>((obj))->SetValueForAllNodes(1, ia.m_04);
@@ -20272,8 +20323,8 @@ __declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
     new ((void *)&(d)) ::FUN_00d9c110_cls();
     if (ia.m_14 != 0)
     {
-        HArr<32> v2;
-        HArr<4> v1;
+        HArrC940<32> v2;
+        HArrC940<sizeof(Node1*)> v1;
         Node1* node = obj->m_2c;
         for (; node != 0; node = node->m_00)
         {
@@ -20334,13 +20385,13 @@ __declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
                 {
                     Router* h = &(*static_cast<Router*>(::FUN_00c85750()));
                     if (v1.m_04 == (v1.m_08 & 0x3fffffff))
-                        ResizeAudioStream(h->heap, &v1, 4);
+                        ResizeAudioStream(h->heap, &v1, sizeof(Node1*));
                     ((Node1**)v1.m_00)[v1.m_04] = node;
                     v1.m_04 += 1;
                 }
             }
         }
-        HArr<4> vb;
+        HArrC940<4> vb;
         reinterpret_cast<::S_00d9d650_Tree *>(&(d))->BuildTree((const ::S_00d9d650_Aabb *)(v2.m_00), (const int *)(v1.m_00), v2.m_04, (*(::S_00d9d650_Array<int> *)(&vb)));
     }
     double one = 1.0;
@@ -20393,8 +20444,8 @@ __declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
             n3 = n3->m_00;
         }
     }
-    ResetNodeVectors(obj);
-    BuildHull(obj);
+    reinterpret_cast<::fnv_00e11a60::FUN_00e11a60_cls *>(obj)->ResetNodeVectors();
+    reinterpret_cast<::Hull *>(obj)->BuildHull();
     d.m_00 = (void*)&DAT_010d40a4;
     reinterpret_cast<::FUN_00d9be30_class *>(&(d))->FUN_00d9be30();
     reinterpret_cast<::fnv_00d9c010::FUN_00d9c010_cls *>(&(l2))->ClearBuffers();
@@ -20479,6 +20530,22 @@ void GpPoolAllocator::FUN_00e24e40(GpPoolItem* item)
         reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
     }
 }
+
+namespace fnv_00e27450 {
+// If m_map exists, looks up e's edge, passes its filter value to m_set.FUN_00e24e40 and removes it, then calls FUN_00e27400 if m_map is empty.
+// @fnv 0x00e27450
+void EdgeOwner::FUN_00e27450(const EdgeRef& e)
+{
+    if (m_map) {
+        Vertex* a = e.m_tri->m_v[e.m_idx];
+        Vertex* b = e.m_tri->m_v[(9 >> (e.m_idx * 2)) & 3];
+        EdgeEntry* entry = m_map->get(a,b);
+        if (entry) { reinterpret_cast<::GpPoolAllocator *>(&(m_set))->FUN_00e24e40((::GpPoolItem *)(entry->m_uiFilterValue)); m_map->remove(a,b); }
+        if (m_map->m_uiItemCount == 0) FUN_00e27400();
+    }
+}
+}  // namespace fnv_00e27450
+
 bool __cdecl FUN_00dea6b0(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);namespace S00e19d60_SIMD {
 
 
@@ -20959,7 +21026,7 @@ int* Factory360::FUN_00e1f360(int* result, int input, Pieces* output, float low,
                 Piece** item = &pieces[i];
                 Router& router = (*static_cast<Router*>(::FUN_00c85750()));
                 if (output->size == (output->capacity & 0x3fffffff))
-                    ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(output), 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(output), sizeof(Piece*));
                 Piece** slot = &output->data[output->size];
                 copyRange360(slot, 1, *item);
                 output->size++;
@@ -20973,7 +21040,7 @@ int* Factory360::FUN_00e1f360(int* result, int input, Pieces* output, float low,
         }
         Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         pieces.size = 0;
-        if ((pieces.capacity & 0x80000000u) == 0) heap.freeBlock(pieces.data, (pieces.capacity & 0x3fffffff)*4);
+        if ((pieces.capacity & 0x80000000u) == 0) heap.freeBlock(pieces.data, (pieces.capacity & 0x3fffffff)*sizeof(Piece*));
     }
     if (builder) builder->destroy(1);
     return out;

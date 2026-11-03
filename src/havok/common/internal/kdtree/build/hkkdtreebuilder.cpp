@@ -595,7 +595,7 @@ int evenJobSize=numPrimitives / 4;
 if(treeSize<KdTree::getSizeForFastBuild(evenJobSize)*4+8)
 {
 
-if(1){char assertBuf[512];hkErrStream ostr(assertBuf,sizeof(assertBuf));reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0(DAT_010da240);if(hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR,0x5010d60c,assertBuf,DAT_010da21c,408)){fnv_Breakpoint();}}else;
+if(1){char assertBuf[512];hkErrStream ostr(assertBuf,sizeof(assertBuf));reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(DAT_010da240);if(hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR,0x5010d60c,assertBuf,DAT_010da21c,408)){fnv_Breakpoint();}}else;
 }
 FieldlessRecord*endEntries[4];
 endEntries[0]=buffersIn.m_pProjectedEntryBegin+evenJobSize;

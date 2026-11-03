@@ -5825,7 +5825,7 @@ hkVector4 eigenValues;
 if (inertiaM.DiagonalizeSymmetric(eigenVectors, eigenValues, 128, 1e-4f) == HK_FAILURE)
 {
 
-if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0(str_010d36a0)))->FUN_00cc02d0(m_uiUniqueId)))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078))); if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0(); } else;
+if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(str_010d36a0)))->FUN_00cc02d0(m_uiUniqueId)))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078))); if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0(); } else;
 }
 reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
 reinterpret_cast<::CB2FC0Object *>(&(eigenVectors))->FUN_00cb2fc0();

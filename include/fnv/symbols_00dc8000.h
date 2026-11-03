@@ -7,4 +7,4 @@ struct HashEntryTable;
 // 0x00dc88c0
 namespace fnv_00dc88c0 { void ReleaseDataValues(intptr_t, ::fnv_00dc88c0::hkDataValueDC88 *, int); }
 // 0x00dc8e30
-uintptr_t LookupWithDefault(::HashEntryTable *, intptr_t, unsigned long);
+uintptr_t LookupWithDefault(::HashEntryTable *, uintptr_t);

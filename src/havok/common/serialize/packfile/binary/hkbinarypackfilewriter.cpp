@@ -1797,9 +1797,9 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
 
         if (p->m_oldVersion == -1)
         {
-            if (((int)(::LookupWithDefault((::HashEntryTable *)&(patchesFromName), (S_00db8670_Ulong)name, {}))) != -1)
+            if (((int)(::LookupWithDefault((::HashEntryTable *)&(patchesFromName), (S_00db8670_Ulong)name))) != -1)
             {
-                intptr_t k = ((int)(::LookupWithDefault((::HashEntryTable *)&(patchesFromName), (S_00db8670_Ulong)name, {})));
+                intptr_t k = ((int)(::LookupWithDefault((::HashEntryTable *)&(patchesFromName), (S_00db8670_Ulong)name)));
                 if (k != -1)
                 {
                     int lastIndex = reinterpret_cast<::Cls_t *>(this)->FindEntry(uid, 0, {});
@@ -1835,7 +1835,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
          it = renames.m_pHashFunction.getNext(it))
     {
         S_00db8670_Ulong key = renames.m_pHashFunction.GetIteratorKey(it);
-        for (intptr_t k = ((int)(::LookupWithDefault((::HashEntryTable *)&(renames), key, {}))); k != -1; k = renames.GetNextChainIndex(k))
+        for (intptr_t k = ((int)(::LookupWithDefault((::HashEntryTable *)&(renames), key))); k != -1; k = renames.GetNextChainIndex(k))
         {
             S_00db8670_MapUlong visited;
             int value = renames.getValue(k);

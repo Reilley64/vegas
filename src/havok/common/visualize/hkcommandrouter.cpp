@@ -264,7 +264,7 @@ S_00dd9660_Bool S_00dd9660_Handler::ReadCommands(S_00dd9660_IArchive* stream)
         if (command != 0xf0)
         {
             S_00dd9660_Process* p;
-            if (::LookupBucketValue((::DepthLimit *)&(m_kCommandMap), command, (intptr_t)(&p), {}) == 0 && p)
+            if (::LookupBucketValue((::DepthLimit *)&(m_kCommandMap), command, (uintptr_t *)(&p)) == 0 && p)
             {
                 p->ExecuteCommand(command);
             }

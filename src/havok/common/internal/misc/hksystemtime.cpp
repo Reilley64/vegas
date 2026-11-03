@@ -100,22 +100,23 @@ struct FNV_Ctx
     FNV_MemObj* obj;  // +0x10
 };
 
-extern "C" bool FUN_00e29920(FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, float, float) throw();
-
 static __forceinline __m128 dot3(__m128 a, __m128 b)
 {
     __m128 q = _mm_mul_ps(a, b);
     return _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), _mm_add_ss(_mm_shuffle_ps(q, q, 0x55), q));
 }
-extern "C" __declspec(noinline) bool FUN_00e29920(FNV_Vec4* a, FNV_Vec4* b, FNV_Vec4* n, FNV_Vec4* a2, FNV_Vec4* b2,
-                                                  FNV_Vec4* n2, float thresh, float limit) throw()
+namespace RaySimilarityMath
+{
+extern "C" __declspec(noinline) bool FUN_00e29920(const RayVector& a, const RayVector& b, const RayVector& n,
+                                                  const RayVector& a2, const RayVector& b2, const RayVector& n2,
+                                                  float thresh, float limit)
 {
     float dot;
-    _mm_store_ss(&dot, dot3(*(__m128*)n, *(__m128*)n2));
+    _mm_store_ss(&dot, dot3(*(const __m128*)&n, *(const __m128*)&n2));
     if (dot < thresh)
         return false;
-    __m128 d1 = _mm_sub_ps(*(__m128*)a2, *(__m128*)a);
-    __m128 d2 = _mm_sub_ps(*(__m128*)b2, *(__m128*)b);
+    __m128 d1 = _mm_sub_ps(*(const __m128*)&a2, *(const __m128*)&a);
+    __m128 d2 = _mm_sub_ps(*(const __m128*)&b2, *(const __m128*)&b);
     float distance1;
     _mm_store_ss(&distance1, dot3(d1, d1));
     if (distance1 > limit)
@@ -124,6 +125,7 @@ extern "C" __declspec(noinline) bool FUN_00e29920(FNV_Vec4* a, FNV_Vec4* b, FNV_
     _mm_store_ss(&distance2, dot3(d2, d2));
     return !(distance2 > limit);
 }
+}  // namespace RaySimilarityMath
 
 static __forceinline __m128 normalizeVector(FNV_Vec4& result, __m128 value)
 {
@@ -188,7 +190,7 @@ void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, floa
                         normalizeVector(nrm2, d2);
                         float sc;
                         _mm_store_ss(&sc, _mm_mul_ss(ang, _mm_load_ss(&scale)));
-                        if (FUN_00e29920(&va, &vb, &nrm1, &va2, &vb2, &nrm2, thresh, sc))
+                        if (RaySimilarityMath::FUN_00e29920(*(const RaySimilarityMath::RayVector*)&va, *(const RaySimilarityMath::RayVector*)&vb, *(const RaySimilarityMath::RayVector*)&nrm1, *(const RaySimilarityMath::RayVector*)&va2, *(const RaySimilarityMath::RayVector*)&vb2, *(const RaySimilarityMath::RayVector*)&nrm2, thresh, sc))
                         {
                             rec->idx[rec->n] = i;
                             rec->n++;

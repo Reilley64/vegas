@@ -400,7 +400,7 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
         case 6: {
             char assertBuf[512];
             hkOstream ostr(assertBuf, sizeof(assertBuf));
-            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Error parsing environment string: '")))->FUN_00cc01c0(str)))->FUN_00cc01c0("'");
+            reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Error parsing environment string: '")))->FUN_00cc01c0(str)))->FUN_00cc01c0("'");
             (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba7881, assertBuf, ".\\Environment\\hkxEnvironment.cpp", 308);
             return 1;
         }
@@ -434,7 +434,7 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
         default: {
             char assertBuf[512];
             hkOstream ostr(assertBuf, sizeof(assertBuf));
-            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Internal Error: Unknown action parsing environment string: '")))->FUN_00cc01c0(str)))->FUN_00cc01c0("'");
+            reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Internal Error: Unknown action parsing environment string: '")))->FUN_00cc01c0(str)))->FUN_00cc01c0("'");
             (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba0032, assertBuf, ".\\Environment\\hkxEnvironment.cpp", 320);
             return 1;
         }

@@ -1638,7 +1638,7 @@ next:
     return;
 do_command:
     const char* str;
-    if (::LookupBucketValue((::DepthLimit *)(map), tag, (intptr_t)(&str), {}) != 0)
+    if (::LookupBucketValue((::DepthLimit *)(map), tag, (uintptr_t *)(&str)) != 0)
     {
         return;
     }
@@ -1670,7 +1670,7 @@ do_command:
         apBuffer += 16;
         unsigned int key = ((NamedCommand*)cur)->object.tag;
         const char* pObjectName;
-        if (::LookupBucketValue((::DepthLimit *)(map), key, (intptr_t)(&pObjectName), {}) == 0)
+        if (::LookupBucketValue((::DepthLimit *)(map), key, (uintptr_t *)(&pObjectName)) == 0)
         {
             ((NamedCommand*)cur)->object.name = pObjectName;
         }
@@ -1686,7 +1686,7 @@ do_command:
         apBuffer += 16;
         unsigned int key = ((NamedCommand*)cur)->object.tag;
         const char* pObjectName;
-        if (::LookupBucketValue((::DepthLimit *)(map), key, (intptr_t)(&pObjectName), {}) == 0)
+        if (::LookupBucketValue((::DepthLimit *)(map), key, (uintptr_t *)(&pObjectName)) == 0)
         {
             ((NamedCommand*)cur)->object.name = pObjectName;
         }
@@ -5029,8 +5029,8 @@ struct ColorMap
     ColorMapStorage m_map;
     __forceinline int get(const char* key, int* out) const
     {
-        unsigned long value;
-        if (::LookupBucketValue((::DepthLimit *)&(m_map), (uintptr_t)key, (intptr_t)(&value), {}) == 0)
+        uintptr_t value;
+        if (::LookupBucketValue((::DepthLimit *)&(m_map), (uintptr_t)key, (uintptr_t *)(&value)) == 0)
         {
             *out = int(value);
             return 0;

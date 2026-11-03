@@ -617,12 +617,12 @@ struct S00dc5f30_Obj
     S00dc5f30_HL m_hl30;
 
 
-    S00dc5f30_Obj* FUN_00dc5f30(int a0, int a1);
+    S00dc5f30_Obj* FUN_00dc5f30(intptr_t a0, intptr_t a1);
 };
 
 // Initializes the object with a0 and a1, sets m_p10 and m_n14, and adds three entries to the m_hl18 and m_hl24 lists.
 // @fnv 0x00dc5f30
-S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(intptr_t a0, int a1)
+S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(intptr_t a0, intptr_t a1)
 {
     reinterpret_cast<::FUN_00dd9130_class *>(this)->Init((::hkReferencedObject *)(a0), (*(bool *)&(const ::S00dc5f30_Tag &)(S00dc5f30_Tag())));
     m_p10 = (void*)a1;
@@ -1356,7 +1356,7 @@ DataObjectImplReference hkBinaryTagfileReader::FUN_00dc6e50()
                 {
                     {
                         hkOstream ostr(buf, sizeof(buf));
-                        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Unrecognised tagfile version.");
+                        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Unrecognised tagfile version.");
                         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp",
                                               0x1d9);
                     }
@@ -1385,7 +1385,7 @@ DataObjectImplReference hkBinaryTagfileReader::FUN_00dc6e50()
     else
     {
         hkOstream ostr(buf, sizeof(buf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("This does not look like a binary tagfile (magic number mismatch)");
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("This does not look like a binary tagfile (magic number mismatch)");
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp", 0x1c5);
     }
     return DataObjectImplReference(0);

@@ -2,7 +2,7 @@
 // src/havok/common/serialize/packfile/hkpackfiledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/hkpackfiledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-#include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -149,14 +149,12 @@ void* __cdecl _D1A0E0GetMemoryRouter();
 // @fnv 0x00e05550
 void FUN_00e05550_Class::AppendPair(int aiFirst, int aiSecond)
 {
-    int* p = (int*)((char*)this + 0x4c);
-    void* router = _D1A0E0GetMemoryRouter();
-    unsigned int cap = p[2] & 0x3fffffff;
-    if (p[1] == (int)cap)
-        ::ResizeAudioStream((::AudioAllocator *)(*(void**)((char*)router + 0x10)), (::AudioStream *)(p), 8);
-    int iIndex = p[1];
-    int* slot = (int*)(p[0] + iIndex * 8);
-    p[1] = iIndex + 1;
+    hkMemoryRouter* router = static_cast<hkMemoryRouter*>(_D1A0E0GetMemoryRouter());
+    if (m_uiItemCount == (m_pRayCursor & 0x3fffffff))
+        ::ResizeAudioStream((::AudioAllocator *)&router->heap(), (::AudioStream *)&m_data, 8);
+    int iIndex = m_uiItemCount;
+    int* slot = m_data + iIndex * 2;
+    m_uiItemCount = iIndex + 1;
     slot[0] = aiFirst;
     slot[1] = aiSecond;
 }
@@ -435,8 +433,8 @@ class hkFinishRegistryE055
 
 struct hkPointerMapPairE055
 {
-    unsigned long m_uiKey;
-    unsigned long m_uiCurrentValue;
+    uintptr_t m_uiKey;
+    uintptr_t m_uiCurrentValue;
 };
 
 struct hkPointerMapE055 : public FUN_00e05950_class
@@ -450,7 +448,7 @@ struct hkPointerMapE055 : public FUN_00e05950_class
         int i = iIt;
         for (i += 1; i <= m_uiItemCount; ++i)
         {
-            if (((hkPointerMapPairE055*)m_p)[i].m_uiKey != (unsigned long)-1)
+            if (((hkPointerMapPairE055*)m_p)[i].m_uiKey != ~uintptr_t(0))
                 break;
         }
         return i;
@@ -486,7 +484,7 @@ void* hkPackfileDataE055::FUN_00e055f0(const char* pcExpectedClassName, const hk
     if (m_pvTopLevelObject)
     {
         const char* pcTopClassName =
-            (const char*)((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&m_kTrackedTypes)))->LookupHashEntry((uintptr_t)m_pvTopLevelObject, 0)));
+            (const char*)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&m_kTrackedTypes)))->LookupHashEntry((intptr_t)m_pvTopLevelObject, 0));
         if (pcExpectedClassName)
         {
             const hkClassRegistryE055* pkRegistry = m_pkClassRegistry;

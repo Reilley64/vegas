@@ -631,7 +631,7 @@ int __cdecl FUN_00ce5840(hkaSkeletonMapperData* mapping)
                 {
                     char buf[512];
                     hkOstream os(buf, 512);
-                    reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(os))->FUN_00cc01c0("Invalid mapping - cannot lock translation based on it");
+                    reinterpret_cast<::SinkOwner *>((void *)&(os))->FUN_00cc01c0("Invalid mapping - cannot lock translation based on it");
                     (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba782a, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 767);
                     return 1;
                 }
@@ -648,7 +648,7 @@ found:
     {
         char buf[512];
         hkOstream os(buf, 512);
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(os))->FUN_00cc01c0("Invalid mapping - cannot lock translations based on it");
+        reinterpret_cast<::SinkOwner *>((void *)&(os))->FUN_00cc01c0("Invalid mapping - cannot lock translations based on it");
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba782a, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 776);
         return 1;
     }
@@ -656,7 +656,7 @@ found:
     {
         char buf[512];
         hkOstream os(buf, 512);
-        reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(os))->FUN_00cc01c0("Locking translations in skeleton ")))->WriteName((::NameReference *)&(skelA->m_name))))->FUN_00cc01c0(" from bone ")))->WriteName((::NameReference *)&(skelA->m_kBones[rootA].m_name));
+        reinterpret_cast<::AttributeFormatter *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::AttributeFormatter *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(os))->FUN_00cc01c0("Locking translations in skeleton ")))->WriteName((::NameReference *)&(skelA->m_name))))->FUN_00cc01c0(" from bone ")))->WriteName((::NameReference *)&(skelA->m_kBones[rootA].m_name));
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(0, -1, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 784);
     }
     for (int i = 0; i < skelA->m_kBones.GetLogicalSize(); ++i)
@@ -666,7 +666,7 @@ found:
     {
         char buf[512];
         hkOstream os(buf, 512);
-        reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(os))->FUN_00cc01c0("Locking translations in skeleton ")))->WriteName((::NameReference *)&(skelB->m_name))))->FUN_00cc01c0(" from bone ")))->WriteName((::NameReference *)&(skelB->m_kBones[rootB].m_name));
+        reinterpret_cast<::AttributeFormatter *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::AttributeFormatter *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(os))->FUN_00cc01c0("Locking translations in skeleton ")))->WriteName((::NameReference *)&(skelB->m_name))))->FUN_00cc01c0(" from bone ")))->WriteName((::NameReference *)&(skelB->m_kBones[rootB].m_name));
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(0, -1, buf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", 793);
     }
     for (int i = 0; i < skelB->m_kBones.GetLogicalSize(); ++i)
@@ -2655,7 +2655,7 @@ static __forceinline void warnAlways(int id, const char* text, int line)
 {
     char assertBuf[512];
     hkOstream ostr(assertBuf, 512);
-    reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0(text);
+    reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(text);
     (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, id, assertBuf, ".\\Mapper\\hkaSkeletonMapperUtils.cpp", line);
 }
 

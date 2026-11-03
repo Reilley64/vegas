@@ -142,7 +142,7 @@ int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, Dept
         void* pAllocator = pHolder->m_pAllocator;
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((apDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pAllocator)), (uintptr_t)(apItem), 0);
 
-        intptr_t iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)(apTable), (intptr_t)(apItem), {})));
+        intptr_t iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)(apTable), (intptr_t)(apItem))));
         while (iIndex != -1)
         {
             void* pKey = apTable->m_pEntries[iIndex].m_pKey;
@@ -744,7 +744,7 @@ int __cdecl FUN_00db83c0(int node, hkIntArray* state, Graph* graph, int counter,
     {
         state->m_data[node] = -2;
         stack->AddBack(node);
-        for (intptr_t e = ((int)(::LookupWithDefault((::HashEntryTable *)(graph), node, {}))); e != -1; e = graph->m_kEdges[e].next)
+        for (intptr_t e = ((int)(::LookupWithDefault((::HashEntryTable *)(graph), node))); e != -1; e = graph->m_kEdges[e].next)
         {
             int other = graph->m_kEdges[e].target;
             switch (state->m_data[other])

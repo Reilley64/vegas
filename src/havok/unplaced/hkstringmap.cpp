@@ -40,7 +40,7 @@ intptr_t FUN_00d87440_Class::FUN_00d87440(intptr_t aiIndex)
 
 struct SlotBitmap
 {
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_auiShapeKeys;
     int m_iPairCount;
     int FindNextUsedSlot(int i);
@@ -52,10 +52,10 @@ int SlotBitmap::FindNextUsedSlot(int aiStartIndex)
     ++aiStartIndex;
     if (aiStartIndex <= m_iPairCount)
     {
-        unsigned long* p = m_kPrimitiveElement + aiStartIndex;
+        uintptr_t* p = m_kPrimitiveElement + aiStartIndex;
         do
         {
-            if (*p != 0xffffffff)
+            if (*p != ~uintptr_t(0))
                 break;
             ++aiStartIndex;
             p += 1;
@@ -96,7 +96,7 @@ void FUN_00d87460_class::SetElement(intptr_t aiIndex, int aiValue)
 
 struct FUN_00d87760_class
 {
-    void** m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
     void ClearEntries();
@@ -107,7 +107,7 @@ void FUN_00d87760_class::ClearEntries()
 {
     int i;
     for (i = 0; i < m_iPairCount + 1; i++)
-        ((unsigned long*)m_kPrimitiveElement)[i] = 0xffffffff;
+        m_kPrimitiveElement[i] = ~uintptr_t(0);
     m_iCapacityFlags = 0;
 }
 
@@ -128,7 +128,7 @@ FUN_00d877d0_router* _D1A0E0GetMemoryRouter();
 
 struct FUN_00d877d0_class
 {
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_auiShapeKeys;
     int m_iPairCount;
     void FreeBuffer();
@@ -138,7 +138,7 @@ struct FUN_00d877d0_class
 void FUN_00d877d0_class::FreeBuffer()
 {
     FUN_00d877d0_router* router = _D1A0E0GetMemoryRouter();
-    router->m_pThreadAllocator->FUN_00d877d0_free(m_kPrimitiveElement, 12 * (m_iPairCount + 1));
+    router->m_pThreadAllocator->FUN_00d877d0_free(m_kPrimitiveElement, 3 * sizeof(uintptr_t) * (m_iPairCount + 1));
 }
 
 struct FUN_00d87820_Class
@@ -224,7 +224,7 @@ intptr_t FUN_00d87820_Class::FindStringKey(intptr_t key)
     SlotBitmap* table = (SlotBitmap*)this;
     int hash = stringHash(str);
     unsigned int slot = hash & table->m_iPairCount;
-    while (table->m_kPrimitiveElement[slot] != 0xffffffffu)
+    while (table->m_kPrimitiveElement[slot] != ~uintptr_t(0))
     {
         if (table->m_kPrimitiveElement[slot] == (unsigned int)hash &&
             ::fnv_00cb0fa0::FUN_00cb0fa0(str, (const char*)table->m_kPrimitiveElement[table->m_iPairCount + slot + 1]) == 0)
@@ -367,7 +367,7 @@ namespace fnvc_adapt {
 class FUN_00d874d0_s
 {
   public:
-    unsigned int* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -376,7 +376,7 @@ class FUN_00d874d0_s
 
 struct S00d876a0_Map
 {
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -403,11 +403,11 @@ void S00d876a0_Map::FUN_00d876a0(intptr_t aiIndex)
 
     // remove it
     --m_iCapacityFlags;
-    m_kPrimitiveElement[i] = unsigned(-1);
+    m_kPrimitiveElement[i] = ~uintptr_t(0);
 
     // find lowest element of this unbroken run
     uintptr_t lo = (i + m_iPairCount) & m_iPairCount;
-    while (m_kPrimitiveElement[lo] != unsigned(-1))
+    while (m_kPrimitiveElement[lo] != ~uintptr_t(0))
     {
         lo = (lo + m_iPairCount) & m_iPairCount;
     }
@@ -417,7 +417,7 @@ void S00d876a0_Map::FUN_00d876a0(intptr_t aiIndex)
     uintptr_t empty = i;
 
     // shift up, closing any gaps we find
-    for (i = (i + 1) & m_iPairCount; m_kPrimitiveElement[i] != unsigned(-1); i = (i + 1) & m_iPairCount)
+    for (i = (i + 1) & m_iPairCount; m_kPrimitiveElement[i] != ~uintptr_t(0); i = (i + 1) & m_iPairCount)
     {
         unsigned hash = m_kPrimitiveElement[i] & m_iPairCount;
 
@@ -436,7 +436,7 @@ void S00d876a0_Map::FUN_00d876a0(intptr_t aiIndex)
         m_kPrimitiveElement[empty] = m_kPrimitiveElement[i];
         m_kPrimitiveElement[m_iPairCount + 1 + empty] = m_kPrimitiveElement[m_iPairCount + 1 + i];
         m_kPrimitiveElement[2 * (m_iPairCount + 1) + empty] = m_kPrimitiveElement[2 * (m_iPairCount + 1) + i];
-        m_kPrimitiveElement[i] = unsigned(-1);
+        m_kPrimitiveElement[i] = ~uintptr_t(0);
         empty = i;
     }
 }
@@ -445,7 +445,7 @@ void S00d876a0_Map::FUN_00d876a0(intptr_t aiIndex)
 class hkStringMapD874
 {
   public:
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -474,20 +474,20 @@ intptr_t hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
 void FUN_00d874d0_s::FUN_00d87860(int iNewCap)
 {
     int iOldCap = m_iPairCount + 1;
-    unsigned int* puiOldElements = m_kPrimitiveElement;
+    uintptr_t* puiOldElements = m_kPrimitiveElement;
     hkMemoryAllocatorD878& kAlloc = (*static_cast<hkMemoryRouterD878*>(::FUN_00c85750())).heap();
-    m_kPrimitiveElement = (unsigned int*)kAlloc.AllocateMemoryBlock(iNewCap * 3 * sizeof(unsigned int));
-    ::FUN_00cb1280(m_kPrimitiveElement, 0xff, iNewCap * sizeof(unsigned int));
+    m_kPrimitiveElement = (uintptr_t*)kAlloc.AllocateMemoryBlock(iNewCap * 3 * sizeof(uintptr_t));
+    ::FUN_00cb1280(m_kPrimitiveElement, 0xff, iNewCap * sizeof(uintptr_t));
     m_iCapacityFlags = 0;
     m_iPairCount = iNewCap - 1;
 
     for (int i = 0; i < iOldCap; i++)
     {
-        if (puiOldElements[i] != 0xffffffff)
+        if (puiOldElements[i] != ~uintptr_t(0))
             reinterpret_cast<::hkStringMapD874 *>(this)->FUN_00d874d0((const char*)puiOldElements[iOldCap + i], puiOldElements[i + 2 * iOldCap]);
     }
 
-    kAlloc.ReleaseBlock(puiOldElements, iOldCap * 3 * sizeof(unsigned int));
+    kAlloc.ReleaseBlock(puiOldElements, iOldCap * 3 * sizeof(uintptr_t));
 }
 
 // Inserts a key-value pair into the hash map, growing the table if the load factor exceeds half capacity.
@@ -499,7 +499,7 @@ void hkStringMapD874::FUN_00d874d0(const char* pcKey, intptr_t iValue)
         reinterpret_cast<::FUN_00d874d0_s *>(this)->FUN_00d87860(m_iPairCount + m_iPairCount + 2);
 
     int i = uiHash & m_iPairCount;
-    while (m_kPrimitiveElement[i] != 0xffffffffu)
+    while (m_kPrimitiveElement[i] != ~uintptr_t(0))
     {
         if (m_kPrimitiveElement[i] == uiHash)
         {

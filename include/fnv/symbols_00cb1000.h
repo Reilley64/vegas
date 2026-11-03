@@ -40,4 +40,4 @@ int FUN_00cb17f0(int);
 // 0x00cb1810
 int FUN_00cb1810(int);
 // 0x00cb1980
-int LookupBucketValue(::DepthLimit *, intptr_t, intptr_t, int *);
+int LookupBucketValue(::DepthLimit *, uintptr_t, uintptr_t *);

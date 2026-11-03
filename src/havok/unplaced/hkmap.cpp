@@ -5,10 +5,39 @@
 #include <cstdint>
 #include "fnv/decl/ProbeMap64.h"
 #include "fnv/symbols_00a29000.h"
+
+// hkMap<hkUlong, hkUlong>: open addressing over key/value pairs. An empty slot holds the key ~0.
+struct hkMapUlongPair
+{
+    uintptr_t key;
+    uintptr_t val;
+};
+
+const uintptr_t hkMapUlongEmpty = ~uintptr_t(0);
+
+inline unsigned hkMapUlongHash(uintptr_t key, int mod)
+{
+    return unsigned((key >> 4) * 2654435761U) & unsigned(mod);
+}
+
+namespace fnv_00cb1870 {
+class hkMemoryAllocatorCB18;
+
+class hkMapBaseCB18
+{
+  public:
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+
+    int FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uintptr_t val);
+};
+}  // namespace fnv_00cb1870
+
 struct FUN_00cb18f0_t
 {
-    intptr_t m_uiStandInValue;
-    int m_iValueAfterStandIn;
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
     int m_iPairCount;
     intptr_t FindSlot(intptr_t);
     int FUN_00cb1fb0(intptr_t key);
@@ -29,26 +58,25 @@ int __cdecl FUN_00cb1810(int key)
 
 struct FUN_00cb1930_t
 {
-    int* m_uiStandInValue;
-    int m_iValueAfterStandIn;
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
     int m_iPairCount;
-    intptr_t LookupHashEntry(intptr_t key, int defaultValue);
+    intptr_t LookupHashEntry(intptr_t key, intptr_t defaultValue);
 };
 
 // @fnv 0x00cb1930
-intptr_t FUN_00cb1930_t::LookupHashEntry(intptr_t key, int defaultValue)
+intptr_t FUN_00cb1930_t::LookupHashEntry(intptr_t key, intptr_t defaultValue)
 {
     if (m_iPairCount > 0)
     {
-        unsigned int uiIndex = ((unsigned int)key >> 4) * 0x9e3779b1u;
-        uiIndex &= m_iPairCount;
-        int iCurrentKey = m_uiStandInValue[uiIndex * 2];
-        while (iCurrentKey != -1)
+        unsigned uiIndex = hkMapUlongHash(key, m_iPairCount);
+        uintptr_t uiCurrentKey = m_kPrimitiveElement[uiIndex].key;
+        while (uiCurrentKey != hkMapUlongEmpty)
         {
-            if (iCurrentKey == key)
-                return m_uiStandInValue[uiIndex * 2 + 1];
+            if (uiCurrentKey == uintptr_t(key))
+                return m_kPrimitiveElement[uiIndex].val;
             uiIndex = (uiIndex + 1) & m_iPairCount;
-            iCurrentKey = m_uiStandInValue[uiIndex * 2];
+            uiCurrentKey = m_kPrimitiveElement[uiIndex].key;
         }
     }
     return defaultValue;
@@ -68,21 +96,23 @@ int FUN_00cb17f0(int value)
         } while (size < required);
     }
 
-    return size * 8;
+    return size * int(sizeof(hkMapUlongPair));
 }
 
 struct DepthLimit
 {
-    int* m_buckets;
+    hkMapUlongPair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
 };
 // Hashes key, and if the hash is within the limit, writes the bucket's paired value to out and returns 0; otherwise returns 1.
 // @fnv 0x00cb1980
-int LookupBucketValue(DepthLimit* self, intptr_t edx, intptr_t key, int* paiOut)
+int LookupBucketValue(DepthLimit* self, uintptr_t key, uintptr_t* puiOut)
 {
     intptr_t iHash = reinterpret_cast<::FUN_00cb18f0_t *>((self))->FindSlot(key);
-    if (iHash <= *(int*)((char*)self + 8))
+    if (iHash <= self->m_iPairCount)
     {
-        *paiOut = self->m_buckets[iHash * 2 + 1];
+        *puiOut = self->m_kPrimitiveElement[iHash].val;
         return 0;
     }
     return 1;
@@ -90,7 +120,7 @@ int LookupBucketValue(DepthLimit* self, intptr_t edx, intptr_t key, int* paiOut)
 
 struct FUN_00cb1a60_t
 {
-    int* m_kPrimitiveElement;
+    hkMapUlongPair* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
     void ResetEntries();
@@ -102,17 +132,11 @@ void FUN_00cb1a60_t::ResetEntries()
     int i;
     int n = m_iPairCount + 1;
     for (i = 0; i < n; ++i)
-        m_kPrimitiveElement[i * 2] = -1;
+        m_kPrimitiveElement[i].key = hkMapUlongEmpty;
     m_iCapacityFlags &= 0x80000000;
 }
 
 namespace fnv_00cb1ac0 {
-struct TypeNode
-{
-    intptr_t m_key;
-    int m_uiFilterValue;
-};
-
 struct Allocator
 {
     virtual void Unused() = 0;
@@ -122,11 +146,10 @@ struct Allocator
 
 struct DepthLimit
 {
-    TypeNode* m_data;
+    hkMapUlongPair* m_data;
     int m_flags;
     int m_uiItemCount;
 
-    void FUN_00cb1870(void* allocator, void* key, int value);
     void ResizeAndRehash(Allocator* allocator, int count);
 };
 
@@ -138,26 +161,27 @@ void DepthLimit::ResizeAndRehash(Allocator* allocator, int count)
         iNewCapacity = 8;
 
     unsigned int flags = m_flags & 0x80000000u;
-    TypeNode* pOldEntries = m_data;
+    hkMapUlongPair* pOldEntries = m_data;
     int iOldCapacity = m_uiItemCount + 1;
 
-    m_data = static_cast<TypeNode*>(allocator->Allocate(iNewCapacity * 8));
+    m_data = static_cast<hkMapUlongPair*>(allocator->Allocate(iNewCapacity * int(sizeof(hkMapUlongPair))));
 
     for (int i = 0; i < iNewCapacity; ++i)
-        m_data[i].m_key = -1;
+        m_data[i].key = hkMapUlongEmpty;
 
     m_uiItemCount = iNewCapacity - 1;
     m_flags = 0;
 
     for (int i = 0; i < iOldCapacity; ++i)
     {
-        if (pOldEntries[i].m_key != -1)
-            this->FUN_00cb1870(allocator, reinterpret_cast<void*>(pOldEntries[i].m_key),
-                               pOldEntries[i].m_uiFilterValue);
+        if (pOldEntries[i].key != hkMapUlongEmpty)
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18*>(this)->FUN_00cb1870(
+                *reinterpret_cast<::fnv_00cb1870::hkMemoryAllocatorCB18*>(allocator), pOldEntries[i].key,
+                pOldEntries[i].val);
     }
 
     if (flags == 0)
-        allocator->Free(pOldEntries, iOldCapacity * 8);
+        allocator->Free(pOldEntries, iOldCapacity * int(sizeof(hkMapUlongPair)));
 }
 }  // namespace fnv_00cb1ac0
 
@@ -171,13 +195,13 @@ struct FUN_00cb1e40_arg_t
     virtual void FUN_00cb1e40_dummy2()
     {}
 
-    virtual void FUN_00cb1e40_op(int data, int size)
+    virtual void FUN_00cb1e40_op(void* data, int size)
     {}
 };
 
 struct FUN_00cb1e40_t
 {
-    int m_data;
+    void* m_data;
     int m_flags;
     int m_uiItemCount;
 
@@ -200,9 +224,9 @@ struct HashEntryTable
 {
 };
 // @fnv 0x00dc8e30
-uintptr_t LookupWithDefault(HashEntryTable* self, intptr_t edx, unsigned long key)
+uintptr_t LookupWithDefault(HashEntryTable* self, uintptr_t key)
 {
-    return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)self + 0xc))))->LookupHashEntry(key, -1)));
+    return reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)self + 0xc))))->LookupHashEntry(key, -1);
 }
 
 struct FUN_00cb17e0_cls
@@ -216,35 +240,29 @@ struct FUN_00cb17e0_cls
 // @fnv 0x00cb17e0
 int FUN_00cb17e0_cls::FUN_00cb17e0()
 {
-    return m_iPairCount * 8 + 8;
+    return (m_iPairCount + 1) * int(sizeof(hkMapUlongPair));
 }
 
 struct hkMapOperatorsCB19
 {
-    static unsigned hash(unsigned long key, unsigned long mod)
+    static unsigned hash(uintptr_t key, int mod)
     {
-        return unsigned((key >> 4) * 2654435761U) & mod;
+        return hkMapUlongHash(key, mod);
     }
-    static void invalidate(unsigned long& key)
+    static void invalidate(uintptr_t& key)
     {
-        key = unsigned long(-1);
+        key = hkMapUlongEmpty;
     }
-    static bool isValid(unsigned long key)
+    static bool isValid(uintptr_t key)
     {
-        return key != unsigned long(-1);
+        return key != hkMapUlongEmpty;
     }
 };
 
 class hkMapBaseCB19
 {
   public:
-    struct Pair
-    {
-        unsigned long key;
-        unsigned long val;
-    };
-
-    Pair* m_kPrimitiveElement;
+    hkMapUlongPair* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -267,7 +285,7 @@ int FUN_00cb18f0_t::FUN_00cb1fb0(intptr_t key)
 void hkMapBaseCB19::RemoveEntry(void* it) throw()
 {
     typedef hkMapOperatorsCB19 OPS;
-    unsigned i = unsigned(unsigned long(it));
+    unsigned i = unsigned(uintptr_t(it));
 
     --m_iCapacityFlags;
     OPS::invalidate(m_kPrimitiveElement[i].key);
@@ -308,11 +326,11 @@ struct CB1A90Argument
 {
     virtual void Dummy0();
     virtual void Dummy1();
-    virtual void Process(int data, int size);
+    virtual void Process(void* data, int size);
 };
 struct CB1A90Owner
 {
-    int data;
+    void* data;
     int flags;
     int count;
     void ProcessArgument(CB1A90Argument* argument);
@@ -324,7 +342,7 @@ void CB1A90Owner::ProcessArgument(CB1A90Argument* argument)
     reinterpret_cast<::FUN_00cb1a60_t *>(this)->ResetEntries();
     if (!(flags & 0x80000000))
     {
-        argument->Process(data, (count + 1) << 3);
+        argument->Process(data, (count + 1) * int(sizeof(hkMapUlongPair)));
     }
 }
 
@@ -396,16 +414,10 @@ class FUN_00cb2000_cls
     int FUN_00cb2000(int iArg0, int iArg1);
 };
 
-struct hkMapPairCB18
-{
-    unsigned int key;
-    unsigned int val;
-};
-
 class FUN_00cb1830
 {
   public:
-    hkMapPairCB18* m_kPrimitiveElement;
+    hkMapUlongPair* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -415,35 +427,17 @@ class FUN_00cb1830
 // @fnv 0x00cb1830
 FUN_00cb1830::FUN_00cb1830(void* apElements, unsigned int sizeInBytes)
 {
-    int maxKeys = sizeInBytes / sizeof(hkMapPairCB18);
-    m_kPrimitiveElement = static_cast<hkMapPairCB18*>(apElements);
+    int maxKeys = sizeInBytes / sizeof(hkMapUlongPair);
+    m_kPrimitiveElement = static_cast<hkMapUlongPair*>(apElements);
     m_iCapacityFlags = 0x80000000;
     m_iPairCount = maxKeys - 1;
     for (int i = 0; i < maxKeys; i++)
     {
-        m_kPrimitiveElement[i].key = 0xffffffff;
+        m_kPrimitiveElement[i].key = hkMapUlongEmpty;
     }
 }
 
 namespace fnv_00cb1870 {
-class hkMemoryAllocatorCB18;
-
-struct hkMapPairCB18
-{
-    uintptr_t key;
-    uintptr_t val;
-};
-
-class hkMapBaseCB18
-{
-  public:
-    hkMapPairCB18* m_kPrimitiveElement;
-    int m_iCapacityFlags;
-    int m_iPairCount;
-
-    int FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uintptr_t val);
-};
-
 // Inserts or updates a key/val pair in the hash map, resizing if needed, and returns 1 if the key was new.
 // @fnv 0x00cb1870
 int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uintptr_t val)
@@ -452,7 +446,7 @@ int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uin
         reinterpret_cast<::fnv_00cb1ac0::DepthLimit *>(this)->ResizeAndRehash((::fnv_00cb1ac0::Allocator *)&(alloc), m_iPairCount + m_iPairCount + 2);
     uintptr_t i;
     int isNewKey = 1;
-    for (i = ((key >> 4) * 2654435761U) & m_iPairCount; m_kPrimitiveElement[i].key != (unsigned int)-1;
+    for (i = hkMapUlongHash(key, m_iPairCount); m_kPrimitiveElement[i].key != hkMapUlongEmpty;
          i = (i + 1) & m_iPairCount)
     {
         if (m_kPrimitiveElement[i].key == key)
@@ -469,14 +463,9 @@ int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uin
 }  // namespace fnv_00cb1870
 
 struct Allocator;
-struct EdgeEntry
-{
-    int key;
-    int value;
-};
 struct EdgeMap
 {
-    EdgeEntry* unk00;
+    hkMapUlongPair* unk00;
     int unk04;
     int unk08;
     int first() const
@@ -484,7 +473,7 @@ struct EdgeMap
         int i;
         for (i = 0; i <= unk08; ++i)
         {
-            if (unk00[i].key != -1)
+            if (unk00[i].key != hkMapUlongEmpty)
                 break;
         }
         return i;
@@ -493,7 +482,7 @@ struct EdgeMap
     {
         for (++i; i <= unk08; ++i)
         {
-            if (unk00[i].key != -1)
+            if (unk00[i].key != hkMapUlongEmpty)
                 break;
         }
         return i;
@@ -544,7 +533,7 @@ bool* Target::FUN_00e48e80(bool* apResult)
             intptr_t index = reinterpret_cast<::FUN_00cb18f0_t *>(&(edgeMap))->FindSlot(keyPlus);
             if (index <= edgeMap.unk08)
             {
-                int value = edgeMap.unk00[index].value;
+                int value = int(edgeMap.unk00[index].val);
                 if (value & iOrientation)
                 {
                     *apResult = false;
@@ -552,7 +541,7 @@ bool* Target::FUN_00e48e80(bool* apResult)
                     ::FUN_00a29680();
                     return apResult;
                 }
-                edgeMap.unk00[index].value = value | iOrientation;
+                edgeMap.unk00[index].val = value | iOrientation;
             }
             else
             {
@@ -565,7 +554,7 @@ bool* Target::FUN_00e48e80(bool* apResult)
     }
     for (int index = edgeMap.first(); index <= edgeMap.unk08; index = edgeMap.next(index))
     {
-        if (edgeMap.unk00[index].value != 3)
+        if (edgeMap.unk00[index].val != 3)
         {
             *apResult = false;
             reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(static_cast<Manager*>(::FUN_00c85750())->heap()));
@@ -781,7 +770,7 @@ struct hkMapOperationsCB1F
 {
     static unsigned hash(uintptr_t key, unsigned mod)
     {
-        return (unsigned(key) >> 4) * 2654435761U & mod;
+        return hkMapUlongHash(key, mod);
     }
     static bool equal(uintptr_t keyCur, uintptr_t keyValue)
     {
@@ -789,14 +778,14 @@ struct hkMapOperationsCB1F
     }
     static bool isValid(uintptr_t key)
     {
-        return key != unsigned(-1);
+        return key != hkMapUlongEmpty;
     }
 };
 
 struct hkMapPairCB1F
 {
     uintptr_t key;
-    unsigned int val;
+    uintptr_t val;
 };
 
 class hkMapBaseCB1F
@@ -843,18 +832,14 @@ intptr_t FUN_00cb18f0_t::FindSlot(intptr_t key)
     int mod = m_iPairCount;
     if (mod > 0)
     {
-        int* table = (int*)m_uiStandInValue;
-        unsigned int index = ((unsigned int)key >> 4) * 0x9e3779b1u & (unsigned int)mod;
-        int value = table[index * 2];
-        if (value != -1)
+        unsigned index = hkMapUlongHash(key, mod);
+        uintptr_t value = m_kPrimitiveElement[index].key;
+        while (value != hkMapUlongEmpty)
         {
-            do
-            {
-                if (value == key)
-                    return (int)index;
-                index = (index + 1) & (unsigned int)mod;
-                value = table[index * 2];
-            } while (value != -1);
+            if (value == uintptr_t(key))
+                return (int)index;
+            index = (index + 1) & unsigned(mod);
+            value = m_kPrimitiveElement[index].key;
         }
     }
     return mod + 1;

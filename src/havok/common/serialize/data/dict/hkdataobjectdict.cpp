@@ -6975,14 +6975,14 @@ void ShapeRegistryDC9::CollectShapes(KeyDC9* pkKey, int bRecurse, int bGroups, h
     OwnerDC9* pkOwner = ((::OwnerDC9 *)(reinterpret_cast<::hkObjectD878 *>((pkKey))->GetValue(0, {})));
     if (!pkOwner)
         return;
-    for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kShapes), (intptr_t)(pkOwner), {}))); i != -1; i = m_kShapes.m_pkEntryArray[i].m_iNext)
+    for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kShapes), (intptr_t)(pkOwner)))); i != -1; i = m_kShapes.m_pkEntryArray[i].m_iNext)
     {
         ShapeDC9* pkShape = m_kShapes.m_pkEntryArray[i].m_kValue;
         PushBackDC9(*pkShapesOut, pkShape);
     }
     if (bGroups)
     {
-        for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kObjectGroups), (intptr_t)(pkOwner), {}))); i != -1; i = m_kObjectGroups.m_pkEntryArray[i].m_iNext)
+        for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kObjectGroups), (intptr_t)(pkOwner)))); i != -1; i = m_kObjectGroups.m_pkEntryArray[i].m_iNext)
         {
             ShapeGroupDC9* pkGroup = m_kObjectGroups.m_pkEntryArray[i].m_kValue;
             for (int j = 0; j < pkGroup->GetNumShapes(); j++)
@@ -6994,7 +6994,7 @@ void ShapeRegistryDC9::CollectShapes(KeyDC9* pkKey, int bRecurse, int bGroups, h
     }
     if (bRecurse)
     {
-        for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kLinks), (intptr_t)(pkOwner), {}))); i != -1; i = m_kLinks.m_pkEntryArray[i].m_iNext)
+        for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kLinks), (intptr_t)(pkOwner)))); i != -1; i = m_kLinks.m_pkEntryArray[i].m_iNext)
         {
             LinkDC9* pkLink = m_kLinks.m_pkEntryArray[i].m_kValue;
             CollectShapes(pkLink->GetKey(), bRecurse, bGroups, pkShapesOut);
@@ -8354,11 +8354,11 @@ void hkDataWorldDictDC7::FUN_00dc73f0(hkDataClassDC7& kClass, const char* pcOldN
 // @fnv 0x00dc9180
 void Registry_dc91::FUN_00dc9180(const void* key, int recurse, hkArray_dc91<void*>& out)
 {
-    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_iSlotIds), (intptr_t)(key), {}))); i != -1; i = m_iSlotIds.m_data[i].m_next)
+    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_iSlotIds), (intptr_t)(key)))); i != -1; i = m_iSlotIds.m_data[i].m_next)
         out.AddBack(m_iSlotIds.m_data[i].m_uiFilterValue);
     if (recurse)
     {
-        for (int j = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(key), {}))); j != -1; j = m_children.m_data[j].m_next)
+        for (int j = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(key)))); j != -1; j = m_children.m_data[j].m_next)
             FUN_00dc9180(m_children.m_data[j].m_uiFilterValue, recurse, out);
     }
 }
@@ -8987,7 +8987,7 @@ struct hkSerializeMultiMapDC90 : hkMultiMapDC90
 // @fnv 0x00dc8fe0
 void FUN_00dc8fe0_class::FUN_00dc8fe0(void* key, int* piValue)
 {
-    intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)(key), {}, {})));
+    intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)(this), (uintptr_t)(key))));
 
     if (index == -1)
         return;
@@ -9038,7 +9038,7 @@ void DCAAOwner::FUN_00dcaaf0(void* volatile key, DCAAObject* object)
     void* pKey = key;
     if (pKey)
     {
-        intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)&(table), (intptr_t)(pKey), {})));
+        intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)&(table), (intptr_t)(pKey))));
         while (index != -1)
         {
             if (table.entries[index].value == pObject)
@@ -9064,7 +9064,7 @@ void DCAB_Owner::FUN_00dcab50(DCAB_Object* object, const char* newName)
 {
     DCAB_Object* obj = *(DCAB_Object* volatile*)&object;
     const char* name = obj->GetName();
-    int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_map), (intptr_t)(name), {})));
+    int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_map), (intptr_t)(name))));
     if (!name)
         return;
     do
@@ -9334,7 +9334,7 @@ struct Multimap
     void FUN_00dcb4b0(void* key, intptr_t index) throw();
     void FUN_00dc8fe0(void* key, Node* const& node) throw()
     {
-        for (intptr_t it = ((int)(::LookupWithDefault((::HashEntryTable *)this, (intptr_t)(key), {}))); it != -1; it = m_entries[it].next)
+        for (intptr_t it = ((int)(::LookupWithDefault((::HashEntryTable *)this, (intptr_t)(key)))); it != -1; it = m_entries[it].next)
         {
             if (m_entries[it].val == node)
             {
@@ -9728,7 +9728,7 @@ void ManagerClass::FUN_00dcbdd0(Node* apNode) throw()
 
     {
         StackAllocatedArray<Node*> stackNodes(64);
-        intptr_t it = ((int)(::LookupWithDefault((::HashEntryTable *)&(this->m_multimap), (intptr_t)(apNode), {})));
+        intptr_t it = ((int)(::LookupWithDefault((::HashEntryTable *)&(this->m_multimap), (intptr_t)(apNode))));
         bool hasKey = (it != -1);
         if (hasKey)
         {
@@ -9765,12 +9765,12 @@ void hkDataWorldDictTrackerDCA::FUN_00dca890(hkDataObjectImplDCA* pkObject) thro
     hkDataClassImplDCA* pkClass = pkObject->GetVariantValue();
     intptr_t iClassKey = pkClass ? reinterpret_cast<::hkObjectD878 *>((void *)this)->GetValue((intptr_t)(pkClass), 0) : 0;
 
-    for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(pkObject), {}))); i != -1; i = m_children.GetNextChainIndex(i))
+    for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(pkObject)))); i != -1; i = m_children.GetNextChainIndex(i))
     {
         FUN_00dca890(m_children.getValue(i));
     }
 
-    intptr_t iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kChildrenByIndex), iClassKey, {})));
+    intptr_t iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kChildrenByIndex), iClassKey)));
     if (iIndex != -1)
     {
         hkLocalArrayDCA<hkDataObjectImplDCA*> kObjects(0x200);
@@ -10141,7 +10141,7 @@ void FUN_00dcb890_cls::FUN_00dcb890()
     intptr_t base = unk18->Lookup()->unk08;
     int key = ((int(*)(FUN_00dcb890_cls*))((void**)unk00)[6])(this);
     FUN_00dcb890_Table* tbl = reinterpret_cast<FUN_00dcb890_Table*>(base + 0x6c);
-    intptr_t idx = ((int)(::LookupWithDefault((::HashEntryTable *)(tbl), key, {})));
+    intptr_t idx = ((int)(::LookupWithDefault((::HashEntryTable *)(tbl), key)));
     if (idx != -1)
     {
         FUN_00dcb890_Node* nodes = tbl->m_kNodeCollection;
@@ -10331,7 +10331,7 @@ void WorldData::FUN_00dc7750()
         {
             p = ((::ReferencedObject *)(reinterpret_cast<::FUN_00d87440_Class *>(&(objects))->FUN_00d87440(iterator)));
             retainedObjects.push(p);
-            intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)&(chains), (intptr_t)(p), {})));
+            intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)&(chains), (intptr_t)(p))));
             if (index != -1)
             {
                 do

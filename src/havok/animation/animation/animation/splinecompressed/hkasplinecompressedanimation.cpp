@@ -1208,7 +1208,7 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting translation quality.  If artifacts are visible, try increasing the number of translation quantization bits.");
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Quantization may be limiting translation quality.  If artifacts are visible, try increasing the number of translation quantization bits.");
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 79);
     }
@@ -1217,7 +1217,7 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting scale quality.  If artifacts are visible, try increasing the number of scale quantization bits.");
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Quantization may be limiting scale quality.  If artifacts are visible, try increasing the number of scale quantization bits.");
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 84);
     }
@@ -1226,7 +1226,7 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting float quality.  If artifacts are visible, try increasing the number of float quantization bits.");
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Quantization may be limiting float quality.  If artifacts are visible, try increasing the number of float quantization bits.");
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 89);
     }
@@ -1236,7 +1236,7 @@ hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
     {
         char assertBuf[512];
         hkOstream ostr(assertBuf, sizeof(assertBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting rotation quality.  If artifacts are visible, try increasing the number of rotation quantization bits.");
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Quantization may be limiting rotation quality.  If artifacts are visible, try increasing the number of rotation quantization bits.");
         (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
                               ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 100);
     }

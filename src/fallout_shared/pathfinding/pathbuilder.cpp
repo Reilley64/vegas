@@ -250,7 +250,7 @@ struct FUN_006c9900_shell : public PathingRequest
 // @fnv 0x006c9900
 PathingActorData* FUN_006c9900_shell::FUN_006c9900()
 {
-    return (PathingActorData*)((char*)this + 0x5c);
+    return (PathingActorData*)PathingActorState;
 }
 
 // @fnv 0x006ca4c0
@@ -723,7 +723,7 @@ int FUN_006cc5e0_shell::FUN_006cc5e0(PathingLocation* aStartLocation, PathingLoc
             FUN_006d91d0(&loadedNavmeshes);
             for (unsigned int i = 0; i < ((unsigned int)(::std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(loadedNavmeshes))->GetName())); ++i)
             {
-                if (((NavMeshArrayS*)((char*)this + 0x24))->Find(loadedNavmeshes.GetAt(i), 0, ((bool (&)(const NavMeshPtr &, const NavMeshPtr &))::FUN_0042ff10)) == -1)
+                if (((NavMeshArrayS*)&DetailedPathMeshList)->Find(loadedNavmeshes.GetAt(i), 0, ((bool (&)(const NavMeshPtr &, const NavMeshPtr &))::FUN_0042ff10)) == -1)
                 {
                     reinterpret_cast<::S2f850 *>((((NavMeshArrayS*)&this->DetailedPathMeshList)))->AppendValue(loadedNavmeshes.GetAt(i));
                     reinterpret_cast<::FUN_00438690 *>((((NavMeshInfoArrayS*)&this->DetailedPathInfoList)))->FUN_007cb2e0((unsigned int *)&(const ::NavMeshInfo *const &)(reinterpret_cast<::FUN_0068efb0_shell *>((((FUN_0068efb0_shell*)(NavMesh*)(NavMeshPtrS&)loadedNavmeshes.GetAt(i))))->FUN_0068efb0()));

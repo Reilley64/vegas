@@ -541,10 +541,32 @@ struct BSAudioManager
     static BSAudioManager& __cdecl GetRandomGenerator(void);
 };
 
+// The file name of a BSGameSound; the pad stands for the members before it.
+struct GameSoundFilenameView
+{
+    char pad00[0x36];
+    char m_acFilename[262];
+};
+
+// The reference count of a NiRefObject (after its vtable).
+struct RefCountView
+{
+    void* m_pVtbl;
+    long m_lRefCount;
+};
+
+// The value of a Setting (after its vtable).
+struct SettingValueView
+{
+    void* m_pVtbl;
+    unsigned char m_ucValue;
+};
+
 namespace fnv_00adad60 {
 struct BSAudioManager
 {
-    BottomlessStack m_aiEntries;  // +0x24
+    char pad00[0x24];
+    BottomlessStack m_aiEntries;
     void FUN_00adad60();
 };
 }
@@ -740,6 +762,8 @@ struct BottomlessStack
 namespace fnv_00adaf80 {
 struct BSAudioManager
 {
+    char pad00[0x34];
+    BottomlessStack m_kRecordPool;
     SoundMessageRecord* FUN_00adaf80();
 };
 }
@@ -1408,87 +1432,13 @@ struct GameSound
     virtual void SetVolume(float);
     virtual float GetVolume();
     unsigned int id, flags, unk0c, state;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
+    char pad014[0x50];
 
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
+    char pad064[0x30];
 
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
+    char pad094[0xa8];
     float duration;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
+    char pad140[0x10];
     float position;
     unsigned int unk154;
     unsigned int unk158;
@@ -1496,13 +1446,7 @@ struct GameSound
     unsigned int delay;
     void(__cdecl* callback)(unsigned int, bool);
     unsigned int unk168, callbackArg;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
+    char pad170[0x1c];
     FUN_00a1b940 messages;
     __forceinline bool Has(unsigned int mask)
     {
@@ -1672,99 +1616,18 @@ struct SoundMap
 namespace fnv_00adddd0 {
 struct AudioUpdate
 {
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
+    char pad000[0x54];
     SoundMap sounds;
 
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
+    char pad064[0x20];
     SoundMap nodes;
 
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
+    char pad094[0x14];
     float range;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
+    char pad0ac[0x84];
     unsigned int lastTick;
     unsigned char unk134, dirty, unk136, unk137;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
+    char pad138[0x4c];
     bool forceVolume;
     void FUN_00ada5d0(unsigned int, GameSound*);
     void FUN_00adddd0();
@@ -2234,7 +2097,7 @@ void OwnerQ::FUN_00ada330()
         {
             unsigned int uiID;
             FUN_00ae8af0* pVal;
-            reinterpret_cast<::RecursiveLock *>((void *)&(m74))->Unlock((::BSCriticalSectionEntry **)&(kPos), (unsigned int *)&(uiID), (unsigned int *)&(pVal));
+            reinterpret_cast<::RecursiveLock *>((void *)&(m74))->Unlock((::BSCriticalSectionEntry **)&(kPos), (unsigned int *)&(uiID), (void **)&(pVal));
             while (reinterpret_cast<::S_00adc830_Map *>((void *)&(m64))->GetAt(uiID, (::S_00adc830_Entry *&)(SoundAssetTmp)))
             {
                 while (reinterpret_cast<::RMapBase *>(&(m64))->FUN_00a1e240(uiID))
@@ -2259,7 +2122,7 @@ void OwnerQ::FUN_00ada330()
         {
             unsigned int uiID;
             FUN_00ae8af0* pVal;
-            reinterpret_cast<::RecursiveLock *>((void *)&(m64))->Unlock((::BSCriticalSectionEntry **)&(pos), (unsigned int *)&(uiID), (unsigned int *)&(pVal));
+            reinterpret_cast<::RecursiveLock *>((void *)&(m64))->Unlock((::BSCriticalSectionEntry **)&(pos), (unsigned int *)&(uiID), (void **)&(pVal));
             ::FUN_005b5e40();
         }
         reinterpret_cast<::AE91F0Map *>(&(m74))->ClearAll();
@@ -2466,103 +2329,11 @@ struct AE6DE0Slot
     unsigned short unk06;
 };
 
+// The pad stands for the BSAudioManager members before the slot table.
 class AE6DE0Table
 {
   public:
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
+    char pad000[0x178];
     AE6DE0Slot* m_pkSlots;
     unsigned int m_uiSlotCount;
 
@@ -2832,179 +2603,7 @@ static __forceinline float& AudioSettingValue_adf080(Setting_00ad9da0* setting)
 
 struct AudioTls_adf080
 {
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19c;
-    unsigned int unk1a0;
-    unsigned int unk1a4;
-    unsigned int unk1a8;
-    unsigned int unk1ac;
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int unk1dc;
-    unsigned int unk1e0;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned int unk1ec;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    unsigned int unk1fc;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20c;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    unsigned int unk21c;
-    unsigned int unk220;
-    unsigned int unk224;
-    unsigned int unk228;
-    unsigned int unk22c;
-    unsigned int unk230;
-    unsigned int unk234;
-    unsigned int unk238;
-    unsigned int unk23c;
-    unsigned int unk240;
-    unsigned int unk244;
-    unsigned int unk248;
-    unsigned int unk24c;
-    unsigned int unk250;
-    unsigned int unk254;
-    unsigned int unk258;
-    unsigned int unk25c;
-    unsigned int unk260;
-    unsigned int unk264;
-    unsigned int unk268;
-    unsigned int unk26c;
-    unsigned int unk270;
-    unsigned int unk274;
-    unsigned int unk278;
-    unsigned int unk27c;
-    unsigned int unk280;
-    unsigned int unk284;
-    unsigned int unk288;
-    unsigned int unk28c;
-    unsigned int unk290;
-    unsigned int unk294;
-    unsigned int unk298;
-    unsigned int unk29c;
-    unsigned int unk2a0;
-    unsigned int unk2a4;
-    unsigned int unk2a8;
-    unsigned int unk2ac;
-    unsigned int unk2b0;
+    char pad000[0x2b4];
     UInt32 m_uiMemoryContext;
 };
 static __forceinline UInt32 AudioGetContext_adf080()
@@ -3566,81 +3165,23 @@ static __forceinline UInt32 GetThreadID_adf080()
 
 struct BSAudioManager_adf080
 {
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
+    char pad000[0x44];
     AudioMessageStack_adf080 messageStack44;
     AudioSoundMap_adf080 sounds54;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
+    char pad064[0x20];
     AudioRefMap_adf080 objects84;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
+    char pad094[0x14];
     float value0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
+    char pad0ac[0x30];
     CritSecA critical0dc;
     CritSecA critical0f4;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
+    char pad10c[0x28];
     bool precache134;
     bool listenerDirty135;
     UInt16 unk136;
     UInt32 threadId138;
     BSAudioManagerThread* thread13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
+    char pad140[0x30];
     UInt32 flags170;
     bool focus174;
     bool alternate175;
@@ -4054,7 +3595,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if (!(pkSound->GetFlags() & 0x20) && !(pkSound->GetFlags() & 4) && !(pkSound->GetFlags() & 0x800) &&
                     !(pkSound->GetFlags() & 0x100000))
                 {
@@ -4133,7 +3674,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             pkItem = sounds54.GetFirst();
             while (pkItem)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(pkItem), (unsigned int *)&(uId), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(pkItem), (unsigned int *)&(uId), (void **)&(pkSound));
                 if (pkSound)
                     pkSound->RefreshVolume();
             }
@@ -4235,7 +3776,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if ((pkSound->GetFlags() & mask) && !(pkSound->GetFlags() & 0x800) && !(pkSound->GetFlags() & 0x100000))
                 {
                     if (duration && uiThreshold > 5000)
@@ -4264,7 +3805,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if ((pkSound->GetFlags() & mask) && !(pkSound->GetFlags() & 0x800) && !(pkSound->GetFlags() & 0x100000))
                 {
                     if (duration)
@@ -4288,7 +3829,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if (pkSound->v04() && (pkSound->GetFlags() & mask) && !(pkSound->GetFlags() & 0x800) &&
                     !(pkSound->GetFlags() & 0x100000) && !(pkSound->GetFlags() & 0x400000))
                 {
@@ -4308,7 +3849,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if (!pkSound->Stopped10() && pkSound->v0c() && (pkSound->GetFlags() & mask) &&
                     !(pkSound->GetFlags() & 0x800) && !(pkSound->GetFlags() & 0x100000) &&
                     !(pkSound->GetFlags() & 0x400000))
@@ -4331,7 +3872,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             reinterpret_cast<::AE6DE0Table *>(this)->AddSlot(mask, true);
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if (!pkSound->v08() && pkSound->v04() && (pkSound->GetFlags() & mask) == mask &&
                     !(pkSound->GetFlags() & 0x800) && !(pkSound->GetFlags() & 0x100000) &&
                     !(pkSound->GetFlags() & 0x400000) && !(pkSound->GetFlags() & 0x2000) &&
@@ -4355,7 +3896,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if (!pkSound->Stopped10() && pkSound->v0c() && (pkSound->GetFlags() & mask) == mask &&
                     !(pkSound->GetFlags() & 0x800) && !(pkSound->GetFlags() & 0x100000) &&
                     !(pkSound->GetFlags() & 0x400000) && !(pkSound->GetFlags() & 0x1000) &&
@@ -4531,7 +4072,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if ((pkSound->GetFlags() & mask) && !(pkSound->GetFlags() & 0x800) && !(pkSound->GetFlags() & 0x100000))
                 {
                     pkSound->v38();
@@ -4608,7 +4149,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 soundHandle;
             while (iterator)
             {
-                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
+                reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (void **)&(pkSound));
                 if (!pkSound->Stopped10() && (pkSound->Alternate0c() || pkSound->Alternate1000()))
                     reinterpret_cast<::FUN_00ae8b90_cls *>((pkSound))->SetFlagAndApplyValue(alternate175);
             }
@@ -5011,17 +4552,21 @@ bool FUN_00ad8d60_shell::FUN_00ad8d60(int aiParam)
     return true;
 }
 
+// The pad stands for the BSAudioManager members before these two.
 struct FUN_00ada300_shell
 {
+    char pad00[0xa4];
+    int m_iA4;
+    float m_fA8;
     void FUN_00ada300(float fval, int param);
 };
 
-// Stores param at offset 0xa4 and fval at offset 0xa8 of this object.
+// Stores param in m_iA4 and fval in m_fA8.
 // @fnv 0x00ada300
 void FUN_00ada300_shell::FUN_00ada300(float fval, int param)
 {
-    ((int*)((char*)this + 0xa4))[0] = param;
-    ((float*)((char*)this + 0xa8))[0] = fval;
+    m_iA4 = param;
+    m_fA8 = fval;
 }
 
 namespace fnv_00adad60 {
@@ -5031,7 +4576,7 @@ namespace fnv_00adad60 {
 // @fnv 0x00adad60
 void BSAudioManager::FUN_00adad60()
 {
-    reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>((((BottomlessStack*)((char*)this + 0x24))))->FUN_00ae76b0();
+    reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>(&m_aiEntries)->FUN_00ae76b0();
 }
 }  // namespace fnv_00adad60
 
@@ -5045,7 +4590,7 @@ namespace fnv_00adaf80 {
 // @fnv 0x00adaf80
 SoundMessageRecord* BSAudioManager::FUN_00adaf80()
 {
-    return ((::fnv_00adaf80::SoundMessageRecord *)(reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>((reinterpret_cast<BottomlessStack*>(reinterpret_cast<char*>(this) + 0x34)))->FUN_00ae76b0()));
+    return ((::fnv_00adaf80::SoundMessageRecord *)(reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>((&m_kRecordPool))->FUN_00ae76b0()));
 }
 }  // namespace fnv_00adaf80
 
@@ -5198,18 +4743,21 @@ struct _Base_00441d20
     ~_Base_00441d20();
 };
 
+// The pad stands for members not named yet.
 struct FUN_00ae7020_shell : _Base_00441d20
 {
+    void* m_pVtbl;
+    char pad04[0x2c];
+    int m_i30;
     void FUN_00ae7020();
 };
 
-// Sets the vtable pointer to DAT_010a3718, touches the field at offset 0x30, then calls the base destructor.
+// Sets the vtable pointer to DAT_010a3718, touches m_i30, then calls the base destructor.
 // @fnv 0x00ae7020
 void FUN_00ae7020_shell::FUN_00ae7020()
 {
-    *reinterpret_cast<void**>(this) = &DAT_010a3718;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x30) =
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x30);
+    m_pVtbl = &DAT_010a3718;
+    m_i30 = m_i30;
     reinterpret_cast<::fnv_00c3cea0::FUN_00c3cea0 *>(this)->fnv_00c3cea0::FUN_00c3cea0::~FUN_00c3cea0();
 }
 
@@ -5299,7 +4847,15 @@ void* AudioLoadTask::FUN_00ae7b10(unsigned int flags)
 
 struct GO
 {
+    void* m_pObject;
     GO& operator=(void*);
+};
+// A list node whose item FUN_00ae8ef0 clears.
+struct GONode
+{
+    void* m_pNext;
+    void* m_pPrev;
+    GO m_kItem;
 };
 
 struct Host00ae8ef0
@@ -5308,7 +4864,7 @@ struct Host00ae8ef0
     NiTPointerAllocator<unsigned int> alloc;
     void FUN_00ae8ef0(void* p);
 };
-// Clears the pointer at offset 8 of p, then deallocates p through the allocator.
+// Clears the item of node p, then deallocates p through the allocator.
 // @fnv 0x00ae8ef0
 void Host00ae8ef0::FUN_00ae8ef0(void* p)
 {
@@ -5317,7 +4873,7 @@ void Host00ae8ef0::FUN_00ae8ef0(void* p)
     int d3;
     int d4;
     int d5;
-    ((GO*)((char*)p + 8))->operator=(0);
+    ((GONode*)p)->m_kItem.operator=(0);
     reinterpret_cast<::FUN_0045cee0_shell *>(&(alloc))->FUN_0045cee0(p);
 }
 
@@ -5446,45 +5002,48 @@ struct AudioVolumes_00ad9da0
     float fVal[6];
     float fMult[6];
 };
+// The pad stands for the BSAudioManager members before the volumes.
 struct FUN_00ad9da0_t
 {
+    char pad00[0x140];
+    AudioVolumes_00ad9da0 m_kVolumes;
     void InitAudioVolumes();
 };
 
-// Copies the six setting values into the fVal array at this+0x140 and sets all six fMult entries to 1.0.
+// Copies the six setting values into m_kVolumes.fVal and sets all six fMult entries to 1.0.
 // @fnv 0x00ad9da0
 void FUN_00ad9da0_t::InitAudioVolumes()
 {
     float* r0 = &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e14)) ? &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e14)).fValue : (*(float*)& DAT_01202800 = 0.0f, (float*)&DAT_01202800);
-    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fVal[0] = *r0;
+    m_kVolumes.fVal[0] = *r0;
     {
         float* r1 = &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e20)) ? &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e20)).fValue : (*(float*)& DAT_01202800 = 0.0f, (float*)&DAT_01202800);
-        ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fVal[1] = *r1;
+        m_kVolumes.fVal[1] = *r1;
         {
             float* r2 = &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e2c)) ? &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e2c)).fValue : (*(float*)& DAT_01202800 = 0.0f, (float*)&DAT_01202800);
-            ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fVal[2] = *r2;
+            m_kVolumes.fVal[2] = *r2;
             {
                 float* r3 = &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e38)) ? &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e38)).fValue : (*(float*)& DAT_01202800 = 0.0f, (float*)&DAT_01202800);
-                ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fVal[3] = *r3;
+                m_kVolumes.fVal[3] = *r3;
                 {
                     float* r4 =
                         &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e44)) ? &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e44)).fValue : (*(float*)& DAT_01202800 = 0.0f, (float*)&DAT_01202800);
-                    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fVal[4] = *r4;
+                    m_kVolumes.fVal[4] = *r4;
                     {
                         float* r5 =
                             &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e50)) ? &(*reinterpret_cast<::Setting_00ad9da0 *>(&::g_011f6e50)).fValue : (*(float*)& DAT_01202800 = 0.0f, (float*)&DAT_01202800);
-                        ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fVal[5] = *r5;
+                        m_kVolumes.fVal[5] = *r5;
                     }
                 }
             }
         }
     }
-    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fMult[0] = 1.0f;
-    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fMult[1] = 1.0f;
-    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fMult[2] = 1.0f;
-    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fMult[3] = 1.0f;
-    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fMult[4] = 1.0f;
-    ((AudioVolumes_00ad9da0*)((char*)this + 0x140))->fMult[5] = 1.0f;
+    m_kVolumes.fMult[0] = 1.0f;
+    m_kVolumes.fMult[1] = 1.0f;
+    m_kVolumes.fMult[2] = 1.0f;
+    m_kVolumes.fMult[3] = 1.0f;
+    m_kVolumes.fMult[4] = 1.0f;
+    m_kVolumes.fMult[5] = 1.0f;
 }
 
 
@@ -5714,7 +5273,7 @@ FUN_00ae6f50::FUN_00ae6f50(void* aValue) : BaseObj_b5112(0)
 {
     m_30 = aValue;
     char buf[0x104];
-    ::CopyRelativeDataPath((const char *)m_30 + 0x36, buf, 0x104);
+    ::CopyRelativeDataPath(((const GameSoundFilenameView*)m_30)->m_acFilename, buf, 0x104);
     reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0(buf);
     reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(3);
 }
@@ -6031,86 +5590,7 @@ S* S::AssignFrom(const S* apSource)
 
 struct AudioMgr_adac30
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
+    char pad000[0x140];
     float m_f140;
     float m_f144;
     float m_f148;
@@ -6185,7 +5665,7 @@ void Owner::AddSound(Sound* apSound)
         count = n;
     }
     {
-        unsigned char* p = &(*reinterpret_cast<char *>(&::g_011f6ebc)) ? (unsigned char*)&(*reinterpret_cast<char *>(&::g_011f6ebc)) + 4
+        unsigned char* p = &(*reinterpret_cast<char *>(&::g_011f6ebc)) ? &((SettingValueView*)&::g_011f6ebc)->m_ucValue
                                          : (*(unsigned char*)& DAT_01202800 = 0, (unsigned char*)&DAT_01202800);
         if (!*p && count > 0)
         {
@@ -6209,7 +5689,7 @@ void Owner::AddSound(Sound* apSound)
         }
         else
         {
-            unsigned char* p = &(*reinterpret_cast<char *>(&::g_011f6ebc)) ? (unsigned char*)&(*reinterpret_cast<char *>(&::g_011f6ebc)) + 4
+            unsigned char* p = &(*reinterpret_cast<char *>(&::g_011f6ebc)) ? &((SettingValueView*)&::g_011f6ebc)->m_ucValue
                                              : (*(unsigned char*)& DAT_01202800 = 0, (unsigned char*)&DAT_01202800);
             {
                 unsigned int n;
@@ -6340,40 +5820,9 @@ struct AudioThreadData
     int iReadIndex;
     LinkedSoundQueue kLists0;
     LinkedSoundQueue kLists1;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
+    char pad24[0x20];
     FUN_00ae76b0_shell kQueue;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
+    char pad48[0x64];
     CritSecA kLock;
     void ProcessAudioQueue();
 };
@@ -6386,11 +5835,7 @@ void AudioThreadData::ProcessAudioQueue()
     void* kPTail;
     void* pHead2;
     void* pTail2;
-    int unkA;
-    int unk1;
-    int unk5;
-    int unk9;
-    int unkE;
+    char padA[0x14];
     int aUnk;
     int unk2;
     int unk6;
@@ -6520,7 +5965,7 @@ FUN_00ae8650_cls* FUN_00ae8650_cls::FUN_00ae8650()
         if (*slot != 0)
         {
             pTarget = *slot;
-            InterlockedIncrement((long*)((char*)pTarget + 4));
+            InterlockedIncrement(&((RefCountView*)pTarget)->m_lRefCount);
         }
     }
     m_00 = 0;
@@ -6867,9 +6312,20 @@ struct ScrapHeapBuffer;
 struct BSMapBase
 {
 };
+// The volume map and its lock; the pads stand for members not named yet.
 struct FUN_00adc8b0_shell
 {
+    char pad00[0x64];
+    BSMapBase m_kVolumeMap;
+    char pad65[0xc4 - 0x64 - sizeof(BSMapBase)];
+    CritSecA m_kVolumeLock;
     float FUN_00adc8b0(unsigned long);
+};
+// A volume map entry.
+struct VolumeEntryView
+{
+    char pad00[0x8];
+    float m_fVolume;
 };
 // @fnv 0x00adc8b0
 float FUN_00adc8b0_shell::FUN_00adc8b0(unsigned long auiKey)
@@ -6882,12 +6338,12 @@ float FUN_00adc8b0_shell::FUN_00adc8b0(unsigned long auiKey)
             int iUnusedB;
             pBuffer = 0;
             fVol = 0.0f;
-            EnterCriticalSection((CritSecA*)((char*)this + 0xC4));
-            reinterpret_cast<::S_00adc830_Map *>((((BSMapBase*)((char*)this + 0x64))))->GetAt(auiKey, (::S_00adc830_Entry *&)(pBuffer));
-            LeaveCriticalSection((CritSecA*)((char*)this + 0xC4));
+            EnterCriticalSection(&m_kVolumeLock);
+            reinterpret_cast<::S_00adc830_Map *>(&m_kVolumeMap)->GetAt(auiKey, (::S_00adc830_Entry *&)(pBuffer));
+            LeaveCriticalSection(&m_kVolumeLock);
             if (pBuffer != 0)
             {
-                fVol = *(float*)((char*)pBuffer + 8);
+                fVol = ((VolumeEntryView*)pBuffer)->m_fVolume;
             }
         }
     }
@@ -6990,26 +6446,7 @@ class C_00adc830
 
     S_00adc830_Map m_kFormatEntries;
 
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
+    char pad74[0x50];
 
     CritSecA m_kCS;
 
@@ -7806,79 +7243,14 @@ class AudioMgr70
     int unk008;
     SndStack70 m_0c;
     SndStack70 m_18;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
+    char pad024[0x30];
     MsgQueue70 m_54;
     InfoQueue70 m_64;
     InfoQueue70 m_74;
     MsgQueue70 m_84;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
+    char pad094[0xa8];
     BSSoundMsgV70* m_13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
+    char pad140[0x38];
     H70 m_178;
 };
 
@@ -7928,85 +7300,7 @@ struct BSAudioThread
 
 struct BSAudioManager_
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
+    char pad000[0x13c];
     BSAudioThread* m_pAudioThread;
 
     void FUN_00ada020();
@@ -8229,27 +7523,7 @@ struct Cache_adc910
     int unk5C;
     int unk60;
     Map_adc910 m_kUnsortedGeometryList;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
+    char pad70[0x54];
     CritSecA m_kCS;
     bool FUN_00adc910(unsigned int uiKey);
 };
@@ -8811,82 +8085,7 @@ class BSGameSound7050
     unsigned int m_uiAudioFlags;
     int unk0C;
     unsigned int m_uiStateFlags;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6C;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7C;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8C;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9C;
-    unsigned int unkA0;
-    unsigned int unkA4;
-    unsigned int unkA8;
-    unsigned int unkAC;
-    unsigned int unkB0;
-    unsigned int unkB4;
-    unsigned int unkB8;
-    unsigned int unkBC;
-    unsigned int unkC0;
-    unsigned int unkC4;
-    unsigned int unkC8;
-    unsigned int unkCC;
-    unsigned int unkD0;
-    unsigned int unkD4;
-    unsigned int unkD8;
-    unsigned int unkDC;
-    unsigned int unkE0;
-    unsigned int unkE4;
-    unsigned int unkE8;
-    unsigned int unkEC;
-    unsigned int unkF0;
-    unsigned int unkF4;
-    unsigned int unkF8;
-    unsigned int unkFC;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10C;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11C;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12C;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13C;
-    unsigned int unk140;
+    char pad14[0x130];
     unsigned int m_uiID;
     int m_i148;
 };
@@ -9412,85 +8611,7 @@ struct AudioThreadA0
 
 struct BSAudioMgrA0
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
+    char pad000[0x13c];
     AudioThreadA0* m_pAudioThread;
 
     void FUN_00adb1a0(int eMsg, unsigned int id, int a3, int a4, NiAVObjPtr obj, NiPoint3 pos);
@@ -10598,7 +9719,7 @@ void AudioUpdate::FUN_00adddd0()
         entry24 = sounds.First();
         while (entry24)
         {
-            reinterpret_cast<::RecursiveLock *>(&(sounds))->Unlock((::BSCriticalSectionEntry **)(::fnv_00adddd0::SoundEntry **)(&entry24), &cursor5, (unsigned int *)(::fnv_00adddd0::GameSound **)(&sound1));
+            reinterpret_cast<::RecursiveLock *>(&(sounds))->Unlock((::BSCriticalSectionEntry **)(::fnv_00adddd0::SoundEntry **)(&entry24), &cursor5, (void **)(::fnv_00adddd0::GameSound **)(&sound1));
             if (sound1->Has(1) && !sound1->Has(0x800) && sound1->Has(0x100))
             {
                 sound1->Prepare();
@@ -10902,95 +10023,9 @@ struct Sound_00ae5a50
     int m_04;
     int m_08;
     unsigned int m_0c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
+    char pad010[0x150];
     unsigned int m_160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
+    char pad164[0x10];
     unsigned int m_174;
     unsigned int m_178;
     inline void SetFreq(unsigned int v)
@@ -11036,12 +10071,7 @@ struct AudioBig_00ae5a50
     int unk08;
     int unk0c;
     void* m_10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
+    char pad14[0x18];
     void* m_2c;
 };
 
@@ -11106,94 +10136,11 @@ struct MsgStack_00ae5a50
 
 struct Mgr_00ae5a50
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
+    char pad000[0x64];
     MsgStack_00ae5a50 stack;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
+    char pad074[0x50];
     CritSecA m_cs;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
+    char pad0dc[0xa4];
     int m_180;
 
     R_00ae5a50 FUN_00ae5a50(char* apName, int aiFlags, void* ap5);
@@ -11539,72 +10486,7 @@ struct DebugInit
 
 struct DebugInfo
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
+    char pad000[0x108];
     char* pSelf;
     char name[0x104];
     float f210, f214, f218, f21c, f220;
@@ -11636,72 +10518,7 @@ struct SoundDtor
 
 struct DebugPlain
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
+    char pad000[0x108];
     char* pSelf;
     char name[0x104];
     float f210, f214, f218, f21c, f220;
@@ -11712,148 +10529,7 @@ struct DebugPlain
 struct SoundInfoWrap
 {
     FUN_00ae89f0 head;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
+    char pad01c[0x238];
     __forceinline ~SoundInfoWrap()
     {
         reinterpret_cast<::BSSoundInfo *>((((SoundDtor*)this)))->BSSoundInfo::~BSSoundInfo();
@@ -12068,55 +10744,9 @@ __forceinline bool ReadDebugSetting()
 
 struct ThisClsAda
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
+    char pad000[0x74];
     Mgr74Ada mgr;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
+    char pad078[0x4c];
     CritSecA cs;
     void FUN_00ada5d0(int param1, Param2Ada* param2);
 };
@@ -12154,7 +10784,7 @@ void AudioMgr70::FUN_00ad9870()
     void* pFirst5 = m_54.First();
     while (pFirst5)
     {
-        reinterpret_cast<::RecursiveLock *>(&(m_54))->Unlock((::BSCriticalSectionEntry **)(void **)(&pFirst5), (unsigned int *)(int *)(&iVal7), (unsigned int *)(void **)((void**)&pMsg));
+        reinterpret_cast<::RecursiveLock *>(&(m_54))->Unlock((::BSCriticalSectionEntry **)(void **)(&pFirst5), (unsigned int *)(int *)(&iVal7), (void **)((void**)&pMsg));
         reinterpret_cast<::RMapBase *>(&(m_54))->FUN_00a1e240(pMsg->GetID());
         reinterpret_cast<::ThisClsAda *>(this)->FUN_00ada5d0(pMsg->GetID(), (::Param2Ada *)(0));
         BSSoundMsgV70* pDelete3 = pMsg;
@@ -12168,7 +10798,7 @@ void AudioMgr70::FUN_00ad9870()
     iVal7 = 0;
     while (pFound4)
     {
-        reinterpret_cast<::RecursiveLock *>(&(m_74))->Unlock((::BSCriticalSectionEntry **)(void **)(&pFound4), (unsigned int *)(int *)(&iVal7), (unsigned int *)(void **)((void**)&pDel));
+        reinterpret_cast<::RecursiveLock *>(&(m_74))->Unlock((::BSCriticalSectionEntry **)(void **)(&pFound4), (unsigned int *)(int *)(&iVal7), (void **)((void**)&pDel));
         while (reinterpret_cast<::S_00adc830_Map *>(&(m_64))->GetAt(iVal7, (*(::S_00adc830_Entry * *)(&pOut9))))
         {
             while (reinterpret_cast<::RMapBase *>(&(m_64))->FUN_00a1e240(iVal7))
@@ -13056,7 +11686,7 @@ DebugList* AudioSystem::FUN_00ae5ff0(unsigned int filter)
     int totalTime3 = 0;
     for (; current != 0 && entries4 < 20;)
     {
-        reinterpret_cast<::RecursiveLock *>(&(sounds))->Unlock((::BSCriticalSectionEntry **)(::SoundMapItem **)(&current), &nextIndex4, (unsigned int *)(::SoundRecord **)(&currentSound6));
+        reinterpret_cast<::RecursiveLock *>(&(sounds))->Unlock((::BSCriticalSectionEntry **)(::SoundMapItem **)(&current), &nextIndex4, (void **)(::SoundRecord **)(&currentSound6));
         buffer_ = new char[260];
         totalTime3 = 0;
         if (currentSound6 != 0)

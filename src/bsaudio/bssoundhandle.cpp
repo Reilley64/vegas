@@ -346,30 +346,37 @@ void FUN_008bc240_h::FUN_008bc240(unsigned int auiValue)
 
 struct SndX
 {
+    unsigned int m_uiSoundID;
+    bool m_bAssumeSuccess;
+    unsigned int m_uiState;
     void Stop();
 };
+// The two sound handles FUN_009b11c0 stops; the pad stands for members not named here.
 struct Owner009b11c0
 {
+    char pad00[0xac];
+    SndX m_kSoundA;
+    SndX m_kSoundB;
     void FUN_009b11c0();
 };
 
 // @fnv 0x009b11c0
 void Owner009b11c0::FUN_009b11c0()
 {
-    if (reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)((char*)this + 0xac))))->IsValid())
+    if (reinterpret_cast<::SoundPlaybackHandle *>(((&m_kSoundA)))->IsValid())
     {
-        ((SndX*)((char*)this + 0xac))->Stop();
-        if (reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)((char*)this + 0xac))))->IsValid())
+        (&m_kSoundA)->Stop();
+        if (reinterpret_cast<::SoundPlaybackHandle *>(((&m_kSoundA)))->IsValid())
         {
-            reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)((char*)this + 0xac))))->Release();
+            reinterpret_cast<::SoundPlaybackHandle *>(((&m_kSoundA)))->Release();
         }
     }
-    if (reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)((char*)this + 0xb8))))->IsValid())
+    if (reinterpret_cast<::SoundPlaybackHandle *>(((&m_kSoundB)))->IsValid())
     {
-        ((SndX*)((char*)this + 0xb8))->Stop();
-        if (reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)((char*)this + 0xb8))))->IsValid())
+        (&m_kSoundB)->Stop();
+        if (reinterpret_cast<::SoundPlaybackHandle *>(((&m_kSoundB)))->IsValid())
         {
-            reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)((char*)this + 0xb8))))->Release();
+            reinterpret_cast<::SoundPlaybackHandle *>(((&m_kSoundB)))->Release();
         }
     }
 }

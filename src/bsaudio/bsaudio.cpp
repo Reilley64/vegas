@@ -322,13 +322,19 @@ struct TESResponse
 struct Tile
 {
 };
-// If DAT_011da9a4 is set, stores 7 at offset 0x28 and calls Set(0xfa9, 255.0f, true) on the next TESResponse tile.
+// The menu field FUN_007c2420 sets; the pad stands for members not named here.
+struct MenuStateView
+{
+    char pad00[0x28];
+    int m_iState;
+};
+// If DAT_011da9a4 is set, stores 7 in its m_iState and calls Set(0xfa9, 255.0f, true) on the next TESResponse tile.
 // @fnv 0x007c2420
 void FUN_007c2420()
 {
     if (DAT_011da9a4)
     {
-        *(int*)((char*)DAT_011da9a4 + 0x28) = 7;
+        ((MenuStateView*)DAT_011da9a4)->m_iState = 7;
         reinterpret_cast<::FUN_00a012d0_t *>((((Tile*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60())))))->FUN_00a012d0(0xfa9, 255.0f, true);
     }
 }
@@ -1219,99 +1225,7 @@ namespace sad7c50 {
 
 struct Settings
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
+    char pad000[0x174];
     unsigned char unk174;
     bool m_bEnableState;
 
@@ -1338,98 +1252,20 @@ bool Owner::FUN_00ad7c50()
 }
 
 
-namespace sad8050 {
 
-struct MemContextGuard
+#include "fnv/decl/fnv_00ad8100__FUN_00ad8100_shell.h"
+#include "fnv/decl/sad8050__Owner.h"
+
+// Forwards to BSAudio::FUN_00ad8100 (0x00ad8100) for callers that name it through this stand-in.
+void fnv_00ad8100::FUN_00ad8100_shell::FUN_00ad8100(char* apSoundName, unsigned int aiFlags, void* apParam)
 {
-    int m_iPrevious;
-
-    MemContextGuard(int aiMemoryContext)
-    {
-        int iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        m_iPrevious = iPrevious;
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
-    }
-    ~MemContextGuard()
-    {
-        int iPrevious = m_iPrevious;
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iPrevious;
-    }
-};
-
-struct Manager
-{
-};
-
-
-struct Owner
-{
-    void ForwardToManager(std::intptr_t iArg0, int iArg1);
-};
-
-// Sets the thread memory context to 0xb and forwards iArg0 and iArg1 to FUN_00add630 on the Manager returned by FUN_00ad9060.
-// @fnv 0x00ad8050
-void Owner::ForwardToManager(std::intptr_t iArg0, int iArg1)
-{
-    MemContextGuard kGuard(0xb);
-    reinterpret_cast<::fnv_00add630::ADD630Manager *>((((::sad8050::Manager *)(::FUN_00ad9060()))))->FUN_00add630((const char *)(iArg0), iArg1);
+    reinterpret_cast<BSAudio*>(this)->FUN_00ad8100(apSoundName, aiFlags, (std::intptr_t)apParam);
 }
 
+// Forwards to BSAudio::ForwardToManager (0x00ad8050) for callers that name it through this stand-in.
+void sad8050::Owner::ForwardToManager(std::intptr_t iArg0, int iArg1)
+{
+    reinterpret_cast<BSAudio*>(this)->ForwardToManager((const char*)iArg0, iArg1);
 }
-
-namespace fnv_00ad8100 {
-struct AutoMemContext
-{
-    void Enter(int, bool, char*, int);
-    void Leave();
-    void* __vecDelDtor(unsigned int);
-    int m_eMemoryContext;
-    unsigned int m_pFileName;
-    int m_iLineNumber;
-};
-struct FUN_00ad8100_shell : public BSAudio
-{
-    void FUN_00ad8100(char*, unsigned int, void*);
-};
-
-struct TLSData
-{
-    char pad[0x2b4];
-    int memContext;
-};
-__declspec(thread) TLSData g_tlsData;
-
-static inline int GetCurrentMemContext()
-{
-    return (*reinterpret_cast<::fnv_00ad8100::TLSData *>(&::g_tlsBlock)).memContext;
-}
-
-static inline void SetCurrentMemContext(int context)
-{
-    (*reinterpret_cast<::fnv_00ad8100::TLSData *>(&::g_tlsBlock)).memContext = context;
-}
-
-struct MemContextScope
-{
-    int oldContext;
-    MemContextScope(int newContext)
-    {
-        oldContext = GetCurrentMemContext();
-        (*reinterpret_cast<::fnv_00ad8100::TLSData *>(&::g_tlsBlock)).memContext = newContext;
-    }
-    ~MemContextScope()
-    {
-        SetCurrentMemContext(oldContext);
-    }
-};
-
-// Sets memory context 11 and forwards the sound name, flags, and parameter to BSAudioManager::FUN_00add6f0.
-// @fnv 0x00ad8100
-void FUN_00ad8100_shell::FUN_00ad8100(char* apSoundName, unsigned int aiFlags, void* apParam)
-{
-    MemContextScope tempMemContext(11);
-    reinterpret_cast<::OwnerQ3 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add6f0((const char *)(apSoundName), aiFlags, (std::intptr_t)apParam);
-}
-}  // namespace fnv_00ad8100
 
 #include "generated/data/bsaudio/bsaudio.inc"

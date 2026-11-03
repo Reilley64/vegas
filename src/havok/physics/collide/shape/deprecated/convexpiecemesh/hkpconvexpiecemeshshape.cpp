@@ -8,6 +8,7 @@
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpConvexPieceMeshShape.h"
+#include "havok/hkpConvexPieceStreamData.h"
 
 struct HkpStandIn;
 
@@ -36,16 +37,20 @@ struct HkpStandIn
 
 HkpRouter* _D1A0E0GetMemoryRouter();
 
+// hkpConvexPieceMeshShape seen from its shape container interface (+0x10 in the 32-bit build).
 struct FUN_00e49100_t
 {
+    const void* m_vtable;
+    unsigned char m_collectionFlags[4];      // hkpShapeCollection's welding and collection type
+    hkpConvexPieceStreamData* m_streamData;  // hkpConvexPieceMeshShape::m_pConvexPieceStreamData
+
     int GetNextKey(int key);
 };
 
 // @fnv 0x00e49100
 int FUN_00e49100_t::GetNextKey(int key)
 {
-    void* shape = *(void**)((char*)this + 8);
-    int iMaxKey = *(int*)((char*)shape + 0x24) + *(int*)((char*)shape + 0x18);
+    int iMaxKey = m_streamData->m_kThirdUInt32Array.m_iElementCount + m_streamData->m_kSecondUInt32Array.m_iElementCount;
     int iNextKey = key + 1;
     if (iNextKey >= iMaxKey)
         iNextKey = -1;

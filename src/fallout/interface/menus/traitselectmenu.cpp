@@ -530,7 +530,7 @@ Tile* __cdecl FUN_007e7b60()
     if (oldMenu)
         delete oldMenu;
     Tile* pTile = reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::RootTile *)(reinterpret_cast<::InterfaceManager *>((pManager))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\trait_select_menu.xml"));
-    DAT_011db00c = (int)((::MenuOpen *)(reinterpret_cast<::FUN_00a03c90_shell *>((((TileOpen*)pTile)))->FUN_00a03c90()));
+    DAT_011db00c = (intptr_t)((::MenuOpen *)(reinterpret_cast<::FUN_00a03c90_shell *>((((TileOpen*)pTile)))->FUN_00a03c90()));
     if (DAT_011db00c && ((MenuOpen*)DAT_011db00c)->GetID() == FUN_007e7d90())
     {
         reinterpret_cast<::FUN_00a1dc70_shell *>((((MenuOpen*)DAT_011db00c)))->FUN_00a1dc70((::TileMenu *)(pTile), false);
@@ -618,7 +618,7 @@ struct TraitScrollMenu : FUN_007e82b0_shell
     int unk58;
     TraitScrollTile* scrollTile;
     int unk60;
-    int unk64;
+    intptr_t unk64;
     int unk68;
     TraitScrollTile* selectedTile;
     float currentPosition;

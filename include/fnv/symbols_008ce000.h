@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+
+#include <cstdint>
 
 // 0x008ce180
-void FUN_008ce180(void *, int, int, bool, bool);
+void FUN_008ce180(void *, int, std::intptr_t, bool, bool);

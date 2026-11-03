@@ -2,6 +2,7 @@
 // src/fallout/magic/turnundeadeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/turnundeadeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -346,10 +347,10 @@ struct V
 // @fnv 0x0082b530
 void C::FUN_0082b530()
 {
-    int b;
+    intptr_t b;
     int a;
-    b = ((int)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((int)(reinterpret_cast<::MagicTarget *>((((O*)((reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
-    a = (reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()) ? ((int)(reinterpret_cast<::MagicCaster *>((((O*)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
+    b = ((intptr_t)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((intptr_t)(reinterpret_cast<::MagicTarget *>((((O*)((reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
+    a = (reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()) ? ((intptr_t)(reinterpret_cast<::MagicCaster *>((((O*)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (b != 0 && a != 0 && (*(int(**)(int))(*(int**)b + 266))(b) != 0)
     {
         reinterpret_cast<::FUN_008d0600_s *>((((O*)(*(int(**)(int, int, int))(*(int**)b + 266))(b, a, 0))))->FUN_008d0600({}, {});

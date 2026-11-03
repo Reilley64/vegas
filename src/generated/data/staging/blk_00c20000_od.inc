@@ -24,6 +24,6 @@ unsigned char DAT_01202b48;
 unsigned char DAT_01202d55;
 char *DAT_01202d58;
 PFN_00c3c100 DAT_01202d5c;
-int DAT_01202d70;
+intptr_t DAT_01202d70;
 int DAT_01202d78;
 bool DAT_01202d90;

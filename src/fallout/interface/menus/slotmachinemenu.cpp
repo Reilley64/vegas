@@ -283,7 +283,7 @@ struct Accum_00733500;
 
 struct S148c0
 {
-    void FUN_007148c0(int, int);
+    void FUN_007148c0(intptr_t, int);
 };
 
 struct MiddleLowProcess
@@ -300,7 +300,7 @@ struct GO
 {
     unsigned int value;
 
-    GO(int);
+    GO(intptr_t);
     ~GO();
     operator unsigned int() const;
     void operator=(void*);
@@ -342,16 +342,16 @@ void FUN_007c19c0()
     Accum_00733500* accum = ((MiddleLowProcess*)go)->GetProcessInteger();
     reinterpret_cast<::FUN_00c4f270_Class *>((accum))->FUN_00c4f270(1);
 
-    AnimIdle* anim2 = (AnimIdle*)(unsigned int)::g_011da9d0;
+    AnimIdle* anim2 = (AnimIdle*)(uintptr_t)::g_011da9d0;
     ::UpdateCameraFrustum((::NiCamera *)(anim2), g_011db5ec_arg1);
 
     GO selected((int)((reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
-    reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)(unsigned int)selected));
+    reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)(uintptr_t)selected));
 
     AnimIdle* anim = anim2 ? anim2 : (AnimIdle*)((BSFaceGenNiNode*)go)->GetAnimationData();
 
     ::FUN_00b6bee0(anim, NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1), (::BSShaderAccumulator *)(accum));
-    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(::AnimIdle *)((AnimIdle*)(unsigned int)selected), false);
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(::AnimIdle *)((AnimIdle*)(uintptr_t)selected), false);
 
     reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)(0));
     selected = 0;
@@ -1122,7 +1122,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     RecordList* node = ((::fnv_007c0a40::RecordList *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))));
     while (node && *((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
-        if (!(*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner || !((int)(::FUN_004839c0((unsigned int)((*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)))))
+        if (!(*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner || !((intptr_t)(::FUN_004839c0((unsigned int)(uintptr_t)((*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)))))
         {
             ::DispatchMessageToSink((const char *)(DAT_01076694), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
             return 0;
@@ -1409,7 +1409,7 @@ struct DataHandler
     virtual void v170();
     virtual void v174();
     virtual void v178();
-    virtual void AddItem(int item, int a1, int count, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
+    virtual void AddItem(intptr_t item, int a1, int count, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
     InvItem* GetName(int item, int a, int b);
 };
 
@@ -1650,7 +1650,7 @@ void SlotMenu::Update()
             int diff;
             if ((diff = m_caps - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))))) < 0)
             {
-                (*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))->AddItem(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())), 0, -diff, 0, 0, 0, 0, 0, 1, 0);
+                (*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))->AddItem(((intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())), 0, -diff, 0, 0, 0, 0, 0, 1, 0);
                 BSStr msg;
                 ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg), "%i %s%s %s", -diff, ::FUN_00482720((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
                              ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3db4))))->GetMenuTitle())));

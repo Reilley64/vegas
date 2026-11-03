@@ -1,5 +1,6 @@
 // fallout_shared/packageeventaction.cpp: PackageEventActionData (7 functions)
 
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -43,7 +44,7 @@ PackageEventActionData::PackageEventActionData()
 // @fnv 0x0067e190
 void PackageEventActionData::InitItem(TESForm* owner)
 {
-    unsigned int id = (unsigned int)m_item;
+    std::uintptr_t id = (std::uintptr_t)m_item;
     ::ResolveFormID((unsigned int *)&(id), owner->GetFile(-1));
     TESObjectANIO* idle = dynamic_cast<TESObjectANIO*>(::FUN_004839c0(id));
     if (idle)
@@ -56,7 +57,7 @@ void PackageEventActionData::InitItem(TESForm* owner)
             ::FUN_005b5e40();
         m_item = 0;
     }
-    id = (unsigned int)pTopic;
+    id = (std::uintptr_t)pTopic;
     ::ResolveFormID((unsigned int *)&(id), owner->GetFile(-1));
     TESTopic* topic = dynamic_cast<TESTopic*>(::FUN_004839c0(id));
     if (topic)
@@ -136,7 +137,7 @@ void PackageEventActionData::Load(TESFile* file)
             unsigned int formID;
             ScriptReferencedObject* object = new ScriptReferencedObject;
             file->GetChunkData(&formID);
-            object->pForm = (TESForm*)formID;
+            object->pForm = (TESForm*)(std::uintptr_t)formID;
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((((Script*)m_pkNext)))->FUN_005d43c0()))))->FUN_00905820((void *)&(object));
             break;
         }
@@ -151,11 +152,11 @@ void PackageEventActionData::Load(TESFile* file)
         break;
         case 0x4d414e49:
             file->GetChunkData(&id);
-            m_item = (TESForm*)id;
+            m_item = (TESForm*)(std::uintptr_t)id;
             break;
         case 0x4d414e54:
             file->GetChunkData(&id);
-            pTopic = (TESForm*)id;
+            pTopic = (TESForm*)(std::uintptr_t)id;
             done = true;
             break;
         }
@@ -252,7 +253,7 @@ void FUN_0067dad0_shell::FUN_0067dad0(PackageEventActionData* apCopy)
 {
     reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(this)))->SetQuantity(reinterpret_cast<GO*>(apCopy)->operator unsigned int());
 
-    reinterpret_cast<::TESRegionGrassObject *>((reinterpret_cast<TESObjectREFR*>(this)))->AssignLandTexture((::TESLandTexture *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apCopy)))->GetName()))));
+    reinterpret_cast<::TESRegionGrassObject *>((reinterpret_cast<TESObjectREFR*>(this)))->AssignLandTexture((::TESLandTexture *)(((reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apCopy)))->GetName()))));
 
     reinterpret_cast<::FUN_0041fd00_shell *>((reinterpret_cast<MagicCaster*>(this)))->FUN_0041fd00(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(apCopy)))->FUN_0084e3a0())));
 
@@ -288,7 +289,7 @@ struct FUN_005ab240_shell
 struct FUN_0067dbf0_shell
 {
     int unk00;
-    int unk04;
+    std::intptr_t unk04;
     int unk08;
     bool FUN_0067dbf0(TESObjectREFR_GetFlags_caller* apParam);
 };
@@ -296,9 +297,9 @@ struct FUN_0067dbf0_shell
 // @fnv 0x0067dbf0
 bool FUN_0067dbf0_shell::FUN_0067dbf0(TESObjectREFR_GetFlags_caller* apParam)
 {
-    if (unk00 != (int)(void*)apParam->operator const char*())
+    if (unk00 != (int)(std::intptr_t)(void*)apParam->operator const char*())
         return true;
-    if (unk08 != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apParam))->GetName())))
+    if (unk08 != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apParam))->GetName())))
         return true;
     if ((void*)unk04 || reinterpret_cast<::Callees *>((((FUN_00726070_shell*)apParam)))->FUN_00726070())
     {

@@ -2,6 +2,8 @@
 // src/fallout/magic/magicboltprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicboltprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/magic_projectile_fields.h"
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSXFlags_shell.h"
@@ -197,7 +199,7 @@ struct FUN_00814aa0
     char pad0[11];
     H006815c0 m1;
     char pad1[19];
-    int f20;
+    intptr_t f20;
     FUN_00814aa0();
 };
 class Sub4_b4201
@@ -473,9 +475,9 @@ void ThisObj::SaveAreaBoltData(int arg)
     unsigned int formIDA = 0;
     if (pForm)
         formIDA = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&formIDA), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&formIDA), 4);
     unsigned short count = 0;
-    unsigned short* aPCount = ((unsigned short *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveGame*)g_TESSaveLoadGame)))->FUN_00825c00()));
+    unsigned short* aPCount = ((unsigned short *)(reinterpret_cast<::SaveLoadGameView *>((((SaveGame*)g_TESSaveLoadGame)))->pBufferCursor));
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&count, 2);
     AreaBoltNode* node7 = m_pListNode;
     while (node7)
@@ -487,7 +489,7 @@ void ThisObj::SaveAreaBoltData(int arg)
             if (f5)
                 boltID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((f5))->FUN_0084e3a0()));
         }
-        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&boltID), 4);
+        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&boltID), 4);
         count++;
         node7 = node7->next;
     }
@@ -743,7 +745,7 @@ void* FUN_00811950_shell::DestroyIfFlagged(unsigned int flags)
 // @fnv 0x00811e10
 FUN_00811e10::~FUN_00811e10()
 {
-    if (((::HUDMagicTarget *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) != (*reinterpret_cast<::HUDPlayer * *>(&::_g_thePlayer)))
+    if (((::HUDMagicTarget *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) != (*reinterpret_cast<::HUDPlayer * *>(&::_g_thePlayer)))
         FUN_0080fc90(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::HUDSetting *>(&::originalRuntimeFloatSetting1188)))))));
 
     HUDList* pList = ((::HUDList *)(reinterpret_cast<::FUN_004610f0_Class *>(&((*reinterpret_cast<::HUDProcessLists *>(&::g_011e0e80))))->GetOffset70Ptr()));
@@ -1306,7 +1308,7 @@ struct AimProjectile
 // @fnv 0x00812890
 bool AimProjectile::UpdateProjectileAimNode()
 {
-    AimOwner* pOwnerB = ((::AimOwner *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()));
+    AimOwner* pOwnerB = ((::AimOwner *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster));
     AimRef* pRef4 = pOwnerB ? pOwnerB->GetRef() : 0;
     AimFullActor* pActor2 = (pRef4 && pRef4->IsActor()) ? (AimFullActor*)pRef4 : 0;
     AimSource* pSource = pActor2 ? pActor2->GetSource() : 0;
@@ -1316,12 +1318,12 @@ bool AimProjectile::UpdateProjectileAimNode()
     {
         if (::GetField90Float((char *)this) < 0.5 && pActor2 == (*reinterpret_cast<::AimPlayer * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::AimPlayer * *>(&::_g_thePlayer))))->FUN_004eaf60())
         {
-            AimPoint3 kPos = *((::AimPoint3 *)(::FUN_0045bb80((int)(pSource))));
+            AimPoint3 kPos = *((::AimPoint3 *)(::FUN_0045bb80((intptr_t)(pSource))));
             reinterpret_cast<::FUN_00440460_S *>((((AimNode*)m_pController)))->FUN_00440460((const ::V3 *)&(kPos));
         }
         if (::GetField90Float((char *)this) > ::_DAT_01012060)
         {
-            AimPoint3 kNodePosB = *((::AimPoint3 *)(::FUN_0045bb80((int)(((AimNode*)m_pController)))));
+            AimPoint3 kNodePosB = *((::AimPoint3 *)(::FUN_0045bb80((intptr_t)(((AimNode*)m_pController)))));
             AimPoint3 kTargetPos3;
             reinterpret_cast<::VectorSourceB00 *>((aPTarget))->FUN_00812b00((void *)&(kTargetPos3));
             AimPoint3 kKDir = kTargetPos3 - kNodePosB;
@@ -1397,7 +1399,7 @@ void LoadObject::LoadObjectData(int arg1, int arg2)
     reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<Helper009f8770*>(this)))->FUN_00484d00(&state, 2);
     if (state)
     {
-        formID->f20 = reinterpret_cast<int>(new unsigned int[state + 1]);
+        formID->f20 = reinterpret_cast<intptr_t>(new unsigned int[state + 1]);
         *reinterpret_cast<unsigned int*>(formID->f20) = state;
         reinterpret_cast<FUN_00484d40_Host*>(this)->FUN_00484d40(reinterpret_cast<unsigned int*>(formID->f20) + 1,
                                                                  state * 4);
@@ -1680,7 +1682,7 @@ public:
 void MagicProjectile::InitializeProjectile(int arg1, int arg2)
 {
     reinterpret_cast<::fnv_0081ea40::MagicProjectile *>(this)->ResolveMagicReferences(arg1, arg2);
-    unsigned int referenceID = reinterpret_cast<unsigned int>(sourceReference);
+    uintptr_t referenceID = reinterpret_cast<uintptr_t>(sourceReference);
     if (referenceID)
     {
         sourceReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(referenceID));
@@ -1968,7 +1970,7 @@ struct GameObject
 
     virtual void slot115();
 
-    virtual int formID();
+    virtual intptr_t formID();
 
     virtual void slot117();
 
@@ -2468,10 +2470,10 @@ void Root::UpdatePending(int arg1, int arg2)
 
         int selected;
 
-        if (((::GameObject *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) && ((::GameObject *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->child())
+        if (((::GameObject *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) && ((::GameObject *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->child())
         {
 
-            GameObject* special = ((::GameObject *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->child();
+            GameObject* special = ((::GameObject *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->child();
 
             GameObject* current = special->isSpecial() ? special : 0;
 
@@ -2506,10 +2508,10 @@ void Root::UpdatePending(int arg1, int arg2)
 
         reinterpret_cast<::FUN_0059ce80_shell *>(&(handle))->FUN_0059ce80(selected);
 
-        reinterpret_cast<::fnv_00810ff0::Ths810 *>((a))->FUN_00810ff0((int)(handle.value));
+        reinterpret_cast<::fnv_00810ff0::Ths810 *>((a))->FUN_00810ff0((intptr_t)(handle.value));
     }
 
-    GameObject* candidate = ((::GameObject *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::GameObject *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->child() : 0;
+    GameObject* candidate = ((::GameObject *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::GameObject *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->child() : 0;
 
     if (candidate != (*reinterpret_cast<::GameObject * *>(&::_g_thePlayer)))
     {
@@ -2536,7 +2538,7 @@ void Root::UpdatePending(int arg1, int arg2)
 
                 Vec3 position3d;
 
-                reinterpret_cast<::FUN_00439ef0_class *>((((::GameObject *)(::FUN_0045bb80((int)(((::GameObject *)(::FUN_00559450((int *)&(m0bc))))))))))->FUN_00439ef0((::NiPoint3 *)(&position3d), *(const ::NiPoint3 *)(pending));
+                reinterpret_cast<::FUN_00439ef0_class *>((((::GameObject *)(::FUN_0045bb80((intptr_t)(((::GameObject *)(::FUN_00559450((int *)&(m0bc))))))))))->FUN_00439ef0((::NiPoint3 *)(&position3d), *(const ::NiPoint3 *)(pending));
 
                 ::DispatchFloatPair(((::GameObject *)(::FUN_00559450((int *)&(m0a8)))), pending->value1c, reinterpret_cast<::NiPoint3 *>(&(position3d))->ComputeMagnitude(), f088);
 
@@ -2573,7 +2575,7 @@ void Root::UpdatePending(int arg1, int arg2)
 
                     reinterpret_cast<::FUN_00810f90_shell *>(&(handle))->SetFlag4000(1);
 
-                    reinterpret_cast<::fnv_00810ff0::Ths810 *>((((::Control *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_00810ff0((int)(handle.value));
+                    reinterpret_cast<::fnv_00810ff0::Ths810 *>((((::Control *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_00810ff0((intptr_t)(handle.value));
                 }
             }
         }
@@ -3003,7 +3005,7 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
         AEHandle kHandle;
         ((::AEProcess *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))->FUN_0070c440(&kHandle);
         reinterpret_cast<::FUN_00810f90_shell *>(&(kHandle))->SetFlag4000(true);
-        reinterpret_cast<::fnv_00810ff0::Ths810 *>((((::AEProcess *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_00810ff0((int)(kHandle.m_pIntegerData));
+        reinterpret_cast<::fnv_00810ff0::Ths810 *>((((::AEProcess *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_00810ff0((intptr_t)(kHandle.m_pIntegerData));
     }
     reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(1);
 
@@ -3029,7 +3031,7 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
     }
 
     if (!bSilent)
-        reinterpret_cast<::P142Caster *>((((::AEExplosion *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))))->ApplySpellEffects((::P142Spell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), 0, (*(const ::NiPoint3 *)&(const ::AEPoint3 &)(GetPosition())), (::P142Ref *)(this), (::P142Ref *)(pkTarget), 0, 1.0f, 1.0f);
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)&(const ::AEPoint3 &)(GetPosition())), (::P142Ref *)(this), (::P142Ref *)(pkTarget), 0, 1.0f, 1.0f);
 
     m_pkSource = 0;
     if (FUN_004fd400()->m_kArea.GetValue())
@@ -3486,7 +3488,7 @@ struct xB
 };
 struct xBase : xA, xB
 {
-    xBase(int, int, int, int, xP3, xP3);
+    xBase(intptr_t, int, int, int, xP3, xP3);
     ~xBase();
 };
 struct xActorV
@@ -3524,7 +3526,7 @@ struct xProj : xBase
 };
 // @fnv 0x00811980
 xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
-    : xBase((int)apA, b, c, d, kP1, kP2), m_a8(0), m_b4(0), m_b8(0), m_bc(0), m_c0(0)
+    : xBase((intptr_t)apA, b, c, d, kP1, kP2), m_a8(0), m_b4(0), m_b8(0), m_bc(0), m_c0(0)
 {
     ::FUN_00811e00(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011d16ec)))))));
     reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
@@ -3545,7 +3547,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
     reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((std::intptr_t)(((void *)(::FUN_00559450((int *)&(m_b4))))));
     reinterpret_cast<::fnv_00813f30::Actor80F *>(this)->FUN_00813f30();
     xVec4 V(-xg_107a8b0, 0.0f, 0.0f, 0.0f);
-    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((int)(&V));
+    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((intptr_t)(&V));
     reinterpret_cast<::CellView *>((((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(void *)(this), false);
     reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
     if (((::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))))
@@ -3563,7 +3565,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
         }
     }
     reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
-    void* SHOOTER = ((::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::xActorV *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() : 0;
+    void* SHOOTER = ((::xActorV *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::xActorV *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->FUN_2c() : 0;
     if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
         ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1188)))))));
     else

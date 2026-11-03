@@ -139,7 +139,7 @@ void FUN_00482c80_shell::ClearParsedXML()
     this->m_uiDescriptionFileOffset = 0;
 }
 
-void __cdecl WriteDescChunk(void*, int);
+void __cdecl WriteDescChunk(void*, std::intptr_t);
 
 struct FUN_00482cb0_shell
 {
@@ -168,7 +168,7 @@ struct FUN_00482d30_shell
     unsigned int GetMenuParsedXmlLength();
 };
 // @fnv 0x00482cd0
-void __cdecl WriteDescChunk(void* apDesc, int aiChunk)
+void __cdecl WriteDescChunk(void* apDesc, std::intptr_t aiChunk)
 {
     char empty;
     if (apDesc)
@@ -213,7 +213,7 @@ struct Flt
 struct FUN_005a6e10_shell
 {
     unsigned int _pad[5];
-    Flt m_str;
+    const char* m_str;
     const char* GetStringOrDefault(int a, int b);
 };
 
@@ -223,7 +223,7 @@ const char* FUN_005a6e10_shell::GetStringOrDefault(int aiUnusedA, int aiUnusedB)
 {
     (void)aiUnusedA;
     (void)aiUnusedB;
-    return ::FUN_00559450((*(int * *)&(m_str))) ? ::FUN_00559450((*(int * *)&(m_str))) : ::DAT_01011584;
+    return m_str ? m_str : ::DAT_01011584;
 }
 
 struct StrCmpHelper
@@ -331,17 +331,17 @@ void TermHack::FUN_005015f0(TESObjectREFR* apRef, PlayerCharacter* apActor)
         {
         case 0:
         case 1:
-            ::FUN_00709470(3, (int)(apRef), 0, 0, 1);
+            ::FUN_00709470(3, (std::intptr_t)(apRef), 0, 0, 1);
             break;
         case 2:
         case 3:
-            ::FUN_00709470(2, (int)(apRef), 0, 0, 1);
+            ::FUN_00709470(2, (std::intptr_t)(apRef), 0, 0, 1);
             break;
         case 4: {
             BSStringT_char kMsg;
             ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT_char *)(&kMsg), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011c8394))))->IsDLCAvailable())), ActorValue::GetActorValueName((ActorValue::Index)0x28),
                          (int)::InventoryStackRecord::RoundToNearestStep(FUN_005017a0(apRef), 1.0f));
-            ::DispatchMessageToSink((const char *)(kMsg), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(kMsg.pString), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), 2.0f, false);
         }
         break;
         }
@@ -369,7 +369,105 @@ void Desc482d::FUN_00482d80(BaseFormComponent* apComponent)
     if (!pDesc)
         return;
     reinterpret_cast<::TextString *>(&(g_011c5498))->FUN_004037f0((const char*)((DescStandIn*)pDesc)->vf4(0, 'CSED'), 0);
-    m_uiDescriptionFileOffset = ((unsigned long)(reinterpret_cast<::Callees *>((((Off482d*)pDesc)))->FUN_00726070()));
+    m_uiDescriptionFileOffset = ((std::uintptr_t)(reinterpret_cast<::Callees *>((((Off482d*)pDesc)))->FUN_00726070()));
 }
+
+// Adjustor thunk: the secondary-base (+0x3c) vtable entry for an override defined on the derived class.
+
+class D1CC0Primary
+{
+  public:
+    virtual void FUN_00501cc0(unsigned int uiValue);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+class D1CC0Secondary
+{
+  public:
+    virtual void FUN_00501cc0(unsigned int uiValue);
+};
+
+class D1CC0Derived : public D1CC0Primary, public D1CC0Secondary
+{
+  public:
+    D1CC0Derived();
+// @fnv 0x00501cc0
+    virtual void FUN_00501cc0(unsigned int uiValue);
+};
+
+D1CC0Derived::D1CC0Derived()
+{}
+
+// [thunk] this-adjustor (-0x84) for the secondary-base vtable slot of the TESObjectBOOK
+// GetSaveSize override at 0x515220. The override replaces the same virtual in both bases, so the
+// compiler emits this thunk with the vtable that the out-of-line constructor below instantiates;
+// the override body itself lives elsewhere.
+struct BookPrimaryBase
+{
+    virtual void Slot0();
+    virtual unsigned short FUN_00515430(unsigned int auiChangeFlags);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    BookPrimaryBase() throw();
+};
+
+struct BookSaveSizeBase
+{
+    virtual unsigned short FUN_00515430(unsigned int auiChangeFlags);
+    BookSaveSizeBase() throw();
+};
+
+struct TESObjectBOOKStandIn : BookPrimaryBase, BookSaveSizeBase
+{
+// @fnv 0x00515430
+    virtual unsigned short FUN_00515430(unsigned int auiChangeFlags);
+    TESObjectBOOKStandIn() throw();
+};
+
+TESObjectBOOKStandIn::TESObjectBOOKStandIn() throw()
+{}
 
 #include "generated/data/fallout_shared/tesdescription.inc"

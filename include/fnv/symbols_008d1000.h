@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+
+#include <cstdint>
 
 class NiPoint3;
 struct MatrixView;
@@ -6,9 +9,9 @@ struct SourceData;
 struct TargetOwner;
 
 // 0x008d1030
-void ClearField44(int);
+void ClearField44(intptr_t);
 // 0x008d12e0
-void FUN_008d12e0(::TargetOwner *, ::SourceData *, int, int);
+void FUN_008d12e0(::TargetOwner *, ::SourceData *, std::intptr_t, std::intptr_t);
 // 0x008d1560
 void FUN_008d1560();
 // 0x008d15b0

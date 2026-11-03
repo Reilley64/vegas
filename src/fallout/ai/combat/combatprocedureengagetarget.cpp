@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureengagetarget.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureengagetarget.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorStandIn.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1212,7 +1213,7 @@ void EngageProc::UpdateEngagement()
     }
     float oldMinB = m_fMinRange;
     float oldMax = m_fMaxRange;
-    ::FUN_009a9180((::S_009a9180_Actor *)(m_pSharedOwner), (::S_009a9180_Data *)(void *)(((void *)(::FUN_007031c0((int)(m_pSharedOwner))))), &m_fMinRange, &m_fMaxRange, &m_fFarRange);
+    ::FUN_009a9180((::S_009a9180_Actor *)(m_pSharedOwner), (::S_009a9180_Data *)(void *)(((void *)(::FUN_007031c0((intptr_t)(m_pSharedOwner))))), &m_fMinRange, &m_fMaxRange, &m_fFarRange);
     bool changed = false;
     if (oldMinB != m_fMinRange || oldMax != m_fMaxRange)
     {
@@ -1272,7 +1273,7 @@ void EngageProc::UpdateEngagement()
                 m_bDodgeWait = ::FUN_0097fb20((::CombatState *)(ctrlD));
                 reinterpret_cast<::TimeoutTimer *>(&(m_timer28))->FUN_00910b10();
                 PathRequest req2;
-                reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req2), &m_dodgePos, (void *)(((int)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
+                reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req2), &m_dodgePos, (void *)(((intptr_t)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                 if (actorZ->StartPath(&req2))
                 {
                     reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(1);
@@ -1309,14 +1310,14 @@ void EngageProc::UpdateEngagement()
                     if (reinterpret_cast<::FUN_0099e190_cls *>((ctrlD))->SelectAndMoveToPoint((::MyMover *)(::fnv_009d3b80::SearchRequest *)(&search), tooFar4 ? 4 : 8, 0, dodgeDist, ::DAT_0104e0e8))
                     {
                         PathRequest req34;
-                        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req34), search.GetResult(), (void *)(((int)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))),
+                        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req34), search.GetResult(), (void *)(((intptr_t)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))),
                                             ::g_011c9040_arg1, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                         RawPoint dir;
-                        reinterpret_cast<::TaskQueueInterface *>((((::fnv_009d3b80::RawPoint *)(::GetOffsetC((int)&(req34))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                        reinterpret_cast<::TaskQueueInterface *>((((::fnv_009d3b80::RawPoint *)(::GetOffsetC((intptr_t)&(req34))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
                         reinterpret_cast<::FUN_006e2980_shell *>(&(req34))->FUN_006e2980((::NiPoint3 *)(::fnv_009d3b80::RawPoint *)(&dir), dodgeDist + ::DAT_010231d8);
                         if (!actorZ->StartPath(&req34))
                         {
-                            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to dodge location"));
+                            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to dodge location"));
                             return;
                         }
                         reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(1);
@@ -1333,7 +1334,7 @@ void EngageProc::UpdateEngagement()
                                             (::PathingAvoidNodeArray *)(0));
                         if (!actorZ->StartPath(&req4))
                         {
-                            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to target location"));
+                            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to target location"));
                             return;
                         }
                         m_dest = targetLocX;
@@ -1343,8 +1344,8 @@ void EngageProc::UpdateEngagement()
                     }
                     else
                     {
-                        int coordX3 = 0;
-                        int coordY = 0;
+                        intptr_t coordX3 = 0;
+                        intptr_t coordY = 0;
                         reinterpret_cast<::FUN_00527990_shell *>(&(targetLocX))->FUN_00527990(&coordX3, &coordY);
                         NiPoint3 navPos3;
                         if (::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(coordY), (::TESObjectCELL *)(coordX3), (*(const ::NiPoint3 *)(((::fnv_009d3b80::NiPoint3 *)(((::Vec3 *)(void *)&(targetLocX)))))), (::NiPoint3 *)(::fnv_009d3b80::NiPoint3 *)(&navPos3)))
@@ -1355,7 +1356,7 @@ void EngageProc::UpdateEngagement()
                                 reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req5), &navPos3, (void *)(coordX3), (void *)(coordY), ::DAT_0101e704, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                                 if (!actorZ->StartPath(&req5))
                                 {
-                                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to target location"));
+                                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to target location"));
                                     return;
                                 }
                                 reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>(&(m_dest))->FUN_0098ddd0(&navPos3);
@@ -1393,14 +1394,14 @@ void EngageProc::UpdateEngagement()
                 if (reinterpret_cast<::FUN_0099e190_cls *>((ctrlD))->SelectAndMoveToPoint((::MyMover *)(::fnv_009d3b80::SearchRequest *)(&search2), 3, 0, dist, ::DAT_0104e0e8))
                 {
                     PathRequest req62;
-                    reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req62), search2.GetResult(), (void *)(((int)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))),
+                    reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actorZ))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009d3b80::PathRequest *)(&req62), search2.GetResult(), (void *)(((intptr_t)(reinterpret_cast<::LowProcess *>((actorZ))->GetTarget()))), (void *)(((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actorZ))->FUN_00575d70()))),
                                         ::g_011c9040_arg1, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                     RawPoint dir2;
-                    reinterpret_cast<::TaskQueueInterface *>((((::fnv_009d3b80::RawPoint *)(::GetOffsetC((int)&(req62))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                    reinterpret_cast<::TaskQueueInterface *>((((::fnv_009d3b80::RawPoint *)(::GetOffsetC((intptr_t)&(req62))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
                     reinterpret_cast<::FUN_006e2980_shell *>(&(req62))->FUN_006e2980((::NiPoint3 *)(::fnv_009d3b80::RawPoint *)(&dir2), dist + ::DAT_010231d8);
                     if (!actorZ->StartPath(&req62))
                     {
-                        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to dodge location"));
+                        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to dodge location"));
                         return;
                     }
                     m_bCovered = true;
@@ -1448,7 +1449,7 @@ void EngageProc::UpdateEngagement()
             {
                 reinterpret_cast<::FUN_009d4f30_shell *>((ctrlD))->SetByteAtOffset188ToFF();
             }
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while dodging" : "Path Building failed to dodge"));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while dodging" : "Path Building failed to dodge"));
             return;
         }
         if (m_iFadeIndex == 7)
@@ -1511,19 +1512,19 @@ void EngageProc::UpdateEngagement()
                 switch (m_iFadeIndex)
                 {
                 case 8:
-                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to target"
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to target"
                                                 : "Path Building failed to move to target"));
                     break;
                 case 5:
-                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while approaching target"
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while approaching target"
                                                 : "Path Building failed to approach target"));
                     break;
                 case 3:
-                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to optimal far location"
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to optimal far location"
                                                 : "Path Building failed to move to optimal far location"));
                     break;
                 case 4:
-                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to optimal close location"
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorZ))->FUN_008b3960() ? "Pathing failed while moving to optimal close location"
                                                 : "Path Building failed to move to optimal close location"));
                     break;
                 }

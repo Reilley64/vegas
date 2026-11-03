@@ -1,9 +1,12 @@
 #pragma once
+#include <cstdint>
+
+#include <cstdint>
 
 namespace fnv_0080fb00 {
 struct FUN_0080fb00_Class {
 public:
     // 0x0080fb00
-    void FUN_0080fb00(int);
+    void FUN_0080fb00(std::intptr_t);
 };
 }

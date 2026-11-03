@@ -2,6 +2,7 @@
 // src/staging/blk_00520000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -408,12 +409,12 @@ struct FUN_005271b0_Class
     char m_auiShapeKeys[0x48];
     char m_field48;
     char m_field70;
-    char* GetFieldByType(unsigned int type);
+    char* GetFieldByType(uintptr_t type);
 };
 
 // Returns a pointer to the member at offset 0x48 for type 0x29 or at offset 0x30 for type 0x28, otherwise null.
 // @fnv 0x005271b0
-char* FUN_005271b0_Class::GetFieldByType(unsigned int type)
+char* FUN_005271b0_Class::GetFieldByType(uintptr_t type)
 {
     switch (type)
     {
@@ -464,10 +465,10 @@ struct FUN_00527350
     void* vtbl;
     int f4;
     int f8;
-    int fc;
+    void* fc;
     int f10;
     int f14;
-    int f18;
+    void* f18;
     int f1c;
     int f20;
     int f24;
@@ -484,10 +485,10 @@ void FUN_00527350::FUN_00527350_Init()
     f10 = 0;
     f14 = 0;
     f34 = 0;
-    fc = (int)((void *)(reinterpret_cast<::FUN_005271b0_Class *>((((FUN_005271b0_Class*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetFieldByType((unsigned int)(vtbl))));
+    fc = ((void *)(reinterpret_cast<::FUN_005271b0_Class *>((((FUN_005271b0_Class*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetFieldByType((uintptr_t)(vtbl))));
     if (!fc)
-        fc = (int)((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetConditions()));
-    f18 = (int)reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)fc)))->GetFirstPos();
+        fc = ((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetConditions()));
+    f18 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)fc)))->GetFirstPos();
 }
 }  // namespace fnv_00527350
 
@@ -1089,9 +1090,9 @@ struct QIOTask
 
 struct QCellTask : public QIOTask
 {
-    int m_18;
-    int m_1c;
-    QCellTask(int a, int b);
+    intptr_t m_18;
+    intptr_t m_1c;
+    QCellTask(intptr_t a, intptr_t b);
 };
 
 struct QTaskPtr
@@ -1134,11 +1135,11 @@ struct QCellQueue
     virtual void v2();
     virtual void v3();
     virtual bool Insert(int key, QTaskPtr* ptr, int flag);
-    void FUN_005283c0(QWorldSpace* ws, int x, int y);
+    void FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y);
 };
 
 // @fnv 0x005283c0
-void QCellQueue::FUN_005283c0(QWorldSpace* ws, int x, int y)
+void QCellQueue::FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y)
 {
     if (!ws)
         return;
@@ -1153,7 +1154,7 @@ void QCellQueue::FUN_005283c0(QWorldSpace* ws, int x, int y)
     void* entry7 = reinterpret_cast<::FUN_005285c0_Class *>(this)->FUN_005285c0(ws, (void *)(x), (void *)(y));
     if (entry7)
     {
-        QTaskPtr ptr(new QCellTask((int)this, (int)entry7));
+        QTaskPtr ptr(new QCellTask((intptr_t)this, (intptr_t)entry7));
         int key = ::PackShortPair((unsigned short)x, (unsigned short)y);
         bool ok6 = Insert(key, &ptr, 1);
         (*reinterpret_cast<::fnv_005283c0::IOManager * *>(&::DAT_01202d98))->AddTask(ptr);
@@ -1228,11 +1229,11 @@ void QueuedMap::FUN_00528e40(bool abFreeNodes)
     count = 0;
     for (unsigned int i = 0; i < bucketCount; i++)
     {
-        QueuedNode* node = (QueuedNode*)::ClearLowBit((int *)&(buckets[i]));
+        QueuedNode* node = (QueuedNode*)(intptr_t)::ClearLowBit((int *)&(buckets[i]));
         reinterpret_cast<::FUN_006665a0_shell *>(&(buckets[i]))->FUN_006665a0();
         while (node)
         {
-            QueuedNode* nextNode = (QueuedNode*)::ClearLowBit((int *)&(node->next));
+            QueuedNode* nextNode = (QueuedNode*)(intptr_t)::ClearLowBit((int *)&(node->next));
             reinterpret_cast<::FUN_006665a0_shell *>(&(node->next))->FUN_006665a0();
             reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::QueuedRefPtr &)(node->ref))->FUN_006f74f0((::ObjA *)(void *)(0));
             reinterpret_cast<::FUN_0044edd0_owner *>(this)->DispatchAndDelete((::FUN_0044edd0_Disposable *)(node));
@@ -1625,7 +1626,7 @@ struct State
 {
     int type;
     Form* filter;
-    int context;
+    void* context;
     Map* map;
     Ref* current;
     Entries* entries;
@@ -1834,7 +1835,8 @@ struct TerrainOwner
 bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3* normal, NiPoint3* tangent)
 {
     NiPoint3 origin;
-    NiPoint3 position = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>(this)->FUN_0053b450((::FNv53b450_Point *)((unsigned char)input->region), (unsigned short)input->position, (unsigned short)(0), 0, {})));
+    NiPoint3 position;
+    reinterpret_cast<::FNv53b450_Source *>(this)->FUN_0053b450((::FNv53b450_Point *)&position, (unsigned char)input->region, (unsigned short)input->position, 0, 0);
     reinterpret_cast<::LandObject *>(this)->FUN_00534240(input->region, input->position, (::LandPoint3 *)&(origin));
     NiPoint3 location;
     location = NiPoint3(reinterpret_cast<::FUN_00534050_Class *>(this)->FUN_00534050() + 2048.0, ((float)(reinterpret_cast<::FUN_00534080_Class *>(this)->FUN_00534080())) + 2048.0, 0.0f);
@@ -2147,10 +2149,10 @@ struct Thing
 {
     char pad[0x118];
     int m_uiFilterValue;
-    int GetOrFallback(int arg);
+    intptr_t GetOrFallback(intptr_t arg);
 };
 // @fnv 0x00525a90
-int Thing::GetOrFallback(int arg)
+intptr_t Thing::GetOrFallback(intptr_t arg)
 {
     Obj* result = ((::Obj *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(arg))));
     if (result != 0)

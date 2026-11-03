@@ -12,7 +12,7 @@ struct TreeNode_cls;
 // 0x00c811f0
 void AttachEmissiveMaterial(::C11F0Object *, ::C11F0Owner *, int, ::C11F0Color *);
 // 0x00c812d0
-int FUN_00c812d0(void *, void *);
+intptr_t FUN_00c812d0(void *, void *);
 // 0x00c81380
 ::NiNode *FUN_00c81380(float, float);
 // 0x00c81730

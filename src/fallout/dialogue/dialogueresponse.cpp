@@ -2,6 +2,7 @@
 // src/fallout/dialogue/dialogueresponse.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/dialogue/dialogueresponse.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
@@ -71,11 +72,11 @@ void FUN_0083d490_shell::SaveToGame()
     unsigned char c1 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>(this)->FUN_0083d890()));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&c1, 1);
     if (c1)
-        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((void*)(unsigned int)((Flt*)this)->operator unsigned int(), c1);
+        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((void*)(uintptr_t)((Flt*)this)->operator unsigned int(), c1);
     unsigned char c2 = ((unsigned char)(reinterpret_cast<::FUN_0083d890_shell *>((((FUN_0083d420_shell*)((char*)this + 0x10))))->FUN_0083d890()));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&c2, 1);
     if (c2)
-        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((void*)(unsigned int)((Flt*)((char*)this + 0x10))->operator unsigned int(), c2);
+        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((void*)(uintptr_t)((Flt*)((char*)this + 0x10))->operator unsigned int(), c2);
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 8, 4);
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0xc, 4);
 }
@@ -160,11 +161,11 @@ struct FUN_0083d280_cls
     int m_28;
 
     void Set(const FUN_0083d280_Obj& aValue);
-    FUN_0083d280_cls(int a1, int a2, int a3, int a4, FUN_0083d280_Src* apSrc);
+    FUN_0083d280_cls(int a1, int a2, intptr_t a3, intptr_t a4, FUN_0083d280_Src* apSrc);
 };
 
 // @fnv 0x0083d280
-FUN_0083d280_cls::FUN_0083d280_cls(int aiArg1, int aiArg2, int aiArg3, int aiArg4, FUN_0083d280_Src* apSrc)
+FUN_0083d280_cls::FUN_0083d280_cls(int aiArg1, int aiArg2, intptr_t aiArg3, intptr_t aiArg4, FUN_0083d280_Src* apSrc)
 {
     if (apSrc != 0)
     {
@@ -173,7 +174,7 @@ FUN_0083d280_cls::FUN_0083d280_cls(int aiArg1, int aiArg2, int aiArg3, int aiArg
         Set(tmp.Get());
         m_08 = ((unsigned int)(::FUN_00559450((int *)(apSrc))));
         m_0c = reinterpret_cast<::Callees *>((apSrc))->FUN_00726070();
-        reinterpret_cast<::FUN_00616f40_shell *>((apSrc))->DispatchOnNextFormType((::TESObject *)(aiArg4), aiArg1, ((unsigned int)(::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(aiArg3)))), aiArg3, (int)(&m_sub10));
+        reinterpret_cast<::FUN_00616f40_shell *>((apSrc))->DispatchOnNextFormType((::TESObject *)(aiArg4), aiArg1, ((uintptr_t)(::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(aiArg3)))), aiArg3, (intptr_t)(&m_sub10));
         m_18 = reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSrc))->FUN_007af430();
         m_1c = reinterpret_cast<::ActorMover *>((apSrc))->GetCurrentMoveModeType();
         m_20 = reinterpret_cast<::MagicCaster_shell *>((apSrc))->FUN_0044edb0();

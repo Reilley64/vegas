@@ -2,6 +2,8 @@
 // src/fallout/magic/bhkcharacterlistenerspell.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhkcharacterlistenerspell.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/magic_projectile_fields.h"
 #include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/FUN_0043b4d0_shell.h"
@@ -77,7 +79,7 @@ struct Holder00807080
 // @fnv 0x00807080
 const char* Holder00807080::FUN_00807080()
 {
-    ProxyHolder* pProxy = (ProxyHolder*)((int)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
+    ProxyHolder* pProxy = (ProxyHolder*)((intptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
     const char* pResult = ((const char *)(::FUN_00458b20()));
     if (pProxy)
     {
@@ -209,7 +211,7 @@ void ProxyUpdate::FUN_00806f20(Owner1* apOwner, Arg2* apArgs)
         Node* pNode = ((::Node *)(reinterpret_cast<::FUN_00807770_Class *>((apOwner))->FUN_00807770(i)));
         void* iResult1 = ::FUN_004b59f0(pNode->m_48);
         Str20 s;
-        new ((void *)&(s)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(pNode->m_48))))));
+        new ((void *)&(s)) ::GlobalObject_008c71b0((intptr_t)(((void *)(::FUN_0043b540((char *)(pNode->m_48))))));
         int iResult3 = reinterpret_cast<::FUN_0043b4d0_shell *>(&(s))->FUN_0043b4d0();
         if (iResult1 == 0)
         {
@@ -1884,7 +1886,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
         reinterpret_cast<::FUN_00440460_S *>((pkMarker))->FUN_00440460((const ::V3 *)&(kPos));
         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Debug807 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkMarker), 50.0f);
     }
-    Caster807* pkCaster = ((::Caster807 *)(reinterpret_cast<::PlayerMover *>((pkProjectile))->GetActorStateFlags()));
+    Caster807* pkCaster = ((::Caster807 *)(reinterpret_cast<::MagicProjectileFields *>(pkProjectile)->caster));
     bool bActorHit = false;
     TESObjectREFR* pkHitActor = 0;
     if (pkHit && pkHit->IsActor())

@@ -1,5 +1,6 @@
 // fallout/ai/creature.cpp: Creature, Holder, XActorQ (25 functions)
 
+#include <cstdint>
 #include "fnv/decl/AVModShell.h"
 #include "fnv/decl/ActorStand.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1142,10 +1143,10 @@ struct LocalObj
 };
 
 // @fnv 0x00c812d0
-int __cdecl FUN_00c812d0(void* a1, void* a2)
+intptr_t __cdecl FUN_00c812d0(void* a1, void* a2)
 {
     LocalObj local;
-    return ((int)(::FUN_00c80c00((::WorkNode_cls *)(a1), (::WorkStack_cls *)(void *)(&local), (unsigned int)(a2), 0)));
+    return ((intptr_t)(::FUN_00c80c00((::WorkNode_cls *)(a1), (::WorkStack_cls *)(void *)(&local), (uintptr_t)(a2), 0)));
 }
 
 class NiAVObject;

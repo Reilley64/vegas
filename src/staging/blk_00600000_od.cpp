@@ -59,8 +59,6 @@
 #include "fnv/symbols_011c3000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void __cdecl FUN_00600fd0(int, int);
-
 struct FUN_00600ad0_cls
 {
     const char* v;
@@ -89,7 +87,7 @@ FUN_00600b00_shell::~FUN_00600b00_shell()
 extern int DAT_0104a068;
 struct FUN_00600d10_class
 {
-    int m_vft;
+    int* m_vft;
     void FUN_00601000(int a, int b);
     FUN_00600d10_class(int a, int b);
 };
@@ -98,9 +96,9 @@ extern int DAT_0104a090;
 
 struct FUN_006010d0_Class
 {
-    int m_field_0;
+    void* m_field_0;
     int FUN_00601100(int);
-    int InitializeWithGlobal(int param);
+    void* InitializeWithGlobal(int param);
 };
 
 struct FUN_006053f0_class
@@ -135,7 +133,7 @@ struct GlobalObject_00869f00
 // @fnv 0x0060bac0
 void GlobalObject_00869f00::Reset()
 {
-    *(int*)this = (int)&DAT_0104ab04;
+    *(void**)this = &DAT_0104ab04;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
 }
 
@@ -167,7 +165,7 @@ AX* AX::FUN_0060bdd0()
 }  // namespace fnv_0060bdd0
 
 // @fnv 0x0060be50
-void FUN_0060be50(int start, int end, const float* apfSrc)
+void FUN_0060be50(intptr_t start, int end, const float* apfSrc)
 {
     for (; start != end; start += 4)
         *(float*)start = *apfSrc;
@@ -183,7 +181,7 @@ void __cdecl FUN_0060bed0(void* apArg1, void* apArg2, void* apArg3)
 
 
 // @fnv 0x0060c270
-void __cdecl FUN_0060c270(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void __cdecl FUN_0060c270(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4)
 {
     ::UninitCopyChecked((int *)(aiArg1), (int *)(aiArg2), (int *)(aiArg3), aiArg4);
 }
@@ -335,15 +333,15 @@ extern int DAT_0104d948;
 struct FUN_0061fa10_class
 {
     void FUN_0061fa70(int);
-    int FUN_0061fa10(int a);
+    void* FUN_0061fa10(int a);
 };
 // Calls FUN_0061fa70 with a, stores the address of DAT_0104d948 at this, and returns this.
 // @fnv 0x0061fa10
-int FUN_0061fa10_class::FUN_0061fa10(int a)
+void* FUN_0061fa10_class::FUN_0061fa10(int a)
 {
     FUN_0061fa70(a);
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0104d948);
-    return reinterpret_cast<int>(this);
+    *reinterpret_cast<void**>(this) = &DAT_0104d948;
+    return this;
 }
 
 extern int DAT_0104a0b0;
@@ -526,11 +524,11 @@ struct FUN_00601100_cls
 };
 // Calls FUN_00601100 with param, stores the address of DAT_0104a090 in m_field_0, and returns this.
 // @fnv 0x006010d0
-int FUN_006010d0_Class::InitializeWithGlobal(int param)
+void* FUN_006010d0_Class::InitializeWithGlobal(int param)
 {
     reinterpret_cast<::FUN_00601100_cls *>(this)->FUN_00601100(param);
-    m_field_0 = (int)&DAT_0104a090;
-    return (int)this;
+    m_field_0 = &DAT_0104a090;
+    return this;
 }
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes them into b, and returns this.
 // @fnv 0x00601100
@@ -624,11 +622,11 @@ struct FUN_0060bd90_cls
     unsigned short m8;
     char _a[4];
     unsigned short mE;
-    unsigned int FUN_0060bd90(unsigned int, unsigned int);
+    unsigned int FUN_0060bd90(unsigned int, uintptr_t);
 };
 // Grows the array to mE + a when a is at least m8, then calls FUN_0060c120(a, b) and returns a.
 // @fnv 0x0060bd90
-unsigned int FUN_0060bd90_cls::FUN_0060bd90(unsigned int uiIndex, unsigned int b)
+unsigned int FUN_0060bd90_cls::FUN_0060bd90(unsigned int uiIndex, uintptr_t b)
 {
     if (uiIndex >= m8)
     {
@@ -782,22 +780,29 @@ struct FUN_0061fa40_class
 };
 
 namespace fnv_0061fa70 {
-extern "C" void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_0061fa70_class
 {
-    int FUN_0061fa70(int a);
+    void* FUN_0061fa70(int a);
 };
 // Sets the vtable, stores the count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x0061fa70
-int FUN_0061fa70_class::FUN_0061fa70(int aiCount)
+void* FUN_0061fa70_class::FUN_0061fa70(int aiCount)
 {
-    *reinterpret_cast<void**>(this) = &DAT_0104d968;
-    reinterpret_cast<int*>(this)[1] = aiCount;
-    reinterpret_cast<int*>(this)[3] = 0;
-    unsigned int iAllocationSize = (unsigned int)reinterpret_cast<int*>(this)[1] << 2;
-    reinterpret_cast<int*>(this)[2] = (int)::FUN_00aa1070(iAllocationSize);
-    memset((void*)reinterpret_cast<int*>(this)[2], 0, (unsigned int)reinterpret_cast<int*>(this)[1] << 2);
-    return (int)this;
+    struct Layout
+    {
+        void* m_pVtbl;
+        int m_iCount;
+        void* m_pData;
+        int m_iUnk0c;
+    };
+    Layout* self = reinterpret_cast<Layout*>(this);
+    self->m_pVtbl = &DAT_0104d968;
+    self->m_iCount = aiCount;
+    self->m_iUnk0c = 0;
+    unsigned int iAllocationSize = (unsigned int)self->m_iCount << 2;
+    self->m_pData = ::FUN_00aa1070(iAllocationSize);
+    memset(self->m_pData, 0, (unsigned int)self->m_iCount << 2);
+    return this;
 }
 }  // namespace fnv_0061fa70
 
@@ -834,7 +839,7 @@ struct FUN_00601000
 FUN_00600d10_class::FUN_00600d10_class(int aiArg1, int aiArg2)
 {
     new ((void *)this) ::FUN_00601000(aiArg1, aiArg2);
-    m_vft = (int)&DAT_0104a068;
+    m_vft = &DAT_0104a068;
 }
 // Sets the vtable, stores x and y, zeroes c and b, and allocates a elements into p when a is positive, otherwise p is null.
 // @fnv 0x00601000
@@ -918,7 +923,7 @@ struct DH
 };
 // If a is non-zero, walks the list from g_dataHandler and calls ProcessTopicInfoList(a) on each item until _ref_008256d0 is true.
 // @fnv 0x00619b60
-void FUN_00619b60(int a)
+void FUN_00619b60(intptr_t a)
 {
     if (a)
     {
@@ -1120,9 +1125,9 @@ int CallWithFlag(int*);
 
 // Calls CallWithFlagByte with CallWithFlag results for param1 and param2, param3, and FUN_0065fd70/FUN_0065e750 results plus a TagC.
 // @fnv 0x0060bba0
-void __cdecl FUN_0060bba0(int param1, int param2, int param3)
+void __cdecl FUN_0060bba0(int param1, int param2, intptr_t param3)
 {
-    ::CallWithFlagByte((void *)(CallWithFlag(&param1)), (void *)(CallWithFlag(&param2)), (void *)(param3), (*(unsigned char *)&(const ::S_0060bba0_TagA &)(FUN_0065fd70(&param1, &param3))));
+    ::CallWithFlagByte((void *)(intptr_t)(CallWithFlag(&param1)), (void *)(intptr_t)(CallWithFlag(&param2)), (void *)(param3), (*(unsigned char *)&(const ::S_0060bba0_TagA &)(FUN_0065fd70(&param1, (int*)&param3))));
 }
 
 struct B60BC10PtrCatTag
@@ -1161,7 +1166,7 @@ C60BE00Element* C60BE00Unchecked(C60BE00Element** ppIter);
 // @fnv 0x0060be00
 void FUN_0060be00(C60BE00Element* _First, C60BE00Element* _Last, C60BE00Element* _Dest, C60BE00Allocator* _Al)
 {
-    ::FUN_0060c270((int)(C60BE00Unchecked(&_First)), (int)(C60BE00Unchecked(&_Last)), (int)(_Dest), (int)(_Al));
+    ::FUN_0060c270((intptr_t)(C60BE00Unchecked(&_First)), (intptr_t)(C60BE00Unchecked(&_Last)), (intptr_t)(_Dest), (intptr_t)(_Al));
 }
 
 // A one-byte class.  Under /Od an empty brace initialiser zero-initialises the
@@ -1202,7 +1207,7 @@ extern "C" S_0060c2e0_Ret __cdecl FUN_0065fd70(void* value);
 // @fnv 0x0060c2e0
 void __cdecl CallWithFlagValues(void* a1, void* a2, void* a3)
 {
-    ::ProcessFloatRange((float *)(a1), (unsigned int)(a2), (float *)(a3));
+    ::ProcessFloatRange((float *)(a1), (uintptr_t)(a2), (float *)(a3));
 }
 
 class B616A20Meter
@@ -1603,7 +1608,7 @@ struct C380Tag
 float* C380Unwrap(float** ppfFirst);
 
 // @fnv 0x0060c380
-void ProcessFloatRange(float* pfFirst, unsigned int ItemUpdateArray, float* pfOut)
+void ProcessFloatRange(float* pfFirst, uintptr_t ItemUpdateArray, float* pfOut)
 {
     float* pfLast = pfFirst + ItemUpdateArray;
     ::FUN_0060c410(C380Unwrap(&pfFirst), ItemUpdateArray, pfOut);
@@ -2166,13 +2171,13 @@ bool VFDialogue::BuildVoiceFilePath(VFForm* apSpeaker, void* apTopic, void* apQu
         else if (apSpeaker->GetFormType() == 0x2b)
             pVoice4 = apSpeaker->kBaseData.GetVoiceType();
         else if (apSpeaker->GetFormType() == 0x16)
-            pVoice4 = ((::VFVoiceType *)(reinterpret_cast<::PlayerMover *>((apSpeaker))->GetActorStateFlags()));
+            pVoice4 = ((::VFVoiceType *)(uintptr_t)(reinterpret_cast<::PlayerMover *>((apSpeaker))->GetActorStateFlags()));
         else
         {
             VFVoiceOwner* pOwner4 = ((::VFVoiceOwner *)(::FUN_00617270((::TESForm *)(apSpeaker))));
             if (!pOwner4)
                 return false;
-            pVoice4 = ((::VFVoiceType *)(reinterpret_cast<::FUN_00604780_shell *>((pOwner4))->FUN_00604780(0)));
+            pVoice4 = ((::VFVoiceType *)(uintptr_t)(reinterpret_cast<::FUN_00604780_shell *>((pOwner4))->FUN_00604780(0)));
         }
     }
     if (!pVoice4)

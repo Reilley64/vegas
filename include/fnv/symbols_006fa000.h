@@ -1,10 +1,12 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_006fa6d0 { struct ScenePosition; }
 struct FakeWorld006faad0;
 
 // 0x006fa6d0
-namespace fnv_006fa6d0 { void UpdateSceneEntryRadii(const ::fnv_006fa6d0::ScenePosition &, unsigned int); }
+namespace fnv_006fa6d0 { void UpdateSceneEntryRadii(const ::fnv_006fa6d0::ScenePosition &, std::uintptr_t); }
 // 0x006fa820
 namespace fnv_006fa820 { const char *FUN_006fa820(const char *); }
 // 0x006fa860

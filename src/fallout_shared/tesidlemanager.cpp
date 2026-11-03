@@ -1,5 +1,6 @@
 // fallout_shared/tesidlemanager.cpp: IdleAnimationManager, IdleAnimationDirectoryEntry, IdleCleanup (22 functions)
 
+#include <cstring>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -102,7 +103,7 @@ BSSimpleList<const char*>* IdleAnimationManager::FindIdleArrayEntry(const char* 
                 char* match = FUN_0040ab30(buffer, '\\');
                 TaskQueueInterface::CopyStringToBuffer(match + 1, 128 - (match - buffer) - 1,
                                                        fnv_tesidlemanager_idle_anims);
-                if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130((unsigned int)(buffer), (::fnv_00853130::CombatThreatRecord *&)(pIdleEntry)) && pIdleEntry)
+                if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130((std::uintptr_t)(buffer), (::fnv_00853130::CombatThreatRecord *&)(pIdleEntry)) && pIdleEntry)
                     result = pIdleEntry->m_ppFileListsByWeapon[weapon];
             }
         }
@@ -171,7 +172,7 @@ void IdleAnimationDirectoryEntry::SetWeaponFiles(BSSimpleList<const char*>* file
         return;
     while (!files->IsEmpty())
     {
-        const char* filename = ((const char *)(new ((void *)(files)) ::Vec3()));
+        const char* filename = (files->m_item);
         {
             ANIM_GROUP_MOVE_ENUM move;
             bool flag;
@@ -180,7 +181,7 @@ void IdleAnimationDirectoryEntry::SetWeaponFiles(BSSimpleList<const char*>* file
                 ::FUN_005f38d0(filename, (unsigned int *)&(move), (unsigned int *)&(weapon), (bool *)&(flag));
                 if (weapon == ANIM_GROUP_WEAPON_ENUM_AGW_ONE_HAND_PISTOL)
                 {
-                    const char* basename = CRT::strrchr(filename, '\\');
+                    const char* basename = strrchr((char*)filename, '\\');
                     if (basename)
                     {
                         ++basename;
@@ -225,7 +226,7 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
                                                                    fnv_tesidlemanager_idle_anims);
                             supplied = new IdleAnimationDirectoryEntry(directory);
                             supplied->SetWeaponFiles(((::BSSimpleList<const char *> *)(reinterpret_cast<::FUN_00447850_shell *>((g_modelLoader))->FUN_00447850(files, 0))));
-                            reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((unsigned int)(buffer), supplied);
+                            reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((std::uintptr_t)(buffer), supplied);
                             result = supplied;
                             return result;
                         }
@@ -235,7 +236,7 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
                     fallback->SetWeaponFiles(
                         ((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>((g_modelLoader))->FUN_00447330((char *)(directory), true, false, ANIM_GROUP_WEAPON_ENUM_AGW_NONE))));
                     DAT_011cb71c = false;
-                    reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((unsigned int)(directory), fallback);
+                    reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((std::uintptr_t)(directory), fallback);
                     result = fallback;
                 }
             }
@@ -275,7 +276,7 @@ void FUN_006003c0(void* thisPtr)
                 {
                     while (!_ref_008256d0(root->m_ppFileListsByWeapon[i]))
                     {
-                        const char* pString = *((const char **)(new ((void *)(root->m_ppFileListsByWeapon[i])) ::Vec3()));
+                        const char* pString = (root->m_ppFileListsByWeapon[i])->m_item;
                         delete pString;
                         _ref_0063f7b0(root->m_ppFileListsByWeapon[i]);
                     }
@@ -325,8 +326,8 @@ NiFormArray* FUN_00600560_shell::GetFormArrayForIdleDir(TESForm* apIdleDir)
     NiFormArray* pretarray = 0;
     if (apIdleDir && *(const char*)apIdleDir)
     {
-        unsigned int proot = 0;
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((unsigned int)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
+        std::uintptr_t proot = 0;
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((std::uintptr_t)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)proot;
         }
@@ -354,8 +355,8 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
     NiFormArray* pretarray = 0;
     if (apIdleDir && *(const char*)apIdleDir != '\0')
     {
-        unsigned int proot = 0;
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((unsigned int)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
+        std::uintptr_t proot = 0;
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((std::uintptr_t)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)(proot + 0x18);
         }
@@ -366,7 +367,7 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
 
 
 // @fnv 0x00600900
-void FUN_00600900(int param)
+void FUN_00600900(std::intptr_t param)
 {
     (*reinterpret_cast<int *>(&::fnv_tesidlemanager_used_item)) = param;
 }
@@ -532,7 +533,7 @@ void IdleCleanup::DeleteAllOwnedForms()
                 {
                     while (!root->files[listIndex]->Empty())
                     {
-                        const char* filename = ((const char *)(new ((void *)(root->files[listIndex])) ::Vec3()));
+                        const char* filename = ((const char *)((void *)(root->files[listIndex])));
                         delete filename;
                         root->files[listIndex]->Pop();
                     }

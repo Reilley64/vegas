@@ -1,5 +1,6 @@
 // fallout_shared/aiformulas.cpp: AIFormulas (22 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <cstdlib>
@@ -67,7 +68,7 @@ extern SettingT_GameSettingCollection_* DAT_0119b194[];
 extern SettingT_GameSettingCollection_* DAT_0119b1ac[];
 // Computes a base duration from settings scaled by energy level and proc index, then returns a random duration within a jittered min/max range.
 // @fnv 0x006435c0
-float FUN_006435c0(int aiEngergyLevel, int aiProcIndex)
+float FUN_006435c0(intptr_t aiEngergyLevel, int aiProcIndex)
 {
     float fenergyMult;
     float fdurationMax;
@@ -99,24 +100,16 @@ void __cdecl GetSkillAttributeAndBase(int aiSkill, int* aiPrimaryAttribute, floa
 struct FUN_006c8980_stand
 {
     int pad;
-    int a;
+    std::intptr_t a;
     int b;
-    void FUN_006c8980(int fn);
+    void FUN_006c8980(std::intptr_t fn);
 };
 // Calls FUN_00ec6f20 with the object's a and b fields, 0x10 and fn.
 // @fnv 0x006c8980
-void FUN_006c8980_stand::FUN_006c8980(int fn)
+void FUN_006c8980_stand::FUN_006c8980(std::intptr_t fn)
 {
     std::qsort((void *)(a), b, 0x10, (int (*)(const void *, const void *))(fn));
 }
-
-struct ActorValue
-{
-    enum Index
-    {
-    };
-};
-
 
 struct VObj
 {
@@ -219,7 +212,7 @@ struct Setting_S
 };
 // Computes a value from two float settings scaled by a, subtracts it from another setting, and halves the result.
 // @fnv 0x006434f0
-float FUN_006434f0(int aiValue)
+float FUN_006434f0(intptr_t aiValue)
 {
     float fResult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011cd550)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011cd7f0)))))) * aiValue;
     fResult = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting155)))))) - fResult) / 2.0;
@@ -1126,7 +1119,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
             FollowerNode* node = pExtraFollower->followers;
             while (node)
             {
-                Actor* follower = *((::fnv_00643ff0::Actor **)(new ((void *)(node)) ::Vec3()));
+                Actor* follower = *((::fnv_00643ff0::Actor **)((void *)(node)));
                 TESPackage* package = ((::fnv_00643ff0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((follower))->FUN_009344a0()));
                 if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 1)
                     ++count;
@@ -1140,7 +1133,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
             FollowerNode* followers = pExtraFollower->followers;
             while (followers)
             {
-                Actor* follower = *((::fnv_00643ff0::Actor **)(new ((void *)(followers)) ::Vec3()));
+                Actor* follower = *((::fnv_00643ff0::Actor **)((void *)(followers)));
                 TESPackage* package = ((::fnv_00643ff0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((follower))->FUN_009344a0()));
                 if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 1)
                 {
@@ -1154,9 +1147,9 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
                 }
                 followers = ((::fnv_00643ff0::FollowerNode *)(reinterpret_cast<::Callees *>((followers))->FUN_00726070()));
             }
-            reinterpret_cast<::FUN_006c8980_stand *>(&(followerList))->FUN_006c8980((int)(((int (&)(const void *, const void *))::CompareObjects)));
+            reinterpret_cast<::FUN_006c8980_stand *>(&(followerList))->FUN_006c8980((std::intptr_t)(((int (&)(const void *, const void *))::CompareObjects)));
             float distance = 0.0f;
-            for (index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(followerList))->GetName())); ++index)
+            for (index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(followerList))->GetName())); ++index)
             {
                 FollowerEntry& entry = followerList.FUN_00558dd0(index);
                 if (index > 0)

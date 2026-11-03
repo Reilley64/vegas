@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadfile.cpp: BGSSaveLoadFileEntry, SaveLoadFile, BGSSaveLoadManager (23 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -400,7 +401,7 @@ class C8467E0Manager
 class C8467E0Event
 {
   public:
-    unsigned int m_uiType;
+    uintptr_t m_uiType;
     int unk04;
     int unk08;
     int unk0C;

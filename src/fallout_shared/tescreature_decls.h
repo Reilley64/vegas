@@ -105,7 +105,30 @@ class TESActorBaseData
 {
   public:
     virtual void vfn_00() = 0;
-    unsigned char componentLayout[0x30];
+    virtual void D01();
+    virtual void D02();
+    virtual void D03();
+    virtual void D04();
+    virtual void D05();
+    virtual void D06();
+    virtual void D07();
+    virtual void D08();
+    virtual void D09();
+    virtual void D10();
+    virtual void D11();
+    virtual void D12();
+    virtual void D13();
+    virtual void D14();
+    virtual void D15();
+    virtual void D16();
+    virtual void D17();
+    virtual void D18();
+    virtual void D19();
+    virtual void D20();
+    virtual void D21();
+    virtual int GetBloodImpactMaterial();
+    unsigned int uiFlags;
+    unsigned char componentLayout[0x2c];
     bool GetFlag(unsigned int flag) const;
 public:
     unsigned short GetFatigue() const;
@@ -127,9 +150,13 @@ enum ENUM_FORM_ID
 {
     kCreature = 0x2b
 };
+class TESFile;
 class TESForm
 {
   public:
+    virtual ~TESForm();
+    bool GetInitialized() const;
+    ::TESFile *GetFile(int);
 public:
     void ClearData();
 public:
@@ -165,11 +192,13 @@ class TESBoundAnimObject
     unsigned char componentLayout[44];
 };
 class BaseFormComponent;
+class TESForm;
 class TESContainer
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+    void InitItem(::TESForm *);
 public:
     void CopyFromBase(::BaseFormComponent *);
 };
@@ -178,12 +207,14 @@ class BGSTouchSpellForm
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[8];
+    void InitItem(::TESForm *);
 };
 class TESSpellList
 {
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[16];
+    void InitItem(::TESForm *);
 };
 class TESHealthForm
 {
@@ -242,6 +273,7 @@ class BGSDestructibleObjectForm
   public:
     virtual void vfn_00() = 0;
     unsigned char componentLayout[4];
+    void InitItem(::TESForm *);
 public:
     void FUN_004786e0(::BaseFormComponent *);
 };
@@ -295,8 +327,106 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
 
     TESCreature();
     ~TESCreature();
+    virtual void C01();
+    virtual void C02();
+    virtual void C03();
+    virtual void C04();
+    virtual void C05();
+    virtual void C06();
+    virtual void C07();
+    virtual void C08();
+    virtual void C09();
+    virtual void C10();
+    virtual void C11();
+    virtual void C12();
+    virtual void C13();
+    virtual void C14();
+    virtual void C15();
+    virtual void C16();
+    virtual void C17();
+    virtual void C18();
+    virtual void C19();
+    virtual void C20();
+    virtual void C21();
+    virtual void C22();
+    virtual void C23();
+    virtual void C24();
+    virtual void C25();
+    virtual void C26();
+    virtual void C27();
+    virtual void C28();
+    virtual void C29();
+    virtual void C30();
+    virtual void C31();
+    virtual void C32();
+    virtual void C33();
+    virtual void C34();
+    virtual void C35();
+    virtual void C36();
+    virtual void C37();
+    virtual void C38();
+    virtual void C39();
+    virtual void C40();
+    virtual void C41();
+    virtual void C42();
+    virtual void C43();
+    virtual void C44();
+    virtual void C45();
+    virtual void C46();
+    virtual void C47();
+    virtual void C48();
+    virtual void C49();
+    virtual void C50();
+    virtual void C51();
+    virtual void C52();
+    virtual void C53();
+    virtual void C54();
+    virtual void C55();
+    virtual void C56();
+    virtual void C57();
+    virtual void C58();
+    virtual void C59();
+    virtual void C60();
+    virtual void C61();
+    virtual void C62();
+    virtual void C63();
+    virtual void C64();
+    virtual void C65();
+    virtual void C66();
+    virtual void C67();
+    virtual void C68();
+    virtual void C69();
+    virtual void C70();
+    virtual void C71();
+    virtual void C72();
+    virtual void C73();
+    virtual void C74();
+    virtual void C75();
+    virtual void C76();
+    virtual void C77();
+    virtual void C78();
+    virtual void C79();
+    virtual void C80();
+    virtual void C81();
+    virtual void C82();
+    virtual void C83();
+    virtual void C84();
+    virtual void C85();
+    virtual void C86();
+    virtual void C87();
+    virtual void C88();
+    virtual void C89();
+    virtual void C90();
+    virtual void C91();
+    virtual void C92();
+    virtual void C93();
+    virtual void C94();
+    virtual void C95();
+    virtual BGSBodyPartData* GetBodyPartData();
+    virtual void C97();
+    virtual TESCombatStyle* GetCombatStyle();
+    bool FUN_005f9b90(TESForm* otherForm);
     void ClearData();
-    BGSBodyPartData* GetBodyPartData();
     void ResetFormData();
     void LoadGame(BGSLoadFormBuffer* buffer);
     CreatureSoundCollection* GetMutableCreatureSounds();

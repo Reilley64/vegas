@@ -95,7 +95,7 @@ struct BGSLoadFormBuffer
 {
 };
 
-struct FUN_00682a80_shell
+struct FUN_00682a80_shell : ::BSTempEffect
 {
     void FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -103,12 +103,12 @@ struct FUN_00682a80_shell
 // @fnv 0x00682a80
 void FUN_00682a80_shell::FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 8)), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x14)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_fParticleParameter5)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_fFirstFloatValue)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->bInitialized)), 1);
 }
 
-struct FUN_00682810_shell
+struct FUN_00682810_shell : ::BSTempEffect
 {
     void FUN_00682810();
 };
@@ -116,7 +116,7 @@ struct FUN_00682810_shell
 // @fnv 0x00682810
 void FUN_00682810_shell::FUN_00682810()
 {
-    *(char*)((char*)this + 0x14) = 1;
+    *(char*)&this->bInitialized = 1;
 }
 
 namespace fnv_00682830 {
@@ -157,7 +157,7 @@ bool FUN_006828a0_shell::FUN_006828a0(float afTimeDelta)
 struct BGSSaveFormBuffer
 {
 };
-struct Holder00682a30
+struct Holder00682a30 : ::BSTempEffect
 {
     void FUN_00682a30(BGSSaveFormBuffer*);
 };
@@ -165,9 +165,9 @@ struct Holder00682a30
 // @fnv 0x00682a30
 void Holder00682a30::FUN_00682a30(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 8), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 16), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 20), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)&this->m_fParticleParameter5), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)&this->m_fFirstFloatValue), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)&this->bInitialized), 1, 0);
 }
 
 struct SoundH
@@ -182,7 +182,7 @@ struct TESSaveLoadGame
 };
 
 
-struct FUN_00682920_shell
+struct FUN_00682920_shell : ::BSTempEffect
 {
     void FUN_00682920();
 };
@@ -190,14 +190,14 @@ struct FUN_00682920_shell
 // @fnv 0x00682920
 void FUN_00682920_shell::FUN_00682920()
 {
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 8, 4);
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0x10, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)&this->m_fParticleParameter5, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)&this->m_fFirstFloatValue, 4);
     SoundH* apSaveGameBuffer = 0;
-    if (*(void**)((char*)this + 0xc))
+    if (*(void**)&this->pCell)
     {
-        apSaveGameBuffer = (SoundH*)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(void**)((char*)this + 0xc))))->FUN_0084e3a0()));
+        apSaveGameBuffer = (SoundH*)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(void**)&this->pCell)))->FUN_0084e3a0()));
     }
-    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((int)&apSaveGameBuffer), 4);
+    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((std::intptr_t)&apSaveGameBuffer), 4);
 }
 
 class NiNode;
@@ -223,7 +223,7 @@ struct FUN_00682990_SGLShim
 };
 
 
-struct FUN_00682990_shell
+struct FUN_00682990_shell : ::BSTempEffect
 {
     bool FUN_00682990();
 };
@@ -235,15 +235,15 @@ bool FUN_00682990_shell::FUN_00682990()
     bool result = true;
     unsigned int formID;
 
-    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<FUN_00682990_LoadShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 8), 4);
-    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<FUN_00682990_LoadShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<FUN_00682990_LoadShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(&this->m_fParticleParameter5)), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<FUN_00682990_LoadShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(&this->m_fFirstFloatValue)), 4);
     reinterpret_cast<::FUN_00857aa0 *>((reinterpret_cast<FUN_00682990_SGLShim*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&formID, 4);
 
-    *reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c) =
+    this->pCell =
         dynamic_cast<TESObjectCELL*>(FUN_004839c0(formID));
 
-    if (!*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c) ||
-        !reinterpret_cast<::FUN_00545cb0_shell *>(((*reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x0c))))->FUN_00545cb0())
+    if (!this->pCell ||
+        !reinterpret_cast<::FUN_00545cb0_shell *>(((this->pCell)))->FUN_00545cb0())
         result = false;
 
     return result;

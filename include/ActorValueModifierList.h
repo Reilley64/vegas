@@ -1,5 +1,6 @@
 #ifndef FNV_MODIFIERLIST_H
 #define FNV_MODIFIERLIST_H
+#include <cstdint>
 #include "layout_support.h"
 class ActorValueModifierList : public BSSimpleList<Modifier*>
 {
@@ -15,6 +16,6 @@ public:
 public:
     float GetActorValueModifierAmount(char);
 public:
-    void FUN_00937d50(int);
+    void FUN_00937d50(intptr_t);
 };
 #endif

@@ -100,12 +100,12 @@ struct FUN_007ca030_shell
     int m_44;
     int m_48;
     int m_4c;
-    int FUN_007ca030();
+    intptr_t FUN_007ca030();
 };
 
 // Returns m_48 + 4 when m_48 is between 1 and 8, adding 4 more for slot 8 if _FUN_004b71d0() is true; otherwise returns -1.
 // @fnv 0x007ca030
-int FUN_007ca030_shell::FUN_007ca030()
+intptr_t FUN_007ca030_shell::FUN_007ca030()
 {
     if (this->m_48 > 0 && this->m_48 < 9)
     {
@@ -187,13 +187,13 @@ struct FUN_00794d30_shell
     int m_48;
     int m_4c;
 
-    int FUN_00794d30();
+    intptr_t FUN_00794d30();
 };
 
 
 // Returns m_4c + 4 when m_48 is 8 and _FUN_004b71d0() is true, m_48 + 4 when m_48 is between 1 and 7, otherwise -1.
 // @fnv 0x00794d30
-int FUN_00794d30_shell::FUN_00794d30()
+intptr_t FUN_00794d30_shell::FUN_00794d30()
 {
     if (m_48 == 8)
     {
@@ -1297,7 +1297,7 @@ struct BkNode
     virtual void v00();
     virtual void v01();
     virtual void v02();
-    virtual int v03(float f);
+    virtual intptr_t v03(float f);
 };
 struct BkLight
 {
@@ -1959,7 +1959,7 @@ void BookMenu::HandleKey(unsigned int key, int unused)
         }
         else if (::FUN_004b71d0() && pageIndex == 8)
         {
-            int stat = selectedStat + 4;
+            intptr_t stat = selectedStat + 4;
             oldValue9 = ((BookPlayer*)(*reinterpret_cast<::Player6440 * *>(&::_g_thePlayer)))->values.GetBaseValue(stat);
             if (key == 2)
             {

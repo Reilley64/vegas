@@ -398,7 +398,7 @@ ANIM_GROUP_MOVE_ENUM FUN_005f23a0_shell::GetMoveAnimGroup()
 }
 
 
-struct FUN_005f23e0_shell
+struct FUN_005f23e0_shell : ::TESAnimGroup
 {
     unsigned short FUN_005f23e0();
 };
@@ -406,7 +406,7 @@ struct FUN_005f23e0_shell
 // @fnv 0x005f23e0
 unsigned short FUN_005f23e0_shell::FUN_005f23e0()
 {
-    return ((unsigned short)(::fnv_005f2400::FUN_005f2400(*((unsigned short*)((char*)this + 0x10)))));
+    return ((unsigned short)(::fnv_005f2400::FUN_005f2400(this->sType)));
 }
 
 namespace fnv_005f2400 {
@@ -805,7 +805,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                                 if (etype < 31)
                                 {
                                     unsigned int iElementIndex = ((ptoken - pfirstLineOfKeyText) << 8) | n;
-                                    unsigned int m_uiSoundEntryCount = ((unsigned int)(reinterpret_cast<::BGSCameraPath *>((panimGroup))->GetPrevPath()));
+                                    unsigned int m_uiSoundEntryCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((panimGroup))->GetPrevPath()));
                                     reinterpret_cast<::FUN_005f2820_shell *>((panimGroup))->FUN_005f2820(m_uiSoundEntryCount + 1);
                                     reinterpret_cast<::FUN_005f29f0_Class *>((panimGroup))->SetValueAtIndex(m_uiSoundEntryCount, time);
                                     reinterpret_cast<::FUN_005f2a70_cls *>((panimGroup))->SetRecordFlagAndValue(m_uiSoundEntryCount, (*(unsigned char *)&(etype)), iElementIndex);
@@ -821,10 +821,10 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                                 if (openSound)
                                 {
                                     reinterpret_cast<::sad8050::Owner *>((((::fnv_005f3a20::BSAudio *)(::FUN_00453a70()))))->ForwardToManager(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((openSound))->FUN_0084e3a0())), false);
-                                    unsigned int m_uiSoundEntryCount = ((unsigned int)(reinterpret_cast<::BGSCameraPath *>((panimGroup))->GetPrevPath()));
+                                    unsigned int m_uiSoundEntryCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((panimGroup))->GetPrevPath()));
                                     reinterpret_cast<::FUN_005f2820_shell *>((panimGroup))->FUN_005f2820(m_uiSoundEntryCount + 1);
                                     reinterpret_cast<::FUN_005f29f0_Class *>((panimGroup))->SetValueAtIndex(m_uiSoundEntryCount, time);
-                                    reinterpret_cast<::FUN_005f2a30_Class *>((panimGroup))->SetEntryValue(m_uiSoundEntryCount, (unsigned int)(openSound));
+                                    reinterpret_cast<::FUN_005f2a30_Class *>((panimGroup))->SetEntryValue(m_uiSoundEntryCount, (std::uintptr_t)(openSound));
                                     if (vol && *vol)
                                         reinterpret_cast<::FUN_005f2ac0_cls *>((panimGroup))->SetRecordValue(m_uiSoundEntryCount, std::atof(vol));
                                     if (pitch)

@@ -1,5 +1,7 @@
 // fallout/misc/saveload/bgsloadgamesubbuffer.cpp: BGSLoadGameSubBuffer, LoadGameSubBufferQueue, SubBufferMap, Holder and more (20 functions)
 
+#include <cstdint>
+#include "fnv/form_fields.h"
 #include <cstring>
 #include "fnv/decl/AnimSelf.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -77,14 +79,14 @@ void BGSLoadGameSubBuffer::LoadGame(BGSLoadGameBuffer* buffer)
                     size = GetEncodedIntegerSize(value);
                     total = value + size + 1;
                     cursor = new char[total];
-                    reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(this)))->SetQuantity((unsigned int)cursor);
+                    reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(this)))->SetQuantity((uintptr_t)cursor);
                     byteDestination = cursor;
                     typedef unsigned char(* ReadByte)(BGSLoadGameBuffer*);
                     *byteDestination = ((ReadByte)buffer->m_ppVirtualMethodTable[0])(buffer);
                     cursor++;
                     WriteEncodedInteger(cursor, value);
                     cursor += size;
-                    memcpy(cursor, ((char *)(::GetCombinedValue((int)(buffer)))), value);
+                    memcpy(cursor, ((char *)(::GetCombinedValue((intptr_t)(buffer)))), value);
                     reinterpret_cast<::FUN_0049bb50_shell *>((reinterpret_cast<ActorPackageContext*>(buffer)))->AddToOffset(value);
                 }
             }
@@ -104,7 +106,7 @@ void LoadGameSubBufferQueue::ProcessSubBuffer(QUEUED_SUB_BUFFER_TYPE type, BGSLo
             return;
         typedef TESForm*(* GetForm)(BGSLoadFormBuffer*);
         key = form ? form : ((GetForm)buffer->m_ppVirtualMethodTable[1])(buffer);
-        reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(&m_kSubBuffersByType[type])))->FUN_00844700((unsigned int)key, (unsigned int)(reinterpret_cast<TESObjectREFR*>(subBuffer.m_pObject)));
+        reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(&m_kSubBuffersByType[type])))->FUN_00844700((uintptr_t)key, (uintptr_t)(reinterpret_cast<TESObjectREFR*>(subBuffer.m_pObject)));
     }
 }
 
@@ -116,7 +118,7 @@ BGSLoadFormBuffer* BGSLoadGameSubBuffer::CreateFormBuffer(TESForm* form)
         unsigned int offset;
         {
             char* data = pBuffer;
-            reinterpret_cast<TESRecipe*>(result)->SetRequiredSkill((::ActorValue::Index)((int)form));
+            reinterpret_cast<TESRecipe*>(result)->SetRequiredSkill((::ActorValue::Index)((intptr_t)form));
             reinterpret_cast<::fnv_008a8150::FUN_008a8150_shell *>((result))->FUN_008a8150((unsigned char)*data);
             offset = 1;
             {
@@ -165,14 +167,14 @@ void BGSLoadGameSubBuffer::RestoreAnimation(TESForm* form)
                     reinterpret_cast<::AnimSelf *>((animation))->Load(loadBuffer);
                 else
                     ::FUN_00845cc0("ANIMATION: Actor '%s' %08X with queued animation does not have one to load",
-                               form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                               form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
             }
             else
                 reinterpret_cast<::fnv_005636e0::FUN_005636e0_shell *>((reinterpret_cast<TESObjectREFR*>(reference)))->FUN_005636e0((::fnv_005636e0::BGSLoadFormBuffer *)(loadBuffer));
         }
         else
             ::FUN_00845cc0("SAVELOAD: Form '%s' %08X with queued havok data is not a reference", form->GetName(),
-                       ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                       reinterpret_cast<::FormFields *>(form)->iFormID);
         delete reinterpret_cast<BGSLoadGameBuffer*>(loadBuffer);
     }
 }
@@ -196,15 +198,15 @@ void BGSLoadGameSubBuffer::ReadAnimationState(TESForm* form)
             }
             else
                 ::FUN_00845cc0("SAVELOAD: Mobile Object '%s' %08X with queued char controller does not have one to load",
-                           form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                           form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
         }
         else
             ::FUN_00845cc0("SAVELOAD: Reference '%s' %08X with queued char controller is not a mobile object",
-                       form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                       form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
     }
     else
         ::FUN_00845cc0("SAVELOAD: Form '%s' %08X with queued char controller is not a reference", form->GetName(),
-                   ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                   reinterpret_cast<::FormFields *>(form)->iFormID);
     delete reinterpret_cast<BGSLoadGameBuffer*>(loadBuffer);
 }
 
@@ -371,7 +373,7 @@ void LoadGameSubBufferQueue::ProcessQueuedSubBuffers(QUEUED_SUB_BUFFER_TYPE eSub
                         if (form->GetIsReference())
                         {
                             reference = reinterpret_cast<TESObjectREFR*>(form);
-                            load = reinterpret_cast<unsigned int>(((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reference))->FUN_0043fcd0()))) != 0;
+                            load = reinterpret_cast<uintptr_t>(((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reference))->FUN_0043fcd0()))) != 0;
                             typedef bool(* IsActor)(TESObjectREFR*);
                             if (((IsActor)(*reinterpret_cast<void***>(reference))[0x40])(reference))
                                 actor = reference;
@@ -431,7 +433,7 @@ void FUN_00864d80_shell::LoadQueuedHavokData(TESForm* form)
     }
     else
         ::FUN_00845cc0("SAVELOAD: Form '%s' %08X with queued havok data is not a reference", form->GetName(),
-                   ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+                   reinterpret_cast<::FormFields *>(form)->iFormID);
     delete reinterpret_cast<BGSLoadGameBuffer*>(buffer);
 }
 
@@ -757,7 +759,7 @@ void SubBufferSaveShell::FUN_00865020(TESForm* form)
     {
         ReferenceSaveAccess* ref = static_cast<ReferenceSaveAccess*>(form);
         FUN_008659c0_Buffer buffer;
-        reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>(&(buffer))->InitFormEntry(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())), (*(unsigned int *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(4))), (unsigned int)(static_cast<ReferenceSaveAccess*>(form)->FUN_00401170()),
+        reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>(&(buffer))->InitFormEntry(reinterpret_cast<::FormFields *>(form)->iFormID, (*(unsigned int *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(4))), (unsigned int)(static_cast<ReferenceSaveAccess*>(form)->FUN_00401170()),
                             (unsigned char)(reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::SaveContext_00851110 * *>(&::DAT_011de134))))->GetConstant27()));
         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(&(buffer))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(form));
         reinterpret_cast<::fnv_00562de0::FUN_00562de0_cls *>((ref))->FUN_00562de0((::fnv_00562de0::TargetRef *)(::FUN_008659c0_Buffer *)(&buffer));
@@ -765,7 +767,7 @@ void SubBufferSaveShell::FUN_00865020(TESForm* form)
     }
     else
     {
-        ::FUN_00845cc0(DAT_01082228, form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
+        ::FUN_00845cc0(DAT_01082228, form->GetName(), reinterpret_cast<::FormFields *>(form)->iFormID);
     }
 }
 

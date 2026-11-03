@@ -394,6 +394,7 @@ class TESObjectCELL
   public:
 public:
     bool IsCellInterior() const;
+    class BGSEncounterZone* FindEncounterZone() const;
 };  // API only; no allocation or layout claim.
 class TESDataHandler
 {

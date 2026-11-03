@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiAVObject;
 namespace fnv_007062e0 { struct TESObjectREFR; }
@@ -7,7 +8,7 @@ struct Buffer;
 struct TutorialManagerLayout;
 
 // 0x00706130
-bool FUN_00706130(int);
+bool FUN_00706130(intptr_t);
 // 0x00706230
 namespace fnv_00706230 { void FUN_00706230(int, int); }
 // 0x00706270
@@ -41,9 +42,9 @@ void ResetInterfaceState();
 // 0x00706b90
 void ResetEntries(::TutorialManagerLayout *);
 // 0x00706c20
-void ClearInterfaceRefs(unsigned int);
+void ClearInterfaceRefs(uintptr_t);
 // 0x00706d10
-unsigned int FUN_00706d10();
+uintptr_t FUN_00706d10();
 // 0x00706d50
 void AttachFaceGenAnimationData(::NiAVObject *);
 // 0x00706db0
@@ -61,7 +62,7 @@ float FUN_00706e90();
 // 0x00706f20
 unsigned int FUN_00706f20();
 // 0x00706f30
-void FUN_00706f30(int);
+void FUN_00706f30(intptr_t);
 // 0x00706f50
 void FUN_00706f50(void *, float);
 // 0x00706f90
@@ -71,4 +72,4 @@ void FUN_00706fb0(int);
 // 0x00706fd0
 int FUN_00706fd0(int, bool);
 // 0x00706ff0
-void FUN_00706ff0(int);
+void FUN_00706ff0(intptr_t);

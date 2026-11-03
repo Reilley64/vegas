@@ -4,6 +4,7 @@
 #define FNV_MEDIALOCATIONCONTROLLER_UPDATE_DECLS_H
 
 // Unit-local header for fallout_shared/medialocationcontroller.cpp.
+#include <cstdint>
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/PlayerNearbyRefs.h"
 #include "fnv/decl/fnv_00568cb0__FUN_00568cb0_shell.h"
@@ -30,6 +31,7 @@ enum FIGHT_REACTION
 class MediaLocationController : public TESForm, public TESFullName
 {
   public:
+    MediaLocationController();
     // base TESForm at +0x0, size 24
     // base TESFullName at +0x18, size 12
     unsigned int m_fUpdateCooldown;  // +0x24, 4 bytes
@@ -240,6 +242,6 @@ public:
 class BSAudio
 {
   public:
-    unsigned int GetSynchTime();
+    uintptr_t GetSynchTime();
 };
 #endif

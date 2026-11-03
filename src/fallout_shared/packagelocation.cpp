@@ -153,13 +153,13 @@ unsigned int BGSMessageInitAccess::GetIconFormID()
     return iconFormID;
 }
 
-// Sets the first byte of the object to 3 and zeroes the two 32-bit fields at offsets 4 and 8, then returns the object.
+// Sets the location type to 3 (PLT_EDITORLOC) and clears the location data and object, then returns the descriptor.
 // @fnv 0x0067f030
 LocationDescriptor* FUN_0067f030(LocationDescriptor* pObject)
 {
-    *(char*)pObject = 3;
+    pObject->m_ucLocationType = 3;
     pObject->m_pLocationData = 0;
-    *(unsigned int*)((char*)pObject + 8) = 0;
+    pObject->pObject = nullptr;
     return pObject;
 }
 
@@ -1081,12 +1081,30 @@ class Actor
 public:
     void SetActorLifeState(::ACTOR_LIFE_STATE);
 };
+class MagicTarget;
+class MagicCaster;
 class ActiveEffect
 {
   public:
+    const void* m_pVtable;
+    float unk04;
+    char pad08[0x1c];
+    MagicTarget* pTarget;
+    MagicCaster* pCaster;
+    char pad2c[0x1c];
+};
+class NiQuaternion
+{
+  public:
+    float w, x, y, z;
 };
 struct FUN_00826be0_shell : public ActiveEffect
 {
+    bhkRigidBody* pRigidBody;
+    int iState;
+    float fStateStartTime;
+    NiPoint3 kStartPos;
+    NiQuaternion kStartRot;
     void FUN_00826be0(float);
 };
 
@@ -1094,42 +1112,42 @@ struct FUN_00826be0_shell : public ActiveEffect
 void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
 {
     Actor* ptarget =
-        reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->GetOwnerActor() : 0;
+        pTarget ? pTarget->GetOwnerActor() : 0;
     Actor* pcaster =
-        ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
+        pCaster ? pCaster->GetCasterActor() : 0;
     if (!pcaster)
     {
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
     }
-    else if (*(bhkRigidBody**)((char*)this + 0x48) && ptarget)
+    else if (pRigidBody && ptarget)
     {
         if (ptarget->Unk_8B(false))
         {
             reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
             return;
         }
-        if (*(int*)((char*)this + 0x4c) == 0)
+        if (iState == 0)
         {
-            *(float*)((char*)this + 0x50) = 0.0f;
-            *(int*)((char*)this + 0x4c) = 10;
+            fStateStartTime = 0.0f;
+            iState = 10;
         }
-        if (*(int*)((char*)this + 0x4c) == 10)
+        if (iState == 10)
         {
             BaseProcess* pprocess = (BaseProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture()));
-            if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
+            if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                 ((AIProcess*)pprocess)->Unk_1BE(true);
-            if (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50) > DAT_01020998)
-                *(int*)((char*)this + 0x4c) = 20;
-            float fLerp = FUN_0040ebd0(1.0f, (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50)) / 4.0);
+            if (this->unk04 - fStateStartTime > DAT_01020998)
+                iState = 20;
+            float fLerp = FUN_0040ebd0(1.0f, (this->unk04 - fStateStartTime) / 4.0);
             hkVector4 endPos;
             hkVector4 startPos;
-            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(endPos), (const ::fnv_004a3e00::NiPoint3 &)(*(NiPoint3*)((char*)this + 0x54)));
-            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(startPos), (const ::fnv_004a3e00::NiPoint3 &)(*(NiPoint3*)((char*)this + 0x54)));
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(endPos), (const ::fnv_004a3e00::NiPoint3 &)kStartPos);
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(startPos), (const ::fnv_004a3e00::NiPoint3 &)kStartPos);
             ((bhkCharacterController*)&endPos)->GetVectorElement(2) += FUN_004a3e90(100.0f);
             hkVector4 hkpos;
             hkpos.FUN_005dbf70(startPos, endPos, fLerp);
             B006815c0 currentPos;
-            reinterpret_cast<::QueryOwner *>(((*(bhkRigidBody**)((char*)this + 0x48))))->FUN_00560bc0((std::intptr_t)&(currentPos));
+            reinterpret_cast<::QueryOwner *>(((pRigidBody)))->FUN_00560bc0((std::intptr_t)&(currentPos));
             NiPoint3 dirToCaster = *(const NiPoint3_sub*)pcaster->GetPos() - currentPos;
             dirToCaster.z = 0.0f;
             float fx = -FUN_004b5550(dirToCaster.y, dirToCaster.x);
@@ -1140,36 +1158,36 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
             hkRotation kHkRotation;
             ::VisitAndFetchThree((::FetcherC *)&(kHkRotation), (::VisitorB *)&(matrix));
             hkQuaternion startRot;
-            ::FUN_00561500((::bhkCharacterController *)(void *)(&startRot), (void *)((const NiQuaternion*)((char*)this + 0x60)));
+            ::FUN_00561500((::bhkCharacterController *)(void *)(&startRot), (void *)&kStartRot);
             hkQuaternion endRot(kHkRotation);
             hkQuaternion hkquat;
             hkquat.FUN_00cb2850(startRot, endRot, fLerp);
-            reinterpret_cast<::KFRigidBody *>(((*(bhkRigidBody**)((char*)this + 0x48))))->FUN_00c8de20((const ::KFVector4 &)(hkpos), (const ::KFQuaternion &)(hkquat), 1.0f / afSecondsElapsed, 1.0f);
-            ptarget->Unk_B0(((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->Unk_0B());
+            reinterpret_cast<::KFRigidBody *>(((pRigidBody)))->FUN_00c8de20((const ::KFVector4 &)(hkpos), (const ::KFQuaternion &)(hkquat), 1.0f / afSecondsElapsed, 1.0f);
+            ptarget->Unk_B0(((MagicCaster*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->Unk_0B());
         }
-        else if (*(int*)((char*)this + 0x4c) == 20)
+        else if (iState == 20)
         {
             Animation* panim = ptarget->GetAnimData();
             NiAVObject* pNode = ptarget->GetNiNode();
             if (pNode && panim)
             {
-                *(int*)((char*)this + 0x4c) = 30;
+                iState = 30;
                 reinterpret_cast<::fnv_008b0b00::FUN_008b0b00_cls *>((ptarget))->FUN_008b0b00(true);
                 reinterpret_cast<::fnv_00494740::FUN_00494740_t *>((panim))->FUN_00494740(0, (*(int *)&(const ::ACTION_FLAGS &)((ACTION_FLAGS)0)), -1, (*(int *)&(const ::ANIM_GROUP_SECTION &)((ANIM_GROUP_SECTION)-1)));
                 ::FUN_00c9bdf0((::Obj_c9b *)(pNode), 0.0f);
                 BaseProcess* pprocess = (BaseProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture()));
-                if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
+                if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                     ((AIProcess*)pprocess)->Unk_1BE(false);
                 reinterpret_cast<::fnv_0041d490::FUN_0041d490_shell *>((((ExtraDataList_helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)ptarget)))->FUN_005d43c0())))))->UpdateRagDoll(0);
-                *(float*)((char*)this + 0x50) = *(float*)((char*)this + 4);
+                fStateStartTime = this->unk04;
             }
         }
-        else if (*(int*)((char*)this + 0x4c) == 30)
+        else if (iState == 30)
         {
-            if (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50) > 2.0)
+            if (this->unk04 - fStateStartTime > 2.0)
             {
-                *(float*)((char*)this + 0x50) = *(float*)((char*)this + 4);
-                *(int*)((char*)this + 0x4c) = 40;
+                fStateStartTime = this->unk04;
+                iState = 40;
                 NiAVObject* pNode = ptarget->GetNiNode();
                 if (pNode)
                     ::FUN_00c6a350(pNode, 4, true, false, true);
@@ -1181,17 +1199,17 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
                     pFaceGenAnimData->Unk_36(false, false);
             }
         }
-        else if (*(int*)((char*)this + 0x4c) == 40)
+        else if (iState == 40)
         {
-            if (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50) > 1.0)
+            if (this->unk04 - fStateStartTime > 1.0)
             {
-                *(int*)((char*)this + 0x4c) = 50;
+                iState = 50;
                 ptarget->SetActorLifeState((::ACTOR_LIFE_STATE)(4));
                 reinterpret_cast<::fnv_008acf10::GhostActor *>((ptarget))->FUN_008acf10(false);
                 ::StartHostilityAndCombat((::B850Actor *)(ptarget), (::B850Actor *)(pcaster));
             }
         }
-        else if (*(int*)((char*)this + 0x4c) == 50)
+        else if (iState == 50)
         {
             ((AIProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture())))->Unk_191(false);
             ::FUN_0080b8f0(ptarget, pcaster);
@@ -1222,7 +1240,7 @@ struct FUN_0067f460_shell
 {
     char b[8];
     int v;
-    void SetValue(int a);
+    void SetValue(std::intptr_t a);
 };
 // Resolves the stored form ID to a cell, object or reference by location type and stores it, warning if the form is missing.
 // @fnv 0x0067f760
@@ -1231,7 +1249,7 @@ void LocationDescriptor::InitItem(TESForm* owner)
     if (GetLocType() == PLT_TYPE)
         return;
 
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pLocationObject);
+    unsigned int formID = (unsigned int)reinterpret_cast<std::uintptr_t>(m_pLocationObject);
     ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
     switch (m_ucLocationType)
     {
@@ -1252,7 +1270,7 @@ void LocationDescriptor::InitItem(TESForm* owner)
     case PLT_OBJECT: {
         TESForm* object = ::FUN_004839c0(formID);
         if (object)
-            reinterpret_cast<::FUN_0067f460_shell *>(this)->SetValue((int)(object));
+            reinterpret_cast<::FUN_0067f460_shell *>(this)->SetValue((std::intptr_t)(object));
         else
         {
             if (static_cast<BGSCameraPath*>(owner)->HasNameForWarning())
@@ -1281,7 +1299,7 @@ void LocationDescriptor::InitItem(TESForm* owner)
 }
 
 // @fnv 0x0067f460
-void FUN_0067f460_shell::SetValue(int aiValue)
+void FUN_0067f460_shell::SetValue(std::intptr_t aiValue)
 {
     *(char*)this = 4;
     v = aiValue;
@@ -1446,7 +1464,7 @@ class FUN_0067f220_cls
 {
   public:
     unsigned int m_00;
-    bool LookupAndStore(int a1, int a2, unsigned char* out);
+    bool LookupAndStore(std::intptr_t a1, std::intptr_t a2, unsigned char* out);
 };
 
 class PkgLocNode
@@ -1467,7 +1485,7 @@ class PkgLocSink
 
 
 // @fnv 0x0067f220
-bool FUN_0067f220_cls::LookupAndStore(int a1, int a2, unsigned char* pucOut)
+bool FUN_0067f220_cls::LookupAndStore(std::intptr_t a1, std::intptr_t a2, unsigned char* pucOut)
 {
     *pucOut = 0;
     PkgLocNode* p = ((::PkgLocNode *)(reinterpret_cast<::LocationDescriptor *>(this)->ResolveLocationReference((::MobileObject *)(a1))));
@@ -1484,7 +1502,7 @@ bool FUN_0067f220_cls::LookupAndStore(int a1, int a2, unsigned char* pucOut)
     {
         return true;
     }
-    *pucOut = ((unsigned char)(reinterpret_cast<::FUN_0062df20_shell *>((pSink))->FUN_0062df20(a2, (int)(p))));
+    *pucOut = ((unsigned char)(reinterpret_cast<::FUN_0062df20_shell *>((pSink))->FUN_0062df20(a2, (std::intptr_t)(p))));
     return true;
 }
 
@@ -1513,7 +1531,7 @@ void FUN_0067fa00_shell::FUN_0067fa00()
         unsigned int id = 0;
         if (pObject)
             id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pObject))->FUN_0084e3a0()));
-        reinterpret_cast<::C857A10Buffer *>((::g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((int)&id), 4);
+        reinterpret_cast<::C857A10Buffer *>((::g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(&id), 4);
         break;
     }
     case 5:
@@ -1529,11 +1547,15 @@ struct FUN_0067fb20_holder
     unsigned char flags1;
     unsigned short flags2;
     unsigned int metadata;
-    int storedValue;
+    union
+    {
+        unsigned int uiFormID;
+        TESForm* pForm;
+    } storedValue;
     void UpdateStoredValue();
 };
 
-// For status 0-4, replaces storedValue with the result of FUN_004839c0(storedValue); other statuses do nothing.
+// For status 0-4, replaces the stored form ID with the form FUN_004839c0 returns for it; other statuses do nothing.
 // @fnv 0x0067fb20
 void FUN_0067fb20_holder::UpdateStoredValue()
 {
@@ -1544,8 +1566,7 @@ void FUN_0067fb20_holder::UpdateStoredValue()
     case 2:
     case 3:
     case 4: {
-        int originalValue = storedValue;
-        storedValue = ((int)(::FUN_004839c0(originalValue)));
+        storedValue.pForm = ::FUN_004839c0(storedValue.uiFormID);
         break;
     }
     default:
@@ -1689,12 +1710,12 @@ void OwnQ::FUN_0067faa0()
 
 struct FUN_0067fc50_shell : LocationDescriptor
 {
-    void ResolveObject(int unused);
+    void ResolveObject(std::intptr_t unused);
 };
 
 // For PLT_REFERENCE, PLT_CELL, PLT_CURRLOC, PLT_EDITORLOC, or PLT_OBJECT, resolves non-null pObject through FUN_004839c0.
 // @fnv 0x0067fc50
-void FUN_0067fc50_shell::ResolveObject(int unused)
+void FUN_0067fc50_shell::ResolveObject(std::intptr_t unused)
 {
     switch (m_ucLocationType)
     {
@@ -1703,7 +1724,7 @@ void FUN_0067fc50_shell::ResolveObject(int unused)
     case PLT_CURRLOC:
     case PLT_EDITORLOC:
     case PLT_OBJECT:
-        pObject = pObject ? FUN_004839c0(reinterpret_cast<unsigned int>(pObject)) : 0;
+        pObject = pObject ? FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pObject)) : 0;
     }
 }
 

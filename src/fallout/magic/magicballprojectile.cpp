@@ -2,6 +2,8 @@
 // src/fallout/magic/magicballprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicballprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/save_load_game_view.h"
+#include "fnv/magic_projectile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
@@ -993,7 +995,7 @@ struct ProjectileImpact
     int unka4;
     float elapsed, duration;
     int unkb0, mode;
-    void TriggerImpact(int, int, int, int, int, bool);
+    void TriggerImpact(int, int, int, int, intptr_t, bool);
 };
 struct Mgr
 {
@@ -1714,7 +1716,7 @@ void AreaProjectile::FUN_008106d0(float afDeltaTime)
             {
                 Sequence* sequence = ((::fnv_008106d0::Sequence *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((swapModel))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_008106d0::Fixed &)(Fixed("SpecialIdle_AreaEffect")))));
                 if (!sequence || (sequence && (reinterpret_cast<::BSFaceGenMorphData *>((sequence))->FUN_00508120() > reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100() ||
-                                               ((int)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 0)))
+                                               ((intptr_t)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 0)))
                 {
                     reinterpret_cast<::NiControllerManager *>((swapModel))->DeactivateAllSequences(0.0f);
                     reinterpret_cast<::FUN_00484af0_t *>(this)->FUN_00484af0(1);
@@ -2041,9 +2043,9 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
     if (ctrl4)
     {
         unsigned int _result;
-        if (((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) && ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->tv11())
+        if (((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) && ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->tv11())
         {
-            Refr2* obj4 = ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->tv11();
+            Refr2* obj4 = ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->tv11();
             Refr2* filtered = obj4->tv64() ? obj4 : 0;
             if (filtered)
             {
@@ -2070,7 +2072,7 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
         reinterpret_cast<::fnv_00810ff0::Ths810 *>((ctrl4))->FUN_00810ff0(retObjTmp.f0);
     }
     Refr2* tailObjVal;
-    tailObjVal = ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->tv11() : 0;
+    tailObjVal = ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->tv11() : 0;
     if (tailObjVal != (*reinterpret_cast<::Refr2 * *>(&::_g_thePlayer)))
     {
         FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::g_011d1c28)))))));
@@ -2512,7 +2514,7 @@ void Projectile::UpdateMotion(float delta)
         {
             Vec difference2 = ((ParentNode*)target)->FUN_0045bb80() - original;
             if (!moving ||
-                ::GetField90Float((char *)this) * speed > ((int)(reinterpret_cast<::FUN_008d8b80Class *>((((Anim*)animation)))->FUN_008d8b80())) * reinterpret_cast<::FUN_008133b0_class *>((((Anim*)animation)))->GetFloatAt144())
+                ::GetField90Float((char *)this) * speed > ((intptr_t)(reinterpret_cast<::FUN_008d8b80Class *>((((Anim*)animation)))->FUN_008d8b80())) * reinterpret_cast<::FUN_008133b0_class *>((((Anim*)animation)))->GetFloatAt144())
                 ::DispatchFloatPair(((Anim*)animation), delta, reinterpret_cast<::NiPoint3 *>(&(difference2))->ComputeMagnitude(), speed);
             Matrix rotation;
             float vertical = difference2.z;
@@ -2528,7 +2530,7 @@ void Projectile::UpdateMotion(float delta)
             reinterpret_cast<::VectorSourceB00 *>((((::Controller *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_00812b00((void *)&(position));
             float length = reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)((original - position)))->ComputeMagnitude();
             if (!moving ||
-                ::GetField90Float((char *)this) * speed > ((int)(reinterpret_cast<::FUN_008d8b80Class *>((((Anim*)animation)))->FUN_008d8b80())) * reinterpret_cast<::FUN_008133b0_class *>((((Anim*)animation)))->GetFloatAt144())
+                ::GetField90Float((char *)this) * speed > ((intptr_t)(reinterpret_cast<::FUN_008d8b80Class *>((((Anim*)animation)))->FUN_008d8b80())) * reinterpret_cast<::FUN_008133b0_class *>((((Anim*)animation)))->GetFloatAt144())
                 ::DispatchFloatPair(((Anim*)animation), delta, length, speed);
             if (::FUN_00ee8990())
             {
@@ -3192,7 +3194,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
                 if (::_DAT_01012060 < ratio)
                 {
 
-                    reinterpret_cast<::P142Caster *>((((::fnv_0081a320::FUN_00817160_shell *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))))->ApplySpellEffects({}, {}, {}, {}, {}, {}, {}, {});
+                    reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(::NiPoint3 *)(v125()), (::P142Ref *)(void *)(this), 0, 0, ratio, 1.0f);
                 }
             }
         }
@@ -3253,7 +3255,7 @@ struct MotionStateRecord
 
     StateProcessor* handle;
 
-    int packed;
+    intptr_t packed;
 
     char extended[16];
 };
@@ -3441,7 +3443,7 @@ void Loaded::FUN_008ceb50(void* arg1, void* arg2)
 {
     reinterpret_cast<::fnv_009320e0::FUN_009320e0_class *>(this)->SetProcessLevel(arg1, arg2);
     unsigned short a = 0;
-    unsigned i = 0;
+    char* i = 0;
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned tag;
@@ -3459,7 +3461,7 @@ void Loaded::FUN_008ceb50(void* arg1, void* arg2)
                 ::FUN_005b5e40(
                     );
         }
-        i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        i = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&a, 2);
     }
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&mode, 4);
@@ -3513,7 +3515,7 @@ void Loaded::FUN_008ceb50(void* arg1, void* arg2)
                 short p;
                 reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&h, 2);
                 reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&p, 2);
-                unsigned a = (h << 16) + p;
+                uintptr_t a = (h << 16) + p;
                 extra->name = (void*)a;
             }
             if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 32)
@@ -3533,7 +3535,7 @@ void Loaded::FUN_008ceb50(void* arg1, void* arg2)
         reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&c2, 1);
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        char* end = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         Record* recEnd = ((::fnv_008ceb50::Record *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))));
         if (recEnd)
         {
@@ -4009,7 +4011,7 @@ struct xActor
 public:
     void FUN_0081eba0();
     bool FUN_0088c240(const ::xP3 &, bool, bool);
-    float FUN_008bd830(int, float);
+    float FUN_008bd830(intptr_t, float);
     void FUN_008ccce0(const ::xP3 &, const ::xP3 &);
     bool FUN_009c40c0();
 };
@@ -4019,6 +4021,8 @@ struct Mid;
 struct Node;
 struct FlagObj
 {
+    char pad00[8];
+    void* pObject;
 };
 struct Node
 {
@@ -4114,7 +4118,7 @@ struct Mid
     int u20;
     int u24;
     Node* f28;
-    int f2c;
+    std::uintptr_t f2c;
 };
 struct Mgr85
 {
@@ -4212,7 +4216,7 @@ struct Cls
     int u98;
     int u9c;
     int ua0;
-    int fa4;
+    intptr_t fa4;
     int ua8;
     int uac;
     int ub0;
@@ -4231,11 +4235,11 @@ struct Cls
 void Cls::FUN_008cf440(int a1, int a2)
 {
     void* saved;
-    int saved2c5;
-    int result;
+    intptr_t saved2c5;
+    intptr_t result;
     unsigned short wordres;
     int hi5;
-    int lo_;
+    intptr_t lo_;
     bool _flag;
     reinterpret_cast<::FUN_0046a010_shell *>(this)->FUN_0046a010(0);
     saved = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
@@ -4270,10 +4274,10 @@ void Cls::FUN_008cf440(int a1, int a2)
                 }
                 else if (lo_ != -1)
                 {
-                    result = (int)((::fnv_008cf440::FlagObj *)(::FUN_004b6980((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((f88->f28))->FUN_0043fcd0()))), (void *)(lo_), _flag, _flag, 1)));
+                    result = (intptr_t)((::fnv_008cf440::FlagObj *)(::FUN_004b6980((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((f88->f28))->FUN_0043fcd0()))), (void *)(lo_), _flag, _flag, 1)));
                     if (result != 0)
                     {
-                        f88->f2c = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FlagObj*)result)))->GetName()));
+                        f88->f2c = reinterpret_cast<std::uintptr_t>(((FlagObj*)result)->pObject);
                     }
                 }
             }
@@ -4283,7 +4287,7 @@ void Cls::FUN_008cf440(int a1, int a2)
             saved2c5 = f88->f2c;
             if (f88->f28 != 0)
             {
-                f88->f2c = (int)((void *)(::FUN_004aae30((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((f88->f28))->FUN_0043fcd0()))), (::NiFixedString *)(saved2c5))));
+                f88->f2c = (intptr_t)((void *)(::FUN_004aae30((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((f88->f28))->FUN_0043fcd0()))), (::NiFixedString *)(saved2c5))));
             }
             else
             {
@@ -4907,7 +4911,7 @@ public:
     int GetArchetype();
 };
 // @fnv 0x0081a760
-void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3, int aiUnused4, int aiEventArg,
+void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3, int aiUnused4, intptr_t aiEventArg,
                                      bool abSuppress)
 {
     ProjectileFlags a = ((::ProjectileInfo *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))->FUN_0070c440();
@@ -4917,7 +4921,7 @@ void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3
     float b = (duration - elapsed) / duration;
     if (!abSuppress && b > 0.0)
     {
-        reinterpret_cast<::P142Caster *>((((::ProjectileEvent *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))))->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::EffectSetting *>(this)->GetArchetype()), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(::NiPoint3 *)&(const ::ImpactPoint &)(position())), (::P142Ref *)(void *)(this), (::P142Ref *)(aiEventArg), 0, b, 1.0f);
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(::NiPoint3 *)&(const ::ImpactPoint &)(position())), (::P142Ref *)(void *)(this), (::P142Ref *)(aiEventArg), 0, b, 1.0f);
     }
     if (((::AreaSound *)(reinterpret_cast<::FUN_008ce390_shell *>((((::ProjectileEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))->FUN_008ce390())) && !abSuppress)
     {
@@ -4938,12 +4942,12 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
     unsigned short* pLength = 0;
 
-    int start = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    char* start = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
     if (*(*reinterpret_cast<::SaveFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
 
-        start = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        start = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
     }
 
     if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
@@ -4953,7 +4957,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&magic, 4);
 
-        pLength = reinterpret_cast<unsigned short*>(((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00())));
+        pLength = reinterpret_cast<unsigned short*>(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor);
 
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&idB, 2);
     }
@@ -4977,21 +4981,21 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
     if (*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa4))
         hasState = reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa4))))->FUN_0084e3a0();
 
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&hasState), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&hasState), 4);
 
     unsigned int idA = 0;
 
     if (*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa8))
         idA = reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa8))))->FUN_0084e3a0();
 
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&idA), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&idA), 4);
 
     unsigned int blockLength = 0;
 
     if (*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xb0))
         blockLength = reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xb0))))->FUN_0084e3a0();
 
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&blockLength), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&blockLength), 4);
 
     bool idC = false;
 
@@ -5033,7 +5037,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
                 handleID = reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<SaveHandle*>(
                                (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->handle)))->FUN_0084e3a0();
 
-            reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&handleID), 4);
+            reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&handleID), 4);
 
             unsigned short low = 0;
 
@@ -5049,14 +5053,14 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
                     bool invert =
                         (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->type == 0;
 
-                    low = ((unsigned short)(::CountCollisionObjects((::NiAVObject *)(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
+                    low = ((unsigned short)(::CountCollisionObjects((::NiAVObject *)(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
                                            ->handle))->FUN_0043fcd0()))),
                                        invert, invert, 1)));
 
                     int prepared = ((int)(::FUN_004a8b00(
                         (::BGSBodyPart *)((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->packed))));
 
-                    high = ((unsigned short)(::FilterByFlags((void *)(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
+                    high = ((unsigned short)(::FilterByFlags((void *)(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
                                              ->handle))->FUN_0043fcd0()))),
                                          prepared, invert, invert, 1)));
                 }
@@ -5093,7 +5097,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
     if (*(*reinterpret_cast<::SaveFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
 
-        int info = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        char* info = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
         unsigned int* finished =
             static_cast<unsigned int*>(((void *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound())));
@@ -5101,7 +5105,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
         if (finished)
         {
 
-            int manager = ((int)(::FUN_004839c0(*finished)));
+            intptr_t manager = ((intptr_t)(::FUN_004839c0(*finished)));
 
             typedef int(* LogFunction)(void*);
 
@@ -5117,17 +5121,17 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
     if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
 
-        int lengthFieldPointer = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        char* lengthFieldPointer = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
         unsigned short* info = pLength;
 
-        if (static_cast<unsigned int>(lengthFieldPointer) > reinterpret_cast<unsigned int>(info) + 0xffffU)
+        if (lengthFieldPointer > reinterpret_cast<char*>(info) + 0xffffU)
         {
 
             ::FUN_005b5e40();
         }
 
-        *pLength = static_cast<unsigned short>(lengthFieldPointer - reinterpret_cast<int>(info));
+        *pLength = static_cast<unsigned short>(lengthFieldPointer - reinterpret_cast<char*>(info));
     }
 }
 // Computes the serialized save size of an ArrowSave, adding field sizes conditionally on save version and projectile type, and logs the result.
@@ -5467,7 +5471,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     NiNodeStandin* pNode2 = this->Root();
     if (pNode2)
     {
-        reinterpret_cast<::ImpactOwner *>((this))->FUN_0081f000((*(float *)&(const ::NiPoint3 &)(point)), (*(float *)&(const ::NiPoint3 &)(((::PointProvider *)(::FUN_00461130((int)(pNode2))))->FUN_004b4500(DAT_011a9478))), variant, {}, {}, {}, {});
+        reinterpret_cast<::ImpactOwner *>((this))->FUN_0081f000((*(float *)&(const ::NiPoint3 &)(point)), (*(float *)&(const ::NiPoint3 &)(((::PointProvider *)(::FUN_00461130((intptr_t)(pNode2))))->FUN_004b4500(DAT_011a9478))), variant, {}, {}, {}, {});
     }
 
     if (pNode2 && !silent)
@@ -5497,7 +5501,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     this->unkac = 2;
     if (!silent)
     {
-        reinterpret_cast<::P142Caster *>((((::ProjectileEvent *)(reinterpret_cast<::PlayerMover *>((this))->GetActorStateFlags()))))->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::EffectSetting *>((this))->GetArchetype()), (int)(((void *)(reinterpret_cast<::LowProcess *>((this))->GetTarget()))),
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>((this))->GetTarget()))),
                                                 (*(::NiPoint3 *)&(const ::ImpactPoint &)(*(ImpactPoint*)this->Position())), (::P142Ref *)(void *)(this), (::P142Ref *)(target), 0, 1.0f, 1.0f);
     }
 
@@ -7228,11 +7232,11 @@ void Cls8112c0::FUN_008112c0(int aiParam1, int aiParam2)
             if (m_ac == 2 && m_c0 != 0)
             {
                 V116* v20;
-                int t18;
+                intptr_t t18;
                 Obj1c* foundEffect;
-                int result;
+                intptr_t result;
                 v20 = virt_116();
-                t18 = v20 ? ((int)(::fnv_0043b230::FUN_0043b230((const char *)(v20)))) : 0;
+                t18 = v20 ? ((intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(v20)))) : 0;
                 foundEffect = (Obj1c*)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))), (::NiObject *)(t18))));
                 if (foundEffect)
                 {
@@ -7584,13 +7588,13 @@ void Controller::FUN_008cb3c0(float afDelta)
             int ref_kind = handle->kind;
             if (actor && ref_kind == 0)
             {
-                reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(::FUN_0045bb80((int)(actor))));
-                int refIndex = 0;
+                reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(::FUN_0045bb80((intptr_t)(actor))));
+                intptr_t refIndex = 0;
                 if (handle->target)
                 {
-                    refIndex = ((int)(reinterpret_cast<::LowProcess *>((handle->target))->GetTarget()));
+                    refIndex = ((intptr_t)(reinterpret_cast<::LowProcess *>((handle->target))->GetTarget()));
                 }
-                if (refIndex != ((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))
+                if (refIndex != ((intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))
                 {
                     if (!refIndex)
                     {
@@ -7748,6 +7752,9 @@ struct DialoguePackage : TESPackage
     int unk78;
     int unk7c;
     Sound sound;
+    char pad8c[0xb0 - 0x8c];
+    DialogueActor* pFirstSpeaker;
+    DialogueActor* pSecondSpeaker;
 };
 struct DialogueProcess
 {
@@ -8491,7 +8498,7 @@ public:
 class ActorDeletionQueue
 {
   public:
-    void FUN_0096d470(MobileObject*, int);
+    void FUN_0096d470(MobileObject*, intptr_t);
     void FUN_0096d450(MobileObject*, int, bool, bool, bool);
 };
 // @fnv 0x008cf7a0
@@ -8500,7 +8507,7 @@ bool Self::FUN_008cf7a0()
     if (m68 && !(reinterpret_cast<::FUN_0045cd60_shell *>((m68))->FUN_0045cd60()))
         return true;
     Obj* n;
-    int r7 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m68))->FUN_0045cd60()));
+    intptr_t r7 = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m68))->FUN_0045cd60()));
     reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::Mgr *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(void *)(this), r7);
     n = new FUN_008d7510;
     n->v1(m68);
@@ -8514,7 +8521,7 @@ bool Self::FUN_008cf7a0()
 // @fnv 0x00931710
 bool Self_931710::FUN_00931710()
 {
-    int level = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((this->m68))->FUN_0045cd60()));
+    intptr_t level = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((this->m68))->FUN_0045cd60()));
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::SpinLock_931710 *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
     reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::Mgr *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(void *)(this), level);
     Obj* newProc2 = new FUN_008d7510();
@@ -8542,18 +8549,18 @@ void DialogueActor::FUN_00933d20()
             if (reinterpret_cast<::SoundPlaybackHandle *>(&(dialogueB->sound))->IsValid())
                 reinterpret_cast<::fnv_009ef530::FUN_009ef530_cls *>((dialogueB))->FUN_009ef530();
             DialogueActor* first7 = ((::DialogueActor *)(::FUN_009ee040((char *)(dialogueB))));
-            DialogueActor* second = ((::DialogueActor *)(reinterpret_cast<::MiddleLowProcess *>((dialogueB))->GetProcessInteger()));
+            DialogueActor* second = dialogueB->pSecondSpeaker;
             if (first7)
             {
                 if (first7->IsActor())
-                    reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::Manager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((int)(first7));
+                    reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::Manager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((intptr_t)(first7));
                 ((::DialogueProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((first7))->GetBaseTexture()))->Reset(1);
                 first7->flag = true;
             }
             if (second)
             {
                 if (second->IsActor())
-                    reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::Manager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((int)(second));
+                    reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::Manager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((intptr_t)(second));
                 ((::DialogueProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((second))->GetBaseTexture()))->Reset(1);
                 second->flag = true;
             }
@@ -8616,18 +8623,18 @@ void DialogueActor::FUN_00933d20()
 void MobileObject::FUN_008cf2c0(unsigned int auiArg1, unsigned int auiArg2)
 {
     reinterpret_cast<::FUN_00932490_shell *>(this)->SetProcessFlags(auiArg1, auiArg2);
-    unsigned int enchantment = (unsigned int)unkA4;
+    uintptr_t enchantment = (uintptr_t)unkA4;
     if (enchantment)
         unkA4 = dynamic_cast<Actor*>((TESForm*)((::SaveForm *)(::FUN_004839c0(enchantment))));
-    unsigned int actor = (unsigned int)unkA8;
+    uintptr_t actor = (uintptr_t)unkA8;
     if (actor)
         unkA8 = dynamic_cast<EnchantmentItem*>((TESForm*)((::SaveForm *)(::FUN_004839c0(actor))));
-    unsigned int alchemy = (unsigned int)unkB0;
+    uintptr_t alchemy = (uintptr_t)unkB0;
     if (alchemy)
         unkB0 = dynamic_cast<AlchemyItem*>((TESForm*)((::SaveForm *)(::FUN_004839c0(alchemy))));
     if (unk88 && (unk88->unk00 == 1 || unk88->unk00 == 0))
     {
-        unsigned int reference = (unsigned int)unk88->unk28;
+        uintptr_t reference = (uintptr_t)unk88->unk28;
         if (reference)
             unk88->unk28 = dynamic_cast<TESObjectREFR*>((TESForm*)((::SaveForm *)(::FUN_004839c0(reference))));
     }
@@ -8677,7 +8684,7 @@ void xActor::FUN_008caea0(xActor* apOther, float afVal)
         reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((CTL))->FUN_00810610(((bool)(::FUN_00525420())));
         reinterpret_cast<::FUN_008105e0_Class *>((CTL))->FUN_008105e0(true);
         m_68->FUN_290(CTL);
-        reinterpret_cast<::FUN_00810640_class *>((CTL))->FUN_00810640((int)(this));
+        reinterpret_cast<::FUN_00810640_class *>((CTL))->FUN_00810640((intptr_t)(this));
     }
     if (CTL)
     {
@@ -8692,7 +8699,7 @@ void xActor::FUN_008caea0(xActor* apOther, float afVal)
         bool ADD = true;
         if (CUR != NODE)
         {
-            reinterpret_cast<::S_00c6d7a0_Obj *>((CTL))->FUN_00c6d7a0((int)(NODE));
+            reinterpret_cast<::S_00c6d7a0_Obj *>((CTL))->FUN_00c6d7a0((intptr_t)(NODE));
             if (WORLD && ::FUN_004bae00((const char *)(WORLD)))
             {
                 CTL->FUN_d0(0);

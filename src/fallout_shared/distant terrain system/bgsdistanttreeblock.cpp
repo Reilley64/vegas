@@ -67,6 +67,10 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01200000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/symbols_006f7000.h"
+#include "fnv/symbols_00afd000.h"
+#include "fnv/symbols_011f9000.h"
 struct NP
 {
     NP& operator=(void*);
@@ -128,7 +132,7 @@ bool BGSDistantTreeBlockLoadTask::FormatDescription(char* apDescription, unsigne
 struct GO
 {
     void* p;
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct Helper8
@@ -221,8 +225,8 @@ struct FUN_006f88e0_shell
 void FUN_006f88e0_shell::FUN_006f88e0()
 {
     *(char*)(this + 0x48) = 1;
-    ((MiddleHighProcess*)((Flt*)(*(void**)((char*)this + 0x44)))->operator unsigned int())->FUN_00929260(1);
-    reinterpret_cast<::FUN_006f74f0_cls *>((((QIdlePtr*)this)))->FUN_006f74f0=((::ObjA *)(void *)(0));
+    (*(MiddleHighProcess**)((*(void**)((char*)this + 0x44))))->FUN_00929260(1);
+    reinterpret_cast<::FUN_006f74f0_cls *>(this)->FUN_006f74f0(nullptr);
 }
 
 namespace fnv_006f91a0 {
@@ -249,13 +253,13 @@ struct FUN_006f91a0_shell : ArrSI
 // @fnv 0x006f91a0
 void FUN_006f91a0_shell::FUN_006f91a0()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())); ++i)
     {
         void* p = *((void**)((ArrSI*)((char*)this + 4))->GetAt(i));
         if (!(*(unsigned char*)((char*)p + 0x1c)) && ((Flt*)((char*)p + 4))->operator unsigned int())
         {
             void* property =
-                ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((Flt*)((char*)p + 4))->operator unsigned int())))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+                ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)(((char*)p + 4)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
             if (property)
                 ((FUN_006f90a0_shell*)this)->UpdateInstances(property, p);
         }
@@ -323,21 +327,25 @@ struct ShaderProp
 };
 struct FUN_006f9c70_shell
 {
+    const void* m_pVtable;
+    void* m_pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiCapacity;
     void FUN_006f9c70(bool freeStorage);
 };
 // @fnv 0x006f9c70
 void FUN_006f9c70_shell::FUN_006f9c70(bool freeStorage)
 {
-    if (*(void**)((char*)this + 4))
+    if (m_pBuffer)
     {
-        reinterpret_cast<::Holder006fa090 *>((((ShaderProp*)this)))->FUN_006fa090((::Elem006fa0d0 *)(*(void**)((char*)this + 4)), (unsigned int)(*(void**)((char*)this + 8)));
+        reinterpret_cast<::Holder006fa090 *>((((ShaderProp*)this)))->FUN_006fa090((::Elem006fa0d0 *)(m_pBuffer), m_uiSize);
         if (freeStorage)
         {
             ::FUN_006a8500((::DummyClass_006a8500 *)(((NavMeshSearchLOSArray*)this)));
-            *(void**)((char*)this + 4) = 0;
-            *(unsigned int*)((char*)this + 0xc) = 0;
+            m_pBuffer = 0;
+            m_uiCapacity = 0;
         }
-        *(unsigned int*)((char*)this + 8) = 0;
+        m_uiSize = 0;
     }
 }
 
@@ -435,7 +443,7 @@ struct DummyPointerMap
 };
 struct Arr
 {
-    unsigned int* GetAt(int);
+    void** GetAt(int);
 };
 struct InstanceData
 {
@@ -539,7 +547,7 @@ struct InstanceDataB
 };
 struct ArrB
 {
-    unsigned int* GetAt(int);
+    void** GetAt(int);
 };
 struct BGSDistantTreeBlock_shell : BGSDistantTreeBlock
 {
@@ -550,7 +558,7 @@ struct BGSDistantTreeBlock_shell : BGSDistantTreeBlock
 void BGSDistantTreeBlock::ProcessAllTrees()
 {
     unsigned int i;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(mArray))->GetName())); i++)
+    for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(mArray))->GetName())); i++)
     {
         reinterpret_cast<::BGSDistantTreeBlock_shell *>(this)->MarkTreeInstance(*mArray.GetAt(i, 0), {});
     }
@@ -559,7 +567,7 @@ void BGSDistantTreeBlock::ProcessAllTrees()
 // @fnv 0x006f9230
 void BGSDistantTreeBlock_shell::MarkTreeInstance(unsigned int aID, bool abQueue)
 {
-    unsigned int pinst = 0;
+    std::uintptr_t pinst = 0;
     bool bfound = reinterpret_cast<::fnv_00853130::NiTMapBase *>((((DummyPointerMap*)((char*)this + 0x14))))->FUN_00853130(aID, (::fnv_00853130::CombatThreatRecord *&)(pinst));
     if (bfound)
     {
@@ -583,7 +591,7 @@ void FUN_006f83f0()
 {
     int i;
 
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::FUN_006b3140_shell *>(&::g_011d85d0)))))->GetName())); ++i)
+    for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::FUN_006b3140_shell *>(&::g_011d85d0)))))->GetName())); ++i)
     {
         ((NP*)(((FUN_006b3120_helper*)&(*reinterpret_cast<::FUN_006b3140_shell *>(&::g_011d85d0)))->GetElementAt(i) + 0x1c))->operator=(0);
     }
@@ -675,7 +683,7 @@ struct FUN_006f90a0_shell
 void FUN_006f90a0_shell::UpdateInstances(FUN_006f90a0_params params)
 {
     unsigned int count = FUN_0042f5a0(
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(params.owner) + 8)))->GetName())), FUN_00bb6030());
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(params.owner) + 8)))->GetName())), FUN_00bb6030());
 
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -962,9 +970,9 @@ void TreeLODManager::AddTreeInstance(unsigned int auiType, TreeInstance* apInsta
     AutoMemHelper kMem(0x25, true, str_0106dd30, 0x14b);
     TreeBlock* pBlock = 0;
     bool bFound8 = reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(kBlockMap))->FUN_00853130(auiType, (::fnv_00853130::CombatThreatRecord *&)(pBlock));
-    if (!bFound8 || !pBlock || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pBlock->kInstances))->GetName())) == FUN_00bb6030())
+    if (!bFound8 || !pBlock || ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pBlock->kInstances))->GetName())) == FUN_00bb6030())
     {
-        if (auiType >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TreeTypeArray *>(&::g_011d85d0))))->GetName())))
+        if (auiType >= ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TreeTypeArray *>(&::g_011d85d0))))->GetName())))
         {
             ::FUN_005b5e40();
             return;
@@ -973,12 +981,12 @@ void TreeLODManager::AddTreeInstance(unsigned int auiType, TreeInstance* apInsta
         pBlock->pType = ((void *)(reinterpret_cast<::FUN_006b3120_shell *>(&((*reinterpret_cast<::TreeTypeArray *>(&::g_011d85d0))))->GetElementAt(auiType)));
         reinterpret_cast<::FUN_00438690 *>(&(kBlocks))->FUN_007cb2e0((unsigned int *)&(pBlock));
         kBlockMap.SetAt(auiType, pBlock);
-        pBlock->iIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kBlocks))->GetName())) - 1;
+        pBlock->iIndex = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kBlocks))->GetName())) - 1;
         reinterpret_cast<::FUN_006f9790_class *>(&(pBlock->kInstances))->FUN_006f9790(FUN_00bb6030());
         pBlock->bFull = 0;
     }
     reinterpret_cast<::FakeArray *>(&(pBlock->kInstances))->AppendInstance((::InstanceData *)(apInstance));
-    int iLast = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pBlock->kInstances))->GetName())) - 1;
+    int iLast = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pBlock->kInstances))->GetName())) - 1;
     TreeInstance* pInst6 = ((::TreeInstance *)(reinterpret_cast<::FUN_006b3120_shell *>(&(pBlock->kInstances))->GetElementAt(iLast)));
     pInst6->iBlockIndex = pBlock->iIndex;
     pInst6->bFlag = 0;
@@ -1117,7 +1125,7 @@ void FUN_006f8b40_shell::ReadGroups(NiFile* apInputFile)
 // @fnv 0x006f86e0
 void TreeOwnerS::ClearEntries()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kEntries))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kEntries))->GetName())); i++)
     {
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(kEntries.GetAt(i)->kInstances))->Clear(true);
         if (kEntries.GetAt(i)->m_pController)
@@ -1558,7 +1566,7 @@ struct TreeBoundsOwner
 // @fnv 0x006f8910
 FUN_006240d0 TreeBoundsOwner::ComputeTreeBounds(BoundTreeBlock* block)
 {
-    unsigned int maximum;
+    std::uintptr_t maximum;
     FUN_006240d0 bound;
     // Local spellings preserve the original MSVC9 /Od stack layout.
     // minimum: largest finite float; count: lower corner; limit: upper corner.
@@ -1566,7 +1574,7 @@ FUN_006240d0 TreeBoundsOwner::ComputeTreeBounds(BoundTreeBlock* block)
     NiPoint3Ex count(minimum, minimum, minimum);
     NiPoint3Ex limit(-minimum, -minimum, -minimum);
     // maximum is the number of instance positions.
-    maximum = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(block->instances))->GetName()));
+    maximum = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(block->instances))->GetName()));
     for (unsigned int i = 0; i < maximum; ++i)
     {
         count.x = FUN_0040ebd0(count.x, ((::NiPoint3Ex *)(reinterpret_cast<::FUN_006b3120_shell *>(&(block->instances))->GetElementAt(i)))->x);
@@ -1779,13 +1787,13 @@ void OwnerX::FUN_006f8c40()
     AutoMemHelper guard(0x25, true, str_0106dd30, 0x240);
     if (loaded && !built)
     {
-        for (unsigned int index4 = 0; index4 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++index4)
+        for (unsigned int index4 = 0; index4 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++index4)
         {
             EntryX* aA = entries.GetAt(index4);
             aA->node = new NewNodeX(entries.GetAt(index4)->type->name);
-            reinterpret_cast<::FUN_00705b10_Dummy *>((((NodeX*)aA->node)))->Set(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrayX*)&aA->instances)))->GetName())) * 4);
+            reinterpret_cast<::FUN_00705b10_Dummy *>((((NodeX*)aA->node)))->Set(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrayX*)&aA->instances)))->GetName())) * 4);
             PropertyX* propertyA = new PropertyX;
-            reinterpret_cast<::FUN_006f90a0_shell *>(this)->UpdateInstances((::FUN_006f90a0_params)(propertyA));
+            reinterpret_cast<::FUN_006f90a0_shell *>(this)->UpdateInstances({(FUN_00bb7290_shell*)propertyA, (FUN_006f90a0_owner*)aA});
             reinterpret_cast<::FUN_00439410_cls *>((((NodeX*)aA->node)))->FUN_00439410((::ArgObject *)(propertyA));
             ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::NodeX *)(aA->node), 0, 0);
             reinterpret_cast<::FUN_00439410_cls *>((((NodeX*)aA->node)))->FUN_00439410((::ArgObject *)(void *)(((NiPtrS<void>*)&(*reinterpret_cast<::NP *>(&::g_011d85bc)))->operator void*()));
@@ -1804,6 +1812,99 @@ void OwnerX::FUN_006f8c40()
     }
     else if (loaded && built)
         reinterpret_cast<::BGSDistantTreeBlock *>(this)->ProcessAllTrees();
+}
+
+void FUN_006f7a60(void* p);
+
+struct FUN_006b3140_shell_o2_nood
+{
+};
+
+void FUN_006f86b0(void* a1);
+
+struct FUN_006f8800_shell_o2_nood
+{
+    void* FUN_006f8800(unsigned int flags);
+};
+
+struct FUN_006b3120_helper_o2_nood
+{
+};
+
+void FUN_006f83f0();
+
+void BuildNavMeshGeometry(void* param);
+
+void ReadTreeRecords(TreeHost* host);
+
+int __cdecl FUN_00ec8a19(const char* a, const char* b, int c);
+
+struct NiPoint3Ex_o2_nood
+{
+    float x, y, z;
+    NiPoint3Ex_o2_nood(float, float, float);
+    NiPoint3Ex_o2_nood operator-(const NiPoint3Ex_o2_nood&) const;
+    NiPoint3Ex_o2_nood operator+(const NiPoint3Ex_o2_nood&) const;
+};
+
+struct S_00bb6050
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+
+    int FUN_00bb6050(int arg0, int arg1);
+};
+
+// @fnv 0x00bb6050
+int S_00bb6050::FUN_00bb6050(int arg0, int arg1)
+{
+    return this->unk80;
+}
+
+struct BGSDistantTreeBlockLoadTask_o2
+{
+    void* Destroy(unsigned int flags);
+};
+
+extern unsigned int DAT_012007b8;
+
+// @fnv 0x00bb6030
+unsigned int __cdecl FUN_00bb6030()
+{
+    if (!DAT_012007b8)
+        DAT_012007b8 = 40 + ((::DAT_011f91c0 < 2) ? 0 : 74);
+    return DAT_012007b8;
 }
 
 #include "generated/data/fallout_shared/distant terrain system/bgsdistanttreeblock.inc"

@@ -156,7 +156,7 @@ QuestStage* TESQuest::GetStage(unsigned char index)
     BSSimpleList<TESFile*>* stage = reinterpret_cast<BSSimpleList<TESFile*>*>(((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())));
     while (stage)
     {
-        QuestStage* item = reinterpret_cast<QuestStage*>(((::TESFile *)(new ((void *)(stage)) ::Vec3())));
+        QuestStage* item = reinterpret_cast<QuestStage*>((stage->m_item));
         if (item && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((item))->FUN_009373f0())) == index)
             return item;
         stage = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((stage))->FUN_00726070()));
@@ -175,7 +175,7 @@ void PlayerQuestData::InitItem(TESForm* form, QuestStage* stage)
     iOldCount = ::FUN_0046e8a0();
     ::FUN_0043b2b0(true);
     ::FUN_004fffe0(0);
-    reinterpret_cast<::Scr *>((((::Script *)(::GetOffsetC((int)this)))))->FUN_005ab400(form);
+    reinterpret_cast<::Scr *>((((::Script *)(::GetOffsetC((std::intptr_t)this)))))->FUN_005ab400(form);
     ::FUN_0043b2b0(false);
     iErrorCount = ::FUN_0046e8a0();
     ::FUN_004fffe0(iOldCount);
@@ -240,11 +240,11 @@ void FUN_0060f320_shell::FUN_0060f320(TESForm* apOwner)
     int iCount = 0;
     while (pNode)
     {
-        PlayerQuestData* pitem = *((::PlayerQuestData **)(new ((void *)(pNode)) ::Vec3()));
+        PlayerQuestData* pitem = *((::PlayerQuestData **)((void *)(pNode)));
         if (pitem)
         {
             pitem->InitItem(apOwner, this);
-            reinterpret_cast<unsigned char*>(((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((((::Script *)(::GetOffsetC((int)(pitem))))))->GetConditions())))[0x10] = 0;
+            reinterpret_cast<unsigned char*>(((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((((::Script *)(::GetOffsetC((std::intptr_t)(pitem))))))->GetConditions())))[0x10] = 0;
             iCount = iCount + 1;
         }
         pNode = ((::StageItemNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
@@ -266,7 +266,7 @@ void StageHolder::FUN_0060f4a0(TESQuest* quest, bool done)
         list = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
         while (list)
         {
-            stage = ((::QuestStage *)(new ((void *)(list)) ::Vec3()));
+            stage = (list->m_item);
             list = ((::BSSimpleList< ::QuestStage *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
             if (stage)
                 stage->MarkDone(done);
@@ -357,7 +357,7 @@ void QuestStage::MarkDone(bool done)
         if (m_bCompleteObjective)
             reinterpret_cast<::FUN_009528c0_shell *>((::_g_thePlayer))->AddChallenge((::TESChallenge *)(::PlayerQuestData *)(reinterpret_cast<PlayerQuestData*>(this)));
 
-        Script* script = ((::Script *)(::GetOffsetC((int)this)));
+        Script* script = ((::Script *)(::GetOffsetC((std::intptr_t)this)));
         if (::Script::IsConsolePlatform() && script && ((::PackageList *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESAIForm*>(script)))->GetConditions()))->packages)
         {
             ((::PackageList *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESAIForm*>(script)))->GetConditions()))->m_ucPackageFlag = 0;
@@ -385,7 +385,7 @@ const char* FUN_0060f2c0_shell::FindItemByDoneFlag(unsigned char done)
     StageItemNode* pNode = ((::fnv_0060f2c0::StageItemNode *)(reinterpret_cast<::BaseProcess *>((this))->GetCurrentProcessData()));
     while (pNode)
     {
-        const char* item = *((const char **)(new ((void *)(pNode)) ::Vec3()));
+        const char* item = *((const char **)((void *)(pNode)));
         if (item && (unsigned char)::FUN_005dc980(item) == done)
             return item;
         pNode = ((::fnv_0060f2c0::StageItemNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));

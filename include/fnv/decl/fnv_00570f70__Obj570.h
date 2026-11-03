@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 namespace fnv_00570f70 {
 struct Obj570 {
 public:

@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/hitdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/hitdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_0046e8c0_class.h"
@@ -104,7 +105,7 @@ void FUN_009b7840_shell::RaiseMaxValue(float afValue)
 
 // Returns true for the index values 0, 1, 2, 16, 17, 20 and 21, and false for any other value.
 // @fnv 0x0066de30
-bool FUN_0066de30(int a)
+bool FUN_0066de30(intptr_t a)
 {
     switch (a)
     {
@@ -198,7 +199,7 @@ struct FUN_009b7970_shell
 // @fnv 0x009b7970
 void FUN_009b7970_shell::InitializeAndClear()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0108f9e8;
+    *reinterpret_cast<intptr_t*>(this) = (intptr_t)&DAT_0108f9e8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(this)))->Clear(true);
 }
 
@@ -1332,7 +1333,7 @@ struct Tgt
     virtual void v4f();
     virtual void v50();
     virtual void v51();
-    virtual int v52();
+    virtual intptr_t v52();
 };
 struct Mgr
 {
@@ -1350,7 +1351,7 @@ struct Ctx
     Info* m_54;
 };
 }
-bool __cdecl FUN_0066de30(int v);
+bool __cdecl FUN_0066de30(intptr_t v);
 // @fnv 0x009b5050
 void __cdecl SetContextInfo(n9b::Ctx* ctx, n9b::Info* info)
 {
@@ -2074,7 +2075,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
                 m_iPart = pkPart ? ((int)(reinterpret_cast<::Obj5e5300 *>((pkPart))->GetByte61())) : 0xe;
             }
         }
-        else if (::FUN_0066de30((int)(m_pkLink->m_pvForm)))
+        else if (::FUN_0066de30((intptr_t)(m_pkLink->m_pvForm)))
         {
             if (HasFlag(0x800))
                 m_iPart = 0;
@@ -2125,9 +2126,9 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
             Results9B6* pkResults = ((::Results9B6 *)(((::Vec3 *)(void *)(pkQuery))));
             if (reinterpret_cast<::FUN_005609f0_shell *>((void *)(void *)&(const ::hkBool9B6 &)((*(::hkBool9B6 *)(reinterpret_cast<::Hld621210 *>((pkResults))->FUN_00621210({})))))->FUN_005609f0())
             {
-                for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::HitArray9B6 *)(::FUN_00460140((int)(pkResults))))))->FUN_00726070())); i++)
+                for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::HitArray9B6 *)(::FUN_00460140((intptr_t)(pkResults))))))->FUN_00726070())); i++)
                 {
-                    Hit9B6 kHit(((::HitArray9B6 *)(::FUN_00460140((int)(pkResults))))->GetAt(i));
+                    Hit9B6 kHit(((::HitArray9B6 *)(::FUN_00460140((intptr_t)(pkResults))))->GetAt(i));
                     NiAVObject9B6* pkObject = ((::NiAVObject9B6 *)(::FUN_004b5820((::FormLike *)(kHit.m_pkCollidable))));
                     Ref9B6* pkRef = ((::Ref9B6 *)(::FUN_0056f930((::NiAVObject *)(pkObject))));
                     if (pkRef && pkRef == m_pkTarget)
@@ -2164,7 +2165,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
             SpherePick9B6 kPick;
             hkVector4_9B6 kTargetCenter;
             ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kTargetCenter), (const ::fnv_004a3e00::NiPoint3 &)(kHitPos));
-            reinterpret_cast<::FUN_008a50f0_class *>(&(kPick))->FUN_008a50f0((int)&(kTargetCenter));
+            reinterpret_cast<::FUN_008a50f0_class *>(&(kPick))->FUN_008a50f0((intptr_t)&(kTargetCenter));
             reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(kPick))->FUN_008a50d0(200.0f);
             Collision9B6* pkCollision = ((::Collision9B6 *)(::FUN_00c806b0(m_pkTarget->Get3D(), &kPick, 0)));
             if (pkCollision)

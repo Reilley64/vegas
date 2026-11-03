@@ -231,7 +231,7 @@ void FUN_009b4bf0_shell::DispatchReferenceSourceFiles(ObjHelper* pObjHelper, voi
             BSSimpleList<TESFile*>* m_kSourceFiles;
             int nCount2;
             pRef8 = ::FUN_0056f930((NiAVObject*)((void *)(reinterpret_cast<::FUN_00810660_Class *>((pObjHelper))->FUN_00810660())));
-            m_kSourceFiles = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(pObjHelper->FUN_00621a90()))));
+            m_kSourceFiles = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(pObjHelper->FUN_00621a90()))));
             nCount2 = -1;
             ((void(*)(void*, TESObjectREFR*, void**, void**, BSSimpleList<TESFile*>*, int, int))(
                 (*(void***)this)[203]))(this, pRef8, &a2, &a5, m_kSourceFiles, nCount2, 0x24);
@@ -839,23 +839,23 @@ void GPShell::HandleContactHit(GPContact* apContact)
     TESObjectREFR* kPTarget = 0;
     NiPoint3 kPos = NiPoint3::ZERO;
     NiPoint3 _kNormal = NiPoint3::ZERO;
-    int iShapeKey = 0;
+    intptr_t iShapeKey = 0;
     int iBody5 = -1;
     if (pRefA_ && ((GPRefVt*)pRefA_)->Unk_89b())
     {
         kPTarget = pRefB;
         ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((void *)(((::Vec3 *)(void *)(apContact->pPoint)))));
-        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
+        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
         reinterpret_cast<::MyPoint439180 *>((((NiColor*)&_kNormal)))->FUN_00439180(-1.0f);
-        iShapeKey = (int)apContact->pBodyB->GetLastNode();
+        iShapeKey = (intptr_t)apContact->pBodyB->GetLastNode();
         iBody5 = (int)((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<TESFile*>*)apContact->pBodyB)))->FUN_00726070()));
     }
     else if (pRefB && ((GPRefVt*)pRefB)->Unk_89b())
     {
         kPTarget = pRefA_;
-        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
-        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
-        iShapeKey = (int)apContact->pBodyA->GetLastNode();
+        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
+        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
+        iShapeKey = (intptr_t)apContact->pBodyA->GetLastNode();
         iBody5 = (int)((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<TESFile*>*)apContact->pBodyA)))->FUN_00726070()));
     }
     HandleHit(kPTarget, &kPos, &_kNormal, iShapeKey, iBody5, 0x24);
@@ -1320,7 +1320,7 @@ struct Hit
 
     Vec3 normal;
 
-    int itemID;
+    intptr_t itemID;
 
     int unk20;
 
@@ -1533,7 +1533,7 @@ bool ImpactProjectile::ProcessHits()
             if (aTarget && reinterpret_cast<::FUN_00885d70_Class *>(this)->GetFieldDC() > ::_DAT_01012060 && hit->valid29)
             {
 
-                int oldState = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((hit->reference))->FUN_0043fcd0()));
+                intptr_t oldState = ((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((hit->reference))->FUN_0043fcd0()));
 
                 if (((::Ref *)(::FUN_00874480((char *)this))) && ((::Ref *)(::FUN_00874480((char *)this)))->IsActor() &&
 
@@ -1586,7 +1586,7 @@ bool ImpactProjectile::ProcessHits()
                         reinterpret_cast<::fnv_00963eb0::PlayerView *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->SetEffectValue((void *)(10), DAT_0102918c, (::fnv_00963eb0::EffectSource *)(0));
                 }
 
-                if (oldState != ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((aTarget))->FUN_0043fcd0())))
+                if (oldState != ((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((aTarget))->FUN_0043fcd0())))
                     aChanged = true;
             }
 
@@ -1608,9 +1608,9 @@ bool ImpactProjectile::ProcessHits()
 
                             PlayMysteriousStrangerSound();
 
-                        Ref* form = hit->itemID ? ((::Ref *)(::FUN_00460140((int)(((FormID*)hit->itemID))))) : 0;
+                        Ref* form = hit->itemID ? ((::Ref *)(::FUN_00460140((intptr_t)(((FormID*)hit->itemID))))) : 0;
 
-                        reinterpret_cast<::ProjectileImpact::ImpProjectile *>(this)->ApplyImpact((::ProjectileImpact::ImpTarget *)(aTarget), (::ProjectileImpact::ImpPoint *)(&hit->position), (::ProjectileImpact::ImpPoint *)(&hit->normal), (int)(form), hit->unk20);
+                        reinterpret_cast<::ProjectileImpact::ImpProjectile *>(this)->ApplyImpact((::ProjectileImpact::ImpTarget *)(aTarget), (::ProjectileImpact::ImpPoint *)(&hit->position), (::ProjectileImpact::ImpPoint *)(&hit->normal), (intptr_t)(form), hit->unk20);
 
                         reinterpret_cast<::ImpulseSource *>(this)->FUN_009c2e80((*(::NiPoint3 *)&(const ::Vec3 &)(hit->position)), (*(::NiPoint3 *)&(const ::Vec3 &)((*(::Vec3 *)&(reinterpret_cast<::FUN_009b7010_shell *>(this)->FUN_009b7010((*(::NiPoint3 *)(form))))))), {});
                     }
@@ -2031,7 +2031,7 @@ class Actor9B4
     unsigned int unk8c;
     bool m_bFiring;
 
-    bool FUN_009b4460(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, int a5, int a6);
+    bool FUN_009b4460(TESObjectREFR9B4* pkTarget, intptr_t a2, intptr_t a3, intptr_t a4, int a5, int a6);
 };
 
 // hkVector4::mul4(const hkVector4&): component-wise multiply in place.
@@ -2042,7 +2042,7 @@ struct hkVector4Mul
     void FUN_009b4670(const hkVector4Mul& a);
 };
 // @fnv 0x009b4460
-bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, int a5, int a6)
+bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, intptr_t a2, intptr_t a3, intptr_t a4, int a5, int a6)
 {
     if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::GameModeState9B4 *>(&::g_011f2250))))->GetName())) == 4)
     {
@@ -2066,7 +2066,7 @@ bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, 
             }
         }
     }
-    if (m_kProcess.IsReady() && ::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(pkTarget), (::fnv_009c2c80::CdBody *)(a4), (int)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) &&
+    if (m_kProcess.IsReady() && ::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(pkTarget), (::fnv_009c2c80::CdBody *)(a4), (intptr_t)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) &&
         reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(pkTarget), (*(const ::Vec *)(a2)), (*(const ::Vec *)(a3)), (::Buffer *)(a4), a5, a6))
     {
         if (pkTarget && pkTarget->IsActor())

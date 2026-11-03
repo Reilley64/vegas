@@ -1,5 +1,6 @@
 // fallout/ai/modifierlist.cpp: ModifierListCalc (21 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -166,7 +167,7 @@ struct FUN_009375e0_shell : public ActorValueModifierList
 
 // Adds param1 and param2, then clamps the sum to 0.0f when param3 is 0 (if above _gModifierZero) or 1 (if below), returning the result.
 // @fnv 0x00937810
-float __cdecl ClampSumByMode(float afValueA, float afValueB, int aiMode)
+float __cdecl ClampSumByMode(float afValueA, float afValueB, intptr_t aiMode)
 {
     float result = afValueA + afValueB;
     switch (aiMode)

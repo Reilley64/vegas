@@ -2,6 +2,7 @@
 // src/fallout/magic/associateditemeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/associateditemeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/effect_item_fields.h"
 #include "fnv/decl/ActiveEffect805670.h"
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/C857A10Buffer.h"
@@ -207,7 +208,7 @@ struct FUN_00806c20_cls : FUN_00806c20_base
 FUN_00806c20_cls::FUN_00806c20_cls(void* a1, void* a2, FUN_00806c20_helper1* a3) : FUN_00806c20_base(a1, a2, a3)
 {
     m_vptr = &DAT_0107951c;
-    FUN_00806c20_helper2* tmp = ((::FUN_00806c20_helper2 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((a3))->FUN_00825c00()));
+    FUN_00806c20_helper2* tmp = ((::FUN_00806c20_helper2 *)(reinterpret_cast<::EffectItemFields *>(a3)->setting));
     m_48 = ((void *)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((tmp))->FUN_005f5f80()));
 }
 

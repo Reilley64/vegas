@@ -83,7 +83,7 @@ void TESProduceForm::FUN_0048b610(BaseFormComponent* apCopyFC)
     TESProduceForm* pCopy = dynamic_cast<TESProduceForm*>(apCopyFC);
     if (!pCopy)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((((CombatNode*)pCopy)))->FUN_00726070()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)pCopy)))->FUN_00726070()))));
     ((FUN_0048b670_shell*)this)->CopyFromSource((void*)((char*)pCopy + 8));
 }
 
@@ -101,7 +101,7 @@ bool ProduceFormData::FUN_0048b6a0(BaseFormComponent* apOther)
     ProduceFormData* pOther = (ProduceFormData*)dynamic_cast<TESProduceForm*>(apOther);
     if (!pOther)
         return true;
-    if (((unsigned int)(reinterpret_cast<::Callees *>((((CombatNode*)this)))->FUN_00726070())) != ((unsigned int)(reinterpret_cast<::Callees *>((((CombatNode*)pOther)))->FUN_00726070())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)this)))->FUN_00726070())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)pOther)))->FUN_00726070())))
         return true;
     if (memcmp(cProdChance, pOther->cProdChance, 4))
         return true;
@@ -221,7 +221,7 @@ void FUN_0048b720_Cls::ResolveIngredient(FUN_00485b60_Cls* apArg)
 {
     if (pIngredient != 0)
     {
-        unsigned int formID = (unsigned int)pIngredient;
+        unsigned int formID = (unsigned int)(std::uintptr_t)pIngredient;
         ::ResolveFormID(&formID, reinterpret_cast<::TESForm *>((apArg))->GetFile(-1));
         pIngredient = dynamic_cast<IngredientItem*>(::FUN_004839c0(formID));
         if (pIngredient == 0)

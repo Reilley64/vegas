@@ -87,6 +87,8 @@
 #include "teslight_TESFullName.h"
 #include "teslight_TESForm.h"
 #include "teslight_TESScriptableForm.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/symbols_00472000.h"
 
 class TESSound : public TESForm
 {
@@ -170,7 +172,7 @@ void TESObjectLIGH::InitItem()
 
     if (m_pGameSound)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pGameSound);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pGameSound);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         m_pGameSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if (!m_pGameSound)
@@ -319,7 +321,7 @@ struct FUN_0051b070_shell
 {
 };
 
-struct FUN_0050e550_shell
+struct FUN_0050e550_shell : ::TESObjectLIGH
 {
     void FUN_0050e550(unsigned int);
 };
@@ -329,7 +331,7 @@ struct FUN_0050e550_shell
 void FUN_0050e550_shell::FUN_0050e550(unsigned int aiFlags)
 {
     reinterpret_cast<::PC7d *>((reinterpret_cast<FUN_0051b070_shell*>(this)))->FUN_00484c20(aiFlags);
-    reinterpret_cast<::fnv_0048e9e0::TESValueForm *>((reinterpret_cast<FUN_0051b070_shell*>(reinterpret_cast<char*>(this) + 0x8c)))->FUN_0048e9e0(aiFlags);
+    reinterpret_cast<::fnv_0048e9e0::TESValueForm *>((reinterpret_cast<FUN_0051b070_shell*>(static_cast<TESValueForm *>(this))))->FUN_0048e9e0(aiFlags);
 }
 
 struct TESFormStub
@@ -339,7 +341,7 @@ struct TESValueFormStub
 {
 };
 
-struct FUN_0050e580_shell
+struct FUN_0050e580_shell : ::TESObjectLIGH
 {
     void FUN_0050e580(unsigned int a1, unsigned int a2);
 };
@@ -348,7 +350,7 @@ struct FUN_0050e580_shell
 void FUN_0050e580_shell::FUN_0050e580(unsigned int a1, unsigned int a2)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(a1, a2);
-    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((((TESValueFormStub*)((char*)this + 0x8c))))->FUN_0048ea10(a1, a2);
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((((TESValueFormStub*)static_cast<TESValueForm *>(this))))->FUN_0048ea10(a1, a2);
 }
 
 struct FUN_00484d60_holder
@@ -358,16 +360,16 @@ struct FUN_0048ea40_holder
 {
 };
 
-struct FUN_0050e5c0_shell
+struct FUN_0050e5c0_shell : ::TESObjectLIGH
 {
-    void FUN_0050e5c0(unsigned int aiFlags);
+    void FUN_0050e5c0(std::uintptr_t aiFlags);
 };
 
 // @fnv 0x0050e5c0
-void FUN_0050e5c0_shell::FUN_0050e5c0(unsigned int aiFlags)
+void FUN_0050e5c0_shell::FUN_0050e5c0(std::uintptr_t aiFlags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(aiFlags));
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x8c)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(aiFlags));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(aiFlags));
 }
 
 class BGSLoadFormBuffer;
@@ -376,7 +378,7 @@ struct TESValueFormLoadGame
 {
 };
 
-struct FUN_0050e5f0_shell
+struct FUN_0050e5f0_shell : ::TESObjectLIGH
 {
     void LoadGame(BGSLoadFormBuffer* arg);
 };
@@ -386,7 +388,7 @@ struct FUN_0050e5f0_shell
 void FUN_0050e5f0_shell::LoadGame(BGSLoadFormBuffer* pBuffer)
 {
     reinterpret_cast<TESForm*>(this)->TESForm::LoadGame(pBuffer);
-    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>(reinterpret_cast<char*>(this) + 0x8c)))->FUN_0048ea80(pBuffer);
+    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>(static_cast<TESValueForm *>(this))))->FUN_0048ea80(pBuffer);
 }
 
 struct Owner
@@ -515,13 +517,13 @@ void FUN_00510130_shell::RemoveNode(NiNode* pNode)
 {
     if (pNode == *(NiNode**)((char*)this + 4))
     {
-        *(NiNode**)((char*)this + 4) = (NiNode*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)(*(NiNode**)((char*)this + 4)))))->FUN_007af430()));
+        *(NiNode**)((char*)this + 4) = (NiNode*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)(*(NiNode**)((char*)this + 4)))))->FUN_007af430()));
     }
     if (pNode == *(NiNode**)((char*)this + 8))
     {
         *(NiNode**)((char*)this + 8) = (NiNode*)((BGSTerrainManager*)(*(NiNode**)((char*)this + 8)))->GetMinLevel();
     }
-    unsigned int n = ((BGSTerrainManager*)pNode)->GetMinLevel();
+    std::uintptr_t n = ((BGSTerrainManager*)pNode)->GetMinLevel();
     if (n)
     {
         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)n)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)((unsigned int)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()))));
@@ -662,7 +664,7 @@ void FUN_0050cf20_shell::FUN_0050cf20()
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00693dc0_class *>((&value_009c))->SwapEndian();
 
-    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<int>(&value_009c)), 0x18);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<std::intptr_t>(&value_009c)), 0x18);
 
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00693dc0_class *>((&value_009c))->SwapEndian();
@@ -784,7 +786,7 @@ bool LightLoader::LoadLight(TESFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(scriptID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(scriptID));
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -801,7 +803,7 @@ bool LightLoader::LoadLight(TESFile* file)
         case 0x4d414e53: {
             unsigned int soundID = 0;
             file->GetChunkData(&soundID);
-            m_pGameSound = (TESSound*)soundID;
+            m_pGameSound = (TESSound*)(std::uintptr_t)soundID;
             break;
         }
         }
@@ -1296,7 +1298,7 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
     if (reference)
     {
         base = ((::LightCreation::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
-        if ((flags & 0x20) || (((int)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())) && reference->GetPosition()->z < reinterpret_cast<::FUN_0057b0a0_shell *>((reference))->FUN_0057b0a0()))
+        if ((flags & 0x20) || (((std::intptr_t)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())) && reference->GetPosition()->z < reinterpret_cast<::FUN_0057b0a0_shell *>((reference))->FUN_0057b0a0()))
         {
             if (base->FUN_00401170() == 30 && ::fnv_00578400::FUN_00578400((::fnv_00578400::_FakeNiNode *)(pScene)))
             {
@@ -1476,6 +1478,231 @@ bool LightComparison::FUN_0050d120(TESForm* form)
     if (GetFieldB4Float(reinterpret_cast<char*>(this)) != GetFieldB4Float(reinterpret_cast<char*>(pOtherLight)))
         return true;
     return false;
+}
+
+struct PrimaryBase
+{
+    virtual void FUN_0050e680();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0050e680();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050e680
+    virtual void FUN_0050e680();
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_0050e690 {
+// Adjustor thunk for FUN_0050e690: "sub ecx, 0x3c; jmp DestroyIfFlagged".
+//
+// This is the MSVC "this adjusting thunk" emitted for a virtual function that a
+// class inherits from a secondary base: the thunk converts the secondary base
+// sub-object pointer (this + 0x3c) back into the derived object pointer
+// (sub ecx, 0x3c) and then tail jumps to the final overrider.
+//
+// The subtracted constant is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus 14 int members (4 + 14 * 4 = 0x3c
+// bytes).  Both bases declare the same virtual function, the derived class
+// redeclares it and defines only its constructor, which is what makes the
+// compiler emit the vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0050e690();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0050e690();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050e690
+    virtual void FUN_0050e690();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_0050e690
+
+// FUN_0050e6a0 is an MSVC this-adjusting (adjustor) thunk:
+//     sub ecx, 0x8c ; jmp FUN_0050e580
+// It is emitted for a virtual that lives in the first base of a multiply
+// inherited class but is reached through the second base's vtable slot: the
+// slot holds a thunk that walks `this` back to the derived object (the size of
+// the primary base, 0x8c) and tail-jumps to the derived override.
+struct ThunkPrimaryBase
+{
+    virtual void* FUN_0050e6a0(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+};
+
+struct ThunkSecondaryBase
+{
+    virtual void* FUN_0050e6a0(unsigned int flags);
+};
+
+struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+{
+    ThunkDerived();
+// @fnv 0x0050e6a0
+    virtual void* FUN_0050e6a0(unsigned int flags);
+};
+
+ThunkDerived::ThunkDerived()
+{}
+
+namespace fnv_0050e6b0 {
+// sub ecx,0x8c; jmp FUN_0050e550
+// MSVC this-adjusting (adjustor) thunk: a derived class declares a virtual that
+// both of its bases declare, so the secondary base's vtable slot holds a thunk
+// that walks `this` back to the secondary base subobject (the size of the
+// primary base, 0x8c) and tail-jumps to the base implementation.
+struct ThunkPrimaryBase
+{
+    virtual void FUN_0050e6b0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+};
+
+struct ThunkSecondaryBase
+{
+    virtual void FUN_0050e6b0();
+};
+
+struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
+{
+    ThunkDerived();
+// @fnv 0x0050e6b0
+    virtual void FUN_0050e6b0();
+};
+
+ThunkDerived::ThunkDerived()
+{}
 }
 
 #include "generated/data/fallout_shared/teslight.inc"

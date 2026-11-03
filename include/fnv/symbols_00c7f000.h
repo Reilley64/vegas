@@ -12,7 +12,7 @@ struct XRef;
 // 0x00c7f900
 void FUN_00c7f900(char *, char *, unsigned int);
 // 0x00c7fa90
-int FUN_00c7fa90(::S_Obj *);
+std::intptr_t FUN_00c7fa90(::S_Obj *);
 // 0x00c7fb50
 ::S_00c7fb50_portal *FUN_00c7fb50(::S_00c7fb50_portal *);
 // 0x00c7fcc0

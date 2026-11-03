@@ -81,7 +81,7 @@ bool FUN_00474a80_Class::FUN_00474a80()
 {
     if (((::GroupHolder *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>(this)->FUN_00474a40())))
     {
-        int value = *((int *)(new ((void *)(((::RangeHolder *)(reinterpret_cast<::BGSCameraPath *>((((::GroupHolder *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>(this)->FUN_00474a40()))))->GetConditions())))) ::Vec3()));
+        int value = *((int *)((void *)(((::RangeHolder *)(reinterpret_cast<::BGSCameraPath *>((((::GroupHolder *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>(this)->FUN_00474a40()))))->GetConditions())))));
         if (value != 0)
         {
             int result = FUN_00ec43fb(value, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_011840c4, 0);
@@ -115,8 +115,8 @@ void FUN_00474bc0_shell::CompareAmmo(BaseFormComponent* apCompareFC)
     if (m_pAmmo)
     {
         void* oldAmmo = m_pAmmo;
-        ::ResolveFormID((unsigned int *)(void **)(&oldAmmo), (::TESFile *)(((int)(reinterpret_cast<::TESForm *>((reinterpret_cast<ComparisonInfo*>(apCompareFC)))->GetFile(-1)))));
-        m_pAmmo = ((void *)(::FUN_004839c0((unsigned int)(oldAmmo))));
+        ::ResolveFormID((unsigned int *)(void **)(&oldAmmo), (::TESFile *)(((std::intptr_t)(reinterpret_cast<::TESForm *>((reinterpret_cast<ComparisonInfo*>(apCompareFC)))->GetFile(-1)))));
+        m_pAmmo = ((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(oldAmmo))));
         if (m_pAmmo && reinterpret_cast<AmmoRecord*>(m_pAmmo)->FUN_00401170() != 0x29 &&
             reinterpret_cast<AmmoRecord*>(m_pAmmo)->FUN_00401170() != 0x55)
         {

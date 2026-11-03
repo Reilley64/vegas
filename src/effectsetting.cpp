@@ -496,7 +496,7 @@ struct TESChallenge
 
 struct LowProcess
 {
-    void SetPackageObjectType(int value);
+    void SetPackageObjectType(intptr_t value);
 public:
     int GetPackageObjectType();
 };

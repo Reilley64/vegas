@@ -2,6 +2,7 @@
 // src/staging/blk_00d60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "../../include/layout_support.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -165,7 +166,7 @@ struct FUN_004b4ab0_Class
     {
         __m128 value;
     };
-    void FUN_004b4ab0(int basis, int vector);
+    void FUN_004b4ab0(intptr_t basis, int vector);
     void FUN_00c7f700(const Basis* basis, const FUN_004b4ab0_Class* vector);
 };
 

@@ -255,7 +255,7 @@ struct FUN_0048e370_shell
 void FUN_0048e370_shell::FUN_0048e370(unsigned int aeTextureID)
 {
     if (((TESModel*)this)->GetModelLength())
-        ::FUN_004856f0((void *)(aeTextureID), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), (void *)(((TESModel*)this)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(std::uintptr_t)(aeTextureID), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this)))->FUN_00408da0())), (void *)(((TESModel*)this)->GetModelLength() + 1));
 }
 }  // namespace fnv_0048e370
 
@@ -266,7 +266,7 @@ struct BSStr
 struct FNStub
 {
 };
-struct FUN_0048e4a0_shell
+struct FUN_0048e4a0_shell : ::TESTexture
 {
     void CopyTextureName(BaseFormComponent* apCopyFC);
 };
@@ -277,7 +277,7 @@ void FUN_0048e4a0_shell::CopyTextureName(BaseFormComponent* apCopyFC)
     TESTexture* pcopy = dynamic_cast<TESTexture*>(apCopyFC);
     if (!pcopy)
         return;
-    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 4))))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcopy)))->FUN_00408da0())), 0);
+    reinterpret_cast<::TextString *>((((BSStr*)&this->FullNameComponent)))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pcopy)))->FUN_00408da0())), 0);
 }
 }  // namespace fnv_0048e4a0
 
@@ -326,7 +326,7 @@ struct FUN_00480ef0_obj
 };
 
 // @fnv 0x00480ef0
-int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
+std::intptr_t __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, std::intptr_t param)
 {
     FUN_00480ef0_obj* found = (FUN_00480ef0_obj*)FUN_00ec43fb(pOwner, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_01183978)), 0);
     if (found == 0)
@@ -335,7 +335,7 @@ int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
     }
     if (param == 0)
     {
-        return ((int)(reinterpret_cast<::FUN_00408da0_Class *>((((FUN_00480ef0_sub*)((char*)found + 0x8c))))->FUN_00408da0()));
+        return ((std::intptr_t)(reinterpret_cast<::FUN_00408da0_Class *>((((FUN_00480ef0_sub*)((char*)found + 0x8c))))->FUN_00408da0()));
     }
     FUN_00480ef0_obj* ref = ((::FUN_00480ef0_obj *)(reinterpret_cast<::OwnerLookupView *>((((FUN_00480ef0_obj*)param)))->FUN_00567790()));
     int valueX = 0;
@@ -343,5 +343,5 @@ int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
     {
         valueX = ref->FUN_005f0cc0();
     }
-    return ((int)(reinterpret_cast<::FUN_00481230_stand *>((found))->FUN_00481230(valueX)));
+    return ((std::intptr_t)(reinterpret_cast<::FUN_00481230_stand *>((found))->FUN_00481230(valueX)));
 }

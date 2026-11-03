@@ -38,6 +38,7 @@
 #include "fnv/symbols_005b5000.h"
 #include "tesobjectmisc_decls.h"
 #include <malloc.h>
+#include "fnv/symbols_00472000.h"
 extern const char DAT_0102b038[];
 
 // @fnv 0x0051a980
@@ -58,7 +59,7 @@ void TESObjectMISC::InitItem()
     static_cast<TESModelTextureSwap *>(this)->InitItem(this);
     static_cast<BGSPickupPutdownSounds *>(this)->InitItem(this);
 
-    unsigned int formID = (unsigned int)pLoopingSound;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pLoopingSound;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -123,7 +124,7 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)scriptID);
+            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)(std::uintptr_t)scriptID);
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -134,13 +135,13 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int pickupID = 0;
             file->GetChunkData(&pickupID);
-            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)pickupID);
+            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)(std::uintptr_t)pickupID);
             break;
         }
         case 0x4d414e5a: {
             unsigned int putdownID = 0;
             file->GetChunkData(&putdownID);
-            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)putdownID);
+            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)(std::uintptr_t)putdownID);
             break;
         }
         case 0x41544144:
@@ -149,7 +150,7 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x4d414e52: {
             unsigned int loopingID = 0;
             file->GetChunkData(&loopingID);
-            reinterpret_cast<::TESObjectMISC *>(this)->SetLoopingSound((::TESSound *)(loopingID));
+            reinterpret_cast<::TESObjectMISC *>(this)->SetLoopingSound((::TESSound *)(std::uintptr_t)(loopingID));
             break;
         }
         }
@@ -179,7 +180,7 @@ struct FUN_0048e9b0
 {
 };
 
-struct FUN_0051b020_shell
+struct FUN_0051b020_shell : ::TESObjectMISC
 {
     unsigned short FUN_0051b020(unsigned int aiFlags);
 };
@@ -190,7 +191,7 @@ unsigned short FUN_0051b020_shell::FUN_0051b020(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);
-    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)((char*)this + 0x74))))->FUN_0048e9b0(aiFlags);
+    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)static_cast<TESValueForm *>(this))))->FUN_0048e9b0(aiFlags);
     return isize;
 }
 
@@ -204,7 +205,7 @@ struct TESValueFormStub
 
 struct BGSLoadFormBuffer;
 
-struct FUN_0051b0a0_shell
+struct FUN_0051b0a0_shell : ::TESObjectMISC
 {
     void LoadForm(unsigned int aiFlags, BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -213,8 +214,8 @@ struct FUN_0051b0a0_shell
 void FUN_0051b0a0_shell::LoadForm(unsigned int aiFlags, BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((reinterpret_cast<TESFormStub*>(this)))->FUN_00484c50(aiFlags,
-                                                                    reinterpret_cast<unsigned int>(apLoadGameBuffer));
-    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea10(aiFlags, reinterpret_cast<unsigned int>(apLoadGameBuffer));
+                                                                    reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(static_cast<TESValueForm *>(this))))->FUN_0048ea10(aiFlags, reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
 }
 
 struct CallHelper
@@ -266,7 +267,7 @@ struct FUN_004855a0
 struct FUN_00485680
 {
 };
-struct FUN_0051ae80_shell
+struct FUN_0051ae80_shell : ::TESObjectMISC
 {
     void FUN_0051ae80();
 };
@@ -274,17 +275,17 @@ struct FUN_0051ae80_shell
 void FUN_0051ae80_shell::FUN_0051ae80()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x3c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
-    ((FUN_0047a240_shell*)((char*)this + 0x8c))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)((char*)this + 0x84))))->FUN_00477f20();
-    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)((char*)this + 0x9c))))->LogFormIDs();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)static_cast<TESIcon *>(this))))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0047a240_shell*)static_cast<BGSMessageIcon *>(this))->FUN_0047a240(0x4f43494d);
+    ((S_0048cca0*)static_cast<TESScriptableForm *>(this))->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)static_cast<BGSPickupPutdownSounds *>(this))))->LogFormIDs();
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
     if (*(unsigned int*)((char*)this + 0xa8))
     {
-        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm**)((char*)this + 0xa8))[0]))->FUN_0084e3a0()));
+        unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm**)&this->pLoopingSound)[0]))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e52, formID);
     }
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
@@ -306,7 +307,7 @@ void FUN_0051af50_shell::FUN_0051af50(TESForm* apCopy)
     TESObjectMISC* pmisc = dynamic_cast<TESObjectMISC*>(apCopy);
     if (!pmisc)
         return;
-    ((TESObjectMISC*)this)->SetLoopingSound((::TESSound *)(((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pmisc)))->FUN_008cdd90()))));
+    ((TESObjectMISC*)this)->SetLoopingSound((::TESSound *)(((std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pmisc)))->FUN_008cdd90()))));
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
@@ -317,7 +318,7 @@ struct FUN_00484d60_holder
 struct FUN_0048ea40_holder
 {
 };
-struct FUN_0051b0d0_holder
+struct FUN_0051b0d0_holder : ::TESObjectMISC
 {
     void SaveToBuffer(BGSSaveFormBuffer*);
 };
@@ -326,7 +327,7 @@ struct FUN_0051b0d0_holder
 void FUN_0051b0d0_holder::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
 }
 
 struct TESFormBufferAccess
@@ -335,7 +336,7 @@ struct TESFormBufferAccess
 struct TESValueFormLoadGame
 {
 };
-struct FUN_0051b100_owner
+struct FUN_0051b100_owner : ::TESObjectMISC
 {
     void FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -344,7 +345,7 @@ struct FUN_0051b100_owner
 void FUN_0051b100_owner::FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::TESForm *>((reinterpret_cast<TESFormBufferAccess*>(this)))->LoadGame(apLoadGameBuffer);
-    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>((char*)this + 0x74)))->FUN_0048ea80(apLoadGameBuffer);
+    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>(static_cast<TESValueForm *>(this))))->FUN_0048ea80(apLoadGameBuffer);
 }
 
 struct FUN_005e79a0_t
@@ -360,9 +361,45 @@ bool FUN_0051afb0_shell::FUN_0051afb0(TESForm* apCompare)
     TESObjectMISC* pcomp = dynamic_cast<TESObjectMISC*>(apCompare);
     if (!pcomp)
         return true;
-    if (((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) != ((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pcomp)))->FUN_008cdd90())))
+    if (((std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pcomp)))->FUN_008cdd90())))
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270((TESForm*)pcomp))
         return true;
     return false;
 }
+
+// MSVC adjustor thunk: the primary base occupies 0x3c bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0051b130();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0051b130();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0051b130
+    virtual void FUN_0051b130();
+};
+
+Derived::Derived()
+{}

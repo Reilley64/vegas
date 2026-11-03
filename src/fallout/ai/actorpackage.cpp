@@ -10,6 +10,7 @@
 
 // The original TU reached NULL through the game core headers; this
 // standalone reconstruction defines it directly.
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C857A10Buffer.h"
@@ -289,7 +290,7 @@ void GuardActorPackageData::SetReferenceTarget(TESObjectREFR* apReference)
 // @fnv 0x008c6730
 void ActorPackageContext::LoadGame(BGSLoadFormBuffer* apBuffer)
 {
-    unsigned int iFormID = 0;
+    uintptr_t iFormID = 0;
     bool bResult = reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(void *)(&iFormID));
     bool bCreated;
     if (iFormID || bResult)
@@ -360,7 +361,7 @@ struct FUN_00527770_arg
 int* FUN_00527770(int* self, FUN_00527770_arg a)
 {
     reinterpret_cast<::FUN_005277d0_Class *>((self))->InitBuffer((*(unsigned int *)&(const ::FUN_00527770_arg &)(a)));
-    *self = (int)&DAT_01031fac;
+    *self = (intptr_t)&DAT_01031fac;
     return self;
 }
 
@@ -648,7 +649,7 @@ struct TESObjectREFRHelper
 
 struct FUN_0084aa90_shell
 {
-    unsigned int FUN_0084aa90(unsigned int auiFormID);
+    unsigned int FUN_0084aa90(uintptr_t auiFormID);
 };
 
 struct FUN_009611e0_shell
@@ -671,7 +672,7 @@ void FUN_008c6970_shell::FUN_008c6970(BGSLoadFormBuffer* apBuffer)
 {
     if (reinterpret_cast<::FUN_008c6b00_shell *>(this)->FUN_008c6b00(0))
     {
-        unsigned int uiPackageFormID = ((FUN_0084aa90_shell*)::g_BGSSaveLoadGame)->FUN_0084aa90((unsigned int)pPackage);
+        unsigned int uiPackageFormID = ((FUN_0084aa90_shell*)::g_BGSSaveLoadGame)->FUN_0084aa90((uintptr_t)pPackage);
         pPackage = uiPackageFormID ? dynamic_cast<TESPackage*>(::FUN_004839c0(uiPackageFormID)) : 0;
     }
     else if (pPackage && reinterpret_cast<::BSShaderRenderUtility *>((((DataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPackage))->FUN_0084e3a0()))))
@@ -689,7 +690,7 @@ void FUN_008c6970_shell::FUN_008c6970(BGSLoadFormBuffer* apBuffer)
     }
     if (pData)
         pData->InitLoadGame(apBuffer);
-    pTarget = pTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)pTarget)) : 0;
+    pTarget = pTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pTarget)) : 0;
     if (pTarget)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)pTarget)))->FUN_00564db0(true);
 }
@@ -982,7 +983,7 @@ void Owner::FUN_008c64d0(unsigned a, unsigned auiUnused)
             if (a & 0)
             {
                 Manager* pManager = manager;
-                reinterpret_cast<::ActorPackageContext *>(this)->SetPackageAndTarget(dynamic_cast<TESPackage*>(FUN_004839c0((unsigned)pManager)), (::TESObjectREFR *)(0));
+                reinterpret_cast<::ActorPackageContext *>(this)->SetPackageAndTarget(dynamic_cast<TESPackage*>(FUN_004839c0((unsigned)(uintptr_t)pManager)), (::TESObjectREFR *)(0));
             }
             else
             {
@@ -1065,11 +1066,11 @@ struct SaveLoadStub
 
 struct ActorPackageLoad : public ActorPackageContext
 {
-    void FUN_008c6320(int aiFlags, int aiUnused);
+    void FUN_008c6320(intptr_t aiFlags, intptr_t aiUnused);
 };
 
 // @fnv 0x008c6320
-void ActorPackageLoad::FUN_008c6320(int aiFlags, int aiUnused)
+void ActorPackageLoad::FUN_008c6320(intptr_t aiFlags, intptr_t aiUnused)
 {
     unsigned int auiFormId;
     bool bRead = reinterpret_cast<::FUN_00857aa0 *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->ValidateFormIDArray(&auiFormId, 4);
@@ -1093,7 +1094,7 @@ void ActorPackageLoad::FUN_008c6320(int aiFlags, int aiUnused)
             }
             else
             {
-                SetPackageAndTarget((TESPackage*)auiFormId, 0);
+                SetPackageAndTarget((TESPackage*)(uintptr_t)auiFormId, 0);
             }
         }
         else

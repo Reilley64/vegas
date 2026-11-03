@@ -5,6 +5,7 @@
 // header is regenerated and this file retires.
 #ifndef FNV_LOWPROCESS_H
 #define FNV_LOWPROCESS_H
+#include <cstdint>
 #include "fnv/decl/FUN_008d7e00_shell.h"
 #include "fnv/decl/FUN_008d7e60_shell.h"
 #include "layout_support.h"
@@ -45,7 +46,7 @@ class LowProcess : public BaseProcess
     void SetCurrentBoundObject(TESBoundObject*);
     void SetCurrentCombatTarget(TESObjectREFR*);
     TESObjectREFR* GetTarget();
-    void SetPackageObjectType(int);
+    void SetPackageObjectType(intptr_t);
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
     // Canonical additions requested:

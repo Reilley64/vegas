@@ -2,6 +2,8 @@
 #ifndef FNV_NAVMESHINFOSEARCH_DECLS_H
 #define FNV_NAVMESHINFOSEARCH_DECLS_H
 
+#include <cstdint>
+
 #include <cstring>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/BaseProcess.h"
@@ -135,7 +137,7 @@ template <class NodeDataType, class LinkDataType> class AStarNode
     AStarNode* m_pParentNode;
     AStarNode** m_ppPreviousNodeLink;
     AStarNode* pListNode;
-    unsigned int iKey;
+    std::uintptr_t iKey;
     AStarNode* m_pNextHashNode;
 };
 template <class NodeDataType, class LinkDataType> class AStarOpenList
@@ -173,7 +175,7 @@ template <class NodeDataType, class LinkDataType> class AStarSearch
     virtual ~AStarSearch();
     virtual bool CollectConnections(const AStarNodeType*, BSSimpleArray<AStarNodeType*, 1024>*);
     virtual bool HasReachedGoal(const AStarNodeType*);
-    CREATE_ASTARNODE_RESULT CreateOrUpdateNode(unsigned int, float, AStarNodeType*&);
+    CREATE_ASTARNODE_RESULT CreateOrUpdateNode(std::uintptr_t, float, AStarNodeType*&);
     AStarNodeAllocator<NodeDataType, LinkDataType, 512> m_kNodeAllocator;
     AStarNodeHashTable<AStarNodeType> m_kNodeHashTable;
     AStarOpenList<NodeDataType, LinkDataType> AStarBucketQueue;

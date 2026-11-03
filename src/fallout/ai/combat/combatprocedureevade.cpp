@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureevade.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureevade.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/decl/AA10Menu.h"
 #include "fnv/decl/AvoidWork.h"
@@ -507,7 +508,7 @@ void EvadeProcedure::UpdateFleeState()
         reinterpret_cast<::FUN_006e2bb0_shell *>(&(fleeRequest))->SetInitialPathHeading(actor->GetRadius(0));
         if (actor->IsCreature())
             reinterpret_cast<::FUN_006e2b50_shell *>(&(fleeRequest))->SetCantOpenDoors(((::EvadeActorBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->data.CanSwim());
-        int destination = 0;
+        intptr_t destination = 0;
         switch (location)
         {
         case 14: {
@@ -519,21 +520,21 @@ void EvadeProcedure::UpdateFleeState()
             else
                 fleeRequest.SetDestination(&ResultSlot(PathingLocation(targetPosition, (TESObjectREFR*)actor)));
             destination = ((int)(reinterpret_cast<::AvoidanceMap *>((((::EvadeSearchResult *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::EvadeSearch * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->BuildAvoidanceNodes({}, {}, {})));
-            destination = ((int)(reinterpret_cast<::FUN_009892a0_shell *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->FUN_009892a0((::AvoidMember9892 *)(actor), (const ::Pos9892 *)(::NiPoint3 *)(&actorPosition), DAT_01050b98, (::PathingAvoidNodeArray *)(destination), (::AvoidMember9892 *)(0))));
+            destination = ((intptr_t)(reinterpret_cast<::FUN_009892a0_shell *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->FUN_009892a0((::AvoidMember9892 *)(actor), (const ::Pos9892 *)(::NiPoint3 *)(&actorPosition), DAT_01050b98, (::PathingAvoidNodeArray *)(destination), (::AvoidMember9892 *)(0))));
             break;
         }
         case 10:
         case 12:
             reinterpret_cast<::FUN_00507610_Class *>(&(fleeRequest))->FUN_00507610(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::EvadeSetting *>(&::originalRuntimeFloatSetting438)))))));
             reinterpret_cast<::FUN_008df000_shell *>(&(fleeRequest))->FUN_008df000();
-            destination = ((int)(reinterpret_cast<::AvoidWork *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->BuildAvoidNodes((::AvoidActor *)(actor), (::PathingAvoidNodeArray *)(0))));
+            destination = ((intptr_t)(reinterpret_cast<::AvoidWork *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->BuildAvoidNodes((::AvoidActor *)(actor), (::PathingAvoidNodeArray *)(0))));
             break;
         }
         reinterpret_cast<::PathingRequest *>(&(fleeRequest))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(destination));
         reinterpret_cast<::FUN_008ad8f0Class *>(&(fleeRequest))->SetByteAtOffset9B(true);
         if (!actor->FUN_008bb630(&fleeRequest))
         {
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(DAT_01091a08));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(DAT_01091a08));
             break;
         }
         state = 1;
@@ -553,11 +554,11 @@ void EvadeProcedure::UpdateFleeState()
                 }
             }
             reinterpret_cast<::FUN_009a0680_shell *>((pController))->ClearAndDeletePointer();
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actor))->FUN_008b3960() ? DAT_010919e8 : DAT_010919c8));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor))->FUN_008b3960() ? DAT_010919e8 : DAT_010919c8));
         }
         else if (((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
         {
-            reinterpret_cast<::AA10Menu *>((pController))->HandleMenuEvent((int)(&(*(::EvadeWorldLocation *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})))), location);
+            reinterpret_cast<::AA10Menu *>((pController))->HandleMenuEvent((intptr_t)(&(*(::EvadeWorldLocation *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})))), location);
             reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
         }
         break;

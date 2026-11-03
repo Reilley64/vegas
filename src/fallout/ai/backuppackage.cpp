@@ -2,6 +2,7 @@
 // src/fallout/ai/backuppackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/backuppackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -46,7 +47,7 @@ struct FUN_009ed010_shell
 // @fnv 0x009ed010
 void FUN_009ed010_shell::ForwardToBase(void* apBuffer)
 {
-    reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((int)(apBuffer));
+    reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((intptr_t)(apBuffer));
 }
 
 struct BackUpPackage

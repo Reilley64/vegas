@@ -156,7 +156,7 @@ struct FUN_007e68e0_shell
 {
     void* FUN_007e68e0(unsigned int);
 };
-extern int DAT_011daf74;
+extern intptr_t DAT_011daf74;
 struct Tile
 {
     void Set(int, int);
@@ -894,7 +894,7 @@ void FUN_007e7030_shell::PopulatePerkList()
             ::TaskQueueInterface::CopyStringToBuffer(strtemp, 64, (*reinterpret_cast<::StartMenu *>(&::g_011d35b8)).GetMenuTitle());
         if (((unsigned char)(reinterpret_cast<::FUN_005d4ee0Class *>(((*((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item)))))->FUN_005d4ee0())) > 1 && icurrRank > 0)
             ::FUN_00406d00(strtemp, 64, "%s (%d)", strtemp, icurrRank + 1);
-        pnew = ((::Tile *)(reinterpret_cast<::LBItemListBox *>((((LBH*)((char*)this + 0x54))))->AddItemTile((int)(*((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item))), strtemp, (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
+        pnew = ((::Tile *)(reinterpret_cast<::LBItemListBox *>((((LBH*)((char*)this + 0x54))))->AddItemTile((intptr_t)(*((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item))), strtemp, (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
         pnew->Set(0xfaa, 10);
         pnew->Set(DAT_011daf78, icurrRank + 1);
     }
@@ -1033,7 +1033,7 @@ FUN_00753230::FUN_00753230()
     field_54 = false;
 }
 
-extern int DAT_011daf74;
+extern intptr_t DAT_011daf74;
 struct MenuBase
 {
     virtual ~MenuBase();
@@ -1462,7 +1462,7 @@ TileView* __cdecl FUN_007e6990()
     if (oldMenu)
         delete oldMenu;
     TileView* manager = ((::TileView *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::TileView *)(reinterpret_cast<::InterfaceManager *>((root))->FUN_00586150()))))->FUN_00a01b00({})));
-    DAT_011daf74 = (int)((::TraitView *)(reinterpret_cast<::FUN_00a03c90_shell *>((manager))->FUN_00a03c90()));
+    DAT_011daf74 = (intptr_t)((::TraitView *)(reinterpret_cast<::FUN_00a03c90_shell *>((manager))->FUN_00a03c90()));
     if (DAT_011daf74 && ((TraitView*)DAT_011daf74)->GetID() == FUN_007e6dc0())
     {
         reinterpret_cast<::FUN_00a1dc70_shell *>((((TraitView*)DAT_011daf74)))->FUN_00a1dc70((::TileMenu *)(manager), false);
@@ -1633,12 +1633,12 @@ void PerkSelectMenu::HandleTileAction(int aiTileID, Tile* apTile)
     case 10:
         if (reinterpret_cast<::FUN_007877a0_Object *>(&(kList))->FUN_007877a0((::LevelOption *)(apTile)))
         {
-            reinterpret_cast<::FUN_00787c40_shell *>(&(kList))->FUN_00787780((int)(apTile));
+            reinterpret_cast<::FUN_00787c40_shell *>(&(kList))->FUN_00787780((intptr_t)(apTile));
             reinterpret_cast<::PerkMenuX *>(this)->UpdateEffectChanges((::ValueTile *)(apTile));
         }
         else if (reinterpret_cast<::TileListBoxCalls *>((((TileValues*)apTile)))->GetFloat(::DAT_011daf70) == 255.0 && iNumSelected < iMaxSelected)
         {
-            reinterpret_cast<::FUN_00787760_shell *>(&(kList))->FUN_00787760((int)(apTile));
+            reinterpret_cast<::FUN_00787760_shell *>(&(kList))->FUN_00787760((intptr_t)(apTile));
             reinterpret_cast<::PerkMenuX *>(this)->UpdateEffectChanges((::ValueTile *)(apTile));
         }
         iNumSelected = reinterpret_cast<::Counter_007878d0 *>(&(kList))->FUN_007878d0();

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BGSLoadGameBuffer;
 struct BGSSaveFormBuffer;
@@ -8,7 +9,7 @@ public:
     // 0x00991080
     CombatThreatMap();
     // 0x00993800
-    void FUN_00993800(int);
+    void FUN_00993800(intptr_t);
     // 0x009a59e0
     void SaveThreats(::BGSSaveFormBuffer *);
     // 0x009a5c40

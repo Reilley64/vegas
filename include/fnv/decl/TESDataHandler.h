@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class BGSAddonNode;
 class TESClass;
 class TESFile;
@@ -44,7 +46,7 @@ public:
     // 0x00469800
     unsigned int GetNextID();
     // 0x0046f280
-    void GetReferencesInArea(::TESObjectCELL *, const ::NiPoint3 &, float, const ::NiPoint3 &, float, bool (*)(TESObjectREFR *, long), long);
+    void GetReferencesInArea(::TESObjectCELL *, const ::NiPoint3 &, float, const ::NiPoint3 &, float, bool (*)(TESObjectREFR *, intptr_t), std::intptr_t);
     // 0x0046fd50
     ::Item *FindNthMatchingItem(void *, int);
     // 0x0046feb0

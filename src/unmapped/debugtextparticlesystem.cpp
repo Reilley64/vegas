@@ -1398,7 +1398,7 @@ struct Manager
     bool active;
     unsigned int idleCount;
     PrecisionTimer timer;
-    bool FUN_00ca2ad0(void* source, unsigned int flags);
+    bool FUN_00ca2ad0(void* source, uintptr_t flags);
     __forceinline unsigned int storageCount()
     {
         unsigned int n = storage.count;
@@ -1569,7 +1569,7 @@ static __forceinline void setResource(SceneRecord& r, unsigned int opt)
 }
 // Rebuilds the storage list from source data, reusing existing items, creating new ones with bounding boxes, and removing stale entries.
 // @fnv 0x00ca2ad0
-bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
+bool Manager::FUN_00ca2ad0(void* source, uintptr_t flags)
 {
     int inner;
     int work;

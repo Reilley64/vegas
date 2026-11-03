@@ -300,5 +300,5 @@ namespace fnv_00c124c0 { InitShaderPassPtr DAT_0120231c; }
 namespace fnv_00c124c0 { InitShaderPassPtr DAT_01202320; }
 namespace fnv_00c124c0 { InitShaderPassPtr DAT_01202324; }
 bool g_bC04990Enabled;
-int _DAT_012024f8;
+intptr_t _DAT_012024f8;
 int _DAT_012024fc;

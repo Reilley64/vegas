@@ -2,6 +2,7 @@
 // src/staging/blk_008a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorBF.h"
 #include "fnv/decl/BGSDebris_shell2.h"
@@ -11,7 +12,6 @@
 #include "fnv/decl/C74820Controller.h"
 #include "fnv/decl/Calendar.h"
 #include "fnv/decl/Callees.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/FUN_0043fa80_s.h"
 #include "fnv/decl/FUN_00440460_S.h"
 #include "fnv/decl/FUN_00440490_shell.h"
@@ -80,6 +80,14 @@
 #include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support.h"
 
+class TESObjectREFR;
+// The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ
+// only in the return type); this unit calls the 0x005e3fa0 one.
+class DialogueItem {
+public:
+    ::TESObjectREFR *SelectDefaultResponseList();
+};
+
 struct FUN_008a0250_class
 {
     void FUN_008a0250();
@@ -115,7 +123,7 @@ struct FUN_008a1a40_shell : Actor
 // @fnv 0x008a1a40
 void FUN_008a1a40_shell::FUN_008a1a40(Actor* apActor)
 {
-    ((int*)this)[0x10c / 4] = (int)apActor;
+    *(Actor**)((char*)this + 0x10c) = apActor;
     reinterpret_cast<::FUN_008a1a70_shell *>(this)->FUN_008a1a70();
 }
 
@@ -812,12 +820,12 @@ struct FUN_008a81e0_Class
     void* unk064;
     FUN_008a81e0_FieldBase* unk068;
 
-    int FUN_008a81e0(int);
+    int FUN_008a81e0(intptr_t);
 };
 
 // If unk068 is set, calls its FUN_008a81e0_FieldCall with param and 0 and returns unk04 of the result, otherwise returns 0.
 // @fnv 0x008a81e0
-int FUN_008a81e0_Class::FUN_008a81e0(int param)
+int FUN_008a81e0_Class::FUN_008a81e0(intptr_t param)
 {
     int result = 0;
 
@@ -901,13 +909,13 @@ void FUN_008bc270(B9565Outer* pOuter, B9565Obj* pObj)
         p2 = ((void *)(reinterpret_cast<::MagicCaster_shell *>((b5))->FUN_0044edb0()));
         if (reinterpret_cast<::FUN_009611e0_shell *>((b5))->FUN_009611e0() == 1)
         {
-            reinterpret_cast<::C74820Controller *>((a->m_ac))->SetSlotActive((int)(p2), 1);
+            reinterpret_cast<::C74820Controller *>((a->m_ac))->SetSlotActive((int)(std::uintptr_t)(p2), 1);
         }
         if (reinterpret_cast<::FUN_009611e0_shell *>((b5))->FUN_009611e0() == 2)
         {
-            reinterpret_cast<::FUN_008978f0_Class *>((a->m_ac))->FUN_008978f0((int)(p2), 1);
+            reinterpret_cast<::FUN_008978f0_Class *>((a->m_ac))->FUN_008978f0((int)(std::uintptr_t)(p2), 1);
         }
-        reinterpret_cast<::FUN_00c74870_Class *>((a->m_ac))->FUN_00c74870((int)(p2), reinterpret_cast<::TESActorBaseData *>((b5))->GetHealthRegeneration());
+        reinterpret_cast<::FUN_00c74870_Class *>((a->m_ac))->FUN_00c74870((int)(std::uintptr_t)(p2), reinterpret_cast<::TESActorBaseData *>((b5))->GetHealthRegeneration());
     }
 }
 
@@ -2484,26 +2492,26 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
     p9 = ((::BaseObj *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->GetP96();
     if (p9 != 0)
     {
-        if (((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
+        if (((intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
         {
             P2* p4;
-            p4 = ((::P2 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((p9))->GetValueByIndex((int)(pLookupKey))));
+            p4 = ((::P2 *)(std::uintptr_t)(reinterpret_cast<::FUN_005e50f0_Obj *>((p9))->GetValueByIndex((int)(std::uintptr_t)(pLookupKey))));
             if (p4 != 0)
             {
                 if (reinterpret_cast<::FUN_008b4360_Class *>((p4))->FUN_008b4360())
                 {
                     if (bApplyTransform != 0)
                     {
-                        if (((int)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())) != 0)
+                        if (((intptr_t)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())) != 0)
                         {
-                            CreateProjectileRef(((int)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())), 0, 0, ((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), pPlacement->m_24,
-                                                ((::NiTransform *)(::FUN_00461130((int)(pTransformSource))))->m_kOrientation);
+                            CreateProjectileRef(((int)(std::uintptr_t)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())), 0, 0, ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), pPlacement->m_24,
+                                                ((::NiTransform *)(::FUN_00461130((std::intptr_t)(pTransformSource))))->m_kOrientation);
                         }
                         if (((::MidObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p4))->GetBaseTexture())) != 0)
                         {
                             if (((unsigned char)(reinterpret_cast<::FUN_008b4380_Class *>((p4))->GetUnk66())) > 0)
                             {
-                                reinterpret_cast<::BGSDebris_shell2 *>((((::MidObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p4))->GetBaseTexture()))))->FUN_004fa6f0((void *)(((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::Vec3 *)(::NiPoint3 *)(&pPlacement->m_24), ((unsigned char)(reinterpret_cast<::FUN_008b4380_Class *>((p4))->GetUnk66())),
+                                reinterpret_cast<::BGSDebris_shell2 *>((((::MidObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p4))->GetBaseTexture()))))->FUN_004fa6f0((void *)(((intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::Vec3 *)(::NiPoint3 *)(&pPlacement->m_24), ((unsigned char)(reinterpret_cast<::FUN_008b4380_Class *>((p4))->GetUnk66())),
                                                                  (float)(((double)(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400())) * ((double)(reinterpret_cast<::PathingRequest *>((p4))->GetCenterRadius()))));
                             }
                         }
@@ -2520,8 +2528,8 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                                 retValA = ((::ResObj *)(reinterpret_cast<::A5D2C0Object *>((u))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&x_)))));
                                 NiTransform t1;
                                 NiTransform t2;
-                                reinterpret_cast<::FUN_008b42e0_shell *>((((::NiTransform *)(::FUN_00461130((int)(GetR116(&t1)))))))->InvertTransform({});
-                                t2 = t1 * *((::NiTransform *)(::FUN_00461130((int)(pTransformSource))));
+                                reinterpret_cast<::FUN_008b42e0_shell *>((((::NiTransform *)(::FUN_00461130((std::intptr_t)(GetR116(&t1)))))))->InvertTransform({});
+                                t2 = t1 * *((::NiTransform *)(::FUN_00461130((std::intptr_t)(pTransformSource))));
                                 reinterpret_cast<::FUN_00440460_S *>((retValA))->FUN_00440460((const ::V3 *)&(t2.m_kTranslation));
                                 reinterpret_cast<::FUN_0043fa80_s *>((retValA))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&t2)));
                                 reinterpret_cast<::FUN_00440490_shell *>((retValA))->FUN_00440490(reinterpret_cast<::Getter_9b8 *>((p4))->FUN_009b88c0());
@@ -3020,7 +3028,7 @@ struct ProcV
     virtual void v166();
     virtual void v167();
     virtual void v168();
-    virtual void p169(RefObj*, int, int, int, int, int);
+    virtual void p169(RefObj*, const char*, int, int, int, int);
     virtual void v170();
     virtual void v171();
     virtual void v172();
@@ -3173,13 +3181,13 @@ struct ActorX
     char pad2[0x134 - 0xa4 - sizeof(Sub4)];
     unsigned char m134;
     int m138;
-    void FUN_008bfa40(RefObj* pSrc, int a2, int a3, int a4, TESForm* p5);
+    void FUN_008bfa40(RefObj* pSrc, intptr_t a2, int a3, int a4, TESForm* p5);
 };
 
 int FNV_GetFormType(TESForm* p);
 
 // @fnv 0x008bfa40
-void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESForm* apForm)
+void ActorX::FUN_008bfa40(RefObj* apSource, intptr_t a2, int aiArg3, int aiArg4, TESForm* apForm)
 {
     bool h = false; /* -0x11  bFlag  bucket 14 */
     RefObj* p = 0;  /* -0x10  pRes   bucket 15 */
@@ -3193,7 +3201,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
     int b;          /* -0x34  n      bucket  6 */
     char ak;        /* -0x35  c35    bucket  5 */
     NewObj* k;      /* -0x3c  pNew   bucket  4 */
-    int l;          /* -0x40  t40    bucket  3 */
+    const char* l;  /* -0x40  t40    bucket  3 */
     bool c;         /* -0x41  bOk    bucket  2 */
     int e;          /* -0x48  mask   bucket  1 */
 
@@ -3215,7 +3223,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
     s = apForm;
     if (!s && i)
         s = reinterpret_cast<::OwnerLookupView *>((i))->FUN_00567790();
-    a = ::TESWeightForm::GetWeightForForm((::TESForm *)(a2), ::FUN_004d1360((char *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))));
+    a = ::TESWeightForm::GetWeightForForm((::TESForm *)(std::uintptr_t)(a2), ::FUN_004d1360((char *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))));
     if (a > ::_DAT_01012060)
     {
         a = a * ((::FloatVal *)&(::FUN_00403e20((float *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::g_011cdf84)))))))->f;
@@ -3285,12 +3293,12 @@ void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESF
         }
         if (h)
         {
-            reinterpret_cast<::ActorBF *>((p))->FUN_008bf7b0(this, (int)(apForm));
+            reinterpret_cast<::ActorBF *>((p))->FUN_008bf7b0(this, (int)(std::uintptr_t)(apForm));
             return;
         }
-        SetTlsInt((int)s);
-        reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((this))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((k))->FUN_0084e3a0()))));
-        l = ((int)(::fnv_0061a2d0::GetTopicSubTypeName(2, 9)));
+        SetTlsInt((int)(std::uintptr_t)s);
+        reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((this))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(void *)((reinterpret_cast<::FUN_0084e3a0_Class *>((k))->FUN_0084e3a0())));
+        l = ::fnv_0061a2d0::GetTopicSubTypeName(2, 9);
         ((::ProcV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p))->GetBaseTexture()))->p169(p, l, 0, 0, 1, 0);
         SetTlsInt(0);
     }

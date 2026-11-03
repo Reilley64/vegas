@@ -359,7 +359,7 @@ void MenuSI::PopulateListBoxTiles(void* apListBox, int aiValueA, int aiValueB, i
     {
         if (((ListBoxSI*)(*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i))->AddItem(apListBox))
         {
-            Tile* ptile = ((::Tile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(this->e4))->CreateListItem((int)((*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i)), (const char *)(0), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), (const char *)(0))));
+            Tile* ptile = ((::Tile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(this->e4))->CreateListItem((intptr_t)((*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i)), (const char *)(0), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), (const char *)(0))));
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i)->name), true);
             reinterpret_cast<::Tile *>((((TileF*)ptile)))->SetName((*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i)->name);
         }
@@ -1084,10 +1084,10 @@ Tile* FUN_007da2c0()
         const char* pformat = "%d/%d";
         ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)0x10),
                        ::_g_thePlayer->GetPermanentActorValue((ActorValue::Index)0x10));
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1009, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1009, (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)0xc),
                        ::_g_thePlayer->GetPermanentActorValue((ActorValue::Index)0xc));
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100a, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100a, (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorH*)::_g_thePlayer)))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((int *)&(::g_011d0c60)))))
         {
             ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), DAT_01019f08, (*reinterpret_cast<::StartMenu *>(&::g_011d472c)).GetMenuTitle());
@@ -1097,11 +1097,11 @@ Tile* FUN_007da2c0()
             ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), pformat, ::_g_thePlayer->GetActorValue((ActorValue::Index)0x18),
                            ActorValueUtility::ConvertActorValue(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorH*)::_g_thePlayer)))->FUN_0087f9f0() + 1));
         }
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100b, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x100b, (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         ptile->Set(0x100c, reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((ActorH*)::_g_thePlayer)))->FUN_0087f9f0());
         strtmp = "stats_list_template";
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kPrimaryActorValueList)
-            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[6], (const char*)(unsigned int)*(Flt*)&strtmp);
+            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[6], (const char*)(uintptr_t)*(Flt*)&strtmp);
         for (int i = 0; i < ::ActorValue::GetCountForSection((::ActorValue::Section)(0)); i++)
         {
             ActorValue::Index eindex = ::ActorValue::GetActorValueForSectionIndex((::ActorValue::Section)(0), (unsigned char)i);
@@ -1114,7 +1114,7 @@ Tile* FUN_007da2c0()
             }
         }
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)
-            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[7], (const char*)(unsigned int)*(Flt*)&strtmp);
+            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[7], (const char*)(uintptr_t)*(Flt*)&strtmp);
         for (int i = 0; i < ::ActorValue::GetCountForSection((::ActorValue::Section)(2)); i++)
         {
             ActorValue::Index eindex = ::ActorValue::GetActorValueForSectionIndex((::ActorValue::Section)(2), (unsigned char)i);
@@ -1128,12 +1128,12 @@ Tile* FUN_007da2c0()
         }
         ((LBV*)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)->v08((void*)((void (&)())::CompareActorValueNames));
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kPerkRankList)
-            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[34], (const char*)(unsigned int)*(Flt*)&strtmp);
+            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[34], (const char*)(uintptr_t)*(Flt*)&strtmp);
         ::fnv_007dd710::FUN_007dd710();
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kReputationList)
-            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[46], (const char*)(unsigned int)*(Flt*)&strtmp);
+            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[46], (const char*)(uintptr_t)*(Flt*)&strtmp);
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kMiscStatList)
-            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[8], (const char*)(unsigned int)*(Flt*)&strtmp);
+            ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[8], (const char*)(uintptr_t)*(Flt*)&strtmp);
         for (MiscStatManager__MiscStatID eMiscStat = MiscStatManager__MiscStatID_MS_QUESTS_COMPLETED;
              eMiscStat < MiscStatManager__MiscStatID_MS_COUNT;
              TESReputation::GetUnsignedIntegerPointer((unsigned int*)&eMiscStat))
@@ -1208,16 +1208,16 @@ Tile* FUN_007da2c0()
         ((MenuH*)StatsMenu::ms_pInventoryMenu)->UpdateXboxButtonState();
         strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d30c0)).GetMenuTitle();
         reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_rads", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_rads", -1), (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d1f08)).GetMenuTitle();
         reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_h20", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_h20", -1), (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d37c8)).GetMenuTitle();
         reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_hunger", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_hunger", -1), (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         strtmp = (*reinterpret_cast<::StartMenu *>(&::g_011d246c)).GetMenuTitle();
         reinterpret_cast<::FUN_007b52a0_class *>((((StrH*)&strtmp)))->FUN_007b52a0();
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_sleep", -1), (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(::FUN_00a00940("_sleep", -1), (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[39]))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d3fdc)).GetMenuTitle()), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[40]))->FUN_00a01350(::FUN_00a00940(::DAT_0106ed20, -1), (char *)((*reinterpret_cast<::StartMenu *>(&::g_011d1f5c)).GetMenuTitle()),
                                                         true);
@@ -1277,7 +1277,7 @@ BSStringT<char>* FUN_00404820(BSStringT<char>* self, StrArg aStrArg)
             uiSrcLen = aStrArg.p ? ::FUN_0044a670(aStrArg.p) : 0;
             uiTotalLen = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)self)))->FUN_004048e0())) + uiSrcLen;
             if (uiTotalLen > self->MaxLength())
-                reinterpret_cast<::TextString *>((((StrMem*)self)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)self, uiTotalLen);
+                reinterpret_cast<::TextString *>((((StrMem*)self)))->FUN_004037f0((const char*)(uintptr_t)*(Flt*)self, uiTotalLen);
             ::__memcpy(*(char**)self + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)self)))->FUN_004048e0())), aStrArg.p, uiSrcLen + 1);
             self->SetLength(uiTotalLen);
         }
@@ -1472,7 +1472,7 @@ void UpdateStatsMenuLevelText()
         BSStringT<char> strtmp;
         ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%s - %s %hd", reinterpret_cast<::FUN_0055d520_shell *>((((LevelS*)::_g_thePlayer)))->FUN_0055d520(),
                        ((MenuActiveS*)&(*reinterpret_cast<::fnv_007df4e0::GlobalObject_0040c150 *>(&::g_011d2028)))->GetMenuTitle(), reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((LevelS*)::_g_thePlayer)))->FUN_0087f9f0());
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[27]))->FUN_00a01350(0xfc4, (char *)((const char*)(unsigned int)*(Flt*)&strtmp), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((StatsMenu::ms_pInventoryMenu->m_pTiles[27]))->FUN_00a01350(0xfc4, (char *)((const char*)(uintptr_t)*(Flt*)&strtmp), true);
         ((::Tile *)(reinterpret_cast<::Callees *>((((MenuTileS*)StatsMenu::ms_pInventoryMenu)))->FUN_00726070()))->Set(0x100c, reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((((LevelS*)::_g_thePlayer)))->FUN_0087f9f0());
     }
 }
@@ -2159,7 +2159,7 @@ typedef GO StatusH;
 
 
 // @fnv 0x007e06b0
-int __cdecl GetStatusResult()
+intptr_t __cdecl GetStatusResult()
 {
     int result;
 
@@ -3042,7 +3042,7 @@ void StatsMenuFunction007dc7e0::UpdateStatsDisplay(void* actor)
     reinterpret_cast<::Tile *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[25])))->Set(0xfa3, 1);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[25])))->FUN_00a01350(0xfcc, (char *)(::FUN_0066e9f0((::ActorValue::Index)reinterpret_cast<std::intptr_t>(actor))), true);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pMain))->FUN_00a01350(0xfc4, (char *)(::GetActorValueDescription((::ActorValue::Index)reinterpret_cast<std::intptr_t>(actor))), true);
-    unsigned int amount = ((unsigned int)(::GetWeaponSkillIconPath((int)(actor))));
+    uintptr_t amount = ((uintptr_t)(::GetWeaponSkillIconPath((intptr_t)(actor))));
     if (amount > 0)
     {
         reinterpret_cast<::Tile *>((reinterpret_cast<TileAdapter007dc7e0*>(m_pTiles[52])))->Set(0xfa3, 1);
@@ -3880,7 +3880,7 @@ void __cdecl FUN_007dd710()
                 {
                     ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007dd710::FUN_007dd710_str *)(&strEntry), "%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::fnv_007dd710::FUN_007dd710_item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->pForm->m18))->FUN_00408da0())));
                 }
-                reinterpret_cast<::ListOwner *>(&(DAT_011dace0->m1e0))->FUN_007e0e70((int)(((::fnv_007dd710::FUN_007dd710_item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))), (const char *)(::FUN_00559450((int *)&(strEntry))), {}, {});
+                reinterpret_cast<::ListOwner *>(&(DAT_011dace0->m1e0))->FUN_007e0e70((intptr_t)(((::fnv_007dd710::FUN_007dd710_item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))), (const char *)(::FUN_00559450((int *)&(strEntry))), {}, {});
             }
         }
     }
@@ -4632,7 +4632,7 @@ void FUN_007e08a0_shell::AddEffectToGroup(ActiveCalls* effect)
 // @fnv 0x007e09d0
 void FUN_007e09d0_cls::FUN_007e09d0(FUN_007e09d0_arg* arg)
 {
-    int value = ((int)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()));
+    intptr_t value = ((intptr_t)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()));
     if (!reinterpret_cast<::RefList *>(&(unk04))->FUN_005f65d0((void **)(int *)(&value)))
     {
         reinterpret_cast<::FUN_00470440 *>(&(unk04))->FUN_007a7eb0((::BGSPerkEntry *)(((std::intptr_t)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()))), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(CompareEffectNames));
@@ -5044,7 +5044,7 @@ void StatsMenuActiveEffects::FUN_007ddf00()
             ptile->Set(0xfac, i++);
             strtmp = "stats_rad_effect_";
             ::fnv_00404820::FUN_00404820((::BSStringT<char> *)&(strtmp), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))));
-            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((intptr_t)&(strtmp));
             ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_iMagnitude);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(const char *)(strtmp), true);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))), true);
@@ -5067,7 +5067,7 @@ void StatsMenuActiveEffects::FUN_007ddf00()
             ptile->Set(0xfac, i++);
             strtmp = "stats_h20_effect_";
             ::fnv_00404820::FUN_00404820((::BSStringT<char> *)&(strtmp), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))));
-            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((intptr_t)&(strtmp));
             ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_iMagnitude);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(const char *)(strtmp), true);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))), true);
@@ -5090,7 +5090,7 @@ void StatsMenuActiveEffects::FUN_007ddf00()
             ptile->Set(0xfac, i++);
             strtmp = "stats_hunger_effect_";
             ::fnv_00404820::FUN_00404820((::BSStringT<char> *)&(strtmp), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))));
-            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((intptr_t)&(strtmp));
             ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_iMagnitude);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(const char *)(strtmp), true);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))), true);
@@ -5113,7 +5113,7 @@ void StatsMenuActiveEffects::FUN_007ddf00()
             ptile->Set(0xfac, i++);
             strtmp = "stats_sleep_effect_";
             ::fnv_00404820::FUN_00404820((::BSStringT<char> *)&(strtmp), (::fnv_00404820::StrArg)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))));
-            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((int)&(strtmp));
+            reinterpret_cast<::FUN_007df120_Class *>((((TileOps*)ptile)))->FUN_007df120((intptr_t)&(strtmp));
             ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%+d", ((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_iMagnitude);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0xfc4, (char *)(const char *)(strtmp), true);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1005, (char *)(::FUN_0066eb00((::ActorValue::Index)(((::MagicEffectEntry *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item))->m_eAssociatedActorValue))), true);

@@ -1,5 +1,6 @@
 // fallout_shared/bgsexplosion.cpp: BGSExplosion, EffectSetting, ScalarHelper, BGSExplosionCompare and more (22 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -45,6 +46,7 @@
 #include "fnv/symbols_011ca000.h"
 #include "bgsexplosion_types_BGSExplosion.h"
 #include "bgsexplosion_decls.h"
+#include "fnv/symbols_00472000.h"
 
 // Clears the explosion's field to 0 and calls InitExplosionData on the object returned by FUN_004fadc0.
 // @fnv 0x004fade0
@@ -69,7 +71,7 @@ void BGSExplosion::InitItem()
     if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
 
-    unsigned int formID = reinterpret_cast<unsigned int>(reinterpret_cast<EffectSetting*>(this)->GetCastSound());
+    unsigned int formID = (unsigned int)(std::uintptr_t)(reinterpret_cast<EffectSetting*>(this)->GetCastSound());
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -77,7 +79,7 @@ void BGSExplosion::InitItem()
             (::TESWaterForm *)(::TESSound *)(reinterpret_cast<TESSound*>(dynamic_cast<TESObjectLIGH*>(::FUN_004839c0(formID)))));
     }
 
-    formID = reinterpret_cast<unsigned int>(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this))))));
+    formID = (unsigned int)(std::uintptr_t)(((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this))))));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -92,7 +94,7 @@ void BGSExplosion::InitItem()
         reinterpret_cast<::BGSTalkingActivator *>(this)->SetVoiceType((::BGSVoiceType *)(::TESSound *)(dynamic_cast<TESSound*>(::FUN_004839c0(formID))));
     }
 
-    formID = reinterpret_cast<unsigned int>(((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>(this)->FUN_00516bf0())));
+    formID = (unsigned int)(std::uintptr_t)(((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>(this)->FUN_00516bf0())));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -101,7 +103,7 @@ void BGSExplosion::InitItem()
             ::FUN_005b5e40();
     }
 
-    formID = reinterpret_cast<unsigned int>(m_pExplosionBoundObject);
+    formID = (unsigned int)(std::uintptr_t)(m_pExplosionBoundObject);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -277,15 +279,15 @@ struct FUN_004fb7a0_obj
 };
 struct FUN_004fb7d0_shell
 {
-    int FUN_004fb7d0(int);
+    intptr_t FUN_004fb7d0(int);
 };
 // If the explosion object returned by FUN_00516bf0 exists, forwards a to its FUN_004fb7a0 and returns the result; otherwise returns 0.
 // @fnv 0x004fb7d0
-int FUN_004fb7d0_shell::FUN_004fb7d0(int a)
+intptr_t FUN_004fb7d0_shell::FUN_004fb7d0(int a)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((((BGSExplosion*)this)))->FUN_00516bf0())))
-        result = ((int)(reinterpret_cast<::Proxy804 *>((((FUN_004fb7a0_obj*)((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((((BGSExplosion*)this)))->FUN_00516bf0())))))->FUN_004fb7a0(a)));
+        result = ((std::intptr_t)(reinterpret_cast<::Proxy804 *>((((FUN_004fb7a0_obj*)((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((((BGSExplosion*)this)))->FUN_00516bf0())))))->FUN_004fb7a0(a)));
     return result;
 }
 
@@ -339,16 +341,15 @@ struct GlobalObject2_0040c150
 GlobalObject2_0040c150 g_011cd3b4;
 GlobalObject2_0040c150 g_011cd538;
 GlobalObject2_0040c150 g_011cdde0;
-struct FUN_004fb810_shell
+struct FUN_004fb810_shell : ::BGSExplosion
 {
-    int m_00a4;
     int* FUN_004fb810();
 };
 // @fnv 0x004fb810
 int* FUN_004fb810_shell::FUN_004fb810()
 {
-    int result = 0;
-    switch (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xa4))
+    std::intptr_t result = 0;
+    switch (*reinterpret_cast<int*>(&this->Data.m_eSoundLevel))
     {
     case 2:
         result = ((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)&g_011cd3b4)))))[0];
@@ -399,7 +400,7 @@ struct FUN_004fd380_shell
 };
 
 
-struct FUN_004fb3b0_shell
+struct FUN_004fb3b0_shell : ::BGSExplosion
 {
     void FUN_004fb3b0();
 };
@@ -414,10 +415,10 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
     unsigned int psaveSound1;
 
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->FUN_00487010();
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x3C)))->WriteToBuffer((char *)(0x4C444F4D), (void *)(0x54444F4D));
-    reinterpret_cast<FUN_0047bd70_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)->FUN_0047bd70();
-    reinterpret_cast<FUN_00487450_shell*>(reinterpret_cast<unsigned char*>(this) + 0x68)->FUN_00487450();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4C444F4D), (void *)(0x54444F4D));
+    reinterpret_cast<FUN_0047bd70_shell*>(static_cast<TESEnchantableForm *>(this))->FUN_0047bd70();
+    reinterpret_cast<FUN_00487450_shell*>(static_cast<TESImageSpaceModifiableForm *>(this))->FUN_00487450();
 
     psaveLight = reinterpret_cast<EffectSetting*>(this)->GetCastSound();
     reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm(
@@ -444,13 +445,13 @@ void FUN_004fb3b0_shell::FUN_004fb3b0()
                                                 : 0));
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)))->SwapAllFields();
+        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(&this->Data.fForce)))->SwapAllFields();
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74), 0x34);
+        reinterpret_cast<EndianConvertibleData*>(&this->Data.fForce), 0x34);
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x74)))->SwapAllFields();
+        reinterpret_cast<::IntFieldContainer *>((reinterpret_cast<EndianConvertibleData*>(&this->Data.fForce)))->SwapAllFields();
 
     reinterpret_cast<::FUN_008ac890_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetWaterForm((::TESWaterForm *)(psaveLight));
     reinterpret_cast<EffectSetting*>(this)->SetBoltSound(psaveSound2);
@@ -595,13 +596,13 @@ class ExplosionFB6 : public TESFormFB6, public TESSoundFileFB6, public LoaderCli
 void ExplosionFB6::AttachSoundAndTarget(int iA, int iB)
 {
     if (GetSoundFileLength())
-        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((int)(this), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(this), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
 
     if (m_pkTarget)
         m_pkTarget->Attach(iA, iB);
 
     if ((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284)) && (*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))->GetSoundFileLength())
-        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((int)((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
 }
 
 class FNVArg
@@ -674,13 +675,13 @@ struct FUN_004fb880_cls
 // @fnv 0x004fb880
 int FUN_004fb880_cls::ApplyOrCreateResult(FNVArg* a1, unsigned char a2)
 {
-    int iResult = 0;
+    std::intptr_t iResult = 0;
     unsigned char flagTmp = 0;
     {
         FNVArg* arg = a1;
         if (!((bool)(reinterpret_cast<::FUN_004fb970_class *>((arg))->GetByteAtOffsetD9())))
         {
-            iResult = ((int)(reinterpret_cast<::fnv_0050ee50::CloneObject17 *>(this)->FUN_0050ee50((::TESObjectREFR *)(a1), a2)));
+            iResult = ((std::intptr_t)(reinterpret_cast<::fnv_0050ee50::CloneObject17 *>(this)->FUN_0050ee50((::TESObjectREFR *)(a1), a2)));
         }
         else
         {
@@ -689,7 +690,7 @@ int FUN_004fb880_cls::ApplyOrCreateResult(FNVArg* a1, unsigned char a2)
             FNVGuard guard3(1.0f);
             if (pRes != 0)
             {
-                iResult = ((int)(reinterpret_cast<::A5D2C0Object *>((pRes))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&guard3)))));
+                iResult = ((std::intptr_t)(reinterpret_cast<::A5D2C0Object *>((pRes))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&guard3)))));
             }
         }
         return iResult;
@@ -754,5 +755,40 @@ void BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
     memcpy(FUN_004fadc0(), pcopy->FUN_004fadc0(), 0x34);
     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((((EffectSetting_shell*)this)))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(((EffectSetting_shell*)pcopy)->GetLight()));
 }
+
+// sub ecx,0x3c; jmp FUN_004facf0  ==  MSVC adjustor thunk (multiple inheritance, primary base size 0x3c)
+struct PrimaryBase
+{
+    virtual void FUN_004fb9f0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004fb9f0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x004fb9f0
+    virtual void FUN_004fb9f0();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/fallout_shared/bgsexplosion.inc"

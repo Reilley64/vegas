@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+
+#include <cstdint>
 
 class B6B610Wrapper;
 class BSShaderAccumulator;
@@ -30,13 +33,13 @@ void FUN_00b6b7d0(::NiRenderTargetGroup *, unsigned int);
 // 0x00b6b840
 void FUN_00b6b840();
 // 0x00b6b890
-void FUN_00b6b890(int, int);
+void FUN_00b6b890(int, std::intptr_t);
 // 0x00b6b8d0
-bool FUN_00b6b8d0(int, ::NiRenderTargetGroup *);
+bool FUN_00b6b8d0(intptr_t, ::NiRenderTargetGroup *);
 // 0x00b6b910
 void CopyBlock48(void *, const void *);
 // 0x00b6b930
-void FUN_00b6b930(unsigned int, ::FUN_00b6b930_Object *);
+void FUN_00b6b930(uintptr_t, ::FUN_00b6b930_Object *);
 // 0x00b6b940
 void FUN_00b6b940(::PixelData *);
 // 0x00b6ba20

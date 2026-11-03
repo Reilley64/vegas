@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class GlobalObject2_0045cfe0;
 class GlobalObject2_0096a2d0;
@@ -8,7 +9,7 @@ class GlobalObject_0045cfe0;
 class GlobalObject_00633c90;
 
 // 0x011db00c
-extern int DAT_011db00c;
+extern intptr_t DAT_011db00c;
 // 0x011db088
 extern int DAT_011db088;
 // 0x011db0b0
@@ -24,7 +25,7 @@ extern float DAT_011db0c0;
 // 0x011db0ce
 namespace fnv_00709d10 { extern bool g_flag; }
 // 0x011db0d4
-extern int DAT_011db0d4;
+extern intptr_t DAT_011db0d4;
 // 0x011db0dc
 namespace fnv_007f07a0 { extern int DAT_011db0dc; }
 // 0x011db114

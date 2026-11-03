@@ -16,7 +16,7 @@ template <class> class BSSimpleList;
 // 0x00660030
 ::S6 *CopyTripleShorts(::S6 *, ::S6 *, ::S6 *);
 // 0x00660070
-int CopyRange(int, int, int, ::FUN_00660070_cls *);
+intptr_t CopyRange(intptr_t, intptr_t, intptr_t, ::FUN_00660070_cls *);
 // 0x00660130
 char *FUN_00660130(::C0130Iterator, ::C0130Iterator, ::C0130Iterator);
 // 0x00660190

@@ -1,5 +1,7 @@
 // fallout/misc/saveload/bgssaveloadmanager.cpp: BGSSaveLoadManager, PathManager, Interface, FakeSaveMgr and more (39 functions)
 
+#include <cstdint>
+#include "fnv/save_load_game_view.h"
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/decl/BSAudioManager.h"
@@ -243,7 +245,7 @@ void BGSSaveLoadManager::FinishLoadingGame()
     reinterpret_cast<::fnv_00448620::FUN_00448620_cls *>((g_modelLoader))->FUN_00448620(false);
     reinterpret_cast<::FadeAttachedTES *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00459a00();
     reinterpret_cast<::TESForm *>((reinterpret_cast<ActorMover*>(g_osGlobals)))->ClearData();
-    reinterpret_cast<GridCellArray*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>((*reinterpret_cast<::TES * *>(&::g_TES)))))->GetName())))
+    reinterpret_cast<GridCellArray*>((*reinterpret_cast<::TES * *>(&::g_TES))->pGridCellArray)
         ->ReleaseGridCells();
     reinterpret_cast<::FUN_009ca410_shell *>((reinterpret_cast<VATS*>(&g_011f2250)))->ProcessVATSCommands();
     TESWorldSpace* world = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((::_g_thePlayer))->FUN_00575d70()));
@@ -329,8 +331,8 @@ bool BGSSaveLoadManager::CanSave(bool skipMenus)
 {
     if (::_g_thePlayer)
     {
-        if ((unsigned int)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 2 ||
-            (unsigned int)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 1)
+        if ((uintptr_t)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 2 ||
+            (uintptr_t)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 1)
             return false;
         if (::FUN_0093a740((::FUN_0093a740_s *)(::_g_thePlayer)))
             return false;
@@ -886,7 +888,7 @@ bool SaveManager::FUN_008503b0(const char* acFileName, int mode, bool remove)
     }
     ::TaskQueueInterface::CopyStringToBuffer(f, 260, acFileName);
     reinterpret_cast<::fnv_0084ab20::FUN_0084ab20_shell *>((((SaveGameOps*)::g_BGSSaveLoadGame)))->FUN_0084ab20();
-    unsigned int h = reinterpret_cast<::FUN_00620b80_shell *>((((::SaveGameDetails *)(reinterpret_cast<::BGSTerrainManager *>((((SaveGameOps*)::g_BGSSaveLoadGame)))->GetMinLevel()))))->GetReferenceFlags();
+    unsigned int h = reinterpret_cast<::FUN_00620b80_shell *>((((::SaveGameDetails *)(reinterpret_cast<::BGSSaveLoadGameView *>(::g_BGSSaveLoadGame)->pSaveLoadHistory))))->GetReferenceFlags();
     reinterpret_cast<::FUN_00850ba0_shell *>(this)->FUN_00850ba0();
     SaveLoadFile* i = 0;
     if (file)
@@ -920,7 +922,7 @@ bool SaveManager::FUN_008503b0(const char* acFileName, int mode, bool remove)
         reinterpret_cast<::FUN_0084ff90_shell *>(this)->BuildWeaponPath((char *)(acFileName), ba, false);
         DumpTextAndOpen(ba);
     }
-    reinterpret_cast<::FUN_0084e250_shell *>((((::SaveGameDetails *)(reinterpret_cast<::BGSTerrainManager *>((((SaveGameOps*)::g_BGSSaveLoadGame)))->GetMinLevel()))))->DeleteItemsFrom(h);
+    reinterpret_cast<::FUN_0084e250_shell *>((((::SaveGameDetails *)(reinterpret_cast<::BGSSaveLoadGameView *>(::g_BGSSaveLoadGame)->pSaveLoadHistory))))->DeleteItemsFrom(h);
     if (i != file && field00)
         reinterpret_cast<::FUN_00851680_class *>(this)->AddFileToList(f, mode, index);
     if (!b && !q)

@@ -1,5 +1,6 @@
 // fallout/ai/escortpackage.cpp: EscortActorPackageData (10 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorPackageData.h"
 #include "fnv/decl/Callees.h"
@@ -377,7 +378,7 @@ void FUN_009f0cf0_shell::PruneActorList(FUN_009f0cf0_arg* apArg)
         bool bRemove = false;
         if (pActor)
         {
-            pActor = pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)pActor)) : 0;
+            pActor = pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)pActor)) : 0;
             if (pActor)
                 pNode->SetItem(pActor);
             else

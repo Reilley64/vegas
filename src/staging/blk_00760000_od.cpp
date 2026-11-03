@@ -2,6 +2,7 @@
 // src/staging/blk_00760000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cctype>
 #include "fnv/decl/AudioClass_ae5680.h"
@@ -196,7 +197,7 @@ void FUN_007615d0_class::FUN_007615d0(bool freeStorage)
 {
     if (data)
     {
-        reinterpret_cast<::NiFixedString *>((((FUN_00761760_class*)this)))->FUN_00761760((int *)((int)data), size);
+        reinterpret_cast<::NiFixedString *>((((FUN_00761760_class*)this)))->FUN_00761760((int *)(data), size);
         if (freeStorage)
         {
             ::FUN_006a8500((::DummyClass_006a8500 *)(((NavMeshSearchLOSArray*)this)));
@@ -320,7 +321,7 @@ int __cdecl FUN_0076bb00(void* pLeft, void* pRight)
 
 // If _pme is set and its field at offset 0x1b8 equals param_1, clears that field to 0 and returns true; otherwise returns false.
 // @fnv 0x00778b40
-bool __cdecl ClearPmeIfMatches(int aiValue)
+bool __cdecl ClearPmeIfMatches(intptr_t aiValue)
 {
     if ((*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) && *(int*)((char*)(*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) + 0x1b8) == aiValue)
     {
@@ -357,14 +358,14 @@ struct FUN_007614c0_shell
 {
     int m_iElementCount;
     int* m_data;
-    unsigned int FUN_007614c0(unsigned int index);
+    unsigned int FUN_007614c0(uintptr_t index);
 };
 
 struct FUN_007616d0_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
-    int iSize;
+    virtual void* Write(unsigned int);
+    void* iSize;
     int iPosition;
     int iDataLength;
     void InitializeBuffer(unsigned int requested, unsigned int savedSize);
@@ -386,7 +387,7 @@ void FUN_007616d0_class::InitializeBuffer(unsigned int requested, unsigned int s
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_00761630_shell *>(this)->ConstructSlotItems((int *)(iSize), savedSize);
+        reinterpret_cast<::FUN_00761630_shell *>(this)->ConstructSlotItems((int *)iSize, savedSize);
         iPosition = savedSize;
     }
 }
@@ -451,7 +452,7 @@ struct FUN_00761540_cls
     unsigned int FUN_00761540();
 };
 // @fnv 0x007614c0
-unsigned int FUN_007614c0_shell::FUN_007614c0(unsigned int index)
+unsigned int FUN_007614c0_shell::FUN_007614c0(uintptr_t index)
 {
     unsigned int size = reinterpret_cast<::FUN_00761540_cls *>((((S2f850*)this)))->FUN_00761540();
     ((FUN_00761630_shell*)this)->ConstructSlotItems(m_data + size, 1);
@@ -473,7 +474,7 @@ unsigned int FUN_00761540_cls::FUN_00761540()
         else
         {
             int p = reinterpret_cast<::FUN_009a3910_cls *>(this)->FUN_009a3910();
-            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00((void *)(p), m_08);
+            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00((void *)(intptr_t)(p), m_08);
             m_0c = p;
         }
     }
@@ -1558,14 +1559,14 @@ struct C77a400
     int m_unk704;
     Arr77a400 m_Arr708;
 
-    unsigned int GetFirstOrFallback();
+    uintptr_t GetFirstOrFallback();
 };
 
 // Returns the first element of m_Arr708 if the array is non-empty, otherwise returns m_unk6f4.
 // @fnv 0x0077a400
-unsigned int C77a400::GetFirstOrFallback()
+uintptr_t C77a400::GetFirstOrFallback()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->m_Arr708))->GetName())) > 0 ? (unsigned int)*((int *)(reinterpret_cast<::FUN_00558dd0_class *>(&(this->m_Arr708))->FUN_00558dd0(0))) : (unsigned int)this->m_unk6f4;
+    return ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->m_Arr708))->GetName())) > 0 ? (unsigned int)*((int *)(reinterpret_cast<::FUN_00558dd0_class *>(&(this->m_Arr708))->FUN_00558dd0(0))) : (unsigned int)this->m_unk6f4;
 }
 
 class HKTile
@@ -1681,7 +1682,7 @@ void HKMenu::UpdateHighlight()
     if (pkNodeTmp)
         ::__memcpy(acWordNext, *((char **)(new ((void *)(pkNodeTmp)) ::Vec3())), m_uiWordLength);
     else if (!m_kSymbols.FUN_0049c680(&uiElapsedMilliseconds, 0))
-        reinterpret_cast<::FUN_0076a670_cls *>(this)->FUN_0076a670((int)(acWordNext), reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4) + reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue());
+        reinterpret_cast<::FUN_0076a670_cls *>(this)->FUN_0076a670((intptr_t)(acWordNext), reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4) + reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue());
     else
         acWordNext[0] = reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()];
     if (m_kGuessed.FUN_0076a3d0(acWordNext))
@@ -1694,10 +1695,11 @@ void HKMenu::UpdateHighlight()
         unsigned int ItemUpdateArray = FUN_0044a670(acWordNext);
         while (ItemUpdateArray--)
         {
-            HKSoundHandle kSound = (*(::HKSoundHandle *)(reinterpret_cast<::AudioClass_ae5680 *>((((::HKAudio *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)("UIHackingCharSingle"), 0x121, {})));
+            HKSoundHandle kSound;
+            reinterpret_cast<::AudioClass_ae5680 *>((((::HKAudio *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)(void *)(&kSound), (int)(intptr_t)("UIHackingCharSingle"), 0x121);
             reinterpret_cast<::Owner *>(&((*reinterpret_cast<::HKSoundList *>(&::g_011d9604))))->FUN_0076b6a0((::Flt *)&(kSound));
             if (ItemUpdateArray)
-                reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->SchedulePlayback((int)(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(m_kGuessed))->FUN_0044edb0())) * ItemUpdateArray * 1.5), {});
+                reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->SchedulePlayback((int)(((unsigned int)(uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(m_kGuessed))->FUN_0044edb0())) * ItemUpdateArray * 1.5), {});
             else
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(kSound))->FUN_00ad8830(false);
         }

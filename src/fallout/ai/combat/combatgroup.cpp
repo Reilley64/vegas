@@ -328,18 +328,18 @@ void FUN_00988790_shell::FUN_00988790(unsigned int auiIndex) const
 
 struct ActorCombatGroup
 {
-    void* FUN_009865d0(int);
-    unsigned char GetByteAtOffset100(int);
+    void* FUN_009865d0(intptr_t);
+    unsigned char GetByteAtOffset100(intptr_t);
 };
 
-void* ActorCombatGroup::FUN_009865d0(int)
+void* ActorCombatGroup::FUN_009865d0(intptr_t)
 {
     return 0;
 }
 
 // Calls FUN_009865d0 with arg; if it returns non-null, returns byte at offset 0x64, otherwise 0.
 // @fnv 0x009891a0
-unsigned char ActorCombatGroup::GetByteAtOffset100(int arg)
+unsigned char ActorCombatGroup::GetByteAtOffset100(intptr_t arg)
 {
     void* result = FUN_009865d0(arg);
     if (result)
@@ -350,7 +350,7 @@ unsigned char ActorCombatGroup::GetByteAtOffset100(int arg)
 struct FUN_0098a310_shell
 {
     int m_field;
-    int GetFieldOrZero(int param);
+    int GetFieldOrZero(intptr_t param);
 };
 
 struct FUN_009865f0_stub
@@ -361,11 +361,11 @@ struct FUN_009865f0_stub
 
 struct FUN_009865f0_shell
 {
-    int FUN_009865f0(int a1);
+    intptr_t FUN_009865f0(intptr_t a1);
 };
 // Calls FUN_009865f0 with param and returns the resulting object's m_field, or 0 if the call returns null.
 // @fnv 0x0098a310
-int FUN_0098a310_shell::GetFieldOrZero(int param)
+int FUN_0098a310_shell::GetFieldOrZero(intptr_t param)
 {
     FUN_009865f0_stub* result = ((::FUN_009865f0_stub *)(reinterpret_cast<::FUN_009865f0_shell *>((reinterpret_cast<FUN_009865f0_stub*>(this)))->FUN_009865f0(param)));
     if (result)
@@ -382,7 +382,7 @@ struct FUN_0098a360_shell
 // @fnv 0x0098a360
 void FUN_0098a360_shell::FUN_0098a360(int a1, int a2)
 {
-    int v1 = ((FUN_009865f0_shell*)this)->FUN_009865f0(a1);
+    intptr_t v1 = ((FUN_009865f0_shell*)this)->FUN_009865f0(a1);
     if (v1 != 0)
         *(int*)(v1 + 4) = a2;
 }
@@ -395,12 +395,12 @@ struct FUN_0098de60_shell
 {
     unsigned char pad[0x138];
     BSSimpleArray arr;  // +0x138
-    int GetArrayItem(char index);
+    intptr_t GetArrayItem(char index);
 };
 
 // Returns 0 if index is negative, otherwise returns the element at index from arr.
 // @fnv 0x0098de60
-int FUN_0098de60_shell::GetArrayItem(char index)
+intptr_t FUN_0098de60_shell::GetArrayItem(char index)
 {
     if (index < 0)
         return 0;
@@ -447,14 +447,14 @@ struct GlobalObject_00869f00
 
 struct FUN_0098f020_shell
 {
-    int m_iWordAt00;
+    intptr_t m_iWordAt00;
     void ResetGlobalObject();
 };
 
 // @fnv 0x0098f020
 void FUN_0098f020_shell::ResetGlobalObject()
 {
-    m_iWordAt00 = (int)&::DAT_0108d708;
+    m_iWordAt00 = (intptr_t)&::DAT_0108d708;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_0098f020
@@ -507,10 +507,10 @@ void FUN_00985ae0_shell::FUN_00985ae0(BGSSaveFormBuffer* buffer, int aiUnused)
 
 struct FUN_00985b10_shell
 {
-    void FUN_00985b10(BGSLoadFormBuffer* buffer, int a2);
+    void FUN_00985b10(BGSLoadFormBuffer* buffer, intptr_t a2);
 };
 // @fnv 0x00985b10
-void FUN_00985b10_shell::FUN_00985b10(BGSLoadFormBuffer* buffer, int aiUnused)
+void FUN_00985b10_shell::FUN_00985b10(BGSLoadFormBuffer* buffer, intptr_t aiUnused)
 {
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 0x10);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
@@ -562,10 +562,10 @@ struct Actor : public TESForm
 struct Holder00985930
 {
     unsigned int m_data;
-    void FUN_00985930(int a1, int a2);
+    void FUN_00985930(int a1, intptr_t a2);
 };
 // @fnv 0x00985930
-void Holder00985930::FUN_00985930(int a1, int aiUnused)
+void Holder00985930::FUN_00985930(int a1, intptr_t aiUnused)
 {
     *(Actor**)&m_data = m_data ? dynamic_cast<Actor*>(::FUN_004839c0(m_data)) : (Actor*)0;
 }
@@ -589,11 +589,11 @@ FUN_009863b0::~FUN_009863b0()
 
 struct FUN_009865b0_shell : ActorCombatGroup
 {
-    bool FUN_009865b0(int param);
+    bool FUN_009865b0(intptr_t param);
 };
 
 // @fnv 0x009865b0
-bool FUN_009865b0_shell::FUN_009865b0(int param)
+bool FUN_009865b0_shell::FUN_009865b0(intptr_t param)
 {
     return (FUN_009865d0(param) != 0) ? true : false;
 }
@@ -650,10 +650,10 @@ void* FUN_00986950_shell::FUN_00986950(void* a1)
 
 struct FUN_00986a80_shell : public FUN_009865f0_shell
 {
-    char FUN_00986a80(int param);
+    char FUN_00986a80(intptr_t param);
 };
 // @fnv 0x00986a80
-char FUN_00986a80_shell::FUN_00986a80(int param)
+char FUN_00986a80_shell::FUN_00986a80(intptr_t param)
 {
     return (FUN_009865f0(param) != 0);
 }
@@ -691,12 +691,12 @@ bool FUN_00986aa0_shell::FUN_00986aa0(Actor* actor)
 
 struct FUN_009874b0_shell : ActorCombatGroup
 {
-    void FUN_009874b0(int a1);
+    void FUN_009874b0(intptr_t a1);
 };
 
 // Calls FUN_009865d0 with a1 to get a CombatTarget and, if non-null, increments the ushort at offset 0x4a in its m_data.
 // @fnv 0x009874b0
-void FUN_009874b0_shell::FUN_009874b0(int a1)
+void FUN_009874b0_shell::FUN_009874b0(intptr_t a1)
 {
     CombatTarget* pcombatTarget;
     pcombatTarget = (CombatTarget*)FUN_009865d0(a1);
@@ -711,11 +711,11 @@ struct S_009874f0
 };
 struct FUN_009874f0_obj
 {
-    void DecrementField4A(int);
+    void DecrementField4A(intptr_t);
 };
 // Retrieves an object via FUN_009865d0 and, if non-null, decrements its f4A field.
 // @fnv 0x009874f0
-void FUN_009874f0_obj::DecrementField4A(int a1)
+void FUN_009874f0_obj::DecrementField4A(intptr_t a1)
 {
     S_009874f0* p = (S_009874f0*)reinterpret_cast<ActorCombatGroup*>(this)->FUN_009865d0(a1);
     if (p)
@@ -732,11 +732,11 @@ struct StandIn_00989010
 {
     ThreeInts_00989010 t;
     int v;
-    void SetTripleAndValue(ThreeInts_00989010* src, int val);
+    void SetTripleAndValue(ThreeInts_00989010* src, intptr_t val);
 };
 // Copies the three-int struct pointed to by src into t and stores val in v.
 // @fnv 0x00989010
-void StandIn_00989010::SetTripleAndValue(ThreeInts_00989010* apTriple, int aiValue)
+void StandIn_00989010::SetTripleAndValue(ThreeInts_00989010* apTriple, intptr_t aiValue)
 {
     t = *apTriple;
     v = aiValue;
@@ -753,11 +753,11 @@ public:
 };
 struct MyClass
 {
-    int GetResultForArg(int arg);
+    int GetResultForArg(intptr_t arg);
     void UpdateTargetPerception(int a1, int a2, int* a3, CombatTargetTimestamp* a4, bool* a5, bool* a6);
 };
 // @fnv 0x00989040
-int MyClass::GetResultForArg(int arg)
+int MyClass::GetResultForArg(intptr_t arg)
 {
     int result;
     bool b1;
@@ -794,7 +794,7 @@ struct Holder : ActorCombatGroup
 CombatTargetTimestamp Holder::GetCombatTargetTimestamp(Actor* apTarget)
 {
     CombatTarget* pcombatTarget;
-    pcombatTarget = (CombatTarget*)FUN_009865d0((int)apTarget);
+    pcombatTarget = (CombatTarget*)FUN_009865d0((intptr_t)apTarget);
     if (pcombatTarget)
         return ((CombatTargetHack*)pcombatTarget)->ts;
     return CombatTargetTimestamp(-::DAT_0108d540);
@@ -823,7 +823,7 @@ struct CombatGroupStub
 bool CombatGroupStub::GetDetectedTargetLocation(Actor* apTarget, CoordinateTriple& arLastDetectedLocation)
 {
     CombatTarget* pcombatTarget;
-    pcombatTarget = (CombatTarget*)((ActorCombatGroup*)this)->FUN_009865d0((int)apTarget);
+    pcombatTarget = (CombatTarget*)((ActorCombatGroup*)this)->FUN_009865d0((intptr_t)apTarget);
     if (pcombatTarget != 0)
     {
         if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((CoordinateTriple*)((char*)pcombatTarget + 0x18))))->FUN_0084e3a0())))
@@ -901,10 +901,10 @@ void* FUN_0098a410_shell::FindByValue(unsigned int value)
     return 0;
 }
 
-extern int DAT_011f18b4[];
+extern void* DAT_011f18b4[];
 
 // @fnv 0x0098e980
-int __cdecl FUN_0098e980(int index)
+void* __cdecl FUN_0098e980(int index)
 {
     return DAT_011f18b4[index];
 }
@@ -1382,11 +1382,11 @@ struct FUN_0098c590_shell
 };
 struct FUN_0098c780_shell
 {
-    void ClearReservedFlag(int param);
+    void ClearReservedFlag(intptr_t param);
 };
 // Looks up a CombatSearchDoor by param and clears its bReserved flag when found.
 // @fnv 0x0098c780
-void FUN_0098c780_shell::ClearReservedFlag(int param)
+void FUN_0098c780_shell::ClearReservedFlag(intptr_t param)
 {
     CombatSearchDoor* psearchDoor = ((FUN_0098c590_shell*)this)->FindParentSpaceNode(param);
     if (psearchDoor)
@@ -1659,7 +1659,7 @@ bool CombatGroupS::FUN_00987220(CombatMemberS* pMember)
         if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x58))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting407)))))))
         {
             bool bnoSphere = false;
-            if (ItemUpdateArray == 1 && spSphere && reinterpret_cast<::BSMultiBoundSphere *>((void *)(((AvoidSphere*)(unsigned int)spSphere)))->GetRadius() == 0.0)
+            if (ItemUpdateArray == 1 && spSphere && reinterpret_cast<::BSMultiBoundSphere *>((void *)(((AvoidSphere*)(uintptr_t)spSphere)))->GetRadius() == 0.0)
                 bnoSphere = true;
             if (bnoSphere || !FUN_00989880(pMember->pActor, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting408))))))))
                 return true;
@@ -1851,7 +1851,7 @@ struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-int __cdecl FUN_005d8550(unsigned int);
+const void* __cdecl FUN_005d8550(unsigned int);
 struct P3
 {
     float x, y, z;
@@ -1876,11 +1876,11 @@ bool CombatGroup_009867d0::FUN_009867d0(ActorV* apActor)
     P3 color;
     if (!apActor)
         return false;
-    if (((bool)(reinterpret_cast<::FUN_00986a80_shell *>((((S00986a80*)this)))->FUN_00986a80((int)(apActor)))))
+    if (((bool)(reinterpret_cast<::FUN_00986a80_shell *>((((S00986a80*)this)))->FUN_00986a80((intptr_t)(apActor)))))
         return true;
     if (!reinterpret_cast<::fnv_00986aa0::FUN_00986aa0_shell *>((((S00986aa0*)this)))->FUN_00986aa0((::fnv_00986aa0::Actor *)(apActor)))
         return false;
-    if (((FUN_009865b0_shell*)this)->FUN_009865b0((int)apActor))
+    if (((FUN_009865b0_shell*)this)->FUN_009865b0((intptr_t)apActor))
     {
         ::FUN_005b5e40();
         return false;
@@ -1890,7 +1890,7 @@ bool CombatGroup_009867d0::FUN_009867d0(ActorV* apActor)
         ((BSSimpleArray_CombatMember_1024*)((char*)this + 0x18))
             ->AddCombatMember((const CombatClusterMember*)member.FUN_00986950(apActor));
     }
-    reinterpret_cast<::fnv_00992700::CombatBox *>((((S00992700*)(*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_00992700((unsigned int)(this), (unsigned int)(apActor));
+    reinterpret_cast<::fnv_00992700::CombatBox *>((((S00992700*)(*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_00992700((uintptr_t)(this), (uintptr_t)(apActor));
     if (*::g_011f1878.Bool() && apActor->V1d0())
     {
         colorA = *(RgbaColor*)FUN_005d8550(m_uiActorFormID);
@@ -1918,7 +1918,7 @@ struct FUN_0098f040_shell
 
 struct FUN_00986500_shell : ActorCombatGroup
 {
-    void RemoveByTarget(int target);
+    void RemoveByTarget(std::intptr_t target);
 };
 struct FUN_0096a2b0_stub2
 {
@@ -1926,12 +1926,12 @@ struct FUN_0096a2b0_stub2
 };
 // Scans the array at this+8 for a CombatTarget whose first int equals target, then calls FUN_00986560 with that index and returns.
 // @fnv 0x00986500
-void FUN_00986500_shell::RemoveByTarget(int target)
+void FUN_00986500_shell::RemoveByTarget(std::intptr_t target)
 {
     for (int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 8))))->GetName())); ++i)
     {
         CombatTarget* combatTarget = ((FUN_0096a2b0_stub2*)((char*)this + 8))->FUN_0096a2b0(i);
-        if (*(int*)combatTarget == target)
+        if (*(std::intptr_t*)combatTarget == target)
         {
             reinterpret_cast<::FUN_00986560_shell *>(this)->FUN_00986560(i);
             return;
@@ -2007,7 +2007,7 @@ void FUN_00986bd0_shell::FUN_00986bd0()
     for (unsigned int i = 0; i < imemberCount; ++i)
     {
         Actor* pmember = ((::Actor *)(reinterpret_cast<::Target *>(this)->GetIntAt(i)));
-        reinterpret_cast<::FUN_008d0600_s *>((reinterpret_cast<SkyObject*>((*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_008d0600((int)(reinterpret_cast<Sky*>(this)), reinterpret_cast<int>(pmember));
+        reinterpret_cast<::FUN_008d0600_s *>((reinterpret_cast<SkyObject*>((*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_008d0600((intptr_t)(reinterpret_cast<Sky*>(this)), reinterpret_cast<intptr_t>(pmember));
     }
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(reinterpret_cast<char*>(this) + 0x18)))->Clear(false);
 }
@@ -2320,7 +2320,7 @@ void FUN_009869a0_shell::FUN_009869a0(Actor* apActor)
 
         if (combatMember->pActor == apActor)
         {
-            reinterpret_cast<::FUN_008d0600_s *>((reinterpret_cast<SkyObject*>((*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_008d0600((int)(reinterpret_cast<Sky*>(this)), reinterpret_cast<int>(apActor));
+            reinterpret_cast<::FUN_008d0600_s *>((reinterpret_cast<SkyObject*>((*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_008d0600((intptr_t)(reinterpret_cast<Sky*>(this)), reinterpret_cast<intptr_t>(apActor));
 
             reinterpret_cast<::FUN_0098f1f0_Class *>((reinterpret_cast<FUN_0098f1f0_caller*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->RemoveEntries(i, 1);
 
@@ -3019,12 +3019,12 @@ struct FUN_00986760_cls
 {
     char pad[8];
     FUN_00986760_sub m_08;
-    void FUN_00986760(int a1);
+    void FUN_00986760(intptr_t a1);
 };
 
 // Passes the result of FUN_0044ddc0(1) to the argument's FUN_006f2290, then forwards each indexed element from FUN_0096a2b0 to FUN_0047a110.
 // @fnv 0x00986760
-void FUN_00986760_cls::FUN_00986760(int pTarget)
+void FUN_00986760_cls::FUN_00986760(intptr_t pTarget)
 {
     unsigned int i;
     reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((FUN_00986760_arg*)pTarget)))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_08))->GetName())), {});
@@ -3324,12 +3324,12 @@ void Group_987820::FUN_00987820(Actor_987820* apTarget)
         Ctrl_987820* e = j->v266();
         if (e)
         {
-            reinterpret_cast<::fnv_00980a30::CombatController *>((e))->FUN_00980a30((int)(apTarget));
+            reinterpret_cast<::fnv_00980a30::CombatController *>((e))->FUN_00980a30((intptr_t)(apTarget));
         }
     }
     if (apTarget->v64())
     {
-        reinterpret_cast<::FUN_00986500_shell *>(this)->RemoveByTarget((int)(apTarget));
+        reinterpret_cast<::FUN_00986500_shell *>(this)->RemoveByTarget((intptr_t)(apTarget));
     }
 }
 
@@ -3411,16 +3411,16 @@ struct B989230Entry
 class B989230Tracker
 {
   public:
-    void UpdateEntryFromRef(int iUnused, B989230Ref* pkRef);
+    void UpdateEntryFromRef(intptr_t iUnused, B989230Ref* pkRef);
 };
 
 // Looks up the entry for pkRef and, if found, refreshes its stamp from FUN_00435dd0 and its quad from pkRef->FUN_00575650.
 // @fnv 0x00989230
-void B989230Tracker::UpdateEntryFromRef(int iUnused, B989230Ref* pkRef)
+void B989230Tracker::UpdateEntryFromRef(intptr_t iUnused, B989230Ref* pkRef)
 {
     if (pkRef)
     {
-        B989230Entry* pkEntry = ((::B989230Entry *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((int)(pkRef))));
+        B989230Entry* pkEntry = ((::B989230Entry *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((intptr_t)(pkRef))));
         if (pkEntry)
         {
             B989230Stamp kStamp(FUN_00435dd0());
@@ -3550,7 +3550,7 @@ struct GroupRef00989880
 void* CombatGroupS::FUN_00989880(ActorS* pActor, float afRadius)
 {
     LocalResult16 tResult;
-    return ((void *)(reinterpret_cast<::B9897F0List *>((((GroupRef00989880*)this)))->FUN_009897f0((::B9897F0Point *)(((int)(reinterpret_cast<::FUN_00575650_Class *>((((ActorRef00989880*)pActor)))->FUN_00575650((::FUN_00575650_Result *)(void *)(&tResult))))), afRadius, (::B9897F0Ref *)(pActor))));
+    return ((void *)(reinterpret_cast<::B9897F0List *>((((GroupRef00989880*)this)))->FUN_009897f0((::B9897F0Point *)(((intptr_t)(reinterpret_cast<::FUN_00575650_Class *>((((ActorRef00989880*)pActor)))->FUN_00575650((::FUN_00575650_Result *)(void *)(&tResult))))), afRadius, (::B9897F0Ref *)(pActor))));
 }
 
 class NiPoint3_ext
@@ -5188,7 +5188,7 @@ struct FUN_0098cb30_inner
     virtual void v107();
     virtual void v108();
     virtual void v109();
-    virtual int v10A();
+    virtual intptr_t v10A();
 };
 
 struct FUN_0098cb30_obj
@@ -5271,7 +5271,7 @@ float FUN_0098cb30_cls::GetModifierSum(FUN_0098cb30_inner* apInner)
     unsigned int count = reinterpret_cast<::FUN_00990890_shell *>(this)->FUN_00990890();
     for (unsigned int i = 0; i < count; i++)
     {
-        int r;
+        intptr_t r;
         FUN_0098cb30_obj* pObj = FUN_00988790(i);
         r = pObj->m_pInner->v10A();
         if (apInner == pObj->m_pInner && r != 0)
@@ -5668,7 +5668,7 @@ struct RemovalArray : RemovalOperations
 void FUN_00986560_shell::FUN_00986560(int a1)
 {
     void* v = reinterpret_cast<FUN_0098ef10_shell*>(reinterpret_cast<char*>(this) + 8)->FUN_0098ef10(a1);
-    reinterpret_cast<::fnv_009926e0::CombatBox *>((reinterpret_cast<FUN_009926e0_shell*>((*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->SwapAndDispatch((unsigned int)(this), (unsigned int)(*reinterpret_cast<void**>(v)));
+    reinterpret_cast<::fnv_009926e0::CombatBox *>((reinterpret_cast<FUN_009926e0_shell*>((*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->SwapAndDispatch((uintptr_t)(this), (uintptr_t)(*reinterpret_cast<void**>(v)));
     reinterpret_cast<::RemovalArray *>((reinterpret_cast<FUN_0098ef10_shell*>(reinterpret_cast<char*>(this) + 8)))->FUN_0098ef10(a1, 1);
 }
 // @fnv 0x0098ef10
@@ -6666,7 +6666,6 @@ struct DebugSearchPtr
 {
     DebugSearch* ptr;
 };
-const DebugColor& FUN_005d8550(int);
 struct DebugGroup
 {
     unsigned int id;
@@ -6759,13 +6758,13 @@ FUN_00985f90::~FUN_00985f90()
     for (unsigned int i = 0; i < count; i++)
     {
         void* actor = ((void *)(reinterpret_cast<::FUN_00968630_stub *>(this)->FUN_00968630(i)));
-        reinterpret_cast<::fnv_009926e0::CombatBox *>(((*reinterpret_cast<::CombatManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->SwapAndDispatch((unsigned int)(this), (unsigned int)(actor));
+        reinterpret_cast<::fnv_009926e0::CombatBox *>(((*reinterpret_cast<::CombatManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->SwapAndDispatch((uintptr_t)(this), (uintptr_t)(actor));
     }
     unsigned int targetCount = reinterpret_cast<::FUN_00990890_shell *>(this)->FUN_00990890();
     for (unsigned int j = 0; j < targetCount; j++)
     {
         void* target = ((void *)(reinterpret_cast<::Target *>(this)->GetIntAt(j)));
-        reinterpret_cast<::FUN_008d0600_s *>(((*reinterpret_cast<::CombatManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_008d0600((int)(this), (int)(target));
+        reinterpret_cast<::FUN_008d0600_s *>(((*reinterpret_cast<::CombatManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_008d0600((intptr_t)(this), (intptr_t)(target));
     }
     for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(member138))->GetName())); k++)
     {
@@ -6789,7 +6788,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
         return;
     if (!((::DebugScene *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::DebugActor * *>(&::_g_thePlayer))))->GetTarget())) || !((::DebugNode *)(::FUN_00524cf0((::TESObjectCELL *)(((::DebugScene *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::DebugActor * *>(&::_g_thePlayer))))->GetTarget())))))))
         return;
-    unsigned int space = ((unsigned int)(reinterpret_cast<::s575ca0::Owner *>(((*reinterpret_cast<::DebugActor * *>(&::_g_thePlayer))))->FUN_00575ca0()));
+    uintptr_t space = ((uintptr_t)(reinterpret_cast<::s575ca0::Owner *>(((*reinterpret_cast<::DebugActor * *>(&::_g_thePlayer))))->FUN_00575ca0()));
     DebugActor* selected3 = 0;
     if ((*reinterpret_cast<::DebugActor * *>(&::DAT_011dea24)) && (*reinterpret_cast<::DebugActor * *>(&::DAT_011dea24))->IsActor())
     {
@@ -6811,7 +6810,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             for (unsigned int j = 0; j < count2; ++j)
             {
                 DebugMember* member = FUN_00988790(j);
-                if (member->point == spot && ((unsigned int)(reinterpret_cast<::s575ca0::Owner *>((member->actor))->FUN_00575ca0())) == space)
+                if (member->point == spot && ((uintptr_t)(reinterpret_cast<::s575ca0::Owner *>((member->actor))->FUN_00575ca0())) == space)
                 {
                     DebugPoint origin = member->actor->Position();
                     DebugColor start(0.5f, 0.0f, 0.5f, 0.5f);
@@ -6829,7 +6828,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
                     reinterpret_cast<::FUN_004bc1f0_S *>((circle))->FUN_004bc1f0(position.x, position.y, k * 25.0 + position.z);
                     ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(circle, true);
                 }
-                DebugNode* marker = ((::DebugNode *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (int)(&color))));
+                DebugNode* marker = ((::DebugNode *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (intptr_t)(&color))));
                 reinterpret_cast<::FUN_00440460_S *>((marker))->FUN_00440460((const ::V3 *)&(position));
                 ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(marker, true);
             }
@@ -6843,12 +6842,12 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
         for (unsigned int n = 0; n < memberCount; ++n)
         {
             DebugActor* memberActor3 = ((::DebugActor *)(reinterpret_cast<::Target *>(this)->GetIntAt(n)));
-            if (((unsigned int)(reinterpret_cast<::s575ca0::Owner *>((memberActor3))->FUN_00575ca0())) != space)
+            if (((uintptr_t)(reinterpret_cast<::s575ca0::Owner *>((memberActor3))->FUN_00575ca0())) != space)
                 continue;
             float radius = memberActor3->FUN_008be1b0() * 1.5;
-            DebugColor memberColor = FUN_005d8550((int)id);
+            DebugColor memberColor = *(const DebugColor*)FUN_005d8550((unsigned int)id);
             memberColor.a = 0.5f;
-            DebugNode* cylinder2 = ((::DebugNode *)(::FUN_00c58d30(radius, radius, 16.0f, 10, 10, (int)(&memberColor))));
+            DebugNode* cylinder2 = ((::DebugNode *)(::FUN_00c58d30(radius, radius, 16.0f, 10, 10, (intptr_t)(&memberColor))));
             reinterpret_cast<::FUN_00440460_S *>((cylinder2))->FUN_00440460((const ::V3 *)&(memberActor3->Position()));
             ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(cylinder2, true);
         }
@@ -6873,9 +6872,9 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
         {
             DebugPair* pair = pairs.FUN_006a7af0(q);
             DebugActor* pairActor = 0;
-            if (pair->first && ((unsigned int)(reinterpret_cast<::s575ca0::Owner *>((pair->first))->FUN_00575ca0())) == space)
+            if (pair->first && ((uintptr_t)(reinterpret_cast<::s575ca0::Owner *>((pair->first))->FUN_00575ca0())) == space)
                 pairActor = pair->first;
-            else if (pair->second && ((unsigned int)(reinterpret_cast<::s575ca0::Owner *>((pair->second))->FUN_00575ca0())) == space)
+            else if (pair->second && ((uintptr_t)(reinterpret_cast<::s575ca0::Owner *>((pair->second))->FUN_00575ca0())) == space)
                 pairActor = pair->second;
             if (!pairActor)
                 continue;
@@ -6887,11 +6886,11 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             else
                 pairColor_ = DebugColor(1.0f, 1.0f, 0.0f, 0.5f);
             DebugPoint pairPosition = pairActor->Position();
-            DebugNode* pillarX = ((::DebugNode *)(::FUN_00c58d30(32.0f, 32.0f, 256.0f, 10, 10, (int)(&pairColor_))));
+            DebugNode* pillarX = ((::DebugNode *)(::FUN_00c58d30(32.0f, 32.0f, 256.0f, 10, 10, (intptr_t)(&pairColor_))));
             reinterpret_cast<::FUN_00440460_S *>((pillarX))->FUN_00440460((const ::V3 *)&(pairPosition));
             ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(pillarX, true);
         }
-        if (((::DebugSearch *)(::FUN_00559450((int *)&(search)))) && searchDirty && ((unsigned int)(reinterpret_cast<::s575ca0::Owner *>((selected3))->FUN_00575ca0())) == space)
+        if (((::DebugSearch *)(::FUN_00559450((int *)&(search)))) && searchDirty && ((uintptr_t)(reinterpret_cast<::s575ca0::Owner *>((selected3))->FUN_00575ca0())) == space)
         {
             DebugBuilderPtr builder(
                 new DebugBuilder(((::DebugSearch *)(::FUN_00559450((int *)&(search))))->GetLocationAndReturn(), reinterpret_cast<::FUN_00508050_Class *>((((::DebugSearch *)(::FUN_00559450((int *)&(search))))))->FUN_00508050()));
@@ -7691,7 +7690,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
     *result = -100;
     reinterpret_cast<::FUN_00435de0_ctor *>(&(temp0Local20))->FUN_00435de0(-::DAT_0108d540);
     *timestamp = temp0Local20;
-    targetLocal40 = ((::CombatAssessment::Target *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((int)(subject))));
+    targetLocal40 = ((::CombatAssessment::Target *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((intptr_t)(subject))));
     if (targetLocal40)
     {
         previousLocal5 = targetLocal40->score;
@@ -7763,7 +7762,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                     }
                     if (missingLocal40 && reinterpret_cast<::CombatTargetTimestamp *>(&(senseLocal1->time))->FUN_006a7f50() > reinterpret_cast<::CombatTargetTimestamp *>(&(newestLocal2))->FUN_006a7f50())
                     {
-                        reinterpret_cast<::StandIn_00989010 *>(&(nearestLocal9))->SetTripleAndValue((::ThreeInts_00989010 *)(::CombatAssessment::Point *)(&senseLocal1->point), (int)(((void *)(reinterpret_cast<::s575ca0::Owner *>((memberLocal19))->FUN_00575ca0()))));
+                        reinterpret_cast<::StandIn_00989010 *>(&(nearestLocal9))->SetTripleAndValue((::ThreeInts_00989010 *)(::CombatAssessment::Point *)(&senseLocal1->point), (intptr_t)(((void *)(reinterpret_cast<::s575ca0::Owner *>((memberLocal19))->FUN_00575ca0()))));
                         newestLocal2 = senseLocal1->time;
                     }
                 }
@@ -7829,7 +7828,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                     else
                         strengthLocal6 = (highestLocal52 - (int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatAssessment::Setting *>(&::originalRuntimeFloatSetting106))))))) / 2.0 + 40.0;
                     reinterpret_cast<::FUN_0097ede0_cls *>(&(impactLocal48))->FUN_0097ede0();
-                    reinterpret_cast<::StandIn_00989010 *>(&(impactLocal48))->SetTripleAndValue((::ThreeInts_00989010 *)(::CombatAssessment::Point *)(&hitLocal9->point), (int)(((void *)(reinterpret_cast<::s575ca0::Owner *>((subject))->FUN_00575ca0()))));
+                    reinterpret_cast<::StandIn_00989010 *>(&(impactLocal48))->SetTripleAndValue((::ThreeInts_00989010 *)(::CombatAssessment::Point *)(&hitLocal9->point), (intptr_t)(((void *)(reinterpret_cast<::s575ca0::Owner *>((subject))->FUN_00575ca0()))));
                     reinterpret_cast<::FUN_0098bfb0_Class *>(this)->StoreRecord(&impactLocal48, strengthLocal6, 0);
                     targetLocal40->hitTime = hitLocal9->time;
                 }
@@ -8562,9 +8561,9 @@ void Group::FUN_0098a580()
             {
                 if (!((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape)))) || refreshSlot1)
                 {
-                    unsigned int endSlot0 = 0;
-                    unsigned int start = 0;
-                    if (reinterpret_cast<::FUN_00527990_shell *>(&(location))->FUN_00527990((int *)(unsigned int *)(&start), (int *)(unsigned int *)(&endSlot0)))
+                    intptr_t endSlot0 = 0;
+                    intptr_t start = 0;
+                    if (reinterpret_cast<::FUN_00527990_shell *>(&(location))->FUN_00527990(&start, &endSlot0))
                     {
                         Vec selected;
                         if (::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(endSlot0), (::TESObjectCELL *)(start), (const ::NiPoint3 &)(position), (::NiPoint3 *)&(selected)))
@@ -8575,7 +8574,7 @@ void Group::FUN_0098a580()
                                 reinterpret_cast<::fnv_006f4ed0::PathingLocation *>(&(region))->FUN_006f4ed0((const ::fnv_006f4ed0::NiPoint3 *)(void *)(((void *)(((::Vec3 *)(void *)&(location))))));
                                 if (!((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape)))))
                                     shape.FUN_0066b0d0(new Shape);
-                                reinterpret_cast<::FUN_006e0320_cls *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->FUN_006e0320((unsigned int)&(region), radius);
+                                reinterpret_cast<::FUN_006e0320_cls *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->FUN_006e0320((uintptr_t)&(region), radius);
                                 reinterpret_cast<::FUN_0098adb0_shell *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->FUN_0098adb0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting448)))))));
                                 changed = 1;
                             }
@@ -8617,7 +8616,7 @@ void Group::FUN_0098a580()
             Group* otherSlot37 = actor->ActorCombatGroup();
             if (actor != (*reinterpret_cast<::CombatRegion::Actor * *>(&::_g_thePlayer)) && otherSlot37)
             {
-                Target* target = ((::CombatRegion::Target *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((int)(otherSlot37))));
+                Target* target = ((::CombatRegion::Target *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((intptr_t)(otherSlot37))));
                 if (target && reinterpret_cast<::CombatTargetTimestamp *>(&(target->point))->FUN_006a7f50() != -::DAT_0108d540)
                     reinterpret_cast<::P029Manager *>(((*reinterpret_cast<::CombatRegion::Manager * *>(&::CombatAssessment::DAT_011f1708))))->TryStartDialogue((::P029Actor *)(actor), otherSlot37, 4, 1, 0, (::P029Input *)(0));
                 else
@@ -9126,7 +9125,7 @@ struct GroupLoad
     int unk004;
     ArrNodes nodes;
     ArrMembers members;
-    int strategy;
+    void* strategy;
     char flag;
     char unk02d;
     char unk02e;
@@ -9181,7 +9180,7 @@ void GroupLoad::FUN_0098e3d0(LoadBuf* buffer)
         {
             LoadItem*& item = (SimpleArrayItem<::LoadItem *>(&(items), indexItems));
             item = new LoadItem;
-            reinterpret_cast<::FUN_00985b10_shell *>((item))->FUN_00985b10((::BGSLoadFormBuffer *)(buffer), (int)(this));
+            reinterpret_cast<::FUN_00985b10_shell *>((item))->FUN_00985b10((::BGSLoadFormBuffer *)(buffer), (intptr_t)(this));
         }
     }
     {
@@ -9273,7 +9272,7 @@ void GroupLoad::FUN_0098e3d0(LoadBuf* buffer)
 struct UpdateOwner;
 struct UpdateElement
 {
-    unsigned int data;
+    uintptr_t data;
 };
 struct UpdateArray
 {
@@ -9354,7 +9353,7 @@ void UpdateOwner::UpdateElements(unsigned int argument)
     {
         bool removeFirst = false;
         UpdateElement* elementFirst = first.FUN_0096a2b0(indexFirst2);
-        reinterpret_cast<::Holder00985930 *>((elementFirst))->FUN_00985930(argument, (int)(this));
+        reinterpret_cast<::Holder00985930 *>((elementFirst))->FUN_00985930(argument, (intptr_t)(this));
         if (elementFirst->data)
             reinterpret_cast<::CPStandIn00992a50 *>(((*reinterpret_cast<::UpdateManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00992a50((::Actor *)(elementFirst->data), (*(::Flt *)(this)));
         else
@@ -9372,7 +9371,7 @@ void UpdateOwner::UpdateElements(unsigned int argument)
         {
             bool removeSecond3 = false;
             UpdateElement* elementSecond3 = second.FUN_006dad90(indexSecond);
-            reinterpret_cast<::Holder00985930 *>((elementSecond3))->FUN_00985930(argument, (int)(this));
+            reinterpret_cast<::Holder00985930 *>((elementSecond3))->FUN_00985930(argument, (intptr_t)(this));
             if (!elementSecond3->data)
                 removeSecond3 = true;
             if (removeSecond3)
@@ -9396,7 +9395,7 @@ struct FourFloatVector
 };
 struct TimeoutTimer
 {
-    double FUN_00527a40(int result);
+    double FUN_00527a40(intptr_t result);
 };
 struct CombatCondition
 {
@@ -9602,7 +9601,7 @@ void CombatLogic::FUN_009a1280(bool update)
         if (update && condition && condition->mode == 1)
         {
             FourFloatVector values;
-            if (condition->timer.FUN_00527a40(((int)(reinterpret_cast<::FUN_00575650_Class *>((controller->evaluator))->FUN_00575650((::FUN_00575650_Result *)(::fnv_009a1280::FourFloatVector *)(&values))))) < ::DAT_01017a10)
+            if (condition->timer.FUN_00527a40(((intptr_t)(reinterpret_cast<::FUN_00575650_Class *>((controller->evaluator))->FUN_00575650((::FUN_00575650_Result *)(::fnv_009a1280::FourFloatVector *)(&values))))) < ::DAT_01017a10)
             {
                 update = false;
             }
@@ -9859,7 +9858,7 @@ struct ActorSelect
     virtual void v1e8();
     virtual void v1ec();
     virtual void v1f0();
-    virtual int GetDistanceValue();
+    virtual intptr_t GetDistanceValue();
     virtual void v1f8();
     virtual void v1fc();
     virtual void v200();
@@ -10039,10 +10038,10 @@ ActorSelect* ActorPicker::SelectActor(ActorSelect* actor)
         reinterpret_cast<::FUN_009869a0_shell *>(this)->FUN_009869a0((::Actor *)(actor));
         return 0;
     }
-    ActorSelect* firstB8 = (ActorSelect*)((int)(reinterpret_cast<::AlchemyItem *>((centerA))->FUN_004030b0()));
+    ActorSelect* firstB8 = (ActorSelect*)((intptr_t)(reinterpret_cast<::AlchemyItem *>((centerA))->FUN_004030b0()));
     OtherState* pkState3 = ((::OtherState *)(reinterpret_cast<::InterfaceManager *>((centerA))->FUN_00586150()));
     float thresholdA = reinterpret_cast<::FUN_00639aa0_shell *>((((::MovementPose *)(reinterpret_cast<::FUN_00980070_shell *>((centerA))->FUN_00980070()))))->FUN_00639aa0();
-    int factionNum = ((int)(reinterpret_cast<::ActorS *>((actor))->FUN_00567d90()));
+    intptr_t factionNum = ((intptr_t)(reinterpret_cast<::ActorS *>((actor))->FUN_00567d90()));
     bool hactorTypeTmp = ::FUN_009a9630(actor);
     unsigned int count113 = ((int)(::FUN_005a4320((char *)this)));
     for (unsigned int index = 0; index < count113; ++index)
@@ -10057,7 +10056,7 @@ ActorSelect* ActorPicker::SelectActor(ActorSelect* actor)
         }
         if (*(*reinterpret_cast<::ConfigSwitch *>(&::g_011f1840)).FUN_00408d60())
         {
-            int candidateFaction = ((int)(reinterpret_cast<::ActorS *>((candidate18))->FUN_00567d90()));
+            intptr_t candidateFaction = ((intptr_t)(reinterpret_cast<::ActorS *>((candidate18))->FUN_00567d90()));
             if (factionNum != candidateFaction)
                 continue;
         }
@@ -10185,7 +10184,7 @@ struct B9898B0Group
 void S989970::FUN_00989970(Ref_997440* apRef, float afValue)
 {
     B16 b;
-    reinterpret_cast<::B9898B0Group *>(this)->FindClosestRef((::B9897F0Point *)(((int)(reinterpret_cast<::FUN_00575650_Class *>((apRef))->FUN_00575650((::FUN_00575650_Result *)(void *)(&b))))), {}, {});
+    reinterpret_cast<::B9898B0Group *>(this)->FindClosestRef((::B9897F0Point *)(((intptr_t)(reinterpret_cast<::FUN_00575650_Class *>((apRef))->FUN_00575650((::FUN_00575650_Result *)(void *)(&b))))), {}, {});
 }
 // @fnv 0x009898b0
 B9897F0Ref* B9898B0Group::FindClosestRef(B9897F0Point* pkPoint, B9897F0Ref* pkExclude, float afMaxDist)
@@ -10495,7 +10494,7 @@ bool ActorMergeData::MergeFrom(ActorMergeData* other)
         if (reinterpret_cast<::CombatGroup_009867d0 *>(this)->FUN_009867d0((::ActorV *)(member->actor)))
         {
             member->actor->SetCombatGroup(this);
-            MergeMember* destination = ((::MergeMember *)(reinterpret_cast<::FUN_009865f0_shell *>(this)->FUN_009865f0((int)(member->actor))));
+            MergeMember* destination = ((::MergeMember *)(reinterpret_cast<::FUN_009865f0_shell *>(this)->FUN_009865f0((intptr_t)(member->actor))));
             if (destination)
                 reinterpret_cast<::FUN_00985980_shell *>((destination))->CopyFrom((::FUN_00985980_shell *)(member));
         }
@@ -10507,7 +10506,7 @@ bool ActorMergeData::MergeFrom(ActorMergeData* other)
         MergeTarget* target = otherMembers->FUN_0096a2b0(n);
         if (reinterpret_cast<::GrpQ *>(this)->FUN_00986410((::ActQ *)(target->actor)))
         {
-            MergeTarget* destination = ((::MergeTarget *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((int)(target->actor))));
+            MergeTarget* destination = ((::MergeTarget *)(reinterpret_cast<::ActorCombatGroup *>(this)->FUN_009865d0((intptr_t)(target->actor))));
             if (destination)
                 reinterpret_cast<::CombatMemberData_985520 *>((destination))->MergeCombatData((::CombatMemberData_985520 *)(target));
         }
@@ -10525,18 +10524,18 @@ bool GrpQ::FUN_00986410(ActQ* pActor)
 {
     if (!pActor)
         return false;
-    if (reinterpret_cast<::FUN_009865b0_shell *>(this)->FUN_009865b0((int)(pActor)))
+    if (reinterpret_cast<::FUN_009865b0_shell *>(this)->FUN_009865b0((intptr_t)(pActor)))
         return true;
     if (!reinterpret_cast<::fnv_009866d0::FUN_009866d0_shell *>(this)->FUN_009866d0((::fnv_009866d0::Actor *)(pActor)))
         return false;
-    if (((bool)(reinterpret_cast<::FUN_00986a80_shell *>(this)->FUN_00986a80((int)(pActor)))))
+    if (((bool)(reinterpret_cast<::FUN_00986a80_shell *>(this)->FUN_00986a80((intptr_t)(pActor)))))
     {
         ::FUN_005b5e40();
         return false;
     }
     TgtQ kTarget;
     reinterpret_cast<::BSSimpleArray_CombatTarget_1024 *>(&(kTargets))->FUN_0098eec0((const ::CombatTarget *)(::TgtQ *)(((::TgtQ *)(reinterpret_cast<::EventRecord *>(&(kTarget))->Init((::EventSource *)(pActor), unkD0)))));
-    reinterpret_cast<::CombatBox *>((((UpdQ*)(*reinterpret_cast<::UpdateManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_009926c0((unsigned int)(this), (unsigned int)(pActor));
+    reinterpret_cast<::CombatBox *>((((UpdQ*)(*reinterpret_cast<::UpdateManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_009926c0((uintptr_t)(this), (uintptr_t)(pActor));
     return true;
 }
 
@@ -10788,7 +10787,7 @@ void FUN_0096a2b0_stub::FUN_0096a2b0(int state)
 
 
 // @fnv 0x009865f0
-int FUN_009865f0_shell::FUN_009865f0(int a1)
+intptr_t FUN_009865f0_shell::FUN_009865f0(intptr_t a1)
 {
     return (int)((C00986670*)this)->FUN_00986670(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((a1))->FUN_0084e3a0())));
 }

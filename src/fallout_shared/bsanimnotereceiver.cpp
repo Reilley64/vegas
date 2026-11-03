@@ -2,6 +2,7 @@
 // src/fallout_shared/bsanimnotereceiver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bsanimnotereceiver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_004b0480_cls.h"
 #include "fnv/decl/FUN_004b0530_Class.h"
 #include "fnv/decl/Twin_0044ddc0.h"
@@ -62,7 +63,7 @@ void FUN_004b0730_class::DispatchNoteToReceivers(void* note)
 {
     for (int i = 0; i < ((FUN_00658930_class*)&this->unk08)->GetShortAtOffsetA(); ++i)
     {
-        if (((ReceiverEntry*)((NiFormArray*)&this->unk08)->FUN_00877a30(i))->type == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((note))->GetName())))
+        if (((ReceiverEntry*)((NiFormArray*)&this->unk08)->FUN_00877a30(i))->type == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((note))->GetName())))
         {
             ((ReceiverEntry*)((NiFormArray*)&this->unk08)->FUN_00877a30(i))->callback(unk04, note);
         }

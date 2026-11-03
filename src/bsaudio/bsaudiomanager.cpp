@@ -9167,10 +9167,10 @@ template <class T> struct NiPointer_adbfd0
 };
 struct FUN_00adbfd0_cls
 {
-    bool FUN_00adbfd0(int a, std::intptr_t b, std::intptr_t c);
+    bool FUN_00adbfd0(intptr_t a, std::intptr_t b, std::intptr_t c);
 };
 // @fnv 0x00adbfd0
-bool FUN_00adbfd0_cls::FUN_00adbfd0(int a, std::intptr_t b, std::intptr_t c)
+bool FUN_00adbfd0_cls::FUN_00adbfd0(intptr_t a, std::intptr_t b, std::intptr_t c)
 {
     reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x3a, a, c, b, (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00adbfd0::NiPointer_adbfd0< ::fnv_00adbfd0::NiRefObject_adbfd0> &)(0)), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00adbfd0::NiPoint3_adbfd0 &)(DAT_011f426c)));
     return true;
@@ -9212,10 +9212,10 @@ typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
 extern NiPoint3_audio DAT_011f426c;
 struct FUN_00adc050_cls
 {
-    bool FUN_00adc050(int a, std::intptr_t b, std::intptr_t c);
+    bool FUN_00adc050(intptr_t a, std::intptr_t b, std::intptr_t c);
 };
 // @fnv 0x00adc050
-bool FUN_00adc050_cls::FUN_00adc050(int a, std::intptr_t b, std::intptr_t c)
+bool FUN_00adc050_cls::FUN_00adc050(intptr_t a, std::intptr_t b, std::intptr_t c)
 {
     reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x3b, a, c, b, (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00adc050::NiPointer_audio< ::fnv_00adc050::NiRefObject_audio> &)(0)), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00adc050::NiPoint3_audio &)(DAT_011f426c)));
     return true;
@@ -9633,10 +9633,10 @@ typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
 extern NiPoint3_audio DAT_011f426c;
 struct FUN_00adcd00_cls
 {
-    void FUN_00adcd00(int a, int b);
+    void FUN_00adcd00(intptr_t a, intptr_t b);
 };
 // @fnv 0x00adcd00
-void FUN_00adcd00_cls::FUN_00adcd00(int a, int b)
+void FUN_00adcd00_cls::FUN_00adcd00(intptr_t a, intptr_t b)
 {
     reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x2a, 0, a, b, (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00adcd00::NiPointer_audio< ::fnv_00adcd00::NiRefObject_audio> &)(0)), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00adcd00::NiPoint3_audio &)(DAT_011f426c)));
 }

@@ -263,9 +263,8 @@ bool FUN_005ff1d0_shell::FUN_005ff1d0()
         return false;
 }
 
-struct FUN_005ff200_shell
+struct FUN_005ff200_shell : ::TESIdleForm
 {
-    unsigned char m_0x38;
     bool IsFlag40Set();
 };
 // @fnv 0x005fedb0
@@ -334,13 +333,13 @@ bool TESIdleForm::HasMissingPathArray()
 // @fnv 0x005ff200
 bool FUN_005ff200_shell::IsFlag40Set()
 {
-    if (((unsigned char*)this)[0x38] & 0x40)
+    if (this->data.m_ucAnimationGroupSection & 0x40)
         return true;
     else
         return false;
 }
 
-struct FUN_005ff220_shell
+struct FUN_005ff220_shell : ::TESIdleForm
 {
     void SetFlag40(bool bFlag);
 };
@@ -350,21 +349,20 @@ struct FUN_005ff220_shell
 void FUN_005ff220_shell::SetFlag40(bool abSet)
 {
     if (abSet)
-        ((unsigned char*)this)[0x38] |= 0x40;
+        this->data.m_ucAnimationGroupSection |= 0x40;
     else
-        ((unsigned char*)this)[0x38] &= ~0x40;
+        this->data.m_ucAnimationGroupSection &= ~0x40;
 }
 
-struct FUN_005ff260_shell
+struct FUN_005ff260_shell : ::TESIdleForm
 {
-    unsigned char m_3e;
     bool FUN_005ff260();
 };
 
 // @fnv 0x005ff260
 bool FUN_005ff260_shell::FUN_005ff260()
 {
-    if (reinterpret_cast<unsigned char*>(this)[0x3e] & 1)
+    if (this->data.m_ucIdleFlags & 1)
         return true;
     else
         return false;
@@ -447,7 +445,7 @@ TESIdleForm* TESIdleForm::FindIdleFormForObject(TESObjectREFR* actionRef, TESObj
             while (pDelayIter && !delayed && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(pDelayIter)->IsEmpty())
             {
                 IdleReplayDelayEntry* pDelayEntry = reinterpret_cast<IdleReplayDelayEntry*>(
-                    ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter))) ::Vec3())));
+                    ((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter))->m_item));
                 if (*reinterpret_cast<TESIdleForm**>(pDelayEntry) == this)
                     delayed = true;
                 pDelayIter = reinterpret_cast<BSSimpleList<IdleReplayDelayEntry*>*>(
@@ -622,7 +620,7 @@ struct FUN_00485e00_shell
 {
 };
 
-struct FUN_005fea50_shell
+struct FUN_005fea50_shell : ::TESIdleForm
 {
     void FUN_005fea50();
 };
@@ -633,7 +631,7 @@ void FUN_005fea50_shell::FUN_005fea50()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<char*>(this) + 0x18)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModelAnim *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
 
     reinterpret_cast<::FUN_00680910_shell *>((reinterpret_cast<TESConditionSave*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())))->ProcessItems();
 
@@ -665,13 +663,13 @@ void FUN_005fea50_shell::FUN_005fea50()
         reinterpret_cast<::S_00462230 *>(&(a))->FUN_00462230();
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
+        reinterpret_cast<::FUN_005fea20_shell *>((&this->data))->SwapEndian();
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(reinterpret_cast<char*>(this) + 0x38)), 8);
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<char*>(&this->data))), 8);
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
+        reinterpret_cast<::FUN_005fea20_shell *>((&this->data))->SwapEndian();
 
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
@@ -734,17 +732,17 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
     TESForm* b;
     TESForm* ba;
     TESForm* k;
-    i = dynamic_cast<TESIdleForm*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(flag), map))));
+    i = dynamic_cast<TESIdleForm*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(std::uintptr_t)(flag), map))));
     h = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(m_pParentIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(m_pParentIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pParentIdleForm;
     s = static_cast<TESIdleForm*>(h);
     reinterpret_cast<::LowProcess *>((static_cast<IdleCopy*>(i)))->SetCurrentCombatTarget((::TESObjectREFR *)(s));
     h = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(m_pIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(m_pIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pIdleForm;
     p = static_cast<TESIdleForm*>(h);
-    reinterpret_cast<::ValueModifierEffect *>((static_cast<IdleCopy*>(i)))->SetActorValue((::ActorValue::Index)(p));
+    reinterpret_cast<::TESIdleForm *>((static_cast<IdleCopy*>(i)))->m_pIdleForm = (::TESIdleForm *)(p);
     if (m_pParentPath)
     {
         reinterpret_cast<IdleArrayMethods*>(m_pParentPath)->FUN_0061bdc0();
@@ -833,14 +831,14 @@ void IdleFormDetach::DetachFromIdleList()
                 {
                     if (reinterpret_cast<::TESForm *>((void *)(pNext2))->GetInitialized())
                     {
-                        reinterpret_cast<::ValueModifierEffect *>((pNext2))->SetActorValue((::ActorValue::Index)(GetPrevIdle()));
+                        reinterpret_cast<::TESIdleForm *>((pNext2))->m_pIdleForm = (::TESIdleForm *)(GetPrevIdle());
                     }
                     else
                     {
                         IdleFormLinks* pPrev8 = GetPrevIdle();
-                        reinterpret_cast<::ValueModifierEffect *>((pNext2))->SetActorValue((::ActorValue::Index)((IdleFormLinks*)(pPrev8 ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPrev8))->FUN_0084e3a0())) : 0)));
+                        reinterpret_cast<::TESIdleForm *>((pNext2))->m_pIdleForm = (::TESIdleForm *)((std::uintptr_t)(pPrev8 ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pPrev8))->FUN_0084e3a0())) : 0));
                     }
-                    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(0));
+                    reinterpret_cast<::TESIdleForm *>(this)->m_pIdleForm = nullptr;
                 }
             }
         }
@@ -923,7 +921,7 @@ FUN_005fe180::~FUN_005fe180()
     {
         if (((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())))
         {
-            reinterpret_cast<::FUN_005ff5d0_class *>((((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget()))))->FUN_005ff5d0((unsigned int)(this));
+            reinterpret_cast<::FUN_005ff5d0_class *>((((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget()))))->FUN_005ff5d0((std::uintptr_t)(this));
         }
         else
         {
@@ -935,7 +933,7 @@ FUN_005fe180::~FUN_005fe180()
                 {
                     IdleLink* next = (IdleLink*)((::IdleBase *)(reinterpret_cast<::FUN_004d6170_shell *>((array))->FUN_004d6170(index + 1)));
                     if (next)
-                        reinterpret_cast<::ValueModifierEffect *>((next))->SetActorValue((::ActorValue::Index)(Previous()));
+                        reinterpret_cast<::TESIdleForm *>((next))->m_pIdleForm = (::TESIdleForm *)(Previous());
                     array->Remove(index);
                     array->Compact();
                 }
@@ -998,7 +996,7 @@ void IdleInit::InitLoad()
             break;
         }
     }
-    unsigned int uiFormId = (unsigned int)m_pParentIdleForm;
+    unsigned int uiFormId = (unsigned int)(std::uintptr_t)m_pParentIdleForm;
     if (uiFormId)
     {
         ResolveFormID(&uiFormId, GetFile(-1));
@@ -1011,7 +1009,7 @@ void IdleInit::InitLoad()
         }
         reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(parent));
     }
-    uiFormId = (unsigned int)m_pIdleForm;
+    uiFormId = (unsigned int)(std::uintptr_t)m_pIdleForm;
     if (uiFormId)
     {
         ResolveFormID(&uiFormId, GetFile(-1));
@@ -1022,7 +1020,51 @@ void IdleInit::InitLoad()
             GetDebugName(&name);
             ::FUN_005b5e40();
         }
-        reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(previous));
+        reinterpret_cast<::TESIdleForm *>(this)->m_pIdleForm = (::TESIdleForm *)(previous);
     }
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
+
+class LowProcess_o2
+{
+  public:
+    TESObjectREFR* GetActiveCombatTarget();
+};
+
+// FUN_005ff880 : 8-byte MSVC this-adjusting (virtual) thunk.
+//     sub ecx, 0x18 ; jmp FUN_005fe130
+//
+// MSVC emits such a stub in the vtable of a class that inherits the same
+// virtual slot through two bases: the slot of the second base holds a tiny
+// stub that moves `this` back onto the complete object (sub ecx, size of the
+// primary base) and tail-jumps to the implementation.
+//
+// The subtracted offset is therefore the size of the primary base: a vtable
+// pointer plus 5 int members (4 + 20 = 0x18 bytes).  Both bases declare the
+// same virtual function; the derived class redeclares it and defines only its
+// constructor, which is what makes the compiler emit the vtables and the
+// adjusting thunk.
+struct IdlePrimaryBase
+{
+    virtual void FUN_005ff880();
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+};
+
+struct IdleSecondaryBase
+{
+    virtual void FUN_005ff880();
+};
+
+struct IdleDerived : IdlePrimaryBase, IdleSecondaryBase
+{
+    IdleDerived();
+// @fnv 0x005ff880
+    virtual void FUN_005ff880();
+};
+
+IdleDerived::IdleDerived()
+{}

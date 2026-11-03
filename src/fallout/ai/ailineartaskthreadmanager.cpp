@@ -1,5 +1,6 @@
 // fallout/ai/ailineartaskthreadmanager.cpp: AIThreadManager (21 functions)
 
+#include <cstdint>
 #include "fnv/tls.h"
 #include <windows.h>
 #include <new>
@@ -307,7 +308,7 @@ bool __cdecl FUN_008c7aa0()
             bretvalBug44071 = true;
 
         unsigned long icurrthread = gm_GetCurrentThreadId();
-        if (icurrthread != (unsigned long)((void *)(reinterpret_cast<::MagicCaster_shell *>(((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals))))->FUN_0044edb0())))
+        if (icurrthread != (uintptr_t)((void *)(reinterpret_cast<::MagicCaster_shell *>(((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals))))->FUN_0044edb0())))
         {
             if (FUN_008c7bc0() || ((unsigned int)(reinterpret_cast<::FUN_008c7a30_class *>((((void *)(::FUN_00713d80()))))->GetValueWithItemResult({}))) < 6)
                 bretval = true;

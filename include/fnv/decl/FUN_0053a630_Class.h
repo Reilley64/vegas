@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_0053a630_Class {
 public:
     // 0x0053a630
-    int FUN_0053a630(unsigned char, unsigned short);
+    intptr_t FUN_0053a630(unsigned char, unsigned short);
 };

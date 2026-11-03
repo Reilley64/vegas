@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiFixedString;
 class TESObjectREFR;
@@ -11,7 +12,7 @@ namespace fnv_005a0f90 { class FormC; }
 // 0x005a0040
 bool FUN_005a0040(::TESObjectREFR *, void *, void *, double &);
 // 0x005a00a0
-unsigned int FUN_005a00a0(unsigned int);
+unsigned int FUN_005a00a0(uintptr_t);
 // 0x005a00c0
 bool FUN_005a00c0(::TESObjectREFR *, void *, void *, double &);
 // 0x005a0150

@@ -321,7 +321,7 @@ class NiControllerSequence;
 class BSSystemUtility
 {
   public:
-    static int s_iUpdateEnabled;
+    static intptr_t s_iUpdateEnabled;
 };
 
 class FOPipboyManager;
@@ -1022,7 +1022,7 @@ TESObjectREFR* FUN_00703180()
 {
     InterfaceManager* pim = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
     if (pim && reinterpret_cast<Modifier*>(pim)->GetKey())
-        return ((::TESObjectREFR *)(::FUN_007031c0((int)(reinterpret_cast<Modifier*>(pim)))));
+        return ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(reinterpret_cast<Modifier*>(pim)))));
     return 0;
 }
 }  // namespace fnv_00703180
@@ -1375,11 +1375,11 @@ struct FUN_00705b10_Dummy
 {
     char pad[0xc4];
     int val;
-    void Set(int a);
+    void Set(intptr_t a);
 };
 
 // @fnv 0x00705b10
-void FUN_00705b10_Dummy::Set(int aiValue)
+void FUN_00705b10_Dummy::Set(intptr_t aiValue)
 {
     val = aiValue;
 }
@@ -1394,7 +1394,7 @@ struct IMStandIn
 };
 // If FUN_004b7210() returns an object whose GetKey() is true, forwards a to its FUN_00716010 method.
 // @fnv 0x00705b30
-void __cdecl FUN_00705b30(int a)
+void __cdecl FUN_00705b30(intptr_t a)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
         reinterpret_cast<::FUN_00716010_stub *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00716010((void *)(a));
@@ -1743,7 +1743,7 @@ float __cdecl FUN_00706e90()
 // @fnv 0x00706f50
 void __cdecl FUN_00706f50(void* apPointer, float afLength)
 {
-    ::fnv_007164c0::FUN_007164c0((int)(apPointer), afLength);
+    ::fnv_007164c0::FUN_007164c0((intptr_t)(apPointer), afLength);
 }
 
 
@@ -1777,7 +1777,7 @@ struct IMStandIn
 {
 };
 // @fnv 0x00706ff0
-void __cdecl FUN_00706ff0(int a)
+void __cdecl FUN_00706ff0(intptr_t a)
 {
     reinterpret_cast<::FocusManager *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)(a), 0xfc3, 1);
 }
@@ -1915,7 +1915,7 @@ extern int DAT_011d89ac;
 void __cdecl FUN_00709a90();
 
 // @fnv 0x00709470
-void __cdecl FUN_00709470(int param_1, int param_2, int param_3, int param_4, int param_5)
+void __cdecl FUN_00709470(int param_1, intptr_t param_2, int param_3, int param_4, int param_5)
 {
     if (param_1 != 7)
     {
@@ -2127,7 +2127,7 @@ struct FUN_00706cb0_shell2
 {
 };
 // @fnv 0x00706c20
-void ClearInterfaceRefs(unsigned int a)
+void ClearInterfaceRefs(uintptr_t a)
 {
     InterfaceManager* im = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
     if (*(unsigned int*)((char*)im + 0xcc) == a)
@@ -2417,7 +2417,7 @@ void FUN_00704450(char bShow)
 
 
 // @fnv 0x00704470
-void __cdecl FUN_00704470(int arg)
+void __cdecl FUN_00704470(intptr_t arg)
 {
     if (arg)
     {
@@ -2433,7 +2433,7 @@ class Modifier
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, forwards arg to CreateRepairServicesMenu.
 // @fnv 0x00704690
-void FUN_00704690(unsigned int arg)
+void FUN_00704690(uintptr_t arg)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
         ::CreateRepairServicesMenu((::RSMActor *)(arg));
@@ -2536,7 +2536,7 @@ struct Modifier
 
 
 // @fnv 0x00705830
-void FUN_00705830(int a1, int a2, unsigned char a3)
+void FUN_00705830(intptr_t a1, int a2, unsigned char a3)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
         ::CreateLockpickMenu((::LockRef *)(a1), a2, a3);
@@ -2662,14 +2662,14 @@ struct FUN_005e3fc0_shell
     unsigned int Get();
 };
 // @fnv 0x00706d10
-unsigned int FUN_00706d10()
+uintptr_t FUN_00706d10()
 {
     return ((FUN_005e3fc0_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->Get();
 }
 
 
 // @fnv 0x00706f30
-void FUN_00706f30(int aiSoundIndex)
+void FUN_00706f30(intptr_t aiSoundIndex)
 {
     ::s717280::FUN_00717280(aiSoundIndex);
 }
@@ -2725,7 +2725,7 @@ bool IsSomethingZero()
 
 
 // @fnv 0x00709c20
-void FUN_00709c20(int a1)
+void FUN_00709c20(intptr_t a1)
 {
     ::FUN_0077f2f0((::FUN_0077f2f0_obj *)(a1));
 }
@@ -2788,7 +2788,7 @@ char __cdecl FUN_00704400()
 {
     if ((*reinterpret_cast<int *>(&::DAT_011da368)) != 0)
     {
-        return *(char*)((*reinterpret_cast<int *>(&::DAT_011da368)) + 0x12C);
+        return *(char*)((*reinterpret_cast<intptr_t *>(&::DAT_011da368)) + 0x12C);
     }
     else
     {
@@ -3484,7 +3484,7 @@ bool ResolveSettingString(const char* apString, char* apValueOut)
     if (xstr[((int)(::FUN_0044a670(xstr))) - 1] == ';')
         xstr[((int)(::FUN_0044a670(xstr))) - 1] = 0;
 
-    psetting = ((::fnv_007073d0::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_007073d0::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((int)(xstr))));
+    psetting = ((::fnv_007073d0::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_007073d0::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((intptr_t)(xstr))));
     if (!psetting)
     {
         strcat_s(xstr, 0x104, ":LANGUAGE");
@@ -3853,7 +3853,7 @@ struct RenderedMenuTileView
     void* pTile;
 };
 // @fnv 0x00706130
-bool __cdecl FUN_00706130(int m_uiSoundID)
+bool __cdecl FUN_00706130(intptr_t m_uiSoundID)
 {
     if (((::B706130Manager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((::B706130Manager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_009373f0())
     {
@@ -4818,7 +4818,7 @@ class OSGlobals
   public:
 };
 // @fnv 0x00704010
-char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, ...)
+char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, intptr_t aiArg3, ...)
 {
     DAT_0119f349 = -1;
     bool success = false;
@@ -4954,7 +4954,7 @@ bool __cdecl FUN_00705210(int aiArg1, DecompArg12 aArg12, DecompVec3 aVec3, int 
     DecompScopeGuard guard(13, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\Interface.cpp", 0x8ec);
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((FUN_009373f0_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->FUN_009373f0() && (*reinterpret_cast<unsigned int *>(&::g_pHudMainMenuInstance)))
     {
-        ((DecompTarget*)(*reinterpret_cast<unsigned int *>(&::g_pHudMainMenuInstance)))->FUN_00774fd0(aiArg1, aArg12, aVec3, aiArg4, a5);
+        ((DecompTarget*)(*reinterpret_cast<uintptr_t *>(&::g_pHudMainMenuInstance)))->FUN_00774fd0(aiArg1, aArg12, aVec3, aiArg4, a5);
     }
     return false;
 }
@@ -5643,7 +5643,7 @@ struct TESObjectREFRMine : TESObjectREFR
 
 // If the interface manager key is held, adjusts aType to 2 for owned non-actor refs that cannot be used, then calls FUN_0075b310; otherwise returns 0.
 // @fnv 0x00704ed0
-int FUN_00704ed0(TESObjectREFR* apRef, int aType)
+intptr_t FUN_00704ed0(TESObjectREFR* apRef, int aType)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((InterfaceManagerPCMine*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
     {
@@ -5655,13 +5655,13 @@ int FUN_00704ed0(TESObjectREFR* apRef, int aType)
                 aType = 2;
             }
         }
-        return ((int)(::FUN_0075b310(apRef, aType)));
+        return ((intptr_t)(::FUN_0075b310(apRef, aType)));
     }
     return 0;
 }
 
 // @fnv 0x0040fbe0
-void __cdecl FUN_0040fbe0()
+void __cdecl FUN_0040fbe0(...)
 {}
 
 struct MgrQ
@@ -6764,7 +6764,7 @@ void __cdecl FUN_0079ffb0(char param_1)
         pSub10 = ((void *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<ObjD_11dea3c*>((*reinterpret_cast<int *>(&::_g_thePlayer)))))->GetTarget()));
         if (pSub10 != 0)
         {
-            int insideTileX1;
+            intptr_t insideTileX1;
             int ex62;
             int ey21;
             Position adj31 = pos15;
@@ -6842,7 +6842,7 @@ void __cdecl FUN_0079ffb0(char param_1)
                          (::FUN_00406d90(pos15.x) >> 0xc) + cellX17, (::FUN_00406d90(pos15.y) >> 0xc) + cellY10);
         }
         p3925 = static_cast<C39*>(((void *)(::FUN_00653270((const ::NiRTTI *)(reinterpret_cast<std::uintptr_t>(&(*reinterpret_cast<unsigned int *>(&::g_011f4418)))),
-                                               (::NiObject *)((reinterpret_cast<ChainObj*>(((unsigned int)(::FUN_00559450((int *)&(local1415))))))->unk24)))));
+                                               (::NiObject *)((reinterpret_cast<ChainObj*>(((uintptr_t)(::FUN_00559450((int *)&(local1415))))))->unk24)))));
         ::FUN_00ee6dc2();
         reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 =
             reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 + 1;
@@ -6941,7 +6941,7 @@ void __cdecl FUN_0079ffb0(char param_1)
                                                   n25 << 1, pIdx11, 0, 0, (int)::InterfaceManager::UpdateInterfaceState(), (int)::FUN_00715da0()));
     pFx44 = new ObjB0(false);
 
-    reinterpret_cast<::TileShaderProperty *>((static_cast<ObjB0*>(pFx44)))->FUN_00bb7a10((::NiTexture *)(((unsigned int)(::FUN_00559450((int *)&(local1415))))));
+    reinterpret_cast<::TileShaderProperty *>((static_cast<ObjB0*>(pFx44)))->FUN_00bb7a10((::NiTexture *)(((uintptr_t)(::FUN_00559450((int *)&(local1415))))));
     reinterpret_cast<::FUN_008cc6d0_class *>((static_cast<ObjB0*>(pFx44)))->FUN_008cc6d0(0);
     reinterpret_cast<::FUN_007a1450_Class *>((static_cast<ObjB0*>(pFx44)))->SetNavMeshInfo((*(::NavMeshInfo4 *)(&objB83)));
     reinterpret_cast<::FUN_007a1430_Class *>((static_cast<ObjB0*>(pFx44)))->SetFlag(1);
@@ -7539,7 +7539,7 @@ void FUN_007094f0()
             bPickResultFound = ::fnv_00705ec0::FUN_00705ec0((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)));
             break;
         case 3:
-            bPickResultFound = ::FUN_00706130((int)((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954))));
+            bPickResultFound = ::FUN_00706130((intptr_t)((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954))));
             break;
         case 4:
             if (!reinterpret_cast<::FUN_007023a0_shell *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0())
@@ -7557,7 +7557,7 @@ void FUN_007094f0()
             bPickResultFound = ::fnv_007a8ba0::FUN_007a8ba0();
             break;
         case 8:
-            bPickResultFound = ::DestroyCompanionWheelMenu((int)(dynamic_cast<Actor*>((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)))));
+            bPickResultFound = ::DestroyCompanionWheelMenu((intptr_t)(dynamic_cast<Actor*>((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)))));
             break;
         case 9: {
             NameMenu* pkNameMenu = new NameMenu(0, 0);
@@ -8252,7 +8252,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                     DisplayItem* currentAmmo2 = ((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo();
 
                     const char* name2 = ::GetStringAtOffsetC4((void *)(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))));
-                    int total = reinterpret_cast<::FUN_004c8f30_shell *>((((::DisplayInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::DisplayPlayer *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))))))->FUN_004c8f30((int)(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))));
+                    int total = reinterpret_cast<::FUN_004c8f30_shell *>((((::DisplayInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::DisplayPlayer *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))))))->FUN_004c8f30((intptr_t)(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))));
                     int loaded = 0;
 
                     if (!name2 || !*name2)
@@ -8576,7 +8576,7 @@ struct Inner060
 struct Outer060
 {
     char _pad0[40];
-    int _m28;
+    intptr_t _m28;
     char _pad1[4];
     Inner060 _m30;
     void FUN_00b60060();
@@ -8618,7 +8618,7 @@ struct InterfaceGate704
 bool __cdecl FUN_00702680(int, int);
 
 // @fnv 0x00704e10
-void __cdecl FUN_00704e10(int id)
+void __cdecl FUN_00704e10(intptr_t id)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((InterfaceGate704*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
     {
@@ -8651,12 +8651,11 @@ float FUN_00707b60();
 void FUN_00705780();
 bool __cdecl FUN_00702680(Interface::enumMenus aeMenuID, unsigned int abFadeStatesThatCountAsVisible);
 void __cdecl FUN_00704130();
-void __cdecl FUN_00704470(int arg);
+void __cdecl FUN_00704470(intptr_t arg);
 char FUN_00706830();
 bool IsSomethingZero();
 void FUN_0086a530();
 void __cdecl FUN_00703100();
-int __cdecl strcpy_s(char* apDest, unsigned int auiDestSize, const char* apSrc);
 int __cdecl _stricmp(const char* apStr1, const char* apStr2);
 
 class VATSMenu : public Menu

@@ -21,4 +21,4 @@ void UpdateSceneGraph(::NiAVObject *);
 // 0x00552790
 void UpdateControllersRecursive(::AVObj_552790 *);
 // 0x00552ba0
-int FUN_00552ba0();
+void *FUN_00552ba0();

@@ -5,9 +5,9 @@ struct FUN_009fceb0_object;
 // 0x009fce80
 namespace fnv_009fce80 { void FUN_009fce80(); }
 // 0x009fceb0
-int GetObjectPointer(::FUN_009fceb0_object *, int *);
+int GetObjectPointer(::FUN_009fceb0_object *, intptr_t *);
 // 0x009fcf10
-namespace fnv_009fcf10 { int FUN_009fcf10(int, int, int *); }
+namespace fnv_009fcf10 { int FUN_009fcf10(intptr_t, intptr_t, intptr_t *); }
 // 0x009fcfe0
 void FUN_009fcfe0(void **);
 // 0x009fcff0

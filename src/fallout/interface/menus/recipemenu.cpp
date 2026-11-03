@@ -197,7 +197,7 @@ struct RecipeMenu_00726f20
     void* FUN_00726f20(unsigned int flags);
 };
 
-extern int DAT_011d8e90;
+extern intptr_t DAT_011d8e90;
 extern char DAT_011d8ea4;
 
 struct FUN_00727680_shell
@@ -273,14 +273,14 @@ bool IsThresholdDifferent(TESChallenge* apChallenge)
 struct FUN_00729970_shell
 {
     int m_kPointA;
-    int m_kPointB;
+    void* m_kPointB;
     int m_iThirdValue;
-    void FUN_00729970(int aiParam);
+    void FUN_00729970(intptr_t aiParam);
 };
 // @fnv 0x00729970
-void FUN_00729970_shell::FUN_00729970(int aiParam)
+void FUN_00729970_shell::FUN_00729970(intptr_t aiParam)
 {
-    std::qsort((void *)(m_kPointB), m_iThirdValue, 4, (int (*)(const void *, const void *))(aiParam));
+    std::qsort(m_kPointB, m_iThirdValue, 4, (int (*)(const void *, const void *))(aiParam));
 }
 
 struct FUN_00729fb0_shell
@@ -493,7 +493,7 @@ int __cdecl CompareRecipes(FUN_00728c10_entry* pLeftEntry, FUN_00728c10_entry* p
 
 struct FUN_007240c0
 {
-    int m_auiShapeKeys;
+    intptr_t m_auiShapeKeys;
     FUN_007240c0();
 };
 
@@ -713,7 +713,7 @@ struct GlobalHolder_b4821
 {
 };
 
-extern int DAT_011d8e90;
+extern intptr_t DAT_011d8e90;
 
 struct FUN_00726f50_cls : RecipeBase_b4821
 {
@@ -772,7 +772,7 @@ struct FNVVirtualTarget
 struct FNVAuxController
 {
 };
-extern int DAT_011d8e90;
+extern intptr_t DAT_011d8e90;
 struct FNVMenuAction
 {
     void FUN_00700320(int id, int value);
@@ -794,7 +794,7 @@ void __cdecl FUN_00727430()
             reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer))))->FUN_00950030();
         }
 
-        int value = 0;
+        intptr_t value = 0;
         ::StartDialogueForTopic((::TESTopic *)(value));
         reinterpret_cast<::Tile *>((((FNVRecipeMenu*)DAT_011d8e90)->action))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((((FNVRecipeMenu*)DAT_011d8e90)))->FUN_00a1d910();
@@ -849,7 +849,7 @@ struct RecipeEntry
     int m_iResultCode;
     int m_item;
     int m_data;
-    RecipeEntry(RecipeEntry* parent, int* selection);
+    RecipeEntry(RecipeEntry* parent, intptr_t* selection);
     int FUN_00a00f30(int key);
     void FUN_00700320(int key, int value);
     void FUN_00a01350(int key, int value, int flags);
@@ -876,7 +876,7 @@ struct RecipePanel
     int m_uiContentCount;
     int m_lastAction;
 
-    RecipeEntry* FUN_00729ae0(int selection, int updateChoice, int aiRecipeIndex, int parentId);
+    RecipeEntry* FUN_00729ae0(intptr_t selection, intptr_t updateChoice, intptr_t aiRecipeIndex, int parentId);
 };
 
 struct Item
@@ -913,7 +913,7 @@ struct FUN_0072a7c0 : FUN_007240c0, SL
 // @fnv 0x0072a7c0
 FUN_0072a7c0::FUN_0072a7c0() : FUN_007240c0(), SL()
 {
-    m_auiShapeKeys = reinterpret_cast<int>(DAT_01070610);
+    m_auiShapeKeys = reinterpret_cast<intptr_t>(DAT_01070610);
     m_14 = 0;
     m_10 = 0;
     m_0c = 0;
@@ -1016,7 +1016,7 @@ struct Target_b9223
 
 struct Inner_b9223
 {
-    int m_00;
+    intptr_t m_00;
     int m_04;
     unsigned char m_08;
 };
@@ -1068,7 +1068,7 @@ struct MenuTileControl
 bool MenuTileControl::FUN_0072c200()
 {
     static void* cachedValue = ((void *)(::FUN_00a00940((*reinterpret_cast<const char (*)[]>((void *)&::kListBoxEnabled)), -1)));
-    return tile != 0 && reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero((int)(cachedValue));
+    return tile != 0 && reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero((intptr_t)(cachedValue));
 }
 }  // namespace fnv_0072c200
 
@@ -1201,7 +1201,7 @@ struct CMDataHandler
 struct CMPlayer
 {
     int unk00[0x18];
-    int iRef60;
+    intptr_t iRef60;
 };
 
 struct CMFormArray
@@ -1248,7 +1248,7 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
     CMChallengeList* pIter6;
     CMChallenge* pChallenge6;
     int iCount8;
-    int iChallengeType2;
+    intptr_t iChallengeType2;
     CMForm* pForm4;
     CMItem* pItem;
     char cBuffer[256];
@@ -1261,7 +1261,7 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
     {
         pChallenge6 = *((::CMChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter6)->m_item));
         pIter6 = ((::CMChallengeList *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
-        iChallengeType2 = ((int)(reinterpret_cast<::FUN_006a1b60_Class *>((pChallenge6))->GetField54()));
+        iChallengeType2 = ((intptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((pChallenge6))->GetField54()));
         if (iType8 && iType8 != iChallengeType2)
             continue;
         if (reinterpret_cast<::PerkEntryConditionSet *>((((::CMConditions *)(::FUN_006a9540((char *)(pChallenge6))))))->ContainsTrait((::TESObjectREFR *)(g_pCMPlayer->iRef60), (::TESObjectREFR *)(0)))
@@ -1277,7 +1277,7 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
                           ((unsigned int)(::FUN_00559450((int *)((*((::CMCounter **)(&reinterpret_cast<::SimpleListNodeView*>(((::CMCounterList *)(reinterpret_cast<::FUN_005d43c0_ *>((pChallenge6))->FUN_005d43c0())))->m_item))))))));
             else
                 ::FUN_00406d00(cBuffer, 256, "%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pChallenge6->kFullName))->FUN_00408da0())));
-            pItem = ((::CMItem *)(reinterpret_cast<::RecipePanel *>(&(kList))->FUN_00729ae0((int)(pChallenge6), (int)(cBuffer), 0, 0)));
+            pItem = ((::CMItem *)(reinterpret_cast<::RecipePanel *>(&(kList))->FUN_00729ae0((intptr_t)(pChallenge6), (intptr_t)(cBuffer), 0, 0)));
             if (!::FUN_00727920(pChallenge6))
                 reinterpret_cast<::Tile *>(((*((::CMTile **)(reinterpret_cast<::InventoryStackRecord *>(&(pItem->kTile))->GetPayloadAddress())))))->Set(0xfa9, 0x7f);
             else
@@ -1285,7 +1285,7 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
         }
     }
     kList.Sort(((int (&)(void *, void *))::CompareRecipes));
-    reinterpret_cast<::FUN_00729970_shell *>(&(g_kCMSorter))->FUN_00729970((int)(((int (&)(void *, void *))::CompareWeatherEntryNames)));
+    reinterpret_cast<::FUN_00729970_shell *>(&(g_kCMSorter))->FUN_00729970((intptr_t)(((int (&)(void *, void *))::CompareWeatherEntryNames)));
 }
 
 extern char DAT_010705d4;
@@ -1568,7 +1568,7 @@ struct FUN_007a62e0
     int m_iResultCode;
     int m_item;
     int m_data;
-    FUN_007a62e0(RecipeEntry*, int*);
+    FUN_007a62e0(RecipeEntry*, intptr_t*);
 };
 struct EntryList515
 {
@@ -1585,10 +1585,10 @@ struct Panel515
     int defaultItem;
     unsigned short nextIndex;
     unsigned short flags;
-    RecipeEntry* FUN_0072a900(int selection, int choice, int aiRecipeIndex, int parentId);
+    RecipeEntry* FUN_0072a900(intptr_t selection, intptr_t choice, intptr_t aiRecipeIndex, int parentId);
 };
 // @fnv 0x0072a900
-RecipeEntry* Panel515::FUN_0072a900(int selection, int choice, int aiRecipeIndex, int parentId)
+RecipeEntry* Panel515::FUN_0072a900(intptr_t selection, intptr_t choice, intptr_t aiRecipeIndex, int parentId)
 {
     if (parent && (defaultItem || parentId))
     {
@@ -2031,7 +2031,7 @@ struct RcMenu
     RcTile* tile54;
     RcTile* tile58;
     RcTile* tile5C;
-    int unk60;
+    intptr_t unk60;
     int unk64;
     int unk68;
     RcListBox list6C;
@@ -2414,7 +2414,7 @@ RcTile* CreateRecipeMenu(int vendor, int type)
         delete oldMenu;
     }
     RcTile* tile2 = ((::RcTile *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::RcTile *)(reinterpret_cast<::InterfaceManager *>((im2))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\recipe_menu.xml"))));
-    DAT_011d8e90 = (int)(tile2 ? ((::RcMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((tile2))->FUN_00a03c90())) : 0);
+    DAT_011d8e90 = (intptr_t)(tile2 ? ((::RcMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((tile2))->FUN_00a03c90())) : 0);
     DAT_011d8eac = 0;
     DAT_011d8eb0 = 0;
     DAT_011d8eb4 = 0;
@@ -2940,7 +2940,7 @@ void CategoryMenu::OnAction(int action, RcTile* tile)
     switch (action)
     {
     case 7:
-        ::CreateQuantityMenu((int)(DAT_011d8ea8), ((void (&)())::CraftRecipe), 0x7fffffff);
+        ::CreateQuantityMenu((intptr_t)(DAT_011d8ea8), ((void (&)())::CraftRecipe), 0x7fffffff);
         break;
     case 8:
         DAT_011d8ea5 = 0;
@@ -3334,7 +3334,7 @@ struct RecipeScrollMetrics
     void FUN_0072c000();
 };
 // @fnv 0x00729ae0
-RecipeEntry* RecipePanel::FUN_00729ae0(int selection, int updateChoice, int aiRecipeIndex, int parentId)
+RecipeEntry* RecipePanel::FUN_00729ae0(intptr_t selection, intptr_t updateChoice, intptr_t aiRecipeIndex, int parentId)
 {
     if (m_parent != 0 && (m_defaultItem != 0 || parentId != 0))
     {
@@ -4022,7 +4022,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                             else
                                 FUN_00406d00(label, 256, "%s (%d/%d)", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)name)))->FUN_00408da0())), inventory,
                                              ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))));
-                            RecipeAddedItem* added = ((::RecipeAddedItem *)(reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (int)(label), 0, 0)));
+                            RecipeAddedItem* added = ((::RecipeAddedItem *)(reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((intptr_t)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (intptr_t)(label), 0, 0)));
                             if (inventory < ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))) && !alternate)
                                 reinterpret_cast<::Tile *>((((::RecipeTiles *)(reinterpret_cast<::InventoryStackRecord *>(&(added->tile))->GetPayloadAddress()))))->Set(0xfa9, 127);
                             else
@@ -4030,7 +4030,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                         }
                     }
                     else
-                        reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (int)(((::FUN_00464f30((int)("ERROR WITH CAST"))))), 0, 0);
+                        reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((intptr_t)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (int)(((::FUN_00464f30((intptr_t)("ERROR WITH CAST"))))), 0, 0);
                     list = ((::EntryListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 }
                 second.Sort(FUN_00728cd0);
@@ -4122,7 +4122,7 @@ void SelfObj::FUN_00728da0(TESForm* apForm, MenuTileList* apTiles)
                 qbGYp = 0;
                 while (qjXCGmG != 0 && 12 > qbGYp)
                 {
-                    qrEZrs[qbGYp] = (TileObj*)(*(int*)apTiles->links.FUN_00683520(&qjXCGmG));
+                    qrEZrs[qbGYp] = (TileObj*)(*(intptr_t*)apTiles->links.FUN_00683520(&qjXCGmG));
                     qbGYp += 1;
                 }
                 while (12 > qbGYp)
@@ -4185,7 +4185,7 @@ void SelfObj::FUN_00728da0(TESForm* apForm, MenuTileList* apTiles)
                         local31 = ((::ProcessObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((RecipeStatsPlayerView*)(*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer)))))->GetBaseTexture()))->v52();
                         local_ = ((::ProcessObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((RecipeStatsPlayerView*)(*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer)))))->GetBaseTexture()))->v53();
                         local9 = ::GetStringAtOffsetC4((void *)(((AmmoObj*)((void *)(reinterpret_cast<::AmmoOwner *>((weapon4))->FUN_00525980((::AmmoActor *)(0)))))));
-                        local67 = reinterpret_cast<::FUN_004c8f30_shell *>((((::InvChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)(((void *)(reinterpret_cast<::AmmoOwner *>((weapon4))->FUN_00525980((::AmmoActor *)(0))))));
+                        local67 = reinterpret_cast<::FUN_004c8f30_shell *>((((::InvChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)(((void *)(reinterpret_cast<::AmmoOwner *>((weapon4))->FUN_00525980((::AmmoActor *)(0))))));
                         loaded = 0;
                         if (!local9 || *local9 == 0)
                         {

@@ -192,7 +192,7 @@ void RegionSaveShell::WriteRegionSaveChunk()
 {
     unsigned int count;
     SavePair* pPairs = 0;
-    count = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((GetList()))->FUN_0044edb0()));
+    count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((GetList()))->FUN_0044edb0()));
     reinterpret_cast<::RegionSource *>(this)->WriteSaveData();
     if (count)
     {
@@ -201,7 +201,7 @@ void RegionSaveShell::WriteRegionSaveChunk()
         pPairs = new SavePair[count];
         while (pNode)
         {
-            SaveObj* pObj = *((::SaveObj **)(new ((void *)(pNode)) ::Vec3()));
+            SaveObj* pObj = *((::SaveObj **)((void *)(pNode)));
             if (pObj)
             {
                 pPairs[uiIndex].form = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((NamedForm*)pObj->GetObj())))->FUN_0084e3a0()));

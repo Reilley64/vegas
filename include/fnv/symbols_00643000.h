@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ActorValueOwner428;
 class GameSettingCollection;
@@ -16,11 +17,11 @@ struct S00643870_Base1;
 // 0x00643400
 int ComputeClampedSettingSum(int, int, float);
 // 0x006434f0
-float FUN_006434f0(int);
+float FUN_006434f0(intptr_t);
 // 0x00643540
 namespace fnv_00643540 { void GetSettingPairValues(int, float *, float *); }
 // 0x006435c0
-float FUN_006435c0(int, int);
+float FUN_006435c0(intptr_t, int);
 // 0x00643670
 namespace fnv_00643670 { void FUN_00643670(::fnv_00643670::Dummy *); }
 // 0x006436c0

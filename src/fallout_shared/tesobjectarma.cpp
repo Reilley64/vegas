@@ -30,6 +30,7 @@
 #include "fnv/symbols_00489000.h"
 #include "fnv/symbols_005b5000.h"
 #include "tesobjectarma_load.h"
+#include "fnv/symbols_00472000.h"
 class TESForm;
 
 class TESFormInitFlag
@@ -150,11 +151,28 @@ class BGSDestructibleObjectForm
 class TESObjectARMA : public TESForm
 {
   public:
-    unsigned char padToBiped[0x6c];
+    unsigned char padToBiped[0x2c];
+    void* unk30;
+    unsigned char pad34[0x8];
+    void* unk3c;
+    unsigned char pad40[0x8];
+    void* unk48;
+    unsigned char pad4c[0xc];
+    void* unk58;
+    unsigned char pad5c[0x4];
+    void* unk60;
+    unsigned char pad64[0x4];
+    void* unk68;
+    unsigned char pad6c[0x4];
     TESBipedModelForm biped;
     BGSDestructibleObjectForm destructible;
     BGSEquipType equipType;
-    unsigned char padToData[0x1c];
+    void* unk15c;
+    unsigned char pad160[0x4];
+    void* unk164;
+    unsigned char pad168[0x4];
+    void* unk16c;
+    unsigned char pad170[0x8];
     ArmorData data;
     bool Load(TESFile* file);
     void ResetFormData();
@@ -209,19 +227,19 @@ struct FUN_00511e40
 // @fnv 0x00511e40
 FUN_00511e40::FUN_00511e40()
 {
-    *(int*)((char*)this + 0x0) = (int)&DAT_0102a31c;
-    *(int*)((char*)this + 0x30) = (int)&DAT_0102a304;
-    *(int*)((char*)this + 0x3c) = (int)&DAT_0102a2f0;
-    *(int*)((char*)this + 0x48) = (int)&DAT_0102a2d8;
-    *(int*)((char*)this + 0x58) = (int)&DAT_0102a2b8;
-    *(int*)((char*)this + 0x60) = (int)&DAT_0102a2a4;
+    *(std::intptr_t*)((char*)this + 0x0) = (std::intptr_t)&DAT_0102a31c;
+    *(std::intptr_t*)((char*)this + 0x30) = (std::intptr_t)&DAT_0102a304;
+    *(std::intptr_t*)((char*)this + 0x3c) = (std::intptr_t)&DAT_0102a2f0;
+    *(std::intptr_t*)((char*)this + 0x48) = (std::intptr_t)&DAT_0102a2d8;
+    *(std::intptr_t*)((char*)this + 0x58) = (std::intptr_t)&DAT_0102a2b8;
+    *(std::intptr_t*)((char*)this + 0x60) = (std::intptr_t)&DAT_0102a2a4;
     *(const char**)((char*)this + 0x68) = " rH";
-    *(int*)((char*)this + 0x70) = (int)&DAT_0102a278;
-    *(int*)((char*)this + 0x14c) = (int)&DAT_0102a264;
-    *(int*)((char*)this + 0x154) = (int)&DAT_0102a250;
-    *(int*)((char*)this + 0x15c) = (int)&DAT_0102a23c;
-    *(int*)((char*)this + 0x164) = (int)&DAT_0102a228;
-    *(int*)((char*)this + 0x16c) = (int)&DAT_0102a214;
+    *(std::intptr_t*)((char*)this + 0x70) = (std::intptr_t)&DAT_0102a278;
+    *(std::intptr_t*)((char*)this + 0x14c) = (std::intptr_t)&DAT_0102a264;
+    *(std::intptr_t*)((char*)this + 0x154) = (std::intptr_t)&DAT_0102a250;
+    *(std::intptr_t*)((char*)this + 0x15c) = (std::intptr_t)&DAT_0102a23c;
+    *(std::intptr_t*)((char*)this + 0x164) = (std::intptr_t)&DAT_0102a228;
+    *(std::intptr_t*)((char*)this + 0x16c) = (std::intptr_t)&DAT_0102a214;
     reinterpret_cast<::FUN_004f15a0_shell *>((((SFTX*)this)))->FUN_004f15a0(0x60);
     ((TESObjectARMA*)this)->ResetFormData();
 }
@@ -233,16 +251,16 @@ struct FUN_0048ea40_holder
 {
 };
 
-struct FUN_005144c0_shell
+struct FUN_005144c0_shell : ::TESObjectARMA
 {
-    void FUN_005144c0(unsigned int flags);
+    void FUN_005144c0(std::uintptr_t flags);
 };
 
 // @fnv 0x005144c0
-void FUN_005144c0_shell::FUN_005144c0(unsigned int flags)
+void FUN_005144c0_shell::FUN_005144c0(std::uintptr_t flags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(flags));
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(flags));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(&this->unk58)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(flags));
 }
 
 struct BGSLoadFormBuffer;
@@ -272,7 +290,7 @@ struct FUN_00511f30_holder
 {
     void* DestroyIfFlagged(unsigned int);
 };
-struct FUN_00511f60_shell : TESObjectARMO
+struct FUN_00511f60_shell : ::TESObjectARMA
 {
     void FUN_00511f60();
 };
@@ -289,18 +307,18 @@ void* FUN_00511f30_holder::DestroyIfFlagged(unsigned int flags)
 void FUN_00511f60_shell::FUN_00511f60()
 {
     *(void**)this = (void*)&DAT_0102a31c;
-    *(void**)((char*)this + 0x30) = (void*)&DAT_0102a304;
-    *(void**)((char*)this + 0x3c) = (void*)&DAT_0102a2f0;
-    *(void**)((char*)this + 0x48) = (void*)&DAT_0102a2d8;
-    *(void**)((char*)this + 0x58) = (void*)&DAT_0102a2b8;
-    *(void**)((char*)this + 0x60) = (void*)&DAT_0102a2a4;
-    *(void**)((char*)this + 0x68) = (void*)" rH";
+    this->unk30 = (void*)&DAT_0102a304;
+    this->unk3c = (void*)&DAT_0102a2f0;
+    this->unk48 = (void*)&DAT_0102a2d8;
+    this->unk58 = (void*)&DAT_0102a2b8;
+    this->unk60 = (void*)&DAT_0102a2a4;
+    this->unk68 = (void*)" rH";
     *(void**)((char*)this + 0x70) = (void*)&DAT_0102a278;
     *(void**)((char*)this + 0x14c) = (void*)&DAT_0102a264;
     *(void**)((char*)this + 0x154) = (void*)&DAT_0102a250;
-    *(void**)((char*)this + 0x15c) = (void*)&DAT_0102a23c;
-    *(void**)((char*)this + 0x164) = (void*)&DAT_0102a228;
-    *(void**)((char*)this + 0x16c) = (void*)&DAT_0102a214;
+    this->unk15c = (void*)&DAT_0102a23c;
+    this->unk164 = (void*)&DAT_0102a228;
+    this->unk16c = (void*)&DAT_0102a214;
     reinterpret_cast<::FUN_00512bd0 *>(this)->FUN_00512bd0::~FUN_00512bd0();
 }
 
@@ -333,7 +351,7 @@ bool TESObjectARMA::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 'LLUF':
-            ::ReadFullName(this ? (TESFullName*)((char*)this + 0x30) : 0, file);
+            ::ReadFullName(this ? (TESFullName*)&this->unk30 : 0, file);
             break;
         case 'TDMB':
             if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 11)
@@ -445,7 +463,7 @@ bool TESObjectARMA::Load(TESFile* file)
             unsigned int type = 0;
             file->GetChunkData(&type);
             // Reuse the canonical identity of the folded scalar setter.
-            reinterpret_cast<::CombatProcedure *>((((TESResponse*)&equipType)))->Initialize((::CombatController *)(type));
+            reinterpret_cast<::CombatProcedure *>((((TESResponse*)&equipType)))->Initialize((::CombatController *)(std::uintptr_t)(type));
             break;
         }
         case 'MAND':
@@ -473,7 +491,7 @@ void FUN_00512810_holder::FUN_00512810()
 struct FUN_005e78f0_t
 {
 };
-struct FUN_005128e0_obj
+struct FUN_005128e0_obj : ::TESObjectARMA
 {
     void FUN_005128e0(TESForm* apCopy);
 };
@@ -484,7 +502,7 @@ void FUN_005128e0_obj::FUN_005128e0(TESForm* apCopy)
     TESObjectARMO* parmo = dynamic_cast<TESObjectARMO*>(apCopy);
     if (parmo == 0)
         return;
-    __memcpy((char*)this + 0x178, (char*)apCopy + 0x178, 0xc);
+    __memcpy((char*)&this->data, (char*)apCopy + 0x178, 0xc);
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
@@ -509,7 +527,7 @@ struct FUN_00485e00_shell
 struct FUN_00485680_shell
 {
 };
-struct FUN_00512840_shell
+struct FUN_00512840_shell : ::TESObjectARMA
 {
     void FUN_00512840();
 };
@@ -517,15 +535,15 @@ struct FUN_00512840_shell
 void FUN_00512840_shell::FUN_00512840()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_shell*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
-    ((FUN_00480610_shell*)((char*)this + 0x70))->InitBipedModel();
-    ((FUN_00479350_shell*)((char*)this + 0x154))->FUN_00479350();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)&this->unk30)))->FUN_00487010();
+    ((FUN_00480610_shell*)&this->biped.prefix[0])->InitBipedModel();
+    ((FUN_00479350_shell*)&this->equipType.storage[0])->FUN_00479350();
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00535aa0_Class *>((((ArmorData*)((char*)this + 0x178))))->FUN_00535aa0();
-    ::AppendChunk(0x4d414e44, (char*)this + 0x178, 0xc);
+        reinterpret_cast<::FUN_00535aa0_Class *>(((&this->data)))->FUN_00535aa0();
+    ::AppendChunk(0x4d414e44, (char*)&this->data, 0xc);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00535aa0_Class *>((((ArmorData*)((char*)this + 0x178))))->FUN_00535aa0();
+        reinterpret_cast<::FUN_00535aa0_Class *>(((&this->data)))->FUN_00535aa0();
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 
@@ -547,4 +565,157 @@ bool ArmaCompare::FUN_00512940(TESForm* apCompare)
     if (std::memcmp(&data, &pcomp->data, sizeof(data)))
         return true;
     return false;
+}
+
+// MSVC adjustor thunk: the primary base occupies 0x58 bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_005129c0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005129c0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005129c0
+    virtual void FUN_005129c0();
+};
+
+Derived::Derived()
+{}
+
+// FUN_005129d0 : 8-byte MSVC this-adjusting (virtual) thunk.
+//     sub ecx, 0x58 ; jmp <final overrider>
+//
+// MSVC emits such a stub in the vtable of a class that inherits the same
+// virtual slot through two bases: the slot of the second base holds a tiny
+// stub that moves `this` back onto the complete object (sub ecx, size of the
+// primary base) and tail-jumps to the implementation.
+//
+// The subtracted offset is therefore the size of the primary base: a vtable
+// pointer plus 21 int members (4 + 84 = 0x58 bytes). Both bases declare the
+// same virtual function; the derived class redeclares it and defines only its
+// constructor, which is what makes the compiler emit the vtables and the
+// adjusting thunk.
+struct ArmaPrimaryBase
+{
+    virtual void FUN_005129d0();
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+    int m_48;
+    int m_4c;
+    int m_50;
+    int m_54;
+};
+
+struct ArmaSecondaryBase
+{
+    virtual void FUN_005129d0();
+};
+
+struct ArmaDerived : ArmaPrimaryBase, ArmaSecondaryBase
+{
+    ArmaDerived();
+// @fnv 0x005129d0
+    virtual void FUN_005129d0();
+};
+
+ArmaDerived::ArmaDerived()
+{}
+
+namespace fnv_005129e0 {
+// FUN_005129e0 : 8-byte MSVC this-adjusting (virtual) thunk.
+//     sub ecx, 0x58 ; jmp <final overrider>
+//
+// MSVC emits such a thunk in the vtable of a class that inherits the same
+// virtual slot from two bases: the slot of the second base holds a small
+// stub that moves `this` back onto the complete object (sub ecx, sizeof of
+// the primary base)) and tail-jumps to the implementation.
+//
+// The subtracted offset is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus 21 int members (4 + 84 = 0x58 bytes).
+// Both bases declare the same virtual function; the derived class redeclares
+// it and defines only its constructor, which is what makes the compiler emit
+// the vtables and the adjusting thunk.
+struct ArmaPrimaryBase
+{
+    virtual void FUN_005129e0();
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+    int m_48;
+    int m_4c;
+    int m_50;
+    int m_54;
+};
+
+struct ArmaSecondaryBase
+{
+    virtual void FUN_005129e0();
+};
+
+struct ArmaDerived : ArmaPrimaryBase, ArmaSecondaryBase
+{
+    ArmaDerived();
+// @fnv 0x005129e0
+    virtual void FUN_005129e0();
+};
+
+ArmaDerived::ArmaDerived()
+{}
 }

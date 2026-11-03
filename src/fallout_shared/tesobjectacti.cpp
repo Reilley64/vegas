@@ -42,6 +42,7 @@
 #include "fnv/symbols_01011000.h"
 #include "tesobjectacti_load.h"
 #include <malloc.h>
+#include "fnv/symbols_00472000.h"
 
 template <> BSStringT<char>::~BSStringT()
 {
@@ -230,7 +231,7 @@ struct BGSSaveGameBuffer
 struct FNStub
 {
 };
-struct FUN_00511860_holder
+struct FUN_00511860_holder : ::TESObjectACTI
 {
     void FUN_00511860(BGSSaveFormBuffer* apSaveGameBuffer);
 };
@@ -238,9 +239,9 @@ struct FUN_00511860_holder
 void FUN_00511860_holder::FUN_00511860(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged(apSaveGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(4)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(4)))->FUN_004280f0(4))
     {
-        const char* pfullname = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)this + 0x30))))->FUN_00408da0()));
+        const char* pfullname = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)static_cast<TESFullName *>(this))))->FUN_00408da0()));
         reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBuffer*)apSaveGameBuffer)))->FUN_00865e70(pfullname, 0);
     }
 }
@@ -325,7 +326,7 @@ void FUN_00510770_shell::FUN_00510770()
     reinterpret_cast<::BGSDestructibleObjectForm *>((reinterpret_cast<BGSDestructibleObjectFormInitItemProxy*>(static_cast<BGSDestructibleObjectForm *>(this))))->InitItem(this);
     reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESModelTextureSwapInitItemProxy*>(static_cast<TESModelTextureSwap *>(this))))->InitItem(this);
 
-    unsigned int itempint = reinterpret_cast<unsigned int>(m_pSoundEffect);
+    std::uintptr_t itempint = reinterpret_cast<std::uintptr_t>(m_pSoundEffect);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -334,7 +335,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pLoopSound);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pLoopSound);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -343,7 +344,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(pRadioTemplate);
+    itempint = reinterpret_cast<std::uintptr_t>(pRadioTemplate);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -352,7 +353,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pWaterForm);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pWaterForm);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -361,7 +362,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pTalkingActivator);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pTalkingActivator);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -406,7 +407,11 @@ bool ACTIView::FUN_005111e0(TESForm* apForm)
         return true;
     if (((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))) != ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pOther)))))
         return true;
-    iCompare = reinterpret_cast<::FUN_00501c90_shell *>((void *)&(const ::ACTIStr &)(GetPromptA()))->CompareString(&pOther->GetPromptA(), true);
+    {
+        ACTIStr kPrompt = GetPromptA();
+        ACTIStr kOtherPrompt = pOther->GetPromptA();
+        iCompare = reinterpret_cast<::FUN_00501c90_shell *>((void *)&kPrompt)->CompareString(&kOtherPrompt, true);
+    }
     if (iCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pOther))
@@ -518,7 +523,10 @@ void ActiSave::Save()
     }
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StrLen*)&m_kActivationPrompt)))->FUN_004048e0())) > 0)
     {
-        ::FUN_004856f0((void *)(0x4f544158), (void*)((const char *)(::FUN_00559450((int *)&(GetString())))), (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(const ::StrOut &)(GetString()))->FUN_004048e0())) + 1));
+        StrOut kText = GetString();
+        StrOut kTextForLength = GetString();
+        ::FUN_004856f0((void *)(std::uintptr_t)0x4f544158, (void *)kText.pString,
+                       (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&kTextForLength)->FUN_004048e0())) + 1));
     }
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
@@ -739,3 +747,54 @@ void ActiV511::FUN_00511120(TESForm* pkForm)
     reinterpret_cast<::FloatValueProvider *>((((TESObjectACTI*)this)))->FUN_00510ea0(reinterpret_cast<::FUN_005110e0_Holder *>((pkActi))->GetString());
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pkForm);
 }
+
+// Adjustor thunk.
+//
+// The most derived form class inherits two different base sub-objects that
+// both provide the same virtual slot (FUN_00511940).  One of those bases sits
+// 0x3C bytes into the complete object, so the entry stored in that base's
+// vtable slot has to move `this` back by 0x3C before it can jump to the
+// implementation that expects the complete object pointer.
+//
+// MSVC emits such a thunk as
+//     sub ecx, 0x3C
+//     jmp <implementation>
+
+// First base of the complete object: 0x3C bytes long (vtable pointer plus the
+// state that precedes the second base sub-object).
+struct ThunkPrimary
+{
+    virtual void FUN_00511940();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+// Second base of the complete object, placed at offset 0x3C.
+struct ThunkSecondary
+{
+    virtual void FUN_00511940();
+};
+
+// Complete object: the virtual is overridden here, so the vtable slot of the
+// second base needs a `this` adjusting thunk.
+struct ThunkDerived : public ThunkPrimary, public ThunkSecondary
+{
+// @fnv 0x00511940
+    virtual void FUN_00511940();
+    ThunkDerived();
+};
+
+ThunkDerived::ThunkDerived()
+{}

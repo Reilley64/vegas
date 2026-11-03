@@ -83,7 +83,7 @@ struct FUN_006f3430_shell : FUN_006f3460
 // @fnv 0x006f3430
 void* FUN_006f3430_shell::DestroyAndDeallocate(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006f3460 *>(this)->FUN_006f3460::~FUN_006f3460();
+    reinterpret_cast<::FUN_006f3460 *>(this)->::FUN_006f3460::~FUN_006f3460();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -115,7 +115,7 @@ struct FUN_006f3e30_shell
     FUN_00996840_shell kMap;
     char pad18[0x1ff4 - 0x15];
     FUN_006f4430_shell kQueue;
-    int InsertOrUpdateNode(unsigned int aiKey, float afCost, AStarNodeTD** aRetNode);
+    int InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, AStarNodeTD** aRetNode);
 };
 // @fnv 0x006f36d0
 bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, TeleportLink>* node,
@@ -141,25 +141,25 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
         TESObjectCELL* a07;
         bool a05;
         unsigned int a03;
-        for (a03 = 0; a03 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&doors)))->GetName())); ++a03)
+        for (a03 = 0; a03 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&doors)))->GetName())); ++a03)
         {
             a00 = reinterpret_cast<TESObjectREFR*>(reinterpret_cast<NiFormArray*>(&doors)->FUN_00877a30(a03));
             if (a00->GetDisabled())
                 continue;
             void* b01 =
-                ((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))
-                    ? reinterpret_cast<void*>(((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                ((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))
+                    ? reinterpret_cast<void*>(((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
                     : reinterpret_cast<void*>(((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0())));
             switch (restriction)
             {
             case 2:
-                if (((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
                     continue;
                 break;
             case 1:
-                if (((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())) &&
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())) &&
                     reinterpret_cast<TESWorldSpace*>(
-                        ((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))) != startWorld)
+                        ((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))) != startWorld)
                     continue;
                 break;
             }
@@ -193,15 +193,15 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
                 continue;
             a01 = node->cost + b00 + a06;
             a07 = ((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0()));
-            switch (reinterpret_cast<::FUN_006f3e30_shell *>(this)->InsertOrUpdateNode((unsigned int)(b01), a01, (::AStarNodeTD **)&(a08)))
+            switch (reinterpret_cast<::FUN_006f3e30_shell *>(this)->InsertOrUpdateNode((std::uintptr_t)(b01), a01, (::AStarNodeTD **)&(a08)))
             {
             case 0:
-                if (((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
                 {
                     a08->exterior = true;
                     a08->cell = 0;
                     a08->world = reinterpret_cast<TESWorldSpace*>(
-                        ((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())));
+                        ((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())));
                 }
                 else
                 {
@@ -222,7 +222,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
 }
 
 // @fnv 0x006f3e30
-int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, AStarNodeTD** aRetNode)
+int FUN_006f3e30_shell::InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, AStarNodeTD** aRetNode)
 {
     AStarNodeTD** pBucketHead = (AStarNodeTD**)&this->kMap + kMap.FUN_00996840(aiKey);
     if (*pBucketHead)
@@ -2386,9 +2386,9 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
 {
     reinterpret_cast<::PathingLocation *>((((LocationCopy*)&location)))->operator=((*(const ::PathingLocation *)(start)));
     void* a;
-    if (((void *)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel())))
+    if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel())))
     {
-        startState.world = ((void *)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel()));
+        startState.world = ((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((start))->GetMinLevel()));
         startState.exterior = true;
         startState.cell = 0;
         a = startState.world;
@@ -2409,9 +2409,9 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
     disposition = disp;
     if (restriction != 3)
     {
-        if (((void *)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel())))
+        if (((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel())))
         {
-            goalState.world = ((void *)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel()));
+            goalState.world = ((void *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((goal))->GetMinLevel()));
             goalState.exterior = true;
             goalState.cell = 0;
         }
@@ -2425,8 +2425,8 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
     lockData = locks;
     result->start = reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     result->finish = reinterpret_cast<::TaskQueueInterface *>((void *)(goal))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
-    reinterpret_cast<::S_006f3d00_Obj *>(this)->FUN_006f3d00((int)(a), (::S_006f3d00_Vec3 *)(::SearchState *)(&startState), 1.0f);
-    if (!reinterpret_cast<::PathSearch *>(this)->FindPath((int)(result), (int)(&result->sub), true))
+    reinterpret_cast<::S_006f3d00_Obj *>(this)->FUN_006f3d00((std::intptr_t)(a), (::S_006f3d00_Vec3 *)(::SearchState *)(&startState), 1.0f);
+    if (!reinterpret_cast<::PathSearch *>(this)->FindPath((std::intptr_t)(result), (std::intptr_t)(&result->sub), true))
         return false;
     return true;
 }

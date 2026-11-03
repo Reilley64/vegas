@@ -1,5 +1,6 @@
 // fallout/ai/combat/combattargetmap.cpp: CombatTargetMap, DelStandIn (7 functions)
 
+#include <cstdint>
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/FUN_00438690.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
@@ -91,7 +92,7 @@ struct FUN_009a42f0
 struct GO
 {
     int _v;
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct FUN_009a40c0 : FUN_009a42f0
@@ -146,10 +147,10 @@ void FUN_009a3fe0_struct::AddAttackerToTarget(void* apTarget, void* apAttacker)
     FUN_009a40c0* ptargetData;
     AutoMemHelper tempMemContext(0x2b, true, str_0108e208, 0x7c);
     ptargetData = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((unsigned int)apTarget, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)ptargetData)))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((uintptr_t)apTarget, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)ptargetData)))
     {
         ptargetData = new FUN_009a40c0;
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((unsigned int)apTarget, (unsigned int)ptargetData);
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((uintptr_t)apTarget, (uintptr_t)ptargetData);
     }
     reinterpret_cast<::FUN_00438690 *>((ptargetData))->FUN_007cb2e0((unsigned int *)&(apAttacker));
 }

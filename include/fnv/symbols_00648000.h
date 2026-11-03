@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Dummy648bc0;
 
@@ -11,7 +12,7 @@ void ComputeScaledResult(float *, float, float, int, bool, float, float, float, 
 // 0x00648810
 namespace fnv_00648810 { void ComputeSettingAdjustedValue(float *, float, float, int, bool, float, float, float, bool); }
 // 0x00648a10
-float FUN_00648a10(int);
+float FUN_00648a10(intptr_t);
 // 0x00648a50
 namespace fnv_00648a50 { float GetScaledLevelValue(int); }
 // 0x00648a80

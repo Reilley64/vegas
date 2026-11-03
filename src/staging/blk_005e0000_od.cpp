@@ -14,7 +14,6 @@
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/ChallengeManager.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/FUN_0045c650_shell.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_0046e8c0_class.h"
@@ -133,6 +132,42 @@
 #include "fnv/symbols_011cd000.h"
 #include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
+#include <string.h>
+#include "fnv/decl/FUN_00600ab0_shell.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/Flt.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/TESAnimGroup.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_005e4000.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_005f6000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0096a000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_011f4000.h"
+
+namespace {
+// Room for the 0x24-byte Big record that Holder::CopyBig (0x004e75d0) writes through its result pointer;
+// the temporary lives until the end of the full expression.
+struct BigResult
+{
+    int v[9];
+};
+template <class T> T& BigSlot(BigResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
+class TESObjectREFR;
+// The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ
+// only in the return type); this unit calls the 0x005e3fa0 one.
+class DialogueItem {
+public:
+    ::TESObjectREFR *SelectDefaultResponseList();
+};
 
 struct GlobalObject_0045cf30
 {
@@ -155,7 +190,7 @@ extern int DAT_0103d3e8;
 
 struct FUN_005e02e0
 {
-    int m0;
+    void* m0;
     int m4;
     void Init();
 };
@@ -164,7 +199,7 @@ struct FUN_005e02e0
 // @fnv 0x005e02e0
 void FUN_005e02e0::Init()
 {
-    m0 = (int)&DAT_0103d3e8;
+    m0 = &DAT_0103d3e8;
     ::FUN_004b0220(m4);
 }
 
@@ -183,7 +218,7 @@ struct NiTMallocInterface_
 
 struct FUN_005e0340Class
 {
-    int m_vtbl;
+    void* m_vtbl;
     ActorCombatGroup** m_ptr;
     void FUN_005e0340();
 };
@@ -194,7 +229,7 @@ extern int DAT_0103d3f8;
 // @fnv 0x005e0340
 void FUN_005e0340Class::FUN_005e0340()
 {
-    m_vtbl = (int)&DAT_0103d3f8;
+    m_vtbl = &DAT_0103d3f8;
     ::FUN_004ede70(m_ptr);
 }
 
@@ -219,11 +254,11 @@ void* NavMeshPtr::FUN_005e05b0(int index)
 
 struct QuantityData
 {
-    void FUN_005e0b80(unsigned int quantity);
+    void FUN_005e0b80(uintptr_t quantity);
 };
 
 // @fnv 0x005e0b80
-void QuantityData::FUN_005e0b80(unsigned int quantity)
+void QuantityData::FUN_005e0b80(uintptr_t quantity)
 {
     reinterpret_cast<::FUN_00537e90 *>(this)->SetQuantity(quantity);
 }
@@ -274,17 +309,17 @@ bool TESFaction_RankDataView::HasFlag20()
 
 struct FUN_005ec8f0_class
 {
-    bool FUN_005ec8f0(int a);
+    bool FUN_005ec8f0(intptr_t a);
 };
 
 struct FUN_005ecd10_cls
 {
-    bool FUN_005ece20(int a);
+    bool FUN_005ece20(intptr_t a);
 };
 
 struct FUN_005ed1b0_Class
 {
-    bool FUN_005ed1b0(int arg);
+    bool FUN_005ed1b0(intptr_t arg);
 };
 
 extern int DAT_010472e4;
@@ -347,11 +382,11 @@ void* FUN_005ef150_class::FUN_005ef150(int a)
 
 struct FUN_005ef180_Class
 {
-    void* FUN_005ef180(int n, int m);
+    void* FUN_005ef180(intptr_t n, int m);
 };
 
 // @fnv 0x005ef180
-void* FUN_005ef180_Class::FUN_005ef180(int n, int iCount)
+void* FUN_005ef180_Class::FUN_005ef180(intptr_t n, int iCount)
 {
     return ::Reallocate((void*)n, iCount * 0x38);
 }
@@ -376,7 +411,7 @@ struct FUN_005ef1d0
 // @fnv 0x005ef1d0
 void FUN_005ef1d0::Init()
 {
-    *(int*)this = (int)&::DAT_0104730c;
+    *(void**)this = &::DAT_0104730c;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_005ef1d0
@@ -397,11 +432,11 @@ void* FUN_005ef330_Class::FUN_005ef330(int aiCount)
 
 struct FUN_005ef360_class
 {
-    void* FUN_005ef360(unsigned int n, unsigned int m);
+    void* FUN_005ef360(uintptr_t n, unsigned int m);
 };
 
 // @fnv 0x005ef360
-void* FUN_005ef360_class::FUN_005ef360(unsigned int n, unsigned int m)
+void* FUN_005ef360_class::FUN_005ef360(uintptr_t n, unsigned int m)
 {
     return Reallocate((void*)n, m * 0x28);
 }
@@ -611,15 +646,15 @@ void TESAttributes::FUN_005f1570(unsigned char index)
 
 struct FUN_005f3710_Class
 {
-    int GetEntryAt(int index);
+    intptr_t GetEntryAt(int index);
 };
 
 // @fnv 0x005f3710
-int FUN_005f3710_Class::GetEntryAt(int index)
+intptr_t FUN_005f3710_Class::GetEntryAt(int index)
 {
     if ((unsigned int)index < *(unsigned int*)((char*)this + 0x34))
     {
-        return index * 16 + *(int*)((char*)this + 0x38);
+        return index * 16 + *(intptr_t*)((char*)this + 0x38);
     }
     return 0;
 }
@@ -749,7 +784,7 @@ struct FUN_005e0830
 // @fnv 0x005e0830
 void FUN_005e0830::Open(const char* apFileName, bool abWrite)
 {
-    reinterpret_cast<::FUN_004f8a60_class *>(this)->FUN_004f8ac0((int)(apFileName));
+    reinterpret_cast<::FUN_004f8a60_class *>(this)->FUN_004f8ac0((intptr_t)(apFileName));
     ((void(*)(void*, bool))(*reinterpret_cast<void***>(this))[6])(this, abWrite);
 }
 
@@ -775,7 +810,7 @@ struct FUN_005f4bd0_class
     int m8;
     int mc;
     int m10;
-    int m14;
+    char* m14;
     void SetEntryByte(unsigned int index, unsigned char value);
 };
 // If index is below the count in mc, writes value to byte 13 of the 16-byte entry at m14 + index*16.
@@ -993,7 +1028,7 @@ void FUN_005e0aa0(int a, int b)
 struct FUN_005e0b10_holder
 {
 };
-unsigned int __cdecl FUN_005e0b50(void*, int);
+uintptr_t __cdecl FUN_005e0b50(void*, int);
 struct S_005e0ad0
 {
     void* FUN_005e0ad0(int a, int b);
@@ -1050,18 +1085,18 @@ void FUN_005ec700_shell::SetFlag20(bool abSet)
 
 struct FUN_005ed160_Class
 {
-    bool Equals(int arg);
+    bool Equals(intptr_t arg);
 };
 // Returns the logical negation of Equals(arg).
 // @fnv 0x005ed1b0
-bool FUN_005ed1b0_Class::FUN_005ed1b0(int arg)
+bool FUN_005ed1b0_Class::FUN_005ed1b0(intptr_t arg)
 {
     return !reinterpret_cast<::FUN_005ed160_Class *>(this)->Equals(arg);
 }
 
 // Compares three consecutive 16-bit values at this and arg, returning true only if all three pairs match.
 // @fnv 0x005ed160
-bool FUN_005ed160_Class::Equals(int arg)
+bool FUN_005ed160_Class::Equals(intptr_t arg)
 {
     bool equal = false;
     if (*(short*)this == *(short*)arg && *(short*)(this + 2) == *(short*)(arg + 2) &&
@@ -1153,7 +1188,7 @@ struct FUN_005ef860_class
     virtual void v0();
     virtual void* v4(int a);
     virtual void v8();
-    virtual void* vC(int a, int b);
+    virtual void* vC(void* a, int b);
     void* m4;
     int m8;
     int mC;
@@ -1230,7 +1265,7 @@ struct FUN_005f2b20_Class
     int m2c;
     int m30;
     unsigned int m34;
-    int m38;
+    char* m38;
     void SetEntryFloat(unsigned int a, float b);
 };
 // If index a is below m34 and m38 is set, writes float b at offset 8 of the 16-byte entry at m38 + a*16.
@@ -1610,7 +1645,7 @@ struct FUN_005e08e0_class
 // @fnv 0x005e0310
 FUN_005e0310_class* FUN_005e0310_class::FUN_005e0310(void* apArg, void* apArg2)
 {
-    reinterpret_cast<::FUN_005e08e0_class *>(this)->FUN_005e08e0((unsigned short)(apArg), (unsigned short)(apArg2));
+    reinterpret_cast<::FUN_005e08e0_class *>(this)->FUN_005e08e0((unsigned short)(uintptr_t)(apArg), (unsigned short)(uintptr_t)(apArg2));
     vtbl = &DAT_0103d3f0;
     return this;
 }
@@ -1633,12 +1668,12 @@ FUN_005e08e0_class* FUN_005e08e0_class::FUN_005e08e0(unsigned short x, unsigned 
 struct FUN_005ef9a0_shell
 {
     virtual void v0();
-    virtual int v1(unsigned int);
+    virtual void* v1(unsigned int);
 };
 struct FUN_005efb30_class
 {
     void* vtbl;
-    unsigned int m4;
+    void* m4;
     unsigned int m8;
     unsigned int mc;
     void FUN_005efb30(unsigned int requested, unsigned int savedSize);
@@ -1677,7 +1712,7 @@ void FUN_005ef860_class::FUN_005ef860(int a, int b)
     {
         if (b == mC)
         {
-            m4 = vC((int)m4, a);
+            m4 = vC(m4, a);
         }
         else
         {
@@ -1713,11 +1748,11 @@ void FUN_005efe70_shell::FUN_005efe70(char* pDest, char* pSrc, unsigned int c)
 
 struct FUN_005eff10_class
 {
-    void FUN_005eff10(char* dst, const char* src, unsigned int count);
+    void FUN_005eff10(char* dst, const char* src, uintptr_t count);
 };
 // Copies count 6-byte elements from src to dst, iterating forward when dst<src and backward when dst>src to handle overlap.
 // @fnv 0x005eff10
-void FUN_005eff10_class::FUN_005eff10(char* dst, const char* src, unsigned int count)
+void FUN_005eff10_class::FUN_005eff10(char* dst, const char* src, uintptr_t count)
 {
     if (count <= 0)
         return;
@@ -1751,8 +1786,8 @@ struct NiTMallocInterface_0096afc0
 };
 struct FUN_005e0950
 {
-    int m0;
-    int m4;
+    void* m0;
+    void* m4;
     unsigned short m8;
     unsigned short ma;
     unsigned short mc;
@@ -1770,13 +1805,13 @@ void* FUN_005e0370_Class::FUN_005e0370(int aiArg1, int aiArg2)
 // @fnv 0x005e0950
 FUN_005e0950::FUN_005e0950(unsigned short ausSize, unsigned short b)
 {
-    m0 = (int)&DAT_0103d3f8;
+    m0 = &DAT_0103d3f8;
     m8 = ausSize;
     me = b;
     ma = 0;
     mc = 0;
     if (m8 > 0)
-        m4 = (int)NiTMallocInterface_0096afc0::Allocate(m8);
+        m4 = NiTMallocInterface_0096afc0::Allocate(m8);
     else
         m4 = 0;
 }
@@ -1823,7 +1858,7 @@ struct FUN_005e0a30_t
 // @fnv 0x005e0a30
 void* FUN_005e0a30_t::FUN_005e0a30(unsigned short ausCapacity, unsigned short b)
 {
-    *(int*)this = (int)&::DAT_0103d418;
+    *(void**)this = &::DAT_0103d418;
     *(unsigned short*)((char*)this + 8) = ausCapacity;
     *(unsigned short*)((char*)this + 14) = b;
     *(unsigned short*)((char*)this + 10) = 0;
@@ -1918,7 +1953,7 @@ struct FUN_005ef910 : FUN_005ef910_vt
     int iSize;
     int iPosition;
     int iDataLength;
-    void ConstructSpawnItems(int, int);
+    void ConstructSpawnItems(intptr_t, int);
     void RecordRequestedSize(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x005eefc0
@@ -1978,7 +2013,7 @@ void FUN_005efc90_class::FUN_005efc90(void* a, void* b)
         else
         {
             void* t = v1(a);
-            ((FUN_005eff10_class*)this)->FUN_005eff10((char*)t, (char const*)m4, (unsigned int)b);
+            ((FUN_005eff10_class*)this)->FUN_005eff10((char*)t, (char const*)m4, (uintptr_t)b);
             ::FUN_006a8500((::DummyClass_006a8500 *)(((FUN_006c8a30_Class*)this)));
             m4 = t;
         }
@@ -2003,7 +2038,7 @@ struct FUN_005e0600_Class
 // @fnv 0x005e0600
 void FUN_005e0600_Class::FUN_005e0600()
 {
-    FUN_005e0b60((void*)(unsigned int)*(GO*)this);
+    FUN_005e0b60((void*)(uintptr_t)(unsigned int)*(GO*)this);
 }
 
 void* __cdecl FUN_00885750();
@@ -2014,7 +2049,7 @@ struct BSSimpleList_005e0b60
 void FUN_005e0b60(void* p)
 {
     reinterpret_cast<QuantityData*>(((::BSSimpleList_005e0b60 *)(new ((void *)(reinterpret_cast<BSSimpleList_005e0b60*>(FUN_00885750()))) ::Vec3())))
-        ->FUN_005e0b80((unsigned int)p);
+        ->FUN_005e0b80((uintptr_t)p);
 }
 
 struct FUN_005e3fe0_class
@@ -2196,9 +2231,9 @@ int __cdecl FUN_005e0b40(unsigned int arg0, unsigned int arg1)
 }
 
 // @fnv 0x005e0b50
-unsigned int __cdecl FUN_005e0b50(void* base, int offset)
+uintptr_t __cdecl FUN_005e0b50(void* base, int offset)
 {
-    return (unsigned int)base + offset;
+    return (uintptr_t)base + offset;
 }
 
 struct ObjectHeader
@@ -2294,7 +2329,7 @@ struct LightingDataCmp
 };
 // Returns the logical negation of FUN_005ec760(a).
 // @fnv 0x005ec8f0
-bool FUN_005ec8f0_class::FUN_005ec8f0(int a)
+bool FUN_005ec8f0_class::FUN_005ec8f0(intptr_t a)
 {
     return !reinterpret_cast<::LightingDataCmp *>(this)->FUN_005ec760((const ::LightingDataCmp *)(a));
 }
@@ -2339,6 +2374,7 @@ struct StrArray
     int unk0C;
     char*& GetAt(unsigned int index);
     void Clear(bool);
+    unsigned int GetSize();
 };
 
 struct EntryArray
@@ -2348,6 +2384,7 @@ struct EntryArray
     int unk08;
     int unk0C;
     void Clear(bool);
+    unsigned int GetSize();
 };
 
 
@@ -2421,18 +2458,18 @@ void StringEntryData::FUN_005ecfd0(StringEntryData* other)
     char* str;
 
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(entries))->Clear(true);
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
+    for (i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
     {
         delete strings.GetAt(i);
     }
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(strings))->Clear(true);
-    reinterpret_cast<::fnv_005ef1f0::FUN_005ef1f0_Arr *>(&(entries))->FUN_005ef1f0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
-    for (j3 = 0; j3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j3++)
+    reinterpret_cast<::fnv_005ef1f0::FUN_005ef1f0_Arr *>(&(entries))->FUN_005ef1f0(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
+    for (j3 = 0; j3 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j3++)
     {
         entries.GetAt(j3) = other->entries.GetAt(j3);
     }
-    for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
+    for (k = 0; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
     {
         len3 = ((int)(::FUN_0044a670(other->strings.GetAt(k)))) + 1;
         str = new char[len3];
@@ -2473,18 +2510,18 @@ struct FUN_005eedc0_cls
 void Data005ecb30::FUN_005ecb30(Data005ecb30* other)
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(entries))->Clear(true);
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())); i++)
     {
         delete strings.GetAt(i);
     }
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(strings))->Clear(true);
-    reinterpret_cast<::fnv_005ef010::FUN_005ef010_Arr *>(&(entries))->FUN_005ef010(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j++)
+    reinterpret_cast<::fnv_005ef010::FUN_005ef010_Arr *>(&(entries))->FUN_005ef010(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())), true);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(strings))->FUN_006f2290(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())), true);
+    for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())); j++)
     {
         *((::Entry38 *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(entries))->FUN_005eedc0(j))) = *((::Entry38 *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(other->entries))->FUN_005eedc0(j)));
     }
-    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
+    for (unsigned int k = 0; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())); k++)
     {
         unsigned int len = ((int)(::FUN_0044a670(other->strings.GetAt(k)))) + 1;
         char* str = new char[len];
@@ -2515,7 +2552,7 @@ struct FUN_005efa80_cls
     virtual void* vC(void* a, void* b);
     void* m_04;
     unsigned int m_08;
-    void* m_0c;
+    unsigned int m_0c;
     void FUN_005efa80(void* a1, unsigned int a2);
 };
 
@@ -2524,7 +2561,7 @@ void FUN_005efa80_cls::FUN_005efa80(void* a1, unsigned int a2)
 {
     if (m_04 != 0)
     {
-        if (a2 == (unsigned int)m_0c)
+        if (a2 == m_0c)
         {
             m_04 = vC(m_04, a1);
         }
@@ -2539,7 +2576,7 @@ void FUN_005efa80_cls::FUN_005efa80(void* a1, unsigned int a2)
     else
     {
         m_04 = v4(a1);
-        m_0c = a1;
+        m_0c = (unsigned int)(uintptr_t)a1;
     }
 }
 
@@ -2968,7 +3005,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
     Ext* pExt6 = ref->GetExt();
     if (fTo < fFrom)
         bWrap5 = true;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())); i++)
     {
         Entry* pEntry7 = ((::Entry *)(reinterpret_cast<::FUN_005f3710_Class *>(this)->GetEntryAt(i)));
         float fTime_2 = pEntry7->fTime_2;
@@ -2981,21 +3018,21 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
         {
             if (pEntry7->pForm != 0)
             {
-                bool bLoopTmp = ((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig({}))).m04 & 0x40) ? true : false;
-                int iBits7 = ::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig({}))).m04);
+                bool bLoopTmp = ((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig(&BigSlot<::Big>(BigResult{})))).m04 & 0x40) ? true : false;
+                int iBits7 = ::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig(&BigSlot<::Big>(BigResult{})))).m04);
                 Pt3 pos3 = *ref->GetPos();
                 if (iBits7 != 0 || CheckDist(pEntry7->pForm, pos3, 1.0f))
                 {
                     if (pExt6 != 0 && GetKind() >= 0xb1 && GetKind() <= 0xc7)
                         fMultVal *= reinterpret_cast<::FUN_00507b20Class *>((ref->GetExt()))->FUN_00507b20();
                     AudioPlaybackHandle snd = ((::AudioMgr *)(::FUN_00453a70()))->Make(
-                        ((int)(::FUN_00511840((char *)(pEntry7->pForm)))),
+                        ((int)(intptr_t)(::FUN_00511840((char *)(pEntry7->pForm)))),
                         pEntry7->pForm);
                     reinterpret_cast<::FUN_00ad8b60_h *>(&(snd))->FUN_00ad8b60(pos3.x, pos3.y, pos3.z);
                     reinterpret_cast<::FUN_00ad89e0_shell *>(&(snd))->FUN_00ad89e0((float)(pEntry7->ucType / ::DAT_0101e568));
                     reinterpret_cast<::FUN_00ad8f20_shell *>(&(snd))->FUN_00ad8f20((::NiAVObject *)(void *)(ref->GetNode()));
                     reinterpret_cast<::SoundPlaybackHandle *>(&(snd))->SetPlaybackFrequency(pEntry7->data.f * fMultVal);
-                    reinterpret_cast<::FUN_00ad8830_shell *>(&(snd))->FUN_00ad8830(::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig({}))).m04) != 0);
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&(snd))->FUN_00ad8830(::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig(&BigSlot<::Big>(BigResult{})))).m04) != 0);
                 }
             }
             else
@@ -3007,7 +3044,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     break;
                 case 0xc: {
                     int iFoundB;
-                    StrElem* pArrVal = ((::StrElem *)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundB)))->FUN_00495f30({})));
+                    StrElem* pArrVal = ((::StrElem *)(uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundB)))->FUN_00495f30({})));
                     float fVal8 = 1.0f;
                     if (iFoundB != 0)
                     {
@@ -3015,7 +3052,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                         unsigned int uOff_2 = (pEntry7->data.u & 0xffffff00) >> 8;
                         fVal8 = (float)std::atof(pStr7 + uOff_2 + 0x11);
                     }
-                    reinterpret_cast<::FUN_00ad8570_S *>((((::AudioMgr *)(::FUN_00453a70()))))->FUN_00ad8570((int)(ref->GetNode()), fVal8, 0x40000000);
+                    reinterpret_cast<::FUN_00ad8570_S *>((((::AudioMgr *)(::FUN_00453a70()))))->FUN_00ad8570((intptr_t)(ref->GetNode()), fVal8, 0x40000000);
                     break;
                 }
                 case 0:
@@ -3068,7 +3105,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     if (ref->IsActor())
                     {
                         Ref* pActor = ref;
-                        Holder* pHolder3 = ((::Holder *)(reinterpret_cast<::s891b90::Owner *>((pActor))->FUN_00891b90(2)));
+                        Holder* pHolder3 = ((::Holder *)(intptr_t)(reinterpret_cast<::s891b90::Owner *>((pActor))->FUN_00891b90(2)));
                         if (pHolder3 != 0)
                         {
                             SndTable* pSearchEntries = ((::SndTable *)(reinterpret_cast<::Twin_0044ddc0 *>((pHolder3))->GetName()));
@@ -3108,7 +3145,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                         Proc* pProc5 = ((::Proc *)(reinterpret_cast<::FUN_008a1710_shell *>((pActor7))->FUN_008a1710()));
                         if (pProc5 != 0)
                         {
-                            SndForm* pSnd4 = ((::SndForm *)(reinterpret_cast<::FUN_008bffa0_shell *>((pProc5))->GetField228()));
+                            SndForm* pSnd4 = ((::SndForm *)(uintptr_t)(reinterpret_cast<::FUN_008bffa0_shell *>((pProc5))->GetField228()));
                             if (pSnd4 != 0)
                             {
                                 AudioPlaybackHandle snd5 = ((::AudioMgr *)(::FUN_00453a70()))->Make2(
@@ -3127,7 +3164,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     if (script != 0)
                     {
                         int iFoundTmp;
-                        StrElem* pArr2 = ((::StrElem *)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundTmp)))->FUN_00495f30({})));
+                        StrElem* pArr2 = ((::StrElem *)(uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundTmp)))->FUN_00495f30({})));
                         if (iFoundTmp != 0)
                         {
                             char* pStr6 = ((::StrHolder *)(reinterpret_cast<::BaseProcess *>(&(pArr2[pEntry7->data.u & 0xff]))->GetCurrentProcessData()))->GetStr();
@@ -3235,21 +3272,19 @@ bool B5FA120Checker::FUN_005fa120(B5FA120Form* pkForm)
 
 struct FUN_005fbdd0_cls
 {
-    void FUN_005fbdd0(int a1);
+    void FUN_005fbdd0(::NiAVObject* apRoot);
     int FUN_00401170();
 };
 
-int __cdecl FUN_004aae30(int a, int b);
-
 // @fnv 0x005fbdd0
-void FUN_005fbdd0_cls::FUN_005fbdd0(int a1)
+void FUN_005fbdd0_cls::FUN_005fbdd0(::NiAVObject* apRoot)
 {
     void* node2;
     void* ptr;
     void* tmp;
     unsigned char flag_;
 
-    if (*(unsigned char*)((char*)this + 0x150) != 0 || a1 == 0)
+    if (*(unsigned char*)((char*)this + 0x150) != 0 || apRoot == 0)
     {
         return;
     }
@@ -3262,7 +3297,7 @@ void FUN_005fbdd0_cls::FUN_005fbdd0(int a1)
         {
             tmp = ((void**)ptr)[1];
             if (((unsigned char)(reinterpret_cast<::FUN_0046e8c0_class *>((((FUN_005fbdd0_cls*)tmp)))->FUN_0046e8c0())) &&
-                FUN_004aae30(a1, ((int)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>((((FUN_005fbdd0_cls*)tmp)))->FUN_00522c00()))) == 0)
+                ::FUN_004aae30(apRoot, (::NiFixedString *)(std::uintptr_t)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>(tmp)->FUN_00522c00())) == 0)
             {
                 reinterpret_cast<::FUN_00481790_t *>((((FUN_005fbdd0_cls*)((char*)this + 0x64))))->FUN_00481790((::BGSPerkEntry *)(ptr));
                 node2 = ((void *)(reinterpret_cast<::BaseProcess *>((((FUN_005fbdd0_cls*)((char*)this + 0x64))))->GetCurrentProcessData()));
@@ -3580,10 +3615,9 @@ struct SkinPartObj_S
 };
 
 SkinPartObj_S* NiDynamicCast(const NiRTTI_S* rtti, SkinInst_S* obj);
-extern const NiRTTI_S g_011f49d8;
 
 // @fnv 0x005e4970
-void SetPartitionVisibility(int partition, AVObj_S* root)
+void SetPartitionVisibility(intptr_t partition, AVObj_S* root)
 {
     Node_S* nodeB = root->IsSceneNode();
     unsigned int i = 0;
@@ -3592,7 +3626,7 @@ void SetPartitionVisibility(int partition, AVObj_S* root)
         TriGeom_S* geom8 = ((::AVObj_S *)(reinterpret_cast<::NiNode *>((nodeB))->GetAt(i))) ? ((::AVObj_S *)(reinterpret_cast<::NiNode *>((nodeB))->GetAt(i)))->IsTriBasedGeom() : root->IsTriBasedGeom();
         i++;
         SkinInst_S* aSkin = geom8 ? ((::SkinInst_S *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geom8)))) : 0;
-        SkinPartObj_S* part = NiDynamicCast(&g_011f49d8, aSkin);
+        SkinPartObj_S* part = NiDynamicCast(reinterpret_cast<const NiRTTI_S*>(&g_011f49d8), aSkin);
         if (part)
         {
             for (int j = 0; j < 15; j++)
@@ -3649,18 +3683,18 @@ struct CompareData
 bool CompareData::FUN_005ec920(CompareData* other)
 {
     bool different = false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) && !different; ++index)
-            different = different || reinterpret_cast<::FUN_005ec8f0_class *>((((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(entries))->FUN_005eedc0(index)))))->FUN_005ec8f0((int)(((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(other->entries))->FUN_005eedc0(index)))));
+        for (unsigned int index = 0; index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())) && !different; ++index)
+            different = different || reinterpret_cast<::FUN_005ec8f0_class *>((((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(entries))->FUN_005eedc0(index)))))->FUN_005ec8f0((intptr_t)(((::CompareEntry *)(reinterpret_cast<::FUN_005eedc0_cls *>(&(other->entries))->FUN_005eedc0(index)))));
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int textIndex = 0; textIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) && !different; ++textIndex)
+        for (unsigned int textIndex = 0; textIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings))->GetName())) && !different; ++textIndex)
             different = different || ::FUN_00408b20(strings.At(textIndex), other->strings.At(textIndex)) != 0;
     }
     if (different || flag != other->flag || f04 != other->f04 || f08 != other->f08 || f0C != other->f0C ||
@@ -3700,18 +3734,18 @@ struct Target005ed1e0
 bool Target005ed1e0::FUN_005ed1e0(Target005ed1e0* other)
 {
     bool different = false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries_14))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries_14))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) && !different; ++i)
-            different = different || reinterpret_cast<::FUN_005ed1b0_Class *>((((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(entries_14))->FUN_0069ccf0(i)))))->FUN_005ed1b0((int)(((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(other->entries_14))->FUN_0069ccf0(i)))));
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries_14))->GetName())) && !different; ++i)
+            different = different || reinterpret_cast<::FUN_005ed1b0_Class *>((((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(entries_14))->FUN_0069ccf0(i)))))->FUN_005ed1b0((intptr_t)(((::Entry005ed1e0 *)(reinterpret_cast<::FUN_0069ccf0_class *>(&(other->entries_14))->FUN_0069ccf0(i)))));
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings_04))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->strings_04))->GetName())))
         different = true;
     if (!different)
     {
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) && !different; ++j)
+        for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(strings_04))->GetName())) && !different; ++j)
             different = different || FUN_00408b20(strings_04.FUN_00877a30(j), other->strings_04.FUN_00877a30(j));
     }
     if (different || unknown_00 != other->unknown_00)
@@ -3733,7 +3767,7 @@ struct SpawnItem : FUN_005ef7f0_Data
 
 // Constructs count SpawnItem objects in place at base + i * 0x38 for each i from 0 to count-1.
 // @fnv 0x005ef750
-void FUN_005ef910::ConstructSpawnItems(int base, int count)
+void FUN_005ef910::ConstructSpawnItems(intptr_t base, int count)
 {
     unsigned int i;
 
@@ -3768,7 +3802,7 @@ class E5EF9A0Allocator
 // @fnv 0x005ef1a0
 FUN_005ef1a0_Class* FUN_005ef1a0_Class::FUN_005ef1a0()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0104730c);
+    *reinterpret_cast<void**>(this) = &DAT_0104730c;
     reinterpret_cast<::FUN_005efb30_class *>(this)->FUN_005efb30(0, 0);
     return this;
 }
@@ -3868,11 +3902,11 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                 continue;
             }
             found->FUN_005f60e0(amount);
-            if (((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) >= reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType())
+            if (((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) >= reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType())
             {
                 if (((::ChallengeNode *)(reinterpret_cast<::Callees *>(&(found->rewards))->FUN_00726070())))
                     reinterpret_cast<::FUN_005ac340_t *>((((ChallengeReward*)((::ChallengeNode *)(reinterpret_cast<::Callees *>(&(found->rewards))->FUN_00726070())))))->RunScriptOnTarget((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))), (::ScriptLocals *)(0));
-                if (((int)(reinterpret_cast<::FUN_006a1b60_Class *>((found))->GetField54())) != 11 || reinterpret_cast<::FUN_005f5fa0_cls *>((found))->GetShortAtOffset64() != 27)
+                if (((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((found))->GetField54())) != 11 || reinterpret_cast<::FUN_005f5fa0_cls *>((found))->GetShortAtOffset64() != 27)
                     ::TopicMenuController::IncrementMiscStat(27);
                 if (found->name.FUN_00408da0() && found->description.GetText(0, 0x43534544) && *::g_011cb4d4.Bool())
                 {
@@ -3884,7 +3918,7 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                 }
                 if (reinterpret_cast<::FUN_005f5f60_class *>((found))->FUN_005f5f60() && !reinterpret_cast<::FUN_005f60c0_Class *>((found))->HasFlag8())
                 {
-                    int remainder = ((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) - reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType();
+                    int remainder = ((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) - reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType();
                     reinterpret_cast<::FUN_005f5820_shell *>((found))->ClearField6C();
                     reinterpret_cast<::FUN_005f6060_class *>((found))->FUN_005f6060(true);
                     found->FUN_005f60e0(remainder);
@@ -3897,8 +3931,8 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
             }
             else
             {
-                int value = ((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList()));
-                int item = ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) ? ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) : 100;
+                int value = ((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList()));
+                int item = ((int)(uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) ? ((int)(uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) : 100;
                 for (int current = value; current >= 0; current -= item)
                 {
                     if (current == 0)
@@ -3908,7 +3942,7 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                         {
                             char message[512];
                             FUN_00406d00(message, 512, "%s   %d\\%d\n%s", found->name.FUN_00408da0(),
-                                         ((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
+                                         ((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
                                          found->description.GetText(0, 0x43534544));
                             ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730((::TESForm *)(found), 0)), (const char *)(0), 2.0f, false);
                         }
@@ -3945,24 +3979,24 @@ unsigned char FUN_005ece50_class::FUN_005ece50(FUN_005ece50_class* other)
     unsigned int uStack_18;
     {
         unsigned int uStack_c;
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->m14))->GetName())))
+        if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->m14))->GetName())))
             bStack_5 = 1;
         if (bStack_5 == 0)
         {
-            for (uStack_18 = 0; uStack_18 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) && bStack_5 == 0; ++uStack_18)
+            for (uStack_18 = 0; uStack_18 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m14))->GetName())) && bStack_5 == 0; ++uStack_18)
             {
                 bStack_5 =
                     (bStack_5 == 0 &&
-                     m14.FUN_00691750((int)uStack_18)->FUN_005ece20((int)other->m14.FUN_00691750((int)uStack_18)) == 0)
+                     m14.FUN_00691750((int)uStack_18)->FUN_005ece20((intptr_t)other->m14.FUN_00691750((int)uStack_18)) == 0)
                         ? 0
                         : 1;
             }
         }
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(other->m4))->GetName())))
+        if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(other->m4))->GetName())))
             bStack_5 = 1;
         if (bStack_5 == 0)
         {
-            for (uStack_c = 0; uStack_c < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) && bStack_5 == 0; ++uStack_c)
+            for (uStack_c = 0; uStack_c < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(m4))->GetName())) && bStack_5 == 0; ++uStack_c)
             {
                 bStack_5 = (bStack_5 == 0 && FUN_00408b20(m4.GetAt((int)uStack_c), other->m4.GetAt((int)uStack_c)) == 0)
                                ? 0
@@ -4003,12 +4037,12 @@ TESSound* GetBrushSound(const char* apPrefix)
                 pcRegularMotion = "Walk";
             pcMotion = pcRegularMotion;
         }
-        ::FUN_00406d00(soundName, 40, "BRUSH%s%s", ::GetStringByIndex((int)(apPrefix)), pcMotion);
+        ::FUN_00406d00(soundName, 40, "BRUSH%s%s", ::GetStringByIndex((intptr_t)(apPrefix)), pcMotion);
         return reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::SoundDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(soundName);
     }
     else
     {
-        ::FUN_00406d00(fallbackName, 40, "BRUSH%sWalk", ::GetStringByIndex((int)(apPrefix)));
+        ::FUN_00406d00(fallbackName, 40, "BRUSH%sWalk", ::GetStringByIndex((intptr_t)(apPrefix)));
         return reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::SoundDataHandler * *>(&::g_dataHandler))))->GetSoundByEditorID(fallbackName);
     }
     return 0;
@@ -4017,7 +4051,7 @@ TESSound* GetBrushSound(const char* apPrefix)
 extern const char* DAT_01196d40[10];
 
 // @fnv 0x005e2b50
-const char* __cdecl GetStringByIndex(int index)
+const char* __cdecl GetStringByIndex(intptr_t index)
 {
     if (index >= 0 && index < 10)
     {
@@ -4053,7 +4087,7 @@ struct FUN_005e2c30_class
 // @fnv 0x005e2c30
 const char* FUN_005e2c30_class::FUN_005e2c30()
 {
-    return (const char*)(unsigned int)m3c ? (const char*)(unsigned int)m3c : $SG3295;
+    return (const char*)(uintptr_t)(unsigned int)m3c ? (const char*)(uintptr_t)(unsigned int)m3c : $SG3295;
 }
 
 struct FUN_005e2ca0_s
@@ -4083,6 +4117,7 @@ class TESForm
     virtual ~TESForm();
 public:
     bool GetInitialized() const;
+    ::ENUM_FORM_ID GetFormType() const;
 };
 
 class TESSound : public TESForm
@@ -4122,7 +4157,7 @@ void TESSound::CopyFromSound(TESForm* form)
     }
     unk68 = sound->unk68;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(form);
-    soundData = (*(::SoundData *)(reinterpret_cast<::Holder *>((sound))->CopyBig({})));
+    soundData = (*(::SoundData *)(reinterpret_cast<::Holder *>((sound))->CopyBig(&BigSlot<::Big>(BigResult{}))));
 }
 
 
@@ -4229,7 +4264,6 @@ TESSound* __cdecl FUN_005e3570(char const* filename)
     return result;
 }
 
-int strcat_s(char* dst, unsigned int size, const char* src);
 
 bool __cdecl FUN_005e39a0();
 
@@ -4358,12 +4392,12 @@ struct FUN_005e50f0_Obj
     int unk2C;
     int unk30;
     std::intptr_t unk34[16];
-    std::intptr_t GetValueByIndex(int index);
+    std::intptr_t GetValueByIndex(intptr_t index);
 };
 
 // Returns unk34[index] when index is between 0 and 14, otherwise returns 0.
 // @fnv 0x005e50f0
-std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(int index)
+std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(intptr_t index)
 {
     std::intptr_t result = 0;
     if (index > -1 && index < 15)
@@ -4658,8 +4692,8 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
     if (vf)
     {
         if (DAT_011caec8 == 0)
-            QueryPerformanceFrequency(&DAT_011caec8);
-        QueryPerformanceCounter(&ve);
+            QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&DAT_011caec8));
+        QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&ve));
     }
 
     this->m_a1 = false;
@@ -4704,7 +4738,7 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
     }
 
     int vk = 0;
-    int vi = 0;
+    intptr_t vi = 0;
     int vl = 0;
     bool vw = false;
     int vc = 0;
@@ -4727,7 +4761,7 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
             if (va == 0x1e)
                 break;
             if (!vi)
-                vi = (int)apObject;
+                vi = (intptr_t)apObject;
             if (!reinterpret_cast<::ScriptRunner *>((this))->ParseBlock((::Script *)(apScript), (const ::SCRIPT_OUTPUT)(va), (::TESObjectREFR *)(void *)((void*)vi), (*(int *)(&vk)), vd, (*(unsigned int *)(&vl)), vc, 0, 0))
             {
                 vw = true;
@@ -4747,7 +4781,7 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
 
     if (vf)
     {
-        QueryPerformanceCounter(&vo);
+        QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&vo));
         float elapsed = (float)((double)(vo - ve) / (double)DAT_011caec8);
         reinterpret_cast<::FUN_005e1140_Class *>((apScript))->FUN_005e1140(elapsed);
     }
@@ -4972,8 +5006,6 @@ struct Name55
     const char* FUN_007fa950();
 };
 extern const NiRTTI_S DAT_011f4acc;
-extern "C" void* __cdecl FUN_00653270(const NiRTTI_S*, BaseObject55*);
-extern "C" Object55* __cdecl FUN_004aae30(Object55*, const char*);
 struct Body55
 {
     int unk00;
@@ -4990,19 +5022,19 @@ struct Body55
     int unk2C;
     int unk30;
     Name55* names[15];
-    void HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int excluded, Object55* object);
+    void HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, intptr_t excluded, Object55* object);
 };
 
 // For each named entry other than excluded, if the object found under root has ancestor as a parent, sets partition i of object's geometry skins not visible.
 // @fnv 0x005e55e0
-void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int excluded, Object55* object)
+void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, intptr_t excluded, Object55* object)
 {
     Node55* node2 = object->IsSceneNode();
     for (int i = 0; i < 15; ++i)
     {
         if (i == excluded || !names[i])
             continue;
-        Object55* found7 = FUN_004aae30(root, reinterpret_cast<::StrOwner *>((names[i]))->FUN_007fa950());
+        Object55* found7 = (Object55*)::FUN_004aae30((::NiAVObject *)root, (::NiFixedString *)reinterpret_cast<::StrOwner *>((names[i]))->FUN_007fa950());
         if (!found7)
             continue;
         while (found7 != root)
@@ -5014,10 +5046,10 @@ void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int
                 {
                     Skin55* skin5;
                     Geometry55* geometry = node2
-                                               ? (Geometry55*)FUN_00653270(&DAT_011f4acc, ((::Object55 *)(reinterpret_cast<::NiNode *>((node2))->GetAt(index++))))
-                                               : (Geometry55*)FUN_00653270(&DAT_011f4acc, object);
+                                               ? (Geometry55*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)((::Object55 *)(reinterpret_cast<::NiNode *>((node2))->GetAt(index++))))
+                                               : (Geometry55*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)object);
                     skin5 = geometry ? ((::Skin55 *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geometry)))) : 0;
-                    Part55* partition2 = (Part55*)FUN_00653270(&g_011f49d8, skin5);
+                    Part55* partition2 = (Part55*)::FUN_00653270((const ::NiRTTI *)&g_011f49d8, (::NiObject *)skin5);
                     if (partition2)
                         reinterpret_cast<::SomeClass *>((partition2))->SetEntryStateByKey((unsigned short)i, false);
                 } while (node2 && index < node2->FUN_0043b480());
@@ -5055,9 +5087,6 @@ struct ObjectName
 {
     const char* FUN_007fa950();
 };
-extern "C" SceneObject* __cdecl FUN_004aae30(SceneObject*, const char*);
-extern "C" void* __cdecl FUN_00653270(const NiRTTI_S*, SceneBase*);
-extern const NiRTTI_S DAT_011f4acc;
 struct PartitionOwner
 {
     int unk00;
@@ -5074,18 +5103,18 @@ struct PartitionOwner
     int unk2C;
     int unk30;
     ObjectName* names[15];
-    void ApplyPartitionState(SceneObject* target, SceneObject* root, int excluded, SceneObject* source);
+    void ApplyPartitionState(SceneObject* target, SceneObject* root, intptr_t excluded, SceneObject* source);
 };
 // For each non-excluded name, if its node under root has target as an ancestor, enables that partition entry on the skin of each geometry in source.
 // @fnv 0x005e5750
-void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root, int excluded, SceneObject* source)
+void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root, intptr_t excluded, SceneObject* source)
 {
     SceneNode* node = source->IsSceneNode();
     for (int i = 0; i < 15; ++i)
     {
         if (i == excluded || !names[i])
             continue;
-        SceneObject* found = FUN_004aae30(root, names[i]->FUN_007fa950());
+        SceneObject* found = (SceneObject*)::FUN_004aae30((::NiAVObject *)root, (::NiFixedString *)names[i]->FUN_007fa950());
         if (!found)
             continue;
         while (found != root)
@@ -5096,10 +5125,10 @@ void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root,
                 SkinInst_S* skin;
                 do
                 {
-                    Geometry* geom = node ? (Geometry*)FUN_00653270(&DAT_011f4acc, node->FUN_0045bc00(childIndex++))
-                                          : (Geometry*)FUN_00653270(&DAT_011f4acc, source);
+                    Geometry* geom = node ? (Geometry*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)node->FUN_0045bc00(childIndex++))
+                                          : (Geometry*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)source);
                     skin = geom ? ((::SkinInst_S *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geom)))) : 0;
-                    PartitionSkin* partitions = (PartitionSkin*)FUN_00653270(&g_011f49d8, (SceneBase*)skin);
+                    PartitionSkin* partitions = (PartitionSkin*)::FUN_00653270((const ::NiRTTI *)&g_011f49d8, (::NiObject *)(SceneBase*)skin);
                     if (partitions)
                     {
                         for (int j = 0; j < 15; ++j)
@@ -5128,7 +5157,7 @@ struct Actor
 // @fnv 0x005e5d20
 void FUN_005e5d20(void* pvArg0, void* pvArg1, unsigned char ucArg2, float** ppfValue, Actor* pkActor)
 {
-    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(pvArg0), (int)(pvArg1), ucArg2, (void **)(ppfValue), pkActor))
+    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(pvArg0), (int)(intptr_t)(pvArg1), ucArg2, (void **)(ppfValue), pkActor))
         return;
     float* pfValue = *ppfValue;
     Actor* pkTarget = pkActor;
@@ -5294,7 +5323,7 @@ struct EquivData_5ecd10
 };
 // Returns true when IsEqual returns zero for the given index.
 // @fnv 0x005ece20
-bool FUN_005ecd10_cls::FUN_005ece20(int a)
+bool FUN_005ecd10_cls::FUN_005ece20(intptr_t a)
 {
     return !((unsigned char)(reinterpret_cast<::EquivData_5ecd10 *>(this)->IsEqual((*(const ::EquivData_5ecd10 *)(a)))));
 }
@@ -5342,11 +5371,11 @@ void FUN_005ef3b0_class::FUN_005ef3b0()
 struct FUN_005efbc0_s
 {
     virtual void v0();
-    virtual int v4(unsigned int);
+    virtual void* v4(unsigned int);
 };
 struct FUN_005efd40_s : FUN_005efbc0_s
 {
-    int m4;
+    void* m4;
     int m8;
     int mc;
     void FUN_005efd40(unsigned int requested, unsigned int savedSize);
@@ -5592,6 +5621,76 @@ void ClassLoad5F::FUN_005f7050()
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(szAlternateName, present);
         reinterpret_cast<::TESFullName *>(&(alternateName))->SetFullName(szAlternateName);
     }
+}
+
+bool FUN_005e0160();
+
+void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int count);
+
+void FUN_005e0b60(void* p);
+
+uintptr_t __cdecl FUN_005e0b50(void* base, int offset);
+
+int strcpy_s(char* dst, unsigned int size, const char* src);
+
+double __cdecl StrToD(const char* s);
+
+enum ENUM_FORM_ID;
+
+int strcpy_s(char* dst, unsigned int size, const char* src);
+
+bool FUN_005e39a0();
+
+void BSEndian(unsigned int*, EndianSizeTag<0>);
+
+void BSEndian(unsigned short*, EndianSizeTag<0>);
+
+struct LocalFormArray
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    LocalFormArray();
+    ~LocalFormArray();
+    void SetSize(unsigned int);
+};
+
+struct LocalString
+{
+    char* data;
+    unsigned short size, capacity;
+    LocalString();
+    ~LocalString();
+};
+
+struct LocalState
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    int unk18, unk1c, unk20, unk24, unk28, unk2c;
+};
+
+struct FUN_005ff890
+{
+    LocalFormArray first;
+    LocalFormArray second;
+    LocalString name;
+    LocalState state;
+    FUN_005ff890(const char*);
+};
+
+// @fnv 0x005ff890
+FUN_005ff890::FUN_005ff890(const char* text)
+{
+    reinterpret_cast<::TextString *>(&(name))->FUN_004037f0(text, 0);
+    first.SetSize(1);
+    reinterpret_cast<::FUN_00600ab0_shell *>(&(first))->FUN_00600ab0(1);
+    second.SetSize(1);
+    reinterpret_cast<::FUN_00600ab0_shell *>(&(second))->FUN_00600ab0(1);
+    memset(&state, 0, sizeof(state));
 }
 
 #include "generated/data/staging/blk_005e0000_od.inc"

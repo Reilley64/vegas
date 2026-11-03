@@ -121,7 +121,7 @@ struct FUN_004037b0
     ~FUN_004037b0();
     FUN_004037b0& operator=(const FUN_004037b0& o)
     {
-        return (*(::fnv_005e2910::FUN_004037b0 *)(reinterpret_cast<::FUN_00501c10_cls *>(this)->CallAndReturnSelf((int)&(o))));
+        return (*(::fnv_005e2910::FUN_004037b0 *)(reinterpret_cast<::FUN_00501c10_cls *>(this)->CallAndReturnSelf((std::intptr_t)&(o))));
     }
 };
 struct Rec
@@ -144,6 +144,6 @@ Rec::Rec(const Rec& aRec)
     m0.v = aRec.m0.v;
     d8 = aRec.d8;
     c10 = aRec.c10;
-    reinterpret_cast<::FUN_00501c10_cls *>(&(m18))->CallAndReturnSelf((int)&(aRec.m18));
+    reinterpret_cast<::FUN_00501c10_cls *>(&(m18))->CallAndReturnSelf((std::intptr_t)&(aRec.m18));
 }
 }  // namespace fnv_005e2910

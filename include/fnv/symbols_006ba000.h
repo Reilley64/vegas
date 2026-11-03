@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+
+#include <cstdint>
 
 class NiPoint3;
 namespace CircleIntersection { struct Circle; }
@@ -24,7 +27,7 @@ bool FUN_006ba240(const ::ThreeDimensionalVector *, const ::ThreeDimensionalVect
 // 0x006ba6e0
 bool FUN_006ba6e0(const ::ns6b::V3 &, const ::ns6b::V3 &, const ::ns6b::V3 &, const ::ns6b::V3 &, ::ns6b::V3 *);
 // 0x006ba7e0
-bool FUN_006ba7e0(unsigned int, ::FUN_006ba7e0_cls *, unsigned int, ::FUN_006ba7e0_cls *, ::NiPoint3 *);
+bool FUN_006ba7e0(std::uintptr_t, ::FUN_006ba7e0_cls *, std::uintptr_t, ::FUN_006ba7e0_cls *, ::NiPoint3 *);
 // 0x006ba8c0
 bool ComputeCircleTangents(const ::TanPoint3 &, float, const ::TanPoint3 &, ::TanPoint3 &, ::TanPoint3 &);
 // 0x006ba9e0

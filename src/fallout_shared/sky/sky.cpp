@@ -1,6 +1,8 @@
 // fallout_shared/sky/sky.cpp: Sky, ThisCls, TESObjectCELL, Host and more (61 functions)
 
 #include <cstdint>
+#include <cmath>
+#include <malloc.h>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B4F1050Region.h"
@@ -351,7 +353,7 @@ void FUN_0063c490_shell::FUN_0063c490()
         }
         FUN_0063c640(DAT_011a9b50, DAT_011a9b54);
         FUN_0063c660(this->m_fCurrentWeatherBlend);
-        new ((void *)(&windPerturb)) ::Vec3();
+        (void *)(&windPerturb);
         fperiod = 15.0f;
         fscale = 15.0f;
         fUpdatePeriod = (::FUN_00452e70(false) / ::DAT_01012640) * _DAT_0104eea0 * fperiod;
@@ -922,7 +924,6 @@ void* Cls_0063a080::FUN_0063a080(unsigned int flags)
 }
 
 namespace fnv_0063d0e0 {
-extern "C" void* __cdecl _alloca(unsigned int);
 struct Sky_Helper
 {
 };
@@ -1052,12 +1053,12 @@ void FUN_0063ac70_shell::FUN_0063ac70(float afSecondsPassed)
                                  0x1d8);
     bool bnewPhase;
 
-    if (!((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())))
+    if (!((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())))
         return;
 
     m_fFogFarDistance = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0063ac70::Calendar *>(&::g_011de7b8))))->GetGameTime();
 
-    if ((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer)) && ((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())) &&
+    if ((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer)) && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())) &&
         FUN_0045bb80(((::fnv_0063ac70::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_0063ac70::NiNode_00558310 *)(((::fnv_0063ac70::NiNode_00558310 *)(::FUN_0045c670()))))))).z < reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(((MobileObject*)(*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer)))))->FUN_0057b0a0())
         flags |= 4;
     else
@@ -1188,7 +1189,7 @@ void FUN_0063d5e0_shell::FUN_0063d5e0()
         SkySoundObj* oldHandle;
         SL* poldHandleNode;
         SL oldHandleList;
-        while (pCurrentNode && (m_pkActiveSoundList = *((::fnv_0063d5e0::SkySoundObj **)(new ((void *)(pCurrentNode)) ::Vec3()))))
+        while (pCurrentNode && (m_pkActiveSoundList = *((::fnv_0063d5e0::SkySoundObj **)((void *)(pCurrentNode)))))
         {
             if (reinterpret_cast<::FUN_0063dd70_shell *>((m_pkActiveSoundList))->FUN_0063dd70())
             {
@@ -1204,14 +1205,14 @@ void FUN_0063d5e0_shell::FUN_0063d5e0()
             pCurrentNode = ((::fnv_0063d5e0::SL *)(reinterpret_cast<::Callees *>((pCurrentNode))->FUN_00726070()));
         }
         poldHandleNode = &oldHandleList;
-        while (poldHandleNode && (oldHandle = *((::fnv_0063d5e0::SkySoundObj **)(new ((void *)(poldHandleNode)) ::Vec3()))))
+        while (poldHandleNode && (oldHandle = *((::fnv_0063d5e0::SkySoundObj **)((void *)(poldHandleNode)))))
         {
             poldHandleNode = ((::fnv_0063d5e0::SL *)(reinterpret_cast<::Callees *>((poldHandleNode))->FUN_00726070()));
             if (reinterpret_cast<::SoundPlaybackHandle *>(&(oldHandle->hSound))->IsValid())
             {
                 bool bstillInUse = false;
                 pCurrentNode = pSaveList;
-                while (!bstillInUse && pCurrentNode && (m_pkActiveSoundList = *((::fnv_0063d5e0::SkySoundObj **)(new ((void *)(pCurrentNode)) ::Vec3()))))
+                while (!bstillInUse && pCurrentNode && (m_pkActiveSoundList = *((::fnv_0063d5e0::SkySoundObj **)((void *)(pCurrentNode)))))
                 {
                     if (m_pkActiveSoundList->iSoundFormID == oldHandle->iSoundFormID)
                         bstillInUse = true;
@@ -1237,7 +1238,7 @@ void FUN_0063d5e0_shell::FUN_0063d5e0()
     }
     if (reinterpret_cast<::FUN_00634870_shell *>((((SkyEx*)this)))->FUN_00634870())
         ((SkyEx*)this)->FUN_0063ddb0(m_pRegionWeather);
-    while (pCurrentNode && (m_pkActiveSoundList = *((::fnv_0063d5e0::SkySoundObj **)(new ((void *)(pCurrentNode)) ::Vec3()))))
+    while (pCurrentNode && (m_pkActiveSoundList = *((::fnv_0063d5e0::SkySoundObj **)((void *)(pCurrentNode)))))
     {
         if (!reinterpret_cast<::SoundPlaybackHandle *>(&(m_pkActiveSoundList->hSound))->IsValid())
         {
@@ -1665,9 +1666,9 @@ struct FUN_0063e060_shell
 // @fnv 0x0063e060
 bool FUN_0063e060_shell::FUN_0063e060(void* m_pWeatherObject, unsigned int uiType)
 {
-    for (void* node = m_pSkySounds; node != 0 && *((::SkySound **)(new ((void *)(node)) ::Vec3())) != 0; node = reinterpret_cast<::Callees *>((node))->FUN_00726070())
+    for (void* node = m_pSkySounds; node != 0 && *((::SkySound **)((void *)(node))) != 0; node = reinterpret_cast<::Callees *>((node))->FUN_00726070())
     {
-        if ((*((::SkySound **)(new ((void *)(node)) ::Vec3())))->field14 == m_pWeatherObject && (*((::SkySound **)(new ((void *)(node)) ::Vec3())))->field0c == uiType)
+        if ((*((::SkySound **)((void *)(node))))->field14 == m_pWeatherObject && (*((::SkySound **)((void *)(node))))->field0c == uiType)
             return true;
     }
     return false;
@@ -2143,10 +2144,6 @@ struct FUN_00ad89e0_shell
 {
     bool FUN_00ad89e0(float afVolume);
 };
-struct std
-{
-    static float __cdecl abs(float afValue);
-};
 struct FUN_0063e0d0_shell
 {
     char pad[0x10];
@@ -2357,7 +2354,7 @@ struct ImageSpaceModifierInstanceDOF : public TESObjectDoorController
 
 struct GlobalObject_00633c90
 {
-    GlobalObject_00633c90(int v);
+    GlobalObject_00633c90(std::intptr_t v);
     ~GlobalObject_00633c90();
     int m_ptr;
 };
@@ -2413,12 +2410,12 @@ void FUN_0063ef20_shell::FUN_0063ef20()
             {
                 field11c = new ImageSpaceModifierInstanceDOF;
                 field124 = new ImageSpaceModifierInstanceDOF;
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field124)));
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field11c)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field124)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field11c)));
                 field120 = new ImageSpaceModifierInstanceDOF;
                 field128 = new ImageSpaceModifierInstanceDOF;
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field128)));
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field120)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field128)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field120)));
                 reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((((ImageSpaceModifierInstanceDOF*)field11c)))->FUN_005bbd60(true);
                 reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((((ImageSpaceModifierInstanceDOF*)field124)))->FUN_005bbd60(true);
                 reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((((ImageSpaceModifierInstanceDOF*)field120)))->FUN_005bbd60(true);
@@ -2707,7 +2704,7 @@ void ThisCls::FUN_0063ddb0(ParamObj* pParamObj)
 
     Entry* pItem_2;
     BSSimpleList<Entry*>* iter1 = ((::BSSimpleList< ::Entry *> *)(reinterpret_cast<::FUN_0063dff0_shell *>((pParamObj))->FUN_0063dff0()));
-    while (iter1 && (pItem_2 = ((::Entry *)(new ((void *)(iter1)) ::Vec3()))))
+    while (iter1 && (pItem_2 = (iter1->m_item)))
     {
         GlobalObject_0041a250 sound;
         int flags7;
@@ -2716,12 +2713,13 @@ void ThisCls::FUN_0063ddb0(ParamObj* pParamObj)
             flags7 = 0x21;
             if (pItem_2->m04 != 3)
                 flags7 |= 0x10;
-            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&FUN_00453a70()->FUN_00ad73b0(pItem_2->m00, flags7))));
+            auto kHandle = FUN_00453a70()->FUN_00ad73b0(pItem_2->m00, flags7);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&kHandle)));
         }
 
         bool found2 = false;
         NodeObj* node6;
-        for (NodeList* iter7 = m_fc; !found2 && iter7 && (node6 = ((::NodeObj *)(new ((void *)(iter7)) ::Vec3()))); iter7 = ((::NodeList *)(reinterpret_cast<::Callees *>((iter7))->FUN_00726070())))
+        for (NodeList* iter7 = m_fc; !found2 && iter7 && (node6 = ((::NodeObj *)((void *)(iter7)))); iter7 = ((::NodeList *)(reinterpret_cast<::Callees *>((iter7))->FUN_00726070())))
         {
             found2 = (node6->m14 == pItem_2->m00 && node6->m0c == pParamObj && node6->m10 == pItem_2->m04);
         }
@@ -3089,9 +3087,9 @@ void SkyWeatherUpdate::FUN_0063d1d0()
         if (!m_pQueuedWeather)
             m_pQueuedWeather = dynamic_cast<TESWeather*>(FUN_004839c0(0x15e));
         BSSimpleList<WeatherRegion*>* region = ((::TESRegionList *)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::WeatherDataHandler * *>(&::g_dataHandler))))->FUN_004169d0()));
-        while (region && ((::WeatherRegion *)(new ((void *)(region)) ::Vec3())))
+        while (region && (region->m_item))
         {
-            reinterpret_cast<::B4F1050Region *>((((::WeatherRegion *)(new ((void *)(region)) ::Vec3()))))->FUN_004f1050();
+            reinterpret_cast<::B4F1050Region *>(((region->m_item)))->FUN_004f1050();
             region = ((::BSSimpleList< ::WeatherRegion *> *)(reinterpret_cast<::Callees *>((region))->FUN_00726070()));
         }
     }
@@ -3360,10 +3358,10 @@ struct ThisCls
     CloudsObj* m2c;
     int m30, m34;
     PrecipObj* m38;
-    void FUN_0063a630(NiNode*, int);
+    void FUN_0063a630(NiNode*, intptr_t);
 };
 // @fnv 0x0063a630
-void ThisCls::FUN_0063a630(NiNode* apRootNode, int arg)
+void ThisCls::FUN_0063a630(NiNode* apRootNode, intptr_t arg)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_SKY, true,
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Sky\\Sky.cpp", 0x152);

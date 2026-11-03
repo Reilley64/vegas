@@ -15,7 +15,7 @@ public:
     static const ::NiPoint3 ZERO;
 };
 class ParentSpaceNode;
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     int data[4];

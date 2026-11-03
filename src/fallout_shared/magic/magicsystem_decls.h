@@ -249,7 +249,6 @@ class DataHandler
 {
   public:
 };
-extern DataHandler* g_dataHandler;
 
 extern TESSound* DAT_011c3538;
 extern TESSound* DAT_011c353c;
@@ -269,7 +268,6 @@ extern TESSound* DAT_011c3570;
 extern TESSound* DAT_011c3574;
 extern TESSound* DAT_011c3578;
 extern TESSound* DAT_011c357c;
-extern TESEffectShader* DAT_011c3580;
 extern TESEffectShader* DAT_011c3584;
 extern TESEffectShader* DAT_011c3588;
 extern SpellItem* DAT_011c358c;

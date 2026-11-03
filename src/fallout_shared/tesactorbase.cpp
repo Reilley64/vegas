@@ -1,5 +1,6 @@
 // fallout_shared/tesactorbase.cpp: TESActorBase, Reset3DMobIterator, ActorBaseTarget, ActorBaseSaveView and more (23 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -66,6 +67,8 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "tesactorbase_decls.h"
+#include "fnv/decl/FUN_004048e0_cls.h"
+#include "fnv/decl/s428110__Owner.h"
 
 // @fnv 0x0048cee0
 SEX TESActorBase::GetSex()
@@ -103,7 +106,7 @@ void TESActorBase::LoadGame(BGSLoadFormBuffer* buffer)
     reinterpret_cast<::TESSpellList *>((reinterpret_cast<Crime*>(reinterpret_cast<char*>(this) + 0x7c)))->LoadGame((::BGSLoadFormBuffer *)(buffer));
     reinterpret_cast<::fnv_004802b0::FUN_004802b0_Class *>((reinterpret_cast<TESAttributes*>(reinterpret_cast<char*>(this) + 0xb8)))->LoadDataIfChanged((::fnv_004802b0::BGSLoadFormBuffer *)(buffer));
     reinterpret_cast<::fnv_0047f980::FUN_0047f980_Class *>((reinterpret_cast<TESAIForm*>(reinterpret_cast<char*>(this) + 0x90)))->FUN_0047f980((::fnv_0047f980::BGSLoadFormBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20)))->FUN_004280f0(0x20))
     {
         char name[264];
         reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((buffer))->FUN_008649a0(name);
@@ -238,11 +241,11 @@ BGSBodyPartData* FUN_005f0f80(TESActorBase* apActorBase)
 
 struct FUN_005f0b30_shell
 {
-    void FUN_005f0b30(int a1);
+    void FUN_005f0b30(std::intptr_t a1);
 };
 
 // @fnv 0x005f0b30
-void FUN_005f0b30_shell::FUN_005f0b30(int aiValue)
+void FUN_005f0b30_shell::FUN_005f0b30(std::intptr_t aiValue)
 {
     reinterpret_cast<::CombatProcedure *>((((Reset3DMobIterator*)((char*)this + 0xb0))))->Initialize((::CombatController *)(aiValue));
 }
@@ -278,7 +281,7 @@ struct FUN_005f0f50_shell : ArrSI
 // @fnv 0x005f0f50
 char FUN_005f0f50_shell::HasFlag80000()
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     return (flags & 0x80000) != 0;
 }
 
@@ -346,17 +349,17 @@ struct FUN_0047f940_holder
 };
 struct FUN_005f1f30_shell : public BGSLoadFormBuffer
 {
-    void FUN_005f1f30(unsigned int);
+    void FUN_005f1f30(std::uintptr_t);
 };
 // @fnv 0x005f1f30
-void FUN_005f1f30_shell::FUN_005f1f30(unsigned int buffer)
+void FUN_005f1f30_shell::FUN_005f1f30(std::uintptr_t buffer)
 {
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)(buffer));
     reinterpret_cast<::SavePayload *>((((FUN_0047ea30_holder*)((char*)this + 0x30))))->FUN_0047ea30((::BGSSaveFormBuffer *)(buffer));
     reinterpret_cast<::FormListPair *>((((FUN_0048e040_holder*)((char*)this + 0x7c))))->FUN_0048e040((::SaveFormBuf0048 *)(buffer));
     reinterpret_cast<::FUN_00480270_shell *>((((FUN_00480270_holder*)((char*)this + 0xb8))))->FUN_00480270((::PacketSerializer *)(buffer));
     reinterpret_cast<::fnv_0047f940::BGSChangeHandler *>((((FUN_0047f940_holder*)((char*)this + 0x90))))->SaveChangeData((::fnv_0047f940::BGSSaveFormBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x20)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x20)))->FUN_004280f0(0x20))
     {
         const char* pfullname = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0xd0))))->FUN_00408da0()));
         reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBuffer*)buffer)))->FUN_00865e70(pfullname, 0);
@@ -438,7 +441,7 @@ float ActorBaseTarget::FUN_005f0d60(FormTarget* form)
                     itemComponentOffset = 0x58
                 };
                 result = ConvertUIntToFloat(
-                    ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ComponentTarget*>(reinterpret_cast<char*>(item) + itemComponentOffset)))->FUN_00726070())));
+                    ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<ComponentTarget*>(reinterpret_cast<char*>(item) + itemComponentOffset)))->FUN_00726070())));
             }
             break;
         }
@@ -875,7 +878,7 @@ void SaveActorBase::FUN_005f18c0(unsigned int flags)
     reinterpret_cast<::fnv_0047f840::FUN_0047f840_shell *>(&(ai))->FUN_0047f840(flags);
     if (flags & 0)
     {
-        unsigned int first = ((unsigned int)(reinterpret_cast<::Callees *>(&(list))->FUN_00726070()));
+        std::uintptr_t first = ((std::uintptr_t)(reinterpret_cast<::Callees *>(&(list))->FUN_00726070()));
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0((void *)(&first), 4);
     }
     if (flags & 0x20)
@@ -903,7 +906,7 @@ void SaveActorBase::FUN_005f18c0(unsigned int flags)
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int current = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_005f18c0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
-        unsigned int block = (unsigned int)pos2;
+        std::uintptr_t block = (std::uintptr_t)pos2;
         if (current > block + 0xffff)
             ::FUN_005b5e40();
         *pos2 = (unsigned short)(current - block);
@@ -1091,12 +1094,12 @@ struct ActorBaseLoad
     int fieldCC;
     SubD0 subD0;
 
-    void FUN_005f1b30(unsigned int, unsigned int);
+    void FUN_005f1b30(unsigned int, std::uintptr_t);
 };
 
 // Reads the actor base block from the save stream, dispatches to sub-structs, and verifies the block boundary against the expected end position.
 // @fnv 0x005f1b30
-void ActorBaseLoad::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
+void ActorBaseLoad::FUN_005f1b30(unsigned int aiFlags, std::uintptr_t a2)
 {
     FormName* form5;
     LoadHdr* hdrB;
@@ -1185,5 +1188,82 @@ void ActorBaseLoad::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
     }
 }
 }  // namespace fnv_005f1b30
+
+// 005fbfa0 = VC9 adjustor thunk. Recipe (b90180 class of matches): MI dual-slot override,
+// the virtual METHOD named after the claim token FUN_005fbfa0, declared only (never defined)
+// so the emitted [thunk] COMDAT is the unique defined symbol carrying the token, and
+// fnvcheck binds its jmp target from the original bytes.
+
+struct ThunkPrim
+{
+    virtual void* FUN_005fbfa0(unsigned int);
+    int p04;
+    int p08;
+    int p0c;
+    int p10;
+    int p14;
+    int p18;
+    int p1c;
+    int p20;
+    int p24;
+    int p28;
+    int p2c;
+    int p30;
+    int p34;
+    int p38;
+    int p3c;
+    int p40;
+    int p44;
+    int p48;
+    int p4c;
+    int p50;
+    int p54;
+    int p58;
+    int p5c;
+    int p60;
+    int p64;
+    int p68;
+    int p6c;
+    int p70;
+    int p74;
+    int p78;
+    int p7c;
+    int p80;
+    int p84;
+    int p88;
+    int p8c;
+    int p90;
+    int p94;
+    int p98;
+    int p9c;
+    int pa0;
+    int pa4;
+    int pa8;
+    int pac;
+    int pb0;
+    int pb4;
+    int pb8;
+    int pbc;
+    int pc0;
+    int pc4;
+    int pc8;
+    int pcc;
+    int pd0;
+    int pd4;
+    int pd8;
+};
+
+struct ThunkSec
+{
+    virtual void* FUN_005fbfa0(unsigned int);
+};
+
+struct ThunkHost : ThunkPrim, ThunkSec
+{
+// @fnv 0x005fbfa0
+    virtual void* FUN_005fbfa0(unsigned int);
+};
+
+static ThunkHost g_thunk;
 
 #include "generated/data/fallout_shared/tesactorbase.inc"

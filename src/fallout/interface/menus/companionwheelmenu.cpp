@@ -188,7 +188,7 @@ float FUN_00755660(float value)
 
 
 // @fnv 0x00756960
-void FUN_00756960(int thisPtr)
+void FUN_00756960(intptr_t thisPtr)
 {
     *(char*)(thisPtr + 0x74) = 1;
     ::CloseMenuAndRefresh(1);
@@ -540,7 +540,7 @@ struct MenuFactory
 
 // Looks up the menu factory for id 0x433, deletes its CompanionWheelMenu if present, then returns the result of OpenCompanionMenu(value).
 // @fnv 0x00754cf0
-bool __cdecl DestroyCompanionWheelMenu(int value)
+bool __cdecl DestroyCompanionWheelMenu(intptr_t value)
 {
     MenuFactory* factory = ((::MenuFactory *)(::FUN_00a09030(0x433)));
     CompanionWheelMenu* menu = factory ? dynamic_cast<CompanionWheelMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((factory))->FUN_00a03c90()) : 0;
@@ -635,10 +635,10 @@ TileOps* OpenCompanionMenu(ActorOps* actor)
         (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion = actor;
         if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion)
         {
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->aggressive = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071de0)))) == 1.0;
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->following = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071dd0)))) == 1.0;
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->ranged = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071dbc)))) == 1.0;
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->waiting = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071db4)))) == 0.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->aggressive = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071de0)))) == 1.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->following = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071dd0)))) == 1.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->ranged = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071dbc)))) == 1.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->waiting = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071db4)))) == 0.0;
         }
         if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->tile28)
             reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->tile28))->Set(0x100f, (int)(*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->aggressive);
@@ -1629,7 +1629,7 @@ void CompanionWheelStandin::PlayTopicResponse(TopicInfoStandin* topic)
             }
             else
             {
-                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((int)(response2)))))))), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->flags)),
+                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((intptr_t)(response2)))))))), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->flags)),
                                                 ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->soundID)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item))))->FUN_004048e0())),
                                                 reinterpret_cast<::DialogueResponseFields *>((response2))->emotion, ((int)(reinterpret_cast<::DialogueResponseFields *>((response2))->emotionValue)),
                                                 (CompActor*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), 1, 1, 0, 0, 1);
@@ -1645,7 +1645,7 @@ void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_75
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(text))->FUN_004048e0())) > 0)
     {
         if (*(*reinterpret_cast<::CInterface_757690 *>(&::g_011d8928)).FUN_00408d60() || (*(CRelatedActor_757690**)((char*)this + 0x68) != 0 &&
-                                             ::FUN_008c1bc0((int)((*(CRelatedActor_757690**)((char*)this + 0x68))))))
+                                             ::FUN_008c1bc0((intptr_t)((*(CRelatedActor_757690**)((char*)this + 0x68))))))
         {
             if (*(CWheelItem_757690**)((char*)this + 0x58))
             {
@@ -2456,7 +2456,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
                     if (selected)
                     {
                         reinterpret_cast<::DialogueItem *>((selected))->SelectDefaultResponseList();
-                        int unused = ((int)(reinterpret_cast<::DialogueItem *>((selected))->GetActiveResponse()));
+                        intptr_t unused = ((intptr_t)(reinterpret_cast<::DialogueItem *>((selected))->GetActiveResponse()));
                         reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(0);
                         reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(1);
                         ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((std::uintptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
@@ -2663,7 +2663,7 @@ void Wheel256::ToggleAggressive()
         reinterpret_cast<::CompanionWheelStandin *>(this)->PlayTopicResponse((::TopicInfoStandin *)(pPassiveTopic));
         reinterpret_cast<::fnv_007575b0::FUN_007575b0_shell *>(this)->RunTopicResultScripts((::fnv_007575b0::TESTopic *)(pPassiveTopic));
     }
-    reinterpret_cast<::FUN_008c16c0_cls *>((reinterpret_cast<MenuGlobal256*>((*reinterpret_cast<int *>(&::g_pkMenu755)))->script))->ApplyValueToFoundObject((int)("FollowerSwitchAggressive"), aggressive ? 1.0f : 0.0f);
+    reinterpret_cast<::FUN_008c16c0_cls *>((reinterpret_cast<MenuGlobal256*>((*reinterpret_cast<intptr_t *>(&::g_pkMenu755)))->script))->ApplyValueToFoundObject((intptr_t)("FollowerSwitchAggressive"), aggressive ? 1.0f : 0.0f);
     if (tile)
         reinterpret_cast<::Tile *>((tile))->Set(0x100f, aggressive);
 }
@@ -2900,7 +2900,7 @@ void CompanionHealingMenu::HealCompanion()
                     if (healthX < ::g_01012070)
                         reinterpret_cast<::FUN_008c1f80_shell *>((companion))->EquipItemWithCaster(
                             (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)))),
-                            (int)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0), 1);
+                            (intptr_t)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0), 1);
                     (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)),
                                              ((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0, 1, 0, 0,
                                              0, 0, 0, 1, 0);
@@ -3403,7 +3403,7 @@ void InteractionMenu::UpdateCompanionInteraction()
         if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((aTarget))->FUN_00493bb0())) && player2 == (*reinterpret_cast<::InteractionActor * *>(&::_g_thePlayer)) && reinterpret_cast<::MiddleHighProcess *>((aTarget))->IsActorInCombat())
         {
             reinterpret_cast<::VATS *>(&((*reinterpret_cast<::DialogueDisplay *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-            ::FUN_00709470(4, (int)(aTarget), 0, 0, 1);
+            ::FUN_00709470(4, (intptr_t)(aTarget), 0, 0, 1);
             return;
         }
         if (aTarget && (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((aTarget))->FUN_00493bb0())) || aTarget->CanInteract()) &&
@@ -3495,7 +3495,7 @@ void InteractionMenu::UpdateCompanionInteraction()
                                     if (speaker == (*reinterpret_cast<::InteractionActor * *>(&::_g_thePlayer)))
                                         speaker = aTarget;
                                     reinterpret_cast<::VATS *>(&((*reinterpret_cast<::DialogueDisplay *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-                                    ::FUN_00709470(4, (int)(speaker), topic, 0, 1);
+                                    ::FUN_00709470(4, (intptr_t)(speaker), topic, 0, 1);
                                 }
                                 else
                                 {
@@ -3534,7 +3534,7 @@ void InteractionMenu::UpdateCompanionInteraction()
                                 InteractionActor* speaker = player2;
                                 if (speaker == (*reinterpret_cast<::InteractionActor * *>(&::_g_thePlayer)))
                                     speaker = aTarget;
-                                ::FUN_00709470(4, (int)(speaker), topic, 0, 1);
+                                ::FUN_00709470(4, (intptr_t)(speaker), topic, 0, 1);
                             }
                         }
                         delete item3;
@@ -3712,7 +3712,7 @@ void FUN_007552e0_shell::FUN_007552e0(int aiID, Tile* apTarget)
         break;
 
     case 3:
-        FUN_00756960(reinterpret_cast<int>(this));
+        FUN_00756960(reinterpret_cast<intptr_t>(this));
         ::s717280::FUN_00717280(1);
         break;
 
@@ -3783,7 +3783,7 @@ void FUN_007563a0_shell::ToggleFollowerWait()
 
 int __cdecl FUN_00755260();
 float FUN_00755660(float value);
-void FUN_00756960(int thisPtr);
+void FUN_00756960(intptr_t thisPtr);
 int __cdecl _FUN_00ec7d40(int value);
 unsigned __cdecl FUN_00ec6130(int);
 

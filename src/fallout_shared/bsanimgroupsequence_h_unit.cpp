@@ -17,7 +17,7 @@
 #include "fnv/symbols_011c7000.h"
 #include "BSAnimGroupSequence.h"
 
-const NiRTTI BSAnimGroupSequence::ms_kRTTI;
+const NiRTTI BSAnimGroupSequence::ms_kRTTI{};
 
 // @fnv 0x0049bb10
 const NiRTTI* BSAnimGroupSequence::GetRTTI() const

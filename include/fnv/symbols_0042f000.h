@@ -14,6 +14,6 @@ void FUN_0042f830(::FUN_0042f830_struct *);
 // 0x0042fa40
 void FUN_0042fa40(void *);
 // 0x0042fda0
-void FUN_0042fda0(int *);
+void FUN_0042fda0(char **);
 // 0x0042ff10
-void FUN_0042ff10(::FUN_0042ff10_cls *, int);
+bool FUN_0042ff10(::FUN_0042ff10_cls *, const void **);

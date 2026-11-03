@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatproceduresearch.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatproceduresearch.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/ActorMagicQuery.h"
@@ -132,11 +133,11 @@ void* FUN_009d8c10_shell::Destroy(unsigned int flags)
 
 struct FUN_009d8d00_shell
 {
-    void SetFieldEC(int param);
+    void SetFieldEC(intptr_t param);
 };
 
 // @fnv 0x009d8d00
-void FUN_009d8d00_shell::SetFieldEC(int aiValue)
+void FUN_009d8d00_shell::SetFieldEC(intptr_t aiValue)
 {
     *(int*)((char*)this + 0xec) = aiValue;
 }
@@ -282,9 +283,9 @@ struct FUN_009da6c0_holder
 // @fnv 0x009da6c0
 void FUN_009da6c0_holder::RevertAndResolveRef(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((unsigned int)apLoadGameBuffer);
+    reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((uintptr_t)apLoadGameBuffer);
     m_pReference =
-        m_pReference ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)m_pReference)) : 0;
+        m_pReference ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pReference)) : 0;
 }
 
 class TESActorBase;
@@ -308,7 +309,7 @@ struct FUN_009d8c60_shell : CombatProcedureEngageTarget
 };
 struct FUN_0098c780_shell
 {
-    void ClearReservedFlag(int);
+    void ClearReservedFlag(intptr_t);
 };
 struct FUN_009d8d20_Class
 {
@@ -319,14 +320,14 @@ void FUN_009d8c60_shell::UpdateEngageTarget()
 {
     Actor* pattacker = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     EffectSetting* pcombatGroup = ((::EffectSetting *)(reinterpret_cast<::EffectSetting *>((void *)(((EffectSetting**)((char*)this + 4))[0]))->GetCastSound()));
-    if (pcombatGroup && ((FUN_009d8d20_Class*)pcombatGroup)->GetFieldEC() == (int)pattacker)
+    if (pcombatGroup && ((FUN_009d8d20_Class*)pcombatGroup)->GetFieldEC() == (intptr_t)pattacker)
         ((FUN_009d8d00_shell*)pcombatGroup)->SetFieldEC(0);
     reinterpret_cast<::FUN_008b3ab0_shell *>((pattacker))->FUN_008b3ab0();
     reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>(this)->FUN_00996e40();
     if (*(int*)((char*)this + 0x10) == 5 || *(int*)((char*)this + 0x10) == 4)
         reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((pattacker))->FUN_008bcd20();
     if (*(int*)((char*)this + 0x10) == 2 && pcombatGroup && *(void**)((char*)this + 0x3c))
-        ((FUN_0098c780_shell*)pcombatGroup)->ClearReservedFlag((int)*(void**)((char*)this + 0x3c));
+        ((FUN_0098c780_shell*)pcombatGroup)->ClearReservedFlag((intptr_t)*(void**)((char*)this + 0x3c));
 }
 
 extern int DAT_01091db4;
@@ -1119,7 +1120,7 @@ void SearchProcedure::UpdateSearchState()
                 reinterpret_cast<::FUN_008e7c50_cls *>(&(req))->SetUseSoft(false);
                 if (!pActor2->SetPathingRequestAvoidNodes(&req))
                 {
-                    reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)("Cannot setup path to investigate point"));
+                    reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)("Cannot setup path to investigate point"));
                     break;
                 }
                 this->state = 1;
@@ -1141,12 +1142,12 @@ void SearchProcedure::UpdateSearchState()
                     ::SetTargetAngle((char *)&(req), WrapAngle(rot.z - 3.1415927410125732));
                     if (!pActor2->SetPathingRequestAvoidNodes(&req))
                     {
-                        reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)("Cannot setup path to search door"));
+                        reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)("Cannot setup path to search door"));
                         break;
                     }
                     this->state = 2;
                     this->m_pReference = pObjE0;
-                    reinterpret_cast<::fnv_0098c750::FUN_0098c750_class *>((pContext))->FUN_0098c750((int)(pObjE0));
+                    reinterpret_cast<::fnv_0098c750::FUN_0098c750_class *>((pContext))->FUN_0098c750((intptr_t)(pObjE0));
                 }
                 else
                 {
@@ -1163,7 +1164,7 @@ void SearchProcedure::UpdateSearchState()
                                                              ::DAT_0101e704, (::PathingAvoidNodeArray *)(0));
                                 if (!pActor2->SetPathingRequestAvoidNodes(&req))
                                 {
-                                    reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)("Cannot setup path to search center"));
+                                    reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)("Cannot setup path to search center"));
                                     break;
                                 }
                                 this->location = loc1ac;
@@ -1211,10 +1212,10 @@ void SearchProcedure::UpdateSearchState()
                         }
                         if (!pActor2->FUN_008bb630(&losReq))
                         {
-                            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)("Cannot setup LOS search path"));
+                            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)("Cannot setup LOS search path"));
                             break;
                         }
-                        reinterpret_cast<::FUN_009d8d00_shell *>((pContext))->SetFieldEC((int)(pActor2));
+                        reinterpret_cast<::FUN_009d8d00_shell *>((pContext))->SetFieldEC((intptr_t)(pActor2));
                         this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cecc4))))))->f);
                         this->state = 3;
                         this->timer24.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting465))))->f);
@@ -1233,7 +1234,7 @@ void SearchProcedure::UpdateSearchState()
             {
                 reinterpret_cast<::fnv_009a0ec0::FUN_009a0ec0_shell *>((pTile2))->SetNodeBlockAndTimestamp((const ::fnv_009a0ec0::FUN_009a0ec0_Block *)&(this->location));
             }
-            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((pActor2))->FUN_008b3960() ? "Pathing failed while moving to destination"
+            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((pActor2))->FUN_008b3960() ? "Pathing failed while moving to destination"
                                                        : "Path Building failed to destination"));
             break;
         }
@@ -1272,9 +1273,9 @@ void SearchProcedure::UpdateSearchState()
             if (!reinterpret_cast<::FUN_008b3960_Class *>((pActor2))->FUN_008b3960() && this->m_pReference)
             {
                 reinterpret_cast<::fnv_009a0ec0::FUN_009a0ec0_shell *>((pTile2))->SetNodeBlockAndTimestamp((const ::fnv_009a0ec0::FUN_009a0ec0_Block *)&(const ::Location16 &)((*(::Location16 *)(reinterpret_cast<::FUN_00575650_Class *>((this->m_pReference))->FUN_00575650({})))));
-                reinterpret_cast<::CombatSearchMgr *>((pContext))->FUN_0098c710((int)(this->m_pReference));
+                reinterpret_cast<::CombatSearchMgr *>((pContext))->FUN_0098c710((intptr_t)(this->m_pReference));
             }
-            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((pActor2))->FUN_008b3960() ? "Pathing failed while moving to search door"
+            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((pActor2))->FUN_008b3960() ? "Pathing failed while moving to search door"
                                                        : "Path Building failed to search door"));
             break;
         }
@@ -1282,7 +1283,7 @@ void SearchProcedure::UpdateSearchState()
         {
             if (this->m_pReference)
             {
-                reinterpret_cast<::FUN_0098c6e0_class *>((pContext))->FUN_0098c6e0((int)(this->m_pReference));
+                reinterpret_cast<::FUN_0098c6e0_class *>((pContext))->FUN_0098c6e0((intptr_t)(this->m_pReference));
                 if (!hasTarget_2)
                 {
                     reinterpret_cast<::fnv_008bcd60::FUN_008bcd60_Class *>((pActor2))->FUN_008bcd60();
@@ -1300,7 +1301,7 @@ void SearchProcedure::UpdateSearchState()
                     reinterpret_cast<::ActorStandIn *>((pActor2))->BuildPathingRequest((::PathingRequest *)(void *)(&req), (*(const ::NiPoint3 *)(((void *)(reinterpret_cast<::BaseProcess *>((p3a0))->GetCurrentProcessData())))), (::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::Caller_43a3f0 *>((p3a0))->FUN_0043a3f0()))), 0.0f, (::PathingAvoidNodeArray *)(0));
                     if (!pActor2->SetPathingRequestAvoidNodes(&req))
                     {
-                        reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)("Cannot setup path through search door"));
+                        reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)("Cannot setup path through search door"));
                         break;
                     }
                     this->state = 2;
@@ -1329,7 +1330,7 @@ void SearchProcedure::UpdateSearchState()
                     reinterpret_cast<::FUN_00915d20_shell *>((pContext))->FUN_00915d20(1);
                 }
             }
-            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((pActor2))->FUN_008b3960() ? "Pathing failed while searching"
+            reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((pActor2))->FUN_008b3960() ? "Pathing failed while searching"
                                                        : "Path Building failed to search"));
             break;
         }
@@ -1345,7 +1346,7 @@ void SearchProcedure::UpdateSearchState()
                 {
                     this->state = 2;
                     this->m_pReference = pObj460;
-                    reinterpret_cast<::fnv_0098c750::FUN_0098c750_class *>((pContext))->FUN_0098c750((int)(pObj460));
+                    reinterpret_cast<::fnv_0098c750::FUN_0098c750_class *>((pContext))->FUN_0098c750((intptr_t)(pObj460));
                     break;
                 }
             }

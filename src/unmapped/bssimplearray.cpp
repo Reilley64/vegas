@@ -1538,7 +1538,7 @@ class PathingGraphNode
     unsigned char m_data[0x3c];
 };
 
-template <class T, int Capacity> struct BSSimpleArray
+template <class T, unsigned int Capacity> struct BSSimpleArray
 {
     void ReleaseElements(T* pItems, unsigned int ItemUpdateArray);
 };

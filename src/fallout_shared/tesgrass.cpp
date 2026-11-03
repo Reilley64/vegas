@@ -114,14 +114,14 @@ void TESGrass::InitItem()
     SetInitializationState(true);
 }
 
-struct FUN_005081b0_shell
+struct FUN_005081b0_shell : ::TESGrass
 {
     float GetFloatAtOffset58();
 };
 // @fnv 0x005081b0
 float FUN_005081b0_shell::GetFloatAtOffset58()
 {
-    return *(float*)((char*)this + 0x58);
+    return this->Data.m_fHeightRange;
 }
 
 struct FUN_00509aa0_shell : TESGrass
@@ -175,7 +175,7 @@ void FUN_00509bd0_shell::SetFlag2(bool abSet)
     abSet ? m_64 |= 2 : m_64 &= ~2;
 }
 
-struct FUN_00509c20_shell
+struct FUN_00509c20_shell : ::TESGrass
 {
     bool IsFlag4Set();
 };
@@ -183,7 +183,7 @@ struct FUN_00509c20_shell
 // @fnv 0x00509c20
 bool FUN_00509c20_shell::IsFlag4Set()
 {
-    return (((char*)this)[0x64] & 4) ? true : false;
+    return (this->Data.cFlags & 4) ? true : false;
 }
 
 struct FUN_00509c90_shell
@@ -192,9 +192,8 @@ struct FUN_00509c90_shell
     void* DestroyIfFlagged(unsigned int flags);
 };
 
-struct FUN_00509d30_shell
+struct FUN_00509d30_shell : ::TESGrass
 {
-    char field_48;
     bool FUN_00509d30(unsigned char a);
 };
 
@@ -204,13 +203,13 @@ bool FUN_00509d30_shell::FUN_00509d30(unsigned char aucValue)
 {
     if (aucValue <= 0x64)
     {
-        ((char*)this)[0x48] = (char)aucValue;
+        (*(char*)&this->Data.m_ucDensity) = (char)aucValue;
         return true;
     }
     return false;
 }
 
-struct FUN_00509d60_class
+struct FUN_00509d60_class : ::TESGrass
 {
     bool FUN_00509d60(unsigned char value);
 };
@@ -219,9 +218,9 @@ struct FUN_00509d60_class
 // @fnv 0x00509d60
 bool FUN_00509d60_class::FUN_00509d60(unsigned char value)
 {
-    if (value <= 0x5a && value <= ((unsigned char*)this)[0x4a])
+    if (value <= 0x5a && value <= this->Data.m_ucMaxSlope)
     {
-        ((unsigned char*)this)[0x49] = value;
+        this->Data.m_ucMinSlope = value;
         return true;
     }
     return false;
@@ -247,7 +246,7 @@ bool FUN_00509da0_shell::SetSlope(unsigned char slope)
     return false;
 }
 
-struct FUN_0068a830_shell
+struct FUN_0068a830_shell : ::TESGrass
 {
     TESGrass* GetGrass();
 };
@@ -258,7 +257,7 @@ TESGrass* FUN_0068a830_shell::GetGrass()
     return *(TESGrass**)((char*)this + 0x50);
 }
 
-struct FUN_006fe520_shell
+struct FUN_006fe520_shell : ::TESGrass
 {
     char GetByteAtOffset48();
 };
@@ -266,10 +265,10 @@ struct FUN_006fe520_shell
 // @fnv 0x006fe520
 char FUN_006fe520_shell::GetByteAtOffset48()
 {
-    return *(char*)(((char*)this) + 0x48);
+    return *(char*)&this->Data.m_ucDensity;
 }
 
-struct FUN_009cdac0_shell
+struct FUN_009cdac0_shell : ::TESGrass
 {
     float GetField60Float();
 };
@@ -277,10 +276,10 @@ struct FUN_009cdac0_shell
 // @fnv 0x009cdac0
 float FUN_009cdac0_shell::GetField60Float()
 {
-    return *(float*)((char*)this + 0x60);
+    return this->Data.m_fWavePhase;
 }
 
-struct FUN_009d1b50_shell
+struct FUN_009d1b50_shell : ::TESGrass
 {
     float GetField54Float();
 };
@@ -288,7 +287,7 @@ struct FUN_009d1b50_shell
 // @fnv 0x009d1b50
 float FUN_009d1b50_shell::GetField54Float()
 {
-    return *(float*)((char*)this + 0x54);
+    return this->Data.m_fPositionRange;
 }
 
 struct FUN_00508140_shell
@@ -338,7 +337,7 @@ struct FUN_00485e00_shell
 struct FUN_004891d0_shell
 {
 };
-struct FUN_0050a1d0_shell
+struct FUN_0050a1d0_shell : ::TESGrass
 {
     void FUN_0050a1d0();
 };
@@ -346,12 +345,12 @@ struct FUN_0050a1d0_shell
 void FUN_0050a1d0_shell::FUN_0050a1d0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_004891d0_cls *>((((FUN_004891d0_shell*)((char*)this + 0x30))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_004891d0_cls *>((((FUN_004891d0_shell*)static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
     if (::FUN_00401500())
-        ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x48)), 0x20);
+        this->Data.ResetGrassData();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)&this->Data)), 0x20);
     if (::FUN_00401500())
-        ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
+        this->Data.ResetGrassData();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
@@ -823,3 +822,44 @@ bool FUN_0050a2a0(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apComp
         return true;
     return false;
 }
+
+struct FUN_00509c90_shell_o2
+{
+    void* DestroyIfFlagged(unsigned int flags);
+};
+
+// sub ecx,0x30; jmp DestroyIfFlagged
+// This is an MSVC this-adjusting (adjustor) thunk: a derived class overrides a
+// virtual that both of its bases declare, so the secondary base's vtable slot
+// holds a thunk that walks `this` back to the derived object (the size of the
+// primary base, 0x30) and tail-jumps to the derived override.
+struct PrimaryBase
+{
+    virtual void* FUN_0050a590(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void* FUN_0050a590(unsigned int flags);
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0050a590
+    virtual void* FUN_0050a590(unsigned int flags);
+};
+
+Derived::Derived()
+{}

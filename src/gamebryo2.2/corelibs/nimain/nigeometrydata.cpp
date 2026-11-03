@@ -2696,11 +2696,11 @@ struct Owner
     int unk0b4;
     NiPointer<Target> m_spReferencedObject;
 
-    int FUN_004a5200(int iArg);
+    int FUN_004a5200(std::intptr_t iArg);
 };
 
 // @fnv 0x004a5200
-int Owner::FUN_004a5200(int iArg)
+int Owner::FUN_004a5200(std::intptr_t iArg)
 {
     return static_cast<Target*>(m_spReferencedObject)->ForwardToMember(iArg);
 }

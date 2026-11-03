@@ -51,6 +51,8 @@
 #include "fnv/symbols_011c8000.h"
 #include "bgstalkingactivator.h"
 #include <malloc.h>
+#include "fnv/decl/fnv_0056b210__FUN_0056b210_shell.h"
+#include "fnv/symbols_00472000.h"
 
 static const char s_kTalkingVoiceTypeWarning[] =
     "MASTERFILE: Could not find voice type (%08X) for activator '%s' (%08X).";
@@ -70,7 +72,7 @@ void BGSTalkingActivator::InitItem()
         return;
     reinterpret_cast<::FUN_00510770_shell *>(this)->FUN_00510770();
     m_pTempRef = 0;
-    voiceTypeID = reinterpret_cast<unsigned int>(m_kFactionList);
+    voiceTypeID = (unsigned int)(std::uintptr_t)(m_kFactionList);
     if (voiceTypeID)
     {
         ::ResolveFormID((unsigned int *)&(voiceTypeID), GetFile(-1));
@@ -98,7 +100,7 @@ void BGSTalkingActivator::FindRadioStations(TESObjectREFR* ref, BSSimpleList<TES
     BSSimpleList<TESObjectREFR*>* pCurrent = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011c8264));
     while (pCurrent && !pCurrent->IsEmpty())
     {
-        TESObjectREFR* pCurrentRadioStation = ((::TESObjectREFR *)(new ((void *)(pCurrent)) ::Vec3()));
+        TESObjectREFR* pCurrentRadioStation = (pCurrent->m_item);
         bReferencePresent = false;
         fDistance = FLT_MAX;
         if (!pCurrentRadioStation->GetDisabled() || !m_pContainingWorldspace)
@@ -151,7 +153,7 @@ void BGSTalkingActivator::FindRadioStations(TESObjectREFR* ref, BSSimpleList<TES
                     {
                         bReferencePresent = true;
                         fDistance = -1.0f;
-                        unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
+                        unsigned int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
                         for (unsigned int i = 0; i < count; ++i)
                         {
                             TESWorldSpace* pathWorld = path.Spaces.GetAt(i).m_pContainingWorldspace;
@@ -177,7 +179,7 @@ void BGSTalkingActivator::FindRadioStations(TESObjectREFR* ref, BSSimpleList<TES
                     {
                         bReferencePresent = true;
                         fDistance = -1.0f;
-                        unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
+                        unsigned int count = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(path.Spaces))->GetName()));
                         for (unsigned int i = 0; i < count; ++i)
                         {
                             if (path.Spaces.GetAt(i).m_pContainingWorldspace)
@@ -420,7 +422,7 @@ struct FUN_004ff800_shell : public FUN_00511860_shell
 void FUN_004ff800_shell::FUN_004ff800(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::FUN_00511860_holder *>(this)->FUN_00511860((::BGSSaveFormBuffer *)(apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0(0x800000))
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(((void**)this)[36]), 0);
 }
 
@@ -447,7 +449,7 @@ struct FUN_004ff850_shell
 void FUN_004ff850_shell::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::S_005118c0 *>((((Base005118c0*)this)))->FUN_005118c0((::FUN_00428110_cls *)(apLoadGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff850::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff850::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0(0x800000))
     {
         reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&_90));
     }
@@ -464,7 +466,7 @@ struct BGSLoadFormBuffer
 {
     FormChangeMask GetOldChangeFlags(unsigned int);
 };
-struct FUN_004ff930_shell : TESForm
+struct FUN_004ff930_shell : ::BGSTalkingActivator
 {
     void RevertAndClearField(BGSLoadFormBuffer*);
 };
@@ -472,7 +474,7 @@ struct FUN_004ff930_shell : TESForm
 void FUN_004ff930_shell::RevertAndClearField(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::Revert((unsigned int)apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff930::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x800000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff930::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x800000)))->FUN_004280f0(0x800000))
         *(int*)((char*)this + 0x90) = 0;
 }
 }  // namespace fnv_004ff930
@@ -496,7 +498,7 @@ struct S_0048cca0
 {
     void FUN_0048cca0();
 };
-struct FUN_004fec10_shell
+struct FUN_004fec10_shell : ::BGSTalkingActivator
 {
     void FUN_004fec10();
 };
@@ -504,10 +506,10 @@ struct FUN_004fec10_shell
 void FUN_004fec10_shell::FUN_004fec10()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x3c)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x5c)->FUN_0048cca0();
-    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x68)))->FUN_00477f20();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<S_0048cca0*>(static_cast<TESScriptableForm *>(this))->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<S_00477f20*>(static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
     if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x74))
     {
         unsigned int id =
@@ -662,12 +664,12 @@ struct FUN_004ff8a0_shell : public BGSTalkingActivator
 // @fnv 0x004ff8a0
 void FUN_004ff8a0_shell::FUN_004ff8a0(void* arg)
 {
-    ((FUN_004534f0_shell*)this)->FUN_004534f0((unsigned int)(arg));
+    ((FUN_004534f0_shell*)this)->FUN_004534f0((std::uintptr_t)(arg));
     unsigned int local;
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((((FUN_00428110_shell*)arg)->FUN_00428110(&local, 0x800000)))->FUN_004280f0({}))
     {
         m_pTempRef =
-            (TESObjectREFR*)(m_pTempRef != 0 ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)m_pTempRef)) : 0);
+            (TESObjectREFR*)(m_pTempRef != 0 ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)(std::uintptr_t)m_pTempRef)) : 0);
     }
 }
 
@@ -699,3 +701,49 @@ bool TalkingActivatorComparison::FUN_004fed50(TESForm* form)
         return true;
     return false;
 }
+
+// Adjustor thunk for FUN_004ffa90: "sub ecx, 0x3c; jmp FUN_004fe6e0".
+//
+// MSVC "this adjusting thunk" emitted for a virtual function inherited from a
+// secondary base: the thunk converts the secondary base sub-object pointer
+// (this + 0x3c) back into the derived object pointer (sub ecx, 0x3c) and then
+// tail jumps to the final overrider.
+//
+// The subtracted constant is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus 14 int members (4 + 14 * 4 = 0x3c).
+// Both bases declare the same virtual, the derived class redeclares it and
+// defines only its constructor, which is what makes the compiler emit the
+// vtables and the adjusting thunk.
+struct AdjustorPrimary
+{
+    virtual void FUN_004ffa90();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct AdjustorSecondary
+{
+    virtual void FUN_004ffa90();
+};
+
+struct AdjustorDerived : AdjustorPrimary, AdjustorSecondary
+{
+    AdjustorDerived();
+// @fnv 0x004ffa90
+    virtual void FUN_004ffa90();
+};
+
+AdjustorDerived::AdjustorDerived()
+{}

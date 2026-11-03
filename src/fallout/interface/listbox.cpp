@@ -2,6 +2,7 @@
 // src/fallout/interface/listbox.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/listbox.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -120,7 +121,7 @@ struct FUN_00723f30_shell : GlobalObject_00869f00
 // @fnv 0x00723f30
 void FUN_00723f30_shell::FUN_00723f30()
 {
-    *(int*)this = (int)&DAT_010703b4;
+    *(intptr_t*)this = (intptr_t)&DAT_010703b4;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
@@ -190,7 +191,7 @@ struct AX
 // @fnv 0x00724040
 AX* AX::FUN_00724040()
 {
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&(*reinterpret_cast<unsigned int *>(&::DAT_01070404)));
+    *reinterpret_cast<uintptr_t*>(this) = reinterpret_cast<uintptr_t>(&(*reinterpret_cast<unsigned int *>(&::DAT_01070404)));
     FUN_006b3eb0(0, 0);
     return this;
 }
@@ -386,7 +387,7 @@ struct FUN_00724070_shell : GlobalObject_00869f00
 // @fnv 0x00724070
 void FUN_00724070_shell::FUN_00724070()
 {
-    *(int*)this = (int)&DAT_01070404;
+    *(intptr_t*)this = (intptr_t)&DAT_01070404;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
@@ -734,7 +735,7 @@ struct FUN_007d9000_shell
 };
 struct FUN_007d7a80_shell
 {
-    void FUN_007d7a80(int a);
+    void FUN_007d7a80(intptr_t a);
 };
 void __cdecl UpdateSaveLoadList();
 struct FUN_007d8420_shell
@@ -1258,7 +1259,7 @@ struct EntryProperty
 };
 struct Entry
 {
-    int id;
+    intptr_t id;
     EntryProperty* property;
 };
 struct ListNode
@@ -1276,7 +1277,7 @@ struct FunctionOwner
 {
     int unk00;
     ListNode entries;
-    void FUN_0071a200(int entryType);
+    void FUN_0071a200(intptr_t entryType);
 };
 
 struct SubObject_00721150
@@ -1856,8 +1857,8 @@ struct FUN_00724930_cls
     int unk00;
     int unk04;
     int unk08;
-    int unk0c;
-    int unk10;
+    intptr_t unk0c;
+    intptr_t unk10;
     int unk14;
     int unk18;
     unsigned short m_1c;
@@ -2307,7 +2308,7 @@ struct FUN_007a6310_cls
     int unk04;
     int unk08;
     int unk0C;
-    void ConstructElements(int arr, unsigned int count);
+    void ConstructElements(intptr_t arr, unsigned int count);
 };
 // @fnv 0x007a63f0
 void FUN_007a63f0_shell::FUN_007a63f0(unsigned int uiRequestedSize, unsigned int savedSize)
@@ -2322,7 +2323,7 @@ void FUN_007a63f0_shell::FUN_007a63f0(unsigned int uiRequestedSize, unsigned int
     if (uiRequestedSize > 0)
     {
         *(int*)((char*)this + 4) =
-            ((int(*)(void*, unsigned int))(*(int**)(*(int*)this + 4)))((void*)this, uiRequestedSize);
+            ((int(*)(void*, unsigned int))(*(int**)(*(intptr_t*)this + 4)))((void*)this, uiRequestedSize);
         *(int*)((char*)this + 12) = uiRequestedSize;
     }
     if (savedSize > 0)
@@ -2334,7 +2335,7 @@ void FUN_007a63f0_shell::FUN_007a63f0(unsigned int uiRequestedSize, unsigned int
 
 // Default-constructs count FUN_007a6310_Elem8 objects in place at arr.
 // @fnv 0x007a6310
-void FUN_007a6310_cls::ConstructElements(int apElements, unsigned int count)
+void FUN_007a6310_cls::ConstructElements(intptr_t apElements, unsigned int count)
 {
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -2466,7 +2467,7 @@ bool B726160Menu::FUN_00726160()
 bool FUN_00730e20_cls::FUN_00730e20()
 {
     static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((int)(sKey))) ? 1 : 0;
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
 }
 // Returns true if m_pTile0c is set and its IsTraitNonZero check passes for the cached s_trait value.
 // @fnv 0x00764e40
@@ -2573,7 +2574,7 @@ int __cdecl FUN_00a00940(const char* s, int n);
 bool FUN_007a81b0_cls::FUN_007a81b0()
 {
     static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((int)(sKey))) ? 1 : 0;
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
 }
 
 extern int DAT_01077094;
@@ -2841,8 +2842,6 @@ void RecordList::FUN_00851540()
     }
     count = 0;
 }
-
-int __cdecl strcat_s(char*, unsigned int, const char*);
 class TESBoundObject
 {
   public:
@@ -4523,7 +4522,7 @@ int __cdecl FUN_00a00940(const char* s, int n);
 bool FUN_00725b70_cls::FUN_00725b70()
 {
     static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((int)(sKey))) ? 1 : 0;
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
 }
 
 namespace fnv_00726210 {
@@ -4779,10 +4778,10 @@ struct Owner050
     int unk14;
     const char* templateName;
     unsigned short count;
-    Tile050* AddListEntry(int, const char*, int, const char*);
+    Tile050* AddListEntry(int, const char*, intptr_t, const char*);
 };
 // @fnv 0x00754690
-Tile050* Owner050::AddListEntry(int data, const char* text, int compare, const char* name)
+Tile050* Owner050::AddListEntry(int data, const char* text, intptr_t compare, const char* name)
 {
     if (container && (templateName || name))
     {
@@ -6028,7 +6027,7 @@ class D7580ListBox
     bool FUN_007d7580();
 };
 // @fnv 0x007d7a80
-void FUN_007d7a80_shell::FUN_007d7a80(int a)
+void FUN_007d7a80_shell::FUN_007d7a80(intptr_t a)
 {
     reinterpret_cast<::SelectionList *>((((FUN_007d9000_shell*)this)))->ApplySelectionAction((::SelectionTile *)(a), 0);
 }
@@ -6744,10 +6743,10 @@ struct LBH
     EntryTile* scrollbar;
     const char* templateName;
     unsigned short itemCount;
-    EntryTile* FUN_007e1190(int data, const char* text, int comparator, const char* name);
+    EntryTile* FUN_007e1190(int data, const char* text, intptr_t comparator, const char* name);
 };
 // @fnv 0x007e1190
-EntryTile* LBH::FUN_007e1190(int data, const char* text, int comparator, const char* name)
+EntryTile* LBH::FUN_007e1190(int data, const char* text, intptr_t comparator, const char* name)
 {
     if (container && (templateName || name))
     {
@@ -6800,7 +6799,7 @@ struct RList71a5 : RemovalList
     bool RemoveTile(LBTileObj* tile);
 };
 // @fnv 0x0071a200
-void FunctionOwner::FUN_0071a200(int entryType)
+void FunctionOwner::FUN_0071a200(intptr_t entryType)
 {
     TemporaryList selected;
     {
@@ -7246,7 +7245,7 @@ struct L71Item
     int unk00;
     int unk04;
     int unk08;
-    L71Item(L71Tile* tile, int& data);
+    L71Item(L71Tile* tile, intptr_t& data);
 };
 struct L71List
 {
@@ -7262,14 +7261,14 @@ struct L71Menu
     int unk14;
     L71Tile* pTemplate;
     unsigned short m_usPassCountLocal;
-    L71Tile* FUN_0071a320(int data, const char* text, int (*compare)(L71Item*, L71Item*), L71Tile* tmpl);
+    L71Tile* FUN_0071a320(intptr_t data, const char* text, int (*compare)(L71Item*, L71Item*), L71Tile* tmpl);
 };
 }
 using namespace list71a;
 
 // Creates a tile under pRoot, optionally sets trait 0xfc4, inserts it into kItems, and updates menu layout and trait 0xfb0.
 // @fnv 0x0071a320
-L71Tile* L71Menu::FUN_0071a320(int data, const char* apLabel, int (*compare)(L71Item*, L71Item*), L71Tile* apTemplate)
+L71Tile* L71Menu::FUN_0071a320(intptr_t data, const char* apLabel, int (*compare)(L71Item*, L71Item*), L71Tile* apTemplate)
 {
     L71Tile* pTile;
     L71Value* pTraitValue;
@@ -7879,8 +7878,6 @@ struct FUN_00724200 : FUN_00723f80
 FUN_00724200::~FUN_00724200()
 {}
 
-int __cdecl strcpy_s(char*, unsigned int, const char*);
-
 struct TileValue_00a0a270;
 struct TileValueOwner_00a01000
 {
@@ -7908,7 +7905,7 @@ void AGOwner::FUN_00a09130(int iIndex, Tile* pTile, int iValue)
     {
         m_pHead = pItem;
     }
-    ::fnv_00a0a130::FUN_00a0a130((int)(pItem->m_pIntegerData), (int)(this));
+    ::fnv_00a0a130::FUN_00a0a130((intptr_t)(pItem->m_pIntegerData), (intptr_t)(this));
 }
 #include "generated/data/fallout/interface/listbox.inc"
 #include "generated/data/fallout/interface/listbox_ob1_variant.inc"

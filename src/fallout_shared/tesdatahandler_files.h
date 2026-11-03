@@ -2,6 +2,7 @@
 #ifndef FNV_TESDATAHANDLER_FILES_H
 #define FNV_TESDATAHANDLER_FILES_H
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include <malloc.h>
@@ -52,18 +53,6 @@ class NiFile
         WRITE_ONLY = 1
     };
 };
-struct FILETIME
-{
-    unsigned int low, high;
-};
-struct WIN32_FIND_DATAA
-{
-    unsigned int attributes;
-    FILETIME created, accessed, written;
-    unsigned int sizeHigh, sizeLow, reserved0, reserved1;
-    char name[260];
-    char alternate[14];
-};
 struct TESRecordHeader
 {
     unsigned int type, size, flags, formID;
@@ -103,8 +92,13 @@ class TESFile
     unsigned int fileSize;
     unsigned char data264[56];
     WIN32_FIND_DATAA fileData;
-    unsigned char data3dc[12];
+    float headerVersion;
+    unsigned int recordCount;
+    unsigned int nextObjectID;
     unsigned int fileFlags;
+    BSSimpleList<TESFile*> masterFiles;
+    unsigned char data3f4[0x428 - 0x3f4];
+    bool unk428;
     void SetGroupMode(bool);
     unsigned char GetFileCompileIndex();
     TESRecordHeader* GetRecordHeader();
@@ -154,6 +148,10 @@ class TESTopic : public TESForm
 class PlayerCharacter
 {
   public:
+    unsigned char playerData[0x6a8];
+    BSSimpleList<TESTopic*> topicList;
+    unsigned char playerData6b0[0x878 - 0x6b0];
+    unsigned char unk878;
     BSSimpleList<TESTopic*>* GetSelfOffset6A8();
     class PlayerBase* FUN_00464e10();
 public:
@@ -208,7 +206,7 @@ class TESSaveLoadGame
 class ActorDeletionQueue
 {
   public:
-    void FUN_0096d470(MobileObject*, int);
+    void FUN_0096d470(MobileObject*, intptr_t);
 };
 class GameSettingCollection
 {
@@ -259,7 +257,6 @@ struct FormTypeDescription
 #pragma intrinsic(_alloca)
 
 
-int strcat_s(char*, unsigned int, const char*);
 int FUN_00ec4835(const void*, const void*, unsigned int);
 extern "C" int* _errno();
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class FUN_004b6ce0_cls;
 class FUN_00b668b0;
@@ -32,7 +33,7 @@ int FilterByFlags(void *, int, bool, bool, bool);
 // 0x004b68a0
 namespace fnv_004b68a0 { void FUN_004b68a0(::fnv_004b68a0::ArrSI *, ::fnv_004b68a0::FUN_004b68a0_data *); }
 // 0x004b6980
-int FUN_004b6980(::NiAVObject *, void *, bool, bool, bool);
+intptr_t FUN_004b6980(::NiAVObject *, void *, bool, bool, bool);
 // 0x004b6a00
 void ProcessObjectMatch(::NiAVObject *, ::FUN_004b6a00_data *);
 // 0x004b6ae0

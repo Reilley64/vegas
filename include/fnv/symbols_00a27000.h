@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class A27250FloatKey;
 class A27250Stream;
 class A27C80Point3;
@@ -29,7 +31,7 @@ namespace sa27320 { void SaveKeys(::sa27320::Stream &, const ::sa27320::Key *, u
 // 0x00a273a0
 int FUN_00a273a0();
 // 0x00a27450
-void ApplyAnimToTarget(int, ::AnimTarget *);
+void ApplyAnimToTarget(std::intptr_t, ::AnimTarget *);
 // 0x00a27470
 void FUN_00a27470(int, int, int, int *);
 // 0x00a276a0
@@ -47,6 +49,6 @@ void *AllocateElem64Array(unsigned int);
 // 0x00a27c80
 void EvaluateCubicKey(float, const ::A27C80CubicKey &, unsigned int, ::A27C80Point3 &);
 // 0x00a27d60
-void FUN_00a27d60(float, ::TCBKeyS *, unsigned int, ::Vec3S *);
+void FUN_00a27d60(float, ::TCBKeyS *, uintptr_t, ::Vec3S *);
 // 0x00a27e40
-namespace fnv_00a27e40 { extern "C" void FUN_00a27e40(float, const float *, unsigned int, ::fnv_00a27e40::Vec3Output *); }
+namespace fnv_00a27e40 { extern "C" void FUN_00a27e40(float, const float *, uintptr_t, ::fnv_00a27e40::Vec3Output *); }

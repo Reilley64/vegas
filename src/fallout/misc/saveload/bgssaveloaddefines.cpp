@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloaddefines.cpp: SaveGameSizeState (15 functions)
 
+#include <cstdint>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0084ab00_This.h"
 #include "fnv/decl/Walker8.h"
@@ -25,7 +26,7 @@ class SaveGameSizeState
   public:
     virtual void UnknownSlot();
     virtual unsigned int Write(unsigned int size);
-    unsigned int iSize;
+    uintptr_t iSize;
     unsigned int iPosition;
     unsigned int iDataLength;
     void RecordRequestedSize(unsigned int requested, unsigned int savedSize);
@@ -340,7 +341,7 @@ public:
 };
 
 // @fnv 0x00845d00
-void ForwardToShell(FUN_00846330_shell* apShell, int aiArg1, int aiArg2)
+void ForwardToShell(FUN_00846330_shell* apShell, std::intptr_t aiArg1, int aiArg2)
 {
     apShell->WriteToFile((const void *)(aiArg1), aiArg2);
 }

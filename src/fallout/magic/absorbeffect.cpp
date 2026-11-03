@@ -2,6 +2,7 @@
 // src/fallout/magic/absorbeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/absorbeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include <cstddef>
@@ -1862,9 +1863,9 @@ void S_00803b70_Main::FUN_00803b70(float value)
     if (((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50)))) && ((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54)))) && ((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c)))) && ((::S_00803b70_O58 *)(::FUN_00559450((int *)&(m_58)))) && !DAT_011db9f4)
     {
         S_00803b70_Pt v7 = (*reinterpret_cast<::S_00803b70_Pt *>((void *)&::NiPoint3::ZERO));
-        v7 = *((::S_00803b70_Pt *)(::FUN_0045bb80((int)(((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50))))))));
+        v7 = *((::S_00803b70_Pt *)(::FUN_0045bb80((intptr_t)(((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50))))))));
         reinterpret_cast<::FUN_00440460_S *>((((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c))))))->FUN_00440460((const ::V3 *)(::S_00803b70_Pt *)(&v7));
-        S_00803b70_Pt r = ([&] { ::S_00803b70_Pt difference; reinterpret_cast<::FUN_00439ef0_class *>((((::S_00803b70_Pt *)(::FUN_0045bb80((int)(((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54))))))))))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(v7))); return difference; }());
+        S_00803b70_Pt r = ([&] { ::S_00803b70_Pt difference; reinterpret_cast<::FUN_00439ef0_class *>((((::S_00803b70_Pt *)(::FUN_0045bb80((intptr_t)(((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54))))))))))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(v7))); return difference; }());
         FUN_006815c0 mat;
         float t = r.z;
         r.z = 0.0f;

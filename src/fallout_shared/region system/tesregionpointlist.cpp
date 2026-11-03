@@ -439,7 +439,7 @@ bool PointList::FUN_004f8220(bool closed)
                     p = true;
             }
             if (c && j && e && l &&
-                ::FUN_004f7310((::Point *)(*((::RegionPoint **)(new ((void *)(c)) ::Vec3()))), (::Point *)(*((::RegionPoint **)(new ((void *)(j)) ::Vec3()))), (::Point *)(*((::RegionPoint **)(new ((void *)(e)) ::Vec3()))), (::Point *)(*((::RegionPoint **)(new ((void *)(l)) ::Vec3())))))
+                ::FUN_004f7310((::Point *)(*((::RegionPoint **)((void *)(c)))), (::Point *)(*((::RegionPoint **)((void *)(j)))), (::Point *)(*((::RegionPoint **)((void *)(e)))), (::Point *)(*((::RegionPoint **)((void *)(l))))))
                 return true;
             e = l;
             if (l)
@@ -477,7 +477,7 @@ void FUN_004f77c0_shell::FUN_004f77c0()
         NiPoint2* blocks = new NiPoint2[capacity * sizeof(NiPoint2)];
         while (node && !node->FUN_008256d0())
         {
-            blocks[points] = (*(::NiPoint2 *)(new ((void *)(static_cast<RegionPointAccess*>(*((::RegionPoint **)(new ((void *)(node)) ::Vec3()))))) ::Vec3()));
+            blocks[points] = (*(::NiPoint2 *)((void *)(static_cast<RegionPointAccess*>(*((::RegionPoint **)((void *)(node)))))));
             ++points;
             if (points >= capacity)
             {

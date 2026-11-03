@@ -2,6 +2,7 @@
 // src/fallout/magic/lighteffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/lighteffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/decl/ActorMover.h"
@@ -65,7 +66,7 @@ struct LightEffect : TESForm
 // @fnv 0x0080f030
 void LightEffect::FUN_0080f030(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(apActor));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)(apActor));
     FUN_0080ed60();
 }
 
@@ -136,7 +137,7 @@ void FUN_0080e8a0_holder::FUN_0080e8a0(float afSecondsElapsed)
         {
             if (!((::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)(*(Flt*)((char*)this + 0x48)), {}))))
             {
-                reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(unsigned int)(*(Flt*)((char*)this + 0x48))), true);
+                reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(uintptr_t)(*(Flt*)((char*)this + 0x48))), true);
             }
         }
     }
@@ -792,7 +793,7 @@ void LightEffect::FUN_0080ed60()
         pTmp = FUN_00450b80(0);
         if (pTmp != 0)
         {
-            reinterpret_cast<::B5Owner *>((((EdCallee*)pTmp)))->FUN_00b5eed0((unsigned int)(((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48))))))));
+            reinterpret_cast<::B5Owner *>((((EdCallee*)pTmp)))->FUN_00b5eed0((uintptr_t)(((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48))))))));
         }
         pObj = ((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((EdCallee*)((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))))))->FUN_009611e0()));
         if (pObj != 0)

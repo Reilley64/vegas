@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiAVObject;
 class NiNode;
@@ -17,7 +18,7 @@ void FUN_004add50(char *, const char *, unsigned int);
 // 0x004addc0
 void FUN_004addc0(::DummyThis *, ::StackArg);
 // 0x004ade00
-void FUN_004ade00(int, int);
+void FUN_004ade00(std::intptr_t, std::intptr_t);
 // 0x004ade20
 void FUN_004ade20(void *);
 // 0x004ade40

@@ -27,6 +27,7 @@ include(src/havok/common/sources.cmake)
 include(src/havok/animation/sources.cmake)
 include(src/havok/unplaced/sources.cmake)
 include(src/root_sources.cmake)
+include(src/fallout_shared/sources.cmake)
 include(src/staging/sources.cmake)
 include(src/fallout/sources.cmake)
 

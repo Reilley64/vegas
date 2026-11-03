@@ -35,6 +35,8 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_01183000.h"
 #include "fnv/symbols_011c1000.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/S00485110.h"
 extern "C" void ref_008256d0();
 extern "C" void ref_0063f7b0();
 extern "C" void ref_00726c60();
@@ -581,7 +583,7 @@ void FUN_005e7480_t::InitializeHeadPart()
     {
         unsigned int itempint;
         BGSHeadPart* ppart;
-        ppart = ((::BGSHeadPart *)(new ((void *)(reinterpret_cast<List_005e7480*>(pCurrentElementNext))) ::Vec3()));
+        ppart = ((::BGSHeadPart *)((void *)(reinterpret_cast<List_005e7480*>(pCurrentElementNext))));
         pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_005e7480 *)(reinterpret_cast<::Callees *>((reinterpret_cast<List_005e7480*>(pCurrentElementNext)))->FUN_00726070())));
         itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((static_cast<FUN_005e7480_t*>(ppart)))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e48, itempint);
@@ -612,7 +614,7 @@ void FUN_005e78f0_t::FUN_005e78f0(TESForm* apCopy)
     pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_009e03e0 *)(reinterpret_cast<::FUN_00624700_shell *>((static_cast<FUN_005e78f0_t*>(pSourcePart)))->FUN_00624700())));
     while (pCurrentElementNext && !reinterpret_cast<List_009e03e0*>(pCurrentElementNext)->FUN_008256d0())
     {
-        BGSHeadPart* ppart = ((::BGSHeadPart *)(new ((void *)(reinterpret_cast<List_009e03e0*>(pCurrentElementNext))) ::Vec3()));
+        BGSHeadPart* ppart = ((::BGSHeadPart *)((void *)(reinterpret_cast<List_009e03e0*>(pCurrentElementNext))));
         pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_009e03e0 *)(reinterpret_cast<::Callees *>((reinterpret_cast<List_009e03e0*>(pCurrentElementNext)))->FUN_00726070())));
         reinterpret_cast<::BGSHeadPart *>(this)->AddExtraPart(ppart);
     }
@@ -641,7 +643,7 @@ bool FUN_005e79a0_t::FUN_005e79a0(TESForm* apCompare)
     pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::LH *)(reinterpret_cast<::FUN_00624700_shell *>((static_cast<FUN_005e79a0_t*>(pcomp)))->FUN_00624700())));
     while (pCurrentElementNext && !reinterpret_cast<LH*>(pCurrentElementNext)->FUN_008256d0())
     {
-        BGSHeadPart* ppart = ((::BGSHeadPart *)(new ((void *)(reinterpret_cast<LH*>(pCurrentElementNext))) ::Vec3()));
+        BGSHeadPart* ppart = ((::BGSHeadPart *)((void *)(reinterpret_cast<LH*>(pCurrentElementNext))));
         pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::LH *)(reinterpret_cast<::Callees *>((reinterpret_cast<LH*>(pCurrentElementNext)))->FUN_00726070())));
         if (!reinterpret_cast<::RefList *>((void *)(((::LH *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700()))))->FUN_005f65d0((void **)&(ppart)))
             return true;
@@ -950,7 +952,7 @@ void HeadPartInit::FUN_005e77b0()
     HeadPartList* pPrev = 0;
     while (pIter && !pIter->IsEmpty())
     {
-        unsigned int auiFormId = (unsigned int)((::BGSHeadPart *)(new ((void *)(pIter)) ::Vec3()));
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)((::BGSHeadPart *)((void *)(pIter)));
         ::ResolveFormID(&auiFormId, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
         BGSHeadPart* m_pModel = dynamic_cast<BGSHeadPart*>(::FUN_004839c0(auiFormId));
         if (!m_pModel)
@@ -958,7 +960,7 @@ void HeadPartInit::FUN_005e77b0()
             ::FUN_005b5e40();
             if (pPrev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSHeadPart *const &)((BGSHeadPart*)auiFormId)));
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSHeadPart *const &)((BGSHeadPart*)(std::uintptr_t)auiFormId)));
                 pIter = ((::HeadPartList *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else
@@ -975,3 +977,40 @@ void HeadPartInit::FUN_005e77b0()
     }
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
+
+extern "C" void ref_00ec43fb();
+
+extern "C" void ref_00ec5ec0();
+
+extern "C" void ref_00ec408c();
+
+// sub ecx,0x24; jmp target == MSVC adjustor thunk: Derived overrides a virtual that both of its
+// bases declare, so the second base's vtable gets a thunk that moves `this` back by the size of
+// the first base (vptr + 8 ints = 0x24).
+struct PrimaryBase
+{
+    virtual void FUN_005e7a80();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005e7a80();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005e7a80
+    virtual void FUN_005e7a80();
+};
+
+Derived::Derived()
+{}

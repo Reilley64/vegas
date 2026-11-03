@@ -194,7 +194,7 @@ void FUN_00868d70(bool abTryLock)
         }
         if (!HasFlags(0x20))
         {
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de924))->GetName())); i++)
+            for (unsigned int i = 0; i < g_011de924.iSize; i++)
                 g_011de924.GetAt(i)->debug.FUN_00401970();
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(g_011de924))->Clear(true);
         }
@@ -283,7 +283,7 @@ void FUN_00868210_shell::ClearBitsAndUnlockGC()
     ::fnv_00867f80::FUN_00867f80();
 }
 
-void __cdecl FUN_00868770(int* a, int b);
+void __cdecl FUN_00868770(int* a, intptr_t b);
 
 struct FUN_00868740_shell
 {
@@ -415,9 +415,9 @@ void GarbageCollector::Update()
         ::ForEachNavMesh((::GlobalObject_004aff00 *)(void *)(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de8bc))), (::Caller008693c0 *)(void *)(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de874))));
         ::FUN_005e03d0((::NiTArray_Layout *)(reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de8bc)))));
     }
-    else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de924))->GetName())))
+    else if (g_011de924.iSize)
     {
-        budget.size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de924))->GetName()));
+        budget.size = g_011de924.iSize;
         budget.remaining = budget.multiplier * 5;
         while (budget.size && budget.remaining)
         {
@@ -427,7 +427,7 @@ void GarbageCollector::Update()
             reinterpret_cast<::FUN_006bf8f0_Class *>(&(g_011de924))->FUN_006bf8f0(0, true);
         }
     }
-    else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de898))->GetName())))
+    else if (g_011de898.iSize)
     {
         ::CopyNonNullElements((::GlobalObject_00869f00 *)(void *)(&g_011de898), (::GlobalObject_00869f00 *)(void *)(&g_011de924));
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(g_011de898))->Clear(true);
@@ -468,7 +468,7 @@ void __cdecl ForEachNavMesh(GlobalObject_004aff00* apArray, Caller008693c0* apOb
         cur = ((GlobalObject_00869f00*)apArray)->GetAt(i);
         if (cur != 0)
         {
-            reinterpret_cast<::FUN_008693c0_shell *>((apObj))->FUN_008693c0((int)(&cur));
+            reinterpret_cast<::FUN_008693c0_shell *>((apObj))->FUN_008693c0((intptr_t)(&cur));
         }
     }
 }
@@ -481,10 +481,10 @@ struct ProxyArray
 void CopyNonNullElements(GlobalObject_00869f00* apSource, GlobalObject_00869f00* apDest)
 {
     unsigned int i;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apSource))->GetName())); i++)
+    for (i = 0; i < apSource->iSize; i++)
     {
         NavMesh* v;
-        v = ((::NavMesh *)(reinterpret_cast<::S3e60 *>((((ProxyArray*)apSource)))->FUN_006a7ad0(i)));
+        v = apSource->pBuffer[i];
         if (v)
             reinterpret_cast<::FUN_00438690 *>((apDest))->FUN_007cb2e0((unsigned int *)&(v));
     }
@@ -505,7 +505,7 @@ void FUN_00572160_shell::FUN_00572160()
     unsigned int count = reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)((char*)this + 0x9c))))->GetShortAtOffsetA();
     for (i = 0; i < count; ++i)
     {
-        unsigned int effect = (Flt&)((GlobalObject_00869f00*)((char*)this + 0x9c))->GetAt(i);
+        uintptr_t effect = (Flt&)((GlobalObject_00869f00*)((char*)this + 0x9c))->GetAt(i);
         if (effect)
             ((FUN_0050f5a0_struct*)effect)->FUN_0050f5a0();
     }
@@ -513,7 +513,7 @@ void FUN_00572160_shell::FUN_00572160()
 }
 
 // @fnv 0x00868770
-void __cdecl FUN_00868770(int* a, int b)
+void __cdecl FUN_00868770(int* a, intptr_t b)
 {
     (*reinterpret_cast<void (**)(void *, void *)>(&::DAT_00fdf0e4))(a, (void*)b);
 }
@@ -521,27 +521,27 @@ void __cdecl FUN_00868770(int* a, int b)
 struct GO
 {
     int m_00;
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct FUN_008693f0_Class
 {
-    void FUN_008693f0(int);
+    void FUN_008693f0(intptr_t);
 };
 // Constructs a GO from ai and passes it to FUN_008693f0 on g_011de828 or g_011de858 depending on DAT_tlsFlag.
 // @fnv 0x00868490
-void __cdecl FUN_00868490(int aiEffect)
+void __cdecl FUN_00868490(intptr_t aiEffect)
 {
     TwoPointerRecord e(0x10, "GarbageCollector::Add(BSTempEffect)");
     if (::g_tlsBlock.flag298)
     {
         GO p(aiEffect);
-        ((FUN_008693f0_Class*)&g_011de828)->FUN_008693f0((int)&p);
+        ((FUN_008693f0_Class*)&g_011de828)->FUN_008693f0((intptr_t)&p);
     }
     else
     {
         GO p(aiEffect);
-        ((FUN_008693f0_Class*)&g_011de858)->FUN_008693f0((int)&p);
+        ((FUN_008693f0_Class*)&g_011de858)->FUN_008693f0((intptr_t)&p);
     }
 }
 
@@ -564,12 +564,12 @@ void __cdecl FUN_00868560(GarbageCollectorDeleteB* apObject)
         }
         else
         {
-            reinterpret_cast<FUN_008693c0_shell*>(&g_011de838)->FUN_008693c0(reinterpret_cast<int>(&apObject));
+            reinterpret_cast<FUN_008693c0_shell*>(&g_011de838)->FUN_008693c0(reinterpret_cast<intptr_t>(&apObject));
         }
     }
     else
     {
-        reinterpret_cast<FUN_008693c0_shell*>(&g_011de910)->FUN_008693c0(reinterpret_cast<int>(&apObject));
+        reinterpret_cast<FUN_008693c0_shell*>(&g_011de910)->FUN_008693c0(reinterpret_cast<intptr_t>(&apObject));
     }
 }
 
@@ -595,13 +595,13 @@ void FUN_00868660(NiAVObject* apObject)
 
     if (::g_tlsBlock.flag298)
     {
-        GO object(reinterpret_cast<int>(apObject));
+        GO object(reinterpret_cast<intptr_t>(apObject));
         reinterpret_cast<NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >*>(&g_011de888)
             ->Add(reinterpret_cast<const NiPointer<NiAVObject>&>(object));
     }
     else
     {
-        GO object(reinterpret_cast<int>(apObject));
+        GO object(reinterpret_cast<intptr_t>(apObject));
         reinterpret_cast<NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >*>(&g_011de848)
             ->Add(reinterpret_cast<const NiPointer<NiAVObject>&>(object));
     }
@@ -642,14 +642,14 @@ void AddAnimationToGarbageCollector(AnimationObject* object)
         if (controller)
             reinterpret_cast<::ControllerOwner *>((pRoot))->FUN_00a5c480((::NiTimeController *)(controller));
     }
-    reinterpret_cast<::FUN_00445430_cls *>((((AnimationLoader*)g_modelLoader)))->FUN_00445430((unsigned int)(object));
+    reinterpret_cast<::FUN_00445430_cls *>((((AnimationLoader*)g_modelLoader)))->FUN_00445430((uintptr_t)(object));
     if (!::g_tlsBlock.flag298 || (g_BGSSaveLoadGame && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10()))
     {
         delete (GarbageCollectorDeleteA*)object;
     }
     else
     {
-        reinterpret_cast<::FUN_008693c0_shell *>((((AnimationQueue*)&g_011de808)))->FUN_008693c0((int)(&object));
+        reinterpret_cast<::FUN_008693c0_shell *>((((AnimationQueue*)&g_011de808)))->FUN_008693c0((intptr_t)(&object));
     }
 }
 

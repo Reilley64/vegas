@@ -78,9 +78,8 @@ struct BSStr
 {
 };
 
-struct FUN_005a63a0_shell
+struct FUN_005a63a0_shell : ::TESGlobal
 {
-    BSStr m_str;
     bool SetString(char const* a1);
 };
 
@@ -88,7 +87,7 @@ struct FUN_005a63a0_shell
 // @fnv 0x005a63a0
 bool FUN_005a63a0_shell::SetString(char const* apString)
 {
-    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 0x18))))->FUN_004037f0(apString, 0);
+    reinterpret_cast<::TextString *>((((BSStr*)&this->cGlobalEditorID)))->FUN_004037f0(apString, 0);
     return 1;
 }
 

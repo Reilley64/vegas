@@ -2,6 +2,7 @@
 // src/fallout/magic/shieldeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/shieldeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
@@ -39,7 +40,7 @@ struct ShieldEffect : ValueModifierEffect
 {
     unsigned int pad0;
     unsigned int pad1;
-    unsigned int pad2;
+    uintptr_t pad2;
     unsigned int pad3;
     unsigned int pad4;
     unsigned int pad5;
@@ -541,7 +542,7 @@ class ActiveEffect828
 void ShieldEffectUpdate::UpdateShieldEffect(float dt)
 {
     reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectUpdate*)this)))->Update(dt);
-    if (!reinterpret_cast<::S3e60 *>((((EffectSetting*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)(*(unsigned int*)((char*)this + 0xc)))))->FUN_00825c00())))->FUN_00403e60(2))
+    if (!reinterpret_cast<::S3e60 *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->setting)->FUN_00403e60(2))
     {
         Actor* actor =
             reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
@@ -555,7 +556,7 @@ void FUN_00828120_cls::FUN_00828120()
 {
     Actor* actor;
     reinterpret_cast<::FUN_0082c000_shell *>((((FUN_00828120_a*)this)))->FUN_0082c000();
-    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((FUN_00828120_y*)this->pad2)))->FUN_00825c00()))))->FUN_00403e60({}))) || *(float*)&this->pad7 == ::_DAT_01012060)
+    if (((unsigned char)(reinterpret_cast<::S3e60 *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->setting)->FUN_00403e60(2))) || *(float*)&this->pad7 == ::_DAT_01012060)
     {
         actor = (reinterpret_cast<::ActiveEffectFields *>(this)->target != 0)
                     ? ((FUN_00828120_z*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->FUN_00822b40()

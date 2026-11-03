@@ -2,6 +2,7 @@
 // src/fallout/ai/fleepackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/fleepackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
@@ -271,10 +272,10 @@ struct NiPoint3
 };
 
 extern const float runtimeFloatSettingDefault132;
-extern int DAT_011f2f10;
+extern intptr_t DAT_011f2f10;
 extern TESObjectREFR* DAT_011f2f1c;
 
-extern bool __cdecl CanActorReachReference(TESObjectREFR*, long);
+extern bool __cdecl CanActorReachReference(TESObjectREFR*, intptr_t);
 
 struct TESObjectREFR_GetRefPersists
 {
@@ -287,7 +288,7 @@ struct BSOcclusionPlane
 struct TESDataHandler
 {
     void GetReferencesInArea(TESObjectCELL*, NiPoint3 const&, float, NiPoint3 const&, float,
-                             bool(__cdecl*)(TESObjectREFR*, long), long);
+                             bool(__cdecl*)(TESObjectREFR*, intptr_t), intptr_t);
 };
 
 struct DH : public TESDataHandler
@@ -827,10 +828,10 @@ bool FUN_009f1140_shell::FUN_009f1140(TESObjectREFR* apRef, TESObjectREFR* apCon
     if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((reinterpret_cast<TESObjectREFR_GetRefPersists*>(apRef)))->FUN_005653d0())
     {
         g_dataHandler->GetReferencesInArea(
-            reinterpret_cast<TESObjectCELL*>(((int)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(apRef)))->GetTarget()))),
+            reinterpret_cast<TESObjectCELL*>(((intptr_t)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(apRef)))->GetTarget()))),
             *reinterpret_cast<FUN_009f1140_VirtualTarget*>(apRef)->Target(), runtimeFloatSettingDefault132,
             *reinterpret_cast<FUN_009f1140_VirtualTarget*>(apRef)->Target(), runtimeFloatSettingDefault132,
-            CanActorReachReference, reinterpret_cast<long>(apRef));
+            CanActorReachReference, reinterpret_cast<intptr_t>(apRef));
     }
 
     result_0A0 = DAT_011f2f10;
@@ -1832,7 +1833,7 @@ class PathingLocation
 };
 
 // @fnv 0x009f1600
-bool __cdecl CanActorReachReference(TESObjectREFR* reference, long context)
+bool __cdecl CanActorReachReference(TESObjectREFR* reference, intptr_t context)
 {
     float fDistance;
     {
@@ -1871,7 +1872,7 @@ bool __cdecl CanActorReachReference(TESObjectREFR* reference, long context)
                         PathingLocation referenceLocation((*(const ::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((ReferenceAccess*)reference)))->FUN_00568fa0())), reference);
                         if (!((bool)(::CallWithNullArgs(&actorLocation, &referenceLocation, (void *)(0)))))
                             return false;
-                        DAT_011f2f10 = (int)reference;
+                        DAT_011f2f10 = (intptr_t)reference;
                         return true;
                     }
                     return false;
@@ -1940,7 +1941,7 @@ void FleeSavePackage::SaveFleePackage()
     {
         SavedReference* reference = ((::SavedReference *)(((::Vec3 *)(void *)(node))));
         unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0()));
-        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&formID), 4);
+        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&formID), 4);
         ++kCount;
         node = ((::SavedReferenceList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -1948,11 +1949,11 @@ void FleeSavePackage::SaveFleePackage()
     unsigned int formB = 0;
     if (referenceB)
         formB = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((referenceB))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&formB), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&formB), 4);
     unsigned int form = 0;
     if (referenceA)
         form = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((referenceA))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&form), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&form), 4);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flag81, 1);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flagA8, 1);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flag94, 1);
@@ -2098,7 +2099,7 @@ void FleeLoadPackage::FUN_009f1e80()
     {
         unsigned int auiFormId;
         reinterpret_cast<::FUN_00484d40_Host *>(this)->FUN_00484d40(&auiFormId, 4);
-        unsigned int uiRef = auiFormId;
+        uintptr_t uiRef = auiFormId;
         kAvoidedRefs.AddHead((FleeLoadRef*)uiRef);
     }
 
@@ -2202,9 +2203,9 @@ struct FleePackageLG : public FleePackageBase
 // @fnv 0x009f25f0
 void FleePackageLG::FUN_009f25f0(void* apBuffer)
 {
-    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((int)(apBuffer));
-    pRefA0 = pRefA0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)pRefA0)) : 0;
-    pRefA4 = pRefA4 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)pRefA4)) : 0;
+    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((intptr_t)(apBuffer));
+    pRefA0 = pRefA0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pRefA0)) : 0;
+    pRefA4 = pRefA4 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pRefA4)) : 0;
 
     RefListNode* pNode = &AvoidedRefList;
     RefListNode* pPrev = 0;
@@ -2214,7 +2215,7 @@ void FleePackageLG::FUN_009f25f0(void* apBuffer)
         bool bRemove = false;
         if (pRef)
         {
-            pRef = pRef ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)pRef)) : 0;
+            pRef = pRef ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pRef)) : 0;
             if (pRef)
                 pNode->SetItem(pRef);
             else

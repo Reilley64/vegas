@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectbook.cpp: TESObjectBOOK, TESObjectMISC, TESObjectBOOK_GetSaveSize, Actor and more (16 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -254,7 +255,7 @@ struct FUN_0048e9b0
 {
 };
 
-struct TESObjectBOOK_GetSaveSize
+struct TESObjectBOOK_GetSaveSize : ::TESObjectBOOK
 {
     unsigned short FUN_00515220(unsigned int aiFlags);
 };
@@ -265,7 +266,7 @@ unsigned short TESObjectBOOK_GetSaveSize::FUN_00515220(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);
-    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)((char*)this + 0x84))))->FUN_0048e9b0(aiFlags);
+    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)static_cast<TESValueForm *>(this))))->FUN_0048e9b0(aiFlags);
     if (aiFlags & 0x20)
         isize += 1;
     return isize;
@@ -301,7 +302,7 @@ struct FUN_0048ea40_holder
 {
 };
 
-struct FUN_00515340_shell
+struct FUN_00515340_shell : ::TESObjectBOOK
 {
     void FUN_00515340(BGSSaveFormBuffer* buffer);
 };
@@ -310,9 +311,9 @@ struct FUN_00515340_shell
 void FUN_00515340_shell::FUN_00515340(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x84)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(buffer)->GetChangeFlags(0x20)))->FUN_004280f0())
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0xc1, 1, 0);
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(buffer)->GetChangeFlags(0x20)))->FUN_004280f0(0x20))
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(&this->Data.teaches), 1, 0);
 }
 
 struct FUN_005146a0_shell
@@ -416,7 +417,7 @@ struct FUN_00485e00_shell
 struct FUN_00485680
 {
 };
-struct FUN_00514de0_shell
+struct FUN_00514de0_shell : ::TESObjectBOOK
 {
     void Destroy();
 };
@@ -425,20 +426,20 @@ struct FUN_00514de0_shell
 void FUN_00514de0_shell::Destroy()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x3c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
-    ((FUN_0047a240_shell*)((char*)this + 0xa4))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    ((FUN_0047bd70_shell*)((char*)this + 0x74))->FUN_0047bd70();
-    ((FUN_00482cb0_shell*)((char*)this + 0x94))->FUN_00482cb0();
-    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)((char*)this + 0x9c))))->FUN_00477f20();
-    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)((char*)this + 0xb4))))->LogFormIDs();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)static_cast<TESIcon *>(this))))->FUN_0048e370(0x4e4f4349);
+    ((FUN_0047a240_shell*)static_cast<BGSMessageIcon *>(this))->FUN_0047a240(0x4f43494d);
+    ((S_0048cca0*)static_cast<TESScriptableForm *>(this))->FUN_0048cca0();
+    ((FUN_0047bd70_shell*)static_cast<TESEnchantableForm *>(this))->FUN_0047bd70();
+    ((FUN_00482cb0_shell*)static_cast<TESDescription *>(this))->FUN_00482cb0();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)static_cast<BGSPickupPutdownSounds *>(this))))->LogFormIDs();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0xc0))))->ClearData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((Date*)((char*)this + 0xc0), 2);
+        reinterpret_cast<::TESForm *>((((Date*)&this->Data.flags)))->ClearData();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((Date*)&this->Data.flags, 2);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0xc0))))->ClearData();
+        reinterpret_cast<::TESForm *>((((Date*)&this->Data.flags)))->ClearData();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
@@ -612,7 +613,7 @@ void Book307::CopyBookData(TESForm* source)
     if (!book)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(source);
-    Data = *((::BookData *)(::FUN_00514f30((int)(reinterpret_cast<BookDataAccessor307*>(book)))));
+    Data = *((::BookData *)(::FUN_00514f30((std::intptr_t)(reinterpret_cast<BookDataAccessor307*>(book)))));
 }
 
 #include <stdio.h>
@@ -1194,11 +1195,11 @@ class Actor
     unsigned int unk750;
     unsigned int unk754;
     int selectedAction;
-    void FUN_0095e6f0(int action);
+    void FUN_0095e6f0(intptr_t action);
 };
 // Checks the inventory item and weapon type, displays messages on failure, and stores action before formatting the final prompt.
 // @fnv 0x0095e6f0
-void Actor::FUN_0095e6f0(int action)
+void Actor::FUN_0095e6f0(intptr_t action)
 {
     if (!action)
         return;
@@ -1246,7 +1247,7 @@ bool BookComparison::FUN_00514f50(TESForm* other)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(book))
         return true;
-    if (std::memcmp(&Data, ((::BookData *)(::FUN_00514f30((int)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
+    if (std::memcmp(&Data, ((::BookData *)(::FUN_00514f30((std::intptr_t)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
         return true;
     return false;
 }

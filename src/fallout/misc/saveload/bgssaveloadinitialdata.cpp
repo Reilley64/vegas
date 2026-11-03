@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadinitialdata.cpp: BGSSaveLoadInitialDataPacket, ReferencePlacementData, BGSNumericIDIndex3 (20 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1186,7 +1187,7 @@ void FUN_0084e930(BGSLoadFormBuffer* pBuffer, INITIAL_DATA_TYPE eType, void* pDa
         reinterpret_cast<::Outer84eac0 *>(&(kData))->FUN_0084eac0();
         memcpy(&kData, pBuffer, uiSize);
         InitDataD* pInit = (InitDataD*)pData;
-        reinterpret_cast<::FUN_0084e460_t *>((pInit))->FUN_0084e460((unsigned int)(&kData));
+        reinterpret_cast<::FUN_0084e460_t *>((pInit))->FUN_0084e460((const char *)(&kData));
         break;
     }
     case INITIAL_DATA_TYPE_INITIAL_DATA_CREATED_REFERENCE: {

@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/bgsacousticspacelistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/bgsacousticspacelistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -33,11 +34,11 @@ struct FUN_0061f6c0_shell
 {
     char pad[0xdec];
     Flt flt;
-    unsigned int FUN_0061f6c0();
+    std::uintptr_t FUN_0061f6c0();
 };
 
 // @fnv 0x0061f6c0
-unsigned int FUN_0061f6c0_shell::FUN_0061f6c0()
+std::uintptr_t FUN_0061f6c0_shell::FUN_0061f6c0()
 {
     return flt;
 }
@@ -72,7 +73,7 @@ void FUN_0061f8e0_shell::FUN_0061f8e0(bool abDoRemoval)
     void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 0x18))))->GetFirstPos();
     while (pos2)
     {
-        unsigned int key;
+        std::uintptr_t key;
         void* value2;
         reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0x18))))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(key), (void **)&(value2));
         SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObjectREFR*)key)))->FUN_007af430())));
@@ -90,9 +91,9 @@ struct TESObjectREFR;
 struct RootContactPoint
 {
     unsigned int pad0[8];
-    unsigned int m_20;
+    void* m_20;
     unsigned int pad1[9];
-    unsigned int m_48;
+    void* m_48;
 };
 struct BGSAcousticSpaceListenerX
 {
@@ -106,20 +107,19 @@ bool BGSAcousticSpaceListenerX::CheckAcousticSpaceListener(RootContactPoint* pPo
     TESObjectREFR* apTestRef = 0;
     if (reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60())
     {
-        if (pPoint->m_48 ==
-            ((unsigned int)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((reinterpret_cast<PlayerCharacter*>(::_g_thePlayer)))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
-            apTestRef = FUN_0062b4e0((void*)pPoint->m_20);
+        if (pPoint->m_48 == reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((reinterpret_cast<PlayerCharacter*>(::_g_thePlayer)))->FUN_0061f6c0())))->GetSourceFilesFromObject())
+            apTestRef = FUN_0062b4e0(pPoint->m_20);
     }
     else
     {
-        TESObjectREFR* pAcousticSpaceLeft = FUN_0062b4e0((void*)pPoint->m_48);
+        TESObjectREFR* pAcousticSpaceLeft = FUN_0062b4e0(pPoint->m_48);
         if (pAcousticSpaceLeft == reinterpret_cast<TESObjectREFR*>(::_g_thePlayer))
-            apTestRef = FUN_0062b4e0((void*)pPoint->m_20);
+            apTestRef = FUN_0062b4e0(pPoint->m_20);
     }
     if (apTestRef)
     {
         if (m_ucState)
-            reinterpret_cast<::FUN_0061f870_shell *>(this)->SetCopyMapEntry((unsigned int)(apTestRef));
+            reinterpret_cast<::FUN_0061f870_shell *>(this)->SetCopyMapEntry((std::uintptr_t)(apTestRef));
         else
             SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apTestRef))->FUN_007af430())));
     }
@@ -156,7 +156,7 @@ void BGSAcousticSpaceListenerX::UpdateAcousticSpaceRefCounts(float afTime)
         while (iter2)
         {
             unsigned int icount;
-            unsigned int key;
+            std::uintptr_t key;
             reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0x18))))->FUN_006b7f20((::C6b7f20_Node **)&(iter2), (unsigned int *)&(key), (void **)&((void*&)icount));
             if (icount == 0)
             {
@@ -187,13 +187,13 @@ void FUN_0061f630_shell::CheckPlayerReference(TESObjectREFR* apEntity)
         return;
     if (reinterpret_cast<::FUN_004eaf60_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_004eaf60())
     {
-        if (((void *)(::FUN_00460140((int)(((TgtOps*)apEntity))))) ==
-            (void*)((unsigned int)(reinterpret_cast<::FUN_0043b560_shell *>((((W_0043b4f0*)(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0()))))->GetSourceFilesFromObject())))
+        if (((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)apEntity))))) ==
+            (void*)((std::uintptr_t)(reinterpret_cast<::FUN_0043b560_shell *>((((W_0043b4f0*)(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0()))))->GetSourceFilesFromObject())))
             SoundPlaybackManager::ResetAcousticSpace(0);
     }
     else
     {
-        TESObjectREFR* apTestRef = FUN_0062b4e0(((void *)(::FUN_00460140((int)(((TgtOps*)apEntity))))));
+        TESObjectREFR* apTestRef = FUN_0062b4e0(((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)apEntity))))));
         if (apTestRef == (TESObjectREFR*)::_g_thePlayer)
             SoundPlaybackManager::ResetAcousticSpace(0);
     }
@@ -221,17 +221,17 @@ bool FUN_0061f6e0_shell::CheckAcousticSpaceEntered(RootContactPoint* pPoint)
 
     if (reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60())
     {
-        if (pPoint->m_48 == ((unsigned int)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
+        if (pPoint->m_48 == reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0())))->GetSourceFilesFromObject())
         {
-            pAcousticSpaceRef = FUN_0062b4e0(reinterpret_cast<void*>(pPoint->m_20));
+            pAcousticSpaceRef = FUN_0062b4e0(pPoint->m_20);
         }
     }
     else
     {
-        TESObjectREFR* apTestRef = FUN_0062b4e0(reinterpret_cast<void*>(pPoint->m_48));
+        TESObjectREFR* apTestRef = FUN_0062b4e0(pPoint->m_48);
         if (apTestRef == reinterpret_cast<TESObjectREFR*>(::_g_thePlayer))
         {
-            pAcousticSpaceRef = FUN_0062b4e0(reinterpret_cast<void*>(pPoint->m_20));
+            pAcousticSpaceRef = FUN_0062b4e0(pPoint->m_20);
         }
     }
 
@@ -296,14 +296,14 @@ struct S_00620260_T : S_00620260_A, S_00620260_B
 struct S_00620260_C
 {
     virtual void vfn_00();
-    virtual S_00620260_T* vfn_04(int a, int b);
+    virtual S_00620260_T* vfn_04(std::intptr_t a, void* b);
     S_00620260_T* cur;
-    S_00620260_T* FUN_00620260(int a, int b);
+    S_00620260_T* FUN_00620260(std::intptr_t a, void* b);
 };
 // @fnv 0x00620260
-S_00620260_T* S_00620260_C::FUN_00620260(int a, int b)
+S_00620260_T* S_00620260_C::FUN_00620260(std::intptr_t a, void* b)
 {
-    S_00620260_T* r = cur ? ((::S_00620260_T *)(reinterpret_cast<::FUN_00620300_cls *>((cur))->FindDerivedByKey((void *)(b)))) : 0;
+    S_00620260_T* r = cur ? ((::S_00620260_T *)(reinterpret_cast<::FUN_00620300_cls *>((cur))->FindDerivedByKey(b))) : 0;
     if (!r)
     {
         r = vfn_04(a, b);

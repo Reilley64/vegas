@@ -1,9 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 struct FUN_0062e780_Class;
 
 // 0x0062f310
-void FUN_0062f310(int);
+void FUN_0062f310(std::intptr_t);
 // 0x0062f3d0
 ::FUN_0062e780_Class *FUN_0062f3d0();
 // 0x0062f460

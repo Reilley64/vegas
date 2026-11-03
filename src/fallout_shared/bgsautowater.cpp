@@ -56,6 +56,13 @@
 #include "fnv/symbols_0049c000.h"
 #include "fnv/symbols_0049d000.h"
 #include "fnv/symbols_0049e000.h"
+#include <cmath>
+class NiPoint3;
+struct Pt
+{
+    float x, y, z;
+    Pt& operator+=(const NiPoint3& other);
+};
 #include "fnv/symbols_004a8000.h"
 #include "fnv/symbols_00559000.h"
 #include "fnv/symbols_006b9000.h"
@@ -369,7 +376,6 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     int aCount2 = ((int)(::GetCellCornerFlags((::Cell *)(pMeshInput), (*(::Pt *)&(const ::MeshPoint &)(_delta)))));
                     int _current = ((int)(::GetCellCornerFlags((::Cell *)(pMeshInput), (*(::Pt *)&(const ::MeshPoint &)(_point)))));
                     MeshPoint _orient;
-                    new ((void *)&(_orient)) ::Vec3();
                     int result3 = ::FUN_006b9a10((const ::S006b9a10_Pt &)(_cross), (const ::S006b9a10_Pt &)(_delta), (const ::S006b9a10_Pt &)(origin6), (const ::S006b9a10_Pt &)(normalVal), (::S006b9a10_Pt &)(_orient));
                     if (result3 == 1)
                     {
@@ -601,12 +607,12 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
         for (int boundary = 0; boundary < 4; boundary++)
         {
             if (boundary == 0 || boundary == 1)
-                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((int)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c800)));
+                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((std::intptr_t)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c800)));
             else
-                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((int)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c7b0)));
-            for (int pair = 0; pair < ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())); pair += 2)
+                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((std::intptr_t)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c7b0)));
+            for (int pair = 0; pair < ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())); pair += 2)
             {
-                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())) > pair + 1)
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())) > pair + 1)
                 {
                     reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair)));
                     reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair + 1)));
@@ -620,11 +626,6 @@ struct NiPoint2
 {
     float x, y;
     NiPoint2(float x, float y);
-};
-struct Pt
-{
-    float x, y, z;
-    Pt& operator+=(const NiPoint3& other);
 };
 struct CellOrigin
 {
@@ -725,9 +726,6 @@ struct SettingObj
 {
     unsigned char* FUN_00408d60();
 };
-namespace std {
-float abs(float);
-}
 struct FUN_0055a2f0
 {
     virtual void vslot00();
@@ -1286,7 +1284,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                     i = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->DereferenceIfNotNull((int **)(s))));
                     if (!!s)
                     {
-                        nodeX = *(NodeObj**)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->AddEight((int)(s))));
+                        nodeX = *(NodeObj**)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->AddEight((std::intptr_t)(s))));
                         if (((::AVObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())) != 0 && ((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX)))) != 0)
                         {
                             {

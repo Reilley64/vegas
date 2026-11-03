@@ -1,6 +1,7 @@
 // Source layout: MagicTarget. PC corrections are in generate_headers.py.
 #ifndef FNV_MAGICTARGET_H
 #define FNV_MAGICTARGET_H
+#include <cstdint>
 #include "layout_support.h"
 class ActiveEffect;
 class MagicCaster;
@@ -22,6 +23,6 @@ public:
 public:
     void DispelAllEffects();
 public:
-    static ::MagicTarget *GetMagicTargetByID(unsigned int);
+    static ::MagicTarget *GetMagicTargetByID(uintptr_t);
 };
 #endif

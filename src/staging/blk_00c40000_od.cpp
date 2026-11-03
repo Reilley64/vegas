@@ -1249,7 +1249,7 @@ struct FUN_00c44cd0_class {
     void FUN_00c44cd0();
 };
 struct FUN_00c44c40_class {
-    void FUN_00c44c40(int a1, int a2);
+    void FUN_00c44c40(intptr_t a1, int a2);
 };
 namespace fnv_00c44df0 {
 struct MemoryManager { void Deallocate(void*); };
@@ -5236,7 +5236,7 @@ public:
 
 // Looks up a node via FUN_00a5c570, calls its unk78 object's v35 with a2, and falls back to a1->v39 when a3 is nonzero.
 // @fnv 0x00c4b470
-int __cdecl FUN_00c4b470(FUN_00c4b470_owner* pOwner, void** a2, unsigned char bFallback)
+intptr_t __cdecl FUN_00c4b470(FUN_00c4b470_owner* pOwner, void** a2, unsigned char bFallback)
 {
     FUN_00c4b470_owner* node7;
     int r7;
@@ -8560,7 +8560,7 @@ struct FUN_00c44d30_cls {
 };
 // Stores a1 and a2 into fields at offsets 4 and 8, sets the byte at 0xc, then calls FUN_00c44cd0, CallStoredCallback and WaitForWorkers before clearing the byte at 0xc.
 // @fnv 0x00c44c40
-void FUN_00c44c40_class::FUN_00c44c40(int a1, int a2)
+void FUN_00c44c40_class::FUN_00c44c40(intptr_t a1, int a2)
 {
     *(char*)((char*)this + 0xc) = 1;
     *(int*)((char*)this + 4) = a1;
@@ -28333,7 +28333,7 @@ public:
 
 // @fnv 0x00c58d30
 BoundingVolumeNode* FUN_00c58d30(float fRadius, float m_fGlyphExtent, float fZ,
-    unsigned short usA, unsigned short usB, int iParam)
+    unsigned short usA, unsigned short usB, intptr_t iParam)
 {
     TAVObject* pkShape3;
     BoundingVolumeNode* pkNode;

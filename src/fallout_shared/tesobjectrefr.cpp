@@ -1,4 +1,5 @@
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
+#include "fnv_result_slot.h"
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <new>
@@ -897,6 +898,98 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "tesobjectrefr_decls.h"
+#include "fnv/decl/BGSMessageInitAccess.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_0041fe90_shell.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_0055b9a0_class.h"
+#include "fnv/decl/S00485110.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/loader__List.h"
+#include "fnv/symbols_00446000.h"
+#include "fnv/symbols_0057a000.h"
+#include <windows.h>
+#include "fnv/decl/CB2FC0Object.h"
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/FUN_00c876d0_cls.h"
+#include "fnv/decl/FUN_00c8d960_cls.h"
+#include "fnv/decl/FUN_00c9f970_cls.h"
+#include "fnv/decl/FUN_00cac110_Class.h"
+#include "fnv/decl/FUN_00cac920_Class.h"
+#include "fnv/decl/FloatMatrix3.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Outer.h"
+#include "fnv/decl/Owner00c9ec00.h"
+#include "fnv/decl/Owner_00c85880.h"
+#include "fnv/decl/Quat74.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S006288c0_Object.h"
+#include "fnv/decl/ViewerStrings.h"
+#include "fnv/decl/WorldObject.h"
+#include "fnv/decl/bhkRigidBody_2.h"
+#include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_00c55000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c3000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/RigidBodyS.h"
+#include "fnv/decl/BC87850RefObject.h"
+#include "fnv/decl/C68CB0World.h"
+#include "fnv/decl/C8F670Object.h"
+#include "fnv/decl/CCA1B0Level2.h"
+#include "fnv/decl/Entity_c8ea.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/FUN_00a6e190_shell.h"
+#include "fnv/decl/FUN_00c84d00_cls.h"
+#include "fnv/decl/FUN_00c84d50_cls.h"
+#include "fnv/decl/FUN_00c84df0_cls.h"
+#include "fnv/decl/FUN_00c87600_Obj.h"
+#include "fnv/decl/FUN_00c87650_t.h"
+#include "fnv/decl/FUN_00c878c0_cls.h"
+#include "fnv/decl/FUN_00c87c30_t.h"
+#include "fnv/decl/FUN_00c90510_class.h"
+#include "fnv/decl/FUN_00cb2ff0.h"
+#include "fnv/decl/FUN_00cb30d0_cls.h"
+#include "fnv/decl/HavokFilterInfo.h"
+#include "fnv/decl/MaterialInspector.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/ObjectController.h"
+#include "fnv/decl/PropertyOwner.h"
+#include "fnv/decl/S004b4db0_Quaternion.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/WorldC68BF0.h"
+#include "fnv/decl/WorldC944.h"
+#include "fnv/decl/bhkViewerObject.h"
+#include "fnv/symbols_00c56000.h"
+#include "fnv/symbols_00c87000.h"
+#include "fnv/symbols_00c9f000.h"
+#include "fnv/symbols_00cf0000.h"
+#include <stdio.h>
+#include "fnv/decl/OwnerCD2A.h"
+#include "fnv/decl/ShapeViewerFields.h"
+#include "fnv/symbols_00ca0000.h"
+#include "fnv/decl/FUN_004523c0_shell.h"
+#include "fnv/decl/FUN_00458990_Holder.h"
+#include "fnv/decl/FUN_004589c0_cls.h"
+#include "fnv/decl/FUN_004a3c90.h"
+#include "fnv/decl/FUN_00576d30_shell.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/Ref56D.h"
+#include "fnv/decl/S00458900_Vector.h"
+#include "fnv/decl/S00458a10_Vector.h"
+#include "fnv/decl/S00458ad0_Vector.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00553000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_00c81000.h"
+#include "fnv/symbols_011d5000.h"
+#include "fnv/symbols_00576000.h"
 
 // @fnv 0x00446ef0
 GarbageCollectorUpdateState* FUN_00446ef0()
@@ -1073,7 +1166,7 @@ public:
 
 // Looks up extra data of type 0x2e and returns the int stored at offset 0xc, or 0 if absent.
 // @fnv 0x004216f0
-int FUN_004216f0(BaseExtraList* _this)
+intptr_t FUN_004216f0(BaseExtraList* _this)
 {
     BSExtraData* pextra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((_this))->FUN_00410220(0x2e);
     if (pextra)
@@ -1951,6 +2044,8 @@ struct TESFile
     char const* GetName();
 public:
     bool IsMasterFile();
+    bool IsEndianConversionRequired();
+    bool NextChunk();
 };
 
 // @fnv 0x0055d520
@@ -2172,7 +2267,7 @@ public:
 
 
 // @fnv 0x00560dc0
-int FUN_00560dc0(TESDataHandler* apDataHandler)
+intptr_t FUN_00560dc0(TESDataHandler* apDataHandler)
 {
     return ((int)(reinterpret_cast<::FUN_0045c650_shell *>((((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40()))))->FUN_0045c650()));
 }
@@ -2680,7 +2775,7 @@ bool FUN_00564c10(TESObjectREFR* apRefr)
 {
     if (((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430())) && _FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430()))) != 0x1c)
     {
-        unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(apRefr)))->GetName()));
+        unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(apRefr)))->GetName()));
         if (flags & 0x100)
         {
             return true;
@@ -2768,7 +2863,7 @@ bool FUN_00564cd0(VTable64* apObject)
 {
     if (apObject->v64())
         return false;
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apObject))->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apObject))->GetName()));
     if (flags & 0x100000)
         return true;
     else
@@ -2864,7 +2959,7 @@ struct FUN_005651e0_shell : public TESObjectREFR
 // @fnv 0x005651e0
 bool FUN_005651e0_shell::FUN_005651e0()
 {
-    unsigned int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
+    unsigned int iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
     if (iflags & 0x80000)
         return true;
     else
@@ -2885,7 +2980,7 @@ struct TESObjectREFR_Flags : public TESObjectREFR
 // @fnv 0x00565210
 void FUN_00565210_shell::FUN_00565210(bool abVal)
 {
-    unsigned int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Flags*)this)))->GetName()));
+    unsigned int iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Flags*)this)))->GetName()));
     if (abVal)
         iflags |= 0x80000;
     else
@@ -3151,7 +3246,7 @@ struct FUN_00565450_shell : public TESObjectREFR
 // @fnv 0x00565450
 bool FUN_00565450_shell::FUN_00565450()
 {
-    unsigned int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
+    unsigned int iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
     if (iflags & 0x400)
         return true;
     else
@@ -4098,7 +4193,6 @@ void FUN_0056d300_S::FUN_0056d300(const void* p)
 struct NiMemObject
 {
 };
-void FUN_00c8e9c0();
 struct Obj56d550
 {
     void FUN_00c8e9c0();
@@ -4108,7 +4202,7 @@ struct Obj56d550
 // @fnv 0x0056d550
 void* Obj56d550::FUN_0056d550(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c8e9c0 *>(this)->FUN_00c8e9c0::~FUN_00c8e9c0();
+    reinterpret_cast<::FUN_00c8e9c0 *>(this)->::FUN_00c8e9c0::~FUN_00c8e9c0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x1c);
     return this;
@@ -6464,7 +6558,7 @@ struct FUN_00577330_cls
 // @fnv 0x00577330
 void FUN_00577330_cls::FUN_00577330(PX* p)
 {
-    if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())))
+    if (((std::uintptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())))
     {
         if (!p)
             p = ((::PX *)(reinterpret_cast<::FUN_0041d6d0_shell *>((void *)(GetExtra()))->FUN_0041d6d0()));
@@ -6532,11 +6626,11 @@ float Obj577::FUN_00577b50()
     float result;
     if (a)
     {
-        TESForm* b = (TESForm*)((::Y577 *)(reinterpret_cast<::FUN_00ca86c0_class *>((a))->FUN_00ca86c0()));
+        TESForm* b = (TESForm*)((::Y577 *)(std::uintptr_t)(reinterpret_cast<::FUN_00ca86c0_class *>((a))->FUN_00ca86c0()));
         Z577* c;
         {
             Tmp577 tmp;
-            c = b ? (Z577*)((char*)((::SF577 *)(::FUN_00460140((int)(b)))) + 0xac) : ((::Z577 *)(::FUN_00577bd0((::Dummy_00577bd0 *)&(tmp), a->FUN_00577c10())));
+            c = b ? (Z577*)((char*)((::SF577 *)(::FUN_00460140((std::intptr_t)(b)))) + 0xac) : ((::Z577 *)(::FUN_00577bd0((::Dummy_00577bd0 *)&(tmp), a->FUN_00577c10())));
         }
         result = ::FUN_00577bf0((unsigned char *)(c));
     }
@@ -6581,7 +6675,7 @@ struct TESDataHandler
 // @fnv 0x00577c10
 int TESDataHandler::FUN_00577c10()
 {
-    return ((int)(::FUN_00577bf0((unsigned char *)(((Sub*)((char*)((::fnv_00577c10::Lst *)(::FUN_00460140((int)(((::fnv_00577c10::TESForm *)(reinterpret_cast<::FUN_009d9f40_Class *>(this)->FUN_009d9f40())))))) + 0xac))))));
+    return ((int)(::FUN_00577bf0((unsigned char *)(((Sub*)((char*)((::fnv_00577c10::Lst *)(::FUN_00460140((std::intptr_t)(((::fnv_00577c10::TESForm *)(reinterpret_cast<::FUN_009d9f40_Class *>(this)->FUN_009d9f40())))))) + 0xac))))));
 }
 }  // namespace fnv_00577c10
 
@@ -6621,7 +6715,7 @@ bool __cdecl FUN_005784b0(NiNode* apNode)
 }
 
 // @fnv 0x00578770
-bool FUN_00578770(int param_1)
+bool FUN_00578770(std::intptr_t param_1)
 {
     return (*(unsigned int*)(param_1 + 0x34) & 0x200) ? true : false;
 }
@@ -6900,7 +6994,7 @@ struct TESObjectREFR_vtable_helper
 // @fnv 0x0057ace0
 void FUN_0057ace0_shell::FUN_0057ace0(TESTopicInfo* apInfo)
 {
-    reinterpret_cast<::fnv_0042ec70::FUN_0042ec70_list *>((reinterpret_cast<const TESObjectREFR_GetExtra_helper*>(this)->GetExtra()))->FUN_0042ec70((int)(apInfo));
+    reinterpret_cast<::fnv_0042ec70::FUN_0042ec70_list *>((reinterpret_cast<const TESObjectREFR_GetExtra_helper*>(this)->GetExtra()))->FUN_0042ec70((std::intptr_t)(apInfo));
     reinterpret_cast<TESObjectREFR_vtable_helper*>(this)->vfn_18(0x80000000);
 }
 }  // namespace fnv_0057ace0
@@ -6981,7 +7075,7 @@ void FUN_0057ad20_shell::FUN_0057ad20(TESTopic* apTopic)
 namespace fnv_0057ad60 {
 struct FUN_0057ad60_shell : public TESObjectREFR
 {
-    void FUN_0057ad60(unsigned int);
+    void FUN_0057ad60(uintptr_t);
 };
 
 class ExtraDataList
@@ -7018,7 +7112,7 @@ struct Helper_TESObjectREFR
 };
 
 // @fnv 0x0057ad60
-void FUN_0057ad60_shell::FUN_0057ad60(unsigned int anResponseID)
+void FUN_0057ad60_shell::FUN_0057ad60(uintptr_t anResponseID)
 {
     reinterpret_cast<::FUN_0042eec0_Class *>((void *)(reinterpret_cast<Helper_TESObjectREFR*>(this)->GetExtra()))->FUN_0042eec0(anResponseID);
     reinterpret_cast<VTable_0057ad60*>(this)->vfn_18(0x80000000);
@@ -7083,7 +7177,7 @@ struct TESObjectREFR_Access
 // @fnv 0x0057bd40
 TESTopic* FUN_0057bd40_shell::FUN_0057bd40()
 {
-    return ((::TESTopic *)(reinterpret_cast<::FUN_0042ed30Class *>((void *)(reinterpret_cast<const TESObjectREFR_Access*>(this)->GetExtra()))->FUN_0042ed30()));
+    return ((::TESTopic *)(std::uintptr_t)(reinterpret_cast<::FUN_0042ed30Class *>((void *)(reinterpret_cast<const TESObjectREFR_Access*>(this)->GetExtra()))->FUN_0042ed30()));
 }
 
 namespace fnv_0057bd60 {
@@ -7170,7 +7264,7 @@ void FUN_0057c180(char* this_ptr)
         *(TempLoadedRefData**)(this_ptr + 0x64) = new TempLoadedRefData();
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk00 = 0;
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk04 = 0;
-        MobileObjectCellAccess* pcell = (MobileObjectCellAccess*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this_ptr)))->GetTarget()));
+        MobileObjectCellAccess* pcell = (MobileObjectCellAccess*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this_ptr)))->GetTarget()));
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk08 =
             (pcell && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((void *)(pcell))->FUN_004518e0()) ? reinterpret_cast<::FUN_005471e0_shell *>((pcell))->FUN_005471e0() : ::DAT_01015f5c;
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk0c = -1.0f;
@@ -7183,7 +7277,7 @@ void FUN_0057c180(char* this_ptr)
 struct GlobalObject_00633c90
 {
     int m_val;
-    GlobalObject_00633c90(int = 0);
+    GlobalObject_00633c90(intptr_t = 0);
     ~GlobalObject_00633c90();
 };
 
@@ -7237,7 +7331,7 @@ void FUN_0057c300_cls::FUN_0057c300()
 }
 
 // @fnv 0x005d9f90
-int FUN_005d9f90(char* pThis)
+intptr_t FUN_005d9f90(char* pThis)
 {
     return *(int*)(pThis + 0x1b4);
 }
@@ -7464,10 +7558,10 @@ void FUN_00837410(Node_00837410* pThis)
 
 struct FUN_0086a830_S
 {
-    char FUN_0086a830(int a);
+    char FUN_0086a830(std::intptr_t a);
 };
 // @fnv 0x0086a830
-char FUN_0086a830_S::FUN_0086a830(int a)
+char FUN_0086a830_S::FUN_0086a830(std::intptr_t a)
 {
     char r = 0;
     return r;
@@ -8833,14 +8927,14 @@ struct Fn47a520
 {
     char _p[0x50];
     DummyPointerMap map;
-    unsigned int FUN_0047a520(NFSHelper* name);
+    uintptr_t FUN_0047a520(NFSHelper* name);
 };
 // Looks up the string key of name in map and returns the stored value, or 0 if not found.
 // @fnv 0x0047a520
-unsigned int Fn47a520::FUN_0047a520(NFSHelper* name)
+uintptr_t Fn47a520::FUN_0047a520(NFSHelper* name)
 {
     unsigned int value;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(map))->FUN_00853130((unsigned int)(char const*)*name, (::fnv_00853130::CombatThreatRecord *&)(value)))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(map))->FUN_00853130((std::uintptr_t)(char const*)*name, (::fnv_00853130::CombatThreatRecord *&)(value)))
         return value;
     return 0;
 }
@@ -8918,7 +9012,7 @@ bool Fn564ab0::FUN_00564ab0()
 {
     if (((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430())) && _FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) != 0x22)
         return false;
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     if (flags & 0x200)
         return true;
     else
@@ -9077,9 +9171,9 @@ void Fn5672c0::FUN_005672c0(NiAVObject* apObject)
     {
     case 0x15:
     case 0x1c:
-        if (::FUN_00404dc0((*(::fnv_005672c0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((apObject))->GetLinkToList())), (*reinterpret_cast<const char * *>(&::DAT_01197b5c))) == 0 && room && reinterpret_cast<::FUN_004543c0_cls *>((room))->FUN_004543c0())
+        if (::FUN_00404dc0((*(::fnv_005672c0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((apObject))->GetLinkToList())), (*reinterpret_cast<const char * const *>(&::DAT_01197b5c))) == 0 && room && reinterpret_cast<::FUN_004543c0_cls *>((room))->FUN_004543c0())
         {
-            ::FUN_00c6a270((int)(v116()), true, true, 1);
+            ::FUN_00c6a270((std::intptr_t)(v116()), true, true, 1);
             if (::FUN_008c7aa0())
             {
                 reinterpret_cast<::fnv_0087b1e0::Holder *>((TQI::GetInstance()))->FUN_0087b1e0((::fnv_0087b1e0::G00559a40 *)(::fnv_005672c0::NiAVObject *)(v116()), 1);
@@ -9394,7 +9488,7 @@ void FUN_00572a50(XActor* self, BoolArg abUseAltExtra)
     {
         if (((Flt*)lightPtr)->operator unsigned int())
         {
-            reinterpret_cast<::B5Owner *>((((GetTeleportHelper*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00b5eed0((unsigned int)((NiAVObject*)((Flt*)lightPtr)->operator unsigned int()));
+            reinterpret_cast<::B5Owner *>((((GetTeleportHelper*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00b5eed0((std::uintptr_t)((NiAVObject*)((Flt*)lightPtr)->operator unsigned int()));
             *lightPtr = 0;
         }
         if (abUseAltExtra.v)
@@ -9755,14 +9849,13 @@ struct fnv_006dcbb0
 {
 };
 void _ref_006815c0(void* pThis);
-extern TES* g_TES;
 extern PC7d* g_thePlayer;
 // @fnv 0x006dcd70
 PathingLocation* FUN_006dcd70(PathingLocation* pPathingLocation, RefArg aRefArg)
 {
     *(int**)pPathingLocation = &::DAT_0102583c;
     _ref_006815c0((char*)&pPathingLocation->Location);
-    int pcell = ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)aRefArg.p)))->GetTarget()));
+    std::intptr_t pcell = ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)aRefArg.p)))->GetTarget()));
     TESWorldSpace* pworld = ((::fnv_006dcd70::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((aRefArg.p))->FUN_00575d70()));
     if (pcell == 0 && pworld == 0 && (PC7d*)aRefArg.p == g_thePlayer)
     {
@@ -9813,10 +9906,10 @@ void Fn9624d0::FUN_009624d0()
     ReferenceLightData* apTargetLight = ((::fnv_009624d0::ReferenceLightData *)(reinterpret_cast<::Holder *>((void *)((const ExtraDataList*)((XActor*)this)->GetExtra()))->FUN_00418250()));
     if (apTargetLight)
     {
-        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NPH*)apTargetLight)))->FUN_004b0460==((const void **)&(*(NPH*)((char*)this + 0x864))) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_009624d0::NodeH *)(reinterpret_cast<::FUN_00950bb0_shell *>((((PC605*)this)))->FUN_00950bb0(true)))))->FUN_00456610())
+        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NPH*)apTargetLight)))->FUN_004b0460((const void **)&(*(NPH*)((char*)this + 0x864))) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_009624d0::NodeH *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>((((PC605*)this)))->FUN_00950bb0(true)))))->FUN_00456610())
             *(Helper62d0*)apTargetLight = *(void**)((char*)this + 0x868);
-        else if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NPH*)apTargetLight)))->FUN_004b0460==((const void **)&(*(NPH*)((char*)this + 0x868))) &&
-                 reinterpret_cast<::FUN_00456630_helper *>((((::fnv_009624d0::NodeH *)(reinterpret_cast<::FUN_00950bb0_shell *>((((PC605*)this)))->FUN_00950bb0(false)))))->FUN_00456610())
+        else if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NPH*)apTargetLight)))->FUN_004b0460((const void **)&(*(NPH*)((char*)this + 0x868))) &&
+                 reinterpret_cast<::FUN_00456630_helper *>((((::fnv_009624d0::NodeH *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>((((PC605*)this)))->FUN_00950bb0(false)))))->FUN_00456610())
             *(Helper62d0*)apTargetLight = *(void**)((char*)this + 0x864);
         ::fnv_0088b4e0::FUN_0088b4e0((::fnv_0088b4e0::TESObjectREFR_Helper *)(((Fn88b4e0*)this)));
     }
@@ -9951,7 +10044,7 @@ FUN_0056e550::FUN_0056e550(const void* arInfo)
 
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     void* m_pObject;
 };
 struct FUN_005726c0
@@ -10689,7 +10782,7 @@ struct FUN_0056fba0_cls : public TESObjectREFR
 // @fnv 0x0056fba0
 NiPoint3* FUN_0056fba0_cls::FUN_0056fba0(NiPoint3* out)
 {
-    int anim = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((this))->FUN_0043fcd0()));
+    std::intptr_t anim = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((this))->FUN_0043fcd0()));
     if (anim)
     {
         ExtraX* extra = ((NiAVObjectX*)anim)->GetExtraData(::FUN_0050ea90());
@@ -10885,7 +10978,7 @@ BSAnimNoteReceiver* FUN_0057a770_shell::FUN_0057a770()
     if (!pextra)
     {
         FUN_0057a960* m_pReceiver = new FUN_0057a960;
-        reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)m_pReceiver)))->Initialize((::CombatController *)((unsigned int)this));
+        reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)m_pReceiver)))->Initialize((::CombatController *)(this));
         pextra = (BSExtraData*)new FUN_0057a870(m_pReceiver);
         reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((((StandIn_BaseExtraList*)((XActor*)this)->GetExtra())))->FUN_0040ff60((::BSExtraData *)(pextra));
     }
@@ -11123,11 +11216,11 @@ struct FUN_00561800_
 
 struct FUN_005617c0_
 {
-    void FUN_005617c0(int value);
+    void FUN_005617c0(std::intptr_t value);
 };
 
 // @fnv 0x005617c0
-void FUN_005617c0_::FUN_005617c0(int value)
+void FUN_005617c0_::FUN_005617c0(std::intptr_t value)
 {
     void* result = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (result)
@@ -11236,7 +11329,7 @@ void FUN_00562020(TESObjectREFR* self)
     CharCtl_S* pcon;
     UpdData UpDataB;
     NiAVObject* pobj3D2;
-    pobj3D2 = (NiAVObject*)((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RA_H*)self)))->FUN_0043fcd0()));
+    pobj3D2 = (NiAVObject*)((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RA_H*)self)))->FUN_0043fcd0()));
     if (pobj3D2)
     {
         if ((*(bool(**)(void*))(*(char**)self + 0xfc))(self))
@@ -11395,12 +11488,12 @@ void FUN_0056c8b0_Class::FUN_0056c8b0(unsigned int flags, bool set)
 
 struct S3e60
 {
-    bool FUN_0056d340(unsigned int index);
-    bool FUN_0056d320(unsigned int index);
+    bool FUN_0056d340(uintptr_t index);
+    bool FUN_0056d320(std::uintptr_t index);
 };
 
 // @fnv 0x0056d320
-bool S3e60::FUN_0056d320(unsigned int index)
+bool S3e60::FUN_0056d320(std::uintptr_t index)
 {
     return ((S3e60*)((char*)this + 0x40))->FUN_0056d340(index);
 }
@@ -11443,7 +11536,7 @@ struct bhkPhantom
 // @fnv 0x0056e420
 void* bhkPhantom::FUN_0056e420(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c9f3b0 *>((this))->FUN_00c9f3b0::~FUN_00c9f3b0();
+    reinterpret_cast<::FUN_00c9f3b0 *>((this))->::FUN_00c9f3b0::~FUN_00c9f3b0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x18);
     return this;
@@ -11474,12 +11567,10 @@ struct FUN_0056e780_Class
     void* FUN_0056e780(unsigned int flags);
 };
 
-void FUN_00ca0540(void* p);
-
 // @fnv 0x0056e780
 void* FUN_0056e780_Class::FUN_0056e780(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00ca0540 *>(this)->FUN_00ca0540::~FUN_00ca0540();
+    reinterpret_cast<::FUN_00ca0540 *>(this)->::FUN_00ca0540::~FUN_00ca0540();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -11494,7 +11585,7 @@ struct FUN_0056e7c0_Class
 // @fnv 0x0056e7c0
 void* FUN_0056e7c0_Class::FUN_0056e7c0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c9fb00 *>((this))->FUN_00c9fb00::~FUN_00c9fb00();
+    reinterpret_cast<::FUN_00c9fb00 *>((this))->::FUN_00c9fb00::~FUN_00c9fb00();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -11517,8 +11608,6 @@ void FUN_0056e8a0::SetAll(float value)
     m_f8 = value;
 }
 
-void FUN_00ca0660();
-
 struct FUN_0056ea60
 {
     virtual ~FUN_0056ea60();
@@ -11528,7 +11617,7 @@ struct FUN_0056ea60
 // @fnv 0x0056ea60
 void* FUN_0056ea60::ScalarDeletingDestructor(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00ca0660 *>((this))->FUN_00ca0660::~FUN_00ca0660();
+    reinterpret_cast<::FUN_00ca0660 *>((this))->::FUN_00ca0660::~FUN_00ca0660();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -11724,7 +11813,7 @@ struct bhkWorldObject
 // @fnv 0x0056d4c0
 void* bhkWorldObject::FUN_0056d4c0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c85790 *>(this)->FUN_00c85790::~FUN_00c85790();
+    reinterpret_cast<::FUN_00c85790 *>(this)->::FUN_00c85790::~FUN_00c85790();
     if (flags & 1)
         ::FUN_00aa1460(this, 20);
     return this;
@@ -11753,7 +11842,7 @@ struct bhkAabbPhantom
 // @fnv 0x0056e5e0
 void* bhkAabbPhantom::FUN_0056e5e0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c9f530 *>((this))->FUN_00c9f530::~FUN_00c9f530();
+    reinterpret_cast<::FUN_00c9f530 *>((this))->::FUN_00c9f530::~FUN_00c9f530();
     if (flags & 1)
         ::FUN_00aa1460(this, 24);
     return this;
@@ -11769,7 +11858,7 @@ struct bhkShape
 // @fnv 0x0056e740
 void* bhkShape::FUN_0056e740(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00c84c50 *>(this)->FUN_00c84c50::~FUN_00c84c50();
+    reinterpret_cast<::FUN_00c84c50 *>(this)->::FUN_00c84c50::~FUN_00c84c50();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x14);
     return this;
@@ -12105,11 +12194,11 @@ void XActor::FUN_0057b500()
 struct FUN_0057b700_class
 {
     int FUN_0057b730(int a);
-    void FUN_0057b700(int a);
+    void FUN_0057b700(std::intptr_t a);
 };
 // Calls FUN_0057b730 on a, then passes the result to FUN_0061ff30.
 // @fnv 0x0057b700
-void FUN_0057b700_class::FUN_0057b700(int a)
+void FUN_0057b700_class::FUN_0057b700(std::intptr_t a)
 {
     reinterpret_cast<::Holder *>(this)->FUN_0061ff30((::Node *)(FUN_0057b730(a)));
 }
@@ -12135,11 +12224,11 @@ struct Flt
 
 struct FUN_006546e0_Class
 {
-    unsigned int FUN_006546e0();
+    uintptr_t FUN_006546e0();
 };
 
 // @fnv 0x006546e0
-unsigned int FUN_006546e0_Class::FUN_006546e0()
+uintptr_t FUN_006546e0_Class::FUN_006546e0()
 {
     return ((Flt*)((char*)this + 0xd0))->operator unsigned int();
 }
@@ -12162,11 +12251,11 @@ struct Holder_0055ac40
 {
     char pad[0x84C];
     List_00905330 lst;
-    void FUN_0055ac40(unsigned int);
+    void FUN_0055ac40(std::uintptr_t);
 };
 // If a is non-zero, passes it to lst._ref_00905330.
 // @fnv 0x0055ac40
-void Holder_0055ac40::FUN_0055ac40(unsigned int a)
+void Holder_0055ac40::FUN_0055ac40(std::uintptr_t a)
 {
     if (a)
         reinterpret_cast<::ItemChangeListNode *>(&(lst))->FUN_00905330((::InventoryStackRecord *const &)(a));
@@ -12389,7 +12478,7 @@ struct FormChangeMask
 };
 struct FUN_00428110_shell
 {
-    FormChangeMask FUN_00428110(unsigned int);
+    FormChangeMask FUN_00428110();
 };
 struct TESForm
 {
@@ -12428,7 +12517,6 @@ struct BSOcclusionPlane
 struct TES_s
 {
 };
-extern TES_s* g_TES;
 struct Loader_S
 {
 };
@@ -12436,11 +12524,11 @@ struct Loader_S
 // @fnv 0x005627c0
 void FUN_005627c0_shell::FUN_005627c0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((unsigned int)apLoadGameBuffer);
+    reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
     int iextraFlags = ((VRefr005627c0*)this)->IsActorV() ? 0xA4061840 : 0xA4021C40;
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005627c0::FormChangeMask &)(((FUN_00428110_shell*)apLoadGameBuffer)->FUN_00428110(iextraFlags)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005627c0::FormChangeMask &)(((FUN_00428110_shell*)apLoadGameBuffer)->FUN_00428110()))->FUN_004280f0(iextraFlags))
         reinterpret_cast<::fnv_0042d9e0::FUN_0042d9e0_shell *>((((XActor*)this)->GetExtra()))->FUN_0042d9e0((::fnv_0042d9e0::BGSLoadFormBuffer *)(apLoadGameBuffer));
-    if (!((VRefr005627c0*)this)->IsActorV() && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005627c0::FormChangeMask &)(((FUN_00428110_shell*)apLoadGameBuffer)->FUN_00428110(0x800000)))->FUN_004280f0())
+    if (!((VRefr005627c0*)this)->IsActorV() && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005627c0::FormChangeMask &)(((FUN_00428110_shell*)apLoadGameBuffer)->FUN_00428110()))->FUN_004280f0(0x800000))
     {
         if (reinterpret_cast<::fnv_00561d90::FUN_00561d90_shell *>((((FUN_00572db0_Helper*)this)))->FUN_00561d90())
         {
@@ -12455,15 +12543,15 @@ void FUN_005627c0_shell::FUN_005627c0(BGSLoadFormBuffer* apLoadGameBuffer)
             reinterpret_cast<::ObstMgr0dc0 *>((((::fnv_005627c0::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0dc0(this);
         }
     }
-    if (*(TESObjectCELL**)((char*)this + 0x40) && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005627c0::FormChangeMask &)(((FUN_00428110_shell*)apLoadGameBuffer)->FUN_00428110(0x4000000)))->FUN_004280f0())
+    if (*(TESObjectCELL**)((char*)this + 0x40) && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005627c0::FormChangeMask &)(((FUN_00428110_shell*)apLoadGameBuffer)->FUN_00428110()))->FUN_004280f0(0x4000000))
         reinterpret_cast<::FUN_005455c0_cls *>(((*(TESObjectCELL**)((char*)this + 0x40))))->FUN_005455c0((::FUN_005455c0_ref *)(::TESObjectREFR *)(this));
     if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_005627c0::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
     {
         if (reinterpret_cast<::FUN_00437b90_shell *>((((RefX*)this)))->FUN_00437b90())
             ((VRefr005627c0*)this)->Slot73(0, 0);
-        else if (!((VRefr005627c0*)this)->Slot74() && ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())) &&
-                 ::FUN_00450ff0((void *)(((TESObjectCELL*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))))))
-            reinterpret_cast<::ML *>(((*reinterpret_cast<::fnv_005627c0::Loader_S * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::TESObjectREFR *)(this), (int)(((void *)(reinterpret_cast<::LodGrid *>((g_TES))->FUN_00458be0((::LodCell *)(((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))), (::LodPoint *)(0))))), 1);
+        else if (!((VRefr005627c0*)this)->Slot74() && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())) &&
+                 ::FUN_00450ff0((void *)(((TESObjectCELL*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))))))
+            reinterpret_cast<::ML *>(((*reinterpret_cast<::fnv_005627c0::Loader_S * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::TESObjectREFR *)(this), (std::intptr_t)(((void *)(reinterpret_cast<::LodGrid *>((g_TES))->FUN_00458be0((::LodCell *)(((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))), (::LodPoint *)(0))))), 1);
     }
 }
 }  // namespace fnv_005627c0
@@ -12556,7 +12644,7 @@ bool FUN_00563d80_shell::FUN_00563d80(NiControllerManager* apManager, char* apSe
             float fkeyTime;
             apManager->DeactivateAllSequences(0.0f);
             reinterpret_cast<::TaskQueueInterface *>((((TaskQueueInterface*)apManager)))->QueueReferenceStateTask(true);
-            if (!((int)(reinterpret_cast<::LowProcess *>((pSequence))->GetActiveCombatTarget())))
+            if (!((std::uintptr_t)(reinterpret_cast<::LowProcess *>((pSequence))->GetActiveCombatTarget())))
                 apManager->ActivateControllerSequence(pSequence, 0, false, 1.0f, 0.0f, 0);
             fkeyTime = afPosition;
             foffset = afPosition;
@@ -12904,7 +12992,7 @@ namespace fnv_00568020 {
 struct BSExtraData;
 struct FUN_00568020_shell : public TESObjectREFR
 {
-    void FUN_00568020(unsigned int, bool);
+    void FUN_00568020(uintptr_t, bool);
 };
 
 struct BSExtraData;
@@ -12954,7 +13042,7 @@ struct FNVVirtStub
 
 // If the reference's object is form type 0x27, flags it changed and sets or creates the ExtraUsedMarkers extra, removing it when its count reaches zero.
 // @fnv 0x00568020
-void FUN_00568020_shell::FUN_00568020(unsigned int aiMarkerIndex, bool abVal)
+void FUN_00568020_shell::FUN_00568020(uintptr_t aiMarkerIndex, bool abVal)
 {
     ExtraUsedMarkers* pextra;
     if (((::fnv_00568020::FNVFormStub *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNVRefStub*)this)))->FUN_007af430())) &&
@@ -13368,13 +13456,13 @@ struct ShellH
 struct XActor
 {
     ShellH* GetExtra() const;
-    int FUN_00572b30(int);
+    int FUN_00572b30(std::intptr_t);
 };
 // Calls FUN_0041b0d0 on the extra data with a and this, then returns a.
 // @fnv 0x00572b30
-int XActor::FUN_00572b30(int a)
+int XActor::FUN_00572b30(std::intptr_t a)
 {
-    reinterpret_cast<::FUN_0041b0d0_cls *>((GetExtra()))->FUN_0041b0d0((::Vec3 *)(a), (int)(this));
+    reinterpret_cast<::FUN_0041b0d0_cls *>((GetExtra()))->FUN_0041b0d0((::Vec3 *)(a), (std::intptr_t)(this));
     return a;
 }
 }  // namespace fnv_00572b30
@@ -13976,7 +14064,6 @@ struct WaterZoneManager
 struct EffectSetting
 {
 };
-extern int g_TES;
 struct NiTMap
 {
 };
@@ -14116,7 +14203,7 @@ void FUN_0057b520_shell::FUN_0057b520(bool abTraverseAllZones)
                 while (iter)
                 {
                     reinterpret_cast<::C6b7f20_Map *>((pwaterZoneMap))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&((unsigned int&)pzone), (void **)&((void*&)icount));
-                    reinterpret_cast<::FUN_0057b700_class *>((((FUN_0057b700_class*)pzone)))->FUN_0057b700((int)this);
+                    reinterpret_cast<::FUN_0057b700_class *>((((FUN_0057b700_class*)pzone)))->FUN_0057b700((std::intptr_t)this);
                     reinterpret_cast<::WaterZoneManager *>((pwater))->UpdateWaterZone(((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((char*)pzone + 4))->FUN_0084e3a0())), this, *(float*)((char*)pzone + 0x18));
                 }
             }
@@ -14124,14 +14211,14 @@ void FUN_0057b520_shell::FUN_0057b520(bool abTraverseAllZones)
     }
     else
     {
-        if (((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
+        if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
         {
             bhkWorld* pw;
-            pw = (bhkWorld*)((unsigned int)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()));
+            pw = (bhkWorld*)((reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()));
             if (pw)
             {
                 TESWaterListener* plistener;
-                plistener = (TESWaterListener*)reinterpret_cast<::ActorMover *>((((BSThread*)pw)))->GetCurrentMoveModeType();
+                plistener = (TESWaterListener*)(std::uintptr_t)reinterpret_cast<::ActorMover *>((((BSThread*)pw)))->GetCurrentMoveModeType();
                 if (plistener)
                 {
                     reinterpret_cast<::FUN_00620130_Class *>((((S_00620130*)((char*)plistener + 0x14))))->FUN_00620130((::BSSimpleList<int *> *)(::TESObjectREFR *)(this));
@@ -14279,7 +14366,7 @@ void FUN_00560870(NiAVObject* pObject, VisitDataStandIn* pData)
     CountInfoStandIn* pCount = pData->pCount;
     if (::FUN_0043b300((const ::NiRTTI *)(const ::fnv_00560870::NiRTTI *)(&(*reinterpret_cast<::fnv_00560870::NiRTTI *>(&::g_0126817c))), (::NiAVObject *)(pObject)))
         pCount->m_ucEntryType |= 8;
-    pkParent = (NiAVObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pObject)))->GetName()));
+    pkParent = (NiAVObject*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pObject)))->GetName()));
     if (pObject != pCount->pRoot && pkParent && (const char*)(*(::fnv_00560870::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)pkParent)))->GetLinkToList())) &&
         !::FUN_00408b20((*(::fnv_00560870::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)pkParent)))->GetLinkToList())), "Arrow"))
         return;
@@ -14381,7 +14468,7 @@ struct FormChangeMask
 };
 struct BGSLoadFormBuffer
 {
-    FormChangeMask GetChangeFlags(unsigned int);
+    FormChangeMask GetChangeFlags();
 };
 }
 struct FUN_0056aac0_t
@@ -14476,7 +14563,7 @@ void FUN_00562660_shell::FUN_00562660(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESObjectREFR* penableparent;
     int iextraFlags;
-    reinterpret_cast<::FUN_004534f0_shell *>((((N::TESForm*)this)))->FUN_004534f0((unsigned int)apLoadGameBuffer);
+    reinterpret_cast<::FUN_004534f0_shell *>((((N::TESForm*)this)))->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
     penableparent = ((FUN_0056aac0_t*)this)->GetEnableParent();
     if (penableparent)
     {
@@ -14486,9 +14573,9 @@ void FUN_00562660_shell::FUN_00562660(BGSLoadFormBuffer* apLoadGameBuffer)
             reinterpret_cast<::FUN_00484af0_t *>((((S*)this)))->FUN_00484af0(reinterpret_cast<::TESForm *>((((RefH*)penableparent)))->GetDisabled());
     }
     iextraFlags = ((VT*)this)->v64() ? 0xa4061840 : 0xa4021c40;
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00562660::N::FormChangeMask &)(((N::BGSLoadFormBuffer*)apLoadGameBuffer)->GetChangeFlags(iextraFlags)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00562660::N::FormChangeMask &)(((N::BGSLoadFormBuffer*)apLoadGameBuffer)->GetChangeFlags()))->FUN_004280f0(iextraFlags))
         reinterpret_cast<::FixupList *>((((XActor*)this)->GetExtra()))->FixupReferences((::FixupStream *)(apLoadGameBuffer), (::TESForm *)(*(N::TESForm**)&this->unk20));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00562660::N::FormChangeMask &)(((N::BGSLoadFormBuffer*)apLoadGameBuffer)->GetChangeFlags(0x8000020)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00562660::N::FormChangeMask &)(((N::BGSLoadFormBuffer*)apLoadGameBuffer)->GetChangeFlags()))->FUN_004280f0(0x8000020))
     {
         N::InventoryChanges* pInventoryChanges = N::InventoryChanges::CreateForReference(this);
         reinterpret_cast<::fnv_004d42f0::InventoryItemManager *>((pInventoryChanges))->FUN_004d42f0((::fnv_004d42f0::InventoryStream *)(apLoadGameBuffer));
@@ -15073,7 +15160,7 @@ bool ArrSI::FUN_005649b0()
     if (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNV_GetObjectReference*)this)))->FUN_007af430())) &&
         ((FNV_GetFormType*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNV_GetObjectReference*)this)))->FUN_007af430())))->FUN_005649b0() != 0x1e)
         return false;
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (flags & 0x200)
         return true;
     else
@@ -15115,7 +15202,7 @@ void TESObjectREFR_00564b00::FUN_00564b00(bool set)
         ((_FNV_GetFormType_StandIn*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((_FNV_GetObjectReference_StandIn*)this)))->FUN_007af430())))
                 ->_FNV_GetFormType() != 0x22)
         return;
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     if (set)
         flags |= 0x200;
     else
@@ -15139,7 +15226,7 @@ struct TESObjectREFR_Flags
 // @fnv 0x00564eb0
 void TESObjectREFR_Flags::FUN_00564eb0(bool set)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     if (set)
         flags |= 0x8000;
     else
@@ -15236,7 +15323,7 @@ void* TESObjectREFR_ext::FUN_00569000()
         {
             p = ((void *)(reinterpret_cast<::TESObjectREFR *>((((TESObjectREFR_ext*)(unsigned int)i)))->GetExtraRadioData()));
             if (p)
-                return ((void *)(::FUN_00460140((int)(((TgtOps*)p)))));
+                return ((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)p)))));
         }
     }
     return &_NiPoint3_ZERO;
@@ -15338,11 +15425,11 @@ struct FUN_0056c810_Class
 {
     char m_bPad[0xd0];
     FUN_0057c590_Class m_oNode;
-    void FUN_0056c810(int v);
+    void FUN_0056c810(std::intptr_t v);
 };
 // Constructs a GO from v and passes its address to m_oNode.FUN_0057c590.
 // @fnv 0x0056c810
-void FUN_0056c810_Class::FUN_0056c810(int aiValue)
+void FUN_0056c810_Class::FUN_0056c810(std::intptr_t aiValue)
 {
     GO obj(aiValue);
     reinterpret_cast<::FUN_0057c590_Class *>(&(m_oNode))->FUN_0057c590((::Node *)(::fnv_0056c810::GO *)(&obj));
@@ -15357,13 +15444,13 @@ struct bhkConvexShape
 
 struct FUN_0056e610 : bhkConvexShape
 {
-    FUN_0056e610(unsigned int);
+    FUN_0056e610(std::uintptr_t);
 };
 
 
 // Sets the vtable pointer, increments DAT_0126825c, and calls FUN_0056e810 with the given value.
 // @fnv 0x0056e610
-FUN_0056e610::FUN_0056e610(unsigned int a)
+FUN_0056e610::FUN_0056e610(std::uintptr_t a)
 {
     *reinterpret_cast<void**>(this) = (void*)fnv_vftable_FUN_00c9fd70_cls;
     DAT_0126825c++;
@@ -15469,7 +15556,7 @@ void* FUN_005754a0_Class::FUN_005754a0(int a1, unsigned char abUseDataHandler)
     {
         InventoryChanges* changes = 0;
         if (abUseDataHandler)
-            changes = (InventoryChanges*)reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::fnv_005754a0::FUN_00740960_Class * *>(&::g_dataHandler))))->FUN_00740960();
+            changes = (InventoryChanges*)(std::uintptr_t)reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::fnv_005754a0::FUN_00740960_Class * *>(&::g_dataHandler))))->FUN_00740960();
         else
             changes = InventoryChanges::CreateForReference((TESObjectREFR*)this);
         result = ((void *)(reinterpret_cast<::Inventory64 *>((changes))->FUN_004c94f0(a1)));
@@ -15497,11 +15584,11 @@ struct FUN_0083c850
     int m10;
     int m14;
     int m18;
-    void AppendTopicInfo(int);
+    void AppendTopicInfo(std::intptr_t);
 };
 // If mInfo is set and passes the check, adds its topic list and runs its result script for ap with m18 as the character.
 // @fnv 0x0083c850
-void FUN_0083c850::AppendTopicInfo(int aiArg)
+void FUN_0083c850::AppendTopicInfo(std::intptr_t aiArg)
 {
     if (mInfo && !FUN_00579200(reinterpret_cast<char const*>(mInfo)))
     {
@@ -15570,7 +15657,7 @@ NiAVObject* FUN_009335b0_cls::FUN_008cfa40(unsigned char a)
 {
     NiAVObject* p = ((::fnv_008cfa40::NiAVObject *)(reinterpret_cast<::FUN_009335b0_cls *>(this)->FUN_009335b0(a)));
     if (p)
-        ::AssignFixedString((char *)(p), (int)&(const ::fnv_008cfa40::NiFixedString &)(BSFadeNode("Arrow").m_sName), {});
+        ::AssignFixedString((char *)(p), (std::intptr_t)&(const ::fnv_008cfa40::NiFixedString &)(BSFadeNode("Arrow").m_sName), {});
     return p;
 }
 }  // namespace fnv_008cfa40
@@ -15602,7 +15689,7 @@ char FUN_00578250(NiAVObject* object)
         return 0;
     if (reinterpret_cast<::FUN_00456630_helper *>((((FUN_00570ee0_class*)object)))->FUN_00570ea0())
     {
-        reinterpret_cast<::FUN_00ad8570_S *>((((::fnv_00578250::BSAudio *)(::FUN_00453a70()))))->FUN_00ad8570((int)(object), 0.0f, 0);
+        reinterpret_cast<::FUN_00ad8570_S *>((((::fnv_00578250::BSAudio *)(::FUN_00453a70()))))->FUN_00ad8570((std::intptr_t)(object), 0.0f, 0);
         result = 1;
     }
     for (unsigned int i = 0; i < ((FUN_00578250_class*)object)->GetNumChildren(); ++i)
@@ -15633,7 +15720,7 @@ struct LH
 
 struct G2
 {
-    void AddHead(int* value);
+    void AddHead(std::intptr_t* value);
 };
 
 struct FUN_004207e0Class
@@ -15645,11 +15732,11 @@ public:
 
 struct FUN_00420ce0Class : public FUN_004207e0Class
 {
-    void FUN_00420ce0(int value);
+    void FUN_00420ce0(std::intptr_t value);
 };
 
 // @fnv 0x00420ce0
-void FUN_00420ce0Class::FUN_00420ce0(int value)
+void FUN_00420ce0Class::FUN_00420ce0(std::intptr_t value)
 {
     if (!FUN_004207e0() && value)
         reinterpret_cast<::fnv_00420440::FUN_00420440_shell *>(this)->FUN_00420440((::MagicItem *)(::FUN_00416b80 *)(new FUN_00416b80()));
@@ -15841,7 +15928,7 @@ struct FormChangeRecord
 
 struct BGSLoadFormBuffer : FormChangeRecord
 {
-    FormChangeMask GetChangeFlags(unsigned int flags);
+    FormChangeMask GetChangeFlags();
 };
 
 struct BGSSaveFormBuffer : BGSLoadFormBuffer
@@ -16009,11 +16096,11 @@ void FUN_00562140_cls::FUN_00562140(BGSSaveFormBuffer* saveGameBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((this))->FUN_004534f0(reinterpret_cast<unsigned int>(saveGameBuffer));
 
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(void *)&(const ::fnv_00562140::FormChangeMask &)(saveGameBuffer->BGSLoadFormBuffer::GetChangeFlags(0x10000000)))->FUN_004280f0 bool({}))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)(void *)&(const ::fnv_00562140::FormChangeMask &)(saveGameBuffer->BGSLoadFormBuffer::GetChangeFlags()))->FUN_004280f0(0x10000000))
     {
         if (!this->V64())
         {
-            if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((this))->FUN_0043fcd0())) != 0)
+            if (((std::uintptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((this))->FUN_0043fcd0())) != 0)
             {
                 if (!reinterpret_cast<::FUN_005621d0_shell *>(((*reinterpret_cast<::fnv_00562140::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_005621d0())
                 {
@@ -16494,7 +16581,7 @@ void RefPersistsStandin::FUN_00565480(bool abVal)
     unsigned int iflags;
 
     pcell = reinterpret_cast<CellInterface*>(reinterpret_cast<char*>(this) + 0x18)->GetContainingCell();
-    iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName()));
+    iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName()));
 
     if (abVal)
         iflags |= 0x400;
@@ -16793,7 +16880,7 @@ struct FUN_00567f40_class
 // @fnv 0x00567f40
 ActorCause* FUN_00567f40_class::FUN_00567f40(Actor* actor)
 {
-    reinterpret_cast<::FUN_0042e930_shell *>((reinterpret_cast<FUN_0042e930_class*>(reinterpret_cast<XActor*>(this)->GetExtra())))->FUN_0042e930((int)(actor));
+    reinterpret_cast<::FUN_0042e930_shell *>((reinterpret_cast<FUN_0042e930_class*>(reinterpret_cast<XActor*>(this)->GetExtra())))->FUN_0042e930((std::intptr_t)(actor));
 
     return reinterpret_cast<FUN_00567f40_class*>(this)->f18(0x80000000u);
 }
@@ -16963,13 +17050,14 @@ struct P3
 
 struct NiPoint3 : public P3
 {
-    void ComputeMagnitude();
 public:
     bool FUN_004390c0(const ::NiPoint3 &);
 public:
     float ComputeMagnitude() const;
 public:
     static const ::NiPoint3 ZERO;
+public:
+    char* FUN_00a59af0(const char*);
 };
 
 struct ThreeByThreeMatrix
@@ -17168,7 +17256,7 @@ class Dummy_00577bd0 : public TESDataHandler
 // @fnv 0x00577c70
 void Dummy_00577bd0::FUN_00577c70(float value)
 {
-    reinterpret_cast<::FUN_00ca9360_cls *>((reinterpret_cast<Dummy_00577bd0*>(reinterpret_cast<char*>(((void *)(::FUN_00460140((int)(((::fnv_00577c70::TgtOps *)(reinterpret_cast<::FUN_009d9f40_Class *>(this)->FUN_009d9f40()))))))) + 0xac)))->FUN_00ca9360(&value);
+    reinterpret_cast<::FUN_00ca9360_cls *>((reinterpret_cast<Dummy_00577bd0*>(reinterpret_cast<char*>(((void *)(::FUN_00460140((std::intptr_t)(((::fnv_00577c70::TgtOps *)(reinterpret_cast<::FUN_009d9f40_Class *>(this)->FUN_009d9f40()))))))) + 0xac)))->FUN_00ca9360(&value);
 }
 }  // namespace fnv_00577c70
 
@@ -17494,7 +17582,6 @@ class TES
   public:
 };
 
-extern int g_TES;
 
 struct FUN_0057b790_StandIn
 {
@@ -18614,13 +18701,13 @@ void FUN_00561b40(RefX* ref, InfoX* info)
             {
                 g_TESSaveLoadGame->FUN_008579e0(&pos4, 0xc);
                 g_TESSaveLoadGame->FUN_008579e0(&rot2, 0x10);
-                reinterpret_cast<::FUN_005610f0_cls *>((kCtrl))->FUN_005610f0((int)(&pos4));
+                reinterpret_cast<::FUN_005610f0_cls *>((kCtrl))->FUN_005610f0((std::intptr_t)(&pos4));
                 reinterpret_cast<::S00561150_Object *>((kCtrl))->FUN_00561150((const ::S00561150_Source *)(::fnv_00561b40::QuatX *)(&rot2));
             }
             else
             {
                 info->unk14 &= ~2;
-                reinterpret_cast<::FUN_005610f0_cls *>((kCtrl))->FUN_005610f0((int)(holder->Get1F4()));
+                reinterpret_cast<::FUN_005610f0_cls *>((kCtrl))->FUN_005610f0((std::intptr_t)(holder->Get1F4()));
                 QuatX kQuat;
                 reinterpret_cast<::NiQuaternion *>(&(kQuat))->FromRotationMatrix((const ::ThreeByThreeMatrix &)((const ::fnv_00561b40::Mat33 &)(holder->FUN_0056fa00())));
                 reinterpret_cast<::S00561150_Object *>((kCtrl))->FUN_00561150((const ::S00561150_Source *)(::fnv_00561b40::QuatX *)(&kQuat));
@@ -18629,13 +18716,13 @@ void FUN_00561b40(RefX* ref, InfoX* info)
             {
                 g_TESSaveLoadGame->FUN_008579e0(&vel2, 0xc);
                 g_TESSaveLoadGame->FUN_008579e0(&angVel6, 0xc);
-                reinterpret_cast<::Owner5615 *>((kCtrl))->FUN_005615d0((int)(&vel2));
+                reinterpret_cast<::Owner5615 *>((kCtrl))->FUN_005615d0((std::intptr_t)(&vel2));
                 reinterpret_cast<::bhkCharacterController *>((kCtrl))->FUN_00561630((*(const ::NiPoint3 *)(&angVel6)));
                 reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((kCtrl))->FUN_00561580(true);
             }
             else
             {
-                reinterpret_cast<::Owner5615 *>((kCtrl))->FUN_005615d0((int)(&(*reinterpret_cast<::fnv_00561b40::Pt3 *>((void *)&::NiPoint3::ZERO))));
+                reinterpret_cast<::Owner5615 *>((kCtrl))->FUN_005615d0((std::intptr_t)(&(*reinterpret_cast<::fnv_00561b40::Pt3 *>((void *)&::NiPoint3::ZERO))));
                 reinterpret_cast<::bhkCharacterController *>((kCtrl))->FUN_00561630((*(const ::NiPoint3 *)(&(*reinterpret_cast<::fnv_00561b40::Pt3 *>((void *)&::NiPoint3::ZERO)))));
             }
         }
@@ -19230,7 +19317,7 @@ void FUN_00564c60_cls::FUN_00564c60(unsigned char abSet)
     {
         if (FUN_00401170(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) != 0x1c)
         {
-            int v = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
+            std::intptr_t v = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
             if (abSet != 0)
             {
                 v = v | 0x100;
@@ -19717,7 +19804,7 @@ class FUN_0056d500_cls
 // @fnv 0x0056d500
 FUN_0056d500_cls* FUN_0056d500_cls::FUN_0056d500(int nFlag)
 {
-    reinterpret_cast<::FUN_00c9d620_holder *>((this))->FUN_00c9d620_holder::~FUN_00c9d620_holder();
+    reinterpret_cast<::FUN_00c9d620_holder *>((this))->::FUN_00c9d620_holder::~FUN_00c9d620_holder();
     if (nFlag & 1)
     {
         ::FUN_00aa1460(this, 0x14);
@@ -19797,7 +19884,7 @@ struct FUN_0056e460_cls
 // @fnv 0x0056e460
 void* FUN_0056e460_cls::FUN_0056e460(int iFlags)
 {
-    reinterpret_cast<::FUN_00c9eb30 *>((this))->FUN_00c9eb30::~FUN_00c9eb30();
+    reinterpret_cast<::FUN_00c9eb30 *>((this))->::FUN_00c9eb30::~FUN_00c9eb30();
     if (iFlags & 1)
         FUN_00aa1460(this, 0x18);
     return this;
@@ -19887,7 +19974,7 @@ struct FUN_0056e920_cls
 // @fnv 0x0056e920
 FUN_0056e920_cls* FUN_0056e920_cls::FUN_0056e920(unsigned int acFlags)
 {
-    reinterpret_cast<::FUN_00c9fd70_cls *>(this)->FUN_00c9fd70_cls::~FUN_00c9fd70_cls();
+    reinterpret_cast<::FUN_00c9fd70_cls *>(this)->::FUN_00c9fd70_cls::~FUN_00c9fd70_cls();
     if (acFlags & 1)
     {
         FUN_00aa1460(this, 0x14);
@@ -20054,7 +20141,7 @@ void FUN_00575510_shell::FUN_00575510(bool useProvider, void** relatedObject, Se
     {
         if (useProvider)
         {
-            *selectedObject = ((::SelectedObject *)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::ObjectProvider * *>(&::g_dataHandler))))->FUN_00740960()));
+            *selectedObject = ((::SelectedObject *)(std::uintptr_t)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::ObjectProvider * *>(&::g_dataHandler))))->FUN_00740960()));
         }
         else
         {
@@ -20122,7 +20209,7 @@ bool FUN_00578060(NodeView* node)
         if (geometry && reinterpret_cast<::BGSAddonNode *>((geometry))->IsMasterParticleSystem())
         {
             reinterpret_cast<::TaskQueueInterface *>((addon))->QueueActorDisarm(false);
-            reinterpret_cast<::FUN_00c505c0_Class *>((((::EffectsView *)(::FUN_0045a190()))))->FUN_00c505c0((int)(((void *)(reinterpret_cast<::TESQuest *>((geometry))->GetScriptLocalData()))), {});
+            reinterpret_cast<::FUN_00c505c0_Class *>((((::EffectsView *)(::FUN_0045a190()))))->FUN_00c505c0((std::intptr_t)(((void *)(reinterpret_cast<::TESQuest *>((geometry))->GetScriptLocalData()))), {});
             found = true;
         }
     }
@@ -20262,7 +20349,7 @@ void ActorActions::FUN_00579220(float amount, bool repeat)
     {
         if (!reinterpret_cast<::FUN_00477ba0_shell *>(this)->FUN_00477ba0() || repeat)
         {
-            reinterpret_cast<::Destruction *>((((::AnimationAction *)(::FUN_00475400((void *)(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))))))->FUN_00475b20({}, {}, {});
+            reinterpret_cast<::Destruction *>((((::AnimationAction *)(::FUN_00475400((void *)(((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))))))->FUN_00475b20({}, {}, {});
         }
     }
 }
@@ -20288,7 +20375,7 @@ struct FUN_0057a8d0 : ExtraDataHeader
 // @fnv 0x0057a8a0
 void* ExtraAnimNoteReceiver::FUN_0057a8a0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0057a8d0 *>((this))->FUN_0057a8d0::~FUN_0057a8d0();
+    reinterpret_cast<::FUN_0057a8d0 *>((this))->::FUN_0057a8d0::~FUN_0057a8d0();
 
     if (flags & 1)
     {
@@ -20551,16 +20638,16 @@ struct FUN_0057b0d0_cls
     char unk04[0x60];
     FUN_0057b0d0_S* m64;
     void* FUN_005d43c0(int a, unsigned char b);
-    void FUN_0057b0d0(int a, unsigned char b);
+    void FUN_0057b0d0(std::intptr_t a, unsigned char b);
 };
 
 // @fnv 0x0057b0d0
-void FUN_0057b0d0_cls::FUN_0057b0d0(int aiArg, unsigned char b)
+void FUN_0057b0d0_cls::FUN_0057b0d0(std::intptr_t aiArg, unsigned char b)
 {
     void* r;
     if (m64 != 0)
     {
-        m64->u0 = ((::FUN_0057b0d0_X *)(reinterpret_cast<::FUN_0042f030_cls *>((FUN_005d43c0(aiArg, b)))->FUN_0042f030({}, {})));
+        m64->u0 = ((::FUN_0057b0d0_X *)(std::uintptr_t)(reinterpret_cast<::FUN_0042f030_cls *>((FUN_005d43c0(aiArg, b)))->FUN_0042f030({}, {})));
         if (m64->u0 != 0)
         {
             m64->f8 = m64->u0->v125()->f8;
@@ -22177,7 +22264,7 @@ void Self::FUN_00936f50(bool arg)
         if (!p->FUN_00936fb0() || arg)
         {
             if (reinterpret_cast<::FUN_00936ef0_Class *>(this)->FUN_00936ef0())
-                reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::Mgr * *>(&::g_modelLoader))))->FUN_004534f0((unsigned int)(p));
+                reinterpret_cast<::FUN_004534f0_shell *>(((*reinterpret_cast<::Mgr * *>(&::g_modelLoader))))->FUN_004534f0((std::uintptr_t)(p));
         }
     }
 }
@@ -22486,10 +22573,10 @@ void RefX::FUN_009c6160(int unused)
                 ::FUN_0057b1d0((char *)(pController2), m_fGlyphExtent);
                 reinterpret_cast<::S005620e0_Object *>((pController2))->FUN_005620e0((const ::S005620e0_Source *)(::fnv_009c6160::NiPoint3 *)(((::fnv_009c6160::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()))));
             }
-            NiAVObject* pNode5 = ((::fnv_009c6160::NiAVObject *)(reinterpret_cast<::FUN_00810660_Class *>((pController2))->FUN_00810660()));
+            NiAVObject* pNode5 = ((::fnv_009c6160::NiAVObject *)(std::uintptr_t)(reinterpret_cast<::FUN_00810660_Class *>((pController2))->FUN_00810660()));
             if (pNode5 != aP3D)
             {
-                reinterpret_cast<::S_00c6d7a0_Obj *>((pController2))->FUN_00c6d7a0((int)(aP3D));
+                reinterpret_cast<::S_00c6d7a0_Obj *>((pController2))->FUN_00c6d7a0((std::intptr_t)(aP3D));
             }
         }
         else
@@ -23203,7 +23290,7 @@ Cls::~FUN_0055a430()
                 reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>((FUN_005d43c0(elem_2->f0)))->FUN_0041f4c0((::TESObjectREFR *)(::fnv_0055a430::FUN_0055a430 *)(this), 0);
                 reinterpret_cast<::WorkerExtraList *>((FUN_005d43c0(elem_2->f0)))->FUN_0041f650((::TESObjectREFR *)(::fnv_0055a430::FUN_0055a430 *)(this), 0);
             }
-            ::fnv_005aa5d0::FUN_005aa5d0((int)(this));
+            ::fnv_005aa5d0::FUN_005aa5d0((std::intptr_t)(this));
             head3 = this;
             reinterpret_cast<::ItemChangeListNode *>((((::fnv_0055a430::Obj905 *)(::FUN_004e3260()))))->FUN_00905330(*(::InventoryStackRecord *const *)nullptr);
             list2 = this;
@@ -23214,25 +23301,25 @@ Cls::~FUN_0055a430()
                 {
                 case 0x3b:
                 case 0x3c:
-                    reinterpret_cast<::FUN_00963d60_shell *>((DAT_011dea3c))->FUN_00963d60((int)(this));
+                    reinterpret_cast<::FUN_00963d60_shell *>((DAT_011dea3c))->FUN_00963d60((std::intptr_t)(this));
                     break;
                 default:
                     reinterpret_cast<::fnv_00976680::Host *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->FUN_00976680((::fnv_00976680::Obj *)(::fnv_0055a430::FUN_0055a430 *)(this));
-                    reinterpret_cast<::FUN_00963d60_shell *>((DAT_011dea3c))->FUN_00963d60((int)(this));
+                    reinterpret_cast<::FUN_00963d60_shell *>((DAT_011dea3c))->FUN_00963d60((std::intptr_t)(this));
                     reinterpret_cast<::fnv_0096f600::FUN_0096f600_shell *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->FUN_0096f600((::Actor *)(::fnv_0055a430::FUN_0055a430 *)(this), 1);
                     reinterpret_cast<::CrimeProcess *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->FUN_00975320((::TESForm *)(::fnv_0055a430::FUN_0055a430 *)(this));
-                    reinterpret_cast<::F8660Owner *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->FUN_00978660((unsigned int)(this));
+                    reinterpret_cast<::F8660Owner *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->FUN_00978660((std::uintptr_t)(this));
                     break;
                 }
             }
             if (!reinterpret_cast<::B5725B0Form *>(this)->FUN_005725b0())
             {
-                reinterpret_cast<::FUN_009749b0_shell *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->FUN_009749b0((int)(this));
+                reinterpret_cast<::FUN_009749b0_shell *>(&((*reinterpret_cast<::fnv_0055a430::ProcL *>(&::g_011e0e80))))->FUN_009749b0((std::intptr_t)(this));
             }
         }
         if (reinterpret_cast<::FUN_0055abe0_class *>(this)->FUN_0055abe0())
         {
-            reinterpret_cast<::Holder_0055ac40 *>((DAT_011dea3c))->FUN_0055ac40((unsigned int)(this));
+            reinterpret_cast<::Holder_0055ac40 *>((DAT_011dea3c))->FUN_0055ac40((std::uintptr_t)(this));
         }
         if (!reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::fnv_0055a430::DHand * *>(&::g_dataHandler))))->FUN_004226e0())
         {
@@ -23244,7 +23331,7 @@ Cls::~FUN_0055a430()
         }
         if (reinterpret_cast<::FUN_00452370_shell *>(this)->FUN_00452370())
         {
-            ::FUN_00477410((unsigned int)(this));
+            ::FUN_00477410((unsigned int)(std::uintptr_t)(this));
         }
     }
     aTmp68 = ((::fnv_0055a430::FUN_0055a430 *)(reinterpret_cast<::FUN_00569b80_shell *>(this)->FUN_00569b80()));
@@ -24633,7 +24720,7 @@ void SaveReference::FUN_0055e940(unsigned int flags)
             if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
             {
                 unsigned int end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
-                unsigned int blockStart = reinterpret_cast<unsigned int>(pusBlockSize);
+                std::uintptr_t blockStart = reinterpret_cast<std::uintptr_t>(pusBlockSize);
                 if (end > blockStart + 0xffff)
                     ::FUN_005b5e40();
                 *pusBlockSize = static_cast<unsigned short>(end - blockStart);
@@ -24917,10 +25004,10 @@ struct LoadObject
     void* FUN_0055d310();
     LoadExtra* FUN_005d43c0();
     void FUN_00567490(float);
-    void FUN_0055ec40(unsigned int flags, unsigned int more);
+    void FUN_0055ec40(uintptr_t flags, uintptr_t more);
 };
 // @fnv 0x0055ec40
-void LoadObject::FUN_0055ec40(unsigned int flags, unsigned int more)
+void LoadObject::FUN_0055ec40(uintptr_t flags, uintptr_t more)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>(this)->FUN_00484c50(flags, more);
     if (!isActor() && (flags & 0x200000))
@@ -25076,7 +25163,6 @@ struct MyModelLoader : public ModelLoader
 struct MyTES : public TES
 {
 };
-extern MyTES* g_TES;
 
 struct TESSaveLoadGame
 {
@@ -25262,7 +25348,7 @@ void FUN_0055f240_Class::FUN_0055f240(unsigned int changedFlags)
             {
                 if (!(*reinterpret_cast<::fnv_0055f240::MyModelLoader * *>(&::g_modelLoader))->FUN_00445750(this))
                 {
-                    reinterpret_cast<::ML *>(((*reinterpret_cast<::fnv_0055f240::MyModelLoader * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(void *)(this), (int)(((void *)(reinterpret_cast<::LodGrid *>((g_TES))->FUN_00458be0((::LodCell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::LodPoint *)(0))))), {});
+                    reinterpret_cast<::ML *>(((*reinterpret_cast<::fnv_0055f240::MyModelLoader * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(void *)(this), (std::intptr_t)(((void *)(reinterpret_cast<::LodGrid *>((g_TES))->FUN_00458be0((::LodCell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::LodPoint *)(0))))), {});
                 }
             }
         }
@@ -26330,7 +26416,7 @@ void __cdecl FUN_00560e70(CollisionLoad* collision, ContextLoad* context)
             if (state3->flags & 2)
             {
                 state3->flags &= ~2;
-                reinterpret_cast<::FUN_005610f0_cls *>((body6))->FUN_005610f0((int)(&state3->ref->position()));
+                reinterpret_cast<::FUN_005610f0_cls *>((body6))->FUN_005610f0((std::intptr_t)(&state3->ref->position()));
                 QuatLoad rotation;
                 reinterpret_cast<::NiQuaternion *>(&(rotation))->FromRotationMatrix((const ::ThreeByThreeMatrix &)((const ::fnv_00560e70::MatrixLoad &)(state3->ref->FUN_0056fa00())));
                 reinterpret_cast<::S00561150_Object *>((body6))->FUN_00561150((const ::S00561150_Source *)(const ::fnv_00560e70::QuatLoad *)(&rotation));
@@ -26341,7 +26427,7 @@ void __cdecl FUN_00560e70(CollisionLoad* collision, ContextLoad* context)
                 QuatLoad savedRotation;
                 g_TESSaveLoadGame->FUN_008579e0(&positionA, 12);
                 g_TESSaveLoadGame->FUN_008579e0(&savedRotation, 16);
-                reinterpret_cast<::FUN_005610f0_cls *>((body6))->FUN_005610f0((int)(&positionA));
+                reinterpret_cast<::FUN_005610f0_cls *>((body6))->FUN_005610f0((std::intptr_t)(&positionA));
                 reinterpret_cast<::S00561150_Object *>((body6))->FUN_00561150((const ::S00561150_Source *)(const ::fnv_00560e70::QuatLoad *)(&savedRotation));
             }
             bool motion = false;
@@ -26355,13 +26441,13 @@ void __cdecl FUN_00560e70(CollisionLoad* collision, ContextLoad* context)
                 VecLoad angular5;
                 g_TESSaveLoadGame->FUN_008579e0(&linear, 12);
                 g_TESSaveLoadGame->FUN_008579e0(&angular5, 12);
-                reinterpret_cast<::Owner5615 *>((body6))->FUN_005615d0((int)(&linear));
+                reinterpret_cast<::Owner5615 *>((body6))->FUN_005615d0((std::intptr_t)(&linear));
                 reinterpret_cast<::bhkCharacterController *>((body6))->FUN_00561630((*(const ::NiPoint3 *)(&angular5)));
                 reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((body6))->FUN_00561580(true);
             }
             else
             {
-                reinterpret_cast<::Owner5615 *>((body6))->FUN_005615d0((int)(&(*reinterpret_cast<::fnv_00560e70::VecLoad *>((void *)&::NiPoint3::ZERO))));
+                reinterpret_cast<::Owner5615 *>((body6))->FUN_005615d0((std::intptr_t)(&(*reinterpret_cast<::fnv_00560e70::VecLoad *>((void *)&::NiPoint3::ZERO))));
                 reinterpret_cast<::bhkCharacterController *>((body6))->FUN_00561630((*(const ::NiPoint3 *)(&(*reinterpret_cast<::fnv_00560e70::VecLoad *>((void *)&::NiPoint3::ZERO)))));
                 if (active4)
                     reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((body6))->FUN_00561580(false);
@@ -26709,7 +26795,7 @@ bool StubRef565::FUN_00565260()
                 StubCheck565* check = (StubCheck565*)form;
                 if (reinterpret_cast<::FUN_005194d0_shell_base *>((check))->FUN_005194d0())
                     return true;
-                if (((int)(reinterpret_cast<::TESObjectREFR *>(this)->GetExtraRadioData())))
+                if (((std::uintptr_t)(reinterpret_cast<::TESObjectREFR *>(this)->GetExtraRadioData())))
                     return true;
                 break;
             }
@@ -27548,8 +27634,8 @@ void Actor79::FUN_005659f0()
                 }
                 if (!skip3)
                 {
-                    Sequence79* sequence8 = ((::fnv_005659f0::Sequence79 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager35))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_005659f0::Name79 &)(Name79((*reinterpret_cast<const char * *>(&::DAT_011977d8)))))));
-                    Sequence79* secondary8 = ((::fnv_005659f0::Sequence79 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager35))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_005659f0::Name79 &)(Name79((*reinterpret_cast<const char * *>(&::DAT_01197820)))))));
+                    Sequence79* sequence8 = ((::fnv_005659f0::Sequence79 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager35))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_005659f0::Name79 &)(Name79((*reinterpret_cast<const char * const *>(&::DAT_011977d8)))))));
+                    Sequence79* secondary8 = ((::fnv_005659f0::Sequence79 *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((manager35))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_005659f0::Name79 &)(Name79((*reinterpret_cast<const char * const *>(&::DAT_01197820)))))));
                     if (sequence8 || secondary8)
                     {
                         float end = 0.0f;
@@ -27629,7 +27715,7 @@ void Actor79::FUN_005659f0()
                 reinterpret_cast<::FUN_00490330_t *>((animation16))->FUN_00490330((::BSSimpleList<const char *> *)(((const char *)(reinterpret_cast<::BaseProcess *>(&(creature2->models))->GetCurrentProcessData()))), {});
             }
         }
-        reinterpret_cast<::FUN_005fbdd0_cls *>((creature2))->FUN_005fbdd0((int)(object4));
+        reinterpret_cast<::FUN_005fbdd0_cls *>((creature2))->FUN_005fbdd0((std::intptr_t)(object4));
         break;
     case 42:
         if (!biped5)
@@ -27693,7 +27779,7 @@ void Actor79::FUN_005659f0()
                 if (!process39->IsBusy(1) && item2)
                 {
                     if (::FUN_008c7aa0() && currentActor3 != ((::fnv_005659f0::Actor79 *)(::FUN_0047b200())))
-                        reinterpret_cast<::Host0087b360 *>((((::fnv_005659f0::Equip79 *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((int)(((::fnv_005659f0::Base79 *)(reinterpret_cast<::Twin_0044ddc0 *>((item2))->GetName()))), {});
+                        reinterpret_cast<::Host0087b360 *>((((::fnv_005659f0::Equip79 *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((int)(std::uintptr_t)(((::fnv_005659f0::Base79 *)(reinterpret_cast<::Twin_0044ddc0 *>((item2))->GetName()))), {});
                     else if (!special40)
                         currentActor3->FUN_00571760(((::fnv_005659f0::Base79 *)(reinterpret_cast<::Twin_0044ddc0 *>((item2))->GetName())));
                 }
@@ -28102,12 +28188,12 @@ AnimationSet62* Ref62::FUN_00566970(int animationType)
             if (suffix52 && *suffix52)
             {
                 ::std::sprintf(slash24, DAT_01016f90, suffix52);
-                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
+                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (std::intptr_t)(result));
                 ::std::sprintf(slash24, DAT_01016f80, suffix52);
-                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
+                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (std::intptr_t)(result));
             }
             ::TaskQueueInterface::CopyStringToBuffer(slash24, 260 - (slash24 - path10), DAT_01016f74);
-            reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
+            reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (std::intptr_t)(result));
         }
         break;
     }
@@ -28145,12 +28231,12 @@ AnimationSet62* Ref62::FUN_00566970(int animationType)
             if (playerSuffix62 && *playerSuffix62)
             {
                 ::std::sprintf(firstSlash30, DAT_01016f90, playerSuffix62);
-                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
+                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (std::intptr_t)(result));
                 ::std::sprintf(firstSlash30, DAT_01016f80, playerSuffix62);
-                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
+                reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (std::intptr_t)(result));
             }
             ::TaskQueueInterface::CopyStringToBuffer(firstSlash30, 260 - (firstSlash30 - firstPath5), DAT_01016f74);
-            reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
+            reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (std::intptr_t)(result));
         }
         break;
     }
@@ -28215,7 +28301,7 @@ struct Self567b50 : public TESObjectREFR
 // @fnv 0x00567b50
 void Self567b50::FUN_00567b50(TESObjectREFR* pRef)
 {
-    reinterpret_cast<::FUN_004197d0_shell *>((GetExtra()))->SetExtraDataValue((int)pRef);
+    reinterpret_cast<::FUN_004197d0_shell *>((GetExtra()))->SetExtraDataValue((std::intptr_t)pRef);
     ((Ref567b50*)this)->v48(0x40);
     Holder567b50* p = ((::Holder567b50 *)(reinterpret_cast<::TESObjectREFR *>(this)->GetExtraRadioData()));
     if (p)
@@ -28771,7 +28857,7 @@ bool FUN_00569670(XAVObject* apObject, PointTester* tester, bool* found, bool al
             {
                 NiPoint3 pt = ::NiPoint3::ZERO;
                 reinterpret_cast<::FUN_00534570_shell *>(&(vertexAccess))->FUN_00534570(i, pt);
-                pt = *((::fnv_00569670::XTransform *)(::FUN_00461130((int)(geom)))) * pt;
+                pt = *((::fnv_00569670::XTransform *)(::FUN_00461130((std::intptr_t)(geom)))) * pt;
                 if (tester->TestPoint(pt))
                 {
                     hits++;
@@ -30002,8 +30088,8 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
     if (((::BuildReferenceScene::Base *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((::BuildReferenceScene::Base *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 35)
     {
         reinterpret_cast<::FUN_0045ce40_class *>((DAT_011dea10))->FUN_0045ce40();
-        if (((::BuildReferenceScene::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::BuildReferenceScene::Toggle *)(reinterpret_cast<::ActorMover *>((((::BuildReferenceScene::LoadedState *)(reinterpret_cast<::FUN_004543c0_cls *>((((::BuildReferenceScene::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))))->GetCurrentMoveModeType())))
-            reinterpret_cast<::bhkEntityListener_shell *>((((::BuildReferenceScene::Toggle *)(reinterpret_cast<::ActorMover *>((((::BuildReferenceScene::LoadedState *)(reinterpret_cast<::FUN_004543c0_cls *>((((::BuildReferenceScene::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))))->GetCurrentMoveModeType()))))->FUN_00937090(1);
+        if (((::BuildReferenceScene::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::BuildReferenceScene::Toggle *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::BuildReferenceScene::LoadedState *)(reinterpret_cast<::FUN_004543c0_cls *>((((::BuildReferenceScene::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))))->GetCurrentMoveModeType())))
+            reinterpret_cast<::bhkEntityListener_shell *>((((::BuildReferenceScene::Toggle *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::BuildReferenceScene::LoadedState *)(reinterpret_cast<::FUN_004543c0_cls *>((((::BuildReferenceScene::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))))->GetCurrentMoveModeType()))))->FUN_00937090(1);
     }
     ::FUN_0057c180((char *)this);
     ScenePointer scene(((::BuildReferenceScene::Scene *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())));
@@ -30137,7 +30223,7 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                     if (actor)
                     {
                         reinterpret_cast<::FUN_008b0bd0_shell *>((actor))->FUN_008b0bd0((::NiAVObject *)(::BuildReferenceScene::Scene *)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))));
-                        if (((::BuildReferenceScene::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BuildReferenceScene::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
+                        if (((::BuildReferenceScene::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BuildReferenceScene::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
                             processSlot1 = ((::BuildReferenceScene::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
                     }
                     if (processSlot1)
@@ -30215,10 +30301,10 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                 if (linked->GetAttachment())
                 {
                     void* attachment = linked->GetAttachment();
-                    AttachedScene* object = ((::BuildReferenceScene::AttachedScene *)(reinterpret_cast<::Finder *>((((::BuildReferenceScene::AttachedSceneProvider *)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e8030({})));
+                    AttachedScene* object = ((::BuildReferenceScene::AttachedScene *)(reinterpret_cast<::Finder *>((((::BuildReferenceScene::AttachedSceneProvider *)(std::uintptr_t)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e8030({})));
                     AttachedScene* aliasSlot10 = object;
                     GeometryType* typeSlot0 = aliasSlot10->FUN_004030b0();
-                    if (typeSlot0 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((typeSlot0))->GetBaseTexture())) == 13)
+                    if (typeSlot0 && ((std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((typeSlot0))->GetBaseTexture())) == 13)
                     {
                         Geometry* propertySlot0 = ((::BuildReferenceScene::Geometry *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
                         Geometry* geometrySlot0 = propertySlot0;
@@ -30227,7 +30313,7 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                             reinterpret_cast<::FUN_004ed8c0_shell *>(&(geometrySlot0->scenes))->FUN_004ed8c0((int *)&(const ::BuildReferenceScene::Scene *const &)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)(ownSceneSlot1))))));
                             geometrySlot0->dirty = 1;
                         }
-                        reinterpret_cast<::B5Owner *>((((::BuildReferenceScene::Manager *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((unsigned int)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)(ownSceneSlot1))))));
+                        reinterpret_cast<::B5Owner *>((((::BuildReferenceScene::Manager *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((std::uintptr_t)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)(ownSceneSlot1))))));
                     }
                 }
                 lightsSlot12 = ((::BuildReferenceScene::ReferenceListNode *)(reinterpret_cast<::Callees *>((lightsSlot12))->FUN_00726070()));
@@ -30245,10 +30331,10 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                 void* attachment = GetAttachment();
                 if (attachment)
                 {
-                    AttachedScene* object = ((::BuildReferenceScene::AttachedScene *)(reinterpret_cast<::Finder *>((((::BuildReferenceScene::AttachedSceneProvider *)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e8030({})));
+                    AttachedScene* object = ((::BuildReferenceScene::AttachedScene *)(reinterpret_cast<::Finder *>((((::BuildReferenceScene::AttachedSceneProvider *)(std::uintptr_t)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e8030({})));
                     AttachedScene* aliasSlot10 = object;
                     GeometryType* typeSlot0 = aliasSlot10->FUN_004030b0();
-                    if (typeSlot0 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((typeSlot0))->GetBaseTexture())) == 13)
+                    if (typeSlot0 && ((std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((typeSlot0))->GetBaseTexture())) == 13)
                     {
                         Geometry* propertySlot0 = ((::BuildReferenceScene::Geometry *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
                         Geometry* geometrySlot0 = propertySlot0;
@@ -30257,7 +30343,7 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                             reinterpret_cast<::FUN_004ed8c0_shell *>(&(geometrySlot0->scenes))->FUN_004ed8c0((int *)&(const ::BuildReferenceScene::Scene *const &)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)(linkedScene))))));
                             geometrySlot0->dirty = 1;
                         }
-                        reinterpret_cast<::B5Owner *>((((::BuildReferenceScene::Manager *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((unsigned int)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)(linkedScene))))));
+                        reinterpret_cast<::B5Owner *>((((::BuildReferenceScene::Manager *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((std::uintptr_t)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)(linkedScene))))));
                     }
                 }
             }
@@ -30266,11 +30352,11 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
     }
     if (hadSceneSlot14 && !reinterpret_cast<::FUN_00420810_shell *>((FUN_005d43c0()))->FUN_00420810())
     {
-        LinkedReference* linked = ((::BuildReferenceScene::LinkedReference *)(reinterpret_cast<::FUN_004208b0_cls *>((FUN_005d43c0()))->FUN_004208b0()));
+        LinkedReference* linked = ((::BuildReferenceScene::LinkedReference *)(std::uintptr_t)(reinterpret_cast<::FUN_004208b0_cls *>((FUN_005d43c0()))->FUN_004208b0()));
         if (linked)
         {
-            if (!((int)(reinterpret_cast<::FUN_0057c6a0Class *>((((::BuildReferenceScene::ExtraLink *)(reinterpret_cast<::FUN_0045c650_shell *>((((::BuildReferenceScene::LinkPointer *)(reinterpret_cast<::Ref5699 *>((linked))->FUN_005699b0()))))->FUN_0045c650()))))->FUN_0057c6a0((void *)&(const ::BuildReferenceScene::ScenePointer &)(((::BuildReferenceScene::Scene *)(reinterpret_cast<::TESObjectREFR569 *>(this)->FUN_00569920()))), (void *)(0)))))
-                reinterpret_cast<::fnv_0056c810::FUN_0056c810_Class *>((((::BuildReferenceScene::LinkPointer *)(reinterpret_cast<::Ref5699 *>((linked))->FUN_005699b0()))))->FUN_0056c810((int)(((::BuildReferenceScene::Scene *)(reinterpret_cast<::TESObjectREFR569 *>(this)->FUN_00569920()))));
+            if (!((std::uintptr_t)(reinterpret_cast<::FUN_0057c6a0Class *>((((::BuildReferenceScene::ExtraLink *)(reinterpret_cast<::FUN_0045c650_shell *>((((::BuildReferenceScene::LinkPointer *)(reinterpret_cast<::Ref5699 *>((linked))->FUN_005699b0()))))->FUN_0045c650()))))->FUN_0057c6a0((void *)&(const ::BuildReferenceScene::ScenePointer &)(((::BuildReferenceScene::Scene *)(reinterpret_cast<::TESObjectREFR569 *>(this)->FUN_00569920()))), (void *)(0)))))
+                reinterpret_cast<::fnv_0056c810::FUN_0056c810_Class *>((((::BuildReferenceScene::LinkPointer *)(reinterpret_cast<::Ref5699 *>((linked))->FUN_005699b0()))))->FUN_0056c810((std::intptr_t)(((::BuildReferenceScene::Scene *)(reinterpret_cast<::TESObjectREFR569 *>(this)->FUN_00569920()))));
         }
     }
     if (immediate)
@@ -30555,7 +30641,7 @@ void XObj::FUN_0056fcb0()
             reinterpret_cast<::FUN_0045ce60_Class *>((DAT_011dea10))->FUN_0045ce60();
         }
     }
-    ::FUN_00565670((unsigned int)(this));
+    ::FUN_00565670((std::uintptr_t)(this));
     reinterpret_cast<::fnv_0057b520::FUN_0057b520_shell *>(this)->FUN_0057b520(0);
     first = ((::fnv_0056fcb0::ListNode *)(reinterpret_cast<::C420770Owner *>((FUN_005d43c0()))->FUN_00420770()));
     while (first != 0 && *first->FUN_006815c0() != 0)
@@ -30575,15 +30661,15 @@ void XObj::FUN_0056fcb0()
     }
     if (((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<::fnv_0056fcb0::XObj * *>(&::DAT_011ca23c)))
     {
-        p18 = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::Holder00420dd0 *>((FUN_005d43c0()))->FUN_00420dd0()));
+        p18 = ((::fnv_0056fcb0::XObj *)(std::uintptr_t)(reinterpret_cast<::Holder00420dd0 *>((FUN_005d43c0()))->FUN_00420dd0()));
         if (((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<::fnv_0056fcb0::XObj * *>(&::DAT_011ca23c)))
         {
-            list1c = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::FUN_00420bc0_cls *>((FUN_005d43c0()))->FUN_00420bc0(0)));
+            list1c = ((::fnv_0056fcb0::XObj *)(std::uintptr_t)(reinterpret_cast<::FUN_00420bc0_cls *>((FUN_005d43c0()))->FUN_00420bc0(0)));
             if (list1c != 0)
             {
                 reinterpret_cast<::FUN_004207e0Class *>((list1c->FUN_005d43c0()))->FUN_00420da0((unsigned int)(this));
             }
-            list1c = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::FUN_00420bc0_cls *>((FUN_005d43c0()))->FUN_00420bc0(1)));
+            list1c = ((::fnv_0056fcb0::XObj *)(std::uintptr_t)(reinterpret_cast<::FUN_00420bc0_cls *>((FUN_005d43c0()))->FUN_00420bc0(1)));
             if (list1c != 0)
             {
                 reinterpret_cast<::FUN_004207e0Class *>((list1c->FUN_005d43c0()))->FUN_00420da0((unsigned int)(this));
@@ -30604,14 +30690,14 @@ void XObj::FUN_0056fcb0()
                     q28 = (*elem2->FUN_006815c0())->Virt1d0();
                     if (q28 != 0)
                     {
-                        if (((::fnv_0056fcb0::XObj *)(::FUN_0070ec90((char *)(DAT_011dea10)))))
+                        if (((::fnv_0056fcb0::XObj *)(std::uintptr_t)(::FUN_0070ec90((char *)(DAT_011dea10)))))
                         {
-                            res34 = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::Finder *>((((::fnv_0056fcb0::XObj *)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e8030((::Ref *)(*elem2->FUN_006815c0()))));
+                            res34 = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::Finder *>((((::fnv_0056fcb0::XObj *)(std::uintptr_t)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e8030((::Ref *)(*elem2->FUN_006815c0()))));
                             var2c = res34;
                             var30 = var2c->FUN_004030b0();
                             if (var30 != 0)
                             {
-                                if (((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((var30))->GetBaseTexture())) == 0xd)
+                                if (((std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((var30))->GetBaseTexture())) == 0xd)
                                 {
                                     o3c = ((::fnv_0056fcb0::Node38 *)(reinterpret_cast<::FUN_00a59d30_C *>((res34))->FUN_00a59d30(3)));
                                     x38 = o3c;
@@ -30637,18 +30723,18 @@ void XObj::FUN_0056fcb0()
     {
         if (((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != 0 && ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x23)
         {
-            reinterpret_cast<::FUN_004e52f0_cls *>((((::fnv_0056fcb0::XObj *)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e52f0((::FUN_004e52f0_arg *)(::fnv_0056fcb0::XObj *)(this));
+            reinterpret_cast<::FUN_004e52f0_cls *>((((::fnv_0056fcb0::XObj *)(std::uintptr_t)(::FUN_0070ec90((char *)(DAT_011dea10))))))->FUN_004e52f0((::FUN_004e52f0_arg *)(::fnv_0056fcb0::XObj *)(this));
         }
-        reinterpret_cast<::FUN_00545360_StandIn *>((m_40))->FUN_00545360((unsigned int)(this));
+        reinterpret_cast<::FUN_00545360_StandIn *>((m_40))->FUN_00545360((std::uintptr_t)(this));
         reinterpret_cast<::FUN_005454f0_cls *>((m_40))->FUN_005454f0(this);
-        u40 = (m_40 != 0 && ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::FUN_004543c0_cls *>((m_40))->FUN_004543c0())) != 0) ? ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::ActorMover *>((((::fnv_0056fcb0::XObj *)(reinterpret_cast<::FUN_004543c0_cls *>((m_40))->FUN_004543c0()))))->GetCurrentMoveModeType())) : 0;
+        u40 = (m_40 != 0 && ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::FUN_004543c0_cls *>((m_40))->FUN_004543c0())) != 0) ? ((::fnv_0056fcb0::XObj *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::fnv_0056fcb0::XObj *)(reinterpret_cast<::FUN_004543c0_cls *>((m_40))->FUN_004543c0()))))->GetCurrentMoveModeType())) : 0;
         if (u40 != 0)
         {
             reinterpret_cast<::fnv_00631370::WorkOwner *>((u40))->FUN_00631370((::fnv_00631370::WorkActor *)(::fnv_0056fcb0::XObj *)(this), 0, 1);
         }
         if (((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != 0 && ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x23)
         {
-            reinterpret_cast<::FUN_005456e0StandIn *>((m_40))->FUN_005456e0((int)(this));
+            reinterpret_cast<::FUN_005456e0StandIn *>((m_40))->FUN_005456e0((std::intptr_t)(this));
             reinterpret_cast<::FUN_006312d0_shell *>((u40))->FUN_006312d0(this);
         }
         var44 = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_009d9f20::FUN_009d9f20_shell *>((m_40))->FUN_009d9f20()));
@@ -30674,27 +30760,27 @@ void XObj::FUN_0056fcb0()
                             x50 = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::ExtraList420 *>((((::fnv_0056fcb0::XObj *)(reinterpret_cast<::FUN_00421e10_shell *>((FUN_005d43c0()))->FUN_00421e10()))->FUN_005d43c0()))->FUN_00420ed0()));
                             if (x50 != 0)
                             {
-                                reinterpret_cast<::FUN_00c39ad0_Class *>((x50))->FUN_00c39ad0((int)(var4c));
+                                reinterpret_cast<::FUN_00c39ad0_Class *>((x50))->FUN_00c39ad0((std::intptr_t)(var4c));
                             }
                             else
                             {
-                                reinterpret_cast<::FUN_00c5aec0_Class *>((var44))->FUN_00c5aec0((int)(var4c));
+                                reinterpret_cast<::FUN_00c5aec0_Class *>((var44))->FUN_00c5aec0((std::intptr_t)(var4c));
                             }
                         }
                         else
                         {
-                            reinterpret_cast<::FUN_00c5aec0_Class *>((var44))->FUN_00c5aec0((int)(var4c));
+                            reinterpret_cast<::FUN_00c5aec0_Class *>((var44))->FUN_00c5aec0((std::intptr_t)(var4c));
                         }
                     }
                 }
                 else if (((::fnv_0056fcb0::XObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<::fnv_0056fcb0::XObj * *>(&::DAT_011ca23c)))
                 {
-                    item54 = ((::fnv_0056fcb0::XObj *)(reinterpret_cast<::Holder00420dd0 *>((FUN_005d43c0()))->FUN_00420dd0()));
+                    item54 = ((::fnv_0056fcb0::XObj *)(std::uintptr_t)(reinterpret_cast<::Holder00420dd0 *>((FUN_005d43c0()))->FUN_00420dd0()));
                     if (item54 != 0)
                     {
                         for (num2 = 0; num2 < 2; num2++)
                         {
-                            vec5c = ((::fnv_0056fcb0::ArrObj *)(reinterpret_cast<::C420410ExtraList *>((FUN_005d43c0()))->FUN_00420410()));
+                            vec5c = ((::fnv_0056fcb0::ArrObj *)(std::uintptr_t)(reinterpret_cast<::C420410ExtraList *>((FUN_005d43c0()))->FUN_00420410()));
                             if (vec5c != 0 && vec5c->arr[num2] != 0)
                             {
                                 if (((::fnv_0056fcb0::Xtra *)(reinterpret_cast<::Ref5699 *>((vec5c->arr[num2]))->FUN_005699b0())))
@@ -30712,7 +30798,7 @@ void XObj::FUN_0056fcb0()
                             }
                             else
                             {
-                                reinterpret_cast<::FUN_00c5b190_cls *>((var44))->FUN_00c5b190((int)(item54));
+                                reinterpret_cast<::FUN_00c5b190_cls *>((var44))->FUN_00c5b190((std::intptr_t)(item54));
                             }
                         }
                     }
@@ -30933,7 +31019,7 @@ void B5729E0Ref::FUN_005729e0(bool bPortal)
 {
     B5729E0LightExtra* pkExtra = bPortal ? ((::B5729E0LightExtra *)(reinterpret_cast<::FUN_00418280_Class *>((GetExtraData()))->FUN_00418280())) : ((::B5729E0LightExtra *)(reinterpret_cast<::Holder *>((GetExtraData()))->FUN_00418250()));
     if (pkExtra && ((::B5729E0Light *)(::FUN_00559450((int *)(pkExtra)))))
-        reinterpret_cast<::B5Owner *>((((::B5729E0ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((unsigned int)(((::B5729E0Light *)(::FUN_00559450((int *)(pkExtra))))));
+        reinterpret_cast<::B5Owner *>((((::B5729E0ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((std::uintptr_t)(((::B5729E0Light *)(::FUN_00559450((int *)(pkExtra))))));
 }
 
 namespace fnv_00572b60 {
@@ -31122,7 +31208,7 @@ void TESObjectREFR572::FUN_00572b60(Pt3 pos)
 
 struct FUN_00572fc0_shell : public TESObjectREFR
 {
-    void FUN_00572fc0(int a, int b, int c, int d, unsigned char e);
+    void FUN_00572fc0(int a, std::intptr_t b, std::intptr_t c, int d, unsigned char e);
 };
 
 struct FUN_0042e820_Obj
@@ -31130,7 +31216,7 @@ struct FUN_0042e820_Obj
 };
 
 // @fnv 0x00572fc0
-void FUN_00572fc0_shell::FUN_00572fc0(int a, int aiParamB, int aiParamC, int aiParamD, unsigned char e)
+void FUN_00572fc0_shell::FUN_00572fc0(int a, std::intptr_t aiParamB, std::intptr_t aiParamC, int aiParamD, unsigned char e)
 {
     FUN_0042e820_Obj* pObj = ((::FUN_0042e820_Obj *)(reinterpret_cast<::FUN_0042e820 *>((reinterpret_cast<FUN_0042e820_Obj*>(FUN_005d43c0(this))))->AddExtraData()));
     if (a != -1)
@@ -31835,7 +31921,7 @@ bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, i
         if (((::fnv_00573170::ActRef *)(::fnv_00703180::FUN_00703180())) == this)
         {
             sprintf(acBuffer_, "'%s' activated %s '%s'", ::FUN_00482720((::TESForm *)(::fnv_00573170::ActForm *)(((::fnv_00573170::ActForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apActivator))->FUN_007af430())))),
-                    ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((::fnv_00573170::ActForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_00440e30())))))), ::FUN_00482720((::TESForm *)(::fnv_00573170::ActForm *)(((::fnv_00573170::ActForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))));
+                    ((const char *)(std::uintptr_t)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((::fnv_00573170::ActForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_00440e30())))))), ::FUN_00482720((::TESForm *)(::fnv_00573170::ActForm *)(((::fnv_00573170::ActForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))));
             ::FUN_00703c00(acBuffer_, {});
         }
         if (this != g_pActPlayer && !reinterpret_cast<::fnv_00572d30::FUN_00572d30_shell *>(this)->FUN_00572d30(1))
@@ -31857,7 +31943,7 @@ bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, i
         }
     }
 
-    reinterpret_cast<::FUN_004213c0_impl *>((GetExtraList()))->FUN_004213c0((int)(this), (int)(apActivator));
+    reinterpret_cast<::FUN_004213c0_impl *>((GetExtraList()))->FUN_004213c0((std::intptr_t)(this), (std::intptr_t)(apActivator));
     reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((GetExtraList()))->RemoveExtra(0x7c);
     if (!((::fnv_00573170::ActForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))
         return false;
@@ -32260,7 +32346,6 @@ struct MoveTES
 {
     bool attached(MoveCell*, bool);
 };
-extern MoveTES* g_TES;
 struct MoveQueue
 {
     void update(MoveRef*);
@@ -32420,7 +32505,7 @@ void __cdecl FUN_00573800(MoveRef* ref, MoveCell* apDestCell, MoveWorld* world)
             if (ref->actor() && ref->body() && ::FUN_00450ff0(target4))
             {
                 MoveProcess* process4 = ((::fnv_00573800::MoveProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor_))->GetBaseTexture()));
-                if (process4 && (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process4))->FUN_0045cd60())) == 1 || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process4))->FUN_0045cd60())) == 0))
+                if (process4 && (((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process4))->FUN_0045cd60())) == 1 || ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process4))->FUN_0045cd60())) == 0))
                 {
                     MoveProcess* highProcess5 = process4;
                     if (!highProcess5->ready())
@@ -32430,7 +32515,7 @@ void __cdecl FUN_00573800(MoveRef* ref, MoveCell* apDestCell, MoveWorld* world)
             if (load3)
             {
                 if (::FUN_008c7aa0())
-                    reinterpret_cast<::FUN_0087b230_Holder *>((((::fnv_00573800::MoveQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b230((int)(ref));
+                    reinterpret_cast<::FUN_0087b230_Holder *>((((::fnv_00573800::MoveQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b230((std::intptr_t)(ref));
                 else
                     ref->load();
             }
@@ -32675,7 +32760,7 @@ void RefOps::FUN_00574b30(RefOps* source, int count, bool abArg1, bool abArg2)
     if (container)
     {
         if ((!v100() || reinterpret_cast<::TESForm *>(this)->GetDisabled()) && ((::fnv_00574b30::RefOps *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && source->FUN_005656d0() && !FUN_005656d0())
-            reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((::fnv_00574b30::RefOps *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00545560((int)(this));
+            reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((::fnv_00574b30::RefOps *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00545560((std::intptr_t)(this));
         if (this == DAT_011dea3c)
         {
             FUN_005f5950(10, count, ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((source))->FUN_007af430())), 0, 0, 0, 0);
@@ -32688,18 +32773,18 @@ void RefOps::FUN_00574b30(RefOps* source, int count, bool abArg1, bool abArg2)
         {
             normal = false;
             RefOps* actor = source;
-            if (((void *)(reinterpret_cast<::FUN_009d9f00_Class *>((actor))->FUN_009d9f00())))
+            if (((void *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((actor))->FUN_009d9f00())))
             {
-                FUN_004bc650* data = new FUN_004bc650(((void *)(reinterpret_cast<::FUN_009d9f00_Class *>((actor))->FUN_009d9f00())));
+                FUN_004bc650* data = new FUN_004bc650(((void *)(std::uintptr_t)(reinterpret_cast<::FUN_009d9f00_Class *>((actor))->FUN_009d9f00())));
                 if (data && ((::fnv_00574b30::NodeOps *)(::FUN_00559450((int *)(data)))) && *((::fnv_00574b30::NodeOps *)(::FUN_00559450((int *)(data))))->FUN_006815c0())
                     ::FUN_005ac750((::TESForm *)(::fnv_00574b30::RefOps *)(this), (::ExtraDataList *)(*((::fnv_00574b30::NodeOps *)(::FUN_00559450((int *)(data))))->FUN_006815c0()), 1);
                 reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((inventory))->FUN_004c3380((::InventoryStackRecord *)(data), true);
                 data = 0;
             }
-            else if (((::fnv_00574b30::EntryOps *)(reinterpret_cast<::FUN_00476c90_Class *>((actor))->FUN_00476c90())))
+            else if (((::fnv_00574b30::EntryOps *)(std::uintptr_t)(reinterpret_cast<::FUN_00476c90_Class *>((actor))->FUN_00476c90())))
             {
                 EntryOps* base = 0;
-                EntryOps* entry = ((::fnv_00574b30::EntryOps *)(reinterpret_cast<::FUN_00476c90_Class *>((actor))->FUN_00476c90()));
+                EntryOps* entry = ((::fnv_00574b30::EntryOps *)(std::uintptr_t)(reinterpret_cast<::FUN_00476c90_Class *>((actor))->FUN_00476c90()));
                 if (entry->GetOrFallback(0) && ((::fnv_00574b30::EntryOps *)(reinterpret_cast<::MagicProjectile *>((entry->GetOrFallback(0)))->FUN_004fd400())))
                     entry = ((::fnv_00574b30::EntryOps *)(reinterpret_cast<::MagicProjectile *>((entry->GetOrFallback(0)))->FUN_004fd400()));
                 if (::FUN_004c0bf0((::TESObjectWEAP *)(entry)))
@@ -33466,7 +33551,7 @@ struct List_009e03e0
 };
 struct Host00881620
 {
-    void FUN_00881620(int iRef);
+    void FUN_00881620(intptr_t iRef);
 };
 struct LinkedRefMgr
 {
@@ -34157,7 +34242,7 @@ void __cdecl FUN_00577450(Param577* apParam, unsigned flags)
                 ::fnv_00578300::FUN_00578300((::NiNode *)(::fnv_00577450::Node577 *)(ref->GetNode()));
                 reinterpret_cast<::B5729E0Ref *>((ref))->FUN_005729e0(0);
             }
-            if (!((int)(reinterpret_cast<::BGSCameraPath *>((DAT_011dea10))->GetPrevPath())))
+            if (!((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((DAT_011dea10))->GetPrevPath())))
             {
                 World577* world = ((::fnv_00577450::World577 *)(reinterpret_cast<::EffectSetting *>((DAT_011dea10))->GetHitSound()));
                 Ref577* actor = 0;
@@ -34199,7 +34284,7 @@ void __cdecl FUN_00577450(Param577* apParam, unsigned flags)
         {
             Point577 rotation;
             rotation.FUN_006815c0();
-            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::fnv_00577450::Rotation577 *)(::FUN_00461130((int)(((RotSource577*)source)))))))->DecomposeToEulerAngles((*(float *)(&rotation.x)), (*(float *)(&rotation.y)), (*(float *)(&rotation.z)));
+            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::fnv_00577450::Rotation577 *)(::FUN_00461130((std::intptr_t)(((RotSource577*)source)))))))->DecomposeToEulerAngles((*(float *)(&rotation.x)), (*(float *)(&rotation.y)), (*(float *)(&rotation.z)));
             bool old = reinterpret_cast<::FUN_004623f0_shell *>(((*reinterpret_cast<::fnv_00577450::Toggle577 * *>(&::g_BGSSaveLoadGame))))->FUN_004623f0(false);
             reinterpret_cast<::fnv_00575700::RefrV *>((ref))->FUN_00575700((*(::fnv_00575700::NiPoint3 *)&(const ::fnv_00577450::Point577 &)(rotation)));
             reinterpret_cast<::FUN_004623f0_shell *>(((*reinterpret_cast<::fnv_00577450::Toggle577 * *>(&::g_BGSSaveLoadGame))))->FUN_004623f0(old);
@@ -34301,9 +34386,9 @@ class DataHandler
 // @fnv 0x00578300
 bool __cdecl FUN_00578300(NiNode* pNode)
 {
-    long v5;
-    int v7;
-    int v4;
+    std::intptr_t v5;
+    std::intptr_t v7;
+    std::intptr_t v4;
     unsigned long b;
     char* v3;
     bool v6;
@@ -34328,7 +34413,7 @@ bool __cdecl FUN_00578300(NiNode* pNode)
     }
     for (b = 0; b < ((_FakeNiNode*)pNode)->FUN_0043b480(); ++b)
     {
-        v5 = (int)reinterpret_cast<::NiNode *>((((_FakeNiNode*)pNode)))->GetAt(b);
+        v5 = (std::uintptr_t)reinterpret_cast<::NiNode *>((((_FakeNiNode*)pNode)))->GetAt(b);
         if (0 != v5)
         {
             v7 = (*(int(**)(int))(*(int*)v5 + 12))((int)v5);
@@ -34735,7 +34820,7 @@ void RefObj::FUN_00579ac0(bool enable)
                 {
                     LoopEffect* effect = object->GetLoopEffect();
                     if (effect)
-                        h = ((::LoopSound *)(reinterpret_cast<::TESPackage *>((effect))->GetRefCount()));
+                        h = ((::LoopSound *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((effect))->GetRefCount()));
                 }
                 break;
             }
@@ -34755,7 +34840,7 @@ void RefObj::FUN_00579ac0(bool enable)
                 h = ((::LoopSound *)(reinterpret_cast<::EffectSetting *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->GetCastSound()));
                 break;
             case 30:
-                h = ((::LoopSound *)(reinterpret_cast<::FUN_004036b0_Class *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_004036b0()));
+                h = ((::LoopSound *)(std::uintptr_t)(reinterpret_cast<::FUN_004036b0_Class *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_004036b0()));
                 break;
             case 13:
                 h = reinterpret_cast<LoopSound*>(((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())));
@@ -34782,11 +34867,11 @@ void RefObj::FUN_00579ac0(bool enable)
                 h = ((::LoopSound *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_008cdd90()));
                 break;
             case 27:
-                h = ((::LoopSound *)(reinterpret_cast<::PlayerMover *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->GetActorStateFlags()));
+                h = ((::LoopSound *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->GetActorStateFlags()));
                 break;
             case 43:
                 if (IsActor() && HasCreatureLoop())
-                    h = ((::LoopSound *)(reinterpret_cast<::TESCreature *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_005f92d0(21)));
+                    h = ((::LoopSound *)(std::uintptr_t)(reinterpret_cast<::TESCreature *>((((::LoopForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))->FUN_005f92d0(21)));
                 break;
             }
             GlobalObject_0041a250 i;
@@ -34803,12 +34888,12 @@ void RefObj::FUN_00579ac0(bool enable)
                 unsigned int e = ((*(::LoopSoundData *)(reinterpret_cast<::Holder *>((h))->CopyBig({}))).flags & 16) ? 16 : 0;
                 if (s)
                 {
-                    reinterpret_cast<::SoundPlaybackHandle *>(&(i))->operator=((*(const ::SoundPlaybackHandle *)(&((::LoopAudio *)(::FUN_00453a70()))->FUN_00ad7620(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((h))->FUN_0084e3a0())), j | 0x2012, a, 0))));
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(i))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(ResultSlot((::LoopAudio *)(::FUN_00453a70()))->FUN_00ad7620(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((h))->FUN_0084e3a0())), j | 0x2012, a, 0)))));
                     reinterpret_cast<::fnv_00ad8ba0::FUN_00ad8ba0_h *>(&(i))->FUN_00ad8ba0(p.x, p.y, p.z);
                 }
                 else if (e)
                 {
-                    reinterpret_cast<::SoundPlaybackHandle *>(&(i))->operator=((*(const ::SoundPlaybackHandle *)(&((::LoopAudio *)(::FUN_00453a70()))->FUN_00ad7620(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((h))->FUN_0084e3a0())), e | 0x2002, *GetPosition(), 0))));
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(i))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(ResultSlot((::LoopAudio *)(::FUN_00453a70()))->FUN_00ad7620(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((h))->FUN_0084e3a0())), e | 0x2002, *GetPosition(), 0)))));
                 }
                 else
                 {
@@ -35168,9 +35253,6 @@ struct Obj57x
     Bound57& bound();
     float scale();
 };
-namespace std {
-float abs(float);
-}
 struct Worker57
 {
     bool FUN_0057bd80(Obj57x*);
@@ -35711,7 +35793,7 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
             if (this == DAT_011dea3c)
             {
                 if (!reinterpret_cast<::FUN_004ad030_shell *>((pWeapon))->GetFlag() || flagA9)
-                    ::FUN_00709c20((int)reinterpret_cast<::FUN_00504e60_shell *>((pWeapon))->FUN_00504e60());
+                    ::FUN_00709c20((std::uintptr_t)reinterpret_cast<::FUN_00504e60_shell *>((pWeapon))->FUN_00504e60());
             }
         }
     }
@@ -35723,7 +35805,7 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
             {
                 if (!V139(1))
                 {
-                    int n3 = ((int)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>(((*reinterpret_cast<::fnv_00571760::LoaderShell * *>(&::g_modelLoader))))->FUN_00447330((char *)(void *)(((void *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()))), {}, {}, {})));
+                    std::intptr_t n3 = ((std::intptr_t)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>(((*reinterpret_cast<::fnv_00571760::LoaderShell * *>(&::g_modelLoader))))->FUN_00447330((char *)(void *)(((void *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()))), {}, {}, {})));
                     reinterpret_cast<::S_00490400_Anim *>((((AnimObj*)V121())))->FUN_00490400((::BSSimpleList<const char *> *)(n3));
                 }
             }
@@ -35739,7 +35821,7 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
         if (pScale)
         {
             int fiveVal = 5;
-            int rAeed3 = ((int)(::FUN_004aeed0((::TESForm *)(pWeapon), (::TESModel *)(pScale), fiveVal, (::TESObjectREFR *)(void *)(this), (::NiAVObject *)(0))));
+            std::intptr_t rAeed3 = ((std::intptr_t)(::FUN_004aeed0((::TESForm *)(pWeapon), (::TESModel *)(pScale), fiveVal, (::TESObjectREFR *)(void *)(this), (::NiAVObject *)(0))));
             if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00571760::SaveShell * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             {
                 bool flagC3 = reinterpret_cast<::FUN_008a16d0_shell *>((pRefG))->FUN_008a16d0();
@@ -35757,7 +35839,7 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
         pRefG->FUN_008c4640();
         reinterpret_cast<::PC_00891190 *>((pRefG))->FUN_00891190(1);
         QObj* InvokeFifthVirtualFunction = (QObj*)((void *)(::BGSBipedModelList::GetBipedModelList((::TESForm *)(pWeapon))));
-        if (InvokeFifthVirtualFunction && ((int)(reinterpret_cast<::Callees *>((InvokeFifthVirtualFunction))->FUN_00726070())))
+        if (InvokeFifthVirtualFunction && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((InvokeFifthVirtualFunction))->FUN_00726070())))
             ((::fnv_00571760::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pRefG))->GetBaseTexture()))->V282(1);
     }
 }
@@ -35796,7 +35878,7 @@ int __cdecl FUN_0048e8a0(TESForm* apForm)
     TESValueForm* pValueForm = dynamic_cast<TESValueForm*>(apForm);
     if (pValueForm)
     {
-        return ((int)(reinterpret_cast<::Callees *>((pValueForm))->FUN_00726070()));
+        return ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pValueForm))->FUN_00726070()));
     }
     else
     {
@@ -36283,57 +36365,57 @@ class OwnQ
     virtual void o136();
     virtual void o137();
     virtual void Lock(int a);
-    ListQ* FUN_005d43c0(int type);
-    ResQ* FUN_0055c050(int a1, int a2);
+    ListQ* FUN_005d43c0(std::intptr_t type);
+    ResQ* FUN_0055c050(int a1, std::intptr_t a2);
 public:
     void FUN_00426720(unsigned int, int, ::P3Q *);
 };
 // @fnv 0x0055c050
-ResQ* OwnQ::FUN_0055c050(int a1, int a2)
+ResQ* OwnQ::FUN_0055c050(int a1, std::intptr_t a2)
 {
     ExtraTeleport* pTeleport_mcxj = dynamic_cast<ExtraTeleport*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x2b)))->FUN_00410220({}));
     if (pTeleport_mcxj)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pTeleport_mcxj)))->FUN_00410020((::BSExtraData *)(0), {});
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pTeleport_mcxj)))->FUN_00410020((::BSExtraData *)(0), {});
     ExtraEnableStateParent* pEnable_ix = dynamic_cast<ExtraEnableStateParent*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x37)))->FUN_00410220({}));
     if (pEnable_ix)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pEnable_ix)))->FUN_00410020((::BSExtraData *)(0), {});
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pEnable_ix)))->FUN_00410020((::BSExtraData *)(0), {});
     ExtraRandomTeleportMarker* pRandom_v = dynamic_cast<ExtraRandomTeleportMarker*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x3b)))->FUN_00410220({}));
     if (pRandom_v)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pRandom_v)))->FUN_00410020((::BSExtraData *)(0), {});
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pRandom_v)))->FUN_00410020((::BSExtraData *)(0), {});
     ExtraLinkedRef* pLock_fqcf = dynamic_cast<ExtraLinkedRef*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x51)))->FUN_00410220({}));
     if (pLock_fqcf)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pLock_fqcf)))->FUN_00410020((::BSExtraData *)(0), {});
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pLock_fqcf)))->FUN_00410020((::BSExtraData *)(0), {});
     ExtraActivateRef* pLock_ekv = dynamic_cast<ExtraActivateRef*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x51)))->FUN_00410220({}));
     if (pLock_ekv)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pLock_ekv)))->FUN_00410020((::BSExtraData *)(0), {});
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pLock_ekv)))->FUN_00410020((::BSExtraData *)(0), {});
     ExtraDecalRefs* pOwner_v = dynamic_cast<ExtraDecalRefs*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x57)))->FUN_00410220({}));
     if (pOwner_v)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pOwner_v)))->FUN_00410020((::BSExtraData *)(0), {});
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pOwner_v)))->FUN_00410020((::BSExtraData *)(0), {});
     ExtraMerchantContainer* pMerch_mb = dynamic_cast<ExtraMerchantContainer*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x3c)))->FUN_00410220({}));
     if (pMerch_mb)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pMerch_mb)))->FUN_00410020((::BSExtraData *)(0), {});
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pMerch_mb)))->FUN_00410020((::BSExtraData *)(0), {});
     ExtraMultiBoundRef* pLeveled_xczy = dynamic_cast<ExtraMultiBoundRef*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x63)))->FUN_00410220({}));
     if (pLeveled_xczy)
-        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((int)pLeveled_xczy)))->FUN_00410020((::BSExtraData *)(0), {});
-    int iSaved_yywkx = ((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+        reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pLeveled_xczy)))->FUN_00410020((::BSExtraData *)(0), {});
+    int iSaved_yywkx = ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
     Lock(0);
     ResQ* pResult_f = (ResQ*)dynamic_cast<TESObjectREFR*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(0), (void *)(a2)))));
     if (pTeleport_mcxj)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pTeleport_mcxj)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pTeleport_mcxj)))->FUN_0040ff60({});
     if (pEnable_ix)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pEnable_ix)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pEnable_ix)))->FUN_0040ff60({});
     if (pRandom_v)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pRandom_v)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pRandom_v)))->FUN_0040ff60({});
     if (pLock_fqcf)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pLock_fqcf)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pLock_fqcf)))->FUN_0040ff60({});
     if (pLock_ekv)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pLock_ekv)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pLock_ekv)))->FUN_0040ff60({});
     if (pOwner_v)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pOwner_v)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pOwner_v)))->FUN_0040ff60({});
     if (pMerch_mb)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pMerch_mb)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pMerch_mb)))->FUN_0040ff60({});
     if (pLeveled_xczy)
-        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((int)pLeveled_xczy)))->FUN_0040ff60({});
+        reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((FUN_005d43c0((std::intptr_t)pLeveled_xczy)))->FUN_0040ff60({});
     Lock(iSaved_yywkx);
     pResult_f->SetQ(0, 1);
     reinterpret_cast<::fnv_00565480::RefPersistsStandin *>((pResult_f))->FUN_00565480(0);
@@ -36674,7 +36756,6 @@ struct IO
 struct WorldManager
 {
 };
-extern WorldManager* g_TES;
 struct Scene
 {
 };
@@ -37366,7 +37447,6 @@ NiPoint3* TESRecipe::FUN_00572500(NiPoint3* result, float angle)
     reinterpret_cast<::FUN_00416870_t *>(&(m))->FUN_00416870(0.0f, 1.0f, 0.0f);
 
     ThreeByThreeMatrix matrix;
-    new ((void *)&(matrix)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(matrix))->FUN_004a0c90(d);
 
     m = matrix * m;
@@ -37380,8 +37460,6 @@ bool WorldReference::FUN_00561ef0(void* apCell)
 {
     WorldPoint start;
     WorldPoint end;
-    new ((void *)&(start)) ::Vec3();
-    new ((void *)&(end)) ::Vec3();
     void* result = 0;
     if (v78(&start, &end, &result, apCell))
     {
@@ -37422,11 +37500,11 @@ Ref5699* Ref5699::FUN_005699b0()
         if (data)
         {
             LinkedRefNode5699* node = &data->list;
-            while (node && *((::Ref5699 **)(new ((void *)(node)) ::Vec3())))
+            while (node && *((::Ref5699 **)((void *)(node))))
             {
-                Ref5699* item = *((::Ref5699 **)(new ((void *)(node)) ::Vec3()));
-                reinterpret_cast<::FUN_00420c10_Class *>((item->GetExtraList()))->FUN_00420c10((int)(this));
-                reinterpret_cast<::FUN_00420c10_Class *>((GetExtraList()))->FUN_00420c10((int)(item));
+                Ref5699* item = *((::Ref5699 **)((void *)(node)));
+                reinterpret_cast<::FUN_00420c10_Class *>((item->GetExtraList()))->FUN_00420c10((std::intptr_t)(this));
+                reinterpret_cast<::FUN_00420c10_Class *>((GetExtraList()))->FUN_00420c10((std::intptr_t)(item));
                 node = ((::LinkedRefNode5699 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             }
         }
@@ -37442,7 +37520,7 @@ void FUN_00569cb0_Class::FUN_00569cb0(unsigned char flag, NetworkStream* stream)
         stream = (NetworkStream*)&context;
     if (reinterpret_cast<::FUN_0057c850_cls *>((stream))->FUN_0057c850(this, (bool *)(unsigned char *)(&value)))
         return;
-    reinterpret_cast<::FUN_005594e0_cls *>((stream))->FUN_005594e0((unsigned int)(this), value);
+    reinterpret_cast<::FUN_005594e0_cls *>((stream))->FUN_005594e0((std::uintptr_t)(this), value);
     if (((::FUN_00569cb0_Class *)(reinterpret_cast<::FUN_00569b80_shell *>(this)->FUN_00569b80())))
     {
         reinterpret_cast<::FNV_569BE0_This *>(this)->FUN_00569be0(flag);
@@ -37451,8 +37529,8 @@ void FUN_00569cb0_Class::FUN_00569cb0(unsigned char flag, NetworkStream* stream)
     NodeEntry* node = ((::NodeEntry *)(reinterpret_cast<::FUN_0041e500_shell *>((FUN_005d43c0()))->FUN_0041e500()));
     while (node != 0 && !node->FUN_008256d0())
     {
-        reinterpret_cast<::FNV_569BE0_This *>(((*((::FUN_00569cb0_Class **)(new ((void *)(node)) ::Vec3())))))->FUN_00569be0(flag);
-        (*((::FUN_00569cb0_Class **)(new ((void *)(node)) ::Vec3())))->FUN_00569cb0(flag, stream);
+        reinterpret_cast<::FNV_569BE0_This *>(((*((::FUN_00569cb0_Class **)((void *)(node))))))->FUN_00569be0(flag);
+        (*((::FUN_00569cb0_Class **)((void *)(node))))->FUN_00569cb0(flag, stream);
         node = ((::NodeEntry *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     reinterpret_cast<::FUN_00438af0_Class *>(&(context))->FUN_00438af0();
@@ -37486,7 +37564,7 @@ bool MarkerRef::FUN_005686b0(const MarkerPoint& aQueryPoint, bool sit, bool slee
                                 if ((::TESFurniture::IsFurnitureSitMarker(kind3) && sit) || (::TESFurniture::IsFurnitureSleepMarker(kind3) && sleep) ||
                                     (!::TESFurniture::IsFurnitureSitMarker(kind3) && !::TESFurniture::IsFurnitureSleepMarker(kind3)))
                                 {
-                                    points2[used6] = (*(const ::MarkerPoint *)(new ((void *)(markers->At(kCurrent))) ::Vec3()));
+                                    points2[used6] = (*(const ::MarkerPoint *)((void *)(markers->At(kCurrent))));
                                     indices[used6] = kCurrent;
                                     used6++;
                                 }
@@ -37570,7 +37648,7 @@ void TargetRef::FUN_00569df0(bool abEnabled)
                 NodeEntry* pList3 = ((FUN_005d43c0_*)this)->FUN_005d43c0()->FUN_0041e780();
                 while (pList3 && !pList3->FUN_008256d0())
                 {
-                    TargetRef* targetRef3 = *(TargetRef**)*((::FUN_00569cb0_Class **)(new ((void *)(pList3)) ::Vec3()));
+                    TargetRef* targetRef3 = *(TargetRef**)*((::FUN_00569cb0_Class **)((void *)(pList3)));
                     pList3 = ((::NodeEntry *)(reinterpret_cast<::Callees *>((pList3))->FUN_00726070()));
 
                     _NiPoint3_pod kZeroPos = (*reinterpret_cast<::_NiPoint3_pod *>((void *)&::NiPoint3::ZERO));
@@ -37582,13 +37660,13 @@ void TargetRef::FUN_00569df0(bool abEnabled)
 
                     kDiffPos = kDiffPos * (1.0f / this->GetScale());
 
-                    TargetObj* pLine2 = ((::TargetObj *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&kZeroPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 1.0f))),
-                                                     (*(const class class ::FUN_006815c0 *)(&kDiffPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 1.0f))), 1)));
+                    TargetObj* pLine2 = ((::TargetObj *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&kZeroPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ResultSlot(ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 1.0f)))),
+                                                     (*(const class ::FUN_006815c0 *)(&kDiffPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ResultSlot(ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 1.0f)))), 1)));
 
                     if (!pActivateLineNode2)
                     {
                         pActivateLineNode2 = new TargetNode(0);
-                        ::AssignFixedString((char *)(pActivateLineNode2), (int)&(const ::NiFixedString &)(NiFixedString("ActivateLine")), {});
+                        ::AssignFixedString((char *)(pActivateLineNode2), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("ActivateLine")), {});
                         pRootNode9->AttachChildInAvailableSlot(pActivateLineNode2, true);
                     }
 
@@ -37615,7 +37693,7 @@ void Holder_a1e0::FUN_0056a1e0(unsigned char flag)
         reinterpret_cast<FUN_0041eda0_shell*>(FUN_005d43c0(reinterpret_cast<TESObjectREFR*>(this)))->FUN_0041eda0();
     while (node != 0 && !FUN_008256d0(node))
     {
-        reinterpret_cast<::TargetRef *>((reinterpret_cast<FUN_00569df0_Obj*>(*(void**)(*(void**)((void *)(new ((void *)(reinterpret_cast<NodeLink_a1e0*>(node))) ::Vec3()))))))->FUN_00569df0(flag);
+        reinterpret_cast<::TargetRef *>((reinterpret_cast<FUN_00569df0_Obj*>(*(void**)(*(void**)((void *)((void *)(reinterpret_cast<NodeLink_a1e0*>(node))))))))->FUN_00569df0(flag);
         node = reinterpret_cast<::Callees *>((node))->FUN_00726070();
     }
 }
@@ -37638,7 +37716,7 @@ unsigned char FUN_0056a380_shell::FUN_0056a380()
                     fNewTime = current + extraTime;
                     while (entry && !entry->FUN_008256d0())
                     {
-                        TimedRecord* record = *((::TimedRecord **)(new ((void *)(entry)) ::Vec3()));
+                        TimedRecord* record = *((::TimedRecord **)((void *)(entry)));
                         if (record->deadline > current)
                         {
                             if (record->deadline <= fNewTime)
@@ -37703,7 +37781,7 @@ bool Worker57::FUN_0057bd80(Obj57x* obj)
         Vec57 i = l->position();
         Obj57x* ba = ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((l))->FUN_00453470())) == 1 ? ((::Obj57x *)(reinterpret_cast<::NiNode *>((l))->GetAt(0))) : 0;
         if (ba)
-            i = (*(::Vec57 *)(new ((void *)&((*(::Bound57 *)(reinterpret_cast<::FUN_0043d450_Owner *>((ba))->FUN_0043d450())))) ::Vec3()));
+            i = (*(::Vec57 *)((void *)&((*(::Bound57 *)(reinterpret_cast<::FUN_0043d450_Owner *>((ba))->FUN_0043d450())))));
         b->center(i);
         reinterpret_cast<::MyPoint439180 *>((void *)&(const ::Vec57 &)(e))->FUN_00439180(reinterpret_cast<::FUN_008d01e0_Class *>((l))->FUN_008d01e0());
         if (f)
@@ -37804,7 +37882,7 @@ struct SubX
 };
 struct ChangeX
 {
-    FlagsX FUN_00428110(unsigned uiMask);
+    FlagsX FUN_00428110();
 };
 struct HandlerX
 {
@@ -37852,25 +37930,25 @@ void RefX::ApplyChanges(ChangeX* pkChanges)
 {
     reinterpret_cast<::TESForm *>(this)->LoadGame(pkChanges);
     bool bIsPlayer = v100();
-    if (!bIsPlayer && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110(0x200000)))->FUN_004280f0({}))
+    if (!bIsPlayer && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110()))->FUN_004280f0(0x200000))
         reinterpret_cast<::FUN_00484580_shell *>(this)->FUN_00484580(1);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110(0x10)))->FUN_004280f0({}))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110()))->FUN_004280f0(0x10))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pkChanges))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m3c), 4);
         FUN_00567490(m3c);
     }
     unsigned uiMask = bIsPlayer ? 0xa4061840 : 0xa4021c40;
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110(uiMask)))->FUN_004280f0({}))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110()))->FUN_004280f0(uiMask))
         reinterpret_cast<::ExtraDataLoader *>((FUN_005d43c0()))->FUN_00428150((::LoadBuffer *)(pkChanges));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110(0x8000020)))->FUN_004280f0({}))
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110()))->FUN_004280f0(0x8000020))
     {
         reinterpret_cast<::ExtraDataList *>((FUN_005d43c0()))->RemoveExtraDataType0x15();
         HandlerX* pkHandler = FUN_004bf220(this);
         reinterpret_cast<::Inventory4160 *>((pkHandler))->FUN_004d4160((::LoadBuffer4160 *)(pkChanges));
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110(0x10000000)))->FUN_004280f0({}) && !v100())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110()))->FUN_004280f0(0x10000000) && !v100())
         reinterpret_cast<::fnv_0084a810::FUN_0084a810_shell *>(((*reinterpret_cast<::fnv_005623d0::MgrX * *>(&::g_BGSSaveLoadGame))))->FUN_0084a810(0, (::fnv_0084a810::BGSLoadFormBuffer *)(pkChanges), (::TESForm *)(0));
-    if (!v100() && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110(0x400000)))->FUN_004280f0({}))
+    if (!v100() && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005623d0::FlagsX &)(pkChanges->FUN_00428110()))->FUN_004280f0(0x400000))
     {
         if (reinterpret_cast<::FUN_0041b3a0_shell *>((FUN_005d43c0()))->FUN_0041b3a0(8))
             reinterpret_cast<::S0041b470 *>((FUN_005d43c0()))->FUN_0041b470(8);
@@ -38079,7 +38157,7 @@ struct Ref
 // @fnv 0x005629a0
 void Ref::FUN_005629a0(LoadBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(buffer));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)(buffer));
     if (loadedData)
         loadedData->unk0c = -1.0f;
     bool actor = IsActor();
@@ -38333,7 +38411,7 @@ void Ref::ResetAnimation()
             if (_mgr)
             {
                 Seq* sq = ((::fnv_00563890::Seq *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((_mgr))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::fnv_00563890::NiFixedString &)(NiFixedString((*reinterpret_cast<char * *>(&::DAT_01197b5c)))))));
-                if (sq && ((int)(reinterpret_cast<::LowProcess *>((sq))->GetActiveCombatTarget())))
+                if (sq && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((sq))->GetActiveCombatTarget())))
                     flag_ = true;
             }
         }
@@ -38359,7 +38437,7 @@ void Ref::ResetAnimation()
             for (i2 = 0; i2 < reinterpret_cast<::fnv_00495d00::FUN_00495d00_shell *>((_mgr))->FUN_00495d00(); i2++)
             {
                 Seq* el = ((::fnv_00563890::Seq *)(reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((_mgr))->FUN_00495d20(i2)));
-                if (el && ((int)(reinterpret_cast<::LowProcess *>((el))->GetActiveCombatTarget())))
+                if (el && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((el))->GetActiveCombatTarget())))
                     ::FUN_0047ab40((::Ref_47ab40 *)(::fnv_00563890::Ref *)(this), (::NamedObject_47ab40 *)(el));
             }
             _mgr->FUN_0048fef0(0.0f);
@@ -38381,7 +38459,7 @@ void Ref::ResetAnimation()
                 reinterpret_cast<::TaskQueueInterface *>((_mgr))->QueueReferenceStateTask(true);
                 if (sa_)
                 {
-                    if (((int)(reinterpret_cast<::LowProcess *>((sa_))->GetActiveCombatTarget())) == 0)
+                    if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((sa_))->GetActiveCombatTarget())) == 0)
                         _mgr->FUN_0047aab0(sa_, 0, 0, 1.0f, 0.0f, 0);
                     reinterpret_cast<::FUN_0098adb0_shell *>((sa_))->FUN_0098adb0(-::DAT_0102f510);
                     NiUpdateData ud2(reinterpret_cast<::FUN_00759450_shell *>((sa_))->FUN_00759450(), true, false);
@@ -38389,7 +38467,7 @@ void Ref::ResetAnimation()
                 }
                 if (sb2)
                 {
-                    if (((int)(reinterpret_cast<::LowProcess *>((sb2))->GetActiveCombatTarget())) == 0)
+                    if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((sb2))->GetActiveCombatTarget())) == 0)
                         _mgr->FUN_0047aab0(sb2, 0, 0, 1.0f, 0.0f, 0);
                     reinterpret_cast<::FUN_0098adb0_shell *>((sb2))->FUN_0098adb0(-::DAT_0102f510);
                     NiUpdateData ud3(reinterpret_cast<::FUN_00759450_shell *>((sb2))->FUN_00759450(), true, false);
@@ -38525,7 +38603,7 @@ void UpdatePackagesFromBuffer(Mgr* mgr, Buf* buf, float time)
                 {
                     if (::FUN_00408b20(((::fnv_00564010::NameList *)(reinterpret_cast<::TESTopicInfoData *>((f))->GetLinkToList()))->FUN_0043b1b0(), cf) == 0)
                     {
-                        if (((int)(reinterpret_cast<::LowProcess *>((f))->GetActiveCombatTarget())) == 0)
+                        if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((f))->GetActiveCombatTarget())) == 0)
                             mgr->FUN_0047aab0(f, 0, 0, 1.0f, 0.0f, 0);
                         reinterpret_cast<::HX *>((f))->FUN_004efd10((::BGSLoadFormBuffer *)(buf), time);
                         if (p && ::IsObjectNetValid((::NiObjectNET *)(p)))
@@ -38650,7 +38728,7 @@ bool B56B250Ref::FUN_0056b250()
 // @fnv 0x00564e60
 bool FUN_00564e60_shell::FUN_00564e60()
 {
-    unsigned int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
+    unsigned int iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
     if (iflags & 0x8000)
     {
         return true;
@@ -38671,21 +38749,20 @@ struct Thing
     int FUN_0055d310();
     bool FUN_005656d0();
 };
-extern "C" void* FUN_004bf220(void* self);
 // @fnv 0x005656d0
 bool Thing::FUN_005656d0()
 {
     bool result = false;
-    if (((int)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(void *)(((::fnv_005656d0::Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))))) != 0)
+    if (((std::uintptr_t)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(void *)(((::fnv_005656d0::Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))))) != 0)
     {
         result = true;
     }
     else
     {
-        int value = ((int)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
+        int value = ((int)(std::uintptr_t)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
         if (value != 0)
         {
-            int inv = (int)FUN_004bf220(this);
+            std::intptr_t inv = (int)FUN_004bf220((::TESObjectREFR *)this);
             result = reinterpret_cast<::fnv_004d0490::FUN_004d0490_shell *>((((Obj*)inv)))->FUN_004d0490();
         }
     }
@@ -39495,14 +39572,14 @@ void ScaleReference::FUN_00567490(float scale)
     NiAVObject* node1;
     if (this == g_thePlayer)
     {
-        node1 = ((::fnv_00567490::NiAVObject *)(reinterpret_cast<::FUN_00950bb0_shell *>((g_thePlayer))->FUN_00950bb0(true)));
+        node1 = ((::fnv_00567490::NiAVObject *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>((g_thePlayer))->FUN_00950bb0(true)));
         if (node1)
         {
             reinterpret_cast<::FUN_00440490_shell *>((node1))->FUN_00440490(scale);
             NiUpdateData update(0.0f, false, false);
             reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((std::intptr_t)&(update));
         }
-        node1 = ((::fnv_00567490::NiAVObject *)(reinterpret_cast<::FUN_00950bb0_shell *>((g_thePlayer))->FUN_00950bb0(false)));
+        node1 = ((::fnv_00567490::NiAVObject *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>((g_thePlayer))->FUN_00950bb0(false)));
     }
     else
     {
@@ -39685,7 +39762,7 @@ struct Owner
 // @fnv 0x005693d0
 int Owner::FUN_005693d0()
 {
-    if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != (*reinterpret_cast<int *>(&::DAT_011ca244)) && ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != (*reinterpret_cast<int *>(&::DAT_011ca248)))
+    if (((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != (*reinterpret_cast<int *>(&::DAT_011ca244)) && ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != (*reinterpret_cast<int *>(&::DAT_011ca248)))
         return 0;
     return ((int)(reinterpret_cast<::FUN_00421b40_shell *>((FUN_005d43c0()))->FUN_00421b40()));
 }
@@ -39865,7 +39942,7 @@ void ActorX::UpdateLightDescriptors(int iArg)
     IterX* pkIter = ((::fnv_0056a4a0::IterX *)(reinterpret_cast<::FUN_0041f050_shell *>((FUN_005d43c0()))->FUN_0041f050()));
     while (pkIter && !pkIter->FUN_008256d0())
     {
-        EntryX* pkEntry = *((::fnv_0056a4a0::EntryX **)(new ((void *)(pkIter)) ::Vec3()));
+        EntryX* pkEntry = *((::fnv_0056a4a0::EntryX **)((void *)(pkIter)));
         pkIter = ((::fnv_0056a4a0::IterX *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
         DescX kDesc;
         kDesc.kPos = pkEntry->m4;
@@ -40118,12 +40195,12 @@ class Owner
     virtual void SetFlag(int iFlag);
 
     Entry* FUN_005d43c0();
-    void FUN_0056ae10(int iArg0, int iArg1, int iArg2, float fArg3);
+    void FUN_0056ae10(std::intptr_t iArg0, std::intptr_t iArg1, std::intptr_t iArg2, float fArg3);
 };
 
 // Calls FUN_0041ad00 on the entry returned by FUN_005d43c0 with the given arguments, then sets flag 0x800 on the owner.
 // @fnv 0x0056ae10
-void Owner::FUN_0056ae10(int iArg0, int iArg1, int iArg2, float fArg3)
+void Owner::FUN_0056ae10(std::intptr_t iArg0, std::intptr_t iArg1, std::intptr_t iArg2, float fArg3)
 {
     reinterpret_cast<::fnv_0041ad00::FUN_0041ad00_shell *>((FUN_005d43c0()))->FUN_0041ad00((::fnv_0041ad00::TESWorldSpace *)(iArg0), (::TESObjectCELL *)(iArg1), (void *)(iArg2), fArg3);
     SetFlag(0x800);
@@ -40556,7 +40633,7 @@ void WaterRef::FUN_0056c8f0()
         cellPosition.z = reinterpret_cast<::FUN_005471e0_shell *>((((::WaterCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_005471e0() - 500.0;
         ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(position), (const ::fnv_004a3e00::NiPoint3 &)(cellPosition));
         reinterpret_cast<::FUN_0056d300_S *>(&(info))->FUN_0056d300((const void *)&(position));
-        reinterpret_cast<::S3e60 *>(&(info))->FUN_0056d320((unsigned int)&(rotation));
+        reinterpret_cast<::S3e60 *>(&(info))->FUN_0056d320((std::uintptr_t)&(rotation));
         unsigned int filter = 0x50000;
         filter |= 0xb;
         info.filter = filter;
@@ -40590,7 +40667,7 @@ void WaterRef::FUN_0056c8f0()
             ::FUN_005b5e40();
             return;
         }
-        if (((unsigned int)(::fnv_0043b230::FUN_0043b230((const char *)(oldShape)))) == 0x1b)
+        if (((std::uintptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(oldShape)))) == 0x1b)
             return;
         WaterTransform* transform = new WaterTransform;
         WaterTransformedShape* shape = new WaterTransformedShape(oldShape, transform);
@@ -40604,7 +40681,7 @@ void WaterRef::FUN_0056c8f0()
         ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(position), (const ::fnv_004a3e00::NiPoint3 &)(GetPosition()));
         ::FUN_00561500((::bhkCharacterController *)&(rotation), (void *)&(nodeRotation));
         reinterpret_cast<::FUN_0056d300_S *>(&(info))->FUN_0056d300((const void *)&(position));
-        reinterpret_cast<::S3e60 *>(&(info))->FUN_0056d320((unsigned int)&(rotation));
+        reinterpret_cast<::S3e60 *>(&(info))->FUN_0056d320((std::uintptr_t)&(rotation));
         unsigned int filter = 0x50000;
         filter |= 0xb;
         info.filter = filter;
@@ -41126,7 +41203,7 @@ void Actor::FUN_0056eab0()
         kBound.m_kBoundsBox = FUN_0056fa00();
         kBound.m_kCenter = *GetPos();
         kBound.m_fBoundRadius = 1.0f;
-        switch (((int)(reinterpret_cast<::Callees *>((pkPackage))->FUN_00726070())))
+        switch (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pkPackage))->FUN_00726070())))
         {
         case 3: {
             NiPoint3 kSize = pkPackage->FUN_00413fc0();
@@ -41146,7 +41223,7 @@ void Actor::FUN_0056eab0()
         RigidBodyInfo kInfo;
         reinterpret_cast<::fnv_0056f110::FUN_0056f110_class *>(&(kInfo))->FUN_0056f110((::fnv_0056f110::ScriptLocalsX *)(pkShape));
         unsigned int uiFilterInfo = 0x30000;
-        LayerHolder* pkLayer = ((::s56eab0::LayerHolder *)(reinterpret_cast<::FUN_004211a0_StandIn *>((FUN_005d43c0()))->FUN_004211a0()));
+        LayerHolder* pkLayer = ((::s56eab0::LayerHolder *)(std::uintptr_t)(reinterpret_cast<::FUN_004211a0_StandIn *>((FUN_005d43c0()))->FUN_004211a0()));
         unsigned int uiLayer = pkLayer ? ((unsigned int)(::FUN_00559450((int *)(pkLayer)))) : 3;
         uiFilterInfo |= uiLayer;
         ::FUN_0056f0f0((unsigned int *)&(kInfo), (::FilterArg_0056f0f0)(uiFilterInfo));
@@ -41216,7 +41293,6 @@ class Obj011ddf38
   public:
 };
 
-extern "C" char DAT_011dea10;
 
 
 class Ref
@@ -41398,7 +41474,7 @@ void Ref::FUN_0056f700()
                         reinterpret_cast<::ProcessLists *>((((Obj011e0e80*)&(*reinterpret_cast<char *>(&::g_011e0e80)))))->RemoveMobileObjectFromList((::MobileObject *)(p));
                     }
                 }
-                reinterpret_cast<::ML *>((((Obj011c3b3c*)*(void**)&(*reinterpret_cast<char *>(&::g_modelLoader)))))->FUN_00444850((::Ref *)(::fnv_0056f700::Ref *)(this), (int)(((void *)(reinterpret_cast<::LodGrid *>((((Obj011dea10*)*(void**)&DAT_011dea10)))->FUN_00458be0((::LodCell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), {})))), {});
+                reinterpret_cast<::ML *>((((Obj011c3b3c*)*(void**)&(*reinterpret_cast<char *>(&::g_modelLoader)))))->FUN_00444850((::Ref *)(::fnv_0056f700::Ref *)(this), (std::intptr_t)(((void *)(reinterpret_cast<::LodGrid *>((((Obj011dea10*)*(void**)&DAT_011dea10)))->FUN_00458be0((::LodCell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), {})))), {});
             }
             else
             {
@@ -41482,7 +41558,7 @@ TESObjectREFR* __cdecl FUN_0056f930(NiAVObject* apAVObjectIn)
     NiAVObject* p1stPerson = 0;
     if (pPlayer != 0)
     {
-        p1stPerson = reinterpret_cast<NiAVObject*>(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((pPlayer))->FUN_00950bb0(true))));
+        p1stPerson = reinterpret_cast<NiAVObject*>(((::NiNode *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>((pPlayer))->FUN_00950bb0(true))));
     }
     while (p3D != 0)
     {
@@ -41644,12 +41720,12 @@ struct Obj570
     virtual void w23();
     virtual void DoAlt();
     ExtraListX* FUN_005d43c0(int a);
-    void FUN_00570f70(int flag);
+    void FUN_00570f70(std::intptr_t flag);
 };
 
 // Selects manager calls for special objects, conditionally calls extra-list methods for two form pointers, dispatches a handler, then passes the flag onward.
 // @fnv 0x00570f70
-void Obj570::FUN_00570f70(int flag)
+void Obj570::FUN_00570f70(std::intptr_t flag)
 {
     if (IsSpecial())
     {
@@ -41714,7 +41790,7 @@ struct FUN_00572c80_shell
 // @fnv 0x00572c80
 bool FUN_00572c80_shell::FUN_00572c80()
 {
-    if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00572c80::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Refr*)this)))->FUN_0084e3a0())))))
+    if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00572c80::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Refr*)this)))->FUN_0084e3a0())))))
         return true;
 
     switch (((::fnv_00572c80::Refr *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Refr*)this)))->FUN_007af430()))->FUN_00401170())
@@ -41743,12 +41819,12 @@ struct Entry
 struct Owner
 {
     Entry* FUN_005d43c0(int iKey);
-    int FUN_00572e10(int iKey);
+    int FUN_00572e10(std::intptr_t iKey);
 };
 
 // Looks up an Entry by iKey via FUN_005d43c0 and returns the result of calling FUN_0041b4b0 on that entry.
 // @fnv 0x00572e10
-int Owner::FUN_00572e10(int iKey)
+int Owner::FUN_00572e10(std::intptr_t iKey)
 {
     return FUN_005d43c0(iKey)->FUN_0041b4b0();
 }
@@ -42392,7 +42468,7 @@ FormStub* RefrStub::FUN_00572e50(FormStub* apOwner)
         ProcStub* proc = 0;
         if (((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
         {
-            int lvl = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60()));
+            std::intptr_t lvl = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60()));
             if (lvl != 1 && lvl != 0 && apOwner)
                 reinterpret_cast<::fnv_00931920::FUN_00931920_shell *>((actor))->CheckTargetAndDelete(0);
             switch (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
@@ -42445,14 +42521,13 @@ int Actor::FUN_005730d0()
     int iType = -1;
     Package* pkPackage = ((::s5730d0::Package *)(reinterpret_cast<::ExtraDataList *>((FUN_005d43c0()))->GetDismemberedLimbs()));
     if (pkPackage)
-        iType = ((int)(reinterpret_cast<::MagicCaster_shell *>((pkPackage))->FUN_0044edb0()));
+        iType = ((int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((pkPackage))->FUN_0044edb0()));
     return iType;
 }
 
 }
 
 namespace fnv_00573f40 {
-extern "C" char DAT_011dea10, DAT_011dea3c;
 struct R;
 struct P
 {
@@ -42695,12 +42770,12 @@ void R::FUN_00573f40()
                 reinterpret_cast<::RefObj *>(this)->FUN_00579ac0(true);
             if (!reinterpret_cast<::FUN_00440d80_shell *>(this)->FUN_00440d80() && ((::fnv_00573f40::F *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) &&
                 (((::fnv_00573f40::F *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 30 || ((::fnv_00573f40::F *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 21 || !reinterpret_cast<::FUN_00444ed0_shell *>(this)->FUN_00444ed0()))
-                reinterpret_cast<::ML *>(((*(H**)&(*reinterpret_cast<char *>(&::g_modelLoader)))))->FUN_00444850((::Ref *)(::fnv_00573f40::R *)(this), (int)(((void *)(reinterpret_cast<::LodGrid *>(((*(G**)&DAT_011dea10)))->FUN_00458be0((::LodCell *)(::fnv_00573f40::C *)(((::fnv_00573f40::C *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::LodPoint *)(0))))), 0);
+                reinterpret_cast<::ML *>(((*(H**)&(*reinterpret_cast<char *>(&::g_modelLoader)))))->FUN_00444850((::Ref *)(::fnv_00573f40::R *)(this), (std::intptr_t)(((void *)(reinterpret_cast<::LodGrid *>(((*(G**)&DAT_011dea10)))->FUN_00458be0((::LodCell *)(::fnv_00573f40::C *)(((::fnv_00573f40::C *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::LodPoint *)(0))))), 0);
             if (::FUN_00450ff0((void *)(((::fnv_00573f40::C *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))) && v116() && ((::fnv_00573f40::F *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((::fnv_00573f40::F *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 30)
             {
                 N* node = ((::fnv_00573f40::N *)(reinterpret_cast<::FUN_005725f0_shell *>(this)->FUN_005725f0()));
                 if (node && ((void *)(::FUN_00559450((int *)(node)))))
-                    reinterpret_cast<::FnvLookupOwner *>((((::fnv_00573f40::S *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5f080((int)(((void *)(::FUN_00559450((int *)(node))))));
+                    reinterpret_cast<::FnvLookupOwner *>((((::fnv_00573f40::S *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5f080((std::intptr_t)(((void *)(::FUN_00559450((int *)(node))))));
             }
         }
         if (p)
@@ -42714,7 +42789,7 @@ void R::FUN_00573f40()
             {
                 ((::fnv_00573f40::P *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))->p5(actor2, true);
                 reinterpret_cast<::p076::Shell *>((actor2))->FUN_008a6ce0(0, 1);
-                if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_00573f40::P *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))))->FUN_0045cd60())))
+                if (((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_00573f40::P *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))))->FUN_0045cd60())))
                     actor2->v151(0.0f);
             }
         }
@@ -42724,7 +42799,7 @@ void R::FUN_00573f40()
         L* a = ((::fnv_00573f40::L *)(reinterpret_cast<::Fn56ac90 *>(this)->FUN_0056ac90()));
         while (a && !a->FUN_008256d0())
         {
-            R* item = *((::fnv_00573f40::R **)(new ((void *)(a)) ::Vec3()));
+            R* item = *((::fnv_00573f40::R **)((void *)(a)));
             if (((bool)(reinterpret_cast<::InventoryChanges *>((item))->CreateForReference())))
             {
                 if (reinterpret_cast<::S_0041dc20_Cls *>((item->FUN_005d43c0()))->FUN_0041dc20())
@@ -42780,7 +42855,6 @@ struct Process
 struct Inv
 {
 };
-extern "C" char DAT_011dea3c;
 extern Inv* FUN_004bf220(S*);
 struct S
 {
@@ -42815,10 +42889,10 @@ struct S
     virtual void a230(), a231(), a232(), a233(), a234(), a235(), a236(), a237(), a238();
     virtual Entry* entry(int);
     void* FUN_0055d310();
-    int FUN_005750a0(Item*, void*, int, bool, bool, int, int, int, bool, bool);
+    int FUN_005750a0(Item*, void*, int, bool, bool, std::intptr_t, int, int, bool, bool);
 };
 // @fnv 0x005750a0
-int S::FUN_005750a0(Item* arg, void* extra, int count, bool b1, bool b2, int p1, int p2, int p3, bool b3, bool b4)
+int S::FUN_005750a0(Item* arg, void* extra, int count, bool b1, bool b2, std::intptr_t p1, int p2, int p3, bool b3, bool b4)
 {
     int result2 = 0;
     if (!arg)
@@ -42831,7 +42905,7 @@ int S::FUN_005750a0(Item* arg, void* extra, int count, bool b1, bool b2, int p1,
             changedVal = reinterpret_cast<::fnv_005656d0::Thing *>(this)->FUN_005656d0();
         ::FUN_005ac750((::TESForm *)(::fnv_005750a0::S *)(this), (::ExtraDataList *)(extra), 4);
         Inv* inventory9 = FUN_004bf220(this);
-        result2 = reinterpret_cast<::Transfer4c37C37This *>((inventory9))->FUN_004c37d0((::Transfer4c37C37Obj *)(::fnv_005750a0::S *)(this), (int)(arg), b1, count, (::Transfer4c37Form4 *)(extra), b2, (::Transfer4c37C37Form *)(p1), p2, p3, b3, b4, (::Transfer4c37Entry *)(0));
+        result2 = reinterpret_cast<::Transfer4c37C37This *>((inventory9))->FUN_004c37d0((::Transfer4c37C37Obj *)(::fnv_005750a0::S *)(this), (std::intptr_t)(arg), b1, count, (::Transfer4c37Form4 *)(extra), b2, (::Transfer4c37C37Form *)(p1), p2, p3, b3, b4, (::Transfer4c37Entry *)(0));
         if (isactor())
         {
             S* actor = this;
@@ -42871,19 +42945,19 @@ struct Obj4bf
 struct Thing575
 {
     void* FUN_0055d310();
-    bool FUN_00575400(int a);
+    bool FUN_00575400(std::intptr_t a);
 };
 Obj4bf* FUN_004bf220(Thing575* t);
 // Returns true when FUN_0055d310 returns non-null and FUN_004bfda0(a, 0) returns nonzero.
 // @fnv 0x00575400
-bool Thing575::FUN_00575400(int a)
+bool Thing575::FUN_00575400(std::intptr_t a)
 {
     void* p = ((void *)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
     bool result = false;
     if (p)
     {
         Obj4bf* o = FUN_004bf220(this);
-        if (((int)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((o))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(a), 0))))
+        if (((std::uintptr_t)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((o))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(a), 0))))
             result = true;
     }
     return result;
@@ -42904,24 +42978,23 @@ struct Thing
     int FUN_00575590(unsigned char flag, unsigned char value);
 };
 
-extern "C" void* FUN_004bf220(void* self);
 
 // If FUN_0055d310 is nonzero, calls FUN_004c8fd0 on the selected object and returns its result minus one; otherwise returns -2.
 // @fnv 0x00575590
 int Thing::FUN_00575590(unsigned char abUseGlobal, unsigned char value)
 {
-    int result = ((int)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
+    std::intptr_t result = ((std::intptr_t)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
     int out = -1;
     if (result != 0)
     {
-        int inv = 0;
+        std::intptr_t inv = 0;
         if (abUseGlobal != 0)
         {
             inv = ((int)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::fnv_00575590::Global * *>(&::g_dataHandler))))->FUN_00740960()));
         }
         else
         {
-            inv = (int)FUN_004bf220(this);
+            inv = (int)FUN_004bf220((::TESObjectREFR *)this);
         }
         out = 0;
         out = reinterpret_cast<::FUN_004c8fd0_t *>((((Obj*)inv)))->FUN_004c8fd0(value);
@@ -43456,12 +43529,12 @@ struct Sub
 struct Thing
 {
     Sub* FUN_005d43c0();
-    void FUN_00578a30(int arg);
+    void FUN_00578a30(std::intptr_t arg);
 };
 // @fnv 0x00578a30
-void Thing::FUN_00578a30(int aiValue)
+void Thing::FUN_00578a30(std::intptr_t aiValue)
 {
-    if (!(reinterpret_cast<::FUN_0047c850 *>((DAT_011de45c))->EvaluateCondition() && ((int)(reinterpret_cast<::FUN_004228f0_Class *>((FUN_005d43c0()))->FUN_004228f0())) != 0))
+    if (!(reinterpret_cast<::FUN_0047c850 *>((DAT_011de45c))->EvaluateCondition() && ((std::uintptr_t)(reinterpret_cast<::FUN_004228f0_Class *>((FUN_005d43c0()))->FUN_004228f0())) != 0))
     {
         reinterpret_cast<::FUN_00422850_shell *>((FUN_005d43c0()))->FUN_00422850((char *)(aiValue));
     }
@@ -43655,12 +43728,12 @@ class ReferenceView
     BoundForm* baseForm;
     bool FUN_004997b0();
     ActorBaseData* FUN_004181e0();
-    int FUN_00579280();
+    intptr_t FUN_00579280();
 };
 extern ReferenceView* g_thePlayer;
 
 // @fnv 0x00579280
-int ReferenceView::FUN_00579280()
+intptr_t ReferenceView::FUN_00579280()
 {
     if (!IsActor() && reinterpret_cast<::FUN_00477ba0_shell *>(this)->FUN_00477ba0())
         return 0;
@@ -43971,30 +44044,30 @@ void This57::FUN_0057ada0()
     objTmp = ((::fnv_0057ada0::AObj *)(reinterpret_cast<::FUN_0041fbe0_shell *>((FUN_005d43c0()))->FUN_0041fbe0()));
     if (objTmp == 0)
         return;
-    if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca234)) || ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca23c)))
+    if (((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca234)) || ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca23c)))
     {
         b9 = 0;
-        if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca234)))
+        if (((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca234)))
         {
             b9 = ((::fnv_0057ada0::BObj *)(reinterpret_cast<::FUN_00422120_shell *>((FUN_005d43c0()))->FUN_00422120()));
         }
         else
         {
-            b9 = ((::fnv_0057ada0::BObj *)(reinterpret_cast<::Holder00420dd0 *>((FUN_005d43c0()))->FUN_00420dd0()));
+            b9 = ((::fnv_0057ada0::BObj *)(std::uintptr_t)(reinterpret_cast<::Holder00420dd0 *>((FUN_005d43c0()))->FUN_00420dd0()));
         }
         if (b9 != 0)
         {
             reinterpret_cast<::S00416a30 *>((b9))->FUN_00416a30((::P00416a30 *)(::fnv_0057ada0::Vec2 *)(((::fnv_0057ada0::Vec2 *)(new ((void *)&(result)) ::NiPoint2(objTmp->FUN_00413fc0(&tmpBA)->x, objTmp->FUN_00413fc0(&tmpA5)->z)))));
-            reinterpret_cast<::fnv_004169f0::BSOcclusionPlane_Fake *>((b9))->FUN_004169f0((*(const ::fnv_004169f0::NiPoint3 *)(((::fnv_0057ada0::Vec3 *)(::FUN_0045bb80((int)(((::fnv_0057ada0::MidObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((objTmp))->FUN_0056c7f0())))))))));
+            reinterpret_cast<::fnv_004169f0::BSOcclusionPlane_Fake *>((b9))->FUN_004169f0((*(const ::fnv_004169f0::NiPoint3 *)(((::fnv_0057ada0::Vec3 *)(::FUN_0045bb80((std::intptr_t)(((::fnv_0057ada0::MidObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((objTmp))->FUN_0056c7f0())))))))));
             reinterpret_cast<::S00416a70 *>((b9))->FUN_00416a70((::M00416a70 *)(void *)(::FUN_006a9540((char *)(((::fnv_0057ada0::MidObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((objTmp))->FUN_0056c7f0()))))));
         }
     }
-    else if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca238)) || ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca230)))
+    else if (((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca238)) || ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca230)))
     {
         d_ = 0;
         aC = 0;
         unkVal = 0;
-        if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca238)))
+        if (((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca238)))
         {
             aC = ((::fnv_0057ada0::CObj *)(reinterpret_cast<::ExtraList420 *>((FUN_005d43c0()))->FUN_00420ed0()));
             if (aC == 0)
@@ -44011,7 +44084,7 @@ void This57::FUN_0057ada0()
             if (e3 != 0)
             {
                 reinterpret_cast<::FUN_00413fc0_Class *>((objTmp))->GetRadii();
-                vec1_2 = *((::fnv_0057ada0::Vec3 *)(::FUN_0045bb80((int)(((::fnv_0057ada0::MidObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((objTmp))->FUN_0056c7f0()))))));
+                vec1_2 = *((::fnv_0057ada0::Vec3 *)(::FUN_0045bb80((std::intptr_t)(((::fnv_0057ada0::MidObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((objTmp))->FUN_0056c7f0()))))));
                 kVec2 = *FUN_00430830();
                 if (reinterpret_cast<::NiPoint3 *>(&(kVec2))->FUN_004390c0((*(const ::NiPoint3 *)((*reinterpret_cast<const char (*)[]>((void *)&::NiPoint3::ZERO))))))
                 {
@@ -44126,7 +44199,7 @@ bool FUN_0057b460_shell::FUN_0057b460()
     bool bretval = false;
     if (((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430())) && _FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) == 0x1c)
     {
-        int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(this)))->GetName()));
+        int iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(this)))->GetName()));
         if (iflags & 0x100)
         {
             bretval = true;
@@ -44148,7 +44221,7 @@ bool FUN_0057b4b0_shell::FUN_0057b4b0()
     bool bretval = false;
     if (((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430())) && _FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) == 0x1c)
     {
-        int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
+        int iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
         if (iflags & 0x40)
         {
             bretval = true;
@@ -44160,7 +44233,6 @@ bool FUN_0057b4b0_shell::FUN_0057b4b0()
 namespace fnv_0057b7c0 {
 // 0x0057b7c0  Actor dialogue helper  /MT /Od /Oy- /GS /EHsc /Gy
 extern "C" int sprintf(char*, const char*, ...);
-extern "C" void* DAT_011dea3c;
 
 struct Set57
 {
@@ -44700,7 +44772,7 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
     {
         if (((::fnv_0057b7c0::Proc57 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture())) && !actor2->v22c(0))
         {
-            DialogItem57* dlgTmp = (*(<dependent type> *)(reinterpret_cast<::FUN_0061b320_shell *>((apTopic))->FUN_0061b320((::TESObjectREFR *)(actor2), (::TESObjectREFR *)(void *)(DAT_011dea3c), (::TESTopic *)(void *)(0), 0, 1)));
+            DialogItem57* dlgTmp = (DialogItem57*)(reinterpret_cast<::FUN_0061b320_shell *>((apTopic))->FUN_0061b320((::TESObjectREFR *)(actor2), (::TESObjectREFR *)(void *)(DAT_011dea3c), (::TESTopic *)(void *)(0), 0, 1));
             actor2->b7f = 1;
             reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((actor2))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(void *)(DAT_011dea3c));
             if (!actor2->v214())
@@ -44731,12 +44803,12 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
                     char buf[0x108];
                     if (((bool)(::fnv_00703150::FUN_00703150())))
                     {
-                        sprintf(buf, "'%s' :%s", reinterpret_cast<::FUN_0055d520_shell *>((this))->FUN_0055d520(), ((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)(new ((void *)(resp4)) ::Vec3())))))));
+                        sprintf(buf, "'%s' :%s", reinterpret_cast<::FUN_0055d520_shell *>((this))->FUN_0055d520(), ((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)((void *)(resp4))))))));
                         FUN_00705210(buf, S12(0), *this->v1f4(), DAT_011dea3c, 0);
                     }
                     else
                     {
-                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)(new ((void *)(resp4)) ::Vec3())))))), S12(0), *this->v1f4(), DAT_011dea3c, 0);
+                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)((void *)(resp4))))))), S12(0), *this->v1f4(), DAT_011dea3c, 0);
                     }
                     ((::fnv_0057b7c0::Proc57 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))->v24c(0);
                 }
@@ -44761,7 +44833,7 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
                     reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((this))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((d4))->FUN_0084e3a0()))));
                 }
                 L150 _obj = this->v13c(apTopic, DAT_011dea3c, 0, 0, 0, 0, 0);
-                reinterpret_cast<::SoundPlaybackHandle *>(&(_obj))->SetCompletionCallback((void (*)(void *, bool))(void *)((void*)&((void (&)())::fnv_005790f0::FUN_005790f0)), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0()))));
+                reinterpret_cast<::SoundPlaybackHandle *>(&(_obj))->SetCompletionCallback((void (*)(void *, bool))(void *)((void*)&((void (&)())::fnv_005790f0::FUN_005790f0)), (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0()))));
             }
         }
     }
@@ -45424,13 +45496,13 @@ void DlgActor::FUN_00935f60()
     {
         DlgConversation* m_pkConversation = FUN_00934430();
         void* pOwner = ((void *)(reinterpret_cast<::FUN_0057bd40_shell *>(this)->FUN_0057bd40()));
-        DlgCheck* pCheckTmp = ((::DialogueUpdate::DlgCheck *)(reinterpret_cast<::FUN_008dd860_shell *>(this)->FUN_008dd860()));
+        DlgCheck* pCheckTmp = ((::DialogueUpdate::DlgCheck *)(std::uintptr_t)(reinterpret_cast<::FUN_008dd860_shell *>(this)->FUN_008dd860()));
         bool bFinishNew = true;
         if (pCheckTmp && m_pkConversation)
         {
             DlgQuery kQuery;
             reinterpret_cast<::FUN_0061e760_shell *>((m_pkConversation))->FUN_0061e760((::TESResponseList *)(::DialogueUpdate::DlgQuery *)(&kQuery));
-            if (pCheckTmp != ((::DialogueUpdate::DlgCheck *)(reinterpret_cast<::FUN_009369a0_shell *>(&(kQuery))->FUN_009369a0())))
+            if (pCheckTmp != ((::DialogueUpdate::DlgCheck *)(std::uintptr_t)(reinterpret_cast<::FUN_009369a0_shell *>(&(kQuery))->FUN_009369a0())))
                 bFinishNew = false;
         }
         if (bFinishNew)
@@ -45520,19 +45592,19 @@ void DlgActor::FUN_00935f60()
             {
                 DlgNode* pLine = ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pResponse))->GetActiveResponse()));
                 bool bShownVal = false;
-                if ((*(*reinterpret_cast<::DialogueUpdate::DlgBoolSetting *>(&::g_011d8928)).FUN_00408d60() && ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(pLine)) ::Vec3()))))))) ||
+                if ((*(*reinterpret_cast<::DialogueUpdate::DlgBoolSetting *>(&::g_011d8928)).FUN_00408d60() && ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(pLine)))))))) ||
                     (IsActor() && ::FUN_008c1bc0((int)this)))
                 {
                     if (((bool)(::fnv_00703150::FUN_00703150())))
                     {
                         char acSubtitle[260];
                         FUN_00ec623a(acSubtitle, s_szSubtitleFormat, reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(),
-                                     ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(pLine)) ::Vec3())))))));
+                                     ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(pLine))))))));
                         FUN_00705210(acSubtitle, ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
                     }
                     else
                     {
-                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(pLine)) ::Vec3())))))), ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(),
+                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(pLine))))))), ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(),
                                      DAT_011dea3c, 0);
                     }
                 }
@@ -45570,15 +45642,15 @@ void DlgActor::FUN_00935f60()
             }
             if (pDialogue)
             {
-                reinterpret_cast<::fnv_00967730::RelationOwner *>((DAT_011dea3c))->FUN_00967730((::fnv_00967730::RefDistance *)(void *)(((void *)(::FUN_009ee040((char *)(pDialogue))))), (::fnv_00967730::RefDistance *)(void *)(((void *)(reinterpret_cast<::MiddleLowProcess *>((pDialogue))->GetProcessInteger()))), (::fnv_00967730::Relationship *)(pDialogue));
+                reinterpret_cast<::fnv_00967730::RelationOwner *>((DAT_011dea3c))->FUN_00967730((::fnv_00967730::RefDistance *)(void *)(((void *)(::FUN_009ee040((char *)(pDialogue))))), (::fnv_00967730::RefDistance *)(void *)(((void *)(std::uintptr_t)(reinterpret_cast<::MiddleLowProcess *>((pDialogue))->GetProcessInteger()))), (::fnv_00967730::Relationship *)(pDialogue));
                 if (pDialogue == DAT_011dea3c->pDialoguePackage || (*reinterpret_cast<unsigned char *>(&::DAT_011f122d)))
                 {
-                    DlgNode* pTopicInfo = ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::FUN_005e3fc0_shell *>((pDialogue))->Get()));
+                    DlgNode* pTopicInfo = ((::DialogueUpdate::DlgNode *)(std::uintptr_t)(reinterpret_cast<::FUN_005e3fc0_shell *>((pDialogue))->Get()));
                     if (pTopicInfo && ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse())) && ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse())) &&
-                        ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse())))) ::Vec3())))))))
+                        ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse()))))))))))
                     {
                         if (*(*reinterpret_cast<::DialogueUpdate::DlgBoolSetting *>(&::g_011d8928)).FUN_00408d60() || (IsActor() && ::FUN_008c1bc0((int)this)))
-                            FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse())))) ::Vec3())))))),
+                            FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse()))))))))),
                                          ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
                     }
                 }
@@ -45596,13 +45668,13 @@ struct TESObjectREFRHelper
 struct Fn9a4f40
 {
     void* ref;
-    void FUN_009a4f40(int);
+    void FUN_009a4f40(intptr_t);
 };
 // Resolves the ref pointer to a TESObjectREFR and sets its targeting state to true.
 // @fnv 0x009a4f40
-void Fn9a4f40::FUN_009a4f40(int unused)
+void Fn9a4f40::FUN_009a4f40(intptr_t unused)
 {
-    ref = ref ? (TESObjectREFRHelper*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(ref))) : 0;
+    ref = ref ? (TESObjectREFRHelper*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(ref))) : 0;
     if (ref)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)ref)))->FUN_00564db0(true);
 }
@@ -46051,7 +46123,7 @@ bool ModelRef::FUN_005710c0()
                 char filename5[260];
                 ::TaskQueueInterface::CopyStringToBuffer(filename5, 260, reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath());
                 char* separator270 = ::FUN_0040ab30(filename5, '\\');
-                ::TaskQueueInterface::CopyStringToBuffer(separator270 + 1, 260 - (separator270 - filename5) - 1, *((const char **)(new ((void *)(link14)) ::Vec3())));
+                ::TaskQueueInterface::CopyStringToBuffer(separator270 + 1, 260 - (separator270 - filename5) - 1, *((const char **)((void *)(link14))));
                 ModelNode* loaded338 = ((::fnv_005710c0::ModelNode *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::fnv_005710c0::AttachModelLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(filename5), 3, 1, 0, 0, 0)));
                 if (loaded338)
                 {
@@ -46296,7 +46368,7 @@ void InitReference::FUN_0055d760()
                 scale = new InitScaleExtra;
                 reinterpret_cast<::FUN_00421f30_shell *>((FUN_005d43c0()))->FUN_00421f30((::Point3Offset *)(scale));
             }
-            InitVector offset = *((::InitVector *)(new ((void *)(scale)) ::Vec3()));
+            InitVector offset = *((::InitVector *)((void *)(scale)));
             reinterpret_cast<::MyPoint439180 *>(&(offset))->FUN_00439180(FUN_00567400());
             reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((scale))->FUN_0098ddd0((void *)&(offset));
             FUN_00567490(1.0f);
@@ -46403,7 +46475,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
     if (map)
     {
         TESForm* mapped = 0;
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(this), (*(::fnv_00853130::CombatThreatRecord * *)(&mapped))) && mapped)
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(this), (*(::fnv_00853130::CombatThreatRecord * *)(&mapped))) && mapped)
         {
             RemapRef* copy = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mapped));
             if (copy)
@@ -46413,7 +46485,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 if (parentNum)
                 {
                     mappedOtherNew = 0;
-                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(parentNum), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(parentNum), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
@@ -46428,7 +46500,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 if (ownerPos)
                 {
                     mappedOtherNew = 0;
-                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(ownerPos), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(ownerPos), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
@@ -46439,7 +46511,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 if (linked)
                 {
                     mappedOtherNew = 0;
-                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(linked), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(linked), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
@@ -46452,11 +46524,11 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 int index;
                 for (index = 0; index < 2; index++)
                 {
-                    RemapRef* reference = ((::RemapRef *)(reinterpret_cast<::FUN_00420bc0_cls *>((FUN_005d43c0()))->FUN_00420bc0(index)));
+                    RemapRef* reference = ((::RemapRef *)(std::uintptr_t)(reinterpret_cast<::FUN_00420bc0_cls *>((FUN_005d43c0()))->FUN_00420bc0(index)));
                     if (reference)
                     {
                         mappedOtherNew = 0;
-                        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                         {
                             RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                             if (other)
@@ -46472,11 +46544,11 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                     if (reference)
                     {
                         mappedOtherNew = 0;
-                        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                         {
                             RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                             if (other)
-                                reinterpret_cast<::C420160ExtraData *>((copy->FUN_005d43c0()))->FUN_00420160((int)(other), index);
+                                reinterpret_cast<::C420160ExtraData *>((copy->FUN_005d43c0()))->FUN_00420160((std::intptr_t)(other), index);
                         }
                     }
                 }
@@ -46484,10 +46556,10 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 bool addedBase = false;
                 while (linksOut && !linksOut->FUN_008256d0())
                 {
-                    RemapData* entry = static_cast<RemapData*>(*((void **)(new ((void *)(linksOut)) ::Vec3())));
+                    RemapData* entry = static_cast<RemapData*>(*((void **)((void *)(linksOut))));
                     linksOut = ((::RemapList *)(reinterpret_cast<::Callees *>((linksOut))->FUN_00726070()));
                     mappedOtherNew = 0;
-                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(entry->reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(entry->reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
@@ -46504,9 +46576,9 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 RemapList* transformsOld = ((::RemapList *)(reinterpret_cast<::FUN_0041f050_shell *>((FUN_005d43c0()))->FUN_0041f050()));
                 while (transformsOld && !transformsOld->FUN_008256d0())
                 {
-                    RemapTransform* entry = static_cast<RemapTransform*>(*((void **)(new ((void *)(transformsOld)) ::Vec3())));
+                    RemapTransform* entry = static_cast<RemapTransform*>(*((void **)((void *)(transformsOld))));
                     mappedOtherNew = 0;
-                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(entry->reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(entry->reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
@@ -46518,7 +46590,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 if (target)
                 {
                     mappedOtherNew = 0;
-                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(target), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(target), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
@@ -46529,14 +46601,14 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 if (nodeVal && ((::RemapRef *)(::FUN_00559450((int *)(nodeVal)))))
                 {
                     mappedOtherNew = 0;
-                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(((::RemapRef *)(::FUN_00559450((int *)(nodeVal))))), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
+                    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(((::RemapRef *)(::FUN_00559450((int *)(nodeVal))))), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
                         {
                             RemapNode* newNodeRes = ((::RemapNode *)(reinterpret_cast<::fnv_00568e70::XActor *>((copy))->FUN_00568e70()));
-                            reinterpret_cast<::FUN_00537e90 *>((newNodeRes))->SetQuantity((unsigned int)(other));
-                            RemapPoint position = *((::RemapPoint *)(::FUN_00460140((int)(nodeVal))));
+                            reinterpret_cast<::FUN_00537e90 *>((newNodeRes))->SetQuantity((std::uintptr_t)(other));
+                            RemapPoint position = *((::RemapPoint *)(::FUN_00460140((std::intptr_t)(nodeVal))));
                             RemapPoint deltaItem =
                                 (*(::RemapPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::RemapPoint *)(reinterpret_cast<::BaseProcess *>((nodeVal))->GetCurrentProcessData()))))->FUN_00439ef0((::NiPoint3 *)&(*((::RemapRef *)(::FUN_00559450((int *)(nodeVal))))->GetPos()), *(const ::NiPoint3 *)nullptr)));
                             RemapPoint world = (*(::RemapPoint *)(reinterpret_cast<::Point3Offset *>((void *)(other->GetPos()))->ProjectileLaunched((::NiPoint3 *)&(deltaItem), {})));
@@ -46571,12 +46643,12 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         changed = true;
     else if (!FUN_0040eb10(reinterpret_cast<::fnv_00568cb0::FUN_00568cb0_shell *>(this)->FUN_00568cb0(), reinterpret_cast<::fnv_00568cb0::FUN_00568cb0_shell *>((pSource))->FUN_00568cb0(), ::AngularDashpotApplyD4DCB0::DAT_01017d00))
         changed = true;
-    else if (((int)(reinterpret_cast<::FUN_00569580_shell *>(this)->GetOwnerForm())) != ((int)(reinterpret_cast<::FUN_00569580_shell *>((pSource))->GetOwnerForm())))
+    else if (((std::uintptr_t)(reinterpret_cast<::FUN_00569580_shell *>(this)->GetOwnerForm())) != ((std::uintptr_t)(reinterpret_cast<::FUN_00569580_shell *>((pSource))->GetOwnerForm())))
         changed = true;
     if (node())
     {
         reinterpret_cast<::FUN_00440460_S *>((node()))->FUN_00440460((const ::V3 *)(const ::Vec *)(position()));
-        reinterpret_cast<::FUN_0043fa80_s *>((node()))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&FUN_0056fa00())));
+        reinterpret_cast<::FUN_0043fa80_s *>((node()))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(FUN_0056fa00()))));
         ::FUN_00c6bd00((::TreeNode_cls *)(::CopyNode *)(node()), true);
         NiUpdateData update(0.0f, false, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((node()))->FUN_00a59c60((std::intptr_t)&(update));
@@ -46609,7 +46681,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         Link* links3 = FUN_005d43c0()->FUN_0041e780();
         while (links3 && !links3->FUN_008256d0())
         {
-            AttachedSceneProvider* data = *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3()));
+            AttachedSceneProvider* data = *((::AttachedSceneProvider **)((void *)(links3)));
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
             reinterpret_cast<::FUN_0041ef20_shell *>((data->ref->FUN_005d43c0()))->FUN_0041ef20((::TESObjectREFR *)(::Ref *)(this));
         }
@@ -46619,25 +46691,25 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
     if (reinterpret_cast<::FUN_004077c0_shell *>((pSource))->FUN_004077c0())
     {
         links3 = ((::Link *)(reinterpret_cast<::S_FUN_0041f170 *>((FUN_005d43c0()))->FUN_0041f170()));
-        while (links3 && *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))
+        while (links3 && *((::AttachedSceneProvider **)((void *)(links3))))
         {
-            reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), false);
-            reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), false);
+            reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), false);
+            reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), false);
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
         }
         Link* lights = ((::Link *)(reinterpret_cast<::FUN_0041f810_shell *>((FUN_005d43c0()))->FUN_0041f810()));
-        while (lights && *((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))
+        while (lights && *((::AttachedSceneProvider **)((void *)(lights))))
         {
             CopyHolder* light = ((::CopyHolder *)(reinterpret_cast<::Holder *>((FUN_005d43c0()))->FUN_00418250()));
             if (light && ((::Ref *)(::FUN_00559450((int *)(light)))))
             {
-                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->node();
-                if (object && ((::Scene *)(::FUN_0070ec90((char *)(g_TES)))))
+                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->node();
+                if (object && ((::Scene *)(std::uintptr_t)(::FUN_0070ec90((char *)(g_TES)))))
                 {
-                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3()))))));
+                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(std::uintptr_t)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)((void *)(lights)))))));
                     CopyNode* geomAlias = geom;
                     CopyNode* kind3 = ((::CopyNode *)(reinterpret_cast<::AlchemyItem *>((geomAlias))->FUN_004030b0()));
-                    if (kind3 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((kind3))->GetBaseTexture())) == 0xd)
+                    if (kind3 && ((std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((kind3))->GetBaseTexture())) == 0xd)
                     {
                         Property* prop = ((::Property *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(3)));
                         Property* propAlias = prop;
@@ -46645,7 +46717,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
                     }
                 }
             }
-            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), false);
+            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), false);
             lights = ((::Link *)(reinterpret_cast<::Callees *>((lights))->FUN_00726070()));
         }
     }
@@ -46653,27 +46725,27 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
     if (reinterpret_cast<::FUN_004077c0_shell *>((pSource))->FUN_004077c0())
     {
         links3 = ((::Link *)(reinterpret_cast<::S_FUN_0041f170 *>((pSource->FUN_005d43c0()))->FUN_0041f170()));
-        while (links3 && *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))
+        while (links3 && *((::AttachedSceneProvider **)((void *)(links3))))
         {
-            if ((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->flags & 1)
-                reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), true);
-            if ((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->flags & 2)
-                reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), true);
+            if ((*((::AttachedSceneProvider **)((void *)(links3))))->flags & 1)
+                reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), true);
+            if ((*((::AttachedSceneProvider **)((void *)(links3))))->flags & 2)
+                reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), true);
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
         }
         Link* lights = ((::Link *)(reinterpret_cast<::FUN_0041f810_shell *>((pSource->FUN_005d43c0()))->FUN_0041f810()));
-        while (lights && *((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))
+        while (lights && *((::AttachedSceneProvider **)((void *)(lights))))
         {
             CopyHolder* light = ((::CopyHolder *)(reinterpret_cast<::Holder *>((FUN_005d43c0()))->FUN_00418250()));
             if (light && ((::Ref *)(::FUN_00559450((int *)(light)))))
             {
-                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->node();
-                if (object && ((::Scene *)(::FUN_0070ec90((char *)(g_TES)))))
+                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->node();
+                if (object && ((::Scene *)(std::uintptr_t)(::FUN_0070ec90((char *)(g_TES)))))
                 {
-                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3()))))));
+                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(std::uintptr_t)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)((void *)(lights)))))));
                     CopyNode* geomAlias = geom;
                     CopyNode* kind3 = ((::CopyNode *)(reinterpret_cast<::AlchemyItem *>((geomAlias))->FUN_004030b0()));
-                    if (kind3 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((kind3))->GetBaseTexture())) == 0xd)
+                    if (kind3 && ((std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((kind3))->GetBaseTexture())) == 0xd)
                     {
                         Property* prop = ((::Property *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(3)));
                         Property* propAlias = prop;
@@ -46682,11 +46754,11 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
                             reinterpret_cast<::FUN_004ed8c0_shell *>(&(propAlias->refs))->FUN_004ed8c0((int *)&(const ::Ref *const &)(((::Ref *)(::FUN_00559450((int *)(light))))));
                             propAlias->dirty = true;
                         }
-                        reinterpret_cast<::B5Owner *>((((::Shadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((unsigned int)(((::Ref *)(::FUN_00559450((int *)(light))))));
+                        reinterpret_cast<::B5Owner *>((((::Shadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5eed0((std::uintptr_t)(((::Ref *)(::FUN_00559450((int *)(light))))));
                     }
                 }
             }
-            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), true);
+            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), true);
             lights = ((::Link *)(reinterpret_cast<::Callees *>((lights))->FUN_00726070()));
         }
     }
@@ -46700,7 +46772,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         Link* links3 = FUN_005d43c0()->FUN_0041e780();
         while (links3 && !links3->FUN_008256d0())
         {
-            AttachedSceneProvider* data = *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3()));
+            AttachedSceneProvider* data = *((::AttachedSceneProvider **)((void *)(links3)));
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
             reinterpret_cast<::FUN_0041edd0_shell *>((data->ref->FUN_005d43c0()))->FUN_0041edd0((::TESObjectREFR *)(::Ref *)(this));
         }
@@ -46719,7 +46791,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         {
             CopyNode* object = loadNode(false);
             reinterpret_cast<::FUN_00440460_S *>((object))->FUN_00440460((const ::V3 *)(const ::Vec *)(position()));
-            reinterpret_cast<::FUN_0043fa80_s *>((object))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&FUN_0056fa00())));
+            reinterpret_cast<::FUN_0043fa80_s *>((object))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(FUN_0056fa00()))));
             reinterpret_cast<::FUN_00440490_shell *>((object))->FUN_00440490(FUN_00567400());
             if (((::CopyNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pSource->node()))->FUN_009611e0())))
                 ((::CopyNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pSource->node()))->FUN_009611e0()))->attach(object, true);
@@ -46755,7 +46827,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
             CopyHolder* reverse = ((::CopyHolder *)(reinterpret_cast<::TESObjectREFR *>((other))->GetExtraRadioData()));
             if (!reverse)
                 reverse = ((::CopyHolder *)(reinterpret_cast<::fnv_00568e70::XActor *>((other))->FUN_00568e70()));
-            reinterpret_cast<::FUN_00537e90 *>((reverse))->SetQuantity((unsigned int)(this));
+            reinterpret_cast<::FUN_00537e90 *>((reverse))->SetQuantity((std::uintptr_t)(this));
             bool warning = false;
             if (((void *)(reinterpret_cast<::FUN_00569140_shell *>(this)->GetMyLock())) && ((void *)(reinterpret_cast<::FUN_00569140_shell *>((other))->GetMyLock())))
             {
@@ -46840,7 +46912,7 @@ void FNV_0055f970::FUN_0055f970()
             if (controller)
             {
                 Effect* effect = ((::Effect *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((controller))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::ResourceName &)(ResourceName(DAT_01197b5c)))));
-                if (effect && ((int)(reinterpret_cast<::LowProcess *>((effect))->GetActiveCombatTarget())))
+                if (effect && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((effect))->GetActiveCombatTarget())))
                     shouldNotify = true;
             }
         }
@@ -46868,7 +46940,7 @@ void FNV_0055f970::FUN_0055f970()
                 reinterpret_cast<::TaskQueueInterface *>((controller))->QueueReferenceStateTask(true);
                 if (first)
                 {
-                    if (!((int)(reinterpret_cast<::LowProcess *>((first))->GetActiveCombatTarget())))
+                    if (!((std::uintptr_t)(reinterpret_cast<::LowProcess *>((first))->GetActiveCombatTarget())))
                         reinterpret_cast<::NiControllerManager *>((controller))->ActivateControllerSequence((::NiControllerSequence *)(first), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                     reinterpret_cast<::FUN_0098adb0_shell *>((first))->FUN_0098adb0(-DAT_0102f510);
                     Position position;
@@ -46877,7 +46949,7 @@ void FNV_0055f970::FUN_0055f970()
                 }
                 if (second)
                 {
-                    if (!((int)(reinterpret_cast<::LowProcess *>((second))->GetActiveCombatTarget())))
+                    if (!((std::uintptr_t)(reinterpret_cast<::LowProcess *>((second))->GetActiveCombatTarget())))
                         reinterpret_cast<::NiControllerManager *>((controller))->ActivateControllerSequence((::NiControllerSequence *)(second), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                     reinterpret_cast<::FUN_0098adb0_shell *>((second))->FUN_0098adb0(-DAT_0102f510);
                     Position position;
@@ -46937,12 +47009,12 @@ void FUN_0057aa90_Class::FUN_0057aa90()
         AttachedResource* candidate;
         candidate = ((::InterfaceObject *)(::FUN_00559450((int *)&(resource1C)))) ? ((::InterfaceObject *)(::FUN_00559450((int *)&(resource1C))))->getResource() : 0;
         index = candidate ? reinterpret_cast<::BSFadeNode *>((candidate))->FUN_009ad610() : 0;
-        if (index && ((unsigned int)(reinterpret_cast<::LowProcess *>((owner18))->GetTarget())))
+        if (index && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((owner18))->GetTarget())))
         {
             reinterpret_cast<::LowProcess *>((owner18))->GetTarget();
             if (FUN_0057ab50(reinterpret_cast<void*>(index)))
             {
-                reinterpret_cast<::FUN_00844700_Class *>(&(reinterpret_cast<RegistryWithMethod&>(g_011ca304)))->FUN_00844700(index, (unsigned int)(owner18));
+                reinterpret_cast<::FUN_00844700_Class *>(&(reinterpret_cast<RegistryWithMethod&>(g_011ca304)))->FUN_00844700(index, (std::uintptr_t)(owner18));
             }
         }
     }
@@ -47039,7 +47111,7 @@ void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNod
                         if (FUN_00408b20((const char*)((::BSFadeNode *)(reinterpret_cast<::TESTopicInfoData *>((((FUN_00413f40_shell*)item)))->GetLinkToList()))->FUN_0043b1b0(),
                                          buf) == 0)
                         {
-                            if (((int)(reinterpret_cast<::LowProcess *>((((FUN_008041a0_shell*)item)))->GetActiveCombatTarget())) == 0)
+                            if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((((FUN_008041a0_shell*)item)))->GetActiveCombatTarget())) == 0)
                                 reinterpret_cast<::NiControllerManager *>((((FUN_0047aab0_shell*)apController)))->ActivateControllerSequence((::NiControllerSequence *)(item), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                             reinterpret_cast<::fnv_004efbc0::HY *>((((FUN_004efbc0_shell*)item)))->FUN_004efbc0(f);
                             if (apNode && ((unsigned char)(::IsObjectNetValid((::NiObjectNET *)(apNode)))))
@@ -47134,25 +47206,11 @@ struct CrimeFormTypeView
     int GetFormType();
 };
 
-__if_not_exists(TESCreature::TESCreature)
+struct CreatureAVView
 {
-    class TESCreature : public TESBoundObject
-    {
-      public:
-        int unk04;
-        int unk08;
-        int unk0c;
-        int unk10;
-        int unk14;
-        int unk18;
-        int unk1c;
-        int unk20;
-        int unk24;
-        int unk28;
-        int unk2c;
-        xActorValueOwner m_kAVOwner;
-    };
-}
+    char pad[0x30];
+    xActorValueOwner m_kAVOwner;
+};
 
 struct xCell
 {
@@ -47498,7 +47556,7 @@ void C0055f780::FUN_0055f780(unsigned int a1, unsigned int a2)
     reinterpret_cast<::FUN_008d0600_s *>((this))->FUN_008d0600(a1, a2);
     if (a1 & 0x20)
     {
-        TESContainer* cont = ((::fnv_0055f780::TESContainer *)((reinterpret_cast<::s55d310::Owner *>((this))->FUN_0055d310()));
+        TESContainer* cont = ((::fnv_0055f780::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((this))->FUN_0055d310()));
         if (cont)
         {
             InventoryChanges* inv = InventoryChanges::GetOrAddInventoryChanges(this);
@@ -47509,7 +47567,7 @@ void C0055f780::FUN_0055f780(unsigned int a1, unsigned int a2)
     if (node)
     {
         reinterpret_cast<::FUN_00440460_S *>((node))->FUN_00440460((const ::V3 *)&(*this->vfunc_1f4()));
-        reinterpret_cast<::FUN_0043fa80_s *>((node))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&this->FUN_0056fa00())));
+        reinterpret_cast<::FUN_0043fa80_s *>((node))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(this->FUN_0056fa00()))));
         ::FUN_00c69f50((::S_00c69f50_Obj *)(node), 1, 0);
         UpdData upd;
         new ((void *)&(upd)) ::NiUpdateData(0.0f, false, false);
@@ -47566,7 +47624,7 @@ void TESObjectREFR_564a00::FUN_00564a00(bool bValue)
     if (((::TESBoundObject_564a00 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((::TESBoundObject_564a00 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->GetFormType() != 0x1E)
         return;
 
-    unsigned int uiFlags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int uiFlags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (bValue)
         uiFlags |= 0x200;
     else
@@ -48259,11 +48317,11 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
                     {
                         EqEntry* pkEntryTmp = ((::fnv_0088db20::EqEntry *)(reinterpret_cast<::Target *>((((::fnv_0088db20::EqEntryList *)(reinterpret_cast<::ExtraDataList *>((FUN_005d43c0()))->GetContainerChangeData()))))->FUN_004c8c10(i, 0)));
                         EqExtraList* pkEntryExtra = 0;
-                        if (pkEntryTmp && ((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))) && *((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))) ::Vec3())))
+                        if (pkEntryTmp && ((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))) && *((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp))))))))
                         {
-                            if (reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))) ::Vec3())))))->FUN_00418b10())
+                            if (reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp))))))))))->FUN_00418b10())
                                 bBlocked = true;
-                            pkEntryExtra = *((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))) ::Vec3()));
+                            pkEntryExtra = *((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))));
                         }
                         if (!bBlocked)
                         {
@@ -48294,11 +48352,11 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
             {
                 bool bEquippedBlocked = false;
                 if (pkEquippedData && ((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName())) != pkItem && ((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))) &&
-                    *((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3())) &&
-                    reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3())))))->FUN_00418b10())
+                    *((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData))))))) &&
+                    reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData))))))))))->FUN_00418b10())
                     bEquippedBlocked = true;
                 bResultNew = reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_0088db20::TESForm *)(((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName()))), 1,
-                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3()))), false, false, false);
+                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))))), false, false, false);
                 if (bEquippedBlocked && !reinterpret_cast<::FUN_0047c850 *>((DAT_011de45c))->EvaluateCondition())
                     return false;
                 if (!Unk_390())
@@ -48310,11 +48368,11 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
             TESForm* pkWeapon = pkItem;
             if (pkExtra)
             {
-                if ((int)reinterpret_cast<::FUN_004bd880_stand *>((((EqFormView*)pkWeapon)))->GetSlotPointer(1) == 2 && reinterpret_cast<::C418C00ExtraList *>((pkExtra))->CheckExtraByType(1))
+                if ((std::uintptr_t)reinterpret_cast<::FUN_004bd880_stand *>((((EqFormView*)pkWeapon)))->GetSlotPointer(1) == 2 && reinterpret_cast<::C418C00ExtraList *>((pkExtra))->CheckExtraByType(1))
                     bAlt = true;
-                else if ((int)reinterpret_cast<::FUN_004bd880_stand *>((((EqFormView*)pkWeapon)))->GetSlotPointer(2) == 2 && reinterpret_cast<::C418C00ExtraList *>((pkExtra))->CheckExtraByType(2))
+                else if ((std::uintptr_t)reinterpret_cast<::FUN_004bd880_stand *>((((EqFormView*)pkWeapon)))->GetSlotPointer(2) == 2 && reinterpret_cast<::C418C00ExtraList *>((pkExtra))->CheckExtraByType(2))
                     bAlt = true;
-                else if ((int)reinterpret_cast<::FUN_004bd880_stand *>((((EqFormView*)pkWeapon)))->GetSlotPointer(4) == 2 && reinterpret_cast<::C418C00ExtraList *>((pkExtra))->CheckExtraByType(4))
+                else if ((std::uintptr_t)reinterpret_cast<::FUN_004bd880_stand *>((((EqFormView*)pkWeapon)))->GetSlotPointer(4) == 2 && reinterpret_cast<::C418C00ExtraList *>((pkExtra))->CheckExtraByType(4))
                     bAlt = true;
             }
             Unk_3ec(pkWeapon, 0, bAlt, 1);
@@ -48326,7 +48384,7 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
             pkEquippedData = m_pkProcess->GetAmmo();
             if (pkEquippedData && ((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName())) != pkItem)
                 bResultNew = reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_0088db20::TESForm *)(((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName()))), 1,
-                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3()))), false, false, true);
+                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))))), false, false, true);
             break;
         }
     }
@@ -48622,10 +48680,10 @@ void Ref57b240::FUN_0057b240(bool bIncrement)
             break;
         }
         case 1: {
-            WaterNode_SI* pNode = ((::WaterList *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) ? ((::WaterNode_SI *)(::FUN_00545710((int)(((::WaterList *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))))) : 0;
-            while (pNode && *((::WaterRef_SI **)(new ((void *)(pNode)) ::Vec3())))
+            WaterNode_SI* pNode = ((::WaterList *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) ? ((::WaterNode_SI *)(::FUN_00545710((std::intptr_t)(((::WaterList *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))))) : 0;
+            while (pNode && *((::WaterRef_SI **)((void *)(pNode))))
             {
-                WaterRef_SI* pRef = *((::WaterRef_SI **)(new ((void *)(pNode)) ::Vec3()));
+                WaterRef_SI* pRef = *((::WaterRef_SI **)((void *)(pNode)));
                 BGSPlaceableWater* pWater4 = dynamic_cast<BGSPlaceableWater*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430())));
                 if (reinterpret_cast<::FUN_00452440_shell *>((pWater4))->FUN_00452440())
                 {
@@ -48642,6 +48700,12 @@ void Ref57b240::FUN_0057b240(bool bIncrement)
     }
 }
 
+// TESChildCell as in include/TESChildCell.h (which clashes with this unit's layout_support stand-ins); the cast below needs the real class name.
+class TESChildCell
+{
+  public:
+    void** m_ppVirtualMethodTable;
+};
 struct SaveOrderTypeDescriptor;
 extern SaveOrderTypeDescriptor DAT_01183028;
 extern SaveOrderTypeDescriptor DAT_011841cc;
@@ -48749,8 +48813,7 @@ class TESForm;
 struct EqTypeDescriptor;
 extern EqTypeDescriptor DAT_01183028;
 extern EqTypeDescriptor DAT_011841cc;
-extern "C" void* __cdecl FUN_00ec43fb(void*, long, const EqTypeDescriptor*, const EqTypeDescriptor*, int);
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
+extern "C" void* __cdecl FUN_00ec43fb(void*, long, const void*, const void*, int);
 
 struct CompareFormReceiver
 {
@@ -48978,7 +49041,7 @@ void Ref55F5::FUN_0055f5f0(unsigned int uiFlags, unsigned int param2)
     TESWorldSpace* pworld;
     TESContainer* pchanges;
 
-    reinterpret_cast<::FUN_008d0600_s *>((reinterpret_cast<SkyObject55F5*>(this)))->FUN_008d0600((int)(reinterpret_cast<Sky*>(uiFlags)), static_cast<int>(param2));
+    reinterpret_cast<::FUN_008d0600_s *>((reinterpret_cast<SkyObject55F5*>(this)))->FUN_008d0600((std::intptr_t)(reinterpret_cast<Sky*>(uiFlags)), static_cast<int>(param2));
 
     penableparent = reinterpret_cast<::EnableParentRef *>((reinterpret_cast<EnableParent55F5*>(this)))->FUN_0056a9f0();
     if (penableparent)
@@ -49087,9 +49150,9 @@ void FUN_00576130_shell::FUN_00576130(int aiArg, LinkedRefExtra* pkExtra, int ai
             unsigned int uiFormIDValue = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkTarget))->FUN_0084e3a0()));
             List_009e03e0* pkIter = ((::List_009e03e0 *)(reinterpret_cast<::Target96 *>((((LinkedRefMgr*)&(*reinterpret_cast<::FUN_00578790_obj0 *>(&::g_011e0e80)))))->FUN_0096f450(uiFormIDValue, (::Actor96 *)(void *)(this))));
             List_009e03e0* pkList = pkIter;
-            while (pkIter && ((::BGSHeadPart *)(new ((void *)(pkIter)) ::Vec3())))
+            while (pkIter && ((::BGSHeadPart *)((void *)(pkIter))))
             {
-                Host00881620* pkLinked = (Host00881620*)((::BGSHeadPart *)(new ((void *)(pkIter)) ::Vec3()));
+                Host00881620* pkLinked = (Host00881620*)((::BGSHeadPart *)((void *)(pkIter)));
                 if (pkLinked && reinterpret_cast<::FUN_00881650_shell *>((pkLinked))->FUN_00881650())
                     pkLinked->FUN_00881620((int)this);
                 else
@@ -49216,9 +49279,9 @@ TESForm* OwnerLookupView::FUN_00567790()
     {
         BGSEncounterZone* pzone = (BGSEncounterZone*)((FUN_00881c90_cls*)this)->FindEncounterZone();
         if (pzone && pzone != TESObjectREFR::FindEncounterZone())
-            powner = (TESForm*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)pzone)))->FUN_009611e0()));
-        if (!powner && ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
-            powner = ((DoorCell*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))->GetOwner();
+            powner = (TESForm*)(std::uintptr_t)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)pzone)))->FUN_009611e0()));
+        if (!powner && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
+            powner = ((DoorCell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))->GetOwner();
     }
     return powner;
 }
@@ -49560,10 +49623,10 @@ void AddBoundItemRef::FUN_00574fa0(TESBoundObject* apObject, ExtraDataList* apEx
     {
         if (!((StandIn_Vtbl100*)this)->Unk_100() || reinterpret_cast<::TESForm *>((((RefH*)this)))->GetDisabled())
         {
-            if (((int)(reinterpret_cast<::LowProcess *>((void *)(((::BSOcclusionPlane*)this)))->GetTarget())) && ((void *)((::fnv_004826d0::FUN_004826d0)((::fnv_004826d0::TESForm *)(apObject)))) &&
+            if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((::BSOcclusionPlane*)this)))->GetTarget())) && ((void *)((::fnv_004826d0::FUN_004826d0)((::fnv_004826d0::TESForm *)(apObject)))) &&
                 !reinterpret_cast<::fnv_005656d0::Thing *>((((StandIn_Refr*)this)))->FUN_005656d0())
             {
-                reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((StandIn_Cell*)((int)(reinterpret_cast<::LowProcess *>((void *)(((::BSOcclusionPlane*)this)))->GetTarget())))))->FUN_00545560((int)((TESObjectREFR*)(void*)this));
+                reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((StandIn_Cell*)((reinterpret_cast<::LowProcess *>((void *)(((::BSOcclusionPlane*)this)))->GetTarget())))))->FUN_00545560((std::intptr_t)((TESObjectREFR*)(void*)this));
             }
         }
         if ((void*)this == (void*)AddBoundItemData::DAT_011dea3c)
@@ -49597,7 +49660,6 @@ struct InventoryRefView
     bool FUN_00574a80(TESBoundObject* apObject, int aiNumber, ExtraDataList* apExtra, TESObjectREFR* apReference);
 };
 
-TESObjectREFR* _g_thePlayer;
 
 // Removes aiNumber copies of apObject from the container's inventory, updating challenges if the container is the player.
 // @fnv 0x00574a80
@@ -49607,13 +49669,13 @@ bool InventoryRefView::FUN_00574a80(TESBoundObject* apObject, int aiNumber, Extr
     bool abflag = false;
 
     {
-        TESContainer* pCont = ((::TESContainer *)((reinterpret_cast<::s55d310::Owner *>(((TESObjectREFR*)this))->FUN_0055d310()));
+        TESContainer* pCont = ((::TESContainer *)(reinterpret_cast<::s55d310::Owner *>(((TESObjectREFR*)this))->FUN_0055d310()));
 
         if (pCont)
         {
             ::InventoryChanges* pinventory = ::InventoryChanges::CreateForReference((TESObjectREFR*)this);
 
-            if ((TESObjectREFR*)this == _g_thePlayer)
+            if ((TESObjectREFR*)this == (TESObjectREFR*)_g_thePlayer)
             {
                 ChallengeManager::UpdateChallengeProgress((CHALLENGE_TYPE)10, aiNumber, (TESForm*)apObject, 0, 0, 0, 0);
                 ChallengeManager::UpdateChallengeProgress((CHALLENGE_TYPE)6, aiNumber, (TESForm*)apObject, 0, 0, 0, 0);
@@ -49867,9 +49929,9 @@ bool Standin_00576680::FUN_00576680()
     }
     if (((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((TESObjectREFR*)this))->FUN_007af430())) &&
         ::_FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((TESObjectREFR*)this))->FUN_007af430()))) == 0xe &&
-        ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
+        ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
     {
-        reinterpret_cast<::FUN_0061f890_shell *>((((::Helper_0061f890 *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::Proc_S *)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList_SV*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()))))->FUN_0045cd60()))))->FUN_0061f890((::NiAVObject *)(void *)(this), 1);
+        reinterpret_cast<::FUN_0061f890_shell *>((((::Helper_0061f890 *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::Proc_S *)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList_SV*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()))))->FUN_0045cd60()))))->FUN_0061f890((::NiAVObject *)(void *)(this), 1);
     }
     ((FUN_0056c880_S*)this)->FUN_0056c880(1, false);
     reinterpret_cast<::ActorTaskManager *>((((TES_helper*)g_TES_576680)))->FUN_00453860(0);
@@ -49887,7 +49949,12 @@ struct ChildActivateView : public TESObjectREFR
     void FUN_0056a290(TESObjectREFR*);
 };
 
-template <typename T> struct BSSimpleList;
+template <typename T> class BSSimpleList
+{
+  public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
+};
 
 struct TESObjectACTI;
 
@@ -49925,7 +49992,7 @@ void ChildActivateView::FUN_0056a290(TESObjectREFR* apActionRef)
                 ->FUN_0041eda0();
     while (pList && !_ref_008256d0(pList))
     {
-        pData2 = *((::ReferenceFloatEntry **)(new ((void *)(pList)) ::Vec3()));
+        pData2 = pList->m_item;
         pData2->m_fDelay = reinterpret_cast<::fnv_0041e9e0::FUN_0041e9e0_t *>((((Standin_41e9e0*)((ChildActivateExtraView*)pData2->m_pFourthReference)->FUN_005d43c0())))->GetExtraFloat(this);
         if (pData2->m_fDelay <= ::_DAT_01012060)
         {
@@ -49946,7 +50013,7 @@ void ChildActivateView::FUN_0056a290(TESObjectREFR* apActionRef)
     }
     if (bActive)
     {
-        reinterpret_cast<::FUN_005455c0_cls *>((((Standin_Cell*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_005455c0((::FUN_005455c0_ref *)(void *)(this));
+        reinterpret_cast<::FUN_005455c0_cls *>((((Standin_Cell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_005455c0((::FUN_005455c0_ref *)(void *)(this));
     }
 }
 
@@ -49998,7 +50065,7 @@ int FUN_00577d50_shell::FUN_00577d50()
         if (pform)
         {
             pobject = pform;
-            igold = reinterpret_cast<::FUN_004c8f30_shell *>((pinventory))->FUN_004c8f30((int)(pobject));
+            igold = reinterpret_cast<::FUN_004c8f30_shell *>((pinventory))->FUN_004c8f30((std::intptr_t)(pobject));
         }
 
         if (reinterpret_cast<::FUN_0042cde0_shell *>((pinventory))->FUN_0042cde0())
@@ -50117,7 +50184,7 @@ bool xRefr::FUN_00579690()
     else if (((CrimeFormTypeView*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))->GetFormType() == 0x2b && reinterpret_cast<::Actor *>((xg_pPlayer))->IsSneaking())
     {
         TESCreature* pkCreature = dynamic_cast<TESCreature*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())));
-        if (pkCreature && pkCreature->m_kAVOwner.CanBeCommanded() && !IsInCombat(0))
+        if (pkCreature && ((CreatureAVView*)pkCreature)->m_kAVOwner.CanBeCommanded() && !IsInCombat(0))
             bResult = true;
     }
     if (!bResult && ((CrimeFormTypeView*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))->GetFormType() != 0x2b && ((void *)(reinterpret_cast<::OwnerLookupView *>(this)->FUN_00567790())) &&
@@ -50129,7 +50196,7 @@ bool xRefr::FUN_00579690()
 struct OwnershipTypeDescriptor;
 extern OwnershipTypeDescriptor DAT_011846e8;
 extern OwnershipTypeDescriptor DAT_01183108;
-extern "C" void* __cdecl FUN_00ec43fb(void*, long, const OwnershipTypeDescriptor*, const OwnershipTypeDescriptor*, int);
+extern "C" void* __cdecl FUN_00ec43fb(void*, long, const void*, const void*, int);
 struct ActorQ
 {
     virtual void v000();
@@ -50293,7 +50360,7 @@ bool OwnershipReferenceView::FUN_005785e0(Actor* apActor, bool busefaction)
             if (pownership && ((FormTypeHelper*)pownership)->GetFormType() == 8)
                 pfac = (TESFaction*)pownership;
             irank = 0;
-            if (pfac && ::FUN_00578770((int)(pfac)))
+            if (pfac && ::FUN_00578770((std::intptr_t)(pfac)))
                 busefaction = true;
             if (!pfac || !busefaction)
             {
@@ -50348,4 +50415,17931 @@ unsigned int FUN_00579620(TESForm* form)
     }
 }
 
+void* FUN_0056a8c0();
+
+struct LoadFile
+{
+    bool ReadID(unsigned int*);
+};
+
+struct VecLoad
+{
+    float x, y, z;
+};
+
+struct TransformLoad
+{
+    VecLoad position, rotation;
+    TransformLoad();
+};
+
+struct ScriptInfoLoad
+{
+    int unk00, unk04, unk08;
+};
+
+struct ScriptLoad
+{
+};
+
+struct ExtraLoad
+{
+};
+
+struct PatrolLoad
+{
+};
+
+struct SaveLoadState
+{
+};
+
+struct DataLoad
+{
+};
+
+class TESForm_ctx2
+{
+  public:
+    virtual ~TESForm_ctx2();
+public:
+    void SetInitializationState(bool);
+};
+
+class TESBoundObject_ctx2 : public TESForm_ctx2
+{
+  public:
+};
+
+struct StringLoad
+{
+    char* text;
+    unsigned short length, capacity;
+    StringLoad();
+    ~StringLoad();
+    operator const char*() const;
+};
+
+struct RefLoad
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void Reset3D(int);
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void LoadBounds(LoadFile*);
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual const char* EditorID();
+    virtual void SetEditorID(char*);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    TESBoundObject_ctx2* base;
+    VecLoad rotation, position;
+    unsigned int scale;
+    int unk40;
+    ExtraLoad extras;
+    bool FUN_0055af90(LoadFile* file);
+};
+
+// @fnv 0x0055af90
+bool RefLoad::FUN_0055af90(LoadFile* file)
+{
+    int chunkID = 0;
+    TransformLoad initial4;
+    reinterpret_cast<::TESForm_ctx2 *>(this)->SetInitializationState(0);
+    bool failed = false;
+    bool hasBaseTmp = false;
+    bool reuse = false;
+    unsigned int baseIDA = 0;
+    reinterpret_cast<::S00485110 *>(this)->CallWithThis((::T00485110 *)(file));
+    reinterpret_cast<::TESForm_ctx2 *>(this)->SetInitializationState(0);
+    if (reinterpret_cast<::FUN_00440d80_shell *>(this)->FUN_00440d80())
+    {
+        void* cell = ((void *)(reinterpret_cast<::FUN_0041d460_shell *>(&(extras))->FUN_0041d460()));
+        if (!(*reinterpret_cast<::SaveLoadState * *>(&::g_BGSSaveLoadGame)) || !reinterpret_cast<::FUN_004121b0_shell *>((((SaveLoadState*)(*reinterpret_cast<::SaveLoadState * *>(&::g_BGSSaveLoadGame)))))->FUN_004121b0())
+            reinterpret_cast<::fnv_0056b0b0::FUN_0056b0b0_shell *>(this)->FUN_0056b0b0();
+        reinterpret_cast<::FUN_0040fae0_shell *>(&(extras))->FUN_0040fae0(true);
+        if (cell)
+            reinterpret_cast<::FUN_0041d390_shell *>(&(extras))->FUN_0041d390((::TESObjectCELL *)(cell));
+        return ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) != 0;
+    }
+    while (reuse || (chunkID = reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()) != 0)
+    {
+        reuse = false;
+        switch (chunkID)
+        {
+        case 0x44494445: {
+            char* editor = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(editor), 512);
+            SetEditorID(editor);
+            break;
+        }
+        case 0x444e424f:
+            LoadBounds(file);
+            break;
+        case 0x41505058:
+        case 0x42475258:
+        case 0x424c4758:
+        case 0x424d4c58:
+        case 0x434d4158:
+        case 0x434f4c58:
+        case 0x43524d58:
+        case 0x44415258:
+        case 0x44455358:
+        case 0x44475258:
+        case 0x444f4c58:
+        case 0x444f5058:
+        case 0x44504158:
+        case 0x44524f58:
+        case 0x44525058:
+        case 0x44525358:
+        case 0x45535558:
+        case 0x46525358:
+        case 0x47484358:
+        case 0x47525458:
+        case 0x49435058:
+        case 0x494d4558:
+        case 0x49525458:
+        case 0x4b4e5258:
+        case 0x4b524d41:
+        case 0x4b524d4d:
+        case 0x4b524d58:
+        case 0x4c444558:
+        case 0x4c455458:
+        case 0x4c4f5358:
+        case 0x4c535058:
+        case 0x4c545058:
+        case 0x4d414e52:
+        case 0x4d434358:
+        case 0x4d434c58:
+        case 0x4d494358:
+        case 0x4d495458:
+        case 0x4d4c4358:
+        case 0x4d525058:
+        case 0x4d545258:
+        case 0x4e535058:
+        case 0x4e574f58:
+        case 0x4e5a4558:
+        case 0x4f424d58:
+        case 0x4f445258:
+        case 0x4f4d4358:
+        case 0x4f4f5258:
+        case 0x4f544158:
+        case 0x50424d58:
+        case 0x50434f58:
+        case 0x50444e58:
+        case 0x504c4358:
+        case 0x504c4858:
+        case 0x50534558:
+        case 0x50564e58:
+        case 0x52424d58:
+        case 0x52434158:
+        case 0x52434458:
+        case 0x524b4c58:
+        case 0x524c4358:
+        case 0x524d5258:
+        case 0x52504158:
+        case 0x52575058:
+        case 0x53414358:
+        case 0x53424958:
+        case 0x53445258:
+        case 0x53524858:
+        case 0x54434158:
+        case 0x54454358:
+        case 0x544c4858:
+        case 0x544c5758:
+        case 0x544d4158:
+        case 0x544d4358:
+        case 0x544e4358:
+        case 0x54574358:
+        case 0x57544c58:
+            reinterpret_cast<::loader::List *>((((::ExtraLoad *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->LoadExtraData((::loader::File *)(file), this);
+            break;
+        case 0x4c435358:
+            file->ReadID(&scale);
+            break;
+        case 0x454d414e: {
+            hasBaseTmp = true;
+            file->ReadID(&baseIDA);
+            ::ResolveFormID(&baseIDA, (::TESFile *)(file));
+            TESForm_ctx2* form3 = (TESForm_ctx2*)::FUN_004839c0(baseIDA);
+            TESBoundObject_ctx2* bound5 = dynamic_cast<TESBoundObject_ctx2*>(form3);
+            bool replace = true;
+            if (base && reinterpret_cast<::FUN_004121b0_shell *>((((SaveLoadState*)(*reinterpret_cast<::SaveLoadState * *>(&::g_BGSSaveLoadGame)))))->FUN_004121b0() &&
+                reinterpret_cast<::BSShaderRenderUtility *>((((DataLoad*)(*reinterpret_cast<::DataLoad * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((base))->FUN_0084e3a0()))))
+                replace = false;
+            if (replace)
+            {
+                base = bound5;
+                if (!base)
+                {
+                    ::FUN_005b5e40();
+                    failed = true;
+                    hasBaseTmp = false;
+                }
+            }
+            break;
+        }
+        case 0x524c4352:
+            break;
+        case 0x4d414e4f:
+            reinterpret_cast<::FUN_00572d50_shell *>(this)->FUN_00572d50(8);
+            break;
+        case 0x41544144:
+            if (!failed)
+            {
+                TransformLoad transform;
+                Reset3D(0);
+                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&transform), 24);
+                if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
+                    reinterpret_cast<::FUN_00693dc0_class *>(&(transform))->SwapEndian();
+                position = transform.position;
+                rotation = transform.rotation;
+            }
+            break;
+        default:
+            ::FUN_005b5e40();
+            chunkID = 0x41544144;
+        }
+        if (!reinterpret_cast<::TESFile *>((file))->NextChunk())
+            break;
+    }
+    PatrolLoad* patrolTmp = ((::PatrolLoad *)(reinterpret_cast<::FUN_0041fe90_shell *>((((::ExtraLoad *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041fe90()));
+    if (patrolTmp)
+    {
+        ScriptLoad* script = ((::ScriptLoad *)(reinterpret_cast<::LowProcess *>((patrolTmp))->GetCurrentPackageData()));
+        if (script && !((::ScriptInfoLoad *)(reinterpret_cast<::BGSCameraPath *>((script))->GetConditions()))->unk08 && ((int)(reinterpret_cast<::BGSMessageInitAccess *>((script))->GetIconFormID())) && !((unsigned char)(reinterpret_cast<::FUN_0055b9a0_class *>((script))->GetByteAtOffset42())))
+        {
+            StringLoad warning;
+            ::FUN_00406f60((::FUN_00406f90_this *)(::StringLoad *)(&warning), "Patrol point event script for point %s has text but has not been compiled.",
+                       EditorID());
+            ::FUN_005b5e40();
+        }
+    }
+    return base != 0;
+}
+
+void* FUN_0056a8c0();
+
+struct CHUNK;
+
+struct ContainerChanges;
+
+struct ContainerItemExtra;
+
+struct InventoryItemEntry;
+
+struct FormRecordHeader;
+
+struct TESFileGroup;
+
+struct HWND__;
+
+struct InventoryChanges_ctx;
+
+struct NiColor;
+
+struct ScriptHeaderData;
+
+struct ScriptReferencedObject;
+
+struct CStringArgument;
+
+struct ScriptCompiler;
+
+struct TESObjectARMO;
+
+struct TESObjectCLOT;
+
+struct TESFormList;
+
+struct TESQuest;
+
+struct FUN_00565730_shell_ctx : public TESObjectREFR
+{
+    void FUN_00565730();
+};
+
+struct AutoMemHelper
+{
+    AutoMemHelper(int, bool, char const*, int);
+    ~AutoMemHelper();
+    int m_iValueAtOffset0C;
+};
+
+struct ShellH;
+
+struct BaseExtraList_ctx
+{
+};
+
+struct XActor_ctx
+{
+};
+
+struct RefH_ctx
+{
+};
+
+struct FUN_00419ed0_shell_ctx
+{
+    void FUN_00419ed0(Script*);
+};
+
+struct FUN_00419f80_shell_ctx
+{
+    void FUN_00419f80(ScriptLocals*);
+};
+
+struct Script
+{
+};
+
+struct InventoryChanges_ctx
+{
+    static InventoryChanges_ctx* __cdecl CreateForReference(TESObjectREFR*);
+};
+
+struct ExtraScript
+{
+    virtual ~ExtraScript();
+    unsigned char m_ucExtraDataType;      // +0x04
+    BSExtraData* pNext;        // +0x08
+    Script* pScript;           // +0x0c
+    ScriptLocals* pEventList;  // +0x10
+};
+
+struct VRefStandin
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual TESBoundObject* GetBaseObj();
+};
+
+// @fnv 0x00565730
+void FUN_00565730_shell_ctx::FUN_00565730()
+{
+    TESBoundObject* pObj;
+    ExtraScript* pExtra;
+    Script* pScript;
+    TESContainer* pCont;
+    InventoryChanges_ctx* pinventory;
+    if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH_ctx*)this)))->FUN_00440d80())
+        return;
+    AutoMemHelper tempMemContext(0x15, true,
+                                 "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp", 0x196e);
+    pExtra = (ExtraScript*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((BaseExtraList_ctx*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor_ctx*)this)))->FUN_005d43c0())))))->FUN_00410220(0xd);
+    if (pExtra && pExtra->pScript)
+        return;
+    pObj = ((VRefStandin*)this)->GetBaseObj();
+    if (!pObj)
+        pObj = ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()));
+    pScript = ((::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(pObj))));
+    if (pScript)
+    {
+        ((FUN_00419ed0_shell_ctx*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor_ctx*)this)))->FUN_005d43c0())))->FUN_00419ed0(pScript);
+        ((FUN_00419f80_shell_ctx*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor_ctx*)this)))->FUN_005d43c0())))->FUN_00419f80(reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60());
+    }
+    pCont = ((::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((this))->FUN_0055d310()));
+    if (pCont)
+    {
+        pinventory = InventoryChanges_ctx::CreateForReference(this);
+        reinterpret_cast<::fnv_004d1960::InvInventory *>((pinventory))->FUN_004d1960();
+    }
+}
+
+void* FUN_0056a8c0();
+
+
+struct MemContextGuard
+{
+    int m_iOld;
+    MemContextGuard(int aiMemoryContext)
+    {
+        m_iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~MemContextGuard()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOld;
+    }
+};
+
+template <class T> class NiTMallocInterface
+{
+};
+
+template <class T, class TAlloc> class NiTPrimitiveArray
+{
+  public:
+    virtual ~NiTPrimitiveArray();
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, T& element);
+    unsigned int SetAtGrow(unsigned int uiIndex, T& element)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
+        return uiIndex;
+    }
+    unsigned int Add(T element)
+    {
+        return SetAtGrow(m_usSize, element);
+    }
+};
+
+typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > NiViewerStringsArray;
+
+class GlobalObjectO2_00a7b610
+{
+  public:
+    const char* m_pcName;
+    const GlobalObjectO2_00a7b610* m_pBaseRTTI;
+    const char* GetName() const
+    {
+        return m_pcName;
+    }
+};
+
+struct NiPoint3_o2_nood
+{
+    float x, y, z;
+    char* FUN_00a59af0(const char* pcPrefix);
+};
+
+struct ThreeByThreeMatrix_o2_nood
+{
+    float m_afEntries[3][3];
+};
+
+struct NiTransform
+{
+    ThreeByThreeMatrix_o2_nood m_kOrientation;
+    NiPoint3_o2_nood m_kTranslation;
+    float m_fScale;
+};
+
+struct hkVector4_o2_nood
+{
+    __m128 m_vComponents;
+};
+
+struct hkRotation
+{
+    hkVector4_o2_nood m_kColumn0, m_kColumn1, m_kColumn2;
+};
+
+struct hkTransform
+{
+    hkRotation m_rotation;
+    hkVector4_o2_nood m_vTranslation;
+};
+
+class bhkViewerObject_o2_nood
+{
+  public:
+    void FUN_00c9ed30(NiViewerStringsArray* pkStrings);
+};
+
+// @fnv 0x00c9ed30
+void bhkViewerObject_o2_nood::FUN_00c9ed30(NiViewerStringsArray* pkStrings)
+{
+    MemContextGuard kGuard(16);
+
+    reinterpret_cast<::FUN_00c9f970_cls *>(this)->FUN_00c9f480((::BC9F970StringArray *)(pkStrings));
+    pkStrings->Add(FUN_00a7d330(g_01268224.GetName()));
+
+    hkTransform kTransform;
+    reinterpret_cast<::Owner00c9ec00 *>(this)->FUN_00c9ec00((::FnvMat4 *)&(kTransform));
+
+    NiTransform kNiTransform;
+    ::FUN_00624b10((::FUN_004769c0_shell *)(::ThreeByThreeMatrix_o2_nood *)(&kNiTransform.m_kOrientation), (::FUN_004b4cf0_shell *)(&kTransform.m_rotation));
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&kNiTransform.m_kTranslation)), (*(const ::hkVector4 *)(&kTransform.m_vTranslation)));
+
+    pkStrings->Add(reinterpret_cast<::FloatMatrix3 *>(&(kNiTransform.m_kOrientation))->ToString("Rot"));
+    pkStrings->Add(kNiTransform.m_kTranslation.FUN_00a59af0("Trans"));
+}
+
+namespace fnv_00cb3650 {
+struct FUN_00a5ecb0;
+typedef FUN_00a5ecb0 Body;
+struct InitArgs
+{
+    float time;
+    char flag0, flag1, flag2, flag3, flag4;
+};
+struct ThreeByThreeMatrix_o2_nood
+{
+    float m_afEntries[3][3];
+};
+struct NiPoint3_o2_nood
+{
+    float x, y, z;
+};
+struct NiTransform
+{
+    ThreeByThreeMatrix_o2_nood m_kOrientation;
+    NiPoint3_o2_nood m_kTranslation;
+    float m_fScale;
+};
+typedef __m128 Vec4;
+struct Rot
+{
+    Vec4 rows[3];
+};
+struct HavokTransform
+{
+    Rot basis;
+    Vec4 position;
+};
+extern volatile unsigned int DAT_0126fd98;
+struct StringHeader
+{
+    volatile long refs;
+    unsigned int length;
+};
+StringHeader* __cdecl FUN_00a5b690(const char*);
+void* __cdecl FUN_00aa13e0(unsigned int);
+void __cdecl FUN_00aa1400(void*);
+
+struct FixedString
+{
+    StringHeader* value;
+    FixedString(const char* s) : value(FUN_00a5b690(s))
+    {}
+    ~FixedString()
+    {
+        if (value != (*reinterpret_cast<::fnv_00cb3650::StringHeader * *>(&::DAT_0109b220)))
+            InterlockedDecrement(&(value - 1)->refs);
+    }
+};
+struct TlsScope
+{
+    int m_iSaved;
+    TlsScope(int c)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = c;
+    }
+    ~TlsScope()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+struct BSFadeNode
+{
+    unsigned int unk00;
+};
+struct FUN_00a5ecb0 : BSFadeNode
+{
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    ThreeByThreeMatrix_o2_nood f34;
+    NiPoint3_o2_nood position;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    FUN_00a5ecb0(int);
+};
+struct ArgObj
+{
+    virtual void d00();
+    virtual void d01();
+    virtual void d02();
+    virtual void d03();
+    virtual void d04();
+    virtual void d05();
+    virtual void d06();
+    virtual void d07();
+    virtual void d08();
+    virtual void d09();
+    virtual void d10();
+    virtual void d11();
+    virtual void d12();
+    virtual void d13();
+    virtual void d14();
+    virtual void d15();
+    virtual void d16();
+    virtual void d17();
+    virtual void d18();
+    virtual void d19();
+    virtual void d20();
+    virtual void d21();
+    virtual void d22();
+    virtual void d23();
+    virtual void d24();
+    virtual void d25();
+    virtual void d26();
+    virtual void d27();
+    virtual void d28();
+    virtual void d29();
+    virtual void d30();
+    virtual void d31();
+    virtual void d32();
+    virtual void d33();
+    virtual void d34();
+    virtual void d35();
+    virtual void d36();
+    virtual void d37();
+    virtual void d38();
+    virtual void d39();
+    virtual void d40();
+    virtual void d41();
+    virtual void d42();
+    virtual void d43();
+    virtual void d44();
+    virtual void d45();
+    virtual void d46();
+    virtual void d47();
+    virtual void d48();
+    virtual void d49();
+    virtual void d50();
+    virtual void d51();
+    virtual void d52();
+    virtual void d53();
+    virtual void d54();
+    virtual void Vdc(Body*, int);
+    int f4;
+    void* f8;
+};
+struct Owner
+{
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    Vec4 rotation;
+    Vec4 vec30;
+    void FUN_00cb3650(ArgObj* arg);
+};
+
+static __forceinline Body* NewNode()
+{
+    return new Body(0);
+}
+static __forceinline void SetNameStr(Body* b, const char* s)
+{
+    ::AssignFixedString((char *)(b), (std::intptr_t)&(const ::fnv_00cb3650::FixedString &)(FixedString(s)), {});
+}
+// @fnv 0x00cb3650
+void Owner::FUN_00cb3650(ArgObj* arg)
+{
+    TlsScope scope(0x10);
+    Body* body = 0;
+    if (arg)
+    {
+        if (arg->f8 == 0)
+            body = (Body*)arg;
+        else
+        {
+            body = new Body(0);
+            arg->Vdc(body, 1);
+            InitArgs ia;
+            ia.time = 0.0f;
+            ia.flag0 = 0;
+            ia.flag1 = 0;
+            ia.flag2 = 0;
+            ia.flag3 = 0;
+            ia.flag4 = 0;
+            reinterpret_cast<::FUN_00a59c60_cls *>((body))->FUN_00a59c60((std::intptr_t)&(ia));
+        }
+    }
+    else
+        body = new Body(0);
+    {
+        ::AssignFixedString((char *)(body), (std::intptr_t)&(const ::fnv_00cb3650::FixedString &)(FixedString(::g_012683c8_arg0)), {});
+        HavokTransform hk;
+        reinterpret_cast<::RotationRows *>(&(hk.basis))->FUN_00cb2d90((void *)(&rotation));
+        hk.position = vec30;
+        NiTransform t;
+        ::FUN_00624b10((::FUN_004769c0_shell *)(void *)(&t.m_kOrientation), (::FUN_004b4cf0_shell *)(void *)(&hk.basis));
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&t.m_kTranslation)), (*(const ::hkVector4 *)(&hk.position)));
+        body->f34 = t.m_kOrientation;
+        body->position = t.m_kTranslation;
+        reinterpret_cast<::WorldObject *>(this)->FUN_00c8d2f0(body);
+    }
+}
+}
+
+// namespace fnv_00cb3650
+
+struct Arg_00c9f830
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    __m128 unk20;
+    __m128 unk30;
+};
+
+struct Obj_00c9f830
+{
+    void FUN_00c9f830(Arg_00c9f830* value);
+};
+
+// @fnv 0x00c9f830
+void Obj_00c9f830::FUN_00c9f830(Arg_00c9f830* arg)
+{
+    Obj_00c9f830* pThis = this;
+    Arg_00c9f830* pArg = arg;
+
+    reinterpret_cast<::Owner_00c85880 *>((pThis))->FillOutputFromState((::Out_00c85880 *)(pArg));
+
+    __m128 tmp[2];
+    reinterpret_cast<::S006288c0_Object *>((pThis))->FUN_006288c0((::S006288c0_Bounds *)(tmp));
+
+    pArg->unk20 = tmp[0];
+    pArg->unk30 = tmp[1];
+}
+
+struct FUN_00cb31a0_cls
+{
+    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    __m128 m_20;
+    __m128 m_30;
+    __m128 m_40;
+
+    void FUN_00cb31a0(FUN_00cb31a0_cls* src);
+};
+
+// @fnv 0x00cb31a0
+void FUN_00cb31a0_cls::FUN_00cb31a0(FUN_00cb31a0_cls* src)
+{
+    m_30 = src->m_30;
+    m_20 = src->m_40;
+    src->m_30 = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    src->m_40 = ::DAT_010c71b0;
+    reinterpret_cast<::bhkRigidBody *>(this)->SetPosition(*(const ::NiPoint3 *)(&src->m_30));
+    reinterpret_cast<::bhkRigidBody *>(this)->SetRotation((*(const ::NiQuaternion *)(&src->m_40)));
+    reinterpret_cast<::FUN_00c876d0_cls *>(this)->TailOne((std::intptr_t)(src));
+}
+
+struct Sub
+{
+    unsigned int m_00;
+};
+
+struct Arg;
+
+struct Cls
+{
+    char pad[0x20];
+    Sub m_20;
+    Arg* FUN_00cb3200(Arg* arg);
+};
+
+struct Arg
+{
+};
+
+// @fnv 0x00cb3200
+Arg* Cls::FUN_00cb3200(Arg* arg)
+{
+    __m128 buf;
+    reinterpret_cast<::bhkRigidBody *>(this)->GetRotation((*(::NiQuaternion *)(&buf)));
+    reinterpret_cast<::Quat74 *>((arg))->FUN_00c74ac0((*(const ::Quat74 *)(&buf)), (*(const ::Quat74 *)(&m_20)));
+    return arg;
+}
+
+struct S00cb3250_Query
+{
+    S00cb3250_Query(int iArg, void* pOwner);  // FUN_00c66320
+    __m128 m_vComponents;
+};
+
+class S00cb3250_Object
+{
+  public:
+    void FUN_00cb3250(int iArg);
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int m_kOwner;
+};
+
+// @fnv 0x00cb3250
+void S00cb3250_Object::FUN_00cb3250(int iArg)
+{
+    S00cb3250_Query kQuery(iArg, &m_kOwner);
+    reinterpret_cast<::bhkRigidBody *>(this)->SetRotation((*(const ::NiQuaternion *)(&kQuery)));
+}
+
+struct RotationResult
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    __m128 translation;
+};
+
+struct ShapeFrame
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void GetTranslation(__m128*);
+    virtual void GetRotation(__m128*);
+    RotationResult* FUN_00cb3310(RotationResult*);
+};
+
+// @fnv 0x00cb3310
+RotationResult* ShapeFrame::FUN_00cb3310(RotationResult* result)
+{
+    __m128 rotation;
+    GetTranslation(&result->translation);
+    GetRotation(&rotation);
+    reinterpret_cast<::RotationRows *>((result))->FUN_00cb2d90((void *)(&rotation));
+    return result;
+}
+
+
+extern unsigned long DAT_0126fd98;
+
+struct F9_Alloc
+{
+    virtual void slot0();
+    virtual void* alloc(int bytes);
+};
+
+struct F9_Router
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    F9_Alloc* m_pStreamAllocator;
+    F9_Alloc& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+F9_Router* __cdecl FUN_00c85750();
+
+struct F9_Ctx
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2b4;
+};
+
+struct F9_Scope
+{
+    int saved;
+    F9_Scope()
+    {
+        saved = (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4;
+        (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4 = 0x10;
+    }
+    ~F9_Scope()
+    {
+        (*reinterpret_cast<::F9_Ctx *>(&::g_tlsBlock)).unk2b4 = saved;
+    }
+};
+
+struct F9_Mat
+{
+    __m128 c0;
+    __m128 c1;
+    __m128 c2;
+    __m128 c3;
+};
+
+struct F9_Arg
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    float m[16];
+};
+
+struct F9_Obj
+{
+    int unk00;
+    short unk04;
+    short unk06;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    F9_Obj(int a, const F9_Mat* m, int b);
+    static void* operator new(std::size_t n)
+    {
+        F9_Alloc& h = FUN_00c85750()->heap();
+        void* p = h.alloc((int)n);
+        ((F9_Obj*)p)->unk04 = (short)n;
+        return p;
+    }
+    static void operator delete(void*)
+    {}
+};
+
+struct F9_Owner_o2_nood
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void add(F9_Obj* o);
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void post(F9_Arg* a);
+    void FUN_00c9f050(F9_Arg* arg);
+};
+
+// @fnv 0x00c9f050
+void F9_Owner_o2_nood::FUN_00c9f050(F9_Arg* arg)
+{
+    F9_Scope scope;
+    F9_Mat mat;
+    mat.c0 = _mm_setr_ps(arg->m[0], arg->m[1], arg->m[2], arg->m[3]);
+    mat.c1 = _mm_setr_ps(arg->m[4], arg->m[5], arg->m[6], arg->m[7]);
+    mat.c2 = _mm_setr_ps(arg->m[8], arg->m[9], arg->m[10], arg->m[11]);
+    mat.c3 = _mm_setr_ps(arg->m[12], arg->m[13], arg->m[14], arg->m[15]);
+    reinterpret_cast<::CB2FC0Object *>(&(mat))->FUN_00cb2fc0();
+    F9_Obj* o = new F9_Obj(arg->unk04, &mat, arg->unk00);
+    add(o);
+    reinterpret_cast<::hkReferencedObjectC905 *>((o))->FUN_00c905b0();
+    post(arg);
+}
+
+class NiGlobalStringTable_o2_nood
+{
+  public:
+    static char* AddString(const char* pcString);
+};
+
+class NiFixedString_o2_nood
+{
+  public:
+    char* m_kHandle;
+    NiFixedString_o2_nood(const char* pcString)
+    {
+        m_kHandle = NiGlobalStringTable_o2_nood::AddString(pcString);
+    }
+    ~NiFixedString_o2_nood();
+};
+
+class NiAVObject_o2_nood
+{
+  public:
+};
+
+class NiNode_o2_nood
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00C();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01C();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02C();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03C();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04C();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05C();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06C();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07C();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08C();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09C();
+    virtual void v0A0();
+    virtual void v0A4();
+    virtual void v0A8();
+    virtual void v0AC();
+    virtual void v0B0();
+    virtual void v0B4();
+    virtual void v0B8();
+    virtual void v0BC();
+    virtual void v0C0();
+    virtual void v0C4();
+    virtual void v0C8();
+    virtual void v0CC();
+    virtual void v0D0();
+    virtual void v0D4();
+    virtual void v0D8();
+    virtual void AttachChildInAvailableSlot(NiAVObject_o2_nood* pkChild, bool abFirstAvailableSlot);
+};
+
+struct PositionSource
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    hkVector4_o2_nood m_vContactPosition;
+};
+
+struct PositionOwner
+{
+    int unk00;
+    int unk04;
+    PositionSource* m_pkSource;
+    void FUN_00ca02b0(NiNode_o2_nood* pkParent, int iUnused);
+};
+
+// @fnv 0x00ca02b0
+void PositionOwner::FUN_00ca02b0(NiNode_o2_nood* pkParent, int iUnused)
+{
+    MemContextGuard kGuard(16);
+    hkVector4_o2_nood kPosition;
+    kPosition.m_vComponents = (this && m_pkSource) ? m_pkSource->m_vContactPosition.m_vComponents : (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    NiPoint3_o2_nood kPoint;
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&kPoint)), (*(const ::hkVector4 *)(&kPosition)));
+    kPoint.x *= 2.0;
+    kPoint.y *= 2.0;
+    kPoint.z *= 2.0;
+    NiAVObject_o2_nood* pkMarker = ((::NiAVObject_o2_nood *)(::FUN_00c55920((*(const ::NiPoint3 *)(&kPoint)), (const ::BoxColor *)(0))));
+    if (pkMarker)
+    {
+        static NiFixedString_o2_nood kName(str_010c40a0);
+        ::AssignFixedString((char *)(pkMarker), (std::intptr_t)&(kName), {});
+        pkParent->AttachChildInAvailableSlot(pkMarker, true);
+    }
+}
+
+
+
+struct Vec16Helper
+{
+    void FUN_00c7f700(char* a, void* b);
+};
+
+struct Obj08
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    __m128 m_20;
+    void FUN_00cac110();
+};
+
+struct Obj570
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct Obj594
+{
+    int unk00;
+    int unk04;
+    char* m_08;
+};
+
+class MotionObject
+{
+  public:
+    int unk0000;
+    int unk0004;
+    Obj08* m_08;
+    int unk000C;
+    int unk0010;
+    int unk0014;
+    int unk0018;
+    int unk001C;
+    int unk0020;
+    int unk0024;
+    int unk0028;
+    int unk002C;
+    int unk0030;
+    int unk0034;
+    int unk0038;
+    int unk003C;
+    int unk0040;
+    int unk0044;
+    int unk0048;
+    int unk004C;
+    int unk0050;
+    int unk0054;
+    int unk0058;
+    int unk005C;
+    int unk0060;
+    int unk0064;
+    int unk0068;
+    int unk006C;
+    int unk0070;
+    int unk0074;
+    int unk0078;
+    int unk007C;
+    int unk0080;
+    int unk0084;
+    int unk0088;
+    int unk008C;
+    int unk0090;
+    int unk0094;
+    int unk0098;
+    int unk009C;
+    int unk00A0;
+    int unk00A4;
+    int unk00A8;
+    int unk00AC;
+    int unk00B0;
+    int unk00B4;
+    int unk00B8;
+    int unk00BC;
+    int unk00C0;
+    int unk00C4;
+    int unk00C8;
+    int unk00CC;
+    int unk00D0;
+    int unk00D4;
+    int unk00D8;
+    int unk00DC;
+    int unk00E0;
+    int unk00E4;
+    int unk00E8;
+    int unk00EC;
+    int unk00F0;
+    int unk00F4;
+    int unk00F8;
+    int unk00FC;
+    int unk0100;
+    int unk0104;
+    int unk0108;
+    int unk010C;
+    int unk0110;
+    int unk0114;
+    int unk0118;
+    int unk011C;
+    int unk0120;
+    int unk0124;
+    int unk0128;
+    int unk012C;
+    int unk0130;
+    int unk0134;
+    int unk0138;
+    int unk013C;
+    int unk0140;
+    int unk0144;
+    int unk0148;
+    int unk014C;
+    int unk0150;
+    int unk0154;
+    int unk0158;
+    int unk015C;
+    int unk0160;
+    int unk0164;
+    int unk0168;
+    int unk016C;
+    int unk0170;
+    int unk0174;
+    int unk0178;
+    int unk017C;
+    int unk0180;
+    int unk0184;
+    int unk0188;
+    int unk018C;
+    int unk0190;
+    int unk0194;
+    int unk0198;
+    int unk019C;
+    int unk01A0;
+    int unk01A4;
+    int unk01A8;
+    int unk01AC;
+    int unk01B0;
+    int unk01B4;
+    int unk01B8;
+    int unk01BC;
+    int unk01C0;
+    int unk01C4;
+    int unk01C8;
+    int unk01CC;
+    int unk01D0;
+    int unk01D4;
+    int unk01D8;
+    int unk01DC;
+    int unk01E0;
+    int unk01E4;
+    int unk01E8;
+    int unk01EC;
+    int unk01F0;
+    int unk01F4;
+    int unk01F8;
+    int unk01FC;
+    int unk0200;
+    int unk0204;
+    int unk0208;
+    int unk020C;
+    int unk0210;
+    int unk0214;
+    int unk0218;
+    int unk021C;
+    int unk0220;
+    int unk0224;
+    int unk0228;
+    int unk022C;
+    int unk0230;
+    int unk0234;
+    int unk0238;
+    int unk023C;
+    int unk0240;
+    int unk0244;
+    int unk0248;
+    int unk024C;
+    int unk0250;
+    int unk0254;
+    int unk0258;
+    int unk025C;
+    int unk0260;
+    int unk0264;
+    int unk0268;
+    int unk026C;
+    int unk0270;
+    int unk0274;
+    int unk0278;
+    int unk027C;
+    int unk0280;
+    int unk0284;
+    int unk0288;
+    int unk028C;
+    int unk0290;
+    int unk0294;
+    int unk0298;
+    int unk029C;
+    int unk02A0;
+    int unk02A4;
+    int unk02A8;
+    int unk02AC;
+    int unk02B0;
+    int unk02B4;
+    int unk02B8;
+    int unk02BC;
+    int unk02C0;
+    int unk02C4;
+    int unk02C8;
+    int unk02CC;
+    int unk02D0;
+    int unk02D4;
+    int unk02D8;
+    int unk02DC;
+    int unk02E0;
+    int unk02E4;
+    int unk02E8;
+    int unk02EC;
+    int unk02F0;
+    int unk02F4;
+    int unk02F8;
+    int unk02FC;
+    int unk0300;
+    int unk0304;
+    int unk0308;
+    int unk030C;
+    int unk0310;
+    int unk0314;
+    int unk0318;
+    int unk031C;
+    int unk0320;
+    int unk0324;
+    int unk0328;
+    int unk032C;
+    int unk0330;
+    int unk0334;
+    int unk0338;
+    int unk033C;
+    int unk0340;
+    int unk0344;
+    int unk0348;
+    int unk034C;
+    int unk0350;
+    int unk0354;
+    int unk0358;
+    int unk035C;
+    int unk0360;
+    int unk0364;
+    int unk0368;
+    int unk036C;
+    int unk0370;
+    int unk0374;
+    int unk0378;
+    int unk037C;
+    int unk0380;
+    int unk0384;
+    int unk0388;
+    int unk038C;
+    int unk0390;
+    int unk0394;
+    int unk0398;
+    int unk039C;
+    int unk03A0;
+    int unk03A4;
+    int unk03A8;
+    int unk03AC;
+    int unk03B0;
+    int unk03B4;
+    int unk03B8;
+    int unk03BC;
+    int unk03C0;
+    int unk03C4;
+    int unk03C8;
+    int unk03CC;
+    int unk03D0;
+    int unk03D4;
+    int unk03D8;
+    int unk03DC;
+    int unk03E0;
+    int unk03E4;
+    int unk03E8;
+    int unk03EC;
+    int unk03F0;
+    int unk03F4;
+    int unk03F8;
+    int unk03FC;
+    int unk0400;
+    int unk0404;
+    int unk0408;
+    int unk040C;
+    int unk0410;
+    int unk0414;
+    int unk0418;
+    int unk041C;
+    int unk0420;
+    int unk0424;
+    int unk0428;
+    int unk042C;
+    int unk0430;
+    int unk0434;
+    int unk0438;
+    int unk043C;
+    int unk0440;
+    int unk0444;
+    int unk0448;
+    int unk044C;
+    int unk0450;
+    int unk0454;
+    int unk0458;
+    int unk045C;
+    int unk0460;
+    int unk0464;
+    int unk0468;
+    int unk046C;
+    int unk0470;
+    int unk0474;
+    int unk0478;
+    int unk047C;
+    int unk0480;
+    int unk0484;
+    int unk0488;
+    int unk048C;
+    int unk0490;
+    int unk0494;
+    int unk0498;
+    int unk049C;
+    int unk04A0;
+    int unk04A4;
+    int unk04A8;
+    int unk04AC;
+    int unk04B0;
+    int unk04B4;
+    int unk04B8;
+    int unk04BC;
+    int unk04C0;
+    int unk04C4;
+    int unk04C8;
+    int unk04CC;
+    int unk04D0;
+    int unk04D4;
+    int unk04D8;
+    int unk04DC;
+    int unk04E0;
+    int unk04E4;
+    int unk04E8;
+    int unk04EC;
+    int unk04F0;
+    int unk04F4;
+    int unk04F8;
+    int unk04FC;
+    int unk0500;
+    int unk0504;
+    int unk0508;
+    int unk050C;
+    int unk0510;
+    int unk0514;
+    int unk0518;
+    int unk051C;
+    int unk0520;
+    int unk0524;
+    int unk0528;
+    int unk052C;
+    int unk0530;
+    int unk0534;
+    int unk0538;
+    int unk053C;
+    int unk0540;
+    int unk0544;
+    int unk0548;
+    int unk054C;
+    int unk0550;
+    int unk0554;
+    int unk0558;
+    int unk055C;
+    int unk0560;
+    int unk0564;
+    int unk0568;
+    int unk056C;
+    Obj570 m_570;
+    Obj594* m_594;
+    void FUN_00cac110();
+    void FUN_00c6e390(__m128* v);
+};
+
+// @fnv 0x00c6e390
+void MotionObject::FUN_00c6e390(__m128* v)
+{
+    __m128 t;
+    char* base = (m_594 != 0) ? (char*)m_594->m_08 : (char*)0;
+    ((Vec16Helper*)&t)->FUN_00c7f700(base + 0xb0, (char*)&m_570);
+    __m128 s = _mm_add_ps(*v, t);
+    Obj08* object = m_08;
+    if (object != 0)
+    {
+        reinterpret_cast<::FUN_00cac110_Class *>(this)->FUN_00cac110();
+        reinterpret_cast<::FUN_00cac920_Class *>((object))->FUN_00cac920(&s);
+        object->m_20 = _mm_setzero_ps();
+        reinterpret_cast<::FUN_00cac110_Class *>(this)->FUN_00cac110();
+    }
+}
+
+
+struct C9FA20_TlsBlock
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00C;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01C;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02C;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03C;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04C;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05C;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06C;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07C;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08C;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09C;
+    unsigned int unk0A0;
+    unsigned int unk0A4;
+    unsigned int unk0A8;
+    unsigned int unk0AC;
+    unsigned int unk0B0;
+    unsigned int unk0B4;
+    unsigned int unk0B8;
+    unsigned int unk0BC;
+    unsigned int unk0C0;
+    unsigned int unk0C4;
+    unsigned int unk0C8;
+    unsigned int unk0CC;
+    unsigned int unk0D0;
+    unsigned int unk0D4;
+    unsigned int unk0D8;
+    unsigned int unk0DC;
+    unsigned int unk0E0;
+    unsigned int unk0E4;
+    unsigned int unk0E8;
+    unsigned int unk0EC;
+    unsigned int unk0F0;
+    unsigned int unk0F4;
+    unsigned int unk0F8;
+    unsigned int unk0FC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned int unk1E4;
+    unsigned int unk1E8;
+    unsigned int unk1EC;
+    unsigned int unk1F0;
+    unsigned int unk1F4;
+    unsigned int unk1F8;
+    unsigned int unk1FC;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20C;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21C;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22C;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23C;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24C;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25C;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26C;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27C;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28C;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29C;
+    unsigned int unk2A0;
+    unsigned int unk2A4;
+    unsigned int unk2A8;
+    unsigned int unk2AC;
+    unsigned int unk2B0;
+    unsigned int m_2b4;
+};
+
+struct C9FA20_TlsGuard
+{
+    unsigned int m_saved;
+    C9FA20_TlsGuard()
+    {
+        m_saved = (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4 = 0x10;
+    }
+    ~C9FA20_TlsGuard()
+    {
+        (*reinterpret_cast<::C9FA20_TlsBlock *>(&::g_tlsBlock)).m_2b4 = m_saved;
+    }
+};
+
+struct C9FA20_Alloc
+{
+};
+
+struct C9FA20_Array
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    C9FA20_Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+};
+
+struct C9FA20_Data
+{
+    int unk00;
+    int unk04;
+    unsigned char m_08;
+    C9FA20_Array m_ppData;
+    int unk18;
+    int unk1C;
+    __m128 m_20;
+    __m128 m_30;
+
+    static __forceinline void* operator new(std::size_t size)
+    {
+        unsigned char* p = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C9FA20_Alloc *>(&::g_memoryManager))))->FUN_00aa3e40(size + 0x10));
+        unsigned char offset = (unsigned char)(0x10 - ((unsigned int)p & 0xf));
+        p += offset;
+        p[-1] = offset;
+        return p;
+    }
+    static void operator delete(void*)
+    {}
+    C9FA20_Data()
+    {
+        unk00 = 0;
+        unk04 = 0;
+        m_08 = 2;
+        m_20 = _mm_setzero_ps();
+        m_30 = _mm_setzero_ps();
+    }
+};
+
+struct C9FA20_Owner
+{
+    int unk00;
+    int unk04;
+    int m_08;
+    C9FA20_Data* m_pData;
+    C9FA20_Data* FUN_00c9fa20(bool* created);
+};
+
+// @fnv 0x00c9fa20
+C9FA20_Data* C9FA20_Owner::FUN_00c9fa20(bool* created)
+{
+    C9FA20_TlsGuard guard;
+    *created = m_pData == 0;
+    if (*created)
+    {
+        m_pData = new C9FA20_Data;
+        if (m_08)
+            reinterpret_cast<::Obj_00c9f830 *>(this)->FUN_00c9f830((::Arg_00c9f830 *)(m_pData));
+    }
+    return m_pData;
+}
+
+namespace N {
+}
+
+class hkQuaternionDAD;
+
+class __declspec(align(16)) hkVector4DAD
+{
+  public:
+    __forceinline void SetRotatedDirection(const hkQuaternionDAD& quat, const hkVector4DAD& direction);
+    inline hkVector4DAD& operator=(const hkVector4DAD& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+    __forceinline void setAdd4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void setCross(const hkVector4DAD& v1, const hkVector4DAD& v2)
+    {
+        const __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9),
+                                               _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2));
+        const __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2),
+                                               _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setBroadcast3(const hkVector4DAD& v)
+    {
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+    }
+    __forceinline __m128 dot3(const hkVector4DAD& v) const
+    {
+        const __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        const __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), sum);
+    }
+
+    __m128 m_vComponents;
+};
+
+class hkQuaternionDAD
+{
+  public:
+      // SetProduct
+                                                          // normalize
+    const hkVector4DAD& getImag() const
+    {
+        return m_vec;
+    }
+
+    hkVector4DAD m_vec;
+};
+
+__forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat, const hkVector4DAD& direction)
+{
+    hkVector4DAD qreal;
+    qreal.setBroadcast3(quat.m_vec);
+    hkVector4DAD q2minus1;
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), (*reinterpret_cast<const ::__m128 *>((void *)&::DAT_010c71e0)));
+    hkVector4DAD ret;
+    ret.setMul4(q2minus1, direction);
+    hkVector4DAD imagDotDir;
+    imagDotDir.m_vComponents = quat.getImag().dot3(direction);
+    imagDotDir.m_vComponents = _mm_shuffle_ps(imagDotDir.m_vComponents, imagDotDir.m_vComponents, 0);
+    hkVector4DAD imagCrossDir;
+    imagCrossDir.setCross(quat.getImag(), direction);
+    ret.addMul4(imagDotDir, quat.getImag());
+    ret.addMul4(qreal, imagCrossDir);
+    setAdd4(ret, ret);
+}
+
+struct PhantomDataDAD
+{
+    int m_unk00;
+    int m_unk04;
+    int m_unk08;
+    int m_unk0C;
+    int m_unk10;
+    int m_unk14;
+    int m_unk18;
+    int m_unk1C;
+    int m_unk20;
+    int m_unk24;
+    int m_unk28;
+    int m_unk2C;
+    hkVector4DAD m_v30;
+    hkVector4DAD m_v40;
+};
+
+class BhkWrapperBaseDAD
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void ReleaseData(int iToken);
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual PhantomDataDAD* GetData(int* piToken);
+
+    int m_unk04;
+    int m_unk08;
+    int m_unk0C;
+    int m_unk10;
+    int m_unk14;
+    int m_unk18;
+    int m_unk1C;
+};
+
+class BhkWrapperDAD : public BhkWrapperBaseDAD
+{
+  public:
+    void FUN_00cb3150(std::intptr_t a);
+
+    hkVector4DAD m_v20;
+    hkVector4DAD m_v30;
+};
+
+// @fnv 0x00cb3150
+void BhkWrapperDAD::FUN_00cb3150(std::intptr_t a)
+{
+    int iToken;
+    PhantomDataDAD* pkData = GetData(&iToken);
+    pkData->m_v30 = m_v30;
+    pkData->m_v40 = m_v20;
+    reinterpret_cast<::FUN_00c8d960_cls *>(this)->FUN_00c8d960((::C8D9Stream *)(a));
+    ReleaseData(iToken);
+}
+
+namespace center_of_mass {
+
+class OffsetVector : public hkVector4_o2_nood
+{
+  public:
+    __forceinline void setSub4(const hkVector4_o2_nood& a, const hkVector4_o2_nood& b)
+    {
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
+    }
+};
+
+struct WorldObject
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    unsigned int unkA0;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    unsigned int unkB8;
+    unsigned int unkBC;
+    unsigned int unkC0;
+    unsigned int unkC4;
+    unsigned int unkC8;
+    unsigned int unkCC;
+    unsigned int unkD0;
+    unsigned int unkD4;
+    unsigned int unkD8;
+    unsigned int unkDC;
+    unsigned int unkE0;
+    unsigned int unkE4;
+    unsigned int unkE8;
+    unsigned int unkEC;
+    hkRotation rotation;
+};
+
+class PositionBase
+{
+  public:
+    virtual ~PositionBase();
+    unsigned int unk04;
+    WorldObject* worldObject;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+};
+
+class Position : public PositionBase
+{
+  public:
+    OffsetVector& FUN_00cb32a0(OffsetVector& out);
+    hkVector4_o2_nood localTranslation;
+};
+
+// @fnv 0x00cb32a0
+OffsetVector& Position::FUN_00cb32a0(OffsetVector& out)
+{
+    reinterpret_cast<::Outer *>(this)->GetVec();
+    if (this && worldObject)
+    {
+        OffsetVector offset;
+        reinterpret_cast<::FUN_00c7f750_shell *>(&(offset))->FUN_00c7f750((float *)&(worldObject->rotation), (float *)&(localTranslation));
+        out.setSub4(out, offset);
+    }
+    return out;
+}
+}
+
+namespace position_cb3 {
+
+extern __m128 DAT_010c7170;
+extern __m128 DAT_010c44d0;
+extern __m128 DAT_010c4c00;
+extern __m128 DAT_010c4c10;
+
+class hkQuaternionCB3;
+
+class hkVector4CB3
+{
+  public:
+    __m128 m_vComponents;
+
+    __forceinline hkVector4CB3& operator=(const hkVector4CB3& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+
+    __forceinline void setAdd4(const hkVector4CB3& a, const hkVector4CB3& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void add4(const hkVector4CB3& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4CB3& a, const hkVector4CB3& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4CB3& a, const hkVector4CB3& b)
+    {
+        m_vComponents =
+            _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void addMul4(__m128 s, const hkVector4CB3& b)
+    {
+        m_vComponents = _mm_add_ps(
+            m_vComponents, _mm_mul_ps(_mm_shuffle_ps(s, s, 0), b.m_vComponents));
+    }
+    __forceinline void setNeg4(const hkVector4CB3& a)
+    {
+        m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
+    }
+    __forceinline void setCross(const hkVector4CB3& v1, const hkVector4CB3& v2)
+    {
+        __m128 cross0 =
+            _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xC9),
+                                     _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xD2));
+        __m128 cross1 =
+            _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xD2),
+                                     _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xC9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline __m128 dot3(const hkVector4CB3& v) const
+    {
+        __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xAA), sum);
+    }
+    __forceinline void setReciprocal4(const hkVector4CB3& v)
+    {
+        __m128 r = _mm_rcp_ps(v.m_vComponents);
+        __m128 rr = _mm_mul_ps(_mm_mul_ps(r, v.m_vComponents), r);
+        m_vComponents = _mm_sub_ps(_mm_add_ps(r, r), rr);
+    }
+    void SetRotatedDirection(const hkQuaternionCB3& q, const hkVector4CB3& dir);
+    void setRotatedInverseDir(const hkQuaternionCB3& q, const hkVector4CB3& dir);
+};
+
+class hkQuaternionCB3
+{
+  public:
+    hkVector4CB3 m_vec;
+
+    __forceinline void SetConjugate(const hkQuaternionCB3& q)
+    {
+        m_vec.m_vComponents = _mm_xor_ps(DAT_010c4c00, q.m_vec.m_vComponents);
+    }
+    __declspec(noinline) void SetProduct(const hkQuaternionCB3& q0, const hkQuaternionCB3& q1)
+    {
+        __m128 a = q0.m_vec.m_vComponents;
+        __m128 b = q1.m_vec.m_vComponents;
+        __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(b, b, 0xD2),
+                                                                         _mm_shuffle_ps(a, a, 0xC9)),
+                                                _mm_mul_ps(_mm_shuffle_ps(b, b, 0xC9),
+                                                                         _mm_shuffle_ps(a, a, 0xD2)));
+        __m128 aw = _mm_shuffle_ps(a, a, 0xFF);
+        __m128 bw = _mm_shuffle_ps(b, b, 0xFF);
+        __m128 imag = _mm_add_ps(_mm_mul_ps(bw, a),
+                                               _mm_add_ps(_mm_mul_ps(aw, b), cross));
+        __m128 prod = _mm_mul_ps(b, a);
+        __m128 dot =
+            _mm_add_ss(_mm_shuffle_ps(prod, prod, 0xAA),
+                                     _mm_add_ss(_mm_shuffle_ps(prod, prod, 0x55), prod));
+        __m128 real = _mm_sub_ps(prod, _mm_shuffle_ps(dot, dot, 0));
+        m_vec.m_vComponents = _mm_shuffle_ps(imag, _mm_unpackhi_ps(imag, real), 0xC4);
+    }
+};
+
+__forceinline void hkVector4CB3::SetRotatedDirection(const hkQuaternionCB3& quat, const hkVector4CB3& direction)
+{
+    hkVector4CB3 qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, 0xFF);
+    hkVector4CB3 q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
+    hkVector4CB3 ret;
+    ret.setMul4(direction, q2minus1);
+    __m128 imagDotDir = quat.m_vec.dot3(direction);
+    ret.addMul4(imagDotDir, quat.m_vec);
+    hkVector4CB3 imagCrossDir;
+    imagCrossDir.setCross(quat.m_vec, direction);
+    ret.addMul4(imagCrossDir, qreal);
+    setAdd4(ret, ret);
+}
+
+__forceinline void hkVector4CB3::setRotatedInverseDir(const hkQuaternionCB3& quat, const hkVector4CB3& direction)
+{
+    hkVector4CB3 qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, 0xFF);
+    hkVector4CB3 q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, ::DAT_010c71e0);
+    hkVector4CB3 ret;
+    ret.setMul4(direction, q2minus1);
+    __m128 imagDotDir = quat.m_vec.dot3(direction);
+    ret.addMul4(imagDotDir, quat.m_vec);
+    hkVector4CB3 imagCrossDir;
+    imagCrossDir.setCross(direction, quat.m_vec);
+    ret.addMul4(imagCrossDir, qreal);
+    setAdd4(ret, ret);
+}
+
+
+class hkReferencedObjectCB3
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2c();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3c();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4c();
+    virtual void vf50();
+    virtual void vf54();
+    virtual void vf58();
+    virtual void vf5c();
+    virtual void vf60();
+    virtual void vf64();
+    virtual void vf68();
+    virtual void vf6c();
+    virtual void vf70();
+    virtual void vf74();
+    virtual void vf78();
+    virtual void vf7c();
+    virtual void vf80();
+    virtual void vf84();
+    virtual void vf88();
+    virtual void vf8c();
+    virtual void vf90();
+    virtual void vf94();
+    virtual void vf98();
+    virtual void vf9c();
+    virtual void vfa0();
+    virtual void vfa4();
+    virtual void vfa8();
+    virtual void vfac();
+    virtual void vfb0();
+    virtual void vfb4();
+    virtual void vfb8();
+    virtual void vfbc();
+    virtual void vfc0();
+    virtual void vfc4();
+    virtual void vfc8();
+    virtual void vfcc();
+    virtual void vfd0();
+    virtual void vfd4();
+    virtual void getRotation(hkQuaternionCB3& kRotationOut) const;
+
+    int unk04;
+    void* m_pOwningWorld;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+class hkpEntityCB3 : public hkReferencedObjectCB3
+{
+  public:
+    hkVector4CB3 m_vCenterOfMassLocal;
+
+    hkVector4CB3& FUN_00cb3370(hkVector4CB3& kOut) const;
+};
+
+// @fnv 0x00cb3370
+hkVector4CB3& hkpEntityCB3::FUN_00cb3370(hkVector4CB3& kOut) const
+{
+    if (this && m_pOwningWorld)
+    {
+        hkQuaternionCB3 kRotationBasis;
+        getRotation(kRotationBasis);
+        hkVector4CB3 kIntersectionOffset;
+        kIntersectionOffset.SetRotatedDirection(kRotationBasis, m_vCenterOfMassLocal);
+        reinterpret_cast<::bhkRigidBody *>((void *)this)->GetPosition((::NiPoint3 &)(kOut));
+        kOut.m_vComponents = _mm_sub_ps(kOut.m_vComponents, kIntersectionOffset.m_vComponents);
+        return kOut;
+    }
+    kOut = (*reinterpret_cast<const ::position_cb3::hkVector4CB3 *>(&::DAT_01267e30));
+    return kOut;
+}
+}
+
+void* FUN_0056a8c0();
+
+
+struct MemContextGuard_o2_nood_iso
+{
+    int m_iOld;
+    MemContextGuard_o2_nood_iso(int aiMemoryContext)
+    {
+        m_iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~MemContextGuard_o2_nood_iso()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOld;
+    }
+};
+
+template <class T> class NiTMallocInterface_o2_nood_iso
+{
+};
+
+template <class T, class TAlloc> class NiTPrimitiveArray_o2_nood_iso
+{
+  public:
+    virtual ~NiTPrimitiveArray_o2_nood_iso();
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, T& element);
+    unsigned int SetAtGrow(unsigned int uiIndex, T& element)
+    {
+        if (uiIndex >= m_usMaxSize)
+            SetSize(uiIndex + m_usGrowBy);
+        SetAt(uiIndex, element);
+        return uiIndex;
+    }
+    unsigned int Add(T element)
+    {
+        return SetAtGrow(m_usSize, element);
+    }
+};
+
+typedef NiTPrimitiveArray_o2_nood_iso<char*, NiTMallocInterface_o2_nood_iso<char*> > NiViewerStringsArray_o2_nood_iso;
+
+class GlobalObjectO2_00a7b610_o2_nood_iso
+{
+  public:
+    const char* m_pcName;
+    const GlobalObjectO2_00a7b610_o2_nood_iso* m_pBaseRTTI;
+    const char* GetName() const
+    {
+        return m_pcName;
+    }
+};
+
+struct NiPoint3_o2_nood_iso
+{
+    float x, y, z;
+    char* FUN_00a59af0(const char* pcPrefix);
+};
+
+struct ThreeByThreeMatrix_o2_nood_iso
+{
+    float m_afEntries[3][3];
+};
+
+struct NiTransform_o2_nood_iso
+{
+    ThreeByThreeMatrix_o2_nood_iso m_kOrientation;
+    NiPoint3_o2_nood_iso m_kTranslation;
+    float m_fScale;
+};
+
+struct hkVector4_o2_nood_iso
+{
+    __m128 m_vComponents;
+};
+
+struct hkRotation_o2_nood_iso
+{
+    hkVector4_o2_nood_iso m_kColumn0, m_kColumn1, m_kColumn2;
+};
+
+struct hkTransform_o2_nood_iso
+{
+    hkRotation_o2_nood_iso m_rotation;
+    hkVector4_o2_nood_iso m_vTranslation;
+};
+
+class bhkViewerObject_o2_nood_iso
+{
+  public:
+    void FUN_00c9ed30(NiViewerStringsArray_o2_nood_iso* pkStrings);
+};
+
+struct Arg_00c9f830_o2_nood_iso
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    __m128 unk20;
+    __m128 unk30;
+};
+
+struct Obj_00c9f830_o2_nood_iso
+{
+    void FUN_00c9f830(Arg_00c9f830_o2_nood_iso* value);
+};
+
+struct FUN_00cb31a0_cls_o2_nood_iso
+{
+    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    __m128 m_20;
+    __m128 m_30;
+    __m128 m_40;
+
+    void FUN_00cb31a0(FUN_00cb31a0_cls_o2_nood_iso* src);
+};
+
+struct Sub_o2_nood_iso
+{
+    unsigned int m_00;
+};
+
+struct Arg_o2_nood_iso;
+
+struct Cls_o2_nood_iso
+{
+    char pad[0x20];
+    Sub_o2_nood_iso m_20;
+    Arg_o2_nood_iso* FUN_00cb3200(Arg_o2_nood_iso* arg);
+};
+
+struct Arg_o2_nood_iso
+{
+};
+
+struct S00cb3250_Query_o2_nood_iso
+{
+    S00cb3250_Query_o2_nood_iso(int iArg, void* pOwner);  // FUN_00c66320
+    __m128 m_vComponents;
+};
+
+class S00cb3250_Object_o2_nood_iso
+{
+  public:
+    void FUN_00cb3250(int iArg);
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int m_kOwner;
+};
+
+struct RotationResult_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    __m128 translation;
+};
+
+struct ShapeFrame_o2_nood_iso
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void GetTranslation(__m128*);
+    virtual void GetRotation(__m128*);
+    RotationResult_o2_nood_iso* FUN_00cb3310(RotationResult_o2_nood_iso*);
+};
+
+
+extern unsigned long DAT_0126fd98;
+
+struct F9_Alloc_o2_nood_iso
+{
+    virtual void slot0();
+    virtual void* alloc(int bytes);
+};
+
+struct F9_Router_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    F9_Alloc_o2_nood_iso* m_pStreamAllocator;
+    F9_Alloc_o2_nood_iso& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+
+
+struct F9_Ctx_o2_nood_iso
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2b4;
+};
+
+struct F9_Scope_o2_nood_iso
+{
+    int saved;
+    F9_Scope_o2_nood_iso()
+    {
+        saved = (*reinterpret_cast<::F9_Ctx_o2_nood_iso *>(&::g_tlsBlock)).unk2b4;
+        (*reinterpret_cast<::F9_Ctx_o2_nood_iso *>(&::g_tlsBlock)).unk2b4 = 0x10;
+    }
+    ~F9_Scope_o2_nood_iso()
+    {
+        (*reinterpret_cast<::F9_Ctx_o2_nood_iso *>(&::g_tlsBlock)).unk2b4 = saved;
+    }
+};
+
+struct F9_Mat_o2_nood_iso
+{
+    __m128 c0;
+    __m128 c1;
+    __m128 c2;
+    __m128 c3;
+};
+
+struct F9_Arg_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    float m[16];
+};
+
+struct F9_Obj_o2_nood_iso
+{
+    int unk00;
+    short unk04;
+    short unk06;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    F9_Obj_o2_nood_iso(int a, const F9_Mat_o2_nood_iso* m, int b);
+    static void* operator new(std::size_t n)
+    {
+        F9_Alloc_o2_nood_iso& h = ((F9_Router_o2_nood_iso*)FUN_00c85750())->heap();
+        void* p = h.alloc((int)n);
+        ((F9_Obj_o2_nood_iso*)p)->unk04 = (short)n;
+        return p;
+    }
+    static void operator delete(void*)
+    {}
+};
+
+struct F9_Owner_o2_nood_iso
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void add(F9_Obj_o2_nood_iso* o);
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void post(F9_Arg_o2_nood_iso* a);
+    void FUN_00c9f050(F9_Arg_o2_nood_iso* arg);
+};
+
+class NiGlobalStringTable_o2_nood_iso
+{
+  public:
+    static char* AddString(const char* pcString);
+};
+
+class NiFixedString_o2_nood_iso
+{
+  public:
+    char* m_kHandle;
+    NiFixedString_o2_nood_iso(const char* pcString)
+    {
+        m_kHandle = NiGlobalStringTable_o2_nood_iso::AddString(pcString);
+    }
+    ~NiFixedString_o2_nood_iso();
+};
+
+class NiAVObject_o2_nood_iso
+{
+  public:
+};
+
+class NiNode_o2_nood_iso
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00C();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01C();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02C();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03C();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04C();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05C();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06C();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07C();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08C();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09C();
+    virtual void v0A0();
+    virtual void v0A4();
+    virtual void v0A8();
+    virtual void v0AC();
+    virtual void v0B0();
+    virtual void v0B4();
+    virtual void v0B8();
+    virtual void v0BC();
+    virtual void v0C0();
+    virtual void v0C4();
+    virtual void v0C8();
+    virtual void v0CC();
+    virtual void v0D0();
+    virtual void v0D4();
+    virtual void v0D8();
+    virtual void AttachChildInAvailableSlot(NiAVObject_o2_nood_iso* pkChild, bool abFirstAvailableSlot);
+};
+
+struct PositionSource_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    hkVector4_o2_nood_iso m_vContactPosition;
+};
+
+struct PositionOwner_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    PositionSource_o2_nood_iso* m_pkSource;
+    void FUN_00ca02b0(NiNode_o2_nood_iso* pkParent, int iUnused);
+};
+
+
+
+struct Vec16Helper_o2_nood_iso
+{
+    void FUN_00c7f700(char* a, void* b);
+};
+
+struct Obj08_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    __m128 m_20;
+    void FUN_00cac110();
+};
+
+struct Obj570_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct Obj594_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    char* m_08;
+};
+
+class MotionObject_o2_nood_iso
+{
+  public:
+    int unk0000;
+    int unk0004;
+    Obj08_o2_nood_iso* m_08;
+    int unk000C;
+    int unk0010;
+    int unk0014;
+    int unk0018;
+    int unk001C;
+    int unk0020;
+    int unk0024;
+    int unk0028;
+    int unk002C;
+    int unk0030;
+    int unk0034;
+    int unk0038;
+    int unk003C;
+    int unk0040;
+    int unk0044;
+    int unk0048;
+    int unk004C;
+    int unk0050;
+    int unk0054;
+    int unk0058;
+    int unk005C;
+    int unk0060;
+    int unk0064;
+    int unk0068;
+    int unk006C;
+    int unk0070;
+    int unk0074;
+    int unk0078;
+    int unk007C;
+    int unk0080;
+    int unk0084;
+    int unk0088;
+    int unk008C;
+    int unk0090;
+    int unk0094;
+    int unk0098;
+    int unk009C;
+    int unk00A0;
+    int unk00A4;
+    int unk00A8;
+    int unk00AC;
+    int unk00B0;
+    int unk00B4;
+    int unk00B8;
+    int unk00BC;
+    int unk00C0;
+    int unk00C4;
+    int unk00C8;
+    int unk00CC;
+    int unk00D0;
+    int unk00D4;
+    int unk00D8;
+    int unk00DC;
+    int unk00E0;
+    int unk00E4;
+    int unk00E8;
+    int unk00EC;
+    int unk00F0;
+    int unk00F4;
+    int unk00F8;
+    int unk00FC;
+    int unk0100;
+    int unk0104;
+    int unk0108;
+    int unk010C;
+    int unk0110;
+    int unk0114;
+    int unk0118;
+    int unk011C;
+    int unk0120;
+    int unk0124;
+    int unk0128;
+    int unk012C;
+    int unk0130;
+    int unk0134;
+    int unk0138;
+    int unk013C;
+    int unk0140;
+    int unk0144;
+    int unk0148;
+    int unk014C;
+    int unk0150;
+    int unk0154;
+    int unk0158;
+    int unk015C;
+    int unk0160;
+    int unk0164;
+    int unk0168;
+    int unk016C;
+    int unk0170;
+    int unk0174;
+    int unk0178;
+    int unk017C;
+    int unk0180;
+    int unk0184;
+    int unk0188;
+    int unk018C;
+    int unk0190;
+    int unk0194;
+    int unk0198;
+    int unk019C;
+    int unk01A0;
+    int unk01A4;
+    int unk01A8;
+    int unk01AC;
+    int unk01B0;
+    int unk01B4;
+    int unk01B8;
+    int unk01BC;
+    int unk01C0;
+    int unk01C4;
+    int unk01C8;
+    int unk01CC;
+    int unk01D0;
+    int unk01D4;
+    int unk01D8;
+    int unk01DC;
+    int unk01E0;
+    int unk01E4;
+    int unk01E8;
+    int unk01EC;
+    int unk01F0;
+    int unk01F4;
+    int unk01F8;
+    int unk01FC;
+    int unk0200;
+    int unk0204;
+    int unk0208;
+    int unk020C;
+    int unk0210;
+    int unk0214;
+    int unk0218;
+    int unk021C;
+    int unk0220;
+    int unk0224;
+    int unk0228;
+    int unk022C;
+    int unk0230;
+    int unk0234;
+    int unk0238;
+    int unk023C;
+    int unk0240;
+    int unk0244;
+    int unk0248;
+    int unk024C;
+    int unk0250;
+    int unk0254;
+    int unk0258;
+    int unk025C;
+    int unk0260;
+    int unk0264;
+    int unk0268;
+    int unk026C;
+    int unk0270;
+    int unk0274;
+    int unk0278;
+    int unk027C;
+    int unk0280;
+    int unk0284;
+    int unk0288;
+    int unk028C;
+    int unk0290;
+    int unk0294;
+    int unk0298;
+    int unk029C;
+    int unk02A0;
+    int unk02A4;
+    int unk02A8;
+    int unk02AC;
+    int unk02B0;
+    int unk02B4;
+    int unk02B8;
+    int unk02BC;
+    int unk02C0;
+    int unk02C4;
+    int unk02C8;
+    int unk02CC;
+    int unk02D0;
+    int unk02D4;
+    int unk02D8;
+    int unk02DC;
+    int unk02E0;
+    int unk02E4;
+    int unk02E8;
+    int unk02EC;
+    int unk02F0;
+    int unk02F4;
+    int unk02F8;
+    int unk02FC;
+    int unk0300;
+    int unk0304;
+    int unk0308;
+    int unk030C;
+    int unk0310;
+    int unk0314;
+    int unk0318;
+    int unk031C;
+    int unk0320;
+    int unk0324;
+    int unk0328;
+    int unk032C;
+    int unk0330;
+    int unk0334;
+    int unk0338;
+    int unk033C;
+    int unk0340;
+    int unk0344;
+    int unk0348;
+    int unk034C;
+    int unk0350;
+    int unk0354;
+    int unk0358;
+    int unk035C;
+    int unk0360;
+    int unk0364;
+    int unk0368;
+    int unk036C;
+    int unk0370;
+    int unk0374;
+    int unk0378;
+    int unk037C;
+    int unk0380;
+    int unk0384;
+    int unk0388;
+    int unk038C;
+    int unk0390;
+    int unk0394;
+    int unk0398;
+    int unk039C;
+    int unk03A0;
+    int unk03A4;
+    int unk03A8;
+    int unk03AC;
+    int unk03B0;
+    int unk03B4;
+    int unk03B8;
+    int unk03BC;
+    int unk03C0;
+    int unk03C4;
+    int unk03C8;
+    int unk03CC;
+    int unk03D0;
+    int unk03D4;
+    int unk03D8;
+    int unk03DC;
+    int unk03E0;
+    int unk03E4;
+    int unk03E8;
+    int unk03EC;
+    int unk03F0;
+    int unk03F4;
+    int unk03F8;
+    int unk03FC;
+    int unk0400;
+    int unk0404;
+    int unk0408;
+    int unk040C;
+    int unk0410;
+    int unk0414;
+    int unk0418;
+    int unk041C;
+    int unk0420;
+    int unk0424;
+    int unk0428;
+    int unk042C;
+    int unk0430;
+    int unk0434;
+    int unk0438;
+    int unk043C;
+    int unk0440;
+    int unk0444;
+    int unk0448;
+    int unk044C;
+    int unk0450;
+    int unk0454;
+    int unk0458;
+    int unk045C;
+    int unk0460;
+    int unk0464;
+    int unk0468;
+    int unk046C;
+    int unk0470;
+    int unk0474;
+    int unk0478;
+    int unk047C;
+    int unk0480;
+    int unk0484;
+    int unk0488;
+    int unk048C;
+    int unk0490;
+    int unk0494;
+    int unk0498;
+    int unk049C;
+    int unk04A0;
+    int unk04A4;
+    int unk04A8;
+    int unk04AC;
+    int unk04B0;
+    int unk04B4;
+    int unk04B8;
+    int unk04BC;
+    int unk04C0;
+    int unk04C4;
+    int unk04C8;
+    int unk04CC;
+    int unk04D0;
+    int unk04D4;
+    int unk04D8;
+    int unk04DC;
+    int unk04E0;
+    int unk04E4;
+    int unk04E8;
+    int unk04EC;
+    int unk04F0;
+    int unk04F4;
+    int unk04F8;
+    int unk04FC;
+    int unk0500;
+    int unk0504;
+    int unk0508;
+    int unk050C;
+    int unk0510;
+    int unk0514;
+    int unk0518;
+    int unk051C;
+    int unk0520;
+    int unk0524;
+    int unk0528;
+    int unk052C;
+    int unk0530;
+    int unk0534;
+    int unk0538;
+    int unk053C;
+    int unk0540;
+    int unk0544;
+    int unk0548;
+    int unk054C;
+    int unk0550;
+    int unk0554;
+    int unk0558;
+    int unk055C;
+    int unk0560;
+    int unk0564;
+    int unk0568;
+    int unk056C;
+    Obj570_o2_nood_iso m_570;
+    Obj594_o2_nood_iso* m_594;
+    void FUN_00cac110();
+    void FUN_00c6e390(__m128* v);
+};
+
+
+struct C9FA20_TlsBlock_o2_nood_iso
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00C;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01C;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02C;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03C;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04C;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05C;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06C;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07C;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08C;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09C;
+    unsigned int unk0A0;
+    unsigned int unk0A4;
+    unsigned int unk0A8;
+    unsigned int unk0AC;
+    unsigned int unk0B0;
+    unsigned int unk0B4;
+    unsigned int unk0B8;
+    unsigned int unk0BC;
+    unsigned int unk0C0;
+    unsigned int unk0C4;
+    unsigned int unk0C8;
+    unsigned int unk0CC;
+    unsigned int unk0D0;
+    unsigned int unk0D4;
+    unsigned int unk0D8;
+    unsigned int unk0DC;
+    unsigned int unk0E0;
+    unsigned int unk0E4;
+    unsigned int unk0E8;
+    unsigned int unk0EC;
+    unsigned int unk0F0;
+    unsigned int unk0F4;
+    unsigned int unk0F8;
+    unsigned int unk0FC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned int unk1E4;
+    unsigned int unk1E8;
+    unsigned int unk1EC;
+    unsigned int unk1F0;
+    unsigned int unk1F4;
+    unsigned int unk1F8;
+    unsigned int unk1FC;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20C;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21C;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22C;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23C;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24C;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25C;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26C;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27C;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28C;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29C;
+    unsigned int unk2A0;
+    unsigned int unk2A4;
+    unsigned int unk2A8;
+    unsigned int unk2AC;
+    unsigned int unk2B0;
+    unsigned int m_2b4;
+};
+
+struct C9FA20_TlsGuard_o2_nood_iso
+{
+    unsigned int m_saved;
+    C9FA20_TlsGuard_o2_nood_iso()
+    {
+        m_saved = (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_iso *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_iso *>(&::g_tlsBlock)).m_2b4 = 0x10;
+    }
+    ~C9FA20_TlsGuard_o2_nood_iso()
+    {
+        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_iso *>(&::g_tlsBlock)).m_2b4 = m_saved;
+    }
+};
+
+struct C9FA20_Alloc_o2_nood_iso
+{
+};
+
+struct C9FA20_Array_o2_nood_iso
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    C9FA20_Array_o2_nood_iso() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+};
+
+struct C9FA20_Data_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    unsigned char m_08;
+    C9FA20_Array_o2_nood_iso m_ppData;
+    int unk18;
+    int unk1C;
+    __m128 m_20;
+    __m128 m_30;
+
+    static __forceinline void* operator new(std::size_t size)
+    {
+        unsigned char* p = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C9FA20_Alloc_o2_nood_iso *>(&::g_memoryManager))))->FUN_00aa3e40(size + 0x10));
+        unsigned char offset = (unsigned char)(0x10 - ((unsigned int)p & 0xf));
+        p += offset;
+        p[-1] = offset;
+        return p;
+    }
+    static void operator delete(void*)
+    {}
+    C9FA20_Data_o2_nood_iso()
+    {
+        unk00 = 0;
+        unk04 = 0;
+        m_08 = 2;
+        m_20 = _mm_setzero_ps();
+        m_30 = _mm_setzero_ps();
+    }
+};
+
+struct C9FA20_Owner_o2_nood_iso
+{
+    int unk00;
+    int unk04;
+    int m_08;
+    C9FA20_Data_o2_nood_iso* m_pData;
+    C9FA20_Data_o2_nood_iso* FUN_00c9fa20(bool* created);
+};
+
+namespace N {
+}
+
+class hkQuaternionDAD_o2_nood_iso;
+
+class __declspec(align(16)) hkVector4DAD_o2_nood_iso
+{
+  public:
+    __forceinline void SetRotatedDirection(const hkQuaternionDAD_o2_nood_iso& quat, const hkVector4DAD_o2_nood_iso& direction);
+    inline hkVector4DAD_o2_nood_iso& operator=(const hkVector4DAD_o2_nood_iso& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+    __forceinline void setAdd4(const hkVector4DAD_o2_nood_iso& a, const hkVector4DAD_o2_nood_iso& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4DAD_o2_nood_iso& a, const hkVector4DAD_o2_nood_iso& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4DAD_o2_nood_iso& a, const hkVector4DAD_o2_nood_iso& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void setCross(const hkVector4DAD_o2_nood_iso& v1, const hkVector4DAD_o2_nood_iso& v2)
+    {
+        const __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9),
+                                               _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2));
+        const __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2),
+                                               _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setBroadcast3(const hkVector4DAD_o2_nood_iso& v)
+    {
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+    }
+    __forceinline __m128 dot3(const hkVector4DAD_o2_nood_iso& v) const
+    {
+        const __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        const __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), sum);
+    }
+
+    __m128 m_vComponents;
+};
+
+class hkQuaternionDAD_o2_nood_iso
+{
+  public:
+      // normalize
+    const hkVector4DAD_o2_nood_iso& getImag() const
+    {
+        return m_vec;
+    }
+
+    hkVector4DAD_o2_nood_iso m_vec;
+};
+
+__forceinline void hkVector4DAD_o2_nood_iso::SetRotatedDirection(const hkQuaternionDAD_o2_nood_iso& quat, const hkVector4DAD_o2_nood_iso& direction)
+{
+    hkVector4DAD_o2_nood_iso qreal;
+    qreal.setBroadcast3(quat.m_vec);
+    hkVector4DAD_o2_nood_iso q2minus1;
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), (*reinterpret_cast<const ::__m128 *>((void *)&::DAT_010c71e0)));
+    hkVector4DAD_o2_nood_iso ret;
+    ret.setMul4(q2minus1, direction);
+    hkVector4DAD_o2_nood_iso imagDotDir;
+    imagDotDir.m_vComponents = quat.getImag().dot3(direction);
+    imagDotDir.m_vComponents = _mm_shuffle_ps(imagDotDir.m_vComponents, imagDotDir.m_vComponents, 0);
+    hkVector4DAD_o2_nood_iso imagCrossDir;
+    imagCrossDir.setCross(quat.getImag(), direction);
+    ret.addMul4(imagDotDir, quat.getImag());
+    ret.addMul4(qreal, imagCrossDir);
+    setAdd4(ret, ret);
+}
+
+class RigidMotionBaseDAD
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void FUN_getRotation(hkQuaternionDAD_o2_nood_iso& rotationOut) const;
+
+    int m_unk04;
+    int m_pkWorldObject;
+    int m_unk0C;
+    int m_unk10;
+    int m_unk14;
+    int m_unk18;
+    int m_unk1C;
+    int m_unk20;
+    int m_unk24;
+    int m_unk28;
+    int m_unk2C;
+};
+
+class RigidMotionDAD : public RigidMotionBaseDAD
+{
+  public:
+    void FUN_00cb3480(const hkVector4DAD_o2_nood_iso& position);
+
+    hkVector4DAD_o2_nood_iso m_localTranslation;
+};
+
+// @fnv 0x00cb3480
+void RigidMotionDAD::FUN_00cb3480(const hkVector4DAD_o2_nood_iso& position)
+{
+    if (this && m_pkWorldObject)
+    {
+        hkQuaternionDAD_o2_nood_iso rotation;
+        FUN_getRotation(rotation);
+        hkVector4DAD_o2_nood_iso newPosition;
+        newPosition.SetRotatedDirection(rotation, m_localTranslation);
+        hkVector4DAD_o2_nood_iso worldPosition;
+        worldPosition.setAdd4(newPosition, position);
+        reinterpret_cast<::bhkRigidBody *>(this)->SetPosition((const ::NiPoint3 &)(worldPosition));
+    }
+}
+
+void* FUN_0056a8c0();
+
+
+struct MemContextGuard_o2_nood_rtm
+{
+    int m_iOld;
+    MemContextGuard_o2_nood_rtm(int aiMemoryContext)
+    {
+        m_iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~MemContextGuard_o2_nood_rtm()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iOld;
+    }
+};
+
+template <class T> class NiTMallocInterface_o2_nood_rtm
+{
+};
+
+template <class T, class TAlloc> class NiTPrimitiveArray_o2_nood_rtm
+{
+  public:
+    virtual ~NiTPrimitiveArray_o2_nood_rtm();
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, T& element);
+    unsigned int SetAtGrow(unsigned int uiIndex, T& element)
+    {
+        if (uiIndex >= m_usMaxSize)
+            SetSize(uiIndex + m_usGrowBy);
+        SetAt(uiIndex, element);
+        return uiIndex;
+    }
+    unsigned int Add(T element)
+    {
+        return SetAtGrow(m_usSize, element);
+    }
+};
+
+typedef NiTPrimitiveArray_o2_nood_rtm<char*, NiTMallocInterface_o2_nood_rtm<char*> > NiViewerStringsArray_o2_nood_rtm;
+
+class GlobalObjectO2_00a7b610_o2_nood_rtm
+{
+  public:
+    const char* m_pcName;
+    const GlobalObjectO2_00a7b610_o2_nood_rtm* m_pBaseRTTI;
+    const char* GetName() const
+    {
+        return m_pcName;
+    }
+};
+
+struct NiPoint3_o2_nood_rtm
+{
+    float x, y, z;
+    char* FUN_00a59af0(const char* pcPrefix);
+};
+
+struct ThreeByThreeMatrix_o2_nood_rtm
+{
+    float m_afEntries[3][3];
+};
+
+struct NiTransform_o2_nood_rtm
+{
+    ThreeByThreeMatrix_o2_nood_rtm m_kOrientation;
+    NiPoint3_o2_nood_rtm m_kTranslation;
+    float m_fScale;
+};
+
+struct hkVector4_o2_nood_rtm
+{
+    __m128 m_vComponents;
+};
+
+struct hkRotation_o2_nood_rtm
+{
+    hkVector4_o2_nood_rtm m_kColumn0, m_kColumn1, m_kColumn2;
+};
+
+struct hkTransform_o2_nood_rtm
+{
+    hkRotation_o2_nood_rtm m_rotation;
+    hkVector4_o2_nood_rtm m_vTranslation;
+};
+
+class bhkViewerObject_o2_nood_rtm
+{
+  public:
+    void FUN_00c9ed30(NiViewerStringsArray_o2_nood_rtm* pkStrings);
+};
+
+struct Arg_00c9f830_o2_nood_rtm
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    __m128 unk20;
+    __m128 unk30;
+};
+
+struct Obj_00c9f830_o2_nood_rtm
+{
+    void FUN_00c9f830(Arg_00c9f830_o2_nood_rtm* value);
+};
+
+struct FUN_00cb31a0_cls_o2_nood_rtm
+{
+    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    __m128 m_20;
+    __m128 m_30;
+    __m128 m_40;
+
+    void FUN_00cb31a0(FUN_00cb31a0_cls_o2_nood_rtm* src);
+};
+
+struct Sub_o2_nood_rtm
+{
+    unsigned int m_00;
+};
+
+struct Arg_o2_nood_rtm;
+
+struct Cls_o2_nood_rtm
+{
+    char pad[0x20];
+    Sub_o2_nood_rtm m_20;
+    Arg_o2_nood_rtm* FUN_00cb3200(Arg_o2_nood_rtm* arg);
+};
+
+struct Arg_o2_nood_rtm
+{
+};
+
+struct S00cb3250_Query_o2_nood_rtm
+{
+    S00cb3250_Query_o2_nood_rtm(int iArg, void* pOwner);  // FUN_00c66320
+    __m128 m_vComponents;
+};
+
+class S00cb3250_Object_o2_nood_rtm
+{
+  public:
+    void FUN_00cb3250(int iArg);
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int m_kOwner;
+};
+
+struct RotationResult_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    __m128 translation;
+};
+
+struct ShapeFrame_o2_nood_rtm
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void GetTranslation(__m128*);
+    virtual void GetRotation(__m128*);
+    RotationResult_o2_nood_rtm* FUN_00cb3310(RotationResult_o2_nood_rtm*);
+};
+
+
+extern unsigned long DAT_0126fd98;
+
+struct F9_Alloc_o2_nood_rtm
+{
+    virtual void slot0();
+    virtual void* alloc(int bytes);
+};
+
+struct F9_Router_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    F9_Alloc_o2_nood_rtm* m_pStreamAllocator;
+    F9_Alloc_o2_nood_rtm& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+
+
+struct F9_Ctx_o2_nood_rtm
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2b4;
+};
+
+struct F9_Scope_o2_nood_rtm
+{
+    int saved;
+    F9_Scope_o2_nood_rtm()
+    {
+        saved = (*reinterpret_cast<::F9_Ctx_o2_nood_rtm *>(&::g_tlsBlock)).unk2b4;
+        (*reinterpret_cast<::F9_Ctx_o2_nood_rtm *>(&::g_tlsBlock)).unk2b4 = 0x10;
+    }
+    ~F9_Scope_o2_nood_rtm()
+    {
+        (*reinterpret_cast<::F9_Ctx_o2_nood_rtm *>(&::g_tlsBlock)).unk2b4 = saved;
+    }
+};
+
+struct F9_Mat_o2_nood_rtm
+{
+    __m128 c0;
+    __m128 c1;
+    __m128 c2;
+    __m128 c3;
+};
+
+struct F9_Arg_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    float m[16];
+};
+
+struct F9_Obj_o2_nood_rtm
+{
+    int unk00;
+    short unk04;
+    short unk06;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    F9_Obj_o2_nood_rtm(int a, const F9_Mat_o2_nood_rtm* m, int b);
+    static void* operator new(std::size_t n)
+    {
+        F9_Alloc_o2_nood_rtm& h = ((F9_Router_o2_nood_rtm*)FUN_00c85750())->heap();
+        void* p = h.alloc((int)n);
+        ((F9_Obj_o2_nood_rtm*)p)->unk04 = (short)n;
+        return p;
+    }
+    static void operator delete(void*)
+    {}
+};
+
+struct F9_Owner_o2_nood_rtm
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void add(F9_Obj_o2_nood_rtm* o);
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void post(F9_Arg_o2_nood_rtm* a);
+    void FUN_00c9f050(F9_Arg_o2_nood_rtm* arg);
+};
+
+class NiGlobalStringTable_o2_nood_rtm
+{
+  public:
+    static char* AddString(const char* pcString);
+};
+
+class NiFixedString_o2_nood_rtm
+{
+  public:
+    char* m_kHandle;
+    NiFixedString_o2_nood_rtm(const char* pcString)
+    {
+        m_kHandle = NiGlobalStringTable_o2_nood_rtm::AddString(pcString);
+    }
+    ~NiFixedString_o2_nood_rtm();
+};
+
+class NiAVObject_o2_nood_rtm
+{
+  public:
+};
+
+class NiNode_o2_nood_rtm
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00C();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01C();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02C();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03C();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04C();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05C();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06C();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07C();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08C();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09C();
+    virtual void v0A0();
+    virtual void v0A4();
+    virtual void v0A8();
+    virtual void v0AC();
+    virtual void v0B0();
+    virtual void v0B4();
+    virtual void v0B8();
+    virtual void v0BC();
+    virtual void v0C0();
+    virtual void v0C4();
+    virtual void v0C8();
+    virtual void v0CC();
+    virtual void v0D0();
+    virtual void v0D4();
+    virtual void v0D8();
+    virtual void AttachChildInAvailableSlot(NiAVObject_o2_nood_rtm* pkChild, bool abFirstAvailableSlot);
+};
+
+struct PositionSource_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    hkVector4_o2_nood_rtm m_vContactPosition;
+};
+
+struct PositionOwner_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    PositionSource_o2_nood_rtm* m_pkSource;
+    void FUN_00ca02b0(NiNode_o2_nood_rtm* pkParent, int iUnused);
+};
+
+
+
+struct Vec16Helper_o2_nood_rtm
+{
+    void FUN_00c7f700(char* a, void* b);
+};
+
+struct Obj08_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    __m128 m_20;
+    void FUN_00cac110();
+};
+
+struct Obj570_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct Obj594_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    char* m_08;
+};
+
+class MotionObject_o2_nood_rtm
+{
+  public:
+    int unk0000;
+    int unk0004;
+    Obj08_o2_nood_rtm* m_08;
+    int unk000C;
+    int unk0010;
+    int unk0014;
+    int unk0018;
+    int unk001C;
+    int unk0020;
+    int unk0024;
+    int unk0028;
+    int unk002C;
+    int unk0030;
+    int unk0034;
+    int unk0038;
+    int unk003C;
+    int unk0040;
+    int unk0044;
+    int unk0048;
+    int unk004C;
+    int unk0050;
+    int unk0054;
+    int unk0058;
+    int unk005C;
+    int unk0060;
+    int unk0064;
+    int unk0068;
+    int unk006C;
+    int unk0070;
+    int unk0074;
+    int unk0078;
+    int unk007C;
+    int unk0080;
+    int unk0084;
+    int unk0088;
+    int unk008C;
+    int unk0090;
+    int unk0094;
+    int unk0098;
+    int unk009C;
+    int unk00A0;
+    int unk00A4;
+    int unk00A8;
+    int unk00AC;
+    int unk00B0;
+    int unk00B4;
+    int unk00B8;
+    int unk00BC;
+    int unk00C0;
+    int unk00C4;
+    int unk00C8;
+    int unk00CC;
+    int unk00D0;
+    int unk00D4;
+    int unk00D8;
+    int unk00DC;
+    int unk00E0;
+    int unk00E4;
+    int unk00E8;
+    int unk00EC;
+    int unk00F0;
+    int unk00F4;
+    int unk00F8;
+    int unk00FC;
+    int unk0100;
+    int unk0104;
+    int unk0108;
+    int unk010C;
+    int unk0110;
+    int unk0114;
+    int unk0118;
+    int unk011C;
+    int unk0120;
+    int unk0124;
+    int unk0128;
+    int unk012C;
+    int unk0130;
+    int unk0134;
+    int unk0138;
+    int unk013C;
+    int unk0140;
+    int unk0144;
+    int unk0148;
+    int unk014C;
+    int unk0150;
+    int unk0154;
+    int unk0158;
+    int unk015C;
+    int unk0160;
+    int unk0164;
+    int unk0168;
+    int unk016C;
+    int unk0170;
+    int unk0174;
+    int unk0178;
+    int unk017C;
+    int unk0180;
+    int unk0184;
+    int unk0188;
+    int unk018C;
+    int unk0190;
+    int unk0194;
+    int unk0198;
+    int unk019C;
+    int unk01A0;
+    int unk01A4;
+    int unk01A8;
+    int unk01AC;
+    int unk01B0;
+    int unk01B4;
+    int unk01B8;
+    int unk01BC;
+    int unk01C0;
+    int unk01C4;
+    int unk01C8;
+    int unk01CC;
+    int unk01D0;
+    int unk01D4;
+    int unk01D8;
+    int unk01DC;
+    int unk01E0;
+    int unk01E4;
+    int unk01E8;
+    int unk01EC;
+    int unk01F0;
+    int unk01F4;
+    int unk01F8;
+    int unk01FC;
+    int unk0200;
+    int unk0204;
+    int unk0208;
+    int unk020C;
+    int unk0210;
+    int unk0214;
+    int unk0218;
+    int unk021C;
+    int unk0220;
+    int unk0224;
+    int unk0228;
+    int unk022C;
+    int unk0230;
+    int unk0234;
+    int unk0238;
+    int unk023C;
+    int unk0240;
+    int unk0244;
+    int unk0248;
+    int unk024C;
+    int unk0250;
+    int unk0254;
+    int unk0258;
+    int unk025C;
+    int unk0260;
+    int unk0264;
+    int unk0268;
+    int unk026C;
+    int unk0270;
+    int unk0274;
+    int unk0278;
+    int unk027C;
+    int unk0280;
+    int unk0284;
+    int unk0288;
+    int unk028C;
+    int unk0290;
+    int unk0294;
+    int unk0298;
+    int unk029C;
+    int unk02A0;
+    int unk02A4;
+    int unk02A8;
+    int unk02AC;
+    int unk02B0;
+    int unk02B4;
+    int unk02B8;
+    int unk02BC;
+    int unk02C0;
+    int unk02C4;
+    int unk02C8;
+    int unk02CC;
+    int unk02D0;
+    int unk02D4;
+    int unk02D8;
+    int unk02DC;
+    int unk02E0;
+    int unk02E4;
+    int unk02E8;
+    int unk02EC;
+    int unk02F0;
+    int unk02F4;
+    int unk02F8;
+    int unk02FC;
+    int unk0300;
+    int unk0304;
+    int unk0308;
+    int unk030C;
+    int unk0310;
+    int unk0314;
+    int unk0318;
+    int unk031C;
+    int unk0320;
+    int unk0324;
+    int unk0328;
+    int unk032C;
+    int unk0330;
+    int unk0334;
+    int unk0338;
+    int unk033C;
+    int unk0340;
+    int unk0344;
+    int unk0348;
+    int unk034C;
+    int unk0350;
+    int unk0354;
+    int unk0358;
+    int unk035C;
+    int unk0360;
+    int unk0364;
+    int unk0368;
+    int unk036C;
+    int unk0370;
+    int unk0374;
+    int unk0378;
+    int unk037C;
+    int unk0380;
+    int unk0384;
+    int unk0388;
+    int unk038C;
+    int unk0390;
+    int unk0394;
+    int unk0398;
+    int unk039C;
+    int unk03A0;
+    int unk03A4;
+    int unk03A8;
+    int unk03AC;
+    int unk03B0;
+    int unk03B4;
+    int unk03B8;
+    int unk03BC;
+    int unk03C0;
+    int unk03C4;
+    int unk03C8;
+    int unk03CC;
+    int unk03D0;
+    int unk03D4;
+    int unk03D8;
+    int unk03DC;
+    int unk03E0;
+    int unk03E4;
+    int unk03E8;
+    int unk03EC;
+    int unk03F0;
+    int unk03F4;
+    int unk03F8;
+    int unk03FC;
+    int unk0400;
+    int unk0404;
+    int unk0408;
+    int unk040C;
+    int unk0410;
+    int unk0414;
+    int unk0418;
+    int unk041C;
+    int unk0420;
+    int unk0424;
+    int unk0428;
+    int unk042C;
+    int unk0430;
+    int unk0434;
+    int unk0438;
+    int unk043C;
+    int unk0440;
+    int unk0444;
+    int unk0448;
+    int unk044C;
+    int unk0450;
+    int unk0454;
+    int unk0458;
+    int unk045C;
+    int unk0460;
+    int unk0464;
+    int unk0468;
+    int unk046C;
+    int unk0470;
+    int unk0474;
+    int unk0478;
+    int unk047C;
+    int unk0480;
+    int unk0484;
+    int unk0488;
+    int unk048C;
+    int unk0490;
+    int unk0494;
+    int unk0498;
+    int unk049C;
+    int unk04A0;
+    int unk04A4;
+    int unk04A8;
+    int unk04AC;
+    int unk04B0;
+    int unk04B4;
+    int unk04B8;
+    int unk04BC;
+    int unk04C0;
+    int unk04C4;
+    int unk04C8;
+    int unk04CC;
+    int unk04D0;
+    int unk04D4;
+    int unk04D8;
+    int unk04DC;
+    int unk04E0;
+    int unk04E4;
+    int unk04E8;
+    int unk04EC;
+    int unk04F0;
+    int unk04F4;
+    int unk04F8;
+    int unk04FC;
+    int unk0500;
+    int unk0504;
+    int unk0508;
+    int unk050C;
+    int unk0510;
+    int unk0514;
+    int unk0518;
+    int unk051C;
+    int unk0520;
+    int unk0524;
+    int unk0528;
+    int unk052C;
+    int unk0530;
+    int unk0534;
+    int unk0538;
+    int unk053C;
+    int unk0540;
+    int unk0544;
+    int unk0548;
+    int unk054C;
+    int unk0550;
+    int unk0554;
+    int unk0558;
+    int unk055C;
+    int unk0560;
+    int unk0564;
+    int unk0568;
+    int unk056C;
+    Obj570_o2_nood_rtm m_570;
+    Obj594_o2_nood_rtm* m_594;
+    void FUN_00cac110();
+    void FUN_00c6e390(__m128* v);
+};
+
+
+struct C9FA20_TlsBlock_o2_nood_rtm
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00C;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01C;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02C;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03C;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04C;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05C;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06C;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07C;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08C;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09C;
+    unsigned int unk0A0;
+    unsigned int unk0A4;
+    unsigned int unk0A8;
+    unsigned int unk0AC;
+    unsigned int unk0B0;
+    unsigned int unk0B4;
+    unsigned int unk0B8;
+    unsigned int unk0BC;
+    unsigned int unk0C0;
+    unsigned int unk0C4;
+    unsigned int unk0C8;
+    unsigned int unk0CC;
+    unsigned int unk0D0;
+    unsigned int unk0D4;
+    unsigned int unk0D8;
+    unsigned int unk0DC;
+    unsigned int unk0E0;
+    unsigned int unk0E4;
+    unsigned int unk0E8;
+    unsigned int unk0EC;
+    unsigned int unk0F0;
+    unsigned int unk0F4;
+    unsigned int unk0F8;
+    unsigned int unk0FC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned int unk1E4;
+    unsigned int unk1E8;
+    unsigned int unk1EC;
+    unsigned int unk1F0;
+    unsigned int unk1F4;
+    unsigned int unk1F8;
+    unsigned int unk1FC;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20C;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21C;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22C;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23C;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24C;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25C;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26C;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27C;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28C;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29C;
+    unsigned int unk2A0;
+    unsigned int unk2A4;
+    unsigned int unk2A8;
+    unsigned int unk2AC;
+    unsigned int unk2B0;
+    unsigned int m_2b4;
+};
+
+struct C9FA20_TlsGuard_o2_nood_rtm
+{
+    unsigned int m_saved;
+    C9FA20_TlsGuard_o2_nood_rtm()
+    {
+        m_saved = (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_rtm *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_rtm *>(&::g_tlsBlock)).m_2b4 = 0x10;
+    }
+    ~C9FA20_TlsGuard_o2_nood_rtm()
+    {
+        (*reinterpret_cast<::C9FA20_TlsBlock_o2_nood_rtm *>(&::g_tlsBlock)).m_2b4 = m_saved;
+    }
+};
+
+struct C9FA20_Alloc_o2_nood_rtm
+{
+};
+
+struct C9FA20_Array_o2_nood_rtm
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    C9FA20_Array_o2_nood_rtm() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+};
+
+struct C9FA20_Data_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    unsigned char m_08;
+    C9FA20_Array_o2_nood_rtm m_ppData;
+    int unk18;
+    int unk1C;
+    __m128 m_20;
+    __m128 m_30;
+
+    static __forceinline void* operator new(std::size_t size)
+    {
+        unsigned char* p = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C9FA20_Alloc_o2_nood_rtm *>(&::g_memoryManager))))->FUN_00aa3e40(size + 0x10));
+        unsigned char offset = (unsigned char)(0x10 - ((unsigned int)p & 0xf));
+        p += offset;
+        p[-1] = offset;
+        return p;
+    }
+    static void operator delete(void*)
+    {}
+    C9FA20_Data_o2_nood_rtm()
+    {
+        unk00 = 0;
+        unk04 = 0;
+        m_08 = 2;
+        m_20 = _mm_setzero_ps();
+        m_30 = _mm_setzero_ps();
+    }
+};
+
+struct C9FA20_Owner_o2_nood_rtm
+{
+    int unk00;
+    int unk04;
+    int m_08;
+    C9FA20_Data_o2_nood_rtm* m_pData;
+    C9FA20_Data_o2_nood_rtm* FUN_00c9fa20(bool* created);
+};
+
+
+extern "C" void _ReadWriteBarrier(void);
+
+struct ScaleParams
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    float unk10;
+};
+
+struct FUN_00cb30d0_cls_o2_nood_rtm
+{
+    virtual void VSlot00();
+    virtual void VSlot01();
+    virtual void VSlot02();
+    virtual void VSlot03();
+    virtual void VSlot04();
+    virtual void VSlot05();
+    virtual void VSlot06();
+    virtual void VSlot07();
+    virtual void VSlot08();
+    virtual void VSlot09();
+    virtual void VSlot10();
+    virtual void VSlot11();
+    virtual void VSlot12();
+    virtual void VSlot13();
+    virtual void VSlot14();
+    virtual void VSlot15();
+    virtual void VSlot16();
+    virtual void VSlot17();
+    virtual void VSlot18();
+    virtual void VSlot19();
+    virtual void VSlot20();
+    virtual void VSlot21();
+    virtual void VSlot22();
+    virtual void VSlot23();
+    virtual void VSlot24();
+    virtual void VSlot25();
+    virtual void VSlot26();
+    virtual void VSlot27();
+    virtual void VSlot28();
+    virtual void VSlot29();
+    virtual void VSlot30();
+    virtual void VSlot31();
+    virtual void VSlot32();
+    virtual void VSlot33();
+    virtual void VSlot34();
+    virtual void VSlot35();
+    virtual void VSlot36();
+    virtual void VSlot37();
+    virtual void VSlot38();
+    virtual void VSlot39();
+    virtual void VSlot40();
+    virtual void VSlot41();
+    virtual void VSlot42();
+    virtual void VSlot43();
+    virtual void VSlot44();
+    virtual void* VSlot45(unsigned char* flag);
+
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    __m128 m_20;
+    __m128 m_30;
+
+    void FUN_00cb30d0(void* a1, ScaleParams* a2);
+};
+
+// @fnv 0x00cb30d0
+void FUN_00cb30d0_cls_o2_nood_rtm::FUN_00cb30d0(void* a1, ScaleParams* a2)
+{
+    unsigned char flag;
+    char* obj = static_cast<char*>(VSlot45(&flag));
+    __m128& slot40 = *reinterpret_cast<__m128*>(obj + 0x40);
+    __m128& slot30 = *reinterpret_cast<__m128*>(obj + 0x30);
+    slot40 = m_20;
+    slot30 = m_30;
+    _ReadWriteBarrier();
+
+    float scale = a2->unk10;
+    if (scale != 1.0f)
+    {
+        __m128 scalar = _mm_load_ss(&scale);
+        __m128 broadcast = _mm_shuffle_ps(scalar, scalar, 0);
+        slot30 = _mm_mul_ps(broadcast, slot30);
+    }
+
+    reinterpret_cast<::RigidBodyS *>(this)->CopyBodyToClone((::RigidBodyS *)(a1), (::CloningProcess *)(a2));
+}
+
+
+
+
+
+
+class hkQuaternionDAD_o2_nood_rtm;
+
+class __declspec(align(16)) hkVector4DAD_o2_nood_rtm
+{
+  public:
+    __forceinline void SetRotatedDirection(const hkQuaternionDAD_o2_nood_rtm& quat, const hkVector4DAD_o2_nood_rtm& direction);
+    inline hkVector4DAD_o2_nood_rtm& operator=(const hkVector4DAD_o2_nood_rtm& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+    __forceinline void setAdd4(const hkVector4DAD_o2_nood_rtm& a, const hkVector4DAD_o2_nood_rtm& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4DAD_o2_nood_rtm& a, const hkVector4DAD_o2_nood_rtm& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4DAD_o2_nood_rtm& a, const hkVector4DAD_o2_nood_rtm& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void setCross(const hkVector4DAD_o2_nood_rtm& v1, const hkVector4DAD_o2_nood_rtm& v2)
+    {
+        const __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9),
+                                         _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2));
+        const __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2),
+                                         _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setBroadcast3(const hkVector4DAD_o2_nood_rtm& v)
+    {
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+    }
+    __forceinline __m128 dot3(const hkVector4DAD_o2_nood_rtm& v) const
+    {
+        const __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        const __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), sum);
+    }
+
+    __m128 m_vComponents;
+};
+
+class hkQuaternionDAD_o2_nood_rtm
+{
+  public:
+      // normalize
+    const hkVector4DAD_o2_nood_rtm& getImag() const
+    {
+        return m_vec;
+    }
+
+    hkVector4DAD_o2_nood_rtm m_vec;
+};
+
+__forceinline void hkVector4DAD_o2_nood_rtm::SetRotatedDirection(const hkQuaternionDAD_o2_nood_rtm& quat, const hkVector4DAD_o2_nood_rtm& direction)
+{
+    hkVector4DAD_o2_nood_rtm qreal;
+    qreal.setBroadcast3(quat.m_vec);
+    hkVector4DAD_o2_nood_rtm q2minus1;
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
+    hkVector4DAD_o2_nood_rtm ret;
+    ret.setMul4(q2minus1, direction);
+    hkVector4DAD_o2_nood_rtm imagDotDir;
+    imagDotDir.m_vComponents = quat.getImag().dot3(direction);
+    imagDotDir.m_vComponents = _mm_shuffle_ps(imagDotDir.m_vComponents, imagDotDir.m_vComponents, 0);
+    hkVector4DAD_o2_nood_rtm imagCrossDir;
+    imagCrossDir.setCross(quat.getImag(), direction);
+    ret.addMul4(imagDotDir, quat.getImag());
+    ret.addMul4(qreal, imagCrossDir);
+    setAdd4(ret, ret);
+}
+
+class RigidMotionDAD_o2_nood_rtm
+{
+  public:
+    void FUN_00cb3570(const hkVector4DAD_o2_nood_rtm& position, const hkQuaternionDAD_o2_nood_rtm& rotation);
+
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    hkQuaternionDAD_o2_nood_rtm m_localRotation;
+    hkVector4DAD_o2_nood_rtm m_localTranslation;
+};
+
+// @fnv 0x00cb3570
+void RigidMotionDAD_o2_nood_rtm::FUN_00cb3570(const hkVector4DAD_o2_nood_rtm& position, const hkQuaternionDAD_o2_nood_rtm& rotation)
+{
+    hkVector4DAD_o2_nood_rtm newPosition;
+    newPosition.SetRotatedDirection(rotation, m_localTranslation);
+    hkVector4DAD_o2_nood_rtm worldPosition;
+    worldPosition.setAdd4(newPosition, position);
+    hkQuaternionDAD_o2_nood_rtm newRotation;
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(newRotation), (void *)&(rotation), (const ::fnv_00c66320::__m128 *)&(m_localRotation), {});
+    reinterpret_cast<::FUN_005611c0_t *>(&(newRotation))->FUN_005611c0();
+    reinterpret_cast<::bhkRigidBody *>(this)->FUN_00c8d1d0((const ::NiPoint3 &)(worldPosition), (const ::NiQuaternion &)(newRotation));
+}
+
+void* FUN_0056a8c0();
+
+struct FUN_00c9c240_holder_o2
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    void FUN_00c9c240();
+    void FUN_00c9d600();
+};
+
+// @fnv 0x00c9d600
+void FUN_00c9c240_holder_o2::FUN_00c9d600()
+{
+    if (this && m8)
+        ((FUN_00c9c240_holder_o2*)m8)->FUN_00c9c240();
+}
+
+struct bhkRefObject
+{
+    void* vtbl;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    unsigned char f14;
+};
+
+struct FUN_0056e2d0_o2
+{
+    virtual ~FUN_0056e2d0_o2();
+};
+
+extern const void* vftable_FUN_0056e2d0;
+
+struct FUN_00c6d190 : bhkRefObject
+{
+    FUN_00c6d190();
+};
+
+// @fnv 0x00c6d190
+FUN_00c6d190::FUN_00c6d190()
+{
+    reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
+    vtbl = &(*reinterpret_cast<const void * *>(&::DAT_01030394));
+    fc = 0;
+    f10 = 0;
+    ++DAT_0126810c;
+    vtbl = &(*reinterpret_cast<const void * *>(&::DAT_0103078c));
+    ++DAT_01268238;
+    vtbl = &(*reinterpret_cast<const void * *>(&::DAT_010306b4));
+    ++DAT_01268208;
+    f14 = 0;
+    vtbl = &vftable_FUN_0056e2d0;
+    ++DAT_0126822c;
+    f14 = 0;
+}
+
+struct ProjectileListener
+{
+    void* vfptr;
+    int m4;
+    int m8;
+    void FUN_00c876a0();
+};
+
+// @fnv 0x00c876a0
+void ProjectileListener::FUN_00c876a0()
+{
+    typedef void(* Fn)(void*, int);
+    if (m8 != 0)
+        ((Fn)(*(void***)this)[0x8c / 4])(this, 0);
+    ((Fn)(*(void***)this)[0xa4 / 4])(this, 1);
+}
+
+struct hkReferencedObject
+{
+};
+
+struct FUN_00c9d4c0_holder
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    void FUN_00c9d4c0();
+    void FUN_00c9d600();
+};
+
+// @fnv 0x00c9d4c0
+void FUN_00c9d4c0_holder::FUN_00c9d4c0()
+{
+    void* p = m8;
+    if (p)
+    {
+        if (*(void**)((char*)p + 0x210))
+            reinterpret_cast<::hkReferencedObjectC905 *>((((hkReferencedObject*)*(void**)((char*)p + 0x210))))->FUN_00c905b0();
+        *(void**)((char*)p + 0x210) = 0;
+    }
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+}
+
+struct CollisionEntity;
+
+struct CallRet
+{
+public:
+    void FUN_00c946e0(::CollisionEntity *, int, int);
+};
+
+struct Holder00c9d5d0
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+    virtual CallRet* GetRet();
+    void* unk4;
+    void* unk8;
+    void FUN_00c9d5d0();
+};
+
+// @fnv 0x00c9d5d0
+void Holder00c9d5d0::FUN_00c9d5d0()
+{
+    CallRet* p = GetRet();
+    if (p)
+        p->FUN_00c946e0((::CollisionEntity *)(unk8), 0, 1);
+}
+
+struct FUN_00c876a0_holder
+{
+    virtual ~FUN_00c876a0_holder();
+};
+
+struct bhkWorldObject_o2
+{
+    void FUN_00c85790_o2();
+};
+
+struct FUN_00c9f3b0_o2 : FUN_00c876a0_holder
+{
+    virtual ~FUN_00c9f3b0_o2();
+};
+
+// @fnv 0x00c9f3b0
+FUN_00c9f3b0_o2::~FUN_00c9f3b0_o2()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_01268238;
+}
+
+struct WorldHolder
+{
+};
+
+struct PhantomBase_o2
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+};
+
+struct bhkAabbPhantom_o2 : PhantomBase_o2
+{
+    virtual WorldHolder* GetWorld();
+    int m4;
+    void* m8;
+    void FUN_00c9f460();
+};
+
+// @fnv 0x00c9f460
+void bhkAabbPhantom_o2::FUN_00c9f460()
+{
+    WorldHolder* w = GetWorld();
+    if (w)
+        reinterpret_cast<::WorldC944 *>((w))->UpdatePhantom((::PhantomC944 *)(m8), 1);
+}
+
+struct InnerS
+{
+    char pad[16];
+    float f10;
+};
+
+struct MyObj
+{
+    char pad[8];
+    InnerS* p8;
+};
+
+struct OutS
+{
+    int i0;
+    float f4;
+};
+
+// @fnv 0x00c9fb70
+void FUN_00c9fb70(MyObj* _this, std::intptr_t, OutS* _out)
+{
+    reinterpret_cast<::This *>((_this))->FUN_00c84e20((unsigned int *)(_out));
+    if (_this && _this->p8)
+    {
+        volatile float v = _this->p8->f10;
+        _out->f4 = v;
+        return;
+    }
+    volatile float u = DAT_010c72bc;
+    _out->f4 = u;
+}
+
+struct ArgB
+{
+    char _0[16];
+    float f10;
+};
+
+struct RetV
+{
+    char _0[4];
+    float f4;
+};
+
+struct bhkSphereShape
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+    virtual void f38();
+    virtual void f39();
+    virtual void f40();
+    virtual void f41();
+    virtual void f42();
+    virtual void f43();
+    virtual void f44();
+    virtual RetV* Target(char* p);
+    void FUN_00ca0740(void* a, ArgB* b);
+};
+
+// @fnv 0x00ca0740
+void bhkSphereShape::FUN_00ca0740(void* a, ArgB* b)
+{
+    unsigned int tmp;
+    RetV* r = Target((char*)&tmp + 3);
+    r->f4 *= b->f10;
+    reinterpret_cast<::FUN_00c84df0_cls *>(this)->FUN_00c84df0((::FUN_00c84df0_cls *)(a), (::FUN_00c84df0_cls *)(b));
+}
+
+struct S_00cb3070
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v43b();
+    virtual void v44(std::intptr_t*);
+    void FUN_00cb3070(std::intptr_t);
+};
+
+// @fnv 0x00cb3070
+void S_00cb3070::FUN_00cb3070(std::intptr_t a)
+{
+    reinterpret_cast<::Entity_c8ea *>(this)->FUN_00c8ea30((char *)(a));
+    v44(&a);
+}
+
+struct MM
+{
+    void* FUN_00cb30a0(unsigned int);
+};
+
+// @fnv 0x00cb30a0
+void* MM::FUN_00cb30a0(unsigned int f)
+{
+    reinterpret_cast<::FUN_00cb2ff0 *>(this)->::FUN_00cb2ff0::~FUN_00cb2ff0();
+    if (f & 1)
+    {
+        if (this)
+        {
+            char* b = (char*)this - *(unsigned char*)((char*)this - 1);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(b);
+        }
+    }
+    return this;
+}
+
+namespace fnv_00cb3860 {
+extern int DAT_010c879c;
+struct bhkRefObject
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    void* mC;
+    void* m10;
+    void* m14;
+    void* m18;
+};
+extern const void* vftable_bhkLiquidAction;
+struct FUN_00cb3860 : public bhkRefObject
+{
+    FUN_00cb3860();
+};
+// @fnv 0x00cb3860
+FUN_00cb3860::FUN_00cb3860()
+{
+    reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
+    m0 = &::DAT_01030394;
+    m10 = 0;
+    mC = 0;
+    ++::DAT_0126810c;
+    m0 = &(*reinterpret_cast<int *>(&::DAT_010302bc));
+    ++::DAT_012681fc;
+    m0 = &vftable_bhkLiquidAction;
+    m14 = 0;
+    m18 = 0;
+    ++(*reinterpret_cast<unsigned int *>(&::DAT_012681bc));
+    m10 = 0;
+    m0 = &DAT_010c879c;
+    ++::DAT_012683c0;
+}
+}
+
+// namespace fnv_00cb3860
+
+struct FUN_00c9d620_holder_o2 : FUN_00c876a0_holder
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    FUN_00c9d620_holder_o2();
+    ~FUN_00c9d620_holder_o2();
+};
+
+// @fnv 0x00c9d620
+FUN_00c9d620_holder_o2::~FUN_00c9d620_holder_o2()
+{
+    void* p = m4;
+    if (p)
+    {
+        void* q = *(void**)((char*)p + 0x210);
+        if (q)
+            reinterpret_cast<::hkReferencedObjectC905 *>((((hkReferencedObject*)q)))->FUN_00c905b0();
+        *(void**)((char*)p + 0x210) = 0;
+    }
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_012681fc;
+}
+
+struct FUN_0056e780_Class_o2
+{
+    virtual ~FUN_0056e780_Class_o2();
+    void FUN_00ca0540_o2();
+};
+
+struct FUN_00c9fb00_o2 : FUN_0056e780_Class_o2
+{
+    virtual ~FUN_00c9fb00_o2();
+};
+
+// @fnv 0x00c9fb00
+FUN_00c9fb00_o2::~FUN_00c9fb00_o2()
+{
+    static_cast<::ProjectileListener *>(nullptr)->FUN_00c876a0();
+    --DAT_01268250;
+}
+
+extern void* DAT_0103093c;
+
+struct FUN_00c9fde0 : bhkRefObject
+{
+    FUN_00c9fde0();
+};
+
+// @fnv 0x00c9fde0
+FUN_00c9fde0::FUN_00c9fde0()
+{
+    reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
+    fc = 0;
+    f10 = 0;
+    vtbl = &(*reinterpret_cast<void * *>(&::DAT_01030bf4));
+    DAT_012680f8 += 1;
+    vtbl = &(*reinterpret_cast<void * *>(&::DAT_01030b0c));
+    DAT_01268274 += 1;
+    vtbl = &(*reinterpret_cast<void * *>(&::DAT_01030a24));
+    DAT_01268250 += 1;
+    vtbl = &DAT_0103093c;
+    DAT_0126825c += 1;
+}
+
+struct A51BF0Base
+{
+};
+
+extern int DAT_01030864;
+
+struct S_00cb79d0_Base
+{
+    void* vtbl;
+    char pad[8];
+    int f0c;
+    int f10;
+    unsigned char f14;
+
+    S_00cb79d0_Base();
+};
+
+struct Object_00c9f5a0 : S_00cb79d0_Base, A51BF0Base
+{
+    Object_00c9f5a0() : S_00cb79d0_Base()
+    {
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_01030394));
+        f0c = 0;
+        f10 = 0;
+        ++DAT_0126810c;
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0103078c));
+        ++DAT_01268238;
+        vtbl = (void*)&DAT_01030864;
+        ++DAT_01268244;
+        f14 = 0;
+    }
+};
+
+// @fnv 0x00c9f5a0
+void* FUN_00c9f5a0()
+{
+    return new Object_00c9f5a0;
+}
+
+struct FUN_00c877b0
+{
+    virtual ~FUN_00c877b0();
+};
+
+struct FUN_00c84c50_o2 : FUN_00c877b0
+{
+    virtual ~FUN_00c84c50_o2();
+};
+
+// @fnv 0x00c84c50
+FUN_00c84c50_o2::~FUN_00c84c50_o2()
+{
+    static_cast<::ProjectileListener *>(nullptr)->FUN_00c876a0();
+    --DAT_012680f8;
+}
+
+class FUN_00c85790_base
+{
+  public:
+    virtual void unk00();
+    ~FUN_00c85790_base();
+    int unk04;
+};
+
+class FUN_00c85790_o2 : public FUN_00c85790_base
+{
+  public:
+    virtual ~FUN_00c85790_o2();
+    void unk08();
+};
+
+// @fnv 0x00c85790
+FUN_00c85790_o2::~FUN_00c85790_o2()
+{
+    reinterpret_cast<::ProjectileListener *>((this))->FUN_00c876a0();
+    DAT_0126810c--;
+}
+
+struct CollisionObject;
+
+struct CollisionResult
+{
+    unsigned short kind;
+    unsigned short enabled;
+    struct CollisionRecord* record;
+    unsigned int data08;
+    unsigned int data0c;
+    unsigned int state;
+};
+
+struct CollisionValue
+{
+    unsigned int data00;
+    unsigned int data04;
+    CollisionRecord* record;
+};
+
+struct CollisionRecord
+{
+    unsigned int data00;
+    unsigned int data04;
+    struct CollisionHandler* handler;
+};
+
+struct CollisionHandler
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual CollisionValue* Find(std::intptr_t target);
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual bool IsAllowed(std::intptr_t target);
+};
+
+struct ScopedMode
+{
+    unsigned int oldValue;
+    ScopedMode() : oldValue(::currentAllocationContext)
+    {
+        ::currentAllocationContext = 0x10;
+    }
+    ~ScopedMode()
+    {
+        ::currentAllocationContext = oldValue;
+    }
+};
+
+struct WorldObjectView
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual CollisionResult* GetResult(unsigned char* used);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
+};
+
+// @fnv 0x00c85900
+void WorldObjectView::FUN_00c85900(std::intptr_t a, std::intptr_t b)
+{
+    ScopedMode mode;
+    unsigned char used;
+    CollisionResult* result = GetResult(&used);
+    result->state = 0;
+    CollisionRecord*& nextRecord = result->record;
+    CollisionRecord* record = nextRecord;
+    if (record)
+    {
+        CollisionHandler* handler = record->handler;
+        if (handler && !handler->IsAllowed(b))
+        {
+            CollisionValue* value = handler->Find(b);
+            result->record = value ? value->record : 0;
+        }
+    }
+    result->enabled = 0;
+    reinterpret_cast<::FUN_00c87600_Obj *>(this)->FUN_00c87600((void *)(a), (void *)(b));
+}
+
+struct NiRTTI
+{
+    const char* m_pcName;
+};
+
+struct NiObject
+{
+    virtual void v00();
+    virtual void v01();
+    virtual const NiRTTI* GetRTTI();
+};
+
+template <class T> struct NiTMallocInterface_o2
+{
+};
+
+template <class T, class A> struct NiTPrimitiveArray_o2
+{
+    void* vtbl;
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, T& element);
+    unsigned int SetAtGrow(unsigned int uiIndex, T& element)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
+        return uiIndex;
+    }
+    __forceinline unsigned int Add(T element)
+    {
+        return SetAtGrow(m_usSize, element);
+    }
+};
+
+typedef NiTPrimitiveArray_o2<char*, NiTMallocInterface_o2<char*> > DebugStrArray;
+
+struct hkShapeStub
+{
+    void* vtbl;
+    int unk04;
+    NiObject* userData;
+};
+
+struct hkCdBodyStub
+{
+    hkShapeStub* m_pCollisionShape;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+};
+
+struct hkObjHead
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct hkWorldObjStub : hkObjHead, hkCdBodyStub
+{
+};
+
+struct DebugHelper_c849b0
+{
+    int value;
+    DebugHelper_c849b0(int v) : value(v)
+    {}
+};
+
+struct HeapContextGuard
+{
+    int saved;
+    HeapContextGuard(int ctx)
+    {
+        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+    }
+    ~HeapContextGuard()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+    }
+};
+
+struct bhkBase_c878c0
+{
+    void* vtbl;
+    int unk04;
+    hkWorldObjStub* m_pObject;
+    hkCdBodyStub* GetBody()
+    {
+        return m_pObject;
+    }
+};
+
+struct bhkWorldObject_c86190 : bhkBase_c878c0
+{
+    void FUN_00c86190(DebugStrArray* arr);
+};
+
+// @fnv 0x00c86190
+void bhkWorldObject_c86190::FUN_00c86190(DebugStrArray* arr)
+{
+    HeapContextGuard guard(0x10);
+    reinterpret_cast<::FUN_00c878c0_cls *>(this)->FUN_00c878c0((::BC878C0StringArray *)(arr));
+    arr->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268110))));
+    hkCdBodyStub* b = GetBody();
+    DebugHelper_c849b0 helper(b ? b->unk1C : 0);
+    reinterpret_cast<::HavokFilterInfo *>(&(helper))->AppendToViewerStrings((::ViewerStrings *)(arr));
+    if (m_pObject)
+    {
+        hkCdBodyStub* body = GetBody();
+        if (body)
+        {
+            hkShapeStub* shape = body->m_pCollisionShape;
+            if (shape)
+            {
+                NiObject* niShape = shape->userData;
+                if (niShape)
+                {
+                    char buf[0x80];
+                    ::FUN_00406d00(buf, 0x80, "%s: 0x%8X", niShape->GetRTTI()->m_pcName, niShape);
+                    arr->Add(::fnv_00a7d5e0::FUN_00a7d5e0("Shape", buf));
+                }
+            }
+        }
+    }
+}
+
+class FUN_00c8bed0_base_cls
+{
+  public:
+    virtual void unk00();
+    ~FUN_00c8bed0_base_cls();
+    int unk04;
+};
+
+class FUN_00c8bed0_cls : public FUN_00c8bed0_base_cls
+{
+  public:
+    virtual ~FUN_00c8bed0_cls();
+    void unk08();
+};
+
+// @fnv 0x00c8bed0
+FUN_00c8bed0_cls::~FUN_00c8bed0_cls()
+{
+    reinterpret_cast<::ProjectileListener *>((this))->FUN_00c876a0();
+    (*reinterpret_cast<int *>(&::DAT_012681b0))--;
+}
+
+struct FUN_00c9eb30_o2 : FUN_00c9f3b0_o2
+{
+    virtual ~FUN_00c9eb30_o2();
+};
+
+// @fnv 0x00c9eb30
+FUN_00c9eb30_o2::~FUN_00c9eb30_o2()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_01268208;
+}
+
+namespace fnv_00c9eec0 {
+struct FUN_00c9eb30_o2 : FUN_00c876a0_holder
+{
+    virtual ~FUN_00c9eb30_o2();
+};
+
+struct FUN_00c9eec0_o2 : FUN_00c9eb30_o2
+{
+    virtual ~FUN_00c9eec0_o2();
+};
+
+// @fnv 0x00c9eec0
+FUN_00c9eec0_o2::~FUN_00c9eec0_o2()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_0126822c;
+}
+}
+
+// namespace fnv_00c9eec0
+
+struct TlsBlock_t
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int m_2b4;
+};
+
+void* __cdecl FUN_00aa13e0(unsigned int size);
+
+struct TlsGuard_t
+{
+    int m_saved;
+
+    TlsGuard_t()
+    {
+        m_saved = g_tlsBlock.m_2b4;
+        g_tlsBlock.m_2b4 = 0x10;
+    }
+
+    ~TlsGuard_t()
+    {
+        g_tlsBlock.m_2b4 = m_saved;
+    }
+};
+
+struct FUN_00c9efa0_cls
+{
+    bhkRefObject* FUN_00c9efa0(unsigned int flag);
+};
+
+// @fnv 0x00c9efa0
+bhkRefObject* FUN_00c9efa0_cls::FUN_00c9efa0(unsigned int flag)
+{
+    TlsGuard_t guard;
+    FUN_00c876f0();
+    FUN_00c6d190* p = new FUN_00c6d190;
+    reinterpret_cast<::WorldObjectView *>((this))->FUN_00c85900((std::intptr_t)(p), flag);
+    FUN_00c87700();
+    return p;
+}
+
+struct S_00c9f1e0_Shape
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int type;
+};
+
+struct S_00c9f1e0_Elem
+{
+    S_00c9f1e0_Shape* shape;
+};
+
+struct S_00c9f1e0_Base1
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+struct S_00c9f1e0_Base2
+{
+    S_00c9f1e0_Shape* shape;
+};
+
+struct S_00c9f1e0_Range
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int begin;
+    int end;
+};
+
+struct S_00c9f1e0_World;
+
+typedef void(__cdecl* S_00c9f1e0_Fn)(S_00c9f1e0_Base2*, S_00c9f1e0_Elem*, S_00c9f1e0_World*, S_00c9f1e0_Range*);
+
+struct S_00c9f1e0_Entry
+{
+    S_00c9f1e0_Fn fn;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+};
+
+struct S_00c9f1e0_Disp
+{
+    unsigned char types[77][32];
+    int unk9a0;
+    int unk9a4;
+    S_00c9f1e0_Entry funcs[32];
+};
+
+struct S_00c9f1e0_World
+{
+    S_00c9f1e0_Disp* disp;
+};
+
+struct S_00c9f1e0_Holder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    S_00c9f1e0_World* world;
+};
+
+struct S_00c9f1e0_Ctx : S_00c9f1e0_Base1, S_00c9f1e0_Base2
+{
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    S_00c9f1e0_Elem** items;
+    int count;
+};
+
+struct S_00c9f1e0_Obj
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual S_00c9f1e0_Holder* GetWorld();
+    int unk04;
+    S_00c9f1e0_Ctx* ctx;
+    void FUN_00c9f1e0(S_00c9f1e0_Range* r);
+};
+
+// @fnv 0x00c9f1e0
+void S_00c9f1e0_Obj::FUN_00c9f1e0(S_00c9f1e0_Range* r)
+{
+    S_00c9f1e0_World* w = GetWorld()->world;
+    S_00c9f1e0_Disp* d = w->disp;
+    S_00c9f1e0_Ctx* c = ctx;
+    S_00c9f1e0_Base2* b = 0;
+    if (c)
+        b = c;
+    for (int i = c->count - 1; i >= 0; --i)
+    {
+        if (r->end == r->begin)
+            break;
+        S_00c9f1e0_Elem** slot = &c->items[i];
+        unsigned char t = d->types[b->shape->type + 13][(*slot)->shape->type];
+        d->funcs[t].fn(b, *slot, w, r);
+    }
+}
+
+class C9F270MemContext
+{
+  public:
+    C9F270MemContext(int aiMemoryContext)
+    {
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~C9F270MemContext()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+    }
+
+    int m_iPrevious;
+};
+
+class C9F270StrArray
+{
+  public:
+
+    unsigned int Add(const char* const& pcValue)
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcValue));
+        return uiIndex;
+    }
+
+    void* m_ppVirtualMethodTable;
+    const char** m_ppcBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class C9F270Object
+{
+  public:
+    void FUN_00c9f270(C9F270StrArray* pkStrings);
+};
+
+// @fnv 0x00c9f270
+void C9F270Object::FUN_00c9f270(C9F270StrArray* pkStrings)
+{
+    C9F270MemContext kContext(0x10);
+    reinterpret_cast<::bhkViewerObject *>(this)->FUN_00c9ed30((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pkStrings));
+    pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268230))));
+}
+
+__declspec(thread) int tlsMode = 0x3b;
+
+struct ReleaseObject
+{
+};
+
+struct FUN_00c9f320_object
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    void FUN_00c9f320(char release);
+};
+
+struct TlsGuard
+{
+    int previous;
+    TlsGuard()
+    {
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+    }
+    ~TlsGuard()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+    }
+};
+
+// @fnv 0x00c9f320
+void FUN_00c9f320_object::FUN_00c9f320(char release)
+{
+    TlsGuard guard;
+    if (release)
+    {
+        ReleaseObject* object = (ReleaseObject*)unk0c;
+        if (object)
+        {
+            reinterpret_cast<::C8F670Object *>((object))->DestroyObject(1);
+        }
+        unk0c = 0;
+    }
+}
+
+struct PhysicsAction
+{
+};
+
+struct LinkedObject
+{
+    PhysicsAction* GetAction() const
+    {
+        return *reinterpret_cast<PhysicsAction* const*>(reinterpret_cast<const char*>(this) + 0x350);
+    }
+};
+
+struct FUN_00c9f420_Class
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void slot4();
+    virtual void slot5();
+    virtual void slot6();
+    virtual void slot7();
+    virtual void slot8();
+    virtual void slot9();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual LinkedObject* ResolveLinkedObject();
+    int unk4;
+    void* handle;
+    bool FUN_00c9f420();
+};
+
+// @fnv 0x00c9f420
+bool FUN_00c9f420_Class::FUN_00c9f420()
+{
+    bool result = false;
+    LinkedObject* linked = ResolveLinkedObject();
+    PhysicsAction* action = linked ? linked->GetAction() : 0;
+    if (action)
+        result = reinterpret_cast<::C68CB0World *>((action))->FUN_00c68cb0((::C68CB0Phantom *)(handle));
+    return result;
+}
+
+struct ProjectileCreator
+{
+    Object_00c9f5a0* FUN_00c9f640(int mode);
+};
+
+// @fnv 0x00c9f640
+Object_00c9f5a0* ProjectileCreator::FUN_00c9f640(int mode)
+{
+    FUN_00c876f0();
+    Object_00c9f5a0* projectile = new Object_00c9f5a0;
+    reinterpret_cast<::WorldObjectView *>(this)->FUN_00c85900((std::intptr_t)(projectile), mode);
+    FUN_00c87700();
+    return projectile;
+}
+
+struct TLSBlock
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int value;
+};
+
+__declspec(thread) TLSBlock g_tls;
+
+struct ThreadFlagGuard
+{
+    int previous;
+    ThreadFlagGuard()
+    {
+        previous = (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value;
+        (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value = 16;
+    }
+    ~ThreadFlagGuard()
+    {
+        (*reinterpret_cast<::TLSBlock *>(&::g_tlsBlock)).value = previous;
+    }
+};
+
+struct Allocator
+{
+    virtual void unused();
+    virtual void* Allocate(unsigned int);
+};
+
+struct Pool
+{
+    int unk0, unk4, unk8, unkc;
+    Allocator* allocator;
+};
+
+
+
+struct FUN_00cf2cb0
+{
+    int unk0;
+    unsigned short length;
+    static void* operator new(std::size_t count)
+    {
+        Pool* pool = ((Pool*)FUN_00c85750());
+        FUN_00cf2cb0* p = (FUN_00cf2cb0*)pool->allocator->Allocate(224);
+        p->length = 224;
+        return p;
+    }
+    static void operator delete(void*);
+    FUN_00cf2cb0(void* contents, int tag);
+};
+
+struct Input
+{
+    int tag;
+    int unk4, unk8, unkc, unk10, unk14, unk18, unk1c;
+    int payload;
+};
+
+struct Receiver_o2
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void dispatch(void*);
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void finish(void*);
+    void FUN_00c9f890(Input* input);
+};
+
+// @fnv 0x00c9f890
+void Receiver_o2::FUN_00c9f890(Input* input)
+{
+    ThreadFlagGuard tlsGuard;
+    FUN_00cf2cb0* packet = new FUN_00cf2cb0(&input->payload, input->tag);
+    dispatch(packet);
+    reinterpret_cast<::hkReferencedObjectC905 *>((packet))->FUN_00c905b0();
+    finish(input);
+}
+
+struct BC9F970AllocTagScope
+{
+    int m_iSaved;
+
+    BC9F970AllocTagScope(int aiAllocationTag)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+    }
+    ~BC9F970AllocTagScope()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+
+class BC9F970StringArray
+{
+  public:
+    virtual ~BC9F970StringArray();
+
+    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
+        return uiIndex;
+    }
+    unsigned int Add(char* const& pcElement)
+    {
+        return SetAtGrow(m_usSize, pcElement);
+    }
+
+    char** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class FUN_00c9f970_cls_o2
+{
+  public:
+    void FUN_00c9f480(BC9F970StringArray* pkArray);
+    void FUN_00c9f970(BC9F970StringArray* pkArray);
+};
+
+// @fnv 0x00c9f970
+void FUN_00c9f970_cls_o2::FUN_00c9f970(BC9F970StringArray* pkArray)
+{
+    BC9F970AllocTagScope kScope(0x10);
+    FUN_00c9f480(pkArray);
+    char* pcName = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268248)));
+    pkArray->Add(pcName);
+}
+
+struct MemContextTLS
+{
+    int unk2b4;
+};
+
+struct MemContextGuard_o2
+{
+    int iOld;
+    MemContextGuard_o2()
+    {
+        iOld = (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4;
+        (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4 = 0x10;
+    }
+    ~MemContextGuard_o2()
+    {
+        (*reinterpret_cast<::MemContextTLS *>(&::currentAllocationContext)).unk2b4 = iOld;
+    }
+};
+
+struct ViewerStringArray
+{
+    char** m_pBase;
+    int unk04;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    unsigned int Add(char* const& element)
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
+        return uiIndex;
+    }
+};
+
+struct ViewerRTTI
+{
+    const char* m_pcName;
+};
+
+extern float DAT_011b15c0;
+
+struct SphereHkShape
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    float fRadius;
+};
+
+struct SphereShapeBase
+{
+    void* vtbl;
+    int unk04;
+};
+
+struct SphereShape : SphereShapeBase
+{
+    SphereHkShape* pHkShape;
+    float GetRadius()
+    {
+        return (this && pHkShape) ? pHkShape->fRadius : DAT_010c72bc;
+    }
+    void FUN_00c9fc50(ViewerStringArray* apViewerStrings);
+};
+
+class FUN_00c9fd70_cls_o2 : public FUN_00c9fb00_o2
+{
+  public:
+    virtual ~FUN_00c9fd70_cls_o2();
+};
+
+// @fnv 0x00c9fd70
+FUN_00c9fd70_cls_o2::~FUN_00c9fd70_cls_o2()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_0126825c;
+}
+
+struct SphereScaleFields
+{
+    unsigned int m_00, m_04, m_08, m_0c;
+    float m_10, m_14, m_18, m_1c;
+};
+
+struct SphereScalingMethod : bhkSphereShape
+{
+    void FUN_00c9fea0(void* first, ArgB* second);
+};
+
+// @fnv 0x00c9fea0
+void SphereScalingMethod::FUN_00c9fea0(void* first, ArgB* second)
+{
+    char flag;
+    SphereScaleFields* result = reinterpret_cast<SphereScaleFields*>(Target(&flag));
+    float scale = second->f10;
+    volatile float& initial = result->m_10;
+    result->m_10 = initial * scale;
+    result->m_14 *= scale;
+    result->m_18 *= scale;
+    result->m_1c *= scale;
+    reinterpret_cast<::FUN_00c84df0_cls *>(this)->FUN_00c84df0((::FUN_00c84df0_cls *)(first), (::FUN_00c84df0_cls *)(second));
+}
+
+struct Tls_ca0090
+{
+    unsigned int unk0000;
+    unsigned int unk0004;
+    unsigned int unk0008;
+    unsigned int unk000C;
+    unsigned int unk0010;
+    unsigned int unk0014;
+    unsigned int unk0018;
+    unsigned int unk001C;
+    unsigned int unk0020;
+    unsigned int unk0024;
+    unsigned int unk0028;
+    unsigned int unk002C;
+    unsigned int unk0030;
+    unsigned int unk0034;
+    unsigned int unk0038;
+    unsigned int unk003C;
+    unsigned int unk0040;
+    unsigned int unk0044;
+    unsigned int unk0048;
+    unsigned int unk004C;
+    unsigned int unk0050;
+    unsigned int unk0054;
+    unsigned int unk0058;
+    unsigned int unk005C;
+    unsigned int unk0060;
+    unsigned int unk0064;
+    unsigned int unk0068;
+    unsigned int unk006C;
+    unsigned int unk0070;
+    unsigned int unk0074;
+    unsigned int unk0078;
+    unsigned int unk007C;
+    unsigned int unk0080;
+    unsigned int unk0084;
+    unsigned int unk0088;
+    unsigned int unk008C;
+    unsigned int unk0090;
+    unsigned int unk0094;
+    unsigned int unk0098;
+    unsigned int unk009C;
+    unsigned int unk00A0;
+    unsigned int unk00A4;
+    unsigned int unk00A8;
+    unsigned int unk00AC;
+    unsigned int unk00B0;
+    unsigned int unk00B4;
+    unsigned int unk00B8;
+    unsigned int unk00BC;
+    unsigned int unk00C0;
+    unsigned int unk00C4;
+    unsigned int unk00C8;
+    unsigned int unk00CC;
+    unsigned int unk00D0;
+    unsigned int unk00D4;
+    unsigned int unk00D8;
+    unsigned int unk00DC;
+    unsigned int unk00E0;
+    unsigned int unk00E4;
+    unsigned int unk00E8;
+    unsigned int unk00EC;
+    unsigned int unk00F0;
+    unsigned int unk00F4;
+    unsigned int unk00F8;
+    unsigned int unk00FC;
+    unsigned int unk0100;
+    unsigned int unk0104;
+    unsigned int unk0108;
+    unsigned int unk010C;
+    unsigned int unk0110;
+    unsigned int unk0114;
+    unsigned int unk0118;
+    unsigned int unk011C;
+    unsigned int unk0120;
+    unsigned int unk0124;
+    unsigned int unk0128;
+    unsigned int unk012C;
+    unsigned int unk0130;
+    unsigned int unk0134;
+    unsigned int unk0138;
+    unsigned int unk013C;
+    unsigned int unk0140;
+    unsigned int unk0144;
+    unsigned int unk0148;
+    unsigned int unk014C;
+    unsigned int unk0150;
+    unsigned int unk0154;
+    unsigned int unk0158;
+    unsigned int unk015C;
+    unsigned int unk0160;
+    unsigned int unk0164;
+    unsigned int unk0168;
+    unsigned int unk016C;
+    unsigned int unk0170;
+    unsigned int unk0174;
+    unsigned int unk0178;
+    unsigned int unk017C;
+    unsigned int unk0180;
+    unsigned int unk0184;
+    unsigned int unk0188;
+    unsigned int unk018C;
+    unsigned int unk0190;
+    unsigned int unk0194;
+    unsigned int unk0198;
+    unsigned int unk019C;
+    unsigned int unk01A0;
+    unsigned int unk01A4;
+    unsigned int unk01A8;
+    unsigned int unk01AC;
+    unsigned int unk01B0;
+    unsigned int unk01B4;
+    unsigned int unk01B8;
+    unsigned int unk01BC;
+    unsigned int unk01C0;
+    unsigned int unk01C4;
+    unsigned int unk01C8;
+    unsigned int unk01CC;
+    unsigned int unk01D0;
+    unsigned int unk01D4;
+    unsigned int unk01D8;
+    unsigned int unk01DC;
+    unsigned int unk01E0;
+    unsigned int unk01E4;
+    unsigned int unk01E8;
+    unsigned int unk01EC;
+    unsigned int unk01F0;
+    unsigned int unk01F4;
+    unsigned int unk01F8;
+    unsigned int unk01FC;
+    unsigned int unk0200;
+    unsigned int unk0204;
+    unsigned int unk0208;
+    unsigned int unk020C;
+    unsigned int unk0210;
+    unsigned int unk0214;
+    unsigned int unk0218;
+    unsigned int unk021C;
+    unsigned int unk0220;
+    unsigned int unk0224;
+    unsigned int unk0228;
+    unsigned int unk022C;
+    unsigned int unk0230;
+    unsigned int unk0234;
+    unsigned int unk0238;
+    unsigned int unk023C;
+    unsigned int unk0240;
+    unsigned int unk0244;
+    unsigned int unk0248;
+    unsigned int unk024C;
+    unsigned int unk0250;
+    unsigned int unk0254;
+    unsigned int unk0258;
+    unsigned int unk025C;
+    unsigned int unk0260;
+    unsigned int unk0264;
+    unsigned int unk0268;
+    unsigned int unk026C;
+    unsigned int unk0270;
+    unsigned int unk0274;
+    unsigned int unk0278;
+    unsigned int unk027C;
+    unsigned int unk0280;
+    unsigned int unk0284;
+    unsigned int unk0288;
+    unsigned int unk028C;
+    unsigned int unk0290;
+    unsigned int unk0294;
+    unsigned int unk0298;
+    unsigned int unk029C;
+    unsigned int unk02A0;
+    unsigned int unk02A4;
+    unsigned int unk02A8;
+    unsigned int unk02AC;
+    unsigned int unk02B0;
+    unsigned int m_2b4;
+};
+
+
+
+struct TlsGuard_ca0090
+{
+    unsigned int m_saved;
+    TlsGuard_ca0090()
+    {
+        m_saved = (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+    }
+    ~TlsGuard_ca0090()
+    {
+        (*reinterpret_cast<::Tls_ca0090 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+    }
+};
+
+struct MemMgr_ca0090
+{
+};
+
+struct Sub_ca0090
+{
+};
+
+struct FUN_00ca0090_cls
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    void* m08;
+    void* m0C;
+    void* FUN_00ca0090(unsigned char* out);
+};
+
+// @fnv 0x00ca0090
+void* FUN_00ca0090_cls::FUN_00ca0090(unsigned char* out)
+{
+    TlsGuard_ca0090 guard;
+    bool GetObjectKind = (m0C == 0);
+    *out = GetObjectKind;
+    if (GetObjectKind)
+    {
+        unsigned char* raw = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<MemMgr_ca0090*>(&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(0x30);
+        unsigned char adj = (unsigned char)(0x10 - ((unsigned int)raw & 0xf));
+        raw[adj - 1] = adj;
+        *(unsigned int*)(raw + adj) = 0;
+        volatile float* p = (volatile float*)(raw + adj);
+        p[1] = DAT_010c72bc;
+        volatile float* v = (volatile float*)(raw + adj + 0x10);
+        v[0] = 0.0f;
+        v[1] = 0.0f;
+        v[2] = 0.0f;
+        v[3] = 0.0f;
+        v[0] = 1.0f;
+        v[1] = 1.0f;
+        v[2] = 1.0f;
+        m0C = (void*)(raw + adj);
+        if (m08 != 0)
+        {
+            ::FUN_00c9fb70((::MyObj *)this, (std::intptr_t)(m0C), {});
+            void* q = (m08 != 0) ? (void*)((char*)m08 + 0x20) : (void*)&(*reinterpret_cast<char *>(&::DAT_01267e30));
+            reinterpret_cast<::S004b4db0_Quaternion *>((reinterpret_cast<Sub_ca0090*>((char*)raw + adj + 0x10)))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(q)));
+        }
+    }
+    return m0C;
+}
+
+namespace fnv_00ca0410 {
+
+struct MemContextGuard_o2
+{
+    int iOld;
+    MemContextGuard_o2(int iNew)
+    {
+        iOld = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iNew;
+    }
+    ~MemContextGuard_o2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOld;
+    }
+};
+
+struct ViewerStrings
+{
+    void* vtbl;
+    char** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    void Add(char* element)
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, element);
+    }
+};
+
+struct HalfExtentVec
+{
+    float x, y, z, w;
+};
+
+struct PhantomPoint3
+{
+    float x, y, z;
+};
+
+
+struct AabbHavokObj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    HalfExtentVec halfExtent;
+};
+
+
+struct ShapePhantomBase
+{
+    int unk00;
+    int unk04;
+    AabbHavokObj* m_pHavok;
+};
+
+struct AabbPhantomVS : ShapePhantomBase
+{
+    void FUN_00ca0410(ViewerStrings* apViewerStrings);
+};
+
+// @fnv 0x00ca0410
+void AabbPhantomVS::FUN_00ca0410(ViewerStrings* apViewerStrings)
+{
+    MemContextGuard_o2 guard(0x10);
+    reinterpret_cast<::SphereShape *>(this)->FUN_00c9fc50((::ViewerStringArray *)(apViewerStrings));
+    apViewerStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268264))));
+    AabbHavokObj* pObj = this ? m_pHavok : 0;
+    const HalfExtentVec& v = pObj ? pObj->halfExtent : (*reinterpret_cast<::fnv_00ca0410::HalfExtentVec *>(&::DAT_01267e30));
+    PhantomPoint3 kPt;
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPt), (const ::hkVector4 &)(v));
+    apViewerStrings->Add(reinterpret_cast<::NiPoint3 *>(&(kPt))->FUN_00a59af0("Half Extent"));
+}
+}
+
+// namespace fnv_00ca0410
+
+class CA0540Base
+{
+  public:
+    virtual ~CA0540Base();
+
+};
+
+class FUN_00ca0540_o2 : public CA0540Base
+{
+  public:
+    virtual ~FUN_00ca0540_o2();
+
+};
+
+// @fnv 0x00ca0540
+FUN_00ca0540_o2::~FUN_00ca0540_o2()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --(*reinterpret_cast<unsigned int *>(&::DAT_01268274));
+}
+
+struct BCA05B0AllocTagScope
+{
+    int m_iSaved;
+
+    BCA05B0AllocTagScope(int aiAllocationTag)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+    }
+    ~BCA05B0AllocTagScope()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+
+class BCA05B0StringArray
+{
+  public:
+    virtual ~BCA05B0StringArray();
+
+    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
+        return uiIndex;
+    }
+    unsigned int Add(char* const& pcElement)
+    {
+        return SetAtGrow(m_usSize, pcElement);
+    }
+
+    char** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class FUN_00ca05b0_cls
+{
+  public:
+    void FUN_00ca05b0(BCA05B0StringArray* pkArray);
+};
+
+// @fnv 0x00c9fc50
+void SphereShape::FUN_00c9fc50(ViewerStringArray* apViewerStrings)
+{
+    MemContextGuard_o2 guard;
+    reinterpret_cast<::FUN_00ca05b0_cls *>(this)->FUN_00ca05b0((::BCA05B0StringArray *)(apViewerStrings));
+    apViewerStrings->Add(::FUN_00a7d330((*reinterpret_cast<::ViewerRTTI *>(&::g_01268254)).m_pcName));
+    apViewerStrings->Add(::FUN_00a7d550("Radius", GetRadius() * DAT_011b15c0));
+}
+
+class FUN_00ca0660_base
+{
+  public:
+    virtual void unk00();
+    ~FUN_00ca0660_base();
+    int unk04;
+};
+
+class FUN_00ca0660_o2 : public FUN_00ca0660_base
+{
+  public:
+    virtual ~FUN_00ca0660_o2();
+    void unk08();
+};
+
+// @fnv 0x00ca0660
+FUN_00ca0660_o2::~FUN_00ca0660_o2()
+{
+    reinterpret_cast<::ProjectileListener *>((this))->FUN_00c876a0();
+    DAT_01268280--;
+}
+
+class CA0840Heap
+{
+  public:
+    void* Allocate(unsigned int uiSize);
+};
+
+class CA0840MemContext
+{
+  public:
+    CA0840MemContext(int aiMemoryContext)
+    {
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~CA0840MemContext()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+    }
+
+    int m_iPrevious;
+};
+
+class CA0840Output
+{
+  public:
+    CA0840Output() : m_pkTarget(0), m_fValue(DAT_010c72bc)
+    {}
+
+
+    void* m_pkTarget;
+    float m_fValue;
+};
+
+class CA0840Constraint
+{
+  public:
+    int unk00;
+    int unk04;
+    void* m_pkWorld;
+    CA0840Output* m_pkOutput;
+
+    CA0840Output* FUN_00ca0840(bool* pbCreated);
+};
+
+// @fnv 0x00ca0840
+CA0840Output* CA0840Constraint::FUN_00ca0840(bool* pbCreated)
+{
+    CA0840MemContext kContext(0x10);
+    *pbCreated = m_pkOutput == 0;
+    if (*pbCreated)
+    {
+        m_pkOutput = new CA0840Output;
+        if (m_pkWorld)
+            ::FUN_00c9fb70((::MyObj *)this, (std::intptr_t)(m_pkOutput), {});
+    }
+    return m_pkOutput;
+}
+
+class CAACF0Base
+{
+  public:
+    virtual ~CAACF0Base();
+
+};
+
+class FUN_00caacf0 : public CAACF0Base
+{
+  public:
+    virtual ~FUN_00caacf0();
+
+};
+
+// @fnv 0x00caacf0
+FUN_00caacf0::~FUN_00caacf0()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --(*reinterpret_cast<unsigned int *>(&::DAT_01268324));
+}
+
+// @fnv 0x00cb3060
+void* FUN_00cb3060()
+{
+    return &(*reinterpret_cast<int *>(&::g_012683c8));
+}
+
+namespace fnv_00cb3a40 {
+struct MemoryAllocator
+{
+};
+struct FUN_00cb3860
+{
+    FUN_00cb3860();
+    static __forceinline unsigned char* align(unsigned char* memory)
+    {
+        unsigned char mod = (unsigned char)(unsigned int)memory;
+        mod &= 15;
+        unsigned char offset = 16;
+        offset -= mod;
+        memory += offset;
+        memory[-1] = offset;
+        return memory;
+    }
+    static void* operator new(std::size_t)
+    {
+        return align((unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00cb3a40::MemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(0x50));
+    }
+};
+struct ThreadRouterScope
+{
+    int previousMode;
+    ThreadRouterScope() : previousMode((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+    }
+    ~ThreadRouterScope() throw()
+    {
+        ::FUN_00c87700();
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousMode;
+    }
+};
+struct World
+{
+    virtual void m00();
+    virtual void m01();
+    virtual void m02();
+    virtual void m03();
+    virtual void m04();
+    virtual void m05();
+    virtual void m06();
+    virtual void m07();
+    virtual void m08();
+    virtual void m09();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15();
+    virtual void m16();
+    virtual void m17();
+    virtual void m18();
+    virtual void m19();
+    virtual void m20();
+    virtual void m21();
+    virtual void m22();
+    virtual void m23();
+    virtual void m24();
+    virtual void m25();
+    virtual void m26();
+    virtual void m27();
+    virtual void m28();
+    virtual void m29();
+    virtual void m30();
+    virtual void m31();
+    virtual void m32();
+    virtual void m33();
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual void m37();
+    virtual void m38();
+    virtual void m39();
+    virtual void m40();
+    virtual void m41();
+    virtual void m42();
+    virtual void m43();
+    virtual void m44();
+    virtual void m45();
+    virtual void m46();
+    virtual void m47();
+    virtual void m48();
+    virtual void m49();
+    virtual void m50();
+    virtual void m51();
+    virtual void m52();
+    virtual void m53();
+    virtual void m54();
+    virtual void m55();
+    virtual void m56();
+    virtual void m57();
+    virtual void m58();
+    virtual void m59();
+    virtual void m60();
+    virtual void m61();
+    virtual void m62();
+    virtual void m63(int active);
+    FUN_00cb3860* FUN_00cb3a40(int flags);
+};
+// @fnv 0x00cb3a40
+FUN_00cb3860* World::FUN_00cb3a40(int flags)
+{
+    ThreadRouterScope threadScope;
+    ::FUN_00c876f0();
+    m63(0);
+    FUN_00cb3860* obj = new FUN_00cb3860;
+    reinterpret_cast<::FUN_00cb30d0_cls *>(this)->FUN_00cb30d0(obj, (::ScaleParams *)(flags));
+    m63(1);
+    return obj;
+}
+}
+
+// namespace fnv_00cb3a40
+
+class CC2350Base
+{
+  public:
+    virtual ~CC2350Base();
+};
+
+class FUN_00cc2350 : public CC2350Base
+{
+  public:
+    void Release();
+
+    virtual ~FUN_00cc2350();
+};
+
+// @fnv 0x00cc2350
+FUN_00cc2350::~FUN_00cc2350()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --::DAT_012685a0;
+}
+
+struct FUN_00cca8d0 : FUN_00c9fb00_o2
+{
+    virtual ~FUN_00cca8d0();
+};
+
+// @fnv 0x00cca8d0
+FUN_00cca8d0::~FUN_00cca8d0()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_01268660;
+}
+
+struct FUN_00ccd080 : FUN_00c9fb00_o2
+{
+    int unk04;
+    virtual ~FUN_00ccd080();
+};
+
+// @fnv 0x00ccd080
+FUN_00ccd080::~FUN_00ccd080()
+{
+    reinterpret_cast<::ProjectileListener *>((((FUN_00c876a0_holder*)this)))->FUN_00c876a0();
+    DAT_0126868c--;
+}
+
+struct FUN_00ccdbc0 : FUN_00c9fb00_o2
+{
+    virtual ~FUN_00ccdbc0();
+};
+
+// @fnv 0x00ccdbc0
+FUN_00ccdbc0::~FUN_00ccdbc0()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --::g_iCDC40LevelDCount;
+}
+
+class CCE900Base
+{
+  public:
+    virtual ~CCE900Base();
+};
+
+class FUN_00cce900 : public CCE900Base
+{
+  public:
+    void Release();
+
+    virtual ~FUN_00cce900();
+};
+
+// @fnv 0x00cce900
+FUN_00cce900::~FUN_00cce900()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --g_iCCE900Count;
+}
+
+struct FUN_00ccf4f0_cls : FUN_00c9fb00_o2
+{
+    int unk04;
+    virtual ~FUN_00ccf4f0_cls();
+};
+
+// @fnv 0x00ccf4f0
+FUN_00ccf4f0_cls::~FUN_00ccf4f0_cls()
+{
+    reinterpret_cast<::ProjectileListener *>((((FUN_00c876a0_holder*)this)))->FUN_00c876a0();
+}
+
+class FUN_00ccf740_cls : public FUN_00c9fb00_o2
+{
+  public:
+    virtual ~FUN_00ccf740_cls();
+};
+
+// @fnv 0x00ccf740
+FUN_00ccf740_cls::~FUN_00ccf740_cls()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_012686c0;
+}
+
+class NiObjectC9E
+{
+  public:
+
+    virtual ~NiObjectC9E();
+};
+
+class NiControllerC9E : public NiObjectC9E
+{
+  public:
+    NiControllerC9E();
+
+    static NiObjectC9E* FUN_00c9ef30();
+
+    unsigned int m_uiRefCount;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+};
+
+// @fnv 0x00c9ef30
+NiObjectC9E* NiControllerC9E::FUN_00c9ef30()
+{
+    return new NiControllerC9E;
+}
+
+// @fnv 0x00c9f480
+void FUN_00c9f970_cls_o2::FUN_00c9f480(BC9F970StringArray* pkArray)
+{
+    TlsGuard_t kGuard;
+    ((bhkWorldObject_c86190*)this)->FUN_00c86190((DebugStrArray*)pkArray);
+    pkArray->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_0126823c))));
+}
+
+struct HkResult_c6b
+{
+    int m_00;
+    int m_04;
+    HkResult_c6b();
+};
+
+struct HkFlags_c6b
+{
+    int m_iFlags;
+    HkFlags_c6b(int i) : m_iFlags(i)
+    {}
+};
+
+struct HkWorld_c6b
+{
+    HkResult_c6b FUN_00cd2a50(const void* apKey);
+    void AddEntry(const void* apKey, void* apListener, HkFlags_c6b kFlags);
+};
+
+struct World_c6b
+{
+    virtual void v00();
+    virtual void DeleteThis();
+    volatile long m_lRefCount;
+    HkWorld_c6b* m_pkWorld;
+};
+
+struct FUN_00c6b980_cls_o2
+{
+    int unk00, unk04, unk08, unk0c;
+    World_c6b* m_spWorld;
+    void FUN_00c6b980(World_c6b* apWorld);
+};
+
+// @fnv 0x00c6b980
+void FUN_00c6b980_cls_o2::FUN_00c6b980(World_c6b* apWorld)
+{
+    if (m_spWorld == apWorld)
+        return;
+    World_c6b* pkOld = m_spWorld;
+    if (pkOld)
+    {
+        HkWorld_c6b* pkHk = pkOld->m_pkWorld;
+        if (pkHk)
+        {
+            ::FUN_00a29680();
+            pkHk->FUN_00cd2a50((*reinterpret_cast<char (*)[]>(&::g_01267b70)));
+            ::FUN_00a29680();
+        }
+    }
+    if (m_spWorld != apWorld)
+    {
+        if (m_spWorld)
+        {
+            World_c6b* p = m_spWorld;
+            if (InterlockedDecrement(&p->m_lRefCount) == 0)
+                p->DeleteThis();
+        }
+        m_spWorld = apWorld;
+        if (m_spWorld)
+            InterlockedIncrement(&m_spWorld->m_lRefCount);
+    }
+    World_c6b* pkNew = m_spWorld;
+    if (pkNew)
+    {
+        HkFlags_c6b kFlags(0);
+        HkWorld_c6b* pkHk = pkNew->m_pkWorld;
+        if (pkHk)
+        {
+            ::FUN_00a29680();
+            pkHk->AddEntry((*reinterpret_cast<char (*)[]>(&::g_01267b70)), this, kFlags);
+            ::FUN_00a29680();
+        }
+    }
+}
+
+struct S_00c85c10_pair
+{
+    int unk00;
+    int unk04;
+};
+
+struct S_00c85c10_flag
+{
+    int unk00;
+    S_00c85c10_flag() : unk00(0)
+    {}
+};
+
+struct S_00c85c10_entry
+{
+    int* value;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+struct S_00c85c10_data
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    S_00c85c10_entry* entries;
+    int count;
+
+    void FUN_00cd2a50(int* result, int* value);
+    void AddEntry(int* value, int* result, S_00c85c10_flag flag);
+};
+
+struct S_00c85c10_o2
+{
+    void* unk00;
+    void* unk04;
+    S_00c85c10_data* unk08;
+
+    void FUN_00c85c10(int* result, int* value);
+};
+
+// @fnv 0x00c85c10
+void S_00c85c10_o2::FUN_00c85c10(int* result, int* value)
+{
+    S_00c85c10_pair local;
+
+    if (value == 0)
+    {
+        value = &(*reinterpret_cast<int *>(&::g_011f4280));
+    }
+
+    S_00c85c10_data* data = unk08;
+
+    if (data != 0)
+    {
+        int count = data->count;
+        int i = 0;
+        if (count > 0)
+        {
+            S_00c85c10_entry* entry = data->entries;
+            do
+            {
+                if (entry->value == value)
+                {
+                    if (unk08 != 0)
+                    {
+                        unk08->FUN_00cd2a50(&local.unk00, value);
+                    }
+                    break;
+                }
+                ++entry;
+                ++i;
+            } while (i < count);
+        }
+    }
+
+    if (result != 0)
+    {
+        data = unk08;
+        S_00c85c10_flag flag;
+        if (data != 0)
+        {
+            data->AddEntry(value, result, flag);
+        }
+    }
+}
+
+struct ActionC68bf0
+{
+};
+
+struct LinkedObjectC9d590
+{
+    ActionC68bf0* GetAction() const
+    {
+        return *reinterpret_cast<ActionC68bf0* const*>(reinterpret_cast<const char*>(this) + 0x350);
+    }
+};
+
+struct ActionOwnerC9d590
+{
+    virtual void slot0(), slot1(), slot2(), slot3(), slot4(), slot5(), slot6(), slot7();
+    virtual void slot8(), slot9(), slot10(), slot11(), slot12(), slot13(), slot14(), slot15();
+    virtual void slot16(), slot17(), slot18(), slot19(), slot20(), slot21(), slot22(), slot23();
+    virtual void slot24(), slot25(), slot26(), slot27(), slot28(), slot29(), slot30(), slot31();
+    virtual void slot32(), slot33(), slot34(), slot35(), slot36();
+    virtual LinkedObjectC9d590* ResolveLinkedObject();
+    int unk4;
+    void* handle;
+    bool FUN_00c9d590();
+};
+
+// @fnv 0x00c9d590
+bool ActionOwnerC9d590::FUN_00c9d590()
+{
+    bool result = false;
+    LinkedObjectC9d590* obj = ResolveLinkedObject();
+    ActionC68bf0* action = obj ? obj->GetAction() : 0;
+    if (action)
+        result = reinterpret_cast<::WorldC68BF0 *>((action))->FUN_00c68bf0((::EntityC68BF0 *)(handle));
+    return result;
+}
+
+struct ObjectCA06
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    ObjectCA06();
+};
+
+// @fnv 0x00ca06d0
+ObjectCA06* __cdecl FUN_00ca06d0()
+{
+    return new ObjectCA06;
+}
+
+struct FUN_00ca0ac0_class : SphereShape
+{
+    void FUN_00ca0ac0(ViewerStringArray* strings);
+};
+
+// @fnv 0x00ca0ac0
+void FUN_00ca0ac0_class::FUN_00ca0ac0(ViewerStringArray* strings)
+{
+    TlsGuard_t context;
+    FUN_00c9fc50(strings);
+    char* text = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268288)));
+    strings->Add(text);
+}
+
+struct FUN_00cd2de0 : FUN_00c84c50_o2
+{
+    virtual ~FUN_00cd2de0();
+};
+
+// @fnv 0x00cd2de0
+FUN_00cd2de0::~FUN_00cd2de0()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_012686d0;
+}
+
+struct FUN_00d54e60 : FUN_00c84c50_o2
+{
+    virtual ~FUN_00d54e60();
+};
+
+// @fnv 0x00d54e60
+FUN_00d54e60::~FUN_00d54e60()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    --DAT_01268f8c;
+}
+
+extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
+
+struct LoadStream
+{
+    int unk00;
+    unsigned int version;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    unsigned char unk1e4;
+    unsigned char endian;
+};
+
+struct LoadedData
+{
+    unsigned int flags;
+    int unk04;
+    int unk08;
+    void* data;
+    int count;
+    int capacity;
+};
+
+struct ReleaseAllocator
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void Free(void*, unsigned int);
+};
+
+struct MemRouter
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    ReleaseAllocator* m_pStreamAllocator;
+    ReleaseAllocator& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+MemRouter* MemRouter_getInstance();
+
+struct LoadObject
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void* GetHavokClass();
+    virtual void v43();
+    virtual void v44();
+    virtual LoadedData* GetHavokData(int* piSize);
+    void FUN_00c85f20(LoadStream*);
+};
+
+// @fnv 0x00c85f20
+void LoadObject::FUN_00c85f20(LoadStream* stream)
+{
+    TlsGuard_t guard;
+    reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
+    reinterpret_cast<::FUN_00c87650_t *>(this)->LoadBinary((*(::NiStream *)(stream)));
+
+    int iSize;
+    LoadedData* data = GetHavokData(&iSize);
+    if (stream->endian != 1)
+    {
+        void* pkClass = GetHavokClass();
+        ::FUN_00cf0930(data, (std::intptr_t)(pkClass), (::Vector3 *)(void **)(&data->data));
+    }
+
+    // hkArray::ClearAndRelease
+    ReleaseAllocator& alloc = MemRouter_getInstance()->heap();
+    data->count = 0;
+    if ((data->capacity & 0x80000000) == 0)
+        alloc.Free(data->data, (data->capacity & 0x3fffffff) * 8);
+    data->data = 0;
+    data->capacity = 0x80000000;
+
+    if (stream->endian != 1)
+        data->flags = _byteswap_ulong(data->flags);
+    if (stream->version < 9 && (data->flags & 0x20))
+        data->flags = (data->flags & ~0x20) | 0x8000;
+    unsigned int kind = data->flags & 0x7f;
+    if (kind == 8 || kind == 0x1d)
+        data->flags &= ~0x4000;
+}
+
+struct ThreadState
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22c;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23c;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24c;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25c;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26c;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27c;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28c;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    unsigned int unk2a0;
+    unsigned int unk2a4;
+    unsigned int unk2a8;
+    unsigned int unk2ac;
+    unsigned int unk2b0;
+    unsigned int tag;
+};
+
+struct TagScope
+{
+    unsigned int old;
+    TagScope(unsigned int tag)
+    {
+        old = (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).tag;
+        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).tag = tag;
+    }
+    ~TagScope()
+    {
+        (*reinterpret_cast<::ThreadState *>(&::g_tlsBlock)).tag = old;
+    }
+};
+
+struct FreeAllocator : Allocator
+{
+    virtual void ReleaseBlock(void*, int);
+    virtual void* AllocateBufferWithSize(int&);
+    virtual void ReturnMemory(void*, int);
+};
+
+struct RefLink
+{
+    unsigned int unk00, unk04;
+    RefLink* ref;
+};
+
+struct Pair8
+{
+    int a, b;
+};
+
+template <class T> struct hkArr
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    void clear()
+    {
+        m_iElementCount = 0;
+    }
+    void _clearAndDeallocate(FreeAllocator& alloc)
+    {
+        clear();
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    void ClearAndRelease(Pool* pool)
+    {
+        _clearAndDeallocate(*static_cast<FreeAllocator*>(pool->allocator));
+    }
+};
+
+struct Info
+{
+    unsigned int value;
+    RefLink* link;
+    unsigned int unk08;
+    hkArr<Pair8> arr;
+};
+
+struct Stream86060
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void WriteRef(void*);
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned char mode;
+};
+
+struct Obj86060
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void Release(void*);
+    virtual int Kind();
+    virtual void vac();
+    virtual void vb0();
+    virtual Info* GetInfo(void**);
+    void FUN_00c86060(Stream86060&);
+};
+
+// @fnv 0x00c86060
+void Obj86060::FUN_00c86060(Stream86060& stream)
+{
+    TagScope scope(16);
+    void* handle;
+    Info* info = GetInfo(&handle);
+    if (stream.mode != 1)
+    {
+        int kind = Kind();
+        ::FUN_00cf0930(info, kind, (::Vector3 *)(::hkArr< ::Pair8> *)(&info->arr));
+        info->value = _byteswap_ulong(info->value);
+    }
+    info->arr.ClearAndRelease(((Pool*)FUN_00c85750()));
+    RefLink* ref = info->link;
+    ref = ref ? ref->ref : 0;
+    stream.WriteRef(ref);
+    reinterpret_cast<::BC87850RefObject *>(this)->SaveSerializeData((::BC87850Stream &)(stream));
+    Release(handle);
+}
+
+struct FUN_00c9f530_o2 : FUN_00c9f3b0_o2
+{
+    virtual ~FUN_00c9f530_o2();
+};
+
+// @fnv 0x00c9f530
+FUN_00c9f530_o2::~FUN_00c9f530_o2()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    DAT_01268244--;
+}
+
+struct Arg_o2
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00C;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01C;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02C;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03C;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04C;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05C;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06C;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07C;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08C;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09C;
+    unsigned int unk0A0;
+    unsigned int unk0A4;
+    unsigned int unk0A8;
+    unsigned int unk0AC;
+    unsigned int unk0B0;
+    unsigned int unk0B4;
+    unsigned int unk0B8;
+    unsigned int unk0BC;
+    unsigned int unk0C0;
+    unsigned int unk0C4;
+    unsigned int unk0C8;
+    unsigned int unk0CC;
+    unsigned int unk0D0;
+    unsigned int unk0D4;
+    unsigned int unk0D8;
+    unsigned int unk0DC;
+    unsigned int unk0E0;
+    unsigned int unk0E4;
+    unsigned int unk0E8;
+    unsigned int unk0EC;
+    unsigned int unk0F0;
+    unsigned int unk0F4;
+    unsigned int unk0F8;
+    unsigned int unk0FC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned char unk1e4;
+    unsigned char m1e5;
+};
+
+struct Rec
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    volatile unsigned int m20;
+    volatile unsigned int m24;
+    volatile unsigned int m28;
+    volatile unsigned int m2c;
+    volatile unsigned int m30;
+    volatile unsigned int m34;
+    volatile unsigned int m38;
+    volatile unsigned int m3c;
+};
+
+struct FUN_00c9f700_cls
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+    virtual void f38();
+    virtual void f39();
+    virtual void f40();
+    virtual void f41();
+    virtual void f42();
+    virtual void f43();
+    virtual void f44();
+    virtual Rec* GetRec(Arg_o2** pp);
+    void FUN_00c9f700(Arg_o2* volatile a);
+};
+
+// @fnv 0x00c9f700
+void FUN_00c9f700_cls::FUN_00c9f700(Arg_o2* volatile a)
+{
+    Arg_o2* p = a;
+    reinterpret_cast<::LoadObject *>(this)->FUN_00c85f20((::LoadStream *)(p));
+    Rec* r = GetRec((Arg_o2**)&a);
+    if (p->m1e5 != 1)
+    {
+        r->m30 = _byteswap_ulong(r->m30);
+        r->m34 = _byteswap_ulong(r->m34);
+        r->m38 = _byteswap_ulong(r->m38);
+        r->m3c = _byteswap_ulong(r->m3c);
+        r->m20 = _byteswap_ulong(r->m20);
+        r->m24 = _byteswap_ulong(r->m24);
+        r->m28 = _byteswap_ulong(r->m28);
+        r->m2c = _byteswap_ulong(r->m2c);
+    }
+}
+
+// Save: on big-endian streams, byte-swap the Havok object's two vectors in place around the base save.
+
+struct C9F770Vector
+{
+    unsigned long x;
+    unsigned long y;
+    unsigned long z;
+    unsigned long w;
+};
+
+inline void C9F770Swap(unsigned long& ulValue)
+{
+    ulValue = _byteswap_ulong(ulValue);
+}
+
+inline void C9F770SwapVector(C9F770Vector& kVector)
+{
+    C9F770Swap(kVector.x);
+    C9F770Swap(kVector.y);
+    C9F770Swap(kVector.z);
+    C9F770Swap(kVector.w);
+}
+
+struct C9F770HavokData
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    C9F770Vector m_kPivotA;
+    C9F770Vector m_kPivotB;
+};
+
+class C9F770Stream
+{
+  public:
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    unsigned char m_ucEndian;
+};
+
+class C9F770Constraint
+{
+  public:
+    virtual void Unk_00();
+    virtual void Unk_01();
+    virtual void Unk_02();
+    virtual void Unk_03();
+    virtual void Unk_04();
+    virtual void Unk_05();
+    virtual void Unk_06();
+    virtual void Unk_07();
+    virtual void Unk_08();
+    virtual void Unk_09();
+    virtual void Unk_0A();
+    virtual void Unk_0B();
+    virtual void Unk_0C();
+    virtual void Unk_0D();
+    virtual void Unk_0E();
+    virtual void Unk_0F();
+    virtual void Unk_10();
+    virtual void Unk_11();
+    virtual void Unk_12();
+    virtual void Unk_13();
+    virtual void Unk_14();
+    virtual void Unk_15();
+    virtual void Unk_16();
+    virtual void Unk_17();
+    virtual void Unk_18();
+    virtual void Unk_19();
+    virtual void Unk_1A();
+    virtual void Unk_1B();
+    virtual void Unk_1C();
+    virtual void Unk_1D();
+    virtual void Unk_1E();
+    virtual void Unk_1F();
+    virtual void Unk_20();
+    virtual void Unk_21();
+    virtual void Unk_22();
+    virtual void Unk_23();
+    virtual void Unk_24();
+    virtual void Unk_25();
+    virtual void Unk_26();
+    virtual void Unk_27();
+    virtual void Unk_28();
+    virtual void Unk_29();
+    virtual void Unk_2A();
+    virtual void Unk_2B();
+    virtual void Unk_2C();
+    virtual C9F770HavokData* GetHavokData(bool* pbOwned);
+
+    void FUN_00c9f770(C9F770Stream& kStream);
+};
+
+// @fnv 0x00c9f770
+void C9F770Constraint::FUN_00c9f770(C9F770Stream& kStream)
+{
+    bool bIsValid;
+    C9F770HavokData* pkData = GetHavokData(&bIsValid);
+    if (kStream.m_ucEndian != 1)
+    {
+        C9F770SwapVector(pkData->m_kPivotB);
+        C9F770SwapVector(pkData->m_kPivotA);
+    }
+    reinterpret_cast<::Obj86060 *>(this)->FUN_00c86060((::Stream86060 &)(kStream));
+    if (kStream.m_ucEndian != 1)
+    {
+        C9F770SwapVector(pkData->m_kPivotB);
+        C9F770SwapVector(pkData->m_kPivotA);
+    }
+}
+
+struct Arg_00c9fbc0
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    unsigned char unk1e4;
+    unsigned char unk1e5;
+};
+
+struct Rec_00c9fbc0
+{
+    int unk0;
+    unsigned int unk4;
+};
+
+struct Cls_00c9fbc0
+{
+    virtual void v00()
+    {}
+    virtual void v01()
+    {}
+    virtual void v02()
+    {}
+    virtual void v03()
+    {}
+    virtual void v04()
+    {}
+    virtual void v05()
+    {}
+    virtual void v06()
+    {}
+    virtual void v07()
+    {}
+    virtual void v08()
+    {}
+    virtual void v09()
+    {}
+    virtual void v10()
+    {}
+    virtual void v11()
+    {}
+    virtual void v12()
+    {}
+    virtual void v13()
+    {}
+    virtual void v14()
+    {}
+    virtual void v15()
+    {}
+    virtual void v16()
+    {}
+    virtual void v17()
+    {}
+    virtual void v18()
+    {}
+    virtual void v19()
+    {}
+    virtual void v20()
+    {}
+    virtual void v21()
+    {}
+    virtual void v22()
+    {}
+    virtual void v23()
+    {}
+    virtual void v24()
+    {}
+    virtual void v25()
+    {}
+    virtual void v26()
+    {}
+    virtual void v27()
+    {}
+    virtual void v28()
+    {}
+    virtual void v29()
+    {}
+    virtual void v30()
+    {}
+    virtual void v31()
+    {}
+    virtual void v32()
+    {}
+    virtual void v33()
+    {}
+    virtual void v34()
+    {}
+    virtual void v35()
+    {}
+    virtual void v36()
+    {}
+    virtual void v37()
+    {}
+    virtual void v38()
+    {}
+    virtual void v39()
+    {}
+    virtual void v40()
+    {}
+    virtual void v41()
+    {}
+    virtual void v42()
+    {}
+    virtual void v43()
+    {}
+    virtual void v44()
+    {}
+    virtual Rec_00c9fbc0* GetRec(Arg_00c9fbc0*& a);
+    void FUN_00c9fbc0(Arg_00c9fbc0* a1);
+};
+
+// @fnv 0x00c9fbc0
+void Cls_00c9fbc0::FUN_00c9fbc0(Arg_00c9fbc0* a1)
+{
+    Arg_00c9fbc0* volatile* pa = &a1;
+    Arg_00c9fbc0* a = *pa;
+    reinterpret_cast<::FUN_00c84d00_cls *>(this)->FUN_00c84d00((::FUN_00c84d00_obj *)(a));
+    if (a->unk1e5 != 1)
+    {
+        Rec_00c9fbc0* r = GetRec(a1);
+        unsigned int* p = &r->unk4;
+        *p = _byteswap_ulong(*p);
+    }
+}
+
+struct C9FC00Stream
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    unsigned char m_ucEndian;
+};
+
+struct C9FC00Data
+{
+    int unk00;
+    unsigned long m_ulValue;
+};
+
+class C9FC00Object
+{
+  public:
+    virtual void vfunc000();
+    virtual void vfunc004();
+    virtual void vfunc008();
+    virtual void vfunc00C();
+    virtual void vfunc010();
+    virtual void vfunc014();
+    virtual void vfunc018();
+    virtual void vfunc01C();
+    virtual void vfunc020();
+    virtual void vfunc024();
+    virtual void vfunc028();
+    virtual void vfunc02C();
+    virtual void vfunc030();
+    virtual void vfunc034();
+    virtual void vfunc038();
+    virtual void vfunc03C();
+    virtual void vfunc040();
+    virtual void vfunc044();
+    virtual void vfunc048();
+    virtual void vfunc04C();
+    virtual void vfunc050();
+    virtual void vfunc054();
+    virtual void vfunc058();
+    virtual void vfunc05C();
+    virtual void vfunc060();
+    virtual void vfunc064();
+    virtual void vfunc068();
+    virtual void vfunc06C();
+    virtual void vfunc070();
+    virtual void vfunc074();
+    virtual void vfunc078();
+    virtual void vfunc07C();
+    virtual void vfunc080();
+    virtual void vfunc084();
+    virtual void vfunc088();
+    virtual void vfunc08C();
+    virtual void vfunc090();
+    virtual void vfunc094();
+    virtual void vfunc098();
+    virtual void vfunc09C();
+    virtual void vfunc0A0();
+    virtual void vfunc0A4();
+    virtual void vfunc0A8();
+    virtual void vfunc0AC();
+    virtual void vfunc0B0();
+    virtual C9FC00Data* GetData(bool* pbValid);
+
+    void FUN_00c9fc00(C9FC00Stream& kStream);
+};
+
+// @fnv 0x00c9fc00
+void C9FC00Object::FUN_00c9fc00(C9FC00Stream& kStream)
+{
+    bool bValid;
+    C9FC00Data* pkData = GetData(&bValid);
+    if (kStream.m_ucEndian != 1)
+        pkData->m_ulValue = _byteswap_ulong(pkData->m_ulValue);
+    reinterpret_cast<::FUN_00c84d50_cls *>(this)->FUN_00c84d50((void *)&(kStream));
+    if (kStream.m_ucEndian != 1)
+        pkData->m_ulValue = _byteswap_ulong(pkData->m_ulValue);
+}
+
+struct FUN_00c9ff00_arg
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    unsigned int unkA0;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    unsigned int unkB8;
+    unsigned int unkBC;
+    unsigned int unkC0;
+    unsigned int unkC4;
+    unsigned int unkC8;
+    unsigned int unkCC;
+    unsigned int unkD0;
+    unsigned int unkD4;
+    unsigned int unkD8;
+    unsigned int unkDC;
+    unsigned int unkE0;
+    unsigned int unkE4;
+    unsigned int unkE8;
+    unsigned int unkEC;
+    unsigned int unkF0;
+    unsigned int unkF4;
+    unsigned int unkF8;
+    unsigned int unkFC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned char unk1E4;
+    unsigned char m_1e5;
+};
+
+struct FUN_00c9ff00_cls
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0A();
+    virtual void v0B();
+    virtual void v0C();
+    virtual void v0D();
+    virtual void v0E();
+    virtual void v0F();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1A();
+    virtual void v1B();
+    virtual void v1C();
+    virtual void v1D();
+    virtual void v1E();
+    virtual void v1F();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2A();
+    virtual void v2B();
+    virtual void v2C();
+    virtual volatile unsigned int* vGet(void* pp);
+    void FUN_00c9ff00(FUN_00c9ff00_arg* a1);
+};
+
+// @fnv 0x00c9ff00
+void FUN_00c9ff00_cls::FUN_00c9ff00(FUN_00c9ff00_arg* volatile a1)
+{
+    FUN_00c9ff00_arg* obj = a1;
+    reinterpret_cast<::Cls_00c9fbc0 *>(this)->FUN_00c9fbc0((::Arg_00c9fbc0 *)(obj));
+    if (obj->m_1e5 != 1)
+    {
+        volatile unsigned int* p = vGet((void*)&a1) + 4;
+        p[0] = _byteswap_ulong(p[0]);
+        p[1] = _byteswap_ulong(p[1]);
+        p[2] = _byteswap_ulong(p[2]);
+        p[3] = _byteswap_ulong(p[3]);
+    }
+}
+
+struct FUN_00c9ff50_arg
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    unsigned int unkA0;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    unsigned int unkB8;
+    unsigned int unkBC;
+    unsigned int unkC0;
+    unsigned int unkC4;
+    unsigned int unkC8;
+    unsigned int unkCC;
+    unsigned int unkD0;
+    unsigned int unkD4;
+    unsigned int unkD8;
+    unsigned int unkDC;
+    unsigned int unkE0;
+    unsigned int unkE4;
+    unsigned int unkE8;
+    unsigned int unkEC;
+    unsigned int unkF0;
+    unsigned int unkF4;
+    unsigned int unkF8;
+    unsigned int unkFC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned char unk1E4;
+};
+
+struct FUN_00c9ff50_cls
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0A();
+    virtual void v0B();
+    virtual void v0C();
+    virtual void v0D();
+    virtual void v0E();
+    virtual void v0F();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1A();
+    virtual void v1B();
+    virtual void v1C();
+    virtual void v1D();
+    virtual void v1E();
+    virtual void v1F();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2A();
+    virtual void v2B();
+    virtual void v2C();
+    virtual volatile unsigned int* vGet(unsigned char* out);
+    void FUN_00c9ff50(FUN_00c9ff50_arg* a1);
+};
+
+// @fnv 0x00c9ff50
+void FUN_00c9ff50_cls::FUN_00c9ff50(FUN_00c9ff50_arg* a1)
+{
+    unsigned int tmp;
+    volatile unsigned int* p = vGet((unsigned char*)&tmp + 3);
+    if (a1->unk1E4 != 1)
+    {
+        p[4] = _byteswap_ulong(p[4]);
+        p[5] = _byteswap_ulong(p[5]);
+        p[6] = _byteswap_ulong(p[6]);
+        p[7] = _byteswap_ulong(p[7]);
+    }
+    reinterpret_cast<::C9FC00Object *>(this)->FUN_00c9fc00((*(::C9FC00Stream *)(a1)));
+    if (a1->unk1E4 != 1)
+    {
+        p[4] = _byteswap_ulong(p[4]);
+        p[5] = _byteswap_ulong(p[5]);
+        p[6] = _byteswap_ulong(p[6]);
+        p[7] = _byteswap_ulong(p[7]);
+    }
+}
+
+struct FUN_0094dbb0
+{
+    void* m_pVtable;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    FUN_0094dbb0();
+};
+
+struct CA0780Owner
+{
+    virtual void vf00();
+    virtual void vf01();
+    virtual void vf02();
+    virtual void vf03();
+    virtual void vf04();
+    virtual void vf05();
+    virtual void vf06();
+    virtual void vf07();
+    virtual void vf08();
+    virtual void vf09();
+    virtual void vf10();
+    virtual void vf11();
+    virtual void vf12();
+    virtual void vf13();
+    virtual void vf14();
+    virtual void vf15();
+    virtual void vf16();
+    virtual void vf17();
+    virtual void vf18();
+    virtual void vf19();
+    virtual void vf20();
+    virtual void vf21();
+    virtual void vf22();
+    virtual void vf23();
+    virtual void vf24();
+    virtual void vf25();
+    virtual void vf26();
+    virtual void vf27();
+    virtual void vf28();
+    virtual void vf29();
+    virtual void vf30();
+    virtual void vf31();
+    virtual void vf32();
+    virtual void vf33();
+    virtual void vf34();
+    virtual void vf35();
+    virtual void vf36();
+    virtual void vf37();
+    virtual void vf38();
+    virtual void vf39();
+    virtual void vf40();
+    virtual void vf41();
+    virtual void vf42();
+    virtual void vf43();
+    virtual void vf44();
+    virtual void vf45();
+    virtual void vf46();
+    virtual void vf47();
+    virtual void vf48();
+    virtual void vf49(FUN_0094dbb0* object, unsigned int argument);
+    FUN_0094dbb0* FUN_00ca0780(unsigned int argument);
+};
+
+// @fnv 0x00ca0780
+FUN_0094dbb0* CA0780Owner::FUN_00ca0780(unsigned int argument)
+{
+    TlsGuard_t guard;
+    FUN_00c876f0();
+    FUN_0094dbb0* object = new FUN_0094dbb0;
+    vf49(object, argument);
+    FUN_00c87700();
+    return object;
+}
+
+struct FUN_00ca4da0 : FUN_00c84c50_o2
+{
+    virtual ~FUN_00ca4da0();
+};
+
+// @fnv 0x00ca4da0
+FUN_00ca4da0::~FUN_00ca4da0()
+{
+    reinterpret_cast<::ProjectileListener *>(this)->FUN_00c876a0();
+    (*reinterpret_cast<int *>(&::CCA1B0Level2::ms_uiInstances))--;
+}
+
+struct CloningProcess;
+
+struct NiRefObjectBase
+{
+    virtual ~NiRefObjectBase();
+    virtual void DeleteThis();
+    volatile long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
+struct NiObjectBase : NiRefObjectBase
+{
+    virtual const NiRTTI* GetRTTI();
+    virtual void* IsNiNode();
+    virtual void* IsFadeNode();
+    virtual void* IsMultiBoundNode();
+    virtual void* IsGeometry();
+    virtual void* IsTriBasedGeometry();
+    virtual void* IsTriStrips();
+    virtual void* IsTriShape();
+    virtual void* IsSegmentedTriShape();
+    virtual void* IsResizableTriShape();
+    virtual void* IsParticles();
+    virtual void* IsLines();
+    virtual void* IsLimitedHingeConstraint();
+    virtual void* IsRigidBody();
+    virtual void* IsCollisionObject();
+    virtual NiObjectBase* MakeClone(CloningProcess* pkCloning);
+    virtual void LoadBinary(NiStream* pkStream);
+    virtual void LinkObject(NiStream* pkStream);
+    virtual bool RegisterStreamables(NiStream* pkStream);
+    virtual void SaveBinary(NiStream* pkStream);
+    virtual bool IsEqual(NiObjectBase* pkObject);
+    virtual void GetViewerStrings(void* pkStrings);
+    virtual void AddViewerStrings(void* pkStrings);
+    virtual void ProcessClone(CloningProcess* pkCloning);
+    virtual void PostLinkObject(NiStream* pkStream);
+    virtual bool StreamCanSkip();
+    virtual const NiRTTI* GetStreamableRTTI();
+    virtual unsigned int GetBlockAllocationSize();
+    virtual void* GetGroup();
+    virtual void SetGroup(void* pkGroup);
+    virtual void* IsNiControllerManager();
+    virtual void PrepareForSave();
+    virtual void Unknown33();
+};
+
+struct hkpShapeStandIn
+{
+    void* vfptr;
+    int m_usMemSizeAndFlags;
+    NiObjectBase* m_ulUserData;
+};
+
+struct hkpCollidableStandIn
+{
+    hkpShapeStandIn* m_pCollisionShape;
+    const hkpShapeStandIn* getShape() const
+    {
+        return m_pCollisionShape;
+    }
+};
+
+struct hkpWorldObjectStandIn : hkReferencedObject
+{
+    void* unk00;
+    int m_usMemSizeAndFlags;
+    void* m_pOwningWorld;
+    void* m_ulUserData;
+    hkpCollidableStandIn m_kCollidable;
+};
+
+struct bhkRefObjectBase : NiObjectBase
+{
+    virtual void SetHavokObject(hkpWorldObjectStandIn* pkObject);
+    hkpWorldObjectStandIn* m_pkHavokObject;
+    bhkRefObjectBase();
+};
+
+struct WorldObjectPair
+{
+    int unk00;
+    int unk04;
+    WorldObjectPair() : unk00(0), unk04(0)
+    {}
+};
+
+struct bhkWorldObjectBase : bhkRefObjectBase
+{
+    virtual void SetHavokObject(hkpWorldObjectStandIn* pkObject);
+    WorldObjectPair unk0C;
+    bhkWorldObjectBase()
+    {
+        ++DAT_0126810c;
+    }
+    NiObjectBase* GetShape()
+    {
+        hkpWorldObjectStandIn* pkObject = m_pkHavokObject;
+        if (pkObject)
+        {
+            ::FUN_00a29680();
+            const hkpCollidableStandIn* pkCollidable = &pkObject->m_kCollidable;
+            ::FUN_00a29680();
+            if (pkCollidable)
+            {
+                const hkpShapeStandIn* pkShape = pkCollidable->getShape();
+                if (pkShape)
+                    return pkShape->m_ulUserData;
+            }
+        }
+        return 0;
+    }
+};
+
+struct bhkEntityBase : bhkWorldObjectBase
+{
+    bhkEntityBase()
+    {
+        ++DAT_012681fc;
+    }
+};
+
+struct bhkRigidBodyBase : bhkEntityBase
+{
+    int unk14;
+    int unk18;
+    bhkRigidBodyBase()
+    {
+        unk14 = 0;
+        unk18 = 0;
+        ++DAT_012681bc;
+    }
+    ~bhkRigidBodyBase();
+};
+
+struct FUN_00cb38c0 : bhkRigidBodyBase
+{
+    FUN_00cb38c0(bhkRigidBodyBase* pkSource);
+    virtual ~FUN_00cb38c0();
+};
+
+// @fnv 0x00cb38c0
+FUN_00cb38c0::FUN_00cb38c0(bhkRigidBodyBase* pkSource)
+{
+    ++DAT_012683c0;
+    hkpWorldObjectStandIn* pkObject = pkSource->m_pkHavokObject;
+    reinterpret_cast<::FUN_00c90510_class *>((pkObject))->FUN_00c90510();
+    NiObjectBase* pkShape = pkSource->GetShape();
+    if (pkShape)
+        pkShape->IncRefCount();
+    pkSource->SetHavokObject(0);
+    SetHavokObject(pkObject);
+    pkShape->DecRefCount();
+    reinterpret_cast<::hkReferencedObjectC905 *>((pkObject))->FUN_00c905b0();
+}
+
+struct FUN_00cbe9f0_Target;
+
+struct FUN_00c85c80_Class
+{
+};
+
+struct S00cbe9f0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    FUN_00cbe9f0_Target* m18;
+    unsigned char m1c;
+
+    void FUN_00cbe9f0(std::intptr_t a1, FUN_00cbe9f0_Target* a2);
+};
+
+// @fnv 0x00cbe9f0
+void S00cbe9f0_cls::FUN_00cbe9f0(std::intptr_t a1, FUN_00cbe9f0_Target* a2)
+{
+    m1c = 0;
+    reinterpret_cast<::F9_Owner *>(this)->FUN_00c9f050((::F9_Arg *)((const void*)a1));
+    m18 = a2;
+    if (a2 == 0)
+        return;
+    FUN_00c85c80_Class* p = *(FUN_00c85c80_Class**)((char*)a2 + 0x594);
+    reinterpret_cast<::S_00c85c10_o2 *>(this)->FUN_00c85c10((int *)(p ? reinterpret_cast<::PropertyOwner *>((p))->FUN_00c85c80((void *)(0)) : 0), (int *)(0));
+}
+
+extern "C" unsigned short __cdecl _byteswap_ushort(unsigned short);
+
+struct FUN_00c9d4f0_obj
+{
+    unsigned char unk00[0x1e5];
+    unsigned char m_1e5;
+};
+
+struct FUN_00c9d4f0_cls
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0A();
+    virtual void v0B();
+    virtual void v0C();
+    virtual void v0D();
+    virtual void v0E();
+    virtual void v0F();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1A();
+    virtual void v1B();
+    virtual void v1C();
+    virtual void v1D();
+    virtual void v1E();
+    virtual void v1F();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2A();
+    virtual void v2B();
+    virtual void v2C();
+    virtual unsigned char* vGet(unsigned char* pp);
+    void FUN_00c9d4f0(FUN_00c9d4f0_obj* p);
+};
+
+// @fnv 0x00c9d4f0
+void FUN_00c9d4f0_cls::FUN_00c9d4f0(FUN_00c9d4f0_obj* p)
+{
+    reinterpret_cast<::LoadObject *>(this)->FUN_00c85f20((::LoadStream *)(p));
+    if (p->m_1e5 != 1)
+    {
+        unsigned char flag;
+        unsigned char* b = vGet(&flag);
+        unsigned short* w = (unsigned short*)(b + 0x1a);
+        *w = _byteswap_ushort(*w);
+    }
+}
+
+struct FUN_00c9d530_arg
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    unsigned char m1E4;
+};
+
+struct FUN_00c9d530_cls
+{
+    virtual void v00()
+    {}
+    virtual void v01()
+    {}
+    virtual void v02()
+    {}
+    virtual void v03()
+    {}
+    virtual void v04()
+    {}
+    virtual void v05()
+    {}
+    virtual void v06()
+    {}
+    virtual void v07()
+    {}
+    virtual void v08()
+    {}
+    virtual void v09()
+    {}
+    virtual void v10()
+    {}
+    virtual void v11()
+    {}
+    virtual void v12()
+    {}
+    virtual void v13()
+    {}
+    virtual void v14()
+    {}
+    virtual void v15()
+    {}
+    virtual void v16()
+    {}
+    virtual void v17()
+    {}
+    virtual void v18()
+    {}
+    virtual void v19()
+    {}
+    virtual void v20()
+    {}
+    virtual void v21()
+    {}
+    virtual void v22()
+    {}
+    virtual void v23()
+    {}
+    virtual void v24()
+    {}
+    virtual void v25()
+    {}
+    virtual void v26()
+    {}
+    virtual void v27()
+    {}
+    virtual void v28()
+    {}
+    virtual void v29()
+    {}
+    virtual void v30()
+    {}
+    virtual void v31()
+    {}
+    virtual void v32()
+    {}
+    virtual void v33()
+    {}
+    virtual void v34()
+    {}
+    virtual void v35()
+    {}
+    virtual void v36()
+    {}
+    virtual void v37()
+    {}
+    virtual void v38()
+    {}
+    virtual void v39()
+    {}
+    virtual void v40()
+    {}
+    virtual void v41()
+    {}
+    virtual void v42()
+    {}
+    virtual void v43()
+    {}
+    virtual void v44()
+    {}
+    virtual unsigned char* GetRef(unsigned char* flag);
+    void FUN_00c9d530(FUN_00c9d530_arg* a1);
+};
+
+// @fnv 0x00c9d530
+void FUN_00c9d530_cls::FUN_00c9d530(FUN_00c9d530_arg* a1)
+{
+    unsigned char flag;
+    unsigned char* r = GetRef(&flag);
+    FUN_00c9d530_arg* a = a1;
+    if (a->m1E4 != 1)
+    {
+        unsigned short* p = (unsigned short*)(r + 0x1a);
+        *p = _byteswap_ushort(*p);
+    }
+    reinterpret_cast<::Obj86060 *>(this)->FUN_00c86060((*(::Stream86060 *)(a)));
+    if (a->m1E4 != 1)
+    {
+        unsigned short* p = (unsigned short*)(r + 0x1a);
+        *p = _byteswap_ushort(*p);
+    }
+}
+
+struct AllocationScope
+{
+    int old;
+    AllocationScope() : old((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+    }
+    ~AllocationScope()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
+    }
+};
+
+struct StringArray
+{
+    void* vfptr;
+    char** data;
+    unsigned short capacity, size, used, growth;
+    void Add(char* value)
+    {
+        unsigned int index = size;
+        if (index >= capacity)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growth);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
+    }
+};
+
+struct Body
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    void* island;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    unsigned char motionType;
+};
+
+struct Object
+{
+    void* vfptr;
+    int unk04;
+    Body* body;
+    bool IsActive()
+    {
+        bool active;
+        if (!this || !body)
+            return false;
+        return *((bool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((body))->FUN_00c9bff0((unsigned char *)(bool *)(&active)))) != 0;
+    }
+    bool IsFixed()
+    {
+        if (!this || !body)
+            return false;
+        return body->motionType == 5;
+    }
+    void* GetIsland()
+    {
+        return this && body ? body->island : 0;
+    }
+    void FUN_00c9d6b0(StringArray* strings);
+};
+
+// @fnv 0x00c9d6b0
+void Object::FUN_00c9d6b0(StringArray* strings)
+{
+    AllocationScope scope;
+    bool active;
+    reinterpret_cast<::bhkWorldObject_c86190 *>(this)->FUN_00c86190((::NiTPrimitiveArray_o2<char *, ::NiTMallocInterface_o2<char *>> *)(strings));
+    strings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268200))));
+    strings->Add(FUN_00a7d370("Active", (this && body) ? (*((bool *)(reinterpret_cast<::FUN_00c9bff0_Class *>((body))->FUN_00c9bff0((unsigned char *)(bool *)(&active)))) ? true : false) : false));
+    strings->Add(FUN_00a7d370("Fixed", (this && body) ? (body->motionType == 5 ? true : false) : false));
+    char buffer[64];
+    _snprintf(buffer, 64, "0x%08X", GetIsland());
+    strings->Add(::fnv_00a7d5e0::FUN_00a7d5e0("SimIsland", buffer));
+}
+
+struct S_00ca09e0_Inner
+{
+    int unk0;
+    int unk4;
+    int unk8;
+    int unkC;
+    float unk10;
+};
+
+struct S_00ca09e0_Shape
+{
+};
+
+struct S_00ca09e0_Target
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55(S_00ca09e0_Shape* s, int f);
+};
+
+struct S_00ca09e0_Str
+{
+    char* p;
+    S_00ca09e0_Str(const char* s)
+    {
+        p = ::NiGlobalStringTable::AddString(s);
+    }
+    ~S_00ca09e0_Str()
+    {
+        if (p != ::DAT_0109b220)
+            InterlockedDecrement((long*)(p - 8));
+    }
+};
+
+extern float DAT_011b15c8;
+
+struct S_00ca09e0_Obj
+{
+    int unk0;
+    int unk4;
+    S_00ca09e0_Inner* unk8;
+    void FUN_00ca09e0(S_00ca09e0_Target* a, int b);
+};
+
+// @fnv 0x00ca09e0
+void S_00ca09e0_Obj::FUN_00ca09e0(S_00ca09e0_Target* a, int b)
+{
+    S_00ca09e0_Shape* s = ((::S_00ca09e0_Shape *)(::FUN_00c56680(((this && unk8) ? unk8->unk10 : DAT_010c72bc) * DAT_011b15c8, 10, 10, (const ::Color4 *)(0))));
+    if (s)
+    {
+        static S_00ca09e0_Str name("bhkSphereShape");
+        ::AssignFixedString((char *)(s), (std::intptr_t)(&name.p), {});
+        a->v55(s, 1);
+    }
+}
+
+struct S00ca0900_Guard
+{
+    int previous;
+    S00ca0900_Guard()
+    {
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+    }
+    ~S00ca0900_Guard()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+    }
+};
+
+struct S00ca0900_Arg
+{
+    int unk00;
+    float unk04;
+};
+
+struct S00ca0900_Shape
+{
+    unsigned int unk00;
+    unsigned short m_usMemSizeAndFlags;
+    static void* operator new(std::size_t size)
+    {
+        Pool* pool = ((Pool*)FUN_00c85750());
+        S00ca0900_Shape* p = (S00ca0900_Shape*)pool->allocator->Allocate(0x20);
+        p->m_usMemSizeAndFlags = 0x20;
+        return p;
+    }
+    static void operator delete(void*);
+    S00ca0900_Shape(float radius);
+};
+
+struct S00ca0900_cls
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void SetShape(S00ca0900_Shape* shape);
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void Finish(S00ca0900_Arg* arg);
+    void FUN_00ca0900(S00ca0900_Arg* arg);
+};
+
+// @fnv 0x00ca0900
+void S00ca0900_cls::FUN_00ca0900(S00ca0900_Arg* arg)
+{
+    S00ca0900_Guard guard;
+    S00ca0900_Shape* shape = new S00ca0900_Shape(arg->unk04);
+    SetShape(shape);
+    reinterpret_cast<::hkReferencedObjectC905 *>(((FUN_00cf2cb0*)shape))->FUN_00c905b0();
+    Finish(arg);
+}
+
+namespace fnv_00cb3b20 {
+extern const char str_010c88a8[];
+extern const char str_010c889c[];
+struct OutputList
+{
+    void* field_00;
+    void* field_04;
+    unsigned short capacity_08, count_0a, field_0c, growth_0e;
+    void append(void* value)
+    {
+        unsigned int index = count_0a;
+        if (index >= capacity_08)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growth_0e);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&value)));
+    }
+};
+struct RotationValue
+{
+    float w, x, y, z;
+};
+struct PositionValue
+{
+    float x, y, z;
+};
+struct ModeScope
+{
+    unsigned int saved;
+    ModeScope() : saved(::currentAllocationContext)
+    {
+        ::currentAllocationContext = 16;
+    }
+    ~ModeScope()
+    {
+        ::currentAllocationContext = saved;
+    }
+};
+struct Target
+{
+    enum
+    {
+        RotationOffset = 0x20,
+        PositionOffset = 0x30
+    };
+    void FUN_00cb3b20(OutputList*);
+};
+// @fnv 0x00cb3b20
+void Target::FUN_00cb3b20(OutputList* out)
+{
+    ModeScope scope;
+    reinterpret_cast<::MaterialInspector *>(this)->FUN_00c8f870((::InspectorList *)(out));
+    out->append(((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012683c8)))))));
+    const float* rotation = reinterpret_cast<const float*>(reinterpret_cast<const char*>(this) + RotationOffset);
+    RotationValue value;
+    value.x = rotation[0];
+    value.y = rotation[1];
+    value.z = rotation[2];
+    value.w = rotation[3];
+    PositionValue position;
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&position)), (*(const ::hkVector4 *)(reinterpret_cast<const char*>(this) + PositionOffset)));
+    out->append(((void *)(reinterpret_cast<::FUN_00a6e190_shell *>(&(value))->FUN_00a6e190(str_010c88a8))));
+    out->append(((void *)(reinterpret_cast<::NiPoint3 *>(&(position))->FUN_00a59af0(str_010c889c))));
+}
+}
+
+// namespace fnv_00cb3b20
+
+struct B00c9fde0
+{
+    void* m_pVtable;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    B00c9fde0();
+};
+
+// @fnv 0x00c9fe30
+B00c9fde0* __cdecl FUN_00c9fe30()
+{
+    return new B00c9fde0;
+}
+
+struct S00cb39d0_S_00aa3e40
+{
+};
+
+struct S00cb39d0_S_00cb3860
+{
+    S00cb39d0_S_00cb3860();
+};
+
+void* __cdecl operator new(std::size_t size, S00cb39d0_S_00aa3e40& manager, unsigned int allocationSize)
+{
+    unsigned char* ptr = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&(manager))->FUN_00aa3e40(allocationSize));
+    std::uintptr_t address = reinterpret_cast<std::uintptr_t>(ptr);
+    unsigned char alignment = static_cast<unsigned char>(0x10 - (address & 0x0f));
+    ptr += alignment;
+    ptr[-1] = alignment;
+    return ptr;
+}
+
+void __cdecl operator delete(void* ptr, S00cb39d0_S_00aa3e40& manager, unsigned int allocationSize)
+{}
+
+// @fnv 0x00cb39d0
+void __cdecl FUN_00cb39d0(void* arg0, void* arg1, void* arg2, void* arg3)
+{
+    new (*(S00cb39d0_S_00aa3e40*)&(*reinterpret_cast<char *>(&::g_memoryManager)), 0x50) S00cb39d0_S_00cb3860();
+}
+
+struct ShapeViewerFields_o2
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int collisionFlags;
+
+    unsigned int Layer() const
+    {
+        return collisionFlags & 0x1f;
+    }
+    void FUN_00c851c0(BCA05B0StringArray* output);
+};
+
+// @fnv 0x00ca05b0
+void FUN_00ca05b0_cls::FUN_00ca05b0(BCA05B0StringArray* pkArray)
+{
+    BCA05B0AllocTagScope kScope(0x10);
+    reinterpret_cast<::ShapeViewerFields_o2 *>(this)->FUN_00c851c0(pkArray);
+    char* pcName = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268278)));
+    pkArray->Add(pcName);
+}
+
+extern const char DAT_010c59cc[];
+
+// @fnv 0x00c851c0
+void ShapeViewerFields_o2::FUN_00c851c0(BCA05B0StringArray* output)
+{
+    TlsGuard_ca0090 context;
+    DebugStrArray* strings = reinterpret_cast<DebugStrArray*>(output);
+    reinterpret_cast<::FUN_00c878c0_cls *>((reinterpret_cast<bhkBase_c878c0*>(this)))->FUN_00c878c0((::BC878C0StringArray *)(strings));
+    strings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268100))));
+    strings->Add(::FUN_00a7d4d0(DAT_010c59cc, reinterpret_cast<ShapeViewerFields_o2*>(this)->Layer()));
+}
+
+struct Q00c9fde0
+{
+    void* m_pVtable;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    Q00c9fde0();
+};
+
+struct C9FFD0Owner
+{
+    virtual void vf00();
+    virtual void vf01();
+    virtual void vf02();
+    virtual void vf03();
+    virtual void vf04();
+    virtual void vf05();
+    virtual void vf06();
+    virtual void vf07();
+    virtual void vf08();
+    virtual void vf09();
+    virtual void vf10();
+    virtual void vf11();
+    virtual void vf12();
+    virtual void vf13();
+    virtual void vf14();
+    virtual void vf15();
+    virtual void vf16();
+    virtual void vf17();
+    virtual void vf18();
+    virtual void vf19();
+    virtual void vf20();
+    virtual void vf21();
+    virtual void vf22();
+    virtual void vf23();
+    virtual void vf24();
+    virtual void vf25();
+    virtual void vf26();
+    virtual void vf27();
+    virtual void vf28();
+    virtual void vf29();
+    virtual void vf30();
+    virtual void vf31();
+    virtual void vf32();
+    virtual void vf33();
+    virtual void vf34();
+    virtual void vf35();
+    virtual void vf36();
+    virtual void vf37();
+    virtual void vf38();
+    virtual void vf39();
+    virtual void vf40();
+    virtual void vf41();
+    virtual void vf42();
+    virtual void vf43();
+    virtual void vf44();
+    virtual void vf45();
+    virtual void vf46();
+    virtual void vf47();
+    virtual void vf48();
+    virtual void vf49(Q00c9fde0* object, unsigned int argument);
+    Q00c9fde0* FUN_00c9ffd0(unsigned int argument);
+};
+
+// @fnv 0x00c9ffd0
+Q00c9fde0* C9FFD0Owner::FUN_00c9ffd0(unsigned int argument)
+{
+    TlsGuard_t guard;
+    FUN_00c876f0();
+    Q00c9fde0* object = new Q00c9fde0;
+    vf49(object, argument);
+    FUN_00c87700();
+    return object;
+}
+
+void* FUN_0056a8c0();
+
+struct FUN_00c9c240_holder_o2_od_noo2
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    void FUN_00c9c240();
+    void FUN_00c9d600();
+};
+
+struct bhkRefObject_o2_od_noo2
+{
+    void* vtbl;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    unsigned char f14;
+};
+
+struct FUN_0056e2d0_o2_od_noo2
+{
+    virtual ~FUN_0056e2d0_o2_od_noo2();
+};
+
+extern const void* vftable_FUN_0056e2d0;
+
+struct FUN_00c6d190_o2_od_noo2 : bhkRefObject_o2_od_noo2
+{
+    FUN_00c6d190_o2_od_noo2();
+};
+
+struct ProjectileListener_o2_od_noo2
+{
+    void* vfptr;
+    int m4;
+    int m8;
+    void FUN_00c876a0();
+};
+
+struct hkReferencedObject_o2_od_noo2
+{
+};
+
+struct FUN_00c9d4c0_holder_o2_od_noo2
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    void FUN_00c9d4c0();
+    void FUN_00c9d600();
+};
+
+struct CollisionEntity;
+
+struct CallRet_o2_od_noo2
+{
+public:
+    void FUN_00c946e0(::CollisionEntity *, int, int);
+};
+
+struct Holder00c9d5d0_o2_od_noo2
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+    virtual CallRet_o2_od_noo2* GetRet();
+    void* unk4;
+    void* unk8;
+    void FUN_00c9d5d0();
+};
+
+struct FUN_00c876a0_holder_o2_od_noo2
+{
+    virtual ~FUN_00c876a0_holder_o2_od_noo2();
+};
+
+struct bhkWorldObject_o2_od_noo2
+{
+    void FUN_00c85790_o2_od_noo2();
+};
+
+struct FUN_00c9f3b0_o2_od_noo2 : FUN_00c876a0_holder_o2_od_noo2
+{
+    virtual ~FUN_00c9f3b0_o2_od_noo2();
+};
+
+struct WorldHolder_o2_od_noo2
+{
+};
+
+struct PhantomBase_o2_od_noo2
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+};
+
+struct bhkAabbPhantom_o2_od_noo2 : PhantomBase_o2_od_noo2
+{
+    virtual WorldHolder_o2_od_noo2* GetWorld();
+    int m4;
+    void* m8;
+    void FUN_00c9f460();
+};
+
+struct InnerS_o2_od_noo2
+{
+    char pad[16];
+    float f10;
+};
+
+struct MyObj_o2_od_noo2
+{
+    char pad[8];
+    InnerS_o2_od_noo2* p8;
+};
+
+struct OutS_o2_od_noo2
+{
+    int i0;
+    float f4;
+};
+
+struct ArgB_o2_od_noo2
+{
+    char _0[16];
+    float f10;
+};
+
+struct RetV_o2_od_noo2
+{
+    char _0[4];
+    float f4;
+};
+
+struct bhkSphereShape_o2_od_noo2
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+    virtual void f38();
+    virtual void f39();
+    virtual void f40();
+    virtual void f41();
+    virtual void f42();
+    virtual void f43();
+    virtual void f44();
+    virtual RetV_o2_od_noo2* Target(char* p);
+    void FUN_00ca0740(void* a, ArgB_o2_od_noo2* b);
+};
+
+struct S_00cb3070_o2_od_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v43b();
+    virtual void v44(int*);
+    void FUN_00cb3070(int);
+};
+
+struct MM_o2_od_noo2
+{
+    void* FUN_00cb30a0(unsigned int);
+};
+
+struct FUN_00c9d620_holder_o2_od_noo2 : FUN_00c876a0_holder_o2_od_noo2
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    FUN_00c9d620_holder_o2_od_noo2();
+    ~FUN_00c9d620_holder_o2_od_noo2();
+};
+
+struct FUN_0056e780_Class_o2_od_noo2
+{
+    virtual ~FUN_0056e780_Class_o2_od_noo2();
+    void FUN_00ca0540_o2_od_noo2();
+};
+
+struct FUN_00c9fb00_o2_od_noo2 : FUN_0056e780_Class_o2_od_noo2
+{
+    virtual ~FUN_00c9fb00_o2_od_noo2();
+};
+
+extern void* DAT_0103093c;
+
+struct FUN_00c9fde0_o2_od_noo2 : bhkRefObject_o2_od_noo2
+{
+    FUN_00c9fde0_o2_od_noo2();
+};
+
+struct A51BF0Base_o2_od_noo2
+{
+};
+
+extern int DAT_01030864;
+
+struct S_00cb79d0_Base_o2_od_noo2
+{
+    void* vtbl;
+    char pad[8];
+    int f0c;
+    int f10;
+    unsigned char f14;
+
+    S_00cb79d0_Base_o2_od_noo2();
+};
+
+struct Object_00c9f5a0_o2_od_noo2 : S_00cb79d0_Base_o2_od_noo2, A51BF0Base_o2_od_noo2
+{
+    Object_00c9f5a0_o2_od_noo2() : S_00cb79d0_Base_o2_od_noo2()
+    {
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_01030394));
+        f0c = 0;
+        f10 = 0;
+        ++DAT_0126810c;
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0103078c));
+        ++DAT_01268238;
+        vtbl = (void*)&DAT_01030864;
+        ++DAT_01268244;
+        f14 = 0;
+    }
+};
+
+struct FUN_00c877b0_o2_od_noo2
+{
+    virtual ~FUN_00c877b0_o2_od_noo2();
+};
+
+struct FUN_00c84c50_o2_od_noo2 : FUN_00c877b0_o2_od_noo2
+{
+    virtual ~FUN_00c84c50_o2_od_noo2();
+};
+
+class FUN_00c85790_base_o2_od_noo2
+{
+  public:
+    virtual void unk00();
+    ~FUN_00c85790_base_o2_od_noo2();
+    int unk04;
+};
+
+class FUN_00c85790_o2_od_noo2 : public FUN_00c85790_base_o2_od_noo2
+{
+  public:
+    virtual ~FUN_00c85790_o2_od_noo2();
+    void unk08();
+};
+
+struct CollisionObject;
+
+struct CollisionResult_o2_od_noo2
+{
+    unsigned short kind;
+    unsigned short enabled;
+    struct CollisionRecord_o2_od_noo2* record;
+    unsigned int data08;
+    unsigned int data0c;
+    unsigned int state;
+};
+
+struct CollisionValue_o2_od_noo2
+{
+    unsigned int data00;
+    unsigned int data04;
+    CollisionRecord_o2_od_noo2* record;
+};
+
+struct CollisionRecord_o2_od_noo2
+{
+    unsigned int data00;
+    unsigned int data04;
+    struct CollisionHandler_o2_od_noo2* handler;
+};
+
+struct CollisionHandler_o2_od_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual CollisionValue_o2_od_noo2* Find(std::intptr_t target);
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual bool IsAllowed(std::intptr_t target);
+};
+
+struct ScopedMode_o2_od_noo2
+{
+    unsigned int oldValue;
+    ScopedMode_o2_od_noo2() : oldValue(::currentAllocationContext)
+    {
+        ::currentAllocationContext = 0x10;
+    }
+    ~ScopedMode_o2_od_noo2()
+    {
+        ::currentAllocationContext = oldValue;
+    }
+};
+
+struct WorldObjectView_o2_od_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual CollisionResult_o2_od_noo2* GetResult(unsigned char* used);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
+};
+
+struct NiRTTI_o2_od_noo2
+{
+    const char* m_pcName;
+};
+
+struct NiObject_o2_od_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual const NiRTTI_o2_od_noo2* GetRTTI();
+};
+
+template <class T> struct NiTMallocInterface_o2_od_noo2
+{
+};
+
+template <class T, class A> struct NiTPrimitiveArray_o2_od_noo2
+{
+    void* vtbl;
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, T& element);
+    unsigned int SetAtGrow(unsigned int uiIndex, T& element)
+    {
+        if (uiIndex >= m_usMaxSize)
+            SetSize(uiIndex + m_usGrowBy);
+        SetAt(uiIndex, element);
+        return uiIndex;
+    }
+    __forceinline unsigned int Add(T element)
+    {
+        return SetAtGrow(m_usSize, element);
+    }
+};
+
+typedef NiTPrimitiveArray_o2_od_noo2<char*, NiTMallocInterface_o2_od_noo2<char*> > DebugStrArray_o2_od_noo2;
+
+struct hkShapeStub_o2_od_noo2
+{
+    void* vtbl;
+    int unk04;
+    NiObject_o2_od_noo2* userData;
+};
+
+struct hkCdBodyStub_o2_od_noo2
+{
+    hkShapeStub_o2_od_noo2* m_pCollisionShape;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+};
+
+struct hkObjHead_o2_od_noo2
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct hkWorldObjStub_o2_od_noo2 : hkObjHead_o2_od_noo2, hkCdBodyStub_o2_od_noo2
+{
+};
+
+struct DebugHelper_c849b0_o2_od_noo2
+{
+    int value;
+    DebugHelper_c849b0_o2_od_noo2(int v) : value(v)
+    {}
+};
+
+struct HeapContextGuard_o2_od_noo2
+{
+    int saved;
+    HeapContextGuard_o2_od_noo2(int ctx)
+    {
+        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+    }
+    ~HeapContextGuard_o2_od_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+    }
+};
+
+struct bhkBase_c878c0_o2_od_noo2
+{
+    void* vtbl;
+    int unk04;
+    hkWorldObjStub_o2_od_noo2* m_pObject;
+    hkCdBodyStub_o2_od_noo2* GetBody()
+    {
+        return m_pObject;
+    }
+};
+
+struct bhkWorldObject_c86190_o2_od_noo2 : bhkBase_c878c0_o2_od_noo2
+{
+    void FUN_00c86190(DebugStrArray_o2_od_noo2* arr);
+};
+
+class FUN_00c8bed0_base_cls_o2_od_noo2
+{
+  public:
+    virtual void unk00();
+    ~FUN_00c8bed0_base_cls_o2_od_noo2();
+    int unk04;
+};
+
+class FUN_00c8bed0_cls_o2_od_noo2 : public FUN_00c8bed0_base_cls_o2_od_noo2
+{
+  public:
+    virtual ~FUN_00c8bed0_cls_o2_od_noo2();
+    void unk08();
+};
+
+struct FUN_00c9eb30_o2_od_noo2 : FUN_00c9f3b0_o2_od_noo2
+{
+    virtual ~FUN_00c9eb30_o2_od_noo2();
+};
+
+struct TlsBlock_t_o2_od_noo2
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int m_2b4;
+};
+
+
+
+void* __cdecl FUN_00aa13e0(unsigned int size);
+
+struct TlsGuard_t_o2_od_noo2
+{
+    int m_saved;
+
+    TlsGuard_t_o2_od_noo2()
+    {
+        m_saved = (*(TlsBlock_t_o2_od_noo2*)&g_tlsBlock).m_2b4;
+        (*(TlsBlock_t_o2_od_noo2*)&g_tlsBlock).m_2b4 = 0x10;
+    }
+
+    ~TlsGuard_t_o2_od_noo2()
+    {
+        (*(TlsBlock_t_o2_od_noo2*)&g_tlsBlock).m_2b4 = m_saved;
+    }
+};
+
+struct FUN_00c9efa0_cls_o2_od_noo2
+{
+    bhkRefObject_o2_od_noo2* FUN_00c9efa0(unsigned int flag);
+};
+
+struct S_00c9f1e0_Shape_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int type;
+};
+
+struct S_00c9f1e0_Elem_o2_od_noo2
+{
+    S_00c9f1e0_Shape_o2_od_noo2* shape;
+};
+
+struct S_00c9f1e0_Base1_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+struct S_00c9f1e0_Base2_o2_od_noo2
+{
+    S_00c9f1e0_Shape_o2_od_noo2* shape;
+};
+
+struct S_00c9f1e0_Range_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int begin;
+    int end;
+};
+
+struct S_00c9f1e0_World_o2_od_noo2;
+
+typedef void(__cdecl* S_00c9f1e0_Fn_o2_od_noo2)(S_00c9f1e0_Base2_o2_od_noo2*, S_00c9f1e0_Elem_o2_od_noo2*, S_00c9f1e0_World_o2_od_noo2*, S_00c9f1e0_Range_o2_od_noo2*);
+
+struct S_00c9f1e0_Entry_o2_od_noo2
+{
+    S_00c9f1e0_Fn_o2_od_noo2 fn;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+};
+
+struct S_00c9f1e0_Disp_o2_od_noo2
+{
+    unsigned char types[77][32];
+    int unk9a0;
+    int unk9a4;
+    S_00c9f1e0_Entry_o2_od_noo2 funcs[32];
+};
+
+struct S_00c9f1e0_World_o2_od_noo2
+{
+    S_00c9f1e0_Disp_o2_od_noo2* disp;
+};
+
+struct S_00c9f1e0_Holder_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    S_00c9f1e0_World_o2_od_noo2* world;
+};
+
+struct S_00c9f1e0_Ctx_o2_od_noo2 : S_00c9f1e0_Base1_o2_od_noo2, S_00c9f1e0_Base2_o2_od_noo2
+{
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    S_00c9f1e0_Elem_o2_od_noo2** items;
+    int count;
+};
+
+struct S_00c9f1e0_Obj_o2_od_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual S_00c9f1e0_Holder_o2_od_noo2* GetWorld();
+    int unk04;
+    S_00c9f1e0_Ctx_o2_od_noo2* ctx;
+    void FUN_00c9f1e0(S_00c9f1e0_Range_o2_od_noo2* r);
+};
+
+class C9F270MemContext_o2_od_noo2
+{
+  public:
+    C9F270MemContext_o2_od_noo2(int aiMemoryContext)
+    {
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~C9F270MemContext_o2_od_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+    }
+
+    int m_iPrevious;
+};
+
+class C9F270StrArray_o2_od_noo2
+{
+  public:
+    void SetSize(unsigned int uiSize);
+    void SetAt(unsigned int uiIndex, const char* const& pcValue);
+
+    unsigned int Add(const char* const& pcValue)
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcValue));
+        return uiIndex;
+    }
+
+    void* m_ppVirtualMethodTable;
+    const char** m_ppcBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class C9F270Object_o2_od_noo2
+{
+  public:
+    void FUN_00c9f270(C9F270StrArray_o2_od_noo2* pkStrings);
+};
+
+
+
+struct ReleaseObject_o2_od_noo2
+{
+};
+
+struct FUN_00c9f320_object_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    void FUN_00c9f320(char release);
+};
+
+struct TlsGuard_o2_od_noo2
+{
+    int previous;
+    TlsGuard_o2_od_noo2()
+    {
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+    }
+    ~TlsGuard_o2_od_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+    }
+};
+
+struct PhysicsAction_o2_od_noo2
+{
+};
+
+struct LinkedObject_o2_od_noo2
+{
+    PhysicsAction_o2_od_noo2* GetAction() const
+    {
+        return *reinterpret_cast<PhysicsAction_o2_od_noo2* const*>(reinterpret_cast<const char*>(this) + 0x350);
+    }
+};
+
+struct FUN_00c9f420_Class_o2_od_noo2
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void slot4();
+    virtual void slot5();
+    virtual void slot6();
+    virtual void slot7();
+    virtual void slot8();
+    virtual void slot9();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual LinkedObject_o2_od_noo2* ResolveLinkedObject();
+    int unk4;
+    void* handle;
+    bool FUN_00c9f420();
+};
+
+struct ProjectileCreator_o2_od_noo2
+{
+    Object_00c9f5a0_o2_od_noo2* FUN_00c9f640(int mode);
+};
+
+struct TLSBlock_o2_od_noo2
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int value;
+};
+
+
+
+struct ThreadFlagGuard_o2_od_noo2
+{
+    int previous;
+    ThreadFlagGuard_o2_od_noo2()
+    {
+        previous = (*reinterpret_cast<::TLSBlock_o2_od_noo2 *>(&::g_tlsBlock)).value;
+        (*reinterpret_cast<::TLSBlock_o2_od_noo2 *>(&::g_tlsBlock)).value = 16;
+    }
+    ~ThreadFlagGuard_o2_od_noo2()
+    {
+        (*reinterpret_cast<::TLSBlock_o2_od_noo2 *>(&::g_tlsBlock)).value = previous;
+    }
+};
+
+struct Allocator_o2_od_noo2
+{
+    virtual void unused();
+    virtual void* Allocate(unsigned int);
+};
+
+struct Pool_o2_od_noo2
+{
+    int unk0, unk4, unk8, unkc;
+    Allocator_o2_od_noo2* allocator;
+};
+
+
+
+struct FUN_00cf2cb0_o2_od_noo2
+{
+    int unk0;
+    unsigned short length;
+    static void* operator new(std::size_t count)
+    {
+        Pool_o2_od_noo2* pool = ((Pool_o2_od_noo2*)FUN_00c85750());
+        FUN_00cf2cb0_o2_od_noo2* p = (FUN_00cf2cb0_o2_od_noo2*)pool->allocator->Allocate(224);
+        p->length = 224;
+        return p;
+    }
+    static void operator delete(void*);
+    FUN_00cf2cb0_o2_od_noo2(void* contents, int tag);
+};
+
+struct Input_o2_od_noo2
+{
+    int tag;
+    int unk4, unk8, unkc, unk10, unk14, unk18, unk1c;
+    int payload;
+};
+
+struct Receiver_o2_od_noo2
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void dispatch(void*);
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void finish(void*);
+    void FUN_00c9f890(Input_o2_od_noo2* input);
+};
+
+struct BC9F970AllocTagScope_o2_od_noo2
+{
+    int m_iSaved;
+
+    BC9F970AllocTagScope_o2_od_noo2(int aiAllocationTag)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+    }
+    ~BC9F970AllocTagScope_o2_od_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+
+class BC9F970StringArray_o2_od_noo2
+{
+  public:
+    virtual ~BC9F970StringArray_o2_od_noo2();
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, char* const& pcElement);
+
+    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
+        return uiIndex;
+    }
+    unsigned int Add(char* const& pcElement)
+    {
+        return SetAtGrow(m_usSize, pcElement);
+    }
+
+    char** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class FUN_00c9f970_cls_o2_od_noo2
+{
+  public:
+    void FUN_00c9f480(BC9F970StringArray_o2_od_noo2* pkArray);
+    void FUN_00c9f970(BC9F970StringArray_o2_od_noo2* pkArray);
+};
+
+struct MemContextTLS_o2_od_noo2
+{
+    int unk2b4;
+};
+
+struct MemContextGuard_o2_od_noo2
+{
+    int iOld;
+    MemContextGuard_o2_od_noo2()
+    {
+        iOld = (*reinterpret_cast<::MemContextTLS_o2_od_noo2 *>(&::currentAllocationContext)).unk2b4;
+        (*reinterpret_cast<::MemContextTLS_o2_od_noo2 *>(&::currentAllocationContext)).unk2b4 = 0x10;
+    }
+    ~MemContextGuard_o2_od_noo2()
+    {
+        (*reinterpret_cast<::MemContextTLS_o2_od_noo2 *>(&::currentAllocationContext)).unk2b4 = iOld;
+    }
+};
+
+struct ViewerStringArray_o2_od_noo2
+{
+    char** m_pBase;
+    int unk04;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, char* const& element);
+    unsigned int Add(char* const& element)
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
+        return uiIndex;
+    }
+};
+
+struct ViewerRTTI_o2_od_noo2
+{
+    const char* m_pcName;
+};
+
+extern float DAT_011b15c0;
+
+struct SphereHkShape_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    float fRadius;
+};
+
+struct SphereShapeBase_o2_od_noo2
+{
+    void* vtbl;
+    int unk04;
+};
+
+struct SphereShape_o2_od_noo2 : SphereShapeBase_o2_od_noo2
+{
+    SphereHkShape_o2_od_noo2* pHkShape;
+    float GetRadius()
+    {
+        return (this && pHkShape) ? pHkShape->fRadius : DAT_010c72bc;
+    }
+    void FUN_00c9fc50(ViewerStringArray_o2_od_noo2* apViewerStrings);
+};
+
+class FUN_00c9fd70_cls_o2_od_noo2 : public FUN_00c9fb00_o2_od_noo2
+{
+  public:
+    virtual ~FUN_00c9fd70_cls_o2_od_noo2();
+};
+
+struct SphereScaleFields_o2_od_noo2
+{
+    unsigned int m_00, m_04, m_08, m_0c;
+    float m_10, m_14, m_18, m_1c;
+};
+
+struct SphereScalingMethod_o2_od_noo2 : bhkSphereShape_o2_od_noo2
+{
+    void FUN_00c9fea0(void* first, ArgB_o2_od_noo2* second);
+};
+
+struct Tls_ca0090_o2_od_noo2
+{
+    unsigned int unk0000;
+    unsigned int unk0004;
+    unsigned int unk0008;
+    unsigned int unk000C;
+    unsigned int unk0010;
+    unsigned int unk0014;
+    unsigned int unk0018;
+    unsigned int unk001C;
+    unsigned int unk0020;
+    unsigned int unk0024;
+    unsigned int unk0028;
+    unsigned int unk002C;
+    unsigned int unk0030;
+    unsigned int unk0034;
+    unsigned int unk0038;
+    unsigned int unk003C;
+    unsigned int unk0040;
+    unsigned int unk0044;
+    unsigned int unk0048;
+    unsigned int unk004C;
+    unsigned int unk0050;
+    unsigned int unk0054;
+    unsigned int unk0058;
+    unsigned int unk005C;
+    unsigned int unk0060;
+    unsigned int unk0064;
+    unsigned int unk0068;
+    unsigned int unk006C;
+    unsigned int unk0070;
+    unsigned int unk0074;
+    unsigned int unk0078;
+    unsigned int unk007C;
+    unsigned int unk0080;
+    unsigned int unk0084;
+    unsigned int unk0088;
+    unsigned int unk008C;
+    unsigned int unk0090;
+    unsigned int unk0094;
+    unsigned int unk0098;
+    unsigned int unk009C;
+    unsigned int unk00A0;
+    unsigned int unk00A4;
+    unsigned int unk00A8;
+    unsigned int unk00AC;
+    unsigned int unk00B0;
+    unsigned int unk00B4;
+    unsigned int unk00B8;
+    unsigned int unk00BC;
+    unsigned int unk00C0;
+    unsigned int unk00C4;
+    unsigned int unk00C8;
+    unsigned int unk00CC;
+    unsigned int unk00D0;
+    unsigned int unk00D4;
+    unsigned int unk00D8;
+    unsigned int unk00DC;
+    unsigned int unk00E0;
+    unsigned int unk00E4;
+    unsigned int unk00E8;
+    unsigned int unk00EC;
+    unsigned int unk00F0;
+    unsigned int unk00F4;
+    unsigned int unk00F8;
+    unsigned int unk00FC;
+    unsigned int unk0100;
+    unsigned int unk0104;
+    unsigned int unk0108;
+    unsigned int unk010C;
+    unsigned int unk0110;
+    unsigned int unk0114;
+    unsigned int unk0118;
+    unsigned int unk011C;
+    unsigned int unk0120;
+    unsigned int unk0124;
+    unsigned int unk0128;
+    unsigned int unk012C;
+    unsigned int unk0130;
+    unsigned int unk0134;
+    unsigned int unk0138;
+    unsigned int unk013C;
+    unsigned int unk0140;
+    unsigned int unk0144;
+    unsigned int unk0148;
+    unsigned int unk014C;
+    unsigned int unk0150;
+    unsigned int unk0154;
+    unsigned int unk0158;
+    unsigned int unk015C;
+    unsigned int unk0160;
+    unsigned int unk0164;
+    unsigned int unk0168;
+    unsigned int unk016C;
+    unsigned int unk0170;
+    unsigned int unk0174;
+    unsigned int unk0178;
+    unsigned int unk017C;
+    unsigned int unk0180;
+    unsigned int unk0184;
+    unsigned int unk0188;
+    unsigned int unk018C;
+    unsigned int unk0190;
+    unsigned int unk0194;
+    unsigned int unk0198;
+    unsigned int unk019C;
+    unsigned int unk01A0;
+    unsigned int unk01A4;
+    unsigned int unk01A8;
+    unsigned int unk01AC;
+    unsigned int unk01B0;
+    unsigned int unk01B4;
+    unsigned int unk01B8;
+    unsigned int unk01BC;
+    unsigned int unk01C0;
+    unsigned int unk01C4;
+    unsigned int unk01C8;
+    unsigned int unk01CC;
+    unsigned int unk01D0;
+    unsigned int unk01D4;
+    unsigned int unk01D8;
+    unsigned int unk01DC;
+    unsigned int unk01E0;
+    unsigned int unk01E4;
+    unsigned int unk01E8;
+    unsigned int unk01EC;
+    unsigned int unk01F0;
+    unsigned int unk01F4;
+    unsigned int unk01F8;
+    unsigned int unk01FC;
+    unsigned int unk0200;
+    unsigned int unk0204;
+    unsigned int unk0208;
+    unsigned int unk020C;
+    unsigned int unk0210;
+    unsigned int unk0214;
+    unsigned int unk0218;
+    unsigned int unk021C;
+    unsigned int unk0220;
+    unsigned int unk0224;
+    unsigned int unk0228;
+    unsigned int unk022C;
+    unsigned int unk0230;
+    unsigned int unk0234;
+    unsigned int unk0238;
+    unsigned int unk023C;
+    unsigned int unk0240;
+    unsigned int unk0244;
+    unsigned int unk0248;
+    unsigned int unk024C;
+    unsigned int unk0250;
+    unsigned int unk0254;
+    unsigned int unk0258;
+    unsigned int unk025C;
+    unsigned int unk0260;
+    unsigned int unk0264;
+    unsigned int unk0268;
+    unsigned int unk026C;
+    unsigned int unk0270;
+    unsigned int unk0274;
+    unsigned int unk0278;
+    unsigned int unk027C;
+    unsigned int unk0280;
+    unsigned int unk0284;
+    unsigned int unk0288;
+    unsigned int unk028C;
+    unsigned int unk0290;
+    unsigned int unk0294;
+    unsigned int unk0298;
+    unsigned int unk029C;
+    unsigned int unk02A0;
+    unsigned int unk02A4;
+    unsigned int unk02A8;
+    unsigned int unk02AC;
+    unsigned int unk02B0;
+    unsigned int m_2b4;
+};
+
+
+
+struct TlsGuard_ca0090_o2_od_noo2
+{
+    unsigned int m_saved;
+    TlsGuard_ca0090_o2_od_noo2()
+    {
+        m_saved = (*reinterpret_cast<::Tls_ca0090_o2_od_noo2 *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::Tls_ca0090_o2_od_noo2 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+    }
+    ~TlsGuard_ca0090_o2_od_noo2()
+    {
+        (*reinterpret_cast<::Tls_ca0090_o2_od_noo2 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+    }
+};
+
+struct MemMgr_ca0090_o2_od_noo2
+{
+};
+
+struct Sub_ca0090_o2_od_noo2
+{
+};
+
+struct FUN_00ca0090_cls_o2_od_noo2
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    void* m08;
+    void* m0C;
+    void* FUN_00ca0090(unsigned char* out);
+};
+
+class CA0540Base_o2_od_noo2
+{
+  public:
+    virtual ~CA0540Base_o2_od_noo2();
+
+};
+
+class FUN_00ca0540_o2_od_noo2 : public CA0540Base_o2_od_noo2
+{
+  public:
+    virtual ~FUN_00ca0540_o2_od_noo2();
+
+};
+
+struct BCA05B0AllocTagScope_o2_od_noo2
+{
+    int m_iSaved;
+
+    BCA05B0AllocTagScope_o2_od_noo2(int aiAllocationTag)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+    }
+    ~BCA05B0AllocTagScope_o2_od_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+
+class BCA05B0StringArray_o2_od_noo2
+{
+  public:
+    virtual ~BCA05B0StringArray_o2_od_noo2();
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, char* const& pcElement);
+
+    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
+        return uiIndex;
+    }
+    unsigned int Add(char* const& pcElement)
+    {
+        return SetAtGrow(m_usSize, pcElement);
+    }
+
+    char** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class FUN_00ca05b0_cls_o2_od_noo2
+{
+  public:
+    void FUN_00ca05b0(BCA05B0StringArray_o2_od_noo2* pkArray);
+};
+
+class FUN_00ca0660_base_o2_od_noo2
+{
+  public:
+    virtual void unk00();
+    ~FUN_00ca0660_base_o2_od_noo2();
+    int unk04;
+};
+
+class FUN_00ca0660_o2_od_noo2 : public FUN_00ca0660_base_o2_od_noo2
+{
+  public:
+    virtual ~FUN_00ca0660_o2_od_noo2();
+    void unk08();
+};
+
+class CA0840Heap_o2_od_noo2
+{
+  public:
+    void* Allocate(unsigned int uiSize);
+};
+
+class CA0840MemContext_o2_od_noo2
+{
+  public:
+    CA0840MemContext_o2_od_noo2(int aiMemoryContext)
+    {
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~CA0840MemContext_o2_od_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+    }
+
+    int m_iPrevious;
+};
+
+class CA0840Output_o2_od_noo2
+{
+  public:
+    CA0840Output_o2_od_noo2() : m_pkTarget(0), m_fValue(DAT_010c72bc)
+    {}
+
+
+    void* m_pkTarget;
+    float m_fValue;
+};
+
+class CA0840Constraint_o2_od_noo2
+{
+  public:
+    int unk00;
+    int unk04;
+    void* m_pkWorld;
+    CA0840Output_o2_od_noo2* m_pkOutput;
+
+    CA0840Output_o2_od_noo2* FUN_00ca0840(bool* pbCreated);
+};
+
+class CAACF0Base_o2_od_noo2
+{
+  public:
+    virtual ~CAACF0Base_o2_od_noo2();
+
+};
+
+class FUN_00caacf0_o2_od_noo2 : public CAACF0Base_o2_od_noo2
+{
+  public:
+    virtual ~FUN_00caacf0_o2_od_noo2();
+
+};
+
+void* FUN_00cb3060();
+
+class CC2350Base_o2_od_noo2
+{
+  public:
+    virtual ~CC2350Base_o2_od_noo2();
+};
+
+class FUN_00cc2350_o2_od_noo2 : public CC2350Base_o2_od_noo2
+{
+  public:
+
+    virtual ~FUN_00cc2350_o2_od_noo2();
+};
+
+struct FUN_00cca8d0_o2_od_noo2 : FUN_00c9fb00_o2_od_noo2
+{
+    virtual ~FUN_00cca8d0_o2_od_noo2();
+};
+
+struct FUN_00ccd080_o2_od_noo2 : FUN_00c9fb00_o2_od_noo2
+{
+    int unk04;
+    virtual ~FUN_00ccd080_o2_od_noo2();
+};
+
+struct FUN_00ccdbc0_o2_od_noo2 : FUN_00c9fb00_o2_od_noo2
+{
+    virtual ~FUN_00ccdbc0_o2_od_noo2();
+};
+
+class CCE900Base_o2_od_noo2
+{
+  public:
+    virtual ~CCE900Base_o2_od_noo2();
+};
+
+class FUN_00cce900_o2_od_noo2 : public CCE900Base_o2_od_noo2
+{
+  public:
+
+    virtual ~FUN_00cce900_o2_od_noo2();
+};
+
+struct FUN_00ccf4f0_cls_o2_od_noo2 : FUN_00c9fb00_o2_od_noo2
+{
+    int unk04;
+    virtual ~FUN_00ccf4f0_cls_o2_od_noo2();
+};
+
+class FUN_00ccf740_cls_o2_od_noo2 : public FUN_00c9fb00_o2_od_noo2
+{
+  public:
+    virtual ~FUN_00ccf740_cls_o2_od_noo2();
+};
+
+class NiObjectC9E_o2_od_noo2
+{
+  public:
+
+    virtual ~NiObjectC9E_o2_od_noo2();
+};
+
+class NiControllerC9E_o2_od_noo2 : public NiObjectC9E_o2_od_noo2
+{
+  public:
+    NiControllerC9E_o2_od_noo2();
+
+    static NiObjectC9E_o2_od_noo2* FUN_00c9ef30();
+
+    unsigned int m_uiRefCount;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+};
+
+struct HkResult_c6b_o2_od_noo2
+{
+    int m_00;
+    int m_04;
+    HkResult_c6b_o2_od_noo2();
+};
+
+struct HkFlags_c6b_o2_od_noo2
+{
+    int m_iFlags;
+    HkFlags_c6b_o2_od_noo2(int i) : m_iFlags(i)
+    {}
+};
+
+struct HkWorld_c6b_o2_od_noo2
+{
+    void AddEntry(const void* apKey, void* apListener, HkFlags_c6b_o2_od_noo2 kFlags);
+};
+
+struct World_c6b_o2_od_noo2
+{
+    virtual void v00();
+    virtual void DeleteThis();
+    volatile long m_lRefCount;
+    HkWorld_c6b_o2_od_noo2* m_pkWorld;
+};
+
+struct FUN_00c6b980_cls_o2_od_noo2
+{
+    int unk00, unk04, unk08, unk0c;
+    World_c6b_o2_od_noo2* m_spWorld;
+    void FUN_00c6b980(World_c6b_o2_od_noo2* apWorld);
+};
+
+struct S_00c85c10_pair_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+};
+
+struct S_00c85c10_flag_o2_od_noo2
+{
+    int unk00;
+    S_00c85c10_flag_o2_od_noo2() : unk00(0)
+    {}
+};
+
+struct S_00c85c10_entry_o2_od_noo2
+{
+    int* value;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+struct S_00c85c10_data_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    S_00c85c10_entry_o2_od_noo2* entries;
+    int count;
+
+    void AddEntry(int* value, int* result, S_00c85c10_flag_o2_od_noo2 flag);
+};
+
+struct S_00c85c10_o2_od_noo2
+{
+    void* unk00;
+    void* unk04;
+    S_00c85c10_data_o2_od_noo2* unk08;
+
+    void FUN_00c85c10(int* result, int* value);
+};
+
+struct ActionC68bf0_o2_od_noo2
+{
+};
+
+struct LinkedObjectC9d590_o2_od_noo2
+{
+    ActionC68bf0_o2_od_noo2* GetAction() const
+    {
+        return *reinterpret_cast<ActionC68bf0_o2_od_noo2* const*>(reinterpret_cast<const char*>(this) + 0x350);
+    }
+};
+
+struct ActionOwnerC9d590_o2_od_noo2
+{
+    virtual void slot0(), slot1(), slot2(), slot3(), slot4(), slot5(), slot6(), slot7();
+    virtual void slot8(), slot9(), slot10(), slot11(), slot12(), slot13(), slot14(), slot15();
+    virtual void slot16(), slot17(), slot18(), slot19(), slot20(), slot21(), slot22(), slot23();
+    virtual void slot24(), slot25(), slot26(), slot27(), slot28(), slot29(), slot30(), slot31();
+    virtual void slot32(), slot33(), slot34(), slot35(), slot36();
+    virtual LinkedObjectC9d590_o2_od_noo2* ResolveLinkedObject();
+    int unk4;
+    void* handle;
+    bool FUN_00c9d590();
+};
+
+struct ObjectCA06_o2_od_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    ObjectCA06_o2_od_noo2();
+};
+
+struct FUN_00ca0ac0_class_o2_od_noo2 : SphereShape_o2_od_noo2
+{
+    void FUN_00ca0ac0(ViewerStringArray_o2_od_noo2* strings);
+};
+
+struct FUN_00cd2de0_o2_od_noo2 : FUN_00c84c50_o2_od_noo2
+{
+    virtual ~FUN_00cd2de0_o2_od_noo2();
+};
+
+struct FUN_00d54e60_o2_od_noo2 : FUN_00c84c50_o2_od_noo2
+{
+    virtual ~FUN_00d54e60_o2_od_noo2();
+};
+
+struct TmpObj
+{
+    __m128 v;
+    TmpObj();
+};
+
+struct VtblHolder
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55(void* a);
+};
+
+struct FUN_005610f0_cls_o2_od_noo2 : VtblHolder
+{
+    void FUN_005610f0(intptr_t a1);
+};
+
+// @fnv 0x005610f0
+void FUN_005610f0_cls_o2_od_noo2::FUN_005610f0(intptr_t a1)
+{
+    __declspec(align(16)) TmpObj tmp;
+    this->v55(&::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&tmp)), (*(const ::fnv_004a3e00::NiPoint3 *)(a1))));
+}
+
+void* FUN_0056a8c0();
+
+struct FUN_00c9c240_holder_o2_od_oy_noo2
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    void FUN_00c9c240();
+    void FUN_00c9d600();
+};
+
+struct bhkRefObject_o2_od_oy_noo2
+{
+    void* vtbl;
+    int f4;
+    int f8;
+    int fc;
+    int f10;
+    unsigned char f14;
+};
+
+struct FUN_0056e2d0_o2_od_oy_noo2
+{
+    virtual ~FUN_0056e2d0_o2_od_oy_noo2();
+};
+
+extern const void* vftable_FUN_0056e2d0;
+
+struct FUN_00c6d190_o2_od_oy_noo2 : bhkRefObject_o2_od_oy_noo2
+{
+    FUN_00c6d190_o2_od_oy_noo2();
+};
+
+struct ProjectileListener_o2_od_oy_noo2
+{
+    void* vfptr;
+    int m4;
+    int m8;
+    void FUN_00c876a0();
+};
+
+struct hkReferencedObject_o2_od_oy_noo2
+{
+};
+
+struct FUN_00c9d4c0_holder_o2_od_oy_noo2
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    void FUN_00c9d4c0();
+    void FUN_00c9d600();
+};
+
+struct CollisionEntity;
+
+struct CallRet_o2_od_oy_noo2
+{
+public:
+    void FUN_00c946e0(::CollisionEntity *, int, int);
+};
+
+struct Holder00c9d5d0_o2_od_oy_noo2
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+    virtual CallRet_o2_od_oy_noo2* GetRet();
+    void* unk4;
+    void* unk8;
+    void FUN_00c9d5d0();
+};
+
+struct FUN_00c876a0_holder_o2_od_oy_noo2
+{
+    virtual ~FUN_00c876a0_holder_o2_od_oy_noo2();
+};
+
+struct bhkWorldObject_o2_od_oy_noo2
+{
+    void FUN_00c85790_o2_od_oy_noo2();
+};
+
+struct FUN_00c9f3b0_o2_od_oy_noo2 : FUN_00c876a0_holder_o2_od_oy_noo2
+{
+    virtual ~FUN_00c9f3b0_o2_od_oy_noo2();
+};
+
+struct WorldHolder_o2_od_oy_noo2
+{
+};
+
+struct PhantomBase_o2_od_oy_noo2
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+};
+
+struct bhkAabbPhantom_o2_od_oy_noo2 : PhantomBase_o2_od_oy_noo2
+{
+    virtual WorldHolder_o2_od_oy_noo2* GetWorld();
+    int m4;
+    void* m8;
+    void FUN_00c9f460();
+};
+
+struct InnerS_o2_od_oy_noo2
+{
+    char pad[16];
+    float f10;
+};
+
+struct MyObj_o2_od_oy_noo2
+{
+    char pad[8];
+    InnerS_o2_od_oy_noo2* p8;
+};
+
+struct OutS_o2_od_oy_noo2
+{
+    int i0;
+    float f4;
+};
+
+struct ArgB_o2_od_oy_noo2
+{
+    char _0[16];
+    float f10;
+};
+
+struct RetV_o2_od_oy_noo2
+{
+    char _0[4];
+    float f4;
+};
+
+struct bhkSphereShape_o2_od_oy_noo2
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24();
+    virtual void f25();
+    virtual void f26();
+    virtual void f27();
+    virtual void f28();
+    virtual void f29();
+    virtual void f30();
+    virtual void f31();
+    virtual void f32();
+    virtual void f33();
+    virtual void f34();
+    virtual void f35();
+    virtual void f36();
+    virtual void f37();
+    virtual void f38();
+    virtual void f39();
+    virtual void f40();
+    virtual void f41();
+    virtual void f42();
+    virtual void f43();
+    virtual void f44();
+    virtual RetV_o2_od_oy_noo2* Target(char* p);
+    void FUN_00ca0740(void* a, ArgB_o2_od_oy_noo2* b);
+};
+
+struct S_00cb3070_o2_od_oy_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v43b();
+    virtual void v44(int*);
+    void FUN_00cb3070(int);
+};
+
+struct MM_o2_od_oy_noo2
+{
+    void* FUN_00cb30a0(unsigned int);
+};
+
+struct FUN_00c9d620_holder_o2_od_oy_noo2 : FUN_00c876a0_holder_o2_od_oy_noo2
+{
+    void* m0;
+    void* m4;
+    void* m8;
+    FUN_00c9d620_holder_o2_od_oy_noo2();
+    ~FUN_00c9d620_holder_o2_od_oy_noo2();
+};
+
+struct FUN_0056e780_Class_o2_od_oy_noo2
+{
+    virtual ~FUN_0056e780_Class_o2_od_oy_noo2();
+    void FUN_00ca0540_o2_od_oy_noo2();
+};
+
+struct FUN_00c9fb00_o2_od_oy_noo2 : FUN_0056e780_Class_o2_od_oy_noo2
+{
+    virtual ~FUN_00c9fb00_o2_od_oy_noo2();
+};
+
+extern void* DAT_0103093c;
+
+struct FUN_00c9fde0_o2_od_oy_noo2 : bhkRefObject_o2_od_oy_noo2
+{
+    FUN_00c9fde0_o2_od_oy_noo2();
+};
+
+struct A51BF0Base_o2_od_oy_noo2
+{
+};
+
+extern int DAT_01030864;
+
+struct S_00cb79d0_Base_o2_od_oy_noo2
+{
+    void* vtbl;
+    char pad[8];
+    int f0c;
+    int f10;
+    unsigned char f14;
+
+    S_00cb79d0_Base_o2_od_oy_noo2();
+};
+
+struct Object_00c9f5a0_o2_od_oy_noo2 : S_00cb79d0_Base_o2_od_oy_noo2, A51BF0Base_o2_od_oy_noo2
+{
+    Object_00c9f5a0_o2_od_oy_noo2() : S_00cb79d0_Base_o2_od_oy_noo2()
+    {
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_01030394));
+        f0c = 0;
+        f10 = 0;
+        ++DAT_0126810c;
+        vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0103078c));
+        ++DAT_01268238;
+        vtbl = (void*)&DAT_01030864;
+        ++DAT_01268244;
+        f14 = 0;
+    }
+};
+
+struct FUN_00c877b0_o2_od_oy_noo2
+{
+    virtual ~FUN_00c877b0_o2_od_oy_noo2();
+};
+
+struct FUN_00c84c50_o2_od_oy_noo2 : FUN_00c877b0_o2_od_oy_noo2
+{
+    virtual ~FUN_00c84c50_o2_od_oy_noo2();
+};
+
+class FUN_00c85790_base_o2_od_oy_noo2
+{
+  public:
+    virtual void unk00();
+    ~FUN_00c85790_base_o2_od_oy_noo2();
+    int unk04;
+};
+
+class FUN_00c85790_o2_od_oy_noo2 : public FUN_00c85790_base_o2_od_oy_noo2
+{
+  public:
+    virtual ~FUN_00c85790_o2_od_oy_noo2();
+    void unk08();
+};
+
+struct CollisionObject;
+
+struct CollisionResult_o2_od_oy_noo2
+{
+    unsigned short kind;
+    unsigned short enabled;
+    struct CollisionRecord_o2_od_oy_noo2* record;
+    unsigned int data08;
+    unsigned int data0c;
+    unsigned int state;
+};
+
+struct CollisionValue_o2_od_oy_noo2
+{
+    unsigned int data00;
+    unsigned int data04;
+    CollisionRecord_o2_od_oy_noo2* record;
+};
+
+struct CollisionRecord_o2_od_oy_noo2
+{
+    unsigned int data00;
+    unsigned int data04;
+    struct CollisionHandler_o2_od_oy_noo2* handler;
+};
+
+struct CollisionHandler_o2_od_oy_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual CollisionValue_o2_od_oy_noo2* Find(std::intptr_t target);
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual bool IsAllowed(std::intptr_t target);
+};
+
+struct ScopedMode_o2_od_oy_noo2
+{
+    unsigned int oldValue;
+    ScopedMode_o2_od_oy_noo2() : oldValue(::currentAllocationContext)
+    {
+        ::currentAllocationContext = 0x10;
+    }
+    ~ScopedMode_o2_od_oy_noo2()
+    {
+        ::currentAllocationContext = oldValue;
+    }
+};
+
+struct WorldObjectView_o2_od_oy_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual CollisionResult_o2_od_oy_noo2* GetResult(unsigned char* used);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
+};
+
+struct NiRTTI_o2_od_oy_noo2
+{
+    const char* m_pcName;
+};
+
+struct NiObject_o2_od_oy_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual const NiRTTI_o2_od_oy_noo2* GetRTTI();
+};
+
+template <class T> struct NiTMallocInterface_o2_od_oy_noo2
+{
+};
+
+template <class T, class A> struct NiTPrimitiveArray_o2_od_oy_noo2
+{
+    void* vtbl;
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, T& element);
+    unsigned int SetAtGrow(unsigned int uiIndex, T& element)
+    {
+        if (uiIndex >= m_usMaxSize)
+            SetSize(uiIndex + m_usGrowBy);
+        SetAt(uiIndex, element);
+        return uiIndex;
+    }
+    __forceinline unsigned int Add(T element)
+    {
+        return SetAtGrow(m_usSize, element);
+    }
+};
+
+typedef NiTPrimitiveArray_o2_od_oy_noo2<char*, NiTMallocInterface_o2_od_oy_noo2<char*> > DebugStrArray_o2_od_oy_noo2;
+
+struct hkShapeStub_o2_od_oy_noo2
+{
+    void* vtbl;
+    int unk04;
+    NiObject_o2_od_oy_noo2* userData;
+};
+
+struct hkCdBodyStub_o2_od_oy_noo2
+{
+    hkShapeStub_o2_od_oy_noo2* m_pCollisionShape;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+};
+
+struct hkObjHead_o2_od_oy_noo2
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct hkWorldObjStub_o2_od_oy_noo2 : hkObjHead_o2_od_oy_noo2, hkCdBodyStub_o2_od_oy_noo2
+{
+};
+
+struct DebugHelper_c849b0_o2_od_oy_noo2
+{
+    int value;
+    DebugHelper_c849b0_o2_od_oy_noo2(int v) : value(v)
+    {}
+};
+
+struct HeapContextGuard_o2_od_oy_noo2
+{
+    int saved;
+    HeapContextGuard_o2_od_oy_noo2(int ctx)
+    {
+        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = ctx;
+    }
+    ~HeapContextGuard_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+    }
+};
+
+struct bhkBase_c878c0_o2_od_oy_noo2
+{
+    void* vtbl;
+    int unk04;
+    hkWorldObjStub_o2_od_oy_noo2* m_pObject;
+    hkCdBodyStub_o2_od_oy_noo2* GetBody()
+    {
+        return m_pObject;
+    }
+};
+
+struct bhkWorldObject_c86190_o2_od_oy_noo2 : bhkBase_c878c0_o2_od_oy_noo2
+{
+    void FUN_00c86190(DebugStrArray_o2_od_oy_noo2* arr);
+};
+
+class FUN_00c8bed0_base_cls_o2_od_oy_noo2
+{
+  public:
+    virtual void unk00();
+    ~FUN_00c8bed0_base_cls_o2_od_oy_noo2();
+    int unk04;
+};
+
+class FUN_00c8bed0_cls_o2_od_oy_noo2 : public FUN_00c8bed0_base_cls_o2_od_oy_noo2
+{
+  public:
+    virtual ~FUN_00c8bed0_cls_o2_od_oy_noo2();
+    void unk08();
+};
+
+struct FUN_00c9eb30_o2_od_oy_noo2 : FUN_00c9f3b0_o2_od_oy_noo2
+{
+    virtual ~FUN_00c9eb30_o2_od_oy_noo2();
+};
+
+struct TlsBlock_t_o2_od_oy_noo2
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int m_2b4;
+};
+
+
+
+void* __cdecl FUN_00aa13e0(unsigned int size);
+
+struct TlsGuard_t_o2_od_oy_noo2
+{
+    int m_saved;
+
+    TlsGuard_t_o2_od_oy_noo2()
+    {
+        m_saved = (*(TlsBlock_t_o2_od_oy_noo2*)&g_tlsBlock).m_2b4;
+        (*(TlsBlock_t_o2_od_oy_noo2*)&g_tlsBlock).m_2b4 = 0x10;
+    }
+
+    ~TlsGuard_t_o2_od_oy_noo2()
+    {
+        (*(TlsBlock_t_o2_od_oy_noo2*)&g_tlsBlock).m_2b4 = m_saved;
+    }
+};
+
+struct FUN_00c9efa0_cls_o2_od_oy_noo2
+{
+    bhkRefObject_o2_od_oy_noo2* FUN_00c9efa0(unsigned int flag);
+};
+
+struct S_00c9f1e0_Shape_o2_od_oy_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int type;
+};
+
+struct S_00c9f1e0_Elem_o2_od_oy_noo2
+{
+    S_00c9f1e0_Shape_o2_od_oy_noo2* shape;
+};
+
+struct S_00c9f1e0_Base1_o2_od_oy_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+struct S_00c9f1e0_Base2_o2_od_oy_noo2
+{
+    S_00c9f1e0_Shape_o2_od_oy_noo2* shape;
+};
+
+struct S_00c9f1e0_Range_o2_od_oy_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int begin;
+    int end;
+};
+
+struct S_00c9f1e0_World_o2_od_oy_noo2;
+
+typedef void(__cdecl* S_00c9f1e0_Fn_o2_od_oy_noo2)(S_00c9f1e0_Base2_o2_od_oy_noo2*, S_00c9f1e0_Elem_o2_od_oy_noo2*, S_00c9f1e0_World_o2_od_oy_noo2*, S_00c9f1e0_Range_o2_od_oy_noo2*);
+
+struct S_00c9f1e0_Entry_o2_od_oy_noo2
+{
+    S_00c9f1e0_Fn_o2_od_oy_noo2 fn;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+};
+
+struct S_00c9f1e0_Disp_o2_od_oy_noo2
+{
+    unsigned char types[77][32];
+    int unk9a0;
+    int unk9a4;
+    S_00c9f1e0_Entry_o2_od_oy_noo2 funcs[32];
+};
+
+struct S_00c9f1e0_World_o2_od_oy_noo2
+{
+    S_00c9f1e0_Disp_o2_od_oy_noo2* disp;
+};
+
+struct S_00c9f1e0_Holder_o2_od_oy_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    S_00c9f1e0_World_o2_od_oy_noo2* world;
+};
+
+struct S_00c9f1e0_Ctx_o2_od_oy_noo2 : S_00c9f1e0_Base1_o2_od_oy_noo2, S_00c9f1e0_Base2_o2_od_oy_noo2
+{
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    S_00c9f1e0_Elem_o2_od_oy_noo2** items;
+    int count;
+};
+
+struct S_00c9f1e0_Obj_o2_od_oy_noo2
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual S_00c9f1e0_Holder_o2_od_oy_noo2* GetWorld();
+    int unk04;
+    S_00c9f1e0_Ctx_o2_od_oy_noo2* ctx;
+    void FUN_00c9f1e0(S_00c9f1e0_Range_o2_od_oy_noo2* r);
+};
+
+class C9F270MemContext_o2_od_oy_noo2
+{
+  public:
+    C9F270MemContext_o2_od_oy_noo2(int aiMemoryContext)
+    {
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~C9F270MemContext_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+    }
+
+    int m_iPrevious;
+};
+
+class C9F270StrArray_o2_od_oy_noo2
+{
+  public:
+    void SetSize(unsigned int uiSize);
+    void SetAt(unsigned int uiIndex, const char* const& pcValue);
+
+    unsigned int Add(const char* const& pcValue)
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcValue));
+        return uiIndex;
+    }
+
+    void* m_ppVirtualMethodTable;
+    const char** m_ppcBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class C9F270Object_o2_od_oy_noo2
+{
+  public:
+    void FUN_00c9f270(C9F270StrArray_o2_od_oy_noo2* pkStrings);
+};
+
+
+
+struct ReleaseObject_o2_od_oy_noo2
+{
+};
+
+struct FUN_00c9f320_object_o2_od_oy_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    void FUN_00c9f320(char release);
+};
+
+struct TlsGuard_o2_od_oy_noo2
+{
+    int previous;
+    TlsGuard_o2_od_oy_noo2()
+    {
+        previous = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+    }
+    ~TlsGuard_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+    }
+};
+
+struct PhysicsAction_o2_od_oy_noo2
+{
+};
+
+struct LinkedObject_o2_od_oy_noo2
+{
+    PhysicsAction_o2_od_oy_noo2* GetAction() const
+    {
+        return *reinterpret_cast<PhysicsAction_o2_od_oy_noo2* const*>(reinterpret_cast<const char*>(this) + 0x350);
+    }
+};
+
+struct FUN_00c9f420_Class_o2_od_oy_noo2
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void slot4();
+    virtual void slot5();
+    virtual void slot6();
+    virtual void slot7();
+    virtual void slot8();
+    virtual void slot9();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual LinkedObject_o2_od_oy_noo2* ResolveLinkedObject();
+    int unk4;
+    void* handle;
+    bool FUN_00c9f420();
+};
+
+struct ProjectileCreator_o2_od_oy_noo2
+{
+    Object_00c9f5a0_o2_od_oy_noo2* FUN_00c9f640(int mode);
+};
+
+struct TLSBlock_o2_od_oy_noo2
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int value;
+};
+
+
+
+struct ThreadFlagGuard_o2_od_oy_noo2
+{
+    int previous;
+    ThreadFlagGuard_o2_od_oy_noo2()
+    {
+        previous = (*reinterpret_cast<::TLSBlock_o2_od_oy_noo2 *>(&::g_tlsBlock)).value;
+        (*reinterpret_cast<::TLSBlock_o2_od_oy_noo2 *>(&::g_tlsBlock)).value = 16;
+    }
+    ~ThreadFlagGuard_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<::TLSBlock_o2_od_oy_noo2 *>(&::g_tlsBlock)).value = previous;
+    }
+};
+
+struct Allocator_o2_od_oy_noo2
+{
+    virtual void unused();
+    virtual void* Allocate(unsigned int);
+};
+
+struct Pool_o2_od_oy_noo2
+{
+    int unk0, unk4, unk8, unkc;
+    Allocator_o2_od_oy_noo2* allocator;
+};
+
+
+
+struct FUN_00cf2cb0_o2_od_oy_noo2
+{
+    int unk0;
+    unsigned short length;
+    static void* operator new(std::size_t count)
+    {
+        Pool_o2_od_oy_noo2* pool = ((Pool_o2_od_oy_noo2*)FUN_00c85750());
+        FUN_00cf2cb0_o2_od_oy_noo2* p = (FUN_00cf2cb0_o2_od_oy_noo2*)pool->allocator->Allocate(224);
+        p->length = 224;
+        return p;
+    }
+    static void operator delete(void*, std::size_t);
+    FUN_00cf2cb0_o2_od_oy_noo2(void* contents, int tag);
+};
+
+struct Input_o2_od_oy_noo2
+{
+    int tag;
+    int unk4, unk8, unkc, unk10, unk14, unk18, unk1c;
+    int payload;
+};
+
+struct Receiver_o2_od_oy_noo2
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void dispatch(void*);
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void finish(void*);
+    void FUN_00c9f890(Input_o2_od_oy_noo2* input);
+};
+
+struct BC9F970AllocTagScope_o2_od_oy_noo2
+{
+    int m_iSaved;
+
+    BC9F970AllocTagScope_o2_od_oy_noo2(int aiAllocationTag)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+    }
+    ~BC9F970AllocTagScope_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+
+class BC9F970StringArray_o2_od_oy_noo2
+{
+  public:
+    virtual ~BC9F970StringArray_o2_od_oy_noo2();
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, char* const& pcElement);
+
+    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
+        return uiIndex;
+    }
+    unsigned int Add(char* const& pcElement)
+    {
+        return SetAtGrow(m_usSize, pcElement);
+    }
+
+    char** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class FUN_00c9f970_cls_o2_od_oy_noo2
+{
+  public:
+    void FUN_00c9f480(BC9F970StringArray_o2_od_oy_noo2* pkArray);
+    void FUN_00c9f970(BC9F970StringArray_o2_od_oy_noo2* pkArray);
+};
+
+struct MemContextTLS_o2_od_oy_noo2
+{
+    int unk2b4;
+};
+
+struct MemContextGuard_o2_od_oy_noo2
+{
+    int iOld;
+    MemContextGuard_o2_od_oy_noo2()
+    {
+        iOld = (*reinterpret_cast<::MemContextTLS_o2_od_oy_noo2 *>(&::currentAllocationContext)).unk2b4;
+        (*reinterpret_cast<::MemContextTLS_o2_od_oy_noo2 *>(&::currentAllocationContext)).unk2b4 = 0x10;
+    }
+    ~MemContextGuard_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<::MemContextTLS_o2_od_oy_noo2 *>(&::currentAllocationContext)).unk2b4 = iOld;
+    }
+};
+
+struct ViewerStringArray_o2_od_oy_noo2
+{
+    char** m_pBase;
+    int unk04;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, char* const& element);
+    unsigned int Add(char* const& element)
+    {
+        unsigned int uiIndex = m_usSize;
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(element));
+        return uiIndex;
+    }
+};
+
+struct ViewerRTTI_o2_od_oy_noo2
+{
+    const char* m_pcName;
+};
+
+extern float DAT_011b15c0;
+
+struct SphereHkShape_o2_od_oy_noo2
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    float fRadius;
+};
+
+struct SphereShapeBase_o2_od_oy_noo2
+{
+    void* vtbl;
+    int unk04;
+};
+
+struct SphereShape_o2_od_oy_noo2 : SphereShapeBase_o2_od_oy_noo2
+{
+    SphereHkShape_o2_od_oy_noo2* pHkShape;
+    float GetRadius()
+    {
+        return (this && pHkShape) ? pHkShape->fRadius : DAT_010c72bc;
+    }
+    void FUN_00c9fc50(ViewerStringArray_o2_od_oy_noo2* apViewerStrings);
+};
+
+class FUN_00c9fd70_cls_o2_od_oy_noo2 : public FUN_00c9fb00_o2_od_oy_noo2
+{
+  public:
+    virtual ~FUN_00c9fd70_cls_o2_od_oy_noo2();
+};
+
+struct SphereScaleFields_o2_od_oy_noo2
+{
+    unsigned int m_00, m_04, m_08, m_0c;
+    float m_10, m_14, m_18, m_1c;
+};
+
+struct SphereScalingMethod_o2_od_oy_noo2 : bhkSphereShape_o2_od_oy_noo2
+{
+    void FUN_00c9fea0(void* first, ArgB_o2_od_oy_noo2* second);
+};
+
+struct Tls_ca0090_o2_od_oy_noo2
+{
+    unsigned int unk0000;
+    unsigned int unk0004;
+    unsigned int unk0008;
+    unsigned int unk000C;
+    unsigned int unk0010;
+    unsigned int unk0014;
+    unsigned int unk0018;
+    unsigned int unk001C;
+    unsigned int unk0020;
+    unsigned int unk0024;
+    unsigned int unk0028;
+    unsigned int unk002C;
+    unsigned int unk0030;
+    unsigned int unk0034;
+    unsigned int unk0038;
+    unsigned int unk003C;
+    unsigned int unk0040;
+    unsigned int unk0044;
+    unsigned int unk0048;
+    unsigned int unk004C;
+    unsigned int unk0050;
+    unsigned int unk0054;
+    unsigned int unk0058;
+    unsigned int unk005C;
+    unsigned int unk0060;
+    unsigned int unk0064;
+    unsigned int unk0068;
+    unsigned int unk006C;
+    unsigned int unk0070;
+    unsigned int unk0074;
+    unsigned int unk0078;
+    unsigned int unk007C;
+    unsigned int unk0080;
+    unsigned int unk0084;
+    unsigned int unk0088;
+    unsigned int unk008C;
+    unsigned int unk0090;
+    unsigned int unk0094;
+    unsigned int unk0098;
+    unsigned int unk009C;
+    unsigned int unk00A0;
+    unsigned int unk00A4;
+    unsigned int unk00A8;
+    unsigned int unk00AC;
+    unsigned int unk00B0;
+    unsigned int unk00B4;
+    unsigned int unk00B8;
+    unsigned int unk00BC;
+    unsigned int unk00C0;
+    unsigned int unk00C4;
+    unsigned int unk00C8;
+    unsigned int unk00CC;
+    unsigned int unk00D0;
+    unsigned int unk00D4;
+    unsigned int unk00D8;
+    unsigned int unk00DC;
+    unsigned int unk00E0;
+    unsigned int unk00E4;
+    unsigned int unk00E8;
+    unsigned int unk00EC;
+    unsigned int unk00F0;
+    unsigned int unk00F4;
+    unsigned int unk00F8;
+    unsigned int unk00FC;
+    unsigned int unk0100;
+    unsigned int unk0104;
+    unsigned int unk0108;
+    unsigned int unk010C;
+    unsigned int unk0110;
+    unsigned int unk0114;
+    unsigned int unk0118;
+    unsigned int unk011C;
+    unsigned int unk0120;
+    unsigned int unk0124;
+    unsigned int unk0128;
+    unsigned int unk012C;
+    unsigned int unk0130;
+    unsigned int unk0134;
+    unsigned int unk0138;
+    unsigned int unk013C;
+    unsigned int unk0140;
+    unsigned int unk0144;
+    unsigned int unk0148;
+    unsigned int unk014C;
+    unsigned int unk0150;
+    unsigned int unk0154;
+    unsigned int unk0158;
+    unsigned int unk015C;
+    unsigned int unk0160;
+    unsigned int unk0164;
+    unsigned int unk0168;
+    unsigned int unk016C;
+    unsigned int unk0170;
+    unsigned int unk0174;
+    unsigned int unk0178;
+    unsigned int unk017C;
+    unsigned int unk0180;
+    unsigned int unk0184;
+    unsigned int unk0188;
+    unsigned int unk018C;
+    unsigned int unk0190;
+    unsigned int unk0194;
+    unsigned int unk0198;
+    unsigned int unk019C;
+    unsigned int unk01A0;
+    unsigned int unk01A4;
+    unsigned int unk01A8;
+    unsigned int unk01AC;
+    unsigned int unk01B0;
+    unsigned int unk01B4;
+    unsigned int unk01B8;
+    unsigned int unk01BC;
+    unsigned int unk01C0;
+    unsigned int unk01C4;
+    unsigned int unk01C8;
+    unsigned int unk01CC;
+    unsigned int unk01D0;
+    unsigned int unk01D4;
+    unsigned int unk01D8;
+    unsigned int unk01DC;
+    unsigned int unk01E0;
+    unsigned int unk01E4;
+    unsigned int unk01E8;
+    unsigned int unk01EC;
+    unsigned int unk01F0;
+    unsigned int unk01F4;
+    unsigned int unk01F8;
+    unsigned int unk01FC;
+    unsigned int unk0200;
+    unsigned int unk0204;
+    unsigned int unk0208;
+    unsigned int unk020C;
+    unsigned int unk0210;
+    unsigned int unk0214;
+    unsigned int unk0218;
+    unsigned int unk021C;
+    unsigned int unk0220;
+    unsigned int unk0224;
+    unsigned int unk0228;
+    unsigned int unk022C;
+    unsigned int unk0230;
+    unsigned int unk0234;
+    unsigned int unk0238;
+    unsigned int unk023C;
+    unsigned int unk0240;
+    unsigned int unk0244;
+    unsigned int unk0248;
+    unsigned int unk024C;
+    unsigned int unk0250;
+    unsigned int unk0254;
+    unsigned int unk0258;
+    unsigned int unk025C;
+    unsigned int unk0260;
+    unsigned int unk0264;
+    unsigned int unk0268;
+    unsigned int unk026C;
+    unsigned int unk0270;
+    unsigned int unk0274;
+    unsigned int unk0278;
+    unsigned int unk027C;
+    unsigned int unk0280;
+    unsigned int unk0284;
+    unsigned int unk0288;
+    unsigned int unk028C;
+    unsigned int unk0290;
+    unsigned int unk0294;
+    unsigned int unk0298;
+    unsigned int unk029C;
+    unsigned int unk02A0;
+    unsigned int unk02A4;
+    unsigned int unk02A8;
+    unsigned int unk02AC;
+    unsigned int unk02B0;
+    unsigned int m_2b4;
+};
+
+
+
+struct TlsGuard_ca0090_o2_od_oy_noo2
+{
+    unsigned int m_saved;
+    TlsGuard_ca0090_o2_od_oy_noo2()
+    {
+        m_saved = (*reinterpret_cast<::Tls_ca0090_o2_od_oy_noo2 *>(&::g_tlsBlock)).m_2b4;
+        (*reinterpret_cast<::Tls_ca0090_o2_od_oy_noo2 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+    }
+    ~TlsGuard_ca0090_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<::Tls_ca0090_o2_od_oy_noo2 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+    }
+};
+
+struct MemMgr_ca0090_o2_od_oy_noo2
+{
+};
+
+struct Sub_ca0090_o2_od_oy_noo2
+{
+};
+
+struct FUN_00ca0090_cls_o2_od_oy_noo2
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    void* m08;
+    void* m0C;
+    void* FUN_00ca0090(unsigned char* out);
+};
+
+class CA0540Base_o2_od_oy_noo2
+{
+  public:
+    virtual ~CA0540Base_o2_od_oy_noo2();
+
+};
+
+class FUN_00ca0540_o2_od_oy_noo2 : public CA0540Base_o2_od_oy_noo2
+{
+  public:
+    virtual ~FUN_00ca0540_o2_od_oy_noo2();
+
+};
+
+struct BCA05B0AllocTagScope_o2_od_oy_noo2
+{
+    int m_iSaved;
+
+    BCA05B0AllocTagScope_o2_od_oy_noo2(int aiAllocationTag)
+    {
+        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+    }
+    ~BCA05B0AllocTagScope_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+    }
+};
+
+class BCA05B0StringArray_o2_od_oy_noo2
+{
+  public:
+    virtual ~BCA05B0StringArray_o2_od_oy_noo2();
+    void SetSize(unsigned int uiMaxSize);
+    void SetAt(unsigned int uiIndex, char* const& pcElement);
+
+    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
+    {
+        if (uiIndex >= m_usMaxSize)
+            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
+        return uiIndex;
+    }
+    unsigned int Add(char* const& pcElement)
+    {
+        return SetAtGrow(m_usSize, pcElement);
+    }
+
+    char** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class FUN_00ca05b0_cls_o2_od_oy_noo2
+{
+  public:
+    void FUN_00ca05b0(BCA05B0StringArray_o2_od_oy_noo2* pkArray);
+};
+
+class FUN_00ca0660_base_o2_od_oy_noo2
+{
+  public:
+    virtual void unk00();
+    ~FUN_00ca0660_base_o2_od_oy_noo2();
+    int unk04;
+};
+
+class FUN_00ca0660_o2_od_oy_noo2 : public FUN_00ca0660_base_o2_od_oy_noo2
+{
+  public:
+    virtual ~FUN_00ca0660_o2_od_oy_noo2();
+    void unk08();
+};
+
+class CA0840Heap_o2_od_oy_noo2
+{
+  public:
+    void* Allocate(unsigned int uiSize);
+};
+
+class CA0840MemContext_o2_od_oy_noo2
+{
+  public:
+    CA0840MemContext_o2_od_oy_noo2(int aiMemoryContext)
+    {
+        m_iPrevious = (*reinterpret_cast<int *>(&::currentAllocationContext));
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+    }
+    ~CA0840MemContext_o2_od_oy_noo2()
+    {
+        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iPrevious;
+    }
+
+    int m_iPrevious;
+};
+
+class CA0840Output_o2_od_oy_noo2
+{
+  public:
+    CA0840Output_o2_od_oy_noo2() : m_pkTarget(0), m_fValue(DAT_010c72bc)
+    {}
+
+
+    void* m_pkTarget;
+    float m_fValue;
+};
+
+class CA0840Constraint_o2_od_oy_noo2
+{
+  public:
+    int unk00;
+    int unk04;
+    void* m_pkWorld;
+    CA0840Output_o2_od_oy_noo2* m_pkOutput;
+
+    CA0840Output_o2_od_oy_noo2* FUN_00ca0840(bool* pbCreated);
+};
+
+class CAACF0Base_o2_od_oy_noo2
+{
+  public:
+    virtual ~CAACF0Base_o2_od_oy_noo2();
+
+};
+
+class FUN_00caacf0_o2_od_oy_noo2 : public CAACF0Base_o2_od_oy_noo2
+{
+  public:
+    virtual ~FUN_00caacf0_o2_od_oy_noo2();
+
+};
+
+void* FUN_00cb3060();
+
+class CC2350Base_o2_od_oy_noo2
+{
+  public:
+    virtual ~CC2350Base_o2_od_oy_noo2();
+};
+
+class FUN_00cc2350_o2_od_oy_noo2 : public CC2350Base_o2_od_oy_noo2
+{
+  public:
+
+    virtual ~FUN_00cc2350_o2_od_oy_noo2();
+};
+
+struct FUN_00cca8d0_o2_od_oy_noo2 : FUN_00c9fb00_o2_od_oy_noo2
+{
+    virtual ~FUN_00cca8d0_o2_od_oy_noo2();
+};
+
+struct FUN_00ccd080_o2_od_oy_noo2 : FUN_00c9fb00_o2_od_oy_noo2
+{
+    int unk04;
+    virtual ~FUN_00ccd080_o2_od_oy_noo2();
+};
+
+struct FUN_00ccdbc0_o2_od_oy_noo2 : FUN_00c9fb00_o2_od_oy_noo2
+{
+    virtual ~FUN_00ccdbc0_o2_od_oy_noo2();
+};
+
+class CCE900Base_o2_od_oy_noo2
+{
+  public:
+    virtual ~CCE900Base_o2_od_oy_noo2();
+};
+
+class FUN_00cce900_o2_od_oy_noo2 : public CCE900Base_o2_od_oy_noo2
+{
+  public:
+
+    virtual ~FUN_00cce900_o2_od_oy_noo2();
+};
+
+struct FUN_00ccf4f0_cls_o2_od_oy_noo2 : FUN_00c9fb00_o2_od_oy_noo2
+{
+    int unk04;
+    virtual ~FUN_00ccf4f0_cls_o2_od_oy_noo2();
+};
+
+class FUN_00ccf740_cls_o2_od_oy_noo2 : public FUN_00c9fb00_o2_od_oy_noo2
+{
+  public:
+    virtual ~FUN_00ccf740_cls_o2_od_oy_noo2();
+};
+
+class NiObjectC9E_o2_od_oy_noo2
+{
+  public:
+
+    virtual ~NiObjectC9E_o2_od_oy_noo2();
+};
+
+class NiControllerC9E_o2_od_oy_noo2 : public NiObjectC9E_o2_od_oy_noo2
+{
+  public:
+    NiControllerC9E_o2_od_oy_noo2();
+
+    static NiObjectC9E_o2_od_oy_noo2* FUN_00c9ef30();
+
+    unsigned int m_uiRefCount;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+};
+
+class S00560c20_Value
+{
+  public:
+    S00560c20_Value();  // FUN_006240d0
+    __m128 m_vComponents;
+};
+
+class S00560c20_Target;
+
+class S00560c20_Object
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0C();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1C();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2C();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3C();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4C();
+    virtual void vf50();
+    virtual void vf54();
+    virtual void vf58();
+    virtual void vf5C();
+    virtual void vf60();
+    virtual void vf64();
+    virtual void vf68();
+    virtual void vf6C();
+    virtual void vf70();
+    virtual void vf74();
+    virtual void vf78();
+    virtual void vf7C();
+    virtual void vf80();
+    virtual void vf84();
+    virtual void vf88();
+    virtual void vf8C();
+    virtual void vf90();
+    virtual void vf94();
+    virtual void vf98();
+    virtual void vf9C();
+    virtual void vfA0();
+    virtual void vfA4();
+    virtual void vfA8();
+    virtual void vfAC();
+    virtual void vfB0();
+    virtual void vfB4();
+    virtual void vfB8();
+    virtual void vfBC();
+    virtual void vfC0();
+    virtual void vfC4();
+    virtual void vfC8();
+    virtual void vfCC();
+    virtual void vfD0();
+    virtual void vfD4();
+    virtual const S00560c20_Value* vfD8(S00560c20_Value* pOut);
+    void FUN_00560c20(S00560c20_Target* pTarget);
+};
+
+// @fnv 0x00560c20
+void S00560c20_Object::FUN_00560c20(S00560c20_Target* pTarget)
+{
+    S00560c20_Value kValue;
+    ::CopyModifierSettings((::Modifier *)(pTarget), (::FUN_00560d10_shell *)(vfD8(&kValue)));
+}
+
+class S00561150_Value
+{
+  public:
+    S00561150_Value();  // FUN_006240d0
+    __m128 m_vComponents;
+};
+
+class S00561150_Source;
+
+class S00561150_Object_o2_od_oy_noo2
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0C();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1C();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2C();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3C();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4C();
+    virtual void vf50();
+    virtual void vf54();
+    virtual void vf58();
+    virtual void vf5C();
+    virtual void vf60();
+    virtual void vf64();
+    virtual void vf68();
+    virtual void vf6C();
+    virtual void vf70();
+    virtual void vf74();
+    virtual void vf78();
+    virtual void vf7C();
+    virtual void vf80();
+    virtual void vf84();
+    virtual void vf88();
+    virtual void vf8C();
+    virtual void vf90();
+    virtual void vf94();
+    virtual void vf98();
+    virtual void vf9C();
+    virtual void vfA0();
+    virtual void vfA4();
+    virtual void vfA8();
+    virtual void vfAC();
+    virtual void vfB0();
+    virtual void vfB4();
+    virtual void vfB8();
+    virtual void vfBC();
+    virtual void vfC0();
+    virtual void vfC4();
+    virtual void vfC8();
+    virtual void vfCC();
+    virtual void vfD0();
+    virtual void vfD4();
+    virtual void vfD8();
+    virtual void vfDC();
+    virtual void vfE0(const S00561150_Value* pValue);
+    void FUN_00561150(const S00561150_Source* pSource);
+};
+
+// @fnv 0x00561150
+void S00561150_Object_o2_od_oy_noo2::FUN_00561150(const S00561150_Source* pSource)
+{
+    S00561150_Value kValue;
+    ::FUN_00561500((::bhkCharacterController *)(::S00561150_Value *)(&kValue), (void *)(pSource));
+    reinterpret_cast<::FUN_005611c0_t *>(&(kValue))->FUN_005611c0();
+    vfE0(&kValue);
+}
+
+struct S005611e0_Vector_o2_od_oy_noo2
+{
+    __m128 m_vComponents;
+      // inverse length, as a vector
+      // broadcast x
+    void FUN_005611e0();                                           // normalize3
+};
+
+struct S00561240_Vector
+{
+    __m128 m_vComponents;
+    S00561240_Vector* FUN_00561240(S00561240_Vector* pOut) const;  // broadcast x
+};
+
+// @fnv 0x00561240
+S00561240_Vector* S00561240_Vector::FUN_00561240(S00561240_Vector* pOut) const
+{
+    pOut->m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0);
+    return pOut;
+}
+
+typedef __m128 hkQuadReal;
+
+class hkSimdRealX
+{
+  public:
+    hkQuadReal m_vValue;
+};
+
+class hkVector4X
+{
+  public:
+    hkQuadReal m_vComponents;
+    hkSimdRealX dot3(const hkVector4X& a) const;
+    hkSimdRealX* FUN_005612a0(hkSimdRealX* out) const;
+};
+
+// @fnv 0x005611e0
+void S005611e0_Vector_o2_od_oy_noo2::FUN_005611e0()
+{
+    S005611e0_Vector_o2_od_oy_noo2 kScale;
+    S005611e0_Vector_o2_od_oy_noo2 kInvLength;
+    reinterpret_cast<::S00561240_Vector *>((void *)(((::S005611e0_Vector_o2_od_oy_noo2 *)(reinterpret_cast<::hkVector4X *>((void *)this)->FUN_005612a0((::hkSimdRealX *)(::S005611e0_Vector_o2_od_oy_noo2 *)(&kInvLength))))))->FUN_00561240((::S00561240_Vector *)(::S005611e0_Vector_o2_od_oy_noo2 *)(&kScale));
+    m_vComponents = _mm_mul_ps(kScale.m_vComponents, m_vComponents);
+}
+
+// @fnv 0x005612a0
+hkSimdRealX* hkVector4X::FUN_005612a0(hkSimdRealX* out) const
+{
+    const hkQuadReal half = _mm_set_ss(0.5f);
+    const hkQuadReal three = _mm_set_ss(3.0f);
+    const hkQuadReal zero = _mm_set_ss(0.0f);
+    const hkQuadReal len2 = (*(const ::__m128 *)((void *)&ResultSlot(dot3(*this))));
+    const hkQuadReal equalsZero = _mm_cmpeq_ss(len2, zero);
+    const hkQuadReal e = _mm_rsqrt_ss(len2);
+    const hkQuadReal r = _mm_mul_ss(_mm_mul_ss(half, e), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, e), e)));
+    new ((void *)(out)) ::FUN_004a3c90((const ::FUN_004a3c90 &)((const ::__m128 &)(_mm_andnot_ps(equalsZero, r))));
+    return out;
+}
+
+class S00561440_SimdReal
+{
+  public:
+    S00561440_SimdReal(const __m128& q);  // FUN_004a3c90
+    __m128 m_vValue;
+};
+
+class S00561440_Vector
+{
+  public:
+    S00561440_SimdReal FUN_00561440(const S00561440_Vector& v) const;  // dot4
+    __m128 m_vComponents;
+};
+
+// @fnv 0x00561440
+S00561440_SimdReal S00561440_Vector::FUN_00561440(const S00561440_Vector& v) const
+{
+    __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+    __m128 sum = _mm_add_ps(_mm_shuffle_ps(x2, x2, 0x4e), x2);
+    __m128 swapped = _mm_shuffle_ps(sum, sum, 0xb1);
+    return S00561440_SimdReal(_mm_add_ps(sum, swapped));
+}
+
+struct AlignedLocal5615
+{
+    __m128 m_v;
+    AlignedLocal5615();
+};
+
+struct Owner5615_o2_od_oy_noo2
+{
+    void FUN_005615d0(int value);
+};
+
+// @fnv 0x005615d0
+void Owner5615_o2_od_oy_noo2::FUN_005615d0(int value)
+{
+    AlignedLocal5615 local;
+    reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)(((void *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&local)), (*(const ::fnv_004a3e00::NiPoint3 *)(value)))))));
+}
+
+struct NiPoint3_o2_od_oy_noo2
+{
+    float x;
+    float y;
+    float z;
+};
+
+struct __declspec(align(16)) HKVector4
+{
+    __m128 m_vComponents;
+    HKVector4();
+};
+
+class bhkCharacterController_o2_od_oy_noo2
+{
+  public:
+    void FUN_00561630(const NiPoint3_o2_od_oy_noo2& param_1);
+};
+
+// @fnv 0x00561630
+void bhkCharacterController_o2_od_oy_noo2::FUN_00561630(const NiPoint3_o2_od_oy_noo2& param_1)
+{
+    HKVector4 local;
+    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((std::intptr_t)(((void *)(::CopyCharacterControllerVector((::bhkCharacterController *)(void *)(&local), (const ::NiPoint3 &)(param_1))))));
+}
+
+class S00561730_Comparison
+{
+  public:
+      // allAreSet
+    __m128 m_uiMask;
+};
+
+class S00561730_Vector_o2_od_oy_noo2
+{
+  public:
+    S00561730_Vector_o2_od_oy_noo2();                                                       // FUN_006815c0
+      // setSub4
+                                 // setAbs4
+    S00561730_Comparison FUN_00458a60(const S00561730_Vector_o2_od_oy_noo2* v) const;  // compareLessThan4
+    bool FUN_00561730(const S00561730_Vector_o2_od_oy_noo2* v, float epsilon) const;   // equals4
+    __m128 m_vComponents;
+};
+
+// @fnv 0x00561730
+bool S00561730_Vector_o2_od_oy_noo2::FUN_00561730(const S00561730_Vector_o2_od_oy_noo2* v, float epsilon) const
+{
+    S00561730_Vector_o2_od_oy_noo2 kDiff;
+    reinterpret_cast<::S00458a10_Vector *>(&(kDiff))->FUN_00458a10((const ::S00458a10_Vector *)(const ::S00561730_Vector_o2_od_oy_noo2 *)(this), (const ::S00458a10_Vector *)(v));
+    reinterpret_cast<::S00458ad0_Vector *>(&(kDiff))->FUN_00458ad0((const ::S00458ad0_Vector *)(const ::S00561730_Vector_o2_od_oy_noo2 *)(&kDiff));
+    S00561730_Vector_o2_od_oy_noo2 kEpsilon;
+    reinterpret_cast<::FUN_004589c0_cls *>(&(kEpsilon))->FUN_004589c0(epsilon);
+    return ((bool)(reinterpret_cast<::FUN_00458990_Holder *>((void *)(void *)&(const ::S00561730_Comparison &)(kDiff.FUN_00458a60(&kEpsilon)))->FUN_00458990(0xf)));
+}
+
+class S005620e0_Vector
+{
+  public:
+    S005620e0_Vector();  // FUN_006815c0
+    __m128 m_vComponents;
+};
+
+class S005620e0_Source;
+
+class S005620e0_Object_o2_od_oy_noo2
+{
+  public:
+    void FUN_00c6e390(const S005620e0_Vector* pValue);
+    void FUN_005620e0(const S005620e0_Source* pSource);
+};
+
+// @fnv 0x005620e0
+void S005620e0_Object_o2_od_oy_noo2::FUN_005620e0(const S005620e0_Source* pSource)
+{
+    S005620e0_Vector kValue;
+    FUN_00c6e390(((const ::S005620e0_Vector *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kValue)), (*(const ::fnv_004a3e00::NiPoint3 *)(pSource))))));
+}
+
+class S0056e810_Vector
+{
+  public:
+    __m128 m_vComponents;
+};
+
+class S0056e810_Quaternion
+{
+  public:
+      // set from vector
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+    float m_fVectorX;
+};
+
+class __declspec(align(16)) S0056e810_Rotation
+{
+  public:
+    S0056e810_Rotation();  // FUN_0056e860
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    S0056e810_Quaternion m_kQuat;
+};
+
+class S0056e810_Object_o2_od_oy_noo2
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0C();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1C();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2C();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3C();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4C();
+    virtual void vf50();
+    virtual void vf54();
+    virtual void vf58();
+    virtual void vf5C();
+    virtual void vf60();
+    virtual void vf64();
+    virtual void vf68();
+    virtual void vf6C();
+    virtual void vf70();
+    virtual void vf74();
+    virtual void vf78();
+    virtual void vf7C();
+    virtual void vf80();
+    virtual void vf84();
+    virtual void vf88();
+    virtual void vf8C();
+    virtual void vf90();
+    virtual void vf94();
+    virtual void vf98();
+    virtual void vf9C();
+    virtual void vfA0();
+    virtual void vfA4();
+    virtual void vfA8();
+    virtual void vfAC();
+    virtual void vfB0(const S0056e810_Rotation* pRotation);
+    void FUN_0056e810(const S0056e810_Vector& v);
+};
+
+// @fnv 0x0056e810
+void S0056e810_Object_o2_od_oy_noo2::FUN_0056e810(const S0056e810_Vector& v)
+{
+    S0056e810_Rotation kRotationBasis;
+    reinterpret_cast<::S004b4db0_Quaternion *>(&(kRotationBasis.m_kQuat))->FUN_004b4db0((const ::S004b4db0_Vector4 &)(v));
+    vfB0(&kRotationBasis);
+}
+
+class NiPoint3F14
+{
+  public:
+    NiPoint3F14();
+    float x;
+    float y;
+    float z;
+};
+
+class NiMatrix3F14
+{
+  public:
+    NiMatrix3F14();
+    float m_afEntries[3][3];
+};
+
+class NiTransformF14
+{
+  public:
+    NiTransformF14();
+    NiMatrix3F14 m_kOrientation;
+    NiPoint3F14 m_kTranslation;
+    float m_fScale;
+};
+
+class NiColorF14
+{
+  public:
+    NiColorF14(float fR, unsigned int uiG, unsigned int uiB);
+    float r;
+    float g;
+    float b;
+};
+
+class hkVector4F14
+{
+  public:
+    hkVector4F14();
+    __m128 m_vComponents;
+};
+
+class hkQuaternionF14
+{
+  public:
+    hkQuaternionF14();
+    __m128 m_vec;
+};
+
+class hkMotionStateF14
+{
+  public:
+    hkMotionStateF14();
+    __m128 m_data[4];
+};
+
+class SceneNodeF14
+{
+  public:
+};
+
+class OwnerF14
+{
+  public:
+    NiPoint3F14 GetNavMeshData();
+};
+
+class OwnerRootF14
+{
+  public:
+};
+
+class SystemF14
+{
+  public:
+};
+
+class SystemSrcF14
+{
+  public:
+};
+
+class ShapeF14
+{
+  public:
+    static void* operator new(std::size_t uiSize);
+    static void operator delete(void* pv);
+    ShapeF14(const hkVector4F14& m_kPoint2, float fRadius);
+    char m_acData[0x30];
+};
+
+class MaterialF14
+{
+  public:
+    static void* operator new(std::size_t uiSize);
+    static void operator delete(void* pv);
+    MaterialF14();
+    char m_acData[0x10];
+};
+
+class WrapperF14
+{
+  public:
+    static void* operator new(std::size_t uiSize);
+    static void operator delete(void* pv);
+    WrapperF14(ShapeF14* pkShape, MaterialF14* pkMaterial);
+    char m_acData[0x1c];
+};
+
+class BodyInfoF14
+{
+  public:
+    BodyInfoF14();
+    ~BodyInfoF14();
+    unsigned int m_uiFilterInfo;
+    WrapperF14* m_pkShape;
+    __m128 m_akData[13];
+};
+
+class NiMemObjectF14
+{
+  public:
+};
+
+class BodyF14 : public NiMemObjectF14
+{
+  public:
+    BodyF14(const BodyInfoF14& kInfo);
+    void Attach(SceneNodeF14* pkNode, int iFlags);
+    char m_acData[0x1c];
+};
+
+class BodyWrapF14 : public NiMemObjectF14
+{
+  public:
+    BodyWrapF14(SceneNodeF14* pkNode);
+    char m_acData[0x14];
+};
+
+class CtlrF14 : public NiMemObjectF14
+{
+  public:
+    CtlrF14();
+    char m_acData[0x10];
+};
+
+class P107RefF14
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v3a();
+    virtual void v3b();
+    virtual void v3c();
+    virtual void v3d();
+    virtual void v3e();
+    virtual void v3f();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v4a();
+    virtual void v4b();
+    virtual void v4c();
+    virtual void v4d();
+    virtual void v4e();
+    virtual void v4f();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v5a();
+    virtual void v5b();
+    virtual void v5c();
+    virtual void v5d();
+    virtual void v5e();
+    virtual void v5f();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v6a();
+    virtual void v6b();
+    virtual void v6c();
+    virtual void v6d();
+    virtual void v6e();
+    virtual void v6f();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual SceneNodeF14* Get3D();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v7a();
+    virtual void v7b();
+    virtual void v7c();
+    virtual const NiPoint3F14* GetPos();
+    NiMatrix3F14 GetRotationMatrix();
+    void FUN_0056f140();
+};
+
+// @fnv 0x0056f140
+void P107RefF14::FUN_0056f140()
+{
+    OwnerF14* pkOwner = ((::OwnerF14 *)(reinterpret_cast<::FUN_0041fbe0_shell *>((((::OwnerRootF14 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041fbe0()));
+    SystemF14* pkSystem = ((::SystemSrcF14 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) ? ((::SystemF14 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::SystemSrcF14 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) : 0;
+    if (pkSystem)
+    {
+        ShapeF14* pkShape = 0;
+        hkMotionStateF14 kMotion;
+        hkVector4F14 m_kPoint2;
+        reinterpret_cast<::fnv_00567490::ScaleReference *>(this)->FUN_00567490(1.0f);
+        reinterpret_cast<::FUN_00440490_shell *>((Get3D()))->FUN_00440490(1.0f);
+        NiColorF14 kColor(0.0f, 0, 0);
+        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((std::intptr_t)&(kColor));
+        NiTransformF14 kXform;
+        kXform.m_kOrientation = GetRotationMatrix();
+        kXform.m_kTranslation = *GetPos();
+        kXform.m_fScale = 1.0f;
+        const int iLayer = 0x15;
+        ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(m_kPoint2), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3F14 &)(pkOwner->GetNavMeshData())));
+        pkShape = new ShapeF14(m_kPoint2, ::DAT_011b153c);
+        MaterialF14* pkMaterial = new MaterialF14();
+        WrapperF14* pkWrapper = new WrapperF14(pkShape, pkMaterial);
+        BodyInfoF14 kInfo;
+        kInfo.m_pkShape = pkWrapper;
+        reinterpret_cast<::FUN_0056d360_Class *>(&(kInfo))->FUN_0056d360(5);
+        hkVector4F14 kPos;
+        hkVector4F14 kRot;
+        hkQuaternionF14 kQuat;
+        reinterpret_cast<::FUN_0056d230_Class *>((Get3D()))->FUN_0056d230((::FUN_00a6df40_Obj *)&(kRot));
+        ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kPos), (const ::fnv_004a3e00::NiPoint3 &)(*GetPos()));
+        ::FUN_00561500((::bhkCharacterController *)&(kQuat), (void *)&(kRot));
+        reinterpret_cast<::FUN_0056d300_S *>(&(kInfo))->FUN_0056d300((const void *)&(kPos));
+        reinterpret_cast<::S3e60 *>(&(kInfo))->FUN_0056d320((std::uintptr_t)&(kQuat));
+        unsigned int uiFilterInfo = 0x50000;
+        uiFilterInfo |= iLayer;
+        kInfo.m_uiFilterInfo = uiFilterInfo;
+        BodyF14* pkBody = new BodyF14(kInfo);
+        BodyWrapF14* pkWrap = new BodyWrapF14(Get3D());
+        CtlrF14* pkCtlr = new CtlrF14();
+        reinterpret_cast<::BSXFlags_shell *>((pkCtlr))->FUN_00519230(2, 1);
+        reinterpret_cast<::FUN_00a5bca0_shell *>((Get3D()))->SetExtraDataName((::NiExtraData *)(pkCtlr));
+        reinterpret_cast<::FUN_00c6b980_cls *>((pkWrap))->FUN_00c6b980((::World_c6b *)(pkBody));
+        reinterpret_cast<::S_00c85c10 *>((pkBody))->FUN_00c85c10((int *)(::SceneNodeF14 *)(Get3D()), (int *)(0));
+        reinterpret_cast<::FUN_0056d2c0_cls *>((pkSystem))->FUN_0056d2c0((::Arg56d2c0 *)(pkBody));
+    }
+}
+
+class NiPoint3Q
+{
+  public:
+    float x, y, z;
+    NiPoint3Q operator*(float fScalar) const;
+};
+
+class hkVector4Q
+{
+  public:
+    hkVector4Q(const hkVector4Q& v);
+    __m128 m_vComponents;
+};
+
+class TESFormQ
+{
+  public:
+    int GetFormType();
+};
+
+class NiAVObjectQ
+{
+  public:
+    virtual void vn000();
+    virtual void vn004();
+    virtual void vn008();
+    virtual void* GetName();
+};
+
+class NodeQ
+{
+  public:
+};
+
+class ProjectileStateQ
+{
+  public:
+    virtual void vs000();
+    virtual void vs004();
+    virtual void vs008();
+    virtual void vs00c();
+    virtual void vs010();
+    virtual void vs014();
+    virtual void vs018();
+    virtual void vs01c();
+    virtual void vs020();
+    virtual void vs024();
+    virtual void vs028();
+    virtual void vs02c();
+    virtual void vs030();
+    virtual void vs034();
+    virtual void vs038();
+    virtual void vs03c();
+    virtual void vs040();
+    virtual void vs044();
+    virtual void vs048();
+    virtual void vs04c();
+    virtual void vs050();
+    virtual void vs054();
+    virtual void vs058();
+    virtual void vs05c();
+    virtual void vs060();
+    virtual void vs064();
+    virtual void vs068();
+    virtual void vs06c();
+    virtual void vs070();
+    virtual void vs074();
+    virtual void vs078();
+    virtual void vs07c();
+    virtual void vs080();
+    virtual void vs084();
+    virtual void vs088();
+    virtual void vs08c();
+    virtual void vs090();
+    virtual int GetID();
+};
+
+class ControllerQ
+{
+  public:
+    virtual void vc000();
+    virtual void vc004();
+    virtual void vc008();
+    virtual void vc00c();
+    virtual void vc010();
+    virtual void vc014();
+    virtual void vc018();
+    virtual void vc01c();
+    virtual void vc020();
+    virtual void vc024();
+    virtual void vc028();
+    virtual void vc02c();
+    virtual void vc030();
+    virtual void vc034();
+    virtual void vc038();
+    virtual void vc03c();
+    virtual void vc040();
+    virtual void vc044();
+    virtual void vc048();
+    virtual void vc04c();
+    virtual void vc050();
+    virtual void vc054();
+    virtual void vc058();
+    virtual void vc05c();
+    virtual void vc060();
+    virtual void vc064();
+    virtual void vc068();
+    virtual void vc06c();
+    virtual void vc070();
+    virtual void vc074();
+    virtual void vc078();
+    virtual void vc07c();
+    virtual void vc080();
+    virtual void vc084();
+    virtual void vc088();
+    virtual void vc08c();
+    virtual void vc090();
+    virtual int GetID();
+    virtual void vd098();
+    virtual void vd09c();
+    virtual void vd0a0();
+    virtual void vd0a4();
+    virtual void vd0a8();
+    virtual void vd0ac();
+    virtual void vd0b0();
+    virtual void vd0b4();
+    virtual void vd0b8();
+    virtual void vd0bc();
+    virtual void vd0c0();
+    virtual void vd0c4();
+    virtual void vd0c8();
+    virtual void vd0cc();
+    virtual void Detach(NiAVObjectQ* pkRoot, int a, int b, int c, int d);
+    virtual void Attach(NiAVObjectQ* pkTarget, NiAVObjectQ* pkRoot);
+};
+
+class ProcessQ
+{
+  public:
+};
+
+class WaterStateQ
+{
+  public:
+};
+
+class CharControllerQ
+{
+  public:
+};
+
+class BodyQ
+{
+  public:
+};
+
+class BodyRefQ
+{
+  public:
+};
+
+class SettingsQ
+{
+  public:
+};
+
+class ManagerQ
+{
+  public:
+};
+
+class ExtraListQ
+{
+  public:
+};
+
+class CellQ
+{
+  public:
+};
+
+class ListQ;
+
+class ProjectileQ
+{
+  public:
+    virtual void vp000();
+    virtual void vp004();
+    virtual void vp008();
+    virtual void vp00c();
+    virtual void vp010();
+    virtual void vp014();
+    virtual void vp018();
+    virtual void vp01c();
+    virtual void vp020();
+    virtual void vp024();
+    virtual void vp028();
+    virtual void vp02c();
+    virtual void vp030();
+    virtual void vp034();
+    virtual void vp038();
+    virtual void vp03c();
+    virtual void vp040();
+    virtual void vp044();
+    virtual void vp048();
+    virtual void vp04c();
+    virtual void vp050();
+    virtual void vp054();
+    virtual void vp058();
+    virtual void vp05c();
+    virtual void vp060();
+    virtual void vp064();
+    virtual void vp068();
+    virtual void vp06c();
+    virtual void vp070();
+    virtual void vp074();
+    virtual void vp078();
+    virtual void vp07c();
+    virtual void vp080();
+    virtual void vp084();
+    virtual void vp088();
+    virtual void vp08c();
+    virtual void vp090();
+    virtual void vp094();
+    virtual void vp098();
+    virtual void vp09c();
+    virtual void vp0a0();
+    virtual void vp0a4();
+    virtual void vp0a8();
+    virtual void vp0ac();
+    virtual void vp0b0();
+    virtual void vp0b4();
+    virtual void vp0b8();
+    virtual void vp0bc();
+    virtual void vp0c0();
+    virtual void vp0c4();
+    virtual void vp0c8();
+    virtual void vp0cc();
+    virtual void vp0d0();
+    virtual void vp0d4();
+    virtual void vp0d8();
+    virtual void vp0dc();
+    virtual void vp0e0();
+    virtual void vp0e4();
+    virtual void vp0e8();
+    virtual void vp0ec();
+    virtual void vp0f0();
+    virtual void vp0f4();
+    virtual void vp0f8();
+    virtual void vp0fc();
+    virtual bool IsActor();
+    virtual void vq104();
+    virtual void vq108();
+    virtual void vq10c();
+    virtual void vq110();
+    virtual void vq114();
+    virtual void vq118();
+    virtual void vq11c();
+    virtual void vq120();
+    virtual void vq124();
+    virtual void vq128();
+    virtual void vq12c();
+    virtual void vq130();
+    virtual void vq134();
+    virtual void vq138();
+    virtual void vq13c();
+    virtual void vq140();
+    virtual void vq144();
+    virtual void vq148();
+    virtual void vq14c();
+    virtual void vq150();
+    virtual void vq154();
+    virtual void vq158();
+    virtual void vq15c();
+    virtual void vq160();
+    virtual void vq164();
+    virtual void vq168();
+    virtual void vq16c();
+    virtual void vq170();
+    virtual void vq174();
+    virtual void vq178();
+    virtual void vq17c();
+    virtual void vq180();
+    virtual void vq184();
+    virtual void vq188();
+    virtual void vq18c();
+    virtual void vq190();
+    virtual void vq194();
+    virtual void vq198();
+    virtual void vq19c();
+    virtual void vq1a0();
+    virtual void vq1a4();
+    virtual void vq1a8();
+    virtual void vq1ac();
+    virtual void vq1b0();
+    virtual void vq1b4();
+    virtual void vq1b8();
+    virtual void vq1bc();
+    virtual void vq1c0();
+    virtual void vq1c4();
+    virtual void vq1c8();
+    virtual void vq1cc();
+    virtual NiAVObjectQ* Get3D();
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    CellQ* m_pkCell;
+
+
+    void FUN_005768b0();
+};
+
+// @fnv 0x005768b0
+void ProjectileQ::FUN_005768b0()
+{
+    if (m_pkCell && !::FUN_00450ff0((void *)(m_pkCell)) && !reinterpret_cast<::FUN_004523c0_shell *>((m_pkCell))->FUN_004523c0())
+        return;
+    NiAVObjectQ* pkRoot = Get3D();
+    NiAVObjectQ* pkTarget = pkRoot;
+    if (pkRoot)
+    {
+        reinterpret_cast<::ActorTaskManager *>((((::ManagerQ *)::g_TES)))->FUN_00453860(true);
+        if (!reinterpret_cast<::Holder4523e0 *>(this)->FUN_004523e0(1))
+        {
+            if (((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->GetFormType() == 0x23)
+            {
+                TESFormQ* pkBase = ((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
+                if (!reinterpret_cast<::FUN_00452440_shell *>((pkBase))->FUN_00452440())
+                    reinterpret_cast<::WaterRef *>(this)->FUN_0056c8f0();
+            }
+            else if (((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<::TESFormQ * *>(&::DAT_011ca240)))
+            {
+                reinterpret_cast<::s56eab0::Actor *>(this)->FUN_0056eab0();
+            }
+            else if (((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->GetFormType() == 0xe)
+            {
+                reinterpret_cast<::P107RefF14 *>(this)->FUN_0056f140();
+            }
+            else if (((std::uintptr_t)(reinterpret_cast<::FUN_0041fbe0_shell *>((((::ExtraListQ *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041fbe0())) && ((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->GetFormType() == 0x15)
+            {
+                reinterpret_cast<::Ref56D *>(this)->FUN_0056d7e0();
+            }
+        }
+        void* pvName = pkRoot->GetName();
+        NodeQ* pkNode = 0;
+        if (!IsActor())
+        {
+            pkNode = ((::NodeQ *)(::FUN_00c812d0(pvName, (void *)(1))));
+            pkTarget = pkNode ? ((::NiAVObjectQ *)(reinterpret_cast<::Twin_0044ddc0 *>((pkNode))->GetName())) : pkTarget;
+        }
+        if (pkTarget)
+        {
+            ProcessQ* pkProcess = ((::ProcessQ *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+            if (pkProcess)
+            {
+                ControllerQ* pkController = ((::ControllerQ *)(reinterpret_cast<::FUN_004543c0_cls *>((pkProcess))->FUN_004543c0()));
+                BodyRefQ* pkBodyRef = ((::BodyRefQ *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(pkTarget))));
+                ProjectileStateQ* pkState = pkBodyRef ? (ProjectileStateQ*)((::BodyQ *)(::fnv_006fa820::FUN_006fa820((const char *)(pkBodyRef)))) : 0;
+                if (pkController)
+                {
+                    if (!pkState || pkState->GetID() != pkController->GetID())
+                    {
+                        pkController->Attach(pkTarget, pkRoot);
+                        if (((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<::TESFormQ * *>(&::DAT_011ca27c)) || ((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) == (*reinterpret_cast<::TESFormQ * *>(&::DAT_011ca280)))
+                        {
+                            BodyQ* pkBody = pkBodyRef ? ((::BodyQ *)(::fnv_006fa820::FUN_006fa820((const char *)(pkBodyRef)))) : 0;
+                            hkVector4Q kPos(*((const ::hkVector4Q *)&(::fnv_00560d80::FUN_00560d80((void *)(pkBody)))));
+                            if (((reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::SettingsQ * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10() || reinterpret_cast<::FUN_00576d30_shell *>(this)->FUN_00576d30()) && pkBody &&
+                                 ((int)(reinterpret_cast<::S00458900_Vector *>(&(kPos))->FUN_00458900((const ::S00458900_Vector *)(void *)(FUN_00458b20()), 0.001f)))) ||
+                                !::FUN_00564c10((::TESObjectREFR *)this))
+                                ::FUN_00c6a350((::NiAVObject *)(pkRoot), 5, 1, 0, 1);
+                        }
+                        switch (((::TESFormQ *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->GetFormType())
+                        {
+                        case 0x20:
+                        case 0x21:
+                            ::FUN_00c6a350((::NiAVObject *)(pkRoot), 5, 1, 0, 1);
+                            break;
+                        default:
+                            if (::FUN_00564c10((::TESObjectREFR *)this))
+                            {
+                                BodyQ* pkBody = pkBodyRef ? ((::BodyQ *)(::fnv_006fa820::FUN_006fa820((const char *)(pkBodyRef)))) : 0;
+                                CharControllerQ* pkChar = pkBody ? ((::CharControllerQ *)(std::uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((pkBody))->GetReferenceFlags())) : 0;
+                                if (pkChar && ::FUN_00517690((char *)(((::WaterStateQ *)(reinterpret_cast<::FUN_009d9f40_Class *>((pkChar))->FUN_009d9f40())))) != 5 &&
+                                    ::FUN_00517690((char *)(((::WaterStateQ *)(reinterpret_cast<::FUN_009d9f40_Class *>((pkChar))->FUN_009d9f40())))) != 4)
+                                {
+                                    NiPoint3Q kIntersectionOffset = (*reinterpret_cast<const ::NiPoint3Q *>((void *)&::DAT_011a9484)) * -1.0f;
+                                    ::FUN_0062b8d0(pkRoot, &kIntersectionOffset, 0);
+                                }
+                                reinterpret_cast<::FUN_00564c60_cls *>(this)->FUN_00564c60(0);
+                            }
+                            break;
+                        }
+                        reinterpret_cast<::FUN_0086a830_S *>(this)->FUN_0086a830((std::intptr_t)(pkRoot));
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (::FUN_0043b300((const ::NiRTTI *)(::ListQ *)(&(*reinterpret_cast<::ListQ *>(&::g_011d5e70))), (::NiAVObject *)(pkRoot)))
+            {
+                ProcessQ* pkProcess = ((::ProcessQ *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+                if (pkProcess)
+                {
+                    ControllerQ* pkController = ((::ControllerQ *)(reinterpret_cast<::FUN_004543c0_cls *>((pkProcess))->FUN_004543c0()));
+                    if (pkController)
+                        pkController->Detach(pkRoot, 0, 0, 0, 0);
+                }
+            }
+        }
+        reinterpret_cast<::ActorTaskManager *>((((::ManagerQ *)::g_TES)))->FUN_00453860(false);
+    }
+    reinterpret_cast<::FUN_0056c880_S *>(this)->FUN_0056c880(1, 1);
+}
+
+void* FUN_0056a8c0();
+
+class BSExtraData_rtm
+{
+  public:
+    virtual ~BSExtraData_rtm();
+    unsigned char m_type;
+    BSExtraData_rtm* m_next;
+};
+
+struct Owner;
+
+struct ExtraBase2
+{
+    virtual void v0();
+};
+
+class NonActorMagicTarget : public BSExtraData_rtm, public ExtraBase2
+{
+  public:
+    NonActorMagicTarget(Owner* o);
+    int unk10, unk14, unk18, unk1c, unk20, unk24;
+};
+
+struct ExtraList
+{
+};
+
+struct Owner
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18(unsigned int flag);
+    ExtraBase2* FUN_00575f30();
+};
+
+// @fnv 0x00575f30
+ExtraBase2* Owner::FUN_00575f30()
+{
+    NonActorMagicTarget* p = 0;
+    if (::FUN_00576040((::TESForm *)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))
+    {
+        p = dynamic_cast<NonActorMagicTarget*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00410220(0x33));
+        if (!p)
+        {
+            p = new NonActorMagicTarget(this);
+            reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((((::ExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0040ff60((::BSExtraData *)(p));
+            v18(0x80000000);
+        }
+    }
+    return p;
+}
+
 #include "generated/data/fallout_shared/tesobjectrefr.inc"
+#include "generated/data/fallout_shared/tesobjectrefr_o2_variant.inc"

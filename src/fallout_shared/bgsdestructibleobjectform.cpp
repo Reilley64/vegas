@@ -1,5 +1,6 @@
 // fallout_shared/bgsdestructibleobjectform.cpp: BGSDestructibleObjectForm, TESObjectREFR, ActorValueOwner, TargetLocation (35 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AttachmentHandler.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -183,7 +184,7 @@ void BGSDestructibleObjectForm::QueueResourceLoad(TESBoundObject* object, IO_TAS
     for (unsigned int i = 0; i < data->count; i++)
     {
         if (data->stages[i]->model)
-            reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(data->stages[i]->model), priority, (int)(file),
+            reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(data->stages[i]->model), priority, (std::uintptr_t)(file),
                                                ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)((TESObject*)object)), true, false, false);
         if (data->stages[i]->explosion)
             data->stages[i]->explosion->model.QueueResourceLoad(priority, file);
@@ -263,7 +264,7 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
         {
             if (data->stages[i]->explosion)
             {
-                unsigned int explosionID = (unsigned int)data->stages[i]->explosion;
+                unsigned int explosionID = (unsigned int)(std::uintptr_t)data->stages[i]->explosion;
                 ::ResolveFormID((unsigned int *)&(explosionID), owner->GetFile(-1));
                 data->stages[i]->explosion = dynamic_cast<BGSExplosion*>(::FUN_004839c0(explosionID));
                 if (!data->stages[i]->explosion)
@@ -281,7 +282,7 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
             }
             if (data->stages[i]->debris)
             {
-                unsigned int debrisID = (unsigned int)data->stages[i]->debris;
+                unsigned int debrisID = (unsigned int)(std::uintptr_t)data->stages[i]->debris;
                 ::ResolveFormID((unsigned int *)&(debrisID), owner->GetFile(-1));
                 data->stages[i]->debris = dynamic_cast<BGSDebris*>(::FUN_004839c0(debrisID));
                 if (!data->stages[i]->debris)
@@ -313,13 +314,13 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
 }
 
 // @fnv 0x0045bb80
-int FUN_0045bb80(int param_1)
+std::intptr_t FUN_0045bb80(std::intptr_t param_1)
 {
     return param_1 + 0x8C;
 }
 
 // @fnv 0x00461130
-int FUN_00461130(int pThis)
+std::intptr_t FUN_00461130(std::intptr_t pThis)
 {
     return pThis + 0x68;
 }
@@ -415,10 +416,10 @@ bool FUN_00475a00_shell::FUN_00475a00()
 
 struct FUN_00476980_S
 {
-    FUN_00476980_S* FUN_00476980(int a, int b, int c);
+    FUN_00476980_S* FUN_00476980(std::intptr_t a, std::intptr_t b, std::intptr_t c);
 };
 // @fnv 0x00476980
-FUN_00476980_S* FUN_00476980_S::FUN_00476980(int aiValue0, int aiValue1, int aiValue2)
+FUN_00476980_S* FUN_00476980_S::FUN_00476980(std::intptr_t aiValue0, std::intptr_t aiValue1, std::intptr_t aiValue2)
 {
     reinterpret_cast<::FUN_004769c0_shell *>(this)->FUN_004769c0(0, (float *)(aiValue0));
     reinterpret_cast<::FUN_004769c0_shell *>(this)->FUN_004769c0(1, (float *)(aiValue1));
@@ -436,8 +437,8 @@ struct _dummy_476a80
 // @fnv 0x00476a80
 _dummy_476a80* _dummy_476a80::FUN_00476a80()
 {
-    new ((void *)(this)) ::Vec3();
-    new ((void *)((char*)this + 0x24)) ::Vec3();
+    (void *)(this);
+    (void *)((char*)this + 0x24);
     return this;
 }
 
@@ -517,7 +518,8 @@ void FUN_005df560_S::GetRowFloats(unsigned int row, float* pfOut0, float* pfOut1
 }
 
 namespace fnv_004753d0 {
-extern "C" void* __cdecl FUN_00475400(void*);
+struct FUN_004759a0_First;
+FUN_004759a0_First* __cdecl FUN_00475400(void*);
 
 struct FUN_00475a00_shell
 {
@@ -947,13 +949,13 @@ NiPoint3 TargetLocation::GetTargetPosition()
     NiPoint3 kPos = NiPoint3::ZERO;
     if ((const char*)kName)
     {
-        kPos = ((::NamedTarget *)(::FUN_00461130((int)(kName))))->GetTargetPos(&unk08);
+        kPos = ((::NamedTarget *)(::FUN_00461130((std::intptr_t)(const char*)(kName))))->GetTargetPos(&unk08);
     }
     else if (pRef)
     {
         if (pRef->Get3D())
         {
-            kPos = (*(const ::NiPoint3 *)(new ((void *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pRef->Get3D()))->FUN_0043d450())))) ::Vec3()));
+            kPos = (*(const ::NiPoint3 *)((void *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pRef->Get3D()))->FUN_0043d450())))));
         }
         else
         {
@@ -1821,7 +1823,7 @@ FUN_004759a0_First* __cdecl FUN_00475400(void* form)
 
 // Looks up a1's owner, scans its list for an entry whose value equals a2, and returns its index or -1 if not found.
 // @fnv 0x00475920
-int FindIndexByValue(void* a1, unsigned int aiValue)
+int FindIndexByValue(void* a1, std::uintptr_t aiValue)
 {
     FUN_004759a0_First* pOwner = FUN_00475400(a1);
     if (pOwner == 0)
@@ -2070,7 +2072,7 @@ void __cdecl FUN_00477d10(ReferenceView* reference)
                 BSFadeNode_Dummy* node = fade ? fade->AsFadeNode() : 0;
                 if (node)
                     FUN_00476ab0(node);
-                ::FUN_00c6a270((int)(object), true, true, 0);
+                ::FUN_00c6a270((std::intptr_t)(object), true, true, 0);
             }
         }
     }
@@ -2080,7 +2082,7 @@ void __cdecl FUN_00477d10(ReferenceView* reference)
     }
     if (reinterpret_cast<TESForm*>(reference)->GetDisabled())
         reinterpret_cast<::fnv_00573f40::R *>((reference))->FUN_00573f40();
-    reinterpret_cast<::NiTMap_S *>((reinterpret_cast<GlobalView*>(&g_011c4104)))->RemoveKey((unsigned int)(reference));
+    reinterpret_cast<::NiTMap_S *>((reinterpret_cast<GlobalView*>(&g_011c4104)))->RemoveKey((std::uintptr_t)(reference));
     reinterpret_cast<::EntryMap9A5 *>((((::FinalView *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::ManagerView * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->RemoveEntryForRef({});
 }
 
@@ -2209,7 +2211,6 @@ struct DestructibleFormStandin
 {
 };
 
-extern "C" DestructibleFormStandin* __cdecl FUN_00475400(TESBoundObject*);
 
 // @fnv 0x00477bc0
 unsigned int __cdecl GetDestructionStageSelfDamage(TESObjectREFR* refr, float damage)
@@ -2217,7 +2218,7 @@ unsigned int __cdecl GetDestructionStageSelfDamage(TESObjectREFR* refr, float da
     if (refr == 0 || damage == ::_DAT_01012060)
         return 0;
 
-    DestructibleFormStandin* aActorData = FUN_00475400(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refr))->FUN_007af430())));
+    DestructibleFormStandin* aActorData = (DestructibleFormStandin*)FUN_00475400(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refr))->FUN_007af430())));
     if (aActorData == 0)
         return 0;
 
@@ -2278,7 +2279,7 @@ void FUN_00477780_shell::FUN_00477780(::TESBoundObject* apBoundObject)
 
     if (!reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)->GO::operator unsigned int())
     {
-        reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0=((::ObjA *)(void *)(new FUN_00c3c590_QueuedFile(5)));
+        reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0(((::ObjA *)(void *)(new FUN_00c3c590_QueuedFile(5))));
 
         QueueResourceLoad(apBoundObject, static_cast< ::IO_TASK_PRIORITY>(5),
                           reinterpret_cast< ::QueuedFile*>(
@@ -2288,7 +2289,7 @@ void FUN_00477780_shell::FUN_00477780(::TESBoundObject* apBoundObject)
         if (!((int)(reinterpret_cast<::fnv_00446990::FUN_00446990_StandIn *>((reinterpret_cast<GO*>(reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)
                                        ->GO::operator unsigned int())))->GetObjectFlags())))
         {
-            reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0=((::ObjA *)(void *)(0));
+            reinterpret_cast<::FUN_006f74f0_cls *>((reinterpret_cast<QIdlePtrSV*>(reinterpret_cast<unsigned char*>(data) + 0x10)))->FUN_006f74f0(((::ObjA *)(void *)(0)));
         }
     }
 

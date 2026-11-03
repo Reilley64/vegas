@@ -145,12 +145,12 @@ class FUN_004a0dd0_cls
     virtual void vfn_98();
     virtual void vfn_99();
     virtual void vfn_100(int a);
-    void FUN_004a0dd0(int a1);
+    void FUN_004a0dd0(std::intptr_t a1);
 };
 
 // If the "SetScreenSpaceCameraData" flag is set, forwards a1 to vfn_100; otherwise does nothing.
 // @fnv 0x004a0dd0
-void FUN_004a0dd0_cls::FUN_004a0dd0(int a1)
+void FUN_004a0dd0_cls::FUN_004a0dd0(std::intptr_t a1)
 {
     if (reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((std::intptr_t)("SetScreenSpaceCameraData"), 1) == 0)
     {
@@ -444,11 +444,11 @@ struct FUN_00b6dd00_Owner
 {
     char m_acPad[0x78];
     NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> m_kList;
-    void FUN_00b6dd00(int iArg1, bool bArg2);
+    void FUN_00b6dd00(intptr_t iArg1, bool bArg2);
 };
 
 // @fnv 0x00b6dd00
-void FUN_00b6dd00_Owner::FUN_00b6dd00(int iArg1, bool bArg2)
+void FUN_00b6dd00_Owner::FUN_00b6dd00(intptr_t iArg1, bool bArg2)
 {
     void* pvPos = *(void**)&this->m_kList.m_pkHead;
     while (pvPos)

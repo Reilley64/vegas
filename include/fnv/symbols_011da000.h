@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class GlobalObject2_0045cfe0;
 class GlobalObject2_0096a2d0;
@@ -34,7 +35,7 @@ extern int DAT_011da1f8;
 // 0x011da1fc
 namespace fnv_0078eb50 { extern int xg_iTileId2_11da1fc; }
 // 0x011da204
-extern int DAT_011da204;
+extern intptr_t DAT_011da204;
 // 0x011da224
 extern ::GlobalObject_00633c90 g_011da224;
 // 0x011da24c
@@ -66,7 +67,7 @@ extern bool DAT_011da4ed;
 // 0x011da4ee
 extern bool DAT_011da4ee;
 // 0x011da4f0
-extern int DAT_011da4f0;
+extern intptr_t DAT_011da4f0;
 // 0x011da4f4
 extern unsigned int DAT_011da4f4;
 // 0x011da524
@@ -112,7 +113,7 @@ extern int DAT_011da7e0;
 // 0x011da7e8
 extern int DAT_011da7e8;
 // 0x011da7f0
-namespace fnv_007b82c0 { extern int DAT_011da7f0; }
+namespace fnv_007b82c0 { extern intptr_t DAT_011da7f0; }
 // 0x011da7f4
 extern ::RSMActor *g_pRepairServicesVendor;
 // 0x011da86c

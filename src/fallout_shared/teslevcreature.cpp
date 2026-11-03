@@ -48,7 +48,7 @@ bool TESLevCreature::Load(TESFile* file)
                 if (file->IsEndianConversionRequired())
                     reinterpret_cast<::TmpEndian *>(&(leveledEntry))->SwapEndian();
                 DAT_011c8eec =
-                    (LeveledEntry*)((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(leveledEntry.level, leveledEntry.count, (int)(leveledEntry.form), (int)(0))));
+                    (LeveledEntry*)((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(leveledEntry.level, leveledEntry.count, (std::intptr_t)(leveledEntry.form), (int)(0))));
                 break;
             }
             case 0x44454f43:
@@ -74,7 +74,7 @@ bool TESLevCreature::Load(TESFile* file)
         case 0x474c564c: {
             unsigned int uiGlobalId = 0;
             file->GetChunkData(&uiGlobalId);
-            global = (TESForm*)uiGlobalId;
+            global = (TESForm*)(std::uintptr_t)uiGlobalId;
             break;
         }
         case 0x4c444f4d:
@@ -157,7 +157,7 @@ struct DoorPart3c
 {
 };
 
-struct FUN_0050a8e0_shell
+struct FUN_0050a8e0_shell : ::TESLevCreature
 {
     void FUN_0050a8e0();
 };

@@ -27,6 +27,8 @@
 #include "tesobjectstat_load.h"
 #include "tesobjectstat_global.h"
 #include "tesobjectstat_types_TESObjectSTAT.h"
+#include <new>
+#include "fnv/symbols_00472000.h"
 
 // Initializes a TESGlobal: sets cType to 's', fValue to 0.0f, and the form type to 6.
 // @fnv 0x005a6320
@@ -90,7 +92,7 @@ bool TESObjectSTAT::Load(TESFile* file)
         case 0x4d414e52: {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            m_pSoundForm = (TESSound*)sound;
+            m_pSoundForm = (TESSound*)(std::uintptr_t)sound;
             break;
         }
         }
@@ -128,17 +130,15 @@ void FUN_0051b4b0_shell::FUN_0051b4b0()
     FUN_004858f0(0x53555242, *(unsigned char*)((char*)this + 0x50));
     if (*(unsigned int*)((char*)this + 0x54))
     {
-        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)(*(unsigned int*)((char*)this + 0x54)))))->FUN_0084e3a0()));
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)(*(std::uintptr_t*)((char*)this + 0x54)))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4D414E52, id);
     }
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 
-struct FUN_005e79a0_t
+struct FUN_005e79a0_t : ::TESObjectSTAT
 {
     bool FUN_0051b650(TESForm* form);
-    char m_cType;
-    TESSound* m_pSoundForm;
 };
 // Casts form to TESObjectSTAT and returns true if it is null, passes FUN_00485270, or differs in the byte at 0x50 or the TESSound pointer at 0x54.
 // @fnv 0x0051b650
@@ -149,9 +149,9 @@ bool FUN_005e79a0_t::FUN_0051b650(TESForm* form)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other))
         return true;
-    if (*(char*)((char*)this + 0x50) != other->m_cType)
+    if (this->m_cType != other->m_cType)
         return true;
-    if (*(TESSound**)((char*)this + 0x54) != other->m_pSoundForm)
+    if (this->m_pSoundForm != other->m_pSoundForm)
         return true;
     return false;
 }
@@ -165,7 +165,7 @@ struct TESSound : public TESForm
 extern char str_0102bbb0[];
 
 
-struct TESObjectSTAT_shell : public TESForm
+struct TESObjectSTAT_shell : ::TESObjectSTAT
 {
     void FUN_0051b530();
 };
@@ -173,7 +173,7 @@ struct TESObjectSTAT_shell : public TESForm
 // @fnv 0x0051b530
 void TESObjectSTAT_shell::FUN_0051b530()
 {
-    unsigned int itempint;
+    std::uintptr_t itempint;
 
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
@@ -181,16 +181,16 @@ void TESObjectSTAT_shell::FUN_0051b530()
     reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESObjectSTAT_shell*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->InitItem(this);
 
     itempint =
-        reinterpret_cast<unsigned int>(*reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54));
+        reinterpret_cast<std::uintptr_t>(this->m_pSoundForm);
 
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
 
-        reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54)[0] =
+        (&this->m_pSoundForm)[0] =
             dynamic_cast<TESSound*>(::FUN_004839c0(itempint));
 
-        if (!reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54)[0])
+        if (!(&this->m_pSoundForm)[0])
         {
             ::FUN_005b5e40();
         }
@@ -248,4 +248,41 @@ void StatCopy::FUN_0051b5f0(TESForm* apCopy)
     this->m_pSoundForm = pcopy->m_pSoundForm;
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
     this->m_cType = pcopy->m_cType;
+}
+
+struct Primary231
+{
+    virtual void* DestroyIfFlagged(unsigned int);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+struct Secondary231
+{
+    virtual void* DestroyIfFlagged(unsigned int) = 0;
+};
+
+struct FUN_0051b6d0 : Primary231, Secondary231
+{
+// @fnv 0x0051b6d0
+    FUN_0051b6d0();
+    void* DestroyIfFlagged(unsigned int);
+};
+
+struct Complete231 : FUN_0051b6d0
+{
+};
+
+void* Make231(void* storage)
+{
+    return new (storage) Complete231;
 }

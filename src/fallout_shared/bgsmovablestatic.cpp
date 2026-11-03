@@ -28,6 +28,8 @@
 #include "fnv/symbols_00864000.h"
 #include "fnv/symbols_01183000.h"
 #include "bgsmovablestatic_decls.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_005b5000.h"
 
 // @fnv 0x004fbb50
 void BGSMovableStatic::ResetFormData()
@@ -180,7 +182,7 @@ struct FUN_00485e00_shell
 struct SoundH
 {
 };
-struct FUN_004fbf20_shell
+struct FUN_004fbf20_shell : ::BGSMovableStatic
 {
     void Destroy();
 };
@@ -455,12 +457,12 @@ struct FUN_004fbfe0_shell : public BGSMovableStatic
 // @fnv 0x004fbfe0
 void FUN_004fbfe0_shell::FUN_004fbfe0(int arg)
 {
-    int result = (int)FUN_00ec43fb(arg, 0, &(*reinterpret_cast<void * *>(&::DAT_01183028)), &DAT_01189d4c, 0);
+    std::intptr_t result = (std::intptr_t)FUN_00ec43fb(arg, 0, &(*reinterpret_cast<void * *>(&::DAT_01183028)), &DAT_01189d4c, 0);
 
     if (result == 0)
         return;
     {
-        reinterpret_cast<::FUN_004fbf00_shell *>((reinterpret_cast<FUN_004fbf00_shell*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_004fbf00(reinterpret_cast<TESSound*>(((int)(reinterpret_cast<::DialogueItem *>((reinterpret_cast<TESChallenge*>(result)))->SelectDefaultResponseList()))));
+        reinterpret_cast<::FUN_004fbf00_shell *>((reinterpret_cast<FUN_004fbf00_shell*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_004fbf00(reinterpret_cast<TESSound*>(reinterpret_cast<BGSMovableStatic*>(result)->pSoundLoop_db));
 
         reinterpret_cast<::FUN_004fc060_shell *>((reinterpret_cast<FUN_004fc060_shell*>(this->_pdbpad_5c)))->SetByteFromPtr(reinterpret_cast<const unsigned char*>(reinterpret_cast<BGSMovableStatic*>(result)->data));
 
@@ -574,13 +576,13 @@ void FUN_004fbf20_shell::Destroy()
     reinterpret_cast<::FUN_0048a520_shell *>((((DoorPart3c*)((char*)this + 0x30))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<::FUN_00477f20_shell *>((((DoorPart68*)((char*)this - 8))))->FUN_00477f20();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0x5c))))->ClearData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((Date*)((char*)this + 0x5c), 1);
+        reinterpret_cast<::TESForm *>((((Date*)&this->_pdbpad_5c[0])))->ClearData();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((Date*)&this->_pdbpad_5c[0], 1);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0x5c))))->ClearData();
-    if (*(void**)((char*)this + 0x58))
+        reinterpret_cast<::TESForm *>((((Date*)&this->_pdbpad_5c[0])))->ClearData();
+    if (*(void**)&this->m_pSoundEffect)
     {
-        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(SoundH**)((char*)this + 0x58))))->FUN_0084e3a0()));
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(SoundH**)&this->m_pSoundEffect)))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e53, itempint);
     }
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
@@ -610,8 +612,232 @@ bool MovableStaticFormComparison::FUN_004fc080(::TESForm* apCompare)
         return true;
     if (reinterpret_cast<::Unk004fc130 *>((((MovableStaticDataComparison*)this->_pdbpad_5c)))->IsByteDifferent((unsigned char*)pMovableStatic->data))
         return true;
-    if (((::TESSound *)(reinterpret_cast<::DialogueItem *>((((MovableStaticSoundComparison*)((char*)this - 0x14))))->SelectDefaultResponseList())) !=
-        ((::TESSound *)(reinterpret_cast<::DialogueItem *>((((MovableStaticSoundComparison*)pMovableStatic)))->SelectDefaultResponseList())))
+    if (reinterpret_cast<::BGSMovableStatic*>((char*)this - 0x14)->pSoundLoop_db != pMovableStatic->pSoundLoop_db)
         return true;
     return false;
+}
+
+// sub ecx,0x44; jmp <target>  ==  MSVC adjustor thunk for a second base.
+// PrimaryBase is vptr (4) + 16 int fields (64) = 0x44 bytes; the shared virtual
+// is named after the claimed function so the compiler emits the thunk symbol
+// ?FUN_004fc1a0@...@WGI@AEX_v@Z.
+struct PrimaryBase
+{
+    virtual void FUN_004fc1a0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004fc1a0();
+};
+
+struct AdjustedDerived : PrimaryBase, SecondaryBase
+{
+    AdjustedDerived();
+// @fnv 0x004fc1a0
+    virtual void FUN_004fc1a0();
+};
+
+AdjustedDerived::AdjustedDerived()
+{}
+
+class TESFile;
+
+class TESSound;
+
+class TESForm_rtm
+{
+  public:
+    virtual void unk004();
+    virtual void unk008();
+    virtual void unk00C();
+    virtual void unk010();
+    virtual void unk014();
+    virtual void unk018();
+    virtual void unk01C();
+    virtual void unk020();
+    virtual void unk024();
+    virtual void unk028();
+    virtual void unk02C();
+    virtual void unk030();
+    virtual void unk034();
+    virtual void unk038();
+    virtual void unk03C();
+    virtual void unk040();
+    virtual void unk044();
+    virtual void unk048();
+    virtual void unk04C();
+    virtual void unk050();
+    virtual void unk054();
+    virtual void unk058();
+    virtual void unk05C();
+    virtual void unk060();
+    virtual void unk064();
+    virtual void unk068();
+    virtual void unk06C();
+    virtual void unk070();
+    virtual void unk074();
+    virtual void unk078();
+    virtual void unk07C();
+    virtual void unk080();
+    virtual void unk084();
+    virtual void unk088();
+    virtual void unk08C();
+    virtual void unk090();
+    virtual void unk094();
+    virtual void unk098();
+    virtual void unk09C();
+    virtual void unk0A0();
+    virtual void unk0A4();
+    virtual void unk0A8();
+    virtual void unk0AC();
+    virtual void unk0B0();
+    virtual void unk0B4();
+    virtual void unk0B8();
+    virtual void unk0BC();
+    virtual void unk0C0();
+    virtual void unk0C4();
+    virtual void unk0C8();
+    virtual void unk0CC();
+    virtual void unk0D0();
+    virtual void unk0D4();
+    virtual void unk0D8();
+    virtual void unk0DC();
+    virtual void unk0E0();
+    virtual void unk0E4();
+    virtual void unk0E8();
+    virtual void unk0EC();
+    virtual void unk0F0();
+    virtual void unk0F4();
+    virtual void unk0F8();
+    virtual void unk0FC();
+    virtual void unk100();
+    virtual void unk104();
+    virtual void unk108();
+    virtual void unk10C();
+    virtual void unk110();
+    virtual void unk114();
+    virtual void unk118();
+    virtual void unk11C();
+    virtual void unk120();
+    virtual void unk124();
+    virtual void unk128();
+    virtual void unk12C();
+    virtual void unk130();
+    virtual const char* GetName();
+    TESFile* GetFile(int a);
+    void SetInitializationState(bool b);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+public:
+    bool GetInitialized() const;
+};
+
+class TESSound : public TESForm_rtm
+{
+};
+
+class TESBoundObject : public TESForm_rtm
+{
+  public:
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+class TESModelTextureSwap
+{
+  public:
+    virtual ~TESModelTextureSwap();
+    void InitItem(TESForm_rtm* form);
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+};
+
+class BGSDestructibleObjectForm_rtm
+{
+  public:
+    virtual ~BGSDestructibleObjectForm_rtm();
+    void InitItem(TESForm_rtm* form);
+    int unk08;
+};
+
+class unkOwnerBase
+{
+  public:
+    virtual ~unkOwnerBase();
+    int unk04;
+    int unk08;
+};
+
+class TESObjectSTAT_rtm : public TESBoundObject, public TESModelTextureSwap
+{
+  public:
+    void FUN_004fbb70();
+    union
+    {
+        unsigned int soundFormID;
+        TESSound* m_pSoundEffect;
+    } sound;
+};
+
+class BGSMovableStaticOwner : public unkOwnerBase, public BGSDestructibleObjectForm_rtm, public TESObjectSTAT_rtm
+{
+};
+
+// @fnv 0x004fbb70
+void TESObjectSTAT_rtm::FUN_004fbb70()
+{
+    if (reinterpret_cast<::TESForm_rtm *>(this)->GetInitialized())
+        return;
+
+    ((BGSMovableStaticOwner*)((char*)this - 0x14))
+        ->BGSDestructibleObjectForm_rtm::InitItem(
+            ((BGSMovableStaticOwner*)((char*)this - 0x14))
+                ? static_cast<TESForm_rtm *>((BGSMovableStaticOwner*)((char*)this - 0x14))
+                : (TESForm_rtm*)0);
+    ((BGSMovableStaticOwner*)((char*)this - 0x14))
+        ->TESModelTextureSwap::InitItem(((BGSMovableStaticOwner*)((char*)this - 0x14))
+                                            ? static_cast<TESForm_rtm *>((BGSMovableStaticOwner*)((char*)this - 0x14))
+                                            : (TESForm_rtm*)0);
+
+    unsigned int soundID = sound.soundFormID;
+    if (soundID)
+    {
+        ::ResolveFormID(&soundID, GetFile(-1));
+        sound.m_pSoundEffect = dynamic_cast<TESSound*>(::FUN_004839c0(soundID));
+        if (!sound.m_pSoundEffect)
+            ::FUN_005b5e40();
+    }
+
+    SetInitializationState(true);
 }

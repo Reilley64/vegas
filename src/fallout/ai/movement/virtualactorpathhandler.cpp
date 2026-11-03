@@ -1,5 +1,6 @@
 // fallout/ai/movement/virtualactorpathhandler.cpp: VirtualActorPathHandler, VirtualActorPathHandlerS, DoorPathHandler (16 functions)
 
+#include <cstdint>
 #include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/ActiveEffect.h"
@@ -107,8 +108,8 @@ void VirtualActorPathHandler::LoadGame(BGSLoadFormBuffer* buffer)
 VirtualActorPathHandler::VirtualActorPathHandler(Actor* actor, ActorMover* mover, NiPointer<PathingSolution>& path,
                                                  PathingRequest* request)
 {
-    new ((void *)this) ::FUN_009dfe40_cls((int)(actor), (int)(mover), (int)(&path), (int)(request));
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&VirtualActorPathHandler_vtbl);
+    new ((void *)this) ::FUN_009dfe40_cls((intptr_t)(actor), (intptr_t)(mover), (intptr_t)(&path), (intptr_t)(request));
+    *reinterpret_cast<uintptr_t*>(this) = reinterpret_cast<uintptr_t>(&VirtualActorPathHandler_vtbl);
     m_fPathValue16 = 0.0f;
     m_fPathValue2 = 0.0f;
 }
@@ -1324,7 +1325,7 @@ int FUN_009ea8a0_cls::UpdatePathMovement(float afDeltaT)
     BaseProcess* pprocess = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((ActorS*)pActor)))->GetBaseTexture()));
     if (pprocess && ((BaseProcessS*)pprocess)->IsInDialogue())
         return 0;
-    if (reinterpret_cast<::PlayerCharacter *>((((PlayerS*)::_g_thePlayer)))->IsSleepingOrResting() || reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((((ActorS*)pActor)))->FUN_008bc7f0((int)(::_g_thePlayer)))
+    if (reinterpret_cast<::PlayerCharacter *>((((PlayerS*)::_g_thePlayer)))->IsSleepingOrResting() || reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((((ActorS*)pActor)))->FUN_008bc7f0((intptr_t)(::_g_thePlayer)))
     {
         fdelta = ::DAT_01012640 / (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameTimeScale();
     }
@@ -1364,14 +1365,14 @@ int FUN_009ea8a0_cls::UpdatePathMovement(float afDeltaT)
                 case -1:
                     return 3;
                 case 1:
-                    reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((((ActorS*)pActor)))->FUN_008ad1c0((int)&(currentLoc), fangle, ((ActorS*)pActor)->GetParentCell(),
+                    reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((((ActorS*)pActor)))->FUN_008ad1c0((intptr_t)&(currentLoc), fangle, ((ActorS*)pActor)->GetParentCell(),
                                        ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((ActorS*)pActor)))->FUN_00575d70())), 1, 0);
                     return 0;
                 }
             }
             else
             {
-                reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((((ActorS*)pActor)))->FUN_008ad1c0((int)&(currentLoc), fangle, ((ActorS*)pActor)->GetParentCell(),
+                reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((((ActorS*)pActor)))->FUN_008ad1c0((intptr_t)&(currentLoc), fangle, ((ActorS*)pActor)->GetParentCell(),
                                    ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((ActorS*)pActor)))->FUN_00575d70())), 1, 0);
                 if (reinterpret_cast<::fnv_009334b0::FUN_009334b0_shell *>((((ActorS*)pActor)))->GetCellLoadState() == 0 && !reinterpret_cast<::PlayerCharacter *>((((PlayerS*)::_g_thePlayer)))->IsSleepingOrResting())
                     return 0;
@@ -1391,7 +1392,7 @@ int FUN_009ea8a0_cls::UpdatePathMovement(float afDeltaT)
     m_fPathValue16 += reinterpret_cast<::FUN_00589850_Class *>((void *)&(static_cast<NiPoint3_ext&>(deltaToNode)))->FUN_00589850();
     float fangle = ::GetDirectionAngle((const ::NiPoint3 *)&(deltaToNode));
     ((ActorS*)pActor)->SetFurnitureHeading(fangle);
-    reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((((ActorS*)pActor)))->FUN_008ad1c0((int)&(currentLoc), fangle, ((ActorS*)pActor)->GetParentCell(), ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((ActorS*)pActor)))->FUN_00575d70())), 1,
+    reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((((ActorS*)pActor)))->FUN_008ad1c0((intptr_t)&(currentLoc), fangle, ((ActorS*)pActor)->GetParentCell(), ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((ActorS*)pActor)))->FUN_00575d70())), 1,
                        0);
     if (reinterpret_cast<::fnv_009334b0::FUN_009334b0_shell *>((((ActorS*)pActor)))->GetCellLoadState() == 0 && !reinterpret_cast<::PlayerCharacter *>((((PlayerS*)::_g_thePlayer)))->IsSleepingOrResting())
         return 0;

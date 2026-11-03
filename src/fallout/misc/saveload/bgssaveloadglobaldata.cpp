@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadglobaldata.cpp: SaveGameLoader (23 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdio>
@@ -100,6 +101,13 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f1000.h"
 #include "bgssaveloadglobaldata_packet.h"
+
+// The image space modifier form of a modifier instance, read through the folded getter at 0x00441110.
+struct ImageSpaceModifierFormView
+{
+    char pad00[0x1c];
+    void* pImageSpaceModifier;
+};
 class BGSLoadGameBuffer;
 class TESObjectCELL;
 
@@ -153,7 +161,7 @@ bool SaveGameLoader::LoadFormType(unsigned int type, BGSLoadGameBuffer* buffer)
     case 1:
         return false;
     case 2:
-        reinterpret_cast<::fnv_00459750::FUN_00459750_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->ProcessItems((unsigned int)(buffer));
+        reinterpret_cast<::fnv_00459750::FUN_00459750_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->ProcessItems((uintptr_t)(buffer));
         return true;
     case 3:
         return false;
@@ -174,7 +182,7 @@ bool SaveGameLoader::LoadFormType(unsigned int type, BGSLoadGameBuffer* buffer)
     case 9:
         return false;
     case 10:
-        ::UpdateRadioReceivers((int)(buffer));
+        ::UpdateRadioReceivers((intptr_t)(buffer));
         return true;
     case 11:
         return false;
@@ -221,7 +229,7 @@ bool SaveGameLoader::LoadFormRange(unsigned int type, BGSLoadGameBuffer* buffer,
     case 1:
         return false;
     case 2:
-        reinterpret_cast<::FUN_00459840_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00459840((unsigned int)(buffer));
+        reinterpret_cast<::FUN_00459840_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00459840((uintptr_t)(buffer));
         return true;
     case 3:
         if (globals)
@@ -234,7 +242,7 @@ bool SaveGameLoader::LoadFormRange(unsigned int type, BGSLoadGameBuffer* buffer,
         reinterpret_cast<::FUN_00975b60_shell *>((((FalloutRadio*)&g_011e0e80)))->CleanupCrimeLists(buffer);
         return true;
     case 5:
-        reinterpret_cast<::CombatThreatMap *>((((CombatManager*)BGSSaveLoadGlobalDataWorldspacePtr)))->FUN_00993800((int)(buffer));
+        reinterpret_cast<::CombatThreatMap *>((((CombatManager*)BGSSaveLoadGlobalDataWorldspacePtr)))->FUN_00993800((intptr_t)(buffer));
         return true;
     case 6:
         ::ResetInterfaceState();
@@ -308,7 +316,7 @@ bool SaveGameLoader::LoadGlobalDataRange(unsigned int type, BGSLoadGameBuffer* b
         SoundPlaybackManager::LoadGame(buffer);
         return true;
     case 1000:
-        reinterpret_cast<::FUN_004534f0_shell *>((((MagicCaster*)&g_011e0e80)))->FUN_004534f0((unsigned int)((MagicItem*)buffer));
+        reinterpret_cast<::FUN_004534f0_shell *>((((MagicCaster*)&g_011e0e80)))->FUN_004534f0((uintptr_t)((MagicItem*)buffer));
         return true;
     default:
         ::FUN_00845cc0("SAVELOAD: Unknown global data type %i in LoadGlobalData()", type);
@@ -608,7 +616,7 @@ struct BGSSaveFormBuffer
 // @fnv 0x0084cc90
 void FUN_0084cc90(BGSSaveFormBuffer* apBuffer)
 {
-    GlobalListNode* pList = ((::GlobalListNode *)(::FUN_00461190((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))));
+    GlobalListNode* pList = ((::GlobalListNode *)(::FUN_00461190((intptr_t)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))));
     int iCount = 0;
     unsigned int uiStart = reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20();
     GlobalListNode* pIter = pList;
@@ -777,7 +785,7 @@ void ReconstructAllGlobals()
     BSSimpleList<TESGlobal*>* pGlobalList;
     BGSReconstructFormsInAllFilesMap* pReconstructMap;
     pReconstructMap = ((::fnv_0084ced0::BGSReconstructFormsInAllFilesMap *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_0084ced0::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_007af430()));
-    pGlobalList = ((::BSSimpleList< ::fnv_0084ced0::TESGlobal *> *)(::FUN_00461190((int)((*reinterpret_cast<::fnv_0084ced0::DH * *>(&::g_dataHandler))))));
+    pGlobalList = ((::BSSimpleList< ::fnv_0084ced0::TESGlobal *> *)(::FUN_00461190((intptr_t)((*reinterpret_cast<::fnv_0084ced0::DH * *>(&::g_dataHandler))))));
     while (pGlobalList)
     {
         TESGlobal* pglobal;
@@ -1162,7 +1170,7 @@ void __cdecl SavePlayerLocation(B84C490SaveBuffer* pkBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&ItemUpdateArray, 4, 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pkBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(::B84C490Form *)(((::B84C490Form *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::B84C490TES * *>(&::g_TES))))->GetHitSound()))), 0);
     unsigned int uiGridX = reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::B84C490TES * *>(&::g_TES))))->GetCurrentMoveModeType();
-    int iGridY = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::B84C490TES * *>(&::g_TES))))->FUN_0045cd60()));
+    intptr_t iGridY = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::B84C490TES * *>(&::g_TES))))->FUN_0045cd60()));
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&uiGridX, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&iGridY, 4, 0);
     B84C490Form* pkWorldSpace2 = ((::B84C490Form *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::B84C490Player * *>(&::_g_thePlayer))))->FUN_00575d70()));
@@ -1230,7 +1238,7 @@ bool __cdecl FUN_0084bcd0(unsigned int type, BGSSaveFormBuffer* buffer)
         FUN_0082ec40(buffer);
         return true;
     case 1000:
-        reinterpret_cast<::FUN_004534f0_shell *>((((Manager84*)&g_011e0e80)))->FUN_004534f0((unsigned int)(buffer));
+        reinterpret_cast<::FUN_004534f0_shell *>((((Manager84*)&g_011e0e80)))->FUN_004534f0((uintptr_t)(buffer));
         return true;
     default:
         FUN_00845cc0("SAVELOAD: Unknown global data type %i in SaveGlobalData()", type);
@@ -1261,12 +1269,12 @@ void FUN_0084cd40(BGSLoadGameBuffer* pLoadBuffer)
 {
     SaveLoadChangeHistory* history5 = ((::SaveLoadChangeHistory *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((g_BGSSaveLoadGame))->FUN_007af430()));
     GlobalSeenMap unchanged2(37);
-    GlobalListNode* node2 = ((::GlobalListNode *)(::FUN_00461190((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))));
+    GlobalListNode* node2 = ((::GlobalListNode *)(::FUN_00461190((intptr_t)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))));
     while (node2)
     {
         TESGlobal* globalVal = (*((::TESGlobal * *)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)));
         if (globalVal)
-            reinterpret_cast<::FUN_0084d310_class *>(&(unchanged2))->FUN_0084d310((int)(globalVal), true);
+            reinterpret_cast<::FUN_0084d310_class *>(&(unchanged2))->FUN_0084d310((intptr_t)(globalVal), true);
         node2 = ((::GlobalListNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
     {
@@ -1281,7 +1289,7 @@ void FUN_0084cd40(BGSLoadGameBuffer* pLoadBuffer)
             {
                 if (!reinterpret_cast<::FUN_00549580_shell *>((void *)(static_cast<TESGlobalEx*>(loaded)))->FUN_00549580())
                     reinterpret_cast<::FUN_0046dce0_class *>((static_cast<TESGlobalEx*>(loaded)))->FUN_0046dce0(value9);
-                reinterpret_cast<::NiTMap_S *>(&(unchanged2))->RemoveKey((unsigned int)(loaded));
+                reinterpret_cast<::NiTMap_S *>(&(unchanged2))->RemoveKey((uintptr_t)(loaded));
             }
         }
     }
@@ -1335,14 +1343,14 @@ void __cdecl SaveImageSpaceModifierInstances(void* pBuffer)
         v8_2 = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(&reinterpret_cast<::SimpleListNodeView*>(i6)->m_item)).operator->();
         if (v8_2 != 0 && !reinterpret_cast<::FUN_0084d050_shell *>((v8_2))->IsFlagSet())
         {
-            v2 = (void*)(*(int(**)(int))(*(int*)v8_2 + 148))((int)v8_2);
+            v2 = (void*)(*(int(**)(int))(*(intptr_t*)v8_2 + 148))((intptr_t)v8_2);
             if (v2 != 0)
             {
                 aV6 = reinterpret_cast<::Twin_0084d030 *>((((NiBound*)v2)))->GetStoredFloatValue();
                 reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50(&aV6, 4, 0);
                 v5 = (float)(((double)(::ImageSpaceModifierInstance::GetTime())) - ((double)(reinterpret_cast<::TESActorBaseData *>((((FUN_0047c860_Class*)v2)))->GetHealthRegeneration())));
                 reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50(&v5, 4, 0);
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)pBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)((void*)((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)v2)))->GetMinLevel()))), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)pBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(reinterpret_cast<::ImageSpaceModifierFormView *>(v2)->pImageSpaceModifier), 0);
                 ++v3;
             }
         }

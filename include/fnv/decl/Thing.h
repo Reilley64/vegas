@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+
+#include <cstdint>
 
 class NiPoint3;
 
@@ -9,7 +12,7 @@ public:
     // 0x00480180
     void SetByte(int, char, unsigned char);
     // 0x00525a90
-    int GetOrFallback(int);
+    std::intptr_t GetOrFallback(std::intptr_t);
     // 0x00564bc0
     bool FUN_00564bc0();
     // 0x0056afc0
@@ -23,7 +26,7 @@ public:
     // 0x00867ca0
     int FUN_00867ca0();
     // 0x00881510
-    int FUN_00881510();
+    std::intptr_t FUN_00881510();
     // 0x00a64010
     void WriteData();
 };

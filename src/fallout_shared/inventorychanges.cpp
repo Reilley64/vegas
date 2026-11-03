@@ -1,5 +1,6 @@
 // fallout_shared/inventorychanges.cpp: Inventory, InventoryChanges, Target, TESBipedModelForm and more (144 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/AGOwner.h"
@@ -290,6 +291,16 @@
 #include "BaseProcess.h"
 #include "AutoMemContext.h"
 #include "game_constants.h"
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/FUN_0055d520_shell.h"
+#include "fnv/decl/M_004b4500.h"
+#include "fnv/decl/fnv_004861f0__Form_004861f0.h"
+#include "fnv/decl/fnv_008b8e90__FUN_008b8e90_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_004c1000.h"
+#include "fnv/symbols_0101c000.h"
+#include "fnv/symbols_0101d000.h"
 
 
 // @fnv 0x004bf220
@@ -359,7 +370,7 @@ void InventoryStackRecord::InitLoadGame(BGSLoadFormBuffer* buffer)
     BSSimpleList<BGSPerkEntry*>* node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(m_pExtraDataLists);
     while (node)
     {
-        ExtraDataList* extra = reinterpret_cast<ExtraDataList*>(((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3())));
+        ExtraDataList* extra = reinterpret_cast<ExtraDataList*>((node->m_item));
         if (extra)
             reinterpret_cast<::FixupList *>((extra))->FixupReferences((::FixupStream *)(buffer), reinterpret_cast<TESForm*>(m_pItemObject));
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -377,9 +388,9 @@ float InventoryStackRecord::RoundToNearestStep(float value, float step)
 bool InventoryStackRecord::HasPerkEntry()
 {
     BSSimpleList<BGSPerkEntry*>* node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(m_pExtraDataLists);
-    while (node && ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3())))
+    while (node && (node->m_item))
     {
-        ExtraDataList* extra = reinterpret_cast<ExtraDataList*>(((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3())));
+        ExtraDataList* extra = reinterpret_cast<ExtraDataList*>((node->m_item));
         if (extra && extra->HasExtraDataType0x2F())
             return true;
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -392,9 +403,9 @@ bool InventoryStackRecord::HasPerkEntry()
 bool InventoryStackRecord::HasApplicablePerkEntry()
 {
     BSSimpleList<BGSPerkEntry*>* node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(m_pExtraDataLists);
-    while (node && ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3())))
+    while (node && (node->m_item))
     {
-        ExtraDataList* extra = reinterpret_cast<ExtraDataList*>(((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3())));
+        ExtraDataList* extra = reinterpret_cast<ExtraDataList*>((node->m_item));
         if (extra && reinterpret_cast<::fnv_0041d030::FUN_0041d030_shell *>((extra))->FUN_0041d030())
             return true;
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -435,9 +446,9 @@ struct _DummySimpleList
 void FUN_004bc780_shell::ClearExtraDataList()
 {
     _DummySimpleList* pkCurrentObject = *reinterpret_cast<_DummySimpleList**>(this);
-    while (pkCurrentObject && *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && *((::ExtraDataList **)((void *)(pkCurrentObject))))
     {
-        ExtraDataList* pExtra = *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        ExtraDataList* pExtra = *((::ExtraDataList **)((void *)(pkCurrentObject)));
         reinterpret_cast<::FUN_0040fae0_shell *>((reinterpret_cast<_DummyExtraDataList*>(pExtra)))->FUN_0040fae0(true);
         reinterpret_cast<::ItemChangeListNode *>((pkCurrentObject))->FUN_00905330((*(::InventoryStackRecord *const *)(&pExtra)));
         delete reinterpret_cast<_DummyExtraDataList*>(pExtra);
@@ -482,9 +493,9 @@ int FUN_004bc980_shell::FUN_004bc980()
 {
     ExtraNode* pkCurrentObject = *(ExtraNode**)this;
     int icount = 0;
-    while (pkCurrentObject && *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && *((::ExtraDataList **)((void *)(pkCurrentObject))))
     {
-        ExtraDataList* pExtra = *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        ExtraDataList* pExtra = *((::ExtraDataList **)((void *)(pkCurrentObject)));
         if (reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((((FUN_0041d120_shell*)pExtra)))->HasOnlyAllowedExtraData(0))
             icount += reinterpret_cast<::FUN_00418770_shell *>((void *)(pExtra))->FUN_00418770();
         pkCurrentObject = ((::ExtraNode *)(reinterpret_cast<::Callees *>((pkCurrentObject))->FUN_00726070()));
@@ -518,9 +529,9 @@ int FUN_004bca80_shell::CountAndPruneEntries()
 {
     ListHelper_004bca80* pkCurrentObject = *(ListHelper_004bca80**)this;
     int icount = 0;
-    while (pkCurrentObject && *((::ExtraHelper_004bca80 **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && *((::ExtraHelper_004bca80 **)((void *)(pkCurrentObject))))
     {
-        ExtraHelper_004bca80* pExtra = *((::ExtraHelper_004bca80 **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        ExtraHelper_004bca80* pExtra = *((::ExtraHelper_004bca80 **)((void *)(pkCurrentObject)));
         short sValue = reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770();
         if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((pExtra))->HasOnlyAllowedExtraData(0) && sValue > 0)
         {
@@ -597,9 +608,9 @@ struct FUN_004bd880_shell
 bool FUN_004bda70_shell::HasEffect(unsigned char eEffect)
 {
     ExtraNode* pkCurrentObject = *(ExtraNode**)this;
-    if (pkCurrentObject && *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    if (pkCurrentObject && *((::ExtraDataList **)((void *)(pkCurrentObject))))
     {
-        ExtraDataList* pextra = *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        ExtraDataList* pextra = *((::ExtraDataList **)((void *)(pkCurrentObject)));
         if (pextra)
         {
             FUN_004bd880_shell* pweap = (*(FUN_004bd880_shell**)&this->m_pItemObject);
@@ -636,9 +647,9 @@ struct FUN_004bde40_shell : public InventoryStackRecord
 Script* FUN_004bde40_shell::FUN_004bde40()
 {
     void* pkCurrentObject = *reinterpret_cast<void**>(this);
-    while (pkCurrentObject && *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && *((::ExtraDataList **)((void *)(pkCurrentObject))))
     {
-        ExtraDataList* pextra = *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        ExtraDataList* pextra = *((::ExtraDataList **)((void *)(pkCurrentObject)));
         if (pextra && reinterpret_cast<::FUN_00418800_shell *>((pextra))->FUN_00418800())
         {
             return reinterpret_cast<::FUN_00418800_shell *>((pextra))->FUN_00418800();
@@ -677,9 +688,9 @@ int FUN_004bc8f0_stand::FUN_004bc8f0(bool abWornIgnore)
     int icount;
     XNode* pkCurrentObject = first;
     icount = 0;
-    while (pkCurrentObject && *((::XExtra **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && *((::XExtra **)((void *)(pkCurrentObject))))
     {
-        XExtra* pExtra = *((::XExtra **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        XExtra* pExtra = *((::XExtra **)((void *)(pkCurrentObject)));
         if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((pExtra))->HasOnlyAllowedExtraData(0) && (abWornIgnore || !reinterpret_cast<::FUN_00418ab0_shell *>((pExtra))->FUN_00418ab0(0)))
             icount += reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770();
         pkCurrentObject = ((::XNode *)(reinterpret_cast<::Callees *>((pkCurrentObject))->FUN_00726070()));
@@ -691,9 +702,9 @@ int FUN_004bc8f0_stand::FUN_004bc8f0(bool abWornIgnore)
 bool FUN_004bddd0_shell::FUN_004bddd0(bool ableft)
 {
     BSSimpleList<ExtraDataList*>* pkCurrentObject = *(BSSimpleList<ExtraDataList*>**)this;
-    while (pkCurrentObject && ((::ExtraDataList *)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && (pkCurrentObject->m_item))
     {
-        ExtraDataList* pextra = ((::ExtraDataList *)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        ExtraDataList* pextra = (pkCurrentObject->m_item);
         if (pextra && reinterpret_cast<::FUN_00418ab0_shell *>((((ExtraDataList_shell*)pextra)))->FUN_00418ab0(ableft))
         {
             return true;
@@ -717,17 +728,17 @@ bool FUN_004bfc80_shell::FUN_004bfc80()
     bfound7 = false;
     pchange3 = 0;
     pkCurrentObject = *(ItemNode**)this;
-    while (pkCurrentObject && *((::InventoryStackRecord **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && *((::InventoryStackRecord **)((void *)(pkCurrentObject))))
     {
-        pchange3 = *((::InventoryStackRecord **)(new ((void *)(pkCurrentObject)) ::Vec3()));
-        if (pchange3 && _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()))) == 24 && !bfound7)
+        pchange3 = *((::InventoryStackRecord **)((void *)(pkCurrentObject)));
+        if (pchange3 && _FNV_GetFormType(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()))) == 24 && !bfound7)
         {
-            unsigned int flags3 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()));
+            unsigned int flags3 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pchange3)))->GetName()));
             ExtraNode* pkFirst2 = *(ExtraNode**)pchange3;
             ExtraDataList* pextra = 0;
-            while (pkFirst2 && *((::ExtraDataList **)(new ((void *)(pkFirst2)) ::Vec3())) && !bfound7)
+            while (pkFirst2 && *((::ExtraDataList **)((void *)(pkFirst2))) && !bfound7)
             {
-                pextra = *((::ExtraDataList **)(new ((void *)(pkFirst2)) ::Vec3()));
+                pextra = *((::ExtraDataList **)((void *)(pkFirst2)));
                 if (pextra && ((FUN_00418ab0_shell*)pextra)->FUN_00418ab0(false) && ((bool)(::FUN_004bfd80((unsigned char *)(flags3)))))
                     bfound7 = true;
                 pkFirst2 = ((::ExtraNode *)(reinterpret_cast<::Callees *>((pkFirst2))->FUN_00726070()));
@@ -803,9 +814,9 @@ ExtraDataList* FUN_004bfda0_shell::FUN_004bfda0(TESBoundObject* apObj, bool bsho
     if (pkCurrentObject)
     {
         ExtraNode* node = *pkCurrentObject;
-        while (node && *((::ExtraDataList **)(new ((void *)(node)) ::Vec3())))
+        while (node && *((::ExtraDataList **)((void *)(node))))
         {
-            ExtraDataList* pExtra = *((::ExtraDataList **)(new ((void *)(node)) ::Vec3()));
+            ExtraDataList* pExtra = *((::ExtraDataList **)((void *)(node)));
             if (pExtra && reinterpret_cast<::FUN_00418ab0_shell *>((((FUN_00418ab0_shell*)pExtra)))->FUN_00418ab0(false))
                 return pExtra;
             else if (pExtra && ((FUN_00418b10_shell*)pExtra)->FUN_00418b10() && bshouldwear)
@@ -1169,21 +1180,21 @@ void FUN_004c3380_shell::FUN_004c3380(InventoryStackRecord* apChange, bool abDel
     if (pitem)
     {
         BSSimpleList<ExtraDataList*>* pChangeFirst;
-        reinterpret_cast<::CombatProcedure *>((((ItemChangeAccess*)pitem)))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())) + ((int)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)apChange)))->FUN_00726070()))));
+        reinterpret_cast<::CombatProcedure *>((((ItemChangeAccess*)pitem)))->Initialize((::CombatController *)(std::uintptr_t)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())) + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)apChange)))->FUN_00726070()))));
         if (!apChange->m_pExtraDataLists || !apChange->m_pExtraDataLists->IsEmpty())
         {
             pChangeFirst = pitem->m_pExtraDataLists;
             BSSimpleList<ExtraDataList*>* pkCurrentObject = apChange->m_pExtraDataLists;
-            while (pkCurrentObject && ((::ExtraDataList *)(new ((void *)(pkCurrentObject)) ::Vec3())))
+            while (pkCurrentObject && (pkCurrentObject->m_item))
             {
-                ExtraDataList* pcompare = ((::ExtraDataList *)(new ((void *)(pkCurrentObject)) ::Vec3()));
+                ExtraDataList* pcompare = (pkCurrentObject->m_item);
                 bool bHasResultObj = true;
                 if (((ExtraDataListAccess*)pcompare)->GetReplacementReference())
                     reinterpret_cast<::fnv_0041c7f0::FUN_0041c7f0_cls *>((((ExtraDataListAccess*)pcompare)))->FUN_0041c7f0(this->pRef);
 
-                while (pChangeFirst && ((::ExtraDataList *)(new ((void *)(pChangeFirst)) ::Vec3())) && bHasResultObj)
+                while (pChangeFirst && (pChangeFirst->m_item) && bHasResultObj)
                 {
-                    ExtraDataList* pCurrent = ((::ExtraDataList *)(new ((void *)(pChangeFirst)) ::Vec3()));
+                    ExtraDataList* pCurrent = (pChangeFirst->m_item);
                     bool bcomp = true;
                     if (pcompare)
                         bcomp = reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((((ExtraDataListAccess*)pcompare)))->FUN_004126c0(pCurrent, false, bIsThrown) ||
@@ -1221,7 +1232,7 @@ void FUN_004c3380_shell::FUN_004c3380(InventoryStackRecord* apChange, bool abDel
 
         pitem = ((InventoryChangesAccess*)this)->FUN_004bfba0(pobject, true, false);
         if (pitem && (!pitem->m_pExtraDataLists || pitem->m_pExtraDataLists->IsEmpty()) &&
-            !((int)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())))
+            !((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemChangeAccess*)pitem)))->FUN_00726070())))
         {
             reinterpret_cast<::ItemChangeListNode *>(((*(BSSimpleListAccess<InventoryStackRecord*>**)this)))->FUN_00905330(pitem);
             delete pitem;
@@ -1379,7 +1390,7 @@ void VATS::FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback)
     VATS_CommandList* pCurrentElementNext;
     if (!eMode || (DAT_011f21e0 != 0.0 && m_kCommandList.FUN_008256d0()))
         return;
-    if (!abForceQuit && !m_kCommandList.FUN_008256d0() && (*((::VATSCommand **)(new ((void *)&(m_kCommandList)) ::Vec3())))->eType == 15)
+    if (!abForceQuit && !m_kCommandList.FUN_008256d0() && (*((::VATSCommand **)((void *)&(m_kCommandList))))->eType == 15)
         return;
     if (abFinishCommandPlayback)
     {
@@ -1394,7 +1405,7 @@ void VATS::FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback)
             pCurrentElementNext = ((::VATS_CommandList *)(reinterpret_cast<::Callees *>(&(m_kCommandList))->FUN_00726070()));
             while (pCurrentElementNext)
             {
-                VATSCommand* pCommandToDelete = *((::VATSCommand **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                VATSCommand* pCommandToDelete = *((::VATSCommand **)((void *)(pCurrentElementNext)));
                 delete pCommandToDelete;
                 reinterpret_cast<::ItemChangeListNode *>(&(m_kCommandList))->FUN_00905330((::InventoryStackRecord *const &)(pCommandToDelete));
                 pCurrentElementNext = ((::VATS_CommandList *)(reinterpret_cast<::Callees *>(&(m_kCommandList))->FUN_00726070()));
@@ -1411,6 +1422,17 @@ void VATS::FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback)
 
 struct FUN_004bd9d0_shell
 {
+    char pad000[0x180];
+    int m_eFirstWeaponModEffect;
+    int m_eSecondWeaponModEffect;
+    int m_eThirdWeaponModEffect;
+    float m_fModValueA1;
+    float m_fModValueA2;
+    float m_fModValueA3;
+    char pad198[0x14];
+    float m_fModValueB1;
+    float m_fModValueB2;
+    float m_fModValueB3;
     float FUN_004bd9d0(int a1, unsigned char a2);
 };
 
@@ -1422,33 +1444,33 @@ float FUN_004bd9d0_shell::FUN_004bd9d0(int a1, unsigned char auiSubIndex)
     {
         if (auiSubIndex == 0)
         {
-            return *(float*)((char*)this + 0x18c);
+            return m_fModValueA1;
         }
         else if (auiSubIndex == 1)
         {
-            return *(float*)((char*)this + 0x1ac);
+            return m_fModValueB1;
         }
     }
     else if (a1 == 2)
     {
         if (auiSubIndex == 0)
         {
-            return *(float*)((char*)this + 0x190);
+            return m_fModValueA2;
         }
         else if (auiSubIndex == 1)
         {
-            return *(float*)((char*)this + 0x1b0);
+            return m_fModValueB2;
         }
     }
     else if (a1 == 4)
     {
         if (auiSubIndex == 0)
         {
-            return *(float*)((char*)this + 0x194);
+            return m_fModValueA3;
         }
         else if (auiSubIndex == 1)
         {
-            return *(float*)((char*)this + 0x1b4);
+            return m_fModValueB3;
         }
     }
     return 0.0f;
@@ -1486,6 +1508,17 @@ struct FUN_004bcf00_stand
 };
 struct FUN_004bcf60_shell
 {
+    char pad000[0x180];
+    int m_eFirstWeaponModEffect;
+    int m_eSecondWeaponModEffect;
+    int m_eThirdWeaponModEffect;
+    float m_fModValueA1;
+    float m_fModValueA2;
+    float m_fModValueA3;
+    char pad198[0x14];
+    float m_fModValueB1;
+    float m_fModValueB2;
+    float m_fModValueB3;
     float GetEffectValue(int effect, unsigned char value);
 };
 // @fnv 0x004bcf00
@@ -1494,11 +1527,11 @@ int FUN_004bcf00_stand::GetModdedValue(bool abAddMod)
     if (abAddMod)
     {
         return (int)((double)reinterpret_cast<::FUN_004bcf60_shell *>((((GetModHelper_4bcf00*)this)))->GetEffectValue(10, 0) +
-                     (double)(unsigned int)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070())));
+                     (double)(unsigned int)(std::uintptr_t)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070())));
     }
     else
     {
-        return (int)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070()));
+        return (int)(std::uintptr_t)((::_DummySimpleList *)(reinterpret_cast<::Callees *>((((_DummySimpleList*)((char*)this + 0x94))))->FUN_00726070()));
     }
 }
 
@@ -1506,51 +1539,56 @@ int FUN_004bcf00_stand::GetModdedValue(bool abAddMod)
 // @fnv 0x004bcf60
 float FUN_004bcf60_shell::GetEffectValue(int effect, unsigned char value)
 {
-    if (*(int*)((char*)this + 0x180) == effect)
+    if (m_eFirstWeaponModEffect == effect)
     {
         if (!value)
-            return *(float*)((char*)this + 0x18c);
+            return m_fModValueA1;
         else if (value == 1)
-            return *(float*)((char*)this + 0x1ac);
+            return m_fModValueB1;
     }
-    else if (*(int*)((char*)this + 0x184) == effect)
+    else if (m_eSecondWeaponModEffect == effect)
     {
         if (!value)
-            return *(float*)((char*)this + 0x190);
+            return m_fModValueA2;
         else if (value == 1)
-            return *(float*)((char*)this + 0x1b0);
+            return m_fModValueB2;
     }
-    else if (*(int*)((char*)this + 0x188) == effect)
+    else if (m_eThirdWeaponModEffect == effect)
     {
         if (!value)
-            return *(float*)((char*)this + 0x194);
+            return m_fModValueA3;
         else if (value == 1)
-            return *(float*)((char*)this + 0x1b4);
+            return m_fModValueB3;
     }
     else
         return 0.0f;
     return 0.0f;
 }
 
+class TESObjectIMOD;
 struct FUN_004bd570_this
 {
-    int FUN_004bd570(unsigned int);
+    char pad000[0x350];
+    TESObjectIMOD* m_pWeaponMod1;
+    TESObjectIMOD* m_pWeaponMod2;
+    TESObjectIMOD* m_pWeaponMod3;
+    intptr_t FUN_004bd570(unsigned int);
 };
 // Returns the int stored at offset 0x350, 0x354 or 0x358 for slot 1, 2 or 4, otherwise 0.
 // @fnv 0x004bd570
-int FUN_004bd570_this::FUN_004bd570(unsigned int slot)
+intptr_t FUN_004bd570_this::FUN_004bd570(unsigned int slot)
 {
     if (slot == 1)
     {
-        return *(int*)((char*)this + 0x350);
+        return (std::intptr_t)m_pWeaponMod1;
     }
     else if (slot == 2)
     {
-        return *(int*)((char*)this + 0x354);
+        return (std::intptr_t)m_pWeaponMod2;
     }
     else if (slot == 4)
     {
-        return *(int*)((char*)this + 0x358);
+        return (std::intptr_t)m_pWeaponMod3;
     }
     else
     {
@@ -1572,9 +1610,9 @@ TESForm* FUN_004bd740_stand::GetExtraForm()
 {
     BSSimpleList<ExtraDataList*>* pkCurrentObject = *(BSSimpleList<ExtraDataList*>**)this;
     ExtraDataList* pextra;
-    if (pkCurrentObject && *((::ExtraDataList **)(new ((void *)(((_DummySimpleList*)pkCurrentObject))) ::Vec3())))
+    if (pkCurrentObject && *((::ExtraDataList **)((void *)(((_DummySimpleList*)pkCurrentObject)))))
     {
-        pextra = *((::ExtraDataList **)(new ((void *)(((_DummySimpleList*)pkCurrentObject))) ::Vec3()));
+        pextra = *((::ExtraDataList **)((void *)(((_DummySimpleList*)pkCurrentObject))));
         if (pextra && ((FUN_00418660_shell*)pextra)->FUN_00418660())
             return ((FUN_00418660_shell*)pextra)->FUN_00418660();
     }
@@ -1600,9 +1638,9 @@ unsigned char FUN_004bd820_stand::FUN_004bd820()
     BSSimpleList<ExtraDataList*>* pkCurrentObject;
     ExtraDataList* pextra;
     pkCurrentObject = *(BSSimpleList<ExtraDataList*>**)this;
-    if (pkCurrentObject && *((::ExtraDataList **)(new ((void *)(((_DummySimpleList*)pkCurrentObject))) ::Vec3())))
+    if (pkCurrentObject && *((::ExtraDataList **)((void *)(((_DummySimpleList*)pkCurrentObject)))))
     {
-        pextra = *((::ExtraDataList **)(new ((void *)(((_DummySimpleList*)pkCurrentObject))) ::Vec3()));
+        pextra = *((::ExtraDataList **)((void *)(((_DummySimpleList*)pkCurrentObject))));
         if (pextra && ((FUN_00418ba0_shell*)pextra)->FUN_00418ba0())
             return ((FUN_0042e560_shell*)pextra)->FUN_0042e560();
     }
@@ -1624,9 +1662,9 @@ void Holder_70::FUN_004bdc70()
     _DummySimpleList* pNode = first;
     if (pNode)
     {
-        if (*((::ExtraDataList **)(new ((void *)(pNode)) ::Vec3())))
+        if (*((::ExtraDataList **)((void *)(pNode))))
         {
-            Caller_42* pItem = (Caller_42*)*((::ExtraDataList **)(new ((void *)(pNode)) ::Vec3()));
+            Caller_42* pItem = (Caller_42*)*((::ExtraDataList **)((void *)(pNode)));
             if (pItem)
                 reinterpret_cast<::FUN_0042e6f0_shell *>((pItem))->FUN_0042e6f0();
         }
@@ -1648,9 +1686,9 @@ BSExtraData* FUN_004bdcc0_Class::FUN_004bdcc0()
 {
     BSExtraData* result = 0;
     _DummySimpleList* iter = first;
-    if (iter && *((::ExtraDataList **)(new ((void *)(iter)) ::Vec3())))
+    if (iter && *((::ExtraDataList **)((void *)(iter))))
     {
-        ExtraDataList* extra = *((::ExtraDataList **)(new ((void *)(iter)) ::Vec3()));
+        ExtraDataList* extra = *((::ExtraDataList **)((void *)(iter)));
         if (extra && ((FUN_004187d0_Class*)extra)->FUN_004187d0())
             result = ((FUN_004187d0_Class*)extra)->FUN_004187d0();
     }
@@ -1673,9 +1711,9 @@ struct FUN_004bdd80_stand
 void FUN_004bdd80_stand::FUN_004bdd80()
 {
     _DummySimpleList* pNode = m_pHeadNode;
-    if (pNode && *((::ExtraDataList **)(new ((void *)(pNode)) ::Vec3())))
+    if (pNode && *((::ExtraDataList **)((void *)(pNode))))
     {
-        ExtraDataList* pExtra = *((::ExtraDataList **)(new ((void *)(pNode)) ::Vec3()));
+        ExtraDataList* pExtra = *((::ExtraDataList **)((void *)(pNode)));
         if (pExtra && reinterpret_cast<::FUN_004187d0_Class *>((((FUN_004187d0_Class*)pExtra)))->FUN_004187d0())
             reinterpret_cast<::fnv_0041af30::FUN_0041af30_shell *>((((FUN_0041af30_Class*)pExtra)))->FUN_0041af30();
     }
@@ -1696,9 +1734,9 @@ ScriptLocals* ItemChangeShell::FUN_004bdea0()
 {
     BSSimpleList<ExtraDataList*>* pkCurrentObject = m_pExtraDataLists;
     ExtraDataList* pextra;
-    while (pkCurrentObject && ((::ExtraDataList *)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && (pkCurrentObject->m_item))
     {
-        pextra = ((::ExtraDataList *)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        pextra = (pkCurrentObject->m_item);
         if (pextra && reinterpret_cast<::FUN_00418830_shell *>((((ExtraDataList_shell2*)pextra)))->FUN_00418830())
             return reinterpret_cast<::FUN_00418830_shell *>((((ExtraDataList_shell2*)pextra)))->FUN_00418830();
         pkCurrentObject = ((::BSSimpleList< ::ExtraDataList *> *)(reinterpret_cast<::Callees *>((pkCurrentObject))->FUN_00726070()));
@@ -1763,7 +1801,7 @@ void FUN_004bed00_host::FUN_004bed00()
     ExtraDataList* pExtra;
     while (pNode && !((IsEmptyNode*)pNode)->_ref_008256d0())
     {
-        pExtra = *((::ExtraDataList **)(new ((void *)(pNode)) ::Vec3()));
+        pExtra = *((::ExtraDataList **)((void *)(pNode)));
         if (pExtra)
         {
             reinterpret_cast<::load_extra_fixup::ThisQ *>((((CallerNode*)pExtra)))->FUN_00426020(0, 0, (::load_extra_fixup::O *)(0), (void *)(unk08));
@@ -1779,11 +1817,11 @@ struct IndexedPointerCollection
 void _Deallocate(void*);
 struct FUN_004bfb30_shell
 {
-    unsigned int GetAtIfValid(int);
+    uintptr_t GetAtIfValid(int);
 };
 // Returns the element at idx from the array at offset 0xE3C when idx is between 0 and 8, otherwise 0.
 // @fnv 0x004bfb30
-unsigned int FUN_004bfb30_shell::GetAtIfValid(int aiIndex)
+uintptr_t FUN_004bfb30_shell::GetAtIfValid(int aiIndex)
 {
     return (aiIndex >= 0 && aiIndex <= 8) ? ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 400>*)((char*)this + 0xE3C))))->FUN_006a7ad0(aiIndex)))
                                           : 0;
@@ -1833,13 +1871,13 @@ InventoryStackRecord* FUN_004c7300_shell::FindInventoryItem(TESObjectREFR* pRef,
         unsigned int index = 0;
         TESObject* next = ((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((script3))->FUN_007af430()));
         ScriptS* current2 = (ScriptS*)((void *)(reinterpret_cast<::BGSCameraPath *>((script3))->GetConditions()));
-        while (current2 && ((char**)((void *)(new ((void *)(current2)) ::Vec3())))[0])
+        while (current2 && ((char**)((void *)((void *)(current2))))[0])
         {
-            InventoryStackRecord* item = (InventoryStackRecord*)((char**)((void *)(new ((void *)(current2)) ::Vec3())))[0];
+            InventoryStackRecord* item = (InventoryStackRecord*)((char**)((void *)((void *)(current2))))[0];
             *pFound = true;
-            if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((int)((TESForm*)item)) > 0)
+            if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((std::intptr_t)((TESForm*)item)) > 0)
             {
-                if (index < (unsigned int)next)
+                if (index < (std::uintptr_t)next)
                     result2 = item;
                 else
                     return item;
@@ -1854,7 +1892,7 @@ InventoryStackRecord* FUN_004c7300_shell::FindInventoryItem(TESObjectREFR* pRef,
     if (form4)
     {
         *pFound = true;
-        if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((int)(form4)) > 0)
+        if (reinterpret_cast<::FUN_004c8f30_shell *>((this))->FUN_004c8f30((std::intptr_t)(form4)) > 0)
             return (InventoryStackRecord*)form4;
     }
     return 0;
@@ -1907,7 +1945,7 @@ void FUN_004ce300(TESForm* apForm, unsigned int uiValue)
 
 struct FUN_004ce340_stand
 {
-    void FUN_004ce340(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
+    void FUN_004ce340(std::intptr_t a0, std::intptr_t a1, bool a2, bool a3, bool a4, bool a5, int a6, std::intptr_t a7);
 };
 struct C008256d0
 {
@@ -1928,7 +1966,7 @@ void S_004d4030::FUN_004d4030()
     InventoryStackRecord* item;
     while (cur && !((C008256d0*)cur)->_ref_008256d0())
     {
-        item = *((::InventoryStackRecord **)(new ((void *)(cur)) ::Vec3()));
+        item = *((::InventoryStackRecord **)((void *)(cur)));
         if (item)
             reinterpret_cast<::FUN_004bed00_host *>((((C004bed00*)item)))->FUN_004bed00();
         cur = ((::ItemNode *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
@@ -2217,9 +2255,9 @@ struct FUN_004bf150_shell : public InventoryChanges
 void FUN_004bf150_shell::ClearInventoryChanges()
 {
     ExtraNode* node = (ExtraNode*)this->m_pEntryList;
-    while (node && *((::InventoryStackRecord **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::InventoryStackRecord **)((void *)(node))))
     {
-        InventoryStackRecord* item = *((::InventoryStackRecord **)(new ((void *)(node)) ::Vec3()));
+        InventoryStackRecord* item = *((::InventoryStackRecord **)((void *)(node)));
         node = ((::fnv_004bf150::ExtraNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         reinterpret_cast<::FUN_004bc780_shell *>((((FUN_004bc780_shell*)item)))->ClearExtraDataList();
         delete item;
@@ -2293,12 +2331,12 @@ bool FUN_004c0c60(FUN_004c0c60_Helper* pThis)
 struct FUN_004c0cd0_This
 {
     char pad[0x1f0];
-    int field_1f0;
+    void* field_1f0;
 };
 
 struct FUN_004c0cd0_Arg
 {
-    int val;
+    void* val;
 };
 
 // @fnv 0x004c0cd0
@@ -2379,9 +2417,9 @@ bool FUN_004d0360_shell::FUN_004d0360()
     bool found = false;
     QNode1* it =
         (QNode1*)((BaseProcess*)((FUN_004bffb0_shell*)this)->FUN_004bffb0())->BaseProcess::GetCurrentProcessData();
-    while (it && *((::QEntry1 **)(new ((void *)(it)) ::Vec3())) && !found)
+    while (it && *((::QEntry1 **)((void *)(it))) && !found)
     {
-        QEntry1* entry = *((::QEntry1 **)(new ((void *)(it)) ::Vec3()));
+        QEntry1* entry = *((::QEntry1 **)((void *)(it)));
         if (((TESForm*)entry->form)->IsQuestItem())
         {
             found = true;
@@ -2396,7 +2434,7 @@ bool FUN_004d0360_shell::FUN_004d0360()
         QNode2* node = list;
         while (node && !node->_ref_008256d0() && !found)
         {
-            QEntry2* item = *((::QEntry2 **)(new ((void *)(node)) ::Vec3()));
+            QEntry2* item = *((::QEntry2 **)((void *)(node)));
             if (item && item->form && ((TESForm*)item->form)->IsQuestItem() && item->count > 0)
                 found = true;
             node = ((::QNode2 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -2461,11 +2499,11 @@ bool FUN_004d0490_shell::FUN_004d0490()
     while (pIterVal && !pIterVal->_ref_008256d0() && !bfound9)
     {
         bool seen5;
-        SEntry1* entry7 = *((::fnv_004d0490::SEntry1 **)(new ((void *)(pIterVal)) ::Vec3()));
+        SEntry1* entry7 = *((::fnv_004d0490::SEntry1 **)((void *)(pIterVal)));
         seen5 = false;
         if (!reinterpret_cast<::FUN_0057c850_cls *>((((FUN_0057c850_cls*)&kMapA)))->FUN_0057c850(entry7->form, &seen5))
         {
-            reinterpret_cast<::FUN_0084d310_class *>((((FUN_0056aac0_map*)&kMapA)))->FUN_0084d310((int)(entry7->form), true);
+            reinterpret_cast<::FUN_0084d310_class *>((((FUN_0056aac0_map*)&kMapA)))->FUN_0084d310((std::intptr_t)(entry7->form), true);
             if (((::fnv_004d0490::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(entry7->form)))))
             {
                 bfound9 = true;
@@ -2481,7 +2519,7 @@ bool FUN_004d0490_shell::FUN_004d0490()
         SNode2* node5 = list;
         while (node5 && !node5->_ref_008256d0() && !bfound9)
         {
-            SEntry2* item = *((::fnv_004d0490::SEntry2 **)(new ((void *)(node5)) ::Vec3()));
+            SEntry2* item = *((::fnv_004d0490::SEntry2 **)((void *)(node5)));
             bool seen8 = false;
             if (item->count && !reinterpret_cast<::FUN_0057c850_cls *>((((FUN_0057c850_cls*)&kMapA)))->FUN_0057c850(item->form, &seen8))
             {
@@ -2551,7 +2589,7 @@ void FUN_004d1610_shell::FUN_004d1610()
     ContNode* pCurrentElementNext = FUN_00717e50(((void *)(reinterpret_cast<::FUN_004bffb0_shell *>((((FUN_004bffb0_S*)this)))->FUN_004bffb0())));
     while (pCurrentElementNext && !FUN_008256d0(pCurrentElementNext))
     {
-        InventoryItemEntry* pItem = *((::InventoryItemEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        InventoryItemEntry* pItem = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
         pCurrentElementNext = ((::ContNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         if (pItem->pObj && _FNV_GetFormType((unsigned int)pItem->pObj) != 0x34 && pItem->m_pExtraData)
         {
@@ -2616,19 +2654,19 @@ void FUN_004d17a0_t::FUN_004d17a0()
 {
     pRef->MarkAsModified(0x8000000);
     ItemNode_004d17a0* pkNode = m_pEntryList;
-    while (pkNode && !pkNode->_ref_008256d0() && *((::InventoryStackRecord **)(new ((void *)(pkNode)) ::Vec3())))
+    while (pkNode && !pkNode->_ref_008256d0() && *((::InventoryStackRecord **)((void *)(pkNode))))
     {
-        InventoryStackRecord* pItem = *((::InventoryStackRecord **)(new ((void *)(pkNode)) ::Vec3()));
+        InventoryStackRecord* pItem = *((::InventoryStackRecord **)((void *)(pkNode)));
         ExtraNode_004d17a0* pkExtraNode = (ExtraNode_004d17a0*)pItem->m_pExtraDataLists;
-        while (pkExtraNode && *((::Extra_004d17a0 **)(new ((void *)(pkExtraNode)) ::Vec3())))
+        while (pkExtraNode && *((::Extra_004d17a0 **)((void *)(pkExtraNode))))
         {
-            Extra_004d17a0* pExtra = *((::Extra_004d17a0 **)(new ((void *)(pkExtraNode)) ::Vec3()));
+            Extra_004d17a0* pExtra = *((::Extra_004d17a0 **)((void *)(pkExtraNode)));
             if (pExtra)
             {
                 if (((void *)(reinterpret_cast<::FUN_00418720_shell *>((pExtra))->GetExtraLeveledItem())))
                 {
                     reinterpret_cast<::FUN_0041d000_shell *>((pExtra))->FUN_0041d000();
-                    reinterpret_cast<::CombatProcedure *>((((ItemCount_004d17a0*)pItem)))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770()));
+                    reinterpret_cast<::CombatProcedure *>((((ItemCount_004d17a0*)pItem)))->Initialize((::CombatController *)(std::uintptr_t)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770()));
                     reinterpret_cast<::ItemChangeListNode *>((pkExtraNode))->FUN_00905330((*(::InventoryStackRecord *const *)(&pExtra)));
                     delete pExtra;
                     pkExtraNode = (ExtraNode_004d17a0*)pItem->m_pExtraDataLists;
@@ -2640,7 +2678,7 @@ void FUN_004d17a0_t::FUN_004d17a0()
                 pkExtraNode = ((::ExtraNode_004d17a0 *)(reinterpret_cast<::Callees *>((pkExtraNode))->FUN_00726070()));
         }
         if (pItem && pItem->m_pExtraDataLists && ((ExtraNode_004d17a0*)pItem->m_pExtraDataLists)->_ref_008256d0() &&
-            !((int)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())))
+            !((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ItemCount_004d17a0*)pItem)))->FUN_00726070())))
         {
             reinterpret_cast<::ItemChangeListNode *>((m_pEntryList))->FUN_00905330((*(::InventoryStackRecord *const *)(&pItem)));
             delete pItem;
@@ -2665,26 +2703,26 @@ struct FUN_004bd8d0_shell : public InventoryStackRecord
 bool FUN_004bd8d0_shell::FUN_004bd8d0(unsigned char type, float* pfResult)
 {
     InventoryStackRecord* item = *(InventoryStackRecord**)this;
-    if (item && *(ExtraDataList**)((::ExtraDataList **)(new ((void *)(item)) ::Vec3())))
+    if (item && *(ExtraDataList**)((::ExtraDataList **)((void *)(item))))
     {
-        InventoryStackRecord* extra = (InventoryStackRecord*)*((::ExtraDataList **)(new ((void *)(item)) ::Vec3()));
+        InventoryStackRecord* extra = (InventoryStackRecord*)*((::ExtraDataList **)((void *)(item)));
         if (extra)
         {
             InventoryStackRecord* slot = *(InventoryStackRecord**)&this->m_pItemObject;
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)extra)))->CheckExtraByType(1) &&
-                (int)((FUN_004bd880_stand*)slot)->GetSlotPointer(1) == type)
+                (std::uintptr_t)((FUN_004bd880_stand*)slot)->GetSlotPointer(1) == type)
             {
                 *pfResult = ((FUN_004bd9d0_shell*)slot)->FUN_004bd9d0(1, 0);
                 return true;
             }
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)extra)))->CheckExtraByType(2) &&
-                (int)((FUN_004bd880_stand*)slot)->GetSlotPointer(2) == type)
+                (std::uintptr_t)((FUN_004bd880_stand*)slot)->GetSlotPointer(2) == type)
             {
                 *pfResult = ((FUN_004bd9d0_shell*)slot)->FUN_004bd9d0(2, 0);
                 return true;
             }
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)extra)))->CheckExtraByType(4) &&
-                (int)((FUN_004bd880_stand*)slot)->GetSlotPointer(4) == type)
+                (std::uintptr_t)((FUN_004bd880_stand*)slot)->GetSlotPointer(4) == type)
             {
                 *pfResult = ((FUN_004bd9d0_shell*)slot)->FUN_004bd9d0(4, 0);
                 return true;
@@ -2724,7 +2762,7 @@ const char* ItemChange_004be200::GetIconFilename(TESObjectREFR* apRef)
     }
     if (!piconFilename || !piconFilename[0])
         piconFilename =
-            ::FUN_0048e730((TESForm*)(TESBoundObject*)*(void**)((char*)this + 8), (int)(apRef));
+            ::FUN_0048e730((TESForm*)(TESBoundObject*)*(void**)((char*)this + 8), (std::intptr_t)(apRef));
     if (!piconFilename || !piconFilename[0])
         return ::g_011d33f0.GetMenuTitle();
     return piconFilename;
@@ -2916,9 +2954,9 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
     {
         BSSimpleList<InventoryItemEntry*>* pCurrentElementNext =
             (BSSimpleList<InventoryItemEntry*>*)FUN_00717e50(((FUN_004bffb0_shell*)this)->FUN_004bffb0());
-        while (pCurrentElementNext && ((::InventoryItemEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3())))
+        while (pCurrentElementNext && (pCurrentElementNext->m_item))
         {
-            InventoryItemEntry* pobject = ((::InventoryItemEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            InventoryItemEntry* pobject = (pCurrentElementNext->m_item);
             TESLevItem* pObj = dynamic_cast<TESLevItem*>(pobject->pObj);
             TESBipedModelForm* pbipedForm = 0;
             int ioriginalcount = ((FUN_004bffb0_shell*)this)->FUN_004bffb0()->GetObjectCount((TESObject*)pobject->pObj);
@@ -2948,17 +2986,17 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
                 if (iAbsCount < 0)
                     iAbsCount *= -1;
                 if (pitem && pitem->m_iCountChange + iAbsCount > 0 &&
-                    (ioriginalcount >= 0 || !pitem || ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) > ioriginalcount))
+                    (ioriginalcount >= 0 || !pitem || ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) > ioriginalcount))
                 {
-                    if (pitem->m_pExtraDataLists && ((::ExtraDataList *)(new ((void *)(pitem->m_pExtraDataLists)) ::Vec3())))
+                    if (pitem->m_pExtraDataLists && (pitem->m_pExtraDataLists->m_item))
                     {
                         icount += ((FUN_004bca80_shell*)pitem)->CountAndPruneEntries();
                         if (pitem->HasApplicablePerkEntry())
                             icount++;
                         if (reinterpret_cast<::FUN_004bc8f0_stand *>((((FUN_004bc8f0_shell*)pitem)))->FUN_004bc8f0(false) <
                                 ioriginalcount + pitem->m_iCountChange &&
-                            ((::ExtraDataList *)(new ((void *)(pitem->m_pExtraDataLists)) ::Vec3())) && !((FUN_004bddd0_shell*)pitem)->FUN_004bddd0(false) &&
-                            !((::ExtraDataList *)(new ((void *)(pitem->m_pExtraDataLists)) ::Vec3()))->HasExtraDataType0x2F())
+                            (pitem->m_pExtraDataLists->m_item) && !((FUN_004bddd0_shell*)pitem)->FUN_004bddd0(false) &&
+                            !(pitem->m_pExtraDataLists->m_item)->HasExtraDataType0x2F())
                             icount++;
                     }
                     else
@@ -2977,16 +3015,16 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
     pkCurrentObject = *(BSSimpleList<InventoryStackRecord*>**)this;
     itempcount = icount;
     bHasResultObj = true;
-    while (pkCurrentObject && ((::InventoryStackRecord *)(new ((void *)(pkCurrentObject)) ::Vec3())))
+    while (pkCurrentObject && (pkCurrentObject->m_item))
     {
-        InventoryStackRecord* pitem = ((::InventoryStackRecord *)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        InventoryStackRecord* pitem = (pkCurrentObject->m_item);
         bHasResultObj = true;
         bool bcontinue = true;
         if (pitem)
         {
             if ((unsigned int)*(const Flt*)pitem &&
-                ((::ExtraDataList *)(new ((void *)(((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))) ::Vec3())) &&
-                ((::ExtraDataList *)(new ((void *)(((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))) ::Vec3()))->HasExtraDataType0x2F())
+                ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item) &&
+                ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item)->HasExtraDataType0x2F())
                 bcontinue = true;
             else if (((FUN_004bffb0_shell*)this)->FUN_004bffb0() &&
                      ((FUN_004bffb0_shell*)this)->FUN_004bffb0()->HasObjectOfType((TESObject*)pitem->m_pItemObject))
@@ -2994,18 +3032,18 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
             TESBipedModelForm* pbipedForm = 0;
             if (!abcountplayable)
             {
-                switch (FNV_GetFormType((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))
+                switch (FNV_GetFormType((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))
                 {
                 case 41:
-                    if (!((bool)(reinterpret_cast<::FUN_004c94d0_shell *>(((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->GetFlag())))
+                    if (!((bool)(reinterpret_cast<::FUN_004c94d0_shell *>(((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->GetFlag())))
                         bcontinue = false;
                     break;
                 case 40:
-                    if (!reinterpret_cast<::FUN_0047bcf0_class *>(((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->IsFlag80Clear())
+                    if (!reinterpret_cast<::FUN_0047bcf0_class *>(((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->IsFlag80Clear())
                         bcontinue = false;
                     break;
                 default:
-                    pbipedForm = ::TESBipedModelForm::GetFormAsBipedModel((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())));
+                    pbipedForm = ::TESBipedModelForm::GetFormAsBipedModel((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())));
                     if (pbipedForm)
                         bcontinue = ((FUN_00480d90_shell*)pbipedForm)->FUN_00480d90();
                     break;
@@ -3019,18 +3057,18 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
                 icount++;
             if (reinterpret_cast<::FUN_004bc8f0_stand *>((((FUN_004bc8f0_shell*)pitem)))->FUN_004bc8f0(false) < pitem->m_iCountChange)
                 icount++;
-            if (((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) < 0 &&
+            if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) < 0 &&
                 !((unsigned int)*(const Flt*)pitem &&
-                  ((::ExtraDataList *)(new ((void *)(((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))) ::Vec3())) &&
-                  ((::ExtraDataList *)(new ((void *)(((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))) ::Vec3()))->HasExtraDataType0x2F()))
+                  ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item) &&
+                  ((((BSSimpleList<ExtraDataList*>*)(unsigned int)*(const Flt*)pitem))->m_item)->HasExtraDataType0x2F()))
             {
                 reinterpret_cast<::ItemChangeListNode *>(((*(BSSimpleList<InventoryStackRecord*>**)this)))->FUN_00905330(pitem);
                 ((FUN_004bc780_shell*)pitem)->ClearExtraDataList();
                 delete pitem;
                 icount = itempcount;
                 pkCurrentObject = *(BSSimpleList<InventoryStackRecord*>**)this;
-                if (pkCurrentObject && ((::InventoryStackRecord *)(new ((void *)(pkCurrentObject)) ::Vec3())))
-                    pitem = ((::InventoryStackRecord *)(new ((void *)(pkCurrentObject)) ::Vec3()));
+                if (pkCurrentObject && (pkCurrentObject->m_item))
+                    pitem = (pkCurrentObject->m_item);
                 else
                     pitem = 0;
                 bHasResultObj = false;
@@ -3072,7 +3110,7 @@ struct ExtraRef4cfe20
 struct FUN_004cfe20_t : public ::InventoryChanges
 {
     Container4cfe20* FUN_004bffb0();
-    bool HasItem(unsigned int aId);
+    bool HasItem(std::uintptr_t aId);
 };
 
 struct FUN_00419d10
@@ -3090,9 +3128,9 @@ struct FUN_004bdd20_Stand
 void FUN_004bdd20_Stand::SetPerkExtra(void* apExtra)
 {
     BSSimpleList<BGSPerk*>* pk = reinterpret_cast<BSSimpleList<BGSPerk*>*>(*reinterpret_cast<void**>(this));
-    if (pk && ((::BGSPerk *)(new ((void *)(pk)) ::Vec3())))
+    if (pk && (pk->m_item))
     {
-        BGSPerk* item = ((::BGSPerk *)(new ((void *)(pk)) ::Vec3()));
+        BGSPerk* item = (pk->m_item);
         if (item)
         {
             if (!reinterpret_cast<FUN_004187d0_Class*>(item)->FUN_004187d0())
@@ -3128,7 +3166,7 @@ void FUN_004bed60_shell::SavePerkList(BGSSaveFormBuffer* buffer)
     BSSimpleList<BGSPerk*>* node = list;
     while (node)
     {
-        BGSPerk* perk = ((::BGSPerk *)(new ((void *)(node)) ::Vec3()));
+        BGSPerk* perk = (node->m_item);
         if (perk)
         {
             reinterpret_cast<::fnv_00426a30::Owner *>((((FUN_00426a30_shell*)perk)))->WriteNodeList((::fnv_00426a30::BufObj *)(buffer));
@@ -3172,10 +3210,10 @@ void FUN_004bc810_cls::FUN_004bc810(FUN_004bc810_cls* apSource)
     check:
         if (cur != 0)
         {
-            if (*((::InventoryItemEntry **)(new ((void *)(cur)) ::Vec3())) != 0)
+            if (*((::InventoryItemEntry **)((void *)(cur))) != 0)
             {
                 reinterpret_cast<FUN_005ae3d0_S*>(((::ContNode *)(::FUN_00559450((int *)(this)))))
-                    ->FUN_005ae3d0(reinterpret_cast<ExtraDataList**>(((::InventoryItemEntry **)(new ((void *)(cur)) ::Vec3()))));
+                    ->FUN_005ae3d0(reinterpret_cast<ExtraDataList**>(((::InventoryItemEntry **)((void *)(cur)))));
                 goto advance;
             }
         }
@@ -3197,11 +3235,11 @@ struct FUN_0042de90_obj
 int FUN_004bd7a0_stand::FindFirstNonNegativeValue()
 {
     int result = -1;
-    for (ExtraNode* cur = ((::ExtraNode *)(::FUN_00559450((int *)this))); result < 0 && cur != 0 && *((::ExtraDataList **)(new ((void *)(cur)) ::Vec3())) != 0; cur = ((::ExtraNode *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
+    for (ExtraNode* cur = ((::ExtraNode *)(::FUN_00559450((int *)this))); result < 0 && cur != 0 && *((::ExtraDataList **)((void *)(cur))) != 0; cur = ((::ExtraNode *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
-        if (((signed char)(reinterpret_cast<::FUN_0042de90_cls *>((((FUN_0042de90_obj*)*((::ExtraDataList **)(new ((void *)(cur)) ::Vec3())))))->GetExtraByteValue())) >= 0)
+        if (((signed char)(reinterpret_cast<::FUN_0042de90_cls *>((((FUN_0042de90_obj*)*((::ExtraDataList **)((void *)(cur))))))->GetExtraByteValue())) >= 0)
         {
-            result = ((signed char)(reinterpret_cast<::FUN_0042de90_cls *>((((FUN_0042de90_obj*)*((::ExtraDataList **)(new ((void *)(cur)) ::Vec3())))))->GetExtraByteValue()));
+            result = ((signed char)(reinterpret_cast<::FUN_0042de90_cls *>((((FUN_0042de90_obj*)*((::ExtraDataList **)((void *)(cur))))))->GetExtraByteValue()));
         }
     }
     return result;
@@ -3280,9 +3318,9 @@ void ItemChange_004be3d0::SetExtraListFlag(bool abNew, bool abFlag, bool abDelet
     else if (((FUN_004bddd0_shell*)this)->FUN_004bddd0(abFlag))
     {
         BSSimpleList<ExtraDataList*>* pIter = m_pExtraDataLists;
-        while (pIter && ((::ExtraDataList *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (pIter->m_item))
         {
-            ExtraDataList* pExtra = ((::ExtraDataList *)(new ((void *)(pIter)) ::Vec3()));
+            ExtraDataList* pExtra = (pIter->m_item);
             if (pExtra && reinterpret_cast<::FUN_00418ab0_shell *>((((ExtraDataList_shell*)pExtra)))->FUN_00418ab0(abFlag))
             {
                 reinterpret_cast<::ItemChangeListNode *>((pIter))->FUN_00905330((::InventoryStackRecord *const &)(pExtra));
@@ -3344,7 +3382,7 @@ void Inv_4bf330::ClearExtraForSlot(RefBase_4bf330* apRef, int aiSlot)
         ExtraList_4bf330* pNode = pChange->m_pExtraDataLists;
         while (pNode)
         {
-            Extra_4bf330* pExtra = ((::Extra_4bf330 *)(new ((void *)(pNode)) ::Vec3()));
+            Extra_4bf330* pExtra = ((::Extra_4bf330 *)((void *)(pNode)));
             if (pExtra && ((aiSlot != -1 && ((char)(reinterpret_cast<::FUN_0042de90_cls *>((pExtra))->GetExtraByteValue())) == aiSlot) ||
                            (aiSlot == -1 && ((char)(reinterpret_cast<::FUN_0042de90_cls *>((pExtra))->GetExtraByteValue())) >= 0)))
             {
@@ -3368,7 +3406,7 @@ void Inv_4bf330::ClearExtraForSlot(RefBase_4bf330* apRef, int aiSlot)
         {
             delete pChange->m_pExtraDataLists;
             pChange->m_pExtraDataLists = 0;
-            if (!((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())))
+            if (!((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())))
             {
                 reinterpret_cast<::ItemChangeListNode *>((m_pEntryList))->FUN_00905330((::InventoryStackRecord *const &)(pChange));
                 delete pChange;
@@ -3440,18 +3478,18 @@ TESBoundObject* Inv4c6ba0::FindFirstItemOfType(int aType, int* apCount)
     TESBoundObject* pForm = 0;
     ChangeNode4c6ba0* pChangeNode4;
 
-    while (pNode && !pForm && *((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && !pForm && *((::ContEntry4c6ba0 **)((void *)(pNode))))
     {
-        pForm = (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->pObj;
+        pForm = (*((::ContEntry4c6ba0 **)((void *)(pNode))))->pObj;
         if (pForm && FNV_GetFormType((TESForm*)pForm) == aType)
         {
             pChange = ((::Change4c6ba0 *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(pForm, 1, 0)));
-            if (!pChange || (pChange && ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->count))
+            if (!pChange || (pChange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count))
             {
                 if (pChange)
-                    *apCount = ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->count;
+                    *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
                 else
-                    *apCount = (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->count;
+                    *apCount = (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
             }
         }
         else
@@ -3462,15 +3500,15 @@ TESBoundObject* Inv4c6ba0::FindFirstItemOfType(int aType, int* apCount)
     }
 
     pChangeNode4 = m_pEntryList;
-    while (pChangeNode4 && !pForm && *((::Change4c6ba0 **)(new ((void *)(pChangeNode4)) ::Vec3())))
+    while (pChangeNode4 && !pForm && *((::Change4c6ba0 **)((void *)(pChangeNode4))))
     {
-        pForm = (*((::Change4c6ba0 **)(new ((void *)(pChangeNode4)) ::Vec3())))->m_pItemObject;
+        pForm = (*((::Change4c6ba0 **)((void *)(pChangeNode4))))->m_pItemObject;
         if (pForm && FNV_GetFormType((TESForm*)pForm) == aType)
         {
             if (!reinterpret_cast<::TESContainer *>((((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pForm)))
             {
-                if (((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)(new ((void *)(pChangeNode4)) ::Vec3())))))->FUN_00726070())) > 0)
-                    *apCount = ((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)(new ((void *)(pChangeNode4)) ::Vec3())))))->FUN_00726070()));
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pChangeNode4))))))->FUN_00726070())) > 0)
+                    *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pChangeNode4))))))->FUN_00726070()));
             }
         }
         else
@@ -3536,7 +3574,6 @@ PlacedRef* Placement::PlaceObject(PlacedRef* ref, void* object, int count, int f
         static_cast<NiPoint3&>(position) = *ref->GetPos();
         NiPoint3 angle = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(ref))->GetData()));
         NiMatrix3Helper matrix2;
-        new ((void *)&(matrix2)) ::Vec3();
         reinterpret_cast<::Matrix161 *>(&(matrix2))->FUN_00a59540(angle.x, angle.y, angle.z);
         NiPoint3b offset(0.0f, 50.0f, 30.0f);
         reinterpret_cast<::FUN_0063c8a0_shell *>(&(position))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(matrix2._ref_004b4500(offset)));
@@ -4125,7 +4162,7 @@ int Changes::FUN_004cba70(TESLevItem* pLeveledItem)
         int index = 0;
         while (node && !node->_ref_008256d0())
         {
-            TESLevItem* leveled = dynamic_cast<TESLevItem*>((*((::fnv_004cba70::ContainerEntry **)(new ((void *)(node)) ::Vec3())))->object);
+            TESLevItem* leveled = dynamic_cast<TESLevItem*>((*((::fnv_004cba70::ContainerEntry **)((void *)(node))))->object);
             if (leveled && leveled == pLeveledItem)
             {
                 break;
@@ -4137,18 +4174,18 @@ int Changes::FUN_004cba70(TESLevItem* pLeveledItem)
             node = ((::fnv_004cba70::ContainerNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
         ChangeNode* changeNode = list;
-        while (changeNode && !changeNode->_ref_008256d0() && *((::fnv_004cba70::Change **)(new ((void *)(changeNode)) ::Vec3())))
+        while (changeNode && !changeNode->_ref_008256d0() && *((::fnv_004cba70::Change **)((void *)(changeNode))))
         {
-            Change* change = *((::fnv_004cba70::Change **)(new ((void *)(changeNode)) ::Vec3()));
+            Change* change = *((::fnv_004cba70::Change **)((void *)(changeNode)));
             if (change)
             {
                 ExtraNode* extraNode = change->extras;
-                while (extraNode && *((::fnv_004cba70::Extra **)(new ((void *)(extraNode)) ::Vec3())))
+                while (extraNode && *((::fnv_004cba70::Extra **)((void *)(extraNode))))
                 {
-                    Extra* extra = *((::fnv_004cba70::Extra **)(new ((void *)(extraNode)) ::Vec3()));
+                    Extra* extra = *((::fnv_004cba70::Extra **)((void *)(extraNode)));
                     if (extra && reinterpret_cast<::FUN_0041d360_shell *>((extra))->FUN_0041d360() == index)
                     {
-                        result = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((change))->GetName()));
+                        result = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((change))->GetName()));
                         break;
                     }
                     extraNode = ((::fnv_004cba70::ExtraNode *)(reinterpret_cast<::Callees *>((extraNode))->FUN_00726070()));
@@ -4196,9 +4233,9 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
     float total = 0.0f;
     float weightModifier = 0.0f;
     InventoryNode* node = first;
-    while (node && !node->FUN_008256d0() && *((::InventoryEntry **)(new ((void *)(node)) ::Vec3())))
+    while (node && !node->FUN_008256d0() && *((::InventoryEntry **)((void *)(node))))
     {
-        InventoryEntry* item = *((::InventoryEntry **)(new ((void *)(node)) ::Vec3()));
+        InventoryEntry* item = *((::InventoryEntry **)((void *)(node)));
         ObjectForm* form = item->m_pItemObject;
         if (reinterpret_cast<::FUN_004bddd0_shell *>((item))->FUN_004bddd0(false) && form->FUN_00401170() != 0x29)
         {
@@ -4216,7 +4253,7 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
             {
                 weightModifier = ::TESWeightForm::GetWeightForForm((::TESForm *)(form), FUN_004d1360((*reinterpret_cast<char * *>(&::_g_thePlayer))));
             }
-            int count = reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30(((int)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())));
+            int count = reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())));
             if (form->FUN_00401170() == 0x18)
             {
                 int evaluated = FUN_00ec43fb(form, 0, DAT_01183128, DAT_01183a34, 0);
@@ -4229,8 +4266,8 @@ float InventoryListView::GetInventoryWeight(ActorProcessView* actor)
                     InventoryStackRecord* weapon = process->GetActiveWeapon();
                     InventoryStackRecord* pSecondAmmo = process->GetCurrentAmmo();
                     if (weapon && pSecondAmmo &&
-                        ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(weapon)))->GetName())) ==
-                            ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(pSecondAmmo)))->GetName())))
+                        ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(weapon)))->GetName())) ==
+                            ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<InventoryEntry*>(pSecondAmmo)))->GetName())))
                     {
                         count = 1;
                     }
@@ -4282,7 +4319,7 @@ void InventoryItemManager::FUN_004d42f0(InventoryStream* stream)
         InventoryNode* node = entries;
         while (node)
         {
-            InventoryItem* item = *((::fnv_004d42f0::InventoryItem **)(new ((void *)(node)) ::Vec3()));
+            InventoryItem* item = *((::fnv_004d42f0::InventoryItem **)((void *)(node)));
             if (item)
                 reinterpret_cast<::InventoryStackRecord *>((item))->InitLoadGame((::BGSLoadFormBuffer *)(stream));
             node = ((::fnv_004d42f0::InventoryNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -4297,13 +4334,13 @@ void InventoryItemManager::FUN_004d42f0(InventoryStream* stream)
 struct FUN_004d43c0_cls
 {
     ContNode* m_pFirstNode;
-    int FindItemIndex(int a1, InventoryItemEntry* a2);
+    int FindItemIndex(intptr_t a1, InventoryItemEntry* a2);
 };
 
 
 // Searches the list for an item whose FUN_0044ddc0 value equals a1, then returns the position of a2 in that item's sublist, or -1.
 // @fnv 0x004d43c0
-int FUN_004d43c0_cls::FindItemIndex(int a1, InventoryItemEntry* pTargetItem)
+int FUN_004d43c0_cls::FindItemIndex(intptr_t a1, InventoryItemEntry* pTargetItem)
 {
     if (a1 == 0 || pTargetItem == 0)
     {
@@ -4312,16 +4349,16 @@ int FUN_004d43c0_cls::FindItemIndex(int a1, InventoryItemEntry* pTargetItem)
     ContNode* node7 = m_pFirstNode;
     while (node7 != 0)
     {
-        InventoryItemEntry* itemTmp = *((::InventoryItemEntry **)(new ((void *)(node7)) ::Vec3()));
+        InventoryItemEntry* itemTmp = *((::InventoryItemEntry **)((void *)(node7)));
         node7 = ((::ContNode *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
-        if (itemTmp != 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemTmp))->GetName())) == a1)
+        if (itemTmp != 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemTmp))->GetName())) == a1)
         {
             ContNode* inner6;
             int count2 = 0;
             inner6 = ((::ContNode *)(::FUN_00559450((int *)(itemTmp))));
             while (inner6 != 0)
             {
-                InventoryItemEntry* cur = *((::InventoryItemEntry **)(new ((void *)(inner6)) ::Vec3()));
+                InventoryItemEntry* cur = *((::InventoryItemEntry **)((void *)(inner6)));
                 if (cur != 0 && cur == pTargetItem)
                 {
                     return count2;
@@ -4348,26 +4385,26 @@ struct ItemExtraNode
 struct ItemChangeList
 {
     ItemChangeNode* first;
-    int GetExtraValueAtPosition(int form, int position);
+    intptr_t GetExtraValueAtPosition(intptr_t form, int position);
 };
 // Walks the change list for the entry matching form, then returns the extra value at position, or 0 if not found.
 // @fnv 0x004d4480
-int ItemChangeList::GetExtraValueAtPosition(int form, int position)
+intptr_t ItemChangeList::GetExtraValueAtPosition(intptr_t form, int position)
 {
     if (form == 0 || position == -1)
         return 0;
     ItemChangeNode* node = first;
     while (node != 0)
     {
-        ChangeEntry* entry = *((::ChangeEntry **)(new ((void *)(node)) ::Vec3()));
+        ChangeEntry* entry = *((::ChangeEntry **)((void *)(node)));
         node = ((::ItemChangeNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
-        if (entry != 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == form)
+        if (entry != 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == form)
         {
             int index = 0;
             ItemExtraNode* extra = ((::ItemExtraNode *)(::FUN_00559450((int *)(entry))));
             while (extra != 0)
             {
-                int result = *((int *)(new ((void *)(extra)) ::Vec3()));
+                int result = *((int *)((void *)(extra)));
                 if (index == position)
                     return result;
                 ++index;
@@ -4394,7 +4431,7 @@ struct Output_004d4b00
 struct Host_004d4b00
 {
     Entry_004d4b00* GetNextInventoryEntry(Iterator_004d4b00*);
-    void FindEntriesByType(int type, Output_004d4b00* output);
+    void FindEntriesByType(intptr_t type, Output_004d4b00* output);
 };
 // Iterates inventory changes and returns the first entry whose extra list has the given list type, deleting skipped entries.
 // @fnv 0x004bf4b0
@@ -4409,9 +4446,9 @@ InventoryStackRecord* InventoryChangesIter::FindEntryWithExtraListType(int aiTyp
         if (pEntry)
         {
             for (ExtraListNode* pNode = ((::ExtraListNode *)(::FUN_00559450((int *)(static_cast<ItemChangeLists*>(pEntry)))));
-                 pNode && *((::ExtraListTyped **)(new ((void *)(pNode)) ::Vec3())); pNode = ((::ExtraListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
+                 pNode && *((::ExtraListTyped **)((void *)(pNode))); pNode = ((::ExtraListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
             {
-                char cType = ((char)(reinterpret_cast<::FUN_0042de90_cls *>(((*((::ExtraListTyped **)(new ((void *)(pNode)) ::Vec3())))))->GetExtraByteValue()));
+                char cType = ((char)(reinterpret_cast<::FUN_0042de90_cls *>(((*((::ExtraListTyped **)((void *)(pNode))))))->GetExtraByteValue()));
                 if (cType == aiType)
                 {
                     delete pIter6;
@@ -4425,7 +4462,7 @@ InventoryStackRecord* InventoryChangesIter::FindEntryWithExtraListType(int aiTyp
     return 0;
 }
 // @fnv 0x004d4b00
-void Host_004d4b00::FindEntriesByType(int type, Output_004d4b00* output)
+void Host_004d4b00::FindEntriesByType(intptr_t type, Output_004d4b00* output)
 {
     if (type == 0 || output == 0)
         return;
@@ -4437,7 +4474,7 @@ void Host_004d4b00::FindEntriesByType(int type, Output_004d4b00* output)
         entry = GetNextInventoryEntry(iterator);
         if (entry != 0)
         {
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == type)
+            if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) == type)
             {
                 found5 = true;
                 output->FUN_005ae3d0(&entry);
@@ -4664,7 +4701,7 @@ void Animation90::LoadFromSave(TESObjectREFR* ref)
         ((Ptr90*)LocalInput)->FUN_0066b0d0(((::Idle90 *)(::LoadIdleAnimation((::Actor *)(actor), (::Animation *)(::Animation90 *)(this), time))));
         if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::Load90 * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 76)
             ((Ptr90*)LocalStateValue)->FUN_0066b0d0(((::Idle90 *)(::LoadIdleAnimation((::Actor *)(actor), (::Animation *)(::Animation90 *)(this), time))));
-        if ((Idle90*)*(Ptr90*)LocalInput && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Idle90*)*(Ptr90*)LocalInput)))->GetName())) == 1)
+        if ((Idle90*)*(Ptr90*)LocalInput && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Idle90*)*(Ptr90*)LocalInput)))->GetName())) == 1)
             ((Seq90**)m_pChildTile)[7] = 0;
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::Load90 * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&m_cSkipNextBlend, 1);
         k = true;
@@ -4763,10 +4800,10 @@ InventoryStackRecord* FUN_004bc650_shell::FUN_004bc650(InventoryStackRecord* oth
     ExtraDataList* copy;
     BSSimpleList<ExtraDataList*>* node2 = other->m_pExtraDataLists;
     copy = 0;
-    while (node2 && ((::ExtraDataList *)(new ((void *)(node2)) ::Vec3())))
+    while (node2 && (node2->m_item))
     {
         copy = new ExtraDataListCopy;
-        reinterpret_cast<::fnv_00412380::FUN_00412380_shell *>((((ExtraDataListCopy*)copy)))->FUN_00412380(((::ExtraDataList *)(new ((void *)(node2)) ::Vec3())));
+        reinterpret_cast<::fnv_00412380::FUN_00412380_shell *>((((ExtraDataListCopy*)copy)))->FUN_00412380((node2->m_item));
         reinterpret_cast<::Callees *>((m_pExtraDataLists))->FUN_00905820((void *)&(copy));
         node2 = ((::BSSimpleList< ::ExtraDataList *> *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
@@ -4809,9 +4846,9 @@ void ItemChange_4bd5c0::FUN_004bd5c0(void* extra)
 {
     if (extra)
     {
-        if (m_pExtraDataLists && *((::ExtraList_4bd5c0 **)(new ((void *)(m_pExtraDataLists)) ::Vec3())))
+        if (m_pExtraDataLists && *((::ExtraList_4bd5c0 **)((void *)(m_pExtraDataLists))))
         {
-            reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>(((*((::ExtraList_4bd5c0 **)(new ((void *)(m_pExtraDataLists)) ::Vec3())))))->FUN_00419700((::fnv_00419700::TESForm *)(extra));
+            reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>(((*((::ExtraList_4bd5c0 **)((void *)(m_pExtraDataLists))))))->FUN_00419700((::fnv_00419700::TESForm *)(extra));
         }
         else
         {
@@ -4824,7 +4861,7 @@ void ItemChange_4bd5c0::FUN_004bd5c0(void* extra)
     }
     else if (m_pExtraDataLists)
     {
-        ExtraList_4bd5c0* first = *((::ExtraList_4bd5c0 **)(new ((void *)(m_pExtraDataLists)) ::Vec3()));
+        ExtraList_4bd5c0* first = *((::ExtraList_4bd5c0 **)((void *)(m_pExtraDataLists)));
         if (first)
         {
             reinterpret_cast<::ItemChangeListNode *>((m_pExtraDataLists))->FUN_00905330((::InventoryStackRecord *const &)(first));
@@ -4960,7 +4997,7 @@ unsigned short InventoryChangesSaveSize::FUN_004be5a0()
     SaveSizeNode* node5 = (SaveSizeNode*)m_pEntryList;
     while (node5 && !node5->_ref_008256d0())
     {
-        SaveSizeItem* itemB = *((::fnv_004be5a0::SaveSizeItem **)(new ((void *)(node5)) ::Vec3()));
+        SaveSizeItem* itemB = *((::fnv_004be5a0::SaveSizeItem **)((void *)(node5)));
         size3 += reinterpret_cast<::fnv_00422c40::ExtraDataListQ *>((itemB))->FUN_00422c40(0, (::fnv_00422c40::ObjQ *)(0));
         node5 = ((::fnv_004be5a0::SaveSizeNode *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
     }
@@ -5200,10 +5237,10 @@ InventoryEntry** InventoryOwner::CollectEntriesByRank(int aiMinRank, int aiMaxRa
         if (entry)
         {
             bool found = false;
-            for (InventoryExtraNode* node = ((::fnv_004bf660::InventoryExtraNode *)(::FUN_00559450((int *)(entry)))); node && *((::fnv_004bf660::InventoryExtra **)(new ((void *)(node)) ::Vec3()));
+            for (InventoryExtraNode* node = ((::fnv_004bf660::InventoryExtraNode *)(::FUN_00559450((int *)(entry)))); node && *((::fnv_004bf660::InventoryExtra **)((void *)(node)));
                  node = ((::fnv_004bf660::InventoryExtraNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                signed char rank = ((signed char)(reinterpret_cast<::FUN_0042de90_cls *>(((*((::fnv_004bf660::InventoryExtra **)(new ((void *)(node)) ::Vec3())))))->GetExtraByteValue()));
+                signed char rank = ((signed char)(reinterpret_cast<::FUN_0042de90_cls *>(((*((::fnv_004bf660::InventoryExtra **)((void *)(node))))))->GetExtraByteValue()));
                 if (rank >= aiMinRank && rank <= aiMaxRank)
                 {
                     int index = rank - aiMinRank;
@@ -5253,19 +5290,19 @@ void InventorySlot::SetInventorySlotExtraData(RefSlot* ref, ExtraDataList* extra
         ExtraDataList* selected = 0;
         if (!context->m_pExtraDataLists)
             context->m_pExtraDataLists = new BSSimpleList<ExtraDataList*>;
-        for (BSSimpleList<ExtraDataList*>* node = context->m_pExtraDataLists; node && ((::ExtraDataList *)(new ((void *)(node)) ::Vec3()));
+        for (BSSimpleList<ExtraDataList*>* node = context->m_pExtraDataLists; node && (node->m_item);
              node = ((::BSSimpleList< ::ExtraDataList *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
         {
-            if (!selected && reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((((ExtraSlot*)((::ExtraDataList *)(new ((void *)(node)) ::Vec3())))))->HasOnlyAllowedExtraData(0))
-                selected = ((::ExtraDataList *)(new ((void *)(node)) ::Vec3()));
-            if (((::ExtraDataList *)(new ((void *)(node)) ::Vec3())) == extra)
+            if (!selected && reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((((ExtraSlot*)(node->m_item))))->HasOnlyAllowedExtraData(0))
+                selected = (node->m_item);
+            if ((node->m_item) == extra)
                 selected = extra;
         }
         if (!selected)
         {
             ExtraDataList* created = (ExtraDataList*)new FUN_00410360;
             reinterpret_cast<::FUN_0042dde0_cls *>((((ExtraSlot*)created)))->SetHotKey((unsigned char)slot);
-            reinterpret_cast<::FUN_00419ad0_shell *>((((ExtraSlot*)created)))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((context))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((context))->FUN_004bc8f0(false) -
+            reinterpret_cast<::FUN_00419ad0_shell *>((((ExtraSlot*)created)))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((context))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((context))->FUN_004bc8f0(false) -
                                (reinterpret_cast<::FUN_004bddd0_shell *>((context))->FUN_004bddd0(false) ? 1 : 0));
             context->m_pExtraDataLists->AddHead(created);
         }
@@ -5276,7 +5313,7 @@ void InventorySlot::SetInventorySlotExtraData(RefSlot* ref, ExtraDataList* extra
     }
     else
     {
-        InventoryStackRecord* pNewChange = (InventoryStackRecord*)new FUN_004bc550(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())), ((int)(reinterpret_cast<::Callees *>((ref))->FUN_00726070())));
+        InventoryStackRecord* pNewChange = (InventoryStackRecord*)new FUN_004bc550(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((ref))->FUN_00726070())));
         ExtraDataList* pNewExtra = (ExtraDataList*)new FUN_00410360;
         pNewChange->m_pExtraDataLists = new BSSimpleList<ExtraDataList*>;
         reinterpret_cast<::FUN_0042dde0_cls *>((((ExtraSlot*)pNewExtra)))->SetHotKey((unsigned char)slot);
@@ -6035,11 +6072,11 @@ struct ChangesShell : InventoryChanges
 
     BoundShell* FUN_004bffb0(BoundShell*);
 
-    void AddItemExtraData(BoundShell*, int, int, ExtraShell*, ExtraNodeShell**);
+    void AddItemExtraData(BoundShell*, int, intptr_t, ExtraShell*, ExtraNodeShell**);
 };
 
 // @fnv 0x004c1520
-void ChangesShell::AddItemExtraData(BoundShell* item, int number, int unknown, ExtraShell* selection,
+void ChangesShell::AddItemExtraData(BoundShell* item, int number, intptr_t unknown, ExtraShell* selection,
                                     ExtraNodeShell** apResultList)
 
 {
@@ -6072,9 +6109,9 @@ void ChangesShell::AddItemExtraData(BoundShell* item, int number, int unknown, E
     if (itemCount && itemCount->m_pExtraDataLists)
     {
 
-        if (*((::ExtraShell **)(new ((void *)(((ExtraNodeShell*)itemCount->m_pExtraDataLists))) ::Vec3())) &&
+        if (*((::ExtraShell **)((void *)(((ExtraNodeShell*)itemCount->m_pExtraDataLists)))) &&
 
-            reinterpret_cast<::ExtraDataList *>(((*((::ExtraShell **)(new ((void *)(((ExtraNodeShell*)itemCount->m_pExtraDataLists))) ::Vec3())))))->HasExtraDataType0x2F())
+            reinterpret_cast<::ExtraDataList *>(((*((::ExtraShell **)((void *)(((ExtraNodeShell*)itemCount->m_pExtraDataLists)))))))->HasExtraDataType0x2F())
 
             needExtra = wornCount - oldCount;
 
@@ -6085,10 +6122,10 @@ void ChangesShell::AddItemExtraData(BoundShell* item, int number, int unknown, E
 
             ExtraNodeShell* cursor = (ExtraNodeShell*)itemCount->m_pExtraDataLists;
 
-            while (cursor && *((::ExtraShell **)(new ((void *)(cursor)) ::Vec3())))
+            while (cursor && *((::ExtraShell **)((void *)(cursor))))
             {
 
-                ExtraShell* possible = *((::ExtraShell **)(new ((void *)(cursor)) ::Vec3()));
+                ExtraShell* possible = *((::ExtraShell **)((void *)(cursor)));
 
                 if (possible && !possible->FUN_004127e0(selection))
                 {
@@ -6138,7 +6175,7 @@ void ChangesShell::AddItemExtraData(BoundShell* item, int number, int unknown, E
         while (cursor && remaining)
         {
 
-            chosen = *((::ExtraShell **)(new ((void *)(cursor)) ::Vec3()));
+            chosen = *((::ExtraShell **)((void *)(cursor)));
 
             if (selection && selection == chosen)
             {
@@ -6163,7 +6200,7 @@ void ChangesShell::AddItemExtraData(BoundShell* item, int number, int unknown, E
                 else
                 {
 
-                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0((int)((::ExtraNodeShell *)(reinterpret_cast<::Callees *>((((ExtraNodeShell*)itemCount)))->FUN_00726070())));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0((int)(std::uintptr_t)((::ExtraNodeShell *)(reinterpret_cast<::Callees *>((((ExtraNodeShell*)itemCount)))->FUN_00726070())));
                 }
 
                 remaining = false;
@@ -6645,26 +6682,26 @@ struct Inv4c6a10
 {
     ChangeNode4c6ba0* m_pEntryList;
     Container4c6ba0* FUN_004bffb0();
-    TESBoundObject* FindInventoryItemByType(int aType, int* apCount);
+    TESBoundObject* FindInventoryItemByType(intptr_t aType, int* apCount);
 };
 
 // @fnv 0x004c6a10
-TESBoundObject* Inv4c6a10::FindInventoryItemByType(int aType, int* apCount)
+TESBoundObject* Inv4c6a10::FindInventoryItemByType(intptr_t aType, int* apCount)
 {
     ContNode4c6ba0* pNode = ((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     TESBoundObject* pFound5 = 0;
     while (pNode && !pFound5)
     {
-        pFound5 = (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->pObj;
+        pFound5 = (*((::ContEntry4c6ba0 **)((void *)(pNode))))->pObj;
         if (pFound5 && FUN_00679ba0(pFound5) == aType)
         {
             Change4c6ba0* pChange = ((::Change4c6ba0 *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(pFound5, 1, 0)));
-            if (!pChange || (pChange && ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->count))
+            if (!pChange || (pChange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count))
             {
                 if (pChange)
-                    *apCount = ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->count;
+                    *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
                 else
-                    *apCount = (*((::ContEntry4c6ba0 **)(new ((void *)(pNode)) ::Vec3())))->count;
+                    *apCount = (*((::ContEntry4c6ba0 **)((void *)(pNode))))->count;
             }
         }
         else
@@ -6676,11 +6713,11 @@ TESBoundObject* Inv4c6a10::FindInventoryItemByType(int aType, int* apCount)
     ChangeNode4c6ba0* pIter_ = m_pEntryList;
     while (pIter_ && !pFound5)
     {
-        pFound5 = (*((::Change4c6ba0 **)(new ((void *)(pIter_)) ::Vec3())))->m_pItemObject;
+        pFound5 = (*((::Change4c6ba0 **)((void *)(pIter_))))->m_pItemObject;
         if (pFound5 && FUN_00679ba0(pFound5) == aType)
         {
-            if (!reinterpret_cast<::TESContainer *>((((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pFound5)) && ((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)(new ((void *)(pIter_)) ::Vec3())))))->FUN_00726070())) > 0)
-                *apCount = ((int)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)(new ((void *)(pIter_)) ::Vec3())))))->FUN_00726070()));
+            if (!reinterpret_cast<::TESContainer *>((((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pFound5)) && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pIter_))))))->FUN_00726070())) > 0)
+                *apCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4c6ba0 **)((void *)(pIter_))))))->FUN_00726070()));
         }
         else
         {
@@ -6726,15 +6763,15 @@ FUN_0076b630* AmmoInventory::FindBestAmmoChange(AmmoScorer* scorer, int unused)
     AmmoContainerNode* memContext = ((::AmmoContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     while (memContext)
     {
-        AmmoContainerEntry* entry = *((::AmmoContainerEntry **)(new ((void *)(memContext)) ::Vec3()));
+        AmmoContainerEntry* entry = *((::AmmoContainerEntry **)((void *)(memContext)));
         TESAmmo* ammo = 0;
         if (entry)
             ammo = dynamic_cast<TESAmmo*>(entry->object);
         if (ammo)
         {
             FUN_0076b630* change = ((::FUN_0076b630 *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(ammo), 1, 0)));
-            if (!change || ((change && change->count + (*((::AmmoContainerEntry **)(new ((void *)(memContext)) ::Vec3())))->count > 0) ||
-                            (*((::AmmoContainerEntry **)(new ((void *)(memContext)) ::Vec3())))->count < 0))
+            if (!change || ((change && change->count + (*((::AmmoContainerEntry **)((void *)(memContext))))->count > 0) ||
+                            (*((::AmmoContainerEntry **)((void *)(memContext))))->count < 0))
             {
                 float score = reinterpret_cast<::ActorBaseTarget *>((scorer))->FUN_005f0d60((::FormTarget *)(ammo));
                 if (score > context)
@@ -6749,7 +6786,7 @@ FUN_0076b630* AmmoInventory::FindBestAmmoChange(AmmoScorer* scorer, int unused)
     ItemList* bestScore = changes;
     while (bestScore)
     {
-        FUN_0076b630* ammo = ((::FUN_0076b630 *)(new ((void *)(bestScore)) ::Vec3()));
+        FUN_0076b630* ammo = ((::FUN_0076b630 *)((void *)(bestScore)));
         TESAmmo* entry = 0;
         if (ammo)
             entry = dynamic_cast<TESAmmo*>((TESBoundObject*)ammo->weapon);
@@ -6774,11 +6811,11 @@ FUN_0076b630* AmmoInventory::FindBestAmmoChange(AmmoScorer* scorer, int unused)
     if (change)
     {
         changeNode->weapon = ((::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((change))->GetName()));
-        if (((::FUN_0096a2d0 *)(::FUN_00559450((int *)(change)))) && ((::Extra *)(new ((void *)(change->extras)) ::Vec3())))
+        if (((::FUN_0096a2d0 *)(::FUN_00559450((int *)(change)))) && ((::Extra *)((void *)(change->extras))))
         {
             changeNode->extras = new FUN_0096a2d0;
-            changeNode->extras->FUN_005ae3d0(&((::Extra *)(new ((void *)(change->extras)) ::Vec3())));
-            reinterpret_cast<::CombatProcedure *>((changeNode))->Initialize((::CombatController *)((int)((::ItemList *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()))));
+            changeNode->extras->FUN_005ae3d0(&change->extras->item);
+            reinterpret_cast<::CombatProcedure *>((changeNode))->Initialize((::CombatController *)(((::ItemList *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()))));
         }
     }
     else if (memory)
@@ -6856,9 +6893,9 @@ Change64* Inventory64::FUN_004c94f0(int requested)
     Change64* result1 = 0;
     BaseContainer64* baseContainer43 = ((::BaseContainer64 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()));
     node48 = head1;
-    while (node48 && *((::BaseItem64 **)(new ((void *)(node48)) ::Vec3())) && !result1)
+    while (node48 && *((::BaseItem64 **)((void *)(node48))) && !result1)
     {
-        BaseItem64* base14 = *((::BaseItem64 **)(new ((void *)(node48)) ::Vec3()));
+        BaseItem64* base14 = *((::BaseItem64 **)((void *)(node48)));
         Form64* leveled3 = 0;
         if (base14->form->FUN_00401170() == 0x34)
             leveled3 = base14->form;
@@ -6868,9 +6905,9 @@ Change64* Inventory64::FUN_004c94f0(int requested)
             int count9 = reinterpret_cast<::TESContainer *>((baseContainer43))->GetObjectCount((::TESObject *)(base14->form));
             if (base14 && change32 && count9 <= 0)
                 result1 = 0;
-            else if ((count9 < 0 && change32) || (change32 && count9 + ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= 0) ||
-                     (change32 && ((::ExtraNode64 *)(::FUN_00559450((int *)(change32)))) && *((::Extra64 **)(new ((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(change32)))))) ::Vec3())) &&
-                      reinterpret_cast<::ExtraDataList *>(((*((::Extra64 **)(new ((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(change32)))))) ::Vec3())))))->HasExtraDataType0x2F()))
+            else if ((count9 < 0 && change32) || (change32 && count9 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= 0) ||
+                     (change32 && ((::ExtraNode64 *)(::FUN_00559450((int *)(change32)))) && *((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(change32))))))) &&
+                      reinterpret_cast<::ExtraDataList *>(((*((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(change32))))))))))->HasExtraDataType0x2F()))
                 result1 = 0;
             else if (base14 && index14 == requested && (!change32 || (change32 && !reinterpret_cast<::FUN_004bca80_shell *>((change32))->CountAndPruneEntries())))
             {
@@ -6898,9 +6935,9 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                     if (!result1->extras)
                         result1->extras = new ExtraNode64;
                     ExtraNode64* copyNode = ((::ExtraNode64 *)(::FUN_00559450((int *)(change32))));
-                    while (copyNode && *((::Extra64 **)(new ((void *)(copyNode)) ::Vec3())))
+                    while (copyNode && *((::Extra64 **)((void *)(copyNode))))
                     {
-                        result1->extras->FUN_005ae3d0(*((::Extra64 **)(new ((void *)(copyNode)) ::Vec3())));
+                        result1->extras->FUN_005ae3d0(*((::Extra64 **)((void *)(copyNode))));
                         copyNode = ((::ExtraNode64 *)(reinterpret_cast<::Callees *>((copyNode))->FUN_00726070()));
                     }
                 }
@@ -6913,16 +6950,16 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                 if (requested < variants + index14)
                 {
                     ExtraNode64* variantNode = change32->extras;
-                    while (variantNode && *((::Extra64 **)(new ((void *)(variantNode)) ::Vec3())) && !result1)
+                    while (variantNode && *((::Extra64 **)((void *)(variantNode))) && !result1)
                     {
-                        Extra64* extra = *((::Extra64 **)(new ((void *)(variantNode)) ::Vec3()));
+                        Extra64* extra = *((::Extra64 **)((void *)(variantNode)));
                         if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((extra))->HasOnlyAllowedExtraData(0))
                         {
                             if (index14 == requested)
                             {
                                 int extraCount = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (extraCount > count9 + ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())))
-                                    extraCount = count9 + ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070()));
+                                if (extraCount > count9 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())))
+                                    extraCount = count9 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070()));
                                 result1 = new Change64(change32->form, extraCount);
                                 result1->extras->FUN_005ae3d0(extra);
                             }
@@ -6944,7 +6981,7 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                                         weapon109->FUN_00446390() == 13))))
                         skip5 = true;
                     if (!skip5 && reinterpret_cast<::FUN_004bc8f0_stand *>((change32))->FUN_004bc8f0(1) < count9 + change32->count &&
-                        (!reinterpret_cast<::InventoryStackRecord *>((change32))->HasPerkEntry() || ((int)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= count9))
+                        (!reinterpret_cast<::InventoryStackRecord *>((change32))->HasPerkEntry() || ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change32))->FUN_00726070())) <= count9))
                     {
                         if (index14 == requested)
                         {
@@ -6960,9 +6997,9 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                                 if (!result1->extras)
                                     result1->extras = new ExtraNode64;
                                 ExtraNode64* scriptNode = ((::ExtraNode64 *)(::FUN_00559450((int *)(change32))));
-                                while (scriptNode && *((::Extra64 **)(new ((void *)(scriptNode)) ::Vec3())))
+                                while (scriptNode && *((::Extra64 **)((void *)(scriptNode))))
                                 {
-                                    result1->extras->FUN_005ae3d0(*((::Extra64 **)(new ((void *)(scriptNode)) ::Vec3())));
+                                    result1->extras->FUN_005ae3d0(*((::Extra64 **)((void *)(scriptNode))));
                                     scriptNode = ((::ExtraNode64 *)(reinterpret_cast<::Callees *>((scriptNode))->FUN_00726070()));
                                 }
                             }
@@ -6985,24 +7022,24 @@ Change64* Inventory64::FUN_004c94f0(int requested)
     if (!result1)
     {
         ChangeNode64* changeNode = changes;
-        while (changeNode && *((::Change64 **)(new ((void *)(changeNode)) ::Vec3())) && !result1)
+        while (changeNode && *((::Change64 **)((void *)(changeNode))) && !result1)
         {
-            Change64* entry20 = *((::Change64 **)(new ((void *)(changeNode)) ::Vec3()));
+            Change64* entry20 = *((::Change64 **)((void *)(changeNode)));
             int baseCount13 = 0;
             if (((::BaseContainer64 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) && entry20)
                 baseCount13 = reinterpret_cast<::TESContainer *>((((::BaseContainer64 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(entry20->form));
             if (baseCount13 < 0 && reinterpret_cast<::FUN_004bddd0_shell *>((entry20))->FUN_004bddd0(0))
-                reinterpret_cast<::FUN_00419ad0_shell *>(((*((::Extra64 **)(new ((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))))) ::Vec3())))))->FUN_00419ad0(baseCount13 * -1);
+                reinterpret_cast<::FUN_00419ad0_shell *>(((*((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20))))))))))->FUN_00419ad0(baseCount13 * -1);
             if (entry20 && (entry20->count > 0 || baseCount13 < 0) &&
-                ((((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))) && *((::Extra64 **)(new ((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))))) ::Vec3())) &&
-                  reinterpret_cast<::ExtraDataList *>(((*((::Extra64 **)(new ((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))))) ::Vec3())))))->HasExtraDataType0x2F()) ||
+                ((((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))) && *((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20))))))) &&
+                  reinterpret_cast<::ExtraDataList *>(((*((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20))))))))))->HasExtraDataType0x2F()) ||
                  baseCount13 < 0 || !((::BaseContainer64 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::BaseContainer64 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(entry20->form))))
             {
                 int sum34 = 0;
                 ExtraNode64* sumNode15 = ((::ExtraNode64 *)(::FUN_00559450((int *)(entry20))));
-                while (sumNode15 && *((::Extra64 **)(new ((void *)(sumNode15)) ::Vec3())))
+                while (sumNode15 && *((::Extra64 **)((void *)(sumNode15))))
                 {
-                    Extra64* sumExtra = *((::Extra64 **)(new ((void *)(sumNode15)) ::Vec3()));
+                    Extra64* sumExtra = *((::Extra64 **)((void *)(sumNode15)));
                     if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((sumExtra))->HasOnlyAllowedExtraData(0))
                     {
                         short sumCount = reinterpret_cast<::FUN_00418770_shell *>((sumExtra))->FUN_00418770();
@@ -7011,13 +7048,13 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                     }
                     sumNode15 = ((::ExtraNode64 *)(reinterpret_cast<::Callees *>((sumNode15))->FUN_00726070()));
                 }
-                if (((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))) && *((::Extra64 **)(new ((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))))) ::Vec3())) &&
+                if (((::ExtraNode64 *)(::FUN_00559450((int *)(entry20)))) && *((::Extra64 **)((void *)(((::ExtraNode64 *)(::FUN_00559450((int *)(entry20))))))) &&
                     requested < index14 + reinterpret_cast<::FUN_004bca80_shell *>((entry20))->CountAndPruneEntries())
                 {
                     ExtraNode64* entryNode = entry20->extras;
-                    while (entryNode && *((::Extra64 **)(new ((void *)(entryNode)) ::Vec3())) && !result1)
+                    while (entryNode && *((::Extra64 **)((void *)(entryNode))) && !result1)
                     {
-                        Extra64* entryExtra = *((::Extra64 **)(new ((void *)(entryNode)) ::Vec3()));
+                        Extra64* entryExtra = *((::Extra64 **)((void *)(entryNode)));
                         if (index14 == requested)
                         {
                             if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((entryExtra))->HasOnlyAllowedExtraData(0))
@@ -7035,12 +7072,12 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                         entryNode = ((::ExtraNode64 *)(reinterpret_cast<::Callees *>((entryNode))->FUN_00726070()));
                     }
                 }
-                else if (((int)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) == sum34)
+                else if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) == sum34)
                     index14 += reinterpret_cast<::FUN_004bca80_shell *>((entry20))->CountAndPruneEntries();
                 else
                 {
                     int unused = 0;
-                    if (((int)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) > sum34)
+                    if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry20))->FUN_00726070())) > sum34)
                     {
                         int remainingVariants = reinterpret_cast<::FUN_004bca80_shell *>((entry20))->CountAndPruneEntries();
                         if (remainingVariants > 0)
@@ -7054,9 +7091,9 @@ Change64* Inventory64::FUN_004c94f0(int requested)
                         if (entry20->extras)
                         {
                             ExtraNode64* wornNode = entry20->extras;
-                            while (wornNode && *((::Extra64 **)(new ((void *)(wornNode)) ::Vec3())))
+                            while (wornNode && *((::Extra64 **)((void *)(wornNode))))
                             {
-                                worn = *((::Extra64 **)(new ((void *)(wornNode)) ::Vec3()));
+                                worn = *((::Extra64 **)((void *)(wornNode)));
                                 if (!reinterpret_cast<::FUN_00418ab0_shell *>((worn))->FUN_00418ab0(0) && reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((worn))->HasOnlyAllowedExtraData(1))
                                     reinterpret_cast<::Callees *>((result1->extras))->FUN_00905820((void *)&(worn));
                                 wornNode = ((::ExtraNode64 *)(reinterpret_cast<::Callees *>((wornNode))->FUN_00726070()));
@@ -7176,10 +7213,10 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
     if (((InventoryCursor4ca330*)apCursor)->m_phase == 0)
     {
         while (((InventoryCursor4ca330*)apCursor)->m_firstNode &&
-               *((::InventoryRecord4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_firstNode)) ::Vec3())) &&
+               *((::InventoryRecord4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_firstNode))) &&
                !((InventoryCursor4ca330*)apCursor)->m_pTileTemplate)
         {
-            InventoryRecord4ca330* pRecord = *((::InventoryRecord4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_firstNode)) ::Vec3()));
+            InventoryRecord4ca330* pRecord = *((::InventoryRecord4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_firstNode)));
             InventoryForm4ca330* record = 0;
             bool advance = true;
             if (pRecord->m_form->FUN_00401170() == 0x34)
@@ -7196,9 +7233,9 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                 }
                 else
                 {
-                    if ((change < 0 && pChange) || (pChange && ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change <= 0) ||
-                        (pChange && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && *((::InventoryExtra4ca330 **)(new ((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))))) ::Vec3())) &&
-                         ((unsigned char)(reinterpret_cast<::ExtraDataList *>(((*((::InventoryExtra4ca330 **)(new ((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))))) ::Vec3())))))->HasExtraDataType0x2F()))))
+                    if ((change < 0 && pChange) || (pChange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change <= 0) ||
+                        (pChange && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && *((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))) &&
+                         ((unsigned char)(reinterpret_cast<::ExtraDataList *>(((*((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))))))->HasExtraDataType0x2F()))))
                     {
                         ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate = 0;
                     }
@@ -7225,8 +7262,8 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                         reinterpret_cast<::TESRegionGrassObject *>((((InventoryCursor4ca330*)apCursor)->m_pTileTemplate))->AssignLandTexture((::TESLandTexture *)(pRecord->m_form));
 
                         if (pChange &&
-                            (((int)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) || reinterpret_cast<::FUN_004bd7a0_stand *>((pChange))->FindFirstNonNegativeValue() >= 0 ||
-                             ((int)(reinterpret_cast<::FUN_004bd740_stand *>((pChange))->GetExtraForm())) != (int)((::InventoryList4ca330 *)(reinterpret_cast<::Callees *>((((InventoryBaseHost4ca330*)this)))->FUN_00726070()))))
+                            (((std::uintptr_t)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) || reinterpret_cast<::FUN_004bd7a0_stand *>((pChange))->FindFirstNonNegativeValue() >= 0 ||
+                             ((std::uintptr_t)(reinterpret_cast<::FUN_004bd740_stand *>((pChange))->GetExtraForm())) != (int)(std::uintptr_t)((::InventoryList4ca330 *)(reinterpret_cast<::Callees *>((((InventoryBaseHost4ca330*)this)))->FUN_00726070()))))
                         {
                             if (((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))->FUN_005ae380())
                             {
@@ -7234,10 +7271,10 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                                     ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList =
                                         new InventoryOutputExtras4ca330;
                                 InventoryNode4ca330* pExtraNode = ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))));
-                                while (pExtraNode && *((::InventoryExtra4ca330 **)(new ((void *)(pExtraNode)) ::Vec3())))
+                                while (pExtraNode && *((::InventoryExtra4ca330 **)((void *)(pExtraNode))))
                                 {
                                     ((InventoryCursor4ca330*)apCursor)
-                                        ->m_pTileTemplate->m_extraList->FUN_005ae3d0(((::InventoryExtra4ca330 **)(new ((void *)(pExtraNode)) ::Vec3())));
+                                        ->m_pTileTemplate->m_extraList->FUN_005ae3d0(((::InventoryExtra4ca330 **)((void *)(pExtraNode))));
                                     pExtraNode = ((::InventoryNode4ca330 *)(reinterpret_cast<::Callees *>((pExtraNode))->FUN_00726070()));
                                 }
                             }
@@ -7251,16 +7288,16 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                         if (!((InventoryCursor4ca330*)apCursor)->m_activeExtras)
                             ((InventoryCursor4ca330*)apCursor)->m_activeExtras = pChange->m_extraList;
                         while (((InventoryCursor4ca330*)apCursor)->m_activeExtras &&
-                               *((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_activeExtras)) ::Vec3())) &&
+                               *((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_activeExtras))) &&
                                !((InventoryCursor4ca330*)apCursor)->m_pTileTemplate)
                         {
                             InventoryExtra4ca330* extra =
-                                *((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_activeExtras)) ::Vec3()));
+                                *((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_activeExtras)));
                             if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((extra))->HasOnlyAllowedExtraData(0))
                             {
                                 int quantity = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (quantity > ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change)
-                                    quantity = ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change;
+                                if (quantity > ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change)
+                                    quantity = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + change;
                                 ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate =
                                     (InventoryOutput4ca330*)new InventoryOutputFromForm4ca330(pChange->m_form,
                                                                                               quantity);
@@ -7272,7 +7309,7 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                                 ((::InventoryNode4ca330 *)(reinterpret_cast<::Callees *>((((InventoryCursor4ca330*)apCursor)->m_activeExtras))->FUN_00726070()));
                         }
                         advance = !((InventoryCursor4ca330*)apCursor)->m_activeExtras ||
-                                  !*((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_activeExtras)) ::Vec3()));
+                                  !*((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_activeExtras)));
                     }
                     else
                     {
@@ -7289,7 +7326,7 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                                 skipItem = true;
                         }
                         if (!skipItem && reinterpret_cast<::FUN_004bc8f0_stand *>((pChange))->FUN_004bc8f0(1) < (change + pChange->m_quantity) &&
-                            (!reinterpret_cast<::InventoryStackRecord *>((pChange))->HasPerkEntry() || (int)((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) <= change))
+                            (!reinterpret_cast<::InventoryStackRecord *>((pChange))->HasPerkEntry() || (int)((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) <= change))
                         {
                             ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate = new InventoryOutput4ca330;
                             if (pChange)
@@ -7298,17 +7335,17 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             else
                                 ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_uiItemCount = change;
                             reinterpret_cast<::TESRegionGrassObject *>((((InventoryCursor4ca330*)apCursor)->m_pTileTemplate))->AssignLandTexture((::TESLandTexture *)(pRecord->m_form));
-                            if (pChange && ((int)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) &&
+                            if (pChange && ((std::uintptr_t)(reinterpret_cast<::FUN_004bde40_shell *>((pChange))->FUN_004bde40())) && ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) &&
                                 ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))->FUN_005ae380())
                             {
                                 if (!((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList)
                                     ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList =
                                         new InventoryOutputExtras4ca330;
                                 InventoryNode4ca330* extraNode = ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))));
-                                while (extraNode && *((::InventoryExtra4ca330 **)(new ((void *)(extraNode)) ::Vec3())))
+                                while (extraNode && *((::InventoryExtra4ca330 **)((void *)(extraNode))))
                                 {
                                     ((InventoryCursor4ca330*)apCursor)
-                                        ->m_pTileTemplate->m_extraList->FUN_005ae3d0(((::InventoryExtra4ca330 **)(new ((void *)(extraNode)) ::Vec3())));
+                                        ->m_pTileTemplate->m_extraList->FUN_005ae3d0(((::InventoryExtra4ca330 **)((void *)(extraNode))));
                                     extraNode = ((::InventoryNode4ca330 *)(reinterpret_cast<::Callees *>((extraNode))->FUN_00726070()));
                                 }
                             }
@@ -7329,20 +7366,20 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
     if (((InventoryCursor4ca330*)apCursor)->m_phase == 1 && !((InventoryCursor4ca330*)apCursor)->m_pTileTemplate)
     {
         while (((InventoryCursor4ca330*)apCursor)->m_secondPhase &&
-               *((::InventoryChange4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_secondPhase)) ::Vec3())) &&
+               *((::InventoryChange4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_secondPhase))) &&
                !((InventoryCursor4ca330*)apCursor)->m_pTileTemplate)
         {
             bool count = true;
-            InventoryChange4ca330* pChange = *((::InventoryChange4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_secondPhase)) ::Vec3()));
+            InventoryChange4ca330* pChange = *((::InventoryChange4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_secondPhase)));
             int advance = 0;
             if (((::InventoryContainer4ca330 *)(reinterpret_cast<::FUN_004bffb0_shell *>((((InventoryBaseHost4ca330*)this)))->FUN_004bffb0())) && pChange)
                 advance = reinterpret_cast<::TESContainer *>((((::InventoryContainer4ca330 *)(reinterpret_cast<::FUN_004bffb0_shell *>((((InventoryBaseHost4ca330*)this)))->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(pChange->m_form));
             if (advance < 0 && reinterpret_cast<::FUN_004bddd0_shell *>((pChange))->FUN_004bddd0(0))
-                reinterpret_cast<::FUN_00419ad0_shell *>(((*((::InventoryExtra4ca330 **)(new ((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))))) ::Vec3())))))->FUN_00419ad0(advance * -1);
+                reinterpret_cast<::FUN_00419ad0_shell *>(((*((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))))))->FUN_00419ad0(advance * -1);
             if (pChange && (pChange->m_quantity > 0 || advance < 0))
             {
-                if ((((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && *((::InventoryExtra4ca330 **)(new ((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))))) ::Vec3())) &&
-                     ((unsigned char)(reinterpret_cast<::ExtraDataList *>(((*((::InventoryExtra4ca330 **)(new ((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))))) ::Vec3())))))->HasExtraDataType0x2F()))) ||
+                if ((((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && *((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))) &&
+                     ((unsigned char)(reinterpret_cast<::ExtraDataList *>(((*((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))))))->HasExtraDataType0x2F()))) ||
                     advance < 0 || !((::InventoryContainer4ca330 *)(reinterpret_cast<::FUN_004bffb0_shell *>((((InventoryBaseHost4ca330*)this)))->FUN_004bffb0())) ||
                     !reinterpret_cast<::TESContainer *>((((::InventoryContainer4ca330 *)(reinterpret_cast<::FUN_004bffb0_shell *>((((InventoryBaseHost4ca330*)this)))->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pChange->m_form)))
                 {
@@ -7350,10 +7387,10 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                     if (!((InventoryCursor4ca330*)apCursor)->m_extrasToCount)
                         ((InventoryCursor4ca330*)apCursor)->m_extrasToCount = ((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))));
                     while (((InventoryCursor4ca330*)apCursor)->m_extrasToCount &&
-                           *((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCount)) ::Vec3())))
+                           *((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCount))))
                     {
                         InventoryExtra4ca330* extra =
-                            *((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCount)) ::Vec3()));
+                            *((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCount)));
                         if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((extra))->HasOnlyAllowedExtraData(0))
                         {
                             short extraCount = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
@@ -7364,17 +7401,17 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             ((::InventoryNode4ca330 *)(reinterpret_cast<::Callees *>((((InventoryCursor4ca330*)apCursor)->m_extrasToCount))->FUN_00726070()));
                     }
                     ((InventoryCursor4ca330*)apCursor)->m_extrasToCount = 0;
-                    if (((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && *((::InventoryExtra4ca330 **)(new ((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))))) ::Vec3())) &&
+                    if (((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange)))) && *((::InventoryExtra4ca330 **)((void *)(((::InventoryNode4ca330 *)(::FUN_00559450((int *)(pChange))))))) &&
                         (!reinterpret_cast<::FUN_004bca80_shell *>((pChange))->CountAndPruneEntries() || true))
                     {
                         if (!((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)
                             ((InventoryCursor4ca330*)apCursor)->m_extrasToCopy = pChange->m_extraList;
                         while (((InventoryCursor4ca330*)apCursor)->m_extrasToCopy &&
-                               *((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)) ::Vec3())) &&
+                               *((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCopy))) &&
                                !((InventoryCursor4ca330*)apCursor)->m_pTileTemplate)
                         {
                             InventoryExtra4ca330* extra =
-                                *((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)) ::Vec3()));
+                                *((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)));
                             if (!reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((extra))->HasOnlyAllowedExtraData(0))
                             {
                                 short quantity = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
@@ -7391,16 +7428,16 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                                 ((::InventoryNode4ca330 *)(reinterpret_cast<::Callees *>((((InventoryCursor4ca330*)apCursor)->m_extrasToCopy))->FUN_00726070()));
                         }
                         count = !((InventoryCursor4ca330*)apCursor)->m_extrasToCopy ||
-                                !*((::InventoryExtra4ca330 **)(new ((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)) ::Vec3()));
+                                !*((::InventoryExtra4ca330 **)((void *)(((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)));
                     }
-                    else if ((int)((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) == total)
+                    else if ((int)((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) == total)
                     {
                         reinterpret_cast<::FUN_004bca80_shell *>((pChange))->CountAndPruneEntries();
                     }
                     if (!((InventoryCursor4ca330*)apCursor)->m_pTileTemplate)
                     {
                         int unusedCount = 0;
-                        if (((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) > total)
+                        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) > total)
                         {
                             int extraCount = reinterpret_cast<::FUN_004bca80_shell *>((pChange))->CountAndPruneEntries();
                         }
@@ -7414,9 +7451,9 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             if (pChange->m_extraList)
                             {
                                 InventoryNode4ca330* extraNode = pChange->m_extraList;
-                                while (extraNode && *((::InventoryExtra4ca330 **)(new ((void *)(extraNode)) ::Vec3())))
+                                while (extraNode && *((::InventoryExtra4ca330 **)((void *)(extraNode))))
                                 {
-                                    residualExtra = *((::InventoryExtra4ca330 **)(new ((void *)(extraNode)) ::Vec3()));
+                                    residualExtra = *((::InventoryExtra4ca330 **)((void *)(extraNode)));
                                     if (!reinterpret_cast<::FUN_00418ab0_shell *>((residualExtra))->FUN_00418ab0(0) && reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((residualExtra))->HasOnlyAllowedExtraData(1))
                                         reinterpret_cast<::Callees *>((((InventoryCursor4ca330*)apCursor)
                                             ->m_pTileTemplate->m_extraList))->FUN_00905820(&residualExtra);
@@ -7474,17 +7511,17 @@ int Inv4cb320::GetCountableItemCount()
     ContNode4cb320* pNode = pCont3 ? pCont3->GetHead() : 0;
     while (pNode && !pNode->IsEmpty())
     {
-        pObj7 = (*((::ContEntry4cb320 **)(new ((void *)(pNode)) ::Vec3())))->pObj;
+        pObj7 = (*((::ContEntry4cb320 **)((void *)(pNode))))->pObj;
         if (pObj7 && ::FUN_00481f10((::TESObject *)(pObj7)))
         {
             Change4cb320* pChange = ((::Change4cb320 *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(pObj7), 1, 0)));
             if (pChange)
             {
-                iTotal += ((int)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4cb320 **)(new ((void *)(pNode)) ::Vec3())))->count;
+                iTotal += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pChange))->FUN_00726070())) + (*((::ContEntry4cb320 **)((void *)(pNode))))->count;
             }
             else
             {
-                if ((iTotal += (*((::ContEntry4cb320 **)(new ((void *)(pNode)) ::Vec3())))->count) < 0)
+                if ((iTotal += (*((::ContEntry4cb320 **)((void *)(pNode))))->count) < 0)
                     iTotal = iTotal * -1;
             }
         }
@@ -7493,11 +7530,11 @@ int Inv4cb320::GetCountableItemCount()
     ChangeNode4cb320* pChangeNode4 = m_pEntryList;
     while (pChangeNode4 && !pChangeNode4->IsEmpty())
     {
-        pObj7 = (*((::Change4cb320 **)(new ((void *)(pChangeNode4)) ::Vec3())))->pObj;
+        pObj7 = (*((::Change4cb320 **)((void *)(pChangeNode4))))->pObj;
         if (pObj7 && ::FUN_00481f10((::TESObject *)(pObj7)))
         {
-            if (!pCont3 || (!reinterpret_cast<::TESContainer *>((pCont3))->HasObjectOfType((::TESObject *)(pObj7)) && ((int)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)(new ((void *)(pChangeNode4)) ::Vec3())))))->FUN_00726070())) > 0))
-                iTotal += ((int)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)(new ((void *)(pChangeNode4)) ::Vec3())))))->FUN_00726070()));
+            if (!pCont3 || (!reinterpret_cast<::TESContainer *>((pCont3))->HasObjectOfType((::TESObject *)(pObj7)) && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070())) > 0))
+                iTotal += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::Change4cb320 **)((void *)(pChangeNode4))))))->FUN_00726070()));
         }
         pChangeNode4 = ((::ChangeNode4cb320 *)(reinterpret_cast<::Callees *>((pChangeNode4))->FUN_00726070()));
     }
@@ -7530,7 +7567,7 @@ struct IN4cb4b0
 struct Inv4cb4b0
 {
     IN4cb4b0* m_pEntryList;
-    void FUN_004cb4b0(int a1, int a2, int a3);
+    void FUN_004cb4b0(std::intptr_t a1, int a2, std::intptr_t a3);
 };
 
 namespace InventoryCopy {
@@ -7676,8 +7713,8 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
     TESLevItem* leveledSlot24 = 0;
     while (baseSlot45 && !baseSlot45->FUN_008256d0())
     {
-        formSlot11 = (*((::InventoryCopy::BaseEntry **)(new ((void *)(baseSlot45)) ::Vec3())))->form;
-        leveledSlot24 = dynamic_cast<TESLevItem*>((*((::InventoryCopy::BaseEntry **)(new ((void *)(baseSlot45)) ::Vec3())))->form);
+        formSlot11 = (*((::InventoryCopy::BaseEntry **)((void *)(baseSlot45))))->form;
+        leveledSlot24 = dynamic_cast<TESLevItem*>((*((::InventoryCopy::BaseEntry **)((void *)(baseSlot45))))->form);
         if (formSlot11)
         {
             int baseCountSlot31 = reinterpret_cast<::TESContainer *>((((::InventoryCopy::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(formSlot11));
@@ -7687,7 +7724,7 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
             if (magnitudeSlot60 < 0)
                 magnitudeSlot60 *= -1;
             if (itemSlot25)
-                totalSlot2 += magnitudeSlot60 + ((int)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+                totalSlot2 += magnitudeSlot60 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
             else
                 totalSlot2 += magnitudeSlot60;
             if (totalSlot2 > 0)
@@ -7702,24 +7739,24 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
                     reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone));
                     int quantity = baseCountSlot31;
                     if (itemSlot25)
-                        quantity += ((int)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+                        quantity += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
                     copySlot14 = new Item((TESBoundObject*)clone, quantity);
 
                     if (itemSlot25 && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25)))) && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25))))->FUN_005ae380())
                     {
                         ExtraNode* nodeA = ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25))));
-                        if (nodeA && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeA)) ::Vec3())))
+                        if (nodeA && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeA))))
                         {
-                            while (nodeA && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeA)) ::Vec3())))
+                            while (nodeA && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeA))))
                             {
                                 Extra* extraASlot11 = new Extra;
-                                void* removedASlot21 = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeA)) ::Vec3())))))->FUN_00410220(0xd)));
+                                void* removedASlot21 = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryCopy::FUN_00410360 **)((void *)(nodeA))))))->FUN_00410220(0xd)));
                                 if (removedASlot21)
-                                    reinterpret_cast<::FUN_00410020_t *>(((*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeA)) ::Vec3())))))->FUN_00410020((::BSExtraData *)(removedASlot21), 0);
-                                reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraASlot11))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeA)) ::Vec3()))), 1);
+                                    reinterpret_cast<::FUN_00410020_t *>(((*((::InventoryCopy::FUN_00410360 **)((void *)(nodeA))))))->FUN_00410020((::BSExtraData *)(removedASlot21), 0);
+                                reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraASlot11))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)((void *)(nodeA)))), 1);
                                 reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraASlot11);
                                 if (removedASlot21)
-                                    reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(((*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeA)) ::Vec3())))))->FUN_0040ff60((::BSExtraData *)(removedASlot21));
+                                    reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(((*((::InventoryCopy::FUN_00410360 **)((void *)(nodeA))))))->FUN_0040ff60((::BSExtraData *)(removedASlot21));
                                 nodeA = ((::InventoryCopy::ExtraNode *)(reinterpret_cast<::Callees *>((nodeA))->FUN_00726070()));
                             }
                         }
@@ -7731,12 +7768,12 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
                     if (itemSlot25 && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25)))) && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25))))->FUN_005ae380())
                     {
                         ExtraNode* nodeB = ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(itemSlot25))));
-                        if (nodeB && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeB)) ::Vec3())))
+                        if (nodeB && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeB))))
                         {
-                            while (nodeB && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeB)) ::Vec3())))
+                            while (nodeB && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeB))))
                             {
                                 Extra* extraB = new Extra;
-                                reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraB))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeB)) ::Vec3()))), 1);
+                                reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraB))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)((void *)(nodeB)))), 1);
                                 reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraB);
                                 nodeB = ((::InventoryCopy::ExtraNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
                             }
@@ -7752,8 +7789,8 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
     ItemNode* nodeSlot26 = head;
     while (nodeSlot26 && !nodeSlot26->FUN_008256d0())
     {
-        changedSlot20 = *((::InventoryCopy::FUN_004bc550 **)(new ((void *)(nodeSlot26)) ::Vec3()));
-        if (changedSlot20 && ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
+        changedSlot20 = *((::InventoryCopy::FUN_004bc550 **)((void *)(nodeSlot26)));
+        if (changedSlot20 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
         {
             formSlot11 = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName()));
             reinterpret_cast<::AGOwner *>((changedSlot20))->FUN_004bcd10();
@@ -7765,22 +7802,22 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
                 ::FUN_004ce300((::TESForm *)(clone2), 0);
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone2));
                 reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone2));
-                copySlot14 = new Item((TESBoundObject*)clone2, ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                copySlot14 = new Item((TESBoundObject*)clone2, ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
                 if (changedSlot20 && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
                 {
                     ExtraNode* nodeC = ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))));
-                    if (nodeC && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeC)) ::Vec3())))
+                    if (nodeC && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeC))))
                     {
-                        while (nodeC && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeC)) ::Vec3())))
+                        while (nodeC && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeC))))
                         {
                             Extra* extraCSlot22 = new Extra;
-                            void* removedCSlot8 = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeC)) ::Vec3())))))->FUN_00410220(0xd)));
+                            void* removedCSlot8 = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryCopy::FUN_00410360 **)((void *)(nodeC))))))->FUN_00410220(0xd)));
                             if (removedCSlot8)
-                                reinterpret_cast<::FUN_00410020_t *>(((*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeC)) ::Vec3())))))->FUN_00410020((::BSExtraData *)(removedCSlot8), 0);
-                            reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraCSlot22))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeC)) ::Vec3()))), 1);
+                                reinterpret_cast<::FUN_00410020_t *>(((*((::InventoryCopy::FUN_00410360 **)((void *)(nodeC))))))->FUN_00410020((::BSExtraData *)(removedCSlot8), 0);
+                            reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraCSlot22))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)((void *)(nodeC)))), 1);
                             reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraCSlot22);
                             if (removedCSlot8)
-                                reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(((*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeC)) ::Vec3())))))->FUN_0040ff60((::BSExtraData *)(removedCSlot8));
+                                reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(((*((::InventoryCopy::FUN_00410360 **)((void *)(nodeC))))))->FUN_0040ff60((::BSExtraData *)(removedCSlot8));
                             nodeC = ((::InventoryCopy::ExtraNode *)(reinterpret_cast<::Callees *>((nodeC))->FUN_00726070()));
                         }
                     }
@@ -7788,16 +7825,16 @@ void Inventory::FUN_004cd9c0(void* source, void* destination)
             }
             else
             {
-                copySlot14 = new Item(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())), ((int)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                copySlot14 = new Item(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
                 if (changedSlot20 && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
                 {
                     ExtraNode* nodeD = ((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(changedSlot20))));
-                    if (nodeD && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeD)) ::Vec3())))
+                    if (nodeD && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeD))))
                     {
-                        while (nodeD && *((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeD)) ::Vec3())))
+                        while (nodeD && *((::InventoryCopy::FUN_00410360 **)((void *)(nodeD))))
                         {
                             Extra* extraD = new Extra;
-                            reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraD))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)(new ((void *)(nodeD)) ::Vec3()))), 1);
+                            reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraD))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360 **)((void *)(nodeD)))), 1);
                             reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraD);
                             nodeD = ((::InventoryCopy::ExtraNode *)(reinterpret_cast<::Callees *>((nodeD))->FUN_00726070()));
                         }
@@ -8052,7 +8089,7 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
         WeightBaseNode* nodeX = ((::WeightContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
         while (nodeX && !nodeX->FUN_008256d0())
         {
-            TESBoundObject* form4 = (*((::WeightBaseEntry **)(new ((void *)(nodeX)) ::Vec3())))->form4;
+            TESBoundObject* form4 = (*((::WeightBaseEntry **)((void *)(nodeX))))->form4;
             WeightEntry* item9 = ((::WeightEntry *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(form4, 1, 0)));
             if (!((TESForm*)form4)->IsQuestItem())
             {
@@ -8077,20 +8114,20 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                     valueA *= scaleA;
                 if (!item9)
                 {
-                    result5 += (*((::WeightBaseEntry **)(new ((void *)(nodeX)) ::Vec3())))->count_2 * valueA;
+                    result5 += (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2 * valueA;
                 }
-                else if (item9 && ((int)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)(new ((void *)(nodeX)) ::Vec3())))->count_2)
+                else if (item9 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2)
                 {
-                    result5 += (((int)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)(new ((void *)(nodeX)) ::Vec3())))->count_2) * valueA;
+                    result5 += (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item9))->FUN_00726070())) + (*((::WeightBaseEntry **)((void *)(nodeX))))->count_2) * valueA;
                 }
             }
             nodeX = ((::WeightBaseNode *)(reinterpret_cast<::Callees *>((nodeX))->FUN_00726070()));
         }
         WeightChangeNode* nodeA = (WeightChangeNode*)m_pEntryList;
-        while (nodeA && !nodeA->FUN_008256d0() && *((::WeightEntry **)(new ((void *)(nodeA)) ::Vec3())))
+        while (nodeA && !nodeA->FUN_008256d0() && *((::WeightEntry **)((void *)(nodeA))))
         {
             bool current = false;
-            WeightEntry* item7 = *((::WeightEntry **)(new ((void *)(nodeA)) ::Vec3()));
+            WeightEntry* item7 = *((::WeightEntry **)((void *)(nodeA)));
             TESBoundObject* form4 = item7->m_pItemObject;
             if (form4 && (!((::WeightContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::WeightContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(form4))) && !((TESForm*)form4)->IsQuestItem())
             {
@@ -8125,7 +8162,7 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                     TESBoundObject* formX = 0;
                     if (form4 && ((ObjectForm*)form4)->FUN_00401170() == 0x18)
                         formX = form4;
-                    int count_2 = ((int)(reinterpret_cast<::Callees *>((item7))->FUN_00726070()));
+                    int count_2 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item7))->FUN_00726070()));
                     if (((::WeightExtraNode *)(::FUN_00559450((int *)(item7)))) && current && reinterpret_cast<::FUN_004bc8f0_stand *>((item7))->FUN_004bc8f0(true) > 0)
                     {
                         WeightWeapon* weaponTmp = ((::WeightWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((item7))->GetName()));
@@ -8133,14 +8170,14 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
                         WeightExtraNode* extra2 = ((::WeightExtraNode *)(::FUN_00559450((int *)(item7))));
                         while (extra2)
                         {
-                            WeightExtra* extra = *((::WeightExtra **)(new ((void *)(extra2)) ::Vec3()));
+                            WeightExtra* extra = *((::WeightExtra **)((void *)(extra2)));
                             if (extra && reinterpret_cast<::FUN_00418ba0_shell *>((extra))->FUN_00418ba0())
                             {
-                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(1) && ((int)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(1))) == 4)
+                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(1) && ((std::uintptr_t)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(1))) == 4)
                                     countTmp += reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(2) && ((int)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(2))) == 4)
+                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(2) && ((std::uintptr_t)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(2))) == 4)
                                     countTmp += reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
-                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(4) && ((int)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(4))) == 4)
+                                if (reinterpret_cast<::C418C00ExtraList *>((extra))->CheckExtraByType(4) && ((std::uintptr_t)(reinterpret_cast<::FUN_004bd880_stand *>((weaponTmp))->GetSlotPointer(4))) == 4)
                                     countTmp += reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
                             }
                             extra2 = ((::WeightExtraNode *)(reinterpret_cast<::Callees *>((extra2))->FUN_00726070()));
@@ -8213,7 +8250,7 @@ int ValueInventory::FUN_004d0f40(bool includeQuestItems, bool includeType15)
     ValueBaseNode* baseNode = ((::ValueContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     while (baseNode && !baseNode->FUN_008256d0())
     {
-        ValueForm* object = (*((::ValueBaseEntry **)(new ((void *)(baseNode)) ::Vec3())))->object;
+        ValueForm* object = (*((::ValueBaseEntry **)((void *)(baseNode))))->object;
         if ((includeQuestItems || !object->IsQuestItem()) && (includeType15 || reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0() != 15))
         {
             int value = ::FUN_0048e8a0((::TESForm *)(object));
@@ -8223,17 +8260,17 @@ int ValueInventory::FUN_004d0f40(bool includeQuestItems, bool includeType15)
             {
                 ValueChange* change = ((::ValueChange *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(object), 1, 0)));
                 if (!change)
-                    changeNode += value * (*((::ValueBaseEntry **)(new ((void *)(baseNode)) ::Vec3())))->count;
-                else if (change && ((int)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)(new ((void *)(baseNode)) ::Vec3())))->count)
-                    changeNode += (((int)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)(new ((void *)(baseNode)) ::Vec3())))->count) * value;
+                    changeNode += value * (*((::ValueBaseEntry **)((void *)(baseNode))))->count;
+                else if (change && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)((void *)(baseNode))))->count)
+                    changeNode += (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change))->FUN_00726070())) + (*((::ValueBaseEntry **)((void *)(baseNode))))->count) * value;
             }
         }
         baseNode = ((::ValueBaseNode *)(reinterpret_cast<::Callees *>((baseNode))->FUN_00726070()));
     }
     ValueChangeNode* total = (ValueChangeNode*)m_pEntryList;
-    while (total && !total->FUN_008256d0() && *((::ValueChange **)(new ((void *)(total)) ::Vec3())))
+    while (total && !total->FUN_008256d0() && *((::ValueChange **)((void *)(total))))
     {
-        ValueChange* object = *((::ValueChange **)(new ((void *)(total)) ::Vec3()));
+        ValueChange* object = *((::ValueChange **)((void *)(total)));
         ValueForm* change = (ValueForm*)object->m_pItemObject;
         if (change && (!((::ValueContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::ValueContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(change))) &&
             (includeQuestItems || !change->IsQuestItem()) && (includeType15 || reinterpret_cast<::FUN_0084e3a0_Class *>((change))->FUN_0084e3a0() != 15))
@@ -8241,8 +8278,8 @@ int ValueInventory::FUN_004d0f40(bool includeQuestItems, bool includeType15)
             int value = ::FUN_0048e8a0((::TESForm *)(change));
             if (value == -1)
                 value = 0;
-            if (value && ((int)(reinterpret_cast<::Callees *>((object))->FUN_00726070())))
-                changeNode += ((int)(reinterpret_cast<::Callees *>((object))->FUN_00726070())) * value;
+            if (value && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((object))->FUN_00726070())))
+                changeNode += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((object))->FUN_00726070())) * value;
         }
         total = ((::ValueChangeNode *)(reinterpret_cast<::Callees *>((total))->FUN_00726070()));
     }
@@ -8384,7 +8421,7 @@ void Inv4d1440::FUN_004d1440()
     }
     while (node && !node->_ref_008256d0())
     {
-        Entry4d1440* pEntry = *((::Entry4d1440 **)(new ((void *)(node)) ::Vec3()));
+        Entry4d1440* pEntry = *((::Entry4d1440 **)((void *)(node)));
         LevItem4d1440* levItem = 0;
         if (pEntry->pObj && FNV_GetFormType(pEntry->pObj) == 0x34)
         {
@@ -8509,9 +8546,9 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
     AutoMemContext contextSlot2(0x36, true, ::DAT_01020778, 0x26b7);
     BaseNode* baseSlot2 = ((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     Item* transferSlot3 = 0;
-    while (baseSlot2 && *((::InventoryTransfer::BaseEntry **)(new ((void *)(baseSlot2)) ::Vec3())))
+    while (baseSlot2 && *((::InventoryTransfer::BaseEntry **)((void *)(baseSlot2))))
     {
-        BaseEntry* entrySlot7 = *((::InventoryTransfer::BaseEntry **)(new ((void *)(baseSlot2)) ::Vec3()));
+        BaseEntry* entrySlot7 = *((::InventoryTransfer::BaseEntry **)((void *)(baseSlot2)));
         TESLevItem* leveledSlot21 = dynamic_cast<TESLevItem*>(entrySlot7->form);
         transferSlot3 = new Item;
         int baseCountSlot38 = reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(entrySlot7->form));
@@ -8542,10 +8579,10 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 if (current && ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((current))->FUN_004bde40())))
                 {
                     ExtraNode* scripted = ((::InventoryTransfer::ExtraNode *)(::FUN_00559450((int *)(current))));
-                    while (scripted && *((::InventoryTransfer::Extra **)(new ((void *)(scripted)) ::Vec3())))
+                    while (scripted && *((::InventoryTransfer::Extra **)((void *)(scripted))))
                     {
-                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>(((*((::InventoryTransfer::Extra **)(new ((void *)(scripted)) ::Vec3())))))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::Callees *>((transferSlot3->list))->FUN_00905820(((::InventoryTransfer::Extra **)(new ((void *)(scripted)) ::Vec3())));
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>(((*((::InventoryTransfer::Extra **)((void *)(scripted))))))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        reinterpret_cast<::Callees *>((transferSlot3->list))->FUN_00905820(((::InventoryTransfer::Extra **)((void *)(scripted))));
                         scripted = ((::InventoryTransfer::ExtraNode *)(reinterpret_cast<::Callees *>((scripted))->FUN_00726070()));
                     }
                     reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
@@ -8556,7 +8593,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     {
                         Extra* extraA = new Extra;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraA))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraA))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraA))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraA);
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
@@ -8573,11 +8610,11 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 if (current->list)
                     extraCountSlot33 = reinterpret_cast<::FUN_004bc8f0_stand *>((current))->FUN_004bc8f0(0);
                 ExtraNode* extrasSlot23 = current->list;
-                while (extrasSlot23 && *((::InventoryTransfer::Extra **)(new ((void *)(extrasSlot23)) ::Vec3())) && !transferSlot3)
+                while (extrasSlot23 && *((::InventoryTransfer::Extra **)((void *)(extrasSlot23))) && !transferSlot3)
                 {
-                    Extra* extraB = *((::InventoryTransfer::Extra **)(new ((void *)(extrasSlot23)) ::Vec3()));
+                    Extra* extraB = *((::InventoryTransfer::Extra **)((void *)(extrasSlot23)));
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(current->form));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(reinterpret_cast<::FUN_00418770_shell *>((extraB))->FUN_00418770()));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_00418770_shell *>((extraB))->FUN_00418770()));
                     if (!transferSlot3->list)
                         transferSlot3->list = new ExtraNode;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraB))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
@@ -8599,7 +8636,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     {
                         Extra* extraC = new Extra;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraC))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraC))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraC))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraC);
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
@@ -8624,31 +8661,31 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
         baseSlot2 = ((::InventoryTransfer::BaseNode *)(reinterpret_cast<::Callees *>((baseSlot2))->FUN_00726070()));
     }
     ItemNode* nodeSlot1 = head;
-    while (nodeSlot1 && *((::InventoryTransfer::Item **)(new ((void *)(nodeSlot1)) ::Vec3())))
+    while (nodeSlot1 && *((::InventoryTransfer::Item **)((void *)(nodeSlot1))))
     {
         transferSlot3 = new Item;
         if (!transferSlot3->list)
             transferSlot3->list = new ExtraNode;
-        Item* changed = *((::InventoryTransfer::Item **)(new ((void *)(nodeSlot1)) ::Vec3()));
-        if (changed && ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) > 0 && (!((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(changed->form))))
+        Item* changed = *((::InventoryTransfer::Item **)((void *)(nodeSlot1)));
+        if (changed && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) > 0 && (!((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(changed->form))))
         {
             if (reinterpret_cast<::FUN_004bc8f0_stand *>((changed))->FUN_004bc8f0(0) || ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changed))->FUN_004bde40())))
             {
                 ExtraNode* walkSlot1 = changed->list;
                 int countSlot56 = 0;
                 bool hasSpecialSlot4 = false;
-                while (walkSlot1 && *((::InventoryTransfer::Extra **)(new ((void *)(walkSlot1)) ::Vec3())))
+                while (walkSlot1 && *((::InventoryTransfer::Extra **)((void *)(walkSlot1))))
                 {
-                    if (((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryTransfer::Extra **)(new ((void *)(walkSlot1)) ::Vec3())))))->FUN_00410220(0x2f))))
+                    if (((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryTransfer::Extra **)((void *)(walkSlot1))))))->FUN_00410220(0x2f))))
                         hasSpecialSlot4 = true;
                     walkSlot1 = ((::InventoryTransfer::ExtraNode *)(reinterpret_cast<::Callees *>((walkSlot1))->FUN_00726070()));
                 }
                 walkSlot1 = changed->list;
                 if (!hasSpecialSlot4 || ((int)(reinterpret_cast<::FUN_004be1a0_Class *>((changed))->GetFormTypeCategory())) != 4)
                 {
-                    while (walkSlot1 && *((::InventoryTransfer::Extra **)(new ((void *)(walkSlot1)) ::Vec3())))
+                    while (walkSlot1 && *((::InventoryTransfer::Extra **)((void *)(walkSlot1))))
                     {
-                        Extra* extraD = *((::InventoryTransfer::Extra **)(new ((void *)(walkSlot1)) ::Vec3()));
+                        Extra* extraD = *((::InventoryTransfer::Extra **)((void *)(walkSlot1)));
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraD))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
                         transferSlot3->list->FUN_005ae3d0(&extraD);
                         walkSlot1 = ((::InventoryTransfer::ExtraNode *)(reinterpret_cast<::Callees *>((walkSlot1))->FUN_00726070()));
@@ -8659,9 +8696,9 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 {
                     if (((int)(reinterpret_cast<::FUN_004be1a0_Class *>((changed))->GetFormTypeCategory())) == 4 && ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changed))->FUN_004bde40())))
                         reinterpret_cast<::CombatProcedure *>((changed))->Initialize((::CombatController *)(1));
-                    while (walkSlot1 && *((::InventoryTransfer::Extra **)(new ((void *)(walkSlot1)) ::Vec3())))
+                    while (walkSlot1 && *((::InventoryTransfer::Extra **)((void *)(walkSlot1))))
                     {
-                        Extra* extraE = *((::InventoryTransfer::Extra **)(new ((void *)(walkSlot1)) ::Vec3()));
+                        Extra* extraE = *((::InventoryTransfer::Extra **)((void *)(walkSlot1)));
                         reinterpret_cast<::FUN_0041af10_Class *>((extraE))->RemoveExtra24();
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraE))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
                         transferSlot3->list->FUN_005ae3d0(&extraE);
@@ -8670,20 +8707,20 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     }
                 }
                 reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
-                reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
-                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                 {
                     Extra* extraF = new Extra;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraF))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                    reinterpret_cast<::FUN_00419ad0_shell *>((extraF))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - countSlot56);
+                    reinterpret_cast<::FUN_00419ad0_shell *>((extraF))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - countSlot56);
                     transferSlot3->list->FUN_005ae3d0(&extraF);
                 }
                 if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
                     reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                 else
                 {
-                    if (*((::InventoryTransfer::Extra **)(new ((void *)(transferSlot3->list)) ::Vec3())))
-                        reinterpret_cast<::FUN_00418600_cls *>(((*((::InventoryTransfer::Extra **)(new ((void *)(transferSlot3->list)) ::Vec3())))))->FUN_00418600();
+                    if (*((::InventoryTransfer::Extra **)((void *)(transferSlot3->list))))
+                        reinterpret_cast<::FUN_00418600_cls *>(((*((::InventoryTransfer::Extra **)((void *)(transferSlot3->list))))))->FUN_00418600();
                     delete transferSlot3;
                     transferSlot3 = 0;
                 }
@@ -8695,9 +8732,9 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 {
                     ExtraNode* walk2Slot3 = changed->list;
                     int count2Slot41 = 0;
-                    while (walk2Slot3 && *((::InventoryTransfer::Extra **)(new ((void *)(walk2Slot3)) ::Vec3())) && !chosen)
+                    while (walk2Slot3 && *((::InventoryTransfer::Extra **)((void *)(walk2Slot3))) && !chosen)
                     {
-                        chosen = *((::InventoryTransfer::Extra **)(new ((void *)(walk2Slot3)) ::Vec3()));
+                        chosen = *((::InventoryTransfer::Extra **)((void *)(walk2Slot3)));
                         count2Slot41 += reinterpret_cast<::FUN_00418770_shell *>((chosen))->FUN_00418770();
                         if (reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((chosen))->HasOnlyAllowedExtraData(0))
                             chosen = 0;
@@ -8709,11 +8746,11 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                             transferSlot3->list = new ExtraNode;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
                         transferSlot3->list->FUN_005ae3d0(&chosen);
-                        if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && count2Slot41 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                        if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && count2Slot41 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                         {
                             Extra* extraG = new Extra;
                             reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraG))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                            reinterpret_cast<::FUN_00419ad0_shell *>((extraG))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - count2Slot41);
+                            reinterpret_cast<::FUN_00419ad0_shell *>((extraG))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - count2Slot41);
                             transferSlot3->list->FUN_005ae3d0(&extraG);
                         }
                     }
@@ -8721,20 +8758,20 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     {
                         Extra* extraH = new Extra;
                         reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraH))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                        reinterpret_cast<::FUN_00419ad0_shell *>((extraH))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraH))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())));
                         transferSlot3->list->FUN_005ae3d0(&extraH);
                     }
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
                     {
-                        reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                        reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
                     else
                     {
-                        if (*((::InventoryTransfer::Extra **)(new ((void *)(transferSlot3->list)) ::Vec3())))
-                            reinterpret_cast<::FUN_00418600_cls *>(((*((::InventoryTransfer::Extra **)(new ((void *)(transferSlot3->list)) ::Vec3())))))->FUN_00418600();
+                        if (*((::InventoryTransfer::Extra **)((void *)(transferSlot3->list))))
+                            reinterpret_cast<::FUN_00418600_cls *>(((*((::InventoryTransfer::Extra **)((void *)(transferSlot3->list))))))->FUN_00418600();
                         delete transferSlot3;
                         transferSlot3 = 0;
                     }
@@ -8742,10 +8779,10 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 else
                 {
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(::InventoryTransfer::Form *)(((::InventoryTransfer::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((changed))->GetName()))));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     chosen = new Extra;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
-                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
                     transferSlot3->list->FUN_005ae3d0(&chosen);
                     reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                 }
@@ -8794,13 +8831,13 @@ void CleanupInventory::RemoveAllItems()
     CleanupItemNode* start = first;
     CleanupItemNode* itemList = first;
     CleanupItem* node = 0;
-    while (start && *((::CleanupItem **)(new ((void *)(start)) ::Vec3())))
+    while (start && *((::CleanupItem **)((void *)(start))))
     {
-        node = *((::CleanupItem **)(new ((void *)(start)) ::Vec3()));
+        node = *((::CleanupItem **)((void *)(start)));
         CleanupExtra* extra = 0;
-        while (node->m_pExtraDataLists && *((::CleanupExtra **)(new ((void *)(reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists))) ::Vec3())))
+        while (node->m_pExtraDataLists && *((::CleanupExtra **)((void *)(reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists)))))
         {
-            extra = *((::CleanupExtra **)(new ((void *)(reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists))) ::Vec3()));
+            extra = *((::CleanupExtra **)((void *)(reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists))));
             reinterpret_cast<CleanupExtraNode*>(node->m_pExtraDataLists)->FUN_0063f7b0();
             CleanupReference* ref = 0;
             if (extra)
@@ -8821,9 +8858,9 @@ void CleanupInventory::RemoveAllItems()
                         if (entry && ((::CleanupExtraNode *)(::FUN_00559450((int *)(entry)))))
                         {
                             CleanupExtraNode* scan = ((::CleanupExtraNode *)(::FUN_00559450((int *)(entry))));
-                            while (scan && *((::CleanupExtra **)(new ((void *)(scan)) ::Vec3())) && destroy)
+                            while (scan && *((::CleanupExtra **)((void *)(scan))) && destroy)
                             {
-                                if (*((::CleanupExtra **)(new ((void *)(scan)) ::Vec3())) == extra)
+                                if (*((::CleanupExtra **)((void *)(scan))) == extra)
                                     destroy = false;
                                 else
                                     scan = ((::CleanupExtraNode *)(reinterpret_cast<::Callees *>((scan))->FUN_00726070()));
@@ -8837,9 +8874,9 @@ void CleanupInventory::RemoveAllItems()
                         if (playerEntry && ((::CleanupExtraNode *)(::FUN_00559450((int *)(playerEntry)))))
                         {
                             CleanupExtraNode* playerScan = ((::CleanupExtraNode *)(::FUN_00559450((int *)(playerEntry))));
-                            while (playerScan && *((::CleanupExtra **)(new ((void *)(playerScan)) ::Vec3())) && destroy)
+                            while (playerScan && *((::CleanupExtra **)((void *)(playerScan))) && destroy)
                             {
-                                if (*((::CleanupExtra **)(new ((void *)(playerScan)) ::Vec3())) == extra)
+                                if (*((::CleanupExtra **)((void *)(playerScan))) == extra)
                                     destroy = false;
                                 else
                                     playerScan = ((::CleanupExtraNode *)(reinterpret_cast<::Callees *>((playerScan))->FUN_00726070()));
@@ -8914,7 +8951,7 @@ unsigned short InventorySaveList::FUN_004d3960()
     SaveItemNode* node5 = first;
     while (node5 && !node5->IsEmpty())
     {
-        SaveItemChange* itemB = *((::fnv_004d3960::SaveItemChange **)(new ((void *)(node5)) ::Vec3()));
+        SaveItemChange* itemB = *((::fnv_004d3960::SaveItemChange **)((void *)(node5)));
         if (itemB)
             size3 += reinterpret_cast<::fnv_004be5a0::InventoryChangesSaveSize *>((itemB))->FUN_004be5a0();
         node5 = ((::fnv_004d3960::SaveItemNode *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
@@ -9099,7 +9136,7 @@ void FUN_004d3ab0_cls::FUN_004d3ab0()
     aNode = (ItemNode*)m_pEntryList;
     while (aNode && !aNode->FUN_008256d0())
     {
-        item2 = (ItemChangeStub*)*((void **)(new ((void *)(aNode)) ::Vec3()));
+        item2 = (ItemChangeStub*)*((void **)((void *)(aNode)));
         if (item2)
         {
             item2->FUN_004be6f0();
@@ -9226,7 +9263,7 @@ void InvChangesSave::FUN_004d4090(SaveBuffer_4d4090* buffer)
     BSSimpleList<InventoryStackRecord*>* nodeTmp = m_pEntryList;
     while (nodeTmp != 0)
     {
-        InventoryStackRecord* change5 = ((::InventoryStackRecord *)(new ((void *)(nodeTmp)) ::Vec3()));
+        InventoryStackRecord* change5 = (nodeTmp->m_item);
         if (change5 != 0)
         {
             reinterpret_cast<::FUN_004bed60_shell *>((((ItemSave_4d4090*)change5)))->SavePerkList((::BGSSaveFormBuffer *)(buffer));
@@ -9324,7 +9361,7 @@ int WalkInventory::ForEachInventoryItem(bool(__cdecl* callback)(WalkTemp*, void*
     WalkBaseNode* base = ((::WalkContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     while (base)
     {
-        WalkBaseEntry* entryB = *((::WalkBaseEntry **)(new ((void *)(base)) ::Vec3()));
+        WalkBaseEntry* entryB = *((::WalkBaseEntry **)((void *)(base)));
         base = ((::WalkBaseNode *)(reinterpret_cast<::Callees *>((base))->FUN_00726070()));
         if (entryB)
         {
@@ -9355,7 +9392,7 @@ int WalkInventory::ForEachInventoryItem(bool(__cdecl* callback)(WalkTemp*, void*
     WalkNode* node7 = first;
     while (node7)
     {
-        WalkChange* change3 = *((::WalkChange **)(new ((void *)(node7)) ::Vec3()));
+        WalkChange* change3 = *((::WalkChange **)((void *)(node7)));
         node7 = ((::WalkNode *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
         if (change3)
         {
@@ -9374,7 +9411,7 @@ int WalkInventory::ForEachInventoryItem(bool(__cdecl* callback)(WalkTemp*, void*
                         continue;
                 }
             }
-            int countB = ((int)(reinterpret_cast<::Callees *>((change3))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::WalkContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form5));
+            int countB = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((change3))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::WalkContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form5));
             if (!countB)
                 continue;
             WalkTemp temp6;
@@ -9484,7 +9521,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
     {
         while (state->base)
         {
-            BaseEntryIter* entry7 = *((::BaseEntryIter **)(new ((void *)(state->base)) ::Vec3()));
+            BaseEntryIter* entry7 = *((::BaseEntryIter **)((void *)(state->base)));
             state->base = ((::BaseNodeIter *)(reinterpret_cast<::Callees *>((state->base))->FUN_00726070()));
             if (!state->base)
             {
@@ -9495,7 +9532,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
             }
             if (entry7)
             {
-                if (((int)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(entry7->form), 1, 0))))
+                if (((std::uintptr_t)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(entry7->form), 1, 0))))
                     continue;
                 if (flags & 1)
                 {
@@ -9523,7 +9560,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
     {
         while (state->change)
         {
-            ChangeIter* entry2 = *((::ChangeIter **)(new ((void *)(state->change)) ::Vec3()));
+            ChangeIter* entry2 = *((::ChangeIter **)((void *)(state->change)));
             state->change = ((::ChangeNodeIter *)(reinterpret_cast<::Callees *>((state->change))->FUN_00726070()));
             if (!state->change)
                 state->done = true;
@@ -9544,7 +9581,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
                             continue;
                     }
                 }
-                int iChangeCount = ((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::IterContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form2));
+                int iChangeCount = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + reinterpret_cast<::TESContainer *>((((::IterContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(form2));
                 if (iChangeCount <= 0)
                     continue;
                 *out = entry2;
@@ -9602,7 +9639,7 @@ void FUN_004d4ca0_shell::CollectTopicEntries(TESForm* pkForm, TopicList4d4* pkLi
         {
             if (FNV_GetFormType(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((TopicEntry4d4*)pkItem)))->GetName()))) == 0x67)
             {
-                uiFlagsCur = (unsigned int)((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((TopicEntry4d4*)pkItem)))->GetName()));
+                uiFlagsCur = (unsigned int)(std::uintptr_t)((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((TopicEntry4d4*)pkItem)))->GetName()));
                 if (uiFlagsCur == reinterpret_cast<::FUN_004bd570_this *>((pNewkTopic))->FUN_004bd570(1))
                     pkList->FUN_005ae3d0(pkItem);
                 else if (uiFlagsCur == reinterpret_cast<::FUN_004bd570_this *>((pNewkTopic))->FUN_004bd570(2))
@@ -10557,31 +10594,31 @@ struct InvHost
 void InvHost::FUN_009687b0(void* object, InvExtra* extra, int amount)
 {
     bool found = false;
-    for (unsigned index = 0; !found && index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++index)
+    for (unsigned index = 0; !found && index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++index)
     {
         InvEntry* entry = entries.FUN_00877a30(index);
         if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((entries.FUN_00877a30(index)))->GetName())) == object)
         {
-            bool empty = !((::InvNode *)(::FUN_00559450((int *)(entry)))) || !*((::InvExtra **)(new ((void *)(((::InvNode *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) ||
-                         reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>(((*((::InvExtra **)(new ((void *)(((::InvNode *)(::FUN_00559450((int *)(entry)))))) ::Vec3())))))->HasOnlyAllowedExtraData(0);
+            bool empty = !((::InvNode *)(::FUN_00559450((int *)(entry)))) || !*((::InvExtra **)((void *)(((::InvNode *)(::FUN_00559450((int *)(entry))))))) ||
+                         reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>(((*((::InvExtra **)((void *)(((::InvNode *)(::FUN_00559450((int *)(entry))))))))))->HasOnlyAllowedExtraData(0);
             if (!extra)
             {
                 if (empty)
                 {
-                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
+                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
                     found = true;
                 }
             }
             else
             {
-                for (InvNode* node = ((::InvNode *)(::FUN_00559450((int *)(entry)))); !found && node && *((::InvExtra **)(new ((void *)(node)) ::Vec3()));
+                for (InvNode* node = ((::InvNode *)(::FUN_00559450((int *)(entry)))); !found && node && *((::InvExtra **)((void *)(node)));
                      node = ((::InvNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
                 {
-                    if (!reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>(((*((::InvExtra **)(new ((void *)(node)) ::Vec3())))))->FUN_004126c0((::ExtraDataList *)(extra), 1, 0) &&
-                        !reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((extra))->FUN_004126c0((::ExtraDataList *)(*((::InvExtra **)(new ((void *)(node)) ::Vec3()))), 1, 0))
+                    if (!reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>(((*((::InvExtra **)((void *)(node))))))->FUN_004126c0((::ExtraDataList *)(extra), 1, 0) &&
+                        !reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((extra))->FUN_004126c0((::ExtraDataList *)(*((::InvExtra **)((void *)(node)))), 1, 0))
                     {
-                        reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
-                        reinterpret_cast<::FUN_00419ad0_shell *>(((*((::InvExtra **)(new ((void *)(node)) ::Vec3())))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>(((*((::InvExtra **)(new ((void *)(node)) ::Vec3())))))->FUN_00418770() + amount);
+                        reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
+                        reinterpret_cast<::FUN_00419ad0_shell *>(((*((::InvExtra **)((void *)(node))))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>(((*((::InvExtra **)((void *)(node))))))->FUN_00418770() + amount);
                         found = true;
                     }
                 }
@@ -10593,7 +10630,7 @@ void InvHost::FUN_009687b0(void* object, InvExtra* extra, int amount)
                     if (!((::InvNode *)(::FUN_00559450((int *)(entry)))))
                         entry->list = new InvNode;
                     ((::InvNode *)(::FUN_00559450((int *)(entry))))->FUN_005ae3d0(copy);
-                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
+                    reinterpret_cast<::CombatProcedure *>((entry))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entries.FUN_00877a30(index)))->FUN_00726070())) + amount));
                     found = true;
                 }
             }
@@ -11105,8 +11142,8 @@ struct Transfer4c37Node84
 {
 };
 unsigned char __cdecl FUN_00702680(int a, int b);
-int FUN_00401170(int a);
-void* __cdecl FUN_00401000(int a);
+int FUN_00401170(std::uintptr_t a);
+void* __cdecl FUN_00401000(intptr_t a);
 struct Transfer4c37Obj96
 {
     void* item;
@@ -11381,8 +11418,8 @@ struct Transfer4c37C37This
     float m0c;
     unsigned char m10;
     Transfer4c37Cont* FUN_004bffb0();
-    int FUN_004c37d0(Transfer4c37C37Obj* p0, int p1, unsigned char p2, int p3, Transfer4c37Form4* p4, unsigned char p5,
-                     Transfer4c37C37Form* p6, int p7, int p8, unsigned char p9, unsigned char p10,
+    int FUN_004c37d0(Transfer4c37C37Obj* p0, std::intptr_t p1, unsigned char p2, int p3, Transfer4c37Form4* p4, unsigned char p5,
+                     Transfer4c37C37Form* p6, std::intptr_t p7, std::intptr_t p8, unsigned char p9, unsigned char p10,
                      Transfer4c37Entry* p11);
 };
 struct FUN_008c71b0
@@ -11462,9 +11499,9 @@ FUN_0076b630* Target::FUN_004c8c10(int slot, int bOnlyArmor)
     ItemList* node7 = this->changes;
     FUN_0076b630* result5 = 0;
 
-    while (node7 && ((::FUN_0076b630 *)(new ((void *)(node7)) ::Vec3())))
+    while (node7 && ((::FUN_0076b630 *)((void *)(node7))))
     {
-        FUN_0076b630_ex* entry7 = (FUN_0076b630_ex*)((::FUN_0076b630 *)(new ((void *)(node7)) ::Vec3()));
+        FUN_0076b630_ex* entry7 = (FUN_0076b630_ex*)((::FUN_0076b630 *)((void *)(node7)));
         if (entry7)
         {
             FUN_0096a2d0* extraNode = entry7->extras;
@@ -11476,9 +11513,9 @@ FUN_0076b630* Target::FUN_004c8c10(int slot, int bOnlyArmor)
                 reinterpret_cast<::ItemChange_004be3d0 *>((entry7))->SetExtraListFlag(0, 0, 1);
             }
 
-            while (extraNode && ((::Extra *)(new ((void *)(extraNode)) ::Vec3())) && !equipped2)
+            while (extraNode && ((::Extra *)((void *)(extraNode))) && !equipped2)
             {
-                foundExtra6 = (XExtra*)((::Extra *)(new ((void *)(extraNode)) ::Vec3()));
+                foundExtra6 = (XExtra*)((::Extra *)((void *)(extraNode)));
                 if (reinterpret_cast<::FUN_00418ab0_shell *>((foundExtra6))->FUN_00418ab0(0))
                 {
                     switch (slot)
@@ -11533,7 +11570,7 @@ FUN_0076b630* Target::FUN_004c8c10(int slot, int bOnlyArmor)
                     result5->extras = new FUN_0096a2d0();
                 }
                 result5->extras->FUN_005ae3d0((Extra**)&foundExtra6);
-                reinterpret_cast<::CombatProcedure *>((result5))->Initialize((::CombatController *)(reinterpret_cast<::FUN_00418770_shell *>((foundExtra6))->FUN_00418770()));
+                reinterpret_cast<::CombatProcedure *>((result5))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_00418770_shell *>((foundExtra6))->FUN_00418770()));
                 equipped2 = false;
                 return result5;
             }
@@ -11618,10 +11655,10 @@ void* CTargetC5::FUN_004cafe0()
 
     while (pList && !pList->FUN_008256d0())
     {
-        pA7 = dynamic_cast<IngredientItem*>((*((::E4C5 **)(new ((void *)(pList)) ::Vec3())))->p4);
+        pA7 = dynamic_cast<IngredientItem*>((*((::E4C5 **)((void *)(pList))))->p4);
         if (!pA7)
         {
-            pB = dynamic_cast<AlchemyItem*>((*((::E4C5 **)(new ((void *)(pList)) ::Vec3())))->p4);
+            pB = dynamic_cast<AlchemyItem*>((*((::E4C5 **)((void *)(pList))))->p4);
             pObj7 = pB;
         }
         else
@@ -11630,7 +11667,7 @@ void* CTargetC5::FUN_004cafe0()
         if ((pB && pB->sub.v4()) || (pA7 && pA7->sub.v4()))
         {
             CItemC5* pNew = ((::CItemC5 *)(reinterpret_cast<::FUN_004bfba0_shell *>((this))->FUN_004bfba0(pObj7, 1, 0)));
-            if (!pNew || (pNew && ((int)(reinterpret_cast<::Callees *>((pNew))->FUN_00726070())) + (*((::E4C5 **)(new ((void *)(pList)) ::Vec3())))->count != 0))
+            if (!pNew || (pNew && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pNew))->FUN_00726070())) + (*((::E4C5 **)((void *)(pList))))->count != 0))
             {
                 if (!pNew)
                     pItem = new CItemC5(pObj7, 0);
@@ -11645,10 +11682,10 @@ void* CTargetC5::FUN_004cafe0()
     ENodeC5* pInv8 = this->m_pFirstNode;
     while (pInv8 && !pInv8->FUN_008256d0())
     {
-        pA7 = dynamic_cast<IngredientItem*>((*((::E4C5 **)(new ((void *)(pInv8)) ::Vec3())))->p8);
+        pA7 = dynamic_cast<IngredientItem*>((*((::E4C5 **)((void *)(pInv8))))->p8);
         if (!pA7)
         {
-            pB = dynamic_cast<AlchemyItem*>((*((::E4C5 **)(new ((void *)(pInv8)) ::Vec3())))->p8);
+            pB = dynamic_cast<AlchemyItem*>((*((::E4C5 **)((void *)(pInv8))))->p8);
             pObj7 = pB;
         }
         else
@@ -11658,8 +11695,8 @@ void* CTargetC5::FUN_004cafe0()
         {
             if (!reinterpret_cast<::TESContainer *>((((::CContainerC5 *)(reinterpret_cast<::FUN_004bffb0_shell *>((this))->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(pObj7)))
             {
-                if (((int)(reinterpret_cast<::Callees *>(((*((::E4C5 **)(new ((void *)(pInv8)) ::Vec3())))))->FUN_00726070())) > 0)
-                    return *((::E4C5 **)(new ((void *)(pInv8)) ::Vec3()));
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::E4C5 **)((void *)(pInv8))))))->FUN_00726070())) > 0)
+                    return *((::E4C5 **)((void *)(pInv8)));
             }
         }
         pInv8 = ((::ENodeC5 *)(reinterpret_cast<::Callees *>((pInv8))->FUN_00726070()));
@@ -11907,7 +11944,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
 {
     int total = 0;
     if (a5 != 0)
-        return reinterpret_cast<::FUN_004cfe20_t *>((this))->HasItem((unsigned int)(a5));
+        return reinterpret_cast<::FUN_004cfe20_t *>((this))->HasItem((std::uintptr_t)(a5));
 
     Actor6* pOwner = 0;
     if (pActor != 0 && pActor->v100() != 0)
@@ -11917,26 +11954,26 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
 
     while (pNode != 0 && !pNode->FUN_008256d0())
     {
-        void* pObj = (*((::ContObj6 **)(new ((void *)(pNode)) ::Vec3())))->pObj;
+        void* pObj = (*((::ContObj6 **)((void *)(pNode))))->pObj;
         if (pObj != 0 && ((a1 != 0 && pObj == a1) || (a1 == 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj), (int)(a2)))))
         {
             Item2_6* pItem = ((::Item2_6 *)(reinterpret_cast<::FUN_004bfba0_shell *>((this))->FUN_004bfba0((::TESBoundObject *)(pObj), 1, 0)));
             if (pItem != 0)
             {
-                if ((*((::ContObj6 **)(new ((void *)(pNode)) ::Vec3())))->count < 0)
+                if ((*((::ContObj6 **)((void *)(pNode))))->count < 0)
                 {
                     return true;
                 }
                 else
                 {
                     if (pItem != 0)
-                        total += ((int)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070())) + (*((::ContObj6 **)(new ((void *)(pNode)) ::Vec3())))->count;
+                        total += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070())) + (*((::ContObj6 **)((void *)(pNode))))->count;
                     else
-                        total += (*((::ContObj6 **)(new ((void *)(pNode)) ::Vec3())))->count;
+                        total += (*((::ContObj6 **)((void *)(pNode))))->count;
                 }
                 if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
-                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
-                *a4 = FUN_00679ba0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
+                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
+                *a4 = FUN_00679ba0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
             }
             else
             {
@@ -11958,26 +11995,26 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
         if (a1 != 0)
         {
             Item2_6* pItem2 = ((::Item2_6 *)(reinterpret_cast<::FUN_004bfba0_shell *>((this))->FUN_004bfba0((::TESBoundObject *)(a1), 1, 0)));
-            if (pItem2 != 0 && ((int)(reinterpret_cast<::Callees *>((pItem2))->FUN_00726070())) >= iRequiredCount)
+            if (pItem2 != 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((pItem2))->FUN_00726070())) >= iRequiredCount)
             {
                 if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
-                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
-                *a4 = FUN_00679ba0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
+                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
+                *a4 = FUN_00679ba0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
                 return true;
             }
         }
         else
         {
             Node2_6* pNode2 = (Node2_6*)this->m_pEntryList;
-            while (pNode2 != 0 && !pNode2->FUN_008256d0() && *((::ItemCh6 **)(new ((void *)(pNode2)) ::Vec3())) != 0)
+            while (pNode2 != 0 && !pNode2->FUN_008256d0() && *((::ItemCh6 **)((void *)(pNode2))) != 0)
             {
-                void* pObj2 = (*((::ItemCh6 **)(new ((void *)(pNode2)) ::Vec3())))->m_pItemObject;
+                void* pObj2 = (*((::ItemCh6 **)((void *)(pNode2))))->m_pItemObject;
                 if (pObj2 != 0 && a2 != 0 && ::MatchesObjectType((::TESForm *)(pObj2), (int)(a2)) &&
-                    ((int)(reinterpret_cast<::Callees *>(((*((::ItemCh6 **)(new ((void *)(pNode2)) ::Vec3())))))->FUN_00726070())) >= iRequiredCount)
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((*((::ItemCh6 **)((void *)(pNode2))))))->FUN_00726070())) >= iRequiredCount)
                 {
                     if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
-                        ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)(new ((void *)(pNode2)) ::Vec3()))))->GetName())));
-                    *a4 = FUN_00679ba0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)(new ((void *)(pNode2)) ::Vec3()))))->GetName())));
+                        ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
+                    *a4 = FUN_00679ba0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
                     return true;
                 }
                 pNode2 = ((::Node2_6 *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
@@ -12036,18 +12073,18 @@ FUN_004bc550* Inventory::FUN_004d0650(Object* object, int arg)
     if (source3)
     {
         int count2 = reinterpret_cast<::TESContainer *>((((::Rebuild004d0650::Container *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(object));
-        result2 = new FUN_004bc550(object, count2 + ((int)(reinterpret_cast<::Callees *>((source3))->FUN_00726070())));
+        result2 = new FUN_004bc550(object, count2 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((source3))->FUN_00726070())));
         if (((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(source3)))) && ((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(source3))))->FUN_005ae380())
         {
             if (!((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(result2)))))
                 result2->list = new FUN_0096a2d0;
-            Extra* extra7 = *((::Rebuild004d0650::Extra **)(new ((void *)(((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(source3)))))) ::Vec3()));
+            Extra* extra7 = *((::Rebuild004d0650::Extra **)((void *)(((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(source3)))))));
             if (reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((extra7))->HasOnlyAllowedExtraData(0))
             {
                 FUN_0096a2d0* node5 = ((::Rebuild004d0650::FUN_0096a2d0 *)(::FUN_00559450((int *)(source3))));
-                while (node5 && *((::Rebuild004d0650::Extra **)(new ((void *)(node5)) ::Vec3())))
+                while (node5 && *((::Rebuild004d0650::Extra **)((void *)(node5))))
                 {
-                    extra7 = *((::Rebuild004d0650::Extra **)(new ((void *)(node5)) ::Vec3()));
+                    extra7 = *((::Rebuild004d0650::Extra **)((void *)(node5)));
                     reinterpret_cast<::Callees *>((result2->list))->FUN_00905820((void *)&(extra7));
                     node5 = ((::Rebuild004d0650::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
                 }
@@ -12072,10 +12109,10 @@ FUN_004bc550* Inventory::FUN_004d0650(Object* object, int arg)
         Object* form2 = 0;
         while (base6 && !base6->FUN_008256d0())
         {
-            form2 = (*((::Rebuild004d0650::Entry **)(new ((void *)(base6)) ::Vec3())))->form;
+            form2 = (*((::Rebuild004d0650::Entry **)((void *)(base6))))->form;
             if (form2 == object)
             {
-                result2 = new FUN_004bc550(object, (*((::Rebuild004d0650::Entry **)(new ((void *)(base6)) ::Vec3())))->count);
+                result2 = new FUN_004bc550(object, (*((::Rebuild004d0650::Entry **)((void *)(base6))))->count);
                 break;
             }
             base6 = ((::Rebuild004d0650::Node *)(reinterpret_cast<::Callees *>((base6))->FUN_00726070()));
@@ -12101,15 +12138,15 @@ bool Inv4d1440::HasExtraDataWithValue(int value)
     {
         bool found = false;
         node = (InventoryScanNode*)m_pEntryList;
-        while (node && !node->FUN_008256d0() && *((::InventoryStackRecord **)(new ((void *)(node)) ::Vec3())) && !found)
+        while (node && !node->FUN_008256d0() && *((::InventoryStackRecord **)((void *)(node))) && !found)
         {
-            InventoryStackRecord* item = *((::InventoryStackRecord **)(new ((void *)(node)) ::Vec3()));
+            InventoryStackRecord* item = *((::InventoryStackRecord **)((void *)(node)));
             if (item)
             {
                 BSSimpleList<ExtraDataList*>* extras = item->m_pExtraDataLists;
-                while (extras && ((::ExtraDataList *)(new ((void *)(extras)) ::Vec3())))
+                while (extras && (extras->m_item))
                 {
-                    ExtraDataList* extra = ((::ExtraDataList *)(new ((void *)(extras)) ::Vec3()));
+                    ExtraDataList* extra = (extras->m_item);
                     if (extra && reinterpret_cast<::FUN_0041d360_shell *>((((InventoryScanExtra*)extra)))->FUN_0041d360() == value)
                         found = true;
                     extras = ((::BSSimpleList< ::ExtraDataList *> *)(reinterpret_cast<::Callees *>((extras))->FUN_00726070()));
@@ -12206,13 +12243,13 @@ bool C004d2480::FUN_004d2480(TESObjectREFR* apRef)
         reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>((((Sh0087ce80*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(pCell));
         reinterpret_cast<::FUN_0049eea0_shell *>((((Sh0049eea0*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_0049eea0((*(const ::NiPoint3 *)(((void *)(reinterpret_cast<::TESTopicInfo *>((((Sh00436aa0*)apRef)))->GetAddTopicList())))));
 
-        while (pChange != 0 && *(void**)&((::InventoryStackRecord *)(new ((void *)(pChange)) ::Vec3())) != 0)
+        while (pChange != 0 && *(void**)&(pChange->m_item) != 0)
         {
-            InventoryStackRecord* pItem = ((::InventoryStackRecord *)(new ((void *)(pChange)) ::Vec3()));
+            InventoryStackRecord* pItem = (pChange->m_item);
             BSSimpleList<ExtraDataList*>* pExtraList = pItem->m_pExtraDataLists;
-            while (pExtraList != 0 && *(void**)&((::ExtraDataList *)(new ((void *)(pExtraList)) ::Vec3())) != 0)
+            while (pExtraList != 0 && *(void**)&(pExtraList->m_item) != 0)
             {
-                ExtraDataList* pExtra = ((::ExtraDataList *)(new ((void *)(pExtraList)) ::Vec3()));
+                ExtraDataList* pExtra = (pExtraList->m_item);
                 if (pExtra != 0)
                 {
                     void* pScript = ((void *)(reinterpret_cast<::FUN_00418800_shell *>((((Sh00418800*)pExtra)))->FUN_00418800()));
@@ -12221,7 +12258,7 @@ bool C004d2480::FUN_004d2480(TESObjectREFR* apRef)
                         if (FNV_GetFormType((TESForm*)pScript) == 0x11)
                         {
                             reinterpret_cast<::fnv_00568bb0::FUN_00568bb0_shell *>((((Sh00568bb0*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_00568bb0((::fnv_00568bb0::ExtraDataList *)(pExtra));
-                            reinterpret_cast<::Fn575690 *>((((Sh00575690*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_00575690((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>(((InventoryItemEntry*)pItem))->GetName())));
+                            reinterpret_cast<::Fn575690 *>((((Sh00575690*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_00575690((void*)((reinterpret_cast<::Twin_0044ddc0 *>(((InventoryItemEntry*)pItem))->GetName())));
                             if (reinterpret_cast<::FUN_005ac1e0_shell *>((((Sh005ac1e0*)pScript)))->FUN_005ac1e0((::TESObjectREFR *)((*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444))), (::ScriptLocals *)(void *)(((void *)(reinterpret_cast<::FUN_00418830_shell *>((((Sh00418830*)pExtra)))->FUN_00418830()))), (::TESObjectREFR *)(apRef), false))
                                 bRan = true;
                             reinterpret_cast<::FUN_00419f80_shell *>((((Sh00419f80*)reinterpret_cast<::FUN_005d43c0_ *>((((Sh005d43c0*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_005d43c0())))->FUN_00419f80((::ScriptLocals *)(void *)((void*)0));
@@ -12307,9 +12344,9 @@ float C4Entry::FUN_004bd350()
     if (pEnchantableForm)
     {
         C4Node* pNode = pList;
-        if (pNode && *((::charge4bd::C4Enchant **)(new ((void *)(pNode)) ::Vec3())))
+        if (pNode && *((::charge4bd::C4Enchant **)((void *)(pNode))))
         {
-            C4Enchant* pEnchant = *((::charge4bd::C4Enchant **)(new ((void *)(pNode)) ::Vec3()));
+            C4Enchant* pEnchant = *((::charge4bd::C4Enchant **)((void *)(pNode)));
             if (pEnchant && reinterpret_cast<::OwnerList *>((pEnchant))->GetValue() != -1.0f)
             {
                 return reinterpret_cast<::OwnerList *>((pEnchant))->GetValue();
@@ -12412,7 +12449,7 @@ struct XInv17
     TESContainer* FUN_004bffb0();
 };
 void FUN_004bf0e0(InventoryChanges*);
-int FUN_00401170(unsigned int);
+int FUN_00401170(std::uintptr_t);
 bool FUN_004c0bf0(TESObjectWEAP*);
 
 extern XExtra17* DAT_011c6448;
@@ -13015,7 +13052,7 @@ struct XActor17
 };
 struct XHost17
 {
-    bool FUN_004c0cf0(bool*, unsigned int, int, XActor17*, ExtraDataList*, bool, bool, InventoryStackRecord*, bool*);
+    bool FUN_004c0cf0(bool*, std::uintptr_t, int, XActor17*, ExtraDataList*, bool, bool, InventoryStackRecord*, bool*);
 };
 namespace fnv_004d1960 {
 struct InvExtra;
@@ -13109,7 +13146,7 @@ void InvInventory::FUN_004d1960()
     InvBaseNode* node = ((::fnv_004d1960::InvBaseList *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     while (node && !node->FUN_008256d0())
     {
-        InvBaseItem* base26 = *((::fnv_004d1960::InvBaseItem **)(new ((void *)(node)) ::Vec3()));
+        InvBaseItem* base26 = *((::fnv_004d1960::InvBaseItem **)((void *)(node)));
         InvScript* script1 = ((::fnv_004d1960::InvScript *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(base26->form))));
         int number73 = base26->count;
         int count17 = std::abs(number73);
@@ -13129,9 +13166,9 @@ void InvInventory::FUN_004d1960()
                 else
                 {
                     FUN_0096a2d0* cursorA = item->extras;
-                    while (cursorA && *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorA)) ::Vec3())))
+                    while (cursorA && *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorA))))
                     {
-                        FUN_00410360_Inventory* extraA = *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorA)) ::Vec3()));
+                        FUN_00410360_Inventory* extraA = *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorA)));
                         if (extraA && !((::fnv_004d1960::InvScript *)(reinterpret_cast<::FUN_00418800_shell *>((extraA))->FUN_00418800())))
                         {
                             reinterpret_cast<::FUN_00419ed0_shell *>((extraA))->FUN_00419ed0((::Script *)(script1));
@@ -13170,9 +13207,9 @@ void InvInventory::FUN_004d1960()
             else if (item)
             {
                 FUN_0096a2d0* cursorC = item->extras;
-                while (cursorC && *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorC)) ::Vec3())))
+                while (cursorC && *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorC))))
                 {
-                    FUN_00410360_Inventory* extraC = *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorC)) ::Vec3()));
+                    FUN_00410360_Inventory* extraC = *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorC)));
                     if (extraC)
                     {
                         FUN_0055a2f0* temporaryC = new FUN_0055a2f0;
@@ -13188,12 +13225,12 @@ void InvInventory::FUN_004d1960()
         node = ((::fnv_004d1960::InvBaseNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     InvChangesNode* change = changes;
-    while (change && *((::fnv_004d1960::FUN_004bc550_Inventory **)(new ((void *)(change)) ::Vec3())))
+    while (change && *((::fnv_004d1960::FUN_004bc550_Inventory **)((void *)(change))))
     {
-        FUN_004bc550_Inventory* itemB5 = *((::fnv_004d1960::FUN_004bc550_Inventory **)(new ((void *)(change)) ::Vec3()));
+        FUN_004bc550_Inventory* itemB5 = *((::fnv_004d1960::FUN_004bc550_Inventory **)((void *)(change)));
         InvForm* formB22 = ((::fnv_004d1960::InvForm *)(reinterpret_cast<::Twin_0044ddc0 *>((itemB5))->GetName()));
         InvScript* scriptB46 = ((::fnv_004d1960::InvScript *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(formB22))));
-        int numberB11 = ((int)(reinterpret_cast<::Callees *>((itemB5))->FUN_00726070()));
+        int numberB11 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemB5))->FUN_00726070()));
         int countB11 = std::abs(numberB11);
         if (scriptB46 && countB11 > 0)
         {
@@ -13204,9 +13241,9 @@ void InvInventory::FUN_004d1960()
                 else
                 {
                     FUN_0096a2d0* cursorD = itemB5->extras;
-                    while (cursorD && *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorD)) ::Vec3())))
+                    while (cursorD && *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorD))))
                     {
-                        FUN_00410360_Inventory* extraD = *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorD)) ::Vec3()));
+                        FUN_00410360_Inventory* extraD = *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorD)));
                         if (extraD && !((::fnv_004d1960::InvScript *)(reinterpret_cast<::FUN_00418800_shell *>((extraD))->FUN_00418800())))
                         {
                             reinterpret_cast<::FUN_00419ed0_shell *>((extraD))->FUN_00419ed0((::Script *)(scriptB46));
@@ -13240,9 +13277,9 @@ void InvInventory::FUN_004d1960()
             else if (itemB5)
             {
                 FUN_0096a2d0* cursorF = itemB5->extras;
-                while (cursorF && *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorF)) ::Vec3())))
+                while (cursorF && *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorF))))
                 {
-                    FUN_00410360_Inventory* extraF = *((::fnv_004d1960::FUN_00410360_Inventory **)(new ((void *)(cursorF)) ::Vec3()));
+                    FUN_00410360_Inventory* extraF = *((::fnv_004d1960::FUN_00410360_Inventory **)((void *)(cursorF)));
                     if (extraF)
                     {
                         FUN_0055a2f0* temporaryF = new FUN_0055a2f0;
@@ -13297,9 +13334,9 @@ void HealthItem::FUN_004bd030(float health, HealthInventory* inventory, ExtraDat
             else
             {
                 ExtraDataList* extra = 0;
-                while (list && ((::ExtraDataList *)(new ((void *)(list)) ::Vec3())))
+                while (list && (list->m_item))
                 {
-                    extra = ((::ExtraDataList *)(new ((void *)(list)) ::Vec3()));
+                    extra = (list->m_item);
                     if (extra && extra == selected)
                     {
                         if (extra)
@@ -13318,9 +13355,9 @@ void HealthItem::FUN_004bd030(float health, HealthInventory* inventory, ExtraDat
         else
         {
             BSSimpleList<ExtraDataList*>* list = m_pExtraDataLists;
-            while (list && ((::ExtraDataList *)(new ((void *)(list)) ::Vec3())))
+            while (list && (list->m_item))
             {
-                ExtraDataList* extra = ((::ExtraDataList *)(new ((void *)(list)) ::Vec3()));
+                ExtraDataList* extra = (list->m_item);
                 if (extra && extra == selected)
                 {
                     reinterpret_cast<::FUN_0041aef0_StandIn *>((((HealthExtra*)extra)))->FUN_0041aef0();
@@ -13518,9 +13555,9 @@ void W20Inventory::FUN_004c1c90(W20Ref* ref, int count, int unused, bool mark)
         {
             W20ExtraList* p = j->extras;
             bool h = true;
-            while (p && *((::W20Extra **)(new ((void *)(p)) ::Vec3())) && h)
+            while (p && *((::W20Extra **)((void *)(p))) && h)
             {
-                W20Extra* pExistingExtra = *((::W20Extra **)(new ((void *)(p)) ::Vec3()));
+                W20Extra* pExistingExtra = *((::W20Extra **)((void *)(p)));
                 W20Extra* i = e;
                 bool a = true;
                 if (i)
@@ -13699,8 +13736,8 @@ void InventoryClean::FUN_004cbbc0()
     TESLevItem* leveledScope2 = 0;
     while (baseScope8 && !baseScope8->FUN_008256d0())
     {
-        formScope7 = (*((::CleanBaseEntry **)(new ((void *)(baseScope8)) ::Vec3())))->form;
-        leveledScope2 = dynamic_cast<TESLevItem*>((*((::CleanBaseEntry **)(new ((void *)(baseScope8)) ::Vec3())))->form);
+        formScope7 = (*((::CleanBaseEntry **)((void *)(baseScope8))))->form;
+        leveledScope2 = dynamic_cast<TESLevItem*>((*((::CleanBaseEntry **)((void *)(baseScope8))))->form);
         MoveFormInfo* infoScope3 = ((::MoveFormInfo *)(::TESBipedModelForm::GetFormAsBipedModel((const ::TESForm *)(formScope7))));
         if (formScope7 && !leveledScope2 && (!infoScope3 || reinterpret_cast<::FUN_00480d90_shell *>((infoScope3))->FUN_00480d90()))
         {
@@ -13712,9 +13749,9 @@ void InventoryClean::FUN_004cbbc0()
                 if (healthScope5 && itemScope4Local28->head)
                 {
                     CleanNode* nodeScope6 = itemScope4Local28->head;
-                    while (nodeScope6 && *((::CleanExtra **)(new ((void *)(nodeScope6)) ::Vec3())))
+                    while (nodeScope6 && *((::CleanExtra **)((void *)(nodeScope6))))
                     {
-                        CleanExtra* extraScope7 = *((::CleanExtra **)(new ((void *)(nodeScope6)) ::Vec3()));
+                        CleanExtra* extraScope7 = *((::CleanExtra **)((void *)(nodeScope6)));
                         if (((double)(reinterpret_cast<::FUN_004186f0_shell *>((extraScope7))->FUN_004186f0())) > -1.0 &&
                             ((double)(reinterpret_cast<::FUN_004186f0_shell *>((extraScope7))->FUN_004186f0())) == healthScope5->GetHealth())
                         {
@@ -13742,9 +13779,9 @@ void InventoryClean::FUN_004cbbc0()
             if (itemScope4Local28 && ::FUN_00481f10((::TESObject *)(formScope7)) && owner == (*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)) && itemScope4Local28->head)
             {
                 CleanNode* nodeScope9 = itemScope4Local28->head;
-                while (nodeScope9 && *((::CleanExtra **)(new ((void *)(nodeScope9)) ::Vec3())))
+                while (nodeScope9 && *((::CleanExtra **)((void *)(nodeScope9))))
                 {
-                    CleanExtra* extraScope10 = *((::CleanExtra **)(new ((void *)(nodeScope9)) ::Vec3()));
+                    CleanExtra* extraScope10 = *((::CleanExtra **)((void *)(nodeScope9)));
                     nodeScope9->FUN_0063f7b0();
                     delete extraScope10;
                 }
@@ -13753,15 +13790,15 @@ void InventoryClean::FUN_004cbbc0()
             if (itemScope4Local28 && ((::CleanScript *)(reinterpret_cast<::FUN_004bde40_shell *>((itemScope4Local28))->FUN_004bde40())))
             {
                 CleanNode* nodeScope11 = itemScope4Local28->head;
-                while (nodeScope11 && *((::CleanExtra **)(new ((void *)(nodeScope11)) ::Vec3())))
+                while (nodeScope11 && *((::CleanExtra **)((void *)(nodeScope11))))
                 {
-                    CleanExtra* extraScope12 = *((::CleanExtra **)(new ((void *)(nodeScope11)) ::Vec3()));
+                    CleanExtra* extraScope12 = *((::CleanExtra **)((void *)(nodeScope11)));
                     if (extraScope12 && ((::CleanScript *)(reinterpret_cast<::FUN_00418800_shell *>((extraScope12))->FUN_00418800())))
                     {
                         CleanNode* nextScope13 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope11))->FUN_00726070()));
-                        while (nextScope13 && *((::CleanExtra **)(new ((void *)(nextScope13)) ::Vec3())))
+                        while (nextScope13 && *((::CleanExtra **)((void *)(nextScope13))))
                         {
-                            CleanExtra* otherScope14 = *((::CleanExtra **)(new ((void *)(nextScope13)) ::Vec3()));
+                            CleanExtra* otherScope14 = *((::CleanExtra **)((void *)(nextScope13)));
                             if (extraScope12 == otherScope14)
                             {
                                 nextScope13->FUN_0063f7b0();
@@ -13794,10 +13831,10 @@ void InventoryClean::FUN_004cbbc0()
                     reinterpret_cast<::fnv_004d1960::InvInventory *>(this)->FUN_004d1960();
                 else
                 {
-                    int missingScope19 = ((int)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) - nodeScope18->FUN_005ae380();
-                    while (nodeScope18 && *((::CleanExtra **)(new ((void *)(nodeScope18)) ::Vec3())))
+                    int missingScope19 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) - nodeScope18->FUN_005ae380();
+                    while (nodeScope18 && *((::CleanExtra **)((void *)(nodeScope18))))
                     {
-                        CleanExtra* extraScope20 = *((::CleanExtra **)(new ((void *)(nodeScope18)) ::Vec3()));
+                        CleanExtra* extraScope20 = *((::CleanExtra **)((void *)(nodeScope18)));
                         if (extraScope20 && !((::CleanScript *)(reinterpret_cast<::FUN_00418800_shell *>((extraScope20))->FUN_00418800())))
                         {
                             reinterpret_cast<::FUN_00419ed0_shell *>((extraScope20))->FUN_00419ed0((::Script *)(scriptScope17));
@@ -13831,9 +13868,9 @@ void InventoryClean::FUN_004cbbc0()
                 if (owner == (*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))
                 {
                     CleanNode* nodeScope26 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope4Local28))));
-                    while (nodeScope26 && *((::CleanExtra **)(new ((void *)(nodeScope26)) ::Vec3())))
+                    while (nodeScope26 && *((::CleanExtra **)((void *)(nodeScope26))))
                     {
-                        wornScope25 = *((::CleanExtra **)(new ((void *)(nodeScope26)) ::Vec3()));
+                        wornScope25 = *((::CleanExtra **)((void *)(nodeScope26)));
                         nodeScope26 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope26))->FUN_00726070()));
                         reinterpret_cast<::FUN_0041aed0_shell *>((wornScope25))->FUN_0041aed0();
                     }
@@ -13842,7 +13879,7 @@ void InventoryClean::FUN_004cbbc0()
                 if (reinterpret_cast<::FUN_004bddd0_shell *>((itemScope4Local28))->FUN_004bddd0(false) && !reinterpret_cast<::InventoryStackRecord *>((itemScope4Local28))->HasPerkEntry())
                 {
                     if (itemScope4Local28->count > 0 &&
-                        itemScope4Local28->count >= (*((::CleanBaseEntry **)(new ((void *)(baseScope8)) ::Vec3())))->count)
+                        itemScope4Local28->count >= (*((::CleanBaseEntry **)((void *)(baseScope8))))->count)
                         itemScope4Local28->count = 0;
                 }
                 else if (reinterpret_cast<::FUN_004bddd0_shell *>((itemScope4Local28))->FUN_004bddd0(false) && reinterpret_cast<::InventoryStackRecord *>((itemScope4Local28))->HasPerkEntry())
@@ -13853,9 +13890,9 @@ void InventoryClean::FUN_004cbbc0()
                     if (countScope27 > 1)
                     {
                         CleanNode* nodeScope28 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope4Local28))));
-                        while (nodeScope28 && *((::CleanExtra **)(new ((void *)(nodeScope28)) ::Vec3())))
+                        while (nodeScope28 && *((::CleanExtra **)((void *)(nodeScope28))))
                         {
-                            CleanExtra* extraScope29 = *((::CleanExtra **)(new ((void *)(nodeScope28)) ::Vec3()));
+                            CleanExtra* extraScope29 = *((::CleanExtra **)((void *)(nodeScope28)));
                             nodeScope28 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope28))->FUN_00726070()));
                             if (extraScope29 && reinterpret_cast<::FUN_00418ab0_shell *>((extraScope29))->FUN_00418ab0(false) && !wornScope25)
                                 wornScope25 = extraScope29;
@@ -13879,9 +13916,9 @@ void InventoryClean::FUN_004cbbc0()
                     else if (itemScope4Local28->count > reinterpret_cast<::FUN_004bc8f0_stand *>((itemScope4Local28))->FUN_004bc8f0(false))
                     {
                         CleanNode* nodeScope30 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope4Local28))));
-                        while (nodeScope30 && *((::CleanExtra **)(new ((void *)(nodeScope30)) ::Vec3())))
+                        while (nodeScope30 && *((::CleanExtra **)((void *)(nodeScope30))))
                         {
-                            CleanExtra* extraScope31 = *((::CleanExtra **)(new ((void *)(nodeScope30)) ::Vec3()));
+                            CleanExtra* extraScope31 = *((::CleanExtra **)((void *)(nodeScope30)));
                             nodeScope30 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope30))->FUN_00726070()));
                             if (extraScope31 && reinterpret_cast<::FUN_00418ab0_shell *>((extraScope31))->FUN_00418ab0(false))
                                 reinterpret_cast<::FUN_00419ad0_shell *>((extraScope31))->FUN_00419ad0((unsigned short)itemScope4Local28->count);
@@ -13890,11 +13927,11 @@ void InventoryClean::FUN_004cbbc0()
                 }
             }
             int totalScope32 = 0;
-            int baseCountScope33 = (*((::CleanBaseEntry **)(new ((void *)(baseScope8)) ::Vec3())))->count;
+            int baseCountScope33 = (*((::CleanBaseEntry **)((void *)(baseScope8))))->count;
             if (baseCountScope33 < 0)
                 baseCountScope33 *= -1;
             if (itemScope4Local28)
-                totalScope32 += ((int)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) + baseCountScope33;
+                totalScope32 += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope4Local28))->FUN_00726070())) + baseCountScope33;
             else
                 totalScope32 += baseCountScope33;
             if (totalScope32 > 0 && itemScope4Local28 && ((::CleanNode *)(::FUN_00559450((int *)(itemScope4Local28)))) &&
@@ -13904,11 +13941,11 @@ void InventoryClean::FUN_004cbbc0()
 
                 while (totalScope32 < nodeScope34->FUN_005ae380())
                 {
-                    CleanExtra* extraScope35 = *((::CleanExtra **)(new ((void *)(nodeScope34)) ::Vec3()));
+                    CleanExtra* extraScope35 = *((::CleanExtra **)((void *)(nodeScope34)));
                     nodeScope34->FUN_0063f7b0();
                     if (extraScope35)
                     {
-                        CleanExtra* destinationScope36 = *((::CleanExtra **)(new ((void *)(nodeScope34)) ::Vec3()));
+                        CleanExtra* destinationScope36 = *((::CleanExtra **)((void *)(nodeScope34)));
                         if (destinationScope36)
                         {
                             CleanDatum* dataScope37 = ((::CleanDatum *)(reinterpret_cast<::Callees *>((extraScope35))->FUN_00726070()));
@@ -13938,12 +13975,12 @@ void InventoryClean::FUN_004cbbc0()
                 else
                     nodeScope34 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope4Local28))));
 
-                if (nodeScope34 && *((::CleanExtra **)(new ((void *)(nodeScope34)) ::Vec3())))
+                if (nodeScope34 && *((::CleanExtra **)((void *)(nodeScope34))))
                 {
 
-                    while (nodeScope34 && *((::CleanExtra **)(new ((void *)(nodeScope34)) ::Vec3())))
+                    while (nodeScope34 && *((::CleanExtra **)((void *)(nodeScope34))))
                     {
-                        CleanExtra* extraScope38 = *((::CleanExtra **)(new ((void *)(nodeScope34)) ::Vec3()));
+                        CleanExtra* extraScope38 = *((::CleanExtra **)((void *)(nodeScope34)));
                         if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((extraScope38))->FUN_0040fe20() < 1)
                         {
                             nodeScope34->FUN_0063f7b0();
@@ -13970,11 +14007,11 @@ void InventoryClean::FUN_004cbbc0()
     CleanItemNode* changeScope4 = head;
     while (changeScope4 && !changeScope4->FUN_008256d0())
     {
-        itemScope39 = *((::CleanItem **)(new ((void *)(changeScope4)) ::Vec3()));
+        itemScope39 = *((::CleanItem **)((void *)(changeScope4)));
         int baseCountScope41 = 0;
         if (((::CleanContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) && itemScope39)
             baseCountScope41 = reinterpret_cast<::TESContainer *>((((::CleanContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(itemScope39->form));
-        int totalScope8 = ((int)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) + baseCountScope41;
+        int totalScope8 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) + baseCountScope41;
 
         if (itemScope39)
         {
@@ -13982,9 +14019,9 @@ void InventoryClean::FUN_004cbbc0()
             if (healthScope43 && itemScope39->head)
             {
                 CleanNode* nodeScope44 = itemScope39->head;
-                while (nodeScope44 && *((::CleanExtra **)(new ((void *)(nodeScope44)) ::Vec3())))
+                while (nodeScope44 && *((::CleanExtra **)((void *)(nodeScope44))))
                 {
-                    CleanExtra* extraScope45 = *((::CleanExtra **)(new ((void *)(nodeScope44)) ::Vec3()));
+                    CleanExtra* extraScope45 = *((::CleanExtra **)((void *)(nodeScope44)));
                     if (((double)(reinterpret_cast<::FUN_004186f0_shell *>((extraScope45))->FUN_004186f0())) > -1.0 &&
                         ((double)(reinterpret_cast<::FUN_004186f0_shell *>((extraScope45))->FUN_004186f0())) == healthScope43->GetHealth())
                     {
@@ -14015,15 +14052,15 @@ void InventoryClean::FUN_004cbbc0()
         if (itemScope39 && ((::CleanScript *)(reinterpret_cast<::FUN_004bde40_shell *>((itemScope39))->FUN_004bde40())))
         {
             CleanNode* nodeScope48 = itemScope39->head;
-            while (nodeScope48 && *((::CleanExtra **)(new ((void *)(nodeScope48)) ::Vec3())))
+            while (nodeScope48 && *((::CleanExtra **)((void *)(nodeScope48))))
             {
-                CleanExtra* extraScope49 = *((::CleanExtra **)(new ((void *)(nodeScope48)) ::Vec3()));
+                CleanExtra* extraScope49 = *((::CleanExtra **)((void *)(nodeScope48)));
                 if (extraScope49 && ((::CleanScript *)(reinterpret_cast<::FUN_00418800_shell *>((extraScope49))->FUN_00418800())))
                 {
                     CleanNode* nextScope50 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope48))->FUN_00726070()));
-                    while (nextScope50 && *((::CleanExtra **)(new ((void *)(nextScope50)) ::Vec3())))
+                    while (nextScope50 && *((::CleanExtra **)((void *)(nextScope50))))
                     {
-                        CleanExtra* otherScope51 = *((::CleanExtra **)(new ((void *)(nextScope50)) ::Vec3()));
+                        CleanExtra* otherScope51 = *((::CleanExtra **)((void *)(nextScope50)));
                         if (extraScope49 == otherScope51)
                         {
                             nextScope50->FUN_0063f7b0();
@@ -14055,10 +14092,10 @@ void InventoryClean::FUN_004cbbc0()
                     reinterpret_cast<::fnv_004d1960::InvInventory *>(this)->FUN_004d1960();
                 else
                 {
-                    int missingScope56 = ((int)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) - nodeScope55->FUN_005ae380();
-                    while (nodeScope55 && *((::CleanExtra **)(new ((void *)(nodeScope55)) ::Vec3())))
+                    int missingScope56 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope39))->FUN_00726070())) - nodeScope55->FUN_005ae380();
+                    while (nodeScope55 && *((::CleanExtra **)((void *)(nodeScope55))))
                     {
-                        CleanExtra* extraScope57 = *((::CleanExtra **)(new ((void *)(nodeScope55)) ::Vec3()));
+                        CleanExtra* extraScope57 = *((::CleanExtra **)((void *)(nodeScope55)));
                         if (extraScope57 && !((::CleanScript *)(reinterpret_cast<::FUN_00418800_shell *>((extraScope57))->FUN_00418800())))
                         {
                             reinterpret_cast<::FUN_00419ed0_shell *>((extraScope57))->FUN_00419ed0((::Script *)(scriptScope54));
@@ -14094,9 +14131,9 @@ void InventoryClean::FUN_004cbbc0()
             if (owner == (*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))
             {
                 CleanNode* nodeScope64 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope39))));
-                while (nodeScope64 && *((::CleanExtra **)(new ((void *)(nodeScope64)) ::Vec3())))
+                while (nodeScope64 && *((::CleanExtra **)((void *)(nodeScope64))))
                 {
-                    wornScope5 = *((::CleanExtra **)(new ((void *)(nodeScope64)) ::Vec3()));
+                    wornScope5 = *((::CleanExtra **)((void *)(nodeScope64)));
                     nodeScope64 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope64))->FUN_00726070()));
                     reinterpret_cast<::FUN_0041aed0_shell *>((wornScope5))->FUN_0041aed0();
                 }
@@ -14106,9 +14143,9 @@ void InventoryClean::FUN_004cbbc0()
             {
                 CleanNode* nodeScope65 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope39))));
                 int sumScope66 = 0;
-                while (nodeScope65 && *((::CleanExtra **)(new ((void *)(nodeScope65)) ::Vec3())))
+                while (nodeScope65 && *((::CleanExtra **)((void *)(nodeScope65))))
                 {
-                    CleanExtra* extraScope67 = *((::CleanExtra **)(new ((void *)(nodeScope65)) ::Vec3()));
+                    CleanExtra* extraScope67 = *((::CleanExtra **)((void *)(nodeScope65)));
                     sumScope66 += reinterpret_cast<::FUN_00418770_shell *>((extraScope67))->FUN_00418770();
                     nodeScope65 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope65))->FUN_00726070()));
                 }
@@ -14117,9 +14154,9 @@ void InventoryClean::FUN_004cbbc0()
                 else if (itemScope39->count + baseCountScope62 > sumScope66)
                 {
                     CleanNode* nodeScope68 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope39))));
-                    while (nodeScope68 && *((::CleanExtra **)(new ((void *)(nodeScope68)) ::Vec3())))
+                    while (nodeScope68 && *((::CleanExtra **)((void *)(nodeScope68))))
                     {
-                        CleanExtra* extraScope69 = *((::CleanExtra **)(new ((void *)(nodeScope68)) ::Vec3()));
+                        CleanExtra* extraScope69 = *((::CleanExtra **)((void *)(nodeScope68)));
                         nodeScope68 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope68))->FUN_00726070()));
                         if (extraScope69 && reinterpret_cast<::FUN_00418ab0_shell *>((extraScope69))->FUN_00418ab0(false))
                             reinterpret_cast<::FUN_00419ad0_shell *>((extraScope69))->FUN_00419ad0((unsigned short)itemScope39->count);
@@ -14130,9 +14167,9 @@ void InventoryClean::FUN_004cbbc0()
         if (itemScope39 && itemScope39->head)
         {
             CleanNode* nodeScope70 = itemScope39->head;
-            while (nodeScope70 && *((::CleanExtra **)(new ((void *)(nodeScope70)) ::Vec3())))
+            while (nodeScope70 && *((::CleanExtra **)((void *)(nodeScope70))))
             {
-                CleanExtra* extraScope71 = *((::CleanExtra **)(new ((void *)(nodeScope70)) ::Vec3()));
+                CleanExtra* extraScope71 = *((::CleanExtra **)((void *)(nodeScope70)));
                 if (extraScope71 && ((::CleanScript *)(reinterpret_cast<::FUN_00418800_shell *>((extraScope71))->FUN_00418800())))
                     reinterpret_cast<::FUN_0041af10_Class *>((extraScope71))->RemoveExtra24();
                 nodeScope70 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope70))->FUN_00726070()));
@@ -14142,9 +14179,9 @@ void InventoryClean::FUN_004cbbc0()
         if (itemScope39 && ::FUN_00481f10((::TESObject *)(formScope7)) && owner == (*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)) && itemScope39->head)
         {
             CleanNode* nodeScope72 = itemScope39->head;
-            while (nodeScope72 && *((::CleanExtra **)(new ((void *)(nodeScope72)) ::Vec3())))
+            while (nodeScope72 && *((::CleanExtra **)((void *)(nodeScope72))))
             {
-                CleanExtra* extraScope73 = *((::CleanExtra **)(new ((void *)(nodeScope72)) ::Vec3()));
+                CleanExtra* extraScope73 = *((::CleanExtra **)((void *)(nodeScope72)));
                 nodeScope72->FUN_0063f7b0();
                 delete extraScope73;
             }
@@ -14154,9 +14191,9 @@ void InventoryClean::FUN_004cbbc0()
         {
             int sumScope74 = 0;
             CleanNode* nodeScope75 = itemScope39->head;
-            while (nodeScope75 && *((::CleanExtra **)(new ((void *)(nodeScope75)) ::Vec3())))
+            while (nodeScope75 && *((::CleanExtra **)((void *)(nodeScope75))))
             {
-                CleanExtra* extraScope76 = *((::CleanExtra **)(new ((void *)(nodeScope75)) ::Vec3()));
+                CleanExtra* extraScope76 = *((::CleanExtra **)((void *)(nodeScope75)));
                 sumScope74 += reinterpret_cast<::FUN_00418770_shell *>((extraScope76))->FUN_00418770();
                 nodeScope75 = ((::CleanNode *)(reinterpret_cast<::Callees *>((nodeScope75))->FUN_00726070()));
             }
@@ -14165,16 +14202,16 @@ void InventoryClean::FUN_004cbbc0()
         if (itemScope39 && totalScope8 > 0)
         {
             CleanNode* nodeScope77 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope39))));
-            if (nodeScope77 && *((::CleanExtra **)(new ((void *)(nodeScope77)) ::Vec3())))
+            if (nodeScope77 && *((::CleanExtra **)((void *)(nodeScope77))))
             {
 
                 while (totalScope8 < nodeScope77->FUN_005ae380())
                 {
-                    CleanExtra* extraScope78 = *((::CleanExtra **)(new ((void *)(nodeScope77)) ::Vec3()));
+                    CleanExtra* extraScope78 = *((::CleanExtra **)((void *)(nodeScope77)));
                     nodeScope77->FUN_0063f7b0();
                     if (extraScope78)
                     {
-                        CleanExtra* destinationScope79 = *((::CleanExtra **)(new ((void *)(nodeScope77)) ::Vec3()));
+                        CleanExtra* destinationScope79 = *((::CleanExtra **)((void *)(nodeScope77)));
                         if (destinationScope79)
                         {
                             CleanDatum* dataScope80 = ((::CleanDatum *)(reinterpret_cast<::Callees *>((extraScope78))->FUN_00726070()));
@@ -14204,9 +14241,9 @@ void InventoryClean::FUN_004cbbc0()
                 else
                     nodeScope77 = ((::CleanNode *)(::FUN_00559450((int *)(itemScope39))));
 
-                while (nodeScope77 && *((::CleanExtra **)(new ((void *)(nodeScope77)) ::Vec3())))
+                while (nodeScope77 && *((::CleanExtra **)((void *)(nodeScope77))))
                 {
-                    CleanExtra* extraScope81 = *((::CleanExtra **)(new ((void *)(nodeScope77)) ::Vec3()));
+                    CleanExtra* extraScope81 = *((::CleanExtra **)((void *)(nodeScope77)));
                     if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((extraScope81))->FUN_0040fe20() < 1)
                     {
                         nodeScope77->FUN_0063f7b0();
@@ -14281,7 +14318,7 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                             if (worn)
                                                             {
                                                                 FUN_0076b630* wornItem = FUN_004c8c10(5, 0);
-                                                                if (wornItem && reinterpret_cast<::FUN_00418b10_shell *>((((::Extra *)(new ((void *)(((::FUN_0096a2d0 *)(::FUN_00559450((int *)(wornItem)))))) ::Vec3()))))->FUN_00418b10())
+                                                                if (wornItem && reinterpret_cast<::FUN_00418b10_shell *>((((::Extra *)((void *)(((::FUN_0096a2d0 *)(::FUN_00559450((int *)(wornItem)))))))))->FUN_00418b10())
                                                                     return wornItem;
                                                                 else
                                                                     delete (FUN_004459e0*)wornItem;
@@ -14332,7 +14369,7 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                                                                         itemHealth;
                                                                                                                     {
                                                                                                                         entry =
-                                                                                                                            ((::BaseItem *)(new ((void *)(d)) ::Vec3()));
+                                                                                                                            ((::BaseItem *)((void *)(d)));
                                                                                                                         weapon =
                                                                                                                             0;
                                                                                                                         if (entry &&
@@ -14351,10 +14388,10 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                                                                             if ((!change ||
                                                                                                                                  (change &&
                                                                                                                                   change->count +
-                                                                                                                                          ((::BaseItem *)(new ((void *)(d)) ::Vec3()))
+                                                                                                                                          ((::BaseItem *)((void *)(d)))
                                                                                                                                               ->count >
                                                                                                                                       0) ||
-                                                                                                                                 ((::BaseItem *)(new ((void *)(d)) ::Vec3()))
+                                                                                                                                 ((::BaseItem *)((void *)(d)))
                                                                                                                                          ->count <
                                                                                                                                      0) &&
                                                                                                                                 weapon &&
@@ -14409,8 +14446,8 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                                                                                     if (change &&
                                                                                                                                         change
                                                                                                                                             ->extras &&
-                                                                                                                                        ((::Extra *)(new ((void *)(change
-                                                                                                                                            ->extras)) ::Vec3())))
+                                                                                                                                        ((::Extra *)((void *)(change
+                                                                                                                                            ->extras))))
                                                                                                                                     {
                                                                                                                                         if (ammo &&
                                                                                                                                             change->FUN_004bd350() <
@@ -14425,7 +14462,7 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                                                                                             extraNode)
                                                                                                                                         {
                                                                                                                                             extra =
-                                                                                                                                                ((::Extra *)(new ((void *)(extraNode)) ::Vec3()));
+                                                                                                                                                ((::Extra *)((void *)(extraNode)));
                                                                                                                                             if (extra)
                                                                                                                                             {
                                                                                                                                                 health =
@@ -14552,7 +14589,7 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                                                                     weapon =
                                                                                                                         0;
                                                                                                                     change =
-                                                                                                                        ((::FUN_0076b630 *)(new ((void *)(e)) ::Vec3()));
+                                                                                                                        ((::FUN_0076b630 *)((void *)(e)));
                                                                                                                     if (change
                                                                                                                             ->weapon
                                                                                                                             ->FUN_00401170() ==
@@ -14606,18 +14643,18 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                                                                                 if (change &&
                                                                                                                                     change
                                                                                                                                         ->extras &&
-                                                                                                                                    ((::Extra *)(new ((void *)(change
-                                                                                                                                        ->extras)) ::Vec3())))
+                                                                                                                                    ((::Extra *)((void *)(change
+                                                                                                                                        ->extras))))
                                                                                                                                 {
                                                                                                                                     extraNode =
                                                                                                                                         change
                                                                                                                                             ->extras;
                                                                                                                                     while (
                                                                                                                                         extraNode &&
-                                                                                                                                        ((::Extra *)(new ((void *)(extraNode)) ::Vec3())))
+                                                                                                                                        ((::Extra *)((void *)(extraNode))))
                                                                                                                                     {
                                                                                                                                         extra =
-                                                                                                                                            ((::Extra *)(new ((void *)(extraNode)) ::Vec3()));
+                                                                                                                                            ((::Extra *)((void *)(extraNode)));
                                                                                                                                         health =
                                                                                                                                             ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((extra))->FUN_00410220(
                                                                                                                                                     37)));
@@ -14721,7 +14758,7 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                                 if (weapon->FUN_00446390() == 10 ||
                                                                     weapon->FUN_00446390() == 11 ||
                                                                     weapon->FUN_00446390() == 13)
-                                                                    reinterpret_cast<::CombatProcedure *>((f))->Initialize((::CombatController *)(reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30((int)(((::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((f))->GetName()))))));
+                                                                    reinterpret_cast<::CombatProcedure *>((f))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_004c8f30_shell *>(this)->FUN_004c8f30((int)(std::uintptr_t)(((::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((f))->GetName()))))));
                                                             }
                                                         }
                                                     }
@@ -14764,15 +14801,15 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
     int availableVal = total5 - wornCount3;
     if (entry36 && entry36->extras)
     {
-        if (*((::EquipExtra **)(new ((void *)(entry36->extras)) ::Vec3())) && reinterpret_cast<::ExtraDataList *>(((*((::EquipExtra **)(new ((void *)(entry36->extras)) ::Vec3())))))->HasExtraDataType0x2F())
+        if (*((::EquipExtra **)((void *)(entry36->extras))) && reinterpret_cast<::ExtraDataList *>(((*((::EquipExtra **)((void *)(entry36->extras))))))->HasExtraDataType0x2F())
             availableVal = baseCountX - wornCount3;
         bool found = false;
         if (extra && !reinterpret_cast<::RefList *>((entry36->extras))->FUN_005f65d0((void **)&(extra)))
         {
             EquipList* scan = entry36->extras;
-            while (scan && *((::EquipExtra **)(new ((void *)(scan)) ::Vec3())))
+            while (scan && *((::EquipExtra **)((void *)(scan))))
             {
-                EquipExtra* candidate = *((::EquipExtra **)(new ((void *)(scan)) ::Vec3()));
+                EquipExtra* candidate = *((::EquipExtra **)((void *)(scan)));
                 if (candidate && !candidate->FUN_004127e0(extra))
                 {
                     extra = candidate;
@@ -14805,7 +14842,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
         EquipList* scan = entry36->extras;
         while (scan && created3)
         {
-            selected9 = *((::EquipExtra **)(new ((void *)(scan)) ::Vec3()));
+            selected9 = *((::EquipExtra **)((void *)(scan)));
             if (extra && extra == selected9)
             {
                 bool special = form->FUN_00401170() == 0x28 && ::FUN_004c0bf0((::TESObjectWEAP *)(form));
@@ -14821,7 +14858,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                 else
                 {
                     reinterpret_cast<::FUN_0041aa20_shell *>((selected9))->SetWornState(true, left);
-                    reinterpret_cast<::FUN_00419ad0_shell *>((selected9))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((entry36))->FUN_00726070())));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((selected9))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry36))->FUN_00726070())));
                 }
                 created3 = false;
             }
@@ -14915,9 +14952,9 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                 if (equipped)
                 {
                     if (actor == ((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))
-                        ::SetField1F0((::FUN_004c0cd0_This *)(((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))), (::FUN_004c0cd0_Arg)(equipped->form));
+                        ::SetField1F0((::FUN_004c0cd0_This *)(((EquipActor*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))), ::FUN_004c0cd0_Arg{equipped->form});
                     else if (FUN_008c7aa0() && actor != ((::EquipActor *)(::FUN_0047b200())))
-                        reinterpret_cast<::Host0087b360 *>((((::EquipQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((int)(actor), (int)(equipped->form));
+                        reinterpret_cast<::Host0087b360 *>((((::EquipQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b360((std::intptr_t)(actor), (int)(equipped->form));
                     else
                         reinterpret_cast<::fnv_00571760::Actor *>((actor))->FUN_00571760((::fnv_00571760::TESObjectWEAP *)(equipped->form));
                 }
@@ -14951,7 +14988,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                 }
             }
             if (!actor->process->v474(1) && equipped)
-                reinterpret_cast<::FUN_004534f0_shell *>((actor))->FUN_004534f0((unsigned int)(equipped->form));
+                reinterpret_cast<::FUN_004534f0_shell *>((actor))->FUN_004534f0((std::uintptr_t)(equipped->form));
             break;
         }
         reinterpret_cast<::FUN_008b0bd0_shell *>((actor))->FUN_008b0bd0((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((actor))->FUN_0043fcd0()))));
@@ -14965,7 +15002,7 @@ void FUN_004bfe50_t::RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef
     pInvNode = (FUN_004bfe50_inode*)m_pEntryList;
     while (pInvNode)
     {
-        InventoryStackRecord* pitem = *((::InventoryStackRecord **)(new ((void *)(pInvNode)) ::Vec3()));
+        InventoryStackRecord* pitem = *((::InventoryStackRecord **)((void *)(pInvNode)));
         if (pitem)
         {
             bool bremoved = false;
@@ -14975,18 +15012,18 @@ void FUN_004bfe50_t::RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef
                 int iwornCount = 1;
                 ExtraDataList* pextra = 0;
                 for (FUN_004bfe50_enode* pExtraNode = (FUN_004bfe50_enode*)pitem->m_pExtraDataLists;
-                     pExtraNode && *((::ExtraDataList **)(new ((void *)(pExtraNode)) ::Vec3())); pExtraNode = ((::FUN_004bfe50_enode *)(reinterpret_cast<::Callees *>((pExtraNode))->FUN_00726070())))
+                     pExtraNode && *((::ExtraDataList **)((void *)(pExtraNode))); pExtraNode = ((::FUN_004bfe50_enode *)(reinterpret_cast<::Callees *>((pExtraNode))->FUN_00726070())))
                 {
-                    if (((FUN_00418ab0_shell*)*((::ExtraDataList **)(new ((void *)(pExtraNode)) ::Vec3())))->FUN_00418ab0(false))
+                    if (((FUN_00418ab0_shell*)*((::ExtraDataList **)((void *)(pExtraNode))))->FUN_00418ab0(false))
                     {
-                        iwornCount = reinterpret_cast<::FUN_00418770_shell *>((void *)(*((::ExtraDataList **)(new ((void *)(pExtraNode)) ::Vec3()))))->FUN_00418770();
-                        pextra = *((::ExtraDataList **)(new ((void *)(pExtraNode)) ::Vec3()));
+                        iwornCount = reinterpret_cast<::FUN_00418770_shell *>((void *)(*((::ExtraDataList **)((void *)(pExtraNode)))))->FUN_00418770();
+                        pextra = *((::ExtraDataList **)((void *)(pExtraNode)));
                         break;
                     }
                 }
                 if (pact)
-                    reinterpret_cast<::FUN_008248e0_shell *>((pact))->FUN_008248e0((::MagicItem *)(::TESBoundObject *)((TESBoundObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))), true);
-                reinterpret_cast<::XHost17 *>((((FUN_004c0cf0_t*)this)))->FUN_004c0cf0(&bremoved, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())), iwornCount, (::XActor17 *)(::Actor *)((Actor*)pact), pextra, 0, true,
+                    reinterpret_cast<::FUN_008248e0_shell *>((pact))->FUN_008248e0((::MagicItem *)(::TESBoundObject *)((TESBoundObject*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))), true);
+                reinterpret_cast<::XHost17 *>((((FUN_004c0cf0_t*)this)))->FUN_004c0cf0(&bremoved, ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())), iwornCount, (::XActor17 *)(::Actor *)((Actor*)pact), pextra, 0, true,
                                    pitem, (bool *)(0));
                 if (bremoved)
                     pInvNode = (FUN_004bfe50_inode*)m_pEntryList;
@@ -15006,7 +15043,7 @@ void FUN_004bfe50_t::RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef
 }
 // Forwards all arguments unchanged to FUN_004ce380.
 // @fnv 0x004ce340
-void FUN_004ce340_stand::FUN_004ce340(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7)
+void FUN_004ce340_stand::FUN_004ce340(std::intptr_t a0, std::intptr_t a1, bool a2, bool a3, bool a4, bool a5, int a6, std::intptr_t a7)
 {
     reinterpret_cast<::InventoryMove *>(this)->FUN_004ce380((::MoveOwner *)(a0), (::MoveOwner *)(a1), a2, a3, a4, a5, a6, (::MoveFilter *)(a7));
 }
@@ -15025,8 +15062,8 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
     TESLevItem* leveled5 = 0;
     while (base5 && !base5->FUN_008256d0())
     {
-        form3 = (*((::MoveBaseEntry **)(new ((void *)(base5)) ::Vec3())))->form;
-        leveled5 = dynamic_cast<TESLevItem*>((*((::MoveBaseEntry **)(new ((void *)(base5)) ::Vec3())))->form);
+        form3 = (*((::MoveBaseEntry **)((void *)(base5))))->form;
+        leveled5 = dynamic_cast<TESLevItem*>((*((::MoveBaseEntry **)((void *)(base5))))->form);
         MoveFormInfo* infoScope1 = ((::MoveFormInfo *)(::TESBipedModelForm::GetFormAsBipedModel((const ::TESForm *)(form3))));
         if ((filtered8 && reinterpret_cast<::RefList *>((((::MoveFilterResult *)(reinterpret_cast<::BGSCameraPath *>((filter))->GetConditions()))))->FUN_005f65d0({})) ||
             (type > -1 && form3 && reinterpret_cast<MoveForm*>(form3)->FUN_00401170() != type))
@@ -15039,10 +15076,10 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
             MoveItem* quest = ((::MoveItem *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(form3, 1, 0)));
             if (quest && reinterpret_cast<::FUN_004bddd0_shell *>((quest))->FUN_004bddd0(false))
             {
-                int baseCountScope1 = reinterpret_cast<::TESContainer *>((((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)((*((::MoveBaseEntry **)(new ((void *)(base5)) ::Vec3())))->form));
-                int countScope9 = ((int)(reinterpret_cast<::Callees *>((quest))->FUN_00726070())) + baseCountScope1;
+                int baseCountScope1 = reinterpret_cast<::TESContainer *>((((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)((*((::MoveBaseEntry **)((void *)(base5))))->form));
+                int countScope9 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((quest))->FUN_00726070())) + baseCountScope1;
                 bool removedScope4 = false;
-                reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope4, (unsigned int)(form3), countScope9, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), false, false, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
+                reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope4, (std::uintptr_t)(form3), countScope9, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), false, false, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
             }
         }
         else if (form3 && !leveled5 && (!infoScope1 || reinterpret_cast<::FUN_00480d90_shell *>((infoScope1))->FUN_00480d90()))
@@ -15051,11 +15088,11 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
             if (!itemScope1 || !reinterpret_cast<::InventoryStackRecord *>((itemScope1))->HasPerkEntry())
             {
                 int countScope2 = 0;
-                int baseCountScope2 = reinterpret_cast<::TESContainer *>((((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)((*((::MoveBaseEntry **)(new ((void *)(base5)) ::Vec3())))->form));
+                int baseCountScope2 = reinterpret_cast<::TESContainer *>((((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)((*((::MoveBaseEntry **)((void *)(base5))))->form));
                 if (baseCountScope2 < 0)
                     baseCountScope2 *= -1;
                 if (itemScope1)
-                    countScope2 += ((int)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())) + baseCountScope2;
+                    countScope2 += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())) + baseCountScope2;
                 else
                     countScope2 += baseCountScope2;
                 if (countScope2 > 0)
@@ -15065,12 +15102,12 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                     if (itemScope1 && ((::MoveExtraNode *)(::FUN_00559450((int *)(itemScope1)))) && ((::MoveExtraNode *)(::FUN_00559450((int *)(itemScope1))))->FUN_005ae380())
                     {
                         MoveExtraNode* nodeScope1 = ((::MoveExtraNode *)(::FUN_00559450((int *)(itemScope1))));
-                        if (nodeScope1 && *((::MoveExtra **)(new ((void *)(nodeScope1)) ::Vec3())))
+                        if (nodeScope1 && *((::MoveExtra **)((void *)(nodeScope1))))
                         {
                             bool lastScope1 = false;
-                            while (nodeScope1 && *((::MoveExtra **)(new ((void *)(nodeScope1)) ::Vec3())) && !lastScope1)
+                            while (nodeScope1 && *((::MoveExtra **)((void *)(nodeScope1))) && !lastScope1)
                             {
-                                MoveExtra* extraScope1 = *((::MoveExtra **)(new ((void *)(nodeScope1)) ::Vec3()));
+                                MoveExtra* extraScope1 = *((::MoveExtra **)((void *)(nodeScope1)));
                                 if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((extraScope1))->FUN_0040fe20() < 1)
                                 {
                                     nodeScope1->FUN_0063f7b0();
@@ -15095,7 +15132,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                     if (owner->IsActor())
                                     {
                                         void* actorOwnerScope1 = 0;
-                                        actorOwnerScope1 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                                        actorOwnerScope1 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                                         if (!actorOwnerScope1)
                                             actorOwnerScope1 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                                         ownershipScope5 = actorOwnerScope1;
@@ -15127,7 +15164,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                     {
                                         bool removedScope2 = false;
                                         bool handled5 = false;
-                                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope2, (unsigned int)(form3), ((int)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())),
+                                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope2, (std::uintptr_t)(form3), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())),
                                                      (::XActor17 *)(::MoveOwner *)(owner->IsActor() ? owner : 0), (::ExtraDataList *)(extraScope1), false, false,
                                                      (::InventoryStackRecord *)(itemScope1), &handled5);
                                         if (!handled5)
@@ -15154,11 +15191,11 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                         {
                             itemScope1 = new MoveItem(form3, countScope2);
                             void* ownershipScope5 = 0;
-                            ownershipScope5 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                            ownershipScope5 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                             if (!ownershipScope5)
                                 ownershipScope5 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                             reinterpret_cast<::ItemChange_4bd5c0 *>((itemScope1))->FUN_004bd5c0(ownershipScope5);
-                            MoveExtra* extraScope2 = *((::MoveExtra **)(new ((void *)(((::MoveExtraNode *)(::FUN_00559450((int *)(itemScope1)))))) ::Vec3()));
+                            MoveExtra* extraScope2 = *((::MoveExtra **)((void *)(((::MoveExtraNode *)(::FUN_00559450((int *)(itemScope1)))))));
                             reinterpret_cast<::FUN_00419ad0_shell *>((extraScope2))->FUN_00419ad0(static_cast<unsigned short>(countScope2));
                             reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(owner), (int)(form3), retainOwner, reinterpret_cast<::FUN_00418770_shell *>((extraScope2))->FUN_00418770(), (::Transfer4c37Form4 *)(extraScope2), 0,
                                          (::Transfer4c37C37Form *)(destination), 0, 0, true, 0, (::Transfer4c37Entry *)(::MoveItem *)(0));
@@ -15215,7 +15252,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
     while (change && !change->FUN_008256d0())
     {
         bool removedItem5 = false;
-        itemScope6 = *((::MoveItem **)(new ((void *)(change)) ::Vec3()));
+        itemScope6 = *((::MoveItem **)((void *)(change)));
         if ((filtered8 &&
              reinterpret_cast<::RefList *>((((::MoveFilterResult *)(reinterpret_cast<::BGSCameraPath *>((filter))->GetConditions()))))->FUN_005f65d0({})) ||
             (type > -1 && itemScope6 &&
@@ -15234,31 +15271,31 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                 {
                     if (itemScope6 && reinterpret_cast<::FUN_004bddd0_shell *>((itemScope6))->FUN_004bddd0(false))
                     {
-                        int countScope3 = ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
+                        int countScope3 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
                         bool removedScope6 = false;
                         bool equipped7 = false;
                         equipped7 = reinterpret_cast<::FUN_004bddd0_shell *>((itemScope6))->FUN_004bddd0(true);
-                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope6, (unsigned int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName()))), countScope3, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), equipped7,
+                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope6, (unsigned int)(std::uintptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName()))), countScope3, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), equipped7,
                                      itemScope6 != 0, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
                     }
                     change = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()));
                 }
-                else if (itemScope6 && ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())) > 0 &&
+                else if (itemScope6 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())) > 0 &&
                          (!skipQuest3 || !reinterpret_cast<MoveForm*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName())))->IsQuestItem()))
                 {
                     form3 = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((itemScope6))->GetName()));
-                    weight7 += static_cast<float>(::FUN_0048e8a0((::TESForm *)(form3)) * ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())));
+                    weight7 += static_cast<float>(::FUN_0048e8a0((::TESForm *)(form3)) * ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())));
                     bool lastScope2 = false;
                     int baseCountScope4 = 0;
                     if (((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) && itemScope6)
                         baseCountScope4 = reinterpret_cast<::TESContainer *>((((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(itemScope6->form));
                     int countScope4 = baseCountScope4 + itemScope6->count;
                     MoveExtraNode* nodeScope2 = ((::MoveExtraNode *)(::FUN_00559450((int *)(itemScope6))));
-                    if (nodeScope2 && *((::MoveExtra **)(new ((void *)(nodeScope2)) ::Vec3())))
+                    if (nodeScope2 && *((::MoveExtra **)((void *)(nodeScope2))))
                     {
-                        while (nodeScope2 && *((::MoveExtra **)(new ((void *)(nodeScope2)) ::Vec3())) && !lastScope2)
+                        while (nodeScope2 && *((::MoveExtra **)((void *)(nodeScope2))) && !lastScope2)
                         {
-                            MoveExtra* extraScope3 = *((::MoveExtra **)(new ((void *)(nodeScope2)) ::Vec3()));
+                            MoveExtra* extraScope3 = *((::MoveExtra **)((void *)(nodeScope2)));
                             bool restartScope2 = false;
                             if (reinterpret_cast<::FUN_00418770_shell *>((extraScope3))->FUN_00418770() < 1)
                             {
@@ -15339,7 +15376,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                 if (owner->IsActor())
                                 {
                                     void* actorOwnerScope2 = 0;
-                                    actorOwnerScope2 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                                    actorOwnerScope2 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                                     if (!actorOwnerScope2)
                                         actorOwnerScope2 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                                     ownershipScope3 = actorOwnerScope2;
@@ -15480,7 +15517,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                         if (owner->IsActor())
                         {
                             void* actorOwnerScope3 = 0;
-                            actorOwnerScope3 = ((void *)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
+                            actorOwnerScope3 = ((void *)(std::uintptr_t)(::FUN_004216f0((::BaseExtraList *)(((::MoveOwnershipProxy *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))));
                             if (!actorOwnerScope3)
                                 actorOwnerScope3 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((owner))->FUN_007af430()));
                             ownershipScope5 = actorOwnerScope3;
@@ -15492,8 +15529,8 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                             extraScope8 = new MoveExtra;
                             reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((extraScope8))->FUN_00419700((::fnv_00419700::TESForm *)(ownershipScope5));
                         }
-                        int countScope5 = ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
-                        reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(owner), (int)(form3), retainOwner, ((int)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())), (::Transfer4c37Form4 *)(extraScope8), 0, (::Transfer4c37C37Form *)(destination),
+                        int countScope5 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070()));
+                        reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(owner), (int)(form3), retainOwner, ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope6))->FUN_00726070())), (::Transfer4c37Form4 *)(extraScope8), 0, (::Transfer4c37C37Form *)(destination),
                                      0, 0, true, 0, (::Transfer4c37Entry *)(::MoveItem *)(removedItem5 ? 0 : itemScope6));
                         if (destination == (*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))
                         {
@@ -15550,7 +15587,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
 }
 // Processes matching extra data, updates equipment state and counts, and may remove or merge extra lists.
 // @fnv 0x004c0cf0
-bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apActor, ExtraDataList* apExtraList,
+bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* apActor, ExtraDataList* apExtraList,
                            bool abWorn, bool a6, InventoryStackRecord* apEntry, bool* abRemoved)
 {
     DAT_011c6448 = 0;
@@ -15564,9 +15601,9 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
     int count;
     bool armors2 = false;
     bool weapon3 = false;
-    while (node1 != 0 && *((::XExtra17 **)(new ((void *)(node1)) ::Vec3())) != 0)
+    while (node1 != 0 && *((::XExtra17 **)((void *)(node1))) != 0)
     {
-        XExtra17* extra = *((::XExtra17 **)(new ((void *)(node1)) ::Vec3()));
+        XExtra17* extra = *((::XExtra17 **)((void *)(node1)));
         if (reinterpret_cast<::FUN_00418ab0_shell *>((extra))->FUN_00418ab0(abWorn) && (apExtraList == 0 || apExtraList == (ExtraDataList*)extra))
         {
             InventoryStackRecord* found = 0;
@@ -15583,9 +15620,9 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                 {
                 case 26: {
                     XDism17* dism = ((::XDism17 *)(reinterpret_cast<::ExtraDataList *>((((::XExtra17 *)(reinterpret_cast<::FUN_005d43c0_ *>((apActor))->FUN_005d43c0()))))->GetDismemberedLimbs()));
-                    if (dism != 0 && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism))->GetInfoAt(0))) != 0)
+                    if (dism != 0 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism))->GetInfoAt(0))) != 0)
                     {
-                        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())); i++)
+                        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism->arr))->GetName())); i++)
                         {
                             XDism17Part17* part = ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism))->GetInfoAt(i)));
                             if (part->b0 == 0 && part->b1 != 0)
@@ -15600,16 +15637,16 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                     found = ((::XProcess17 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()))->CurrentWeapon();
                     if (found != 0)
                     {
-                        if (*((::XExtra17 **)(new ((void *)(((XNodeE17*)found->m_pExtraDataLists))) ::Vec3())) == extra || apExtraList == 0)
+                        if (*((::XExtra17 **)((void *)(((XNodeE17*)found->m_pExtraDataLists)))) == extra || apExtraList == 0)
                         {
                             if (apActor == (XActor17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))
-                                ::SetField1F0((::FUN_004c0cd0_This *)(((XNPC17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))), (::FUN_004c0cd0_Arg)(0));
+                                ::SetField1F0((::FUN_004c0cd0_This *)(((XNPC17*)(*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))), ::FUN_004c0cd0_Arg{nullptr});
                             TESObjectWEAP* weap = (TESObjectWEAP*)a1;
                             if (FUN_004c0bf0(weap))
                                 weapon3 = true;
                             if (FUN_008c7aa0())
                             {
-                                reinterpret_cast<::H *>((((XTQ17*)((::EquipQueue *)(::TaskQueueInterface::GetSingleton())))))->SendCommand22((unsigned int)(apActor), ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((XFound17*)found)))->GetName())));
+                                reinterpret_cast<::H *>((((XTQ17*)((::EquipQueue *)(::TaskQueueInterface::GetSingleton())))))->SendCommand22((std::uintptr_t)(apActor), ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((XFound17*)found)))->GetName())));
                             }
                             else
                             {
@@ -15626,9 +15663,9 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                     if (reinterpret_cast<::TESBipedModelForm *>(&(((XArmor17*)a1)->biped))->IsPowerArmor() || reinterpret_cast<::TESBipedModelForm *>(&(((XArmor17*)a1)->biped))->GetIsHeavyArmor())
                         armors2 = true;
                     XDism17* dism2 = ((::XDism17 *)(reinterpret_cast<::ExtraDataList *>((((::XExtra17 *)(reinterpret_cast<::FUN_005d43c0_ *>((apActor))->FUN_005d43c0()))))->GetDismemberedLimbs()));
-                    if (dism2 != 0 && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism2))->GetInfoAt(0))) != 0)
+                    if (dism2 != 0 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())) != 0 && ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism2))->GetInfoAt(0))) != 0)
                     {
-                        for (unsigned int i2 = 0; i2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())); i2++)
+                        for (unsigned int i2 = 0; i2 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dism2->arr))->GetName())); i2++)
                         {
                             XDism17Part17* part2 = ((::XDism17Part17 *)(reinterpret_cast<::B441420Owner *>((dism2))->GetInfoAt(i2)));
                             if (part2->b0 == 0 && part2->b1 != 0)
@@ -15643,7 +15680,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                     found = ((::XProcess17 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()))->CurrentAmmo();
                     if (found != 0)
                     {
-                        if (*((::XExtra17 **)(new ((void *)(((XNodeE17*)found->m_pExtraDataLists))) ::Vec3())) == extra)
+                        if (*((::XExtra17 **)((void *)(((XNodeE17*)found->m_pExtraDataLists)))) == extra)
                         {
                             reinterpret_cast<::TESForm *>((((XForm17*)apActor)))->ClearData();
                             ((::XProcess17 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((apActor))->GetBaseTexture()))->SetAmmo(0);
@@ -15659,7 +15696,7 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
                 if ((char)((char)(reinterpret_cast<::FUN_0042de90_cls *>((extra))->GetExtraByteValue())) >= 0)
                 {
                     reinterpret_cast<::FUN_00419ad0_shell *>((extra))->FUN_00419ad0(
-                        (short)(((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((((XChange17*)entry0)))->FUN_004bc8f0(false)));
+                        (short)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) - reinterpret_cast<::FUN_004bc8f0_stand *>((((XChange17*)entry0)))->FUN_004bc8f0(false)));
                 }
                 else
                 {
@@ -15679,9 +15716,9 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
             else
             {
                 XNodeE17* node2 = (XNodeE17*)entry0->m_pExtraDataLists;
-                while (node2 != 0 && *((::XExtra17 **)(new ((void *)(node2)) ::Vec3())) != 0 && result3)
+                while (node2 != 0 && *((::XExtra17 **)((void *)(node2))) != 0 && result3)
                 {
-                    XExtra17* extra1 = *((::XExtra17 **)(new ((void *)(node2)) ::Vec3()));
+                    XExtra17* extra1 = *((::XExtra17 **)((void *)(node2)));
                     XExtra17* savedState3 = extra;
                     bool different2 = true;
                     if (savedState3 != 0)
@@ -15735,13 +15772,13 @@ bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apAc
         ((XInv17*)this)->pRef->MarkAsModified(0x20);
     count = reinterpret_cast<::FUN_004bffb0_shell *>((((XInv17*)this)))->FUN_004bffb0()->GetObjectCount((TESObject*)a1);
     if (entry0 != 0 && entry0->m_pExtraDataLists != 0 && ((XNodeE17*)entry0->m_pExtraDataLists)->_ref_008256d0() &&
-        (((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) == 0 || count == ((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070()))))
+        (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) == 0 || count == ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070()))))
     {
         reinterpret_cast<::ItemChangeListNode *>((((XNodeC17*)((InventoryChanges*)this)->m_pEntryList)))->FUN_00905330((*(::InventoryStackRecord *const *)(&entry0)));
         delete (XChange17*)entry0;
         return false;
     }
-    else if (((int)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) < 0 && ((void *)(::FUN_00559450((int *)(((XChange17*)entry0))))) != 0)
+    else if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((XChange17*)entry0)))->FUN_00726070())) < 0 && ((void *)(::FUN_00559450((int *)(((XChange17*)entry0))))) != 0)
     {
         reinterpret_cast<::FileMatchList *>((((XListObj17*)((void *)(::FUN_00559450((int *)(((XChange17*)entry0))))))))->RemoveAll();
     }
@@ -15784,7 +15821,7 @@ InventoryStackRecord* FUN_004c8220_shell::FUN_004c8220(TESActorBase* apActorBase
     {
         InventoryStackRecord* pitem = ((::InventoryStackRecord *)(reinterpret_cast<::Target *>((((FUN_004c8c10_shell*)this)))->FUN_004c8c10(aeBodySlot, false)));
         if (pitem &&
-            ((FUN_00418b10_shell*)((void *)(new ((void *)(((::SimpleListNode *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pitem))))))) ::Vec3())))->FUN_00418b10())
+            ((FUN_00418b10_shell*)((void *)((void *)(((::SimpleListNode *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pitem)))))))))->FUN_00418b10())
             return pitem;
         else
             delete pitem;
@@ -15793,20 +15830,20 @@ InventoryStackRecord* FUN_004c8220_shell::FUN_004c8220(TESActorBase* apActorBase
     pList = ((ArmorContainerList004c8220*)((FUN_004bffb0_shell*)this)->FUN_004bffb0())->FUN_00717e50();
     while (pList && !pList->FUN_008256d0())
     {
-        TESObjectARMO* pObj = dynamic_cast<TESObjectARMO*>(((InventoryItemEntry*)((void *)(new ((void *)(pList)) ::Vec3())))->pObj);
+        TESObjectARMO* pObj = dynamic_cast<TESObjectARMO*>(((InventoryItemEntry*)((void *)((void *)(pList))))->pObj);
         InventoryStackRecord* pitem = ((FUN_004bfba0_shell*)this)->FUN_004bfba0(pObj, true, false);
         if ((!pitem ||
-             (pitem && pitem->m_iCountChange + ((InventoryItemEntry*)((void *)(new ((void *)(pList)) ::Vec3())))->m_iCountDelta > 0) ||
-             ((InventoryItemEntry*)((void *)(new ((void *)(pList)) ::Vec3())))->m_iCountDelta < 0) &&
+             (pitem && pitem->m_iCountChange + ((InventoryItemEntry*)((void *)((void *)(pList))))->m_iCountDelta > 0) ||
+             ((InventoryItemEntry*)((void *)((void *)(pList))))->m_iCountDelta < 0) &&
             pObj && aeBodySlot != -1 && reinterpret_cast<::TESBipedModelForm *>((((FUN_00480af0_shell*)((char*)pObj + 0x70))))->HasBipedModel((::BIPED_OBJECT)(aeBodySlot), false, (::BGSBipedModelList *)(void *)(0)))
         {
             float fDesire = -1.0f;
-            if (pitem && pitem->m_pExtraDataLists && ((void *)(new ((void *)(((SimpleListNode*)pitem->m_pExtraDataLists))) ::Vec3())))
+            if (pitem && pitem->m_pExtraDataLists && ((void *)((void *)(((SimpleListNode*)pitem->m_pExtraDataLists)))))
             {
                 SimpleListNode* pextralist = (SimpleListNode*)pitem->m_pExtraDataLists;
-                while (pextralist && ((void *)(new ((void *)(pextralist)) ::Vec3())))
+                while (pextralist && ((void *)((void *)(pextralist))))
                 {
-                    ExtraDataList* pcurextra = (ExtraDataList*)((void *)(new ((void *)(pextralist)) ::Vec3()));
+                    ExtraDataList* pcurextra = (ExtraDataList*)((void *)((void *)(pextralist)));
                     ExtraHealth* pHealth = (ExtraHealth*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((pcurextra))->FUN_00410220(0x25);
                     float fhealth = 0.0f;
                     if (pHealth)
@@ -15852,20 +15889,20 @@ InventoryStackRecord* FUN_004c8220_shell::FUN_004c8220(TESActorBase* apActorBase
     pListInv = (SimpleListNode*)((InventoryChanges*)this)->m_pEntryList;
     while (pListInv && !pListInv->FUN_008256d0())
     {
-        TESObjectARMO* pObj = dynamic_cast<TESObjectARMO*>(((InventoryStackRecord*)((void *)(new ((void *)(pListInv)) ::Vec3())))->m_pItemObject);
-        InventoryStackRecord* pitem = (InventoryStackRecord*)((void *)(new ((void *)(pListInv)) ::Vec3()));
-        if (pObj && ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) &&
+        TESObjectARMO* pObj = dynamic_cast<TESObjectARMO*>(((InventoryStackRecord*)((void *)((void *)(pListInv))))->m_pItemObject);
+        InventoryStackRecord* pitem = (InventoryStackRecord*)((void *)((void *)(pListInv)));
+        if (pObj && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)pitem)))->FUN_00726070())) &&
             !((FUN_004bffb0_shell*)this)->FUN_004bffb0()->HasObjectOfType((TESObject*)pObj) && aeBodySlot != -1 &&
             reinterpret_cast<::TESBipedModelForm *>((((FUN_00480af0_shell*)((char*)pObj + 0x70))))->HasBipedModel((::BIPED_OBJECT)(aeBodySlot), false, (::BGSBipedModelList *)(void *)(0)) &&
             pitem->m_iCountChange >= 0)
         {
             float fDesire = -1.0f;
-            if (pitem && pitem->m_pExtraDataLists && ((void *)(new ((void *)(((SimpleListNode*)pitem->m_pExtraDataLists))) ::Vec3())))
+            if (pitem && pitem->m_pExtraDataLists && ((void *)((void *)(((SimpleListNode*)pitem->m_pExtraDataLists)))))
             {
                 SimpleListNode* pextralist = (SimpleListNode*)pitem->m_pExtraDataLists;
-                while (pextralist && ((void *)(new ((void *)(pextralist)) ::Vec3())))
+                while (pextralist && ((void *)((void *)(pextralist))))
                 {
-                    ExtraDataList* pcurextra = (ExtraDataList*)((void *)(new ((void *)(pextralist)) ::Vec3()));
+                    ExtraDataList* pcurextra = (ExtraDataList*)((void *)((void *)(pextralist)));
                     ExtraHealth* pHealth = (ExtraHealth*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((pcurextra))->FUN_00410220(0x25);
                     float fhealth = 0.0f;
                     if (pHealth)
@@ -16016,7 +16053,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
             SimpleList<TESForm*>* pNode = ((::SimpleList< ::TESForm *> *)(reinterpret_cast<::BGSCameraPath *>((pListForm))->GetConditions()));
             while (pNode && !pNode->IsEmpty())
             {
-                TESForm* pListItem = ((::TESForm *)(new ((void *)(pNode)) ::Vec3()));
+                TESForm* pListItem = ((::TESForm *)((void *)(pNode)));
                 pNode = ((::SimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
                 if (pListItem->IsActor_InEditor())
                     itemList.AddHead(pListItem);
@@ -16025,7 +16062,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
 
         while (!itemList.IsEmpty())
         {
-            pObject = (TESBoundObject*)((::TESForm *)(new ((void *)&(itemList)) ::Vec3()));
+            pObject = (TESBoundObject*)itemList.m_item;
             itemList.RemoveHead();
             int iRemove = iCount;
             ::Actor* pActor = dynamic_cast< ::Actor*>(thisObj);
@@ -16038,7 +16075,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                         iRemove = (int)dCount;
                 }
                 ExtraDataList* pExtra = 0;
-                if (reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((int)(pObject)))
+                if (reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((std::intptr_t)(pObject)))
                 {
                     InventoryChanges* m_pInventoryChangesValue = InventoryChanges::CreateForReference(thisObj);
                     if (m_pInventoryChangesValue)
@@ -16051,7 +16088,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                 }
                 if (iRemove > 0)
                 {
-                    bool bEquipped = reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((int)(pObject));
+                    bool bEquipped = reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((std::intptr_t)(pObject));
                     if (bEquipped)
                         reinterpret_cast<::FUN_008248e0_shell *>((reinterpret_cast<Target_5b4e90*>(static_cast<MagicTarget *>(pActor))))->FUN_008248e0((::MagicItem *)(pObject), true);
                     pActor->RemoveItem((TESForm*)pObject, pExtra, iRemove, 0, 0, 0, 0, 0, 1, 0);
@@ -16252,7 +16289,7 @@ void SaveInventory::FUN_004be6f0()
     SavedNode* nodeB = changes;
     while (nodeB && !nodeB->Empty())
     {
-        SavedItem* itemB = *((::fnv_004be6f0::SavedItem **)(new ((void *)(nodeB)) ::Vec3()));
+        SavedItem* itemB = *((::fnv_004be6f0::SavedItem **)((void *)(nodeB)));
         reinterpret_cast<::extra_save::SaveShell *>((itemB))->FUN_004235e0(0, (::extra_save::SForm *)(0));
         count4++;
         nodeB = ((::fnv_004be6f0::SavedNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
@@ -16308,15 +16345,15 @@ void InvEntry_bdb40::FUN_004bdb40()
         pExtraList = new ExtraList_bdb40;
         list = pExtraList;
     }
-    if (!*((::FUN_00410360 **)(new ((void *)(pExtraList)) ::Vec3())))
+    if (!*((::FUN_00410360 **)((void *)(pExtraList))))
     {
         FUN_00410360* extra = new FUN_00410360;
         reinterpret_cast<::FUN_0042e5a0_class *>((reinterpret_cast<ExtraSetter_bdb40*>(extra)))->FUN_0042e5a0(1);
         list->FUN_00905330(&extra);
     }
-    else if (pExtraList && *((::FUN_00410360 **)(new ((void *)(pExtraList)) ::Vec3())))
+    else if (pExtraList && *((::FUN_00410360 **)((void *)(pExtraList))))
     {
-        FUN_00410360* result = *((::FUN_00410360 **)(new ((void *)(pExtraList)) ::Vec3()));
+        FUN_00410360* result = *((::FUN_00410360 **)((void *)(pExtraList)));
         if (result)
             reinterpret_cast<::FUN_0042e5a0_class *>((reinterpret_cast<ExtraSetter_bdb40*>(result)))->FUN_0042e5a0(1);
     }
@@ -16340,7 +16377,7 @@ float ItemChangeValueShell::FUN_004bd400()
     float fConditionValue;
     fConditionValue =
         ComputeItemValue((float)::FUN_0048e8a0((::TESForm *)(m_pItemObject)), reinterpret_cast<::FUN_004bcdb0_shell *>((((ItemHealthCall*)this)))->FUN_004bcdb0(true));
-    pWeap = dynamic_cast<TESObjectWEAP*>((TESBoundObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())));
+    pWeap = dynamic_cast<TESObjectWEAP*>((TESBoundObject*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())));
     if (pWeap)
     {
         int iSlotFlags = ((FUN_004bd820_stand*)this)->FUN_004bd820();
@@ -16348,13 +16385,13 @@ float ItemChangeValueShell::FUN_004bd400()
         {
             if (iSlotFlags & 1)
                 fConditionValue +=
-                    ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(1) + 0x7c))))->FUN_00726070()));
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(1) + 0x7c))))->FUN_00726070()));
             if (iSlotFlags & 2)
                 fConditionValue +=
-                    ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(2) + 0x7c))))->FUN_00726070()));
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(2) + 0x7c))))->FUN_00726070()));
             if (iSlotFlags & 4)
                 fConditionValue +=
-                    ((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(4) + 0x7c))))->FUN_00726070()));
+                    ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)(((FUN_004bd570_this*)pWeap)->FUN_004bd570(4) + 0x7c))))->FUN_00726070()));
         }
     }
     return InventoryStackRecord::RoundToNearestStep(fConditionValue, 0.1f);
@@ -16371,7 +16408,7 @@ public:
     ::TESObjectREFR *FUN_0041c8d0();
 };
 // @fnv 0x004cfe20
-bool FUN_004cfe20_t::HasItem(unsigned int aId)
+bool FUN_004cfe20_t::HasItem(std::uintptr_t aId)
 {
     ::TESBoundObject* pObj;
     ::InventoryStackRecord* pitem = 0;
@@ -16380,20 +16417,20 @@ bool FUN_004cfe20_t::HasItem(unsigned int aId)
     ContNode4cfe20* pList = ((::Container4cfe20 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     while (pList && !pList->_ref_008256d0())
     {
-        pObj = (*((::ContEntry4cfe20 **)(new ((void *)(pList)) ::Vec3())))->pObj;
+        pObj = (*((::ContEntry4cfe20 **)((void *)(pList))))->pObj;
         if (pObj && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESForm*)pObj)))->FUN_0084e3a0())) == aId)
         {
             ::InventoryStackRecord* pchange = reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(pObj, 1, 0);
-            if ((*((::ContEntry4cfe20 **)(new ((void *)(pList)) ::Vec3())))->count < 0)
+            if ((*((::ContEntry4cfe20 **)((void *)(pList))))->count < 0)
             {
                 return true;
             }
             else
             {
-                if (pchange && ((int)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)(new ((void *)(pList)) ::Vec3())))->count)
-                    iProcessIndex += ((int)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)(new ((void *)(pList)) ::Vec3())))->count;
+                if (pchange && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)((void *)(pList))))->count)
+                    iProcessIndex += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((ChangeCount4cfe20*)pchange)))->FUN_00726070())) + (*((::ContEntry4cfe20 **)((void *)(pList))))->count;
                 else
-                    iProcessIndex += (*((::ContEntry4cfe20 **)(new ((void *)(pList)) ::Vec3())))->count;
+                    iProcessIndex += (*((::ContEntry4cfe20 **)((void *)(pList))))->count;
             }
             if (iProcessIndex > 0)
                 return true;
@@ -16403,11 +16440,11 @@ bool FUN_004cfe20_t::HasItem(unsigned int aId)
     ChangeNode4cfe20* pListInv = (ChangeNode4cfe20*)m_pEntryList;
     while (pListInv && !pListInv->_ref_008256d0())
     {
-        pitem = *((::InventoryStackRecord **)(new ((void *)(pListInv)) ::Vec3()));
+        pitem = *((::InventoryStackRecord **)((void *)(pListInv)));
         ExtraNode4cfe20* pkCurrentObject = *(ExtraNode4cfe20**)pitem;
-        while (pkCurrentObject && *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3())))
+        while (pkCurrentObject && *((::ExtraDataList **)((void *)(pkCurrentObject))))
         {
-            ::ExtraDataList* pextra = *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+            ::ExtraDataList* pextra = *((::ExtraDataList **)((void *)(pkCurrentObject)));
             if (pextra && reinterpret_cast<::FUN_0041c8d0_shell *>((((ExtraRef4cfe20*)pextra)))->FUN_0041c8d0() &&
                 ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<::FUN_0041c8d0_shell *>((((ExtraRef4cfe20*)pextra)))->FUN_0041c8d0()))->FUN_0084e3a0())) == aId)
                 return true;
@@ -16453,9 +16490,9 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
         {
             equipped = true;
             if (process->ammoA())
-                reinterpret_cast<::CombatProcedure *>((process->ammoA()))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((process->ammoA()))->FUN_00726070())) + count));
+                reinterpret_cast<::CombatProcedure *>((process->ammoA()))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((process->ammoA()))->FUN_00726070())) + count));
             if (process->p())
-                reinterpret_cast<::CombatProcedure *>((process->p()))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((process->p()))->FUN_00726070())) + count));
+                reinterpret_cast<::CombatProcedure *>((process->p()))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((process->p()))->FUN_00726070())) + count));
             if (!entry2 || !reinterpret_cast<::FUN_004bddd0_shell *>((entry2))->FUN_004bddd0(false))
             {
                 if (!extra)
@@ -16485,10 +16522,10 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
     }
     else
     {
-        if (((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) <= 0 && extra && !((::AddRef *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660())) && !((void *)(reinterpret_cast<::FUN_00418800_shell *>((extra))->FUN_00418800())) &&
-            entry2->extras && entry2->extras->_ref_005ae380() && reinterpret_cast<::ExtraDataList *>((((::AddExtra *)(new ((void *)(entry2->extras)) ::Vec3()))))->HasExtraDataType0x2F())
+        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) <= 0 && extra && !((::AddRef *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660())) && !((void *)(reinterpret_cast<::FUN_00418800_shell *>((extra))->FUN_00418800())) &&
+            entry2->extras && entry2->extras->_ref_005ae380() && reinterpret_cast<::ExtraDataList *>((((::AddExtra *)((void *)(entry2->extras)))))->HasExtraDataType0x2F())
         {
-            reinterpret_cast<::FUN_00419ad0_shell *>((((::AddExtra *)(new ((void *)(entry2->extras)) ::Vec3()))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>((((::AddExtra *)(new ((void *)(entry2->extras)) ::Vec3()))))->FUN_00418770() + count);
+            reinterpret_cast<::FUN_00419ad0_shell *>((((::AddExtra *)((void *)(entry2->extras)))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>((((::AddExtra *)((void *)(entry2->extras)))))->FUN_00418770() + count);
             delete extra;
             extra = 0;
         }
@@ -16496,9 +16533,9 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
         {
             AddNode* node7 = entry2->extras;
             bool searching8 = true;
-            while (node7 && ((::AddExtra *)(new ((void *)(node7)) ::Vec3())) && searching8)
+            while (node7 && ((::AddExtra *)((void *)(node7))) && searching8)
             {
-                AddExtra* existing7 = ((::AddExtra *)(new ((void *)(node7)) ::Vec3()));
+                AddExtra* existing7 = ((::AddExtra *)((void *)(node7)));
                 AddExtra* incomingVal = extra;
                 bool different2 = true;
                 if (incomingVal)
@@ -16545,11 +16582,11 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
         }
         AddContainer* base = ((::AddContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()));
         int baseCount = base ? reinterpret_cast<::TESContainer *>((base))->GetObjectCount((::TESObject *)(form)) : 0;
-        if (((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) < 0 && baseCount <= 0)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) < 0 && baseCount <= 0)
             reinterpret_cast<::CombatProcedure *>((entry2))->Initialize((::CombatController *)(count));
         else
-            reinterpret_cast<::CombatProcedure *>((entry2))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + count));
-        if (entry2->extras && entry2->extras->_ref_008256d0() && !((int)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())))
+            reinterpret_cast<::CombatProcedure *>((entry2))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())) + count));
+        if (entry2->extras && entry2->extras->_ref_008256d0() && !((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((entry2))->FUN_00726070())))
         {
             reinterpret_cast<::ItemChangeListNode *>((changes))->FUN_00905330((::InventoryStackRecord *const &)(entry2));
             delete entry2;
@@ -16567,7 +16604,7 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
 // @fnv 0x004c6d40
 void FUN_004c6d40_cls::ResetAndProcess(int aiArg, unsigned char a2, int aiCount)
 {
-    int ptr;
+    std::intptr_t ptr;
     int cnt;
     m_0c = m_08;
     m_08 = ::DAT_01012054;
@@ -16575,7 +16612,7 @@ void FUN_004c6d40_cls::ResetAndProcess(int aiArg, unsigned char a2, int aiCount)
     cnt = 0;
     while (aiCount > 0)
     {
-        ptr = ((int)(reinterpret_cast<::Inv4c6ba0 *>(this)->FindFirstItemOfType(aiArg, &cnt)));
+        ptr = ((std::intptr_t)(reinterpret_cast<::Inv4c6ba0 *>(this)->FindFirstItemOfType(aiArg, &cnt)));
         if (cnt > aiCount)
         {
             cnt = aiCount;
@@ -16585,14 +16622,14 @@ void FUN_004c6d40_cls::ResetAndProcess(int aiArg, unsigned char a2, int aiCount)
     }
 }
 // @fnv 0x004cb4b0
-void Inv4cb4b0::FUN_004cb4b0(int a1, int a2, int a3)
+void Inv4cb4b0::FUN_004cb4b0(std::intptr_t a1, int a2, std::intptr_t a3)
 {
     TESObject* pObj = 0;
     Cont4cb4b0* pCont3 = ((::Cont4cb4b0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()));
     CN4cb4b0* pNode2 = pCont3 ? pCont3->_ref_00717e50() : 0;
     while (pNode2 && !pNode2->_ref_008256d0())
     {
-        pObj = (*((::CO4cb4b0 **)(new ((void *)(pNode2)) ::Vec3())))->pObj;
+        pObj = (*((::CO4cb4b0 **)((void *)(pNode2))))->pObj;
         if (pObj && FUN_00481f10(pObj))
         {
             reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(a1), (int)(pObj), 0, a2, (::Transfer4c37Form4 *)(0), 0, (::Transfer4c37C37Form *)(a3), 0, 0, 1, 0, (::Transfer4c37Entry *)(0));
@@ -16603,7 +16640,7 @@ void Inv4cb4b0::FUN_004cb4b0(int a1, int a2, int a3)
     IN4cb4b0* pItem = m_pEntryList;
     while (pItem && !pItem->_ref_008256d0())
     {
-        pObj = (*((::IC4cb4b0 **)(new ((void *)(pItem)) ::Vec3())))->pObj;
+        pObj = (*((::IC4cb4b0 **)((void *)(pItem))))->pObj;
         if (pObj && FUN_00481f10(pObj))
         {
             reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(a1), (int)(pObj), 0, a2, (::Transfer4c37Form4 *)(0), 0, (::Transfer4c37C37Form *)(a3), 0, 0, 1, 0, (::Transfer4c37Entry *)(0));
@@ -16613,16 +16650,16 @@ void Inv4cb4b0::FUN_004cb4b0(int a1, int a2, int a3)
     }
 }
 // @fnv 0x004c37d0
-int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsigned char p2, int aiCount,
+int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_t p1, unsigned char p2, int aiCount,
                                       Transfer4c37Form4* apExtra, unsigned char abCreateRef,
-                                      Transfer4c37C37Form* apTarget, int p7, int p8, unsigned char p9,
+                                      Transfer4c37C37Form* apTarget, std::intptr_t p7, std::intptr_t p8, unsigned char p9,
                                       unsigned char abRecurse, Transfer4c37Entry* apEntry)
 {
     AutoMemContext memoryContext72((MEM_CONTEXT)54, true, ::DAT_01020778, 3700);
     this->m10 = 1;
     this->m0c = this->m08;
     this->m08 = ::DAT_01012054;
-    int resultRef6 = 0;
+    std::intptr_t resultRef6 = 0;
     if (this->m04 != 0)
         this->m04->Vcall48(0x20);
     if (apTarget != 0)
@@ -16640,7 +16677,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
         {
             if (((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((playerSource2))->GetBaseTexture()))->Vcall14c())
             {
-                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((playerSource2))->GetBaseTexture()))->Vcall14c()))->GetName())) == p1)
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((playerSource2))->GetBaseTexture()))->Vcall14c()))->GetName())) == p1)
                     updateWeapon9 = 1;
             }
         }
@@ -16649,7 +16686,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
     {
         if (apExtra != 0)
         {
-            if (((int)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((apExtra))->FUN_00410220(0x4a))))
+            if (((std::uintptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((apExtra))->FUN_00410220(0x4a))))
             {
                 if (aiCount == (int)reinterpret_cast<::FUN_00418770_shell *>((apExtra))->FUN_00418770())
                     reinterpret_cast<::FUN_0042dec0_shell *>((apExtra))->FUN_0042dec0();
@@ -16699,27 +16736,27 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
         return resultRef6;
     int leveledItem0 = 0;
     bool hasRemainder15 = 0;
-    long unusedChange80 = 0;
+    std::intptr_t unusedChange80 = 0;
     (void)leveledItem0;
     (void)hasRemainder15;
     (void)unusedChange80;
-    while (itemChange7 != 0 && aiCount > 0 && ((int)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 > 0)
+    while (itemChange7 != 0 && aiCount > 0 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 > 0)
     {
         if (transferEntry7 != 0)
         {
             delete transferEntry7;
         }
         transferEntry7 = new Transfer4c37NewObj;
-        transferEntry7->m08 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
+        transferEntry7->m08 = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
         void* extraNode6 = itemChange7->m00;
         bool searchExtra78 = 1;
 
         if (((apExtra != 0 && ((int)(reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((apExtra))->FUN_0040fe20()))) || abRecurse != 0) && extraNode6 != 0 &&
-            *((::Transfer4c37ItemObj **)(new ((void *)(((Transfer4c37EntryFirst*)extraNode6))) ::Vec3())) != 0)
+            *((::Transfer4c37ItemObj **)((void *)(((Transfer4c37EntryFirst*)extraNode6)))) != 0)
         {
-            while (extraNode6 != 0 && *((::Transfer4c37ItemObj **)(new ((void *)(((Transfer4c37EntryFirst*)extraNode6))) ::Vec3())) != 0 && searchExtra78)
+            while (extraNode6 != 0 && *((::Transfer4c37ItemObj **)((void *)(((Transfer4c37EntryFirst*)extraNode6)))) != 0 && searchExtra78)
             {
-                Transfer4c37ItemObj* sourceExtra3 = *((::Transfer4c37ItemObj **)(new ((void *)(((Transfer4c37EntryFirst*)extraNode6))) ::Vec3()));
+                Transfer4c37ItemObj* sourceExtra3 = *((::Transfer4c37ItemObj **)((void *)(((Transfer4c37EntryFirst*)extraNode6))));
                 Transfer4c37Obj20* transferExtra18 = 0;
                 (void)transferExtra18;
                 if (apExtra != (Transfer4c37Form4*)sourceExtra3 &&
@@ -16750,13 +16787,13 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             if (((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((saved58))->GetBaseTexture())) != 0)
                             {
                                 didUnequip10 =
-                                    reinterpret_cast<::FUN_0088d7d0_shell *>((saved58))->FUN_0088d7d0((::TESBoundObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))),
+                                    reinterpret_cast<::FUN_0088d7d0_shell *>((saved58))->FUN_0088d7d0((::TESBoundObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))),
                                                           (int)reinterpret_cast<::FUN_00418770_shell *>((sourceExtra3))->FUN_00418770(), (::ExtraDataList *)(sourceExtra3), 0, 0, 1);
                             }
                             goto flag52_done;
                         }
                     }
-                    didUnequip10 = apSource->Vcall188(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())), (int)reinterpret_cast<::FUN_00418770_shell *>((sourceExtra3))->FUN_00418770(),
+                    didUnequip10 = apSource->Vcall188(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())), (int)reinterpret_cast<::FUN_00418770_shell *>((sourceExtra3))->FUN_00418770(),
                                                       sourceExtra3);
                 flag52_done:
                     if (!didUnequip10 || onlyWorn39)
@@ -16775,7 +16812,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             {
                                 if (this->m04->Vcall100())
                                 {
-                                    reinterpret_cast<::fnv_0088c830::ThisC *>((this->m04))->FUN_0088c830((::fnv_0088c830::FormC *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))), stackCount10 - aiCount,
+                                    reinterpret_cast<::fnv_0088c830::ThisC *>((this->m04))->FUN_0088c830((::fnv_0088c830::FormC *)(((reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))), stackCount10 - aiCount,
                                                             sourceExtra3, 1, 0, 0);
                                 }
                             }
@@ -16793,8 +16830,8 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     if (stackCount10 > aiCount || ((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem())) != 0)
                     {
                         int flag_ed;
-                        leveledItem0 = (int)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem()));
-                        flag_ed = FUN_00401170(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())));
+                        leveledItem0 = (int)(std::uintptr_t)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem()));
+                        flag_ed = FUN_00401170(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())));
                         if (((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem())) != 0 && ((void *)(reinterpret_cast<::FUN_00418800_shell *>((sourceExtra3))->FUN_00418800())) != 0 &&
                             flag_ed != 0x18 && flag_ed != 0x1a)
                         {
@@ -16849,7 +16886,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     {
 
                         itemChange7->m04 -= stackCount10;
-                        reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + stackCount10));
+                        reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + stackCount10));
                         transferExtra18 = (Transfer4c37Obj20*)sourceExtra3;
                         aiCount = aiCount - stackCount10;
                         reinterpret_cast<::ItemChangeListNode *>((((Transfer4c37EntryHeadS*)itemChange7->m00)))->FUN_00905330((*(::InventoryStackRecord *const *)(&sourceExtra3)));
@@ -16858,11 +16895,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         {
                             if ((int)((signed char)(reinterpret_cast<::FUN_0042de90_cls *>((sourceExtra3))->GetExtraByteValue())) >= 0)
                             {
-                                if (((int)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) > 0)
+                                if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) > 0)
                                 {
                                     reinterpret_cast<::InventorySlot *>((this))->SetInventorySlotExtraData(
                                         (::RefSlot *)(itemChange7),
-                                        (::ExtraDataList *)(void *)(itemChange7->m00 ? *((::Transfer4c37ItemObj **)(new ((void *)(((Transfer4c37EntryFirst*)itemChange7->m00))) ::Vec3()))
+                                        (::ExtraDataList *)(void *)(itemChange7->m00 ? *((::Transfer4c37ItemObj **)((void *)(((Transfer4c37EntryFirst*)itemChange7->m00))))
                                                          : 0),
                                         (int)((signed char)(reinterpret_cast<::FUN_0042de90_cls *>((sourceExtra3))->GetExtraByteValue())));
                                 }
@@ -16876,7 +16913,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             transferExtra18 = 0;
                         }
                         if (itemChange7->m04 == 0)
-                            unusedChange80 = (int)itemChange7;
+                            unusedChange80 = (std::intptr_t)itemChange7;
                     }
                 }
             block4323:
@@ -16908,7 +16945,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
 
                 if (abCreateRef != 0)
                 {
-                    if (transferExtra18 == 0 || ((int)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)transferExtra18)))->FUN_0041c8d0())) == 0)
+                    if (transferExtra18 == 0 || ((std::uintptr_t)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)transferExtra18)))->FUN_0041c8d0())) == 0)
                     {
                         resultRef6 = (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(itemChange7->m08), stackCount10, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
                         ((Transfer4c37ResObj*)resultRef6)->Vcall48(0x400);
@@ -16926,12 +16963,12 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             }
                         }
                         bool copyModel0 = 0;
-                        Transfer4c37M68Obj* sourceCell30 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
-                        if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                        Transfer4c37M68Obj* sourceCell30 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                        if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                         {
                             if (sourceCell30 != 0)
                             {
-                                if (((int)(reinterpret_cast<::DoorCell *>((sourceCell30))->GetOwner())))
+                                if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((sourceCell30))->GetOwner())))
                                 {
                                     if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((sourceCell30))->FUN_00546ca0((::Actor *)(apSource)))))
                                         copyModel0 = 1;
@@ -16948,7 +16985,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                         (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                     if (t70 != 0)
                                     {
-                                        if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(0))))
+                                        if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70))->GetWorldModel(0))))
                                             copyModel0 = 1;
                                     }
                                 }
@@ -16987,7 +17024,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             reinterpret_cast<::ExtraCopyList *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_00412490((::ExtraCopyList *)(void *)((void*)transferExtra18), (int)copyExtra1);
                             reinterpret_cast<::FUN_0041afd0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->RemoveExtraData30();
                             reinterpret_cast<::FUN_0041c900_cls *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041c900();
-                            if (((int)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
+                            if (((std::uintptr_t)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
                             {
                                 reinterpret_cast<::fnv_0041b2a0::FUN_0041b2a0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b2a0((::TESObjectREFR *)(void *)((void*)resultRef6));
                                 ((Transfer4c37ResObj*)resultRef6)->Vcall48(0x400);
@@ -17002,12 +17039,12 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 transferExtra18 = 0;
                             }
                             bool copyReferenceModel20 = 0;
-                            Transfer4c37M68Obj* referenceCell8 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
-                            if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                            Transfer4c37M68Obj* referenceCell8 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                            if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                             {
                                 if (referenceCell8 != 0)
                                 {
-                                    if (((int)(reinterpret_cast<::DoorCell *>((referenceCell8))->GetOwner())))
+                                    if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((referenceCell8))->GetOwner())))
                                     {
                                         if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((referenceCell8))->FUN_00546ca0((::Actor *)(apSource)))))
                                             copyReferenceModel20 = 1;
@@ -17025,7 +17062,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                                 (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                         if (t70b != 0)
                                         {
-                                            if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(0))))
+                                            if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70b))->GetWorldModel(0))))
                                                 copyReferenceModel20 = 1;
                                         }
                                     }
@@ -17044,18 +17081,18 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         if (transferEntry7->m00 != 0)
                         {
                             Transfer4c37Node84* node84 = (Transfer4c37Node84*)transferEntry7->m00;
-                            while (node84 != 0 && *((::Transfer4c37ItemObj **)(new ((void *)(node84)) ::Vec3())) != 0)
+                            while (node84 != 0 && *((::Transfer4c37ItemObj **)((void *)(node84))) != 0)
                             {
-                                int item88 = 0;
-                                raw1ec = (Transfer4c37Obj20*)*((::Transfer4c37ItemObj **)(new ((void *)(node84)) ::Vec3()));
+                                std::intptr_t item88 = 0;
+                                raw1ec = (Transfer4c37Obj20*)*((::Transfer4c37ItemObj **)((void *)(node84)));
                                 if (!((void *)(reinterpret_cast<::FUN_00418660_shell *>((raw1ec))->FUN_00418660())))
                                 {
                                     if (apSource->Vcall100())
                                     {
-                                        int item8c = 0;
+                                        std::intptr_t item8c = 0;
                                         item8c = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                                         if (item8c == 0)
-                                            item8c = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                                            item8c = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                                         item88 = item8c;
                                     }
                                     else
@@ -17064,11 +17101,11 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                     }
                                     if ((unsigned char)p2 != 0)
                                     {
-                                        if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
+                                        if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
                                             reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((raw1ec))->FUN_00419700((::fnv_00419700::TESForm *)(void *)((void*)item88));
                                     }
                                 }
-                                apTarget->Vcall190(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
+                                apTarget->Vcall190(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
                                 node84 = ((::Transfer4c37Node84 *)(reinterpret_cast<::Callees *>((node84))->FUN_00726070()));
                             }
                             {
@@ -17079,13 +17116,13 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         else
                         {
                             {
-                                long item90 = 0;
+                                std::intptr_t item90 = 0;
                                 if (apSource->Vcall100())
                                 {
-                                    int item94 = 0;
+                                    std::intptr_t item94 = 0;
                                     item94 = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                                     if (item94 == 0)
-                                        item94 = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                                        item94 = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                                     item90 = item94;
                                 }
                                 else
@@ -17094,14 +17131,14 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 }
                                 if ((unsigned char)p2 != 0)
                                 {
-                                    if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
+                                    if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
                                     {
                                         raw1ec = new Transfer4c37Obj20;
                                         reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((raw1ec))->FUN_00419700((::fnv_00419700::TESForm *)(void *)((void*)item90));
                                         reinterpret_cast<::FUN_00419ad0_shell *>((raw1ec))->FUN_00419ad0((unsigned short)aiCount);
                                     }
                                 }
-                                apTarget->Vcall190(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
+                                apTarget->Vcall190(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), raw1ec, stackCount10);
                             }
                             {
                                 delete transferEntry7;
@@ -17167,7 +17204,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
             if (plainCount1 < 0)
                 plainCount1 = 0;
             Transfer4c37ItemObj* sourceList32 = 0;
-            int destinationList14 = 0;
+            std::intptr_t destinationList14 = 0;
             Transfer4c37Node84* remainingNode23 = (Transfer4c37Node84*)itemChange7->m00;
             if (plainCount1 > 0)
             {
@@ -17177,9 +17214,9 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     long cnt_b4 = 0;
                     Transfer4c37Node84* node_b0;
                     node_b0 = (Transfer4c37Node84*)itemChange7->m00;
-                    while (node_b0 != 0 && *((::Transfer4c37ItemObj **)(new ((void *)(node_b0)) ::Vec3())) != 0)
+                    while (node_b0 != 0 && *((::Transfer4c37ItemObj **)((void *)(node_b0))) != 0)
                     {
-                        cont = *((::Transfer4c37ItemObj **)(new ((void *)(node_b0)) ::Vec3()));
+                        cont = *((::Transfer4c37ItemObj **)((void *)(node_b0)));
                         short sh_bc = reinterpret_cast<::FUN_00418770_shell *>((cont))->FUN_00418770();
                         if (reinterpret_cast<::FUN_00418ab0_shell *>((cont))->FUN_00418ab0(0))
                         {
@@ -17195,9 +17232,9 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     Transfer4c37ItemObj* hotkeyExtra37 = 0;
                     int hotkeyCount26 = 0;
                     Transfer4c37Node84* hotkeyNode5 = (Transfer4c37Node84*)itemChange7->m00;
-                    while (hotkeyNode5 != 0 && *((::Transfer4c37ItemObj **)(new ((void *)(hotkeyNode5)) ::Vec3())) != 0)
+                    while (hotkeyNode5 != 0 && *((::Transfer4c37ItemObj **)((void *)(hotkeyNode5))) != 0)
                     {
-                        hotkeyExtra37 = *((::Transfer4c37ItemObj **)(new ((void *)(hotkeyNode5)) ::Vec3()));
+                        hotkeyExtra37 = *((::Transfer4c37ItemObj **)((void *)(hotkeyNode5)));
                         short sh_cc = reinterpret_cast<::FUN_00418770_shell *>((hotkeyExtra37))->FUN_00418770();
                         if (reinterpret_cast<::ExtraDataList *>((hotkeyExtra37))->HasExtraDataType0x2F())
                         {
@@ -17248,13 +17285,13 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                 {
                     resultRef6 = (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(p1), transferCount2, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
                     {
-                        Transfer4c37M68Obj* plainCell18 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                        Transfer4c37M68Obj* plainCell18 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                         bool copyPlainModel42 = 0;
-                        if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                        if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                         {
                             if (plainCell18 != 0)
                             {
-                                if (((int)(reinterpret_cast<::DoorCell *>((plainCell18))->GetOwner())))
+                                if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((plainCell18))->GetOwner())))
                                 {
                                     if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((plainCell18))->FUN_00546ca0((::Actor *)(apSource)))))
                                         copyPlainModel42 = 1;
@@ -17272,7 +17309,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                             (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                     if (loopTail != 0)
                                     {
-                                        if (((int)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(0))))
+                                        if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((loopTail))->GetWorldModel(0))))
                                             copyPlainModel42 = 1;
                                     }
                                 }
@@ -17297,14 +17334,14 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     if (apSource->Vcall100())
                     {
                         void* dc_e0 = 0;
-                        dc_e0 = (void*)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
+                        dc_e0 = (void*)(std::uintptr_t)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                         if (dc_e0 == 0)
                             dc_e0 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                         dc_dc = dc_e0;
                     }
                     else
                     {
-                        dc_dc = (void*)((int)(reinterpret_cast<::OwnerLookupView *>((apSource))->FUN_00567790()));
+                        dc_dc = (void*)((reinterpret_cast<::OwnerLookupView *>((apSource))->FUN_00567790()));
                     }
                     if (p2 != 0 && !((unsigned char)(::FUN_00481f10((::TESObject *)(p1)))) &&
                         (FUN_00401170(p1) != 0x29 || apTarget != (Transfer4c37C37Form*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))
@@ -17340,10 +17377,10 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                 !((Transfer4c37M00Obj*)itemChange7->m00)->FUN_008256d0())
             {
                 remainingNode23 = (Transfer4c37Node84*)itemChange7->m00;
-                while (remainingNode23 != 0 && *((::Transfer4c37ItemObj **)(new ((void *)(remainingNode23)) ::Vec3())) != 0 && aiCount > 0)
+                while (remainingNode23 != 0 && *((::Transfer4c37ItemObj **)((void *)(remainingNode23))) != 0 && aiCount > 0)
                 {
                     bool validStack1 = 1;
-                    sourceList32 = *((::Transfer4c37ItemObj **)(new ((void *)(remainingNode23)) ::Vec3()));
+                    sourceList32 = *((::Transfer4c37ItemObj **)((void *)(remainingNode23)));
                     if (transferEntry7 != 0)
                     {
                         delete transferEntry7;
@@ -17352,7 +17389,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         transferEntry7 = new Transfer4c37NewObj;
                     }
                     if (itemChange7 != 0)
-                        transferEntry7->m08 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
+                        transferEntry7->m08 = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()));
                     if ((int)reinterpret_cast<::FUN_00418770_shell *>((sourceList32))->FUN_00418770() < 0)
                     {
                         validStack1 = 0;
@@ -17368,7 +17405,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             onlyWornFlag14 = 1;
                         }
                         (void)onlyWornFlag14;
-                        bool unequipped41 = apSource->Vcall188(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())),
+                        bool unequipped41 = apSource->Vcall188(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())),
                                                                (int)reinterpret_cast<::FUN_00418770_shell *>((sourceList32))->FUN_00418770(), sourceList32);
                         if (unequipped41)
                         {
@@ -17392,7 +17429,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         transferCount2 = (int)reinterpret_cast<::FUN_00418770_shell *>((sourceList32))->FUN_00418770();
                         if (transferCount2 > aiCount || ((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceList32))->GetExtraLeveledItem())) != 0)
                         {
-                            leveledItem0 = (int)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceList32))->GetExtraLeveledItem()));
+                            leveledItem0 = (int)(std::uintptr_t)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceList32))->GetExtraLeveledItem()));
                             if (leveledItem0)
                             {
                                 if (aiCount == transferCount2 || aiCount > transferCount2)
@@ -17440,7 +17477,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         else
                         {
                             itemChange7->m04 -= transferCount2;
-                            reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + transferCount2));
+                            reinterpret_cast<::CombatProcedure *>((transferEntry7))->Initialize((::CombatController *)(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferEntry7))->FUN_00726070())) + transferCount2));
                             destinationList14 = (int)sourceList32;
                             aiCount = aiCount - transferCount2;
                             reinterpret_cast<::ItemChangeListNode *>((((Transfer4c37EntryHeadS*)itemChange7->m00)))->FUN_00905330((*(::InventoryStackRecord *const *)((Transfer4c37ItemObj**)&destinationList14)));
@@ -17466,19 +17503,19 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         if (abCreateRef != 0)
                         {
                             if (destinationList14 == 0 ||
-                                ((int)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)destinationList14)))->FUN_0041c8d0())) == 0)
+                                ((std::uintptr_t)(reinterpret_cast<::FUN_0041c8d0_shell *>((((Transfer4c37ItemObj*)destinationList14)))->FUN_0041c8d0())) == 0)
                             {
 
                                 resultRef6 =
                                     (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(itemChange7->m08), transferCount2, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
                                 {
-                                    Transfer4c37M68Obj* stackCell3 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                                    Transfer4c37M68Obj* stackCell3 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                                     bool copyStackModel11 = 0;
-                                    if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                                    if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                                     {
                                         if (stackCell3 != 0)
                                         {
-                                            if (((int)(reinterpret_cast<::DoorCell *>((stackCell3))->GetOwner())))
+                                            if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((stackCell3))->GetOwner())))
                                             {
                                                 if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((stackCell3))->FUN_00546ca0((::Actor *)(apSource)))))
                                                     copyStackModel11 = 1;
@@ -17496,7 +17533,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                                         (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                                 if (t70e != 0)
                                                 {
-                                                    if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(0))))
+                                                    if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70e))->GetWorldModel(0))))
                                                         copyStackModel11 = 1;
                                                 }
                                             }
@@ -17547,7 +17584,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                     }
                                     reinterpret_cast<::FUN_0041afd0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->RemoveExtraData30();
                                     reinterpret_cast<::FUN_0041c900_cls *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041c900();
-                                    if (((int)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
+                                    if (((std::uintptr_t)(reinterpret_cast<::FUN_0041b320_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b320())) == 0)
                                     {
                                         reinterpret_cast<::fnv_0041b2a0::FUN_0041b2a0_shell *>((((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((((Transfer4c37ResObj*)resultRef6)))->FUN_005d43c0()))))->FUN_0041b2a0((::TESObjectREFR *)(void *)((void*)resultRef6));
                                         ((Transfer4c37ResObj*)resultRef6)->Vcall48(0x400);
@@ -17565,12 +17602,12 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                     {
                                         bool copyStackReferenceModel26 = 0;
                                         Transfer4c37M68Obj* stackReferenceCell32 =
-                                            (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
-                                        if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                                            (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                                        if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                                         {
                                             if (stackReferenceCell32 != 0)
                                             {
-                                                if (((int)(reinterpret_cast<::DoorCell *>((stackReferenceCell32))->GetOwner())))
+                                                if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((stackReferenceCell32))->GetOwner())))
                                                 {
                                                     if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((stackReferenceCell32))->FUN_00546ca0((::Actor *)(apSource)))))
                                                         copyStackReferenceModel26 = 1;
@@ -17589,7 +17626,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                                         (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                                                     if (t70f != 0)
                                                     {
-                                                        if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(0))))
+                                                        if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70f))->GetWorldModel(0))))
                                                             copyStackReferenceModel26 = 1;
                                                     }
                                                 }
@@ -17613,7 +17650,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             if (transferEntry7->m00 != 0)
                             {
                                 item_fc =
-                                    (Transfer4c37Obj20*)*((::Transfer4c37ItemObj **)(new ((void *)(((Transfer4c37Node84*)transferEntry7->m00))) ::Vec3()));
+                                    (Transfer4c37Obj20*)*((::Transfer4c37ItemObj **)((void *)(((Transfer4c37Node84*)transferEntry7->m00))));
                             }
                             else
                             {
@@ -17621,20 +17658,20 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 transferEntry7->m00 = new Transfer4c37Obj96;
                                 ((Transfer4c37CurHead*)transferEntry7->m00)->FUN_005ae3d0((int*)&item_fc);
                             }
-                            int item_100 = 0;
+                            std::intptr_t item_100 = 0;
                             if (apSource->Vcall100())
                             {
-                                int t104 = 0;
+                                std::intptr_t t104 = 0;
                                 t104 = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                                 if (t104 == 0)
-                                    t104 = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                                    t104 = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                                 item_100 = t104;
                             }
                             else
                             {
                                 item_100 = ((int)(reinterpret_cast<::OwnerLookupView *>((apSource))->FUN_00567790()));
                             }
-                            if (p2 != 0 && !((unsigned char)(::FUN_00481f10((::TESObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
+                            if (p2 != 0 && !((unsigned char)(::FUN_00481f10((::TESObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
                             {
                                 reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((item_fc))->FUN_00419700((::fnv_00419700::TESForm *)(void *)((void*)item_100));
                                 reinterpret_cast<::FUN_00419ad0_shell *>((item_fc))->FUN_00419ad0((unsigned short)transferCount2);
@@ -17643,7 +17680,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             {
                                 reinterpret_cast<::FUN_0041aed0_shell *>((item_fc))->FUN_0041aed0();
                             }
-                            apTarget->Vcall190(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), item_fc, transferCount2);
+                            apTarget->Vcall190(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())), item_fc, transferCount2);
 
                             {
                                 delete transferEntry7;
@@ -17700,13 +17737,13 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
         {
             resultRef6 = (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(p1), aiCount, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
             {
-                Transfer4c37M68Obj* remainderCell3 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                Transfer4c37M68Obj* remainderCell3 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                 bool copyRemainderModel32 = 0;
-                if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
+                if (!((std::uintptr_t)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                 {
                     if (remainderCell3 != 0)
                     {
-                        if (((int)(reinterpret_cast<::DoorCell *>((remainderCell3))->GetOwner())))
+                        if (((std::uintptr_t)(reinterpret_cast<::DoorCell *>((remainderCell3))->GetOwner())))
                         {
                             if (!((unsigned char)(reinterpret_cast<::CellOwnerCheck *>((remainderCell3))->FUN_00546ca0((::Actor *)(apSource)))))
                                 copyRemainderModel32 = 1;
@@ -17723,7 +17760,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 (TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_007af430())));
                             if (t70_110 != 0)
                             {
-                                if (((int)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(1))) != ((int)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(0))))
+                                if (((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(1))) != ((std::uintptr_t)(reinterpret_cast<::FUN_00481110_shell *>((t70_110))->GetWorldModel(0))))
                                     copyRemainderModel32 = 1;
                             }
                         }
@@ -17735,13 +17772,13 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
         }
         else if (apTarget != 0)
         {
-            unsigned int item_114 = 0;
+            std::uintptr_t item_114 = 0;
             if (apSource->Vcall100())
             {
-                int a = 0;
+                std::intptr_t a = 0;
                 a = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                 if (!a)
-                    a = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                    a = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                 item_114 = a;
             }
             else
@@ -17770,13 +17807,13 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     {
                         if (FUN_00401170(item_114) == 8)
                         {
-                            int pObj = item_114;
+                            std::intptr_t pObj = item_114;
                             if (!reinterpret_cast<::FUN_0047d7c0_Class *>((((Transfer4c37D7Obj*)pObj)))->FUN_0047d7c0())
                                 flag_11d = 1;
                         }
                         else
                         {
-                            int tmp_128 = item_114;
+                            std::intptr_t tmp_128 = item_114;
                             if (tmp_128 != 0)
                             {
                                 int res_12c = ::fnv_0047e040::FUN_0047e040(((Transfer4c37ActorValueView*)tmp_128)->values.Vcall3(0x17));
@@ -17789,7 +17826,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     {
                         reinterpret_cast<::KarmaActor *>((((Transfer4c37C37Obj*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Transfer4c37Glob20 *>(&::originalRuntimeFloatSetting282)))))));
                     }
-                    int weapon = p1;
+                    std::intptr_t weapon = p1;
                     reinterpret_cast<::PlayerNoteStub *>((((Transfer4c37C37Obj*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_00966a70((::NoteStub *)(weapon), 1);
                 }
                 else
@@ -17829,7 +17866,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
 
         if (itemChange7 != 0)
         {
-            if (((int)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 < 0)
+            if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemChange7))->FUN_00726070())) + baseCount48 < 0)
             {
                 if (!reinterpret_cast<::FUN_004bddd0_shell *>((itemChange7))->FUN_004bddd0(0))
                 {
@@ -17844,7 +17881,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
     }
     if (updateWeapon9)
     {
-        if (((int)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())) != 0)
+        if (((std::uintptr_t)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())) != 0)
             playerSource2->Vcall3ec(((int)(reinterpret_cast<::FUN_008a1710_shell *>((playerSource2))->FUN_008a1710())), 0, 0, 0);
     }
     return resultRef6;
@@ -17858,7 +17895,7 @@ InventoryStackRecord* FUN_004bfba0_shell::FUN_004bfba0(TESBoundObject* apObj, in
     bool bHasResultObj = true;
     while (pkCurrentObject && bHasResultObj)
     {
-        InventoryStackRecord* pchange = *((::InventoryStackRecord **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        InventoryStackRecord* pchange = *((::InventoryStackRecord **)((void *)(pkCurrentObject)));
         if (pchange && pchange->m_pItemObject == apObj)
         {
             bHasResultObj = false;
@@ -17870,13 +17907,13 @@ InventoryStackRecord* FUN_004bfba0_shell::FUN_004bfba0(TESBoundObject* apObj, in
     }
     if (pkCurrentObject)
     {
-        InventoryStackRecord* pchange = *((::InventoryStackRecord **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+        InventoryStackRecord* pchange = *((::InventoryStackRecord **)((void *)(pkCurrentObject)));
         if (pchange && aId)
         {
             ExtraNode* pkCurrentObject = (ExtraNode*)pchange->m_pExtraDataLists;
             while (pkCurrentObject)
             {
-                ExtraDataList* pextra = *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3()));
+                ExtraDataList* pextra = *((::ExtraDataList **)((void *)(pkCurrentObject)));
                 if (pextra && ((::RefIdShell *)(((FUN_0041c8d0_shell*)pextra)->FUN_0041c8d0())) &&
                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RefIdShell *)(((FUN_0041c8d0_shell*)pextra)->FUN_0041c8d0()))))->FUN_0084e3a0())) == aId)
                     return pchange;
@@ -17895,4 +17932,2345 @@ InventoryStackRecord* FUN_004bfba0_shell::FUN_004bfba0(TESBoundObject* apObj, in
     }
 }
 
+void DeleteItemChange(InventoryStackRecord* item);
+
+struct ExtraNode_ctxr;
+
+struct ItemNode_ctxr;
+
+struct ExtraNode_ctxr;
+
+struct StartMenu_ctxr
+{
+};
+
+struct GlobalObject_0040c150_ctxr : public StartMenu_ctxr
+{
+};
+
+struct TESFullName_ctxr : public BaseFormComponent
+{
+};
+
+struct FUN_00474a00_ctxr
+{
+};
+
+struct S_004d4030_ctxr
+{
+    ItemNode_ctxr* head;
+    void FUN_004d4030();
+};
+
+struct XArr_ctxr
+{
+};
+
+struct FUN_004bfb70_stand_ctxr
+{
+    char pad[0xe3c];
+    XArr_ctxr arr;
+    void SetIdleAt(unsigned int i, XIdle* v);
+};
+
+void SetField1F0(FUN_004c0cd0_This* pThis, FUN_004c0cd0_Arg arg);
+
+struct FUN_00410360_ctxr
+{
+    FUN_00410360_ctxr();
+    char pad[0x20];
+};
+
+struct FUN_004bc550_ctxr
+{
+    FUN_004bc550_ctxr(TESBoundObject*, int);
+    char pad[0xc];
+};
+
+struct TESNPC_ctxr
+{
+};
+
+struct Container4cfe20_ctxr
+{
+};
+
+struct FUN_004cfe20_t_ctxr : public ::InventoryChanges
+{
+    Container4cfe20_ctxr* FUN_004bffb0();
+    bool HasItem(unsigned int aId);
+};
+
+class B4BDF00Form_ctxr
+{
+  public:
+};
+
+class B4BDF00Data_ctxr;
+
+class B4BDF00Data_ctxr
+{
+  public:
+    float GetScaledValue(void* pvActor, float fValue, bool bFlag);
+
+    int unk00;
+    int unk04;
+    B4BDF00Form_ctxr* m_pkForm;
+};
+
+struct BookForm_ctxr
+{
+};
+
+struct ItemChangeCalc_ctxr
+{
+    int unknown00;
+    int unknown04;
+    BookForm_ctxr* item;
+    void UpdateItemChange(int unused);
+};
+
+struct Container4c6ba0_ctxr
+{
+};
+
+struct Inv4c6ba0_ctxr
+{
+    ChangeNode4c6ba0* m_pEntryList;
+    Container4c6ba0_ctxr* FUN_004bffb0();
+    TESBoundObject* FindFirstItemOfType(int aType, int* apCount);
+};
+
+struct NiMatrix3Helper_ctxr
+{
+    float xx, xy, xz, yx, yy, yz, zx, zy, zz;
+};
+
+struct Weapon_ctxr;
+
+struct Extra_ctxr;
+
+struct Item_ctxr;
+
+struct ItemList_ctxr;
+
+struct BaseNode_ctxr;
+
+struct Form_ctxr
+{
+};
+
+struct Weapon_ctxr : Form_ctxr
+{
+    int unk0;
+    int unk4;
+    int unk8;
+    int unkc;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    AmmoLink ammo;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    ValueComp value;
+    int FUN_00446390();
+};
+
+struct Extra_ctxr
+{
+    bool FUN_00418b10();
+};
+
+struct FUN_0096a2d0_ctxr
+{
+    Extra_ctxr* item;
+    FUN_0096a2d0_ctxr* next;
+    FUN_0096a2d0_ctxr();
+    void FUN_005ae3d0(Extra_ctxr**);
+};
+
+struct FUN_0076b630_ctxr : FUN_004459e0
+{
+    FUN_0096a2d0_ctxr* extras;
+    int count;
+    Weapon_ctxr* weapon;
+    FUN_0076b630_ctxr();
+};
+
+struct ItemList_ctxr
+{
+    FUN_0076b630_ctxr* item;
+    ItemList_ctxr* next;
+    bool FUN_008256d0();
+};
+
+struct BaseItem_ctxr
+{
+    int count;
+    Weapon_ctxr* form;
+};
+
+struct BaseNode_ctxr
+{
+    BaseItem_ctxr* item;
+    BaseNode_ctxr* next;
+};
+
+struct Container_ctxr
+{
+};
+
+struct Target_ctxr
+{
+    ItemList_ctxr* changes;
+    ActorStand* owner;
+    Container_ctxr* FUN_004bffb0();
+    FUN_0076b630_ctxr* FUN_004c8c10(int, int);
+    FUN_0076b630_ctxr* SelectBestWeapon(ActorStand*, float*, int, bool);
+};
+
+struct ObjectForm_ctxr
+{
+};
+
+struct InventoryEntry_ctxr
+{
+    void* m_pExtraDataLists;
+    int m_iCountChange;
+    ObjectForm_ctxr* m_pItemObject;
+};
+
+struct Load90_ctxr
+{
+};
+
+struct EquipForm_ctxr;
+
+struct EquipEntry_ctxr;
+
+struct EquipActor_ctxr;
+
+struct EquipEntry_ctxr
+{
+    EquipList* extras;
+    int count;
+    EquipForm_ctxr* form;
+    EquipEntry_ctxr(EquipForm_ctxr*, int);
+    ~EquipEntry_ctxr();
+};
+
+struct EquipForm_ctxr
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    EquipBiped biped;
+};
+
+struct EquipProcess_ctxr
+{
+    virtual void v0();
+    virtual void v4();
+    virtual void v8();
+    virtual void vc();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void vd8();
+    virtual void vdc();
+    virtual void ve0();
+    virtual void ve4();
+    virtual void ve8();
+    virtual void vec();
+    virtual void vf0();
+    virtual void vf4();
+    virtual void vf8();
+    virtual void vfc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual EquipEntry_ctxr* v148();
+    virtual EquipEntry_ctxr* v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual bool v160(EquipEntry_ctxr*, int, int);
+    virtual void v164();
+    virtual bool v168(EquipEntry_ctxr*);
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual void v1f4();
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual void v22c();
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual void v2bc();
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual void v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void v304();
+    virtual void v308();
+    virtual void v30c();
+    virtual void v310();
+    virtual void v314();
+    virtual void v318();
+    virtual void v31c();
+    virtual void v320();
+    virtual void v324();
+    virtual void v328();
+    virtual void v32c();
+    virtual void v330();
+    virtual void v334();
+    virtual void v338();
+    virtual void v33c();
+    virtual void v340();
+    virtual void v344();
+    virtual void v348();
+    virtual void v34c();
+    virtual void v350();
+    virtual void v354();
+    virtual void v358();
+    virtual void v35c();
+    virtual void v360();
+    virtual void v364();
+    virtual void v368();
+    virtual void v36c();
+    virtual void v370();
+    virtual void v374();
+    virtual void v378();
+    virtual void v37c();
+    virtual void v380();
+    virtual void v384();
+    virtual void v388();
+    virtual void v38c();
+    virtual void v390();
+    virtual void v394();
+    virtual void v398();
+    virtual void v39c();
+    virtual void v3a0();
+    virtual void v3a4();
+    virtual void v3a8();
+    virtual void v3ac();
+    virtual void v3b0();
+    virtual void v3b4();
+    virtual void v3b8();
+    virtual void v3bc();
+    virtual void v3c0();
+    virtual void v3c4();
+    virtual void v3c8();
+    virtual void v3cc();
+    virtual void v3d0();
+    virtual void v3d4();
+    virtual void v3d8();
+    virtual void v3dc();
+    virtual void v3e0();
+    virtual void v3e4();
+    virtual void v3e8();
+    virtual void v3ec();
+    virtual void v3f0();
+    virtual void v3f4();
+    virtual void v3f8();
+    virtual void v3fc();
+    virtual void v400();
+    virtual void v404();
+    virtual void v408();
+    virtual void v40c();
+    virtual void v410();
+    virtual void v414();
+    virtual void v418();
+    virtual void v41c();
+    virtual void v420();
+    virtual void v424();
+    virtual void v428();
+    virtual void v42c();
+    virtual void v430();
+    virtual void v434();
+    virtual void v438();
+    virtual void v43c();
+    virtual void v440();
+    virtual void v444();
+    virtual void v448();
+    virtual void v44c();
+    virtual void v450();
+    virtual void v454();
+    virtual void v458();
+    virtual void v45c();
+    virtual void v460();
+    virtual void v464();
+    virtual void v468(int);
+    virtual void v46c();
+    virtual void v470();
+    virtual bool v474(int);
+    virtual void v478();
+    virtual void v47c();
+    virtual void v480();
+    virtual void v484();
+    virtual void v488();
+    virtual void v48c();
+    virtual void v490();
+    virtual void v494();
+    virtual void v498();
+    virtual void v49c();
+    virtual void v4a0();
+    virtual void v4a4();
+    virtual void v4a8();
+    virtual void v4ac();
+    virtual void v4b0();
+    virtual void v4b4();
+    virtual void v4b8();
+    virtual void v4bc();
+    virtual void v4c0();
+    virtual void v4c4();
+    virtual void v4c8();
+    virtual void v4cc();
+    virtual void v4d0();
+    virtual void v4d4();
+    virtual void v4d8();
+    virtual void v4dc();
+    virtual void v4e0();
+    virtual void v4e4();
+    virtual void v4e8();
+    virtual void v4ec();
+    virtual void v4f0();
+    virtual void v4f4();
+    virtual void v4f8();
+    virtual void v4fc();
+    virtual void v500();
+    virtual void v504();
+    virtual void v508();
+    virtual void v50c();
+    virtual void v510();
+    virtual void v514();
+    virtual void v518();
+    virtual void v51c();
+    virtual void v520();
+    virtual void v524();
+    virtual void v528();
+    virtual void v52c();
+    virtual void v530();
+    virtual void v534();
+    virtual void v538();
+    virtual void v53c();
+    virtual void v540();
+    virtual void v544();
+    virtual void v548();
+    virtual void v54c();
+    virtual void v550();
+    virtual void v554();
+    virtual void v558();
+    virtual void v55c();
+    virtual void v560();
+    virtual void v564();
+    virtual void v568();
+    virtual void v56c();
+    virtual void v570();
+    virtual void v574();
+    virtual void v578();
+    virtual void v57c();
+    virtual void v580();
+    virtual void v584();
+    virtual void v588();
+    virtual void v58c();
+    virtual void v590();
+    virtual void v594();
+    virtual void v598();
+    virtual void v59c();
+    virtual void v5a0();
+    virtual void v5a4();
+    virtual void v5a8();
+    virtual void v5ac();
+    virtual void v5b0();
+    virtual void v5b4();
+    virtual void v5b8();
+    virtual void v5bc();
+    virtual void v5c0();
+    virtual void v5c4();
+    virtual void v5c8();
+    virtual void v5cc();
+    virtual void v5d0();
+    virtual void v5d4();
+    virtual void v5d8();
+    virtual void v5dc();
+    virtual void v5e0();
+    virtual void v5e4();
+    virtual void v5e8();
+    virtual void v5ec();
+    virtual void v5f0();
+    virtual void v5f4();
+    virtual void v5f8();
+    virtual void v5fc();
+    virtual void v600();
+    virtual void v604();
+    virtual void v608();
+    virtual void v60c();
+    virtual void v610();
+    virtual void v614();
+    virtual void v618();
+    virtual void v61c();
+    virtual void v620();
+    virtual void v624();
+    virtual void v628();
+    virtual void v62c();
+    virtual void v630();
+    virtual void v634();
+    virtual void v638();
+    virtual void v63c();
+    virtual void v640();
+    virtual void v644();
+    virtual void v648();
+    virtual void v64c();
+    virtual void v650();
+    virtual void v654();
+    virtual void v658();
+    virtual void v65c();
+    virtual void v660();
+    virtual void v664();
+    virtual void v668();
+    virtual void v66c();
+    virtual void v670();
+    virtual void v674();
+    virtual void v678();
+    virtual void v67c();
+    virtual void v680();
+    virtual void v684();
+    virtual void v688();
+    virtual void v68c();
+    virtual void v690();
+    virtual void v694();
+    virtual void v698();
+    virtual void v69c();
+    virtual void v6a0();
+    virtual void v6a4();
+    virtual void v6a8();
+    virtual void v6ac();
+    virtual void v6b0();
+    virtual void v6b4();
+    virtual void v6b8();
+    virtual void v6bc();
+    virtual void v6c0();
+    virtual void v6c4();
+    virtual void v6c8();
+    virtual void v6cc();
+    virtual void v6d0();
+    virtual void v6d4();
+    virtual void v6d8();
+    virtual void v6dc();
+    virtual void v6e0();
+    virtual void v6e4(EquipActor_ctxr*);
+};
+
+struct EquipActor_ctxr
+{
+    virtual void v0();
+    virtual void v4();
+    virtual void v8();
+    virtual void vc();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48(int);
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void vd8();
+    virtual void vdc();
+    virtual void ve0();
+    virtual void ve4();
+    virtual void ve8();
+    virtual void vec();
+    virtual void vf0();
+    virtual void vf4();
+    virtual void vf8();
+    virtual void vfc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual int v1d0();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    EquipProcess_ctxr* process;
+    void SetField1F0(EquipForm_ctxr*);
+    void* FUN_0043fcd0();
+    void FUN_008b0bd0(void*);
+};
+
+struct EquipInv_ctxr
+{
+    EquipChangeList* changes;
+    EquipActor_ctxr* owner;
+    EquipContainer* FUN_004bffb0();
+    void AddItemToInventory(EquipForm_ctxr*, int, EquipActor_ctxr*, EquipExtra*, bool, bool);
+};
+
+struct BoundShell_ctxr : TESBoundObject
+{
+
+
+
+};
+
+struct ItemShell_ctxr : InventoryStackRecord
+{
+
+    ItemShell_ctxr(BoundShell_ctxr*, int);
+
+
+
+};
+
+struct ChangesShell_ctxr : InventoryChanges
+{
+
+
+    BoundShell_ctxr* FUN_004bffb0(BoundShell_ctxr*);
+
+    void AddItemExtraData(BoundShell_ctxr*, int, int, ExtraShell*, ExtraNodeShell**);
+};
+
+struct W20Form_ctxr;
+
+struct W20Ref_ctxr;
+
+struct W20Entry_ctxr
+{
+    W20ExtraList* extras;
+    int count;
+    W20Form_ctxr* form;
+    W20Entry_ctxr(W20Form_ctxr*, int);
+    ~W20Entry_ctxr();
+};
+
+struct W20Form_ctxr : TESBoundObject
+{
+    int GetWeaponType();
+    W20Form_ctxr* GetCurrentAmmo(W20Ref_ctxr*);
+};
+
+struct W20Ref_ctxr
+{
+    virtual void r0();
+    virtual void r1();
+    virtual void r2();
+    virtual void r3();
+    virtual void r4();
+    virtual void r5();
+    virtual void r6();
+    virtual void r7();
+    virtual void r8();
+    virtual void r9();
+    virtual void r10();
+    virtual void r11();
+    virtual void r12();
+    virtual void r13();
+    virtual void r14();
+    virtual void r15();
+    virtual void r16();
+    virtual void r17();
+    virtual void v48(int);
+    virtual void r19();
+    virtual void r20();
+    virtual void r21();
+    virtual void r22();
+    virtual void r23();
+    virtual void r24();
+    virtual void r25();
+    virtual void r26();
+    virtual void r27();
+    virtual void r28();
+    virtual void r29();
+    virtual void r30();
+    virtual void r31();
+    virtual void r32();
+    virtual void r33();
+    virtual void r34();
+    virtual void r35();
+    virtual void r36();
+    virtual void r37();
+    virtual void r38();
+    virtual void r39();
+    virtual void r40();
+    virtual void r41();
+    virtual void r42();
+    virtual void r43();
+    virtual void r44();
+    virtual void r45();
+    virtual void r46();
+    virtual void r47();
+    virtual void r48();
+    virtual void r49();
+    virtual void r50();
+    virtual void r51();
+    virtual void r52();
+    virtual void r53();
+    virtual void r54();
+    virtual void r55();
+    virtual void r56();
+    virtual void r57();
+    virtual void r58();
+    virtual void r59();
+    virtual void r60();
+    virtual void r61();
+    virtual void r62();
+    virtual void r63();
+    virtual bool v100();
+    virtual void r65();
+    virtual void r66();
+    virtual void r67();
+    virtual void r68();
+    virtual void r69();
+    virtual void r70();
+    virtual void r71();
+    virtual void r72();
+    virtual void r73();
+    virtual void r74();
+    virtual void r75();
+    virtual const char* v130();
+};
+
+struct W20Inventory_ctxr
+{
+    W20EntryList* entries;
+    W20Ref_ctxr* owner;
+    float weight;
+    float previous;
+    bool dirty;
+    void FUN_004c1c90(W20Ref_ctxr*, int, int, bool);
+};
+
+struct AddForm_ctxr;
+
+struct AddProcess_ctxr;
+
+struct AddEntry_ctxr;
+
+struct AddEntry_ctxr
+{
+    AddNode* extras;
+    int count;
+    AddForm_ctxr* form;
+    AddEntry_ctxr(AddForm_ctxr*, int);
+    ~AddEntry_ctxr();
+};
+
+struct AddProcess_ctxr
+{
+    virtual void v0();
+    virtual void v4();
+    virtual void v8();
+    virtual void vc();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void vd8();
+    virtual void vdc();
+    virtual void ve0();
+    virtual void ve4();
+    virtual void ve8();
+    virtual void vec();
+    virtual void vf0();
+    virtual void vf4();
+    virtual void vf8();
+    virtual void vfc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual AddEntry_ctxr* ammoA();
+    virtual AddEntry_ctxr* p();
+};
+
+struct AddForm_ctxr
+{
+};
+
+struct AddInventory_ctxr
+{
+    AddChanges* changes;
+    AddRef* owner;
+    float weight, previousWeight;
+    bool dirty;
+    AddContainer* FUN_004bffb0();
+    void FUN_004c29a0(AddForm_ctxr*, AddExtra*, int);
+};
+
+struct Inv4c6a10_ctxr
+{
+    ChangeNode4c6ba0* m_pEntryList;
+    Container4c6ba0_ctxr* FUN_004bffb0();
+    TESBoundObject* FindInventoryItemByType(int aType, int* apCount);
+};
+
+struct AmmoContainer_ctxr
+{
+};
+
+struct AmmoInventory_ctxr
+{
+    ItemList_ctxr* changes;
+    AmmoContainer_ctxr* FUN_004bffb0();
+    FUN_0076b630_ctxr* FindBestAmmoChange(AmmoScorer*, int);
+};
+
+struct Form64_ctxr
+{
+    int FUN_00446390();
+};
+
+struct Change64_ctxr
+{
+    ExtraNode64* extras;
+    int count;
+    Form64_ctxr* form;
+    Change64_ctxr();
+    Change64_ctxr(Form64_ctxr*, int);
+};
+
+struct BaseItem64_ctxr
+{
+    int count;
+    Form64_ctxr* form;
+};
+
+struct Inventory64_ctxr
+{
+    ChangeNode64* changes;
+    BaseContainer64* FUN_004bffb0();
+    Change64_ctxr* FUN_004c94f0(int);
+};
+
+struct InventoryForm4ca330_ctxr
+{
+    int FUN_00446390();
+};
+
+struct InventoryRecord4ca330_ctxr
+{
+    InventoryNode4ca330* m_extraList;
+    InventoryForm4ca330_ctxr* m_form;
+    unsigned int m_flags;
+};
+
+struct InventoryChange4ca330_ctxr
+{
+    InventoryNode4ca330* m_extraList;
+    int m_quantity;
+    InventoryForm4ca330_ctxr* m_form;
+
+};
+
+struct InventoryOutput4ca330_ctxr
+{
+    InventoryOutputExtras4ca330* m_extraList;
+    int m_uiItemCount;
+    InventoryForm4ca330_ctxr* m_form;
+    InventoryOutput4ca330_ctxr();
+};
+
+struct InventoryOutputFromForm4ca330_ctxr
+{
+    InventoryOutputExtras4ca330* m_extraList;
+    int m_uiItemCount;
+    InventoryForm4ca330_ctxr* m_form;
+    InventoryOutputFromForm4ca330_ctxr(InventoryForm4ca330_ctxr* form, int count);
+};
+
+struct InventoryCursor4ca330_ctxr
+{
+    unsigned int m_uiContentCount;
+    InventoryList4ca330* m_firstNode;
+    unsigned int m_unknown08;
+    InventoryOutput4ca330_ctxr* m_pTileTemplate;
+    InventoryContainer4ca330* m_sourceContainer;
+    InventoryChangeNode4ca330* m_secondPhase;
+    int m_phase;
+    InventoryNode4ca330* m_activeExtras;
+    InventoryNode4ca330* m_extrasToCount;
+    InventoryNode4ca330* m_extrasToCopy;
+};
+
+struct Cont4cb320_ctxr
+{
+};
+
+struct Cont4cb4b0_ctxr
+{
+};
+
+namespace InventoryCopy {
+struct FUN_004bc550_ctxr;
+typedef FUN_004bc550_ctxr Item_ctxr;
+struct FUN_00410360_ctxr;
+typedef FUN_00410360_ctxr Extra_ctxr;
+struct ExtraNode_ctxr;
+struct BaseNode_ctxr;
+struct ItemNode_ctxr;
+struct Container_ctxr;
+struct Inventory_ctxr;
+struct FormView_ctxr
+{
+    int FUN_00401170();
+};
+struct CopiedForm_ctxr
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108(TESBoundObject*);
+};
+struct FUN_00410360_ctxr
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    FUN_00410360_ctxr();
+};
+typedef FUN_00410360_ctxr Extra_ctxr;
+struct ExtraNode_ctxr
+{
+    int FUN_005ae380();
+};
+struct FUN_004bc550_ctxr
+{
+    ExtraNode_ctxr* list;
+    int count;
+    TESBoundObject* form;
+    FUN_004bc550_ctxr(TESBoundObject*, int);
+};
+typedef FUN_004bc550_ctxr Item_ctxr;
+struct BaseEntry_ctxr
+{
+    int count;
+    TESBoundObject* form;
+};
+struct BaseNode_ctxr
+{
+    bool FUN_008256d0();
+};
+struct ItemNode_ctxr
+{
+    bool FUN_008256d0();
+};
+struct Container_ctxr
+{
+    BaseNode_ctxr* FUN_00717e50();
+};
+struct Registry_ctxr
+{
+};
+struct Inventory_ctxr
+{
+    ItemNode_ctxr* head;
+    Container_ctxr* FUN_004bffb0();
+    void FUN_004cd9c0(void*, void*);
+};
+// @fnv 0x004cd9c0
+void Inventory_ctxr::FUN_004cd9c0(void* source, void* destination)
+{
+    if (!destination || !source)
+        return;
+    TESBoundObject* formSlot11 = 0;
+    Item_ctxr* copySlot14 = 0;
+    Inventory_ctxr* targetSlot4 = 0;
+    targetSlot4 = ((::InventoryCopy::Inventory_ctxr *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(destination))));
+    if (!targetSlot4)
+        return;
+    BaseNode_ctxr* baseSlot45 = ((::InventoryCopy::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
+    TESLevItem* leveledSlot24 = 0;
+    while (baseSlot45 && !baseSlot45->FUN_008256d0())
+    {
+        formSlot11 = (*((::InventoryCopy::BaseEntry_ctxr **)((void *)(baseSlot45))))->form;
+        leveledSlot24 = dynamic_cast<TESLevItem*>((*((::InventoryCopy::BaseEntry_ctxr **)((void *)(baseSlot45))))->form);
+        if (formSlot11)
+        {
+            int baseCountSlot31 = reinterpret_cast<::TESContainer *>((((::InventoryCopy::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(formSlot11));
+            Item_ctxr* itemSlot25 = ((::InventoryCopy::FUN_004bc550_ctxr *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(formSlot11, 1, 0)));
+            int totalSlot2 = 0;
+            int magnitudeSlot60 = baseCountSlot31;
+            if (magnitudeSlot60 < 0)
+                magnitudeSlot60 *= -1;
+            if (itemSlot25)
+                totalSlot2 += magnitudeSlot60 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+            else
+                totalSlot2 += magnitudeSlot60;
+            if (totalSlot2 > 0)
+            {
+                CopiedForm_ctxr* clone = 0;
+                if (((void *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(formSlot11)))))
+                {
+                    clone = ((::InventoryCopy::CopiedForm_ctxr *)(::TESDataHandler::CreateFormForType(((FormView_ctxr*)formSlot11)->FUN_00401170())));
+                    clone->v108(formSlot11);
+                    ::FUN_004ce300((::TESForm *)(clone), 0);
+                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone));
+                    reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone));
+                    int quantity = baseCountSlot31;
+                    if (itemSlot25)
+                        quantity += ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemSlot25))->FUN_00726070()));
+                    copySlot14 = new Item_ctxr((TESBoundObject*)clone, quantity);
+
+                    if (itemSlot25 && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25)))) && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25))))->FUN_005ae380())
+                    {
+                        ExtraNode_ctxr* nodeA = ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25))));
+                        if (nodeA && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeA))))
+                        {
+                            while (nodeA && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeA))))
+                            {
+                                Extra_ctxr* extraASlot11 = new Extra_ctxr;
+                                void* removedASlot21 = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeA))))))->FUN_00410220(0xd)));
+                                if (removedASlot21)
+                                    reinterpret_cast<::FUN_00410020_t *>(((*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeA))))))->FUN_00410020((::BSExtraData *)(removedASlot21), 0);
+                                reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraASlot11))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeA)))), 1);
+                                reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraASlot11);
+                                if (removedASlot21)
+                                    reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(((*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeA))))))->FUN_0040ff60((::BSExtraData *)(removedASlot21));
+                                nodeA = ((::InventoryCopy::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((nodeA))->FUN_00726070()));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    copySlot14 = new Item_ctxr(formSlot11, totalSlot2);
+                    if (itemSlot25 && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25)))) && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25))))->FUN_005ae380())
+                    {
+                        ExtraNode_ctxr* nodeB = ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(itemSlot25))));
+                        if (nodeB && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeB))))
+                        {
+                            while (nodeB && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeB))))
+                            {
+                                Extra_ctxr* extraB = new Extra_ctxr;
+                                reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraB))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeB)))), 1);
+                                reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraB);
+                                nodeB = ((::InventoryCopy::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
+                            }
+                        }
+                    }
+                }
+                reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((targetSlot4))->FUN_004c3380((::InventoryStackRecord *)(copySlot14), 1);
+            }
+        }
+        baseSlot45 = ((::InventoryCopy::BaseNode_ctxr *)(reinterpret_cast<::Callees *>((baseSlot45))->FUN_00726070()));
+    }
+    Item_ctxr* changedSlot20 = 0;
+    ItemNode_ctxr* nodeSlot26 = head;
+    while (nodeSlot26 && !nodeSlot26->FUN_008256d0())
+    {
+        changedSlot20 = *((::InventoryCopy::FUN_004bc550_ctxr **)((void *)(nodeSlot26)));
+        if (changedSlot20 && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())) > 0)
+        {
+            formSlot11 = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName()));
+            reinterpret_cast<::AGOwner *>((changedSlot20))->FUN_004bcd10();
+            CopiedForm_ctxr* clone2 = 0;
+            if (((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changedSlot20))->FUN_004bde40())))
+            {
+                clone2 = ((::InventoryCopy::CopiedForm_ctxr *)(::TESDataHandler::CreateFormForType(((FormView_ctxr*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())))->FUN_00401170())));
+                clone2->v108(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())));
+                ::FUN_004ce300((::TESForm *)(clone2), 0);
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_dataHandler))))->AddFormToDataHandler((::TESForm *)(clone2));
+                reinterpret_cast<::fnv_00861780::FUN_00861780_StandIn *>(((*reinterpret_cast<::InventoryCopy::Registry_ctxr * *>(&::g_TESSaveLoadGame))))->Add((::TESForm *)(clone2));
+                copySlot14 = new Item_ctxr((TESBoundObject*)clone2, ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                if (changedSlot20 && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
+                {
+                    ExtraNode_ctxr* nodeC = ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))));
+                    if (nodeC && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeC))))
+                    {
+                        while (nodeC && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeC))))
+                        {
+                            Extra_ctxr* extraCSlot22 = new Extra_ctxr;
+                            void* removedCSlot8 = ((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeC))))))->FUN_00410220(0xd)));
+                            if (removedCSlot8)
+                                reinterpret_cast<::FUN_00410020_t *>(((*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeC))))))->FUN_00410020((::BSExtraData *)(removedCSlot8), 0);
+                            reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraCSlot22))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeC)))), 1);
+                            reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraCSlot22);
+                            if (removedCSlot8)
+                                reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(((*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeC))))))->FUN_0040ff60((::BSExtraData *)(removedCSlot8));
+                            nodeC = ((::InventoryCopy::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((nodeC))->FUN_00726070()));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                copySlot14 = new Item_ctxr(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((changedSlot20))->GetName())), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changedSlot20))->FUN_00726070())));
+                if (changedSlot20 && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20)))) && ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))))->FUN_005ae380())
+                {
+                    ExtraNode_ctxr* nodeD = ((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(changedSlot20))));
+                    if (nodeD && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeD))))
+                    {
+                        while (nodeD && *((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeD))))
+                        {
+                            Extra_ctxr* extraD = new Extra_ctxr;
+                            reinterpret_cast<::fnv_004121e0::ExtraDataListCopyListForContainer *>((extraD))->FUN_004121e0((::ExtraDataList *)(*((::InventoryCopy::FUN_00410360_ctxr **)((void *)(nodeD)))), 1);
+                            reinterpret_cast<::Callees *>((((::InventoryCopy::ExtraNode_ctxr *)(::FUN_00559450((int *)(copySlot14))))))->FUN_00905820(&extraD);
+                            nodeD = ((::InventoryCopy::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((nodeD))->FUN_00726070()));
+                        }
+                    }
+                }
+            }
+            reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((targetSlot4))->FUN_004c3380((::InventoryStackRecord *)(copySlot14), 1);
+            copySlot14 = 0;
+        }
+        nodeSlot26 = ((::InventoryCopy::ItemNode_ctxr *)(reinterpret_cast<::Callees *>((nodeSlot26))->FUN_00726070()));
+    }
+}
+}
+
+struct MoveContainer_ctxr
+{
+};
+
+struct InventoryMove_ctxr
+{
+    MoveItemNode* head;
+    MoveContainer_ctxr* FUN_004bffb0();
+    float FUN_004ce380(MoveOwner*, MoveOwner*, bool, bool, bool, bool, int, MoveFilter*);
+};
+
+struct WeightContainer_ctxr
+{
+};
+
+struct WeightInventory_ctxr : InventoryChanges
+{
+    WeightContainer_ctxr* FUN_004bffb0();
+    float FUN_004d0900(bool useAmmoWeight);
+};
+
+struct ValueForm_ctxr : TESForm
+{
+};
+
+struct ValueBaseEntry_ctxr
+{
+    int count;
+    ValueForm_ctxr* object;
+};
+
+struct ValueContainer_ctxr
+{
+};
+
+struct ValueInventory_ctxr : InventoryChanges
+{
+    ValueContainer_ctxr* FUN_004bffb0();
+    int FUN_004d0f40(bool includeQuestItems, bool includeType15);
+};
+
+struct Cont4d1440_ctxr
+{
+};
+
+int __cdecl FUN_00ec7d40(int);
+
+struct Inv4d1440_ctxr : public InventoryChanges
+{
+    Cont4d1440_ctxr* FUN_004bffb0();
+    bool HasExtraDataWithValue(int);
+    void FUN_004d1440();
+};
+
+namespace InventoryTransfer {
+struct Extra_ctxr;
+struct ExtraNode_ctxr;
+struct Item_ctxr;
+struct Inventory_ctxr;
+struct AutoMemContext_ctxr
+{
+    int context;
+    AutoMemContext_ctxr(int, bool, const char*, int);
+    ~AutoMemContext_ctxr();
+};
+struct Form_ctxr
+{
+
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual bool v094();
+};
+struct Extra_ctxr
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    Extra_ctxr();
+};
+struct ExtraNode_ctxr
+{
+    Extra_ctxr* value;
+    ExtraNode_ctxr* next;
+    ExtraNode_ctxr();
+    void FUN_005ae3d0(Extra_ctxr**);
+};
+struct Item_ctxr
+{
+    ExtraNode_ctxr* list;
+    int count;
+    TESBoundObject* form;
+    Item_ctxr();
+    ~Item_ctxr();
+};
+struct BaseEntry_ctxr
+{
+    int count;
+    TESBoundObject* form;
+};
+struct BaseNode_ctxr
+{
+};
+struct ItemNode_ctxr
+{
+};
+struct Container_ctxr
+{
+    BaseNode_ctxr* FUN_00717e50();
+};
+struct Inventory_ctxr
+{
+    ItemNode_ctxr* head;
+    Container_ctxr* FUN_004bffb0();
+    void FUN_004d26d0(Inventory_ctxr*, void*, bool);
+};
+// @fnv 0x004d26d0
+void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool exclude)
+{
+    AutoMemContext_ctxr contextSlot2(0x36, true, ::DAT_01020778, 0x26b7);
+    BaseNode_ctxr* baseSlot2 = ((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
+    Item_ctxr* transferSlot3 = 0;
+    while (baseSlot2 && *((::InventoryTransfer::BaseEntry_ctxr **)((void *)(baseSlot2))))
+    {
+        BaseEntry_ctxr* entrySlot7 = *((::InventoryTransfer::BaseEntry_ctxr **)((void *)(baseSlot2)));
+        TESLevItem* leveledSlot21 = dynamic_cast<TESLevItem*>(entrySlot7->form);
+        transferSlot3 = new Item_ctxr;
+        int baseCountSlot38 = reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(entrySlot7->form));
+        if (!transferSlot3->list)
+            transferSlot3->list = new ExtraNode_ctxr;
+        if (entrySlot7 && !leveledSlot21)
+        {
+            Item_ctxr* current = ((::InventoryTransfer::Item_ctxr *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0(entrySlot7->form, 1, 0)));
+            if (current)
+                reinterpret_cast<::FUN_004bcbd0_Class *>((current))->ProcessNodes();
+            if (entrySlot7 && current &&
+                (((!reinterpret_cast<::InventoryStackRecord *>((current))->HasPerkEntry() || reinterpret_cast<::FUN_004bcc30_List *>((current))->FUN_004bcc30() < 1) && current->count + baseCountSlot38 == 0) ||
+                 (((::InventoryTransfer::Form_ctxr *)(reinterpret_cast<::Twin_0044ddc0 *>((current))->GetName()))->v094() && exclude) || reinterpret_cast<::FUN_004bddd0_shell *>((current))->FUN_004bddd0(0)))
+            {
+                delete transferSlot3;
+                transferSlot3 = 0;
+            }
+            else if (entrySlot7 && (!current || (current && !reinterpret_cast<::FUN_004bc8f0_stand *>((current))->FUN_004bc8f0(0))))
+            {
+                int magnitude = baseCountSlot38;
+                if (magnitude < 0)
+                    magnitude *= -1;
+                if (current)
+                    transferSlot3->count = magnitude + current->count - reinterpret_cast<::FUN_004bc8f0_stand *>((current))->FUN_004bc8f0(0);
+                else
+                    transferSlot3->count = magnitude;
+                reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(entrySlot7->form));
+                if (current && ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((current))->FUN_004bde40())))
+                {
+                    ExtraNode_ctxr* scripted = ((::InventoryTransfer::ExtraNode_ctxr *)(::FUN_00559450((int *)(current))));
+                    while (scripted && *((::InventoryTransfer::Extra_ctxr **)((void *)(scripted))))
+                    {
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>(((*((::InventoryTransfer::Extra_ctxr **)((void *)(scripted))))))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        reinterpret_cast<::Callees *>((transferSlot3->list))->FUN_00905820(((::InventoryTransfer::Extra_ctxr **)((void *)(scripted))));
+                        scripted = ((::InventoryTransfer::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((scripted))->FUN_00726070()));
+                    }
+                    reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
+                }
+                else
+                {
+                    if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
+                    {
+                        Extra_ctxr* extraA = new Extra_ctxr;
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraA))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraA))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        transferSlot3->list->FUN_005ae3d0(&extraA);
+                        reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
+                    }
+                    else
+                    {
+                        delete transferSlot3;
+                        transferSlot3 = 0;
+                    }
+                }
+            }
+            else if (current)
+            {
+                int extraCountSlot33 = 0;
+                if (current->list)
+                    extraCountSlot33 = reinterpret_cast<::FUN_004bc8f0_stand *>((current))->FUN_004bc8f0(0);
+                ExtraNode_ctxr* extrasSlot23 = current->list;
+                while (extrasSlot23 && *((::InventoryTransfer::Extra_ctxr **)((void *)(extrasSlot23))) && !transferSlot3)
+                {
+                    Extra_ctxr* extraB = *((::InventoryTransfer::Extra_ctxr **)((void *)(extrasSlot23)));
+                    reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(current->form));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(std::uintptr_t)(reinterpret_cast<::FUN_00418770_shell *>((extraB))->FUN_00418770()));
+                    if (!transferSlot3->list)
+                        transferSlot3->list = new ExtraNode_ctxr;
+                    reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraB))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                    transferSlot3->list->FUN_005ae3d0(&extraB);
+                    if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
+                        reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
+                    extrasSlot23 = ((::InventoryTransfer::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((extrasSlot23))->FUN_00726070()));
+                }
+                if (reinterpret_cast<::FUN_004bc8f0_stand *>((current))->FUN_004bc8f0(0) < baseCountSlot38 + current->count)
+                {
+                    if (!transferSlot3->list)
+                        transferSlot3->list = new ExtraNode_ctxr;
+                    if (current)
+                        transferSlot3->count = baseCountSlot38 + current->count - reinterpret_cast<::FUN_004bc8f0_stand *>((current))->FUN_004bc8f0(0);
+                    else
+                        transferSlot3->count = baseCountSlot38;
+                    reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(entrySlot7->form));
+                    if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
+                    {
+                        Extra_ctxr* extraC = new Extra_ctxr;
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraC))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraC))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                        transferSlot3->list->FUN_005ae3d0(&extraC);
+                        reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
+                    }
+                    else
+                    {
+                        delete transferSlot3;
+                        transferSlot3 = 0;
+                    }
+                }
+            }
+            else
+            {
+                delete transferSlot3;
+                transferSlot3 = 0;
+            }
+        }
+        else
+        {
+            delete transferSlot3;
+            transferSlot3 = 0;
+        }
+        baseSlot2 = ((::InventoryTransfer::BaseNode_ctxr *)(reinterpret_cast<::Callees *>((baseSlot2))->FUN_00726070()));
+    }
+    ItemNode_ctxr* nodeSlot1 = head;
+    while (nodeSlot1 && *((::InventoryTransfer::Item_ctxr **)((void *)(nodeSlot1))))
+    {
+        transferSlot3 = new Item_ctxr;
+        if (!transferSlot3->list)
+            transferSlot3->list = new ExtraNode_ctxr;
+        Item_ctxr* changed = *((::InventoryTransfer::Item_ctxr **)((void *)(nodeSlot1)));
+        if (changed && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) > 0 && (!((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0())) || !reinterpret_cast<::TESContainer *>((((::InventoryTransfer::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->HasObjectOfType((::TESObject *)(changed->form))))
+        {
+            if (reinterpret_cast<::FUN_004bc8f0_stand *>((changed))->FUN_004bc8f0(0) || ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changed))->FUN_004bde40())))
+            {
+                ExtraNode_ctxr* walkSlot1 = changed->list;
+                int countSlot56 = 0;
+                bool hasSpecialSlot4 = false;
+                while (walkSlot1 && *((::InventoryTransfer::Extra_ctxr **)((void *)(walkSlot1))))
+                {
+                    if (((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(((*((::InventoryTransfer::Extra_ctxr **)((void *)(walkSlot1))))))->FUN_00410220(0x2f))))
+                        hasSpecialSlot4 = true;
+                    walkSlot1 = ((::InventoryTransfer::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((walkSlot1))->FUN_00726070()));
+                }
+                walkSlot1 = changed->list;
+                if (!hasSpecialSlot4 || ((int)(reinterpret_cast<::FUN_004be1a0_Class *>((changed))->GetFormTypeCategory())) != 4)
+                {
+                    while (walkSlot1 && *((::InventoryTransfer::Extra_ctxr **)((void *)(walkSlot1))))
+                    {
+                        Extra_ctxr* extraD = *((::InventoryTransfer::Extra_ctxr **)((void *)(walkSlot1)));
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraD))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        transferSlot3->list->FUN_005ae3d0(&extraD);
+                        walkSlot1 = ((::InventoryTransfer::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((walkSlot1))->FUN_00726070()));
+                        countSlot56 += reinterpret_cast<::FUN_00418770_shell *>((extraD))->FUN_00418770();
+                    }
+                }
+                else
+                {
+                    if (((int)(reinterpret_cast<::FUN_004be1a0_Class *>((changed))->GetFormTypeCategory())) == 4 && ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((changed))->FUN_004bde40())))
+                        reinterpret_cast<::CombatProcedure *>((changed))->Initialize((::CombatController *)(1));
+                    while (walkSlot1 && *((::InventoryTransfer::Extra_ctxr **)((void *)(walkSlot1))))
+                    {
+                        Extra_ctxr* extraE = *((::InventoryTransfer::Extra_ctxr **)((void *)(walkSlot1)));
+                        reinterpret_cast<::FUN_0041af10_Class *>((extraE))->RemoveExtra24();
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraE))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        transferSlot3->list->FUN_005ae3d0(&extraE);
+                        walkSlot1 = ((::InventoryTransfer::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((walkSlot1))->FUN_00726070()));
+                        countSlot56 = 1;
+                    }
+                }
+                reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
+                reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                {
+                    Extra_ctxr* extraF = new Extra_ctxr;
+                    reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraF))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((extraF))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - countSlot56);
+                    transferSlot3->list->FUN_005ae3d0(&extraF);
+                }
+                if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
+                    reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
+                else
+                {
+                    if (*((::InventoryTransfer::Extra_ctxr **)((void *)(transferSlot3->list))))
+                        reinterpret_cast<::FUN_00418600_cls *>(((*((::InventoryTransfer::Extra_ctxr **)((void *)(transferSlot3->list))))))->FUN_00418600();
+                    delete transferSlot3;
+                    transferSlot3 = 0;
+                }
+            }
+            else
+            {
+                Extra_ctxr* chosen = 0;
+                if (changed->list)
+                {
+                    ExtraNode_ctxr* walk2Slot3 = changed->list;
+                    int count2Slot41 = 0;
+                    while (walk2Slot3 && *((::InventoryTransfer::Extra_ctxr **)((void *)(walk2Slot3))) && !chosen)
+                    {
+                        chosen = *((::InventoryTransfer::Extra_ctxr **)((void *)(walk2Slot3)));
+                        count2Slot41 += reinterpret_cast<::FUN_00418770_shell *>((chosen))->FUN_00418770();
+                        if (reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((chosen))->HasOnlyAllowedExtraData(0))
+                            chosen = 0;
+                        walk2Slot3 = ((::InventoryTransfer::ExtraNode_ctxr *)(reinterpret_cast<::Callees *>((walk2Slot3))->FUN_00726070()));
+                    }
+                    if (chosen)
+                    {
+                        if (!transferSlot3->list)
+                            transferSlot3->list = new ExtraNode_ctxr;
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        transferSlot3->list->FUN_005ae3d0(&chosen);
+                        if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && count2Slot41 < ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
+                        {
+                            Extra_ctxr* extraG = new Extra_ctxr;
+                            reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraG))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                            reinterpret_cast<::FUN_00419ad0_shell *>((extraG))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())) - count2Slot41);
+                            transferSlot3->list->FUN_005ae3d0(&extraG);
+                        }
+                    }
+                    else
+                    {
+                        Extra_ctxr* extraH = new Extra_ctxr;
+                        reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((extraH))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                        reinterpret_cast<::FUN_00419ad0_shell *>((extraH))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())));
+                        transferSlot3->list->FUN_005ae3d0(&extraH);
+                    }
+                    reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
+                    {
+                        reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                        reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
+                    }
+                    else
+                    {
+                        if (*((::InventoryTransfer::Extra_ctxr **)((void *)(transferSlot3->list))))
+                            reinterpret_cast<::FUN_00418600_cls *>(((*((::InventoryTransfer::Extra_ctxr **)((void *)(transferSlot3->list))))))->FUN_00418600();
+                        delete transferSlot3;
+                        transferSlot3 = 0;
+                    }
+                }
+                else
+                {
+                    reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(::InventoryTransfer::Form_ctxr *)(((::InventoryTransfer::Form_ctxr *)(reinterpret_cast<::Twin_0044ddc0 *>((changed))->GetName()))));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    chosen = new Extra_ctxr;
+                    reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
+                    reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
+                    transferSlot3->list->FUN_005ae3d0(&chosen);
+                    reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
+                }
+            }
+        }
+        else
+        {
+            delete transferSlot3;
+            transferSlot3 = 0;
+        }
+        nodeSlot1 = ((::InventoryTransfer::ItemNode_ctxr *)(reinterpret_cast<::Callees *>((nodeSlot1))->FUN_00726070()));
+    }
+}
+}
+
+struct SaveBuffer_4d4090_ctxr
+{
+    virtual TESIdleForm* GetSpeakerIdle();
+};
+
+struct InvChangesSave_ctxr : InventoryChanges
+{
+    void FUN_004d4090(SaveBuffer_4d4090_ctxr* buffer);
+};
+
+struct WalkForm_ctxr
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void slot4();
+    virtual void slot5();
+    virtual void slot6();
+    virtual void slot7();
+    virtual void slot8();
+    virtual void slot9();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual bool excluded();
+};
+
+struct WalkBaseEntry_ctxr
+{
+    int count;
+    WalkForm_ctxr* form;
+};
+
+struct WalkContainer_ctxr
+{
+};
+
+struct WalkTemp_ctxr
+{
+    void* extra;
+    int count;
+    WalkForm_ctxr* form;
+    WalkTemp_ctxr();
+    ~WalkTemp_ctxr();
+};
+
+struct WalkInventory_ctxr
+{
+    WalkNode* first;
+    WalkContainer_ctxr* FUN_004bffb0();
+    int ForEachInventoryItem(bool(__cdecl* callback)(WalkTemp_ctxr*, void*), void* context, int flags);
+};
+
+struct IterForm_ctxr
+{
+    virtual void slot00();
+    virtual void slot01();
+    virtual void slot02();
+    virtual void slot03();
+    virtual void slot04();
+    virtual void slot05();
+    virtual void slot06();
+    virtual void slot07();
+    virtual void slot08();
+    virtual void slot09();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual bool IsFiltered();
+};
+
+struct BaseEntryIter_ctxr
+{
+    int count;
+    IterForm_ctxr* form;
+};
+
+struct IterContainer_ctxr
+{
+};
+
+struct InventoryIterOwner_ctxr
+{
+    ChangeNodeIter* changes;
+    IterContainer_ctxr* FUN_004bffb0();
+    bool AdvanceInventoryIterator(IterState*, void**, int);
+};
+
+struct Transfer4c37AuxObj_ctxr
+{
+};
+
+struct LoadBuffer4160_ctxr
+{
+    virtual void Slot0();
+    virtual int GetVersion();
+};
+
+struct Item4160_ctxr : FUN_0076b630_ctxr
+{
+};
+
+struct Inventory4160_ctxr
+{
+    ChangeList4160* changes;
+    void FUN_004d4160(LoadBuffer4160_ctxr* buffer);
+};
+
+struct FUN_0076b630_ex_ctxr : public FUN_0076b630_ctxr
+{
+};
+
+struct CContainerC5_ctxr
+{
+};
+
+struct CTargetC5_ctxr
+{
+    ENodeC5* m_pFirstNode;
+    CContainerC5_ctxr* FUN_004bffb0();
+    void* FUN_004cafe0();
+};
+
+struct Cont6_ctxr
+{
+};
+
+namespace Rebuild004d0650 {
+struct Object_ctxr
+{
+};
+struct Extra_ctxr
+{
+};
+struct FUN_0096a2d0_ctxr
+{
+    char data[8];
+    FUN_0096a2d0_ctxr();
+    ~FUN_0096a2d0_ctxr();
+    unsigned FUN_005ae380();
+    void FUN_005ae3d0(Extra_ctxr**);
+    void* FUN_004702f0(unsigned);
+};
+struct FUN_004bc550_ctxr
+{
+    FUN_0096a2d0_ctxr* list;
+    int count;
+    Object_ctxr* form;
+    FUN_004bc550_ctxr(Object_ctxr*, int);
+};
+struct Entry_ctxr
+{
+    int count;
+    Object_ctxr* form;
+};
+struct Node_ctxr
+{
+    bool FUN_008256d0();
+};
+struct Container_ctxr
+{
+    Node_ctxr* FUN_00717e50();
+};
+struct Inventory_ctxr
+{
+    Container_ctxr* FUN_004bffb0();
+    FUN_004bc550_ctxr* FUN_004d0650(Object_ctxr*, int);
+};
+// @fnv 0x004d0650
+FUN_004bc550_ctxr* Inventory_ctxr::FUN_004d0650(Object_ctxr* object, int arg)
+{
+    FUN_004bc550_ctxr* source3 = ((::Rebuild004d0650::FUN_004bc550_ctxr *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(object), 1, arg)));
+    FUN_004bc550_ctxr* result2 = 0;
+    if (source3)
+    {
+        int count2 = reinterpret_cast<::TESContainer *>((((::Rebuild004d0650::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)(object));
+        result2 = new FUN_004bc550_ctxr(object, count2 + ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((source3))->FUN_00726070())));
+        if (((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(source3)))) && ((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(source3))))->FUN_005ae380())
+        {
+            if (!((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(result2)))))
+                result2->list = new FUN_0096a2d0_ctxr;
+            Extra_ctxr* extra7 = *((::Rebuild004d0650::Extra_ctxr **)((void *)(((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(source3)))))));
+            if (reinterpret_cast<::fnv_0041d120::FUN_0041d120_shell *>((extra7))->HasOnlyAllowedExtraData(0))
+            {
+                FUN_0096a2d0_ctxr* node5 = ((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(source3))));
+                while (node5 && *((::Rebuild004d0650::Extra_ctxr **)((void *)(node5))))
+                {
+                    extra7 = *((::Rebuild004d0650::Extra_ctxr **)((void *)(node5)));
+                    reinterpret_cast<::Callees *>((result2->list))->FUN_00905820((void *)&(extra7));
+                    node5 = ((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
+                }
+            }
+            else
+            {
+                result2->list->FUN_005ae3d0(&extra7);
+            }
+        }
+        else
+        {
+            if (((::Rebuild004d0650::FUN_0096a2d0_ctxr *)(::FUN_00559450((int *)(result2)))))
+            {
+                delete result2->list;
+                result2->list = 0;
+            }
+        }
+    }
+    else
+    {
+        Node_ctxr* base6 = ((::Rebuild004d0650::Container_ctxr *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
+        Object_ctxr* form2 = 0;
+        while (base6 && !base6->FUN_008256d0())
+        {
+            form2 = (*((::Rebuild004d0650::Entry_ctxr **)((void *)(base6))))->form;
+            if (form2 == object)
+            {
+                result2 = new FUN_004bc550_ctxr(object, (*((::Rebuild004d0650::Entry_ctxr **)((void *)(base6))))->count);
+                break;
+            }
+            base6 = ((::Rebuild004d0650::Node_ctxr *)(reinterpret_cast<::Callees *>((base6))->FUN_00726070()));
+        }
+    }
+    return result2;
+}
+}
+
+extern const char DAT_010207c0[];
+
+struct MoveActorExt : MoveOwner
+{
+};
+
+struct InventoryMoveTarget : InventoryMove_ctxr
+{
+    void FUN_004cb5f0(MoveOwner*, MoveOwner*, MoveForm*);
+};
+
+// @fnv 0x004cb5f0
+void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination, MoveForm* onlyForm)
+{
+    MoveItem* item = 0;
+    TESBoundObject* form = 0;
+    MoveItemNode* itemNode = head;
+    while (itemNode && !itemNode->FUN_008256d0())
+    {
+
+        MoveItemNode* savedItemNext = ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070()));
+        item = *((::MoveItem **)((void *)(itemNode)));
+        bool restartItems = false;
+
+        if (item && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())) > 0 && !((MoveForm*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))->IsQuestItem())
+        {
+            MoveExtraNode* pExtra = ((::MoveExtraNode *)(::FUN_00559450((int *)(item))));
+            form = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));
+            MoveOwner* actor = 0;
+            if (destination->IsActor())
+                actor = destination;
+            if (pExtra && *((::MoveExtra **)((void *)(pExtra))))
+            {
+                while (pExtra && *((::MoveExtra **)((void *)(pExtra))) && !restartItems)
+                {
+                    MoveExtraNode* savedExtraNext2 = ((::MoveExtraNode *)(reinterpret_cast<::Callees *>((pExtra))->FUN_00726070()));
+                    MoveExtra* extra = *((::MoveExtra **)((void *)(pExtra)));
+                    bool restartExtras = false;
+                    MoveForm* original4 = (MoveForm*)((void *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660()));
+                    MoveForm* baseExtraA = 0;
+                    MoveForm* modExtra_2 = 0;
+                    if (original4)
+                    {
+                        if (original4->FUN_00401170() == 8)
+                            modExtra_2 = original4;
+                        else
+                            baseExtraA = original4;
+                    }
+
+                    if (!onlyForm || onlyForm == (MoveForm*)((void *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660())))
+                    {
+                        if (actor && !onlyForm)
+                            onlyForm = (MoveForm*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430()));
+                        if (((void *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660())) && (MoveForm*)((void *)(reinterpret_cast<::FUN_00418660_shell *>((extra))->FUN_00418660())) != (MoveForm*)source &&
+                            (!actor || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430())) == baseExtraA ||
+                             reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((((MoveActorExt*)actor)))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(modExtra_2))))
+                        {
+
+                            if (((::MoveExtraNode *)(::FUN_00559450((int *)(item))))->FUN_005ae380() <= 1)
+                                restartItems = true;
+                            else
+                                restartExtras = true;
+
+                            if (onlyForm)
+                            {
+                                MoveString formattedItem;
+                                int copies = reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770();
+                                if (copies > 1)
+                                {
+                                    ::FUN_00406f60((::FUN_00406f90_this *)(::MoveString *)(&formattedItem), DAT_0101c178, copies, ::FUN_00482720((::TESForm *)(form)),
+                                                 (*reinterpret_cast<::MoveSetting *>(&::g_011d3114)).FUN_00403df0(),
+                                                 (*reinterpret_cast<::MoveSetting *>(&::g_011d3db4)).FUN_00403df0());
+                                }
+                                else
+                                {
+                                    ::FUN_00406f60((::FUN_00406f90_this *)(::MoveString *)(&formattedItem), DAT_01012058, ::FUN_00482720((::TESForm *)(form)),
+                                                 (*reinterpret_cast<::MoveSetting *>(&::g_011d3db4)).FUN_00403df0());
+                                }
+                                char message4[260];
+                                ::FUN_00406d00(message4, 260, (*reinterpret_cast<const char (*)[]>(&::fnv_004965d0::DAT_0101dcc4)), DAT_010207c0,
+                                             ::FUN_0048e730((::TESForm *)(form), (std::intptr_t)((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))));
+                                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(formattedItem))))), 0, (const char *)(::g_011cba4c_arg1),
+                                                      ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form, false, false))), DAT_010162c0,
+                                                      0);
+                            }
+                            reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(source), (int)(form), false, reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770(), (::Transfer4c37Form4 *)(extra), 0, (::Transfer4c37C37Form *)(destination), 0, 0, true,
+                                         0, (::Transfer4c37Entry *)(::MoveItem *)(0));
+                            itemNode = head;
+                        }
+                    }
+
+                    if (restartItems)
+                    {
+                        itemNode = head;
+                        pExtra = 0;
+                    }
+                    else if (restartExtras)
+                    {
+                        pExtra = ((::MoveExtraNode *)(::FUN_00559450((int *)(item))));
+                    }
+                    else
+                    {
+                        if (savedExtraNext2 != ((::MoveExtraNode *)(reinterpret_cast<::Callees *>((pExtra))->FUN_00726070())))
+                            pExtra = ((::MoveExtraNode *)(::FUN_00559450((int *)(item))));
+                        else
+                            pExtra = savedExtraNext2;
+                        if (!pExtra)
+                        {
+                            if (savedItemNext != ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
+                                itemNode = head;
+                            else
+                                itemNode = savedItemNext;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (savedItemNext != ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
+                    itemNode = head;
+                else
+                    itemNode = savedItemNext;
+            }
+        }
+        else
+        {
+            if (savedItemNext != ((::MoveItemNode *)(reinterpret_cast<::Callees *>((itemNode))->FUN_00726070())))
+                itemNode = head;
+            else
+                itemNode = savedItemNext;
+        }
+    }
+}
+
 #include "generated/data/fallout_shared/inventorychanges.inc"
+#include "generated/data/fallout_shared/inventorychanges_ctxr_variant.inc"

@@ -44,7 +44,7 @@ void Precipitation::Load(const char* path)
                     m_pShaderGeometry ? ((::SkyShaderProperty *)(::FUN_00653270(&(*reinterpret_cast<const ::NiRTTI *>(&::g_012024e0)), (::NiObject *)(::NiProperty *)(((::NiProperty *)(reinterpret_cast<::S_FUN_0045bc00 *>((m_pShaderGeometry))->FUN_0045bc00(false))))))) : 0;
                 if (!pShaderProperty)
                     continue;
-                NiAVObject* precipParticle = ((::NiAVObject *)(reinterpret_cast<::fnv_00637890::ParticleMgr *>(this)->CreateParticleShape((::fnv_00637890::Obj *)(pShaderProperty), (int)(((::NiAVObject *)(::FUN_00461130((int)(pParent))))), {})));
+                NiAVObject* precipParticle = ((::NiAVObject *)(reinterpret_cast<::fnv_00637890::ParticleMgr *>(this)->CreateParticleShape((::fnv_00637890::Obj *)(pShaderProperty), (std::intptr_t)(((::NiAVObject *)(::FUN_00461130((std::intptr_t)(pParent))))), {})));
                 if (precipParticle)
                     static_cast<NiNode*>(m_pPrecipitationNode)->AddObject(precipParticle, true);
             }
@@ -54,7 +54,7 @@ void Precipitation::Load(const char* path)
     }
 }
 
-struct FUN_00636bb0_shell
+struct FUN_00636bb0_shell : ::Precipitation
 {
     void FUN_00636bb0();
 };
@@ -64,7 +64,7 @@ NiAVObject* __cdecl FUN_0054f4f0(void);
 // @fnv 0x00636bb0
 void FUN_00636bb0_shell::FUN_00636bb0()
 {
-    *(NiAVObject**)((char*)this + 0xc) = FUN_0054f4f0();
+    *(NiAVObject**)&this->pParent = FUN_0054f4f0();
 }
 
 struct NodeS
@@ -254,5 +254,7 @@ FUN_00636b20::~FUN_00636b20()
     m_kSecond.Reset(0);
     m_pvCached = 0;
 }
+
+int FUN_00404dc0(const char*, const char*);
 
 #include "generated/data/fallout_shared/sky/precipitation.inc"

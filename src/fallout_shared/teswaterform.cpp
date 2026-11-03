@@ -111,7 +111,7 @@ void TESWaterForm::InitItem()
 {
     if (GetInitialized())
         return;
-    unsigned int id = (unsigned int)m_pWaterSound;
+    unsigned int id = (unsigned int)(std::uintptr_t)m_pWaterSound;
     if (id)
     {
         ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
@@ -119,7 +119,7 @@ void TESWaterForm::InitItem()
         if (!m_pWaterSound)
             ::FUN_005b5e40();
     }
-    id = (unsigned int)m_pWaterSpell;
+    id = (unsigned int)(std::uintptr_t)m_pWaterSpell;
     if (id)
     {
         ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
@@ -133,7 +133,7 @@ void TESWaterForm::InitItem()
             EffectItem* health = 0;
             while (node && (!radiation || !health))
             {
-                EffectItem* effect = ((::EffectItem *)(new ((void *)(node)) ::Vec3()));
+                EffectItem* effect = ((::EffectItem *)((void *)(node)));
                 if (effect->GetAffectedActorValue() == 54 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))))->FUN_00403e60(4))
                 {
                     radiation = effect;
@@ -150,7 +150,7 @@ void TESWaterForm::InitItem()
     }
     for (int i = 0; i < 3; ++i)
     {
-        id = (unsigned int)m_apWaterForms[i];
+        id = (unsigned int)(std::uintptr_t)m_apWaterForms[i];
         if (id)
         {
             ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
@@ -196,16 +196,15 @@ void FUN_0057f890_shell::FUN_0057f890(SpellItem* apSpellItem)
     m_pWaterSpell = apSpellItem;
 }
 
-struct FUN_0057fed0
+struct FUN_0057fed0 : TESWaterForm
 {
-    unsigned int m_0178;
-    unsigned int GetMember();
+    SpellItem* GetMember();
 };
 
 // @fnv 0x0057fed0
-unsigned int FUN_0057fed0::GetMember()
+SpellItem* FUN_0057fed0::GetMember()
 {
-    return *(unsigned int*)((char*)this + 0x178);
+    return m_pWaterSpell;
 }
 
 struct BSStr
@@ -357,7 +356,7 @@ struct TESModel
     unsigned int GetModelLength() const;
 };
 
-struct FUN_00580080_shell
+struct FUN_00580080_shell : TESWaterForm
 {
     unsigned int FUN_00580080();
 };
@@ -365,14 +364,14 @@ struct FUN_00580080_shell
 // @fnv 0x00580080
 unsigned int FUN_00580080_shell::FUN_00580080()
 {
-    return ((TESModel*)((char*)this + 0x64))->GetModelLength();
+    return ((TESModel*)&this->m_kNoiseMapTexture)->GetModelLength();
 }
 
 struct FNStub
 {
 };
 
-struct FUN_005800a0_shell
+struct FUN_005800a0_shell : TESWaterForm
 {
     char const* FUN_005800a0() const;
 };
@@ -380,7 +379,7 @@ struct FUN_005800a0_shell
 // @fnv 0x005800a0
 char const* FUN_005800a0_shell::FUN_005800a0() const
 {
-    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((const char*)this + 0x64))))->FUN_00408da0()));
+    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)&this->m_kNoiseMapTexture)))->FUN_00408da0()));
 }
 
 struct NP
@@ -423,7 +422,7 @@ struct FUN_005806e0_s
 void FUN_005806e0_s::FUN_005806e0(FUN_00865df0_buf* apSaveGameBuffer)
 {
     reinterpret_cast<::FakeForm *>(this)->SaveIfChanged((::BGSSaveFormBuffer *)(apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pWaterForm), 0);
 }
 
@@ -442,7 +441,7 @@ struct BGSLoadFormBuffer
     FormChangeMask GetOldChangeFlags(unsigned int) const;
 };
 
-struct FUN_005807a0_shell : TESForm
+struct FUN_005807a0_shell : TESWaterForm
 {
     void FUN_005807a0(BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -450,9 +449,9 @@ struct FUN_005807a0_shell : TESForm
 // @fnv 0x005807a0
 void FUN_005807a0_shell::FUN_005807a0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005807a0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
-        *(void**)((char*)this + 0x80) = 0;
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005807a0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
+        *(void**)&this->m_pWaterForm = 0;
 }
 }  // namespace fnv_005807a0
 
@@ -483,7 +482,7 @@ struct FUN_00580730_shell : public TESWaterForm
 void FUN_00580730_shell::FUN_00580730(BGSLoadGameBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         m_pWaterForm = dynamic_cast<TESWaterForm*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apLoadGameBuffer))->FUN_008648a0()));
 }
 
@@ -1001,7 +1000,7 @@ struct ByteArg
 {
     unsigned char c;
 };
-struct F3a0
+struct F3a0 : WaterShaderSettings
 {
     void FUN_0057f3a0();
 };
@@ -1071,13 +1070,13 @@ bool TESWaterForm::Load(TESFile* file)
         case 0x4d414e53: {
             unsigned int shader = 0;
             file->GetChunkData(&shader);
-            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader((TESEffectShader*)shader);
+            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader((TESEffectShader*)(std::uintptr_t)shader);
             break;
         }
         case 0x4d414e58: {
             unsigned int spell = 0;
             file->GetChunkData(&spell);
-            reinterpret_cast<::FUN_0057f890_shell *>(this)->FUN_0057f890((SpellItem*)spell);
+            reinterpret_cast<::FUN_0057f890_shell *>(this)->FUN_0057f890((SpellItem*)(std::uintptr_t)spell);
             break;
         }
         case 0x4d414e4d: {
@@ -1111,7 +1110,7 @@ void FUN_0057fbf0_shell::SaveWaterForm()
                  (void *)(((TESModel*)&this->m_kNoiseMapTexture)->GetModelLength() + 1));
     FUN_004858f0(0x4d414e41, m_ucOpacity);
     FUN_004858f0(0x4d414e46, cFlags);
-    ::FUN_004856f0((void *)(0x4d414e4d), (void*)((Holder*)this)->FUN_0057fda0(), (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 0x74))))->FUN_004048e0())) + 1));
+    ::FUN_004856f0((void *)(0x4d414e4d), (void*)((Holder*)this)->FUN_0057fda0(), (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&this->m_kMaterialId)))->FUN_004048e0())) + 1));
     if (m_pWaterSound)
     {
         unsigned int itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pWaterSound))->FUN_0084e3a0()));
@@ -1142,67 +1141,67 @@ void FUN_0057fbf0_shell::SaveWaterForm()
 void F3a0::FUN_0057f3a0()
 {
     ::FUN_00401080((int *)(void *)((char*)this + 0x0));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x4));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x8));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xc));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x10));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x14));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x18));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x1c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x20));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x24));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x28));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x2c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x30));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x38));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x3c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x40));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x44));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x48));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x4c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x50));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x54));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x58));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x5c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x60));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x64));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x68));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x6c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x70));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x74));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x78));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x7c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x80));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x84));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x88));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x8c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x90));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x94));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x98));
-    ::FUN_00401080((int *)(void *)((char*)this + 0x9c));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xa0));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xa4));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xa8));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xac));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xb0));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xb4));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xb8));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xbc));
-    ::FUN_00401080((int *)(void *)((char*)this + 0xc0));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fSecondParameter));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fThirdParameter));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fFourthSetting));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatParameterData));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatParameters));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatData));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fEighthParameter));
+    ::FUN_00401080((int *)(void *)((char*)&this->FiveFloatAndTwoUnsignedIntegerRecord));
+    ::FUN_00401080((int *)(void *)((char*)&this->FourFloatAndThreeUnsignedIntegerRecord));
+    ::FUN_00401080((int *)(void *)((char*)&this->FloatColorSettingsRecord));
+    ::FUN_00401080((int *)(void *)((char*)&this->ShaderColorParameterBlock));
+    ::FUN_00401080((int *)(void *)((char*)&this->ColorSettingsRecord));
+    ::FUN_00401080((int *)(void *)((char*)&this->SplatterColorSettings));
+    ::FUN_00401080((int *)(void *)((char*)&this->SplatterScalarSettings));
+    ::FUN_00401080((int *)(void *)((char*)&this->SplatterFloatSettings));
+    ::FUN_00401080((int *)(void *)((char*)&this->SplatterParameterSet));
+    ::FUN_00401080((int *)(void *)((char*)&this->SplatterTimingSettings));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatRecordWithGlobals));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatRecordWithStepAndGlobals));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatRecordWithStep));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatFormatBlock));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatRecordWithUnitValue));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatParameterSet));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatParameterCollection));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatParameterGroup));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatValues));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatSet));
+    ::FUN_00401080((int *)(void *)((char*)&this->SevenFloatBlock));
+    ::FUN_00401080((int *)(void *)((char*)&this->WaterFogParameters));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fWaterFogParameter1));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fValueBeforeWaterFogSettings));
+    ::FUN_00401080((int *)(void *)((char*)&this->WaterFogSettings));
+    ::FUN_00401080((int *)(void *)((char*)&this->WaterFogParameterData));
+    ::FUN_00401080((int *)(void *)((char*)&this->fUnderwaterFogAmount));
+    ::FUN_00401080((int *)(void *)((char*)&this->fUnderwaterFogDistNear));
+    ::FUN_00401080((int *)(void *)((char*)&this->fUnderwaterFogDistFar));
+    ::FUN_00401080((int *)(void *)((char*)&this->WaterShaderProperties));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fShininess));
+    ::FUN_00401080((int *)(void *)((char*)&this->WaterShaderParameters));
+    ::FUN_00401080((int *)(void *)((char*)&this->MaterialParametersWithLeadingFloat));
+    ::FUN_00401080((int *)(void *)((char*)&this->MaterialParameters));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fWaterParameter1));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fWaterParameter2));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fWaterParameter3));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fWaterParameter4));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fWaterParameter5));
+    ::FUN_00401080((int *)(void *)((char*)&this->m_fWaterParameter6));
 }
 
 struct FUN_006e5cc0_Class
 {
     void FUN_006e5cc0(void* a1);
 };
-struct FUN_005800e0_shell
+struct FUN_005800e0_shell : TESWaterForm
 {
     void FUN_005800e0(FUN_006e5cc0_Class* a1);
 };
 // @fnv 0x005800e0
 void FUN_005800e0_shell::FUN_005800e0(FUN_006e5cc0_Class* a1)
 {
-    a1->FUN_006e5cc0((char*)this + 0x17c);
+    a1->FUN_006e5cc0((char*)&this->m_kNoiseTextureData);
 }
 
 #include <string.h>
@@ -1227,7 +1226,7 @@ void WaterEffectSetting::FUN_0057fde0(TESForm* apCopy)
     memcpy(reinterpret_cast<::FUN_0057eef0_shell *>((this))->FUN_0057eef0(), reinterpret_cast<::FUN_0057eef0_shell *>((pcopy))->FUN_0057eef0(), 0xc4);
     reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader(
         reinterpret_cast<TESEffectShader*>(reinterpret_cast<TESPackage*>(pcopy)->GetRefCount()));
-    reinterpret_cast<::FUN_0057f890_shell *>((this))->FUN_0057f890(reinterpret_cast<SpellItem*>(reinterpret_cast<FUN_0057fed0*>(pcopy)->GetMember()));
+    reinterpret_cast<::FUN_0057f890_shell *>((this))->FUN_0057f890(reinterpret_cast<FUN_0057fed0*>(pcopy)->GetMember());
     memcpy(reinterpret_cast<unsigned char*>(&this->m_apWaterForms), reinterpret_cast<unsigned char*>(&pcopy->m_apWaterForms), 0xc);
     this->m_kNoiseMapTexture.CopyFromBase(
         static_cast<BaseFormComponent *>(&pcopy->m_kNoiseMapTexture));

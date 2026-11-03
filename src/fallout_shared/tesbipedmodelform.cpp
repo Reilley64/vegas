@@ -35,6 +35,7 @@
 #include "tesbipedmodelform_types_BIPED_OBJECT.h"
 #include "tesbipedmodelform_types_SEX.h"
 #include "tesbipedmodelform_types_BGSBipedModelList.h"
+#include "fnv/decl/TESActorBase.h"
 
 // @fnv 0x00480d10
 bool TESBipedModelForm::IsPowerArmor()
@@ -76,7 +77,7 @@ bool TESBipedModelForm::HasBipedModel(BIPED_OBJECT slot, bool hair, BGSBipedMode
                     TESBipedModelForm* bipedForm;
                     TESForm* form;
                 } locals;
-                locals.form = ((::TESForm *)(new ((void *)(itemList)) ::Vec3()));
+                locals.form = (itemList->m_item);
                 locals.bipedForm = ::TESBipedModelForm::GetFormAsBipedModel(locals.form);
                 if (locals.bipedForm)
                     fillsSlot = locals.bipedForm->HasBipedModel(slot, hair, 0);
@@ -179,11 +180,11 @@ struct FUN_00480ad0_shell
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool HasFlag(unsigned int arg);
+    bool HasFlag(std::uintptr_t arg);
 };
 
 // @fnv 0x00480ad0
-bool FUN_00480ad0_shell::HasFlag(unsigned int arg)
+bool FUN_00480ad0_shell::HasFlag(std::uintptr_t arg)
 {
     return (m_04 & ((unsigned int*)((char*)arg + 4))[0]) ? true : false;
 }
@@ -268,7 +269,7 @@ struct BIPED_MODEL_ENDIAN : BipedModelForm
 };
 
 
-struct FUN_00480610_shell
+struct FUN_00480610_shell : ::TESBipedModelForm
 {
     void InitBipedModel();
 };
@@ -278,33 +279,33 @@ void FUN_00480610_shell::InitBipedModel()
 {
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(reinterpret_cast<char*>(this) + 4)))->FUN_00503210();
+        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(&this->m_kBipedModelForm)))->FUN_00503210();
     }
 
-    ::AppendChunk(0x54444d42, reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 4), 8);
+    ::AppendChunk(0x54444d42, reinterpret_cast<void*>(reinterpret_cast<char*>(&this->m_kBipedModelForm)), 8);
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(reinterpret_cast<char*>(this) + 4)))->FUN_00503210();
+        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(&this->m_kBipedModelForm)))->FUN_00503210();
     }
 
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x0c)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<FUN_00489240_Class*>(reinterpret_cast<char*>(this) + 0x0c)->FUN_00489240(0x44444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->bipedModel)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<FUN_00489240_Class*>(&this->bipedModel)->FUN_00489240(0x44444f4d);
 
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x4c)))->ProcessAndFreeData(0x32444f4d, 0x54324f4d, 0x53324f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->worldModel)))->ProcessAndFreeData(0x32444f4d, 0x54324f4d, 0x53324f4d);
 
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x8c)))->FUN_0048e370(0x4e4f4349);
-    reinterpret_cast<FUN_0047a240_shell*>(reinterpret_cast<char*>(this) + 0xa4)->FUN_0047a240(0x4f43494d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kIcon)))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<FUN_0047a240_shell*>(&this->messageIcon)->FUN_0047a240(0x4f43494d);
 
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x2c)))->ProcessAndFreeData(0x33444f4d, 0x54334f4d, 0x53334f4d);
-    reinterpret_cast<FUN_00489240_Class*>(reinterpret_cast<char*>(this) + 0x2c)->FUN_00489240(0x44534f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->bipedModel[1])))->ProcessAndFreeData(0x33444f4d, 0x54334f4d, 0x53334f4d);
+    reinterpret_cast<FUN_00489240_Class*>(&this->bipedModel[1])->FUN_00489240(0x44534f4d);
 
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x6c)))->ProcessAndFreeData(0x34444f4d, 0x54344f4d, 0x53344f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->worldModel[1])))->ProcessAndFreeData(0x34444f4d, 0x54344f4d, 0x53344f4d);
 
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x98)))->FUN_0048e370(0x324f4349);
-    reinterpret_cast<FUN_0047a240_shell*>(reinterpret_cast<char*>(this) + 0xb4)->FUN_0047a240(0x3243494d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kIcon[1])))->FUN_0048e370(0x324f4349);
+    reinterpret_cast<FUN_0047a240_shell*>(&this->messageIcon[1])->FUN_0047a240(0x3243494d);
 
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<char*>(this) + 0xc4)))->WriteToBuffer((char *)(0x54434d42), (void *)(0));
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(&this->m_kFaceGenModel)))->WriteToBuffer((char *)(0x54434d42), (void *)(0));
 }
 
 struct FUN_00480570_cls : public TESBipedModelForm
@@ -606,4 +607,23 @@ void BipedModelCopy::FUN_004807a0(BaseFormComponent* component)
         messageIcon[1].CopyFromBase(&source->messageIcon[1]);
         m_kFaceGenModel.CopyFromBase(&source->m_kFaceGenModel);
     }
+}
+
+class FUN_00480400
+{
+  public:
+    virtual ~FUN_00480400();
+
+    BipedModelForm m_kBipedModelForm;
+    TESModelTextureSwap bipedModel[2];
+    TESModelTextureSwap worldModel[2];
+    TESIcon m_kIcon[2];
+    BGSMessageIcon messageIcon[2];
+    TESModelRDT m_kFaceGenModel;
+};
+
+// @fnv 0x00480400
+FUN_00480400::~FUN_00480400()
+{
+    reinterpret_cast<::FUN_00480570_cls *>(this)->FreeModels();
 }

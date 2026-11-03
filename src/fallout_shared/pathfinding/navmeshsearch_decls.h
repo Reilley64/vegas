@@ -45,7 +45,7 @@ class NavMeshStaticAvoidNode;
 class TESObjectREFR;
 class PathingActorData;
 class PathingAvoidNodeArray;
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
     void* vtable;

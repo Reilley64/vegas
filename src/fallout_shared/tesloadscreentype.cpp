@@ -29,7 +29,7 @@ struct FUN_005e78f0_t
 {
 };
 
-struct TESLoadScreenType_Shell
+struct TESLoadScreenType_Shell : ::TESLoadScreenType
 {
     void CopyFrom(TESForm* apCopy);
 };
@@ -42,7 +42,7 @@ void TESLoadScreenType_Shell::CopyFrom(TESForm* apCopy)
     {
         return;
     }
-    __memcpy((char*)this + 0x18, (char*)&pmisc->data, 0x58);
+    __memcpy((char*)&this->data, (char*)&pmisc->data, 0x58);
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
@@ -180,7 +180,7 @@ void FUN_005a7630_shell::SwapEndianAndProcess()
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::LoadScreenTypeData_FUN *>(&(_data))->SwapEndianFields();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)&_data), 0x58);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)&_data), 0x58);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::LoadScreenTypeData_FUN *>(&(_data))->SwapEndianFields();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();

@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatplanner.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatplanner.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/Callees.h"
@@ -203,8 +204,8 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
             {
                 bool bValid = reinterpret_cast<::fnv_009957c0::FUN_009957c0_Class *>((pkAction))->FUN_009957c0((::BSSimpleList<int> *)(pkCond));
                 CPTarget* pkTarget = ((::CPTarget *)(reinterpret_cast<::Callees *>((pkCond))->FUN_00726070()));
-                if (::IsValidCode((int)(pkTarget)))
-                    pkTarget = ((::CPTarget *)(reinterpret_cast<::FUN_00984470_Class *>((pkNode->m_pUserData))->GetCombatGoal((int)(pkTarget))));
+                if (::IsValidCode((intptr_t)(pkTarget)))
+                    pkTarget = ((::CPTarget *)(reinterpret_cast<::FUN_00984470_Class *>((pkNode->m_pUserData))->GetCombatGoal((intptr_t)(pkTarget))));
                 FUN_00995760_Aim kAim;
                 reinterpret_cast<::CombatProcedure *>((((::CPGoals *)(reinterpret_cast<::FUN_005e3fc0_shell *>((m_pkOwnerManager))->Get()))))->Initialize((::CombatController *)(::FUN_00995760_Aim *)(&kAim));
                 if (bValid)
@@ -222,7 +223,7 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             while (pkEffect && *((::CPCond **)(((::Vec3 *)(void *)(pkEffect)))))
                             {
                                 CPCond* pkEffectCond = *((::CPCond **)(((::Vec3 *)(void *)(pkEffect))));
-                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkEffectCond))->FUN_00726070()))), (int)(pkTarget));
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkEffectCond))->FUN_00726070()))), (intptr_t)(pkTarget));
                                 reinterpret_cast<::FUN_009aae10_Class *>((pkState))->FUN_009aae10(::FUN_00559450((int *)(pkEffectCond)), iCondValue);
                                 pkEffect = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkEffect))->GetNext()));
                             }
@@ -231,7 +232,7 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             while (pkSide && *((::CPCond **)(((::Vec3 *)(void *)(pkSide)))))
                             {
                                 CPCond* pkSideCond = *((::CPCond **)(((::Vec3 *)(void *)(pkSide))));
-                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkSideCond))->FUN_00726070()))), (int)(pkTarget));
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkSideCond))->FUN_00726070()))), (intptr_t)(pkTarget));
                                 reinterpret_cast<::FUN_009aae10_Class *>((pkState))->FUN_009aae10(::FUN_00559450((int *)(pkSideCond)), iCondValue);
                                 pkSide = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkSide))->GetNext()));
                             }
@@ -239,24 +240,24 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             for (unsigned int j = 0; j < pkNode->m_pUserData->m_uiNumEntries; j++)
                             {
                                 CPCond* pkGoalCond = pkNode->m_pUserData->m_aEntries[j].m_pkCond;
-                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkGoalCond))->FUN_00726070()))), (int)(pkTarget));
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkGoalCond))->FUN_00726070()))), (intptr_t)(pkTarget));
                                 if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((pkState))->FUN_009aadc0(::FUN_00559450((int *)(pkGoalCond)), iCondValue))))
                                     reinterpret_cast<::FUN_00994ea0_class *>((pkState))->AppendPair(
-                                        (int)(new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
+                                        (intptr_t)(new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
                                             FUN_004b0680_Pair(::FUN_00559450((int *)(pkGoalCond)), iCondValue)),
-                                        (int)(pkNode->m_pUserData->m_aEntries[j].m_pAssociatedData));
+                                        (intptr_t)(pkNode->m_pUserData->m_aEntries[j].m_pAssociatedData));
                             }
 
-                            CPCondList* pkRequire = ((::CPCondList *)(::GetOffsetC((int)(pkAction))));
+                            CPCondList* pkRequire = ((::CPCondList *)(::GetOffsetC((intptr_t)(pkAction))));
                             while (pkRequire && *((::CPCond **)(((::Vec3 *)(void *)(pkRequire)))))
                             {
                                 CPCond* pkPreCond = *((::CPCond **)(((::Vec3 *)(void *)(pkRequire))));
-                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkPreCond))->FUN_00726070()))), (int)(pkTarget));
+                                int iCondValue = reinterpret_cast<::FUN_009947f0_Class *>((pkState))->FUN_009947f0((int)(((::CPTarget *)(reinterpret_cast<::Callees *>((pkPreCond))->FUN_00726070()))), (intptr_t)(pkTarget));
                                 if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((pkState))->FUN_009aadc0(::FUN_00559450((int *)(pkPreCond)), iCondValue))))
                                     reinterpret_cast<::FUN_00994ea0_class *>((pkState))->AppendPair(
-                                        (int)(new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
+                                        (intptr_t)(new (reinterpret_cast<::FUN_00aa54a0_s *>(&(m_kHeap))->FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
                                             FUN_004b0680_Pair(::FUN_00559450((int *)(pkPreCond)), iCondValue)),
-                                        (int)(pkState));
+                                        (intptr_t)(pkState));
                                 pkRequire = ((::CPCondList *)(reinterpret_cast<::CombatWorldStateListNode *>((pkRequire))->GetNext()));
                             }
 

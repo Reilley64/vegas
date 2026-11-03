@@ -2,6 +2,7 @@
 // src/fallout_shared/speedtree/bstreemodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreemodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -114,6 +115,15 @@
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_01018000.h"
+#include <xmmintrin.h>
+
+// The geometry field that the folded field setter at 0x00874460 writes.
+struct GeometryShaderSlotView
+{
+    char pad[0xc0];
+    void* pValueC0;
+};
 struct BSTreeModel
 {
     virtual ~BSTreeModel();
@@ -135,10 +145,11 @@ bool FUN_00666f00_shell::FUN_00666f00()
 
 struct GlobalObject_0044f440
 {
-    struct
+    struct FloatValue
     {
         float f;
-    }* Float();
+    };
+    FloatValue* Float();
 };
 extern GlobalObject_0044f440 g_011d5d14;
 
@@ -199,12 +210,12 @@ float FUN_00666f80()
 
 struct FUN_006684d0_shell
 {
-    void FUN_006684d0(int param1, unsigned short param2);
+    void FUN_006684d0(std::intptr_t param1, unsigned short param2);
 };
 
 // Stores param1 at offset 8 and param2 at offset 0xC of this object.
 // @fnv 0x006684d0
-void FUN_006684d0_shell::FUN_006684d0(int param1, unsigned short param2)
+void FUN_006684d0_shell::FUN_006684d0(std::intptr_t param1, unsigned short param2)
 {
     *(int*)((char*)this + 8) = param1;
     *(unsigned short*)((char*)this + 0xC) = param2;
@@ -549,7 +560,7 @@ void TreeModelX::FUN_00667470()
         {
             if (qpDOY[qrEZrs])
             {
-                reinterpret_cast<::S_0060ba10 *>(&(qEMUOs))->FUN_0096a610((int)&(qrEZrs));
+                reinterpret_cast<::S_0060ba10 *>(&(qEMUOs))->FUN_0096a610((std::intptr_t)&(qrEZrs));
             }
         }
         delete[] qpDOY;
@@ -607,7 +618,7 @@ void TreeModelX::FUN_00667470()
             qXMUYT[qrEZrs] = ColorAX(qpqRa.pLodFade[qBLsiu], (float)(qpqRa.pWindIndices[qBLsiu] * 4), qYdAnhh, 0.0f);
         }
         PtrX<LeafDataX> qCFhl(new LeafDataX);
-        reinterpret_cast<::FUN_006684d0_shell *>((((LeafDataX*)qCFhl)))->FUN_006684d0((int)(qXMUYT), reinterpret_cast<::FUN_00658930_class *>(&(qEMUOs))->GetShortAtOffsetA());
+        reinterpret_cast<::FUN_006684d0_shell *>((((LeafDataX*)qCFhl)))->FUN_006684d0((std::intptr_t)(qXMUYT), reinterpret_cast<::FUN_00658930_class *>(&(qEMUOs))->GetShortAtOffsetA());
         pLeafGeometry[qsSDDgz] = new StripsDataX(reinterpret_cast<::FUN_00658930_class *>(&(qEMUOs))->GetShortAtOffsetA(), qArJcY, qIpA, 0, qYTC, 1, qdKdHaf ? 0x1000 : 0,
                                                  *qpqRa.pStripCount - 2, 1, qCihG, qDpUK);
         ((StripsDataX*)pLeafGeometry[qsSDDgz])->FUN_00a67050(0x4000);
@@ -1090,14 +1101,14 @@ void TreeModelX::FUN_00669500(LoaderX* loader)
         reinterpret_cast<::FUN_00439410_cls *>((((NiNodeX*)m_pController)))->FUN_00439410((::ArgObject *)(void *)(spAlpha_2));
     ShaderPropV* shader = new ShaderPropV();
     reinterpret_cast<::FUN_00439410_cls *>((((NiNodeX*)m_pController)))->FUN_00439410((::ArgObject *)(shader));
-    reinterpret_cast<::FUN_00b66ad0_cls *>((shader))->FUN_00b66ad0((std::intptr_t)("STBB"), (::FnvTarget *)(name));
+    reinterpret_cast<::FUN_00b66ad0_cls *>((shader))->FUN_00b66ad0((std::intptr_t)("STBB"), (::FnvTarget *)(const char *)(name));
     shader->Set100(0, ((void *)(::fnv_00656db0::FUN_00656db0())));
     shader->SetE4(0);
     shader->SetFlag(0xd, true);
     shader->SetFlag(0x16, true);
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::fnv_00669500::NiNodeX *)(m_pController), 0, 0);
     TreeGeom* first2 = ((::fnv_00669500::TreeGeom *)(reinterpret_cast<::AlchemyItem *>((((NiNodeX*)m_pController)))->FUN_004030b0()));
-    TreeGeom* geom = !first2 ? 0 : ((((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) >= 1 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) <= 5) ? first2 : 0);
+    TreeGeom* geom = !first2 ? 0 : ((((int)(std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) >= 1 && ((int)(std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((first2))->GetBaseTexture())) <= 5) ? first2 : 0);
     if (geom)
     {
         ((::fnv_00669500::Renderer *)(::FUN_0043c4b0()))->PrecacheGeometry(m_pController, 0, 0, geom->GetSkin());
@@ -1240,7 +1251,6 @@ struct AutoMemContext
     AutoMemContext(int, bool, const char*, int);
     ~AutoMemContext();
 };
-int strcat_s(char*, unsigned int, const char*);
 struct FUN_00b02e20
 {
     unsigned int unk00;
@@ -1408,7 +1418,7 @@ struct PathingSolutionBase
 struct GlobalObject_00633c90
 {
     void* p;
-    GlobalObject_00633c90(int);
+    GlobalObject_00633c90(intptr_t);
     ~GlobalObject_00633c90();
     GlobalObject_00633c90& operator=(void*);
 };
@@ -1449,7 +1459,6 @@ FUN_00666650::FUN_00666650() : a(0), b(0), c(0), d(0), e(0), f(0), g(0)
     unk4c = 0.0f;
 }
 
-int strcat_s(char* apDst, unsigned int auiSize, const char* apSrc);
 template <class T> unsigned int BSStringLength(const T* apString);
 
 class FileFinder
@@ -1540,7 +1549,7 @@ void FUN_00667190_shell::LoadTreeCollision(TESObjectTREE* apTree)
     ::TaskQueueInterface::CopyStringToBuffer(acPath, 0x104, "Data\\Meshes\\Trees");
     strcat_s(acPath, 0x104, kModelName.acName);
     strcat_s(acPath, 0x104, ".NIF");
-    if (FileFinder::Exist(acPath, 0, 6, 1) && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((unsigned int)(acPath), false) && ::GetRefAt21C((const char *)&(kStream)) == 1)
+    if (FileFinder::Exist(acPath, 0, 6, 1) && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((std::uintptr_t)(acPath), false) && ::GetRefAt21C((const char *)&(kStream)) == 1)
     {
         NiAVObject* pObject = ((::NiAVObject *)(reinterpret_cast<::MLx *>(&(kStream))->GetStringAt(0)));
         NiNode* kNode = (NiNode*)((::NiAVObject *)(::FUN_00653270(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4280)), (::NiObject *)(pObject))));
@@ -1964,14 +1973,14 @@ Tree* Model::CreateTree(float scale)
             {
                 reinterpret_cast<::FUN_00baa000_shell *>((((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))))->FUN_00baa000();
                 reinterpret_cast<::FUN_00439410_cls *>((geometryX))->FUN_00439410((::ArgObject *)(::TreeBuild::Property *)(((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))));
-                if (!((int)(::fnv_004a8a90::FUN_004a8a90((char *)(((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX)))))))))
+                if (!((std::intptr_t)(::fnv_004a8a90::FUN_004a8a90((char *)(((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX)))))))))
                 {
                     Shader* created = ((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))->CreateShader(geometryX);
                     reinterpret_cast<::ShaderOwner *>((geometryX))->FUN_00539ef0((::NiGPUProgram *)(created));
                 }
             }
             if (reinterpret_cast<::FUN_00666f00_shell *>(this)->FUN_00666f00())
-                reinterpret_cast<::FUN_00874460_cls *>((geometryX))->set((int)(shader));
+                reinterpret_cast<::GeometryShaderSlotView *>((geometryX))->pValueC0 = shader;
             tree5->SetBranch(i, geometryX);
         }
         if (!reinterpret_cast<::FUN_00666f00_shell *>(this)->FUN_00666f00())
@@ -1984,7 +1993,7 @@ Tree* Model::CreateTree(float scale)
                 reinterpret_cast<::FUN_00b66ad0_cls *>((((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))))->FUN_00b66ad0((std::intptr_t)(DAT_01066830), (::FnvTarget *)(::TreeBuild::Object *)(((::TreeBuild::Object *)(::FUN_00559450((int *)&(extra))))));
                 ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(geometryX), 0, 0);
                 reinterpret_cast<::ShaderOwner *>((geometryX))->FUN_00539ef0((::NiGPUProgram *)(::TreeBuild::Shader *)(((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))->CreateShader(geometryX)));
-                if (!((int)(reinterpret_cast<::BGSCameraPath *>((((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX))))))->GetPrevPath())))
+                if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX))))))->GetPrevPath())))
                     ((::TreeBuild::Renderer *)(::FUN_0043c4b0()))->Prepare(geometryX, 0, 0, 0);
             }
         }
@@ -2007,7 +2016,7 @@ Tree* Model::CreateTree(float scale)
                 reinterpret_cast<::FUN_00439410_cls *>((geometryX))->FUN_00439410((::ArgObject *)(::TreeBuild::Property *)(((::TreeBuild::Property *)(::FUN_00559450((int *)&(leafProperties[i]))))));
             }
             tree5->SetLeaf(i, geometryX);
-            reinterpret_cast<::FUN_00874460_cls *>((geometryX))->set((int)(shader));
+            reinterpret_cast<::GeometryShaderSlotView *>((geometryX))->pValueC0 = shader;
             ((::TreeBuild::Renderer *)(::FUN_0043c4b0()))->Prepare(geometryX, 0, 0, 0);
         }
     }
@@ -2247,7 +2256,6 @@ struct TreeTarget
 struct TES
 {
 };
-int strcat_s(char*, unsigned int, const char*);
 // @fnv 0x00666940
 void TreeTarget::ApplyInput(TreeInput* input)
 {
@@ -2467,13 +2475,13 @@ class NiAVObject : public NiMemObject
     void SetByteAtOffset38(unsigned int uiFlags);
     void FUN_004410f0(unsigned int uiFlags);
 };
-template <> struct NiPointer<NiAVObject>
+struct NiAVObjectPointer
 {
     NiAVObject* m_pObject;
-    NiPointer();
-    NiPointer(NiAVObject* pObject);
-    ~NiPointer();
-    NiPointer& operator=(NiAVObject* pObject);
+    NiAVObjectPointer();
+    NiAVObjectPointer(NiAVObject* pObject);
+    ~NiAVObjectPointer();
+    NiAVObjectPointer& operator=(NiAVObject* pObject);
     operator NiAVObject*() const;
     NiAVObject* operator->() const;
 };
@@ -2499,7 +2507,6 @@ struct FUN_00414430
     FUN_00414430();
     FUN_00414430(float fA, float fB, float fC, float fD);
 };
-unsigned int FUN_0044edb0(void* pTree);
 void FUN_00804cb0(void* pObject, float fValue);
 class TESObjectREFR
 {
@@ -2703,13 +2710,13 @@ class TreeLeafModel
     int m_aiPad00[3];
     SpeedTreeRT* m_pLeafTreeRuntime;
     int m_aiPad10[2];
-    NiPointer<NiAVObject>* m_pspLeafGeometry;
+    NiAVObjectPointer* m_pspLeafGeometry;
     int m_iPad1C;
-    NiPointer<NiAVObject> m_spLeafMaterial;
+    NiAVObjectPointer m_spLeafMaterial;
     int m_iPad24;
-    NiPointer<NiAVObject>* m_pspLeafShaders;
+    NiAVObjectPointer* m_pspLeafShaders;
     int m_iPad2C;
-    NiPointer<NiAVObject> m_spLeafTexture;
+    NiAVObjectPointer m_spLeafTexture;
     int m_aiPad34[2];
     float m_fLeafScale;
     void FUN_00668500(TreeLeafRef* pRef);
@@ -2738,7 +2745,7 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
     unsigned short usNumNames;
     unsigned short usBaseVert;
     unsigned short usCornerIndex;
-    NiPointer<NiAVObject> spWindData = 0;
+    NiAVObjectPointer spWindData = 0;
     unsigned short usI;
     bool bMultiTexture = false;
     unsigned short usCard;
@@ -2778,8 +2785,8 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
         }
     }
 
-    m_pspLeafGeometry = new NiPointer<NiAVObject>[usLevels];
-    m_pspLeafShaders = new NiPointer<NiAVObject>[usLevels];
+    m_pspLeafGeometry = new NiAVObjectPointer[usLevels];
+    m_pspLeafShaders = new NiAVObjectPointer[usLevels];
     for (usI = 0; usI < usLevels; usI++)
     {
         m_pspLeafGeometry[usI] = 0;
@@ -2788,12 +2795,12 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
 
     m_spLeafMaterial = new FUN_00bb3950;
     ((FUN_0063f790_shell*)(NiAVObject*)m_spLeafMaterial)->FUN_0063f790(m_fLeafScale);
-    if (m_pLeafTreeRuntime && ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())))
+    if (m_pLeafTreeRuntime && ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())))
     {
         ((FUN_00621b20_Class*)(NiAVObject*)m_spLeafMaterial)
-            ->FUN_00621b20(((TESObjectREFR*)FUN_0044edb0(m_pLeafTreeRuntime))->GetScale());
+            ->FUN_00621b20(((TESObjectREFR*)reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())->GetScale());
         ((FUN_006694c0_shell*)(NiAVObject*)m_spLeafMaterial)
-            ->SetPad5(((FUN_00792760_shell*)FUN_0044edb0(m_pLeafTreeRuntime))->FUN_00792760());
+            ->SetPad5(((FUN_00792760_shell*)reinterpret_cast<::MagicCaster_shell *>((m_pLeafTreeRuntime))->FUN_0044edb0())->FUN_00792760());
         if (pRef)
         {
             ((BSMultiBoundSphere*)(NiAVObject*)m_spLeafMaterial)->FUN_00819a50(pRef->GetWidth());
@@ -2863,7 +2870,7 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
         m_pspLeafGeometry[usI] =
             new FUN_00a7b630(usVertCount, pkVertex, pkNorm, 0, pkUVCoords, 1, 0, usLeafCount * 2, pusTris);
         spWindData = new FUN_00bb33c0;
-        ((FUN_006684d0_shell*)(NiAVObject*)spWindData)->FUN_006684d0((int)pkAttributes, usVertCount);
+        ((FUN_006684d0_shell*)(NiAVObject*)spWindData)->FUN_006684d0((std::intptr_t)pkAttributes, usVertCount);
         m_pspLeafShaders[usI] = new FUN_00bb3ba0(usI, spWindData, m_spLeafMaterial);
         m_pspLeafShaders[usI]->SetMaterial(m_spLeafTexture);
         ((NiGPUProgramOwner*)(NiAVObject*)m_pspLeafGeometry[usI])->SetProgram(m_pspLeafShaders[usI]->GetProgram(0));
@@ -3076,7 +3083,7 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
     short leaf;
     {
         Point3X worldPos;
-        void* pNode = 0;
+        unsigned int pNode = 0;
         short levelCount;
         if (!pCallback || !pCallback->IsReady())
             return;
@@ -3084,7 +3091,7 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
             return;
         if (!::FUN_0054ee20({}))
             return;
-        worldPos = *((::Point3X *)(::FUN_0045bb80((int)(pCallback))));
+        worldPos = *((::Point3X *)(::FUN_0045bb80((std::intptr_t)(pCallback))));
         reinterpret_cast<::S00b065e0_Cls *>((runtime))->FUN_00b065e0(worldPos.x, worldPos.y, worldPos.z);
 
         if (GetByteAtOffset1B())
@@ -3161,13 +3168,196 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
             }
             if (((::SceneNode *)(::FUN_00559450((int *)&(handle)))))
             {
-                void* lightPtr = ((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0())) ? ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0()))))->FUN_00b08af0((int)(&pNode))))
-                                                         : ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((runtime))->FUN_00b08af0((int)(&pNode))));
-                reinterpret_cast<::FUN_00bb39e0_shell *>((((::SceneNode *)(::FUN_00559450((int *)&(handle))))))->FUN_00bb39e0(lightPtr, (unsigned int)(pNode));
+                void* lightPtr = ((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0())) ? ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0()))))->FUN_00b08af0(pNode)))
+                                                         : ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((runtime))->FUN_00b08af0(pNode)));
+                reinterpret_cast<::FUN_00bb39e0_shell *>((((::SceneNode *)(::FUN_00559450((int *)&(handle))))))->FUN_00bb39e0(lightPtr, pNode);
             }
         }
         pCallback->SetBranchEnabled(visible);
     }
 }
 
+float FUN_00666f20();
+
+unsigned char __cdecl GetByteAtOffset1B();
+
+
+float FUN_00666fa0();
+
+struct LeafDataX_o2_nood_nogf : public MemObjX
+{
+    char _pad[0x10];
+    LeafDataX_o2_nood_nogf();
+};
+
+struct StripsDataX_o2_nood_nogf : public MemObjX
+{
+    char _pad[0x50];
+    StripsDataX_o2_nood_nogf(unsigned int a1, Point3X* a2, Point3X* a3, unsigned int a4, Point2X* a5, unsigned int a6,
+                unsigned int a7, unsigned int a8, unsigned int a9, unsigned short* a10, unsigned short* a11);
+    void FUN_00a67050(unsigned int auiFlags);
+};
+
+struct LeafShapeX_o2_nood_nogf : public MemObjX
+{
+    char _pad[0x108];
+    LeafShapeX_o2_nood_nogf(LeafDataX_o2_nood_nogf* apData);
+};
+
+extern "C" int xIsNaN(double adValue);
+
+struct TreeModelX_o2_nood_nogf
+{
+    char _pad00[0xc];
+    SpeedTreeX* m_pTreeRuntime;
+    char _pad10[4];
+    PtrX<StripsDataX_o2_nood_nogf>* pLeafGeometry;
+    char _pad18[0xc];
+    PtrX<LeafShapeX_o2_nood_nogf>* pLeafShapes;
+
+    void FUN_00667470();
+};
+
+int strcpy_s(char* apDst, unsigned int auiSize, const char* apSrc);
+
+NiNode* __cdecl FUN_00c81380(float afArg, float afArgCur);
+
+struct FUN_00667190_shell_o2_nood_nogf : public TreeCloneView
+{
+    void LoadTreeCollision(TESObjectTREE* apTree);
+};
+
+struct hkVector4C813
+{
+    __m128 m_vComponents;
+};
+
+struct __declspec(align(16)) CapsuleParams
+{
+    int flags;
+    float radius;
+    int unk08, unk0c;
+    hkVector4C813 endpoints[2];
+};
+
+struct FUN_0066d6a0 : MemObjX
+{
+    int unk00, unk04;
+    void* shape;
+    int unk0c, material;
+    FUN_0066d6a0(CapsuleParams*);
+};
+
+struct AllocatorC813
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void Free(void*, int);
+};
+
+struct MemoryC813
+{
+    int unk00, unk04, unk08, unk0c;
+    AllocatorC813* allocator;
+    AllocatorC813& heap()
+    {
+        return *allocator;
+    }
+};
+
+MemoryC813* FUN_00c85750();
+
+struct __declspec(align(16)) FUN_00c8f510
+{
+    int filter00;
+    void* shape04;
+    int unk08;
+    void* data;
+    int size;
+    int capacity;
+    int unk18;
+    int unk1c;
+    int filter20;
+    void* shape24;
+    int unk28;
+    int unk2c;
+    hkVector4C813 position;
+    hkVector4C813 rotation;
+    hkVector4C813 linearVelocity;
+    hkVector4C813 angularVelocity;
+    hkVector4C813 inertiaTensor[3];
+    hkVector4C813 centerOfMass;
+    float valueb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    float valuec0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    unsigned char motion, unkD5, unkD6, unkD7;
+    int unkd8;
+    int unkdc;
+    FUN_00c8f510();
+    void ClearAndRelease(AllocatorC813& alloc)
+    {
+        size = 0;
+        if ((capacity & 0x80000000) == 0)
+            alloc.Free(data, (capacity & 0x3fffffff) * 8);
+    }
+    ~FUN_00c8f510()
+    {
+        ClearAndRelease(FUN_00c85750()->heap());
+    }
+};
+
+struct FUN_0056d380 : MemObjX
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
+    FUN_0056d380(FUN_00c8f510*);
+};
+
+extern float DAT_01267e44;
+
+// @fnv 0x00c81380
+NiNode* __cdecl FUN_00c81380(float a, float b)
+{
+    CapsuleParams params;
+    params.endpoints[0].m_vComponents[3] = 0.0f;
+    params.endpoints[1].m_vComponents[3] = 0.0f;
+    params.flags = 0;
+    if (a <= b * 2.0f)
+        a = (float)(b * 2.0f + 1.0);
+    params.radius = DAT_01267e44 * b;
+    params.endpoints[0].m_vComponents[0] = 0.0f;
+    params.endpoints[0].m_vComponents[1] = 0.0f;
+    float delta = a - b;
+    params.endpoints[0].m_vComponents[2] = delta * DAT_01267e44;
+    params.endpoints[1].m_vComponents[0] = 0.0f;
+    params.endpoints[1].m_vComponents[1] = 0.0f;
+    params.endpoints[1].m_vComponents[2] = params.radius;
+    NiNode* result = 0;
+    FUN_0066d6a0* desc = new FUN_0066d6a0(&params);
+    if (desc)
+    {
+        desc->material = 9;
+        FUN_00c8f510 block;
+        void* shape = desc->shape;
+        block.valueb0 = 0.0f;
+        block.valuec0 = DAT_01018180;
+        block.motion = 5;
+        block.filter00 = 0x40009;
+        block.filter20 = 0x40009;
+        block.shape04 = shape;
+        block.shape24 = shape;
+        FUN_0056d380* obj = new FUN_0056d380(&block);
+        result = (NiNode*)obj;
+    }
+    return result;
+}
+
 #include "generated/data/fallout_shared/speedtree/bstreemodel.inc"
+#include "generated/data/fallout_shared/speedtree/bstreemodel_o2_nood_nogf_variant.inc"

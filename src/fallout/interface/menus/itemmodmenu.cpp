@@ -332,7 +332,7 @@ struct TV
 
 struct FUN_006317a0_struct : public GO
 {
-    TV** AddEight(int);
+    TV** AddEight(intptr_t);
 };
 
 struct ExtraDataList;
@@ -622,7 +622,7 @@ void ModListOwner::FUN_007b4410()
         {
             ModStr savedTraitString(reinterpret_cast<::FUN_00a011f0_shell *>((pEntry->pTile))->FUN_00a011f0(0xfe8));
             reinterpret_cast<::Tile *>((pEntry->pTile))->Set(0xfe8, -1);
-            FUN_00706ff0((int)pEntry->pTile);
+            FUN_00706ff0((intptr_t)pEntry->pTile);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pEntry->pTile))->FUN_00a01350(0xfe8, (char *)(const char *)(savedTraitString), true);
             while (true)
             {
@@ -932,7 +932,7 @@ class ItemModListW
 {
   public:
     virtual void v0();
-    virtual int v1();
+    virtual intptr_t v1();
     ItemEntry* FUN_007a1910();
 };
 
@@ -1390,7 +1390,7 @@ void FUN_00784710(Entry78* pEntry, bool b)
         {
             reinterpret_cast<::InvEntry_bdb40 *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bdb40();
             reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player78 * *>(&::_g_thePlayer))))->FUN_0088c790((int)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))), ((int)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_iCountChange)),
-                                       (int)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data78 *)(::FUN_00559450((int *)((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)))))))->m_item))), 0, 0, 1);
+                                       (intptr_t)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data78 *)(::FUN_00559450((int *)((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)))))))->m_item))), 0, 0, 1);
             DAT_011d9f40 = 1;
         }
         float condition = reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bcdb0(1) / 100.0;
@@ -1617,7 +1617,7 @@ void __cdecl PopulateModListScreen()
         {
             mod4 = ((::ModEntry *)(reinterpret_cast<::FUN_004bd570_this *>((base3))->FUN_004bd570(1)));
             entry = new Entry(mod4, 1);
-            row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((int)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+            row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((intptr_t)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
             reinterpret_cast<::Tile *>((row))->Set(DAT_011d9f4c, 1);
             reinterpret_cast<::Tile *>((row->children.At(((void *)(::FUN_00559450((int *)&(row->children)))))))->Set(4003, 1);
         }
@@ -1625,7 +1625,7 @@ void __cdecl PopulateModListScreen()
         {
             kMod2_2 = ((::ModEntry *)(reinterpret_cast<::FUN_004bd570_this *>((base3))->FUN_004bd570(2)));
             entry = new Entry(kMod2_2, 1);
-            row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((int)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+            row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((intptr_t)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
             reinterpret_cast<::Tile *>((row))->Set(DAT_011d9f4c, 1);
             reinterpret_cast<::Tile *>((row->children.At(((void *)(::FUN_00559450((int *)&(row->children)))))))->Set(4003, 1);
         }
@@ -1633,7 +1633,7 @@ void __cdecl PopulateModListScreen()
         {
             mod5 = ((::ModEntry *)(reinterpret_cast<::FUN_004bd570_this *>((base3))->FUN_004bd570(4)));
             entry = new Entry(mod5, 1);
-            row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((int)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+            row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((intptr_t)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
             reinterpret_cast<::Tile *>((row))->Set(DAT_011d9f4c, 1);
             reinterpret_cast<::Tile *>((row->children.At(((void *)(::FUN_00559450((int *)&(row->children)))))))->Set(4003, 1);
         }
@@ -1652,7 +1652,7 @@ void __cdecl PopulateModListScreen()
             {
                 if (((::ModEntry *)(entry->unk08)) != mod4 && ((::ModEntry *)(entry->unk08)) != kMod2_2 && ((::ModEntry *)(entry->unk08)) != mod5)
                 {
-                    row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((int)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+                    row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((intptr_t)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                     reinterpret_cast<::Tile *>((row))->Set(DAT_011d9f4c, 1);
                 }
             }
@@ -1664,18 +1664,18 @@ void __cdecl PopulateModListScreen()
                 {
                     ((::Extras *)(::FUN_00559450((int *)(entry))))->Add(((::Extras *)(reinterpret_cast<::SimpleListNodeView*>(extra6)->m_item)));
                 }
-                row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((int)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+                row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((intptr_t)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                 reinterpret_cast<::Tile *>((row))->Set(DAT_011d9f4c, 1);
             }
         }
     }
     if (::FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011c3cb4))))->GetMenuTitle())), "ENGLISH"))
     {
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::Text *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::Root *)(reinterpret_cast<::MenuFields *>((((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))))->tile))))->FUN_00a03da0((char *)("IMM_Headline_Title"))))))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4378))))->GetMenuTitle()))), true);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->label38))->FUN_00a01350(DAT_011d9f3c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4da4))))->GetMenuTitle()))), true);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->label4c))->FUN_00a01350(DAT_011d9f3c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4da4))))->GetMenuTitle()))), true);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->label54))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d1f2c))))->GetMenuTitle()))), true);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->label58))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d29f4))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::Text *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::Root *)(reinterpret_cast<::MenuFields *>((((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))))->tile))))->FUN_00a03da0((char *)("IMM_Headline_Title"))))))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4378))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->label38))->FUN_00a01350(DAT_011d9f3c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4da4))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->label4c))->FUN_00a01350(DAT_011d9f3c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4da4))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->label54))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d1f2c))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<intptr_t *>(&::DAT_011d9f54)))->label58))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d29f4))))->GetMenuTitle()))), true);
     }
 }
 

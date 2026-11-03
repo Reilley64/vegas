@@ -371,7 +371,7 @@ template <class T> class NiPointer
 };
 struct S148c0
 {
-    void FUN_007148c0(int, int);
+    void FUN_007148c0(intptr_t, int);
 };
 struct Accum_00733500
 {
@@ -1397,7 +1397,7 @@ extern char str_01070e44[];
 struct FUN_007399f0_cls
 {
     unsigned char _pad0[0xdb4];
-    int m_db4;
+    intptr_t m_db4;
 
     void FUN_007399f0();
 };
@@ -3176,22 +3176,22 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070bc0, 0x121)))->FUN_00ad8830(false);
         ((Menu129*)DAT_011d9050)->setting = reinterpret_cast<::ActorValueOwner *>(&(((Player129*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))->mode))->GetActorValueAsInteger((::ActorValue::Index)(11));
         ((Menu129*)DAT_011d9050)->bet = DAT_0119fe40;
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu129*)DAT_011d9050)->tile34))->FUN_00a01350((int)DAT_011d9044, (char *)((*reinterpret_cast<::Settings129 *>(&::g_011d3804)).FUN_00403df0()), true);
-        reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-        reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, DAT_0119fe40);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu129*)DAT_011d9050)->tile38))->FUN_00a01350((int)DAT_011d9044, (char *)((*reinterpret_cast<::Settings129 *>(&::g_011d3300)).FUN_00403df0()), true);
-        reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile38))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu129*)DAT_011d9050)->tile34))->FUN_00a01350((intptr_t)DAT_011d9044, (char *)((*reinterpret_cast<::Settings129 *>(&::g_011d3804)).FUN_00403df0()), true);
+        reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+        reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, DAT_0119fe40);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu129*)DAT_011d9050)->tile38))->FUN_00a01350((intptr_t)DAT_011d9044, (char *)((*reinterpret_cast<::Settings129 *>(&::g_011d3300)).FUN_00403df0()), true);
+        reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile38))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
         reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)
-            ->tile38))->Set((int)DAT_011d9048, reinterpret_cast<::CombatState *>(((*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)((int)((void *)(reinterpret_cast<::FUN_007316d0_Class *>((DAT_011d9058))->FUN_007316d0())))));
+            ->tile38))->Set((intptr_t)DAT_011d9048, reinterpret_cast<::CombatState *>(((*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)((intptr_t)((void *)(reinterpret_cast<::FUN_007316d0_Class *>((DAT_011d9058))->FUN_007316d0())))));
         char label[64];
         if (((int)(::FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((Casino129*)DAT_011d9058)->name))->FUN_00408da0()))))))
             ::FUN_00406d00(label, 64, DAT_01012058, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((Casino129*)DAT_011d9058)->name))->FUN_00408da0())),
                          (*reinterpret_cast<::Settings129 *>(&::g_011d3e08)).FUN_00403df0());
         else
             ::FUN_00406d00(label, 64, DAT_01012058, ((Casino129*)DAT_011d9058)->GetName(), (*reinterpret_cast<::Settings129 *>(&::g_011d3e08)).FUN_00403df0());
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu129*)DAT_011d9050)->tile3C))->FUN_00a01350((int)DAT_011d9044, (char *)(label), true);
-        reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile3C))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-        reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile3C))->Set((int)DAT_011d9048, DAT_011d9054->amount);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu129*)DAT_011d9050)->tile3C))->FUN_00a01350((intptr_t)DAT_011d9044, (char *)(label), true);
+        reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile3C))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+        reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile3C))->Set((intptr_t)DAT_011d9048, DAT_011d9054->amount);
         reinterpret_cast<::Tile *>((((::Tile129 *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(((Menu129*)DAT_011d9050)->tile3C), DAT_01070ba8)))))->Set(0xfa3, 0);
         reinterpret_cast<::fnv_0073ab40::FUN_0073ab40_shell *>((((Menu129*)DAT_011d9050)))->UpdateTileText();
         reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile40))->SetTraitAndReset(0xfc4, 1.0f);
@@ -4171,7 +4171,7 @@ void Menu737e50::UpdateCulledNodes()
             reinterpret_cast<::TaskQueueInterface *>((a))->QueueActorDisarm(false);
         }
     }
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(unsigned int)(*reinterpret_cast<::GO *>(&::g_011d9098)))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(uintptr_t)(*reinterpret_cast<::GO *>(&::g_011d9098)))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
 }
 
 struct BlackjackButtonMenu
@@ -4374,7 +4374,7 @@ void FUN_00738c30_shell::FUN_00738c30(int iIndex, float fValue)
     NiTPointerList<TESObjectREFR*>* pkList = &((Table738c*)DAT_011d9050)->m_apEntries[iIndex]->m_kList;
     while (pos && pkList && *((int *)(reinterpret_cast<::FUN_0073ac90_shell *>((pkList))->FUN_0073ac90())))
     {
-        ((FUN_00a012d0_t*)((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(pkList))->AddEight((int)(pos)))))->FUN_00a012d0(0xfa9, fValue, true);
+        ((FUN_00a012d0_t*)((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(pkList))->AddEight((intptr_t)(pos)))))->FUN_00a012d0(0xfa9, fValue, true);
         pos = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)(pkList))->DereferenceIfNotNull((int **)(pos))));
     }
 }
@@ -4756,8 +4756,8 @@ void InputMenu::HandleAction(int action, void* tile)
                         reinterpret_cast<::FUN_00739650_shell *>(this)->FUN_00739650(false);
                     state = 2;
                     reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(1, true);
-                    reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-                    reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, splitBet + bet);
+                    reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+                    reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, splitBet + bet);
                     int aDoubleTotal = reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(hand));
                     if (aDoubleTotal > 21)
                         result = 4;
@@ -4789,8 +4789,8 @@ void InputMenu::HandleAction(int action, void* tile)
                 if (oldIncreaseTmp < bet)
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070ca4, 0x121)))->FUN_00ad8830(false);
                 reinterpret_cast<::BlackJackChipsX *>(this)->UpdateChipPositions();
-                reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-                reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
+                reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+                reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, bet);
             }
             else if (state == 4)
             {
@@ -4831,8 +4831,8 @@ void InputMenu::HandleAction(int action, void* tile)
                     reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(4, false);
                     reinterpret_cast<::FUN_007399f0_cls *>(this)->FUN_007399f0();
                     reinterpret_cast<::BlackjackButtonMenu *>(this)->UpdateButtonState(10);
-                    reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-                    reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, splitBet + bet);
+                    reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+                    reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, splitBet + bet);
                 }
             }
             break;
@@ -4857,8 +4857,8 @@ void InputMenu::HandleAction(int action, void* tile)
                 if (kOldDecrease > bet)
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070c88, 0x121)))->FUN_00ad8830(false);
                 reinterpret_cast<::BlackJackChipsX *>(this)->UpdateChipPositions();
-                reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-                reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
+                reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+                reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, bet);
             }
             else if (state == 4)
             {
@@ -4881,8 +4881,8 @@ void InputMenu::HandleAction(int action, void* tile)
                 if (bet > funds)
                     bet = funds;
                 reinterpret_cast<::BlackJackChipsX *>(this)->UpdateChipPositions();
-                reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-                reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
+                reinterpret_cast<::FUN_00a01290_shell *>((((Menu129*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+                reinterpret_cast<::Tile *>((((Menu129*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, bet);
             }
             if (state == 4)
             {
@@ -5758,8 +5758,8 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         }
         balance += payout;
-        reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile38))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-        reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile38))->Set((int)DAT_011d9048, balance);
+        reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile38))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+        reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile38))->Set((intptr_t)DAT_011d9048, balance);
         DAT_011d9054->amount += payout;
         reinterpret_cast<::fnv_0073ab40::FUN_0073ab40_shell *>(this)->UpdateTileText();
         if (payout > 0)
@@ -5800,21 +5800,21 @@ void BlackjackUpdate::FUN_00734db0()
         if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))))
         {
             reinterpret_cast<::FileMatchList *>((split))->RemoveAll();
-            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, bet);
             splitBet = 0;
         }
         if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(0x80))))
         {
             bet /= 2;
-            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, bet);
         }
         if (balance < bet)
         {
             bet = balance;
-            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, bet);
         }
         state = 7;
         break;
@@ -5827,8 +5827,8 @@ void BlackjackUpdate::FUN_00734db0()
         if (balance < bet)
         {
             bet = balance;
-            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((int)DAT_011d9048, 1.0f);
-            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((int)DAT_011d9048, bet);
+            reinterpret_cast<::FUN_00a01290_shell *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->SetTraitAndReset((intptr_t)DAT_011d9048, 1.0f);
+            reinterpret_cast<::Tile *>((((BlackjackUpdate*)DAT_011d9050)->tile34))->Set((intptr_t)DAT_011d9048, bet);
         }
         if (balance < DAT_0119fe40)
         {

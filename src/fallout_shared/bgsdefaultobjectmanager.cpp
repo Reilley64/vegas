@@ -89,7 +89,7 @@ void BGSDefaultObjectManager::InitItem()
         return;
     for (int i = 0; i < 34; ++i)
     {
-        unsigned int uiFormId = (unsigned int)m_apDefaultObjects[i];
+        unsigned int uiFormId = (unsigned int)(std::uintptr_t)m_apDefaultObjects[i];
         if (uiFormId)
         {
             ::ResolveFormID((unsigned int *)&(uiFormId), GetFile(-1));
@@ -139,7 +139,7 @@ FUN_0058d760::FUN_0058d760() : TESForm()
 {
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)100)));
     SetRefID(0x31, 1);
-    reinterpret_cast<::FUN_00401290_Class *>((((ActorValueInfo*)this)))->FUN_00401290((int)("DefaultObjectManager"));
+    reinterpret_cast<::FUN_00401290_Class *>((((ActorValueInfo*)this)))->FUN_00401290((std::intptr_t)("DefaultObjectManager"));
     ((BGSDefaultObjectManager*)this)->ResetFormData();
 }
 
@@ -153,7 +153,7 @@ struct FUN_004855a0
 struct FUN_00485680
 {
 };
-struct FUN_0058d870_shell
+struct FUN_0058d870_shell : ::BGSDefaultObjectManager
 {
     void FUN_0058d870();
 };
@@ -165,8 +165,8 @@ void FUN_0058d870_shell::FUN_0058d870()
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     for (i = 0; i < 34; ++i)
     {
-        if (*(void**)((char*)this + 0x18 + i * 4))
-            pidarray4[i] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)*(void**)((char*)this + 0x18 + i * 4))))->FUN_0084e3a0()));
+        if (*(void**)((char*)&this->m_apDefaultObjects + i * 4))
+            pidarray4[i] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)*(void**)((char*)&this->m_apDefaultObjects + i * 4))))->FUN_0084e3a0()));
         else
             pidarray4[i] = 0;
     }

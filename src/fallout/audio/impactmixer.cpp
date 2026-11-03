@@ -2,6 +2,7 @@
 // src/fallout/audio/impactmixer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/audio/impactmixer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -114,11 +115,11 @@ int GetTypeValue(int aiType)
 
 struct FUN_00acbb70_shell
 {
-    int FUN_00acbb70();
+    intptr_t FUN_00acbb70();
 };
 
 // @fnv 0x00acbb70
-int FUN_00acbb70_shell::FUN_00acbb70()
+intptr_t FUN_00acbb70_shell::FUN_00acbb70()
 {
     return 0;
 }
@@ -158,7 +159,7 @@ struct FUN_00838750_shell
 // @fnv 0x00838750
 bool FUN_00838750_shell::FUN_00838750()
 {
-    return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this + 0x410))))->FUN_00621270((int)&DAT_01000000))) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this + 0x410))))->FUN_00621270((intptr_t)&DAT_01000000))) != 0;
 }
 
 struct FUN_00541570_shell
@@ -1062,6 +1063,16 @@ class TESObjectWEAP : public TESBoundObject
   public:
 };
 
+// The TESObjectWEAP sound slots the impact mixer plays.
+struct WeaponSoundSlots
+{
+    char pad00[0x230];
+    TESSound* blockSound;
+    TESSound* idleSound;
+    TESSound* equipSound;
+    TESSound* unequipSound;
+};
+
 struct S_0083a930_EntryData
 {
 };
@@ -1316,10 +1327,10 @@ void PlayWeaponImpactSound(TESObjectREFR* ref, int type)
             switch (type)
             {
             case 9:
-                snd = ((::TESSound *)(reinterpret_cast<::FUN_00522520_shell *>((weapon))->GetField238()));
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->equipSound;
                 break;
             case 10:
-                snd = ((::TESSound *)(reinterpret_cast<::FUN_00522540_shell *>((weapon))->GetField23C()));
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->unequipSound;
                 break;
             }
             if (!snd || !::SoundPlaybackManager::CanPlaySoundAt(snd, (*(::NiPoint3 *)&(const ::S_0083a930_Point3 &)(pos)), 1.0f))
@@ -2023,7 +2034,7 @@ struct BSSoundHandleEx
 class BSAudio
 {
   public:
-    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, unsigned int sound);
+    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, TESSound* sound);
     BSSoundHandleEx GetSoundHandleByEditorID(const char* name, unsigned int flags);
 };
 
@@ -2048,10 +2059,10 @@ void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0
                     float z1)
 {
     GlobalObject_0041a250 p;
-    if (pObject != 0 && pObject->GetField230() != 0)
+    TESSound* blockSound = pObject ? reinterpret_cast<::WeaponSoundSlots *>(pObject)->blockSound : 0;
+    if (blockSound)
     {
-        BSSoundHandleEx sound = ::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(((TESSound*)pObject->GetField230()))), 0x182,
-                                                                pObject->GetField230());
+        BSSoundHandleEx sound = ::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(blockSound)), 0x182, blockSound);
         p.FUN_copy(&sound);
     }
     else

@@ -408,7 +408,7 @@ ActorValueInfo::ActorValueInfo(int index, const char* name)
     {
         char buffer[100];
         ::FUN_00406d00(buffer, 100, "AV%s", name);
-        reinterpret_cast<::FUN_00401290_Class *>(this)->FUN_00401290((int)(buffer));
+        reinterpret_cast<::FUN_00401290_Class *>(this)->FUN_00401290((std::intptr_t)(buffer));
     }
     m_cAbbreviation = "";
     uFlags = 0;
@@ -603,7 +603,7 @@ const char* __cdecl FUN_0066eb00(ActorValue::Index aiIndex)
     const char* presult = 0;
     ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(aiIndex)))));
     if (pinfo)
-        presult = (const char*)(reinterpret_cast<Flt*>((char*)pinfo + 0x3c))->operator unsigned int();
+        presult = (const char*)(reinterpret_cast<Flt*>(&pinfo->m_cAbbreviation))->operator unsigned int();
     return presult;
 }
 
@@ -871,7 +871,7 @@ void ActorValueInfoCopy::FUN_00670430(TESForm* form)
     if (!pSource)
         return;
     m_pName = pSource->m_pName;
-    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringTCharAssign &)(*(BSStringTCharAssign*)&m_cAbbreviation))->CallAndReturnSelf((int)&(*(BSStringTCharAssign*)&pSource->m_cAbbreviation));
+    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringTCharAssign &)(*(BSStringTCharAssign*)&m_cAbbreviation))->CallAndReturnSelf((std::intptr_t)&(*(BSStringTCharAssign*)&pSource->m_cAbbreviation));
     uFlags = pSource->uFlags;
     m_pDerivedValueFunction = pSource->m_pDerivedValueFunction;
     m_pActorValueMapping = pSource->m_pActorValueMapping;

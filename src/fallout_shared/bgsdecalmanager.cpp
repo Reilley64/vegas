@@ -1,6 +1,7 @@
 // fallout_shared/bgsdecalmanager.cpp: BGSDecalManager, BSA_, PD_, M3_ and more (61 functions)
 
 #include <cstdint>
+#include "fnv_result_slot.h"
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -115,6 +116,16 @@
 #include "bgsdecalmanager_decls.h"
 #include "bgsdecalmanager_types_BGSDecalManager.h"
 #include "bgsdecalmanager_types_BSTempEffectSimpleDecal.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_00c46270_Class.h"
+#include "fnv/decl/NavEntryOwner.h"
+#include "fnv/decl/S694a0.h"
+#include "fnv/decl/S_00a59e00.h"
+#include "fnv/decl/TreeEvaluator.h"
+#include "fnv/decl/WorkerS694a0.h"
+#include "fnv/decl/fnv_00c49100__ActorTable.h"
+#include "fnv/symbols_00a29000.h"
 
 // @fnv 0x00460140
 intptr_t FUN_00460140(intptr_t apBase)
@@ -430,11 +441,11 @@ struct CFilter
 };
 struct FUN_004a3a20_shell : public CFilter
 {
-    unsigned int FUN_004a3a20();
+    uintptr_t FUN_004a3a20();
 };
 
 // @fnv 0x004a3a20
-unsigned int FUN_004a3a20_shell::FUN_004a3a20()
+uintptr_t FUN_004a3a20_shell::FUN_004a3a20()
 {
     return (iFilter >> 16) & 0xFFFF;
 }
@@ -447,9 +458,9 @@ class TESObjectREFR
 
 // Returns the flags of apRef, or 0 when apRef is null.
 // @fnv 0x004a3a40
-unsigned int __cdecl FUN_004a3a40(TESObjectREFR* apRef)
+uintptr_t __cdecl FUN_004a3a40(TESObjectREFR* apRef)
 {
-    return apRef ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
+    return apRef ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
 }
 
 void FUN_004a3b70(void*);
@@ -591,7 +602,6 @@ struct FUN_0056d340_helper
 void FUN_004a3da0_shell::FUN_004a3da0(void* arFrom)
 {
     hkVector4 hkv;
-    new ((void *)&(hkv)) ::Vec3();
     ((FUN_0056d340_helper*)this)->FUN_0056d340((*(::fnv_004a3da0::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(hkv), (const ::fnv_004a3e00::NiPoint3 &)(*(const NiPoint3*)arFrom)))));
 }
 }  // namespace fnv_004a3da0
@@ -786,7 +796,7 @@ void M3_::FUN_004b4660(unsigned int uiIndex, float afValue0, float afValue1, flo
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_0056d340(unsigned int f);
+    bool FUN_0056d340(uintptr_t f);
 };
 // @fnv 0x0056d340
 bool S3e60::FUN_0056d340(uintptr_t auiFlag)
@@ -913,7 +923,7 @@ struct bhkRigidBody;
 
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
 };
 struct FUN_00a69400
 {
@@ -1062,7 +1072,7 @@ struct FUN_004a3ae0_shell
 // @fnv 0x004a3ae0
 void FUN_004a3ae0_shell::FUN_004a3ae0()
 {
-    *(int*)this = (int)&DAT_0101e594;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0101e594;
 }
 
 extern int DAT_0101e594;
@@ -1122,7 +1132,7 @@ void FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
 {
     if (*(int*)((char*)pObject + 0x48) == 0)
     {
-        *(int*)((char*)pObject + 0x48) = (int)this;
+        *(std::intptr_t*)((char*)pObject + 0x48) = (std::intptr_t)this;
     }
     bsrandom_singleton::MersenneTwister::GetRandomGenerator()->AddGeometryDecal(pObject, b, c);
 }
@@ -1130,13 +1140,13 @@ void FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
 struct FUN_0049f560_Holder
 {
     int _00;
-    int _04;
+    std::intptr_t _04;
     int _08;
-    void CallWithTwelve(int);
+    void CallWithTwelve(std::intptr_t);
 };
 // Calls FUN_00ec6f20 with the holder's _04 and _08 fields, the constant 12, and a1.
 // @fnv 0x0049f560
-void FUN_0049f560_Holder::CallWithTwelve(int a1)
+void FUN_0049f560_Holder::CallWithTwelve(std::intptr_t a1)
 {
     std::qsort((void *)(_04), _08, 12, (int (*)(const void *, const void *))(a1));
 }
@@ -1212,7 +1222,7 @@ struct XHolder : FUN_004a3bc0
 // @fnv 0x004a3b90
 void* XHolder::DestroyAndMaybeDeallocate(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004a3bc0 *>((this))->FUN_004a3bc0::~FUN_004a3bc0();
+    reinterpret_cast<::FUN_004a3bc0 *>((this))->::FUN_004a3bc0::~FUN_004a3bc0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1227,22 +1237,22 @@ struct FUN_004a0350_shell
 // @fnv 0x004a0030
 void BGSDecalManager::RenderDecals()
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)))->GetName())) > 0)
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)))->GetName())) > 0)
     {
         ::FUN_004a0370((char *)(FUN_0043c4b0()));
         struct IteratorState
         {
             unsigned int previous;
-            unsigned int position;
+            std::uintptr_t position;
         } iterator;
-        iterator.position = reinterpret_cast<unsigned int>(static_cast<BSFaceGenAnimationData*>(
+        iterator.position = reinterpret_cast<std::uintptr_t>(static_cast<BSFaceGenAnimationData*>(
             *reinterpret_cast<NiPointer<BSFaceGenAnimationData>*>(&m_kSimpleDecalList)));
         while (iterator.position != 0)
         {
             iterator.previous = iterator.position;
             BSTempEffectSimpleDecal* decal = reinterpret_cast<BSTempEffectSimpleDecal*>(
                 static_cast<BSFaceGenAnimationData*>(reinterpret_cast<NiPointer<BSFaceGenAnimationData>&>(
-                    (*(::NiPointer< ::NiProperty> *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
+                    (*(::NiPointer< ::NiProperty> *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
                         &m_kSimpleDecalList)))->FUN_0057cbe0((int **)&(reinterpret_cast<void*&>(iterator.position))))))));
             if (decal != 0)
             {
@@ -1310,7 +1320,7 @@ void BGSDecalManager::RenderDecals()
                             reinterpret_cast<::FUN_0068dea0_cls *>((decal))->UpdateDebugDecalBox((const ::xColorA *)&(reinterpret_cast<RgbaColor&>(color)), false);
                         }
                     }
-                    reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
+                    reinterpret_cast<NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
                         &m_kSimpleDecalList)
                         ->RemovePos(reinterpret_cast<void*&>(iterator.previous));
                 }
@@ -1777,32 +1787,26 @@ struct Camera
 // @fnv 0x004a04c0
 void Camera::UpdateCamera(Input* input)
 {
-    Vec directionSlot1Slot0 = (*(::CameraPass::Vec *)&(reinterpret_cast<::FUN_004a0d60_Class *>((input))->FUN_004a0d60(*(::NiPoint3 *)nullptr)));
+    Vec directionSlot1Slot0 = (*(::CameraPass::Vec *)&(reinterpret_cast<::FUN_004a0d60_Class *>((input))->FUN_004a0d60(::ResultSlot<::NiPoint3>())));
     reinterpret_cast<::FUN_004a0c10_s *>(&(directionSlot1Slot0))->FUN_004a0c10();
     reinterpret_cast<::MyPoint439180 *>(&(directionSlot1Slot0))->FUN_00439180(::DAT_0101b268);
-    Vec originSlot13 = (*(::CameraPass::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::CameraPass::Vec &)((*(::CameraPass::Vec *)&(reinterpret_cast<::FUN_004a0d30_shell *>((input))->FUN_004a0d30(*(::NiPoint3 *)nullptr)))))->ProjectileLaunched((::NiPoint3 *)&(directionSlot1Slot0), {})));
+    Vec originSlot13 = (*(::CameraPass::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(const ::CameraPass::Vec &)((*(::CameraPass::Vec *)&(reinterpret_cast<::FUN_004a0d30_shell *>((input))->FUN_004a0d30(::ResultSlot<::NiPoint3>())))))->ProjectileLaunched((::NiPoint3 *)&(directionSlot1Slot0), {})));
     Matrix rotationSlot17Slot12;
     FUN_00c4b600(&rotationSlot17Slot12, (*(::CameraPass::Vec *)(reinterpret_cast<::P3 *>(&(directionSlot1Slot0))->FUN_004a0bd0({}))));
     Matrix scaleSlot22Slot0Slot10;
-    new ((void *)&(scaleSlot22Slot0Slot10)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(scaleSlot22Slot0Slot10))->FUN_004a0c90(reinterpret_cast<::FUN_004e3d00_shell *>((input))->FUN_004e3d00());
     rotationSlot17Slot12 = scaleSlot22Slot0Slot10.FUN_0043f8d0(rotationSlot17Slot12);
     Vec column0Slot30Slot0;
-    new ((void *)&(column0Slot30Slot0)) ::Vec3();
     Vec column1Slot41Slot18;
-    new ((void *)&(column1Slot41Slot18)) ::Vec3();
     reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(0, (::NiPoint3 &)(column0Slot30Slot0));
     reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(1, (::NiPoint3 &)(column1Slot41Slot18));
     reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(2, (::NiPoint3 &)(directionSlot1Slot0));
     Matrix basisSlot28Slot36;
-    new ((void *)&(basisSlot28Slot36)) ::Vec3();
     reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(0, (float *)&(directionSlot1Slot0));
     reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(1, (float *)&(column0Slot30Slot0));
     reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(2, (float *)&(column1Slot41Slot18));
     Vec startSlot14Slot30;
-    new ((void *)&(startSlot14Slot30)) ::Vec3();
     Vec endSlot11;
-    new ((void *)&(endSlot11)) ::Vec3();
     float widthSlot15Slot25 = (reinterpret_cast<::FUN_00507b20Class *>((input))->FUN_00507b20() / ::DAT_01011590) * (1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((((::CameraPass::Ref *)(reinterpret_cast<::fnv_004a0330::FUN_004a0330_shell *>((input))->FUN_004a0330()))))->FUN_008d01e0());
     float heightSlot21 = (reinterpret_cast<::FUN_004a0d90_Class *>((input))->GetField11C() / ::DAT_01011590) * (1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((((::CameraPass::Ref *)(reinterpret_cast<::fnv_004a0330::FUN_004a0330_shell *>((input))->FUN_004a0330()))))->FUN_008d01e0());
     float farPlaneSlot12Slot43 = reinterpret_cast<::FUN_004a0db0_class *>((input))->GetFloatAt120() + DAT_0101e2c0;
@@ -1837,7 +1841,7 @@ void Camera::UpdateCamera(Input* input)
         ::FUN_005b5e40();
     }
     if (!((::CameraPass::Render *)(::FUN_00559450((int *)&(render)))))
-        render.FUN_0066b0d0(((::CameraPass::Render *)(reinterpret_cast<::Pool *>((((::CameraPass::Factory *)(::FUN_004a0ea0(::FUN_004a0e90(), 0, 0, 0)))))->FUN_00b6e110({}, {}, {}, {}, {}))));
+        render.FUN_0066b0d0(((::CameraPass::Render *)(((::Pool *)(std::intptr_t)(::FUN_004a0ea0()))->FUN_00b6e110((::std::uintptr_t)(::FUN_004a0e90()), 0x33, 0, 0, 0))));
     if (input->alternate)
         ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::CameraPass::Render *)(::FUN_00559450((int *)&(render))))))->GetGroup()))));
     else
@@ -2254,7 +2258,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5834)).FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
         {
             kCameraIn = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
-            fDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(apRequest->kPos))->FUN_00439ef0((::NiPoint3 *)&(kCameraIn), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+            fDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(apRequest->kPos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kCameraIn)))))))->ComputeMagnitude();
             dFrequency = 1000.0;
             iUnused = 0;
             kStartNext.LowPart = 0;
@@ -2262,9 +2266,9 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             __int64 llTicks;
             if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5884)).FUN_00408d60())
             {
-                QueryPerformanceFrequency(&llFrequencyCount);
+                QueryPerformanceFrequency((LARGE_INTEGER*)&llFrequencyCount);
                 dFrequency = llFrequencyCount * 1e-06;
-                QueryPerformanceCounter(&kStartNext.QuadPart);
+                QueryPerformanceCounter((LARGE_INTEGER*)&kStartNext.QuadPart);
             }
             if (::FUN_004a19f0() >= fDistance || apRequest->bForce || abForce)
             {
@@ -2274,7 +2278,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             }
             if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5884)).FUN_00408d60())
             {
-                QueryPerformanceCounter(&llEnd);
+                QueryPerformanceCounter((LARGE_INTEGER*)&llEnd);
                 llTicks = llEnd - kStartNext.QuadPart;
                 ::FUN_00406d00(acBuffer, 0xff, s_szTiming, llTicks, llTicks / dFrequency);
                 ::FUN_0040fbe0();
@@ -2293,7 +2297,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         {
             DecalPoint kEyeOut = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
             DecalBound kBound = *((::DecalAdd::DecalBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apRequest->pTarget))->FUN_0043d450()));
-            float fBoundDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)(new ((void *)&(kBound)) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)&(kEyeOut), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
+            float fBoundDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)((void *)&(kBound)))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kEyeOut)))))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
             if ((FUN_004a1a00() >= fBoundDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
                 FUN_004a2070(apRequest);
             else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
@@ -2303,7 +2307,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         {
             DecalPoint kViewerNew = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
             DecalBound kHolderBoundCur = *((::DecalAdd::DecalBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apRequest->pHolder->Get3D()))->FUN_0043d450()));
-            float fHolderDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)(new ((void *)&(kHolderBoundCur)) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)&(kViewerNew), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() -
+            float fHolderDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)((void *)&(kHolderBoundCur)))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kViewerNew)))))))->ComputeMagnitude() -
                                     reinterpret_cast<::Twin_0084d030 *>(&(kHolderBoundCur))->GetStoredFloatValue();
             DecalNode* pObject = apRequest->pHolder->Get3D();
             DecalNode* pNode = pObject ? pObject->GetNode() : 0;
@@ -2340,12 +2344,10 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             {
                 DecalPoint kHitPos;
                 DecalPoint kHitNormal;
-                new ((void *)&(kHitPos)) ::Vec3();
-                new ((void *)&(kHitNormal)) ::Vec3();
                 DecalNode* pHitTmp = ((::DecalAdd::DecalNode *)(reinterpret_cast<::DecalCaster *>((DAT_011c57e0))->GetCollisionFlags(i)));
                 if (pHitTmp)
                 {
-                    reinterpret_cast<::TileSetHelper *>((DAT_011c57e0))->SetTileSetValues(i, (int)(&kHitPos), (int)(&kHitNormal));
+                    reinterpret_cast<::TileSetHelper *>((DAT_011c57e0))->SetTileSetValues(i, (std::intptr_t)(&kHitPos), (std::intptr_t)(&kHitNormal));
                     reinterpret_cast<::FUN_004a0c10_s *>(&(kHitNormal))->FUN_004a0c10();
                     void* m_pShaderGeometry = ((void *)(::FUN_0056f930((::NiAVObject *)(pHitTmp))));
                     if (pHitTmp->FUN_004a19d0() || !m_pShaderGeometry ||
@@ -2501,7 +2503,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
         pName4 = (const char*)((::XList *)(reinterpret_cast<::TESTopicInfoData *>((ref->m28))->GetLinkToList()))->FUN_0043b1b0();
         if (pName4 != 0 && (std::strncmp(pName4, DAT_0101e484, 10) == 0 || std::strncmp(pName4, DAT_0101e47c, 5) == 0 ||
                             std::strncmp(pName4, DAT_0101e474, 7) == 0 || std::strncmp(pName4, DAT_0101e468, 9) == 0 ||
-                            FUN_00ec8a19(pName4, DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
+                            FUN_00ec8a19(pName4, &DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
             return true;
         if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_011f4a20))), (::NiAVObject *)(ref->m28)) && !reinterpret_cast<::FUN_00456630_helper *>((ref->m28))->FUN_00456610())
         {
@@ -2540,13 +2542,13 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                 list = hit2->m_ac;
                 while (list != 0 && !reinterpret_cast<::ObsList *>((list))->FUN_004a4460())
                 {
-                    a5 = ((::XObj *)(::FUN_00559450((int *)(((::XItem *)(new ((void *)(list)) ::Vec3()))))));
+                    a5 = ((::XObj *)(::FUN_00559450((int *)(((::XItem *)((void *)(list)))))));
                     b_ = a5;
                     list = ((::XList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                     NiPoint3 pt9;
                     reinterpret_cast<::FUN_004a0d30_shell *>((b_))->FUN_004a0d30(pt9);
                     float f9 = reinterpret_cast<::FUN_00507b20Class *>((b_))->FUN_00507b20();
-                    NiPoint3 v7 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(ref))->FUN_00439ef0((::NiPoint3 *)&(pt9), *(const ::NiPoint3 *)nullptr)));
+                    NiPoint3 v7 = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(ref))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(pt9)))));
                     v7 = (*(::NiPoint3Sq *)(::MultiplyComponents((::NiPoint3 *)&(v7), (const ::NiPoint3 *)&(v7), {})));
                     float qA;
                     if (ref->m38 > ref->m3c)
@@ -3021,12 +3023,12 @@ bool DWork::FUN_004a2070(DArg* arg)
                                                arg->normal, arg->scale, arg->rotation, arg->unk6c));
                         bool accepted = false;
                         ((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))->Virtual8c();
-                        if (((int)(reinterpret_cast<::TESQuest *>((((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))))->GetScriptLocalData())) > 0)
+                        if (((std::intptr_t)(reinterpret_cast<::TESQuest *>((((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))))->GetScriptLocalData())) > 0)
                         {
                             if (!arg->skin)
                             {
                                 arg->skin = new DSkin(0);
-                                ::AssignFixedString((char *)(arg->skin), (int)(((::fnv_004a2070::CStringProvider *)(::FUN_004a2c60()))), {});
+                                ::AssignFixedString((char *)(arg->skin), (std::intptr_t)(((::fnv_004a2070::CStringProvider *)(::FUN_004a2c60()))), {});
                                 selected->Virtualdc((DObj*)arg->skin, true);
                                 ++::DAT_011c57f0;
                                 if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
@@ -3144,5 +3146,359 @@ bool DWork::FUN_004a2070(DArg* arg)
     return true;
 }
 }  // namespace fnv_004a2070
+
+
+
+struct AlignedVector_o2_od_oy_noo2
+{
+    __m128 value;
+    void FUN_004a3f10(const AlignedVector_o2_od_oy_noo2& source);
+};
+
+// @fnv 0x004a3f10
+void AlignedVector_o2_od_oy_noo2::FUN_004a3f10(const AlignedVector_o2_od_oy_noo2& source)
+{
+    value = source.value;
+}
+
+struct HostV;
+
+struct ObjV
+{
+    virtual void v00(), v01(), v02(), v03(), v04(), v05(), v06(), v07(), v08(), v09(), v10(), v11(), v12(), v13(),
+        v14(), v15(), v16(), v17(), v18(), v19();
+    virtual void v20(), v21(), v22(), v23(), v24(), v25(), v26(), v27(), v28(), v29(), v30(), v31(), v32(), v33(),
+        v34(), v35(), v36(), v37(), v38(), v39();
+    virtual void v40(), v41(), v42(), v43(), v44(), v45(), v46(), v47(), v48(), v49(), v50(), v51(), v52();
+    virtual void Attach(HostV* pkHost);
+    char pad04[0x2c];
+    unsigned int m_uiValue1;
+    bool TestFlag(unsigned int uiMask) const
+    {
+        return (m_uiValue1 & uiMask) != 0;
+    }
+};
+
+struct CtrlV
+{
+    char pad[0x28];
+    int m_i28;
+    bool IsEmpty() const
+    {
+        return m_i28 == 0;
+    }
+};
+
+struct HostV
+{
+    char pad[0x8c];
+    void* m_pv8c;
+    int m_iFadeIndex;
+    char pad94[0x2c];
+    CtrlV* m_pkCtrl;
+    bool HasX() const
+    {
+        return (bool)m_pv8c;
+    }
+    void FUN_00c4ee90(ObjV* pkObj);
+};
+
+// @fnv 0x00c4ee90
+void HostV::FUN_00c4ee90(ObjV* pkObj)
+{
+    if (m_iFadeIndex != 2 && m_iFadeIndex != 1)
+    {
+        ObjV* pkTmp = pkObj;
+        if (pkTmp->TestFlag(0x1000))
+        {
+            if (!pkTmp->TestFlag(0x100000))
+                pkObj->Attach(this);
+        }
+        else if (!m_pkCtrl || m_pkCtrl->IsEmpty() || m_iFadeIndex == 3)
+        {
+            if (pkObj->TestFlag(0x800) || !HasX())
+                pkObj->Attach(this);
+            else
+                reinterpret_cast<::WorkerS694a0 *>(this)->FUN_00a694e0((::NiAVObject *)(pkObj));
+        }
+        else if (pkObj->TestFlag(0x800) || ((!m_pkCtrl || m_pkCtrl->IsEmpty()) && !HasX()))
+        {
+            pkObj->Attach(this);
+        }
+        else
+        {
+            std::intptr_t iState = ((std::intptr_t)(reinterpret_cast<::NavEntryOwner *>((m_pkCtrl))->BuildEntryValueArray()));
+            if (reinterpret_cast<::TreeEvaluator *>((m_pkCtrl))->FUN_00c491a0((::TreeQuery *)(pkObj)))
+                pkObj->Attach(this);
+            reinterpret_cast<::fnv_00c49100::ActorTable *>((m_pkCtrl))->SetActorList((int *)(iState));
+        }
+    }
+    else if (m_iFadeIndex == 1)
+    {
+        pkObj->Attach(this);
+    }
+}
+
+class NiCullingProcess;
+
+class NiNodeX;
+
+class NiObj
+{
+  public:
+    virtual void vf00();
+    virtual void DeleteThis();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2c();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3c();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4c();
+    virtual void vf50();
+    virtual void vf54();
+    virtual void vf58();
+    virtual void vf5c();
+    virtual void vf60();
+    virtual void vf64();
+    virtual void vf68();
+    virtual void vf6c();
+    virtual void vf70();
+    virtual void vf74();
+    virtual void vf78();
+    virtual void vf7c();
+    virtual void vf80();
+    virtual void vf84();
+    virtual void vf88();
+    virtual void vf8c(NiNodeX* n);
+    long m_uiRefCount;
+    __forceinline void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    __forceinline void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
+class NiNodeX : public NiObj
+{
+  public:
+};
+
+class NiAVObject
+{
+  public:
+};
+
+class SceneMgr;
+
+class SceneMgr
+{
+  public:
+    int unk00;
+    int unk04;
+    NiNodeX* unk08;
+};
+
+inline NiNodeX* GetRoot()
+{
+    SceneMgr* m = (*reinterpret_cast<::SceneMgr * *>(&::NiRenderer::ms_pRenderer));
+    int u1;
+    int u2;
+    return m->unk08;
+}
+
+class Accum : public NiObj
+{
+};
+
+class AccPtr
+{
+  public:
+    NiObj* m_pObject;
+    __forceinline AccPtr(NiObj* o = 0)
+    {
+        m_pObject = o;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    __forceinline ~AccPtr()
+    {
+        int u3;
+        int u4;
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    __forceinline NiObj* operator->()
+    {
+        return m_pObject;
+    }
+    __forceinline operator NiObj*()
+    {
+        return m_pObject;
+    }
+    AccPtr& FUN_0066b0d0(NiNodeX* p);
+};
+
+class NiCullingProcess
+{
+  public:
+    virtual void vf00();
+    int unk04;
+    int unk08;
+    NiNodeX* unk0c;
+    void FUN_00c4f070(NiNodeX* a, NiAVObject* b, int c);
+};
+
+// @fnv 0x00c4f070
+void NiCullingProcess::FUN_00c4f070(NiNodeX* a, NiAVObject* b, int c)
+{
+    if (!a || !b)
+        return;
+    unk0c = a;
+    reinterpret_cast<::S694a0 *>(this)->FUN_00a694a0((char*)unk0c + 0xdc);
+    int saved = 0;
+    if (c)
+    {
+        saved = unk08;
+        unk08 = c;
+    }
+    AccPtr sp;
+    if (!unk08)
+    {
+        reinterpret_cast<::FUN_00c46270_Class *>(&(sp))->AssignRefCounted((*(const ::FUN_00c46270_Class *)((char*)this + 0xc4)));
+        if (!sp)
+            sp.FUN_0066b0d0(GetRoot());
+        if (sp)
+            sp->vf8c(a);
+    }
+    reinterpret_cast<::S_00a59e00 *>((b))->FUN_00a59e00((::S_00a59e00_Arg *)&(*this));
+    if (c)
+        unk08 = saved;
+}
+
+class NiFixedString
+{
+  public:
+    const char* m_kHandle;
+    operator const char*() const
+    {
+        return m_kHandle;
+    }
+};
+
+class NiGeometry_ob1
+{
+  public:
+    unsigned int unk00;
+    unsigned int unk04;
+    NiFixedString m_kName;
+    const char* GetName() const
+    {
+        return m_kName;
+    }
+};
+
+class NiAccumulator
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2c();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3c();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4c();
+    virtual void vf50();
+    virtual void vf54();
+    virtual void vf58();
+    virtual void vf5c();
+    virtual void vf60();
+    virtual void vf64();
+    virtual void vf68();
+    virtual void vf6c();
+    virtual void vf70();
+    virtual void vf74();
+    virtual void vf78();
+    virtual void vf7c();
+    virtual void vf80();
+    virtual void vf84();
+    virtual void vf88();
+    virtual void vf8c();
+    virtual void vf90();
+    virtual void vf94();
+    virtual bool RegisterObject(NiGeometry_ob1* pkGeom);
+};
+
+template <class T> class NiPtr
+{
+  public:
+    T* m_pObject;
+    operator T*() const
+    {
+        return m_pObject;
+    }
+    T* operator->() const
+    {
+        return m_pObject;
+    }
+};
+
+class BSCullingProcess_ob1 : public NiCullingProcess
+{
+  public:
+    int unk10, unk14, unk18, unk1c;
+    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
+    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
+    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
+    int unkA0, unkA4, unkA8, unkAc, unkB0, unkB4, unkB8, unkBc;
+    int unkC0;
+    NiPtr<NiAccumulator> m_acRendererDataA;
+
+    void FUN_00c4f1d0(NiGeometry_ob1& kVisible);
+};
+
+// @fnv 0x00c4f1d0
+void BSCullingProcess_ob1::FUN_00c4f1d0(NiGeometry_ob1& kVisible)
+{
+    bool bRegistered = false;
+    if (m_acRendererDataA)
+    {
+        if (m_acRendererDataA->RegisterObject(&kVisible))
+            bRegistered = true;
+    }
+    if (!bRegistered)
+    {
+        ::FUN_00a29680();
+    }
+}
 
 #include "generated/data/fallout_shared/bgsdecalmanager.inc"

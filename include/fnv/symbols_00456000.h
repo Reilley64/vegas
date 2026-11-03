@@ -1,9 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 struct PlayerTargetLocation;
 
 // 0x00456510
-int FUN_00456510();
+std::intptr_t FUN_00456510();
 // 0x00456540
 ::PlayerTargetLocation *FUN_00456540(::PlayerTargetLocation *);
 // 0x00456c70

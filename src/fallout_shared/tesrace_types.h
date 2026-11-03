@@ -363,7 +363,6 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int __cdecl strcat_s(char*, unsigned int, const char*);
 class NiAVObject;
 class GarbageCollectorObjectPtr
 {

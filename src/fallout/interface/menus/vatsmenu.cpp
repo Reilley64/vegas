@@ -307,7 +307,7 @@ void __cdecl FUN_007f3bd0(int aiValue)
 {
     if (DAT_011db0d4)
     {
-        *(char*)(*(int*)(&DAT_011db0d4) + 0xf8) = (char)aiValue;
+        *(char*)(*(intptr_t*)(&DAT_011db0d4) + 0xf8) = (char)aiValue;
     }
 }
 
@@ -1560,7 +1560,7 @@ struct ChanceX
     char _pad2c;
     bool bCrippled;
     char _pad2e[2];
-    int iHitCount;
+    intptr_t iHitCount;
 };
 struct TargetX
 {
@@ -4162,7 +4162,7 @@ void Owner7::UpdateLimbHighlight()
         BSSimpleList<ItemListContainer*>* savedNodeA;
         FormX* formTmp;
         formTmp = ((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt148();
-        unsigned int typeC5;
+        uintptr_t typeC5;
         typeC5 = formTmp ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((formTmp))->m_pItemObject)) : 0;
         bool flag4;
         flag4 = false;
@@ -4201,7 +4201,7 @@ void Owner7::UpdateLimbHighlight()
                 ((ChanceX*)*node7->FUN_006815c0())->b2f = 0;
                 FormX* formC3;
                 formC3 = ((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt148();
-                unsigned int typeC4;
+                uintptr_t typeC4;
                 typeC4 = formC3 ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((formC3))->m_pItemObject)) : 0;
                 if (((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt1a8() || typeC4 == 0 || ::FUN_006450c0((::TESObjectWEAP *)(((FormX*)typeC4))))
                 {
@@ -4410,8 +4410,8 @@ float VATSMenu1290::CalculateVATSChance(ListReader1290* targetNode)
     kResult = GetHitChance(
         (*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)) ? &(*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))->kAVOwner : 0, (*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)), otherA, kScale,
         ::GetActorReach((::A69C0Actor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))), (::A69C0Weapon *)(otherA)), otherA ? reinterpret_cast<::CalcActor *>((((Actor1290*)(*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))))->GetCachedSpeed(3) : 1.0f,
-        ((TargetMode1290*)targetX)->mode != 2 ? (int)entry : 0,
-        ((TargetMode1290*)targetX)->mode != 2 ? (int)weaponA : 0, ((ChanceTarget1290*)target)->weight,
+        ((TargetMode1290*)targetX)->mode != 2 ? (intptr_t)entry : 0,
+        ((TargetMode1290*)targetX)->mode != 2 ? (intptr_t)weaponA : 0, ((ChanceTarget1290*)target)->weight,
         ::FUN_009a64d0((::S_9a64d0_Ref *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))), (::S_9a64d0_Ref *)((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))), 0), boundX, 0);
     bool invalidX = false;
     if (!otherA || ::FUN_006450c0((::TESObjectWEAP *)(((Weapon1290*)otherA))))
@@ -4526,7 +4526,7 @@ BSSimpleList<ItemListContainer*>* FUN_007f3d60_cls::FindListEntryByValue(int aiV
     {
         return 0;
     }
-    int head = (int)*this->FindListEntryForTarget(reinterpret_cast<TESObjectREFR*>(::DAT_011f21cc))->FUN_006815c0();
+    intptr_t head = (intptr_t)*this->FindListEntryForTarget(reinterpret_cast<TESObjectREFR*>(::DAT_011f21cc))->FUN_006815c0();
     if (head != 0)
     {
         BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)(head + 8);
@@ -6142,7 +6142,7 @@ struct GameText
     const char* FUN_00403df0();
 };
 
-extern int DAT_011db198;
+extern intptr_t DAT_011db198;
 
 struct Tile
 {
@@ -6966,7 +6966,7 @@ bool VATSLookup::FUN_007f7280(unsigned int index, bool byPosition)
 void MenuX::HandleInput(int key, int held)
 {
     RefX* item = ((::InputProcessX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::PlayerX * *>(&::_g_thePlayer))))->GetBaseTexture()))->v82();
-    unsigned flags = item ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)) : 0;
+    uintptr_t flags = item ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)) : 0;
     if (left)
     {
         if (FUN_007f4bb0())
@@ -7206,7 +7206,7 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
     float bestAngle2 = (float)(abReverse ? -360 : 360);
 
     FormX* pEquippedA = ((::ProcessX *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerCharacter*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetBaseTexture()))->GetEquippedWeapon();
-    unsigned int flags = (pEquippedA != 0) ? reinterpret_cast<unsigned int>(((::WeaponX *)(reinterpret_cast<::InventoryEntryFields *>((pEquippedA))->m_pItemObject))) : 0;
+    uintptr_t flags = (pEquippedA != 0) ? reinterpret_cast<unsigned int>(((::WeaponX *)(reinterpret_cast<::InventoryEntryFields *>((pEquippedA))->m_pItemObject))) : 0;
 
     while (iter && !iter->FUN_008256d0())
     {
@@ -7329,7 +7329,7 @@ bool VATSMenuX::FUN_007f28d0()
         case 13: {
             clip3 = (float)reinterpret_cast<::FUN_00524b60_shell *>((weapon3))->GetByteAt102();
             AmmoInventory* invThrown3 = ((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))));
-            int countThrown = reinterpret_cast<::FUN_004c8f30_shell *>((invThrown3))->FUN_004c8f30((int)(weapon3));
+            int countThrown = reinterpret_cast<::FUN_004c8f30_shell *>((invThrown3))->FUN_004c8f30((intptr_t)(weapon3));
             reserve2 = countThrown - clip3;
             break;
         }
@@ -7342,7 +7342,7 @@ bool VATSMenuX::FUN_007f28d0()
             else
             {
                 AmmoInventory* inventory = ((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))));
-                int count9 = reinterpret_cast<::FUN_004c8f30_shell *>((inventory))->FUN_004c8f30((int)(((void *)(reinterpret_cast<::AmmoOwner *>((weapon3))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))))));
+                int count9 = reinterpret_cast<::FUN_004c8f30_shell *>((inventory))->FUN_004c8f30((intptr_t)(((void *)(reinterpret_cast<::AmmoOwner *>((weapon3))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))))));
                 if (reinterpret_cast<::TESObjectWEAP *>((reinterpret_cast<AmmoWeapon*>(weapon3)))->FUN_00709430(
                         ((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((reinterpret_cast<AmmoEntry*>(equipped5)))->HasEffect(6)))) > 0.0)
                 {
@@ -7606,7 +7606,7 @@ struct Refr
     virtual int V1e8();
     virtual void vf1ec();
     virtual void vf1f0();
-    virtual int V1f4();
+    virtual intptr_t V1f4();
     virtual void vf1f8();
     virtual void vf1fc();
     virtual void vf200();
@@ -7660,7 +7660,7 @@ struct TargetChildren
 };
 struct FUN_007f6900_Record
 {
-    int f0;
+    intptr_t f0;
     int f4;
     TargetChildren sub;
     bool f10;
@@ -7779,7 +7779,7 @@ struct Obj5b0
     unsigned int shapeKeys[8];
     int keyIndex;
     int unk3c, unk40, unk44, unk48, unk4c;
-    int f50;
+    intptr_t f50;
 };
 struct HitArray
 {
@@ -7896,7 +7896,7 @@ bool FUN_007f52c0()
         }
         if (prob > fBestProb)
             fBestProb = prob;
-        Vec3 vec = *((::Vec3 *)(::FUN_0045bb80((int)(target->reference->V1d0()))));
+        Vec3 vec = *((::Vec3 *)(::FUN_0045bb80((intptr_t)(target->reference->V1d0()))));
         float fScreenX = 0.0f;
         float fScreenY = 0.0f;
         reinterpret_cast<::ScreenCamera *>((((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))->ProjectToScreen((*(const ::NiPoint3 *)(&vec)), (*(float *)(&fScreenX)), (*(float *)(&fScreenY)), ::DAT_010718c0);
@@ -7918,7 +7918,7 @@ bool FUN_007f52c0()
                     Obj6c* pObj6c = ((::Obj6c *)(::FUN_004aae30((::NiAVObject *)((std::intptr_t)actor->V1d0()), (::NiFixedString *)(((std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(((::Chain43 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pObj54))->GetValueByIndex(i)))))))))));
                     if (pObj6c)
                     {
-                        reinterpret_cast<::ScreenCamera *>((((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))->ProjectToScreen((*(const ::NiPoint3 *)(((::Vec3 *)(::FUN_0045bb80((int)(pObj6c)))))), (*(float *)(&vScreen.x)), (*(float *)(&vScreen.y)), ::DAT_010718c0);
+                        reinterpret_cast<::ScreenCamera *>((((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))->ProjectToScreen((*(const ::NiPoint3 *)(((::Vec3 *)(::FUN_0045bb80((intptr_t)(pObj6c)))))), (*(float *)(&vScreen.x)), (*(float *)(&vScreen.y)), ::DAT_010718c0);
                         if (vScreen.x > ::_DAT_01012060 && vScreen.y > ::_DAT_01012060 && vScreen.x < ::g_01012070 &&
                             vScreen.y < ::g_01012070)
                         {
@@ -7945,7 +7945,7 @@ bool FUN_007f52c0()
         {
             FUN_007f6900_Record* obj = new FUN_007f6900_Record;
             obj->f4 = 1;
-            obj->f0 = (int)target->reference;
+            obj->f0 = (intptr_t)target->reference;
             obj->f10 = false;
             obj->f20 = ((TargetEntry*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))->selected;
             Refr* base2 = ((::Refr *)(reinterpret_cast<::Actor *>((((Refr*)obj->f0)))->GetActorBase()));
@@ -8054,7 +8054,7 @@ bool FUN_007f52c0()
         {
             FUN_007f6900_Record* obj2 = new FUN_007f6900_Record;
             obj2->f4 = 2;
-            obj2->f0 = (int)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
+            obj2->f0 = (intptr_t)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
             obj2->f10 = false;
             obj2->f20 = 0;
             Obj60* child4 = (Obj60*)new FUN_007f6820_cls;
@@ -8068,7 +8068,7 @@ bool FUN_007f52c0()
             if (!result)
             {
                 Refr* refr6 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
-                Vec3 vPos2 = *((::Vec3 *)(::FUN_0045bb80((int)(refr6->V1d0()))));
+                Vec3 vPos2 = *((::Vec3 *)(::FUN_0045bb80((intptr_t)(refr6->V1d0()))));
                 float fScreenX2 = 0.0f;
                 float fScreenY2 = 0.0f;
                 reinterpret_cast<::ScreenCamera *>((((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))->ProjectToScreen((*(const ::NiPoint3 *)(&vPos2)), (*(float *)(&fScreenX2)), (*(float *)(&fScreenY2)), ::DAT_010718c0);
@@ -8082,7 +8082,7 @@ bool FUN_007f52c0()
                     new ((void *)&(oBigList)) ::FUN_004a3c20();
                     Vec3 vOrigin;
                     Vec3 vUnused;
-                    vOrigin = *((::Vec3 *)(::FUN_0045bb80((int)(((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))));
+                    vOrigin = *((::Vec3 *)(::FUN_0045bb80((intptr_t)(((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))));
                     Obj20c oFilter;
                     new ((void *)&(oFilter)) ::GlobalObject_008c71b0(0);
                     reinterpret_cast<::FUN_004a39f0_shell *>(&(oFilter))->FUN_004a39f0(0x25);
@@ -8128,7 +8128,7 @@ bool FUN_007f52c0()
         new ((void *)&(oBigList2)) ::FUN_004a3c20();
         Vec3 vStart;
         Vec3 vUnused2;
-        vStart = *((::Vec3 *)(::FUN_0045bb80((int)(((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))));
+        vStart = *((::Vec3 *)(::FUN_0045bb80((intptr_t)(((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))));
         Obj20c oFilter2;
         new ((void *)&(oFilter2)) ::GlobalObject_008c71b0(0);
         reinterpret_cast<::FUN_004a39f0_shell *>(&(oFilter2))->FUN_004a39f0(0x25);
@@ -8152,7 +8152,7 @@ bool FUN_007f52c0()
             {
                 Obj5b0 oContact2;
                 reinterpret_cast<::S50 *>(&(oContact2))->FUN_00696c30((::S50 *)(void *)(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::CountMid *)(::FUN_00460140((std::intptr_t)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList2))->FUN_008cdd90()))))))))->GetEntryAt(count2)))));
-                int id2 = ((int)(::FUN_004b5820((::FormLike *)(oContact2.f50))));
+                intptr_t id2 = ((int)(::FUN_004b5820((::FormLike *)(oContact2.f50))));
                 if (id2)
                 {
                     Refr* found = ((::Refr *)(::FUN_0056f930((::NiAVObject *)(id2))));
@@ -9067,12 +9067,12 @@ bool MenuM::UpdateVatsTargeting()
             a9 = &(*reinterpret_cast<::TargetListM *>(&::g_011db150));
             while (a9 && !a9->FUN_008256d0())
             {
-                reinterpret_cast<::FUN_00800e50_Class *>((FUN_00705910()))->FUN_00800d50((int)(((::TargetM *)(reinterpret_cast<::SimpleListNodeView*>(a9)->m_item))->actor));
+                reinterpret_cast<::FUN_00800e50_Class *>((FUN_00705910()))->FUN_00800d50((intptr_t)(((::TargetM *)(reinterpret_cast<::SimpleListNodeView*>(a9)->m_item))->actor));
                 a9 = ((::TargetListM *)(reinterpret_cast<::Callees *>((a9))->FUN_00726070()));
             }
             lit = true;
         }
-        reinterpret_cast<::FUN_00800e50_Class *>((FUN_00705910()))->FUN_00800e50((int)((*reinterpret_cast<::ActorM * *>(&::DAT_011f21cc))));
+        reinterpret_cast<::FUN_00800e50_Class *>((FUN_00705910()))->FUN_00800e50((intptr_t)((*reinterpret_cast<::ActorM * *>(&::DAT_011f21cc))));
         return true;
     }
     else if (lit)
@@ -9174,7 +9174,7 @@ bool MenuM::UpdateVatsTargeting()
                         reinterpret_cast<::FUN_00800a90 *>((FUN_00705910()))->SetOcclusionDisabled();
                         header9 = FindListEntryByValue(25);
                         if (header9 &&
-                            reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(header9)->m_item))->pos - *((::PointM *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() < 300.0 &&
+                            reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(header9)->m_item))->pos - *((::PointM *)(::FUN_0045bb80((intptr_t)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() < 300.0 &&
                             target22 != mLast)
                             current = ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(header9)->m_item));
                         else if (target22 == mLast)
@@ -9240,7 +9240,7 @@ bool MenuM::UpdateVatsTargeting()
                             reinterpret_cast<::FUN_00800a90 *>((FUN_00705910()))->SetOcclusionDisabled();
                             aBBusy1 = FindListEntryByValue(25);
                             if (aBBusy1 &&
-                                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(aBBusy1)->m_item))->pos - *((::PointM *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() <
+                                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(aBBusy1)->m_item))->pos - *((::PointM *)(::FUN_0045bb80((intptr_t)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() <
                                     300.0 &&
                                 target22 != mLast)
                                 current = ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(aBBusy1)->m_item));
@@ -9371,7 +9371,7 @@ void VATSMenuX::UpdateLimbTiles()
         }
         if (object4)
         {
-            positionVal = *((::Point392 *)(::FUN_0045bb80((int)(object4))));
+            positionVal = *((::Point392 *)(::FUN_0045bb80((intptr_t)(object4))));
             item2->world = positionVal;
             reinterpret_cast<::ScreenCamera *>((((::ProjectionResult392 *)(::FUN_0045c670()))->FUN_006629f0()))->ProjectToScreen(*(const ::NiPoint3 *)nullptr, *(float *)nullptr, *(float *)nullptr, {});
         }

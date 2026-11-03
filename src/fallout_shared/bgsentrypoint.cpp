@@ -1,13 +1,14 @@
 // fallout_shared/bgsentrypoint.cpp: EntryPointFunctionDispatcher (1 function)
 
 #include "EntryPointFunctionDispatcher.h"
-#include "BGSEntryPointFunction.h"
+#include "../../include/BGSEntryPointFunction.h"
 #include "Actor.h"
 #include "BGSPerkEntry.h"
 #include "PlayerCharacter.h"
 #include "original_entrypoint.h"
 #include "original_script.h"
 #include <stdarg.h>
+#include "fnv/symbols_005b5000.h"
 
 namespace {
 enum
@@ -75,7 +76,7 @@ void EntryPointFunctionDispatcher::ExecuteEntryPoint(ENTRY_POINT entryPoint, Act
         }
         else
         {
-            Warning(g_entryPointArgumentErrorFormat,
+            ::FUN_005b5e40(g_entryPointArgumentErrorFormat,
                     filtersValid ? g_entryPointFunctionArgumentName : g_entryPointFilterParameterName,
                     ms_kEntryPointTable[entryPoint].m_pName, filtersValid ? argumentCount : filterCount);
         }

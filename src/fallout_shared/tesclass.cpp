@@ -57,7 +57,7 @@ void TESClass::ResetFormData()
 void TESClass::LoadGame(BGSLoadFormBuffer* buffer)
 {
     TESForm::LoadGame(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         for (unsigned int i = 0; i < 4; ++i)
             reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data.skills[i]), 4);
@@ -193,7 +193,7 @@ void FUN_005f6c90_shell::SwapEndianData()
 }
 }  // namespace fnv_005f6c90
 
-struct FUN_005f6dd0_shell
+struct FUN_005f6dd0_shell : ::TESClass
 {
     int FUN_005f6dd0();
 };
@@ -201,11 +201,11 @@ struct FUN_005f6dd0_shell
 // @fnv 0x005f6dd0
 int FUN_005f6dd0_shell::FUN_005f6dd0()
 {
-    int result = *(unsigned char*)((char*)this + 0x5c) + 0x20;
+    int result = this->data.trainingSkill + 0x20;
     return result;
 }
 
-struct FUN_005f6df0_shell
+struct FUN_005f6df0_shell : ::TESClass
 {
     void SetSkillIndex(ActorValue::Index index);
 };
@@ -227,7 +227,7 @@ void FUN_005f6df0_shell::SetSkillIndex(ActorValue::Index aeSkillIndex)
 {
     if (::FUN_0047f060((*(int *)&(aeSkillIndex))))
     {
-        ((unsigned char*)this)[0x5c] = (unsigned char)(aeSkillIndex - 0x20);
+        this->data.trainingSkill = (unsigned char)(aeSkillIndex - 0x20);
     }
 }
 
@@ -239,7 +239,7 @@ struct FUN_00484d60_holder
 {
 };
 
-struct FUN_005f7150_shell
+struct FUN_005f7150_shell : ::TESClass
 {
     void SaveForm(BGSSaveFormBuffer* apSaveGameBuffer);
 };
@@ -248,12 +248,12 @@ struct FUN_005f7150_shell
 void FUN_005f7150_shell::SaveForm(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int i;
-    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((unsigned int)apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(2)))->FUN_004280f0())
+    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((std::uintptr_t)apSaveGameBuffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         for (i = 0; i < 4; ++i)
         {
-            reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 0x44 + i * 4), 4, 0);
+            reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)&this->data + i * 4), 4, 0);
         }
     }
 }
@@ -284,7 +284,7 @@ struct FUN_0048e370_obj
 {
 };
 
-struct FUN_005f6810_shell
+struct FUN_005f6810_shell : ::TESClass
 {
     void FUN_005f6810(void);
 };
@@ -294,19 +294,19 @@ void FUN_005f6810_shell::FUN_005f6810(void)
 {
     char cAttribData[7];
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00487010();
-    reinterpret_cast<FUN_00482cb0_shell*>(reinterpret_cast<char*>(this) + 0x24)->FUN_00482cb0();
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x2c)))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<FUN_00482cb0_shell*>(static_cast<TESDescription *>(this))->FUN_00482cb0();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(static_cast<TESTexture *>(this))))->FUN_0048e370(0x4e4f4349);
     if (::FUN_00401500())
     {
-        reinterpret_cast<::FUN_005f68d0_shell *>((reinterpret_cast<TESClassData*>(reinterpret_cast<char*>(this) + 0x44)))->SwapEndian();
+        reinterpret_cast<::FUN_005f68d0_shell *>((&this->data))->SwapEndian();
     }
-    ::AppendChunk(0x41544144, reinterpret_cast<char*>(this) + 0x44, 0x1c);
+    ::AppendChunk(0x41544144, reinterpret_cast<char*>(&this->data), 0x1c);
     if (::FUN_00401500())
     {
-        reinterpret_cast<::FUN_005f68d0_shell *>((reinterpret_cast<TESClassData*>(reinterpret_cast<char*>(this) + 0x44)))->SwapEndian();
+        reinterpret_cast<::FUN_005f68d0_shell *>((&this->data))->SwapEndian();
     }
-    reinterpret_cast<FUN_00480100_shell*>(reinterpret_cast<char*>(this) + 0x38)->FUN_00480100(cAttribData);
+    reinterpret_cast<FUN_00480100_shell*>(static_cast<TESAttributes *>(this))->FUN_00480100(cAttribData);
     ::FUN_004856f0((void *)(0x52545441), cAttribData, (void *)(7));
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
@@ -320,7 +320,7 @@ struct ShellH;
 struct XActor
 {
 };
-struct FUN_005e78f0_t
+struct FUN_005e78f0_t : ::TESClass
 {
     void CopyFromTESClass(TESForm* apCopy);
 };
@@ -331,7 +331,7 @@ void FUN_005e78f0_t::CopyFromTESClass(TESForm* apCopy)
     if (!cl)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(apCopy);
-    __memcpy((void*)((char*)this + 0x44), ((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)cl)))->FUN_005d43c0())), 0x1c);
+    __memcpy((void*)((char*)&this->data), ((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)cl)))->FUN_005d43c0())), 0x1c);
 }
 
 struct FUN_005f6710_Primary
@@ -418,3 +418,5 @@ bool ClassComparison::FUN_005f6cf0(TESForm* other)
         return true;
     return false;
 }
+
+

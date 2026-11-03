@@ -1,5 +1,6 @@
 // fallout_shared/tesworldspace.cpp: TESWorldSpace, TESObjectCELL, TESRegion, InterfaceManager and more (90 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/ActorTaskManager.h"
@@ -126,6 +127,21 @@
 #include "fnv/symbols_011ca000.h"
 #include "fnv/symbols_011de000.h"
 #include "tesworldspace_packet.h"
+#include <cstring>
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_0058f5c0_shell.h"
+#include "fnv/decl/CPMap00993a80.h"
+#include "fnv/decl/CombatThreatMap.h"
+#include "fnv/decl/FUN_00484150_shell.h"
+#include "fnv/decl/FUN_00658930_class.h"
+#include "fnv/decl/SomeClass.h"
+#include "fnv/decl/TESFormSortProxy.h"
+#include "fnv/decl/UpdateOwner.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_0118a000.h"
+#include "fnv/decl/FNV_BucketMap.h"
+#include "fnv/decl/FUN_004867a0_cls.h"
+#include "fnv/decl/fnv_00484730__FUN_00484730_shell.h"
 // @fnv 0x00425fd0
 bool TESObjectCELL::IsCellInterior() const
 {
@@ -208,7 +224,7 @@ Tile* InterfaceManager::FUN_00586150()
     return pTile;
 }
 // @fnv 0x00584bc0
-void TESWorldSpace::SetFieldD0(unsigned int value)
+void TESWorldSpace::SetFieldD0(std::uintptr_t value)
 {
     fieldD0 = value;
 }
@@ -423,14 +439,14 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
     {
         pmainfile = pmainfile->GetThreadSafeRootFile();
     }
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((unsigned int)pmainfile, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pdata)) || !pdata)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((std::uintptr_t)pmainfile, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pdata)) || !pdata)
     {
         pdata = new OFFSET_DATA_24;
         pdata->pCellOffsets = 0;
         pdata->uiFileOffset = 0;
         pdata->m_kFirstPoint = NiPoint2(3.4028234663852886e+38f, 3.4028234663852886e+38f);
         pdata->m_kEndPoint = NiPoint2(::DAT_01015f5c, ::DAT_01015f5c);
-        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00844700((unsigned int)pmainfile, (unsigned int)pdata);
+        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00844700((std::uintptr_t)pmainfile, (std::uintptr_t)pdata);
     }
     return pdata;
 }
@@ -440,8 +456,8 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
 // @fnv 0x00588c50
 char* FUN_00588c50(char* pThis)
 {
-    new ((void *)(pThis + 4)) ::Vec3();
-    new ((void *)(pThis + 0xC)) ::Vec3();
+    (void *)(pThis + 4);
+    (void *)(pThis + 0xC);
     return pThis;
 }
 
@@ -458,7 +474,7 @@ struct FUN_00588fa0_arg
 int* FUN_00588fa0(int* self, FUN_00588fa0_arg a)
 {
     new ((void *)(self)) struct ::FUN_005890c0((*(unsigned int *)&(const ::FUN_00588fa0_arg &)(a)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 
@@ -478,13 +494,12 @@ struct Flt
 {
     operator unsigned int() const;
 };
-// Returns the unsigned int at offset 0xc0 as a char pointer, or an empty string when that value is zero.
+// Returns the string pointer at offset 0xc0, or an empty string when it is null.
 // @fnv 0x005832f0
 char* FUN_005832f0_shell::FUN_005832f0()
 {
-    return ((Flt*)((char*)this + 0xc0))->operator unsigned int()
-               ? (char*)((Flt*)((char*)this + 0xc0))->operator unsigned int()
-               : "";
+    char* pString = *(char**)((char*)this + 0xc0);
+    return pString ? pString : (char*)"";
 }
 
 struct FUN_00587670_shell : public TESWorldSpace
@@ -507,9 +522,9 @@ bool FUN_00587670_shell::FUN_00587670(TESObjectCELL* apCell)
         return false;
     if (reinterpret_cast<::FUN_005516c0 *>((((CellH*)apCell)))->IsCellPersistent())
     {
-        if (*(TESObjectCELL**)&this->unk34)
+        if (*(TESObjectCELL**)&this->m_pCell)
             return false;
-        *(TESObjectCELL**)&this->unk34 = apCell;
+        *(TESObjectCELL**)&this->m_pCell = apCell;
     }
     else
     {
@@ -519,7 +534,7 @@ bool FUN_00587670_shell::FUN_00587670(TESObjectCELL* apCell)
             ::FUN_005b5e40();
             return false;
         }
-        reinterpret_cast<::FUN_00844700_Class *>(((*(DummyPointerMap**)&this->cellMap)))->FUN_00844700(key, (unsigned int)apCell);
+        reinterpret_cast<::FUN_00844700_Class *>(((*(DummyPointerMap**)&this->cellMap)))->FUN_00844700(key, (std::uintptr_t)apCell);
     }
     reinterpret_cast<::FUN_0054de10_shell *>((((S54de10*)apCell)))->FUN_0054de10(this);
     return true;
@@ -618,13 +633,13 @@ struct FUN_00544630_shell
 // @fnv 0x00588070
 TESObjectCELL* FUN_00588070_shell::GetOrCreateCell()
 {
-    if (!*(stub::TESObjectCELL**)&this->unk34)
+    if (!*(stub::TESObjectCELL**)&this->m_pCell)
     {
-        *(stub::TESObjectCELL**)&this->unk34 = new stub::TESObjectCELL;
-        reinterpret_cast<::FUN_005516f0_Class *>(((*(FUN_005516f0_s**)&this->unk34)))->SetFlag400(1);
-        (*(FUN_00544630_shell**)&this->unk34)->ResetCellData();
+        *(stub::TESObjectCELL**)&this->m_pCell = new stub::TESObjectCELL;
+        reinterpret_cast<::FUN_005516f0_Class *>(((*(FUN_005516f0_s**)&this->m_pCell)))->SetFlag400(1);
+        (*(FUN_00544630_shell**)&this->m_pCell)->ResetCellData();
     }
-    return *(TESObjectCELL**)&this->unk34;
+    return *(TESObjectCELL**)&this->m_pCell;
 }
 
 struct FileH
@@ -655,7 +670,7 @@ bool FUN_005858b0_shell::IsFileFormIDMatching(FileH* apFile)
         {
             if (((unsigned int)(reinterpret_cast<::FUN_00472660_shell *>((apFile))->FUN_00472660())) == DAT_0118730c)
             {
-                if (((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((apFile))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0())))
+                if (((std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((apFile))->GetFaceGenHeadNode())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0())))
                     return true;
             }
         }
@@ -730,7 +745,7 @@ struct ArrSI
 // @fnv 0x00586230
 char ArrSI::HasFlag80000()
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (flags & 0x80000)
         return 1;
     return 0;
@@ -971,7 +986,7 @@ void FUN_004f6800_shell::FUN_004f6800(void* a1, float* a2, void* a3)
     tmp.FUN_004f6fc0();
     reinterpret_cast<::FUN_0052ce20_shell *>((((AlphaColor*)&tmp)))->FUN_0052ce20(a2[0]);
     reinterpret_cast<::FUN_004f5d90_shell *>((((Modifier*)&tmp)))->FUN_004f5d90(a2[1]);
-    reinterpret_cast<::FUN_004f6850_Class *>((((FUN_004f6850_shell*)this)))->FUN_004f6850((int)(a1), (int)(&tmp), (int)(a3));
+    reinterpret_cast<::FUN_004f6850_Class *>((((FUN_004f6850_shell*)this)))->FUN_004f6850((std::intptr_t)(a1), (std::intptr_t)(&tmp), (std::intptr_t)(a3));
 }
 
 struct FUN_00528560_Host
@@ -1006,7 +1021,7 @@ struct S_00583040
 // @fnv 0x00583040
 void* S_00583040::FUN_00583040(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006fc980 *>(this)->FUN_006fc980::~FUN_006fc980();
+    reinterpret_cast<::FUN_006fc980 *>(this)->::FUN_006fc980::~FUN_006fc980();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1227,7 +1242,7 @@ FormIDData* TESWorldSpace_shell::FUN_00588a90(TESFile* file)
     TESFile* current = file;
     while (current && current->GetThreadSafeRootFile())
         current = current->GetThreadSafeRootFile();
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((unsigned int)current, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)result)))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((std::uintptr_t)current, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)result)))
         result = 0;
     return result;
 }
@@ -1262,14 +1277,17 @@ struct Caller_0095f590
 // @fnv 0x0095f530
 BGSCameraPath* FUN_0095f530_shell::FUN_0095f530(TESObjectREFR* apActionRef, TESObjectREFR* apTargetRef)
 {
+    // Both parameters carry plain values: a set/clear flag and the flag bits.
+    bool bSet = (unsigned char)reinterpret_cast<std::uintptr_t>(apActionRef) != 0;
+    unsigned char ucFlags = (unsigned char)reinterpret_cast<std::uintptr_t>(apTargetRef);
     unsigned char nv;
-    if ((unsigned char)apActionRef)
+    if (bSet)
     {
-        nv = *(unsigned char*)((char*)this + 0x680) | (unsigned int)apTargetRef;
+        nv = *(unsigned char*)((char*)this + 0x680) | ucFlags;
     }
     else
     {
-        nv = (unsigned char)~(unsigned char)apTargetRef;
+        nv = (unsigned char)~ucFlags;
         nv = *(unsigned char*)((char*)this + 0x680) & nv;
     }
     return ((Caller_0095f590*)this)->FUN_0095f590(nv);
@@ -1390,7 +1408,7 @@ FUN_00582c20::FUN_00582c20() : m_kSecondTreeComponent(0x25), m_kFourthTreeCompon
 namespace fnv_005857b0 {
 struct FileH
 {
-    int m_uiData;
+    int* m_uiData;
     float m_fVectorY;
     float m_fVectorZ;
     float m_fScalarPart;
@@ -1401,10 +1419,10 @@ struct FUN_005858b0_shell
 };
 struct FUN_005857b0_shell : FUN_005858b0_shell
 {
-    void FUN_005857b0(int a, int b);
+    void FUN_005857b0(std::intptr_t a, int b);
 };
 // @fnv 0x005857b0
-void FUN_005857b0_shell::FUN_005857b0(int a, int aiDelta)
+void FUN_005857b0_shell::FUN_005857b0(std::intptr_t a, int aiDelta)
 {
     FileH* p = ((::fnv_005857b0::FileH *)(reinterpret_cast<::fnv_00588a90::TESWorldSpace_shell *>(this)->FUN_00588a90((::TESFile *)(a))));
     if (p && p->m_uiData && aiDelta)
@@ -1418,8 +1436,8 @@ void FUN_005857b0_shell::FUN_005857b0(int a, int aiDelta)
             for (int j = i3; j <= i0; j++)
             {
                 int k = reinterpret_cast<::fnv_00584530::FUN_005858b0_shell *>(this)->FUN_00584530((::fnv_00584530::FileH *)(a), i, j);
-                if (k >= 0 && ((int*)p->m_uiData)[k])
-                    ((int*)p->m_uiData)[k] += aiDelta;
+                if (k >= 0 && p->m_uiData[k])
+                    p->m_uiData[k] += aiDelta;
             }
         }
     }
@@ -1779,7 +1797,7 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
 
             while (pCurrentElementNext != 0 && !pCurrentElementNext->_ref_008256d0())
             {
-                pref = *((::TESObjectREFR **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                pref = *((::TESObjectREFR **)((void *)(pCurrentElementNext)));
                 reinterpret_cast<::CellView *>((cell))->FUN_00548230((::RefView *)(pref), false);
                 pCurrentElementNext = ((::fnv_00588150::BSSimpleList *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
             }
@@ -1791,9 +1809,9 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
 
             while (pCurrentElementNext != 0 && !pCurrentElementNext->_ref_008256d0())
             {
-                pref = *((::TESObjectREFR **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                pref = *((::TESObjectREFR **)((void *)(pCurrentElementNext)));
 
-                if (((int)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(pref)))->GetTarget())) != reinterpret_cast<int>(cell))
+                if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(pref)))->GetTarget())) != reinterpret_cast<std::uintptr_t>(cell))
                 {
                     if (reinterpret_cast<::fnv_00550200::FUN_00550200 *>((reinterpret_cast<FUN_00550200_shell*>(cell)))->IsPointInCell(
                             (*(const ::fnv_00550200::NiPoint3 *)(reinterpret_cast<BSOcclusionPlane*>(pref)->FUN_0125()))))
@@ -1993,9 +2011,9 @@ void FUN_00583270_cls::FUN_00583270()
 {
     if (((void *)(::FUN_00559450((int *)&(sub)))))
     {
-        if (((int)(reinterpret_cast<::Callees *>((((void *)(::FUN_00559450((int *)&(sub))))))->FUN_00726070())) == 1)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((void *)(::FUN_00559450((int *)&(sub))))))->FUN_00726070())) == 1)
         {
-            if (((int)(reinterpret_cast<::FUN_00454b30_class *>((reinterpret_cast<FUN_00583270_mid_cls*>(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00454b30())) == (int)((void *)(::FUN_00559450((int *)&(sub)))))
+            if (((std::uintptr_t)(reinterpret_cast<::FUN_00454b30_class *>((reinterpret_cast<FUN_00583270_mid_cls*>(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00454b30())) == (std::uintptr_t)((void *)(::FUN_00559450((int *)&(sub)))))
             {
                 reinterpret_cast<::fnv_00b5ddf0::LocalTarget *>((reinterpret_cast<FUN_00583270_tgt_cls*>(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00b5ddf0((::fnv_00b5ddf0::LocalContext *)(0));
             }
@@ -2358,7 +2376,7 @@ struct FUN_00582e30 : FUN_00483630_holder, FUN_00591300, TESTexture
 // @fnv 0x00582e00
 void* FUN_00582e00_host::FUN_00582e00(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00582e30 *>(this)->FUN_00582e30::~FUN_00582e30();
+    reinterpret_cast<::FUN_00582e30 *>(this)->::FUN_00582e30::~FUN_00582e30();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2617,8 +2635,8 @@ void SaveWorld::FUN_00584170()
         formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SaveForm *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e5a, formID);
     }
-    ::FUN_004856f0((void *)(0x4d414e4e), reinterpret_cast<::FUN_00408da0_Class *>(&(canopy))->FUN_00408da0(), (void *)(canopy.FUN_0048cee0() + 1));
-    ::FUN_004856f0((void *)(0x4d414e58), reinterpret_cast<::FUN_00408da0_Class *>(&(waterNoise))->FUN_00408da0(), (void *)(waterNoise.FUN_0048cee0() + 1));
+    ::FUN_004856f0((void *)(0x4d414e4e), reinterpret_cast<::FUN_00408da0_Class *>(&(canopy))->FUN_00408da0(), (void *)(std::uintptr_t)(canopy.FUN_0048cee0() + 1));
+    ::FUN_004856f0((void *)(0x4d414e58), reinterpret_cast<::FUN_00408da0_Class *>(&(waterNoise))->FUN_00408da0(), (void *)(std::uintptr_t)(waterNoise.FUN_0048cee0() + 1));
     if (extra)
         reinterpret_cast<::FUN_0058f080 *>((extra))->Save();
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
@@ -2821,7 +2839,7 @@ void WorldCopy::FUN_00584fa0(TESForm* form)
     waterHeight = source->waterHeight;
     ::__memcpy(&unk80, &source->unk80, 16);
     ::__memcpy(&unk90, &source->unk90, 12);
-    reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue(((int)(reinterpret_cast<::InterfaceManager *>((source))->FUN_00586150())));
+    reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue(((std::intptr_t)(reinterpret_cast<::InterfaceManager *>((source))->FUN_00586150())));
     reinterpret_cast<::FUN_00438af0_Class *>((cells))->FUN_00438af0();
     void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((source->cells))->GetFirstPos();
     while (position)
@@ -3099,7 +3117,7 @@ CellOperations* WorldCellLoader::FUN_00585b30(int x, int y)
                     reinterpret_cast<::FUN_00544c90_shell *>((p))->SetExteriorCellCoordinates(x, y);
                     reinterpret_cast<::FUN_00587670_shell *>(this)->FUN_00587670((::TESObjectCELL *)(p));
                     void* worldData = 0;
-                    worldData = reinterpret_cast<::Own61 *>(((*reinterpret_cast<::SaveLoadOperations * *>(&::g_TESSaveLoadGame))))->RemoveCommand((const char *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))), x, y);
+                    worldData = reinterpret_cast<::Own61 *>(((*reinterpret_cast<::SaveLoadOperations * *>(&::g_TESSaveLoadGame))))->RemoveCommand((const char *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))), x, y);
                     if (worldData)
                         p->SetWorldData(worldData, true);
                     i = ::TESDataHandler::LoadForm((::TESForm *)(p), (::TESFile *)(file));
@@ -3129,7 +3147,7 @@ CellOperations* WorldCellLoader::FUN_00585b30(int x, int y)
 
 struct FUN_00585ee0_shell : public TESWorldSpace
 {
-    bool FindParentFile(int a1, int a2, unsigned int* a3, unsigned int* a4);
+    bool FindParentFile(int a1, int a2, void** a3, unsigned int* a4);
 };
 
 struct FileX
@@ -3142,7 +3160,7 @@ struct WorldX
 
 
 // @fnv 0x00585ee0
-bool FUN_00585ee0_shell::FindParentFile(int a1, int a2, unsigned int* apuiFileOut, unsigned int* apuiOffsetOut)
+bool FUN_00585ee0_shell::FindParentFile(int a1, int a2, void** apuiFileOut, unsigned int* apuiOffsetOut)
 {
     bool bFound = false;
     *apuiFileOut = 0;
@@ -3157,7 +3175,7 @@ bool FUN_00585ee0_shell::FindParentFile(int a1, int a2, unsigned int* apuiFileOu
                 TESFile* pParentFile = reinterpret_cast<::TESFile *>((((FileX*)reinterpret_cast<::TESForm *>(this)->GetFile(iFileIndex))))->GetParentTESFile();
                 if (pParentFile && reinterpret_cast<::WorldReader *>((((WorldX*)this)))->SeekToCellInWorld((::FileReader *)(pParentFile), a1, a2) && ::FUN_00550f60(pParentFile))
                 {
-                    *apuiFileOut = (unsigned int)pParentFile;
+                    *apuiFileOut = pParentFile;
                     *apuiOffsetOut = reinterpret_cast<::TESFile *>((((FileX*)pParentFile)))->GetOffset();
                     bFound = true;
                     break;
@@ -3412,7 +3430,7 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
     RegionNode* f = eb->GetList();
     while (f)
     {
-        b = *((::Region **)(new ((void *)(f)) ::Vec3()));
+        b = *((::Region **)((void *)(f)));
         a = b ? b->Form() : 0;
         if (b && b->Priority() && a && a->Weight() && b->Weight(h, this, false) != 0.0)
         {
@@ -3426,7 +3444,7 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
     f = eb->GetList();
     while (f)
     {
-        b = *((::Region **)(new ((void *)(f)) ::Vec3()));
+        b = *((::Region **)((void *)(f)));
         a = b ? b->Form() : 0;
         if (b && !b->Priority() && a && a->Weight() && b->Weight(h, this, false) != 0.0)
         {
@@ -3454,13 +3472,13 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
         results[p].name = 0;
         if (!ba)
             continue;
-        l = *((::Entry **)(new ((void *)(ba)) ::Vec3()));
+        l = *((::Entry **)((void *)(ba)));
         while (!l)
         {
             ba = ((::GlobalObject_0096a2d0 *)(reinterpret_cast<::Callees *>((ba))->FUN_00726070()));
             if (!ba)
                 break;
-            l = *((::Entry **)(new ((void *)(ba)) ::Vec3()));
+            l = *((::Entry **)((void *)(ba)));
         }
         if (!l)
             continue;
@@ -3496,9 +3514,9 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
     {
         GlobalObject_0096a2d0* cleanup = cf;
         Entry* dead = 0;
-        while (cleanup && *((::Entry **)(new ((void *)(cleanup)) ::Vec3())))
+        while (cleanup && *((::Entry **)((void *)(cleanup))))
         {
-            dead = *((::Entry **)(new ((void *)(cleanup)) ::Vec3()));
+            dead = *((::Entry **)((void *)(cleanup)));
             cleanup = ((::GlobalObject_0096a2d0 *)(reinterpret_cast<::Callees *>((cleanup))->FUN_00726070()));
             delete dead;
         }
@@ -3542,10 +3560,10 @@ WsNameList* FUN_005883c0_shell::BuildMapNameList(bool abNoChildren)
         reinterpret_cast<::FUN_00588520_shell *>(this)->FUN_00588520((::BSSimpleList<const char *> *)(pNameList));
         if (!abNoChildren)
         {
-            WsListNode* pNode = ((::WsListNode *)(::FUN_00460140((int)(((WsDataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))));
+            WsListNode* pNode = ((::WsListNode *)(::FUN_00460140((std::intptr_t)(((WsDataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))));
             while (pNode)
             {
-                TESWorldSpace* pWorld = *((::TESWorldSpace **)(new ((void *)(pNode)) ::Vec3()));
+                TESWorldSpace* pWorld = *((::TESWorldSpace **)((void *)(pNode)));
                 if (pWorld && pWorld->GetParentWorld((PARENT_USE_FLAG)2) == this)
                 {
                     reinterpret_cast<::FUN_00588520_shell *>((((FUN_005883c0_shell*)pWorld)))->FUN_00588520((::BSSimpleList<const char *> *)(pNameList));
@@ -3562,12 +3580,10 @@ struct CELL_SHELL : public TESObjectCELL
 };
 struct WORLD_SHELL : public TESWorldSpace
 {
-    void ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance,
-                              int options, unsigned int context);
+    void ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, std::uintptr_t context);
 };
 // @fnv 0x005885f0
-void WORLD_SHELL::ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint,
-                                       float otherDistance, int options, unsigned int context)
+void WORLD_SHELL::ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, std::uintptr_t context)
 {
     if (options == 0)
         return;
@@ -3694,16 +3710,16 @@ bool WorldQuery::ContainsPoint(const NiPoint3* position)
         return true;
     QueryPoint2 point3(position->x, position->y);
     bool found = false;
-    CellQueryNode* node2 = ((::CellQueryNode *)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::QueryData * *>(&::g_dataHandler))))->FUN_004169d0()));
-    while (node2 && *((::CellQuery **)(new ((void *)(node2)) ::Vec3())))
+    CellQueryNode* node2 = ((::CellQueryNode *)(std::uintptr_t)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::QueryData * *>(&::g_dataHandler))))->FUN_004169d0()));
+    while (node2 && *((::CellQuery **)((void *)(node2))))
     {
-        CellQuery* cell2 = *((::CellQuery **)(new ((void *)(node2)) ::Vec3()));
+        CellQuery* cell2 = *((::CellQuery **)((void *)(node2)));
         if (reinterpret_cast<::FUN_00549580_shell *>((cell2))->FUN_00549580() && !reinterpret_cast<::FUN_00440d80_shell *>((cell2))->FUN_00440d80() && ((::WorldQuery *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((cell2))->FUN_007af430())) == this)
         {
             QueryLink<AreaQuery>* link = ((::QueryLink< ::AreaQuery> *)(reinterpret_cast<::BGSTerrainManager *>((cell2))->GetMinLevel()));
-            while (link && *((::AreaQuery **)(new ((void *)(link)) ::Vec3())))
+            while (link && *((::AreaQuery **)((void *)(link))))
             {
-                AreaQuery* area = *((::AreaQuery **)(new ((void *)(link)) ::Vec3()));
+                AreaQuery* area = *((::AreaQuery **)((void *)(link)));
                 if (reinterpret_cast<::Polygon *>((area))->FUN_004f8360((::PolygonPoint *)(&point3)))
                     found = true;
                 link = ((::QueryLink< ::AreaQuery> *)(reinterpret_cast<::Callees *>((link))->FUN_00726070()));
@@ -3715,7 +3731,6 @@ bool WorldQuery::ContainsPoint(const NiPoint3* position)
 }
 
 namespace fnv_00583560 {
-extern "C" void* _alloca(unsigned int);
 class File583
 {
   public:
@@ -4052,25 +4067,25 @@ bool World583::FUN_00583560(File583* file)
         case 0x4d414e43: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(value));
+            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(std::uintptr_t)(value));
             break;
         }
         case 0x4d414e49: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(value));
+            reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(std::uintptr_t)(value));
             break;
         }
         case 0x324d414e: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound((::TESSound *)(value));
+            reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound((::TESSound *)(std::uintptr_t)(value));
             break;
         }
         case 0x334d414e: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(value));
+            reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(std::uintptr_t)(value));
             break;
         }
         case 0x344d414e: {
@@ -4082,7 +4097,7 @@ bool World583::FUN_00583560(File583* file)
         case 0x4d414e57: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::TESWorldSpace *>(this)->SetParent((::TESWorldSpace *)(value));
+            reinterpret_cast<::TESWorldSpace *>(this)->SetParent((::TESWorldSpace *)(std::uintptr_t)(value));
             field4E = 0xffff;
             break;
         }
@@ -4389,11 +4404,11 @@ void WorldObj::FUN_005878d0(RefObj* pRef)
                             if (!map)
                                 map = new DummyPointerMap(0x25);
                             unsigned int key3 = ::PackShortPair((short)i_, (short)j2);
-                            int val = 0;
+                            std::intptr_t val = 0;
                             reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(map))->FUN_00853130(key3, (::fnv_00853130::CombatThreatRecord *&)(val));
                             if (!val)
                             {
-                                val = (int)new StrList();
+                                val = (std::intptr_t)new StrList();
                                 reinterpret_cast<::FUN_00844700_Class *>((map))->FUN_00844700(key3, val);
                             }
                             ((SetAtHelper*)val)->FUN_005ae3d0((void**)&pRef);
@@ -4524,18 +4539,18 @@ bool World65::FUN_00586500(String65* output, Pos65 pos)
     {
         Region65* region4;
         Area65* area;
-        RegionNode65* node5 = ((::RegionHead65 *)(reinterpret_cast<::FUN_004169d0_shell *>((((Handler65*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_004169d0()));
+        RegionNode65* node5 = ((::RegionHead65 *)(std::uintptr_t)(reinterpret_cast<::FUN_004169d0_shell *>((((Handler65*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_004169d0()));
         AreaList65* areas = 0;
         Point65 point2(pos);
         int priority6 = -1;
         bool contains3 = false;
         bool aOverrideFlag = false;
-        while (node5 && *((::Region65 **)(new ((void *)(node5)) ::Vec3())))
+        while (node5 && *((::Region65 **)((void *)(node5))))
         {
             contains3 = false;
-            region4 = *((::Region65 **)(new ((void *)(node5)) ::Vec3()));
-            if (reinterpret_cast<::FUN_00440d80_shell *>((region4))->FUN_00440d80() || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((region4))->FUN_007af430())) != this || !((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel())) ||
-                ((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()))->FUN_008256d0())
+            region4 = *((::Region65 **)((void *)(node5)));
+            if (reinterpret_cast<::FUN_00440d80_shell *>((region4))->FUN_00440d80() || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((region4))->FUN_007af430())) != this || !((::AreaList65 *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel())) ||
+                ((::AreaList65 *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()))->FUN_008256d0())
             {
                 node5 = ((::RegionNode65 *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
                 continue;
@@ -4547,10 +4562,10 @@ bool World65::FUN_00586500(String65* output, Pos65 pos)
                 node5 = ((::RegionNode65 *)(reinterpret_cast<::Callees *>((node5))->FUN_00726070()));
                 continue;
             }
-            areas = ((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()));
-            while (areas && *((::Area65 **)(new ((void *)(areas)) ::Vec3())))
+            areas = ((::AreaList65 *)(std::uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()));
+            while (areas && *((::Area65 **)((void *)(areas))))
             {
-                area = *((::Area65 **)(new ((void *)(areas)) ::Vec3()));
+                area = *((::Area65 **)((void *)(areas)));
                 if (reinterpret_cast<::Polygon *>((area))->FUN_004f8360((::PolygonPoint *)&(point2)))
                 {
                     contains3 = true;
@@ -4776,12 +4791,761 @@ void WorldSpaceRefShell::FUN_00587d10(TESObjectREFR* apRef)
             if (!preflist)
             {
                 preflist = new RefListNode_587D10;
-                reinterpret_cast<::FUN_00844700_Class *>((((SetAt_587D10*)((char*)this + 0x50))))->FUN_00844700(ikey, (unsigned int)preflist);
+                reinterpret_cast<::FUN_00844700_Class *>((((SetAt_587D10*)((char*)this + 0x50))))->FUN_00844700(ikey, (std::uintptr_t)preflist);
             }
             preflist->AddHead((int*)&apRef);
         }
         reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011ca60c))))->WaitForTasksDuringRendering();
     }
+}
+
+struct S00585250_WorldData
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual bool Different(S00585250_WorldData*);
+    int unk04, unk08;
+};
+
+struct S00585250_WorldReference
+{
+    bool Different(S00585250_WorldReference*);
+};
+
+struct WorldCompareView
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    S00585250_WorldReference* reference;
+    unsigned char flags;
+    unsigned char unk4D;
+    unsigned short field4E;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    unsigned int unkA0;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    unsigned int unkB8;
+    unsigned int unkBC;
+    unsigned int unkC0;
+    unsigned int unkC4;
+    float fC8;
+    float fCC;
+    unsigned int unkD0;
+    S00585250_WorldData dataD4;
+    S00585250_WorldData dataE0;
+    bool FUN_00585250(TESForm*);
+};
+
+// @fnv 0x00585250
+bool WorldCompareView::FUN_00585250(TESForm* form)
+{
+    WorldCompareView* other = (WorldCompareView*)dynamic_cast< ::TESWorldSpace*>(form);
+    if (!other)
+        return true;
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(other)))
+        return true;
+    if (flags != other->flags)
+        return true;
+    if (field4E != other->field4E)
+        return true;
+    if (unk70 != other->unk70)
+        return true;
+    if (unkD0 != other->unkD0)
+        return true;
+    if (((void *)(reinterpret_cast<::FUN_00585fe0_shell *>(this)->FUN_00585fe0())) != ((void *)(reinterpret_cast<::FUN_00585fe0_shell *>((other))->FUN_00585fe0())))
+        return true;
+    if (((void *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())) != ((void *)(reinterpret_cast<::LowProcess *>((other))->GetActiveCombatTarget())))
+        return true;
+    if (reference && other->reference)
+    {
+        if (reinterpret_cast<::FUN_0058f5c0_shell *>((reference))->IsImpactSwapDifferent((::ImpactSwap *)(other->reference)))
+            return true;
+    }
+    else if (reference || other->reference)
+        return true;
+    if (((void *)(::FUN_00586070((::TESWorldSpace *)this))) != ((void *)(::FUN_00586070((::TESWorldSpace *)(other)))))
+        return true;
+    if (((void *)(reinterpret_cast<::FUN_005860c0_shell *>(this)->FUN_005860c0())) != ((void *)(reinterpret_cast<::FUN_005860c0_shell *>((other))->FUN_005860c0())))
+        return true;
+    if (reinterpret_cast<::BGSProjectile *>(this)->GetExplosionProximity() != reinterpret_cast<::BGSProjectile *>((other))->GetExplosionProximity())
+        return true;
+    if (fC8 != other->fC8 || fCC != other->fCC)
+        return true;
+    if (memcmp(&unk80, &other->unk80, 16))
+        return true;
+    if (memcmp(&unk90, &other->unk90, 12))
+        return true;
+    if (((void *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150())) != ((void *)(reinterpret_cast<::InterfaceManager *>((other))->FUN_00586150())))
+        return true;
+    if (dataD4.Different(&other->dataD4))
+        return true;
+    if (dataE0.Different(&other->dataE0))
+        return true;
+    return false;
+}
+
+struct GROUP_HEADER
+{
+    unsigned int uiType;
+    unsigned int uiSize;
+    unsigned int uiLabel;
+    int iGroupType;
+};
+
+class FormGroupOwner
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual bool IsParentForm(TESForm* pkForm);
+    bool FUN_00584d40(GROUP_HEADER* pkGroup);
+};
+
+// @fnv 0x00584d40
+bool FormGroupOwner::FUN_00584d40(GROUP_HEADER* pkGroup)
+{
+    bool bResult = false;
+    if (pkGroup && pkGroup->uiType == ::fnv_00543df0::kGroupFormType)
+    {
+        switch (pkGroup->iGroupType)
+        {
+        case 0:
+            bResult = reinterpret_cast<::FUN_00484150_shell *>(this)->IsFormTypeBelowThreshold((::FormRecordHeader *)(pkGroup));
+            break;
+        case 2:
+        case 3:
+            bResult = false;
+            break;
+        case 6: {
+            TESObjectCELL* pkCell = dynamic_cast<TESObjectCELL*>(FUN_004839c0(pkGroup->uiLabel));
+            if (pkCell)
+                bResult = IsParentForm((TESForm*)pkCell);
+        }
+        break;
+        case 4:
+        case 5:
+            break;
+        case 1: {
+            TESWorldSpace* pkWorld = dynamic_cast<TESWorldSpace*>(FUN_004839c0(pkGroup->uiLabel));
+            if (pkWorld)
+                bResult = IsParentForm((TESForm*)pkWorld);
+        }
+        break;
+        case 7:
+            bResult = true;
+            break;
+        }
+    }
+    return bResult;
+}
+
+class MobileObject : public TESObjectREFR
+{
+};
+
+class Actor : public MobileObject
+{
+};
+
+struct MapPosition532;
+
+struct FUN_00993820
+{
+    virtual ~FUN_00993820();
+    unsigned int bucketCount;
+    MapPosition532** buckets;
+    unsigned int size;
+    FUN_00993820(int);
+    void SetValue(Actor*, unsigned __int64);
+};
+
+struct Child532
+{
+};
+
+struct Tail532
+{
+};
+
+struct ReferenceArray532
+{
+    virtual ~ReferenceArray532();
+    Child532** data;
+    unsigned short capacity, size, effectiveSize, grow;
+    Child532*& FUN_00877a30(unsigned int);
+};
+
+struct CombatGroup532 : ReferenceArray532
+{
+    FUN_00993820* map;
+    Tail532* tail;
+    void FUN_00993600(void* stream);
+};
+
+// @fnv 0x00993600
+void CombatGroup532::FUN_00993600(void* stream)
+{
+    FUN_00993820* oldMapX = map;
+    map = new FUN_00993820(0x25);
+    MapPosition532* position = ((::MapPosition532 *)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((oldMapX))->GetFirstPos()));
+    Actor* actor_;
+    unsigned __int64 valueTmp;
+    unsigned int index;
+    Child532* child2;
+    while (position)
+    {
+        reinterpret_cast<::CPMap00993a80 *>((oldMapX))->GetNextEntry((::CPMapItem00993a80 *&)(position), (uintptr_t *)&(actor_), (unsigned long long *)&(valueTmp));
+        // Persisted pointer-map keys hold a 32-bit form identifier until fixup.
+        actor_ = actor_ ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)(std::uintptr_t)actor_)) : 0;
+        if (actor_)
+            map->SetValue(actor_, valueTmp);
+    }
+    reinterpret_cast<::FUN_00438af0_Class *>((oldMapX))->FUN_00438af0();
+    delete oldMapX;
+    for (index = 0; index < reinterpret_cast<::FUN_00658930_class *>(this)->GetShortAtOffsetA(); ++index)
+    {
+        child2 = FUN_00877a30(index);
+        if (child2)
+            reinterpret_cast<::UpdateOwner *>((child2))->UpdateElements((std::uintptr_t)(stream));
+    }
+    reinterpret_cast<::CombatThreatMap *>((tail))->ApplyLoadBuffer((::BGSLoadGameBuffer *)(stream));
+}
+
+class TESClimate_rtti : public TESForm
+{
+};
+
+class TESImageSpace : public TESForm
+{
+};
+
+class BGSEncounterZone : public TESForm
+{
+};
+
+class TESWaterForm : public TESForm
+{
+};
+
+class BGSMusicType : public TESForm
+{
+};
+
+class TESObjectCELL5845
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void LinkPersistent();
+};
+
+class CellMap5845
+{
+  public:
+};
+
+class WorldSpaceOwner5845;
+
+class WorldSpaceLOD5845
+{
+  public:
+    WorldSpaceLOD5845(WorldSpaceOwner5845* pkWorld);
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+};
+
+class WorldSpaceRegion5845
+{
+  public:
+};
+
+class WorldSpaceOwner5845
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual const char* GetEditorID() const;
+
+    void FUN_005845e0();
+
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    CellMap5845* m_pkCellMap;
+    unsigned int unk34;
+    unsigned int unk38;
+    WorldSpaceLOD5845* m_pkLOD;
+    unsigned int m_uiClimate;
+    unsigned int m_uiImageSpace;
+    WorldSpaceRegion5845* m_pkRegion;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int m_uiParentWorld;
+    unsigned int m_uiWater;
+    unsigned int m_uiLODWater;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int m_uiMusicType;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int m_uiEncounterZone;
+};
+
+// @fnv 0x005845e0
+void WorldSpaceOwner5845::FUN_005845e0()
+{
+    if (!reinterpret_cast<::TESForm *>(this)->GetInitialized())
+    {
+        unsigned int uiFormIDA;
+        uiFormIDA = m_uiClimate;
+        if (uiFormIDA)
+        {
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+            TESClimate_rtti* pkClimate = dynamic_cast<TESClimate_rtti*>(FUN_004839c0(uiFormIDA));
+            if (!pkClimate)
+            {
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
+                else
+                    ::FUN_005b5e40();
+            }
+            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(pkClimate));
+        }
+        uiFormIDA = m_uiImageSpace;
+        if (uiFormIDA)
+        {
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+            TESImageSpace* pkImageSpace2 = dynamic_cast<TESImageSpace*>(FUN_004839c0(uiFormIDA));
+            if (!pkImageSpace2)
+            {
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
+                else
+                    ::FUN_005b5e40();
+            }
+            reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(pkImageSpace2));
+        }
+        uiFormIDA = m_uiEncounterZone;
+        if (uiFormIDA)
+        {
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+            BGSEncounterZone* pkEncounterZone = dynamic_cast<BGSEncounterZone*>(FUN_004839c0(uiFormIDA));
+            if (!pkEncounterZone)
+            {
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
+                else
+                    ::FUN_005b5e40();
+            }
+            reinterpret_cast<::TESWorldSpace *>(this)->SetFieldD0((std::uintptr_t)(pkEncounterZone));
+        }
+        uiFormIDA = m_uiWater;
+        if (uiFormIDA)
+        {
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+            TESWaterForm* pkWaterType4 = dynamic_cast<TESWaterForm*>(FUN_004839c0(uiFormIDA));
+            if (!pkWaterType4)
+            {
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
+                else
+                    ::FUN_005b5e40();
+            }
+            reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound((::TESSound *)(pkWaterType4));
+        }
+        uiFormIDA = m_uiLODWater;
+        if (uiFormIDA)
+        {
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+            TESWaterForm* pkLODWaterType3 = dynamic_cast<TESWaterForm*>(FUN_004839c0(uiFormIDA));
+            if (!pkLODWaterType3)
+            {
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
+                else
+                    ::FUN_005b5e40();
+            }
+            reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(pkLODWaterType3));
+        }
+        uiFormIDA = m_uiMusicType;
+        if (uiFormIDA)
+        {
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+            BGSMusicType* kPkMusicType = dynamic_cast<BGSMusicType*>(FUN_004839c0(uiFormIDA));
+            if (!kPkMusicType)
+            {
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
+                else
+                    ::FUN_005b5e40();
+            }
+            reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue((std::intptr_t)(kPkMusicType));
+        }
+        uiFormIDA = m_uiParentWorld;
+        if (uiFormIDA)
+        {
+            ::ResolveFormID(&uiFormIDA, reinterpret_cast<::TESForm *>(this)->GetFile(-1));
+            TESWorldSpace* pkParentWorldVal = dynamic_cast<TESWorldSpace*>(FUN_004839c0(uiFormIDA));
+            if (!pkParentWorldVal)
+            {
+                if (reinterpret_cast<::BGSCameraPath *>(this)->HasNameForWarning())
+                    ::FUN_005b5e40();
+                else
+                    ::FUN_005b5e40();
+            }
+            reinterpret_cast<::TESWorldSpace *>(this)->SetParent(pkParentWorldVal);
+        }
+        if (m_pkRegion)
+            reinterpret_cast<::SomeClass *>((m_pkRegion))->RemapImpactData((::TESForm *)(::WorldSpaceOwner5845 *)(this));
+        reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
+    }
+    TESObjectCELL5845* pkPersistent4;
+    void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((m_pkCellMap))->GetFirstPos();
+    while (pos2)
+    {
+        unsigned int uiKey3;
+        TESObjectCELL5845* pkCell = 0;
+        reinterpret_cast<::C6b7f20_Map *>((m_pkCellMap))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(uiKey3), (void **)&(pkCell));
+        if (pkCell)
+            pkCell->LinkPersistent();
+    }
+    pkPersistent4 = ((::TESObjectCELL5845 *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()));
+    if (pkPersistent4)
+        pkPersistent4->LinkPersistent();
+    m_pkLOD = new WorldSpaceLOD5845(this);
+}
+
+extern "C" void* __cdecl FUN_00ec43fb(void* p, long off, void* src, void* dst, int isRef);
+
+struct FormX
+{
+    int FUN_00401170();
+    bool IsLessThan(FormX* pkForm);
+};
+
+struct WorldX_rtti;
+
+struct ChildX
+{
+    virtual WorldX_rtti* GetParentWorld();
+};
+
+struct WorldX_rtti;
+
+struct CellX
+{
+};
+
+struct WorldX_rtti
+{
+    bool IsLessThan(FormX* pkForm);
+    virtual void v00(), v04(), v08(), v0c(), v10(), v14(), v18(), v1c(), v20(), v24(), v28(), v2c(), v30(), v34(),
+        v38();
+    virtual bool IsChildOf(WorldX_rtti* pkWorld);
+    bool FUN_00584be0(FormX* pkForm);
+};
+
+// @fnv 0x00584be0
+bool WorldX_rtti::FUN_00584be0(FormX* pkForm)
+{
+    bool bResult = false;
+    switch (pkForm->FUN_00401170())
+    {
+    case 0x39: {
+        CellX* pkCell = (CellX*)dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(pkForm));
+        WorldX_rtti* pkWorld = pkCell ? ((::WorldX_rtti *)(reinterpret_cast<::TESObjectCELL *>((pkCell))->GetParentWorldSpace())) : 0;
+        if (pkWorld == this)
+            bResult = true;
+        else if (pkWorld)
+            bResult = IsChildOf(pkWorld);
+        break;
+    }
+    case 0x41:
+        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkForm))->FUN_0084e3a0())))
+            bResult = true;
+        break;
+    case 0x3a:
+    case 0x3b:
+    case 0x3c:
+    case 0x3d:
+    case 0x3e:
+    case 0x3f:
+    case 0x40:
+    case 0x42:
+    case 0x43:
+    case 0x69: {
+        ChildX* pkChild = (ChildX*)FUN_00ec43fb(pkForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_0118ac2c, 0);
+        bResult = IsChildOf(pkChild->GetParentWorld());
+        break;
+    }
+    default:
+        bResult = reinterpret_cast<::TESFormSortProxy *>(this)->IsLessThan((::TESForm *)(pkForm));
+        break;
+    }
+    return bResult;
+}
+
+struct FUN_00993820_rtti_decl
+{
+    virtual ~FUN_00993820_rtti_decl();
+    unsigned int bucketCount;
+    MapPosition532** buckets;
+    unsigned int size;
+    FUN_00993820_rtti_decl(int);
+};
+
+struct CombatGroup532_rtti_decl : ReferenceArray532
+{
+    FUN_00993820_rtti_decl* map;
+    Tail532* tail;
+    void FUN_00993600(void* stream);
+};
+
+// The native map enumerates form pointers while cloning each cell into the new world.
+struct CellMapAccess545 : NiTPointerMap<unsigned int, TESObjectREFR*>
+{
+};
+
+struct WorldClone545 : TESWorldSpace
+{
+    TESWorldSpace* FUN_00584e60(bool temporary, TESFile* file);
+};
+
+// @fnv 0x00584e60
+TESWorldSpace* WorldClone545::FUN_00584e60(bool temporary, TESFile* file)
+{
+    TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(temporary), file))));
+    reinterpret_cast<::FUN_00438af0_Class *>((static_cast<CellMapAccess545*>(world->cellMap)))->FUN_00438af0();
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((static_cast<CellMapAccess545*>(cellMap)))->GetFirstPos();
+    while (position)
+    {
+        TESForm* form2 = 0;
+        unsigned int key;
+        reinterpret_cast<::C6b7f20_Map *>((static_cast<CellMapAccess545*>(cellMap)))->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(form2));
+        if (form2)
+        {
+            TESObjectCELL* cell3 = dynamic_cast<TESObjectCELL*>(form2->CloneForm(false, file));
+            if (cell3)
+            {
+                cell3->SetAltered(true);
+                reinterpret_cast<::FUN_00587670_shell *>((static_cast<WorldClone545*>(world)))->FUN_00587670(cell3);
+            }
+        }
+    }
+    TESObjectCELL* persistent3 = ((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()));
+    if (persistent3)
+    {
+        TESObjectCELL* copy = dynamic_cast<TESObjectCELL*>(persistent3->CloneForm(false, file));
+        if (copy)
+        {
+            world->m_pCell = copy;
+            copy->SetAltered(true);
+        }
+    }
+    reinterpret_cast<::FUN_00588120_host *>((static_cast<WorldClone545*>(world)))->FUN_00588120();
+    return world;
 }
 
 #include "generated/data/fallout_shared/tesworldspace.inc"

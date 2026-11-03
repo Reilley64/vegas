@@ -874,7 +874,7 @@ void Wheel::FUN_00701e80()
         if (!reinterpret_cast<::FUN_004bddd0_shell *>((entry5))->FUN_004bddd0(false))
             reinterpret_cast<::FUN_0088c650_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0088c650((::TESBoundObject *)(::Form *)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))), ammo4 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_iCountChange)) : 1, (::ExtraDataList *)(extra), 0, 0, 1);
         else
-            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0088c790((int)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))), ammo4 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_iCountChange)) : 1, (int)(extra), 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0088c790((int)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))), ammo4 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_iCountChange)) : 1, (intptr_t)(extra), 0, 0, 1);
     }
     reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_00950030();
     ((::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetBaseTexture()))->v580(1, 0, 0);

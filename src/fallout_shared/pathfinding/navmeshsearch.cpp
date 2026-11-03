@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshsearch.cpp: NavMeshSearch, NavMeshSearchEdges (25 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/FUN_00416870_t.h"
@@ -99,10 +100,10 @@ bool FUN_006a79a0_shell::FUN_006a79a0()
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_006a7ad0(unsigned int f);
+    bool FUN_006a7ad0(uintptr_t f);
 };
 // @fnv 0x006a7ad0
-bool S3e60::FUN_006a7ad0(unsigned int auiFlag)
+bool S3e60::FUN_006a7ad0(uintptr_t auiFlag)
 {
     return GetFlag(auiFlag);
 }
@@ -275,8 +276,8 @@ bool NavMeshSearch::ComputePath(const PathingRequest* request, const NavMeshTria
     m_pNavMeshInfos = solution;
     if (m_pNavMeshInfos)
     {
-        BSSimpleArray<NavMeshPtr> meshes(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())));
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())); i++)
+        BSSimpleArray<NavMeshPtr> meshes(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())));
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())); i++)
         {
             NavMeshPtr mesh;
             if (((::NavMeshInfo *)(reinterpret_cast<::S3e60 *>((m_pNavMeshInfos))->FUN_006a7ad0(i)))->ResolveNavMesh(mesh))
@@ -664,7 +665,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                     revisitPenalty4 = 1.0f;
                     if (m_pNavMeshTriangleEdges != 0)
                     {
-                        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshTriangleEdges))->GetName())); ++i)
+                        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshTriangleEdges))->GetName())); ++i)
                         {
                             if (m_pNavMeshTriangleEdges->GetAt(i).m_usTriangleIdentifier ==
                                     current->Node.m_usTriangleIdentifier &&
@@ -685,7 +686,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                             baseDistance7 *= DAT_01016408;
                         if (m_pPathingRequest != 0 && ((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(m_pPathingRequest))->GetString())) != 0)
                         {
-                            float avoidance = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(m_pPathingRequest))->GetString()))))->SumNodeValues((int)&(nextCenter));
+                            float avoidance = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(m_pPathingRequest))->GetString()))))->SumNodeValues((std::intptr_t)&(nextCenter));
                             if (avoidance > 0.0)
                                 baseDistance7 *= 1.0f + avoidance;
                         }
@@ -695,7 +696,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                             if (neighborMesh->GetStaticAvoidNodesForTriangle(neighborTriangle, staticAvoids))
                             {
                                 float staticPenalty = 0.0f;
-                                for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(staticAvoids))->GetName())); ++i)
+                                for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(staticAvoids))->GetName())); ++i)
                                     staticPenalty += ::GetFloatAtOffset1C((char *)(staticAvoids.GetAt(i)));
                                 baseDistance7 *= staticPenalty;
                             }

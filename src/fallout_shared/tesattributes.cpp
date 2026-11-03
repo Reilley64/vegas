@@ -94,7 +94,7 @@ struct TESSaveLoadGame
 
 TESSaveLoadGame* g_TESSaveLoadGame;
 
-struct FUN_00480240_shell
+struct FUN_00480240_shell : ::TESAttributes
 {
     void FUN_00480240(unsigned int aFlags, unsigned int aDummy);
 };
@@ -104,7 +104,7 @@ void FUN_00480240_shell::FUN_00480240(unsigned int aFlags, unsigned int aDummy)
 {
     if (aFlags & 0)
     {
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 4), 7);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)&this->cAttribute), 7);
     }
 }
 
@@ -160,17 +160,13 @@ struct FUN_00480000_shell : public TESAttributes
     void CopyAttributesFromComponent(BaseFormComponent*);
 };
 
-struct ActorValue
+namespace ActorValue
 {
-    enum Section
-    {
-        ATTRIBUTE = 0
-    };
-    enum Index
-    {
-        None = 0
-    };
+enum Section
+{
+    ATTRIBUTE = 0
 };
+}
 
 struct AVH
 {
@@ -228,7 +224,7 @@ namespace fnv_00480210 {
 struct TESSaveLoadGame
 {
 };
-struct FUN_00480210_This
+struct FUN_00480210_This : ::TESAttributes
 {
     void FUN_00480210(unsigned int aiFlags);
 };
@@ -237,7 +233,7 @@ void FUN_00480210_This::FUN_00480210(unsigned int aiFlags)
 {
     if (aiFlags & 0)
     {
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00480210::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void*)((char*)this + 4), 7);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00480210::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void*)((char*)&this->cAttribute), 7);
     }
 }
 }  // namespace fnv_00480210

@@ -23,7 +23,7 @@ public:
     // 0x0050c840
     void *DestroyIfFlagged(unsigned int);
     // 0x0053d2e0
-    bool FUN_0053d2e0(int, int, int);
+    bool FUN_0053d2e0(std::intptr_t, std::intptr_t, std::intptr_t);
     // 0x00623230
     ::TESIdleForm *GetIdleForm();
     // 0x0069e3b0
@@ -67,7 +67,7 @@ public:
     // 0x00ca85f0
     void FUN_00ca85f0(uintptr_t);
     // 0x00cab0e0
-    void FUN_00cab0e0(int, int, float);
+    void FUN_00cab0e0(std::intptr_t, std::intptr_t, float);
     // 0x00ce1420
     int FUN_00ce1420(void *, int, float);
     // 0x00cf5ea0

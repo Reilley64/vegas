@@ -2,6 +2,7 @@
 // src/fallout/magic/magiclight.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magiclight.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/FUN_00416870_t.h"
 #include "fnv/decl/FUN_0080ed20_shell.h"
@@ -142,7 +143,7 @@ template <class T> class PathingRef
 class FUN_0081bf80 : public S4ee810
 {
   public:
-    FUN_0081bf80(int a, int b);
+    FUN_0081bf80(int a, intptr_t b);
 
     int m_iFadeIndex;
     PathingRef<PathingSolution> m_kSolution;
@@ -329,7 +330,7 @@ struct MagicLightObject
 };
 // Initialises the base with 0, clears the solution reference, sets scale to 1.0, clears the done flag and values, then calls Init(a, b).
 // @fnv 0x0081bf80
-FUN_0081bf80::FUN_0081bf80(int a, int b) : S4ee810(0)
+FUN_0081bf80::FUN_0081bf80(int a, intptr_t b) : S4ee810(0)
 {
     m_iFadeIndex = 0;
     m_kSolution.Reset(0);

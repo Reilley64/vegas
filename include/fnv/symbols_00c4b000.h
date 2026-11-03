@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class FUN_00c4b470_owner;
 class NiObjectC4BB;
@@ -19,7 +20,7 @@ struct Source;
 // 0x00c4b310
 ::ResultQ *FUN_00c4b310(::ObjQ *, const char *, bool);
 // 0x00c4b470
-int FUN_00c4b470(::FUN_00c4b470_owner *, void **, unsigned char);
+intptr_t FUN_00c4b470(::FUN_00c4b470_owner *, void **, unsigned char);
 // 0x00c4b500
 namespace fnv_00c4b500 { void FUN_00c4b500(::fnv_00c4b500::Node *); }
 // 0x00c4b600

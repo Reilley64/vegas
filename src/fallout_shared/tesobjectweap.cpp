@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectweap.cpp: TESObjectWEAP, TransHolder, Weapon, WeaponCopyAccess and more (72 functions)
 
+#include "fnv_asm_helpers.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -191,6 +192,9 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f2000.h"
 #include "tesobjectweap_decls.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/symbols_00472000.h"
+#include <math.h>
 // Resets the weapon's data block to defaults, initializes embedded sub-structures, sets casting type and sound level, and flags a reload-anim condition.
 // @fnv 0x0051ddf0
 void TESObjectWEAP::ResetFormData()
@@ -312,9 +316,9 @@ void TESObjectWEAP::ClearData()
 void TESObjectWEAP::QueueResourceLoad(int priority, QueuedFile* file, bool includeScope)
 {
     if(m_kModel.GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel),priority,(int)(file),false,true,false,false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(&m_kModel),priority,(std::uintptr_t)(file),false,true,false,false);
     if(includeScope && reinterpret_cast<::FUN_004ad010_shell *>(this)->IsFlag4Set() && m_kModel1stPerson.GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel1stPerson),priority,(int)(file),::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)(this)),true,false,false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::intptr_t)(&m_kModel1stPerson),priority,(int)(file),::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)(this)),true,false,false);
     if(((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))->QueueResourceLoad(priority,file);
     if(m_pImpactDataSet) m_pImpactDataSet->QueueResourceLoad(priority,file);
 }
@@ -739,12 +743,12 @@ BSFaceGenAnimationData* FUN_00524c90()
 
 struct FUN_00522440_shell
 {
-    int GetValueByFlag(bool bUse);
+    std::intptr_t GetValueByFlag(bool bUse);
 };
 
 // Returns the int at offset 0x244 when bUse is true, otherwise the int at offset 0x220.
 // @fnv 0x00522440
-int FUN_00522440_shell::GetValueByFlag(bool bUse)
+std::intptr_t FUN_00522440_shell::GetValueByFlag(bool bUse)
 {
     if (bUse)
     {
@@ -760,22 +764,22 @@ struct FUN_00522500_shell
 {
     char pad[0x234];
     unsigned int field234;
-    unsigned int GetField234();
+    std::uintptr_t GetField234();
 };
 
 // @fnv 0x00522500
-unsigned int FUN_00522500_shell::GetField234()
+std::uintptr_t FUN_00522500_shell::GetField234()
 {
     return field234;
 }
 
 struct FUN_00522520_shell
 {
-    int GetField238();
+    std::intptr_t GetField238();
 };
 
 // @fnv 0x00522520
-int FUN_00522520_shell::GetField238()
+std::intptr_t FUN_00522520_shell::GetField238()
 {
     return *(int*)((char*)this + 0x238);
 }
@@ -871,11 +875,11 @@ float FUN_00645c60_shell::GetField178Float() const
 
 struct FUN_008bffa0_shell
 {
-    int GetField228();
+    std::intptr_t GetField228();
 };
 
 // @fnv 0x008bffa0
-int FUN_008bffa0_shell::GetField228()
+std::intptr_t FUN_008bffa0_shell::GetField228()
 {
     return *(int*)((char*)this + 0x228);
 }
@@ -913,11 +917,11 @@ void FUN_00521580_shell::FUN_00521580(bool bVal)
 }
 
 struct FUN_00522540_shell {
-    int GetField23C();
+    std::intptr_t GetField23C();
 };
 
 // @fnv 0x00522540
-int FUN_00522540_shell::GetField23C()
+std::intptr_t FUN_00522540_shell::GetField23C()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x23c);
 }
@@ -978,7 +982,7 @@ struct FUN_005230f0_shell : TESObjectWEAP {
 void FUN_005230f0_shell::FUN_005230f0(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x84)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
 }
 
 struct FUN_00524cd0_shell
@@ -1008,24 +1012,24 @@ struct FUN_0051dad0_This {
     void* FUN_0051dad0(unsigned int);
 };
 struct FUN_004fb7a0_obj {  };
-struct FUN_00522ba0_obj { int FUN_00522ba0(int); };
+struct FUN_00522ba0_obj { std::intptr_t FUN_00522ba0(int); };
 // If the object at offset 0x24C is non-null, forwards a1 to its FUN_004fb7a0 and returns the result; otherwise returns 0.
 // @fnv 0x00522ba0
-int FUN_00522ba0_obj::FUN_00522ba0(int a1)
+std::intptr_t FUN_00522ba0_obj::FUN_00522ba0(int a1)
 {
-    int val = 0;
+    std::intptr_t val = 0;
     if (*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C) != 0)
-        val = ((int)(reinterpret_cast<::Proxy804 *>(((*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C))))->FUN_004fb7a0(a1)));
+        val = ((std::intptr_t)(reinterpret_cast<::Proxy804 *>(((*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C))))->FUN_004fb7a0(a1)));
     return val;
 }
 
 namespace fnv_00522be0 {
 struct Flt { operator unsigned int(); };
 struct FUN_00522be0_shell {
-    unsigned int FUN_00522be0();
+    uintptr_t FUN_00522be0();
 };
 // @fnv 0x00522be0
-unsigned int FUN_00522be0_shell::FUN_00522be0()
+uintptr_t FUN_00522be0_shell::FUN_00522be0()
 {
     return ((Flt*)((char*)this + 0x368))->operator unsigned int();
 }
@@ -1047,9 +1051,9 @@ struct FUN_00524b80_This : TESObjectWEAP { float FUN_00524b80(bool); };
 float FUN_00524b80_This::FUN_00524b80(bool abApplyMod)
 {
 	if (abApplyMod)
-		return FUN_00404010(0.0f, *(float*)((char*)this + 0x104) - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
+		return FUN_00404010(0.0f, this->data.m_fMinimumSpread - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
 	else
-		return *(float*)((char*)this + 0x104);
+		return this->data.m_fMinimumSpread;
 }
 
 struct FUN_00524be0_shell : TESObjectWEAP { float FUN_00524be0(bool); };
@@ -1058,9 +1062,9 @@ struct FUN_00524be0_shell : TESObjectWEAP { float FUN_00524be0(bool); };
 float FUN_00524be0_shell::FUN_00524be0(bool abApplyMod)
 {
 	if (abApplyMod)
-		return FUN_00404010(0.0f, *(float *)((char *)this + 0x108) - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
+		return FUN_00404010(0.0f, this->data.fBodyPartChance - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
 	else
-		return *(float *)((char *)this + 0x108);
+		return this->data.fBodyPartChance;
 }
 
 namespace fnv_00524c40 {
@@ -1248,7 +1252,7 @@ struct FUN_00525450_shell {
 void FUN_00525450_shell::QueueModelsForLoad(int aiIndex, class QueuedFile* apFile)
 {
     if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)->GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)), aiIndex, (int)(apFile), 0, true, false, false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)), aiIndex, (std::uintptr_t)(apFile), 0, true, false, false);
     if (((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))
         reinterpret_cast<TESModel*>(static_cast<BGSPreloadable *>((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))->vfn_10(aiIndex, apFile);
     if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180))
@@ -1449,169 +1453,169 @@ void TESObjectWEAP::InitItem()
     TESModelTextureSwap::InitItem(this);
     BGSRepairItemList::InitItem(this);
     BGSPickupPutdownSounds::InitItem(this);
-    unsigned int formID = (unsigned int)((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
+    std::uintptr_t formID = (std::uintptr_t)((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
-        reinterpret_cast<::FUN_0051f4b0_shell *>(this)->FUN_0051f4b0((int)(dynamic_cast<BGSProjectile*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_0051f4b0_shell *>(this)->FUN_0051f4b0((std::intptr_t)(dynamic_cast<BGSProjectile*>(::FUN_004839c0(formID))));
         if(!((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)((::TESEffectShader *)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()));
+    formID = (std::uintptr_t)((::TESEffectShader *)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         reinterpret_cast<::FUN_0051f570_shell *>(this)->SetEffectShader(dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID)));
         if(!((::TESEffectShader *)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()));
+    formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
-        reinterpret_cast<::FUN_0051f4f0_Class *>(this)->FUN_0051f4f0((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_0051f4f0_Class *>(this)->FUN_0051f4f0((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if(!((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()));
+    formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
-        reinterpret_cast<::FUN_0051f530_class *>(this)->FUN_0051f530((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_0051f530_class *>(this)->FUN_0051f530((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if(!((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound1;
+    formID = (std::uintptr_t)m_pWeaponSound1;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound1 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound1) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound2;
+    formID = (std::uintptr_t)m_pWeaponSound2;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound2 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound2) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound3;
+    formID = (std::uintptr_t)m_pWeaponSound3;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound3 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound3) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound4;
+    formID = (std::uintptr_t)m_pWeaponSound4;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound4 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound4) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound5;
+    formID = (std::uintptr_t)m_pWeaponSound5;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound5 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound5) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound6;
+    formID = (std::uintptr_t)m_pWeaponSound6;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound6 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound6) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound7;
+    formID = (std::uintptr_t)m_pWeaponSound7;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound7 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound7) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound8;
+    formID = (std::uintptr_t)m_pWeaponSound8;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound8 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound8) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponUnequipSound;
+    formID = (std::uintptr_t)m_pWeaponUnequipSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponUnequipSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponUnequipSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponEquipSound;
+    formID = (std::uintptr_t)m_pWeaponEquipSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponEquipSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponEquipSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponPickupSound;
+    formID = (std::uintptr_t)m_pWeaponPickupSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponPickupSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponPickupSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponDropSound;
+    formID = (std::uintptr_t)m_pWeaponDropSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponDropSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponDropSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pImpactDataSet;
+    formID = (std::uintptr_t)m_pImpactDataSet;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pImpactDataSet = dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID));
         if(!m_pImpactDataSet) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonObject;
+    formID = (std::uintptr_t)p1stPersonObject;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonObject = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonObject) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod1Object;
+    formID = (std::uintptr_t)p1stPersonMod1Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod1Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod1Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod2Object;
+    formID = (std::uintptr_t)p1stPersonMod2Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod2Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod2Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod3Object;
+    formID = (std::uintptr_t)p1stPersonMod3Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod3Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod3Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod12Object;
+    formID = (std::uintptr_t)p1stPersonMod12Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod12Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod12Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod13Object;
+    formID = (std::uintptr_t)p1stPersonMod13Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod13Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod13Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod23Object;
+    formID = (std::uintptr_t)p1stPersonMod23Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod23Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod23Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod123Object;
+    formID = (std::uintptr_t)p1stPersonMod123Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod123Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod123Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponMod1;
+    formID = (std::uintptr_t)m_pWeaponMod1;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponMod1 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
         if(!m_pWeaponMod1) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponMod2;
+    formID = (std::uintptr_t)m_pWeaponMod2;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponMod2 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
         if(!m_pWeaponMod2) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponMod3;
+    formID = (std::uintptr_t)m_pWeaponMod3;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponMod3 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
@@ -1778,7 +1782,7 @@ void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
         reinterpret_cast<::FUN_005216d0_shell *>(this)->FUN_005216d0(((::TESSound *)(reinterpret_cast<::FUN_00522520_shell *>((source))->GetField238())));
         reinterpret_cast<::FUN_005216f0_shell *>(this)->FUN_005216f0(((::TESSound *)(reinterpret_cast<::FUN_00522540_shell *>((source))->GetField23C())));
         reinterpret_cast<::FUN_00521610_shell *>(this)->FUN_00521610(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((source))->RefreshActorRuntimeData())));
-        reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((int)(((::TESSound *)(reinterpret_cast<::FUN_008d8a60_Class *>((source))->GetField244()))));
+        reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((std::intptr_t)(((::TESSound *)(reinterpret_cast<::FUN_008d8a60_Class *>((source))->GetField244()))));
         reinterpret_cast<::MiddleHighProcess *>(this)->AttachFaceGenerationNode((::BSFaceGenNiNode *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((source))->GetFacialAnimationNode()))));
         m_eSoundLevel = source->FUN_00522560(false);
         reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(source->FUN_00401170());
@@ -2359,7 +2363,7 @@ bool TESObjectWEAP::Load(TESFile* file)
         {
             TESSound* modAttackSound = 0;
             file->GetChunkData((unsigned int*)&modAttackSound);
-            if(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData()))) reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((int)(modAttackSound));
+            if(((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData()))) reinterpret_cast<::MiddleHighProcess *>(this)->SetKnockdownStage((std::intptr_t)(modAttackSound));
             else reinterpret_cast<::FUN_00521610_shell *>(this)->FUN_00521610(modAttackSound);
             break;
         }
@@ -2391,9 +2395,9 @@ bool TESObjectWEAP::Load(TESFile* file)
 // @fnv 0x00521730
 void Weapon::Save()
 {
-    UInt32 savedProj;
-    UInt32 savedVats;
-    UInt32 savedCrit;
+    std::uintptr_t savedProj;
+    std::uintptr_t savedVats;
+    std::uintptr_t savedCrit;
 
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>(&(fullName))->FUN_00487010();
@@ -2577,7 +2581,7 @@ bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     if (memcmp(&m_kVATSData, &other->m_kVATSData, 0x14)) return true;
     if (reinterpret_cast<::FUN_005215a0_shell *>(this)->FUN_005215a0(false) != reinterpret_cast<::FUN_005215a0_shell *>((other))->FUN_005215a0(false)) return true;
     if (reinterpret_cast<::FUN_00522440_shell *>(this)->GetValueByFlag(false) != reinterpret_cast<::FUN_00522440_shell *>((other))->GetValueByFlag(false)) return true;
-    if (((int)(reinterpret_cast<::S_00522470 *>(this)->GetPointerByFlag(false))) != ((int)(reinterpret_cast<::S_00522470 *>((other))->GetPointerByFlag(false)))) return true;
+    if (((int)(std::intptr_t)(reinterpret_cast<::S_00522470 *>(this)->GetPointerByFlag(false))) != ((std::intptr_t)(reinterpret_cast<::S_00522470 *>((other))->GetPointerByFlag(false)))) return true;
     if (reinterpret_cast<::FUN_008bffa0_shell *>(this)->GetField228() != reinterpret_cast<::FUN_008bffa0_shell *>((other))->GetField228()) return true;
     if (((int)(reinterpret_cast<::FUN_005224c0_Class *>(this)->GetField22C())) != ((int)(reinterpret_cast<::FUN_005224c0_Class *>((other))->GetField22C()))) return true;
     if (((int)(reinterpret_cast<::FUN_005224e0_class *>(this)->GetField230())) != ((int)(reinterpret_cast<::FUN_005224e0_class *>((other))->GetField230()))) return true;
@@ -2586,7 +2590,7 @@ bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     if (reinterpret_cast<::FUN_00522540_shell *>(this)->GetField23C() != reinterpret_cast<::FUN_00522540_shell *>((other))->GetField23C()) return true;
     if (((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>(this)->RefreshActorRuntimeData())) != ((::TESSound *)(reinterpret_cast<::MiddleHighProcess *>((other))->RefreshActorRuntimeData()))) return true;
     if (((int)(reinterpret_cast<::FUN_008d8a60_Class *>(this)->GetField244())) != ((int)(reinterpret_cast<::FUN_008d8a60_Class *>((other))->GetField244()))) return true;
-    if (((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) != ((int)(reinterpret_cast<::MiddleHighProcess *>((other))->GetFacialAnimationNode()))) return true;
+    if (((int)(std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) != ((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>((other))->GetFacialAnimationNode()))) return true;
     if (m_eSoundLevel != reinterpret_cast<::FUN_00522560_shell *>((other))->FUN_00522560(false)) return true;
     return false;
 }
@@ -2862,14 +2866,14 @@ NiPoint3 WeapAimShell::FUN_005257a0(TESObjectREFR* ref)
         void* biped = isPlayer_2 ? ((void *)(::_g_thePlayer->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60()))) : actor2->GetBipedRoot();
         WeapNode* weapNode = process->GetWeaponNode(biped);
         if (weapNode)
-            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((int)(weapNode))));
+            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(weapNode))));
     } else {
         if (process)
             node9 = ref->Get3D();
         else
             node9 = ((::WeapNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(void *)(isPlayer_2 ? ((void *)(::FUN_00950be0((bool *)(::_g_thePlayer)))) : ref->GetNiNode()))));
         if (node9)
-            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((int)(node9))));
+            pos5 = *((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(node9))));
     }
     return pos5;
 }
@@ -3816,19 +3820,19 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
   FireNode* muzzle11 = 0;
   if (process39 && (GetWeaponType()==10 || GetWeaponType()==11 || GetWeaponType()==12 || GetWeaponType()==13)) {
    float unusedPad[18];
-   if (player12 && process39 && process39->weapons() && ((int)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))>1) {
+   if (player12 && process39 && process39->weapons() && ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))>1) {
     muzzle11 = process39->muzzle(((void *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_004eaf60()))));
     if (muzzle11 && muzzle11->node() && ((::FireNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((muzzle11->node()))->FUN_0045bc00(0)))) reinterpret_cast<::TaskQueueInterface *>((((::FireNode *)(reinterpret_cast<::NiNode *>((muzzle11->node()))->GetAt(0)))))->QueueActorDisarm(true);
    }
    muzzle11 = process39->muzzle(actor19->biped());
-   if (muzzle11) position6 = *((::FirePoint *)(::FUN_0045bb80((int)(muzzle11))));
+   if (muzzle11) position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
    if (player12) ::fnv_00524d70::FUN_00524d70((char *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))));
   } else {
    if (process39) muzzle11 = reference->muzzle();
    else muzzle11 = ((::FireNode *)(reinterpret_cast<::UnkClass25700 *>(this)->FUN_00525700((::NiAVObject *)(::FireNode *)(player12 ? ((::FireNode *)(::FUN_00950be0((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)))))) : reference->root()))));
    if (muzzle11) {
-    position6 = *((::FirePoint *)(::FUN_0045bb80((int)(muzzle11))));
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::FireString *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetModelLength()) {
+    position6 = *((::FirePoint *)(::FUN_0045bb80((std::intptr_t)(muzzle11))));
+    if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))!=4 && actor19==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->FUN_008bbc10() && ((::FireString *)(reinterpret_cast<::FUN_00504e60_shell *>(this)->FUN_00504e60()))->GetModelLength()) {
      bool useFace2 = false;
      if (reinterpret_cast<::FUN_004ad030_shell *>(this)->GetFlag()) {
       FireProcess* faceProcess = ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetBaseTexture()));
@@ -3837,7 +3841,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      FireFace* face31 = (FireFace*)FUN_00524c90();
      if (useFace2 && face31) {
       static FirePoint offset(0.0f,-5.0f,0.0f);
-      position6 = ((::FireTransform *)(::FUN_00461130((int)(face31))))->FUN_00524c40(offset);
+      position6 = ((::FireTransform *)(::FUN_00461130((std::intptr_t)(face31))))->FUN_00524c40(offset);
      }
     }
     if (reference && reference==(*reinterpret_cast<::FireRef * *>(&::_g_thePlayer)) && !::FUN_00524d10((bool *)((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))) {
@@ -3845,7 +3849,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      pitch37 = reinterpret_cast<::MobileObject *>(((*reinterpret_cast<::FireRef * *>(&::_g_thePlayer))))->GetLooking();
     } else {
      float roll4;
-     reinterpret_cast<::RotationMatrix *>((((FireNode*)((::FirePoint *)(::FUN_00461130((int)(muzzle11)))))))->FUN_00a59400((*(float *)(&yaw21)),(*(float *)(&pitch37)),(*(float *)(&roll4)));
+     reinterpret_cast<::RotationMatrix *>((((FireNode*)((::FirePoint *)(::FUN_00461130((std::intptr_t)(muzzle11)))))))->FUN_00a59400((*(float *)(&yaw21)),(*(float *)(&pitch37)),(*(float *)(&roll4)));
     }
     if (*(*reinterpret_cast<::FireSetting *>(&::g_011c94a0)).Bool()) {
      FireNode* root = muzzle11->node();
@@ -3855,7 +3859,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
       if (!(FireNode*)marker) {
        FireColor color(1,0,0,1);
        marker = ((::FireNode *)(::fnv_00c584a0::FUN_00c584a0(1,1,4096.0f,10,10,(::fnv_00c584a0::MeshColor *)(::FireColor *)(&color))));
-       ::AssignFixedString((char *)(((FireNode*)marker)), (int)(FUN_00524cb0()), {});
+       ::AssignFixedString((char *)(((FireNode*)marker)), (std::intptr_t)(FUN_00524cb0()), {});
        FireMatrix rotation;
        reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation))->FUN_00524ac0(1.57079637f);
        reinterpret_cast<::FUN_0043fa80_s *>((((FireNode*)marker)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
@@ -3899,7 +3903,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
       if ((FireNode*)cellMarker31) ((::FireNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((FireNode*)cellMarker31)))->FUN_009611e0()))->detach(cellMarker31);
       FireColor cellColor14(0,1,0,1);
       cellMarker31 = ((::FireNode *)(::FUN_00c55d50((::Point3 *)(::FirePoint *)(&position6),(::Point3 *)(::FirePoint *)(&targetPosition),0.5f,0.5f,0.5f,0.5f,(::FilterData *)(::FireColor *)(&cellColor14),(::FilterData *)(0))));
-      ::AssignFixedString((char *)(((FireNode*)cellMarker31)), (int)((void*)FUN_00524cc0()), {});
+      ::AssignFixedString((char *)(((FireNode*)cellMarker31)), (std::intptr_t)((void*)FUN_00524cc0()), {});
       cellNode->attach(cellMarker31,true);
       reinterpret_cast<::FUN_00a5a040_Class *>((((FireNode*)cellMarker31)))->FUN_00a5a040();
       FireUpdate cellUpdate73(0,false,false);
@@ -3950,7 +3954,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
   int projectileCount11 = GetDamageForActor(false,false,(Actor*)actor19) * shots14;
   int usedAmmo26=unusedResult10;
   FireSmart lastNode23(0);
-  if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))==4 && actor19==(*reinterpret_cast<::FireRef * *>(&::DAT_011f21f0))) shot16=((::FireShot *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c71c0()));
+  if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetName()))==4 && actor19==(*reinterpret_cast<::FireRef * *>(&::DAT_011f21f0))) shot16=((::FireShot *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c71c0()));
   bool aimed26=false;
   unsigned char specialFlag19=0;
   FirePackage* package3 = actor19 ? ((::FirePackage *)(reinterpret_cast<::FUN_009344a0_shell *>((actor19))->FUN_009344a0())) : 0;
@@ -3993,7 +3997,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
     }
     FireRef* shooter2=0;
     if (reference->isActor()) shooter2=reference;
-    spawned19=((::FireRefData *)(::CreateProjectile((::P062Ammo *)(::FireRefData *)(((::FireRefData *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(shooter2))))),(::P062Object *)(reference),(::P062Object *)(target20),(::P062Object *)(::FireWeapon *)(this),(*(::NiPoint3 *)&(const ::FirePoint &)(position6)),shotYaw16,shotPitch5,lastNode23,(int)(aimTarget25),aimed26,(bool)(specialFlag19 || useSpecial62),yawOffset5,pitchOffset13,(void *)(0))));
+    spawned19=((::FireRefData *)(::CreateProjectile((::P062Ammo *)(::FireRefData *)(((::FireRefData *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((std::intptr_t)(shooter2))))),(::P062Object *)(reference),(::P062Object *)(target20),(::P062Object *)(::FireWeapon *)(this),(*(::NiPoint3 *)&(const ::FirePoint &)(position6)),shotYaw16,shotPitch5,lastNode23,(int)(aimTarget25),aimed26,(bool)(specialFlag19 || useSpecial62),yawOffset5,pitchOffset13,(void *)(0))));
     if (shot16 && (shot16->ammo || shot16->special) && FUN_0066dde0(shot16->id) && !useSpecial62) {
      if (!reinterpret_cast<::FUN_00524b40_class *>(this)->FUN_00524b40() || (!((int)(reinterpret_cast<::BGSTerrainManager *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->GetMinLevel())) && reinterpret_cast<::FUN_00524b40_class *>(this)->FUN_00524b40())) reinterpret_cast<::FUN_009c8b90_cls *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->FUN_009c8b90((::FUN_009c8b90_arg *)(spawned19));
     }
@@ -4035,7 +4039,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    actor19->count(usedAmmo26-savedAmmo);
   }
   if ((process39 && GetWeaponType()==10) || GetWeaponType()==11 || GetWeaponType()==12 || GetWeaponType()==13) {
-   if (!process39->weapons() || ((int)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))<=0) reinterpret_cast<::BipedAnim *>((actor19))->AttachFaceGenNode();
+   if (!process39->weapons() || ((std::intptr_t)(reinterpret_cast<::Callees *>((process39->weapons()))->FUN_00726070()))<=0) reinterpret_cast<::BipedAnim *>((actor19))->AttachFaceGenNode();
    else if (muzzle11) {
     FireNode* child=((::FireNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((muzzle11->node()))->FUN_0045bc00(0)));
     if (child) reinterpret_cast<::TaskQueueInterface *>((child))->QueueActorDisarm(true);
@@ -4058,15 +4062,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
 // @fnv 0x004169a0
 void __cdecl FUN_004169a0(float fRadians, float& fSin, float& fCos)
 {
-    float s, c;
-    __asm {
-        fld fRadians
-        fsincos
-        fstp c
-        fstp s
-    }
-    fSin = s;
-    fCos = c;
+    fnv_SinCos(fRadians, fSin, fCos);
 }
 
 namespace fnv_00524db0 {
@@ -4256,34 +4252,31 @@ void ThisObj::FUN_00524db0(Param* param)
     node3 = ((::fnv_00524db0::NodeObj *)(::FUN_004aae30((::NiAVObject *)(pR), (::NiFixedString *)((const char*)&DAT_0102cb00))));
     if (node3 != 0) {
     flag7 = true;
-    if (!::FUN_004b61d0((*(::NiPoint3 *)&(const ::fnv_00524db0::P12 &)(*((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3)))))), (::NiCamera *)(::fnv_00524db0::BSFaceGenAnimationData *)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90()))), ::DAT_0101e704))
+    if (!::FUN_004b61d0((*(::NiPoint3 *)&(const ::fnv_00524db0::P12 &)(*((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3)))))), (::NiCamera *)(::fnv_00524db0::BSFaceGenAnimationData *)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90()))), ::DAT_0101e704))
         flag7 = false;
-    reinterpret_cast<::FUN_00439ef0_class *>((((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3))))))->FUN_00439ef0((::NiPoint3 *)(::fnv_00524db0::P12 *)(&aVec24), (*(const ::NiPoint3 *)(((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90())))))))));
+    reinterpret_cast<::FUN_00439ef0_class *>((((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))))))->FUN_00439ef0((::NiPoint3 *)(::fnv_00524db0::P12 *)(&aVec24), (*(const ::NiPoint3 *)(((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90())))))))));
     if (((double)(reinterpret_cast<::NiPoint3 *>(&(aVec24))->ComputeMagnitude())) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting640)))))))
         flag7 = false;
     if (flag7) {
     dword4 = ((::fnv_00524db0::SubA *)(reinterpret_cast<::FUN_004600d0_shell *>((this))->FUN_004600d0()))->vfn_14();
-    point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((int)(node3))));
-    matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))));
-    new ((void *)&(obj34)) ::Vec3();
-    reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
+    point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))));
+    matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))));
+    reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
     f7c5 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
     f9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
     reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(((::fnv_00524db0::P12 *)(reinterpret_cast<::FUN_00416870_t *>(&(tempBCz))->FUN_00416870(::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9)))));
     reinterpret_cast<::MyPoint439180 *>(&(obj34))->FUN_00439180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting636)))))));
     if (((int)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0()))) {
-        new ((void *)&(ob88)) ::Vec3();
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&ob88)), (*(const ::hkVector4 *)(((int)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0())) + 0x4f0)));
         reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(&ob88);
     }
-    new ((void *)&(obj14)) ::Vec3();
     vecA0 = (*reinterpret_cast<::fnv_00524db0::P12 *>(&::DAT_011a946c));
     _fa8 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
     f8c2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
     reinterpret_cast<::MyPoint439180 *>(&(vecA0))->FUN_00439180(1.0f + ::RandomFloat(_fa8, f8c2));
     ::FUN_00525340((float *)(::fnv_00524db0::P12 *)(&vecA0));
     reinterpret_cast<::FUN_00416870_t *>(&(temp6))->FUN_00416870(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.x, 0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.z);
-    obj14 = *((::fnv_00524db0::Sub461130 *)(::FUN_00461130((int)(node3))))->FUN_004b4500(&bufC3, &temp6);
+    obj14 = *((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))->FUN_004b4500(&bufC3, &temp6);
     if (paramHome8 == (*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer))))->FUN_004eaf60() && !reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::fnv_00524db0::Obj2250 *>(&::g_011f2250))))->FUN_00525430()) {
         qA7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), ::FUN_0040ebd0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), ::DAT_010162c0), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
         reinterpret_cast<::Twin_007e6580 *>((qA7))->SetIsForegroundEffect(1);
@@ -4298,5 +4291,98 @@ void ThisObj::FUN_00524db0(Param* param)
     }
 }
 }  // namespace fnv_00524db0
+
+// sub ecx, 0x3c ; jmp target  --  MSVC virtual adjustor thunk.
+// The thunk converts the pointer to the second base sub-object back into a
+// pointer to the complete object before jumping to the implementation.
+struct PrimaryBase
+{
+    virtual void FUN_00525c00();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00525c00();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00525c00
+    virtual void FUN_00525c00();
+};
+
+Derived::Derived()
+{}
+
+static float NI_HALF_PI;
+
+float FUN_00a811f0(float y, float x);
+
+inline float NiASin(float fValue)
+{
+    if (-1.0f < fValue)
+    {
+        if (fValue < 1.0f)
+            return float(asin(fValue));
+        else
+            return NI_HALF_PI;
+    }
+    else
+    {
+        return -NI_HALF_PI;
+    }
+}
+
+struct RotationMatrix_o2
+{
+    float m00, m01, m02;
+    float m10, m11, m12;
+    float m20, m21, m22;
+    bool FUN_00a59400(float& x, float& y, float& z);
+};
+
+// @fnv 0x00a59400
+bool RotationMatrix_o2::FUN_00a59400(float& x, float& y, float& z)
+{
+    y = -NiASin(m21);
+    if (y < NI_HALF_PI)
+    {
+        if (y > -NI_HALF_PI)
+        {
+            x = -FUN_00a811f0(-m01, m11);
+            z = -FUN_00a811f0(-m20, m22);
+            return true;
+        }
+        else
+        {
+            float fRmY = FUN_00a811f0(m02, m00);
+            z = 0.0f;
+            x = fRmY - z;
+            return false;
+        }
+    }
+    else
+    {
+        float fRpY = FUN_00a811f0(m02, m00);
+        z = 0.0f;
+        x = z - fRpY;
+        return false;
+    }
+}
 
 #include "generated/data/fallout_shared/tesobjectweap.inc"

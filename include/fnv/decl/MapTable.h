@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct MapTable {
 public:
     // 0x00c74910
-    void InsertOrUpdate(unsigned int, unsigned int);
+    void InsertOrUpdate(uintptr_t, unsigned int);
 };

@@ -254,11 +254,11 @@ void __cdecl FUN_00aa1a70(void (*apfnCallback)());
 class FUN_00afdc60 : public FUN_00afe9f0
 {
   public:
-    FUN_00afdc60(int aiArg1, int aiArg2, bool abFlag);
+    FUN_00afdc60(intptr_t aiArg1, int aiArg2, bool abFlag);
 };
 
 // @fnv 0x00afdc60
-FUN_00afdc60::FUN_00afdc60(int aiArg1, int aiArg2, bool abFlag) : FUN_00afe9f0(0)
+FUN_00afdc60::FUN_00afdc60(intptr_t aiArg1, int aiArg2, bool abFlag) : FUN_00afe9f0(0)
 {
     int aiUnused[3];
     (void)aiUnused;

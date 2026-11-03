@@ -638,11 +638,11 @@ struct FORenderedMenuRaceSex : FORenderedMenu
     NodePtr unkD8[4];
     NodePtr unkE8[4];
 
-    bool HandleRaceSexMenuInput(bool abDown, int a2, int a3);
+    bool HandleRaceSexMenuInput(bool abDown, intptr_t a2, intptr_t a3);
 };
 
 // @fnv 0x007fe6c0
-bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
+bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, intptr_t a2, intptr_t a3)
 {
     InterfaceManager* pInterface = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
     if (abDown)
@@ -661,7 +661,7 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
             reinterpret_cast<::FUN_00458b30_class *>(&(pick))->SetByteAtOffset17(1);
             reinterpret_cast<::CombatProcedure *>(&(pick))->Initialize((::CombatController *)(0));
             reinterpret_cast<::FUN_00792780_Class *>(&(pick))->SetByteAtOffset30(0);
-            int iFound = -1;
+            intptr_t iFound = -1;
             for (int j = 0; iFound < 0 && j < 4; j++)
             {
                 reinterpret_cast<::NiPick *>(&(pick))->FUN_00705fc0(unkD8[j]);
@@ -1320,12 +1320,12 @@ struct RenderToTextureImpl
     char pad000[0x104];
     RtPtr<RtNode> m_spScene;
 
-    void FUN_007fe1f0(int a1, int a2, int a3);
+    void FUN_007fe1f0(intptr_t a1, int a2, int a3);
 };
 
 // Sets a render target and background color, processes m_spScene through render calls, then passes the target to FUN_007fba00.
 // @fnv 0x007fe1f0
-void RenderToTextureImpl::FUN_007fe1f0(int aiUnk, int aiUnk2, int aiUnk3)
+void RenderToTextureImpl::FUN_007fe1f0(intptr_t aiUnk, int aiUnk2, int aiUnk3)
 {
     bool bOverrideTmp = false;
     bOverrideTmp = true;

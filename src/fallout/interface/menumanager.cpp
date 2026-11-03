@@ -1,8 +1,8 @@
 // fallout/interface/menumanager.cpp: MenuSystem, TutorialMenu, QuantityMenu, StatsMenu and more (50 functions)
 
 #include <cstdint>
-#include "fnv/simple_list_node_view.h"
 #include <new>
+#include "fnv/simple_list_node_view.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0071f570_ModelList.h"
@@ -166,11 +166,11 @@ MenuSystem::MenuSystem()
 
 struct FUN_006317a0_struct
 {
-    int AddEight(int param_1);
+    intptr_t AddEight(intptr_t param_1);
 };
 
 // @fnv 0x006317a0
-int FUN_006317a0_struct::AddEight(int aiValue)
+intptr_t FUN_006317a0_struct::AddEight(intptr_t aiValue)
 {
     return aiValue + 8;
 }
@@ -632,11 +632,11 @@ Menu* FUN_00720e60_shell::FindTopMenu()
 {
     Menu* ptop = 0;
     float fMaxDepth = -100000000.0f;
-    void* pListElem = (void*)(unsigned int)*(Flt*)((char*)((::fnv_00720e60::Tile *)(reinterpret_cast<::InterfaceManager *>((((::fnv_00720e60::IMH *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150())) + 4);
+    void* pListElem = (void*)(uintptr_t)*(Flt*)((char*)((::fnv_00720e60::Tile *)(reinterpret_cast<::InterfaceManager *>((((::fnv_00720e60::IMH *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150())) + 4);
     while (pListElem)
     {
         Tile* pmenutile =
-            *(Tile**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)((char*)((::fnv_00720e60::Tile *)(reinterpret_cast<::InterfaceManager *>((((::fnv_00720e60::IMH *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150())) + 4))))->AddEight((int)pListElem);
+            *(Tile**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)((char*)((::fnv_00720e60::Tile *)(reinterpret_cast<::InterfaceManager *>((((::fnv_00720e60::IMH *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150())) + 4))))->AddEight((intptr_t)pListElem);
         Menu* pmenu = 0;
         if (pmenutile)
             pmenu = reinterpret_cast<::FUN_00a03c90_shell *>((pmenutile))->FUN_00a03c90();
@@ -1773,7 +1773,7 @@ bool FUN_00720f90_shell::FUN_00720f90(int param_1)
     int* cursor = (int*)((void *)(::FUN_00559450((int *)(((NiPtrStub*)((char*)((void *)(reinterpret_cast<::InterfaceManager *>((((InterfaceManager_helper*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00586150())) + 4))))));
     while (cursor)
     {
-        int item = *((ListStandIn*)((char*)((void *)(reinterpret_cast<::InterfaceManager *>((((InterfaceManager_helper*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00586150())) + 4))
+        intptr_t item = *((ListStandIn*)((char*)((void *)(reinterpret_cast<::InterfaceManager *>((((InterfaceManager_helper*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00586150())) + 4))
                         ->FUN_0057cbe0(&cursor);
         VtMenu* menu = 0;
         if (item)
@@ -1836,31 +1836,31 @@ void* Mgr20::FUN_00720aa0(int menuClass)
     if (FUN_00720df0() == menuClass)
     {
         pMenu = ((::Tile *)(::fnv_00704140::FUN_00704140()));
-        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        ::fnv_007164c0::FUN_007164c0((intptr_t)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
         reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x40b)
     {
         pMenu = ((::Tile *)(::fnv_00704490::FUN_00704490()));
-        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        ::fnv_007164c0::FUN_007164c0((intptr_t)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
         reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x425)
     {
         pMenu = ((::Tile *)(::fnv_007046c0::FUN_007046c0()));
-        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        ::fnv_007164c0::FUN_007164c0((intptr_t)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
         reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x3ea)
     {
         pMenu = ::fnv_007048c0::CreateInventoryMenuIfModifierKey();
-        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        ::fnv_007164c0::FUN_007164c0((intptr_t)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
         reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x3eb)
     {
         pMenu = ((::Tile *)(::fnv_00704be0::FUN_00704be0()));
-        ::fnv_007164c0::FUN_007164c0((int)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
+        ::fnv_007164c0::FUN_007164c0((intptr_t)(((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))), reinterpret_cast<::TileListBoxCalls *>((pMenu))->GetFloat(0xfc1));
         reinterpret_cast<::TESRecipe *>((((::Tile *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenu))->FUN_00a03c90()))))->SetRequiredSkill((::ActorValue::Index)(8));
     }
     else if (menuClass == 0x3ec)

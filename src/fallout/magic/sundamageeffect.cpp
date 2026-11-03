@@ -2,6 +2,7 @@
 // src/fallout/magic/sundamageeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/sundamageeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -39,6 +40,14 @@
 #include "fnv/symbols_011d1000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
+
+// The current and next weather of the sky.
+struct SkyWeatherView
+{
+    char pad00[0x10];
+    void* currWeather;
+    void* transWeather;
+};
 struct Actor;
 class EffectSetting;
 struct ActiveEffect
@@ -104,7 +113,7 @@ struct S_0082a150
 bool S_0082a150::FUN_0082a150()
 {
     if (reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType() ==
-        ((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)) ? (unsigned int)(reinterpret_cast<char*>((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))) + 0x94) : 0))
+        ((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)) ? (uintptr_t)(reinterpret_cast<char*>((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))) + 0x94) : 0))
     {
         if (this->FUN_0082a1b0() > (double)0.01f)
             return true;
@@ -637,12 +646,12 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
                     DAT_011a14f8 = DAT_011a14f8 - arg;
                 }
                 proc = ((::S_00829bb0_Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::S_00829bb0_Actor * *>(&::g_TES))))->GetBaseTexture()));
-                float fValue = ((::S_00829bb0_Val *)(reinterpret_cast<::MagicCaster_shell *>((proc))->FUN_0044edb0())) ? ((::S_00829bb0_Val *)(reinterpret_cast<::MagicCaster_shell *>((proc))->FUN_0044edb0()))->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
-                if (((::S_00829bb0_Val *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((proc))->FUN_00825c00())))
+                float fValue = ((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->currWeather)) ? ((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->currWeather))->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+                if (((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->transWeather)))
                 {
                     float w = ::FUN_006447d0((const char *)(proc));
                     fValue = fValue * w;
-                    fValue += (1.0 - w) * ((::S_00829bb0_Val *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((proc))->FUN_00825c00()))->FUN_004ed230(5, 1.0f, 0.0f);
+                    fValue += (1.0 - w) * ((::S_00829bb0_Val *)(reinterpret_cast<::SkyWeatherView *>(proc)->transWeather))->FUN_004ed230(5, 1.0f, 0.0f);
                 }
             }
         }
@@ -869,12 +878,12 @@ double S_0082a150::FUN_0082a1b0()
         f4 = ::FUN_00595ea0((char *)(obj));
         f18 = reinterpret_cast<::FUN_00596030_cls *>((obj))->FUN_00596030();
         b9 = true;
-        vTmp = ((::H_Calls *)(reinterpret_cast<::MagicCaster_shell *>((obj))->FUN_0044edb0())) ? ((::H_Calls *)(reinterpret_cast<::MagicCaster_shell *>((obj))->FUN_0044edb0()))->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
-        if (((::H_Calls *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((obj))->FUN_00825c00())))
+        vTmp = ((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->currWeather)) ? ((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->currWeather))->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+        if (((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->transWeather)))
         {
             v_ = ::FUN_006447d0((const char *)(obj));
             vTmp = vTmp * v_;
-            vTmp = (1.0 - v_) * ((::H_Calls *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((obj))->FUN_00825c00()))->FUN_004ed230(5, 1.0f, 0.0f) + vTmp;
+            vTmp = (1.0 - v_) * ((::H_Calls *)(reinterpret_cast<::SkyWeatherView *>(obj)->transWeather))->FUN_004ed230(5, 1.0f, 0.0f) + vTmp;
         }
         b11 = false;
         if (reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((((::H_Calls *)(reinterpret_cast<::LowProcess *>((p))->GetTarget()))))->FUN_004518e0())

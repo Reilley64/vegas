@@ -1,4 +1,5 @@
 // fallout/ai/spectatorpackage.cpp: SpectatorPackage (1 function)
+#include <cstdint>
 #include "fnv/symbols_009f9000.h"
 #include "spectatorpackage_decls.h"
 #include <new>
@@ -225,14 +226,14 @@ void Holder009f8770::FUN_009f8770()
 
 struct FUN_009f8aa0_class
 {
-    int FUN_009f8aa0();
+    intptr_t FUN_009f8aa0();
 };
 struct FUN_009f8ac0_class
 {
     int FUN_009f8ac0(int a);
 };
 // @fnv 0x009f8aa0
-int FUN_009f8aa0_class::FUN_009f8aa0()
+intptr_t FUN_009f8aa0_class::FUN_009f8aa0()
 {
     return reinterpret_cast<::FUN_009f8ac0_class *>(this)->FUN_009f8ac0(0);
 }
@@ -396,8 +397,8 @@ struct Wrap
 void Wrap::FUN_009f8730()
 {
     reinterpret_cast<::Package679120 *>((((S00679120*)this)))->SavePackage();
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&u84), 4);
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)&u88), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((uintptr_t)&u84), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((uintptr_t)&u88), 4);
 }
 
 struct TESForm
@@ -420,8 +421,8 @@ struct FUN_009f7230_class
 // @fnv 0x009f7230
 void FUN_009f7230_class::FUN_009f7230(TESObjectREFRHelper* a)
 {
-    p = p ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)p)) : 0;
-    q = q ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)q)) : 0;
+    p = p ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)p)) : 0;
+    q = q ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)q)) : 0;
     if (p)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)p)))->FUN_00564db0(true);
     if (q)
@@ -442,7 +443,7 @@ struct FUN_009f84d0_class
 {
     char _pad[0xA0];
     ArrSI arr;
-    void FUN_009f84d0(unsigned int);
+    void FUN_009f84d0(uintptr_t);
 };
 
 struct BSSimpleArrayActor
@@ -519,7 +520,7 @@ struct SpectatorPackageSave : SpectatorPackage
 
 struct FUN_009f8a80_wrapper : FUN_009f8aa0_class
 {
-    int FUN_009f8a80(unsigned int a);
+    intptr_t FUN_009f8a80(unsigned int a);
 };
 // @fnv 0x009f8660
 void FUN_009f8660_class::FUN_009f8660(BSSimpleArrayActor& aArray)
@@ -533,7 +534,7 @@ void FUN_009f8660_class::FUN_009f8660(BSSimpleArrayActor& aArray)
         for (; j < (int)count; j++)
         {
             Flt* form = ((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((FUN_009f8a80_class*)((char*)this + 0xa0))))->FUN_009f8a80(j)));
-            void* id = (void*)(unsigned int)*form;
+            void* id = (void*)(uintptr_t)*form;
             if (id)
                 reinterpret_cast<::FUN_00438690 *>(&(aArray))->FUN_007cb2e0((unsigned int *)&(id));
         }
@@ -545,7 +546,7 @@ void FUN_009f8a10::InitLoadGame(void* apLoadGameBuffer)
     unsigned int i;
     unsigned int isaveGameCount8;
     SpectatorThreatInfo* threatInfo;
-    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((int)(apLoadGameBuffer));
+    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((intptr_t)(apLoadGameBuffer));
     isaveGameCount8 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xa0))))->GetName()));
     for (i = 0; i < isaveGameCount8; ++i)
     {
@@ -586,7 +587,7 @@ void SpectatorPackageSave::FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer)
     }
 }
 // @fnv 0x009f8a80
-int FUN_009f8a80_wrapper::FUN_009f8a80(unsigned int a)
+intptr_t FUN_009f8a80_wrapper::FUN_009f8a80(unsigned int a)
 {
     return reinterpret_cast<::FUN_009f8ac0_class *>(this)->FUN_009f8ac0((int)a);
 }
@@ -931,7 +932,7 @@ void ThreatInfo::FUN_009f6d50()
     NiPoint3* pB = pTarget ? pTarget->GetPosPtr() : &bPos;
     bPos = *pB;
     Item428* pItem = pSource ? pSource->GetItem428() : 0;
-    WeapStub* pWeap7 = pItem ? ((::WeapStub *)(::FUN_007031c0((int)(pItem)))) : 0;
+    WeapStub* pWeap7 = pItem ? ((::WeapStub *)(::FUN_007031c0((intptr_t)(pItem)))) : 0;
     int iLevel = 0;
     if (pWeap7)
     {
@@ -1503,7 +1504,7 @@ struct FUN_009f8c70_cls
     void FUN_009f8c70(unsigned int a1, unsigned int a2);
 };
 // @fnv 0x009f84d0
-void FUN_009f84d0_class::FUN_009f84d0(unsigned int id)
+void FUN_009f84d0_class::FUN_009f84d0(uintptr_t id)
 {
     int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName()));
     for (int i = 0; i < count; ++i)
@@ -1530,14 +1531,14 @@ void SpectatorPackageStandIn::FUN_009f8420(Actor& aActor)
         scanInfo = reinterpret_cast<SpectatorThreatInfo*>(
             ((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((reinterpret_cast<FUN_009f8a80_class*>(reinterpret_cast<char*>(this) + 0xA0)))->FUN_009f8a80(i6))));
 
-        if (reinterpret_cast<Flt*>(scanInfo)->operator unsigned int() == reinterpret_cast<unsigned int>(&aActor))
+        if (reinterpret_cast<Flt*>(scanInfo)->operator unsigned int() == reinterpret_cast<uintptr_t>(&aActor))
         {
             reinterpret_cast<::FUN_009f8c70_cls *>((reinterpret_cast<FUN_009f8c70_class*>(reinterpret_cast<char*>(this) + 0xA0)))->FUN_009f8c70(i6, 1);
             isize_--;
             i6--;
         }
         else if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<SpectatorThreatInfoStandIn*>(scanInfo)))->FUN_00726070())) ==
-                 reinterpret_cast<unsigned int>(&aActor))
+                 reinterpret_cast<uintptr_t>(&aActor))
         {
             *reinterpret_cast<Actor**>(reinterpret_cast<char*>(scanInfo) + 4) = 0;
             *reinterpret_cast<bool*>(reinterpret_cast<char*>(scanInfo) + 0x2D) = false;
@@ -3210,7 +3211,7 @@ void Package8020::FUN_009f8020(Actor8020* owner)
     }
     if (updated)
         reinterpret_cast<::ThreatBounds::Package *>(this)->FUN_009f76e0();
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(owner));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)(owner));
 }
 
 

@@ -1,5 +1,6 @@
 // fallout/ai/highactorculler.cpp: HighActorCuller (1 function)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -47,7 +48,7 @@ void HighActorCuller::Operate(MobileObject* mobile)
                 while (position)
                 {
                     BSOcclusionPlane* plane = ((::BSOcclusionPlane *)(reinterpret_cast<::ListStandIn *>(&(occluders))->FUN_0057cbe0((int **)&(position))));
-                    if (plane && ((int)(reinterpret_cast<::LowProcess *>((void *)(plane))->GetTarget())) == 1)
+                    if (plane && ((intptr_t)(reinterpret_cast<::LowProcess *>((void *)(plane))->GetTarget())) == 1)
                     {
                         if (!m_pMultiBoundNode->CheckProcStateAndPlane(((const ::NiCamera *)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)&(m_kFadeNodeCuller))->FUN_0084e3a0()))->FUN_0045bb80(),
                                                                        m_kFadeNodeCuller, plane))

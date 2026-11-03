@@ -1,5 +1,6 @@
 // fallout_shared/sky/sun.cpp: Sun, NiPick, A6A0Sun (11 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -85,13 +86,13 @@ Sun::Sun()
 }
 
 // @fnv 0x00461110
-int FUN_00461110(int param_1)
+std::intptr_t FUN_00461110(std::intptr_t param_1)
 {
     return param_1 + 0x78;
 }
 
 // @fnv 0x00514f30
-int FUN_00514f30(int this_ptr)
+std::intptr_t FUN_00514f30(std::intptr_t this_ptr)
 {
     return this_ptr + 0xC0;
 }
@@ -919,7 +920,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                                      300);
     NiPoint3 newLoc = (*reinterpret_cast<::fnv_00641830::NiPoint3 *>((void *)&::NiPoint3::ZERO));
     float fhour = ::GetFieldEC((const char*)apSky);
-    reinterpret_cast<::FUN_008d0600_s *>((((H::SkyObject*)this)))->FUN_008d0600((int)(apSky), afSecondsPassed);
+    reinterpret_cast<::FUN_008d0600_s *>((((H::SkyObject*)this)))->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
     if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 0)
     {
         H::ThreeByThreeMatrix lightDir = (*reinterpret_cast<::fnv_00641830::H::ThreeByThreeMatrix *>(&::DAT_011a9448));
@@ -927,7 +928,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         if (pcell)
         {
             H::ThreeByThreeMatrix rotmat;
-            new ((void *)(&rotmat)) ::Vec3();
+            (void *)(&rotmat);
             reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&lightDir)))->FUN_004a0c90(reinterpret_cast<::fnv_00544910::FUN_00544910_shell *>((((Cell_S*)pcell)))->FUN_00544910() * ::DAT_01023128);
             reinterpret_cast<::ThreeByThreeMatrix *>(&(rotmat))->SetYRotation(reinterpret_cast<::fnv_00544970::FUN_00544970_shell *>((((Cell_S*)pcell)))->FUN_00544970() * ::DAT_01023128);
             lightDir = lightDir * rotmat;
@@ -937,11 +938,11 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(1, 0, DAT_0104f2a8);
             reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(2, 0, DAT_0104f2a8);
         }
-        reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
-        reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((int)(((TESDataHandler*)apSky)))))));
-        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
-        ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((int)(((TESDataHandler*)apSky))))));
+        reinterpret_cast<::FUN_0043fa80_s *>(((*(NiAVObject**)&this->m_pMenuLight.m_pObject)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
+        reinterpret_cast<::FUN_004bc280_S *>(((*(FUN_004bc280_S**)&this->m_pMenuLight.m_pObject)))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((*(NiPointLight**)&this->m_pMenuLight.m_pObject)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
+        (*(NiPointLight**)&this->m_pMenuLight.m_pObject)
+            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
     }
     else if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 1)
     {
@@ -950,7 +951,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         if (pcell)
         {
             H::ThreeByThreeMatrix rotmat;
-            new ((void *)(&rotmat)) ::Vec3();
+            (void *)(&rotmat);
             reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&lightDir)))->FUN_004a0c90(reinterpret_cast<::fnv_00544910::FUN_00544910_shell *>((((Cell_S*)pcell)))->FUN_00544910() * ::DAT_01023128);
             reinterpret_cast<::ThreeByThreeMatrix *>(&(rotmat))->SetYRotation(reinterpret_cast<::fnv_00544970::FUN_00544970_shell *>((((Cell_S*)pcell)))->FUN_00544970() * ::DAT_01023128);
             lightDir = lightDir * rotmat;
@@ -960,15 +961,15 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(1, 0, DAT_0104f2a8);
             reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(2, 0, DAT_0104f2a8);
         }
-        reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
-        reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((int)(((TESDataHandler*)apSky)))))));
-        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
-        ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((int)(((TESDataHandler*)apSky))))));
+        reinterpret_cast<::FUN_0043fa80_s *>(((*(NiAVObject**)&this->m_pMenuLight.m_pObject)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
+        reinterpret_cast<::FUN_004bc280_S *>(((*(FUN_004bc280_S**)&this->m_pMenuLight.m_pObject)))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
+        reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((*(NiPointLight**)&this->m_pMenuLight.m_pObject)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
+        (*(NiPointLight**)&this->m_pMenuLight.m_pObject)
+            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
     }
     else if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 2)
     {
-        reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 4))))->QueueActorDisarm(!reinterpret_cast<::FUN_006366b0_shell *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 4))))->FUN_006366b0());
+        reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRootNode.m_pObject)))->QueueActorDisarm(!reinterpret_cast<::FUN_006366b0_shell *>(((*(NiAVObject**)&this->m_pRootNode.m_pObject)))->FUN_006366b0());
         float fSunriseBegin = (::fnv_00595f50::FUN_00595f50((::fnv_00595f50::Sky *)(char *)((char*)apSky)) + ::FUN_00595ea0((char*)apSky)) / 2.0;
         float fSunsetEnd = (reinterpret_cast<::FUN_00596030_cls *>((apSky))->FUN_00596030() + ::fnv_00595fc0::FUN_00595fc0((char*)apSky)) / 2.0;
         float fhalftrans = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting82)))))) * ::DAT_01011588;
@@ -995,30 +996,30 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         float fGlareAlpha = (pCurr ? pCurr->GetWeatherData(4, fCurrPct * fDiscAlpha, 0.0f) : fDiscAlpha) +
                             (pLast ? pLast->GetWeatherData(4, (1.0f - fCurrPct) * fDiscAlpha, 0.0f) : 0.0f);
         void* pshadeProperty =
-            ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x10))))->FUN_00a59d30(3))) == 0)
+            ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pThirdSceneObject.m_pObject)))->FUN_00a59d30(3))) == 0)
                  ? 0
-                 : (reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x10))))->FUN_00a59d30(3))))))->GetMinLevel() == 13))
-                ? ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x10))))->FUN_00a59d30(3)))
+                 : (reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pThirdSceneObject.m_pObject)))->FUN_00a59d30(3))))))->GetMinLevel() == 13))
+                ? ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pThirdSceneObject.m_pObject)))->FUN_00a59d30(3)))
                 : 0;
         if (pshadeProperty)
         {
             *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[0],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[1],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[2], fDiscAlpha);
+                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fDiscAlpha);
         }
         pshadeProperty =
-            ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x14))))->FUN_00a59d30(3))) == 0)
+            ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pFourthSceneObject.m_pObject)))->FUN_00a59d30(3))) == 0)
                  ? 0
-                 : (reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x14))))->FUN_00a59d30(3))))))->GetMinLevel() == 13))
-                ? ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(unsigned int)*(Flt*)((char*)this + 0x14))))->FUN_00a59d30(3)))
+                 : (reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pFourthSceneObject.m_pObject)))->FUN_00a59d30(3))))))->GetMinLevel() == 13))
+                ? ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pFourthSceneObject.m_pObject)))->FUN_00a59d30(3)))
                 : 0;
         if (pshadeProperty)
         {
             *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[0],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[1],
-                          ((float *)(::FUN_00461110((int)(((TESDataHandler*)apSky)))))[2], fGlareAlpha);
+                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fGlareAlpha);
         }
         {
             float fxNewAim = 0.0f;
@@ -1044,17 +1045,17 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             newLoc.y = reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting84)))))->FUN_00450410();
             newLoc.z = ::FUN_00408860(reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83)))))->FUN_00450410()) -
                        ::FUN_00408860(fxNewAim);
-            reinterpret_cast<::FUN_00440460_S *>((((FUN_00440460_S*)(unsigned int)*(Flt*)((char*)this + 4))))->FUN_00440460((const ::V3 *)(const ::fnv_00641830::V3 *)((const V3*)&newLoc));
-            reinterpret_cast<::FUN_00440460_S *>((((FUN_00440460_S*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_00440460((const ::V3 *)(const ::fnv_00641830::V3 *)((const V3*)&newLoc));
+            reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)&this->m_pRootNode.m_pObject)))->FUN_00440460((const ::V3 *)(const ::fnv_00641830::V3 *)((const V3*)&newLoc));
+            reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)&this->m_pSecondSceneObject.m_pObject)))->FUN_00440460((const ::V3 *)(const ::fnv_00641830::V3 *)((const V3*)&newLoc));
             reinterpret_cast<::FUN_00416870_t *>((((P3*)&ksundirection)))->FUN_00416870(-fxNewAim, reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting84)))))->FUN_00450410(),
                       reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting85)))))->FUN_00450410());
             reinterpret_cast<::FUN_004a0c10_s *>((((H::NiPoint3*)&ksundirection)))->FUN_004a0c10();
-            reinterpret_cast<::FUN_004769c0_shell *>((((FUN_00476980_S*)&newSunRot)))->FUN_004769c0(0, (float *)((int)&ksundirection));
-            reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(newSunRot));
-            reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((int)(((TESDataHandler*)apSky)))))));
-            reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
-            ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-                ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((int)(((TESDataHandler*)apSky))))));
+            reinterpret_cast<::FUN_004769c0_shell *>((((FUN_00476980_S*)&newSunRot)))->FUN_004769c0(0, (float *)((std::intptr_t)&ksundirection));
+            reinterpret_cast<::FUN_0043fa80_s *>(((*(NiAVObject**)&this->m_pMenuLight.m_pObject)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(newSunRot));
+            reinterpret_cast<::FUN_004bc280_S *>(((*(FUN_004bc280_S**)&this->m_pMenuLight.m_pObject)))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
+            reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((*(NiPointLight**)&this->m_pMenuLight.m_pObject)))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
+            (*(NiPointLight**)&this->m_pMenuLight.m_pObject)
+                ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
         }
         if ((*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES)) && reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES))))->FUN_0084e3a0())
         {
@@ -1070,14 +1071,14 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             {
                 if (((Sun_S*)this)->m_fSunGlareIntensity - fscaleChange < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting80)))))))
                 {
-                    reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))))->QueueActorDisarm(true);
+                    reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(true);
                     ((Sun_S*)this)->m_fSunGlareIntensity = 0.0f;
                 }
                 else
                 {
-                    reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))))->QueueActorDisarm(false);
+                    reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(false);
                     ((Sun_S*)this)->m_fSunGlareIntensity -= fscaleChange;
-                    reinterpret_cast<::FUN_00440490_shell *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
+                    reinterpret_cast<::FUN_00440490_shell *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
                 }
             }
             else
@@ -1091,12 +1092,12 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                 {
                     ((Sun_S*)this)->m_fSunGlareIntensity += fscaleChange;
                 }
-                reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))))->QueueActorDisarm(false);
-                reinterpret_cast<::FUN_00440490_shell *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
+                reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(false);
+                reinterpret_cast<::FUN_00440490_shell *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->FUN_00440490(((Sun_S*)this)->m_fSunGlareIntensity);
             }
-            if (!reinterpret_cast<::FUN_006366b0_shell *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006366b0())
+            if (!reinterpret_cast<::FUN_006366b0_shell *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->FUN_006366b0())
             {
-                reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc))))->QueueActorDisarm(true);
+                reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(true);
             }
         }
         if (apSky->IsFlag4Set())

@@ -150,7 +150,7 @@ extern "C" void fnv_fn_0061c0f0() __asm__("?FUN_0061c0f0@FUN_0061bf50_class@@QEA
 extern "C" void fnv_fn_0061fa40() __asm__("?FUN_0061fa40@FUN_0061fa40_class@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0061fb70() __asm__("?FUN_0061fb70@FUN_0061fb70_Cls@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0061fc70() __asm__("?FindOrCreateNode@ZoneList@@QEAAPEAUZoneNode@@IIH@Z");
-extern "C" void fnv_fn_0061ffe0() __asm__("?Create@FUN_0061ffe0_shell@@QEAAPEAUFUN_0061fc10@@II@Z");
+extern "C" void fnv_fn_0061ffe0() __asm__("?Create@FUN_0061ffe0_shell@@QEAAPEAUFUN_0061fc10@@_K0@Z");
 extern "C" void fnv_fn_00620060() __asm__("?CreateZoneTargetNode@FUN_00620060_cls@@QEAAPEAXII@Z");
 extern "C" void fnv_fn_006200e0() __asm__("?Destroy@BGSZoneTargetListener@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00621080() __asm__("?SetValue@FUN_00621060_shell@@QEAAXXZ");
@@ -180,8 +180,8 @@ extern "C" void fnv_fn_0062a2f0() __asm__("?DeleteThis@FUN_0062a2f0@@QEAAPEAXI@Z
 extern "C" void fnv_fn_0062a320() __asm__("?FUN_0062a320@S_0062a320@@QEAAXPEAUS_0062a320_Arg@@PEAUS_0062a320_Data@@@Z");
 extern "C" void fnv_fn_0062a4b0() __asm__("?FUN_0062a4b0@FUN_0062a4b0_Class@fnv_0062a4b0@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0062a4e0() __asm__("?FUN_0062a4e0@FUN_005545b0@fnv_0062a4e0@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_0062a510() __asm__("?FUN_0062a510@FUN_0062a510_cls@@QEAAXH@Z");
-extern "C" void fnv_fn_0062a690() __asm__("?FUN_0062a690@S_0062a690_Class@fnv_0062a690@@QEAAXH@Z");
+extern "C" void fnv_fn_0062a510() __asm__("?FUN_0062a510@FUN_0062a510_cls@@QEAAXPEAX@Z");
+extern "C" void fnv_fn_0062a690() __asm__("?FUN_0062a690@S_0062a690_Class@fnv_0062a690@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_0062c5a0() __asm__("?FUN_0062c5a0@EventCollection_62c5a0@@QEAAXXZ");
 extern "C" void fnv_fn_0062c600() __asm__("?FUN_0062c600@TrapTargetEntry@@QEAAXPEAUZoneEntry@@@Z");
 extern "C" void fnv_fn_0062c720() __asm__("?FUN_0062c720@FUN_0062c720_shell@@QEAAPEAXI@Z");
@@ -191,7 +191,7 @@ extern "C" void fnv_fn_0062d3f0() __asm__("?FUN_0062d3f0@FUN_0062d3f0_Standin@@Q
 extern "C" void fnv_fn_0062d640() __asm__("?NotifyEntityIfFlagged@hkpEntityListener@fnv_0062d640@@QEAAXPEAUhkpEntity@2@@Z");
 extern "C" void fnv_fn_0062d6c0() __asm__("?DestroyIfFlagged@bhkTrapListener@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0062d710() __asm__("?FUN_0062d710@FUN_0062d710_shell@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_0062d7c0() __asm__("?FUN_0062d7c0@FUN_0062d7c0_shell@@QEAAPEAUFUN_0062d840_shell@@II@Z");
+extern "C" void fnv_fn_0062d7c0() __asm__("?FUN_0062d7c0@FUN_0062d7c0_shell@@QEAAPEAUFUN_0062d840_shell@@_K0@Z");
 extern "C" void fnv_fn_0062d870() __asm__("?FUN_0062d870@TESTrapListener@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0062da00() __asm__("?HandleTrapEvent@FUN_0062da00_Class@@QEAAXPEAUInputBody@@@Z");
 extern "C" void fnv_fn_0062da90() __asm__("?RemoveMatchingListEntry@TargetClass@@QEAAXPEAUArgClass@@@Z");

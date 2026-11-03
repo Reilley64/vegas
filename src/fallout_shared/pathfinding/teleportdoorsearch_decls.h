@@ -38,7 +38,7 @@ struct PointerPairData
     void* a;
     void* b;
 };
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     char data[16];

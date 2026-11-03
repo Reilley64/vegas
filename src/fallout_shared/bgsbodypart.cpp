@@ -1,5 +1,6 @@
 // fallout_shared/bgsbodypart.cpp: BGSBodyPart, BodyPartInfo, BGSTextureModel, SomeClass (15 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -60,7 +61,7 @@ void BodyPartInfo::Initialize()
 void BGSBodyPart::QueueResourceLoad(IO_TASK_PRIORITY priority, QueuedFile* queuedFile)
 {
     if (m_kModel.GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel), priority, (int)(queuedFile), true, true, false, false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(&m_kModel), priority, (std::uintptr_t)(queuedFile), true, true, false, false);
     if (Data.m_pExplosion)
         ((Queueable18*)((char*)Data.m_pExplosion + 0x18))->QueueResourceLoad(priority, queuedFile);
     if (Data.m_pDebrisObject)
@@ -80,31 +81,31 @@ void BGSBodyPart::InitItem(TESForm* form)
 {
     if (!form || form->GetInitialized())
         return;
-    unsigned int formID = (unsigned int)((DialogueItem*)this)->SelectDefaultResponseList();
+    unsigned int formID = (unsigned int)(std::uintptr_t)((DialogueItem*)this)->SelectDefaultResponseList();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pDebrisObject = dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()));
+    formID = (unsigned int)(std::uintptr_t)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pExplosion = dynamic_cast<BGSDebris*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((EffectSetting*)this)->GetCastSound();
+    formID = (unsigned int)(std::uintptr_t)((EffectSetting*)this)->GetCastSound();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pRelatedObject2 = dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((((EffectSetting*)this)))->GetRefCount()));
+    formID = (unsigned int)(std::uintptr_t)((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((((EffectSetting*)this)))->GetRefCount()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pRelatedObject1 = dynamic_cast<BGSDebris*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((::Tile *)(reinterpret_cast<::MagicProjectile *>((((InterfaceManager*)this)))->FUN_004fd400()));
+    formID = (unsigned int)(std::uintptr_t)((::Tile *)(reinterpret_cast<::MagicProjectile *>((((InterfaceManager*)this)))->FUN_004fd400()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
@@ -115,7 +116,7 @@ void BGSBodyPart::InitItem(TESForm* form)
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
-        reinterpret_cast<::FUN_00994ef0_Class *>(this)->Set((int)(dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_00994ef0_Class *>(this)->Set((std::intptr_t)(dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID))));
     }
 }
 
@@ -246,8 +247,8 @@ TESModel* FUN_005e3be0(TESModel* pThis)
 // @fnv 0x005e3c00
 void* FUN_005e3c00(char* pObject)
 {
-    new ((void *)(pObject + 0x2c)) ::Vec3();
-    new ((void *)(pObject + 0x38)) ::Vec3();
+    (void *)(pObject + 0x2c);
+    (void *)(pObject + 0x38);
     return pObject;
 }
 
@@ -374,7 +375,7 @@ class PartSink
 
 // Recursively walks a PartNode tree; for leaf nodes with a target, looks up a PartSink and adds two entries keyed by a1 and a1+0xc8.
 // @fnv 0x005e4730
-void AddNodeEntries(unsigned int a1, PartNode* pNode)
+void AddNodeEntries(uintptr_t a1, PartNode* pNode)
 {
     if (pNode == 0)
     {

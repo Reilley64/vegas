@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmesh.cpp: NavMesh, ActorMover, BGSCameraPath, TESEffectShader and more (97 functions)
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <new>
 #include <cmath>
@@ -184,14 +185,46 @@ public:
 
 class NavMeshTriangle;
 class NiPoint3;
+template <> class BSSimpleArray<unsigned short, 1024>
+{
+  public:
+    virtual ~BSSimpleArray();
+    unsigned short* buffer;
+    unsigned int size;
+    unsigned int reserved;
+};
+
+class NavMeshVertex;
+class NavMeshTriangleDoorPortal;
+class NavMeshClosedDoorInfo;
+class NavMeshInfo;
+
+class NavMeshTriangle
+{
+  public:
+    unsigned short Vertices[3];
+    unsigned short Triangles[3];
+    unsigned int m_uiTriangleFlags;
+};
+
 class NavMesh
 {
   public:
-    char _pad38[0x38];
-    BSSimpleArray<NavMeshTriangle, 1024> Triangles;
-    BSSimpleArray<EdgeExtraInfo, 1024> m_kEdgeExtraInfo;
-    char _pad58_f4[0x9c];
-    BSSimpleArray<NavMeshStaticAvoidNode, 1024> m_kStaticAvoidNodes;
+    char layoutPadding0[0x28];
+    BSSimpleArray<NavMeshVertex, 1024> Vertices;                     // +0x28
+    BSSimpleArray<NavMeshTriangle, 1024> Triangles;                  // +0x38
+    BSSimpleArray<EdgeExtraInfo, 1024> m_kEdgeExtraInfo;             // +0x48
+    BSSimpleArray<NavMeshTriangleDoorPortal, 1024> m_kDoorPortals;   // +0x58
+    BSSimpleArray<NavMeshClosedDoorInfo, 1024> m_kClosedDoorInfo;    // +0x68
+    BSSimpleArray<unsigned short, 1024> m_kIndexList;                // +0x78
+    char layoutPadding88[0x10];
+    BSSimpleArray<unsigned short, 1024> m_kAdditionalIndexList;      // +0x98
+    char m_kGrid[0x28];                                              // +0xA8
+    BSSimpleArray<void*, 1024> m_kObstacleUndoData;                  // +0xD0
+    void* pTriangleToObstacleMap;                                    // +0xE0
+    BSSimpleArray<unsigned short, 1024> m_kAdditionalData;           // +0xE4
+    BSSimpleArray<NavMeshStaticAvoidNode, 1024> m_kStaticAvoidNodes; // +0xF4
+    NavMeshInfo* m_pNavigationMesh;                                  // +0x104
     NavMeshStaticAvoidNode* GetStaticAvoidNodeData();
     bool GetStaticAvoidNodesForTriangle(unsigned short, BSSimpleArray<NavMeshStaticAvoidNode*, 1024>&);
 public:
@@ -229,7 +262,7 @@ bool NavMesh::GetStaticAvoidNodesForTriangle(unsigned short triangle,
                                              BSSimpleArray<NavMeshStaticAvoidNode*, 1024>& arOutput)
 {
     unsigned int i = 0;
-    for (; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((BSSimpleArray<NavMeshInfo*, 1024>&)m_kStaticAvoidNodes)))->GetName())); ++i)
+    for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((BSSimpleArray<NavMeshInfo*, 1024>&)m_kStaticAvoidNodes)))->GetName())); ++i)
     {
         if (reinterpret_cast<::FUN_006df760_shell *>((m_kStaticAvoidNodes.FUN_00691750(i)))->GetShortValueAtOffset24() == triangle)
         {
@@ -245,7 +278,6 @@ bool NavMesh::GetStaticAvoidNodesForTriangle(unsigned short triangle,
 PathingLocation::PathingLocation(const CoordinateTriple& location, NavMeshInfo* navMesh, unsigned short triangle)
 {
     m_ppVirtualMethodTable = (void**)fnv_vftable_DAT_0102583c;
-    new ((void *)(((BSSimpleList<InventoryStackRecord*>*)&Location))) ::Vec3();
     Location = location.Point;
     uiFlags = 0;
     m_pLocationNavMesh = navMesh;
@@ -294,7 +326,7 @@ class NiAVObject
 
 // If the stored object pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x1c within it.
 // @fnv 0x0042fda0
-void FUN_0042fda0(int* pObjectPtr)
+void FUN_0042fda0(char** pObjectPtr)
 {
     if (*pObjectPtr != 0)
     {
@@ -343,7 +375,7 @@ struct FUN_0068efb0_shell : public NavMesh
 // @fnv 0x0068efb0
 NavMeshInfo* FUN_0068efb0_shell::FUN_0068efb0()
 {
-    return *(NavMeshInfo**)((char*)this + 0x104);
+    return m_pNavigationMesh;
 }
 
 struct EdgeT
@@ -371,7 +403,7 @@ struct FUN_0068f0a0_shell : public NavMesh
 // @fnv 0x0068f0a0
 void* FUN_0068f0a0_shell::FUN_0068f0a0(unsigned short asVertexIndex)
 {
-    return ((BSSimpleArray<EdgeExtraInfo, 1024>*)((char*)this + 0x28))->FUN_006a1440(asVertexIndex);
+    return ((BSSimpleArray<EdgeExtraInfo, 1024>*)(&this->Vertices))->FUN_006a1440(asVertexIndex);
 }
 
 struct EdgeExtraInfo;
@@ -450,7 +482,7 @@ struct FUN_006915d0_helper : public PathingAvoidanceNode
 PathingAvoidanceNode* FUN_006915d0_helper::FUN_006915d0(const NiPoint3& arPoint, float afRadius, float afCost)
 {
     m_kLocation = arPoint;
-    new ((void *)(&TwoComponentVector)) ::Vec3();
+    (void *)(&TwoComponentVector);
     fRadius = afRadius;
     m_fPathingCostCur = afCost;
     eType = 0;
@@ -470,7 +502,7 @@ struct FUN_006916f0_arg
 int* FUN_006916f0(int* self, FUN_006916f0_arg a)
 {
     new ((void *)(self)) ::FUN_006918c0_class((*(unsigned int *)&(const ::FUN_006916f0_arg &)(a)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 
@@ -489,7 +521,7 @@ void FUN_005890c0(int* self, FUN_00691720_arg a);
 int* FUN_00691720(int* self, FUN_00691720_arg a)
 {
     FUN_005890c0(self, a);
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 }  // namespace fnv_00691720
@@ -719,39 +751,35 @@ bool FUN_00690e10_shell::FUN_00690e10()
     return (flags & 7) != 0;
 }
 
-struct FUN_00691000_shell
+struct FUN_00691000_shell : NavMesh
 {
-    char _pad38[0x38];
-    void FUN_00691000(int arg);
+    void FUN_00691000(std::intptr_t arg);
 };
 
-struct FUN_00691020_shell
+struct FUN_00691020_shell : NavMesh
 {
-    char _pad48[0x48];
-    void FUN_00691020(int a);
+    void FUN_00691020(std::intptr_t a);
 };
 
 // @fnv 0x00691020
-void FUN_00691020_shell::FUN_00691020(int a)
+void FUN_00691020_shell::FUN_00691020(std::intptr_t a)
 {
-    reinterpret_cast<::FUN_00691c10_class *>((((FUN_00691020_shell*)((char*)this + 0x48))))->FUN_00691c10((*(const ::S00691c60 *)(a)));
+    reinterpret_cast<::FUN_00691c10_class *>((((FUN_00691020_shell*)(&this->m_kEdgeExtraInfo))))->FUN_00691c10((*(const ::S00691c60 *)(a)));
 }
 
 struct ArrSI
 {
 };
 
-struct FUN_00691620_shell
+struct FUN_00691620_shell : NavMesh
 {
-    char _padf4[0xf4];
-    ArrSI* pArrSI;
     unsigned int GetFlags();
 };
 
 // @fnv 0x00691620
 unsigned int FUN_00691620_shell::GetFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xf4))))->GetName()));
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kStaticAvoidNodes))))->GetName()));
 }
 
 struct FUN_00691640_shell : NavMesh
@@ -823,7 +851,7 @@ struct FUN_00691f00_shell : NiTPointerMap
 // @fnv 0x00691f00
 void FUN_00691f00_shell::FUN_00691f00()
 {
-    *reinterpret_cast<void**>(this) = "p!i";
+    *reinterpret_cast<void**>(this) = (void*)"p!i";
     reinterpret_cast<::FUN_00438af0_Class *>((this))->FUN_00438af0();
     ::FUN_00aa10f0(_member8);
 }
@@ -878,18 +906,18 @@ struct NavMeshWithGetTriangle
 class NH : public NavMesh
 {
   public:
-    void GetTriangleVertexPositions(unsigned short, unsigned int*, unsigned int*, unsigned int*);
+    void GetTriangleVertexPositions(unsigned short, const void**, const void**, const void**);
 };
 
 // Looks up the triangle for a1 and writes pointers to the positions of its three vertices into a2, a3 and a4.
 // @fnv 0x0068f160
-void NH::GetTriangleVertexPositions(unsigned short ausTriangleIndex, unsigned int* pVertex0, unsigned int* pVertex1,
-                                    unsigned int* pVertex2)
+void NH::GetTriangleVertexPositions(unsigned short ausTriangleIndex, const void** pVertex0, const void** pVertex1,
+                                    const void** pVertex2)
 {
     NavMeshTriangle* tri = ((::fnv_0068f160::NavMeshTriangle *)(reinterpret_cast<::NavMesh *>((reinterpret_cast<NavMeshWithGetTriangle*>(this)))->GetTriangle(ausTriangleIndex)));
-    *pVertex0 = reinterpret_cast<unsigned int>(&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(0)))));
-    *pVertex1 = reinterpret_cast<unsigned int>(&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(1)))));
-    *pVertex2 = reinterpret_cast<unsigned int>(&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(2)))));
+    *pVertex0 = (&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(0)))));
+    *pVertex1 = (&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(1)))));
+    *pVertex2 = (&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(2)))));
 }
 }  // namespace fnv_0068f160
 
@@ -992,15 +1020,16 @@ struct FUN_0042fc00_shell
     void** vtable;
     void* m_pCurrent;
     unsigned int m_iKey;
+    unsigned int m_uiCapacity;
     void FUN_0042fc00(void* p, unsigned int key);
 };
 struct S2f850
 {
-    unsigned int a;
+    void* a;
     unsigned int b;
     unsigned int c;
     virtual void v0();
-    virtual unsigned int v1(unsigned int);
+    virtual void* v1(unsigned int);
     void FUN_0042fcb0(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x0042fcb0
@@ -1026,14 +1055,14 @@ void S2f850::FUN_0042fcb0(unsigned int requested, unsigned int savedSize)
 }
 
 class EdgeExtraInfo;
-struct FUN_0068f2c0_shell
+struct FUN_0068f2c0_shell : NavMeshTriangle
 {
     unsigned short FUN_0068f2c0(int index);
 };
 // @fnv 0x0068f2c0
 unsigned short FUN_0068f2c0_shell::FUN_0068f2c0(int index)
 {
-    return ((unsigned short*)((char*)this + 6))[index];
+    return Triangles[index];
 }
 
 struct NavMesh_MatchHelper
@@ -1068,7 +1097,7 @@ void FUN_00690fe0_shell::FUN_00690fe0(unsigned int state)
     ((void(*)(void*, unsigned int))AddPoint)(this + 0x28, state);
 }
 
-struct FUN_00691040_shell
+struct FUN_00691040_shell : NavMeshTriangle
 {
     void GetPackedFlags(unsigned short, unsigned short*, bool*, bool*);
 };
@@ -1077,7 +1106,7 @@ struct FUN_00691040_shell
 void FUN_00691040_shell::GetPackedFlags(unsigned short ausIndex, unsigned short* a2, bool* pbFlag16, bool* pbFlag32)
 {
     unsigned int shift = ausIndex * 6 + 16;
-    unsigned int uiBits = *(unsigned int*)((char*)this + 0xc) >> shift;
+    unsigned int uiBits = m_uiTriangleFlags >> shift;
     *a2 = uiBits & 15;
     *pbFlag16 = 0 < (uiBits & 16);
     *pbFlag32 = 0 < (uiBits & 32);
@@ -1100,7 +1129,7 @@ unsigned int S006911c0::FUN_006911c0()
     return (unsigned int)_f * (unsigned int)_f;
 }
 
-struct FUN_006911f0_shell
+struct FUN_006911f0_shell : NavMesh
 {
     void FUN_006911f0(int a);
 };
@@ -1155,9 +1184,9 @@ struct Arr16
     unsigned int FUN_00691b60(Elem16*);
 };
 // @fnv 0x00691000
-void FUN_00691000_shell::FUN_00691000(int arg)
+void FUN_00691000_shell::FUN_00691000(std::intptr_t arg)
 {
-    reinterpret_cast<::Arr16 *>((((FUN_00691000_shell*)((char*)this + 0x38))))->FUN_00691b60((::Elem16 *)(arg));
+    reinterpret_cast<::Arr16 *>((((FUN_00691000_shell*)(&this->Triangles))))->FUN_00691b60((::Elem16 *)(arg));
 }
 // @fnv 0x00691b60
 unsigned int Arr16::FUN_00691b60(Elem16* apElement)
@@ -1229,14 +1258,14 @@ struct S3e60
 };
 struct Sdc990
 {
-    float SumNodeValues(int);
+    float SumNodeValues(std::intptr_t);
 };
 // Sums the values returned by EvaluateFalloff(a1) over all nodes obtained from FUN_006a1400 up to GetFlags() count.
 // @fnv 0x006dc990
-float Sdc990::SumNodeValues(int a1)
+float Sdc990::SumNodeValues(std::intptr_t a1)
 {
     float fSum = 0.0f;
-    unsigned int cnt = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int cnt = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     unsigned int idx = 0;
     Node680* pNode;
     for (; idx < cnt; idx++)
@@ -1296,7 +1325,7 @@ struct FUN_00844160_shell
 {
     FUN_00844160_shell* FUN_00844160(int);
 public:
-    unsigned int FUN_00844160(unsigned int);
+    uintptr_t FUN_00844160(unsigned int);
 };
 
 FUN_00844160_shell* FUN_00844160_shell::FUN_00844160(int index)
@@ -1304,16 +1333,15 @@ FUN_00844160_shell* FUN_00844160_shell::FUN_00844160(int index)
     return this;
 }
 
-struct FUN_0068f6b0_shell
+struct FUN_0068f6b0_shell : NavMesh
 {
-    char _pad58[0x58];
     FUN_00844160_shell* FUN_0068f6b0(unsigned short index);
 };
 
 // @fnv 0x0068f6b0
 FUN_00844160_shell* FUN_0068f6b0_shell::FUN_0068f6b0(unsigned short index)
 {
-    return ((::FUN_00844160_shell *)(((FUN_00844160_shell*)((char*)this + 0x58))->FUN_00844160(index)));
+    return ((::FUN_00844160_shell *)(((FUN_00844160_shell*)(&this->m_kDoorPortals))->FUN_00844160(index)));
 }
 
 struct TriHack
@@ -1383,7 +1411,7 @@ struct S691210
 // @fnv 0x006911f0
 void FUN_006911f0_shell::FUN_006911f0(int a)
 {
-    reinterpret_cast<::S691210 *>((((FUN_006911f0_shell*)((char*)this + 0xa8))))->FUN_00691210(a);
+    reinterpret_cast<::S691210 *>((((FUN_006911f0_shell*)(&this->m_kGrid))))->FUN_00691210(a);
 }
 // Returns 0 if idx is outside m0*m0, otherwise returns idx*16 plus mBase.
 // @fnv 0x00691210
@@ -1405,11 +1433,11 @@ struct FUN_00691240_shell
     {
     };
     Inner inner;
-    void ForwardToInner(int arg);
+    void ForwardToInner(std::intptr_t arg);
 };
 
 // @fnv 0x00691240
-void FUN_00691240_shell::ForwardToInner(int arg)
+void FUN_00691240_shell::ForwardToInner(std::intptr_t arg)
 {
     reinterpret_cast<::NavMeshGrid *>(&(inner))->GetCellIndex((*(const ::NiPoint3 *)(arg)));
 }
@@ -1454,14 +1482,6 @@ struct EBase
 {
     virtual ~EBase();
     char pad04[0x8];
-};
-template <> class BSSimpleArray<unsigned short, 1024>
-{
-  public:
-    virtual ~BSSimpleArray();
-    unsigned short* buffer;
-    unsigned int size;
-    unsigned int reserved;
 };
 struct FUN_00691a90
 {
@@ -1551,14 +1571,14 @@ FUN_0068ed70::~FUN_0068ed70()
 
 struct FUN_0042fb60_shell
 {
-    void FUN_0042fb60(char* a, char* b, unsigned int n);
+    void FUN_0042fb60(char* a, char* b, uintptr_t n);
 };
 // @fnv 0x0042fc00
 void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
 {
     if (m_pCurrent)
     {
-        if (key == *(unsigned int*)((char*)this + 0xc))
+        if (key == m_uiCapacity)
         {
             m_pCurrent = ((void*(*)(void*, void*, void*))vtable[3])(this, m_pCurrent, p);
         }
@@ -1573,22 +1593,23 @@ void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
     else
     {
         m_pCurrent = ((void*(*)(void*, void*))vtable[1])(this, p);
-        *(unsigned int*)((char*)this + 0xc) = (unsigned int)p;
+        // p carries the element count (callers pass the new size as a pointer).
+        m_uiCapacity = (unsigned int)reinterpret_cast<std::uintptr_t>(p);
     }
 }
 
 // Copies n 4-byte elements from b to a, choosing forward or backward iteration based on the relative addresses of a and b.
 // @fnv 0x0042fb60
-void FUN_0042fb60_shell::FUN_0042fb60(char* pDst, char* pSrc, unsigned int n)
+void FUN_0042fb60_shell::FUN_0042fb60(char* pDst, char* pSrc, uintptr_t n)
 {
     if (n <= 0)
         return;
-    if ((unsigned int)pDst < (unsigned int)pSrc)
+    if ((std::uintptr_t)pDst < (std::uintptr_t)pSrc)
     {
         for (unsigned int i = 0; i < n; ++i)
             std::memmove(pDst + i * 4, pSrc + i * 4, 4);
     }
-    else if ((unsigned int)pDst > (unsigned int)pSrc)
+    else if ((std::uintptr_t)pDst > (std::uintptr_t)pSrc)
     {
         for (int i = (int)n - 1; i >= 0; --i)
             std::memmove(pDst + i * 4, pSrc + i * 4, 4);
@@ -1615,23 +1636,23 @@ struct FUN_0084e3a0_s
 struct TES
 {
 };
-struct FUN_00690d50_shell
+struct FUN_00690d50_shell : ::NavMesh
 {
     void FUN_00690d50(bool abCheckout);
 };
 // @fnv 0x00690d50
 void FUN_00690d50_shell::FUN_00690d50(bool abCheckout)
 {
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x28))))->Clear(true);
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x38))))->Clear(true);
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x48))))->Clear(true);
-    ((FUN_0069d2d0_s*)((char*)this + 0xa8))->FUN_0069d2d0();
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x78))))->Clear(true);
-    reinterpret_cast<::FUN_006c6200_cls *>((((Arr3520*)((char*)this + 0xd0))))->FUN_006c6200(true);
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x58))))->Clear(true);
-    if (*(void**)((char*)this + 0x104))
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->Vertices))))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->Triangles))))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->m_kEdgeExtraInfo))))->Clear(true);
+    ((FUN_0069d2d0_s*)(&this->m_kGrid))->FUN_0069d2d0();
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->m_kIndexList))))->Clear(true);
+    reinterpret_cast<::FUN_006c6200_cls *>((((Arr3520*)(&this->m_kObstacleUndoData))))->FUN_006c6200(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->m_kDoorPortals))))->Clear(true);
+    if (m_pNavigationMesh)
     {
-        reinterpret_cast<::NavigationOwner *>((((FUN_006b6a00_s*)((void *)(reinterpret_cast<::Owner45A *>((((TES*)*(int*)&(*reinterpret_cast<::fnv_00690d50::TES *>(&::g_TES)))))->FUN_0045af00())))))->ActivateNavigationEntry({});
+        reinterpret_cast<::NavigationOwner *>((((FUN_006b6a00_s*)((void *)(reinterpret_cast<::Owner45A *>((((TES*)::g_TES)))->FUN_0045af00())))))->ActivateNavigationEntry({});
     }
 }
 }  // namespace fnv_00690d50
@@ -1665,14 +1686,14 @@ void FUN_006910a0_shell::RebuildTriangleList()
 {
     unsigned int i;
     unsigned int isize2;
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x78))))->Clear(false);
-    isize2 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x38))))->GetName()));
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->m_kIndexList))))->Clear(false);
+    isize2 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->Triangles))))->GetName()));
     for (i = 0; i < isize2; i++)
     {
         if (!((::fnv_006910a0::NavMeshTriangle *)(reinterpret_cast<::NavMesh *>((((NavMeshTriangleArr*)this)))->GetTriangle(i)))->GetFlag(0x20) &&
             ((::fnv_006910a0::NavMeshTriangle *)(reinterpret_cast<::NavMesh *>((((NavMeshTriangleArr*)this)))->GetTriangle(i)))->HasFlags())
         {
-            reinterpret_cast<::FUN_00691820_arr *>((((BSSimpleArrayUS*)((char*)this + 0x78))))->Append((const unsigned short *)&(i));
+            reinterpret_cast<::FUN_00691820_arr *>((((BSSimpleArrayUS*)(&this->m_kIndexList))))->Append((const unsigned short *)&(i));
         }
     }
 }
@@ -1681,29 +1702,32 @@ void FUN_006910a0_shell::RebuildTriangleList()
 struct FUN_0069b030_S
 {
     virtual ~FUN_0069b030_S();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
+    void* m_pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiCapacity;
     void FUN_00692520(unsigned int requested, unsigned int savedSize);
 };
 
 // @fnv 0x00692520
 void FUN_0069b030_S::FUN_00692520(unsigned int requested, unsigned int savedSize)
 {
-    ((int*)this)[1] = 0;
-    ((int*)this)[2] = 0;
-    ((int*)this)[3] = 0;
+    m_pBuffer = 0;
+    m_uiSize = 0;
+    m_uiCapacity = 0;
     if (savedSize > requested)
     {
         requested = savedSize;
     }
     if (requested > 0)
     {
-        ((int*)this)[1] = Write(requested);
-        ((int*)this)[3] = requested;
+        m_pBuffer = Write(requested);
+        m_uiCapacity = requested;
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_006927d0_cls *>(this)->ConstructPairCells((::PairCell *)(((int*)this)[1]), savedSize);
-        ((int*)this)[2] = savedSize;
+        reinterpret_cast<::FUN_006927d0_cls *>(this)->ConstructPairCells((::PairCell *)(m_pBuffer), savedSize);
+        m_uiSize = savedSize;
     }
 }
 
@@ -1738,7 +1762,7 @@ class NavMeshTriangle
     bool IsEdgeFlagSet(int);
 };
 
-class FUN_00690e90_shell
+class FUN_00690e90_shell : public ::NavMesh
 {
   public:
     void UpdateTriangleExtraInfo(unsigned short aiExtraInfo);
@@ -1751,33 +1775,33 @@ void FUN_00690e90_shell::UpdateTriangleExtraInfo(unsigned short aiExtraInfo)
     unsigned int itriSize4;
     unsigned int t;
 
-    reinterpret_cast<::FUN_00691c90_shell *>((reinterpret_cast<FUN_00691c90_shell*>(reinterpret_cast<unsigned char*>(this) + 0x48)))->FUN_00691c90(aiExtraInfo, 1);
+    reinterpret_cast<::FUN_00691c90_shell *>((reinterpret_cast<FUN_00691c90_shell*>((&this->m_kEdgeExtraInfo))))->FUN_00691c90(aiExtraInfo, 1);
 
-    itriSize4 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->GetName()));
+    itriSize4 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>((&this->Triangles))))->GetName()));
 
     for (i = 0; i < itriSize4; ++i)
     {
         if (reinterpret_cast<::FUN_00690e10_shell *>((reinterpret_cast<FUN_00690e10_shell*>(
-                ((void *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->FUN_00558dd0(i))))))->FUN_00690e10())
+                ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>((&this->Triangles))))->FUN_00558dd0(i))))))->FUN_00690e10())
         {
             for (t = 0; t < 3; ++t)
             {
                 if (reinterpret_cast<NavMeshTriangle*>(
-                        ((void *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->FUN_00558dd0(i))))
+                        ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>((&this->Triangles))))->FUN_00558dd0(i))))
                         ->IsEdgeFlagSet(t))
                 {
                     if (reinterpret_cast<::FUN_0068f2c0_shell *>((reinterpret_cast<NavMeshTriangle*>(
-                            ((void *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->FUN_00558dd0(i))))))->FUN_0068f2c0(t) == aiExtraInfo)
+                            ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>((&this->Triangles))))->FUN_00558dd0(i))))))->FUN_0068f2c0(t) == aiExtraInfo)
                     {
                         reinterpret_cast<::TriHack *>((reinterpret_cast<S6907D0*>(
-                            ((void *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->FUN_00558dd0(i))))))->ClearFlag(t);
+                            ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>((&this->Triangles))))->FUN_00558dd0(i))))))->ClearFlag(t);
                     }
                     else if (reinterpret_cast<::FUN_0068f2c0_shell *>((reinterpret_cast<NavMeshTriangle*>(
-                                 ((void *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->FUN_00558dd0(i))))))->FUN_0068f2c0(t) ==
-                             ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x48)))->GetName())))
+                                 ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>((&this->Triangles))))->FUN_00558dd0(i))))))->FUN_0068f2c0(t) ==
+                             ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>((&this->m_kEdgeExtraInfo))))->GetName())))
                     {
                         reinterpret_cast<::Unk00690e30 *>((reinterpret_cast<Unk00690e30*>(
-                            ((void *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->FUN_00558dd0(i))))))->SetSlotValue(t, aiExtraInfo);
+                            ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<S006949d0*>((&this->Triangles))))->FUN_00558dd0(i))))))->SetSlotValue(t, aiExtraInfo);
                     }
                 }
             }
@@ -1835,11 +1859,6 @@ struct InfoView
     virtual void v34();
     virtual void v35();
     virtual void FillCellName(StrMem*);
-};
-
-class NavMeshTriangle
-{
-  public:
 };
 
 class NavMeshPtr
@@ -1991,20 +2010,20 @@ struct Searcher
 // @fnv 0x006908f0
 bool Searcher::CheckNeighborCells()
 {
-    if (reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->IsCellInterior())
+    if (reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->IsCellInterior())
     {
         return true;
     }
 
     bool result = true;
-    int cellX2 = reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetCellGridX();
-    int cellY8 = reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetCellGridY();
+    int cellX2 = reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetCellGridX();
+    int cellY8 = reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetCellGridY();
 
     float xWorld = (float)(cellX2 << 12);
-    ProbeHolder* kWest = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (kWest != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(kWest)))) != 0)
+    ProbeHolder* kWest = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
+    if (kWest != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(kWest)))) != 0)
     {
-        for (unsigned int westIdx = 0; westIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(kWest))))))->GetReferenceFlags(); ++westIdx)
+        for (unsigned int westIdx = 0; westIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(kWest))))))->GetReferenceFlags(); ++westIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2014,10 +2033,10 @@ bool Searcher::CheckNeighborCells()
     }
 
     xWorld = (float)(cellX2 << 12) + 4096.0;
-    ProbeHolder* east = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (east != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(east)))) != 0)
+    ProbeHolder* east = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
+    if (east != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(east)))) != 0)
     {
-        for (unsigned int eastIdx = 0; eastIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(east))))))->GetReferenceFlags(); ++eastIdx)
+        for (unsigned int eastIdx = 0; eastIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(east))))))->GetReferenceFlags(); ++eastIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2027,10 +2046,10 @@ bool Searcher::CheckNeighborCells()
     }
 
     float yWorld = (float)(cellY8 << 12);
-    ProbeHolder* southVal = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (southVal != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(southVal)))) != 0)
+    ProbeHolder* southVal = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
+    if (southVal != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(southVal)))) != 0)
     {
-        for (unsigned int southIdx = 0; southIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(southVal))))))->GetReferenceFlags(); ++southIdx)
+        for (unsigned int southIdx = 0; southIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(southVal))))))->GetReferenceFlags(); ++southIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2040,10 +2059,10 @@ bool Searcher::CheckNeighborCells()
     }
 
     yWorld = (float)(cellY8 << 12) + 4096.0;
-    ProbeHolder* north2 = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
-    if (north2 != 0 && ((::ProbeArray *)(::FUN_0070ec90((char *)(north2)))) != 0)
+    ProbeHolder* north2 = ((::ProbeHolder *)(reinterpret_cast<::TESWorldSpace *>((((::ProbeCell *)(reinterpret_cast<::TESObjectCELL *>((((::ProbeGrid *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
+    if (north2 != 0 && ((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(north2)))) != 0)
     {
-        for (unsigned int northIdx = 0; northIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(::FUN_0070ec90((char *)(north2))))))->GetReferenceFlags(); ++northIdx)
+        for (unsigned int northIdx = 0; northIdx < reinterpret_cast<::FUN_00620b80_shell *>((((::ProbeArray *)(std::uintptr_t)(::FUN_0070ec90((char *)(north2))))))->GetReferenceFlags(); ++northIdx)
         {
             if (!((bool)(::fnv_005d4a40::FUN_005d4a40())))
             {
@@ -2063,7 +2082,7 @@ struct FUN_00691140_shell : public NavMeshTriangle
 // @fnv 0x00691140
 bool FUN_00691140_shell::FUN_00691140(int aFlag)
 {
-    return (aFlag & *(unsigned int*)((char*)this + 0xc)) != 0;
+    return (aFlag & m_uiTriangleFlags) != 0;
 }
 
 struct NavMeshGridX
@@ -2172,7 +2191,7 @@ struct NavMeshStub
 // @fnv 0x00691350
 unsigned int NavMeshStub::CollectTriangleCells(unsigned short tri, OutArr& out)
 {
-    TriLike* pTri6 = ((::TriLike *)(reinterpret_cast<::FUN_00558dd0_class *>(&(tris))->FUN_00558dd0(tri)));
+    TriLike* pTri6 = ((::TriLike *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(tris))->FUN_00558dd0(tri)));
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(out))->Clear(false);
     unsigned int maxX2 = 0;
     unsigned int minX7 = 0xFFFFFFFF;
@@ -2200,7 +2219,7 @@ unsigned int NavMeshStub::CollectTriangleCells(unsigned short tri, OutArr& out)
             }
         }
     }
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(out))->GetName()));
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(out))->GetName()));
 }
 
 struct AvoidNodeDescription
@@ -2229,14 +2248,14 @@ void NavMeshOps::AddAvoidNode(void* source, unsigned short triangle, float radiu
 {
     AvoidNodeDescription avoidNode;
     avoidNode.FUN_00691590(source, triangle, radius, cost);
-    reinterpret_cast<::FUN_00691570_shell *>((static_cast<EdgeInfoOps*>(((::EdgeExtraInfo *)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(triangle))))))->FUN_00691570({});
+    reinterpret_cast<::FUN_00691570_shell *>((static_cast<EdgeInfoOps*>(((::EdgeExtraInfo *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(triangle))))))->FUN_00691570({});
     reinterpret_cast<::FUN_00692000_class *>((static_cast<StaticAvoidOps*>(&m_kStaticAvoidNodes)))->AddData((::FUN_00692000_data *)(::AvoidNodeDescription *)(&avoidNode));
 }
 
 // @fnv 0x00691570
 void FUN_00691570_shell::FUN_00691570(int aFlag)
 {
-    *(unsigned int*)((char*)this + 0xc) |= aFlag;
+    m_uiTriangleFlags |= aFlag;
 }
 
 struct NHc_b9119;
@@ -2281,9 +2300,9 @@ struct FUN_0068f1d0_shell : public NavMeshTriangle
 // @fnv 0x0068f230
 EdgeExtraInfo* FUN_0068f230_shell::FUN_0068f230(unsigned short ausTriangleIndex, int aiEdgeIndex)
 {
-    if (reinterpret_cast<::FUN_0068f1d0_shell *>((((::EdgeExtraInfo *)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(ausTriangleIndex)))))->IsEdgeFlagSet({}) &&
-        reinterpret_cast<::FUN_0068f2c0_shell *>((((::EdgeExtraInfo *)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(ausTriangleIndex)))))->FUN_0068f2c0({}) != 0xFFFF)
-        return m_kEdgeExtraInfo.FUN_006a1440(reinterpret_cast<::FUN_0068f2c0_shell *>((((::EdgeExtraInfo *)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(ausTriangleIndex)))))->FUN_0068f2c0({}));
+    if (reinterpret_cast<::FUN_0068f1d0_shell *>((((::EdgeExtraInfo *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(ausTriangleIndex)))))->IsEdgeFlagSet({}) &&
+        reinterpret_cast<::FUN_0068f2c0_shell *>((((::EdgeExtraInfo *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(ausTriangleIndex)))))->FUN_0068f2c0({}) != 0xFFFF)
+        return m_kEdgeExtraInfo.FUN_006a1440(reinterpret_cast<::FUN_0068f2c0_shell *>((((::EdgeExtraInfo *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(Triangles))->FUN_00558dd0(ausTriangleIndex)))))->FUN_0068f2c0({}));
     else
         return 0;
 }
@@ -2292,7 +2311,7 @@ EdgeExtraInfo* FUN_0068f230_shell::FUN_0068f230(unsigned short ausTriangleIndex,
 // @fnv 0x0068f1d0
 bool FUN_0068f1d0_shell::IsEdgeFlagSet(int aiEdgeIndex)
 {
-    return ((1 << aiEdgeIndex) & *(unsigned int*)((char*)this + 0xc)) != 0;
+    return ((1 << aiEdgeIndex) & m_uiTriangleFlags) != 0;
 }
 
 struct FUN_0068f200_shell : public NavMeshTriangle
@@ -2304,9 +2323,9 @@ bool NavMeshView::Validate(int a0)
 {
     bool hadError = false;
     StrMem p;
-    ((::InfoView *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FillCellName(&p);
+    ((::InfoView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FillCellName(&p);
 
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(verts))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(verts))->GetName())); i++)
     {
         if (std::isfinite(verts.FUN_006a1440(i)->x) == 0 || FUN_00408840(verts.FUN_006a1440(i)->x) > DAT_0106ab98)
         {
@@ -2328,17 +2347,17 @@ bool NavMeshView::Validate(int a0)
         }
     }
 
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())) >= 0x7d0)
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())) >= 0x7d0)
     {
         ::FUN_005b5e40();
     }
 
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); j++)
+    for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); j++)
     {
-        NavMeshTriangle* triA = ((::NavMeshTriangle *)(reinterpret_cast<::FUN_00558dd0_class *>(&(tris))->FUN_00558dd0(j)));
+        NavMeshTriangle* triA = ((::NavMeshTriangle *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(tris))->FUN_00558dd0(j)));
         for (long k = 0; k < 3; k++)
         {
-            if (!reinterpret_cast<::FUN_0068f1d0_shell *>((triA))->IsEdgeFlagSet(k) && ((unsigned char)(reinterpret_cast<::FUN_0068f200_shell *>((triA))->FUN_0068f200(k))) != 0 && reinterpret_cast<::FUN_0068f2c0_shell *>((triA))->FUN_0068f2c0(k) >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())))
+            if (!reinterpret_cast<::FUN_0068f1d0_shell *>((triA))->IsEdgeFlagSet(k) && ((unsigned char)(reinterpret_cast<::FUN_0068f200_shell *>((triA))->FUN_0068f200(k))) != 0 && reinterpret_cast<::FUN_0068f2c0_shell *>((triA))->FUN_0068f2c0(k) >= ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())))
             {
                 ::FUN_005b5e40();
                 reinterpret_cast<::S6907D0 *>((triA))->SetArrayValue(k, 0xffff);
@@ -2354,14 +2373,14 @@ bool NavMeshView::Validate(int a0)
         }
     }
 
-    for (unsigned int b = 0; b < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); b++)
+    for (unsigned int b = 0; b < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); b++)
     {
         NavMeshTriangle* sh = reinterpret_cast<::NavMesh *>(this)->GetTriangle((unsigned short)b);
         for (long tri7 = 0; tri7 < 3; tri7++)
         {
             if (reinterpret_cast<::FUN_0068f1d0_shell *>((sh))->IsEdgeFlagSet(tri7))
             {
-                if (reinterpret_cast<::FUN_0068f2c0_shell *>((sh))->FUN_0068f2c0(tri7) >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr48))->GetName())))
+                if (reinterpret_cast<::FUN_0068f2c0_shell *>((sh))->FUN_0068f2c0(tri7) >= ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr48))->GetName())))
                 {
                     ::FUN_005b5e40();
                     reinterpret_cast<::TriHack *>((sh))->ClearFlag(tri7);
@@ -2394,7 +2413,7 @@ bool NavMeshView::Validate(int a0)
                             continue;
                         }
                     }
-                    if (((unsigned int)(reinterpret_cast<::TESObjectCELL *>((((::InfoView *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace())) != ((unsigned int)(::FUN_00690800((const ::NavMeshInfo *)(pRetrievedObject->m_04)))))
+                    if (((std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((((::InfoView *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetParentWorldSpace())) != ((std::uintptr_t)(::FUN_00690800((const ::NavMeshInfo *)(pRetrievedObject->m_04)))))
                     {
                         ::FUN_005b5e40();
                         reinterpret_cast<::fnv_00690e90::FUN_00690e90_shell *>(this)->UpdateTriangleExtraInfo(reinterpret_cast<::FUN_0068f2c0_shell *>((sh))->FUN_0068f2c0(tri7));
@@ -2406,7 +2425,7 @@ bool NavMeshView::Validate(int a0)
         }
     }
 
-    for (unsigned int t4 = 0; t4 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); t4++)
+    for (unsigned int t4 = 0; t4 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); t4++)
     {
         NavMeshTriangle* tri4 = reinterpret_cast<::NavMesh *>(this)->GetTriangle((unsigned short)t4);
         if (reinterpret_cast<::FUN_005582d0_shell *>((tri4))->FUN_005582d0(0) == reinterpret_cast<::FUN_005582d0_shell *>((tri4))->FUN_005582d0(1))
@@ -2426,7 +2445,7 @@ bool NavMeshView::Validate(int a0)
         }
     }
 
-    for (unsigned int e7 = 0; e7 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); e7++)
+    for (unsigned int e7 = 0; e7 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); e7++)
     {
         NavMeshTriangle* tri5 = reinterpret_cast<::NavMesh *>(this)->GetTriangle((unsigned short)e7);
         if (reinterpret_cast<::FUN_0068f2c0_shell *>((tri5))->FUN_0068f2c0(0) == reinterpret_cast<::FUN_0068f2c0_shell *>((tri5))->FUN_0068f2c0(1) && reinterpret_cast<::FUN_0068f2c0_shell *>((tri5))->FUN_0068f2c0(0) != 0xffff &&
@@ -2449,7 +2468,7 @@ bool NavMeshView::Validate(int a0)
         }
     }
 
-    for (unsigned int t6 = 0; t6 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); t6++)
+    for (unsigned int t6 = 0; t6 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); t6++)
     {
         NavMeshTriangle* tri6 = reinterpret_cast<::NavMesh *>(this)->GetTriangle((unsigned short)t6);
         for (long e6 = 0; 3 > e6; e6++)
@@ -2460,7 +2479,7 @@ bool NavMeshView::Validate(int a0)
                 e = 0;
             unsigned short vA = reinterpret_cast<::FUN_005582d0_shell *>((tri6))->FUN_005582d0(edge);
             unsigned short pForm = reinterpret_cast<::FUN_005582d0_shell *>((tri6))->FUN_005582d0(e);
-            for (int tri3 = 0; tri3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); tri3++)
+            for (int tri3 = 0; tri3 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); tri3++)
             {
                 if (tri3 == t6)
                     continue;
@@ -2518,7 +2537,7 @@ bool NavMeshView::Validate(int a0)
         }
     }
 
-    for (unsigned int e10 = 0; e10 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); e10++)
+    for (unsigned int e10 = 0; e10 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(tris))->GetName())); e10++)
     {
         NavMeshTriangle* tri8 = reinterpret_cast<::NavMesh *>(this)->GetTriangle((unsigned short)e10);
         for (int e9 = 0; 3 > e9; e9++)
@@ -2561,7 +2580,7 @@ bool NavMeshView::Validate(int a0)
         }
     }
 
-    for (unsigned int ci = 0; ci < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cover))->GetName())); ci++)
+    for (unsigned int ci = 0; ci < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(cover))->GetName())); ci++)
     {
         unsigned short triC = reinterpret_cast<::FUN_005eeda0_this *>(&(cover))->GetBufferEntry(ci);
         NavMeshTriangle* coverTri = reinterpret_cast<::NavMesh *>(this)->GetTriangle(triC);
@@ -2585,7 +2604,7 @@ bool NavMeshView::Validate(int a0)
 // @fnv 0x0068f200
 bool FUN_0068f200_shell::FUN_0068f200(int aiEdgeIndex)
 {
-    return ((unsigned short*)((char*)this + 6))[aiEdgeIndex] != 0xFFFF;
+    return Triangles[aiEdgeIndex] != 0xFFFF;
 }
 
 class D2d0Elem
@@ -2626,7 +2645,7 @@ template <class T> class NiPointer
 class NavMeshEdgeQuery
 {
   public:
-    bool FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& pFoundNavMesh, int a4, int a5);
+    bool FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& pFoundNavMesh, std::intptr_t a4, std::intptr_t a5);
 };
 struct ProxyX
 {
@@ -2655,8 +2674,8 @@ bool Holder670::MatchNavMesh(In670* pIn, Out670* pOut)
     return reinterpret_cast<::MeshX *>((((NavMesh_MatchHelper*)this)))->FindAdjacentEdge(pIn->_f4, pIn->_f8, (::MeshX **)&(pOut->_f0), (unsigned short *)&(pOut->_f4), (int *)&(pOut->_f8));
 }
 // @fnv 0x0068f3b0
-bool NavMeshEdgeQuery::FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& apMeshOut, int a4,
-                                    int a5)
+bool NavMeshEdgeQuery::FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& apMeshOut, std::intptr_t a4,
+                                    std::intptr_t a5)
 {
     NavMesh* pMesh = 0;
     if (reinterpret_cast<::MeshX *>(this)->FindAdjacentEdge(usTri, m_iEdgeNumber, (::MeshX **)(::NavMesh **)(&pMesh), (unsigned short *)(a4), (int *)(a5)))

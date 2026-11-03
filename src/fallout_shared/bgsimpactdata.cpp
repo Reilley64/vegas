@@ -35,6 +35,7 @@
 #include "bgsimpactdata.h"
 #include <string.h>
 #include <malloc.h>
+#include "string.h"
 
 static const char s_textureSetWarning[] = "MASTERFILE: Unable to find texture set (%08X) on impact data %s (%08X).";
 static const char s_soundWarning[] = "MASTERFILE: Unable to find sound (%08X) on impact data %s (%08X).";
@@ -171,7 +172,7 @@ struct FUN_0058dda0_shell : public BGSImpactData
     bool IsDifferentFrom(TESForm* apCompare);
 };
 
-struct FUN_0058de80_class
+struct FUN_0058de80_class : ::BGSImpactData
 {
     bool IsFlagSet();
 };
@@ -201,7 +202,7 @@ bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
 // @fnv 0x0058de80
 bool FUN_0058de80_class::IsFlagSet()
 {
-    return (reinterpret_cast<unsigned char*>(this)[0x44] & 1) ? true : false;
+    return (this->Data.cFlags & 1) ? true : false;
 }
 
 struct TagX
@@ -295,16 +296,16 @@ bool BGSImpactData::Load(TESFile* file)
                 Data.m_fAngleThreshold = oldData.m_fAngleThreshold;
                 Data.m_fPlacementRadius = oldData.m_fPlacementRadius;
                 Data.m_eSoundLevel = oldData.m_eSoundLevel;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fProjectionDepth = oldData.m_fProjectionDepth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fShininess = oldData.m_fShininess;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fParallaxScale = oldData.m_fParallaxScale;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->cFlags = oldData.cFlags;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->iColor = oldData.iColor;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fProjectionDepth = oldData.m_fProjectionDepth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fShininess = oldData.m_fShininess;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fParallaxScale = oldData.m_fParallaxScale;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->cFlags = oldData.cFlags;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->iColor = oldData.iColor;
             }
             else
             {
@@ -321,7 +322,7 @@ bool BGSImpactData::Load(TESFile* file)
         {
             unsigned int textureSetID = 0;
             file->GetChunkData(&textureSetID);
-            reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(reinterpret_cast<BGSTextureSet*>(textureSetID)));
+            m_pDecalTextureSet = reinterpret_cast<BGSTextureSet*>(static_cast<std::uintptr_t>(textureSetID));
             break;
         }
         case 0x4D414E53:  // SNAM
@@ -376,12 +377,8 @@ struct FUN_00593320_shell
     void FUN_00593320(void*);
 };
 
-struct FUN_0058e450_shell
+struct FUN_0058e450_shell : ::BGSImpactData
 {
-    unsigned char padding[0x48];
-    TESForm* m_pDecalTextureSet;
-    TESForm* m_pPrimaryImpactSound;
-    TESForm* m_pSecondaryImpactSound;
 
     void FUN_0058e450();
 };
@@ -393,24 +390,24 @@ void FUN_0058e450_shell::FUN_0058e450()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::OpaqueData *>((reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->SwapEndian();
+        reinterpret_cast<::OpaqueData *>((&this->Data))->SwapEndian();
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(reinterpret_cast<unsigned char*>(this) + 0x30)), 0x18);
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<unsigned char*>(&this->Data))), 0x18);
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::OpaqueData *>((reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->SwapEndian();
+        reinterpret_cast<::OpaqueData *>((&this->Data))->SwapEndian();
     }
 
     if (!reinterpret_cast<::FUN_0058de80_class *>((reinterpret_cast<FUN_0058de80_shell*>(this)))->IsFlagSet())
     {
-        reinterpret_cast<FUN_00593320_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)
+        reinterpret_cast<FUN_00593320_shell*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)
             ->FUN_00593320(reinterpret_cast<void*>(0x54444f44));
     }
 
@@ -458,7 +455,7 @@ struct DecalDataCopy
 {
 };
 
-struct FUN_0058e730Class
+struct FUN_0058e730Class : ::BGSImpactData
 {
     void CopyDecalData();
 };
@@ -468,7 +465,7 @@ void BGSImpactData::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pDecalTextureSet);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(m_pDecalTextureSet);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -480,7 +477,7 @@ void BGSImpactData::InitItem()
         else
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pPrimaryImpactSound);
+    formID = (unsigned int)(std::uintptr_t)(m_pPrimaryImpactSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -492,7 +489,7 @@ void BGSImpactData::InitItem()
         else
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pSecondaryImpactSound);
+    formID = (unsigned int)(std::uintptr_t)(m_pSecondaryImpactSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -516,12 +513,12 @@ void FUN_0058e730Class::CopyDecalData()
     {
         if (reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest())
         {
-            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)))->Copy(reinterpret_cast<DecalData*>(
+            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)))->Copy(reinterpret_cast<DecalData*>(
                     FUN_0056a880(reinterpret_cast<char*>(reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest()))));
         }
         else
         {
-            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)))->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
+            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)))->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
         }
     }
 }
@@ -530,7 +527,7 @@ struct GlobalObject_0045cfe0
 {
 };
 
-struct FUN_0058e790_S
+struct FUN_0058e790_S : ::BGSImpactData
 {
     int GetGlobalValue();
 };
@@ -540,7 +537,7 @@ struct FUN_0058e790_S
 int FUN_0058e790_S::GetGlobalValue()
 {
     int result = 0;
-    switch (*(int*)((char*)this + 0x40))
+    switch (*(int*)&this->Data.m_eSoundLevel)
     {
     case 2:
         result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));
@@ -554,3 +551,5 @@ int FUN_0058e790_S::GetGlobalValue()
     }
     return result;
 }
+
+

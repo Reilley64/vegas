@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fallout/interface/menu_fields.h"
+#include <cstring>
 #include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
@@ -282,7 +283,6 @@ struct GlobalObject_0040c150 : StartMenu
 
 extern char const g_011d3d6c_arg1[];
 
-int __cdecl strcat_s(char*, unsigned int, char const*);
 
 struct Tile_00753d20
 {
@@ -382,9 +382,9 @@ void __cdecl FUN_007537b0()
         }
         else
         {
-            for (int i = 0; ((void *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((((Proxy_884350*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_00884350())), i < FUN_005d9660(); i++)
+            for (int i = 0; ((void *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((((Proxy_884350*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_00884350())), i < FUN_005d9660(); i++)
             {
-                reinterpret_cast<::TESClass *>((((Proxy_5f6e80*)((void *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((((Proxy_884350b*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_00884350())))))->SetClassSkillAtIndex({}, {});
+                reinterpret_cast<::TESClass *>((((Proxy_5f6e80*)((void *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>((((Proxy_884350b*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_00884350())))))->SetClassSkillAtIndex({}, {});
             }
             reinterpret_cast<::LBList_7314c0 *>((((Proxy_7314c0*)((char*)DAT_011d920c + 0x58))))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void *)((void*)FUN_00754530), 0, 0x7fffffff);
         }
@@ -1158,12 +1158,12 @@ void __cdecl FUN_00754460(FUN_00754460_self* pSelf, int a2)
     if (DAT_011d920c != 0 && *(unsigned char*)((char*)DAT_011d920c + 0x54) != 0 &&
         *(int*)((char*)DAT_011d920c + 0x28) == 0)
     {
-        int v = ((FUN_00754460_obj*)(*reinterpret_cast<int *>(&::_g_thePlayer)))->m_a4.v000(a2);
-        ((FUN_00754460_obj*)(*reinterpret_cast<int *>(&::_g_thePlayer)))->v229(a2, (float)((double)v + reinterpret_cast<::TileListBoxCalls *>((pSelf))->GetFloat(DAT_011d9224)));
+        int v = ((FUN_00754460_obj*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))->m_a4.v000(a2);
+        ((FUN_00754460_obj*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))->v229(a2, (float)((double)v + reinterpret_cast<::TileListBoxCalls *>((pSelf))->GetFloat(DAT_011d9224)));
     }
     else
     {
-        reinterpret_cast<::FUN_0093a850_cls *>((((FUN_00754460_obj*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_0093a850(a2, (float)((double)reinterpret_cast<::TileListBoxCalls *>((pSelf))->GetFloat(DAT_011d9210) + reinterpret_cast<::TileListBoxCalls *>((pSelf))->GetFloat(DAT_011d9224)));
+        reinterpret_cast<::FUN_0093a850_cls *>((((FUN_00754460_obj*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_0093a850(a2, (float)((double)reinterpret_cast<::TileListBoxCalls *>((pSelf))->GetFloat(DAT_011d9210) + reinterpret_cast<::TileListBoxCalls *>((pSelf))->GetFloat(DAT_011d9224)));
     }
 }
 
@@ -1263,7 +1263,7 @@ Tile753* __cdecl FUN_00753420(int kind, int points, bool onlyAdd, bool flag)
         reinterpret_cast<::Tile *>((((::Tile753 *)((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk04))))->Set(DAT_011d9218, (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk48);
         reinterpret_cast<::Tile *>((((::Tile753 *)((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk04))))->Set(DAT_011d921c, (*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk4c);
         reinterpret_cast<::FUN_00753d20_shell *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))))->UpdatePointsDisplay();
-        int iSelectedValue = ((int)(reinterpret_cast<::LBList *>(&((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->list))->FindItemData((::Tile *)(::Tile753 *)(((::Tile753 *)(::CallVirtualZero((::fnv_anon_startmenu::Dummy7d6e90 *)&((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->list))))))));
+        intptr_t iSelectedValue = ((intptr_t)(reinterpret_cast<::LBList *>(&((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->list))->FindItemData((::Tile *)(::Tile753 *)(((::Tile753 *)(::CallVirtualZero((::fnv_anon_startmenu::Dummy7d6e90 *)&((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->list))))))));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk34))->FUN_00a01350(0xfcc, (char *)(::FUN_0066e9f0((::ActorValue::Index)(iSelectedValue))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk38))->FUN_00a01350(0xfc4, (char *)(::GetActorValueDescription((::ActorValue::Index)(iSelectedValue))), true);
         reinterpret_cast<::Tile *>(((*reinterpret_cast<::Menu753 * *>(&::DAT_011d920c))->unk34))->Set(0xfa3, 1);
@@ -1845,26 +1845,26 @@ bool Proxy_754a00::SetTraitSelected(void* pTarget, int action)
             {
                 static void* selectedTrait = ((void *)(::FUN_00a00940("_selected", -1)));
 
-                bool selected = reinterpret_cast<::FUN_00a01230_shell *>((((Proxy_a01230*)pTarget)))->IsTraitNonZero((int)(selectedTrait));
+                bool selected = reinterpret_cast<::FUN_00a01230_shell *>((((Proxy_a01230*)pTarget)))->IsTraitNonZero((intptr_t)(selectedTrait));
 
                 switch (action)
                 {
                 case 0:
                     if (!selected)
                     {
-                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((int)(selectedTrait), 1);
+                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((intptr_t)(selectedTrait), 1);
                         return true;
                     }
                     break;
                 case 1:
                     if (selected)
                     {
-                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((int)(selectedTrait), 0);
+                        reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((intptr_t)(selectedTrait), 0);
                         return true;
                     }
                     break;
                 case 2:
-                    reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((int)(selectedTrait), selected ? 0 : 1);
+                    reinterpret_cast<::Tile *>((((Proxy_700320_call*)pTarget)))->Set((intptr_t)(selectedTrait), selected ? 0 : 1);
                     return true;
                 }
             }
@@ -1960,7 +1960,7 @@ void SkillMenu::HandleSkillMenuCommand(int aiID, SkTile* apTile)
         if ((!selected && m_iPointsUsed < m_iPointsRemaining) ||
             (selected && (!bLimit || !reinterpret_cast<::TESClass *>((((::SkPerkList *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::SkMgr * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill((::ActorValue::Index)reinterpret_cast<std::intptr_t>(pItemData)))))
         {
-            reinterpret_cast<::FUN_00754a00_cls *>(&(list))->FUN_00754930((int)(apTile));
+            reinterpret_cast<::FUN_00754a00_cls *>(&(list))->FUN_00754930((intptr_t)(apTile));
             reinterpret_cast<::FUN_00a012d0_t *>((apTile))->FUN_00a012d0(DAT_011d9224, reinterpret_cast<::FUN_00754950_shell *>(&(list))->FUN_00754950((::Tile *)(apTile)) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkSetting *>(&::originalRuntimeFloatSetting327)))))) : 0.0f,
                                  1);
             FUN_00706f30(3);

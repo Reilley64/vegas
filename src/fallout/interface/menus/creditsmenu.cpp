@@ -699,7 +699,7 @@ void __cdecl CheckSaveNameConflict()
             SaveNode* pkNode = ((::n75f750::SaveNode *)(::FUN_00559450((int *)((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134))))));
             while (pkNode && *((::n75f750::ValueReferencePair **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))
             {
-                DAT_011d9474 = (int)*((::n75f750::ValueReferencePair **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item));
+                DAT_011d9474 = (intptr_t)*((::n75f750::ValueReferencePair **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item));
                 if (reinterpret_cast<::BGSSaveLoadFileEntry *>((((ValueReferencePair*)DAT_011d9474)))->IsAutoSave() &&
                     reinterpret_cast<::FUN_0075f8c0_shell *>((((ValueReferencePair*)DAT_011d9474)))->FUN_0075f8c0() &&
                     ((std::intptr_t)(::FUN_004b75a0(((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134))->kName)))),
@@ -907,7 +907,7 @@ CreditNode* CreditsQuadRenderer::FUN_00760cf0(CreditTextureSource* apSource, int
 
     CreditAlphaProperty* pAlpha = new CreditAlphaProperty();
     reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((pAlpha))->FUN_004bc450((const ::fnv_004bc450::C3 *)(void *)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
-    reinterpret_cast<::FUN_004534f0_shell *>((pAlpha))->FUN_004534f0((unsigned int)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::FUN_004534f0_shell *>((pAlpha))->FUN_004534f0((uintptr_t)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
     reinterpret_cast<::FUN_00439410_cls *>((pShapeCur))->FUN_00439410((::ArgObject *)(pAlpha));
 
     reinterpret_cast<::Bound88 *>((((::CreditGeometryData *)(::GetSourceFilesFromForm((char *)(pShapeCur))))))->ComputeBoundingSphere({}, {});
@@ -1654,7 +1654,7 @@ void CreditMenu::FUN_0075fb90()
                     reinterpret_cast<::HostA *>(this)->WriteTextUntilDelimiter((::OutputA *)&(token_10));
                     CreditString texture;
                     ::FUN_00406f60((::FUN_00406f90_this *)(::CreditString *)(&texture), DAT_01072420, token_10.data);
-                    reinterpret_cast<::FUN_007614c0_shell *>(&(backgrounds))->FUN_007614c0((unsigned int)&(const ::CreditTextureName &)(CreditTextureName(((const char *)(::FUN_00559450((int *)&(texture)))))));
+                    reinterpret_cast<::FUN_007614c0_shell *>(&(backgrounds))->FUN_007614c0((uintptr_t)&(const ::CreditTextureName &)(CreditTextureName(((const char *)(::FUN_00559450((int *)&(texture)))))));
                     break;
                 }
                 }

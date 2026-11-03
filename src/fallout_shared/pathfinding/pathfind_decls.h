@@ -5,6 +5,7 @@
 // Unit-local supersets of canonical types (same layout), for members the canonical headers do not declare yet:
 //   PathingLocation: ctors/dtor, copy ctor, operator=, GetLocation and the navmesh queries used by matched code.
 //   BSSimpleArray: Add.   NiPointer: smart-pointer API (canonical NiPointer bodies need a complete T).
+#include <cstdint>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_006e78b0_shell.h"
 #include "fnv/decl/FUN_009611e0_shell.h"
@@ -44,7 +45,7 @@ class ActorDeletionQueue
     PathfindQueueStorage storage;
 
   public:
-    void FUN_0096d470(MobileObject*, int);
+    void FUN_0096d470(MobileObject*, intptr_t);
 };
 class PathingLocation;
 class FindTriangleForLocationFilter;
@@ -101,7 +102,7 @@ enum PATHING_REQUEST_TYPE
     RequestUnknown = 8
 };
 class PathingLocation;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 class PathingRequest
 {
   public:

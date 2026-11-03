@@ -11,4 +11,4 @@ namespace ObstacleBounds { float DAT_0106c3ac = 15.0f; }
 namespace fnv_006c3640 { char DAT_0106c3f0 = 68; }
 namespace fnv_006c3640 { char DAT_0106c498 = 78; }
 const double DAT_01074f60 = 26.0;
-int DAT_011d6e2c;
+void* DAT_011d6e2c;

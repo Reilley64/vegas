@@ -1,5 +1,6 @@
 // fallout_shared/bsanimgroupsequence.cpp: BSAnimGroupSequence, TaskQueueInterface, TargetClass, SoundPlaybackManager (20 functions)
 
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/BaseProcess.h"
@@ -51,7 +52,7 @@ unsigned char BSAnimGroupSequence::GetPriority(const char* objectName, unsigned 
     for (unsigned int i = 0; i < m_uiNumControlledBlocks; ++i)
     {
         const char* name =
-            reinterpret_cast<NiFixedString*>(&((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&m_pkIDTags[i]))) ::Vec3())))
+            reinterpret_cast<NiFixedString*>(&((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&m_pkIDTags[i]))->m_item))
                 ->
                 operator const char*();
         if (!name)
@@ -201,7 +202,7 @@ struct FUN_004eec20_shell
 // @fnv 0x004eec20
 NiObject* FUN_004eec20_shell::FUN_004eec20(CloningProcess* arCloneData)
 {
-    return ((::NiObject *)(reinterpret_cast<::FUN_00a344f0_cls *>((((FUN_00a344f0_shell*)this)))->FUN_00a344f0((unsigned int)(arCloneData))));
+    return ((::NiObject *)(reinterpret_cast<::FUN_00a344f0_cls *>((((FUN_00a344f0_shell*)this)))->FUN_00a344f0((std::uintptr_t)(arCloneData))));
 }
 
 struct NiTPrimitiveArray_char_ptr;
@@ -289,13 +290,13 @@ struct TargetClass
 {
     char _pad[0x40];
     NiControllerManager* field40;
-    int FUN_004eedd0(int, int);
+    int FUN_004eedd0(std::intptr_t, int);
 };
 // Returns the result of FUN_00a31910 with a1 and the value GetStringAtOffset returns for a2 on field40.
 // @fnv 0x004eedd0
-int TargetClass::FUN_004eedd0(int a1, int a2)
+int TargetClass::FUN_004eedd0(std::intptr_t a1, int a2)
 {
-    return ((int)(reinterpret_cast<::Sequence31910 *>(this)->FUN_00a31910((::Node31910 *)(a1), (::Node31910 *)(((int)(::fnv_00537bd0::GetStringAtOffset((const char *)(field40))))), {})));
+    return ((int)(reinterpret_cast<::Sequence31910 *>(this)->FUN_00a31910((::Node31910 *)(a1), (::Node31910 *)(((std::intptr_t)(::fnv_00537bd0::GetStringAtOffset((const char *)(field40))))), {})));
 }
 
 unsigned short __cdecl FUN_004efaa0();
@@ -367,7 +368,7 @@ struct GO
 {
     int data;
 
-    GO(int);
+    GO(intptr_t);
     ~GO();
     operator unsigned int() const;
     void operator=(void*);
@@ -387,7 +388,7 @@ struct FUN_004ee9f0 : A51BF0Base
 
 // Constructs a GO from 0, passes arg1 and arg2 to FUN_00a35700, then assigns a new FUN_004ee9f0 built from the GO's value to target.
 // @fnv 0x004eeb60
-void __cdecl AssignNewObjectFromValue(int arg1, int arg2, GO* target)
+void __cdecl AssignNewObjectFromValue(std::intptr_t arg1, int arg2, GO* target)
 {
     {
         GO value(0);
@@ -592,9 +593,9 @@ void FUN_004eecb0_Class::FUN_004eecb0()
     for (unsigned int index = 0; index < count; index++)
     {
         TagECB* tag = &tags[index];
-        if (!object->v098()->v09C(((::NameECB *)(new ((void *)(tag)) ::Vec3()))))
+        if (!object->v098()->v09C(((::NameECB *)((void *)(tag)))))
         {
-            root->v090(((::NameECB *)(new ((void *)(tag)) ::Vec3())), false);
+            root->v090(((::NameECB *)((void *)(tag))), false);
             items[index].pointer = 0;
             items[index].unk08 = 0;
             items[index].priority = DAT_01096968;
@@ -707,8 +708,8 @@ void S004eee_Owner::UpdateEntryStates()
     for (unsigned int i = 0; i < m_uiItemCount; ++i)
     {
         S004eee_Entry20* entry = &m_pObservedSource[i];
-        int active = ((::S004eee_Anim *)(new ((void *)(entry)) ::Vec3()))->FUN_0043b1b0();
-        if (active == 0 || cachedManager->Find(((::S004eee_Anim *)(new ((void *)(entry)) ::Vec3()))) == 0)
+        int active = ((::S004eee_Anim *)((void *)(entry)))->FUN_0043b1b0();
+        if (active == 0 || cachedManager->Find(((::S004eee_Anim *)((void *)(entry)))) == 0)
         {
             m_dest[i].m_sub04.FUN_0066b0d0(0);
             m_dest[i].unk08 = 0;
@@ -728,7 +729,7 @@ char* FindSoundChar(char*, int);
 bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
 {
     bool result2 = false;
-    if (sequence && ((int)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 1)
+    if (sequence && ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 1)
     {
         float previous = reinterpret_cast<::FUN_00507b00Class *>((sequence))->GetField4C();
         float current4 = reinterpret_cast<::TESObjectREFR *>((sequence))->GetScale();
@@ -779,7 +780,7 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                                 node9 = reference->GetNiNode_v();
                         }
                         if (node9)
-                            reinterpret_cast<::FUN_00ad8570_S *>((::FUN_00453a70()))->FUN_00ad8570((int)(node9), 1.0f, 0x40000000);
+                            reinterpret_cast<::FUN_00ad8570_S *>((::FUN_00453a70()))->FUN_00ad8570((std::intptr_t)(node9), 1.0f, 0x40000000);
                     }
                     else if (!fnv::crt::strnicmp("Enum: HitShader", text_2, 15))
                         reinterpret_cast<::ThisCls_cls *>((::_g_thePlayer))->FUN_00962290((::ArgCls_cls *)(reference));

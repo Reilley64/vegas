@@ -103,6 +103,24 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f8000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TopicMenuController.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00503000.h"
+#include "fnv/symbols_00505000.h"
+#include "fnv/symbols_0050e000.h"
+#include "fnv/symbols_0050f000.h"
+#include "fnv/symbols_00510000.h"
+#include "fnv/symbols_0051d000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_011d4000.h"
 
 struct FUN_00505c20_class
 {
@@ -385,7 +403,7 @@ struct ArrSI
 // @fnv 0x005113d0
 unsigned int ArrSI::HasFlag10000000()
 {
-    return (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) & 0x10000000) != 0;
+    return (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) & 0x10000000) != 0;
 }
 
 struct FUN_00519020_Class
@@ -422,7 +440,7 @@ extern "C" void* DAT_0102b3d0;
 struct FUN_00519b20_cls
 {
     void* m_p;
-    void* FUN_00519b20(void* arg);
+    void* FUN_00519b20(unsigned int auiCount);
 };
 
 namespace fnv_0051cee0 {
@@ -450,7 +468,8 @@ struct FUN_0051cfe0_Class
 // @fnv 0x0051cfe0
 unsigned int FUN_0051cfe0_Class::FUN_0051cfe0()
 {
-    return reinterpret_cast<class ::FUN_00a5e930 *>((((Unk_00a5e930*)this)))->FUN_00a5e930::~FUN_00a5e930();
+    reinterpret_cast<class ::FUN_00a5e930 *>(this)->FUN_00a5e930::~FUN_00a5e930();
+    return 0;
 }
 
 struct FUN_0051f4d0_class
@@ -505,7 +524,6 @@ void FUN_00519c50_class::FUN_00519c50()
     ::FUN_00aa10f0(_0x8);
 }
 
-void __cdecl FUN_005010f0();
 struct FUN_005010c0_class
 {
     void FUN_005010f0();
@@ -717,11 +735,11 @@ struct LH
 };
 struct FUN_00519500_class
 {
-    bool HasEntry(int a);
+    bool HasEntry(intptr_t a);
 };
 // Returns true if a is non-zero, passes FUN_00519570, and is contained in the list at this+0x88.
 // @fnv 0x00519500
-bool FUN_00519500_class::HasEntry(int aiValue)
+bool FUN_00519500_class::HasEntry(intptr_t aiValue)
 {
     bool r = false;
     if (aiValue && ::FUN_00519570((::TESForm *)(aiValue)) && reinterpret_cast<::RefList *>((((LH*)((char*)this + 0x88))))->FUN_005f65d0((void **)&(aiValue)))
@@ -735,9 +753,9 @@ struct FUN_00519b20
 };
 // Calls ConstructArray with arg, sets m_p to the address of DAT_0102b3d0, and returns this.
 // @fnv 0x00519b20
-void* FUN_00519b20_cls::FUN_00519b20(void* arg)
+void* FUN_00519b20_cls::FUN_00519b20(unsigned int auiCount)
 {
-    reinterpret_cast<::FUN_00519b20 *>(this)->ConstructArray((unsigned int)(arg));
+    reinterpret_cast<::FUN_00519b20 *>(this)->ConstructArray(auiCount);
     m_p = &DAT_0102b3d0;
     return this;
 }
@@ -936,6 +954,7 @@ struct LockExtraData
 
 struct P01RefA
 {
+    virtual ~P01RefA();
 };
 
 class ExtraRadioData;
@@ -1015,9 +1034,196 @@ struct ActorVTable
     virtual bool V63();
 };
 
-struct Actor : public ActorVTable
+class ActorValueOwner
+{
+  public:
+    virtual void AVO00();
+    virtual void AVO01();
+    virtual void AVO02();
+    virtual void AVO03();
+    virtual void AVO04();
+    virtual void AVO05();
+    virtual void AVO06();
+    virtual int GetBaseActorValue(ActorValue::Index index);
+};
+
+struct ActorPad04 : public ActorVTable
+{
+    char pad04[0xa0];
+};
+
+struct Actor : public ActorPad04, public ActorValueOwner
 {
     virtual bool ActorCheck();
+    virtual void V65();
+    virtual void V66();
+    virtual void V67();
+    virtual void V68();
+    virtual void V69();
+    virtual void V70();
+    virtual void V71();
+    virtual void V72();
+    virtual void V73();
+    virtual void V74();
+    virtual void V75();
+    virtual void V76();
+    virtual void V77();
+    virtual void V78();
+    virtual void V79();
+    virtual void V80();
+    virtual void V81();
+    virtual void V82();
+    virtual void V83();
+    virtual void V84();
+    virtual void V85();
+    virtual void V86();
+    virtual void V87();
+    virtual void V88();
+    virtual void V89();
+    virtual void V90();
+    virtual void V91();
+    virtual void V92();
+    virtual void V93();
+    virtual void V94();
+    virtual void V95();
+    virtual void V96();
+    virtual void V97();
+    virtual void V98();
+    virtual void V99();
+    virtual void V100();
+    virtual void V101();
+    virtual void V102();
+    virtual void V103();
+    virtual void V104();
+    virtual void V105();
+    virtual void V106();
+    virtual void V107();
+    virtual void V108();
+    virtual void V109();
+    virtual void V110();
+    virtual void V111();
+    virtual void V112();
+    virtual void V113();
+    virtual void V114();
+    virtual void V115();
+    virtual void V116();
+    virtual void V117();
+    virtual void V118();
+    virtual void V119();
+    virtual void V120();
+    virtual void V121();
+    virtual void V122();
+    virtual void V123();
+    virtual void V124();
+    virtual void V125();
+    virtual void V126();
+    virtual void V127();
+    virtual void V128();
+    virtual void V129();
+    virtual void V130();
+    virtual void V131();
+    virtual void V132();
+    virtual void V133();
+    virtual void V134();
+    virtual void V135();
+    virtual void V136();
+    virtual void V137();
+    virtual void V138();
+    virtual void V139();
+    virtual void V140();
+    virtual void V141();
+    virtual void V142();
+    virtual void V143();
+    virtual void V144();
+    virtual void V145();
+    virtual void V146();
+    virtual void V147();
+    virtual void V148();
+    virtual void V149();
+    virtual void V150();
+    virtual void V151();
+    virtual void V152();
+    virtual void V153();
+    virtual void V154();
+    virtual void V155();
+    virtual void V156();
+    virtual void V157();
+    virtual void V158();
+    virtual void V159();
+    virtual void V160();
+    virtual void V161();
+    virtual void V162();
+    virtual void V163();
+    virtual void V164();
+    virtual void V165();
+    virtual void V166();
+    virtual void V167();
+    virtual void V168();
+    virtual void V169();
+    virtual void V170();
+    virtual void V171();
+    virtual void V172();
+    virtual void V173();
+    virtual void V174();
+    virtual void V175();
+    virtual void V176();
+    virtual void V177();
+    virtual void V178();
+    virtual void V179();
+    virtual void V180();
+    virtual void V181();
+    virtual void V182();
+    virtual void V183();
+    virtual void V184();
+    virtual void V185();
+    virtual void V186();
+    virtual void V187();
+    virtual void V188();
+    virtual void V189();
+    virtual void V190();
+    virtual void V191();
+    virtual void V192();
+    virtual void V193();
+    virtual void V194();
+    virtual void V195();
+    virtual void V196();
+    virtual void V197();
+    virtual void V198();
+    virtual void V199();
+    virtual void V200();
+    virtual void V201();
+    virtual void V202();
+    virtual void V203();
+    virtual void V204();
+    virtual void V205();
+    virtual void V206();
+    virtual void V207();
+    virtual void V208();
+    virtual void V209();
+    virtual void V210();
+    virtual void V211();
+    virtual void V212();
+    virtual void V213();
+    virtual void V214();
+    virtual void V215();
+    virtual bool CanUseSkillBook();
+    virtual void V217();
+    virtual void V218();
+    virtual void V219();
+    virtual void V220();
+    virtual void V221();
+    virtual void V222();
+    virtual void V223();
+    virtual void V224();
+    virtual void V225();
+    virtual void V226();
+    virtual void V227();
+    virtual void V228();
+    virtual void V229();
+    virtual void V230();
+    virtual void V231();
+    virtual void V232();
+    virtual void ModActorValue(ActorValue::Index index, float amount, int unk);
 };
 
 
@@ -1266,9 +1472,6 @@ float C508240Ref::FUN_00508240(float afValue)
         return 1.0f;
 }
 
-namespace std {
-float abs(float);
-}
 struct Envelope
 {
     float UpdateEnvelope(float current, float rate, float elapsed, unsigned char releasing, float attack, float decay,
@@ -1284,7 +1487,7 @@ void FUN_00508090_shell::FUN_00508090(float a, float b, float c, unsigned char d
 // @fnv 0x00507da0
 void FUN_00507da0_cls::FUN_00507da0(float a, float b, float c, unsigned char flag)
 {
-    reinterpret_cast<::Envelope *>(this)->UpdateEnvelope(a, b, c, flag, reinterpret_cast<::PathingRequest *>(this)->GetGoalZDelta(::GetField90Float((char *)thisreinterpret_cast<::FUN_00507e10_shell *>(this)->FUN_00507e10(reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(reinterpret_cast<::FUN_008d01e0_Class *>(this)->FUN_008d01e0())))), {}, {}, {}, {});
+    reinterpret_cast<::Envelope *>(this)->UpdateEnvelope(a, b, c, flag, reinterpret_cast<::PathingRequest *>(this)->GetGoalZDelta(), ::GetField90Float((char *)this), reinterpret_cast<::FUN_00507e10_shell *>(this)->FUN_00507e10(), reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(), reinterpret_cast<::FUN_008d01e0_Class *>(this)->FUN_008d01e0());
 }
 // @fnv 0x005082b0
 float Envelope::UpdateEnvelope(float current, float rate, float elapsed, unsigned char releasing, float attack,
@@ -1536,11 +1739,11 @@ struct S_0050de20_A
 };
 struct S_0050de20_Class
 {
-    bool FUN_0050de20(S_0050de20_A* a, int b);
+    bool FUN_0050de20(S_0050de20_A* a, intptr_t b);
 };
 
 // @fnv 0x0050f6e0
-int FUN_0050f6e0()
+intptr_t FUN_0050f6e0()
 {
     return (*reinterpret_cast<int *>(&::g_fileFinder));
 }
@@ -1576,7 +1779,7 @@ void S_5102e0_List::FUN_005102e0()
 {
     while (head)
     {
-        S_5102e0_Node* next = ((::S_5102e0_Node *)(reinterpret_cast<::BGSTerrainManager *>((head))->GetMinLevel()));
+        S_5102e0_Node* next = ((::S_5102e0_Node *)(uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((head))->GetMinLevel()));
         delete head;
         head = next;
     }
@@ -1586,8 +1789,6 @@ void S_5102e0_List::FUN_005102e0()
 }
 
 
-extern "C" unsigned int __cdecl FindNextMatch(void* p, unsigned int n, char* c);
-extern "C" unsigned int __cdecl CompareRun(unsigned int found, char* a1, unsigned int count);
 
 struct FUN_005103d0_cls
 {
@@ -1597,21 +1798,21 @@ struct FUN_005103d0_cls
     unsigned int unk0C;
     unsigned int unk10;
     unsigned int m_14;
-    unsigned int FindSubstring(char* a1, unsigned int start, unsigned int count);
+    unsigned int FindSubstring(char* a1, uintptr_t start, unsigned int count);
 };
 // @fnv 0x005103a0
 void FUN_005103a0_class::FUN_005103a0(const char* a, const char* b)
 {
-    reinterpret_cast<::FUN_005103d0_cls *>(this)->FindSubstring((char *)(a), (unsigned int)(b), ((int)(::FUN_0044a670(a))));
+    reinterpret_cast<::FUN_005103d0_cls *>(this)->FindSubstring((char *)(a), (uintptr_t)(b), ((int)(::FUN_0044a670(a))));
 }
 
 // Searches the buffer from start for a match of a1 of length count, returning its offset from the base or g_010173f0 if not found.
 // @fnv 0x005103d0
-unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, unsigned int start, unsigned int count)
+unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, uintptr_t start, unsigned int count)
 {
     unsigned int remaining;
-    unsigned int pos;
-    unsigned int found4;
+    const char* pos;
+    const char* found4;
 
     if (count == 0 && start <= m_14)
     {
@@ -1623,13 +1824,13 @@ unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, unsigned int start,
         if (count <= remaining)
         {
             remaining = remaining - (count - 1);
-            pos = ((unsigned int)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970())) + start;
-            for (; (found4 = FindNextMatch((void*)pos, remaining, pPattern)) != 0;
+            pos = ((const char *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970())) + start;
+            for (; (found4 = (const char *)std::memchr(pos, *pPattern, remaining)) != 0;
                  remaining -= found4 - pos + 1, pos = found4 + 1)
             {
-                if (CompareRun(found4, pPattern, count) == 0)
+                if (std::memcmp(found4, pPattern, count) == 0)
                 {
-                    return found4 - ((unsigned int)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()));
+                    return found4 - ((const char *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()));
                 }
             }
         }
@@ -2018,7 +2219,7 @@ struct Host
 };
 // Forwards the object pointer and the int field of the given entry to FUN_0050de60 along with b and returns its result.
 // @fnv 0x0050de20
-bool S_0050de20_Class::FUN_0050de20(S_0050de20_A* a, int b)
+bool S_0050de20_Class::FUN_0050de20(S_0050de20_A* a, intptr_t b)
 {
     return reinterpret_cast<::Host *>(this)->FUN_0050de60((*(::Ptr *)&(const ::NiPointer< ::S_0050de20_Obj> &)(a->unk00)), (float *)(int *)(&a->unk04), (::P3 *)(b));
 }
@@ -2075,7 +2276,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
             reinterpret_cast<::FUN_004bc1f0_S *>((((::Obj *)(::FUN_00559450((int *)&(p1))))))->FUN_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
             if (FUN_008c7aa0())
             {
-                reinterpret_cast<::fnv_0087ad50::Host *>((((::TQ *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ad50({});
+                reinterpret_cast<::fnv_0087ad50::Host *>((((::TQ *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ad50((::fnv_0087ad50::G00559a40 *)(::FUN_00559450((int *)&(p1))));
             }
             else
             {
@@ -2176,7 +2377,7 @@ void* Selector::FindRandomSelection(Reference* apReference, int unused)
         {
             SelectionMap visitedMap(37);
             unsigned int attempts = 0;
-            unsigned int uiListSize = ((::Node *)(::FUN_00871a30((int)this)))->Size();
+            unsigned int uiListSize = ((::Node *)(::FUN_00871a30((intptr_t)this)))->Size();
             unsigned int previous = -1;
             unsigned int index = -1;
             int size = reinterpret_cast<::FUN_00962810_Class *>(((*reinterpret_cast<::PlayerSelection * *>(&::_g_thePlayer))))->FUN_00962810((::TESSound *)(::Selector *)(this));
@@ -2185,14 +2386,14 @@ void* Selector::FindRandomSelection(Reference* apReference, int unused)
                 attempts++;
                 previous = DialogueRandom() % uiListSize;
                 bool seen = false;
-                while (reinterpret_cast<::FUN_0057c850_cls *>(&(visitedMap))->FUN_0057c850((void *)(previous), &seen) && seen)
+                while (reinterpret_cast<::FUN_0057c850_cls *>(&(visitedMap))->FUN_0057c850((void *)(uintptr_t)(previous), &seen) && seen)
                 {
                     previous = DialogueRandom() % uiListSize;
                     seen = false;
                 }
                 void* current = 0;
                 unsigned int entry = 0;
-                Node* node = ((::Node *)(::FUN_00871a30((int)this)));
+                Node* node = ((::Node *)(::FUN_00871a30((intptr_t)this)));
                 while (node && !node->Empty())
                 {
                     if (entry == previous)
@@ -2573,7 +2774,7 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
                     float afValueAfterThirdFloat = FUN_00404010(fDist, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting35)))))) + 100.0);
                     float fPi = 3.1415927f;
 
-                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataA))->SetQuantity((unsigned int)(apDoorB));
+                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataA))->SetQuantity((uintptr_t)(apDoorB));
                     DoorRef* pMarkerB = apDoorB->FUN_00569b20();
                     if (pMarkerB)
                     {
@@ -2592,7 +2793,7 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
                         reinterpret_cast<::FUN_0043a280_shell *>((pTeleportDataA))->SetVec(NiPoint3Init(0.0f, 0.0f, (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(apDoorB))->GetData())).z + fPi));
                     }
 
-                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataB))->SetQuantity((unsigned int)(apDoorA));
+                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataB))->SetQuantity((uintptr_t)(apDoorA));
                     pMarkerB = apDoorA->FUN_00569b20();
                     if (pMarkerB)
                     {
@@ -2616,18 +2817,6 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
     }
 }
 
-class TESForm
-{
-  public:
-    unsigned int FNV_GetFormType();
-    virtual ~TESForm();
-public:
-    void ClearData();
-public:
-    void SetInitializationState(bool);
-public:
-    void MarkAsModified(unsigned int);
-};
 // @fnv 0x0050a5a0
 FUN_0050a5a0::FUN_0050a5a0()
 {
@@ -2647,12 +2836,12 @@ FUN_0050a5a0::FUN_0050a5a0()
 // @fnv 0x00511370
 void TESObjectREFR_Flags::SetRefFlag40000000(bool set)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     if (set)
         flags |= 0x40000000;
     else
         flags &= ~0x40000000;
-    reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(flags));
+    reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(uintptr_t)(flags));
     reinterpret_cast<::TESForm *>(this)->MarkAsModified(1);
 }
 // @fnv 0x00508450
@@ -2689,10 +2878,10 @@ bool FUN_00519570(TESForm* apForm)
     bool result = false;
     if (apForm)
     {
-        switch (apForm->FNV_GetFormType())
+        switch ((unsigned int)apForm->GetFormType())
         {
         case 0x39: {
-            TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(apForm);
+            TESObjectCELL* cell = reinterpret_cast<TESObjectCELL*>(apForm);
             if (cell && reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL_Ext*)cell)))->IsCellInterior())
                 result = true;
         }
@@ -2703,6 +2892,69 @@ bool FUN_00519570(TESForm* apForm)
         }
     }
     return result;
+}
+
+extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
+
+extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
+
+bool __cdecl InitSettingsDefaults();
+
+
+struct StrMem
+{
+    char* data;
+    unsigned short length, capacity;
+    StrMem();
+    ~StrMem();
+};
+
+struct StringSetting552
+{
+};
+
+struct FloatSetting552
+{
+};
+
+namespace ActorValue {
+}
+
+struct SkillBookEffect552
+{
+    ActorValue::Index FUN_00514fd0();
+    bool FUN_00515040(TESObjectREFR* reference);
+};
+
+// @fnv 0x00515040
+bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
+{
+    bool applied = false;
+    Actor* actor2 = dynamic_cast<Actor*>(reference);
+    if (!actor2->CanUseSkillBook())
+        return applied;
+    if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor2))->FUN_00493bb0())) && !FUN_00702360())
+    {
+        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d4ccc))))->GetMenuTitle()))), 0, (const char *)(0), (const char *)(0), DAT_010162c0, false);
+        return applied;
+    }
+    ActorValue::Index skill2 = FUN_00514fd0();
+    if (::FUN_0047f060((*(int *)&(skill2))))
+    {
+        if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->GetBaseActorValue(skill2) < 200)
+        {
+            float amount5 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting552 *>(&::g_011c9284))))));
+            StrMem message;
+            ::ApplyPerkModifiers(11, (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), &amount5);
+            (*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->ModActorValue(skill2, amount5, 0);
+            ::TopicMenuController::IncrementMiscStat(15);
+            ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&message), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d49c0))))->GetMenuTitle())), ActorValue::GetActorValueName(skill2),
+                         static_cast<int>(amount5));
+            ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(message))))), 1, (const char *)(0), (const char *)(0), DAT_010162c0, false);
+            applied = true;
+        }
+    }
+    return applied;
 }
 
 #include "generated/data/staging/blk_00500000_od.inc"

@@ -1,5 +1,6 @@
 // fallout_shared/tesfurniture.cpp: TESFurniture, TESObjectACTI (21 functions)
 
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -31,6 +32,7 @@
 #include "fnv/symbols_00993000.h"
 #include "fnv/symbols_00c54000.h"
 #include "tesfurniture_tesfurniture.h"
+#include "fnv/symbols_00472000.h"
 
 // @fnv 0x00508f70
 void TESFurniture::ResetFormData()
@@ -161,7 +163,7 @@ bool TESFurniture::Load(TESFile* file)
 
 // Returns the offset for a marker index (1-40) from the marker table, scaling the z component by afScale - 1.
 // @fnv 0x00509920
-NiPoint3 TESFurniture::GetMarkerOffset(unsigned int auMarkerIndex, float afScale)
+NiPoint3 TESFurniture::GetMarkerOffset(uintptr_t auMarkerIndex, float afScale)
 {
     NiPoint3 offset = NiPoint3::ZERO;
     if (auMarkerIndex > 0 && auMarkerIndex <= 40)
@@ -198,7 +200,7 @@ void TESFurniture::InitializeMarkerFlags()
 
 
 // @fnv 0x00509490
-int FUN_00509490(char* pThis)
+intptr_t FUN_00509490(char* pThis)
 {
     return ((int)(::FUN_009938b0((const unsigned short *)(void *)(pThis + 0xc))));
 }
@@ -385,5 +387,42 @@ bool FUN_00509540_obj::FUN_00509540(TESForm* apCompare)
         return true;
     return false;
 }
+
+// Adjustor (this-adjusting) thunk for FUN_00509a00: "sub ecx, 0x3c; jmp Destroy".
+// PrimaryBase is a vtable pointer plus 14 int members (4 + 56 = 0x3c), so the secondary
+// base sub-object is moved back by 0x3c before tail-jumping to the final overrider.
+struct PrimaryBase
+{
+    virtual void FUN_00509a00();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00509a00();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00509a00
+    virtual void FUN_00509a00();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/fallout_shared/tesfurniture.inc"

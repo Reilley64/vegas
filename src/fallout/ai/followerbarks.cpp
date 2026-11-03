@@ -1,5 +1,6 @@
 // fallout/ai/followerbarks.cpp: BarkPlaybackEntry (2 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FNVWipScreenManager.h"
@@ -26,7 +27,7 @@ void BarkPlaybackEntry::UpdateBarks()
         {
             if (reinterpret_cast<::HealthCond5e30 *>((node))->IsHealthConditionMet() && reinterpret_cast<::MiddleHighProcess *>((node->actor))->IsActorInCombat())
             {
-                reinterpret_cast<::FUN_008d6000_Class *>((node))->InitTiming((unsigned int)(node->actor), (unsigned int)(node->topic));
+                reinterpret_cast<::FUN_008d6000_Class *>((node))->InitTiming((uintptr_t)(node->actor), (uintptr_t)(node->topic));
                 reinterpret_cast<::FNVWipScreenManager *>((node))->FUN_008d6050();
             }
             else

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Entry;
 struct Event;
@@ -6,7 +7,7 @@ struct Event;
 struct Handler {
 public:
     // 0x00815480
-    bool FUN_00815480(::Event *, int, bool);
+    bool FUN_00815480(::Event *, intptr_t, bool);
     // 0x00d07030
     void EmitString(int, unsigned int *);
     // 0x00e07ca0

@@ -54,7 +54,7 @@ bool ScriptFunctionData::IsParamTESForm(const FunctionData* apData, unsigned int
 {
     bool isTESForm = false;
     if (apData && apData->usFunction + 0x1000 == 0x1198)
-        isTESForm = ::IsValidTypeValue((int)(apData), auiParam);
+        isTESForm = ::IsValidTypeValue((std::intptr_t)(apData), auiParam);
     else if (apData && auiParam < GetParamCount(apData))
         isTESForm = DAT_0118cdd5[g_scriptCommands[apData->usFunction].params[auiParam].typeID].isTESForm;
     return isTESForm;

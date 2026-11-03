@@ -19,7 +19,7 @@ public:
     // 0x004ed140
     ::R FUN_004ed140(int);
     // 0x00540540
-    unsigned int GetElement(int);
+    std::uintptr_t GetElement(int);
     // 0x00546890
     ::S *InitBound(unsigned short, unsigned short);
     // 0x00561690
@@ -31,11 +31,11 @@ public:
     // 0x0071f310
     void DestroyMenu();
     // 0x007315b0
-    int FUN_007315b0();
+    intptr_t FUN_007315b0();
     // 0x007983c0
     float GetScaledValue();
     // 0x007b41c0
-    ::Tile *FUN_007b41c0(int);
+    ::Tile *FUN_007b41c0(intptr_t);
     // 0x007db250
     void FUN_007db250(int, int *);
     // 0x00a1bf80

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ActiveEffect;
 class Actor;
@@ -20,5 +21,5 @@ public:
     // 0x00818af0
     void SetState(::MagicCaster__State, char *);
     // 0x00818c60
-    static ::MagicCaster *GetCasterByHandle(unsigned int);
+    static ::MagicCaster *GetCasterByHandle(uintptr_t);
 };

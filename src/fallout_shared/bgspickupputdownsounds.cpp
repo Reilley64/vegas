@@ -37,7 +37,7 @@ void BGSPickupPutdownSounds::InitItem(TESForm* owner)
         TESFile* file;
     } initData;
 
-    initData.formID = (unsigned int)m_pPickupSound;
+    initData.formID = (unsigned int)(std::uintptr_t)m_pPickupSound;
     initData.file = owner ? owner->GetFile(-1) : 0;
 
     if (initData.formID)
@@ -60,7 +60,7 @@ void BGSPickupPutdownSounds::InitItem(TESForm* owner)
         }
     }
 
-    initData.formID = (unsigned int)m_pPutdownSound;
+    initData.formID = (unsigned int)(std::uintptr_t)m_pPutdownSound;
     if (initData.formID)
     {
         ::ResolveFormID((unsigned int *)&(initData.formID), initData.file);
@@ -226,8 +226,8 @@ void FUN_0047b5d0_cls::FUN_0047b5d0(BaseFormComponent* component)
     BGSPickupPutdownSounds* source = dynamic_cast<BGSPickupPutdownSounds*>(component);
     if (!source)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((((CombatNode*)source)))->FUN_00726070()))));
-    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)this)))->AssignLandTexture((::TESLandTexture *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)source)))->GetName()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((std::uintptr_t)(reinterpret_cast<::Callees *>((((CombatNode*)source)))->FUN_00726070()))));
+    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)this)))->AssignLandTexture((::TESLandTexture *)(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)source)))->GetName()))));
 }
 
 namespace fnv_0047b560 {
@@ -249,9 +249,9 @@ void FUN_0047b560_shell::LogFormIDs()
         unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)reinterpret_cast<::Callees *>((((ItemList*)this)))->FUN_00726070())))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e59, id);
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))
     {
-        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))))->FUN_0084e3a0()));
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e5a, id);
     }
 }
@@ -274,8 +274,8 @@ bool FUN_0047b630_shell::IsSamePickupPutdownSounds(BaseFormComponent* component)
     BGSPickupPutdownSounds* pickup = dynamic_cast<BGSPickupPutdownSounds*>(component);
     if (pickup == 0)
         return true;
-    if (((unsigned int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_0047b630_shell*>(pickup)))->FUN_00726070())) ||
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pickup)))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_0047b630_shell*>(pickup)))->FUN_00726070())) ||
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pickup)))->GetName())))
         return true;
     return false;
 }

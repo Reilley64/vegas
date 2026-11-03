@@ -205,6 +205,8 @@ class BGSPerkEntry;
 template <> class BSSimpleList<BGSCameraShot*>
 {
   public:
+    BGSCameraShot* m_item;
+    BSSimpleList* m_pkNext;
     bool IsEmpty();
     void SetItem(BGSCameraShot* const&);
     void RemoveHead();
@@ -212,5 +214,7 @@ template <> class BSSimpleList<BGSCameraShot*>
 template <> class BSSimpleList<BGSPerkEntry*>
 {
   public:
+    BGSPerkEntry* m_item;
+    BSSimpleList* m_pkNext;
 };
 #endif

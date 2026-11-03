@@ -2,6 +2,7 @@
 // src/staging/blk_00900000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include <cstring>
@@ -51,7 +52,7 @@ struct FUN_00905670_Class
 // @fnv 0x00905670
 void FUN_00905670_Class::SetVTable()
 {
-    *(int*)this = (int)&DAT_01088438;
+    *(const void**)this = &DAT_01088438;
 }
 
 extern int DAT_010159d4;
@@ -440,7 +441,7 @@ extern void* DAT_01088418;
 // @fnv 0x00905650
 void FUN_00905690_Class::FUN_00905650()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01088418);
+    *reinterpret_cast<void**>(this) = &DAT_01088418;
     reinterpret_cast<FUN_00905670_Class*>(this)->SetVTable();
 }
 
@@ -460,12 +461,12 @@ struct SpawnedObject_b9530
 struct FUN_00905b00_cls
 {
     char m00[0x14];
-    void ConstructSpawnedObject(int a);
+    void ConstructSpawnedObject(intptr_t a);
 };
 
 // Calls FUN_00483710, then placement-constructs a SpawnedObject_b9530 at this from a.
 // @fnv 0x00905b00
-void FUN_00905b00_cls::ConstructSpawnedObject(int a)
+void FUN_00905b00_cls::ConstructSpawnedObject(intptr_t a)
 {
     reinterpret_cast<::TESForm *>(this)->ClearData();
     new (this) SpawnedObject_b9530(a);
@@ -670,7 +671,7 @@ bool FUN_00906570_Class::AdvanceRequest(Request9065* request, void** ppOut, void
             if (!success)
             {
                 request->index = request->index + 1;
-                if (request->index >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+                if (request->index >= ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
                     reinterpret_cast<::MapMarkerData *>((request))->SetTravelLocation(true);
                 else if (repeat)
                 {
@@ -695,7 +696,7 @@ bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
     bool bResult = false;
     while (true)
     {
-        bResult = reinterpret_cast<::SearchWorker *>((this))->ProcessNode(a, (int)(*b));
+        bResult = reinterpret_cast<::SearchWorker *>((this))->ProcessNode(a, (int)(std::uintptr_t)(*b));
         if (bResult)
         {
             if (::ClearLowBit((int *)&(this->m_18)))
@@ -799,17 +800,17 @@ struct FUN_00906050_Class
     virtual void v0();
     virtual void v1();
     virtual unsigned char v2(int value, FUN_00528cb0_Guard* guard);
-    void FUN_00906050(int value);
+    void FUN_00906050(intptr_t value);
 };
 // Creates a guard, calls v2 with the value and guard; if it succeeds, calls CallVirtual5 and passes the guard's flag result to DAT_01202d98.
 // @fnv 0x00906050
-void FUN_00906050_Class::FUN_00906050(int value)
+void FUN_00906050_Class::FUN_00906050(intptr_t value)
 {
     FUN_00528cb0_Guard guard(0);
     if (v2(value, &guard))
     {
         reinterpret_cast<::FUN_009060f0_shell *>(this)->CallVirtual5(value);
-        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::FUN_0044ac40_Service * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(((unsigned int)(::FUN_00559450((int *)&(guard))))), {});
+        reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::FUN_0044ac40_Service * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(::FUN_00559450((int *)&(guard))), {});
     }
 }
 

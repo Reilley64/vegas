@@ -3,7 +3,6 @@
 #define FNV_PACKAGEDATAUSEWEAPON_DECLS_H
 
 
-#include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/DurationData.h"
 #include "fnv/decl/FUN_00421b40_shell.h"
 #include "fnv/decl/FUN_005d43c0_.h"

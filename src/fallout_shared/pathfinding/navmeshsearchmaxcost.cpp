@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/navmeshsearchmaxcost.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/navmeshsearchmaxcost.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/DoorAccessData.h"
 #include "fnv/decl/FUN_00438690.h"
 #include "fnv/decl/FUN_00589850_Class.h"
@@ -127,7 +128,7 @@ struct FUN_006abce0_shell
 void* FUN_006abce0_shell::FUN_006abce0(void* pSource, unsigned int count)
 {
     void* dst = reinterpret_cast<::FUN_00aa54a0_s *>((heap))->FUN_00aa54a0(count * 0x14, ::DAT_010a2720);
-    ::__memcpy(dst, pSource, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) * 0x14);
+    ::__memcpy(dst, pSource, ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) * 0x14);
     reinterpret_cast<::SHStub *>((heap))->FUN_00aa5610(pSource);
     return dst;
 }
@@ -330,7 +331,7 @@ bool FUN_006ab4a0_shell::StartSearch(int aiSearchType, NavMeshSearchLocation* ap
     iSearchType = aiSearchType;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((apInfos))->Clear(false);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((apAltInfos))->Clear(false);
-    reinterpret_cast<::NavMeshSearch *>(this)->NavMeshSearch::~NavMeshSearch();
+    reinterpret_cast<::NavMeshSearch *>(this)->::NavMeshSearch::~NavMeshSearch();
     if (!reinterpret_cast<::FUN_006a9520_Class *>((apGoal))->FUN_006a9520() && reinterpret_cast<::PathingLocationProxy *>((apGoal))->FindContainingTriangle((::FindTriangleForLocationFilter *)(false)))
     {
         NavMeshPtr spGoalNavMesh;
@@ -340,7 +341,7 @@ bool FUN_006ab4a0_shell::StartSearch(int aiSearchType, NavMeshSearchLocation* ap
             kGoal.m_pLocationNavMesh = spGoalNavMesh;
             kGoal.m_usTriangleID = m_usTriangleID;
             NiPoint3 kGoalPos;
-            kGoal.m_pLocationNavMesh->GetNavMeshData((unsigned short)(&kGoalPos));
+            kGoalPos = kGoal.m_pLocationNavMesh->GetNavMeshData(kGoal.m_usTriangleID);
             kGoal.kPosition.x = kGoalPos.x;
             kGoal.kPosition.y = kGoalPos.y;
             kGoal.kPosition.z = kGoalPos.z;
@@ -2510,7 +2511,7 @@ Point Search::FindPath(int unused, Location* initial, Point* fallback, Location*
     if (Run(&open, &closed_2, 0))
         return *fallback;
     else
-        return (*(::Point *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(((::Node *)(reinterpret_cast<::FUN_006abb90_shell *>(this)->GetField2048()))->location))->FUN_006a6eb0({})));
+        return (*(::Point *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(((::Node *)(std::uintptr_t)(reinterpret_cast<::FUN_006abb90_shell *>(this)->GetField2048()))->location))->FUN_006a6eb0({})));
 }
 
 namespace fnv_006ab8e0 {

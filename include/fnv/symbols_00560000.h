@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Modifier;
 class TESDataHandler;
@@ -20,6 +21,6 @@ void FUN_00560a10(::PSRef *, ::PSSaveContext *);
 // 0x00560d80
 namespace fnv_00560d80 { const ::fnv_00560d80::hkVector4 &FUN_00560d80(void *); }
 // 0x00560dc0
-int FUN_00560dc0(::TESDataHandler *);
+intptr_t FUN_00560dc0(::TESDataHandler *);
 // 0x00560e70
 namespace fnv_00560e70 { void FUN_00560e70(::fnv_00560e70::CollisionLoad *, ::fnv_00560e70::ContextLoad *); }

@@ -184,7 +184,7 @@ static const char kChild1_7aba00[] = "QM_HowManyText";
 static const char kChild2_7aba00[] = "QM_Background";
 // Loads quantity_menu.xml, builds the quantity menu, sets its max/initial/step values and labels, stores the callback, and returns the tile or 0 on failure.
 // @fnv 0x007aba00
-Tile_7aba00* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
+Tile_7aba00* __cdecl CreateQuantityMenu(intptr_t max, void* callback, int initial)
 {
     IM_7aba00* im4 = ((::IM_7aba00 *)(::fnv_004b7210::FUN_004b7210()));
     bool flag_ = false;

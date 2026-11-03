@@ -1,6 +1,7 @@
 // Source layout: LowProcess. PC corrections are in generate_headers.py.
 #ifndef FNV_LOWPROCESS_H
 #define FNV_LOWPROCESS_H
+#include <cstdint>
 #include "layout_support.h"
 #include "BaseProcess.h"
 #include "TimeoutTimer.h"
@@ -47,7 +48,7 @@ class LowProcess : public BaseProcess
     void SetCurrentBoundObject(TESBoundObject*);
     void SetCurrentCombatTarget(TESObjectREFR*);
     TESObjectREFR* GetTarget();
-    void SetPackageObjectType(int);
+    void SetPackageObjectType(intptr_t);
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
 public:
@@ -64,9 +65,9 @@ public:
 public:
     void SetFlag40(int);
 public:
-    static bool HandlePackageLocationLoaded(::TESObjectREFR *, long);
+    static bool HandlePackageLocationLoaded(::TESObjectREFR *, intptr_t);
 public:
-    static bool HandlePackageTargetLoaded(::TESObjectREFR *, long);
+    static bool HandlePackageTargetLoaded(::TESObjectREFR *, intptr_t);
 public:
     void LoadGame(::BGSLoadFormBuffer *);
 public:

@@ -1,5 +1,6 @@
 // fallout/ai/ailineartaskthread.cpp: AILinearTaskThread, Thr (3 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_0041fd00_shell.h"
 #include "havok/hkMemoryRouter.h"
@@ -16,7 +17,7 @@ class GlobalObject_008c71b0
     int value;
 
   public:
-    GlobalObject_008c71b0(int);
+    GlobalObject_008c71b0(intptr_t);
     GlobalObject_008c71b0(const GlobalObject_008c71b0&);
 };
 class OSGlobals

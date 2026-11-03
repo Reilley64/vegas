@@ -333,7 +333,7 @@ BSFadeNode* __cdecl FUN_00c283b0()
     {
         new ((void *)(p)) class ::FUN_00a6d220();
         *(float*)((char*)p + 0x34) = ::DAT_01015f5c;
-        *(int*)p = (int)&DAT_010be8e4;
+        *(void**)p = (void*)&DAT_010be8e4;
         return p;
     }
     return 0;
@@ -358,7 +358,7 @@ BSFadeNode* __cdecl FUN_00c2ba60()
         *(int*)((char*)p + 24) = 0;
         *(int*)((char*)p + 28) = 0;
         *(int*)((char*)p + 32) = 0;
-        *(int*)p = (int)&DAT_010bfd54;
+        *(void**)p = (void*)&DAT_010bfd54;
     }
     else
     {
@@ -616,7 +616,7 @@ FUN_00c31ff0* __cdecl FUN_00c27350()
     {
         new ((void *)(p)) ::FUN_00c31ff0();
         *(float*)&p->m_30 = 0.0f;
-        *(int*)p = (int)&DAT_010be774;
+        *(void**)p = (void*)&DAT_010be774;
         *(float*)&p->m_38 = ::DAT_01015f5c;
         *(float*)&p->m_34 = DAT_01022958;
         return p;
@@ -696,7 +696,7 @@ void* FUN_00c30790(void)
     if (p)
     {
         new ((void *)(p)) ::FUN_00c32d80();
-        *(int*)p = (int)&(*reinterpret_cast<int *>(&::g_010c06e4));
+        *(void**)p = (void*)&::g_010c06e4;
         return p;
     }
     return 0;
@@ -711,7 +711,7 @@ struct FUN_00c22a80_base
 
 struct FUN_00c22a80_cls : FUN_00c22a80_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -736,7 +736,7 @@ FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
 {
     new ((void *)this) ::NiPSysPositionModifier();
     m_18 = 0;
-    m_vptr00 = (int)&DAT_010bdff4;
+    m_vptr00 = (intptr_t)&DAT_010bdff4;
     m_1c = DAT_011a946c;
     m_20 = DAT_011a9470;
     m_24 = DAT_011a9474;
@@ -951,7 +951,7 @@ NiPSysModifierC2D* CreateNiPSysModC2D()
 
 struct FUN_00c2e550_StandIn
 {
-    unsigned int FUN_00c2e550(unsigned char flags);
+    void* FUN_00c2e550(unsigned char flags);
 };
 
 void __cdecl FUN_00aa1460(void* object, unsigned int size);
@@ -1064,7 +1064,7 @@ PSysFactoryObjectB52* __cdecl CreatePSysFactoryObjectB52()
 
 
 // @fnv 0x00c32df0
-bool __cdecl FUN_00c32df0(int param1, int param2)
+bool __cdecl FUN_00c32df0(int param1, intptr_t param2)
 {
     return ((bool)(reinterpret_cast<::S_00c313a0 *>((param1))->IsEquivalentTo((::S_00c313a0 *)(param2))));
 }
@@ -1218,14 +1218,14 @@ struct PositionState : NiObject_Helper
     void FUN_00c31750();
 };
 // @fnv 0x00c2e550
-unsigned int FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
+void* FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
 {
-    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
+    reinterpret_cast<::PositionState *>(this)->FUN_00c31750();
     if ((flags & 1) != 0)
     {
         FUN_00aa1460(this, 0x38);
     }
-    return reinterpret_cast<unsigned int>(this);
+    return this;
 }
 // Sets the vtable pointer, decrements the name string's refcount unless it is DAT_0109b220, then calls FUN_00a5d3d0.
 // @fnv 0x00c31750

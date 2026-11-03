@@ -1,5 +1,6 @@
 // fallout/ai/combat/combataction.cpp: CombatAction (12 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BaseProcess.h"
@@ -213,12 +214,12 @@ struct FUN_009aa410_shell
 
 struct FUN_00979f50_shell
 {
-    void FUN_00979f50(int a, int b);
+    void FUN_00979f50(int a, intptr_t b);
 };
 
 // Calls FindStateByType on the object at offset 0xc of this, passing a and b through.
 // @fnv 0x00979f50
-void FUN_00979f50_shell::FUN_00979f50(int aiArg1, int aiArg2)
+void FUN_00979f50_shell::FUN_00979f50(int aiArg1, intptr_t aiArg2)
 {
     reinterpret_cast<::WorldStateNode *>((reinterpret_cast<FUN_009aa410_shell*>(reinterpret_cast<char*>(this) + 0xc)))->FindStateByType(aiArg1, (unsigned int *)(aiArg2));
 }

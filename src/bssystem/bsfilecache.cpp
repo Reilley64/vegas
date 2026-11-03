@@ -1,5 +1,6 @@
 // bssystem/bsfilecache.cpp: BSFileCache, StandIn (15 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_011f6000.h"
@@ -135,11 +136,11 @@ extern int DAT_011ad02c;
 
 struct FUN_00b012f0_shell
 {
-    void FUN_00b012f0(int param_1, int param_2);
+    void FUN_00b012f0(intptr_t param_1, intptr_t param_2);
 };
 
 // @fnv 0x00b012f0
-void FUN_00b012f0_shell::FUN_00b012f0(int aiValue1, int aiValue2)
+void FUN_00b012f0_shell::FUN_00b012f0(intptr_t aiValue1, intptr_t aiValue2)
 {
     DAT_011ad028 = aiValue1;
     DAT_011ad02c = aiValue2;

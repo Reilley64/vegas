@@ -1,5 +1,6 @@
 // fallout/ai/guardpackage.cpp: GuardActorPackageData, std (6 functions)
 
+#include <cstdint>
 #include "fnv/decl/FUN_00865e50_shell.h"
 #include "fnv/decl/fnv_00564db0__FUN_00564db0_cls.h"
 #include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
@@ -28,7 +29,7 @@ void GuardActorPackageData::LoadGame(BGSLoadFormBuffer* buffer)
 void GuardActorPackageData::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
     pWarningTarget =
-        pWarningTarget ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)pWarningTarget)) : 0;
+        pWarningTarget ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)pWarningTarget)) : 0;
     if (pWarningTarget)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)pWarningTarget)))->FUN_00564db0(true);
 }
@@ -79,6 +80,6 @@ struct FUN_0067d970_Class
 // @fnv 0x009f2830
 void FUN_009f2800Stub::FUN_009f2830()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010933c8);
+    *reinterpret_cast<intptr_t*>(this) = reinterpret_cast<intptr_t>(&DAT_010933c8);
     reinterpret_cast<FUN_0067d970_Class*>(this)->FUN_0067d970();
 }

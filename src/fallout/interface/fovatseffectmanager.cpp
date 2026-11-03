@@ -276,8 +276,8 @@ extern "C" unsigned char __cdecl FUN_00709d00();
 
 struct FOVATSEffectManager_00801a60
 {
-    void FUN_00801ad0(int, int, int, unsigned char);
-    void FUN_00801a60(int, int, int, unsigned char);
+    void FUN_00801ad0(int, intptr_t, int, unsigned char);
+    void FUN_00801a60(intptr_t, intptr_t, int, unsigned char);
 };
 
 struct SoundPlaybackHandle
@@ -336,7 +336,7 @@ struct FormLike
 
 struct NodeLike
 {
-    int FUN_004b4ec0();
+    intptr_t FUN_004b4ec0();
 };
 
 struct FilterLike
@@ -843,7 +843,7 @@ void S801880::FUN_00801880()
         reinterpret_cast<::FUN_004a0fd0_shell *>((objTmp))->FUN_004a0fd0((::NiNode *)(const char *)(this->name));
         AnimData* anim = ((::AnimData *)(reinterpret_cast<::BSFaceGenNiNode *>((node5))->GetAnimationData()));
         reinterpret_cast<::CameraState4E9 *>((((::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(anim)));
-        reinterpret_cast<::FUN_0041fd00_shell *>((objTmp))->FUN_0041fd00((int)(anim));
+        reinterpret_cast<::FUN_0041fd00_shell *>((objTmp))->FUN_0041fd00((intptr_t)(anim));
         reinterpret_cast<::S694a0 *>((objTmp))->FUN_00a694a0(((void *)&(reinterpret_cast<::NiCamera *>((anim))->GetViewFrustum())));
         bool found6 = false;
         const char* sel3 = 0;
@@ -910,7 +910,7 @@ extern float DAT_011ae618;
 
 
 // @fnv 0x00801ad0
-void FOVATSEffectManager_00801a60::FUN_00801ad0(int a0, int a1, int a2, unsigned char a3)
+void FOVATSEffectManager_00801a60::FUN_00801ad0(int a0, intptr_t a1, int a2, unsigned char a3)
 {
     Vec4Tmp_00801ad0 tmp;
     new ((void *)&(tmp)) ::ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 0.0f);
@@ -1559,7 +1559,7 @@ struct EffectModeSetup
     void FUN_00801bb0(int, Actor_00801ad0*, int, unsigned char);
 };
 // @fnv 0x00801a60
-void FOVATSEffectManager_00801a60::FUN_00801a60(int a, int b, int c, unsigned char d)
+void FOVATSEffectManager_00801a60::FUN_00801a60(intptr_t a, intptr_t b, int c, unsigned char d)
 {
     if (FUN_00709d00())
         return;
@@ -1623,7 +1623,7 @@ struct Mid9
 };
 struct PtrObj9
 {
-    PtrObj9(int);
+    PtrObj9(intptr_t);
     ~PtrObj9();
     int v;
 };
@@ -2253,7 +2253,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                 void* res3cA;
                 if (rAX)
                 {
-                    res3cA = formA->vt1d0()->vt9c(&ResultSlot(PtrObj9(((int)(reinterpret_cast<::StrOwner *>((rAX))->FUN_007fa950())))));
+                    res3cA = formA->vt1d0()->vt9c(&ResultSlot(PtrObj9(((intptr_t)(reinterpret_cast<::StrOwner *>((rAX))->FUN_007fa950())))));
                     if (res3cA)
                         ::FUN_00b6bee0(svcX, res3cA, (::BSShaderAccumulator *)(x102));
                 }
@@ -2266,7 +2266,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                         void* res4c_;
                         if (ares44C)
                         {
-                            res4c_ = formA->vt1d0()->vt9c(&ResultSlot(PtrObj9(((int)(reinterpret_cast<::StrOwner *>((ares44C))->FUN_007fa950())))));
+                            res4c_ = formA->vt1d0()->vt9c(&ResultSlot(PtrObj9(((intptr_t)(reinterpret_cast<::StrOwner *>((ares44C))->FUN_007fa950())))));
                             if (res4c_)
                                 ::FUN_00b6bee0(svcX, res4c_, (::BSShaderAccumulator *)(x102));
                         }

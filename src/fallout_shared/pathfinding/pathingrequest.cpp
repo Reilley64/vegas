@@ -70,6 +70,7 @@
 #include "pathingrequest_types_TESPackage.h"
 #include "TESObjectREFR.h"
 #include "pathingrequest_decls.h"
+#include "fnv/decl/FUN_006a7910_shell.h"
 
 // @fnv 0x006e38d0
 void PathingRequest::InitLoadGame(BGSLoadFormBuffer* buffer)
@@ -151,7 +152,7 @@ PathingRequest::PathingRequest() : m_pPathingAvoidNodeArray(0)
 // @fnv 0x006e3880
 PathingAvoidNodeArray* PathingAvoidNodeArray::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::PathingAvoidNodeArray *>((reinterpret_cast<PathingAvoidNodeArrayDestructionView*>(this)))->PathingAvoidNodeArray::~PathingAvoidNodeArray();
+    reinterpret_cast<::PathingAvoidNodeArray *>((reinterpret_cast<PathingAvoidNodeArrayDestructionView*>(this)))->::PathingAvoidNodeArray::~PathingAvoidNodeArray();
     if (flags & 1)
         ::FUN_00aa1460(this, 24);
     return this;
@@ -183,7 +184,7 @@ struct FUN_006e2980_shell : public PathingRequest
 // @fnv 0x006e2750
 void PathingRequest::CopyTo(PathingRequest* request)
 {
-    reinterpret_cast<::FUN_006d3ac0_Class *>((request))->AssignPathingLocation((*(const ::PathingLocation *)(((::PathingLocation *)(::GetOffsetC((int)this))))));
+    reinterpret_cast<::FUN_006d3ac0_Class *>((request))->AssignPathingLocation((*(const ::PathingLocation *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)this))))));
     request->SetDestination(((::PathingLocation *)(::FUN_006a9540((char *)this))));
     request->SetActorRadius(GetActorRadius());
     reinterpret_cast<::FUN_006d3ae0 *>((request))->SetValue(::GetFloatAtOffset68((const char *)this));
@@ -301,7 +302,7 @@ struct FUN_006e39d0 : public FUN_006e3ab0, public FUN_00496910
 // @fnv 0x006e38b0
 PathingAvoidNodeArray::~PathingAvoidNodeArray()
 {
-    reinterpret_cast<::FUN_006e39d0 *>(this)->FUN_006e39d0::~FUN_006e39d0();
+    reinterpret_cast<::FUN_006e39d0 *>(this)->::FUN_006e39d0::~FUN_006e39d0();
 }
 // Destructor that calls Clear(true) on the object at this address.
 // @fnv 0x006e39d0
@@ -444,7 +445,7 @@ void FUN_006dad70_shell::DestroyPathingRequest()
     reinterpret_cast<class ::FUN_006e2620 *>(this)->FUN_006e2620::~FUN_006e2620();
 }
 
-struct FUN_006e2b90
+struct FUN_006e2b90 : PathingRequest
 {
     void SetFlag(unsigned char value);
 };
@@ -452,7 +453,7 @@ struct FUN_006e2b90
 // @fnv 0x006e2b90
 void FUN_006e2b90::SetFlag(unsigned char value)
 {
-    ((unsigned char*)this)[0x9e] = value;
+    bCanFly = value;
 }
 
 struct BGSSaveGameBuffer
@@ -478,7 +479,7 @@ struct PathingLocationStandIn
     virtual void SaveGame(BGSSaveFormBuffer*) = 0;
 };
 
-struct FUN_006e3230_shell
+struct FUN_006e3230_shell : PathingRequest
 {
     void FUN_006e3230(BGSSaveFormBuffer*);
 };
@@ -491,44 +492,44 @@ void FUN_006e3230_shell::FUN_006e3230(BGSSaveFormBuffer* buffer)
     unsigned int isaveGameCount;
     PathingAvoidanceNode* avoidNode;
 
-    reinterpret_cast<PathingLocationStandIn*>(reinterpret_cast<char*>(this) + 0x0c)->SaveGame(buffer);
-    reinterpret_cast<PathingLocationStandIn*>(reinterpret_cast<char*>(this) + 0x34)->SaveGame(buffer);
+    reinterpret_cast<PathingLocationStandIn*>(&Origin)->SaveGame(buffer);
+    reinterpret_cast<PathingLocationStandIn*>(&Destination)->SaveGame(buffer);
 
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x68), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x6c), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x70), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x74), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x78), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x88), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x8c), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x99), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x98), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x9a), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x9b), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x9c), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x9d), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x9f), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x90), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa0), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa1), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x7c), 12, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa2), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa3), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa4), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa8), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x9e), 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xac), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fFirstValueAfterActorData, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fSecondValueAfterActorData, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&PathingActorSpatialData, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&fWeaponSpread, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fCenterRadius, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fFloatAfterCenter, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fPathingRadius, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&bFaceTargetAtGoal, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&bCantOpenDoors, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&PathingOptions, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&bAllowIncompletePath, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bAllowDoorTraversal, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&bCanSwim, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bCanWalk, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_fAvoidanceRadius, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bCanJump, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bCanClimb, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&Center, 12, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bCanUseDoors, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bCanRun, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&bIgnoreLocks, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_iRequestType, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&bCanFly, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_bCanOpenDoors, 1, 0);
 
-    i = ((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(reinterpret_cast<char*>(this) + 0x94)))))
-            ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(
-                  ((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(reinterpret_cast<char*>(this) + 0x94))))))))->GetName()))
+    i = ((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(&m_pPathingAvoidNodeArray)))))
+            ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(
+                  ((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(&m_pPathingAvoidNodeArray))))))))->GetName()))
             : 0;
 
     buffer->FUN_00865f60(i);
 
     for (isaveGameCount = 0; isaveGameCount < i; ++isaveGameCount)
     {
-        avoidNode = ((::PathingAvoidanceNode *)(reinterpret_cast<::S3e60 *>((((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(reinterpret_cast<char*>(this) + 0x94)))))))->FUN_006a1400(isaveGameCount)));
+        avoidNode = ((::PathingAvoidanceNode *)(reinterpret_cast<::S3e60 *>((((::PathingAvoidNodeArray *)(::FUN_00559450((int *)(reinterpret_cast<PathingAvoidPointerView*>(&m_pPathingAvoidNodeArray)))))))->FUN_006a1400(isaveGameCount)));
         reinterpret_cast<FUN_006dc890_Class*>(avoidNode)->FUN_006dc890(buffer);
     }
 }
@@ -658,5 +659,30 @@ void PathingRequestDebugView::PrintDebugInfo(PathingDebugOutput* output)
     output->Print(0, 1, "Ignoring Locks: %s", bIgnoreLocks ? "true" : "false");
     output->Print(0, 1, "Pathsmoothing retry count: %i", m_iRequestType);
 }
+
+// sub ecx,0x10; jmp FUN_006e3880  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
+struct PrimaryBase
+{
+    virtual void FUN_006e3f20();
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_006e3f20();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x006e3f20
+    virtual void FUN_006e3f20();
+};
+
+Derived::Derived()
+{}
 
 #include "generated/data/fallout_shared/pathfinding/pathingrequest.inc"

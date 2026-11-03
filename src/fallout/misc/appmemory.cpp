@@ -2,6 +2,7 @@
 // src/fallout/misc/appmemory.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/appmemory.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/BSFaceGenManager.h"
 #include "fnv/decl/CellBufferManager.h"
 #include "fnv/decl/FUN_004539a0_cls.h"
@@ -134,7 +135,7 @@ struct StateMachine
 int StateMachine::RunStep(void* context, unsigned int step, bool* finished)
 {
     *finished = true;
-    bool mainThread = gm_GetCurrentThreadId() == ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((::g_osGlobals))->FUN_0044edb0()));
+    bool mainThread = gm_GetCurrentThreadId() == ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((::g_osGlobals))->FUN_0044edb0()));
     switch (step)
     {
     case 0:

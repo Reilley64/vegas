@@ -1,5 +1,7 @@
 // fallout/magic/valuemodifiereffect.cpp: ValueModifierEffect, ActorValue, LocalEffect, Cls (16 functions)
 
+#include <cstdio>
+#include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/B968730Actor.h"
@@ -243,7 +245,7 @@ FUN_0082ba60::FUN_0082ba60(MagicCaster* apCaster, MagicItem* apSpell, EffectItem
     *(void**)this = &DAT_0107c68c;
     EffectSetting* psetting = ((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(apEffect)->setting));
     if (reinterpret_cast<FUN_00403e80_shell*>(psetting)->FUN_00403e80())
-        *(int*)((char*)this + 0x48) = ((int)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(psetting)))->FUN_00586150()));
+        *(intptr_t*)((char*)this + 0x48) = ((intptr_t)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(psetting)))->FUN_00586150()));
     else
         *(int*)((char*)this + 0x48) = apEffect->GetAffectedActorValue();
 

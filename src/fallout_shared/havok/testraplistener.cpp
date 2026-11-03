@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/testraplistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/testraplistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -64,7 +65,7 @@ struct hkpCdBodyPairCollector
 // @fnv 0x0062d420
 void hkpCdBodyPairCollector::FUN_0062d420()
 {
-    *(int*)this = (int)&DAT_0104e328;
+    *reinterpret_cast<const void**>(this) = &DAT_0104e328;
 }
 
 struct bhkTrapListener
@@ -107,12 +108,12 @@ struct CombatWorldStateListNode
 struct FUN_0062dee0_shell
 {
     CombatWorldStateListNode* m_kNode;
-    bool FUN_0062dee0(int arg);
+    bool FUN_0062dee0(intptr_t arg);
 };
 
 // Walks the linked list at this+0x20 and returns true if any node's _ref_0084e3a0() equals arg.
 // @fnv 0x0062dee0
-bool FUN_0062dee0_shell::FUN_0062dee0(int arg)
+bool FUN_0062dee0_shell::FUN_0062dee0(intptr_t arg)
 {
     CombatWorldStateListNode* p = *(CombatWorldStateListNode**)((char*)this + 0x20);
     while (p)
@@ -134,7 +135,7 @@ struct FUN_0062e040_shell
 // @fnv 0x0062e040
 void FUN_0062e040_shell::FUN_0062e040()
 {
-    *(int*)this = (int)&DAT_0104e3f4;
+    *reinterpret_cast<const void**>(this) = &DAT_0104e3f4;
 }
 
 struct FUN_0062c700_shell
@@ -193,11 +194,11 @@ void* FUN_0062e200_shell::FUN_0062e200(unsigned int flags)
 
 struct FUN_0062e230_shell
 {
-    void* FUN_0062e230(unsigned int a, unsigned int b, unsigned int c);
+    void* FUN_0062e230(std::uintptr_t a, std::uintptr_t b, unsigned int c);
 };
 // Calls FUN_004a4960 with the three arguments and returns this.
 // @fnv 0x0062e230
-void* FUN_0062e230_shell::FUN_0062e230(unsigned int a, unsigned int b, unsigned int c)
+void* FUN_0062e230_shell::FUN_0062e230(std::uintptr_t a, std::uintptr_t b, unsigned int c)
 {
     reinterpret_cast<::FUN_004a4960_class *>(this)->FUN_004a4960((void *)(a), (void *)(b), c);
     return this;
@@ -223,7 +224,7 @@ BSSimpleList* BSSimpleList::FUN_006207a0(BSSimpleList* pHead)
             BSSimpleList* item = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
             if (this == item)
             {
-                reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)current)))->Initialize((::CombatController *)((unsigned int)((::BSSimpleList *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()))));
+                reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)current)))->Initialize((::CombatController *)(((::BSSimpleList *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()))));
                 break;
             }
             current = item;
@@ -315,7 +316,6 @@ struct MyCollector
 void* MyCollector::FUN_0062d3c0()
 {
     __vftable = (void*)&DAT_0104e328;
-    new ((void *)&(m_04)) ::Vec3();
     FUN_0062d330();
     return this;
 }
@@ -395,11 +395,11 @@ struct FUN_0062df20_shell
 {
     char _pad[32];
     FUN_0062df60_shell* m_32;
-    bool FUN_0062df20(int a1, int a2);
+    bool FUN_0062df20(int a1, std::intptr_t a2);
 };
 // Looks up the entry for a2 via m_32 and returns whether it satisfies the check for a1, or false if not found.
 // @fnv 0x0062df20
-bool FUN_0062df20_shell::FUN_0062df20(int a1, int a2)
+bool FUN_0062df20_shell::FUN_0062df20(int a1, std::intptr_t a2)
 {
     FUN_0062d550_shell* t = m_32->FUN_0062df60(a2);
     if (!t)
@@ -572,7 +572,7 @@ void S_0062e350::FUN_0062e350(void* a)
     reinterpret_cast<::FUN_00621c90_Class *>((this))->FUN_00626870();
     if (!(f8 & 0x80000000))
     {
-        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)a)))->FUN_0066db70((int)(f0), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)a)))->FUN_0066db70((std::intptr_t)(f0), (std::intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
     }
     f0 = 0;
     f8 = 0x80000000;
@@ -830,7 +830,7 @@ void FUN_0062de90_shell::FUN_0062de90(CombatWorldStateListNode* target)
     CombatWorldStateListNode* node = m_20;
     while (node)
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>((node))->FUN_0084e3a0() == (int)target)
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>((node))->FUN_0084e3a0() == (int)(std::intptr_t)target)
         {
             ((FUN_0062d510_shell*)node)->FUN_0062d510();
             break;
@@ -845,15 +845,15 @@ void FUN_0062de90_shell::FUN_0062de90(CombatWorldStateListNode* target)
 struct FUN_0062d840_shell
 {
     char _pad[24];
-    FUN_0062d840_shell(unsigned int, unsigned int);
+    FUN_0062d840_shell(std::uintptr_t, std::uintptr_t);
 };
 struct FUN_0062d7c0_shell
 {
-    FUN_0062d840_shell* FUN_0062d7c0(unsigned int a, unsigned int b);
+    FUN_0062d840_shell* FUN_0062d7c0(std::uintptr_t a, std::uintptr_t b);
 };
-// Allocates and constructs a FUN_0062d840_shell with the two given unsigned int arguments and returns the new object.
+// Allocates and constructs a FUN_0062d840_shell with the two given arguments and returns the new object.
 // @fnv 0x0062d7c0
-FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(unsigned int a, unsigned int b)
+FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(std::uintptr_t a, std::uintptr_t b)
 {
     return new FUN_0062d840_shell(a, b);
 }
@@ -1034,7 +1034,7 @@ void __cdecl FUN_0062d470(void* ap)
 {
     if (ap)
     {
-        Vt62d470* apTopic = (Vt62d470*)((int)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)_D1A0E0GetMemoryRouter())))->FUN_0044edb0()));
+        Vt62d470* apTopic = (Vt62d470*)((reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)_D1A0E0GetMemoryRouter())))->FUN_0044edb0()));
         apTopic->vf2(ap, 0x114);
     }
 }
@@ -1377,7 +1377,7 @@ void Shell62C::ApplyEntriesToRef(Ref62C* ref)
         {
             Ref62C* target = (Ref62C*)form;
             ::FUN_005ac750((::TESForm *)(target), (::ExtraDataList *)(extra), 0x40000000);
-            reinterpret_cast<::s572e10::Owner *>((ref))->FUN_00572e10((int)(target));
+            reinterpret_cast<::s572e10::Owner *>((ref))->FUN_00572e10((std::intptr_t)(target));
             reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>((ref))->FUN_00565870();
         }
     }
@@ -1762,7 +1762,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
             Array62* array = collector.FUN_00413f40();
             if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::Check62 &)((*(::Check62 *)(reinterpret_cast<::FUN_0062e120_shell *>((array))->FUN_0062e120({})))))->FUN_005609f0())
             {
-                int count = ((int)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
+                std::intptr_t count = ((std::intptr_t)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
                 for (int i = 0; i < count; i++)
                 {
                     void* body = ((::ArrayEntry62 *)(reinterpret_cast<::FUN_0062e150_cls *>((array))->FUN_0062e150(i)))->bodyC;
@@ -1794,7 +1794,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
         Array62* array = ((::Array62 *)(reinterpret_cast<::FUN_0045c650_shell *>((shape))->FUN_0045c650()));
         if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::Check62 &)((*(::Check62 *)(reinterpret_cast<::FUN_0062e120_shell *>((array))->FUN_0062e120({})))))->FUN_005609f0())
         {
-            int count = ((int)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
+            std::intptr_t count = ((std::intptr_t)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
             for (int i = 0; i < count; i++)
             {
                 void* body = ((::ArrayEntry62 *)&(reinterpret_cast<::FUN_00629ab0_shell *>((array))->FUN_00629ab0(i)))->bodyA;
@@ -1835,7 +1835,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
         {
             Extra62C* extra = ((::Extra62C *)(reinterpret_cast<::FUN_005d43c0_ *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_005d43c0()));
             world |= ::FUN_005ac750((::TESForm *)(flags), (::ExtraDataList *)(extra), ref);
-            reinterpret_cast<::s572e10::Owner *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00572e10((int)(flags));
+            reinterpret_cast<::s572e10::Owner *>((((::TESObjectREFR *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00572e10((std::intptr_t)(flags));
         }
     }
     return world;
@@ -1876,13 +1876,13 @@ struct FUN_0043b4d0_shell
 struct GlobalObject_008c71b0 : FUN_0043b4d0_shell
 {
     int unk00;
-    GlobalObject_008c71b0(int);
+    GlobalObject_008c71b0(intptr_t);
 };
 // Resolves the event code from the input body and, for codes 14, 16 or 30, dispatches the referenced object to the trap handler.
 // @fnv 0x0062da00
 void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
 {
-    EventContext* resolvedBody = ((::EventContext *)(::FUN_00460140((int)(pInputBody))));
+    EventContext* resolvedBody = ((::EventContext *)(::FUN_00460140((std::intptr_t)(pInputBody))));
     EventCode notification;
     new ((void *)&(notification)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(resolvedBody))))));
     int category = reinterpret_cast<::FUN_0043b4d0_shell *>(&(notification))->FUN_0043b4d0();
@@ -1925,7 +1925,7 @@ struct TargetClass
 // @fnv 0x0062da90
 void TargetClass::RemoveMatchingListEntry(ArgClass* arg)
 {
-    LocalClass* v8 = ((::LocalClass *)(::FUN_00460140((int)(arg))));
+    LocalClass* v8 = ((::LocalClass *)(::FUN_00460140((std::intptr_t)(arg))));
     GlobalObject_008c71b0 v4(((int)(::FUN_0043b540((char *)(v8)))));
 
     if (unk04)
@@ -2015,7 +2015,7 @@ struct TrapListener
 // @fnv 0x0062db60
 void TrapListener::AddListener(CollisionArgument* apCollisionArgument)
 {
-    CollisionBody* body = ((::CollisionBody *)(::FUN_00460140((int)(apCollisionArgument))));
+    CollisionBody* body = ((::CollisionBody *)(::FUN_00460140((std::intptr_t)(apCollisionArgument))));
     FilterWord filter(::FUN_0043b540((char *)(body)));
     int layer = reinterpret_cast<::FUN_0043b4d0_shell *>(&(filter))->FUN_0043b4d0();
     if (layer == 12 || layer == 22 || layer == 24)
@@ -2133,4 +2133,115 @@ void EventCollection_62c5a0::FUN_0062c5a0()
         node->Invoke(this);
         node = static_cast<EventNode_62c5a0*>(((::EventLink_62c5a0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())));
     }
+}
+
+struct CombatWorldStateListNode_o2
+{
+};
+
+struct FUN_0062dee0_shell_o2
+{
+    CombatWorldStateListNode_o2* m_kNode;
+    bool FUN_0062dee0(int arg);
+};
+
+struct FUN_0062dfe0_shell_o2
+{
+};
+
+// Adjustor (this-adjusting) thunk for FUN_0062e3a0: "sub ecx, 0x1c; jmp FUN_0062d870".
+// PrimaryBase is the first base (vptr + six int fields = 0x1c bytes); SecondaryBase
+// declares the same virtual; Derived derives from both, redeclares the virtual and
+// defines only its constructor, so the compiler emits the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void* FUN_0062e3a0(unsigned int flags);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+};
+
+struct SecondaryBase
+{
+    virtual void* FUN_0062e3a0(unsigned int flags);
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0062e3a0
+    virtual void* FUN_0062e3a0(unsigned int flags);
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_0062e3b0 {
+// Adjustor thunk for FUN_0062e3b0: "sub ecx, 8; jmp FUN_0062d870".
+//
+// MSVC emits a "this adjusting thunk" in the vtable of a class that inherits
+// the same virtual from two bases: the thunk converts the secondary base
+// sub-object pointer back to the derived object pointer (sub ecx, 8) and then
+// tail jumps to the final overrider.
+//
+// The subtracted offset is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus one int member (4 + 4 = 8 bytes). Both
+// bases declare the same virtual function; the derived class redeclares it and
+// defines only its constructor, which is what makes the compiler emit the
+// vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0062e3b0();
+    int unk04;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0062e3b0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0062e3b0
+    virtual void FUN_0062e3b0();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_0062e3b0
+
+namespace fnv_0062e3c0 {
+// sub ecx,0x14; jmp FUN_00dffb00
+// MSVC adjustor thunk: a class derives from two bases that both declare the same
+// virtual, so the secondary base's vtable entry is an adjustor thunk that moves
+// `this` back by the size of the primary base (0x14 = vptr + four int fields).
+struct PrimaryBase
+{
+    virtual void FUN_0062e3c0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0062e3c0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0062e3c0
+    virtual void FUN_0062e3c0();
+};
+
+Derived::Derived()
+{}
 }

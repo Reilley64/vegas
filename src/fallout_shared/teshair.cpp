@@ -127,7 +127,7 @@ bool FUN_005fdf40_shell::FUN_005fdf40()
     return (bool)((*(signed char*)((char*)this + 0x48) & 1) != 0);
 }
 
-struct FUN_005fdf80_shell
+struct FUN_005fdf80_shell : ::TESHair
 {
     bool IsFlag4Clear();
 };
@@ -139,7 +139,7 @@ bool FUN_005fdfa0_shell::IsHairValidForNPC(TESNPC* apNPC)
     if (apNPC && ((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110())) != 0)
     {
         hair = (BGSQuestObjective*)this;
-        if (reinterpret_cast<::RefList *>((((::BSSimpleList< ::BGSQuestObjective *> *)(::FUN_0045bb80((int)(((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110()))))))))->FUN_005f65d0((void **)&(hair)))
+        if (reinterpret_cast<::RefList *>((((::BSSimpleList< ::BGSQuestObjective *> *)(::FUN_0045bb80((std::intptr_t)(((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110()))))))))->FUN_005f65d0((void **)&(hair)))
         {
             switch (((TESActorBase*)apNPC)->GetSex())
             {
@@ -173,7 +173,7 @@ struct FUN_005e78f0_t
 {
 };
 
-struct FUN_005fde80_shell
+struct FUN_005fde80_shell : ::TESHair
 {
     void CopyFromHair(TESForm* apCopy);
 };
@@ -218,7 +218,7 @@ struct FUN_004891d0_holder
 {
 };
 
-struct FUN_005fdc50_shell
+struct FUN_005fdc50_shell : ::TESHair
 {
     void FUN_005fdc50();
 };
@@ -227,9 +227,9 @@ struct FUN_005fdc50_shell
 void FUN_005fdc50_shell::FUN_005fdc50()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00487010();
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_holder*>(reinterpret_cast<char*>(this) + 0x24)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x3c)))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_holder*>(static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(static_cast<TESTexture *>(this))))->FUN_0048e370(0x4e4f4349);
     FUN_004858f0(0x41544144, reinterpret_cast<char*>(this)[0x48]);
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
@@ -251,3 +251,35 @@ bool HairComparisonEntry::FUN_005fded0(TESForm* apCompare)
         return true;
     return false;
 }
+
+// sub ecx,0x24; jmp FUN_005fdb60  ==  MSVC adjustor thunk (multiple inheritance).
+// The primary base occupies 0x24 bytes; both bases declare the same virtual, and the
+// derived class defines only its constructor, so the compiler emits the this-adjusting
+// thunk for the secondary base's vtable slot.
+struct PrimaryBase
+{
+    virtual void FUN_005fe030();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fe030();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fe030
+    virtual void FUN_005fe030();
+};
+
+Derived::Derived()
+{}

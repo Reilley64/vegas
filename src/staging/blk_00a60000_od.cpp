@@ -14,22 +14,22 @@ extern unsigned char DAT_011f4a54;
 extern int DAT_011f4a50;
 
 void __cdecl FUN_00a74a10();
-void __cdecl FUN_00a74d80(int);
+void __cdecl FUN_00a74d80(intptr_t);
 
 // @fnv 0x00a74da0
 void __cdecl FUN_00a74da0()
 {
     if (DAT_011f4a54 == 0)
         FUN_00a74a10();
-    ::FUN_00a74d90((void *)((int)((int (&)())::FUN_00a74bc0)));
-    FUN_00a74d80((int)((int (&)())::FUN_00a74cb0));
+    ::FUN_00a74d90((void *)((intptr_t)((int (&)())::FUN_00a74bc0)));
+    FUN_00a74d80((intptr_t)((int (&)())::FUN_00a74cb0));
     int count = DAT_011f4a50;
     if (count > 0)
     {
         if (count > 6)
             goto done;
-        ::FUN_00a74d90((void *)((int)((int (&)())::FUN_00a74900)));
-        FUN_00a74d80((int)((int (&)())::FUN_00a74880));
+        ::FUN_00a74d90((void *)((intptr_t)((int (&)())::FUN_00a74900)));
+        FUN_00a74d80((intptr_t)((int (&)())::FUN_00a74880));
     }
 done:
     ;
@@ -139,6 +139,40 @@ void FUN_00a74a10()
     }
     if ((DAT_011f4a58 & 0x2000000) == 0) return;
     DAT_011f4a50 = 5;
+}
+
+void __cdecl FUN_00a74da0();
+
+// @fnv 0x00a74880
+void __cdecl FUN_00a74880(unsigned short count, const float* src, float* dst, const float* matrix) {
+    unsigned int n = count;
+    fnv_TransformVectors(n, src, dst, matrix);
+}
+
+struct ScaledMatrix {
+    float m00, m01, m02, m10, m11, m12, m20, m21, m22;
+};
+
+// @fnv 0x00a74900
+void __cdecl FUN_00a74900(unsigned short count, const Vec3Local* src,
+                        Vec3Local* dst, const XfRSLocal* xf) {
+    unsigned int n = count;
+    ScaledMatrix m;
+    ScaledMatrix* matrix = &m;
+    float tx = xf->tx;
+    float ty = xf->ty;
+    float tz = xf->tz;
+    float scale = xf->scale;
+    m.m00 = xf->m00 * scale;
+    m.m01 = xf->m01 * scale;
+    m.m02 = xf->m02 * scale;
+    m.m10 = xf->m10 * scale;
+    m.m11 = xf->m11 * scale;
+    m.m12 = xf->m12 * scale;
+    m.m20 = xf->m20 * scale;
+    m.m21 = xf->m21 * scale;
+    m.m22 = xf->m22 * scale;
+    fnv_TransformPoints(n, src, dst, matrix, tx, ty, tz);
 }
 
 #include "generated/data/staging/blk_00a60000_od.inc"

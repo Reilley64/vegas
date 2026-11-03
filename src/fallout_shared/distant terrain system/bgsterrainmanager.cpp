@@ -1,5 +1,6 @@
 
 // fallout_shared/distant terrain system/bgsterrainmanager.cpp
+#include <cstdint>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSDistantTreeBlock_shell.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -174,17 +175,17 @@ void FUN_006fce00_shell::FUN_006fce00()
 
 struct BGSTerrainChunk
 {
-    int FUN_006fceb0(int);
+    std::intptr_t FUN_006fceb0(int);
 };
 
 struct FUN_006fce30_shell : BGSTerrainChunk
 {
-    int FUN_006fce30(int abSomething);
+    std::intptr_t FUN_006fce30(int abSomething);
 };
 
 // Looks up the terrain chunk for the given argument and, if found, returns the result of calling its method with 0; otherwise returns 0.
 // @fnv 0x006fce30
-int FUN_006fce30_shell::FUN_006fce30(int abSomething)
+std::intptr_t FUN_006fce30_shell::FUN_006fce30(int abSomething)
 {
     int result = 0;
     BGSTerrainChunk* obj = (BGSTerrainChunk*)FUN_006fceb0(abSomething);
@@ -217,11 +218,11 @@ struct FUN_006fcf30_shell
 // @fnv 0x006fcf30
 void FUN_006fcf30_shell::FUN_006fcf30(TESObjectREFR* apTreeRef)
 {
-    unsigned int icount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x2c))))->GetName()));
+    std::uintptr_t icount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x2c))))->GetName()));
     unsigned int i = 0;
     while (i < icount)
     {
-        if (((Arr*)((char*)this + 0x2c))->GetAt(i)[0] == (unsigned int)apTreeRef)
+        if (((Arr*)((char*)this + 0x2c))->GetAt(i)[0] == (unsigned int)(std::uintptr_t)apTreeRef)
         {
             reinterpret_cast<::FUN_006bf8f0_Class *>((((GlobalObject_00869f00*)((char*)this + 0x2c))))->FUN_006bf8f0(i, true);
             icount--;
@@ -262,11 +263,11 @@ struct Holder006fcdb0
 {
     int m00;
     FUN_006fea70_obj* m04;
-    void FUN_006fcdb0(int);
+    void FUN_006fcdb0(std::intptr_t);
 };
 // If DAT_0119f188 is set, g_011d86ac.Bool() is true and m04 is non-null, forwards a1 to m04->SetValue.
 // @fnv 0x006fcdb0
-void Holder006fcdb0::FUN_006fcdb0(int a1)
+void Holder006fcdb0::FUN_006fcdb0(std::intptr_t a1)
 {
     if (DAT_0119f188 && *::g_011d86ac.Bool() && m04)
         reinterpret_cast<::FUN_006fea70_Class *>((m04))->SetValue(a1);
@@ -274,10 +275,10 @@ void Holder006fcdb0::FUN_006fcdb0(int a1)
 
 struct FUN_006fce70_shell : BGSTerrainChunk
 {
-    int FUN_006fce70(int);
+    std::intptr_t FUN_006fce70(int);
 };
 // @fnv 0x006fce70
-int FUN_006fce70_shell::FUN_006fce70(int a1)
+std::intptr_t FUN_006fce70_shell::FUN_006fce70(int a1)
 {
     int result = 0;
     BGSTerrainChunk* chunk = (BGSTerrainChunk*)FUN_006fceb0(a1);
@@ -291,7 +292,7 @@ struct Unk006fec90
 };
 // If the object at offset 4 exists, forwards a1 to its GetActiveMenu and returns the result; otherwise returns 0.
 // @fnv 0x006fceb0
-int BGSTerrainChunk::FUN_006fceb0(int a1)
+std::intptr_t BGSTerrainChunk::FUN_006fceb0(int a1)
 {
     int unused = 0;
     if (*(Unk006fec90**)((char*)this + 4))
@@ -306,11 +307,11 @@ struct FUN_006fcef0_shell
 {
     int m_00;
     FUN_006fed30_Callee* m_04;
-    int ForwardToCallee(int);
+    std::intptr_t ForwardToCallee(int);
 };
 // If m_04 is set, forwards a to m_04's FUN_006fed30 and returns its result; otherwise returns 0.
 // @fnv 0x006fcef0
-int FUN_006fcef0_shell::ForwardToCallee(int a)
+std::intptr_t FUN_006fcef0_shell::ForwardToCallee(int a)
 {
     int unused = 0;
     if (m_04)
@@ -690,7 +691,7 @@ struct BGSDistantTreeBlock
 void Dfcfa0Manager::FUN_006fcfa0(Dfcfa0Ref* ref, bool addIfMissing)
 {
     unsigned int formId = ((int)(reinterpret_cast<::FUN_00485b60 *>((ref))->Go()));
-    int block = ForwardToCallee(ref->GetBlock());
+    std::intptr_t block = ForwardToCallee(ref->GetBlock());
     if (block)
     {
         reinterpret_cast<::BGSDistantTreeBlock_shell *>((((BGSDistantTreeBlock*)block)))->MarkTreeInstance(formId, true);
@@ -938,17 +939,17 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
                 reinterpret_cast<::FUN_0045cac0_tes *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045cac0();
                 if (*::g_011d869c.Bool())
                 {
-                    reinterpret_cast<::Node006f *>((lodNode))->UpdateBlock((int)&(pos), b2);
+                    reinterpret_cast<::Node006f *>((lodNode))->UpdateBlock(&(pos), b2);
                 }
             }
             if (m_bShaderFeatureActive && *::g_011d8680.Bool())
             {
-                unsigned int count;
-                reinterpret_cast<::TerrainNodeX *>((lodNode))->FUN_006fe330((int)&(pos));
-                if (FUN_006fcda0() > 0u && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName())) > 0)
+                std::uintptr_t count;
+                reinterpret_cast<::TerrainNodeX *>((lodNode))->FUN_006fe330(&(pos));
+                if (FUN_006fcda0() > 0u && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName())) > 0)
                 {
                     LocalRefArray kept;
-                    count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName()));
+                    count = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName()));
                     for (unsigned int i = 0; i < count; i++)
                     {
                         unsigned int val = reinterpret_cast<::FUN_00485b60 *>((array2C.FUN_00877a30(i)))->Go();
@@ -963,9 +964,9 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
                         }
                     }
                     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(array2C))->Clear(true);
-                    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName())) > 0)
+                    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName())) > 0)
                     {
-                        unsigned int keptCount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName()));
+                        std::uintptr_t keptCount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName()));
                         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(array2C))->FUN_006f2290(keptCount, true);
                         for (unsigned int j = 0; j < keptCount; j++)
                         {
@@ -1010,11 +1011,11 @@ class TerrainStream
 void TerrainStream::PushRef(TerrainRefProxy* apRef)
 {
     TerrainTempBuffer tempBuffer(0);
-    reinterpret_cast<::FUN_0041fd00_shell *>(&(tempBuffer))->FUN_0041fd00((int)(apRef));
-    reinterpret_cast<::S694a0 *>(&(tempBuffer))->FUN_00a694a0((void *)(((unsigned int)(reinterpret_cast<::NiCamera *>((apRef))->GetViewFrustum()))));
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(tempBuffer))->FUN_0041fd00((std::intptr_t)(apRef));
+    reinterpret_cast<::S694a0 *>(&(tempBuffer))->FUN_00a694a0((void *)&reinterpret_cast<::NiCamera *>(apRef)->GetViewFrustum());
     if (m_04 != 0)
     {
-        ::fnv_006fa6d0::UpdateSceneEntryRadii((*(const ::fnv_006fa6d0::ScenePosition *)(apRef)), (unsigned int)(&tempBuffer));
+        ::fnv_006fa6d0::UpdateSceneEntryRadii((*(const ::fnv_006fa6d0::ScenePosition *)(apRef)), (std::uintptr_t)(&tempBuffer));
         FUN_006f5840();
     }
 }

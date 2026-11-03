@@ -3,5 +3,5 @@
 struct FUN_00aa5fc0_Class {
 public:
     // 0x00aa5fc0
-    int ClearFields();
+    ::FUN_00aa5fc0_Class *ClearFields();
 };

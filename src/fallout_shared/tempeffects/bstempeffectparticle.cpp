@@ -492,7 +492,7 @@ unsigned short ParticleEffect::FUN_00689b20()
         void* entry = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (entry)
         {
-            LoggingObject* writer = ((::LoggingObject *)(::FUN_004839c0((unsigned int)(*(void**)entry))));
+            LoggingObject* writer = ((::LoggingObject *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(void**)entry))));
             ::FUN_0040fbe0(::DAT_01012cb0, previous - total, *(void**)entry, ((LogMethod*)writer->vtable)[76](writer),
                          *(void**)((char*)entry + 5), 0x174, DAT_01069d20);
         }
@@ -542,7 +542,7 @@ struct Manager
 {
 };
 // @fnv 0x006890b0
-Effect* __cdecl FUN_006890b0(World* world, float duration, int kind, Vec3 rotation, Vec3 position, float scale,
+Effect* __cdecl FUN_006890b0(World* world, float duration, std::intptr_t kind, Vec3 rotation, Vec3 position, float scale,
                              int flags, int extra)
 {
     Effect* pEffect = 0;
@@ -772,7 +772,7 @@ void Effect::AttachModel(Parent* apParent, Mat rotation, Vec position, float afS
         success = reinterpret_cast<::FUN_0045aba0_cls *>(((*reinterpret_cast<::fnv_00689310::WorldMgr * *>(&::g_TES))))->FindMatchingNode(loaded6, (::ObjC *)(::fnv_00689310::Ptr *)(&model));
     if (!success)
     {
-        if (((unsigned int)(reinterpret_cast<::Callees *>((((Obj*)loaded6)))->FUN_00726070())) <= 2)
+        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((Obj*)loaded6)))->FUN_00726070())) <= 2)
             model = loaded6;
         else if (flags & 2)
         {
@@ -1150,11 +1150,8 @@ bool R01FxPlayer::LoadFromSave()
         char aActive8[0x104];
         ::FUN_00403d30(aActive8, 0, sizeof(aActive8));
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(aActive8, aAF8);
-        new ((void *)&(a1c4_2)) ::Vec3();
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&a1c4_2, 0x10);
-        new ((void *)&(aAccuracy5)) ::Vec3();
         reinterpret_cast<::FUN_004f0180_Class *>(&(a1c4_2))->FUN_004f0180((::M3_ *)(::R01Matrix3 *)(&aAccuracy5));
-        new ((void *)&(aAPGeom)) ::Vec3();
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&aAPGeom, 0xc);
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&aAction2, 4);
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&a3_2, 2);
@@ -1296,7 +1293,7 @@ class ParticleUpdate
 bool ParticleUpdate::UpdateTransform(float time)
 {
     bool result = reinterpret_cast<::FUN_006828a0_shell *>(this)->FUN_006828a0(time);
-    if (parent && ((unsigned int)(reinterpret_cast<::Callees *>((void *)((parent).operator->()))->FUN_00726070())) == 1)
+    if (parent && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((void *)((parent).operator->()))->FUN_00726070())) == 1)
         parent = 0;
     if (object && parent)
     {
@@ -1338,7 +1335,7 @@ struct BSTempEffect
 {
     BSTempEffect(TESObjectCELL* cell, float radius);
     ~BSTempEffect();
-    unsigned int m_kPointA;
+    std::uintptr_t m_kPointA;
     unsigned char m_auiShapeKeys[0x14];
 };
 
@@ -1359,7 +1356,7 @@ struct FUN_00688fc0_shell : public BSTempEffect
 // Constructs a temporary effect that stores a node pointer, a filename, and an identity motion transform.
 // @fnv 0x00688fc0
 FUN_00688fc0_shell::FUN_00688fc0_shell(TESObjectCELL* cell, float radius, const char* filename, void* node)
-    : BSTempEffect(cell, radius), m_18((m_kPointA = (unsigned int)&DAT_01069c5c, 0)), m_20(0), m_kMotionTransform(), m_5c(),
+    : BSTempEffect(cell, radius), m_18((m_kPointA = (std::uintptr_t)&DAT_01069c5c, 0)), m_20(0), m_kMotionTransform(), m_5c(),
       m_68()
 {
     m_18 = 0;
@@ -1582,8 +1579,8 @@ void SGTempEffectParticle::FUN_00689cb0()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiEnd = (unsigned int)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
-        unsigned int uiStart = (unsigned int)pSizeLoc;
+        std::uintptr_t uiEnd = (std::uintptr_t)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00689cb0::SGSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        std::uintptr_t uiStart = (std::uintptr_t)pSizeLoc;
         if (uiEnd > uiStart + 0xFFFF)
         {
             ::FUN_005b5e40();

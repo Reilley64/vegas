@@ -2,6 +2,7 @@
 // src/staging/blk_00aa0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -61,12 +62,10 @@ unsigned int __cdecl ReadFileData(NiFileHack* apFile, void* buffer, unsigned int
     return reinterpret_cast<::NiFile *>((apFile))->FileRead(buffer, size);
 }
 
-extern int DAT_011f6110;
-
-extern "C" void __cdecl FUN_00aa2060(int a, int b);
+extern void(__cdecl* DAT_011f6110)();
 
 // @fnv 0x00aa2060
-extern "C" void __cdecl FUN_00aa2060(int aiFirst, int aiSecond)
+extern "C" void __cdecl FUN_00aa2060(void(__cdecl* aiFirst)(), void(__cdecl* aiSecond)())
 {
     DAT_011f6110 = aiFirst;
     DAT_011f6114 = aiSecond;
@@ -210,15 +209,15 @@ extern long long DAT_011f6070;
 // @fnv 0x00aa12f0
 float GetElapsedSeconds()
 {
-    long long currentCounter;
+    LARGE_INTEGER currentCounter;
     if (DAT_011ac222 != 0)
     {
-        QueryPerformanceFrequency(&DAT_011f6070);
-        QueryPerformanceCounter(&DAT_011f6068);
+        QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&DAT_011f6070));
+        QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&DAT_011f6068));
         DAT_011ac222 = 0;
     }
     QueryPerformanceCounter(&currentCounter);
-    long long diff = currentCounter - DAT_011f6068;
+    long long diff = currentCounter.QuadPart - DAT_011f6068;
     return (float)diff / (float)DAT_011f6070;
 }
 
@@ -373,7 +372,7 @@ extern int DAT_010a24b8;
 
 struct FUN_00aa1d30_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
 
     void FUN_00aa1d30();
 };
@@ -381,7 +380,7 @@ struct FUN_00aa1d30_cls
 // @fnv 0x00aa1d30
 void FUN_00aa1d30_cls::FUN_00aa1d30()
 {
-    m_vptr00 = (int)&DAT_010a24b8;
+    m_vptr00 = &DAT_010a24b8;
 }
 
 class FUN_00aa1fd0_cls
@@ -486,11 +485,11 @@ void __cdecl FUN_00aa2170()
 {
     for (unsigned int i = 0; i < (*reinterpret_cast<unsigned int *>(&::DAT_011f6108)); ++i)
     {
-        ((void(__cdecl*)())(*reinterpret_cast<void * (*)[]>(&::DAT_011f6088))[i])();
+        ((void(__cdecl*)())::DAT_011f6088[i])();
     }
     if (::DAT_011f6114 != 0)
     {
-        ((void(__cdecl*)())::DAT_011f6114)();
+        ::DAT_011f6114();
     }
     ::fnv_00aa3070::FUN_00aa3070();
     if (::DAT_011f610d != 0)
@@ -659,7 +658,7 @@ namespace fnv_00aa24f0 {
 
 struct FUN_00aa24f0_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
 
     void FUN_00aa24f0();
 };
@@ -667,7 +666,7 @@ struct FUN_00aa24f0_cls
 // @fnv 0x00aa24f0
 void FUN_00aa24f0_cls::FUN_00aa24f0()
 {
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010a2554));
+    m_vptr00 = &::DAT_010a2554;
 }
 }  // namespace fnv_00aa24f0
 
@@ -777,7 +776,7 @@ void FUN_00aa3070()
 
 struct S_00aa36f0_State
 {
-    unsigned int unk00;
+    unsigned char* unk00;
     unsigned char unk04;
     unsigned char unk05;
 };
@@ -807,7 +806,7 @@ void S_00aa36f0_Foo::WriteBufferByte(unsigned char* buffer)
 
     *buffer = value;
 
-    unsigned int quotient = ((unsigned int)buffer - state->unk00) / divisor;
+    unsigned int quotient = (unsigned int)(buffer - state->unk00) / divisor;
 
     ++state->unk05;
     state->unk04 = (unsigned char)quotient;
@@ -827,10 +826,10 @@ void S_00aa36f0_Foo::WriteBufferByte(unsigned char* buffer)
             }
             else if (entry != next)
             {
-                ::SwapIntPairs((int *)(next), (int *)(entry));
+                std::swap(*next, *entry);
             }
 
-            ::fnv_00aa1190::FreeAllocatorBlock((void *)(entry->unk00));
+            ::fnv_00aa1190::FreeAllocatorBlock(entry->unk00);
 
             state = unk18;
             --unk0c;
@@ -1213,189 +1212,11 @@ unsigned int __cdecl FUN_00aa1ad0(ProcessingState* state, const void* data, unsi
         return 0;
     void* buffer = FUN_00aa1070(size);
     std::memmove(buffer, data, size);
-    ::SwapBufferBySizes((char *)(buffer), size, (const unsigned int *)(optionA), (unsigned int)(optionB));
+    ::SwapBufferBySizes((char *)(buffer), size, (const unsigned int *)(optionA), (uintptr_t)(optionB));
     unsigned int result = reinterpret_cast<::FUN_00aff950_shell *>((state))->FUN_00aa1810(buffer, size);
     FUN_00aa10f0(buffer);
     return result;
 }
-
-struct TLSState
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int unk2b4;
-};
 
 struct FUN_00aa2200_shell
 {
@@ -1406,8 +1227,8 @@ namespace InitSystemCall {
 // @fnv 0x00aa20b0
 void __cdecl FUN_00aa20b0(void* value)
 {
-    int oldState = (*reinterpret_cast<::TLSState *>(&::g_tlsBlock)).unk2b4;
-    (*reinterpret_cast<::TLSState *>(&::g_tlsBlock)).unk2b4 = 15;
+    int oldState = ::g_tlsBlock.memoryContext;
+    ::g_tlsBlock.memoryContext = 15;
     void* existing = DAT_011f6118;
     if (!value)
     {
@@ -1435,10 +1256,10 @@ void __cdecl FUN_00aa20b0(void* value)
     DAT_011f6118 = value;
     ::FUN_00aa3050();
     if (DAT_011f6110)
-        ((void(__cdecl*)())DAT_011f6110)();
+        DAT_011f6110();
     for (unsigned int i = 0; i < (unsigned int)DAT_011f6108; ++i)
         DAT_011f60c8[i]();
-    (*reinterpret_cast<::TLSState *>(&::g_tlsBlock)).unk2b4 = oldState;
+    ::g_tlsBlock.memoryContext = oldState;
     DAT_011f610c = 1;
 }
 
@@ -1458,20 +1279,6 @@ struct Heap
 {
 };
 
-struct SysInfoQ
-{
-    unsigned long dwOemId;
-    unsigned long dwPageSize;
-    void* lpMinimumApplicationAddress;
-    void* lpMaximumApplicationAddress;
-    unsigned long dwActiveProcessorMask;
-    unsigned long dwNumberOfProcessors;
-    unsigned long dwProcessorType;
-    unsigned long dwAllocationGranularity;
-    unsigned short wProcessorLevel;
-    unsigned short wProcessorRevision;
-};
-
 // Allocates 8 bytes from the memory manager, stores the processor count and performance frequency, and sets the global pointer to the block.
 // @fnv 0x00aa1920
 void __cdecl FUN_00aa1920()
@@ -1479,12 +1286,12 @@ void __cdecl FUN_00aa1920()
     unsigned int* p = (unsigned int*)reinterpret_cast<::MemoryManagerStandIn *>((((Heap*)&::g_memoryManager)))->FUN_00aa3e40(8);
     if (p)
     {
-        SysInfoQ sysInfo;
+        SYSTEM_INFO sysInfo;
         GetSystemInfo(&sysInfo);
         *p = sysInfo.dwNumberOfProcessors;
-        long long perfFreq;
+        LARGE_INTEGER perfFreq;
         QueryPerformanceFrequency(&perfFreq);
-        *(float*)(p + 1) = (float)perfFreq;
+        *(float*)(p + 1) = (float)perfFreq.QuadPart;
         (*reinterpret_cast<void * *>(&::g_011f6078)) = p;
         return;
     }

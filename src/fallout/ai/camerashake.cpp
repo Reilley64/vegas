@@ -34,7 +34,7 @@ void InitializeCameraShake()
     if (FileFinder::Exist(path, 0, 0, -1))
     {
         DAT_011dfecc = reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)(path), 0, true, false, false, false);
-        ::AssignFixedString((char *)(DAT_011dfecc), (int)&(const ::NiFixedString &)(NiFixedString(path)), {});
+        ::AssignFixedString((char *)(DAT_011dfecc), (intptr_t)&(const ::NiFixedString &)(NiFixedString(path)), {});
     }
 }
 

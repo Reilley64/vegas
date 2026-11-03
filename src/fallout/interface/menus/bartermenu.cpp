@@ -554,9 +554,9 @@ void __cdecl UpdateTopicMenu()
         BaseProcess* pAIProcess = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(::_g_thePlayer))->GetBaseTexture()));
         if (pAIProcess->v285(1))
             reinterpret_cast<::FUN_00950030_shell *>((::_g_thePlayer))->FUN_00950030();
-        int iTopic = 0;
+        intptr_t iTopic = 0;
         if (((TopicMenu*)DAT_011d8fa4)->bFlag)
-            iTopic = ((int)(::fnv_0061a2d0::GetTopicSubTypeName(5, 4)));
+            iTopic = ((intptr_t)(::fnv_0061a2d0::GetTopicSubTypeName(5, 4)));
         ::StartDialogueForTopic((::TESTopic *)(iTopic));
         ((TopicMenu*)DAT_011d8fa4)->pTile->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((((TopicMenu*)DAT_011d8fa4)))->FUN_00a1d910();
@@ -1015,7 +1015,7 @@ void __cdecl FUN_00763ff0();
 
 // Validates arg0, resolves the inventory menu object, initializes its labels and settings from the config, and stores it in DAT_011d8fa4.
 // @fnv 0x0072d250
-int __cdecl InitInventoryMenu(int arg0, int aiValue)
+intptr_t __cdecl InitInventoryMenu(int arg0, int aiValue)
 {
     int aT30;
     BigObj* t2c15;
@@ -1050,7 +1050,7 @@ int __cdecl InitInventoryMenu(int arg0, int aiValue)
         t2c15 = ((::BigObj *)(reinterpret_cast<::FUN_00a03c90_shell *>((bb))->FUN_00a03c90()));
     else
         t2c15 = 0;
-    DAT_011d8fa4 = (int)t2c15;
+    DAT_011d8fa4 = (intptr_t)t2c15;
     if (DAT_011d8fa4 != 0 && ((BigObj*)DAT_011d8fa4)->v13() == FUN_0072d6c0())
     {
         reinterpret_cast<::FUN_00a1dc70_shell *>((((BigObj*)DAT_011d8fa4)))->FUN_00a1dc70((::TileMenu *)(bb), 0);
@@ -1096,7 +1096,7 @@ int __cdecl InitInventoryMenu(int arg0, int aiValue)
         ::s717280::FUN_00717280(0x24);
         reinterpret_cast<::Menu *>((((BigObj*)DAT_011d8fa4)))->SetMenuVisibility(0);
         ((BigObj*)DAT_011d8fa4)->RebuildInventoryLists(0);
-        return (int)bb;
+        return (intptr_t)bb;
     }
     else if (DAT_011d8fa4 != 0 && ((BigObj*)DAT_011d8fa4)->m_04 != 0)
     {
@@ -2447,7 +2447,7 @@ struct Self72
     ListObj* m_108;
     NodeS m_10c;
     NodeS m_114;
-    void RebuildInventoryLists(int arg);
+    void RebuildInventoryLists(intptr_t arg);
 };
 // @fnv 0x0072d770
 void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
@@ -2500,7 +2500,7 @@ void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
     case 2:
     case 3:
     case 4:
-        ::FUN_00706f30((int)(unka4));
+        ::FUN_00706f30((intptr_t)(unka4));
         do
         {
             m_iMerchantFilter += (iTileIndex != 2 ? 1 : -1);
@@ -2515,7 +2515,7 @@ void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
     case 7:
     case 8:
     case 9:
-        ::FUN_00706f30((int)(unka4));
+        ::FUN_00706f30((intptr_t)(unka4));
         do
         {
             m_iPlayerFilter += (iTileIndex != 7 ? 1 : -1);
@@ -2856,7 +2856,7 @@ void BarterMenuImpl::CompleteBarterTransaction()
         ExtraDataList* pExtraList = ((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem)))) ? *((::fnv_0072fd10::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem)))))->m_item)) : 0;
         if (pExtraList)
             ::FUN_005ac750((::TESForm *)(m_merchant), (::ExtraDataList *)(pExtraList), 0x4000);
-        reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::fnv_0072fd10::ItemTransferManager * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(pItem), ((int)(pItem->m_countDelta)), (int)(m_merchant));
+        reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::fnv_0072fd10::ItemTransferManager * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(pItem), ((int)(pItem->m_countDelta)), (intptr_t)(m_merchant));
         delete pItem;
     }
 
@@ -2883,14 +2883,14 @@ void BarterMenuImpl::CompleteBarterTransaction()
         InventoryStackRecord kCaps9(((::TESBoundObject *)(::FUN_004839c0(0xf))), 0);
         pChanges = ((::fnv_0072fd10::InventoryChangesStandIn *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(pTarget3))));
         if (pChanges)
-            reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::fnv_0072fd10::ItemTransferManager * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(::fnv_0072fd10::InventoryStackRecord *)(&kCaps9), ::MinInt(iAmount5, unk90), (int)(m_merchant));
+            reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::fnv_0072fd10::ItemTransferManager * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(::fnv_0072fd10::InventoryStackRecord *)(&kCaps9), ::MinInt(iAmount5, unk90), (intptr_t)(m_merchant));
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_0072fd10::SoundPlaybackHandle &)(((::fnv_0072fd10::BSAudioStandIn *)(::FUN_00453a70()))->GetSoundHandleByEditorID("ITMBottlecapsUp", 0x101, 0)))->FUN_00ad8830({});
     }
     else if (m_barterTotal < 0.0)
     {
         pChanges = ((::fnv_0072fd10::InventoryChangesStandIn *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::fnv_0072fd10::TESObjectREFR *)((TESObjectREFR*)(*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))))));
         if (pChanges)
-            reinterpret_cast<::Inv4cb4b0 *>((pChanges))->FUN_004cb4b0((int)((TESObjectREFR*)(*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))), -iAmount5, (int)(pTarget3));
+            reinterpret_cast<::Inv4cb4b0 *>((pChanges))->FUN_004cb4b0((intptr_t)((TESObjectREFR*)(*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))), -iAmount5, (intptr_t)(pTarget3));
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_0072fd10::SoundPlaybackHandle &)(((::fnv_0072fd10::BSAudioStandIn *)(::FUN_00453a70()))->GetSoundHandleByEditorID("ITMBottlecapsDown", 0x101, 0)))->FUN_00ad8830({});
     }
 
@@ -2935,9 +2935,9 @@ struct FUN_007306d0_cls
     int unk54;
     int unk58;
     int unk5C;
-    int m_60;
-    int m_64;
-    int m_68;
+    intptr_t m_60;
+    intptr_t m_64;
+    intptr_t m_68;
     int m_6c;
     int m_70;
 
@@ -3075,7 +3075,7 @@ bool FUN_0072f4b0_cls::HandleAction(int aiAction, int aiUnused)
 }
 // Rebuilds the m_a8/m_d8 lists from the player and data handler for the given form, then selects and activates m_108 and calls FUN_0072db60.
 // @fnv 0x0072dc30
-void Self72::RebuildInventoryLists(int arg)
+void Self72::RebuildInventoryLists(intptr_t arg)
 {
     long i = 0;
     if (m_108 != 0)
@@ -3100,7 +3100,7 @@ void Self72::RebuildInventoryLists(int arg)
             {
                 if (!(bool)FUN_0072e570((InventoryEntry*)*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))))
                 {
-                    reinterpret_cast<::list71a::L71Menu *>(&(m_a8))->FUN_0071a320((int)(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
+                    reinterpret_cast<::list71a::L71Menu *>(&(m_a8))->FUN_0071a320((intptr_t)(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
                 }
                 else
                 {
@@ -3119,7 +3119,7 @@ void Self72::RebuildInventoryLists(int arg)
             {
                 if (!(bool)IsFilteredFromBarter(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))))
                 {
-                    reinterpret_cast<::list71a::L71Menu *>(&(m_d8))->FUN_0071a320((int)(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
+                    reinterpret_cast<::list71a::L71Menu *>(&(m_d8))->FUN_0071a320((intptr_t)(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
                 }
                 else
                 {
@@ -3142,7 +3142,7 @@ void Self72::RebuildInventoryLists(int arg)
         {
             if (arg == 0 || ((void *)(reinterpret_cast<::InventoryEntryFields *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->m_pItemObject)) == (void*)arg)
             {
-                int tmp;
+                intptr_t tmp;
                 NewObj* r =
                     new NewObj(((void *)(reinterpret_cast<::InventoryEntryFields *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->m_pItemObject)), (int)reinterpret_cast<::InventoryEntryFields *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->m_iCountChange);
                 void* _tempExtra;
@@ -3154,7 +3154,7 @@ void Self72::RebuildInventoryLists(int arg)
                 {
                     ((::PtrObj *)(::FUN_00559450((int *)(r))))->FUN_005ae3d0(&_tempExtra);
                 }
-                tmp = ((int)(reinterpret_cast<::list71a::L71Menu *>(&(m_a8))->FUN_0071a320((int)(r), reinterpret_cast<::FUN_004be2d0_shell *>((r))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+                tmp = ((intptr_t)(reinterpret_cast<::list71a::L71Menu *>(&(m_a8))->FUN_0071a320((intptr_t)(r), reinterpret_cast<::FUN_004be2d0_shell *>((r))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                 reinterpret_cast<::Tile *>((((TileLike*)tmp)))->Set(DAT_011d8fb4, 1);
             }
         }
@@ -3166,7 +3166,7 @@ void Self72::RebuildInventoryLists(int arg)
         {
             if (arg == 0 || ((void *)(reinterpret_cast<::InventoryEntryFields *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->m_pItemObject)) == (void*)arg)
             {
-                long tmp;
+                intptr_t tmp;
                 NewObj* r;
                 void* _tempExtra;
                 r = new NewObj(((void *)(reinterpret_cast<::InventoryEntryFields *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->m_pItemObject)), (int)reinterpret_cast<::InventoryEntryFields *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->m_iCountChange);
@@ -3178,7 +3178,7 @@ void Self72::RebuildInventoryLists(int arg)
                 {
                     ((::PtrObj *)(::FUN_00559450((int *)(r))))->FUN_005ae3d0(&_tempExtra);
                 }
-                tmp = ((int)(reinterpret_cast<::list71a::L71Menu *>(&(m_d8))->FUN_0071a320((int)(r), reinterpret_cast<::FUN_004be2d0_shell *>((r))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+                tmp = ((intptr_t)(reinterpret_cast<::list71a::L71Menu *>(&(m_d8))->FUN_0071a320((intptr_t)(r), reinterpret_cast<::FUN_004be2d0_shell *>((r))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                 reinterpret_cast<::Tile *>((((TileLike*)tmp)))->Set(DAT_011d8fb4, 1);
             }
         }

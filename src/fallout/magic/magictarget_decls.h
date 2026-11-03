@@ -2,6 +2,7 @@
 #ifndef FNV_MAGICTARGET_DECLS_H
 #define FNV_MAGICTARGET_DECLS_H
 
+#include <cstdint>
 #include <cstdio>
 #include "fnv/decl/ActiveEffectUpdateShell.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
@@ -159,7 +160,7 @@ class AlchemyItem : public MagicItem
   public:
     virtual ~AlchemyItem();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    int FUN_004030b0();
+    intptr_t FUN_004030b0();
 };
 class IngredientItem : public MagicItem
 {

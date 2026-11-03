@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/decalcaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/decalcaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/symbols_004b5000.h"
 struct RootContactPoint
@@ -37,7 +38,7 @@ struct DecalCaster
 // @fnv 0x00623290
 unsigned int DecalCaster::GetCollisionFlags(unsigned int aiIndex)
 {
-    unsigned int uiFlags;
+    std::uintptr_t uiFlags;
     uiFlags = 0;
     {
         const RootContactPoint* pEntry;
@@ -51,7 +52,7 @@ unsigned int DecalCaster::GetCollisionFlags(unsigned int aiIndex)
                     NiAVObject* pObject;
                     pObject = NiShader::DynamicCast((NiAVObject*)pCollisionObject);
                     if (pObject)
-                        uiFlags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pObject)))->GetName()));
+                        uiFlags = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pObject)))->GetName()));
                 }
             }
         }

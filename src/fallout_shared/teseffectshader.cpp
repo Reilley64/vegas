@@ -169,7 +169,7 @@ void TESEffectShader::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    unsigned int formID = reinterpret_cast<unsigned int>(GetAddonModels());
+    unsigned int formID = (unsigned int)(std::uintptr_t)(GetAddonModels());
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -200,27 +200,27 @@ struct FUN_005050b0 : Base5a
 FUN_005050b0::~FUN_005050b0()
 {}
 
-struct FUN_00506370Class
+struct FUN_00506370Class : ::TESEffectShader
 {
     void* GetFieldAt14C();
 };
 // @fnv 0x00506370
 void* FUN_00506370Class::GetFieldAt14C()
 {
-    return reinterpret_cast<char*>(this) + 0x14c;
+    return reinterpret_cast<char*>(&this->m_kFillTexture);
 }
 
-struct FUN_00506390Class
+struct FUN_00506390Class : ::TESEffectShader
 {
     char* GetFieldAt158();
 };
 // @fnv 0x00506390
 char* FUN_00506390Class::GetFieldAt158()
 {
-    return reinterpret_cast<char*>(this) + 0x158;
+    return reinterpret_cast<char*>(&this->m_kParticleShaderTexture);
 }
 
-struct FUN_005063b0Class
+struct FUN_005063b0Class : ::TESEffectShader
 {
     void* GetFieldAt164();
 };
@@ -228,17 +228,17 @@ struct FUN_005063b0Class
 // @fnv 0x005063b0
 void* FUN_005063b0Class::GetFieldAt164()
 {
-    return reinterpret_cast<char*>(this) + 0x164;
+    return reinterpret_cast<char*>(&this->m_kHolesTexture);
 }
 
 
 struct FUN_00507810Class
 {
-    void FUN_00507810(int a, int b);
+    void FUN_00507810(std::intptr_t a, std::intptr_t b);
 };
 
 // @fnv 0x00507810
-void FUN_00507810Class::FUN_00507810(int aiArg1, int aiArg2)
+void FUN_00507810Class::FUN_00507810(std::intptr_t aiArg1, std::intptr_t aiArg2)
 {
     ::FUN_00ba6290((::Fn6290Object *)(aiArg1), (::Fn6290Result *)(aiArg2));
 }
@@ -310,7 +310,7 @@ FUN_00505d20::~FUN_00505d20()
 struct FUN_005e78f0_t
 {
 };
-struct FUN_005062a0Class
+struct FUN_005062a0Class : ::TESEffectShader
 {
     void CopyFrom(TESForm* apCopy);
 };
@@ -323,11 +323,11 @@ void FUN_005062a0Class::CopyFrom(TESForm* apCopy)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
     ::__memcpy(((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((((TESEffectShader*)this)))->GetConditions())), ((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((pcopy))->GetConditions())), 0x134);
-    ((TESTexture*)((char*)this + 0x14c))
+    (&this->m_kFillTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_00506370Class*)pcopy)->GetFieldAt14C());
-    ((TESTexture*)((char*)this + 0x158))
+    (&this->m_kParticleShaderTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_00506390Class*)pcopy)->GetFieldAt158());
-    ((TESTexture*)((char*)this + 0x164))
+    (&this->m_kHolesTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_005063b0Class*)pcopy)->GetFieldAt164());
 }
 
@@ -385,7 +385,7 @@ struct FNStub
 {
 };
 
-struct FUN_005060f0Class
+struct FUN_005060f0Class : ::TESEffectShader
 {
     void FUN_005060f0();
 };
@@ -409,8 +409,8 @@ struct FUN_005064d0
 // @fnv 0x005064d0
 FUN_005064d0* FUN_005064d0::Init()
 {
-    new ((void *)(((BSSimpleListT*)((char*)this + 0x94)))) ::Vec3();
-    new ((void *)(((BSSimpleListT*)((char*)this + 0xa0)))) ::Vec3();
+    (void *)(((BSSimpleListT*)((char*)this + 0x94)));
+    (void *)(((BSSimpleListT*)((char*)this + 0xa0)));
     ((EffectShaderData*)this)->Initialize();
     return this;
 }
@@ -673,7 +673,7 @@ struct EffectData
     int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     ColorValue fill, edge;
     float unk4c, unk50, scale, diameter;
-    unsigned int unk5c, unk60, unk64, unk68;
+    std::uintptr_t unk5c, unk60, unk64, unk68;
     RefValue target;
     unsigned int unk70;
     EffectData();
@@ -692,8 +692,8 @@ struct ShaderSource
 EffectData* ShaderSource::CreateEffectData(SceneValue* scene, void* root, void* target)
 {
     EffectData* data2 = new EffectData;
-    unsigned int fill = ((unsigned int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()));
-    unsigned int edge = ((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>(this)->GetGrass()));
+    std::uintptr_t fill = ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()));
+    std::uintptr_t edge = ((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>(this)->GetGrass()));
     data2->root = 0;
     data2->fill =
         ColorValue((float)(unsigned char)(fill & 255), (float)(unsigned char)((unsigned short)fill >> 8 & 255),
@@ -708,8 +708,8 @@ EffectData* ShaderSource::CreateEffectData(SceneValue* scene, void* root, void* 
     data2->scale = reinterpret_cast<::FUN_00507b00Class *>(this)->GetField4C();
     data2->diameter = reinterpret_cast<::Twin_0084d030 *>((((::BoundValue *)(reinterpret_cast<::FUN_0043d450_Owner *>((scene))->FUN_0043d450()))))->GetStoredFloatValue() * 2.0f;
     data2->unk5c = reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel();
-    data2->unk60 = ((unsigned int)(reinterpret_cast<::FUN_004fd3a0_shell *>(this)->FUN_004fd3a0()));
-    data2->unk64 = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
+    data2->unk60 = ((std::uintptr_t)(reinterpret_cast<::FUN_004fd3a0_shell *>(this)->FUN_004fd3a0()));
+    data2->unk64 = ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
     data2->unk68 = reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType();
     data2->root = root;
     data2->target = target;
@@ -824,34 +824,34 @@ void FUN_005060f0Class::FUN_005060f0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() == 0)
+    if (reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() == 0)
     {
-        ::FUN_004856f0((void *)(0x4e4f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x14c)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x4e4f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kFillTexture)))->FUN_00408da0())),
+                     (void *)(reinterpret_cast<TESModel*>(&this->m_kFillTexture)->GetModelLength() + 1));
     }
     else
     {
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x14c)))->FUN_0048e370(0x4e4f4349);
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kFillTexture)))->FUN_0048e370(0x4e4f4349);
     }
 
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() == 0)
+    if (reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() == 0)
     {
-        ::FUN_004856f0((void *)(0x324f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x158)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x158)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x324f4349), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kParticleShaderTexture)))->FUN_00408da0())),
+                     (void *)(reinterpret_cast<TESModel*>(&this->m_kParticleShaderTexture)->GetModelLength() + 1));
     }
     else
     {
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x158)))->FUN_0048e370(0x324f4349);
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kParticleShaderTexture)))->FUN_0048e370(0x324f4349);
     }
 
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() == 0)
+    if (reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() == 0)
     {
-        ::FUN_004856f0((void *)(0x374d414e), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(this) + 0x164)))->FUN_00408da0())),
-                     (void *)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x164)->GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x374d414e), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(&this->m_kHolesTexture)))->FUN_00408da0())),
+                     (void *)(reinterpret_cast<TESModel*>(&this->m_kHolesTexture)->GetModelLength() + 1));
     }
     else
     {
-        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x164)))->FUN_0048e370(0x374d414e);
+        reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(&this->m_kHolesTexture)))->FUN_0048e370(0x374d414e);
     }
 
     BGSDebris* psaveAddon = reinterpret_cast<FUN_005060f0Data*>(this)->mAddon;
@@ -863,14 +863,14 @@ void FUN_005060f0Class::FUN_005060f0()
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::EffectShaderDataEndian *>((reinterpret_cast<EffectShaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00506850();
+        reinterpret_cast<::EffectShaderDataEndian *>((&this->Data))->FUN_00506850();
     }
 
-    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(reinterpret_cast<char*>(this) + 0x18, 0x134);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(reinterpret_cast<char*>(&this->Data), 0x134);
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::EffectShaderDataEndian *>((reinterpret_cast<EffectShaderData*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00506850();
+        reinterpret_cast<::EffectShaderDataEndian *>((&this->Data))->FUN_00506850();
     }
 
     reinterpret_cast<FUN_005060f0Data*>(this)->mAddon = psaveAddon;

@@ -1,5 +1,9 @@
 // fallout/magic/magicmodelhiteffect.cpp: MagicModelHitEffect, Candidate (22 functions)
 
+#include "fnv/av_object_fields.h"
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -428,7 +432,7 @@ unsigned short FUN_0081d0b0_t::FUN_0081d0b0(ActiveEffect* apEffect, TESObjectREF
     if (*(Flt*)((char*)this + 0x30))
     {
         NiControllerManager* pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
         if (pmanager)
         {
             isize += ::FUN_0055fdb0((::AnimationInterpolatorNode *)(pmanager));
@@ -553,7 +557,7 @@ struct SNode
     virtual void v55();
     virtual void v56();
     virtual void v57();
-    virtual void InsertChild(unsigned int);
+    virtual void InsertChild(void*);
 };
 void __cdecl _Deallocate(void*);
 struct FUN_0081c810 : FUN_0081b6d0_s
@@ -568,11 +572,11 @@ struct FUN_0081c810 : FUN_0081b6d0_s
 // @fnv 0x0081c810
 FUN_0081c810::~FUN_0081c810()
 {
-    if (*(Flt*)&m_pRenderedNodeEntry)
+    if (m_pRenderedNodeEntry.p)
     {
-        NiNode* pparent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)(unsigned int)*(Flt*)&m_pRenderedNodeEntry)))->FUN_009611e0()));
+        NiNode* pparent = reinterpret_cast<::NiAVObjectFields *>(m_pRenderedNodeEntry.p)->m_pkParent;
         if (pparent)
-            ((SNode*)pparent)->InsertChild(*(Flt*)&m_pRenderedNodeEntry);
+            ((SNode*)pparent)->InsertChild(m_pRenderedNodeEntry.p);
         m_pRenderedNodeEntry = 0;
     }
     spAttach = 0;
@@ -746,7 +750,7 @@ void FUN_0081d800_t::FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer)
     pmanager = 0;
     if (*(Flt*)((char*)this + 0x30))
         pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
     {
         unsigned int uiStartPosition = reinterpret_cast<::FUN_00865f20_shell *>((((BGSSaveFormBuffer*)apSaveGameBuffer)))->FUN_00865f20();
         unsigned int uiFormIdBefore = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)apSaveGameBuffer)))->FUN_0084e3a0()));
@@ -972,7 +976,7 @@ struct FUN_0081d640_cls
     int unk20;
     int unk24;
     int unk28;
-    unsigned int m_2c;
+    uintptr_t m_2c;
 
     void FUN_0081d640();
 };
@@ -1086,8 +1090,8 @@ void FUN_0081d920_cls::FUN_0081d920(B81D920LoadBuffer* pkBuffer)
     m_pcName = reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pkBuffer))->FUN_008649a0(0);
     m_bLoadComplete = true;
     reinterpret_cast<::BGSLoadGameSubBuffer *>(&(m_kSubBuffer))->LoadGame((::BGSLoadGameBuffer *)(pkBuffer));
-    if (m_pkRef && ((::B81D920Object *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::B81D920Handle *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkRef))->FUN_0084e3a0()))))->FUN_00825c00()))->m_kLoadable.GetModelFilePath())
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::B81D920ModelLoader * *>(&::g_modelLoader))))->FUN_00444040((int)(((::B81D920Object *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::B81D920Handle *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkRef))->FUN_0084e3a0()))))->FUN_00825c00()))->m_kLoadable.GetModelFilePath()),
+    if (m_pkRef && ((::B81D920Object *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(m_pkRef)->effect)->setting))->m_kLoadable.GetModelFilePath())
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::B81D920ModelLoader * *>(&::g_modelLoader))))->FUN_00444040((int)(((::B81D920Object *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(m_pkRef)->effect)->setting))->m_kLoadable.GetModelFilePath()),
                                                     5, 0, 0, 1, 0, 0);
 }
 
@@ -1099,7 +1103,7 @@ struct D9D0Effect
 // @fnv 0x0081d9d0
 void D9D0Effect::ApplyEffect(void* pkTarget)
 {
-    reinterpret_cast<::BF20RefFormCall *>(this)->FUN_0081bf20((unsigned int)(pkTarget));
+    reinterpret_cast<::BF20RefFormCall *>(this)->FUN_0081bf20((uintptr_t)(pkTarget));
 }
 
 class FUN_0081cc70_refvt
@@ -1358,7 +1362,7 @@ bool FUN_0081cc70_cls::FUN_0081cc70(float afTime)
             if (seq != 0)
             {
                 if (reinterpret_cast<::BSFaceGenMorphData *>((((FUN_0081cc70_seqm*)seq)))->FUN_00508120() > reinterpret_cast<::FUN_00508100_shell *>((((FUN_0081cc70_seqm*)seq)))->FUN_00508100() &&
-                    ((int)(reinterpret_cast<::LowProcess *>((((FUN_0081cc70_seqm*)seq)))->GetActiveCombatTarget())))
+                    ((intptr_t)(reinterpret_cast<::LowProcess *>((((FUN_0081cc70_seqm*)seq)))->GetActiveCombatTarget())))
                 {
                     if (((int)(reinterpret_cast<::ActorMover *>((((FUN_0081cc70_seqm*)seq)))->GetCurrentMoveModeType())) == 2 || bWasPlaying != 0)
                     {
@@ -1608,11 +1612,11 @@ struct Candidate : MagicModelHitEffect
 // @fnv 0x0081d3b0
 void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, const char* pFilenameArg)
 {
-    reinterpret_cast<::FUN_008d05e0_s *>(this)->FUN_008d05e0((int)(effect), (int)(target), 0);
+    reinterpret_cast<::FUN_008d05e0_s *>(this)->FUN_008d05e0((intptr_t)(effect), (intptr_t)(target), 0);
     const char* previous = pFilename;
     if (effect)
     {
-        pFilename = reinterpret_cast<const char*>(((::ES_0081c630 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::EffectItemLocal *)(reinterpret_cast<::FUN_0084e3a0_Class *>((effect))->FUN_0084e3a0()))))->FUN_00825c00()))->sub.v5());
+        pFilename = reinterpret_cast<const char*>(((::ES_0081c630 *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(effect)->effect)->setting))->sub.v5());
     }
     else
     {
@@ -1623,7 +1627,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
     Init();
     MagicHitEffect::m_fFirstFloatValue = age;
     bWasPlaying = finished;
-    const char* saved = ((const char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    const char* saved = ((const char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((int)(previous));
     unsigned short version3;
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&version3, 2);
@@ -1643,7 +1647,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
             ::FUN_0055ffa0((::AnimationInterpolatorNode *)(controller4), (::NiNode *)(::NiAVObject *)(((::NiAVObject *)(::FUN_00559450((int *)(reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)))))), time_);
         }
     }
-    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((int)(saved));
+    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((intptr_t)(saved));
     FUN_00401030(const_cast<char*>(previous));
     Update(0.0f);
 }
@@ -1922,7 +1926,7 @@ void FUN_0081d150_t::FUN_0081d150(ActiveEffect* apEffect, TESObjectREFR* apTarge
     NiControllerManager* pmanager = 0;
     if ((unsigned int)*(Flt*)((char*)this + 0x30))
         pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
     unsigned short usState = 0;
     if (pmanager)
         usState = ::FUN_0055fdb0((::AnimationInterpolatorNode *)(pmanager));
@@ -1967,9 +1971,9 @@ void FUN_0081d2a0_t::FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarge
     char* pbuffer;
     reinterpret_cast<::fnv_0081bde0::FUN_0081bde0_shell *>(this)->SaveLoad(apEffect, apTarget);
     if (apEffect &&
-        ((TESModel*)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)apEffect)))->FUN_0084e3a0())))))->FUN_00825c00() + 0x18))->GetModelFilePath())
+        ((TESModel*)(reinterpret_cast<char *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(apEffect)->effect)->setting) + 0x18))->GetModelFilePath())
     {
-        reinterpret_cast<::QueueHelper *>((((QueueHelper*)g_modelLoader)))->FUN_00444040((int)((TESModel*)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)apEffect)))->FUN_0084e3a0())))))->FUN_00825c00() + 0x18))
+        reinterpret_cast<::QueueHelper *>((((QueueHelper*)g_modelLoader)))->FUN_00444040((int)((TESModel*)(reinterpret_cast<char *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(apEffect)->effect)->setting) + 0x18))
                                ->GetModelFilePath(),
                            5, 0, 0, true, false, false);
     }

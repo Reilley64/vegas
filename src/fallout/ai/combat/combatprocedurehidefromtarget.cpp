@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedurehidefromtarget.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedurehidefromtarget.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
@@ -659,7 +660,7 @@ void HideProcedure::Update()
             reinterpret_cast<::FUN_006e2bb0_shell *>(&(request2))->SetInitialPathHeading(actor2->speed(0));
             if (!actor2->path(&request2))
             {
-                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to hiding location"));
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to hiding location"));
                 return;
             }
             state = 1;
@@ -678,7 +679,7 @@ void HideProcedure::Update()
         reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
         if (reinterpret_cast<::FUN_008b3b90_shell *>((actor2))->FUN_008b3b90())
         {
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actor2))->FUN_008b3960() ? "Pathing failed while moving to hiding location"
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor2))->FUN_008b3960() ? "Pathing failed while moving to hiding location"
                                               : "Path Building failed to hiding location"));
             return;
         }

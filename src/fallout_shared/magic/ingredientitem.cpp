@@ -51,7 +51,7 @@ void IngredientItem::InitItem()
     MagicItemObject::InitItem();
 }
 
-struct FUN_00409a30_shell
+struct FUN_00409a30_shell : ::IngredientItem
 {
     bool FUN_00409a30(unsigned int aFlag);
 };
@@ -60,7 +60,7 @@ struct FUN_00409a30_shell
 // @fnv 0x00409a30
 bool FUN_00409a30_shell::FUN_00409a30(unsigned int aFlag)
 {
-    return (reinterpret_cast<unsigned char*>(this)[0xa0] & aFlag) != 0;
+    return (this->data.m_ucEntryType & aFlag) != 0;
 }
 
 struct BipedModelForm
@@ -126,7 +126,7 @@ struct FUN_0048e370_obj
 {
 };
 
-struct FUN_00409c70_shell
+struct FUN_00409c70_shell : ::IngredientItem
 {
     void FUN_00409c70();
 };
@@ -355,7 +355,7 @@ void FUN_0040a040_cls::FUN_0040a040(unsigned int aFlag)
     }
     else
     {
-        reinterpret_cast<::FUN_00810570_shell *>((((S_00810570_obj*)((char*)this - 0x30))))->SetAssociatedActorValue((int)(((void *)(reinterpret_cast<::InterfaceManager *>((obj))->FUN_00586150()))));
+        reinterpret_cast<::FUN_00810570_shell *>((((S_00810570_obj*)((char*)this - 0x30))))->SetAssociatedActorValue((std::intptr_t)(((void *)(reinterpret_cast<::InterfaceManager *>((obj))->FUN_00586150()))));
         m_70 = obj->m_a0;
     }
 }
@@ -466,7 +466,7 @@ void LCItem::FUN_00409da0(LCFile* apFile, int aiChunk)
     case 'IRCS': {
         unsigned int uiScript = 0;
         apFile->GetChunkData(&uiScript);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiScript));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiScript));
         reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::LCForm *)(this));
         break;
     }
@@ -477,7 +477,7 @@ void LCItem::FUN_00409da0(LCFile* apFile, int aiChunk)
     case 'PYTE': {
         unsigned int uiEquipType = 0;
         apFile->GetChunkData(&uiEquipType);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiEquipType));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiEquipType));
         break;
     }
     case 'ATAD':
@@ -530,7 +530,7 @@ void Obj409::FUN_00409ce0()
 {
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>(&(m_70))->FUN_00503210();
-    ::AppendChunk((unsigned int)(v9()), &m_70, 8);
+    ::AppendChunk((std::uintptr_t)(v9()), &m_70, 8);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>(&(m_70))->FUN_00503210();
 }
@@ -557,3 +557,36 @@ FUN_0040a140::~FUN_0040a140()
 {
     reinterpret_cast<::fnv_00406340::EffectItemList *>(this)->FUN_00406340();
 }
+
+// sub ecx,0x30; jmp <target>  ==  MSVC adjustor thunk for a second base.
+// PrimaryBase is vptr + 11 ints = 0x30 bytes. The shared virtual is named after the claim.
+struct PrimaryBase
+{
+    virtual void FUN_0040a120();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0040a120();
+};
+
+struct AdjustedDerived : PrimaryBase, SecondaryBase
+{
+    AdjustedDerived();
+// @fnv 0x0040a120
+    virtual void FUN_0040a120();
+};
+
+AdjustedDerived::AdjustedDerived()
+{}

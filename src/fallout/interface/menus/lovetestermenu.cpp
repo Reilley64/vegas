@@ -372,7 +372,7 @@ void __cdecl FUN_00795ca0()
 
 struct FUN_00794d30_shell
 {
-    int FUN_00794d30();
+    intptr_t FUN_00794d30();
 };
 int FUN_00794d80(void*);
 
@@ -536,12 +536,12 @@ void FUN_007948d0()
     ManagerHelper* manager = ((::ManagerHelper *)(::FUN_0045c670()));
     CameraHelper* camera = ((::CameraHelper *)(manager->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((camera))->FUN_00c4f270(true);
-    unsigned int localNode = (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da2f4));
+    uintptr_t localNode = (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da2f4));
     ::UpdateCameraFrustum((::NiCamera *)(localNode), 0.65f);
     NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
-    reinterpret_cast<::FUN_004a0fd0_shell *>((camera))->FUN_004a0fd0((::NiNode *)((int)node));
+    reinterpret_cast<::FUN_004a0fd0_shell *>((camera))->FUN_004a0fd0((::NiNode *)((intptr_t)node));
     ::FUN_00b6bee0((void *)(localNode), ((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))), (::BSShaderAccumulator *)(camera));
-    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(localNode), (::BSShaderAccumulator *)((int)node), 0);
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(localNode), (::BSShaderAccumulator *)((intptr_t)node), 0);
     reinterpret_cast<::FUN_004a0fd0_shell *>((camera))->FUN_004a0fd0((::NiNode *)(0));
     reinterpret_cast<::FUN_00c4f2d0_class *>((camera))->FUN_00c4f2d0();
 }
@@ -1009,7 +1009,7 @@ void __cdecl FUN_007957c0(CallbackInput* input)
 {
     if (!DAT_011da2c8)
         return;
-    int value = input->actorValue;
+    intptr_t value = input->actorValue;
     if (value != -1)
     {
         int count = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(value);
@@ -1075,7 +1075,7 @@ void FUN_007958e0()
 {
     if (!DAT_011da2c8)
         return;
-    int index = ((FUN_00794d30_shell*)DAT_011da2c8)->FUN_00794d30();
+    intptr_t index = ((FUN_00794d30_shell*)DAT_011da2c8)->FUN_00794d30();
     if (index != -1)
     {
         int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(index);
@@ -1977,7 +1977,7 @@ void FUN_00795a00(WorkerButton* button)
 {
     if (!DAT_011da2c8)
         return;
-    int index = button->value;
+    intptr_t index = button->value;
     if (index != -1)
     {
         int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(index);
@@ -2008,12 +2008,12 @@ void __cdecl FUN_007c9ca0()
         ManagerHelper* mgr = ((::ManagerHelper *)(::FUN_0045c670()));
         CameraHelper* cam = ((::CameraHelper *)(mgr->unkB4));
         reinterpret_cast<::FUN_00c4f270_Class *>((cam))->FUN_00c4f270(true);
-        unsigned int scene = (*reinterpret_cast<::Flt *>(&::g_011daa9c));
+        uintptr_t scene = (*reinterpret_cast<::Flt *>(&::g_011daa9c));
         ::UpdateCameraFrustum((::NiCamera *)(scene), 0.15f);
         NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
-        reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)((int)node));
+        reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)((intptr_t)node));
         ::FUN_00b6bee0((void *)(scene), ((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))), (::BSShaderAccumulator *)(cam));
-        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(scene), (::BSShaderAccumulator *)((int)node), 0);
+        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(scene), (::BSShaderAccumulator *)((intptr_t)node), 0);
         reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)(0));
         reinterpret_cast<::FUN_00c4f2d0_class *>((cam))->FUN_00c4f2d0();
     }
@@ -2057,7 +2057,7 @@ void __cdecl PlaySpecialBookSoundAndSetStat(Button_7caa80* button)
 {
     if (!(*reinterpret_cast<::fnv_007caa80::Menu_7caa80 * *>(&::DAT_011daa38)))
         return;
-    int key = button->stat;
+    intptr_t key = button->stat;
     if (key != -1)
     {
         int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(key);
@@ -2083,7 +2083,7 @@ void __cdecl UpdateLoveTester()
 {
     if (!DAT_011da2c8)
         return;
-    int key = ((FUN_00794d30_shell*)DAT_011da2c8)->FUN_00794d30();
+    intptr_t key = ((FUN_00794d30_shell*)DAT_011da2c8)->FUN_00794d30();
     if (key != -1)
     {
         int value = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(key);
@@ -2900,7 +2900,7 @@ void InputMenu::HandleButton(int button, int unused)
         }
         else if (((unsigned char)(::FUN_004b71d0())) && mode == 8)
         {
-            int local294918 = special + 4;
+            intptr_t local294918 = special + 4;
             local972322 = ((InputPlayer*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))->owner.GetBase(local294918);
             if (button == 2)
             {

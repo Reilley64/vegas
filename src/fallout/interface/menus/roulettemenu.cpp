@@ -574,17 +574,17 @@ struct RouletteState
     int unk0020;
     int unk0024;
     int unk0028;
-    int unk002c;
-    int unk0030;
-    int unk0034;
-    int unk0038;
-    int unk003c;
-    int unk0040;
-    int unk0044;
-    int unk0048;
-    int unk004c;
-    int unk0050;
-    int unk0054;
+    intptr_t unk002c;
+    intptr_t unk0030;
+    intptr_t unk0034;
+    intptr_t unk0038;
+    intptr_t unk003c;
+    intptr_t unk0040;
+    intptr_t unk0044;
+    intptr_t unk0048;
+    intptr_t unk004c;
+    intptr_t unk0050;
+    intptr_t unk0054;
     int unk0058;
     int unk005c;
     int unk0060;
@@ -4845,7 +4845,7 @@ void FUN_007bf710_cls::ApplyValueToChain(int aiId, float afValue)
     char* pCur = *(char**)((char*)&DAT_011da878->m_pTiles[10] + aiId * 4) + 4;
     while (pObj != 0 && pCur != 0 && *((FUN_0073ac90_shell*)pCur)->FUN_0073ac90() != 0)
     {
-        reinterpret_cast<::FUN_00a012d0_t *>((((FUN_00a012d0_shell*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_shell*)pCur)))->AddEight((int)(pObj)))))))->FUN_00a012d0({}, {}, {});
+        reinterpret_cast<::FUN_00a012d0_t *>((((FUN_00a012d0_shell*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_shell*)pCur)))->AddEight((intptr_t)(pObj)))))))->FUN_00a012d0({}, {}, {});
         pObj = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((((FUN_007b52d0_shell*)pCur)))->DereferenceIfNotNull((int **)(pObj))));
     }
 }
@@ -15711,7 +15711,7 @@ void RouletteMenuX::FUN_007bd2a0()
         while (m_pBets && *((int *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))
         {
             bool bWon = false;
-            int iSlotC = ((RouletteBetEntry*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))->iSlotC;
+            int iSlotC = ((RouletteBetEntry*)*((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))->iSlotC;
             BetSlot* pSlot1 = &m_aSlots[iSlotC];
             if (iSlotC < 0x93)
             {
@@ -15823,7 +15823,7 @@ void RouletteMenuX::FUN_007bd2a0()
             }
             if ((bWon || iStickZ4 != 0 || m_iForceWin > 0) && m_iForceWin >= 0)
             {
-                iWinnings += (pSlot1->iOdds + 1) * ((RouletteBetEntry*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))->iAmount;
+                iWinnings += (pSlot1->iOdds + 1) * ((RouletteBetEntry*)*((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))->iAmount;
             }
             m_pBets->FUN_0063f7b0();
         }
@@ -15989,7 +15989,6 @@ void RouletteMenuX::FUN_007bd2a0()
 
 int __cdecl FUN_007bc820();
 void SetRouletteMenuTile();
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct RouletteBetEntry
 {
     int amount;

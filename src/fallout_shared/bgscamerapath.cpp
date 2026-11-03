@@ -99,14 +99,14 @@ void BGSCameraPath::InitItem()
     } shotEntry;
     while (pShotNode && !pShotNode->IsEmpty())
     {
-        shotEntry.formID = (unsigned int)((::BGSCameraShot *)(new ((void *)(pShotNode)) ::Vec3()));
+        shotEntry.formID = (unsigned int)(std::uintptr_t)(pShotNode->m_item);
         ::ResolveFormID((unsigned int *)&(shotEntry.formID), GetFile(-1));
         shotEntry.cameraShot = dynamic_cast<BGSCameraShot*>(::FUN_004839c0(shotEntry.formID));
         if (!shotEntry.cameraShot)
         {
             if (previous)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::BGSCameraShot *)(new ((void *)(pShotNode)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((pShotNode->m_item)));
                 pShotNode = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
@@ -208,7 +208,7 @@ bool BGSCameraPath::Load(TESFile* file)
             unsigned int index;
             NiFormArray* paths;
         } removalInfo;
-        removalInfo.paths = ((::NiFormArray *)(new ((void *)(DAT_011ca700)) ::Vec3()));
+        removalInfo.paths = ((::NiFormArray *)((void *)(DAT_011ca700)));
         removalInfo.index = removalInfo.paths->GetIndexOfForm(this);
         if (removalInfo.index != 0xffffffff)
         {
@@ -240,7 +240,7 @@ bool BGSCameraPath::Load(TESFile* file)
         case 0x4d414e53: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)&m_kCameraShotList)))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)formID));
+            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)&m_kCameraShotList)))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)(std::uintptr_t)formID));
             break;
         }
         case 0x4d414e41: {
@@ -280,7 +280,7 @@ bool BGSCameraPath::HasMissingPathArray()
     } locals;
     locals.success = true;
     locals.parent = 0;
-    locals.formID = (unsigned int)m_pFirstCameraPath;
+    locals.formID = (unsigned int)(std::uintptr_t)m_pFirstCameraPath;
     if (locals.formID)
     {
         ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
@@ -295,7 +295,7 @@ bool BGSCameraPath::HasMissingPathArray()
         AssignParentPath(locals.parent);
     }
     locals.previous = 0;
-    locals.formID = (unsigned int)m_pSecondCameraPath;
+    locals.formID = (unsigned int)(std::uintptr_t)m_pSecondCameraPath;
     if (locals.formID)
     {
         ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
@@ -314,7 +314,7 @@ bool BGSCameraPath::HasMissingPathArray()
     if (locals.parent)
         locals.paths = locals.parent->GetEntryObject();
     else
-        locals.paths = ((::NiFormArray *)(new ((void *)(DAT_011ca700)) ::Vec3()));
+        locals.paths = ((::NiFormArray *)((void *)(DAT_011ca700)));
     if (locals.paths)
     {
         if (locals.previous)
@@ -402,14 +402,14 @@ void FUN_00464f40_shell::FUN_0058b450()
     reinterpret_cast<::FUN_00464f40_class *>(this)->FUN_00464f40();
 }
 
-struct FUN_0058b4f0_shell
+struct FUN_0058b4f0_shell : ::BGSCameraPath
 {
     bool IsFlag2Set();
 };
 // @fnv 0x0058b4f0
 bool FUN_0058b4f0_shell::IsFlag2Set()
 {
-    if (((const unsigned char*)this)[0x28] & 2)
+    if (this->data.cFlags & 2)
         return true;
     return false;
 }
@@ -539,7 +539,7 @@ void FUN_0058ac10_shell::FUN_0058ac10()
         if (((bool)(::FUN_00401500())))
             reinterpret_cast<TESForm*>(&data)->TESForm::ClearData();
 
-        reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<int>(&data)), 1);
+        reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<std::intptr_t>(&data)), 1);
 
         if (((bool)(::FUN_00401500())))
             reinterpret_cast<TESForm*>(&data)->TESForm::ClearData();
@@ -548,7 +548,7 @@ void FUN_0058ac10_shell::FUN_0058ac10()
 
         while (pShotList && !pShotList->_ref_008256d0())
         {
-            pshot = reinterpret_cast<BGSCameraShot*>(((void **)(new ((void *)(pShotList)) ::Vec3()))[0]);
+            pshot = reinterpret_cast<BGSCameraShot*>(((void **)((void *)(pShotList)))[0]);
             pShotList = ((::BSSimpleList_shell *)(reinterpret_cast<::Callees *>((pShotList))->FUN_00726070()));
             shotFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pshot))->FUN_0084e3a0()));
             ::FUN_00485910(0x4d414e53, shotFormID);
@@ -583,7 +583,7 @@ void CameraPath_58a680::CopyFromForm(TESForm* apForm)
     h = p->GetShotList();
     while (h && !h->IsEmpty())
     {
-        BGSCameraShot* e = ((::BGSCameraShot *)(new ((void *)(h)) ::Vec3()));
+        BGSCameraShot* e = (h->m_item);
         h = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((h))->FUN_00726070()));
         reinterpret_cast<::Callees *>(&(m_kCameraShotList))->FUN_00905820((void *)&(e));
     }
@@ -618,7 +618,7 @@ bool CameraPathCompare::FUN_0058a750(TESForm* form)
     BSSimpleList<BGSCameraShot*>* pOtherShotNode = pathForm->GetShotList();
     while (pOtherShotNode && !pOtherShotNode->IsEmpty())
     {
-        if (!pShotNode || ((::BGSCameraShot *)(new ((void *)(pShotNode)) ::Vec3())) != ((::BGSCameraShot *)(new ((void *)(pOtherShotNode)) ::Vec3())))
+        if (!pShotNode || (pShotNode->m_item) != (pOtherShotNode->m_item))
             return true;
         pOtherShotNode = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pOtherShotNode))->FUN_00726070()));
         pShotNode = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pShotNode))->FUN_00726070()));
@@ -684,11 +684,11 @@ FUN_0058a450::~FUN_0058a450()
     {
         if (((::FUN_0058a450 *)(reinterpret_cast<::Script *>(this)->GetData())))
         {
-            reinterpret_cast<::Holder730 *>((((::FUN_0058a450 *)(reinterpret_cast<::Script *>(this)->GetData()))))->FUN_0058b730((int)(this));
+            reinterpret_cast<::Holder730 *>((((::FUN_0058a450 *)(reinterpret_cast<::Script *>(this)->GetData()))))->FUN_0058b730((std::intptr_t)(this));
         }
         else
         {
-            PathFormArray* pArray = (PathFormArray*)((::NiFormArray *)(new ((void *)(DAT_011ca700)) ::Vec3()));
+            PathFormArray* pArray = (PathFormArray*)((::NiFormArray *)((void *)(DAT_011ca700)));
             if (pArray)
             {
                 unsigned int uiPathIndex = reinterpret_cast<::NiFormArray *>((pArray))->GetIndexOfForm(this);
@@ -742,12 +742,12 @@ TESForm* CameraPathClone::FUN_0058a870(bool abPersist, CameraPathMap* apMap)
     CameraPathClone* pClone_ =
         static_cast<CameraPathClone*>(dynamic_cast<BGSCameraPath*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(abPersist), apMap)))));
     BGSCameraPath* pFound4 = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((unsigned int)(m_pFirstCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((std::uintptr_t)(m_pFirstCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
         pFound4 = m_pFirstCameraPath;
     BGSCameraPath* pParent3 = pFound4;
     reinterpret_cast<::BGSCameraPath *>((pClone_))->AssignParentPath(pParent3);
     pFound4 = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((unsigned int)(m_pSecondCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((std::uintptr_t)(m_pSecondCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
         pFound4 = m_pSecondCameraPath;
     BGSCameraPath* pPrev = pFound4;
     reinterpret_cast<::LowProcess *>((pClone_))->SetCurrentBoundObject((::TESBoundObject *)(pPrev));
@@ -762,7 +762,7 @@ TESForm* CameraPathClone::FUN_0058a870(bool abPersist, CameraPathMap* apMap)
         {
             TESForm* pChildA = m_pPathArray->FUN_00877a30(i5);
             TESForm* pNewChildB1 = pChildA->CreateForm((void*)(int)abPersist, apMap);
-            unsigned int uiValueC2 = (unsigned int)pNewChildB1;
+            unsigned int uiValueC2 = (unsigned int)(std::uintptr_t)pNewChildB1;
             pArray->SetSize(i5, &uiValueC2);
             pLastVal = pNewChildB1;
         }

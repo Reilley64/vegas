@@ -116,7 +116,7 @@ struct S_0048a520
 {
 };
 
-struct FUN_004fe520_shell
+struct FUN_004fe520_shell : ::BGSStaticCollection
 {
     void FUN_004fe520(void);
 };
@@ -126,7 +126,7 @@ struct FUN_004fe520_shell
 void FUN_004fe520_shell::FUN_004fe520(void)
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x30))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 
@@ -194,3 +194,35 @@ bool StaticCollectionComparison::FUN_004fe5e0(TESForm* other)
         return true;
     return false;
 }
+
+// sub ecx,0x30; jmp target  ==  MSVC adjustor thunk (multiple inheritance, primary base size 0x30)
+struct PrimaryBase
+{
+    virtual void FUN_004fe630();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004fe630();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x004fe630
+    virtual void FUN_004fe630();
+};
+
+Derived::Derived()
+{}

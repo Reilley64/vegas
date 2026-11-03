@@ -82,7 +82,7 @@ struct DoorPart30
 {
 };
 
-struct FUN_0040c5f0_shell
+struct FUN_0040c5f0_shell : ::MagicItemObject
 {
     void FUN_0040c5f0();
 };
@@ -92,9 +92,9 @@ struct FUN_0040c5f0_shell
 void FUN_0040c5f0_shell::FUN_0040c5f0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((DoorPart30*)((char*)this + 0x30))))->FUN_00487010();
-    (*(void(**)(void*))(*(int*)((char*)this + 0x30) + 0x38))((char*)this + 0x30);
-    (*(void(**)(void*))(*(int*)((char*)this + 0x30) + 0x3c))((char*)this + 0x30);
+    reinterpret_cast<::FUN_00487010_shell *>((((DoorPart30*)static_cast<MagicItem *>(this))))->FUN_00487010();
+    (*(void(**)(void*))(*(std::intptr_t*)((char*)this + 0x30) + 0x38))((char*)static_cast<MagicItem *>(this));
+    (*(void(**)(void*))(*(std::intptr_t*)((char*)this + 0x30) + 0x3c))((char*)static_cast<MagicItem *>(this));
     reinterpret_cast<::EffectItemList4056 *>(((char*)this + 0x3c))->FUN_004056d0();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
@@ -197,5 +197,5 @@ void FUN_005054b0_shell::FUN_0040c930(TESForm* pForm)
 
     m30.vfn_34(result ? static_cast<MagicItem *>(result) : 0);
 
-    reinterpret_cast<::B5B10Owner *>(&(m3c))->CopyItemsFromList((::EffectItemList *)(result ? reinterpret_cast<int>(reinterpret_cast<char*>(result) + 0x3C) : 0));
+    reinterpret_cast<::B5B10Owner *>(&(m3c))->CopyItemsFromList((::EffectItemList *)(result ? reinterpret_cast<std::intptr_t>(reinterpret_cast<char*>(result) + 0x3C) : 0));
 }

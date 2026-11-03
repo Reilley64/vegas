@@ -164,13 +164,13 @@ float FUN_00944300_class::FUN_00944300()
 
 struct FUN_00944320_Class
 {
-    unsigned int GetField688();
+    void* GetField688();
 };
 
 // @fnv 0x00944320
-unsigned int FUN_00944320_Class::GetField688()
+void* FUN_00944320_Class::GetField688()
 {
-    return *(unsigned int*)((char*)this + 0x688);
+    return *(void**)((char*)this + 0x688);
 }
 
 struct FUN_00944340_Class
@@ -333,7 +333,7 @@ Biped* PlayerCharacter::FUN_00950b00(bool firstPerson)
 {
     if (firstPerson)
         return *(Biped**)((char*)this + 0x68c);
-    return ((::Biped *)(::FUN_005d9f90((char *)this)));
+    return ((::Biped *)(std::uintptr_t)(::FUN_005d9f90((char *)this)));
 }
 
 struct FUN_0095f6a0_Class
@@ -409,9 +409,9 @@ void FUN_00952a20_shell::FUN_00952a20(BGSQuestObjective* apObjective)
     TESQuest* pObjQuest = ((::TESQuest *)(reinterpret_cast<::MagicCaster_shell *>((apObjective))->FUN_0044edb0()));
     bool bFound = false;
     bool bSameQuest = false;
-    while (pIter && ((::BGSQuestObjective *)(new ((void *)(pIter)) ::Vec3())))
+    while (pIter && (*((::BGSQuestObjective **)(void *)(pIter))))
     {
-        BGSQuestObjective* pObjective = ((::BGSQuestObjective *)(new ((void *)(pIter)) ::Vec3()));
+        BGSQuestObjective* pObjective = (*((::BGSQuestObjective **)(void *)(pIter)));
         if (apObjective == pObjective)
         {
             bSameQuest = true;
@@ -448,10 +448,10 @@ struct FUN_00952b30_Class
 BSAudio* FUN_00952b30_Class::FindAudioEntry()
 {
     FUN_00952b30_BSSimpleList* node = (FUN_00952b30_BSSimpleList*)((char*)this + 0x6bc);
-    while (node && ((::FUN_00952b30_BSSimpleList *)(new ((void *)(node)) ::Vec3()))->m_pInventoryEntryData)
+    while (node && ((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(node))))->m_pInventoryEntryData)
     {
-        BSAudio* entry = (BSAudio*)((::FUN_00952b30_BSSimpleList *)(new ((void *)(node)) ::Vec3()))->m_pInventoryEntryData;
-        if (((void *)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == *(void**)((char*)this + 0x6b8) && ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)entry)))->FUN_007af430())) == 1)
+        BSAudio* entry = (BSAudio*)((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(node))))->m_pInventoryEntryData;
+        if (((void *)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == *(void**)((char*)this + 0x6b8) && ((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)entry)))->FUN_007af430())) == 1)
             return entry;
         node = ((::FUN_00952b30_BSSimpleList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -479,10 +479,10 @@ void FUN_009527b0_Class::AddTopics(FUN_00952b30_BSSimpleList* apAddTopicList)
     {
         bool bNeedsResort = false;
         FUN_00952b30_BSSimpleList* pNode = apAddTopicList;
-        while (pNode && ((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(new ((void *)(pNode)) ::Vec3())))[0])
+        while (pNode && ((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(pNode)))))[0])
         {
             if (((FUN_00952830_Class*)this)
-                    ->FUN_00952830((BSAudio*)(((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(new ((void *)(pNode)) ::Vec3())))[0]), 0, 1))
+                    ->FUN_00952830((BSAudio*)(((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(pNode)))))[0]), 0, 1))
                 bNeedsResort = true;
             pNode = ((::FUN_00952b30_BSSimpleList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
@@ -511,9 +511,9 @@ bool FUN_00952830_Class::FUN_00952830(int aiValue, unsigned char param_3, int pa
     if (aiValue == 0)
         return false;
     pEntry = ((FUN_00464e30_shell*)this)->GetSelfOffset6A8();
-    while (pEntry && *((int *)(new ((void *)(pEntry)) ::Vec3())))
+    while (pEntry && *((int *)(((::Vec3 *)(void *)(pEntry)))))
     {
-        if (*((int *)(new ((void *)(pEntry)) ::Vec3())) == aiValue)
+        if (*((int *)(((::Vec3 *)(void *)(pEntry)))) == aiValue)
             return false;
         pEntry = ((::fnv_00952830::FUN_00952830_BSSimpleList *)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070()));
     }
@@ -625,8 +625,7 @@ class FUN_00952f90_cls
 // @fnv 0x00952f90
 void FUN_00952f90_cls::ClearHelper()
 {
-    unsigned int tmp = (unsigned int)m_6f4;
-    FUN_00952f90_helper* p = (FUN_00952f90_helper*)tmp;
+    FUN_00952f90_helper* p = m_6f4;
     p != 0 ? p->v10(1) : 0;
     m_6f4 = 0;
     reinterpret_cast<::FUN_006f4990_shell *>(&(m_6f8))->ClearTeleportPath();
@@ -825,7 +824,7 @@ struct PlayerEnchantStub
     int unk234;
     int unk238;
     EnchantedFormList* pEnchantedForms;
-    void RemoveEnchantment(TESBoundObject* apForm, int aiUnused);
+    void RemoveEnchantment(TESBoundObject* apForm, intptr_t aiUnused);
 };
 
 class TESObjectWEAP : public TESBoundObject
@@ -2202,11 +2201,13 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
             }
             if (world7)
             {
-                MoveWorld(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(*(::NiPoint3 *)nullptr), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), world7, 0);
+                ::NiPoint3 kDestination;
+                MoveWorld(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(kDestination), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), world7, 0);
             }
             else if (cellB)
             {
-                MoveCell(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(*(::NiPoint3 *)nullptr), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), cellB, 0);
+                ::NiPoint3 kDestination;
+                MoveCell(reinterpret_cast<::FUN_0094df30_Class *>(this)->FUN_0094df30(kDestination), (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData())), cellB, 0);
             }
         }
         else
@@ -2244,8 +2245,8 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
                 player3->InitializeForCell(cell2_2);
                 InitializeForCell(cell2_2);
             }
-            RestoreNode* third_ = ((::RestoreNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)));
-            RestoreNode* first5 = ((::RestoreNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(true)));
+            RestoreNode* third_ = ((::RestoreNode *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)));
+            RestoreNode* first5 = ((::RestoreNode *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(true)));
             reinterpret_cast<::FUN_00440460_S *>((third_))->FUN_00440460((const ::V3 *)&(savedPosition));
             reinterpret_cast<::FUN_00440460_S *>((first5))->FUN_00440460((const ::V3 *)&(savedPosition));
             ::FUN_00c6bd00((::TreeNode_cls *)(third_), true);
@@ -3406,7 +3407,7 @@ void Update97::UpdateScopeZoom(float elapsed)
     if ((*reinterpret_cast<::Setting97 *>(&::g_011e097c)).FUN_00408d60())
     {
         float weapon;
-        Data97* unusedScale = actor->getData() ? (Data97*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((actor->getData()))->GetName())) : 0;
+        Data97* unusedScale = actor->getData() ? (Data97*)((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((actor->getData()))->GetName())) : 0;
         float normalVertical = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_0120315c))));
         float scope = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203168))));
         float normalHorizontal = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203174))));
@@ -3441,12 +3442,12 @@ void Update97::UpdateScopeZoom(float elapsed)
             float step = scope;
             float horizontal = elapsed * 30.0 / speed;
             if (((unsigned char)(reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10())) && weapon > 5.0 &&
-                ((reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 9 && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 17) || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4))
+                ((reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 9 && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 17) || ((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4))
             {
                 vertical = weapon;
                 step = weapon / normalVertical * scope;
             }
-            if ((((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2 || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 3) && (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc)) &&
+            if ((((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2 || ((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 3) && (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc)) &&
                 state64c == state64a)
             {
                 Node97* a;
@@ -3466,7 +3467,7 @@ void Update97::UpdateScopeZoom(float elapsed)
                                             float h;
                                             b = (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc))->getRoot();
                                             a = ((::Node97 *)(reinterpret_cast<::FUN_0043d450_Owner *>((b))->FUN_0043d450()));
-                                            reinterpret_cast<::FUN_00439ef0_class *>((((::Vec97 *)(::FUN_0045bb80((int)((*reinterpret_cast<::World97 * *>(&::DAT_011e07d0))))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
+                                            reinterpret_cast<::FUN_00439ef0_class *>((((::Vec97 *)(::FUN_0045bb80((std::intptr_t)((*reinterpret_cast<::World97 * *>(&::DAT_011e07d0))))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
                                             e = reinterpret_cast<::NiPoint3 *>(&(g))->ComputeMagnitude();
                                             d = reinterpret_cast<::Twin_0084d030 *>((a))->GetStoredFloatValue() * ((double)(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::Setting97 *>(&::g_011e0b84))))->FUN_00450410())) / e;
                                             c = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting661)))) - ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting660))));
@@ -3485,9 +3486,9 @@ void Update97::UpdateScopeZoom(float elapsed)
                                             if (previous != (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc)))
                                             {
                                                 float i = 0.75f;
-                                                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 1)
+                                                if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 1)
                                                     i = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1258))));
-                                                else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2)
+                                                else if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2)
                                                     i = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1259))));
                                                 reinterpret_cast<::FadeCurve *>((horizontalBlend))->FUN_00946020(currentHorizontal, vertical, i);
                                                 reinterpret_cast<::FadeCurve *>((verticalBlend))->FUN_00946020(currentVertical, step, i);
@@ -3515,7 +3516,7 @@ void Update97::UpdateScopeZoom(float elapsed)
                     }
                 }
             }
-            else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4)
+            else if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4)
             {
                 previous = 0;
                 currentHorizontal = vertical;
@@ -4157,7 +4158,7 @@ struct Owner
 void Owner::FUN_0095f6c0(float delta)
 {
     InputState* input = ((::InputState *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::InputManager * *>(&::g_osGlobals))))->FUN_00877720()));
-    unsigned char pressed = ((void *)(reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(27, 1))) != 0;
+    unsigned char pressed = ((void *)(std::uintptr_t)(reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(27, 1))) != 0;
     if (pressed)
         ::fnv_00705ad0::FUN_00705ad0(0);
     int status = ::fnv_00705a90::GetLODMultTypeIfKeySet();
@@ -4184,7 +4185,7 @@ void Owner::FUN_0095f6c0(float delta)
         }
         else if ((pressed || first) && mode == 0)
         {
-            ActorRef* actor = ((::ActorRef *)(::FlaggedData::GetPlayerValue()));
+            ActorRef* actor = ((::ActorRef *)(std::uintptr_t)(::FlaggedData::GetPlayerValue()));
             if (actor)
             {
                 if (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca27c)) || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca280)))
@@ -4202,7 +4203,7 @@ void Owner::FUN_0095f6c0(float delta)
                             actor->FUN_SLOT48(4);
                         pressed = false;
                         DAT_011e0d5c = true;
-                        reinterpret_cast<::FUN_004213c0_impl *>((((::Quest *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->FUN_004213c0((int)(actor), (int)(this));
+                        reinterpret_cast<::FUN_004213c0_impl *>((((::Quest *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->FUN_004213c0((int)(std::uintptr_t)(actor), (int)(std::uintptr_t)(this));
                         reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((((::Quest *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->RemoveExtra(124);
                     }
                 }
@@ -4230,7 +4231,7 @@ struct Virtual
     virtual void vf08();
     virtual void vf0c();
     virtual void vf10();
-    virtual void vf14(void* data, int obj, int val);
+    virtual void vf14(void* data, void* obj, int val);
 };
 extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 struct Obj
@@ -4253,14 +4254,14 @@ void Obj::ApplyFormPayload(Form* form, int unused)
     Node* node = result ? ((::Node *)(reinterpret_cast<::Callees *>((result))->FUN_00726070())) : 0;
     if (node)
     {
-        unk88.vf14(node ? &node->payload18 : 0, (int)form, 0);
-        reinterpret_cast<::MagicTargetUpd *>(&(unk94))->UpdateEffectsByFlags((unsigned int)(node ? &node->payload18 : 0));
+        unk88.vf14(node ? &node->payload18 : 0, form, 0);
+        reinterpret_cast<::MagicTargetUpd *>(&(unk94))->UpdateEffectsByFlags((unsigned int)(std::uintptr_t)(node ? &node->payload18 : 0));
     }
 }
 
 // For form type 0x18 or 0x1A with an enchantment, removes the spell if present, removes apForm from pEnchantedForms, and deletes the list when it becomes empty.
 // @fnv 0x0095eb10
-void PlayerEnchantStub::RemoveEnchantment(TESBoundObject* apForm, int aiUnused)
+void PlayerEnchantStub::RemoveEnchantment(TESBoundObject* apForm, intptr_t aiUnused)
 {
     if (apForm->FNV_GetFormType() != 0x18 && apForm->FNV_GetFormType() != 0x1A)
     {

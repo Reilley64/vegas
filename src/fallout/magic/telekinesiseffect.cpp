@@ -2,6 +2,8 @@
 // src/fallout/magic/telekinesiseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/telekinesiseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/form_fields.h"
 #include "fnv/decl/C857A10Buffer.h"
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/FUN_00407820_shell.h"
@@ -169,11 +171,11 @@ struct Flt
 
 struct FUN_0082aa90_shell
 {
-    unsigned int GetFloatAsUInt();
+    uintptr_t GetFloatAsUInt();
 };
 
 // @fnv 0x0082aa90
-unsigned int FUN_0082aa90_shell::GetFloatAsUInt()
+uintptr_t FUN_0082aa90_shell::GetFloatAsUInt()
 {
     return ((Flt*)((char*)this + 0x634))->operator unsigned int();
 }
@@ -220,7 +222,7 @@ struct Calendar
 };
 struct FUN_0082aee0_shell
 {
-    unsigned int FUN_0082aee0();
+    uintptr_t FUN_0082aee0();
 };
 // Calls FUN_0082aee0 and passes its result to FUN_004b5a80, returning that value.
 // @fnv 0x0082aeb0
@@ -230,7 +232,7 @@ void* FUN_0082aeb0_shell::FUN_0082aeb0()
     return FUN_004b5a80(result);
 }
 // @fnv 0x0082aee0
-unsigned int FUN_0082aee0_shell::FUN_0082aee0()
+uintptr_t FUN_0082aee0_shell::FUN_0082aee0()
 {
     Calendar* calendar = reinterpret_cast<Calendar*>(((void *)(::FUN_004ae750((void *)((reinterpret_cast<ScriptLocalsX*>(this)))))));
     return calendar ? ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((calendar))->FUN_009611e0())) : 0;
@@ -337,8 +339,8 @@ void FUN_0082b200_shell::SaveLoad(Actor* apActor)
     unsigned int irefID;
     reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(apActor);
     irefID = 0;
-    if (*(unsigned int*)((char*)this + 0x58))
-        irefID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0_shell*)*(unsigned int*)((char*)this + 0x58))))->FUN_0084e3a0()));
+    if (*(void**)((char*)this + 0x58))
+        irefID = reinterpret_cast<::FormFields *>(*(void**)((char*)this + 0x58))->iFormID;
     reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10((const unsigned int *)((int)&irefID), 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x40)
     {
@@ -1065,7 +1067,7 @@ void TelekinesisEffectT::FUN_0082afa0()
             }
             else
             {
-                reinterpret_cast<::Owner5615 *>((pkTarget))->FUN_005615d0((int)&((*reinterpret_cast<const ::NiPoint3T *>((void *)&::NiPoint3::ZERO))));
+                reinterpret_cast<::Owner5615 *>((pkTarget))->FUN_005615d0((intptr_t)&((*reinterpret_cast<const ::NiPoint3T *>((void *)&::NiPoint3::ZERO))));
             }
         }
     }

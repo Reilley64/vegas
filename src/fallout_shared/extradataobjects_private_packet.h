@@ -280,10 +280,13 @@ class BaseProcess
     void SetPackageInfoState(int);
 };
 class NavMeshInfo;
+class TESFile;
 class TESForm
 {
   public:
+    virtual ~TESForm();
     unsigned int GetFormID();
+    TESFile* GetFile(int);
 };
 class TESActorBase;
 class Actor : public TESForm

@@ -64,7 +64,7 @@ void TwTypewriter::FUN_006ffea0()
             m_pkCursor->FUN_00a0a270(1.0f, 1);
         if (m_pkCursor && m_pkText && !((const char *)(::FUN_00559450((int *)this))))
             m_pkCursor->FUN_00a0a270(0.0f, 1);
-        if (m_pkText && m_pString && reinterpret_cast<::FUN_00700270_class *>(this)->operator==((int)(m_pString)))
+        if (m_pkText && m_pString && reinterpret_cast<::FUN_00700270_class *>(this)->operator==((intptr_t)(m_pString)))
         {
             int iStartTmp = ((int)(::FUN_0044a670(m_pString)));
             unsigned int uiCountZ = m_uiNextTime ? (((unsigned int)(::FUN_00457fe0())) - m_uiNextTime) / m_uiInterval + 1 : 1;

@@ -210,7 +210,7 @@ void FUN_0047c9d0_shell::DeleteRegionColorEntries()
     void* pList = ((TESRegion*)this)->GetDiffuseColor();
     while (pList && !_ref_008256d0(pList))
     {
-        void* item = *((void **)(new ((void *)(pList)) ::Vec3()));
+        void* item = *((void **)((void *)(pList)));
         ::FUN_00401030(item);
         _ref_0063f7b0(pList);
     }
@@ -646,9 +646,9 @@ bool HasFactionFlag8(TESFaction*);
 int FUN_0047d680_shell::GetFactionRank(TESFaction* apFaction, bool abPC)
 {
     void* pList = ((TESRegion*)this)->GetDiffuseColor();
-    while (pList && *((::fnv_0047d680::FACTION_RANK_local **)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *((::fnv_0047d680::FACTION_RANK_local **)((void *)(pList))))
     {
-        FACTION_RANK_local* prank = *((::fnv_0047d680::FACTION_RANK_local **)(new ((void *)(pList)) ::Vec3()));
+        FACTION_RANK_local* prank = *((::fnv_0047d680::FACTION_RANK_local **)((void *)(pList)));
         if (abPC)
         {
             if (prank && !HasFactionFlag8(prank->faction) && prank->faction == apFaction)
@@ -971,7 +971,7 @@ void FUN_0047ca20_shell::CopyFactionRanks(TESActorBaseData* apCopy)
     SoundListView* pCopyList = (SoundListView*)((TESRegion*)apCopy)->GetDiffuseColor();
     while (pCopyList)
     {
-        FactionReaction* prank = *(FactionReaction**)((void **)(new ((void *)(pCopyList)) ::Vec3()));
+        FactionReaction* prank = *(FactionReaction**)((void **)((void *)(pCopyList)));
         if (prank)
         {
             FactionReaction* pFacRank = new FactionReaction;
@@ -1053,7 +1053,7 @@ bool FUN_0047d7e0_Class::FUN_0047d7e0() const
     return (m_34 & 4) ? true : false;
 }
 
-struct FUN_0047e360_Cls
+struct FUN_0047e360_Cls : ::TESActorBaseData
 {
     void ClearFlags(unsigned int mask);
 };
@@ -1061,7 +1061,7 @@ struct FUN_0047e360_Cls
 // @fnv 0x0047e360
 void FUN_0047e360_Cls::ClearFlags(unsigned int mask)
 {
-    ((int*)this)[0x28 / 4] &= ~mask;
+    this->m_pDeathItem &= ~mask;
 }
 
 struct ABD_0047c790
@@ -1138,7 +1138,7 @@ struct SoundH
 struct FUN_0047cb90_t
 {
 };
-struct FUN_0047cac0_t
+struct FUN_0047cac0_t : ::TESActorBaseData
 {
     void DestroySoundHandles();
 };
@@ -1204,7 +1204,7 @@ void ABD_47d220::CopyFromActorBaseData(BaseFormComponent* apCopyFC)
     reinterpret_cast<::S47 *>((((S47*)this)))->FUN_0047dea0(reinterpret_cast<::FUN_0047d3d0_shell *>((((FUN_0047d3d0_shell*)pCopy)))->FUN_0047d3d0());
     reinterpret_cast<::fnv_0047ca20::FUN_0047ca20_shell *>((((ABDHelper_47d220*)this)))->CopyFactionRanks(pCopy);
     reinterpret_cast<::BGSDehydrationStage *>((((ABDHelper_47d220*)this)))->FUN_0050f9a0((::SpellItem *)(::TESLevItem *)((TESLevItem*)reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)pCopy)))->GetMinLevel()));
-    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)this)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)((unsigned int)pCopy->GetVoiceType()));
+    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)this)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)((std::uintptr_t)pCopy->GetVoiceType()));
     reinterpret_cast<::TESRecipe *>((((TESRecipe*)this)))->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<::ActorMover *>((((BSThread*)pCopy)))->GetCurrentMoveModeType()));
     ((TESActorBaseData*)this)->actorData.m_usField16 = pCopy->actorData.m_usField16;
 }
@@ -1316,7 +1316,7 @@ struct Interface
 {
 };
 
-struct TESActorBaseData_0047e380
+struct TESActorBaseData_0047e380 : ::TESActorBaseData
 {
     unsigned short FUN_0047e380(unsigned int aiFlags);
 };
@@ -1402,23 +1402,23 @@ struct Header47cb90
 void FUN_0047cac0_t::DestroySoundHandles()
 {
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)((char*)this + 4))))->SwapEndianness();
-    ::AppendChunk(0x53424341, (char*)this + 4, 0x18);
+        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)&this->actorData.m_uiActorFlags)))->SwapEndianness();
+    ::AppendChunk(0x53424341, (char*)&this->actorData, 0x18);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)((char*)this + 4))))->SwapEndianness();
+        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)&this->actorData.m_uiActorFlags)))->SwapEndianness();
     if (*(unsigned int*)((char*)this + 0x1c))
     {
-        unsigned int itempint = (unsigned int)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(unsigned int*)((char*)this + 0x1c))))->FUN_0084e3a0()));
+        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x1c))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e49, itempint);
     }
     if (*(unsigned int*)((char*)this + 0x20))
     {
-        unsigned int itempint = (unsigned int)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(unsigned int*)((char*)this + 0x20))))->FUN_0084e3a0()));
+        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x20))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4b435456, itempint);
     }
     if (*(unsigned int*)((char*)this + 0x24))
     {
-        unsigned int itempint = (unsigned int)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(unsigned int*)((char*)this + 0x24))))->FUN_0084e3a0()));
+        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x24))))->FUN_0084e3a0()));
         ::FUN_00485910(0x544c5054, itempint);
     }
 }
@@ -1469,7 +1469,7 @@ bool FormNode::CheckFactionLinks()
     }
     while (p != 0 && bValid)
     {
-        FactionLink* x = *((::FactionLink **)(new ((void *)(p)) ::Vec3()));
+        FactionLink* x = *((::FactionLink **)((void *)(p)));
         if (x != 0)
         {
             if (!reinterpret_cast<::FUN_0047d7c0_Class *>((x->pFaction))->FUN_0047d7c0())
@@ -1708,7 +1708,7 @@ bool FUN_0047d410_cls::IsDifferentFrom(BaseFormComponent* component)
     FUN_0047d410_link* link;
     while (node2 != 0)
     {
-        link = *((::FUN_0047d410_link **)(new ((void *)(node2)) ::Vec3()));
+        link = *((::FUN_0047d410_link **)((void *)(node2)));
         if (link != 0)
         {
             if (reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((other))->GetFactionRank((::fnv_0047d680::TESFaction *)(link->pFaction), 0) != link->rank)
@@ -1933,7 +1933,7 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
     {
         TESContainer container;
         reinterpret_cast<::FUN_00488350_shell *>((level))->AddLeveledItemsToContainer((::TESObjectREFR *)(ref), (::TESContainer *)(::fnv_0047ce10::TESContainer *)(&container));
-        void* base6 = (*((::fnv_0047ce10::ItemShell **)(new ((void *)(((::fnv_0047ce10::ListShell *)(reinterpret_cast<::BaseProcess *>(&(container))->GetCurrentProcessData())))) ::Vec3())))->value;
+        void* base6 = (*((::fnv_0047ce10::ItemShell **)((void *)(((::fnv_0047ce10::ListShell *)(reinterpret_cast<::BaseProcess *>(&(container))->GetCurrentProcessData()))))))->value;
         if (!*(GlobalShell**)&(*reinterpret_cast<char *>(&::g_BGSSaveLoadGame)) || !reinterpret_cast<::FUN_004121b0_shell *>(((*(GlobalShell**)&(*reinterpret_cast<char *>(&::g_BGSSaveLoadGame)))))->FUN_004121b0())
         {
             if (ref->isActor())
@@ -1945,7 +1945,7 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
             ref->reset(0, 1);
         }
         if (::FUN_00559450((int *)(((::fnv_0047ce10::StateShell *)(::GetPathManager())))))
-            reinterpret_cast<::S006ebd10 *>((((::fnv_0047ce10::StateShell *)(::GetPathManager()))))->FUN_006ebd10(((int)(reinterpret_cast<::ExtraDataList *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->GetContainerChangeData())));
+            reinterpret_cast<::S006ebd10 *>((((::fnv_0047ce10::StateShell *)(::GetPathManager()))))->FUN_006ebd10(((std::intptr_t)(reinterpret_cast<::ExtraDataList *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->GetContainerChangeData())));
         reinterpret_cast<::ExtraDataList *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->RemoveExtraDataType0x15();
         reinterpret_cast<::BaseExtraList_0041af50 *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041af50();
         if (ref->isOther())
@@ -1955,7 +1955,7 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
         }
         void* oldbase2 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
         void* newbase = ((void *)(::FUN_0047d130((::TESActorBase *)(oldbase2), (::TESActorBase *)(base6))));
-        reinterpret_cast<::Ref56B0 *>((ref))->FUN_0056b020((int)(oldbase2), (int)(base6));
+        reinterpret_cast<::Ref56B0 *>((ref))->FUN_0056b020((std::intptr_t)(oldbase2), (std::intptr_t)(base6));
         reinterpret_cast<::Fn575690 *>((ref))->FUN_00575690(newbase);
         reinterpret_cast<::FUN_00565730_shell *>((ref))->FUN_00565730();
         InvShell* inventory = ((::fnv_0047ce10::InvShell *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(ref))));
@@ -2135,7 +2135,7 @@ void FUN_0047e4a0_cls::SaveFactionData(int flags)
     nodeV = GetFactionHead();
     while (nodeV)
     {
-        itemL = ((::FactionReaction *)(new ((void *)(nodeV)) ::Vec3()));
+        itemL = (nodeV->m_item);
         if (itemL)
         {
             formIdQ = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((itemL->pFaction))->FUN_0084e3a0()));
@@ -2205,7 +2205,7 @@ void FUN_0047d800_shell::FUN_0047d800(TESFaction* faction, signed char rank)
     FactionNode* pNode = FUN_005d8a70();
     while (pNode != 0)
     {
-        FACTION_RANK_Data* rankData = ((::FACTION_RANK_Data *)(new ((void *)(pNode)) ::Vec3()));
+        FACTION_RANK_Data* rankData = ((::FACTION_RANK_Data *)((void *)(pNode)));
         if (rankData != 0 && rankData->m_pFaction == faction)
         {
             if (rank == -1)
@@ -2619,23 +2619,17 @@ struct FormFileVtbl
     virtual const char* GetEditorID();
 };
 
-__if_not_exists(BGSVoiceType::BGSVoiceType)
+class BGSVoiceType
 {
-    class BGSVoiceType
-    {
-      public:
-        virtual void RTTIAnchor();
-    };
-}
+  public:
+    virtual void RTTIAnchor();
+};
 
-__if_not_exists(TESLevItem::TESLevItem)
+class TESLevItem
 {
-    class TESLevItem
-    {
-      public:
-        virtual void RTTIAnchor();
-    };
-}
+  public:
+    virtual void RTTIAnchor();
+};
 
 struct FormHelper
 {
@@ -2674,7 +2668,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
     while (node2 != 0)
     {
 
-        link5 = *((::FactionLink **)(new ((void *)(node2)) ::Vec3()));
+        link5 = *((::FactionLink **)((void *)(node2)));
 
         if (link5 != 0)
         {
@@ -2687,7 +2681,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
                 ResolveFormID((unsigned int*)&faction, file4);
 
                 link5->pFaction =
-                    (FactionRec*)dynamic_cast< ::TESFaction*>((TESForm*)FUN_004839c0((unsigned int)faction));
+                    (FactionRec*)dynamic_cast< ::TESFaction*>((TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)faction));
             }
 
             if (link5->pFaction != 0)
@@ -2715,7 +2709,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_kFactionList = (::BGSVoiceType*)dynamic_cast<BGSVoiceType*>((TESForm*)FUN_004839c0((unsigned int)form4));
+        m_kFactionList = (::BGSVoiceType*)dynamic_cast<BGSVoiceType*>((TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)form4));
     }
 
     form4 = (TESForm*)m_pBaseTemplateForm;
@@ -2725,7 +2719,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_pBaseTemplateForm = (::TESLevItem*)dynamic_cast<TESLevItem*>((TESForm*)FUN_004839c0((unsigned int)form4));
+        m_pBaseTemplateForm = (::TESLevItem*)dynamic_cast<TESLevItem*>((TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)form4));
 
         if (m_pBaseTemplateForm == 0)
         {
@@ -2741,7 +2735,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_ppTemplateForms = (TESForm*)FUN_004839c0((unsigned int)form4);
+        m_ppTemplateForms = (TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)form4);
 
         if (m_ppTemplateForms == 0)
         {

@@ -3,5 +3,5 @@
 struct FUN_009948b0 {
 public:
     // 0x009948b0
-    int GetItem(int);
+    void *GetItem(int);
 };

@@ -137,10 +137,11 @@ bool FUN_00666f00_shell::FUN_00666f00()
 
 struct GlobalObject_0044f440
 {
-    struct
+    struct FloatValue
     {
         float f;
-    }* Float();
+    };
+    FloatValue* Float();
 };
 extern GlobalObject_0044f440 g_011d5d14;
 
@@ -1092,7 +1093,7 @@ void TreeModelX::FUN_00669500(LoaderX* loader)
         reinterpret_cast<::FUN_00439410_cls *>((((NiNodeX*)m_pController)))->FUN_00439410((::ArgObject *)(void *)(spAlpha_2));
     ShaderPropV* shader = new ShaderPropV();
     reinterpret_cast<::FUN_00439410_cls *>((((NiNodeX*)m_pController)))->FUN_00439410((::ArgObject *)(shader));
-    reinterpret_cast<::FUN_00b66ad0_cls *>((shader))->FUN_00b66ad0((std::intptr_t)("STBB"), (::FnvTarget *)(name));
+    reinterpret_cast<::FUN_00b66ad0_cls *>((shader))->FUN_00b66ad0((std::intptr_t)("STBB"), (::FnvTarget *)(const char *)(name));
     shader->Set100(0, ((void *)(::fnv_00656db0::FUN_00656db0())));
     shader->SetE4(0);
     shader->SetFlag(0xd, true);
@@ -1242,7 +1243,6 @@ struct AutoMemContext
     AutoMemContext(int, bool, const char*, int);
     ~AutoMemContext();
 };
-int strcat_s(char*, unsigned int, const char*);
 struct FUN_00b02e20
 {
     unsigned int unk00;
@@ -1451,7 +1451,6 @@ FUN_00666650::FUN_00666650() : a(0), b(0), c(0), d(0), e(0), f(0), g(0)
     unk4c = 0.0f;
 }
 
-int strcat_s(char* apDst, unsigned int auiSize, const char* apSrc);
 template <class T> unsigned int BSStringLength(const T* apString);
 
 class FileFinder
@@ -2249,7 +2248,6 @@ struct TreeTarget
 struct TES
 {
 };
-int strcat_s(char*, unsigned int, const char*);
 // @fnv 0x00666940
 void TreeTarget::ApplyInput(TreeInput* input)
 {
@@ -2469,13 +2467,13 @@ class NiAVObject : public NiMemObject
     void SetByteAtOffset38(unsigned int uiFlags);
     void FUN_004410f0(unsigned int uiFlags);
 };
-template <> struct NiPointer<NiAVObject>
+struct NiAVObjectPointer
 {
     NiAVObject* m_pObject;
-    NiPointer();
-    NiPointer(NiAVObject* pObject);
-    ~NiPointer();
-    NiPointer& operator=(NiAVObject* pObject);
+    NiAVObjectPointer();
+    NiAVObjectPointer(NiAVObject* pObject);
+    ~NiAVObjectPointer();
+    NiAVObjectPointer& operator=(NiAVObject* pObject);
     operator NiAVObject*() const;
     NiAVObject* operator->() const;
 };
@@ -2705,13 +2703,13 @@ class TreeLeafModel
     int m_aiPad00[3];
     SpeedTreeRT* m_pLeafTreeRuntime;
     int m_aiPad10[2];
-    NiPointer<NiAVObject>* m_pspLeafGeometry;
+    NiAVObjectPointer* m_pspLeafGeometry;
     int m_iPad1C;
-    NiPointer<NiAVObject> m_spLeafMaterial;
+    NiAVObjectPointer m_spLeafMaterial;
     int m_iPad24;
-    NiPointer<NiAVObject>* m_pspLeafShaders;
+    NiAVObjectPointer* m_pspLeafShaders;
     int m_iPad2C;
-    NiPointer<NiAVObject> m_spLeafTexture;
+    NiAVObjectPointer m_spLeafTexture;
     int m_aiPad34[2];
     float m_fLeafScale;
     void FUN_00668500(TreeLeafRef* pRef);
@@ -2740,7 +2738,7 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
     unsigned short usNumNames;
     unsigned short usBaseVert;
     unsigned short usCornerIndex;
-    NiPointer<NiAVObject> spWindData = 0;
+    NiAVObjectPointer spWindData = 0;
     unsigned short usI;
     bool bMultiTexture = false;
     unsigned short usCard;
@@ -2780,8 +2778,8 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
         }
     }
 
-    m_pspLeafGeometry = new NiPointer<NiAVObject>[usLevels];
-    m_pspLeafShaders = new NiPointer<NiAVObject>[usLevels];
+    m_pspLeafGeometry = new NiAVObjectPointer[usLevels];
+    m_pspLeafShaders = new NiAVObjectPointer[usLevels];
     for (usI = 0; usI < usLevels; usI++)
     {
         m_pspLeafGeometry[usI] = 0;
@@ -3078,7 +3076,7 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
     short leaf;
     {
         Point3X worldPos;
-        void* pNode = 0;
+        unsigned int pNode = 0;
         short levelCount;
         if (!pCallback || !pCallback->IsReady())
             return;
@@ -3163,9 +3161,9 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
             }
             if (((::SceneNode *)(::FUN_00559450((int *)&(handle)))))
             {
-                void* lightPtr = ((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0())) ? ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0()))))->FUN_00b08af0((int)(&pNode))))
-                                                         : ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((runtime))->FUN_00b08af0((int)(&pNode))));
-                reinterpret_cast<::FUN_00bb39e0_shell *>((((::SceneNode *)(::FUN_00559450((int *)&(handle))))))->FUN_00bb39e0(lightPtr, (unsigned int)(pNode));
+                void* lightPtr = ((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0())) ? ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((((::RuntimeOps *)(reinterpret_cast<::FUN_00b051e0_class *>((runtime))->FUN_00b051e0()))))->FUN_00b08af0(pNode)))
+                                                         : ((::RuntimeOps *)(reinterpret_cast<::fnv_00b08af0::SpeedTreeRTB08AF0 *>((runtime))->FUN_00b08af0(pNode)));
+                reinterpret_cast<::FUN_00bb39e0_shell *>((((::SceneNode *)(::FUN_00559450((int *)&(handle))))))->FUN_00bb39e0(lightPtr, pNode);
             }
         }
         pCallback->SetBranchEnabled(visible);
@@ -3176,7 +3174,6 @@ float FUN_00666f20();
 
 unsigned char __cdecl GetByteAtOffset1B();
 
-GlobalObject_0044f440 g_011d5c80;
 
 float FUN_00666fa0();
 
@@ -3322,19 +3319,19 @@ extern float DAT_01267e44;
 NiNode* __cdecl FUN_00c81380(float a, float b)
 {
     CapsuleParams params;
-    params.endpoints[0].m_vComponents.m128_f32[3] = 0.0f;
-    params.endpoints[1].m_vComponents.m128_f32[3] = 0.0f;
+    params.endpoints[0].m_vComponents[3] = 0.0f;
+    params.endpoints[1].m_vComponents[3] = 0.0f;
     params.flags = 0;
     if (a <= b * 2.0f)
         a = (float)(b * 2.0f + 1.0);
     params.radius = DAT_01267e44 * b;
-    params.endpoints[0].m_vComponents.m128_f32[0] = 0.0f;
-    params.endpoints[0].m_vComponents.m128_f32[1] = 0.0f;
+    params.endpoints[0].m_vComponents[0] = 0.0f;
+    params.endpoints[0].m_vComponents[1] = 0.0f;
     float delta = a - b;
-    params.endpoints[0].m_vComponents.m128_f32[2] = delta * DAT_01267e44;
-    params.endpoints[1].m_vComponents.m128_f32[0] = 0.0f;
-    params.endpoints[1].m_vComponents.m128_f32[1] = 0.0f;
-    params.endpoints[1].m_vComponents.m128_f32[2] = params.radius;
+    params.endpoints[0].m_vComponents[2] = delta * DAT_01267e44;
+    params.endpoints[1].m_vComponents[0] = 0.0f;
+    params.endpoints[1].m_vComponents[1] = 0.0f;
+    params.endpoints[1].m_vComponents[2] = params.radius;
     NiNode* result = 0;
     FUN_0066d6a0* desc = new FUN_0066d6a0(&params);
     if (desc)

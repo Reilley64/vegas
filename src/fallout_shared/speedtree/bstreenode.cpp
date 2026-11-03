@@ -29,6 +29,7 @@
 #include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
 #include "fnv/decl/fnv_00c8c5b0__TargetHolder.h"
 #include "fnv/decl/fnv_00cb7b80__FUN_00cb7b80_cls.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00406000.h"
 #include "fnv/symbols_004b5000.h"
@@ -496,6 +497,7 @@ struct NiAVObject
 {
 public:
     void SetLocalRotation(float, float, float, float);
+    void UpdateWorldLoc();
 };
 struct BSTreeNodeVisibility : BSTreeNode
 {
@@ -2875,7 +2877,6 @@ struct AllocHolder
     unsigned int unk00, unk04, unk08, unk0C;
     AllocObj* mpAlloc;
 };
-extern "C" AllocHolder* __cdecl FUN_00c85750();
 
 struct FUN_00cf5990
 {
@@ -2884,7 +2885,7 @@ struct FUN_00cf5990
     FUN_00cf5990(unsigned int, void*);
     static void* operator new(std::size_t)
     {
-        AllocHolder* h = FUN_00c85750();
+        AllocHolder* h = ((AllocHolder *)::FUN_00c85750());
         AllocObj* al = h->mpAlloc;
         FUN_00cf5990* p = (FUN_00cf5990*)al->vt->Alloc(al, 0x70);
         p->w4 = 0x70;
@@ -2955,7 +2956,8 @@ struct TargetHolder_o2_nood
 void TargetHolder_o2_nood::FUN_00c8c5b0(Src* apSrc)
 {
     Guard g0;
-    FUN_00cf5990* n = new FUN_00cf5990(apSrc->m4, &Transform(apSrc));
+    Transform kTransform(apSrc);
+    FUN_00cf5990* n = new FUN_00cf5990(apSrc->m4, &kTransform);
     ((void(*)(void*, FUN_00cf5990*))this->vt[35])(this, n);
     reinterpret_cast<::hkReferencedObjectC905 *>((n))->FUN_00c905b0();
     ((void(*)(void*, Src*))this->vt[47])(this, apSrc);
@@ -3296,11 +3298,10 @@ struct Obj
 
 extern unsigned int DAT_0126fd98;
 
-Holder* __cdecl FUN_00c85750();
 
 void* FUN_00d22dc0::operator new(std::size_t n)
 {
-    Holder* h = FUN_00c85750();
+    Holder* h = ((Holder *)::FUN_00c85750());
     Alloc* allocator = h->unk10;
     void* p = allocator->Alloc_(n);
     *(short*)((char*)p + 4) = (short)n;
@@ -3337,7 +3338,7 @@ void Obj::FUN_00cab1b0(void* a1, void* a2)
     out.unk20.y = 0;
     out.unk20.z = 0;
     out.unk20.w = 0;
-    ::FUN_00c9fb70((::MyObj_o2_nood *)this, (int)(&out), {});
+    ::FUN_00c9fb70((::MyObj *)this, (int)(&out), {});
     reinterpret_cast<::S004b4db0_Quaternion *>(&(out.unk10))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(this && unk08 ? unk08->unk20 : (*reinterpret_cast<float (*)[]>(&::DAT_01267e30)))));
     reinterpret_cast<::S004b4db0_Quaternion *>(&(out.unk20))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(this && unk08 ? unk08->unk30 : (*reinterpret_cast<float (*)[]>(&::DAT_01267e30)))));
     FUN_00d22dc0* sub =
@@ -3472,7 +3473,6 @@ struct hkMemRouter
         return *unk10;
     }
 };
-hkMemRouter* FUN_00c85750();
 
 struct VecArray
 {
@@ -3503,7 +3503,7 @@ struct VecArray
     }
     void SetSizeAndGrow(int n)
     {
-        _setSize(FUN_00c85750()->heap(), n);
+        _setSize(((hkMemRouter *)::FUN_00c85750())->heap(), n);
     }
     void setSizeCleared(int n)
     {
@@ -3588,7 +3588,7 @@ class hkVector4
     __m128 m_vComponents;
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     void set(float a, float b, float c, float d)
     {
@@ -4849,7 +4849,7 @@ void Object::FUN_00c8cb20(StrArr* output)
     const NativeTransform* world = this && state ? &state->world : &(*reinterpret_cast<::NativeTransform *>(&::DAT_01268370));
     NiTransform transform;
     ::FUN_00624b10((::FUN_004769c0_shell *)(::NiTransform *)(&transform), (::FUN_004b4cf0_shell *)(::NiPoint3_o2 *)((NiPoint3_o2*)world));
-    ::SetNiPoint3FromHkVector4((*(::NiPoint3_o2 *)(&transform.translate)), (*(const ::hkVector4 *)(world->translation)));
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&transform.translate)), (*(const ::hkVector4 *)(world->translation)));
     output->append(transform.translate.FUN_00a59af0("Trans"));
     output->append(reinterpret_cast<::FloatMatrix3 *>(&(transform))->ToString("Rot"));
     Component* component = getComponent();
@@ -6039,7 +6039,6 @@ struct Heap
     }
 };
 
-Heap* FUN_00c85750();
 
 struct FUN_00d22590
 {
@@ -6063,7 +6062,7 @@ struct FUN_00d22590
     FUN_00d22590(int a, int b, float c);
     static void* operator new(std::size_t size)
     {
-        FUN_00d22590* p = (FUN_00d22590*)FUN_00c85750()->Alloc(size);
+        FUN_00d22590* p = (FUN_00d22590*)((Heap *)::FUN_00c85750())->Alloc(size);
         p->unk04 = (short)size;
         return p;
     }
@@ -6969,7 +6968,6 @@ struct TlsBlock_t
     int m_2b4;
 };
 
-extern "C" void* __cdecl FUN_00c85750();
 
 __declspec(thread) TlsBlock_t g_tlsBlock;
 
@@ -7057,7 +7055,7 @@ struct SpawnedNode
     {}
     static void* operator new(std::size_t size) throw()
     {
-        SpawnHolder* h = (SpawnHolder*)FUN_00c85750();
+        SpawnHolder* h = (SpawnHolder*)::FUN_00c85750();
         void* p = h->m_alloc->Alloc(size);
         ((SpawnedNode*)p)->m_iElementCount = (unsigned short)size;
         return p;
@@ -7133,7 +7131,6 @@ void FUN_00cb7b80_cls_o2::FUN_00cb7b80(SpawnArgs* a)
 
 namespace fnv_00cb8150 {
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 
 struct CbAlloc8150
 {
@@ -7164,7 +7161,7 @@ struct CbArr8150
     {}
     ~CbArr8150()
     {
-        BSAudio* pHolder = FUN_00c85750();
+        BSAudio* pHolder = ((BSAudio *)::FUN_00c85750());
         CbAlloc8150* pAllocator = pHolder->m_pAllocator;
         m_iArrayLength = 0;
         unsigned int uCapBits = m_uCapBits;
@@ -7419,7 +7416,6 @@ struct S_00cb8330_Router
         return *m_pStreamAllocator;
     }
 };
-extern "C" S_00cb8330_Router* __cdecl FUN_00c85750();
 struct S_00cb8330_Pool
 {
 };
@@ -7447,7 +7443,7 @@ void S_00cb8330_cls::FUN_00cb8330(bool bFree)
         S_00cb8330_Obj* p = m_0c;
         if (p)
         {
-            S_00cb8330_Heap& h = FUN_00c85750()->heap();
+            S_00cb8330_Heap& h = ((S_00cb8330_Router *)::FUN_00c85750())->heap();
             int cap = p->m_cap;
             p->m_iElementCount = 0;
             if ((cap & 0x80000000) == 0)
@@ -7634,7 +7630,7 @@ struct TmpGuard
     }
     ~TmpGuard()
     {
-        AudioHolder* pHolder = reinterpret_cast<AudioHolder*>(FUN_00c85750());
+        AudioHolder* pHolder = reinterpret_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         m1 = 0;
         if ((m2 & 0x80000000u) == 0)
@@ -9114,7 +9110,7 @@ struct FUN_00d22590_o2_od_oy_noo2
     FUN_00d22590_o2_od_oy_noo2(int a, int b, float c);
     static void* operator new(std::size_t size)
     {
-        FUN_00d22590_o2_od_oy_noo2* p = (FUN_00d22590_o2_od_oy_noo2*)FUN_00c85750()->Alloc(size);
+        FUN_00d22590_o2_od_oy_noo2* p = (FUN_00d22590_o2_od_oy_noo2*)((Heap *)::FUN_00c85750())->Alloc(size);
         p->unk04 = (short)size;
         return p;
     }
@@ -9686,7 +9682,7 @@ void xEffect::FUN_0066c160(float afTime)
                     reinterpret_cast<::HolderFUN *>((PD))->FUN_0066ca00(&PT);
                     BND.m_iThirdValue = reinterpret_cast<::NiPoint3_o2_od_oy_noo2 *>((void *)&(PT))->ComputeMagnitude();
                     BND.m_18 = (int)PA + (int)PREF;
-                    BND.m_pos = *((::fnv_0066c160::xP3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3_o2_od_oy_noo2 *)(&PT)), (*(const ::hkVector4 *)(&POS)))));
+                    BND.m_pos = *((::fnv_0066c160::xP3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&PT)), (*(const ::hkVector4 *)(&POS)))));
                     BND.m_1c = 0;
                     BND.m_20 = 0;
                     ::ImpactSound::FUN_00837550((::ImpactSound::ImpactData *)(::fnv_0066c160::xBound *)(&BND));
@@ -9732,7 +9728,7 @@ void xEffect::FUN_0066c160(float afTime)
                 BND2.m_10 = 1.0f;
                 BND2.m_iThirdValue = ::FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::fnv_0066c160::xVec4 &)(V1.FUN_00630b40()))->FUN_004586d0());
                 BND2.m_18 = (int)PB + (int)PREF;
-                BND2.m_pos = *((::fnv_0066c160::xP3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3_o2_od_oy_noo2 *)(&PT2)), (*(const ::hkVector4 *)(((::fnv_0066c160::xVec4 *)(reinterpret_cast<::TESTopicInfo *>((((xHasPos*)((void *)(::FUN_004b4f00((::TESDataHandler *)(PB)))))))->GetAddTopicList())))))));
+                BND2.m_pos = *((::fnv_0066c160::xP3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&PT2)), (*(const ::hkVector4 *)(((::fnv_0066c160::xVec4 *)(reinterpret_cast<::TESTopicInfo *>((((xHasPos*)((void *)(::FUN_004b4f00((::TESDataHandler *)(PB)))))))->GetAddTopicList())))))));
                 BND2.m_1c = (int)::FUN_004b5a80(PB);
                 BND2.m_20 = 0;
                 ::ImpactSound::FUN_00837550((::ImpactSound::ImpactData *)(::fnv_0066c160::xBound *)(&BND2));
@@ -10023,7 +10019,7 @@ bool Capsule::FUN_00cab3c0(Sphere* sphere, Matrix* matrix, Contact* contact)
     if (squaredDistance > 0.0f)
     {
         distance = sqrtf(squaredDistance);
-        __m128 s = inverseRoot(sum3(_mm_load_ps(squares.m128_f32)));
+        __m128 s = inverseRoot(sum3(_mm_load_ps((const float*)&squares)));
         normal = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), delta);
         contact->normal.xyz(normal);
     }
@@ -10032,9 +10028,9 @@ bool Capsule::FUN_00cab3c0(Sphere* sphere, Matrix* matrix, Contact* contact)
         distance = 0.0f;
         // At zero separation, choose a perpendicular to the capsule segment.
         __m128 delta = _mm_sub_ps(endpoints[1], endpoints[0]);
-        float ax = fabsf(delta.m128_f32[0]);
-        float ay = fabsf(delta.m128_f32[1]);
-        float az = fabsf(delta.m128_f32[2]);
+        float ax = fabsf(delta[0]);
+        float ay = fabsf(delta[1]);
+        float az = fabsf(delta[2]);
         int minimum = 0, other = 1, third = 2;
         if (ay < ax)
         {
@@ -10046,8 +10042,8 @@ bool Capsule::FUN_00cab3c0(Sphere* sphere, Matrix* matrix, Contact* contact)
             third = minimum;
         __m128 perpendicular;
         perpendicular = _mm_setzero_ps();
-        perpendicular.m128_f32[other] = delta.m128_f32[third];
-        perpendicular.m128_f32[third] = -delta.m128_f32[other];
+        perpendicular[other] = delta[third];
+        perpendicular[third] = -delta[other];
         normal = normalize(perpendicular);
         contact->normal.xyz(normal);
     }
@@ -10162,27 +10158,6 @@ void bhkSphereShape::FUN_00cb7a90(void* a1, ArgB* a2)
 }
 
 namespace fnv_00c88020 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float lanes[4];
-    unsigned __int64 unsigned64[2];
-    __int8 signed8[16];
-    __int16 signed16[8];
-    __int32 signed32[4];
-    __int64 signed64[2];
-    unsigned __int8 unsigned8[16];
-    unsigned __int16 unsigned16[8];
-    unsigned __int32 unsigned32[4];
-};
-
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-}
 
 extern "C" const float DAT_01016248 = 0.5f;
 
@@ -10268,7 +10243,7 @@ void CollisionBoundsUpdater::FUN_00c88020()
         box[1] = b.value;
         a.add(b);
         box[0] = a.value;
-        ::SetNiPoint3FromHkVector4((*(::NiPoint3_o2_rtm *)(&transform.translate)), (*(const ::hkVector4 *)((const float*)&box[1])));
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&transform.translate)), (*(const ::hkVector4 *)((const float*)&box[1])));
         f46(reinterpret_cast<Buf00cb7750*>(&transform));
     }
 }

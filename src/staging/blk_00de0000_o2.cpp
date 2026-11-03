@@ -6,6 +6,7 @@
 #include <intrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <emmintrin.h>
 #include <cstddef>
 #include <windows.h>
@@ -1737,24 +1738,6 @@ void __cdecl FUN_00dfff00(void* p)
 }
 
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
 
 struct FUN_00de10e0_cls
 {
@@ -1771,22 +1754,22 @@ struct FUN_00de10e0_cls
 // @fnv 0x00de10e0
 FUN_00de10e0_cls* FUN_00de10e0_cls::FUN_00de10e0(unsigned char acFlags)
 {
-    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     int count = m_10;
     m_0c = 0;
     if (((unsigned int)count & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_p08, (count & 0x3fffffff) * 8);
+        pAllocator->bufFree(m_p08, (count & 0x3fffffff) * 8);
     }
     m_p08 = 0;
     m_10 = 0x80000000;
     m_vptr = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
-        pAllocator2->Free(this, m_uSize);
+        hkMemoryRouter* pHolder2 = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator2 = pHolder2->m_heap;
+        pAllocator2->blockFree(this, m_uSize);
     }
     return this;
 }
@@ -1843,27 +1826,6 @@ void FUN_00de3090_cls::FUN_00de3090()
 }
 
 namespace fnv_00de43e0 {
-class BDE43E0Allocator
-{
-  public:
-    virtual void vfn00();
-    virtual void* AllocateMemoryBlock(int iNumBytes);
-};
-
-struct BDE43E0Memory
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    BDE43E0Allocator* m_pHeapAllocator;
-
-    BDE43E0Allocator& heap()
-    {
-        return *m_pHeapAllocator;
-    }
-};
-
 
 class BDE43E0ReferencedObject
 {
@@ -1871,7 +1833,7 @@ class BDE43E0ReferencedObject
     static void* operator new(std::size_t uiSize)
     {
         BDE43E0ReferencedObject* pkObject =
-            static_cast<BDE43E0ReferencedObject*>(static_cast<BDE43E0Memory*>(::FUN_00c85750())->heap().AllocateMemoryBlock((int)uiSize));
+            static_cast<BDE43E0ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc((int)uiSize));
         pkObject->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return pkObject;
     }
@@ -3380,24 +3342,6 @@ void* __cdecl FUN_00dfbaa0()
 }
 
 namespace fnv_00dfbac0 {
-struct FreeAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct FreeHolder
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    FreeAllocator* m_pAllocator;
-};
-
 
 struct FUN_00dfbac0_cls
 {
@@ -3409,13 +3353,13 @@ struct FUN_00dfbac0_cls
 // @fnv 0x00dfbac0
 void __cdecl FUN_00dfbac0(FUN_00dfbac0_cls* apBuffer)
 {
-    FreeHolder* holder = static_cast<FreeHolder*>(::FUN_00c85750());
-    FreeAllocator* alloc = holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = holder->m_heap;
     unsigned int flags = apBuffer->m_flags;
     apBuffer->m_04 = 0;
     if ((flags & 0x80000000u) == 0)
     {
-        alloc->Free(apBuffer->m_pData, (flags & 0x3fffffffu) * 2);
+        alloc->bufFree(apBuffer->m_pData, (flags & 0x3fffffffu) * 2);
     }
     apBuffer->m_pData = 0;
     apBuffer->m_flags = 0x80000000u;
@@ -3697,24 +3641,6 @@ int* __cdecl FUN_00dfc140()
 }
 
 namespace fnv_00dfc150 {
-struct Allocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AllocHolder
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    Allocator* m_pAllocator;
-};
-
 
 struct BufferBase
 {
@@ -3772,24 +3698,24 @@ struct FUN_00dfc150_cls : public BufferBase
 // @fnv 0x00dfc150
 void FUN_00dfc150_cls::FUN_00dfc150()
 {
-    AllocHolder* h = static_cast<AllocHolder*>(::FUN_00c85750());
-    Allocator* alloc = h->m_pAllocator;
+    hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = h->m_heap;
     unsigned int cap = m_cap1;
     m_count1 = 0;
     if ((cap & 0x80000000u) == 0)
     {
-        alloc->Free(m_pData1, cap & 0x3fffffffu);
+        alloc->bufFree(m_pData1, cap & 0x3fffffffu);
     }
     m_pData1 = 0;
     m_cap1 = 0x80000000u;
 
-    h = static_cast<AllocHolder*>(::FUN_00c85750());
-    alloc = h->m_pAllocator;
+    h = &hkMemoryRouter::getInstance();
+    alloc = h->m_heap;
     cap = m_cap2;
     m_count2 = 0;
     if ((cap & 0x80000000u) == 0)
     {
-        alloc->Free(m_pData2, (cap & 0x3fffffffu) * 40);
+        alloc->bufFree(m_pData2, (cap & 0x3fffffffu) * 40);
     }
     m_pData2 = 0;
     unsigned int* puiCapacity2 = &m_cap2;
@@ -4798,24 +4724,6 @@ void* __cdecl FUN_00dfd120()
 
 namespace fnv_00dfd130 {
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
 
 struct FUN_00dfd130_cls
 {
@@ -4835,22 +4743,22 @@ struct FUN_00dfd130_cls
 // @fnv 0x00dfd130
 FUN_00dfd130_cls* FUN_00dfd130_cls::FUN_00dfd130(unsigned char acFlags)
 {
-    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     int count = m_uiItemCount;
     m_14 = 0;
     if (((unsigned int)count & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pData, (count & 0x3fffffff) * 32);
+        pAllocator->bufFree(m_pData, (count & 0x3fffffff) * 32);
     }
     m_pData = 0;
     m_uiItemCount = 0x80000000;
     m_vptr = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
-        pAllocator2->Free(this, m_uSize);
+        hkMemoryRouter* pHolder2 = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator2 = pHolder2->m_heap;
+        pAllocator2->blockFree(this, m_uSize);
     }
     return this;
 }
@@ -5043,24 +4951,6 @@ int* __cdecl FUN_00dfd590()
 }
 
 namespace fnv_00dfd5a0 {
-struct SpawnedAllocator
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void Free(void* p, unsigned int size);
-};
-
-struct AllocHolder
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    SpawnedAllocator* m_pAllocator;
-};
-
 
 struct FUN_00dfd5a0_cls
 {
@@ -5072,13 +4962,13 @@ struct FUN_00dfd5a0_cls
 // @fnv 0x00dfd5a0
 void __cdecl ClearAndFreeData(FUN_00dfd5a0_cls* obj)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    SpawnedAllocator* alloc = holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = holder->m_heap;
     unsigned int flags = obj->m_08;
     obj->m_04 = 0;
     if ((flags & 0x80000000u) == 0)
     {
-        alloc->Free(obj->m_pData, (flags & 0x3fffffffu) * 12);
+        alloc->bufFree(obj->m_pData, (flags & 0x3fffffffu) * 12);
     }
     *(volatile unsigned int*)&obj->m_08 = 0x80000000u;
     *(void* volatile*)&obj->m_pData = 0;
@@ -5416,22 +5306,6 @@ void __cdecl FUN_00dfdfd0(FUN_00ddc870_class* self)
 }
 
 namespace fnv_00dfdfe0 {
-struct EngineHeap
-{
-    virtual void Unknown0();
-    virtual void Unknown1();
-    virtual void Unknown2();
-    virtual void Unknown3();
-    virtual void Free(void* memory, unsigned int bytes);
-};
-struct EngineMemoryManager
-{
-    char* unknown00;
-    void* unknown04;
-    void* unknown08;
-    void* unknown0C;
-    EngineHeap* heap;
-};
 struct ArrayEntry
 {
     unsigned int index;
@@ -5449,7 +5323,7 @@ struct ArrayStorage
     ArrayEntry* entries;
     int length;
     int allocationFlags;
-    __forceinline void Reset(EngineHeap* heap)
+    __forceinline void Reset(hkMemoryAllocator* heap)
     {
         ArrayEntry* current = entries;
         if (length > 0)
@@ -5463,7 +5337,7 @@ struct ArrayStorage
         }
         length = 0;
         if (!(allocationFlags & 0x80000000))
-            heap->Free(entries, (allocationFlags & 0x3fffffff) * sizeof(ArrayEntry));
+            heap->bufFree(entries, (allocationFlags & 0x3fffffff) * sizeof(ArrayEntry));
         entries = 0;
         allocationFlags = 0x80000000;
     }
@@ -5477,7 +5351,7 @@ struct ArrayContainer : ArrayBase
 // @fnv 0x00dfdfe0
 void ArrayContainer::ResetAndDestroy()
 {
-    EngineHeap* heap = static_cast<EngineMemoryManager*>(::FUN_00c85750())->heap;
+    hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
     contents.Reset(heap);
     ArrayBase::~ArrayBase();
 }
@@ -5568,24 +5442,6 @@ void* __cdecl FUN_00dfe1f0()
 }
 
 namespace fnv_00dfe210 {
-struct FUN_00dfe210_allocator
-{
-    virtual void V00();
-    virtual void V04();
-    virtual void V08();
-    virtual void V0C();
-    virtual void Free(void* data, unsigned int size);
-};
-
-struct FUN_00dfe210_manager
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    FUN_00dfe210_allocator* unk10;
-};
-
 
 struct DFE210Array
 {
@@ -5598,13 +5454,13 @@ struct DFE210Array
 void __cdecl ClearArray(int* pArray)
 {
     DFE210Array* array = reinterpret_cast<DFE210Array*>(pArray);
-    FUN_00dfe210_manager* manager = static_cast<FUN_00dfe210_manager*>(::FUN_00c85750());
-    FUN_00dfe210_allocator* allocator = manager->unk10;
+    hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* allocator = manager->m_heap;
     int capacity = array->m_capacityAndFlags;
 
     array->m_size = 0;
     if ((capacity & 0x80000000) == 0)
-        allocator->Free(array->m_data, (unsigned int)(capacity & 0x3fffffff) * 4);
+        allocator->bufFree(array->m_data, (unsigned int)(capacity & 0x3fffffff) * 4);
 
     array->m_capacityAndFlags = 0x80000000;
     array->m_data = 0;
@@ -5839,20 +5695,6 @@ int* __cdecl FUN_00dfeb70()
 }
 
 namespace fnv_00dfeb80 {
-struct FnvCpu_FUN_00dfeb80_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00dfeb80_CpuAllocatorHolder
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    FnvCpu_FUN_00dfeb80_CpuAllocator* allocator;
-};
 struct FnvCpu_FUN_00dfeb80_CpuObject
 {
     unsigned int unk00;
@@ -5866,8 +5708,8 @@ FnvCpu_FUN_00dfeb80_CpuObject* FnvCpu_FUN_00dfeb80_CpuObject::FUN_00dfeb80(unsig
     reinterpret_cast<::fnv_00e42740::FUN_00e42740 *>(this)->fnv_00e42740::FUN_00e42740::~FUN_00e42740();
     if (flags & 1)
     {
-        FnvCpu_FUN_00dfeb80_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00dfeb80_CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -6316,22 +6158,6 @@ CpuOpaque* __cdecl FUN_00dff430()
 }
 
 namespace fnv_00dff470 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
 
 struct SpawnedBase0
 {
@@ -6381,9 +6207,9 @@ FUN_00dff470_cls* FUN_00dff470_cls::DestroySelf(unsigned char acFlags)
     this->SpawnedBase0::~SpawnedBase0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(this, m_uSize);
     }
     return this;
 }
@@ -8573,12 +8399,12 @@ void __cdecl FUN_00de0fe0(intptr_t arg1, const void* arg2, int arg3, int arg4)
         } while (local.arr.count != 0);
     }
 
-    AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* alloc = holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = holder->m_heap;
     local.arr.count = 0;
     if ((local.arr.cap & 0x80000000) == 0)
     {
-        alloc->FreeArray(local.arr.data, (local.arr.cap & 0x3fffffff) * 4);
+        alloc->bufFree(local.arr.data, (local.arr.cap & 0x3fffffff) * 4);
     }
 }
 
@@ -8928,12 +8754,12 @@ struct ElemDFB5A0
 // @fnv 0x00dfb5a0
 void FUN_00dfb5a0_cls::FUN_00dfb5a0()
 {
-    AudioAllocator* pAlloc = static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
+    hkMemoryAllocator* pAlloc = hkMemoryRouter::getInstance().m_heap;
     DestructElementsDFB5A0((ElemDFB5A0*)m_pData, m_iArrayLength);
     m_iArrayLength = 0;
     if ((m_uCap & 0x80000000u) == 0)
     {
-        pAlloc->FreeArray(m_pData, (m_uCap & 0x3fffffffu) * 8);
+        pAlloc->bufFree(m_pData, (m_uCap & 0x3fffffffu) * 8);
     }
     m_pData = 0;
     m_uCap = 0x80000000u;
@@ -8956,9 +8782,9 @@ template <class T> struct hkArray_de30
     int m_iCapacityState;
     void AddBack(const T& t)
     {
-        AudioHolder* router = static_cast<AudioHolder*>(::FUN_00c85750());
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(router->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(router->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
         m_iElementCount++;
     }
@@ -9120,10 +8946,10 @@ int S00df2640_cls::FUN_00df2640(S00df2640_a1* a1, S00df2640_a2* a2)
             {
                 S00df2640_item* item = (S00df2640_item*)p->m_5C[i];
                 item->m_20 = (unsigned short)list->size;
-                AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
+                hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
                 if (list->size == (int)(list->capBits & 0x3fffffffu))
                 {
-                    ::ResizeAudioStream((::AudioAllocator *)(void *)(holder->m_pAllocator), (::AudioStream *)(void *)(list), 4);
+                    ::ResizeAudioStream((::AudioAllocator *)(void *)(holder->m_heap), (::AudioStream *)(void *)(list), 4);
                 }
                 void** slot = list->data + list->size;
                 __assume(slot != 0);
@@ -9131,13 +8957,13 @@ int S00df2640_cls::FUN_00df2640(S00df2640_a1* a1, S00df2640_a2* a2)
                 list->size++;
             }
 
-            AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
-            AudioAllocator* alloc = holder->m_pAllocator;
+            hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+            hkMemoryAllocator* alloc = holder->m_heap;
             unsigned int cap = p->m_64;
             p->m_60 = 0;
             if ((cap & 0x80000000u) == 0)
             {
-                alloc->FreeArray(p->m_5C, (cap & 0x3fffffffu) * 4);
+                alloc->bufFree(p->m_5C, (cap & 0x3fffffffu) * 4);
             }
             p->m_5C = 0;
             p->m_64 = 0x80000000u;
@@ -9574,11 +9400,11 @@ struct ArrDF8800
 {
     ~ArrDF8800()
     {
-        AudioAllocator* pkAllocator = static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
+        hkMemoryAllocator* pkAllocator = hkMemoryRouter::getInstance().m_heap;
         int iCapacityAndFlags = m_iCapacityAndFlags;
         m_uiLogicalSize = 0;
         if ((iCapacityAndFlags & 0x80000000) == 0)
-            pkAllocator->FreeArray(m_ppGeometries, (iCapacityAndFlags & 0x3fffffff) * 4);
+            pkAllocator->bufFree(m_ppGeometries, (iCapacityAndFlags & 0x3fffffff) * 4);
         m_ppGeometries = 0;
         m_iCapacityAndFlags = 0x80000000;
     }
@@ -10778,9 +10604,9 @@ struct FUN_00de10b0_cls
 
     static void operator delete(void* apMemory) throw()
     {
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(apMemory, ((FUN_00de10b0_cls*)apMemory)->m_uSize);
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(apMemory, ((FUN_00de10b0_cls*)apMemory)->m_uSize);
     }
 };
 
@@ -10821,24 +10647,7 @@ Derived::Derived()
 {}
 
 namespace fnv_00dfed30 {
-// Declares a Heap interface with four unnamed virtual methods and a virtual release(void*, unsigned int).
 // @fnv 0x00dfed30
-struct Heap
-{
-    virtual void a();
-    virtual void b();
-    virtual void c();
-    virtual void d();
-    virtual void release(void*, unsigned int);
-};
-struct Manager
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    Heap* volatile heap;
-};
 struct Holder
 {
     void* volatile vtable;
@@ -10853,18 +10662,18 @@ struct Holder
 };
 void Holder::FUN_00dfed30()
 {
-    Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
-    Heap* mem = mgr->heap;
+    hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* mem = mgr->m_heap;
     size2 = 0;
     if ((cap2 & 0x80000000) == 0)
-        mem->release(data2, (cap2 & 0x3fffffff) * 4);
+        mem->bufFree(data2, (cap2 & 0x3fffffff) * 4);
     data2 = 0;
     cap2 = 0x80000000;
-    Manager* mgr2 = static_cast<Manager*>(::FUN_00c85750());
-    Heap* mem2 = mgr2->heap;
+    hkMemoryRouter* mgr2 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* mem2 = mgr2->m_heap;
     size1 = 0;
     if ((cap1 & 0x80000000) == 0)
-        mem2->release(data1, (cap1 & 0x3fffffff) * 4);
+        mem2->bufFree(data1, (cap1 & 0x3fffffff) * 4);
     data1 = 0;
     cap1 = 0x80000000;
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
@@ -11801,11 +11610,11 @@ template <class T> class SuspensionArray
   public:
     ~SuspensionArray() throw()
     {
-        AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator& allocator = *holder->m_pAllocator;
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator& allocator = *holder->m_heap;
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            allocator.FreeArray(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            allocator.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -12483,14 +12292,14 @@ struct PState
 };
 template <class T> static __forceinline T* reserveStack(int count)
 {
-    AudioHolder* p = static_cast<AudioHolder*>(::FUN_00c85750());
-    T* r = (T*)p->unk00;
-    p->unk00 += ((sizeof(T) * count + 127) & ~127);
+    hkMemoryRouter* p = &hkMemoryRouter::getInstance();
+    T* r = (T*)p->m_stackCurrent;
+    p->m_stackCurrent += ((sizeof(T) * count + 127) & ~127);
     return r;
 }
 template <class T> static __forceinline void restoreStack(T* p)
 {
-    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = (char*)p;
+    hkMemoryRouter::getInstance().m_stackCurrent = (char*)p;
 }
 static __forceinline float pmin(float a, float b)
 {
@@ -14064,32 +13873,6 @@ return(T)(hkUlong)TlsGetValue(m_slotID);
 }
 unsigned long m_slotID;};
 
-class hkMemoryAllocator
-{
-public:
-virtual void*AllocateMemoryBlock(int numBytes)=0;
-virtual void ReleaseBlock(void*p,int numBytes)=0;public:
-enum MemoryState
-{
-MEMORY_STATE_OK,
-MEMORY_STATE_OUT_OF_MEMORY
-};};
-
-struct StringPointerTriple
-{
-public:
-__forceinline StringPointerTriple();protected:
-ValueWrapper<void*>m_next;};
-
-class NineIntegerRecord
-{
-public:
-typedef hkMemoryAllocator Allocator_S;
-static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator_S&heap(){return*m_pStreamAllocator;}
-protected:
-StringPointerTriple m_aiEntries;
-Allocator_S*m_pTemp;
-Allocator_S*m_pStreamAllocator;};
 
 class hkBaseObject
 {
@@ -14105,7 +13888,7 @@ class hkStatisticsCollector;
 class hkReferencedObject_S:public hkBaseObject
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
 virtual const hkClass*GetClassType()const;
 virtual void CalcContentStatistics(hkStatisticsCollector*collector,const hkClass*cls)const;
 public:
@@ -14129,7 +13912,7 @@ class hkTransform;
 class hkVector4_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline void operator=(const hkVector4_S&v);
 __forceinline void setSub4(const hkVector4_S&a,const hkVector4_S&b);
 __forceinline void _setMul3(const hkMatrix3_S&a,const hkVector4_S&b);
@@ -14148,7 +13931,7 @@ return m_vComponents;
 class hkMatrix3_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4_S&getColumn(int i)const;
 protected:
 hkVector4_S m_kColumn0;
@@ -14158,12 +13941,12 @@ hkVector4_S m_kColumn2;};
 class __declspec(align(16))hkRotation:public hkMatrix3_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};
 
 class hkTransform
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4_S&getTranslation()const;
 __forceinline const hkRotation&getRotation()const;
 private:
@@ -14233,7 +14016,7 @@ return m_rotation;
 class StringCursor
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}static StringCursor&GetMonitorStream()
 {
 return*(*reinterpret_cast<::hkThreadLocalData< ::StringCursor *> *>(&::DAT_0126835c)).getData();
 }
@@ -14256,12 +14039,12 @@ ValueWrapper<char*>m_pCurrentCommand;
 public:
 struct Command
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(StringCursor::Command));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 const char*m_pCommandName;
 };
 struct TimerCommand_S:public StringCursor::Command
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(StringCursor::TimerCommand_S));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(StringCursor::TimerCommand_S));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkUint32 m_uiStartTicks;
 hkUint32 m_uiEndTicks;
 __forceinline void setTime();
@@ -14277,7 +14060,7 @@ m_uiStartTicks=ticks;
 class hkAabb
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 public:
 hkVector4_S m_kMinimumCorner;};
 
@@ -14348,7 +14131,7 @@ virtual const hkpShapeContainer*GetShapeContainer()const{return 0;}
 virtual bool isConvex()const{return false;}
 struct PhysicsShape
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpShape::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpShape::PhysicsShape));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 bool m_bIsConvex;
 bool m_bIsConvexPiece;
 bool m_bIsComposite;
@@ -14409,7 +14192,7 @@ struct ShapeRayCastOutput:public RayCastHitResult
 public:
 enum{MAX_HIERARCHY_DEPTH=8};
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline ShapeRayCastOutput();
 __forceinline void reset();
 private:
@@ -14438,7 +14221,7 @@ _reset();
 class hkpCdBody
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline const hkTransform&getTransform()const;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline const hkTransform&getTransform()const;
 public:
 explicit __forceinline hkpCdBody(const hkpCdBody*parent);
 public:
@@ -14465,7 +14248,7 @@ public:
 struct BoundingVolumeData
 {
 static const struct ClassMemberDescriptor Members[];static const hkClass&__cdecl staticClass();struct DefaultStruct;
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(hkpCollidable::BoundingVolumeData));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(hkpCollidable::BoundingVolumeData));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 BoundingVolumeData();
 BoundingVolumeData(class FinishingFlag flag);
 __forceinline bool hasAllocations()const;
@@ -14500,14 +14283,14 @@ return m_pCollisionShape;
 class PhysicsSimulationContext
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 public:
 CRITICAL_SECTION m_kCriticalSection;};
 
 class BusyWaitingSemaphore
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 protected:
 protected:void*m_pCompletionSemaphore;};
 
@@ -14517,7 +14300,7 @@ template<typename T>
 class CapacityGrowingArray
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 private:
 inline void increaseCapacity();};
 
@@ -14549,17 +14332,17 @@ struct JobQueueConstructionInfo
 class JobDispatcher
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 enum{JOB_QUEUE_ENTRY_SIZE=128};
 struct JobQueueSlot:public JobDescriptor
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(JobQueueSlot));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(JobQueueSlot));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 JobQueueSlot(){}
 hkUchar m_data[JOB_QUEUE_ENTRY_SIZE-sizeof(JobDescriptor)];
 };
 struct Queue:public CapacityGrowingArray<JobQueueSlot>
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Queue));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(Queue));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 };
 enum WaitPolicy
 {
@@ -14568,7 +14351,7 @@ WAIT_INDEFINITELY
 };
 struct JobQueueWaitState
 {
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,sizeof(JobQueueWaitState));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(JobQueueWaitState));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 __declspec(align(16))hkInt16 m_sQueueCounts[HK_JOB_TYPE_MAX];
 int m_iWaitCount;
 WaitPolicy m_eWaitPolicy;
@@ -14615,12 +14398,12 @@ struct WorldRayCastOutput;
 struct CollisionQueryJobHeader
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}};
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}};
 
 struct RayCastQueryJobDescriptor:public JobDescriptor
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 enum JobSubType
 {
 RAYCAST_QUERY_SHAPE_RAYCAST,
@@ -14641,7 +14424,7 @@ hkSemaphoreBusyWait*m_pCompletionSemaphore;};
 struct WorldRayCastCommand
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 public:
 ShapeRayCastQuery m_kRayCastQuery;
 hkUint32 m_uiCollisionFilterInfo;
@@ -14757,7 +14540,7 @@ reset();
 class hkpFixedBufferRayHitCollector:public hkpRayHitCollector
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 public:
 __forceinline hkpFixedBufferRayHitCollector(WorldRayCastOutput*buffer,int capacity);
 public:

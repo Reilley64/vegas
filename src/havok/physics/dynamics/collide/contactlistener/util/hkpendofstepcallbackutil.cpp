@@ -15,21 +15,29 @@ struct FUN_00d9ec10_cls
     void SwapThreeInts(int* a);
 };
 
-// Swaps the first three ints of this object with the first three ints of the given array.
+// hkArray header: data pointer, size, capacity and flags.
+struct FUN_00d9ec10_ArrayHeader
+{
+    void* m_data;
+    int m_size;
+    int m_capacityAndFlags;
+};
+
+// Swaps this array header (data, size, capacity) with the one at paiValues.
 // @fnv 0x00d9ec10
 void FUN_00d9ec10_cls::SwapThreeInts(int* paiValues)
 {
-    int* b = (int*)this;
-    int t;
-    t = b[0];
-    b[0] = paiValues[0];
-    paiValues[0] = t;
-    t = b[1];
-    b[1] = paiValues[1];
-    paiValues[1] = t;
-    t = b[2];
-    b[2] = paiValues[2];
-    paiValues[2] = t;
+    FUN_00d9ec10_ArrayHeader* a = (FUN_00d9ec10_ArrayHeader*)this;
+    FUN_00d9ec10_ArrayHeader* b = (FUN_00d9ec10_ArrayHeader*)paiValues;
+    void* p = a->m_data;
+    a->m_data = b->m_data;
+    b->m_data = p;
+    int t = a->m_size;
+    a->m_size = b->m_size;
+    b->m_size = t;
+    t = a->m_capacityAndFlags;
+    a->m_capacityAndFlags = b->m_capacityAndFlags;
+    b->m_capacityAndFlags = t;
 }
 
 struct FirstBase

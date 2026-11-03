@@ -8729,34 +8729,9 @@ struct SplitIsland_Target;
 struct SplitIsland_Node2;
 extern "C" void _ReadWriteBarrier(void);
 // Partition physics island nodes into groups, relink owners, and redistribute stream records.
-struct SplitIsland_CursorObj
-{
-    int cur;
-    int unk04;
-    int unk08;
-    int unk0c;
-    struct SplitIsland_Alloc* alloc;
-};
-struct SplitIsland_Alloc
-{
-    virtual void V00();
-    virtual void V04();
-    virtual void V08(void* p, int n);
-    virtual void V0c();
-    virtual void FreeLike(void* p, int size);
-};
-__forceinline int* SplitIsland_cursor()
-{
-    return &static_cast<S_00c6aca0_Router*>(::FUN_00c85750())->unk00;
-}
 void FUN_00c908c0(void* alloc, void* vec, int cap, int elemsz);
 void ResizeAudioStream(void* alloc, void* vec, int elemsz);
 void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
-struct SplitIsland_AllocB
-{
-    virtual void V00();
-    virtual void* AllocSz(int sz);
-};
 template <class T> __forceinline void SplitIsland_copyItems(T* destination, int n, const T& value)
 {
     for (int i = 0; i < n; ++i)
@@ -8768,26 +8743,24 @@ template <class T> __forceinline void SplitIsland_copyItems(T* destination, int 
 struct SplitIsland_Vec48
 {
     __forceinline void SplitIsland_appendNodeUnchecked(SplitIsland_Node2* const&);
-    int* data;
+    void** data;
     int cnt;
     int cap;
     __forceinline void SplitIsland_reserve(int n)
     {
-        SplitIsland_CursorObj* router = (SplitIsland_CursorObj*)SplitIsland_cursor();
         if ((cap & 0x3fffffff) < n)
-            FUN_00c908c0(router->alloc, this, n, 4);
+            FUN_00c908c0(hkMemoryRouter::getInstance().m_heap, this, n, int(sizeof(void*)));
     }
-    __forceinline void SplitIsland_append(int value)
+    __forceinline void SplitIsland_append(void* value)
     {
-        SplitIsland_CursorObj* router = (SplitIsland_CursorObj*)SplitIsland_cursor();
         if (cnt == (cap & 0x3fffffff))
-            ResizeAudioStream(router->alloc, this, 4);
-        int* destination = data + cnt;
+            ResizeAudioStream(hkMemoryRouter::getInstance().m_heap, this, int(sizeof(void*)));
+        void** destination = data + cnt;
         __assume(destination != 0);
-        new (destination) int(value);
+        *destination = value;
         ++cnt;
     }
-    __forceinline void SplitIsland_appendUnchecked(const int& value)
+    __forceinline void SplitIsland_appendUnchecked(void* const& value)
     {
         SplitIsland_copyItems(data + cnt, 1, value);
         ++cnt;
@@ -8805,18 +8778,18 @@ struct SplitIsland_Vec48
             int wanted = (v | (v >> 1)) + 1;
             if (wanted < 1)
             {
-                FUN_00c909d0(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, this + 1, 1);
+                FUN_00c909d0(hkMemoryRouter::getInstance().m_heap, this, int(sizeof(void*)), this + 1, 1);
             }
             else if (wanted < (capacity & 0x3fffffff))
             {
-                FUN_00c909d0(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, 0, wanted);
+                FUN_00c909d0(hkMemoryRouter::getInstance().m_heap, this, int(sizeof(void*)), 0, wanted);
             }
         }
     }
 };
 struct SplitIsland_Arg2Vec
 {
-    int* data;
+    void** data;
     int cnt;
     int cap;
 };
@@ -8880,7 +8853,7 @@ struct SplitIsland_Arg0
     int field54;
     int f58;
     SplitIsland_Vec48 v5c;
-    int inline68;
+    void* inline68;
     inline void AccumulateStats(SplitIsland_Target*, SplitIsland_H44&);
 };
 struct SplitIsland_H44
@@ -8972,7 +8945,7 @@ struct SplitIsland_Node2
     int fieldA4;
     short fA8;
     short unkAA;
-    int fAC;
+    SplitIsland_Sub30* fAC;
     short fB0;
     unsigned short fieldB2;
     int fieldB4;
@@ -8981,7 +8954,7 @@ struct SplitIsland_Node2
     int fieldC0;
     int fieldC4;
     int fieldC8;
-    int fCC;
+    SplitIsland_Arg0* fCC;
     int unkD0;
     int unkD4;
     int unkD8;
@@ -8994,10 +8967,10 @@ struct SplitIsland_Node2
 };
 struct SplitIsland_TempEC
 {
-    int* f00;
+    SplitIsland_Node2** f00;
     int f04;
     int f08;
-    int data[16];
+    SplitIsland_Node2* data[16];
 };
 struct SplitIsland_Elem2
 {
@@ -9008,13 +8981,13 @@ struct SplitIsland_Elem2
     virtual void GetList(SplitIsland_TempEC* t);
     int unk04;
     int unk08;
-    int f0c;
+    SplitIsland_Arg0* f0c;
 };
 struct SplitIsland_Head58
 {
     int hdr;
     SplitIsland_Vec48 vec;
-    int inlineBuf;
+    void* inlineBuf;
 };
 struct SplitIsland_Arg1
 {
@@ -9026,7 +8999,7 @@ struct SplitIsland_Arg1
     int field14;
     int field18;
     int field1C;
-    int f20;
+    SplitIsland_Arg0* f20;
     int field24;
     int field28;
     int field2C;
@@ -9226,7 +9199,7 @@ struct SplitIsland_StreamLink
     signed char ownerOffset;
     __forceinline SplitIsland_Arg0* SplitIsland_owner()
     {
-        return (SplitIsland_Arg0*)((SplitIsland_Node2*)((char*)this + ownerOffset))->fCC;
+        return ((SplitIsland_Node2*)((char*)this + ownerOffset))->fCC;
     }
 };
 struct SplitIsland_StreamRecord
@@ -9241,56 +9214,9 @@ struct SplitIsland_StreamRecord
     SplitIsland_StreamLink* link10;
     SplitIsland_StreamLink* link14;
 };
-template <class T> class SplitIsland_CursorValue
-{
-    T value;
-
-  public:
-    __forceinline SplitIsland_CursorValue()
-    {}
-    __forceinline SplitIsland_CursorValue(T p) : value(p)
-    {}
-    __forceinline void operator=(T p)
-    {
-        value = p;
-    }
-    __forceinline T SplitIsland_val() const
-    {
-        return value;
-    }
-    __forceinline operator T() const
-    {
-        return SplitIsland_val();
-    }
-};
-template <class T> __forceinline T* SplitIsland_memoryAdvance(T* p, long size)
-{
-    return (T*)((char*)p + size);
-}
-struct SplitIsland_ScratchArena
-{
-    SplitIsland_CursorValue<void*> next;
-    SplitIsland_CursorValue<void*> start;
-    SplitIsland_CursorValue<void*> end;
-    __forceinline void* SplitIsland_allocateRaw(int rounded)
-    {
-        void* p = next;
-        next = SplitIsland_memoryAdvance(p, rounded);
-        return p;
-    }
-    __forceinline void* SplitIsland_allocateRound(int n)
-    {
-        int rounded = (n + 127) & ~127;
-        return SplitIsland_allocateRaw(rounded);
-    }
-};
-__forceinline SplitIsland_ScratchArena& SplitIsland_scratch()
-{
-    return *(SplitIsland_ScratchArena*)SplitIsland_cursor();
-}
 template <class T> __forceinline T* SplitIsland_allocateWords(int n)
 {
-    return (T*)SplitIsland_scratch().SplitIsland_allocateRound(n * sizeof(T));
+    return (T*)hkMemoryRouter::getInstance().allocateStack(int((n * sizeof(T) + 127) & ~127));
 }
 template <class T> struct SplitIsland_StackBuffer
 {
@@ -9303,23 +9229,15 @@ template <class T> struct SplitIsland_StackBuffer
     }
     __forceinline void SplitIsland_allocate(int n)
     {
-        int* cur = SplitIsland_cursor();
-        int address = *cur;
-        *cur = address + ((n * sizeof(T) + 127) & ~127);
-        data = (T*)address;
+        data = SplitIsland_allocateWords<T>(n);
     }
     __forceinline SplitIsland_StackBuffer(int n, bool includeSentinel)
     {
-        int* cur = SplitIsland_cursor();
-        int address = *cur;
-        int elements = n + (includeSentinel ? 1 : 0);
-        *cur = address + ((elements * sizeof(T) + 127) & ~127);
-        data = (T*)address;
+        data = SplitIsland_allocateWords<T>(n + (includeSentinel ? 1 : 0));
     }
     __forceinline void SplitIsland_release()
     {
-        T* p = data;
-        *SplitIsland_cursor() = (int)p;
+        hkMemoryRouter::getInstance().deallocateStack(data);
     }
 };
 template <class T> struct SplitIsland_CountedBuffer : SplitIsland_StackBuffer<T>
@@ -9352,10 +9270,7 @@ struct SplitIsland_MapWord
 {
     __forceinline void SplitIsland_allocatePlain(int n)
     {
-        int* at = SplitIsland_cursor();
-        int start = *at;
-        *at = start + ((n * 4 + 127) & ~127);
-        data = (int*)start;
+        data = SplitIsland_allocateWords<int>(n);
     }
 
     int* data;
@@ -9366,8 +9281,7 @@ struct SplitIsland_MapWord
     }
     __forceinline void SplitIsland_release()
     {
-        int* old = data;
-        *SplitIsland_cursor() = (int)old;
+        hkMemoryRouter::getInstance().deallocateStack(data);
     }
 };
 union SplitIsland_MapReuse
@@ -9524,9 +9438,9 @@ inline void SplitIsland_Target::SplitIsland_assignOwner(SplitIsland_Arg0* p)
 }
 __forceinline void SplitIsland_Vec48::SplitIsland_appendNodeUnchecked(SplitIsland_Node2* const& value)
 {
-    int* destination = data + cnt;
+    void** destination = data + cnt;
     __assume(destination != 0);
-    new (destination) int((int)value);
+    *destination = value;
     ++cnt;
 }
 // @fnv 0x00cb6060
@@ -9557,19 +9471,14 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
             }
             else
             {
-                {
-                    int released = (int)states.data;
-                    int* z = SplitIsland_cursor();
-                    *z = released;
-                }
-                int* aPtr = SplitIsland_cursor();
+                hkMemoryRouter::getInstance().deallocateStack(states.data);
+                hkMemoryAllocator* ale = hkMemoryRouter::getInstance().m_heap;
                 unsigned long origin;
-                SplitIsland_Alloc* ale = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)aPtr)->alloc;
                 origin = groups.f08;
                 groups.f04 = 0;
                 if ((origin & 0x80000000) == 0)
                 {
-                    ale->FreeLike(groups.f00, (origin & 0x3fffffff) * 4);
+                    ale->bufFree(groups.f00, (origin & 0x3fffffff) * 4);
                 }
                 groups.f00 = 0;
                 groups.f08 = (int)0x80000000;
@@ -9596,7 +9505,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
     int arrays;
     arrays = reinterpret_cast<::S00d281b0_Target *>(&(sel))->MoveLargestToFirst((::S00d281b0_IntArray *)(::SplitIsland_L60 *)(&groups));
     {
-        char* av = (char*)(int)states.data;
+        char* av = states.data;
         char r = av[0];
         char first = av[arrays];
         av[0] = first;
@@ -9604,19 +9513,18 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
         int kIter = *groups.f00;
         int originalCount = a0->f48v.cnt;
         long alV = groups.f04;
-        int* generation = SplitIsland_cursor();
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (alV == 1)
         {
-            *generation = (int)states.data;
+            router.deallocateStack(states.data);
             {
-                int* aPtr = SplitIsland_cursor();
+                hkMemoryAllocator* ale = hkMemoryRouter::getInstance().m_heap;
                 unsigned long origin;
-                SplitIsland_Alloc* ale = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)aPtr)->alloc;
                 origin = groups.f08;
                 groups.f04 = 0;
                 if ((origin & 0x80000000) == 0)
                 {
-                    ale->FreeLike(groups.f00, (origin & 0x3fffffff) * 4);
+                    ale->bufFree(groups.f00, (origin & 0x3fffffff) * 4);
                 }
                 groups.f00 = 0;
                 groups.f08 = (int)0x80000000;
@@ -9626,15 +9534,12 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
         }
         else
         {
-            int tmp = *generation;
-            *generation = tmp + (((alV * 4) + 0x7f) & ~0x7f);
+            SplitIsland_Arg0** tmp = (SplitIsland_Arg0**)router.allocateStack(int(((alV * sizeof(SplitIsland_Arg0*)) + 0x7f) & ~0x7f));
             a0->groupState = av[0] != 0;
-            *(int*)tmp = (int)a0;
+            tmp[0] = a0;
             for (int i = 1; i < alV; i++)
             {
-                int* firstElem = SplitIsland_cursor();
-                SplitIsland_AllocB* alL = (SplitIsland_AllocB*)((SplitIsland_CursorObj*)firstElem)->alloc;
-                SplitIsland_Arg0* no = (SplitIsland_Arg0*)alL->AllocSz(0x6c);
+                SplitIsland_Arg0* no = (SplitIsland_Arg0*)router.m_heap->blockAlloc(0x6c);
                 no->f04 = 0x6c;
                 no = ((::SplitIsland_Arg0 *)(new ((void *)(no)) ::FUN_00d07830((::hkpWorldQ *)(a1))));
                 no->type26 = 1;
@@ -9642,17 +9547,17 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                 no->active26 = 1;
                 no->groupState = av[i] != 0;
                 no->unk20 = (short)a2->cnt;
-                ((SplitIsland_Vec48*)a2)->SplitIsland_append((int)no);
-                ((int*)tmp)[i] = (int)no;
+                ((SplitIsland_Vec48*)a2)->SplitIsland_append(no);
+                tmp[i] = no;
                 no->f48v.SplitIsland_reserve(groups.f00[i]);
             }
             // cb68cc: reset a0 f48 vector, relink elements
             {
-                int* c = a0->f48v.data;
+                void** c = a0->f48v.data;
                 int j = a0->f48v.cnt;
                 if ((bool)a3)
                 {
-                    reinterpret_cast<::FUN_00d9ec10_cls *>(&(a0->f48v))->SwapThreeInts((int *)((int)a3));
+                    reinterpret_cast<::FUN_00d9ec10_cls *>(&(a0->f48v))->SwapThreeInts((int *)(a3));
                     a0->f48v.cnt = 0;
                     int a = *groups.f00;
                     a0->f48v.SplitIsland_reserve(a);
@@ -9664,14 +9569,14 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
 
                 for (int k = 0; k < j; ++k)
                 {
-                    SplitIsland_Arg0* el = (SplitIsland_Arg0*)((int*)tmp)[cand.data[k]];
+                    SplitIsland_Arg0* el = tmp[cand.data[k]];
                     SplitIsland_Node2* cpF = (SplitIsland_Node2*)c[k];
-                    cpF->fCC = (int)el;
+                    cpF->fCC = el;
                     cpF->fA8 = (short)el->f48v.cnt;
                     el->f48v.SplitIsland_appendNodeUnchecked(cpF);
                     if (a0 != el)
                     {
-                        SplitIsland_Sub30* y = (SplitIsland_Sub30*)cpF->fAC;
+                        SplitIsland_Sub30* y = cpF->fAC;
                         for (int si = 0; si < (unsigned short)cpF->fB0; ++y, ++si)
                         {
                             SplitIsland_H44 h;
@@ -9689,8 +9594,8 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
             {
                 // cb6a19: walk a0 f38 vector with temp small-vector
                 {
-                    int savedA1f20 = a1->f20;
-                    int* f38data;
+                    SplitIsland_Arg0* savedA1f20 = a1->f20;
+                    void** f38data;
                     f38data = a0->f38v.data;
                     long n = a0->f38v.cnt;
                     a0->f38v.cnt = 0;
@@ -9699,7 +9604,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                         SplitIsland_Elem2* e2 = (SplitIsland_Elem2*)f38data[saved38B];
                         if (e2 == 0)
                             continue;
-                        int base;
+                        SplitIsland_Arg0* base;
                         base = 0;
                         {
                             SplitIsland_TempEC members;
@@ -9709,26 +9614,23 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                             e2->GetList(&members);
                             for (int i = 0; i < members.f04; i++)
                             {
-                                base = ((SplitIsland_Node2*)members.f00[i])->fCC;
+                                base = members.f00[i]->fCC;
                                 if (base != savedA1f20)
                                     break;
                             }
-                            int* SplitIsland_val;
-                            SplitIsland_val = SplitIsland_cursor();
-                            SplitIsland_Alloc* deallocate =
-                                (SplitIsland_Alloc*)((SplitIsland_CursorObj*)SplitIsland_val)->alloc;
+                            hkMemoryAllocator* deallocate = hkMemoryRouter::getInstance().m_heap;
                             unsigned int ptr = members.f08;
                             members.f04 = 0;
                             if ((ptr & 0x80000000) == 0)
                             {
-                                deallocate->FreeLike(members.f00, (ptr & 0x3fffffff) * 4);
+                                deallocate->bufFree(members.f00, (ptr & 0x3fffffff) * int(sizeof(SplitIsland_Node2*)));
                             }
                             members.f00 = 0;
                             members.f08 = (int)0x80000000;
                         }
                         e2->f0c = base;
-                        SplitIsland_Arg0* head = (SplitIsland_Arg0*)base;
-                        head->f38v.SplitIsland_append((int)e2);
+                        SplitIsland_Arg0* head = base;
+                        head->f38v.SplitIsland_append(e2);
                     }
                     reinterpret_cast<::FUN_00c911f0_Class *>((a1))->FUN_00c911f0(a0);
                 }
@@ -9744,19 +9646,19 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                         char* s = elem;
                         while (s < len)
                         {
-                            int buf18 = (int)((SplitIsland_StreamRecord*)s)->link10->SplitIsland_owner();
-                            if (((SplitIsland_Arg0*)buf18)->unk20 == 0xffff)
+                            SplitIsland_Arg0* buf18 = ((SplitIsland_StreamRecord*)s)->link10->SplitIsland_owner();
+                            if (buf18->unk20 == 0xffff)
                             {
-                                buf18 = (int)((SplitIsland_StreamRecord*)s)->link14->SplitIsland_owner();
+                                buf18 = ((SplitIsland_StreamRecord*)s)->link14->SplitIsland_owner();
                             }
-                            if (buf18 == (int)a0)
+                            if (buf18 == a0)
                             {
                                 s += ((SplitIsland_StreamRecord*)s)->size;
                             }
                             else
                             {
                                 int b = s - elem;
-                                ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&((SplitIsland_Arg0*)buf18)->f58), (const ::fnv_00cfeca0::Record *)(s));
+                                ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&buf18->f58), (const ::fnv_00cfeca0::Record *)(s));
                                 ::FUN_00cfe020((::S_cfe020_Pool *)(ox), (::S_cfe020_Entry *)(s));
                                 if (saved38B >= ox->vec.cnt)
                                     break;
@@ -9782,7 +9684,7 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                     else if (a0->v5c.cnt > 1)
                     {
                         idx.vec.SplitIsland_reserve(2);
-                        reinterpret_cast<::FUN_00d9ec10_cls *>(&(idx.vec))->SwapThreeInts((int *)((int)&a0->v5c));
+                        reinterpret_cast<::FUN_00d9ec10_cls *>(&(idx.vec))->SwapThreeInts((int *)(&a0->v5c));
                     }
                     {
                         long cpV = idx.hdr;
@@ -9792,69 +9694,58 @@ void FUN_00cb6060(SplitIsland_Arg0* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Ve
                     for (int saved38B = 0; saved38B < idx.vec.cnt; saved38B++)
                     {
                         int span = 0;
-                        unsigned int elem = idx.vec.data[saved38B];
-                        char* s = (char*)elem;
+                        char* elem = (char*)idx.vec.data[saved38B];
+                        char* s = elem;
                         span = (saved38B + 1 == idx.vec.cnt) ? idx.hdr : 0x200;
-                        char* endp = (char*)(span + elem);
+                        char* endp = elem + span;
                         while (s < endp)
                         {
-                            int buf18 = (int)((SplitIsland_StreamRecord*)s)->link10->SplitIsland_owner();
-                            if (((SplitIsland_Arg0*)buf18)->unk20 == 0xffff)
+                            SplitIsland_Arg0* buf18 = ((SplitIsland_StreamRecord*)s)->link10->SplitIsland_owner();
+                            if (buf18->unk20 == 0xffff)
                             {
-                                buf18 = (int)((SplitIsland_StreamRecord*)s)->link14->SplitIsland_owner();
+                                buf18 = ((SplitIsland_StreamRecord*)s)->link14->SplitIsland_owner();
                             }
-                            ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&((SplitIsland_Arg0*)buf18)->f58), (const ::fnv_00cfeca0::Record *)(s));
+                            ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(int *)(&buf18->f58), (const ::fnv_00cfeca0::Record *)(s));
                             s += ((SplitIsland_StreamRecord*)s)->size;
                         }
-                        int* t2 = SplitIsland_cursor();
-                        SplitIsland_Alloc* cntL = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)t2)->alloc;
-                        cntL->V08((void*)elem, 0x200);
+                        hkMemoryRouter::getInstance().m_heap->blockFree(elem, 0x200);
                     }
                     idx.vec.cnt = 0;
                     {
-                        int* cpL = SplitIsland_cursor();
-                        SplitIsland_Alloc* ala = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)cpL)->alloc;
+                        hkMemoryAllocator* ala = hkMemoryRouter::getInstance().m_heap;
                         int pForm = idx.vec.cap;
                         idx.vec.cnt = 0;
                         if ((pForm & 0x80000000) == 0)
                         {
-                            ala->FreeLike(idx.vec.data, (pForm & 0x3fffffff) * 4);
+                            ala->bufFree(idx.vec.data, (pForm & 0x3fffffff) * int(sizeof(void*)));
                         }
                     }
                 }
                 // cb6d6d: c91230 + pow2-spread grow on a0 vec5c
                 reinterpret_cast<::FUN_00c91230_World *>((a1))->FUN_00c91230(a0);
                 a0->v5c.SplitIsland_compact();
-                // cb6dee: final byte-accumulate loop over SplitIsland_cursor array
+                // cb6dee: final byte-accumulate loop over the stack array of islands
                 for (int i = 1; i < alV; i++)
                 {
                     char cp3 = a0->unk24;
-                    SplitIsland_Arg0* z = (SplitIsland_Arg0*)((int*)tmp)[i];
+                    SplitIsland_Arg0* z = tmp[i];
                     cp3 += i;
                     z->unk24 = cp3;
                 }
-                {
-                    int released = tmp;
-                    int* z = SplitIsland_cursor();
-                    *z = released;
-                }
+                router.deallocateStack(tmp);
             }
         }
     }
-cleanup: {
-    int released = (int)states.data;
-    int* z = SplitIsland_cursor();
-    *z = released;
-}
+cleanup:
+    hkMemoryRouter::getInstance().deallocateStack(states.data);
 obj:
-    int* aPtr = SplitIsland_cursor();
+    hkMemoryAllocator* ale = hkMemoryRouter::getInstance().m_heap;
     unsigned long origin;
-    SplitIsland_Alloc* ale = (SplitIsland_Alloc*)((SplitIsland_CursorObj*)aPtr)->alloc;
     origin = groups.f08;
     groups.f04 = 0;
     if ((origin & 0x80000000) == 0)
     {
-        ale->FreeLike(groups.f00, (origin & 0x3fffffff) * 4);
+        ale->bufFree(groups.f00, (origin & 0x3fffffff) * 4);
     }
     groups.f00 = 0;
     groups.f08 = (int)0x80000000;

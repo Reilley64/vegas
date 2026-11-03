@@ -2498,7 +2498,7 @@ void __cdecl FUN_00a77110(unsigned int width, unsigned int rows, unsigned int un
     if (info->m_flags != 0xff00)
         return;
     unsigned int key = info->m_eVertexFormat;
-    if (key == (unsigned int)&DAT_00ff0000)
+    if (key == (uintptr_t)&DAT_00ff0000)
     {
         if (rows <= 0)
             return;
@@ -2633,7 +2633,7 @@ void __cdecl ConvertRgbToRgba(unsigned int width, unsigned int height, int, unsi
 {
     if (mask[1] == 0xFF00)
     {
-        if (mask[0] == (unsigned int)&(*reinterpret_cast<unsigned char *>(&::DAT_00ff0000)))
+        if (mask[0] == (uintptr_t)&(*reinterpret_cast<unsigned char *>(&::DAT_00ff0000)))
         {
             if (height > 0)
             {
@@ -4686,7 +4686,7 @@ void* FUN_00a7fb80_Class::FUN_00a7fb80()
     m_1C = 3;
     m_20 = 2;
     m_24 = 0;
-    ::FUN_00a5f7b0((int)(((Z2Setup*)this)));
+    ::FUN_00a5f7b0((intptr_t)(((Z2Setup*)this)));
     m_ppVirtualMethodTable = &DAT_0109df8c;
     m_30 = 0;
     return this;

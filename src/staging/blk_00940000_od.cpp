@@ -451,7 +451,7 @@ BSAudio* FUN_00952b30_Class::FindAudioEntry()
     while (node && ((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(node))))->m_pInventoryEntryData)
     {
         BSAudio* entry = (BSAudio*)((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(node))))->m_pInventoryEntryData;
-        if (((void *)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == *(void**)((char*)this + 0x6b8) && ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)entry)))->FUN_007af430())) == 1)
+        if (((void *)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == *(void**)((char*)this + 0x6b8) && ((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)entry)))->FUN_007af430())) == 1)
             return entry;
         node = ((::FUN_00952b30_BSSimpleList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -3406,7 +3406,7 @@ void Update97::UpdateScopeZoom(float elapsed)
     if ((*reinterpret_cast<::Setting97 *>(&::g_011e097c)).FUN_00408d60())
     {
         float weapon;
-        Data97* unusedScale = actor->getData() ? (Data97*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((actor->getData()))->GetName())) : 0;
+        Data97* unusedScale = actor->getData() ? (Data97*)((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((actor->getData()))->GetName())) : 0;
         float normalVertical = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_0120315c))));
         float scope = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203168))));
         float normalHorizontal = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203174))));
@@ -3441,12 +3441,12 @@ void Update97::UpdateScopeZoom(float elapsed)
             float step = scope;
             float horizontal = elapsed * 30.0 / speed;
             if (((unsigned char)(reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10())) && weapon > 5.0 &&
-                ((reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 9 && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 17) || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4))
+                ((reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 9 && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != 17) || ((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4))
             {
                 vertical = weapon;
                 step = weapon / normalVertical * scope;
             }
-            if ((((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2 || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 3) && (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc)) &&
+            if ((((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2 || ((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 3) && (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc)) &&
                 state64c == state64a)
             {
                 Node97* a;
@@ -3485,9 +3485,9 @@ void Update97::UpdateScopeZoom(float elapsed)
                                             if (previous != (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc)))
                                             {
                                                 float i = 0.75f;
-                                                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 1)
+                                                if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 1)
                                                     i = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1258))));
-                                                else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2)
+                                                else if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2)
                                                     i = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1259))));
                                                 reinterpret_cast<::FadeCurve *>((horizontalBlend))->FUN_00946020(currentHorizontal, vertical, i);
                                                 reinterpret_cast<::FadeCurve *>((verticalBlend))->FUN_00946020(currentVertical, step, i);
@@ -3515,7 +3515,7 @@ void Update97::UpdateScopeZoom(float elapsed)
                     }
                 }
             }
-            else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4)
+            else if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 4)
             {
                 previous = 0;
                 currentHorizontal = vertical;

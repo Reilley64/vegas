@@ -670,7 +670,7 @@ bool FUN_00906570_Class::AdvanceRequest(Request9065* request, void** ppOut, void
             if (!success)
             {
                 request->index = request->index + 1;
-                if (request->index >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+                if (request->index >= ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
                     reinterpret_cast<::MapMarkerData *>((request))->SetTravelLocation(true);
                 else if (repeat)
                 {

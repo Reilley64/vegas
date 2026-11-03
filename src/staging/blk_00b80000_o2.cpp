@@ -15476,7 +15476,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             ImageSpaceEffectB979* pkEffect = m_ppkEffects[i];
             if (pkEffect && pkEffect->IsActive())
             {
-                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (std::intptr_t)(pkRenderer), (int)(pkSource), (int)(pkDest), 0, true);
+                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (std::intptr_t)(pkRenderer), (intptr_t)(pkSource), (intptr_t)(pkDest), 0, true);
                 iRendered++;
                 RenderTargetB979* pkSwap = pkSource;
                 pkSource = pkDest;
@@ -15487,7 +15487,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             reinterpret_cast<::Manager *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6da10((::Item *)(pkTemp));
     }
     else
-        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (std::intptr_t)(pkRenderer), (int)(*ppkSource), (int)(*ppkDest), 0, true);
+        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (std::intptr_t)(pkRenderer), (intptr_t)(*ppkSource), (intptr_t)(*ppkDest), 0, true);
 }
 
 // @fnv 0x00b988a0
@@ -16137,7 +16137,7 @@ void WaterFFTDisplayEffect::FUN_00b941a0()
 {
     B8F080ShaderFile kVertexDelta = {"imagespace\\1x\\v\\base.v.hlsl", {{NULL, NULL}}};
     B8F080ShaderFile kPixel = {"water\\2_ab\\p\\waterhmap.p.hlsl", {{"DISPLAY_HIGHW", NULL}, {NULL, NULL}}};
-    const char* pcPS = (const char*)((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* pcPS = (const char*)((intptr_t)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     CreateShaders(&kVertexDelta, &kPixel, "FFTDISPLAYHIGHW", "vs_1_1", pcPS);
     SetupShaders();
 }

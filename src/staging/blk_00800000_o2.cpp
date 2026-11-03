@@ -428,9 +428,9 @@ void xActor::FUN_0081eba0()
     if (((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))->GetTarget())) && ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()))->FUN_c8(&PICK))
     {
         bool GO = true;
-        for (int I = 0; GO && I < ((int)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((int)&(HITS))))))->FUN_00726070())) && !DONE; I++)
+        for (int I = 0; GO && I < ((intptr_t)(reinterpret_cast<::Callees *>((((::xHitList *)(::FUN_00460140((intptr_t)&(HITS))))))->FUN_00726070())) && !DONE; I++)
         {
-            xHitInfo INFO(((::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::xHitList *)(::FUN_00460140((int)&(HITS))))))->GetEntryAt(I))));
+            xHitInfo INFO(((::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::xHitList *)(::FUN_00460140((intptr_t)&(HITS))))))->GetEntryAt(I))));
             void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
             if (OBJ)
             {

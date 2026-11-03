@@ -428,7 +428,7 @@ struct FUN_009c1b00
 // @fnv 0x009c1aa0
 FUN_009c1aa0_Class& FUN_009c1aa0_Class::FUN_009c1aa0(FUN_009c1aa0_Class const& aSource)
 {
-    reinterpret_cast<::FUN_009c1b00 *>(this)->Set((const ::FUN_009c1b00 *)((int)&aSource));
+    reinterpret_cast<::FUN_009c1b00 *>(this)->Set((const ::FUN_009c1b00 *)((intptr_t)&aSource));
     for (unsigned int i = 0; i < 8; ++i)
         ((int*)this)[i + 8] = ((int*)&aSource)[i + 8];
     m_40 = aSource.m_40;
@@ -1884,7 +1884,7 @@ void DialogueCameraX::FUN_009c7240()
                 xiTopicCount = 0;
         }
         qpia = ((::IdleCtlX *)(::FUN_00559450((int *)&(((::AnimX *)(reinterpret_cast<::FUN_008b70d0_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008b70d0()))->kIdle))));
-        if (m_pIdleForm && (!qpia || ((::IdleX *)(reinterpret_cast<::BGSMessageInitAccess *>((qpia))->GetIconFormID())) != m_pIdleForm || (((int)(reinterpret_cast<::Twin_0044ddc0 *>((qpia))->GetName())) >= 2 && ((int)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((qpia))->FUN_00490e40())) == 0)))
+        if (m_pIdleForm && (!qpia || ((::IdleX *)(reinterpret_cast<::BGSMessageInitAccess *>((qpia))->GetIconFormID())) != m_pIdleForm || (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((qpia))->GetName())) >= 2 && ((intptr_t)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((qpia))->FUN_00490e40())) == 0)))
         {
             reinterpret_cast<::FUN_00497ca0_shell *>((((::AnimX *)(reinterpret_cast<::FUN_008b70d0_shell *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->FUN_008b70d0()))))->FUN_00497ca0((::TESIdleForm *)(m_pIdleForm), reinterpret_cast<::FUN_005ff160_shell *>((m_pIdleForm))->GetFlagsMasked());
         }
@@ -1903,7 +1903,7 @@ void DialogueCameraX::FUN_009c7240()
                     }
                     if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::g_011ce368)))))) > fShotDelay)
                         fShotDelay = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::g_011ce368))))));
-                    if (!qJDuOZ->pActor || (!((int)(reinterpret_cast<::Twin_00639b40 *>((pShot))->GetEntryPoint())) && qJDuOZ->iType != 0x12))
+                    if (!qJDuOZ->pActor || (!((intptr_t)(reinterpret_cast<::Twin_00639b40 *>((pShot))->GetEntryPoint())) && qJDuOZ->iType != 0x12))
                     {
                         reinterpret_cast<::ShotThis *>((pShot))->SetupCamera((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0)), ::DAT_011f21c8);
                     }
@@ -1956,7 +1956,7 @@ void DialogueCameraX::FUN_009c7240()
                             }
                         }
                     }
-                    switch (((int)(reinterpret_cast<::Twin_00639b40 *>((pShot))->GetEntryPoint())))
+                    switch (((intptr_t)(reinterpret_cast<::Twin_00639b40 *>((pShot))->GetEntryPoint())))
                     {
                     case 0:
                         if (qpydTG)
@@ -1975,7 +1975,7 @@ void DialogueCameraX::FUN_009c7240()
                             reinterpret_cast<::Owner_58cbc0 *>((pShot))->SetNode((::Node_58cbc0 *)(qZNIZJV));
                         break;
                     case 1:
-                        if (!((int)(reinterpret_cast<::FUN_009c8640_shell *>((pShot))->FUN_009c8640())))
+                        if (!((intptr_t)(reinterpret_cast<::FUN_009c8640_shell *>((pShot))->FUN_009c8640())))
                         {
                             if (pSpeakerRef)
                                 reinterpret_cast<::Owner_58cbc0 *>((pShot))->SetNode((::Node_58cbc0 *)(void *)(pSpeakerRef->Get3D()));
@@ -1988,7 +1988,7 @@ void DialogueCameraX::FUN_009c7240()
                         }
                         break;
                     }
-                    switch (((int)(reinterpret_cast<::LowProcess *>((pShot))->GetTarget())))
+                    switch (((intptr_t)(reinterpret_cast<::LowProcess *>((pShot))->GetTarget())))
                     {
                     case 0:
                         if (qpydTG)
@@ -2224,7 +2224,7 @@ void DialogueCameraX::FUN_009c7240()
             }
         }
     }
-    if ((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+    if ((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) && ((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
         reinterpret_cast<::fnv_009c9ae0::VATS9c9 *>(&((*reinterpret_cast<::TargetsX *>(&::g_011f2250))))->FUN_009c9ae0((::fnv_009c9ae0::ActorObj9c9 *)((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))));
 }
 
@@ -2375,7 +2375,7 @@ void FUN_009c8b90_cls::FUN_009c8b90(FUN_009c8b90_arg* a1)
 {
     if (m_pEntryObject != 0)
     {
-        if (((int)(reinterpret_cast<::Twin_00639b40 *>((m_pEntryObject))->GetEntryPoint())) == 1)
+        if (((intptr_t)(reinterpret_cast<::Twin_00639b40 *>((m_pEntryObject))->GetEntryPoint())) == 1)
         {
             if (a1 != 0)
             {
@@ -2386,7 +2386,7 @@ void FUN_009c8b90_cls::FUN_009c8b90(FUN_009c8b90_arg* a1)
                 reinterpret_cast<::Owner_58cbc0 *>((m_pEntryObject))->SetNode((::Node_58cbc0 *)(0));
             }
         }
-        if (((int)(reinterpret_cast<::LowProcess *>((m_pEntryObject))->GetTarget())) == 1)
+        if (((intptr_t)(reinterpret_cast<::LowProcess *>((m_pEntryObject))->GetTarget())) == 1)
         {
             if (a1 != 0)
             {
@@ -3472,7 +3472,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                 if (pTexture && *pTexture)
                 {
                     ImpPoint kWorldPosition;
-                    switch (((int)(reinterpret_cast<::BGSCameraPath *>((pImpactTmp))->GetPrevPath())))
+                    switch (((intptr_t)(reinterpret_cast<::BGSCameraPath *>((pImpactTmp))->GetPrevPath())))
                     {
                     case 0:
                         kWorldPosition = *apNormal;

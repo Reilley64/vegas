@@ -3289,7 +3289,7 @@ struct FUN_00a5d450_class
 // @fnv 0x00a44850
 void FUN_00a44850_holder::CopyMembersStreamAndFields(FUN_00a44850_holder* dst, CloningProcess* proc)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)dst, proc);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)dst, proc);
     dst->m_p = m_p;
     dst->m_f = m_f;
 }
@@ -3298,7 +3298,7 @@ void FUN_00a44850_holder::CopyMembersStreamAndFields(FUN_00a44850_holder* dst, C
 void FUN_00a5d450_class::CreateVertexBufferSet(uintptr_t a, void* ppSet)
 {
     NiVBSet* set = *(NiVBSet**)ppSet;
-    reinterpret_cast<::HashTableBase *>((set))->InsertOrUpdate((unsigned int)this, a);
+    reinterpret_cast<::HashTableBase *>((set))->InsertOrUpdate((uintptr_t)this, a);
 }
 
 struct NiObjectGroup;
@@ -5955,11 +5955,11 @@ struct TextureListView : NiTexture
 void FUN_00a5f800(TextureListView* texture)
 {
     EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION_STUB*>(&DAT_011f4580));
-    if (DAT_011f4500 == reinterpret_cast<int>(texture))
+    if (DAT_011f4500 == reinterpret_cast<intptr_t>(texture))
     {
         DAT_011f4500 = reinterpret_cast<int>(texture->next);
     }
-    if (DAT_011f4504 == reinterpret_cast<int>(texture))
+    if (DAT_011f4504 == reinterpret_cast<intptr_t>(texture))
     {
         DAT_011f4504 = reinterpret_cast<int>(texture->previous);
     }

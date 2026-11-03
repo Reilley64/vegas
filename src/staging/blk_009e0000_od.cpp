@@ -2155,7 +2155,7 @@ Vec Pather::GetPathPoint(Ref* ref)
     }
     if (reinterpret_cast<::FUN_0076b610_Class *>(&(route))->FUN_0076b610())
         reinterpret_cast<::Pather9F6 *>(this)->BuildPathRequest((*(::NiPoint39F6 *)&(const ::fnv_009f6900::Vec &)(ref->Position())), (*(::NiPoint39F6 *)&(const ::fnv_009f6900::Vec &)(destination)), (::TESObjectCELL9F6 *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))), (::TESWorldSpace9F6 *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((ref))->FUN_00575d70()))));
-    if (!reinterpret_cast<::FUN_0076b610_Class *>(&(route))->FUN_0076b610() && index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(route))->GetName())))
+    if (!reinterpret_cast<::FUN_0076b610_Class *>(&(route))->FUN_0076b610() && index < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(route))->GetName())))
     {
         Waypoint waypoint((*(::fnv_009f6900::Waypoint *)(reinterpret_cast<::FUN_009a3280_shell *>(&(route))->FUN_009a3280(index))));
         index = index + 1;

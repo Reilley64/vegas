@@ -295,8 +295,8 @@ extern int DAT_01093bdc;
 // @fnv 0x009fa580
 int FUN_009fa580(int a, int b, int c)
 {
-    if (::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093bdc)) || ::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093bcc)) ||
-        ::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093f14)))
+    if (::FUN_009f9980((const void *)(b), (const void *)((intptr_t)&DAT_01093bdc)) || ::FUN_009f9980((const void *)(b), (const void *)((intptr_t)&DAT_01093bcc)) ||
+        ::FUN_009f9980((const void *)(b), (const void *)((intptr_t)&DAT_01093f14)))
         return ::GetObjectPointer((::FUN_009fceb0_object *)(a), (int *)(c));
     return 0x80004002;
 }
@@ -347,9 +347,9 @@ int FUN_009fcf10(int aObject, int b, int* apOutInterface)
 {
     if (!apOutInterface)
         return 0x80004003;
-    if (::FUN_009f9980((const void *)(b), (const void *)((int)&::DAT_01093f14)))
+    if (::FUN_009f9980((const void *)(b), (const void *)((intptr_t)&::DAT_01093f14)))
     {
-        ::GetObjectPointer((::FUN_009fceb0_object *)(aObject), (int *)((int)apOutInterface));
+        ::GetObjectPointer((::FUN_009fceb0_object *)(aObject), (int *)((intptr_t)apOutInterface));
         return 0;
     }
     *apOutInterface = 0;
@@ -397,10 +397,10 @@ int FUN_009fd530_class::FUN_009fd530(int b)
     CRITICAL_SECTION* lock = *(CRITICAL_SECTION**)((char*)this + 0x20);
     DAT_00fdf05c(lock);
     char* base = (char*)*(int**)((char*)this + 0x98);
-    if (::FUN_009f9980((const void *)((int)(base + 0x1a0)), (const void *)(b)))
+    if (::FUN_009f9980((const void *)((intptr_t)(base + 0x1a0)), (const void *)(b)))
     {
         char* p = base + 0x1b0;
-        if (::FUN_009f9980((const void *)((int)p), (const void *)((int)&DAT_01093f04)) || ::FUN_009f9980((const void *)((int)p), (const void *)(b + 0x10)))
+        if (::FUN_009f9980((const void *)((intptr_t)p), (const void *)((intptr_t)&DAT_01093f04)) || ::FUN_009f9980((const void *)((intptr_t)p), (const void *)(b + 0x10)))
         {
             DAT_00fdf100(lock);
             return 0;
@@ -538,7 +538,7 @@ struct FUN_009f9a50_class
 // @fnv 0x009f9a50
 int FUN_009f9a50_class::FUN_009f9a50()
 {
-    if (::FUN_009f9980((const void *)((int)this), (const void *)((int)&DAT_01093f04)) || ::FUN_009f9980((const void *)((int)((char*)this + 0x2c)), (const void *)((int)&DAT_01093f04)))
+    if (::FUN_009f9980((const void *)((intptr_t)this), (const void *)((intptr_t)&DAT_01093f04)) || ::FUN_009f9980((const void *)((intptr_t)((char*)this + 0x2c)), (const void *)((intptr_t)&DAT_01093f04)))
         return 1;
     return 0;
 }
@@ -1003,7 +1003,7 @@ int GetInterfaceForObject(int pUnk, int pIid, int* ppvOut)
             return 0x80004002;
         }
     }
-    return ::GetObjectPointer((::FUN_009fceb0_object *)(pUnk), (int *)((int)ppvOut));
+    return ::GetObjectPointer((::FUN_009fceb0_object *)(pUnk), (int *)((intptr_t)ppvOut));
 }
 
 class DepObj
@@ -1156,7 +1156,7 @@ int FUN_009fa120(int a, int b, int* apOut)
 
     if (::FUN_009f9980((const void *)(b), &DAT_01093c1c) || ::FUN_009f9980((const void *)(b), &DAT_01093f14))
     {
-        return ::GetObjectPointer((::FUN_009fceb0_object *)(a), (int *)((int)apOut));
+        return ::GetObjectPointer((::FUN_009fceb0_object *)(a), (int *)((intptr_t)apOut));
     }
 
     *apOut = 0;
@@ -2570,7 +2570,7 @@ struct Vector4f
 
 static inline int operator==(const Vector4f& a, const Vector4f& b)
 {
-    return ::FUN_009f9980((const void *)((int)&a), (const void *)((int)&b));
+    return ::FUN_009f9980((const void *)((intptr_t)&a), (const void *)((intptr_t)&b));
 }
 
 static inline int operator!=(const Vector4f& a, const Vector4f& b)
@@ -3495,7 +3495,7 @@ int FUN_009fbb50(EnumPins9FB* self, unsigned long cPins, IPin9FB** ppPins, unsig
         {
             return (int)0x80040203;
         }
-        if (((int)(reinterpret_cast<::CBaseList9FD *>((void *)&(self->m_Pins))->Find(pin))) == 0)
+        if (((intptr_t)(reinterpret_cast<::CBaseList9FD *>((void *)&(self->m_Pins))->Find(pin))) == 0)
         {
             *ppPins = &pin->m_iPin;
             pin->m_iPin.AddRef();
@@ -6763,7 +6763,7 @@ class CBaseList_9fd
 // @fnv 0x009fe3f0
 int FUN_009fe3f0_class::FUN_009fe3f0(int value)
 {
-    if (((int)(reinterpret_cast<::CBaseList_9fd *>(&(m_50))->AddNode((void *)(value)))))
+    if (((intptr_t)(reinterpret_cast<::CBaseList_9fd *>(&(m_50))->AddNode((void *)(value)))))
     {
         DAT_00fdf0d0(reinterpret_cast<void*>(m_6c));
         return 0;
@@ -6831,7 +6831,7 @@ int S_009fd2d0_List::FUN_009fd2d0(S_009fd2d0_List* src)
     while (pos)
     {
         void* item = ((void *)(::PopAndGetValue((int *)(src))));
-        if (!((int)(reinterpret_cast<::CBaseList_9fd *>(this)->AddNode(item))))
+        if (!((intptr_t)(reinterpret_cast<::CBaseList_9fd *>(this)->AddNode(item))))
             return 0;
     }
     return 1;
@@ -6876,7 +6876,7 @@ struct SyncReader
 int SyncReader::FUN_009fe100(__int64 position, unsigned int length, unsigned char* buffer)
 {
     if (((unsigned int)position & (m_18->GetAlignment() - 1)) == 0 && (length & (m_18->GetAlignment() - 1)) == 0 &&
-        ((unsigned int)buffer & (m_18->GetAlignment() - 1)) == 0)
+        ((uintptr_t)buffer & (m_18->GetAlignment() - 1)) == 0)
     {
         unsigned int actual;
         return reinterpret_cast<::Fdfe0Cls *>(this)->FUN_009fdfe0(position, length, (unsigned int)(buffer), (unsigned int)(&actual), (unsigned int *)(0), {});

@@ -321,7 +321,7 @@ struct FUN_00831f40_Class
 // @fnv 0x00831f40
 void FUN_00831f40_Class::FUN_00831f40(int aiArg1, int aiArg2)
 {
-    reinterpret_cast<::BasePinStub *>(((int)this + 0x104))->ReceiveConnection((void *)(aiArg1), (void *)(aiArg2));
+    reinterpret_cast<::BasePinStub *>(((intptr_t)this + 0x104))->ReceiveConnection((void *)(aiArg1), (void *)(aiArg2));
 }
 
 struct FUN_008321c0_Class
@@ -1911,9 +1911,9 @@ void S_00836470::UpdateSoundItems(int)
     ContNode* node = &m_kNode;
     while (node && !FUN_008256d0(node) && *((::SndItem **)(((::Vec3 *)(void *)(node)))))
     {
-        if (!(*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj || !((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())) ||
-            (FNV_GetFormType((TESForm*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430()))) == 0x15 &&
-             !((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())))))))))
+        if (!(*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj || !((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())) ||
+            (FNV_GetFormType((TESForm*)((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430()))) == 0x15 &&
+             !((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())))))))))
         {
             reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->first))->FUN_00ad88f0();
             reinterpret_cast<::SoundPlaybackHandle *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->first))->Release();
@@ -2461,7 +2461,7 @@ void S_0083d130_Class::ProcessNodeChain()
         {
             if (::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(((::Vec3 *)(void *)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node)))))))))))))) > 1)
             {
-                reinterpret_cast<::fnv_00ad8100::FUN_00ad8100_shell *>((((::fnv_0083d130::S_0083d130_Mgr *)(::FUN_00453a70()))))->FUN_00ad8100((char *)(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(::FUN_00460140((int)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node)))))))))))))), 0x20100001, (void *)(0));
+                reinterpret_cast<::fnv_00ad8100::FUN_00ad8100_shell *>((((::fnv_0083d130::S_0083d130_Mgr *)(::FUN_00453a70()))))->FUN_00ad8100((char *)(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(::FUN_00460140((intptr_t)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node)))))))))))))), 0x20100001, (void *)(0));
             }
         }
         node = ((::fnv_0083d130::S_0083d130_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -2527,7 +2527,7 @@ void FUN_008216c0_shell::UpdateEffectTimes()
         time = reinterpret_cast<::FUN_00759450_shell *>((spell))->FUN_00759450() * (value / reinterpret_cast<::PathingRequest *>((spell))->GetActorRadius());
     else
         time = reinterpret_cast<::FUN_00759450_shell *>((spell))->FUN_00759450();
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(effects))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(effects))->GetName())); ++i)
         reinterpret_cast<::ParticleEmitter *>((((::EffectTime *)(::FUN_00559450((int *)(((::EffectHandle *)(reinterpret_cast<::S3e60 *>(&(effects))->FUN_006a7ad0(i)))))))))->AdvanceParticleTimes(time);
 }
 
@@ -3458,7 +3458,7 @@ int __cdecl RunAudioChannel(int* param)
         long hr = 0;
         AudMediaType mt;
         mt.majortype = DAT_0107cae8;
-        if (((int)(::FUN_004812f0(path8, ".mp3"))) != 0)
+        if (((intptr_t)(::FUN_004812f0(path8, ".mp3"))) != 0)
         {
             mt.subtype = DAT_0107caf8;
         }

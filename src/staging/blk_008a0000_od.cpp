@@ -2491,7 +2491,7 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
     p9 = ((::BaseObj *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->GetP96();
     if (p9 != 0)
     {
-        if (((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
+        if (((intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
         {
             P2* p4;
             p4 = ((::P2 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((p9))->GetValueByIndex((int)(pLookupKey))));
@@ -2501,7 +2501,7 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                 {
                     if (bApplyTransform != 0)
                     {
-                        if (((int)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())) != 0)
+                        if (((intptr_t)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())) != 0)
                         {
                             CreateProjectileRef(((int)(reinterpret_cast<::DialogueItem *>((p4))->SelectDefaultResponseList())), 0, 0, ((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), pPlacement->m_24,
                                                 ((::NiTransform *)(::FUN_00461130((int)(pTransformSource))))->m_kOrientation);
@@ -2510,7 +2510,7 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                         {
                             if (((unsigned char)(reinterpret_cast<::FUN_008b4380_Class *>((p4))->GetUnk66())) > 0)
                             {
-                                reinterpret_cast<::BGSDebris_shell2 *>((((::MidObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p4))->GetBaseTexture()))))->FUN_004fa6f0((void *)(((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::Vec3 *)(::NiPoint3 *)(&pPlacement->m_24), ((unsigned char)(reinterpret_cast<::FUN_008b4380_Class *>((p4))->GetUnk66())),
+                                reinterpret_cast<::BGSDebris_shell2 *>((((::MidObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((p4))->GetBaseTexture()))))->FUN_004fa6f0((void *)(((intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (::Vec3 *)(::NiPoint3 *)(&pPlacement->m_24), ((unsigned char)(reinterpret_cast<::FUN_008b4380_Class *>((p4))->GetUnk66())),
                                                                  (float)(((double)(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400())) * ((double)(reinterpret_cast<::PathingRequest *>((p4))->GetCenterRadius()))));
                             }
                         }

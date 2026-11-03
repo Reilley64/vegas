@@ -4638,7 +4638,7 @@ void S_00b7ac20_Class::FUN_00b7ac20(int index)
 
             esi += 2;
             eax = (eax << 1) | (eax >> 31);
-        } while ((int)esi < (int)(*reinterpret_cast<S_00b7ac20_Node * (*)[]>(&::DAT_011fec34)));
+        } while ((intptr_t)esi < (intptr_t)(*reinterpret_cast<S_00b7ac20_Node * (*)[]>(&::DAT_011fec34)));
 
         unk34->FUN_00b7ac20_v24();
     }
@@ -4675,7 +4675,7 @@ void S_00b7ac20_Class::FUN_00b7ac20(int index)
 
             esi += 2;
             eax = (eax << 1) | (eax >> 31);
-        } while ((int)esi < (int)(*reinterpret_cast<S_00b7ac20_Node * (*)[]>(&::DAT_011fec8c)));
+        } while ((intptr_t)esi < (intptr_t)(*reinterpret_cast<S_00b7ac20_Node * (*)[]>(&::DAT_011fec8c)));
 
         unk30->FUN_00b7ac20_v24();
     }
@@ -5365,7 +5365,7 @@ void FUN_00b7c510_cls::UpdateSpawnedObjectFlags()
         }
         rot = RotL1(rot);
         p += 2;
-    } while ((int)p < (int)&(*reinterpret_cast<fnv_00b7c510::SpawnedObject * (*)[]>(&::DAT_011fec30))[23]);
+    } while ((intptr_t)p < (intptr_t)&(*reinterpret_cast<fnv_00b7c510::SpawnedObject * (*)[]>(&::DAT_011fec30))[23]);
     m_30->v09();
 }
 }  // namespace fnv_00b7c510
@@ -5671,7 +5671,7 @@ void FUN_00b7ce90_class::SetupPass(void* a, Geometry* geom, PassKey* key)
     if (!props)
         return;
     TexStage* stage = pass->m_kTextureStages->m_pHeadNode;
-    stage->m_texture = ((::fnv_00b7ce90::NiTexture *)(::GetTextureByIndex((char *)this, (int)(geom))));
+    stage->m_texture = ((::fnv_00b7ce90::NiTexture *)(::GetTextureByIndex((char *)this, (intptr_t)(geom))));
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(geom->GetUVSet());
     stage = pass->m_kTextureStages->m_iSecondInteger;
     if (props->m_texture)
@@ -6654,7 +6654,7 @@ void GetRenderTargetDesc(RenderConfigSurface* renderer, unsigned int type, unsig
         {
         case 1:
             *flags = 0x26;
-            unsigned int size = (unsigned int)((float)((unsigned int)(reinterpret_cast<::FUN_00b6c1a0_cls *>((renderer))->FUN_00b6c1a0())) * 0.5);
+            unsigned int size = (unsigned int)((float)((uintptr_t)(reinterpret_cast<::FUN_00b6c1a0_cls *>((renderer))->FUN_00b6c1a0())) * 0.5);
             if (size < 0x100)
                 size = 0x100;
             *width = size;
@@ -9122,11 +9122,11 @@ void FUN_00b7ad00_Class::FUN_00b7ad00(void* unused, NiGeometryB7A* geom, NiPrope
         pass->m_texture = material->m_texture;
     else
         pass->m_texture = (*reinterpret_cast<::NiTextureB7A * *>(&::DAT_011f952c));
-    reinterpret_cast<::E7DE90Owner *>((pass))->ApplyPairToState((unsigned int)(geom->GetWorldTransform()));
+    reinterpret_cast<::E7DE90Owner *>((pass))->ApplyPairToState((uintptr_t)(geom->GetWorldTransform()));
     ::FUN_00b97ed0(true, 0);
     FUN_00b97f20(4, material->m_stage, 0);
     RestoreState();
-    DAT_0126f74c = reinterpret_cast<int>(shader);
+    DAT_0126f74c = reinterpret_cast<intptr_t>(shader);
 }
 
 // @fnv 0x00b606e0
@@ -13943,7 +13943,7 @@ B61Entry* __cdecl FUN_00b61980(const char** ppcName)
             char acPath[0x104];
             BuildAssetPath(*ppcName, acPath, 0x104);
             B61Stream kStream;
-            reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((unsigned int)(acPath), false);
+            reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((uintptr_t)(acPath), false);
             if (kStream.m_uiTopSize)
             {
                 B61AVObject* root = kStream.m_ppkTop[0];

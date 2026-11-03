@@ -3973,7 +3973,7 @@ void EffectOwner::UpdateImageSpaceEffects()
     float s = 0.0f;                                       // Desired radial-blur strength.
     float h = reinterpret_cast<::Twin_0084d030 *>((depthOfField))->GetStoredFloatValue();               // Current depth-of-field strength.
     float eb = reinterpret_cast<::Twin_0084d030 *>((radialBlur))->GetStoredFloatValue();                // Current radial-blur strength.
-    if ((((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 2 || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 3) && (*reinterpret_cast<::fnv_00965270::TESObjectREFR * *>(&::DAT_011f21cc)))
+    if ((((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 2 || ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011f2250))))->GetName())) == 3) && (*reinterpret_cast<::fnv_00965270::TESObjectREFR * *>(&::DAT_011f21cc)))
     {
         s = a;
         p = f;

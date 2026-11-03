@@ -1218,7 +1218,7 @@ struct CloneObject {
 // @fnv 0x00a86660
 void CloneObject::CopyRefCountedPointers(CloneObject* destination, void* process)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(destination), process);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(destination), process);
 
     RefCountedObject* previous = destination->first;
     if (previous != first) {
@@ -2538,7 +2538,7 @@ struct SdmBase {
 uintptr_t __cdecl FUN_00a8fe20(unsigned int* pKey)
 {
     unsigned int key = *pKey;
-    if (key == (unsigned int)(*reinterpret_cast<void * *>(&::DAT_0109b220))) goto zero;
+    if (key == (uintptr_t)(*reinterpret_cast<void * *>(&::DAT_0109b220))) goto zero;
     unsigned int tag = *(unsigned int*)(key - 4);
     if (tag == 0) return tag;
     {
@@ -3372,17 +3372,17 @@ void FUN_00a9ba90_cls::FUN_00a9ba90(unsigned int idx, NiRefStubB5542** apRefStub
     static StaticKeyB5542 key(0);
     if (idx >= m_0a) {
         m_0a = (unsigned short)(idx + 1);
-        if ((unsigned int)*apRefStub == key.m_00) {
+        if ((uintptr_t)*apRefStub == key.m_00) {
         } else {
             m_0c++;
         }
     } else {
-        if ((unsigned int)*apRefStub != key.m_00) {
-            if ((unsigned int)m_04[idx] == key.m_00) {
+        if ((uintptr_t)*apRefStub != key.m_00) {
+            if ((uintptr_t)m_04[idx] == key.m_00) {
                 m_0c++;
             }
         } else {
-            if ((unsigned int)m_04[idx] != key.m_00) {
+            if ((uintptr_t)m_04[idx] != key.m_00) {
                 m_0c--;
             }
         }
@@ -3867,7 +3867,7 @@ void MaterialLibraryView::FUN_00a8fdb0()
     if (count > 0) {
         int* arr = (int*)DAT_011f5e44;
         do {
-            if (arr[i] == (int)this) {
+            if (arr[i] == (intptr_t)this) {
                 if ((int)i >= 0) {
                     count--;
                     DAT_011f5e4c = count;
@@ -3880,7 +3880,7 @@ void MaterialLibraryView::FUN_00a8fdb0()
     }
     int h = m_8;
     int (* fn)(void*) = DAT_00fdf1c4;
-    if (h != (int)(*reinterpret_cast<void * *>(&::DAT_0109b220))) {
+    if (h != (intptr_t)(*reinterpret_cast<void * *>(&::DAT_0109b220))) {
         fn((void*)(h - 8));
     }
     vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0101dce4));

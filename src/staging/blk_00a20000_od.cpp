@@ -128,7 +128,7 @@ struct FUN_00a24f60_Class
 // @fnv 0x00a24f60
 void FUN_00a24f60_Class::FUN_00a24f60(int aiIndex, unsigned int b)
 {
-    *(char*)((char*)this + aiIndex + 0x1b94) = (char)((b & (unsigned int)&DAT_00ff0000) >> 0x10);
+    *(char*)((char*)this + aiIndex + 0x1b94) = (char)((b & (uintptr_t)&DAT_00ff0000) >> 0x10);
     *(char*)((char*)this + aiIndex + 0x1bb0) = (char)((b & 0xff00) >> 8);
     *(char*)((char*)this + aiIndex + 0x1be8) = (char)(b & 0xff);
 }

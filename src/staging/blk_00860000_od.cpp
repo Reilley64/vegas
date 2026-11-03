@@ -2317,9 +2317,9 @@ void FUN_0086ce40_class::InitAudioCallbacks()
 {
     FUN_00aea020();
 
-    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((reinterpret_cast<RegionPointList*>(::FUN_00453a70())))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(reinterpret_cast<unsigned int>(&((void (&)())::GetSoundPathAndFlags))));
+    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((reinterpret_cast<RegionPointList*>(::FUN_00453a70())))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(reinterpret_cast<uintptr_t>(&((void (&)())::GetSoundPathAndFlags))));
 
-    reinterpret_cast<TESRecipe*>(::FUN_00453a70())->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<int>(&SoundPlaybackManager::ResolveSoundFile)));
+    reinterpret_cast<TESRecipe*>(::FUN_00453a70())->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<intptr_t>(&SoundPlaybackManager::ResolveSoundFile)));
 
     reinterpret_cast<::FUN_0061cc40_shell *>((reinterpret_cast<TESRecipe*>(::FUN_00453a70())))->FUN_0061cc40(reinterpret_cast<int>(&((void (&)())::FindDialogueFile)));
 
@@ -7353,7 +7353,7 @@ LRESULT CALLBACK FUN_0086a0a0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             reinterpret_cast<::FUN_005b6cb0_Class *>(((*reinterpret_cast<::fnv_0086a0a0::Obj * *>(&::g_osGlobals))))->FUN_005b6cb0();
         break;
     case 0x14:
-        if (::FUN_004dc1e0() == (int)hWnd)
+        if (::FUN_004dc1e0() == (intptr_t)hWnd)
             return 1;
         break;
     case 0x112:
@@ -7579,7 +7579,7 @@ FUN_0087dcb0::~FUN_0087dcb0()
                 reinterpret_cast<::CrimeProcess *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00975320((::TESForm *)(void *)(this));
                 if (m_68)
                 {
-                    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 1 || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 0)
+                    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 1 || ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 0)
                     {
                         void* p = ((void *)(::FUN_00b4f5c0()));
                         if (p)

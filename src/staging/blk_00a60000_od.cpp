@@ -21,14 +21,14 @@ void __cdecl FUN_00a74da0()
 {
     if (DAT_011f4a54 == 0)
         FUN_00a74a10();
-    ::FUN_00a74d90((void *)((int)((int (&)())::FUN_00a74bc0)));
+    ::FUN_00a74d90((void *)((intptr_t)((int (&)())::FUN_00a74bc0)));
     FUN_00a74d80((int)((int (&)())::FUN_00a74cb0));
     int count = DAT_011f4a50;
     if (count > 0)
     {
         if (count > 6)
             goto done;
-        ::FUN_00a74d90((void *)((int)((int (&)())::FUN_00a74900)));
+        ::FUN_00a74d90((void *)((intptr_t)((int (&)())::FUN_00a74900)));
         FUN_00a74d80((int)((int (&)())::FUN_00a74880));
     }
 done:

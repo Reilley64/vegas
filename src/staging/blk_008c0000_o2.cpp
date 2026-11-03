@@ -2484,7 +2484,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         state->victim = victim;
         if (victim)
             reinterpret_cast<::MyActor008A5300 *>((victim))->CallProcessAt778();
-        ::FUN_005ac750((::TESForm *)(((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))), (::ExtraDataList *)(void *)(reinterpret_cast<::FUN_005d43c0_ *>((state->victim))->FUN_005d43c0()), 0x100);
+        ::FUN_005ac750((::TESForm *)(((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))), (::ExtraDataList *)(void *)(reinterpret_cast<::FUN_005d43c0_ *>((state->victim))->FUN_005d43c0()), 0x100);
         if (actor)
         {
             if (actor != (*reinterpret_cast<::Ref8 * *>(&::_g_thePlayer)) && !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
@@ -2619,7 +2619,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         }
         else
         {
-            if (!((int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) && ::DialogueRandom() % 100 < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting8 *>(&::g_011cf510)))))))
+            if (!((intptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) && ::DialogueRandom() % 100 < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting8 *>(&::g_011cf510)))))))
             {
                 victim->v190(((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())), 0, 1);
                 requested = true;

@@ -126,7 +126,7 @@ void CopyFloat2(float* dst, const float* src)
 // @fnv 0x00a31680
 void __cdecl FUN_00a31680()
 {
-    new ((void *)((int)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))) struct ::FUN_00a312d0((*(const ::FixedStr *)((int)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((int)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((int)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((int)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), *(const ::FixedStr *)nullptr);
+    new ((void *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))) struct ::FUN_00a312d0((*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), (*(const ::FixedStr *)((intptr_t)&(*reinterpret_cast<int *>(&::DAT_011f49e0)))), *(const ::FixedStr *)nullptr);
 }
 
 
@@ -758,7 +758,7 @@ struct AnimTarget
 // @fnv 0x00a27450
 void __cdecl ApplyAnimToTarget(int a, AnimTarget* apTarget)
 {
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (int)(apTarget));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (intptr_t)(apTarget));
     reinterpret_cast<::NiColor *>(&(apTarget->m_node))->SaveBinary((*(::NiStream *)(a)));
 }
 
@@ -1051,7 +1051,7 @@ struct FUN_00a28720_target {
 // Calls CallAnimCallback with a and b, then invokes FUN_00a6e4a0 on the object at b+4 passing a.
 // @fnv 0x00a28720
 void __cdecl FUN_00a28720(void* a, void* b) {
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (int)(b));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (intptr_t)(b));
     reinterpret_cast<::FUN_00a6e4a0_shell *>((reinterpret_cast<FUN_00a28720_target*>(
         reinterpret_cast<char*>(b) + 4)))->FUN_00a6e4a0((*(::NiStream *)(a)));
 }
@@ -1109,7 +1109,7 @@ bool __cdecl FUN_00a28a80(Obj_a28* apObjA, Obj_a28* apObjB)
 {
     if (!((bool)(::AreFloatsEqual((const float *)(apObjA), (const float *)(apObjB)))))
         return false;
-    return ((bool)(::FUN_00a92660((const float *)&(apObjA->m_kSub), (int)(&apObjB->m_kSub), {})));
+    return ((bool)(::FUN_00a92660((const float *)&(apObjA->m_kSub), (intptr_t)(&apObjB->m_kSub), {})));
 }
 
 struct Blk16 {
@@ -1225,7 +1225,7 @@ bool CompareBounds(UHelper* pFirst, UHelper* pSecond) {
     if (!::FUN_00a28a80((::Obj_a28 *)(pFirst), (::Obj_a28 *)(pSecond))) {
         return false;
     }
-    return ((bool)(::FUN_00a92660((const float *)&(pFirst->unk14), (int)&(pSecond->unk14), {})));
+    return ((bool)(::FUN_00a92660((const float *)&(pFirst->unk14), (intptr_t)&(pSecond->unk14), {})));
 }
 
 namespace fnv_00a28ed0 {
@@ -1451,7 +1451,7 @@ struct Outer {
 // @fnv 0x00a29660
 void __cdecl FUN_00a29660(void* target, Outer* source)
 {
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)(target), (int)(source));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(target), (intptr_t)(source));
     reinterpret_cast<::FUN_00a698a0_class *>(&(source->inner04))->FUN_00a698a0(target);
 }
 
@@ -2654,7 +2654,7 @@ bool BezRotKeyEqual(const A2BDE0BezRotKey& kA, const A2BDE0BezRotKey& kB)
     if (!::FUN_00a28a80((::Obj_a28 *)&(kA), (::Obj_a28 *)&(kB)))
         return false;
     return kA.m_fValueX == kB.m_fValueX && kA.m_fValueY == kB.m_fValueY && kA.m_fValueZ == kB.m_fValueZ
-        && ((bool)(::FUN_00a92660((const float *)&(kA.m_kInQuat), (int)&(kB.m_kInQuat), {}))) && ((bool)(::FUN_00a92660((const float *)&(kA.m_kOutQuat), (int)&(kB.m_kOutQuat), {})));
+        && ((bool)(::FUN_00a92660((const float *)&(kA.m_kInQuat), (intptr_t)&(kB.m_kInQuat), {}))) && ((bool)(::FUN_00a92660((const float *)&(kA.m_kOutQuat), (intptr_t)&(kB.m_kOutQuat), {})));
 }
 
 struct TQuat {
@@ -4117,7 +4117,7 @@ public:
 // @fnv 0x00a27430
 void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
 {
-    reinterpret_cast<::FUN_00a3da20_cls *>(this)->AccumulateAnimSink((int)&(stream));
+    reinterpret_cast<::FUN_00a3da20_cls *>(this)->AccumulateAnimSink((intptr_t)&(stream));
     m_kDiffuseColor.LoadBinary(stream);
 }
 

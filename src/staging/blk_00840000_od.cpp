@@ -2907,7 +2907,7 @@ unsigned int FUN_00857c70_StandIn::FUN_00857c70(unsigned int value)
         }
 
         if (foundIndex != 0xFF)
-            return (value & static_cast<unsigned int>(reinterpret_cast<unsigned int>(&DAT_00ffffff))) +
+            return (value & static_cast<unsigned int>(reinterpret_cast<uintptr_t>(&DAT_00ffffff))) +
                    (static_cast<unsigned int>(foundIndex) << 24);
 
         return 0;
@@ -3420,7 +3420,7 @@ void FUN_0085f070_shell::FUN_0085f070()
             ref = (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer));
         if (ref)
         {
-            if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(ref)))->FUN_0043fcd0())))
+            if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(ref)))->FUN_0043fcd0())))
             {
                 ::FUN_00401030(value2);
                 reinterpret_cast<::NiTMap_S *>((reinterpret_cast<MapH*>(*(void**)((char*)this + 0x58))))->RemoveKey(key);
@@ -3509,7 +3509,7 @@ void FUN_0085f5d0_class::ProcessMapEntries()
         TESObjectREFR* refObject = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(key));
         if (refObject)
         {
-            if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<FnvRefMethod*>(refObject)))->FUN_0043fcd0())))
+            if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<FnvRefMethod*>(refObject)))->FUN_0043fcd0())))
             {
                 if (reinterpret_cast<FnvState*>(this)->unk04)
                     reinterpret_cast<::FUN_00855010_cls *>((reinterpret_cast<FnvState*>(this)->unk04))->GetOrCreateNode(refObject, 0);
@@ -4586,7 +4586,7 @@ bool FUN_00856300_cls::FUN_00856300(ProbeTarget* target, int value)
     bool result = false;
     unsigned __int64 key = ::FUN_0044a670((const char *)(value));
     int out[3];
-    result = !((int)(reinterpret_cast<::FUN_00856350_shell *>((target))->SetAndReturnPointer((void *)(value), (void *)(key), out, {})));
+    result = !((intptr_t)(reinterpret_cast<::FUN_00856350_shell *>((target))->SetAndReturnPointer((void *)(value), (void *)(key), out, {})));
     return result;
 }
 
@@ -5489,7 +5489,7 @@ void StQ::FUN_0085f2e0()
         TESObjectREFR* pRef_zaxvzc = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(uiID));
         if (pRef_zaxvzc)
         {
-            if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FnvRefMethod*)pRef_zaxvzc)))->FUN_0043fcd0())))
+            if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FnvRefMethod*)pRef_zaxvzc)))->FUN_0043fcd0())))
             {
                 if (pQ4)
                     reinterpret_cast<::FUN_00855010_cls *>((pQ4))->GetOrCreateNode(pRef_zaxvzc, 0);
@@ -6686,7 +6686,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
                 if (own)
                 {
                     Actor* a = dynamic_cast<Actor*>(e->form);
-                    if (a && !((int)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
+                    if (a && !((intptr_t)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
                         actors.list.FUN_005ae3d0(&a);
                 }
                 ::CopyByteToOffset80((char *)this);
@@ -6701,7 +6701,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
             Actor* a = *((::Actor **)(((::Vec3 *)(void *)(it))));
             reinterpret_cast<::fnv_00893340::FUN_00893340_shell *>((a))->FUN_00893340(0);
             reinterpret_cast<::FUN_00855010_cls *>((owner))->GetOrCreateNode(a, 2);
-            if (!((int)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
+            if (!((intptr_t)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
             {
                 unsigned int id = 0;
                 TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(::FUN_004839c0(id));
@@ -6745,7 +6745,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         FUN_0057d0a0(cam, ::DAT_011a9478, 1.0f);
         ::FUN_00451590(1);
     }
-    if (ctx && ((int)(reinterpret_cast<::LowProcess *>((((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->GetTarget())))
+    if (ctx && ((intptr_t)(reinterpret_cast<::LowProcess *>((((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->GetTarget())))
         reinterpret_cast<::TESForm *>((((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->ClearData();
     if (ctx)
         ((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))->Leave(ctx->a, ctx->b);

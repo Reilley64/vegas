@@ -329,7 +329,7 @@ void FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
     reinterpret_cast<::E70Owner *>(this)->FUN_00c46e70((::StrArr *)(pArray));
     locals.p = (*reinterpret_cast<void * *>(&::g_01202828));
     locals.u = (unsigned int)((void *)(::FUN_00a7d330((const char *)(locals.p))));
-    reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)pArray)))->FUN_0096a610((int)&(locals.u));
+    reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)pArray)))->FUN_0096a610((intptr_t)&(locals.u));
 }
 
 struct FUN_00c3a100_Class
@@ -2290,22 +2290,22 @@ void FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr)
     case 0:
         d4 = this ? &value.boolean : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).boolean = false, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).boolean);
         bi = ((unsigned int)(::FUN_00a7d370(aBuf, *d4)));
-        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((int)&(bi));
+        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(bi));
         break;
     case 1:
     case 2:
         by = this ? &value.character : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).character = 0, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).character);
         gf = ((unsigned int)(::FormatStringAssignment(aBuf, *by)));
-        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((int)&(gf));
+        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(gf));
     case 3:
         ap = this ? &value.integer : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).integer = 0, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).integer);
         fl = ((unsigned int)(::FUN_00a7d4d0(aBuf, *ap)));
-        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((int)&(fl));
+        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(fl));
         break;
     case 5:
         ff = this ? &value.real : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).real = 0.0f, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).real);
         eh = ((unsigned int)(::FUN_00a7d550(aBuf, *ff)));
-        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((int)&(eh));
+        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(eh));
         break;
     case 6:
         if (this)
@@ -2313,13 +2313,13 @@ void FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr)
         else
             em = 0;
         dt = (unsigned int)::fnv_00a7d5e0::FUN_00a7d5e0(aBuf, em);
-        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((int)&(dt));
+        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(dt));
         break;
     case 4:
     default:
         cb = this ? &value.unsignedInteger : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).unsignedInteger = 0, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).unsignedInteger);
         dg = ((unsigned int)(::FUN_00a7d510(aBuf, *cb)));
-        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((int)&(dg));
+        reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(dg));
         break;
     }
 }
@@ -2430,11 +2430,11 @@ bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
     {
         unsigned __int64 written = strlen(text);
         unsigned __int64 length;
-        file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(text), written, (int)(&length), {});
+        file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(text), written, (intptr_t)(&length), {});
         if (!DAT_01202d90 && success && (text[written - 2] != '\r' || text[written - 1] != '\n'))
         {
             written = 2;
-            file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(DAT_0101f520), written, (int)(&length), {});
+            file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(DAT_0101f520), written, (intptr_t)(&length), {});
         }
         if (flush)
             file.m_00 = reinterpret_cast<::S_00aff060_Class *>(&(file))->FUN_00aff060();
@@ -6573,7 +6573,7 @@ struct Spin360
         u33 = 33;
         u34 = 34;
         u35 = 35;
-        if (owner == (int)name)
+        if (owner == (intptr_t)name)
             return;
         reinterpret_cast<::FUN_0040fbf0_shell *>(this)->FUN_0040fbf0((char *)(name + 1));
     }

@@ -1202,7 +1202,7 @@ bool FUN_00bcfa50_class::ReleaseAllReferences()
             *pass = 0;
         }
         ++pass;
-    } while (reinterpret_cast<long>(pass) < reinterpret_cast<long>(end));
+    } while (reinterpret_cast<intptr_t>(pass) < reinterpret_cast<intptr_t>(end));
 
     return true;
 }
@@ -2619,7 +2619,7 @@ unsigned char FUN_00bc2d20_cls::Equals(FUN_00bc2d20_cls* other)
         if (m_bc != other->m_bc)
             return 0;
         if (m_bc != 0)
-            return ((bool)(::FUN_00a92660((const float *)&(m_ac), (int)(&other->m_ac), {})));
+            return ((bool)(::FUN_00a92660((const float *)&(m_ac), (intptr_t)(&other->m_ac), {})));
         ok = 1;
     }
     return ok;
@@ -5442,7 +5442,7 @@ struct FUN_00bcf7c0_cls
 void FUN_00bcf7c0_cls::DispatchAllTableEntries()
 {
     unsigned int* p = (*reinterpret_cast<unsigned int (*)[26]>(&::g_aiPassIndex_fd20));
-    while ((int)p < (int)((*reinterpret_cast<unsigned int (*)[26]>(&::g_aiPassIndex_fd20)) + 26))
+    while ((intptr_t)p < (intptr_t)((*reinterpret_cast<unsigned int (*)[26]>(&::g_aiPassIndex_fd20)) + 26))
     {
         Dispatch(*p);
         ++p;
@@ -5555,7 +5555,7 @@ FUN_00bcf920::~FUN_00bcf920()
             *p = 0;
         }
         ++p;
-    } while ((int)p < (int)&::g_01202328);
+    } while ((intptr_t)p < (intptr_t)&::g_01202328);
 }
 
 // FUN_00bd0470: thiscall member that calls virtual slot 0x148 and tail-jumps to slot 0x14c
@@ -6206,29 +6206,29 @@ bool FUN_00bd0ae0_class::FUN_00bd0ae0()
 
         ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
         ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 0, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((unsigned int)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
         ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
         ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 1, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((unsigned int)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
         ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
         ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 2, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((unsigned int)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
         ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
         ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 3, 3, 2, 1);
-        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((unsigned int)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
         ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
         ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 4, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((unsigned int)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
+        reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
 
         if (ShaderQuery_4dc060(0) >= 2)
         {
             ::AssignStageFromPool((::StageReturn *&)(spRenderPass));
             ::ConfigureBeamStage((::BeamStage *)(spRenderPass.m_p), 5, 3, 2, 1);
-            reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((unsigned int)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
+            reinterpret_cast<::StageSet *>(((m_spOwners[i]).operator->()))->FUN_00e802b0((uintptr_t)(m_spOwners[i]->m_pDirectInputDevice), (::Stage321 *)(::fnv_00bd0ae0::StageReturn *)(spRenderPass));
         }
     }
     DAT_011fcf84 = DAT_011fcf88 = 0x482;
@@ -6336,7 +6336,7 @@ void FUN_00bd0cb0_class::CallVirtualOnGlobalRange()
     {
         this->v74(*p);
         ++p;
-    } while ((long)p < (long)end);
+    } while ((intptr_t)p < (intptr_t)end);
 }
 
 struct GlobalObjectO2_00bd0f60
@@ -7793,7 +7793,7 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(0, (::NiAccumulator *)(iField2c0), (const ::NiCamera *)(0));
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(1, (::NiAccumulator *)(m_p2c[1]), (const ::NiCamera *)(0));
     FUN_00bd92b0_sub* sub = (FUN_00bd92b0_sub*)((char*)this + 0x58);
-    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)((int)sub), (const ::NiCamera *)(0));
+    reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)((intptr_t)sub), (const ::NiCamera *)(0));
 
     pMgr->v1(a1, a2, b, 1);
 
@@ -16000,7 +16000,7 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
     case 0x171:
     case 0x177: {
         PassTexSlot* slot = owner->pPasses->pSlot0;
-        slot->pTexture = ::GetTextureByIndex((char *)this, (int)(prop));
+        slot->pTexture = ::GetTextureByIndex((char *)this, (intptr_t)(prop));
     }
     break;
     case 0x7a:
@@ -16020,7 +16020,7 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
         owner->pPasses->pSlot0->pTexture = prop->pTexHolder->pTexture;
         {
             PassTexSlot* slot = owner->pPasses->pSlot1;
-            slot->pTexture = ::GetTextureByIndex((char *)this, (int)(prop));
+            slot->pTexture = ::GetTextureByIndex((char *)this, (intptr_t)(prop));
         }
         break;
     case 0x151:
@@ -16247,7 +16247,7 @@ FUN_00bd9160::~FUN_00bd9160()
         TextureResource_9160* empty = 0;
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00ba3aa0(0, (::KeyPair **)&(empty));
     }
-    if (((int)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_texture))->FUN_00ba3780())))
+    if (((intptr_t)(reinterpret_cast<::FUN_00ba3780_struct *>(&(m_texture))->FUN_00ba3780())))
     {
         TextureManager_9160* manager = reinterpret_cast<TextureManager_9160*>((*reinterpret_cast<int *>(&::DAT_011f91a8)));
         reinterpret_cast<::Manager *>((manager))->FUN_00b6da10((::Item *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(m_texture))->FUN_00ba3770()));

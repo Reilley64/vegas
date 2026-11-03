@@ -997,7 +997,7 @@ void FUN_008da1a0_Class::FUN_008da1a0(FUN_00571550_shell* actor)
     int id = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((actor))->FUN_0043fcd0()));
     if (!id)
         return;
-    Model* model = ((::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((actor))->FUN_00571530((::fnv_00571530::NiAVObject *)(id), (::fnv_00571530::NiFixedString *)(((int)(::FUN_00571550()))))));
+    Model* model = ((::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((actor))->FUN_00571530((::fnv_00571530::NiAVObject *)(id), (::fnv_00571530::NiFixedString *)(((intptr_t)(::FUN_00571550()))))));
     if (!model)
         return;
     NiTimeController* controller = model->GetObject3D();
@@ -5287,7 +5287,7 @@ void S_8c4f10_Cls::FUN_008c4f10(int a)
 void FUN_008d14e0_cls::FUN_008d14e0(Arg_cls* apArg)
 {
     Target_cls* p = m_650;
-    if (p == 0 || ((int)(reinterpret_cast<::FUN_008ce390_shell *>((p))->FUN_008ce390())) != 0 || ((unsigned char)(reinterpret_cast<::FUN_00440d80_shell *>((p))->FUN_00440d80())) != 0)
+    if (p == 0 || ((intptr_t)(reinterpret_cast<::FUN_008ce390_shell *>((p))->FUN_008ce390())) != 0 || ((unsigned char)(reinterpret_cast<::FUN_00440d80_shell *>((p))->FUN_00440d80())) != 0)
     {
     }
     else
@@ -5522,7 +5522,7 @@ void FUN_008ce180(void* target, int maximum, int owner, bool destroy, bool filte
         bool arrow = false;
         MobileObject* removed = (MobileObject*)((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((count))->FUN_00968670(index)));
         ArrowProjectile* item = dynamic_cast<ArrowProjectile*>(removed);
-        if (item && ((int)(reinterpret_cast<::FUN_0085f810_shell *>((((AttachedArrowView*)item)))->FUN_0085f810())) == owner &&
+        if (item && ((intptr_t)(reinterpret_cast<::FUN_0085f810_shell *>((((AttachedArrowView*)item)))->FUN_0085f810())) == owner &&
             ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefObj*)item)))->FUN_007af430())) == target &&
             (!filter || reinterpret_cast<::FUN_008ce370_cls *>((((AttachedArrowFilter*)item)))->GetByteAtOffsetC1()))
         {
@@ -5541,7 +5541,7 @@ void FUN_008ce180(void* target, int maximum, int owner, bool destroy, bool filte
         bool item2 = false;
         MobileObject* arrow2 = (MobileObject*)((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((count))->FUN_00968670(second)));
         ArrowProjectile* removed2 = dynamic_cast<ArrowProjectile*>(arrow2);
-        if (removed2 && ((int)(reinterpret_cast<::FUN_0085f810_shell *>((((AttachedArrowView*)removed2)))->FUN_0085f810())) == owner &&
+        if (removed2 && ((intptr_t)(reinterpret_cast<::FUN_0085f810_shell *>((((AttachedArrowView*)removed2)))->FUN_0085f810())) == owner &&
             ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefObj*)removed2)))->FUN_007af430())) == target &&
             (!filter || reinterpret_cast<::FUN_008ce370_cls *>((((AttachedArrowFilter*)removed2)))->GetByteAtOffsetC1()))
         {
@@ -5599,7 +5599,7 @@ void FUN_008c2630_Owner::FUN_008c2630(TESBoundObject* apForm, int a2)
         return;
     }
     TESEnchantableForm* r6 = dynamic_cast<TESEnchantableForm*>(apForm);
-    FUN_008c2630_Obj* p2 = r6 ? (FUN_008c2630_Obj*)((unsigned int)(reinterpret_cast<::Callees *>((r6))->FUN_00726070())) : 0;
+    FUN_008c2630_Obj* p2 = r6 ? (FUN_008c2630_Obj*)((uintptr_t)(reinterpret_cast<::Callees *>((r6))->FUN_00726070())) : 0;
     if (p2)
     {
         m_88.v5(p2 ? (char*)p2 + 0x18 : 0, apForm, 0);

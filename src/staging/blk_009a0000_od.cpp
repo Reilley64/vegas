@@ -904,7 +904,7 @@ void FUN_009b12d0_Class::FUN_009b12d0()
 {
     if (*(Flt*)((char*)this + 0xc4))
     {
-        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((unsigned int)((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc4)));
+        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((uintptr_t)((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0xc4)));
         *(GO*)((char*)this + 0xc4) = 0;
     }
 }
@@ -1359,7 +1359,7 @@ void FUN_009bb8a0_Class::UpdateLightVisibility()
     {
         if (m0)
         {
-            if (!((int)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))), (unsigned int)mf, {}))))
+            if (!((intptr_t)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))), (unsigned int)mf, {}))))
             {
                 b = 0;
                 reinterpret_cast<::fnv_00b5c940::SSNode *>((((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(unsigned int)mf), true);
@@ -1594,7 +1594,7 @@ void ShadowNode::FUN_009bb850()
 {
     if (m10)
     {
-        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((unsigned int)((NiAVObject*)(unsigned int)m10));
+        reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((uintptr_t)((NiAVObject*)(unsigned int)m10));
         ((GO*)&this->m10)->operator=(0);
     }
 }
@@ -2047,7 +2047,7 @@ void FUN_009a03d0_cls::FUN_009a03d0(unsigned char flag)
         }
         FUN_009a03d0_inner* a = m_e4;
         FUN_009a03d0_inner* b5 = a;
-        (b5 != 0) ? ((int)(reinterpret_cast<::FUN_006d3370_s *>((b5))->FUN_006d3370(1))) : 0;
+        (b5 != 0) ? ((intptr_t)(reinterpret_cast<::FUN_006d3370_s *>((b5))->FUN_006d3370(1))) : 0;
         m_e4 = 0;
     }
 }
@@ -2187,7 +2187,7 @@ class FUN_009a1380_cls
 unsigned char FUN_009a1380_cls::FUN_009a1380()
 {
     float f;
-    if (((int)(reinterpret_cast<::AlchemyItem *>((m_1c4))->FUN_004030b0())) == 0)
+    if (((intptr_t)(reinterpret_cast<::AlchemyItem *>((m_1c4))->FUN_004030b0())) == 0)
     {
         return 0;
     }
@@ -3059,7 +3059,7 @@ void FUN_009aa150_Class::FUN_009aa150(char* pBuffer, unsigned int uiBufferSize, 
     if (c == -1)
         c = m4;
     int v = FUN_009aa1b0(m0, c);
-    ::FUN_00406d00(pBuffer, uiBufferSize, "%s: %s", ((int)(reinterpret_cast<::FUN_009aa120_cls *>(this)->GetKeywordName())), v);
+    ::FUN_00406d00(pBuffer, uiBufferSize, "%s: %s", ((intptr_t)(reinterpret_cast<::FUN_009aa120_cls *>(this)->GetKeywordName())), v);
 }
 
 // @fnv 0x009aa120
@@ -3088,9 +3088,9 @@ unsigned char FUN_009aadc0_cls::FUN_009aadc0(int aiIndex, unsigned int auiBit)
 {
     if ((*reinterpret_cast<unsigned char (*)[256]>(&::DAT_011a55b4))[aiIndex * 8] != 0)
     {
-        return (((int)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((reinterpret_cast<DummyFontManager*>(this)))->FUN_005bd5c0(aiIndex))) & (1u << auiBit)) != 0;
+        return (((intptr_t)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((reinterpret_cast<DummyFontManager*>(this)))->FUN_005bd5c0(aiIndex))) & (1u << auiBit)) != 0;
     }
-    return (((int)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((reinterpret_cast<DummyFontManager*>(this)))->FUN_005bd5c0(aiIndex))) == (int)auiBit) ? 1 : 0;
+    return (((intptr_t)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((reinterpret_cast<DummyFontManager*>(this)))->FUN_005bd5c0(aiIndex))) == (int)auiBit) ? 1 : 0;
 }
 
 class NiPoint39AB
@@ -4039,7 +4039,7 @@ void InitCombatThing(CombatThing* thing, int iValueA, int iValueB, ActorStub* ac
         if (((::ItemStub *)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8())) && ((::ItemStub *)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8()))->IsOk())
         {
             ItemStub* item = ((::ItemStub *)(reinterpret_cast<::FUN_009acce0_shell *>((pActor))->GetFieldC8()));
-            if ((unsigned int)((::WeapStub *)(reinterpret_cast<::FUN_008a1710_shell *>((item))->FUN_008a1710())) == thing->unk30)
+            if ((uintptr_t)((::WeapStub *)(reinterpret_cast<::FUN_008a1710_shell *>((item))->FUN_008a1710())) == thing->unk30)
             {
                 FactorStub* pFactor = ((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture())) ? (FactorStub*)((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture()))->GetThing() : 0;
                 thing->unk34 = pFactor ? reinterpret_cast<::FUN_004bcdb0_shell *>((pFactor))->FUN_004bcdb0(true) : 1.0f;
@@ -5394,7 +5394,7 @@ A6080Path* A6080Speaker::FUN_009a6080()
 {
     A6080Response* pkResponse = GetActiveResponse();
     reinterpret_cast<::S219c0 *>(this)->DestroyDate();
-    A6080Path* pkFound = pkResponse ? ((::A6080Path *)(::FUN_00460140((int)(pkResponse)))) : ((::A6080Path *)(::FUN_00458b20()));
+    A6080Path* pkFound = pkResponse ? ((::A6080Path *)(::FUN_00460140((intptr_t)(pkResponse)))) : ((::A6080Path *)(::FUN_00458b20()));
     A6080Path* pkPath = pkFound;
     reinterpret_cast<::S219c0 *>(this)->DestroyDate();
     return pkPath;
@@ -6141,7 +6141,7 @@ void MatchContext::UpdateMatchingActors()
     void* playerResult = ((void *)(reinterpret_cast<::S009b0e00 *>(this)->FindOrCreateItem((int)((*reinterpret_cast<::MatchRef * *>(&::_g_thePlayer))), 0, true)));
     if (((::MatchList *)(::FUN_00559450((int *)&(entries)))))
     {
-        for (int index3 = 0; index3 < ((int)(reinterpret_cast<::Callees *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00726070())); ++index3)
+        for (int index3 = 0; index3 < ((intptr_t)(reinterpret_cast<::Callees *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00726070())); ++index3)
         {
             MatchRef* reference = ((::MatchRef *)(::FUN_004b5820((::FormLike *)(((unsigned int)(reinterpret_cast<::FUN_00629ab0_shell *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00629ab0(index3)))))));
             MatchRef* actor = ((::MatchRef *)(::FUN_0056f930((::NiAVObject *)(reference))));
@@ -6344,7 +6344,7 @@ void Actor9af::FUN_009afef0()
     if (unka0)
     {
         bool bFlag = reinterpret_cast<::FUN_00477950_shell *>((((::BaseFlags9af *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->HasAnyFlags(0x20);
-        for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::List9af *)(reinterpret_cast<::Owner9AF *>((((Owner9af*)unka0)))->GetFirstListItem()))))->FUN_00726070())); i++)
+        for (int i = 0; i < ((intptr_t)(reinterpret_cast<::Callees *>((((::List9af *)(reinterpret_cast<::Owner9AF *>((((Owner9af*)unka0)))->GetFirstListItem()))))->FUN_00726070())); i++)
         {
             void* pObj2 = FUN_004b59f0(((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>((((::List9af *)(reinterpret_cast<::Owner9AF *>((((Owner9af*)unka0)))->GetFirstListItem()))))->FUN_00629ab0(i))));
             Body9af* pBody6 = ((::Body9af *)(::FUN_004b5a80(pObj2)));
@@ -6359,7 +6359,7 @@ void Actor9af::FUN_009afef0()
                 if (pForm5)
                 {
                     Shader9af* pShader = pForm5->IsShader() ? (Shader9af*)pForm5 : 0;
-                    if (pShader && ((int)(reinterpret_cast<::TESEffectShader *>((pShader))->GetAddonModels())) == 1)
+                    if (pShader && ((intptr_t)(reinterpret_cast<::TESEffectShader *>((pShader))->GetAddonModels())) == 1)
                         continue;
                 }
             }
@@ -6676,11 +6676,11 @@ void Obj082::ProcessHits()
                 Obj082* amount = entry->object->IsActor() ? entry->object : 0;
                 if (amount)
                     reinterpret_cast<::MyActor008A5300 *>((amount))->CallProcessAt778();
-                ::FUN_005ac750((::TESForm *)(void *)(GetSource() ? (void*)::FUN_00559450((int *)(GetSource())) : 0), (::ExtraDataList *)(((int)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x80);
+                ::FUN_005ac750((::TESForm *)(void *)(GetSource() ? (void*)::FUN_00559450((int *)(GetSource())) : 0), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x80);
                 if (((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0())))
-                    ::FUN_005ac750((::TESForm *)(void *)(((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0()))), (::ExtraDataList *)(((int)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x100);
+                    ::FUN_005ac750((::TESForm *)(void *)(((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0()))), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x100);
                 else
-                    ::FUN_005ac750((::TESForm *)(void *)(((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (::ExtraDataList *)(((int)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x100);
+                    ::FUN_005ac750((::TESForm *)(void *)(((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (::ExtraDataList *)(((intptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((entry->object))->FUN_005d43c0()))), 0x100);
                 actor = reinterpret_cast<::FUN_009b0f80_Actor *>(this)->GetCachedValue() * distance;
                 if (reinterpret_cast<::FUN_00477ba0_shell *>((entry->object))->FUN_00477ba0() && ((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) == (*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer)))
                     reinterpret_cast<::fnv_00963eb0::PlayerView *>(((*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer))))->SetEffectValue((void *)(10), ::DAT_0102918c, (::fnv_00963eb0::EffectSource *)(0));
@@ -8585,7 +8585,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     original = damage;
     float minimumDamage8 = damage * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting556))))));
     if (weapon)
-        critical = ::ComputeAmmoEffectValue(5, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((int)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0),
+        critical = ::ComputeAmmoEffectValue(5, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((intptr_t)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0),
                                 critical);
     float resistanceVal = ((double)(::FUN_0040ebd0(target->values.Current(18), ::DAT_01016410))) / ::g_d100;
     if (reinterpret_cast<::MiddleHighProcess *>((target))->IsActorInCombat())
@@ -8596,7 +8596,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     }
     if (weapon)
         resistanceVal = ::ComputeAmmoEffectValue(
-            1, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((int)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0), resistanceVal);
+            1, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((intptr_t)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0), resistanceVal);
     float maxResistance8 = *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting1016)))))) / ::g_d100;
     if (resistanceVal > maxResistance8)
         resistanceVal = maxResistance8;
@@ -8611,7 +8611,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     }
     float originalThreshold = threshold;
     if (weapon)
-        threshold = ::ComputeAmmoEffectValue(2, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((int)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0),
+        threshold = ::ComputeAmmoEffectValue(2, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((intptr_t)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0),
                                  threshold);
     if (!skipBlock)
     {
@@ -8669,7 +8669,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     else
         damage = damage - threshold;
     if (weapon)
-        damage = ::ComputeAmmoEffectValue(0, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((int)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0),
+        damage = ::ComputeAmmoEffectValue(0, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((intptr_t)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0),
                               damage);
     if (weapon)
         ::ApplyPerkModifiers(0, (::Actor *)(attacker), weapon, target, &damage);

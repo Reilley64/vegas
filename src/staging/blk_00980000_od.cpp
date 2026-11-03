@@ -1182,7 +1182,7 @@ struct CombatSearchDoor
 // @fnv 0x0098c590
 CombatSearchDoor* FUN_0098c590_shell::FindParentSpaceNode(int formID)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray_ParentSpaceNode*)((char*)this + 0x120))))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray_ParentSpaceNode*)((char*)this + 0x120))))->GetName())); ++i)
     {
         ParentSpaceNode* node = &((BSSimpleArray_ParentSpaceNode*)((char*)this + 0x120))->GetAt(i);
         if (node->a == formID || node->b == formID)
@@ -1855,7 +1855,7 @@ bool FUN_00982df0_class::FUN_00982df0(unsigned int arg)
 {
     if (arg)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())); ++i)
         {
             unsigned int e = ((FUN_00844160_shell*)this)->FUN_00844160(i);
             if (*(unsigned int*)e == arg)
@@ -2482,7 +2482,7 @@ struct FUN_0098fdd0_class : BSSimpleList<int>
 // @fnv 0x0098fdd0
 int FUN_0098fdd0_class::FUN_0098fdd0()
 {
-    return (*reinterpret_cast<int (*)[]>((void *)&::DAT_011a4ed0))[reinterpret_cast<unsigned int>(((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>(this)->FUN_00726070())))];
+    return (*reinterpret_cast<int (*)[]>((void *)&::DAT_011a4ed0))[reinterpret_cast<uintptr_t>(((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>(this)->FUN_00726070())))];
 }
 
 extern int DAT_0108d97c;
@@ -3416,7 +3416,7 @@ struct FUN_00982e70_Class
 // @fnv 0x00982e70
 void FUN_00982e70_Class::AddItem(int item, void* context)
 {
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_0044ddc0_Class*)this)))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_0044ddc0_Class*)this)))->GetName())); ++index)
     {
         int* entry = (int*)((FUN_00844160_shell*)this)->FUN_00844160(index);
         if (*entry == item)
@@ -3501,7 +3501,7 @@ struct EventRegistry
 // @fnv 0x00982f40
 bool EventRegistry::RegisterEvent(int key, EventData* event)
 {
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); ++index)
+    for (unsigned int index = 0; index < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); ++index)
     {
         SlotRecord* item = ((::SlotRecord *)(reinterpret_cast<::FUN_00844160_shell *>(this)->FUN_00844160(index)));
         if (item->key == key)
@@ -4514,7 +4514,7 @@ void ClusterWork::UpdateGroups()
             }
         }
     }
-    for (unsigned j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); ++j)
+    for (unsigned j = 0; j < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); ++j)
     {
         FUN_0098dc00* group = ((::FUN_0098dc00 *)(reinterpret_cast<::S3e60 *>(&(groups))->FUN_006a7ad0(j)));
         if (group->count == 0)
@@ -4563,10 +4563,10 @@ void ClusterWork::UpdateGroups()
             reinterpret_cast<::StandIn_00989010 *>((pMergedGroup))->SetTripleAndValue((::ThreeInts_00989010 *)(::ClusterVec *)(&center), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(c[n].position))->FUN_0084e3a0())));
         }
     }
-    for (unsigned p = 0; p < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); ++p)
+    for (unsigned p = 0; p < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); ++p)
     {
         FUN_0098dc00* first = ((::FUN_0098dc00 *)(reinterpret_cast<::S3e60 *>(&(groups))->FUN_006a7ad0(p)));
-        for (unsigned q = p + 1; q < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); ++q)
+        for (unsigned q = p + 1; q < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups))->GetName())); ++q)
         {
             FUN_0098dc00* second = ((::FUN_0098dc00 *)(reinterpret_cast<::S3e60 *>(&(groups))->FUN_006a7ad0(q)));
             if (first->FUN_00527a40(*second) < DAT_011a4d2c * DAT_011a4d2c)
@@ -4610,7 +4610,7 @@ void ClusterWork::UpdateGroups()
 // @fnv 0x0098dc40
 void CombatGroupStub::RecenterClusters()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(clusters))->GetName())); i++)
+    for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(clusters))->GetName())); i++)
     {
         CombatClusterStub* cluster = ((::CombatClusterStub *)(reinterpret_cast<::S3e60 *>(&(clusters))->FUN_006a7ad0(i)));
         reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((cluster))->FUN_0098ddd0((void *)&((*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO))));
@@ -4628,7 +4628,7 @@ void CombatGroupStub::RecenterClusters()
             member->cluster->memberCount++;
         }
     }
-    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(clusters))->GetName())); k++)
+    for (unsigned int k = 0; k < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(clusters))->GetName())); k++)
     {
         CombatClusterStub* c = ((::CombatClusterStub *)(reinterpret_cast<::S3e60 *>(&(clusters))->FUN_006a7ad0(k)));
         Vec3 center = *((::Vec3 *)(void *)(c));
@@ -4940,7 +4940,7 @@ CombatStyleHandler* __cdecl SelectCombatStyleHandler(CombatActor* actor)
         return 0;
     CombatContext ctx(actor);
     CombatStyleHandler* pCurrentHandler = ((::CombatStyleHandler *)(reinterpret_cast<::FUN_0045cd60_shell *>((actor))->FUN_0045cd60()));
-    if (((int)(reinterpret_cast<::Callees *>(&(ctx))->FUN_00726070())) < 2)
+    if (((intptr_t)(reinterpret_cast<::Callees *>(&(ctx))->FUN_00726070())) < 2)
         return 0;
     for (unsigned int uiIndex = 0; uiIndex < 4; uiIndex++)
     {
@@ -5566,7 +5566,7 @@ void SearchOwner::FindAndDispatchById(int id, SearchDestination* destination)
     while (currentIndex != 0)
     {
         reinterpret_cast<::FUN_00996370_class *>((cursor))->AdvanceToNextEntry(&currentIndex, &auxiliary, (unsigned int *)(::SearchItem **)(&entry));
-        if (((int)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == id)
+        if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == id)
         {
             reinterpret_cast<::FUN_00438690 *>((destination))->FUN_007cb2e0((unsigned int *)(::SearchItem **)(&entry));
         }
@@ -5595,9 +5595,9 @@ int FUN_00995e30_cls::FUN_00995e30(FUN_00995e30_item_cls* node)
 {
     FUN_00995e30_arr_cls list(0x10, 0);
     reinterpret_cast<::SearchOwner *>(this)->FindAndDispatchById((int)node, (::SearchDestination *)(::FUN_00995e30_arr_cls *)(&list));
-    int total = (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName()));
+    int total = (int)((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName()));
 
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())); i++)
+    for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())); i++)
     {
         total += FUN_00995e30(*((::FUN_00995e30_item_cls **)(reinterpret_cast<::S3e60 *>(&(list))->FUN_006a7ad0(i))));
     }
@@ -5725,7 +5725,7 @@ PathNode* PathSearch::FindPath()
         }
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(neighbors))->Clear(false);
         GetNeighbors(m_pTileTemplate, &neighbors);
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(neighbors))->GetName())); i++)
+        for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(neighbors))->GetName())); i++)
         {
             PathNode* node = neighbors.GetAt(i);
             reinterpret_cast<::FUN_006b9540_class *>(&(m_openList))->UnlinkFromNeighbors((int)(node));
@@ -6406,13 +6406,13 @@ void NearbyGroup::CollectNearbyRefs()
                     ::FUN_006d9350((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(point))->FUN_0084e3a0()))), (int)&((*(::ClusterVec *)(((::Vec3 *)(void *)&(point))))), searchRadius, (::TESSound *)(::NearbyArray *)(&entries));
                 }
                 reinterpret_cast<::FUN_00729970_shell *>(&(entries))->FUN_00729970((int)(((int (&)(const void *, const void *))::FUN_006bfb30)));
-                for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++j)
+                for (unsigned int j = 0; j < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++j)
                 {
                     unsigned int duplicates;
                     {
                         TESObjectREFR* ref = ((::TESObjectREFR *)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(j)));
                         duplicates = 0;
-                        for (unsigned int k = j + 1; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++k)
+                        for (unsigned int k = j + 1; k < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++k)
                         {
                             TESObjectREFR* next = ((::TESObjectREFR *)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(k)));
                             if (ref != next)
@@ -6423,7 +6423,7 @@ void NearbyGroup::CollectNearbyRefs()
                             reinterpret_cast<::SimpleArrayRemove *>(&(entries))->FUN_0098ebe0(j + 1, duplicates, false);
                     }
                 }
-                for (unsigned int n = 0; n < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++n)
+                for (unsigned int n = 0; n < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++n)
                     reinterpret_cast<::FUN_0098c600_class *>(this)->AddRadioReference(((::TESObjectREFR *)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(n))));
             }
         }
@@ -6604,7 +6604,7 @@ bool GroupReset_98afb0::UpdateAndCheckChanged()
 // @fnv 0x0098c0d0
 void PositionGroup::UpdateExpiringPositions()
 {
-    for (unsigned i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(positions))->GetName())); ++i)
+    for (unsigned i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(positions))->GetName())); ++i)
     {
         ExpiringPosition* entry = ((::ExpiringPosition *)(reinterpret_cast<::B98EBC0Array *>(&(positions))->GetElementAt(i)));
         float age = reinterpret_cast<::FUN_00985bb0_Class *>((entry))->FUN_00985bb0();
@@ -7205,7 +7205,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
             reinterpret_cast<::FUN_009859c0_shell *>((item))->FUN_009859c0((::BGSSaveFormBuffer *)(writer), (::FUN_0098de30_class *)(::SavedCombatState *)(this));
         }
     }
-    unsigned char type = mode ? ((int)(reinterpret_cast<::Callees *>((mode))->FUN_00726070())) : -1;
+    unsigned char type = mode ? ((intptr_t)(reinterpret_cast<::Callees *>((mode))->FUN_00726070())) : -1;
     reinterpret_cast<::FUN_00865e50_shell *>((writer))->FUN_00865e50((void *)(&type), 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((writer))->FUN_00865e50((void *)(&flags2c), 1, 0);
     reinterpret_cast<::FUN_009a5eb0_shell *>(&(pair30))->FUN_009a5eb0((::BGSSaveFormBuffer *)(writer));
@@ -8182,7 +8182,7 @@ BuildResult* BuildOwner::BuildResultForInput(int first, int second, BuildInput* 
     BuildSecond objects4;
     reinterpret_cast<::FUN_00996420_class *>(this)->SetThreadTasklet((int)(&entries), (int)(&objects4), 0);
     BuildResult* result3 = 0;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(objects4))->GetName())) > 0)
+    if (((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(objects4))->GetName())) > 0)
     {
         result3 = new BuildResult(first, second, &entries, &objects4, &context);
     }
@@ -8604,7 +8604,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
     {
         if (!quiet)
             reinterpret_cast<::FUN_0099c210_shell *>((((::CombatPosition::Evaluator *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::CombatPosition::Manager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->LockCombatTargetMap();
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(stateSlot21->nodes))->GetName())); i++)
+        for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(stateSlot21->nodes))->GetName())); i++)
         {
 
             Node* node = ((::CombatPosition::Node *)(reinterpret_cast<::FUN_009052c0_shell *>(&(stateSlot21->nodes))->FUN_009052c0(i)));
@@ -8665,7 +8665,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
             }
 
             bool blockedSlot62 = false;
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::CombatPosition::History *)(reinterpret_cast<::FUN_006e4fb0_shell *>((owner))->GetOffsetF4()))))->GetName())))
+            if (((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::CombatPosition::History *)(reinterpret_cast<::FUN_006e4fb0_shell *>((owner))->GetOffsetF4()))))->GetName())))
                 blockedSlot62 = ::FUN_0099cb00(&candidateSlot0, (::ArrSI *)(::CombatPosition::History *)(((::CombatPosition::History *)(reinterpret_cast<::FUN_006e4fb0_shell *>((owner))->GetOffsetF4()))));
             else
                 blockedSlot62 = ::FUN_0099cc60(&candidateSlot0, (::ParentSpaceNode *)&(const ::CombatPosition::Vec &)((*(::CombatPosition::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((target))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), 0);
@@ -8702,7 +8702,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
 
             if (!overridePositionSlot12)
             {
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(routeSlot16))->GetName())) > 1)
+                if (((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(routeSlot16))->GetName())) > 1)
                 {
                     Vec point = (*(::CombatPosition::Vec *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((routeSlot16.FUN_006dad90(1)))->FUN_006a6eb0({})));
                     if (reinterpret_cast<::DistanceCheck *>(&(context->stored))->FUN_006e4840((const ::NiPoint3 &)(point)))
@@ -8716,7 +8716,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
                 List secondRouteSlot2;
                 Location endpointSlot0(targetPositionSlot21, actorSlot12);
                 if (::FUN_006d5490((::RouteLocation *)(&candidateSlot0), (::RouteLocation *)(&endpointSlot0), pathSlot25, 0, (::FUN_006abbb0 *)(::CombatPosition::List *)(&secondRouteSlot2)) &&
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(secondRouteSlot2))->GetName())) > 1)
+                    ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(secondRouteSlot2))->GetName())) > 1)
                 {
                     point = (*(::CombatPosition::Vec *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((secondRouteSlot2.FUN_006dad90(1)))->FUN_006a6eb0({})));
                 }
@@ -9158,7 +9158,7 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
             Array99 objects0;
             if (::FUN_006d9350(((void *)(reinterpret_cast<::s575ca0::Owner *>((((Actor99*)actor15)))->FUN_00575ca0())), (int)(&actorPos3), range1, (::TESSound *)(::Array99 *)(&objects0)))
             {
-                for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(objects0))->GetName())); index++)
+                for (unsigned int index = 0; index < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(objects0))->GetName())); index++)
                 {
                     Ref99* object21 = ((::Ref99 *)(reinterpret_cast<::S3e60 *>(&(objects0))->FUN_006a7ad0(index)));
                     if (reinterpret_cast<::FUN_00437b90_shell *>((object21))->FUN_00437b90())
@@ -9186,7 +9186,7 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
                         continue;
                     if (!reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>(this)->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&(*(::Loc99 *)(reinterpret_cast<::UnkThis *>((link36))->FUN_0043a390({}))))), 1, 1))
                         continue;
-                    if (((int)(reinterpret_cast<::B989700List *>((((Cast99*)((void *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound())))))->FindRefInRadius((::B9897F0Point *)(::Loc99 *)(&objectLocation6), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting446)))))), 0))))
+                    if (((intptr_t)(reinterpret_cast<::B989700List *>((((Cast99*)((void *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound())))))->FindRefInRadius((::B9897F0Point *)(::Loc99 *)(&objectLocation6), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting446)))))), 0))))
                         continue;
                     Pos99 objectPos45 = *object21->Position();
                     Pos99 delta1 = objectPos45 - actorPos3;
@@ -9587,7 +9587,7 @@ void View995::PopulateTree()
     }
     State995* state6 = ((::State995 *)(reinterpret_cast<::FUN_00995db0_Class *>((owner))->GetOffset205C()));
     entry7.parent = -65536;
-    entry7.text = ((const char *)(::FUN_00464f30((int)("Initial World State"))));
+    entry7.text = ((const char *)(::FUN_00464f30((intptr_t)("Initial World State"))));
     entry7.selectedImage = entry7.image = 0;
     entry7.parameter = 0;
     int stateRoot = DAT_00fdf28c(tree, 0x1100, 0, &entry7);
@@ -9599,17 +9599,17 @@ void View995::PopulateTree()
         entry7.parent = stateRoot;
         char text[2600];
         reinterpret_cast<::S_009aae70 *>((state6))->FormatFlagsString(text, 2600, index);
-        entry7.text = ((const char *)(::FUN_00464f30((int)(text))));
+        entry7.text = ((const char *)(::FUN_00464f30((intptr_t)(text))));
         DAT_00fdf28c(tree, 0x1100, 0, &entry7);
     }
     if (plan)
     {
         entry7.parent = -65536;
-        entry7.text = ((const char *)(::FUN_00464f30((int)("Combat Plan"))));
+        entry7.text = ((const char *)(::FUN_00464f30((intptr_t)("Combat Plan"))));
         entry7.selectedImage = entry7.image = 0;
         entry7.parameter = 0;
         int planRoot4 = DAT_00fdf28c(tree, 0x1100, 0, &entry7);
-        for (unsigned planIndex_ = 0; planIndex_ < ((unsigned int)(reinterpret_cast<::Callees *>((plan))->FUN_00726070())); ++planIndex_)
+        for (unsigned planIndex_ = 0; planIndex_ < ((uintptr_t)(reinterpret_cast<::Callees *>((plan))->FUN_00726070())); ++planIndex_)
         {
             Action995* action = ((::Action995 *)(reinterpret_cast<::FUN_009948b0 *>((plan))->GetItem(planIndex_)));
             int actionDetail;
@@ -9619,7 +9619,7 @@ void View995::PopulateTree()
                 entry7.parent = planRoot4;
                 char text[260];
                 action->Describe(text, 260, actionDetail);
-                entry7.text = ((const char *)(::FUN_00464f30((int)(text))));
+                entry7.text = ((const char *)(::FUN_00464f30((intptr_t)(text))));
                 DAT_00fdf28c(tree, 0x1100, 0, &entry7);
             }
         }
@@ -9627,7 +9627,7 @@ void View995::PopulateTree()
     if (selected3)
     {
         entry7.parent = -65536;
-        entry7.text = ((const char *)(::FUN_00464f30((int)("Planner"))));
+        entry7.text = ((const char *)(::FUN_00464f30((intptr_t)("Planner"))));
         entry7.selectedImage = entry7.image = 0;
         entry7.parameter = selected3;
         selection = DAT_00fdf28c(tree, 0x1100, 0, &entry7);
@@ -9674,13 +9674,13 @@ void DebugTree::FUN_00995ef0(int parent, DebugNode* node)
         {
             FUN_00406d00(text, 260, "Start [ %i ]", count);
         }
-        insert.text = (char*)((const char *)(::FUN_00464f30((int)(text))));
+        insert.text = (char*)((const char *)(::FUN_00464f30((intptr_t)(text))));
         insert.image = 3;
         insert.selectedImage = insert.image;
         insert.parent = DAT_00fdf28c(tree, 0x1100, 0, &insert);
         insert.parameter = 0;
         FUN_00406d00(text, 260, "Node Cost: %.02f Key: %08X", reinterpret_cast<::CombatTargetTimestamp *>((node))->FUN_006a7f50(), (*((::CombatStateHash **)(reinterpret_cast<::TESTopicInfoData *>((node))->GetLinkToList())))->ComputeHash());
-        insert.text = (char*)((const char *)(::FUN_00464f30((int)(text))));
+        insert.text = (char*)((const char *)(::FUN_00464f30((intptr_t)(text))));
         insert.image = 5;
         insert.selectedImage = insert.image;
         parent = insert.parent;
@@ -9693,7 +9693,7 @@ void DebugTree::FUN_00995ef0(int parent, DebugNode* node)
             if (entry)
             {
                 reinterpret_cast<::FUN_009aa150_Class *>((entry))->FUN_009aa150(text, 260, -1);
-                insert.text = (char*)((const char *)(::FUN_00464f30((int)(text))));
+                insert.text = (char*)((const char *)(::FUN_00464f30((intptr_t)(text))));
                 insert.image = 6;
                 insert.selectedImage = insert.image;
                 DAT_00fdf28c(tree, 0x1100, 0, &insert);
@@ -9701,7 +9701,7 @@ void DebugTree::FUN_00995ef0(int parent, DebugNode* node)
         }
         FUN_00995e30_arr_cls children(16, 0);
         reinterpret_cast<::SearchOwner *>(this)->FindAndDispatchById((int)(node), (::SearchDestination *)(::FUN_00995e30_arr_cls *)(&children));
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(children))->GetName())); j++)
+        for (unsigned int j = 0; j < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(children))->GetName())); j++)
         {
             FUN_00995ef0(parent, (DebugNode*)*((::FUN_00995e30_item_cls **)(reinterpret_cast<::S3e60 *>(&(children))->FUN_006a7ad0(j))));
         }

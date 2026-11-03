@@ -987,9 +987,9 @@ struct FUN_00ba52b0_Class
 void FUN_00ba52b0_Class::FUN_00ba52b0(int a)
 {
     if (a == 0x41)
-        DAT_0126f74c = (int)m_0x78;
+        DAT_0126f74c = (intptr_t)m_0x78;
     else
-        DAT_0126f74c = (int)m_0x74;
+        DAT_0126f74c = (intptr_t)m_0x74;
 }
 
 struct FUN_00ba6370_Class
@@ -1920,7 +1920,7 @@ struct FUN_00ba4260_Class
 // @fnv 0x00ba4260
 void FUN_00ba4260_Class::FUN_00ba4260(unsigned char value)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<int>(this) + 0x5c) = value;
+    *reinterpret_cast<unsigned char*>(reinterpret_cast<intptr_t>(this) + 0x5c) = value;
 }
 
 extern float DAT_012003d0;
@@ -11301,7 +11301,7 @@ struct Pass
     Resource* resource5C;
     void attach(StageReturn* stage)
     {
-        reinterpret_cast<::StageSet *>(this)->FUN_00e802b0((unsigned int)(stageList), (::Stage321 *)(stage));
+        reinterpret_cast<::StageSet *>(this)->FUN_00e802b0((uintptr_t)(stageList), (::Stage321 *)(stage));
     }
     void set5C(Resource* value)
     {
@@ -12754,7 +12754,7 @@ void FUN_00baeee0_shell::AppendToStringArray(StrArr* arr)
         const char* name = tex ? tex->name : "";
         if (!name)
             name = "";
-        char* val = ::fnv_00a7d5e0::FUN_00a7d5e0("Blend Texture", (const char *)((unsigned int)name));
+        char* val = ::fnv_00a7d5e0::FUN_00a7d5e0("Blend Texture", (const char *)((uintptr_t)name));
         unsigned int idx = view->count;
         if (idx >= view->capacity)
             reinterpret_cast<::ViewerStrings *>((arr))->SetSize(view->growBy + idx);
@@ -12795,7 +12795,7 @@ void FUN_00baeee0_shell::AppendToStringArray(StrArr* arr)
     {
         ::FUN_00406d00(buf, 256, "%d %d %d %d", (int)(col60 * 255.0), (int)(col64 * 255.0), (int)(col68 * 255.0),
                      (int)(col6c * 255.0));
-        char* val = ::fnv_00a7d5e0::FUN_00a7d5e0("Blend Color", (const char *)((unsigned int)buf));
+        char* val = ::fnv_00a7d5e0::FUN_00a7d5e0("Blend Color", (const char *)((uintptr_t)buf));
         unsigned int idx = view->count;
         if (idx >= view->capacity)
             reinterpret_cast<::ViewerStrings *>((arr))->SetSize(view->growBy + idx);
@@ -12914,7 +12914,7 @@ void FUN_00bb1160_Class::FUN_00bb1160(StrArr* array)
         char* value;
         if (name)
         {
-            value = ::fnv_00a7d5e0::FUN_00a7d5e0(&(*reinterpret_cast<char *>((void *)&::str_010ae79c)), (const char *)((unsigned int)name));
+            value = ::fnv_00a7d5e0::FUN_00a7d5e0(&(*reinterpret_cast<char *>((void *)&::str_010ae79c)), (const char *)((uintptr_t)name));
             ((FNVArray*)array)->Append(value);
         }
         else
@@ -16098,23 +16098,23 @@ void Shader::FUN_00bb1f60(Geometry* geometry, int unused1, int unused2, PassInfo
         {
             if (useFog)
             {
-                ::FUN_00b79950((char *)(active), (int)(Get_fogVertex()), {});
+                ::FUN_00b79950((char *)(active), (intptr_t)(Get_fogVertex()), {});
                 reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_fogPixel()));
             }
             else
             {
-                ::FUN_00b79950((char *)(active), (int)(Get_normalVertex()), {});
+                ::FUN_00b79950((char *)(active), (intptr_t)(Get_normalVertex()), {});
                 reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_normalPixel()));
             }
         }
         else if (useFog)
         {
-            ::FUN_00b79950((char *)(active), (int)(Get_alternateFogVertex()), {});
+            ::FUN_00b79950((char *)(active), (intptr_t)(Get_alternateFogVertex()), {});
             reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_fogPixel()));
         }
         else
         {
-            ::FUN_00b79950((char *)(active), (int)(Get_alternateVertex()), {});
+            ::FUN_00b79950((char *)(active), (intptr_t)(Get_alternateVertex()), {});
             reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_normalPixel()));
         }
     }
@@ -17069,7 +17069,7 @@ void BA01A0Owner::FUN_00ba01a0(BA01A0Item* item, void* key)
     if (target)
     {
         int b = target->uiType - 1 <= 11;
-        BA01A0Target* t = (BA01A0Target*)((b != 0 ? -1 : 0) & (int)target);
+        BA01A0Target* t = (BA01A0Target*)((b != 0 ? -1 : 0) & (intptr_t)target);
         if (t)
             reinterpret_cast<::sb717a0::WatchSet *>((t))->AddWatcher((::sb717a0::Watcher *)(::BA01A0Owner *)(this));
     }

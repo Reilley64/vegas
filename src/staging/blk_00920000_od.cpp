@@ -798,7 +798,7 @@ bool FUN_00930870(Actor* pActor)
         }
     }
     result = (*(bool(*)(Actor*))((*(void***)pActor)[0x2a0 / 4]))(pActor);
-    anim = (NiAVObject*)((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((P09H*)pActor)))->FUN_0043fcd0()));
+    anim = (NiAVObject*)((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((P09H*)pActor)))->FUN_0043fcd0()));
     if (anim != 0)
     {
         ::FUN_00c69ee0(anim, true, 0);
@@ -6253,7 +6253,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             reinterpret_cast<::fnv_00950110::FUN_00950110_pc *>(((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))))->FUN_00950110(false);
         DAT_011f21d0 = false;
     }
-    switch (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())))
+    switch (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())))
     {
     case 0:
         ::FUN_00453a70();
@@ -6359,9 +6359,9 @@ void TickPlayer::FUN_0093e860(float elapsed)
         unk150 = 0;
     reinterpret_cast<::FUN_00962d00_Class *>(this)->FUN_00962d00();
     unk68->vf464(this);
-    if (((int)(reinterpret_cast<::FUN_00967950_class *>(this)->GetReferenceFromPhysicsController())))
-        reinterpret_cast<::fnv_00963eb0::PlayerView *>(this)->SetEffectValue((void *)(7), ::DAT_010162c0, (::fnv_00963eb0::EffectSource *)(((int)(reinterpret_cast<::FUN_00967950_class *>(this)->GetReferenceFromPhysicsController()))));
-    if (((int)(reinterpret_cast<::FUN_00967a00_Class *>(this)->GetActorFromPhysicsController())) && unk154 <= 0.0)
+    if (((intptr_t)(reinterpret_cast<::FUN_00967950_class *>(this)->GetReferenceFromPhysicsController())))
+        reinterpret_cast<::fnv_00963eb0::PlayerView *>(this)->SetEffectValue((void *)(7), ::DAT_010162c0, (::fnv_00963eb0::EffectSource *)(((intptr_t)(reinterpret_cast<::FUN_00967950_class *>(this)->GetReferenceFromPhysicsController()))));
+    if (((intptr_t)(reinterpret_cast<::FUN_00967a00_Class *>(this)->GetActorFromPhysicsController())) && unk154 <= 0.0)
         reinterpret_cast<::FUN_008bc240_h *>(this)->FUN_008bc240(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::MSetting *>(&::g_011cdde0)))))));
     bool weaponDrawn = reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10();
     if (weaponDrawn && unk68->vf454())
@@ -6378,7 +6378,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             if (hour >= sunset || hour <= sunrise)
                 night = true;
         }
-        if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) || unke18 > 0.0)
+        if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) || unke18 > 0.0)
             night = false;
         TickEquip* equipped = unk68->vf148();
         TickWeapon* nightWeapon = equipped ? ((::TickWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((equipped))->GetName())) : 0;
@@ -6396,7 +6396,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             reinterpret_cast<::B63E00Owner *>(this)->FUN_00963e00((void *)(9), 0);
             unke08 = false;
         }
-        if (!((int)(reinterpret_cast<::FUN_00964100_shell *>(this)->FUN_00964100(9))))
+        if (!((intptr_t)(reinterpret_cast<::FUN_00964100_shell *>(this)->FUN_00964100(9))))
             reinterpret_cast<::fnv_00963eb0::PlayerView *>(this)->SetEffectValue((void *)(9), DAT_01017868, (::fnv_00963eb0::EffectSource *)(0));
     }
     else
@@ -6409,7 +6409,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         }
         reinterpret_cast<::B63E00Owner *>(this)->FUN_00963e00((void *)(9), 0);
     }
-    if (weaponDrawn && !unke2e && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) != 4)
+    if (weaponDrawn && !unke2e && ((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) != 4)
     {
         float perk = 0.0f;
         ::ApplyPerkModifiers(0x46, (::Actor *)((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))), &perk);
@@ -6446,7 +6446,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
     process->vf500(this, 0);
     if (reinterpret_cast<::SrcThis *>(this)->FUN_009678a0() && !vf214())
     {
-        if (!((int)(reinterpret_cast<::FUN_00964100_shell *>(this)->FUN_00964100(8))))
+        if (!((intptr_t)(reinterpret_cast<::FUN_00964100_shell *>(this)->FUN_00964100(8))))
             reinterpret_cast<::fnv_00963eb0::PlayerView *>(this)->SetEffectValue((void *)(8), DAT_01017868, (::fnv_00963eb0::EffectSource *)(0));
     }
     else
@@ -6580,7 +6580,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
                     TickAmmoList* ammo = unk68->vf14c();
                     if (!ammo)
                         enoughAmmo = false;
-                    else if (((int)(reinterpret_cast<::Callees *>((ammo))->FUN_00726070())) < reinterpret_cast<::FUN_00524b60_shell *>((ammoWeapon))->GetByteAt102())
+                    else if (((intptr_t)(reinterpret_cast<::Callees *>((ammo))->FUN_00726070())) < reinterpret_cast<::FUN_00524b60_shell *>((ammoWeapon))->GetByteAt102())
                         enoughAmmo = false;
                 }
             }
@@ -7158,7 +7158,7 @@ axesDone:
             animGroup |= 8;
         }
     }
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) == 4)
+    if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) == 4)
         animGroup &= ~0x3f;
     unk190->vf00c(animGroup);
     if (sneakPressed)
@@ -7170,7 +7170,7 @@ axesDone:
     unk649 = true;
     unk64a = true;
     if (!(reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(4, 0) && DAT_011e07aa && unk68->vf14c() && reinterpret_cast<::fnv_008a6970::FUN_008a6970_shell *>(this)->FUN_008a6970()) && unk68->vf444() != 0.0 &&
-        !(((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) == 4 && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0())) && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0()))->unk08))
+        !(((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) == 4 && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0())) && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0()))->unk08))
         unk68->vf434(0);
     bool controlsBlocked = false;
     if (vf230() || vf234() || reinterpret_cast<::FUN_004f8960_shell *>(this)->FUN_004f8960() || reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() == 0xa || unk68->vf4bc())
@@ -7314,8 +7314,8 @@ axesDone:
 
     bool povPressed = reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(0x10, 1) > 0;
     if ((*reinterpret_cast<bool *>(&::DAT_011e0780)) ||
-        (povPressed && !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(8) && !vf214() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) != 4 && !reinterpret_cast<::FUN_00967ae0_cls *>(this)->FUN_00967ae0() &&
-         !::fnv_00705a00::FUN_00705a00() && !((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) && !(reinterpret_cast<::FUN_008846e0_shell *>(this)->GetVtbl20Result() & 0x800)))
+        (povPressed && !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(8) && !vf214() && ((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) != 4 && !reinterpret_cast<::FUN_00967ae0_cls *>(this)->FUN_00967ae0() &&
+         !::fnv_00705a00::FUN_00705a00() && !((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) && !(reinterpret_cast<::FUN_008846e0_shell *>(this)->GetVtbl20Result() & 0x800)))
     {
         if (::FUN_007f52c0())
         {
@@ -7564,7 +7564,7 @@ axesDone:
         debugPos.z += 128.0;
         debugPos.y += DAT_010240c0;
         debugPos.x += DAT_010240c0;
-        reinterpret_cast<::FUN_005610f0_cls *>(((*reinterpret_cast<::TickDebugObj * *>(&::DAT_011e07ec))))->FUN_005610f0((int)(&debugPos));
+        reinterpret_cast<::FUN_005610f0_cls *>(((*reinterpret_cast<::TickDebugObj * *>(&::DAT_011e07ec))))->FUN_005610f0((intptr_t)(&debugPos));
         reinterpret_cast<::Owner5615 *>(((*reinterpret_cast<::TickDebugObj * *>(&::DAT_011e07ec))))->FUN_005615d0((int)&(*(MPt*)&(*reinterpret_cast<::Vec122 *>((void *)&::NiPoint3::ZERO))));
     }
     if (!vf22c(0) && !vf2e8())
@@ -7587,7 +7587,7 @@ axesDone:
     if (unk68->vf6b8())
         reinterpret_cast<::S_009bb080 *>((unk68->vf6b8()))->FUN_009bb080(elapsed, (::S_009bb080_Base0 *)(::TickPlayer *)(this));
     if (vf22c(0) &&
-        !(((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) == 4 && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0())) && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0()))->unk00 == 0xf))
+        !(((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->GetName())) == 4 && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0())) && ((::TickVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->FUN_009c71c0()))->unk00 == 0xf))
         reinterpret_cast<::VATS_COMMAND_LIST *>(&((*reinterpret_cast<::TickVATS *>(&::g_011f2250))))->CreateCommandAndUpdateHUD();
     ::fnv_00555c20::FUN_00555c20();
     if (!DAT_011e0bb0 || DAT_011e0bb0 != ((::TickCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))
@@ -7710,7 +7710,7 @@ axesDone:
         TickAmmoList* ammo = unk68->vf14c();
         if (!ammo)
             enoughAmmo = false;
-        else if (((int)(reinterpret_cast<::Callees *>((ammo))->FUN_00726070())) < reinterpret_cast<::FUN_00524b60_shell *>((weapon))->GetByteAt102())
+        else if (((intptr_t)(reinterpret_cast<::Callees *>((ammo))->FUN_00726070())) < reinterpret_cast<::FUN_00524b60_shell *>((weapon))->GetByteAt102())
             enoughAmmo = false;
         if (!enoughAmmo || reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(4, 2) || !reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(4, 0))
             reinterpret_cast<::FUN_009ab9a0_shell *>((unk1a0))->FUN_009ab9a0((int)(this));

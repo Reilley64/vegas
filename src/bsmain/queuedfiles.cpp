@@ -140,18 +140,20 @@ struct P09QFBase
 {
     void QueuedFile(int);
 };
-struct P09QFE
+struct P09QFE : QueuedFile
 {
+    char* m_pcName;
+    void* m_pData;
     P09QFE* InitQueuedFile(int aePriority);
 };
-// Calls QueuedFile with the priority, sets the vtable to DAT_010c1554, clears fields at offsets 0x28 and 0x2c, and returns this.
+// Calls QueuedFile with the priority, sets the vtable to DAT_010c1554, clears m_pcName and m_pData, and returns this.
 // @fnv 0x00c3ce60
 P09QFE* P09QFE::InitQueuedFile(int aePriority)
 {
     new ((void *)(((P09QFBase*)this))) ::FUN_00c3c590(aePriority);
     *(int**)this = &DAT_010c1554;
-    *(char**)((char*)this + 0x28) = 0;
-    *(void**)((char*)this + 0x2c) = 0;
+    m_pcName = 0;
+    m_pData = 0;
     return this;
 }
 
@@ -224,7 +226,7 @@ struct QueuedFileRef
         if (m_pObject != 0)
         {
             QueuedFile* t = m_pObject;
-            InterlockedIncrement((LONG*)((char*)t + 8));
+            InterlockedIncrement(&t->m_iRefCount);
         }
     }
 
@@ -283,7 +285,7 @@ struct ChildrenOps
                 pTmp = pSlot->m_pObject;
                 if (pTmp != 0)
                 {
-                    InterlockedIncrement((LONG*)((char*)pTmp + 8));
+                    InterlockedIncrement(&pTmp->m_iRefCount);
                 }
             }
         }

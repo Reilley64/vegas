@@ -190,7 +190,7 @@ struct MemoryPoolView : public MemoryPool
 {
     bool HasMemory()
     {
-        return *(void**)((char*)this + 4) != 0;
+        return m_pPoolBase != 0;
     }
 };
 // Creates a MemoryPool with the given block and pool sizes and description, deleting it if it has no memory; returns early when aiBlockSize is below 8.

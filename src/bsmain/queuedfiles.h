@@ -120,8 +120,7 @@ class QueuedParents : public BSSimpleArray<NiPointer<QueuedFile>, 1024>
 
 // Root of the IO task tree. BSTask<T>'s virtuals occupy vtable offsets 0x00
 // (destructor), 0x04 (Run), 0x08 (Finish), 0x0c (Cancel) and 0x10
-// (GetDescription); the task storage fills IOTask to its engine size of 24
-// bytes.
+// (GetDescription); with its fields IOTask has the engine size of 24 bytes.
 class BSTask
 {
   public:
@@ -131,8 +130,9 @@ class BSTask
     virtual void Cancel();
     virtual bool GetDescription(char* pDescription, unsigned int uiSize);
 
-  private:
-    unsigned char taskStorage[0x14];
+    alignas(8) volatile long m_iRefCount;
+    int m_eState;
+    __int64 m_iKey;
 };
 
 class IOTask : public BSTask

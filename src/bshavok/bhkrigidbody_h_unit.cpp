@@ -485,6 +485,12 @@ struct S8d280_Mat
     }
 };
 
+struct S8d280_Body
+{
+    char unk000[0xf0];
+    S8d280_Mat kTransform;
+};
+
 class FUN_00c8d280_cls : public bhkRefObject
 {
   public:
@@ -498,7 +504,7 @@ S8d280_Mat* FUN_00c8d280_cls::FUN_00c8d280(S8d280_Mat* out)
     {
         if (m_pHavokObject != 0)
         {
-            S8d280_Mat* src = (S8d280_Mat*)((char*)m_pHavokObject + 0xf0);
+            S8d280_Mat* src = &((S8d280_Body*)m_pHavokObject)->kTransform;
             out->r0.m_vComponents = src->r0.m_vComponents;
             out->r1.m_vComponents = src->r1.m_vComponents;
             out->r2.m_vComponents = src->r2.m_vComponents;

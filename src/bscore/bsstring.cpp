@@ -216,13 +216,15 @@ const char* FUN_004b75a0(const char* apString1, const char* apString2)
 
 struct FUN_00634830_cls
 {
+    char unk00[0x58];
+    unsigned short usValue58;
     unsigned int GetOffset58();
 };
 
 // @fnv 0x00634830
 unsigned int FUN_00634830_cls::GetOffset58()
 {
-    return *(unsigned short*)((char*)this + 0x58);
+    return usValue58;
 }
 
 #include <stdarg.h>

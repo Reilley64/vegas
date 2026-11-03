@@ -102,13 +102,15 @@ struct FUN_004f66c0_node
 };
 struct FUN_004f66c0_shell
 {
+    char unk00[4];
+    ::BSSimpleList<void*> kList;
     FUN_004f66c0_item* FUN_004f66c0(int id);
 };
-// Walks the node chain starting at this+4 and returns the first item whose _ref_0084e3a0() equals id, or 0 if none matches.
+// Walks the node chain starting at kList and returns the first item whose _ref_0084e3a0() equals id, or 0 if none matches.
 // @fnv 0x004f66c0
 FUN_004f66c0_item* FUN_004f66c0_shell::FUN_004f66c0(int id)
 {
-    FUN_004f66c0_node* node = this ? (FUN_004f66c0_node*)((char*)this + 4) : 0;
+    FUN_004f66c0_node* node = this ? (FUN_004f66c0_node*)&kList : 0;
     while (node)
     {
         if (*((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) && reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::FUN_004f66c0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))))->FUN_0084e3a0() == id)
@@ -127,14 +129,16 @@ struct FUN_005549d0_node
 };
 struct FUN_005549d0_shell
 {
+    char unk00[0xac];
+    ::BSSimpleList<void*> kList;
     void FUN_005549d0(bool flag);
 };
 
-// Walks the linked list starting at this+0xac and calls FUN_00577390(flag) on each referenced object while the reference is non-null.
+// Walks the linked list starting at kList and calls FUN_00577390(flag) on each referenced object while the reference is non-null.
 // @fnv 0x005549d0
 void FUN_005549d0_shell::FUN_005549d0(bool flag)
 {
-    FUN_005549d0_node* node = (FUN_005549d0_node*)((char*)this + 0xac);
+    FUN_005549d0_node* node = (FUN_005549d0_node*)&kList;
     while (node && *((::FUN_005549d0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) != 0)
     {
         (*((::FUN_005549d0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->FUN_00577390(flag);
@@ -368,15 +372,17 @@ struct FUN_008c5000_node
 };
 struct FUN_008c5000_shell
 {
+    char unk00[0xf4];
+    ::BSSimpleList<void*> kList;
     FUN_008c5000_item* FUN_008c5000(int id);
 };
 // @fnv 0x008c5000
 FUN_008c5000_item* FUN_008c5000_shell::FUN_008c5000(int id)
 {
     FUN_008c5000_item* found = 0;
-    if (id && *((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_008c5000_node*)((char*)this + 0xf4)))->m_item)))
+    if (id && *((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_008c5000_node*)&kList))->m_item)))
     {
-        FUN_008c5000_node* node = (FUN_008c5000_node*)((char*)this + 0xf4);
+        FUN_008c5000_node* node = (FUN_008c5000_node*)&kList;
         while (node && !found)
         {
             if (*((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) && (*((::FUN_008c5000_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))->id == id)
@@ -392,13 +398,15 @@ struct FUN_008c5090_node
 };
 struct FUN_008c5090_shell
 {
+    char unk00[0xf4];
+    ::BSSimpleList<void*> kList;
     void DeleteAllItems();
 };
-// Walks the node list at offset 0xf4, deletes each referenced item, then removes all nodes from the list.
+// Walks the node list kList, deletes each referenced item, then removes all nodes from the list.
 // @fnv 0x008c5090
 void FUN_008c5090_shell::DeleteAllItems()
 {
-    FUN_008c5090_node* node = (FUN_008c5090_node*)((char*)this + 0xf4);
+    FUN_008c5090_node* node = (FUN_008c5090_node*)&kList;
     while (node)
     {
         int* item = *((int **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
@@ -406,7 +414,7 @@ void FUN_008c5090_shell::DeleteAllItems()
             delete item;
         node = ((::FUN_008c5090_node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
-    reinterpret_cast<::FileMatchList *>((((FUN_008c5090_node*)((char*)this + 0xf4))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((FUN_008c5090_node*)&kList)))->RemoveAll();
 }
 
 struct FUN_008d1560_ref
@@ -442,16 +450,18 @@ struct FUN_00964100_node
 };
 struct FUN_00964100_shell
 {
+    char unk00[0x60c];
+    FUN_00964100_node* pList;
     FUN_00964100_item* FUN_00964100(int id);
 };
-// Walks the node list starting at this+0x60c and returns the first item whose id matches, or null if none is found.
+// Walks the node list starting at pList and returns the first item whose id matches, or null if none is found.
 // @fnv 0x00964100
 FUN_00964100_item* FUN_00964100_shell::FUN_00964100(int id)
 {
     FUN_00964100_item* item = 0;
-    if (!*(FUN_00964100_node**)((char*)this + 0x60c))
+    if (!pList)
         return 0;
-    FUN_00964100_node* node = *(FUN_00964100_node**)((char*)this + 0x60c);
+    FUN_00964100_node* node = pList;
     FUN_00964100_item* found = 0;
     while (node && *((::FUN_00964100_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)) && !item)
     {
@@ -469,13 +479,15 @@ struct FUN_00966bb0_node
 };
 struct FUN_00966bb0_shell
 {
+    char unk00[0x5e4];
+    ::BSSimpleList<void*> kList;
     FUN_00966bb0_item* GetItemAt(int index);
 };
-// Walks the linked list starting at this+0x5e4 and returns the item at the given index, or 0 if the index is out of range.
+// Walks the linked list starting at kList and returns the item at the given index, or 0 if the index is out of range.
 // @fnv 0x00966bb0
 FUN_00966bb0_item* FUN_00966bb0_shell::GetItemAt(int index)
 {
-    FUN_00966bb0_node* node = (FUN_00966bb0_node*)((char*)this + 0x5e4);
+    FUN_00966bb0_node* node = (FUN_00966bb0_node*)&kList;
     int iCurrent = 0;
     while (node && *((::FUN_00966bb0_item **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item)))
     {
@@ -846,22 +858,27 @@ struct FUN_009b3490_shell
 
 struct Standin_009b3400
 {
+    char unk00[0x88];
+    ::BSSimpleList<void*> kList;
+    char cFlag90;
+    char unk91[0x150 - 0x91];
+    float fValue150;
     void ClearList();
 };
 
-// Sets the float at offset 0x150 to zero, deletes every item in the list at 0x88, calls FUN_009c2ff0, and clears the byte at 0x90.
+// Sets fValue150 to zero, deletes every item in kList, calls FUN_009c2ff0, and clears cFlag90.
 // @fnv 0x009b3400
 void Standin_009b3400::ClearList()
 {
-    *(float*)((char*)this + 0x150) = 0.0f;
-    while (!((FUN_0060f3a0_node*)((char*)this + 0x88))->_ref_008256d0())
+    fValue150 = 0.0f;
+    while (!((FUN_0060f3a0_node*)&kList)->_ref_008256d0())
     {
-        FUN_009b3490_shell* item = *(FUN_009b3490_shell**)((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_0060f3a0_node*)((char*)this + 0x88)))->m_item));
+        FUN_009b3490_shell* item = *(FUN_009b3490_shell**)((::FUN_0060f3a0_obj **)(&reinterpret_cast<::BSSimpleList<void*>*>(((FUN_0060f3a0_node*)&kList))->m_item));
         delete item;
-        ((FUN_0060f3a0_node*)((char*)this + 0x88))->_ref_0063f7b0();
+        ((FUN_0060f3a0_node*)&kList)->_ref_0063f7b0();
     }
     reinterpret_cast<::FUN_009c2ff0_shell *>((this))->FUN_009c2ff0();
-    *(char*)((char*)this + 0x90) = 0;
+    cFlag90 = 0;
 }
 
 struct Item_009b0e00

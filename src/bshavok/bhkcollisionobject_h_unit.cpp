@@ -73,29 +73,39 @@ struct hkVector4
     float x, y, z, w;
 };
 
+struct FUN_00c65ef0_body
+{
+    char unk000[0x1b0];
+    hkVector4 kCenterOfMass;
+};
+struct FUN_00c65ef0_entity
+{
+    char unk00[8];
+    FUN_00c65ef0_body* pBody;
+};
 struct WeaponObject
 {
+    char unk00[0x10];
+    FUN_00c65ef0_entity* m_pHavokObject;
     void* FUN_00c65ef0(void*);
 };
 
 // @fnv 0x00c65ef0
 void* WeaponObject::FUN_00c65ef0(void* a1)
 {
-    void* p = *(void**)((char*)this + 0x10);
+    FUN_00c65ef0_entity* p = m_pHavokObject;
     if (p)
     {
-        void* q = *(void**)((char*)p + 8);
+        FUN_00c65ef0_body* q = p->pBody;
         const hkVector4* r;
         if (q)
-            r = (const hkVector4*)((char*)q + 0x1B0);
+            r = &q->kCenterOfMass;
         else
             r = (const hkVector4*)&DAT_01267e30;
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(a1)), *r);
         return a1;
     }
-    ((int*)a1)[0] = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
-    ((int*)a1)[1] = ::_DAT_011f4270;
-    ((int*)a1)[2] = ::_DAT_011f4274;
+    *(::NiPoint3 *)(a1) = ::NiPoint3::ZERO;
     return a1;
 }
 

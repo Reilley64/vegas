@@ -269,7 +269,7 @@ struct FUN_00c3d090_shell2 {
 void FUN_00c3d090_shell2::FUN_00c3d090(int flag, char* dst)
 {
     if (flag == 0) {
-        ::BuildAssetPath((const char *)((int)p), dst, 0x104);
+        ::BuildAssetPath(p, dst, 0x104);
     } else {
         char* src = p;
         strcpy_s(dst, 0x104, src);
@@ -1082,7 +1082,7 @@ void FUN_00a16700_cls::SplitAndProcessToken(char* text, FUN_004037f0_target* tar
 struct FUN_00a18ff0_node {
     FUN_00a18ff0_node* next;
     int unk04;
-    int value;
+    void* value;
 };
 
 struct FUN_00a18ff0_cls {
@@ -1092,12 +1092,12 @@ struct FUN_00a18ff0_cls {
     int unk0c;
     int unk10;
     unsigned int m_14;
-    int GetValueAtCount();
+    void* GetValueAtCount();
 };
 
 // Walks the linked list from head for m_14 steps and returns the node's value, or 0 if m_08 is null or the list ends early.
 // @fnv 0x00a18ff0
-int FUN_00a18ff0_cls::GetValueAtCount() {
+void* FUN_00a18ff0_cls::GetValueAtCount() {
     unsigned int count;
     FUN_00a18ff0_node* cur;
     void* first4;
@@ -1108,7 +1108,7 @@ int FUN_00a18ff0_cls::GetValueAtCount() {
         h4 = head;
         cur = h4;
         while (cur != 0 && count-- != 0) {
-            int* p3 = &cur->value;
+            void** p3 = &cur->value;
             cur = cur->next;
         }
         if (cur != 0) {
@@ -2474,15 +2474,15 @@ void FUN_00a152d0_shell::FUN_00a152d0()
 void S_00a12300_Obj::ClearArray() {
     int unusedOne;
     int unusedTwo;
-    int index;
+    S_00a12300_Arr* index;
     int array;
 
     for (unusedOne = 0; m_aiIndexedValues != 0 && unusedOne < m_aiIndexedValues->count; unusedOne++) {
         ((S_00a12300_Elem*)((char*)&this->unk0c + unusedOne * 4))->FUN_0066b0d0(0);
     }
 
-    index = (int)m_aiIndexedValues;
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00a12300_Glob *>(&::g_memoryManager))))->FUN_00aa4060((S_00a12300_Arr*)index);
+    index = m_aiIndexedValues;
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00a12300_Glob *>(&::g_memoryManager))))->FUN_00aa4060(index);
     m_aiIndexedValues = 0;
 }
 
@@ -2623,8 +2623,8 @@ struct Info_ {
     int iEnd;
     int iLeading;
     int iUnused;
-    int oFirst;
-    int oLast;
+    void* oFirst;
+    void* oLast;
     char bFlag;
     SStr str;
     int GetFont() { return m_iType; }
@@ -2741,7 +2741,7 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
     info->iEnd = 0;
     info->oLast = 0;
     if (pNode) {
-        info->oFirst = (int)pNode->GetB8();
+        info->oFirst = pNode->GetB8();
         ListObj* list = ((::fnv_00a18a30::ListObj *)(reinterpret_cast<::FUN_00a18ff0_cls *>((pNode))->GetValueAtCount()));
         if (list) {
             info->iEnd = 0;
@@ -2752,7 +2752,7 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
                 info->iEnd += e->v14 + e->v1c;
                 info->iStart = Max(info->iStart, e->v0c);
             }
-            info->oLast = (int)list->GetX8();
+            info->oLast = list->GetX8();
         }
     }
     Pad20();
@@ -2916,9 +2916,9 @@ struct FontDataView {
 struct BoundView {  int a,b,c,d; };
 struct GeometryView {
     int unk00,unk04; unsigned short vertices,id; int unk0c;
-    BoundView bound; int active;
+    BoundView bound; void* active;
     unsigned short GetVertices() { return vertices; }
-    int GetActive() { int result=active; return result; }
+    void* GetActive() { void* result=active; return result; }
     void FUN_00a67050(int);
 };
 struct ShapeView {
@@ -3018,7 +3018,7 @@ void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int
     unsigned char letter9;
     int letterCode7;
     GlyphData* glyph;
-    int secondaryActive_2;
+    void* secondaryActive_2;
     float lineB=reinterpret_cast<::FUN_00a1b3a0_shell *>((Manager()))->FUN_00a1b3a0(number);
     FUN_00759330 layoutX(*width,*height,count,limit,separator);
     FUN_00a12fb0(SourceValue(source),&layoutX);
@@ -3073,7 +3073,7 @@ void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int
         *width=Maximum((int)(position6.x-originXVal),*width);
         ++cur5;
     }
-    int res=(*primary)->GetGeometry()->GetActive();
+    void* res=(*primary)->GetGeometry()->GetActive();
     reinterpret_cast<::Bound88 *>(&((*primary)->GetGeometry()->bound))->ComputeBoundingSphere((*primary)->GetGeometry()->GetVertices(),(const ::Vec88 *)(res));
     if(*secondary) {
         secondaryActive_2=(*secondary)->GetGeometry()->GetActive();
@@ -4130,7 +4130,7 @@ struct Letter {float leading,top,width,height;unsigned int unk10,unk14,unk18,unk
 
 struct FontData {unsigned int unk0;unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;unsigned int unk38;unsigned int unk3c;unsigned int unk40;unsigned int unk44;unsigned int unk48;unsigned int unk4c;unsigned int unk50;unsigned int unk54;unsigned int unk58;unsigned int unk5c;unsigned int unk60;unsigned int unk64;unsigned int unk68;unsigned int unk6c;unsigned int unk70;unsigned int unk74;unsigned int unk78;unsigned int unk7c;unsigned int unk80;unsigned int unk84;unsigned int unk88;unsigned int unk8c;unsigned int unk90;unsigned int unk94;unsigned int unk98;unsigned int unk9c;unsigned int unka0;unsigned int unka4;unsigned int unka8;unsigned int unkac;unsigned int unkb0;unsigned int unkb4;unsigned int unkb8;unsigned int unkbc;unsigned int unkc0;unsigned int unkc4;unsigned int unkc8;unsigned int unkcc;unsigned int unkd0;unsigned int unkd4;unsigned int unkd8;unsigned int unkdc;unsigned int unke0;unsigned int unke4;unsigned int unke8;unsigned int unkec;unsigned int unkf0;unsigned int unkf4;unsigned int unkf8;unsigned int unkfc;unsigned int unk100;unsigned int unk104;unsigned int unk108;unsigned int unk10c;unsigned int unk110;unsigned int unk114;unsigned int unk118;unsigned int unk11c;unsigned int unk120;unsigned int unk124;Letter letters[256];};
 
-struct Icons {virtual void v0();virtual void v4();virtual void Free(void*);int unk4,count,unkC;bool Empty(){return count==0;}void FUN_00a1bfa0(bool abFree){if(unk4){for(unsigned int i=0;i<(unsigned int)count;++i){}if(abFree){Free((void*)unk4);unk4=0;unk4=0;unkC=0;}count=0;}}};
+struct Icons {virtual void v0();virtual void v4();virtual void Free(void*);void* unk4;int count,unkC;bool Empty(){return count==0;}void FUN_00a1bfa0(bool abFree){if(unk4){for(unsigned int i=0;i<(unsigned int)count;++i){}if(abFree){Free(unk4);unk4=0;unk4=0;unkC=0;}count=0;}}};
 
 struct Font {unsigned int unk0;unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;FontData* data;unsigned int unk3c;unsigned int unk40;Icons icons;};
 

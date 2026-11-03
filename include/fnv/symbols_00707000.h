@@ -7,9 +7,9 @@ struct DisplayItem;
 struct DisplayTile;
 
 // 0x00707010
-int FUN_00707010(int, float, float);
+int FUN_00707010(void *, float, float);
 // 0x00707070
-int GetFieldD0();
+void *GetFieldD0();
 // 0x007070c0
 bool FUN_007070c0(const char *, char *, unsigned int, bool);
 // 0x00707330

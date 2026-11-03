@@ -43,7 +43,9 @@ class RgbaColor;
 template <> class BSStringT<char>
 {
   public:
-    char opaque[8];
+    char* pString;
+    unsigned short sLen;
+    unsigned short sMaxLen;
 };
 
 class Tile
@@ -60,7 +62,25 @@ class Tile
     virtual void* GetShaderProperty();
     virtual void SetAlphaAndOverlayColor(NiNode* node, float alpha, const RgbaColor& color);
 
-    char layoutPadding[0x34];
+    struct
+    {
+        void* pHead;
+        void* pTail;
+        unsigned int uiCount;
+    } m_kChildTileList;
+    struct
+    {
+        void* pVtbl;
+        void* pBuffer;
+        unsigned int uiSize;
+        unsigned int uiAllocSize;
+    } m_kValues;
+    BSStringT<char> StringProvider;
+    Tile* pParent;
+    NiNode* m_pRenderedNodeEntry;
+    unsigned int uiFlags;
+    bool m_bFlagAfterUiFlags;
+    bool m_bSpeechChallengeFailure;
 };
 
 class Tile3D : public Tile
@@ -379,7 +399,8 @@ class NiControllerSequence
     {
         return m_eAnimationState;
     }
-    char pad[0x40];
+    char pad[0x3c];
+    int m_iUnk40;
     int m_eAnimationState;
 };
 struct NiControllerManager
@@ -418,7 +439,7 @@ struct FUN_00a20cc0_t : public Tile3D
 {
     NiNode* GetNode()
     {
-        return *(NiNode**)((char*)this + 0x2c);
+        return m_pRenderedNodeEntry;
     }
     NiControllerManager* Mgr()
     {
@@ -447,7 +468,7 @@ struct FUN_00a20650_cls : Tile3DBaseDtor
     Tile3DStrField strFilename;
     __forceinline bool TestFlag(unsigned int mask) const
     {
-        return (*(const unsigned int*)((const char*)this + 0x30) & mask) != 0;
+        return (uiFlags & mask) != 0;
     }
     virtual ~FUN_00a20650_cls();
 };
@@ -463,11 +484,11 @@ FUN_00a20650_cls::~FUN_00a20650_cls()
 {
     FUN_00a20650_pad unkPad;
     unsigned int unkX;
-    unsigned int uiName;
+    const char* pcName;
     if (TestFlag(0x20000))
     {
-        uiName = *(unsigned int*)((char*)this + 0x48);
-        ::FUN_00707640((const char *)(uiName));
+        pcName = strFilename.pString;
+        ::FUN_00707640(pcName);
     }
     if (!TestFlag(0x2000))
     {
@@ -924,13 +945,13 @@ bool FUN_00a20cc0_t::FUN_00a20cc0(const char* apSequenceName)
         bool bActivated = false;
         if (m_pChildTile)
         {
-            if (((int)(reinterpret_cast<::LowProcess *>((((NiControllerSequence*)m_pChildTile)))->GetActiveCombatTarget())) == 1)
+            if (((NiControllerSequence*)m_pChildTile)->m_iUnk40 == 1)
                 reinterpret_cast<::AnimTile *>((((Dummy_00a20ed0*)this)))->UpdateAnimation(1.0f, 1);
             ((NiControllerManager*)m_pParent)->StopSequence((NiControllerSequence*)m_pChildTile);
         }
         if (!bActivated)
         {
-            if (((int)(reinterpret_cast<::LowProcess *>((pseq))->GetActiveCombatTarget())) != 0)
+            if (pseq->m_iUnk40 != 0)
                 ((NiControllerManager*)m_pParent)->StopSequence(pseq);
             bActivated = ((NiControllerManager*)m_pParent)->ActivateControllerSequence(pseq);
         }

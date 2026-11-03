@@ -1775,9 +1775,9 @@ void FUN_00707050(Tile* apTile)
 }
 
 // @fnv 0x00707070
-int __cdecl GetFieldD0()
+void* __cdecl GetFieldD0()
 {
-    return *(int*)((char*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) + 0xd0);
+    return *(void**)((char*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) + 0xd0);
 }
 
 // @fnv 0x00707080
@@ -2981,7 +2981,7 @@ struct Dummy00712450
 };
 // Calls _FUN_004b7210 with a, b and c, then returns the result of SetNodeAlpha on the returned object.
 // @fnv 0x00707010
-int FUN_00707010(int aiArg, float afArg1, float afArg2)
+int FUN_00707010(void* aiArg, float afArg1, float afArg2)
 {
     return ((::Dummy00712450 *)(::fnv_004b7210::FUN_004b7210()))->SetNodeAlpha();
 }

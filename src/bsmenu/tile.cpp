@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <cctype>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include "runtime/crt.h"
@@ -1537,20 +1538,20 @@ void FUN_00a09330_shell::ClearActionsAndFreeBuffer()
 }  // namespace fnv_00a09330
 
 template<> class NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> { public: void* AddHead(); };
-struct NiTMapItem_00a0c900 { NiTMapItem_00a0c900* m_pkNext; const char* m_key; int m_val; };
+struct NiTMapItem_00a0c900 { NiTMapItem_00a0c900* m_pkNext; const char* m_key; std::uintptr_t m_val; };
 struct FUN_00a0c900_shell {
     virtual void v0();
     virtual unsigned int KeyToHashIndex(const char*);
     virtual bool IsKeysEqual(const char*, const char*);
-    virtual void SetValue(NiTMapItem_00a0c900*, const char*, int);
+    virtual void SetValue(NiTMapItem_00a0c900*, const char*, std::uintptr_t);
     unsigned int m_uiHashSize;
     NiTMapItem_00a0c900** m_ppkHashTable;
     unsigned int m_uiCount;
     bool m_bCopy;
-    void FUN_00a0c900(const char* pcKey, int val);
+    void FUN_00a0c900(const char* pcKey, std::uintptr_t val);
 };
 // @fnv 0x00a0c900
-void FUN_00a0c900_shell::FUN_00a0c900(const char* pcKey, int val)
+void FUN_00a0c900_shell::FUN_00a0c900(const char* pcKey, std::uintptr_t val)
 {
     unsigned int uiIndex = KeyToHashIndex(pcKey);
     NiTMapItem_00a0c900* pkItem = m_ppkHashTable[uiIndex];

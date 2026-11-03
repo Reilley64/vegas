@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <string.h>
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
@@ -644,13 +645,13 @@ CompressedXML* LoadCompressedXML(const char* apFilename, const char* apFileData)
 
 struct FUN_00a0c900_shell
 {
-    void FUN_00a0c900(const char*, int);
+    void FUN_00a0c900(const char*, std::uintptr_t);
 };
 
 extern int DAT_011f34f4;
 
 // @fnv 0x00a1cb60
-void __cdecl FUN_00a1cb60(char const* a1, int aiValue)
+void __cdecl FUN_00a1cb60(char const* a1, std::uintptr_t aiValue)
 {
     int v4[10];
     ((FUN_00a0c900_shell*)&DAT_011f34f4)->FUN_00a0c900(a1, aiValue);
@@ -677,7 +678,7 @@ void FUN_00a1d9e0_shell::FUN_00a1d9e0()
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 0.0f, true);
         pTile_b = pMenu;
         pTile_a = (TileMenu*)*(void**)((char*)pTile_b + 0x2c);
-        ::FUN_00707010((int)(pTile_a), 1.0f, 0.0f);
+        ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 2;
         if (m_iModalMenuId)
         {
@@ -709,7 +710,7 @@ void FUN_00a1daa0_shell::FUN_00a1daa0()
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 1.0f, true);
         pTile_b = pMenu;
         pTile_a = *(void**)((char*)pTile_b + 0x2c);
-        ::FUN_00707010((int)(pTile_a), 1.0f, 0.0f);
+        ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 1;
         ::FUN_00706f90((int)(this));
     }
@@ -731,7 +732,7 @@ void FUN_00a1dba0_shell::FUN_00a1dba0()
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 0.0f, true);
         pTile_b = pMenu;
         pTile_a = *(void**)((char*)pTile_b + 0x2c);
-        ::FUN_00707010((int)(pTile_a), 1.0f, 0.0f);
+        ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 4;
         ::FUN_00706f90((int)(this));
     }
@@ -868,7 +869,7 @@ bool FUN_00a1d280()
                 for (unsigned int i = 0; i < kHeader.ItemUpdateArray; i++)
                 {
                     XMLEntry* pEntry = (XMLEntry*)pCurrent;
-                    int iTemplate = ((int)(::fnv_00a01e20::FUN_00a01e20(pEntry->acName, pEntry->acData, pEntry->GetLength())));
+                    std::uintptr_t iTemplate = reinterpret_cast<std::uintptr_t>(::fnv_00a01e20::FUN_00a01e20(pEntry->acName, pEntry->acData, pEntry->GetLength()));
                     ::FUN_00a1cb60(pEntry->acName, iTemplate);
                     pCurrent += pEntry->GetLength() + 0x84;
                 }
@@ -1433,7 +1434,7 @@ struct WeightedMapNode
 {
     WeightedMapNode* unk00;
     const char* unk04;
-    int unk08;
+    std::uintptr_t unk08;
 };
 struct MapAllocator
 {
@@ -1444,12 +1445,12 @@ struct FUN_00a0c900_shell
     virtual void Unk00();
     virtual unsigned int Hash(const char*);
     virtual bool Equal(const char*, const char*);
-    virtual void Set(WeightedMapNode*, const char*, int);
+    virtual void Set(WeightedMapNode*, const char*, std::uintptr_t);
     unsigned int unk04;
     WeightedMapNode** unk08;
     unsigned int unk0C;
     bool unk10;
-    void FUN_00a0c900(const char* apPath, int apXML)
+    void FUN_00a0c900(const char* apPath, std::uintptr_t apXML)
     {
         unsigned int bucket = Hash(apPath);
         WeightedMapNode* node = unk08[bucket];
@@ -1528,7 +1529,7 @@ int LoadMasterMenuFiles()
 
         pXML2 = ((::fnv_00a1cb80::CompressedXML *)(::LoadCompressedXML(pathBuffer6, _cur_ptr)));
         stripped2 = Menu::GetMenuPath(pathBuffer6);
-        reinterpret_cast<::FUN_00a0c900_shell *>(&(DAT_011f34e0))->FUN_00a0c900(stripped2, (int)pXML2);
+        reinterpret_cast<::FUN_00a0c900_shell *>(&(DAT_011f34e0))->FUN_00a0c900(stripped2, reinterpret_cast<std::uintptr_t>(pXML2));
 
         count7++;
         _cur_ptr = found9 + 4;
@@ -1565,8 +1566,8 @@ struct MapItem
 struct EntryMap
 {
     unsigned int m_uiHashSize;
-    unsigned int* m_ppkHashTable;
-    unsigned int GetFirstPos()
+    MapItem** m_ppkHashTable;
+    MapItem* GetFirstPos()
     {
         for (unsigned int i = 0; i < m_uiHashSize; ++i)
         {
@@ -1577,24 +1578,24 @@ struct EntryMap
     }
     virtual void v00();
     virtual unsigned int KeyToHashIndex(const char* pcKey);
-    void GetNext(unsigned int& kPos, const char*& pcName, CompressedEntry*& pkEntry)
+    void GetNext(MapItem*& kPos, const char*& pcName, CompressedEntry*& pkEntry)
     {
-        MapItem* pkItem = (MapItem*)kPos;
+        MapItem* pkItem = kPos;
         pcName = pkItem->m_pcKey;
         pkEntry = pkItem->m_pkVal;
         if (pkItem->m_pkNext)
         {
-            kPos = (unsigned int)pkItem->m_pkNext;
+            kPos = pkItem->m_pkNext;
             return;
         }
         unsigned int i = KeyToHashIndex(pkItem->m_pcKey);
         unsigned int nextBucket = i + 1;
         for (; nextBucket < m_uiHashSize; ++nextBucket)
         {
-            pkItem = (MapItem*)m_ppkHashTable[nextBucket];
+            pkItem = m_ppkHashTable[nextBucket];
             if (pkItem)
             {
-                kPos = (unsigned int)pkItem;
+                kPos = pkItem;
                 return;
             }
         }
@@ -1718,7 +1719,7 @@ bool WriteCompressedEntryArchive()
                 {
                     EntryArray records;
                     NameArray names;
-                    unsigned int e = DAT_011f34e0.GetFirstPos();
+                    MapItem* e = DAT_011f34e0.GetFirstPos();
                     while (e != 0)
                     {
                         char debug[260];
@@ -1726,7 +1727,7 @@ bool WriteCompressedEntryArchive()
                             CompressedEntry* entry;
                             {
                                 const char* index;
-                                reinterpret_cast<::RecursiveLock *>(&(DAT_011f34e0))->Unlock((::BSCriticalSectionEntry **)&(e), (unsigned int *)&(index), (unsigned int *)&(entry));
+                                DAT_011f34e0.GetNext(e, index, entry);
                                 ::FUN_00a02d40((::Input02D40 *)(entry));
                                 reinterpret_cast<::FUN_00a1e4d0_shell *>(&(records))->FUN_00a1e4d0(records.m_usSize, (::Tile *&)(entry));
                                 reinterpret_cast<::S_0060ba10 *>(&(names))->FUN_0096a610((int)&(index));

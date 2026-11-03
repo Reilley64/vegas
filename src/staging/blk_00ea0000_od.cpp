@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstring>
+#include <d3d9.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -362,11 +363,6 @@ void __cdecl ApplyLastEffect(EffectStackEBF* pkStack)
     pkStack->m_ppkStack[pkStack->m_iArrayLength - 1]->Apply(0);
 }
 
-struct D3DLOCKED_RECT
-{
-    int Pitch;
-    void* pBits;
-};
 
 struct IDirect3DTexture9_stub
 {
@@ -469,7 +465,6 @@ int __cdecl LockNextTile(TiledTexture* apTiledTexture, void** ppBits, int* pPitc
 }
 
 namespace fnv_00ebff30 {
-#include <d3d9.h>
 
 struct TileGrid
 {

@@ -352,17 +352,17 @@ float ComputeAmmoEffectValue(int iEffectType, AmmoEffectList* pEffectList, float
     if (!pEffectList)
         return fResult;
     AmmoEffectList* sorted = new AmmoEffectList;
-    while (pEffectList && ((::AmmoEffectValue *)((void *)(pEffectList))))
+    while (pEffectList && (pEffectList->value))
     {
-        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::AmmoEffectValue *)((void *)(pEffectList)))))->FUN_0045cd60())) == 1)
-            sorted->FUN_005ae3d0(((::AmmoEffectValue *)((void *)(pEffectList))));
+        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((pEffectList->value)))->FUN_0045cd60())) == 1)
+            sorted->FUN_005ae3d0((pEffectList->value));
         else
-            reinterpret_cast<::Callees *>((sorted))->FUN_00905820((void *)&(((::AmmoEffectValue *)((void *)(pEffectList)))));
+            reinterpret_cast<::Callees *>((sorted))->FUN_00905820((void *)&((pEffectList->value)));
         pEffectList = ((::AmmoEffectList *)(reinterpret_cast<::Callees *>((pEffectList))->FUN_00726070()));
     }
-    while (sorted && ((::AmmoEffectValue *)((void *)(sorted))))
+    while (sorted && (sorted->value))
     {
-        AmmoEffectValue* effect = ((::AmmoEffectValue *)((void *)(sorted)));
+        AmmoEffectValue* effect = (sorted->value);
         sorted = ((::AmmoEffectList *)(reinterpret_cast<::Callees *>((sorted))->FUN_00726070()));
         int effectType = ((int)(reinterpret_cast<::ActorMover *>((effect))->GetCurrentMoveModeType()));
         int iOperation = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((effect))->FUN_0045cd60()));

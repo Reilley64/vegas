@@ -2209,10 +2209,6 @@ struct StrObj
 struct MidObj
 {
 };
-struct Obj10c
-{
-    int dummy;
-};
 struct Sing
 {
     unsigned char b0;
@@ -2279,7 +2275,7 @@ struct Host
     int ufc;
     int u100;
     int u104;
-    Obj10c m_10c;
+    ::Param* m_10c;
     int u110;
     float f114;
     float f118;
@@ -2301,7 +2297,7 @@ struct Host
 // @fnv 0x0068b1e0
 void DecalHolder::FUN_0068b1e0()
 {
-    if (!reinterpret_cast<::Host *>(this)->FUN_0068b4c0((::Param *)(*(Flt*)((char*)this + 0x10C))))
+    if (!reinterpret_cast<::Host *>(this)->FUN_0068b4c0(reinterpret_cast<::Host *>(this)->m_10c))
         return;
     reinterpret_cast<::FUN_00682810_shell *>(this)->FUN_00682810();
 }

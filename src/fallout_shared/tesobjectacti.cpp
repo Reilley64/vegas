@@ -407,7 +407,11 @@ bool ACTIView::FUN_005111e0(TESForm* apForm)
         return true;
     if (((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))) != ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pOther)))))
         return true;
-    iCompare = reinterpret_cast<::FUN_00501c90_shell *>((void *)&(const ::ACTIStr &)(GetPromptA()))->CompareString(&pOther->GetPromptA(), true);
+    {
+        ACTIStr kPrompt = GetPromptA();
+        ACTIStr kOtherPrompt = pOther->GetPromptA();
+        iCompare = reinterpret_cast<::FUN_00501c90_shell *>((void *)&kPrompt)->CompareString(&kOtherPrompt, true);
+    }
     if (iCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pOther))
@@ -519,7 +523,10 @@ void ActiSave::Save()
     }
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StrLen*)&m_kActivationPrompt)))->FUN_004048e0())) > 0)
     {
-        ::FUN_004856f0((void *)(0x4f544158), (void*)((const char *)(::FUN_00559450((int *)&(GetString())))), (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(const ::StrOut &)(GetString()))->FUN_004048e0())) + 1));
+        StrOut kText = GetString();
+        StrOut kTextForLength = GetString();
+        ::FUN_004856f0((void *)(std::uintptr_t)0x4f544158, (void *)kText.pString,
+                       (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&kTextForLength)->FUN_004048e0())) + 1));
     }
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }

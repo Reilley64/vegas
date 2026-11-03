@@ -292,6 +292,31 @@ void UpdateTerrainLODMaxRange()
 }
 }  // namespace fnv_0057cf00
 
+class NiPoint3
+{
+  public:
+    float x, y, z;
+    NiPoint3();
+    NiPoint3 operator-(const NiPoint3&) const;
+public:
+    float ComputeMagnitude() const;
+public:
+    static const ::NiPoint3 ZERO;
+};
+
+namespace fnv_0057de00 {
+class NiPoint3
+{
+  public:
+    float x, y, z;
+    NiPoint3();
+    NiPoint3(float fX, float fY, float fZ);
+    NiPoint3 operator+(const NiPoint3& kPoint) const;
+    NiPoint3 operator-(const NiPoint3& kPoint) const;
+      // Unitize
+};
+}  // namespace fnv_0057de00
+
 namespace TerrainLOD {
 struct AutoMemContext
 {
@@ -529,17 +554,6 @@ struct CellForm
     virtual void v1a4();
     virtual int Get1a8();
 };
-class NiPoint3
-{
-  public:
-    float x, y, z;
-    NiPoint3();
-    NiPoint3 operator-(const NiPoint3&) const;
-public:
-    float ComputeMagnitude() const;
-public:
-    static const ::NiPoint3 ZERO;
-};
 struct NiBound
 {
     float x, y, z, radius;
@@ -748,16 +762,6 @@ class BSFogProperty
     void DecRefCount();
 };
 
-class NiPoint3
-{
-  public:
-    float x, y, z;
-    NiPoint3();
-    NiPoint3(float fX, float fY, float fZ);
-    NiPoint3 operator+(const NiPoint3& kPoint) const;
-    NiPoint3 operator-(const NiPoint3& kPoint) const;
-      // Unitize
-};
 
 class FUN_00414430_Color
 {

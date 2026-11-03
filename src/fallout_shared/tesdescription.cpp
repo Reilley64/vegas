@@ -213,7 +213,7 @@ struct Flt
 struct FUN_005a6e10_shell
 {
     unsigned int _pad[5];
-    Flt m_str;
+    const char* m_str;
     const char* GetStringOrDefault(int a, int b);
 };
 
@@ -223,7 +223,7 @@ const char* FUN_005a6e10_shell::GetStringOrDefault(int aiUnusedA, int aiUnusedB)
 {
     (void)aiUnusedA;
     (void)aiUnusedB;
-    return ::FUN_00559450((*(int * *)&(m_str))) ? ::FUN_00559450((*(int * *)&(m_str))) : ::DAT_01011584;
+    return m_str ? m_str : ::DAT_01011584;
 }
 
 struct StrCmpHelper
@@ -341,7 +341,7 @@ void TermHack::FUN_005015f0(TESObjectREFR* apRef, PlayerCharacter* apActor)
             BSStringT_char kMsg;
             ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT_char *)(&kMsg), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011c8394))))->IsDLCAvailable())), ActorValue::GetActorValueName((ActorValue::Index)0x28),
                          (int)::InventoryStackRecord::RoundToNearestStep(FUN_005017a0(apRef), 1.0f));
-            ::DispatchMessageToSink((std::intptr_t)(kMsg), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(kMsg.pString), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0), 2.0f, false);
         }
         break;
         }

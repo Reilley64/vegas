@@ -754,7 +754,7 @@ struct FUN_004ebbc0_shell : public ImageSpaceManager
     ImageSpaceEffect* FUN_004ebbc0(int);
 };
 
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     T& GetAt(unsigned int);

@@ -201,7 +201,7 @@ void TESObjectDOOR::InitItem()
     TESScriptableForm::InitItem(this);
     BGSDestructibleObjectForm::InitItem(this);
     TESModelTextureSwap::InitItem(this);
-    BSSimpleList<TESForm*>* current = ((::BSSimpleList< ::TESForm *> *)(::FUN_00871a30((int)this)));
+    BSSimpleList<TESForm*>* current = ((::BSSimpleList< ::TESForm *> *)(::FUN_00871a30((std::intptr_t)this)));
     BSSimpleList<TESForm*>* previous = 0;
     while (current && !current->IsEmpty())
     {
@@ -682,7 +682,7 @@ void DoorSave_shell::WriteSaveData()
         ::FUN_00485910(0x4d414e42, itempint);
     }
     FUN_004858f0(0x4d414e46, flags);
-    pCurrentElementNext = ((::DoorFormNode *)(::FUN_00871a30((int)this)));
+    pCurrentElementNext = ((::DoorFormNode *)(::FUN_00871a30((std::intptr_t)this)));
     while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
     {
         itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::TESForm **)((void *)(pCurrentElementNext))))))->FUN_0084e3a0()));
@@ -694,6 +694,8 @@ void DoorSave_shell::WriteSaveData()
 
 struct DoorTeleportNode
 {
+    TESForm* m_item;
+    DoorTeleportNode* m_pkNext;
     bool IsEmpty();
     int GetSize();
 };
@@ -720,12 +722,12 @@ bool DoorCompare_shell::CompareDoor(TESForm* form)
         return true;
     if (cFlags != door->cFlags)
         return true;
-    DoorTeleportNode* node2 = ((::DoorTeleportNode *)(::FUN_00871a30((int)(door))));
-    if (((::DoorTeleportNode *)(::FUN_00871a30((int)this)))->GetSize() != node2->GetSize())
+    DoorTeleportNode* node2 = ((::DoorTeleportNode *)(::FUN_00871a30((std::intptr_t)(door))));
+    if (((::DoorTeleportNode *)(::FUN_00871a30((std::intptr_t)this)))->GetSize() != node2->GetSize())
         return true;
     while (node2 && !node2->IsEmpty())
     {
-        if (!reinterpret_cast<::RefList *>((((::DoorTeleportNode *)(::FUN_00871a30((int)this)))))->FUN_005f65d0((void **)&(((::TESForm *)((void *)(node2))))))
+        if (!reinterpret_cast<::RefList *>((((::DoorTeleportNode *)(::FUN_00871a30((std::intptr_t)this)))))->FUN_005f65d0((void **)&node2->m_item))
             return true;
         node2 = ((::DoorTeleportNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
@@ -816,7 +818,7 @@ void DoorCopy::CopyFromDoor(TESForm* form)
     DoorCopyNode* destination = 0;
     reinterpret_cast<::TESObjectDOOR *>(this)->ClearRandomTeleportList();
     DoorCopyNode* node2 = ((::DoorCopyNode *)(::FUN_00871a30((int)(source3))));
-    destination = ((::DoorCopyNode *)(::FUN_00871a30((int)this)));
+    destination = ((::DoorCopyNode *)(::FUN_00871a30((std::intptr_t)this)));
     while (node2 && !node2->FUN_008256d0())
     {
         reinterpret_cast<::Callees *>((destination))->FUN_00905820(((::TESForm **)((void *)(node2))));
@@ -1943,7 +1945,10 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                         reinterpret_cast<::ExtraLock *>((statePart3))->Unlock();
                         reinterpret_cast<::fnv_005789b0::FUN_005789b0_shell *>((reference))->FUN_005789b0();
                     }
-                    reinterpret_cast<::FUN_00ad8830_shell *>(&(((::ActivateAudio *)(::FUN_00453a70()))->FUN_00ad7550("UILockpickingUnlock", 0x121, 0)))->FUN_00ad8830({});
+                    {
+                        auto kSound = ((::ActivateAudio *)(::FUN_00453a70()))->FUN_00ad7550("UILockpickingUnlock", 0x121, 0);
+                        reinterpret_cast<::FUN_00ad8830_shell *>(&kSound)->FUN_00ad8830({});
+                    }
                     char message[256];
                     ::FUN_00406d00(message, 255, ((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d5110)))))->GetMenuTitle())),
                                  ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(lockA->key->name))->FUN_00408da0())));

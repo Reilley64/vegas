@@ -260,6 +260,7 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 #include "extradatalist_packet.h"
 #include "ExtraContainerChanges.h"
 #include "InventoryChanges.h"
@@ -1445,39 +1446,28 @@ void* FUN_0040f740(int* pThis)
 }
 
 
-__declspec(thread) int tls_pad0;
-__declspec(thread) void* tls_lastList;
-thread_local int tls_clearCount;
-__declspec(thread) void* tls_lastExtras[0x93];
-
-// Increments DAT_011c38e4 and tls_clearCount, and if apList matches tls_lastList and aeType is a valid index, clears tls_lastExtras[aeType].
+// Increments DAT_011c38e4 and the thread's extra data cache clear count, and if apList is the cached list and aeType is a valid index, clears that cache entry.
 // @fnv 0x0040f7d0
 void __cdecl FUN_0040f7d0(void* apList, int aeType)
 {
     DAT_011c38e4 = DAT_011c38e4 + 1;
-    tls_clearCount = tls_clearCount + 1;
-    if (apList == (*reinterpret_cast<void * *>(&::fnv_anon_extradatalist::tls_pList)) && aeType >= 0 && aeType < 0x93)
+    ::g_tlsBlock.extraDataCacheClearCount = ::g_tlsBlock.extraDataCacheClearCount + 1;
+    if (apList == ::g_tlsBlock.extraDataCacheList && aeType >= 0 && aeType < 0x93)
     {
-        (*reinterpret_cast<void * (*)[147]>(&::tls_buffer))[aeType] = 0;
+        ::g_tlsBlock.extraDataCache[aeType] = 0;
     }
 }
 
-__declspec(thread) int tls_pad_0;
-__declspec(thread) int tls_pad_4;
-__declspec(thread) const BaseExtraList* tls_apList;
-__declspec(thread) int tls_counter;
-thread_local char tls_buffer[0x24c];
-
-// Increments DAT_011c38e4 and tls_counter; if apList equals tls_apList, clears tls_buffer and resets tls_apList to null.
+// Increments DAT_011c38e4 and the thread's extra data cache clear count; if apList is the cached list, clears the cache and resets the cached list.
 // @fnv 0x0040f860
 void __cdecl ResetTlsBufferIfListMatches(const BaseExtraList* apList)
 {
     DAT_011c38e4 += 1;
-    ::tls_clearCount += 1;
-    if (apList == ::fnv_anon_extradatalist::tls_pList)
+    ::g_tlsBlock.extraDataCacheClearCount += 1;
+    if (apList == ::g_tlsBlock.extraDataCacheList)
     {
-        ::FUN_00403d30(tls_buffer, 0, sizeof(tls_buffer));
-        ::fnv_anon_extradatalist::tls_pList = 0;
+        ::FUN_00403d30(::g_tlsBlock.extraDataCache, 0, sizeof(::g_tlsBlock.extraDataCache));
+        ::g_tlsBlock.extraDataCacheList = 0;
     }
 }
 
@@ -1502,10 +1492,6 @@ bool __cdecl FUN_0040f980(int aeType)
 namespace fnv_anon_extradatalist {}
 using namespace fnv_anon_extradatalist;
 namespace fnv_anon_extradatalist {
-__declspec(thread) int pad_tls[2];
-thread_local BaseExtraList* tls_pList;
-__declspec(thread) int pad_tls2;
-__declspec(thread) BSExtraData* tls_pExtras[0x93];
 }
 
 // Returns the cached extra data of the given type when apList matches the thread-local list, otherwise returns null.
@@ -1513,12 +1499,12 @@ __declspec(thread) BSExtraData* tls_pExtras[0x93];
 BSExtraData* __cdecl FUN_0040f9e0(BaseExtraList* apList, int aeType)
 {
     BSExtraData* pretval = 0;
-    if (apList == tls_pList)
+    if (apList == ::g_tlsBlock.extraDataCacheList)
     {
         ::fnv_0040f900::ResetTlsBufferIfStale();
         if (aeType >= 0 && aeType < 0x93)
         {
-            pretval = (*reinterpret_cast<BSExtraData * (*)[147]>(&::tls_buffer))[aeType];
+            pretval = ::g_tlsBlock.extraDataCache[aeType];
         }
     }
     return pretval;
@@ -12800,24 +12786,15 @@ BSExtraData* FUN_0042f420_helper::GetOrCreateExtraData()
 }
 
 namespace fnv_0040f900 {
-struct FUN_0040f900_tls
-{
-    int pad0;
-    int pad4;
-    int pad8;
-    int pad12;
-    char buf[0x24c];
-};
-__declspec(thread) FUN_0040f900_tls g_tls;
-// If the thread-local stamp differs from DAT_011c38e4, clears pad8 and buf and stores the current stamp in pad12.
+// If the thread's extra data cache clear count differs from DAT_011c38e4, clears the cached list and the cache and stores the current count.
 // @fnv 0x0040f900
 void ResetTlsBufferIfStale()
 {
-    if ((*reinterpret_cast<::fnv_0040f900::FUN_0040f900_tls *>(&::g_tlsBlock)).pad12 != ::DAT_011c38e4)
+    if (::g_tlsBlock.extraDataCacheClearCount != ::DAT_011c38e4)
     {
-        (*reinterpret_cast<::fnv_0040f900::FUN_0040f900_tls *>(&::g_tlsBlock)).pad8 = 0;
-        memset((*reinterpret_cast<::fnv_0040f900::FUN_0040f900_tls *>(&::g_tlsBlock)).buf, 0, 0x24c);
-        (*reinterpret_cast<::fnv_0040f900::FUN_0040f900_tls *>(&::g_tlsBlock)).pad12 = ::DAT_011c38e4;
+        ::g_tlsBlock.extraDataCacheList = 0;
+        memset(::g_tlsBlock.extraDataCache, 0, sizeof(::g_tlsBlock.extraDataCache));
+        ::g_tlsBlock.extraDataCacheClearCount = ::DAT_011c38e4;
     }
 }
 }  // namespace fnv_0040f900
@@ -22810,12 +22787,12 @@ void FUN_0040fa40(Owner* pkOwner, Entry* pkEntry)
 {
     if (pkOwner && pkEntry)
     {
-        if (pkOwner != (*reinterpret_cast<::s40fa40::Owner * *>(&::fnv_anon_extradatalist::tls_pList)))
+        if (pkOwner != (*reinterpret_cast<::s40fa40::Owner * *>(&::g_tlsBlock.extraDataCacheList)))
         {
-            ::FUN_00403d30((*reinterpret_cast<s40fa40::Entry * (*)[147]>(&::tls_buffer)), 0, sizeof((*reinterpret_cast<s40fa40::Entry * (*)[147]>(&::tls_buffer))));
-            (*reinterpret_cast<::s40fa40::Owner * *>(&::fnv_anon_extradatalist::tls_pList)) = pkOwner;
+            ::FUN_00403d30(::g_tlsBlock.extraDataCache, 0, sizeof(::g_tlsBlock.extraDataCache));
+            (*reinterpret_cast<::s40fa40::Owner * *>(&::g_tlsBlock.extraDataCacheList)) = pkOwner;
         }
-        (*reinterpret_cast<s40fa40::Entry * (*)[147]>(&::tls_buffer))[((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((pkEntry))->IsPatrolling()))] = pkEntry;
+        (*reinterpret_cast<s40fa40::Entry * (*)[147]>(&::g_tlsBlock.extraDataCache))[((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((pkEntry))->IsPatrolling()))] = pkEntry;
     }
 }
 
@@ -23674,7 +23651,7 @@ void FUN_00410020_t::FUN_00410020(BSExtraData* apExtra, bool abDelete)
         reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)apExtra)))->AssignLandTexture((::TESLandTexture *)(0));
     ((FUN_0040fee0_shell*)this)->SetBitFlag(etype, false);
     ++DAT_011c38e4;
-    ++(*reinterpret_cast<int (*)[4]>(&::g_tlsBlock))[3];
+    ++::g_tlsBlock.extraDataCacheClearCount;
     reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fba0();
 }
 

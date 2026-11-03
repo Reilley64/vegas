@@ -17,15 +17,20 @@ extern void __cdecl FUN_00ddcc60();
 
 struct FUN_00d62fe0_cls
 {
+    const void* m_vtbl;
+    int m4;
+    const void* m_processVtbl;
+    char m0C[0x14];
+    const void* m_listenerVtbl;
     void FUN_00d62fe0();
 };
 
 // @fnv 0x00d62fe0
 void FUN_00d62fe0_cls::FUN_00d62fe0()
 {
-    *(int*)this = (int)&DAT_010d1720;
-    *(int*)((char*)this + 8) = (int)&DAT_010d1700;
-    *(int*)((char*)this + 0x20) = (int)&DAT_010d16f0;
+    m_vtbl = &DAT_010d1720;
+    m_processVtbl = &DAT_010d1700;
+    m_listenerVtbl = &DAT_010d16f0;
     FUN_00ddcc60();
 }
 
@@ -142,7 +147,7 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
         int* pDstData = *(int* volatile*)&out->m_data;
         if (iRemaining > 0)
         {
-            int iByteDelta = (int)pSrcData - (int)pDstData;
+            intptr_t iByteDelta = reinterpret_cast<char*>(pSrcData) - reinterpret_cast<char*>(pDstData);
             do
             {
                 *pDstData = *(int*)((char*)pDstData + iByteDelta);
@@ -252,13 +257,13 @@ struct FUN_00d63280_cls
     int unk24;
     SubObject m_sub28;
 
-    FUN_00d63280_cls* FUN_00d63280(int a, int b);
+    FUN_00d63280_cls* FUN_00d63280(int a, const void* b);
 };
 
 // @fnv 0x00d63280
-FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, int b)
+FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, const void* b)
 {
-    new ((void *)this) ::FUN_00ddccb0_cls((*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)(b)));
+    new ((void *)this) ::FUN_00ddccb0_cls(*static_cast<const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *>(b));
     m_vtbl0 = (void*)&DAT_010d1794;
     m_vtbl8 = (void*)&DAT_010d1774;
     m_vtbl20 = (void*)&DAT_010d1764;

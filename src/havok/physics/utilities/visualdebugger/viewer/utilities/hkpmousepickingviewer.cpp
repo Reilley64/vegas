@@ -44,27 +44,30 @@ extern int DAT_010d1cc4;
 extern int DAT_010d1ce4;
 struct D698B0Base
 {
-    char m0[0x20];
+    const void* m_vtbl;
+    int m4;
+    const void* m_processVtbl;
+    char m0C[0x14];
     D698B0Base(void*);
 };
 struct FUN_00d66b90 : D698B0Base
 {
-    int m20;
+    const void* m20;
     int m24;
     int m28;
     int m2c;
     float m30;
-    FUN_00d66b90(int);
+    FUN_00d66b90(void*);
 };
 // @fnv 0x00d66b90
-FUN_00d66b90::FUN_00d66b90(int a) : D698B0Base((void*)a)
+FUN_00d66b90::FUN_00d66b90(void* a) : D698B0Base(a)
 {
     m30 = 1000.0f;
     m28 = 0;
     m2c = 0;
-    *(int*)this = (int)&DAT_010d1ce4;
-    *(int*)((char*)this + 8) = (int)&DAT_010d1cc4;
-    m20 = (int)&DAT_010d1cb4;
+    m_vtbl = &DAT_010d1ce4;
+    m_processVtbl = &DAT_010d1cc4;
+    m20 = &DAT_010d1cb4;
 }
 
 struct Registry_00dd9380
@@ -72,10 +75,10 @@ struct Registry_00dd9380
 };
 extern int DAT_01268ff8;
 // @fnv 0x00d66c90
-void* __cdecl RegisterMousePicking()
+int __cdecl RegisterMousePicking()
 {
     DAT_01268ff8 = (int)(reinterpret_cast<::S_00dd9380 *>((((Registry_00dd9380*)(::DAT_01269cd0))))->FUN_00dd9380("Mouse Picking", reinterpret_cast<intptr_t>(((void (&)())::FUN_00d66c50))));
-    return (void*)DAT_01268ff8;
+    return DAT_01268ff8;
 }
 
 extern int DAT_01268ff8;
@@ -105,10 +108,10 @@ struct FnvCpu_FUN_00d66c50_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
-    FnvCpu_FUN_00d66c50_CpuBlock* FUN_00d66b90(unsigned int value);
+    FnvCpu_FUN_00d66c50_CpuBlock* FUN_00d66b90(void* value);
 };
 // @fnv 0x00d66c50
-void* __cdecl FUN_00d66c50(unsigned int value)
+void* __cdecl FUN_00d66c50(void* value)
 {
     FnvCpu_FUN_00d66c50_CpuHolder* holder = static_cast<FnvCpu_FUN_00d66c50_CpuHolder*>(getMemoryRouter());
     FnvCpu_FUN_00d66c50_CpuBlock* block = static_cast<FnvCpu_FUN_00d66c50_CpuBlock*>(holder->allocator->Invoke(52));
@@ -209,7 +212,7 @@ hkBoolD66D MousePickD66D::PickEntity(hkUint64D66D uiCollidableUserData, const hk
         uiCollidableUserData &= ~(hkUint64D66D)3;
     else if (uiUserDataTag != 0)
         return false;
-    hkpCollidableD66D* pkCollidable = (hkpCollidableD66D*)(unsigned int)uiCollidableUserData;
+    hkpCollidableD66D* pkCollidable = reinterpret_cast<hkpCollidableD66D*>(static_cast<uintptr_t>(uiCollidableUserData));
     if (pkCollidable->m_cType == 1)
     {
         hkpEntityD66D* pkEntity = (hkpEntityD66D*)((char*)pkCollidable + pkCollidable->m_cOwnerOffset);
@@ -372,7 +375,7 @@ void Base2::FUN_00d66e10(unsigned char type)
         reinterpret_cast<::DD8FE0_Stream *>((stream))->FUN_00dd8fe0(&u.b0.pair0, 8, 1);
         if (stream->GetStreamResult(&buf.b2)[0])
         {
-            reinterpret_cast<::fnv_00d66d00::MousePickD66D *>((getDerived()))->PickEntity((unsigned long long)(&buf.b3), (*(const ::fnv_00d66d00::hkVector4D66D *)(u.b0.pair0)));
+            reinterpret_cast<::fnv_00d66d00::MousePickD66D *>((getDerived()))->PickEntity(*reinterpret_cast<unsigned long long*>(&u.b0.pair0), *reinterpret_cast<const ::fnv_00d66d00::hkVector4D66D *>(&u.b0.vec));
         }
         break;
     }

@@ -14497,13 +14497,11 @@ struct ObjectCtor {
     ObjectCtor* FUN_00cfca20(WorldCtor*);
     void SetContactMgrFactory(ObjectCtor*,int);
 };
-struct AllocCtor { virtual void vf00(); virtual void* allocate(int); };
-struct RouterCtor { int unk00,unk04,unk08,unk0c; AllocCtor* allocator; __forceinline AllocCtor& heap() {return *allocator;} };
 static __forceinline void* worldAlloc(int size) {
-    return ((RouterCtor*)::FUN_00c85750())->heap().allocate(size);
+    return hkMemoryRouter::getInstance().heap().blockAlloc(size);
 }
 template<class T> static __forceinline T* allocObject(int size) {
-    T* obj=(T*)worldAlloc(size);
+    T* obj=static_cast<T*>(worldAlloc(size));
     obj->size=(unsigned short)size;
     return obj;
 }
@@ -14512,8 +14510,8 @@ static __forceinline void release(ObjectCtor* p) { reinterpret_cast<::hkReferenc
 struct RawArrayCtor {
     ObjectCtor** data; int count; unsigned capacity;
     __forceinline void push(ObjectCtor* value) {
-        RouterCtor* router=(RouterCtor*)::FUN_00c85750();
-        if(count==(capacity&0x3fffffffu)) ::ResizeAudioStream(router->allocator,this,4);
+        hkMemoryRouter* router=&hkMemoryRouter::getInstance();
+        if(count==(capacity&0x3fffffffu)) ::ResizeAudioStream((::AudioAllocator *)(router->m_heap),(::AudioStream *)(void *)(this),4);
         ObjectCtor** slot=data+count; for(int i=0;i<1;++i) slot[i]=value;
         ++count;
     }

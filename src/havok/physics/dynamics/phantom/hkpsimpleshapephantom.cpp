@@ -629,40 +629,7 @@ void hkObjD1F6::SortAndClearFlag()
 }  // namespace fnv_00d1f6f0
 
 namespace fnv_00d1f7e0 {
-class hkMemoryAllocatorD1F7
-{
-  public:
-    virtual ~hkMemoryAllocatorD1F7() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> T* _bufAlloc(int& iReqNumInOut)
-    {
-        int n = iReqNumInOut * sizeof(T);
-        void* p = AllocateBufferWithSize(n);
-        iReqNumInOut = n / (int)sizeof(T);
-        return (T*)p;
-    }
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterD1F7
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD1F7* m_pStreamAllocator;
-    hkMemoryAllocatorD1F7& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 template <class T> __forceinline void copyD1F7(T* dst, const T* src, int n)
@@ -689,9 +656,9 @@ template <class T> class hkArrayD1F7
 
     __forceinline void operator=(const hkArrayD1F7& a)
     {
-        copyFromArray((*static_cast<hkMemoryRouterD1F7*>(::FUN_00c85750())).heap(), a);
+        copyFromArray(hkMemoryRouter::getInstance().heap(), a);
     }
-    __forceinline void copyFromArray(hkMemoryAllocatorD1F7& kAlloc, const hkArrayD1F7& a)
+    __forceinline void copyFromArray(hkMemoryAllocator& kAlloc, const hkArrayD1F7& a)
     {
         if (getCapacity() < a.GetLogicalSize())
         {
@@ -764,7 +731,7 @@ class FUN_00d1f730 : public hkpWorldObjectD1F7
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpWorldObjectD1F7* p = (hkpWorldObjectD1F7*)(*static_cast<hkMemoryRouterD1F7*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
+        hkpWorldObjectD1F7* p = static_cast<hkpWorldObjectD1F7*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }

@@ -224,7 +224,7 @@ struct FNVMemoryManager {
 FNVMemoryManager* __cdecl FUN_00c85750();
 
 struct FNVArray {
-    int* values;
+    intptr_t* values;
     unsigned short size;
     unsigned short flags;
     FNVArray() : values(0), size(0), flags(0x8000) {}
@@ -240,11 +240,11 @@ struct FNVOwner {
     FNVBuffers*& Buffers() {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
     }
-    void FUN_00c9c5b0(int value);
+    void FUN_00c9c5b0(intptr_t value);
 };
 // Ensures the buffers exist, stores value into the first empty element slot or appends it, growing the array when full.
 // @fnv 0x00c9c5b0
-void FNVOwner::FUN_00c9c5b0(int value) {
+void FNVOwner::FUN_00c9c5b0(intptr_t value) {
     if (Buffers() == 0) {
         Buffers() = new FNVBuffers;
     }
@@ -259,7 +259,7 @@ void FNVOwner::FUN_00c9c5b0(int value) {
         }
     }
     if (array.size == (array.flags & 0x3fff)) {
-        ::FUN_00d06cb0((::GrowBuf *)(::FNVArray *)(&array), sizeof(int));
+        ::FUN_00d06cb0((::GrowBuf *)(::FNVArray *)(&array), sizeof(intptr_t));
     }
     array.values[array.size] = value;
     ++array.size;
@@ -1784,7 +1784,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
             if (entity && m_kActorEntries.indexOf(entity) == -1)
             {
                 if (!keepListeners)
-                    reinterpret_cast<::FNVOwner *>((entity))->FUN_00c9c5b0((int)(this));
+                    reinterpret_cast<::FNVOwner *>((entity))->FUN_00c9c5b0((intptr_t)(this));
                 m_kActorEntries.AddBack(entity);
             }
         }

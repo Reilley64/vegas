@@ -164,7 +164,7 @@ struct FNVOwner {
     FNVBuffers*& Buffers() {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
     }
-    void FUN_00c9c5b0(int value);
+    void FUN_00c9c5b0(intptr_t value);
 };
 struct S_00cac150_Scope {
     int m_oldContext;
@@ -1295,7 +1295,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
                     if(!refresh) {
                         PBody* body=getBody(hit.rootB);
                         if(body && bodies.indexOf(body)==-1) {
-                            if(!threaded) reinterpret_cast<::FNVOwner *>((body))->FUN_00c9c5b0((int)(static_cast<PEntityListener*>(this)));
+                            if(!threaded) reinterpret_cast<::FNVOwner *>((body))->FUN_00c9c5b0((intptr_t)(static_cast<PEntityListener*>(this)));
                             bodies.push(body);
                         }
                         POther* phantom=getOther(hit.rootB);

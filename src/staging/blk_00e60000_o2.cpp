@@ -272,19 +272,19 @@ struct P03MM
 };
 struct StagePool
 {
-    int v1;
+    void* v1;
     int v2;
     int v3;
-    int v4;
+    void* v4;
     int v5;
     int v6;
 };
 
-// Allocates a 0x18-byte StagePool via the memory manager, zeroes its first four fields, sets the last two to 8, and stores it in DAT_0126f6cc.
+// Allocates a StagePool via the memory manager, zeroes its first four fields, sets the last two to 8, and stores it in DAT_0126f6cc.
 // @fnv 0x00e7ec90
 void __cdecl CreateStagePool()
 {
-    StagePool* p = (StagePool*)reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(0x18);
+    StagePool* p = (StagePool*)reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(sizeof(StagePool));
     if (p)
     {
         p->v1 = 0;
@@ -637,11 +637,16 @@ struct FUN_00e613f0
     int Sum();
 };
 
+struct E63ec0Entry
+{
+    int m_value;
+    uintptr_t m_name;
+};
 struct FUN_00e63ec0_Class
 {
     int _00;
     int _04;
-    int* _08;
+    E63ec0Entry* _08;
     int _0c;
     int FUN_00e63ec0(intptr_t a, int* out);
 };
@@ -654,16 +659,14 @@ int FUN_00e63ec0_Class::FUN_00e63ec0(intptr_t a, int* out)
     {
         do
         {
-            int v = _08[i * 2 + 1] & 0xfffffffe;
+            uintptr_t v = _08[i].m_name & ~(uintptr_t)1;
             if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(a), (const char *)(v)))
             {
                 ++i;
             }
             else
             {
-                int* p = _08;
-                int val = p[i * 2];
-                *out = val;
+                *out = _08[i].m_value;
                 return 0;
             }
         } while (i < _0c);
@@ -1036,7 +1039,7 @@ struct FUN_00e611d0_Object
     unsigned char unk15;
     unsigned char unk16;
     unsigned char unk17;
-    int unk18;
+    const void* unk18;
 };
 
 struct FUN_00c85750_Result
@@ -2886,7 +2889,7 @@ struct CubeMapSource
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int GetSurfaceLevel(unsigned int i, int* out);
+    virtual int GetSurfaceLevel(unsigned int i, void** out);
 };
 struct CubeMapSurface
 {
@@ -2960,7 +2963,7 @@ struct FUN_00e68870_cls
 // @fnv 0x00e68870
 void FUN_00e68870_cls::FUN_00e68870(FUN_00e68870_arg* apSourceData)
 {
-    int out;
+    void* out;
     if (m_64 == 0)
     {
         return;
@@ -2986,7 +2989,7 @@ void FUN_00e68870_cls::FUN_00e68870(FUN_00e68870_arg* apSourceData)
                 ::FUN_00a29680();
                 return;
             }
-            ::FUN_00e68150((::CopyPixels *)(reinterpret_cast<int>(apSourceData)), m_78 + i, (::CopySurface *)(out), 0);
+            ::FUN_00e68150((::CopyPixels *)(apSourceData), m_78 + i, (::CopySurface *)(out), 0);
             reinterpret_cast<CubeMapSurface*>(out)->Release();
         } while (++i < m_68 - m_78);
     }
@@ -4127,17 +4130,9 @@ bool E7CCD0Renderer::PresentFrame()
     return m_pD3DDevice->Present(0, 0, 0, 0) >= 0;
 }
 
-// Candidate reconstruction of FUN_00e7cdb0 (0x00e7cdb0, 59 bytes).
-//
-// The original is a member of a NiDX9*BufferData-like object:
-//   * a 32-bit id member lives at offset +0x14 of the object,
-//   * a global int caches the last id that was accepted,
-//   * the id is validated through a renderer interface object passed as the
-//     single stack argument; the interface's vtable slot 0x9c is entered with
-//     the interface pointer as an explicit argument plus the id.
-//
-// The interface stand-in below is a plain polymorphic class with 39 filler
-// virtuals so that the interesting one lands on vtable offset 0x9c.
+// FUN_00e7cdb0 (0x00e7cdb0) belongs to a NiDX9*BufferData-like object. Its surface
+// pointer lives at +0x14; a global caches the depth-stencil surface last set on the
+// device, and the device's vtable slot 0x9c (SetDepthStencilSurface) sets a new one.
 
 struct FnvRendererData
 {
@@ -4180,7 +4175,7 @@ struct FnvRendererData
     virtual int Fnv_v36();
     virtual int Fnv_v37();
     virtual int Fnv_v38();
-    virtual int Fnv_v39(FnvRendererData* pSelf, int nId);
+    virtual long Fnv_v39(void* pSurface);
 };
 
 struct FnvBufferData
@@ -4190,7 +4185,7 @@ struct FnvBufferData
     int unk08;
     int unk0c;
     int unk10;
-    int m_nId;
+    void* m_nId;
     unsigned char FUN_00e7cdb0(FnvRendererData* pRenderer);
 };
 
@@ -4202,7 +4197,7 @@ unsigned char FnvBufferData::FUN_00e7cdb0(FnvRendererData* pRenderer)
         return 0;
     if (m_nId != ::DAT_0126f590)
     {
-        if (pRenderer->Fnv_v39(pRenderer, m_nId) < 0)
+        if (pRenderer->Fnv_v39(m_nId) < 0)
             return 0;
         ::DAT_0126f590 = m_nId;
     }
@@ -4753,8 +4748,6 @@ struct GlobalHolder
 };
 
 
-void __cdecl FUN_00aa10f0(int p);
-
 // Clears the global stage pool: releases its inner objects, frees the inner and pool memory, and nulls the global pointer.
 // @fnv 0x00e7ed80
 void __cdecl DestroyStagePool()
@@ -4776,7 +4769,7 @@ void __cdecl DestroyStagePool()
             }
             reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e7ed80::GlobalHolder *>(&::g_memoryManager))))->FUN_00aa4060(inner);
         }
-        FUN_00aa10f0(p->v1);
+        ::FUN_00aa10f0(p->v1);
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e7ed80::GlobalHolder *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     DAT_0126f6cc = 0;
@@ -5122,7 +5115,7 @@ inline E74Node* E74NewNode()
     E74Node* pkNode = (E74Node*)DAT_0126f0ec;
     if (!pkNode)
         return (E74Node*)::operator new(sizeof(E74Node));
-    DAT_0126f0ec = (int)pkNode->m_pkNext;
+    DAT_0126f0ec = (intptr_t)pkNode->m_pkNext;
     pkNode->m_pkNext = 0;
     return pkNode;
 }
@@ -6597,7 +6590,7 @@ struct IndexSource
     unsigned char unk15;
     unsigned char unk16;
     unsigned char unk17;
-    int unk18;
+    const void* unk18;
 };
 
 inline bool isTri(int t)
@@ -6663,7 +6656,7 @@ enum hkResultE63E
 struct hkPairE63E
 {
     void* m_key;
-    unsigned int m_uiFilterValue;
+    uintptr_t m_uiFilterValue;
 };
 
 class hkMapE63E
@@ -6674,17 +6667,17 @@ class hkMapE63E
     hkPairE63E* m_pairs;
     int m_numPairs;
 
-    hkResultE63E FindValue(void* key, unsigned int* out) const;
+    hkResultE63E FindValue(void* key, uintptr_t* out) const;
 };
 
 // @fnv 0x00e63e80
-hkResultE63E hkMapE63E::FindValue(void* key, unsigned int* out) const
+hkResultE63E hkMapE63E::FindValue(void* key, uintptr_t* out) const
 {
     for (int i = 0; i < m_numPairs; i++)
     {
         if (m_pairs[i].m_key == key)
         {
-            *out = m_pairs[i].m_uiFilterValue & ~1u;
+            *out = m_pairs[i].m_uiFilterValue & ~(uintptr_t)1;
             return HK_SUCCESS_E63E;
         }
     }
@@ -6995,27 +6988,14 @@ void FUN_dummycaller()
 }
 
 // @fnv 0x00e64fe0
-static __declspec(noinline) void SwapFloatPair(float* apFloats, int aiIndex, float* apOutSecond, float afFirst,
-                                               float afSecond, unsigned __int64 outA)
+void SwapFloatPair(float* apFloats, int aiIndex, float* apOutSecond, float afFirst, float afSecond, float* outA)
 {
-    *(float*)(unsigned __int64)outA = apFloats[aiIndex * 2];
+    *outA = apFloats[aiIndex * 2];
     *apOutSecond = apFloats[aiIndex * 2 + 1];
     apFloats[aiIndex * 2] = afFirst;
     apFloats[aiIndex * 2 + 1] = afSecond;
 }
 
-float* volatile g_e64_base;
-int volatile g_e64_i;
-float* volatile g_e64_outB;
-float volatile g_e64_a;
-float volatile g_e64_b;
-float* volatile g_e64_outA;
-
-void dummy_call_e64fe0(void)
-{
-    SwapFloatPair((float*)g_e64_base, g_e64_i, (float*)g_e64_outB, g_e64_a, g_e64_b,
-                  (unsigned __int64)(unsigned)g_e64_outA);
-}
 
 struct E65020Entry
 {
@@ -10981,7 +10961,7 @@ FUN_00e7b260* ModeItemInit::FUN_00e7b260(S00e7b590_D3D* apD3D, int aiAdapter, D3
         }
 
         if (bFound)
-            reinterpret_cast<::HashTableBase *>((((MapSetAt*)&modes)))->InsertOrUpdate(eFormat, (unsigned int)(pkInfo));
+            reinterpret_cast<::HashTableBase *>((((MapSetAt*)&modes)))->InsertOrUpdate(eFormat, (uintptr_t)(pkInfo));
         else
             FUN_00aa1460(pkInfo, 0x48);
     }
@@ -11626,7 +11606,7 @@ NiDX9AdditionalDepthStencilBufferData* __cdecl FUN_00e7d850(D3DDevice_e7d850* pk
     }
 
     pkData->m_pCacheEntry = pkBuffer;
-    DAT_0126f590 = (int)pkData->m_pkSurface;
+    DAT_0126f590 = pkData->m_pkSurface;
 
     return pkData;
 }
@@ -11671,9 +11651,7 @@ static void SetVec3FromHelper(Vec3* out, float a, float b);
 
 void FUN_dummycaller();
 
-static void SwapFloatPair(float* base, int i, float* outB, float a, float b, unsigned __int64 outA);
 
-void dummy_call_e64fe0(void);
 
 static float FUN_00e65020(E65020Entry* pkEntries, int iIndex, float fValue);
 

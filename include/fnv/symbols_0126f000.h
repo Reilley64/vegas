@@ -49,7 +49,7 @@ extern ::GlobalObjectO2_00a7b610 g_0126f554;
 // 0x0126f580
 extern int DAT_0126f580[];
 // 0x0126f590
-extern int DAT_0126f590;
+extern void* DAT_0126f590;
 // 0x0126f594
 extern int g_dsAE7D6B0;
 // 0x0126f59c

@@ -193,7 +193,7 @@ class FUN_00e486e0 : public hkRefObjE486, public hkVisitorE486
 FUN_00e486e0::FUN_00e486e0(void* apFirst, void* apSecond, void* context) throw()
 {
     m_iValueAtOffset0C = context;
-    ::ConstructTemporaryObject((int)(apFirst), (int)(apSecond), (int)(this));
+    ::ConstructTemporaryObject(apFirst, apSecond, this);
     m_iValueAtOffset0C = 0;
 }
 
@@ -319,7 +319,7 @@ struct __declspec(align(16)) FUN_00e67230_Obj
 
 // Constructs a temporary object and forwards the three arguments to its constructor.
 // @fnv 0x00e5d040
-void __cdecl ConstructTemporaryObject(int a1, int a2, int a3)
+void __cdecl ConstructTemporaryObject(const void* a1, const void* a2, void* a3)
 {
     FUN_00e67230_Obj tmp;
     reinterpret_cast<::S00e67230_Machine *>(&(tmp))->FUN_00e67230((const ::S00e67230_Code *)(a1), (*(const ::S00e67230_Aabb *)(a2)), (::Visitor *)(a3));
@@ -481,7 +481,7 @@ FUN_00e485d0::FUN_00e485d0(const hkpMoppCodeE485* pkMoppCode, const hkpShapeCont
             kOut.m_kMaximumCorner.setMax4(kOut.m_kMaximumCorner, kAabb2.m_kMaximumCorner);
         }
         m_pTerminalIdsToRemove = &kShapesToRemove;
-        ::ConstructTemporaryObject((int)(pkMoppCode), (int)&(kAabb), (int)(this));
+        ::ConstructTemporaryObject(pkMoppCode, &(kAabb), this);
         m_pTerminalIdsToRemove = 0;
     }
 }

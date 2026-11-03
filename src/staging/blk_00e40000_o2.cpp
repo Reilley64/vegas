@@ -113,8 +113,20 @@ struct Registry_e5c5 {
 };
 
 
+struct E428f0Info
+{
+    char m_pad00[0x20];
+    unsigned char m_20;
+};
+struct E428f0Item
+{
+    char m_pad00[0x1c];
+    E428f0Info* m_1c;
+};
 struct FUN_00e428f0_class
 {
+    char m_pad00[0x14];
+    unsigned short m_14;
     void Remove(void*);
     void FUN_00e428f0(void* p);
 };
@@ -123,14 +135,25 @@ struct FUN_00e428f0_class
 void FUN_00e428f0_class::FUN_00e428f0(void* p)
 {
     reinterpret_cast<::RefPtrArray *>(this)->Remove((::FUN_00d1df70 *)(p));
-    *(unsigned short*)((char*)this + 0x14) -= *(unsigned char*)((char*)*(unsigned int*)((char*)p + 0x1c) + 0x20);
+    m_14 -= static_cast<E428f0Item*>(p)->m_1c->m_20;
 }
+
+struct E42940Info
+{
+    char m_pad00[0x20];
+    int m_20;
+};
+struct E42940Object
+{
+    char m_pad00[0x7c];
+    E42940Info* m_7c;
+};
 
 // @fnv 0x00e42940
 int __cdecl FUN_00e42940(intptr_t pObject)
 {
-    int v = *(int*)(pObject + 0x7c);
-    return *(int*)(v + 0x20) != 2 ? 0 : 256;
+    E42940Info* v = reinterpret_cast<E42940Object*>(pObject)->m_7c;
+    return v->m_20 != 2 ? 0 : 256;
 }
 
 extern "C" void __cdecl FUN_00cb0a60();
@@ -324,16 +347,20 @@ FUN_00e44280_struct* FUN_00e44280_struct::InitializeDefaults()
 }
 
 struct FUN_00e407d0_class {
+    char m_pad00[0x74];
+    float* m_pfWeights;
+    char m_pad78[8];
+    float* m_pfOffsets;
     void SetSlotValue(int idx, char b);
 };
-// Writes 0.0f into the array at this+0x80 when b is set, otherwise writes 1.0f into the array at this+0x74, both indexed by idx.
+// Writes 0.0f into the m_pfOffsets array when b is set, otherwise writes 1.0f into the m_pfWeights array, both indexed by idx.
 // @fnv 0x00e407d0
 void FUN_00e407d0_class::SetSlotValue(int aiIndex, char b)
 {
     if (b)
-        *(float*)(*(int*)((char*)this + 0x80) + aiIndex * 4) = 0.0f;
+        m_pfOffsets[aiIndex] = 0.0f;
     else
-        *(float*)(*(int*)((char*)this + 0x74) + aiIndex * 4) = 1.0f;
+        m_pfWeights[aiIndex] = 1.0f;
 }
 
 struct FUN_00e426f0_class
@@ -357,7 +384,7 @@ struct FUN_00e426f0_class
 void FUN_00e426f0_class::AddByteFromObject(void* p)
 {
     reinterpret_cast<::E426F0Container *>(this)->AddObject((::E426F0Object *)(p));
-    m_14 += ((unsigned char*)*(void**)((char*)p + 0x1c))[0x20];
+    m_14 += static_cast<E428f0Item*>(p)->m_1c->m_20;
 }
 
 struct FUN_00e61480_class {
@@ -366,7 +393,7 @@ struct FUN_00e61480_class {
 struct FUN_00e4ab50_class {
     int m_00;
     int m_04;
-    int* m_08;
+    FUN_00e61480_class** m_08;
     int m_0c;
     void ApplyToAll(int a);
 };
@@ -375,7 +402,7 @@ struct FUN_00e4ab50_class {
 void FUN_00e4ab50_class::ApplyToAll(int aiValue)
 {
     for (int i = 0; i < m_0c; i++)
-        ((FUN_00e61480_class*)m_08[i])->FUN_00e61480(aiValue);
+        m_08[i]->FUN_00e61480(aiValue);
 }
 
 extern int DAT_010ec1fc;
@@ -439,7 +466,7 @@ void FUN_00e406d0_cls::ClampBoundsAt(int index, float value)
 }
 
 struct HolderStub {
-    int unk00;
+    char* unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -2030,7 +2057,7 @@ float* FUN_00e58c30_cls::AppendTriple(int aiFirst, int aiSecond, float afValue)
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
         }
-        int* slot0 = (int*)((unsigned int)arr->data + *(volatile int*)&arr->count * 4);
+        int* slot0 = arr->data + *(volatile int*)&arr->count;
         *slot0 = aiFirst;
         arr->count++;
 
@@ -2039,7 +2066,7 @@ float* FUN_00e58c30_cls::AppendTriple(int aiFirst, int aiSecond, float afValue)
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
         }
-        int* slot1 = (int*)((unsigned int)arr->data + *(volatile int*)&arr->count * 4);
+        int* slot1 = arr->data + *(volatile int*)&arr->count;
         *slot1 = aiSecond;
         arr->count++;
 
@@ -2199,7 +2226,7 @@ void __cdecl DifferenceInPlace(float* samples, unsigned int count)
 
 struct FUN_00e5c490_entry
 {
-    unsigned int m_ptr;
+    uintptr_t m_ptr;
     unsigned int m_unk04;
 };
 
@@ -2220,7 +2247,7 @@ int FUN_00e5c490_cls::FindEntryIndex(uintptr_t a1)
 {
     for (int i = 0; i < m_uiItemCount; i++)
     {
-        unsigned int item = m_pEntries[i].m_ptr & 0xfffffffe;
+        uintptr_t item = m_pEntries[i].m_ptr & ~(uintptr_t)1;
         if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(item), (const char *)(a1)) == 0)
         {
             return i;
@@ -2356,7 +2383,7 @@ int ConfigTable::GetUnsignedValue(const char* name, bool reportMissing, unsigned
 
 struct FUN_00e5c8b0_Node
 {
-    unsigned int m_00;
+    uintptr_t m_00;
 };
 
 struct FUN_00e5c8b0_Target
@@ -2396,9 +2423,7 @@ struct FUN_00e5c8b0_cls
     int unk04;
     int unk08;
     int unk0C;
-    FUN_00e5c8b0_Rec* FUN_00e5c610(int a);
-    FUN_00e5c8b0_Rec* FUN_00e5c5f0(int a);
-    int GetAttributeValue(int a, bool flag, unsigned int* out);
+    int GetAttributeValue(const char* a, bool flag, uintptr_t* out);
 };
 
 struct FUN_00e5c8b0_Logger
@@ -2410,15 +2435,15 @@ struct FUN_00e5c8b0_Logger
 };
 
 // @fnv 0x00e5c8b0
-int FUN_00e5c8b0_cls::GetAttributeValue(int a, bool bLogMissing, unsigned int* puiValue)
+int FUN_00e5c8b0_cls::GetAttributeValue(const char* a, bool bLogMissing, uintptr_t* puiValue)
 {
-    FUN_00e5c8b0_Rec* pRecord = FUN_00e5c610(a);
+    FUN_00e5c8b0_Rec* pRecord = reinterpret_cast<FUN_00e5c8b0_Rec*>(reinterpret_cast<Registry_e5c5*>(this)->FUN_00e5c610(a));
     if (pRecord != 0)
     {
-        *puiValue = pRecord->m_08->m_00 & 0xfffffffe;
+        *puiValue = pRecord->m_08->m_00 & ~(uintptr_t)1;
         return 0;
     }
-    pRecord = FUN_00e5c5f0(a);
+    pRecord = reinterpret_cast<FUN_00e5c8b0_Rec*>(reinterpret_cast<Registry_e5c5*>(this)->FUN_00e5c5f0(a));
     if (pRecord != 0)
     {
         reinterpret_cast<::hkMapE63E *>((pRecord->m_20))->FindValue((void *)(pRecord->m_08->m_00), puiValue);
@@ -2430,10 +2455,10 @@ int FUN_00e5c8b0_cls::GetAttributeValue(int a, bool bLogMissing, unsigned int* p
         unsigned int buf[0x80];
         new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
         FUN_00e5c8b0_Str* p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0("String attribute ")));
-        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0({})));
-        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0({})));
-        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::AttributeFormatter *>((p))->WriteName({})));
-        reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0({});
+        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0(a)));
+        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0(" not found in ")));
+        p = ((::FUN_00e5c8b0_Str *)(reinterpret_cast<::AttributeFormatter *>((p))->WriteName(reinterpret_cast<::NameReference *>(this))));
+        reinterpret_cast<::SinkOwner *>((p))->FUN_00cc01c0(" attribute group");
         (*reinterpret_cast<::FUN_00e5c8b0_Logger * *>(&::DAT_01268360))->Report(1, 0xabbaab81, (const char*)buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0x80);
         reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
     }
@@ -2648,7 +2673,7 @@ struct S_00e5cfb0_Object {
     int unk14;
     int unk18;
     int unk1c;
-    int unk20;
+    const unsigned char* unk20;
 };
 
 struct S_00e65ee0_Class
@@ -2672,7 +2697,7 @@ void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value)
     buffer[0] = 0;
     buffer[1] = 0;
 
-    reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(&(local))->FUN_00e65ee0((const ::MoppState *)(buffer), (const unsigned char *)(object->unk20));
+    reinterpret_cast<::hkpMoppFindAllVirtualMachine *>(&(local))->FUN_00e65ee0((const ::MoppState *)(buffer), object->unk20);
 }
 
 
@@ -2694,7 +2719,7 @@ float __cdecl FUN_00e404b0(FloatArray_e404b0* arr)
 }
 
 
-// Scans the float array referenced by param_1 (count in param_1[1], data at param_1[0]) and returns the smallest value, starting from _DAT_0104da48.
+// Scans the float array referenced by param_1 and returns the smallest value, starting from _DAT_0104da48.
 // @fnv 0x00e405c0
 float __cdecl FindMinFloat(int *param_1)
 {
@@ -2705,11 +2730,12 @@ float __cdecl FindMinFloat(int *param_1)
     float fStack_4;
     float fTemp;
 
+    FloatArray_e404b0* arr = reinterpret_cast<FloatArray_e404b0*>(param_1);
     fStack_4 = ::DAT_0104da48;
-    iVar3 = param_1[1];
+    iVar3 = arr->count;
     iVar4 = 0;
     if (iVar3 >= 4) {
-        pfVar1 = (float *)(param_1[0] + 8);
+        pfVar1 = arr->data + 2;
         iVar2 = (iVar3 - 4U >> 2) + 1;
         iVar4 = iVar2 * 4;
         do {
@@ -2726,7 +2752,7 @@ float __cdecl FindMinFloat(int *param_1)
         } while (iVar2 != 0);
     }
     if (iVar4 < iVar3) {
-        pfVar1 = (float *)(param_1[0] + iVar4 * 4);
+        pfVar1 = arr->data + iVar4;
         iVar3 = iVar3 - iVar4;
         do {
             fTemp = *pfVar1;
@@ -2785,8 +2811,8 @@ struct VSim {
     virtual void v18();
     virtual void vfn_1c();
     virtual int vfn_20(int n);
-    virtual void vfn_24(VWorld* w, int k, int n, VInfo* info, VStepJob* job, int mark);
-    virtual void vfn_28(void* p, int n, int mark);
+    virtual void vfn_24(VWorld* w, int k, int n, VInfo* info, VStepJob* job, char* mark);
+    virtual void vfn_28(void* p, int n, char* mark);
     void RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int n);
 };
 // Marks a timer, allocates a step job, runs the vehicle sync step via vfn_24, updates the collector, info and world, then frees the job and restores the mark.
@@ -2797,7 +2823,7 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     vfn_1c();
     int size = vfn_20(aiCount);
     HolderStub* h = static_cast<HolderStub*>(::FUN_00c85750());
-    int mark = h->unk00;
+    char* mark = h->unk00;
     h->unk00 = mark + ((size + 0x7f) & ~0x7f);
     void* alloc = static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
     VStepJob* job = (VStepJob*)FUN_00c85620(alloc, 4, 0x80);
@@ -3834,13 +3860,13 @@ struct FUN_00e48db0_class {
     int m_08;
     int m_0c;
     void* m_10;
-    FUN_00e48db0_class* InitFromFloatAndPointer(float f, void* p);
+    FUN_00e48db0_class* InitFromFloatAndPointer(float f, int numBits);
 };
-// Calls FUN_00dcd310 with f and p, then stores pointers to DAT_010e8ab0 and DAT_010e8a90 in m_00 and m_10, returning this.
+// Calls FUN_00dcd310 with f and numBits, then stores pointers to DAT_010e8ab0 and DAT_010e8a90 in m_00 and m_10, returning this.
 // @fnv 0x00e48db0
-FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, void* p)
+FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, int numBits)
 {
-    new ((void *)(((FUN_00e48db0_holder*)this))) ::fnv_00dcd310::FUN_00dcd310(f, (int)(p));
+    new ((void *)(((FUN_00e48db0_holder*)this))) ::fnv_00dcd310::FUN_00dcd310(f, numBits);
     m_00 = &DAT_010e8ab0;
     m_10 = &DAT_010e8a90;
     return this;
@@ -3850,11 +3876,11 @@ FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, void* p
 struct Node4a5
 {
     char pad[0x14];
-    unsigned int m_uiName;
+    uintptr_t m_uiName;
 
     const char* GetName() const
     {
-        return (const char*)(m_uiName & ~1);
+        return (const char*)(m_uiName & ~(uintptr_t)1);
     }
 
     Node4a5* FindChildByName(const char* pcName);
@@ -4477,7 +4503,7 @@ SmallBool EntityShape::AddActor(Actor* apActor) {
     {
         CListener* member = &m_kListener;
         if (apActor->listeners()->second.indexOf(member) < 0) {
-            reinterpret_cast<::FNVOwner *>((apActor))->FUN_00c9c5b0((int)(member));
+            reinterpret_cast<::FNVOwner *>((apActor))->FUN_00c9c5b0((intptr_t)(member));
         }
     }
     return true;
@@ -4764,7 +4790,7 @@ void __cdecl DeinterleaveFloats(const float* src, float* dst, Count aCount)
     HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
     unsigned int* scratch = (unsigned int*)holder->unk00;
 
-    holder->unk00 = (int)scratch + ((count * 4 + 0x7f) & ~0x7f);
+    holder->unk00 = (char*)scratch + ((count * 4 + 0x7f) & ~0x7f);
 
     {
         const unsigned int* __restrict s32 = (const unsigned int*)src;
@@ -4781,7 +4807,7 @@ void __cdecl DeinterleaveFloats(const float* src, float* dst, Count aCount)
         dst[half + i] = values[2 * i + 1];
     }
 
-    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)scratch;
+    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (char*)scratch;
 }
 
 namespace fnv_00e51070 {
@@ -4794,7 +4820,7 @@ void __cdecl FUN_00e51070(const float* src, float* dst, Count value)
     int count = value.n;
     HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
     unsigned int* scratch = (unsigned int*)holder->unk00;
-    holder->unk00 = (int)scratch + ((count * 4 + 0x7f) & ~0x7f);
+    holder->unk00 = (char*)scratch + ((count * 4 + 0x7f) & ~0x7f);
 
     {
         const unsigned int* __restrict s32 = (const unsigned int*)src;
@@ -4811,7 +4837,7 @@ void __cdecl FUN_00e51070(const float* src, float* dst, Count value)
         dst[2 * i + 1] = values[half + i];
     }
 
-    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)scratch;
+    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (char*)scratch;
 }
 }  // namespace fnv_00e51070
 
@@ -4842,7 +4868,7 @@ struct ThresholdArray {
     void release() {
         float* saved = original;
         if (saved == data) size = 0;
-        static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)saved;
+        static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (char*)saved;
         ClearAndRelease();
     }
     void ClearAndRelease() {
@@ -5132,7 +5158,7 @@ void __cdecl CollectConnectedNodesAndEdges(ChainArray<void*>* src, void* node, C
         ChainElem* elem = (ChainElem*)src->m_data[i];
         void* a = elem->m_link14;
         if (a == node || elem->m_link18 == node) {
-            void* other = (void*)((unsigned int)elem->m_link18 ^ (unsigned int)a ^ (unsigned int)node);
+            void* other = (void*)((uintptr_t)elem->m_link18 ^ (uintptr_t)a ^ (uintptr_t)node);
             outNodes->Add(other);
             outEdges->Add((void*)elem);
         }
@@ -5258,19 +5284,19 @@ struct Mid : RefObject, CollectorBase {
 };
 
 struct hkpRemoveTerminalsMoppModifier2 : Mid {
-    int m_1c;
-    hkpRemoveTerminalsMoppModifier2(int a, int c) throw();
+    void* m_1c;
+    hkpRemoveTerminalsMoppModifier2(const void* a, void* c) throw();
     virtual ~hkpRemoveTerminalsMoppModifier2() throw();
     virtual void Dummy0() throw();
 };
 
 // Constructs the modifier by calling ConstructTemporaryObject with a large Aabb and resetting m_1c to 0.
 // @fnv 0x00e487a0
-hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(int a, int c) throw() : m_1c(c) {
+hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(const void* a, void* c) throw() : m_1c(c) {
     Aabb aabb;
     *(__m128*)&aabb.maxX = _mm_set1_ps(1e10f);
     *(__m128*)&aabb.minX = _mm_set1_ps(-1e10f);
-    ::ConstructTemporaryObject(a, (int)(&aabb), (int)(this));
+    ::ConstructTemporaryObject(a, &aabb, this);
     m_1c = 0;
 }
 
@@ -6132,6 +6158,7 @@ static __declspec(noinline) void FUN_00e5b110(const Se5b160_HingeAtoms* source, 
     Se5b160_Motor* m = destination->motor0;
     if (m) m->FUN_00c90510();
 }
+// @fnv 0x00e5b130
 static __declspec(noinline) void FUN_00e5b130(const Se5b160_RagdollAtoms* source, Se5b160_RagdollAtoms* destination) {
     destination->FUN_00d85ba0(source);
     Se5b160_Motor** motor = &destination->motor0;
@@ -6158,7 +6185,7 @@ struct FUN_00cdf2f0 : Se5b160_Data {
 };
 struct Se5b160_StrPtr {
     const char* m_pcText;
-    const char* cString() const { return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(m_pcText) & ~1u); }
+    const char* cString() const { return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(m_pcText) & ~(uintptr_t)1); }
 };
 struct Se5b160_Entity;
 enum Se5b160_Prio { S5b160_PRIO_INVALID, S5b160_PRIO_PSI, S5b160_PRIO_TOI };
@@ -6439,80 +6466,6 @@ processData:
     return count;
 }
 
-struct E5B130Object {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    Ref* items[3];
-    void FUN_00d85ba0(int finishFlags);
-};
-
-// Calls FUN_00d85ba0 with finishFlags, then iterates the three item pointers and calls FUN_00c90510 on each non-null item.
-// @fnv 0x00e5b130
-static __declspec(noinline) void FUN_00e5b130(E5B130Object* object, int finishFlags)
-{
-    reinterpret_cast<::ObjD85 *>((object))->FUN_00d85ba0((*(const ::ObjD85 *)(finishFlags)));
-    Ref** item = object->items;
-    int remaining = 3;
-    do {
-        if (*item)
-            reinterpret_cast<::FUN_00c90510_class *>(((*item)))->FUN_00c90510();
-        ++item;
-    } while (--remaining);
-}
-
-E5B130Object* volatile g_finishObject;
-volatile int g_finishFlags;
-void CallFinishObject() { FUN_00e5b130(g_finishObject, g_finishFlags); }
 
 #include <xmmintrin.h>
 namespace fnv_00e4b6e0 {
@@ -6953,7 +6906,7 @@ struct hkVector4 {
 struct RaySegment {
     hkVector4 m_vFrom;
     hkVector4 m_vTo;
-    volatile unsigned int m_pMoppCode;
+    const unsigned char* volatile m_pMoppCode;
 };
 struct PrimitiveInfo {
     unsigned int m_00;
@@ -6964,7 +6917,7 @@ struct PrimitiveInfo {
     unsigned int m_iElementIndex;
 };
 struct RayVirtualMachine {
-    unsigned int m_pRayCastInput;
+    const void* m_pRayCastInput;
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
@@ -6972,7 +6925,7 @@ struct RayVirtualMachine {
     unsigned int m_14;
     unsigned int m_18;
     unsigned int m_1c;
-    unsigned int m_pRayCastOutput;
+    void* m_pRayCastOutput;
     unsigned int m_24;
     unsigned int m_28;
     unsigned int m_2c;
@@ -6985,12 +6938,12 @@ struct RayQuery {
 };
 // Builds a RayQuery from seg and to, then calls FUN_00e5f070 on its ray VM with a primitive info block, seg->m_pMoppCode and the query offset.
 // @fnv 0x00e5d650
-void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input, unsigned int output)
+void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, const void* input, void* output)
 {
     RayQuery q;
     q.m_vm.m_invLength = 1.0f / seg->m_vTo(3);
-    const unsigned int inputCopy = *reinterpret_cast<volatile const unsigned int*>(&input);
-    const unsigned int code = seg->m_pMoppCode;
+    const void* inputCopy = *reinterpret_cast<const void* volatile const*>(&input);
+    const unsigned char* code = seg->m_pMoppCode;
 
     q.m_offset.setZero4();
     q.m_vm.m_pRayCastInput = inputCopy;
@@ -7008,7 +6961,7 @@ void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input
     q.m_vm.m_kRayCastVector.setXYZ(dir);
     q.m_vm.m_kRayCastVector(3) = (*to)(3) + (*to)(3);
     q.m_vm.m_pRayCastOutput = output;
-    reinterpret_cast<::Cls *>(&(q.m_vm))->FUN_00e5f070((::P1 *)(::fnv_00e5d650::PrimitiveInfo *)(&info), (unsigned char *)(code), (::F8 *)(::fnv_00e5d650::hkVector4 *)(&q.m_offset));
+    reinterpret_cast<::Cls *>(&(q.m_vm))->FUN_00e5f070((::P1 *)(::fnv_00e5d650::PrimitiveInfo *)(&info), const_cast<unsigned char *>(code), (::F8 *)(::fnv_00e5d650::hkVector4 *)(&q.m_offset));
 }
 }  // namespace fnv_00e5d650
 
@@ -7434,10 +7387,8 @@ void caller(SolverState* s, const BoundaryTable* t, SolverOutput* o);
 
 Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __restrict original, Se5b160_Motor* motor, bool enableMotors);
 
-static void FUN_00e5b130(E5B130Object* object, int finishFlags);
 
 
-void CallFinishObject();
 
 void __cdecl FUN_00e58310(int n, const S00e58310_Array<S00e58310_Point>& Q, const S00e58310_Array<float>& Ub, int degree, float E, int& nh, S00e58310_Array<float>& U, S00e58310_Array<S00e58310_Point>& P);
 
@@ -7807,17 +7758,17 @@ __declspec(nothrow) int __cdecl GetRunLength(int index, int end, float** knots);
 
 __declspec(nothrow) void __cdecl FUN_00e54c10(int index, FNVTemporaryFloats* array, int size);
 
-__declspec(nothrow) void __cdecl FUN_00e555f0(int count, int degree, float** knots, int context, FNVTemporaryFloats* temporary, int start, int end);
+__declspec(nothrow) void __cdecl FUN_00e555f0(int count, int degree, float** knots, intptr_t context, FNVTemporaryFloats* temporary, int start, int end);
 
-__declspec(nothrow) int __cdecl FUN_00e556f0(int count, int degree, float** knots, int context, float value, int index, int removed, int active, float fill);
+__declspec(nothrow) int __cdecl FUN_00e556f0(int count, int degree, float** knots, intptr_t context, float value, int index, int removed, int active, float fill);
 
 struct ErrorDecision { unsigned char value; };
 
 ErrorDecision* IsSampleBoundary(ErrorDecision*,int,float**,int);
 
-float FUN_00e552f0(int,int,float**,int,float,int,int);
+float FUN_00e552f0(int,int,float**,intptr_t,float,int,int);
 
-__declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e555f0(int count,int degree,float** knots,int context,FNVTemporaryFloats* bounds,int begin,int end) {
+__declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e555f0(int count,int degree,float** knots,intptr_t context,FNVTemporaryFloats* bounds,int begin,int end) {
     int last=count+degree+1;
     for(int i=begin;i<=end;++i) bounds->data[i]=DAT_010ec990;
     for(int i=begin;i<=end;++i) {
@@ -7844,7 +7795,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
     FNVTemporaryFloats updatedWeights(pointCount+1,0.0f);
     TypedTemporary<int> lowerLimits(pointCount+1);
     TypedTemporary<int> upperLimits(pointCount+1);
-    FUN_00e555f0(*count, degree, ((float**)knots), ((int)context), &knotErrors, degree + 1, m - degree - 1);
+    FUN_00e555f0(*count, degree, ((float**)knots), ((intptr_t)context), &knotErrors, degree + 1, m - degree - 1);
     int knot = FUN_00e54930(&knotErrors.data, m+1);
     int removalCount = GetRunLength(knot, m, ((float**)knots));
     float* currentError = errorValues + knot;
@@ -7876,7 +7827,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
             FNVTemporaryFloats originalWeights(*((FNVFloatValues*)weights));
             for (int j = lower; j <= upper; ++j)
                 ((FNVFloatValues*)weights)->data[j] = updatedWeights[j];
-            FUN_00e556f0(*count, degree, ((float**)knots), ((int)context), (*((float**)knots))[knot],
+            FUN_00e556f0(*count, degree, ((float**)knots), ((intptr_t)context), (*((float**)knots))[knot],
                            knot, removalCount, 1, DAT_010ec990);
             --m;
             --*count;
@@ -7888,7 +7839,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
             int currentCount = *count;
             int lastAffected = knot - removalCount + degree < currentCount ?
                                knot - removalCount + degree : currentCount;
-            FUN_00e555f0(currentCount, degree, ((float**)knots), ((int)context), &knotErrors,
+            FUN_00e555f0(currentCount, degree, ((float**)knots), ((intptr_t)context), &knotErrors,
                 FindFirstNonZero(firstAffected, (intptr_t)((float**)knots), m),
                 FindFirstNonZero(lastAffected, (intptr_t)((float**)knots), m));
         } else {
@@ -7934,10 +7885,10 @@ extern const float DAT_010ec990 = 3.40282e38f;
 bool* IsSampleBoundary(bool* a, int b, float** c, int d);
 
 
-float FUN_00e552f0(int a1, int a2, float** a3, int a4, float f, int i, int p);
+float FUN_00e552f0(int a1, int a2, float** a3, intptr_t a4, float f, int i, int p);
 
 // @fnv 0x00e555f0
-void FUN_00e555f0(int a1, int a2, float** a3, int a4, float** a5, int start, int end)
+void FUN_00e555f0(int a1, int a2, float** a3, intptr_t a4, float** a5, int start, int end)
 {
     int v = a1 + a2 + 1;
     bool result;

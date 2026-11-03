@@ -1042,7 +1042,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
             Holder* h = FUN_00c85750();
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(h->m_10)), (int)item, (int)&DAT_01000001);
             char* owner = ((char*)this - 0x28) != 0 ? (char*)&this->unk08 : 0;
-            reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0((int)owner);
+            reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0((intptr_t)owner);
         }
         p++;
     } while (--n != 0);

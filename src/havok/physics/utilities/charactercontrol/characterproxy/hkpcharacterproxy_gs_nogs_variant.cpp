@@ -192,7 +192,7 @@ struct FNVOwner
     {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
     }
-    void FUN_00c9c5b0(int value);
+    void FUN_00c9c5b0(intptr_t value);
 };
 struct S_00cac150_Scope
 {

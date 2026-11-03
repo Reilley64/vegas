@@ -60,15 +60,10 @@
 #include "fnv/symbols_01202000.h"
 #include "bgsprimitive_decls.h"
 #include <cmath>
-#include "fnv/decl/FUN_004a51d0_shell.h"
-#include "fnv/decl/C37E00Box.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00b5af80_self.h"
 #include "fnv/decl/FloatMatrix3.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/S_C4F420.h"
-#include "fnv/decl/TCEq.h"
-#include "fnv/decl/fnv_00c38220__FUN_00c38220_shell.h"
 #include "fnv/symbols_011f6000.h"
 
 // @fnv 0x004a53e0
@@ -169,9 +164,9 @@ struct FUN_004a51d0_shell : public NiBound
 // @fnv 0x004a6640
 void BGSPrimitiveBox::NormalizeRadii(NiPoint3& radii)
 {
-    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(0) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(0));
-    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(1) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(1));
-    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(2) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(radii))->FUN_004a51b0(2));
+    radii[0] = std::abs(radii[0]);
+    radii[1] = std::abs(radii[1]);
+    radii[2] = std::abs(radii[2]);
     m_kRadii = radii;
     if (m_kGeometry)
     {
@@ -182,14 +177,14 @@ void BGSPrimitiveBox::NormalizeRadii(NiPoint3& radii)
         } geometry;
         geometry.data = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kGeometry).operator->()))));
         geometry.vertices = ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((geometry.data))->FUN_007af430()));
-        geometry.vertices[0] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        geometry.vertices[1] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        geometry.vertices[2] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        geometry.vertices[3] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        geometry.vertices[4] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        geometry.vertices[5] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        geometry.vertices[6] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        geometry.vertices[7] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        geometry.vertices[0] = NiPoint3(-m_kRadii[0], m_kRadii[1], m_kRadii[2]);
+        geometry.vertices[1] = NiPoint3(m_kRadii[0], m_kRadii[1], m_kRadii[2]);
+        geometry.vertices[2] = NiPoint3(m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
+        geometry.vertices[3] = NiPoint3(-m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
+        geometry.vertices[4] = NiPoint3(-m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
+        geometry.vertices[5] = NiPoint3(m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
+        geometry.vertices[6] = NiPoint3(m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
+        geometry.vertices[7] = NiPoint3(-m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
         geometry.data->SetDirtyFlags(1);
     }
     if (m_kLines)
@@ -1926,37 +1921,37 @@ struct FUN_004a55a0_shell : public BGSPrimitiveBox
 // @fnv 0x004a55a0
 void FUN_004a55a0_shell::UpdateBoxGeometry(NiPoint3& aExtents)
 {
-    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(0) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(0));
-    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(1) = 0.0f;
-    reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(2) = std::abs(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(aExtents))->FUN_004a51b0(2));
+    aExtents[0] = std::abs(aExtents[0]);
+    aExtents[1] = 0.0f;
+    aExtents[2] = std::abs(aExtents[2]);
     m_kRadii = aExtents;
     if (m_kGeometry)
     {
         NiGeometryData* dataB = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kGeometry).operator->()))));
         NiPoint3* verts = ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((dataB))->FUN_007af430()));
-        verts[0] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        verts[1] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        verts[2] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        verts[3] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        verts[4] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        verts[5] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        verts[6] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        verts[7] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        verts[0] = NiPoint3(-m_kRadii[0], m_kRadii[1], m_kRadii[2]);
+        verts[1] = NiPoint3(m_kRadii[0], m_kRadii[1], m_kRadii[2]);
+        verts[2] = NiPoint3(m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
+        verts[3] = NiPoint3(-m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
+        verts[4] = NiPoint3(-m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
+        verts[5] = NiPoint3(m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
+        verts[6] = NiPoint3(m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
+        verts[7] = NiPoint3(-m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
         dataB->SetDirtyFlags(1);
     }
     if (m_kLines)
     {
         NiGeometryData* data2 = ((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)((m_kLines).operator->()))));
         NiPoint3* aVerts2 = ((::NiPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((data2))->FUN_007af430()));
-        aVerts2[0] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        aVerts2[1] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        aVerts2[2] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        aVerts2[3] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[0] = NiPoint3(-m_kRadii[0], m_kRadii[1], m_kRadii[2]);
+        aVerts2[1] = NiPoint3(m_kRadii[0], m_kRadii[1], m_kRadii[2]);
+        aVerts2[2] = NiPoint3(m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
+        aVerts2[3] = NiPoint3(-m_kRadii[0], -m_kRadii[1], m_kRadii[2]);
         aVerts2[4] = aVerts2[0];
-        aVerts2[5] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        aVerts2[6] = NiPoint3(-reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        aVerts2[7] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
-        aVerts2[8] = NiPoint3(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0), reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(1), -reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(2));
+        aVerts2[5] = NiPoint3(-m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
+        aVerts2[6] = NiPoint3(-m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
+        aVerts2[7] = NiPoint3(m_kRadii[0], -m_kRadii[1], -m_kRadii[2]);
+        aVerts2[8] = NiPoint3(m_kRadii[0], m_kRadii[1], -m_kRadii[2]);
         aVerts2[9] = aVerts2[5];
         aVerts2[10] = aVerts2[3];
         aVerts2[11] = aVerts2[6];
@@ -2905,15 +2900,19 @@ class NiAlphaProperty : public NiAVObject
     int unk18;
 };
 
-template <> class NiPointer<NiAlphaProperty>
+}  // namespace fnv_004a72d0
+
+template <> class NiPointer<fnv_004a72d0::NiAlphaProperty>
 {
   public:
-    NiAlphaProperty* m_pObject;
-    NiPointer(NiAlphaProperty* = 0);
+    fnv_004a72d0::NiAlphaProperty* m_pObject;
+    NiPointer(fnv_004a72d0::NiAlphaProperty* = 0);
     ~NiPointer();
-    operator NiAlphaProperty*() const;
-    NiPointer& operator=(NiAlphaProperty*);
+    operator fnv_004a72d0::NiAlphaProperty*() const;
+    NiPointer& operator=(fnv_004a72d0::NiAlphaProperty*);
 };
+
+namespace fnv_004a72d0 {
 
 struct NiPropertyHelper
 {
@@ -2990,7 +2989,7 @@ void BGSPrimitiveSphere::CreateSphereGeometry()
     }
     else
     {
-        reinterpret_cast<::BGSPrimitiveSphere *>(this)->SetRadius(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3 &)(m_kRadii))->FUN_004a51b0(0));
+        reinterpret_cast<::BGSPrimitiveSphere *>(this)->SetRadius(m_kRadii[0]);
         ApplyColor(Color);
     }
 

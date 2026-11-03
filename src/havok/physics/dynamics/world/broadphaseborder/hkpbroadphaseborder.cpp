@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d0b5d0
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -402,15 +403,6 @@ struct AudioAllocator
     virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
 };
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
 struct BSAudio;
 
 
@@ -421,11 +413,11 @@ extern int DAT_010cd394;
 
 struct FUN_00d0bb20_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     int unk04;
-    int m_vptr08;
-    int m_vptr0c;
-    int m_vptr10;
+    const void* m_vptr08;
+    const void* m_vptr0c;
+    const void* m_vptr10;
     int unk14;
     hkReferencedObject* m_entries[6];
     int unk30;
@@ -437,21 +429,14 @@ struct FUN_00d0bb20_cls
     void Destroy();
 };
 
-static inline void ResetBaseVptrs(int* vptrs)
-{
-    vptrs[4] = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
-    vptrs[3] = (int)&::DAT_010c925c;
-    vptrs[2] = (int)&::DAT_010cb1c4;
-    vptrs[0] = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-}
 
 // @fnv 0x00d0bb20
 void FUN_00d0bb20_cls::Destroy()
 {
-    m_vptr00 = (int)&DAT_010cd3c4;
-    m_vptr08 = (int)&DAT_010cd3b4;
-    m_vptr0c = (int)&DAT_010cd3a4;
-    m_vptr10 = (int)&DAT_010cd394;
+    m_vptr00 = &DAT_010cd3c4;
+    m_vptr08 = &DAT_010cd3b4;
+    m_vptr0c = &DAT_010cd3a4;
+    m_vptr10 = &DAT_010cd394;
     hkReferencedObject** pEntry = m_entries;
     int i = 6;
     do
@@ -464,21 +449,20 @@ void FUN_00d0bb20_cls::Destroy()
         pEntry++;
         i--;
     } while (i != 0);
-    AudioHolder* pAudioHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
-    AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
+    hkMemoryAllocator* pAudioAllocator = hkMemoryRouter::getInstance().m_heap;
     m_iArrayLength = i;
     unsigned int uiCapBits = m_uCapBits;
     if ((uiCapBits & 0x80000000u) == 0)
     {
-        pAudioAllocator->FreeArray(m_pData, (uiCapBits & 0x3fffffffu) * 4);
+        pAudioAllocator->bufFree(m_pData, (uiCapBits & 0x3fffffffu) * 4);
     }
     unsigned int* puiCap = &m_uCapBits;
     m_pData = 0;
     *puiCap = 0x80000000u;
-    m_vptr10 = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
-    m_vptr0c = (int)&::DAT_010c925c;
-    m_vptr08 = (int)&::DAT_010cb1c4;
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr10 = &::DAT_010ccf7c;
+    m_vptr0c = &::DAT_010c925c;
+    m_vptr08 = &::DAT_010cb1c4;
+    m_vptr00 = &::DAT_0102e388;
 }
 }  // namespace fnv_00d0bb20
 

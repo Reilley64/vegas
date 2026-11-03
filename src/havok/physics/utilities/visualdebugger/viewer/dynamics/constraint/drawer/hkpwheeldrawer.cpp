@@ -110,8 +110,8 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
     vd = _mm_add_ps(_mm_mul_ps(bc(s), q1), m50);
     dbg->Line(&vc, &vd, 0xff008000, p3, p4);
 
-    float wa = b->limitsA0.y;
-    float wb = b->limitsA0.z;
+    float wa = b->limitsA0[1];
+    float wb = b->limitsA0[2];
     ((Ops*)&vd)->FUN_00c7f700(&m90, &b->v70);
     __m128 r = _mm_add_ps(_mm_mul_ps(bc(wb), q1), m50);
     float kk = m00 * m1c;

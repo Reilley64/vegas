@@ -293,22 +293,22 @@ void FUN_00de4530Owner::FUN_00de4530(int arg1, int arg2)
     float width;
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (int)(&a0), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a1), 0xffff0000, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (const ::ArrowDraw::ArrowDrawVector *)(&a0), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a1), 0xffff0000, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (int)(&a1), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a2), 0xff008000, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (const ::ArrowDraw::ArrowDrawVector *)(&a1), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a2), 0xff008000, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (int)(&a2), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a0), 0xff0000ff, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk20), (const ::ArrowDraw::ArrowDrawVector *)(&a2), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&a0), 0xff0000ff, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (int)(&b0), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b1), color1, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (const ::ArrowDraw::ArrowDrawVector *)(&b0), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b1), color1, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (int)(&b1), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b2), color2, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (const ::ArrowDraw::ArrowDrawVector *)(&b1), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b2), color2, width, arg1, arg2);
     width = unk1c * unk0c;
     width = width * (double)0.2f;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (int)(&b2), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b0), color3, width, arg1, arg2);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (const ::ArrowDraw::ArrowDrawVector *)(&b2), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b0), color3, width, arg1, arg2);
 }
 
 class FUN_00de47e0_cls

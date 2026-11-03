@@ -254,11 +254,12 @@ struct S_00e064f0_Obj : S_00e064f0_Ref
 
 struct FUN_00e064f0_class
 {
-    int unk00, unk04, unk08, unk0C, unk10;
+    int unk00, unk04, unk08, unk0C;
+    char* unk10;
     S_00e064f0_Obj* FUN_00e064f0();
 };
 
-// Allocates an S_00e064f0_Obj, copies unk0C bytes from unk08+(unk10-unk0C) into its array, frees unk10, clears unk10 and unk0C, and sets unk08 to the old count.
+// Allocates an S_00e064f0_Obj, copies the unk0C code bytes at the end of the unk10 buffer (unk10 + unk08 - unk0C) into its array, frees unk10, clears unk10 and unk0C, and sets unk08 to the old count.
 // @fnv 0x00e064f0
 S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
 {
@@ -266,8 +267,8 @@ S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
     S_00e064f0_Obj* pNewObj = new S_00e064f0_Obj;
     pNewObj->m_aiIndexedValues.reserveExactly(n);
     pNewObj->m_aiIndexedValues.SetSizeAndGrow(n);
-    ::FUN_00cb1260(pNewObj->m_aiIndexedValues.m_data, (char*)unk08 + (unk10 - unk0C), n);
-    void* pOldBuffer = (void*)unk10;
+    ::FUN_00cb1260(pNewObj->m_aiIndexedValues.m_data, unk10 + (unk08 - unk0C), n);
+    void* pOldBuffer = unk10;
     FUN_00c856c0(S_00e064f0_Router::GetMonitorStream().m10, pOldBuffer);
     unk10 = 0;
     unk0C = 0;

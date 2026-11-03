@@ -553,7 +553,7 @@ struct S_00d6ada0_ReferencedObject
 {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void operator delete(void* p, unsigned int)
+    void operator delete(void* p, size_t)
     {
         S_00d6ada0_ReferencedObject* b = static_cast<S_00d6ada0_ReferencedObject*>(p);
         getMemoryRouter()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

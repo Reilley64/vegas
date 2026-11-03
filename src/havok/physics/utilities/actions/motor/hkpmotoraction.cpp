@@ -125,7 +125,7 @@ class hkpMotorActionMA : public hkpMotorAction
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         return b;
     }
-    void operator delete(void*, unsigned int);
+    void operator delete(void* , size_t);
 
     hkpMotorActionMA(hkpRigidBody* body, const hkVector4& axis, hkReal spinRate, hkReal gain);
 

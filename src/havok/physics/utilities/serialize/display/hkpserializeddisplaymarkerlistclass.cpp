@@ -95,7 +95,7 @@ struct FUN_00e05d10_Base
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
 
-    void operator delete(void* p, unsigned int)
+    void operator delete(void* p, size_t)
     {
         FUN_00e05d10_Base* b = static_cast<FUN_00e05d10_Base*>(p);
         getMemoryRouter()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

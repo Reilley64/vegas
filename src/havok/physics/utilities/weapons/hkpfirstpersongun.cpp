@@ -341,7 +341,7 @@ struct hkVector4q
     }
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     void setXYZ(const hkVector4q& v)
     {
@@ -386,7 +386,7 @@ struct hkpSphereShapeq
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
-    static void operator delete(void* p, unsigned int nbytes);
+    static void operator delete(void* p, size_t nbytes);
 
     hkpSphereShapeq(float radius) throw();
 };

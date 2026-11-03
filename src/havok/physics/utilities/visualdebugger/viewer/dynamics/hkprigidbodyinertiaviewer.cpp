@@ -771,7 +771,7 @@ struct FUN_00d67930 {
     short m_sReferenceCount;
 
     FUN_00d67930();
-    static void operator delete(void* p, unsigned int)
+    static void operator delete(void* p, size_t)
     {
         FUN_00d67930* b = static_cast<FUN_00d67930*>(p);
         getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

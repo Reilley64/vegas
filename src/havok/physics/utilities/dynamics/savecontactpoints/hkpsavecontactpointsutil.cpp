@@ -1757,7 +1757,7 @@ struct S_00dcdd80_RefObj
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
-    static void operator delete(void*, unsigned int)
+    static void operator delete(void* , size_t)
     {}
 };
 struct FUN_00dce930 : S_00dcdd80_RefObj
@@ -3258,7 +3258,7 @@ struct FUN_00e05d10_Base
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
 
-    void operator delete(void* p, unsigned int)
+    void operator delete(void* p, size_t)
     {
         FUN_00e05d10_Base* b = static_cast<FUN_00e05d10_Base*>(p);
         getMemoryRouter()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

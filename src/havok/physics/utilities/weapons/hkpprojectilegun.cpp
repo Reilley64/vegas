@@ -650,13 +650,13 @@ void __cdecl ApplyTurnRate(hkpRigidBodyq* body, hkReal minSpeed, hkReal turnRate
             axis.normalize3();
 
             hkRotationq rot;
-            reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap((int)&(axis), angle);
+            reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap(reinterpret_cast<intptr_t>(&axis), angle);
 
             hkRotationq newRot;
             reinterpret_cast<::MProduct *>(&(newRot))->FUN_00cd55b0((const ::MProduct &)(rot), (const ::MProduct &)(t.m_rotation));
             t.m_rotation = newRot;
 
-            reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((int)&(t));
+            reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890(reinterpret_cast<intptr_t>(&t));
         }
     }
 }

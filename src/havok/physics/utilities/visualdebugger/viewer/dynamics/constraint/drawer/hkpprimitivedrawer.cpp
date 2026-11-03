@@ -45,7 +45,7 @@ struct ArrowDrawVector
 struct ArrowDrawQuaternion
 {
     float x, y, z, w;
-    void FUN_00cb2450(int axis, float angle);
+    void FUN_00cb2450(const __m128* axis, float angle);
 };
 
 struct ArrowDrawTarget
@@ -65,7 +65,7 @@ struct ArrowDrawTarget
 struct ArrowDrawObject : ::CpuObject
 {
     void FUN_00e11180(const ArrowDrawVector* p1, int p2, const ArrowDrawVector* p3, int p4, float p5, int p6, int p7);
-    void FUN_00e10d50(const ArrowDrawVector* a0, int a1, const ArrowDrawVector* a2, int a3, float a4, int a5, int a6);
+    void FUN_00e10d50(const ArrowDrawVector* a0, const ArrowDrawVector* a1, const ArrowDrawVector* a2, int a3, float a4, int a5, int a6);
 };
 
 static __forceinline __m128 Hk_e10d50_splat(float f)
@@ -93,18 +93,18 @@ static __forceinline __m128 Hk_e10d50_rot(const __m128& q, __m128 v)
 }
 
 // @fnv 0x00e10d50
-void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, int a1, const ArrowDrawVector* a2, int a3, float a4,
+void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, const ArrowDrawVector* a1, const ArrowDrawVector* a2, int a3, float a4,
                                    int a5, int a6)
 {
     ArrowDrawVector p1, p2;
     ArrowDrawQuaternion q1, q2;
-    p1.m = _mm_add_ps(_mm_mul_ps(Hk_e10d50_splat(a4), ((const ArrowDrawVector*)a1)->m),
+    p1.m = _mm_add_ps(_mm_mul_ps(Hk_e10d50_splat(a4), a1->m),
                                      a0->m);
     ((ArrowDrawTarget*)value)->edge(a0, &p1, a3, a5, a6);
-    q1.FUN_00cb2450((int)a2, ::DAT_01064f60);
-    q2.FUN_00cb2450((int)a2, ::DAT_01016b78);
+    q1.FUN_00cb2450(&a2->m, ::DAT_01064f60);
+    q2.FUN_00cb2450(&a2->m, ::DAT_01016b78);
     double na = -a4;
-    __m128 r1 = Hk_e10d50_rot(*(__m128*)&q1, ((const ArrowDrawVector*)a1)->m);
+    __m128 r1 = Hk_e10d50_rot(*(__m128*)&q1, a1->m);
     volatile float s = (float)(na * DAT_010c4ab0);
     ArrowDrawTarget* nextSink = (ArrowDrawTarget*)value;
     p2.m = _mm_add_ps(_mm_mul_ps(Hk_e10d50_splat(s), r1), p1.m);
@@ -346,7 +346,7 @@ struct PlaneDrawVector
 struct PlaneDrawQuaternion
 {
     float x, y, z, w;
-    void FUN_00cb2450(int p2, float angle);
+    void FUN_00cb2450(const __m128* p2, float angle);
 };
 
 struct PlaneDrawTarget
@@ -393,11 +393,11 @@ static __forceinline __m128 PlaneDrawRotate(__m128 q, __m128 p)
 
 struct PlaneDrawObject : CpuObject
 {
-    void FUN_00e11180(const PlaneDrawVector* p1, int p2, const PlaneDrawVector* p3, int p4, float p5, int p6, int p7);
+    void FUN_00e11180(const PlaneDrawVector* p1, const PlaneDrawVector* p2, const PlaneDrawVector* p3, int p4, float p5, int p6, int p7);
 };
 
 // @fnv 0x00e11180
-void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, int p2, const PlaneDrawVector* p3, int p4, float p5,
+void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, const PlaneDrawVector* p2, const PlaneDrawVector* p3, int p4, float p5,
                                    int p6, int p7)
 {
     float s = (float)((double)p5 * DAT_010eacc0);
@@ -407,9 +407,9 @@ void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, int p2, const Plan
     __m128 splat = _mm_shuffle_ps(t, t, 0);
     *(__m128*)&L = _mm_mul_ps(splat, *(const __m128*)p3);
     PlaneDrawQuaternion D1;
-    D1.FUN_00cb2450(p2, ::fnv_00a10770::DAT_0101ff38);
+    D1.FUN_00cb2450(&p2->m, ::fnv_00a10770::DAT_0101ff38);
     PlaneDrawQuaternion D2;
-    D2.FUN_00cb2450(p2, ::DAT_01064f60);
+    D2.FUN_00cb2450(&p2->m, ::DAT_01064f60);
 
     L.m = PlaneDrawRotate(*(__m128*)&D2, L.m);
     P1v.m = p1->m;
@@ -461,7 +461,7 @@ void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, int p2, const Plan
     spl = _mm_shuffle_ps(spl, sel, 0);
     *(__m128*)&L = _mm_mul_ps(spl, ll);
 
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((this))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(p1), p2, (const ::ArrowDraw::ArrowDrawVector *)(const ::fnv_00e11180::PlaneDrawVector *)(&L), p4, p5, p6, p7);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((this))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(p1), (const ::ArrowDraw::ArrowDrawVector *)(p2), (const ::ArrowDraw::ArrowDrawVector *)(const ::fnv_00e11180::PlaneDrawVector *)(&L), p4, p5, p6, p7);
 }
 }  // namespace fnv_00e11180
 #include "fnv/symbols_simd.h"
@@ -512,7 +512,7 @@ void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hk
     perp->normalize3();
     axis->normalize3();
     hkRotation rot;
-    reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap((int)(axis), startAngle);
+    reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap(reinterpret_cast<intptr_t>(axis), startAngle);
     __m128 rad4 = _mm_load_ss(&radius);
     rad4 = _mm_shuffle_ps(rad4, rad4, 0);
     hkVector4 cur;
@@ -520,7 +520,7 @@ void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hk
     cur.FUN_00c7f700(&rot, &cur);
     cur.m_vComponents = _mm_add_ps(center->m_vComponents, cur.m_vComponents);
     float stepAngle = (endAngle - startAngle) / numSegments;
-    reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap((int)(axis), stepAngle);
+    reinterpret_cast<::FUN_00cb2e30_cls *>(&(rot))->SpawnSnap(reinterpret_cast<intptr_t>(axis), stepAngle);
     for (int i = 0; i < numSegments; ++i)
     {
         hkVector4 next;

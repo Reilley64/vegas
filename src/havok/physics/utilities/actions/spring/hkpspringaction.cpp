@@ -131,16 +131,16 @@ struct FUN_00cf4d80
     float m_fDamping;
     bool m_bModifierActive;
     bool m_bEnableState;
-    FUN_00cf4d80(void* a, void* b, unsigned long c);
+    FUN_00cf4d80(void* a, void* b, uintptr_t c);
 };
 extern int DAT_010d08f4;
 struct FUN_00d4d340 : FUN_00cf4d80
 {
-    FUN_00d4d340(void* a, void* b, unsigned long c);
+    FUN_00d4d340(void* a, void* b, uintptr_t c);
 };
 // Calls the base constructor, sets the vtable, m_fMass to 1.0, spring constant and damping from globals, and sets both bool flags to true.
 // @fnv 0x00d4d340
-FUN_00d4d340::FUN_00d4d340(void* a, void* b, unsigned long c) : FUN_00cf4d80(a, b, c)
+FUN_00d4d340::FUN_00d4d340(void* a, void* b, uintptr_t c) : FUN_00cf4d80(a, b, c)
 {
     float* __restrict pf = &m_fSpringConstant;
     m_fMass = 1.0f;
@@ -389,7 +389,7 @@ struct S00d4d4a0_Obj
         return memory;
     }
 
-    S00d4d4a0_Obj* FUN_00d4d340(void* entityA, void* entityB, void* data);
+    S00d4d4a0_Obj* FUN_00d4d340(void* entityA, void* entityB, uintptr_t data);
 
     S00d4d4a0_Obj* FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hkpCloneArgD4A0& argB) const;
 
@@ -398,7 +398,7 @@ struct S00d4d4a0_Obj
     short m_sReferenceCount;
     void* unk08;
     void* unk0C;
-    void* m_ulUserData;
+    uintptr_t m_ulUserData;
     void* unk14;
     void* m_pEntityA;
     void* m_pEntityB;
@@ -425,7 +425,7 @@ S00d4d4a0_Obj* S00d4d4a0_Obj::FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hk
 
     S00d4d4a0_Obj* clone = new S00d4d4a0_Obj;
 
-    clone = ((::fnv_00d4d4a0::S00d4d4a0_Obj *)(new ((void *)(clone)) ::FUN_00d4d340(argA.m_kActorEntries->m_pEntityA, argA.m_kActorEntries->m_pEntityB, (unsigned long)(m_ulUserData))));
+    clone = ((::fnv_00d4d4a0::S00d4d4a0_Obj *)(new ((void *)(clone)) ::FUN_00d4d340(argA.m_kActorEntries->m_pEntityA, argA.m_kActorEntries->m_pEntityB, m_ulUserData)));
 
     clone->m_kPivotInA = m_kPivotInA;
     clone->m_kPivotInB = m_kPivotInB;

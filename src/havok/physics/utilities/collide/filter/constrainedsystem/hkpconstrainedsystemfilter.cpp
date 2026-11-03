@@ -9,6 +9,7 @@
 #include "fnv/symbols_00cfd000.h"
 #include "fnv/symbols_0126d000.h"
 #include "havok/hkpConstrainedSystemFilter.h"
+#include "havok/hkpEntity.h"
 
 
 // @fnv 0x00dffaf0
@@ -115,7 +116,7 @@ struct hkpConstraintInstanceE46B
     FUN_00c9c3c0_Class* m_pEntityB;
 };
 
-class FUN_00c9c3c0_Class
+class FUN_00c9c3c0_Class : public ::hkpEntity
 {
   public:
     int GetEntryAt(int i) throw();
@@ -365,17 +366,15 @@ struct Owner
     virtual void v1C();
     virtual int getType();
 };
-// If the owner at +0xc has type other than 11, calls CallA with the +0x10 offsets of the pointers at +0x14 and +0x18, and passes a nonzero result to CallB.
+// If the constraint data is not a contact constraint (type 11), finds the agent between the two entities' collidables and passes a nonzero result to FUN_00cc1160.
 // @fnv 0x00e46e30
 void FUN_00e46e30(void* p)
 {
-    Owner* owner = *reinterpret_cast<Owner**>(reinterpret_cast<char*>(p) + 0xc);
-    if (owner->getType() != 11)
+    hkpConstraintInstanceE46B* constraint = static_cast<hkpConstraintInstanceE46B*>(p);
+    if (constraint->m_data->getType() != 11)
     {
-        void* b = *reinterpret_cast<void**>(reinterpret_cast<char*>(p) + 0x18);
-        void* a = *reinterpret_cast<void**>(reinterpret_cast<char*>(p) + 0x14);
-        void* obj =
-            reinterpret_cast<char*>(((int)(::FindEntryValue((::LinkNode *)(void *)(reinterpret_cast<char*>(a) + 0x10), (::LinkNode *)(void *)(reinterpret_cast<char*>(b) + 0x10)))));
+        void* obj = ::FindEntryValue(reinterpret_cast<::LinkNode*>(&constraint->m_pEntityA->m_kCollidable),
+                                     reinterpret_cast<::LinkNode*>(&constraint->m_pEntityB->m_kCollidable));
         if (obj)
             ::FUN_00cc1160((::Owner *)(obj));
     }

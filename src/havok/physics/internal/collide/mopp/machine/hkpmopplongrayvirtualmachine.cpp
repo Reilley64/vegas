@@ -231,7 +231,7 @@ class hkVector4
     }
     __forceinline float& operator()(int n)
     {
-        return bits[n];
+        return reinterpret_cast<float*>(&bits)[n];
     }
     __forceinline const float& operator()(int n) const
     {
@@ -412,7 +412,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
         if (!DAT_01269cbd)
             return;
     }
-    __assume((reinterpret_cast<unsigned>(ray) & 15) == 0);
+    __assume((reinterpret_cast<uintptr_t>(ray) & 15) == 0);
     for (;;)
     {
         unsigned int command = *code;

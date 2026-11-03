@@ -18,14 +18,14 @@ struct hkQuaternionD4DB
 class FUN_00cf4d80
 {
   public:
-    FUN_00cf4d80(void* pkEntityA, void* pkEntityB, unsigned long ulUserData) throw();
+    FUN_00cf4d80(void* pkEntityA, void* pkEntityB, uintptr_t ulUserData) throw();
     virtual ~FUN_00cf4d80() throw();
 
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     void* m_pOwningWorld;
     void* m_pCurrentSimulationIsland;
-    unsigned long m_ulUserData;
+    uintptr_t m_ulUserData;
     const char* m_name;
     void* m_pEntityA;
     void* m_pEntityB;
@@ -34,7 +34,7 @@ class FUN_00cf4d80
 class FUN_00d4dbe0 : public FUN_00cf4d80
 {
   public:
-    FUN_00d4dbe0(void* pkEntityA, void* pkEntityB, unsigned long ulUserData) throw();
+    FUN_00d4dbe0(void* pkEntityA, void* pkEntityB, uintptr_t ulUserData) throw();
     virtual ~FUN_00d4dbe0() throw();
 
     hkQuaternionD4DB m_rotation;
@@ -44,7 +44,7 @@ class FUN_00d4dbe0 : public FUN_00cf4d80
 };
 
 // @fnv 0x00d4dbe0
-FUN_00d4dbe0::FUN_00d4dbe0(void* pkEntityA, void* pkEntityB, unsigned long ulUserData) throw()
+FUN_00d4dbe0::FUN_00d4dbe0(void* pkEntityA, void* pkEntityB, uintptr_t ulUserData) throw()
     : FUN_00cf4d80(pkEntityA, pkEntityB, ulUserData), m_fSpringStrength(0.1f), m_fMotorDamping(0.01f)
 {
     m_rotation.m_vec = DAT_010c71b0;

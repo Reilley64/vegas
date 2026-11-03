@@ -359,8 +359,8 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
     Vec4 tc0;
     tc0.FUN_00c7f700(reinterpret_cast<const RotationColumns&>(m60), localA.getColumn(0));
     float prod1 = f1c * f0c;
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(mC0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&receivers.m50), (int)(&t80), (const ::ArrowDraw::ArrowDrawVector *)(::Vec4 *)(&t70), 0xff008000, prod1, p3, p4);
-    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(mC0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&m40), (int)(&tc0), (const ::ArrowDraw::ArrowDrawVector *)(::Vec4 *)(&t90), ((int)(::PackBytesBigEndian(0xff, 0xff, 0, 0xff))), f1c * f0c, p3, p4);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(mC0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&receivers.m50), (const ::ArrowDraw::ArrowDrawVector *)(&t80), (const ::ArrowDraw::ArrowDrawVector *)(::Vec4 *)(&t70), 0xff008000, prod1, p3, p4);
+    reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(mC0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(void *)(&m40), (const ::ArrowDraw::ArrowDrawVector *)(&tc0), (const ::ArrowDraw::ArrowDrawVector *)(::Vec4 *)(&t90), ::PackBytesBigEndian(0xff, 0xff, 0, 0xff), f1c * f0c, p3, p4);
     void* subD0 = &mD0;
     mD0.FUN_00de5370(mat->fa0, f1c * f10, f18, &t80, &receivers.m50);
     Vec4 bufA0;

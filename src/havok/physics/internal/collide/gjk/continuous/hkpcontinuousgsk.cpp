@@ -922,8 +922,8 @@ typedef float hkReal;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
-typedef signed long __w64 hkLong;
+typedef uintptr_t hkUlong;
+typedef intptr_t hkLong;
 enum hkResult
 {
     HK_SUCCESS = 0,

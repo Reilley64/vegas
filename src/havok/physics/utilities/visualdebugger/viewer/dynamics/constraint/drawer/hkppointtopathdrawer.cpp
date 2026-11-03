@@ -281,7 +281,7 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
     reinterpret_cast<::CpuObject *>(&(m_processor))->FUN_00e10a10((drawer));
     FUN_00de47e0(input, &localTransform, &extraTransform);
     m_vContactPosition = localTransform.m_vTranslation;
-    reinterpret_cast<::FUN_00dee820_Class *>((scene))->FUN_00dee820((unsigned int)(&input->m_extra->m_endPoint), (::FUN_00c7f640_Class *)(::hkVector4 *)(&m_endPoint));
+    reinterpret_cast<::FUN_00dee820_Class *>((scene))->FUN_00dee820(&input->m_extra->m_endPoint, (::FUN_00c7f640_Class *)(::hkVector4 *)(&m_endPoint));
     reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);
     reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(id, tag);
 

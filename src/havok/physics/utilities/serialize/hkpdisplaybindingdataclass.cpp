@@ -103,7 +103,7 @@ struct PtrElem
 
 struct FUN_00dff730_cls
 {
-    int m_vptr;
+    const void* m_vptr;
     int unk04;
     void** m_pData2;
     int m_iCount2;
@@ -160,7 +160,7 @@ void FUN_00dff730_cls::ClearArrays()
     }
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = &::DAT_0102e388;
 }
 }  // namespace fnv_00dff730
 

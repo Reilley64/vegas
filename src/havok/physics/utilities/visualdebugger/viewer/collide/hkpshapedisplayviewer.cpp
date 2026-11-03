@@ -1197,7 +1197,7 @@ struct S_00d66220_RefObject
     short m_sReferenceCount;
 
     virtual ~S_00d66220_RefObject();
-    static void operator delete(void* p, unsigned int)
+    static void operator delete(void* p, size_t)
     {
         S_00d66220_RefObject* o = static_cast<S_00d66220_RefObject*>(p);
         getMemoryRouter()->heap()->ReleaseBlock(p, o->m_usMemSizeAndFlags);

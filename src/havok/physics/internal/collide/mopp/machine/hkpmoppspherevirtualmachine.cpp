@@ -18,13 +18,13 @@ static inline MemoryManager* getMemoryRouter() { return static_cast<MemoryManage
 extern unsigned char DAT_0126efbb;
 struct FmtObj {
     int unk00, unk04, unk08;
-    void FUN_00cc01c0(void* s);
+    void FUN_00cc01c0(const char* s);
 };
 struct Reporter {
     virtual void v0();
     virtual void v4();
     virtual void v8();
-    virtual int Report(int a, unsigned int b, char* c, void* d, int e);
+    virtual int Report(int a, unsigned int b, char* c, const char* d, int e);
 };
 
 __forceinline void reportCorruption() {

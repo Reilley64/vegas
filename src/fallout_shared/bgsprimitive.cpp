@@ -1,5 +1,6 @@
 // fallout_shared/bgsprimitive.cpp: BGSPrimitiveSphere, BGSPrimitiveBox, BSMultiBoundAABB, BSMultiBoundSphere and more (113 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -668,7 +669,7 @@ struct FUN_00c4fa10_shell : NiObject
 // @fnv 0x00c4fa10
 void FUN_00c4fa10_shell::FUN_00c4fa10(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
 }
 }  // namespace fnv_00c4fa10
 
@@ -716,7 +717,7 @@ struct FUN_00c4fa60_shell : NiObject
 // @fnv 0x00c4fa60
 void FUN_00c4fa60_shell::FUN_00c4fa60(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
 }
 }  // namespace fnv_00c4fa60
 

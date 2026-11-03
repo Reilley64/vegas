@@ -5259,7 +5259,7 @@ struct C46Class : FUN_00a5e5b0_helper
 // @fnv 0x00c46d10
 bool C46Class::FUN_00c46d10(NiStream* s)
 {
-    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)this, (int)(s), *(::fnv_00a5e5b0::NiStream *)nullptr))))
+    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)this, (std::intptr_t)(s), *(::fnv_00a5e5b0::NiStream *)nullptr))))
         return false;
     GetChild()->v54(s);
     return true;
@@ -20124,7 +20124,7 @@ struct C5Base
         if (collision && collision->GetOwner() != this)
             collision->SetOwner(this);
     }
-    void ForwardToSubobject(int iValue)
+    void ForwardToSubobject(std::intptr_t iValue)
     {
         NiPointer<C5RefObj> property(reinterpret_cast<C5RefObj*>(iValue));
         C5List& propertyList = properties;
@@ -20208,7 +20208,7 @@ FUN_00c5f680::FUN_00c5f680(C5Src* pkSource, bool bCopy) : C5Base(0)
         {
             void* pkProperty = pkSource->properties.GetHead();
             reinterpret_cast<::FUN_00439410_cls *>(this)->FUN_00439410((::ArgObject *)(pkProperty));
-            reinterpret_cast<::S654 *>((pkSource))->ForwardToSubobject((int)pkProperty);
+            reinterpret_cast<::S654 *>((pkSource))->ForwardToSubobject((std::intptr_t)pkProperty);
         }
 
         translation = pkSource->translation;

@@ -2,6 +2,7 @@
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
@@ -447,7 +448,7 @@ struct NiObject
 // @fnv 0x00c64950
 void NiObject::FUN_00c64950(NiStream* stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
     reinterpret_cast<::FUN_00a64160_cls *>((stream))->FUN_00a64160(*(const char**)((char*)this + 8));
 }
 }  // namespace fnv_00c64950
@@ -1631,7 +1632,7 @@ struct FUN_00c62140_cls
 void NiObject::FUN_00c61f30(NiStream& stream)
 {
     reinterpret_cast<::FUN_00c62140_cls *>(this)->FUN_00c62140();
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
 }
 // @fnv 0x00c627e0
 void FUN_00c627e0_Class::FUN_00c627e0(void* pValue)
@@ -1969,7 +1970,7 @@ void FUN_00c64b90_cls::FUN_00c64b90(FUN_00c64b90_target* apTarget)
     FUN_00c64b90_item* item3;
     unsigned int v2;
     unsigned int bytes;
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
     count = m_14;
     bytes = count * 2;
     ::FUN_0044adf0((::MiddleHighProcess *)(apTarget), (int)(&bytes));

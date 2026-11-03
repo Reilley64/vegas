@@ -10163,7 +10163,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
     if (dirty)
     {
         P440Position bound = geometry->position ? *geometry->position : *(P440Position*)&(*reinterpret_cast<char *>(&::g_defaultBound));
-        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((int)(&bound));
+        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((const ::B9DBE0Bound *)(&bound));
     }
     void* lightIterator;
     if (cacheKey == uiCacheKey && dirty)

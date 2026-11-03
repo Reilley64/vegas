@@ -1,5 +1,6 @@
 // fallout/interface/forenderedmenu.cpp: FORenderedMenu, MenuStub, FOPipboyManager, HOLDER and more (44 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/B5Owner.h"
@@ -2758,7 +2759,7 @@ void Menu::FUN_007fbee0(Arg* a, void* pData, int iValue)
     if (active)
         reinterpret_cast<::FUN_007fbeb0_shell *>((((::recon7fbee0::Manager *)(::ImageSpaceManager::FUN_004e3270()))))->SetValueAndAssign(1, ((void *)(::FUN_00559450((int *)&(node)))));
     *(int*)&(*reinterpret_cast<char *>(&::DAT_012007ec)) = iValue;
-    reinterpret_cast<::BB97550Shader *>((((::recon7fbee0::Manager *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b97550(10, (int)(((void *)(::FUN_0043c4b0()))), (int)(a), (int)(pData), 0, 1);
+    reinterpret_cast<::BB97550Shader *>((((::recon7fbee0::Manager *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b97550(10, (std::intptr_t)(((void *)(::FUN_0043c4b0()))), (int)(a), (int)(pData), 0, 1);
     ((Ptr*)&DAT_01200818)->FUN_0066b0d0(0);
 }
 }

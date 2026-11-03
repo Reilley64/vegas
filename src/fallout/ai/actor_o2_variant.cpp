@@ -1297,8 +1297,8 @@ void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f)
                     if (pkS)
                     {
                         pkS->SetMode(4);
-                        pkS->FUN_00561690((int)&DAT_01267e30);
-                        reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkS))->FUN_005617c0((int)(&DAT_01267e30));
+                        pkS->FUN_00561690((std::intptr_t)&DAT_01267e30);
+                        reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkS))->FUN_005617c0((std::intptr_t)(&DAT_01267e30));
                     }
                 }
             }
@@ -3342,7 +3342,7 @@ void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
         {
             KQuat q;
             fromNode = false;
-            reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((int)&(t.trans));
+            reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((std::intptr_t)&(t.trans));
             reinterpret_cast<::S00560c20_Object *>((body))->FUN_00560c20((::S00560c20_Target *)&(q));
             reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.rot));
         }

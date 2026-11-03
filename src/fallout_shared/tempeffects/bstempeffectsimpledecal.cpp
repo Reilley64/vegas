@@ -1,5 +1,6 @@
 // fallout_shared/tempeffects/bstempeffectsimpledecal.cpp: BSTempEffectSimpleDecal, NiPoint3, DecalStub, DecalHolder and more (27 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSFaceGenKeyframe.h"
@@ -832,7 +833,7 @@ struct FUN_0068de30_holder
 // @fnv 0x0068de30
 bool FUN_0068de30_holder::ReleaseTextureObject()
 {
-    if (!reinterpret_cast<::S_00c4edf0_cls *>((unk1c))->FUN_00c4edf0((int)(&unk24), 0))
+    if (!reinterpret_cast<::S_00c4edf0_cls *>((unk1c))->FUN_00c4edf0((std::intptr_t)(&unk24), 0))
     {
         return false;
     }

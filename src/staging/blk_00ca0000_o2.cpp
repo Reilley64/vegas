@@ -9406,7 +9406,7 @@ struct FUN_00cb9d80_class
 // @fnv 0x00cb9d80
 void FUN_00cb9d80_class::ReadFromStream(void* context)
 {
-    ::FUN_00a89af0((int)(context));
+    ::FUN_00a89af0((std::intptr_t)(context));
     unsigned int count = unk14;
     reinterpret_cast<::FUN_00a641f0_cls *>((((FUN_00a641f0_class*)context)))->WriteObjectLink(&unk08);
 

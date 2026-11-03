@@ -5,6 +5,7 @@
 
 // src/staging/blk_00620000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -1790,7 +1791,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                                 reinterpret_cast<::S_00627920 *>(&(box))->FUN_00627920((::S_00561240 *)(::fnv_006271b0::FUN_005dbf20 *)(&v));
                                 float& z = reinterpret_cast<::bhkCharacterController *>(&(box))->GetVectorElement(2);
                                 z = z * -1.0;
-                                reinterpret_cast<::S *>((other))->FUN_00561690((int)(&box));
+                                reinterpret_cast<::S *>((other))->FUN_00561690((std::intptr_t)(&box));
                             }
                             unsigned short bits = mask;
                             if (reinterpret_cast<::FUN_00629cf0_cls *>(&(fresh))->LookupValue((int)(other), &bits))
@@ -2924,7 +2925,7 @@ void __cdecl FUN_0062ab60(const hkVector4V& kTarget, void* pvRef)
     hkSimdRealV kStep(1.5f);
     reinterpret_cast<::S_00627920 *>(&(kWorldPosition))->FUN_00627920((::S_00561240 *)&(kStep));
     reinterpret_cast<::V *>(&(kWorldPosition))->FUN_00553f70((const ::V &)((*(const ::fnv_0062ab60::hkVector4V *)&(::fnv_00560d80::FUN_00560d80((void *)(pkBody))))));
-    reinterpret_cast<::S *>((pkBody))->FUN_00561690((int)&(kWorldPosition));
+    reinterpret_cast<::S *>((pkBody))->FUN_00561690((std::intptr_t)&(kWorldPosition));
     pkEntry->m_fTime = fTime - ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676))));
     pkEntry->m_iArrayLength--;
     if (pkEntry->m_iArrayLength <= 0)
@@ -2993,7 +2994,7 @@ void __cdecl FUN_0062bae0(Object62BAE0* pkObject, Point62BAE0* pkPoint, bool bLo
                 reinterpret_cast<::bhkUnaryAction *>(&(kVector))->Set(reinterpret_cast<::bhkCharacterController *>((pkPoint))->GetVectorElement(0), reinterpret_cast<::bhkCharacterController *>((pkPoint))->GetVectorElement(1), reinterpret_cast<::bhkCharacterController *>((pkPoint))->GetVectorElement(2), 0.0f);
                 if (!bLocal)
                     reinterpret_cast<::V *>(&(kVector))->FUN_00553f70((*(const ::V *)(reinterpret_cast<::FUN_00560e10_cls *>((pkWorldObject))->FUN_00560e10())));
-                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkWorldObject))->FUN_005617c0((int)&(kVector));
+                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkWorldObject))->FUN_005617c0((std::intptr_t)&(kVector));
             }
         }
         Node62BAE0* pkNode = pkObject->GetAsNode();

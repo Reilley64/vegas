@@ -2509,7 +2509,7 @@ struct ShProp
     int unk4c;
     int unk50;
     int unk54;
-    void* unk58;
+    unsigned int unk58;
 };
 struct Shader
 {
@@ -2654,7 +2654,7 @@ inline bool IsExactB(Shader* s, RTTIStub* r)
     return b;
 }
 
-Shader* __cdecl FUN_00b55560(void*);
+Shader* __cdecl FUN_00b55560(unsigned int);
 
 // @fnv 0x00b579e0
 void __cdecl UpdateShaderProperty(AVObj* obj, bool abUnused, bool abFlag8, bool a3)
@@ -2853,7 +2853,7 @@ void __cdecl CopyMaterialPropertyRecursive(Walker* apWalker)
         Material* pSourceMaterial = prop.m_pObject;
         if (pSourceMaterial)
         {
-            reinterpret_cast<::S654 *>((apWalker))->ForwardToSubobject((int)(pSourceMaterial));
+            reinterpret_cast<::S654 *>((apWalker))->ForwardToSubobject((std::intptr_t)(pSourceMaterial));
             NiObjectCopyInfo copyInfo(0x101);
             Material* pDestMaterial;
             if (pSourceMaterial->controller)
@@ -3568,92 +3568,92 @@ template <> class NiPointer<RefShader>
 
 // Returns the cached RefShader for the given index, lazily creating it via a switch on the index if it is not yet initialized.
 // @fnv 0x00b55560
-Shader* __cdecl FUN_00b55560(void* aiIndex)
+Shader* __cdecl FUN_00b55560(unsigned int aiIndex)
 {
-    if (!DAT_011f9508 || (unsigned int)aiIndex > 0x22)
+    if (!DAT_011f9508 || aiIndex > 0x22)
         return 0;
     NiPointer<RefShader>* shaders = (NiPointer<RefShader>*)&DAT_011f9548;
-    if (!shaders[(unsigned int)aiIndex].m_pObject)
+    if (!shaders[aiIndex].m_pObject)
     {
         HeapScope heapScope(5);
-        switch ((unsigned int)aiIndex)
+        switch (aiIndex)
         {
         case 1:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00b7a380::FUN_00b7a380()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00b7a380::FUN_00b7a380()));
             break;
         case 2:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bacf00::CreateShaderFadeNode()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bacf00::CreateShaderFadeNode()));
             break;
         case 3:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bd5920()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bd5920()));
             break;
         case 4:
-            FUN_00b55560((void*)1);
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bd4750()));
+            FUN_00b55560(1);
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bd4750()));
             break;
         case 5:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bd2e70::FUN_00bd2e70()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bd2e70::FUN_00bd2e70()));
             break;
         case 6:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::CreateSpeedTreeLeafShader()));
+            shaders[aiIndex] = ((::RefShader *)(::CreateSpeedTreeLeafShader()));
             break;
         case 9:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader_00bd23f0()));
+            shaders[aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader_00bd23f0()));
             break;
         case 10:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00b8a390()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00b8a390()));
             break;
         case 13:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bd14b0()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bd14b0()));
             break;
         case 14:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::CreateFaceGenMorphShader()));
+            shaders[aiIndex] = ((::RefShader *)(::CreateFaceGenMorphShader()));
             break;
         case 15:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bcd680::FUN_00bcd680()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bcd680::FUN_00bcd680()));
             break;
         case 16:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::CreateGeometryDecalShader()));
+            shaders[aiIndex] = ((::RefShader *)(::CreateGeometryDecalShader()));
             break;
         case 17:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::WaterShader::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::WaterShader::CreateShader()));
             break;
         case 24:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::ParticleShader::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::ParticleShader::CreateShader()));
             break;
         case 25:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(static_cast<::BoltShader *>(nullptr)->CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(static_cast<::BoltShader *>(nullptr)->CreateShader()));
             break;
         case 26:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader()));
             break;
         case 29:
             if (DAT_011f94a6)
-                shaders[(unsigned int)aiIndex] = ((::RefShader *)(::Lighting30Shader::CreateShader()));
-            else if (shaders[(unsigned int)aiIndex].Reset())
-                return (Shader*)shaders[(unsigned int)aiIndex].m_pObject;
+                shaders[aiIndex] = ((::RefShader *)(::Lighting30Shader::CreateShader()));
+            else if (shaders[aiIndex].Reset())
+                return (Shader*)shaders[aiIndex].m_pObject;
             break;
         case 30:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bb0660()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bb0660()));
             break;
         case 32:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bcae90()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bcae90()));
             break;
         case 33:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::BSShaderNoLighting::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::BSShaderNoLighting::CreateShader()));
             break;
         case 34:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(static_cast<::VolumetricFogShader *>(nullptr)->CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(static_cast<::VolumetricFogShader *>(nullptr)->CreateShader()));
             break;
         case 7:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(static_cast<::BSShaderBloodSplatter *>(nullptr)->CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(static_cast<::BSShaderBloodSplatter *>(nullptr)->CreateShader()));
             break;
         case 8:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bb6e30::CreateTreeShader()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bb6e30::CreateTreeShader()));
             break;
         }
     }
-    return (Shader*)shaders[(unsigned int)aiIndex].m_pObject;
+    return (Shader*)shaders[aiIndex].m_pObject;
 }
 
 struct InitMemory
@@ -4161,7 +4161,7 @@ void InitRenderSystem()
             if (DAT_011f9508)
             {
                 for (int shader = 1; shader < 35; ++shader)
-                    ::FUN_00b55560((void *)(shader));
+                    ::FUN_00b55560(shader);
                 DAT_011f91ac = reinterpret_cast<ImageSpaceManager*>(new ImageManagerInit);
                 if ((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498)))
                 {
@@ -5221,7 +5221,7 @@ void FUN_00b55bb0()
     {
         NiFixedString name("EyeReflectionCubeMap");
         (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9544)) = ((::NiTexture *)(::CreateCubeMap((void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath),
-                                    (::CubeRenderer *)(DAT_011f9508), (int)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+                                    (::CubeRenderer *)(DAT_011f9508), (std::intptr_t)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
     ::FUN_00406d00(texturePath, 260, "%sreflection.dds", "Data\\Textures\\Effects\\");
@@ -5230,7 +5230,7 @@ void FUN_00b55bb0()
         NiFixedString name("ArmorReflectionCubeMap");
         reinterpret_cast<NiPointer<NiTexture>&>(DAT_011f95d4) =
             ((::NiTexture *)(::CreateCubeMap((void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (::CubeRenderer *)(DAT_011f9508),
-                         (int)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+                         (std::intptr_t)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
     }
 
     ::FUN_00406d00(texturePath, 260, "%saniso.dds", "Data\\Textures\\Effects\\");

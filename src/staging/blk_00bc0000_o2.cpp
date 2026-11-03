@@ -11066,7 +11066,7 @@ struct Obj1090
 // @fnv 0x00bd1090
 void Obj1090::FUN_00bd1090()
 {
-    Obj1090* source = ((::Obj1090 *)(::FUN_00b55560((void *)(1))));
+    Obj1090* source = ((::Obj1090 *)(::FUN_00b55560(1)));
     Ptr1090 first(source->m_30);
     Ptr1090 second(source->m_34);
     m_34 = second.value;
@@ -12097,7 +12097,7 @@ void FUN_00bd4ba0_class::ApplyPasses(PassArg* pPassArg)
     reinterpret_cast<::fnv_00b7dab0::RX *>(this)->UpdateRenderPass((::fnv_00b7dab0::ArgX *)(pPassArg));
     FogStub* fog = ((::fnv_00bd4ba0::FogStub *)(::FUN_00b55520(::DAT_011f91c4)));
     Apply(geom, fog, x);
-    PassOwner* owner = ((::fnv_00bd4ba0::PassOwner *)(::FUN_00b55560((void *)(1))));
+    PassOwner* owner = ((::fnv_00bd4ba0::PassOwner *)(::FUN_00b55560(1)));
     owner->unk30->SetupPass((void*)(*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->unk44, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     owner->unk34->SetupPass((*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->handler, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     PassShader* pShader30 = unk30;
@@ -18797,7 +18797,7 @@ void TechniqueShader_ce40::SetTechniquePass(unsigned int uiTechnique)
     case 1:
     case 2:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_ce40 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_ce40 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkDefaultPass;
         break;
     case 0x101:
@@ -18853,7 +18853,7 @@ void TechniqueShader_ce40::SetTechniquePass(unsigned int uiTechnique)
         break;
     default:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_ce40 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_ce40 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         break;
     }
 }
@@ -19124,12 +19124,12 @@ void TechniqueShader_fd20::FUN_00bcfd20(unsigned int uiTechnique)
     case 1:
     case 2:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_fd20 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 3:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_fd20 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x100:
@@ -19182,7 +19182,7 @@ void TechniqueShader_fd20::FUN_00bcfd20(unsigned int uiTechnique)
         break;
     default:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_fd20 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         break;
     }
     if (uiTechnique == 0x250 || uiTechnique == 0x251)
@@ -23747,7 +23747,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     }
     else
     {
-        reinterpret_cast<::fnv_00bdf3e0::Bdf3e0_cls *>(this)->FUN_00bdf3e0((int)(geom), (int)(sceneLight), count, passMode, (char *)(bool *)(&firstPass), diffusePass, special);
+        reinterpret_cast<::fnv_00bdf3e0::Bdf3e0_cls *>(this)->FUN_00bdf3e0((void *)(geom), (void *)(sceneLight), count, passMode, (char *)(bool *)(&firstPass), diffusePass, special);
     }
 afterLighting:
     if (!allFlags)

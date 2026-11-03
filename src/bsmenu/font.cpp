@@ -5522,7 +5522,7 @@ TQShape* TQOwner::FUN_00a1a800(TQStr kPath, float fX, float fY, float fZ, int iW
     TQProperty* pkProperty3 = new TQProperty(false);
     reinterpret_cast<::TileShaderProperty *>((pkProperty3))->FUN_00bb7a10((::NiTexture *)(pkTexture3));
     reinterpret_cast<::FUN_00439410_cls *>((pkShape))->FUN_00439410((::ArgObject *)(pkProperty3));
-    TQZBuffer* pkNewZBuffer2 = ((::fnv_00a1a800::TQZBuffer *)(::FUN_00b55560((void *)(0x20))));
+    TQZBuffer* pkNewZBuffer2 = ((::fnv_00a1a800::TQZBuffer *)(::FUN_00b55560(0x20)));
     TQZBuffer* pkZBuffer9 = pkNewZBuffer2;
     pkShape->m_pkZBuffer = pkZBuffer9;
     reinterpret_cast<::FUN_00a5a040_Class *>((pkShape))->FUN_00a5a040();

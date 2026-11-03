@@ -13264,7 +13264,7 @@ struct C5Base
         if (collision && collision->GetOwner() != this)
             collision->SetOwner(this);
     }
-    void ForwardToSubobject(int iValue)
+    void ForwardToSubobject(std::intptr_t iValue)
     {
         NiPointer<C5RefObj> property(reinterpret_cast<C5RefObj*>(iValue));
         C5List& propertyList = properties;
@@ -13346,7 +13346,7 @@ FUN_00c5f680::FUN_00c5f680(C5Src* pkSource, bool bCopy) : C5Base(0)
         {
             void* pkProperty = pkSource->properties.GetHead();
             reinterpret_cast<::FUN_00439410_cls *>(this)->FUN_00439410((::ArgObject *)(pkProperty));
-            reinterpret_cast<::S654 *>((pkSource))->ForwardToSubobject((int)pkProperty);
+            reinterpret_cast<::S654 *>((pkSource))->ForwardToSubobject((std::intptr_t)pkProperty);
         }
 
         translation = pkSource->translation;

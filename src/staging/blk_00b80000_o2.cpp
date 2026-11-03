@@ -2,6 +2,7 @@
 // src/staging/blk_00b80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cmath>
@@ -15504,7 +15505,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
         {
             pkDest = m_pkSwapTarget;
             if (m_iNumActiveEffects > 2)
-                pkTemp = ((::RenderTargetB979 *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6e110((unsigned int)(pkRenderer), 3, 0, 0, 0)));
+                pkTemp = ((::RenderTargetB979 *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6e110((std::uintptr_t)(pkRenderer), 3, 0, 0, 0)));
         }
         int iRendered = 0;
         for (int i = 0; i <= m_iLastEffect; i++)
@@ -15516,7 +15517,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             ImageSpaceEffectB979* pkEffect = m_ppkEffects[i];
             if (pkEffect && pkEffect->IsActive())
             {
-                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (int)(pkRenderer), (int)(pkSource), (int)(pkDest), 0, true);
+                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (std::intptr_t)(pkRenderer), (int)(pkSource), (int)(pkDest), 0, true);
                 iRendered++;
                 RenderTargetB979* pkSwap = pkSource;
                 pkSource = pkDest;
@@ -15527,7 +15528,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             reinterpret_cast<::Manager *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6da10((::Item *)(pkTemp));
     }
     else
-        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (int)(pkRenderer), (int)(*ppkSource), (int)(*ppkDest), 0, true);
+        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (std::intptr_t)(pkRenderer), (int)(*ppkSource), (int)(*ppkDest), 0, true);
 }
 
 // @fnv 0x00b988a0

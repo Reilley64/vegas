@@ -1,5 +1,6 @@
 // fallout_shared/gridcell.cpp: GridCellArray, UnnamedHolder, GridCellArrayStandin, GridCellArray_Target and more (43 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSRenderedTexture.h"
@@ -1462,7 +1463,7 @@ void Grid::FUN_004baf10()
     spCameraVal = new Light();
     reinterpret_cast<::FUN_004bc280_S *>(((spCameraVal).operator->()))->FUN_004bc280((const ::C3 *)(void *)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
     reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((spCameraVal).operator->()))->SetEffectColor((*(const ::fnv_004bc2e0::NiColor *)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c)))));
-    ::FUN_00a89af0((int)((spCameraVal).operator->()));
+    ::FUN_00a89af0((std::intptr_t)((spCameraVal).operator->()));
 
     pMat8 = new MatProp();
     reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((unsigned int)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
@@ -1476,7 +1477,7 @@ void Grid::FUN_004baf10()
 
     if (reinterpret_cast<::_FUN_00822510_Class *>(&(spRT))->operator==(0))
     {
-        spRT = ((::Obj *)(reinterpret_cast<::Pool *>((((::TexMgr *)(::FUN_004a0ea0()))))->FUN_00b6e110((unsigned int)(((void *)(::FUN_0043c4b0()))), {}, {}, {}, {})));
+        spRT = ((::Obj *)(reinterpret_cast<::Pool *>((((::TexMgr *)(::FUN_004a0ea0()))))->FUN_00b6e110((std::uintptr_t)(((void *)(::FUN_0043c4b0()))), {}, {}, {}, {})));
     }
     ((::Obj *)(::FUN_004bc3f0()))->GetBackground(&kColorA);
     ((::Obj *)(::FUN_004bc3f0()))->SetBackground(&(*reinterpret_cast<char *>(&::DAT_011a9bd0)));

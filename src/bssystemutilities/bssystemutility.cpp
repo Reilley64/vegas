@@ -29,14 +29,14 @@ void BSSystemUtility::Destroy()
     FUN_00af34f0()->vfn_08();
     GetInitObj()->vfn_08();
 
-    std::memset((char*)&this->storage, 0, 0x80);
-    this->storage[144] = 0;
-    *((unsigned int*)((char*)this + 0x90)) = 0;
-    *((unsigned int*)((char*)this + 0x84)) = 0;
-    *((unsigned int*)((char*)this + 0x88)) = 0;
+    std::memset(m_acFilePath, 0, 0x80);
+    m_b94 = 0;
+    m_ui90 = 0;
+    m_ui84 = 0;
+    m_ui88 = 0;
 }
 
-// Calls vfn_08, copies fileName (capped at 0x7f chars) into this+4, then invokes vfn_04 on several subsystems and runs further init calls.
+// Calls vfn_08, copies fileName (capped at 0x7f chars) into m_acFilePath, then invokes vfn_04 on several subsystems and runs further init calls.
 // @fnv 0x00af3140
 void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsigned int arg2)
 {
@@ -51,7 +51,7 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
             length = 0x7f;
         else
             length = count;
-        fnv::crt::strncpy_s((char*)&this->storage, length + 1, pcFilePath, length);
+        fnv::crt::strncpy_s(m_acFilePath, length + 1, pcFilePath, length);
     }
 
     FUN_00af3850()->vfn_04();
@@ -69,14 +69,15 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
     ::FUN_00af2750();
 }
 
-// If the byte at offset 0x49 is set, clears the byte at 0x48 and signals the object at offset 0x30.
+// If m_bReleasePending is set, clears m_bRunning and signals m_kLock.
 // @fnv 0x0078d570
 void BSSystemUtility::Update()
 {
-    if (this->storage[69] != 0)
+    ScriptRunGate* gate = reinterpret_cast<ScriptRunGate*>(this);
+    if (gate->m_bReleasePending != 0)
     {
-        this->storage[68] = 0;
-        reinterpret_cast<::FUN_00442550_shell *>((((CountingSemaphore*)((char*)this + 0x30))))->ReleaseAndInitScriptRunLock();
+        gate->m_bRunning = 0;
+        reinterpret_cast<::FUN_00442550_shell *>(&gate->m_kLock)->ReleaseAndInitScriptRunLock();
     }
 }
 

@@ -809,11 +809,11 @@ struct GO633 : NP
 struct S654
 {
     NP FUN_0057c5d0(GO633&);
-    void ForwardToSubobject(int v);
+    void ForwardToSubobject(std::intptr_t v);
 };
 // Constructs a GO633 from v and passes it to FUN_0057c5d0 on the S654 subobject at offset 0x24.
 // @fnv 0x00654640
-void S654::ForwardToSubobject(int aiValue)
+void S654::ForwardToSubobject(std::intptr_t aiValue)
 {
     GO633 a(aiValue);
     ((S654*)((char*)this + 0x24))->FUN_0057c5d0(a);

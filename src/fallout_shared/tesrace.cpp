@@ -1,5 +1,6 @@
 // fallout_shared/tesrace.cpp: TESRace, Obj, RaceCleanup, RaceReset and more (42 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include <malloc.h>
@@ -2018,7 +2019,7 @@ void Race::BuildAppearance(NPC* npc, Output* apOutput, int sex, bool skip)
         {
             String path(0);
             reinterpret_cast<::fnv_006044e0::FUN_006044e0_shell *>((npc))->CreatePartTexture(i, (void *)&(path));
-            reinterpret_cast<::S_0060ba10 *>(&(apOutput->strings))->FUN_0060ba10((int)&(path));
+            reinterpret_cast<::S_0060ba10 *>(&(apOutput->strings))->FUN_0060ba10((std::intptr_t)&(path));
         }
     }
     apOutput->enabled = *(*reinterpret_cast<::RaceAppearance::Setting *>(&::g_011cb99c)).FUN_00408d60();

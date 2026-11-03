@@ -8455,7 +8455,7 @@ bool FUN_00bb5ff0_Class::FUN_00bb5ff0(FUN_00a59d30_Class* a1)
     void* prop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((a1))->FUN_00a59d30(10)));
     if (prop)
     {
-        reinterpret_cast<::S654 *>((a1))->ForwardToSubobject((int)(prop));
+        reinterpret_cast<::S654 *>((a1))->ForwardToSubobject((std::intptr_t)(prop));
     }
     return result;
 }
@@ -14411,7 +14411,7 @@ bool nbb::Owner::FUN_00bb12e0(Root248* apRoot)
         m_90 = d ? d->m_08 : 0;
         d = *item->m_20;
         SetMode(d ? (d->m_04 >> 12) & 3 : 3);
-        reinterpret_cast<::S654 *>((apRoot))->ForwardToSubobject((int)(item));
+        reinterpret_cast<::S654 *>((apRoot))->ForwardToSubobject((std::intptr_t)(item));
         return true;
     }
     return false;
@@ -19834,7 +19834,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
 
         bound = *(geom->bound ? geom->bound : (P368Sphere*)&::g_defaultBound);
 
-        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((int)(&bound));
+        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((const ::B9DBE0Bound *)(&bound));
     }
 
     void* cursor;

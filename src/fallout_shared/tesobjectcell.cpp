@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -19056,7 +19057,7 @@ void C0054e830::FUN_0054e830(void* arg1, NP* apOutTexture)
     NP group(0);
     NP p4(0);
     ImageSpaceEffect* pip;
-    p4.Reset(((void *)(reinterpret_cast<::Pool *>((((::fnv_0054e830::TexMgr *)(::FUN_004a0ea0()))))->FUN_00b6e110((unsigned int)(((::fnv_0054e830::VT *)(::FUN_004a0e90()))), 0x1e, 0, 0, 0))));
+    p4.Reset(((void *)(reinterpret_cast<::Pool *>((((::fnv_0054e830::TexMgr *)(::FUN_004a0ea0()))))->FUN_00b6e110((std::uintptr_t)(((::fnv_0054e830::VT *)(::FUN_004a0e90()))), 0x1e, 0, 0, 0))));
     group.Reset(((::fnv_0054e830::TexMgr *)(::FUN_004a0ea0()))->M4(((::fnv_0054e830::VT *)(::FUN_004a0e90())), 0x1c, 0, 0));
     if ((void*)group && (void*)p4)
     {

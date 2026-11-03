@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/racesexmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/racesexmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/A5D2C0Object.h"
@@ -8074,7 +8075,7 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                 FGNameBuffer kBufferData(0x101);
                 FGShape* pkShape = ((::FGShape *)(reinterpret_cast<::A5D2C0Object *>((pkChildPropertyValue))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kBufferData)))));
                 reinterpret_cast<::FUN_00539f20_Class *>((pkShape))->FUN_00539f20(((void *)(reinterpret_cast<::fnv_006546e0::FUN_006546e0_Class *>((pkProperty))->FUN_006546e0())));
-                reinterpret_cast<::S654 *>((pkFaceInfo))->ForwardToSubobject((int)(pkProperty));
+                reinterpret_cast<::S654 *>((pkFaceInfo))->ForwardToSubobject((std::intptr_t)(pkProperty));
                 reinterpret_cast<::FUN_00439410_cls *>((pkFaceInfo))->FUN_00439410((::ArgObject *)(pkShape));
                 reinterpret_cast<::FUN_00874460_cls *>((pkFaceInfo))->set(((int)(reinterpret_cast<::AlchemyItem *>((pkChild))->FUN_004030b0())));
                 unsigned short usFlags = ((unsigned short)(reinterpret_cast<::FUN_004a8090_shell *>((pkFaceInfo))->CallTargetV36()));

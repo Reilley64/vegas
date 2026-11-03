@@ -1275,7 +1275,7 @@ struct Geometry : PropHelper
 
 inline void* AllocateShader()
 {
-    void* result = ((void *)(::FUN_00b55560((void *)(32))));
+    void* result = ((void *)(::FUN_00b55560(32)));
     return result;
 }
 
@@ -1305,7 +1305,7 @@ void FUN_00a21340_shell::ConvertShadersToTileShader(NiNode* node)
                         TexturingProp* data7 = (TexturingProp*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((child_))->FUN_00a59d30(5)));
                         if (data7)
                             reinterpret_cast<::TileShaderProperty *>((property))->FUN_00bb7a10((::NiTexture *)(::fnv_00a21340::NiTexture *)(data7->GetTexture(0)));
-                        void* allocated = ((void *)(::FUN_00b55560((void *)(32))));
+                        void* allocated = ((void *)(::FUN_00b55560(32)));
                         void* texturing2 = allocated;
                         child_->shader = texturing2;
                     }

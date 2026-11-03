@@ -1,5 +1,6 @@
 // fallout/interface/interfacemanager.cpp: InterfaceManager, ConsoleManager, IFH, BSAudioManager and more (208 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -1058,7 +1059,7 @@ typedef void(* Fn148c0)(S148c0*, int, int);
 // @fnv 0x007148c0
 void S148c0::FUN_007148c0(int aiArg1, int aiArg2)
 {
-    if (!reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((int)("ClearBuffer"), 1))
+    if (!reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((std::intptr_t)("ClearBuffer"), 1))
         return;
     ((Fn148c0)vt[98])(this, aiArg1, aiArg2);
 }

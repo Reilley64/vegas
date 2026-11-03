@@ -420,7 +420,7 @@ struct FUN_00c452c0_class {
 // @fnv 0x00c452c0
 unsigned char FUN_00c452c0_class::FUN_00c452c0(NiStream* stream)
 {
-    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (int)(stream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
+    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (std::intptr_t)(stream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
         return 0;
     return 1;
 }
@@ -2404,7 +2404,7 @@ struct FUN_00c43920_class {
 // @fnv 0x00c43920
 char FUN_00c43920_class::FUN_00c43920(NiStream* stream)
 {
-    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (int)(stream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
+    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (std::intptr_t)(stream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
         return 0;
     return 1;
 }
@@ -3017,7 +3017,7 @@ unsigned char FUN_00c5e720_Class::FUN_00c5e720(NiStream* stream)
     unsigned int i;
     void* obj;
 
-    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (int)(stream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
+    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (std::intptr_t)(stream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
         return 0;
 
     for (i = 0; i < *(unsigned short*)((char*)this + 0xd6); ++i)

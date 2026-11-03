@@ -1,4 +1,5 @@
 // staging/blk_00cc0000_o2.cpp: CacheOwner_cls, Owner, Obj, hkVector4CDA and more (425 functions)
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <math.h>
@@ -19858,7 +19859,7 @@ struct Obj {
 // @fnv 0x00cc1610
 void Obj::ReadFromStream(Loader* pLoader)
 {
-    ::FUN_00a89af0((int)(pLoader));
+    ::FUN_00a89af0((std::intptr_t)(pLoader));
     ReadU(pLoader, &count1);
     for (unsigned int i = 0; i < count1; i++)
         reinterpret_cast<::FUN_00a641f0_cls *>((pLoader))->WriteObjectLink(&arr1[i]);

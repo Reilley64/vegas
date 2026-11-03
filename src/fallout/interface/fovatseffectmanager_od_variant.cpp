@@ -2,6 +2,7 @@
 // src/fallout/interface/fovatseffectmanager_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/fovatseffectmanager.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSExplosion.h"
@@ -611,7 +612,7 @@ void VATSEffectStub::FUN_00800370()
             ::FUN_004a0370((char *)(((::VRenderer *)(::FUN_0043c4b0()))));
             unsigned int a;
             unsigned int b;
-            if (((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesA[i]))->FUN_00c4edf0((int)(&a), 1))) && ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesB[i]))->FUN_00c4edf0((int)(&b), 1))) && !done[i])
+            if (((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesA[i]))->FUN_00c4edf0((std::intptr_t)(&a), 1))) && ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesB[i]))->FUN_00c4edf0((std::intptr_t)(&b), 1))) && !done[i])
             {
                 delete queriesA[i];
                 queriesA[i] = 0;

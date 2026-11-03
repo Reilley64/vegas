@@ -5,6 +5,7 @@
 
 // src/fallout/ai/mobileobject_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/mobileobject.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -226,7 +227,7 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
                     {
                         reinterpret_cast<::V *>(&(l))->FUN_00553f70((*(const ::V *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)(e)))))));
                     }
-                    reinterpret_cast<::S *>((e))->FUN_00561690((int)(&l));
+                    reinterpret_cast<::S *>((e))->FUN_00561690((std::intptr_t)(&l));
                 }
             }
         }

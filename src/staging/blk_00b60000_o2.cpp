@@ -7354,10 +7354,10 @@ extern V4 DAT_011ad850;
 // @fnv 0x00b7a870
 void __cdecl FUN_00b7a870(unsigned int uiStageId)
 {
-    MyContext* p1 = ((::MyContext *)(::FUN_00b55560((void *)(1))));
-    MyContext* pContext14 = ((::MyContext *)(::FUN_00b55560((void *)(14))));
-    MyContext* pContext15 = ((::MyContext *)(::FUN_00b55560((void *)(15))));
-    MyContext* pContext13 = ((::MyContext *)(::FUN_00b55560((void *)(13))));
+    MyContext* p1 = ((::MyContext *)(::FUN_00b55560(1)));
+    MyContext* pContext14 = ((::MyContext *)(::FUN_00b55560(14)));
+    MyContext* pContext15 = ((::MyContext *)(::FUN_00b55560(15)));
+    MyContext* pContext13 = ((::MyContext *)(::FUN_00b55560(13)));
 
     if (uiStageId - 0x24e <= 3)
     {
@@ -10438,7 +10438,7 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
                     }
                     else
                     {
-                        RSEffect* pEffect = ((::RSEffect *)(::FUN_00b55560((void *)(1))));
+                        RSEffect* pEffect = ((::RSEffect *)(::FUN_00b55560(1)));
                         ::FUN_00b7a870(pCmd->m_usId);
                         if (pEffect)
                         {

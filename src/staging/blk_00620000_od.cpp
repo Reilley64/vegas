@@ -2,6 +2,7 @@
 // src/staging/blk_00620000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -7180,8 +7181,8 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 reinterpret_cast<::FUN_005532a0_cls *>(&(rotation))->FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);
                 Vec628 velocity;
                 reinterpret_cast<::FUN_005532a0_cls *>(&(velocity))->FUN_005532a0(0.0f, 0.0f, 0.0f, 0.0f);
-                reinterpret_cast<::S *>((member))->FUN_00561690((int)(&rotation));
-                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((member))->FUN_005617c0((int)(&velocity));
+                reinterpret_cast<::S *>((member))->FUN_00561690((std::intptr_t)(&rotation));
+                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((member))->FUN_005617c0((std::intptr_t)(&velocity));
             }
             if (reference && reference->isActor())
             {
@@ -7204,7 +7205,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
             reinterpret_cast<::FUN_005610f0_cls *>((body))->FUN_005610f0((int)(&destination));
             Vec628 rotation;
             reinterpret_cast<::FUN_005532a0_cls *>(&(rotation))->FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);
-            reinterpret_cast<::S *>((body))->FUN_00561690((int)(&rotation));
+            reinterpret_cast<::S *>((body))->FUN_00561690((std::intptr_t)(&rotation));
         }
     }
 }

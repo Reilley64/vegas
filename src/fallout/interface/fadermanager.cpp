@@ -1,5 +1,6 @@
 // fallout/interface/fadermanager.cpp: FaderManager, FM7 (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/Bound88.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -166,7 +167,7 @@ void FaderManager::AddRoot(NiNode* pParent, float m_fProjectionDepth, bool abBel
     ::AssignFixedString((char *)(apTargetLight), (int)&(const ::NiFixedString &)(NiFixedString("FaderNodeLight")), {});
     reinterpret_cast<::FUN_004bc280_S *>((apTargetLight))->FUN_004bc280((const ::C3 *)&(const ::NiPoint3 &)(NiPoint3(1.0f, 1.0f, 1.0f)));
     // This helper's canonical binding is a folded NiObject::LinkObject alias.
-    ::FUN_00a89af0((int)(apTargetLight));
+    ::FUN_00a89af0((std::intptr_t)(apTargetLight));
     pSortAdjustNode->AddObject(apTargetLight, true);
     float m_fGlyphWidthInPixels = (float)((int)(::FUN_004dc1f0()));
     float halfHeight = (float)FUN_004dc200();

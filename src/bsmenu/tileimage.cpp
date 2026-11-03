@@ -832,7 +832,7 @@ NiNode* TileImageShim::FUN_00a1fd50()
 
     void* v_r;
     void* kIter_bw;
-    kIter_bw = ((void *)(::FUN_00b55560((void *)(0x20))));
+    kIter_bw = ((void *)(::FUN_00b55560(0x20)));
     v_r = kIter_bw;
     ptr_k->SetExtraBuffer(v_r);
 

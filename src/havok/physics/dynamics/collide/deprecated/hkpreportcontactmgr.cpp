@@ -40,20 +40,8 @@ struct FUN_00cfcc30_class
     FUN_00cfcc30_class* FUN_00cfcc30(unsigned char flags);
 };
 
-struct FUN_00cfcc30_manager
-{
-    virtual void FUN_00cfcc30_virtual_0();
-    virtual void FUN_00cfcc30_virtual_1();
-    virtual void FUN_00cfcc30_virtual_2(FUN_00cfcc30_class* object, unsigned short flag);
-};
 
-struct FUN_00cfcc30_router
-{
-    unsigned char m_auiShapeKeys[0x10];
-    FUN_00cfcc30_manager* m_manager;
-};
 
-FUN_00cfcc30_router* _D1A0E0GetMemoryRouter();
 
 // @fnv 0x00cfcc30
 FUN_00cfcc30_class* FUN_00cfcc30_class::FUN_00cfcc30(unsigned char flags)
@@ -62,8 +50,7 @@ FUN_00cfcc30_class* FUN_00cfcc30_class::FUN_00cfcc30(unsigned char flags)
 
     if (flags & 1)
     {
-        FUN_00cfcc30_router* router = _D1A0E0GetMemoryRouter();
-        router->m_manager->FUN_00cfcc30_virtual_2(this, m_flag);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_flag);
     }
 
     return this;

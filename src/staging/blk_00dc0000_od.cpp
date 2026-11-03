@@ -171,7 +171,7 @@ template <class T> struct Arr_00dd6a10
         hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         size = 0;
         if ((capacity & 0x80000000) == 0)
-            a.bufFree(data, (capacity & 0x3fffffff) * sizeof(T));
+            a._bufFree<T>(data, capacity & 0x3fffffff);
     }
 };
 
@@ -366,7 +366,7 @@ struct PairList_00dd6c10
     {
         size = 0;
         if ((capacity & 0x80000000) == 0)
-            a.bufFree(data, (capacity & 0x3fffffff) * sizeof(Pair_00dd6c10));
+            a._bufFree<Pair_00dd6c10>(data, capacity & 0x3fffffff);
     }
     __forceinline void clearAndFree()
     {

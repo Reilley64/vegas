@@ -114,14 +114,14 @@ void* bhkTrapListener::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_0062d740_shell
 {
-    int m_field;
+    std::intptr_t m_field;
     void FUN_0062d740();
 };
 
 // @fnv 0x0062d740
 void FUN_0062d740_shell::FUN_0062d740()
 {
-    m_field = (int)&(*reinterpret_cast<int *>(&::DAT_0104e3d0));
+    m_field = (std::intptr_t)&(*reinterpret_cast<int *>(&::DAT_0104e3d0));
 }
 
 struct CombatWorldStateListNode
@@ -516,7 +516,7 @@ struct FUN_0062e1d0_shell : FUN_0062e230_shell
 // @fnv 0x0062e1d0
 void* FUN_0062e1d0_shell::FUN_0062e1d0(unsigned int auiValue)
 {
-    FUN_0062e230((unsigned int)(this + 0xc), auiValue, 0x10);
+    FUN_0062e230((std::uintptr_t)(this + 0xc), auiValue, 0x10);
     return this;
 }
 
@@ -598,7 +598,7 @@ void S_0062e350::FUN_0062e350(void* a)
     reinterpret_cast<::FUN_00621c90_Class *>((this))->FUN_00626870();
     if (!(f8 & 0x80000000))
     {
-        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)a)))->FUN_0066db70((std::intptr_t)(f0), (std::intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_0066db70_Class *>((((H_6db70*)a)))->FUN_0066db70((std::intptr_t)(f0), (std::intptr_t)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()));
     }
     f0 = 0;
     f8 = 0x80000000;
@@ -755,11 +755,11 @@ struct FUN_0062d550_shell
 {
     char pad1[0x10];
     FUN_0062d570 m_0x10;
-    void ForwardToMember(int param);
+    void ForwardToMember(std::intptr_t param);
 };
 
 // @fnv 0x0062d550
-void FUN_0062d550_shell::ForwardToMember(int aiValue)
+void FUN_0062d550_shell::ForwardToMember(std::intptr_t aiValue)
 {
     reinterpret_cast<::TrapHolder *>(&(m_0x10))->FUN_0062d570((::CombatWorldStateListNode *)(aiValue));
 }
@@ -781,10 +781,10 @@ struct FUN_00620810_shell
 };
 struct FUN_0062db40_shell
 {
-    void FUN_0062db40(int a);
+    void FUN_0062db40(std::intptr_t a);
 };
 // @fnv 0x0062db40
-void FUN_0062db40_shell::FUN_0062db40(int aiValue)
+void FUN_0062db40_shell::FUN_0062db40(std::intptr_t aiValue)
 {
     reinterpret_cast<::FUN_00620810_List *>((((FUN_00620810_shell*)this)))->FindByFlags(aiValue);
 }
@@ -1098,13 +1098,13 @@ struct FUN_0062dc50_shell
     void* m_8;
     void* m_iThirdValue;
     char kCache10[4];
-    void* FUN_0062dc50(unsigned int a, unsigned int b);
+    void* FUN_0062dc50(std::uintptr_t a, std::uintptr_t b);
 };
 struct AnimIdle;
 struct FUN_00620680_Class
 {
 public:
-    ::AnimIdle *FUN_00620680(int, int);
+    ::AnimIdle *FUN_00620680(std::intptr_t, std::intptr_t);
 };
 
 struct FUN_0062dd20_vtable
@@ -1264,7 +1264,7 @@ bool FUN_0062dd20_shell::FUN_0062dd20(RootContactPoint& arPoint)
         {
             ZoneEntry* ptrap;
             ptrap = reinterpret_cast<ZoneEntry*>(
-                ((void *)(reinterpret_cast<FUN_00620680_Class*>(static_cast<::TrapListenerView*>(static_cast<::TrapListenerSecondaryView*>(this)))->FUN_00620680((int)(arPoint.m_p48), (int)(m_pReference)))));
+                ((void *)(reinterpret_cast<FUN_00620680_Class*>(static_cast<::TrapListenerView*>(static_cast<::TrapListenerSecondaryView*>(this)))->FUN_00620680((std::intptr_t)(arPoint.m_p48), (std::intptr_t)(m_pReference)))));
         }
         bres = true;
     }
@@ -1287,7 +1287,7 @@ struct FUN_0062c640
 };
 // Calls FUN_00620720 with a and b, then constructs kCache10 with FUN_0062c640, and returns this.
 // @fnv 0x0062dc50
-void* FUN_0062dc50_shell::FUN_0062dc50(unsigned int auiArg1, unsigned int auiArg2)
+void* FUN_0062dc50_shell::FUN_0062dc50(std::uintptr_t auiArg1, std::uintptr_t auiArg2)
 {
     ((FUN_00620720_shell*)this)->FUN_00620720((void *)(auiArg1), (void *)(auiArg2));
     new ((void *)(kCache10)) ::FUN_0062c640();
@@ -1918,7 +1918,7 @@ void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
 {
     EventContext* resolvedBody = ((::EventContext *)(::FUN_00460140((std::intptr_t)(pInputBody))));
     EventCode notification;
-    new ((void *)&(notification)) ::GlobalObject_008c71b0((int)(((void *)(::FUN_0043b540((char *)(resolvedBody))))));
+    new ((void *)&(notification)) ::GlobalObject_008c71b0((std::intptr_t)(((void *)(::FUN_0043b540((char *)(resolvedBody))))));
     int category = reinterpret_cast<::FUN_0043b4d0_shell *>(&(notification))->FUN_0043b4d0();
     if (category == 14 || category == 16 || category == 30)
     {
@@ -1944,7 +1944,7 @@ struct FUN_0062d9b0_Class : BSSimpleList
 
 struct ListHead : BSSimpleList
 {
-    FUN_0062d9b0_Class* FUN_0062db40(int);
+    FUN_0062d9b0_Class* FUN_0062db40(std::intptr_t);
 };
 
 struct TargetClass
@@ -1967,7 +1967,7 @@ void TargetClass::RemoveMatchingListEntry(ArgClass* arg)
         int vc = v4.FUN_0043b4d0();
         if (vc == 12 || vc == 22 || vc == 24)
         {
-            FUN_0062d9b0_Class* v10 = unk04->FUN_0062db40((int)v8);
+            FUN_0062d9b0_Class* v10 = unk04->FUN_0062db40((std::intptr_t)v8);
             if (v10)
             {
                 unk04 = (ListHead*)v10->FUN_006207a0(unk04);
@@ -2165,7 +2165,7 @@ struct EventCollection_62c5a0
 // @fnv 0x0062c5a0
 void EventCollection_62c5a0::FUN_0062c5a0()
 {
-    EventNode_62c5a0* node = ((::EventNode_62c5a0 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00()));
+    EventNode_62c5a0* node = ((::EventNode_62c5a0 *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(this)->FUN_00825c00()));
     while (node != 0)
     {
         node->Invoke(this);

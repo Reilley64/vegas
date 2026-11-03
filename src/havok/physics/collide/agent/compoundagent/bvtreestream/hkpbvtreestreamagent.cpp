@@ -37,16 +37,6 @@ void FUN_00d2dd30_class::FUN_00d2dd30(void* apArg1, void* apArg2, void* apArg3, 
 }
 
 
-struct FUN_00d2ddd0_class
-{
-    void FUN_00d2ddd0(void* a);
-};
-
-// @fnv 0x00d2ddd0
-void FUN_00d2ddd0_class::FUN_00d2ddd0(void* aiValue)
-{
-    ::FUN_00da3510((*(::AgentSectorPointerArray *)((char*)this + 0x30)), (*static_cast<::CollisionAgentContext *>(aiValue)));
-}
 
 extern "C" void __cdecl FUN_00d31110(void*, void*, void*, void*);
 // @fnv 0x00d2dd50
@@ -80,8 +70,10 @@ struct FUN_00d2dda0_class
     int unk24;
     int unk28;
     int unk2c;
-    int unk30;
+    int unk30;  // the agent track
     void FUN_00d2dda0(void* value);
+    void FUN_00d2ddd0(void* a);
+    void FUN_00d2ddf0(float a, float b, void* c);
 };
 // Passes unk0c, unk08 and value to FUN_00da42b0 with &unk30, then calls finish(1).
 // @fnv 0x00d2dda0
@@ -91,15 +83,17 @@ void FUN_00d2dda0_class::FUN_00d2dda0(void* value)
     finish(1);
 }
 
-struct FUN_00d2ddf0_Class
+// @fnv 0x00d2ddd0
+void FUN_00d2dda0_class::FUN_00d2ddd0(void* aiValue)
 {
-    void FUN_00d2ddf0(float a, float b, void* c);
-};
-// Calls FUN_00da35f0 with the subobject at offset 0x30 of this object and the three arguments.
+    ::FUN_00da3510((*(::AgentSectorPointerArray *)(void *)&unk30), (*static_cast<::CollisionAgentContext *>(aiValue)));
+}
+
+// Calls FUN_00da35f0 with the agent track at unk30 and the three arguments.
 // @fnv 0x00d2ddf0
-void FUN_00d2ddf0_Class::FUN_00d2ddf0(float a, float b, void* c)
+void FUN_00d2dda0_class::FUN_00d2ddf0(float a, float b, void* c)
 {
-    ::FUN_00da35f0((::Da35Stream ***)(void *)((char*)this + 0x30), a, b, (void **)(c));
+    ::FUN_00da35f0((::Da35Stream ***)(void *)(&unk30), a, b, (void **)(c));
 }
 
 struct RefObj

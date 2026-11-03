@@ -6155,7 +6155,7 @@ struct InputBuffer
 };
 struct ArrayData
 {
-    unsigned int data;
+    void* data;
     unsigned int size;
     unsigned int capacityAndFlags;
 };
@@ -6176,7 +6176,7 @@ struct LoadResult
 };
 // Copies src into a temporary InputBuffer, calls FUN_00d5a630 to fill a LoadResult, then swaps result.primary into dst.
 // @fnv 0x00d5a510
-void LoadIntoArray(const InputBuffer* src, unsigned int flags, ArrayData* dst)
+void LoadIntoArray(const InputBuffer* src, uintptr_t flags, ArrayData* dst)
 {
     InputBuffer input;
     input.data = src->data;
@@ -6184,10 +6184,10 @@ void LoadIntoArray(const InputBuffer* src, unsigned int flags, ArrayData* dst)
     input.flags = 0x10;
     LoadResult result;
     ::FUN_00d5a630(&input, (intptr_t)(&result), flags);
-    unsigned int old = dst->data;
+    void* oldData = dst->data;
     dst->data = result.primary.data;
-    result.primary.data = old;
-    old = dst->size;
+    result.primary.data = oldData;
+    unsigned int old = dst->size;
     dst->size = result.primary.size;
     result.primary.size = old;
     old = dst->capacityAndFlags;

@@ -2395,7 +2395,7 @@ struct SpawnedOwnerQ
     unsigned int numGroups;
     int unkBC;
     ChanGroupNeg* negGroups;
-    int FUN_00d55530(int aiIndex);
+    unsigned char* FUN_00d55530(int aiIndex);
 };
 // Looks up the entry for aiKey via FUN_00d55530 on the owning object and returns its first int, or the owner's m_0xdc when not found.
 // @fnv 0x00d555d0
@@ -2411,7 +2411,7 @@ int FUN_00d555d0_cls::GetSpawnedValue(int aiKey)
 }
 // Splits aiIndex into a group number and offset, picks an entry from groups, negGroups (high bit set) or the inline entry, and returns its get(offset) or 0.
 // @fnv 0x00d55530
-int SpawnedOwnerQ::FUN_00d55530(int aiIndex)
+unsigned char* SpawnedOwnerQ::FUN_00d55530(int aiIndex)
 {
     unsigned int m_iGridX = ((unsigned int)aiIndex & 0x7fffffff) >> (32 - bits);
     unsigned int iOffset = (0xffffffffu >> bits) & aiIndex;
@@ -2432,7 +2432,7 @@ int SpawnedOwnerQ::FUN_00d55530(int aiIndex)
         pArr = &negGroups[m_iGridX].ch;
     pEntry = pArr;
 have:
-    return (int)pEntry->get(iOffset);
+    return pEntry->get(iOffset);
 }
 
 extern "C" __m128 _mm_setr_ps(float, float, float, float);

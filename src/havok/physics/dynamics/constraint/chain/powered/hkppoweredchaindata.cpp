@@ -9,6 +9,7 @@
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpPoweredChainData.h"
+#include "havok/hkMemoryRouter.h"
 
 struct FUN_00e3b720_s
 {
@@ -16,27 +17,38 @@ struct FUN_00e3b720_s
     int m_iElementCount;  // +0xc
     int pad1[3];
     int m_uiItemCount;  // +0x1c
-    void FUN_00e3b720(int* info) const;
+    void FUN_00e3b720(struct PoweredChainConstraintInfoOut* info) const;
+};
+
+// hkpConstraintData::ConstraintInfo: the solver sizes followed by the atoms.
+struct PoweredChainConstraintInfoOut
+{
+    int m_maxSizeOfSchema;
+    int m_sizeOfSchemas;
+    int m_numSolverResults;
+    int m_numSolverElemTemps;
+    const void* m_atoms;
+    int m_sizeOfAllAtoms;
 };
 
 // @fnv 0x00e3b720
-void FUN_00e3b720_s::FUN_00e3b720(int* info) const
+void FUN_00e3b720_s::FUN_00e3b720(PoweredChainConstraintInfoOut* info) const
 {
-    info[4] = (int)&m_iElementCount;
+    info->m_atoms = &m_iElementCount;
     int zero = 0;
-    info[2] = zero;
-    info[3] = zero;
-    info[0] = zero;
-    info[1] = 0x10;
-    info[5] = 0xc;
+    info->m_numSolverResults = zero;
+    info->m_numSolverElemTemps = zero;
+    info->m_maxSizeOfSchema = zero;
+    info->m_sizeOfSchemas = 0x10;
+    info->m_sizeOfAllAtoms = 0xc;
     int count = m_uiItemCount;
     int total = count * 3;
     int size = (count * 0x534 + 0x53) & 0xfffffff0;
     total = total * 2;
     size = size + 0x10;
-    info[1] = size;
-    info[2] = total;
-    info[3] = total;
+    info->m_sizeOfSchemas = size;
+    info->m_numSolverResults = total;
+    info->m_numSolverElemTemps = total;
 }
 
 struct FUN_00e3b7d0_first
@@ -312,11 +324,6 @@ struct InfoArray
     int size;
     unsigned int capacityAndFlags;
 };
-struct MemoryRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    void* allocator;
-};
 struct PoweredChainData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -330,9 +337,9 @@ void PoweredChainData::FUN_00e3b850(const __m128* apFrameA, const __m128* apFram
                                     Motor* motorA, Motor* motorB, Motor* motorC)
 {
     InfoArray* array = &infos;
-    MemoryRouter* router = (*static_cast<hkMemoryRouterXe3c210*>(::FUN_00c85750()));
+    hkMemoryRouter& router = hkMemoryRouter::getInstance();
     if (array->size == (int)(array->capacityAndFlags & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(array), sizeof(ConstraintInfo));
+        ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(array), sizeof(ConstraintInfo));
     ConstraintInfo& info = array->data[array->size++];
     info.frameA = *apFrameA;
     info.frameB = *apFrameB;
@@ -550,10 +557,12 @@ static __declspec(noinline) void FUN_00e3b680(const Vec4& b, const Vec4& a, Vec4
         r.m_vComponents = _mm_xor_ps(r.m_vComponents, *(const __m128*)(*reinterpret_cast<const float (*)[4]>((void *)&::DAT_010c44d0)));
 }
 
-volatile int g_a, g_b, g_r;
+Vec4* volatile g_a;
+Vec4* volatile g_b;
+Vec4* volatile g_r;
 void caller_e3b680()
 {
-    FUN_00e3b680(*(Vec4*)g_b, *(Vec4*)g_a, *(Vec4*)g_r);
+    FUN_00e3b680(*g_b, *g_a, *g_r);
 }
 
 struct Vector
@@ -611,6 +620,15 @@ struct QueryInput
 struct QueryOutput
 {
     char* jacobian;
+};
+struct PoweredChainInfo
+{
+    Vector pivotA, pivotB;
+    Vector target, targetB;
+    void* motors[3];
+    unsigned char switched;
+    unsigned char unk4d;
+    short unk4e;
 };
 struct MotorState
 {
@@ -824,16 +842,16 @@ struct PoweredChain : hkpPoweredChainData
     virtual void v20();
     virtual void v24();
     virtual void* motorStep(char*);
-    __forceinline ConstraintInfo& getInfo(int i)
+    __forceinline PoweredChainInfo& getInfo(int i)
     {
-        return reinterpret_cast<ConstraintInfo*>(m_pConstraintInfo.m_data)[i];
+        return reinterpret_cast<PoweredChainInfo*>(m_pConstraintInfo.m_data)[i];
     }
     void FUN_00e3ba40(const QueryInput&, QueryOutput&);
 };
 // @fnv 0x00e3ba40
 void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
 {
-    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(const ::QueryInput *)(&input), (::fnv_00d6f2b0::EventRecord **)(::QueryOutput *)(&output), (volatile unsigned int)(input.runtime), 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(const ::QueryInput *)(&input), (::fnv_00d6f2b0::EventRecord **)(::QueryOutput *)(&output), input.runtime, 8);
     QueryInput query = input;
     query.chain = 0;
     query.runtime = 0;

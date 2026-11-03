@@ -169,12 +169,12 @@ struct ExtraListRemover
 
 struct FUN_004197d0_shell : public BaseExtraList
 {
-    void SetExtraDataValue(int value);
+    void SetExtraDataValue(std::intptr_t value);
 };
 
 // Sets the value of extra data type 0x22, removing it when zero or creating and adding it when absent.
 // @fnv 0x004197d0
-void FUN_004197d0_shell::SetExtraDataValue(int value)
+void FUN_004197d0_shell::SetExtraDataValue(std::intptr_t value)
 {
     BSExtraData* extra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x22);
     if (extra)

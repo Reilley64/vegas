@@ -844,7 +844,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
         l = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((j))->DereferenceIfNotNull((int **)(ba))));
         if (ba)
         {
-            OuterRecord* q = *((::OuterRecord **)(reinterpret_cast<::FUN_006317a0_struct *>((j))->AddEight((int)(ba))));
+            OuterRecord* q = *((::OuterRecord **)(reinterpret_cast<::FUN_006317a0_struct *>((j))->AddEight((std::intptr_t)(ba))));
             if (q)
             {
                 int eb = 0;
@@ -854,7 +854,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
                 while (s)
                 {
                     cf = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(q->items))->DereferenceIfNotNull((int **)(s))));
-                    SceneItem* i = *((::SceneItem **)(reinterpret_cast<::FUN_006317a0_struct *>(&(q->items))->AddEight((int)(s))));
+                    SceneItem* i = *((::SceneItem **)(reinterpret_cast<::FUN_006317a0_struct *>(&(q->items))->AddEight((std::intptr_t)(s))));
                     if (!reinterpret_cast<::FUN_0057c850_cls *>(&(e))->FUN_0057c850(((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget())), &f))
                         ++eb;
                     if (!reinterpret_cast<::FUN_0057c850_cls *>(&(k))->FUN_0057c850(i, &f) && ((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget())) == owner)

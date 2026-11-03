@@ -1,5 +1,6 @@
 // fallout_shared/sky/sun.cpp: Sun, NiPick, A6A0Sun (11 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -91,7 +92,7 @@ std::intptr_t FUN_00461110(std::intptr_t param_1)
 }
 
 // @fnv 0x00514f30
-int FUN_00514f30(int this_ptr)
+std::intptr_t FUN_00514f30(std::intptr_t this_ptr)
 {
     return this_ptr + 0xC0;
 }

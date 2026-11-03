@@ -1,5 +1,6 @@
 // fallout_shared/bgsdestructibleobjectform.cpp: BGSDestructibleObjectForm, TESObjectREFR, ActorValueOwner, TargetLocation (35 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AttachmentHandler.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -313,7 +314,7 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
 }
 
 // @fnv 0x0045bb80
-int FUN_0045bb80(int param_1)
+std::intptr_t FUN_0045bb80(std::intptr_t param_1)
 {
     return param_1 + 0x8C;
 }
@@ -1822,7 +1823,7 @@ FUN_004759a0_First* __cdecl FUN_00475400(void* form)
 
 // Looks up a1's owner, scans its list for an entry whose value equals a2, and returns its index or -1 if not found.
 // @fnv 0x00475920
-int FindIndexByValue(void* a1, unsigned int aiValue)
+int FindIndexByValue(void* a1, std::uintptr_t aiValue)
 {
     FUN_004759a0_First* pOwner = FUN_00475400(a1);
     if (pOwner == 0)

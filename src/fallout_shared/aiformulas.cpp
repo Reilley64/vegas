@@ -101,11 +101,11 @@ struct FUN_006c8980_stand
     int pad;
     int a;
     int b;
-    void FUN_006c8980(int fn);
+    void FUN_006c8980(std::intptr_t fn);
 };
 // Calls FUN_00ec6f20 with the object's a and b fields, 0x10 and fn.
 // @fnv 0x006c8980
-void FUN_006c8980_stand::FUN_006c8980(int fn)
+void FUN_006c8980_stand::FUN_006c8980(std::intptr_t fn)
 {
     std::qsort((void *)(a), b, 0x10, (int (*)(const void *, const void *))(fn));
 }

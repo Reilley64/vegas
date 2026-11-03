@@ -1,5 +1,6 @@
 // fallout_shared/tesactorbase.cpp: TESActorBase, Reset3DMobIterator, ActorBaseTarget, ActorBaseSaveView and more (23 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -348,10 +349,10 @@ struct FUN_0047f940_holder
 };
 struct FUN_005f1f30_shell : public BGSLoadFormBuffer
 {
-    void FUN_005f1f30(unsigned int);
+    void FUN_005f1f30(std::uintptr_t);
 };
 // @fnv 0x005f1f30
-void FUN_005f1f30_shell::FUN_005f1f30(unsigned int buffer)
+void FUN_005f1f30_shell::FUN_005f1f30(std::uintptr_t buffer)
 {
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)(buffer));
     reinterpret_cast<::SavePayload *>((((FUN_0047ea30_holder*)((char*)this + 0x30))))->FUN_0047ea30((::BGSSaveFormBuffer *)(buffer));

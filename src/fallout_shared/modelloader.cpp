@@ -3339,10 +3339,10 @@ struct BSAudioManager
 };
 struct FUN_00ad8570_S
 {
-    void FUN_00ad8570(int a, float b, int c);
+    void FUN_00ad8570(std::intptr_t a, float b, int c);
 };
 // @fnv 0x00ad8570
-void FUN_00ad8570_S::FUN_00ad8570(int a, float b, int c)
+void FUN_00ad8570_S::FUN_00ad8570(std::intptr_t a, float b, int c)
 {
     reinterpret_cast<::fnv_00adb690::FUN_00adb690_cls *>((((::BSAudioManager *)(::FUN_00ad9060()))))->FUN_00adb690((::fnv_00adb690::NiRefObject_audio *)(a), b, c);
 }
@@ -12283,12 +12283,12 @@ struct ML
     int unk0, unk4;
     Queue* q8;
     Queue* qc;
-    void FUN_00444850(Ref* ref, int a2, bool a3);
+    void FUN_00444850(Ref* ref, std::intptr_t a2, bool a3);
 };
 
 // Checks manager and ref state, updates or creates a queued load task for ref, then adds it to q8 and optionally qc.
 // @fnv 0x00444850
-void ML::FUN_00444850(Ref* ref, int aiValue, bool a3)
+void ML::FUN_00444850(Ref* ref, std::intptr_t aiValue, bool a3)
 {
     if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::Mgr * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10() && !reinterpret_cast<::BGSSaveLoadGame *>(((*reinterpret_cast<::Mgr * *>(&::g_BGSSaveLoadGame))))->GetInitingForms())
         return;

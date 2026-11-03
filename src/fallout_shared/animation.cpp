@@ -2213,7 +2213,7 @@ BSAnimGroupSequence* FUN_0048f450_shell::GetSequenceByIndex(char aiSequenceIndex
     listIt = (void*)(unsigned int)*(Flt*)m_pSingleSequence;
     while (listIt)
     {
-        pForwardSequence = *(BSAnimGroupSequence**)((int *)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((int)listIt)));
+        pForwardSequence = *(BSAnimGroupSequence**)((int *)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((std::intptr_t)listIt)));
         if (iTargetIndex-- == 0)
             return pForwardSequence;
         listIt = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)(((NiTPointerList_TESObjectREFR*)m_pSingleSequence)))->DereferenceIfNotNull((int **)(listIt))));
@@ -3820,7 +3820,7 @@ char FUN_0048f720_shell::FindSequenceIndex(BSAnimGroupSequence* apSeq)
     while (listIt)
     {
         BSAnimGroupSequence* pSequence =
-            *(BSAnimGroupSequence**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((int)listIt);
+            *(BSAnimGroupSequence**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((std::intptr_t)listIt);
         if (apSeq == pSequence)
             return iIndex;
         ++iIndex;
@@ -3923,7 +3923,7 @@ FUN_0048f220::~FUN_0048f220()
         void* pos = ((void *)(::FUN_00559450((int *)(pList))));
         while (pos)
         {
-            SeqObj* pForwardSequence = ((::fnv_0048f220::SeqObj *)(reinterpret_cast<::FUN_006317a0_struct *>((pList))->AddEight((int)(pos))));
+            SeqObj* pForwardSequence = ((::fnv_0048f220::SeqObj *)(reinterpret_cast<::FUN_006317a0_struct *>((pList))->AddEight((std::intptr_t)(pos))));
             char acName[260];
             ::TaskQueueInterface::CopyStringToBuffer(acName, 260, (*(::fnv_0048f220::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())));
             reinterpret_cast<::WaitableObject *>((pForwardSequence))->FUN_00401970();
@@ -4344,7 +4344,7 @@ BNObject* BNLookup::FindObjectByNameVariant(BNObject* apObject, int aiVariant)
 
     while (pPosVal)
     {
-        BNObject* pObject = ((::BNObject *)(reinterpret_cast<::FUN_006317a0_struct *>((m_pObjectList))->AddEight((int)(pPosVal))));
+        BNObject* pObject = ((::BNObject *)(reinterpret_cast<::FUN_006317a0_struct *>((m_pObjectList))->AddEight((std::intptr_t)(pPosVal))));
         char* pObjectName = (char*)strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pObject))->GetLinkToList())), '\\');
         if (pObjectName && !::FUN_00404dc0(pObjectName, pName3))
             return pObject;
@@ -9763,7 +9763,7 @@ BSAnimGroupSequence* AnimSequenceMultiple::FUN_0048f790(TESAnimGroup* apAnimGrou
     while (listIt != 0)
     {
         BSAnimGroupSequence* pseq;
-        pseq = *(BSAnimGroupSequence**)((FUN_006317a0_struct*)m_pSingleSequence)->AddEight((int)listIt);
+        pseq = *(BSAnimGroupSequence**)((FUN_006317a0_struct*)m_pSingleSequence)->AddEight((std::intptr_t)listIt);
         if (reinterpret_cast<::BSAnimGroupSequence *>((void *)(pseq))->GetAnimGroup() == apAnimGroup)
             return pseq;
         listIt = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)(((NiTPointerList_SV<TESObjectREFR*>*)m_pSingleSequence)))->DereferenceIfNotNull((int **)(listIt))));

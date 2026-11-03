@@ -242,7 +242,7 @@ void __cdecl RemoveMenuEntry(B83330Item* pkItem)
         pkPos2 = ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->GetName()));
         while (pkPos2 && !bRemoved)
         {
-            if (((::B83330Item *)(reinterpret_cast<::FUN_006317a0_struct *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->AddEight((int)(pkPos2)))) == pkItem)
+            if (((::B83330Item *)(reinterpret_cast<::FUN_006317a0_struct *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->AddEight((std::intptr_t)(pkPos2)))) == pkItem)
             {
                 (*reinterpret_cast<::B83330List *>(&::g_011d6a74)).RemovePos(pkPos2);
                 bRemoved = true;
@@ -1016,7 +1016,7 @@ void FUN_006833b0()
             for (p2 = ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetName())); p2 != 0 && n > 0;
                  p2 = ((void *)(reinterpret_cast<::FUN_007b5300_shell *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetSecondField((::FUN_007b5300_param *)(p2)))))
             {
-                r = *((void **)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->AddEight((int)(p2))));
+                r = *((void **)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->AddEight((std::intptr_t)(p2))));
                 if (r != 0)
                 {
                     reinterpret_cast<::FUN_00683460_shell *>((reinterpret_cast<FUN_006833b0_item*>(r)))->SetFlag(1);

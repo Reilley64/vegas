@@ -1284,7 +1284,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                     i = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->DereferenceIfNotNull((int **)(s))));
                     if (!!s)
                     {
-                        nodeX = *(NodeObj**)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->AddEight((int)(s))));
+                        nodeX = *(NodeObj**)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0))))->AddEight((std::intptr_t)(s))));
                         if (((::AVObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((nodeX))->FUN_0056c7f0())) != 0 && ((::AVObj *)(::fnv_004a8a90::FUN_004a8a90((char *)(nodeX)))) != 0)
                         {
                             {

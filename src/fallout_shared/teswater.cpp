@@ -564,7 +564,7 @@ NiPoint3 S9c50::FUN_004e9c50()
 }
 
 // @fnv 0x004ea950
-int FUN_004ea950(int param_1)
+std::intptr_t FUN_004ea950(std::intptr_t param_1)
 {
     return param_1 + 0x60;
 }
@@ -2391,11 +2391,11 @@ struct Cls5140
     int unk44;
     Owner5140* pOwner;
     void ReleaseWaterResources(int a, int b);
-    void DetachRef(Ref5140* apRef, int aiUnused, Target5140* apTarget);
+    void DetachRef(Ref5140* apRef, std::intptr_t aiUnused, Target5140* apTarget);
 };
 
 // @fnv 0x004e5140
-void Cls5140::DetachRef(Ref5140* apRef, int aiUnused, Target5140* apTarget)
+void Cls5140::DetachRef(Ref5140* apRef, std::intptr_t aiUnused, Target5140* apTarget)
 {
     apTarget->SetBase(apRef->GetBase());
     if (pOwner)
@@ -2407,7 +2407,7 @@ void Cls5140::DetachRef(Ref5140* apRef, int aiUnused, Target5140* apTarget)
             next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(pOwner->kList))->DereferenceIfNotNull((int **)(iterPos))));
             if (iterPos)
             {
-                Ref5140* item = ((::Ref5140 *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pOwner->kList))->AddEight((int)(iterPos))));
+                Ref5140* item = ((::Ref5140 *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pOwner->kList))->AddEight((::std::intptr_t)(iterPos))));
                 if (item == apRef)
                 {
                     pOwner->kList.RemovePos(iterPos);
@@ -2823,7 +2823,7 @@ void WaterSystem6370::FUN_004e6370(bool abShow, bool abCheckBase, bool abToggle)
         next_ = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(m_kWaterZoneList))->DereferenceIfNotNull((int **)(pos2))));
         if (pos2)
         {
-            WaterSurface* pGroup3 = ((::WaterSurface *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((int)(pos2))));
+            WaterSurface* pGroup3 = ((::WaterSurface *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((::std::intptr_t)(pos2))));
             void* waterPosB = ((void *)(::FUN_00559450((int *)&(pGroup3->m_kWaterReferences))));
             void* waterNext9 = 0;
             while (waterPosB)
@@ -2833,7 +2833,7 @@ void WaterSystem6370::FUN_004e6370(bool abShow, bool abCheckBase, bool abToggle)
                 {
                     if (abCheckBase)
                     {
-                        WaterRefr* pRef = static_cast<WaterRefr*>(((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pGroup3->m_kWaterReferences))->AddEight((int)(waterPosB)))));
+                        WaterRefr* pRef = static_cast<WaterRefr*>(((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pGroup3->m_kWaterReferences))->AddEight((::std::intptr_t)(waterPosB)))));
                         PlaceableWaterBase* pBase = ((::PlaceableWaterBase *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430()));
                         if (pBase->IsEnabled())
                         {
@@ -2849,7 +2849,7 @@ void WaterSystem6370::FUN_004e6370(bool abShow, bool abCheckBase, bool abToggle)
                     }
                     else
                     {
-                        TESObjectREFR* pRef = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pGroup3->m_kWaterReferences))->AddEight((int)(waterPosB))));
+                        TESObjectREFR* pRef = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pGroup3->m_kWaterReferences))->AddEight((::std::intptr_t)(waterPosB))));
                         if (abToggle)
                         {
                             reinterpret_cast<::TaskQueueInterface *>((static_cast<WaterAVObject*>(pRef->GetNiNode_v())))->QueueActorDisarm(!reinterpret_cast<::FUN_00456630_helper *>((static_cast<WaterAVObject*>(pRef->GetNiNode_v())))->FUN_00456610());
@@ -2912,7 +2912,7 @@ bool WaterScanner_004e83e0::IsPlayerNearWaterActor(void* collection)
         if (nextPosition)
         {
             WaterActor_004e83e0* object =
-                ((::WaterActor_004e83e0 *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(reinterpret_cast<WaterList_004e83e0*>(reinterpret_cast<char*>(collection) + 0x3c)))->AddEight((int)(nextPosition))));
+                ((::WaterActor_004e83e0 *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(reinterpret_cast<WaterList_004e83e0*>(reinterpret_cast<char*>(collection) + 0x3c)))->AddEight((::std::intptr_t)(nextPosition))));
             if (::_g_thePlayer == object)
                 return true;
             else if (!object->IsExcludedFromWaterCheck(0))
@@ -3189,7 +3189,7 @@ void WSys::FUN_004e8a00()
         nd = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(groups))->DereferenceIfNotNull((int **)(m5))));
         if (m5)
         {
-            WGroup* group = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(groups))->AddEight((int)(m5))));
+            WGroup* group = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(groups))->AddEight((::std::intptr_t)(m5))));
             if (group->bActive && !reinterpret_cast<::FUN_0076b610_Class *>((void *)&(group->refs))->FUN_0076b610() && reinterpret_cast<::WaterScanner_004e83e0 *>(this)->IsPlayerNearWaterActor(group))
             {
                 void* pos2 = ((void *)(::FUN_00559450((int *)&(group->refs))));
@@ -3200,7 +3200,7 @@ void WSys::FUN_004e8a00()
                     if (pos2)
                     {
                         f1 = true;
-                        WVirt* ref = (WVirt*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->refs))->AddEight((int)(pos2))));
+                        WVirt* ref = (WVirt*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->refs))->AddEight((::std::intptr_t)(pos2))));
                         bool inside = reinterpret_cast<::A_00885520 *>((ref))->FUN_00885520((const ::P3_00885520 *)&(ref->GetPos()), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))), {});
                         if (!inside && reinterpret_cast<::FUN_004938e0_shell *>((ref))->FUN_004938e0())
                         {
@@ -3455,7 +3455,7 @@ WaterSurface* WaterZoneManager::GetWaterZone(TESObjectREFR* apWaterRef, TESObjec
             pNextPos = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(m_kWaterZoneList))->DereferenceIfNotNull((int **)(pGroupPos))));
             if (pGroupPos)
             {
-                pWaterGroup = ((::WaterSurface *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((int)(pGroupPos))));
+                pWaterGroup = ((::WaterSurface *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((::std::intptr_t)(pGroupPos))));
                 if (::AreVectorsEqual((const float *)&((*(const ::NiPoint3 *)((void *)&(pWaterGroup->m_kWaterPlane)))), (const float *)&((*(const ::NiPoint3 *)((void *)&(m_kFogPlane)))), 0.01f) &&
                     IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>((void *)&(pWaterGroup->m_kWaterPlane))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>((void *)&(m_kFogPlane))->GetStoredFloatValue(),
                                          0.01f) &&
@@ -3471,7 +3471,7 @@ WaterSurface* WaterZoneManager::GetWaterZone(TESObjectREFR* apWaterRef, TESObjec
                             pNextRef = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(pWaterGroup->m_kWaterReferences))->DereferenceIfNotNull((int **)(pPlaceablePos))));
                             if (pPlaceablePos)
                             {
-                                TESObjectREFR* pRef = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pWaterGroup->m_kWaterReferences))->AddEight((int)(pPlaceablePos))));
+                                TESObjectREFR* pRef = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pWaterGroup->m_kWaterReferences))->AddEight((::std::intptr_t)(pPlaceablePos))));
                                 if (!apWaterRef || pRef == apWaterRef)
                                     return pWaterGroup;
                                 pPlaceablePos = pNextRef;
@@ -4298,7 +4298,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
         next = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(groups))->DereferenceIfNotNull((int **)(aPos3))));
         if (aPos3)
         {
-            WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((int)(aPos3))));
+            WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((::std::intptr_t)(aPos3))));
             g4->b5d = false;
             g4->b5f = false;
             g4->b5e = false;
@@ -4312,7 +4312,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                 inext = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(g4->refs))->DereferenceIfNotNull((int **)(ipos))));
                 if (ipos)
                 {
-                    WRef* ref = (WRef*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(g4->refs))->AddEight((int)(ipos))));
+                    WRef* ref = (WRef*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(g4->refs))->AddEight((::std::intptr_t)(ipos))));
                     WBase* obj = ((::fnv_004e21b0::WBase *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
                     if (ref && ref->Get3D() &&
                         ((((::fnv_004e21b0::WCell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())) && ::FUN_00450ff0((void *)(((::fnv_004e21b0::WCell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))))) ||
@@ -4456,7 +4456,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
             next = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(groups))->DereferenceIfNotNull((int **)(aPos3))));
             if (aPos3)
             {
-                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((int)(aPos3))));
+                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((::std::intptr_t)(aPos3))));
                 if (g4->b5d && !((bool)(::FUN_004e2180())))
                 {
                     reinterpret_cast<::FUN_00438af0_Class *>(&(l4c))->FUN_00438af0();
@@ -4508,7 +4508,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                 next = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(groups))->DereferenceIfNotNull((int **)(aPos3))));
                 if (aPos3)
                 {
-                    WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((int)(aPos3))));
+                    WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((::std::intptr_t)(aPos3))));
                     if (g4->b5d && !((bool)(::FUN_004e2180())))
                         reinterpret_cast<::Worker *>(this)->UpdateWaterSettings((::Context *)(g4));
                     else
@@ -4526,7 +4526,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                 next = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(groups))->DereferenceIfNotNull((int **)(aPos3))));
                 if (aPos3)
                 {
-                    WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((int)(aPos3))));
+                    WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((::std::intptr_t)(aPos3))));
                     if (g4->b5d && !((bool)(::FUN_004e2180())))
                     {
                         if (*(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7b6c)).Get() && g4->b5f)
@@ -4555,7 +4555,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
             next = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(groups))->DereferenceIfNotNull((int **)(aPos3))));
             if (aPos3)
             {
-                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((int)(aPos3))));
+                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((::std::intptr_t)(aPos3))));
                 if (g4->b5d && *(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7bbc)).Get() && g4->b5e && !((bool)(::FUN_004e2180())))
                 {
                     if (first)
@@ -4586,7 +4586,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
             next = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(groups))->DereferenceIfNotNull((int **)(aPos3))));
             if (aPos3)
             {
-                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((int)(aPos3))));
+                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((::std::intptr_t)(aPos3))));
                 if (g4->b5d)
                 {
                     reinterpret_cast<::fnv_004e3520::FUN_004e3590_shell *>(this)->FUN_004e3520(g4);
@@ -4609,7 +4609,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
             next = ((::fnv_004e21b0::WListPos *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(groups))->DereferenceIfNotNull((int **)(aPos3))));
             if (aPos3)
             {
-                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((int)(aPos3))));
+                WGroup* g4 = (WGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>(&(groups))->AddEight((::std::intptr_t)(aPos3))));
                 if (g4->water && ((void *)(::FUN_00559450((int *)&(g4->water->p30)))))
                 {
                     reinterpret_cast<::Manager *>((((::fnv_004e21b0::WObj2 *)(::FUN_004a0ea0()))))->FUN_00b6da10({});
@@ -4766,7 +4766,7 @@ void WaterSystemUpdate::UpdateWaterGroup(void* context, bool force)
             nextPosition = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(group->m_kWaterReferences))->DereferenceIfNotNull((int **)(position))));
             if (position)
             {
-                TESObjectREFR* reference = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->m_kWaterReferences))->AddEight((int)(position))));
+                TESObjectREFR* reference = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->m_kWaterReferences))->AddEight((::std::intptr_t)(position))));
                 if ((reference->GetNiNode_v() &&
                      !reinterpret_cast<::FUN_00456630_helper *>((reinterpret_cast<NiAVObject*>(reference->GetNiNode_v())))->FUN_00456610() &&
                      reinterpret_cast<::FUN_004e62e0_cls *>(this)->FUN_004e62e0(reference, context)) ||
@@ -5208,7 +5208,7 @@ bool Owner::FUN_004e4730(Object* object, const Vector* origin, Matrix* rotation)
         next2 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(records))->DereferenceIfNotNull((int **)(pos2))));
         if (pos2)
         {
-            Record* record = ((::PlaneRegistry::Record *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((int)(pos2))));
+            Record* record = ((::PlaneRegistry::Record *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((::std::intptr_t)(pos2))));
             if (::AreVectorsEqual((const float *)&((*(const ::PlaneRegistry::Vector *)((void *)&(record->first)))), (const float *)&((*(const ::PlaneRegistry::Vector *)((void *)&(plane)))), ::DAT_01013ea4) &&
                 ::IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>(&(record->first))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>(&(plane))->GetStoredFloatValue(), ::FUN_00403e20((float *)&((*reinterpret_cast<::PlaneRegistry::FloatSetting *>(&::g_011c7a7c))))))
             {
@@ -6053,7 +6053,7 @@ bool WaterSystem5370::RemoveWaterRef(TESObjectREFR* apRef, const NiPoint3* apPos
             nextPos5 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(m_kWaterZoneList))->DereferenceIfNotNull((int **)(pos5))));
             if (pos5)
             {
-                WaterGroup* pGroup = (WaterGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((int)(pos5))));
+                WaterGroup* pGroup = (WaterGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((::std::intptr_t)(pos5))));
                 if (::AreVectorsEqual((const float *)&((*(const ::NiPoint3 *)((void *)&(pGroup->m_kWaterPlane)))), (const float *)&((*(const ::NiPoint3 *)((void *)&(m_kFogPlane)))), 0.01f) &&
                     IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>((void *)&(pGroup->m_kWaterPlane))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>((void *)&(m_kFogPlane))->GetStoredFloatValue(), 0.01f))
                 {
@@ -6064,7 +6064,7 @@ bool WaterSystem5370::RemoveWaterRef(TESObjectREFR* apRef, const NiPoint3* apPos
                         nextRefPos6 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(pGroup->m_kWaterReferences))->DereferenceIfNotNull((int **)(refPos5))));
                         if (refPos5)
                         {
-                            TESObjectREFR* pRefB = (TESObjectREFR*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pGroup->m_kWaterReferences))->AddEight((int)(refPos5))));
+                            TESObjectREFR* pRefB = (TESObjectREFR*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(pGroup->m_kWaterReferences))->AddEight((::std::intptr_t)(refPos5))));
                             if (pRefB == apRef)
                             {
                                 pGroup->m_kWaterReferences.RemovePos(refPos5);
@@ -6175,7 +6175,7 @@ void Cls58a0::ClearTextureAndShaderTextures(Owner58a0* apOwner, int aiUnused1, i
         while (pos2)
         {
             next2 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(apOwner->kList))->DereferenceIfNotNull((int **)(pos2))));
-            Ref5140* ref = ((::Ref5140 *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(apOwner->kList))->AddEight((int)(pos2))));
+            Ref5140* ref = ((::Ref5140 *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(apOwner->kList))->AddEight((::std::intptr_t)(pos2))));
             if (ref && ref->GetBase())
             {
                 NiAV5140* nodeB = ((::NiAV5140 *)(reinterpret_cast<::Finder *>(this)->FUN_004e8030((::Ref *)(ref))));
@@ -6363,7 +6363,7 @@ void Target5c80::AddObjectToEntry(void* location, Object5c80* object, float dist
         next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(current->first))->DereferenceIfNotNull((int **)(found))));
         if (found)
         {
-            Object5c80* value = *((::Object5c80 **)(reinterpret_cast<::FUN_006317a0_struct *>(&(current->first))->AddEight((int)(found))));
+            Object5c80* value = *((::Object5c80 **)(reinterpret_cast<::FUN_006317a0_struct *>(&(current->first))->AddEight((::std::intptr_t)(found))));
             if (value == object)
                 entry = true;
             found = next;
@@ -6582,7 +6582,7 @@ bool WaterCleanup::ReleaseWaterResources(bool release, bool keep)
             if (pos2)
             {
                 WaterGroup* group;
-                group = (WaterGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(groups))->AddEight((int)(pos2))));
+                group = (WaterGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(groups))->AddEight((::std::intptr_t)(pos2))));
                 if (((void *)(::FUN_00559450((int *)&(group->geometry)))))
                 {
                     WaterProperty* n;
@@ -6602,7 +6602,7 @@ bool WaterCleanup::ReleaseWaterResources(bool release, bool keep)
                     childNext9 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(group->objects))->DereferenceIfNotNull((int **)(child))));
                     if (child)
                     {
-                        void* geomAlias2 = ((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->objects))->AddEight((int)(child))));
+                        void* geomAlias2 = ((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->objects))->AddEight((::std::intptr_t)(child))));
                         if (geomAlias2)
                         {
                             WaterGeometry* kRef;
@@ -7128,7 +7128,7 @@ void OwnerW::SpawnGroupNodeNearPlayer(float x, float y, float z, float size)
                 next4 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(groups))->DereferenceIfNotNull((int **)(_pos))));
                 if (_pos)
                 {
-                    GroupW* group8 = ((::fnv_004e8510::GroupW *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(groups))->AddEight((int)(_pos))));
+                    GroupW* group8 = ((::fnv_004e8510::GroupW *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(groups))->AddEight((::std::intptr_t)(_pos))));
                     if (IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>((void *)&(group8->plane))->GetStoredFloatValue(), z, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004e8510::FloatSettingW *>(&::g_011c7a7c))))))) && !((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&(group8->node)))))
                     {
                         if (!((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e8510::PtrW *>(&::g_011c7b64)))))))
@@ -7342,12 +7342,12 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
 
         void* cur = ((void *)(::FUN_00559450((int *)&(list))));
         void* next = 0;
-        WGroup* group9 = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((int)(cur))));
+        WGroup* group9 = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((::std::intptr_t)(cur))));
         while (cur && !((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(group9->obj)))))
         {
             next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(list))->DereferenceIfNotNull((int **)(cur))));
             if (cur)
-                group9 = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((int)(cur))));
+                group9 = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((::std::intptr_t)(cur))));
             cur = next;
         }
         NiPoint3 _pos = ::_g_thePlayer->GetPos();
@@ -7377,7 +7377,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
             next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(list))->DereferenceIfNotNull((int **)(cur))));
             if (cur)
             {
-                WGroup* g = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((int)(cur))));
+                WGroup* g = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((::std::intptr_t)(cur))));
                 if (((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(g->obj)))))
                 {
                     _pos.z = reinterpret_cast<::Twin_0084d030 *>((void *)&(g->plane))->GetStoredFloatValue();
@@ -7446,7 +7446,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
             next2 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(list))->DereferenceIfNotNull((int **)(pos2))));
             if (pos2)
             {
-                WGroup* g2 = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((int)(pos2))));
+                WGroup* g2 = ((::fnv_004e8ec0::WGroup *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((::std::intptr_t)(pos2))));
                 if (((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(g2->obj)))))
                 {
                     ((::fnv_004e8ec0::WMgr *)(::FUN_004e7ff0()))->RemoveObject(((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&(g2->obj)))));
@@ -7854,7 +7854,7 @@ void WSystem::UpdateRegions()
         k = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(regions))->DereferenceIfNotNull((int **)(q))));
         if (q)
         {
-            WRegion* f = (WRegion*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(regions))->AddEight((int)(q))));
+            WRegion* f = (WRegion*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(regions))->AddEight((::std::intptr_t)(q))));
             float s = reinterpret_cast<::Twin_0084d030 *>(&(f->level))->GetStoredFloatValue();
             if (s > b || b == 3.4028234663852886e+38)
                 b = s;
@@ -7890,7 +7890,7 @@ void WSystem::UpdateRegions()
         k = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(regions))->DereferenceIfNotNull((int **)(q))));
         if (q)
         {
-            WRegion* f = (WRegion*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(regions))->AddEight((int)(q))));
+            WRegion* f = (WRegion*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(regions))->AddEight((::std::intptr_t)(q))));
             void* i = ((void *)(::FUN_00559450((int *)&(f->refs))));
             void* s = 0;
             while (i)
@@ -7898,7 +7898,7 @@ void WSystem::UpdateRegions()
                 s = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(f->refs))->DereferenceIfNotNull((int **)(i))));
                 if (i)
                 {
-                    WRef* ref = (WRef*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(f->refs))->AddEight((int)(i))));
+                    WRef* ref = (WRef*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(f->refs))->AddEight((::std::intptr_t)(i))));
                     if (ref && ((::fnv_004e9550::WForm *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())) && ::FUN_00450ff0((void *)(((::fnv_004e9550::WForm *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())))))
                     {
                         WGeometry* geometry = ((::fnv_004e9550::WGeometry *)(reinterpret_cast<::Finder *>(this)->FUN_004e8030((::Ref *)(ref))));
@@ -8756,7 +8756,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                         next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&((*reinterpret_cast<::fnv_004e9d40::GlobalList *>(&::g_011c7b8c))))->DereferenceIfNotNull((int **)(iter))));
                         if (iter)
                         {
-                            RefActor* item = ((::fnv_004e9d40::RefActor *)(reinterpret_cast<::FUN_006317a0_struct *>(&((*reinterpret_cast<::fnv_004e9d40::GlobalList *>(&::g_011c7b8c))))->AddEight((int)(iter))));
+                            RefActor* item = ((::fnv_004e9d40::RefActor *)(reinterpret_cast<::FUN_006317a0_struct *>(&((*reinterpret_cast<::fnv_004e9d40::GlobalList *>(&::g_011c7b8c))))->AddEight((::std::intptr_t)(iter))));
                             if (item->v1d0() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(map))->FUN_00853130((unsigned int)(item), (*(::fnv_00853130::CombatThreatRecord * *)(&item))))
                             {
                                 reinterpret_cast<::ScriptList *>(&(state->more))->FUN_0076b660((unsigned int *)&(const ::fnv_004e9d40::RenderBase *const &)(item->v1d0()));
@@ -10939,7 +10939,7 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                                     while (nextActor)
                                     {
                                         actorPos = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(state->actors))->DereferenceIfNotNull((int **)(nextActor))));
-                                        Ref074* actor = ((::fnv_004ebef0::Ref074 *)(reinterpret_cast<::FUN_006317a0_struct *>(&(state->actors))->AddEight((int)(nextActor))));
+                                        Ref074* actor = ((::fnv_004ebef0::Ref074 *)(reinterpret_cast<::FUN_006317a0_struct *>(&(state->actors))->AddEight((::std::intptr_t)(nextActor))));
                                         if ((actor != (Ref074*)(*reinterpret_cast<::fnv_004ebef0::Player074 * *>(&::_g_thePlayer)) ||
                                              (actor == (Ref074*)(*reinterpret_cast<::fnv_004ebef0::Player074 * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_004ebef0::Player074 * *>(&::_g_thePlayer))))->FUN_004eaf60())) &&
                                             actor->Get3D() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(seen))->FUN_00853130((unsigned int)(actor), (::fnv_00853130::CombatThreatRecord *&)(actor)))
@@ -10973,7 +10973,7 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                                     otherPos = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(state->refs))->DereferenceIfNotNull((int **)(otherNext))));
                                     if (otherNext)
                                     {
-                                        Ref074* other = ((::fnv_004ebef0::Ref074 *)(reinterpret_cast<::FUN_006317a0_struct *>(&(state->otherRefs))->AddEight((int)(otherNext))));
+                                        Ref074* other = ((::fnv_004ebef0::Ref074 *)(reinterpret_cast<::FUN_006317a0_struct *>(&(state->otherRefs))->AddEight((::std::intptr_t)(otherNext))));
                                         if (other->Get3D() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(seen))->FUN_00853130((unsigned int)(other), (::fnv_00853130::CombatThreatRecord *&)(other)))
                                         {
                                             reinterpret_cast<::ScriptList *>(&(state->actorNodes))->FUN_0076b660((unsigned int *)&(const void *const &)(other->Get3D()));
@@ -11363,7 +11363,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
         i = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((void *)&(group->m_kWaterReferences))->DereferenceIfNotNull((int **)(a))));
         if (a)
         {
-            Reference* reference = reinterpret_cast<Reference*>(((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->m_kWaterReferences))->AddEight((int)(a)))));
+            Reference* reference = reinterpret_cast<Reference*>(((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(group->m_kWaterReferences))->AddEight((::std::intptr_t)(a)))));
             if (reference && ((::Form *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())) && ::FUN_00450ff0((void *)(((::Form *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())))))
             {
                 SceneObject* object = ((::SceneObject *)(reinterpret_cast<::Finder *>(this)->FUN_004e8030((::Ref *)(reference))));
@@ -11528,7 +11528,7 @@ void TESWaterSystem_Impl::FUN_004e5fe0(TESObjectREFR* apRef)
                 {
                     bool pObj;
                     pObj = true;
-                    kIter = (WaterSurface*)((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)&m_kWaterZoneList)))->AddEight((int)(a))));
+                    kIter = (WaterSurface*)((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)&m_kWaterZoneList)))->AddEight((::std::intptr_t)(a))));
                     if (map)
                     {
                         void* q;
@@ -11550,7 +11550,7 @@ void TESWaterSystem_Impl::FUN_004e5fe0(TESObjectREFR* apRef)
                                 if (i)
                                 {
                                     TESObjectREFR* c;
-                                    c = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)&kIter->m_kWaterReferences)))->AddEight((int)(i))));
+                                    c = ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)&kIter->m_kWaterReferences)))->AddEight((::std::intptr_t)(i))));
                                     if (c == (TESObjectREFR*)s)
                                     {
                                         pObj = false;
@@ -11590,10 +11590,10 @@ void TESWaterSystem_Impl::FUN_004e5fe0(TESObjectREFR* apRef)
                                 item44 = 0;
                                 if (((TESObjectREFR_Water*)apRef)->HasWater())
                                     item44 =
-                                        ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)((char*)kIter + 0x3c))))->AddEight((int)(nextPos))));
+                                        ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)((char*)kIter + 0x3c))))->AddEight((::std::intptr_t)(nextPos))));
                                 else
                                     item44 =
-                                        ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)((char*)kIter + 0x30))))->AddEight((int)(nextPos))));
+                                        ((::TESObjectREFR *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)(((NiTPointerList<TESObjectREFR*>*)((char*)kIter + 0x30))))->AddEight((::std::intptr_t)(nextPos))));
                                 if (item44 == apRef)
                                 {
                                     val = true;
@@ -11798,9 +11798,9 @@ void Owner::RemoveReferenceFromCell(Ref* pkRef, Cell* pkCell)
         {
             Ref* pkItem = 0;
             if (pkRef->IsActor())
-                pkItem = *((::s4e5e50::Ref **)(reinterpret_cast<::FUN_006317a0_struct *>(&(pkCell->m_kActors))->AddEight((int)(pkCurNode))));
+                pkItem = *((::s4e5e50::Ref **)(reinterpret_cast<::FUN_006317a0_struct *>(&(pkCell->m_kActors))->AddEight((::std::intptr_t)(pkCurNode))));
             else
-                pkItem = *((::s4e5e50::Ref **)(reinterpret_cast<::FUN_006317a0_struct *>(&(pkCell->m_kRefs))->AddEight((int)(pkCurNode))));
+                pkItem = *((::s4e5e50::Ref **)(reinterpret_cast<::FUN_006317a0_struct *>(&(pkCell->m_kRefs))->AddEight((::std::intptr_t)(pkCurNode))));
             if (pkItem == pkRef)
             {
                 bFound = true;

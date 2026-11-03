@@ -1,5 +1,6 @@
 // fallout_shared/doorlock.cpp: DoorAccessData, Copy9, LockAccess (15 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorStandIn008a.h"
@@ -1902,7 +1903,7 @@ struct FUN_006f33b0 : BuilderBase
 };
 // Builds a path between two locations via a door-aware builder, records parent-space nodes and door entries in result, else falls back to InitDoorSearch.
 // @fnv 0x006d4f70
-bool BuildPathWithDoors(Location* start, Location* end, Result* result, int a4, int a5)
+bool BuildPathWithDoors(Location* start, Location* end, Result* result, std::intptr_t a4, int a5)
 {
     if (reinterpret_cast<::PathingLocationProxy *>((start))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0)) && reinterpret_cast<::PathingLocationProxy *>((end))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0)))
     {

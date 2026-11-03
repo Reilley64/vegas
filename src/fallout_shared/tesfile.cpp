@@ -1,5 +1,6 @@
 // fallout_shared/tesfile.cpp: TESFile, TgtOps, TESFile_Standin, GroupWriter and more (87 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <string.h>
 #include <new>
@@ -532,7 +533,7 @@ bool FUN_00472150_shell::FUN_00472150(bool abSkipIgnored)
 }
 
 // @fnv 0x00472380
-int FUN_00472380(int param_1)
+int FUN_00472380(std::intptr_t param_1)
 {
     return *(int*)(param_1 + 0x150);
 }
@@ -2525,12 +2526,12 @@ class FUN_00473310_cls
     int unk3DC;
     unsigned int m_3e0;
 
-    void SpawnObject(unsigned int arg);
+    void SpawnObject(std::uintptr_t arg);
 };
 
 // If arg is non-zero, calls CalleeA(arg); when m_10 is set, spawns an object via CalleeB, copies m_10's value into its m_18, calls CalleeD, and increments m_3e0.
 // @fnv 0x00473310
-void FUN_00473310_cls::SpawnObject(unsigned int arg)
+void FUN_00473310_cls::SpawnObject(std::uintptr_t arg)
 {
     if (arg != 0)
     {

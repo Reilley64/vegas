@@ -7104,14 +7104,6 @@ struct Critical077
     }
     ~Critical077();
 };
-struct FileStat077
-{
-    unsigned int dev;
-    unsigned short inode, mode, links, uid, gid, alignment;
-    unsigned int rdev, size;
-    unsigned __int64 atime, mtime, ctime;
-};
-int __cdecl FUN_00ec923c(const char*, FileStat077*);
 struct ArcStream077;
 typedef unsigned int(__cdecl* ArcReadFn077)(ArcStream077*, void*, unsigned int, unsigned int*, unsigned int);
 struct ArcStream077
@@ -7289,9 +7281,9 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
         }
         elapsedTmp = GetTickCount() - elapsedTmp;
     }
-    FileStat077 stat;
-    int statResultVal = FUN_00ec923c(pFileName, &stat);
-    stamp = *(Time077*)&stat.mtime;
+    fnv::crt::FileStatus status{};
+    int statResultVal = fnv::crt::stat(pFileName, &status);
+    stamp = *(Time077*)&status.modified;
     if (!HasStatus(8))
     {
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011acdf9)))

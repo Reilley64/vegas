@@ -11468,7 +11468,7 @@ struct S00c92040_Ifc {
     virtual bool v4();
     virtual void v5(int, int, int);
     virtual void v6();
-    virtual void v7(int, int, int);
+    virtual void v7(intptr_t, int, intptr_t);
 };
 
 struct __declspec(align(16)) S00c92040_Arg {
@@ -11525,11 +11525,11 @@ struct S00c92040_Obj {
     void* unk78;
     int p7C;
 
-    void FUN_00c92040(int a, int b);
+    void FUN_00c92040(intptr_t a, intptr_t b);
 };
 
 // @fnv 0x00c92040
-void S00c92040_Obj::FUN_00c92040(int a, int b)
+void S00c92040_Obj::FUN_00c92040(intptr_t a, intptr_t b)
 {
     extern void* DAT_00fdf044;
     extern unsigned long DAT_0126835c;

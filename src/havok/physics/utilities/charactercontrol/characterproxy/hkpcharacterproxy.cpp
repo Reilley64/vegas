@@ -202,12 +202,12 @@ struct FUN_00cade20_Class
 
 struct FUN_00cafbd0_Class
 {
-    void FUN_00cafbd0(int first, int second, int third, int fourth);
+    void FUN_00cafbd0(intptr_t first, intptr_t second, intptr_t third, intptr_t fourth);
 };
 
 // Forwards the four arguments to FUN_00cade20 with two trailing zero arguments.
 // @fnv 0x00cafbd0
-void FUN_00cafbd0_Class::FUN_00cafbd0(int first, int second, int third, int fourth)
+void FUN_00cafbd0_Class::FUN_00cafbd0(intptr_t first, intptr_t second, intptr_t third, intptr_t fourth)
 {
     reinterpret_cast<::POwner *>((((FUN_00cade20_Class*)this)))->FUN_00cade20((*(const ::PStep *)(first)), (*(const ::PVec *)(second)), (*(::PCollector *)(third)), (*(::PCollector *)(fourth)), (void *)(0), 0);
 }

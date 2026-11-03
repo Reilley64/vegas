@@ -20,4 +20,4 @@ bool FUN_00c7fcc0(::S00c7fcc0_Obj *, intptr_t, ::S00c7fcc0_Out *, bool);
 // 0x00c7ff40
 ::PhysicsBody *FindPhysicsBodyByLayer(::SearchObject *, unsigned int);
 // 0x00c7ffd0
-int FUN_00c7ffd0(::XRef *);
+intptr_t FUN_00c7ffd0(::XRef *);

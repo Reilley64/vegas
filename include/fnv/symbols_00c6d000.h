@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class FUN_00c6def0_obj;
 class SearchOwner;
 struct FUN_00c6d7e0_Parent;
@@ -14,7 +16,7 @@ void FUN_00c6d620(::VectorData *, int, ::Vec4Sink *);
 // 0x00c6d7e0
 char FUN_00c6d7e0(::FUN_00c6d7e0_Parent *, bool, bool, int);
 // 0x00c6d900
-unsigned int FUN_00c6d900(::SearchOwner *);
+uintptr_t FUN_00c6d900(::SearchOwner *);
 // 0x00c6dec0
 void *LookupFirstByKey(unsigned int, ::FnvLookup_Container *);
 // 0x00c6def0

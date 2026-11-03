@@ -10040,15 +10040,15 @@ struct FUN_00c747b0_Class
     virtual void vfA8();
     virtual void vfAC();
     virtual void vfB0();
-    virtual int vfB4(char* value);
-    int FUN_00c747b0();
+    virtual intptr_t vfB4(char* value);
+    intptr_t FUN_00c747b0();
 };
 
 // @fnv 0x00c747b0
-int FUN_00c747b0_Class::FUN_00c747b0()
+intptr_t FUN_00c747b0_Class::FUN_00c747b0()
 {
     char value;
-    int result = this->vfB4(&value);
+    intptr_t result = this->vfB4(&value);
 
     if (result != 0)
         return result - 4;
@@ -15549,7 +15549,7 @@ struct Owner134
     virtual void slot2a();
     virtual void slot2b();
     virtual void slot2c();
-    virtual int Query(void**);
+    virtual intptr_t Query(void**);
 };
 struct Entry134
 {
@@ -15603,10 +15603,10 @@ absent:
     return 0;
 }
 // @fnv 0x00c75180
-int FUN_00c75180(Input134* input)
+intptr_t FUN_00c75180(Input134* input)
 {
     Owner134* owner = Resolve134(input);
-    int result = 0;
+    intptr_t result = 0;
     if (owner)
         result = owner->Query((void**)&input);
     return result;
@@ -16063,12 +16063,12 @@ class LookupTarget
 {
   public:
     char unk00[0xC0];
-    unsigned int m_val0xc0;
+    uintptr_t m_val0xc0;
 };
 
 // If an entry with key 0x1300 exists, returns m_val0xc0 of the object FindEntry returns for that key; otherwise returns 0.
 // @fnv 0x00c6d900
-unsigned int FUN_00c6d900(SearchOwner* owner)
+uintptr_t FUN_00c6d900(SearchOwner* owner)
 {
     if (owner != 0)
     {
@@ -20504,7 +20504,7 @@ struct XBase0
 {
     int a0;
     int a4;
-    int a8;
+    intptr_t a8;
     int ac;
 };
 struct XBase1
@@ -20522,7 +20522,7 @@ struct XObj
     virtual void v3();
     virtual XBase1* v4();
     int m_iWordAt04;
-    int m_8;
+    intptr_t m_8;
     int m_iThirdValue;
 };
 struct XRef
@@ -20534,12 +20534,12 @@ struct XRef
 };
 
 // @fnv 0x00c7ffd0
-int __cdecl FUN_00c7ffd0(XRef* apRef)
+intptr_t __cdecl FUN_00c7ffd0(XRef* apRef)
 {
     XObj** ppObj = apRef->p;
     if (!ppObj)
         ppObj = (XObj**)apRef;
-    int r = 0;
+    intptr_t r = 0;
     if (ppObj)
     {
         XObj* o = *ppObj;

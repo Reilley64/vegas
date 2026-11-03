@@ -245,6 +245,27 @@ public:
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_011af000.h"
 
+// The byte before an aligned block holds the distance back to the start of its allocation.
+struct AlignedBlockPrefix
+{
+    unsigned char m_ucOffset;
+};
+inline AlignedBlockPrefix* GetAlignedBlockPrefix(void* apBlock)
+{
+    return static_cast<AlignedBlockPrefix*>(apBlock) - 1;
+}
+
+// The global string table stores a reference count and the length before each string.
+struct GlobalStringHeader
+{
+    volatile long m_lRefCount;
+    unsigned int m_uiLength;
+};
+inline GlobalStringHeader* GetGlobalStringHeader(const void* apString)
+{
+    return const_cast<GlobalStringHeader*>(static_cast<const GlobalStringHeader*>(apString) - 1);
+}
+
 
 struct FUN_00c600f0_Class
 {
@@ -325,22 +346,22 @@ void FUN_00a99870_Class::FUN_00a99870(int, int)
 
 struct FUN_00c61430_Class
 {
-    void FUN_00c61430(int, int);
+    void FUN_00c61430(intptr_t, intptr_t);
 };
 
 // @fnv 0x00c61430
-void FUN_00c61430_Class::FUN_00c61430(int a, int b)
+void FUN_00c61430_Class::FUN_00c61430(intptr_t a, intptr_t b)
 {
     reinterpret_cast<::FUN_00a99870_shell *>((((FUN_00a99870_Class*)this)))->FUN_00a99870((::FUN_00a99870_shell *)(a), (void *)(b));
 }
 
 struct FUN_00c61450_Class
 {
-    void FUN_00c61450(int a);
+    void FUN_00c61450(intptr_t a);
 };
 
 // @fnv 0x00c61450
-void FUN_00c61450_Class::FUN_00c61450(int aiValue)
+void FUN_00c61450_Class::FUN_00c61450(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_00a99a90_IntsExtraData *>(this)->LoadBinary((*(::BA99A90Stream *)(aiValue)));
 }
@@ -385,11 +406,11 @@ void FUN_00c614c0_Class::FUN_00c614c0(void* ap)
 
 struct FUN_00c614e0_Class
 {
-    char FUN_00c614e0(int arg);
+    char FUN_00c614e0(intptr_t arg);
 };
 // Calls FUN_00a998e0 with arg and returns its result.
 // @fnv 0x00c614e0
-char FUN_00c614e0_Class::FUN_00c614e0(int arg)
+char FUN_00c614e0_Class::FUN_00c614e0(intptr_t arg)
 {
     char result = ((char)(reinterpret_cast<::Extra_00a998e0 *>(this)->FUN_00a998e0((::Extra_00a998e0 *)(arg))));
     return result;
@@ -545,11 +566,11 @@ struct FUN_00c31670_class
 
 struct FUN_00c63950_class
 {
-    void ForwardToOther(int a);
+    void ForwardToOther(intptr_t a);
 };
 
 // @fnv 0x00c63950
-void FUN_00c63950_class::ForwardToOther(int aiValue)
+void FUN_00c63950_class::ForwardToOther(intptr_t aiValue)
 {
     reinterpret_cast<::X *>((((FUN_00c31670_class*)this)))->FUN_00c31670((*(::NiStream *)(aiValue)));
 }
@@ -569,7 +590,7 @@ GlobalObject_00a7b610* FUN_00c63aa0_class::FUN_00c63aa0()
 
 
 // @fnv 0x00c63c10
-void __cdecl CallWithSameArgumentTwice(int aiValue)
+void __cdecl CallWithSameArgumentTwice(intptr_t aiValue)
 {
     ::fnv_00c63c30::FUN_00c63c30((::fnv_00c63c30::ObjC63 *)(aiValue), (::fnv_00c63c30::ObjC63 *)(aiValue));
 }
@@ -665,13 +686,13 @@ bool FUN_00c64b70::RegisterStreamables(NiStream& stream)
 
 struct FUN_00c64fc0_class
 {
-    int GetThisAddress(int);
+    intptr_t GetThisAddress(int);
 };
 
 // @fnv 0x00c64fc0
-int FUN_00c64fc0_class::GetThisAddress(int)
+intptr_t FUN_00c64fc0_class::GetThisAddress(int)
 {
-    return (int)this;
+    return (intptr_t)this;
 }
 
 struct NiStream;
@@ -690,12 +711,12 @@ void NiExtraData::FUN_00c65160(NiStream& stream)
 
 struct C00c541e0
 {
-    bool FUN_00c65290(int a);
+    bool FUN_00c65290(intptr_t a);
 };
 
 // Calls FUN_00a7b3d0 with the given int and returns its bool result.
 // @fnv 0x00c65290
-bool C00c541e0::FUN_00c65290(int aiValue)
+bool C00c541e0::FUN_00c65290(intptr_t aiValue)
 {
     bool result = ((bool)(reinterpret_cast<::NiObject_00a7b3d0 *>(this)->FUN_00a7b3d0((::NiObject_00a7b3d0 *)(aiValue))));
     return result;
@@ -946,7 +967,7 @@ struct NiPSysPositionModifier
 };
 struct FUN_00c60240 : NiPSysPositionModifier
 {
-    int m_vt;
+    void* m_vt;
     float m_f[4];
     float m_v[4];
     float m_w[4];
@@ -956,7 +977,7 @@ struct FUN_00c60240 : NiPSysPositionModifier
 // @fnv 0x00c60240
 FUN_00c60240::FUN_00c60240()
 {
-    m_vt = (int)&DAT_010c3384;
+    m_vt = &DAT_010c3384;
     {
         float* p = &this->m_v[1];
         p[0] = 0.0f;
@@ -1169,7 +1190,7 @@ struct FUN_00c63330 : NiPSysPositionModifier
 // @fnv 0x00c63330
 FUN_00c63330::FUN_00c63330()
 {
-    ((int*)this)[0] = (int)&DAT_010c37fc;
+    *reinterpret_cast<void**>(this) = &DAT_010c37fc;
     ((int*)this)[3] = 0xbb8;
     *(NiPoint3_ZERO*)((char*)this + 0x24) = (*reinterpret_cast<struct ::NiPoint3_ZERO *>((void *)&::NiPoint3::ZERO));
     *(NiPoint3_ZERO*)((char*)this + 0x30) = (*reinterpret_cast<struct ::NiPoint3_ZERO *>((void *)&::NiPoint3::ZERO));
@@ -1598,10 +1619,10 @@ struct FUN_00c64dc0_Class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    FUN_0043ba10_shell* FUN_00c64dc0(unsigned int a);
+    FUN_0043ba10_shell* FUN_00c64dc0(uintptr_t a);
 };
 // @fnv 0x00c64dc0
-FUN_0043ba10_shell* FUN_00c64dc0_Class::FUN_00c64dc0(unsigned int a)
+FUN_0043ba10_shell* FUN_00c64dc0_Class::FUN_00c64dc0(uintptr_t a)
 {
     int v0;
     int v1;
@@ -1661,7 +1682,7 @@ struct FUN_00c61c50_cls
     unsigned int* m_60;
     unsigned short pad1[1];
     unsigned short m_66;
-    void FUN_00c61c50(unsigned int x, unsigned int y);
+    void FUN_00c61c50(uintptr_t x, uintptr_t y);
 };
 
 struct FUN_00c62140_Elem;
@@ -1982,15 +2003,15 @@ struct FUN_00c63a00_cls
 // @fnv 0x00c63a00
 void FUN_00c63a00_cls::FUN_00c63a00(ArgObj* a1)
 {
-    unsigned int r1;
-    unsigned int r2;
-    unsigned int g;
+    char* r1;
+    char* r2;
+    const char* g;
     Pad32 pad;
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(a1));
-    g = *(unsigned int*)&::g_012043c8;
-    r1 = ((unsigned int)(::FUN_00a7d330((const char *)(g))));
+    g = *reinterpret_cast<const char* const*>(&::g_012043c8);
+    r1 = ::FUN_00a7d330(g);
     reinterpret_cast<::S_0060ba10 *>((a1))->FUN_0096a610((intptr_t)(&r1));
-    r2 = ((unsigned int)(::FUN_00a7d550("Damping", *(float*)((char*)this + 0x20))));
+    r2 = ::FUN_00a7d550("Damping", *(float*)((char*)this + 0x20));
     reinterpret_cast<::S_0060ba10 *>((a1))->FUN_0096a610((intptr_t)(&r2));
 }
 
@@ -2003,12 +2024,12 @@ struct S_00c643d0_Foo
     unsigned short m_uiItemCount;
     void* m_entries[16];
 
-    void FUN_00c643d0(int arg);
+    void FUN_00c643d0(intptr_t arg);
 };
 
 
 // @fnv 0x00c643d0
-void S_00c643d0_Foo::FUN_00c643d0(int arg)
+void S_00c643d0_Foo::FUN_00c643d0(intptr_t arg)
 {
     reinterpret_cast<::fnv_00a9a4e0::Cls_00a9a4e0 *>((this))->FUN_00a9a4e0((*(::fnv_00a9a4e0::NiStream *)(arg)));
 
@@ -2102,11 +2123,11 @@ void FUN_00c64b90_cls::FUN_00c64b90(FUN_00c64b90_target* apTarget)
 struct FUN_00c64da0_cls
 {
     int unk00;
-    void FUN_00c64da0(int a);
+    void FUN_00c64da0(intptr_t a);
 };
 
 // @fnv 0x00c64da0
-void FUN_00c64da0_cls::FUN_00c64da0(int a)
+void FUN_00c64da0_cls::FUN_00c64da0(intptr_t a)
 {
     int unkLoc0;
     int unkLoc1;
@@ -2114,16 +2135,22 @@ void FUN_00c64da0_cls::FUN_00c64da0(int a)
     reinterpret_cast<::FUN_0043ba10_shell *>((this))->FUN_0043ba10((::FUN_0043ba10_shell *)(a));
 }
 
+// A key/value pair of global-string handles.
+struct DispatchStub_c64_pair
+{
+    const char* m_pcKey;
+    const char* m_pcValue;
+};
 struct DispatchStub_c64
 {
     int unk00;
     int unk04;
     int unk08;
     int unk0c;
-    void** m10;
+    DispatchStub_c64_pair** m10;
     int unk14;
     unsigned short m18;
-    void DispatchToItems(int a8, int cc);
+    void DispatchToItems(intptr_t a8, intptr_t cc);
 };
 struct ItemCallee_c64
 {
@@ -2412,9 +2439,9 @@ void FUN_00c615a0_class::AppendGlobalAndFormatValues(NiTPrimitiveArray_unsigned_
 {
     FUN_00a99b20(values);
     void* global_ptr = (*reinterpret_cast<void * *>(&::g_012043a4));
-    unsigned int first = (unsigned int)::FUN_00a7d330((const char *)(::GlobalObject_00a7b610 *)((GlobalObject_00a7b610*)global_ptr));
+    char* first = ::FUN_00a7d330((const char *)(::GlobalObject_00a7b610 *)((GlobalObject_00a7b610*)global_ptr));
     reinterpret_cast<::S_0060ba10 *>((values))->FUN_0096a610((intptr_t)&(first));
-    unsigned int second = (unsigned int)FUN_00a7d510(str_0109df4c, unk0c);
+    char* second = (char*)FUN_00a7d510(str_0109df4c, unk0c);
     reinterpret_cast<::S_0060ba10 *>((values))->FUN_0096a610((intptr_t)&(second));
     Unused20 tmp;
 }
@@ -2442,7 +2469,7 @@ struct FUN_00c61fc0_Item
 {
     int unk00;
     int unk04;
-    int unk08;
+    const char* m_pcName;
 };
 
 struct FUN_0096a610_Target
@@ -2497,10 +2524,10 @@ void FUN_00c61fc0_cls::Serialize(void* apTarget)
     int mid;
     int r;
     unsigned long ptr2;
-    unsigned int ra;
+    const char* ra;
     int oa;
-    int v1;
-    long cur;
+    const char* v1;
+    char* cur;
     FUN_00c61fc0_Item* x;
     long qa;
     int ta;
@@ -2508,8 +2535,8 @@ void FUN_00c61fc0_cls::Serialize(void* apTarget)
     int xa;
     long gb;
     reinterpret_cast<::FUN_00c31db0_cls *>(this)->FUN_00c31db0((::NameArray_b9457 *)(apTarget));
-    v1 = *(int*)&::g_012043b0;
-    mb = ((void *)(::FUN_00a7d330((const char *)(v1))));
+    v1 = *reinterpret_cast<const char* const*>(&::g_012043b0);
+    mb = ::FUN_00a7d330(v1);
     reinterpret_cast<::S_0060ba10 *>((((FUN_0096a610_Target*)apTarget)))->FUN_0096a610((intptr_t)(&mb));
     xa = unk58;
     ib = reinterpret_cast<::FUN_00c62090_Class *>(this)->BuildAttachTypeString("ArrayType", xa);
@@ -2521,8 +2548,8 @@ void FUN_00c61fc0_cls::Serialize(void* apTarget)
         x = *b;
         if (!!x)
         {
-            ra = x->unk08;
-            cur = ((int)(::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(int *)(&DAT_01063e84), (const char *)(ra))));
+            ra = x->m_pcName;
+            cur = ::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(int *)(&DAT_01063e84), ra);
             reinterpret_cast<::S_0060ba10 *>((((FUN_0096a610_Target*)apTarget)))->FUN_0096a610((intptr_t)(&cur));
         }
     }
@@ -2577,10 +2604,10 @@ void Mod600::FUN_00c60050(StrArr* pkStrings)
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(pkStrings);
 
     GlobalObject_00a7b610* obj = (GlobalObject_00a7b610*)(*reinterpret_cast<void * *>(&::g_01204388));
-    unsigned int uiName = (unsigned int)::FUN_00a7d330((const char *)(obj));
+    char* uiName = ::FUN_00a7d330((const char *)(obj));
     reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)pkStrings)))->FUN_0096a610((intptr_t)&(uiName));
 
-    unsigned int uiValue = ((unsigned int)(::FUN_00a7d550("fUpdateDeltaTime", m_fValue)));
+    char* uiValue = ::FUN_00a7d550("fUpdateDeltaTime", m_fValue);
     reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)pkStrings)))->FUN_0096a610((intptr_t)&(uiValue));
 
     {
@@ -2621,17 +2648,16 @@ void FUN_00c61760()
     NiFixedString* tmp = DAT_012043a0;
     NiFixedString* p = tmp;
     NiFixedString* result;
-    unsigned int hdr;
 
     if (p != 0)
     {
-        if (*(void**)p == DAT_0109b220)
+        void* pcHandle = *reinterpret_cast<void**>(p);
+        if (pcHandle == DAT_0109b220)
         {
         }
         else
         {
-            hdr = *(unsigned int*)p - 8;
-            InterlockedDecrement((volatile long*)((void*)hdr));
+            InterlockedDecrement(&GetGlobalStringHeader(pcHandle)->m_lRefCount);
         }
 
         if ((1, 1) & 1)
@@ -3142,7 +3168,7 @@ void S_00c648a0::FUN_00c648a0(S_00c648a0_Stream* apStream)
     void* pObject;
     {
         S_00c648a0_Stream* pStream = apStream;
-        unsigned int uiLinkID = (unsigned int)unk08;
+        unsigned int uiLinkID = (unsigned int)(uintptr_t)unk08;
         void* pFound = 0;
         if (pStream->unk5c4 && uiLinkID)
             reinterpret_cast<::fnv_00853130::NiTMapBase *>((pStream->unk5c4))->FUN_00853130(uiLinkID, (*(::fnv_00853130::CombatThreatRecord * *)(&pFound)));
@@ -3668,12 +3694,12 @@ void* __cdecl FUN_00aa1070(unsigned int);
 int __cdecl FUN_00a305b0(char*, unsigned int, const char*, ...);
 extern const char str_0109dcec[];
 extern const char str_0109c360[];
-inline unsigned int __cdecl FUN_00a7d550(const char* label, float value)
+inline char* __cdecl FUN_00a7d550(const char* label, float value)
 {
     unsigned int length = strlen(label) + 20;
     char* result = static_cast<char*>(FUN_00aa1070(length));
     FUN_00a305b0(result, length, str_0109dcec, value);
-    return reinterpret_cast<unsigned int>(result);
+    return result;
 }
 
 extern const char str_0109dca0[];
@@ -3728,16 +3754,16 @@ struct SimpleColorModifier_Stub : ModifierBase_Stub
 void SimpleColorModifier_Stub::FUN_00c60b20(ViewerStrings* strings)
 {
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(strings));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((uintptr_t)::FUN_00a7d330(reinterpret_cast<RTTI_Stub*>(&(*reinterpret_cast<void * *>(&::g_01204390)))->GetName())));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)((uintptr_t)(::FUN_00a7d550(str_010c3494, color1End * 100.0)))));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)((uintptr_t)(::FUN_00a7d550(str_010c3480, color2Start * 100.0)))));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)((uintptr_t)(::FUN_00a7d550(str_010c3470, color2End * 100.0)))));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)((uintptr_t)(::FUN_00a7d550(str_010c345c, color3Start * 100.0)))));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)((uintptr_t)(::FUN_00a7d550(str_010c3450, fadeIn * 100.0)))));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)((uintptr_t)(::FUN_00a7d550(str_010c3440, fadeOut * 100.0)))));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((uintptr_t)reinterpret_cast<::RgbaColor *>(&(color1))->ToString(str_010c3438)));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((uintptr_t)reinterpret_cast<::RgbaColor *>(&(color2))->ToString(str_010c3430)));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const unsigned int &)((uintptr_t)reinterpret_cast<::RgbaColor *>(&(color3))->ToString(str_010c3428)));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)((uintptr_t)::FUN_00a7d330(reinterpret_cast<RTTI_Stub*>(&(*reinterpret_cast<void * *>(&::g_01204390)))->GetName())));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)(((uintptr_t)(::FUN_00a7d550(str_010c3494, color1End * 100.0)))));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)(((uintptr_t)(::FUN_00a7d550(str_010c3480, color2Start * 100.0)))));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)(((uintptr_t)(::FUN_00a7d550(str_010c3470, color2End * 100.0)))));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)(((uintptr_t)(::FUN_00a7d550(str_010c345c, color3Start * 100.0)))));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)(((uintptr_t)(::FUN_00a7d550(str_010c3450, fadeIn * 100.0)))));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)(((uintptr_t)(::FUN_00a7d550(str_010c3440, fadeOut * 100.0)))));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)((uintptr_t)reinterpret_cast<::RgbaColor *>(&(color1))->ToString(str_010c3438)));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)((uintptr_t)reinterpret_cast<::RgbaColor *>(&(color2))->ToString(str_010c3430)));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(const uintptr_t &)((uintptr_t)reinterpret_cast<::RgbaColor *>(&(color3))->ToString(str_010c3428)));
 }
 }
 
@@ -4074,7 +4100,7 @@ struct ObjX : BaseX
     int pad[4];
     unsigned short m10;
     FUN_00c64640* m14[1];
-    void FUN_00c640f0(ObjX* p, int a);
+    void FUN_00c640f0(ObjX* p, intptr_t a);
 };
 
 namespace fnv_00c64060 {
@@ -4098,7 +4124,7 @@ inline void DbgX()
 }
 
 // @fnv 0x00c640f0
-void ObjX::FUN_00c640f0(ObjX* p, int a)
+void ObjX::FUN_00c640f0(ObjX* p, intptr_t a)
 {
     reinterpret_cast<::FUN_00a99c40_shell *>(this)->FUN_00a99c40((::NiBinaryExtraData *)(p), (::CloningProcess *)(a));
     p->m10 = m10;
@@ -4595,6 +4621,7 @@ inline float UnitRandom()
     return (float)(std::rand() / DAT_01029790);
 }
 
+struct CamQ;
 class FUN_00c62390_cls
 {
   public:
@@ -4602,7 +4629,7 @@ class FUN_00c62390_cls
     int unk04;
     int unk08;
     int unk0C;
-    int unk10;
+    CamQ* unk10;
     int unk14;
     int unk18;
     int unk1C;
@@ -5181,7 +5208,7 @@ struct NiManager630
 extern NiManager630* DAT_011f6080;
 extern const double DAT_01017cf8;
 float FUN_004579e0(float);
-extern int DAT_012043d0;
+extern void* DAT_012043d0;
 
 struct MM630
 {
@@ -5215,7 +5242,7 @@ struct NameHolder
     __forceinline NameHolder(const char* s)
     {
         if (!s)
-            m_pChar = (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+            m_pChar = ::DAT_0109b220;
         else
             m_pChar = ::NiGlobalStringTable::AddString(s);
     }
@@ -5438,7 +5465,7 @@ bool __cdecl FUN_00c63c30(ObjC63* obj, ObjC63* root)
     if (obj->v0c())
     {
         if (!DAT_012043d0)
-            DAT_012043d0 = (int)new NameHolder("DVPG");
+            DAT_012043d0 = new NameHolder("DVPG");
         ExtraX* extra = ((::fnv_00c63c30::ExtraX *)(reinterpret_cast<::NiAVObject *>((root))->GetExtraData((*(const ::NiFixedString *)(DAT_012043d0)))));
         ObjC63* p = obj;
         if (p->GetMesh() && ((intptr_t)(::FUN_004b75a0((const char *)(void *)(p->GetMesh()), "DecalPlacementVectorGroup"))))
@@ -5650,7 +5677,7 @@ bool FUN_00c64c40_cls::FUN_00c64c40(void* a1, FNVListObj* a2)
 namespace fnv_00c64d10 {
 struct C64D10_Handle
 {
-    int m_uiFilterValue;
+    const char* m_uiFilterValue;
     C64D10_Handle(const C64D10_Handle& other) : m_uiFilterValue(other.m_uiFilterValue)
     {}
     ~C64D10_Handle();
@@ -5659,10 +5686,10 @@ struct FUN_00c64d10
 {
     C64D10_Handle m_pHeadNode;
     C64D10_Handle m_iSecondInteger;
-    FUN_00c64d10(int first, int second);
+    FUN_00c64d10(intptr_t first, intptr_t second);
 };
 // @fnv 0x00c64d10
-FUN_00c64d10::FUN_00c64d10(int first, int second) : m_pHeadNode((*reinterpret_cast<::fnv_00c64d10::C64D10_Handle *>(&::DAT_0109b220))), m_iSecondInteger((*reinterpret_cast<::fnv_00c64d10::C64D10_Handle *>(&::DAT_0109b220)))
+FUN_00c64d10::FUN_00c64d10(intptr_t first, intptr_t second) : m_pHeadNode((*reinterpret_cast<::fnv_00c64d10::C64D10_Handle *>(&::DAT_0109b220))), m_iSecondInteger((*reinterpret_cast<::fnv_00c64d10::C64D10_Handle *>(&::DAT_0109b220)))
 {
     reinterpret_cast<::FUN_00c64da0_cls *>(this)->FUN_00c64da0(first);
     reinterpret_cast<::FUN_00c64dc0_Class *>(this)->FUN_00c64dc0(second);
@@ -5683,8 +5710,7 @@ struct C64e70Str
         }
         else
         {
-            long* p = (long*)(m_kHandle - 8);
-            InterlockedDecrement(p);
+            InterlockedDecrement(&GetGlobalStringHeader(m_kHandle)->m_lRefCount);
         }
     }
 };
@@ -5767,9 +5793,9 @@ struct C65490_Pool
 };
 struct FUN_00c64d10
 {
-    int m_pHeadNode;
-    int m_iSecondInteger;
-    FUN_00c64d10(int first, int second);
+    const char* m_pHeadNode;
+    const char* m_iSecondInteger;
+    FUN_00c64d10(intptr_t first, intptr_t second);
 };
 struct C65490_List
 {
@@ -5780,26 +5806,26 @@ struct C65490_Owner
     int unk04;
     int unk08;
     C65490_List m_kNode;
-    void FUN_00c65490(int first, int second);
+    void FUN_00c65490(intptr_t first, intptr_t second);
 };
 // @fnv 0x00c65490
-void C65490_Owner::FUN_00c65490(int first, int second)
+void C65490_Owner::FUN_00c65490(intptr_t first, intptr_t second)
 {
     FUN_00c64d10* item = new FUN_00c64d10(first, second);
     reinterpret_cast<::StrArr *>(&(m_kNode))->FUN_00c4c8d0((char *&)(item));
 }
 }
 
-// Calls FUN_00a7b330 with a8 and cc, then for each of m18 entries in m10 calls FUN_00c65490 on the item and item+4.
+// Calls FUN_00a7b330 with a8 and cc, then for each of the m18 pairs in m10 calls FUN_00c65490 on the pair's key and value.
 // @fnv 0x00c64fd0
-void DispatchStub_c64::DispatchToItems(int pTarget, int cc)
+void DispatchStub_c64::DispatchToItems(intptr_t pTarget, intptr_t cc)
 {
     reinterpret_cast<FUN_00a7b330_shell*>(this)->FUN_00a7b330((::NiBinaryExtraData *)(void *)((void*)pTarget), (::CloningProcess *)(void *)((void*)cc));
     unsigned int count = m18;
     for (unsigned int i = 0; i < count; i++)
     {
-        int item = (int)m10[i];
-        reinterpret_cast<::fnv_00c65490::C65490_Owner *>((reinterpret_cast<ItemCallee_c64*>(pTarget)))->FUN_00c65490(item, item + 4);
+        DispatchStub_c64_pair* item = m10[i];
+        reinterpret_cast<::fnv_00c65490::C65490_Owner *>((reinterpret_cast<ItemCallee_c64*>(pTarget)))->FUN_00c65490((intptr_t)&item->m_pcKey, (intptr_t)&item->m_pcValue);
     }
 }
 
@@ -5812,13 +5838,13 @@ struct DynamicMemoryAllocator
 
 struct AtpRef
 {
-    int m_uiFilterValue;
+    const char* m_uiFilterValue;
     AtpRef(const char* s)
     {
         if (s == 0)
-            m_uiFilterValue = (*reinterpret_cast<int *>(&::DAT_0109b220));
+            m_uiFilterValue = ::DAT_0109b220;
         else
-            m_uiFilterValue = ((int)(::NiGlobalStringTable::AddString(s)));
+            m_uiFilterValue = ::NiGlobalStringTable::AddString(s);
     }
 };
 
@@ -5897,7 +5923,7 @@ struct SetAtArray
 };
 
 // @fnv 0x00c61c50
-void FUN_00c61c50_cls::FUN_00c61c50(unsigned int x, unsigned int y)
+void FUN_00c61c50_cls::FUN_00c61c50(uintptr_t x, uintptr_t y)
 {
     unsigned int pad[0xf];
     reinterpret_cast<::NiPSysBoxEmitterWrapper *>(this)->FUN_00c31b10((::NiPSysModifier *)(x), (*(::CloningProcess *)(y)));
@@ -6827,7 +6853,7 @@ class CharacterProxy : public ProxyBase
   public:
     AlignedOwnerNode m_kPoints;
 
-    void FUN_00c6cf30(unsigned int formID);
+    void FUN_00c6cf30(uintptr_t formID);
 };
 
 struct PointLoader
@@ -6835,9 +6861,9 @@ struct PointLoader
 };
 
 // @fnv 0x00c6cf30
-void CharacterProxy::FUN_00c6cf30(unsigned int formID)
+void CharacterProxy::FUN_00c6cf30(uintptr_t formID)
 {
-    volatile unsigned int id = formID;
+    volatile uintptr_t id = formID;
     reinterpret_cast<::FUN_00cac110_Class *>((this))->FUN_00cac110();
     if (this)
     {
@@ -6846,7 +6872,7 @@ void CharacterProxy::FUN_00c6cf30(unsigned int formID)
         {
             AlignedOwnerNode tmp(&this->m_kPoints);
             VirtualResult* result = this->v37();
-            reinterpret_cast<::FUN_00cafbd0_Class *>((loader))->FUN_00cafbd0(id, (int)(&result->m_10), (int)(&tmp), (int)(&this->m_kPoints));
+            reinterpret_cast<::FUN_00cafbd0_Class *>((loader))->FUN_00cafbd0(id, (intptr_t)(&result->m_10), (intptr_t)(&tmp), (intptr_t)(&this->m_kPoints));
             reinterpret_cast<::TriggerCollector *>(&(this->m_kPoints))->ProcessContactEvents();
         }
     }
@@ -8378,7 +8404,7 @@ struct World
     int field4c;
     int field50;
     int field54;
-    int field58;
+    void* field58;
     int field5c;
     int field60;
     int field64;
@@ -8387,7 +8413,7 @@ struct World
     int field70;
     int field74;
     int field78;
-    int field7c;
+    void* field7c;
 };
 
 struct __declspec(align(16)) CastVector
@@ -8426,7 +8452,7 @@ struct FilterCast : WorldRayCaster
 {
     __forceinline FilterCast(World* world, Query* query, void* cache, void* collector)
     {
-        int mode = world->field7c;
+        void* mode = world->field7c;
         reinterpret_cast<::CbfOwner *>(this)->FUN_00cbf860((::CbfTarget *)(world->field58), (::CbfSrc *)(query), (int *)(mode), (intptr_t)(cache), (intptr_t)(collector));
     }
 };
@@ -8539,7 +8565,7 @@ bool RayCaster::FUN_00c696d0(Query* query)
             }
             else
             {
-                reinterpret_cast<::fnv_00c92040::S00c92040_Obj *>((world))->FUN_00c92040((int)(query), (int)(scratch.result));
+                reinterpret_cast<::fnv_00c92040::S00c92040_Obj *>((world))->FUN_00c92040((intptr_t)(query), (intptr_t)(scratch.result));
                 found = query->result.field50 != 0;
             }
         }
@@ -12829,7 +12855,7 @@ struct VectorData
 
 struct Vec4Sink
 {
-    void FUN_00c7f640(int arg, P064Quad* value);
+    void FUN_00c7f640(intptr_t arg, P064Quad* value);
 };
 
 // @fnv 0x00c6d620
@@ -12988,7 +13014,7 @@ struct S00c7fcc0_Out
 
 struct S00c7fcc0_Spill
 {
-    int key;
+    intptr_t key;
     struct S00c7fcc0_Type* ti;
 };
 

@@ -17,5 +17,5 @@ namespace fnv_00c60b20 { const char str_010c3480[18] = "Color 2 Start Pct"; }
 namespace fnv_00c60b20 { const char str_010c3494[24] = {67, 111, 108, 111, 114, 32, 49, 32, 69, 110, 100, 32, 80, 99, 116}; }
 namespace fnv_00c616c0 { char str_010c3610[12] = {66, 83, 87}; }
 namespace fnv_00c618f0 { const char str_010c36b0[8] = {80, 65, 80}; }
-namespace fnv_00c63c30 { int DAT_012043d0; }
+namespace fnv_00c63c30 { void* DAT_012043d0; }
 const char *DAT_012043ec{};

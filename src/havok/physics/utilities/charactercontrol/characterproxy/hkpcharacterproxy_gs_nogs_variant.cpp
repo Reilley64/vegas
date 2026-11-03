@@ -6,6 +6,7 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstddef>
+#include <cstdint>
 #include "fnv/decl/HostC9C6.h"
 #include "fnv/decl/POwner.h"
 #include "fnv/decl/PhantomListeners.h"
@@ -154,7 +155,7 @@ struct FUN_00cade20_Class
 };
 struct FUN_00cafbd0_Class
 {
-    void FUN_00cafbd0(int first, int second, int third, int fourth);
+    void FUN_00cafbd0(intptr_t first, intptr_t second, intptr_t third, intptr_t fourth);
 };
 struct FNVAllocator
 {

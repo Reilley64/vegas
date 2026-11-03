@@ -136,7 +136,7 @@ struct FUN_00cade20_Class
 };
 struct FUN_00cafbd0_Class
 {
-    void FUN_00cafbd0(int first, int second, int third, int fourth);
+    void FUN_00cafbd0(intptr_t first, intptr_t second, intptr_t third, intptr_t fourth);
 };
 struct FNVAllocator {
     virtual void Release();

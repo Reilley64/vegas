@@ -1,5 +1,6 @@
 // staging/blk_00da0000_o2.cpp: Holder, MapHolder, SpawnedOuter, SearchObject and more (113 functions)
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -819,10 +820,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct MapPair
@@ -889,7 +889,6 @@ void MapHolder::CopyMapEntries(const MapHolder& other)
 }
 
 namespace fnv_00db7960 {
-extern "C" void* __cdecl FUN_00c85750();
 
 struct FUN_00db7960_Target
 {
@@ -915,7 +914,7 @@ struct FUN_00db7960_Result
 // @fnv 0x00db7960
 void* __cdecl CreateAudioResult()
 {
-    void* audio = FUN_00c85750();
+    void* audio = static_cast<BSAudio*>(::FUN_00c85750());
     FUN_00db7960_Target* target = *reinterpret_cast<FUN_00db7960_Target**>(reinterpret_cast<char*>(audio) + 0x10);
 
     void* allocated = target->vf04(0x14);
@@ -930,7 +929,7 @@ void* __cdecl CreateAudioResult()
     data[1] = 0;
     data[2] = -1;
 
-    void* audio2 = FUN_00c85750();
+    void* audio2 = static_cast<BSAudio*>(::FUN_00c85750());
     void* target2 = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio2) + 0x10);
 
     FUN_00db7960_Data* dataObject = reinterpret_cast<FUN_00db7960_Data*>(reinterpret_cast<char*>(allocated) + 8);
@@ -958,7 +957,6 @@ struct AudioMgr
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 
 struct hkBool
 {
@@ -984,7 +982,7 @@ class RefObj
 
     static void* operator new(std::size_t nbytes)
     {
-        RefObj* b = (RefObj*)((AudioMgr*)FUN_00c85750())->heap().AllocateMemoryBlock(nbytes);
+        RefObj* b = (RefObj*)((AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750()))->heap().AllocateMemoryBlock(nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1083,7 +1081,6 @@ struct DBA3D0MemoryRouter
     }
 };
 
-extern "C" DBA3D0MemoryRouter& __cdecl FUN_00c85750() throw();
 
 struct DBA3D0Pair
 {
@@ -1104,7 +1101,7 @@ template <class T> struct DBA3D0Array
 
     ~DBA3D0Array() throw()
     {
-        DBA3D0Allocator& alloc = FUN_00c85750().heap();
+        DBA3D0Allocator& alloc = (*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
@@ -1129,7 +1126,7 @@ class DBA3D0Map : public DBA3D0MapBase
   public:
     ~DBA3D0Map() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease((*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -1347,7 +1344,6 @@ struct BSAudio
     DBA430Listener* m_10;
 };
 
-BSAudio* __cdecl FUN_00c85750();
 
 struct DBA430Owner
 {
@@ -1363,9 +1359,9 @@ struct DBA430Owner
 void DBA430Owner::Reset()
 {
     DBA430Inner* p = &m_0C;
-    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(FUN_00c85750()->m_10));
+    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(static_cast<BSAudio*>(::FUN_00c85750())->m_10));
     ::FUN_00a29680();
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
     DBA430Listener* listener = audio->m_10;
     m_04 = 0;
     if (!(m_08 & (int)0x80000000))
@@ -1620,7 +1616,6 @@ struct DA2D70Object
     void* NotifyAudioListener(int flags);
 };
 
-extern BSAudio* __cdecl FUN_00c85750();
 
 // @fnv 0x00da2da0
 void __cdecl FUN_00da2da0()
@@ -1697,7 +1692,7 @@ struct CreatedObject
 // @fnv 0x00db79c0
 void* __cdecl FUN_00db79c0()
 {
-    Manager* manager = (Manager*)FUN_00c85750();
+    Manager* manager = (Manager*)static_cast<BSAudio*>(::FUN_00c85750());
     CreatedObject* object = (CreatedObject*)manager->heap->Alloc(0x20);
     object->Init();
     return object;
@@ -2461,7 +2456,7 @@ struct S06c0_Mgr
 };
 inline S06c0_Mgr* s06c0_mgr()
 {
-    return (S06c0_Mgr*)FUN_00c85750();
+    return (S06c0_Mgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 struct S06c0_Key
 {
@@ -2918,7 +2913,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
     S00da6eb0_List* pList = static_cast<S00da6eb0_Ctx*>(apCtx)->m_pRouter->m_pEntries;
     int iSize = pList->m_uiSize;
 
-    S00da6eb0_Alloc* pAlloc = reinterpret_cast<S00da6eb0_Alloc*>(FUN_00c85750());
+    S00da6eb0_Alloc* pAlloc = reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()));
     unsigned int* pEventIndex = reinterpret_cast<unsigned int*>(pAlloc->m_pCur);
 
     pAlloc->m_pCur += (iSize * 4 + 0x83) & 0xffffff80;
@@ -2942,7 +2937,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
 
     S00da6eb0_TimerMark(::DAT_010c41f8);
 
-    reinterpret_cast<S00da6eb0_Alloc*>(FUN_00c85750())->m_pCur = reinterpret_cast<char*>(pEventIndex);
+    reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()))->m_pCur = reinterpret_cast<char*>(pEventIndex);
 
     return reinterpret_cast<char*>(apOut) + 0x10;
 }
@@ -3338,9 +3333,6 @@ void drive()
 #include <cstdint>
 #include <cstdio>
 #include "fnv/decl/BDBA270Array.h"
-#include "fnv/decl/S_00db7c70_class.h"
-#include "fnv/decl/StackTraceOwner.h"
-#include "fnv/decl/fnv_00da2840__DA2840Object.h"
 #include "fnv/symbols_00da3000.h"
 #include "fnv/symbols_00db0000.h"
 #include "fnv/symbols_00db7000.h"
@@ -3522,7 +3514,7 @@ void* DA2D70Object::NotifyAudioListener(int flags)
 
     if (flags & 1)
     {
-        DA2D70Audio* audio = reinterpret_cast<DA2D70Audio*>(FUN_00c85750());
+        DA2D70Audio* audio = reinterpret_cast<DA2D70Audio*>(static_cast<BSAudio*>(::FUN_00c85750()));
         DA2D70Listener* listener = audio->m_10;
         listener->vf08(this, static_cast<int>(unk04));
     }
@@ -3619,11 +3611,6 @@ void* __cdecl FUN_00da0b00();
 
 void* __cdecl FUN_00da0b20();
 
-// VEGAS17-CONFLICT: CallTarget_00dba270 (variant definition below differs from the one above)
-struct CallTarget_00dba270
-{
-};
-
 static void FUN_00dbb100(const DBB100Registry* registry, const void* object, DBB100Writer* writer);
 
 void DBB100WriteClassNames(const DBB100Registry* registry, const void** objects, DBB100Writer* writer);
@@ -3665,11 +3652,6 @@ void __cdecl FUN_00da0a90();
 void __cdecl FUN_00da0ab0();
 
 void __cdecl FUN_00da0ad0();
-
-// VEGAS17-CONFLICT: FUN_00da2840_Obj (variant definition below differs from the one above)
-struct FUN_00da2840_Obj
-{
-};
 
 void __cdecl FUN_00da2da0();
 
@@ -3756,7 +3738,7 @@ struct StackTracer
 {
     int unk00, unk04;
     DebugFunctions* functions;
-    void FUN_00da2990(unsigned int* addresses, int count, void(__cdecl* output)(const char*, void*), void* context);
+    void FUN_00da2990(unsigned int* addresses, intptr_t count, void(__cdecl* output)(const char*, void*), void* context);
 };
 
 // @fnv 0x00da2990
@@ -4109,7 +4091,6 @@ struct hkMemoryRouterDA24
 };
 
 namespace hkRouterDA24 {
-extern "C" hkMemoryRouterDA24& __cdecl FUN_00c85750() throw();
 }
 
 namespace hkArrayUtilDA24 {
@@ -4150,7 +4131,7 @@ template <class T> class hkArrayDA24
 
     ~hkArrayDA24() throw()
     {
-        _clearAndDeallocate(hkRouterDA24::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<hkMemoryRouterDA24*>(::FUN_00c85750())).heap());
     }
 
     hkArrayDA24() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)

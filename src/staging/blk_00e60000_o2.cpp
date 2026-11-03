@@ -2,6 +2,7 @@
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
@@ -1035,7 +1036,6 @@ struct FUN_00c85750_Result
     int unk10;
 };
 
-FUN_00c85750_Result* __cdecl FUN_00c85750();
 
 // Switches on object->unk14: case 0 calls AppendIndexSequence with object fields and value; case 1 calls AppendIndices when unk00 is 3 or 4.
 // @fnv 0x00e611d0
@@ -1044,7 +1044,7 @@ void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value)
     switch (object->unk14)
     {
     case 0: {
-        FUN_00c85750_Result* result = FUN_00c85750();
+        FUN_00c85750_Result* result = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
         ::AppendIndexSequence(object->unk00, object->unk08, object->unk0C, (::IndexArray *)(value), (void *)(result->unk10));
         break;
     }
@@ -6448,7 +6448,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     switch (primType)
     {
     case 3: {
-        FUN_00c85750_Result* pResult = FUN_00c85750();
+        FUN_00c85750_Result* pResult = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
         IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
         int oldSize = out->size;
         int newSize = oldSize + count;
@@ -6479,7 +6479,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     }
     case 4: {
         int n = count * 3 - 6;
-        FUN_00c85750_Result* pResult = FUN_00c85750();
+        FUN_00c85750_Result* pResult = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
         IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
         int oldSize = out->size;
         int newSize = oldSize + n;
@@ -6531,7 +6531,7 @@ struct MemRouter
 
 inline MemRouter* getRouter() throw()
 {
-    return (MemRouter*)FUN_00c85750();
+    return (MemRouter*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
 }
 
 
@@ -6843,7 +6843,6 @@ struct RouterE60F
 };
 
 namespace hkRouterE60F {
-extern "C" RouterE60F& __cdecl FUN_00c85750() throw();
 }
 
 
@@ -6861,7 +6860,7 @@ template <class T> class hkArrayE60F
 
     __forceinline T* expandBy(int n)
     {
-        AllocatorE60F& kAlloc = hkRouterE60F::FUN_00c85750().heap();
+        AllocatorE60F& kAlloc = (*static_cast<RouterE60F*>(::FUN_00c85750())).heap();
         int iOldSize = m_iElementCount;
         int iNewSize = iOldSize + n;
         if (getCapacity() < iNewSize)
@@ -8318,7 +8317,7 @@ struct IntArrayX
     }
     __forceinline int* expandBy(int n)
     {
-        HeapAlloc& alloc = ((RouterX*)FUN_00c85750())->heap();
+        HeapAlloc& alloc = ((RouterX*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750()))->heap();
         int oldSize = m_iElementCount;
         GrowArrayCapacity(alloc, oldSize + n);
         m_iElementCount += n;
@@ -11653,11 +11652,6 @@ NiDX9AdditionalDepthStencilBufferData* __cdecl FUN_00e7d850(D3DDevice_e7d850* pk
 
 int __cdecl FUN_00e60c70(int a);
 
-// VEGAS17-CONFLICT: FUN_00e7d690_Class (variant definition below differs from the one above)
-struct FUN_00e7d690_Class
-{
-    FUN_00e7d690_Class* FUN_00e7d690(int flags);
-};
 
 void __cdecl DestroyArrayElements(void* p);
 
@@ -11737,11 +11731,6 @@ struct FUN_00e7bc90 : Base_e7bc90
 
 CpuOpaque* __cdecl FUN_00e7d220();
 
-// VEGAS17-CONFLICT: Ni2DBufferStub (variant definition below differs from the one above)
-class Ni2DBufferStub
-{
-  public:
-};
 
 int* __cdecl FUN_00e7d550();
 
@@ -11788,7 +11777,7 @@ template <class T> class hkArrayE60F
 
     __forceinline T* expandBy(int n)
     {
-        AllocatorE60F& kAlloc = hkRouterE60F::FUN_00c85750().heap();
+        AllocatorE60F& kAlloc = (*static_cast<RouterE60F*>(::FUN_00c85750())).heap();
         int iOldSize = m_iElementCount;
         int iNewSize = iOldSize + n;
         if (getCapacity() < iNewSize)
@@ -11847,7 +11836,7 @@ struct IntArrayX
     }
     __forceinline int* expandBy(int n)
     {
-        HeapAlloc& alloc = ((RouterX*)FUN_00c85750())->heap();
+        HeapAlloc& alloc = ((RouterX*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750()))->heap();
         int oldSize = m_iElementCount;
         GrowArrayCapacity(alloc, oldSize + n);
         m_iElementCount += n;
@@ -13090,40 +13079,8 @@ int Solver::FUN_00e63770(E63Out* out)
     }
 }
 
-// VEGAS17-CONFLICT: P03MM (variant definition below differs from the one above)
-struct P03MM
-{
-};
 
-// VEGAS17-CONFLICT: BE7B040Value (variant definition below differs from the one above)
-struct BE7B040Value
-{
 
-    int m_aiData00;
-    int m_aiData04;
-    int m_aiData08;
-    int m_aiData0C;
-    int m_aiData10;
-    int m_aiData14;
-    int m_aiData18;
-    int m_aiData1C;
-    int m_aiData20;
-    int m_aiData24;
-    int m_aiData28;
-    int m_aiData2C;
-    int m_aiData30;
-    int m_aiData34;
-    int m_aiData38;
-    int m_aiData3C;
-    int m_aiData40;
-    int m_aiData44;
-};
-
-// VEGAS17-CONFLICT: CE7C500Heap (variant definition below differs from the one above)
-class CE7C500Heap
-{
-  public:
-};
 
 // VEGAS17-CONFLICT: FUN_00e7a5e0_Object (variant definition below differs from the one above)
 class FUN_00e7a5e0_Object
@@ -13500,7 +13457,7 @@ append:
 
     MoppResults* output = results;
 
-    HavokMemory* memory = (HavokMemory*)FUN_00c85750();
+    HavokMemory* memory = (HavokMemory*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
 
     if (output->size == (output->capacityAndFlags & 0x3fffffff))
 

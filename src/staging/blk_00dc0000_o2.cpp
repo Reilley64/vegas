@@ -1,6 +1,7 @@
 // staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (96 functions)
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -372,6 +373,7 @@ void FUN_00dda6b0_Class::WriteUInt32Triple(const unsigned int* auiValues)
 
 struct D2B3D0Map
 {
+    void clear();
 };
 struct FUN_00ddf030_Class
 {
@@ -465,7 +467,6 @@ struct AllocatorState
         return pool;
     }
 };
-extern "C" AllocatorState* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00c908c0(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {
@@ -478,7 +479,7 @@ struct ArrayHost
 void ArrayHost::ResizeArray(int desired)
 {
     ArrayBlock* values = &array;
-    void* pool = FUN_00c85750()->GetPool();
+    void* pool = static_cast<AllocatorState*>(::FUN_00c85750())->GetPool();
     int capacity = values->reservedAndFlags & 0x3fffffff;
     if (capacity < desired)
     {
@@ -516,7 +517,6 @@ struct AllocHolder
     AllocatorIface* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 void FUN_00c908c0(AllocatorIface* alloc, void* arr, unsigned int newCap, int elemSize);
 
 struct DwordArray
@@ -542,7 +542,7 @@ class FUN_00dc9e20_cls
 void FUN_00dc9e20_cls::ReserveDwordArray(int count)
 {
     DwordArray* arr = &m_aiIndexedValues;
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     AllocatorIface* alloc = holder->m_pAllocator;
     int cap = arr->m_iReserved & 0x3fffffff;
     if (cap < count)
@@ -656,7 +656,6 @@ struct AllocHolder
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 
 
 struct SpawnedBlob
@@ -682,7 +681,7 @@ FUN_00dcc6a0_cls* FUN_00dcc6a0_cls::FUN_00dcc6a0(int a1, int a2)
 {
     m_w06 = 1;
     m_vptr = (*reinterpret_cast<char (*)[]>(&::DAT_010d7540));
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedBlob* blob = (SpawnedBlob*)holder->m_pAllocator->Alloc(0x1c);
     blob->m_w04 = 0x1c;
     m_p08 = ((void *)(new ((void *)(blob)) ::FUN_00e05b40((void *)(a1), a2, 2)));
@@ -706,7 +705,6 @@ struct AllocHolder
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 
 
 struct SpawnedBlob
@@ -732,7 +730,7 @@ FUN_00dcc6f0_cls* FUN_00dcc6f0_cls::FUN_00dcc6f0(int a1)
 {
     m_w06 = 1;
     m_vptr = (*reinterpret_cast<char (*)[]>(&::DAT_010d7540));
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedBlob* blob = (SpawnedBlob*)holder->m_pAllocator->Alloc(0x14);
     blob->m_w04 = 0x14;
     m_p08 = ((void *)(new ((void *)(blob)) ::FUN_00d466e0(a1, 2)));
@@ -762,7 +760,6 @@ struct S_00dcc9c0_Router
     }
 };
 
-S_00dcc9c0_Router* FUN_00c85750() throw();
 
 struct S_00dcc9c0_StringBuf
 {
@@ -774,7 +771,7 @@ struct S_00dcc9c0_StringBuf
     S_00dcc9c0_StringBuf() throw();
     ~S_00dcc9c0_StringBuf() throw()
     {
-        S_00dcc9c0_Allocator& a = FUN_00c85750()->temp();
+        S_00dcc9c0_Allocator& a = static_cast<S_00dcc9c0_Router*>(::FUN_00c85750())->temp();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(char));
@@ -830,7 +827,6 @@ struct FnvCpu_FUN_00dcd480_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00dcd480_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00dcd480_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00dcd480_CpuObject
 {
     unsigned int unk00;
@@ -843,7 +839,7 @@ FnvCpu_FUN_00dcd480_CpuObject* FnvCpu_FUN_00dcd480_CpuObject::FUN_00dcd480(unsig
     reinterpret_cast<::fnv_00d4bd60::FUN_00d4bd60 *>(this)->fnv_00d4bd60::FUN_00d4bd60::~FUN_00d4bd60();
     if (flags & 1)
     {
-        FnvCpu_FUN_00dcd480_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00dcd480_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00dcd480_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -1267,14 +1263,13 @@ struct AllocHolder
     void* m_pAllocator;
 };
 
-extern "C" AllocHolder* FUN_00c85750();
 extern "C" void ResizeAudioStream(void* pAllocator, RecArray* pArray, int iElementSize);
 
 // Grows the array via the allocator when full, writes uiValue at the count index, and increments the count.
 // @fnv 0x00dd8db0
 void AppendToRecArray(unsigned int uiValue, unsigned int uiUnused, RecArray* pArray)
 {
-    AllocHolder* pHolder = FUN_00c85750();
+    AllocHolder* pHolder = static_cast<AllocHolder*>(::FUN_00c85750());
 
     if (pArray->m_uiCount == (pArray->m_uiCapacity & 0x3fffffff))
     {
@@ -1312,14 +1307,13 @@ struct S_00dd8fa0_Caller
     S_00dd8fa0_S* unk10;
 };
 
-extern "C" S_00dd8fa0_Caller* __cdecl FUN_00c85750();
 extern "C" S_00dd8fa0_Vtable DAT_010d7c58;
 
 // Gets a caller, calls its object's vtable method with 8, then sets m_04 to 8, m_06 to 1 and the vtable to DAT_010d7c58.
 // @fnv 0x00dd8fa0
 void __cdecl FUN_00dd8fa0()
 {
-    S_00dd8fa0_Caller* caller = FUN_00c85750();
+    S_00dd8fa0_Caller* caller = static_cast<S_00dd8fa0_Caller*>(::FUN_00c85750());
     S_00dd8fa0_S* object = caller->unk10;
 
     object = object->vtable->method(object, 8);
@@ -1386,7 +1380,6 @@ struct DD91A0MemoryRouter
     }
 };
 
-extern "C" DD91A0MemoryRouter& __cdecl FUN_00c85750();
 
 class DD91A0ReferencedObject
 {
@@ -1400,7 +1393,7 @@ class DD91A0ReferencedObject
     static void* operator new(std::size_t nbytes)
     {
         DD91A0ReferencedObject* b =
-            static_cast<DD91A0ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<DD91A0ReferencedObject*>((*static_cast<DD91A0MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1460,7 +1453,6 @@ struct DDC160MemoryRouter
     }
 };
 
-extern "C" DDC160MemoryRouter& __cdecl FUN_00c85750();
 
 class DDC160ReferencedObject
 {
@@ -1473,7 +1465,7 @@ class DDC160ReferencedObject
     static void* operator new(std::size_t nbytes)
     {
         DDC160ReferencedObject* b =
-            static_cast<DDC160ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<DDC160ReferencedObject*>((*static_cast<DDC160MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1924,7 +1916,6 @@ struct hkMemoryRouterDDFB
 };
 
 namespace hkRouterDDFB {
-extern "C" hkMemoryRouterDDFB& __cdecl FUN_00c85750() throw();
 }
 
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
@@ -1951,7 +1942,7 @@ template <class T> class hkArrayDDFB
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorDDFB& kAlloc = hkRouterDDFB::FUN_00c85750().heap();
+        hkMemoryAllocatorDDFB& kAlloc = (*static_cast<hkMemoryRouterDDFB*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&kAlloc, this, sizeof(T));
         new (m_data + m_iElementCount) T(t);
@@ -2182,13 +2173,13 @@ void S00dcd1b0_Obj::FUN_00dcd1b0(int value)
         }
 
         ArrayBlock* block = &m_40;
-        AllocatorState* allocator = FUN_00c85750();
+        AllocatorState* allocator = static_cast<AllocatorState*>(::FUN_00c85750());
         if ((int)(block->reservedAndFlags & 0x3fffffff) < total)
         {
             FUN_00c908c0(allocator->GetPool(), block, total, 2);
         }
 
-        allocator = FUN_00c85750();
+        allocator = static_cast<AllocatorState*>(::FUN_00c85750());
         void* pool = allocator->GetPool();
         int capacity = (int)(block->reservedAndFlags & 0x3fffffff);
         if (capacity < total)
@@ -2204,7 +2195,7 @@ void S00dcd1b0_Obj::FUN_00dcd1b0(int value)
     }
     else
     {
-        S00dcd1b0_Pool* pool = reinterpret_cast<S00dcd1b0_Pool*>(FUN_00c85750()->GetPool());
+        S00dcd1b0_Pool* pool = reinterpret_cast<S00dcd1b0_Pool*>(static_cast<AllocatorState*>(::FUN_00c85750())->GetPool());
         total = 0;
         m_40.size = total;
         int flags = (int)m_40.reservedAndFlags;
@@ -2267,7 +2258,7 @@ struct S00dcd270_cls
 S00dcd270_Rec* S00dcd270_cls::AddRecord(const S00dcd270_Rec* apRecord)
 {
     S00dcd270_Arr* a = &arr;
-    AllocatorState* h = FUN_00c85750();
+    AllocatorState* h = static_cast<AllocatorState*>(::FUN_00c85750());
     if (a->m_iElementCount == (a->m_cap & 0x3fffffff))
         ResizeAudioStream(h->GetPool(), a, 0x38);
     S00dcd270_Rec* r = &a->m_data[a->m_iElementCount];
@@ -3007,7 +2998,6 @@ namespace fnv_00dd9d20 {
 extern int DAT_010d7da8;
 extern int DAT_010d7d54;
 
-extern "C" void* __cdecl FUN_00c85750();
 
 struct FUN_00dd9d20_Target
 {
@@ -3180,7 +3170,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
             {
                 break;
             }
-            AllocatorState* h = FUN_00c85750();
+            AllocatorState* h = static_cast<AllocatorState*>(::FUN_00c85750());
             if (buf->m_len == (buf->m_cap & 0x3fffffff))
             {
                 ResizeAudioStream(h->unk0C, buf, one);
@@ -3194,7 +3184,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
         } while (c != -1);
     }
     m_08->v08();
-    AllocatorState* h2 = FUN_00c85750();
+    AllocatorState* h2 = static_cast<AllocatorState*>(::FUN_00c85750());
     if (buf->m_len == (buf->m_cap & 0x3fffffff))
     {
         ResizeAudioStream(h2->unk0C, buf, one);
@@ -3531,11 +3521,6 @@ void __cdecl FUN_00dccae0(void* a, void* iValue);
 
 void __cdecl FUN_00dccb10(char* p);
 
-// VEGAS17-CONFLICT: D2B3D0Map (variant definition below differs from the one above)
-struct D2B3D0Map
-{
-    void clear();
-};
 
 int FUN_00dc1660(int a1);
 
@@ -3545,23 +3530,7 @@ int* __cdecl FUN_00dccb30();
 
 int __cdecl FUN_00dced40();
 
-// VEGAS17-CONFLICT: FUN_00d4dfc0_class (variant definition below differs from the one above)
-struct FUN_00d4dfc0_class
-{
-};
 
-// VEGAS17-CONFLICT: Lock_dd9 (variant definition below differs from the one above)
-struct Lock_dd9
-{
-    int unk;
-    int unkCur;
-    int unkValue;
-    int unk0c;
-    int uNewnk;
-    int uTmpnk;
-    int* m_pkCriticalSection;
-    int FUN_00dd9330(int iKey, int iArg);
-};
 
 static unsigned short FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader);
 
@@ -3815,10 +3784,6 @@ void AllocatorStatisticsDD8D::FUN_00dd8d70(unsigned int* out)
     out[4] = 0;
 }
 
-// VEGAS17-CONFLICT: FUN_00cb0a70 (variant definition below differs from the one above)
-struct FUN_00cb0a70
-{
-};
 
 void __cdecl FUN_00dccae0(void* a, void* b);
 

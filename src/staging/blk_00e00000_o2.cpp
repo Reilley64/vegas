@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -767,6 +768,7 @@ struct FUN_00e0bf20_s
 {
     int a;
     int b;
+    void FUN_00cb0a60();
     FUN_00e0bf20_s();
 };
 // @fnv 0x00e0bf20
@@ -961,6 +963,7 @@ void __cdecl FUN_00e00ae0(FUN_00e00930_vt* p)
 
 struct FUN_00dcd380_cls
 {
+    void FUN_00dcd380(int b);
 };
 // @fnv 0x00e00c90
 void __cdecl FUN_00e00c90(void* pObject, int b)
@@ -1268,6 +1271,7 @@ FUN_00e0bf30_s* FUN_00e0bf30_s::FUN_00e0bf30(int aiValue)
 
 struct FUN_00d752e0_cls
 {
+    void FUN_00d752e0();
 };
 
 // @fnv 0x00e114b0
@@ -1327,7 +1331,6 @@ struct AudioHolder
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 
 extern int DAT_0102e388;
 
@@ -1355,7 +1358,7 @@ struct FUN_00e00000_cls
 // @fnv 0x00e00000
 void FUN_00e00000_cls::FUN_00e00000()
 {
-    AudioHolder* pHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -1366,7 +1369,7 @@ void FUN_00e00000_cls::FUN_00e00000()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pHolder2 = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -1875,7 +1878,6 @@ struct S_00e00830_Router
     int unk8;
     int unkC;
     S_00e00830_Allocator* m_pStreamAllocator;
-    static S_00e00830_Router& FUN_00c85750();
     S_00e00830_Allocator& heap()
     {
         return *m_pStreamAllocator;
@@ -1893,6 +1895,7 @@ struct S_00e00830_Ref
 
 struct S_00e00830_Target
 {
+    void FUN_00c905b0() throw();
 };
 
 struct S_00e00830_Ptr
@@ -1950,7 +1953,7 @@ template <typename T> struct S_00e00830_Array
     }
     __forceinline ~S_00e00830_Array() throw()
     {
-        _clearAndDeallocate(S_00e00830_Router::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<S_00e00830_Router*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -2024,7 +2027,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e00990_cls
 {
@@ -2043,7 +2045,7 @@ FUN_00e00990_cls* FUN_00e00990_cls::DestroyIfFlagged(unsigned char acFlags)
     reinterpret_cast<::fnv_00e48740::FUN_00e48740 *>(this)->fnv_00e48740::FUN_00e48740::~FUN_00e48740();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -2271,6 +2273,7 @@ int* __cdecl FUN_00e00d40()
 
 struct FUN_00d57b20_class
 {
+    void FUN_00d57b20(int value);
 };
 
 // @fnv 0x00e00d50
@@ -2711,6 +2714,7 @@ int __cdecl FUN_00e016d0()
 struct EffectSubObject
 {
     int unk00;
+    void Release(int flags);
 };
 
 struct EffectHolder
@@ -2768,7 +2772,6 @@ struct S_Heap
         return *a;
     }
 };
-S_Heap* FUN_00c85750();
 struct S_00e01750_Array
 {
     char* m_data;
@@ -2784,7 +2787,7 @@ struct S_00e01750_Array
     }
     ~S_00e01750_Array() throw()
     {
-        ClearAndRelease(FUN_00c85750()->heap());
+        ClearAndRelease(static_cast<S_Heap*>(::FUN_00c85750())->heap());
     }
 };
 struct S_00e01750_Base
@@ -2879,7 +2882,6 @@ struct S_00e01a50_Router
         return *m_pStreamAllocator;
     }
 };
-S_00e01a50_Router* FUN_00c85750() throw();
 
 template <class T> struct S_00e01a50_Array
 {
@@ -2888,7 +2890,7 @@ template <class T> struct S_00e01a50_Array
     int m_iCapacityState;
     __forceinline ~S_00e01a50_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00e01a50_Router*>(::FUN_00c85750())->heap());
     }
     void _clearAndDeallocate(S_00e01a50_Heap& alloc) throw()
     {
@@ -2957,7 +2959,6 @@ struct S_00e01b30_Router
         return *m_pStreamAllocator;
     }
 };
-S_00e01b30_Router* __cdecl FUN_00c85750() throw();
 struct S_00e01b30_Elem4
 {
     int unk00;
@@ -3006,7 +3007,7 @@ template <class T> struct S_00e01b30_Array
     }
     __forceinline ~S_00e01b30_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00e01b30_Router*>(::FUN_00c85750())->heap());
     }
 };
 template <> struct S_00e01b30_Array<S_00e01b30_Elem64>
@@ -3024,7 +3025,7 @@ template <> struct S_00e01b30_Array<S_00e01b30_Elem64>
     }
     __forceinline ~S_00e01b30_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00e01b30_Router*>(::FUN_00c85750())->heap());
     }
 };
 struct S_00e01b30_RefPtr
@@ -3094,6 +3095,7 @@ int* __cdecl FUN_00e01e10()
 class FUN_00e01e20_cls
 {
   public:
+    void Handle(int a1);
 };
 
 // @fnv 0x00e01e20
@@ -3153,6 +3155,7 @@ unsigned int __cdecl FUN_00e01f60()
 
 struct FUN_00e4ae80_Obj
 {
+    void FUN_00e4ae80(int value);
 };
 
 // @fnv 0x00e020c0
@@ -3211,7 +3214,6 @@ struct FUN_00e021d0_manager
     FUN_00e021d0_allocator* unk10;
 };
 
-extern FUN_00e021d0_manager* __cdecl FUN_00c85750();
 
 struct FUN_00cb0c00_class
 {
@@ -3238,7 +3240,7 @@ extern int DAT_0102e388;
 // @fnv 0x00e021d0
 void FUN_00e021d0_class::ClearAndReset()
 {
-    FUN_00e021d0_manager* manager = FUN_00c85750();
+    FUN_00e021d0_manager* manager = static_cast<FUN_00e021d0_manager*>(::FUN_00c85750());
     FUN_00e021d0_allocator* allocator = manager->unk10;
 
     unk20 = 0;
@@ -3323,7 +3325,6 @@ struct E023C0MemoryRouter
     }
 };
 
-extern "C" E023C0MemoryRouter& __cdecl FUN_00c85750() throw();
 
 template <class T> struct E023C0Array
 {
@@ -3338,7 +3339,7 @@ template <class T> struct E023C0Array
 
     ~E023C0Array() throw()
     {
-        E023C0Allocator& alloc = FUN_00c85750().heap();
+        E023C0Allocator& alloc = (*static_cast<E023C0MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
@@ -3487,7 +3488,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e025a0_cls
 {
@@ -3505,7 +3505,7 @@ struct FUN_00e025a0_cls
 // @fnv 0x00e025a0
 FUN_00e025a0_cls* FUN_00e025a0_cls::FUN_00e025a0(unsigned char acFlags)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     int count = m_10;
     m_0c = 0;
@@ -3518,7 +3518,7 @@ FUN_00e025a0_cls* FUN_00e025a0_cls::FUN_00e025a0(unsigned char acFlags)
     m_vptr = (int)&DAT_0102e388;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }
@@ -3558,6 +3558,7 @@ int* FUN_00e026f0()
 class E02700Object
 {
   public:
+    void Process(void* pvData);
 };
 
 // @fnv 0x00e02700
@@ -3660,7 +3661,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e05d10_sub
 {
@@ -3757,7 +3757,7 @@ void FUN_00e05d10_cls::FUN_00e05d10()
     }
     reinterpret_cast<::Hk_e05c20_track *>(&(m_114))->FUN_00e05c20();
 
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCap = m_70;
     m_6c = 0;
@@ -3768,7 +3768,7 @@ void FUN_00e05d10_cls::FUN_00e05d10()
     m_p68 = 0;
     m_70 = 0x80000000u;
 
-    pHolder = FUN_00c85750();
+    pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     pAllocator = pHolder->m_pAllocator;
     uCap = m_64;
     m_60 = 0;
@@ -3779,7 +3779,7 @@ void FUN_00e05d10_cls::FUN_00e05d10()
     m_p5c = 0;
     m_64 = 0x80000000u;
 
-    pHolder = FUN_00c85750();
+    pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     pAllocator = pHolder->m_pAllocator;
     uCap = m_58;
     m_54 = 0;
@@ -4398,6 +4398,8 @@ class BE04D90PointerMap
     {}
     ~BE04D90PointerMap() throw();
 
+    void Init(BE04D90Allocator* pkAlloc, int iCapacity) throw();
+    void ClearAndDeallocate(BE04D90Allocator* pkAlloc) throw();
 
     void* m_pPointerArray;
     int m_iCapacityFlags;
@@ -7021,7 +7023,7 @@ struct FUN_00e00dd0_cls
 // @fnv 0x00e00dd0
 void FUN_00e00dd0_cls::FUN_00e00dd0()
 {
-    AudioHolder* holder = reinterpret_cast<AudioHolder*>(FUN_00c85750());
+    AudioHolder* holder = reinterpret_cast<AudioHolder*>(static_cast<BSAudio*>(::FUN_00c85750()));
     AudioAllocator* allocator = holder->m_pAllocator;
 
     int count = unk1C;
@@ -7033,7 +7035,7 @@ void FUN_00e00dd0_cls::FUN_00e00dd0()
     unk14 = 0;
     unk1C = 0x80000000;
 
-    holder = reinterpret_cast<AudioHolder*>(FUN_00c85750());
+    holder = reinterpret_cast<AudioHolder*>(static_cast<BSAudio*>(::FUN_00c85750()));
     allocator = holder->m_pAllocator;
 
     count = unk10;
@@ -7287,7 +7289,6 @@ struct hkMemoryRouterE030
 };
 
 namespace hkRouterE030 {
-extern "C" hkMemoryRouterE030& __cdecl FUN_00c85750();
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -7304,7 +7305,7 @@ template <class T> class hkArrayE030
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterE030& router = hkRouterE030::FUN_00c85750();
+        hkMemoryRouterE030& router = (*static_cast<hkMemoryRouterE030*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedE030<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -7312,7 +7313,7 @@ template <class T> class hkArrayE030
     }
     __forceinline T& AllocatePair()
     {
-        hkMemoryRouterE030& router = hkRouterE030::FUN_00c85750();
+        hkMemoryRouterE030& router = (*static_cast<hkMemoryRouterE030*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         for (int i = 0; i < 1; ++i)
@@ -7602,13 +7603,12 @@ struct ExportHeap
 {
     int unk00, unk04, unk08, unk0c;
     void* heap;
-    static ExportHeap& __cdecl FUN_00c85750();
 };
 struct ExportAlloc
 {
     __forceinline ExportHeap& get(void*) const
     {
-        return ExportHeap::FUN_00c85750();
+        return (*static_cast<ExportHeap*>(::FUN_00c85750()));
     }
 };
 template <class T> __forceinline void createExportObjects(T* first, int count)
@@ -7690,16 +7690,16 @@ struct PtrMap
         unk00 = 0;
         unk04 = 0;
         unk08 = -1;
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(FUN_00c85750()->heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(static_cast<BSAudio*>(::FUN_00c85750())->heap()), 0);
     }
     __forceinline void destroy()
     {
-        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750()->heap()));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(static_cast<BSAudio*>(::FUN_00c85750())->heap()));
         ::FUN_00a29680();
     }
     __forceinline void insert(unsigned int key, unsigned int value)
     {
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(FUN_00c85750()->heap()), key, value);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(static_cast<BSAudio*>(::FUN_00c85750())->heap()), key, value);
     }
     __forceinline unsigned int FindValueForKey(unsigned int key, unsigned int def)
     {
@@ -8058,9 +8058,6 @@ int __cdecl FUN_00e000b0();
 
 // VEGAS17-CONFLICT: FUN_00d50c00_cls (variant definition below differs from the one above)
 // Forward a value to the owner object when the owner pointer is present.
-struct FUN_00d50c00_cls
-{
-};
 
 CpuOpaque* __cdecl FUN_00e00110();
 
@@ -8105,10 +8102,6 @@ CpuOpaque* __cdecl FUN_00e009d0();
 // FUN_00e00a30 : a one-line function - getter
 void* FUN_00e00a30();
 
-// VEGAS17-CONFLICT: FUN_00e00a40_cls (variant definition below differs from the one above)
-struct FUN_00e00a40_cls
-{
-};
 
 char* __cdecl FUN_00e00af0(void);
 
@@ -8191,11 +8184,6 @@ int* __cdecl FUN_00e01e10();
 // Null-guarded forwarder: the first argument is an object pointer; when it
 // is non-null the second argument is forwarded to a member function of that
 // object (called with the object as 'this').
-class FUN_00e01e20_cls
-{
-  public:
-    void Handle(int a1);
-};
 
 int* __cdecl FUN_00e01e70();
 
@@ -8244,10 +8232,6 @@ int __cdecl FUN_00e09620();
 
 void ReverseBytesInGroupsOfFour(unsigned char* pucData);
 
-// VEGAS17-CONFLICT: S_e05_res (variant definition below differs from the one above)
-struct S_e05_res
-{
-};
 
 static bool FUN_00e050c0(S_e05_obj* obj, int arg, int value);
 
@@ -8257,10 +8241,6 @@ static void FUN_00e0bf50(S00e0bf50_Acc* dst, S00e0bf50_Acc* src);
 
 void S00e0bf50_Call(S00e0bf50_Acc* dst, S00e0bf50_Acc* src);
 
-// VEGAS17-CONFLICT: Mgr00e04e10 (variant definition below differs from the one above)
-struct Mgr00e04e10
-{
-};
 
 static bool __cdecl FUN_00e04e10(Slot00e04e10* obj, int a, int b);
 
@@ -8452,14 +8432,6 @@ void FUN_00e02720(FUN_00e02720_vtbl* p);
 
 void __cdecl FUN_00e02760(void* p);
 
-// VEGAS17-CONFLICT: FUN_00e0bf20_s (variant definition below differs from the one above)
-struct FUN_00e0bf20_s
-{
-    int a;
-    int b;
-    void FUN_00cb0a60();
-    FUN_00e0bf20_s();
-};
 
 int __cdecl FUN_00e00100(void* p);
 
@@ -8499,11 +8471,6 @@ void __cdecl FUN_00e00a20(FUN_00e00a20_vt* p);
 
 void __cdecl FUN_00e00ae0(FUN_00e00930_vt* p);
 
-// VEGAS17-CONFLICT: FUN_00dcd380_cls (variant definition below differs from the one above)
-struct FUN_00dcd380_cls
-{
-    void FUN_00dcd380(int b);
-};
 
 extern int DAT_010e8a90;
 
@@ -8563,11 +8530,6 @@ int __cdecl FUN_00e02610(FUN_00e026c0_vtbl* p);
 
 void* __cdecl FUN_00e114a0();
 
-// VEGAS17-CONFLICT: FUN_00d752e0_cls (variant definition below differs from the one above)
-struct FUN_00d752e0_cls
-{
-    void FUN_00d752e0();
-};
 
 extern int DAT_0126d9a0;
 
@@ -8643,11 +8605,6 @@ struct S_00e00830_Ref
     }
 };
 
-// VEGAS17-CONFLICT: S_00e00830_Target (variant definition below differs from the one above)
-struct S_00e00830_Target
-{
-    void FUN_00c905b0() throw();
-};
 
 // VEGAS17-CONFLICT: S_00e00830_Ptr (variant definition below differs from the one above)
 struct S_00e00830_Ptr
@@ -8693,11 +8650,6 @@ int* __cdecl FUN_00e00d20();
 
 extern int DAT_0126e018;
 
-// VEGAS17-CONFLICT: FUN_00d57b20_class (variant definition below differs from the one above)
-struct FUN_00d57b20_class
-{
-    void FUN_00d57b20(int value);
-};
 
 void __cdecl FUN_00e00d50(FUN_00d57b20_class* p, int value);
 
@@ -8782,12 +8734,6 @@ void __cdecl FUN_00e016c0(FUN_00e016c0_cls* pObject);
 
 extern int DAT_0126e4e0;
 
-// VEGAS17-CONFLICT: EffectSubObject (variant definition below differs from the one above)
-struct EffectSubObject
-{
-    int unk00;
-    void Release(int flags);
-};
 
 void __cdecl FUN_00e016e0(EffectHolder* p, int flags);
 
@@ -8823,11 +8769,6 @@ extern int DAT_0126e7b0;
 
 unsigned int __cdecl FUN_00e01f60();
 
-// VEGAS17-CONFLICT: FUN_00e4ae80_Obj (variant definition below differs from the one above)
-struct FUN_00e4ae80_Obj
-{
-    void FUN_00e4ae80(int value);
-};
 
 void __cdecl FUN_00e020c0(FUN_00e4ae80_Obj* param_1, int param_2);
 
@@ -8868,12 +8809,6 @@ extern unsigned char DAT_0126eb10;
 
 int* FUN_00e026f0();
 
-// VEGAS17-CONFLICT: E02700Object (variant definition below differs from the one above)
-class E02700Object
-{
-  public:
-    void Process(void* pvData);
-};
 
 void __cdecl FUN_00e02700(E02700Object* pkObject, void* pvData);
 
@@ -8905,21 +8840,6 @@ void __cdecl ConstructDerivedObject(void* pvObject, int iFinishing);
 
 char* __cdecl ReadPaddedString(char* base, int* offset);
 
-// VEGAS17-CONFLICT: BE04D90PointerMap (variant definition below differs from the one above)
-class BE04D90PointerMap
-{
-  public:
-    BE04D90PointerMap() : m_pPointerArray(0), m_iCapacityFlags(0), m_iPairCount(-1)
-    {}
-    ~BE04D90PointerMap() throw();
-
-    void Init(BE04D90Allocator* pkAlloc, int iCapacity) throw();
-    void ClearAndDeallocate(BE04D90Allocator* pkAlloc) throw();
-
-    void* m_pPointerArray;
-    int m_iCapacityFlags;
-    int m_iPairCount;
-};
 
 void __cdecl RegisterContextHandlers(BE04D90Object* pkObject, BE04D90PointerMap* pkMap, int iArg) throw();
 
@@ -8951,10 +8871,6 @@ void __cdecl ProcessListBlocks(int a1, ListE061* list);
 
 void __cdecl SwapHkHeaderE05E(hkHeaderE05E* h);
 
-// VEGAS17-CONFLICT: FUN_00e004f0_class (variant definition below differs from the one above)
-struct FUN_00e004f0_class
-{
-};
 
 extern int DAT_01267e34;
 

@@ -2,6 +2,7 @@
 // src/staging/blk_00dc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -42,7 +43,6 @@ struct MemRouter
     }
 };
 
-void* __cdecl FUN_00c85750();
 
 static __forceinline float distanceSquared(__m128 a, __m128 b)
 {
@@ -156,7 +156,6 @@ struct Holder
     }
 };
 
-Holder* __cdecl FUN_00c85750();
 
 template <class T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
 {
@@ -185,7 +184,7 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void AddBack(const T& v)
     {
-        Holder* h = FUN_00c85750();
+        Holder* h = static_cast<Holder*>(::FUN_00c85750());
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(h->allocator), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = &data[size];
@@ -195,7 +194,7 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void pushBackPlain(const T& v)
     {
-        Allocator& a = FUN_00c85750()->heap();
+        Allocator& a = static_cast<Holder*>(::FUN_00c85750())->heap();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(::fnv_00dd6a10::Allocator *)(&a), (::AudioStream *)(void *)(this), sizeof(T));
         hkConstructWithCopy(data + size, 1, v);
@@ -203,7 +202,7 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void clearAndFree()
     {
-        Allocator& a = FUN_00c85750()->heap();
+        Allocator& a = static_cast<Holder*>(::FUN_00c85750())->heap();
         size = 0;
         if ((capacity & 0x80000000) == 0)
             a.freeBlock(data, (capacity & 0x3fffffff) * sizeof(T));
@@ -373,7 +372,6 @@ struct Holder_00dd6c10
     }
 };
 
-void* __cdecl FUN_00c85750();
 
 template <class T> struct Arr_00dd6c10
 {
@@ -640,7 +638,6 @@ struct MemoryRouter
     void* m_pStreamAllocator;
 };
 
-extern MemoryRouter* __cdecl FUN_00c85750() throw();
 
 template <class T> struct hkArray
 {
@@ -650,7 +647,7 @@ template <class T> struct hkArray
 
     __forceinline void AddBack(const T& t)
     {
-        MemoryRouter* router = FUN_00c85750();
+        MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (m_data + m_iElementCount) T(t);

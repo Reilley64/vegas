@@ -2,6 +2,7 @@
 // src/staging/blk_00e20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include <new>
@@ -229,7 +230,6 @@ struct Router_e3a1 {
     void* m_pStreamAllocator;
 };
 
-Router_e3a1* __cdecl FUN_00c85750();
 
 struct __declspec(align(16)) Key_e3a1 {
     float m_ax, m_ay, m_az, m_aw;
@@ -242,7 +242,7 @@ template <class T> struct hkArray_e3a1 {
     int m_iCapacityState;
     void AddBack(const T& t)
     {
-        Router_e3a1* router = FUN_00c85750();
+        Router_e3a1* router = static_cast<Router_e3a1*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
@@ -581,7 +581,7 @@ template <class T> __forceinline T* BufAlloc(ScrapAllocator* pAlloc, int& n)
 
 template <class T> __forceinline void ArrInit(T*& rData, unsigned int& rCap, int n)
 {
-    ScrapHolder* pHolder = ((ScrapHolder*)FUN_00c85750());
+    ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
     ScrapAllocator* pAlloc = pHolder->m_pAllocationContext;
     int cap = n;
     rData = cap ? BufAlloc<T>(pAlloc, cap) : 0;
@@ -590,7 +590,7 @@ template <class T> __forceinline void ArrInit(T*& rData, unsigned int& rCap, int
 
 template <class T> __forceinline void ArrFree(T* pData, unsigned int uiCap)
 {
-    ScrapHolder* pHolder = ((ScrapHolder*)FUN_00c85750());
+    ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
     ScrapAllocator* pAlloc = pHolder->m_pAllocationContext;
     if ((uiCap & 0x80000000) == 0)
         pAlloc->Free(pData, (uiCap & 0x3fffffff) * sizeof(T));
@@ -598,7 +598,7 @@ template <class T> __forceinline void ArrFree(T* pData, unsigned int uiCap)
 
 template <class T> __forceinline void ArrClearFree(ScrapArr<T>& arr)
 {
-    ScrapHolder* pHolder = ((ScrapHolder*)FUN_00c85750());
+    ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
     ScrapAllocator* pAlloc = pHolder->m_pAllocationContext;
     unsigned int cap = arr.m_uiCap;
     arr.m_uiLogicalSize = 0;
@@ -674,7 +674,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
     ArrInit(pData1, uiCap1, n);
     ArrInit(pData2, uiCap2, n);
     {
-        ScrapHolder* pHolder = ((ScrapHolder*)FUN_00c85750());
+        ScrapHolder* pHolder = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()));
         int cap = 8;
         pData3 = cap ? BufAlloc<ScrapArr<int> >(pHolder->m_pAllocationContext, cap) : 0;
         iSize3 = cap;
@@ -737,7 +737,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
     ArrFree(pData5, uiCap5);
     ArrFree(pData4, uiCap4);
     {
-        ScrapAllocator* pAlloc = ((ScrapHolder*)FUN_00c85750())->m_pAllocationContext;
+        ScrapAllocator* pAlloc = ((ScrapHolder*)static_cast<Router_e3a1*>(::FUN_00c85750()))->m_pAllocationContext;
         for (int k = 0; k < iSize3; k++)
             ArrClearFree(pData3[k]);
         if ((uiCap3 & 0x80000000) == 0)
@@ -934,7 +934,7 @@ template <class T> struct hkArray_e3a1 {
     int m_iCapacityState;
     void AddBack(const T& t)
     {
-        Router_e3a1* router = FUN_00c85750();
+        Router_e3a1* router = static_cast<Router_e3a1*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
@@ -951,7 +951,7 @@ struct S00e29b80_Router
     int unk00, unk04, unk08, unk0C;
     S00e29b80_Allocator* m_pStreamAllocator;
     S00e29b80_Allocator& heap() { return *m_pStreamAllocator; }
-    static __forceinline S00e29b80_Router& GetMonitorStream() { return *(S00e29b80_Router*)FUN_00c85750(); }
+    static __forceinline S00e29b80_Router& GetMonitorStream() { return *(S00e29b80_Router*)static_cast<Router_e3a1*>(::FUN_00c85750()); }
 };
 
 struct S00e29b80_HeapAllocator

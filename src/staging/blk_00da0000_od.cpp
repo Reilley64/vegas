@@ -39,6 +39,7 @@ struct ScratchBlock
 class ScratchOwner
 {
   public:
+    void AddEntry(ScratchBlock* block, int a, int b);
 };
 
 // @fnv 0x00da7020
@@ -255,29 +256,11 @@ void __cdecl FUN_00da0ce0(const hkTransformDA0& t, hkArrayDA0& points)
 
 void __cdecl FUN_00da6fd0(ScratchBlock* block);
 
-// VEGAS17-CONFLICT: ScratchOwner (variant definition below differs from the one above)
-class ScratchOwner
-{
-  public:
-    void AddEntry(ScratchBlock* block, int a, int b);
-};
 
 void __cdecl FUN_00da7020(ScratchOwner* owner);
 
 const void* __cdecl FUN_00da0780();
 
-__declspec(align(16)) struct FUN_00da7180_cls
-{
-    __m128 m_v00;
-    __m128 m_v10;
-    float m_f20;
-    unsigned int m_i24;
-    float m_f28;
-    unsigned int m_i2C;
-    unsigned int m_i30;
-
-    FUN_00da7180_cls* FUN_00da7180(const FUN_00da7180_cls* src);
-};
 
 extern char g_initFlag;
 

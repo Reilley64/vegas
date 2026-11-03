@@ -1,5 +1,6 @@
 // staging/blk_00e40000_o2.cpp: KnotVector, ThunkDerived, FourComponentVector, Quat4 and more (195 functions)
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -91,7 +92,9 @@
 
 #include "../../include/layout_support.h"
 
-struct FUN_00e428f0_class {
+struct FUN_00e428f0_class
+{
+    void Remove(void*);
     void FUN_00e428f0(void* p);
 };
 
@@ -363,7 +366,8 @@ void FUN_00e407d0_class::SetSlotValue(int aiIndex, char b)
         *(float*)(*(int*)((char*)this + 0x74) + aiIndex * 4) = 1.0f;
 }
 
-struct FUN_00e426f0_class {
+struct FUN_00e426f0_class
+{
     unsigned short m_00;
     unsigned short m_02;
     unsigned short m_04;
@@ -375,6 +379,7 @@ struct FUN_00e426f0_class {
     unsigned short m_10;
     unsigned short m_12;
     unsigned short m_14;
+    void AddObject(void* p);
     void AddByteFromObject(void* p);
 };
 
@@ -493,7 +498,6 @@ struct HolderStub {
     void* m_pAllocator;
 };
 
-HolderStub* __cdecl FUN_00c85750();
 
 struct ValueArray {
     unsigned int* m_pData;
@@ -513,7 +517,7 @@ struct FUN_00e41db0_cls {
 void FUN_00e41db0_cls::AppendValue(unsigned int value)
 {
     ValueArray* arr = &m_08;
-    HolderStub* holder = FUN_00c85750();
+    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
     if (arr->m_iArrayLength == (int)(arr->m_uCapFlags & 0x3fffffffu)) {
         ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
     }
@@ -928,7 +932,9 @@ void ThunkDerived::FUN_00e4af50()
     reinterpret_cast<::SStringPtr *>((this))->FUN_00cb0c10({});
 }
 
-struct S_00e4af60_helper {
+struct S_00e4af60_helper
+{
+    void FUN_00cb0a60();
 };
 
 struct S_00e4af60_class {
@@ -971,7 +977,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e50ca0_cls {
     int unk00;
@@ -1000,7 +1005,7 @@ struct FUN_00e50ca0_cls {
 // @fnv 0x00e50ca0
 void FUN_00e50ca0_cls::FUN_00e50ca0()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCap1 = m_uCap1;
     m_iCount1 = 0;
@@ -1010,7 +1015,7 @@ void FUN_00e50ca0_cls::FUN_00e50ca0()
     m_pData1 = 0;
     m_uCap1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCap2 = m_uCap2;
     m_iCount2 = 0;
@@ -1020,7 +1025,7 @@ void FUN_00e50ca0_cls::FUN_00e50ca0()
     m_pData2 = 0;
     m_uCap2 = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCap3 = m_uCap3;
     m_iCount3 = 0;
@@ -1030,7 +1035,7 @@ void FUN_00e50ca0_cls::FUN_00e50ca0()
     m_pData3 = 0;
     m_uCap3 = 0x80000000u;
 
-    AudioHolder* pHolder4 = FUN_00c85750();
+    AudioHolder* pHolder4 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator4 = pHolder4->m_pAllocator;
     unsigned int uCap4 = m_uCap4;
     m_iCount4 = 0;
@@ -1040,7 +1045,7 @@ void FUN_00e50ca0_cls::FUN_00e50ca0()
     m_pData4 = 0;
     m_uCap4 = 0x80000000u;
 
-    AudioHolder* pHolder5 = FUN_00c85750();
+    AudioHolder* pHolder5 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator5 = pHolder5->m_pAllocator;
     unsigned int uCap5 = m_uCap5;
     m_iCount5 = 0;
@@ -1373,12 +1378,14 @@ E53230Color& E53230Color::DivideByScalar(float fScalar)
     return *this;
 }
 
-struct FourFloatVector {
+struct FourFloatVector
+{
     float x;
     float y;
     float z;
     float w;
 
+    FourFloatVector& FUN_00e531a0(int parameter);
     FourFloatVector FUN_00e53260(int parameter);
 };
 
@@ -1404,11 +1411,13 @@ S_e53300_Vec S_e53300_Vec::ScaleCopy(float afScale) {
     return (*(::S_e53300_Vec *)(new ((void *)&(t)) ::FUN_00e53200_cls(afScale)));
 }
 
-struct Quad4 {
+struct Quad4
+{
     unsigned int m_00;
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
+    Quad4* Eval(float t);
 };
 
 class FUN_00e53350_cls : public Quad4 {
@@ -1425,6 +1434,7 @@ Quad4 FUN_00e53350_cls::EvalCopy(float t) {
 }
 
 struct SpawnedObject {
+    void Method(float* pOut, float f);
 };
 
 // @fnv 0x00e533a0
@@ -1437,7 +1447,9 @@ float* __cdecl FUN_00e533a0(float* pOut, float fValue, SpawnedObject* pObj)
 // Thin cdecl wrapper: forwards its first argument and a float to a
 // thiscall method of the object given as the third argument, then hands
 // the first argument back to the caller.
-struct FUN_00e533c0_cls {
+struct FUN_00e533c0_cls
+{
+    void SetValue(float* pOut, float fValue);
 };
 
 // @fnv 0x00e533c0
@@ -1711,8 +1723,9 @@ float __cdecl GetHelperValueAsFloat()
 
 class FUN_00e54b00_cls
 {
-public:
+  public:
     float GetHelperValueAsFloat();
+    void EvalCopy(int a, float b);
     int FUN_00e54b00(int p);
 };
 
@@ -1984,7 +1997,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e58b90_cls {
     void* m_pDataC;
@@ -2004,7 +2016,7 @@ struct FUN_00e58b90_cls {
 // @fnv 0x00e58b90
 void FUN_00e58b90_cls::FUN_00e58b90()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -2014,7 +2026,7 @@ void FUN_00e58b90_cls::FUN_00e58b90()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -2024,7 +2036,7 @@ void FUN_00e58b90_cls::FUN_00e58b90()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
@@ -2047,7 +2059,6 @@ struct AllocHolder {
     void* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 
 struct ValueArray {
     int* data;
@@ -2069,7 +2080,7 @@ float* FUN_00e58c30_cls::AppendTriple(int aiFirst, int aiSecond, float afValue)
 {
     if (afValue != 0.0f) {
         ValueArray* arr = &m_arr0c;
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
         }
@@ -2078,7 +2089,7 @@ float* FUN_00e58c30_cls::AppendTriple(int aiFirst, int aiSecond, float afValue)
         arr->count++;
 
         arr = &m_arr18;
-        holder = FUN_00c85750();
+        holder = static_cast<AllocHolder*>(::FUN_00c85750());
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
         }
@@ -2087,7 +2098,7 @@ float* FUN_00e58c30_cls::AppendTriple(int aiFirst, int aiSecond, float afValue)
         arr->count++;
 
         arr = &m_arr00;
-        holder = FUN_00c85750();
+        holder = static_cast<AllocHolder*>(::FUN_00c85750());
         if (arr->count == (int)(arr->capFlags & 0x3fffffffu)) {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 4);
         }
@@ -2119,7 +2130,6 @@ struct AllocHolder
     AllocatorIface* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 class FUN_00e58cf0_cls
 {
@@ -2143,7 +2153,7 @@ FUN_00e58cf0_cls* FUN_00e58cf0_cls::InitFloatArray(int count, int stride, float 
     m_04 = 0;
     m_08 = 0x80000000u;
     m_10 = (unsigned int)stride;
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     AllocatorIface* alloc = holder->m_pAllocator;
     unsigned int cap = m_08 & 0x3fffffffu;
     if ((int)cap < total)
@@ -2174,7 +2184,6 @@ struct HkHolder {
 };
 
 struct FUN_00e58df0_cls;
-void* __cdecl FUN_00c85750();
 
 struct FUN_00e58df0_cls {
     float* m_00;
@@ -2296,13 +2305,20 @@ public:
     int m_unk04;
 };
 
-class AttrWriter_b5103 {
-public:
+class AttrWriter_b5103
+{
+  public:
     AttrWriter_b5103(unsigned int* buf, unsigned int size) throw();
     int m_unk00;
     int m_unk04;
     int m_unk08;
+    AttrWriter_b5103& Write5(const char* a, const char* name, const char* b, const void* self, const char* c) throw();
+    AttrWriter_b5103& Step1() throw();
+    AttrWriter_b5103& Step2() throw();
     AttrWriter_b5103& Step3() throw();
+    AttrWriter_b5103& Step4() throw();
+    AttrWriter_b5103& Step5();
+    void Release() throw();
     unsigned int* GetBuf() throw();
 };
 
@@ -2347,9 +2363,14 @@ int FUN_00e5c6b0_cls::GetBoolAttribute(const char* name, bool required, unsigned
 }
 
 struct ConfigValue { unsigned type, identifier; const void* data; };
-struct CharBuffer {
+struct CharBuffer
+{
     char* destination;
     unsigned capacity, length;
+    void FUN_00cb1600(char*, unsigned);
+    CharBuffer* FUN_00cc01c0(const char*);
+    CharBuffer* WriteName(const void*);
+    void FUN_00cc00e0();
 };
 struct DiagnosticLogger {
     virtual void open(); virtual void close(); virtual void flush();
@@ -2397,6 +2418,7 @@ struct FUN_00e5c8b0_Node
 
 struct FUN_00e5c8b0_Target
 {
+    void FindValue(unsigned int a, unsigned int* b);
 };
 
 struct FUN_00e5c8b0_Rec
@@ -2417,6 +2439,12 @@ struct FUN_00e5c8b0_Str
     int m_00;
     int m_04;
     int m_08;
+    void Set(char* buf, unsigned int len);
+    FUN_00e5c8b0_Str* Chain5(const char* s0, int a1, const char* s2, int a3, const char* s4);
+    FUN_00e5c8b0_Str* Chain0();
+    FUN_00e5c8b0_Str* ChainB();
+    FUN_00e5c8b0_Str* ChainC();
+    void Release();
 };
 
 struct FUN_00e5c8b0_cls
@@ -2606,12 +2634,17 @@ struct AttrEntry {
     float* m_08;
 };
 
-class AttrLogBuilder {
-public:
+class AttrLogBuilder
+{
+  public:
     char* m_pString;
     unsigned short m_sLen;
     unsigned short m_sMaxLen;
     unsigned int m_08;
+    void Init(AttrLogBuf* buf, unsigned int size);
+    AttrLogBuilder* Build(const char* a, const char* name, const char* b, void* self, const char* c);
+    AttrLogBuilder* Chain();
+    AttrLogBuilder* Other();
     void Free();
 };
 
@@ -2675,12 +2708,14 @@ struct S_00e5cfb0_Object {
     int unk20;
 };
 
-struct S_00e65ee0_Class {
+struct S_00e65ee0_Class
+{
     int unk00;
     int unk04;
     int unk08;
     int unk0c;
 
+    void FUN_00e65ee0(int* buffer, int value);
 };
 
 // Stores value in a local struct and calls FUN_00e65ee0 with a zeroed buffer and object->unk20.
@@ -2818,10 +2853,10 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     TimerMark("TtDoVehiclesSynchronously");
     vfn_1c();
     int size = vfn_20(aiCount);
-    HolderStub* h = FUN_00c85750();
+    HolderStub* h = static_cast<HolderStub*>(::FUN_00c85750());
     int mark = h->unk00;
     h->unk00 = mark + ((size + 0x7f) & ~0x7f);
-    void* alloc = FUN_00c85750()->m_pAllocator;
+    void* alloc = static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
     VStepJob* job = (VStepJob*)FUN_00c85620(alloc, 4, 0x80);
     if (job)
         reinterpret_cast<::FUN_00d04350_cls *>((job))->Create(0, 1000);
@@ -2833,10 +2868,10 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     ::FUN_00d04380((void *)(job), {});
     ::FUN_00c911b0();
     reinterpret_cast<::FUN_00d04370_cls *>((job))->FUN_00d04370();
-    HolderStub* h2 = FUN_00c85750();
+    HolderStub* h2 = static_cast<HolderStub*>(::FUN_00c85750());
     FUN_00c85660(h2->m_pAllocator, job);
     vfn_28((char*)world + 0x1d0, aiCount, mark);
-    FUN_00c85750()->unk00 = mark;
+    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = mark;
     TimerMark("Et");
 }
 }  // namespace fnv_00e42960
@@ -3037,7 +3072,7 @@ struct ExtendedListeners {
     HkSmallArray<CListener*> second;
 
     static void* operator new(size_t sz) {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         return ((AllocationHeap*)mgr->m_pAllocator)->Allocate(sz);
     }
 };
@@ -3078,7 +3113,7 @@ struct HkArray {
     int m_iCapacityState;
 
     void ClearAndRelease() {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         AllocationHeap* heap = (AllocationHeap*)mgr->m_pAllocator;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
@@ -3263,7 +3298,7 @@ int __cdecl FUN_00e57210(FloatArrayRef* array, int count) {
     int added = CountRuns(reinterpret_cast<float**>(array), count);
     int destination = added + count;
     int newSize = destination + 1;
-    HolderStub* holder = FUN_00c85750();
+    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
     E4AAA0Allocator* alloc = reinterpret_cast<E4AAA0Allocator*>(reinterpret_cast<HolderView*>(holder)->m_pAllocator);
     unsigned int capacity = array->capacity & 0x3fffffff;
     if ((int)capacity < newSize) {
@@ -3348,8 +3383,10 @@ E87E0Matrix& E87E0Matrix::FUN_00e587e0(const E87E0Matrix& kOther)
     return *this;
 }
 
-class CE588A0Vector {
-public:
+class CE588A0Vector
+{
+  public:
+    double Get(int iIndex);
     int GetSize();
 };
 
@@ -3383,7 +3420,7 @@ Stand_e58d90* Stand_e58d90::InitArray(int aiCount, int a2)
     m_uCapFlags = 0x80000000;
     m_iElemSize = a2;
     n = aiCount * a2;
-    HolderStub* holder = FUN_00c85750();
+    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
     E4AAA0Allocator* alloc = (E4AAA0Allocator*)holder->m_pAllocator;
     int cap = m_uCapFlags & 0x3fffffff;
     if (cap < n) {
@@ -3487,6 +3524,7 @@ FUN_00e46b30_Class* FUN_00e46b30_Class::InitializeWithReference(FUN_00c90510_Ref
 }
 
 struct FUN_00c905b0_class {
+    void FUN_00c905b0();
 };
 
 extern int DAT_010e7874;
@@ -3565,10 +3603,12 @@ struct E473C0Target {
     virtual void vf02(E473C0Owner* a1, int a2);
 };
 
-struct E473C0Owner {
+struct E473C0Owner
+{
     int unk00;
     unsigned short unk04;
 
+    void FUN_00e47020();
     E473C0Owner* FUN_00e473c0(unsigned char flags);
 };
 
@@ -3578,7 +3618,7 @@ E473C0Owner* E473C0Owner::FUN_00e473c0(unsigned char flags) {
     reinterpret_cast<::fnv_00e47020::FUN_00e47020 *>(this)->fnv_00e47020::FUN_00e47020::~FUN_00e47020();
 
     if ((flags & 1) != 0) {
-        HolderStub* holder = FUN_00c85750();
+        HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
         E473C0Target* target = static_cast<E473C0Target*>(holder->m_pAllocator);
         target->vf02(this, static_cast<int>(unk04));
     }
@@ -3721,7 +3761,9 @@ void FUN_00e484e0_class::ScatterBytes(FUN_00e484e0_dst* dst) {
     }
 }
 
-struct FUN_00e48db0_holder {
+struct FUN_00e48db0_holder
+{
+    void FUN_00dcd310(float f, void* p);
 };
 struct FUN_00e48db0_class {
     void* m_00;
@@ -3785,11 +3827,10 @@ void* GtrStand_::FUN_00e4af40()
 }
 
 struct HolderStub;
-HolderStub* __cdecl FUN_00c85750();
 // @fnv 0x00e4e3f0
 HolderStub* __cdecl FUN_00e4e3f0()
 {
-    return FUN_00c85750();
+    return static_cast<HolderStub*>(::FUN_00c85750());
 }
 
 // @fnv 0x00e52f10
@@ -3829,11 +3870,13 @@ int __cdecl BinomialCoefficient(int n, int k)
 }
 }  // namespace fnv_00e53130
 
-struct FUN_00e53180_Obj {
+struct FUN_00e53180_Obj
+{
     float x;
     float y;
     float z;
     float w;
+    void FUN_00e53180(const Float4* source);
 };
 // @fnv 0x00e546e0
 void __cdecl FUN_00e546e0(int a, int b, int c, int d, int count,
@@ -3982,7 +4025,7 @@ void UnkHolder::FUN_00e47390() {
     unsigned int count = m_04;
     if (count) {
         void* data = m_00;
-        UnkRet* mgr = FUN_00c85750();
+        UnkRet* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         mgr->m_10->v08(data, count * 4);
     }
 }
@@ -4102,7 +4145,12 @@ void mm_caller(void)
     FUN_00e51dd0(mm_min(), mm_max(), mm_vals(), mm_count());
 }
 
-struct SampleField {
+struct SampleField
+{
+    int FUN_00e587a0();
+    float* GetElementPtr(int index, int component);
+    void FillWithValue(float* value);
+    float GetFloatAt(int index, int component);
 };
 struct FUN_00e58a20_cls {
     float* m_00;
@@ -4326,7 +4374,7 @@ template<class T> struct EntityArray : HkArray<T> {
         return -1;
     }
     __forceinline void AddBack(const T& element) {
-        HolderStub* holder = FUN_00c85750();
+        HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
         if (this->m_iElementCount == (this->m_iCapacityState & 0x3fffffff)) {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         }
@@ -4558,7 +4606,7 @@ FUN_00e49900::FUN_00e49900(unsigned int flags, SrcArray* src, float afTimeA, flo
     m_iArrayLength = 0;
     m_uiCapacity = 0x80000000;
     m_bFlag = 0;
-    AllocatorIface* alloc = static_cast<AllocatorIface*>(FUN_00c85750()->m_pAllocator);
+    AllocatorIface* alloc = static_cast<AllocatorIface*>(static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator);
     if ((int)(m_uiCapacity & 0x3fffffff) < src->m_uiLogicalSize)
     {
         if ((m_uiCapacity & 0x80000000u) == 0)
@@ -4598,7 +4646,6 @@ struct CopyEntry {
     ~CopyEntry() { ::FUN_00cb0c00((int)&(m_04)); }
 };
 struct CopyAllocator { int m_00, m_04, m_08, m_0c; void* m_10; };
-CopyAllocator* __cdecl FUN_00c85750();
 static __forceinline void destroyEntries(CopyEntry* p, int count) {
     for (int i = 0; i < count; ++i) p[i].~CopyEntry();
 }
@@ -4613,7 +4660,7 @@ struct CopyArray {
     int m_04;
     int m_08;
     __forceinline CopyArray(const CopyArray& src) : m_00(0), m_04(0), m_08(0x80000000) {
-        CopyAllocator* manager = FUN_00c85750();
+        CopyAllocator* manager = static_cast<CopyAllocator*>(::FUN_00c85750());
         int oldSize = m_04;
         int newSize = src.m_04;
         void* allocator = manager->m_10;
@@ -4650,7 +4697,7 @@ extern "C" void __movsd(unsigned long* destination,
 void __cdecl DeinterleaveFloats(const float* src, float* dst, Count aCount)
 {
     int count = aCount.n;
-    HolderStub* holder = FUN_00c85750();
+    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
     unsigned int* scratch = (unsigned int*)holder->unk00;
 
     holder->unk00 = (int)scratch + ((count * 4 + 0x7f) & ~0x7f);
@@ -4670,7 +4717,7 @@ void __cdecl DeinterleaveFloats(const float* src, float* dst, Count aCount)
         dst[half + i] = values[2 * i + 1];
     }
 
-    FUN_00c85750()->unk00 = (int)scratch;
+    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)scratch;
 }
 
 namespace fnv_00e51070 {
@@ -4681,7 +4728,7 @@ struct Count { int n; };
 void __cdecl FUN_00e51070(const float* src, float* dst, Count value)
 {
     int count = value.n;
-    HolderStub* holder = FUN_00c85750();
+    HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
     unsigned int* scratch = (unsigned int*)holder->unk00;
     holder->unk00 = (int)scratch + ((count * 4 + 0x7f) & ~0x7f);
 
@@ -4700,7 +4747,7 @@ void __cdecl FUN_00e51070(const float* src, float* dst, Count value)
         dst[2 * i + 1] = values[half + i];
     }
 
-    FUN_00c85750()->unk00 = (int)scratch;
+    static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)scratch;
 }
 }  // namespace fnv_00e51070
 
@@ -4719,7 +4766,7 @@ struct ThresholdArray {
     int capacity;
     float* original;
     void SetSizeAndGrow(int count) {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         E4AAA0Allocator* heap = (E4AAA0Allocator*)mgr->m_pAllocator;
         int current = capacity & 0x3fffffff;
         if (current < count) {
@@ -4731,11 +4778,11 @@ struct ThresholdArray {
     void release() {
         float* saved = original;
         if (saved == data) size = 0;
-        FUN_00c85750()->unk00 = (int)saved;
+        static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)saved;
         ClearAndRelease();
     }
     void ClearAndRelease() {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         ThresholdAllocator* heap = (ThresholdAllocator*)mgr->m_pAllocator;
         int cap = capacity;
         size = 0;
@@ -4758,7 +4805,7 @@ void __cdecl ThresholdValues(float* values, unsigned int count, float threshold,
         magnitudes.data = 0;
         magnitudes.size = 0;
         magnitudes.capacity = 0x80000000;
-        HolderStub* holder = FUN_00c85750();
+        HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
         float* storage = (float*)holder->unk00;
         holder->unk00 += (count * 4 + 127) & ~127;
         magnitudes.data = storage;
@@ -5004,7 +5051,7 @@ struct ChainArray {
     int m_capFlags;
 
     void Add(T const& value) {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         if (m_iElementCount == (m_capFlags & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(mgr->m_pAllocator), (::AudioStream *)(void *)(this), (int)sizeof(T));
         T* pSlot = &m_data[m_iElementCount];
@@ -5029,6 +5076,7 @@ void __cdecl CollectConnectedNodesAndEdges(ChainArray<void*>* src, void* node, C
 }
 
 struct Resource_e5c5 {
+    void FUN_00c905b0() throw();
 };
 
 template <class T> struct hkRefPtr_e5c5 {
@@ -5214,7 +5262,7 @@ struct MarkHeap {
  template<class T> __forceinline void freeBuffer(T* p,int count) {Free(p,count*sizeof(T));}
 };
 struct MarkPolicy {
- __forceinline MarkHeap& get(void* owner) {HolderStub* h=FUN_00c85750();return *(MarkHeap*)h->m_pAllocator;}
+ __forceinline MarkHeap& get(void* owner) {HolderStub* h=static_cast<HolderStub*>(::FUN_00c85750());return *(MarkHeap*)h->m_pAllocator;}
 };
 template<class T> struct MarkStorage {
  T* data; int size; int capacity;
@@ -5231,7 +5279,7 @@ template<class T> struct MarkArray:MarkStorage<T> {
   if(size>0) std::memset(data,initial,size);
  }
  __forceinline void release() {
-  MarkHeap* heap=(MarkHeap*)FUN_00c85750()->m_pAllocator;
+  MarkHeap* heap=(MarkHeap*)static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
   int cap=capacity;
   size=0;
   if((cap&0x80000000)==0) heap->Free(data,cap&0x3fffffff);
@@ -5299,14 +5347,14 @@ template<class T> struct ElevationArray {
  T* data; int count; int capacity;
  __forceinline T& operator[](int i) {return data[i];}
  __forceinline void allocate(int requested) {
-  ElevationAllocator* allocator=(ElevationAllocator*)FUN_00c85750()->m_pAllocator;
+  ElevationAllocator* allocator=(ElevationAllocator*)static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
   T* ptr;
   if(requested) {int bytes=requested*sizeof(T);ptr=(T*)allocator->allocate(&bytes);requested=bytes/(int)sizeof(T);} else ptr=0;
   int flags=requested?requested:0x80000000;
   data=ptr;count=requested;capacity=flags;
  }
  __forceinline void reserve(int requested) {
-  HolderStub* h=FUN_00c85750();
+  HolderStub* h=static_cast<HolderStub*>(::FUN_00c85750());
   void* allocator=h->m_pAllocator;
   int cap=capacity&0x3fffffff;
   if(cap<requested) {int doubled=cap*2;::FUN_00c908c0((::SpawnedObject *)(allocator),(::SpawnedArray *)(void *)(this),requested<doubled?doubled:requested,sizeof(T));}
@@ -5319,7 +5367,7 @@ template<class T> struct ElevationArray {
   count=requested;
  }
  __forceinline void free() {
-  HolderStub* h=FUN_00c85750();
+  HolderStub* h=static_cast<HolderStub*>(::FUN_00c85750());
   ElevationAllocator* allocator=(ElevationAllocator*)h->m_pAllocator;
   int cap=capacity;
   count=0;
@@ -5543,7 +5591,7 @@ __forceinline void VertexVector::reserve(MemoryAllocator& heap, int wanted) {
 
 }
 __forceinline void VertexVector::SetSizeAndGrow(int wanted) {
-    HolderStub* mgr = FUN_00c85750();
+    HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
     MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
     reserve(*heap, wanted);
     int remaining=wanted-count;
@@ -5553,7 +5601,7 @@ __forceinline void VertexVector::SetSizeAndGrow(int wanted) {
 }
 static __forceinline void FreeScratch(unsigned int* data, int capacity) {
 
-    MemoryAllocator* alloc = ((AllocationEnvironment*)FUN_00c85750())->allocator;
+    MemoryAllocator* alloc = ((AllocationEnvironment*)static_cast<HolderStub*>(::FUN_00c85750()))->allocator;
 
     if ((capacity & 0x80000000) == 0)
 
@@ -5561,7 +5609,7 @@ static __forceinline void FreeScratch(unsigned int* data, int capacity) {
 
 }
 static __forceinline void FreeScratchEarly(unsigned int* data, int capacity) {
-    HolderStub* mgr = FUN_00c85750();
+    HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
     MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
     int cap=capacity;
     if ((cap & 0x80000000) == 0) heap->Free(data,(cap & 0x3fffffff)*4);
@@ -5585,7 +5633,7 @@ void __cdecl ProcessGeometryPasses(int initialCount,
 
     const int floatsWanted = initialCount + 3;
 
-    HolderStub* mgr = FUN_00c85750();
+    HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
     MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
     positions->reserve(*heap, floatsWanted);
 
@@ -5615,7 +5663,7 @@ void __cdecl ProcessGeometryPasses(int initialCount,
     unsigned int* ownedData;
     int allocatedCount = initialCount + 1;
     int ownedCapacity;
-    HolderStub* scratchRouter = FUN_00c85750();
+    HolderStub* scratchRouter = static_cast<HolderStub*>(::FUN_00c85750());
     MemoryAllocator* scratchHeap = (MemoryAllocator*)scratchRouter->m_pAllocator;
     {
     FitWork work;
@@ -5733,7 +5781,7 @@ void __cdecl FUN_00e58210(int a1, int a2, int a3, float a4, int a5, int a6, int 
     blk.count = 0;
     blk.flags = 0x80000000u;
 
-    SpawnedHolder* h = reinterpret_cast<SpawnedHolder*>(FUN_00c85750());
+    SpawnedHolder* h = reinterpret_cast<SpawnedHolder*>(static_cast<HolderStub*>(::FUN_00c85750()));
     SpawnedAllocator* pAllocator = h->m_pAllocator;
     void* data;
     if (n != 0) {
@@ -5751,7 +5799,7 @@ void __cdecl FUN_00e58210(int a1, int a2, int a3, float a4, int a5, int a6, int 
     FUN_00e568f0(a1, a2, &blk);
     ProcessGeometryPasses(a1, a2, &blk, true, a3, a4, a5, a6, a7);
 
-    h = reinterpret_cast<SpawnedHolder*>(FUN_00c85750());
+    h = reinterpret_cast<SpawnedHolder*>(static_cast<HolderStub*>(::FUN_00c85750()));
     pAllocator = h->m_pAllocator;
     unsigned int f = blk.flags;
     blk.count = 0;
@@ -5925,12 +5973,12 @@ struct Se5b160_Router {
     int unk00; int unk04; int unk08; int unk0c;
     Se5b160_Heap* m_pStreamAllocator;
     Se5b160_Heap& heap() { return *m_pStreamAllocator; }
-    static Se5b160_Router& GetMonitorStream() { return *reinterpret_cast<Se5b160_Router*>(FUN_00c85750()); }
+    static Se5b160_Router& GetMonitorStream() { return *reinterpret_cast<Se5b160_Router*>(static_cast<HolderStub*>(::FUN_00c85750())); }
 };
 struct Se5b160_Motor { void FUN_00c90510(); };
 struct Se5b160_RefObj {
     virtual ~Se5b160_RefObj();
-    static Se5b160_Heap& heap() { return reinterpret_cast<Se5b160_Router*>(FUN_00c85750())->heap(); }
+    static Se5b160_Heap& heap() { return reinterpret_cast<Se5b160_Router*>(static_cast<HolderStub*>(::FUN_00c85750()))->heap(); }
     unsigned short m_usAllocationSize;
     unsigned short m_iObjectReferenceCount;
     static void* operator new(std::size_t nbytes) {
@@ -5939,6 +5987,7 @@ struct Se5b160_RefObj {
         return b;
     }
     static void operator delete(void*) {}
+    void FUN_00c905b0();
 };
 struct Se5b160_HingeAtoms {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
@@ -6425,7 +6474,7 @@ struct S00e58310_Router {
 
 __forceinline S00e58310_Router& S00e58310_Router::GetMonitorStream()
 {
-    return *(S00e58310_Router*)FUN_00c85750();
+    return *(S00e58310_Router*)static_cast<HolderStub*>(::FUN_00c85750());
 }
 
 struct S00e58310_HeapAllocator {
@@ -6547,7 +6596,7 @@ struct CurveHeap {
  template<class T> __forceinline void freeItems(T* ptr,int n) {release(ptr,n*(int)sizeof(T));}
 };
 struct CurvePolicy {
- __forceinline CurveHeap& get(void*) {return *static_cast<CurveHeap*>(FUN_00c85750()->m_pAllocator);}
+ __forceinline CurveHeap& get(void*) {return *static_cast<CurveHeap*>(static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator);}
 };
 __forceinline void initializeItems(float*,int) {}
 __forceinline void initializeItems(CurvePoint* ptr,int n) {for(int i=0;i<n;++i) new(ptr+i) CurvePoint;}
@@ -6567,13 +6616,13 @@ template<class T> struct FitOwnedArrayBase {
 template<class T> struct FitOwnedArray:FitOwnedArrayBase<T> {
  __forceinline FitOwnedArray() throw() {}
  __forceinline FitOwnedArray(int n) throw() {
-  HolderStub* holder=FUN_00c85750(); CurveHeap* heap=static_cast<CurveHeap*>(holder->m_pAllocator);
+  HolderStub* holder=static_cast<HolderStub*>(::FUN_00c85750()); CurveHeap* heap=static_cast<CurveHeap*>(holder->m_pAllocator);
   T* p=n?heap->allocateItems<T>(n):0;
   int cap=n?n:0x80000000;
   set(p,n,cap);
   initializeItems(data,n);
  }
- __forceinline ~FitOwnedArray() throw() {HolderStub* holder=FUN_00c85750(); CurveHeap* heap=static_cast<CurveHeap*>(holder->m_pAllocator);
+ __forceinline ~FitOwnedArray() throw() {HolderStub* holder=static_cast<HolderStub*>(::FUN_00c85750()); CurveHeap* heap=static_cast<CurveHeap*>(holder->m_pAllocator);
   int cap=capacity; size=0;
   if(!(cap&0x80000000)) heap->freeItems<T>(data,cap&0x3fffffff);
   data=0;capacity=0x80000000;}
@@ -6985,7 +7034,6 @@ struct AllocatorHolder {
     Allocator* m_pHeapAllocator;
 };
 
-AllocatorHolder* FUN_00c85750();
 void FUN_00c90510(void* pvObject);
 
 template <class T> struct ObjectArray {
@@ -6995,7 +7043,7 @@ template <class T> struct ObjectArray {
 
     void PushBack(const T& kElement)
     {
-        AllocatorHolder* pkHolder = FUN_00c85750();
+        AllocatorHolder* pkHolder = static_cast<AllocatorHolder*>(::FUN_00c85750());
         if (m_uiLogicalSize == (m_iCapacityAndFlags & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(pkHolder->m_pHeapAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         new (&m_pData[m_uiLogicalSize], S00e49e00_Slot()) T(kElement);
@@ -7124,10 +7172,6 @@ void __cdecl FUN_00e53000(unsigned char* bytes);
 
 void __cdecl FUN_00e53030(unsigned char* pucBuffer);
 
-// VEGAS17-CONFLICT: SpawnedObject (variant definition below differs from the one above)
-struct SpawnedObject {
-    void Method(float* pOut, float f);
-};
 
 float* __cdecl FUN_00e533a0(float* pOut, float fValue, SpawnedObject* pObj);
 
@@ -7166,19 +7210,11 @@ int __cdecl FUN_00e54930(float **apValues, int count);
 
 float __cdecl GetHelperValueAsFloat();
 
-// VEGAS17-CONFLICT: FUN_00e54b20_src (variant definition below differs from the one above)
-struct FUN_00e54b20_src
-{
-};
 
 void __cdecl LookupAndConsume(FUN_00e54b20_src* src, unsigned int key);
 
 float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 
-// VEGAS17-CONFLICT: FUN_00e532b0_class (variant definition below differs from the one above)
-struct FUN_00e532b0_class
-{
-};
 
 void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
 
@@ -7192,53 +7228,11 @@ void __cdecl FUN_00e58740(int i1, int i2, int i3, int i4, float f5, int i6, int 
 
 void __cdecl DifferenceInPlace(float* samples, unsigned int count);
 
-// VEGAS17-CONFLICT: AttrWriter_b5103 (variant definition below differs from the one above)
-class AttrWriter_b5103 {
-public:
-    AttrWriter_b5103(unsigned int* buf, unsigned int size) throw();
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    AttrWriter_b5103& Step3() throw();
-    void Release() throw();
-    unsigned int* GetBuf() throw();
-};
 
-// VEGAS17-CONFLICT: FUN_00e5c6b0_cls (variant definition below differs from the one above)
-class FUN_00e5c6b0_cls {
-public:
-    int GetBoolAttribute(const char* name, bool required, unsigned char* out);
-};
 
-// VEGAS17-CONFLICT: ConfigTable (variant definition below differs from the one above)
-struct ConfigTable {
-    int GetUnsignedValue(const char*, bool, unsigned*);
-};
 
-// VEGAS17-CONFLICT: FUN_00e5c8b0_Str (variant definition below differs from the one above)
-struct FUN_00e5c8b0_Str
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    void Release();
-};
 
-// VEGAS17-CONFLICT: FUN_00e5c8b0_cls (variant definition below differs from the one above)
-struct FUN_00e5c8b0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int GetAttributeValue(int a, bool flag, unsigned int* out);
-};
 
-// VEGAS17-CONFLICT: FUN_00e5c9b0_cls (variant definition below differs from the one above)
-class FUN_00e5c9b0_cls {
-public:
-    int GetFloatAttribute(const char* name, bool log, float* out);
-};
 
 // VEGAS17-CONFLICT: FUN_00e5cdb0_class (variant definition below differs from the one above)
 // FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
@@ -7296,10 +7290,6 @@ float __cdecl DotProduct(CE588A0Vector* pkA, CE588A0Vector* pkB);
 
 void UnpackQuaternion(const unsigned int* packed, float* quat);
 
-// VEGAS17-CONFLICT: FUN_00c905b0_class (variant definition below differs from the one above)
-struct FUN_00c905b0_class {
-    void FUN_00c905b0();
-};
 
 void FUN_00e52f10();
 
@@ -7339,13 +7329,6 @@ static void FUN_00e593d0(Dst* dst, Src* src);
 
 void e593d0_apply_pair();
 
-// VEGAS17-CONFLICT: LoadedObject (variant definition below differs from the one above)
-struct LoadedObject {
-    void* vtable;
-    int unk04;
-    unsigned char type;
-    LoadedObject* Initialize(LoadedFlag flag);
-};
 
 // VEGAS17-CONFLICT: EntityArray (variant definition below differs from the one above)
 template<class T> struct EntityArray : HkArray<T> {
@@ -7356,7 +7339,7 @@ template<class T> struct EntityArray : HkArray<T> {
         return -1;
     }
     __forceinline void AddBack(const T& element) {
-        HolderStub* holder = FUN_00c85750();
+        HolderStub* holder = static_cast<HolderStub*>(::FUN_00c85750());
         if (this->m_iElementCount == (this->m_iCapacityState & 0x3fffffff)) {
             ResizeAudioStream(holder->m_pAllocator, this, sizeof(T));
         }
@@ -7373,23 +7356,7 @@ void FUN_00c90510(void* pvObject);
 
 struct Shape;
 
-struct ShapeBase {
-    const char* m_pVtbl;
-    int unk004;
-    int unk008;
-    int unk00c;
-    const char* m_pVtbl2;
 
-};
-
-struct KeyedPointerEntry : ShapeBase {
-    int unk14;
-    Shape* m_pkShapeB;
-    Shape* m_pkShapeA;
-    float m_fBoundRadius;
-
-    KeyedPointerEntry* FUN_00e49080(Shape* pkShapeA, Shape* pkShapeB, float fRadius);
-};
 
 // @fnv 0x00e49080
 KeyedPointerEntry* KeyedPointerEntry::FUN_00e49080(Shape* pkShapeA, Shape* pkShapeB, float fRadius)
@@ -7416,7 +7383,7 @@ struct ThresholdArray {
     int capacity;
     float* original;
     void SetSizeAndGrow(int count) {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         E4AAA0Allocator* heap = (E4AAA0Allocator*)mgr->m_pAllocator;
         int current = capacity & 0x3fffffff;
         if (current < count) {
@@ -7428,11 +7395,11 @@ struct ThresholdArray {
     void release() {
         float* saved = original;
         if (saved == data) size = 0;
-        FUN_00c85750()->unk00 = (int)saved;
+        static_cast<HolderStub*>(::FUN_00c85750())->unk00 = (int)saved;
         ClearAndRelease();
     }
     void ClearAndRelease() {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         ThresholdAllocator* heap = (ThresholdAllocator*)mgr->m_pAllocator;
         int cap = capacity;
         size = 0;
@@ -7450,9 +7417,6 @@ float __cdecl EvaluateBasisFunction(int iDegree, int iNumKnots, const float* con
 
 int __cdecl GetRunLength(int lo, int hi, float** arr);
 
-// VEGAS17-CONFLICT: CurvePointOps (variant definition below differs from the one above)
-struct CurvePointOps {
-};
 
 void __cdecl FUN_00e54fa0(int n, CurveArg<float**> a2, CurveArg<int> a3, CurveArg<int> a4, CurveArg<int> a5, CurveArg<int> a6, CurveArg<float**> a7, CurveArg<float**> a8, CurveArg<int> a9, CurveArg<int> a10, float a11, float a12, bool a13);
 
@@ -7468,7 +7432,7 @@ struct ChainArray {
     int m_capFlags;
 
     void Add(T const& value) {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         if (m_iElementCount == (m_capFlags & 0x3fffffff))
             ResizeAudioStream(mgr->m_pAllocator, this, (int)sizeof(T));
         T* pSlot = &m_data[m_iElementCount];
@@ -7480,10 +7444,6 @@ struct ChainArray {
 
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int auiNewSize);
 
-// VEGAS17-CONFLICT: Resource_e5c5 (variant definition below differs from the one above)
-struct Resource_e5c5 {
-    void FUN_00c905b0() throw();
-};
 
 // VEGAS17-CONFLICT: hkRefPtr_e5c5 (variant definition below differs from the one above)
 template <class T> struct hkRefPtr_e5c5 {
@@ -7497,10 +7457,6 @@ template <class T> struct hkRefPtr_e5c5 {
     T* val() const { return m_pRetainedObject; }
 };
 
-// VEGAS17-CONFLICT: Registry_e5c5 (variant definition below differs from the one above)
-struct Registry_e5c5 {
-    Resource_e5c5* FUN_00e5c540(const char* name, Resource_e5c5* expected);
-};
 
 extern double __cdecl FUN_00ec9e10(double x);
 
@@ -7512,20 +7468,6 @@ inline float ConvertEarly(float x, volatile float& temp) {
     return temp;
 }
 
-// VEGAS17-CONFLICT: KnotVector (variant definition below differs from the one above)
-struct KnotVector {
-    float x,y,z,w;
-    KnotVector(float a=0,float b=0,float c=0,float d=0);
-    KnotVector& FUN_00e53180(const KnotVector&);
-    KnotVector& operator=(const KnotVector& v) { return (*(::KnotVector *)(new ((void *)this) ::FUN_00e53180_cls((const float *)&(v)))); }
-    KnotVector& FUN_00e531a0(const KnotVector&);
-    KnotVector& FUN_00e531d0(const KnotVector&);
-    KnotVector& FUN_00e53200(float);
-    KnotVector& DivideByScalar(float);
-    KnotVector ScaleCopy(float) const;
-    KnotVector FUN_00e532b0(const KnotVector&) const;
-    KnotVector FUN_00e53260(const KnotVector&) const;
-};
 
 __declspec(noinline) KnotVector::KnotVector(float a,float b,float c,float d) : x(a),y(b),z(c),w(d) {}
 __declspec(noinline) KnotVector& KnotVector::FUN_00e53180(const KnotVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
@@ -7550,7 +7492,7 @@ template<class T> struct MarkArray:MarkStorage<T> {
   if(size>0) _fnv_zlib_memset(data,initial,size);
  }
  __forceinline void release() {
-  MarkHeap* heap=(MarkHeap*)FUN_00c85750()->m_pAllocator;
+  MarkHeap* heap=(MarkHeap*)static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
   int cap=capacity;
   size=0;
   if((cap&0x80000000)==0) heap->Free(data,cap&0x3fffffff);
@@ -7597,7 +7539,7 @@ __forceinline void VertexVector::reserve(MemoryAllocator& heap, int wanted) {
 
 }
 __forceinline void VertexVector::SetSizeAndGrow(int wanted) {
-    HolderStub* mgr = FUN_00c85750();
+    HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
     MemoryAllocator* heap = (MemoryAllocator*)mgr->m_pAllocator;
     reserve(*heap, wanted);
     int remaining=wanted-count;
@@ -7614,20 +7556,6 @@ static void FUN_00e59700(SolverState* __restrict state, const BoundaryTable* tab
 
 void caller(SolverState* s, const BoundaryTable* t, SolverOutput* o);
 
-// VEGAS17-CONFLICT: Se5b160_RefObj (variant definition below differs from the one above)
-struct Se5b160_RefObj {
-    virtual ~Se5b160_RefObj();
-    static Se5b160_Heap& heap() { return reinterpret_cast<Se5b160_Router*>(FUN_00c85750())->heap(); }
-    unsigned short m_usAllocationSize;
-    unsigned short m_iObjectReferenceCount;
-    static void* operator new(std::size_t nbytes) {
-        Se5b160_RefObj* b = static_cast<Se5b160_RefObj*>(Se5b160_Router::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
-        b->m_usAllocationSize = static_cast<unsigned short>(nbytes);
-        return b;
-    }
-    static void operator delete(void*) {}
-    void FUN_00c905b0();
-};
 
 Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __restrict original, Se5b160_Motor* motor, bool enableMotors);
 
@@ -7651,15 +7579,7 @@ namespace se49e00 {
 
 struct Allocator;
 
-struct AllocatorHolder {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    Allocator* m_pHeapAllocator;
-};
 
-AllocatorHolder* FUN_00c85750();
 void ResizeAudioStream(Allocator* pkAllocator, void* apvArray, unsigned int uiStride);
 void FUN_00c90510(void* pvObject);
 
@@ -7670,7 +7590,7 @@ template <class T> struct ObjectArray {
 
     void PushBack(const T& kElement)
     {
-        AllocatorHolder* pkHolder = FUN_00c85750();
+        AllocatorHolder* pkHolder = static_cast<AllocatorHolder*>(::FUN_00c85750());
         if (m_uiLogicalSize == (m_iCapacityAndFlags & 0x3fffffff))
             ResizeAudioStream(pkHolder->m_pHeapAllocator, this, sizeof(T));
         new (&m_pData[m_uiLogicalSize], S00e49e00_Slot()) T(kElement);
@@ -7680,23 +7600,6 @@ template <class T> struct ObjectArray {
 
 struct Child;
 
-struct Container {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    ObjectArray<Child*> m_kChildList;
-
-    void FUN_00e49e00(Child* pkChild);
-};
 
 // @fnv 0x00e49e00
 void Container::FUN_00e49e00(Child* pkChild)
@@ -7780,7 +7683,7 @@ template<class T> struct ElevationArray {
     int count;
     int capacity;
     __forceinline void allocate(int requested) {
-        MemoryAllocator* allocator=(MemoryAllocator*)FUN_00c85750()->m_pAllocator;
+        MemoryAllocator* allocator=(MemoryAllocator*)static_cast<HolderStub*>(::FUN_00c85750())->m_pAllocator;
         T* ptr;
         if(requested) {
             int bytes=requested*sizeof(T);
@@ -7792,7 +7695,7 @@ template<class T> struct ElevationArray {
 
     }
     __forceinline void free() {
-        HolderStub* holder=FUN_00c85750();
+        HolderStub* holder=static_cast<HolderStub*>(::FUN_00c85750());
         MemoryAllocator* allocator=(MemoryAllocator*)holder->m_pAllocator;
         int cap=capacity;
         if ((cap & 0x80000000)==0) allocator->Free(data, (cap & 0x3fffffff) * sizeof(T));
@@ -7937,7 +7840,7 @@ void __cdecl FUN_00e568f0(int n, int a2, void* s)
     S00e568f0_Vec4Array* pts = (S00e568f0_Vec4Array*)a2;
     FloatArray* out = (FloatArray*)s;
     int count = n + 1;
-    HolderView* holder = reinterpret_cast<HolderView*>(FUN_00c85750());
+    HolderView* holder = reinterpret_cast<HolderView*>(static_cast<HolderStub*>(::FUN_00c85750()));
     S00e568f0_SetArraySize(holder->m_pAllocator, out, count);
     out->m_data[0] = 0.0f;
     int i = 1;
@@ -7958,7 +7861,6 @@ struct CountCopy {int n;};
 
 static const float errorLimit=3.40282e38f;
 
-__declspec(nothrow) HolderStub* __cdecl FUN_00c85750();
 
 __declspec(nothrow) int __cdecl FUN_00e54930(float**,int);
 
@@ -7995,7 +7897,7 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
         return 0;
     }
     __declspec(nothrow) __forceinline void Allocate(int count) {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         T* buffer = AllocateTemporaryArray((FNVTemporaryAllocator*)mgr->m_pAllocator, count);
         int flags = count ? count : 0x80000000;
         data = buffer;
@@ -8018,7 +7920,7 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
     __declspec(nothrow) __forceinline void CopyFrom(const ArrayStorage<T>& other) {
         data = 0;
         capacityAndFlags = 0x80000000;
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         FNVTemporaryAllocator* allocator = (FNVTemporaryAllocator*)mgr->m_pAllocator;
         if (other.size > 0) {
             int bytes = other.size * 4;
@@ -8034,7 +7936,7 @@ template<class T> struct TypedTemporary : ArrayStorage<T> {
     }
     __declspec(nothrow) __forceinline ~TypedTemporary(){Release();}
     __declspec(nothrow) __forceinline void Release() {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
         FNVTemporaryAllocator* allocator = (FNVTemporaryAllocator*)mgr->m_pAllocator;
         size=0;
         int cap = capacityAndFlags;
@@ -8276,7 +8178,7 @@ void FUN_00c908c0(void*,void*,int,int);
 template<class T> struct KnotArray {
     T* data; int size; int capacity;
     __forceinline void reserve(int num) {
-        HolderStub* h = FUN_00c85750();
+        HolderStub* h = static_cast<HolderStub*>(::FUN_00c85750());
         void* alloc = h->m_pAllocator;
         int cap = capacity & 0x3fffffff;
         if (cap < num) {
@@ -8341,12 +8243,6 @@ int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<RemovalVector
     return t;
 }
 
-// VEGAS17-CONFLICT: FUN_00e428f0_class (variant definition below differs from the one above)
-struct FUN_00e428f0_class
-{
-    void Remove(void*);
-    void FUN_00e428f0(void* p);
-};
 
 int __cdecl FUN_00e42940(int p);
 
@@ -8358,23 +8254,6 @@ void FUN_00e5c5f0(int a);
 
 extern const float g_011c7344_arg1;
 
-// VEGAS17-CONFLICT: FUN_00e426f0_class (variant definition below differs from the one above)
-struct FUN_00e426f0_class
-{
-    unsigned short m_00;
-    unsigned short m_02;
-    unsigned short m_04;
-    unsigned short m_06;
-    unsigned short m_08;
-    unsigned short m_0a;
-    unsigned short m_0c;
-    unsigned short m_0e;
-    unsigned short m_10;
-    unsigned short m_12;
-    unsigned short m_14;
-    void AddObject(void* p);
-    void AddByteFromObject(void* p);
-};
 
 // VEGAS17-CONFLICT: FUN_00e58b10_class (variant definition below differs from the one above)
 struct FUN_00e58b10_class
@@ -8411,11 +8290,6 @@ void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int nbytes);
 ThunkDerived::ThunkDerived()
 {}
 
-// VEGAS17-CONFLICT: S_00e4af60_helper (variant definition below differs from the one above)
-struct S_00e4af60_helper
-{
-    void FUN_00cb0a60();
-};
 
 void __cdecl AccumulateNeighborSum(float k, const float* src, float* dst, int n);
 
@@ -8439,27 +8313,7 @@ void __cdecl SwapBytes(void* arg);
 
 void __cdecl FUN_00e53030(unsigned char* p);
 
-// VEGAS17-CONFLICT: FourFloatVector (variant definition below differs from the one above)
-struct FourFloatVector
-{
-    float x;
-    float y;
-    float z;
-    float w;
 
-    FourFloatVector& FUN_00e531a0(int parameter);
-    FourFloatVector FUN_00e53260(int parameter);
-};
-
-// VEGAS17-CONFLICT: Quad4 (variant definition below differs from the one above)
-struct Quad4
-{
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
-    Quad4* Eval(float t);
-};
 
 float* __cdecl FUN_00e533a0(float* pOut, float f, SpawnedObject* pObj);
 
@@ -8467,10 +8321,6 @@ float* __cdecl FUN_00e533a0(float* pOut, float f, SpawnedObject* pObj);
 // Thin cdecl wrapper: forwards its first argument and a float to a
 // thiscall method of the object given as the third argument, then hands
 // the first argument back to the caller.
-struct FUN_00e533c0_cls
-{
-    void SetValue(float* pOut, float fValue);
-};
 
 int __cdecl FindFloatInterval(int a, int b, float value, float** pp);
 
@@ -8485,14 +8335,6 @@ float __cdecl FUN_00e535a0(const void* a, const void* b);
 // The two callees below are unnamed in the binary's symbol table; they bind by position.
 extern void __cdecl helper_before();
 
-// VEGAS17-CONFLICT: FUN_00e54b00_cls (variant definition below differs from the one above)
-class FUN_00e54b00_cls
-{
-  public:
-    float GetHelperValueAsFloat();
-    void EvalCopy(int a, float b);
-    int FUN_00e54b00(int p);
-};
 
 int __cdecl FindFirstNonZero(int a, int b, int c);
 
@@ -8500,77 +8342,18 @@ extern const double DAT_01016978;
 
 int CompareStringsCaseInsensitive(unsigned int item, unsigned int ctx);
 
-// VEGAS17-CONFLICT: AttrWriter_b5103 (variant definition below differs from the one above)
-class AttrWriter_b5103
-{
-  public:
-    AttrWriter_b5103(unsigned int* buf, unsigned int size) throw();
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    AttrWriter_b5103& Write5(const char* a, const char* name, const char* b, const void* self, const char* c) throw();
-    AttrWriter_b5103& Step1() throw();
-    AttrWriter_b5103& Step2() throw();
-    AttrWriter_b5103& Step3() throw();
-    AttrWriter_b5103& Step4() throw();
-    AttrWriter_b5103& Step5();
-    void Release() throw();
-    unsigned int* GetBuf() throw();
-};
 
 extern AttrLog_b5103* DAT_01268360_b5103;
 
-// VEGAS17-CONFLICT: CharBuffer (variant definition below differs from the one above)
-struct CharBuffer
-{
-    char* destination;
-    unsigned capacity, length;
-    void FUN_00cb1600(char*, unsigned);
-    CharBuffer* FUN_00cc01c0(const char*);
-    CharBuffer* WriteName(const void*);
-    void FUN_00cc00e0();
-};
 
 extern DiagnosticLogger* DAT_01268360;
 
 extern const char str_010ecd20[], str_010eccfc[], str_010ecd0c[], str_010eccc8[];
 
-// VEGAS17-CONFLICT: FUN_00e5c8b0_Target (variant definition below differs from the one above)
-struct FUN_00e5c8b0_Target
-{
-    void FindValue(unsigned int a, unsigned int* b);
-};
 
-// VEGAS17-CONFLICT: FUN_00e5c8b0_Str (variant definition below differs from the one above)
-struct FUN_00e5c8b0_Str
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    void Set(char* buf, unsigned int len);
-    FUN_00e5c8b0_Str* Chain5(const char* s0, int a1, const char* s2, int a3, const char* s4);
-    FUN_00e5c8b0_Str* Chain0();
-    FUN_00e5c8b0_Str* ChainB();
-    FUN_00e5c8b0_Str* ChainC();
-    void Release();
-};
 
 extern FUN_00e5c8b0_Logger* g_01268360;
 
-// VEGAS17-CONFLICT: AttrLogBuilder (variant definition below differs from the one above)
-class AttrLogBuilder
-{
-  public:
-    char* m_pString;
-    unsigned short m_sLen;
-    unsigned short m_sMaxLen;
-    unsigned int m_08;
-    void Init(AttrLogBuf* buf, unsigned int size);
-    AttrLogBuilder* Build(const char* a, const char* name, const char* b, void* self, const char* c);
-    AttrLogBuilder* Chain();
-    AttrLogBuilder* Other();
-    void Free();
-};
 
 extern LogSink* g_pAttrLogger;
 
@@ -8583,16 +8366,6 @@ struct FUN_00e5cdb0_class
     void FUN_00e5cec0(int a, int b, int c, int d);
 };
 
-// VEGAS17-CONFLICT: S_00e65ee0_Class (variant definition below differs from the one above)
-struct S_00e65ee0_Class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-
-    void FUN_00e65ee0(int* buffer, int value);
-};
 
 extern float DAT_0104e148;
 
@@ -8819,10 +8592,6 @@ struct Entry
     }
 };
 
-// VEGAS17-CONFLICT: Allocator (variant definition below differs from the one above)
-struct Allocator
-{
-};
 
 // VEGAS17-CONFLICT: Router (variant definition below differs from the one above)
 struct Router
@@ -8911,13 +8680,6 @@ struct FUN_00e4a1d0 : Base
 
 void __cdecl FUN_00e54c10(int idx, L* list);
 
-// VEGAS17-CONFLICT: CE588A0Vector (variant definition below differs from the one above)
-class CE588A0Vector
-{
-  public:
-    double Get(int iIndex);
-    int GetSize();
-};
 
 extern int DAT_010c3b8c;
 
@@ -8929,15 +8691,6 @@ extern int DAT_010c3b80;
 
 extern int DAT_0102e388;
 
-// VEGAS17-CONFLICT: E473C0Owner (variant definition below differs from the one above)
-struct E473C0Owner
-{
-    int unk00;
-    unsigned short unk04;
-
-    void FUN_00e47020();
-    E473C0Owner* FUN_00e473c0(unsigned char flags);
-};
 
 // VEGAS17-CONFLICT: SourceData (variant definition below differs from the one above)
 struct SourceData
@@ -8964,11 +8717,6 @@ extern "C" int DAT_010e8ab0;
 
 extern "C" int DAT_010e8a90;
 
-// VEGAS17-CONFLICT: FUN_00e48db0_holder (variant definition below differs from the one above)
-struct FUN_00e48db0_holder
-{
-    void FUN_00dcd310(float f, void* p);
-};
 
 int CompareStringsCaseInsensitive(const char* a, const char* b);
 
@@ -8988,15 +8736,6 @@ struct Node4a5
 
 HolderStub* __cdecl FUN_00e4e3f0();
 
-// VEGAS17-CONFLICT: FUN_00e53180_Obj (variant definition below differs from the one above)
-struct FUN_00e53180_Obj
-{
-    float x;
-    float y;
-    float z;
-    float w;
-    void FUN_00e53180(const Float4* source);
-};
 
 void __cdecl PrefixSum(float* p, unsigned int n);
 
@@ -9006,62 +8745,13 @@ int GetUnsignedValue(const char*, bool, unsigned*);
 
 extern float DAT_0108cb00;
 
-// VEGAS17-CONFLICT: SampleField (variant definition below differs from the one above)
-struct SampleField
-{
-    int FUN_00e587a0();
-    float* GetElementPtr(int index, int component);
-    void FillWithValue(float* value);
-    float GetFloatAt(int index, int component);
-};
 
-// VEGAS17-CONFLICT: FUN_00e54b00_cls (variant definition below differs from the one above)
-class FUN_00e54b00_cls
-{
-public:
-    int FUN_00e54b00(int p);
-};
 
-// VEGAS17-CONFLICT: FUN_00e54b20_sink (variant definition below differs from the one above)
-struct FUN_00e54b20_sink
-{
-};
 
-// VEGAS17-CONFLICT: E54B50Vector4 (variant definition below differs from the one above)
-class E54B50Vector4 {
-public:
 
-    float x;
-    float y;
-    float z;
-    float w;
-};
 
-// VEGAS17-CONFLICT: FUN_00e54ae0_class (variant definition below differs from the one above)
-struct FUN_00e54ae0_class
-{
-};
 
-// VEGAS17-CONFLICT: String (variant definition below differs from the one above)
-struct String { void* value;   };
 
-// VEGAS17-CONFLICT: CurveLengthOps (variant definition below differs from the one above)
-struct CurveLengthOps {
-};
-
-// VEGAS17-CONFLICT: KnotVector (variant definition below differs from the one above)
-struct KnotVector {
-    float x,y,z,w;
-    KnotVector(float a=0,float b=0,float c=0,float d=0);
-    KnotVector& FUN_00e53180(const KnotVector&);
-    KnotVector& operator=(const KnotVector& v) { return (*(::KnotVector *)(new ((void *)this) ::FUN_00e53180_cls((const float *)&(v)))); }
-    KnotVector& FUN_00e531a0(const KnotVector&);
-    KnotVector& FUN_00e531d0(const KnotVector&);
-    KnotVector& FUN_00e53200(float);
-    KnotVector& DivideByScalar(float);
-    KnotVector ScaleCopy(float) const;
-    KnotVector FUN_00e532b0(const KnotVector&) const;
-};
 
 __declspec(noinline) KnotVector::KnotVector(float a,float b,float c,float d) : x(a),y(b),z(c),w(d) {}
 __declspec(noinline) KnotVector& KnotVector::FUN_00e53180(const KnotVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
@@ -9380,6 +9070,7 @@ struct MoppErrorSink {
 
 struct MoppErrorStream {
     int unk00, unk04, unk08;
+    void __declspec(nothrow) init(char*, int);
     void __declspec(nothrow) close();
     void __declspec(nothrow) text(const char*);
 };
@@ -9588,7 +9279,7 @@ void MoppMachine::FUN_00e5d7d0(const MoppState* state, const unsigned char* code
                 static_cast<volatile int&>(secondOffset) = value;
                 value += state->terminalBase;
 
-                MoppMemorySystem* memory = (MoppMemorySystem*)FUN_00c85750();
+                MoppMemorySystem* memory = (MoppMemorySystem*)static_cast<HolderStub*>(::FUN_00c85750());
                 if (out->size == (out->capacity & 0x3fffffff))
                     ResizeAudioStream(memory->allocator, out, 4);
                 int* next = out->data + out->size;
@@ -9611,35 +9302,9 @@ void MoppMachine::FUN_00e5d7d0(const MoppState* state, const unsigned char* code
     }
 }
 
-// VEGAS17-CONFLICT: FUN_00cb0a70 (variant definition below differs from the one above)
-struct FUN_00cb0a70
-{
-};
 
-// VEGAS17-CONFLICT: S_e53300_Vec (variant definition below differs from the one above)
-struct S_e53300_Vec
-{
-    float unk00;
-    float unk04;
-    float unk08;
-    float unk0c;
-    S_e53300_Vec ScaleCopy(float f);
-};
 
-// VEGAS17-CONFLICT: AttrLogBuilder (variant definition below differs from the one above)
-class AttrLogBuilder
-{
-  public:
-    char* m_pString;
-    unsigned short m_sLen;
-    unsigned short m_sMaxLen;
-    unsigned int m_08;
-};
 
-// VEGAS17-CONFLICT: Ref (variant definition below differs from the one above)
-struct Ref
-{
-};
 
 // VEGAS17-CONFLICT: Entry (variant definition below differs from the one above)
 struct Entry
@@ -9847,26 +9512,8 @@ float FUN_00e54cb0(int leftIndex, int degree, float** knots, void* context, cons
     return param;
 }
 
-// VEGAS17-CONFLICT: FUN_00c90510_Reference (variant definition below differs from the one above)
-struct FUN_00c90510_Reference
-{
-};
 
-// VEGAS17-CONFLICT: E5B110Ref (variant definition below differs from the one above)
-struct E5B110Ref
-{
-};
 
-// VEGAS17-CONFLICT: E5B110Obj (variant definition below differs from the one above)
-struct E5B110Obj
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
-    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
-    E5B110Ref* unka0;
-};
 
 // @fnv 0x00e50e50
 void __cdecl FUN_00e50e50(float w, float* out, const float* in, int n)
@@ -9876,18 +9523,9 @@ void __cdecl FUN_00e50e50(float w, float* out, const float* in, int n)
     out[0] += (w + w) * in[0];
 }
 
-// VEGAS17-CONFLICT: String (variant definition below differs from the one above)
-struct String { void* value; void init() throw();  };
 
 void __cdecl FUN_00e5d070(const S00e5d070::hkpMoppCode* code, const S00e5d070::PlaneArrayDescriptor& input, S00e5d070::hkpMoppPrimitiveInfoArray* primitives_out, S00e5d070::hkpMoppPrimitiveInfoArray* hits);
 
-// VEGAS17-CONFLICT: MoppErrorStream (variant definition below differs from the one above)
-struct MoppErrorStream {
-    int unk00, unk04, unk08;
-    void __declspec(nothrow) init(char*, int);
-    void __declspec(nothrow) close();
-    void __declspec(nothrow) text(const char*);
-};
 
 typedef float hkReal;
 

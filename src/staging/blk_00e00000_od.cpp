@@ -2,6 +2,7 @@
 // src/staging/blk_00e00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1153,7 +1154,6 @@ struct EdgeMemory
     EdgeAllocator* allocator;
 };
 
-EdgeMemory* FUN_00c85750();
 
 float ClampedAcos(float);
 
@@ -1171,7 +1171,7 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
 
 template <class T> inline void EdgeArray<T>::grow(int elementSize)
 {
-    EdgeMemory* memory = FUN_00c85750();
+    EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
     if (size == (capacity & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(memory->allocator), (::AudioStream *)(void *)(this), elementSize);
 }
@@ -1258,12 +1258,12 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
     EdgeArray<float> scores;
     {
         int required = mesh->count * 3;
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
         memory->allocator->reserve(refs, required, 8);
     }
     {
         int required = mesh->count * 3;
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
         memory->allocator->reserve(scores, required, 4);
     }
     for (EdgeNode* node = mesh->head; node; node = node->next)
@@ -1338,11 +1338,11 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
         }
     }
     {
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
         memory->allocator->clear(scores, 4);
     }
     {
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
         memory->allocator->clear(refs, 8);
     }
 }
@@ -1573,7 +1573,7 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
 
 template <class T> inline void EdgeArray<T>::grow(int elementSize)
 {
-    EdgeMemory* memory = FUN_00c85750();
+    EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
     if (size == (capacity & 0x3fffffff))
         FUN_00c90940(memory->allocator, this, elementSize);
 }

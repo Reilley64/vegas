@@ -15121,24 +15121,10 @@ void FUN_00e933d0();
 
 void __cdecl FUN_00e941a0(void* apData);
 
-// VEGAS17-CONFLICT: NiD3DShaderFactory (variant definition below differs from the one above)
-struct NiD3DShaderFactory {
-    void ShutdownPoint3();
-    void FUN_00e87ab0();
-};
 
-// VEGAS17-CONFLICT: NiD3DShaderProgramFactory (variant definition below differs from the one above)
-struct NiD3DShaderProgramFactory {
-};
 
 void __cdecl FreeNodeList();
 
-// VEGAS17-CONFLICT: FUN_00e88b00_Class (variant definition below differs from the one above)
-struct FUN_00e88b00_Class {
-    int m_auiShapeKeys[0x1100 / 4];
-    virtual ~FUN_00e88b00_Class();
-    int DestroyIfFlagged(bool flag);
-};
 
 void FUN_00e92080();
 
@@ -16370,14 +16356,6 @@ struct MapBaseStub {
     void RemoveAll();
 };
 
-// VEGAS17-CONFLICT: FUN_00e89740_Obj (variant definition below differs from the one above)
-struct FUN_00e89740_Obj {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-
-};
 
 void FUN_00e89740();
 
@@ -16689,11 +16667,6 @@ typedef void(* FUN_00e88830_Slot)(void* self, int code, int value);
 
 typedef void(* FUN_00e88a20_Slot)(void* self, int code, int value);
 
-// VEGAS17-CONFLICT: ScalarDeletingObject (variant definition below differs from the one above)
-struct ScalarDeletingObject
-{
-    void* DestroyScalarObject(unsigned char flags);
-};
 
 typedef int(* FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
 
@@ -16846,17 +16819,6 @@ SNAEntryElem* FUN_00e89460(unsigned int count)
     return new SNAEntryElem[count];
 }
 
-// VEGAS17-CONFLICT: NiRefObject (variant definition below differs from the one above)
-class NiRefObject : public NiMemObject {
-public:
-    NiRefObject() throw() {
-        m_uiRefCount = 0;
-        InterlockedIncrement(&DAT_011f4400);
-    }
-    virtual void V0();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
 
 struct HeapA {  };
 

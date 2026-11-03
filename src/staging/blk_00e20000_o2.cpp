@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include <cmath>
 #include <ctime>
@@ -194,6 +195,7 @@ int FUN_00e3ec30_Class::FUN_00e3ec30(int arg)
 
 struct D481D0RefVariant
 {
+    void set(void*, const void*);
 };
 struct FUN_00e3f8d0_class
 {
@@ -1792,7 +1794,6 @@ struct S_00e3ae70_Holder
     S_00e3ae70_Alloc* m_pAllocator;
 };
 
-S_00e3ae70_Holder* __cdecl FUN_00c85750() throw();
 
 struct S_00e3ae70_Item
 {
@@ -1840,7 +1841,7 @@ void S_00e3ae70_cls::SetItemValues(unsigned int a1, unsigned int a2, float afVal
             } while (i < arr.iSize);
         }
     }
-    S_00e3ae70_Holder* pHolder = FUN_00c85750();
+    S_00e3ae70_Holder* pHolder = static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     S_00e3ae70_Alloc* pAllocator = pHolder->m_pAllocator;
     unsigned int uiCapacityFlags = arr.SimpleArrayStorage;
     arr.iSize = 0;
@@ -1901,7 +1902,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e3b0a0_cls
 {
@@ -1923,7 +1923,7 @@ struct FUN_00e3b0a0_cls
 void FUN_00e3b0a0_cls::FUN_00e3b0a0()
 {
     m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010eb98c));
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits = m_uCapBits;
     m_iArrayLength = 0;
@@ -2414,7 +2414,6 @@ struct AudioHolder
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 
 struct AudioRefObject
 {
@@ -2474,7 +2473,7 @@ void FUN_00e3f110_cls::Destroy() throw()
         reinterpret_cast<::hkReferencedObjectC905 *>((pRef))->FUN_00c905b0();
     }
     m_p7c = 0;
-    AudioHolder* pHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     int count = m_iCount74;
     AudioRefObject** pBuf = m_pBuf70;
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
@@ -2493,7 +2492,7 @@ void FUN_00e3f110_cls::Destroy() throw()
     }
     m_pBuf70 = 0;
     m_uCap78 = 0x80000000u;
-    AudioHolder* pHolder2 = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pHolder2 = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     int* pEntry = (int*)m_pBuf18;
     if (m_iCount1c > 0)
@@ -3361,6 +3360,7 @@ void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
 
 struct Resource_e3e8
 {
+    void FUN_00c905b0() throw();
 };
 
 template <class T> struct hkRefPtr_e3e8
@@ -3465,7 +3465,7 @@ template <class T> class hkArrayE3A3
 
     ~hkArrayE3A3() throw()
     {
-        hkMemoryAllocatorE3A3& kAlloc = reinterpret_cast<hkMemoryRouterE3A3*>(FUN_00c85750())->heap();
+        hkMemoryAllocatorE3A3& kAlloc = reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -3487,6 +3487,7 @@ class hkReferencedObject : public hkBaseObject
   public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
+    void FUN_00c905b0() throw();
 };
 }
 
@@ -4026,7 +4027,7 @@ void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int
 {
     if (!input)
         return;
-    S_00e3ae70_Holder* router = FUN_00c85750();
+    S_00e3ae70_Holder* router = static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     struct WeightArray : hkArr<float>
     {
         float* localMemory;
@@ -4044,7 +4045,7 @@ void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int
     int& usedA = populations[0];
     int& usedB = populations[1];
     ::FUN_00e4e3f0();
-    router = FUN_00c85750();
+    router = static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     WorkArray stack;
     WorkItem* data = (WorkItem*)router->unk00;
     stack.m_data = data;
@@ -4099,9 +4100,9 @@ void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int
         if (iMaxDepth <= stack.m_iElementCount)
             iMaxDepth = stack.m_iElementCount;
     } while (stack.m_iElementCount);
-    FUN_00c85750()->unk00 = (int)stack.localMemory;
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (int)stack.localMemory;
     stack.ClearAndRelease();
-    FUN_00c85750()->unk00 = (int)weightArray.localMemory;
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (int)weightArray.localMemory;
     weightArray.ClearAndRelease();
 }
 
@@ -4196,7 +4197,7 @@ struct Scratch
 };
 __forceinline Scratch* scratchRouter() throw()
 {
-    return (Scratch*)FUN_00c85750();
+    return (Scratch*)static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
 }
 struct __declspec(align(16)) Weights
 {
@@ -4319,7 +4320,7 @@ void FUN_00e2c8a0(Owner* owner, int p2, int p3, int p4, int p5, int p6, int aiCo
             highWater = stackSize;
     } while (stackSize);
     scratchRouter()->top = (char*)stack;
-    FUN_00c85750();
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750());
     weights.release();
 }
 }  // namespace fnv_00e2c8a0
@@ -4665,7 +4666,7 @@ template <class T> struct TyremarkArray
 
     void SetSizeAndGrow(int count)
     {
-        hkMemoryAllocatorE3A3& allocator = reinterpret_cast<hkMemoryRouterE3A3*>(FUN_00c85750())->heap();
+        hkMemoryAllocatorE3A3& allocator = reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap();
         int capacity = m_iCapacityState & 0x3fffffff;
         if (capacity < count)
         {
@@ -4684,7 +4685,7 @@ struct TyremarkWheelView : FUN_00e3a270
 inline TyremarkWheelView* allocateTyremarkWheel()
 {
     void* memory =
-        reinterpret_cast<hkMemoryRouterE3A3*>(FUN_00c85750())->heap().AllocateMemoryBlock(sizeof(TyremarkWheelView));
+        reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap().AllocateMemoryBlock(sizeof(TyremarkWheelView));
     TyremarkWheelView* wheel = static_cast<TyremarkWheelView*>(memory);
     wheel->m_usMemSizeAndFlags = sizeof(TyremarkWheelView);
     return ((::TyremarkWheelView *)(new ((void *)(wheel)) ::FUN_00e3a270()));
@@ -4856,17 +4857,6 @@ template <typename T> struct hkArrayStub
     }
 };
 
-// VEGAS17-CONFLICT: FUN_00e33910_item (variant definition below differs from the one above)
-struct FUN_00e33910_item
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-};
 
 void __cdecl ResizeAudioStream(int param1, S_00e3ed00_List* param2, int param3);
 
@@ -4899,11 +4889,6 @@ static unsigned short FUN_00e34b20(unsigned short v);
 
 unsigned short call_e34b20();
 
-// VEGAS17-CONFLICT: Resource_e3e8 (variant definition below differs from the one above)
-struct Resource_e3e8
-{
-    void FUN_00c905b0() throw();
-};
 
 // VEGAS17-CONFLICT: hkRefPtr_e3e8 (variant definition below differs from the one above)
 template <class T> struct hkRefPtr_e3e8
@@ -4924,20 +4909,7 @@ template <class T> struct hkRefPtr_e3e8
 Resource_e3e8* FUN_00e3e8e0(const char* name, Resource_e3e8* expected);
 
 namespace hkE3A3 {
-class hkBaseObject
-{
-  public:
-    virtual ~hkBaseObject() throw()
-    {}
-};
 
-class hkReferencedObject : public hkBaseObject
-{
-  public:
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    void FUN_00c905b0() throw();
-};
 }
 
 void __cdecl FUN_00e2cfc0();
@@ -4962,7 +4934,7 @@ template <class T> struct TyremarkArray
 
     void SetSizeAndGrow(int count)
     {
-        hkMemoryAllocatorE3A3& allocator = reinterpret_cast<hkMemoryRouterE3A3*>(FUN_00c85750())->heap();
+        hkMemoryAllocatorE3A3& allocator = reinterpret_cast<hkMemoryRouterE3A3*>(static_cast<S_00e3ae70_Holder*>(::FUN_00c85750()))->heap();
         int capacity = m_iCapacityState & 0x3fffffff;
         if (capacity < count)
         {
@@ -5043,36 +5015,9 @@ extern "C" bool __cdecl FUN_00e29920(const RayVector& a, const RayVector& b, con
 
 void __cdecl CallHandlerByIndex(int a, int b, int c);
 
-// VEGAS17-CONFLICT: FUN_00e34800 (variant definition below differs from the one above)
-struct FUN_00e34800
-{
-    int vtbl;
-    int a;
-    int b;
-    int c;
-    FUN_00e34800(int x);
-};
 
 void __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
 
-// VEGAS17-CONFLICT: S_00e3ed00_Foo (variant definition below differs from the one above)
-struct S_00e3ed00_Foo
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    S_00e3ed00_Foo** children;
-    int childCount;
-
-    int AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
-};
 
 extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 
@@ -5107,11 +5052,6 @@ void __cdecl FUN_00e315a0(unsigned char flags, unsigned int count, unsigned int 
     }
 }
 
-// VEGAS17-CONFLICT: D481D0RefVariant (variant definition below differs from the one above)
-struct D481D0RefVariant
-{
-    void set(void*, const void*);
-};
 
 struct hkVector4Stub
 {

@@ -2,6 +2,7 @@
 // src/staging/blk_00e40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include <new>
@@ -250,7 +251,6 @@ struct Vec { int* base; int count; int cap; };
 
 struct Resource { int unk00, unk04, unk08, unk0c; void* allocator; };
 
-extern void* FUN_00c85750();
 
 static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff };
 
@@ -1003,28 +1003,6 @@ int __cdecl FUN_00e4b570(const __m128* point, const __m128* verts, float* out);
 
 // VEGAS17-CONFLICT: LocalObj (variant definition below differs from the one above)
 // stand-in for the local object whose method is called
-struct LocalObj {
-    int m_unk00;
-    int m_unk01;
-    int m_unk02;
-    int m_unk03;
-    int m_unk04;
-    int m_unk05;
-    int m_unk06;
-    int m_unk07;
-    int m_unk08;
-    int m_unk09;
-    int m_unk10;
-    int m_unk11;
-    int m_unk12;
-    int m_unk13;
-    int m_unk14;
-    int m_unk15;
-    int m_unk16;
-    int m_unk17;
-    int m_unk18;
-    int m_unk19;
-};
 
 int __cdecl FUN_00e5cf00(void* a1, int a2, int a3, int a4);
 

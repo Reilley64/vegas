@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <xmmintrin.h>
+#include "fnv/symbols_00c85000.h"
 #include <emmintrin.h>
 #include <cstddef>
 #include <windows.h>
@@ -1699,7 +1700,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00de10e0_cls
 {
@@ -1716,7 +1716,7 @@ struct FUN_00de10e0_cls
 // @fnv 0x00de10e0
 FUN_00de10e0_cls* FUN_00de10e0_cls::FUN_00de10e0(unsigned char acFlags)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     int count = m_10;
     m_0c = 0;
@@ -1729,7 +1729,7 @@ FUN_00de10e0_cls* FUN_00de10e0_cls::FUN_00de10e0(unsigned char acFlags)
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }
@@ -1809,7 +1809,6 @@ struct BDE43E0Memory
     }
 };
 
-BDE43E0Memory* __cdecl FUN_00c85750();
 
 class BDE43E0ReferencedObject
 {
@@ -1817,7 +1816,7 @@ class BDE43E0ReferencedObject
     static void* operator new(std::size_t uiSize)
     {
         BDE43E0ReferencedObject* pkObject =
-            static_cast<BDE43E0ReferencedObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(uiSize));
+            static_cast<BDE43E0ReferencedObject*>(static_cast<BDE43E0Memory*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize));
         pkObject->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return pkObject;
     }
@@ -2898,6 +2897,7 @@ void CopyPairToIndex(FUN_00df3140_pair* dst, unsigned int auiIndex, FUN_00df3140
 
 struct Handler_cls
 {
+    void Handle(int value);
 };
 
 // @fnv 0x00df6440
@@ -3336,7 +3336,6 @@ struct FreeHolder
     FreeAllocator* m_pAllocator;
 };
 
-FreeHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfbac0_cls
 {
@@ -3348,7 +3347,7 @@ struct FUN_00dfbac0_cls
 // @fnv 0x00dfbac0
 void __cdecl FUN_00dfbac0(FUN_00dfbac0_cls* apBuffer)
 {
-    FreeHolder* holder = FUN_00c85750();
+    FreeHolder* holder = static_cast<FreeHolder*>(::FUN_00c85750());
     FreeAllocator* alloc = holder->m_pAllocator;
     unsigned int flags = apBuffer->m_flags;
     apBuffer->m_04 = 0;
@@ -3654,7 +3653,6 @@ struct AllocHolder
     Allocator* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
 
 struct BufferBase
 {
@@ -3712,7 +3710,7 @@ struct FUN_00dfc150_cls : public BufferBase
 // @fnv 0x00dfc150
 void FUN_00dfc150_cls::FUN_00dfc150()
 {
-    AllocHolder* h = FUN_00c85750();
+    AllocHolder* h = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* alloc = h->m_pAllocator;
     unsigned int cap = m_cap1;
     m_count1 = 0;
@@ -3723,7 +3721,7 @@ void FUN_00dfc150_cls::FUN_00dfc150()
     m_pData1 = 0;
     m_cap1 = 0x80000000u;
 
-    h = FUN_00c85750();
+    h = static_cast<AllocHolder*>(::FUN_00c85750());
     alloc = h->m_pAllocator;
     cap = m_cap2;
     m_count2 = 0;
@@ -4756,7 +4754,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfd130_cls
 {
@@ -4776,7 +4773,7 @@ struct FUN_00dfd130_cls
 // @fnv 0x00dfd130
 FUN_00dfd130_cls* FUN_00dfd130_cls::FUN_00dfd130(unsigned char acFlags)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     int count = m_uiItemCount;
     m_14 = 0;
@@ -4789,7 +4786,7 @@ FUN_00dfd130_cls* FUN_00dfd130_cls::FUN_00dfd130(unsigned char acFlags)
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }
@@ -5002,7 +4999,6 @@ struct AllocHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct FUN_00dfd5a0_cls
 {
@@ -5014,7 +5010,7 @@ struct FUN_00dfd5a0_cls
 // @fnv 0x00dfd5a0
 void __cdecl ClearAndFreeData(FUN_00dfd5a0_cls* obj)
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_pAllocator;
     unsigned int flags = obj->m_08;
     obj->m_04 = 0;
@@ -5374,7 +5370,6 @@ struct EngineMemoryManager
     void* unknown0C;
     EngineHeap* heap;
 };
-EngineMemoryManager* __cdecl FUN_00c85750();
 struct ArrayEntry
 {
     unsigned int index;
@@ -5420,7 +5415,7 @@ struct ArrayContainer : ArrayBase
 // @fnv 0x00dfdfe0
 void ArrayContainer::ResetAndDestroy()
 {
-    EngineHeap* heap = FUN_00c85750()->heap;
+    EngineHeap* heap = static_cast<EngineMemoryManager*>(::FUN_00c85750())->heap;
     contents.Reset(heap);
     ArrayBase::~ArrayBase();
 }
@@ -5529,12 +5524,11 @@ struct FUN_00dfe210_manager
     FUN_00dfe210_allocator* unk10;
 };
 
-extern FUN_00dfe210_manager* __cdecl FUN_00c85750();
 
 // @fnv 0x00dfe210
 void __cdecl ClearArray(int* array)
 {
-    FUN_00dfe210_manager* manager = FUN_00c85750();
+    FUN_00dfe210_manager* manager = static_cast<FUN_00dfe210_manager*>(::FUN_00c85750());
     FUN_00dfe210_allocator* allocator = manager->unk10;
     int capacity = array[2];
 
@@ -5778,7 +5772,6 @@ struct FnvCpu_FUN_00dfeb80_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00dfeb80_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00dfeb80_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00dfeb80_CpuObject
 {
     unsigned int unk00;
@@ -5792,7 +5785,7 @@ FnvCpu_FUN_00dfeb80_CpuObject* FnvCpu_FUN_00dfeb80_CpuObject::FUN_00dfeb80(unsig
     reinterpret_cast<::fnv_00e42740::FUN_00e42740 *>(this)->fnv_00e42740::FUN_00e42740::~FUN_00e42740();
     if (flags & 1)
     {
-        FnvCpu_FUN_00dfeb80_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00dfeb80_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00dfeb80_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -6258,7 +6251,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SpawnedBase0
 {
@@ -6308,7 +6300,7 @@ FUN_00dff470_cls* FUN_00dff470_cls::DestroySelf(unsigned char acFlags)
     this->SpawnedBase0::~SpawnedBase0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -8489,7 +8481,7 @@ void __cdecl FUN_00de0fe0(int arg1, int arg2, int arg3, int arg4)
         } while (local.arr.count != 0);
     }
 
-    AudioHolder* holder = FUN_00c85750();
+    AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* alloc = holder->m_pAllocator;
     local.arr.count = 0;
     if ((local.arr.cap & 0x80000000) == 0)
@@ -8813,7 +8805,6 @@ void dummy_caller(void)
     WriteFloatToVector(g_wv, g_wv, &g_wv);
 }
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfb5a0_cls
 {
@@ -8845,7 +8836,7 @@ struct ElemDFB5A0
 // @fnv 0x00dfb5a0
 void FUN_00dfb5a0_cls::FUN_00dfb5a0()
 {
-    AudioAllocator* pAlloc = FUN_00c85750()->m_pAllocator;
+    AudioAllocator* pAlloc = static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
     DestructElementsDFB5A0((ElemDFB5A0*)m_pData, m_iArrayLength);
     m_iArrayLength = 0;
     if ((m_uCap & 0x80000000u) == 0)
@@ -8874,7 +8865,7 @@ template <class T> struct hkArray_de30
     int m_iCapacityState;
     void AddBack(const T& t)
     {
-        AudioHolder* router = FUN_00c85750();
+        AudioHolder* router = static_cast<AudioHolder*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(router->m_pAllocator, this, sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
@@ -9039,7 +9030,7 @@ int S00df2640_cls::FUN_00df2640(S00df2640_a1* a1, S00df2640_a2* a2)
             {
                 S00df2640_item* item = (S00df2640_item*)p->m_5C[i];
                 item->m_20 = (unsigned short)list->size;
-                AudioHolder* holder = FUN_00c85750();
+                AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
                 if (list->size == (int)(list->capBits & 0x3fffffffu))
                 {
                     ResizeAudioStream(holder->m_pAllocator, list, 4);
@@ -9050,7 +9041,7 @@ int S00df2640_cls::FUN_00df2640(S00df2640_a1* a1, S00df2640_a2* a2)
                 list->size++;
             }
 
-            AudioHolder* holder = FUN_00c85750();
+            AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
             AudioAllocator* alloc = holder->m_pAllocator;
             unsigned int cap = p->m_64;
             p->m_60 = 0;
@@ -9492,7 +9483,7 @@ struct ArrDF8800
 {
     ~ArrDF8800()
     {
-        AudioAllocator* pkAllocator = FUN_00c85750()->m_pAllocator;
+        AudioAllocator* pkAllocator = static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
         int iCapacityAndFlags = m_iCapacityAndFlags;
         m_uiLogicalSize = 0;
         if ((iCapacityAndFlags & 0x80000000) == 0)
@@ -10687,7 +10678,6 @@ void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p)
     ::FUN_00cb0c00((int)(p));
 }
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00de10b0_cls
 {
@@ -10697,7 +10687,7 @@ struct FUN_00de10b0_cls
 
     static void operator delete(void* apMemory) throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(apMemory, ((FUN_00de10b0_cls*)apMemory)->m_uSize);
     }
@@ -10755,7 +10745,6 @@ struct Manager
     int unk00, unk04, unk08, unk0c;
     Heap* volatile heap;
 };
-extern "C" Manager* __cdecl FUN_00c85750();
 struct Holder
 {
     void* volatile vtable;
@@ -10770,14 +10759,14 @@ struct Holder
 };
 void Holder::FUN_00dfed30()
 {
-    Manager* mgr = FUN_00c85750();
+    Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
     Heap* mem = mgr->heap;
     size2 = 0;
     if ((cap2 & 0x80000000) == 0)
         mem->release(data2, (cap2 & 0x3fffffff) * 4);
     data2 = 0;
     cap2 = 0x80000000;
-    Manager* mgr2 = FUN_00c85750();
+    Manager* mgr2 = static_cast<Manager*>(::FUN_00c85750());
     Heap* mem2 = mgr2->heap;
     size1 = 0;
     if ((cap1 & 0x80000000) == 0)
@@ -11718,7 +11707,7 @@ template <class T> class SuspensionArray
   public:
     ~SuspensionArray() throw()
     {
-        AudioHolder* holder = FUN_00c85750();
+        AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator& allocator = *holder->m_pAllocator;
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -12404,14 +12393,14 @@ struct PState
 };
 template <class T> static __forceinline T* reserveStack(int count)
 {
-    AudioHolder* p = FUN_00c85750();
+    AudioHolder* p = static_cast<AudioHolder*>(::FUN_00c85750());
     T* r = (T*)p->unk00;
     p->unk00 += ((sizeof(T) * count + 127) & ~127);
     return r;
 }
 template <class T> static __forceinline void restoreStack(T* p)
 {
-    FUN_00c85750()->unk00 = (int)p;
+    static_cast<AudioHolder*>(::FUN_00c85750())->unk00 = (int)p;
 }
 static __forceinline float pmin(float a, float b)
 {
@@ -12710,10 +12699,6 @@ void __cdecl FUN_00dfd770(void* arg1, void* arg2);
 
 void FUN_00dfda10(char* b, char* a);
 
-// VEGAS17-CONFLICT: FUN_00cb0a70 (variant definition below differs from the one above)
-struct FUN_00cb0a70
-{
-};
 
 void CopyFields(void* a, void* b);
 
@@ -12842,11 +12827,6 @@ void DF25D0Attach(void* pkItem, DF25D0Owner* pkOwner, unsigned char m_ucEntryTyp
 
 void CopyPairToIndex(FUN_00df3140_pair* dst, unsigned int idx, FUN_00df3140_pair* src);
 
-// VEGAS17-CONFLICT: Handler_cls (variant definition below differs from the one above)
-struct Handler_cls
-{
-    void Handle(int value);
-};
 
 int* __cdecl FUN_00df6490();
 
@@ -12856,10 +12836,6 @@ CpuOpaque* __cdecl FUN_00dfb260();
 
 int* __cdecl FUN_00dfb280();
 
-// VEGAS17-CONFLICT: FUN_00dfb2d0_class (variant definition below differs from the one above)
-struct FUN_00dfb2d0_class
-{
-};
 
 int* __cdecl FUN_00dfb360();
 
@@ -12869,10 +12845,6 @@ int* __cdecl FUN_00dfb3c0(void);
 
 void* __cdecl FUN_00dfb420();
 
-// VEGAS17-CONFLICT: FUN_00e2ebc0_cls (variant definition below differs from the one above)
-struct FUN_00e2ebc0_cls
-{
-};
 
 int* __cdecl FUN_00dfb480(void);
 
@@ -13019,11 +12991,6 @@ int* __cdecl FUN_00dfc7e0();
 
 void* __cdecl FUN_00dfc800();
 
-// VEGAS17-CONFLICT: DFC810Object (variant definition below differs from the one above)
-class DFC810Object
-{
-  public:
-};
 
 int* __cdecl FUN_00dfc8c0();
 
@@ -13082,10 +13049,6 @@ void __cdecl FUN_00dfcdb0(FUN_00dfcdb0_target* pTarget);
 
 void* __cdecl FUN_00dfcdd0();
 
-// VEGAS17-CONFLICT: DFD5E0 (variant definition below differs from the one above)
-struct DFD5E0
-{
-};
 
 void* __cdecl FUN_00dfce30();
 
@@ -13099,10 +13062,6 @@ void* __cdecl FUN_00dfcef0();
 
 void* __cdecl FUN_00dfcf10();
 
-// VEGAS17-CONFLICT: FUN_00dfcf20_cls (variant definition below differs from the one above)
-struct FUN_00dfcf20_cls
-{
-};
 
 void* FUN_00dfd0c0();
 
@@ -13117,10 +13076,6 @@ void* __cdecl FUN_00dfd1d0();
 // VEGAS17-CONFLICT: FUN_00dfd1e0_cls (variant definition below differs from the one above)
 // FUN_00dfd1e0: null-guarded forwarding of a second argument to a
 // member function of the first (object) argument.
-class FUN_00dfd1e0_cls
-{
-  public:
-};
 
 int* __cdecl FUN_00dfd230();
 
@@ -13136,10 +13091,6 @@ GlobalObjectO2_00d472a0* __cdecl FUN_00dfd2d0();
 // FUN_00dfd2f0 : a one-line function - getter
 void* FUN_00dfd2f0();
 
-// VEGAS17-CONFLICT: FUN_00e3dbd0_class (variant definition below differs from the one above)
-struct FUN_00e3dbd0_class
-{
-};
 
 void __cdecl FUN_00dfd360(int* param_1);
 
@@ -13160,11 +13111,6 @@ int* __cdecl FUN_00dfd590();
 
 int __cdecl FUN_00dfd5f0();
 
-// VEGAS17-CONFLICT: FUN_00dfd600_cls (variant definition below differs from the one above)
-class FUN_00dfd600_cls
-{
-  public:
-};
 
 // FUN_00dfd650 : a one-line function - getter
 void* FUN_00dfd650();
@@ -13332,10 +13278,6 @@ int __cdecl FUN_00dff3b0();
 
 int* __cdecl FUN_00dff3d0();
 
-// VEGAS17-CONFLICT: FUN_00e46300_class (variant definition below differs from the one above)
-struct FUN_00e46300_class
-{
-};
 
 void* __cdecl FUN_00dff510();
 
@@ -13352,9 +13294,6 @@ int* __cdecl FUN_00dff880();
 // VEGAS17-CONFLICT: FUN_00dff890_cls (variant definition below differs from the one above)
 // FUN_00dff890: forwards a second argument to a method of the first argument
 // when that pointer is non-null.
-struct FUN_00dff890_cls
-{
-};
 
 void* __cdecl FUN_00dffa20();
 
@@ -13385,10 +13324,6 @@ int __cdecl FUN_00dfff10();
 
 int* __cdecl FUN_00dfff70();
 
-// VEGAS17-CONFLICT: S_00dfff80_Foo (variant definition below differs from the one above)
-struct S_00dfff80_Foo
-{
-};
 
 // FUN_00dfffd0 : a one-line function - getter
 void* FUN_00dfffd0();

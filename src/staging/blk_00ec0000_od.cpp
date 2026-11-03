@@ -176,6 +176,7 @@ void FUN_00ec1570(FUN_00ec1570_t* p)
 
 struct MemoryManager
 {
+    void Deallocate(void*);
 };
 struct FUN_00ec15e0_shell
 {
@@ -2450,11 +2451,6 @@ int FUN_00ec16b0(int a);
 
 extern int __cdecl __stricmp(const char*, const char*);
 
-// VEGAS17-CONFLICT: MemoryManager (variant definition below differs from the one above)
-struct MemoryManager
-{
-    void Deallocate(void*);
-};
 
 int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 

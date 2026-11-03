@@ -10,7 +10,7 @@ namespace fnv_00d349b0 { struct Input_d2e9; }
 struct hkpConvexListAgent;
 
 // 0x00d343f0
-namespace fnv_00d343f0 { ::fnv_00d343f0::hkpCollisionAgentD343 *FUN_00d343f0(const ::fnv_00d343f0::hkpCdBodyD343 &, const ::fnv_00d343f0::hkpCdBodyD343 &, const ::fnv_00d343f0::hkpCollisionInputD343 &, ::fnv_00d343f0::hkpContactMgrD343 *); }
+namespace fnv_00d343f0 { void *FUN_00d343f0(const ::fnv_00d343f0::hkpCdBodyD343 &, const ::fnv_00d343f0::hkpCdBodyD343 &, const ::fnv_00d343f0::hkpCollisionInputD343 &, ::fnv_00d343f0::hkpContactMgrD343 *); }
 // 0x00d34510
 namespace fnv_00d34510 { void *FUN_00d34510(void *, void *, ::fnv_00d34510::AgentCollisionInput *, void *); }
 // 0x00d346b0

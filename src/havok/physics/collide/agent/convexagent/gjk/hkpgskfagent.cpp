@@ -8,6 +8,7 @@
 #include <new>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00dabf10_cls.h"
+#include "havok/hkpGskfAgent.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/decl/hkpGskBaseAgent_S.h"
 #include "fnv/symbols_00dac000.h"
@@ -62,30 +63,6 @@ void FUN_00dacaf0::cleanup(void* arg)
 }
 
 
-struct hkpGskfAgent
-{
-    struct ContactPoint
-    {
-        unsigned short m_unk0;
-        unsigned short m_id;
-        unsigned int m_unk4;
-    };
-    // The manifold that FUN_00dae340 and ReleaseAllEntries take as an S_00dad640_Set.
-    struct Manifold
-    {
-        unsigned char m_unk0;
-        unsigned char m_unk1;
-        unsigned char m_numContactPoints;
-        unsigned char m_unk3;
-        ContactPoint m_contactPoints[1];
-    };
-
-    unsigned char m_pad00[0x30];
-    Manifold m_manifold;  // +0x30
-
-    void FUN_00dacb20(unsigned short id);
-};
-
 // Looks for the contact point with a matching id and, if found, calls FUN_00dae340 with the manifold and its index.
 // @fnv 0x00dacb20
 void hkpGskfAgent::FUN_00dacb20(unsigned short id)
@@ -101,34 +78,17 @@ void hkpGskfAgent::FUN_00dacb20(unsigned short id)
     }
 }
 
-struct FUN_00dacb60_class
-{
-    unsigned char m_pad00[0x32];
-    unsigned char m_uiItemCount;
-    unsigned char m_pad01[3];
-
-    struct Potential
-    {
-        unsigned short m_uiFilterValue;
-        unsigned char m_auiShapeKeys[6];
-    };
-
-    Potential m_potentials[256];
-
-    void AddPotential(unsigned short value);
-};
-
 // @fnv 0x00dacb60
-void FUN_00dacb60_class::AddPotential(unsigned short value)
+void hkpGskfAgent::AddPotential(unsigned short value)
 {
-    int count = m_uiItemCount;
+    int count = m_manifold.m_numContactPoints;
     int i;
 
     for (i = 0; i < count; ++i)
     {
-        if (m_potentials[i].m_uiFilterValue == 0xffff)
+        if (m_manifold.m_contactPoints[i].m_id == 0xffff)
         {
-            m_potentials[i].m_uiFilterValue = value;
+            m_manifold.m_contactPoints[i].m_id = value;
             return;
         }
     }
@@ -136,30 +96,18 @@ void FUN_00dacb60_class::AddPotential(unsigned short value)
 
 extern int DAT_010d5224;
 
-struct GskNode;
-
-struct FUN_00dabf10
-{
-    void* m_pVtbl;
-    char m_b0[44];
-    int m_i0;
-    FUN_00dabf10(GskNode*, GskNode*, void*);
-    ~FUN_00dabf10();
-};
-
-struct FUN_00dacbd0 : FUN_00dabf10
-{
-    FUN_00dacbd0(GskNode* a, GskNode* b, void* c);
-    ~FUN_00dacbd0();
-};
-
-// Initializes the derived object: sets its vtable pointer to DAT_010d5224 and clears m_i0 after the base constructor runs.
+// Runs the base agent's constructor, then sets the gskf vtable and clears the manifold's counts.
 // @fnv 0x00dacbd0
-FUN_00dacbd0::FUN_00dacbd0(GskNode* a, GskNode* b, void* c) : FUN_00dabf10(a, b, c)
+hkpGskfAgent::hkpGskfAgent(GskNode* a, GskNode* b, void* c)
 {
-    m_pVtbl = &DAT_010d5224;
-    m_i0 = 0;
+    reinterpret_cast<::FUN_00dabf10_cls*>(this)->FUN_00dabf10(a, b, c);
+    m_vtable = &DAT_010d5224;
+    m_manifold.m_numVertsA = 0;
+    m_manifold.m_numVertsB = 0;
+    m_manifold.m_numContactPoints = 0;
+    m_manifold.m_reserved = 0;
 }
+
 
 struct hkSlotDACB
 {
@@ -289,20 +237,17 @@ inline void* allocateAgentDACC(int nbytes)
     return b;
 }
 
-struct GskInitDACC : FUN_00dacbd0
-{
-    FUN_00dabf10* FUN_00dacbd0(int, int, int);
-    FUN_00dabf10* FUN_00dabf10(int, int, int);
-};
-
-// If c is nonzero, allocates 0x80 bytes and calls FUN_00dacbd0; otherwise allocates 0x30 bytes and calls FUN_00dabf10; returns the constructed object.
+// If c is nonzero, builds a gskf agent; otherwise builds a gsk base agent; returns the constructed object.
 // @fnv 0x00dacc00
-FUN_00dabf10* __cdecl FUN_00dacc00(GskNode* a, GskNode* b, const void* unused, void* c)
+hkpGskBaseAgent* __cdecl FUN_00dacc00(GskNode* a, GskNode* b, const void* unused, void* c)
 {
     if (c)
-        return ((::FUN_00dabf10 *)(new ((void *)(static_cast<GskInitDACC*>(allocateAgentDACC(0x80)))) ::FUN_00dacbd0(a, b, c)));
-    return ((::FUN_00dabf10 *)(reinterpret_cast<::FUN_00dabf10_cls *>((static_cast<GskInitDACC*>(allocateAgentDACC(0x30))))->FUN_00dabf10(a, b, 0)));
+        return new (allocateAgentDACC(sizeof(hkpGskfAgent))) hkpGskfAgent(a, b, c);
+    void* agent = allocateAgentDACC(sizeof(hkpGskBaseAgent));
+    reinterpret_cast<::FUN_00dabf10_cls*>(agent)->FUN_00dabf10(a, b, 0);
+    return static_cast<hkpGskBaseAgent*>(agent);
 }
+
 
 __declspec(noinline) void __cdecl InitVtable(FUN_00dacc70_vt* p);
 

@@ -14,7 +14,8 @@
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00dabeb0_cls.h"
 #include "fnv/decl/FUN_00dabed0_cls.h"
-#include "fnv/decl/FUN_00dacb60_class.h"
+#include "havok/hkpGskfAgent.h"
+#include "havok/hkpShapeCollectionAgent.h"
 #include "fnv/decl/hkObjDACB.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/decl/hkpGskBaseAgent_S.h"
@@ -48,21 +49,27 @@ struct ConvexListAgentTrack
     int m_capacityAndFlags;
 };
 
-// The deprecated convex list agent; offsets are the 32-bit release's.
-struct hkpConvexListAgent
+struct hkpCdBodyD33D;
+
+// The deprecated convex list agent (hkpConvexListAgent, 0x90 bytes on 32-bit), a predictive gskf agent whose manifold
+// holds the agent track while it is in stream mode. Offsets are the 32-bit release's.
+struct hkpConvexListAgent : ::hkpGskfAgent
 {
-    const void* m_vtable;                         // +0x0
-    unsigned short m_memSizeAndFlags;             // +0x4
-    short m_referenceCount;                       // +0x6
-    ::S_00da40e0_ContactMgr* m_contactMgr;        // +0x8
-    unsigned char m_gskData[0x24];                // +0xc, the gsk agent's cache and separating normal
-    union
+    struct StreamData
     {
-        unsigned char m_gskfData[0x50];           // +0x30, the predictive gskf agent's data
-        ConvexListAgentTrack m_agentTrack;        // +0x30, used when the agent is in stream mode
+        ConvexListAgentTrack m_agentTrack;  // +0x30
+        float m_timeStamp;                  // +0x3c
     };
-    ::S_00da40e0_Dispatcher* m_dispatcher;        // +0x80
-    bool m_inStreamModus;                         // +0x84
+
+    ::S_00da40e0_Dispatcher* m_dispatcher;  // +0x80
+    bool m_inStreamModus;                   // +0x84
+    bool m_processFunctionCalled;           // +0x85
+    unsigned short m_unk86;                 // +0x86
+
+    StreamData& stream()
+    {
+        return *reinterpret_cast<StreamData*>(&m_manifold);
+    }
 
     void FUN_00d33770(const void* a);
     void FUN_00d337f0(int a);
@@ -70,6 +77,8 @@ struct hkpConvexListAgent
     void FUN_00d33830(int a);
     void FUN_00d33740(ConvexListAgentInput* a, int b);
     void FUN_00d33850(::S_00da40e0_ConstraintOwner* a);
+    void FUN_00d33ef0(void* arg);
+    hkpConvexListAgent* FUN_00d33940(const hkpCdBodyD33D* a, const hkpCdBodyD33D* b, const struct hkpCollisionInputD33D* c, void* d);
 };
 
 // @fnv 0x00d33770
@@ -78,7 +87,7 @@ void hkpConvexListAgent::FUN_00d33770(const void* a)
     if (m_inStreamModus)
         reinterpret_cast<::FUN_00dabeb0_cls *>(this)->Reset(a != nullptr);
     else
-        ::FUN_00da3510(reinterpret_cast<::AgentSectorPointerArray &>(m_agentTrack), *const_cast<::CollisionAgentContext *>(static_cast<const ::CollisionAgentContext *>(a)));
+        ::FUN_00da3510(reinterpret_cast<::AgentSectorPointerArray &>(stream().m_agentTrack), *const_cast<::CollisionAgentContext *>(static_cast<const ::CollisionAgentContext *>(a)));
 }
 
 extern "C" void __cdecl FUN_00d339d0(const void*, const void*, const void*, void*);
@@ -150,23 +159,18 @@ void __cdecl RegisterConvexListAgentCollisionFuncs(hkpConvexListAgent* self)
     reinterpret_cast<::FUN_00cfbbe0_cls *>((((hkpCollisionDispatcher*)self)))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::hkpCollisionDispatcher::CollisionAgentFunctionTable *)(&funcTable), 0x16, 0x16);
 }
 
-struct hkpGskfAgent
-{
-public:
-    void FUN_00dacb20(unsigned short);
-};
 // @fnv 0x00d337f0
 void hkpConvexListAgent::FUN_00d337f0(int a)
 {
     if (m_inStreamModus)
-        reinterpret_cast<::hkpGskfAgent *>(this)->FUN_00dacb20(a);
+        FUN_00dacb20(a);
 }
 
 // @fnv 0x00d33810
 void hkpConvexListAgent::FUN_00d33810(int a)
 {
     if (m_inStreamModus)
-        reinterpret_cast<::FUN_00dacb60_class *>(this)->AddPotential(a);
+        AddPotential(a);
 }
 
 // @fnv 0x00d33830
@@ -183,7 +187,7 @@ void hkpConvexListAgent::FUN_00d33740(ConvexListAgentInput* a, int iUnused)
 {
     if (!m_inStreamModus)
     {
-        ::FUN_00d97250(reinterpret_cast<::Hdr *>(&m_agentTrack), a->m_unk08, reinterpret_cast<::Logger *>(a));
+        ::FUN_00d97250(reinterpret_cast<::Hdr *>(&stream().m_agentTrack), a->m_unk08, reinterpret_cast<::Logger *>(a));
     }
 }
 
@@ -191,8 +195,8 @@ void hkpConvexListAgent::FUN_00d33740(ConvexListAgentInput* a, int iUnused)
 // @fnv 0x00d33850
 void hkpConvexListAgent::FUN_00d33850(::S_00da40e0_ConstraintOwner* a)
 {
-    ::FUN_00da42b0(reinterpret_cast<::BlockPoolArray *>(&m_agentTrack), m_dispatcher, m_contactMgr, *a);
-    m_agentTrack.m_sectors = nullptr;
+    ::FUN_00da42b0(reinterpret_cast<::BlockPoolArray *>(&stream().m_agentTrack), m_dispatcher, static_cast<::S_00da40e0_ContactMgr*>(m_contactMgr), *a);
+    stream().m_agentTrack.m_sectors = nullptr;
     m_inStreamModus = true;
 }
 
@@ -348,152 +352,85 @@ class hkpConvexListFilterD33D
 
 struct hkpCollisionInputD33D
 {
-    int m_aiUnk00[4];
+    ::S_00da40e0_Dispatcher* m_dispatcher;  // +0x0
+    int m_unk04;
+    int m_unk08;
+    const void* m_filter;                   // +0xc
     hkpConvexListFilterD33D* m_pConvexListCollisionFilter;
 };
 
-class hkpCollisionAgentD33D
+// Allocate the agents FUN_00d34510, FUN_00d343f0 and CreateConvexListAgent build. Each records its size in the
+// agent's memory size field, as hkpCollisionAgent's operator new does.
+static hkpConvexListAgent* newConvexListAgent(const void* bodyA, const void* bodyB, const void* input, void* mgr)
 {
-  public:
-    virtual ~hkpCollisionAgentD33D() throw();
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
+    hkpConvexListAgent* agent =
+        static_cast<hkpConvexListAgent*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(hkpConvexListAgent)));
+    agent->m_memSizeAndFlags = sizeof(hkpConvexListAgent);
+    return agent->FUN_00d33940(static_cast<const hkpCdBodyD33D*>(bodyA), static_cast<const hkpCdBodyD33D*>(bodyB),
+                               static_cast<const hkpCollisionInputD33D*>(input), mgr);
+}
 
-    static __forceinline void* operator new(size_t uiSize) throw()
-    {
-        hkpCollisionAgentD33D* p = static_cast<hkpCollisionAgentD33D*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
-        p->m_usMemSizeAndFlags = (unsigned short)uiSize;
-        return p;
-    }
-    static void operator delete(void* p) throw();
-};
-
-class FUN_00d33940 : public hkpCollisionAgentD33D
+static ::FUN_00d440f0* newShapeCollectionAgent(const void* bodyA, const void* bodyB, const void* input, void* mgr)
 {
-  public:
-    FUN_00d33940(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB, const hkpCollisionInputD33D& kInput,
-                 hkpContactMgrD33D* pkMgr) throw();
-    char m_acUnk08[0x88];
-};
+    void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d440f0));
+    ::FUN_00d440f0* agent = new (mem) ::FUN_00d440f0(*static_cast<const ::CdBodyS*>(bodyA), *static_cast<const ::CdBodyS*>(bodyB),
+                                                     *static_cast<const ::CollisionInputS*>(input), static_cast<::ContactMgrS*>(mgr));
+    agent->m_usMemSizeAndFlags = sizeof(::FUN_00d440f0);
+    return agent;
+}
 
-class hkpSymmetricConvexListAgentD33D : public FUN_00d33940
-{
-  public:
-    __forceinline hkpSymmetricConvexListAgentD33D(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB,
-                                                  const hkpCollisionInputD33D& kInput, hkpContactMgrD33D* pkMgr) throw()
-        : FUN_00d33940(kBodyB, kBodyA, kInput, pkMgr)
-    {}
-    virtual ~hkpSymmetricConvexListAgentD33D() throw();
-};
+static ::GskNode* asGskNode(const void* body);
 
-class FUN_00d440f0 : public hkpCollisionAgentD33D
+static ::hkpGskfAgent* newGskfAgent(const void* bodyA, const void* bodyB, void* mgr)
 {
-  public:
-    FUN_00d440f0(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB, const hkpCollisionInputD33D& kInput,
-                 hkpContactMgrD33D* pkMgr) throw();
-    char m_acUnk08[0x30];
-};
-
-class FUN_00dacbd0 : public hkpCollisionAgentD33D
-{
-  public:
-    FUN_00dacbd0(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB, hkpContactMgrD33D* pkMgr) throw();
-    char m_acUnk08[0x78];
-};
-
-class hkpPredGskfAgentD33D : public FUN_00dacbd0
-{
-  public:
-    __forceinline hkpPredGskfAgentD33D(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB,
-                                       hkpContactMgrD33D* pkMgr) throw()
-        : FUN_00dacbd0(kBodyA, kBodyB, pkMgr)
-    {}
-    virtual ~hkpPredGskfAgentD33D() throw();
-};
+    void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::hkpGskfAgent));
+    ::hkpGskfAgent* agent = new (mem) ::hkpGskfAgent(asGskNode(bodyA), asGskNode(bodyB), mgr);
+    agent->m_memSizeAndFlags = sizeof(::hkpGskfAgent);
+    return agent;
+}
 
 // Creates a collision agent for the two bodies: picks the agent class from the convex list filter's result, or a default agent when pkMgr is null.
 // @fnv 0x00d33dd0
-hkpCollisionAgentD33D* __cdecl CreateConvexListAgent(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB,
-                                                     const hkpCollisionInputD33D& kInput,
-                                                     hkpContactMgrD33D* pkMgr) throw()
+void* __cdecl CreateConvexListAgent(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB,
+                                    const hkpCollisionInputD33D& kInput, hkpContactMgrD33D* pkMgr) throw()
 {
     if (pkMgr)
     {
         switch (kInput.m_pConvexListCollisionFilter->ShouldBodiesCollide(kBodyA, kBodyB, kInput))
         {
-        case 0:
-            return new hkpSymmetricConvexListAgentD33D(kBodyA, kBodyB, kInput, pkMgr);
+        case 0: {
+            hkpConvexListAgent* agent = newConvexListAgent(&kBodyB, &kBodyA, &kInput, pkMgr);
+            agent->m_vtable = fnv_vftable_hkpSymmetricConvexListAgentD33D;
+            return agent;
+        }
         case 1:
-            return new FUN_00d440f0(kBodyA, kBodyB, kInput, pkMgr);
-        case 2:
-            return new hkpPredGskfAgentD33D(kBodyA, kBodyB, pkMgr);
+            return newShapeCollectionAgent(&kBodyA, &kBodyB, &kInput, pkMgr);
+        case 2: {
+            ::hkpGskfAgent* agent = newGskfAgent(&kBodyA, &kBodyB, pkMgr);
+            agent->m_vtable = fnv_vftable_hkpPredGskfAgentD33D;
+            return agent;
+        }
         }
         return 0;
     }
-    return new FUN_00d440f0(kBodyA, kBodyB, kInput, 0);
+    return newShapeCollectionAgent(&kBodyA, &kBodyB, &kInput, 0);
 }
 
 
-struct hkArrayD33E
-{
-    void* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    hkArrayD33E() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
-    {}
-};
-
-struct hkObjD33E
-{
-    int unk00;
-    int unk04;
-    void* m_pObservedSource;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    hkArrayD33E m_ppData;
-    float m_3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    char m_84;
-    char unk85;
-    short m_86;
-
-    void FUN_00d33ef0(void* arg);
-};
-
-// Reinitializes the embedded array, clears m_84 and m_3c, and sets m_86 to 0x19.
+// Releases the manifold's contact points, clears the mode flag and the stream time stamp, starts an empty agent track and
+// sets m_unk86 to 0x19.
 // @fnv 0x00d33ef0
-void hkObjD33E::FUN_00d33ef0(void* arg)
+void hkpConvexListAgent::FUN_00d33ef0(void* arg)
 {
-    ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&m_ppData), (::S_00dad640_Target *)(m_pObservedSource), arg);
-    m_84 = 0;
-    new (&m_ppData) hkArrayD33E();
-    ::InitBlockPool((::BlockPoolArray *)(void *)(&m_ppData));
-    m_3c = 0.0f;
-    m_86 = 0x19;
+    ::ReleaseAllEntries((::S_00dad640_Set *)(void *)(&m_manifold), (::S_00dad640_Target *)(m_contactMgr), arg);
+    m_inStreamModus = false;
+    StreamData& data = stream();
+    data.m_agentTrack.m_sectors = nullptr;
+    data.m_agentTrack.m_size = 0;
+    data.m_agentTrack.m_capacityAndFlags = 0x80000000;
+    ::InitBlockPool((::BlockPoolArray *)(void *)(&data.m_agentTrack));
+    data.m_timeStamp = 0.0f;
+    m_unk86 = 0x19;
 }
 
 namespace fnv_00d343f0 {
@@ -515,87 +452,39 @@ class hkpConvexListFilterD343
 
 struct hkpCollisionInputD343
 {
-    int m_aiUnk00[4];
+    ::S_00da40e0_Dispatcher* m_dispatcher;  // +0x0
+    int m_unk04;
+    int m_unk08;
+    const void* m_filter;                   // +0xc
     hkpConvexListFilterD343* m_pConvexListCollisionFilter;
 };
 
-class hkpCollisionAgentD343
-{
-  public:
-    virtual ~hkpCollisionAgentD343() throw();
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-
-    static __forceinline void* operator new(size_t uiSize) throw()
-    {
-        hkpCollisionAgentD343* p = static_cast<hkpCollisionAgentD343*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
-        p->m_usMemSizeAndFlags = (unsigned short)uiSize;
-        return p;
-    }
-    static void operator delete(void* p) throw();
-};
-
-class FUN_00d33940 : public hkpCollisionAgentD343
-{
-  public:
-    FUN_00d33940(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB, const hkpCollisionInputD343& kInput,
-                 hkpContactMgrD343* pkMgr) throw();
-    char m_acUnk08[0x88];
-};
-
-class FUN_00d440f0 : public hkpCollisionAgentD343
-{
-  public:
-    FUN_00d440f0(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB, const hkpCollisionInputD343& kInput,
-                 hkpContactMgrD343* pkMgr) throw();
-    char m_acUnk08[0x30];
-};
-
-class hkpSymmetricAgentD343 : public FUN_00d440f0
-{
-  public:
-    __forceinline hkpSymmetricAgentD343(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB,
-                                        const hkpCollisionInputD343& kInput, hkpContactMgrD343* pkMgr) throw()
-        : FUN_00d440f0(kBodyB, kBodyA, kInput, pkMgr)
-    {}
-    virtual ~hkpSymmetricAgentD343() throw();
-};
-
-class FUN_00dacbd0 : public hkpCollisionAgentD343
-{
-  public:
-    FUN_00dacbd0(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB, hkpContactMgrD343* pkMgr) throw();
-    char m_acUnk08[0x78];
-};
-
-class hkpPredGskfAgentD343 : public FUN_00dacbd0
-{
-  public:
-    __forceinline hkpPredGskfAgentD343(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB,
-                                       hkpContactMgrD343* pkMgr) throw()
-        : FUN_00dacbd0(kBodyA, kBodyB, pkMgr)
-    {}
-    virtual ~hkpPredGskfAgentD343() throw();
-};
-
 // @fnv 0x00d343f0
-hkpCollisionAgentD343* __cdecl FUN_00d343f0(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB,
-                                            const hkpCollisionInputD343& kInput, hkpContactMgrD343* pkMgr) throw()
+void* __cdecl FUN_00d343f0(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB,
+                           const hkpCollisionInputD343& kInput, hkpContactMgrD343* pkMgr) throw()
 {
     if (pkMgr)
     {
         switch (kInput.m_pConvexListCollisionFilter->ShouldBodiesCollide(kBodyB, kBodyA, kInput))
         {
         case 0:
-            return new FUN_00d33940(kBodyA, kBodyB, kInput, pkMgr);
-        case 1:
-            return new hkpSymmetricAgentD343(kBodyA, kBodyB, kInput, pkMgr);
-        case 2:
-            return new hkpPredGskfAgentD343(kBodyA, kBodyB, pkMgr);
+            return newConvexListAgent(&kBodyA, &kBodyB, &kInput, pkMgr);
+        case 1: {
+            ::FUN_00d440f0* agent = newShapeCollectionAgent(&kBodyB, &kBodyA, &kInput, pkMgr);
+            *(void* volatile*)agent = (void*)fnv_vftable_fnv_00d442c0_D442C0ShapeAgent;
+            return agent;
+        }
+        case 2: {
+            ::hkpGskfAgent* agent = newGskfAgent(&kBodyA, &kBodyB, pkMgr);
+            agent->m_vtable = fnv_vftable_hkpPredGskfAgentD33D;
+            return agent;
+        }
         }
         return 0;
     }
-    return new hkpSymmetricAgentD343(kBodyA, kBodyB, kInput, 0);
+    ::FUN_00d440f0* agent = newShapeCollectionAgent(&kBodyB, &kBodyA, &kInput, 0);
+    *(void* volatile*)agent = (void*)fnv_vftable_fnv_00d442c0_D442C0ShapeAgent;
+    return agent;
 }
 }  // namespace fnv_00d343f0
 
@@ -737,74 +626,28 @@ public:
     void FUN_00cb22f0(int a, int b);
 };
 
-struct S00d33940_Sub
+static ::GskNode* asGskNode(const void* body)
 {
-};
+    return static_cast<::GskNode*>(const_cast<void*>(body));
+}
 
-struct S00d33940_Base
-{
-    const void* vt;
-    void FUN_00dacbd0(int* a, int* b, void* d);
-};
-
-struct S00d33940_Obj : S00d33940_Base
-{
-    int unk04;
-    int unk08;
-    S00d33940_Sub unk0c;
-    char unk0d;
-    char unk0e;
-    char unk0f;
-    int unk10;
-    int unk14;
-    float unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    float unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    void* unk80;
-    unsigned char unk84;
-    unsigned char unk85;
-    S00d33940_Obj* FUN_00d33940(const hkpCdBodyD33D* a, const hkpCdBodyD33D* b, void* const* c, void* d);
-};
-
-// Calls FUN_00dacbd0(a, b, d), sets vt to DAT_010cebf0 and unk80 to *c, sets unk84/85, calls FUN_00dafcd0 on unk0c, and sets unk18 and unk2c to DAT_01012054.
+// Builds the gskf agent part, sets the convex list vtable, the dispatcher and the mode flags, fills the gsk cache from
+// the two shapes and sets the separating normal's time and distance to DAT_01012054.
 // @fnv 0x00d33940
-S00d33940_Obj* S00d33940_Obj::FUN_00d33940(const hkpCdBodyD33D* a, const hkpCdBodyD33D* b, void* const* c, void* d)
+hkpConvexListAgent* hkpConvexListAgent::FUN_00d33940(const hkpCdBodyD33D* a, const hkpCdBodyD33D* b,
+                                                     const hkpCollisionInputD33D* c, void* d)
 {
-    ::new ((void *)this) ::FUN_00dacbd0(*a, *b, static_cast<hkpContactMgrD33D*>(d));
-    vt = DAT_010cebf0;
-    unk80 = *c;
-    unk84 = 1;
-    unk85 = 0;
+    ::new ((void *)this) ::hkpGskfAgent(asGskNode(a), asGskNode(b), d);
+    m_vtable = DAT_010cebf0;
+    m_dispatcher = c->m_dispatcher;
+    m_inStreamModus = true;
+    m_processFunctionCalled = false;
 
     S00d33940_Out o;
     reinterpret_cast<::hkTransformCB22 *>(&(o))->FUN_00cb22f0(*a->m_motion, *b->m_motion);
-    reinterpret_cast<::Cls_dafcd0 *>(&(unk0c))->FUN_00dafcd0(a->m_shape, b->m_shape, (const ::Vec4Blk *)(::S00d33940_Out *)(&o));
-    float* __restrict p2 = &unk2c;
-    float* __restrict p1 = &unk18;
-    *p1 = *p2 = ::DAT_01012054;
+    reinterpret_cast<::Cls_dafcd0 *>(&(m_cache))->FUN_00dafcd0(a->m_shape, b->m_shape, (const ::Vec4Blk *)(::S00d33940_Out *)(&o));
+    m_separatingNormal[3] = ::DAT_01012054;
+    m_timeOfSeparatingNormal = m_separatingNormal[3];
     return this;
 }
 
@@ -1190,18 +1033,6 @@ extern "C" void __cdecl FUN_00d33ca0(const void* a, const void* b, const void* c
 
 namespace fnv_00d34510 {
 
-
-extern "C"
-{
-    void* __cdecl FUN_00dacbd0();
-    void* __cdecl FUN_00d440f0();
-    void* __cdecl FUN_00d33940();
-}
-
-typedef void*(* PfnDacbd0)(void* self, void* bodyA, void* bodyB, void* contactMgr);
-typedef void*(* PfnD440f0)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
-typedef void*(* PfnD33940)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
-
 struct AgentCollisionDispatcher
 {
     virtual void* vfunc0();
@@ -1212,18 +1043,11 @@ struct AgentCollisionDispatcher
 
 struct AgentCollisionInput
 {
-    int unk00;
+    ::S_00da40e0_Dispatcher* m_dispatcher;  // +0x0
     int unk04;
     int unk08;
-    int unk0C;
+    const void* m_filter;                   // +0xc
     AgentCollisionDispatcher* m_pCollisionDispatcher;
-};
-
-struct AgentHeader
-{
-    void* vtable;
-    unsigned short m_usMemSizeAndFlags;
-    short m_iObjectReferenceCount;
 };
 
 // Dispatches on collision type to allocate and initialize the appropriate agent object for the given body pair and contact manager.
@@ -1235,42 +1059,25 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
         switch (input->m_pCollisionDispatcher->getCollisionType(bodyA, bodyB, input))
         {
         case 0: {
-            int iAllocSize = 0x90;
-            void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
-            ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-            ((PfnD33940)FUN_00d33940)(agent, bodyB, bodyA, input, contactMgr);
-            *(void**)agent = (void*)fnv_vftable_hkpSymmetricConvexListAgentD33D;
+            hkpConvexListAgent* agent = newConvexListAgent(bodyB, bodyA, input, contactMgr);
+            agent->m_vtable = fnv_vftable_hkpSymmetricConvexListAgentD33D;
             return agent;
         }
-        case 1: {
-            int iAllocSize = 0x38;
-            void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
-            ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-            return ((PfnD440f0)FUN_00d440f0)(agent, bodyA, bodyB, input, contactMgr);
-        }
+        case 1:
+            return newShapeCollectionAgent(bodyA, bodyB, input, contactMgr);
         case 2: {
             switch (input->m_pCollisionDispatcher->getCollisionType(bodyB, bodyA, input))
             {
-            case 0: {
-                int iAllocSize = 0x90;
-                void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
-                ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-                return ((PfnD33940)FUN_00d33940)(agent, bodyA, bodyB, input, contactMgr);
-            }
+            case 0:
+                return newConvexListAgent(bodyA, bodyB, input, contactMgr);
             case 1: {
-                int iAllocSize = 0x38;
-                void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
-                ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-                ((PfnD440f0)FUN_00d440f0)(agent, bodyB, bodyA, input, contactMgr);
-                *(void**)agent = (void*)fnv_vftable_fnv_00d442c0_D442C0ShapeAgent;
+                ::FUN_00d440f0* agent = newShapeCollectionAgent(bodyB, bodyA, input, contactMgr);
+                *(void* volatile*)agent = (void*)fnv_vftable_fnv_00d442c0_D442C0ShapeAgent;
                 return agent;
             }
             case 2: {
-                int iAllocSize = 0x80;
-                void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
-                ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-                ((PfnDacbd0)FUN_00dacbd0)(agent, bodyA, bodyB, contactMgr);
-                *(void**)agent = (void*)fnv_vftable_hkpPredGskfAgentD33D;
+                ::hkpGskfAgent* agent = newGskfAgent(bodyA, bodyB, contactMgr);
+                agent->m_vtable = fnv_vftable_hkpPredGskfAgentD33D;
                 return agent;
             }
             }
@@ -1281,10 +1088,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
     }
     else
     {
-        int iAllocSize = 0x38;
-        void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
-        ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-        return ((PfnD440f0)FUN_00d440f0)(agent, bodyA, bodyB, input, 0);
+        return newShapeCollectionAgent(bodyA, bodyB, input, 0);
     }
 }
 }  // namespace fnv_00d34510
@@ -1748,7 +1552,7 @@ __forceinline void Agent::processCached(const Shape& a, const Shape& b, const Ar
                 return;
         }
         reinterpret_cast<::Container *>(&(ws))->FUN_00d33600((void *)&(a), (void *)&(b), (char *)&(d), (struct ::Callback *)(m_08));
-        reinterpret_cast<::hkObjD33E *>(this)->FUN_00d33ef0(d.m_04);
+        reinterpret_cast<::hkpConvexListAgent *>(this)->FUN_00d33ef0(d.m_04);
         retry = true;
         return;
     }

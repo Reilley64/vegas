@@ -19,4 +19,4 @@ namespace fnv_00d33ca0 { extern "C" void FUN_00d33ca0(const void *, const void *
 // 0x00d33da0
 void *FUN_00d33da0(void *, void *, void *, void *, void *);
 // 0x00d33dd0
-::hkpCollisionAgentD33D *CreateConvexListAgent(const ::hkpCdBodyD33D &, const ::hkpCdBodyD33D &, const ::hkpCollisionInputD33D &, ::hkpContactMgrD33D *);
+void *CreateConvexListAgent(const ::hkpCdBodyD33D &, const ::hkpCdBodyD33D &, const ::hkpCollisionInputD33D &, ::hkpContactMgrD33D *);

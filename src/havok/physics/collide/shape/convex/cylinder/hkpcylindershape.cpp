@@ -93,6 +93,7 @@ S00d57b20_Obj* S00d57b20_Obj::FUN_00d57b20(int condition)
 }
 
 #include <xmmintrin.h>
+#include <bit>
 #include <math.h>
 namespace fnv_00d57220 {
 
@@ -346,7 +347,7 @@ struct CylVec4
     void addMul4(float r, const CylVec4& a) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(_mm_set1_ps(r), a.m_vComponents)); }
     void mul4(float r) { m_vComponents = _mm_mul_ps(m_vComponents, _mm_set1_ps(r)); }
     void add4(const CylVec4& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
-    void setInt24W(int value) { ((int*)this)[3] = value | 0x3f000000; }
+    void setInt24W(int value) { m_vComponents[3] = std::bit_cast<float>(value | 0x3f000000); }
 };
 
 struct CylShapeAdapter : public hkpCylinderShape
@@ -742,7 +743,7 @@ struct CylinderSupportArithmetic {
 struct CylinderSupportStore : CylinderSupportArithmetic {
     __forceinline void assign(__m128 value,int id) {
         q = value;
-        reinterpret_cast<unsigned int*>(&q)[3] = (unsigned int)id | 0x3f000000u;
+        q[3] = std::bit_cast<float>((unsigned int)id | 0x3f000000u);
     }
 };
 class CylinderSupportShape : public hkpCylinderShape {

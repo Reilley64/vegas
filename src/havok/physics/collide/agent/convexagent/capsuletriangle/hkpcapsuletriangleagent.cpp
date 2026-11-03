@@ -290,6 +290,8 @@ static __forceinline void transform(Vec4* out, const char* shape, int count, con
     }
 }
 
+struct CollisionInput { int unk00; int unk04; float tolerance; };
+
 // Transforms two shapes' vertices by their matrices, then calls FUN_00cd6520 with the results, a4, a3's float at +8, a5 and a6.
 // @fnv 0x00d399f0
 void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, ::ContactRecord* a6)
@@ -308,7 +310,7 @@ void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, in
                  (const ::ContactVector *)(void *)(&aTransformedB[0]),
                  *(float*)(shapeB + 0x10),
                  (const float *)(a4),
-                 *(float*)((char*)pExtra + 8),
+                 reinterpret_cast<const CollisionInput*>(pExtra)->tolerance,
                  a5,
                  a6,
                  (::Feature *)(0));
@@ -581,8 +583,6 @@ struct hkpCdBody
     int unk04;
     const ContactMatrix* m_kMotionState;
 };
-
-struct CollisionInput { int unk00; int unk04; float tolerance; };
 
 struct __declspec(align(16)) RowPair { Vec4f first, second; };
 

@@ -58,6 +58,9 @@ extern "C" void __cdecl FUN_00b02c90();
 
 struct FUN_00b274a0_class
 {
+    char pad00[0x3c];
+    char unk3c;
+    int unk40;
     void FUN_00b02c90();
     FUN_00b274a0_class* ResetState();
 };
@@ -67,8 +70,8 @@ struct FUN_00b274a0_class
 FUN_00b274a0_class* FUN_00b274a0_class::ResetState()
 {
     new ((void *)this) ::FUN_00b02c90_class();
-    *reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x3c) = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x40) = 0;
+    unk3c = 0;
+    unk40 = 0;
     return this;
 }
 
@@ -165,7 +168,14 @@ void* FUN_00b393b0_Class::GetVtblAndValue(void* pOut)
     return pOut;
 }
 
-struct FUN_00b3c4b0_class
+struct FUN_00b3c5a0_class
+{
+    float data[0x14 / 4];
+    int count;
+    float FUN_00b3c5a0();
+};
+
+struct FUN_00b3c4b0_class : FUN_00b3c5a0_class
 {
     FUN_00b3c4b0_class* FUN_00b3c4b0(int a);
 };
@@ -174,24 +184,16 @@ struct FUN_00b3c4b0_class
 // @fnv 0x00b3c4b0
 FUN_00b3c4b0_class* FUN_00b3c4b0_class::FUN_00b3c4b0(int a)
 {
-    *(float*)(this + 0x10) = 0.0f;
-    *(float*)(this + 0xc) = 0.0f;
-    *(float*)(this + 8) = 0.0f;
-    *(float*)(this + 4) = 0.0f;
-    *(float*)this = 0.0f;
+    data[4] = 0.0f;
+    data[3] = 0.0f;
+    data[2] = 0.0f;
+    data[1] = 0.0f;
+    data[0] = 0.0f;
     if (a > 5)
         a = 5;
-    *(int*)(this + 0x14) = a;
+    count = a;
     return this;
 }
-
-
-struct FUN_00b3c5a0_class
-{
-    float data[0x14 / 4];
-    int count;
-    float FUN_00b3c5a0();
-};
 
 // @fnv 0x00b3c5a0
 float FUN_00b3c5a0_class::FUN_00b3c5a0()
@@ -202,21 +204,19 @@ float FUN_00b3c5a0_class::FUN_00b3c5a0()
     return std::sqrt(fSumSquares);
 }
 
-struct FUN_00b3c600_class
+struct FUN_00b3c600_class : FUN_00b3c5a0_class
 {
-    float* pData;
-    int* pCount;
     void NormalizeData();
 };
 // @fnv 0x00b3c600
 void FUN_00b3c600_class::NormalizeData()
 {
-    float fDivisor = ((double)(reinterpret_cast<::FUN_00b3c5a0_class *>(this)->FUN_00b3c5a0()));
+    float fDivisor = ((double)(FUN_00b3c5a0()));
     if (fDivisor != 0.0)
     {
-        for (int i = 0; i < *(int*)((char*)this + 0x14); ++i)
+        for (int i = 0; i < count; ++i)
         {
-            ((float*)((char*)this + 0))[i] = ((float*)((char*)this + 0))[i] / fDivisor;
+            data[i] = data[i] / fDivisor;
         }
     }
 }
@@ -631,14 +631,14 @@ void* FUN_00b277b0_cls::Destroy(unsigned int flags)
 {
     if (flags & 2)
     {
-        FUN_00ec5fce(this, 0x44, reinterpret_cast<int*>(this)[-1], &FUN_00b277b0_cls::FreeBuffers);
+        FUN_00ec5fce(this, 0x44, (int)reinterpret_cast<std::size_t*>(this)[-1], &FUN_00b277b0_cls::FreeBuffers);
 
         if (flags & 1)
         {
-            ::FUN_00401030(reinterpret_cast<char*>(this) - 4);
+            ::FUN_00401030(reinterpret_cast<char*>(this) - sizeof(std::size_t));
         }
 
-        return reinterpret_cast<char*>(this) - 4;
+        return reinterpret_cast<char*>(this) - sizeof(std::size_t);
     }
 
     reinterpret_cast<::ResourceBufferOwner *>(this)->FreeBuffers();
@@ -2885,10 +2885,12 @@ template <class T> struct ShortVec : ContainerBase
         if (size() < newSize)
             FUN_00b34e10(end(), newSize - size(), val);
         else if (newSize < size())
+        {
             const ::fnv_00b337f0::ConstIter<unsigned short> &first = begin() + newSize;
             const ::fnv_00b337f0::ConstIter<unsigned short> &last = end();
             ::FUN_00b33af0_pair result;
-            reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
+            reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0(&result, (uintptr_t)first.cont, (uintptr_t)first.ptr, (uintptr_t)last.cont, (uintptr_t)last.ptr);
+        }
     }
 };
 template void ShortVec<unsigned short>::FUN_00b337f0(unsigned int, unsigned short);
@@ -3625,7 +3627,7 @@ void VcVector::FUN_00b2df90()
     const ::fnv_00b2df90::vecb2d::VcConstIterator &first = begin();
     const ::fnv_00b2df90::vecb2d::VcConstIterator &last = end();
     ::SpanPair result;
-    reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)((*(void *const *)&(first)._Myptr)), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)((*(void *const *)&(last)._Myptr)));
+    reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)first._Myaux, (uintptr_t)first._Myptr, (uintptr_t)last._Myaux, (uintptr_t)last._Myptr);
 }
 }
 
@@ -5361,7 +5363,7 @@ void FUN_00b32540_Vector::FUN_00b32540()
     const ::_Vector_const_iteratorS<int> &first = begin();
     const ::_Vector_const_iteratorS<int> &last = end();
     ::FUN_00b33af0_pair result;
-    reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
+    reinterpret_cast<::FUN_00b33af0_cls *>(this)->FUN_00b33af0(&result, (uintptr_t)first._Myaux, (uintptr_t)first._Myptr, (uintptr_t)last._Myaux, (uintptr_t)last._Myptr);
 }
 
 namespace fnv_00b32880 {
@@ -10177,10 +10179,12 @@ void ResizeContainer::FUN_00b3d910(unsigned int count, T value)
     if (size() < count)
         FUN_00b3dbd0(end(), count - size(), value);
     else if (count < size())
+    {
         const ::fnv_00b3d910::ResizeCIterator &first = begin() + count;
         const ::fnv_00b3d910::ResizeCIterator &last = end();
         ::SpanPair result;
-        reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)((*(void *const *)&(last).position)));
+        reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)first.owner, (uintptr_t)first.position, (uintptr_t)last.owner, (uintptr_t)last.position);
+    }
     Pad24();
 }
 }

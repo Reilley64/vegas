@@ -84,15 +84,49 @@ void* FUN_00d08350::Set(void* arg)
     return self;
 }
 
-struct FUN_00d083a0_class {
+// hkpAabbTreeWorldManager fields read by the small setters below.
+struct AabbTreeWorldManagerFields {
+    char pad00[0x2c];
+    char m_flag2c;           // +0x2c
+    char pad2d[0x3];
+    int m_value30;           // +0x30
+    int m_value34;           // +0x34
+    int m_shift38;           // +0x38
+    char pad3c[0xc];
+    int m_count48;           // +0x48
+    char pad4c[0x4];
+    unsigned char m_entries50[0x19];  // +0x50, a HashEntryTable
+    char m_flag69;           // +0x69
+};
+// The hkpWorldObject and hkpCollidable fields the listeners read.
+struct D08Collidable {
+    char pad00[0x18];
+    signed char m_broadPhaseType;  // +0x18, m_broadPhaseHandle.m_type
+};
+struct D08WorldObject {
+    char pad00[0x10];
+    D08Collidable m_collidable;    // +0x10
+};
+// Finds the object whose listener interface is the member at `offset`.
+template <class Owner>
+static __forceinline Owner* ownerOfListener(void* listener, size_t offset)
+{
+    return reinterpret_cast<Owner*>(static_cast<char*>(listener) - offset);
+}
+// Positions of the manager's listener interfaces inside the manager objects.
+const size_t kPhantomListenerOffset = 0x14;
+const size_t kEntityListListenerOffset = 0x18;
+const size_t kFlaggedListenerOffset = 0x1c;
+const size_t kEntityListenerOffset = 0x20;
+struct FUN_00d083a0_class : AabbTreeWorldManagerFields {
     void FUN_00d083a0(int a);
 };
 
 // @fnv 0x00d083a0
 void FUN_00d083a0_class::FUN_00d083a0(int aiValue)
 {
-    *(int*)((char*)this + 0x30) = aiValue;
-    *(int*)((char*)this + 0x34) = (*(int*)((char*)this + 0x38) << 4) + aiValue;
+    m_value30 = aiValue;
+    m_value34 = (m_shift38 << 4) + aiValue;
 }
 
 struct FUN_00d08ff0_t {
@@ -134,32 +168,32 @@ FUN_00d0a1a0* FUN_00d0a1a0::Init(int aiFlags)
 // @fnv 0x00d08390
 int FUN_00d08390(void* self, int, intptr_t value)
 {
-    *(int**)((char*)self + 0x38) = (int*)value;
+    static_cast<AabbTreeWorldManagerFields*>(self)->m_shift38 = (int)value;
     return (int)(value << 5);
 }
 
 struct HashEntryTable {  public:
     void clear();
 };
-struct FUN_00d08550_Class {
+struct FUN_00d08550_Class : AabbTreeWorldManagerFields {
     void FUN_00d08550();
 };
 // @fnv 0x00d08550
 void FUN_00d08550_Class::FUN_00d08550()
 {
-    ((char*)this)[0x69] = 0;
-    reinterpret_cast<::FUN_00cb1a60_t *>((((HashEntryTable*)((char*)this + 0x50))))->ResetEntries();
+    m_flag69 = 0;
+    reinterpret_cast<::FUN_00cb1a60_t *>(&m_entries50)->ResetEntries();
 }
 
-struct FUN_00d08560_class {
+struct FUN_00d08560_class : AabbTreeWorldManagerFields {
     void FUN_00d08560();
 };
 // @fnv 0x00d08560
 void FUN_00d08560_class::FUN_00d08560()
 {
-    *(int*)((char*)this + 0x48) = 0;
-    *(char*)((char*)this + 0x2c) = 0;
-    *(char*)((char*)this + 0x69) = 0;
+    m_count48 = 0;
+    m_flag2c = 0;
+    m_flag69 = 0;
 }
 
 struct FUN_00d08940_class {
@@ -186,6 +220,11 @@ void FUN_00d083e0(void* arg)
 }
 
 struct FUN_00d08a90_class {
+    char pad0[4];
+    char m_enabled4;
+    char pad5[0x43];
+    char m_flag48;
+    char m_flag49;
     void FUN_00d08a90(void* arg);
 };
 struct FUN_00d08fb0_Class {
@@ -286,7 +325,7 @@ struct Derived {
 // @fnv 0x00d089e0
 void Derived::FUN_00d089e0()
 {
-    ((Base*)((char*)this - 0x18))->FUN_00d08570();
+    ownerOfListener<Base>(this, kEntityListListenerOffset)->FUN_00d08570();
 }
 }  // namespace fnv_00d089e0
 
@@ -703,21 +742,20 @@ void FUN_00d08a40_class::ProcessFlaggedEntries(void* arg)
         FlaggedEntrySource* p = (FlaggedEntrySource*)arg;
         for (i = 0; i < p->m_iEntryCount; i++)
         {
-            char* e = p->m_entries[i];
-            e += 0x10;
-            if (e[0x18] == 1)
-                reinterpret_cast<::FUN_00d08940_shell *>((((FUN_00d08940_class*)((char*)this - 0x1c))))->FUN_00d08940((const char *)(e));
+            D08Collidable* e = &reinterpret_cast<D08WorldObject*>(p->m_entries[i])->m_collidable;
+            if (e->m_broadPhaseType == 1)
+                ownerOfListener<::FUN_00d08940_shell>(this, kFlaggedListenerOffset)->FUN_00d08940((const char *)(e));
         }
     }
 }
 // @fnv 0x00d08a90
 void FUN_00d08a90_class::FUN_00d08a90(void* arg)
 {
-    if (((char*)this)[4]) {
-        arg = (char*)arg + 0x10;
-        ((char*)this)[0x49] = 1;
-        ((char*)this)[0x48] = 0;
-        reinterpret_cast<::FUN_00d08940_shell *>((((FUN_00d08940_class*)((char*)this - 0x20))))->FUN_00d08940((const char *)(arg));
+    if (m_enabled4) {
+        arg = &static_cast<D08WorldObject*>(arg)->m_collidable;
+        m_flag49 = 1;
+        m_flag48 = 0;
+        ownerOfListener<::FUN_00d08940_shell>(this, kEntityListenerOffset)->FUN_00d08940((const char *)(arg));
     }
 }
 // Looks up name via loader.Get and, on success, passes the arena router's e field and name to the sink at offset 0x50.
@@ -734,11 +772,16 @@ void FUN_00d08940_shell::FUN_00d08940(char const* name)
 
 struct FUN_00d9a4d0_class {
 };
+// The tree object whose entry index FUN_00d08c70 queries.
+struct D08C70_Tree {
+    char pad00[0x1c];
+    FUN_00d9a4d0_class m_entryIndex;  // +0x1c
+};
 struct FUN_00d08c70_class {
     int unk00;
     int unk04;
     int unk08;
-    FUN_00d9a4d0_class* unk0C;
+    D08C70_Tree* unk0C;
     void FUN_00d08c70(void* arg);
 };
 // Calls FUN_00d083e0 with arg to get a word, then passes it to the method at unk0C + 0x1c.
@@ -747,7 +790,7 @@ void FUN_00d08c70_class::FUN_00d08c70(void* arg)
 {
     typedef unsigned short (*FunctionReturningWord)(void*);
     unsigned int value = ((FunctionReturningWord)&FUN_00d083e0)(arg);
-    reinterpret_cast<::FUN_00d9a4d0_Class *>((((FUN_00d9a4d0_class*)((char*)unk0C + 0x1c))))->GetEntryOffset(value);
+    reinterpret_cast<::FUN_00d9a4d0_Class *>(&unk0C->m_entryIndex)->GetEntryOffset(value);
 }
 
 
@@ -808,17 +851,17 @@ public:
 // @fnv 0x00d08fb0
 void FUN_00d08fb0_Class::FUN_00d08fb0(char* arg)
 {
-    arg += 0x10;
+    arg = reinterpret_cast<char*>(&reinterpret_cast<D08WorldObject*>(arg)->m_collidable);
     m_55 = 1;
     m_54 = 0;
-    reinterpret_cast<::hkpEntityListD08C *>((((FUN_00d08fb0_Class*)((char*)this - 0x14))))->FUN_00d08c90((::hkpEntityD08C *)(arg));
+    ownerOfListener<::hkpEntityListD08C>(this, kPhantomListenerOffset)->FUN_00d08c90((::hkpEntityD08C *)(arg));
 }
 // @fnv 0x00d08fd0
 void FUN_00d08fd0_class::FUN_00d08fd0(void* a)
 {
     m_51 = 1;
     m_50 = 0;
-    reinterpret_cast<::hkpEntityListD08C *>((((FUN_00d08fd0_class*)((char*)this - 0x18))))->FUN_00d08c90((::hkpEntityD08C *)((char*)a + 0x10));
+    ownerOfListener<::hkpEntityListD08C>(this, kEntityListListenerOffset)->FUN_00d08c90((::hkpEntityD08C *)(&static_cast<D08WorldObject*>(a)->m_collidable));
 }
 
 // If the list is enabled, applies flags 0xffff to pkEntity and appends it to the entity array.
@@ -1797,7 +1840,7 @@ __forceinline void S00d094a0_beginList(const char* name, const char* detail)
         unsigned stamp;
         stamp = static_cast<unsigned int>(__rdtsc());
         p->m_uiCommandId = stamp;
-        t->m_kRayEnd = (char*)p + 16;
+        t->m_kRayEnd = reinterpret_cast<char*>(p + 1);
     }
 }
 __forceinline void S00d094a0_timer(const char* name)
@@ -2819,7 +2862,7 @@ __forceinline void S00d09020_trace(const char* tag, volatile unsigned int& ticks
         _ReadWriteBarrier();
         ticks = (unsigned int)__rdtsc();
         e->time = ticks;
-        s->current = (MonitorEvent*)((char*)e + 12);
+        s->current = e + 1;
     }
 }
 

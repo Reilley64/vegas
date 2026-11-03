@@ -94,9 +94,10 @@ void Cls_00d1e7b0::WriteDiagonal(float* pOut)
     float fDiag1 = m_c4;
     float fDiag2 = m_c8;
     __m128 z = _mm_setzero_ps();
-    ((__m128*)pOut)[0] = z;
-    ((__m128*)pOut)[1] = z;
-    ((__m128*)pOut)[2] = z;
+    __m128* pOutRows = reinterpret_cast<__m128*>(pOut);
+    pOutRows[0] = z;
+    pOutRows[1] = z;
+    pOutRows[2] = z;
     pOut[0] = fDiag0;
     pOut[5] = fDiag1;
     pOut[10] = fDiag2;
@@ -499,7 +500,7 @@ struct Vec
 {
     __m128 q;
 };
-struct Motion
+struct Motion : hkpMotion
 {
     void FUN_00d1eaf0(const Vec& impulse);
 };
@@ -507,7 +508,7 @@ struct Motion
 // @fnv 0x00d1eaf0
 void Motion::FUN_00d1eaf0(const Vec& impulse)
 {
-    const Mat& r = *(const Mat*)((char*)this + 0x10);
+    const Mat& r = reinterpret_cast<const Mat&>(m_kMotionState.m_kMotionTransform);
     __m128 a = r.c0, b = r.c1, c = r.c2;
     __m128 tmp = _mm_unpacklo_ps(a, b);
     __m128 ctmp = _mm_shuffle_ps(_mm_unpackhi_ps(a, b), c, 0xe4);
@@ -519,12 +520,12 @@ void Motion::FUN_00d1eaf0(const Vec& impulse)
     vResult = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(impulse.q, impulse.q, 0x00), a),
                                     _mm_mul_ps(_mm_shuffle_ps(impulse.q, impulse.q, 0x55), b)),
                          _mm_mul_ps(_mm_shuffle_ps(impulse.q, impulse.q, 0xaa), c));
-    vResult = _mm_mul_ps(vResult, ((const Vec*)((char*)this + 0xc0))->q);
+    vResult = _mm_mul_ps(vResult, reinterpret_cast<const Vec&>(m_kInertiaAndMassInv).q);
     vResult = _mm_add_ps(
-        _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(vResult, vResult, 0x00), _mm_load_ps((const float*)((char*)this + 0x10))),
-                   _mm_mul_ps(_mm_shuffle_ps(vResult, vResult, 0x55), _mm_load_ps((const float*)((char*)this + 0x20)))),
-        _mm_mul_ps(_mm_shuffle_ps(vResult, vResult, 0xaa), _mm_load_ps((const float*)((char*)this + 0x30))));
-    __m128& acc = ((Vec*)((char*)this + 0xe0))->q;
+        _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(vResult, vResult, 0x00), _mm_load_ps(reinterpret_cast<const float*>(&r.c0))),
+                   _mm_mul_ps(_mm_shuffle_ps(vResult, vResult, 0x55), _mm_load_ps(reinterpret_cast<const float*>(&r.c1)))),
+        _mm_mul_ps(_mm_shuffle_ps(vResult, vResult, 0xaa), _mm_load_ps(reinterpret_cast<const float*>(&r.c2))));
+    __m128& acc = reinterpret_cast<Vec&>(m_kAngularVelocity).q;
     acc = _mm_add_ps(acc, vResult);
 }
 

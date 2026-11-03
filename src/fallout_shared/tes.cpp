@@ -339,6 +339,13 @@ struct TESGridView
     int iCenterCellX;
     int iCenterCellY;
 };
+// Owner of the list at 0x9c read by FUN_00453470, FUN_00458f90 and FUN_00459060; the class is
+// not identified yet.
+struct ItemList9cView
+{
+    char pad[0x9c];
+    char kItemList[8];
+};
 struct GlobalObject_00a7b610
 {
 };
@@ -992,7 +999,7 @@ unsigned char FUN_00452480()
 }
 
 
-struct FUN_00453470_shell
+struct FUN_00453470_shell : ::ItemList9cView
 {
     int FUN_00453470(void);
 };
@@ -1000,7 +1007,7 @@ struct FUN_00453470_shell
 // @fnv 0x00453470
 int FUN_00453470_shell::FUN_00453470(void)
 {
-    return ((int)(::FUN_009938b0((const unsigned short *)(void *)(reinterpret_cast<char*>(this) + 0x9c))));
+    return ((int)(::FUN_009938b0((const unsigned short *)(void *)(kItemList))));
 }
 
 struct FUN_004534f0_shell
@@ -1058,13 +1065,15 @@ char const* FNStub::GetFullName() const
 
 struct FUN_00454b50_shell
 {
+    char pad[0xe0];
+    char kStringE0[8];
     char const* FUN_00454b50() const;
 };
 
 // @fnv 0x00454b50
 char const* FUN_00454b50_shell::FUN_00454b50() const
 {
-    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)this + 0xe0))))->FUN_00408da0()));
+    return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)reinterpret_cast<const FNStub*>(kStringE0))->FUN_00408da0()));
 }
 
 namespace fnv_00455600 {
@@ -1499,6 +1508,7 @@ void FUN_00455680()
 
 struct FUN_004565f0_shell
 {
+    char pad[0xa0];
     float m_f;
     float GetFloat();
 };
@@ -1506,7 +1516,7 @@ struct FUN_004565f0_shell
 // @fnv 0x004565f0
 float FUN_004565f0_shell::GetFloat()
 {
-    return *(float*)((char*)this + 0xa0);
+    return m_f;
 }
 
 
@@ -1550,6 +1560,8 @@ struct NP
 
 struct FUN_0045a520_shell
 {
+    char pad[0xa8];
+    void* spUnkA8;
     void LoadStartMenuModels();
 };
 
@@ -1568,7 +1580,7 @@ void FUN_0045a520_shell::LoadStartMenuModels()
     if (((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a520::StartMenu *>(&::g_011d0ce4))))->GetMenuTitle()))[0])
         (*reinterpret_cast<::fnv_0045a520::ModelLoader * *>(&::g_modelLoader))->FUN_0045a5e0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a520::StartMenu *>(&::g_011d0ce4))))->GetMenuTitle())));
 
-    ((NP*)((char*)this + 0xa8))->operator=(0);
+    reinterpret_cast<NP*>(&spUnkA8)->operator=(0);
 }
 }  // namespace fnv_0045a520
 
@@ -1743,13 +1755,15 @@ void __cdecl FUN_0045b020(void)
 
 struct FUN_0045c650_shell
 {
+    char pad[0xd0];
+    char unkD0[4];
     void* FUN_0045c650();
 };
 
 // @fnv 0x0045c650
 void* FUN_0045c650_shell::FUN_0045c650()
 {
-    return reinterpret_cast<char*>(this) + 0xD0;
+    return unkD0;
 }
 
 // @fnv 0x0045c670
@@ -1809,13 +1823,15 @@ int NiCamera::ClassifyPoint(const NiPoint3* apPoint)
 
 struct FUN_00451cd0_shell
 {
+    char pad[0x54];
+    unsigned char ucUnk54;
     unsigned char FUN_00451cd0();
 };
 
 // @fnv 0x00451cd0
 unsigned char FUN_00451cd0_shell::FUN_00451cd0()
 {
-    return *(unsigned char*)((char*)this + 0x54);
+    return ucUnk54;
 }
 
 namespace fnv_00452490 {
@@ -2209,12 +2225,14 @@ struct FUN_00459840_shell
 
 struct FUN_0045a730_shell
 {
+    char pad[0x130];
+    char acBuffer130[4];
     char* FUN_0045a730();
 };
 // @fnv 0x0045a730
 char* FUN_0045a730_shell::FUN_0045a730()
 {
-    return reinterpret_cast<char*>(this) + 0x130;
+    return acBuffer130;
 }
 
 
@@ -2226,6 +2244,7 @@ struct FUN_0045ae20_shell
 
 struct FUN_00451250_shell
 {
+    char pad[0x24];
     unsigned char bFlags;
     void SetFlag2(bool value);
 };
@@ -2233,7 +2252,7 @@ struct FUN_00451250_shell
 // @fnv 0x00451250
 void FUN_00451250_shell::SetFlag2(bool abSet)
 {
-    abSet ? ((unsigned char*)this)[0x24] |= 2 : ((unsigned char*)this)[0x24] &= ~2;
+    abSet ? bFlags |= 2 : bFlags &= ~2;
 }
 
 namespace fnv_00451530 {
@@ -2584,13 +2603,16 @@ public:
 
 struct FUN_00452370_shell
 {
+    const void* pVtable;
+    int unk04;
+    unsigned int uiFormFlags;
     bool FUN_00452370() const;
 };
 
 // @fnv 0x00452370
 bool FUN_00452370_shell::FUN_00452370() const
 {
-    return (*(const unsigned int*)((const char*)this + 8) & (std::uintptr_t)&DAT_01000000) ? true : false;
+    return (uiFormFlags & (std::uintptr_t)&DAT_01000000) ? true : false;
 }
 
 namespace fnv_00453940 {
@@ -2939,13 +2961,15 @@ struct BSSimpleListTESRaceSize
 
 struct FUN_00454400_shell
 {
+    char pad[0xac];
+    char kRaceList[8];
     int GetRaceListSize();
 };
 
 // @fnv 0x00454400
 int FUN_00454400_shell::GetRaceListSize()
 {
-    return ((BSSimpleListTESRaceSize*)((char*)this + 0xac))->GetSize();
+    return reinterpret_cast<BSSimpleListTESRaceSize*>(kRaceList)->GetSize();
 }
 
 void __cdecl FUN_00455680(void);
@@ -3711,18 +3735,20 @@ NiAVObject* FUN_0045c9a0_shell::GetCellNodeAt(unsigned int index)
     return node ? ((NiNode*)node)->GetAt(index) : 0;
 }
 
-struct FUN_00557090_shell
-{
-    void FUN_00557090();
-};
 struct FUN_005570b0_shell
 {
     void IsSet();
 };
+struct FUN_00557090_shell
+{
+    char pad[0x80];
+    FUN_005570b0_shell unk80;
+    void FUN_00557090();
+};
 // @fnv 0x00557090
 void FUN_00557090_shell::FUN_00557090()
 {
-    ((FUN_005570b0_shell*)((char*)this + 0x80))->IsSet();
+    unk80.IsSet();
 }
 
 namespace fnv_00c44e40 {
@@ -4985,16 +5011,16 @@ struct FUN_00459060_item
     short value;
 };
 
-struct FUN_00459060_shell
+struct FUN_00459060_shell : ::ItemList9cView
 {
     void AddOrAccumulateItem(unsigned int key, short value);
 };
 
-// Walks the list at this+0x9c for an item with the given key, adds value to it if found, otherwise allocates a new item and adds it to the head.
+// Walks kItemList for an item with the given key, adds value to it if found, otherwise allocates a new item and adds it to the head.
 // @fnv 0x00459060
 void FUN_00459060_shell::AddOrAccumulateItem(unsigned int key, short sValue)
 {
-    G2* node = reinterpret_cast<G2*>(reinterpret_cast<char*>(this) + 0x9c);
+    G2* node = reinterpret_cast<G2*>(kItemList);
 
     while (node && *((int **)((void *)(node))))
     {
@@ -5013,7 +5039,7 @@ void FUN_00459060_shell::AddOrAccumulateItem(unsigned int key, short sValue)
     item->key = key;
     item->value = sValue;
 
-    reinterpret_cast<G2*>(reinterpret_cast<char*>(this) + 0x9c)->AddHead(reinterpret_cast<int*>(&item));
+    reinterpret_cast<G2*>(kItemList)->AddHead(reinterpret_cast<int*>(&item));
 }
 
 namespace fnv_00459d20 {
@@ -5862,7 +5888,7 @@ void OwnerProxy::FUN_00457be0(int mode)
 }
 }  // namespace fnv_00457be0
 
-struct FUN_00458f90_shell
+struct FUN_00458f90_shell : ::ItemList9cView
 {
     void FUN_00458f90();
 };
@@ -5877,18 +5903,18 @@ struct G2List : G2
 {
 };
 
-// Walks the list at this+0x9c, deleting each referenced object, then calls FUN_00470470 on the list.
+// Walks kItemList, deleting each referenced object, then calls FUN_00470470 on the list.
 // @fnv 0x00458f90
 void FUN_00458f90_shell::FUN_00458f90()
 {
-    G2* entry = (G2*)((char*)this + 0x9c);
+    G2* entry = reinterpret_cast<G2*>(kItemList);
     while (entry != 0 && *((int **)((void *)(entry))) != 0)
     {
         int* object = *((int **)((void *)(entry)));
         delete object;
         entry = (G2*)reinterpret_cast<::Callees *>((entry))->FUN_00726070();
     }
-    reinterpret_cast<::FileMatchList *>((((G2List*)((char*)this + 0x9c))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>(reinterpret_cast<G2List*>(kItemList))->RemoveAll();
 }
 
 struct SaveFormRecord
@@ -6571,6 +6597,12 @@ void FUN_0045afb0_cls::SetNavMeshMaps(NavMeshHolder* pNavMeshMaps)
 
 namespace fnv_0045bc80 {
 struct Obj;
+// The map entries the cleanup walks keep a list at 0x24; their class is not identified yet.
+struct List24OwnerView
+{
+    char pad[0x24];
+    char kList24[8];
+};
 struct BigV
 {
     virtual Obj* v0();
@@ -6890,14 +6922,14 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                 if (base != 0)
                 {
                     node = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->AddEight((std::intptr_t)(base))));
-                    Obj* lst = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)((char*)node + 0x24))))));
+                    Obj* lst = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))));
                     std::uintptr_t nxtL = 0;
                     while (lst != 0)
                     {
-                        nxtL = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst))));
+                        nxtL = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))->DereferenceIfNotNull((int **)(lst))));
                         if (lst != 0)
                         {
-                            Obj* theItem = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((std::intptr_t)(lst))));
+                            Obj* theItem = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))->AddEight((std::intptr_t)(lst))));
                             std::intptr_t pass = ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((theItem))->FUN_007af430()));
                             Obj* vTmp = ((BigV*)theItem)->v116ret();
                             if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(char *)(&(*reinterpret_cast<char *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::fnv_0045bc80::Obj *)(vTmp->FUN_0043b4a0(0))))
@@ -6914,14 +6946,14 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
             node = ((Obj*)::FUN_0070ec90((char*)this))->FUN_006733e0();
             if (node != 0)
             {
-                Obj* lst2 = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)((char*)node + 0x24))))));
+                Obj* lst2 = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))));
                 std::intptr_t nxt2 = 0;
                 while (lst2 != 0)
                 {
-                    nxt2 = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst2))));
+                    nxt2 = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))->DereferenceIfNotNull((int **)(lst2))));
                     if (lst2 != 0)
                     {
-                        Obj* itemB = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((std::intptr_t)(lst2))));
+                        Obj* itemB = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))->AddEight((std::intptr_t)(lst2))));
                         std::intptr_t has = ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((itemB))->FUN_007af430()));
                         Obj* top = ((BigV*)itemB)->v116ret();
                         if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(char *)(&(*reinterpret_cast<char *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::fnv_0045bc80::Obj *)(top->FUN_0043b4a0(0))))

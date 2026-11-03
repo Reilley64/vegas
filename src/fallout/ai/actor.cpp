@@ -150995,6 +150995,22 @@ struct CachedScene : RefBase {
     virtual void Reserved();
     virtual void Destroy();
 };
+// The reference-counted value type of the 0x00b582b0 map (defined the same way in the staging unit that owns the map).
+struct MapRefObject
+{
+    virtual void RefVirtual();
+    virtual void DeleteThis();
+    unsigned int refs;
+    void IncRefCount()
+    {
+        InterlockedIncrement((volatile long*)&refs);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement((volatile long*)&refs) == 0)
+            DeleteThis();
+    }
+};
 struct SceneRef {
     CachedScene* p;
     SceneRef(CachedScene* v) : p(v) { if (p) InterlockedIncrement(&p->references); }
@@ -164646,7 +164662,7 @@ void kSelf::FUN_0094cae0(kActor* p)
             kShape* sh;
             for (kNodeT<kShape>* m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())); !done && m && (sh = *((::fnv_0094cae0::kShape **)(((::Vec3 *)(void *)(m))))) != 0; m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::Callees *>((m))->FUN_00726070())))
             {
-                if (reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&pos)))
+                if (reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&pos)))
                 {
                     reinterpret_cast<::TESRegionList *>(&(m764))->AddRegion((::TESRegion *)(ref));
                     if (reinterpret_cast<::RefList *>(&(list))->FUN_005f65d0((void **)(::fnv_0094cae0::kRef **)(&ref)))
@@ -164674,8 +164690,8 @@ void kSelf::FUN_0094cae0(kActor* p)
                     if (reinterpret_cast<::FUN_00549580_shell *>((ref))->FUN_00549580())
                     {
                         found = true;
-                        if (reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c0)) && reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c1)) && reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c2)) &&
-                            reinterpret_cast<::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c3)))
+                        if (reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c0)) && reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c1)) && reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c2)) &&
+                            reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c3)))
                             m79c = 1;
                     }
                     if (m760)
@@ -164807,21 +164823,305 @@ struct CrimeQueue
 {
 };
 
+// The Actor virtuals this function calls, at the vtable slots its original source declared.
+struct CrimeActorView
+{
+    virtual void Unk_0();
+    virtual void Unk_1();
+    virtual void Unk_2();
+    virtual void Unk_3();
+    virtual void Unk_4();
+    virtual void Unk_5();
+    virtual void Unk_6();
+    virtual void Unk_7();
+    virtual void Unk_8();
+    virtual void Unk_9();
+    virtual void Unk_A();
+    virtual void Unk_B();
+    virtual void Unk_C();
+    virtual void Unk_D();
+    virtual void Unk_E();
+    virtual void Unk_F();
+    virtual void Unk_10();
+    virtual void Unk_11();
+    virtual void Unk_12();
+    virtual void Unk_13();
+    virtual void Unk_14();
+    virtual void Unk_15();
+    virtual void Unk_16();
+    virtual void Unk_17();
+    virtual void Unk_18();
+    virtual void Unk_19();
+    virtual void Unk_1A();
+    virtual void Unk_1B();
+    virtual void Unk_1C();
+    virtual void Unk_1D();
+    virtual void Unk_1E();
+    virtual void Unk_1F();
+    virtual void Unk_20();
+    virtual void Unk_21();
+    virtual void Unk_22();
+    virtual void Unk_23();
+    virtual void Unk_24();
+    virtual void Unk_25();
+    virtual void Unk_26();
+    virtual void Unk_27();
+    virtual void Unk_28();
+    virtual void Unk_29();
+    virtual void Unk_2A();
+    virtual void Unk_2B();
+    virtual void Unk_2C();
+    virtual void Unk_2D();
+    virtual void Unk_2E();
+    virtual void Unk_2F();
+    virtual void Unk_30();
+    virtual void Unk_31();
+    virtual void Unk_32();
+    virtual void Unk_33();
+    virtual void Unk_34();
+    virtual void Unk_35();
+    virtual void Unk_36();
+    virtual void Unk_37();
+    virtual void Unk_38();
+    virtual void Unk_39();
+    virtual void Unk_3A();
+    virtual void Unk_3B();
+    virtual void Unk_3C();
+    virtual void Unk_3D();
+    virtual void Unk_3E();
+    virtual void Unk_3F();
+    virtual void Unk_40();
+    virtual void Unk_41();
+    virtual void Unk_42();
+    virtual void Unk_43();
+    virtual void Unk_44();
+    virtual void Unk_45();
+    virtual void Unk_46();
+    virtual void Unk_47();
+    virtual void Unk_48();
+    virtual void Unk_49();
+    virtual void Unk_4A();
+    virtual void Unk_4B();
+    virtual void Unk_4C();
+    virtual void Unk_4D();
+    virtual void Unk_4E();
+    virtual void Unk_4F();
+    virtual void Unk_50();
+    virtual void Unk_51();
+    virtual void Unk_52();
+    virtual void Unk_53();
+    virtual void Unk_54();
+    virtual void Unk_55();
+    virtual void Unk_56();
+    virtual void Unk_57();
+    virtual void Unk_58();
+    virtual void Unk_59();
+    virtual void Unk_5A();
+    virtual void Unk_5B();
+    virtual void Unk_5C();
+    virtual void Unk_5D();
+    virtual void Unk_5E();
+    virtual void Unk_5F();
+    virtual void Unk_60();
+    virtual void Unk_61();
+    virtual void Unk_62();
+    virtual void Unk_63();
+    virtual void Unk_64();
+    virtual void Unk_65();
+    virtual void Unk_66();
+    virtual void Unk_67();
+    virtual void Unk_68();
+    virtual void Unk_69();
+    virtual void Unk_6A();
+    virtual void Unk_6B();
+    virtual void Unk_6C();
+    virtual void Unk_6D();
+    virtual void Unk_6E();
+    virtual void Unk_6F();
+    virtual void Unk_70();
+    virtual void Unk_71();
+    virtual void Unk_72();
+    virtual void Unk_73();
+    virtual void Unk_74();
+    virtual void Unk_75();
+    virtual void Unk_76();
+    virtual void Unk_77();
+    virtual void Unk_78();
+    virtual void Unk_79();
+    virtual void Unk_7A();
+    virtual void Unk_7B();
+    virtual void Unk_7C();
+    virtual void Unk_7D();
+    virtual void Unk_7E();
+    virtual void Unk_7F();
+    virtual void Unk_80();
+    virtual void Unk_81();
+    virtual void Unk_82();
+    virtual void Unk_83();
+    virtual void Unk_84();
+    virtual void Unk_85();
+    virtual void Unk_86();
+    virtual void Unk_87();
+    virtual void Unk_88();
+    virtual void Unk_89();
+    virtual void Unk_8A();
+    virtual void Unk_8B();
+    virtual void Unk_8C();
+    virtual void Unk_8D();
+    virtual void Unk_8E();
+    virtual void Unk_8F();
+    virtual void Unk_90();
+    virtual void Unk_91();
+    virtual void Unk_92();
+    virtual void Unk_93();
+    virtual void Unk_94();
+    virtual void Unk_95();
+    virtual void Unk_96();
+    virtual void Unk_97();
+    virtual void Unk_98();
+    virtual void Unk_99();
+    virtual void Unk_9A();
+    virtual void Unk_9B();
+    virtual void Unk_9C();
+    virtual void Unk_9D();
+    virtual void Unk_9E();
+    virtual void Unk_9F();
+    virtual void Unk_A0();
+    virtual void Unk_A1();
+    virtual void Unk_A2();
+    virtual void Unk_A3();
+    virtual void Unk_A4();
+    virtual void Unk_A5();
+    virtual void Unk_A6();
+    virtual void Unk_A7();
+    virtual void Unk_A8();
+    virtual void Unk_A9();
+    virtual void Unk_AA();
+    virtual void Unk_AB();
+    virtual void Unk_AC();
+    virtual void Unk_AD();
+    virtual void Unk_AE();
+    virtual void Unk_AF();
+    virtual void Unk_B0();
+    virtual void Unk_B1();
+    virtual void Unk_B2();
+    virtual void Unk_B3();
+    virtual void Unk_B4();
+    virtual void Unk_B5();
+    virtual void Unk_B6();
+    virtual void Unk_B7();
+    virtual void Unk_B8();
+    virtual void Unk_B9();
+    virtual void Unk_BA();
+    virtual void Unk_BB();
+    virtual void Unk_BC();
+    virtual void Unk_BD();
+    virtual void Unk_BE();
+    virtual void Unk_BF();
+    virtual void Unk_C0();
+    virtual void Unk_C1();
+    virtual void Unk_C2();
+    virtual void Unk_C3();
+    virtual void Unk_C4();
+    virtual void Unk_C5();
+    virtual void Unk_C6();
+    virtual void Unk_C7();
+    virtual bool IsDead();
+    virtual void Unk_C9();
+    virtual void Unk_CA();
+    virtual void Unk_CB();
+    virtual void Unk_CC();
+    virtual void Unk_CD();
+    virtual void Unk_CE();
+    virtual void Unk_CF();
+    virtual void Unk_D0();
+    virtual void Unk_D1();
+    virtual void Unk_D2();
+    virtual void Unk_D3();
+    virtual void Unk_D4();
+    virtual void Unk_D5();
+    virtual void Unk_D6();
+    virtual void Unk_D7();
+    virtual void Unk_D8();
+    virtual void Unk_D9();
+    virtual void Unk_DA();
+    virtual void Unk_DB();
+    virtual void Unk_DC();
+    virtual void Unk_DD();
+    virtual void Unk_DE();
+    virtual void Unk_DF();
+    virtual void Unk_E0();
+    virtual void Unk_E1();
+    virtual void Unk_E2();
+    virtual void Unk_E3();
+    virtual void Unk_E4();
+    virtual void Unk_E5();
+    virtual void Unk_E6();
+    virtual void Unk_E7();
+    virtual void Unk_E8();
+    virtual void Unk_E9();
+    virtual void Unk_EA();
+    virtual void Unk_EB();
+    virtual void Unk_EC();
+    virtual void Unk_ED();
+    virtual void Unk_EE();
+    virtual void Unk_EF();
+    virtual void Unk_F0();
+    virtual void Unk_F1();
+    virtual void Unk_F2();
+    virtual void Unk_F3();
+    virtual void Unk_F4();
+    virtual void Unk_F5();
+    virtual void Unk_F6();
+    virtual void Unk_F7();
+    virtual void Unk_F8();
+    virtual void Unk_F9();
+    virtual void Unk_FA();
+    virtual void Unk_FB();
+    virtual void Unk_FC();
+    virtual void Unk_FD();
+    virtual void Unk_FE();
+    virtual void Unk_FF();
+    virtual void Unk_100();
+    virtual void Unk_101();
+    virtual void Unk_102();
+    virtual void Unk_103();
+    virtual void Unk_104();
+    virtual void Unk_105();
+    virtual void Unk_106();
+    virtual void Unk_107();
+    virtual void Unk_108();
+    virtual void Alert(::PlayerCharacter* target, int a, int b, int c, int d, int e, int f, int g);
+    virtual void Unk_10A();
+    virtual void Unk_10B();
+    virtual void Unk_10C();
+    virtual void Unk_10D();
+    virtual void Unk_10E();
+    virtual void Unk_10F();
+    virtual void Unk_110();
+    virtual void Unk_111();
+    virtual bool IsDisabled();
+};
+struct FUN_008c00e0_shell : public Actor
+{
+    void FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue);
+};
+
 // @fnv 0x008c00e0
-void Actor::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
+void FUN_008c00e0_shell::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
 {
     bool status = false;
-    if ((Actor*)this != ::_g_thePlayer)
+    if ((void*)this != (void*)::_g_thePlayer)
         return;
-    if (((int)(reinterpret_cast<::FUN_005224e0_class *>((::_g_thePlayer))->GetField230())) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CrimeLimit *>(&::g_011cd9f4)))))) && (Actor*)this == ::_g_thePlayer)
+    if (((int)(reinterpret_cast<::FUN_005224e0_class *>((::_g_thePlayer))->GetField230())) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CrimeLimit *>(&::g_011cd9f4)))))) && (void*)this == (void*)::_g_thePlayer)
         status = true;
     Actor* entry = dynamic_cast<Actor*>(victimRef);
-    if (entry->IsDead() || entry->IsDisabled())
+    if (reinterpret_cast<CrimeActorView*>(entry)->IsDead() || reinterpret_cast<CrimeActorView*>(entry)->IsDisabled())
     {
         ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
         return;
     }
-    if ((Actor*)this != ::_g_thePlayer && reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger((::ActorValue::Index)(42)) == 100 && IsSneaking())
+    if ((void*)this != (void*)::_g_thePlayer && reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger((::ActorValue::Index)(42)) == 100 && IsSneaking())
         return;
     FUN_009eb500* isLowLevel = 0;
     isLowLevel = new FUN_009eb500(1, victimRef, (Actor*)this, amount, crimeValue, 0);
@@ -164856,7 +165156,7 @@ void Actor::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
         }
         if (alert)
         {
-            this->Alert(::_g_thePlayer, 0, 1, 0, 0, 0, 1, 0);
+            reinterpret_cast<CrimeActorView*>(this)->Alert(::_g_thePlayer, 0, 1, 0, 0, 0, 1, 0);
             return;
         }
     }

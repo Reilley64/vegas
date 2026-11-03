@@ -2,6 +2,7 @@
 
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/inventory_fields.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -3043,6 +3044,8 @@ class RefX : public TESForm
 
 
 
+    char pad[0x140];
+    struct EntryX* pEquippedEntry;
 };
 
 struct ActivateDataX
@@ -3347,7 +3350,7 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         return true;
         break;
     case 0x33:
-        if (((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((apRef))->FUN_009d9f00())) && ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((apRef))->FUN_009d9f00()))))->GetName()))->GetFormType() != 0x1f)
+        if (((::EntryX *)(apRef->pEquippedEntry)) && ((::TESForm *)(((::EntryX *)(apRef->pEquippedEntry))->pType))->GetFormType() != 0x1f)
             break;
         if (apRef->GetFormType() == 0x3d)
         {
@@ -3502,9 +3505,9 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
     if (apRef)
     {
         RefX* pCreature = apRef->IsCreature() ? apRef : 0;
-        if (pCreature && ((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((pCreature))->FUN_009d9f00())))
+        if (pCreature && ((::EntryX *)(pCreature->pEquippedEntry)))
         {
-            ::TaskQueueInterface::CopyStringToBuffer(xszName, 0x104, ::FUN_00482720(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((pCreature))->FUN_009d9f00()))))->GetName()))));
+            ::TaskQueueInterface::CopyStringToBuffer(xszName, 0x104, ::FUN_00482720(((::TESForm *)(((::EntryX *)(pCreature->pEquippedEntry))->pType))));
         }
         else if (pCreature && ((::TESForm *)(reinterpret_cast<::FUN_00476c90_Class *>((pCreature))->FUN_00476c90())))
         {
@@ -3744,10 +3747,10 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         }
     }
     qqtISP = apRef->IsCreature() ? apRef : 0;
-    qODE = qqtISP && ((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((qqtISP))->FUN_009d9f00()));
+    qODE = qqtISP && ((::EntryX *)(qqtISP->pEquippedEntry));
     qnEqwa = qqtISP ? ((::TESForm *)(reinterpret_cast<::FUN_00476c90_Class *>((qqtISP))->FUN_00476c90())) : 0;
     qAhbO = qnEqwa && ::FUN_004c0bf0((::TESObjectWEAP *)(qnEqwa)) ? qnEqwa : 0;
-    EntryX qsSDDgz(qODE ? *((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((qqtISP))->FUN_009d9f00())) : EntryX(qAhbO ? qAhbO : ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430())), 0));
+    EntryX qsSDDgz(qODE ? *((::EntryX *)(qqtISP->pEquippedEntry)) : EntryX(qAhbO ? qAhbO : ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430())), 0));
     if (!qsSDDgz.pList)
         qsSDDgz.pList = new ExtraListListX();
     qsSDDgz.pList->AddHead(((::ExtraListX *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(apRef))->FUN_005d43c0())));
@@ -4719,7 +4722,7 @@ float __cdecl GetActorValueWithPerkModifiers(MobileObject* pMobileObject, Actor*
     unsigned int result;
     if (target != 0)
     {
-        result = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((target))->GetName()));
+        result = ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((target))->m_pItemObject));
     }
     else
     {
@@ -7614,6 +7617,8 @@ struct SceneGraphRoot_0077f0d0
 
 struct FaceGenNode_0077f0d0
 {
+    char pad[0xb4];
+    struct SceneGraphRoot_0077f0d0* unkB4;
 };
 
 struct IfaceMgr_0077f0d0
@@ -7636,7 +7641,7 @@ void RenderFaceGenScene()
         ((::fnv_0077f0d0::SceneNode_0077f0d0 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))->AttachNode(g_011d9770, 1);
     reinterpret_cast<::S148c0 *>((((::fnv_0077f0d0::Renderer_0077f0d0 *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     FaceGenNode_0077f0d0* pFaceGen5 = ((::fnv_0077f0d0::FaceGenNode_0077f0d0 *)(::FUN_0045c670()));
-    SceneGraphRoot_0077f0d0* pRoot4 = ((::fnv_0077f0d0::SceneGraphRoot_0077f0d0 *)(reinterpret_cast<::MiddleLowProcess *>((pFaceGen5))->GetProcessInteger()));
+    SceneGraphRoot_0077f0d0* pRoot4 = ((::fnv_0077f0d0::SceneGraphRoot_0077f0d0 *)(pFaceGen5->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((pRoot4))->FUN_00c4f270(1);
     FaceAnimData_0077f0d0* pGlobalForm = g_011d975c;
     ::UpdateCameraFrustum((::NiCamera *)(pGlobalForm), g_fUpdate_011a0140);

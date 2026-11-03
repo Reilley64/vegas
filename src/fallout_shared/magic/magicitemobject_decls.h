@@ -137,7 +137,6 @@ template <class T> class BSSimpleList
     T m_item;
     BSSimpleList<T>* m_pkNext;
     unsigned int ItemsInList();
-    char data[8];
 };
 class EffectItemList
 {

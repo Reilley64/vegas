@@ -180,7 +180,7 @@ void IdleAnimationDirectoryEntry::SetWeaponFiles(BSSimpleList<const char*>* file
                 ::FUN_005f38d0(filename, (unsigned int *)&(move), (unsigned int *)&(weapon), (bool *)&(flag));
                 if (weapon == ANIM_GROUP_WEAPON_ENUM_AGW_ONE_HAND_PISTOL)
                 {
-                    const char* basename = CRT::strrchr(filename, '\\');
+                    const char* basename = strrchr((char*)filename, '\\');
                     if (basename)
                     {
                         ++basename;

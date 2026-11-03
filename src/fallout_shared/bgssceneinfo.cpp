@@ -167,6 +167,7 @@ struct GlobalObject2_0040c150
 
 struct GlobalObject2_0045cfe0
 {
+    int* Int();
 };
 
 GlobalObject2_0045cfe0 g_011c59e0;
@@ -397,10 +398,11 @@ struct INISettingCollection
     virtual int v04();
     virtual int v05(unsigned int a);
 };
-struct SettingT
+struct SettingT_004a8fe0
 {
     static INISettingCollection* __cdecl GetCollection();
 };
+extern "C" unsigned char DAT_01188694[];
 
 // @fnv 0x004a8fe0
 void __cdecl FUN_004a8fe0()
@@ -408,8 +410,8 @@ void __cdecl FUN_004a8fe0()
     int i;
     for (i = 0; i < 0x10; ++i)
     {
-        SettingT::GetCollection()->v05(*(unsigned int*)(0x01188694 + i * 0x14));
-        SettingT::GetCollection()->v05(*(unsigned int*)(0x01188698 + i * 0x14));
+        SettingT_004a8fe0::GetCollection()->v05(*(unsigned int*)(DAT_01188694 + i * 0x14));
+        SettingT_004a8fe0::GetCollection()->v05(*(unsigned int*)(DAT_01188694 + 4 + i * 0x14));
     }
 }
 
@@ -1422,12 +1424,6 @@ struct GlobalObject2_0040c150_o2
     int* Int();
 };
 
-struct GlobalObject2_0045cfe0_o2
-{
-    int* Int();
-};
-
-GlobalObject2_0045cfe0_o2 g_011c59e0;
 
 struct FUN_004a9850_shell_o2
 {

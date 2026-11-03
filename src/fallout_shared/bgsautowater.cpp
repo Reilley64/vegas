@@ -56,6 +56,13 @@
 #include "fnv/symbols_0049c000.h"
 #include "fnv/symbols_0049d000.h"
 #include "fnv/symbols_0049e000.h"
+#include <cmath>
+class NiPoint3;
+struct Pt
+{
+    float x, y, z;
+    Pt& operator+=(const NiPoint3& other);
+};
 #include "fnv/symbols_004a8000.h"
 #include "fnv/symbols_00559000.h"
 #include "fnv/symbols_006b9000.h"
@@ -620,11 +627,6 @@ struct NiPoint2
     float x, y;
     NiPoint2(float x, float y);
 };
-struct Pt
-{
-    float x, y, z;
-    Pt& operator+=(const NiPoint3& other);
-};
 struct CellOrigin
 {
     NiPoint3 FUN_00535b30(bool interior);
@@ -724,9 +726,6 @@ struct SettingObj
 {
     unsigned char* FUN_00408d60();
 };
-namespace std {
-float abs(float);
-}
 struct FUN_0055a2f0
 {
     virtual void vslot00();

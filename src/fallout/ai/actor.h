@@ -276,6 +276,7 @@ inline __attribute__((always_inline))
     return static_cast<Actor*>(this);
 }
 
+#ifdef FNV_ACTOR_H_UNIT
 // @fnv 0x0087d6f0
 MagicCaster* Actor::GetMagicCaster()
 {
@@ -402,4 +403,5 @@ void Actor::UpdateActorMovement(float delta)
     }
     reinterpret_cast<::TESForm *>(&(g_011df69c))->ClearData();
 }
+#endif  // FNV_ACTOR_H_UNIT
 #endif

@@ -73,4 +73,5 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
 #include "fnv/symbols_011f6000.h"
+#define FNV_ACTOR_H_UNIT
 #include "actor.h"

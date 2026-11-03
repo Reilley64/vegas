@@ -673,6 +673,7 @@
 #include "fnv/decl/ScreenSplatter.h"
 #include "fnv/decl/Script.h"
 #include "fnv/decl/ScriptLocals.h"
+#undef SearchPath
 #include "fnv/decl/SearchOwner.h"
 #include "fnv/decl/SetLoc_S.h"
 #include "fnv/decl/ShapeCaster.h"

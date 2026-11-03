@@ -11,6 +11,7 @@
 #include "fnv/symbols_005f2000.h"
 #include "playercharacter_decls.h"
 
+#ifdef FNV_PLAYERCHARACTER_H_UNIT
 // @fnv 0x009520f0
 void PlayerCharacter::SetActionGroupFlags(unsigned short group, ACTION_FLAGS flags)
 {
@@ -64,4 +65,5 @@ ActorCombatGroup* PlayerCharacter::GetCombatGroup()
 {
     return m_pCombatData;
 }
+#endif  // FNV_PLAYERCHARACTER_H_UNIT
 #endif

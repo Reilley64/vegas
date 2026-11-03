@@ -93,11 +93,17 @@ struct TopicH
 {
 };
 
+// NiTransform is incomplete here: the rotation matrix comes before the translation.
+struct NiTransformView
+{
+    char kRotate[0x24];
+    char kTranslation[0xc];
+};
 // @fnv 0x00624ad0
 NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH)
 {
     ::FUN_00624b10((::FUN_004769c0_shell *)(arNiTran), (::FUN_004b4cf0_shell *)(::NiPoint3 *)(&(*(::NiPoint3 *)((void *)(arTopicH)))));
-    SetNiPoint3FromHkVector4(*(NiPoint3*)((char*)arNiTran + 0x24), *(const hkVector4*)((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((arTopicH))->GetAddTopicList())));
+    SetNiPoint3FromHkVector4(*reinterpret_cast<NiPoint3*>(reinterpret_cast<NiTransformView*>(arNiTran)->kTranslation), *(const hkVector4*)((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((arTopicH))->GetAddTopicList())));
     return arNiTran;
 }
 
@@ -106,15 +112,19 @@ struct NiTArray
 };
 struct FUN_006228e0_shell
 {
-    unsigned short m_iElementCount;
-    unsigned short m_cap;
+    const void* pVtable;
+    void* pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
     unsigned int FUN_006228e0(unsigned int, void*);
 };
 // @fnv 0x006228e0
 unsigned int FUN_006228e0_shell::FUN_006228e0(unsigned int n, void* p)
 {
-    if (n >= *(unsigned short*)((char*)this + 8))
-        reinterpret_cast<::NiTObjectArrayA47 *>((((NiTArray*)this)))->FUN_0060bef0(*(unsigned short*)((char*)this + 0xe) + n);
+    if (n >= m_usMaxSize)
+        reinterpret_cast<::NiTObjectArrayA47 *>((((NiTArray*)this)))->FUN_0060bef0(m_usGrowBy + n);
     reinterpret_cast<::FUN_00622920_Array *>(this)->SetAt(n, (*(const ::NiPointer< ::NiAVObject> *)(p)));
     return n;
 }
@@ -195,7 +205,16 @@ struct FUN_00c91840_shell
 struct FUN_00c917a0_shell
 {
 };
-struct FUN_006242f0_shell
+// The island activation listener's primary base and the listener base the havok world keeps.
+struct IslandListenerPrimaryView
+{
+    const void* pVtable;
+};
+struct IslandListenerSecondaryView
+{
+    const void* pListenerVtable;
+};
+struct FUN_006242f0_shell : IslandListenerPrimaryView, IslandListenerSecondaryView
 {
     void NotifyListener(void*);
 };
@@ -206,7 +225,7 @@ void FUN_006242f0_shell::NotifyListener(void* listener)
     if (listener)
     {
         reinterpret_cast<::ObjectTable *>((((FUN_00c91840_shell*)listener)))->RemovePointer(this);
-        reinterpret_cast<::hkWorldC917 *>((((FUN_00c917a0_shell*)listener)))->FUN_00c917a0(this ? (char*)this + 4 : 0);
+        reinterpret_cast<::hkWorldC917 *>((((FUN_00c917a0_shell*)listener)))->FUN_00c917a0(this ? static_cast<IslandListenerSecondaryView*>(this) : 0);
     }
 }
 

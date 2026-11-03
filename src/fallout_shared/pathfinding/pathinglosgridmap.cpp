@@ -48,7 +48,19 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00aa6000.h"
 #include "fnv/symbols_011de000.h"
-struct FUN_006e0590_shell
+struct PathingLOSGridMap
+{
+    void* pUnk00;
+    void* pUnk04;
+    void* kNavMeshGridMap[4];  // +0x08, a NiTPointerMap of nav mesh id to grid
+    float fCellSize;           // +0x18
+    int kLocation[10];         // +0x1C, a PathingLocation
+    float fRadius;             // +0x44
+    float fUnk48;              // +0x48
+    int kLock[2];              // +0x4C, a ReadWriteLock
+    void* FUN_006e0270(unsigned int);
+};
+struct FUN_006e0590_shell : public PathingLOSGridMap
 {
     void FUN_006e0590();
 };
@@ -60,7 +72,7 @@ struct FUN_006e10a0_shell
 // @fnv 0x006e0590
 void FUN_006e0590_shell::FUN_006e0590()
 {
-    reinterpret_cast<::fnv_006e10a0::FUN_006e10a0_Class *>((((FUN_006e10a0_shell*)(reinterpret_cast<char*>(this) + 4))))->FUN_006e10a0();
+    reinterpret_cast<::fnv_006e10a0::FUN_006e10a0_Class *>((((FUN_006e10a0_shell*)((char*)&this->pUnk04))))->FUN_006e10a0();
 }
 
 struct FUN_006a62f0_shell
@@ -91,6 +103,7 @@ public:
 
 struct FUN_006e08f0_shell
 {
+    void* kEntries[4];  // +0x00, a BSSimpleArray
     NavMeshInfo* m_pNavMeshInfo;
     bool FUN_006e08f0(NavMeshPtr& aArg);
 };
@@ -99,15 +112,11 @@ struct FUN_006e08f0_shell
 // @fnv 0x006e08f0
 bool FUN_006e08f0_shell::FUN_006e08f0(NavMeshPtr& aArg)
 {
-    if (reinterpret_cast<void**>(this)[4] == 0)
+    if (m_pNavMeshInfo == 0)
         return false;
-    return reinterpret_cast<NavMeshInfo*>(reinterpret_cast<void**>(this)[4])->ResolveNavMesh((::NavMeshPtr &)(aArg));
+    return m_pNavMeshInfo->ResolveNavMesh((::NavMeshPtr &)(aArg));
 }
 
-struct PathingLOSGridMap
-{
-    void* FUN_006e0270(unsigned int);
-};
 namespace fnv_006e0480 {
 struct PathingLOSGridMap
 {
@@ -155,7 +164,7 @@ struct FUN_006df760_shell
 struct FUN_006dfe90_shell
 {
 };
-struct FUN_006e0bc0_shell
+struct FUN_006e0bc0_shell : public PathingLOSGridMap
 {
     bool FUN_006e0bc0(BSAudio* aArg, bool aFlag);
 };
@@ -166,7 +175,7 @@ bool FUN_006e0bc0_shell::FUN_006e0bc0(BSAudio* aArg, bool aFlag)
     if (!pTopic || ((FUN_006df760_shell*)aArg)->GetShortValueAtOffset24() == 0xFFFF)
         return false;
     std::uintptr_t key = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(*(Flt*)pTopic, (::fnv_00853130::CombatThreatRecord *&)(key)))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((DummyPointerMap*)((char*)&this->kNavMeshGridMap))))->FUN_00853130(*(Flt*)pTopic, (::fnv_00853130::CombatThreatRecord *&)(key)))
         return reinterpret_cast<::FUN_006dfe90_S *>((((FUN_006dfe90_shell*)key)))->FUN_006dfe90((::PathingLocation *)(aArg), aFlag);
     return false;
 }
@@ -250,6 +259,8 @@ struct FUN_006e0e80
 };
 struct FUN_006e0480
 {
+    void* kEntries[4];  // +0x00, a BSSimpleArray
+    NavMeshInfo* pNavMeshInfo;
     ~FUN_006e0480();
     void FUN_006e0070(BGSLoadFormBuffer*);
 };
@@ -258,7 +269,7 @@ struct LocX
     virtual void v0();
     virtual void LoadGame(BGSLoadFormBuffer*);
 };
-struct FUN_006e0d20_t
+struct FUN_006e0d20_t : public PathingLOSGridMap
 {
     void FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -277,14 +288,14 @@ void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
         if (inavmeshID == 0)
             bremove = true;
         if (!bremove)
-            reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 8))))->FUN_00844700(inavmeshID, (std::uintptr_t)ppathingLOSGrid);
+            reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)&this->kNavMeshGridMap))))->FUN_00844700(inavmeshID, (std::uintptr_t)ppathingLOSGrid);
         else
             delete ppathingLOSGrid;
     }
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x18), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x44), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x48), 4);
-    ((LocX*)((char*)this + 0x1c))->LoadGame(apLoadGameBuffer);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->fCellSize), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->fRadius), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->fUnk48), 4);
+    ((LocX*)((char*)&this->kLocation))->LoadGame(apLoadGameBuffer);
 }
 
 struct FUN_00aa6060_shell
@@ -303,7 +314,7 @@ struct FUN_00aa62e0_shell
 {
     void FUN_00aa62e0();
 };
-struct FUN_006e03e0_shell
+struct FUN_006e03e0_shell : public PathingLOSGridMap
 {
     void ClearMap();
 };
@@ -311,22 +322,22 @@ struct FUN_006e03e0_shell
 // @fnv 0x006e03e0
 void FUN_006e03e0_shell::ClearMap()
 {
-    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(((FUN_00aa6060_shell*)((char*)this + 0x4c))));
-    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 8))))->GetFirstPos();
+    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(((FUN_00aa6060_shell*)((char*)&this->kLock))));
+    void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)&this->kNavMeshGridMap))))->GetFirstPos();
     while (position)
     {
         unsigned int key = 0;
         FUN_006e0480* value = 0;
-        reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 8))))->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&((void*&)value));
+        reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)&this->kNavMeshGridMap))))->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&((void*&)value));
         delete value;
     }
-    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)((char*)this + 8))))->FUN_00438af0();
-    ((FUN_00aa62e0_shell*)((char*)this + 0x4c))->FUN_00aa62e0();
+    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)((char*)&this->kNavMeshGridMap))))->FUN_00438af0();
+    ((FUN_00aa62e0_shell*)((char*)&this->kLock))->FUN_00aa62e0();
 }
 
 struct ArrSI
 {
-    unsigned char pad[0x13];
+    void* kEntries[4];  // a BSSimpleArray
     void* FUN_006e0ed0(unsigned int);
 };
 
@@ -344,7 +355,8 @@ struct FUN_006df9c0_shell
     unsigned char m_byte;
     unsigned char pad[3];
     ArrSI m_aiIndexedValues;
-    unsigned char pad2[0x14];
+    unsigned int uiUnk14;
+    unsigned int uiUnk18;
 
     void FUN_006df9c0(BGSSaveGameBuffer*);
 };
@@ -354,13 +366,13 @@ struct FUN_006df9c0_shell
 void FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((void*)((char*)this + 0x18), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((void*)&uiUnk18, 4, 0);
 
     if (!m_byte)
     {
         unsigned int count;
 
-        count = ((char*)this + 4) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_aiIndexedValues))->GetName())) : 0;
+        count = (&m_aiIndexedValues) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_aiIndexedValues))->GetName())) : 0;
         buffer->FUN_00865f60(count);
 
         for (unsigned int i = 0; i < count; ++i)
@@ -378,6 +390,7 @@ struct FUN_006e10c0_shell
 
 struct FUN_006dfa70_index_shell
 {
+    void* kEntries[4];  // a BSSimpleArray
     char* FUN_006e0ed0(void*);
 };
 
@@ -386,7 +399,8 @@ struct FormLoadEntry
     bool m_bIsLoaded;
     unsigned char pad0[3];
     FUN_006dfa70_index_shell index;
-    unsigned char pad1[0x10];
+    unsigned int uiUnk14;
+    unsigned int uiUnk18;
 
     void LoadForm(BGSLoadFormBuffer*);
 };
@@ -396,7 +410,7 @@ struct FormLoadEntry
 void FormLoadEntry::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0x18), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&uiUnk18), 4);
 
     if (!m_bIsLoaded)
     {
@@ -522,7 +536,7 @@ struct FUN_006dfba0_shell
 {
 };
 
-struct FUN_006e05f0_shell
+struct FUN_006e05f0_shell : public PathingLOSGridMap
 {
     bool AddNavMeshes(ArrSI*);
 };
@@ -530,19 +544,19 @@ struct FUN_006e05f0_shell
 // @fnv 0x006e05f0
 bool FUN_006e05f0_shell::AddNavMeshes(ArrSI* aArg)
 {
-    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(reinterpret_cast<Lock*>(reinterpret_cast<unsigned char*>(this) + 0x4c)));
+    ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(reinterpret_cast<Lock*>((unsigned char*)&this->kLock)));
 
     for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((aArg))->GetName())); ++index)
     {
         NiPointer<NavMesh> ptrNavMesh2(reinterpret_cast<NavMesh*>(reinterpret_cast<Arr*>(aArg)->GetAt(index)));
         unsigned int navMeshID = 0;
 
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(reinterpret_cast<unsigned char*>(this) + 8)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())),
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>((unsigned char*)&this->kNavMeshGridMap)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())),
                          (::fnv_00853130::CombatThreatRecord *&)(navMeshID)))
         {
             navMeshID = (unsigned int)reinterpret_cast<std::uintptr_t>(new FUN_006e0730(&ptrNavMesh2));
 
-            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(reinterpret_cast<unsigned char*>(this) + 8)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())), navMeshID);
+            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>((unsigned char*)&this->kNavMeshGridMap)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())), navMeshID);
         }
         else
         {
@@ -550,7 +564,7 @@ bool FUN_006e05f0_shell::AddNavMeshes(ArrSI* aArg)
         }
     }
 
-    reinterpret_cast<::FUN_00aa62e0_shell *>((reinterpret_cast<Lock*>(reinterpret_cast<unsigned char*>(this) + 0x4c)))->FUN_00aa62e0();
+    reinterpret_cast<::FUN_00aa62e0_shell *>((reinterpret_cast<Lock*>((unsigned char*)&this->kLock)))->FUN_00aa62e0();
     return true;
 }
 
@@ -1273,7 +1287,7 @@ void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
     inavmeshID = 0;
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&inavmeshID));
 
-    ((NavMeshInfo**)((char*)this + 0x10))[0] =
+    pNavMeshInfo =
         ((::NavMeshInfo *)(((Pathing*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())))->FindReferenceByFormId(inavmeshID)));
 
     {
@@ -1293,7 +1307,7 @@ void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
                 *ppFormLoadEntry = (FormLoadEntry*)new FUN_006e0190();
 
                 (*ppFormLoadEntry)->LoadForm(apLoadGameBuffer);
-                reinterpret_cast<FUN_006e0190*>(*ppFormLoadEntry)->pNavMeshInfo = ((NavMeshInfo**)((char*)this + 0x10))[0];
+                reinterpret_cast<FUN_006e0190*>(*ppFormLoadEntry)->pNavMeshInfo = pNavMeshInfo;
             }
         }
     }

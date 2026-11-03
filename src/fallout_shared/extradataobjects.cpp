@@ -709,8 +709,9 @@ unsigned short FUN_004301b0_shell::FUN_004301b0(int aeSection)
 }
 
 extern int DAT_01015b58;
-struct FUN_004308f0_stub
+struct FUN_004308f0_stub : public BSExtraData
 {
+    void* pData;
     void* ConstructExtraDataWithPointer(void* p);
 };
 // Constructs a BSExtraData with type 0x29, installs the vtable at DAT_01015b58, stores p at offset 0xc and returns this.
@@ -719,7 +720,7 @@ void* FUN_004308f0_stub::ConstructExtraDataWithPointer(void* p)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((reinterpret_cast<BSExtraData*>(this)))->init(0x29);
     *reinterpret_cast<int**>(this) = &DAT_01015b58;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xc) = p;
+    pData = p;
     return this;
 }
 
@@ -753,8 +754,9 @@ int __cdecl GetLockLevelMax(int aiDifficulty)
 }
 
 extern int DAT_0101589c;
-struct FUN_00430c70_stub
+struct FUN_00430c70_stub : public BSExtraData
 {
+    void* pData;
     void* InitExtraDataWithPointer(void* p);
 };
 // Constructs a BSExtraData with type 0x2a, installs the vtable at DAT_0101589c and stores p at offset 0xc.
@@ -763,7 +765,7 @@ void* FUN_00430c70_stub::InitExtraDataWithPointer(void* p)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((reinterpret_cast<BSExtraData*>(this)))->init(0x2a);
     *reinterpret_cast<int**>(this) = &DAT_0101589c;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xc) = p;
+    pData = p;
     return this;
 }
 
@@ -925,8 +927,9 @@ FUN_00431830_shell* FUN_00431830_shell::InitExtraContainerChanges(void* apChange
 }
 }
 
-struct FUN_00431d10_stub
+struct FUN_00431d10_stub : public BSExtraData
 {
+    float fValue;
     void* FUN_00431d10(float p);
 };
 // Constructs a BSExtraData of type 0x25, sets its vtable to DAT_010158e4 and stores the float p at offset 0xc, returning this.
@@ -935,7 +938,7 @@ void* FUN_00431d10_stub::FUN_00431d10(float afValue)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((reinterpret_cast<BSExtraData*>(this)))->init(0x25);
     *reinterpret_cast<int**>(this) = &DAT_010158e4;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc) = afValue;
+    fValue = afValue;
     return this;
 }
 
@@ -966,7 +969,7 @@ BSExtraData* FUN_00432f00(BSExtraData* pThis)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x12);
     *(int**)pThis = &DAT_01015c60;
-    *(int*)((char*)pThis + 0xc) = 0;
+    ((FUN_00432e60_helper*)pThis)->m_pEncounterZone = 0;
     return pThis;
 }
 
@@ -2424,7 +2427,7 @@ FUN_00431890::~FUN_00431890()
 }  // namespace fnv_00431890
 
 namespace fnv_00431950 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
@@ -2441,8 +2444,8 @@ extern const void* vftable_FUN_004319b0;
 // @fnv 0x00431950
 FUN_00431950::FUN_00431950(void* apRef) : BE(0x20)
 {
-    *reinterpret_cast<void**>(this) = &vftable_FUN_004319b0;
-    *(void**)(reinterpret_cast<char*>(this) + 0xc) = apRef;
+    *reinterpret_cast<void**>(this) = (void*)&vftable_FUN_004319b0;
+    m_pWorldReferenceInfo = apRef;
 }
 }  // namespace fnv_00431950
 
@@ -2560,6 +2563,9 @@ FUN_004326c0::FUN_004326c0(TESWorldSpace* apWorld, TESObjectCELL* apIntCell, con
 
 struct ExtraPackageStartLocation : BSExtraData
 {
+    TESForm* pLocation;
+    float afPosition[3];
+    float fAngle;
     ExtraPackageStartLocation(unsigned char aEtype);
     bool FUN_00432770(BSExtraData*);
 };
@@ -2572,14 +2578,14 @@ bool ExtraPackageStartLocation::FUN_00432770(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (memcmp((void*)((char*)this + 0xc), (void*)((char*)pComp + 0xc), 0x14) != 0)
+    if (memcmp(&pLocation, &((ExtraPackageStartLocation*)pComp)->pLocation, 0x14) != 0)
         return true;
     return false;
 }
 
 namespace fnv_004327e0 {
 
-class BE
+class BE : public ::BSExtraData
 {
   public:
     BE(unsigned char);
@@ -2596,8 +2602,8 @@ struct FUN_004327e0 : BE
 // @fnv 0x004327e0
 FUN_004327e0::FUN_004327e0(TESObjectREFR* a_refr) : BE(0x1c)
 {
-    *reinterpret_cast<void**>(this) = &::fnv_0042c830::DAT_01015938;
-    *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<char*>(this) + 0xc) = a_refr;
+    *reinterpret_cast<void**>(this) = (void*)&::fnv_0042c830::DAT_01015938;
+    pRef = a_refr;
 }
 }  // namespace fnv_004327e0
 
@@ -2909,16 +2915,17 @@ struct Str6a70
     Str6a70& operator=(char const*);
 };
 
-struct FUN_00438280_class
+struct FUN_00438280_class : public BSExtraData
 {
-    Str6a70 m_str;  // at offset 0x14
+    unsigned int auiUnk0C[2];
+    Str6a70 m_str;  // +0x14
     void FUN_00438280(char const* s);
 };
 
 // @fnv 0x00438280
 void FUN_00438280_class::FUN_00438280(char const* acString)
 {
-    *(Str6a70*)((char*)this + 0x14) = acString;
+    m_str = acString;
 }
 
 struct ExtraSpecialRenderFlags : public BSExtraData
@@ -3033,6 +3040,8 @@ void* ExtraDismemberedLimbs::FUN_004302a0(unsigned int flags)
 class ExtraStartingPosition : public BSExtraData
 {
   public:
+    float afPosition[3];
+    float afRotation[3];
     ExtraStartingPosition();
     bool FUN_00430850(BSExtraData*);
 };
@@ -3047,7 +3056,7 @@ bool ExtraStartingPosition::FUN_00430850(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (std::memcmp((char*)this + 0xC, (char*)pComp + 0xC, 0x18) != 0)
+    if (std::memcmp(afPosition, ((ExtraStartingPosition*)pComp)->afPosition, 0x18) != 0)
         return true;
     return false;
 }
@@ -3182,6 +3191,10 @@ extern int DAT_011841e8;
 
 struct ExtraRadioData : BSExtraData
 {
+    float fRadius;
+    int iRangeType;
+    float fStaticPercentage;
+    TESObjectREFR* pPositionRef;
     ExtraRadioData();
     bool CompareRadioData(BSExtraData*);
 };
@@ -3194,7 +3207,7 @@ bool ExtraRadioData::CompareRadioData(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (std::memcmp((char*)this + 0xc, (char*)pComp + 0xc, 0x10) != 0)
+    if (std::memcmp(&fRadius, &((ExtraRadioData*)pComp)->fRadius, 0x10) != 0)
         return true;
     return false;
 }
@@ -3222,8 +3235,9 @@ bool ExtraPrimitive::FUN_00437370(BSExtraData* apCompare)
     return false;
 }
 
-struct FUN_004303e0_Class
+struct FUN_004303e0_Class : public BSExtraData
 {
+    unsigned short usFlags;
     bool IsBitSet(unsigned int);
 };
 
@@ -3231,7 +3245,7 @@ struct FUN_004303e0_Class
 // @fnv 0x004303e0
 bool FUN_004303e0_Class::IsBitSet(unsigned int uiBitIndex)
 {
-    if (reinterpret_cast<unsigned short*>(this)[6] & (1 << uiBitIndex))
+    if (usFlags & (1 << uiBitIndex))
         return true;
     return false;
 }
@@ -3317,15 +3331,15 @@ struct BE
 extern void* DAT_01015ea0;
 struct FUN_00435a60 : BE
 {
-    void* p;
-    char* m_pString;
+    unsigned char layoutPadding1[0xB];
+    char* m_pString;  // +0xC
     FUN_00435a60();
 };
 // @fnv 0x00435a60
 FUN_00435a60::FUN_00435a60() : BE(0x42)
 {
     *(void**)this = &DAT_01015ea0;
-    *(char**)((char*)this + 0xc) = 0;
+    m_pString = 0;
 }
 }  // namespace fnv_00435a60
 
@@ -3511,8 +3525,9 @@ struct G2
 {
     void AddHead(DoorTeleportLoadData**);
 };
-struct ExtraDecalRefsStandIn
+struct ExtraDecalRefsStandIn : public BSExtraData
 {
+    G2 kDecalRefs;
     void SetDecalRefData(TESObjectREFR* ref, const NiPoint3& intersect, const NiPoint3& normal);
 };
 // Looks up the load data for ref, creating and registering a new entry if missing, then stores the intersect point and normal.
@@ -3524,7 +3539,7 @@ void ExtraDecalRefsStandIn::SetDecalRefData(TESObjectREFR* ref, const NiPoint3& 
     {
         data = new DoorTeleportLoadData;
         data->m_pHitReference = ref;
-        ((G2*)((char*)this + 0xC))->AddHead(&data);
+        kDecalRefs.AddHead(&data);
     }
     data->Intersect = intersect;
     data->Normal = normal;
@@ -3568,17 +3583,15 @@ struct ContNode
     ContNode* GetNext();
     void FUN_0063f7b0();
 };
-struct FUN_00434800_shell
+struct FUN_00434800_shell : public BSExtraData
 {
-    void* p0;
-    void* p1;
-    void* p2;
+    ContNode kList;
     void FUN_00434800(void* target);
 };
 // @fnv 0x00434800
 void FUN_00434800_shell::FUN_00434800(void* target)
 {
-    ContNode* node = (ContNode*)((char*)this + 0xc);
+    ContNode* node = &kList;
     ContNode* prev = 0;
     while (node && !node->FUN_008256d0())
     {
@@ -3600,9 +3613,8 @@ void FUN_00434800_shell::FUN_00434800(void* target)
 }
 
 namespace fnv_00430200 {
-struct BE
+struct BE : ::BSExtraData
 {
-    unsigned char a;
     BE(unsigned char);
     ~BE();
 };
@@ -3617,19 +3629,20 @@ struct FUN_00430200 : BE
     int f14;
     int f18;
     unsigned char f1c;
+    AX kList20;
     FUN_00430200();
     ~FUN_00430200();
 };
 // @fnv 0x00430200
 FUN_00430200::FUN_00430200() : BE(0x5f)
 {
-    *reinterpret_cast<void**>(this) = &DAT_01015b34;
-    reinterpret_cast<::AX *>((reinterpret_cast<AX*>(reinterpret_cast<char*>(this) + 0x20)))->FUN_00438570();
+    *reinterpret_cast<void**>(this) = (void*)&DAT_01015b34;
+    reinterpret_cast<::AX *>((&kList20))->FUN_00438570();
     *reinterpret_cast<unsigned short*>(&this->f18) = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10) = -1;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14) = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = -1;
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1c) = 0;
+    f10 = -1;
+    f14 = 0;
+    f18 = -1;
+    f1c = 0;
 }
 }  // namespace fnv_00430200
 
@@ -3854,8 +3867,10 @@ FUN_00432870::FUN_00432870(unsigned int aiData, unsigned int aiFlags, unsigned i
 }
 }  // namespace fnv_00432870
 
+class BGSEncounterZone;
 struct ExtraEncounterZone : BSExtraData
 {
+    BGSEncounterZone* m_pEncounterZone;
     bool FUN_00432e90(BSExtraData*);
 };
 
@@ -3867,7 +3882,7 @@ bool ExtraEncounterZone::FUN_00432e90(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (*(void**)((char*)this + 0xc) != *(void**)((char*)pcomp + 0xc))
+    if (m_pEncounterZone != ((ExtraEncounterZone*)pcomp)->m_pEncounterZone)
         return true;
     return false;
 }
@@ -4065,6 +4080,7 @@ FUN_00435bb0::~FUN_00435bb0()
 
 struct ExtraRadiation : BSExtraData
 {
+    float m_fRadiation;
     bool FUN_00436c40(BSExtraData* apCompare);
 };
 // Casts apCompare to ExtraRadiation, returns true if the cast fails, base compare passes, or the float at offset 0xc differs; otherwise false.
@@ -4076,7 +4092,7 @@ bool ExtraRadiation::FUN_00436c40(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (*(float*)((char*)this + 0xc) != *(float*)((char*)pComp + 0xc))
+    if (m_fRadiation != ((ExtraRadiation*)pComp)->m_fRadiation)
         return true;
     return false;
 }
@@ -4120,6 +4136,8 @@ bool ExtraCombatStyle::FUN_00437300(BSExtraData* apCompare)
 
 struct ExtraAmmo : BSExtraData
 {
+    TESForm* pAmmo;
+    int iCount;
     bool FUN_004373c0(BSExtraData* apCompare);
 };
 
@@ -4131,9 +4149,9 @@ bool ExtraAmmo::FUN_004373c0(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (*(int*)((char*)this + 0x10) != *(int*)((char*)pComp + 0x10))
+    if (iCount != ((ExtraAmmo*)pComp)->iCount)
         return true;
-    if (*(int*)((char*)this + 0xc) != *(int*)((char*)pComp + 0xc))
+    if (pAmmo != ((ExtraAmmo*)pComp)->pAmmo)
         return true;
     return false;
 }
@@ -4237,7 +4255,7 @@ void FUN_004305f0::Run(int arg1, char arg2)
     unsigned int i;
     for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x20))))->GetName())); ++i)
     {
-        std::uintptr_t v = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
+        std::uintptr_t v = (*(std::uintptr_t*)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
         if (v != 0)
         {
             if (*(unsigned char*)v == arg1)
@@ -4412,26 +4430,32 @@ void* ExtraInfoGeneralTopic::FUN_00432440(unsigned int flags)
 
 namespace fnv_00432810 {
 
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
 
 struct FUN_00432810 : BE
 {
+    void* pPackage;
+    int iPackageFlags;
+    void* pTargetRef;
+    unsigned char cA;
+    unsigned char cB;
+    unsigned char cC;
     FUN_00432810();
 };
 
 // @fnv 0x00432810
 FUN_00432810::FUN_00432810() : BE(0x19)
 {
-    *(void**)this = (void*)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
-    *(int*)((char*)this + 0xc) = 0;
-    *(int*)((char*)this + 0x10) = -1;
-    *(int*)((char*)this + 0x14) = 0;
-    *(char*)((char*)this + 0x18) = 0;
-    *(char*)((char*)this + 0x19) = 0;
-    *(char*)((char*)this + 0x1a) = 0;
+    *reinterpret_cast<void**>(this) = (void*)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
+    pPackage = 0;
+    iPackageFlags = -1;
+    pTargetRef = 0;
+    cA = 0;
+    cB = 0;
+    cC = 0;
 }
 }  // namespace fnv_00432810
 
@@ -4710,7 +4734,7 @@ void* ExtraFactionChangesStandIn::DestroyAndFree(unsigned int flags)
 }
 
 namespace fnv_004376e0 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
@@ -4718,17 +4742,21 @@ struct BE
 
 struct FUN_004376e0 : BE
 {
+    int iUnk0C;
+    void* pTopic;
+    int iUnk14;
+    unsigned char cUnk18;
     FUN_004376e0(int);
 };
 
 // @fnv 0x004376e0
 FUN_004376e0::FUN_004376e0(int arg) : BE(0x75)
 {
-    *(void**)this = (void*)&::DAT_01015f48;
-    *(int*)((char*)this + 0xc) = arg;
-    *(int*)((char*)this + 0x10) = 0;
-    *(int*)((char*)this + 0x14) = 0;
-    *(char*)((char*)this + 0x18) = 0;
+    *reinterpret_cast<void**>(this) = (void*)&::DAT_01015f48;
+    iUnk0C = arg;
+    pTopic = 0;
+    iUnk14 = 0;
+    cUnk18 = 0;
 }
 }  // namespace fnv_004376e0
 
@@ -4818,7 +4846,7 @@ FUN_004302d0::~FUN_004302d0()
 {
     for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(members))->GetName())); ++index)
     {
-        delete ((::FUN_00430390 *)(reinterpret_cast<::S3e60 *>(&(members))->FUN_006a7ad0(index)));
+        delete (*(::FUN_00430390 **)(reinterpret_cast<::S3e60 *>(&(members))->FUN_006a7ad0(index)));
     }
 }
 
@@ -5954,7 +5982,7 @@ void LimbsStandIn::FUN_00430410(LimbRefStub* apRef, unsigned int auiLimb, bool a
             {
                 for (int iIndex = uiEntryIndex - 1; iIndex >= 0; --iIndex)
                 {
-                    LimbEntry* pOther = ((::LimbEntry *)(reinterpret_cast<::S3e60 *>(&(kEntries))->FUN_006a7ad0(iIndex)));
+                    LimbEntry* pOther = (*(::LimbEntry **)(reinterpret_cast<::S3e60 *>(&(kEntries))->FUN_006a7ad0(iIndex)));
                     if (pOther->bPickResultFound)
                         continue;
                     if (reinterpret_cast<::fnv_004387b0::FUN_004387b0_shell *>(&(pOther->kData))->FUN_004387b0((::fnv_004387b0::ArrSI *)(::LimbArrayStub *)(&pEntry->kData)))
@@ -6009,8 +6037,8 @@ bool EntryCollection::FUN_00430660(EntryCollection* other)
         return false;
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); i++)
     {
-        ComparisonEntry* mine = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(i)));
-        ComparisonEntry* theirs = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(other->entries))->FUN_006a7ad0(i)));
+        ComparisonEntry* mine = (*(::ComparisonEntry **)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(i)));
+        ComparisonEntry* theirs = (*(::ComparisonEntry **)(reinterpret_cast<::S3e60 *>(&(other->entries))->FUN_006a7ad0(i)));
         if (mine->b0 != theirs->b0)
             return false;
         if (mine->b1 != theirs->b1)
@@ -7716,7 +7744,7 @@ void xQuestQ::NotifyQuestActors(int a, int b)
 {
     for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kArr))->GetName())); uiIndex++)
     {
-        unsigned int uiFormId = ((unsigned int)(reinterpret_cast<::S3e60 *>(&(m_kArr))->FUN_006a7ad0(uiIndex)));
+        unsigned int uiFormId = (*(unsigned int*)(reinterpret_cast<::S3e60 *>(&(m_kArr))->FUN_006a7ad0(uiIndex)));
         xFormQ* pForm = ((::xFormQ *)(::FUN_004839c0(uiFormId)));
         if (pForm && pForm->IsReferenceX())
         {

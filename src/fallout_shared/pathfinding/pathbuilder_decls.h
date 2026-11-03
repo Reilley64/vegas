@@ -10,6 +10,11 @@
 class PathingRequest
 {
   public:
+    void* layoutPadding0[2];             // +0x00, the NiRefObject base
+    Actor* pActor;                       // +0x08
+    unsigned char Origin[0x28];          // +0x0C, a PathingRequestLocation
+    unsigned char Destination[0x28];     // +0x34, a PathingRequestLocation
+    unsigned char PathingActorState[0xC];  // +0x5C, a PathingActorData
     PathingLocation& GetOffsetC();
 public:
     float GetCenterRadius();

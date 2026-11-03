@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathsmootherpov.cpp: PathSmootherPOVSearch, std, MyHolder, Manager6AE and more (63 functions)
 
+#include "fnv_result_slot.h"
 #include <new>
 #include "fnv/decl/ASC6a0e90.h"
 #include "fnv/decl/ActorMover.h"
@@ -521,7 +522,7 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                     {
                         if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((Crossing - start)))->UpdateCombatStyle() > 1024.0f && reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((Crossing - end)))->UpdateCombatStyle() > 1024.0f &&
                             ((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0())) &&
-                            reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((Crossing - reinterpret_cast<::TaskQueueInterface *>((void *)&((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))->UpdateCombatStyle() > 1024.0f)
+                            reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((Crossing - reinterpret_cast<::TaskQueueInterface *>((void *)&((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetCurrentProcessData()))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>()))))->UpdateCombatStyle() > 1024.0f)
                         {
                             if (m_bUnderwaterPath)
                             {
@@ -908,7 +909,7 @@ struct FUN_00505c00_shell : public PathingRequest
 // @fnv 0x00505c00
 bool FUN_00505c00_shell::FUN_00505c00()
 {
-    return *((bool*)((char*)this + 0x99));
+    return bFaceTargetAtGoal;
 }
 
 struct FUN_00507e10_shell : public PathingRequest
@@ -919,7 +920,7 @@ struct FUN_00507e10_shell : public PathingRequest
 // @fnv 0x00507e10
 float FUN_00507e10_shell::FUN_00507e10()
 {
-    return *(float*)((char*)this + 0x8c);
+    return m_fPathingRadius;
 }
 
 struct FUN_0069f900_shell : public PathSmootherPOVSearch
@@ -983,7 +984,7 @@ struct FUN_006b05d0_shell : public PathingSolution
 // @fnv 0x006b05d0
 bool FUN_006b05d0_shell::FUN_006b05d0()
 {
-    return *((bool*)((char*)this + 0x40));
+    return m_bHasValidPath;
 }
 
 struct FUN_006b1df0_shell : public PathSmootherPOVSearch
@@ -1588,7 +1589,7 @@ struct BSSimpleArrayActor
 {
 };
 
-struct FUN_006ae190_shell
+struct FUN_006ae190_shell : public PathSmootherPOVSearch
 {
     void FUN_006ae190();
 };
@@ -1596,28 +1597,12 @@ struct FUN_006ae190_shell
 // @fnv 0x006ae190
 void FUN_006ae190_shell::FUN_006ae190()
 {
-    struct POD12
-    {
-        unsigned int x;
-        unsigned int y;
-        unsigned int z;
-    };
-
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4) = new PathSmootherPOVPoint;
-
-    reinterpret_cast<unsigned int*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4))[0] = 2;
-
-    *reinterpret_cast<POD12*>(
-        reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)) + 4) =
-        *reinterpret_cast<POD12*>(reinterpret_cast<char*>(this) + 0x2060);
-
-    *reinterpret_cast<float*>(
-        reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)) + 0x10) = 0.0f;
-
-    *reinterpret_cast<unsigned short*>(
-        reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)) + 0x48) = 0xffff;
-
-    reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0x20b4)))->FUN_007cb2e0((unsigned int *)&(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)));
+    m_pStartPoint = new PathSmootherPOVPoint;
+    m_pStartPoint->eType = 2;
+    m_pStartPoint->Center = m_kPathStartPosition;
+    m_pStartPoint->fRadius = 0.0f;
+    m_pStartPoint->m_usResult = 0xffff;
+    reinterpret_cast<::FUN_00438690 *>(&m_kPathPoints)->FUN_007cb2e0((unsigned int *)&m_pStartPoint);
 }
 
 namespace fnv_006ae280 {
@@ -4326,27 +4311,27 @@ void Search::AddAvoidanceNodes()
         centerSlot13->center =
             (*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(((Vec&)m_kPathStartPosition)))->ProjectileLaunched((::NiPoint3 *)&((Vec&)m_kGoalPosition), {}))).ApplyScaled(::fnv_00c88020::DAT_01016248);
         centerSlot13->radius =
-            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() * ::DAT_010290c0;
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&((Vec&)m_kGoalPosition)))))))->ComputeMagnitude() * ::DAT_010290c0;
         centerSlot13->vertex = 0xffff;
         centerSlot13->cost = ::DAT_01016410;
         reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kPathPoints)))->FUN_007cb2e0((unsigned int *)&(centerSlot13));
         reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kRequestPathPoints)))->FUN_007cb2e0((unsigned int *)&(centerSlot13));
-        Vec direction = (*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)));
+        Vec direction = (*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&((Vec&)m_kGoalPosition)))));
         Vec perpendicularSlot2 = (*reinterpret_cast<const ::AvoidNodes::Vec *>((void *)&::DAT_011a9484)).FUN_004b3800(direction);
         FUN_006ae120* leftSlot15 = new FUN_006ae120;
         leftSlot15->type = 4;
         leftSlot15->center = (*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(((Vec&)m_kGoalPosition)))->ProjectileLaunched((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(direction.ApplyScaled(::DAT_0101df44)), {})))))->ProjectileLaunched((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(perpendicularSlot2.ApplyScaled(::DAT_0101df44)), {})));
         leftSlot15->radius =
-            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() * ::DAT_010290b0;
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&((Vec&)m_kGoalPosition)))))))->ComputeMagnitude() * ::DAT_010290b0;
         leftSlot15->vertex = 0xffff;
         leftSlot15->cost = ::DAT_01016410;
         reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kPathPoints)))->FUN_007cb2e0((unsigned int *)&(leftSlot15));
         reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kRequestPathPoints)))->FUN_007cb2e0((unsigned int *)&(leftSlot15));
         FUN_006ae120* rightSlot10 = new FUN_006ae120;
         rightSlot10->type = 4;
-        rightSlot10->center = (*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(((Vec&)m_kGoalPosition)))->ProjectileLaunched((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(direction.ApplyScaled(::DAT_0101df44)), {})))))->FUN_00439ef0((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(perpendicularSlot2.ApplyScaled(::DAT_0101df44)), *(const ::NiPoint3 *)nullptr)));
+        rightSlot10->center = (*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::Point3Offset *>((void *)&(((Vec&)m_kGoalPosition)))->ProjectileLaunched((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(direction.ApplyScaled(::DAT_0101df44)), {})))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(const ::AvoidNodes::Vec &)(perpendicularSlot2.ApplyScaled(::DAT_0101df44))))));
         rightSlot10->radius =
-            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0((::NiPoint3 *)&((Vec&)m_kGoalPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() * ::DAT_010290b0;
+            reinterpret_cast<::NiPoint3 *>((void *)&(const ::AvoidNodes::Vec &)((*(::AvoidNodes::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((Vec&)m_kPathStartPosition)))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&((Vec&)m_kGoalPosition)))))))->ComputeMagnitude() * ::DAT_010290b0;
         rightSlot10->vertex = 0xffff;
         rightSlot10->cost = ::DAT_01016410;
         reinterpret_cast<::FUN_00438690 *>((((NodeList*)&m_kPathPoints)))->FUN_007cb2e0((unsigned int *)&(rightSlot10));

@@ -98,6 +98,8 @@ class Pathing
 class RecursiveSpinLock
 {
   public:
+    volatile unsigned int m_uiOwningThreadID;
+    unsigned int m_uiRecursionCount;
 public:
     void FUN_0040fba0();
 };
@@ -140,7 +142,9 @@ class PathingTaskData
     char pad05[0x13];
     NiPointer<PathingRequest> m_pPathingRequest;
     NiPointer<PathingSolution> m_pPathingSolution;
-    char pad20[0x40];
+    RecursiveSpinLock kTaskLock;  // +0x20
+    char pad28[0x28];
+    void* kPendingRefs[4];  // +0x50, an NiTArray
     NiPointer<ActorPathingMessageQueue> spQueue;
 
     bool HasPendingMessages();
@@ -170,9 +174,16 @@ class AutoMemContext
 class PathManagerImpl
 {
   public:
-    char pad[0xc34];
-    bool unkc34;
-    char padc35[0x88b];
+    char pad[0xc10];
+    void* kMessageHandler[5];  // +0xC10, an object with a vtable
+    int iState;                // +0xC24
+    int iUnkC28;               // +0xC28
+    int kLock[2];              // +0xC2C, a ReadWriteLock
+    bool unkc34;               // +0xC34
+    char padc35[3];
+    int kSpinLock[8];          // +0xC38, a BSSpinLock
+    char padc58[0x828];
+    void* kPathQueue[16];      // +0x1480
     PathManagerImpl();
     bool BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPointer<ActorPathingMessageQueue> spQueue);
 

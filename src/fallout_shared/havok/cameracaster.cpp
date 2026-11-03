@@ -46,18 +46,23 @@ void FUN_00621100_shell::SetVtable()
 
 struct bhkCharacterListener
 {
+    const void* pVtable;
+    unsigned int uiFlags;
     unsigned int FUN_00621270(uintptr_t aiFlags);
 };
 
 // @fnv 0x00621270
 unsigned int bhkCharacterListener::FUN_00621270(uintptr_t aiFlags)
 {
-    return *(unsigned int*)((char*)this + 4) & aiFlags;
+    return uiFlags & aiFlags;
 }
 
 
 struct FUN_00621290_shell
 {
+    char pad[0x10];
+    float fUnk10;
+    float fUnk14;
     void* InitFloats();
 };
 
@@ -65,8 +70,8 @@ struct FUN_00621290_shell
 // @fnv 0x00621290
 void* FUN_00621290_shell::InitFloats()
 {
-    *(float*)((char*)this + 0x10) = ::DAT_0104da4c;
-    *(float*)((char*)this + 0x14) = ::DAT_0104da4c;
+    fUnk10 = ::DAT_0104da4c;
+    fUnk14 = ::DAT_0104da4c;
     return this;
 }
 
@@ -74,6 +79,7 @@ extern int DAT_0104da3c;
 struct FUN_00621060_shell
 {
     int* vtbl;
+    float fUnk04;
     void SetValue();
     FUN_00621060_shell* FUN_00621060();
 };
@@ -169,19 +175,21 @@ RootContactPoint* FUN_006212c0_shell::FUN_006212c0(void* apSource)
 // @fnv 0x00621080
 void FUN_00621060_shell::SetValue()
 {
-    *(float*)((char*)this + 4) = ::DAT_0104da48;
+    fUnk04 = ::DAT_0104da48;
 }
 
 
 struct FUN_00621120_shell : public FUN_00621060_shell
 {
+    char pad08[0x10 - 0x08];
+    char kCollector10[4];
     void FUN_00621120();
 };
 
 // @fnv 0x00621120
 void FUN_00621120_shell::FUN_00621120()
 {
-    reinterpret_cast<::FUN_00621c90_Class *>((reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10)))->FUN_00626870();
+    reinterpret_cast<::FUN_00621c90_Class *>(reinterpret_cast<void*>(kCollector10))->FUN_00626870();
     SetValue();
 }
 

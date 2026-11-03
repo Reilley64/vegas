@@ -761,7 +761,7 @@ TESForm* CameraPathClone::FUN_0058a870(bool abPersist, CameraPathMap* apMap)
         for (unsigned int i5 = 0; i5 < uiCount5; i5++)
         {
             TESForm* pChildA = m_pPathArray->FUN_00877a30(i5);
-            TESForm* pNewChildB1 = pChildA->CreateForm((void*)(int)abPersist, apMap);
+            TESForm* pNewChildB1 = pChildA->CreateForm((void*)(std::uintptr_t)(int)abPersist, apMap);
             unsigned int uiValueC2 = (unsigned int)(std::uintptr_t)pNewChildB1;
             pArray->SetSize(i5, &uiValueC2);
             pLastVal = pNewChildB1;

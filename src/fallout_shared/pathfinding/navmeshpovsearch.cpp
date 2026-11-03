@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshpovsearch.cpp: NavMeshBounds, CircularArc, NavMeshPOVSearch, AngleSinCosArc_Helper and more (37 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -7989,7 +7990,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 continue;
             if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())) && object == ((::P072Input *)(reinterpret_cast<::TESTopicInfoData *>((((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54()))))->GetLinkToList()))->object)
                 continue;
-            P072Point tangents = (*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(object->pos))->FUN_00439ef0((::NiPoint3 *)&(info->object->pos), *(const ::NiPoint3 *)nullptr)));
+            P072Point tangents = (*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(object->pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(info->object->pos)))));
             int self;
             float other = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(tangents))->GetSquaredXYLength();
             {
@@ -8029,7 +8030,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 start = (*reinterpret_cast<::P072Point *>((void *)&::NiPoint3::ZERO));
                 P072Point lineCost = (*reinterpret_cast<::P072Point *>((void *)&::NiPoint3::ZERO));
                 P072Point endPoint =
-                    (*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::Point3Offset *>((void *)&(delta.center))->ProjectileLaunched((::NiPoint3 *)&(const ::P072Point &)(distance.tangents[tangent].end.MakePointOnCircle(delta.radius)), {})))))->FUN_00439ef0((::NiPoint3 *)&(tangentCount.center), *(const ::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const ::P072Point &)(distance.tangents[tangent].start.MakePointOnCircle(tangentCount.radius)), *(const ::NiPoint3 *)nullptr)));
+                    (*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::Point3Offset *>((void *)&(delta.center))->ProjectileLaunched((::NiPoint3 *)&(const ::P072Point &)(distance.tangents[tangent].end.MakePointOnCircle(delta.radius)), {})))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(tangentCount.center)))))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(const ::P072Point &)(distance.tangents[tangent].start.MakePointOnCircle(tangentCount.radius))))));
                 if (info->object->type != 3 && object->type == 0)
                 {
                     float limit = 1.0f;
@@ -8067,7 +8068,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                     arc2.mesh = ((::NavMesh *)(::FUN_00559450((int *)&(mesh))));
                     arc2.triangle = triangle;
                     arc2.edge = -1;
-                    arc2.pos = (*(::P072Point *)&(reinterpret_cast<::TaskQueueInterface *>(&(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+                    arc2.pos = (*(::P072Point *)&(reinterpret_cast<::TaskQueueInterface *>(&(location))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())));
                 }
                 else
                     reinterpret_cast<::FUN_006cf900_Class *>(&(arc2))->FUN_006cf900((const ::FUN_006cf900_Class *)&(groupCount->handle));
@@ -8085,7 +8086,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                                          (std::intptr_t)(&DAT_011a9c20));
                         continue;
                     }
-                    if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cost.pos))->FUN_00439ef0((::NiPoint3 *)&(tangentCount.center), *(const ::NiPoint3 *)nullptr))).z) >= 180.0)
+                    if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cost.pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(tangentCount.center))))).z) >= 180.0)
                         continue;
                     endBlockTmp = FUN_006a0940(info->object, node, object);
                     if (endBlockTmp == 3.4028234663852886e38)
@@ -8106,7 +8107,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                         ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (std::intptr_t)(&DAT_011a9c20));
                     continue;
                 }
-                if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0((::NiPoint3 *)&(delta.center), *(const ::NiPoint3 *)nullptr))).z) >= 180.0)
+                if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(delta.center))))).z) >= 180.0)
                     continue;
                 float crossSecond = reinterpret_cast<::NavOwner *>(this)->ComputePathCost((::NavObj *)(info->object), (const ::Pt3 &)(cost.pos), (const ::Pt3 &)(crossFirst.pos), (::NavObj *)(object));
                 if (crossSecond == 3.4028234663852886e38)
@@ -8125,7 +8126,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 float direction = reinterpret_cast<::CombatTargetTimestamp *>((pInputNode))->FUN_006a7f50();
                 if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
                     direction += reinterpret_cast<::CircularArc *>(&(node))->GetLength(info->object->radius) * (object->cost + endBlockTmp + crossSecond);
-                direction += reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0((::NiPoint3 *)&(cost.pos), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                direction += reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P072Point &)((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(cost.pos)))))))->ComputeMagnitude();
                 P072Node* arcCost;
                 switch (
                     reinterpret_cast<::FUN_006b3420_shell *>(this)->InsertOrUpdateNode(reinterpret_cast<::FUN_0069f900_shell *>(this)->FUN_0069f900((::PathSmootherPOVPoint *)(object), distance.tangents[tangent].direction), direction, (::PSNode **)(::P072Node **)(&arcCost)))

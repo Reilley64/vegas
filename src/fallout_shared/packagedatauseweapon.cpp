@@ -173,13 +173,15 @@ void FUN_0067d8b0_shell::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 
 struct FUN_0067da20_shell
 {
+    const void* pVtable;
+    int iValue;
     void ResetValue(int arg);
 };
 
 // @fnv 0x0067da20
 void FUN_0067da20_shell::ResetValue(int arg)
 {
-    *(int*)((char*)this + 4) = 0;
+    iValue = 0;
 }
 
 struct FUN_0067d990_shell

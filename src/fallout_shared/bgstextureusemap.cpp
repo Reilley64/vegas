@@ -706,7 +706,7 @@ void TextureWalker::FUN_004aa3d0(NiAVObject* obj, bool b)
                 fade = (WalkFadeNode*)node;
             if (fade)
             {
-                WalkRef* ref = ((::fnv_004aa3d0::WalkRef *)(reinterpret_cast<::BSFadeNode *>((fade))->FUN_009ad610()));
+                WalkRef* ref = ((::fnv_004aa3d0::WalkRef *)(std::uintptr_t)(reinterpret_cast<::BSFadeNode *>((fade))->FUN_009ad610()));
                 if (g_walkRefMap)
                     reinterpret_cast<::FUN_0057c850_cls *>((g_walkRefMap))->FUN_0057c850(ref, &bSkip);
                 if (ref && !bSkip)

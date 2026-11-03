@@ -213,7 +213,7 @@ BGSHungerStage* __cdecl FindHungerStage(float level)
     BGSHungerStage* result = 0;
     for (unsigned int index = 0; index < gHungerStageCount && !result; ++index)
     {
-        BGSHungerStage* stage = ((::BGSHungerStage *)(::GetHungerStage(index)));
+        BGSHungerStage* stage = ((::BGSHungerStage *)(std::uintptr_t)(::GetHungerStage(index)));
         if (stage && level >= ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(stage)))->FUN_009611e0())))
             result = stage;
     }

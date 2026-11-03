@@ -99,25 +99,27 @@ bool FUN_006a79a0_shell::FUN_006a79a0()
 
 struct S3e60
 {
-    bool GetFlag(unsigned int) const;
-    bool FUN_006a7ad0(unsigned int f);
+    void*& GetAt(unsigned int) const;
+    void** FUN_006a7ad0(unsigned int auiIndex);
 };
+// Returns the address of the 4-byte element at auiIndex.
 // @fnv 0x006a7ad0
-bool S3e60::FUN_006a7ad0(unsigned int auiFlag)
+void** S3e60::FUN_006a7ad0(unsigned int auiIndex)
 {
-    return GetFlag(auiFlag);
+    return &GetAt(auiIndex);
 }
 
 namespace fnv_006a7af0 {
 struct S3e60
 {
-    bool GetFlag(unsigned int) const;
-    bool FUN_006a7af0(unsigned int f);
+    NiPoint3& GetAt(unsigned int) const;
+    NiPoint3& FUN_006a7af0(unsigned int auiIndex);
 };
+// Returns the 12-byte element at auiIndex.
 // @fnv 0x006a7af0
-bool S3e60::FUN_006a7af0(unsigned int auiFlag)
+NiPoint3& S3e60::FUN_006a7af0(unsigned int auiIndex)
 {
-    return GetFlag(auiFlag);
+    return GetAt(auiIndex);
 }
 }  // namespace fnv_006a7af0
 
@@ -280,7 +282,7 @@ bool NavMeshSearch::ComputePath(const PathingRequest* request, const NavMeshTria
         for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((m_pNavMeshInfos))->GetName())); i++)
         {
             NavMeshPtr mesh;
-            if (((::NavMeshInfo *)(reinterpret_cast<::S3e60 *>((m_pNavMeshInfos))->FUN_006a7ad0(i)))->ResolveNavMesh(mesh))
+            if ((*(::NavMeshInfo **)(reinterpret_cast<::S3e60 *>((m_pNavMeshInfos))->FUN_006a7ad0(i)))->ResolveNavMesh(mesh))
                 meshes[i] = mesh;
         }
     }

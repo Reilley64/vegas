@@ -90,6 +90,23 @@
 #include "fnv/symbols_0054e000.h"
 #include "fnv/symbols_00b6b000.h"
 
+// The tree manager fields reached through FUN_00664840.
+struct TreeManagerView
+{
+    const void* pVtable;
+    void* spRoot;
+    void* pProperty;
+    char pad0c[0x14 - 0x0c];
+    float fUnk14;
+    unsigned char ucUnk18;
+};
+// The NiRenderer byte the tree manager checks; NiRenderer has no layout here.
+struct RendererFlag208View
+{
+    char pad[0x208];
+    bool bUnk208;
+};
+
 // @fnv 0x00664870
 void BSTreeManager::Create(bool create)
 {
@@ -110,9 +127,9 @@ void BSTreeManager::Create(bool create)
 // @fnv 0x00665860
 void BSTreeManager::UpdateTreeInstances()
 {
-    if (((NiPointer<NiAVObject>*)((char*)FUN_00664840(true) + 4))->operator NiAVObject*())
+    if (reinterpret_cast<NiPointer<NiAVObject>*>(&static_cast<::TreeManagerView*>(::FUN_00664840(true))->spRoot)->operator NiAVObject*())
     {
-        ((NiPointer<NiNode>*)((char*)FUN_00664840(true) + 4))->operator=(0);
+        reinterpret_cast<NiPointer<NiNode>*>(&static_cast<::TreeManagerView*>(::FUN_00664840(true))->spRoot)->operator=(0);
         ::SetGlobalValue(nullptr);
         reinterpret_cast<::LookupHandler *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00456800((void *)("Data\\Textures\\Trees\\CanopyShadow.dds"), 0);
     }
@@ -173,13 +190,15 @@ void SetGlobalValue(void* value)
 
 struct FUN_006652c0_shell
 {
+    char pad[0x44];
+    unsigned char ucUnk44;
     void SetByteAtOffset44(unsigned char value);
 };
 
 // @fnv 0x006652c0
 void FUN_006652c0_shell::SetByteAtOffset44(unsigned char value)
 {
-    *reinterpret_cast<unsigned char*>(this + 0x44) = value;
+    ucUnk44 = value;
 }
 
 struct Setting_S
@@ -218,7 +237,7 @@ float GetOriginalRuntimeFloatSetting1296()
 unsigned char FUN_0054ee20(bool abCreateIfNotFound)
 {
     int result;
-    if (GetFirstProcessListByte() && ((unsigned char*)(((unsigned char *)(::FUN_00664840(true))) + 0x18))[0])
+    if (GetFirstProcessListByte() && static_cast<::TreeManagerView*>(::FUN_00664840(true))->ucUnk18)
         result = 1;
     else
         result = 0;
@@ -283,6 +302,8 @@ struct I1_665b80
 };
 struct C665b80
 {
+    char pad[0x1c];
+    I1_665b80* pUnk1c;
     void FUN_00665b80(int, I2_665b80*);
 };
 // Calls Foo on the object at this+0x1c; if it returns false, calls Func(1) on b when b is non-null.
@@ -291,7 +312,7 @@ void C665b80::FUN_00665b80(int aiValue, I2_665b80* pObject)
 {
     I2_665b80* p1;
     I2_665b80* p2;
-    if (!(*(I1_665b80**)((char*)this + 0x1c))->Foo(aiValue, &pObject, 0))
+    if (!pUnk1c->Foo(aiValue, &pObject, 0))
     {
         p1 = pObject;
         p2 = p1;
@@ -403,18 +424,18 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
         if ((*reinterpret_cast<::TES * *>(&::g_TES)) && ((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))
         {
             if (((int)(std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetPrevPath())))
-                *(float*)(((unsigned char *)(::FUN_00664840(1))) + 0x14) = 0.0f;
+                static_cast<::TreeManagerView*>(::FUN_00664840(1))->fUnk14 = 0.0f;
             else
-                *(float*)(((unsigned char *)(::FUN_00664840(1))) + 0x14) =
+                static_cast<::TreeManagerView*>(::FUN_00664840(1))->fUnk14 =
                     reinterpret_cast<::FUN_004536e0_Class *>((((Sky*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->GetFieldCC();
-            if (*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8) &&
+            if (static_cast<::TreeManagerView*>(::FUN_00664840(1))->pProperty &&
                 ((::fnv_006652e0::TESFile *)(reinterpret_cast<::FUN_00450570_Class *>((((FUN_00450570_shell*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->FUN_00450570())))
             {
                 NiColor col;
                 col = *(const NiColor*)((const char *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_006652e0::TESFile *)(reinterpret_cast<::FUN_00450570_Class *>((((FUN_00450570_shell*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->FUN_00450570()))))->GetShotList()));
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
-                reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)static_cast<::TreeManagerView*>(::FUN_00664840(1))->pProperty)))->FUN_004534f0((std::uintptr_t)&col);
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)static_cast<::TreeManagerView*>(::FUN_00664840(1))->pProperty)))->FUN_004534f0((std::uintptr_t)&col);
+                reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)static_cast<::TreeManagerView*>(::FUN_00664840(1))->pProperty)))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
             }
         }
         ((FUN_006658b0_shell*)((unsigned char *)(::FUN_00664840(1))))->Update();
@@ -1291,7 +1312,7 @@ void FUN_00b6b7d0(NiRenderTargetGroup* pkTarget, unsigned int uiClone)
     {
         pkTarget = pkRenderer->GetCurrentRenderTargetGroup();
     }
-    if (*(bool*)((char*)pkRenderer + 0x208))
+    if (reinterpret_cast<::RendererFlag208View*>(pkRenderer)->bUnk208)
     {
         reinterpret_cast<::B6B330Renderer *>((pkRenderer))->TryUnlock();
     }

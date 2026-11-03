@@ -157,21 +157,22 @@ bool ScriptExecutor::Run(Script* script, TESObjectREFR* reference, ScriptLocals*
 // @fnv 0x005e0c60
 void* FUN_005e0c60(char* pThis)
 {
-    *(int*)(pThis + 0x20) = 0;
-    *(int*)(pThis + 0x4c) = 0;
-    *(int*)(pThis + 0x18) = 0;
-    *(int*)(pThis + 0x1c) = 0;
-    memset(pThis + 0x24, 0, 0x28);
-    memset(pThis + 0x50, 0, 0x28);
-    memset(pThis + 0x78, 0, 0x28);
-    *(int*)(pThis + 0x00) = 0;
-    *(int*)(pThis + 0x04) = 0;
-    *(int*)(pThis + 0x08) = 0;
-    *(int*)(pThis + 0x0c) = 0;
-    *(int*)(pThis + 0x10) = 0;
-    *(int*)(pThis + 0x14) = 0;
-    *(char*)(pThis + 0xa0) = 0;
-    *(char*)(pThis + 0xa1) = 0;
+    ScriptRunner* prunner = reinterpret_cast<ScriptRunner*>(pThis);
+    prunner->m_iIfStackDepth = 0;
+    prunner->m_iBlockStackDepth = 0;
+    prunner->m_eScriptError = (SCRIPT_ERROR)0;
+    prunner->m_eExpressionError = (EXPRESSION_ERROR)0;
+    memset(prunner->m_aiIfStack, 0, sizeof(prunner->m_aiIfStack));
+    memset(prunner->m_aiBlockOffsets, 0, sizeof(prunner->m_aiBlockOffsets));
+    memset(prunner->m_aiBlockSizes, 0, sizeof(prunner->m_aiBlockSizes));
+    prunner->m_pReference = 0;
+    prunner->m_pScriptObject = 0;
+    prunner->m_pScriptLocals = 0;
+    prunner->m_pTopicInfo = 0;
+    prunner->m_pGlobal = 0;
+    prunner->m_pScript = 0;
+    prunner->m_bScriptCompileFailed = false;
+    prunner->m_bExecutionFlagSet = false;
     return pThis;
 }
 

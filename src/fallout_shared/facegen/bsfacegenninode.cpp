@@ -1262,7 +1262,7 @@ struct FUN_00662b70_cls
     virtual void vfc();
     virtual void v100();
     virtual void v104();
-    virtual unsigned int v108(unsigned int* out);
+    virtual std::uintptr_t v108(unsigned int* out);
 
     unsigned char unk04[0xac];
     Block36 block;
@@ -1500,7 +1500,7 @@ struct Sub10Obj
 
 struct FUN_00662f70_arg
 {
-    int m_00;
+    void* m_00;
     int m_04;
     int unk08;
     int unk0c;
@@ -1596,7 +1596,7 @@ void FUN_00662f70_cls::FUN_00662f70(FUN_00662f70_arg* a1)
                 ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(a1->m_00), (::fnv_00653340::NiPoint3 *)(&a1->m_04));
                 a1->m_1c = 1;
             }
-            reinterpret_cast<::FUN_00662030_cls *>((a1->m_10))->FUN_00662030(3, i, a1->m_00, a1->m_14, f);
+            reinterpret_cast<::FUN_00662030_cls *>((a1->m_10))->FUN_00662030(3, i, (std::intptr_t)(a1->m_00), a1->m_14, f);
         }
     }
 }
@@ -1838,7 +1838,7 @@ void FaceNode::AttachBones(SceneNode* parent, bool warn)
         if (!bone || !((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName())))
             continue;
         bones = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName()))))->GetActiveCombatTarget()));
-        geometry = ((::SceneNode **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((bone))->FUN_00825c00()));
+        geometry = ((::SceneNode **)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((bone))->FUN_00825c00()));
         if (!geometry || !bones)
             continue;
         for (i = 0; i < bones; i++)
@@ -2314,68 +2314,68 @@ void DumpNode::DumpToArray(DumpArray* out)
     reinterpret_cast<::FUN_00a5ea70_t *>(this)->FUN_00a5ea70((::StrArr *)(out));
     int i, k, buffer;
     char* j = FUN_00a7d330(((const char *)(::FUN_00559450((int *)&(DAT_011d5bf8)))));
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(j));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(j));
     char* title;
     title = new char[32];
     FUN_00406d00(title, 32, "bForceBaseMorph = %s", forceBaseMorph ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "bFixedNormals = %s", fixedNormals ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "bAnimationUpdate = %s", animationUpdate ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "bRotatedLastUpdate = %s", rotatedLastUpdate ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "bApplyRotationToParent = %s", applyRotationToParent ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "bUsingLoResHead = %s", usingLoResHead ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "bIAmPlayerCharacter = %s", playerCharacter ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "bIAmInDialogue = %s", inDialogue ? "true" : "false");
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, "fLastTime = %0.3f", lastTime);
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     title = new char[32];
     FUN_00406d00(title, 32, DAT_01066238, actor);
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     if (actor)
     {
         title = new char[32];
         FUN_00406d00(title, 32, "pActor->iFormID = %08X", ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((actor))->FUN_0084e3a0())));
-        reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+        reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     }
     title = new char[32];
     FUN_00406d00(title, 32, "spAnimationData = %08X", ((::DumpAnimation *)(::FUN_00559450((int *)&(animation)))));
-    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(title));
+    reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(title));
     if (((::DumpAnimation *)(::FUN_00559450((int *)&(animation)))))
     {
         for (i = 0; i < 15; i++)
         {
             if (((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))->v25(i) != 3.4028234663852886e+38)
             {
-                reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550(FUN_005dd830(i), ((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))->v25(i))));
+                reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(const char *const &)(FUN_00a7d550(FUN_005dd830(i), ((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))->v25(i))));
             }
         }
         for (k = 0; k < 17; k++)
         {
             if (reinterpret_cast<::Sd4a0 *>((((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))))->FUN_005dd4a0(k) != 3.4028234663852886e+38)
             {
-                reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550(((const char *)(::FUN_005dd840(k))), reinterpret_cast<::Sd4a0 *>((((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))))->FUN_005dd4a0(k))));
+                reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(const char *const &)(FUN_00a7d550(((const char *)(::FUN_005dd840(k))), reinterpret_cast<::Sd4a0 *>((((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))))->FUN_005dd4a0(k))));
             }
         }
         for (buffer = 0; buffer < 16; buffer++)
         {
             if (((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))->v29(buffer) != 3.4028234663852886e+38)
             {
-                reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550(((const char *)(::FUN_005dd850(buffer))), ((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))->v29(buffer))));
+                reinterpret_cast<::S_0060ba10 *>((out))->FUN_0096a610((std::intptr_t)&(const char *const &)(FUN_00a7d550(((const char *)(::FUN_005dd850(buffer))), ((::DumpAnimation *)(::FUN_00559450((int *)&(animation))))->v29(buffer))));
             }
         }
     }

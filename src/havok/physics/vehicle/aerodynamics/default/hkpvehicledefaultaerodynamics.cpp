@@ -6,7 +6,7 @@
 #include "havok/hkpVehicleDefaultAerodynamics.h"
 
 
-struct VehicleAerodynamicsStandIn
+struct VehicleAerodynamicsStandIn : public hkpVehicleDefaultAerodynamics
 {
     float FUN_00e442e0(float speed);
 };
@@ -14,8 +14,7 @@ struct VehicleAerodynamicsStandIn
 // @fnv 0x00e442e0
 float VehicleAerodynamicsStandIn::FUN_00e442e0(float speed)
 {
-    return reinterpret_cast<float*>(this)[2] * DAT_01011588 * reinterpret_cast<float*>(this)[5] *
-           reinterpret_cast<float*>(this)[3] * speed * speed;
+    return m_fAirDensity * DAT_01011588 * m_fLiftCoefficient * m_fFrontalArea * speed * speed;
 }
 
 #include <xmmintrin.h>

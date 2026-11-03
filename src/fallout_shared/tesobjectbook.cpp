@@ -254,7 +254,7 @@ struct FUN_0048e9b0
 {
 };
 
-struct TESObjectBOOK_GetSaveSize
+struct TESObjectBOOK_GetSaveSize : ::TESObjectBOOK
 {
     unsigned short FUN_00515220(unsigned int aiFlags);
 };
@@ -265,7 +265,7 @@ unsigned short TESObjectBOOK_GetSaveSize::FUN_00515220(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);
-    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)((char*)this + 0x84))))->FUN_0048e9b0(aiFlags);
+    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)static_cast<TESValueForm *>(this))))->FUN_0048e9b0(aiFlags);
     if (aiFlags & 0x20)
         isize += 1;
     return isize;

@@ -263,9 +263,8 @@ bool FUN_005ff1d0_shell::FUN_005ff1d0()
         return false;
 }
 
-struct FUN_005ff200_shell
+struct FUN_005ff200_shell : ::TESIdleForm
 {
-    unsigned char m_0x38;
     bool IsFlag40Set();
 };
 // @fnv 0x005fedb0
@@ -334,7 +333,7 @@ bool TESIdleForm::HasMissingPathArray()
 // @fnv 0x005ff200
 bool FUN_005ff200_shell::IsFlag40Set()
 {
-    if (((unsigned char*)this)[0x38] & 0x40)
+    if (this->data.m_ucAnimationGroupSection & 0x40)
         return true;
     else
         return false;
@@ -355,16 +354,15 @@ void FUN_005ff220_shell::SetFlag40(bool abSet)
         this->data.m_ucAnimationGroupSection &= ~0x40;
 }
 
-struct FUN_005ff260_shell
+struct FUN_005ff260_shell : ::TESIdleForm
 {
-    unsigned char m_3e;
     bool FUN_005ff260();
 };
 
 // @fnv 0x005ff260
 bool FUN_005ff260_shell::FUN_005ff260()
 {
-    if (reinterpret_cast<unsigned char*>(this)[0x3e] & 1)
+    if (this->data.m_ucIdleFlags & 1)
         return true;
     else
         return false;

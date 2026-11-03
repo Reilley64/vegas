@@ -251,7 +251,7 @@ struct FUN_0048ea40_holder
 {
 };
 
-struct FUN_005144c0_shell
+struct FUN_005144c0_shell : ::TESObjectARMA
 {
     void FUN_005144c0(std::uintptr_t flags);
 };
@@ -260,7 +260,7 @@ struct FUN_005144c0_shell
 void FUN_005144c0_shell::FUN_005144c0(std::uintptr_t flags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(flags));
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(flags));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(&this->unk58)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(flags));
 }
 
 struct BGSLoadFormBuffer;
@@ -491,7 +491,7 @@ void FUN_00512810_holder::FUN_00512810()
 struct FUN_005e78f0_t
 {
 };
-struct FUN_005128e0_obj
+struct FUN_005128e0_obj : ::TESObjectARMA
 {
     void FUN_005128e0(TESForm* apCopy);
 };
@@ -502,7 +502,7 @@ void FUN_005128e0_obj::FUN_005128e0(TESForm* apCopy)
     TESObjectARMO* parmo = dynamic_cast<TESObjectARMO*>(apCopy);
     if (parmo == 0)
         return;
-    __memcpy((char*)this + 0x178, (char*)apCopy + 0x178, 0xc);
+    __memcpy((char*)&this->data, (char*)apCopy + 0x178, 0xc);
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 

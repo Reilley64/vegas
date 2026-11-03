@@ -114,14 +114,14 @@ void TESGrass::InitItem()
     SetInitializationState(true);
 }
 
-struct FUN_005081b0_shell
+struct FUN_005081b0_shell : ::TESGrass
 {
     float GetFloatAtOffset58();
 };
 // @fnv 0x005081b0
 float FUN_005081b0_shell::GetFloatAtOffset58()
 {
-    return *(float*)((char*)this + 0x58);
+    return this->Data.m_fHeightRange;
 }
 
 struct FUN_00509aa0_shell : TESGrass
@@ -175,7 +175,7 @@ void FUN_00509bd0_shell::SetFlag2(bool abSet)
     abSet ? m_64 |= 2 : m_64 &= ~2;
 }
 
-struct FUN_00509c20_shell
+struct FUN_00509c20_shell : ::TESGrass
 {
     bool IsFlag4Set();
 };
@@ -183,7 +183,7 @@ struct FUN_00509c20_shell
 // @fnv 0x00509c20
 bool FUN_00509c20_shell::IsFlag4Set()
 {
-    return (((char*)this)[0x64] & 4) ? true : false;
+    return (this->Data.cFlags & 4) ? true : false;
 }
 
 struct FUN_00509c90_shell
@@ -192,9 +192,8 @@ struct FUN_00509c90_shell
     void* DestroyIfFlagged(unsigned int flags);
 };
 
-struct FUN_00509d30_shell
+struct FUN_00509d30_shell : ::TESGrass
 {
-    char field_48;
     bool FUN_00509d30(unsigned char a);
 };
 
@@ -204,7 +203,7 @@ bool FUN_00509d30_shell::FUN_00509d30(unsigned char aucValue)
 {
     if (aucValue <= 0x64)
     {
-        ((char*)this)[0x48] = (char)aucValue;
+        (*(char*)&this->Data.m_ucDensity) = (char)aucValue;
         return true;
     }
     return false;
@@ -247,7 +246,7 @@ bool FUN_00509da0_shell::SetSlope(unsigned char slope)
     return false;
 }
 
-struct FUN_0068a830_shell
+struct FUN_0068a830_shell : ::TESGrass
 {
     TESGrass* GetGrass();
 };
@@ -258,7 +257,7 @@ TESGrass* FUN_0068a830_shell::GetGrass()
     return *(TESGrass**)((char*)this + 0x50);
 }
 
-struct FUN_006fe520_shell
+struct FUN_006fe520_shell : ::TESGrass
 {
     char GetByteAtOffset48();
 };
@@ -266,10 +265,10 @@ struct FUN_006fe520_shell
 // @fnv 0x006fe520
 char FUN_006fe520_shell::GetByteAtOffset48()
 {
-    return *(char*)(((char*)this) + 0x48);
+    return *(char*)&this->Data.m_ucDensity;
 }
 
-struct FUN_009cdac0_shell
+struct FUN_009cdac0_shell : ::TESGrass
 {
     float GetField60Float();
 };
@@ -277,10 +276,10 @@ struct FUN_009cdac0_shell
 // @fnv 0x009cdac0
 float FUN_009cdac0_shell::GetField60Float()
 {
-    return *(float*)((char*)this + 0x60);
+    return this->Data.m_fWavePhase;
 }
 
-struct FUN_009d1b50_shell
+struct FUN_009d1b50_shell : ::TESGrass
 {
     float GetField54Float();
 };
@@ -288,7 +287,7 @@ struct FUN_009d1b50_shell
 // @fnv 0x009d1b50
 float FUN_009d1b50_shell::GetField54Float()
 {
-    return *(float*)((char*)this + 0x54);
+    return this->Data.m_fPositionRange;
 }
 
 struct FUN_00508140_shell

@@ -180,7 +180,7 @@ struct FUN_0048e9b0
 {
 };
 
-struct FUN_0051b020_shell
+struct FUN_0051b020_shell : ::TESObjectMISC
 {
     unsigned short FUN_0051b020(unsigned int aiFlags);
 };
@@ -191,7 +191,7 @@ unsigned short FUN_0051b020_shell::FUN_0051b020(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);
-    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)((char*)this + 0x74))))->FUN_0048e9b0(aiFlags);
+    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)static_cast<TESValueForm *>(this))))->FUN_0048e9b0(aiFlags);
     return isize;
 }
 
@@ -205,7 +205,7 @@ struct TESValueFormStub
 
 struct BGSLoadFormBuffer;
 
-struct FUN_0051b0a0_shell
+struct FUN_0051b0a0_shell : ::TESObjectMISC
 {
     void LoadForm(unsigned int aiFlags, BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -215,7 +215,7 @@ void FUN_0051b0a0_shell::LoadForm(unsigned int aiFlags, BGSLoadFormBuffer* apLoa
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((reinterpret_cast<TESFormStub*>(this)))->FUN_00484c50(aiFlags,
                                                                     reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
-    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea10(aiFlags, reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(static_cast<TESValueForm *>(this))))->FUN_0048ea10(aiFlags, reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
 }
 
 struct CallHelper
@@ -318,7 +318,7 @@ struct FUN_00484d60_holder
 struct FUN_0048ea40_holder
 {
 };
-struct FUN_0051b0d0_holder
+struct FUN_0051b0d0_holder : ::TESObjectMISC
 {
     void SaveToBuffer(BGSSaveFormBuffer*);
 };
@@ -327,7 +327,7 @@ struct FUN_0051b0d0_holder
 void FUN_0051b0d0_holder::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
 }
 
 struct TESFormBufferAccess
@@ -336,7 +336,7 @@ struct TESFormBufferAccess
 struct TESValueFormLoadGame
 {
 };
-struct FUN_0051b100_owner
+struct FUN_0051b100_owner : ::TESObjectMISC
 {
     void FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -345,7 +345,7 @@ struct FUN_0051b100_owner
 void FUN_0051b100_owner::FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::TESForm *>((reinterpret_cast<TESFormBufferAccess*>(this)))->LoadGame(apLoadGameBuffer);
-    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>((char*)this + 0x74)))->FUN_0048ea80(apLoadGameBuffer);
+    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>(static_cast<TESValueForm *>(this))))->FUN_0048ea80(apLoadGameBuffer);
 }
 
 struct FUN_005e79a0_t

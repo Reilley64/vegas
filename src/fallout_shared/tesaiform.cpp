@@ -136,7 +136,7 @@ void TESAIForm::CopyAIDataFromAIDATA(PackedRecordData* source)
     }
 }
 
-struct FUN_0047ee00_class
+struct FUN_0047ee00_class : ::TESAIForm
 {
     void FUN_0047ee00(unsigned char value, bool flag);
 };
@@ -520,7 +520,7 @@ void TESAIForm::SetTrainingSkillLevel(unsigned char aucLevel)
 // @fnv 0x0047ee00
 void FUN_0047ee00_class::FUN_0047ee00(unsigned char value, bool flag)
 {
-    *(unsigned char*)((char*)this + 4) = value;
+    this->aggression = value;
     if (flag)
         reinterpret_cast<::MyInner *>(this)->DispatchToOuter(8);
 }

@@ -193,7 +193,7 @@ unsigned short FUN_005a7770_shell::FUN_005a7770(unsigned int aiFlags)
     return isize;
 }
 
-struct FUN_005f5820_shell
+struct FUN_005f5820_shell : ::TESChallenge
 {
     void ClearField6C();
 };
@@ -399,7 +399,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
 // @fnv 0x005f5820
 void FUN_005f5820_shell::ClearField6C()
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x6c) = 0;
+    this->progress.iProgress = 0;
 }
 
 struct FUN_0051b070_shell

@@ -1053,7 +1053,7 @@ bool FUN_0047d7e0_Class::FUN_0047d7e0() const
     return (m_34 & 4) ? true : false;
 }
 
-struct FUN_0047e360_Cls
+struct FUN_0047e360_Cls : ::TESActorBaseData
 {
     void ClearFlags(unsigned int mask);
 };
@@ -1061,7 +1061,7 @@ struct FUN_0047e360_Cls
 // @fnv 0x0047e360
 void FUN_0047e360_Cls::ClearFlags(unsigned int mask)
 {
-    ((int*)this)[0x28 / 4] &= ~mask;
+    this->m_pDeathItem &= ~mask;
 }
 
 struct ABD_0047c790
@@ -1316,7 +1316,7 @@ struct Interface
 {
 };
 
-struct TESActorBaseData_0047e380
+struct TESActorBaseData_0047e380 : ::TESActorBaseData
 {
     unsigned short FUN_0047e380(unsigned int aiFlags);
 };

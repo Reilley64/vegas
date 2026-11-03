@@ -693,7 +693,7 @@ bool FUN_005eb5e0_t::CheckPlayerConditions()
     bresult = this->Data.bPlayable;
     if (bresult)
     {
-        pCurrentElementNext = ((const ::ConditionList_t *)((void *)(reinterpret_cast<Conditions_t*>(reinterpret_cast<char*>(this) + 0x40))));
+        pCurrentElementNext = ((const ::ConditionList_t *)((void *)(reinterpret_cast<Conditions_t*>(&this->m_kConditions))));
         while (bresult && pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
         {
             TESConditionItem* pConditionItem = *((::TESConditionItem *const *)((void *)(pCurrentElementNext)));
@@ -1526,12 +1526,12 @@ void FUN_005eb0e0_shell::FUN_005eb0e0()
     reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)static_cast<TESFullName *>(this))))->FUN_00487010();
     ((FUN_00482cb0_shell*)static_cast<TESDescription *>(this))->FUN_00482cb0();
     reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)static_cast<TESIcon *>(this))))->FUN_0048e370(0x4e4f4349);
-    reinterpret_cast<::FUN_00680910_shell *>((((TESConditionSave*)((char*)this + 0x40))))->ProcessItems();
+    reinterpret_cast<::FUN_00680910_shell *>((((TESConditionSave*)&this->m_kConditions)))->ProcessItems();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((FUN_005eb0e0_TESForm*)((char*)this + 0x38))))->ClearData();
+        reinterpret_cast<::TESForm *>((((FUN_005eb0e0_TESForm*)&this->Data)))->ClearData();
     AppendChunk(0x41544144, (char*)&this->Data, 5);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((FUN_005eb0e0_TESForm*)((char*)this + 0x38))))->ClearData();
+        reinterpret_cast<::TESForm *>((((FUN_005eb0e0_TESForm*)&this->Data)))->ClearData();
     BSSimpleList<BGSPerkEntry*>* pCurrentElementNext = &this->m_kEntryList;
     while (pCurrentElementNext)
     {
@@ -1839,7 +1839,7 @@ struct FUN_005eb800_shell : ::BGSPerk
 // @fnv 0x005eb800
 void FUN_005eb800_shell::FUN_005eb800(BGSPerk* perk, bool flag)
 {
-    BSSimpleList<BGSPerk*>* perkList = reinterpret_cast<BSSimpleList<BGSPerk*>*>(reinterpret_cast<char*>(this) + 0x48);
+    BSSimpleList<BGSPerk*>* perkList = reinterpret_cast<BSSimpleList<BGSPerk*>*>(&this->m_kEntryList);
 
     while (perkList)
     {
@@ -1918,7 +1918,7 @@ bool FUN_005eba00_shell::FUN_005eba00(TESObjectREFR* apActionRef)
     bresult = true;
     iconditionIndex = 0;
 
-    pcurrCondition = ((::TESConditionItem *)(reinterpret_cast<::FUN_00680f70_cls *>((reinterpret_cast<FUN_00680f70_helper*>(reinterpret_cast<unsigned char*>(this) + 0x40)))->GetItemByIndex(iconditionIndex++)));
+    pcurrCondition = ((::TESConditionItem *)(reinterpret_cast<::FUN_00680f70_cls *>((reinterpret_cast<FUN_00680f70_helper*>(&this->m_kConditions)))->GetItemByIndex(iconditionIndex++)));
 
     while (pcurrCondition != 0)
     {
@@ -1932,7 +1932,7 @@ bool FUN_005eba00_shell::FUN_005eba00(TESObjectREFR* apActionRef)
             bresult = (freturnVal == 1.0);
         }
 
-        pcurrCondition = ((::TESConditionItem *)(reinterpret_cast<::FUN_00680f70_cls *>((reinterpret_cast<FUN_00680f70_helper*>(reinterpret_cast<unsigned char*>(this) + 0x40)))->GetItemByIndex(iconditionIndex++)));
+        pcurrCondition = ((::TESConditionItem *)(reinterpret_cast<::FUN_00680f70_cls *>((reinterpret_cast<FUN_00680f70_helper*>(&this->m_kConditions)))->GetItemByIndex(iconditionIndex++)));
     }
 
     return bresult;

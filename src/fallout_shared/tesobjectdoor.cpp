@@ -557,7 +557,7 @@ bool FUN_00517fd0_shell::IsFlag4Set()
         return false;
 }
 
-struct FUN_00519270_shell
+struct FUN_00519270_shell : ::TESObjectDOOR
 {
     void ClearFlags(unsigned int mask);
 };
@@ -573,7 +573,7 @@ void BSXFlags_shell::FUN_00519230(unsigned int aiFlags, bool abTF)
 // @fnv 0x00519270
 void FUN_00519270_shell::ClearFlags(unsigned int mask)
 {
-    *(unsigned int*)((char*)this + 0xc) &= ~mask;
+    this->iFormID &= ~mask;
 }
 
 struct Base_004d9210

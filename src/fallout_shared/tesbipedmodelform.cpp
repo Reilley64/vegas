@@ -279,14 +279,14 @@ void FUN_00480610_shell::InitBipedModel()
 {
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(reinterpret_cast<char*>(this) + 4)))->FUN_00503210();
+        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(&this->m_kBipedModelForm)))->FUN_00503210();
     }
 
     ::AppendChunk(0x54444d42, reinterpret_cast<void*>(reinterpret_cast<char*>(&this->m_kBipedModelForm)), 8);
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(reinterpret_cast<char*>(this) + 4)))->FUN_00503210();
+        reinterpret_cast<::fnv_00503210::Unk *>((reinterpret_cast<BIPED_MODEL_ENDIAN*>(&this->m_kBipedModelForm)))->FUN_00503210();
     }
 
     reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->bipedModel)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);

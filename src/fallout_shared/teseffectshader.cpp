@@ -200,27 +200,27 @@ struct FUN_005050b0 : Base5a
 FUN_005050b0::~FUN_005050b0()
 {}
 
-struct FUN_00506370Class
+struct FUN_00506370Class : ::TESEffectShader
 {
     void* GetFieldAt14C();
 };
 // @fnv 0x00506370
 void* FUN_00506370Class::GetFieldAt14C()
 {
-    return reinterpret_cast<char*>(this) + 0x14c;
+    return reinterpret_cast<char*>(&this->m_kFillTexture);
 }
 
-struct FUN_00506390Class
+struct FUN_00506390Class : ::TESEffectShader
 {
     char* GetFieldAt158();
 };
 // @fnv 0x00506390
 char* FUN_00506390Class::GetFieldAt158()
 {
-    return reinterpret_cast<char*>(this) + 0x158;
+    return reinterpret_cast<char*>(&this->m_kParticleShaderTexture);
 }
 
-struct FUN_005063b0Class
+struct FUN_005063b0Class : ::TESEffectShader
 {
     void* GetFieldAt164();
 };
@@ -228,7 +228,7 @@ struct FUN_005063b0Class
 // @fnv 0x005063b0
 void* FUN_005063b0Class::GetFieldAt164()
 {
-    return reinterpret_cast<char*>(this) + 0x164;
+    return reinterpret_cast<char*>(&this->m_kHolesTexture);
 }
 
 

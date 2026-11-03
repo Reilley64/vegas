@@ -231,7 +231,7 @@ struct BGSSaveGameBuffer
 struct FNStub
 {
 };
-struct FUN_00511860_holder
+struct FUN_00511860_holder : ::TESObjectACTI
 {
     void FUN_00511860(BGSSaveFormBuffer* apSaveGameBuffer);
 };
@@ -241,7 +241,7 @@ void FUN_00511860_holder::FUN_00511860(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged(apSaveGameBuffer);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(4)))->FUN_004280f0(4))
     {
-        const char* pfullname = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)this + 0x30))))->FUN_00408da0()));
+        const char* pfullname = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)static_cast<TESFullName *>(this))))->FUN_00408da0()));
         reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBuffer*)apSaveGameBuffer)))->FUN_00865e70(pfullname, 0);
     }
 }

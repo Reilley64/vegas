@@ -127,7 +127,7 @@ bool FUN_005fdf40_shell::FUN_005fdf40()
     return (bool)((*(signed char*)((char*)this + 0x48) & 1) != 0);
 }
 
-struct FUN_005fdf80_shell
+struct FUN_005fdf80_shell : ::TESHair
 {
     bool IsFlag4Clear();
 };
@@ -173,7 +173,7 @@ struct FUN_005e78f0_t
 {
 };
 
-struct FUN_005fde80_shell
+struct FUN_005fde80_shell : ::TESHair
 {
     void CopyFromHair(TESForm* apCopy);
 };

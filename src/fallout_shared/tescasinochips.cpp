@@ -450,12 +450,12 @@ void FUN_00504280_shell::FUN_00504280()
     reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<DoorPart68*>(static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
     reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((reinterpret_cast<FUN_0047b560_holder*>(static_cast<BGSPickupPutdownSounds *>(this))))->LogFormIDs();
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_004048e0())))
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kPrimaryString)))->FUN_004048e0())))
     {
         ::FUN_004856f0((void *)(0x4d414e4f),
                      reinterpret_cast<void*>(
-                         reinterpret_cast<GO*>(reinterpret_cast<char*>(this) + 0x94)->operator unsigned int()),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_004048e0())) + 1));
+                         reinterpret_cast<GO*>(&this->m_kPrimaryString)->operator unsigned int()),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kPrimaryString)))->FUN_004048e0())) + 1));
     }
 
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();

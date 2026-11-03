@@ -62,7 +62,7 @@ void BGSListForm::IncludeForm(TESForm* form)
 // @fnv 0x00591B70
 BGSListForm::BGSListForm()
 {
-    new ((void *)(reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<unsigned char*>(this) + 0x18))) ::HungerStageData();
+    new ((void *)(reinterpret_cast<BSSimpleList<TESForm*>*>(&this->m_kFormList))) ::HungerStageData();
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x5A)));
     reinterpret_cast<::BGSHungerStage *>((reinterpret_cast<BGSRadiationStage*>(this)))->ResetFormData();
 }
@@ -342,7 +342,7 @@ void FUN_00590080_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(apSaveGameBuffer)->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         BSSimpleList<TESForm*>* pCurrentElementNext =
-            reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<unsigned char*>(this) + 0x18);
+            reinterpret_cast<BSSimpleList<TESForm*>*>(&this->m_kFormList);
         reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(&this->m_uiFormCount)), 4, 0);
         for (unsigned int i = 0; i < m_uiFormCount; ++i)
         {

@@ -7507,7 +7507,7 @@ void FUN_00440780_shell::FUN_00440780()
     if (::FUN_00449110((int*)this) && reinterpret_cast<::FUN_0043caa0_shell *>((((IOTask*)this)))->FUN_0043caa0() && !::FUN_00449130((int*)this))
     {
         if (*(Flt*)&this->m_uiUnk24 && !*(Flt*)((char*)this + 0x30))
-            reinterpret_cast<::NP_0044aed0 *>((((SetterHelper*)((char*)this + 0x30))))->FUN_0044aed0((::WaitableObject *)(void *)(((::fnv_00440780::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)((*(CtlV**)((char*)this + 0x2c))))))));
+            reinterpret_cast<::NP_0044aed0 *>((((SetterHelper*)&this->m_pRef)))->FUN_0044aed0((::WaitableObject *)(void *)(((::fnv_00440780::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)((*(CtlV**)((char*)this + 0x2c))))))));
         bool bbackgroundClone = false;
         if (*(Flt*)((char*)this + 0x30) && *(TESObjectREFR**)&this->m_pUnk20 != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)) &&
             reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00440780::TES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(::fnv_00440780::TESObjectCELL *)(((::fnv_00440780::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((ActorS*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget()))), false) &&

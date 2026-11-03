@@ -240,7 +240,7 @@ struct S2
 {
     void* DestroyIfFlagged(unsigned int);
 };
-struct FUN_00516b60_shell
+struct FUN_00516b60_shell : ::TESObjectCONT
 {
     void CopyFromContainer(TESForm* apCopy);
 };
@@ -275,14 +275,13 @@ void FUN_00516b60_shell::CopyFromContainer(TESForm* apCopy)
     if (!cont)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_00516b60_shell*)this)))->FUN_004851b0(apCopy);
-    *(unsigned char*)((char*)this + 0x98) = *((unsigned char *)(reinterpret_cast<::FUN_00461150_shell *>((((FUN_00516b60_shell*)cont)))->FUN_00461150()));
+    *(unsigned char*)&this->Data.m_cValue = *((unsigned char *)(reinterpret_cast<::FUN_00461150_shell *>((((FUN_00516b60_shell*)cont)))->FUN_00461150()));
     reinterpret_cast<::FUN_008cc6d0_class *>((((FUN_00516b60_shell*)this)))->FUN_008cc6d0((std::intptr_t)(reinterpret_cast<::FUN_008ce390_shell *>((((FUN_00516b60_shell*)cont)))->FUN_008ce390()));
     reinterpret_cast<::BGSExplosion *>((((FUN_00516b60_shell*)this)))->FUN_004fb0b0((::BGSImpactDataSet *)(::TESObjectREFR *)(((::TESObjectREFR *)(reinterpret_cast<::FUN_00516bf0_shell *>((((FUN_00516b60_shell*)cont)))->FUN_00516bf0()))));
     reinterpret_cast<::BGSTalkingActivator *>((((FUN_00516b60_shell*)this)))->SetVoiceType(((::BGSVoiceType *)(reinterpret_cast<::PlayerMover *>((((FUN_00516b60_shell*)cont)))->GetActorStateFlags())));
 }
-struct FUN_00516c10_shell
+struct FUN_00516c10_shell : ::TESObjectCONT
 {
-    signed char c98;
     bool IsNotMatchingContainer(TESForm* apCompare);
 };
 // @fnv 0x00516c10
@@ -293,7 +292,7 @@ bool FUN_00516c10_shell::IsNotMatchingContainer(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pComp))
         return true;
-    if (*(signed char*)((char*)this + 0x98) != *(signed char*)((::BSSimpleList< ::TESObjectREFR *> *)(((FUN_00461150_shell*)pComp)->FUN_00461150())))
+    if (*(signed char*)&this->Data.m_cValue != *(signed char*)((::BSSimpleList< ::TESObjectREFR *> *)(((FUN_00461150_shell*)pComp)->FUN_00461150())))
         return true;
     if (((FUN_008ce390_shell*)this)->FUN_008ce390() != ((FUN_008ce390_shell*)pComp)->FUN_008ce390())
         return true;
@@ -359,7 +358,7 @@ void FUN_00516a20_shell::FUN_00516a20()
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        reinterpret_cast<TESForm*>(reinterpret_cast<char*>(this) + 0x98), 1);
+        reinterpret_cast<TESForm*>(&this->Data), 1);
 
     if (((bool)(::FUN_00401500())))
     {

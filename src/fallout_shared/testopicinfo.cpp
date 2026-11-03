@@ -600,7 +600,7 @@ void FUN_0061c330_shell::RemoveAllLists()
     reinterpret_cast<::FileMatchList *>((((List_009e03e0*)((char*)this + 0x10))))->RemoveAll();
 }
 
-struct FUN_0061cc40_shell
+struct FUN_0061cc40_shell : ::TESTopicInfo
 {
     void FUN_0061cc40(std::intptr_t askilllevel);
 };
@@ -659,7 +659,7 @@ struct TESFormStub
 {
 };
 
-struct FUN_0061dad0_shell
+struct FUN_0061dad0_shell : ::TESTopicInfo
 {
     void FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
@@ -669,10 +669,10 @@ void FUN_0061dad0_shell::FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurre
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(aiFlags, aiCurrentFlags);
     if (aiFlags & 0x80000000)
-        ((unsigned char*)this)[0x22] = 1;
+        (*(unsigned char*)&this->m_bGoodbye) = 1;
 }
 
-struct FUN_0061db00_shell : TESForm
+struct FUN_0061db00_shell : ::TESTopicInfo
 {
     void Revert(std::uintptr_t);
 };
@@ -683,7 +683,7 @@ void FUN_0061db00_shell::Revert(std::uintptr_t aiFlags)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)((BGSLoadFormBuffer*)aiFlags));
     if (aiFlags & 0x80000000)
-        ((char*)this)[0x22] = 0;
+        (*(char*)&this->m_bGoodbye) = 0;
 }
 
 namespace ActorValue { enum Index; }

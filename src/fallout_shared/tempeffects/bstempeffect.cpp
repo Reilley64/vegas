@@ -108,7 +108,7 @@ void FUN_00682a80_shell::FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->bInitialized)), 1);
 }
 
-struct FUN_00682810_shell
+struct FUN_00682810_shell : ::BSTempEffect
 {
     void FUN_00682810();
 };
@@ -116,7 +116,7 @@ struct FUN_00682810_shell
 // @fnv 0x00682810
 void FUN_00682810_shell::FUN_00682810()
 {
-    *(char*)((char*)this + 0x14) = 1;
+    *(char*)&this->bInitialized = 1;
 }
 
 namespace fnv_00682830 {

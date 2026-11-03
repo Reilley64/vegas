@@ -15,9 +15,8 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpStiffSpringChainData.h"
 
-struct hkStiffSpringChainData
+struct hkStiffSpringChainData : hkpStiffSpringChainData
 {
-    unsigned int m_uiCurrentValue;
     void FUN_00e3af80(bool bFlag, unsigned int* pOut);
 };
 
@@ -26,7 +25,7 @@ void hkStiffSpringChainData::FUN_00e3af80(bool bFlag, unsigned int* pOut)
 {
     if (bFlag)
     {
-        unsigned int u = *(unsigned int*)((char*)this + 0x1c);
+        unsigned int u = (unsigned int)m_pConstraintInfo.m_iElementCount;
         pOut[1] = u;
         pOut[0] = u * 8;
     }
@@ -368,6 +367,8 @@ static __forceinline hkReal hkNormalizeWithLength3(hkVector4q& v)
     v.m_vComponents = _mm_mul_ps(invLen, v.m_vComponents);
     return length;
 }
+// Bytes of one 1d linear bilateral solver schema written by FUN_00dcf720.
+static const int kLinearBilateralSchemaBytes = 0x30;
 struct hkpStiffSpringChainDataEx : public hkpStiffSpringChainData
 {
 // @fnv 0x00e3b0f0
@@ -419,7 +420,7 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         ::FUN_00dcee70();
         hkReal rhs = m_pConstraintInfo.m_data[i].m_fSpringRestLength - length;
         ::FUN_00dcf720((const ::S_00dcf720_Info &)(bp), (const ::S_00dcf720_QueryIn &)(in), (::S_00dcf720_Jacobian *)(schema), rhs);
-        schema = reinterpret_cast<SolverSchemaHeader*>(reinterpret_cast<char*>(schema) + 0x30);
+        schema = reinterpret_cast<SolverSchemaHeader*>(reinterpret_cast<char*>(schema) + kLinearBilateralSchemaBytes);
     }
     ::FUN_00dd1180(numConstraints, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, (char **)(velocityAccumulatorsOffsets.m_data), (intptr_t)(base),
                  schema, &(inNonConst), (char **)&(out));

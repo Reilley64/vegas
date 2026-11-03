@@ -22,7 +22,7 @@
 void NiFloatData::SetColorKeys(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pKeyArray)
-        (*reinterpret_cast<void (**[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
+        (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
     if (keys && count && eKeyType)
     {
         m_ucKeyDataSize = DAT_011f3758[eKeyType];
@@ -51,7 +51,7 @@ void FUN_00a3cc80_shell::FUN_00a3cc80()
     *(const void***)this = (*reinterpret_cast<const void * (*)[]>((void *)&::fnv_00a3cd00::vftable_NiFloatData));
     if (m_pKeyArray)
     {
-        (*reinterpret_cast<void (**[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
+        (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
     }
     reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
@@ -216,7 +216,7 @@ void FUN_00a3cfd0_shell::WriteToStream(NiStream* stream)
     if (m_uiNumKeys > 0)
     {
         stream->GetWriter()->Write(&m_eRequestType);
-        (*reinterpret_cast<void (**[])(NiStream *, TimedAnimationKey *, unsigned int)>(&::g_apfnA29FE0Load))[m_eRequestType](stream, m_pKeyArray, m_uiNumKeys);
+        (*reinterpret_cast<void (*(*)[])(NiStream *, TimedAnimationKey *, unsigned int)>(&::g_apfnA29FE0Load))[m_eRequestType](stream, m_pKeyArray, m_uiNumKeys);
     }
 }
 
@@ -299,7 +299,7 @@ bool FUN_00a3cd40_cls::FUN_00a3cd40(NiFloatData* other)
     {
         return false;
     }
-    FUN_00a3cd40_KeyCmp cmp = (*reinterpret_cast<bool (**[])(void *, void *)>(&::DAT_011f3ae0))[m_eRequestType];
+    FUN_00a3cd40_KeyCmp cmp = (*reinterpret_cast<bool (*(*)[])(void *, void *)>(&::DAT_011f3ae0))[m_eRequestType];
     unsigned int iKeyIndex = 0;
     if (m_uiNumKeys > 0)
     {
@@ -529,9 +529,9 @@ void FUN_00a3cf10_cls::FUN_00a3cf10(NiStream& stream)
         AnimationKey::KeyType keyType;
         LoadEnum(pStreamView->m_pUnderlyingStream, keyType);
         m_ucKeyDataSize = DAT_011f3758[keyType];
-        CreateFn_cf pCreateFn = (*reinterpret_cast<TimedAnimationKey *(**[])(NiStream &, unsigned int)>(&::DAT_011f3db0))[keyType];
+        CreateFn_cf pCreateFn = (*reinterpret_cast<TimedAnimationKey *(*(*)[])(NiStream &, unsigned int)>(&::DAT_011f3db0))[keyType];
         TimedAnimationKey* keys = pCreateFn(stream, numKeys);
-        FillFn_cf pFillFn = (*reinterpret_cast<void (**[])(TimedAnimationKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[keyType];
+        FillFn_cf pFillFn = (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[keyType];
         pFillFn(keys, numKeys, m_ucKeyDataSize);
         reinterpret_cast<KeyOwnerStand_cf*>(this)->SetKeyData(keys, numKeys, keyType);
     }

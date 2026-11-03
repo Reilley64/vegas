@@ -1196,7 +1196,7 @@ void ShaderFactoryShutdown::FUN_00e92dc0()
     m_pShaderMapStorage = 0;
     m_pShaderLibraryStorage = 0;
     m_pOwnerShader = 0;
-    DeleteCriticalSection(m_kShaderMap);
+    DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(m_kShaderMap));
     reinterpret_cast<::FUN_00aa05a0 *>(this)->FUN_00aa05a0::~FUN_00aa05a0();
 }
 
@@ -1776,7 +1776,7 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
     if (!pkShader)
     {
         void* pCriticalSection = &m_kShaderMap;
-        EnterCriticalSection(pCriticalSection);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
         ShaderLibraryProducer* pkLibrary = GetVertexShaderConstantInterface();
         pkShader = AcquireShader(pcName, uiImplementation);
         if (!pkShader)
@@ -1794,7 +1794,7 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
                 pkLibrary = GetPixelShaderConstantInterface();
             }
         }
-        LeaveCriticalSection(pCriticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
     }
     if (bReportFailure && !pkShader)
         ::FUN_00aa0020(1, 0, UNK_010f0b54, pcName, uiImplementation);
@@ -1869,7 +1869,7 @@ bool FUN_00e92330_cls::FUN_00e92330(uintptr_t apItem)
             return false;
         }
     }
-    EnterCriticalSection(&m_lock);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_lock));
     FUN_00e92330_item* pItem = GetFirst();
     bool result = false;
     while (pItem)
@@ -1881,7 +1881,7 @@ bool FUN_00e92330_cls::FUN_00e92330(uintptr_t apItem)
         }
         pItem = GetNext();
     }
-    LeaveCriticalSection(&m_lock);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_lock));
     return result;
 }
 

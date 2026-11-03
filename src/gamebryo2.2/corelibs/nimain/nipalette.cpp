@@ -42,7 +42,7 @@ extern int DAT_011f5c80;
 // @fnv 0x00a8b010
 void FUN_00a8b010_Node::Unlink()
 {
-    EnterCriticalSection(&DAT_011f5c80);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
     if (DAT_011f5c00 == this)
         DAT_011f5c00 = this->_next;
     if (DAT_011f5c04 == this)
@@ -51,7 +51,7 @@ void FUN_00a8b010_Node::Unlink()
         this->_prev->_next = this->_next;
     if (this->_next)
         this->_next->_prev = this->_prev;
-    LeaveCriticalSection(&DAT_011f5c80);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
 }
 
 struct BSFadeNode
@@ -725,7 +725,7 @@ MyObj* FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
 void FUN_00a8afc0(void* apNode)
 {
     FUN_00a8b010_Node* node = static_cast<FUN_00a8b010_Node*>(apNode);
-    EnterCriticalSection(&DAT_011f5c80);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
     if (DAT_011f5c00 == 0)
         DAT_011f5c00 = node;
     if (DAT_011f5c04 != 0)
@@ -739,7 +739,7 @@ void FUN_00a8afc0(void* apNode)
     }
     DAT_011f5c04 = node;
     node->_next = 0;
-    LeaveCriticalSection(&DAT_011f5c80);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
 }
 
 #include "generated/data/gamebryo2.2/corelibs/nimain/nipalette.inc"

@@ -57,12 +57,12 @@ bool GraphicsRenderer::BeginUsingRenderTargetGroup(NiRenderTargetGroup* group, u
         ::FUN_00a29680();
         return false;
     }
-    EnterCriticalSection(&m_acRendererDataC);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_acRendererDataC));
     bool result = ((NiConsoleRendererPacketVTable*)this)->BeginGroup(group, clear);
     if (result)
         m_bRendererFlagA = true;
     else
-        LeaveCriticalSection(&m_acRendererDataC);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_acRendererDataC));
     return result;
 }
 // @fnv 0x00a6fa30

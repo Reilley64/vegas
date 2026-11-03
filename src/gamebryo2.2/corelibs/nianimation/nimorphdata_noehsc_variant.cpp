@@ -819,11 +819,11 @@ struct MorphKeyHelpers
     }
     static KeyCreateFn GetCreate(unsigned int type)
     {
-        return (*reinterpret_cast<void *(**[])(NiStreamL &, unsigned int)>(&::DAT_011f3db0))[type];
+        return (*reinterpret_cast<void *(*(*)[])(NiStreamL &, unsigned int)>(&::DAT_011f3db0))[type];
     }
     static KeyFillFn GetFill(unsigned int type)
     {
-        return (*reinterpret_cast<void (**[])(void *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
+        return (*reinterpret_cast<void (*(*)[])(void *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
     }
 };
 struct MorphData

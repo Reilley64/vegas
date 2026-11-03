@@ -30,12 +30,12 @@ char* NiGlobalStringTable::AddString(const char* s)
     if (!s)
         return 0;
     unsigned len = strlen(s);
-    EnterCriticalSection((char*)DAT_011f42c0 + 0x2080);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
     char* result = reinterpret_cast<::StringTable169 *>((DAT_011f42c0))->FUN_00a5b300(s, len);
     if (result)
     {
         InterlockedIncrement((long*)(result - 8));
-        LeaveCriticalSection((char*)DAT_011f42c0 + 0x2080);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
         return result;
     }
     unsigned tlsIndex = ::DAT_0126fd98;
@@ -54,7 +54,7 @@ char* NiGlobalStringTable::AddString(const char* s)
     char* handle = result;
     std::memmove(result, s, len + 1);
     reinterpret_cast<::ThreadedTable *>((DAT_011f42c0))->FUN_00a5b5a0(&handle, len);
-    LeaveCriticalSection((char*)DAT_011f42c0 + 0x2080);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
     *(unsigned*)(pTlsData + 0x2b4) = uiOldTlsValue;
     return result;
 }

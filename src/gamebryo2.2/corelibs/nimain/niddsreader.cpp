@@ -1241,7 +1241,7 @@ struct FUN_00a8e480 : NiImageReader
 // @fnv 0x00a8e480
 FUN_00a8e480::~FUN_00a8e480()
 {
-    DeleteCriticalSection((char*)&this->lock);
+    DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)&this->lock));
 }
 
 namespace fnv_00a8cc40 {

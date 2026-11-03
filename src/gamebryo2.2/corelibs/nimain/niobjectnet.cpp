@@ -50,14 +50,14 @@ bool NiObjectNET::ResizeExtraData(unsigned short usCapacity)
     if (usCapacity == 0)
         return false;
 
-    EnterCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
 
     if (m_usMaxSize == 0)
     {
         m_usMaxSize = usCapacity;
         m_ppExtraData = (NiExtraData**)::FUN_00aa1070(usCapacity * sizeof(NiExtraData*));
         m_usExtraDataCount = 0;
-        LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
         return true;
     }
 
@@ -66,7 +66,7 @@ bool NiObjectNET::ResizeExtraData(unsigned short usCapacity)
     std::memmove(pNewExtraData, m_ppExtraData, m_usExtraDataCount * sizeof(NiExtraData*));
     ::FUN_00aa10f0(m_ppExtraData);
     m_ppExtraData = pNewExtraData;
-    LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
     return true;
 }
 
@@ -236,7 +236,7 @@ struct NiExtraDataDeleteProxy : public NiObjectNET
 // @fnv 0x00a5bfa0
 void FUN_00a5bfa0_shell::ClearExtraData()
 {
-    EnterCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
     for (short i = static_cast<short>(m_usExtraDataCount) - 1; i >= 0; --i)
     {
         reinterpret_cast<::NiObjectNET *>((reinterpret_cast<NiExtraDataDeleteProxy*>(this)))->DeleteExtraData(static_cast<unsigned short>(i));
@@ -245,7 +245,7 @@ void FUN_00a5bfa0_shell::ClearExtraData()
     m_ppExtraData = 0;
     m_usMaxSize = 0;
     m_usExtraDataCount = 0;
-    LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
 }
 
 extern int DAT_0109b23c;
@@ -1187,11 +1187,11 @@ bool FUN_00a5be90_shell::DeleteExtraDataByKey(const NiFixedString& kKey)
     if (m_usExtraDataCount == 0)
         return false;
 
-    EnterCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
 
     if (kKey == ::DAT_0109b220)
     {
-        LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
         return false;
     }
 
@@ -1207,7 +1207,7 @@ bool FUN_00a5be90_shell::DeleteExtraDataByKey(const NiFixedString& kKey)
         if (dtCompare == 0)
         {
             reinterpret_cast<::NiObjectNET *>((((NiExtraDataDeleteProxy*)this)))->DeleteExtraData(sMiddle);
-            LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+            LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
             return true;
         }
         if (dtCompare > 0)
@@ -1220,7 +1220,7 @@ bool FUN_00a5be90_shell::DeleteExtraDataByKey(const NiFixedString& kKey)
         }
     }
 
-    LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
     return false;
 }
 

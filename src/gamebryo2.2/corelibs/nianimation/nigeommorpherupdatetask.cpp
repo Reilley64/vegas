@@ -35,7 +35,7 @@ struct FreeStore
 // @fnv 0x00a56f90
 NiGeomMorpherUpdateTask* __cdecl PopMorpherUpdateTask()
 {
-    EnterCriticalSection((void*)&DAT_011f4180);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_011f4180));
     if (DAT_011a9414 == 0)
     {
         ((FreeStore*)&DAT_011a940c)->FUN_00a56e60(DAT_011a941c);
@@ -44,7 +44,7 @@ NiGeomMorpherUpdateTask* __cdecl PopMorpherUpdateTask()
     NiGeomMorpherUpdateTask* pkTask = DAT_011a940c[0];
     DAT_011a9414--;
     DAT_011a940c[0] = DAT_011a940c[DAT_011a9414];
-    LeaveCriticalSection((void*)&DAT_011f4180);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_011f4180));
     return pkTask;
 }
 
@@ -370,10 +370,10 @@ bool S_00a56f10::ReleaseReferences()
             b->Unk_04();
         _10 = 0;
     }
-    EnterCriticalSection(&DAT_011f4180);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4180));
     S_00a56f10* self = this;
     reinterpret_cast<::ActiveArray *>((reinterpret_cast<S_00a56f10_List*>(&DAT_011a940c)))->FindOrAdd((*(void *const *)(&self)));
-    LeaveCriticalSection(&DAT_011f4180);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4180));
     return true;
 }
 

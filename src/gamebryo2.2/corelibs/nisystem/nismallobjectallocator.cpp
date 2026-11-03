@@ -22,11 +22,11 @@ void PointerCountProcessor::FUN_00aa3830(void* p, unsigned int stNumBytes)
 {
     SubAlloc* pAlloc = (SubAlloc*)((char*)this + (stNumBytes << 8) - 0x100);
     void* pCriticalSection = (char*)pAlloc + 0x80;
-    EnterCriticalSection(pCriticalSection);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
     intptr_t v = ((intptr_t)(reinterpret_cast<::FUN_00aa34b0_cls *>((pAlloc))->FindEntryContaining((uintptr_t)(p))));
     pAlloc->_18 = v;
     reinterpret_cast<::S_00aa36f0_Foo *>((pAlloc))->WriteBufferByte((unsigned char *)(p));
-    LeaveCriticalSection(pCriticalSection);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
 }
 
 extern void(* g_pfnEntryInit)(void*);

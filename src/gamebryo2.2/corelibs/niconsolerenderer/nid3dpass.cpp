@@ -1241,7 +1241,7 @@ void* NiDSBObject::InitializeAndRegister()
     m_14 = 0;
     m_vtbl = &DAT_010ef184;
     m_20 = 0;
-    EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<int *>(&::DAT_0126f600))));
     NiDSBListNode* pNode = ((::NiDSBListNode *)(reinterpret_cast<::FUN_0043a010_shell *>((&DAT_0126f5d4))->FUN_0043a010()));
     pNode->m_pOwnerObject = this;
     pNode->m_next = 0;
@@ -1252,7 +1252,7 @@ void* NiDSBObject::InitializeAndRegister()
         DAT_0126f5d0 = pNode;
     DAT_0126f5d4 = DAT_0126f5d4 + 1;
     (*reinterpret_cast<::NiDSBListNode * *>(&::fnv_00e7dbc0::DAT_0126f5cc)) = pNode;
-    LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<int *>(&::DAT_0126f600))));
     return this;
 }
 

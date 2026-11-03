@@ -71,7 +71,7 @@ void* NiPSysEmitterCtlrData::Destroy(unsigned int flags)
         DAT_011f38a0[*(int*)((char*)this + 0x10)](pkKeys);
     pkKeys = *(void**)((char*)this + 0x1c);
     if (pkKeys)
-        (*reinterpret_cast<void (**[])(AnimationKey *)>(&::DAT_011f3918))[*(int*)((char*)this + 0x20)]((AnimationKey*)pkKeys);
+        (*reinterpret_cast<void (*(*)[])(AnimationKey *)>(&::DAT_011f3918))[*(int*)((char*)this + 0x20)]((AnimationKey*)pkKeys);
     reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x28);
@@ -196,7 +196,7 @@ bool S_00c2bab0::Equals(S_00c2bab0* other)
     if (other->m_ucKeyDataSize != m_ucKeyDataSize)
         return false;
 
-    bool(__cdecl * pfnCompare)(unsigned char*, unsigned char*) = (*reinterpret_cast<bool (**[])(unsigned char *, unsigned char *)>(&::DAT_011f3ae0))[m_eRequestType];
+    bool(__cdecl * pfnCompare)(unsigned char*, unsigned char*) = (*reinterpret_cast<bool (*(*)[])(unsigned char *, unsigned char *)>(&::DAT_011f3ae0))[m_eRequestType];
 
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
@@ -324,7 +324,7 @@ void NiPSysEmitterCtlrDataStub::FUN_00c2bdf0(NiStream& kStream)
     if (m_uiValueAtOffset8 > 0)
     {
         ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_iBirthRateKeyIndex));
-        (*reinterpret_cast<void (**[])(NiStream &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_iBirthRateKeyIndex](kStream, m_pFloatKeys, m_uiValueAtOffset8);
+        (*reinterpret_cast<void (*(*)[])(NiStream &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_iBirthRateKeyIndex](kStream, m_pFloatKeys, m_uiValueAtOffset8);
     }
 
     ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_uiNumFloatKeys));
@@ -333,7 +333,7 @@ void NiPSysEmitterCtlrDataStub::FUN_00c2bdf0(NiStream& kStream)
         if (m_uiNumFloatKeys > 0)
         {
             ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_uiNumVisibilityKeys));
-            (*reinterpret_cast<void (**[])(NiStream &, void *, unsigned int)>(&::DAT_011f3ac8))[m_uiNumVisibilityKeys](kStream, m_pVisibilityKeys, m_uiNumFloatKeys);
+            (*reinterpret_cast<void (*(*)[])(NiStream &, void *, unsigned int)>(&::DAT_011f3ac8))[m_uiNumVisibilityKeys](kStream, m_pVisibilityKeys, m_uiNumFloatKeys);
         }
     }
 }
@@ -542,11 +542,11 @@ typedef void*(__cdecl* CreateFunction)(NiStreamView&, unsigned int);
 typedef void(__cdecl* FillDerivedValsFunction)(void*, unsigned int, unsigned char);
 inline CreateFunction GetCreate1(KeyType e)
 {
-    return (*reinterpret_cast<void *(**[])(NiStreamView &, unsigned int)>(&::DAT_011f3db0))[e];
+    return (*reinterpret_cast<void *(*(*)[])(NiStreamView &, unsigned int)>(&::DAT_011f3db0))[e];
 }
 inline FillDerivedValsFunction GetFill1(KeyType e)
 {
-    return (*reinterpret_cast<void (**[])(void *, unsigned int, unsigned char)>(&::DAT_011f3780))[e];
+    return (*reinterpret_cast<void (*(*)[])(void *, unsigned int, unsigned char)>(&::DAT_011f3780))[e];
 }
 inline unsigned char GetKeySize1(KeyType e)
 {
@@ -554,11 +554,11 @@ inline unsigned char GetKeySize1(KeyType e)
 }
 inline CreateFunction GetCreate2(KeyType e)
 {
-    return (*reinterpret_cast<void *(**[])(NiStreamView &, unsigned int)>(&::DAT_011f3e28))[e];
+    return (*reinterpret_cast<void *(*(*)[])(NiStreamView &, unsigned int)>(&::DAT_011f3e28))[e];
 }
 inline FillDerivedValsFunction GetFill2(KeyType e)
 {
-    return (*reinterpret_cast<void (**[])(void *, unsigned int, unsigned char)>(&::DAT_011f37f8))[e];
+    return (*reinterpret_cast<void (*(*)[])(void *, unsigned int, unsigned char)>(&::DAT_011f37f8))[e];
 }
 inline unsigned char GetKeySize2(KeyType e)
 {

@@ -2140,11 +2140,11 @@ struct CritLock
     _RTL_CRITICAL_SECTION_S m_kCriticalSection;
     void Lock()
     {
-        EnterCriticalSection(&m_kCriticalSection);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
     void Unlock()
     {
-        LeaveCriticalSection(&m_kCriticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
 };
 
@@ -2249,11 +2249,11 @@ struct RendererStub
     CritLock m_kLock;
     void Lock()
     {
-        EnterCriticalSection(&m_kLock.m_kCriticalSection);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kLock.m_kCriticalSection));
     }
     void Unlock()
     {
-        LeaveCriticalSection(&m_kLock.m_kCriticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kLock.m_kCriticalSection));
     }
 };
 
@@ -3747,11 +3747,11 @@ struct FnvCriticalSection
 
     void Enter()
     {
-        EnterCriticalSection(this);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(this));
     }
     void Leave()
     {
-        LeaveCriticalSection(this);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(this));
     }
 };
 

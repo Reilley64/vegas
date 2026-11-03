@@ -104,14 +104,14 @@ struct NiObjectNET
 // @fnv 0x00a5bf50
 bool NiObjectNET::FUN_00a5bf50(unsigned short ausIndex)
 {
-    EnterCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380))));
     if (ausIndex < *(unsigned short*)((char*)this + 0x14))
     {
         DeleteExtraData(ausIndex);
-        LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380))));
         return true;
     }
-    LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380))));
     return false;
 }
 

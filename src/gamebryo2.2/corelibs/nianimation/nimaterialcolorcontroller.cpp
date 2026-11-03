@@ -130,8 +130,8 @@ void ColorHolder::GetColor(float* afOut)
     float red = 0.0f;
     float green = 0.0f;
     float blue = 0.0f;
-    register unsigned int type = mode & 7;
-    register NiColorSource* source = this->source;
+    unsigned int type = mode & 7;
+    NiColorSource* source = this->source;
     switch (type)
     {
     case 0:

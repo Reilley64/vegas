@@ -973,11 +973,11 @@ struct StandIn_e6dc40 { bool FUN_00e6dc40(void*); };
 // @fnv 0x00e6dc40
 bool StandIn_e6dc40::FUN_00e6dc40(void* a1)
 {
-	EnterCriticalSection((void*)((char*)this + 0x180));
+	EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
 	intptr_t v = *(int*)((char*)a1 + 0x24);
 	if (!v)
 		v = ((intptr_t)(::FUN_00e68ef0((::FnvSource *)(a1), (::FnvDevice *)(void *)(this))));
-	LeaveCriticalSection((void*)((char*)this + 0x180));
+	LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
 	return v;
 }
 
@@ -1001,11 +1001,11 @@ struct FUN_00e6dcc0_shell { bool FUN_00e6dcc0(void*); };
 // @fnv 0x00e6dcc0
 bool FUN_00e6dcc0_shell::FUN_00e6dcc0(void* a1)
 {
-	EnterCriticalSection((void*)((char*)this + 0x180));
+	EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
 	if (*(int*)((char*)a1 + 0x24) != 0)
 		return true;
 	intptr_t r = ((intptr_t)(::FUN_00e8abf0((::TextureInput *)(a1), (::ResourceConfig *)(void *)(this))));
-	LeaveCriticalSection((void*)((char*)this + 0x180));
+	LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
 	return r;
 }
 
@@ -11551,9 +11551,9 @@ FUN_00a62af0_cls::FUN_00a62af0_cls() throw()
     unsigned int zero = 0;
     *(volatile unsigned int*)&unk08 = zero;
     *(volatile unsigned int*)&unk14 = zero;
-    InitializeCriticalSection(&unk80);
-    InitializeCriticalSection(&unk100);
-    InitializeCriticalSection(&unk180);
+    InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&unk80));
+    InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&unk100));
+    InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&unk180));
     unk200 = zero;
     unk204 = zero;
     unk208 = (unsigned char)zero;
@@ -13762,8 +13762,8 @@ bool PG_Renderer::FUN_00e73f60(PG_GeomFull* p, unsigned int a2, unsigned int a3,
     }
 
     bool bPrecached = reinterpret_cast<::FUN_00e72c20_cls *>(this)->FUN_00e72c20((::Arg1 *)(p), (::Ifc *)(0));
-    EnterCriticalSection(&m_kCS80);
-    EnterCriticalSection(&m_kCS100);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS80));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS100));
     unsigned int uiTech = auiTechnique;
     if (!uiTech)
         uiTech = pShader->GetDefaultTechnique();
@@ -13784,8 +13784,8 @@ bool PG_Renderer::FUN_00e73f60(PG_GeomFull* p, unsigned int a2, unsigned int a3,
         unsigned int uiIdx = pData->m_us44;
         bResult = FUN_00e72980_s(p, pData, usActive, usVerts, m_pkDeltas, pIdx, uiIdx, uiTech);
     }
-    LeaveCriticalSection(&m_kCS100);
-    LeaveCriticalSection(&m_kCS80);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS100));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS80));
     return bResult;
 }
 }  // namespace fnv_00e73f60
@@ -15790,9 +15790,9 @@ void E71E40::RemoveItemsFromMap(FUN_00e744b0_Src* p) {
 
             } else {
 
-                EnterCriticalSection(&cs1_080);
+                EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs1_080));
 
-                EnterCriticalSection(&cs2_100);
+                EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs2_100));
 
 
 
@@ -15854,9 +15854,9 @@ void E71E40::RemoveItemsFromMap(FUN_00e744b0_Src* p) {
 
 
 
-                LeaveCriticalSection(&cs2_100);
+                LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs2_100));
 
-                LeaveCriticalSection(&cs1_080);
+                LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs1_080));
 
             }
 
@@ -17953,8 +17953,8 @@ void GeomGroupOwner::RemoveGeomFromGroups(GeomData* pkGeom)
     if (!pkParts)
         return;
     if (pkParts->Get(0)) {
-        EnterCriticalSection(&kLockA);
-        EnterCriticalSection(&kLockB);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockA));
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockB));
         for (unsigned int i = 0; i < pkParts->uiSize; i++) {
             uintptr_t uiKey = pkParts->Get(i)->uiKey;
             GeomGroupEntry* pkHead = 0;
@@ -17983,8 +17983,8 @@ void GeomGroupOwner::RemoveGeomFromGroups(GeomData* pkGeom)
                 }
             }
         }
-        LeaveCriticalSection(&kLockB);
-        LeaveCriticalSection(&kLockA);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockB));
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockA));
     }
     pkListener->Release(pkGeom, 0);
 }

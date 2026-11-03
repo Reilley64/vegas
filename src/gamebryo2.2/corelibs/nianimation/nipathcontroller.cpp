@@ -71,7 +71,7 @@ void* FUN_00a49e10_shell::InvokeIndexedCallback(void* a1, int iIndexA, int iInde
         base = 0;
         sz = 0;
     }
-    (*reinterpret_cast<void (**[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[idx](fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
+    (*reinterpret_cast<void (*(*)[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[idx](fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
                       (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexB), a1);
     return a1;
 }
@@ -703,7 +703,7 @@ float FUN_00a4a610_shell::GetKeyDerivativeLength(unsigned int uiKey1, unsigned i
     }
 
     NiPoint3A4A6 kDeriv;
-    (*reinterpret_cast<void (**[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3c18))[uiRequestType](fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
+    (*reinterpret_cast<void (*(*)[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3c18))[uiRequestType](fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
                                 (AnimationKey*)((char*)pkKeys + uiKey2 * ucSize), &kDeriv);
     float fLengthSquared = kDeriv.x * kDeriv.x + kDeriv.y * kDeriv.y + kDeriv.z * kDeriv.z;
     return (float)sqrt(fLengthSquared);
@@ -1018,7 +1018,7 @@ void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
         SampleData sample = {t->m_10, t->m_0c};
         if (count > 0)
         {
-            float(__cdecl * pfnSample)(const void*, unsigned int) = (*reinterpret_cast<float (**[])(const void *, unsigned int)>(&::DAT_011f3d38))[sample.index];
+            float(__cdecl * pfnSample)(const void*, unsigned int) = (*reinterpret_cast<float (*(*)[])(const void *, unsigned int)>(&::DAT_011f3d38))[sample.index];
             m_5c = pfnSample(sample.value, count);
         }
     }

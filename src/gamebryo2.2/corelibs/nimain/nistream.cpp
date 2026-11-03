@@ -3755,13 +3755,13 @@ struct StreamHack
 // @fnv 0x00a64ca0
 void StreamHack::Clear()
 {
-    EnterCriticalSection(&(*reinterpret_cast<int *>(&::fnv_NiStreamCriticalSection)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<int *>(&::fnv_NiStreamCriticalSection))));
     ((NiStreamTopObjects*)((char*)this + 0x1EC))->RemoveAll();
     *(unsigned int*)((char*)this + 0x25C) = 0;
     *(unsigned int*)((char*)this + 0x26C) = 0;
     *(unsigned int*)((char*)this + 0x260) = 0;
     *(unsigned int*)((char*)this + 0x270) = 0;
-    LeaveCriticalSection(&(*reinterpret_cast<int *>(&::fnv_NiStreamCriticalSection)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<int *>(&::fnv_NiStreamCriticalSection))));
 }
 
 struct FUN_00a64ce0_shell : public NiStream
@@ -5345,23 +5345,23 @@ bool NiStreamLs::FUN_00a65c60()
     if (m_eStreamThreadStatus == 2)
     {
     abort:
-        EnterCriticalSection((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection)));
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection))));
         m_kThirdFollowingStreamField.FUN_00a64250();
         unk25c = 0;
         unk26c = 0;
         unk260 = 0;
         unk270 = 0;
-        LeaveCriticalSection((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection)));
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection))));
         return false;
     }
     reinterpret_cast<::Receiver *>(this)->FUN_00a63d10();
-    EnterCriticalSection((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection))));
     m_kThirdFollowingStreamField.FUN_00a64250();
     unk25c = 0;
     unk26c = 0;
     unk260 = 0;
     unk270 = 0;
-    LeaveCriticalSection((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((*reinterpret_cast<char (*)[]>(&::fnv_NiStreamCriticalSection))));
     return true;
 }
 
@@ -7028,7 +7028,7 @@ struct MemContextScope
 void FUN_00c68050_shell::RegisterThread()
 {
     TaskManager* pThis = reinterpret_cast<TaskManager*>(this);
-    EnterCriticalSection(&pThis->m_cs);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&pThis->m_cs));
     if (pThis->m_uiNumThreads < 16)
     {
         MemContextScope scope(16);
@@ -7044,7 +7044,7 @@ void FUN_00c68050_shell::RegisterThread()
         thread->m_uiMemoryContextId = GetCurrentThreadId();
         pThis->m_uiNumThreads++;
     }
-    LeaveCriticalSection(&pThis->m_cs);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&pThis->m_cs));
 }
 }  // namespace fnv_00c68050
 
@@ -7783,7 +7783,7 @@ struct S_00c68150_Lock
     unsigned long m_spinCount;
     ~S_00c68150_Lock()
     {
-        DeleteCriticalSection(this);
+        DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(this));
     }
 };
 

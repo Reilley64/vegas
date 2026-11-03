@@ -144,7 +144,7 @@ bool S_00e8c0d0::CopyAndRelease(void* apObj)
     std::memmove(m_dst, m_src, m_iElementCount);
     m_dst = 0;
     m_iElementCount = 0;
-    LeaveCriticalSection(m_cs);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(m_cs));
     OBJ_00e8c0d0* o = (OBJ_00e8c0d0*)apObj;
     return o->v->fn(apObj) >= 0;
 }
@@ -220,7 +220,7 @@ void* Owner_e8bff0::FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsig
     uintptr_t out = 0;
     if (source->read(type, length, &out, flags) < 0)
         return 0;
-    EnterCriticalSection(CriticalSection());
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(CriticalSection()));
     Offset() = out;
     Size() = length;
     if (Capacity() < length) {
@@ -430,7 +430,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
         std::memmove(locked, staging, lockedSize);
         locked = 0;
         lockedSize = 0;
-        LeaveCriticalSection(&criticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&criticalSection));
         if (buffer->Unlock() < 0) return 0;
     }
     return record;

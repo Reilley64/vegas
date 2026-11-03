@@ -22,8 +22,8 @@ TESTopicInfo* NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >::
 // @fnv 0x00a64250
 void NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >::RemoveAll()
 {
-    register NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >* array = this;
-    register unsigned int index = 0;
+    NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >* array = this;
+    unsigned int index = 0;
     if (array->m_uiSize > 0)
     do
     {

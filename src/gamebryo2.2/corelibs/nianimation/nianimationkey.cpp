@@ -58,7 +58,7 @@ void __cdecl UpdateSlotStates(int aiSlotGroup, intptr_t a2, void** apSlotData, i
     }
 
     aiSlotGroup = aiSlotGroup * 3;
-    SlotCallback pCallback = (*reinterpret_cast<void (**[])(float, void **, int *)>(&::g_fnv_cb_011f3810))[a2 + aiSlotGroup * 2];
+    SlotCallback pCallback = (*reinterpret_cast<void (*(*)[])(float, void **, int *)>(&::g_fnv_cb_011f3810))[a2 + aiSlotGroup * 2];
     if (*apiState == 1)
     {
         float* pfValue = (float*)*apSlotData;
@@ -164,9 +164,9 @@ void FUN_00a3d630(int a1, int a2, void* apData, intptr_t aiCount, float afMin, f
 
     if (*apiOutCount != 0)
     {
-        AllocCallback alloc_func = (*reinterpret_cast<void *(**[])(int)>(&::DAT_011f3930))[idx];
+        AllocCallback alloc_func = (*reinterpret_cast<void *(*(*)[])(int)>(&::DAT_011f3930))[idx];
         *apOut = alloc_func(*apiOutCount);
-        CopyCallback copy_func = (*reinterpret_cast<void (**[])(void *, void *)>(&::DAT_011f39c0))[idx];
+        CopyCallback copy_func = (*reinterpret_cast<void (*(*)[])(void *, void *)>(&::DAT_011f39c0))[idx];
         for (i = 0, *apiOutCount = 0; i < (unsigned int)aiCount; ++i)
         {
             char* src = (char*)apData + i * stride;

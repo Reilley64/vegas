@@ -99,7 +99,7 @@ class A8AE50ImageReader
 
     A8AE50ImageReader()
     {
-        InitializeCriticalSection(&m_kCriticalSection);
+        InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
 };
 

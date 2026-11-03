@@ -179,7 +179,7 @@ bool PosKeyData::Equals(const PosKeyData* other)
         m_ucKeyDataSize != other->m_ucKeyDataSize)
         return false;
 
-    KeyEqual pfnEqualKeys = (*reinterpret_cast<bool (**[])(const void *, const void *)>(&::DAT_011f3af8))[m_eRequestType];
+    KeyEqual pfnEqualKeys = (*reinterpret_cast<bool (*(*)[])(const void *, const void *)>(&::DAT_011f3af8))[m_eRequestType];
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
         unsigned int offset = i * m_ucKeyDataSize;
@@ -395,7 +395,7 @@ void A49300Data::SaveToStream(A49300Stream& kStream)
     if (m_uiCount > 0)
     {
         kStream.m_pBackingStream->Write(&m_uiType, 4);
-        (*reinterpret_cast<void (**[])(A49300Stream &, void *, unsigned int)>(&::g_011f3a68))[m_uiType](kStream, m_pResource, m_uiCount);
+        (*reinterpret_cast<void (*(*)[])(A49300Stream &, void *, unsigned int)>(&::g_011f3a68))[m_uiType](kStream, m_pResource, m_uiCount);
     }
 }
 

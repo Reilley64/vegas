@@ -144,7 +144,7 @@ extern int DAT_01202600;
 // @fnv 0x00c25c40
 NiPSysUpdateTask* PopNiPSysUpdateTask()
 {
-    EnterCriticalSection((void*)&DAT_01202600);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_01202600));
     if (DAT_011aeba0 == 0)
     {
         ((PoolHelper*)&DAT_011aeb98)->AppendRecords(DAT_011aeba8);
@@ -153,7 +153,7 @@ NiPSysUpdateTask* PopNiPSysUpdateTask()
     NiPSysUpdateTask* pkTask = ((NiPSysUpdateTask**)DAT_011aeb98)[0];
     DAT_011aeba0--;
     ((NiPSysUpdateTask**)DAT_011aeb98)[0] = ((NiPSysUpdateTask**)DAT_011aeb98)[DAT_011aeba0];
-    LeaveCriticalSection((void*)&DAT_01202600);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_01202600));
     return pkTask;
 }
 

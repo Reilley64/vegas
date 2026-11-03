@@ -203,9 +203,9 @@ struct BSSP_stub4 : NiObject_stub
     float m_fFogDepth;
 };
 // @fnv 0x00ba8b10
-void FUN_00ba8b10(BSSP_stub4* self, int, BSSP_stub4* dst, int arg)
+void FUN_00ba8b10(BSSP_stub4* self, int, BSSP_stub4* dst, ::CloningProcess* arg)
 {
-    reinterpret_cast<::NiCullingProperty *>((self))->FUN_00a81430(dst, (*(::CloningProcess *)(arg)));
+    reinterpret_cast<::NiCullingProperty *>((self))->FUN_00a81430(dst, *arg);
     dst->m_f0 = self->m_f0;
     dst->m_f1 = self->m_f1;
     dst->m_fAlpha = self->m_fAlpha;

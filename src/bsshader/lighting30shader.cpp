@@ -6127,7 +6127,8 @@ void FUN_00bbe9c0(const SolPosition* original, S00bbe9c0_Obj* lighting, S00bbe9c
         {
             renderMode = 0;
             illumination = 0.0f;
-            S00bbe9c0_Node* node = ((::fnv_00bbe9c0::S00bbe9c0_Node *)(::FUN_00b70600((::FUN_00b70600_list *)(lighting), (int)((int*)&renderMode), {})));
+            ::FUN_00b70600_node* it = 0;
+            S00bbe9c0_Node* node = ((::fnv_00bbe9c0::S00bbe9c0_Node *)(::FUN_00b70600((::FUN_00b70600_list *)(lighting), 0, &it)));
             S00bbe9c0_Target* __restrict cam = ((S00bbe9c0_Holder*)(*reinterpret_cast<char * *>(&::DAT_011f91c8)))->listE0->target;
             float alpha;
             {

@@ -29,7 +29,7 @@ int FUN_00aa1370(const char *, const char *, unsigned int);
 // 0x00aa1380
 void NormalizePathSeparators(char *);
 // 0x00aa13e0
-void FUN_00aa13e0(int);
+void* FUN_00aa13e0(unsigned int);
 // 0x00aa1420
 void FUN_00aa1420(int);
 // 0x00aa1460

@@ -528,13 +528,6 @@ void FUN_00b55b80(NiAVObject* apObject)
     }
 }
 
-struct tagRECT
-{
-    long left;
-    long top;
-    long right;
-    long bottom;
-};
 extern float DAT_011f95f4;
 extern float DAT_011f95f8;
 extern float DAT_011f95fc;
@@ -4278,7 +4271,6 @@ inline NiFixedString::~NiFixedString()
     if (m_kHandle != DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile long*>(m_kHandle - 8));
 }
-extern "C" void* FUN_00aa13e0(unsigned int);
 struct NiPoint3
 {
     float x, y, z;
@@ -4677,25 +4669,7 @@ void TGGatherer::FUN_0046e910(TGAVObject* apObject, int aiArg)
 
 void RegisterNiStreamFactories();
 
-inline bool IsExactB(Shader* s, RTTIStub* r)
-{
-    bool b = s->vfn_8() == r;
-    return b;
-}
-
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
-
-StringHashMapBase::StringHashMapBase()
-{
-    m_uiCount = 0x25;
-    m_iUnk14 = 0;
-    m_apBuckets = (void**)::FUN_00aa1070(0x94);
-    unsigned int uiBytes = m_uiCount;
-    uiBytes += uiBytes;
-    uiBytes += uiBytes;
-    _fnv_zlib_memset(m_apBuckets, 0, uiBytes);
-    m_bShaderEnabled = 1;
-}
 
 // Shared checkpoint chk_eaaefe0e50c64877994e, revalidated 28 October 2026.
 
@@ -4801,27 +4775,6 @@ class PixelOwner
 int FUN_004dc060(int);
 
 
-
-struct InternedStringHeader
-{
-    long references;
-    unsigned int length;
-};
-
-__forceinline NiFixedString::NiFixedString(const char* text)
-{
-    m_kHandle = NiGlobalStringTable::AddString(text);
-}
-
-__forceinline NiFixedString::~NiFixedString()
-{
-    char* p = m_kHandle;
-    if (p != DAT_0109b220)
-    {
-        long& refs = (reinterpret_cast<InternedStringHeader*>(p) - 1)->references;
-        InterlockedDecrement(&refs);
-    }
-}
 
 __forceinline NiPointer<NiTexture>& NiPointer<NiTexture>::operator=(NiTexture* p)
 {

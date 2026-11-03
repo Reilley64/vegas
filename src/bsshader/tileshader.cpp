@@ -1582,7 +1582,7 @@ struct FUN_00be0f10
 };
 struct FUN_00bca510 : FUN_00be0f10
 {
-    FUN_00b79930 pass[1];
+    struct FUN_00b79930 pass[1];
     FUN_00b66f20 vertex[3];
     FUN_00b66f20 pixel[3];
     FUN_00b66f20 other88;
@@ -2359,14 +2359,14 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     bool bAlt = pGeom->GetAlt();
     bool bNext = pGeom->GetNext() != 0;
     bool bSecond = pGeom->GetSecond();
-    Renderer* pRenderer = ((::fnv_00bca760::Renderer *)((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->FUN_00e7f7c0()));
+    Renderer* pRenderer = ((::fnv_00bca760::Renderer *)(::FUN_00e7f7c0()));
     ShaderState* state = (*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c));
     if (!bSecond)
     {
         if (bAlt)
-            ::FUN_00b79950((char *)(state), (int)(m_pVertexB), {});
+            ::FUN_00b79950((char *)(state), 0, (::NiRefObject *)(void *)(m_pVertexB));
         else
-            ::FUN_00b79950((char *)(state), (int)(m_pVertexA), {});
+            ::FUN_00b79950((char *)(state), 0, (::NiRefObject *)(void *)(m_pVertexA));
         pRenderer->SetPixelShader((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pPixelProgram->GetHandle(0));
         state = (*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c));
         if (bNext)
@@ -2386,7 +2386,7 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     }
     else
     {
-        ::FUN_00b79950((char *)(state), (int)(m_pVertexC), {});
+        ::FUN_00b79950((char *)(state), 0, (::NiRefObject *)(void *)(m_pVertexC));
         void* pPixelC = m_pPixelC;
         reinterpret_cast<::BSShaderBloodSplatter *>(((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))))->FUN_00b80600((::NiRefObject *)(pPixelC));
         pRenderer->SetPixelShader((*reinterpret_cast<::fnv_00bca760::ShaderState * *>(&::DAT_0126f74c))->m_pPixelProgram->GetHandle(0));

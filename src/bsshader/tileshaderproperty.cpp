@@ -165,7 +165,7 @@ struct FnvTileShaderProperty
 // @fnv 0x00bb7ac0
 void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(dst), (::BSSP_stub4 *)(flag), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)((flag)));
 
     NiTexture* pOldTile = dst->m_pkTile;
     if (pOldTile != m_pkTile)

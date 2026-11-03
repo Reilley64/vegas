@@ -1384,7 +1384,7 @@ void Candidate::RenderGeometryPass(void* geometry, unsigned int index, void* cam
         shader->stage30->Reset();
         reinterpret_cast<::S_00c4ed70_Class *>((reinterpret_cast<QueryLocal*>(m_akRenderQueryStates[index].m_pRenderQuery)))->FUN_00c4ed70();
         reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::ManagerLocal * *>(&::NiRenderer::ms_pRenderer))))->SetFromCamera((*(const ::Camera4E9 *)(camera)));
-        FUN_00ba8cd0 pass(geometry, 9, 1, false, false);
+        struct FUN_00ba8cd0 pass(geometry, 9, 1, false, false);
         ::fnv_00b994f0::FUN_00b994f0((::fnv_00b994f0::Pass_b994f0 *)(void *)(&pass), 9, 0, 0, 0);
         reinterpret_cast<::FUN_00c4edb0_Class *>((reinterpret_cast<QueryLocal*>(m_akRenderQueryStates[index].m_pRenderQuery)))->FUN_00c4edb0();
         m_akRenderQueryStates[index].m_bQueryPending = true;

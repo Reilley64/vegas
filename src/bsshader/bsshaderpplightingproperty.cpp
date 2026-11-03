@@ -491,7 +491,7 @@ struct FUN_00b67380 : FUN_00b71410
     NiPtr_b67380 m_spDC;              // +0xdc
     float m_fE0;                      // +0xe0
     int m_aiE4[7];                    // +0xe4
-    FUN_00ba8cd0* m_p100;             // +0x100
+    struct FUN_00ba8cd0* m_p100;      // +0x100
     virtual ~FUN_00b67380();
 };
 

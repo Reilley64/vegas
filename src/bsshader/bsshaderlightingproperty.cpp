@@ -250,16 +250,12 @@ struct FUN_00b702b0_shell : public NiRTTI
     void FUN_00b702b0(char*, void*);
 };
 
-struct _Helper_00ba8b10
-{
-};
-static void (_Helper_00ba8b10::*const _ref_00ba8b10)(char*, void*) = &((void (&)(char *, void *))::FUN_00ba8b10);
 
 // Calls FUN_00ba8b10 with p1 and p2, then invokes the virtual function at offset 0xc8 with this and p1.
 // @fnv 0x00b702b0
 void FUN_00b702b0_shell::FUN_00b702b0(char* p1, void* p2)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)(((_Helper_00ba8b10*)this)), (int)(p1), (::BSSP_stub4 *)(p2), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)(this), 0, (::BSSP_stub4 *)(p1), (::CloningProcess *)((p2)));
     typedef void(* VFn)(void*, char*);
     (*(VFn*)((*(int*)this) + 0xc8))(this, p1);
 }
@@ -726,8 +722,7 @@ struct _Vec4
 // @fnv 0x00b6f540
 void FUN_00b6f540_shell::CopyShaderLightingProperty(BSShaderLightingProperty* pDest, CloningProcess* arCloneData)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)(reinterpret_cast<_Helper_00ba8b10*>(this)), (int)(reinterpret_cast<char*>(pDest)),
-                                                            (::BSSP_stub4 *)(void *)(static_cast<void*>(arCloneData)), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)(this), 0, (::BSSP_stub4 *)(reinterpret_cast<char*>(pDest)), (::CloningProcess *)((void *)(static_cast<void*>(arCloneData))));
 
     _RCObj* oldVal = *reinterpret_cast<_RCObj**>(&pDest->m_kShadowSceneLights.m_pkHead);
     if (oldVal != *reinterpret_cast<_RCObj**>(&this->m_kShadowSceneLights.m_pkHead))
@@ -1026,7 +1021,7 @@ typedef void(* OwnerFn)(Owner*, void*);
 NewObj* FUN_00b71800(_Helper_00ba8b10* self, int unused, void* arg)
 {
     NewObj* o = new NewObj;
-    ::FUN_00ba8b10((::BSSP_stub4 *)(self), (int)(reinterpret_cast<char*>(o)), (::BSSP_stub4 *)(arg), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)(self), 0, (::BSSP_stub4 *)(reinterpret_cast<char*>(o)), (::CloningProcess *)((arg)));
     (*reinterpret_cast<OwnerFn**>(self))[0xc8 / 4](reinterpret_cast<Owner*>(self), o);
     return o;
 }
@@ -1704,7 +1699,7 @@ template <class T> class ViewerArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 };
-typedef ViewerArray<char*> ViewerStrings;
+typedef ViewerArray<char*> ViewerStringArray;
 
 
 class LightingPropertyBase
@@ -1737,10 +1732,10 @@ class LightingProperty : public LightingPropertyBase
 void LightingProperty::FUN_00b71450(ViewerStrings* pkStrings)
 {
     reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(pkStrings));
-    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011fa560))));
-    pkStrings->Add(::FUN_00a7d490("number of lights", GetNumLights()));
-    pkStrings->Add(::FUN_00a7d490("active lights", ((unsigned short)(::FUN_00b70790((::FUN_00b70790_owner *)this)))));
-    pkStrings->Add(FUN_00a7d510("Reference ID", GetReferenceID()));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011fa560))));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(::FUN_00a7d490("number of lights", GetNumLights()));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(::FUN_00a7d490("active lights", ((unsigned short)(::FUN_00b70790((::FUN_00b70790_owner *)this)))));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(FUN_00a7d510("Reference ID", GetReferenceID()));
 }
 
 struct GeometryState;
@@ -2963,16 +2958,16 @@ struct Bdf3e0_cls
 // @fnv 0x00bdf3e0
 void Bdf3e0_cls::FUN_00bdf3e0(int a0, int a1, unsigned short* apCount, char acMode, char* apFlag, int a5, char acAdjust)
 {
-    int it = 0;
-    Bdf3e0_node* p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&it), {})));
+    ::FUN_00b70600_node* it = 0;
+    Bdf3e0_node* p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, &it)));
     while (p && p->info->vec.isDef())
-        p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
-    Bdf3e0_node* q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+        p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
+    Bdf3e0_node* q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
     while (q && q->info->vec.isDef())
-        q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
-    Bdf3e0_node* r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+        q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
+    Bdf3e0_node* r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
     while (r && r->info->vec.isDef())
-        r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+        r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
     unsigned short s = vt->vEC(this);
     int n = s < 7 ? s : 7;
     bool f = (flags & 0x100000) > 0;

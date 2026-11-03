@@ -26,12 +26,19 @@ extern void* ::FUN_00c85750();
 struct HashCls
 {
 
-    int InsertPair(int p1, int p2);
+    int InsertPair(intptr_t p1, intptr_t p2);
+};
+
+// The thread's memory router: the stack allocator words, then the heap allocator.
+struct PairFilterRouter
+{
+    void* m_stack[4];
+    ::CB1BC0Allocator* m_pHeap;
 };
 
 // Orders the two ints into a 64-bit key, inserts it into the hash at this+0x30 with a counter value, and returns that counter.
 // @fnv 0x00def2b0
-int HashCls::InsertPair(int aiFirst, int aiSecond)
+int HashCls::InsertPair(intptr_t aiFirst, intptr_t aiSecond)
 {
     __int64 m;
     if ((unsigned __int64)(__int64)aiFirst < (unsigned __int64)(__int64)aiSecond)
@@ -41,8 +48,8 @@ int HashCls::InsertPair(int aiFirst, int aiSecond)
 
     HashCls* pHash = (HashCls*)((char*)this + 0x30);
     __int64 n = ((long long)(reinterpret_cast<::MapCB1C *>((pHash))->FUN_00cb1cb0(m, 0))) + 1;
-    unsigned long f0 = *(unsigned long*)((char*)::FUN_00c85750() + 0x10);
-    reinterpret_cast<::CB1BC0Map *>((pHash))->InsertKeyValue((*(::CB1BC0Allocator *)(f0)), m, n);
+    ::CB1BC0Allocator* f0 = static_cast<PairFilterRouter*>(::FUN_00c85750())->m_pHeap;
+    reinterpret_cast<::CB1BC0Map *>((pHash))->InsertKeyValue(*f0, m, n);
     return (int)n;
 }
 
@@ -156,12 +163,12 @@ struct Owner
 {
     unsigned char unk00[0x30];
     Inner inner;
-    volatile unsigned char* CheckPairAgainstThreshold(volatile unsigned char* result, int first, int second);
+    volatile unsigned char* CheckPairAgainstThreshold(volatile unsigned char* result, intptr_t first, intptr_t second);
 };
 
 // Writes 1 to result if either argument is zero or the combined value exceeds inner.threshold, otherwise writes 0.
 // @fnv 0x00def3d0
-volatile unsigned char* Owner::CheckPairAgainstThreshold(volatile unsigned char* result, int first, int second)
+volatile unsigned char* Owner::CheckPairAgainstThreshold(volatile unsigned char* result, intptr_t first, intptr_t second)
 {
     if (first == 0 || second == 0)
     {
@@ -267,7 +274,7 @@ char* FUN_00def450_cls::CheckAndWriteResult(char* apResult, Operand* apFirst, Op
     Converted* pSecond = (apSecond->m_cType == 1) ? (Converted*)((char*)apSecond + apSecond->m_cByteAtOffset10) : 0;
 
     ResultWriter* pWriter = (ResultWriter*)((char*)this - 8);
-    reinterpret_cast<::Owner *>((pWriter))->CheckPairAgainstThreshold((volatile unsigned char *)(apResult), (int)(pFirst), (int)(pSecond));
+    reinterpret_cast<::Owner *>((pWriter))->CheckPairAgainstThreshold((volatile unsigned char *)(apResult), (intptr_t)(pFirst), (intptr_t)(pSecond));
     return apResult;
 }
 
@@ -465,12 +472,12 @@ struct DEF1E0PairCounter
     int unk2C;
     DEF1E0PairMap m_pairCounts;
 
-    int DecrementPairCount(int idA, int idB);
+    int DecrementPairCount(intptr_t idA, intptr_t idB);
 };
 
 // Looks up the count for the ordered pair of idA and idB, decrements it, updates or removes the map entry, and returns the new count.
 // @fnv 0x00def1e0
-int DEF1E0PairCounter::DecrementPairCount(int idA, int idB)
+int DEF1E0PairCounter::DecrementPairCount(intptr_t idA, intptr_t idB)
 {
     DEF1E0Uint64 a = idA;
     DEF1E0Uint64 b = idB;
@@ -481,7 +488,7 @@ int DEF1E0PairCounter::DecrementPairCount(int idA, int idB)
         return 0;
     count--;
     if (count > 0)
-        reinterpret_cast<::CB1BC0Map *>(&(map))->InsertKeyValue(fnvc_adapt::(::CB1BC0Allocator &)((const <dependent type> &)(::FUN_00c85750().heap())), key, count);
+        reinterpret_cast<::CB1BC0Map *>(&(map))->InsertKeyValue(*static_cast<PairFilterRouter*>(::FUN_00c85750())->m_pHeap, key, count);
     else
         reinterpret_cast<::FUN_00cb2000_cls *>(&(map))->FUN_00cb2000(key, {});
     return (int)count;
@@ -912,14 +919,6 @@ class VectorComponentValue
   private:
     hkQuadReal m_vValue;
 };
-extern "C"
-{
-    double __cdecl fabs([SA_Pre(Null = SA_No)][SA_Pre(Deref = 1, Valid = SA_Yes, Access = SA_Read)] double _X);
-    inline float fabsf([SA_Pre(Null = SA_No)][SA_Pre(Deref = 1, Valid = SA_Yes, Access = SA_Read)] float _X)
-    {
-        return ((float)fabs((double)_X));
-    }
-}
 namespace MathUtilities {
 inline hkReal __cdecl fabs(hkReal r)
 {

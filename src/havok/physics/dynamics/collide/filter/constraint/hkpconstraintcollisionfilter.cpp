@@ -263,7 +263,7 @@ void S_00d87e30::ProcessCollisionEvent(S_00d87e30_Event* pEvent)
         return;
     hkpEntity* a = pEvent->m_pEntityA;
     hkpEntity* b = pEvent->m_pEntityB;
-    if (reinterpret_cast<::DEF1E0PairCounter *>(this)->DecrementPairCount((int)(a), (int)(b)) > 0)
+    if (reinterpret_cast<::DEF1E0PairCounter *>(this)->DecrementPairCount((intptr_t)(a), (intptr_t)(b)) > 0)
         return;
     if (m_pCollisionFilter &&
         !m_pCollisionFilter->IsCollisionEnabled(a->m_kCollidable, b->m_kCollidable).m_cBooleanValue)
@@ -406,13 +406,13 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
     {
         return;
     }
-    if (reinterpret_cast<::HashCls *>((((Cls40*)((char*)this - 0x40))))->InsertPair((int)(b), (int)(p->m_iThirdValue)) != 1)
+    if (reinterpret_cast<::HashCls *>((((Cls40*)((char*)this - 0x40))))->InsertPair((intptr_t)(b), (intptr_t)(p->m_iThirdValue)) != 1)
     {
         return;
     }
     C* pC = p->m_iThirdValue;
     B* pB = p->m_kPointB;
-    void* pResult = (void*)((int)(::FindEntryValue((::LinkNode *)(void *)(&pB->m_iB10), (::LinkNode *)(void *)(&pC->m_iC10))));
+    void* pResult = ::FindEntryValue((::LinkNode *)(void *)(&pB->m_iB10), (::LinkNode *)(void *)(&pC->m_iC10));
     if (pResult == 0)
     {
         return;

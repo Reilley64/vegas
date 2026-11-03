@@ -748,6 +748,8 @@ struct NiStream
 
 struct NiMapBase
 {
+    char pad00[0x88];
+    const char* m_pcName;
     void FUN_00bb7160(NiStream*);
     void FUN_00b60210(NiStream* stream);
 };
@@ -756,7 +758,7 @@ struct NiMapBase
 void NiMapBase::FUN_00b60210(NiStream* stream)
 {
     FUN_00bb7160(stream);
-    reinterpret_cast<::FUN_00a64160_cls *>((stream))->FUN_00a64160(*(const char**)((char*)this + 0x88));
+    reinterpret_cast<::FUN_00a64160_cls *>((stream))->FUN_00a64160(m_pcName);
 }
 
 struct S_00b601a0_Item

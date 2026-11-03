@@ -124,7 +124,8 @@ Special* Special::FUN_00ca2aa0(unsigned int flags)
     reinterpret_cast<::fnv_00ca2140::FUN_00ca2140 *>(this)->fnv_00ca2140::FUN_00ca2140::~FUN_00ca2140();
     if ((flags & 1) && this)
     {
-        unsigned char shift = *((unsigned char*)this - 1);
+        // The aligned allocation stores its alignment shift in the byte before the object.
+        unsigned char shift = reinterpret_cast<const unsigned char*>(this)[-1];
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Allocator *>(&::g_memoryManager))))->FUN_00aa4060((char*)this - shift);
     }
     return this;

@@ -39,24 +39,28 @@ void FUN_0044b4b0_Class::FUN_0044b4b0()
 struct FUN_0044b730_Class
 {
     int* p;
+    char pad04[0x18 - 0x4];
+    long m_lLock;
     void FUN_0044b730();
 };
 // @fnv 0x0044b730
 void FUN_0044b730_Class::FUN_0044b730()
 {
-    ::WaitForSingleObjectEx((long *)(void *)((char*)this + 0x18));
+    ::WaitForSingleObjectEx(&m_lLock);
 }
 
 
 struct FUN_0044bbc0_Class
 {
+    char pad00[0x18];
+    unsigned int m_uiLock;
     void FUN_0044bbc0();
 };
 
 // @fnv 0x0044bbc0
 void FUN_0044bbc0_Class::FUN_0044bbc0()
 {
-    ::FUN_0040b460((unsigned int *)(void *)((char*)this + 0x18));
+    ::FUN_0040b460(&m_uiLock);
 }
 
 struct FUN_0044c1c0_Class
@@ -70,9 +74,18 @@ bool FUN_0044c1c0_Class::IsGreaterOrEqual(unsigned int auiValue, unsigned int au
     return auiValue >= auiThreshold;
 }
 
+struct FUN_0044f220_Node;
 struct FUN_0044f200_Class
 {
     int* p;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    FUN_0044f220_Node* m_pHead;
+    int m_iArrayLength;
     void FUN_0044f200();
     void FilterListByQueueData();
 };
@@ -80,7 +93,7 @@ struct FUN_0044f200_Class
 // @fnv 0x0044f200
 void FUN_0044f200_Class::FUN_0044f200()
 {
-    while (reinterpret_cast<int*>(this)[8])
+    while (m_iArrayLength)
         FilterListByQueueData();
 }
 
@@ -793,14 +806,6 @@ struct FUN_0044f220_Node
 
 struct FUN_0044f220_Class : FUN_0044f200_Class
 {
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    FUN_0044f220_Node* m_pHead;
-    int m_iArrayLength;
 };
 
 // Copies the queue's data into a temporary array, keeps only list nodes whose address appears in it, relinks them, and stores the kept count.

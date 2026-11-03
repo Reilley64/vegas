@@ -31,8 +31,14 @@ struct NiD3DShaderFactory
     void UpdateShaderMaterialCache(void*);
 };
 
+struct MaterialDeviceView;
+
 struct NiD3DRenderState
 {
+    char pad0000[0xf8];
+    NiD3DShaderFactory m_kShaderFactory;
+    char pad00f9[0x10f8 - 0xf9];
+    MaterialDeviceView* m_pkDevice;
     void FUN_00e87980(void*);
 };
 
@@ -612,59 +618,54 @@ struct NiPoint2
 
 struct TextureMapTransform
 {
-    int unk00;
-    int unk04;
-    float unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
+    NiPoint2 m_kTranslate;
+    float m_fRotate;
+    NiPoint2 m_kScale;
+    NiPoint2 m_kCenter;
     int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
+    float m_afMatrix[9];
+    int m_eMethod;
 
     TextureMapTransform(const NiPoint2& kTranslate, float m_fRotation, const NiPoint2& kScale,
                        const NiPoint2& kTargetCenter, int eMethod) throw();
 
     NiPoint2 GetTranslate() const
     {
-        return *(NiPoint2*)((char*)this + 0);
+        return m_kTranslate;
     }
     float GetRotate() const
     {
-        return *(float*)((char*)this + 8);
+        return m_fRotate;
     }
     NiPoint2 GetScale() const
     {
-        return *(NiPoint2*)((char*)this + 0xc);
+        return m_kScale;
     }
     NiPoint2 GetNavMeshData() const
     {
-        return *(NiPoint2*)((char*)this + 0x14);
+        return m_kCenter;
     }
     int GetTransformMethod() const
     {
-        return *(int*)((char*)this + 0x44);
+        return m_eMethod;
     }
+};
+
+struct NiTextureRefView
+{
+    void* vfptr;
+    long m_iRefCount;
 };
 
 struct NiTexturePtr
 {
-    void* m_pObject;
+    NiTextureRefView* m_pObject;
     NiTexturePtr() : m_pObject(0)
     {}
     NiTexturePtr(const NiTexturePtr& kPtr) : m_pObject(kPtr.m_pObject)
     {
         if (m_pObject)
-            InterlockedIncrement((long volatile*)((char*)m_pObject + 4));
+            InterlockedIncrement((long volatile*)&m_pObject->m_iRefCount);
     }
 };
 
@@ -950,6 +951,13 @@ struct GlobalRefOwner
 {
 };
 
+// Header in front of a global string table entry's characters.
+struct GlobalStringHeader
+{
+    long m_iRefCount;
+    unsigned int m_uiLength;
+};
+
 struct StringRefHolder
 {
     int unk00;
@@ -1012,13 +1020,13 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
     {
         if (holder->m_08 != DAT_0109b220)
         {
-            InterlockedIncrement((LONG*)((char*)holder->m_08 - 8));
+            InterlockedIncrement(&(reinterpret_cast<GlobalStringHeader*>(holder->m_08) - 1)->m_iRefCount);
         }
         ref = holder->m_08;
         ::RemoveGlobalConstant((const ::NiFixedString *)(void **)(&ref));
         if (ref != DAT_0109b220)
         {
-            InterlockedDecrement((LONG*)((char*)ref - 8));
+            InterlockedDecrement(&(reinterpret_cast<GlobalStringHeader*>(ref) - 1)->m_iRefCount);
         }
     }
 
@@ -1351,12 +1359,12 @@ struct MaterialUploadState
     bool dirty;
     void FUN_00e94050(MaterialDeviceView* device);
 };
-// Forwards p to the shader factory at offset 0xf8, then passes the pointer at 0x10f8 to its second method.
+// Forwards p to the shader factory, then passes the device to the factory's material upload.
 // @fnv 0x00e87980
 void NiD3DRenderState::FUN_00e87980(void* apData)
 {
-    ((NiD3DShaderFactory*)((char*)this + 0xf8))->UpdateShaderMaterialCache(apData);
-    reinterpret_cast<::MaterialUploadState *>((((NiD3DShaderFactory*)((char*)this + 0xf8))))->FUN_00e94050((::MaterialDeviceView *)(*(void**)((char*)this + 0x10f8)));
+    m_kShaderFactory.UpdateShaderMaterialCache(apData);
+    reinterpret_cast<::MaterialUploadState *>(&m_kShaderFactory)->FUN_00e94050(m_pkDevice);
 }
 
 // @fnv 0x00e94050

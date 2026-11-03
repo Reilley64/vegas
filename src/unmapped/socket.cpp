@@ -3,16 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_0044a000.h"
-struct MorphName
-{
-    char const* GetMorphName();
-};
-// @fnv 0x0044a380
-char const* MorphName::GetMorphName()
-{
-    return ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)(reinterpret_cast<MorphName*>(reinterpret_cast<char*>(this) + 0xc)));
-}
-
 // The std::string layout of the original runtime: the text sits in the 16-byte buffer until the capacity reaches 16, then in a heap block the buffer's first word points to.
 struct StringStorageAca1e0
 {
@@ -25,6 +15,18 @@ struct StringStorageAca1e0
     unsigned int m_uiSize;
     unsigned int m_uiCapacity;
 };
+
+struct MorphName
+{
+    char pad00[0xc];
+    StringStorageAca1e0 m_kName;
+    char const* GetMorphName();
+};
+// @fnv 0x0044a380
+char const* MorphName::GetMorphName()
+{
+    return ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)(&m_kName));
+}
 
 struct FUN_00aca1e0
 {

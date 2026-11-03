@@ -111,6 +111,11 @@ void __cdecl AddMotionTypeName(StrArr* arr, int type)
 
 struct FUN_00c8eb00_s
 {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int m_uiFlags;
     void FUN_00c8eb00();
 };
 struct LinkedRecord
@@ -670,7 +675,7 @@ struct FUN_00c8e770_cls
 // @fnv 0x00c8eb00
 void FUN_00c8eb00_s::FUN_00c8eb00()
 {
-    *(unsigned int*)(this + 0x10) &= 0xffffff77;
+    m_uiFlags &= 0xffffff77;
     reinterpret_cast<::FUN_00c8e770_cls *>(this)->ProcessListNodes();
     reinterpret_cast<::ActionOwnerC9d590 *>(this)->FUN_00c9d590();
 }
@@ -2586,7 +2591,19 @@ struct Matrix
 };
 struct Receiver
 {
+    __m128 m_value;
     void FUN_00c7f640(Matrix*, const __m128*);
+};
+struct CollisionBody
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void Dispatch(Matrix* apSource, float afScale, Receiver* apTarget);
 };
 struct BodySlot
 {
@@ -2598,47 +2615,111 @@ struct BodySlot
         return 0;
     }
 };
+struct CollisionNode
+{
+    char pad00[16];
+    BodySlot m_kSlot;
+};
 struct CollisionOwner
 {
-    void* vtable;
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void GetTransform(Matrix* apOut);
+
     void* unk04;
-    void* node;
+    CollisionNode* node;
     void DispatchCollision(Receiver*);
     __forceinline BodySlot* GetSlot()
     {
-        char* base = (char*)node;
-        if (base)
+        if (node)
         {
             ::FUN_00a29680();
-            base += 16;
+            BodySlot* slot = &node->m_kSlot;
             ::FUN_00a29680();
-            if (base)
-                return (BodySlot*)base;
+            if (slot)
+                return slot;
         }
         return 0;
     }
 };
-// Gets a matrix via virtual slot 61, then passes it to the body slot's virtual 7 if present, otherwise to target and target+16 with fixed vectors.
+// Gets a matrix via virtual slot 61, then passes it to the body slot's virtual 7 if present, otherwise to target[0] and target[1] with fixed vectors.
 // @fnv 0x00c8e670
 void CollisionOwner::DispatchCollision(Receiver* target)
 {
     __m128 second, first;
     __declspec(align(16)) Matrix source;
-    typedef void(* GetSource)(CollisionOwner*, Matrix*);
-    ((GetSource)((void**)vtable)[61])(this, &source);
+    GetTransform(&source);
     BodySlot* slot = GetSlot();
     void* body = slot ? slot->getBody() : 0;
     if (body)
     {
-        typedef void(* Dispatch)(void*, Matrix*, float, Receiver*);
-        ((Dispatch)((void**)*(void* volatile*)body)[7])(body, &source, ::AngularDashpotApplyD4DCB0::DAT_01017d00, target);
+        static_cast<CollisionBody*>(body)->Dispatch(&source, ::AngularDashpotApplyD4DCB0::DAT_01017d00, target);
     }
     else
     {
         first = _mm_setr_ps(DAT_0104ffb8, DAT_0104ffb8, DAT_0104ffb8, ::DAT_01011d78);
         second = _mm_setr_ps(::AngularDashpotApplyD4DCB0::DAT_01017d00, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_01011d78);
-        target->FUN_00c7f640(&source, &first);
-        ((Receiver*)((char*)target + 16))->FUN_00c7f640(&source, &second);
+        target[0].FUN_00c7f640(&source, &first);
+        target[1].FUN_00c7f640(&source, &second);
     }
 }
 
@@ -2859,6 +2940,12 @@ class RigidBody_c8ea
 {
   public:
     unsigned int m_uiValue1;
+    char pad004[0xb0 - 0x4];
+    float m_fMass;
+    char pad0b4[0xc8 - 0xb4];
+    float m_fC8;
+    char pad0cc[0xd4 - 0xcc];
+    unsigned char m_ucQualityType;
 };
 
 class WorldObject_c8ea
@@ -2869,6 +2956,10 @@ class WorldObject_c8ea
 
 struct LoadStream_c8ea
 {
+    char pad000[0x1e5];
+    unsigned char m_ucEndianMatch;
+    char pad1e6[0x24c - 0x1e6];
+    BinaryStream_c8ea* m_pkIstr;
 };
 
 class Entity_c8ea : public WorldObject_c8ea
@@ -2931,25 +3022,26 @@ class Entity_c8ea : public WorldObject_c8ea
 void Entity_c8ea::FUN_00c8ea30(char* pkStream)
 {
     reinterpret_cast<::FUN_00c9d4f0_cls *>(this)->FUN_00c9d4f0((::FUN_00c9d4f0_obj *)(pkStream));
-    char* pkBody;
+    RigidBody_c8ea* pkBody;
     {
         int iIndex;
-        pkBody = GetRigidBody(&iIndex);
+        pkBody = reinterpret_cast<RigidBody_c8ea*>(GetRigidBody(&iIndex));
     }
-    if (*(unsigned char*)(pkStream + 0x1e5) != 1)
-        reinterpret_cast<::SwapBlock_c8ce70 *>((((RigidBody_c8ea*)pkBody)))->SwapEndian();
-    if (*(float*)(pkBody + 0xc8) > 1000.0)
-        *(float*)(pkBody + 0xc8) = 1000.0f;
-    if (*(float*)(pkBody + 0xb0) == 0.0f && reinterpret_cast<::bhkRigidBody *>(this)->GetBodyMass() == 0.0f)
+    LoadStream_c8ea* pkLoad = reinterpret_cast<LoadStream_c8ea*>(pkStream);
+    if (pkLoad->m_ucEndianMatch != 1)
+        reinterpret_cast<::SwapBlock_c8ce70 *>(pkBody)->SwapEndian();
+    if (pkBody->m_fC8 > 1000.0)
+        pkBody->m_fC8 = 1000.0f;
+    if (pkBody->m_fMass == 0.0f && reinterpret_cast<::bhkRigidBody *>(this)->GetBodyMass() == 0.0f)
     {
-        unsigned int uiType = ((RigidBody_c8ea*)pkBody)->m_uiValue1 & 0x7f;
+        unsigned int uiType = pkBody->m_uiValue1 & 0x7f;
         if (uiType != 2 && uiType != 0x1c)
-            *(unsigned char*)(pkBody + 0xd4) = 5;
+            pkBody->m_ucQualityType = 5;
         if (uiType == 0xe)
-            *(unsigned char*)(pkBody + 0xd4) = 4;
+            pkBody->m_ucQualityType = 4;
     }
-    reinterpret_cast<::S_00a64670_Foo *>((((LoadStream_c8ea*)pkStream)))->FUN_00a64670();
-    (*(BinaryStream_c8ea**)(pkStream + 0x24c))->Read(&m_iSlotCount, 4);
+    reinterpret_cast<::S_00a64670_Foo *>(pkLoad)->FUN_00a64670();
+    pkLoad->m_pkIstr->Read(&m_iSlotCount, 4);
 }
 
 extern "C" void _ReadWriteBarrier(void);

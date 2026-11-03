@@ -22,6 +22,10 @@
 
 struct FUN_004edb30_t
 {
+    void* vtbl;
+    unsigned int m_uiHashSize;
+    void* m_ppkHashTable;
+    unsigned int m_uiCount;
     void FUN_004edb30();
     void* FUN_004edd50(unsigned int flags);
 };
@@ -81,14 +85,15 @@ struct NiTMallocInterface
 struct FUN_004edcc0_t
 {
     void* m;
+    ActorCombatGroup** m_pBase;
     void InitAndDeallocate();
 };
-// Sets m to the address of DAT_010232c4, then deallocates the pointer stored just past this via NiTMallocInterface::Deallocate.
+// Sets m to the address of DAT_010232c4, then deallocates m_pBase via NiTMallocInterface::Deallocate.
 // @fnv 0x004edcc0
 void FUN_004edcc0_t::InitAndDeallocate()
 {
     m = &DAT_010232c4;
-    ::FUN_004ede70(*(ActorCombatGroup***)(this + 1));
+    ::FUN_004ede70(m_pBase);
 }
 }  // namespace fnv_004edcc0
 
@@ -119,22 +124,26 @@ struct MyMap
 };
 struct FUN_004eda30_t
 {
+    void* vtbl;
+    unsigned int m_uiHashSize;
+    void* m_ppkHashTable;
+    unsigned int m_uiCount;
     void FUN_004eda30();
 };
 // @fnv 0x004eda30
 void FUN_004eda30_t::FUN_004eda30()
 {
-    *(int**)(void*)this = (int*)&DAT_01023254;
+    vtbl = &DAT_01023254;
     reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)(void*)this)))->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(m_ppkHashTable);
 }
 
 namespace fnv_004edc30 {
 struct MyMap
 {
     void* vtbl;
-    void* a;
-    void* b;
+    unsigned int m_uiHashSize;
+    void* m_ppkHashTable;
 };
 struct FUN_004edc30_t
 {
@@ -143,9 +152,9 @@ struct FUN_004edc30_t
 // @fnv 0x004edc30
 void FUN_004edc30_t::ClearAndFreeMap()
 {
-    *(int**)this = (int*)&::DAT_01023294;
+    ((MyMap*)this)->vtbl = &::DAT_01023294;
     reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)this)))->FUN_00438af0();
-    ::FUN_00aa10f0(((MyMap*)this)->b);
+    ::FUN_00aa10f0(((MyMap*)this)->m_ppkHashTable);
 }
 }  // namespace fnv_004edc30
 
@@ -339,11 +348,20 @@ struct NiTMapItem;
 struct NodePoolView
 {
 };
+struct ListItemAe8bf0
+{
+    ListItemAe8bf0* m_pkNext;
+    ListItemAe8bf0* m_pkPrev;
+    void* m_element;
+};
 struct FUN_00ae8bf0_t
 {
+    ListItemAe8bf0* m_pkHead;
+    ListItemAe8bf0* m_pkTail;
+    NodePoolView m_kPool;
     void AddItem(const void* element);
 };
-// Allocates a map node from the pool at offset 8, stores the element's first pointer in it, and inserts the node into the map.
+// Allocates a list node from the node pool, stores the element's first pointer in it, and inserts the node into the list.
 // @fnv 0x00ae8bf0
 void FUN_00ae8bf0_t::AddItem(const void* element)
 {
@@ -356,9 +374,9 @@ void FUN_00ae8bf0_t::AddItem(const void* element)
         int e;
         int f;
         int g;
-        node = ((::NiTMapItem *)(reinterpret_cast<::FUN_0043a010_shell *>((((NodePoolView*)((char*)this + 8))))->FUN_0043a010()));
+        node = ((::NiTMapItem *)(reinterpret_cast<::FUN_0043a010_shell *>(&m_kPool)->FUN_0043a010()));
     }
-    ((void**)node)[2] = *(void**)element;
+    reinterpret_cast<ListItemAe8bf0*>(node)->m_element = *(void* const*)element;
     reinterpret_cast<::fnv_00adddd0::FUN_00a1b940 *>(this)->FUN_00a11db0((::fnv_00adddd0::MsgNode *)(node));
 }
 
@@ -452,13 +470,13 @@ void S_00ae8370_List::FUN_00ae8370()
 
 extern int DAT_01023274;
 
-// Sets the first word to DAT_01023274, calls RemoveAll, then frees the pointer at offset 8 with NiFreeAlias.
+// Sets the vtable to DAT_01023274, calls RemoveAll, then frees the hash table with NiFreeAlias.
 // @fnv 0x004edb30
 void FUN_004edb30_t::FUN_004edb30()
 {
-    *(int**)this = &DAT_01023274;
+    vtbl = &DAT_01023274;
     reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)this)))->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(m_ppkHashTable);
 }
 
 struct A5E9C0RTTI

@@ -133,6 +133,8 @@ struct FUN_00452440_shell
 };
 struct BSSimpleList
 {
+    TESObjectREFR* m_item;
+    BSSimpleList* m_pkNext;
     bool FUN_008256d0();
     void FUN_0063f7b0();
 };
@@ -213,7 +215,7 @@ void TESObjectCELL::RemoveNonPersistentRefs()
             pPrevNode = 0;
             while (pNode && !pNode->FUN_008256d0())
             {
-                TESObjectREFR* pRef = *((::TESObjectREFR **)(new ((void *)(pNode)) ::Vec3()));
+                TESObjectREFR* pRef = pNode->m_item;
                 if (!reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0() &&
                     (!((TESForm*)pRef)->GetFile(-1) || ((TESForm*)pRef)->GetFile(-1)->IsMasterFile()))
                 {

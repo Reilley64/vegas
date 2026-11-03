@@ -287,7 +287,7 @@ struct NavMeshSearchLOSArray
 {
     void FUN_006a8500();
 };
-template <class T, int N> struct BSSimpleArray
+template <class T, unsigned int N> struct BSSimpleArray
 {
     int m_00;
     T* pBuffer;
@@ -579,6 +579,9 @@ struct FUN_006e9530_shell
 };
 struct FUN_006e9410_class
 {
+    void* vfptr;
+    void* pBuffer;
+    unsigned int iSize;
     void FUN_006e9410(void* arg);
 };
 namespace fnv_007a1c30 {
@@ -1298,8 +1301,8 @@ struct FUN_006e90a0_class
 // @fnv 0x006e9410
 void FUN_006e9410_class::FUN_006e9410(void* arg)
 {
-    reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e9410_shell*)arg)))->FUN_006e90a0(*(int*)((char*)this + 8), 1);
-    for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
+    reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e9410_shell*)arg)))->FUN_006e90a0(iSize, 1);
+    for (unsigned int i = 0; i < iSize; ++i)
         ((FUN_006e9530_shell*)((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((FUN_006e9410_shell*)arg)))->FUN_006e8f40(i))))
             ->FUN_006e9530();
 }

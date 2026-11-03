@@ -35,17 +35,18 @@ struct BSIntToType7
 };
 struct FUN_00414290
 {
+    int m_aiValues[8];
     void Init();
 };
 // @fnv 0x00414290
 void FUN_00414290::Init()
 {
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 4));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 8));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 12));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 16));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 20));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 24));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 28));
+    ::FUN_00401080(&m_aiValues[0]);
+    ::FUN_00401080(&m_aiValues[1]);
+    ::FUN_00401080(&m_aiValues[2]);
+    ::FUN_00401080(&m_aiValues[3]);
+    ::FUN_00401080(&m_aiValues[4]);
+    ::FUN_00401080(&m_aiValues[5]);
+    ::FUN_00401080(&m_aiValues[6]);
+    ::FUN_00401080(&m_aiValues[7]);
 }

@@ -39,10 +39,18 @@ int FUN_00802a00_class::GetZero(int a, int b)
 }
 
 extern "C" int __cdecl __mbsnicmp(const unsigned char*, const unsigned char*, unsigned int);
+struct DebugTextPageEntry
+{
+    unsigned char m_aucName[0x40];
+    int m_40;
+};
 struct FUN_00802a20_class
 {
-    int m_uiPageCount;
-    unsigned char m_aucPageBuffer[4352];
+    char pad00[0x14];
+    int m_iPageCount;
+    char pad18[8];
+    DebugTextPageEntry m_akPages[63];
+    char padTail[40];
     int FUN_00802a20(const char* apPage);
 };
 // Searches the page table for a case-insensitive name match and returns its index, or -1 if not found.
@@ -53,9 +61,9 @@ int FUN_00802a20_class::FUN_00802a20(const char* apPage)
     int iPageIndex;
     iPageIndex = -1;
     i = 0;
-    for (; i < *(int*)((char*)this + 0x14) && iPageIndex == -1; i++)
+    for (; i < m_iPageCount && iPageIndex == -1; i++)
     {
-        if (__mbsnicmp((const unsigned char*)apPage, &this->m_aucPageBuffer[28] + i * 0x44, 0x40) == 0)
+        if (__mbsnicmp((const unsigned char*)apPage, m_akPages[i].m_aucName, 0x40) == 0)
             iPageIndex = i;
     }
     return iPageIndex;

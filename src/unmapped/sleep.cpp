@@ -9,13 +9,15 @@ struct RecursiveSpinLock
 
 struct FUN_008691b0
 {
+    char pad00[0x20];
+    RecursiveSpinLock m_kLock;
     void Lock();
 };
 
 // @fnv 0x008691b0
 void FUN_008691b0::Lock()
 {
-    reinterpret_cast<::FUN_0078d200_cls *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0078d200();
+    reinterpret_cast<::FUN_0078d200_cls *>(&m_kLock)->FUN_0078d200();
 }
 
 // @fnv 0x0040fca0

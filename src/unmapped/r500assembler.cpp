@@ -189,7 +189,7 @@ extern "C" char DAT_01081a5c;
 
 struct SpawnedObject
 {
-    unsigned int unk00;
+    void* volatile vfptr;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
@@ -283,7 +283,7 @@ struct SpawnedObject
 SpawnedObject* SpawnedObject::FUN_0085fb40(const char* a1, int a2, int a3)
 {
     new ((void *)(this)) ::FUN_00b00260(a1, a2, a3, 0);
-    *(void* volatile*)this = &DAT_01081a5c;
+    vfptr = &DAT_01081a5c;
     this->m_158 = 0;
     return this;
 }
@@ -295,6 +295,8 @@ struct Item
 
 struct ListNode
 {
+    Item* m_item;
+    ListNode* m_pkNext;
 };
 
 struct List
@@ -357,7 +359,7 @@ void FUN_0085fbd0_class::DeleteAllItems()
         ListNode* node = (ListNode*)m_kNode;
         while (node)
         {
-            Item* item = *((::Item **)(new ((void *)(node)) ::Vec3()));
+            Item* item = node->m_item;
             if (item)
             {
                 delete item;

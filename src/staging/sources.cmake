@@ -9,6 +9,7 @@ set(VEGAS21_STAGING_SOURCES
   src/staging/blk_00d00000_od.cpp
   src/staging/blk_00d20000_od.cpp
   src/staging/blk_00d40000_od.cpp
+  src/staging/blk_00d60000_o2.cpp
   src/staging/blk_00d60000_od.cpp
   src/staging/blk_00d80000_od.cpp
   src/staging/blk_00da0000_o2.cpp

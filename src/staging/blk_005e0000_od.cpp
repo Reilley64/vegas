@@ -150,6 +150,16 @@
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_011f4000.h"
 
+namespace {
+// Room for the 0x24-byte Big record that Holder::CopyBig (0x004e75d0) writes through its result pointer;
+// the temporary lives until the end of the full expression.
+struct BigResult
+{
+    int v[9];
+};
+template <class T> T& BigSlot(BigResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 class TESObjectREFR;
 // The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ
 // only in the return type); this unit calls the 0x005e3fa0 one.
@@ -3007,8 +3017,8 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
         {
             if (pEntry7->pForm != 0)
             {
-                bool bLoopTmp = ((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig({}))).m04 & 0x40) ? true : false;
-                int iBits7 = ::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig({}))).m04);
+                bool bLoopTmp = ((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig(&BigSlot<::Big>(BigResult{})))).m04 & 0x40) ? true : false;
+                int iBits7 = ::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig(&BigSlot<::Big>(BigResult{})))).m04);
                 Pt3 pos3 = *ref->GetPos();
                 if (iBits7 != 0 || CheckDist(pEntry7->pForm, pos3, 1.0f))
                 {
@@ -3021,7 +3031,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     reinterpret_cast<::FUN_00ad89e0_shell *>(&(snd))->FUN_00ad89e0((float)(pEntry7->ucType / ::DAT_0101e568));
                     reinterpret_cast<::FUN_00ad8f20_shell *>(&(snd))->FUN_00ad8f20((::NiAVObject *)(void *)(ref->GetNode()));
                     reinterpret_cast<::SoundPlaybackHandle *>(&(snd))->SetPlaybackFrequency(pEntry7->data.f * fMultVal);
-                    reinterpret_cast<::FUN_00ad8830_shell *>(&(snd))->FUN_00ad8830(::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig({}))).m04) != 0);
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&(snd))->FUN_00ad8830(::GetFlagMask((*(::SndInfo *)(reinterpret_cast<::Holder *>((pEntry7->pForm))->CopyBig(&BigSlot<::Big>(BigResult{})))).m04) != 0);
                 }
             }
             else
@@ -4146,7 +4156,7 @@ void TESSound::CopyFromSound(TESForm* form)
     }
     unk68 = sound->unk68;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(form);
-    soundData = (*(::SoundData *)(reinterpret_cast<::Holder *>((sound))->CopyBig({})));
+    soundData = (*(::SoundData *)(reinterpret_cast<::Holder *>((sound))->CopyBig(&BigSlot<::Big>(BigResult{}))));
 }
 
 

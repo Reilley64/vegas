@@ -106,6 +106,16 @@
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
+namespace {
+// Room for the 0x24-byte Big record that Holder::CopyBig (0x004e75d0) writes through its result pointer;
+// the temporary lives until the end of the full expression.
+struct BigResult
+{
+    int v[9];
+};
+template <class T> T& BigSlot(BigResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 struct FUN_00560cf0_Class
 {
     void FUN_00560cf0(float value);
@@ -2600,8 +2610,8 @@ void SceneSounds57::FUN_0057a410(NiAVObject* object, bool stop)
             {
                 extra = new FUN_004f91b0;
                 NiPoint3 position;
-                unsigned int flags = ((unsigned int)(::GetFlagMask((*(::SoundData57 *)(reinterpret_cast<::Holder *>((((::Sound57 *)(reinterpret_cast<::FUN_006a1b60_Class *>((record))->GetField54()))))->CopyBig({}))).flags)))
-                                         ? (((unsigned int)(::GetFlagMask((*(::SoundData57 *)(reinterpret_cast<::Holder *>((((::Sound57 *)(reinterpret_cast<::FUN_006a1b60_Class *>((record))->GetField54()))))->CopyBig({}))).flags))) | 2)
+                unsigned int flags = ((unsigned int)(::GetFlagMask((*(::SoundData57 *)(reinterpret_cast<::Holder *>((((::Sound57 *)(reinterpret_cast<::FUN_006a1b60_Class *>((record))->GetField54()))))->CopyBig(&BigSlot<::Big>(BigResult{})))).flags)))
+                                         ? (((unsigned int)(::GetFlagMask((*(::SoundData57 *)(reinterpret_cast<::Holder *>((((::Sound57 *)(reinterpret_cast<::FUN_006a1b60_Class *>((record))->GetField54()))))->CopyBig(&BigSlot<::Big>(BigResult{})))).flags))) | 2)
                                          : 0x102;
                 reinterpret_cast<::SoundPlaybackHandle *>(&(extra->handle))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(((::Audio57 *)(::FUN_00453a70()))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Sound57 *)(reinterpret_cast<::FUN_006a1b60_Class *>((record))->GetField54()))))->FUN_0084e3a0())), flags))));
                 reinterpret_cast<::FUN_00ad8f20_shell *>(&(extra->handle))->FUN_00ad8f20(object);

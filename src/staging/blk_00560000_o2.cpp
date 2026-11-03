@@ -71,9 +71,9 @@ void FUN_00577110_cls::FUN_00577110()
 {
     LocalBlock20 local;
     reinterpret_cast<::S_00538f40 *>(&(local))->FUN_00538f40();
-    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(0)))))->FUN_004a3f10(*(const ::AlignedVector *)nullptr);
-    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(1)))))->FUN_004a3f10(*(const ::AlignedVector *)nullptr);
-    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(2)))))->FUN_004a3f10(*(const ::AlignedVector *)nullptr);
+    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(0)))))->FUN_004a3f10(*(const ::AlignedVector *)(void *)&(local));
+    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(1)))))->FUN_004a3f10(*(const ::AlignedVector *)(void *)&(local));
+    reinterpret_cast<::AlignedVector *>((((::FUN_00577110_slot *)(reinterpret_cast<::FUN_004b4cf0_shell *>(this)->FUN_004b4cf0(2)))))->FUN_004a3f10(*(const ::AlignedVector *)(void *)&(local));
 }
 
 struct __declspec(align(16)) FUN_0056ded0

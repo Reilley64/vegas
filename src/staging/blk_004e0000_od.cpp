@@ -3056,7 +3056,7 @@ FUN_004ed3e0::~FUN_004ed3e0()
     reinterpret_cast<::Cls58a0 *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_004ed3e0::CleanupRegistry * *>(&::g_TES))))))))->ClearTextureAndShaderTextures({}, {}, {});
     if (owner && ((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node)))) && ((unsigned int)(uintptr_t)(reinterpret_cast<::Callees *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node))))))->FUN_00726070())) == 2)
     {
-        reinterpret_cast<::Manager *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_004a0ea0()))))->FUN_00b6da10({});
+        reinterpret_cast<::Manager *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)(::FUN_00559450((int *)&(owner->node))));
         owner->node.FUN_0066b0d0(0);
     }
     reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&(list30))->RemoveAll();
@@ -4311,7 +4311,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                                     }
                                     else
                                     {
-                                        reinterpret_cast<::TESTexLoader *>((((TESObj*)(*reinterpret_cast<::TES4e1 * *>(&::g_TES)))))->FUN_004568c0((const char *)(void *)(((void *)(reinterpret_cast<::FUN_005800a0_shell *>((obj))->FUN_005800a0()))), *(::TexPtr< ::NiSourceTexture> *)nullptr, {}, {});
+                                        reinterpret_cast<::TESTexLoader *>((((TESObj*)(*reinterpret_cast<::TES4e1 * *>(&::g_TES)))))->FUN_004568c0((const char *)(void *)(((void *)(reinterpret_cast<::FUN_005800a0_shell *>((obj))->FUN_005800a0()))), *(::TexPtr< ::NiSourceTexture> *)(void *)(&pprop->m_134), true, false);
                                     }
                                     reinterpret_cast<::FUN_004e4660_shell *>((obj))->SetByteAtOffset190(0);
                                 }

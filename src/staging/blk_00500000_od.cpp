@@ -2276,7 +2276,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, P3* p3)
             reinterpret_cast<::FUN_004bc1f0_S *>((((::Obj *)(::FUN_00559450((int *)&(p1))))))->FUN_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
             if (FUN_008c7aa0())
             {
-                reinterpret_cast<::fnv_0087ad50::Host *>((((::TQ *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ad50({});
+                reinterpret_cast<::fnv_0087ad50::Host *>((((::TQ *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ad50((::fnv_0087ad50::G00559a40 *)(::FUN_00559450((int *)&(p1))));
             }
             else
             {

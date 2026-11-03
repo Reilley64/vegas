@@ -7988,7 +7988,7 @@ bool FUN_006b3cb0_cls::CopyNodeListToArrays(FUN_006b3cb0_node* head, FUN_006b3cb
         *pItemArray->FUN_006a1440(i6) = node7->m_08;
         if (i6 > 0)
         {
-            reinterpret_cast<::FUN_006b3910_S *>((((::FUN_006b3cb0_pt *)(reinterpret_cast<::DummyArr *>((pPointArray))->GetBufferElementAddress(i6 - 1)))))->FUN_006b3910({});
+            reinterpret_cast<::FUN_006b3910_S *>((((::FUN_006b3cb0_pt *)(reinterpret_cast<::DummyArr *>((pPointArray))->GetBufferElementAddress(i6 - 1)))))->FUN_006b3910((const ::FUN_006b3910_S *)(void *)&(node7->m_14));
         }
         node7 = node7->m_54;
         i6 = i6 - 1;
@@ -8249,7 +8249,7 @@ bool IntersectLineCircle(Circle* circle, const Line* pLine, Result* result)
     Hit* firstSlot0 = &result->first;
     Hit* secondSlot21 = &result->second;
     Line lineSlot1(*pLine);
-    reinterpret_cast<::FUN_006bb510_shell *>(&(lineSlot1))->AddToPoints((::NiPoint3 *)&(const ::CircleIntersection::Vec3 &)((*(::CircleIntersection::Vec3 *)(reinterpret_cast<::P3 *>((circle))->FUN_004a0bd0({})))));
+    reinterpret_cast<::FUN_006bb510_shell *>(&(lineSlot1))->AddToPoints((::NiPoint3 *)&(const ::CircleIntersection::Vec3 &)((*(::CircleIntersection::Vec3 *)(reinterpret_cast<::P3 *>((circle))->FUN_004a0bd0(&PointSlot<::P3>(PointResult{}))))));
     float radiusSlot20 = 1.0f;
     reinterpret_cast<::FUN_004941c0_shell *>(&(lineSlot1.start))->ScaleByInverse(circle->radius);
     reinterpret_cast<::FUN_004941c0_shell *>(&(lineSlot1.end))->ScaleByInverse(circle->radius);
@@ -13782,7 +13782,7 @@ bool Host::FUN_006ac8b0(NiPoint3* a1, NiPoint3* a2, NavMesh* apNavMesh, NiPoint3
         if (!bTmp)
             return false;
         bool j;
-        j = reinterpret_cast<::NavMesh *>((((::fnv_006ac8b0::Ret559 *)(::FUN_00559450((int *)&(b171Tmp))))))->FindHeightOnTriangle({}, *(const ::NiPoint3 *)nullptr, *(float *)nullptr, {}, {});
+        j = reinterpret_cast<::NavMesh *>((((::fnv_006ac8b0::Ret559 *)(::FUN_00559450((int *)&(b171Tmp))))))->FindHeightOnTriangle(cellRes, *(const ::NiPoint3 *)(void *)&(hpt), sq2Info, ::DAT_0106b158, ::DAT_0106b158);
         if (::_DAT_01012060 > sq2Info && (s.z - this->m_20e4.z) > ::_DAT_01012060)
         {
             NiPoint3 kTheIter;

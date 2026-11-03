@@ -12755,7 +12755,7 @@ struct QueuedTask
 
 struct TaskProcessor
 {
-    void FUN_0044ac40(QueuedTask* pTask, int arg);
+    void FUN_0044ac40(QueuedTask* pTask, intptr_t arg);
 };
 // @fnv 0x004454d0
 void SaveOwner_b9539::FUN_004454d0(int a)
@@ -12768,7 +12768,7 @@ void SaveOwner_b9539::FUN_004454d0(int a)
 }
 
 // @fnv 0x0044ac40
-void TaskProcessor::FUN_0044ac40(QueuedTask* pTask, int arg)
+void TaskProcessor::FUN_0044ac40(QueuedTask* pTask, intptr_t arg)
 {
     FUN_0044ada0(0);
     while (true)

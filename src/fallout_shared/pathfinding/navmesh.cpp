@@ -1551,7 +1551,7 @@ FUN_0068ed70::~FUN_0068ed70()
 
 struct FUN_0042fb60_shell
 {
-    void FUN_0042fb60(char* a, char* b, unsigned int n);
+    void FUN_0042fb60(char* a, char* b, uintptr_t n);
 };
 // @fnv 0x0042fc00
 void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
@@ -1579,7 +1579,7 @@ void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
 
 // Copies n 4-byte elements from b to a, choosing forward or backward iteration based on the relative addresses of a and b.
 // @fnv 0x0042fb60
-void FUN_0042fb60_shell::FUN_0042fb60(char* pDst, char* pSrc, unsigned int n)
+void FUN_0042fb60_shell::FUN_0042fb60(char* pDst, char* pSrc, uintptr_t n)
 {
     if (n <= 0)
         return;

@@ -2433,7 +2433,7 @@ struct FUN_00ba82a0_cls
 Obj_b10008* FUN_00ba82a0_cls::FUN_00ba82a0(intptr_t arg)
 {
     Obj_b10008* p = new Obj_b10008();
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(p), (::BSSP_stub4 *)(arg), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(p), (::CloningProcess *)(arg));
     return p;
 }
 
@@ -3771,7 +3771,7 @@ class FUN_00bae980_cls
 // @fnv 0x00bae980
 void FUN_00bae980_cls::FUN_00bae980(FUN_00bae980_cls* apTarget, uintptr_t arg2)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(apTarget), (::BSSP_stub4 *)(arg2), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(apTarget), (::CloningProcess *)(arg2));
 
     NiRefObject* old = apTarget->m_080;
     if (old != m_080)
@@ -5174,7 +5174,7 @@ class BB0ED0Property : public BB0ED0Base
 // @fnv 0x00bb0ed0
 void BB0ED0Property::CloneTo(BB0ED0Property* pkDest, BB0ED0CloningProcess& kCloning)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(pkDest), (::BSSP_stub4 *)&(kCloning), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(pkDest), (::CloningProcess *)&(kCloning));
     pkDest->m_iFlags = m_iFlags;
     pkDest->m_iValue0 = m_iValue0;
     pkDest->m_iValue1 = m_iValue1;
@@ -8507,7 +8507,7 @@ struct FUN_00bb7210_Class
 FUN_00bb7170_Node* FUN_00bb7210_Class::CreateNode(intptr_t a1)
 {
     FUN_00bb7170_Node* node = new FUN_00bb7170_Node();
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(node), (::BSSP_stub4 *)(a1), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(node), (::CloningProcess *)(a1));
     return node;
 }
 

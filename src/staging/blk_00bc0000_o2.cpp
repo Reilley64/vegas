@@ -596,7 +596,7 @@ void FUN_00bc3450(StrArr_00bc3450* pArray)
 
 // Adds a pass (0x1e5 or 0x1e6 depending on a and type) to pPasses, or increments count when type is not 1; clears out and returns 0.
 // @fnv 0x00bd9e60
-int FUN_00bd9e60(Shader_00bd9540* self, int edx, NiGeometry* geom, unsigned short* count, unsigned char type,
+int FUN_00bd9e60(Shader_00bd9540* self, intptr_t edx, NiGeometry* geom, unsigned short* count, unsigned char type,
                             bool* pbOut, bool a)
 {
     if (!a)
@@ -2149,7 +2149,7 @@ struct FUN_00bc2020_cls
 SpawnedBase_b10020* FUN_00bc2020_cls::FUN_00bc2020(uintptr_t arg)
 {
     SpawnedBase_b10020* obj = new SpawnedObj_b10020();
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(obj), (::BSSP_stub4 *)(arg), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(obj), (::CloningProcess *)(arg));
     return obj;
 }
 
@@ -2967,7 +2967,7 @@ struct Bc38Owner
 FUN_00bc37b0* Bc38Owner::CreateFadeNode(intptr_t aArg)
 {
     FUN_00bc37b0* pNode = new FUN_00bc37b0();
-    ::FUN_00ba8b10((::BSSP_stub4 *)(((_Helper_00ba8b10*)this)), (int)((char*)pNode), (::BSSP_stub4 *)(void *)((void*)aArg), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)(((_Helper_00ba8b10*)this)), 0, (::BSSP_stub4 *)(pNode), (::CloningProcess *)(aArg));
     Bc38Quad* pQuad = (Bc38Quad*)&unk60;
     *(Bc38Quad*)&pNode->unk60 = *pQuad;
     return pNode;
@@ -8006,12 +8006,12 @@ struct ShaderPassSelection : Shader_00bd9540
     unsigned int unk44;
     unsigned int unk48;
     BSShaderProperty::ShaderPassList* additionalPasses;
-    int AddAdditionalPass(NiGeometry* geometry, unsigned int unused, bool enabled, bool alternate);
+    int AddAdditionalPass(NiGeometry* geometry, uintptr_t unused, bool enabled, bool alternate);
 };
 
 // If enabled and additionalPasses is set, adds geometry to additionalPasses with pass id 21 when alternate is true, otherwise 20, and returns 0.
 // @fnv 0x00bda030
-int ShaderPassSelection::AddAdditionalPass(NiGeometry* geometry, unsigned int unused, bool enabled, bool alternate)
+int ShaderPassSelection::AddAdditionalPass(NiGeometry* geometry, uintptr_t unused, bool enabled, bool alternate)
 {
     if (enabled && additionalPasses)
         additionalPasses->Add(geometry, alternate ? 21 : 20, false, 0, 0, 0, 0, 0);
@@ -10318,67 +10318,67 @@ void SPShader::SetupShaderPass(SPPassInfo* apPass)
     case 0xE3:
     case 0xEC:
     case 0xF5:
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (unsigned int)(pGeom), 3, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pGeom), 3, 0);
     case 0xD9:
     case 0xE2:
     case 0xEB:
     case 0xF4:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pGeom), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
-        ::FUN_00b7c230((char *)this, (unsigned int)(pGeom), 2, 0);
+        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
         break;
     case 0x103:
     case 0x10F:
     case 0x11A:
     case 0x125:
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (unsigned int)(pGeom), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pGeom), 4, 0);
     case 0x101:
     case 0x10E:
     case 0x119:
     case 0x124:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pGeom), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
-        ::FUN_00b7c230((char *)this, (unsigned int)(pGeom), 3, 0);
+        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 3, 0);
         break;
     case 0x9A:
     case 0xA5:
     case 0xB0:
     case 0xBB:
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (unsigned int)(pGeom), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pGeom), 4, 0);
     case 0x99:
     case 0xA4:
     case 0xAF:
     case 0xBA:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pGeom), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
-        ::FUN_00b7c230((char *)this, (unsigned int)(pGeom), 3, 0);
-        ::FUN_00d3dd00((int)this, (int)(pGeom), 2, 0);
+        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 3, 0);
+        ::FUN_00d3dd00((intptr_t)this, (intptr_t)(pGeom), 2, 0);
         break;
     case 0x134:
     case 0x140:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pGeom), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 1);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 0, 0);
-        ::FUN_00b7c230((char *)this, (unsigned int)(pGeom), 2, 0);
+        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
         break;
     case 0x153:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pGeom), 0);
-        ::FUN_00b7c230((char *)this, (unsigned int)(pGeom), 2, 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
+        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
         break;
     case 0x15C:
     case 0x162:
     case 0x168:
     case 0x16E:
     case 0x174:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pGeom), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 1);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 0, 0);
-        ::FUN_00b7c230((char *)this, (unsigned int)(pGeom), 2, 0);
-        ::FUN_00d3dd00((int)this, (int)(pGeom), 6, 0);
+        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
+        ::FUN_00d3dd00((intptr_t)this, (intptr_t)(pGeom), 6, 0);
         break;
     case 0x231:
     case 0x232:
     case 0x233:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pGeom), 0);
-        ::FUN_00b7c120((int)this);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
+        ::FUN_00b7c120((intptr_t)this);
         break;
     default:
         reinterpret_cast<::Host200 *>(this)->FUN_00b7d200((::Arg200 *)(apPass));
@@ -18447,15 +18447,15 @@ void S_00bcc590_Foo::FUN_00bcc590(unsigned int value)
     case 0x174:
         break;
     case 0x162:
-        ::SetEntryField((int)this);
-        ::FUN_00b7c170((int)this);
+        ::SetEntryField((intptr_t)this);
+        ::FUN_00b7c170((intptr_t)this);
         break;
     case 0xe2:
     case 0xe3:
     case 0xf4:
     case 0xf5:
-        ::SetEntryField((int)this);
-        ::FUN_00b7c170((int)this);
+        ::SetEntryField((intptr_t)this);
+        ::FUN_00b7c170((intptr_t)this);
         break;
     case 0xa4:
     case 0xa5:
@@ -18465,11 +18465,11 @@ void S_00bcc590_Foo::FUN_00bcc590(unsigned int value)
     case 0x10f:
     case 0x124:
     case 0x125:
-        ::SetEntryField((int)this);
-        ::FUN_00b7c170((int)this);
+        ::SetEntryField((intptr_t)this);
+        ::FUN_00b7c170((intptr_t)this);
         break;
     default:
-        ::SetPassValues((unsigned int)this);
+        ::SetPassValues((uintptr_t)this);
         break;
     }
 }
@@ -18896,18 +18896,18 @@ void ShaderPassSetup_bce800::FUN_00bce800(unsigned int uiPass)
     case 0xe7:
     case 0xf6:
     case 0xf9:
-        ::SetEntryField((int)this);
-        ::FUN_00b7c170((int)this);
+        ::SetEntryField((intptr_t)this);
+        ::FUN_00b7c170((intptr_t)this);
         break;
     case 0x10d:
     case 0x113:
     case 0x123:
     case 0x129:
-        ::SetEntryField((int)this);
-        ::FUN_00b7c170((int)this);
+        ::SetEntryField((intptr_t)this);
+        ::FUN_00b7c170((intptr_t)this);
         break;
     default:
-        ::SetPassValues((unsigned int)this);
+        ::SetPassValues((uintptr_t)this);
         break;
     }
 }
@@ -19293,9 +19293,9 @@ void RenderShader625::SetShaderPasses(RenderArgument625* arg)
     case 240:
     case 246:
     case 249:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pass), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pass), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 1, 0);
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (unsigned int)(pass), 3, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pass), 3, 0);
         break;
     case 197:
     case 200:
@@ -19311,18 +19311,18 @@ void RenderShader625::SetShaderPasses(RenderArgument625* arg)
     case 286:
     case 291:
     case 297:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pass), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pass), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 1, 0);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(pass), 2);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pass), 2);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 3, 1);
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (unsigned int)(pass), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pass), 4, 0);
         break;
     case 307:
     case 310:
     case 319:
     case 322:
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 0, 0);
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (unsigned int)(pass), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pass), 4, 0);
         break;
     default:
         reinterpret_cast<::Host200 *>(this)->FUN_00b7d200((::Arg200 *)(arg));
@@ -21598,7 +21598,7 @@ void GeometryBounds::UpdateBounds()
 namespace fnv_00bc0f80 {
 struct Pass_bc0f80
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -21888,7 +21888,7 @@ struct RenderPassCollection
 };
 struct GeometryState
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -21898,7 +21898,7 @@ struct GeometryState
 };
 struct GeometryData
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -21912,7 +21912,7 @@ struct GeometryData
 };
 struct GeometryProperty
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -21925,7 +21925,7 @@ struct PropHelper
 };
 struct SceneGeometry : PropHelper
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -21978,7 +21978,7 @@ struct AttributeTester
 };
 struct LightProperties
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -22040,8 +22040,8 @@ struct LightProperties
 };
 struct DrawLight
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22114,8 +22114,8 @@ struct DrawLight
 };
 struct ExtraPassContext
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    uintptr_t unk00;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22239,7 +22239,7 @@ struct ShaderPassBuilder : DynCastHelper
 struct DefaultRenderer
 {
     uintptr_t unk00;
-    unsigned int unk04;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22299,7 +22299,7 @@ struct DefaultRenderer
 struct ShaderEngine
 {
     uintptr_t unk00;
-    unsigned int unk04;
+    uintptr_t unk04;
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -22419,7 +22419,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
         return;
     }
     if ((propertyFlags & 0x40) > 0)
-        ((::fnv_00bdb4a0::ShaderPassEntry *)(::FUN_00bd9e60((::Shader_00bd9540 *)this, (int)(geometry), (::NiGeometry *)(count), (unsigned short *)(effectType), (unsigned char)(&first), (bool *)(hasNoOverlay), {})))->status = 7;
+        ((::fnv_00bdb4a0::ShaderPassEntry *)(::FUN_00bd9e60((::Shader_00bd9540 *)this, (intptr_t)(geometry), (::NiGeometry *)(count), (unsigned short *)(effectType), (unsigned char)(&first), (bool *)(hasNoOverlay), {})))->status = 7;
     unsigned short numLights = ((unsigned short)(::FUN_00b707d0((void *)this)));
     if (allowFirstPass && (needsShadow || passMask == DAT_010a91d4))
     {
@@ -23514,7 +23514,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     }
     if ((flags2 & 0x40) > 0)
     {
-        ::FUN_00bd9e60((::Shader_00bd9540 *)this, (int)(geom), (::NiGeometry *)(count), (unsigned short *)(passMode), (unsigned char)(&firstPass), (bool *)(skinned), {});
+        ::FUN_00bd9e60((::Shader_00bd9540 *)this, (intptr_t)(geom), (::NiGeometry *)(count), (unsigned short *)(passMode), (unsigned char)(&firstPass), (bool *)(skinned), {});
         passes->items[passes->count - 1]->type = 7;
     }
     if (castB || castC)
@@ -23778,7 +23778,7 @@ afterLighting:
         if (renderFlags & 1)
             reinterpret_cast<::fnv_00bdb380::Shader *>(this)->CreatePassMessage(geom, count, passMode, skinned, hasValue);
         if (!castA && !flag22 && !flag11 && !flag12 && !flag14 && !flag18)
-            reinterpret_cast<::ShaderPassSelection *>(this)->AddAdditionalPass((::NiGeometry *)(geom), (unsigned int)(count), passMode, skinned);
+            reinterpret_cast<::ShaderPassSelection *>(this)->AddAdditionalPass((::NiGeometry *)(geom), (uintptr_t)(count), passMode, skinned);
     }
     unsigned int passType = 0;
     if (decal)

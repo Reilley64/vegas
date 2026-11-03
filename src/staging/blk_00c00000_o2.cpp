@@ -384,13 +384,13 @@ FUN_00c1a660_holder* FUN_00c1a660_holder::FUN_00c1a660(uintptr_t a)
 extern intptr_t DAT_011f9530;
 struct FUN_00c0bb20_class
 {
-    void FUN_00c0bb20(int a, int b);
+    void FUN_00c0bb20(intptr_t a, intptr_t b);
 };
 // @fnv 0x00c0bb20
-void FUN_00c0bb20_class::FUN_00c0bb20(int apTarget, int apSource)
+void FUN_00c0bb20_class::FUN_00c0bb20(intptr_t apTarget, intptr_t apSource)
 {
     *(int*)(*(uintptr_t*)(*(uintptr_t*)(apTarget + 0x24) + 0x10) + 8) = DAT_011f9530;
-    *(int*)(*(uintptr_t*)(*(uintptr_t*)(apTarget + 0x24) + 0x14) + 8) = *(int*)(*(int*)(apSource + 0xb4));
+    *(int*)(*(uintptr_t*)(*(uintptr_t*)(apTarget + 0x24) + 0x14) + 8) = *(int*)(*(uintptr_t*)(apSource + 0xb4));
 }
 
 struct NiShaderConstantMapEntry
@@ -2814,7 +2814,7 @@ void ShaderUpdater::UpdateShaderEntry(ShaderEntryTable* table, ShaderInterface* 
 {
     ShaderEntry* entry = table->entries[index];
     entry->value = interfaceObject->GetValue(3, 0);
-    ::FUN_00bb9640((unsigned int)this, (unsigned int)(entry));
+    ::FUN_00bb9640((uintptr_t)this, (uintptr_t)(entry));
 }
 
 // CopyOwnerValuesToItems candidate
@@ -3341,7 +3341,7 @@ extern unsigned char DAT_011f9427;
 
 // Calls v3D(4,0) on the node and stores the resulting value into a1->m_p24->m_p04->m_p08, choosing between DAT_011f95d4 and DAT_011f9544 based on flags and a3.
 // @fnv 0x00c0bc00
-void SetNodeResultValue(FNV_A1* a1, FNV_Node* apNode, int aiCode)
+void SetNodeResultValue(FNV_A1* a1, FNV_Node* apNode, intptr_t aiCode)
 {
     int edi = ((::FNV_Mgr *)(::FUN_00b4f5c0()))->m_194;
     int ret = apNode->v3D(4, 0);
@@ -3511,7 +3511,7 @@ void C0BC90Shader::SetupPassTextureStage(C0BC90Pass* pkPass, C0BC90Geometry* pkG
         pkTexture = g_pkC0BC90DefaultTexture;
     }
     pkStage->m_pkTexture = pkTexture;
-    ::FUN_00bb9640((unsigned int)this, (unsigned int)(pkStage));
+    ::FUN_00bb9640((uintptr_t)this, (uintptr_t)(pkStage));
     ms_fAlpha = pkGeometry->m_fAlpha;
 }
 
@@ -3617,7 +3617,7 @@ void C0BCF0Shader::ApplyTextureStage(C0BCF0Pass* pkPass, C0BCF0Geometry* pkGeome
     if (!pkTexture)
         pkTexture = (pkGeometry->m_uiValue1 & 0x80) > 0 ? DAT_011f9518 : DAT_011f9510;
     pkStage->m_pkTexture = pkTexture;
-    ::FUN_00bb9640((unsigned int)this, (unsigned int)(pkStage));
+    ::FUN_00bb9640((uintptr_t)this, (uintptr_t)(pkStage));
 }
 }  // namespace fnv_00c0bcf0
 
@@ -11009,7 +11009,7 @@ void S00c03c80_cls::ProcessEntries()
         if (m_entries[i] != 0 && (item = ((::S00c03c80_item *)(reinterpret_cast<::FUN_00ba3780_struct *>((m_entries[i]))->FUN_00ba3780()))) != 0)
         {
             if (m_processor != 0)
-                reinterpret_cast<::S_00b8a6e0_Foo *>((m_processor))->FUN_00b8a6e0(i, item->Get94(), (unsigned int)((void*)item->Get98()));
+                reinterpret_cast<::S_00b8a6e0_Foo *>((m_processor))->FUN_00b8a6e0(i, item->Get94(), (uintptr_t)((void*)item->Get98()));
         }
         else
         {
@@ -11043,7 +11043,7 @@ void S00c03c80_cls::ProcessEntries()
                     else
                         second = m2->value08;
                 }
-                reinterpret_cast<::S_00b8a6e0_Foo *>((m_processor))->FUN_00b8a6e0(i, second, (unsigned int)(meta));
+                reinterpret_cast<::S_00b8a6e0_Foo *>((m_processor))->FUN_00b8a6e0(i, second, (uintptr_t)(meta));
             }
         }
     }
@@ -11832,7 +11832,7 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
         {
             DecompPass266* primary = g->m_passes->m_primary;
             primary->m_resource = renderer->m_primary->m_object;
-            ::FUN_00bb9640((unsigned int)this, (unsigned int)((ShaderEntry*)primary));
+            ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)primary));
 
             DecompPass266* secondary = g->m_passes->m_secondary;
             if (secondary)
@@ -11841,7 +11841,7 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
                 if (!tex)
                     tex = (void*)DAT_011f9510;
                 secondary->m_resource = tex;
-                ::FUN_00bb9640((unsigned int)this, (unsigned int)((ShaderEntry*)secondary));
+                ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)secondary));
             }
 
             if ((DAT_011f91e4 - 0x1C4) <= 3 && reinterpret_cast<::FUN_00b704b0_t *>((((C0CD80Rdr*)renderer)))->get68() > 0)
@@ -11869,14 +11869,14 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
     {
         DecompPass266* primary = g->m_passes->m_primary;
         primary->m_resource = renderer->m_primary->m_object;
-        ::FUN_00bb9640((unsigned int)this, (unsigned int)((ShaderEntry*)primary));
+        ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)primary));
     }
 
     if ((technique - 0x1D3) <= 3)
     {
         DecompPass266* primary = g->m_passes->m_primary;
         primary->m_resource = renderer->m_primary->m_object;
-        ::FUN_00bb9640((unsigned int)this, (unsigned int)((ShaderEntry*)primary));
+        ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)primary));
     }
 }
 
@@ -11972,7 +11972,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
     case 0x198:
         return;
     case 0x190:
-        reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((int)(table), (int)(geom));
+        reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((intptr_t)(table), (intptr_t)(geom));
         break;
     case 0x19D:
     case 0x19E:
@@ -11985,11 +11985,11 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
         ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
         break;
     case 0x19F:
-        reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((int)(table), (int)(geom));
+        reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((intptr_t)(table), (intptr_t)(geom));
         ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
         break;
     case 0x1AE:
-        reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((int)(table), (int)(geom));
+        reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((intptr_t)(table), (intptr_t)(geom));
         ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
         break;
     case 0x1A2:
@@ -12016,7 +12016,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
     case 0x1C1:
     case 0x1C2:
     case 0x1C3:
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(table), (int)(geom));
+        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(table), (intptr_t)(geom));
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(table), (::C0BC90Geometry *)(geom));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(table), (::fnv_00c0bcf0::C0BCF0Geometry *)(geom), 0);
         break;

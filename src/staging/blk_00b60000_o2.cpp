@@ -443,7 +443,7 @@ void FUN_00b71b70_class::ReleaseStage()
 
 
 // @fnv 0x00b7c150
-void SetEntryField(int aiIndex)
+void SetEntryField(intptr_t aiIndex)
 {
     int* base = (int*)DAT_0126f74c;
     int* p = (int*)base[0x24 / 4];
@@ -4770,7 +4770,7 @@ struct BSFogProperty
 extern float DAT_011fd918;
 // Copies the context's light data into global light vectors and, when enabled, stores fog color and depth/density into global fog vectors.
 // @fnv 0x00b7ad80
-void UpdateLightAndFogGlobals(int enabled, Context* context)
+void UpdateLightAndFogGlobals(intptr_t enabled, Context* context)
 {
     if (context)
     {
@@ -4874,7 +4874,7 @@ struct ShaderFieldsStub
 
 // Stores shader's m_pArr[j] into stage i's m_08 and calls the stage's ApplyPairToState with shader->V56().
 // @fnv 0x00b7c0a0
-void FUN_00b7c0a0(NiD3DShader* shader, unsigned int uiStageIndex, unsigned int j)
+void FUN_00b7c0a0(NiD3DShader* shader, uintptr_t uiStageIndex, unsigned int j)
 {
     StageMgrStub* pStageMgr = reinterpret_cast<StageMgrStub*>(DAT_0126f74c);
     TexStageStub* stage = pStageMgr->m_pElems[uiStageIndex];
@@ -4996,7 +4996,7 @@ struct S_00b7c120_Global2
 
 // Looks up targets[index] and stores the result of callback->FUN_004bc320(0) into its unk08 field.
 // @fnv 0x00b7c120
-void FUN_00b7c120(int index)
+void FUN_00b7c120(intptr_t index)
 {
     S_00b7c120_Global1* global1 = reinterpret_cast<S_00b7c120_Global1*>(DAT_0126f74c);
     S_00b7c120_Target** targets = global1->unk24;
@@ -5032,7 +5032,7 @@ struct FUN_00b7c170_Container
 
 
 // @fnv 0x00b7c170
-void FUN_00b7c170(int index)
+void FUN_00b7c170(intptr_t index)
 {
     FUN_00b7c170_Container* container = reinterpret_cast<FUN_00b7c170_Container*>(DAT_0126f74c);
     container->unk24[index]->unk08 = DAT_011f95e8;
@@ -5114,7 +5114,7 @@ struct B7C1F0Property
 
 // Assigns the property's texture at uiTexture to the pass stage at uiStage, falling back to the default texture or null when none is set.
 // @fnv 0x00b7c1f0
-void FUN_00b7c1f0(B7C1F0Property* pkProperty, unsigned int uiStage, unsigned int uiTexture, bool bUseDefault)
+void FUN_00b7c1f0(B7C1F0Property* pkProperty, uintptr_t uiStage, unsigned int uiTexture, bool bUseDefault)
 {
     B7C1F0Stage* pkStage = (*reinterpret_cast<::B7C1F0Pass * *>(&::DAT_0126f74c))->m_ppkStages[uiStage];
     B7C1F0Texture* pkTexture = pkProperty->m_ppkTextures[uiTexture];
@@ -5128,7 +5128,7 @@ void FUN_00b7c1f0(B7C1F0Property* pkProperty, unsigned int uiStage, unsigned int
 typedef int(* FUN_00b7c230_VFn)(void* self, int a, int b);
 
 // @fnv 0x00b7c230
-void FUN_00b7c230(char* self, unsigned int uiIndex, int a3, unsigned char ucFlag)
+void FUN_00b7c230(char* self, uintptr_t uiIndex, int a3, unsigned char ucFlag)
 {
     char* g = (char*)DAT_0126f74c;
     int* table = *(int**)(g + 0x24);
@@ -5682,7 +5682,7 @@ void FUN_00b7ce90_class::SetupPass(void* a, Geometry* geom, PassKey* key)
     ((::fnv_00b7ce90::RenderState *)((*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c))->GetRenderState()))->SetBlend(props->m_srcBlend, props->m_dstBlend, 0, 0);
     ((::fnv_00b7ce90::RenderState *)((*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c))->GetRenderState()))->SetRS(0xab, props->m_alphaTestRef, 0, 0);
     ((::fnv_00b7ce90::RenderState *)((*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c))->GetRenderState()))->SetRS(0x17, props->m_zFunc, 0, 0);
-    ::UpdateLightAndFogGlobals((int)this, (::Context *)(a));
+    ::UpdateLightAndFogGlobals((intptr_t)this, (::Context *)(a));
     Finish();
     (*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c)) = pass;
 }
@@ -6627,7 +6627,7 @@ int __cdecl FUN_00b6c200(int);
 extern unsigned int DAT_011adbc8;
 extern bool DAT_012004fc;
 // @fnv 0x00b6c2c0
-void GetRenderTargetDesc(RenderConfigSurface* renderer, unsigned int type, unsigned int* width,
+void GetRenderTargetDesc(RenderConfigSurface* renderer, uintptr_t type, unsigned int* width,
                                    unsigned int* height, unsigned int* format, unsigned int* unused,
                                    unsigned int* flags, unsigned int* samples)
 {
@@ -7762,11 +7762,11 @@ void ShaderSelector::SelectShaderProgram(unsigned int mode)
 // value computed by a sibling member called on this (keeps ecx live), then applies it.
 struct ShaderStageSetter
 {
-    void FUN_00b7c290(int a1, int a2, int a3);
+    void FUN_00b7c290(intptr_t a1, int a2, int a3);
 };
 // Looks up the texture stage at index a2, stores the result of FUN_00c02f30(a1, a3) in its m_08 field, then calls ApplyPairToState(0) on it.
 // @fnv 0x00b7c290
-void ShaderStageSetter::FUN_00b7c290(int a1, int aiStageIndex, int a3)
+void ShaderStageSetter::FUN_00b7c290(intptr_t a1, int aiStageIndex, int a3)
 {
     TexStageStub* elem = (TexStageStub*)((SlotGlobal*)DAT_0126f74c)->m_24[aiStageIndex];
     elem->m_08 = ((unsigned int)(::FUN_00c02f30((::FNV_Node *)this, a1)));
@@ -8024,7 +8024,7 @@ static __forceinline void AppendCopy(CopyList* dest, void* const& value, unsigne
 // @fnv 0x00b6a6c0
 void CopyObject::FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(dst), (::BSSP_stub4 *)(arg), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)(arg));
     AssignRef(dst->f148, f148);
     dst->f061 = f061;
     dst->f062 = f062;
@@ -8199,7 +8199,7 @@ B6AE60Obj* __cdecl CreateB6AE60Obj()
 typedef void(* FUN_00b7c190_VFn)(void*, int, int, int);
 
 // @fnv 0x00b7c190
-void UpdateSlotFromGlobal(int index)
+void UpdateSlotFromGlobal(intptr_t index)
 {
     SlotGlobal* global = (SlotGlobal*)DAT_0126f74c;
     SlotElem* element = global->m_24[index];
@@ -10339,9 +10339,9 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
         if (pCmd)
         {
             if (pSettings->m_bExtra)
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 12, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 12, 0);
             else
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 11, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 11, 0);
         }
     }
     RSGroup* pGroup = pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex % pSettings->m_uiGroupCount];
@@ -10386,24 +10386,24 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
                 reinterpret_cast<::B9B3D0Shader *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->SetupStage((::B9B3D0Pass *)(pCmd), 0);
                 break;
             case 2:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 10, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 10, 0);
                 break;
             case 3:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 1, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 1, 0);
                 break;
             case 4:
                 if (pSettings->m_bDecals)
-                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 2, 1);
+                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 2, 1);
                 break;
             case 5:
                 if (pSettings->m_bDecals)
-                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 3, 0);
+                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 3, 0);
                 break;
             case 6:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 6, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 6, 0);
                 break;
             case 7:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 8, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 8, 0);
                 break;
             case 8:
             case 9:
@@ -10412,10 +10412,10 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
             case 13:
                 break;
             case 10:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 0, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 0, 0);
                 break;
             case 14:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((unsigned int)(pCmd), 9, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 9, 0);
                 break;
             default:
                 pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]->Submit(pCmd, usId);
@@ -11803,7 +11803,7 @@ void UpdateShaderLights(const LightMatrix* matrix, float radiusScale, ScaleSourc
 
 // Sets two global values into specific slots of DAT_0126f74c based on which pass identifier is supplied.
 // @fnv 0x00b7cfb0
-void SetPassValues(unsigned int uiPass)
+void SetPassValues(uintptr_t uiPass)
 {
     switch (uiPass)
     {
@@ -12650,7 +12650,7 @@ struct Setup051
     __forceinline Target051* Create(NiRenderer_b6d170* r, intptr_t kind)
     {
         unsigned int width, height, format, unused, flags, samples;
-        ::GetRenderTargetDesc((::RenderConfigSurface *)this, (unsigned int)(r), (unsigned int *)(kind), &width, &height, &format, &unused, &flags);
+        ::GetRenderTargetDesc((::RenderConfigSurface *)this, (uintptr_t)(r), (unsigned int *)(kind), &width, &height, &format, &unused, &flags);
         return ((::Target051 *)(reinterpret_cast<::RenderTargetManager *>(this)->FUN_00b6d5e0((::NiRenderer *)(r), width, height, flags, format, unused, kind, samples, 0, 0)));
     }
     __forceinline Target051* Acquire(NiRenderer_b6d170* r, int kind, int flags = 0, int noReuse = 0, int e = 0)
@@ -15375,7 +15375,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 285:
     case 290:
     case 296:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
         {
             Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk10;
@@ -15394,11 +15394,11 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 239:
     case 243:
     case 248:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
         {
             Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk0c;
-            int texture = *shader->unkb4;
+            intptr_t texture = *shader->unkb4;
             if (texture)
                 stage->texture = texture;
             else
@@ -15422,7 +15422,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 144:
     case 145: {
         Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk08;
-        int texture = *shader->unkb4;
+        intptr_t texture = *shader->unkb4;
         if (texture)
             stage->texture = texture;
         else
@@ -15488,7 +15488,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 735:
     case 746:
     case 747:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         break;
     case 150:
     case 156:
@@ -15501,7 +15501,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 210:
     case 213: {
         Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk10;
-        int texture = *shader->unkb4;
+        intptr_t texture = *shader->unkb4;
         if (texture)
             stage->texture = texture;
         else
@@ -15518,14 +15518,14 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 208:
     case 212:
     case 267:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
         break;
     case 584:
     case 585:
     case 586:
         ::SetSlotValue((::SlotObject *)this, (int)(shader), 3);
-        reinterpret_cast<::ShaderStageSetter *>(this)->FUN_00b7c290((int)(shader), 1, false);
+        reinterpret_cast<::ShaderStageSetter *>(this)->FUN_00b7c290((intptr_t)(shader), 1, false);
     case 341:
     case 343:
     case 346:
@@ -15556,7 +15556,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 582:
     case 583:
         ::SetSlotValue((::SlotObject *)this, (int)(shader), 2);
-        reinterpret_cast<::ShaderStageSetter *>(this)->FUN_00b7c290((int)(shader), 3, false);
+        reinterpret_cast<::ShaderStageSetter *>(this)->FUN_00b7c290((intptr_t)(shader), 3, false);
     case 124:
     case 125:
     case 300:
@@ -15580,10 +15580,10 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 95:
     case 497:
     case 500:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         {
             Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk04;
-            int texture = *shader->unkb4;
+            intptr_t texture = *shader->unkb4;
             if (texture)
                 stage->texture = texture;
             else
@@ -15602,8 +15602,8 @@ void Host200::FUN_00b7d200(Arg200* arg)
     break;
     case 331:
     case 336:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 1);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 2, true);
         break;
     case 104:
@@ -15612,15 +15612,15 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 120:
     case 133:
     case 143:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 2);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 2);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 3, true);
         break;
     case 332:
     case 338:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 1);
         break;
     case 151:
     case 157:
@@ -15638,22 +15638,22 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 288:
     case 294:
     case 299:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 4);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 4);
         break;
     case 254:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 4);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 4);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 6, true);
-        ::UpdateSlotFromGlobal((int)this);
+        ::UpdateSlotFromGlobal((intptr_t)this);
         break;
     case 561:
     case 562:
     case 563:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
-        ::FUN_00b7c120((int)this);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c120((intptr_t)this);
         break;
     case 147:
     case 148:
@@ -15664,15 +15664,15 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 501:
     case 502: {
         int flag = ((Mode200*)(*reinterpret_cast<::S_00b7c120_Global2 * *>(&::DAT_011f91e0)))->flag;
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, flag);
     }
     break;
     case 560: {
         int flag = ((Mode200*)(*reinterpret_cast<::S_00b7c120_Global2 * *>(&::DAT_011f91e0)))->flag;
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (unsigned int)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, flag);
-        ::UpdateSlotFromGlobal((int)this);
+        ::UpdateSlotFromGlobal((intptr_t)this);
     }
     break;
     case 551:

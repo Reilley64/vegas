@@ -2734,7 +2734,7 @@ struct FUN_00b812b0_class
 // @fnv 0x00b812b0
 void FUN_00b812b0_class::FUN_00b812b0(FUN_00b812b0_class* dst, intptr_t flag)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(dst), (::BSSP_stub4 *)(flag), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)(flag));
     for (int i = 0; i < 2; i++)
     {
         FNVRefCounted* pOldRef = dst->m_refs[i];
@@ -2934,11 +2934,11 @@ struct S_00b8a6e0_Foo
     unsigned char unk55;
     unsigned char unk56;
 
-    void FUN_00b8a6e0(int arg0, unsigned int arg1, unsigned int arg2);
+    void FUN_00b8a6e0(int arg0, unsigned int arg1, uintptr_t arg2);
 };
 
 // @fnv 0x00b8a6e0
-void S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, unsigned int arg2)
+void S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, uintptr_t arg2)
 {
     float value0;
     float value1;
@@ -10207,13 +10207,13 @@ struct FUN_00b9b3b0_class
     void* m_038;
     FUN_00b9abc0_class* m_003c;
 
-    void DispatchToSlot(unsigned int arg1, unsigned int arg2, uintptr_t arg3);
+    void DispatchToSlot(uintptr_t arg1, unsigned int arg2, unsigned int arg3);
 };
 
 // @fnv 0x00b9b3b0
-void FUN_00b9b3b0_class::DispatchToSlot(unsigned int arg1, unsigned int uiIndex, uintptr_t arg3)
+void FUN_00b9b3b0_class::DispatchToSlot(uintptr_t arg1, unsigned int uiIndex, unsigned int arg3)
 {
-    ::DispatchPass((void *)(reinterpret_cast<FUN_00b9abc0_class**>(&m_003c)[uiIndex]), arg1, (void *)(arg3), {});
+    ::DispatchPass((void *)(reinterpret_cast<FUN_00b9abc0_class**>(&m_003c)[uiIndex]), 0, (void *)(arg1), arg3 != 0);
 }
 
 struct B9B3D0Pass;
@@ -10265,9 +10265,9 @@ class B9B3D0Shader
 void B9B3D0Shader::SetupStage(B9B3D0Pass* pkPass, int iStage)
 {
     if (m_iMode > 0)
-        ::DispatchPass((void *)(m_apkHighStages[iStage]), (int)(pkPass), (void *)(false), {});
+        ::DispatchPass((void *)(m_apkHighStages[iStage]), 0, (void *)(pkPass), false);
     else
-        ::DispatchPass((void *)(m_apkLowStages[iStage]), (int)(pkPass), (void *)(false), {});
+        ::DispatchPass((void *)(m_apkLowStages[iStage]), 0, (void *)(pkPass), false);
 }
 
 extern "C" void _ReadWriteBarrier(void);

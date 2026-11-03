@@ -11,19 +11,19 @@ struct SlotObject;
 template <class> struct NiPointer;
 
 // 0x00b7c0a0
-void FUN_00b7c0a0(::NiD3DShader *, unsigned int, unsigned int);
+void FUN_00b7c0a0(::NiD3DShader *, uintptr_t, unsigned int);
 // 0x00b7c120
-void FUN_00b7c120(int);
+void FUN_00b7c120(intptr_t);
 // 0x00b7c150
-void SetEntryField(int);
+void SetEntryField(intptr_t);
 // 0x00b7c170
-void FUN_00b7c170(int);
+void FUN_00b7c170(intptr_t);
 // 0x00b7c190
-void UpdateSlotFromGlobal(int);
+void UpdateSlotFromGlobal(intptr_t);
 // 0x00b7c1f0
-void FUN_00b7c1f0(::B7C1F0Property *, unsigned int, unsigned int, bool);
+void FUN_00b7c1f0(::B7C1F0Property *, uintptr_t, unsigned int, bool);
 // 0x00b7c230
-void FUN_00b7c230(char *, unsigned int, int, unsigned char);
+void FUN_00b7c230(char *, uintptr_t, int, unsigned char);
 // 0x00b7c2c0
 void SetSlotValue(::SlotObject *, int, int);
 // 0x00b7c3a0
@@ -37,4 +37,4 @@ namespace fnv_00b7cb00 { void UpdateShaderLights(const ::fnv_00b7cb00::LightMatr
 // 0x00b7ce30
 void DeleteNiNodePointerArray(::NiPointer< ::NiNode> *);
 // 0x00b7cfb0
-void SetPassValues(unsigned int);
+void SetPassValues(uintptr_t);

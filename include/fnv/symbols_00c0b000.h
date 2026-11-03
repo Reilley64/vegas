@@ -15,4 +15,4 @@ void SetDstValueFromB(::S_00c0bba0_A *, ::S_00c0bba0_B *);
 // 0x00c0bbd0
 void FUN_00c0bbd0(::FUN_00c0bbd0_Arg *);
 // 0x00c0bc00
-void SetNodeResultValue(::FNV_A1 *, ::FNV_Node *, int);
+void SetNodeResultValue(::FNV_A1 *, ::FNV_Node *, intptr_t);

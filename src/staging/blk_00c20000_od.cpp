@@ -610,13 +610,13 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
             {
                 int padA3;
                 {
-                    unsigned int* field = (unsigned int*)((char*)this + 0x14);
+                    uintptr_t* field = (uintptr_t*)((char*)this + 0x14);
                     {
                         int padB[3];
                         {
                             char* obj;
                             {
-                                void** src = (void**)((*field & ~1u) + 8);
+                                void** src = (void**)((*field & ~(uintptr_t)1) + 8);
                                 if (*ppOut != *src)
                                 {
                                     if (*ppOut)
@@ -629,9 +629,9 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
                                     }
                                 }
                                 {
-                                    unsigned int* field2 = (unsigned int*)((char*)this + 0x14);
+                                    uintptr_t* field2 = (uintptr_t*)((char*)this + 0x14);
                                     {
-                                        unsigned int node = *field2 & ~1u;
+                                        uintptr_t node = *field2 & ~(uintptr_t)1;
                                         {
                                             unsigned int* flags = (unsigned int*)(node + 0xc);
                                             if ((*flags & 1) ? true : false)
@@ -867,7 +867,7 @@ void* FUN_00c42f00_Class::FUN_00c3f130(unsigned int flags)
 struct FUN_00c32fb0_cls
 {
     int m_00;
-    int m_04;
+    intptr_t m_04;
     const char* m_08;
     int GetFormatSize();
 };
@@ -1798,7 +1798,7 @@ void FUN_00c3d870_cls::FUN_00c3d870(void* a1, void* a2)
         else
         {
             tmp = v1(a1);
-            reinterpret_cast<::FUN_0042fb60_shell *>(this)->FUN_0042fb60((char *)(tmp), (char *)(m_04), (unsigned int)(a2));
+            reinterpret_cast<::FUN_0042fb60_shell *>(this)->FUN_0042fb60((char *)(tmp), (char *)(m_04), (uintptr_t)(a2));
             v2(m_04);
             m_04 = 0;
             m_04 = tmp;
@@ -5555,7 +5555,7 @@ void IOTask::FUN_00c3cb70(int state, RefObj* obj)
         {
             RefObj* o = m_20->ElementAt(j);
             if (o)
-                reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::fnv_00c3cb70::IOManager * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(o), (int)(this));
+                reinterpret_cast<::TaskProcessor *>(((*reinterpret_cast<::fnv_00c3cb70::IOManager * *>(&::DAT_01202d98))))->FUN_0044ac40((::QueuedTask *)(o), (intptr_t)(this));
         }
     }
     ::fnv_0044dd60::FUN_0044dd60((::fnv_0044dd60::VirtualDeletable *)this);
@@ -5951,7 +5951,7 @@ bool IOManager::FUN_00c3dbf0()
     if (m_canRunFn)
         result2 = m_canRunFn();
     TaskPtr taskA(0);
-    reinterpret_cast<::Container00c3e420 *>((m_queue))->FUN_00c3e420((int)&(taskA));
+    reinterpret_cast<::Container00c3e420 *>((m_queue))->FUN_00c3e420((intptr_t)&(taskA));
     while (taskA)
     {
         Dead16();
@@ -5960,7 +5960,7 @@ bool IOManager::FUN_00c3dbf0()
             m_idleFn();
         if (!(bool)(((long long)(::FUN_00aa4d80())) - start > limit5 ? 1 : 0))
         {
-            reinterpret_cast<::Container00c3e420 *>((m_queue))->FUN_00c3e420((int)&(taskA));
+            reinterpret_cast<::Container00c3e420 *>((m_queue))->FUN_00c3e420((intptr_t)&(taskA));
         }
         else
         {
@@ -6350,7 +6350,7 @@ void IOMgr_c3e1b0::FUN_00c3e1b0(int maxPriority, int arg)
         {
             __int64 key = 0;
             RefPtr_c3e1b0 item3;
-            if (reinterpret_cast<::Map40 *>(this)->FUN_00c40e70((::Iter40 *)(::Stream_c3e1b0 *)(&stream), &key, (int)(&item3), 1))
+            if (reinterpret_cast<::Map40 *>(this)->FUN_00c40e70((::Iter40 *)(::Stream_c3e1b0 *)(&stream), &key, (intptr_t)(&item3), 1))
             {
                 if ((unsigned char)(key >> 16) > maxPriority)
                     break;
@@ -6645,7 +6645,7 @@ struct C3F4C0_Holder : FUN_00c416a0_Class
     int unk08;
     int unk0c;
     int unk10;
-    unsigned int m_uSlot14;
+    uintptr_t m_uSlot14;
 
     inline bool FUN_00c3fe80(int x, int a, int b, void** out);
     bool Lookup(int a, int b, void** out)
@@ -6659,8 +6659,8 @@ inline bool C3F4C0_Holder::FUN_00c3fe80(int x, int a, int b, void** out)
     bool ok = FUN_00c416a0(x, a, b);
     if (ok)
     {
-        unsigned int* pSlot1 = &m_uSlot14;
-        void** ppVal = (void**)((*pSlot1 & ~1u) + 8);
+        uintptr_t* pSlot1 = &m_uSlot14;
+        void** ppVal = (void**)((*pSlot1 & ~(uintptr_t)1) + 8);
         if (*out != *ppVal)
         {
             if (*out)
@@ -6674,8 +6674,8 @@ inline bool C3F4C0_Holder::FUN_00c3fe80(int x, int a, int b, void** out)
                 InterlockedIncrement((volatile long*)(pRef + 8));
             }
         }
-        unsigned int* pSlot2 = &m_uSlot14;
-        unsigned int uBase = *pSlot2 & ~1u;
+        uintptr_t* pSlot2 = &m_uSlot14;
+        uintptr_t uBase = *pSlot2 & ~(uintptr_t)1;
         unsigned int* pFlags = (unsigned int*)(uBase + 12);
         if ((*pFlags & 1u) != 0)
         {
@@ -6974,11 +6974,11 @@ struct SearchC3
                 continue;
         }
     }
-    bool FUN_00c3ffb0(int index, KeyC3 key, RefC3* value, bool replace);
+    bool FUN_00c3ffb0(intptr_t index, KeyC3 key, RefC3* value, bool replace);
 };
 
 // @fnv 0x00c3ffb0
-bool SearchC3::FUN_00c3ffb0(int index, KeyC3 key, RefC3* value, bool replace)
+bool SearchC3::FUN_00c3ffb0(intptr_t index, KeyC3 key, RefC3* value, bool replace)
 {
     ContextC3 context4((*reinterpret_cast<int *>(&::currentAllocationContext)));
     bool result2 = true;
@@ -7354,7 +7354,7 @@ struct F1f0Obj
     F1f0Inner* m_00;
     bool Test(int a1, int a2, int a3, bool a4)
     {
-        return reinterpret_cast<::SearchC3 *>(this)->FUN_00c3ffb0((int)(m_00->v24(a1, a2, a1, a2, a3, a4)), {}, {}, {});
+        return reinterpret_cast<::SearchC3 *>(this)->FUN_00c3ffb0((intptr_t)(m_00->v24(a1, a2, a1, a2, a3, a4)), {}, {}, {});
     }
 };
 

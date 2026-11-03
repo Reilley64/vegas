@@ -2994,12 +2994,12 @@ struct Container00c3e420
     virtual void v2();
     Elem00c3e420** items;
     unsigned int count;
-    bool FUN_00c3e420(int arg);
+    bool FUN_00c3e420(intptr_t arg);
 };
 
 // Iterates the container's items and returns true as soon as an item's FUN_00c3e490(arg) check succeeds, otherwise false.
 // @fnv 0x00c3e420
-bool Container00c3e420::FUN_00c3e420(int arg)
+bool Container00c3e420::FUN_00c3e420(intptr_t arg)
 {
     for (unsigned int i = 0; i < count; i++)
     {

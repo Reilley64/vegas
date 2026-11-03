@@ -327,9 +327,6 @@ void* FUN_004ebb50_shell::FUN_004ede40(unsigned int flags)
 }  // namespace fnv_004ede40
 
 struct NiTMapItem;
-struct NiTPointerMap
-{
-};
 struct NodePoolView
 {
 };
@@ -353,7 +350,7 @@ void FUN_00ae8bf0_t::AddItem(const void* element)
         node = ((::NiTMapItem *)(reinterpret_cast<::FUN_0043a010_shell *>((((NodePoolView*)((char*)this + 8))))->FUN_0043a010()));
     }
     ((void**)node)[2] = *(void**)element;
-    reinterpret_cast<::fnv_00adddd0::FUN_00a1b940 *>((((NiTPointerMap*)this)))->FUN_00a11db0((::fnv_00adddd0::MsgNode *)(node));
+    reinterpret_cast<::fnv_00adddd0::FUN_00a1b940 *>(this)->FUN_00a11db0((::fnv_00adddd0::MsgNode *)(node));
 }
 
 struct FUN_004edd20_shell

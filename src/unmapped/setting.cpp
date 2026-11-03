@@ -20,7 +20,6 @@
 #include "fnv/symbols_01016000.h"
 #include "Setting.h"
 
-extern void __cdecl FUN_0044f700();
 extern void* DAT_0101772c;
 struct FUN_0044f600_class
 {

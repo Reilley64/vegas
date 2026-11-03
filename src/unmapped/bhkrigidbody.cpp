@@ -2548,11 +2548,11 @@ void BodyBuild::ConfigureBody(BuildSettings* settings)
             reinterpret_cast<::WorldObject_c8d3 *>(this)->GetAabb((*(::Aabb_c8d3 *)(&bounds)));
             __m128 extent = _mm_sub_ps(bounds.maximum, bounds.minimum);
             int axis;
-            if (extent.m128_f32[0] > extent.m128_f32[1])
-                axis = extent.m128_f32[1] > extent.m128_f32[2] ? 2 : 1;
+            if (extent[0] > extent[1])
+                axis = extent[1] > extent[2] ? 2 : 1;
             else
-                axis = extent.m128_f32[0] > extent.m128_f32[2] ? 2 : 0;
-            if (!(extent.m128_f32[axis] > DAT_012677bc))
+                axis = extent[0] > extent[2] ? 2 : 0;
+            if (!(extent[axis] > DAT_012677bc))
             {
                 float scale = reinterpret_cast<::Obj577 *>(this)->FUN_00577b50();
                 scale *= DAT_011b0c48;
@@ -3910,26 +3910,7 @@ void Target::FUN_00c8f080()
     flags |= 4;
 }
 
-// VEGAS17-CONFLICT: NiStream (variant definition below differs from the one above)
-struct NiStream
-{
-};
-
 void FUN_00c8d440(bool flag);
-
-// VEGAS17-CONFLICT: C8Owner (variant definition below differs from the one above)
-struct C8Owner
-{
-    int unk00;
-    int unk04;
-    C8Obj* obj;
-    bool SetState(int state);
-};
-
-// VEGAS17-CONFLICT: HavokShape (variant definition below differs from the one above)
-struct HavokShape
-{
-};
 
 typedef __m128 hkQuadReal;
 
@@ -4016,7 +3997,7 @@ struct KFVector4
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     void setInterpolate4(const KFVector4& v0, const KFVector4& v1, const KFSimdReal& t)
     {
@@ -4268,10 +4249,10 @@ struct V4_160
     __m128 v;
     void Set(float x, float y, float z, float w)
     {
-        v.m128_f32[0] = x;
-        v.m128_f32[1] = y;
-        v.m128_f32[2] = z;
-        v.m128_f32[3] = w;
+        v[0] = x;
+        v[1] = y;
+        v[2] = z;
+        v[3] = w;
     }
     V4_160& operator=(const V4_160& rhs)
     {
@@ -4738,10 +4719,10 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     const float x = p1[0];
     separate_p.Set(x * DAT_012681c8, p1[1] * DAT_012681c8, p1[2] * DAT_012681c8, 0.0f);
     float* p2 = input.rotation;
-    separate_q.v.m128_f32[0] = p2[1];
-    separate_q.v.m128_f32[1] = p2[2];
-    separate_q.v.m128_f32[2] = p2[3];
-    separate_q.v.m128_f32[3] = p2[0];
+    separate_q.v[0] = p2[1];
+    separate_q.v[1] = p2[2];
+    separate_q.v[2] = p2[3];
+    separate_q.v[3] = p2[0];
     GetA160(&W.outA);
     GetB160(&W.outB);
     __m128 d = _mm_sub_ps(_mm_load_ps((float*)&separate_p), _mm_load_ps((float*)&W.outA));
@@ -4857,10 +4838,10 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     if (pair.vel > len * len)
     {
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&W.tmpC0)), (*(const ::fnv_004a3e00::NiPoint3 *)(p1)));
-        W.tmpB.v.m128_f32[0] = p2[1];
-        W.tmpB.v.m128_f32[1] = p2[2];
-        W.tmpB.v.m128_f32[2] = p2[3];
-        W.tmpB.v.m128_f32[3] = p2[0];
+        W.tmpB.v[0] = p2[1];
+        W.tmpB.v[1] = p2[2];
+        W.tmpB.v[2] = p2[3];
+        W.tmpB.v[3] = p2[0];
         V160e8(&W.tmpC0, &W.tmpB);
         return;
     }

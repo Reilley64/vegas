@@ -17,7 +17,7 @@ extern int DAT_01189c40;
 
 struct FUN_00404b10_class
 {
-    void* m_p;
+    const char* m_p;
     void FUN_00404b90(int);
     void* Initialize();
 };
@@ -123,6 +123,7 @@ struct CombatThreatRecord
 };
 struct FUN_009a5270_class
 {
+    void* GetFirstPos();
     void DeleteAllEntries();
 };
 
@@ -829,13 +830,6 @@ void TexMap::FUN_00b60240(NiStream* stream)
     if (m_path)
         ::BSShaderManager::GetTexture(m_path, true, (::NiPointer< ::NiTexture> &)(m_texture), true, false);
 }
-
-// VEGAS17-CONFLICT: FUN_009a5270_class (variant definition below differs from the one above)
-struct FUN_009a5270_class
-{
-    void* GetFirstPos();
-    void DeleteAllEntries();
-};
 
 typedef void* NiTMapIterator;
 

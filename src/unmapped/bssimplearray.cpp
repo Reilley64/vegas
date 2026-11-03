@@ -5,7 +5,6 @@
 #include <new>
 #include <cstring>
 #include "fnv/decl/Array6cff.h"
-#include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/B49F8F0Allocator.h"
 #include "fnv/decl/BSSimpleArray_PathingNode_1024.h"
 #include "fnv/decl/FUN_0042fc00_shell.h"
@@ -44,11 +43,31 @@
 #include "fnv/symbols_010a2000.h"
 #include <cstddef>
 #include "fnv/decl/FUN_00a1c1f0_shell.h"
-#include "fnv/decl/fnv_0069cea0__FUN_0069cea0_class.h"
-#include "fnv/decl/fnv_008454f0__FUN_008454f0.h"
-#include "fnv/decl/fnv_009f6540__FUN_009f6540_Class.h"
 #include "fnv/symbols_006a1000.h"
 #include "fnv/symbols_006b3000.h"
+struct ArrayStub
+{
+    virtual void vf0()
+    {}
+    virtual void* vf1(void* value)
+    {
+        return value;
+    }
+    virtual void vf2(void* value)
+    {}
+    virtual void* vf3(void* first, void* second)
+    {
+        return first;
+    }
+
+    void* unk04;
+    unsigned int unk08;
+    void* unk0C;
+
+    void FUN_00a0cf60(char* dest, char* src, unsigned int count);
+
+    void FUN_00a0d0c0(void* newValue, void* key);
+};
 struct FUN_006cf9d0
 {
     int* vfptr;
@@ -283,7 +302,7 @@ template <class T, int N> struct BSSimpleArray
     void FUN_006cf120(bool bFreeStorage);
 };
 // @fnv 0x006cf120
-void BSSimpleArray<PathingGraphNode, 1024>::FUN_006cf120(bool bFreeStorage)
+template <> void BSSimpleArray<PathingGraphNode, 1024>::FUN_006cf120(bool bFreeStorage)
 {
     if (pBuffer)
     {
@@ -1510,7 +1529,7 @@ class PathingGraphNode
     unsigned char m_data[0x3c];
 };
 
-template <class T, unsigned int Capacity> struct BSSimpleArray
+template <class T, int Capacity> struct BSSimpleArray
 {
     void ReleaseElements(T* pItems, unsigned int ItemUpdateArray);
 };
@@ -2370,106 +2389,8 @@ void Host9f6340::FUN_009f6460(int arr, int count)
 
 bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
 
-// VEGAS17-CONFLICT: GlobalObject_00869f00 (variant definition below differs from the one above)
-struct GlobalObject_00869f00
-{
-};
-
-// VEGAS17-CONFLICT: PathBuilderDetailedPathInfos (variant definition below differs from the one above)
-struct PathBuilderDetailedPathInfos
-{
-    int* vfptr;
-    virtual ~PathBuilderDetailedPathInfos();
-};
-
-// VEGAS17-CONFLICT: FUN_0069b1d0 (variant definition below differs from the one above)
-struct FUN_0069b1d0
-{
-    virtual ~FUN_0069b1d0();
-};
-
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
-// VEGAS17-CONFLICT: FUN_0072ba80_shell (variant definition below differs from the one above)
-struct FUN_0072ba80_shell
-{
-public:
-    void FUN_0072ba80(void *, unsigned int);
-};
-
-// VEGAS17-CONFLICT: FUN_0069cfe0_Dst (variant definition below differs from the one above)
-struct FUN_0069cfe0_Dst
-{
-};
-
-// VEGAS17-CONFLICT: FUN_006cf2a0 (variant definition below differs from the one above)
-struct FUN_006cf2a0 : FUN_005e0510
-{
-    void* m_pStreamAllocator;
-    FUN_006cf2a0(int first, int second, void* heap);
-};
-
-// VEGAS17-CONFLICT: FUN_006cf940_Item (variant definition below differs from the one above)
-struct FUN_006cf940_Item
-{
-};
-
-// VEGAS17-CONFLICT: FUN_006cfac0_cls (variant definition below differs from the one above)
-struct FUN_006cfac0_cls : FUN_006cfac0_base
-{
-    virtual ~FUN_006cfac0_cls();
-};
-
-// VEGAS17-CONFLICT: FUN_006cf780_Pool (variant definition below differs from the one above)
-class FUN_006cf780_Pool : public ContainerBase6CF
-{
-  public:
-    FUN_006cf780_Pool(int iCapacity, int iGrowBy, Allocator6CF* pkAllocator);
-    virtual ~FUN_006cf780_Pool();
-
-    void Initialize(int iCapacity, int iGrowBy);
-
-    Allocator6CF* m_pHeapAllocator;
-};
-
-struct ArrayStub
-{
-    virtual void vf0()
-    {}
-    virtual void* vf1(void* value)
-    {
-        return value;
-    }
-    virtual void vf2(void* value)
-    {}
-    virtual void* vf3(void* first, void* second)
-    {
-        return first;
-    }
-
-    void* unk04;
-    unsigned int unk08;
-    void* unk0C;
-
-    void FUN_00a0cf60(char* dest, char* src, unsigned int count)
-    {
-        if (count == 0)
-            return;
-        if (dest < src)
-        {
-            for (unsigned int i = 0; i < count; i++)
-                copyOne(dest + i * 4, src + i * 4);
-        }
-        else if (dest > src)
-        {
-            for (int j = (int)count - 1; j >= 0; j--)
-                copyOne(dest + j * 4, src + j * 4);
-        }
-    }
-    void copyOne(char* dest, char* src);
-
-    void FUN_00a0d0c0(void* newValue, void* key);
-};
 
 // @fnv 0x00a0d0c0
 void ArrayStub::FUN_00a0d0c0(void* newValue, void* key)

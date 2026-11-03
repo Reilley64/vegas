@@ -727,11 +727,11 @@ Rig* BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentList* attach
                 position = center;
             }
             if (4 == shape->kind)
-                position.value.m128_f32[0] = shape->getRadius() * 2.0;
+                position.value[0] = shape->getRadius() * 2.0;
             if (6 == shape->kind)
-                position.value.m128_f32[0] = shape->getRadius() * 2.0;
+                position.value[0] = shape->getRadius() * 2.0;
             if (1 == shape->kind)
-                position.value.m128_f32[0] = shape->getRadius() * 2.0;
+                position.value[0] = shape->getRadius() * 2.0;
             char name[45];
             if (node->getName())
             {

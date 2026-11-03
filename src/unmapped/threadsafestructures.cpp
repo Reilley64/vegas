@@ -248,8 +248,6 @@ template <> class LockFreeQueue<NiPointer<QueuedReference> >
 
 typedef LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag FUN_0044b500_LockFreeQueueInterface;
 
-template <> ThreadInterfaceManager<FUN_0044b500_LockFreeQueueInterface>::ThreadInterfaceManager(unsigned int);
-
 struct FUN_0044b500 : public InterfacedClass
 {
     LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueEntry* m_pHead;

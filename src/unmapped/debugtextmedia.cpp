@@ -1,6 +1,7 @@
 // src/unmapped/debugtextmedia.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/debug/debugtextpages/debugtextmedia.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/BGSSaveLoadFileEntry.h"
 #include "fnv/decl/DirectoryIterator.h"
 #include "fnv/decl/FUN_004de2d0_StandIn.h"

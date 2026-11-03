@@ -342,6 +342,7 @@ class NiTObjectArrayA47
     unsigned short m_usGrowBy;
 
     void FUN_00a47770(unsigned int uiMaxSize);
+    void FUN_0060bef0(uintptr_t uiMaxSize);
 };
 
 // Resizes the object array to uiMaxSize, releasing surplus elements and reallocating m_pBase while preserving existing entries.
@@ -801,7 +802,6 @@ FUN_00b8a9e0::FUN_00b8a9e0() : m_24(0), m_28(0), m_3c(0), m_40(0), m_44(0), m_48
 #include "fnv/decl/FUN_00658930_class.h"
 #include "fnv/decl/FUN_00844700_Class.h"
 #include "fnv/decl/FUN_009a4ef0_Class.h"
-#include "fnv/decl/MaterialUploadState.h"
 #include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
 #include "fnv/decl/fnv_00864a60__FUN_00864a60_cls.h"
 #include "fnv/symbols_004b0000.h"
@@ -933,7 +933,7 @@ struct GlobalRefOwner
 {
 };
 
-struct RefHolder
+struct StringRefHolder
 {
     int unk00;
     int unk04;
@@ -948,7 +948,7 @@ struct FUN_00e7ecd0_cls
     int m_0c;
     FUN_00e891f0_cls* m_10;
     int m_14;
-    RefHolder* m_18;
+    StringRefHolder* m_18;
     int unk1C;
     int unk20;
     int unk24;
@@ -990,7 +990,7 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
     reinterpret_cast<::FUN_00e891f0_Class *>((obj))->FUN_00e891f0();
     ::ClearFields((void *)(m_10));
 
-    RefHolder* holder = m_18;
+    StringRefHolder* holder = m_18;
     if (holder != 0)
     {
         if (holder->m_08 != DAT_0109b220)
@@ -1408,7 +1408,6 @@ unsigned int ShaderConstantEntryArray::FUN_00e87800(const ElemPtr& element)
     return oldCount;
 }
 
-// VEGAS17-CONFLICT: RefHolder (variant definition below differs from the one above)
 struct RefHolder
 {
     void* m_pObject;
@@ -1435,21 +1434,6 @@ void __cdecl FUN_00869420(RefList* apSource, RefList* apTarget)
         }
     }
 }
-
-// VEGAS17-CONFLICT: NiTObjectArrayA47 (variant definition below differs from the one above)
-class NiTObjectArrayA47
-{
-  public:
-    virtual ~NiTObjectArrayA47();
-
-    NiObjectPtrA47* m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-
-    void FUN_0060bef0(uintptr_t uiMaxSize);
-};
 
 // @fnv 0x0060bef0
 void NiTObjectArrayA47::FUN_0060bef0(uintptr_t uiMaxSize)

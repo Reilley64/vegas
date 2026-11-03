@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -121,19 +122,6 @@ void __cdecl ApplyTransformToTarget(Holder* apFirst, Holder* apSecond, ValueSour
     apFirst->m_pFlagTarget->Apply(&kTransform, apValue->m_fAmount, apContext);
 }
 
-struct Allocator
-{
-    virtual void* release();
-    virtual void* allocate(int size);
-};
-struct Global
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* allocator;
-};
 struct Built
 {
     int field00;
@@ -145,8 +133,7 @@ struct Built
 // @fnv 0x00d2f9d0
 void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
 {
-    Global* global = static_cast<Global*>(::FUN_00c85750());
-    Built* pBuilt = (Built*)global->allocator->allocate(0x40);
+    Built* pBuilt = static_cast<Built*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
     pBuilt->field04 = 0x40;
     pBuilt->FUN_00d2f980(arg4);
 }
@@ -173,25 +160,7 @@ void FUN_00d315f0(void* apA, void* apB, void* apC, void* apD)
     FUN_00d312f0(apA, apB, apC, apD);
 }
 
-struct D2FA00Allocator
-{
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct D2FA00MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D2FA00Allocator* m_pStreamAllocator;
-
-    D2FA00Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
 }
@@ -202,7 +171,7 @@ class D2FA00ReferencedObject
     static void* operator new(size_t nbytes)
     {
         D2FA00ReferencedObject* b =
-            static_cast<D2FA00ReferencedObject*>(static_cast<D2FA00MemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
+            static_cast<D2FA00ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -893,24 +862,7 @@ static inline void S_00d30f50_Timer(const char* name, unsigned int& t)
     }
 }
 
-struct S_00d30f50_Heap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct S_00d30f50_Router
-{
-    int unk00, unk04, unk08, unk0C;
-    S_00d30f50_Heap* unk10;
-    S_00d30f50_Heap& heap()
-    {
-        return *unk10;
-    }
-};
 
 template <class T> struct S_00d30f50_Array
 {
@@ -933,19 +885,19 @@ template <class T> struct S_00d30f50_Array
     {
         m_iElementCount = 0;
     }
-    void _clearAndDeallocate(S_00d30f50_Heap& alloc) throw()
+    void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         }
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~S_00d30f50_Array() throw()
     {
-        _clearAndDeallocate(static_cast<S_00d30f50_Router*>(::FUN_00c85750())->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -1273,21 +1225,7 @@ struct FloatOwner
     FloatSub* m_08;
 };
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
 
-class SlotAllocator
-{
-  public:
-    virtual void* vSlot0();
-    virtual void* Alloc(unsigned int size);
-};
 
 struct SpawnedObject
 {
@@ -1306,15 +1244,11 @@ SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner,
     FloatSub* pSecondSub = apSecondOwner->m_08;
     if (pFirstSub->m_a0 < pSecondSub->m_a0)
     {
-        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-        SlotAllocator* alloc = (SlotAllocator*)holder->m_pAllocator;
-        SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
+        SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
         obj->m_04 = 0x40;
         return ((::fnv_00d2fa40::SpawnedObject *)(new ((void *)(obj)) struct ::FUN_00d2f980(a4)));
     }
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    SlotAllocator* alloc = (SlotAllocator*)holder->m_pAllocator;
-    SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
     obj->m_04 = 0x40;
     new ((void *)(obj)) struct ::FUN_00d2f980(a4);
     obj->SpawnedObject::~SpawnedObject();
@@ -1491,14 +1425,6 @@ struct S00d31110_Aabb
     float m_kMaximumCorner[4];
 };
 
-struct S00d31110_Free
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void deallocate(void* p, int size);
-};
 
 // Computes the AABB of bodyB, collects shape hits, and dispatches collision callbacks for each enabled child shape via the dispatcher.
 // @fnv 0x00d31110
@@ -1585,12 +1511,11 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
         }
     }
 
-    Global* g = static_cast<Global*>(::FUN_00c85750());
     int iCapFlags = hits.m_capFlags;
-    S00d31110_Free* pAllocator = (S00d31110_Free*)g->allocator;
+    hkMemoryAllocator* pAllocator = &hkMemoryRouter::getInstance().heap();
     hits.m_iElementCount = 0;
     if ((iCapFlags & 0x80000000) == 0)
-        pAllocator->deallocate(hits.m_data, (iCapFlags & 0x3fffffff) * 4);
+        pAllocator->bufFree(hits.m_data, (iCapFlags & 0x3fffffff) * 4);
 }
 
 // Moved from hkpbvtreeagent_ehsc_noehsc_variant.cpp (VEGAS-15).
@@ -1664,25 +1589,13 @@ struct S312_Container
     virtual void v4();
     virtual S312_Shape* GetShapeForKey(int key, void* buf);
 };
-struct S312_Alloc
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void free(void* p, int n);
-    void ReturnMemory(int* p, int n)
-    {
-        free(p, n * sizeof(int));
-    }
-};
 struct S312_Array
 {
     int* m_data;
     int m_iElementCount;
     int m_capAndFlags;
 };
-inline void S312_dealloc(S312_Alloc* al, int* p, int n);
+inline void S312_dealloc(hkMemoryAllocator* al, int* p, int n);
 struct S312_InplaceArray : S312_Array
 {
     int m_kStorage[128];
@@ -1692,17 +1605,17 @@ struct S312_InplaceArray : S312_Array
         m_iElementCount = 0;
         m_capAndFlags = (int)0x80000080;
     }
-    void ClearAndRelease(S312_Alloc& a)
+    void ClearAndRelease(hkMemoryAllocator& a)
     {
         m_iElementCount = 0;
         if ((m_capAndFlags & 0x80000000) == 0)
-            a.ReturnMemory(m_data, m_capAndFlags & 0x3fffffff);
+            a._bufFree<int>(m_data, m_capAndFlags & 0x3fffffff);
         m_data = 0;
         m_capAndFlags = (int)0x80000000;
     }
     ~S312_InplaceArray()
     {
-        ClearAndRelease((S312_Alloc&)static_cast<D2FA00MemoryRouter*>(::FUN_00c85750())->heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
 };
 struct S312_BvTree
@@ -1746,9 +1659,9 @@ struct S312_Collector
     bool m_fHitDistance;
 };
 
-inline void S312_dealloc(S312_Alloc* al, int* p, int n)
+inline void S312_dealloc(hkMemoryAllocator* al, int* p, int n)
 {
-    al->free(p, n * sizeof(int));
+    al->bufFree(p, n * int(sizeof(int)));
 }
 
 // @fnv 0x00d312f0
@@ -2266,61 +2179,16 @@ struct SolDispatcher
     }
 };
 
-struct SolHeap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void freeBuffer(void*, int);
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual bool CanAllocateBytes(int);
-};
-struct SolStack
-{
-    char* cursor;
-    __forceinline void* allocate(int n, const char*)
-    {
-        char* p = cursor;
-        cursor += n;
-        return p;
-    }
-    __forceinline void deallocate(void* p)
-    {
-        cursor = (char*)p;
-    }
-};
-struct SolRouter
-{
-    SolStack local;
-    int u04, u08, u0c;
-    SolHeap* heapPtr;
-    static SolRouter& GetMonitorStream()
-    {
-        return *reinterpret_cast<SolRouter*>(static_cast<Global*>(::FUN_00c85750()));
-    }
-    SolHeap& heap()
-    {
-        return *heapPtr;
-    }
-    SolStack& stack()
-    {
-        return local;
-    }
-};
 struct SolHeapSource
 {
-    SolHeap& get(const void*)
+    hkMemoryAllocator& get(const void*)
     {
-        return SolRouter::GetMonitorStream().heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 template <class T> __forceinline void SolFreeStack(T* p)
 {
-    SolRouter::GetMonitorStream().stack().deallocate(p);
+    hkMemoryRouter::getInstance().deallocateStack(p);
 }
 extern char DAT_01268ad4;
 struct SolSortState
@@ -2402,7 +2270,7 @@ template <class T> struct SolArrayBase
     {
         return capacity & 0x3fffffff;
     }
-    __forceinline void reserveWith(SolHeap& heap, int n)
+    __forceinline void reserveWith(hkMemoryAllocator& heap, int n)
     {
         int available = getCapacity();
         if (available < n)
@@ -2412,14 +2280,14 @@ template <class T> struct SolArrayBase
             ::FUN_00c908c0((::SpawnedObject *)&(heap), (::SpawnedArray *)(void *)(this), target, sizeof(T));
         }
     }
-    __forceinline void setSizeWith(SolHeap& heap, int n)
+    __forceinline void setSizeWith(hkMemoryAllocator& heap, int n)
     {
         reserveWith(heap, n);
         SolArrayOps::destroy(data + n, count - n, typename SolTypeTag<T>::Type());
         SolArrayOps::construct(data + count, n - count, typename SolTypeTag<T>::Type());
         count = n;
     }
-    __forceinline T* expandWith(SolHeap& heap, int at, int n)
+    __forceinline T* expandWith(hkMemoryAllocator& heap, int at, int n)
     {
         int total = n + count;
         int shifted = count - at;
@@ -2441,15 +2309,15 @@ template <class T> struct SolArrayBase
         SolArrayOps::destroy(data, count, typename SolTypeTag<T>::Type());
         count = 0;
     }
-    __forceinline void release(SolHeap& heap)
+    __forceinline void release(hkMemoryAllocator& heap)
     {
         clear();
         if ((capacity & 0x80000000) == 0)
-            heap.freeBuffer(data, getCapacity() * sizeof(T));
+            heap.bufFree(data, getCapacity() * sizeof(T));
         data = 0;
         capacity = 0x80000000;
     }
-    __forceinline void assignWith(SolHeap& heap, const SolArrayBase& rhs, SolClassTag)
+    __forceinline void assignWith(hkMemoryAllocator& heap, const SolArrayBase& rhs, SolClassTag)
     {
         int old = count;
         int total = rhs.GetLogicalSize();
@@ -2496,7 +2364,7 @@ template <class T> struct SolLocalArray : SolArray<T>
     T* localMemory;
     __forceinline SolLocalArray(int n)
     {
-        this->data = static_cast<T*>(SolRouter::GetMonitorStream().stack().allocate((n * sizeof(T) + 127) & ~127, 0));
+        this->data = static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n * sizeof(T) + 127) & ~127));
         this->capacity = n | 0x80000000;
         localMemory = this->data;
     }
@@ -2718,7 +2586,7 @@ void SolUpdater::FUN_00d2fac0(const SolBody& first, const SolBody& second, const
     SolFixedArray<unsigned, 128> keys;
     shape->GetAabbHits(bounds, keys);
     int amount = (keys.GetLogicalSize() - m_kEntries.GetLogicalSize()) * 128;
-    if (!SolRouter::GetMonitorStream().heap().CanAllocateBytes(amount))
+    if (!hkMemoryRouter::getInstance().heap().canAllocTotal(amount))
     {
         FUN_00d88040(1);
         return;
@@ -2747,7 +2615,7 @@ template<class T> struct SolArrayBaseV {
     inline T* end() {return data+count;}
     inline int GetLogicalSize() const {return count;}
     inline int getCapacity() const {return capacity&0x3fffffff;}
-    __forceinline void reserveWith(SolHeap& heap,int n) {
+    __forceinline void reserveWith(hkMemoryAllocator& heap,int n) {
         int available=getCapacity();
         if(available<n) {
             int twice=2*available;
@@ -2755,13 +2623,13 @@ template<class T> struct SolArrayBaseV {
             FUN_00c908c0(heap,this,target,sizeof(T));
         }
     }
-    __forceinline void setSizeWith(SolHeap& heap,int n) {
+    __forceinline void setSizeWith(hkMemoryAllocator& heap,int n) {
         reserveWith(heap,n);
         SolArrayOps::destroy(data+n,count-n,typename SolTypeTag<T>::Type());
         SolArrayOps::construct(data+count,n-count,typename SolTypeTag<T>::Type());
         count=n;
     }
-    __forceinline T* expandWith(SolHeap& heap,int at,int n) {
+    __forceinline T* expandWith(hkMemoryAllocator& heap,int at,int n) {
         int total=n+count;
         int shifted=count-at;
         if(total>getCapacity()) reserveWith(heap,total);
@@ -2776,12 +2644,12 @@ template<class T> struct SolArrayBaseV {
         SolArrayOps::copyBytes(data+at,data+at+1,(count-at)*sizeof(T));
     }
     __forceinline void clear() {SolArrayOps::destroy(data,count,typename SolTypeTag<T>::Type()); count=0;}
-    __forceinline void release(SolHeap& heap) {
+    __forceinline void release(hkMemoryAllocator& heap) {
         clear();
-        if((capacity&0x80000000)==0) heap.freeBuffer(data,getCapacity()*sizeof(T));
+        if((capacity&0x80000000)==0) heap.bufFree(data,getCapacity()*sizeof(T));
         data=0;capacity=0x80000000;
     }
-    __forceinline void assignWith(SolHeap& heap,const SolArrayBaseV& rhs,SolClassTag) {
+    __forceinline void assignWith(hkMemoryAllocator& heap,const SolArrayBaseV& rhs,SolClassTag) {
         int old=count;
         int total=rhs.GetLogicalSize();
         int common=total>old?old:total;
@@ -3075,30 +2943,6 @@ inline const ShapeD3* CdBodyD3::getShape() const { return m_pCollisionShape; }
 inline void CdBodyD3::SetCollisionShapeAndKey( const ShapeD3* shape, KeyD3 key ) { m_pCollisionShape = shape; m_uiCollisionShapeKey = key; }
 inline CdBodyD3::CdBodyD3( const CdBodyD3* parent ) { m_parent = parent; m_pMotionState = parent->m_pMotionState; }
 
-class AllocatorD3
-{
-	public:
-		virtual ~AllocatorD3();
-		virtual void* AllocateMemoryBlock( int numBytes ) = 0;
-		virtual void ReleaseBlock( void* p, int numBytes ) = 0;
-		virtual void* AllocateBufferWithSize( int& reqNumBytesInOut );
-		virtual void ReturnMemory( void* p, int numBytes );
-		template <typename T>
-		inline T* _bufAlloc( int& reqNumInOut )
-		{
-			const int SIZE_ELEM = sizeof( T );
-			int n = reqNumInOut * SIZE_ELEM;
-			void* p = AllocateBufferWithSize( n );
-			reqNumInOut = n / SIZE_ELEM;
-			return static_cast<T*>( p );
-		}
-		template <typename T>
-		inline void _bufFree( void* p, int numElem )
-		{
-			const int SIZE_ELEM = sizeof( T );
-			ReturnMemory( p, numElem * SIZE_ELEM );
-		}
-};
 
 __forceinline long __cdecl byteDiff( const void* base, const void* pntr )
 {
@@ -3111,66 +2955,27 @@ __forceinline T* __cdecl byteAdd( T* base, long offset )
 	return reinterpret_cast<T*>( reinterpret_cast<char*>( base ) + offset );
 }
 
-struct StackMemD3
-{
-	public:
-		__forceinline void* allocateStack( int numBytes, const char* what );
-		__forceinline void deallocateStack( void* p );
-		__forceinline int getFreeStackSize() { return int( byteDiff( m_next, m_kRayEnd ) ); }
-	protected:
-		PadD3<void*> m_next;
-		PadD3<void*> m_kRayStart;
-		PadD3<void*> m_kRayEnd;
-};
 
-inline void* StackMemD3::allocateStack( int numBytes, const char* what )
-{
-	if ( numBytes > getFreeStackSize() )
-	{
-	}
-	void* current = m_next;
-	m_next = byteAdd( current, numBytes );
-	return current;
-}
 
-inline void StackMemD3::deallocateStack( void* p )
-{
-	m_next = p;
-}
 
-class RouterD3
-{
-	public:
-		inline StackMemD3& stack() { return m_aiEntries; }
-		inline AllocatorD3& heap() { return *m_pStreamAllocator; }
-	protected:
-		StackMemD3 m_aiEntries;
-		AllocatorD3* m_pTemp;
-		AllocatorD3* m_pStreamAllocator;
-		AllocatorD3* m_pDebugAllocator;
-		AllocatorD3* m_pSolver;
-		AllocatorD3* m_pGlobal;
-		void* m_ulUserData;
-};
 
 template <typename T> struct SizeOfD3 { enum { val = sizeof( T ) }; };
 
 template <typename T>
 __forceinline T* __cdecl allocStack( int n, const char* what = 0 )
 {
-	RouterD3& mem = (*static_cast<RouterD3*>(::FUN_00c85750()));
-	return static_cast<T*>( mem.stack().allocateStack( ( ( n * SizeOfD3<T>::val ) + ( 128 - 1 ) ) & ( ~( 128 - 1 ) ), what ) );
+	return static_cast<T*>( hkMemoryRouter::getInstance().allocateStack( ( ( n * SizeOfD3<T>::val ) + ( 128 - 1 ) ) & ( ~( 128 - 1 ) ) ) );
 }
 
 template <typename T>
 __forceinline void __cdecl freeStack( T* ptr )
 {
-	static_cast<RouterD3*>(::FUN_00c85750())->stack().deallocateStack( static_cast<void*>( ptr ) );
+	hkMemoryRouter::getInstance().deallocateStack( ptr );
 }
 
 struct HeapAllocD3
 {
-	AllocatorD3& get( const void* ) { return static_cast<RouterD3*>(::FUN_00c85750())->heap(); }
+	hkMemoryAllocator& get( const void* ) { return hkMemoryRouter::getInstance().heap(); }
 };
 
 
@@ -3240,17 +3045,17 @@ class ArrayBaseD3
 		__forceinline int GetLogicalSize() const { return m_iElementCount; }
 		__forceinline int getCapacity() const { return ( m_iCapacityState & static_cast<int>( CAPACITY_MASK ) ); }
 		__forceinline void clear();
-		__forceinline void _clearAndDeallocate( AllocatorD3& alloc );
+		__forceinline void _clearAndDeallocate( hkMemoryAllocator& alloc );
 		__forceinline void removeAtAndCopy( int index );
-		__forceinline void GrowArrayCapacity( AllocatorD3& alloc, int n );
-		__forceinline void _setSize( AllocatorD3& alloc, int size );
-		__forceinline T* _expandAt( AllocatorD3& alloc, int index, int numToInsert );
+		__forceinline void GrowArrayCapacity( hkMemoryAllocator& alloc, int n );
+		__forceinline void _setSize( hkMemoryAllocator& alloc, int size );
+		__forceinline T* _expandAt( hkMemoryAllocator& alloc, int index, int numToInsert );
 		__forceinline T* begin() { return m_data; }
 		__forceinline T* end() { return m_data + m_iElementCount; }
 		static __forceinline void __cdecl copy( T* dst, const T* src, int n );
 	protected:
-		__forceinline ArrayBaseD3<T>& copyFromArray( AllocatorD3& alloc, const ArrayBaseD3<T>& src, IsPodTagD3 );
-		__forceinline ArrayBaseD3<T>& copyFromArray( AllocatorD3& alloc, const ArrayBaseD3<T>& src, IsClassTagD3 );
+		__forceinline ArrayBaseD3<T>& copyFromArray( hkMemoryAllocator& alloc, const ArrayBaseD3<T>& src, IsPodTagD3 );
+		__forceinline ArrayBaseD3<T>& copyFromArray( hkMemoryAllocator& alloc, const ArrayBaseD3<T>& src, IsClassTagD3 );
 	public:
 		enum
 		{
@@ -3273,7 +3078,7 @@ inline void ArrayBaseD3<T>::clear()
 }
 
 template <typename T>
-inline void ArrayBaseD3<T>::_clearAndDeallocate( AllocatorD3& alloc )
+inline void ArrayBaseD3<T>::_clearAndDeallocate( hkMemoryAllocator& alloc )
 {
 	clear();
 	if ( ( m_iCapacityState & DONT_DEALLOCATE_FLAG ) == 0 )
@@ -3293,7 +3098,7 @@ inline void ArrayBaseD3<T>::removeAtAndCopy( int index )
 }
 
 template <typename T>
-inline void ArrayBaseD3<T>::GrowArrayCapacity( AllocatorD3& alloc, int n )
+inline void ArrayBaseD3<T>::GrowArrayCapacity( hkMemoryAllocator& alloc, int n )
 {
 	const int capacity = getCapacity();
 	if ( capacity < n )
@@ -3305,7 +3110,7 @@ inline void ArrayBaseD3<T>::GrowArrayCapacity( AllocatorD3& alloc, int n )
 }
 
 template <typename T>
-inline void ArrayBaseD3<T>::_setSize( AllocatorD3& alloc, int n )
+inline void ArrayBaseD3<T>::_setSize( hkMemoryAllocator& alloc, int n )
 {
 	GrowArrayCapacity( alloc, n );
 	ArrayUtilD3::destruct( m_data + n, m_iElementCount - n, typename PodTraitD3<T>::type() );
@@ -3314,7 +3119,7 @@ inline void ArrayBaseD3<T>::_setSize( AllocatorD3& alloc, int n )
 }
 
 template <typename T>
-inline T* ArrayBaseD3<T>::_expandAt( AllocatorD3& alloc, int index, int numtoinsert )
+inline T* ArrayBaseD3<T>::_expandAt( hkMemoryAllocator& alloc, int index, int numtoinsert )
 {
 	const int newsize = numtoinsert + m_iElementCount;
 	const int numtomove = m_iElementCount - index;
@@ -3338,7 +3143,7 @@ inline void __cdecl ArrayBaseD3<T>::copy( T* dst, const T* src, int n )
 }
 
 template <typename T>
-inline ArrayBaseD3<T>& ArrayBaseD3<T>::copyFromArray( AllocatorD3& alloc, const ArrayBaseD3<T>& a, IsPodTagD3 )
+inline ArrayBaseD3<T>& ArrayBaseD3<T>::copyFromArray( hkMemoryAllocator& alloc, const ArrayBaseD3<T>& a, IsPodTagD3 )
 {
 	if ( getCapacity() < a.GetLogicalSize() )
 	{
@@ -3356,7 +3161,7 @@ inline ArrayBaseD3<T>& ArrayBaseD3<T>::copyFromArray( AllocatorD3& alloc, const 
 }
 
 template <typename T>
-inline ArrayBaseD3<T>& ArrayBaseD3<T>::copyFromArray( AllocatorD3& alloc, const ArrayBaseD3<T>& a, IsClassTagD3 )
+inline ArrayBaseD3<T>& ArrayBaseD3<T>::copyFromArray( hkMemoryAllocator& alloc, const ArrayBaseD3<T>& a, IsClassTagD3 )
 {
 	int oldSize = m_iElementCount;
 	int newSize = a.GetLogicalSize();

@@ -153,6 +153,7 @@ struct OurPart
     virtual void o00();
 
     int m_i04;
+    void* m_notifyTargetVtable;  // NotifyTarget part at +8
 
     void RegisterAndNotify(struct Registry* apRegistry);
 };
@@ -199,7 +200,7 @@ void OurPart::RegisterAndNotify(Registry* apRegistry)
 
     ItemList* pItemList = ((::ItemList *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((apRegistry))->FUN_00c929e0()));
     for (int i = 0; i < pItemList->m_iArrayLength; i++)
-        ((NotifyTarget*)((char*)this + 8))->Notify(pItemList->m_ppItems[i]);
+        reinterpret_cast<NotifyTarget*>(&m_notifyTargetVtable)->Notify(pItemList->m_ppItems[i]);
 
     reinterpret_cast<::hkReferencedObjectC905 *>((pItemList))->FUN_00c905b0();
 }
@@ -248,9 +249,9 @@ struct FUN_00d63480_cls
 // @fnv 0x00d63480
 void FUN_00d63480_cls::PassMembersToTarget(Target* apTarget)
 {
-    char* pOwner = (char*)this - 0x20;
-    reinterpret_cast<::hkWorldXc91700 *>((apTarget))->FUN_00c91700(pOwner ? (void*)((char*)&this->unk08) : (void*)0);
-    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((pOwner ? (void*)((char*)&this->unk0c) : (void*)0));
+    // The viewer starts 0x20 bytes before this part and is never null here.
+    reinterpret_cast<::hkWorldXc91700 *>((apTarget))->FUN_00c91700(&this->unk08);
+    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue(&this->unk0c);
 }
 
 // FUN_00d63c50 - the constructor of the Havok vehicle viewer
@@ -422,6 +423,7 @@ struct FUN_00d63d60_obj
     int unk00;
     unsigned short m_wSize;
     unsigned short m_u06;
+    void* m_processVtable;
 
     void* FUN_00d63c50(int a1);
 };
@@ -433,10 +435,10 @@ void* AllocAndInitObject(::ViewerArg* a1)
     hkMemoryRouter* pAllocHolder = &hkMemoryRouter::getInstance();
     FUN_00d63d60_obj* obj = reinterpret_cast<FUN_00d63d60_obj*>(pAllocHolder->m_heap->blockAlloc(0x3c));
     obj->m_wSize = 0x3c;
-    void* pResult = ((void *)(new ((void *)(obj)) ::FUN_00d63c50(a1)));
+    FUN_00d63d60_obj* pResult = reinterpret_cast<FUN_00d63d60_obj*>(new ((void *)(obj)) ::FUN_00d63c50(a1));
     if (pResult != 0)
     {
-        return (char*)pResult + 8;
+        return &pResult->m_processVtable;
     }
     return 0;
 }
@@ -1511,7 +1513,7 @@ m_uiStartTicks=ticks;
 class ScopedTimer
 {
 public:
-__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
+__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd(reinterpret_cast<char*>(h+1));}};}
 };
 class hkpActionListener
 {
@@ -1989,7 +1991,7 @@ return m_data[i];
 // @fnv 0x00d63680
 void hkpVehicleViewer::FUN_00d63680(hkpWorld*world)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "hkpVehicleViewer::step";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock14;
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "hkpVehicleViewer::step";h->setTime();mStream.setEnd(reinterpret_cast<char*>(h+1));}};ScopedTimer timeblock14;
 const int numVehicles=m_ppVehicles.GetLogicalSize();
 const int numWheelSegments=12;
 for(int i=0;i<numVehicles;i++)

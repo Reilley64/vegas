@@ -249,14 +249,37 @@ void FUN_009fd100_t::DeleteList()
     }
 }
 
+struct CNode
+{
+    CNode* m_pListObject;
+    CNode* m_pNext;
+    void* m_pObject;
+    CNode* Next() const
+    {
+        return m_pNext;
+    }
+    void SetPrev(CNode* p)
+    {
+        m_pListObject = p;
+    }
+    void SetNext(CNode* p)
+    {
+        m_pNext = p;
+    }
+    void SetData(void* p)
+    {
+        m_pObject = p;
+    }
+};
+
 // @fnv 0x009fd180
 intptr_t PopAndGetValue(intptr_t* pListHead)
 {
-    if (!*pListHead)
+    auto* node = reinterpret_cast<CNode*>(*pListHead);
+    if (!node)
         return 0;
-    intptr_t v = *pListHead;
-    *pListHead = *(intptr_t*)(v + 4);
-    return *(intptr_t*)(v + 8);
+    *pListHead = reinterpret_cast<intptr_t>(node->m_pNext);
+    return reinterpret_cast<intptr_t>(node->m_pObject);
 }
 
 // @fnv 0x009fd1a0
@@ -6878,29 +6901,6 @@ extern "C" int FUN_009fd080(const unsigned short* apString)
     } while (apString[i] != 0);
     return i;
 }
-
-struct CNode
-{
-    CNode* m_pListObject;
-    CNode* m_pNext;
-    void* m_pObject;
-    CNode* Next() const
-    {
-        return m_pNext;
-    }
-    void SetPrev(CNode* p)
-    {
-        m_pListObject = p;
-    }
-    void SetNext(CNode* p)
-    {
-        m_pNext = p;
-    }
-    void SetData(void* p)
-    {
-        m_pObject = p;
-    }
-};
 
 class CNodeCache
 {

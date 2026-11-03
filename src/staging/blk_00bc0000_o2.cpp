@@ -18447,15 +18447,15 @@ void S_00bcc590_Foo::FUN_00bcc590(unsigned int value)
     case 0x174:
         break;
     case 0x162:
-        ::SetEntryField((intptr_t)this);
-        ::FUN_00b7c170((intptr_t)this);
+        ::SetEntryField(4);
+        ::FUN_00b7c170(5);
         break;
     case 0xe2:
     case 0xe3:
     case 0xf4:
     case 0xf5:
-        ::SetEntryField((intptr_t)this);
-        ::FUN_00b7c170((intptr_t)this);
+        ::SetEntryField(5);
+        ::FUN_00b7c170(6);
         break;
     case 0xa4:
     case 0xa5:
@@ -18465,11 +18465,11 @@ void S_00bcc590_Foo::FUN_00bcc590(unsigned int value)
     case 0x10f:
     case 0x124:
     case 0x125:
-        ::SetEntryField((intptr_t)this);
-        ::FUN_00b7c170((intptr_t)this);
+        ::SetEntryField(6);
+        ::FUN_00b7c170(7);
         break;
     default:
-        ::SetPassValues((uintptr_t)this);
+        ::SetPassValues(value);
         break;
     }
 }
@@ -18896,18 +18896,18 @@ void ShaderPassSetup_bce800::FUN_00bce800(unsigned int uiPass)
     case 0xe7:
     case 0xf6:
     case 0xf9:
-        ::SetEntryField((intptr_t)this);
-        ::FUN_00b7c170((intptr_t)this);
+        ::SetEntryField(5);
+        ::FUN_00b7c170(6);
         break;
     case 0x10d:
     case 0x113:
     case 0x123:
     case 0x129:
-        ::SetEntryField((intptr_t)this);
-        ::FUN_00b7c170((intptr_t)this);
+        ::SetEntryField(6);
+        ::FUN_00b7c170(7);
         break;
     default:
-        ::SetPassValues((uintptr_t)this);
+        ::SetPassValues(uiPass);
         break;
     }
 }

@@ -443,7 +443,7 @@ void FUN_00b71b70_class::ReleaseStage()
 
 
 // @fnv 0x00b7c150
-void SetEntryField(intptr_t aiIndex)
+void SetEntryField(int aiIndex)
 {
     uintptr_t* base = (uintptr_t*)DAT_0126f74c;
     uintptr_t* p = (uintptr_t*)base[0x24 / 4];
@@ -5032,7 +5032,7 @@ struct FUN_00b7c170_Container
 
 
 // @fnv 0x00b7c170
-void FUN_00b7c170(intptr_t index)
+void FUN_00b7c170(int index)
 {
     FUN_00b7c170_Container* container = reinterpret_cast<FUN_00b7c170_Container*>(DAT_0126f74c);
     container->unk24[index]->unk08 = DAT_011f95e8;
@@ -5128,7 +5128,7 @@ void FUN_00b7c1f0(B7C1F0Property* pkProperty, unsigned int uiStage, unsigned int
 typedef int(* FUN_00b7c230_VFn)(void* self, int a, int b);
 
 // @fnv 0x00b7c230
-void FUN_00b7c230(char* self, uintptr_t uiIndex, int a3, unsigned char ucFlag)
+void FUN_00b7c230(char* self, unsigned int uiIndex, int a3, unsigned char ucFlag)
 {
     char* g = (char*)DAT_0126f74c;
     uintptr_t* table = *(uintptr_t**)(g + 0x24);
@@ -5682,7 +5682,7 @@ void FUN_00b7ce90_class::SetupPass(void* a, Geometry* geom, PassKey* key)
     ((::fnv_00b7ce90::RenderState *)((*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c))->GetRenderState()))->SetBlend(props->m_srcBlend, props->m_dstBlend, 0, 0);
     ((::fnv_00b7ce90::RenderState *)((*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c))->GetRenderState()))->SetRS(0xab, props->m_alphaTestRef, 0, 0);
     ((::fnv_00b7ce90::RenderState *)((*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c))->GetRenderState()))->SetRS(0x17, props->m_zFunc, 0, 0);
-    ::UpdateLightAndFogGlobals((intptr_t)this, (::Context *)(a));
+    ::UpdateLightAndFogGlobals((intptr_t)(a), (::Context *)(geom));
     Finish();
     (*reinterpret_cast<::fnv_00b7ce90::ShaderPass * *>(&::DAT_0126f74c)) = pass;
 }
@@ -8199,7 +8199,7 @@ B6AE60Obj* __cdecl CreateB6AE60Obj()
 typedef void(* FUN_00b7c190_VFn)(void*, int, int, int);
 
 // @fnv 0x00b7c190
-void UpdateSlotFromGlobal(intptr_t index)
+void UpdateSlotFromGlobal(int index)
 {
     SlotGlobal* global = (SlotGlobal*)DAT_0126f74c;
     SlotElem* element = global->m_24[index];
@@ -11803,7 +11803,7 @@ void UpdateShaderLights(const LightMatrix* matrix, float radiusScale, ScaleSourc
 
 // Sets two global values into specific slots of DAT_0126f74c based on which pass identifier is supplied.
 // @fnv 0x00b7cfb0
-void SetPassValues(uintptr_t uiPass)
+void SetPassValues(unsigned int uiPass)
 {
     switch (uiPass)
     {
@@ -15647,7 +15647,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
         ::FUN_00b7c0a0((::NiD3DShader *)(shader), 4, true);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 6, true);
-        ::UpdateSlotFromGlobal((intptr_t)this);
+        ::UpdateSlotFromGlobal(7);
         break;
     case 561:
     case 562:
@@ -15672,7 +15672,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
         int flag = ((Mode200*)(*reinterpret_cast<::S_00b7c120_Global2 * *>(&::DAT_011f91e0)))->flag;
         ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, flag);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, flag);
-        ::UpdateSlotFromGlobal((intptr_t)this);
+        ::UpdateSlotFromGlobal(2);
     }
     break;
     case 551:

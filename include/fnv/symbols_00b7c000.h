@@ -15,15 +15,15 @@ void FUN_00b7c0a0(::NiD3DShader *, unsigned int, unsigned int);
 // 0x00b7c120
 void FUN_00b7c120(int);
 // 0x00b7c150
-void SetEntryField(intptr_t);
+void SetEntryField(int);
 // 0x00b7c170
-void FUN_00b7c170(intptr_t);
+void FUN_00b7c170(int);
 // 0x00b7c190
-void UpdateSlotFromGlobal(intptr_t);
+void UpdateSlotFromGlobal(int);
 // 0x00b7c1f0
 void FUN_00b7c1f0(::B7C1F0Property *, unsigned int, unsigned int, bool);
 // 0x00b7c230
-void FUN_00b7c230(char *, uintptr_t, int, unsigned char);
+void FUN_00b7c230(char *, unsigned int, int, unsigned char);
 // 0x00b7c2c0
 void SetSlotValue(::SlotObject *, int, int);
 // 0x00b7c3a0
@@ -37,4 +37,4 @@ namespace fnv_00b7cb00 { void UpdateShaderLights(const ::fnv_00b7cb00::LightMatr
 // 0x00b7ce30
 void DeleteNiNodePointerArray(::NiPointer< ::NiNode> *);
 // 0x00b7cfb0
-void SetPassValues(uintptr_t);
+void SetPassValues(unsigned int);

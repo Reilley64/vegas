@@ -2814,7 +2814,7 @@ void ShaderUpdater::UpdateShaderEntry(ShaderEntryTable* table, ShaderInterface* 
 {
     ShaderEntry* entry = table->entries[index];
     entry->value = interfaceObject->GetValue(3, 0);
-    ::FUN_00bb9640((uintptr_t)this, (uintptr_t)(entry));
+    ::FUN_00bb9640((uintptr_t)(entry), (uintptr_t)(interfaceObject));
 }
 
 // CopyOwnerValuesToItems candidate
@@ -3511,7 +3511,7 @@ void C0BC90Shader::SetupPassTextureStage(C0BC90Pass* pkPass, C0BC90Geometry* pkG
         pkTexture = g_pkC0BC90DefaultTexture;
     }
     pkStage->m_pkTexture = pkTexture;
-    ::FUN_00bb9640((uintptr_t)this, (uintptr_t)(pkStage));
+    ::FUN_00bb9640((uintptr_t)(pkStage), (uintptr_t)(pkGeometry));
     ms_fAlpha = pkGeometry->m_fAlpha;
 }
 
@@ -3617,7 +3617,7 @@ void C0BCF0Shader::ApplyTextureStage(C0BCF0Pass* pkPass, C0BCF0Geometry* pkGeome
     if (!pkTexture)
         pkTexture = (pkGeometry->m_uiValue1 & 0x80) > 0 ? DAT_011f9518 : DAT_011f9510;
     pkStage->m_pkTexture = pkTexture;
-    ::FUN_00bb9640((uintptr_t)this, (uintptr_t)(pkStage));
+    ::FUN_00bb9640((uintptr_t)(pkStage), (uintptr_t)(pkGeometry));
 }
 }  // namespace fnv_00c0bcf0
 
@@ -11832,7 +11832,7 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
         {
             DecompPass266* primary = g->m_passes->m_primary;
             primary->m_resource = renderer->m_primary->m_object;
-            ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)primary));
+            ::FUN_00bb9640((uintptr_t)((ShaderEntry*)primary), (uintptr_t)(renderer));
 
             DecompPass266* secondary = g->m_passes->m_secondary;
             if (secondary)
@@ -11841,7 +11841,7 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
                 if (!tex)
                     tex = (void*)(uintptr_t)DAT_011f9510;
                 secondary->m_resource = tex;
-                ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)secondary));
+                ::FUN_00bb9640((uintptr_t)((ShaderEntry*)secondary), (uintptr_t)(renderer));
             }
 
             if ((DAT_011f91e4 - 0x1C4) <= 3 && reinterpret_cast<::FUN_00b704b0_t *>((((C0CD80Rdr*)renderer)))->get68() > 0)
@@ -11869,14 +11869,14 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
     {
         DecompPass266* primary = g->m_passes->m_primary;
         primary->m_resource = renderer->m_primary->m_object;
-        ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)primary));
+        ::FUN_00bb9640((uintptr_t)((ShaderEntry*)primary), (uintptr_t)(renderer));
     }
 
     if ((technique - 0x1D3) <= 3)
     {
         DecompPass266* primary = g->m_passes->m_primary;
         primary->m_resource = renderer->m_primary->m_object;
-        ::FUN_00bb9640((uintptr_t)this, (uintptr_t)((ShaderEntry*)primary));
+        ::FUN_00bb9640((uintptr_t)((ShaderEntry*)primary), (uintptr_t)(renderer));
     }
 }
 

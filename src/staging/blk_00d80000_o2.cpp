@@ -93,6 +93,7 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_00d1c000.h"
 #include "fnv/decl/FUN_009ba5f0_shell.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 
 extern int DAT_010cc4f4;
@@ -2434,10 +2435,10 @@ public:
 
     AutoMemContext()
     {
-        m_saved = (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf];
-        (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf] = 0x10;
+        m_saved = ::g_tlsBlock.renderThreadIndex;
+        ::g_tlsBlock.renderThreadIndex = 0x10;
     }
-    ~AutoMemContext() { (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xaf] = m_saved; }
+    ~AutoMemContext() { ::g_tlsBlock.renderThreadIndex = m_saved; }
 };
 
 void __cdecl FUN_00c9eae0(void* p);
@@ -7247,8 +7248,8 @@ void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Tar
 
 struct D863MemoryContext {
     unsigned int saved;
-    D863MemoryContext() { saved = (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad]; (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad] = 0x10; }
-    ~D863MemoryContext() { (*reinterpret_cast<unsigned int (*)[176]>(&::g_tlsBlock))[0xad] = saved; }
+    D863MemoryContext() { saved = ::g_tlsBlock.memoryContext; ::g_tlsBlock.memoryContext = 0x10; }
+    ~D863MemoryContext() { ::g_tlsBlock.memoryContext = saved; }
 };
 
 struct D863_Rec {

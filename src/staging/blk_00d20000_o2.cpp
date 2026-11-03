@@ -60,6 +60,7 @@
 #include "fnv/symbols_010cf000.h"
 #include "fnv/symbols_011b4000.h"
 #include "fnv/symbols_01268000.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
@@ -2676,11 +2677,11 @@ FUN_00d2acf0::FUN_00d2acf0(void* a1, __m128* a2, __m128* a3, float a4, float a5,
 
 inline unsigned int GetMemContextB110()
 {
-    return ::currentAllocationContext;
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMemContextB110(unsigned int m_uiGeometryShaderFlags)
 {
-    ::currentAllocationContext = m_uiGeometryShaderFlags;
+    ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
 }
 class AutoMemContextB110 {
 public:
@@ -2810,12 +2811,12 @@ AgentB110* AgentFactoryB110::FUN_00d2b110(const InputB110* apInputA, const Input
 
 inline unsigned int GetMemContextD2C9()
 {
-    return ::currentAllocationContext;
+    return ::g_tlsBlock.memoryContext;
 }
 
 inline void SetMemContextD2C9(unsigned int m_uiGeometryShaderFlags)
 {
-    ::currentAllocationContext = m_uiGeometryShaderFlags;
+    ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
 }
 
 class AutoMemContextD2C9 {

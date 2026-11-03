@@ -39,6 +39,7 @@
 #include "fnv/symbols_010cc000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01268000.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
@@ -541,12 +542,12 @@ struct CF4BC0AllocTagScope
 
     CF4BC0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~CF4BC0AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -1231,12 +1232,12 @@ struct F4A30AllocTagScope
 
     F4A30AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~F4A30AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -2658,7 +2659,7 @@ struct TagState
 };
 __forceinline TagState GetTag(int tag)
 {
-    TagState state = {(*reinterpret_cast<int *>(&::currentAllocationContext)), tag};
+    TagState state = {::g_tlsBlock.memoryContext, tag};
     return state;
 }
 struct AllocScope
@@ -2666,11 +2667,11 @@ struct AllocScope
     int saved;
     AllocScope(TagState t) : saved(t.oldTag)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = t.newTag;
+        ::g_tlsBlock.memoryContext = t.newTag;
     }
     ~AllocScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 // Reads a type ID from the stream, creates a saver, loads its binary data, and returns the retained object pointer.

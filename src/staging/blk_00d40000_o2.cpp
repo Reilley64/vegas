@@ -83,6 +83,7 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
 #include "fnv/symbols_0126f000.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 #include "fnv/decl/ArrayClass.h"
@@ -1540,195 +1541,18 @@ FUN_00d50020::~FUN_00d50020()
 }
 
 namespace fnv_00d50140 {
-struct FUN_00d50140_tls
-{
-    unsigned int unk0000;
-    unsigned int unk0004;
-    unsigned int unk0008;
-    unsigned int unk000C;
-    unsigned int unk0010;
-    unsigned int unk0014;
-    unsigned int unk0018;
-    unsigned int unk001C;
-    unsigned int unk0020;
-    unsigned int unk0024;
-    unsigned int unk0028;
-    unsigned int unk002C;
-    unsigned int unk0030;
-    unsigned int unk0034;
-    unsigned int unk0038;
-    unsigned int unk003C;
-    unsigned int unk0040;
-    unsigned int unk0044;
-    unsigned int unk0048;
-    unsigned int unk004C;
-    unsigned int unk0050;
-    unsigned int unk0054;
-    unsigned int unk0058;
-    unsigned int unk005C;
-    unsigned int unk0060;
-    unsigned int unk0064;
-    unsigned int unk0068;
-    unsigned int unk006C;
-    unsigned int unk0070;
-    unsigned int unk0074;
-    unsigned int unk0078;
-    unsigned int unk007C;
-    unsigned int unk0080;
-    unsigned int unk0084;
-    unsigned int unk0088;
-    unsigned int unk008C;
-    unsigned int unk0090;
-    unsigned int unk0094;
-    unsigned int unk0098;
-    unsigned int unk009C;
-    unsigned int unk00A0;
-    unsigned int unk00A4;
-    unsigned int unk00A8;
-    unsigned int unk00AC;
-    unsigned int unk00B0;
-    unsigned int unk00B4;
-    unsigned int unk00B8;
-    unsigned int unk00BC;
-    unsigned int unk00C0;
-    unsigned int unk00C4;
-    unsigned int unk00C8;
-    unsigned int unk00CC;
-    unsigned int unk00D0;
-    unsigned int unk00D4;
-    unsigned int unk00D8;
-    unsigned int unk00DC;
-    unsigned int unk00E0;
-    unsigned int unk00E4;
-    unsigned int unk00E8;
-    unsigned int unk00EC;
-    unsigned int unk00F0;
-    unsigned int unk00F4;
-    unsigned int unk00F8;
-    unsigned int unk00FC;
-    unsigned int unk0100;
-    unsigned int unk0104;
-    unsigned int unk0108;
-    unsigned int unk010C;
-    unsigned int unk0110;
-    unsigned int unk0114;
-    unsigned int unk0118;
-    unsigned int unk011C;
-    unsigned int unk0120;
-    unsigned int unk0124;
-    unsigned int unk0128;
-    unsigned int unk012C;
-    unsigned int unk0130;
-    unsigned int unk0134;
-    unsigned int unk0138;
-    unsigned int unk013C;
-    unsigned int unk0140;
-    unsigned int unk0144;
-    unsigned int unk0148;
-    unsigned int unk014C;
-    unsigned int unk0150;
-    unsigned int unk0154;
-    unsigned int unk0158;
-    unsigned int unk015C;
-    unsigned int unk0160;
-    unsigned int unk0164;
-    unsigned int unk0168;
-    unsigned int unk016C;
-    unsigned int unk0170;
-    unsigned int unk0174;
-    unsigned int unk0178;
-    unsigned int unk017C;
-    unsigned int unk0180;
-    unsigned int unk0184;
-    unsigned int unk0188;
-    unsigned int unk018C;
-    unsigned int unk0190;
-    unsigned int unk0194;
-    unsigned int unk0198;
-    unsigned int unk019C;
-    unsigned int unk01A0;
-    unsigned int unk01A4;
-    unsigned int unk01A8;
-    unsigned int unk01AC;
-    unsigned int unk01B0;
-    unsigned int unk01B4;
-    unsigned int unk01B8;
-    unsigned int unk01BC;
-    unsigned int unk01C0;
-    unsigned int unk01C4;
-    unsigned int unk01C8;
-    unsigned int unk01CC;
-    unsigned int unk01D0;
-    unsigned int unk01D4;
-    unsigned int unk01D8;
-    unsigned int unk01DC;
-    unsigned int unk01E0;
-    unsigned int unk01E4;
-    unsigned int unk01E8;
-    unsigned int unk01EC;
-    unsigned int unk01F0;
-    unsigned int unk01F4;
-    unsigned int unk01F8;
-    unsigned int unk01FC;
-    unsigned int unk0200;
-    unsigned int unk0204;
-    unsigned int unk0208;
-    unsigned int unk020C;
-    unsigned int unk0210;
-    unsigned int unk0214;
-    unsigned int unk0218;
-    unsigned int unk021C;
-    unsigned int unk0220;
-    unsigned int unk0224;
-    unsigned int unk0228;
-    unsigned int unk022C;
-    unsigned int unk0230;
-    unsigned int unk0234;
-    unsigned int unk0238;
-    unsigned int unk023C;
-    unsigned int unk0240;
-    unsigned int unk0244;
-    unsigned int unk0248;
-    unsigned int unk024C;
-    unsigned int unk0250;
-    unsigned int unk0254;
-    unsigned int unk0258;
-    unsigned int unk025C;
-    unsigned int unk0260;
-    unsigned int unk0264;
-    unsigned int unk0268;
-    unsigned int unk026C;
-    unsigned int unk0270;
-    unsigned int unk0274;
-    unsigned int unk0278;
-    unsigned int unk027C;
-    unsigned int unk0280;
-    unsigned int unk0284;
-    unsigned int unk0288;
-    unsigned int unk028C;
-    unsigned int unk0290;
-    unsigned int unk0294;
-    unsigned int unk0298;
-    unsigned int unk029C;
-    unsigned int unk02A0;
-    unsigned int unk02A4;
-    unsigned int unk02A8;
-    unsigned int unk02AC;
-    unsigned int unk02B0;
-    unsigned int m_2b4;
-};
 
 struct TlsFlagGuard
 {
     unsigned int m_saved;
     TlsFlagGuard()
     {
-        m_saved = (*reinterpret_cast<::fnv_00d50140::FUN_00d50140_tls *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::fnv_00d50140::FUN_00d50140_tls *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsFlagGuard()
     {
-        (*reinterpret_cast<::fnv_00d50140::FUN_00d50140_tls *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -1842,12 +1666,12 @@ struct MemoryContextScope
     int previousContext;
     MemoryContextScope()
     {
-        previousContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        previousContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 16;
     }
     ~MemoryContextScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousContext;
+        ::g_tlsBlock.memoryContext = previousContext;
     }
 };
 
@@ -2903,12 +2727,12 @@ struct ScopedMemoryContextD53
     int iOldContext;
     __forceinline ScopedMemoryContextD53(int aiContext)
     {
-        iOldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+        iOldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     __forceinline ~ScopedMemoryContextD53()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOldContext;
+        ::g_tlsBlock.memoryContext = iOldContext;
     }
 };
 
@@ -3286,7 +3110,7 @@ struct D53970Scope
     int* m_pVar;
     D53970Scope()
     {
-        m_pVar = &(*reinterpret_cast<int *>(&::currentAllocationContext));
+        m_pVar = &::g_tlsBlock.memoryContext;
         m_saved = *m_pVar;
         *m_pVar = 16;
     }
@@ -4656,12 +4480,12 @@ class AutoMemContextD53
   public:
     AutoMemContextD53(unsigned int m_uiGeometryShaderFlags)
     {
-        m_uiPrevious = ::currentAllocationContext;
-        ::currentAllocationContext = m_uiGeometryShaderFlags;
+        m_uiPrevious = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
     }
     ~AutoMemContextD53()
     {
-        ::currentAllocationContext = m_uiPrevious;
+        ::g_tlsBlock.memoryContext = m_uiPrevious;
     }
     unsigned int m_uiPrevious;
 };
@@ -5131,22 +4955,17 @@ void OwnerD500::FUN_00d50090(FUN_00d50c90* object, int arg)
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(object), arg);
 }
 
-struct D502D0_TlsBlock
-{
-    unsigned char unk000[0x2b4];
-    unsigned int m_2b4;
-};
 struct D502D0_TlsGuard
 {
     unsigned int m_saved;
     D502D0_TlsGuard()
     {
-        m_saved = (*reinterpret_cast<::D502D0_TlsBlock *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::D502D0_TlsBlock *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x10;
     }
     ~D502D0_TlsGuard()
     {
-        (*reinterpret_cast<::D502D0_TlsBlock *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::g_tlsBlock.memoryContext = m_saved;
     }
 };
 struct D502D0_Allocator
@@ -5556,11 +5375,11 @@ void Target::FUN_00d533e0(void* arg)
 
 inline unsigned int GetMemContext35D0()
 {
-    return ::currentAllocationContext;
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMemContext35D0(unsigned int m_uiGeometryShaderFlags)
 {
-    ::currentAllocationContext = m_uiGeometryShaderFlags;
+    ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
 }
 class AutoMemContext35D0
 {
@@ -7103,8 +6922,6 @@ void* __cdecl FUN_00d4bf00();
 void ComputeByteScale(int bits);
 
 
-
-
 void FUN_00d42760();
 
 int FUN_00d46e00(int arg0);
@@ -7152,7 +6969,6 @@ int d20_probe(void);
 static int FUN_00d4b390(int base, int code);
 
 void elem_size_case_d4b390(void);
-
 
 
 static char* FUN_00d48420(char* p);

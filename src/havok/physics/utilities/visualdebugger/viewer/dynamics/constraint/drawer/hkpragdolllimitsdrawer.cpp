@@ -105,7 +105,7 @@ struct SubC0
 };
 struct Arr
 {
-    void* data;
+    void** data;
     int size;
     int cap;
 };
@@ -391,7 +391,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, hkUlong a2, int a3, Cls* 
             nc = cap * 2;
             if (nc <= 1)
                 nc = 1;
-            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&zeroArray), nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&zeroArray), nc, sizeof(void*));
         }
         zeroArray.size = 1;
     }
@@ -408,7 +408,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, hkUlong a2, int a3, Cls* 
             nc = cap * 2;
             if (nc <= 1)
                 nc = 1;
-            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&threeArray), nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&threeArray), nc, sizeof(void*));
         }
         threeArray.size = 1;
     }
@@ -425,51 +425,39 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, hkUlong a2, int a3, Cls* 
             nc = cap * 2;
             if (nc <= 2)
                 nc = 2;
-            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&halfArray), nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(owner), (::SpawnedArray *)(::Arr *)(&halfArray), nc, sizeof(void*));
         }
         halfArray.size = 2;
     }
-    ((void**)zeroArray.data)[0] = objectD0;
-    ((void**)halfArray.data)[0] = object160;
-    ((void**)halfArray.data)[1] = &self->unk1f0;
-    ((void**)threeArray.data)[0] = object280;
+    zeroArray.data[0] = objectD0;
+    halfArray.data[0] = object160;
+    halfArray.data[1] = &self->unk1f0;
+    threeArray.data[0] = object280;
     a1->draw(&zeroArray, 0xffffff00, a2, a3);
     a1->draw(&halfArray, 0xffff0000, a2, a3);
     a1->draw(&threeArray, ((int)(::PackBytesBigEndian(0xff, 0, 0xff, 0xff))), a2, a3);
 
     {
         hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
-        void* ow = ar->m_heap;
         threeArray.size = 0;
         if (!(threeArray.cap & (int)0x80000000))
-        {
-            void** ovt = *(void***)ow;
-            ((void(*)(void*, void*, int))ovt[4])(ow, threeArray.data, (threeArray.cap & 0x3fffffff) * 4);
-        }
+            ar->m_heap->bufFree(threeArray.data, (threeArray.cap & 0x3fffffff) * (int)sizeof(void*));
         threeArray.data = 0;
         threeArray.cap = (int)0x80000000;
     }
     {
         hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
-        void* ow = ar->m_heap;
         halfArray.size = 0;
         if (!(halfArray.cap & (int)0x80000000))
-        {
-            void** ovt = *(void***)ow;
-            ((void(*)(void*, void*, int))ovt[4])(ow, halfArray.data, (halfArray.cap & 0x3fffffff) * 4);
-        }
+            ar->m_heap->bufFree(halfArray.data, (halfArray.cap & 0x3fffffff) * (int)sizeof(void*));
         halfArray.data = 0;
         halfArray.cap = (int)0x80000000;
     }
     {
         hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
-        void* ow = ar->m_heap;
         zeroArray.size = 0;
         if (!(zeroArray.cap & (int)0x80000000))
-        {
-            void** ovt = *(void***)ow;
-            ((void(*)(void*, void*, int))ovt[4])(ow, zeroArray.data, (zeroArray.cap & 0x3fffffff) * 4);
-        }
+            ar->m_heap->bufFree(zeroArray.data, (zeroArray.cap & 0x3fffffff) * (int)sizeof(void*));
         zeroArray.data = 0;
         zeroArray.cap = (int)0x80000000;
     }

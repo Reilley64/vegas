@@ -340,6 +340,7 @@ struct Owner00da4970
     int unk3FC;
     int unk400;
     int unk404;
+    Entry00da4970 m_entries[1];  // +0x408, runs to m_kRayEnd
 };
 
 struct CParam00da4970
@@ -359,7 +360,7 @@ static __declspec(noinline) void FUN_00da4970(Owner00da4970* self, int a, int b,
     int iLimit = *(volatile int*)&c.m_uiFilterValue;
     if (self == 0)
         return;
-    Entry00da4970* p = (Entry00da4970*)((char*)self + 0x408);
+    Entry00da4970* p = self->m_entries;
     if ((int*)p >= self->m_kRayEnd)
         return;
     do
@@ -385,10 +386,17 @@ struct DaPair
     void* a;
     void* b;
 };
+#include <xmmintrin.h>
+// hkMotionState: the transform, then the swept transform at 32-bit +0x40.
+struct DaMotionState
+{
+    __m128 m_transform[4];
+    __m128 m_sweptTransform[5];
+};
 struct DaSub
 {
     DaPair pair;
-    void* unk08;
+    DaMotionState* unk08;
 };
 struct DaShape
 {
@@ -422,11 +430,23 @@ struct DaSource
     DaShape* unk0c;
     void* unk10;
 };
+struct DaNode;
+struct DaNode
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    DaSub* unk0c;
+};
+// Two hkpCdBody records followed by their transforms; offsets are the 32-bit release's.
 struct DaDest
 {
     DaPair pair;
     void* unk08;
     DaSub* unk0c;
+    DaNode m_bodyB;           // +0x10
+    __m128 m_transformA[4];   // +0x20
+    __m128 m_transformB[4];   // +0x60
 };
 struct DaResult
 {
@@ -435,13 +455,7 @@ struct DaResult
     void* unk08;
     DaShape* unk0c;
     void* unk10;
-};
-struct DaNode
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    DaSub* unk0c;
+    __m128 m_aTb[4];  // +0x20
 };
 struct DaReceiver
 {
@@ -456,11 +470,11 @@ static __declspec(noinline) void FUN_00da49b0(DaDest* dest, DaSource* source, vo
 {
     DaResult* result = (DaResult*)p;
     float value = source->unk0c->unk50;
-    void* first = (char*)dest + 0x20;
-    ::FUN_00cf1510((*(const ::hkSweptTransformL *)((char*)source->unk00->unk08 + 0x40)), value, (*(::hkTransformL *)(first)));
-    p = (char*)dest + 0x60;
-    ::FUN_00cf1510((*(const ::hkSweptTransformL *)((char*)source->unk04->unk08 + 0x40)), source->unk0c->unk50, (*(::hkTransformL *)(p)));
-    DaNode* node = (DaNode*)((char*)dest + 0x10);
+    void* first = dest->m_transformA;
+    ::FUN_00cf1510((*(const ::hkSweptTransformL *)(source->unk00->unk08->m_sweptTransform)), value, (*(::hkTransformL *)(first)));
+    p = dest->m_transformB;
+    ::FUN_00cf1510((*(const ::hkSweptTransformL *)(source->unk04->unk08->m_sweptTransform)), source->unk0c->unk50, (*(::hkTransformL *)(p)));
+    DaNode* node = &dest->m_bodyB;
     result->unk00 = dest;
     result->unk04 = node;
     result->unk10 = source->unk10;
@@ -478,7 +492,7 @@ static __declspec(noinline) void FUN_00da49b0(DaDest* dest, DaSource* source, vo
         node->unk08 = p;
     }
     _ReadWriteBarrier();
-    reinterpret_cast<::hkTransformCB22 *>((((DaReceiver*)((char*)result + 0x20))))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(first)), (*(const ::hkTransformCB22 *)(p)));
+    reinterpret_cast<::hkTransformCB22 *>(result->m_aTb)->FUN_00cb22f0((*(const ::hkTransformCB22 *)(first)), (*(const ::hkTransformCB22 *)(p)));
 }
 DaDest* volatile daDest;
 DaSource* volatile daSource;

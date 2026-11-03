@@ -297,6 +297,8 @@ int FUN_00d927f0(int arg)
     return 0;
 }
 
+// hkpSimpleConstraintContactMgr::m_contactConstraintData sits at +0x14 (x86 layout); the data's owner is that far before it.
+static const int kContactConstraintDataOffset = 0x14;
 struct FUN_00d92820_cls
 {
     int unk00;
@@ -306,7 +308,7 @@ struct FUN_00d92820_cls
 // @fnv 0x00d92820
 char* FUN_00d92820_cls::FUN_00d92820()
 {
-    return (char*)this - 0x14;
+    return (char*)this - kContactConstraintDataOffset;
 }
 
 struct hkNodeX
@@ -1005,7 +1007,7 @@ struct S00d92900_Data
 };
 __declspec(noinline) S00d92900_Mgr* S00d92900_Data::FUN_00d92820()
 {
-    return (S00d92900_Mgr*)((char*)this - 0x14);
+    return (S00d92900_Mgr*)((char*)this - kContactConstraintDataOffset);
 }
 
 struct S00d92900_CollisionEvent

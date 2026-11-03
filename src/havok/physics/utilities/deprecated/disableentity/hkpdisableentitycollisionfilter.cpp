@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00e46900.h"
 #include "fnv/decl/HostC9C6.h"
@@ -31,7 +32,6 @@ void FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, int a6, in
     *flag = 1;
 }
 
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 
 struct FUN_00e46900_Obj
 {
@@ -64,7 +64,7 @@ void* FUN_00dff930_class::FUN_00dff930(unsigned char uiFlags)
     reinterpret_cast<::FUN_00e46900 *>((reinterpret_cast<FUN_00e46900_Obj*>(this)))->FUN_00e46900::~FUN_00e46900();
     if (uiFlags & 1)
     {
-        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(getMemoryRouter());
+        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(&hkMemoryRouter::getInstance());
         mgr->m_10->slot08(this, m_usMemSizeAndFlags);
     }
     return this;

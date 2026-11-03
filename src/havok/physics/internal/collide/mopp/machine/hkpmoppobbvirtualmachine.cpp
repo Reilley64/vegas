@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
@@ -116,8 +117,6 @@ struct CodeData {
  union {unsigned char* code;unsigned char* p20;};
 };
 struct HitArray { int* data; int size; unsigned capacity; };
-struct AllocatorContext { int field00, field04, field08, field0c; void* allocator; };
-static inline AllocatorContext* getMemoryRouter() { return static_cast<AllocatorContext*>(::FUN_00c85750()); }
 extern unsigned char DAT_01269cbc;
 struct ErrorText { char* data; int length; int capacity;    };
 struct ErrorReporter { virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2(); virtual int report(int,unsigned,const char*,const char*,int); };
@@ -139,8 +138,8 @@ struct VirtualMachine {
  union {int primitiveMask;int m34;};
  void Execute(const QueryState*,unsigned char*,int);
  __forceinline void AddHit(int value) {
-  HitArray* out=hits;AllocatorContext* context=getMemoryRouter();
-  if(out->size==(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->allocator),(::AudioStream *)(out),4);
+  HitArray* out=hits;hkMemoryRouter* context=&hkMemoryRouter::getInstance();
+  if(out->size==(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(context->m_heap),(::AudioStream *)(out),4);
   int* destination=&out->data[out->size]; ++out->size; *destination=value; }
 };
 // @fnv 0x00dd1da0

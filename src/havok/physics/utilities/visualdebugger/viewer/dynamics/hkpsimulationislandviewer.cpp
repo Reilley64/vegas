@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -40,26 +41,8 @@ void Base1::PassSelfAsBase2ToTarget(Target* apTarget)
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(::Base2 *)(d ? (Base2*)((char*)this + 8) : 0));
 }
 
-struct S_00d65180_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int nbytes);
-};
 
-struct S_00d65180_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d65180_Allocator* m_pStreamAllocator;
-    S_00d65180_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-static inline S_00d65180_Router* getMemoryRouter() { return static_cast<S_00d65180_Router*>(::FUN_00c85750()); }
 
 struct S_00d65180_RefObj
 {
@@ -69,7 +52,7 @@ struct S_00d65180_RefObj
     {}
     void* operator new(size_t nbytes)
     {
-        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(getMemoryRouter()->heap().AllocateMemoryBlock(nbytes));
+        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -117,21 +100,6 @@ int __cdecl FUN_00d651e0()
 }
 
 namespace fnv_00d65220 {
-struct FUN_00d65220_Interface
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void notify(void*, unsigned short);
-};
-struct FUN_00d65220_Service
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00d65220_Interface* unk10;
-};
-static inline FUN_00d65220_Service* getMemoryRouter() { return static_cast<FUN_00d65220_Service*>(::FUN_00c85750()); }
 struct FUN_00d65220_Class
 {
     void* vtable;
@@ -146,8 +114,8 @@ FUN_00d65220_Class* FUN_00d65220_Class::FUN_00d65220(char flags)
     FUN_00d64ae0();
     if (flags & 1)
     {
-        FUN_00d65220_Service* service = getMemoryRouter();
-        service->unk10->notify(this, unk04);
+        hkMemoryRouter* service = &hkMemoryRouter::getInstance();
+        service->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -275,7 +243,7 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        S_Heap* heap = ((S_Holder*)getMemoryRouter())->m10;
+        S_Heap* heap = ((S_Holder*)&hkMemoryRouter::getInstance())->m10;
         int n = m_iElementCount;
         S_Elem* d = m_data;
         for (int i = 0; i < n; i++)
@@ -581,14 +549,14 @@ __forceinline void DeallocCtx::Grow(Vec* v, int need, int elemSize)
 }
 inline void GrowVec10(Vec* v, int need, int elemSize)
 {
-    Singleton* router = (Singleton*)getMemoryRouter();
+    Singleton* router = (Singleton*)&hkMemoryRouter::getInstance();
     DeallocCtx* ctx = router->m_10;
     _ReadWriteBarrier();
     ctx->Grow(v, need, elemSize);
 }
 inline void GrowVec0c(Vec* v, int need, int elemSize)
 {
-    Singleton* router = (Singleton*)getMemoryRouter();
+    Singleton* router = (Singleton*)&hkMemoryRouter::getInstance();
     DeallocCtx* ctx = router->m_0c;
     _ReadWriteBarrier();
     ctx->Grow(v, need, elemSize);
@@ -937,7 +905,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
         i->v14(&offsets, (int)0xff0000ff, 0, ::g_D651E0Value);
         Singleton* freeBoundsRouter;
-        freeBoundsRouter = (Singleton*)getMemoryRouter();
+        freeBoundsRouter = (Singleton*)&hkMemoryRouter::getInstance();
         DeallocCtx* need = freeBoundsRouter->m_0c;
         item.m_iArrayLength = 0;
         if ((item.m_iCapacity & 0x80000000) == 0)
@@ -946,7 +914,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         }
         item.m_pData = 0;
         item.m_iCapacity = (int)0x80000000;
-        Singleton* offsetCount = (Singleton*)getMemoryRouter();
+        Singleton* offsetCount = (Singleton*)&hkMemoryRouter::getInstance();
         DeallocCtx* val = offsetCount->m_0c;
         offsets.m_iArrayLength = 0;
         if ((offsets.m_iCapacity & 0x80000000) == 0)
@@ -995,7 +963,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         }
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
         i->v14(&offsets, (int)0xff008000, 0, ::g_D651E0Value);
-        Singleton* offsetCount = (Singleton*)getMemoryRouter();
+        Singleton* offsetCount = (Singleton*)&hkMemoryRouter::getInstance();
         DeallocCtx* val = offsetCount->m_10;
         offsets.m_iArrayLength = 0;
         if ((offsets.m_iCapacity & 0x80000000) == 0)

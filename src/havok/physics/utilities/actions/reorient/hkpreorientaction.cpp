@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/reorient/hkpreorientaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/reorient/hkpreorientaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -9,31 +10,7 @@
 #include "fnv/symbols_010e6000.h"
 #include "havok/hkpReorientAction.h"
 
-class hkMemoryAllocatorE445
-{
-  public:
-    virtual ~hkMemoryAllocatorE445() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterE445
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE445* m_pStreamAllocator;
-    hkMemoryAllocatorE445& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-    static hkMemoryRouterE445& GetMonitorStream();
-};
-static inline hkMemoryRouterE445& getMemoryRouter() { return *static_cast<hkMemoryRouterE445*>(::FUN_00c85750()); }
-inline hkMemoryRouterE445& hkMemoryRouterE445::GetMonitorStream()
-{
-    return getMemoryRouter();
-}
 
 class hkpPhantom;
 
@@ -66,7 +43,7 @@ class hkReferencedObjectE445
     static void* operator new(size_t uiSize)
     {
         hkReferencedObjectE445* pkObj = static_cast<hkReferencedObjectE445*>(
-            hkMemoryRouterE445::GetMonitorStream().heap().AllocateMemoryBlock(uiSize));
+            hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
         pkObj->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return pkObj;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 #include <new>
@@ -310,23 +311,8 @@ struct FUN_00e09bd0_Obj
 {
 };
 
-struct FUN_00e0ac80_Alloc
-{
-    virtual void FUN_00e0ac80_0();
-    virtual void FUN_00e0ac80_1();
-    virtual void FUN_00e0ac80_2(void* p, unsigned short size);
-};
 
-struct BSAudio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00e0ac80_Alloc* unk10;
-};
 
-static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 
 struct FUN_00e0ac80_class
 {
@@ -343,8 +329,8 @@ FUN_00e0ac80_class* FUN_00e0ac80_class::Construct(int flags)
 
     if (flags & 1)
     {
-        BSAudio* audio = getMemoryRouter();
-        audio->unk10->FUN_00e0ac80_2(this, this->m_04);
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+        audio->m_heap->blockFree(this, this->m_04);
     }
 
     return this;
@@ -779,13 +765,13 @@ void __cdecl FUN_00c856c0(void* pvAllocator, void* pvMem);
 
 template <typename T> inline T* hkAllocateStackE0A5(int n)
 {
-    void* pvAllocator = (void*)getMemoryRouter()->unk10;
+    void* pvAllocator = (void*)hkMemoryRouter::getInstance().m_heap;
     return (T*)AllocateWithHeader(pvAllocator, n * sizeof(T));
 }
 
 template <typename T> inline void hkDeallocateStackE0A5(T* p)
 {
-    void* pvAllocator = (void*)getMemoryRouter()->unk10;
+    void* pvAllocator = (void*)hkMemoryRouter::getInstance().m_heap;
     FUN_00c856c0(pvAllocator, p);
 }
 

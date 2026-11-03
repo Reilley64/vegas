@@ -3,13 +3,13 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_0102e000.h"
 extern "C"
 {
-    static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
     void __cdecl FUN_00c856c0(void*, void*);
 }
 extern void* DAT_010ea5b4;
@@ -18,15 +18,13 @@ struct Buffer
     void* data;
     int size;
     unsigned int capacity;
-    __forceinline void clear(void* allocator)
+    __forceinline void clear(hkMemoryAllocator& allocator)
     {
         unsigned int flags = capacity;
         size = 0;
         if ((flags & 0x80000000u) == 0)
         {
-            typedef void(* FreeFn)(void*, void*, unsigned int);
-            FreeFn freeFn = (FreeFn) * (void**)((char*)*(void**)allocator + 0x10);
-            freeFn(allocator, data, (flags & 0x3fffffffu) * 8);
+            allocator.bufFree(data, (flags & 0x3fffffffu) * 8);
         }
         data = 0;
         capacity = 0x80000000u;
@@ -50,12 +48,9 @@ void SomeClass::Destroy()
     vtable = &DAT_010ea5b4;
     if (p)
     {
-        void* q = getMemoryRouter();
-        FUN_00c856c0(*(void**)((char*)q + 0x10), p);
+        FUN_00c856c0(hkMemoryRouter::getInstance().m_heap, p);
     }
-    void* s = getMemoryRouter();
-    void* t = *(void**)((char*)s + 0x10);
-    buffer.clear(t);
+    buffer.clear(hkMemoryRouter::getInstance().heap());
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
@@ -166,25 +161,6 @@ extern "C" void __cdecl FUN_00e06480()
 
 #include <xmmintrin.h>
 
-struct S_00e064f0_Heap
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int n);
-};
-
-struct S_00e064f0_Router
-{
-    int unk00, unk04, unk08, unk0C;
-    S_00e064f0_Heap* m10;
-    static S_00e064f0_Router& GetMonitorStream()
-    {
-        return *(S_00e064f0_Router*)getMemoryRouter();
-    }
-    S_00e064f0_Heap& heap()
-    {
-        return *m10;
-    }
-};
 
 struct S_00e064f0_Arr
 {
@@ -199,11 +175,11 @@ struct S_00e064f0_Arr
     }
     void reserveExactly(int n)
     {
-        S_00e064f0_Router& r = S_00e064f0_Router::GetMonitorStream();
+        hkMemoryRouter& r = hkMemoryRouter::getInstance();
         if ((int)(m_cap & 0x3fffffff) < n)
-            ::FUN_00c908c0((::SpawnedObject *)(r.m10), (::SpawnedArray *)(void *)(this), n, 1);
+            ::FUN_00c908c0((::SpawnedObject *)(r.m_heap), (::SpawnedArray *)(void *)(this), n, 1);
     }
-    __forceinline void GrowArrayCapacity(S_00e064f0_Heap& a, int n)
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& a, int n)
     {
         int c = m_cap & 0x3fffffff;
         if (c < n)
@@ -214,7 +190,7 @@ struct S_00e064f0_Arr
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(S_00e064f0_Router::GetMonitorStream().heap(), n);
+        GrowArrayCapacity(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
 };
@@ -226,8 +202,8 @@ struct S_00e064f0_Ref
     short m_ref;
     static void* operator new(size_t n)
     {
-        char* p = (char*)S_00e064f0_Router::GetMonitorStream().heap().AllocateMemoryBlock(n);
-        *(short*)(p + 4) = (short)n;
+        S_00e064f0_Ref* p = static_cast<S_00e064f0_Ref*>(hkMemoryRouter::getInstance().heap().blockAlloc(n));
+        p->m_usAllocationSize = (short)n;
         return p;
     }
     static void operator delete(void*)
@@ -269,7 +245,7 @@ S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
     pNewObj->m_aiIndexedValues.SetSizeAndGrow(n);
     ::FUN_00cb1260(pNewObj->m_aiIndexedValues.m_data, unk10 + (unk08 - unk0C), n);
     void* pOldBuffer = unk10;
-    FUN_00c856c0(S_00e064f0_Router::GetMonitorStream().m10, pOldBuffer);
+    FUN_00c856c0(hkMemoryRouter::getInstance().m_heap, pOldBuffer);
     unk10 = 0;
     unk0C = 0;
     unk08 = n;
@@ -277,36 +253,20 @@ S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
 }
 
 namespace fnv_00e066c0 {
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
-static inline CpuAllocatorHolder* getMemoryRouter() { return static_cast<CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
     CpuObject* FUN_00e066c0(unsigned int flags);
 };
-// Calls FUN_00e06650, then if the low bit of flags is set, invokes the global CpuAllocator with this and size, and returns this.
+// Calls FUN_00e06650, then if the low bit of flags is set, frees this block of size bytes from the thread heap, and returns this.
 // @fnv 0x00e066c0
 CpuObject* CpuObject::FUN_00e066c0(unsigned int flags)
 {
     reinterpret_cast<::SomeClass *>(this)->Destroy();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = getMemoryRouter();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -51,27 +52,6 @@ void FirstBase::FUN_00d6a250(Receiver* apReceiver)
     reinterpret_cast<::SearchArray *>((apReceiver))->ClearValue(((FullObject*)((char*)this - 0x20)));
 }
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytes);
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline NineIntegerRecord* getMemoryRouter() { return static_cast<NineIntegerRecord*>(::FUN_00c85750()); }
 struct S_00d6a750_Element
 {
     virtual ~S_00d6a750_Element() throw();
@@ -119,7 +99,7 @@ template <class T> struct hkArray
     int m_iCapacityState;
     __forceinline ~hkArray() throw()
     {
-        _clearAndDeallocate(getMemoryRouter()->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
@@ -130,7 +110,7 @@ template <class T> struct hkArray
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -211,28 +191,6 @@ FUN_00d6a750::~FUN_00d6a750()
 }
 
 namespace fnv_00d6a810 {
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
-
-struct AudioMgr
-{
-    int unk00, unk04, unk08, unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)getMemoryRouter();
-}
 
 struct RefObj
 {
@@ -249,7 +207,7 @@ struct Obj : RefObj
 
 inline void* hkAlloc(int n)
 {
-    RefObj* p = (RefObj*)audio()->heap().AllocateMemoryBlock(n);
+    RefObj* p = static_cast<RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(n));
     p->m_usMemSizeAndFlags = (short)n;
     return p;
 }
@@ -538,23 +496,8 @@ int __cdecl FUN_00d6a870()
 namespace fnv_00d6a8b0 {
 // FUN_00d6a8b0 - hkpMidphaseViewer: tears the viewer down and, when the
 // deleting flag is set, unregisters it from the physics world.
-struct hkpWorldViewerRegistry
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void removeViewer(void* viewer, unsigned short viewerId);
-};
 
-struct hkpPhysicsWorld
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    hkpWorldViewerRegistry* unk10;
-};
 
-static inline hkpPhysicsWorld* getMemoryRouter() { return static_cast<hkpPhysicsWorld*>(::FUN_00c85750()); }
 
 struct hkpMidphaseViewer
 {
@@ -571,8 +514,8 @@ void* hkpMidphaseViewer::FUN_00d6a8b0(int flags)
     reinterpret_cast<::FUN_00d6a750 *>(this)->FUN_00d6a750::~FUN_00d6a750();
     if (flags & 1)
     {
-        hkpPhysicsWorld* world = getMemoryRouter();
-        world->unk10->removeViewer(this, unk04);
+        hkMemoryRouter* world = &hkMemoryRouter::getInstance();
+        world->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -730,7 +673,7 @@ static __forceinline Elem80** AllocatePointers(hkMemoryAllocator& alloc, int& co
 {
     if (count) {
         int bytes = count * 4;
-        Elem80** result = (Elem80**)alloc.AllocateBufferWithSize(bytes);
+        Elem80** result = (Elem80**)alloc.bufAlloc(bytes);
         count = bytes / 4;
         return result;
     }
@@ -809,7 +752,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
                                     *(__m128*)&bounds.max = _mm_mul_ps(*(__m128*)&bounds.max, inv);
                                     *(__m128*)&bounds.min = _mm_sub_ps(*(__m128*)&bounds.min, _mm_load_ps(mat));
                                     *(__m128*)&bounds.max = _mm_sub_ps(*(__m128*)&bounds.max, _mm_load_ps(mat));
-                                    hkMemoryAllocator& alloc = getMemoryRouter()->heap();
+                                    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
                                     ElemArray* output = &m_aiIndexedValues;
                                     int oldSize = output->m_iElementCount;
                                     int newSize = oldSize + 1;
@@ -843,13 +786,13 @@ void Self::FUN_00d6a2f0(Param* apParam)
     indices.m_data = 0;
     indices.m_iElementCount = 0;
     indices.m_iCapacityState = 0x80000000;
-    hkMemoryAllocator& alloc = getMemoryRouter()->heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
     Elem80** buf = AllocatePointers(alloc, allocatedCount);
     int capacity = allocatedCount ? allocatedCount : (int)0x80000000;
     indices.m_data = buf;
     indices.m_iElementCount = allocatedCount;
     indices.m_iCapacityState = capacity;
-    hkMemoryAllocator& alloc2 = getMemoryRouter()->heap();
+    hkMemoryAllocator& alloc2 = hkMemoryRouter::getInstance().heap();
     if ((indices.m_iCapacityState & 0x3fffffff) < count) {
         int ns = (indices.m_iCapacityState & 0x3fffffff) * 2;
         if (count >= ns) ns = count;
@@ -862,10 +805,10 @@ void Self::FUN_00d6a2f0(Param* apParam)
     Dispatch* disp = static_cast<Viewer*>(this)->m_dispatch;
     disp->FUN_dispatch(&indices, -0x5b00, 0, DAT_01269024);
     TimerMark(DAT_010c41f8);
-    hkMemoryAllocator& cleanupAlloc = getMemoryRouter()->heap();
+    hkMemoryAllocator& cleanupAlloc = hkMemoryRouter::getInstance().heap();
     indices.m_iElementCount = 0;
     if ((indices.m_iCapacityState & 0x80000000u) == 0)
-        cleanupAlloc.ReturnMemory(indices.m_data, (indices.m_iCapacityState & 0x3fffffff) * 4);
+        cleanupAlloc.bufFree(indices.m_data, (indices.m_iCapacityState & 0x3fffffff) * 4);
     return;
 }
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.inc"

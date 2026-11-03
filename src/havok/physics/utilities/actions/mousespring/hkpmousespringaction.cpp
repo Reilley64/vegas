@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/mousespring/hkpmousespringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -64,23 +65,6 @@ const void* __cdecl FUN_00cbb8a0()
 extern int DAT_010c8e94;
 extern const char str_011b1f3c[];
 
-struct Ms_Heap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void* AllocateBufferWithSize(int* n);
-    virtual void ReturnMemory(void* p, int n);
-};
-struct Ms_Tls
-{
-    int u0;
-    int u1;
-    int u2;
-    int u3;
-    Ms_Heap* heap;
-};
-static inline Ms_Tls* getMemoryRouter() { return static_cast<Ms_Tls*>(::FUN_00c85750()); }
 
 struct Ms_ArrInit
 {
@@ -302,10 +286,9 @@ struct hkMemoryRouterCBB7
     void* m_0c;
     hkAllocatorCBB7* m_pStreamAllocator;
 };
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 inline hkAllocatorCBB7& heapCBB7()
 {
-    return *((hkMemoryRouterCBB7*)getMemoryRouter())->m_pStreamAllocator;
+    return *((hkMemoryRouterCBB7*)&hkMemoryRouter::getInstance())->m_pStreamAllocator;
 }
 
 template <typename T> inline void copyCBB7(T* pDst, const T* pSrc, int n)
@@ -377,7 +360,7 @@ class FUN_00cbb4e0 : public hkpUnaryAction
 
     void* operator new(size_t uiSize)
     {
-        hkMemoryRouterCBB7* pkRouter = (hkMemoryRouterCBB7*)getMemoryRouter();
+        hkMemoryRouterCBB7* pkRouter = (hkMemoryRouterCBB7*)&hkMemoryRouter::getInstance();
         hkReferencedObject* pkObj = (hkReferencedObject*)pkRouter->m_pStreamAllocator->AllocateMemoryBlock(uiSize);
         pkObj->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return pkObj;
@@ -494,14 +477,14 @@ Ms_cls* Ms_cls::FUN_00cbb560(__m128* apPos, __m128* apMouse, float afDamping, fl
     maxRel = 250.0f;
     if (apArr)
     {
-        Ms_Heap& h = *getMemoryRouter()->heap;
+        hkMemoryAllocator& h = *hkMemoryRouter::getInstance().m_heap;
         int cap = cb.m_cap & 0x3fffffff;
         if (cap < apArr->m_iElementCount)
         {
             if ((cb.m_cap & 0x80000000) == 0)
-                h.ReturnMemory(cb.m_data, cap * 4);
+                h.bufFree(cb.m_data, cap * 4);
             int n = apArr->m_iElementCount * 4;
-            cb.m_data = (int*)h.AllocateBufferWithSize(&n);
+            cb.m_data = static_cast<int*>(h.bufAlloc(n));
             cb.m_cap = n / 4;
         }
         int cnt = apArr->m_iElementCount;
@@ -563,7 +546,7 @@ FUN_00cd2d80::FUN_00cd2d80(const void* apCollisionShape, const void* motionState
     m_uiShapeSizeOnSpu = 0;
 }
 
-struct Ms_Tls;
+struct hkMemoryRouter;
 
 struct Ms_HeapX
 {
@@ -589,8 +572,8 @@ struct Cls
 // @fnv 0x00cbb8b0
 Cls* Cls::FUN_00cbb8b0(int flags)
 {
-    Ms_Tls* tls = getMemoryRouter();
-    Ms_HeapX* heap = *(Ms_HeapX**)&tls->heap;
+    hkMemoryRouter* tls = &hkMemoryRouter::getInstance();
+    Ms_HeapX* heap = *(Ms_HeapX**)&tls->m_heap;
     int n = m_5c;
     m_58 = 0;
     if (!((unsigned int)n & 0x80000000u))
@@ -600,8 +583,8 @@ Cls* Cls::FUN_00cbb8b0(int flags)
     reinterpret_cast<::FUN_00d2b2b0_class *>(this)->FUN_00d2b2b0();
     if (flags & 1)
     {
-        Ms_Tls* tls2 = getMemoryRouter();
-        Ms_HeapX* heap2 = *(Ms_HeapX**)&tls2->heap;
+        hkMemoryRouter* tls2 = &hkMemoryRouter::getInstance();
+        Ms_HeapX* heap2 = *(Ms_HeapX**)&tls2->m_heap;
         heap2->v08(this, (unsigned short)m_04);
     }
     return this;

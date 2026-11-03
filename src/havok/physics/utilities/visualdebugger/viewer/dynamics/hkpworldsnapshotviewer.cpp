@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00ddccb0_cls.h"
@@ -94,7 +95,6 @@ struct FUN_00c7be20_arr
     unsigned int m_capFlags;
 };
 
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 
 struct FUN_00c7be20_cls
 {
@@ -129,7 +129,7 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
     if (pSource != 0)
     {
         int iCount = pSource->m_0c;
-        FUN_00c7be20_holder* pAllocHolder = reinterpret_cast<FUN_00c7be20_holder*>(getMemoryRouter());
+        FUN_00c7be20_holder* pAllocHolder = reinterpret_cast<FUN_00c7be20_holder*>(&hkMemoryRouter::getInstance());
         void* allocator = pAllocHolder->m_pAllocator;
         unsigned int uiCapacity = out->m_capFlags & 0x3fffffffu;
         if ((int)uiCapacity < iCount)
@@ -192,23 +192,8 @@ void FUN_00d62fa0_class::ProcessContainerItems()
 }
 
 namespace fnv_00d63250 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d63250_cls
 {
@@ -227,9 +212,9 @@ FUN_00d63250_cls* FUN_00d63250_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::FUN_00d62fe0_cls *>(this)->FUN_00d62fe0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = getMemoryRouter();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(this, m_uSize);
     }
     return this;
 }
@@ -352,14 +337,6 @@ class hkBool
     char m_cBooleanValue;
 };
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
 struct NineIntegerRecord
 {
@@ -379,7 +356,7 @@ struct FUN_00c7be20_arr;
 
 inline hkMemoryAllocator& containerHeap()
 {
-    return ((NineIntegerRecord*)getMemoryRouter())->heap();
+    return ((NineIntegerRecord*)&hkMemoryRouter::getInstance())->heap();
 }
 
 struct hkCharArray
@@ -396,7 +373,7 @@ struct hkCharArray
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc.ReturnMemory(m_data, m_iCapacityState & 0x3fffffff);
+            alloc.bufFree(m_data, m_iCapacityState & 0x3fffffff);
         }
     }
     int GetLogicalSize() const

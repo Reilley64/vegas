@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d68260
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <intrin.h>
@@ -26,19 +27,13 @@ int __cdecl FUN_00d68260() {
     return ::DAT_01269004;
 }
 
-struct Allocator {
-    virtual void* release();
-    virtual void* allocate(int size);
-};
-struct Global { int unk00; int unk04; int unk08; int unk0c; Allocator* allocator; };
 struct Built { int field00; short field04; int field08; int FUN_00d682d0(int); };
-static inline Global* getMemoryRouter() { return static_cast<Global*>(::FUN_00c85750()); }
 // Allocates a 0x2c-byte Built via the global allocator, sets its field04 to 0x2c, calls FUN_00d682d0(arg), and returns result+8 or 0.
 // @fnv 0x00d686b0
 int __cdecl FUN_00d686b0(int arg)
 {
-    Global* global = getMemoryRouter();
-    Built* pBuilt = (Built*)global->allocator->allocate(0x2c);
+    hkMemoryRouter* global = &hkMemoryRouter::getInstance();
+    Built* pBuilt = (Built*)global->m_heap->blockAlloc(0x2c);
     pBuilt->field04 = 0x2c;
     int result = pBuilt->FUN_00d682d0(arg);
     if (result) return result + 8;
@@ -397,21 +392,8 @@ Derived::Derived()
 }  // namespace fnv_00d68730
 
 namespace fnv_00d68740 {
-struct AudioAllocator {
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d68740 {
     unsigned short m_u04;
@@ -420,10 +402,10 @@ struct FUN_00d68740 {
     virtual ~FUN_00d68740();
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = getMemoryRouter();
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
         unsigned int uiSize = ((FUN_00d68740*)apMemory)->m_u04;
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(apMemory, uiSize);
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(apMemory, uiSize);
     }
 };
 

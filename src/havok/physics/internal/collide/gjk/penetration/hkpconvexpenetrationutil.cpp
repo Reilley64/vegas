@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <xmmintrin.h>
 #include "fnv/decl/DFB0B0_Owner.h"
 #include "fnv/decl/Host.h"
@@ -480,7 +481,6 @@ int __cdecl TestPenetration(int a, int b, const S_00dfaac0_Transform& t, float f
 
 extern "C"
 {
-    static inline void** getMemoryRouter() { return static_cast<void**>(::FUN_00c85750()); }
     void FUN_00e2d6c0(void*, void*, void*, void*, void*);
 
 }
@@ -607,9 +607,9 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
                  OutItem** arg5)
 {
     WorkArray storage;
-    void** tls = getMemoryRouter();
-    storage.data = (Item*)*tls;
-    *tls = (char*)(Item*)storage.data + ((count * sizeof(Item) + 127) & ~127);
+    hkMemoryRouter& router = hkMemoryRouter::getInstance();
+    storage.data = static_cast<Item*>(static_cast<void*>(router.m_stackCurrent));
+    router.m_stackCurrent += (count * sizeof(Item) + 127) & ~127;
     Item* buffer = storage.begin();
 
     LocalStruct70 local_s;
@@ -643,7 +643,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
         }
         else if (count < 2)
         {
-            *getMemoryRouter() = buffer;
+            hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
             return 1;
         }
 
@@ -668,7 +668,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
                 {
                     if (arr[i] == 3)
                     {
-                        *getMemoryRouter() = buffer;
+                        hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
                         return 1;
                     }
                 }
@@ -713,7 +713,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
         pItem->m_arg5->direction.w = w;
     }
 
-    *getMemoryRouter() = buffer;
+    hkMemoryRouter::getInstance().m_stackCurrent = static_cast<char*>(static_cast<void*>(buffer));
     return 0;
 }
 

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd55d0
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
@@ -95,25 +96,8 @@ S_00d54cd0_Result* FUN_00d54cd0(void* world, S_00d54cd0_Input* pInput, void* out
     return r;
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, unsigned int auiBytes) throw();
-};
 
-struct AudioHolder
-{
-    char* unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct Record
 {
@@ -154,12 +138,12 @@ struct RecordArray
 
     ~RecordArray() throw()
     {
-        AudioHolder* pHolder = getMemoryRouter();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
         if ((uCapacity & 0x80000000) == 0)
-            pAllocator->FreeArray(m_pRecords, (uCapacity & 0x3fffffff) * sizeof(Record));
+            pAllocator->bufFree(m_pRecords, (uCapacity & 0x3fffffff) * sizeof(Record));
         m_pRecords = 0;
         m_uCapacity = 0x80000000;
     }
@@ -394,16 +378,16 @@ inline float Dot3_00dd5b00(const __m128& a, const __m128& b)
 void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd5b00* apItems, int aiCount)
 {
     int nVerts = apSource->v2c();
-    AudioHolder* pHolder = getMemoryRouter();
-    Vec4* m_pkDeltas = reinterpret_cast<Vec4*>(pHolder->unk00);
-    pHolder->unk00 += (nVerts * sizeof(Vec4) + 0x7f) & ~0x7f;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    Vec4* m_pkDeltas = reinterpret_cast<Vec4*>(pHolder->m_stackCurrent);
+    pHolder->m_stackCurrent += (nVerts * sizeof(Vec4) + 0x7f) & ~0x7f;
     apSource->v30(m_pkDeltas);
 
     Vec_00dd5b00* pList = &m_kNode;
-    AudioHolder* pGrow = getMemoryRouter();
+    hkMemoryRouter* pGrow = &hkMemoryRouter::getInstance();
     if (pList->m_iArrayLength == (int)(pList->m_uCapFlags & 0x3fffffff))
     {
-        ::ResizeAudioStream(pGrow->m_pAllocator, (::AudioStream *)(pList), 0x6c);
+        ::ResizeAudioStream((::AudioAllocator *)(pGrow->m_heap), (::AudioStream *)(pList), 0x6c);
     }
     Entry_00dd5b00* pEntry = &pList->m_pData[pList->m_iArrayLength++];
     pEntry->m_iOwnerObjectOffset = aiId;
@@ -454,33 +438,13 @@ void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd
         pEntry->m_ranges[i].m_fHi = hi;
     }
 
-    pHolder = getMemoryRouter();
-    pHolder->unk00 = reinterpret_cast<char*>(m_pkDeltas);
+    pHolder = &hkMemoryRouter::getInstance();
+    pHolder->m_stackCurrent = reinterpret_cast<char*>(m_pkDeltas);
 }
 
-struct FUN_00dd5de0_Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct FUN_00dd5de0_MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00dd5de0_Allocator* m_pStreamAllocator;
-
-    FUN_00dd5de0_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
-static inline FUN_00dd5de0_MemoryRouter& getMemoryRouter() { return *static_cast<FUN_00dd5de0_MemoryRouter*>(::FUN_00c85750()); }
 }
 
 struct FUN_00dd5de0
@@ -494,7 +458,7 @@ struct FUN_00dd5de0
     static void operator delete(void* p, size_t nbytes)
     {
         FUN_00dd5de0* b = static_cast<FUN_00dd5de0*>(p);
-        fnvc_adapt::getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 

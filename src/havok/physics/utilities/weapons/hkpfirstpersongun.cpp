@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/WorldQuery.h"
@@ -147,34 +148,7 @@ FUN_00e466a0::FUN_00e466a0(hkFinishFlagE466 flag) : hkRefObjE466(flag), m_name(f
 }  // namespace fnv_00e466a0
 
 namespace fnv_00e466e0 {
-class hkMemoryAllocatorE466
-{
-  public:
-    virtual ~hkMemoryAllocatorE466() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterE466
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE466* m_pStreamAllocator;
-    hkMemoryAllocatorE466& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline hkMemoryRouterE466& getMemoryRouter() { return *static_cast<hkMemoryRouterE466*>(::FUN_00c85750()); }
 
 template <class T> __forceinline void destructE466(T* t, int n)
 {
@@ -196,14 +170,14 @@ template <class T> class hkArrayE466
 
     __forceinline ~hkArrayE466()
     {
-        ClearAndRelease(getMemoryRouter().heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructE466(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorE466& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -265,23 +239,8 @@ struct FUN_00e466e0_Obj
 
 class FUN_00e46750_Obj;
 
-struct VirtualObj
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08(FUN_00e46750_Obj* a, int b);
-};
 
-struct FUN_00c85750_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    VirtualObj* unk10;
-};
 
-static inline FUN_00c85750_Obj* getMemoryRouter() { return static_cast<FUN_00c85750_Obj*>(::FUN_00c85750()); }
 
 class FUN_00e46750_Obj : public hkpFirstPersonGun
 {
@@ -297,8 +256,8 @@ FUN_00e46750_Obj* FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
 
     if (flag & 1)
     {
-        FUN_00c85750_Obj* audio = getMemoryRouter();
-        audio->unk10->vf08(this, m_usMemSizeAndFlags);
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+        audio->m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
 
     return this;
@@ -307,25 +266,7 @@ FUN_00e46750_Obj* FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
 #include <xmmintrin.h>
 namespace fnv_00e464e0 {
 
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void* allocateChunk(int nbytes);
-};
 
-struct hkMemoryRouterStub
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pThreadAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pThreadAllocator;
-    }
-};
-static inline hkMemoryRouterStub* getMemoryRouter() { return static_cast<hkMemoryRouterStub*>(::FUN_00c85750()); }
 
 struct hkVector4q
 {
@@ -382,7 +323,7 @@ struct hkpSphereShapeq
 
     static void* operator new(size_t nbytes)
     {
-        hkpSphereShapeq* p = (hkpSphereShapeq*)getMemoryRouter()->heap().allocateChunk(nbytes);
+        hkpSphereShapeq* p = (hkpSphereShapeq*)hkMemoryRouter::getInstance().heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }

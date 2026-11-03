@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
@@ -209,25 +210,8 @@ S_00e65e70* S_00e65e70::Reset()
     return this;
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00e65ea0_cls
 {
@@ -255,14 +239,14 @@ struct FUN_00e65ea0_cls
 // @fnv 0x00e65ea0
 void FUN_00e65ea0_cls::ClearArray()
 {
-    AudioHolder* pHolder = getMemoryRouter();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     unsigned int uFlags = m_uiObjectFlags;
     m_uCount = 0;
     if ((uFlags & 0x80000000u) == 0)
     {
         unsigned int uCount = uFlags & 0x3fffffffu;
-        pAllocator->FreeArray(m_pData, uCount * 4u);
+        pAllocator->bufFree(m_pData, uCount * 4u);
     }
     m_pData = 0;
     m_uiObjectFlags = 0x80000000u;
@@ -288,9 +272,9 @@ struct ItemList
     }
     void AddBack(const unsigned int& value)
     {
-        AudioHolder* holder = getMemoryRouter();
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
         if (count == (int)(capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(this), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(void *)(this), 4);
         CopyConstruct(data + count, 1, value);
         ++count;
     }
@@ -855,11 +839,11 @@ append:
 
     MoppResults* output = results;
 
-    AudioHolder* memory = getMemoryRouter();
+    hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
 
     if (output->size == (output->capacityAndFlags & 0x3fffffff))
 
-        ::ResizeAudioStream((::AudioAllocator *)(memory->m_pAllocator), (::AudioStream *)(output), sizeof(unsigned int));
+        ::ResizeAudioStream((::AudioAllocator *)(memory->m_heap), (::AudioStream *)(output), sizeof(unsigned int));
 
     unsigned int* dst = output->data + output->size;
     output->size++;

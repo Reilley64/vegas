@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -155,24 +156,8 @@ struct hkVector4E46F
     }
 };
 
-struct hkMemoryAllocatorE46F
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int iNumBytes);
-};
 
-struct hkMemoryRouterE46F
-{
-    unsigned int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorE46F* m_pStreamAllocator;
 
-    hkMemoryAllocatorE46F& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-static inline hkMemoryRouterE46F* getMemoryRouter() { return static_cast<hkMemoryRouterE46F*>(::FUN_00c85750()); }
 
 struct FUN_00cb0c10
 {
@@ -185,7 +170,7 @@ struct FUN_00e46e80
 {
     static void* operator new(size_t uiSize)
     {
-        return getMemoryRouter()->heap().AllocateMemoryBlock(uiSize);
+        return hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
     }
 
     FUN_00e46e80() throw();
@@ -245,25 +230,8 @@ FUN_00e46f90::FUN_00e46f90(int iNumBullets) throw()
 }
 
 namespace fnv_00e47020 {
-class hkMemoryAllocatorE470
-{
-  public:
-    virtual ~hkMemoryAllocatorE470() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterE470
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorE470* m_pStreamAllocator;
-    hkMemoryAllocatorE470& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-static inline hkMemoryRouterE470& getMemoryRouter() { return *static_cast<hkMemoryRouterE470*>(::FUN_00c85750()); }
 
 struct hkBoolE470
 {
@@ -354,7 +322,7 @@ FUN_00e47020::~FUN_00e47020() throw()
     if (pkQueue)
     {
         reinterpret_cast<::UnkHolder *>((pkQueue))->FUN_00e47390();
-        getMemoryRouter().heap().ReleaseBlock(pkQueue, sizeof(*pkQueue));
+        hkMemoryRouter::getInstance().heap().blockFree(pkQueue, sizeof(*pkQueue));
     }
 }
 }  // namespace fnv_00e47020
@@ -424,7 +392,7 @@ struct hkpShapeBase : public hkReferencedObject
 
     __forceinline void* operator new(size_t nbytes)
     {
-        hkReferencedObject* b = static_cast<hkReferencedObject*>(getMemoryRouter()->heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         return b;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/hkpphysicscontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/hkpphysicscontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "generated/data/vtables.h"
 #include <new>
@@ -282,15 +283,6 @@ int Secondary::FUN_00cd2460(int value)
     return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->FUN_00cd2260(value);
 }
 
-struct AllocatorState
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* allocator;
-};
-static inline AllocatorState* getMemoryRouter() { return static_cast<AllocatorState*>(::FUN_00c85750()); }
 struct PointerArray
 {
     void** data;
@@ -358,9 +350,9 @@ found:
     if (index >= 0)
         return (void*)index;
 append:
-    AllocatorState* state = getMemoryRouter();
+    hkMemoryRouter* state = &hkMemoryRouter::getInstance();
     if (array->count == (array->capacity & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(state->allocator), (::AudioStream *)(array), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(state->m_heap), (::AudioStream *)(array), 4);
     void** slot = array->data + array->count;
     *slot = value;
     ++array->count;
@@ -384,7 +376,6 @@ struct Holder
     int unk0c;
     Device* device;
 };
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 struct FUN_00cd27f0
 {
     virtual void v0() = 0;
@@ -406,7 +397,7 @@ struct FUN_00cd27f0
 // @fnv 0x00cd27f0
 FUN_00cd27f0::~FUN_00cd27f0()
 {
-    Holder* holder = (Holder*)getMemoryRouter();
+    Holder* holder = (Holder*)&hkMemoryRouter::getInstance();
     Device* device = holder->device;
     int count = count1;
     unk30 = 0;
@@ -419,7 +410,7 @@ FUN_00cd27f0::~FUN_00cd27f0()
 skipFirstRelease:
     buffer1 = 0;
     count1 = 0x80000000;
-    holder = (Holder*)getMemoryRouter();
+    holder = (Holder*)&hkMemoryRouter::getInstance();
     device = holder->device;
     int secondCount = count2;
     unk0c = 0;
@@ -436,21 +427,6 @@ skipSecondRelease:
 }  // namespace fnv_00cd27f0
 
 namespace fnv_00cd2900 {
-struct DeleteInterface
-{
-    virtual void first();
-    virtual void second();
-    virtual void deleteObject(void*, unsigned short);
-};
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    DeleteInterface* iface;
-};
-static inline Manager* getMemoryRouter() { return static_cast<Manager*>(::FUN_00c85750()); }
 struct FUN_00cd2900_owner
 {
     int unk00;
@@ -465,8 +441,8 @@ void* FUN_00cd2900_owner::DestroyIfFlagged(unsigned flags)
     FUN_00cd2690();
     if (flags & 1)
     {
-        Manager* manager = getMemoryRouter();
-        manager->iface->deleteObject(this, unk04);
+        hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
+        manager->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -1108,10 +1084,10 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
     reinterpret_cast<::fnv_00c937e0::hkpWorldXc937e0 *>((reg))->FUN_00c937e0((::fnv_00c937e0::hkpEntityListenerXc937e0 *)(void *)(&m_64));
 
     CD22Array* pArray = &m_78;
-    AllocatorState* holder = getMemoryRouter();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (pArray->count == (int)(pArray->cap & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(pArray), 0xf0);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(pArray), 0xf0);
     }
 
     CD22Elem* pNewElem = (CD22Elem*)((char*)pArray->data + pArray->count * 0xf0);
@@ -1293,10 +1269,10 @@ notFound:
     void* param = self != 0 ? (char*)&self->unk58 : 0;
     reinterpret_cast<::hkpWorld_Listener *>((obj))->FUN_00c93a60(param);
 
-    AllocatorState* holder = getMemoryRouter();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (items->count == (items->capacity & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(items), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(items), 4);
     }
     int n = *(int volatile*)&items->count;
     void** volatile* ppData = &items->data;
@@ -1491,9 +1467,9 @@ class hkMemoryAllocatorD269
     virtual void ReturnMemory(void* p, int iNumBytes) throw();
 };
 
-inline hkMemoryAllocatorD269& heapD269(AllocatorState* pkState)
+inline hkMemoryAllocatorD269& heapD269(hkMemoryRouter* pkState)
 {
-    return *(hkMemoryAllocatorD269*)pkState->allocator;
+    return *(hkMemoryAllocatorD269*)pkState->m_heap;
 }
 
 template <class T> class hkArrayD269
@@ -1534,7 +1510,7 @@ template <class T> class hkArrayD269
 
     __forceinline ~hkArrayD269() throw()
     {
-        _clearAndDeallocate(heapD269(getMemoryRouter()));
+        _clearAndDeallocate(heapD269(&hkMemoryRouter::getInstance()));
     }
 };
 

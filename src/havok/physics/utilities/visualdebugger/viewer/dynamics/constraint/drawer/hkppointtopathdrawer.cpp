@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
@@ -38,28 +39,7 @@ struct hkTransform
     void FUN_00cb2240(const hkTransform& a, const hkTransform& b);
 };
 
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline NineIntegerRecord* getMemoryRouter() { return static_cast<NineIntegerRecord*>(::FUN_00c85750()); }
 
 struct hkVector4Array
 {
@@ -72,7 +52,7 @@ struct hkVector4Array
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkVector4));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkVector4));
     }
 };
 
@@ -304,7 +284,7 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
                 b.FUN_00c7f640(worldTransform, p);
                 drawer->drawLine(a, b, ((int)(::PackColorBigEndian(0.0f, DAT_0101622c, 1.0f, 1.0f))), id, tag);
             }
-            points.ClearAndRelease(getMemoryRouter()->heap());
+            points.ClearAndRelease(hkMemoryRouter::getInstance().heap());
         }
     }
 }

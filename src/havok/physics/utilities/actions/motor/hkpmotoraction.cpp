@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/motor/hkpmotoraction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00d2b260.h"
@@ -79,26 +80,8 @@ FUN_00d4d720::FUN_00d4d720(::FUN_00c90510_Entity* entity, const float* axis, flo
 class hkpRigidBody;
 class hkpPhantom;
 
-struct hkMemoryAllocatorMA
-{
-    virtual ~hkMemoryAllocatorMA();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct hkMemoryRouterMA
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorMA* m_pStreamAllocator;
-    hkMemoryAllocatorMA& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-static inline hkMemoryRouterMA& getMemoryRouter() { return *static_cast<hkMemoryRouterMA*>(::FUN_00c85750()); }
 
 template <class T> struct hkArrayMA
 {
@@ -121,7 +104,7 @@ class hkpMotorActionMA : public hkpMotorAction
     void* operator new(size_t nbytes)
     {
         hkReferencedObject* b =
-            static_cast<hkReferencedObject*>(getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         return b;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
@@ -44,20 +45,6 @@ union DrawWork
     LineScratch line;
     Array shapes;
 };
-struct Allocator
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void freeBuffer(void*, int);
-};
-struct Router
-{
-    int a, b, c, d;
-    Allocator* allocator;
-};
-static inline Router* getMemoryRouter() { return static_cast<Router*>(::FUN_00c85750()); }
 struct Display
 {
     virtual void v0();
@@ -158,8 +145,8 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
             scratch.shapes.data = 0;
             scratch.shapes.size = 0;
             scratch.shapes.capacity = 0x80000000;
-            Router* router = getMemoryRouter();
-            Allocator* allocator = router->allocator;
+            hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+            hkMemoryAllocator* allocator = router->m_heap;
             int capacity = scratch.shapes.capacity & 0x3fffffff;
             if (capacity < 1)
             {
@@ -171,11 +158,11 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
             scratch.shapes.size = 1;
             scratch.shapes.data[0] = &shape;
             display->geometry(&scratch.shapes, 0xffffffff, id, tag);
-            router = getMemoryRouter();
-            allocator = router->allocator;
+            router = &hkMemoryRouter::getInstance();
+            allocator = router->m_heap;
             scratch.shapes.size = 0;
             if ((scratch.shapes.capacity & 0x80000000) == 0)
-                allocator->freeBuffer(scratch.shapes.data, (scratch.shapes.capacity & 0x3fffffff) * 4);
+                allocator->bufFree(scratch.shapes.data, (scratch.shapes.capacity & 0x3fffffff) * 4);
         }
     }
     {

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <windows.h>
@@ -349,20 +350,7 @@ struct HkArrayPairBlock
     HkArrayRaw m_arrB;
 };
 
-struct HkAllocator
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int cb);
-};
 
-struct HkAllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    HkAllocator* m_pAllocator;
-};
 
 struct HkDisplayConvexObj
 {
@@ -372,7 +360,6 @@ struct HkDisplayConvexObj
 
 };
 
-static inline HkAllocHolder* getMemoryRouter() { return static_cast<HkAllocHolder*>(::FUN_00c85750()); }
 
 struct FUN_00de4340_cls
 {
@@ -392,8 +379,8 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pPairBlock = (HkArrayPairBlock*)zero;
-        HkAllocHolder* h = getMemoryRouter();
-        void* pMemory = h->m_pAllocator->Alloc(0x18);
+        hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+        void* pMemory = h->m_heap->blockAlloc(0x18);
         if (pMemory != (void*)zero)
         {
             HkArrayPairBlock* p = (HkArrayPairBlock*)pMemory;
@@ -407,15 +394,15 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
             pPairBlock = p;
         }
 
-        h = getMemoryRouter();
-        pMemory = h->m_pAllocator->Alloc(0x60);
+        h = &hkMemoryRouter::getInstance();
+        pMemory = h->m_heap->blockAlloc(0x60);
         ((HkDisplayConvexObj*)pMemory)->m_u04 = 0x60;
         m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)pMemory))) ::FUN_00de1d20(pPairBlock)));
 
-        h = getMemoryRouter();
+        h = &hkMemoryRouter::getInstance();
         if (a1->m_iArrayLength == (int)(a1->m_uCapFlags & 0x3fffffffu))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(a1), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(a1), 4);
         }
         int iIndex = a1->m_iArrayLength;
         HkDisplayConvexObj** data = (HkDisplayConvexObj**)a1->m_pData;
@@ -467,7 +454,7 @@ struct StackHeap
 
 inline StackHeap* GetStackHeap67()
 {
-    return (StackHeap*)getMemoryRouter();
+    return (StackHeap*)&hkMemoryRouter::getInstance();
 }
 
 struct Sub

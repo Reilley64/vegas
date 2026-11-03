@@ -10,6 +10,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <math.h>
@@ -107,12 +108,6 @@ struct Arr
     int size;
     int cap;
 };
-struct CharacterBufferState
-{
-    int u00, u04, u08, u0c;
-    void* owner;
-};
-static inline CharacterBufferState* getMemoryRouter() { return static_cast<CharacterBufferState*>(::FUN_00c85750()); }
 struct Obj50
 {
     void FUN_00c7f640(void* a, void* b);
@@ -389,11 +384,11 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
     threeArray.size = 0;
     threeArray.cap = (int)0x80000000;
     {
-        CharacterBufferState* ar;
+        hkMemoryRouter* ar;
         int cap;
         void* owner;
-        ar = getMemoryRouter();
-        owner = ar->owner;
+        ar = &hkMemoryRouter::getInstance();
+        owner = ar->m_heap;
         int nc;
         cap = zeroArray.cap & 0x3fffffff;
         if (cap < 1)
@@ -406,11 +401,11 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         zeroArray.size = 1;
     }
     {
-        CharacterBufferState* ar;
+        hkMemoryRouter* ar;
         int cap;
         void* owner;
-        ar = getMemoryRouter();
-        owner = ar->owner;
+        ar = &hkMemoryRouter::getInstance();
+        owner = ar->m_heap;
         int nc;
         cap = threeArray.cap & 0x3fffffff;
         if (cap < 1)
@@ -423,11 +418,11 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         threeArray.size = 1;
     }
     {
-        CharacterBufferState* ar;
+        hkMemoryRouter* ar;
         int cap;
         void* owner;
-        ar = getMemoryRouter();
-        owner = ar->owner;
+        ar = &hkMemoryRouter::getInstance();
+        owner = ar->m_heap;
         int nc;
         cap = halfArray.cap & 0x3fffffff;
         if (cap < 2)
@@ -448,8 +443,8 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
     a1->draw(&threeArray, ((int)(::PackBytesBigEndian(0xff, 0, 0xff, 0xff))), a2, a3);
 
     {
-        CharacterBufferState* ar = getMemoryRouter();
-        void* ow = ar->owner;
+        hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
+        void* ow = ar->m_heap;
         threeArray.size = 0;
         if (!(threeArray.cap & (int)0x80000000))
         {
@@ -460,8 +455,8 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         threeArray.cap = (int)0x80000000;
     }
     {
-        CharacterBufferState* ar = getMemoryRouter();
-        void* ow = ar->owner;
+        hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
+        void* ow = ar->m_heap;
         halfArray.size = 0;
         if (!(halfArray.cap & (int)0x80000000))
         {
@@ -472,8 +467,8 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         halfArray.cap = (int)0x80000000;
     }
     {
-        CharacterBufferState* ar = getMemoryRouter();
-        void* ow = ar->owner;
+        hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
+        void* ow = ar->m_heap;
         zeroArray.size = 0;
         if (!(zeroArray.cap & (int)0x80000000))
         {

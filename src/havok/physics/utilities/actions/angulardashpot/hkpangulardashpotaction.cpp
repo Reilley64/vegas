@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -51,26 +52,7 @@ FUN_00d4dbe0::FUN_00d4dbe0(void* pkEntityA, void* pkEntityB, uintptr_t ulUserDat
 }
 
 namespace fnv_00d4dc30 {
-class hkMemoryAllocatorD4DC
-{
-  public:
-    virtual ~hkMemoryAllocatorD4DC() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4DC
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4DC* m_pStreamAllocator;
-    hkMemoryAllocatorD4DC& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline hkMemoryRouterD4DC& getMemoryRouter() { return *static_cast<hkMemoryRouterD4DC*>(::FUN_00c85750()); }
 
 struct __declspec(align(16)) hkVector4D4DC
 {
@@ -103,7 +85,7 @@ class hkReferencedObjectD4DC
     static void* operator new(size_t uiSize)
     {
         hkReferencedObjectD4DC* pkObj =
-            static_cast<hkReferencedObjectD4DC*>(getMemoryRouter().heap().AllocateMemoryBlock(uiSize));
+            static_cast<hkReferencedObjectD4DC*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
         pkObj->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return pkObj;
     }

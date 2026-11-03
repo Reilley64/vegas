@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd51f0
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00dd51d0_class.h"
@@ -107,21 +108,6 @@ FUN_00dd52a0_cls* FUN_00dd52a0_cls::InitFromSource(SpawnedSource* pSource)
     return this;
 }
 
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
-static inline CpuAllocatorHolder* getMemoryRouter() { return static_cast<CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct CpuObject
 {
     unsigned int unk00;
@@ -134,8 +120,8 @@ CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
     reinterpret_cast<::FUN_00dd51d0_class *>(this)->FUN_00dd51d0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = getMemoryRouter();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

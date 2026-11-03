@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpmountedballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpmountedballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00e46f90.h"
@@ -103,11 +104,10 @@ struct hkMemoryRouterQ
     }
 };
 
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 
 inline hkMemoryRouterQ& getRouter()
 {
-    return *(hkMemoryRouterQ*)getMemoryRouter();
+    return *(hkMemoryRouterQ*)&hkMemoryRouter::getInstance();
 }
 
 template <typename T> inline T* hkAllocateChunkQ(int n)
@@ -242,22 +242,7 @@ struct S00e451b0_ZWorld
     int unk00, unk04, unk08, unk0c;
     hkVector4 unk10;
 };
-struct S00e451b0_ZAllocator
-{
-    virtual void v0();
-    virtual void* alloc(int);
-};
-struct S00e451b0_ZRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    S00e451b0_ZAllocator* unk10;
-    S00e451b0_ZAllocator& getHeap()
-    {
-        return *unk10;
-    }
-};
 namespace ZMem {
-static inline S00e451b0_ZRouter& getMemoryRouter() { return *static_cast<S00e451b0_ZRouter*>(::FUN_00c85750()); }
 }
 struct __declspec(align(16)) S00e451b0_ZCastResult
 {
@@ -311,7 +296,7 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
         _mm_mul_ps(_mm_shuffle_ps(distance.q, distance.q, 0), direction), start);
     S00e451b0_ZInfo info;
     reinterpret_cast<::Owner *>(&(info))->FUN_00cf5ea0();
-    S00e451b0_ZSphere* sphere = (S00e451b0_ZSphere*)ZMem::getMemoryRouter().getHeap().alloc(0x20);
+    S00e451b0_ZSphere* sphere = (S00e451b0_ZSphere*)hkMemoryRouter::getInstance().heap().blockAlloc(0x20);
     sphere->unk04 = 0x20;
     sphere = ((::S00e451b0_ZSphere *)(new ((void *)(sphere)) ::FUN_00cd8160(m_fBulletRadius)));
     info.unk90 = m_fBulletMass;
@@ -341,7 +326,7 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
     __m128 hit = target.point;
     for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
         ((S00e451b0_ZListener**)m_kListeners.m_data)[i]->v14(posPtr, &hit);
-    S00e451b0_ZBody* body = (S00e451b0_ZBody*)ZMem::getMemoryRouter().getHeap().alloc(0x220);
+    S00e451b0_ZBody* body = (S00e451b0_ZBody*)hkMemoryRouter::getInstance().heap().blockAlloc(0x220);
     body->unk04 = 0x220;
     body = ((::S00e451b0_ZBody *)(reinterpret_cast<::S00ca8c90_Body *>((body))->FUN_00ca8c90((*(const ::CInfo181 *)(&info)))));
     reinterpret_cast<::hkReferencedObjectC905 *>((info.unk04))->FUN_00c905b0();

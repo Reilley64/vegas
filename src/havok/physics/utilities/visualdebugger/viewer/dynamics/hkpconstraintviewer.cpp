@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/Cls.h"
@@ -258,25 +259,8 @@ void FUN_00d69230_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 }
 
 namespace fnv_00d69920 {
-struct AudioAllocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void FreeData(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct Target
 {
@@ -363,36 +347,21 @@ FUN_00d69920_cls::~FUN_00d69920_cls() throw()
             reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((static_cast<SubObject*>(this)));
         }
     }
-    AudioHolder* pHolder = getMemoryRouter();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     m_iField30 = 0;
     unsigned int uiDataFlags = m_uiObjectFlags;
     if ((uiDataFlags & 0x80000000u) == 0)
     {
-        pAllocator->FreeData(m_pData, (uiDataFlags & 0x3fffffffu) * 4);
+        pAllocator->bufFree(m_pData, (uiDataFlags & 0x3fffffffu) * 4);
     }
     m_pData = 0;
     m_uiObjectFlags = 0x80000000u;
 }
 }  // namespace fnv_00d69920
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int auiSize);
-    virtual void Free(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct SpawnedObject
 {
@@ -406,9 +375,9 @@ struct SpawnedObject
 // @fnv 0x00d699c0
 void* __cdecl FUN_00d699c0(void* apSource)
 {
-    AudioHolder* pHolder = getMemoryRouter();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
-    SpawnedObject* pObject = (SpawnedObject*)pAllocator->Alloc(0x38);
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
+    SpawnedObject* pObject = (SpawnedObject*)pAllocator->blockAlloc(0x38);
     pObject->m_uSize = 0x38;
     void* pResult = ((void *)(new ((void *)(pObject)) ::FUN_00d698b0(apSource)));
     if (pResult != 0)
@@ -553,28 +522,8 @@ Derived::Derived()
 }  // namespace fnv_00d69ae0
 
 namespace fnv_00d69af0 {
-struct FUN_00d69af0_Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct FUN_00d69af0_MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00d69af0_Allocator* m_pStreamAllocator;
 
-    FUN_00d69af0_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-static inline FUN_00d69af0_MemoryRouter& getMemoryRouter() { return *static_cast<FUN_00d69af0_MemoryRouter*>(::FUN_00c85750()); }
 
 struct FUN_00d69af0
 {
@@ -587,7 +536,7 @@ struct FUN_00d69af0
     static void operator delete(void* p, size_t nbytes)
     {
         FUN_00d69af0* b = static_cast<FUN_00d69af0*>(p);
-        getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <intrin.h>
@@ -401,28 +402,14 @@ FUN_00d671f0::FUN_00d671f0(void* info) : D671F0Base(info)
 {
 }
 
-struct D67880Allocator {
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct D67880MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D67880Allocator* m_pStreamAllocator;
 
-    D67880Allocator& heap() { return *m_pStreamAllocator; }
-};
-
-static inline D67880MemoryRouter& getMemoryRouter() { return *static_cast<D67880MemoryRouter*>(::FUN_00c85750()); }
 
 class D67880ReferencedObject {
 public:
     static void* operator new(size_t nbytes)
     {
-        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(getMemoryRouter().heap().AllocateMemoryBlock(nbytes));
+        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -477,9 +464,9 @@ struct D671B0Array {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& val)
     {
-        D67880MemoryRouter& router = getMemoryRouter();
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         D671B0ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
         m_iElementCount++;
     }
@@ -503,16 +490,6 @@ extern int DAT_010d1d50;
 extern int DAT_010d1d34;
 extern int DAT_010d1d24;
 
-struct Heap_d672 {
-    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0C();
-    virtual void ReturnMemory(void* p, int nbytes) throw();
-};
-struct Router_d672 {
-    int unk00, unk04, unk08, unk0C;
-    Heap_d672* m_pStreamAllocator;
-    Heap_d672& heap() { return *m_pStreamAllocator; }
-    static inline Router_d672& getMemoryRouter() { return *static_cast<Router_d672*>(::FUN_00c85750()); }
-};
 
 template <class T> __forceinline void destructArray_d672(T* p, int n)
 {
@@ -526,11 +503,11 @@ template <class T> struct hkArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::getMemoryRouter().heap();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         destructArray_d672(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -542,10 +519,10 @@ template <class T> struct hkPodArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::getMemoryRouter().heap();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -748,22 +725,8 @@ void AdjOwner::key_fn() { }
 AdjOwner* make_adj_owner() { static AdjOwner o; return &o; }
 
 namespace fnv_00d67930 {
-struct S_00d67930_Heap {
-    virtual void vfn_00();
-    virtual void vfn_04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct S_00d67930_Router {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S_00d67930_Heap* m_pStreamAllocator;
-    __forceinline S_00d67930_Heap& heap() { return *m_pStreamAllocator; }
-};
 
-static inline S_00d67930_Router& getMemoryRouter() { return *static_cast<S_00d67930_Router*>(::FUN_00c85750()); }
 
 struct FUN_00d67930 {
     virtual ~FUN_00d67930() throw();
@@ -774,7 +737,7 @@ struct FUN_00d67930 {
     static void operator delete(void* p, size_t)
     {
         FUN_00d67930* b = static_cast<FUN_00d67930*>(p);
-        getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -950,7 +913,7 @@ struct FreeAllocator {
     virtual void v0c();
     virtual void ReleaseBlock(void* p, int bytes);
 };
-__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(getMemoryRouter().heap()); }
+__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(hkMemoryRouter::getInstance().heap()); }
 template<class T> struct LocalArray {
     T* data;
     int count;

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/collide/filter/constrainedsystem/hkpconstrainedsystemfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/collide/filter/constrainedsystem/hkpconstrainedsystemfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00e46b80_class.h"
 #include "fnv/symbols_00c9c000.h"
@@ -18,21 +19,6 @@ void* __cdecl FUN_00dffaf0()
     return &(*reinterpret_cast<int *>(&::g_0126d658));
 }
 
-struct FnvCpu_FUN_00dffb00_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00dffb00_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00dffb00_CpuAllocator* allocator;
-};
-static inline FnvCpu_FUN_00dffb00_CpuAllocatorHolder* getMemoryRouter() { return static_cast<FnvCpu_FUN_00dffb00_CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct FnvCpu_FUN_00dffb00_CpuObject
 {
     unsigned int unk00;
@@ -46,8 +32,8 @@ FnvCpu_FUN_00dffb00_CpuObject* FnvCpu_FUN_00dffb00_CpuObject::FUN_00dffb00(unsig
     reinterpret_cast<::FUN_00e46b80_class *>(this)->FUN_00e46b80();
     if (flags & 1)
     {
-        FnvCpu_FUN_00dffb00_CpuAllocatorHolder* pAllocatorHolder = getMemoryRouter();
-        pAllocatorHolder->allocator->Invoke(this, size);
+        hkMemoryRouter* pAllocatorHolder = &hkMemoryRouter::getInstance();
+        pAllocatorHolder->m_heap->blockFree(this, size);
     }
     return this;
 }

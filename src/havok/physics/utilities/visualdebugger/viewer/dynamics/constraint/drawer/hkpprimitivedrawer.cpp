@@ -1,6 +1,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 struct CpuObject
 {
@@ -200,22 +201,8 @@ void AxisDisplayOwner::FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, 
 
 extern "C" void _ReadWriteBarrier();
 
-struct FNV_Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-};
-struct FNV_AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FNV_Allocator* m_pAllocator;
-};
-static inline FNV_AllocHolder* getMemoryRouter() { return static_cast<FNV_AllocHolder*>(::FUN_00c85750()); }
-char* __cdecl FUN_00c85690(FNV_Allocator* alloc, int size);
-void __cdecl FUN_00c856c0(FNV_Allocator* owner, char* data);
+char* __cdecl FUN_00c85690(hkMemoryAllocator* alloc, int size);
+void __cdecl FUN_00c856c0(hkMemoryAllocator* owner, char* data);
 
 
 struct __declspec(align(16)) Quat
@@ -298,8 +285,8 @@ static __forceinline __m128 Rotate(const Quat& quat, const __m128& vector)
 void CircleDrawer::FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20,
                                 int a24, int a28)
 {
-    FNV_AllocHolder* h = getMemoryRouter();
-    FNV_Allocator* allocator = h->m_pAllocator;
+    hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* allocator = h->m_heap;
     char* buf = FUN_00c85690(allocator, count * 16);
     float r = a20 / angle;
     Quat q1;
@@ -323,8 +310,8 @@ void CircleDrawer::FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorAr
         drawer->Line(base, buf + i * 16, a1c, a24, a28);
         drawer->Line(buf + i * 16, buf + (((i + 1) % count) * 16), a1c, a24, a28);
     }
-    h = getMemoryRouter();
-    FUN_00c856c0(h->m_pAllocator, buf);
+    h = &hkMemoryRouter::getInstance();
+    FUN_00c856c0(h->m_heap, buf);
 }
 namespace fnv_00e11180 {
 

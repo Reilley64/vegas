@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpprojectilegun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpprojectilegun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -510,21 +511,6 @@ FUN_00e44fc0::FUN_00e44fc0(int a, int b) throw()
     m_3c = b;
 }
 
-struct FnvCpu_FUN_00e450c0_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00e450c0_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00e450c0_CpuAllocator* allocator;
-};
-static inline FnvCpu_FUN_00e450c0_CpuAllocatorHolder* getMemoryRouter() { return static_cast<FnvCpu_FUN_00e450c0_CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct FnvCpu_FUN_00e450c0_CpuObject
 {
     unsigned int unk00;
@@ -537,8 +523,8 @@ FnvCpu_FUN_00e450c0_CpuObject* FnvCpu_FUN_00e450c0_CpuObject::FUN_00e450c0(unsig
     reinterpret_cast<::FUN_00e44e70_cls *>(this)->ResetVtables();
     if (flags & 1)
     {
-        FnvCpu_FUN_00e450c0_CpuAllocatorHolder* pAllocatorHolder = getMemoryRouter();
-        pAllocatorHolder->allocator->Invoke(this, size);
+        hkMemoryRouter* pAllocatorHolder = &hkMemoryRouter::getInstance();
+        pAllocatorHolder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -735,17 +721,8 @@ template <int SIZE> __forceinline void memCpyOneAlignedE44F(void* dst, const voi
     } while (++i < SIZE / 4);
 }
 
-struct hkMemoryRouterE44F
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pStreamAllocator;
-};
 
 namespace hkRouterE44F {
-static inline hkMemoryRouterE44F& getMemoryRouter() { return *static_cast<hkMemoryRouterE44F*>(::FUN_00c85750()); }
 }
 
 template <class T> class hkArrayE44F
@@ -761,9 +738,9 @@ template <class T> class hkArrayE44F
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterE44F& router = hkRouterE44F::getMemoryRouter();
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedE44F<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -795,31 +772,9 @@ void hkIslandE44F::FUN_00e44f60(hkEntityE44F* entity)
 }
 }  // namespace fnv_00e44f60
 
-class hkMemoryAllocatorE450
-{
-  public:
-    virtual ~hkMemoryAllocatorE450() throw();
-    virtual void* AllocateMemoryBlock(int n) throw();
-    virtual void ReleaseBlock(void* p, int n) throw();
-    virtual void* AllocateBufferWithSize(int& n) throw();
-    virtual void ReturnMemory(void* p, int n) throw();
-};
 
-struct hkMemoryRouterE450
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE450* m_pStreamAllocator;
-    hkMemoryAllocatorE450& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterE450 {
-static inline hkMemoryRouterE450& getMemoryRouter() { return *static_cast<hkMemoryRouterE450*>(::FUN_00c85750()); }
 }
 
 template <class T> struct hkArrayE450
@@ -830,10 +785,10 @@ template <class T> struct hkArrayE450
 
     ~hkArrayE450() throw()
     {
-        hkMemoryAllocatorE450& alloc = hkRouterE450::getMemoryRouter().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -859,29 +814,9 @@ struct hkFinishLoadedObjectFlagE46F
     int m_bFinishing;
 };
 
-class hkMemoryAllocatorE46F
-{
-  public:
-    virtual ~hkMemoryAllocatorE46F() throw();
-    virtual void* AllocateMemoryBlock(int n) throw();
-    virtual void ReleaseBlock(void* p, int n) throw();
-};
 
-struct hkMemoryRouterE46F
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE46F* m_pStreamAllocator;
-    hkMemoryAllocatorE46F& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterE46F {
-static inline hkMemoryRouterE46F& getMemoryRouter() { return *static_cast<hkMemoryRouterE46F*>(::FUN_00c85750()); }
 }
 
 class FUN_00e46e80
@@ -892,7 +827,7 @@ class FUN_00e46e80
 
     static void* operator new(size_t n)
     {
-        return hkRouterE46F::getMemoryRouter().heap().AllocateMemoryBlock(n);
+        return hkMemoryRouter::getInstance().heap().blockAlloc(n);
     }
     static void operator delete(void* p);
 

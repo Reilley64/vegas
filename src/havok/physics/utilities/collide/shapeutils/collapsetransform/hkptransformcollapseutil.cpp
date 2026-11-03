@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -98,29 +99,7 @@ int RunContextOperation(int aiArg1, int aiArg2, int aiArg3, int* piOut)
     return 0;
 }
 
-class hkMemoryAllocatorD748
-{
-  public:
-    virtual ~hkMemoryAllocatorD748() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD748
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD748* m_pStreamAllocator;
-    hkMemoryAllocatorD748& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline hkMemoryRouterD748& getMemoryRouter() { return *static_cast<hkMemoryRouterD748*>(::FUN_00c85750()); }
 
 
 template <class T> __forceinline void constructWithCopyD748(T* p, int n, const T& t)
@@ -140,10 +119,10 @@ template <class T> class hkArrayD748
     {}
     ~hkArrayD748() throw()
     {
-        hkMemoryAllocatorD748& kAlloc = getMemoryRouter().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            kAlloc.bufFree(m_data, getCapacity() * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -154,7 +133,7 @@ template <class T> class hkArrayD748
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorD748& kAlloc = getMemoryRouter().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyD748(m_data + m_iElementCount, 1, t);
@@ -225,28 +204,7 @@ found:
 #include "fnv/symbols_simd.h"
 
 struct Shp_d74480;
-struct Alloc_d74480
-{
-    virtual void unk00();
-    virtual void* allocate(int size);
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void deallocate(void* p, int size);
-};
-struct Router_d74480
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Alloc_d74480* m_pStreamAllocator;
-    Alloc_d74480& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 namespace fnvc_adapt {
-static inline Router_d74480* getMemoryRouter() { return static_cast<Router_d74480*>(::FUN_00c85750()); }
 }
 struct Shp_d74480
 {
@@ -343,9 +301,9 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         {
             Shp_d74480* pChild = list->children[i].shape;
             Shp_d74480* n = ProcessShape(pChild, context, cache, settings);
-            Router_d74480* pRouter = fnvc_adapt::getMemoryRouter();
+            hkMemoryRouter* pRouter = &hkMemoryRouter::getInstance();
             if (childShapes.size == (childShapes.capacity & 0x3fffffff))
-                ::ResizeAudioStream((::AudioAllocator *)(::Alloc_d74480 *)(&pRouter->heap()), (::AudioStream *)(void *)(&childShapes), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocator *)(&pRouter->heap()), (::AudioStream *)(void *)(&childShapes), 4);
             childShapes.data[childShapes.size++] = n;
             if (n != pChild)
                 bUnchanged = false;
@@ -355,24 +313,24 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
             for (int i = 0; i < count; ++i)
                 reinterpret_cast<::hkReferencedObjectC905 *>((childShapes.data[i]))->FUN_00c905b0();
             reinterpret_cast<::FUN_00c90510_class *>((shape))->FUN_00c90510();
-            Alloc_d74480& a = fnvc_adapt::getMemoryRouter()->heap();
+            hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
             childShapes.size = 0;
             if ((childShapes.capacity & 0x80000000) == 0)
-                a.deallocate(childShapes.data, (childShapes.capacity & 0x3fffffff) * 4);
+                a.bufFree(childShapes.data, (childShapes.capacity & 0x3fffffff) * 4);
             result = shape;
             break;
         }
-        Shp_d74480* v = (Shp_d74480*)fnvc_adapt::getMemoryRouter()->heap().allocate(0x70);
+        Shp_d74480* v = (Shp_d74480*)hkMemoryRouter::getInstance().heap().blockAlloc(0x70);
         v->GetAllocationSize = 0x70;
         v = ((::Shp_d74480 *)(new ((void *)(v)) ::FUN_00cf5640((int)(childShapes.data), count, 1)));
         for (int i = 0; i < count; ++i)
             reinterpret_cast<::hkReferencedObjectC905 *>((childShapes.data[i]))->FUN_00c905b0();
         reinterpret_cast<::D749Table *>((cache))->SetEntryValue((int)(shape), (int)(v));
         result = v;
-        Alloc_d74480& a = fnvc_adapt::getMemoryRouter()->heap();
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         childShapes.size = 0;
         if ((childShapes.capacity & 0x80000000) == 0)
-            a.deallocate(childShapes.data, (childShapes.capacity & 0x3fffffff) * 4);
+            a.bufFree(childShapes.data, (childShapes.capacity & 0x3fffffff) * 4);
         break;
     }
     case 15: {
@@ -388,7 +346,7 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         }
         else
         {
-            Shp_d74480* mem = (Shp_d74480*)fnvc_adapt::getMemoryRouter()->heap().allocate(0x70);
+            Shp_d74480* mem = (Shp_d74480*)hkMemoryRouter::getInstance().heap().blockAlloc(0x70);
             mem->GetAllocationSize = 0x70;
             v = ((::Shp_d74480 *)(reinterpret_cast<::cf5990_TransformShape *>((mem))->FUN_00cf5990((::hkpShape *)(n), (*(const ::hkTransform *)(&xf->transform)))));
             reinterpret_cast<::hkReferencedObjectC905 *>((n))->FUN_00c905b0();
@@ -411,7 +369,7 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         }
         else
         {
-            Shp_d74480* mem = (Shp_d74480*)fnvc_adapt::getMemoryRouter()->heap().allocate(0x60);
+            Shp_d74480* mem = (Shp_d74480*)hkMemoryRouter::getInstance().heap().blockAlloc(0x60);
             mem->GetAllocationSize = 0x60;
             v = ((::Shp_d74480 *)(reinterpret_cast<::Standin *>((mem))->FUN_00d5d7a0((const ::hkpConvexShape *)(n), (*(const ::AlignedTransform *)(&cv->translation)), 1)));
             reinterpret_cast<::hkReferencedObjectC905 *>((n))->FUN_00c905b0();
@@ -434,7 +392,7 @@ Shp_d74480* __cdecl ProcessShape(Shp_d74480* shape, void* context, Cache_d74480*
         }
         else
         {
-            Convex_d74480* pNewConvex = (Convex_d74480*)fnvc_adapt::getMemoryRouter()->heap().allocate(0x30);
+            Convex_d74480* pNewConvex = (Convex_d74480*)hkMemoryRouter::getInstance().heap().blockAlloc(0x30);
             pNewConvex->GetAllocationSize = 0x30;
             new ((void *)(pNewConvex)) ::FUN_00c9e340(11, ((Convex_d74480*)n)->radius, (::FUN_00d1df70 *)(n), 1);
             pNewConvex->vtbl = &DAT_010d0e5c;
@@ -543,7 +501,7 @@ struct hkpSingleD737 : hkpShapeD737
 
 template <class T> static __forceinline void PushBackD737(hkArrayD748<T>* a, const T& t)
 {
-    hkMemoryAllocatorD748& kAlloc = getMemoryRouter().heap();
+    hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
     if (a->m_iElementCount == a->getCapacity())
         ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(a), sizeof(T));
     constructWithCopyD748(a->m_data + a->m_iElementCount, 1, t);
@@ -738,25 +696,7 @@ public:
     hkBool FUN_00cb2160(const hkTransform&, float) const;
 };
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct NineIntegerRecord
-{
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int m_unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-    static NineIntegerRecord& GetMonitorStream();
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct hkBaseObject
 {
@@ -770,7 +710,7 @@ struct CollapseRefObject : hkBaseObject
     __forceinline void* operator new(size_t nbytes)
     {
         CollapseRefObject* b =
-            static_cast<CollapseRefObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(nbytes));
+            static_cast<CollapseRefObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -945,10 +885,10 @@ template <class T> class hkArrayD74
     }
     void ClearAndRelease()
     {
-        hkMemoryAllocatorD748& alloc = getMemoryRouter().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         m_data = 0;
         m_iCapacityState = DONT_DEALLOCATE_FLAG;
     }
@@ -1074,7 +1014,7 @@ static __forceinline void addShapeD738(ShapeData* self, int value)
     e.m_pCollisionShape = value;
     e.m_unk04 = 0;
     e.m_iObjectReferenceCount = 1;
-    hkMemoryAllocatorD748& kAlloc = getMemoryRouter().heap();
+    hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
     if (self->m_kPointB == (self->m_iThirdValue & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(self), sizeof(EntryD738));
     new ((EntryD738*)self->m_kPointA + self->m_kPointB) EntryD738(e);
@@ -1263,9 +1203,9 @@ __forceinline void hkVector4::_setTransformedPos(const hkTransform& t, const hkV
                                              _mm_add_ps(r2, t.getTranslation().m_vComponents));
 }
 
-__forceinline hkMemoryAllocatorD748& heapAllocator()
+__forceinline hkMemoryAllocator& heapAllocator()
 {
-    return getMemoryRouter().heap();
+    return hkMemoryRouter::getInstance().heap();
 }
 struct hkTypeIsPod
 {
@@ -1319,15 +1259,15 @@ template <class T> class hkArrayBase739
         HavokArrayUtilities::destruct(m_data, m_iElementCount, hkTypeIsPod());
         m_iElementCount = 0;
     }
-    __forceinline void _clearAndDeallocate(hkMemoryAllocatorD748& alloc)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         clear();
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         m_data = 0;
         m_iCapacityState = DONT_DEALLOCATE_FLAG;
     }
-    __forceinline void GrowArrayCapacity(hkMemoryAllocatorD748& alloc, int n)
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
     {
         const int capacity = getCapacity();
         if (capacity < n)
@@ -1337,14 +1277,14 @@ template <class T> class hkArrayBase739
             ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
         }
     }
-    __forceinline void _setSize(hkMemoryAllocatorD748& alloc, int n)
+    __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
     {
         GrowArrayCapacity(alloc, n);
         HavokArrayUtilities::destruct(m_data + n, m_iElementCount - n, hkTypeIsPod());
         HavokArrayUtilities::construct(m_data + m_iElementCount, n - m_iElementCount, hkTypeIsPod());
         m_iElementCount = n;
     }
-    __forceinline void _pushBack(hkMemoryAllocatorD748& alloc, const T& t)
+    __forceinline void _pushBack(hkMemoryAllocator& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
@@ -1385,7 +1325,7 @@ struct FloatArrayDescriptor
 };
 __forceinline void* shapeNew(int nbytes)
 {
-    hkpShape* b = static_cast<hkpShape*>(heapAllocator().AllocateMemoryBlock(nbytes));
+    hkpShape* b = static_cast<hkpShape*>(heapAllocator().blockAlloc(nbytes));
     b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
     return b;
 }

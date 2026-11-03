@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
@@ -19,12 +20,6 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_01268000.h"
 
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
 struct AudioMgr
 {
@@ -37,11 +32,10 @@ struct AudioMgr
     }
 };
 
-struct BSAudio;
-static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
+struct hkMemoryRouter;
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)getMemoryRouter();
+    return (AudioMgr*)&hkMemoryRouter::getInstance();
 }
 
 struct hkBool
@@ -144,7 +138,7 @@ struct Instance : hkRefObj
 
 inline void* hkAlloc(int size)
 {
-    hkRefObj* p = (hkRefObj*)audio()->heap().AllocateMemoryBlock(size);
+    hkRefObj* p = (hkRefObj*)audio()->heap().blockAlloc(size);
     p->m_usMemSizeAndFlags = (unsigned short)size;
     return p;
 }

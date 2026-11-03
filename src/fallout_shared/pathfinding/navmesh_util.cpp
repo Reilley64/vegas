@@ -2617,9 +2617,9 @@ class FUN_0069b0a0_cls
 // @fnv 0x0069a9d0
 void FUN_0069a9d0_shell::FUN_0069a9d0(unsigned short a1, std::uintptr_t a2)
 {
-    if (::IsFieldCZero((::Dummy_0069b080 *)(((NiTPointerMap<unsigned int, SoundPlaybackHandle*>*)((char*)this + 0x88)))))
+    if (::IsFieldCZero((::Dummy_0069b080 *)(((NiTPointerMap<unsigned int, SoundPlaybackHandle*>*)&this->POVPointerArray))))
         reinterpret_cast<::FUN_00699b60_shell *>(this)->BuildPortalPOVs();
-    reinterpret_cast<::FUN_0069b0a0_cls *>((((FUN_0069b0a0_shell*)((char*)this + 0x88))))->LookupValue(a1, (unsigned int *)(a2));
+    reinterpret_cast<::FUN_0069b0a0_cls *>((((FUN_0069b0a0_shell*)&this->POVPointerArray)))->LookupValue(a1, (unsigned int *)(a2));
 }
 // Hashes key, walks the bucket chain comparing keys, and on a match copies the item's value to out and returns true; otherwise returns false.
 // @fnv 0x0069b0a0

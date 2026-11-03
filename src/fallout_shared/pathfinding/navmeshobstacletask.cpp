@@ -88,7 +88,7 @@ struct Helper_006c8980
 // @fnv 0x006c8150
 void FUN_006c8150_shell::FUN_006c8150()
 {
-    reinterpret_cast<::FUN_006c8980_stand *>((((Helper_006c8980*)((char*)this + 0x24))))->FUN_006c8980((std::intptr_t)(((void (&)())::CompareObstacleEntries)));
+    reinterpret_cast<::FUN_006c8980_stand *>((((Helper_006c8980*)&this->Operations)))->FUN_006c8980((std::intptr_t)(((void (&)())::CompareObstacleEntries)));
 }
 
 struct Elem16

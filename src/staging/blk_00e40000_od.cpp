@@ -1002,9 +1002,6 @@ void FUN_00e5cfe0(int a1, int a2, int a3, float a4, int a5)
 
 int __cdecl FUN_00e4b570(const __m128* point, const __m128* verts, float* out);
 
-// VEGAS17-CONFLICT: LocalObj (variant definition below differs from the one above)
-// stand-in for the local object whose method is called
-
 int __cdecl FUN_00e5cf00(void* a1, int a2, int a3, int a4);
 
 void __cdecl FUN_00e5cf40(int a, int b, int c);

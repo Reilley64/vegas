@@ -8046,9 +8046,6 @@ void __cdecl FUN_00e114b0();
 
 int __cdecl FUN_00e000b0();
 
-// VEGAS17-CONFLICT: FUN_00d50c00_cls (variant definition below differs from the one above)
-// Forward a value to the owner object when the owner pointer is present.
-
 CpuOpaque* __cdecl FUN_00e00110();
 
 int* __cdecl FUN_00e00170();
@@ -8169,11 +8166,6 @@ void* __cdecl FUN_00e01c20();
 void* FUN_00e01ce0();
 
 int* __cdecl FUN_00e01e10();
-
-// VEGAS17-CONFLICT: FUN_00e01e20_cls (variant definition below differs from the one above)
-// Null-guarded forwarder: the first argument is an object pointer; when it
-// is non-null the second argument is forwarded to a member function of that
-// object (called with the object as 'this').
 
 int* __cdecl FUN_00e01e70();
 

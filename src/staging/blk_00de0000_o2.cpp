@@ -13068,10 +13068,6 @@ unsigned char* __cdecl FUN_00dfd1b0();
 
 void* __cdecl FUN_00dfd1d0();
 
-// VEGAS17-CONFLICT: FUN_00dfd1e0_cls (variant definition below differs from the one above)
-// FUN_00dfd1e0: null-guarded forwarding of a second argument to a
-// member function of the first (object) argument.
-
 int* __cdecl FUN_00dfd230();
 
 // FUN_00dfd250 : a one-line function - getter
@@ -13285,10 +13281,6 @@ CpuOpaque* __cdecl FUN_00dff5b0();
 void* __cdecl FUN_00dff5d0();
 
 int* __cdecl FUN_00dff880();
-
-// VEGAS17-CONFLICT: FUN_00dff890_cls (variant definition below differs from the one above)
-// FUN_00dff890: forwards a second argument to a method of the first argument
-// when that pointer is non-null.
 
 void* __cdecl FUN_00dffa20();
 

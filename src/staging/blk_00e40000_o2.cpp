@@ -7306,10 +7306,6 @@ void __cdecl DifferenceInPlace(float* samples, unsigned int count);
 
 
 
-// VEGAS17-CONFLICT: FUN_00e5cdb0_class (variant definition below differs from the one above)
-// FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
-// with a literal zero inserted as the third argument.
-
 void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value);
 
 float __cdecl FUN_00e404b0(FloatArray_e404b0* arr);
@@ -8124,11 +8120,6 @@ void __cdecl FUN_00e53030(unsigned char* p);
 
 float* __cdecl FUN_00e533a0(float* pOut, float f, SpawnedObject* pObj);
 
-// VEGAS17-CONFLICT: FUN_00e533c0_cls (variant definition below differs from the one above)
-// Thin cdecl wrapper: forwards its first argument and a float to a
-// thiscall method of the object given as the third argument, then hands
-// the first argument back to the caller.
-
 int __cdecl FindFloatInterval(int a, int b, float value, float** pp);
 
 int __cdecl FindInsertIndex(float value, float** table, int count);
@@ -8162,10 +8153,6 @@ extern FUN_00e5c8b0_Logger* g_01268360;
 
 
 extern LogSink* g_pAttrLogger;
-
-// VEGAS17-CONFLICT: FUN_00e5cdb0_class (variant definition below differs from the one above)
-// FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
-// with a literal zero inserted as the third argument.
 
 
 

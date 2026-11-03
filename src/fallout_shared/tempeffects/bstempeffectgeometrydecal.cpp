@@ -773,7 +773,7 @@ struct FeatureState
 extern char str_01069ba0;
 
 
-typedef unsigned int(* VirtualQuery)(void* object);
+typedef unsigned int(* VirtualQuery_fn)(void* object);
 
 struct RuntimeController
 {
@@ -1794,7 +1794,8 @@ void DDecal::BuildDecalGeometry()
     localDirection_29 = inverse_11.FUN_004b4500(&direction);
     DMatrix rotation_6;
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rotation_6))->FUN_004a0c90(angle);
-    basis_6 = rotation_6.FUN_0043f8d0(&FUN_00c4b600(direction));
+    auto kRotated_6 = FUN_00c4b600(direction);
+    basis_6 = rotation_6.FUN_0043f8d0(&kRotated_6);
     DTransform transform_40 = ((::DGeometry *)(::FUN_00559450((int *)&(geometry))))->FUN_00461130();
     reinterpret_cast<::NiPoint3 *>(&(transform_40.position))->Subtract((const ::NiPoint3 &)(position));
     boneData_4 = ((::DBone *)(reinterpret_cast<::LowProcess *>((((::DSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skin_1))->GetRegionMapName()))))->GetTarget()));
@@ -2489,8 +2490,8 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
             delete arr1;
         }
     }
-    reinterpret_cast<::FUN_00440460_S *>((objA))->FUN_00440460((const ::V3 *)(((int)(reinterpret_cast<::NiAVObject *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->FUN_0043c490()))));
-    reinterpret_cast<::FUN_0043fa80_s *>((objA))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((int)(::FUN_006a9540((char *)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry))))))))))));
+    reinterpret_cast<::FUN_00440460_S *>((objA))->FUN_00440460((const ::V3 *)(&(reinterpret_cast<::NiAVObject *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->FUN_0043c490())));
+    reinterpret_cast<::FUN_0043fa80_s *>((objA))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((std::intptr_t)(::FUN_006a9540((char *)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry))))))))))));
     reinterpret_cast<::FUN_00440490_shell *>((objA))->FUN_00440490(reinterpret_cast<::FUN_009cdae0_shell *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->GetFloatAt64());
     reinterpret_cast<::FUN_004f00e0_shell *>((objA))->FUN_004f00e0((void *)(::FUN_0045bb80((int)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))));
     reinterpret_cast<::FUN_00688430_shell *>((objA))->FUN_00688430((::NineDwords688430 *)(::NineDw *)(((::NineDw *)(::FUN_00461130((std::intptr_t)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))))));
@@ -2890,7 +2891,7 @@ bool DecalLoad688::FUN_00688c90()
             }
             else
             {
-                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), &str_01069ba0, 1932, ((DecalLoad688Version*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), &str_01069ba0, 1932, reinterpret_cast<::FUN_008df040_shell *>(((DecalLoad688Version*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
             }
         }
         base = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((DecalLoad688Buffer*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
@@ -2919,12 +2920,12 @@ bool DecalLoad688::FUN_00688c90()
             if (cur4 > count + base)
             {
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010154a0)), cur4 - (count + base), &str_01069ba0, 2104,
-                             ((DecalLoad688Version*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                             reinterpret_cast<::FUN_008df040_shell *>(((DecalLoad688Version*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
             }
             else if (cur4 < count + base)
             {
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015440)), (count + base) - cur4, &str_01069ba0, 2104,
-                             ((DecalLoad688Version*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                             reinterpret_cast<::FUN_008df040_shell *>(((DecalLoad688Version*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->FUN_008df040());
             }
         }
     }

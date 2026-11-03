@@ -709,32 +709,15 @@ void hkOwnerXd07de0::FUN_00d07de0(void* item)
     m_kNode.AddBack(item);
 }
 
-class hkMemoryAllocatorD07 {
-public:
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int iNumBytes);
-    virtual void ReleaseBlock(void* p, int iNumBytes);
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int iNumBytes);
-};
-struct hkMemoryRouterD07 {
-    void* m_aiEntries;
-    void* m_stackStart;
-    void* m_stackEnd;
-    hkMemoryAllocatorD07* m_pTemp;
-    hkMemoryAllocatorD07* m_pStreamAllocator;
-    hkMemoryAllocatorD07& heap() { return *m_pStreamAllocator; }
-};
-hkMemoryRouterD07& __cdecl GetMemoryRouterD07() throw();
 
 template <typename T> struct hkArrayD07 {
     hkArrayD07() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     __forceinline ~hkArrayD07() throw()
     {
-        hkMemoryAllocatorD07& kAlloc = GetMemoryRouterD07().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -746,14 +729,11 @@ template <typename T> struct hkArrayD07 {
 };
 template <typename T> __forceinline T* hkAllocateStackD07(int n)
 {
-    hkMemoryRouterD07& kRouter = GetMemoryRouterD07();
-    char* pcCur = (char*)kRouter.m_aiEntries;
-    kRouter.m_aiEntries = pcCur + ((n * sizeof(T) + 0x7f) & ~0x7f);
-    return (T*)pcCur;
+    return static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n * int(sizeof(T)) + 0x7f) & ~0x7f));
 }
 template <typename T> __forceinline void hkDeallocateStackD07(T* p)
 {
-    GetMemoryRouterD07().m_aiEntries = p;
+    hkMemoryRouter::getInstance().deallocateStack(p);
 }
 template <typename T> struct hkLocalArrayD07 : public hkArrayD07<T> {
     __forceinline hkLocalArrayD07(int n) throw()

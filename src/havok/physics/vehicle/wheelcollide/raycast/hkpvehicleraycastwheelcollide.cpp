@@ -19,25 +19,26 @@
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_0102e000.h"
 #include "havok/hkpVehicleRayCastWheelCollide.h"
+#include "havok/hkpWorldObject.h"
 
-struct FUN_00e41f10
+struct FUN_00e41f10 : hkpVehicleRayCastWheelCollide
 {
     void SetUserInfo(int a);
 };
 // @fnv 0x00e41f10
 void FUN_00e41f10::SetUserInfo(int aiValue)
 {
-    *(int*)((char*)this + 0xc) = aiValue;
-    int* p = *(int**)((char*)this + 0x10);
+    m_uiWheelCount = aiValue;
+    hkpWorldObject* p = reinterpret_cast<hkpWorldObject*>(m_pPhantom);
     if (p)
-        p[0x2c / 4] = aiValue;
+        p->m_kCollidable.m_kBroadPhaseHandle.m_uiCollisionFilterData = aiValue;
 }
 
 struct FUN_00c936a0_host
 {
 };
 
-struct FUN_00e41ef0_self
+struct FUN_00e41ef0_self : hkpVehicleRayCastWheelCollide
 {
     void* FUN_00e41ef0(void* world);
 };
@@ -45,7 +46,7 @@ struct FUN_00e41ef0_self
 // @fnv 0x00e41ef0
 void* FUN_00e41ef0_self::FUN_00e41ef0(void* world)
 {
-    return ((void *)(reinterpret_cast<::FUN_00c936a0_World *>((((FUN_00c936a0_host*)world)))->FUN_00c936a0((::hkpPhantom *)(*(void**)((char*)this + 0x10)))));
+    return ((void *)(reinterpret_cast<::FUN_00c936a0_World *>((((FUN_00c936a0_host*)world)))->FUN_00c936a0((::hkpPhantom *)(m_pPhantom))));
 }
 
 struct __declspec(align(16)) hkAabb
@@ -91,15 +92,15 @@ void FUN_00e41e70_host::FUN_00e41e70(unsigned int shape)
 struct FUN_00c92c70_host
 {
 };
-struct FUN_00e41f00_self
+struct FUN_00e41f00_self : hkpVehicleRayCastWheelCollide
 {
     void FUN_00e41f00();
 };
 // @fnv 0x00e41f00
 void FUN_00e41f00_self::FUN_00e41f00()
 {
-    void* p = *(void**)((char*)this + 0x10);
-    reinterpret_cast<::WorldC92C *>((((FUN_00c92c70_host*)*(void**)((char*)p + 8))))->FUN_00c92c70((::ActionC92C *)(p));
+    hkpWorldObject* p = reinterpret_cast<hkpWorldObject*>(m_pPhantom);
+    reinterpret_cast<::WorldC92C *>((((FUN_00c92c70_host*)p->m_pOwningWorld)))->FUN_00c92c70((::ActionC92C *)(p));
 }
 
 extern int DAT_010e5ae4;
@@ -669,6 +670,14 @@ struct __declspec(align(16)) FUN_00e41eb0_Input
     unsigned int m_uiFilterInfo;
 };
 
+// hkpVehicleInstance::WheelInfo ray: hard point (+0x50) and ray end point (+0x60).
+struct WheelRayFields
+{
+    char pad00[0x50];
+    __m128 m_rayStart;  // +0x50
+    __m128 m_rayEnd;    // +0x60
+};
+
 struct FUN_00e41eb0_Host : public hkpVehicleRayCastWheelCollide
 {
     void FUN_00e41eb0(const void* source, void* output);
@@ -679,8 +688,9 @@ struct FUN_00e41eb0_Host : public hkpVehicleRayCastWheelCollide
 void FUN_00e41eb0_Host::FUN_00e41eb0(const void* source, void* output)
 {
     FUN_00e41eb0_Input input;
-    *(__m128*)&input.m_vFrom = *(__m128*)((const char*)source + 0x50);
-    *(__m128*)&input.m_vTo = *(__m128*)((const char*)source + 0x60);
+    const WheelRayFields* wheel = static_cast<const WheelRayFields*>(source);
+    *(__m128*)&input.m_vFrom = wheel->m_rayStart;
+    *(__m128*)&input.m_vTo = wheel->m_rayEnd;
     input.m_uiFilterInfo = m_uiWheelCount;
     input.m_bEnableShapeCollectionFilter = 1;
     reinterpret_cast<::Phantom_00cf26b0 *>((m_pPhantom))->FUN_00cf26b0((*(const ::WorldRayCastInput *)(&input)), (*(::WorldRayCastOutput *)(output)));

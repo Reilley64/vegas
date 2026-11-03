@@ -4969,7 +4969,7 @@ bool __cdecl FUN_005b9370(const ScriptParameter*, const char*, TESObjectREFR*, T
 }
 }  // namespace fnv_005b9370
 
-int g_TES;
+::TES* g_TES;
 
 struct FUN_00456aa0_Class
 {
@@ -6399,7 +6399,6 @@ struct BSOcclusionPlane
 struct TES
 {
 };
-extern int g_TES;
 struct FUN_005c1fe0_Spell
 {
     virtual void S0();
@@ -9385,7 +9384,6 @@ bool FUN_005b7070()
     return true;
 }
 
-extern int g_TES;
 struct TESStandIn {
 };
 void _DebugLog(const char*, const char*);
@@ -30580,7 +30578,6 @@ struct TesStandIn5bf
 {
 };
 
-extern int g_TES;
 
 extern bool __cdecl FUN_005accb0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7, float* out);
 

@@ -23,6 +23,7 @@
 #include "fnv/decl/FUN_0041fd00_shell.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
 #include "fnv/decl/FUN_00446ff0.h"
+#include "fnv/decl/FUN_0044abd0_Class.h"
 #include "fnv/decl/FUN_0044c3f0.h"
 #include "fnv/decl/FUN_0044cae0_cls.h"
 #include "fnv/decl/FUN_0044ee20_class.h"
@@ -356,15 +357,10 @@ struct FUN_0044a9a0_Class
     void FUN_0044a450(int a);
     void* FUN_0044a9a0(const struct FUN_0044a450* apOther);
 };
-void __cdecl FUN_0044d670(int, int);
-struct FUN_0044abd0_Class
-{
-    void FUN_0044abd0(int);
-};
 // @fnv 0x0044abd0
-void FUN_0044abd0_Class::FUN_0044abd0(int aiValue)
+int* FUN_0044abd0_Class::FUN_0044abd0(unsigned int count)
 {
-    FUN_0044d670(aiValue, 0);
+    return FUN_0044d670(count);
 }
 
 struct FUN_0044ac20_class

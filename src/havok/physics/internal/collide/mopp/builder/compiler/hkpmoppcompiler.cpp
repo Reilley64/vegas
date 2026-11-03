@@ -53,8 +53,8 @@ struct FUN_00dd4bf0
 // @fnv 0x00dd4bf0
 FUN_00dd4bf0::FUN_00dd4bf0(InitArg* apArg)
 {
-    reinterpret_cast<::FUN_00dd50f0_cls *>(&(m_kFirst))->FUN_00dd50f0((int)(apArg));
-    reinterpret_cast<::FUN_00dd5150_cls *>(&(m_kSecond))->FUN_00dd5150((int)(apArg));
+    reinterpret_cast<::FUN_00dd50f0_cls *>(&(m_kFirst))->FUN_00dd50f0(apArg);
+    reinterpret_cast<::FUN_00dd5150_cls *>(&(m_kSecond))->FUN_00dd5150(apArg);
 
     m_fCoefficientA = 0.5f;
     m_fB = 0.2f;
@@ -99,13 +99,12 @@ struct Destination
     __m128 unk50;
     unsigned int unk60;
     unsigned char unk64;
-    void CopyFromSourceData(unsigned int srcAddress);
+    void CopyFromSourceData(const SourceData* src);
 };
 // Copies x, y, z, a 16-byte vector, a 32-bit value and a byte from the SourceData at srcAddress into this object's unk40 to unk64 fields.
 // @fnv 0x00dd4c70
-void Destination::CopyFromSourceData(unsigned int srcAddress)
+void Destination::CopyFromSourceData(const SourceData* src)
 {
-    const SourceData* src = (const SourceData*)srcAddress;
     unk40 = src->x;
     unk44 = src->y;
     unk48 = src->z;
@@ -415,7 +414,7 @@ hkpMoppCode* MoppBuilder::FUN_00dd4cb0(PrimitiveSource* source, void* buffer, in
     int status;
     {
         hkpMoppDefaultSplitter splitter;
-        status = reinterpret_cast<::hkProcessorE0A5 *>(&(splitter))->FUN_00e0a550((::hkInputE0A5 *)(source), (int)(&costFunction), (::hkOutputE0A5 *)(::hkpMoppDefaultAssembler *)(&output), (::hkSettingsE0A5 *)(int *)(&options), (::hkBuffersE0A5 *)(::ScratchLayout *)(&layout));
+        status = reinterpret_cast<::hkProcessorE0A5 *>(&(splitter))->FUN_00e0a550((::hkInputE0A5 *)(source), &costFunction, (::hkOutputE0A5 *)(::hkpMoppDefaultAssembler *)(&output), (::hkSettingsE0A5 *)(int *)(&options), (::hkBuffersE0A5 *)(::ScratchLayout *)(&layout));
     }
     if (scratch != buffer)
     {

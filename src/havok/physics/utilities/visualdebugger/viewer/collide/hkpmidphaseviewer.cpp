@@ -48,7 +48,7 @@ struct Receiver
 // @fnv 0x00d6a250
 void FirstBase::FUN_00d6a250(Receiver* apReceiver)
 {
-    reinterpret_cast<::SearchArray *>((apReceiver))->ClearValue((int)((FullObject*)((char*)this - 0x20)));
+    reinterpret_cast<::SearchArray *>((apReceiver))->ClearValue(((FullObject*)((char*)this - 0x20)));
 }
 
 struct hkMemoryAllocator
@@ -206,7 +206,7 @@ FUN_00d6a750::~FUN_00d6a750()
     if (m_pSharedOwner)
     {
         for (int i = 0; i < m_pSharedOwner->m_iNumSources; i++)
-            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppSources[i]))->ClearValue((int)(this));
+            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppSources[i]))->ClearValue((this));
     }
 }
 

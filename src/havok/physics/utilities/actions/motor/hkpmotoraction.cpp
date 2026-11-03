@@ -50,14 +50,14 @@ struct FUN_00d4d720
     volatile float m_fGain;
     volatile unsigned char m_bSlotEnabled;
 
-    FUN_00d4d720(int entity, const float* axis, float spinRate, float gain);
+    FUN_00d4d720(::FUN_00c90510_Entity* entity, const float* axis, float spinRate, float gain);
 };
 
 // Calls FUN_00d2b260(entity, 0), sets the vtable, loads and normalizes axis, stores spinRate and gain, and sets m_bSlotEnabled to 1.
 // @fnv 0x00d4d720
-FUN_00d4d720::FUN_00d4d720(int entity, const float* axis, float spinRate, float gain)
+FUN_00d4d720::FUN_00d4d720(::FUN_00c90510_Entity* entity, const float* axis, float spinRate, float gain)
 {
-    new ((void *)(reinterpret_cast<FUN_00d2b260_Obj*>(this))) ::FUN_00d2b260((::FUN_00c90510_Entity *)(entity), 0);
+    new ((void *)(reinterpret_cast<FUN_00d2b260_Obj*>(this))) ::FUN_00d2b260(entity, 0);
     m_vtbl = &DAT_010d0944;
     m_kAxisEndPoints.quad = _mm_load_ps(axis);
     m_fSpinRate = spinRate;
@@ -239,6 +239,13 @@ struct Motion
     int unk08;
     int unk0C;
     hkMatrix3 m_rotation;  // +0xf0 in body
+    Vec4 m_translation;
+    Vec4 m_sweptTransform[5];
+    Vec4 m_deltaAngle;
+    Vec4 m_radiusAndMaxVelocities;
+    Vec4 m_inertiaAndMassInv;
+    Vec4 m_linearVelocity;
+    Vec4 m_angularVelocity;  // +0x1c0 in body
 };
 
 struct RigidBody
@@ -322,7 +329,7 @@ void MotorAction::FUN_00d4d860(const TimeInterval& stepInfo)
     RigidBody* rb = reinterpret_cast<RigidBody*>(m_pEntity);
 
     Vec4 currentAngVel;
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(currentAngVel))->FUN_004b4ab0((int)(&rb->m_pMotionState.m_rotation), (int)(reinterpret_cast<char*>(rb) + 0x1c0));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(currentAngVel))->FUN_004b4ab0(reinterpret_cast<intptr_t>(&rb->m_pMotionState.m_rotation), reinterpret_cast<intptr_t>(&rb->m_pMotionState.m_angularVelocity));
 
     const Vec4& axis = reinterpret_cast<const Vec4&>(m_kAxisEndPoints);
     float currentRate = currentAngVel.dot3(axis);

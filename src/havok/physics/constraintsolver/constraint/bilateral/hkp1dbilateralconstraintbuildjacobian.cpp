@@ -1065,7 +1065,6 @@ void FUN_00dcee80(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_0
 #include "fnv/symbols_01268000.h"
 static void FUN_00dcf460(Jac_dcf880* out, const Info_dcf880* info, const QueryIn_dcf880* in, float scale);
 void CallTarget_dcf460();
-extern __m128 DAT_010c44d0;
 __forceinline void S_00dcee80_Vector4::setNeg4(const S_00dcee80_Vector4& v)
 {
 

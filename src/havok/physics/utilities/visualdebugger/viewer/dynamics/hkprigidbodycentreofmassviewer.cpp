@@ -302,7 +302,7 @@ struct FUN_00d69b20_cls
 void FUN_00d69b20_cls::AttachAndDispatch(ArgOwner* apOwner)
 {
     reinterpret_cast<::hkWorldC917 *>((apOwner))->FUN_00c917a0(this != 0 ? (void*)&m_28 : 0);
-    reinterpret_cast<::SearchArray *>((apOwner))->ClearValue((int)(this != 0 ? (void*)&m_2c : 0));
+    reinterpret_cast<::SearchArray *>((apOwner))->ClearValue((this != 0 ? (void*)&m_2c : 0));
 
     for (int i = 0; i < apOwner->m_2c; ++i)
     {
@@ -451,10 +451,7 @@ void FUN_00d6a000_cls::AppendDword(unsigned int aValue)
         ::ResizeAudioStream((::AudioAllocator *)(pAllocHolder->m_pAllocator), (::AudioStream *)(list), 4);
     }
 
-    unsigned int count = (unsigned int)list->m_iArrayLength;
-    unsigned int data = (unsigned int)list->m_pData;
-    unsigned int pSlot = data + count * 4u;
-    *(unsigned int*)pSlot = *(volatile unsigned int*)&aValue;
+    list->m_pData[list->m_iArrayLength] = *(volatile unsigned int*)&aValue;
     list->m_iArrayLength++;
 }
 

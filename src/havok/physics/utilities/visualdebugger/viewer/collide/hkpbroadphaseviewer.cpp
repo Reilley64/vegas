@@ -366,7 +366,7 @@ FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
     {
         for (int i = 0; i < m_pSharedOwner->m_iArrayLength; ++i)
         {
-            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((int)(static_cast<SubObject*>(this)));
+            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((static_cast<SubObject*>(this)));
         }
     }
     AudioHolder* pAudioHolder = getMemoryRouter();
@@ -427,16 +427,16 @@ struct SpawnedObject
     int unk34;
 };
 
-// Allocates a 0x38-byte object from the holder's allocator, sets its size, calls Init(arg), and returns the result plus 8 or 0.
+// Allocates a 0x38-byte object from the holder's allocator, sets its size, constructs the viewer on it and returns its ProcBase (+8) or 0.
 // @fnv 0x00d6ad00
-int FUN_00d6ad00(int arg)
+::ProcBase* FUN_00d6ad00(void* arg)
 {
     AllocHolder* pAllocHolder = getMemoryRouter();
     AllocatorIface* pAllocator = pAllocHolder->m_pAllocator;
     SpawnedObject* pObject = (SpawnedObject*)pAllocator->allocate(0x38);
     pObject->m_wSize = 0x38;
-    int iInitResult = ((int)(new ((void *)(pObject)) ::FUN_00d6a940((void *)(arg))));
-    return iInitResult != 0 ? iInitResult + 8 : 0;
+    ::FUN_00d6a940* pViewer = new ((void *)(pObject)) ::FUN_00d6a940(arg);
+    return static_cast<::ProcBase*>(pViewer);
 }
 }  // namespace fnv_00d6ad00
 

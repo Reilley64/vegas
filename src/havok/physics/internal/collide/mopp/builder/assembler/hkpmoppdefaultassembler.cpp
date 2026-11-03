@@ -2706,10 +2706,6 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
     }
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 template <class T> __forceinline void constructCopy(T* p, int n, const T& value)
 {
     for (int i = 0; i < n; ++i)

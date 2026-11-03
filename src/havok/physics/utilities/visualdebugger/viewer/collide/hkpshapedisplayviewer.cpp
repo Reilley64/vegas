@@ -952,7 +952,7 @@ void FUN_00d66160_cls::FUN_00d66160(int arg)
 void Phantom_d65f::FUN_00d65fc0(int index)
 {
     reinterpret_cast<::hkWorldC917 *>((m_kNodeCollection[index]->m_pCollisionAgent))->FUN_00c917a0(this);
-    reinterpret_cast<::SearchArray *>((m_kNodeCollection[index]->m_pCollisionAgent))->ClearValue((int)(this));
+    reinterpret_cast<::SearchArray *>((m_kNodeCollection[index]->m_pCollisionAgent))->ClearValue((this));
     FUN_00d65750(index);
     delete m_kNodeCollection[index];
     m_kNodeCollection.removeAt(index);
@@ -1740,11 +1740,6 @@ struct S_00d65970_Router
 
 struct S_00d65970_Item;
 
-inline void* __cdecl operator new(size_t, void* where) throw()
-{
-    return where;
-}
-
 struct S_00d65970_ItemArray
 {
     S_00d65970_Item** data;
@@ -2191,11 +2186,6 @@ struct S65_Self : S65_Prim, S65_Sec
     int f48;
     void FUN_00d65ad0(S65_Param* param);
 };
-
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 // @fnv 0x00d65ad0
 void S65_Self::FUN_00d65ad0(S65_Param* param)

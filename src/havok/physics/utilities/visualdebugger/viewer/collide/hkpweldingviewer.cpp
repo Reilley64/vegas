@@ -71,7 +71,7 @@ struct HKConstraint
 // @fnv 0x00d62680
 void HKConstraint::FUN_00d62680(HKWorldList* pWorldList)
 {
-    reinterpret_cast<::SearchArray *>((pWorldList))->ClearValue((int)(((char*)this - 0x20) ? (void*)&unk08 : (void*)0));
+    reinterpret_cast<::SearchArray *>((pWorldList))->ClearValue((((char*)this - 0x20) ? (void*)&unk08 : (void*)0));
 }
 
 struct S_00d626b0_Item
@@ -253,7 +253,7 @@ FUN_00d62720::~FUN_00d62720() throw()
     if (m_pOwningWorld)
     {
         for (int i = 0; i < m_pOwningWorld->m_iIslandCount; i++)
-            reinterpret_cast<::SearchArray *>((m_pOwningWorld->m_islands[i]))->ClearValue((int)(this));
+            reinterpret_cast<::SearchArray *>((m_pOwningWorld->m_islands[i]))->ClearValue((this));
     }
 }
 

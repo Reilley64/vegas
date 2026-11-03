@@ -103,7 +103,7 @@ struct Collection {
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
     int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C;
     int unk60; int unk64; int unk68;
-    int* items;
+    void** items;
     int count;
 };
 struct Owner {
@@ -266,7 +266,7 @@ struct FUN_00d66f30_cls {
 void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
 {
     reinterpret_cast<::hkWorldC917 *>((apParams))->FUN_00c917a0(this != 0 ? &m_kInner : 0);
-    reinterpret_cast<::SearchArray *>((apParams))->ClearValue((int)(this != 0 ? &m_iN : 0));
+    reinterpret_cast<::SearchArray *>((apParams))->ClearValue((this != 0 ? &m_iN : 0));
 
     for (int i = 0; i < apParams->m_iItemCount; i++) {
         FUN_00d66f30_list* pList = &apParams->m_ppItems[i]->m_kList;

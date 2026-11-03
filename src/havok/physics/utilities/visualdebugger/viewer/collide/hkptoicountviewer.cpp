@@ -604,7 +604,7 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
     out.clear();
 
     reinterpret_cast<::hkWorldXc91a20 *>((a1))->FUN_00c91a20((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk08) : 0);
-    reinterpret_cast<::SearchArray *>((a1))->ClearValue((int)((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk0C) : 0));
+    reinterpret_cast<::SearchArray *>((a1))->ClearValue(((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk0C) : 0));
 }
 
 #include <xmmintrin.h>

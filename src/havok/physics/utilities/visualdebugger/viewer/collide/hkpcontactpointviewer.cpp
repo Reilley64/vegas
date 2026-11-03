@@ -80,7 +80,7 @@ struct S_00de2980_D : S_00de2980_B0, S_00de2980_B1, S_00de2980_B2
 // @fnv 0x00de2980
 void S_00de2980_D::FUN_00de2980(S_00de2980_World* pWorld)
 {
-    reinterpret_cast<::SearchArray *>((pWorld))->ClearValue((int)(this));
+    reinterpret_cast<::SearchArray *>((pWorld))->ClearValue((this));
 }
 
 struct DE29B0PartA

@@ -55,7 +55,7 @@ void hkpPhantomDisplayViewer::FUN_00d66250(void* arg)
     void* p1 = this ? (char*)this + 0x28 : 0;
     reinterpret_cast<::hkWorldC91F *>((((World*)arg)))->FUN_00c917f0(p1);
     void* p2 = this ? (char*)this + 0x2c : 0;
-    reinterpret_cast<::SearchArray *>((((Container*)arg)))->ClearValue((int)(p2));
+    reinterpret_cast<::SearchArray *>((((Container*)arg)))->ClearValue((p2));
     int i = 0;
     if (*(int*)((char*)arg + 0x114) > 0)
     {
@@ -722,11 +722,6 @@ hkpPhantomDisplayViewer::~hkpPhantomDisplayViewer()
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
-
 extern "C" const char str_010d1c38[];
 struct MonitorCommand
 {

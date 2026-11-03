@@ -287,11 +287,11 @@ class FUN_00e46750_Obj : public hkpFirstPersonGun
 {
   public:
     void FUN_00e466e0();
-    int FUN_00e46750(unsigned char flag);
+    FUN_00e46750_Obj* FUN_00e46750(unsigned char flag);
 };
 
 // @fnv 0x00e46750
-int FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
+FUN_00e46750_Obj* FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
 {
     reinterpret_cast<::fnv_00e466e0::FUN_00e466e0_class *>(this)->fnv_00e466e0::FUN_00e466e0_class::~FUN_00e466e0_class();
 
@@ -301,7 +301,7 @@ int FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
         audio->unk10->vf08(this, m_usMemSizeAndFlags);
     }
 
-    return (int)this;
+    return this;
 }
 
 #include <xmmintrin.h>

@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -729,10 +730,6 @@ __forceinline void quickSortItems(SplitItem* items, int numItems)
     quickSortItems(items, numItems, SplitLess());
 }
 
-__forceinline void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
 struct Scratch
 {
     union
@@ -887,7 +884,7 @@ class hkProcessorE0A5
     hkStackE0A5* m_aiEntries;
     hkFreeListE0A5<hkNodeAE0A5> m_nodesA;
     hkFreeListE0A5<hkNodeBE0A5> m_nodesB;
-    int m_20;
+    void* m_20;
     hkOutputE0A5* m_pRayCastOutput;
     hkInputE0A5* m_pRayCastInput;
     int m_2c;
@@ -895,13 +892,13 @@ class hkProcessorE0A5
     int m_34;
     int m_iNumBits;
 
-    int FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+    int FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                      hkBuffersE0A5* pkBuffers) throw();
 };
 
 // Configures the processor with input, output, settings and buffers, allocates a stack, runs FUN_00e0a270, and finalizes the output.
 // @fnv 0x00e0a550
-int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                                   hkBuffersE0A5* pkBuffers) throw()
 {
     m_settings = pkSettings;

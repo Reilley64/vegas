@@ -1451,7 +1451,7 @@ struct FUN_00d68b20_cls
 void Phantom_d65f::FUN_00d69010(int index)
 {
     reinterpret_cast<::hkWorldC917 *>((m_kNodeCollection[index]->m_pCollisionAgent))->FUN_00c917a0(this);
-    reinterpret_cast<::SearchArray *>((m_kNodeCollection[index]->m_pCollisionAgent))->ClearValue((int)(this));
+    reinterpret_cast<::SearchArray *>((m_kNodeCollection[index]->m_pCollisionAgent))->ClearValue((this));
     reinterpret_cast<::FUN_00d68b20_cls *>(this)->FUN_00d68b20(index);
     delete m_kNodeCollection[index];
     m_kNodeCollection.removeAt(index);

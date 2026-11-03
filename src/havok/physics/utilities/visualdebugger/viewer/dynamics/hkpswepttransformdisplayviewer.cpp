@@ -368,7 +368,7 @@ void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
 void SweptViewer::RemoveWorldData(int index)
 {
     reinterpret_cast<::hkWorldC917 *>((m_kWorldDataList[index]->m_pOwningWorld))->FUN_00c917a0(this);
-    reinterpret_cast<::SearchArray *>((m_kWorldDataList[index]->m_pOwningWorld))->ClearValue((int)(this));
+    reinterpret_cast<::SearchArray *>((m_kWorldDataList[index]->m_pOwningWorld))->ClearValue((this));
     reinterpret_cast<::FUN_00d641f0_cls *>(this)->ClearSweptEntry(index);
     delete m_kWorldDataList[index];
     m_kWorldDataList.removeAt(index);

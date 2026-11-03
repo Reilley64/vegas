@@ -13,18 +13,18 @@ struct hkReferencedObject
 };
 struct FUN_00ca95e0_class
 {
-    int m_p;
+    const void* m_p;
     int m_uiX;
     int m_uiY;
-    int m_uiZ;
+    hkReferencedObject* m_uiZ;
     void FUN_00ca95e0();
 };
 // @fnv 0x00ca95e0
 void FUN_00ca95e0_class::FUN_00ca95e0()
 {
-    m_p = (int)&DAT_010c8198;
-    reinterpret_cast<::hkReferencedObjectC905 *>((((hkReferencedObject*)m_uiZ)))->FUN_00c905b0();
-    m_p = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_p = &DAT_010c8198;
+    reinterpret_cast<::hkReferencedObjectC905 *>(m_uiZ)->FUN_00c905b0();
+    m_p = &::DAT_0102e388;
 }
 
 struct FUN_00ca9670_cls

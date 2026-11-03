@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -1477,8 +1478,6 @@ struct S_00caf4d0_Router {
 };
 static __forceinline S_00caf4d0_Router* GetRouter37() throw() { return reinterpret_cast<S_00caf4d0_Router*>(getMemoryRouter()); }
 void ResizeAudioStream(S_00caf4d0_Heap& alloc, void* array, int elemSize) throw();
-
-inline void* __cdecl operator new(size_t, void* where) throw() { return where; }
 
 struct __declspec(align(16)) S_00caf4d0_Vector4 {
     float x, y, z, w;

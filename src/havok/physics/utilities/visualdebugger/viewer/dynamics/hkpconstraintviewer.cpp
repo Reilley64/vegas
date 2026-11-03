@@ -254,7 +254,7 @@ struct FUN_00d69230_cls
 // @fnv 0x00d69230
 void FUN_00d69230_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((int)(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
+    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
 }
 
 namespace fnv_00d69920 {
@@ -360,7 +360,7 @@ FUN_00d69920_cls::~FUN_00d69920_cls() throw()
     {
         for (int i = 0; i < m_pSharedOwner->m_iArrayLength; ++i)
         {
-            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((int)(static_cast<SubObject*>(this)));
+            reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((static_cast<SubObject*>(this)));
         }
     }
     AudioHolder* pHolder = getMemoryRouter();

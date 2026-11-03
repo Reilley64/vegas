@@ -1858,10 +1858,6 @@ void VertexComponentData::FUN_00cec000(const float* verts)
     m_fComponent5 /= -60.0f;
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 struct Mat4CE;
 struct __declspec(align(16)) Vec4CE
 {
@@ -3301,11 +3297,6 @@ int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out);
 void __cdecl SetDiagonal(S_00ced310_M* m);
 
 #include <math.h>
-inline void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
-
 typedef __m128 hkQuadReal;
 typedef float hkReal;
 

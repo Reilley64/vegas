@@ -374,10 +374,6 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
     return 1;
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 inline void operator delete(void*, void*)
 {}
 

@@ -514,11 +514,6 @@ struct NamedVariantS
         reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
     }
 };
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
-
 template <typename T> __forceinline void destruct(T* t, int n)
 {
     for (int i = 0; i < n; i++)

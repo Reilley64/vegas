@@ -513,10 +513,6 @@ template <class T> class ArrayBase
         capacity = 0x80000000;
     }
 };
-__forceinline void* operator new(size_t, void* p)
-{
-    return p;
-}
 template <class T> struct Array : ArrayBase<T>
 {
     __forceinline Array()

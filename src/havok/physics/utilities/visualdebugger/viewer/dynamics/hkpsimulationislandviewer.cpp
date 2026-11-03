@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/S_00dd9380.h"
@@ -299,7 +300,7 @@ FUN_00d64ae0::~FUN_00d64ae0() throw()
     if (m24)
     {
         for (int i = 0; i < m24->m70; i++)
-            reinterpret_cast<::SearchArray *>((m24->m6c[i]))->ClearValue((int)((S_D*)this));
+            reinterpret_cast<::SearchArray *>((m24->m6c[i]))->ClearValue(((S_D*)this));
     }
     m3c.clear();
     m30.clear();
@@ -492,7 +493,7 @@ struct IslandWorldRemoval : IslandRemovalParent, hkListenerD64A
 // @fnv 0x00d64a20
 void IslandWorldRemoval::FUN_00d64a20(S_Elem2* world)
 {
-    reinterpret_cast<::SearchArray *>((world))->ClearValue((int)(static_cast<hkListenerD64A*>(this)));
+    reinterpret_cast<::SearchArray *>((world))->ClearValue((static_cast<hkListenerD64A*>(this)));
 }
 
 // Moved from hkpsimulationislandviewer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
@@ -506,11 +507,6 @@ void FUN_00d651c0();
 
 #include <xmmintrin.h>
 #include <windows.h>
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
-
 extern "C" void _ReadWriteBarrier(void);
 unsigned __int64 __cdecl __rdtsc(void);
 

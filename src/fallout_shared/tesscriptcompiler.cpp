@@ -993,7 +993,7 @@ void __cdecl ReportScriptError(CStringArgument* self, const char* pcFormat, ...)
     }
     else
     {
-        ::FUN_005b5e40(::FUN_00464f30(strBuf))));
+        ::FUN_005b5e40();
     }
 }
 
@@ -2398,16 +2398,16 @@ bool CStringArgument_ctx::FUN_005afad0(ScriptToken* token, bool variable, bool a
     bool result = false;
     unsigned int index = 1;
     BSSimpleList<ScriptReferencedObject*>* entry = &refVars;
-    while (entry && (entry->m_item))
+    while (entry && (entry->item))
     {
-        if (!reinterpret_cast<::B408A80String *>((void *)&((entry->m_item)->name))->FUN_00408a80(token->name, true))
+        if (!reinterpret_cast<::B408A80String *>((void *)&((entry->item)->name))->FUN_00408a80(token->name, true))
         {
             token->refIndex = index;
-            token->form = (entry->m_item)->form;
+            token->form = (entry->item)->form;
             if (variable)
-                (entry->m_item)->variableID = token->variableID;
+                (entry->item)->variableID = token->variableID;
             else
-                token->variableID = (entry->m_item)->variableID;
+                token->variableID = (entry->item)->variableID;
             result = true;
             break;
         }
@@ -2443,7 +2443,7 @@ bool CStringArgument_ctx::FUN_005afad0(ScriptToken* token, bool variable, bool a
                 unsigned int formID = FUN_005afe10(token->name, &end, 16);
                 if (formID && end && !*end)
                 {
-                    reference->form = FUN_004839c0(formID);
+                    reference->form = (TESForm_ctx*)FUN_004839c0(formID);
                     if (reference->form)
                         result = true;
                 }
@@ -2453,7 +2453,7 @@ bool CStringArgument_ctx::FUN_005afad0(ScriptToken* token, bool variable, bool a
                 TESObjectREFR_ctx* refr = dynamic_cast<TESObjectREFR_ctx*>(reference->form);
                 if (refr && !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((refr))->FUN_005653d0())
                 {
-                    ReportScriptError(this, "Non-persistent reference '%s' cannot be used in a script.", token->name);
+                    ReportScriptError((CStringArgument*)this, "Non-persistent reference '%s' cannot be used in a script.", token->name);
                     result = false;
                 }
             }
@@ -2650,11 +2650,11 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
                 line->outputSize += 2;
 
                 int length = 0;
-                length = reinterpret_cast<::fnv_005b12c0::FUN_005b12c0_owner *>(this)->CountLinesInBeginBlock((::fnv_005b12c0::CStringArgument_ctx *)(compiler), (unsigned int *)(line));
+                length = reinterpret_cast<::fnv_005b12c0::FUN_005b12c0_owner *>(this)->CountLinesInBeginBlock((::fnv_005b12c0::CStringArgument *)(compiler), (unsigned int *)(line));
 
                 if (length == -1)
                 {
-                    ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Mismatched begin/end block.");
+                    ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched begin/end block.");
                     return false;
                 }
                 *(unsigned*)(line->output + line->outputSize) = 0x55555555;
@@ -2669,7 +2669,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
                 {
                     if (command->requiresReference && compiler->partial)
                     {
-                        ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Invalid block type for quest script.");
+                        ::ReportScriptError((::CStringArgument *)(compiler), "Invalid block type for quest script.");
                         return false;
                     }
                     if (command && command->parameters)
@@ -2704,13 +2704,13 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
             }
             else
             {
-                ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Syntax Error.  Invalid block type in 'begin' command.");
+                ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Invalid block type in 'begin' command.");
                 return false;
             }
         }
         else
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Syntax Error.  Missing block type in 'begin' command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Missing block type in 'begin' command.");
             return false;
         }
         break;
@@ -2725,7 +2725,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
         }
         else
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Syntax Error.  Failed to store the 'begin' 'end' jump block.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Failed to store the 'begin' 'end' jump block.");
             return false;
         }
     case 30:
@@ -2740,7 +2740,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
 
             if (!FUN_005afeb0(variableName1))
             {
-                ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Invalid variable name '%s'.\r\nCompiled script not saved!", variableName1);
+                ::ReportScriptError((::CStringArgument *)(compiler), "Invalid variable name '%s'.\r\nCompiled script not saved!", variableName1);
                 return false;
             }
             CompileVariable* variableInfo0 = new CompileVariable;
@@ -2767,7 +2767,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
         }
         else
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Missing variable name in variable declaration.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Missing variable name in variable declaration.");
             return false;
         }
         break;
@@ -2775,12 +2775,12 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
     case 21: {
         if (!FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 1, 1))
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Missing variable name in set command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Missing variable name in set command.");
             return false;
         }
         if (!word6.variableType || word6.variableType == 'X')
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Unknown variable '%s'.", &word6);
+            ::ReportScriptError((::CStringArgument *)(compiler), "Unknown variable '%s'.", &word6);
             return false;
         }
         CompileWord setWord20;
@@ -2789,7 +2789,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
 
         if (tolower(setWord20.text[0]) != 't' || tolower(setWord20.text[1]) != 'o')
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Syntax Error.  Missing \"to\" in set command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Missing \"to\" in set command.");
             return false;
         }
         if (word6.refIndex > 0)
@@ -2816,7 +2816,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
         }
         if (!FUN_005b1a90(line->input, line->inputOffset))
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Syntax Error.  Mismatched parentheses in set command.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Syntax Error.  Mismatched parentheses in set command.");
             return false;
         }
         ::FUN_005b1b60(line->input, (int *)(unsigned int *)(&line->inputOffset));
@@ -2825,18 +2825,18 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
         ::FUN_00403d30(setText20, 0, 512);
 
         int setLength1 = 0;
-        setLength1 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument_ctx *)(compiler), (unsigned int *)(line), (char *)(line->input + line->inputOffset), setText20);
+        setLength1 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument *)(compiler), (unsigned int *)(line), (char *)(line->input + line->inputOffset), setText20);
 
         if (!setLength1)
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), missingSetExpression);
+            ::ReportScriptError((::CStringArgument *)(compiler), missingSetExpression);
             return false;
         }
         expressionCodeVal9 = reinterpret_cast<::ExpressionConverter *>(&(expression5))->ConvertToPostfix(setText20, (unsigned int *)(int *)(&setLength1));
 
         if (::FUN_00559450((int *)&(expression5)))
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "InfixToPostfix Error.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "InfixToPostfix Error.");
             return false;
         }
         *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(setLength1);
@@ -2853,7 +2853,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
 
         if (!FUN_005b1a90(line->input, offset_2))
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Mismatched parentheses.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched parentheses.");
             return false;
         }
         ::FUN_005b1b60(line->input, (int *)(unsigned int *)(&offset_2));
@@ -2862,7 +2862,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
         ::FUN_00403d30(branchText7, 0, 512);
 
         int branchLength10 = 0;
-        branchLength10 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument_ctx *)(compiler), (unsigned int *)(line), (char *)(line->input + offset_2), branchText7);
+        branchLength10 = reinterpret_cast<::FUN_005b1570_Class *>(this)->CompileScriptLine((::CStringArgument *)(compiler), (unsigned int *)(line), (char *)(line->input + offset_2), branchText7);
 
         if (!branchLength10)
             return false;
@@ -2871,14 +2871,14 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
 
         if (::FUN_00559450((int *)&(expression5)))
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), ::g_expressionErrorStrings[::FUN_00559450((int *)&(expression5))]);
+            ::ReportScriptError((::CStringArgument *)(compiler), ::g_expressionErrorStrings[::FUN_00559450((int *)&(expression5))]);
             return false;
         }
-        int branchJump11 = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument_ctx *)(compiler), (unsigned int *)(line));
+        int branchJump11 = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument *)(compiler), (unsigned int *)(line));
 
         if (branchJump11 == -1)
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Mismatched if/then/else block.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched if/then/else block.");
             return false;
         }
         *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(branchJump11);
@@ -2893,11 +2893,11 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
 
     case 23: {
         int jump = 0;
-        jump = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument_ctx *)(compiler), (unsigned int *)(line));
+        jump = reinterpret_cast<::ScriptBlockScanner *>(this)->ScanBlockLines((::CStringArgument *)(compiler), (unsigned int *)(line));
 
         if (jump == -1)
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Mismatched if/then/else block.");
+            ::ReportScriptError((::CStringArgument *)(compiler), "Mismatched if/then/else block.");
             return false;
         }
         *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(jump);
@@ -2916,14 +2916,14 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
 
         if (!command)
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Unknown function code %d.", line->kind);
+            ::ReportScriptError((::CStringArgument *)(compiler), "Unknown function code %d.", line->kind);
             return false;
         }
         if (command)
         {
             if (command->requiresReference && compiler->partial && !line->refIndex)
             {
-                ::ReportScriptError((::CStringArgument_ctx *)(compiler), "Reference function requires explicit reference in quest script.");
+                ::ReportScriptError((::CStringArgument *)(compiler), "Reference function requires explicit reference in quest script.");
                 return false;
             }
             if (command->requiresReference && line->refIndex > 0)
@@ -2935,7 +2935,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
                 if (!object && !ref2->variableID)
                 {
                     ::ReportScriptError(
-                        (::CStringArgument_ctx *)(compiler),
+                        (::CStringArgument *)(compiler),
                         "Syntax error.  Invalid reference '%s' (only object references and reference variables are allowed in this context).",
                         ((const char *)(::FUN_00559450((int *)(ref2)))));
                     return false;
@@ -2967,7 +2967,7 @@ bool LineCompiler_ctx::FUN_005aff40(CompileScript* script, CompileState* compile
     default:
         if (compiler->outputSize + line->outputSize + 10 >= 0x4000)
         {
-            ::ReportScriptError((::CStringArgument_ctx *)(compiler), "MAX_SCRIPT_SIZE exceeded.\r\nCompiled script not saved!");
+            ::ReportScriptError((::CStringArgument *)(compiler), "MAX_SCRIPT_SIZE exceeded.\r\nCompiled script not saved!");
             return false;
         }
         if (line->refIndex > 0)

@@ -21859,7 +21859,7 @@ bool FUN_005d5200(int a1, int a2, Obj* p)
     {
         if (p->Query())
         {
-            ::fnv_00704690::FUN_00704690((unsigned int)(p));
+            ::fnv_00704690::FUN_00704690((std::uintptr_t)(p));
         }
     }
     return true;
@@ -56108,7 +56108,7 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR_
                     if (pExtra)
                     {
                         reinterpret_cast<::FUN_0041ab70_shell *>((pExtra))->FUN_0041ab70(false);
-                        reinterpret_cast<::s88c790::Actor *>((pActor))->FUN_0088c790((int)(pForm), 1, 0, 1, bSet, 1);
+                        reinterpret_cast<::s88c790::Actor *>((pActor))->FUN_0088c790((std::intptr_t)(pForm), 1, 0, 1, bSet, 1);
                         if (pActor == (*reinterpret_cast<::Actor_ctx * *>(&::_g_thePlayer)) && iFlag == 0)
                         {
                             BSStringT<char> str;
@@ -59107,26 +59107,6 @@ void S005dbec0_Object::FUN_005dbec0(S005dbec0_Result* pOut) const
     pOut->FUN_005dbf70(this, &m_kPoint, &kScale);
 }
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-}
-}
 
 struct BlendSource
 {
@@ -59134,17 +59114,17 @@ struct BlendSource
 
 struct BlendTarget
 {
-    N::__m128 m_uiFilterValue;
-    void FUN_005dbf70(const N::__m128* pA, const N::__m128* pB, BlendSource* pSource);
+    __m128 m_uiFilterValue;
+    void FUN_005dbf70(const __m128* pA, const __m128* pB, BlendSource* pSource);
 };
 
 // @fnv 0x005dbf70
-void BlendTarget::FUN_005dbf70(const N::__m128* pA, const N::__m128* pB, BlendSource* pSource)
+void BlendTarget::FUN_005dbf70(const __m128* pA, const __m128* pB, BlendSource* pSource)
 {
-    N::__m128 pos;
-    reinterpret_cast<::S00561240_Vector *>((pSource))->FUN_00561240((::S00561240_Vector *)(::N::__m128 *)(&pos));
-    N::__m128 delta = N::_mm_sub_ps((*reinterpret_cast<const ::N::__m128 *>((void *)&::DAT_010ec7f0)), pos);
-    m_uiFilterValue = N::_mm_add_ps(N::_mm_mul_ps(delta, *pA), N::_mm_mul_ps(pos, *pB));
+    __m128 pos;
+    reinterpret_cast<::S00561240_Vector *>((pSource))->FUN_00561240((::S00561240_Vector *)(__m128 *)(&pos));
+    __m128 delta = _mm_sub_ps((*reinterpret_cast<const __m128 *>((void *)&::DAT_010ec7f0)), pos);
+    m_uiFilterValue = _mm_add_ps(_mm_mul_ps(delta, *pA), _mm_mul_ps(pos, *pB));
 }
 
 struct Q_FUN_005dbf20

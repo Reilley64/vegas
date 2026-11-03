@@ -3639,7 +3639,7 @@ void C005f9820::CopyFrom(void* apSource)
     }
     *(unsigned int*)((char*)this + 0x154) = reinterpret_cast<::Twin_009c0070 *>((src2))->GetFilePosition();
     reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(void *)(((void *)(reinterpret_cast<::FUN_005f9b30_shell *>((src2))->GetImpactDataSet()))));
-    reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((int)(((void *)(::GetField158((int)(src2))))));
+    reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((int)(((void *)(::GetField158((std::intptr_t)(src2))))));
     v99(src2->v98());
     v97(src2->v96());
 }
@@ -4773,7 +4773,7 @@ bool TESCreature::FUN_005f9b90(TESForm* otherForm)
     }
     if (((int)(reinterpret_cast<::FUN_005f9b30_shell *>(this)->GetImpactDataSet())) != ((int)(reinterpret_cast<::FUN_005f9b30_shell *>((other))->GetImpactDataSet())))
         return true;
-    if (::GetField158((int)this) != ::GetField158((int)(other)))
+    if (::GetField158((std::intptr_t)this) != ::GetField158((std::intptr_t)(other)))
         return true;
     return false;
 }

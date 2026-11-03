@@ -4623,7 +4623,7 @@ void SceneCleanup::FUN_00537eb0()
                 void* buffer = data->buffers[index];
                 ::FUN_00401030(buffer);
                 data->buffers[index] = 0;
-                ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), (int)(data->objects[index]), {});
+                ::FUN_00b5b1c0((::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)), 0, (::NiAVObject *)(data->objects[index]));
                 data->objects[index]->SetState(0);
             }
             data->objects[index] = 0;

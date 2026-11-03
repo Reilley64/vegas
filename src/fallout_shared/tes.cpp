@@ -6877,7 +6877,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                 ret = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->DereferenceIfNotNull((int **)(base))));
                 if (base != 0)
                 {
-                    node = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->AddEight((int)(base))));
+                    node = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->AddEight((std::intptr_t)(base))));
                     Obj* lst = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)((char*)node + 0x24))))));
                     std::uintptr_t nxtL = 0;
                     while (lst != 0)
@@ -6885,7 +6885,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                         nxtL = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst))));
                         if (lst != 0)
                         {
-                            Obj* theItem = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((int)(lst))));
+                            Obj* theItem = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((std::intptr_t)(lst))));
                             std::intptr_t pass = ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((theItem))->FUN_007af430()));
                             Obj* vTmp = ((BigV*)theItem)->v116ret();
                             if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(char *)(&(*reinterpret_cast<char *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::fnv_0045bc80::Obj *)(vTmp->FUN_0043b4a0(0))))
@@ -6909,7 +6909,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                     nxt2 = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst2))));
                     if (lst2 != 0)
                     {
-                        Obj* itemB = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((int)(lst2))));
+                        Obj* itemB = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((std::intptr_t)(lst2))));
                         std::intptr_t has = ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((itemB))->FUN_007af430()));
                         Obj* top = ((BigV*)itemB)->v116ret();
                         if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(char *)(&(*reinterpret_cast<char *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::fnv_0045bc80::Obj *)(top->FUN_0043b4a0(0))))

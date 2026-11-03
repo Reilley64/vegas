@@ -3163,7 +3163,7 @@ void FUN_00603280(int aiFirstValue, int aiSecondValue, int pCollector)
             break;
         }
     }
-    reinterpret_cast<::FUN_00729970_shell *>((((FUN_00603280_Api*)pCollector)))->FUN_00729970((int)(::FUN_00603220));
+    reinterpret_cast<::FUN_00729970_shell *>((((FUN_00603280_Api*)pCollector)))->FUN_00729970((std::intptr_t)(::FUN_00603220));
 }
 }  // namespace fnv_00603280
 

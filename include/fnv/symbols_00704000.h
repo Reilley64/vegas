@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class TESObjectREFR;
 class Tile;
 
@@ -26,7 +28,7 @@ namespace fnv_00704490 { int FUN_00704490(); }
 // 0x007044c0
 void FUN_007044c0(bool, bool, bool);
 // 0x00704690
-namespace fnv_00704690 { void FUN_00704690(unsigned int); }
+namespace fnv_00704690 { void FUN_00704690(std::uintptr_t); }
 // 0x007046c0
 namespace fnv_007046c0 { int FUN_007046c0(); }
 // 0x007046f0

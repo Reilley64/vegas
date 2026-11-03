@@ -2310,7 +2310,7 @@ struct FUN_00462fb0_shell : public TESDataHandler
 // @fnv 0x00465040
 void FUN_00465040_shell::InitAllScripts()
 {
-    BSSimpleList<Script*>* pList = ((::BSSimpleList< ::Script *> *)(::FUN_006377e0((int)this)));
+    BSSimpleList<Script*>* pList = ((::BSSimpleList< ::Script *> *)(::FUN_006377e0((std::intptr_t)this)));
     Script* pScript;
     while (pList && (pScript = (pList->item)) != 0)
     {
@@ -3745,7 +3745,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 17: {
         Script* entry = static_cast<Script*>(form);
-        ((::BSSimpleList< ::Script *> *)(::FUN_006377e0((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::Script *> *)(::FUN_006377e0((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 54: {

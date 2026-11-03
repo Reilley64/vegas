@@ -2052,7 +2052,7 @@ bool WaterManager::FUN_0062f900(EventWater* event)
             found8 = false;
             while (p)
             {
-                item5 = ((::WaterRecord *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((int)(p))));
+                item5 = ((::WaterRecord *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((std::intptr_t)(p))));
                 p = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(records))->DereferenceIfNotNull((int **)(p))));
                 if (item5->body == a)
                 {

@@ -899,8 +899,6 @@ struct TESFullNameSetFullNameAccess : public TESFullName
 // @fnv 0x004afa20
 TESModel* FUN_004afa20_shell::FUN_004afa20(int aeBipedObject, char* ap1stPersonFileName)
 {
-    reinterpret_cast<TESFullName*>(&DAT_011c5d10[aeBipedObject])
-            ->*reinterpret_cast<void (TESFullName::*)(const char*)>(&TESFullNameSetFullNameAccess::SetFullName);
     reinterpret_cast<::TESFullName *>((reinterpret_cast<TESFullNameSetFullNameAccess*>(&DAT_011c5d10[aeBipedObject])))->SetFullName(ap1stPersonFileName);
     return &DAT_011c5d10[aeBipedObject];
 }
@@ -2153,7 +2151,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                     reinterpret_cast<::FUN_004adde0_shell *>((skinned.geom))->FUN_004adde0((::NiNode *)(::NiSkinInstance *)((NiSkinInstance*)((::NiObject *)(reinterpret_cast<::CloneSourceA5d6 *>((((::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(skinned.geom))))))->FUN_00a5d680()))));
                     ((::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(skinned.geom))))->FUN_004addc0((NiSkinPartition*)(NiAVObject*)partition);
                 }
-                m_pActorBaseFormItem->GetFaceGenCoords((*(FaceGenMatrix<float> (*)(&)[2][2])&(coords)));
+                m_pActorBaseFormItem->GetFaceGenCoords((*(FaceGenMatrix<float> (*)[2][2])&(coords)));
                 if (((bool)(::FUN_0043faf0())))
                     reinterpret_cast<::FUN_0065a970_shell *>((attachment.face))->ApplyMorphs((::FaceGenCoordinate *)(FaceGenMatrix<float> (*)[4])(&coords), skinned.geom, false);
             }
@@ -2212,7 +2210,7 @@ void BipedAnimHelper::ApplySkinTextures(NiAVObject* apObject, bool abArg2)
     NiPointer<NiTexture> ptrB3(0);
 
     if (pNPC)
-        pNPC->GetFaceGenCoords((*(FaceGenMatrix<float> (*)(&)[2][2])&(coords3)));
+        pNPC->GetFaceGenCoords((*(FaceGenMatrix<float> (*)[2][2])&(coords3)));
 
     bool bResultTmp = false;
     if (abArg2)
@@ -2466,7 +2464,7 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
                                     reinterpret_cast<::NiObjectD510 *>((((DataLoadAccess*)((::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(geometry)))))))->FUN_00a5d510((::NiPointerD510 &)(data));
                                     npc = (NiGeometryData*)data;
                                     geometry->ReplaceModelData(npc);
-                                    newData->GetFaceGenCoords((*(FaceGenMatrix<float> (*)(&)[2][2])&(coords)));
+                                    newData->GetFaceGenCoords((*(FaceGenMatrix<float> (*)[2][2])&(coords)));
                                     if (!((bool)(::FUN_0043faf0())) || reinterpret_cast<::FUN_0065a970_shell *>((face))->ApplyMorphs((::FaceGenCoordinate *)(FaceGenMatrix<float> (*)[4])(&coords), geometry, false))
                                     {
                                         ThreeByThreeMatrix rotation;
@@ -2571,7 +2569,7 @@ void BipedAnim::FUN_004abd30(IO_TASK_PRIORITY priority, NiPointer<QueuedHelmet>&
                     TESBipedModelForm* biped = ::TESBipedModelForm::GetFormAsBipedModel(object[i].pParent);
                     if (biped)
                     {
-                        const char* path = biped->FUN_00480ce0();
+                        const char* path = (const char*)biped->FUN_00480ce0();
                         if (*path)
                             reinterpret_cast<::QueueHelper *>((g_modelLoader))->FUN_00444040((int)(path), (*(int *)&(priority)), (int)(file), 3, true, false, false);
                     }

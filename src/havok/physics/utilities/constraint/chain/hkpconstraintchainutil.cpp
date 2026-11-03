@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -13,19 +15,19 @@
 #include "fnv/symbols_00d2c000.h"
 struct CallTarget_00e5c370
 {
-    int InsertAndDelete(int, int, int, int, int);
+    int InsertAndDelete(intptr_t, int, int, intptr_t, int);
 };
 struct SearchObject
 {
-    int FUN_00e5c420(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int FUN_00e5c420(uintptr_t arg0, unsigned int arg1, uintptr_t arg2, unsigned int arg3);
 };
 // @fnv 0x00e5c420
-int SearchObject::FUN_00e5c420(unsigned int auiParam0, unsigned int auiParam1, unsigned int auiParam2,
+int SearchObject::FUN_00e5c420(uintptr_t auiParam0, unsigned int auiParam1, uintptr_t auiParam2,
                                unsigned int auiParam3)
 {
     unsigned int callResult0 =
         (unsigned int)((CallTarget_00e5c370*)this)
-            ->InsertAndDelete((int)auiParam0, (int)auiParam1, (int)0u, (int)auiParam2, (int)auiParam3);
+            ->InsertAndDelete((intptr_t)auiParam0, (int)auiParam1, (int)0u, (intptr_t)auiParam2, (int)auiParam3);
     return (int)callResult0;
 }
 
@@ -35,36 +37,19 @@ struct CallTarget_00e5c420
 };
 struct SearchObject
 {
-    int FUN_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2);
+    int FUN_00e5c440(uintptr_t arg0, unsigned int arg1, uintptr_t arg2);
 };
 // @fnv 0x00e5c440
-int SearchObject::FUN_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2)
+int SearchObject::FUN_00e5c440(uintptr_t arg0, unsigned int arg1, uintptr_t arg2)
 {
     unsigned int callResult0 =
-        (unsigned int)reinterpret_cast<::SearchObject *>((((CallTarget_00e5c420*)this)))->FUN_00e5c420((int)arg0, (int)arg1, (int)arg2, (int)1u);
+        (unsigned int)reinterpret_cast<::SearchObject *>((((CallTarget_00e5c420*)this)))->FUN_00e5c420(arg0, arg1, arg2, 1u);
     return (int)callResult0;
 }
 }  // namespace fnv_00e5c440
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct DispatchTarget
 {
@@ -95,12 +80,12 @@ struct FUN_00e5c460_cls
     void FUN_00e5c460(OutObject* a1);
 };
 
-// Gets an AudioHolder, passes its allocator to m_38.CallWithFlag, then calls FUN_00c90510 on a1.
+// Gets an hkMemoryRouter, passes its allocator to m_38.CallWithFlag, then calls FUN_00c90510 on a1.
 // @fnv 0x00e5c460
 void FUN_00e5c460_cls::FUN_00e5c460(OutObject* pOutObject)
 {
-    AudioHolder* pHolder = getMemoryRouter();
-    void* pValue = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+    void* pValue = pHolder->m_heap;
     reinterpret_cast<::D10710Object *>(&(m_38))->CallWithFlag(pValue, (void *)(0), &pOutObject);
     reinterpret_cast<::FUN_00c90510_class *>((pOutObject))->FUN_00c90510();
 }
@@ -284,8 +269,8 @@ struct KeyOwnerA
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
-    unsigned int m_14;
-    unsigned int m_18;
+    void* m_14;
+    void* m_18;
 };
 
 struct Sub18
@@ -320,7 +305,7 @@ struct ListB
     unsigned int unk2C;
     unsigned int unk30;
     unsigned int unk34;
-    unsigned int* m_38;
+    void** m_38;
     unsigned int m_3c;
 };
 
@@ -339,7 +324,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
     {
         reinterpret_cast<::hkpPhantomOverlapDD04 *>((a2))->AddReferencedObject((::hkReferencedObjectDD04 *)(a1->m_14));
     }
-    unsigned int uiLastKey = a2->m_38[a2->m_3c - 1];
+    void* uiLastKey = a2->m_38[a2->m_3c - 1];
     if (uiLastKey == a1->m_14)
     {
         a3->Push(&keyPair.lo, &keyPair.hi);
@@ -357,8 +342,8 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         Pair32 p;
         CopyTmp16(&p.lo, &keyPair.hi);
         CopyTmp16(&p.hi, &keyPair.lo);
-        AudioHolder* h = getMemoryRouter();
-        reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440((unsigned int)(h->m_pAllocator), 0, (unsigned int)(&p));
+        hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+        reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440(reinterpret_cast<uintptr_t>(h->m_heap), 0, reinterpret_cast<uintptr_t>(&p));
         reinterpret_cast<::FUN_00e5c460_cls *>((a2))->FUN_00e5c460((::OutObject *)(a1->m_18));
         return 0;
     }
@@ -367,8 +352,8 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         Pair32 p;
         CopyTmp16(&p.lo, &keyPair.lo);
         CopyTmp16(&p.hi, &keyPair.hi);
-        AudioHolder* h = getMemoryRouter();
-        reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440((unsigned int)(h->m_pAllocator), 0, (unsigned int)(&p));
+        hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+        reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440(reinterpret_cast<uintptr_t>(h->m_heap), 0, reinterpret_cast<uintptr_t>(&p));
         reinterpret_cast<::FUN_00e5c460_cls *>((a2))->FUN_00e5c460((::OutObject *)(a1->m_14));
         return 0;
     }
@@ -444,39 +429,6 @@ template struct S_00e5c370_ArrayBase<S_00e5c370_Elem>;
 #include "fnv/symbols_01268000.h"
 void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3);
 int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...);
-template <typename T> struct S_00e5c370_ArrayBase
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    __forceinline void GrowArrayCapacity(S_00e5c370_Alloc& a, int n)
-    {
-        const int cap = getCapacity();
-        if (cap < n)
-        {
-            int cap2 = 2 * cap;
-            int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)&(a), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
-        }
-    }
-// @fnv 0x00e5c370
-    void InsertAndDelete(S_00e5c370_Alloc& alloc, int index, int numdel, const T* p, int numtoinsert)
-    {
-        int newsize = m_iElementCount + numtoinsert - numdel;
-        int numtomove = m_iElementCount - index - numdel;
-        if (newsize > getCapacity())
-            GrowArrayCapacity(alloc, newsize);
-        ::FUN_00d2cc70(m_data + index + numtoinsert, (void *)(m_data + index + numdel), numtomove * sizeof(T));
-        T* dst = m_data + index;
-        for (int i = 0; i < numtoinsert; i++)
-            new (dst + i) T(p[i]);
-        m_iElementCount = newsize;
-    }
-};
 
 class __declspec(align(16)) V4
 {
@@ -611,7 +563,7 @@ struct MemoryHolder
 };
 inline void* allocateObject(unsigned int size)
 {
-    MemoryHolder* holder = reinterpret_cast<MemoryHolder*>(getMemoryRouter());
+    MemoryHolder* holder = reinterpret_cast<MemoryHolder*>(&hkMemoryRouter::getInstance());
     void* memory = holder->allocator->allocate(size);
     static_cast<RefObject*>(memory)->sizeFlags = (unsigned short)size;
     return memory;
@@ -807,7 +759,7 @@ struct S5ba30_Router
     }
     static S5ba30_Router& GetMonitorStream()
     {
-        return *reinterpret_cast<S5ba30_Router*>(getMemoryRouter());
+        return *reinterpret_cast<S5ba30_Router*>(&hkMemoryRouter::getInstance());
     }
 };
 
@@ -1010,8 +962,8 @@ struct S5ba30_MapBase
 {
     struct Pair
     {
-        unsigned long key;
-        unsigned long val;
+        hkUlong key;
+        hkUlong val;
     };
     typedef S5ba30_Dummy* Iterator;
     Pair* m_kPrimitiveElement;
@@ -1021,17 +973,17 @@ struct S5ba30_MapBase
     S5ba30_MapBase() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {}
     ~S5ba30_MapBase();
-    unsigned long getValue(Iterator it) const
+    hkUlong getValue(Iterator it) const
     {
-        int i = (int)(unsigned long)it;
+        int i = (int)(hkUlong)it;
         return m_kPrimitiveElement[i].val;
     }
     S5ba30_Bool isValid(Iterator it) const
     {
-        int i = (int)(unsigned long)it;
+        int i = (int)(hkUlong)it;
         return i <= m_iPairCount;
     }
-    __forceinline Iterator findKey(unsigned long key) const
+    __forceinline Iterator findKey(hkUlong key) const
     {
         return ((::S5ba30_Dummy *)(reinterpret_cast<::FUN_00cb18f0_t *>((void *)this)->FindSlot(key)));
     }
@@ -1047,7 +999,7 @@ struct S5ba30_Map : public S5ba30_MapBase
     {
         reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(S5ba30_HeapAllocator().get(this)));
     }
-    __forceinline int insert(unsigned long key, unsigned long val)
+    __forceinline int insert(hkUlong key, hkUlong val)
     {
         return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S5ba30_HeapAllocator().get(this)), key, val);
     }
@@ -1066,11 +1018,11 @@ template <typename K, typename V> struct S5ba30_PointerMap
     {}
     __forceinline int insert(K key, V val)
     {
-        return m_map.insert((unsigned long)key, (unsigned long)val);
+        return m_map.insert((hkUlong)key, (hkUlong)val);
     }
     __forceinline Iterator findKey(K key) const
     {
-        return m_map.findKey((unsigned long)key);
+        return m_map.findKey((hkUlong)key);
     }
     V getValue(Iterator i) const
     {

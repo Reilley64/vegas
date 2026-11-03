@@ -1,6 +1,7 @@
 // bssystem/bsfile.cpp: BSFile, BSFileW (21 functions)
 
 #include <cstdio>
+#include <limits>
 #include <cstring>
 #include <cwchar>
 #include "runtime/crt.h"
@@ -137,15 +138,16 @@ bool BSFile::AttachFileStream(bool, bool)
 unsigned int BSFile::GetFileSize()
 {
     fileSizeAt154 = 0;
-    if (openMode == 1)
-        Flush();
+    if (openMode == 1 && !Flush())
+        return 0;
     Open(false, false);
-    if (static_cast<bool>(static_cast<int>(m_pFile != 0)))
+    if (m_pFile)
     {
-        long position = std::ftell((std::FILE *)(m_pFile));
-        std::fseek((std::FILE *)(m_pFile), 0, 2);
-        fileSizeAt154 = std::ftell((std::FILE *)(m_pFile));
-        std::fseek((std::FILE *)(m_pFile), position, 0);
+        std::int64_t size = fnv::crt::file_size((std::FILE *)(m_pFile));
+        // The reconstructed interface and cache still have a 32-bit limit.
+        if (size < 0 || size > std::numeric_limits<unsigned int>::max())
+            return 0;
+        fileSizeAt154 = static_cast<unsigned int>(size);
     }
     return fileSizeAt154;
 }

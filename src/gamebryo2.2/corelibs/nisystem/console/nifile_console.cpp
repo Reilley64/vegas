@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <cstdio>
+#include <limits>
 #include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FileTransferCallbacks.h"
@@ -77,13 +78,10 @@ struct S_00aa15f0
 // @fnv 0x00aa15f0
 int S_00aa15f0::GetFileSize()
 {
-    int cur = std::ftell((std::FILE *)(_f));
-    if (cur < 0)
+    std::int64_t size = fnv::crt::file_size((std::FILE *)(_f));
+    if (size < 0 || size > std::numeric_limits<int>::max())
         return 0;
-    std::fseek((std::FILE *)(_f), 0, 2);
-    int len = std::ftell((std::FILE *)(_f));
-    std::fseek((std::FILE *)(_f), cur, 0);
-    return len < 0 ? 0 : len;
+    return static_cast<int>(size);
 }
 
 // FUN_00aa14d0 : NiFile constructor (name, open mode, buffer size).

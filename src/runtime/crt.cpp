@@ -396,6 +396,38 @@ int fopen_s(std::FILE** file, const char* path, const char* mode)
     return *file != nullptr ? 0 : (errno != 0 ? errno : EINVAL);
 }
 
+int fseek(std::FILE* file, std::int64_t offset, int origin)
+{
+#ifdef _WIN32
+    return ::_fseeki64(file, offset, origin);
+#else
+    static_assert(sizeof(off_t) >= sizeof(std::int64_t));
+    return ::fseeko(file, offset, origin);
+#endif
+}
+
+std::int64_t ftell(std::FILE* file)
+{
+#ifdef _WIN32
+    return ::_ftelli64(file);
+#else
+    static_assert(sizeof(off_t) >= sizeof(std::int64_t));
+    return ::ftello(file);
+#endif
+}
+
+std::int64_t file_size(std::FILE* file)
+{
+    std::int64_t position = fnv::crt::ftell(file);
+    if (position < 0)
+        return -1;
+    int seekResult = fnv::crt::fseek(file, 0, SEEK_END);
+    std::int64_t size = seekResult == 0 ? fnv::crt::ftell(file) : -1;
+    if (fnv::crt::fseek(file, position, SEEK_SET) != 0)
+        return -1;
+    return size;
+}
+
 int access(const char* path, int mode)
 {
     std::error_code error;

@@ -198,7 +198,6 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int strcat_s(char*, unsigned int, const char*);
 char* FUN_0040ab30(char*, int);
 extern "C" void FormHeapFreeAndLog(const void*);
 #endif

@@ -143,9 +143,6 @@ struct QueueKFListLocals
     const char* pathToQueue;
     char path[260];
 };
-
-extern int __cdecl strcat_s(char*, unsigned int, const char*);
-
 class InventoryStackRecord;
 class IOTask
 {

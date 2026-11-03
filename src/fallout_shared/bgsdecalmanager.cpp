@@ -795,7 +795,7 @@ void M3_::FUN_004b4660(unsigned int uiIndex, float afValue0, float afValue1, flo
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_0056d340(unsigned int f);
+    bool FUN_0056d340(uintptr_t f);
 };
 // @fnv 0x0056d340
 bool S3e60::FUN_0056d340(uintptr_t auiFlag)
@@ -1221,7 +1221,7 @@ struct XHolder : FUN_004a3bc0
 // @fnv 0x004a3b90
 void* XHolder::DestroyAndMaybeDeallocate(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004a3bc0 *>((this))->FUN_004a3bc0::~FUN_004a3bc0();
+    reinterpret_cast<::FUN_004a3bc0 *>((this))->::FUN_004a3bc0::~FUN_004a3bc0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1251,7 +1251,7 @@ void BGSDecalManager::RenderDecals()
             iterator.previous = iterator.position;
             BSTempEffectSimpleDecal* decal = reinterpret_cast<BSTempEffectSimpleDecal*>(
                 static_cast<BSFaceGenAnimationData*>(reinterpret_cast<NiPointer<BSFaceGenAnimationData>&>(
-                    (*(::NiPointer< ::NiProperty> *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
+                    (*(::NiPointer< ::NiProperty> *)(reinterpret_cast<::ListStandIn *>((reinterpret_cast<NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
                         &m_kSimpleDecalList)))->FUN_0057cbe0((int **)&(reinterpret_cast<void*&>(iterator.position))))))));
             if (decal != 0)
             {
@@ -1319,7 +1319,7 @@ void BGSDecalManager::RenderDecals()
                             reinterpret_cast<::FUN_0068dea0_cls *>((decal))->UpdateDebugDecalBox((const ::xColorA *)&(reinterpret_cast<RgbaColor&>(color)), false);
                         }
                     }
-                    reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
+                    reinterpret_cast<NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >*>(
                         &m_kSimpleDecalList)
                         ->RemovePos(reinterpret_cast<void*&>(iterator.previous));
                 }
@@ -1840,7 +1840,7 @@ void Camera::UpdateCamera(Input* input)
         ::FUN_005b5e40();
     }
     if (!((::CameraPass::Render *)(::FUN_00559450((int *)&(render)))))
-        render.FUN_0066b0d0(((::CameraPass::Render *)(reinterpret_cast<::Pool *>((((::CameraPass::Factory *)(::FUN_004a0ea0(::FUN_004a0e90(), 0, 0, 0)))))->FUN_00b6e110({}, {}, {}, {}, {}))));
+        render.FUN_0066b0d0(((::CameraPass::Render *)(((::Pool *)(std::intptr_t)(::FUN_004a0ea0()))->FUN_00b6e110(::FUN_004a0e90(), 0x33, 0, 0, 0))));
     if (input->alternate)
         ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::CameraPass::Render *)(::FUN_00559450((int *)&(render))))))->GetGroup()))));
     else
@@ -2265,9 +2265,9 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             __int64 llTicks;
             if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5884)).FUN_00408d60())
             {
-                QueryPerformanceFrequency(&llFrequencyCount);
+                QueryPerformanceFrequency((LARGE_INTEGER*)&llFrequencyCount);
                 dFrequency = llFrequencyCount * 1e-06;
-                QueryPerformanceCounter(&kStartNext.QuadPart);
+                QueryPerformanceCounter((LARGE_INTEGER*)&kStartNext.QuadPart);
             }
             if (::FUN_004a19f0() >= fDistance || apRequest->bForce || abForce)
             {
@@ -2277,7 +2277,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             }
             if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5884)).FUN_00408d60())
             {
-                QueryPerformanceCounter(&llEnd);
+                QueryPerformanceCounter((LARGE_INTEGER*)&llEnd);
                 llTicks = llEnd - kStartNext.QuadPart;
                 ::FUN_00406d00(acBuffer, 0xff, s_szTiming, llTicks, llTicks / dFrequency);
                 ::FUN_0040fbe0();
@@ -2502,7 +2502,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
         pName4 = (const char*)((::XList *)(reinterpret_cast<::TESTopicInfoData *>((ref->m28))->GetLinkToList()))->FUN_0043b1b0();
         if (pName4 != 0 && (std::strncmp(pName4, DAT_0101e484, 10) == 0 || std::strncmp(pName4, DAT_0101e47c, 5) == 0 ||
                             std::strncmp(pName4, DAT_0101e474, 7) == 0 || std::strncmp(pName4, DAT_0101e468, 9) == 0 ||
-                            FUN_00ec8a19(pName4, DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
+                            FUN_00ec8a19(pName4, &DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
             return true;
         if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_011f4a20))), (::NiAVObject *)(ref->m28)) && !reinterpret_cast<::FUN_00456630_helper *>((ref->m28))->FUN_00456610())
         {

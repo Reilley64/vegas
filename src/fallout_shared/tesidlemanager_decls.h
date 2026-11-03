@@ -330,7 +330,6 @@ class TaskQueueInterface
 void FUN_00406d50(char*, unsigned int, const char*);
 namespace CRT {
 }
-int strcat_s(char* destination, unsigned int size, const char* source);
 extern "C" const char fnv_idle_1hm_fast_left[];
 extern "C" const char fnv_idle_1hm_left[];
 extern "C" const char fnv_idle_1hp_fast_left[];

@@ -2318,9 +2318,6 @@ void FUN_005eabb0::ClearConditions()
     reinterpret_cast<::FileMatchList *>((reinterpret_cast<ListCleanup*>(&m_kNode)))->RemoveAll();
     reinterpret_cast<::PerkEntryConditionSet *>((reinterpret_cast<ConditionCleanup*>(&m_condition)))->InitializeConditionItems();
 }
-
-int __cdecl strcat_s(char*, unsigned int, const char*);
-
 struct LocalizedText
 {
 };

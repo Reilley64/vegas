@@ -64,7 +64,7 @@ template <class T, unsigned int N> class BSSimpleArray
 template <class T> class NiTPointerAllocator
 {
 };
-template <class Allocator, class T> class NiTPointerListBase
+template <class Allocator, class T> class NiTPointerListBaseT
 {
   public:
     T& GetNext(void*&);

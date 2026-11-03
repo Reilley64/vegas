@@ -55,7 +55,7 @@ void __cdecl FUN_00da07b0(void* apObject, void* b)
     if (apObject)
     {
         *(void**)apObject = (void*)&DAT_010d461c;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00da07b0_class*)((char*)apObject + 0x64))))->FUN_00cb0a70((int)(b));
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00da07b0_class*)((char*)apObject + 0x64))))->FUN_00cb0a70((intptr_t)(b));
     }
 }
 
@@ -227,7 +227,7 @@ void __cdecl FUN_00da0760(void* pObject, void* b)
     if (pObject)
     {
         *(void**)((char*)pObject + 0) = (void*)fnv_vftable_S00da0780_Object;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70_class*)((char*)pObject + 8))))->FUN_00cb0a70((int)b);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70_class*)((char*)pObject + 8))))->FUN_00cb0a70((intptr_t)b);
     }
 }
 
@@ -751,11 +751,11 @@ struct FUN_00db75b0_class
     FUN_00db75b0_entry* unk04;
     int unk08;
 
-    unsigned int FUN_00db75b0(int a1, unsigned int* a2);
+    unsigned int FUN_00db75b0(intptr_t a1, unsigned int* a2);
 };
 
 // @fnv 0x00db75b0
-unsigned int FUN_00db75b0_class::FUN_00db75b0(int a1, unsigned int* a2)
+unsigned int FUN_00db75b0_class::FUN_00db75b0(intptr_t a1, unsigned int* a2)
 {
     for (int index = 0; index < unk08; ++index)
     {
@@ -4146,7 +4146,7 @@ struct hkBoolDA24
 };
 
 // @fnv 0x00da24b0
-void __cdecl FUN_00da24b0(int iParam, float fParam)
+void __cdecl FUN_00da24b0(intptr_t iParam, float fParam)
 {
     hkArrayDA24<int> kFirst;
     hkArrayDA24<int> kSecond;

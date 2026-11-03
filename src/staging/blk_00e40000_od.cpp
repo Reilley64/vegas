@@ -166,7 +166,7 @@ struct __declspec(align(16)) Vec4E5 { float x, y, z, w; };
 struct TmpE5CF40 { Vec4E5 a, b;  };
 
 // @fnv 0x00e5cf40
-void __cdecl FUN_00e5cf40(int a, int b, int c)
+void __cdecl FUN_00e5cf40(intptr_t a, intptr_t b, intptr_t c)
 {
     TmpE5CF40 tmp;
     reinterpret_cast<::xSphereMachine *>(&(tmp))->FUN_00e64f00((const ::xMoppCode *)(a), (*(const ::xSphere *)(b)), (::HitArray *)(c));
@@ -178,7 +178,7 @@ struct __declspec(align(16)) FUN_00e5d010_Block {
 };
 
 // @fnv 0x00e5d010
-extern "C" void __cdecl FUN_00e5d010(int first,int second,int third)
+extern "C" void __cdecl FUN_00e5d010(intptr_t first, intptr_t second, int third)
 {
     FUN_00e5d010_Block instance;
     reinterpret_cast<::GridCell *>(&(instance))->FUN_00dd1da0((::GridSource *)(first),(::GridBounds *)(second),third);
@@ -994,7 +994,7 @@ struct FNV_ALIGN(16) FUN_00dd1bf0
 };
 
 // @fnv 0x00e5cfe0
-void FUN_00e5cfe0(int a1, int a2, int a3, float a4, int a5)
+void FUN_00e5cfe0(intptr_t a1, intptr_t a2, intptr_t a3, float a4, int a5)
 {
     FUN_00dd1bf0 obj;
     reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(obj))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(a1), (const ::ObbQueryDetail::ObbTransform *)(a2), (const ::ObbQueryDetail::ObbVector *)(a3), a4, a5);
@@ -1004,7 +1004,7 @@ int __cdecl FUN_00e4b570(const __m128* point, const __m128* verts, float* out);
 
 int __cdecl FUN_00e5cf00(void* a1, int a2, int a3, int a4);
 
-void __cdecl FUN_00e5cf40(int a, int b, int c);
+void __cdecl FUN_00e5cf40(intptr_t a, intptr_t b, intptr_t c);
 
 void __cdecl FUN_00e52d90(const unsigned short* in, hkQuatStore_e52d90* out);
 

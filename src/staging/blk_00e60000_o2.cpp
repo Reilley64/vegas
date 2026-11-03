@@ -643,11 +643,11 @@ struct FUN_00e63ec0_Class
     int _04;
     int* _08;
     int _0c;
-    int FUN_00e63ec0(int a, int* out);
+    int FUN_00e63ec0(intptr_t a, int* out);
 };
 
 // @fnv 0x00e63ec0
-int FUN_00e63ec0_Class::FUN_00e63ec0(int a, int* out)
+int FUN_00e63ec0_Class::FUN_00e63ec0(intptr_t a, int* out)
 {
     int i = 0;
     if (_0c > 0)
@@ -1051,7 +1051,7 @@ struct FUN_00c85750_Result
 
 // Switches on object->unk14: case 0 calls AppendIndexSequence with object fields and value; case 1 calls AppendIndices when unk00 is 3 or 4.
 // @fnv 0x00e611d0
-void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value)
+void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, intptr_t value)
 {
     switch (object->unk14)
     {
@@ -9052,12 +9052,12 @@ struct Owner
     int unk6fc;
     Block m_kBlock;
 
-    int FUN_00e695c0(int iArg);
+    int FUN_00e695c0(intptr_t iArg);
 };
 
 // Returns the result of SelectFormatTileValue called with iArg and a pointer to m_kBlock.
 // @fnv 0x00e695c0
-int Owner::FUN_00e695c0(int iArg)
+int Owner::FUN_00e695c0(intptr_t iArg)
 {
     return ::SelectFormatTileValue((::Pair *)(iArg), (::Counts *)(::se695c0::Block *)(&m_kBlock));
 }
@@ -9087,11 +9087,11 @@ class DepthStencilSearch
     int unk00;
     int unk04;
     SearchIndex m_08;
-    intptr_t FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
+    intptr_t FindBestFullscreenFormat(uintptr_t p1, int p2, int p3);
 };
 // Returns the DAT_011bf140 value of the enabled fullscreen entry whose two values from FUN_00e7a8b0 are closest to p2 and p3, or 0.
 // @fnv 0x00e7ade0
-intptr_t DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
+intptr_t DepthStencilSearch::FindBestFullscreenFormat(uintptr_t p1, int aiDepth, int aiStencil)
 {
     NiDX9RenderTargetInfo* pRenderTargetInfo = 0;
     int result = 0;

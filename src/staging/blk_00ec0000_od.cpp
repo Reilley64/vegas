@@ -213,7 +213,7 @@ struct FUN_00ec1f60_Class
 {
     int m_0020;
     unsigned char m_0024;
-    unsigned char InitAndCheck(int a, unsigned char b);
+    unsigned char InitAndCheck(intptr_t a, unsigned char b);
 };
 struct FUN_00ec1fb0_class
 {
@@ -690,7 +690,7 @@ class NiPlaybackFile
     bool InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping);
 };
 // @fnv 0x00ec1f60
-unsigned char FUN_00ec1f60_Class::InitAndCheck(int aiValue, unsigned char b)
+unsigned char FUN_00ec1f60_Class::InitAndCheck(intptr_t aiValue, unsigned char b)
 {
     *(int*)((char*)this + 0x20) = 2;
     *(unsigned char*)((char*)this + 0x24) = 1;
@@ -747,7 +747,7 @@ extern "C" __declspec(dllimport) int BinkCopyToBufferRect(void* hBink, void* des
                                                                     unsigned int srcHeight, unsigned int flags);
 
 // @fnv 0x00ec14d0
-unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, int a3)
+unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, uintptr_t a2, int a3)
 {
     int result2 = 1;
     int v1;
@@ -1082,13 +1082,13 @@ struct S_00ec2d80_Class
     int m_003c;
     S_00ec2f00_Class m_0040;
 
-    void FUN_00ec2d80(int a, int b);
+    void FUN_00ec2d80(int a, intptr_t b);
 };
 
 
 
 // @fnv 0x00ec2d80
-void S_00ec2d80_Class::FUN_00ec2d80(int a, int b)
+void S_00ec2d80_Class::FUN_00ec2d80(int a, intptr_t b)
 {
     char* p;
     char* oB;
@@ -2300,12 +2300,12 @@ struct FUN_00ec2f00_cls
     int m0c;
     unsigned char m10;
 
-    void AddOrUpdate(void* arg8, unsigned int argc);
+    void AddOrUpdate(void* arg8, uintptr_t argc);
 };
 
 // Finds an item in the m08 bucket matching arg8 via v02, updates it, or allocates and inserts a new one via v03.
 // @fnv 0x00ec2f00
-void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, unsigned int uiValue)
+void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, uintptr_t uiValue)
 {
     void* mem;
     FUN_00ec2f00_item* item;
@@ -2452,7 +2452,7 @@ int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 
 void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY);
 
-unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, int a3);
+unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, uintptr_t a2, int a3);
 
 // Look up the file name registered under a key and copy it into a MAX_PATH buffer.
 
@@ -2711,7 +2711,7 @@ struct SpawnedObject
 };
 
 // @fnv 0x00ec2ca0
-int FUN_00ec2ca0(int a1)
+int FUN_00ec2ca0(intptr_t a1)
 {
     SpawnedObject* obj = new SpawnedObject();
     reinterpret_cast<::NiPlaybackFile *>((obj))->FindString((const char *)(a1), 1, 1, 1);

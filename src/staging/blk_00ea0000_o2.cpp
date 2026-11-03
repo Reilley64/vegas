@@ -708,7 +708,7 @@ struct FUN_00eb5f10_Small
 };
 struct FUN_00eb5f10_Large
 {
-    void* FUN_00eba1b0(void*, unsigned short, int, int, int, int);
+    void* FUN_00eba1b0(void*, unsigned short, int, int, intptr_t, int);
 };
 struct FUN_00eb5f10_Manager
 {
@@ -724,7 +724,7 @@ struct FUN_00eb5f10_Class
     int unk18;
     FUN_00eb5f10_Tail unk1c;
     int unk50;
-    FUN_00eb5f10_Class* InitFromKind(unsigned short kind, int arg2, int arg3, int arg4, int arg5);
+    FUN_00eb5f10_Class* InitFromKind(unsigned short kind, intptr_t arg2, intptr_t arg3, intptr_t arg4, int arg5);
 };
 struct SphereBound
 {
@@ -2459,11 +2459,11 @@ struct FUN_00eba1b0
     int unk80;
     int unk84;
     int unk88;
-    FUN_00eba1b0(intptr_t, unsigned short, const unsigned short*, const Point139*, int, int);
+    FUN_00eba1b0(intptr_t, unsigned short, const unsigned short*, const Point139*, intptr_t, int);
 };
 // Allocates an object sized by kind, stores it in unk08, initialises unk04/unk10/unk14/unk18/unk0c/unk50 and calls unk1c.FUN_00a86bf0.
 // @fnv 0x00eb5f10
-FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, int arg2, int arg3, int arg4, int arg5)
+FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, intptr_t arg2, intptr_t arg3, intptr_t arg4, int arg5)
 {
     vtable = (void**)&UNK_010f1b44;
     FUN_00eb5f10_Manager* manager = (FUN_00eb5f10_Manager*)&::g_memoryManager;
@@ -2490,7 +2490,7 @@ FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, int ar
 }
 // Computes each triangle's area and centroid from indices and vertices, then calls BuildNode with them plus temporary order and scratch arrays.
 // @fnv 0x00eba1b0
-FUN_00eba1b0::FUN_00eba1b0(intptr_t arg1, unsigned short count, const unsigned short* indices, const Point139* vertices, int arg5, int arg6)
+FUN_00eba1b0::FUN_00eba1b0(intptr_t arg1, unsigned short count, const unsigned short* indices, const Point139* vertices, intptr_t arg5, int arg6)
 {
     unk7c = 0;
     float* areas = (float*)::FUN_00aa1070(count * sizeof(float));

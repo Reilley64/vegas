@@ -212,7 +212,7 @@ struct FUN_00e8aa40_Class {
 // @fnv 0x00e8aa40
 int FUN_00e8aa40_Class::FUN_00e8aa40(bool abFree)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010efc34);
+    *(void**)this = (void*)&DAT_010efc34;
     FUN_00e68830();
     if (abFree & 1)
         operator delete(this, 0x88);
@@ -8227,7 +8227,7 @@ struct CubeMapSource {
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int GetSurfaceLevel(int a, unsigned int b, int* c);
+    virtual int GetSurfaceLevel(int a, unsigned int b, intptr_t* c);
 };
 struct CubeMapSurface {
     virtual void v00();
@@ -8262,11 +8262,11 @@ struct FUN_00e8aaf0_cls {
     int unk60;
     CubeMapSource* m_64;
     unsigned int m_68;
-    void FUN_00e8aaf0(intptr_t a1, int a2);
+    void FUN_00e8aaf0(intptr_t a1, intptr_t a2);
 };
 // Copies data to each cube map surface: gets the surface level, copies data into it, and releases it, logging on failure.
 // @fnv 0x00e8aaf0
-void FUN_00e8aaf0_cls::FUN_00e8aaf0(intptr_t pData, int iFace) {
+void FUN_00e8aaf0_cls::FUN_00e8aaf0(intptr_t pData, intptr_t iFace) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
@@ -8303,7 +8303,7 @@ struct CubeMapSource {
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int GetSurfaceLevel(int a, unsigned int b, int* c);
+    virtual int GetSurfaceLevel(int a, unsigned int b, intptr_t* c);
 };
 struct CubeMapSurface {
     virtual void v00();
@@ -8338,11 +8338,11 @@ struct FUN_00e8ab70_cls {
     int unk60;
     CubeMapSource* m_64;
     unsigned int m_68;
-    void FUN_00e8ab70(intptr_t a1, int a2);
+    void FUN_00e8ab70(intptr_t a1, intptr_t a2);
 };
 // Copies data into each surface level of the cube map source, releasing each surface and logging a failure if GetSurfaceLevel fails.
 // @fnv 0x00e8ab70
-void FUN_00e8ab70_cls::FUN_00e8ab70(intptr_t aiData, int a2) {
+void FUN_00e8ab70_cls::FUN_00e8ab70(intptr_t aiData, intptr_t a2) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
@@ -8484,7 +8484,7 @@ struct S_00e8b4b0_Class {
     unsigned char m_70;
     unsigned char m_71;
 
-    S_00e8b4b0_Class* Init(int value1, int value2);
+    S_00e8b4b0_Class* Init(intptr_t value1, int value2);
 };
 
 struct Key {
@@ -9906,7 +9906,7 @@ bool UpdateFromSource(LightSource* source);
 };
 // Initializes fields m_68, m_6c, m_70 and m_71, calls UpdateFromSource with value1, and returns this.
 // @fnv 0x00e8b4b0
-S_00e8b4b0_Class* S_00e8b4b0_Class::Init(int value1, int value2) {
+S_00e8b4b0_Class* S_00e8b4b0_Class::Init(intptr_t value1, int value2) {
     m_68 = 0;
     m_6c = value2;
     m_70 = 0;

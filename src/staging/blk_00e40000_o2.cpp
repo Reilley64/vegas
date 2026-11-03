@@ -1,6 +1,7 @@
 // staging/blk_00e40000_o2.cpp: KnotVector, ThunkDerived, FourComponentVector, Quat4 and more (195 functions)
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/decl/hkMalleableConstraintData.h"
 #include "fnv/symbols_simd.h"
 #include "fnv/symbols_00c90000.h"
 #include <cstdint>
@@ -392,7 +393,7 @@ struct FUN_00e4af80 {
 // @fnv 0x00e4af80
 FUN_00e4af80* FUN_00e4af80::Set(int aiValue)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010ec1fc);
+    *(void**)this = (void*)&DAT_010ec1fc;
     reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(reinterpret_cast<char*>(this) + 0x14)))->FUN_00cb0a70(aiValue);
     return this;
 }
@@ -1332,11 +1333,11 @@ struct FourFloatVector
     float w;
 
     FourFloatVector& FUN_00e531a0(int parameter);
-    FourFloatVector FUN_00e53260(int parameter);
+    FourFloatVector FUN_00e53260(intptr_t parameter);
 };
 
 // @fnv 0x00e53260
-FourFloatVector FourFloatVector::FUN_00e53260(int parameter) {
+FourFloatVector FourFloatVector::FUN_00e53260(intptr_t parameter) {
     FourFloatVector local = *this;
     return (*(::FourFloatVector *)(reinterpret_cast<::FUN_00e531a0_struct *>(&(local))->FUN_00e531a0((const ::FUN_00e531a0_struct *)(parameter))));
 }
@@ -5883,7 +5884,7 @@ struct SpawnedBlockRef {
     unsigned int flags;
 };
 
-void __cdecl FUN_00e568f0(int a1, int a2, void* s);
+void __cdecl FUN_00e568f0(int a1, intptr_t a2, void* s);
 void __cdecl ProcessGeometryPasses(int a1, int a2, SpawnedBlockRef* block, hkBool enabled, int b1, float b2, int b3, int b4, int b5);
 
 // @fnv 0x00e58210
@@ -6206,9 +6207,9 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
         FUN_00cdf2f0* oldData = static_cast<FUN_00cdf2f0*>(constraintData);
         FUN_00cdf2f0* newData = new FUN_00cdf2f0();
         FUN_00e5b130(&oldData->m_kBridgeAtoms, &newData->m_kBridgeAtoms);
-        ::FUN_00cdea70((int)(newData));
-        ::FUN_00cdeab0((int)(newData));
-        ::FUN_00cdea90((int)(newData));
+        reinterpret_cast<::hkMalleableConstraintData*>(newData)->FUN_00cdea70((::hkMalleableContactNormal*)motor);
+        reinterpret_cast<::hkMalleableConstraintData*>(newData)->FUN_00cdeab0((::hkMalleableContactNormal*)motor);
+        reinterpret_cast<::hkMalleableConstraintData*>(newData)->FUN_00cdea90((::hkMalleableContactNormal*)motor);
         reinterpret_cast<::FUN_00cdf290_cls *>((newData))->SetFlagAndClearFloats((int)(0), enableMotors);
         newConstraint = new Se5b160_Instance(entityA, entityB, newData, original->getPriority());
         reinterpret_cast<::hkReferencedObjectC905 *>((newData))->FUN_00c905b0();
@@ -7681,7 +7682,7 @@ static void S00e568f0_SetArraySize(void* heap, FloatArray* arr, int size)
 }
 
 // @fnv 0x00e568f0
-void __cdecl FUN_00e568f0(int n, int a2, void* s)
+void __cdecl FUN_00e568f0(int n, intptr_t a2, void* s)
 {
     S00e568f0_Vec4Array* pts = (S00e568f0_Vec4Array*)a2;
     FloatArray* out = (FloatArray*)s;

@@ -322,7 +322,7 @@ struct FUN_00cb0a70
 void __cdecl FUN_00dccae0(void* a, void* iValue)
 {
     if (a)
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)a + 4))))->FUN_00cb0a70((int)iValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)a + 4))))->FUN_00cb0a70((intptr_t)iValue);
 }
 
 struct S_00d49310_Lock
@@ -672,12 +672,12 @@ struct FUN_00dcc6a0_cls
     unsigned short m_w06;
     void* m_p08;
 
-    FUN_00dcc6a0_cls* FUN_00dcc6a0(int a1, int a2);
+    FUN_00dcc6a0_cls* FUN_00dcc6a0(intptr_t a1, int a2);
 };
 
 // Sets m_w06 to 1 and the vtable, allocates a 0x1c-byte blob via the allocator, stores its Init result in m_p08, and returns this.
 // @fnv 0x00dcc6a0
-FUN_00dcc6a0_cls* FUN_00dcc6a0_cls::FUN_00dcc6a0(int a1, int a2)
+FUN_00dcc6a0_cls* FUN_00dcc6a0_cls::FUN_00dcc6a0(intptr_t a1, int a2)
 {
     m_w06 = 1;
     m_vptr = (*reinterpret_cast<char (*)[]>(&::DAT_010d7540));
@@ -1575,7 +1575,7 @@ struct Lock_dd9
     int uNewnk;
     int uTmpnk;
     int* m_pkCriticalSection;
-    int FindEntry(int iKey);
+    int FindEntry(intptr_t iKey);
     int InvokeRecord(int iIndex, int iArg);
     int FUN_00dd9330(int iKey, int iArg);
 };
@@ -2711,9 +2711,9 @@ struct Owner
     int a, b, c;
     Table* table;
     int context;
-    void FUN_00dcb460(unsigned int);
+    void FUN_00dcb460(uintptr_t);
 };
-void Owner::FUN_00dcb460(unsigned int i)
+void Owner::FUN_00dcb460(uintptr_t i)
 {
     table->entryAt(((unsigned int)(reinterpret_cast<::TableB2B0 *>((table))->FUN_00dcb2b0((const char *)(i)))))->forward(context);
 }
@@ -2845,12 +2845,12 @@ class FUN_00dd9270_cls
     int m_unk14;
     CRITICAL_SECTION* m_pCrit;
 
-    int FindEntry(unsigned int flag);
+    int FindEntry(uintptr_t flag);
 };
 
 // Under m_pCrit, returns the first index whose entry makes FUN_00cb0fa0(entry, flag) return 0 (or is null with flag 0), else -1.
 // @fnv 0x00dd9270
-int FUN_00dd9270_cls::FindEntry(unsigned int flag)
+int FUN_00dd9270_cls::FindEntry(uintptr_t flag)
 {
     EnterCriticalSection(this->m_pCrit);
     int index = 0;

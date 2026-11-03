@@ -171,11 +171,11 @@ void FUN_00e3b4d0_Class::ApplyToBothObjects(void* a, void* b)
 
 struct FUN_00e3ec30_Class
 {
-    int FUN_00e3ec30(int arg);
+    int FUN_00e3ec30(intptr_t arg);
 };
 
 // @fnv 0x00e3ec30
-int FUN_00e3ec30_Class::FUN_00e3ec30(int arg)
+int FUN_00e3ec30_Class::FUN_00e3ec30(intptr_t arg)
 {
     if (!arg)
         return 0;
@@ -213,7 +213,7 @@ struct FUN_00e29620_class
 };
 
 // @fnv 0x00e298f0
-void __cdecl FUN_00e298f0(FUN_00e29620_class* object, int param)
+void __cdecl FUN_00e298f0(FUN_00e29620_class* object, intptr_t param)
 {
     reinterpret_cast<::Invert6Matrix *>((object))->FUN_00e29620((*(const ::Invert6Matrix *)(param)));
 }
@@ -2467,7 +2467,7 @@ struct FUN_00e3f110_cls
 // @fnv 0x00e3f110
 void FUN_00e3f110_cls::Destroy() throw()
 {
-    *(volatile int*)&m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010e33dc));
+    *(void* volatile*)&m_vptr00 = (void*)&(*reinterpret_cast<int *>(&::DAT_010e33dc));
     AudioRefObject* pRef = *(AudioRefObject* volatile*)&m_p7c;
     if (pRef != 0)
     {
@@ -3346,12 +3346,12 @@ struct Mesh
     int unk018;
     unsigned short* m_pusIndices;
 
-    void FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2);
+    void FUN_00e3d200(int iTri, float fValue, intptr_t iArg0, intptr_t iArg1, intptr_t iArg2);
 };
 
 // Calls FUN_00e3cd50 with m_pusIndices[iTri], [iTri+1], [iTri+2] each multiplied by 3, then fValue and the three remaining arguments.
 // @fnv 0x00e3d200
-void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
+void Mesh::FUN_00e3d200(int iTri, float fValue, intptr_t iArg0, intptr_t iArg1, intptr_t iArg2)
 {
     reinterpret_cast<::CompressedChunk *>(this)->FUN_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, (*(::hkVector4q *)(iArg0)), (*(::hkVector4q *)(iArg1)),
                  (*(::hkVector4q *)(iArg2)));
@@ -4024,7 +4024,7 @@ struct WorkArray : hkArr<WorkItem>
 };
 // Splits indices 0..count-1 using a work stack of plane nodes, calling FUN_00e2c100 on each popped item and pushing non-empty left and right results.
 // @fnv 0x00e2cc30
-void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int count)
+void FUN_00e2cc30(SplitInput* input, intptr_t a2, intptr_t a3, intptr_t a4, intptr_t a5, intptr_t a6, int count)
 {
     if (!input)
         return;
@@ -4249,7 +4249,7 @@ struct Outputs
 };
 // Pops an item stack, calls FUN_00e2bbd0 on each item, and pushes non-empty first and second results until the stack is empty.
 // @fnv 0x00e2c8a0
-void FUN_00e2c8a0(Owner* owner, int p2, int p3, int p4, int p5, int p6, int aiCount)
+void FUN_00e2c8a0(Owner* owner, intptr_t p2, intptr_t p3, intptr_t p4, intptr_t p5, intptr_t p6, int aiCount)
 {
     if (!owner)
         return;

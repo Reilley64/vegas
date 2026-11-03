@@ -44,7 +44,7 @@ void FUN_00dff120(::FUN_00dff120_Class *);
 // 0x00dff130
 int *FUN_00dff130();
 // 0x00dff170
-void FUN_00dff170(::FUN_00dff170_cls *, int);
+void FUN_00dff170(::FUN_00dff170_cls *, intptr_t);
 // 0x00dff190
 void FUN_00dff190(::FUN_00dff190_cls *);
 // 0x00dff1d0

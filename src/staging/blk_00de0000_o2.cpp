@@ -616,7 +616,7 @@ void __cdecl FUN_00dfdb70(void** p)
 }
 
 // @fnv 0x00dfdf90
-void __cdecl FUN_00dfdf90(int a, int b)
+void __cdecl FUN_00dfdf90(intptr_t a, int b)
 {
     ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)(a + 8))));
 }
@@ -6077,7 +6077,7 @@ struct FUN_00dff170_cls
 };
 
 // @fnv 0x00dff170
-void __cdecl FUN_00dff170(FUN_00dff170_cls* pObject, int aiValue)
+void __cdecl FUN_00dff170(FUN_00dff170_cls* pObject, intptr_t aiValue)
 {
     if (pObject != 0)
     {
@@ -8450,7 +8450,7 @@ __declspec(noinline) void S00de0fe0_Arr::FUN_00ddfb70()
 
 // Fills a local pointer array, calls ForEachCall on DAT_012681e0 with it, calls vf00(1) on each element, then frees the array buffer.
 // @fnv 0x00de0fe0
-void __cdecl FUN_00de0fe0(int arg1, int arg2, int arg3, int arg4)
+void __cdecl FUN_00de0fe0(intptr_t arg1, int arg2, int arg3, int arg4)
 {
     S00de0fe0_Local local;
 
@@ -12706,7 +12706,7 @@ void __cdecl FUN_00dfd940(FUN_00dfd940_vt* p);
 
 void __cdecl FUN_00dfdb40(void* p);
 
-void __cdecl FUN_00dfdf90(int a, int b);
+void __cdecl FUN_00dfdf90(intptr_t a, int b);
 
 void __cdecl FUN_00de81a0(void* self, void* arg);
 
@@ -13666,7 +13666,7 @@ void __cdecl FUN_00dfe1d0();
 
 void __cdecl FUN_00dfe200();
 
-void __cdecl FUN_00de0fe0(int arg1, int arg2, int arg3, int arg4);
+void __cdecl FUN_00de0fe0(intptr_t arg1, int arg2, int arg3, int arg4);
 
 GlobalObjectO2_00d472a0* __cdecl FUN_00de8370();
 

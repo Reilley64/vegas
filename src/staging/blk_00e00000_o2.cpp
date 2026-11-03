@@ -70,7 +70,7 @@ void __cdecl FUN_00e00570(int* pObject, int b)
 {
     if (pObject)
     {
-        *pObject = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (b)
             pObject[3] = 0;
         *(void**)pObject = (void*)&DAT_010c749c;
@@ -85,7 +85,7 @@ void FUN_00e007b0(int* pObject, int flag)
 {
     if (pObject)
     {
-        *pObject = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (flag)
             pObject[3] = 0;
         *(void**)pObject = (void*)&DAT_010cb5ac;
@@ -123,7 +123,7 @@ void FUN_00e00b00(int* pObject, int flag)
 {
     if (pObject)
     {
-        *pObject = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (flag)
             pObject[3] = 0;
         *(void**)pObject = (void*)&DAT_010ce4bc;
@@ -138,7 +138,7 @@ void FUN_00e01340(int* pObject, int b)
 {
     if (pObject)
     {
-        *pObject = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (b)
             pObject[3] = 0;
         *(void**)pObject = (void*)&DAT_010ce25c;
@@ -153,7 +153,7 @@ void __cdecl FUN_00e01410(int* pObject, int a)
 {
     if (pObject)
     {
-        pObject[0] = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (a)
             pObject[3] = 0;
         *(void**)pObject = (void*)&DAT_010c70b4;
@@ -172,8 +172,8 @@ void FUN_00e01c30(void* apObject, void* aValue)
     if (apObject)
     {
         *(void**)((char*)apObject) = &DAT_010e99d8;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 8))))->FUN_00cb0a70((int)aValue);
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 12))))->FUN_00cb0a70((int)aValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 8))))->FUN_00cb0a70((intptr_t)aValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)apObject + 12))))->FUN_00cb0a70((intptr_t)aValue);
     }
 }
 
@@ -355,7 +355,7 @@ void __cdecl FUN_00e00350(int* a)
 // @fnv 0x00e00720
 void __cdecl FUN_00e00720(void* p)
 {
-    ((void(*)(void*, int))(*((int**)p))[0])(p, 0);
+    ((void(*)(void*, int))(*(void***)p)[0])(p, 0);
 }
 
 extern int DAT_010cc41c;
@@ -365,7 +365,7 @@ void __cdecl FUN_00e00740(int* pObject, int bClear)
 {
     if (pObject)
     {
-        *pObject = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (bClear)
             pObject[3] = 0;
         *(void**)pObject = (void*)&DAT_010cc41c;
@@ -395,7 +395,7 @@ void __cdecl FUN_00e00930(FUN_00e00930_vt* p)
 // @fnv 0x00e00b40
 void __cdecl FUN_00e00b40(int* p)
 {
-    ((void(*)(void*, int)) * (int*)*p)(p, 0);
+    ((void(*)(void*, int)) *(void**)*(void**)p)(p, 0);
 }
 
 struct FUN_00e00c70_vt
@@ -439,7 +439,7 @@ void __cdecl FUN_00e00e90(int* pObject, int bClear)
 {
     if (pObject)
     {
-        *pObject = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (bClear)
             pObject[3] = 0;
         pObject[5] = (int)&DAT_010c6fd0;
@@ -472,7 +472,7 @@ void __cdecl FUN_00e010e0(int* pObject, int abFlag)
 {
     if (pObject)
     {
-        pObject[0] = (int)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (abFlag)
             pObject[3] = 0;
         pObject[3] = 25;
@@ -762,7 +762,7 @@ typedef void(* vt)(void*, int);
 // @fnv 0x00e02760
 void __cdecl FUN_00e02760(void* p)
 {
-    ((vt*)(*(int*)p))[0](p, 0);
+    (*(vt**)p)[0](p, 0);
 }
 
 struct FUN_00e0bf20_s
@@ -1077,7 +1077,7 @@ void __cdecl FUN_00e01470(FUN_00e01470_s* pObject, int iValue)
 // @fnv 0x00e01510
 void __cdecl FUN_00e01510(FUN_00cb0a70* p)
 {
-    ((Fn)(void**)(*(int**)p)[0])(p, 0);
+    ((Fn)(*(void***)p)[0])(p, 0);
 }
 
 struct FUN_00e01550_vt
@@ -1150,7 +1150,7 @@ void FUN_00e01cf0(void* pObject, void* b)
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010e9a34;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)pObject + 0x20))))->FUN_00cb0a70((int)b);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)((char*)pObject + 0x20))))->FUN_00cb0a70((intptr_t)b);
     }
 }
 
@@ -1232,12 +1232,12 @@ struct FUN_00e027b0_cls
     int m_8;
     int m_iThirdValue;
     int m_10;
-    void ApplyRelocations(int base);
+    void ApplyRelocations(intptr_t base);
 };
 
 // Applies two relocation tables to a base address: adds base to each first-table entry's offset, and writes second-table values directly.
 // @fnv 0x00e027b0
-void FUN_00e027b0_cls::ApplyRelocations(int base)
+void FUN_00e027b0_cls::ApplyRelocations(intptr_t base)
 {
     int i = 0;
     while (i < m_iWordAt04)
@@ -7575,7 +7575,7 @@ __m128* VecList113::FUN_00e11570(__m128* __restrict out, const __m128* direction
 
 // Returns 1 if FUN_00e13870(a, b) is less than c, otherwise 0.
 // @fnv 0x00e16e20
-int FUN_00e16e20(int a, int b, float afThreshold)
+int FUN_00e16e20(intptr_t a, int b, float afThreshold)
 {
     if (::FUN_00e13870((char *)(a), b) < afThreshold)
         return 1;
@@ -8228,7 +8228,7 @@ static bool __cdecl FUN_00e04e10(Slot00e04e10* obj, int a, int b);
 
 bool keep_alive_b11536(Slot00e04e10* obj, int a, int b);
 
-int FUN_00e16e20(int a, int b, float c);
+int FUN_00e16e20(intptr_t a, int b, float c);
 
 void __cdecl FUN_00e0cce0();
 

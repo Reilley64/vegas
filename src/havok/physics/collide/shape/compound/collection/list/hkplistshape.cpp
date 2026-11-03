@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/list/hkplistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/list/hkplistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
@@ -286,20 +287,6 @@ int hkListShapeCF58::FindNextEnabledChild(int oldKey) const
     return -1;
 }
 
-struct FnvCpu_FUN_00cf5890_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cf5890_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cf5890_CpuAllocator* allocator;
-};
 struct FnvCpu_FUN_00cf5890_CpuObject
 {
     unsigned int unk00;
@@ -307,30 +294,19 @@ struct FnvCpu_FUN_00cf5890_CpuObject
     void FUN_00cf5750();
     FnvCpu_FUN_00cf5890_CpuObject* Destroy(unsigned int flags);
 };
-// Calls FUN_00cf5750, then if flags has bit 0 set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
+// Calls FUN_00cf5750, then if flags has bit 0 set, frees this (size bytes) to the heap allocator, and returns this.
 // @fnv 0x00cf5890
 FnvCpu_FUN_00cf5890_CpuObject* FnvCpu_FUN_00cf5890_CpuObject::Destroy(unsigned int flags)
 {
     FUN_00cf5750();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cf5890_CpuAllocatorHolder* pAllocatorHolder = static_cast<FnvCpu_FUN_00cf5890_CpuAllocatorHolder*>(::FUN_00c85750());
-        pAllocatorHolder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }
 
-class hkMemoryAllocatorCF56;
 
-struct hkMemoryRouterCF56
-{
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorCF56* m_pStreamAllocator;
-    hkMemoryAllocatorCF56& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace fnvc_adapt {
 }
@@ -350,7 +326,7 @@ template <class T> class hkArrayCF56
     }
     __forceinline void reserve(int n)
     {
-        hkMemoryAllocatorCF56& kAlloc = static_cast<hkMemoryRouterCF56*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         const int iCap = getCapacity();
         if (iCap < n)
         {
@@ -461,19 +437,6 @@ int ListShapeCF::FUN_00cf50c0(const bool& input, int spuBufferSizeLeft)
     return 0x70;
 }
 
-struct ShapeAlloc;
-struct ShapeRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    ShapeAlloc* m_pStreamAllocator;
-    ShapeAlloc& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct ListShapeCF54 : public hkpListShape
 {
@@ -496,7 +459,7 @@ FUN_00cf5640::FUN_00cf5640(const void* iA, int iB, int iC) throw() : FUN_00d2141
 void ListShapeCF54::FUN_00cf54d0(hkpShape* const* shapes, int count, const unsigned int* shapeData, int flag)
 {
     hkArray<hkpListShapeChildInfo>& children = m_kChildInfoList;
-    ShapeAlloc& heap = reinterpret_cast<ShapeRouter*>(static_cast<FnvCpu_FUN_00cf5890_CpuAllocatorHolder*>(::FUN_00c85750()))->heap();
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     int capacity = children.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
     {
@@ -839,28 +802,7 @@ Derived::Derived()
 {}
 
 namespace fnv_00cf5750 {
-class hkMemoryAllocatorCF5
-{
-  public:
-    virtual ~hkMemoryAllocatorCF5();
-    virtual void* AllocateMemoryBlock(int numBytes) throw();
-    virtual void ReleaseBlock(void* p, int numBytes) throw();
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
 
-struct hkMemoryRouterCF5
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    hkMemoryAllocatorCF5* m_pTemp;
-    hkMemoryAllocatorCF5* m_pStreamAllocator;
-    hkMemoryAllocatorCF5& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct hkRefCF5
@@ -884,10 +826,10 @@ template <class T> class hkArrayCF5
     }
     ~hkArrayCF5() throw()
     {
-        hkMemoryAllocatorCF5& alloc = static_cast<hkMemoryRouterCF5*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }

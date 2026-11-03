@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -95,21 +96,7 @@ struct FUN_00df8db0_cls
 
 extern int DAT_0101e594;
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 
 struct FUN_00df8960_cls
@@ -119,16 +106,14 @@ struct FUN_00df8960_cls
     FUN_00df8960_cls* FUN_00df8960(unsigned char acFlags);
 };
 
-// Sets the vtable pointer and, when bit 0 of acFlags is set, frees this 0x1c-byte object through the allocator from FUN_00c85750.
+// Sets the vtable pointer and, when bit 0 of acFlags is set, frees this 0x1c-byte object to the heap allocator.
 // @fnv 0x00df8960
 FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
 {
     m_vptr = &DAT_0101e594;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, 0x1c);
+        hkMemoryRouter::getInstance().heap().blockFree(this, 0x1c);
     }
     return this;
 }
@@ -164,21 +149,7 @@ struct FUN_00df8dd0_cls
 };
 
 namespace fnv_00df9470 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 
 struct BaseA
@@ -211,16 +182,14 @@ class MultiBaseOwner : public BaseA, public BaseB, public BaseC, public BaseD
     MultiBaseOwner* FUN_00df9470(unsigned char acFlags);
 };
 
-// Destructs the object, then, if bit 0 of acFlags is set, frees it through the allocator obtained from FUN_00c85750, and returns this.
+// Destructs the object, then, if bit 0 of acFlags is set, frees it to the heap allocator, and returns this.
 // @fnv 0x00df9470
 MultiBaseOwner* MultiBaseOwner::FUN_00df9470(unsigned char acFlags)
 {
     this->MultiBaseOwner::~MultiBaseOwner();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, 0x80);
+        hkMemoryRouter::getInstance().heap().blockFree(this, 0x80);
     }
     return this;
 }
@@ -840,24 +809,6 @@ struct __declspec(align(16)) Vec
 {
     float x, y, z, w;
 };
-struct Allocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void Free(void*, int) throw();
-};
-struct Pool
-{
-    unsigned char* cursor;
-    int unk04, unk08, unk0c;
-    Allocator* allocator;
-};
-static __forceinline Pool* pool()
-{
-    return (Pool*)static_cast<AudioHolder*>(::FUN_00c85750());
-}
 struct Finalizer
 {
 };
@@ -937,13 +888,11 @@ struct VertexBuffer
         data = 0;
         count = 0;
         capacity = 0x80000000;
-        Pool* p = pool();
-        OutputVertex* memory = (OutputVertex*)p->cursor;
-        p->cursor = (unsigned char*)memory + ((n * 32 + 127) & ~127);
+        OutputVertex* memory = static_cast<OutputVertex*>(hkMemoryRouter::getInstance().allocateStack((n * 32 + 127) & ~127));
         data = memory;
         capacity = n | 0x80000000;
         storage = memory;
-        Allocator* a = *(Allocator* volatile*)&pool()->allocator;
+        hkMemoryAllocator* a = &hkMemoryRouter::getInstance().heap();
         int old = capacity & 0x3fffffff;
         if (old < n)
         {
@@ -958,11 +907,11 @@ struct VertexBuffer
         OutputVertex* saved = storage;
         if (saved == data)
             count = 0;
-        pool()->cursor = (unsigned char*)saved;
-        Allocator* a = *(Allocator* volatile*)&pool()->allocator;
+        hkMemoryRouter::getInstance().deallocateStack(saved);
+        hkMemoryAllocator* a = &hkMemoryRouter::getInstance().heap();
         count = 0;
         if ((capacity & 0x80000000u) == 0)
-            a->Free(data, (capacity & 0x3fffffff) * 32);
+            a->bufFree(data, (capacity & 0x3fffffff) * 32);
     }
 };
 union QueryScratch
@@ -1119,9 +1068,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
         fields[1].Init();
         fields[2].Init();
         fields[3].Init();
-        Pool* p = pool();
-        iteration.destination = p->cursor;
-        p->cursor = iteration.destination + 128;
+        iteration.destination = static_cast<unsigned char*>(hkMemoryRouter::getInstance().allocateStack(128));
         if (count > 0)
         {
             Vertex* v = querySource;
@@ -1160,7 +1107,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
         } while (queryRemaining-- != 1);
         ::fnv_00e2c8a0::FUN_00e2c8a0((::fnv_00e2c8a0::Owner *)(request->passA), vertices.data, querySource, queryType, fields, iteration.destination, count);
         ::FUN_00e2cc30((::SplitInput *)(request->passB), vertices.data, querySource, queryType, fields, iteration.destination, count);
-        pool()->cursor = iteration.destination;
+        hkMemoryRouter::getInstance().deallocateStack(iteration.destination);
         Field* end = fields + 4;
         int remaining = 3;
         do

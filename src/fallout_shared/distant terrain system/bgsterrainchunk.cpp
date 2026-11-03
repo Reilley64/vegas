@@ -377,11 +377,11 @@ struct FUN_006fbcd0_shell
 {
     char pad[0x58];
     bool bUnk58;
-    void SetFlagAndCall(int a, int b);
+    void SetFlagAndCall(int a, std::intptr_t b);
 };
 // Sets the bool at offset 0x58 to true, then forwards both arguments to FUN_00c3cb70.
 // @fnv 0x006fbcd0
-void FUN_006fbcd0_shell::SetFlagAndCall(int aiArg1, int aiArg2)
+void FUN_006fbcd0_shell::SetFlagAndCall(int aiArg1, std::intptr_t aiArg2)
 {
     bUnk58 = true;
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aiArg1, (::fnv_00c3cb70::RefObj *)(aiArg2));
@@ -569,8 +569,8 @@ void UpdateSoundListItems()
         while (current != 0 && !current->_ref_008256d0())
         {
             go = ((::GO **)((void *)(current)))[0];
-            if (((FUN_006fb150_shell*)go->operator unsigned int())->GetByteAtOffset5C() &&
-                ((FUN_006fa840_shell*)go->operator unsigned int())->GetByteAt5D() && ((unsigned char)(reinterpret_cast<::FUN_006fe920_Class *>((go->f0))->FUN_006fe920(false))))
+            if (((FUN_006fb150_shell*)(std::uintptr_t)go->operator unsigned int())->GetByteAtOffset5C() &&
+                ((FUN_006fa840_shell*)(std::uintptr_t)go->operator unsigned int())->GetByteAt5D() && ((unsigned char)(reinterpret_cast<::FUN_006fe920_Class *>((go->f0))->FUN_006fe920(false))))
             {
                 ((FUN_006fb6e0_shell*)go)->SetAllAppCulled();
             }
@@ -632,7 +632,7 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pdiffuseTextureFileName,
-                                      (void *)(reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60()),
+                                      (void *)(std::uintptr_t)(reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60()),
                                       reinterpret_cast<QueuedFile*>(this));
 
     BuildLodNormalTexturePath(
@@ -641,7 +641,7 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pnormalTextureFileName,
-                                      (void *)(reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60()),
+                                      (void *)(std::uintptr_t)(reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60()),
                                       reinterpret_cast<QueuedFile*>(this));
 
     *reinterpret_cast<bool*>(&this->f0[12]) = true;
@@ -1139,18 +1139,18 @@ void TerrainTask::UpdateTerrainLODNames()
             char szFile[260];
             std::sprintf(szFile, (const char*)NiFixedString("Terrain LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
                      iY, iX + iLevel - 1, iY + iLevel - 1);
-            ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref48))))), (int)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
+            ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref48))))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             if (((::LoadedNode *)(::FUN_00559450((int *)&(m_ref4c)))))
             {
                 std::sprintf(szFile, (const char*)NiFixedString("Water LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
                          iY, iX + iLevel - 1, iY + iLevel - 1);
-                ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref4c))))), (int)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
+                ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref4c))))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             }
             if (((::LoadedNode *)(::FUN_00559450((int *)&(m_ref50)))))
             {
                 std::sprintf(szFile, (const char*)NiFixedString("Water LOD w/ refl.) | Level %i | Cells (%i,%i)-(%i,%i)"),
                          iLevel, iX, iY, iX + iLevel - 1, iY + iLevel - 1);
-                ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref50))))), (int)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
+                ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref50))))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             }
             reinterpret_cast<::TargetObject *>((m_pExtra40))->FUN_006fa990();
         }
@@ -1296,7 +1296,7 @@ void SelfX::UpdateWaterReferences(bool bForce)
     {
         if (((::Q28 *)(::FUN_00559450((int *)&(mc)))))
         {
-            m20 = ((::E1d0 *)(reinterpret_cast<::fnv_004e4c80::Main61 *>((((::R4e *)(::FUN_0070ec90((char *)((*reinterpret_cast<::MgrX * *>(&::g_TES))))))))->CreateWaterReference({}, {}, {}, {}, {})));
+            m20 = ((::E1d0 *)(reinterpret_cast<::fnv_004e4c80::Main61 *>((((::R4e *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::MgrX * *>(&::g_TES))))))))->CreateWaterReference({}, {}, {}, {}, {})));
             m18.FUN_0066b0d0(0);
             if (m20)
                 m18.FUN_0066b0d0(((::E14 *)(reinterpret_cast<::NiNode *>((m20->F1d0()->Fc(0)))->GetAt({})))->F14());
@@ -1305,7 +1305,7 @@ void SelfX::UpdateWaterReferences(bool bForce)
         }
         if (((::Q28 *)(::FUN_00559450((int *)&(m8)))))
         {
-            m1c = ((::E1d0 *)(reinterpret_cast<::fnv_004e4c80::Main61 *>((((::R4e *)(::FUN_0070ec90((char *)((*reinterpret_cast<::MgrX * *>(&::g_TES))))))))->CreateWaterReference({}, {}, {}, {}, {})));
+            m1c = ((::E1d0 *)(reinterpret_cast<::fnv_004e4c80::Main61 *>((((::R4e *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::MgrX * *>(&::g_TES))))))))->CreateWaterReference({}, {}, {}, {}, {})));
             m14.FUN_0066b0d0(0);
             if (m1c)
                 m14.FUN_0066b0d0(((::E14 *)(reinterpret_cast<::NiNode *>((m1c->F1d0()->Fc(0)))->GetAt({})))->F14());
@@ -1476,9 +1476,9 @@ void D6Detacher::FUN_006fb3d0(bool force)
     {
         if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kChildA)))) && pObjectA)
         {
-            if (((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
+            if (((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
             {
-                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectA), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
+                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectA), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
                                                         (::Target5140 *)(::detach6fb::D6Node *)(((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))));
             }
             if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachA)))))
@@ -1490,9 +1490,9 @@ void D6Detacher::FUN_006fb3d0(bool force)
         }
         if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kChildB)))) && pObjectB)
         {
-            if (((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
+            if (((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES)))))))
             {
-                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectB), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
+                reinterpret_cast<::Cls5140 *>((((::detach6fb::D6Queue *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::detach6fb::D6Manager * *>(&::g_TES))))))))->DetachRef((::Ref5140 *)(pObjectB), (std::intptr_t)(((::detach6fb::D6Root *)(::FUN_00559450((int *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))),
                                                         (::Target5140 *)(::detach6fb::D6Node *)(((::detach6fb::D6Node *)(::fnv_0043b230::FUN_0043b230((const char *)(((::detach6fb::D6Ref *)(::FUN_00559450((int *)(pOwner))))))))));
             }
             if (((::detach6fb::D6Child *)(::FUN_00559450((int *)&(kAttachB)))))
@@ -1756,7 +1756,7 @@ void SelfX_ctx::FUN_006fbd00()
         0x298);
     std::intptr_t iFile = ((std::intptr_t)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
     StreamX kStreamVal;
-    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStreamVal))->FUN_00c3a8a0(((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), {}))
+    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStreamVal))->FUN_00c3a8a0(((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), {}))
     {
         RootX* pkRoot = ((::RootX *)(reinterpret_cast<::MLx *>(&(kStreamVal))->GetStringAt(0)));
         if (pkRoot->Fc())

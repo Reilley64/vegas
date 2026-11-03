@@ -7475,7 +7475,7 @@ bool BSWin32GameSound::FUN_00aed660(float volume)
     {
         volume = volume > 1.0 ? 1.0f : volume;
         volume = volume < 0.0 ? 0.0f : volume;
-        volume = reinterpret_cast<::AudioMgr_adac30 *>((((::VolumeCurve *)(::FUN_00ad9060()))))->FUN_00adac30({}, {});
+        volume = reinterpret_cast<::AudioMgr_adac30 *>((((::VolumeCurve *)(::FUN_00ad9060()))))->FUN_00adac30(volume, flags08);
         if (!IsFlag10Set(0x200) && IsFlag10Set(0x10000) && !IsFlag08Set(0x1000))
             volume = 0.00001f;
         volume = volume < 9.999999747378752e-06 ? 0.00001f : volume;
@@ -9380,7 +9380,9 @@ void AudioSound::FUN_00aed990()
                     else
                     {
                         fractionX = projection / squaredLength;
-                        projected3 = (*(::AudioVec *)(reinterpret_cast<::Point3Offset *>((void *)&(point))->ProjectileLaunched((::NiPoint3 *)&(const ::AudioVec &)(FUN_004a3760(fractionX, direction2)), {})));
+                        AudioVec scaled = FUN_004a3760(fractionX, direction2);
+                        AudioVec sum;
+                        projected3 = (*(::AudioVec *)(reinterpret_cast<::Point3Offset *>((void *)&(point))->ProjectileLaunched((::NiPoint3 *)(void *)(&sum), (::NiPoint3 *)(void *)(&scaled))));
                     }
                 }
                 if (primary)

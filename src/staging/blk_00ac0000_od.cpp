@@ -5639,7 +5639,8 @@ Input& __cdecl FUN_00ad43a0(Input& _Istr, Text& _Str)
     const Guard _Ok(_Istr);
     if (_Ok)
     {
-        const CharFacet& _Ctype_fac = facet((*(::Locale *)(reinterpret_cast<::Ace750Self *>((void *)&(_Istr))->FUN_00ace750({}))));
+        ::Locale loc;
+        const CharFacet& _Ctype_fac = facet((*(::Locale *)(reinterpret_cast<::Ace750Self *>((void *)&(_Istr))->FUN_00ace750((::FUN_00ace790_class **)(void *)(&loc)))));
         _Str.erase();
         try
         {
@@ -26228,7 +26229,8 @@ bool IstrQ::FUN_00ace390(bool _Noskip)
             reinterpret_cast<::Ostream *>((IosQ::tie()))->FUN_00aca3c0();
         if (!_Noskip && IosBaseQ::flags() & 1)
         {
-            const CtypeQ& _Ctype_fac = (*(const ::fnv_00ace390::CtypeQ *)&(::facet((const ::Locale &)((const ::fnv_00ace390::FUN_00acb720 &)((*(::fnv_00ace390::FUN_00acb720 *)(reinterpret_cast<::Ace750Self *>((void *)this)->FUN_00ace750({}))))))));
+            ::fnv_00ace390::FUN_00acb720 loc;
+            const CtypeQ& _Ctype_fac = (*(const ::fnv_00ace390::CtypeQ *)&(::facet((const ::Locale &)((const ::fnv_00ace390::FUN_00acb720 &)((*(::fnv_00ace390::FUN_00acb720 *)(reinterpret_cast<::Ace750Self *>((void *)this)->FUN_00ace750((::FUN_00ace790_class **)(void *)(&loc)))))))));
             try
             {
                 int _Meta = reinterpret_cast<::FUN_00aca9f0_Cls *>((IosQ::rdbufA()))->FUN_00aca9f0();
@@ -29094,7 +29096,8 @@ void FNV_ad0470_class::FUN_00ad0470(intptr_t n, bool flag)
 // @fnv 0x00ad30c0
 char GvIos::FUN_00ad30c0(char _Byte) const
 {
-    const GvCtype& _Ctype_fac = (*(const ::widenad3::GvCtype *)&(::facet((const ::Locale &)((const ::widenad3::GvLocale &)((*(::widenad3::GvLocale *)(reinterpret_cast<::Ace750Self *>((void *)this)->FUN_00ace750({}))))))));
+    ::widenad3::GvLocale loc;
+    const GvCtype& _Ctype_fac = (*(const ::widenad3::GvCtype *)&(::facet((const ::Locale &)((const ::widenad3::GvLocale &)((*(::widenad3::GvLocale *)(reinterpret_cast<::Ace750Self *>((void *)this)->FUN_00ace750((::FUN_00ace790_class **)(void *)(&loc)))))))));
     return _Ctype_fac.widen(_Byte);
 }
 

@@ -716,16 +716,21 @@ struct FUN_00975840_owner
     void FUN_00975840(BGSSaveFormBuffer* apBuffer);
     unsigned int pad00[0x11];
     void* unk44;
-    unsigned int pad48[0x40dd];
+    unsigned int pad48[0x43];
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int pad15c[0x4096];
+    unsigned int unk103b4;
+    unsigned int unk103b8;
 };
 
 // @fnv 0x00975840
 void FUN_00975840_owner::FUN_00975840(BGSSaveFormBuffer* apBuffer)
 {
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x154, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x158, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x103b4, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x103b8, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&this->unk154, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&this->unk158, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&this->unk103b4, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&this->unk103b8, 4, 0);
     for (unsigned int i = 0; i < 5; ++i)
     {
         unsigned int ItemUpdateArray = 0;

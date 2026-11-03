@@ -4250,7 +4250,7 @@ void FUN_004305f0::Run(int arg1, char arg2)
     unsigned int i;
     for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x20))))->GetName())); ++i)
     {
-        std::uintptr_t v = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
+        std::uintptr_t v = (*(std::uintptr_t*)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
         if (v != 0)
         {
             if (*(unsigned char*)v == arg1)
@@ -4841,7 +4841,7 @@ FUN_004302d0::~FUN_004302d0()
 {
     for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(members))->GetName())); ++index)
     {
-        delete ((::FUN_00430390 *)(reinterpret_cast<::S3e60 *>(&(members))->FUN_006a7ad0(index)));
+        delete (*(::FUN_00430390 **)(reinterpret_cast<::S3e60 *>(&(members))->FUN_006a7ad0(index)));
     }
 }
 
@@ -5977,7 +5977,7 @@ void LimbsStandIn::FUN_00430410(LimbRefStub* apRef, unsigned int auiLimb, bool a
             {
                 for (int iIndex = uiEntryIndex - 1; iIndex >= 0; --iIndex)
                 {
-                    LimbEntry* pOther = ((::LimbEntry *)(reinterpret_cast<::S3e60 *>(&(kEntries))->FUN_006a7ad0(iIndex)));
+                    LimbEntry* pOther = (*(::LimbEntry **)(reinterpret_cast<::S3e60 *>(&(kEntries))->FUN_006a7ad0(iIndex)));
                     if (pOther->bPickResultFound)
                         continue;
                     if (reinterpret_cast<::fnv_004387b0::FUN_004387b0_shell *>(&(pOther->kData))->FUN_004387b0((::fnv_004387b0::ArrSI *)(::LimbArrayStub *)(&pEntry->kData)))
@@ -6032,8 +6032,8 @@ bool EntryCollection::FUN_00430660(EntryCollection* other)
         return false;
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); i++)
     {
-        ComparisonEntry* mine = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(i)));
-        ComparisonEntry* theirs = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(other->entries))->FUN_006a7ad0(i)));
+        ComparisonEntry* mine = (*(::ComparisonEntry **)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(i)));
+        ComparisonEntry* theirs = (*(::ComparisonEntry **)(reinterpret_cast<::S3e60 *>(&(other->entries))->FUN_006a7ad0(i)));
         if (mine->b0 != theirs->b0)
             return false;
         if (mine->b1 != theirs->b1)
@@ -7739,7 +7739,7 @@ void xQuestQ::NotifyQuestActors(int a, int b)
 {
     for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kArr))->GetName())); uiIndex++)
     {
-        unsigned int uiFormId = ((unsigned int)(reinterpret_cast<::S3e60 *>(&(m_kArr))->FUN_006a7ad0(uiIndex)));
+        unsigned int uiFormId = (*(unsigned int*)(reinterpret_cast<::S3e60 *>(&(m_kArr))->FUN_006a7ad0(uiIndex)));
         xFormQ* pForm = ((::xFormQ *)(::FUN_004839c0(uiFormId)));
         if (pForm && pForm->IsReferenceX())
         {

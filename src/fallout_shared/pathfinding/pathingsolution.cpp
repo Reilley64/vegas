@@ -385,7 +385,7 @@ struct S3e60
 public:
     bool FUN_006a1400(unsigned int);
 public:
-    bool FUN_006a7ad0(unsigned int);
+    void** FUN_006a7ad0(unsigned int);
 };
 struct FUN_006e9080
 {

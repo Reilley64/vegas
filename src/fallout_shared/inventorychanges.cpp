@@ -1823,7 +1823,7 @@ struct FUN_004bfb30_shell
 // @fnv 0x004bfb30
 unsigned int FUN_004bfb30_shell::GetAtIfValid(int aiIndex)
 {
-    return (aiIndex >= 0 && aiIndex <= 8) ? ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 400>*)((char*)this + 0xE3C))))->FUN_006a7ad0(aiIndex)))
+    return (aiIndex >= 0 && aiIndex <= 8) ? (*(unsigned int*)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 400>*)((char*)this + 0xE3C))))->FUN_006a7ad0(aiIndex)))
                                           : 0;
 }
 

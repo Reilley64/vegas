@@ -5328,7 +5328,7 @@ bool __cdecl BuildPathNodeHolder(NiPointer<PathSource>& pSource, EntryListNode* 
     for (int iA = 0; iA < count; iA++)
     {
         PathEntry* entryB = entries->GetAt(iA);
-        float weight4 = weights ? ((float)(reinterpret_cast<::S3e60 *>((weights))->FUN_006a7ad0(iA))) : DAT_01012054;
+        float weight4 = weights ? (*(float*)(reinterpret_cast<::S3e60 *>((weights))->FUN_006a7ad0(iA))) : DAT_01012054;
         ::MarkReachableTriangles((::P110Location *)(entryB), (::P110DataPtr *)&(holder), 1, reinterpret_cast<::FUN_00639aa0_shell *>((((PathSource*)pSource)))->FUN_00639aa0(), weight4);
     }
     std::intptr_t pos2 = 0;
@@ -5838,7 +5838,7 @@ unsigned char __cdecl FUN_006d8a40(SearchObject* search, float radius, SearchOut
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((result))->GetName())); ++i)
     {
 
-        LocationBlock rootRef(((void *)(reinterpret_cast<::S3e60 *>((result))->FUN_006a7ad0(i))));
+        LocationBlock rootRef((*(void **)(reinterpret_cast<::S3e60 *>((result))->FUN_006a7ad0(i))));
 
         unsigned int countNear =
             ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::NodeVectors *)(reinterpret_cast<::FUN_0068efb0_shell *>((reinterpret_cast<SearchNode*>(((::CellResult *)(::FUN_00559450((int *)&(rootRef)))))))->FUN_0068efb0()))->nearNeighbors))->GetName()));

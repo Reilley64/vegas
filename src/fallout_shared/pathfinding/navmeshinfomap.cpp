@@ -84,7 +84,7 @@ bool NavMeshInfoMap::ValidateNavMeshInfoArrays()
                 counts.uiValid = 0;
                 for (counts.uiIndex = 0; counts.uiIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())); counts.uiIndex++)
                 {
-                    if (((::NavMeshBounds *)(reinterpret_cast<::LowProcess *>((((::NavMeshInfo *)(reinterpret_cast<::S3e60 *>((((NavMeshInfoArray*)pArrayRaw)))->FUN_006a7ad0((int)counts.uiIndex)))))->GetPackageObjectType())))
+                    if (((::NavMeshBounds *)(reinterpret_cast<::LowProcess *>(((*(::NavMeshInfo **)(reinterpret_cast<::S3e60 *>((((NavMeshInfoArray*)pArrayRaw)))->FUN_006a7ad0((int)counts.uiIndex)))))->GetPackageObjectType())))
                         counts.uiValid++;
                 }
                 if (counts.uiValid < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((NavMeshInfoArray*)pArrayRaw)))->GetName())) - 1)

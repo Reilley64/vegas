@@ -538,7 +538,7 @@ void SetupPathingLocation::FUN_006dd280(const NiPoint3& position, TESObjectCELL*
     {
         reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
         m_pLocationNavMesh = reinterpret_cast<const NavMeshInfo*>(
-            ((::NavMeshInfo_const *)(reinterpret_cast<::S3e60 *>((const_cast<BSSimpleArray<NavMeshInfo_const*, 1024>*>(pNavMeshInfoArray)))->FUN_006a7ad0(0))));
+            (*(::NavMeshInfo_const **)(reinterpret_cast<::S3e60 *>((const_cast<BSSimpleArray<NavMeshInfo_const*, 1024>*>(pNavMeshInfoArray)))->FUN_006a7ad0(0))));
         pNavMeshInfoArray = 0;
     }
     else
@@ -1343,13 +1343,13 @@ bool NLLocation::UpdateMeshLocation()
             unsigned short usTri = kClearTriangleDataValue1;
             bool bInTri = false;
             NavMeshPtr pFoundNavMesh;
-            NLMeshInfo* pInfo = ((::NLMeshInfo *)(reinterpret_cast<::S3e60 *>((pNavMeshInfoArray))->FUN_006a7ad0(i)));
+            NLMeshInfo* pInfo = (*(::NLMeshInfo **)(reinterpret_cast<::S3e60 *>((pNavMeshInfoArray))->FUN_006a7ad0(i)));
             if (!::FUN_0068f320((const ::NavMeshInfo *)(pInfo)) && reinterpret_cast<::NavMeshInfo *>((pInfo))->ResolveNavMesh(pFoundNavMesh) &&
                 !reinterpret_cast<::fnv_00696cf0::Host696 *>((((::NLMesh *)(::FUN_00559450((int *)(((NLMeshPtrView*)&pFoundNavMesh)))))))->FUN_00696cf0((const ::NiPoint3 &)(Location), (unsigned short *)&(usTri), (bool *)&(bInTri)))
                 continue;
             if (bInTri)
             {
-                m_pLocationNavMesh = ((::NLMeshInfo *)(reinterpret_cast<::S3e60 *>((pNavMeshInfoArray))->FUN_006a7ad0(i)));
+                m_pLocationNavMesh = (*(::NLMeshInfo **)(reinterpret_cast<::S3e60 *>((pNavMeshInfoArray))->FUN_006a7ad0(i)));
                 pNavMeshInfoArray = 0;
                 m_usTriangleID = usTri;
                 return true;
@@ -1389,7 +1389,7 @@ bool NLLocation::UpdateMeshLocation()
         }
         if (iClosest != -1)
         {
-            m_pLocationNavMesh = ((::NLMeshInfo *)(reinterpret_cast<::S3e60 *>((pNavMeshInfoArray))->FUN_006a7ad0(iClosest)));
+            m_pLocationNavMesh = (*(::NLMeshInfo **)(reinterpret_cast<::S3e60 *>((pNavMeshInfoArray))->FUN_006a7ad0(iClosest)));
             pNavMeshInfoArray = 0;
             m_usTriangleID = usBestTri;
             NavMeshPtr spBest;

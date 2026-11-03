@@ -23331,7 +23331,7 @@ Cls::~FUN_0055a430()
         }
         if (reinterpret_cast<::FUN_00452370_shell *>(this)->FUN_00452370())
         {
-            ::FUN_00477410((unsigned int)(this));
+            ::FUN_00477410((unsigned int)(std::uintptr_t)(this));
         }
     }
     aTmp68 = ((::fnv_0055a430::FUN_0055a430 *)(reinterpret_cast<::FUN_00569b80_shell *>(this)->FUN_00569b80()));
@@ -41790,7 +41790,7 @@ struct FUN_00572c80_shell
 // @fnv 0x00572c80
 bool FUN_00572c80_shell::FUN_00572c80()
 {
-    if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00572c80::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId((std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Refr*)this)))->FUN_0084e3a0())))))
+    if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00572c80::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Refr*)this)))->FUN_0084e3a0())))))
         return true;
 
     switch (((::fnv_00572c80::Refr *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((Refr*)this)))->FUN_007af430()))->FUN_00401170())
@@ -45674,7 +45674,7 @@ struct Fn9a4f40
 // @fnv 0x009a4f40
 void Fn9a4f40::FUN_009a4f40(int unused)
 {
-    ref = ref ? (TESObjectREFRHelper*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(ref))) : 0;
+    ref = ref ? (TESObjectREFRHelper*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(ref))) : 0;
     if (ref)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)ref)))->FUN_00564db0(true);
 }

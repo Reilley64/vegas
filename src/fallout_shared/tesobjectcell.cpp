@@ -21957,7 +21957,7 @@ void CellInitLoadView::FUN_005559d0(BGSLoadFormBuffer* apLoadGameBuffer)
         TESForm* powner = ((DoorCell*)this)->GetOwner();
         if (powner)
         {
-            powner = powner ? ::FUN_004839c0((unsigned int)(powner)) : 0;
+            powner = powner ? ::FUN_004839c0((unsigned int)(std::uintptr_t)(powner)) : 0;
             reinterpret_cast<::FUN_00546bf0_class *>((((FUN_00546bf0_stub*)this)))->FUN_00546bf0((std::intptr_t)(powner));
         }
     }

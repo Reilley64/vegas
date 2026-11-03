@@ -23,6 +23,6 @@ public:
 public:
     void DispelAllEffects();
 public:
-    static ::MagicTarget *GetMagicTargetByID(std::uintptr_t);
+    static ::MagicTarget *GetMagicTargetByID(unsigned int);
 };
 #endif

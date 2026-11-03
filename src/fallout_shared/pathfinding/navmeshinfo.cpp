@@ -164,7 +164,7 @@ void NavMeshInfo::ReleaseNavMesh()
         TESObjectREFR* door =
             ((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i);
         ((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i) =
-            (TESObjectREFR*)::FUN_004839c0((unsigned int)door);
+            (TESObjectREFR*)::FUN_004839c0((unsigned int)(std::uintptr_t)door);
         if (!((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i))
         {
             ::FUN_005b5e40();

@@ -18738,7 +18738,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
         if (heading)
         {
             heading->value0c =
-                heading->value0c ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)heading->value0c)) : 0;
+                heading->value0c ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)heading->value0c)) : 0;
         }
     }
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::BGSChangeFlags_s &)(stream->FUN_00428110()))->FUN_004280f0(DAT_01183d64))
@@ -18769,7 +18769,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
             if (linked)
             {
                 linked->value0c =
-                    linked->value0c ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)linked->value0c)) : 0;
+                    linked->value0c ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)linked->value0c)) : 0;
                 if (!linked->value0c)
                     reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>(this)->RemoveExtra(0x6c);
             }
@@ -18779,11 +18779,11 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
             ExtraFixup* pCombatExtra = ((::ExtraFixup *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x32)));
             if (pCombatExtra)
             {
-                pCombatExtra->value18 = pCombatExtra->value18 ? ((void *)(::MagicItem::GetMagicItemByID((unsigned int)(pCombatExtra->value18)))) : 0;
-                pCombatExtra->value1c = pCombatExtra->value1c ? ((void *)(::MagicTarget::GetMagicTargetByID((std::uintptr_t)(pCombatExtra->value1c)))) : 0;
+                pCombatExtra->value18 = pCombatExtra->value18 ? ((void *)(::MagicItem::GetMagicItemByID((unsigned int)(std::uintptr_t)(pCombatExtra->value18)))) : 0;
+                pCombatExtra->value1c = pCombatExtra->value1c ? ((void *)(::MagicTarget::GetMagicTargetByID((unsigned int)(std::uintptr_t)(pCombatExtra->value1c)))) : 0;
                 pCombatExtra->value20 =
                     pCombatExtra->value20
-                        ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)pCombatExtra->value20))
+                        ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)pCombatExtra->value20))
                         : 0;
             }
         }
@@ -18794,7 +18794,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
             {
                 pMagicExtra->value1c =
                     pMagicExtra->value1c
-                        ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)pMagicExtra->value1c))
+                        ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)pMagicExtra->value1c))
                         : 0;
                 ::InitLoadGameForEffects((::Actor *)(stream), (::BSSimpleList< ::ActiveEffect *> *)(::FixupNode *)((FixupNode*)&pMagicExtra->value20));
             }
@@ -18806,7 +18806,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
             {
                 pFollowerExtra->value0c =
                     pFollowerExtra->value0c
-                        ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)pFollowerExtra->value0c))
+                        ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)pFollowerExtra->value0c))
                         : 0;
                 if (pFollowerExtra->value0c)
                 {
@@ -18823,7 +18823,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
             {
                 pMobileExtra->value0c =
                     pMobileExtra->value0c
-                        ? dynamic_cast<MobileObject*>(FUN_004839c0((unsigned int)pMobileExtra->value0c))
+                        ? dynamic_cast<MobileObject*>(FUN_004839c0((unsigned int)(std::uintptr_t)pMobileExtra->value0c))
                         : 0;
             }
         }
@@ -18835,9 +18835,9 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                 if (package)
                 {
                     package->value0c =
-                        package->value0c ? dynamic_cast<TESPackage*>(FUN_004839c0((unsigned int)package->value0c)) : 0;
+                        package->value0c ? dynamic_cast<TESPackage*>(FUN_004839c0((unsigned int)(std::uintptr_t)package->value0c)) : 0;
                     package->value14 = package->value14
-                                           ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)package->value14))
+                                           ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)package->value14))
                                            : 0;
                     if (package->value0c)
                     {
@@ -18908,7 +18908,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                 {
                     pTargetExtra->value0c =
                         pTargetExtra->value0c
-                            ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)pTargetExtra->value0c))
+                            ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)pTargetExtra->value0c))
                             : 0;
                 }
             }
@@ -18928,7 +18928,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                 {
                     pFriendHitExtra->value0c =
                         pFriendHitExtra->value0c
-                            ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)pFriendHitExtra->value0c))
+                            ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)pFriendHitExtra->value0c))
                             : 0;
                 }
             }
@@ -18937,7 +18937,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                 ExtraFixup* owner = ((::ExtraFixup *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x5f)));
                 if (owner)
                 {
-                    owner->value14 = owner->value14 ? FUN_004839c0((unsigned int)owner->value14) : 0;
+                    owner->value14 = owner->value14 ? FUN_004839c0((unsigned int)(std::uintptr_t)owner->value14) : 0;
                 }
             }
             if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::BGSChangeFlags_s &)(stream->FUN_00428110()))->FUN_004280f0(DAT_01183f54))
@@ -18947,7 +18947,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                 {
                     pWaterExtra->value0c =
                         pWaterExtra->value0c
-                            ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)pWaterExtra->value0c))
+                            ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)pWaterExtra->value0c))
                             : 0;
                     if (pWaterExtra->value0c)
                         reinterpret_cast<::fnv_0041e340::FUN_0041e340_ExtraDataList *>((((FixupEffects*)((::FixupList *)(reinterpret_cast<::FUN_005d43c0_ *>((((FixupRef*)pWaterExtra->value0c)))->FUN_005d43c0())))))->FUN_0041e340(actor);
@@ -26398,7 +26398,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
             if (e2)
             {
                 G* f2 = e2->m0c;
-                e2->m0c = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(f2)));
+                e2->m0c = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(f2)));
                 if (!e2->m0c)
                     reinterpret_cast<::FUN_0041c900_cls *>(this)->FUN_0041c900();
             }
@@ -26409,7 +26409,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
             if (e3)
             {
                 G* f3 = e3->m0c;
-                G* c3 = (G*)dynamic_cast<AlchemyItem_rtti2*>(::FUN_004839c0((unsigned int)(f3)));
+                G* c3 = (G*)dynamic_cast<AlchemyItem_rtti2*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(f3)));
                 if (c3)
                     reinterpret_cast<::FUN_00419d10 *>(this)->SetExtra(c3);
             }
@@ -26424,7 +26424,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                 if (e4->m14)
                 {
                     G* f4 = e4->m14;
-                    e4->m14 = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(f4)));
+                    e4->m14 = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(f4)));
                 }
                 reinterpret_cast<::fnv_006777b0::FUN_006777b0_shell *>((e4->m0c))->ComputePackageFlags((::TESObjectREFR *)(e4->m14));
             }
@@ -26444,7 +26444,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                     G* f6 = 0;
                     c6 = *((::load_extra_fixup::G **)((void *)(n)));
                     if (c6)
-                        f6 = (G*)dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(c6)));
+                        f6 = (G*)dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(c6)));
                     if (!f6)
                         n->FUN_0063f7b0();
                     else
@@ -26466,18 +26466,18 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                     G* v60 = x->ia.s17();
                     G* v58 = x->ia.s11();
                     if (v5c)
-                        x->ia.s16(((int)(::MagicItem::GetMagicItemByID((unsigned int)(v5c)))));
+                        x->ia.s16(((int)(::MagicItem::GetMagicItemByID((unsigned int)(std::uintptr_t)(v5c)))));
                     if (v60)
-                        x->ia.s18(((int)(::MagicTarget::GetMagicTargetByID((std::uintptr_t)(v60)))));
+                        x->ia.s18(((int)(::MagicTarget::GetMagicTargetByID((unsigned int)(std::uintptr_t)(v60)))));
                     if (v58)
-                        reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((x))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::load_extra_fixup::G *)((G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(v58)))));
+                        reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((x))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::load_extra_fixup::G *)((G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(v58)))));
                 }
                 X54* y = (X54*)reinterpret_cast<NonActorMagicTarget_rtti2*>((BSExtraData*)((::load_extra_fixup::E *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x33))));
                 if (y)
                 {
                     G* v64 = y->ia.s1();
                     if (v64)
-                        reinterpret_cast<::BGSDehydrationStage *>((y))->FUN_0050f9a0((::SpellItem *)(::load_extra_fixup::G *)((G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(v64)))));
+                        reinterpret_cast<::BGSDehydrationStage *>((y))->FUN_0050f9a0((::SpellItem *)(::load_extra_fixup::G *)((G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(v64)))));
                     ::FUN_008060e0((::BSSimpleList< ::ActiveEffect *> *)(y->ia.s2()), (::BGSLoadFormBuffer *)(0));
                 }
             }
@@ -26496,7 +26496,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                 G* f7 = *((::load_extra_fixup::G **)((void *)(n7)));
                 G* c7 = f7;
                 if (c7)
-                    f7 = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(c7)));
+                    f7 = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(c7)));
                 if (!f7)
                 {
                     if (!prev)
@@ -26525,7 +26525,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
             G* f8 = ((::load_extra_fixup::G *)(reinterpret_cast<::FUN_0041de00_shell *>(this)->FUN_0041de00()));
             if (f8)
             {
-                G* c8 = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(f8)));
+                G* c8 = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(f8)));
                 reinterpret_cast<::FUN_0041de40_class *>(this)->FUN_0041de40((::TESObjectREFR *)(c8));
                 if (c8)
                     reinterpret_cast<::E000ExtraDataList *>((((::load_extra_fixup::H *)(reinterpret_cast<::FUN_005d43c0_ *>((c8))->FUN_005d43c0()))))->FUN_0041e000({});
@@ -26535,7 +26535,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
         if (v)
         {
             G* f9 = v;
-            v = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(f9)));
+            v = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(f9)));
             reinterpret_cast<::fnv_00419dc0::FUN_00419dc0_shell2 *>(this)->FUN_00419dc0((::fnv_00419dc0::TESObjectREFRHelper *)(v));
         }
     }
@@ -28253,7 +28253,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
             case 0x3f: {
                 X3F* p3F = (X3F*)(abHas[cType] ? reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(cType) : ((::ExtraData110 *)(reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(this)->FUN_0040ff60((::BSExtraData *)(::ExtraData110 *)(new X3F)))));
                 reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buf))->FUN_008648e0((unsigned int *)(void *)(&p3F->pItem));
-                p3F->pItem = dynamic_cast<AlchemyItem_rtti*>(::MagicItem_rtti::GetMagicItemByID((std::uintptr_t)(p3F->pItem)));
+                p3F->pItem = dynamic_cast<AlchemyItem_rtti*>(::MagicItem_rtti::GetMagicItemByID((unsigned int)(std::uintptr_t)(p3F->pItem)));
                 break;
             }
             case 0x46: {
@@ -28317,7 +28317,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                             bool bBad = false;
                             TESForm** ppForm = (TESForm**)((void **)(reinterpret_cast<::S3e60 *>(&((*ppList)->kItems))->FUN_006a7ad0(m)));
                             *ppForm =
-                                *ppForm ? dynamic_cast<TESBoundObject*>(::FUN_004839c0((unsigned int)*ppForm)) : 0;
+                                *ppForm ? dynamic_cast<TESBoundObject*>(::FUN_004839c0((unsigned int)(std::uintptr_t)*ppForm)) : 0;
                             if (*ppForm == 0)
                             {
                                 bBad = true;

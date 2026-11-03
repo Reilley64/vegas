@@ -10982,7 +10982,7 @@ struct A90Cls
 // @fnv 0x00679a90
 void A90Cls::DispatchToSubobjects(int aiValue)
 {
-    if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::A90Mgr * *>(&::g_dataHandler))))->IsRenderTargetId((std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
+    if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::A90Mgr * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
         return;
     if (m_2c)
         reinterpret_cast<::FUN_0067fc50_shell *>((m_2c))->ResolveObject(aiValue);

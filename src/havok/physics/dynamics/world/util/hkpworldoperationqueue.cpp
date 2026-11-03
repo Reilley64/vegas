@@ -339,14 +339,6 @@ struct Vec
     };
 };
 
-struct Heap
-{
-    virtual void v0();
-    virtual void v4();
-    virtual void ReleaseBlock(void*, int);
-    virtual void vC();
-    virtual void ReturnMemory(void*, int);
-};
 struct World;
 struct Body;
 struct EntityArray
@@ -579,25 +571,24 @@ static __forceinline void release(Body* p)
 {
     reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
 }
-static __forceinline Heap* heap()
+static __forceinline hkMemoryAllocator* heap()
 {
-    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
-    return reinterpret_cast<Heap*>(router->m_heap);
+    return hkMemoryRouter::getInstance().m_heap;
 }
 static __forceinline void freeBlock(void* p, int n)
 {
-    heap()->ReleaseBlock(p, n);
+    heap()->blockFree(p, n);
 }
 static __forceinline void freeBatch(Body** a, int n)
 {
-    heap()->ReleaseBlock(a, n * 4);
+    heap()->blockFree(a, n * 4);
 }
 static __forceinline void freeEntities(EntityArray& a)
 {
-    Heap* h = heap();
+    hkMemoryAllocator* h = heap();
     a.size = 0;
     if ((a.capacity & 0x80000000) == 0)
-        h->ReturnMemory(a.data, (a.capacity & 0x3fffffff) * 4);
+        h->bufFree(a.data, (a.capacity & 0x3fffffff) * 4);
     a.data = 0;
     a.capacity = 0x80000000;
 }
@@ -864,9 +855,9 @@ void Pending::FUN_00cf7c10()
     operations.size = 0;
     --world->criticalOperations;
     ::FUN_00c904e0();
-    Heap* h = heap();
+    hkMemoryAllocator* h = heap();
     if ((todo.capacity & 0x80000000) == 0)
-        h->ReturnMemory(todo.data, (todo.capacity & 0x3fffffff) * sizeof(Op));
+        h->bufFree(todo.data, (todo.capacity & 0x3fffffff) * sizeof(Op));
 }
 
 namespace fnv_00cf75f0 {
@@ -1238,29 +1229,7 @@ void Vec::FUN_00cf7690(Elem* arg)
 }  // namespace fnv_00cf7690
 
 namespace fnv_00cf7ae0 {
-struct S_00cf7ae0_Heap
-{
-    virtual void v0();
-    virtual void v4();
-    virtual void v8();
-    virtual void vc();
-    virtual void ReleaseBlock(void* p, int n);
-};
-struct S_00cf7ae0_Router;
 
-struct S_00cf7ae0_Router
-{
-    int unk0, unk4, unk8, unkc;
-    S_00cf7ae0_Heap* m_pStreamAllocator;
-    static S_00cf7ae0_Router& GetMonitorStream()
-    {
-        
-    }
-    S_00cf7ae0_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct S_00cf7ae0_Obj
 {
@@ -1283,20 +1252,20 @@ struct S_00cf7ae0_Array
     S_00cf7ae0_Entry* m_data;
     int m_iElementCount;
     int m_cap;
-    __forceinline void reserve(S_00cf7ae0_Heap& a, int n)
+    __forceinline void reserve(hkMemoryAllocator& a, int n)
     {
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
         {
             int c2 = cap * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(::fnv_00cf7ae0::S_00cf7ae0_Heap *)(&a), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 16);
+            ::FUN_00c908c0((::SpawnedObject *)(&a), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 16);
         }
     }
-    __forceinline void ClearAndRelease(S_00cf7ae0_Heap& a)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& a)
     {
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0)
-            a.ReleaseBlock(m_data, (m_cap & 0x3fffffff) * 16);
+            a.bufFree(m_data, (m_cap & 0x3fffffff) * 16);
         m_data = 0;
         m_cap = 0x80000000;
     }
@@ -1362,7 +1331,7 @@ void S_00cf7ae0::FUN_00cf7ae0()
         localArray.m_cap = 0x80000000;
         reinterpret_cast<::FUN_00d9ec10_cls *>(&(localArray))->SwapThreeInts((int *)(::fnv_00cf7ae0::S_00cf7ae0_Array *)(&pending));
         owner->unk90 = 0;
-        pending.reserve(S_00cf7ae0_Router::GetMonitorStream().heap(), 16);
+        pending.reserve(hkMemoryRouter::getInstance().heap(), 16);
         int n = localArray.m_iElementCount;
         if (n > 1)
         {
@@ -1397,7 +1366,7 @@ void S_00cf7ae0::FUN_00cf7ae0()
             } while (--n != 0);
         }
         ::FUN_00c904e0();
-        localArray.ClearAndRelease(S_00cf7ae0_Router::GetMonitorStream().heap());
+        localArray.ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
 }
 }  // namespace fnv_00cf7ae0

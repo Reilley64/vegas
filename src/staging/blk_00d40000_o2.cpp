@@ -4200,31 +4200,9 @@ class AutoMemContextD53
     unsigned int m_uiPrevious;
 };
 
-class hkMemoryAllocatorD53
-{
-  public:
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int iNumBytes);
-    virtual void ReleaseBlock(void* p, int iNumBytes);
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int iNumBytes);
-};
-struct hkMemoryRouterD53
-{
-    void* m_aiEntries;
-    void* m_stackStart;
-    void* m_stackEnd;
-    hkMemoryAllocatorD53* m_pTemp;
-    hkMemoryAllocatorD53* m_pStreamAllocator;
-    hkMemoryAllocatorD53& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-hkMemoryRouterD53& __cdecl GetMemoryRouterD53();
 struct hkArrayUtilD53
 {
-    static void __cdecl GrowArrayCapacity(hkMemoryAllocatorD53& kAlloc, void* apvArray, int iNumElements,
+    static void __cdecl GrowArrayCapacity(hkMemoryAllocator& kAlloc, void* apvArray, int iNumElements,
                                           int iSizeElem);
 };
 
@@ -4234,10 +4212,10 @@ template <typename T> struct hkArrayD53
     {}
     __forceinline ~hkArrayD53()
     {
-        hkMemoryAllocatorD53& kAlloc = GetMemoryRouterD53().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, int((m_iCapacityState & 0x3fffffff) * sizeof(T)));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -4257,7 +4235,7 @@ template <typename T> struct hkArrayD53
     {
         m_iElementCount = 0;
     }
-    __forceinline void reserve(hkMemoryAllocatorD53& kAlloc, int n)
+    __forceinline void reserve(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCap = getCapacity();
         if (iCap < n)
@@ -4269,7 +4247,7 @@ template <typename T> struct hkArrayD53
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(GetMemoryRouterD53().heap(), n);
+        reserve(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
     T* m_data;

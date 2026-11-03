@@ -9,6 +9,8 @@ struct FUN_00cbaf20_class;
 int FUN_00cbb930(void *);
 // 0x00cbb960
 void GetProcessorCount(int *);
+// 0x00cbb990
+extern "C" int FUN_00cbb990();
 // 0x00cbb9f0
 void FUN_00cbb9f0();
 // 0x00cbbb10

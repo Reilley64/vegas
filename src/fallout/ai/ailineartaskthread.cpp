@@ -113,7 +113,6 @@ struct HkSys
     virtual void vc();
     virtual void v10(Router* r, GlobalObject_008c71b0 g);
 };
-void hkInit();
 struct Thr
 {
     char padding[0x50];
@@ -126,7 +125,7 @@ struct Thr
 void Thr::InitMemory()
 {
     ((::Alloc *)(reinterpret_cast<::MagicCaster_shell *>(&(memoryRouter))->FUN_0044edb0()))->v8(memory, 0x32000);
-    hkInit();
+    ::FUN_00cbb990();
     ((::HkSys *)(::FUN_00cbbfc0()))->v10(&memoryRouter, GlobalObject_008c71b0(1));
     reinterpret_cast<::QuantitySet *>((((::Fin *)(((::Vec3 *)(void *)&(memoryRouter))))))->FUN_008c70c0({}, {});
 }

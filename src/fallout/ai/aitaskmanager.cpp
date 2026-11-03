@@ -2139,7 +2139,6 @@ struct DispatchQueue
     virtual void AdvanceFade();
     virtual void Queue(ContextBlock* context, TaskToken token);
 };
-void FUN_00cbb990();
 struct TaskOwner
 {
     unsigned int unk00, unk04, unk08, unk0c;

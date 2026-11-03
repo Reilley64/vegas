@@ -2,6 +2,8 @@
 
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include "fallout/interface/inventory_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdio>
@@ -446,6 +448,8 @@ struct SurgeryContext
 };
 struct SurgeryObject
 {
+    char pad[0xb4];
+    struct SurgeryContext* unkB4;
 };
 NiNode* __cdecl FUN_00450b80(int);
 struct SurgeryInterface
@@ -468,7 +472,7 @@ void __cdecl UpdateSurgeryScene()
         return;
     reinterpret_cast<::S148c0 *>((((::SurgeryRenderer *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     SurgeryObject* b = ((::SurgeryObject *)(::FUN_0045c670()));
-    SurgeryContext* d = ((::SurgeryContext *)(reinterpret_cast<::MiddleLowProcess *>((b))->GetProcessInteger()));
+    SurgeryContext* d = ((::SurgeryContext *)(b->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((d))->FUN_00c4f270(true);
     NiNode* c = (NiNode*)(unsigned)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4));
     ::UpdateCameraFrustum((::NiCamera *)(c), 0.15f);
@@ -3879,13 +3883,13 @@ void EventMenu::OnButtonClick(int button, int arg)
                             break;
                         case 4:
                             if (((EventMenu*)DAT_011dada4)->entry &&
-                                ((std::intptr_t)(reinterpret_cast<::Callees *>((((EventMenu*)DAT_011dada4)->entry))->FUN_00726070())) > 0)
+                                ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->m_iCountChange)) > 0)
                             {
-                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a012d0(stimpak, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(stimpak) - 1.0,
+                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(stimpak, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(stimpak) - 1.0,
                                                              true);
                                 reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650(
-                                        (::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((EventMenu*)DAT_011dada4)->entry))->GetName()))),
-                                        ((int)(reinterpret_cast<::Callees *>((((EventMenu*)DAT_011dada4)->entry))->FUN_00726070())),
+                                        (::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->m_pItemObject))),
+                                        ((int)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->m_iCountChange)),
                                         (::ExtraDataList *)(void *)(((::EventExtraNode *)(::FUN_00559450((int *)(((EventMenu*)DAT_011dada4)->entry))))
                                             ? *(((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::EventExtraNode *)(::FUN_00559450((int *)(((EventMenu*)DAT_011dada4)->entry)))))->m_item)))
                                             : 0),
@@ -3894,21 +3898,21 @@ void EventMenu::OnButtonClick(int button, int arg)
                             reinterpret_cast<::DirectionAnimator *>(this)->SetDirection(3);
                             break;
                         case 5:
-                            if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(morphine) > 0.0)
+                            if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(morphine) > 0.0)
                             {
                                 EventEntry* item = ((::EventEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_00576260((::fnv_00576260::TESBoundObject *)(::EventForm *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), 0)));
-                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a012d0(morphine, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(morphine) - 1.0,
+                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(morphine, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(morphine) - 1.0,
                                                              true);
-                                reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650((::TESBoundObject *)(void *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())),
+                                reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650((::TESBoundObject *)(void *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), ((int)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)),
                                                    (::ExtraDataList *)(void *)(((::EventExtraNode *)(::FUN_00559450((int *)(item)))) ? *(((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::EventExtraNode *)(::FUN_00559450((int *)(item)))))->m_item))) : 0),
                                                    false, false, true);
                                 delete item;
                                 amount -= 25.0;
-                                if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) >= 25.0)
-                                    reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a012d0(
-                                        DAT_011dad9c, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) - 25.0, true);
+                                if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(DAT_011dad9c) >= 25.0)
+                                    reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(
+                                        DAT_011dad9c, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(DAT_011dad9c) - 25.0, true);
                                 else
-                                    reinterpret_cast<::Tile *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011dad9c, 0);
+                                    reinterpret_cast<::Tile *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(DAT_011dad9c, 0);
                             }
                             reinterpret_cast<::DirectionAnimator *>(this)->SetDirection(2);
                             break;

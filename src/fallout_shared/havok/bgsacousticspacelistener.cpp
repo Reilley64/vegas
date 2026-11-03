@@ -296,12 +296,12 @@ struct S_00620260_T : S_00620260_A, S_00620260_B
 struct S_00620260_C
 {
     virtual void vfn_00();
-    virtual S_00620260_T* vfn_04(int a, void* b);
+    virtual S_00620260_T* vfn_04(std::intptr_t a, void* b);
     S_00620260_T* cur;
-    S_00620260_T* FUN_00620260(int a, void* b);
+    S_00620260_T* FUN_00620260(std::intptr_t a, void* b);
 };
 // @fnv 0x00620260
-S_00620260_T* S_00620260_C::FUN_00620260(int a, void* b)
+S_00620260_T* S_00620260_C::FUN_00620260(std::intptr_t a, void* b)
 {
     S_00620260_T* r = cur ? ((::S_00620260_T *)(reinterpret_cast<::FUN_00620300_cls *>((cur))->FindDerivedByKey(b))) : 0;
     if (!r)

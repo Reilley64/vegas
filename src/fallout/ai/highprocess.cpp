@@ -10431,30 +10431,7 @@ struct Target
     unsigned char padding[0x18];
     MyArr mArr;
 
-    intptr_t GetIntAt(unsigned int index);
-public:
-    void FUN_0044f3e0();
-    void FUN_0045ac80();
-    void RemoveItemFromMap(::Ref *);
-    ::FUN_0076b630 *SelectBestWeapon(::ActorStand *, float *, int, bool);
-    ::FUN_0076b630 *FUN_004c8c10(int, int);
-    bool FUN_00604310(const char *, char *, unsigned int);
-    bool FUN_00650480(::FileNames *);
-    bool FindTriangleZ(const ::NiPoint3 &, float, float, float *);
-    void SetPage(int);
-    bool FUN_007b1970(float, bool);
-    void FUN_00800ac0(::TargetActor *, int, bool);
-    bool AdvanceActions(::Context *);
-    void DisableEntry(unsigned int);
-    void FUN_00b2fdc0(unsigned short, unsigned short *, unsigned short);
-    void FUN_00b690d0(::StrArr *);
-    ::Target *FUN_00b90670(unsigned int);
-    bool FUN_00c3fb50(::Task *);
-    void CompactEntries();
-    void FUN_00c8f080();
-    int ComputeWeightedSum();
-    void FUN_00e8b630();
-    void FUN_00ead1e0();
+    std::intptr_t GetIntAt(unsigned int index);
 };
 // @fnv 0x009031b0
 void HighProcess::ProcessActorGroupState(Actor* actor)
@@ -10543,9 +10520,9 @@ void HighProcess::ProcessActorGroupState(Actor* actor)
 }
 
 // @fnv 0x00903600
-intptr_t Target::GetIntAt(unsigned int index)
+std::intptr_t Target::GetIntAt(unsigned int index)
 {
-    return *reinterpret_cast<int*>(mArr.FUN_006dad90(index));
+    return *reinterpret_cast<std::intptr_t*>(mArr.FUN_006dad90(index));
 }
 
 struct FUN_008a5e40_shell

@@ -6,6 +6,8 @@
 #include <windows.h>
 #include <new>
 #include <cmath>
+#include <cstring>
+#include <xmmintrin.h>
 #include <cstdio>
 #include <cstring>
 #include "fnv/decl/BGSTerrainManager.h"
@@ -49,7 +51,6 @@
 #include "fnv/decl/ListStandIn.h"
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/decl/NiAdditionalGeometryData.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/ObsList.h"
 #include "fnv/decl/Ref664.h"
 #include "fnv/decl/S_004b0aa0_Self.h"
@@ -275,16 +276,19 @@ unsigned short FUN_004a4200_class::FUN_004a4200()
     return ((unsigned char*)this)[0x1c];
 }
 
+struct BSRandomHelper
+{
+    float FUN_004a4260();
+};
 struct MersenneTwister
 {
     static MersenneTwister* GetRandomGenerator();
-    float FUN_004a4260();
 };
 
 // @fnv 0x004a4240
 float FUN_004a4240()
 {
-    return MersenneTwister::GetRandomGenerator()->FUN_004a4260();
+    return reinterpret_cast<BSRandomHelper*>(MersenneTwister::GetRandomGenerator())->FUN_004a4260();
 }
 
 struct FUN_004a4440_Class
@@ -299,10 +303,10 @@ struct BSAudio
 extern "C" BSAudio* __cdecl FUN_00c85750();
 struct FUN_004a4840_class
 {
-    void FUN_004a4840(int unused);
+    void FUN_004a4840(intptr_t unused);
 };
 // @fnv 0x004a4840
-void FUN_004a4840_class::FUN_004a4840(int unused)
+void FUN_004a4840_class::FUN_004a4840(intptr_t unused)
 {
     reinterpret_cast<::MagicCaster_shell *>((FUN_00c85750()))->FUN_0044edb0();
 }
@@ -351,15 +355,15 @@ struct FUN_004a8ab0_shell
 unsigned short FUN_004a8ab0_shell::GetActorBaseFatigue()
 {
     unsigned int u = ((Flt*)((char*)this + 0xb8))->operator unsigned int();
-    return ((TESActorBaseData*)u)->GetFatigue();
+    return ((TESActorBaseData*)(uintptr_t)u)->GetFatigue();
 }
 
 struct FUN_004a9950_Class
 {
-    void SetValue(int a, int b, char c);
+    void SetValue(intptr_t a, int b, char c);
 };
 // @fnv 0x004a9950
-void FUN_004a9950_Class::SetValue(int a, int iValue, char c)
+void FUN_004a9950_Class::SetValue(intptr_t a, int iValue, char c)
 {
     *(int*)((char*)a + 4) = iValue;
     *(char*)((char*)a + 8) = c;
@@ -526,7 +530,7 @@ struct FUN_004b0530_Class
 // @fnv 0x004b0530
 void FUN_004b0530_Class::FUN_004b0530()
 {
-    *(int*)this = (int)&DAT_0101fc80;
+    *(void**)this = &DAT_0101fc80;
 }
 
 struct FUN_004b1030_Class
@@ -559,19 +563,20 @@ float __cdecl FUN_004b1500(float a, float b)
 
 
 // @fnv 0x004b4a10
-int __cdecl FUN_004b4a10(unsigned short a1, int a2, int a3, int a4)
+int __cdecl FUN_004b4a10(unsigned short a1, int a2, intptr_t a3, int a4)
 {
-    return ((int(__cdecl*)(unsigned short, int, int, int)) * (&(*reinterpret_cast<int *>(&::DAT_011aa050))))(a1, a2, a3, a4);
+    return (*reinterpret_cast<int(__cdecl**)(unsigned short, int, int, int)>(&::DAT_011aa050))(a1, a2, a3, a4);
 }
 
+struct FUN_004b4cf0_shell;
 struct FUN_004b4ab0_Class
 {
-    void FUN_004b4ab0(intptr_t a, int b);
-    void FUN_004b4ad0(int a, int b);
+    void FUN_004b4ab0(FUN_004b4cf0_shell* a, __m128* b);
+    void FUN_004b4ad0(FUN_004b4cf0_shell* matrix, __m128* vector);
 };
 
 // @fnv 0x004b4ab0
-void FUN_004b4ab0_Class::FUN_004b4ab0(intptr_t a, intptr_t b)
+void FUN_004b4ab0_Class::FUN_004b4ab0(FUN_004b4cf0_shell* a, __m128* b)
 {
     FUN_004b4ad0(a, b);
 }
@@ -621,7 +626,7 @@ struct FUN_004b9d60_class
 
 struct Unk65
 {
-    void FUN_0065de30(int);
+    void FUN_0065de30(const void*);
 };
 struct Unk6b
 {
@@ -727,7 +732,7 @@ struct FUN_004a9d20_Class
 // @fnv 0x004a9d20
 void FUN_004a9d20_Class::FUN_004a9d20()
 {
-    *(int*)this = (int)&DAT_0101ed8c;
+    *(void**)this = &DAT_0101ed8c;
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
     ::FUN_00aa10f0(*(void**)((char*)this + 8));
 }
@@ -941,7 +946,6 @@ struct FUN_004b0850_Class
 {
     FUN_004b0850_Class* FUN_004b0850(unsigned int flags);
 };
-void __cdecl FUN_004b0cf0();
 struct FUN_004b08e0_Class
 {
     void FUN_004b0cf0();
@@ -961,8 +965,6 @@ void* NiFixedString::FUN_004b9900(unsigned int flags)
         ::FUN_00401030(this);
     return this;
 }
-
-void __cdecl FUN_004b9cd0();
 
 struct FUN_004b9980_Class
 {
@@ -984,9 +986,9 @@ bool FUN_004a0e50_Class::FUN_004a0e50()
 struct NiRenderer;
 
 // @fnv 0x004a0e90
-unsigned int FUN_004a0e90()
+void* FUN_004a0e90()
 {
-    return *(Flt*)&::DAT_011f9508;
+    return ::DAT_011f9508;
 }
 
 struct CalleeObj
@@ -1017,10 +1019,6 @@ FUN_004a3cc0_Class* FUN_004a3cc0_Class::FUN_004a3cc0()
 
 struct UnsignedIntHelper
 {
-};
-struct BSRandomHelper
-{
-    float FUN_004a4260();
 };
 // @fnv 0x004a4260
 float BSRandomHelper::FUN_004a4260()
@@ -1097,7 +1095,7 @@ struct FUN_004a4990_s
     void* p;
     int a;
     int b;
-    void FUN_004a4990(int arg);
+    void FUN_004a4990(intptr_t arg);
 };
 struct FUN_004a4a10_Holder
 {
@@ -1106,20 +1104,20 @@ struct FUN_004a4a10_Holder
     virtual void v2();
     virtual void v3();
     virtual void vf10(int, int);
-    void FUN_004a4a10(int, int);
+    void FUN_004a4a10(intptr_t, intptr_t);
 };
 // @fnv 0x004a4990
-void FUN_004a4990_s::FUN_004a4990(int pTarget)
+void FUN_004a4990_s::FUN_004a4990(intptr_t pTarget)
 {
     reinterpret_cast<::FUN_00621c90_Class *>(this)->FUN_00626870();
     if (!(b & 0x80000000))
-        reinterpret_cast<::FUN_004a4a10_Holder *>((((H_004a4a10*)pTarget)))->FUN_004a4a10((int)(p), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_004a4a10_Holder *>((((H_004a4a10*)pTarget)))->FUN_004a4a10((intptr_t)(p), (intptr_t)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()));
     p = 0;
     b = 0x80000000;
 }
 // Calls vf10 with a1 and a2 multiplied by 0x60.
 // @fnv 0x004a4a10
-void FUN_004a4a10_Holder::FUN_004a4a10(int aiArg1, int aiArg2)
+void FUN_004a4a10_Holder::FUN_004a4a10(intptr_t aiArg1, intptr_t aiArg2)
 {
     int v = 0x60;
     vf10(aiArg1, aiArg2 * 0x60);
@@ -1200,18 +1198,18 @@ void* FUN_004a97e0_Class::FUN_004a97e0(unsigned int a)
 extern int DAT_0101ed4c;
 struct FUN_004a98e0_class
 {
-    int FUN_004a98e0(int count);
+    void* FUN_004a98e0(int count);
 };
 // @fnv 0x004a98e0
-int FUN_004a98e0_class::FUN_004a98e0(int count)
+void* FUN_004a98e0_class::FUN_004a98e0(int count)
 {
-    *(int*)this = (int)&DAT_0101ed4c;
+    *(void**)this = &DAT_0101ed4c;
     *(int*)((char*)this + 4) = count;
     *(int*)((char*)this + 12) = 0;
     unsigned int size = *(int*)((char*)this + 4) * 4;
     *(void**)((char*)this + 8) = ::FUN_00aa1070(size);
     ::FUN_00403d30(*(void**)((char*)this + 8), 0, *(int*)((char*)this + 4) * 4);
-    return (int)this;
+    return this;
 }
 
 struct FUN_004a9a00_Class
@@ -1314,7 +1312,6 @@ void FUN_004a9fc0_Class::FUN_004a9fc0()
 }
 
 namespace fnv_004aa210 {
-extern "C" void* __cdecl memset(void* dst, int value, unsigned int count);
 struct FUN_004aa210_class
 {
     int* vtbl;
@@ -1486,7 +1483,7 @@ struct FUN_004b0910_This
 struct FUN_004b0eb0_class
 {
     void* f0;
-    void* f4;
+    unsigned int f4;
     void FUN_004b0eb0();
 };
 // If both f0 and f4 are set, obtains an object via GetOrCreateInstance(1) and calls AddKeyedItems with f0 and f4.
@@ -1494,7 +1491,7 @@ struct FUN_004b0eb0_class
 void FUN_004b0eb0_class::FUN_004b0eb0()
 {
     if (f0 && f4)
-        reinterpret_cast<::FUN_004b0910_cls *>((((FUN_004b0910_This*)((int)(::GetOrCreateInstance(1))))))->AddKeyedItems((::Key4b0910 *)(f0), (unsigned int)(f4));
+        reinterpret_cast<::FUN_004b0910_cls *>((((FUN_004b0910_This*)((::GetOrCreateInstance(1))))))->AddKeyedItems((::Key4b0910 *)(f0), f4);
 }
 }  // namespace fnv_004b0eb0
 
@@ -1676,7 +1673,7 @@ void FUN_004bcbd0_Class::ProcessNodes()
     FUN_004bcbd0_Node* node = m_pFirstNode;
     while (node && *((int *)(new ((void *)(node)) ::Vec3())))
     {
-        FUN_004bcbd0_Node* item = (FUN_004bcbd0_Node*)*((int *)(new ((void *)(node)) ::Vec3()));
+        FUN_004bcbd0_Node* item = *((FUN_004bcbd0_Node **)(new ((void *)(node)) ::Vec3()));
         if (item && ((FUN_00418630_Class*)item)->FUN_00418630())
             reinterpret_cast<::FUN_00418600_cls *>((((FUN_00418600_Class*)item)))->FUN_00418600();
         node = ((::FUN_004bcbd0_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -1730,7 +1727,7 @@ struct FUN_004a5280
 
 // Allocates a FUN_004a5280, applies ui via vfn_08, sets fValue and fAdd to half of af[0] and af[1], fMult to 1.0 and type to 3, then returns it.
 // @fnv 0x004a4f80
-FUN_004a5280* FUN_004a4f80(const float* afValues, unsigned int ui)
+FUN_004a5280* FUN_004a4f80(const float* afValues, uintptr_t ui)
 {
     FUN_004a5280* p = new FUN_004a5280;
     p->vfn_08(ui);
@@ -1943,26 +1940,26 @@ struct FUN_004b06b0_Class
 {
     char pad[8];
     Arr arr;
-    int FindPairIndex(int a, int b);
+    int FindPairIndex(intptr_t a, intptr_t b);
 };
 // @fnv 0x004b05d0
 char FUN_004b05d0_Class::AddPairIfMissing(float* pfFirst, float* pfSecond)
 {
     char r = 0;
-    if (reinterpret_cast<::FUN_004b06b0_Class *>(this)->FindPairIndex((int)(pfFirst), (int)(pfSecond)) == -1)
+    if (reinterpret_cast<::FUN_004b06b0_Class *>(this)->FindPairIndex((intptr_t)(pfFirst), (intptr_t)(pfSecond)) == -1)
     {
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)((char*)this + 8))))->FUN_0096a610((int)&(const unsigned int &)((unsigned int)new Struct_004b0680(pfFirst, pfSecond)));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)((char*)this + 8))))->FUN_0096a610((intptr_t)&(const unsigned int &)((unsigned int)(uintptr_t)new Struct_004b0680(pfFirst, pfSecond)));
     }
     return r;
 }
 // Scans arr for the last entry whose two leading ints equal a and b, returning its index or -1 if none match.
 // @fnv 0x004b06b0
-int FUN_004b06b0_Class::FindPairIndex(int aiFirst, int aiSecond)
+int FUN_004b06b0_Class::FindPairIndex(intptr_t aiFirst, intptr_t aiSecond)
 {
     int result = -1;
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(&(arr))->GetShortAtOffsetA(); ++i)
     {
-        if ((int)*(int*)*arr.GetAt(i) == aiFirst && (int)*(int*)((char*)*arr.GetAt(i) + 4) == aiSecond)
+        if ((intptr_t)((Struct_004b0680*)(uintptr_t)*arr.GetAt(i))->p == aiFirst && (intptr_t)((Struct_004b0680*)(uintptr_t)*arr.GetAt(i))->q == aiSecond)
             result = i;
     }
     return result;
@@ -2062,7 +2059,7 @@ struct BGSPrimitiveBox
 
 // Allocates a BGSPrimitiveBox, sets its size and position to half of point, enables it, and returns it.
 // @fnv 0x004a5040
-BGSPrimitiveBox* __cdecl CreatePrimitiveBox(Point3* point, int iSize)
+BGSPrimitiveBox* __cdecl CreatePrimitiveBox(Point3* point, intptr_t iSize)
 {
     BGSPrimitiveBox* box = new BGSPrimitiveBox;
     box->SetSize(iSize);
@@ -2144,9 +2141,9 @@ bool FUN_004b9b20_class::FUN_004b9b20(int arg, FUN_004b9b20_result* result)
 }
 
 // @fnv 0x004a0ea0
-int __cdecl FUN_004a0ea0()
+void* __cdecl FUN_004a0ea0()
 {
-    return (*reinterpret_cast<int *>(&::DAT_011f91a8));
+    return ::DAT_011f91a8;
 }
 
 
@@ -2204,23 +2201,23 @@ void __cdecl FUN_004a42a0()
     FUN_004a4650((FUN_004a4650_ListBase*)((char*)FUN_0049fef0() + 8));
     char* kObj = (char*)FUN_0049fef0() + 0x14;
 
-    int cur_2 = ::FUN_00559450((int *)(((FUN_00559450_cls*)kObj)));
+    intptr_t cur_2 = ::FUN_00559450((int *)(((FUN_00559450_cls*)kObj)));
     while (cur_2 != 0)
     {
-        int a = *reinterpret_cast<::ListStandIn *>((((FUN_0057cbe0_cls*)kObj)))->FUN_0057cbe0((int **)(int *)(&cur_2));
-        int b = a;
-        int c2 = b;
-        int r;
+        void* a = *(void **)reinterpret_cast<::ListStandIn *>((((FUN_0057cbe0_cls*)kObj)))->FUN_0057cbe0((int **)(&cur_2));
+        void* b = a;
+        void* c2 = b;
+        intptr_t r;
         if (c2 != 0)
         {
-            r = ((int)(reinterpret_cast<::StandIn *>((((FUN_004a0490_cls*)c2)))->FUN_004a0490(1)));
+            r = ((intptr_t)(reinterpret_cast<::StandIn *>((((FUN_004a0490_cls*)c2)))->FUN_004a0490(1)));
         }
         else
         {
             r = 0;
         }
     }
-    reinterpret_cast<::NiTPointerListBase *>((((FUN_004ed900_cls*)kObj)))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>((((FUN_004ed900_cls*)kObj)))->RemoveAll();
 }
 
 struct FUN_004a4650_ListBase;
@@ -2324,7 +2321,7 @@ FUN_004a46d0::~FUN_004a46d0()
 void AudioOwner::FUN_004a4810()
 {
     AudioSource source = {};
-    reinterpret_cast<::FUN_004a4990_s *>(this)->FUN_004a4990((int)(source.FUN_004a4840(this)));
+    reinterpret_cast<::FUN_004a4990_s *>(this)->FUN_004a4990((intptr_t)(source.FUN_004a4840(this)));
 }
 
 class TESObjectREFR;
@@ -2349,7 +2346,7 @@ void AddToRefCountIfNotFlagged(TESObjectREFR* pkRef, int iAmount, int** ppiCount
         if (!bSkipB || !bSkipA)
         {
             **ppiTarget += iAmount;
-            reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::RefBoolMap4A8 *>(&::g_011c5c40))))->FUN_0084d310((int)(pkRef), true);
+            reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::RefBoolMap4A8 *>(&::g_011c5c40))))->FUN_0084d310((int)(intptr_t)(pkRef), true);
         }
     }
 }
@@ -2432,7 +2429,7 @@ struct FUN_004a9ab0_cls
 {
     int unk00;
 
-    void ConstructScanItems(int base, unsigned int count);
+    void ConstructScanItems(intptr_t base, unsigned int count);
 };
 // Sets the vtable to DAT_0101edac, calls FUN_004a9e00 with 0, 0, and returns this.
 // @fnv 0x004a9d80
@@ -2466,14 +2463,14 @@ void FUN_004a9e00_Class::FUN_004a9e00(unsigned int requested, unsigned int saved
 int C4A9A60Array::AddEntry(const C4A9A60Entry& kEntry)
 {
     int iIndex = ((int)(reinterpret_cast<::FUN_006b3fd0_cls *>(this)->FUN_006b3fd0()));
-    reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((int)(&m_pUserData[iIndex]), 1);
+    reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((intptr_t)(&m_pUserData[iIndex]), 1);
     m_pUserData[iIndex] = kEntry;
     return iIndex;
 }
 
 // Placement-constructs count ScanItem64 objects at base, each 64 bytes apart.
 // @fnv 0x004a9ab0
-void FUN_004a9ab0_cls::ConstructScanItems(int base, unsigned int count)
+void FUN_004a9ab0_cls::ConstructScanItems(intptr_t base, unsigned int count)
 {
 
     for (unsigned int i = 0; i < count; ++i)
@@ -2594,7 +2591,7 @@ void __cdecl FUN_004ab0c0(Ref_cls* apRef)
     if (apRef == 0)
         return;
     ::FUN_004b6ce0((::FUN_004b6ce0_cls *)(apRef));
-    ::FUN_00b5b1c0((::ShadowSceneNode *)(((::Obj2_cls *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), (int)(apRef), {});
+    ::FUN_00b5b1c0((::ShadowSceneNode *)(((::Obj2_cls *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), 0, (::NiAVObject *)(apRef));
     if (((::Vt_cls *)(reinterpret_cast<::FUN_009611e0_shell *>((apRef))->FUN_009611e0())) != 0)
     {
         ::FUN_00c69ee0((::NiAVObject *)(apRef), 1, 0);
@@ -2937,7 +2934,7 @@ FUN_006815c0* __cdecl CreateElementArray(FUN_004b4910_Source* source)
         return 0;
     }
     elements = new FUN_006815c0[reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650()];
-    FUN_004b4a10(reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650(), ((int)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext())), (int)elements, ::FUN_00461130((int)(source)));
+    FUN_004b4a10(reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650(), ((int)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext())), (intptr_t)elements, ::FUN_00461130((intptr_t)(source)));
     return elements;
 }
 
@@ -2954,7 +2951,7 @@ void __cdecl FUN_004b4a30(const char* pcHeading)
     if (GetUserNameA(::xg_PlayerName, &ulSize))
     {
         ::FUN_0040fbe0();
-        sprintf(acLine, "Computer Name: %s", ((const char *)(::FUN_00464f30((int)(::xg_PlayerName)))));
+        sprintf(acLine, "Computer Name: %s", ((const char *)(::FUN_00464f30((intptr_t)(::xg_PlayerName)))));
         ::FUN_0040fbe0();
     }
 }
@@ -3004,11 +3001,11 @@ unsigned int __cdecl FindAcceptedForm(FNVNode* root)
         else if (node->IsTerminalNode())
         {
             FNVNode* leaf = node;
-            FNVForm* form = ((::FNVForm *)(reinterpret_cast<::FUN_00a59d30_C *>((leaf))->FUN_00a59d30((int)(((void *)(::FUN_00438220()))))));
+            FNVForm* form = ((::FNVForm *)(reinterpret_cast<::FUN_00a59d30_C *>((leaf))->FUN_00a59d30(::FUN_00438220())));
             if (form != 0)
             {
                 unsigned int accepted =
-                    (unsigned int)form &
+                    (unsigned int)(uintptr_t)form &
                     ((form == 0 ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((form))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((form))->GetMinLevel())) <= 12)) ? ~0u : 0u);
                 if (accepted)
                     return accepted;
@@ -3023,7 +3020,7 @@ extern int DAT_010205d4;
 
 struct FUN_004b99b0_cls
 {
-    int m_00;
+    void* m_00;
     int m_04;
     void* m_08;
     unsigned int m_0C;
@@ -3042,7 +3039,7 @@ FUN_004b9950_class* FUN_004b9950_class::FUN_004b9950(int arg)
 // @fnv 0x004b99b0
 FUN_004b99b0_cls* FUN_004b99b0_cls::FUN_004b99b0(int count)
 {
-    m_00 = (int)&DAT_010205d4;
+    m_00 = &DAT_010205d4;
     m_04 = count;
     m_0C = 0;
     unsigned int size = m_04 << 2;
@@ -3928,7 +3925,7 @@ struct Owner4a4
 // @fnv 0x004a4340
 void Owner4a4::FUN_004a4340()
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNode))->GetName())) > 0)
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNode))->GetName())) > 0)
     {
         ::FUN_004a0370((char *)(::Renderer4a4 *)(((::Renderer4a4 *)(::FUN_0043c4b0()))));
         void* pos = ((void *)(::FUN_00559450((int *)&(m_kNode))));
@@ -3975,7 +3972,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
     {
         void* bResult = 0;
 
-        if (3 == ((int)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())))
+        if (3 == ((int)(uintptr_t)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())))
         {
             NiColorA004a4d40 colorA;
             {
@@ -3987,25 +3984,25 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
             {
                 NiPoint2_004a4d40 point(pTarget->FUN_00413fc0().x * 2.0, pTarget->FUN_00413fc0().z * 2.0f);
                 reinterpret_cast<::FUN_00413f90_cls *>((pTarget))->FUN_00413f90((::FUN_00413f90_vec *)(::NiColorA004a4d40 *)(&kIter));
-                bResult = FUN_004a4f80((const float*)&point, (unsigned int)&kIter);
+                bResult = FUN_004a4f80((const float*)&point, (uintptr_t)&kIter);
             }
         }
 
-        if (((int)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 1)
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 1)
         {
             NiColorA004a4d40 colorA;
             {
                 Point3 point = pTarget->FUN_00413fc0() * 2.0f;
                 reinterpret_cast<::FUN_00413f90_cls *>((pTarget))->FUN_00413f90((::FUN_00413f90_vec *)(::NiColorA004a4d40 *)(&colorA));
-                bResult = CreatePrimitiveBox(&point, (int)&colorA);
+                bResult = CreatePrimitiveBox(&point, (intptr_t)&colorA);
             }
         }
 
-        if (((int)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 2)
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((pTarget))->FUN_00726070())) == 2)
         {
             NiColorA004a4d40 cnt;
             reinterpret_cast<::FUN_00413f90_cls *>((pTarget))->FUN_00413f90((::FUN_00413f90_vec *)(::NiColorA004a4d40 *)(&cnt));
-            bResult = ((void *)(::fnv_004a5100::FUN_004a5100_create(reinterpret_cast<::BSMultiBoundSphere *>((void *)(pTarget))->GetRadius(), (int)(&cnt))));
+            bResult = ((void *)(::fnv_004a5100::FUN_004a5100_create(reinterpret_cast<::BSMultiBoundSphere *>((void *)(pTarget))->GetRadius(), (intptr_t)(&cnt))));
         }
 
         return bResult;
@@ -4138,7 +4135,7 @@ class FUN_004a47b0 : public ListBase4A47B0
 // @fnv 0x004a47b0
 FUN_004a47b0::~FUN_004a47b0()
 {
-    reinterpret_cast<::NiTPointerListBase *>(this)->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(this)->RemoveAll();
 }
 
 struct PointerMapBase4aa0f0

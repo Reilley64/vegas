@@ -226,7 +226,7 @@ struct FUN_00865870_Class
 
 struct FUN_00865980_class
 {
-    int FUN_00865980();
+    void* FUN_00865980();
 };
 
 struct CF_0081c630
@@ -242,10 +242,10 @@ struct FUN_008659a0_Class
     FUN_008659a0_Class();
 };
 // @fnv 0x00865980
-int FUN_00865980_class::FUN_00865980()
+void* FUN_00865980_class::FUN_00865980()
 {
     new ((void *)this) ::FUN_008659a0_Class();
-    return (int)this;
+    return this;
 }
 
 // @fnv 0x008659a0
@@ -275,7 +275,7 @@ bool __cdecl HasFlags(int flags)
 
 struct FUN_008693f0_Class
 {
-    void FUN_008693f0(intptr_t aiParam);
+    void FUN_008693f0(std::intptr_t aiParam);
 };
 
 
@@ -291,7 +291,7 @@ extern int DAT_010827f0;
 struct FUN_00869a40_Class
 {
     void* m_ppVirtualMethodTable;
-    int m_field;
+    void* m_field;
     void FUN_00869a40();
 };
 
@@ -299,22 +299,22 @@ struct FUN_00869a40_Class
 void FUN_00869a40_Class::FUN_00869a40()
 {
     m_ppVirtualMethodTable = &DAT_010827f0;
-    ::FUN_008696c0((void *)(m_field));
+    ::FUN_008696c0(m_field);
 }
 
 extern int DAT_01082800;
 struct FUN_00869b90_cls
 {
-    int vtbl;
-    int next;
+    const void* vtbl;
+    void* next;
     void InitializeAndReleaseNext();
 };
 // Sets the object's vtbl to DAT_01082800 and passes next to FUN_008696c0.
 // @fnv 0x00869b90
 void FUN_00869b90_cls::InitializeAndReleaseNext()
 {
-    vtbl = (int)&DAT_01082800;
-    ::FUN_008696c0((void *)(next));
+    vtbl = &DAT_01082800;
+    ::FUN_008696c0(next);
 }
 
 extern void* DAT_01082808;
@@ -342,8 +342,8 @@ struct FUN_00869cc0_class
 extern int DAT_01082810;
 struct FUN_00869ce0_cls
 {
-    int vtbl;
-    int field4;
+    const void* vtbl;
+    void* field4;
     void FUN_00869ce0();
 };
 // @fnv 0x00869cc0
@@ -355,8 +355,8 @@ void FUN_00869cc0_class::FUN_00869cc0()
 // @fnv 0x00869ce0
 void FUN_00869ce0_cls::FUN_00869ce0()
 {
-    vtbl = (int)&DAT_01082810;
-    ::FUN_008696c0((void *)(field4));
+    vtbl = &DAT_01082810;
+    ::FUN_008696c0(field4);
 }
 
 extern int DAT_01082820;
@@ -453,7 +453,7 @@ void FUN_00877b40::Init()
 // @fnv 0x00877b60
 void FUN_00877b60_Class::SetVtable()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_01082f44;
+    *reinterpret_cast<const void**>(this) = &DAT_01082f44;
 }
 
 struct FUN_00877d30_Class
@@ -471,6 +471,7 @@ namespace fnv_00877d80 {
 struct BSTCommonMessageQueue
 {
     virtual ~BSTCommonMessageQueue();
+    int m_04;
     void* FUN_00877df0();
     void* Construct();
 };
@@ -480,7 +481,7 @@ void* BSTCommonMessageQueue::Construct()
 {
     FUN_00877df0();
     *reinterpret_cast<void**>(this) = &(*reinterpret_cast<int *>(&::DAT_01082f24));
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = 0;
+    m_04 = 0;
     return this;
 }
 }  // namespace fnv_00877d80
@@ -584,7 +585,7 @@ struct GlobalObject_00869f00
 // @fnv 0x0087d320
 void GlobalObject_00869f00::FUN_0087d320()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_010840d0;
+    *reinterpret_cast<const void**>(this) = &DAT_010840d0;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
@@ -1257,7 +1258,7 @@ struct StrArr
 };
 struct FUN_00877e10_Class
 {
-    unsigned int FUN_00877e10(unsigned int a, unsigned int b);
+    unsigned int FUN_00877e10(unsigned int a, std::uintptr_t b);
 };
 struct GlobalObject_00877f10
 {
@@ -1381,12 +1382,12 @@ void FUN_008660b0_shell::GrowBuffer()
     }
 }
 
-int __cdecl AllocateUIntArray(unsigned int);
+void** __cdecl AllocateUIntArray(unsigned int);
 
 struct FUN_00869aa0
 {
     void* vtbl;
-    int data;
+    void* data;
     unsigned short w0;
     unsigned short w1;
     unsigned short w2;
@@ -1412,7 +1413,7 @@ FUN_00869aa0::FUN_00869aa0(unsigned short a, unsigned short b)
 struct FUN_00869bf0
 {
     int* vtbl;
-    int data;
+    void* data;
     unsigned short f8;
     unsigned short fa;
     unsigned short fc;
@@ -1454,7 +1455,7 @@ FUN_00869d40::FUN_00869d40(unsigned int aiA, unsigned int aiB)
     b = 0;
     c = 0;
     if (a > 0)
-        data = ((void *)(::AllocateUIntArray(a)));
+        data = ::AllocateUIntArray(a);
     else
         data = 0;
 }
@@ -1547,7 +1548,7 @@ void FUN_00869560(Arr* pArr, FUN_008693f0_Class* pDest)
     {
         GO sp(pArr->GetAt(i));
         if ((unsigned int)sp)
-            pDest->FUN_008693f0((int)&sp);
+            pDest->FUN_008693f0((std::intptr_t)&sp);
     }
 }
 
@@ -1595,18 +1596,18 @@ struct FUN_00877d80_Class
 };
 struct FUN_00877a80_Class : FUN_00877d80_Class
 {
-    int InitWithValue(int a);
+    void* InitWithValue(int a);
 };
 // Calls the base initializer, installs DAT_01082f04 as the vtable, stores a at offset 8, and sets offset 12 to 0 with offset 16 pointing to it.
 // @fnv 0x00877a80
-int FUN_00877a80_Class::InitWithValue(int aiValue)
+void* FUN_00877a80_Class::InitWithValue(int aiValue)
 {
     reinterpret_cast<::fnv_00877d80::BSTCommonMessageQueue *>(this)->Construct();
-    *(int*)this = (int)&DAT_01082f04;
+    *(const void**)this = &DAT_01082f04;
     *(int*)((char*)this + 8) = aiValue;
     *(int*)((char*)this + 12) = 0;
-    *(int*)((char*)this + 16) = (int)((char*)this + 12);
-    return (int)this;
+    *(void**)((char*)this + 16) = (char*)this + 12;
+    return this;
 }
 
 struct FUN_00877e50_Class
@@ -1619,7 +1620,7 @@ struct FUN_00877e50_Class
     void SetEntry(unsigned int index, int* value);
 };
 // @fnv 0x00877e10
-unsigned int FUN_00877e10_Class::FUN_00877e10(unsigned int a, unsigned int b)
+unsigned int FUN_00877e10_Class::FUN_00877e10(unsigned int a, std::uintptr_t b)
 {
     if (a >= reinterpret_cast<unsigned short*>(this)[4])
         reinterpret_cast<::ViewerStrings *>((reinterpret_cast<StrArr*>(this)))->SetSize(reinterpret_cast<unsigned short*>(this)[7] + a);
@@ -1681,7 +1682,10 @@ bool FUN_008798e0_shell::OpenAtPosition()
 struct FUN_0087d340_Class
 {
     virtual void vfn_00();
-    virtual int vfn_04(unsigned int);
+    virtual char* vfn_04(unsigned int);
+    char* m_pData;
+    int m_iSize;
+    int m_iCapacity;
     void FUN_0087d340(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x0087d2c0
@@ -1973,7 +1977,7 @@ struct BSFadeNodeResult2 : public BSFadeNodeResult
 // @fnv 0x0086a050
 float __cdecl FUN_0086a050(BSFadeNode* node)
 {
-    BSFadeNodeResult2* p = (BSFadeNodeResult2*)node->FUN_009ad610();
+    BSFadeNodeResult2* p = (BSFadeNodeResult2*)(std::uintptr_t)node->FUN_009ad610();
     if (p != 0 && p->vfn_100())
     {
         return p->vfn_420();
@@ -2001,7 +2005,7 @@ void* FUN_00863f30_shell::FUN_00863f30(unsigned int flags)
 // @fnv 0x00864100
 void FUN_008640e0_class::DestroyAndFreeBuffer()
 {
-    *(int*)this = (int)&DAT_01081fc8;
+    *(const void**)this = &DAT_01081fc8;
     ::FUN_004ede70(*(void***)((char*)this + 4));
 }
 
@@ -2318,11 +2322,11 @@ void FUN_0086ce40_class::InitAudioCallbacks()
 {
     FUN_00aea020();
 
-    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((reinterpret_cast<RegionPointList*>(::FUN_00453a70())))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(reinterpret_cast<unsigned int>(&((void (&)())::GetSoundPathAndFlags))));
+    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((reinterpret_cast<RegionPointList*>(::FUN_00453a70())))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(reinterpret_cast<uintptr_t>(&((void (&)())::GetSoundPathAndFlags))));
 
-    reinterpret_cast<TESRecipe*>(::FUN_00453a70())->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<int>(&SoundPlaybackManager::ResolveSoundFile)));
+    reinterpret_cast<TESRecipe*>(::FUN_00453a70())->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<intptr_t>(&SoundPlaybackManager::ResolveSoundFile)));
 
-    reinterpret_cast<::FUN_0061cc40_shell *>((reinterpret_cast<TESRecipe*>(::FUN_00453a70())))->FUN_0061cc40(reinterpret_cast<int>(&((void (&)())::FindDialogueFile)));
+    reinterpret_cast<::FUN_0061cc40_shell *>((reinterpret_cast<TESRecipe*>(::FUN_00453a70())))->FUN_0061cc40((int)reinterpret_cast<std::uintptr_t>(&((void (&)())::FindDialogueFile)));
 
     reinterpret_cast<::Twin_0086cf00 *>((reinterpret_cast<BGSMessage*>(::FUN_00453a70())))->SetD3DPixelShader((::GeometryRelatedType *const)(reinterpret_cast<BGSMenuIcon*>(&((void (&)())::ApplySoundFormToGameSound))));
 
@@ -2414,7 +2418,7 @@ struct FUN_00878360_Class
 bool FUN_00878360_Class::FUN_00878360()
 {
     bool b = true;
-    if (m_10 > m_08 && (char const* const)(m_10 - m_08) > (char const* const)&g_011c5bbc_arg1)
+    if (m_10 > m_08 && (std::uintptr_t)(m_10 - m_08) > (std::uintptr_t)&g_011c5bbc_arg1)
         b = false;
     return b;
 }
@@ -2479,33 +2483,33 @@ GlobalObject_0087d2c0* GlobalObject_0087d2c0::FUN_0087d2f0(unsigned int flags)
 
 struct FUN_0087d3d0_Class
 {
-    void FUN_0087d3d0(int a, unsigned int count);
+    void FUN_0087d3d0(char* a, unsigned int count);
 };
 // @fnv 0x0087d340
 void FUN_0087d340_Class::FUN_0087d340(unsigned int requested, unsigned int savedSize)
 {
-    *(int*)((char*)this + 4) = 0;
-    *(int*)((char*)this + 8) = 0;
-    *(int*)((char*)this + 12) = 0;
+    m_pData = nullptr;
+    m_iSize = 0;
+    m_iCapacity = 0;
     if (savedSize > requested)
     {
         requested = savedSize;
     }
     if (requested > 0)
     {
-        *(int*)((char*)this + 4) = vfn_04(requested);
-        *(int*)((char*)this + 12) = requested;
+        m_pData = vfn_04(requested);
+        m_iCapacity = requested;
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_0087d3d0_Class *>(this)->FUN_0087d3d0(*(int*)((char*)this + 4), savedSize);
-        *(int*)((char*)this + 8) = savedSize;
+        reinterpret_cast<::FUN_0087d3d0_Class *>(this)->FUN_0087d3d0(m_pData, savedSize);
+        m_iSize = savedSize;
     }
 }
 
 // Calls operator new(8, ...) for each of count elements at successive 8-byte offsets from a.
 // @fnv 0x0087d3d0
-void FUN_0087d3d0_Class::FUN_0087d3d0(int aiBase, unsigned int count)
+void FUN_0087d3d0_Class::FUN_0087d3d0(char* aiBase, unsigned int count)
 {
     unsigned int i;
     void* p2;
@@ -2520,12 +2524,12 @@ struct ScriptLocalsX
 };
 struct FUN_0087ea80_shell
 {
-    void FUN_0087ea80(unsigned int a);
+    void FUN_0087ea80(std::uintptr_t a);
 };
 // @fnv 0x0087ea80
-void FUN_0087ea80_shell::FUN_0087ea80(unsigned int a)
+void FUN_0087ea80_shell::FUN_0087ea80(std::uintptr_t a)
 {
-    *(unsigned int*)((char*)this + 0x90) = ((unsigned int)(::FUN_004ae750((void *)(((ScriptLocalsX*)a)))));
+    *(std::intptr_t*)((char*)this + 0x90) = ::FUN_004ae750((void *)(((ScriptLocalsX*)a)));
 }
 
 struct Actor_0087f4a0
@@ -2565,7 +2569,7 @@ FUN_008657e0_cls::~FUN_008657e0_cls()
 struct FUN_00866140_cls
 {
     int m_00;
-    int m_04;
+    char* m_04;
     int m_08;
     int m_0c;
     void FUN_00866140(int a1, int a2);
@@ -2586,10 +2590,10 @@ void FUN_00866140_cls::FUN_00866140(int aiOffset, int aiAmount)
     }
     if (!((unsigned char)(reinterpret_cast<::FUN_00424940_shell *>((DAT_011de134))->FUN_00424940())))
     {
-        int lo_ = m_04 + aiOffset;
-        int hi = m_04 + aiOffset + aiAmount;
+        char* lo_ = m_04 + aiOffset;
+        char* hi = m_04 + aiOffset + aiAmount;
         int rem3 = m_08 - (aiOffset + aiAmount);
-        ::fnv_008661e0::FUN_008661e0((void *)(hi), rem3, (const void *)(lo_), m_0c - aiOffset);
+        ::fnv_008661e0::FUN_008661e0(hi, rem3, lo_, m_0c - aiOffset);
     }
     m_0c = iNewTotal;
 }
@@ -2836,7 +2840,7 @@ class C869680Array
 };
 // Calls FUN_00869680 with the unsigned short at offset 0xa of this object and the given int.
 // @fnv 0x008693f0
-void FUN_008693f0_Class::FUN_008693f0(intptr_t aiParam)
+void FUN_008693f0_Class::FUN_008693f0(std::intptr_t aiParam)
 {
     reinterpret_cast<::C869680Array *>(this)->FUN_00869680(*(unsigned short*)((char*)this + 0xa), (*(::C869680Item *const *)(aiParam)));
 }
@@ -3124,10 +3128,10 @@ void FUN_0086cdf0()
     {
         FUN_0086cdf0_cls* tmp = (*reinterpret_cast<::FUN_0086cdf0_cls * *>(&::DAT_011f35cc));
         FUN_0086cdf0_cls* obj2 = tmp;
-        int result;
+        void* result;
         if (obj2 != 0)
         {
-            result = ((int)(reinterpret_cast<::FUN_0086c850_shell *>((reinterpret_cast<FUN_0086c850_cls*>(obj2)))->FUN_0086c850(1)));
+            result = reinterpret_cast<::FUN_0086c850_shell *>((reinterpret_cast<FUN_0086c850_cls*>(obj2)))->FUN_0086c850(1);
         }
         else
         {
@@ -3196,7 +3200,7 @@ void FUN_00876a20_shell::FUN_00876a20(FUN_00876a20_arg* apArg)
 {
     bool bOld = (*reinterpret_cast<bool *>(&::DAT_011a9604));
     (*reinterpret_cast<bool *>(&::DAT_011a9604)) = false;
-    reinterpret_cast<::CameraState4E9 *>((apArg))->SetFromCamera((*(const ::Camera4E9 *)(FUN_00874690())));
+    reinterpret_cast<::CameraState4E9 *>((apArg))->SetFromCamera((*(const ::Camera4E9 *)(std::uintptr_t)(FUN_00874690())));
     reinterpret_cast<::FUN_00b65ec0_cls *>((((::FUN_00876a20_out *)(::FUN_00559450((int *)&(unk94))))))->FUN_00b65ec0();
     (*reinterpret_cast<bool *>(&::DAT_011a9604)) = bOld;
 }
@@ -3232,7 +3236,7 @@ void* FUN_00877d50_Class::FUN_00877d50(unsigned int flags)
 FUN_00877ac0_cls::~FUN_00877ac0_cls()
 {
     FUN_00877ac0_iter it;
-    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((int)&(it)))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((std::intptr_t)&(it)))
     {
     }
 }
@@ -3769,29 +3773,29 @@ void* __cdecl C41D0Allocate(unsigned int uiSize);
 class FUN_008641d0
 {
   public:
-    FUN_008641d0(unsigned int uiCapacity, void* pvUserData);
+    FUN_008641d0(unsigned int uiCapacity, unsigned int uiGrowBy);
     virtual ~FUN_008641d0();
 
     void* pvContextData;
     unsigned int m_uiCapacity;
     unsigned int m_uiAllocatedCapacity;
     unsigned int m_uiPosition;
-    void* m_pvUserData;
+    unsigned int m_uiGrowBy;
 };
 // Calls FUN_008641d0 with the two arguments, stores the address of DAT_01081fa0 at offset 0 of this, and returns this.
 // @fnv 0x00863e00
 int* FUN_00863e00_cls::FUN_00863e00(int a, int b)
 {
-    new ((void *)this) ::FUN_008641d0(a, (void *)(b));
+    new ((void *)this) ::FUN_008641d0(a, b);
     *(int**)((char*)this + 0) = &DAT_01081fa0;
     return (int*)this;
 }
 
 // @fnv 0x008641d0
-FUN_008641d0::FUN_008641d0(unsigned int uiCapacity, void* pvUserData)
+FUN_008641d0::FUN_008641d0(unsigned int uiCapacity, unsigned int uiGrowBy)
 {
     m_uiCapacity = uiCapacity;
-    m_pvUserData = pvUserData;
+    m_uiGrowBy = uiGrowBy;
     m_uiAllocatedCapacity = 0;
     m_uiPosition = 0;
     if (m_uiCapacity > 0)
@@ -4167,7 +4171,9 @@ struct FUN_0086c160
 {
     char unk00;
     bool b1, b2, b3, b4, b5, b6, b7;
-    int arg1, arg2, thread, state;
+    void* arg1;
+    void* arg2;
+    int thread, state;
     FUN_00aa53f0 list18;
     FUN_0086c620 timer28;
     FUN_00aa53f0 list50;
@@ -4175,10 +4181,10 @@ struct FUN_0086c160
     FUN_00633c90 acc88, acc8c, acc90, acc94, acc98;
     bool flag9c;
     FUN_00633c90 acca0;
-    FUN_0086c160(int, int);
+    FUN_0086c160(void*, void*);
 };
 // @fnv 0x0086c160
-FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
+FUN_0086c160::FUN_0086c160(void* aiArg1, void* aiArg2)
     : timer28(&list18, ((void (&)())::TaskQueueInterface::ProcessQueuedTask)), timer60(&list50, ((void (&)())::TaskQueueInterface::ProcessQueuedTask)), acc88(0), acc8c(0), acc90(0), acc94(0), acc98(0),
       acca0(0)
 {
@@ -4204,7 +4210,7 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     acca0.FUN_0066b0d0(new FUN_00a712f0);
     if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Global_p161 *>(&::g_011c3ea4)))))) > 1)
     {
-        ::FUN_0087b8d0((unsigned int)(&timer28), (unsigned int)(&timer60));
+        ::FUN_0087b8d0((unsigned int)(std::uintptr_t)(&timer28), (unsigned int)(std::uintptr_t)(&timer60));
         reinterpret_cast<::FUN_0086c600_shell *>(&(timer28))->SignalAtOffset();
         reinterpret_cast<::FUN_0086c600_shell *>(&(timer60))->SignalAtOffset();
     }
@@ -4215,7 +4221,7 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     state = 0;
     ::SetDebuggerThreadName(thread, ::g_011d2a30_arg1);
     AutoMemContext context(13, true, DAT_010829c4, 3526);
-    ::CreateC790Manager((void *)(aiArg2));
+    ::CreateC790Manager(aiArg2);
     reinterpret_cast<::ControlsIniLoader *>((((::Controls_p161 *)(::FUN_007fdf30()))))->LoadControlsFromIni();
     reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(context))->FUN_00404f70();
     reinterpret_cast<::FUN_00404f00_shell *>(&(context))->FUN_00404f00(11, true, (char *)(DAT_010829c4), 3541);
@@ -6851,11 +6857,11 @@ void Actor::FUN_0087d890(bool registerActor)
 }
 }
 
-// Allocates a new array of unsigned int with a elements and returns it as an int.
+// Allocates the element array of a pointer array with auiCount elements.
 // @fnv 0x00869840
-int __cdecl AllocateUIntArray(unsigned int auiCount)
+void** __cdecl AllocateUIntArray(unsigned int auiCount)
 {
-    return (int)new unsigned int[auiCount];
+    return new void*[auiCount];
 }
 
 struct SSSurfaceDesc
@@ -7049,9 +7055,9 @@ SSMenuState* FUN_004de490();
 // @fnv 0x00878860
 void SaveScreenshot(const char* pcPath)
 {
-    SSRenderer* pkRendererVal = ((::SSRenderer *)(::FUN_004bc3f0()));
+    SSRenderer* pkRendererVal = ((::SSRenderer *)(std::uintptr_t)(::FUN_004bc3f0()));
     SSFormat kFormatRes;
-    SSDevice* pkDevicePos = ((::SSDevice *)(reinterpret_cast<::FUN_004dc020_Class *>((pkRendererVal))->FUN_004dc020()));
+    SSDevice* pkDevicePos = ((::SSDevice *)(std::uintptr_t)(reinterpret_cast<::FUN_004dc020_Class *>((pkRendererVal))->FUN_004dc020()));
     kFormatRes = pkRendererVal->GetFormatSource()->DeallocateSound();
     int iFormatTotal = FUN_00e7bd20(&kFormatRes);
     SSSurface* pkSurfaceInfo;
@@ -7135,7 +7141,7 @@ void SaveScreenshot(const char* pcPath)
         *(unsigned int*)kHeader.ausClrUsed = 0;
         *(unsigned int*)kHeader.ausClrImportant = 0;
         reinterpret_cast<::FUN_00856350_shell *>(&(kFileLast))->SetAndReturnPointer((void *)(&kHeader), (void *)(0x36), &uiWritten, {});
-        reinterpret_cast<::FUN_00856350_shell *>(&(kFileLast))->SetAndReturnPointer((void *)(pucBuffer), (void *)(uiWidth * uiHeightRes * uiBytesPerPixelOld), &uiWritten, {});
+        reinterpret_cast<::FUN_00856350_shell *>(&(kFileLast))->SetAndReturnPointer((void *)(pucBuffer), (void *)(std::uintptr_t)(uiWidth * uiHeightRes * uiBytesPerPixelOld), &uiWritten, {});
         FUN_00401030(pucBuffer);
         if (!pcPath)
         {
@@ -7354,7 +7360,7 @@ LRESULT CALLBACK FUN_0086a0a0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             reinterpret_cast<::FUN_005b6cb0_Class *>(((*reinterpret_cast<::fnv_0086a0a0::Obj * *>(&::g_osGlobals))))->FUN_005b6cb0();
         break;
     case 0x14:
-        if (::FUN_004dc1e0() == (int)hWnd)
+        if (::FUN_004dc1e0() == (intptr_t)hWnd)
             return 1;
         break;
     case 0x112:
@@ -7563,16 +7569,16 @@ FUN_0087dcb0::~FUN_0087dcb0()
 
         if (!((unsigned char)(reinterpret_cast<::FUN_004077c0_shell *>((((H*)this)))->FUN_004077c0())))
         {
-            reinterpret_cast<::FUN_0093a660_class *>((((H*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_0093a660((int)(this));
-            reinterpret_cast<::FUN_00967350_shell *>((((H*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_00967350((int)(this));
+            reinterpret_cast<::FUN_0093a660_class *>((((H*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_0093a660((std::intptr_t)(this));
+            reinterpret_cast<::FUN_00967350_shell *>((((H*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_00967350((int)(std::uintptr_t)(this));
             reinterpret_cast<::FUN_0096e6f0_shell *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->RemoveActor((::Actor *)(void *)(this));
             ::FUN_0087fd20((::FUN_0087fd20_Class *)(((H*)this)));
-            reinterpret_cast<::FUN_00906050_Class *>((((H*)&(*reinterpret_cast<int *>(&::fnv_008a20d0::g_011f11e0)))))->FUN_00906050((int)(this));
-            reinterpret_cast<::F8660Owner *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00978660((unsigned int)(this));
+            reinterpret_cast<::FUN_00906050_Class *>((((H*)&(*reinterpret_cast<int *>(&::fnv_008a20d0::g_011f11e0)))))->FUN_00906050((int)(std::uintptr_t)(this));
+            reinterpret_cast<::F8660Owner *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00978660((unsigned int)(std::uintptr_t)(this));
             if (!((unsigned char)(reinterpret_cast<::FUN_004226e0_shell *>((((H*)(*reinterpret_cast<void * *>(&::g_dataHandler)))))->FUN_004226e0())))
             {
                 reinterpret_cast<::MagicTarget *>(this)->DispelAllEffects();
-                ::FUN_0066e100((unsigned int)(this));
+                ::FUN_0066e100((unsigned int)(std::uintptr_t)(this));
                 reinterpret_cast<::fnv_0092ed60::FNVCurrent *>((((H*)this)))->FUN_0092ed60(1);
                 reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((((H*)this)))->FUN_00881680(0);
                 reinterpret_cast<::fnv_00976680::Host *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00976680((::fnv_00976680::Obj *)(void *)(this));
@@ -7580,12 +7586,12 @@ FUN_0087dcb0::~FUN_0087dcb0()
                 reinterpret_cast<::CrimeProcess *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00975320((::TESForm *)(void *)(this));
                 if (m_68)
                 {
-                    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 1 || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 0)
+                    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 1 || ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((H*)m_68)))->FUN_0045cd60())) == 0)
                     {
                         void* p = ((void *)(::FUN_00b4f5c0()));
                         if (p)
                         {
-                            reinterpret_cast<::S00b66050_cls *>((((H*)p)))->RemoveEntry((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((H*)this)))->FUN_0084e3a0()))));
+                            reinterpret_cast<::S00b66050_cls *>((((H*)p)))->RemoveEntry(reinterpret_cast<::FUN_0084e3a0_Class *>((((H*)this)))->FUN_0084e3a0());
                         }
                         reinterpret_cast<::Actor8c30 *>((((H*)this)))->FUN_008c30a0();
                     }
@@ -7607,21 +7613,18 @@ FUN_0087dcb0::~FUN_0087dcb0()
 }
 }  // namespace fnv_0087dcb0
 
-namespace InstalledPathDetail {
-}
-
 // Opens the FalloutNV registry key and queries the Installed Path value into pBuffer, closing the key afterwards.
 // @fnv 0x00876a70
 void FUN_00876a70(char* pBuffer, unsigned long cbBuffer)
 {
-    void* hKey;
+    HKEY hKey;
     const char* subKey = "Software\\Bethesda Softworks\\FalloutNV";
     unsigned long cbData = cbBuffer;
-    if (InstalledPathDetail::RegOpenKeyExA((void*)(long)0x80000002, subKey, 0, 1, &hKey) == 0)
+    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, subKey, 0, KEY_QUERY_VALUE, &hKey) == 0)
     {
-        InstalledPathDetail::RegQueryValueExA(hKey, "Installed Path", 0, 0, (unsigned char*)pBuffer, &cbData);
+        RegQueryValueExA(hKey, "Installed Path", 0, 0, (unsigned char*)pBuffer, &cbData);
     }
-    InstalledPathDetail::RegCloseKey(hKey);
+    RegCloseKey(hKey);
 }
 
 #include "generated/data/staging/blk_00860000_od.inc"

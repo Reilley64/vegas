@@ -6664,13 +6664,13 @@ void FUN_004490e0_Class::FUN_004490e0()
 
 struct FUN_0044ee20_class
 {
-    int GetElementAddress(int index);
+    intptr_t GetElementAddress(int index);
 };
 
 // @fnv 0x0044ee20
-int FUN_0044ee20_class::GetElementAddress(int index)
+intptr_t FUN_0044ee20_class::GetElementAddress(int index)
 {
-    return *(int*)((char*)this + 0xc) + index * 4;
+    return *(intptr_t*)((char*)this + 0xc) + index * 4;
 }
 
 struct FUN_00905330
@@ -12784,7 +12784,7 @@ struct QueuedTask
 
 struct TaskProcessor
 {
-    void FUN_0044ac40(QueuedTask* pTask, int arg);
+    void FUN_0044ac40(QueuedTask* pTask, intptr_t arg);
 };
 // @fnv 0x004454d0
 void SaveOwner_b9539::FUN_004454d0(std::intptr_t a)
@@ -12797,7 +12797,7 @@ void SaveOwner_b9539::FUN_004454d0(std::intptr_t a)
 }
 
 // @fnv 0x0044ac40
-void TaskProcessor::FUN_0044ac40(QueuedTask* pTask, int arg)
+void TaskProcessor::FUN_0044ac40(QueuedTask* pTask, intptr_t arg)
 {
     FUN_0044ada0(0);
     while (true)

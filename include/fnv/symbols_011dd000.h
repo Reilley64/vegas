@@ -130,7 +130,7 @@ extern FootstepEntry DAT_011dd650[];
 // 0x011dd85c
 extern unsigned char DAT_011dd85c;
 // 0x011dd87c
-extern int DAT_011dd87c[];
+extern const char* DAT_011dd87c[];
 // 0x011dd8cc
 extern ::GlobalObject_0044f440 g_011dd8cc;
 // 0x011dd8e8

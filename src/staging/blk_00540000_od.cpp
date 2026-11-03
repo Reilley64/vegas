@@ -2,6 +2,7 @@
 // src/staging/blk_00540000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -31,7 +32,6 @@
 #include "fnv/decl/FUN_00c74760.h"
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/Range62A.h"
 #include "fnv/decl/SeenData_S.h"
 #include "fnv/decl/TESContainer.h"
@@ -76,12 +76,12 @@
 
 struct FUN_00540700_Class
 {
-    int FUN_00540780(int);
-    int FUN_00540700();
+    void* FUN_00540780(int);
+    void* FUN_00540700();
 };
 
 // @fnv 0x00540700
-int FUN_00540700_Class::FUN_00540700()
+void* FUN_00540700_Class::FUN_00540700()
 {
     return FUN_00540780(0x25);
 }
@@ -181,7 +181,7 @@ void FUN_00554650_Class::FUN_00554650()
 
 
 // @fnv 0x005586c0
-void __cdecl FUN_005586c0(int a)
+void __cdecl FUN_005586c0(intptr_t a)
 {
     ::WriteRenderStatsFile((::RenderStats *)(a));
 }
@@ -437,6 +437,8 @@ void* FUN_005598d0_Class::FUN_005598d0(unsigned int flags)
 
 struct FUN_005422b0Class
 {
+    void* m_pVtbl;
+    void* m_pList;
     void FUN_00559460();
     void* FUN_00559940(unsigned int flags);
 public:
@@ -558,11 +560,11 @@ struct FUN_00540940_Class
     void* InitBuffer(unsigned int size);
 };
 // @fnv 0x00540780
-int FUN_00540700_Class::FUN_00540780(int a)
+void* FUN_00540700_Class::FUN_00540780(int a)
 {
     reinterpret_cast<::FUN_00540940_Class *>((((FUN_00540940_Standin*)this)))->InitBuffer(a);
     *(void**)this = (void*)&DAT_0102e44c;
-    return (int)this;
+    return this;
 }
 
 // Sets the vtable and size, allocates size*4 bytes, zeroes them, and returns this.
@@ -603,7 +605,7 @@ struct FUN_00540c20_Holder
     {}
     virtual void vf(int, int)
     {}
-    void CallVirtualWithArgs(int, int);
+    void CallVirtualWithArgs(intptr_t, intptr_t);
 };
 // @fnv 0x00540b70
 void FUN_00540b70_Class::FUN_00540b70(void* a)
@@ -611,14 +613,14 @@ void FUN_00540b70_Class::FUN_00540b70(void* a)
     reinterpret_cast<::Range62A *>(this)->DestroyRange();
     if (!(m1 & 0x80000000))
     {
-        reinterpret_cast<::FUN_00540c20_Holder *>((((FUN_00540c20_Class*)a)))->CallVirtualWithArgs((int)(m0), (int)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_00540c20_Holder *>((((FUN_00540c20_Class*)a)))->CallVirtualWithArgs((intptr_t)(m0), (intptr_t)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()));
     }
     m0 = 0;
     m1 = 0x80000000;
 }
 // Calls the virtual function vf with the two arguments and returns.
 // @fnv 0x00540c20
-void FUN_00540c20_Holder::CallVirtualWithArgs(int aiArg1, int aiArg2)
+void FUN_00540c20_Holder::CallVirtualWithArgs(intptr_t aiArg1, intptr_t aiArg2)
 {
     int v = 1;
     vf(aiArg1, aiArg2);
@@ -655,7 +657,7 @@ int __cdecl FUN_005510f0();
 void __cdecl FUN_00551100(int a);
 // If a is nonzero, clears DAT_011ca080 when it equals a, and calls FUN_00551100(0) when FUN_005510f0() returns a.
 // @fnv 0x005510b0
-void __cdecl ClearGlobalIfMatches(int aiValue)
+void __cdecl ClearGlobalIfMatches(intptr_t aiValue)
 {
     if (aiValue)
     {
@@ -687,12 +689,12 @@ struct FUN_005516f0_Class
 // @fnv 0x005516f0
 void FUN_005516f0_Class::SetFlag400(bool set)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int flags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     if (set)
         flags |= 0x400;
     else
         flags &= ~0x400;
-    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)this)))->AssignLandTexture((::TESLandTexture *)(flags));
+    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR*)this)))->AssignLandTexture((::TESLandTexture *)(uintptr_t)(flags));
 }
 
 struct MemoryManager
@@ -775,7 +777,7 @@ void __cdecl CallIfPresent()
 {
     if ((*reinterpret_cast<::fnv_00554780::Flt *>(&::g_011ca0d8)))
     {
-        Tgt* t = (Tgt*)(unsigned int)(*reinterpret_cast<::fnv_00554780::Flt *>(&::g_011ca0d8));
+        Tgt* t = *reinterpret_cast<Tgt **>(&::g_011ca0d8);
         t->f49();
     }
 }
@@ -946,7 +948,6 @@ void FUN_00559c90_Class::FUN_00559c90(void* a1)
 }
 
 namespace fnv_00559d20 {
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 
 struct FUN_00559d20_Class
 {
@@ -1209,7 +1210,7 @@ struct P03MM
 char* __cdecl FUN_00553320(unsigned char count, unsigned int size)
 {
     char* ptr = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)::FUN_00401020())))->FUN_00aa3e40(count + size);
-    unsigned char len = (unsigned char)((count - 1) & (unsigned int)ptr);
+    unsigned char len = (unsigned char)((count - 1) & (unsigned int)(uintptr_t)ptr);
     len = count - len;
     ptr += len;
     ptr[-1] = len;
@@ -1248,20 +1249,16 @@ FUN_00559ad0_Class::FUN_00559ad0_Class(unsigned short ausCount, unsigned short b
 }
 }  // namespace fnv_00559ad0
 
-__declspec(thread) char g_tls_00551680[0x25e];
-
 // @fnv 0x00551680
 char __cdecl FUN_00551680()
 {
-    return (*reinterpret_cast<char (*)[606]>(&::g_tlsBlock))[0x25d];
+    return ::g_tlsBlock.flag25d;
 }
-
-__declspec(thread) bool g_tlsValue;
 
 // @fnv 0x005516a0
 void __cdecl FUN_005516a0(bool value)
 {
-    g_tlsValue = value;
+    ::g_tlsBlock.flag25d = value;
 }
 
 struct FUN_00556850_Class
@@ -1594,7 +1591,7 @@ int __cdecl FUN_00556870(float* afPosition)
             ::WorldToCellOffset((*(const ::NiPoint3 *)(afPosition)), 1, (*(int *)(&flagX)), (*(int *)(&cellF)));
             Cell68* a;
             a = n->FUN_00556ef0(s, cy, 0);
-            if (a && reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(flagX), cellF))
+            if (a && reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(intptr_t)(flagX), cellF))
                 outX2++;
             Cell68* flagY;
             flagY = 0;
@@ -1603,12 +1600,12 @@ int __cdecl FUN_00556870(float* afPosition)
             {
                 res = true;
                 flagY = n->FUN_00556ef0(s, cy + 1, 0);
-                if (flagY && reinterpret_cast<::FUN_008799c0_shell *>((flagY))->IsValueSeen((void *)(flagX), 0))
+                if (flagY && reinterpret_cast<::FUN_008799c0_shell *>((flagY))->IsValueSeen((void *)(intptr_t)(flagX), 0))
                     outX2 += 1;
             }
             else if (a)
             {
-                if (reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(flagX), cellF + 1))
+                if (reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(intptr_t)(flagX), cellF + 1))
                     outX2++;
             }
             bool cnt;
@@ -1618,34 +1615,34 @@ int __cdecl FUN_00556870(float* afPosition)
             {
                 cnt = true;
                 cellY = n->FUN_00556ef0(s + 1, cy, 0);
-                if (cellY && reinterpret_cast<::FUN_008799c0_shell *>((cellY))->IsValueSeen((void *)(0), cellF))
+                if (cellY && reinterpret_cast<::FUN_008799c0_shell *>((cellY))->IsValueSeen((void *)(intptr_t)(0), cellF))
                     ++outX2;
             }
             else if (a)
             {
-                if (reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(flagX + 1), cellF))
+                if (reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(intptr_t)(flagX + 1), cellF))
                     outX2 += 1;
             }
             if (res && cnt)
             {
                 Cell68* outY;
                 outY = n->FUN_00556ef0(1 + s, cy + 1, 0);
-                if (outY && reinterpret_cast<::FUN_008799c0_shell *>((outY))->IsValueSeen((void *)(0), 0))
+                if (outY && reinterpret_cast<::FUN_008799c0_shell *>((outY))->IsValueSeen((void *)(intptr_t)(0), 0))
                     outX2 += 1;
             }
             else if (res)
             {
-                if (flagY && reinterpret_cast<::FUN_008799c0_shell *>((flagY))->IsValueSeen((void *)(1 + flagX), 0))
+                if (flagY && reinterpret_cast<::FUN_008799c0_shell *>((flagY))->IsValueSeen((void *)(intptr_t)(1 + flagX), 0))
                     outX2 += 1;
             }
             else if (cnt)
             {
-                if (cellY && reinterpret_cast<::FUN_008799c0_shell *>((cellY))->IsValueSeen((void *)(0), cellF + 1))
+                if (cellY && reinterpret_cast<::FUN_008799c0_shell *>((cellY))->IsValueSeen((void *)(intptr_t)(0), cellF + 1))
                     ++outX2;
             }
             else
             {
-                if (a && reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(1 + flagX), 1 + cellF))
+                if (a && reinterpret_cast<::FUN_008799c0_shell *>((a))->IsValueSeen((void *)(intptr_t)(1 + flagX), 1 + cellF))
                     outX2 += 1;
             }
         }
@@ -1668,7 +1665,7 @@ int __cdecl FUN_00556870(float* afPosition)
                 objB = ((::Cell68 *)(reinterpret_cast<::TESWorldSpace *>((cellC))->GetCellAtGridPosition(cellD, cy2)));
                 Cell68* cx2;
                 cx2 = objB ? ((::Cell68 *)(reinterpret_cast<::FUN_00555bc0_shell *>((objB))->FindSeenData())) : 0;
-                if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(diag), j)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
+                if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(intptr_t)(diag), j)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
                     ++outX2;
                 Cell68* cellX;
                 cellX = 0;
@@ -1681,12 +1678,12 @@ int __cdecl FUN_00556870(float* afPosition)
                     flagY2 = true;
                     cellE = ((::Cell68 *)(reinterpret_cast<::TESWorldSpace *>((cellC))->GetCellAtGridPosition(cellD, cy2 + 1)));
                     cellX = cellE ? ((::Cell68 *)(reinterpret_cast<::FUN_00555bc0_shell *>((cellE))->FindSeenData())) : 0;
-                    if ((cellX && reinterpret_cast<::FUN_008799c0_shell *>((cellX))->IsValueSeen((void *)(diag), 0)) || (cellE && reinterpret_cast<::FUN_00556850_Class *>((cellE))->IsFlagSet()))
+                    if ((cellX && reinterpret_cast<::FUN_008799c0_shell *>((cellX))->IsValueSeen((void *)(intptr_t)(diag), 0)) || (cellE && reinterpret_cast<::FUN_00556850_Class *>((cellE))->IsFlagSet()))
                         ++outX2;
                 }
                 else
                 {
-                    if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(diag), j + 1)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
+                    if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(intptr_t)(diag), j + 1)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
                         ++outX2;
                 }
                 Cell68* mid3 = 0;
@@ -1699,12 +1696,12 @@ int __cdecl FUN_00556870(float* afPosition)
                     parent = true;
                     outX = ((::Cell68 *)(reinterpret_cast<::TESWorldSpace *>((cellC))->GetCellAtGridPosition(cellD + 1, cy2)));
                     mid3 = outX ? ((::Cell68 *)(reinterpret_cast<::FUN_00555bc0_shell *>((outX))->FindSeenData())) : 0;
-                    if ((mid3 && reinterpret_cast<::FUN_008799c0_shell *>((mid3))->IsValueSeen((void *)(0), j)) || (outX && reinterpret_cast<::FUN_00556850_Class *>((outX))->IsFlagSet()))
+                    if ((mid3 && reinterpret_cast<::FUN_008799c0_shell *>((mid3))->IsValueSeen((void *)(intptr_t)(0), j)) || (outX && reinterpret_cast<::FUN_00556850_Class *>((outX))->IsFlagSet()))
                         outX2 += 1;
                 }
                 else
                 {
-                    if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(diag + 1), j)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
+                    if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(intptr_t)(diag + 1), j)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
                         ++outX2;
                 }
                 if (flagY2 && parent)
@@ -1712,22 +1709,22 @@ int __cdecl FUN_00556870(float* afPosition)
                     n = ((::Cell68 *)(reinterpret_cast<::TESWorldSpace *>((cellC))->GetCellAtGridPosition(cellD + 1, 1 + cy2)));
                     Cell68* count;
                     count = n ? ((::Cell68 *)(reinterpret_cast<::FUN_00555bc0_shell *>((n))->FindSeenData())) : 0;
-                    if ((count && reinterpret_cast<::FUN_008799c0_shell *>((count))->IsValueSeen((void *)(0), 0)) || (n && reinterpret_cast<::FUN_00556850_Class *>((n))->IsFlagSet()))
+                    if ((count && reinterpret_cast<::FUN_008799c0_shell *>((count))->IsValueSeen((void *)(intptr_t)(0), 0)) || (n && reinterpret_cast<::FUN_00556850_Class *>((n))->IsFlagSet()))
                         outX2 += 1;
                 }
                 else if (flagY2)
                 {
-                    if ((cellX && reinterpret_cast<::FUN_008799c0_shell *>((cellX))->IsValueSeen((void *)(diag + 1), 0)) || (cellE && reinterpret_cast<::FUN_00556850_Class *>((cellE))->IsFlagSet()))
+                    if ((cellX && reinterpret_cast<::FUN_008799c0_shell *>((cellX))->IsValueSeen((void *)(intptr_t)(diag + 1), 0)) || (cellE && reinterpret_cast<::FUN_00556850_Class *>((cellE))->IsFlagSet()))
                         ++outX2;
                 }
                 else if (parent)
                 {
-                    if ((mid3 && reinterpret_cast<::FUN_008799c0_shell *>((mid3))->IsValueSeen((void *)(0), j + 1)) || (outX && reinterpret_cast<::FUN_00556850_Class *>((outX))->IsFlagSet()))
+                    if ((mid3 && reinterpret_cast<::FUN_008799c0_shell *>((mid3))->IsValueSeen((void *)(intptr_t)(0), j + 1)) || (outX && reinterpret_cast<::FUN_00556850_Class *>((outX))->IsFlagSet()))
                         outX2++;
                 }
                 else
                 {
-                    if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(1 + diag), 1 + j)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
+                    if ((cx2 && reinterpret_cast<::FUN_008799c0_shell *>((cx2))->IsValueSeen((void *)(intptr_t)(1 + diag), 1 + j)) || (objB && reinterpret_cast<::FUN_00556850_Class *>((objB))->IsFlagSet()))
                         outX2 += 1;
                 }
             }
@@ -1793,8 +1790,8 @@ void FUN_005593a0_cls::FUN_005593a0(ItemNode** apNode, int* piValue, FUN_0055990
 // @fnv 0x00559460
 void FUN_005422b0Class::FUN_00559460()
 {
-    *(int*)this = (int)&DAT_0102f3b8;
-    ::FUN_004ede70((void *)(*(int*)((char*)this + 4)));
+    m_pVtbl = &DAT_0102f3b8;
+    ::FUN_004ede70(m_pList);
 }
 
 struct FUN_00559bc0_node
@@ -2211,7 +2208,7 @@ struct FUN_00559810 : CleanupBase559810
 // @fnv 0x00559810
 FUN_00559810::~FUN_00559810()
 {
-    reinterpret_cast<::NiTPointerListBase *>(this)->FUN_00559c30();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(this)->RemoveAll();
 }
 
 struct FUN_00559eb0
@@ -2234,7 +2231,7 @@ FUN_00559e50_Class* FUN_00559e50_Class::InitializeWithGlobal(int arg)
 // @fnv 0x00559eb0
 FUN_00559eb0::FUN_00559eb0(int aiCount)
 {
-    *(int*)this = (int)&DAT_0102f468;
+    *(void**)this = &DAT_0102f468;
     this->count = aiCount;
     this->flags = 0;
     unsigned int byteCount = (unsigned int)(this->count << 2);
@@ -2611,13 +2608,13 @@ struct Sweep540
 {
     int m0;
     int m4;
-    void SetSize(int a, int b);
+    void SetSize(intptr_t a, int b);
 };
 // @fnv 0x00540750
 void FUN_00540750_Class::FUN_00540750(int aiValue)
 {
     FUN_004a4840_Class local = {};
-    reinterpret_cast<::Sweep540 *>((this))->SetSize(local.FUN_004a4840((int)this), aiValue);
+    reinterpret_cast<::Sweep540 *>((this))->SetSize(local.FUN_004a4840((intptr_t)this), aiValue);
 }
 struct Tag540
 {
@@ -2625,7 +2622,7 @@ struct Tag540
 
 // Calls ReserveCapacity(a, b), runs FUN_0040fbe0 on the ranges between m4 and b, then sets m4 to b.
 // @fnv 0x00540860
-void Sweep540::SetSize(int a, int b)
+void Sweep540::SetSize(intptr_t a, int b)
 {
     reinterpret_cast<::C540BC0Array *>(this)->ReserveCapacity((*(::C540BC0Allocator *)(a)), b);
     ::FUN_0040fbe0();
@@ -2655,7 +2652,7 @@ void FUN_0055a1e0_Class::FUN_0055a1e0(FUN_0055a240_Obj* pObj)
 {
     FUN_0055a240_Obj* m = pObj;
     FUN_0055a240_Obj* n = m;
-    n ? ((int)(reinterpret_cast<::FUN_0055a240_Class *>((n))->FUN_0055a240(1))) : 0;
+    n ? ((uintptr_t)(reinterpret_cast<::FUN_0055a240_Class *>((n))->FUN_0055a240(1))) : 0;
 }
 // Calls FUN_0055a290, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x0055a240

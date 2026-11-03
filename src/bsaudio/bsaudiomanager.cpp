@@ -9633,10 +9633,10 @@ typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
 extern NiPoint3_audio DAT_011f426c;
 struct FUN_00adcd00_cls
 {
-    void FUN_00adcd00(int a, int b);
+    void FUN_00adcd00(intptr_t a, intptr_t b);
 };
 // @fnv 0x00adcd00
-void FUN_00adcd00_cls::FUN_00adcd00(int a, int b)
+void FUN_00adcd00_cls::FUN_00adcd00(intptr_t a, intptr_t b)
 {
     reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x2a, 0, a, b, (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00adcd00::NiPointer_audio< ::fnv_00adcd00::NiRefObject_audio> &)(0)), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00adcd00::NiPoint3_audio &)(DAT_011f426c)));
 }

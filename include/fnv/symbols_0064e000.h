@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Alloc64e9;
 struct C64E550Allocator;
@@ -18,13 +19,13 @@ struct S_0064e8c0_Blk;
 // 0x0064e430
 extern "C" void FUN_0064e430(int, int);
 // 0x0064e4b0
-void FUN_0064e4b0(int, int, int);
+void FUN_0064e4b0(int, int, intptr_t);
 // 0x0064e4e0
 void FUN_0064e4e0(::ItE4E0, ::ItE4E0, ::ItE4E0);
 // 0x0064e550
 void FUN_0064e550(::C64E550Element *, ::C64E550Element *, ::C64E550Element *, ::C64E550Allocator *);
 // 0x0064e5a0
-int FUN_0064e5a0(int, int, int);
+int FUN_0064e5a0(intptr_t, intptr_t, int);
 // 0x0064e600
 void FUN_0064e600(int *, int *, ::FUN_0065e9a0_holder *);
 // 0x0064e680
@@ -32,11 +33,11 @@ void FUN_0064e680(::FUN_0064e680_S *, ::FUN_0064e680_S *, ::FUN_0064e680_S *);
 // 0x0064e6c0
 extern "C" void FUN_0064e6c0(void *, void *, void *, unsigned char);
 // 0x0064e710
-void ConstructArrayWithRollback(char *, unsigned int, void *, ::FUN_0064e7d0_class *);
+void ConstructArrayWithRollback(char *, uintptr_t, void *, ::FUN_0064e7d0_class *);
 // 0x0064e7f0
 ::FUN_0064e7f0_S *CopyStructRange(::FUN_0064e7f0_S *, ::FUN_0064e7f0_S *, ::FUN_0064e7f0_S *);
 // 0x0064e840
-void ForwardToHandler(int, int, int, int);
+void ForwardToHandler(int, int, intptr_t, intptr_t);
 // 0x0064e860
 ::S_0064e860_Block *FUN_0064e860(::S_0064e860_Block *, ::S_0064e860_Block *, ::S_0064e860_Block *);
 // 0x0064e8c0

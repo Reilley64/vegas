@@ -4287,12 +4287,12 @@ FUN_00558d70_Class* FUN_00558d70_Class::FUN_00558d70(int a)
 struct FUN_00558dd0_class
 {
     int m_iWordAt00;
-    int m_iWordAt04;
-    int FUN_00558dd0(unsigned int index);
+    intptr_t m_iWordAt04;
+    intptr_t FUN_00558dd0(unsigned int index);
 };
 
 // @fnv 0x00558dd0
-int FUN_00558dd0_class::FUN_00558dd0(unsigned int index)
+intptr_t FUN_00558dd0_class::FUN_00558dd0(unsigned int index)
 {
     return this->m_iWordAt04 + index * 16;
 }

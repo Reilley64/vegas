@@ -2,6 +2,7 @@
 // src/staging/blk_00b80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <new>
 #include <windows.h>
@@ -94,6 +95,7 @@
 #include "fnv/symbols_01203000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/decl/NiD3DGPUProgramCache.h"
 #include "../../include/layout_support.h"
 
 
@@ -206,8 +208,8 @@ struct FUN_00b8d6c0_class
 // @fnv 0x00b8d6c0
 FUN_00b8d6c0_class* FUN_00b8d6c0_class::FUN_00b8d6c0(int aiFlags)
 {
-    *(int*)this = (int)&DAT_010b06c0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b06a0;
+    *(void**)this = (void*)&DAT_010b06c0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b06a0;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -233,8 +235,8 @@ struct FUN_00b8d700
 // @fnv 0x00b8d700
 FUN_00b8d700::FUN_00b8d700()
 {
-    *(int*)this = (int)&::DAT_010b0860;
-    *(int*)((char*)this + 0x6c) = (int)&::DAT_010b083c;
+    *(void**)this = (void*)&::DAT_010b0860;
+    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b083c;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8d700
@@ -248,8 +250,8 @@ struct FUN_00b8d950_class
 // @fnv 0x00b8d950
 FUN_00b8d950_class* FUN_00b8d950_class::FUN_00b8d950(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b0a00;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b09dc;
+    *(void**)this = (void*)&DAT_010b0a00;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b09dc;
     FUN_00c03a20();
     if ((int)abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -292,7 +294,7 @@ struct FUN_00b8daa0_class
 void* FUN_00b8daa0_class::FUN_00b8daa0(bool abFree)
 {
     vtbl = (int*)&DAT_010b0b98;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b0b78;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b0b78;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -345,8 +347,8 @@ struct FUN_00b8de90_Class
 // @fnv 0x00b8de90
 FUN_00b8de90_Class* FUN_00b8de90_Class::FUN_00b8de90(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b1040;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b101c;
+    *(void**)this = (void*)&DAT_010b1040;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b101c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -408,8 +410,8 @@ struct FUN_00b8e130_class
 // @fnv 0x00b8e130
 FUN_00b8e130_class* FUN_00b8e130_class::FUN_00b8e130(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b1340;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b1320;
+    *(void**)this = (void*)&DAT_010b1340;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b1320;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -454,8 +456,8 @@ struct FUN_00b8e2c0 : public ImageSpaceEffectShader
 // @fnv 0x00b8e2c0
 FUN_00b8e2c0::FUN_00b8e2c0()
 {
-    *(unsigned int*)this = (unsigned int)&::DAT_010b1640;
-    *(unsigned int*)((char*)this + 0x6c) = (unsigned int)&::DAT_010b1620;
+    *(void**)this = (void*)&::DAT_010b1640;
+    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b1620;
     reinterpret_cast<::FUN_00a41520_cls *>((((ImageSpaceTextureArray*)((char*)this + 0x94))))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8e2c0
@@ -494,14 +496,14 @@ FUN_00b8ee20_class::FUN_00b8ee20_class()
 void FUN_00c03a20();
 struct FUN_00b8ef60_class
 {
-    int m_vtbl;
+    intptr_t m_vtbl;
     FUN_00b8ef60_class* FUN_00b8ef60(bool del);
 };
 // @fnv 0x00b8ef60
 FUN_00b8ef60_class* FUN_00b8ef60_class::FUN_00b8ef60(bool abFree)
 {
-    m_vtbl = (int)&DAT_010b2140;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b211c;
+    m_vtbl = (intptr_t)&DAT_010b2140;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b211c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -538,8 +540,8 @@ struct FUN_00b8f2b0_class
 // @fnv 0x00b8f2b0
 void* FUN_00b8f2b0_class::FUN_00b8f2b0(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b2490;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2470;
+    *(void**)this = (void*)&DAT_010b2490;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2470;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -601,8 +603,8 @@ struct FUN_00b8f660 : public ImageSpaceEffectShader
 // @fnv 0x00b8f660
 FUN_00b8f660::FUN_00b8f660()
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_010b2920));
-    *(int*)((char*)this + 0x6c) = (int)&(*reinterpret_cast<int *>(&::DAT_010b28fc));
+    *(void**)this = (void*)&::DAT_010b2920;
+    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b28fc;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8f660
@@ -653,8 +655,8 @@ struct FUN_00b8f8f0_class
 // @fnv 0x00b8f8f0
 FUN_00b8f8f0_class* FUN_00b8f8f0_class::FUN_00b8f8f0(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b2c10;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2bec;
+    *(void**)this = (void*)&DAT_010b2c10;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2bec;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -680,8 +682,8 @@ struct FUN_00b8f930 : public ImageSpaceEffectShader
 // @fnv 0x00b8f930
 FUN_00b8f930::FUN_00b8f930()
 {
-    *(int*)this = (int)&::DAT_010b2db0;
-    *(int*)((char*)this + 0x6c) = (int)&::DAT_010b2d8c;
+    *(void**)this = (void*)&::DAT_010b2db0;
+    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b2d8c;
     reinterpret_cast<::FUN_00a41520_cls *>(&(arr))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8f930
@@ -689,7 +691,7 @@ FUN_00b8f930::FUN_00b8f930()
 
 struct FUN_00b8fa40_class
 {
-    int vtbl;
+    intptr_t vtbl;
     int m_00b2d8c;
     int m_00b2db0;
     void FUN_00c03a20();
@@ -700,8 +702,8 @@ struct FUN_00b8fa40_class
 // @fnv 0x00b8fa40
 FUN_00b8fa40_class::FUN_00b8fa40_class(bool abDelete)
 {
-    vtbl = (int)&DAT_010b2db0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2d8c;
+    vtbl = (intptr_t)&DAT_010b2db0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2d8c;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (abDelete & 1)
         operator delete(this, 0xd0);
@@ -724,8 +726,8 @@ struct FUN_00b8fa80_class : public ImageSpaceEffectShader
 // @fnv 0x00b8fa80
 FUN_00b8fa80_class::FUN_00b8fa80_class()
 {
-    *(int*)this = (int)&::DAT_010b2f50;
-    *(int*)((char*)this + 0x6c) = (int)&::DAT_010b2f30;
+    *(void**)this = (void*)&::DAT_010b2f50;
+    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b2f30;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8fa80
@@ -737,8 +739,8 @@ struct FUN_00b8fba0_class
 // @fnv 0x00b8fba0
 void* FUN_00b8fba0_class::FUN_00b8fba0(int aiFlags)
 {
-    *(int*)this = (int)&DAT_010b2f50;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2f30;
+    *(void**)this = (void*)&DAT_010b2f50;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2f30;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -773,8 +775,8 @@ struct FUN_00b8fd00_Class
 // @fnv 0x00b8fd00
 FUN_00b8fd00_Class* FUN_00b8fd00_Class::FUN_00b8fd00(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b30e0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b30c0;
+    *(void**)this = (void*)&DAT_010b30e0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b30c0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -811,8 +813,8 @@ struct FUN_00b8fe60_class
 // @fnv 0x00b8fe60
 FUN_00b8fe60_class* FUN_00b8fe60_class::FUN_00b8fe60(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b3268;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b3244;
+    *(void**)this = (void*)&DAT_010b3268;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b3244;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -836,8 +838,8 @@ struct FUN_00b8fea0 : ImageSpaceEffectShader
 // @fnv 0x00b8fea0
 FUN_00b8fea0::FUN_00b8fea0()
 {
-    *(int*)this = (int)&::DAT_010b33f0;
-    *(int*)((char*)this + 0x6c) = (int)&::DAT_010b33cc;
+    *(void**)this = (void*)&::DAT_010b33f0;
+    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b33cc;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8fea0
@@ -851,8 +853,8 @@ struct FUN_00b8ffb0_class
 // @fnv 0x00b8ffb0
 FUN_00b8ffb0_class* FUN_00b8ffb0_class::FUN_00b8ffb0(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b33f0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b33cc;
+    *(void**)this = (void*)&DAT_010b33f0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b33cc;
     FUN_00c03a20();
     if ((unsigned char)abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -954,17 +956,17 @@ FUN_00b917c0::FUN_00b917c0()
 void FUN_00c03a20();
 struct FUN_00b918c0_Class
 {
-    int FUN_00b918c0(bool flag);
+    void* FUN_00b918c0(bool flag);
 };
 // @fnv 0x00b918c0
-int FUN_00b918c0_Class::FUN_00b918c0(bool abFree)
+void* FUN_00b918c0_Class::FUN_00b918c0(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b4de8;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b4dc8;
+    *(void**)this = (void*)&DAT_010b4de8;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b4dc8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
-    return (int)this;
+    return this;
 }
 
 namespace fnv_00b91900 {
@@ -1166,8 +1168,8 @@ struct FUN_00b92290_shell
 // @fnv 0x00b92290
 FUN_00b92290_shell* FUN_00b92290_shell::FUN_00b92290(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b57d0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b57b0;
+    *(void**)this = (void*)&DAT_010b57d0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b57b0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1179,14 +1181,14 @@ extern int DAT_010b5b10;
 void FUN_00c03a20();
 struct FUN_00b92570_class
 {
-    int vtbl;
+    intptr_t vtbl;
     FUN_00b92570_class* FUN_00b92570(bool del);
 };
 // @fnv 0x00b92570
 FUN_00b92570_class* FUN_00b92570_class::FUN_00b92570(bool abDelete)
 {
-    vtbl = (int)&DAT_010b5b10;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b5af0;
+    vtbl = (intptr_t)&DAT_010b5b10;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b5af0;
     FUN_00c03a20();
     if (abDelete & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1251,8 +1253,8 @@ struct FUN_00b927e0 : ImageSpaceEffectShader
 // @fnv 0x00b927e0
 FUN_00b927e0::FUN_00b927e0()
 {
-    *(unsigned int*)this = (unsigned int)&DAT_010b5ea8;
-    *(unsigned int*)((char*)this + 0x6c) = (unsigned int)&DAT_010b5e84;
+    *(void**)this = (void*)&DAT_010b5ea8;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b5e84;
     reinterpret_cast<::FUN_00a41520_cls *>((((ImageSpaceTexture*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b927e0
@@ -1332,9 +1334,8 @@ struct FUN_00b92b90
 // @fnv 0x00b92b90
 FUN_00b92b90::FUN_00b92b90(bool abDelete)
 {
-    int* p = (int*)this;
-    *p = (int)&DAT_010b61f0;
-    p[0x6c / 4] = (int)&DAT_010b61d0;
+    *(void**)this = (void*)&DAT_010b61f0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b61d0;
     FUN_00c03a20();
     if (abDelete & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1544,17 +1545,17 @@ extern int DAT_010b6d70;
 void FUN_00c03a20();
 struct FUN_00b93710_class
 {
-    int FUN_00b93710(bool flag);
+    void* FUN_00b93710(bool flag);
 };
 // @fnv 0x00b93710
-int FUN_00b93710_class::FUN_00b93710(bool abFree)
+void* FUN_00b93710_class::FUN_00b93710(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b6d90;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b6d70;
+    *(void**)this = (void*)&DAT_010b6d90;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6d70;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
-    return (int)this;
+    return this;
 }
 
 extern int DAT_010b6f38;
@@ -1585,8 +1586,8 @@ struct FUN_00b93bb0_class
 // @fnv 0x00b93bb0
 void* FUN_00b93bb0_class::FUN_00b93bb0(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b70d8;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b70b8;
+    *(void**)this = (void*)&DAT_010b70d8;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b70b8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1777,8 +1778,8 @@ struct FUN_00b94280_class : public ImageSpaceEffectShader
 // @fnv 0x00b94280
 FUN_00b94280_class::FUN_00b94280_class()
 {
-    *(int*)((char*)this + 0x00) = (int)&::DAT_010b7a50;
-    *(int*)((char*)this + 0x6c) = (int)&::DAT_010b7a2c;
+    *(void**)((char*)this + 0x00) = (void*)&::DAT_010b7a50;
+    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b7a2c;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b94280
@@ -1811,8 +1812,8 @@ struct FUN_00b944e0_class
 // @fnv 0x00b944e0
 FUN_00b944e0_class* FUN_00b944e0_class::FUN_00b944e0(bool abFree)
 {
-    *(int*)this = (int)&DAT_010b7bf0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b7bcc;
+    *(void**)this = (void*)&DAT_010b7bf0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b7bcc;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1891,8 +1892,8 @@ FUN_00b8d330::FUN_00b8d330()
 
 struct FUN_00b8d850 : ImageSpaceEffectShader
 {
-    int m_000[0x6c / 4];
-    int m_6c;
+    intptr_t m_000[0x6c / 4];
+    intptr_t m_6c;
     int m_070[0x94 / 4 - 0x6c / 4];
     NiTPrimitiveArray_ImageSpaceTexture___ m_094;
     FUN_00b8d850();
@@ -1901,8 +1902,8 @@ struct FUN_00b8d850 : ImageSpaceEffectShader
 // @fnv 0x00b8d850
 FUN_00b8d850::FUN_00b8d850()
 {
-    m_000[0] = (int)&DAT_010b0a00;
-    m_6c = (int)&DAT_010b09dc;
+    m_000[0] = (intptr_t)&DAT_010b0a00;
+    m_6c = (intptr_t)&DAT_010b09dc;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)&this->m_070[9])))->FUN_00a90180(2);
 }
 
@@ -1916,8 +1917,8 @@ struct FUN_00b8dae0_class : public ImageSpaceEffectShader
 // @fnv 0x00b8dae0
 FUN_00b8dae0_class::FUN_00b8dae0_class()
 {
-    *(int*)this = (int)&DAT_010b0d40;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b0d1c;
+    *(void**)this = (void*)&DAT_010b0d40;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b0d1c;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -1929,9 +1930,8 @@ struct FUN_00b8dc30_class : public ImageSpaceEffectShader
 // @fnv 0x00b8dc30
 FUN_00b8dc30_class::FUN_00b8dc30_class()
 {
-    int* v = (int*)this;
-    v[0] = (int)&DAT_010b0ec0;
-    v[0x1b] = (int)&DAT_010b0e9c;
+    *(void**)this = (void*)&DAT_010b0ec0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b0e9c;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -1947,8 +1947,8 @@ struct FUN_00b8ded0 : ImageSpaceEffectShader
 // @fnv 0x00b8ded0
 FUN_00b8ded0::FUN_00b8ded0()
 {
-    *(int*)this = (int)&DAT_010b11c0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b119c;
+    *(void**)this = (void*)&DAT_010b11c0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b119c;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -1962,8 +1962,8 @@ struct FUN_00b8e170 : ImageSpaceEffectShader
 // @fnv 0x00b8e170
 FUN_00b8e170::FUN_00b8e170()
 {
-    ((int*)this)[0] = (int)&DAT_010b14c0;
-    ((int*)this)[0x1b] = (int)&DAT_010b14a0;
+    *(void**)((char*)this + 0x0) = (void*)&DAT_010b14c0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b14a0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_00b8e204))->FUN_00a90180(2);
 }
 
@@ -1976,8 +1976,8 @@ struct FUN_00b8efa0 : public ImageSpaceEffectShader
 // @fnv 0x00b8efa0
 FUN_00b8efa0::FUN_00b8efa0()
 {
-    *(int*)this = (int)&DAT_010b2a98;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2a74;
+    *(void**)this = (void*)&DAT_010b2a98;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2a74;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -1991,8 +1991,8 @@ struct FUN_00b8f010_class : ImageSpaceEffectShader
 // @fnv 0x00b8f010
 FUN_00b8f010_class::FUN_00b8f010_class()
 {
-    *(int*)this = (int)&DAT_010b2308;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b22e8;
+    *(void**)this = (void*)&DAT_010b2308;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b22e8;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_094))->FUN_00a90180(2);
 }
 
@@ -2007,8 +2007,8 @@ struct FUN_00b8f1b0 : ImageSpaceEffectShader
 // @fnv 0x00b8f1b0
 FUN_00b8f1b0::FUN_00b8f1b0()
 {
-    *(int*)this = (int)&DAT_010b2490;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2470;
+    *(void**)this = (void*)&DAT_010b2490;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2470;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -2036,8 +2036,8 @@ struct FUN_00b8f520_class : ImageSpaceEffectShader
 // @fnv 0x00b8f520
 FUN_00b8f520_class::FUN_00b8f520_class()
 {
-    ((int*)this)[0] = (int)&DAT_010b27a8;
-    ((int*)this)[0x1b] = (int)&DAT_010b2784;
+    *(void**)((char*)this + 0x0) = (void*)&DAT_010b27a8;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2784;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(1);
 }
 
@@ -2152,8 +2152,8 @@ struct FUN_00b92d90 : ImageSpaceEffectShader
 // @fnv 0x00b92d90
 FUN_00b92d90::FUN_00b92d90()
 {
-    *(int*)this = (int)&DAT_010b6548;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b6524;
+    *(void**)this = (void*)&DAT_010b6548;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6524;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -2306,21 +2306,18 @@ struct GlobalObjectO2_00b8a9e0
     ~GlobalObjectO2_00b8a9e0();
     void* DestroyAndFree(bool);
 };
-__declspec(thread) int g_tls_2b4 = 59;
 struct FUN_00b8cad0_class
 {
     void SetValue(int value);
 };
-// Stores value at offset 0xac of this object, saving and restoring the thread-local g_tls_2b4 around the write.
+// Stores value at offset 0xac of this object, saving and restoring the thread's memory context around the write.
 // @fnv 0x00b8cad0
 void FUN_00b8cad0_class::SetValue(int value)
 {
-    int old = (*reinterpret_cast<int *>(&::currentAllocationContext));
+    int old = ::g_tlsBlock.memoryContext;
     *(int*)((char*)this + 0xac) = value;
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
+    ::g_tlsBlock.memoryContext = old;
 }
-
-extern int __tls_index;
 
 struct FUN_00b8cb00_class
 {
@@ -2329,14 +2326,13 @@ struct FUN_00b8cb00_class
     void FUN_00b8cb00(int value);
 };
 
-// Stores value into m_00b0 and re-reads/writes the thread-local tlsValue.
+// Stores value into m_00b0, saving and restoring the thread's memory context.
 // @fnv 0x00b8cb00
 void FUN_00b8cb00_class::FUN_00b8cb00(int value)
 {
-    static __declspec(thread) volatile int tlsValue = 59;
-    int iTlsValue = tlsValue;
+    int iTlsValue = ::g_tlsBlock.memoryContext;
     m_00b0 = value;
-    tlsValue = iTlsValue;
+    ::g_tlsBlock.memoryContext = iTlsValue;
 }
 
 void FUN_00c03a20();
@@ -2352,7 +2348,7 @@ struct FUN_00b8d810_class
 FUN_00b8d810_class::FUN_00b8d810_class(unsigned char flag)
 {
     vtbl = &DAT_010b0860;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b083c;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b083c;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flag & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -2434,8 +2430,8 @@ struct FUN_00b92500_class : ImageSpaceEffectShader
 // @fnv 0x00b92500
 FUN_00b92500_class::FUN_00b92500_class()
 {
-    *(int*)this = (int)&DAT_010b5b10;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b5af0;
+    *(void**)this = (void*)&DAT_010b5b10;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b5af0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00a90180(5);
 }
 
@@ -2449,8 +2445,8 @@ struct FUN_00b92bd0_class : ImageSpaceEffectShader
 // @fnv 0x00b92bd0
 FUN_00b92bd0_class::FUN_00b92bd0_class()
 {
-    *(int*)this = (int)&DAT_010b6398;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b6374;
+    *(void**)this = (void*)&DAT_010b6398;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6374;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -2492,7 +2488,7 @@ FUN_00b93600_class::FUN_00b93600_class()
 struct FUN_00b93950_class : ImageSpaceEffectShader
 {
     char pad[0x6c];
-    int m_6c;
+    intptr_t m_6c;
     char pad2[0x24];
     NiTPrimitiveArray_ImageSpaceTexture___ m_94;
     FUN_00b93950_class();
@@ -2501,8 +2497,8 @@ struct FUN_00b93950_class : ImageSpaceEffectShader
 // @fnv 0x00b93950
 FUN_00b93950_class::FUN_00b93950_class()
 {
-    *(int*)this = (int)&DAT_010b6f38;
-    m_6c = (int)&DAT_010b6f14;
+    *(void**)this = (void*)&DAT_010b6f38;
+    m_6c = (intptr_t)&DAT_010b6f14;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_94))->FUN_00a90180(4);
 }
 
@@ -2518,8 +2514,8 @@ struct FUN_00b93aa0_class : ImageSpaceEffectShader
 // @fnv 0x00b93aa0
 FUN_00b93aa0_class::FUN_00b93aa0_class()
 {
-    *(int*)this = (int)&DAT_010b70d8;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b70b8;
+    *(void**)this = (void*)&DAT_010b70d8;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b70b8;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(4);
 }
 
@@ -2538,8 +2534,8 @@ struct FUN_00b94130_class : ImageSpaceEffectShader
 // @fnv 0x00b94130
 FUN_00b94130_class::FUN_00b94130_class()
 {
-    *(int*)this = (int)&DAT_010b78b8;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b7898;
+    *(void**)this = (void*)&DAT_010b78b8;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b7898;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_ppData))->FUN_00a90180(2);
 }
 
@@ -2582,9 +2578,9 @@ FUN_00b9b930_class* FUN_00b9b930_class::FUN_00b9b930(bool abDelete)
 
 
 // @fnv 0x00b811e0
-int __cdecl FUN_00b811e0()
+intptr_t __cdecl FUN_00b811e0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_011ff0f4)));
+    return reinterpret_cast<intptr_t>(&::g_011ff0f4);
 }
 
 struct FUN_00b811f0_cls
@@ -2727,13 +2723,13 @@ struct FUN_00b812b0_class
     FNVRefCounted* m_refs[2];
     int m_68;
     int unk6c;
-    void FUN_00b812b0(FUN_00b812b0_class* dst, int flag);
+    void FUN_00b812b0(FUN_00b812b0_class* dst, intptr_t flag);
 };
 
 // @fnv 0x00b812b0
-void FUN_00b812b0_class::FUN_00b812b0(FUN_00b812b0_class* dst, int flag)
+void FUN_00b812b0_class::FUN_00b812b0(FUN_00b812b0_class* dst, intptr_t flag)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(dst), (::BSSP_stub4 *)(flag), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)(flag));
     for (int i = 0; i < 2; i++)
     {
         FNVRefCounted* pOldRef = dst->m_refs[i];
@@ -2933,11 +2929,11 @@ struct S_00b8a6e0_Foo
     unsigned char unk55;
     unsigned char unk56;
 
-    void FUN_00b8a6e0(int arg0, unsigned int arg1, unsigned int arg2);
+    void FUN_00b8a6e0(int arg0, unsigned int arg1, uintptr_t arg2);
 };
 
 // @fnv 0x00b8a6e0
-void S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, unsigned int arg2)
+void S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, uintptr_t arg2)
 {
     float value0;
     float value1;
@@ -3133,7 +3129,6 @@ void B8C690Shader::ClearTextures()
     m_spTexture3 = 0;
 }
 
-extern __declspec(thread) int g_tls_2b4;
 struct FUN_00b8cc20_class
 {
     void AccumulateComponentValues(int mode, int component, const float* values, float scale);
@@ -3142,8 +3137,8 @@ struct FUN_00b8cc20_class
 // @fnv 0x00b8cc20
 void FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, const float* values, float scale)
 {
-    int previousContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = 39;
+    int previousContext = ::g_tlsBlock.memoryContext;
+    ::g_tlsBlock.memoryContext = 39;
     int index = 0;
     float* destination = (float*)((char*)this + component * 4 + 0xb4);
     do
@@ -3163,7 +3158,7 @@ void FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, cons
         ++index;
         destination += 38;
     } while (index < 2);
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousContext;
+    ::g_tlsBlock.memoryContext = previousContext;
 }
 
 extern int DAT_010b0674;
@@ -3210,7 +3205,6 @@ void ShaderController_00b8d3a0::ConfigureAndRunShader()
     run(this);
 }
 
-extern char DAT_01011584;
 
 struct FUN_00b8d620_frame
 {
@@ -3331,7 +3325,6 @@ void FUN_00b8d620_cls::InitAlphaMultShader()
     this->v53();
 }
 
-extern char DAT_01011584;
 
 struct FUN_00b8d770_frame
 {
@@ -4894,7 +4887,6 @@ void B8F080ImageSpaceEffect::CreateCopyShaders()
     SetupShaders();
 }
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b8f220_cls
 {
     virtual void v00();
@@ -4976,7 +4968,7 @@ struct FUN_00b8f220_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -4986,20 +4978,18 @@ struct FUN_00b8f220_cls
 // @fnv 0x00b8f220
 void FUN_00b8f220_cls::InitStencilCopyShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
-    std::memset(&f[0x15], 0, 0x44);
-    f[0] = (unsigned int)"imagespace\\1x\\p\\copy.p.hlsl";
+    std::memset(&f[0x15], 0, 0x44 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"imagespace\\1x\\p\\copy.p.hlsl";
     f[1] = 0;
-    std::memset(&f[2], 0, 0x44);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[2], 0, 0x44 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "STENCILCOPY", "vs_1_1", r);
     this->v14c();
 }
 
-extern char DAT_01011584;
-extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b8f3d0_frame
 {
@@ -5095,7 +5085,7 @@ class FUN_00b8f3d0_cls
     virtual void v4C();
     virtual void v4D();
     virtual void v4E();
-    virtual void v4F(void* a, void* b, const char* c, const char* d, unsigned int e);
+    virtual void v4F(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v50();
     virtual void v51();
     virtual void v52();
@@ -5116,12 +5106,11 @@ void FUN_00b8f3d0_cls::CreateStencilCopyNoTexNoDepth()
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
     std::memset((char*)&f + 0x10, 0, 0x3c);
-    unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "STENCILCOPYNOTEXNODEPTH", "vs_1_1", r);
     this->v53();
 }
 
-extern char DAT_01011584;
 
 struct FUN_00b8f590_frame
 {
@@ -5367,7 +5356,6 @@ void B8F850ImageSpaceEffect::CreateDepthOfFieldShaders()
     SetupShaders();
 }
 
-extern char DAT_01011584;
 
 struct ShaderSourceB
 {
@@ -5506,7 +5494,6 @@ void FUN_00b8f9a0_cls::InitRadialBlurShader()
 }
 
 namespace fnv_00b8faf0 {
-extern char DAT_01011584;
 
 struct ShaderSourceB
 {
@@ -5639,7 +5626,6 @@ void FUN_00b8faf0_cls::CreateRadialBlurShader()
 }  // namespace fnv_00b8faf0
 
 namespace fnv_00b8fc50 {
-extern int DAT_01011584;
 struct FUN_00b8fc50_cls
 {
     virtual void v00();
@@ -5732,26 +5718,25 @@ struct FUN_00b8fc50_cls
 // @fnv 0x00b8fc50
 void FUN_00b8fc50_cls::FUN_00b8fc50()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
-    f[0x14] = (unsigned int)"TEX2";
-    f[0x15] = (unsigned int)&DAT_01011584;
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
+    f[0x14] = (uintptr_t)"TEX2";
+    f[0x15] = (uintptr_t)&DAT_01011584;
     f[0x16] = 0;
     f[0x17] = 0;
-    std::memset(&f[0x18], 0, 0x38);
-    f[0] = (unsigned int)"imagespace\\2x\\p\\RadialBlur.p.hlsl";
-    f[1] = (unsigned int)"NUM_STEPS";
-    f[2] = (unsigned int)"10.0f";
+    std::memset(&f[0x18], 0, 0x38 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"imagespace\\2x\\p\\RadialBlur.p.hlsl";
+    f[1] = (uintptr_t)"NUM_STEPS";
+    f[2] = (uintptr_t)"10.0f";
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
     this->v13c((void*)&f[0x13], (void*)&f[0], "RBLURH", "vs_1_1", "ps_2_0");
     this->v14c();
 }
 }  // namespace fnv_00b8fc50
 
 namespace fnv_00b8fdb0 {
-extern char DAT_01011584;
 
 struct ShaderSourceB
 {
@@ -5932,13 +5917,9 @@ ImageSpacePass* ImageSpacePass::FUN_00b91640(unsigned char abFree)
 namespace fnv_00b916f0 {
 extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
 
-extern "C" const char str_010b0158[];
 extern "C" const char str_010b0130[];
 extern "C" const char str_010b0124[];
-extern "C" const char str_010a93cc[];
-extern "C" const char str_010a93ec[];
 extern "C" const char str_010b4dbc[];
-extern "C" int DAT_01011584;
 
 struct FUN_00b916f0_First
 {
@@ -6053,16 +6034,16 @@ void FUN_00b916f0_Object::InitializeShader()
     FUN_00b916f0_First first;
     FUN_00b916f0_Second second;
 
-    first.shader = str_010b0158;
+    first.shader = &str_010b0158;
     first.unk04 = 0;
     FUN_00ec61c0(first.data, 0, sizeof(first.data));
 
     second.shader = str_010b0124;
     second.name = str_010b0130;
-    second.terminator = &DAT_01011584;
+    second.terminator = reinterpret_cast<const int*>(DAT_01011584);
     FUN_00ec61c0(second.data, 0, sizeof(second.data));
 
-    vf13C(&first, &second, str_010b4dbc, str_010a93ec, str_010a93cc);
+    vf13C(&first, &second, str_010b4dbc, &str_010a93ec, &str_010a93cc);
     vf14C();
 }
 }  // namespace fnv_00b916f0
@@ -6275,15 +6256,15 @@ struct FUN_00b91970_cls
 // @fnv 0x00b91970
 void FUN_00b91970_cls::InitMenuBGShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\menuBG.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\menuBG.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"imagespace\\1x\\p\\menuBG.p.hlsl";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"imagespace\\1x\\p\\menuBG.p.hlsl";
     f[1] = 0;
     f[2] = 0;
-    std::memset(&f[3], 0, 0x40);
+    std::memset(&f[3], 0, 0x40 / 4 * sizeof(f[0]));
     this->v13c((void*)&f[0x13], (void*)&f[0], "MENUBG", "vs_2_0", "ps_2_0");
     this->v14c();
 }
@@ -6470,7 +6451,6 @@ void B91AB0ImageSpaceEffect::CreateCopyUnpackShaders()
 
 namespace fnv_00b91bf0 {
 extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
-extern "C" int DAT_01011584;
 
 struct FUN_00b91bf0_First
 {
@@ -6592,7 +6572,7 @@ void FUN_00b91bf0_Object::InitMotionBlurShader()
 
     first.shader = "imagespace\\1x\\v\\base.v.hlsl";
     first.name = "TEX2";
-    first.terminator = &DAT_01011584;
+    first.terminator = reinterpret_cast<const int*>(DAT_01011584);
     first.unk08 = 0;
     first.unk0C = 0;
     FUN_00ec61c0(first.data, 0, sizeof(first.data));
@@ -6601,7 +6581,7 @@ void FUN_00b91bf0_Object::InitMotionBlurShader()
     second.name = "NUM_SAMPLES";
     second.value = "40.0f";
     second.macro = "NO_VELOCITY";
-    second.terminator = &DAT_01011584;
+    second.terminator = reinterpret_cast<const int*>(DAT_01011584);
     second.unk14 = 0;
     FUN_00ec61c0(second.data, 0, sizeof(second.data));
 
@@ -6610,7 +6590,6 @@ void FUN_00b91bf0_Object::InitMotionBlurShader()
 }
 }  // namespace fnv_00b91bf0
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b91d60_cls
 {
     virtual void v00();
@@ -6692,7 +6671,7 @@ struct FUN_00b91d60_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -6702,23 +6681,22 @@ struct FUN_00b91d60_cls
 // @fnv 0x00b91d60
 void FUN_00b91d60_cls::InitNoiseScrollAndBlendShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"imagespace\\2x\\p\\noise_P20.p.hlsl";
-    f[1] = (unsigned int)"SCROLL_AND_BLEND";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"imagespace\\2x\\p\\noise_P20.p.hlsl";
+    f[1] = (uintptr_t)"SCROLL_AND_BLEND";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "NOISESCROLLANDBLEND", "vs_1_1", r);
     this->v14c();
 }
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b91eb0_cls
 {
     virtual void v00();
@@ -6800,7 +6778,7 @@ struct FUN_00b91eb0_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -6810,18 +6788,18 @@ struct FUN_00b91eb0_cls
 // @fnv 0x00b91eb0
 void FUN_00b91eb0_cls::InitNoiseNormalMapShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"imagespace\\2x\\p\\noise_P20.p.hlsl";
-    f[1] = (unsigned int)"NORMALMAP";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"imagespace\\2x\\p\\noise_P20.p.hlsl";
+    f[1] = (uintptr_t)"NORMALMAP";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "NOISENORMALMAP", "vs_1_1", r);
     this->v14c();
 }
@@ -6931,7 +6909,6 @@ struct FUN_00b921f0_Desc
     FUN_00b921f0_Buf m_kDefines;
 };
 
-extern const float DAT_01011584;
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct FUN_00b921f0_Class : public FUN_00b921f0_Vt
@@ -6945,7 +6922,7 @@ void FUN_00b921f0_Class::CreateRefractionShader()
     FUN_00b921f0_Desc kDesc1;
     kDesc1.m_pPath = "imagespace\\1x\\v\\base.v.hlsl";
     kDesc1.m_pName = "TEX2";
-    kDesc1.m_pfValue = &DAT_01011584;
+    kDesc1.m_pfValue = reinterpret_cast<const float*>(DAT_01011584);
     kDesc1.m_i0c = 0;
     kDesc1.m_i10 = 0;
     FUN_00ec61c0(&kDesc1.m_kDefines, 0, 0x38);
@@ -7041,9 +7018,7 @@ FUN_00b922d0::FUN_00b922d0()
 namespace fnv_00b92390 {
 extern "C" char DAT_010b5ad4;
 extern "C" char DAT_010b33c4;
-extern "C" char DAT_01011584;
 extern "C" char DAT_010b5acc;
-extern "C" int __cdecl FUN_00b4f380(int value);
 extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
 
 struct ShaderConstants
@@ -7069,7 +7044,7 @@ struct ShaderEffect
 };
 
 typedef void(* ConfigureEffect)(ShaderEffect*, ShaderPassParameters*, ShaderPassParameters*, const void*,
-                                          const void*, int);
+                                          const void*, const char*);
 typedef void(* FinalizeEffect)(ShaderEffect*);
 
 // @fnv 0x00b92390
@@ -7089,7 +7064,7 @@ void ShaderEffect::ConfigureShaderPasses()
     second.mode = 0;
     FUN_00ec61c0(&second.constants, 0, sizeof(second.constants));
 
-    int enabled = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* enabled = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     ConfigureEffect configure = (ConfigureEffect)vtable[0x13c / 4];
     configure(this, &first, &second, &DAT_010b5acc, &::str_010a93ec, enabled);
 
@@ -7321,8 +7296,6 @@ void B92700WaterEffect::CreateClearSimulationShaders()
     SetupShaders();
 }
 
-extern char DAT_01011584;
-extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b92850_frame
 {
@@ -7418,7 +7391,7 @@ class FUN_00b92850_cls
     virtual void v4C();
     virtual void v4D();
     virtual void v4E();
-    virtual void v4F(void* a, void* b, const char* c, const char* d, unsigned int e);
+    virtual void v4F(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v50();
     virtual void v51();
     virtual void v52();
@@ -7438,7 +7411,7 @@ void FUN_00b92850_cls::InitWaterDisplacementTexOffset()
     f.unk08 = 0;
     f.unk0C = 0;
     std::memset((char*)&f + 0x10, 0, 0x3C);
-    unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTTEXOFFSET", "vs_1_1", r);
     this->v53();
 }
@@ -7469,7 +7442,6 @@ struct FUN_00b929a0_obj
     int m_34;
     int m_38;
 };
-int __cdecl FUN_00b4f380(int x);
 class FUN_00b929a0_cls
 {
   public:
@@ -7552,7 +7524,7 @@ class FUN_00b929a0_cls
     virtual void v4c();
     virtual void v4d();
     virtual void v4e();
-    virtual void v4f(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v4f(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v50();
     virtual void v51();
     virtual void v52();
@@ -7580,7 +7552,7 @@ void FUN_00b929a0_cls::InitWadingRippleShader()
     f.s2.c = 0;
     f.s2.d = 0;
     std::memset(&f.o2, 0, sizeof(f.o2));
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4f(&f.s1, &f.s2, "WATERDISPLACEMENTWADINGRIPPLE", "vs_1_1", r);
     this->v53();
 }
@@ -7848,8 +7820,6 @@ void B92C40WaterEffect::CreateWadingHeightmapShaders()
     SetupShaders();
 }
 
-extern char DAT_01011584;
-extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b92e00_frame
 {
@@ -7945,7 +7915,7 @@ class FUN_00b92e00_cls
     virtual void v4C();
     virtual void v4D();
     virtual void v4E();
-    virtual void v4F(void* a, void* b, const char* c, const char* d, unsigned int e);
+    virtual void v4F(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v50();
     virtual void v51();
     virtual void v52();
@@ -7965,7 +7935,7 @@ void FUN_00b92e00_cls::FUN_00b92e00()
     f.unk08 = 0;
     f.unk0C = 0;
     std::memset((char*)&f + 0x10, 0, 0x3C);
-    unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTRAINHEIGHTMAP", "vs_1_1", r);
     this->v53();
 }
@@ -8230,8 +8200,6 @@ void B930A0WaterEffect::CreateSmoothHeightmapShaders()
     SetupShaders();
 }
 
-extern char DAT_01011584;
-extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b931f0_frame
 {
@@ -8327,7 +8295,7 @@ class FUN_00b931f0_cls
     virtual void v4C();
     virtual void v4D();
     virtual void v4E();
-    virtual void v4F(void* a, void* b, const char* c, const char* d, unsigned int e);
+    virtual void v4F(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v50();
     virtual void v51();
     virtual void v52();
@@ -8347,12 +8315,11 @@ void FUN_00b931f0_cls::FUN_00b931f0()
     f.unk08 = 0;
     f.unk0C = 0;
     std::memset((char*)&f + 0x10, 0, 0x3C);
-    unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTNORMALS", "vs_1_1", r);
     this->v53();
 }
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b93340_cls
 {
     virtual void v00();
@@ -8434,7 +8401,7 @@ struct FUN_00b93340_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -8445,18 +8412,18 @@ struct FUN_00b93340_cls
 // @fnv 0x00b93340
 void FUN_00b93340_cls::InitWaterSpectrumShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
-    f[1] = (unsigned int)"WATER_SPECTRUM";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"water\\2_ab\\p\\waterhmap.p.hlsl";
+    f[1] = (uintptr_t)"WATER_SPECTRUM";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTWATERSPECTRUM", "vs_1_1", r);
     this->v14c();
 }
@@ -8751,8 +8718,7 @@ bool Shader_b93420::FUN_00b93420()
 }
 
 namespace fnv_00b93670 {
-extern "C" void __cdecl FUN_00ec61c0(void* object, int value, int capacity);
-extern "C" int __cdecl FUN_00b4f380(int value);
+extern "C" void* __cdecl FUN_00ec61c0(void* object, int value, unsigned int capacity);
 
 struct S_00b93670_frame
 {
@@ -8878,7 +8844,7 @@ class S_00b93670_cls
     virtual void v76() = 0;
     virtual void v77() = 0;
     virtual void v78() = 0;
-    virtual void v79(void* a, void* b, const char* c, const char* d, int e) = 0;
+    virtual void v79(void* a, void* b, const char* c, const char* d, const char*e) = 0;
     virtual void v80() = 0;
     virtual void v81() = 0;
     virtual void v82() = 0;
@@ -8904,14 +8870,13 @@ void S_00b93670_cls::InitHorizontalButterflyShader()
     shaderFrame.unk10 = 0;
     FUN_00ec61c0(&shaderFrame.unk14, 0, 0x38);
 
-    int renderer = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* renderer = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
 
     this->v79(&shaderFrame.unk4c, &shaderFrame.unk00, "FFTHORIZONTALBUTTERFLY", "vs_1_1", renderer);
     this->v83();
 }
 }  // namespace fnv_00b93670
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b939c0_cls
 {
     virtual void v00();
@@ -8993,7 +8958,7 @@ struct FUN_00b939c0_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -9003,24 +8968,23 @@ struct FUN_00b939c0_cls
 // @fnv 0x00b939c0
 void FUN_00b939c0_cls::InitVerticalButterflyShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
-    f[1] = (unsigned int)"VERTICAL_BUTTERFLY";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"water\\2_ab\\p\\waterhmap.p.hlsl";
+    f[1] = (uintptr_t)"VERTICAL_BUTTERFLY";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTVERTICALBUTTERFLY", "vs_1_1", r);
     this->v14c();
 }
 
 namespace fnv_00b93b10 {
-int __cdecl FUN_00b4f380(int aiValue);
 
 struct ShaderSourceA
 {
@@ -9123,7 +9087,7 @@ class FUN_00b93b10_cls
     virtual void v77();
     virtual void v78();
     virtual void v79(ShaderSourceA* apSource, ShaderSourceB* apDefines, const char* apEntry, const char* apProfile,
-                     int aiFlags);
+                     const char*aiFlags);
     virtual void v80();
     virtual void v81();
     virtual void v82();
@@ -9150,13 +9114,12 @@ void FUN_00b93b10_cls::FUN_00b93b10()
     sourceB.m_10 = 0;
     std::memset(sourceB.m_14, 0, 0x38);
 
-    int flags = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* flags = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v79(&source, &sourceB, "FFTHORIZONTALSCRAMBLE", "vs_1_1", flags);
     this->v83();
 }
 }  // namespace fnv_00b93b10
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b93c60_cls
 {
     virtual void v00();
@@ -9238,7 +9201,7 @@ struct FUN_00b93c60_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -9248,25 +9211,24 @@ struct FUN_00b93c60_cls
 // @fnv 0x00b93c60
 void FUN_00b93c60_cls::InitVerticalScrambleShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
-    f[1] = (unsigned int)"VERTICAL_SCRAMBLE";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"water\\2_ab\\p\\waterhmap.p.hlsl";
+    f[1] = (uintptr_t)"VERTICAL_SCRAMBLE";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTVERTICALSCRAMBLE", "vs_1_1", r);
     this->v14c();
 }
 
 namespace fnv_00b93db0 {
 extern "C" void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int size);
-extern "C" const char* __cdecl FUN_00b4f380(bool flag);
 
 struct FUN_00b93db0_Block40
 {
@@ -9433,14 +9395,13 @@ void FUN_00b93db0_Object::FUN_00b93db0()
     second.unk10 = 0;
     FUN_00ec61c0(&second.data, 0, sizeof(second.data));
 
-    const char* gpuProfile = FUN_00b4f380(true);
+    const char* gpuProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
 
     vf13C(&first, &second, "FFTNORMALS", "vs_1_1", gpuProfile);
     vf14C();
 }
 }  // namespace fnv_00b93db0
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b93f00_cls
 {
     virtual void v00();
@@ -9522,7 +9483,7 @@ struct FUN_00b93f00_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -9532,23 +9493,22 @@ struct FUN_00b93f00_cls
 // @fnv 0x00b93f00
 void FUN_00b93f00_cls::CreateFilterShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
-    f[1] = (unsigned int)"FILTER";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"water\\2_ab\\p\\waterhmap.p.hlsl";
+    f[1] = (uintptr_t)"FILTER";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTFILTER", "vs_1_1", r);
     this->v14c();
 }
 
-extern const char* FUN_00b4f380(bool b);
 struct S_00b94050_A
 {
     const char* path;
@@ -9703,7 +9663,6 @@ void S_00b94050_Obj::InitDisplayNormalsShaders()
 }
 
 namespace fnv_00b942f0 {
-extern "C" unsigned int __cdecl FUN_00b4f380(int a);
 
 struct FUN_00b942f0_frame
 {
@@ -9829,7 +9788,7 @@ class FUN_00b942f0_cls
     virtual void v4C();
     virtual void v4D();
     virtual void v4E();
-    virtual void v4F(void* a, void* b, const char* c, const char* d, unsigned int e);
+    virtual void v4F(void* a, void* b, const char* c, const char* d, const char* e);
     virtual void v50();
     virtual void v51();
     virtual void v52();
@@ -9851,13 +9810,12 @@ void FUN_00b942f0_cls::InitWaterHmapDisplayAmplitude()
     f.unk0C = 0;
     f.unk10 = 0;
     std::memset((char*)&f.unk14, 0, 0x38);
-    unsigned int r = FUN_00b4f380(1);
+    const char* r = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F((char*)&f.unk4C, (char*)&f, "FFTDISPLAYAMPLITUDE", "vs_1_1", r);
     this->v53();
 }
 }  // namespace fnv_00b942f0
 
-extern "C" int FUN_00b4f380(int a);
 struct FUN_00b94440_cls
 {
     virtual void v00();
@@ -9939,7 +9897,7 @@ struct FUN_00b94440_cls
     virtual void v130();
     virtual void v134();
     virtual void v138();
-    virtual void v13c(void* a, void* b, const char* c, const char* d, int e);
+    virtual void v13c(void* a, void* b, const char* c, const char* d, const char*e);
     virtual void v140();
     virtual void v144();
     virtual void v148();
@@ -9950,18 +9908,18 @@ struct FUN_00b94440_cls
 // @fnv 0x00b94440
 void FUN_00b94440_cls::InitWaterHeightShader()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    uintptr_t f[0x26];
+    f[0x13] = (uintptr_t)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    std::memset(&f[0x16], 0, 0x40);
-    f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
-    f[1] = (unsigned int)"DISPLAY_WATER_HEIGHT";
+    std::memset(&f[0x16], 0, 0x40 / 4 * sizeof(f[0]));
+    f[0] = (uintptr_t)"water\\2_ab\\p\\waterhmap.p.hlsl";
+    f[1] = (uintptr_t)"DISPLAY_WATER_HEIGHT";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    std::memset(&f[5], 0, 0x38);
-    int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    std::memset(&f[5], 0, 0x38 / 4 * sizeof(f[0]));
+    const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTDISPLAYWATERHEIGHT", "vs_1_1", r);
     this->v14c();
 }
@@ -10243,13 +10201,13 @@ struct FUN_00b9b3b0_class
     void* m_038;
     FUN_00b9abc0_class* m_003c;
 
-    void DispatchToSlot(unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    void DispatchToSlot(uintptr_t arg1, unsigned int arg2, unsigned int arg3);
 };
 
 // @fnv 0x00b9b3b0
-void FUN_00b9b3b0_class::DispatchToSlot(unsigned int arg1, unsigned int uiIndex, unsigned int arg3)
+void FUN_00b9b3b0_class::DispatchToSlot(uintptr_t arg1, unsigned int uiIndex, unsigned int arg3)
 {
-    ::DispatchPass((void *)(reinterpret_cast<FUN_00b9abc0_class**>(&m_003c)[uiIndex]), arg1, (void *)(arg3), {});
+    ::DispatchPass((void *)(reinterpret_cast<FUN_00b9abc0_class**>(&m_003c)[uiIndex]), 0, (void *)(arg1), arg3 != 0);
 }
 
 struct B9B3D0Pass;
@@ -10301,9 +10259,9 @@ class B9B3D0Shader
 void B9B3D0Shader::SetupStage(B9B3D0Pass* pkPass, int iStage)
 {
     if (m_iMode > 0)
-        ::DispatchPass((void *)(m_apkHighStages[iStage]), (int)(pkPass), (void *)(false), {});
+        ::DispatchPass((void *)(m_apkHighStages[iStage]), 0, (void *)(pkPass), false);
     else
-        ::DispatchPass((void *)(m_apkLowStages[iStage]), (int)(pkPass), (void *)(false), {});
+        ::DispatchPass((void *)(m_apkLowStages[iStage]), 0, (void *)(pkPass), false);
 }
 
 extern "C" void _ReadWriteBarrier(void);
@@ -10893,13 +10851,13 @@ void ISEffectX::InitFromTexOwner(TexOwner* owner, int unused)
     reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(3, 6);
     param->bActive = 0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
-    int t0 = owner->texSet->tex0;
+    intptr_t t0 = owner->texSet->tex0;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(t0), (::ImageSpaceEffectParam *)(param), 0);
     ISParam* param2 = new ISParam;
     reinterpret_cast<::ImageSpaceShaderParam *>((param2))->AllocateShaderConstants(3, 6);
     param2->bActive = 0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(1, (::KeyPair **)&(param2));
-    int t1 = owner->texSet->tex1;
+    intptr_t t1 = owner->texSet->tex1;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(t1), (::ImageSpaceEffectParam *)(param2), 0);
 }
 
@@ -11391,13 +11349,13 @@ struct Input
 struct TagGuard
 {
     int old;
-    TagGuard() : old((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    TagGuard() : old(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 32;
+        ::g_tlsBlock.memoryContext = 32;
     }
     ~TagGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
+        ::g_tlsBlock.memoryContext = old;
     }
 };
 struct Target
@@ -11407,7 +11365,7 @@ struct Target
 // @fnv 0x00b9de90
 bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsigned short flags)
 {
-    int value = input->unk0c;
+    intptr_t value = input->unk0c;
     TagGuard tagGuard;
     FUN_00bd8290 node(0);
     node.unk058 = a;
@@ -11416,7 +11374,7 @@ bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsig
     reinterpret_cast<::ViewCamera *>(&(node))->FUN_00bd7200(flags);
     NiUpdateData update;
     reinterpret_cast<::FUN_00a59c60_cls *>(&(node))->FUN_00a59c60((std::intptr_t)&(update));
-    return ((bool)(::FUN_00b9c020((::FNVCuboid *)this, (::FNVCuboid *)(value))));
+    return ((bool)(::FUN_00b9c020((::FNVCuboid *)(value), (::FNVCuboid *)(&node))));
 }
 }  // namespace fnv_00b9de90
 
@@ -11427,12 +11385,12 @@ struct AllocTagScopeB8C
 
     AllocTagScopeB8C(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~AllocTagScopeB8C()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -11622,12 +11580,12 @@ struct ScopedMemoryContext
     int iOldContext;
     ScopedMemoryContext(int aiContext)
     {
-        iOldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+        iOldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     ~ScopedMemoryContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOldContext;
+        ::g_tlsBlock.memoryContext = iOldContext;
     }
 };
 struct ImageSpaceTexture
@@ -11859,39 +11817,34 @@ struct Renderer
     virtual void v76() = 0;
     virtual void v77() = 0;
     virtual void v78() = 0;
-    virtual void v79(void*, void*, const void*, const void*, int) = 0;
+    virtual void v79(void*, void*, const void*, const void*, const char*) = 0;
     virtual void v80() = 0;
     virtual void v81() = 0;
     virtual void v82() = 0;
     virtual void v83() = 0;
     void InitBuffers();
 };
-extern "C" char str_010b0158[], str_010b22e0[], str_010a93ec[];
-int __cdecl FUN_00b4f380(int);
+extern "C" char str_010b22e0[];
 // @fnv 0x00b8f710
 void Renderer::InitBuffers()
 {
     BufferDescriptor primary;
     BufferDescriptor secondaryDesc;
-    primary.label = str_010b0158;
+    primary.label = &str_010b0158;
     primary.flag = 0;
     std::memset(&primary.field08, 0, 68);
     secondaryDesc.label = (*reinterpret_cast<char (*)[]>(&::fnv_00b92390::DAT_010b0820));
     secondaryDesc.flag = 0;
     std::memset(&secondaryDesc.field08, 0, 68);
-    int resource = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
-    this->v79(&primary, &secondaryDesc, str_010b22e0, str_010a93ec, resource);
+    const char* resource = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
+    this->v79(&primary, &secondaryDesc, str_010b22e0, &str_010a93ec, resource);
     this->v83();
 }
 
 
-extern "C" char str_010a93cc[];
-extern "C" char str_010a93ec[];
-extern "C" char str_010b0158[];
 extern "C" char str_010b09d4[];
 extern "C" char str_010b3544[];
 extern "C" char str_010b3550[];
-extern char DAT_01011584;
 
 struct S_00b8ff10_Local1
 {
@@ -12046,7 +11999,7 @@ void FUN_00b8ff10_class::FUN_00b8ff10()
     S_00b8ff10_Local1 local1;
     S_00b8ff10_Local2 local2;
 
-    local1.unk00 = str_010b0158;
+    local1.unk00 = &str_010b0158;
     local1.unk04 = str_010b09d4;
     local1.unk08 = (void*)&DAT_01011584;
     local1.unk0c = 0;
@@ -12058,7 +12011,7 @@ void FUN_00b8ff10_class::FUN_00b8ff10()
 
     std::memset(&local2.unk08, 0, 0x44);
 
-    v79(&local1, &local2, str_010b3544, str_010a93ec, str_010a93cc);
+    v79(&local1, &local2, str_010b3544, &str_010a93ec, &str_010a93cc);
     v83();
 }
 
@@ -14991,7 +14944,7 @@ struct W1
 {
     int v;
 };
-extern "C" void __cdecl UpdateInputFlags(W1 w, int param);
+void __cdecl UpdateInputFlags(W1 w, int param);
 }  // namespace fnv_00b8202e
 
 void __cdecl UpdateInputFlags(Size, int);
@@ -15004,7 +14957,7 @@ struct IndexW
     {}
 };
 
-extern "C" void __cdecl UpdateInputFlags(IndexW index, int flag);
+void __cdecl UpdateInputFlags(IndexW index, int flag);
 
 }  // namespace fnv_00b82054
 
@@ -15014,7 +14967,7 @@ struct W82067
     int v;
 };
 
-extern "C" void __cdecl UpdateInputFlags(W82067 w, int index);
+void __cdecl UpdateInputFlags(W82067 w, int index);
 
 }  // namespace fnv_00b82067
 
@@ -15035,7 +14988,7 @@ struct S42
     S42(int v_) : v(v_)
     {}
 };
-extern "C" void __cdecl UpdateInputFlags(S42 a, int b);
+void __cdecl UpdateInputFlags(S42 a, int b);
 }  // namespace fnv_00b820ec
 
 struct W1b82125
@@ -15057,7 +15010,7 @@ struct IndexW44
     IndexW44(unsigned int value) : v(value)
     {}
 };
-extern "C" void __cdecl UpdateInputFlags(IndexW44 index, int flag);
+void __cdecl UpdateInputFlags(IndexW44 index, int flag);
 }  // namespace fnv_00b8215e
 
 namespace fnv_00b82171 {
@@ -15066,7 +15019,7 @@ struct W82171
     int v;
 };
 
-extern "C" void __cdecl UpdateInputFlags(W82171 w, int index);
+void __cdecl UpdateInputFlags(W82171 w, int index);
 
 }  // namespace fnv_00b82171
 
@@ -15075,7 +15028,7 @@ struct W
 {
     int v;
 };
-extern "C" void __cdecl UpdateInputFlags(W w, int extra);
+void __cdecl UpdateInputFlags(W w, int extra);
 }  // namespace fnv_00b821aa
 
 struct WaterIndexWrap
@@ -15245,11 +15198,11 @@ char Self_b89970::FUN_00b89970()
 
 inline unsigned int GetMemContextB979()
 {
-    return ::currentAllocationContext;
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMemContextB979(unsigned int m_uiGeometryShaderFlags)
 {
-    ::currentAllocationContext = m_uiGeometryShaderFlags;
+    ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
 }
 class AutoMemContextB979
 {
@@ -15517,7 +15470,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             ImageSpaceEffectB979* pkEffect = m_ppkEffects[i];
             if (pkEffect && pkEffect->IsActive())
             {
-                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (std::intptr_t)(pkRenderer), (int)(pkSource), (int)(pkDest), 0, true);
+                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (std::intptr_t)(pkRenderer), (intptr_t)(pkSource), (intptr_t)(pkDest), 0, true);
                 iRendered++;
                 RenderTargetB979* pkSwap = pkSource;
                 pkSource = pkDest;
@@ -15528,7 +15481,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             reinterpret_cast<::Manager *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6da10((::Item *)(pkTemp));
     }
     else
-        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (std::intptr_t)(pkRenderer), (int)(*ppkSource), (int)(*ppkDest), 0, true);
+        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (std::intptr_t)(pkRenderer), (intptr_t)(*ppkSource), (intptr_t)(*ppkDest), 0, true);
 }
 
 // @fnv 0x00b988a0
@@ -16041,7 +15994,7 @@ struct FUN_00b815e0_arg
     int index;
 };
 
-extern "C" void __cdecl UpdateInputFlags(FUN_00b815e0_arg arg, int extra);
+void __cdecl UpdateInputFlags(FUN_00b815e0_arg arg, int extra);
 
 }  // namespace fnv_00b820a0
 
@@ -16178,7 +16131,7 @@ void WaterFFTDisplayEffect::FUN_00b941a0()
 {
     B8F080ShaderFile kVertexDelta = {"imagespace\\1x\\v\\base.v.hlsl", {{NULL, NULL}}};
     B8F080ShaderFile kPixel = {"water\\2_ab\\p\\waterhmap.p.hlsl", {{"DISPLAY_HIGHW", NULL}, {NULL, NULL}}};
-    const char* pcPS = (const char*)((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    const char* pcPS = (const char*)((intptr_t)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     CreateShaders(&kVertexDelta, &kPixel, "FFTDISPLAYHIGHW", "vs_1_1", pcPS);
     SetupShaders();
 }
@@ -16423,7 +16376,7 @@ struct FUN_00b97690
     int unk30c;
     int unk310;
     int unk314;
-    unsigned int m_textureId;
+    uintptr_t m_textureId;
     ~FUN_00b97690();
 };
 // If active, calls ShutdownAllEffects, ClearTextures and FUN_00b8a7e0, clears active, and passes m_textureId to DAT_011f91a8->FUN_00b6da10.
@@ -20390,7 +20343,7 @@ static float WeightUpperBound(float limit, float x)
 // @fnv 0x00b9d150
 void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
 {
-    B9Bounds* bounds = ((::B9Bounds *)(reinterpret_cast<::NiAVObject *>((object))->GetExtraData((*(const ::NiFixedString *)((*reinterpret_cast<int *>(&::g_pkString_c55)))))));
+    B9Bounds* bounds = ((::B9Bounds *)(reinterpret_cast<::NiAVObject *>((object))->GetExtraData((*(const ::NiFixedString *)(::g_pkString_c55)))));
     position = object->worldPosition;
     if (bounds)
     {
@@ -20404,7 +20357,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     unsigned int count = 0;
     unsigned short index = 0;
     void* cursor;
-    B9Entry* entry = lights ? ((::B9Entry *)(::FUN_00b70600((::FUN_00b70600_list *)(lights), (int)(&cursor), {}))) : ((::B9Entry *)(::GetListItemAt((char *)(B9Mgr()), 0, {})));
+    B9Entry* entry = lights ? ((::B9Entry *)(::FUN_00b70600((::FUN_00b70600_list *)(lights), 0, (::FUN_00b70600_node **)(&cursor)))) : ((::B9Entry *)(::GetListItemAt((char *)(B9Mgr()), 0, {})));
 
     if (entry)
     {
@@ -20449,7 +20402,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     else
     {
         unsigned int scan = 0;
-        entry = lights ? ((::B9Entry *)(::FUN_00b70600((::FUN_00b70600_list *)(lights), (int)(&cursor), {}))) : ((::B9Entry *)(::GetListItemAt((char *)(manager), 0, {})));
+        entry = lights ? ((::B9Entry *)(::FUN_00b70600((::FUN_00b70600_list *)(lights), 0, (::FUN_00b70600_node **)(&cursor)))) : ((::B9Entry *)(::GetListItemAt((char *)(manager), 0, {})));
         for (unsigned int i = 0; i < count; ++i)
         {
             if (entry && !entry->disabled)

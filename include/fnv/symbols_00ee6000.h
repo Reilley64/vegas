@@ -45,6 +45,7 @@ int FUN_00ee6de6(void *, const void *, const void *, void *, const void *, const
 void *FUN_00ee6dec(void *, const void *);
 // 0x00ee6df2
 void FUN_00ee6df2();
+void *FUN_00ee6df2(void *, const void *, const void *);
 // 0x00ee6df8
 void *FUN_00ee6df8(void *, const void *, const void *);
 // 0x00ee6dfe

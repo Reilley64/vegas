@@ -69,7 +69,7 @@ void FUN_007a1430_Class::SetFlag(unsigned char value)
 
 struct Unk65
 {
-    void FUN_0065de30(int);
+    void FUN_0065de30(const void*);
 };
 
 struct Unk65a
@@ -80,7 +80,7 @@ struct Unk65a
 // @fnv 0x007ab230
 Unk65* Unk65a::FUN_007ab230(Unk65* other)
 {
-    other->FUN_0065de30((int)this);
+    other->FUN_0065de30(this);
     return other;
 }
 
@@ -116,7 +116,7 @@ struct AX
 // @fnv 0x007ab610
 AX* AX::FUN_007ab610()
 {
-    *(int*)this = (int)&::DAT_010757a8;
+    *(void**)this = &::DAT_010757a8;
     FUN_006b3eb0(0, 0);
     return this;
 }
@@ -135,7 +135,7 @@ void GlobalObject_00869f00::Clear(bool)
 // @fnv 0x007ab670
 void GlobalObject_00869f00::FUN_007ab670()
 {
-    *(int*)this = (int)&DAT_010757a8;
+    *(void**)this = &DAT_010757a8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 

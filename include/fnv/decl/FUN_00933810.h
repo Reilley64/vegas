@@ -4,5 +4,5 @@
 struct FUN_00933810 {
 public:
     // 0x00933810
-    intptr_t Method();
+    void *Method();
 };

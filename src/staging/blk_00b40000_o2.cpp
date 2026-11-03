@@ -276,10 +276,16 @@ void* FUN_00b58570_Class::FUN_00b58570(void* source)
 }
 
 // @fnv 0x00b5aa70
-int CompareFloatAtOffsetC(int* pLeft, int* pRight)
+struct FloatKeyedItem
 {
-    float x = *(float*)((char*)pLeft[0] + 0xc);
-    float y = *(float*)((char*)pRight[0] + 0xc);
+    char pad[0xc];
+    float key;
+};
+
+int CompareFloatAtOffsetC(const void* pLeft, const void* pRight)
+{
+    float x = (*(FloatKeyedItem* const*)pLeft)->key;
+    float y = (*(FloatKeyedItem* const*)pRight)->key;
     if (x > y)
         return -1;
     if (x < y)
@@ -1087,13 +1093,13 @@ struct FUN_00b58140_Class
     ReferenceObject* reference80;
     unsigned int copiedValue84;
     unsigned int copiedValue88;
-    void CopyTo(FUN_00b58140_Class* destination, unsigned int flags);
+    void CopyTo(FUN_00b58140_Class* destination, void* flags);
 };
 
 // @fnv 0x00b58140
-void FUN_00b58140_Class::CopyTo(FUN_00b58140_Class* destination, unsigned int flags)
+void FUN_00b58140_Class::CopyTo(FUN_00b58140_Class* destination, void* flags)
 {
-    reinterpret_cast<::FUN_00b702b0_shell *>(this)->FUN_00b702b0((char *)(destination), (void *)(flags));
+    reinterpret_cast<::FUN_00b702b0_shell *>(this)->FUN_00b702b0((char *)(destination), flags);
     if (destination->reference80 != reference80)
     {
         if (destination->reference80)
@@ -1223,12 +1229,12 @@ struct BlobObj : public BlobBase
 
 struct FUN_00b58420_cls
 {
-    BlobObj* CreateBlobObj(unsigned int arg);
+    BlobObj* CreateBlobObj(void* arg);
 };
 
 // Allocates a BlobObj, initializes it via CopyTo with arg, and returns the object.
 // @fnv 0x00b58420
-BlobObj* FUN_00b58420_cls::CreateBlobObj(unsigned int arg)
+BlobObj* FUN_00b58420_cls::CreateBlobObj(void* arg)
 {
     BlobObj* obj = new BlobObj;
     reinterpret_cast<::FUN_00b58140_Class *>((this))->CopyTo((::FUN_00b58140_Class *)(obj), arg);
@@ -1546,7 +1552,7 @@ void FUN_00b5a340_Class::InitSubObjects(int arg)
     reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00ba3aa0_Class*)((char*)this + 0x28))))->FUN_00ba3aa0(2, (::KeyPair **)(void *)(&value));
     object = (FUN_00ba37f0_Class*)((char*)this + 0xc4);
     value = (char*)object;
-    reinterpret_cast<::Holder00ba37f0 *>((object))->FUN_00ba37f0((::Tex00ba37f0 *)(((int)(::GetImageSpaceTexture()))));
+    reinterpret_cast<::Holder00ba37f0 *>((object))->FUN_00ba37f0((::Tex00ba37f0 *)(::GetImageSpaceTexture()));
     reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00ba3aa0_Class*)((char*)this + 0x28))))->FUN_00ba3aa0(3, (::KeyPair **)(void *)(&value));
 }
 
@@ -1810,7 +1816,7 @@ void BB5F0C0Visitor::VisitNodeChildren(BB5F0C0Node* pkNode, bool bAttach)
             if (BB5F0C0IsKindOf(&(*reinterpret_cast<const ::BB5F0C0RTTI *>(&::g_011f4a28)), pkChild))
             {
                 if (bAttach)
-                    reinterpret_cast<::B5Owner *>(this)->FUN_00b5eed0((unsigned int)(pkChild));
+                    reinterpret_cast<::B5Owner *>(this)->FUN_00b5eed0((uintptr_t)(pkChild));
                 else
                     reinterpret_cast<::fnv_00b5c940::SSNode *>(this)->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(pkChild), true);
             }
@@ -1840,7 +1846,7 @@ struct FunSceneManager
 void FunSceneManager::FUN_00b5f150(void* pTarget, int flag)
 {
     if (pTarget != 0)
-        reinterpret_cast<::BB5F0C0Visitor *>((pTarget))->VisitNodeChildren((::BB5F0C0Node *)(flag), {});
+        reinterpret_cast<::BB5F0C0Visitor *>(this)->VisitNodeChildren((::BB5F0C0Node *)(pTarget), flag);
 }
 
 
@@ -2129,9 +2135,9 @@ struct ISM
 };
 }
 // @fnv 0x00b55ac0
-void __cdecl FUN_00b55ac0(intptr_t a, intptr_t b, intptr_t c)
+void __cdecl FUN_00b55ac0(void* a, void* b, void* c)
 {
-    reinterpret_cast<::ImageSpaceManagerB979 *>((((nb::ISM*)DAT_011f91ac)))->RenderEndOfFrameEffects((::RendererB979 *)(a), (::RenderTargetB979 **)(int *)(&b), (::RenderTargetB979 **)(int *)(&c));
+    reinterpret_cast<::ImageSpaceManagerB979 *>((((nb::ISM*)DAT_011f91ac)))->RenderEndOfFrameEffects((::RendererB979 *)(a), (::RenderTargetB979 **)(&b), (::RenderTargetB979 **)(&c));
     for (int i = 0; i < 8; i++)
         ((nb::Rend*)::DAT_011f9508)->m_8b8->SetTarget(i, 0);
 }
@@ -2277,7 +2283,7 @@ FUN_00b5a410::FUN_00b5a410()
 }
 
 // @fnv 0x00b5a8c0
-void FUN_00b5a8c0(int, int, int, int, int, int)
+void FUN_00b5a8c0(intptr_t, int, int, int, int, int)
 {}
 
 struct FUN_00b59c20 : FUN_00ba3d30
@@ -3182,11 +3188,11 @@ struct Traversal
     Frustum frustum;
     bool flag1dc;
     World* world;
-    void UpdateVisibility(Region*, View*, int, bool);
+    void UpdateVisibility(Region*, View*, void*, bool);
 };
 // Flood-fills regions through portals from start, building per-region frustums and marking render objects visible.
 // @fnv 0x00b5f170
-void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
+void Traversal::UpdateVisibility(Region* start, View* view, void* arg, bool reset)
 {
     VisitedList unused;
     Pending pending;
@@ -3207,7 +3213,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
             {
                 Portal* portal = (Portal*)Next(pos);
                 if (portal && (portal->state == 1   ? true
-                               : portal->state == 0 ? reinterpret_cast<::fnv_00c344c0::SSNode *>((portal))->FUN_00c344c0((void *)(arg), (*(const ::fnv_00c344c0::NiPoint3 *)(&position)))
+                               : portal->state == 0 ? reinterpret_cast<::fnv_00c344c0::SSNode *>((portal))->FUN_00c344c0(arg, (*(const ::fnv_00c344c0::NiPoint3 *)(&position)))
                                                     : false))
                 {
                     if (!begun)
@@ -3239,7 +3245,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
         for (Link* pos = start->portals; pos;)
         {
             Portal* portal = (Portal*)Next(pos);
-            if (portal && (portal->state == 1 || (portal->state == 0 && reinterpret_cast<::fnv_00c344c0::SSNode *>((portal))->FUN_00c344c0((void *)(arg), (*(const ::fnv_00c344c0::NiPoint3 *)(&position))))))
+            if (portal && (portal->state == 1 || (portal->state == 0 && reinterpret_cast<::fnv_00c344c0::SSNode *>((portal))->FUN_00c344c0(arg, (*(const ::fnv_00c344c0::NiPoint3 *)(&position))))))
             {
                 if (!begun)
                 {
@@ -3251,7 +3257,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
         }
         if (begun)
             reinterpret_cast<::FUN_00c47ae0_cls *>((f))->FUN_00c47ae0();
-        reinterpret_cast<::FUN_0045c4e0_This *>((start))->SetFieldCC((int)(f));
+        reinterpret_cast<::FUN_0045c4e0_This *>((start))->SetFieldCC(f);
         {
             Link* n = ((::Link *)(reinterpret_cast<::FUN_0043a010_shell *>(&(pending.alloc))->FUN_0043a010()));
             n->data = start;
@@ -3364,7 +3370,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
                             pTargetFrustum->special = true;
                         active = pSavedFrustum;
                         if (dest->frustum == 0)
-                            reinterpret_cast<::FUN_0045c4e0_This *>((dest))->SetFieldCC((int)(pTargetFrustum));
+                            reinterpret_cast<::FUN_0045c4e0_This *>((dest))->SetFieldCC(pTargetFrustum);
                     }
                 }
                 else
@@ -3577,7 +3583,7 @@ extern int DAT_011f963c;
 static __forceinline bool Lookup(int k, RTEntry*& found)
 {
     found = 0;
-    return reinterpret_cast<::A54440Hash *>((((MapObj596a*)FUN_00b585c0())))->FUN_00a53c30((::A54440Manager *)(void *)((void*)k), (::A54440Manager **)&((void*&)found));
+    return reinterpret_cast<::A54440Hash *>((((MapObj596a*)FUN_00b585c0())))->FUN_00a53c30((::A54440Manager *)(intptr_t)k, (::A54440Manager **)&((void*&)found));
 }
 
 // Finds or creates an RTItem for key using a snapped position value, stores it in *out and returns usTotal minus usUsed.
@@ -3608,12 +3614,12 @@ int __cdecl GetOrCreateItem(RTKey* key, unsigned int pos, RTItem** ppItem)
     {
         RTEntry* found;
         found = 0;
-        if (!reinterpret_cast<::A54440Hash *>((((MapObj596a*)FUN_00b585c0())))->FUN_00a53c30((::A54440Manager *)(void *)((void*)(unsigned int)key->unk08), (::A54440Manager **)&((void*&)found)))
+        if (!reinterpret_cast<::A54440Hash *>((((MapObj596a*)FUN_00b585c0())))->FUN_00a53c30((::A54440Manager *)(uintptr_t)key->unk08, (::A54440Manager **)&((void*&)found)))
         {
             entry = new RTEntry;
             entry->tex = tex;
             entry->key = *key;
-            reinterpret_cast<::HashTableBase *>((((MapObj596a*)FUN_00b585c0())))->InsertOrUpdate((unsigned int)((void*)(unsigned int)key->unk08), (unsigned int)(entry));
+            reinterpret_cast<::HashTableBase *>((((MapObj596a*)FUN_00b585c0())))->InsertOrUpdate((uintptr_t)key->unk08, (uintptr_t)(entry));
         }
         else
         {

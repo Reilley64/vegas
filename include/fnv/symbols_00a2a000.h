@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class A29F00Stream;
 namespace fnv_00a2a5a0 { struct Elem; }
 struct A2ABC0Stream;
@@ -44,7 +46,7 @@ int FUN_00a2a4d0();
 // 0x00a2a560
 void FUN_00a2a560(float, const ::Pt3 *, const ::Pt3 *, float *);
 // 0x00a2a5a0
-namespace fnv_00a2a5a0 { ::fnv_00a2a5a0::Elem *CreateInitializedElems(int, unsigned int); }
+namespace fnv_00a2a5a0 { ::fnv_00a2a5a0::Elem *CreateInitializedElems(std::intptr_t, unsigned int); }
 // 0x00a2a600
 void FUN_00a2a600(void *);
 // 0x00a2a620
@@ -56,7 +58,7 @@ void FUN_00a2a7b0(::CopyBlk16 *, const ::CopyBlk16 *);
 // 0x00a2a7e0
 bool FUN_00a2a7e0(void *, void *);
 // 0x00a2a8e0
-::VertexRecord *CreateVertexRecords(int, unsigned int);
+::VertexRecord *CreateVertexRecords(std::intptr_t, unsigned int);
 // 0x00a2a940
 bool InsertLinPosKey(float, ::LinPosKey **, unsigned int *);
 // 0x00a2aa50

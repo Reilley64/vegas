@@ -16,7 +16,7 @@ float DAT_011b0150 = 1.0e+01f;
 Vector3 *DAT_011c3ef8;
 void* DAT_011f35a4;
 unsigned char DAT_011f4460;
-int DAT_011f4500;
+intptr_t DAT_011f4500;
 unsigned char DAT_01202d62;
 void (*DAT_01202e08)(void *, bool);
 int DAT_012677b8;

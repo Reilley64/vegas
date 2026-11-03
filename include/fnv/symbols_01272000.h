@@ -17,7 +17,7 @@ extern thread_local char tls_buffer[588];
 // 0x01272264
 extern __declspec(thread) int DAT_tls_0264;
 // 0x01272298
-extern bool g_tls_0298;
+extern __declspec(thread) bool g_tls_0298;
 // 0x012722b4
 extern unsigned int currentAllocationContext;
 // 0x012722bc

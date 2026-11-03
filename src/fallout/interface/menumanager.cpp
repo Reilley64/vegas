@@ -1,7 +1,6 @@
 // fallout/interface/menumanager.cpp: MenuSystem, TutorialMenu, QuantityMenu, StatsMenu and more (50 functions)
 
 #include <cstdint>
-#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"

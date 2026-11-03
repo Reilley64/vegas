@@ -6,5 +6,5 @@ public:
     // 0x004f8a60
     void SetField108(std::intptr_t);
     // 0x004f8ac0
-    void FUN_004f8ac0(int);
+    void FUN_004f8ac0(intptr_t);
 };

@@ -257,7 +257,7 @@ bool FUN_00a8a9b0::RegisterStreamables(NiStream& kStream)
 }
 
 // @fnv 0x00d3dd00
-void FUN_00d3dd00(int a, int b, int c, int d)
+void FUN_00d3dd00(intptr_t a, int b, int c, int d)
 {}
 
 // @fnv 0x00a8a9a0

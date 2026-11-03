@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00ac3030 { struct SB3030; }
 namespace fnv_00ac3030 { struct _Nonscalar_ptr_iterator_tagS; }
 namespace fnv_00ac3030 { struct _Range_checked_iterator_tagS; }
@@ -30,7 +32,7 @@ void FUN_00ac30c0(int, int, int, ::TagB, ::TagB, ::TagB);
 // 0x00ac3170
 ::Elem3170 *FUN_00ac3170(::Elem3170 *, ::Elem3170 *, ::Elem3170 *);
 // 0x00ac3230
-extern "C" int FUN_00ac3230(int, int, int);
+extern "C" intptr_t FUN_00ac3230(intptr_t, intptr_t, intptr_t);
 // 0x00ac3300
 void FUN_00ac3300(char *, unsigned int, char *);
 // 0x00ac3370
@@ -40,15 +42,15 @@ namespace fnv_00ac3450 { void FUN_00ac3450(int *, unsigned int, int *); }
 // 0x00ac34c0
 void FUN_00ac34c0(::IdName_ac34 *, const ::IdName_ac34 &);
 // 0x00ac3580
-namespace fnv_00ac3580 { void FUN_00ac3580(int, int, int, int); }
+namespace fnv_00ac3580 { void FUN_00ac3580(int, int, std::intptr_t, int); }
 // 0x00ac35d0
 namespace fnv_00ac35d0 { int *FUN_00ac35d0(int *, int *, int *); }
 // 0x00ac3640
 void CopyIteratorRange(::BAC3640Iterator, ::BAC3640Iterator, int *, void *);
 // 0x00ac3690
-void FUN_00ac3690(::IterPos, ::IterPos, int, int);
+void FUN_00ac3690(::IterPos, ::IterPos, std::intptr_t, int);
 // 0x00ac36e0
-void CallWithIterators(::Iter, ::Iter, int, int);
+void CallWithIterators(::Iter, ::Iter, std::intptr_t, int);
 // 0x00ac3730
 namespace fnv_00ac3730 { ::fnv_00ac3730::Elem3730 *FUN_00ac3730(::fnv_00ac3730::Elem3730 *, ::fnv_00ac3730::Elem3730 *, ::fnv_00ac3730::Elem3730 *, ::fnv_00ac3730::allocatorS< ::fnv_00ac3730::Elem3730> &); }
 // 0x00ac3780

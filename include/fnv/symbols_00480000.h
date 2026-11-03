@@ -6,7 +6,7 @@ struct FUN_00480ef0_obj;
 struct Reference;
 
 // 0x00480e60
-unsigned int FUN_00480e60(void *, ::Reference *);
+uintptr_t FUN_00480e60(void *, ::Reference *);
 // 0x00480ef0
 int FUN_00480ef0(::FUN_00480ef0_obj *, int);
 // 0x00480f80

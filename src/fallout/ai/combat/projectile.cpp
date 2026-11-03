@@ -4958,7 +4958,7 @@ void FUN_009a52f0_shell::UpdateExplosion(ProjectileCalls* projectile)
                         duration = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting482))))));
                 }
                 if (duration > 0.0)
-                    reinterpret_cast<::S_9a54a0_Class *>(this)->AddOrUpdateItem((intptr_t)(projectile), length, elapsed, duration, radius);
+                    reinterpret_cast<::S_9a54a0_Class *>(this)->AddOrUpdateItem((projectile), length, elapsed, duration, radius);
             }
         }
     }

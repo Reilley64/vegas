@@ -4,5 +4,5 @@
 struct FUN_006a1aa0_class {
 public:
     // 0x006a1aa0
-    int FindMatchingEntry(std::intptr_t, unsigned int, unsigned char (*)(int, int));
+    int FindMatchingEntry(intptr_t, unsigned int, unsigned char (*)(intptr_t, intptr_t));
 };

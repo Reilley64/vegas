@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NavMeshClosedDoorInfo;
 class NavMeshStaticAvoidNode;
@@ -10,7 +11,7 @@ public:
     // 0x0042fb00
     ::NavMeshStaticAvoidNode *GetStaticAvoidNodeData();
     // 0x00464ff0
-    ::NavMesh *FUN_00464ff0(int);
+    ::NavMesh *FUN_00464ff0(intptr_t);
     // 0x00558220
     ::NiPoint3 GetNavMeshData(unsigned short);
     // 0x005582f0

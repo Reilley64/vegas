@@ -38,7 +38,7 @@ extern int DAT_01200054;
 // 0x01200058
 extern bool DAT_01200058;
 // 0x0120006c
-extern int DAT_0120006c;
+extern void *DAT_0120006c;
 // 0x01200088
 extern ::GlobalObjectO2_00ba3690 g_01200088;
 // 0x012003c4

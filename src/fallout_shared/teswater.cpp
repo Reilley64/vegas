@@ -1038,14 +1038,14 @@ void FUN_004e6a40_shell::FUN_004e6a40(void* apNP)
 // @fnv 0x004e6a60
 std::intptr_t FUN_004e6a60()
 {
-    return *reinterpret_cast<std::intptr_t*>(&DAT_011ffff8);
+    return reinterpret_cast<std::intptr_t>(DAT_011ffff8);
 }
 
 
 // @fnv 0x004e6a70
 std::intptr_t __cdecl FUN_004e6a70()
 {
-    return *reinterpret_cast<std::intptr_t*>(&DAT_0120006c);
+    return reinterpret_cast<std::intptr_t>(DAT_0120006c);
 }
 
 

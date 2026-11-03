@@ -40,7 +40,7 @@ unsigned int DAT_011ff9fc;
 int DAT_011ffa14;
 int DAT_011ffa18;
 ::FUN_00b9b830 *g_pkB9B830Instance;
-int DAT_011ffff8;
+void *DAT_011ffff8;
 namespace fnv_004e8ec0 { float DAT_01200020; }
 namespace fnv_004e8ec0 { float DAT_01200028; }
-int DAT_0120006c;
+void *DAT_0120006c;

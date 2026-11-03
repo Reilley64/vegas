@@ -147,4 +147,4 @@ namespace fnv_004e8ec0 { extern bool DAT_011fffed; }
 // 0x011ffff4
 extern float DAT_011ffff4;
 // 0x011ffff8
-extern int DAT_011ffff8;
+extern void *DAT_011ffff8;

@@ -27,6 +27,7 @@
 #include "fnv/symbols_0102f000.h"
 #include "havok/hkpPhysicsData.h"
 #include "havok/hkpWorldObject.h"
+#include "havok/hkpWorld.h"
 
 
 struct BoolResult
@@ -225,235 +226,14 @@ class __declspec(align(16)) FUN_00553540
     }
 };
 
-class hkpWorld
-{
-  public:
-    void* m_pVtable;
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    void* m_pDispatcher;  // 0x80
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    int unke0;
-    int unke4;
-    int unke8;
-    int unkec;
-    int unkf0;
-    int unkf4;
-    int unkf8;
-    int unkfc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int unk2b4;
-    int unk2b8;
-    int unk2bc;
-    int unk2c0;
-    int unk2c4;
-    int unk2c8;
-    int unk2cc;
-    int unk2d0;
-    int unk2d4;
-    int unk2d8;
-    int unk2dc;
-    int unk2e0;
-    int unk2e4;
-    int unk2e8;
-    int unk2ec;
-    int unk2f0;
-    int unk2f4;
-    int unk2f8;
-    int unk2fc;
-    int unk300;
-    int unk304;
-    int unk308;
-    int unk30c;
-    int unk310;
-    int unk314;
-    int unk318;
-    int unk31c;
-    int unk320;
-    int unk324;
-    int unk328;
-    int unk32c;
-    int unk330;
-    int unk334;
-    int unk338;
-    int unk33c;
-    int unk340;
-    int unk344;
-    int unk348;
-    int unk34c;
 
-    void* operator new(size_t size) throw()
-    {
-        void* p = ((hkThreadMemory*)&hkMemoryRouter::getInstance())->allocateChunk(size);
-        static_cast<hkpWorld*>(p)->m_usMemSizeAndFlags = (unsigned short)size;
-        return p;
-    }
-    hkpWorld* FUN_00c95a80(const FUN_00553540* info, unsigned int version = 0x111d4) throw();
-    __forceinline hkpWorld(const FUN_00553540* info) throw()
-    {
-        reinterpret_cast<::WorldCtor *>(this)->FUN_00c95a80((::WorldInfoCtor *)(info), 0x111d4);
-    }
-};
+// Allocates a world the size of hkpWorld and runs the world constructor (0x00c95a80) on it.
+static __forceinline hkpWorld* NewWorld(const FUN_00553540* info)
+{
+    void* p = ((hkThreadMemory*)&hkMemoryRouter::getInstance())->allocateChunk(sizeof(hkpWorld));
+    static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags = (unsigned short)sizeof(hkpWorld);
+    return reinterpret_cast<hkpWorld*>(reinterpret_cast<::WorldCtor*>(p)->FUN_00c95a80((::WorldInfoCtor*)(info), 0x111d4));
+}
 
 struct ContactOptions
 {
@@ -480,11 +260,11 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
     hkpWorld* world;
     if (this->m_pWorldCinfo == 0)
     {
-        world = ((hkpWorld*)hkpWorld::operator new(0x350))->FUN_00c95a80(&defaultCinfo);
+        world = NewWorld(&defaultCinfo);
     }
     else
     {
-        world = ((hkpWorld*)hkpWorld::operator new(0x350))->FUN_00c95a80((FUN_00553540*)this->m_pWorldCinfo);
+        world = NewWorld((FUN_00553540*)this->m_pWorldCinfo);
     }
 
     if (bRegisterWithMemoryManager)

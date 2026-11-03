@@ -12,7 +12,7 @@ public:
     // 0x006a1400
     bool FUN_006a1400(unsigned int);
     // 0x006a7ad0
-    bool FUN_006a7ad0(uintptr_t);
+    bool FUN_006a7ad0(unsigned int);
     // 0x006e8fa0
     bool FUN_006e8fa0(unsigned int);
 };

@@ -803,7 +803,7 @@ void __cdecl FUN_007f6a20(std::intptr_t a1)
         {
             if ((*reinterpret_cast<int *>(&::DAT_011f21cc)) == a1 && DAT_011db0d4 != 0)
             {
-                ((EventTarget*)DAT_011db0d4)->v0c(2, 0);
+                ((EventTarget*)(std::uintptr_t)DAT_011db0d4)->v0c(2, 0);
             }
             reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::ListNode *>(&::g_011db150))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::ObjectResolver *)((void *)(pNode))))));
             if ((*reinterpret_cast<::ListNode *>(&::g_011db150)).Probe() && DAT_011db0d4 != 0)

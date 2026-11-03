@@ -125,6 +125,6 @@ void Holder_006e6140::ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     *(TESObjectREFR**)((char*)this + 0xb8) = (*(TESObjectREFR**)((char*)this + 0xb8))
                                                  ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(
-                                                       (unsigned int)*(TESObjectREFR**)((char*)this + 0xb8)))
+                                                       (unsigned int)(std::uintptr_t)*(TESObjectREFR**)((char*)this + 0xb8)))
                                                  : 0;
 }

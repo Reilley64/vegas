@@ -191,8 +191,8 @@ struct FUN_006ed530_cls
     NodeA* m_04;
     Triple m_08;
     Triple m_14;
-    int m_20;
-    int m_24;
+    ArgObj* m_20;
+    ArgObj* m_24;
     int m_28;
     float m_2c;
     int unk30;
@@ -217,8 +217,8 @@ bool FUN_006ed530_cls::FUN_006ed530(NodeA* apNode, ArgObj* apArgObj, ArgObj* apA
     m_04 = apNode;
     m_08 = *apTripleA;
     m_14 = *apTripleB;
-    m_20 = (int)apArgObj;
-    m_24 = (int)apArgObj2;
+    m_20 = apArgObj;
+    m_24 = apArgObj2;
     m_28 = aiValue;
     m_00 = apGate;
     m_2c = ::GetFloatAtOffset68((const char *)(m_04));

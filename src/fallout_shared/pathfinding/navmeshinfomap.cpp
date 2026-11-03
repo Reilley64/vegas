@@ -190,7 +190,7 @@ struct FUN_006b7d90_arg
 int* FUN_006b7d90(int* self, FUN_006b7d90_arg aArg)
 {
     reinterpret_cast<::FUN_006b7eb0_t *>((self))->FUN_006b7eb0((*(int *)&(const ::FUN_006b7d90_arg &)(aArg)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 
@@ -208,7 +208,7 @@ struct FUN_006b7dc0_arg
 int* FUN_006b7dc0(int* self, FUN_006b7dc0_arg aArg)
 {
     reinterpret_cast<::FUN_006b8060_class *>((self))->FUN_006b8060((*(int *)&(const ::fnv_006b7dc0::FUN_006b7dc0_arg &)(aArg)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 }  // namespace fnv_006b7dc0
@@ -227,7 +227,7 @@ struct FUN_006b7df0_arg
 int* FUN_006b7df0(int* self, FUN_006b7df0_arg aArg)
 {
     reinterpret_cast<::FUN_006b8160_class *>((self))->FUN_006b8160((*(int *)&(const ::fnv_006b7df0::FUN_006b7df0_arg &)(aArg)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 }  // namespace fnv_006b7df0
@@ -490,20 +490,20 @@ struct Holder
 {
     char _pad[0x2c];
     DummyPointerMap m;
-    unsigned int LookupScriptMessageValue(const char*);
+    void* LookupScriptMessageValue(const char*);
 };
 // Looks up two map entries: one at key 0, then one keyed by PrepareScriptMessage(s), returning the second value or 0 if either lookup fails.
 // @fnv 0x006b78b0
-unsigned int Holder::LookupScriptMessageValue(const char* pcScriptMessage)
+void* Holder::LookupScriptMessageValue(const char* pcScriptMessage)
 {
-    unsigned int uiValue;
+    void* pValue;
     {
-        unsigned int uiMapPtr;
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m))->FUN_00853130(0, (::fnv_00853130::CombatThreatRecord *&)(uiMapPtr)))
+        void* pMap;
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m))->FUN_00853130(0, (::fnv_00853130::CombatThreatRecord *&)(pMap)))
             return 0;
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)uiMapPtr)))->FUN_00853130((std::uintptr_t)((const char *)(::FUN_00464f30((std::intptr_t)(pcScriptMessage)))), (::fnv_00853130::CombatThreatRecord *&)(uiValue)))
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)pMap)))->FUN_00853130((std::uintptr_t)((const char *)(::FUN_00464f30((std::intptr_t)(pcScriptMessage)))), (::fnv_00853130::CombatThreatRecord *&)(pValue)))
             return 0;
-        return uiValue;
+        return pValue;
     }
 }
 }  // namespace fnv_006b78b0
@@ -546,18 +546,18 @@ struct DoorH
 };
 struct FUN_006b77e0_shell
 {
-    int FUN_006b77e0(TESObjectCELL*);
+    void* FUN_006b77e0(TESObjectCELL*);
 };
 // @fnv 0x006b77e0
-int FUN_006b77e0_shell::FUN_006b77e0(TESObjectCELL* cell)
+void* FUN_006b77e0_shell::FUN_006b77e0(TESObjectCELL* cell)
 {
     if (!cell)
         return 0;
     if (cell->IsInterior())
-        return ((int)(reinterpret_cast<::fnv_006b78b0::Holder *>(this)->LookupScriptMessageValue((const char *)(cell))));
+        return reinterpret_cast<::fnv_006b78b0::Holder *>(this)->LookupScriptMessageValue((const char *)(cell));
     else
-        return ((int)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>(this)->FUN_006b7850((::TESWorldSpace *)(void *)(((DoorH*)cell)->GetParentWorldSpace()),
-                            ::PackShortPair((short)((CellH*)cell)->GetCellGridX(), (short)((CellH*)cell)->GetCellGridY()))));
+        return (reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>(this)->FUN_006b7850((::TESWorldSpace *)(void *)(((DoorH*)cell)->GetParentWorldSpace()),
+                            ::PackShortPair((short)((CellH*)cell)->GetCellGridX(), (short)((CellH*)cell)->GetCellGridY())));
 }
 }  // namespace fnv_006b77e0
 

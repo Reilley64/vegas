@@ -10,6 +10,8 @@
 #define FNV_ASTARSEARCH_DECLS_H
 
 
+#include <cstdint>
+
 #include "fnv/symbols_0040f000.h"
 #include "layout_support.h"
 
@@ -134,7 +136,7 @@ template <class BoundingVolumeNode, class TLink> class AStarSearch
                                                                  float m_fCost);
     AStarNode<BoundingVolumeNode, TLink>* ComputePath();
     bool FUN_006a8290(AStarNode<BoundingVolumeNode, TLink>* pNode, unsigned int uiParam1, unsigned int uiParam2);
-    bool Search(unsigned int uiParam1, unsigned int uiParam2, bool bUseBestNode);
+    bool Search(std::uintptr_t uiParam1, std::uintptr_t uiParam2, bool bUseBestNode);
 };
 
 typedef AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference> NavMeshAStarNode;

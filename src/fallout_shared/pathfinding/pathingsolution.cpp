@@ -368,14 +368,14 @@ namespace fnv_006e8f60 {
 class PathBuilder
 {
   public:
-    void* FUN_006e8f40(void*);
-    void* FUN_006e8f60(void* a1);
+    void* FUN_006e8f40(unsigned int);
+    void* FUN_006e8f60(unsigned int aiIndex);
 };
 
 // @fnv 0x006e8f60
-void* PathBuilder::FUN_006e8f60(void* apArg)
+void* PathBuilder::FUN_006e8f60(unsigned int aiIndex)
 {
-    return FUN_006e8f40(apArg);
+    return FUN_006e8f40(aiIndex);
 }
 }  // namespace fnv_006e8f60
 
@@ -494,18 +494,20 @@ _ref_006815c0 FUN_006e7d60_stub::FUN_006e7d60(char* pFirst, char* pSecond)
 
 struct FUN_006e8f40_shell
 {
+    void* m_pVtbl;
+    char* m_pBuffer;
     std::intptr_t FUN_006e8f40(std::intptr_t a) const;
 };
 // @fnv 0x006e78b0
 void* FUN_006e78b0_shell::FUN_006e78b0(unsigned int aiIndex)
 {
-    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((std::intptr_t)((void*)aiIndex))));
+    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40(aiIndex)));
 }
 
 // @fnv 0x006e8f40
 std::intptr_t FUN_006e8f40_shell::FUN_006e8f40(std::intptr_t aiIndex) const
 {
-    return aiIndex * 0x30 + *(int*)((char*)this + 4);
+    return aiIndex * 0x30 + reinterpret_cast<std::intptr_t>(m_pBuffer);
 }
 
 namespace fnv_006e7e70 {
@@ -680,17 +682,17 @@ struct FUN_006e8480_shell
 {
     char _pad[32];
     ArrHelper m;
-    int FUN_006e8480();
+    void* FUN_006e8480();
 };
 // Returns 0 when m.FUN_0076b610() is true, otherwise returns m.FUN_006e8fc0().
 // @fnv 0x006e8480
-int FUN_006e8480_shell::FUN_006e8480()
+void* FUN_006e8480_shell::FUN_006e8480()
 {
     if (reinterpret_cast<::FUN_0076b610_Class *>((void *)&(m))->FUN_0076b610())
     {
         return 0;
     }
-    return ((int)(reinterpret_cast<::FUN_006e8fc0_Class *>(&(m))->FUN_006e8fc0()));
+    return reinterpret_cast<::FUN_006e8fc0_Class *>(&(m))->FUN_006e8fc0();
 }
 
 struct HelperA
@@ -724,8 +726,8 @@ void MyClass::FUN_006e8ab0(MyClass* apTarget)
 struct PathingGraphNode;
 struct BSSimpleArray_PathingNode_1024
 {
-    int m_auiShapeKeys;
-    int m_pBase;
+    void* m_pVtbl;
+    char* m_pBase;
     PathingGraphNode* FUN_006e8f80(unsigned int aiIndex);
 };
 // @fnv 0x006e7970
@@ -741,7 +743,7 @@ bool S3e60::FUN_006e8fa0(unsigned int auiFlag)
 // @fnv 0x006e8f80
 PathingGraphNode* BSSimpleArray_PathingNode_1024::FUN_006e8f80(unsigned int aiIndex)
 {
-    return (PathingGraphNode*)((char*)m_pBase + aiIndex * 0x3C);
+    return (PathingGraphNode*)(m_pBase + aiIndex * 0x3C);
 }
 
 namespace fnv_006e9ab0 {
@@ -1126,7 +1128,7 @@ void FUN_006e8d50_shell::FUN_006e8d50(BGSLoadFormBuffer* apLoadGameBuffer)
         reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e90a0(isaveGameCount, true);
         for (unsigned int i = 0; i < isaveGameCount; i++)
         {
-            FUN_006f5100_shell* virtualNode = ((::FUN_006f5100_shell *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e8f60((void *)(i))));
+            FUN_006f5100_shell* virtualNode = ((::FUN_006f5100_shell *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e8f60(i)));
             reinterpret_cast<::LoadHolder6F51 *>((virtualNode))->FUN_006f5100(apLoadGameBuffer);
         }
     }
@@ -1312,7 +1314,7 @@ void SaveSolution::FUN_006e8b10(SaveBuffer* buffer)
     reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(countA9);
     for (unsigned int indexA = 0; indexA < countA9; ++indexA)
     {
-        SaveEntryA* entryA8 = ((::SaveEntryA *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>(&(first))->FUN_006e8f60((void *)(indexA))));
+        SaveEntryA* entryA8 = ((::SaveEntryA *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>(&(first))->FUN_006e8f60(indexA)));
         reinterpret_cast<::FUN_006f50b0_shell *>((entryA8))->FUN_006f50b0((::BGSSaveFormBuffer *)(buffer));
     }
     {

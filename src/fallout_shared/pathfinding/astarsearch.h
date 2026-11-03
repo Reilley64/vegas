@@ -88,7 +88,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<AStarNodeData*, AStarNodeLink*>::CreateOrUpd
             if ((*ppBucket)->m_fPathingCostCur > m_fPathingCostCur)
             {
                 pNodeOut = *ppBucket;
-                reinterpret_cast<::FUN_006b9540_class *>(&(AStarBucketQueue))->UnlinkFromNeighbors((int)(pNodeOut));
+                reinterpret_cast<::FUN_006b9540_class *>(&(AStarBucketQueue))->UnlinkFromNeighbors((std::intptr_t)(pNodeOut));
                 pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
                 return CREATE_ASTARNODE_RESULT_ASTAR_MUST_SET_LINKDATA;
             }
@@ -107,7 +107,7 @@ CREATE_ASTARNODE_RESULT AStarSearch<AStarNodeData*, AStarNodeLink*>::CreateOrUpd
                     if (pCur->m_fPathingCostCur > m_fPathingCostCur)
                     {
                         pNodeOut = pCur;
-                        reinterpret_cast<::FUN_006b9540_class *>(&(AStarBucketQueue))->UnlinkFromNeighbors((int)(pNodeOut));
+                        reinterpret_cast<::FUN_006b9540_class *>(&(AStarBucketQueue))->UnlinkFromNeighbors((std::intptr_t)(pNodeOut));
                         pNodeOut->m_fPathingCostCur = m_fPathingCostCur;
                         return CREATE_ASTARNODE_RESULT_ASTAR_MUST_SET_LINKDATA;
                     }
@@ -202,7 +202,7 @@ AStarNode<BoundingVolumeNode, TLink>* AStarSearch<BoundingVolumeNode, TLink>::Co
 
 template <class BoundingVolumeNode, class TLink>
 // @fnv 0x006a7d60
-bool AStarSearch<BoundingVolumeNode, TLink>::Search(unsigned int uiParam1, unsigned int uiParam2, bool bUseBestNode)
+bool AStarSearch<BoundingVolumeNode, TLink>::Search(std::uintptr_t uiParam1, std::uintptr_t uiParam2, bool bUseBestNode)
 {
     AStarNode<BoundingVolumeNode, TLink>* pNode;
     bool bSuccess;
@@ -233,7 +233,7 @@ template AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* ASta
     NavMeshTriangleReference, NavMeshTriangleEdgeReference>::FindOrCreateSearchNode(unsigned int,
                                                                                     const NavMeshTriangleReference&,
                                                                                     float);
-template bool AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdgeReference>::Search(unsigned int, unsigned int,
+template bool AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdgeReference>::Search(std::uintptr_t, std::uintptr_t,
                                                                                           bool);
 
 template AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* AStarSearch<

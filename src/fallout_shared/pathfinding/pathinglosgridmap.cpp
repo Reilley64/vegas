@@ -202,17 +202,17 @@ struct FUN_006e0190
     unsigned char b0;
     char pad[3];
     H_006e1070 m;
-    int i14;
+    NavMeshInfo* pNavMeshInfo;
     int i18;
     FUN_006e0190();
 };
-// Initializes the embedded object, sets b0 and i14 to 0 and i18 to -1.
+// Initializes the embedded object, sets b0 and pNavMeshInfo to 0 and i18 to -1.
 // @fnv 0x006e0190
 FUN_006e0190::FUN_006e0190()
 {
     reinterpret_cast<::FUN_006e1070_Class *>(&(m))->FUN_006e1070();
     b0 = 0;
-    i14 = 0;
+    pNavMeshInfo = 0;
     i18 = -1;
 }
 
@@ -1029,14 +1029,14 @@ struct FUN_006e0b50_cls
 // @fnv 0x006e0b50
 bool FUN_006e0b50_cls::FUN_006e0b50(void* aArg)
 {
-    unsigned int value;
+    ::fnv_00853130::CombatThreatRecord* value;
     void* pHolder = ((void *)(reinterpret_cast<::MagicCaster_shell *>((((FUN_0044edb0_shell*)aArg)))->FUN_0044edb0()));
     if (pHolder == 0 || ((FUN_006df760_shell*)aArg)->GetShortValueAtOffset24() == 0xffff)
     {
         return false;
     }
     value = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)&this->m_08[0])))->FUN_00853130((std::uintptr_t)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), *(::fnv_00853130::CombatThreatRecord * *)nullptr))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)&this->m_08[0])))->FUN_00853130((std::uintptr_t)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), value))
     {
         return reinterpret_cast<::FUN_006dfdc0_Class *>((((FUN_006dfdc0_shell*)value)))->FUN_006dfdc0((::PathingLocation *)(aArg));
     }
@@ -1217,13 +1217,15 @@ FUN_006e0730::FUN_006e0730(const FUN_006e0730& kOther)
 
 struct FUN_006a62f0_Class
 {
-    int AddOffset(void*);
+    int m_00;
+    int m_iOffset;
+    std::intptr_t AddOffset(void*);
 };
 
 // @fnv 0x006a62f0
-int FUN_006a62f0_Class::AddOffset(void* arg)
+std::intptr_t FUN_006a62f0_Class::AddOffset(void* arg)
 {
-    return reinterpret_cast<int*>(this)[1] + reinterpret_cast<int>(arg);
+    return m_iOffset + reinterpret_cast<std::intptr_t>(arg);
 }
 
 struct Pathing;
@@ -1291,7 +1293,7 @@ void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
                 *ppFormLoadEntry = (FormLoadEntry*)new FUN_006e0190();
 
                 (*ppFormLoadEntry)->LoadForm(apLoadGameBuffer);
-                reinterpret_cast<::FUN_00600ab0_shell *>((((TESConditionItem*)*ppFormLoadEntry)))->FUN_00600ab0((int)((NavMeshInfo**)((char*)this + 0x10))[0]);
+                reinterpret_cast<FUN_006e0190*>(*ppFormLoadEntry)->pNavMeshInfo = ((NavMeshInfo**)((char*)this + 0x10))[0];
             }
         }
     }

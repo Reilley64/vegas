@@ -341,7 +341,7 @@ bool FUN_006ab4a0_shell::StartSearch(int aiSearchType, NavMeshSearchLocation* ap
             kGoal.m_pLocationNavMesh = spGoalNavMesh;
             kGoal.m_usTriangleID = m_usTriangleID;
             NiPoint3 kGoalPos;
-            kGoal.m_pLocationNavMesh->GetNavMeshData((unsigned short)(&kGoalPos));
+            kGoalPos = kGoal.m_pLocationNavMesh->GetNavMeshData(kGoal.m_usTriangleID);
             kGoal.kPosition.x = kGoalPos.x;
             kGoal.kPosition.y = kGoalPos.y;
             kGoal.kPosition.z = kGoalPos.z;

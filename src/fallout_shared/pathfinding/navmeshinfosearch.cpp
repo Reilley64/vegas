@@ -61,7 +61,7 @@ bool NavMeshInfoSearch::CollectConnections(const AStarNodeType* pNode,
         NiPoint3 Goal = pNextMesh == m_pGoalNavMeshInfo ? m_kGoalPosition : pNextMesh->m_kNavMeshPosition;
         float fConnectionCost = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((Goal - Start)))->ComputeMagnitude() * fCostMultiplier * 3.0 + fInitialCost;
         AStarNodeType* pNewAStarNode;
-        switch (CreateOrUpdateNode(reinterpret_cast<unsigned int>(pNextMesh), fConnectionCost, pNewAStarNode))
+        switch (CreateOrUpdateNode(reinterpret_cast<std::uintptr_t>(pNextMesh), fConnectionCost, pNewAStarNode))
         {
         case ASTARNODE_CREATED:
             pNewAStarNode->ObjectResolver = pNextMesh;
@@ -86,7 +86,7 @@ bool NavMeshInfoSearch::CollectConnections(const AStarNodeType* pNode,
         NiPoint3 Goal = pNextMesh == m_pGoalNavMeshInfo ? m_kGoalPosition : pNextMesh->m_kNavMeshPosition;
         float fConnectionCost = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((Goal - Start)))->ComputeMagnitude() * fCostMultiplier + fInitialCost;
         AStarNodeType* pNewAStarNode;
-        switch (CreateOrUpdateNode(reinterpret_cast<unsigned int>(pNextMesh), fConnectionCost, pNewAStarNode))
+        switch (CreateOrUpdateNode(reinterpret_cast<std::uintptr_t>(pNextMesh), fConnectionCost, pNewAStarNode))
         {
         case ASTARNODE_CREATED:
             pNewAStarNode->ObjectResolver = pNextMesh;
@@ -154,7 +154,7 @@ bool NavMeshInfoSearch::CollectConnections(const AStarNodeType* pNode,
                     fConnectionCost += fDoorCost;
                     AStarNodeType* pNewAStarNode;
                     switch (
-                        CreateOrUpdateNode(reinterpret_cast<unsigned int>(pNextMesh), fConnectionCost, pNewAStarNode))
+                        CreateOrUpdateNode(reinterpret_cast<std::uintptr_t>(pNextMesh), fConnectionCost, pNewAStarNode))
                     {
                     case ASTARNODE_CREATED:
                         pNewAStarNode->ObjectResolver = pNextMesh;
@@ -315,7 +315,7 @@ struct StandInSearch : public NavMeshInfoMap
 // @fnv 0x006b6940
 void StandInSearch::RegisterNavMeshInfo(TeleportableReference* pInfo)
 {
-    reinterpret_cast<::FUN_00844700_Class *>(&(map))->FUN_00844700((std::uintptr_t)((::TESObjectREFR *)(::FUN_00559450((int *)(pInfo)))), (unsigned int)pInfo);
+    reinterpret_cast<::FUN_00844700_Class *>(&(map))->FUN_00844700((std::uintptr_t)((::TESObjectREFR *)(::FUN_00559450((int *)(pInfo)))), (std::uintptr_t)pInfo);
     InsertNavMeshInfo((NavMeshInfo*)pInfo);
     virtC8(1);
 }
@@ -364,7 +364,7 @@ bool FUN_006b8c50_shell::SetupNavMeshSearch(PathingActorData* apActorLockData, v
     else
         fstartheuristic = 1.0f;
     reinterpret_cast<::FUN_006b8ec0_cls *>((((NavSearch_S*)this)))->FUN_006b8ec0((std::intptr_t)(apStartMesh), (int *)(void **)(&apStartMesh), fstartheuristic);
-    if (!reinterpret_cast<::fnv_006b8f40::FUN_006b8f40_cls *>((((NavSearch_S*)this)))->ProcessWithFallback((std::intptr_t)(apReturnNodes), (int)(apReturnLinks), true))
+    if (!reinterpret_cast<::fnv_006b8f40::FUN_006b8f40_cls *>((((NavSearch_S*)this)))->ProcessWithFallback((std::intptr_t)(apReturnNodes), (std::intptr_t)(apReturnLinks), true))
         return false;
     return true;
 }

@@ -2050,13 +2050,13 @@ namespace fnv_006995c0 {
 struct ArrSI
 {
 };
-struct Arr
-{
-    unsigned int* GetAt(int);
-};
 struct GO
 {
-    operator unsigned int() const;
+    char* pEntry;
+};
+struct Arr
+{
+    GO* GetAt(int);
 };
 struct NiPointerStandIn
 {
@@ -2075,7 +2075,7 @@ int FUN_006995c0_shell::FindEntryIndex(void* apTarget)
     unsigned int i = 0;
     for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xd0))))->GetName())); ++i)
     {
-        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)(((GO*)((char*)((Arr*)((char*)this + 0xd0))->GetAt(i)))->operator unsigned int() + 0xc))))->FUN_004b0460((const void **)&(apTarget)))
+        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)(((Arr*)((char*)this + 0xd0))->GetAt(i)->pEntry + 0xc))))->FUN_004b0460((const void **)&(apTarget)))
             return i;
     }
     return -1;
@@ -2106,7 +2106,7 @@ struct FUN_006bf7d0
 {
     int padding[5];
 
-    FUN_006bf7d0(int, int, int);
+    FUN_006bf7d0(unsigned int, unsigned int, void*);
     ~FUN_006bf7d0();
 };
 
@@ -2114,7 +2114,7 @@ struct FUN_006bfa10
 {
     int padding[5];
 
-    FUN_006bfa10(int, int, int);
+    FUN_006bfa10(unsigned int, unsigned int, void*);
 };
 
 struct FUN_006bbb80
@@ -2132,7 +2132,7 @@ struct FUN_006bbb80
 // Initializes the object's members, constructing go with 0 and member1C and member30 with 0x100, 0, and the result of memberC._ref_006815c0().
 // @fnv 0x006bbb80
 FUN_006bbb80::FUN_006bbb80()
-    : go(0), memberC(), member1C(0x100, 0, ((int)((void *)&(memberC)))), member30(0x100, 0, ((int)((void *)&(memberC))))
+    : go(0), memberC(), member1C(0x100, 0, &memberC), member30(0x100, 0, &memberC)
 {}
 }  // namespace fnv_006bbb80
 
@@ -2893,7 +2893,7 @@ void __cdecl RemoveNavMeshId(std::uintptr_t id)
             if (j < info)
                 entry = (std::uintptr_t)*firstCount->first.FUN_00877a30(j);
             else
-                entry = (unsigned int)*firstCount->second.FUN_00877a30(j - info);
+                entry = (std::uintptr_t)*firstCount->second.FUN_00877a30(j - info);
             if (entry == id)
             {
                 NavMeshPtr mesh;

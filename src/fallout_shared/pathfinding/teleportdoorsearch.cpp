@@ -148,7 +148,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
                 continue;
             void* b01 =
                 ((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))
-                    ? reinterpret_cast<void*>(((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
+                    ? reinterpret_cast<void*>(((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
                     : reinterpret_cast<void*>(((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0())));
             switch (restriction)
             {
@@ -159,7 +159,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
             case 1:
                 if (((std::uintptr_t)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())) &&
                     reinterpret_cast<TESWorldSpace*>(
-                        ((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))) != startWorld)
+                        ((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace()))) != startWorld)
                     continue;
                 break;
             }
@@ -201,7 +201,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
                     a08->exterior = true;
                     a08->cell = 0;
                     a08->world = reinterpret_cast<TESWorldSpace*>(
-                        ((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())));
+                        ((reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())));
                 }
                 else
                 {
@@ -2426,7 +2426,7 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
     result->start = reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     result->finish = reinterpret_cast<::TaskQueueInterface *>((void *)(goal))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     reinterpret_cast<::S_006f3d00_Obj *>(this)->FUN_006f3d00((std::intptr_t)(a), (::S_006f3d00_Vec3 *)(::SearchState *)(&startState), 1.0f);
-    if (!reinterpret_cast<::PathSearch *>(this)->FindPath((int)(result), (int)(&result->sub), true))
+    if (!reinterpret_cast<::PathSearch *>(this)->FindPath((std::intptr_t)(result), (std::intptr_t)(&result->sub), true))
         return false;
     return true;
 }

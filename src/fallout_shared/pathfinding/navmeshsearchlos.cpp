@@ -238,23 +238,32 @@ struct FUN_006aac10_shell
     void InitNavMeshPoint(void* p, NavMesh* n, unsigned short t);
 };
 // @fnv 0x006aac10
-void FUN_006aac10_shell::InitNavMeshPoint(void* p, NavMesh* n, unsigned short t)
+struct NavMeshSearchPointView
 {
-    ((unsigned int*)((char*)p + 8))[0] = (unsigned int)n;
-    ((unsigned short*)((char*)p + 12))[0] = t;
+    unsigned int uiState;
+    float fHeuristic;
+    NavMesh* pNavMesh;
+    unsigned short usTriangle;
+    float afPos[3];
+};
+void FUN_006aac10_shell::InitNavMeshPoint(void* apPoint, NavMesh* n, unsigned short t)
+{
+    NavMeshSearchPointView* p = static_cast<NavMeshSearchPointView*>(apPoint);
+    p->pNavMesh = n;
+    p->usTriangle = t;
     P3 vecPos = n->GetNavMeshData(t);
-    ((float*)((char*)p + 16))[0] = vecPos.x;
-    ((float*)((char*)p + 16))[1] = vecPos.y;
-    ((float*)((char*)p + 16))[2] = vecPos.z;
+    p->afPos[0] = vecPos.x;
+    p->afPos[1] = vecPos.y;
+    p->afPos[2] = vecPos.z;
     if (((unsigned char*)((char*)this + 0x2074))[0])
     {
         P3 kCenter;
         P3L kDiff;
         static_cast<P3&>(kDiff) = vecPos - *reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)(((NavMeshTriangleReference*)((char*)this + 0x2078))))->FUN_006a6eb0(&kCenter);
-        ((float*)p)[1] = reinterpret_cast<::FUN_00589850_Class *>(&kDiff)->FUN_00589850();
+        p->fHeuristic = reinterpret_cast<::FUN_00589850_Class *>(&kDiff)->FUN_00589850();
     }
     else
-        ((float*)p)[1] = 0.0f;
+        p->fHeuristic = 0.0f;
 }
 
 struct Point3

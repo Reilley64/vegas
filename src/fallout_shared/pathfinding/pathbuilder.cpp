@@ -120,7 +120,6 @@
 #include "fnv/symbols_00647000.h"
 #include "fnv/symbols_0069e000.h"
 #include "fnv/symbols_006a9000.h"
-#include "fnv/symbols_006b3000.h"
 #include "fnv/symbols_006b9000.h"
 #include "fnv/symbols_006ba000.h"
 #include "fnv/symbols_006c8000.h"
@@ -148,6 +147,19 @@
 #include "pathbuilder_types_PathBuilder.h"
 #include "pathbuilder_types_PathingInfoItem.h"
 #include "pathbuilder_decls.h"
+#include "fnv_result_slot.h"
+
+const ::NavMeshTriangleReference &GetLastElement(const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *);
+
+namespace seg6b9 {
+struct S6Point
+{
+    float x;
+    float y;
+    float z;
+    S6Point();
+};
+}
 
 // @fnv 0x006cd5c0
 bool CheckLineOfSightFilterWater::IsLineOfSightClear(unsigned int firstMesh, unsigned int firstTriangle,
@@ -549,7 +561,8 @@ struct FUN_006cc5e0_shell : public PathBuilder
 
 struct NavMeshTriangleEdgeReference;
 
-template <> class BSSimpleArray<NavMeshTriangleEdgeReference, 1024>
+}  // namespace fnv_006cc5e0
+template <> class BSSimpleArray<fnv_006cc5e0::NavMeshTriangleEdgeReference, 1024>
 {
   public:
     void* m_vtbl;
@@ -559,8 +572,10 @@ template <> class BSSimpleArray<NavMeshTriangleEdgeReference, 1024>
     BSSimpleArray(unsigned int, unsigned int);
     ~BSSimpleArray();
 };
+namespace fnv_006cc5e0 {
 
-template <> class BSSimpleArray<NavMeshTriangleReference, 1024>
+}  // namespace fnv_006cc5e0
+template <> class BSSimpleArray<fnv_006cc5e0::NavMeshTriangleReference, 1024>
 {
   public:
     void* m_vtbl;
@@ -570,6 +585,7 @@ template <> class BSSimpleArray<NavMeshTriangleReference, 1024>
     BSSimpleArray(unsigned int, unsigned int);
     ~BSSimpleArray();
 };
+namespace fnv_006cc5e0 {
 
 struct NavMeshArr
 {
@@ -924,7 +940,7 @@ struct Mid
 void Mid::FUN_006cc560(int aiValue)
 {
     *(int*)((char*)this + 0x38) = aiValue;
-    reinterpret_cast<::FUN_006dd460 *>((((S006dd460*)((char*)this + 4))))->FUN_006dd460_1((*(const ::NiPoint3 *)(((int)(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>(((*(S00568fa0**)((char*)this + 0x38))))->FUN_00568fa0())))));
+    reinterpret_cast<::FUN_006dd460 *>((((S006dd460*)((char*)this + 4))))->FUN_006dd460_1(*(const ::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>(((*(S00568fa0**)((char*)this + 0x38))))->FUN_00568fa0()));
     *(int*)this = *(int*)this | 3;
 }
 
@@ -1348,7 +1364,6 @@ struct S_006cb900
 S_006cb900& S_006cb900::FUN_006cb900(const S_006cb900* other)
 {
     reinterpret_cast<::S6c4350 *>(this)->FUN_006c4350((*(const ::S6c4350 *)(other)));
-    new ((void *)&(m_0c)) ::Vec3();
     m_0c = other->m_0c;
     return *this;
 }
@@ -1605,7 +1620,7 @@ int __cdecl CollectNearbyEdges(PathActor* apActor, unsigned int auiMax, EdgeHand
     float fRadius = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011d74dc))))));
     float fRadiusSq2 = fRadius * fRadius;
     MeshList kMeshes5;
-    ::fnv_006d8a00::FUN_006d8a00((int)(apActor), fRadius, (int)(&kMeshes5));
+    ::fnv_006d8a00::FUN_006d8a00((::SearchObject *)(apActor), fRadius, (::SearchOutput *)(&kMeshes5));
     EdgeCandidateList kEdges;
     for (unsigned int aI = 0; aI < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kMeshes5))->GetName())); aI++)
     {
@@ -1625,8 +1640,10 @@ int __cdecl CollectNearbyEdges(PathActor* apActor, unsigned int auiMax, EdgeHand
                     }
                     MeshVert* pV2 = ((::MeshVert *)(reinterpret_cast<::FUN_0068f0a0_shell *>(((spMesh_).operator->()))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((pTri_))->FUN_005582d0(iNext2))));
                     NiPoint3 kClosest5;
-                    ::seg6b9::GetClosestPointOnSegment((*(const ::seg6b9::S6Point *)(&kClosest5)), (const ::seg6b9::S6Point &)((const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((apActor))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), (*(const ::seg6b9::S6Point *)(_pV0)));
-                    NiPoint3 kDiff_ = reinterpret_cast<::TaskQueueInterface *>((apActor))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - kClosest5;
+                    ::NiPoint3 kActorPos;
+                    reinterpret_cast<::TaskQueueInterface *>((apActor))->QueueActorAnimationTask(kActorPos);
+                    *(::seg6b9::S6Point *)(&kClosest5) = ::seg6b9::GetClosestPointOnSegment((const ::seg6b9::S6Point &)(kActorPos), (*(const ::seg6b9::S6Point *)(_pV0)), (*(const ::seg6b9::S6Point *)(pV2)));
+                    NiPoint3 kDiff_ = *(NiPoint3 *)&kActorPos - kClosest5;
                     float fDistA = reinterpret_cast<::FUN_00595c80_shell *>(&(static_cast<SegmentDelta&>(kDiff_)))->GetSquaredXYLength();
                     if (fDistA < fRadiusSq2)
                     {
@@ -1944,23 +1961,21 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
     if (!reinterpret_cast<::FUN_0076b610_Class *>((((LocAcc*)&distA)))->FUN_0076b610())
     {
         NiPoint3 ptA = ((::DoorHandle *)(reinterpret_cast<::FUN_006cee10_shell *>((((DoorAccess*)&distA)))->FUN_006cee10(0)))->position;
-        locB =
-            reinterpret_cast<::FUN_00589850_Class *>((((LenS*)&(ptA -
-                      reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(a))))->GetCurrentProcessData())))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00589850();
+        NiPoint3 kDelta = ptA - reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(a))))->GetCurrentProcessData())))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
+        locB = reinterpret_cast<::FUN_00589850_Class *>((((LenS*)&kDelta)))->FUN_00589850();
     }
     // Distance from the goal to its door.
     float res2 = 0.0f;
     if (!reinterpret_cast<::FUN_0076b610_Class *>((((LocAcc*)&flag)))->FUN_0076b610())
     {
         NiPoint3 ptB = ((::DoorHandle *)(reinterpret_cast<::FUN_006cee10_shell *>((((DoorAccess*)&flag)))->FUN_006cee10(0)))->position;
-        res2 =
-            reinterpret_cast<::FUN_00589850_Class *>((((LenS*)&(ptB -
-                      reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b))))->GetCurrentProcessData())))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00589850();
+        NiPoint3 kDelta = ptB - reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b))))->GetCurrentProcessData())))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
+        res2 = reinterpret_cast<::FUN_00589850_Class *>((((LenS*)&kDelta)))->FUN_00589850();
     }
     // Direct endpoint distance.
-    float r2 =
-        reinterpret_cast<::FUN_00589850_Class *>((((LenS*)&(reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(a))))->GetCurrentProcessData())))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) -
-                  reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b))))->GetCurrentProcessData())))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00589850();
+    NiPoint3 kEndpointDelta = reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(a))))->GetCurrentProcessData())))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) -
+                              reinterpret_cast<::TaskQueueInterface *>((((PosS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b))))->GetCurrentProcessData())))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
+    float r2 = reinterpret_cast<::FUN_00589850_Class *>((((LenS*)&kEndpointDelta)))->FUN_00589850();
     // Try a direct detailed path.
     bool r1 = false;
     if (2.0 * (locB + res2) > r2)
@@ -4689,9 +4704,6 @@ bool PathBuilderMethods::FUN_006cd1f0(PathingLocation* pStart, PathingLocation* 
 }
 }  // namespace fnv_006cd1f0
 
-namespace std {
-float abs(float x);
-}
 
 
 struct NiPoint3Ext : NiPoint3
@@ -4738,13 +4750,14 @@ bool ThisCls::ComputePathingLocation(ArgObj* a0, ArgObj* a1, PathingLocation* ap
             PtCtor pt34G;
             reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->FUN_0068f0c0(wIdxW, iIdxT, (::NiPoint3 *)&((NiPoint3&)upt4c), (::NiPoint3 *)&((NiPoint3&)pt34G));
             NiPoint3 wpt28;
-            reinterpret_cast<::NavMesh *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetNavMeshData((unsigned short)&(wpt28));
+            wpt28 = reinterpret_cast<::NavMesh *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetNavMeshData(wIdxW);
             NiPoint3 xtmp40 = (upt4c + pt34G) * DAT_0104e2b8 + wpt28 * DAT_0101e2bc;
             float vf50;
             vf50 = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TESshell * *>(&::g_TES))))->GetCellHeightAtPosition(&xtmp40, (::CellView *)(void *)(((void *)(reinterpret_cast<::ActorMover *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetCurrentMoveModeType()))));
             if (vf50 + ::DAT_0104f2f0 > xtmp40.z)
                 xtmp40.z = vf50;
-            *apOutLocation = *(PathingLocation*)&PLocShell(xtmp40, reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->FUN_0068efb0(), wIdxW);
+            PLocShell kLocation(xtmp40, reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->FUN_0068efb0(), wIdxW);
+            *apOutLocation = *(PathingLocation*)&kLocation;
             return true;
         }
     }
@@ -4768,7 +4781,7 @@ bool ThisCls::ComputePathingLocation(ArgObj* a0, ArgObj* a1, PathingLocation* ap
             ttri = reinterpret_cast<::NavMesh *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetTriangle(*(unsigned short*)zarr.FUN_00877a30(ui));
             if (::GetFloatAtOffset68((const char *)(m_00)) > DAT_0106c948 && reinterpret_cast<::S00693b90 *>((ttri))->FUN_00693b90())
                 continue;
-            reinterpret_cast<::NavMesh *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetNavMeshData((unsigned short)&(pt84S));
+            *(::NiPoint3 *)&(pt84S) = reinterpret_cast<::NavMesh *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetNavMeshData(*(unsigned short*)zarr.FUN_00877a30(ui));
             tlen2 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((pt84S - reinterpret_cast<::TaskQueueInterface *>((((::PLocInner *)(::FUN_006a9540((char *)(m_00))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))->ComputeMagnitude();
             if (tlen2 < ubest)
             {
@@ -4778,12 +4791,13 @@ bool ThisCls::ComputePathingLocation(ArgObj* a0, ArgObj* a1, PathingLocation* ap
         }
         if (bestIdxz != 0xffff)
         {
-            reinterpret_cast<::NavMesh *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetNavMeshData((unsigned short)&(pt90N));
+            *(::NiPoint3 *)&(pt90N) = reinterpret_cast<::NavMesh *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetNavMeshData((unsigned short)bestIdxz);
             rf94 = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TESshell * *>(&::g_TES))))->GetCellHeightAtPosition(&pt90N, (::CellView *)(void *)(((void *)(reinterpret_cast<::ActorMover *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->GetCurrentMoveModeType()))));
             if (rf94 + ::DAT_0104f2f0 > pt90N.z)
                 pt90N.z = rf94;
-            *apOutLocation = *(PathingLocation*)&PLocShell(
+            PLocShell kLocation(
                 pt90N, (const NavMeshInfo*)((::Inner2 *)(reinterpret_cast<::PathingLocationProxy *>((((::Inner *)(reinterpret_cast<::BaseProcess *>((a0))->GetCurrentProcessData()))))->GetAssociatedNavMesh())), (unsigned short)bestIdxz);
+            *apOutLocation = *(PathingLocation*)&kLocation;
             return true;
         }
     }
@@ -4795,21 +4809,20 @@ bool Builder501::TryAddClosestPoint(unsigned int index, EdgeInput501* input, Arr
     Edge501 edge;
     reinterpret_cast<::S_006cb900 *>(&(edge))->FUN_006cb900((const ::S_006cb900 *)(const ::Edge501 *)(((::Edge501 *)(reinterpret_cast<::fnv_006cedf0::FUN_006cee10_shell *>((input))->GetFirstEntry()))));
     Point501 mesh;
-    new ((void *)&(mesh)) ::Vec3();
     Point501 start;
-    new ((void *)&(start)) ::Vec3();
     NavPtrLocal end;
     if (reinterpret_cast<::NavMeshInfo *>((edge.info))->ResolveNavMesh((*(::NavMeshPtr *)(&end))))
     {
         reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((((Mesh501*)((::NavMeshShell *)(::FUN_00559450((int *)&(end)))))))->FUN_0068f0c0(edge.triangle, edge.edge, (::NiPoint3 *)&(mesh), (::NiPoint3 *)&(start));
-        Point501 position = (*(::Point501 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::Loc501 *)(reinterpret_cast<::BaseProcess *>((((::Node501 *)(reinterpret_cast<::FUN_006e78b0_shell *>((solution))->FUN_006e78b0(index)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        Point501 position;
+        reinterpret_cast<::TaskQueueInterface *>((void *)(((::Loc501 *)(reinterpret_cast<::BaseProcess *>((((::Node501 *)(reinterpret_cast<::FUN_006e78b0_shell *>((solution))->FUN_006e78b0(index)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)&(position));
         Point501 closest;
-        ::seg6b9::GetClosestPointOnSegment((*(const ::seg6b9::S6Point *)(&closest)), (const ::seg6b9::S6Point &)(position), (const ::seg6b9::S6Point &)(mesh));
+        *(::seg6b9::S6Point *)(&closest) = ::seg6b9::GetClosestPointOnSegment((const ::seg6b9::S6Point &)(position), (const ::seg6b9::S6Point &)(mesh), (const ::seg6b9::S6Point &)(start));
         if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::Point501 &)((closest - position)))->GetSquaredXYLength() < reinterpret_cast<::PathingRequest *>((request))->GetCenterRadius() * reinterpret_cast<::PathingRequest *>((request))->GetCenterRadius() &&
             (closest - position).z > -64.0 && (closest - position).z < 180.0)
         {
             Point501 center;
-            reinterpret_cast<::NavMesh *>((((Mesh501*)((::NavMeshShell *)(::FUN_00559450((int *)&(end)))))))->GetNavMeshData((unsigned short)&(center));
+            *(::NiPoint3 *)&(center) = reinterpret_cast<::NavMesh *>((((Mesh501*)((::NavMeshShell *)(::FUN_00559450((int *)&(end)))))))->GetNavMeshData(edge.triangle);
             reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Point501 &)(closest))->FUN_0063c8a0((void *)&(const ::Point501 &)((center - closest) * DAT_0101e2bc));
             reinterpret_cast<::NavMeshSearchLOSArray *>((output))->Clear(false);
             PathLoc location((const PathPoint3&)closest, (const NavMeshInfo*)edge.info, edge.triangle);
@@ -5217,7 +5230,7 @@ unsigned int PathingSearchRayCast::ProcessRayCast(RayCastParam* pRayCastParam, P
             {
                 NiPoint3 ptPos4 = item_.location;
                 NiPoint3 kKNormal;
-                reinterpret_cast<::NavMesh *>((((NavMeshExt*)(NavMesh*)spMesh8)))->GetNavMeshData((unsigned short)&(kKNormal));
+                *(::NiPoint3 *)&(kKNormal) = reinterpret_cast<::NavMesh *>((((NavMeshExt*)(NavMesh*)spMesh8)))->GetNavMeshData(item_.triangleIndex);
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(ptPos4))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)((kKNormal - ptPos4) * 0.1f));
                 PathingLocationSub loc(ptPos4, item_.m_pNavigationMesh, item_.triangleIndex);
                 param2->locations.FUN_006cf1b0(this->loc2C);
@@ -7644,21 +7657,16 @@ bool PathX::FUN_006cd8a0(LocX* pkStart, LocX* pkEnd, int iC, ListX* pkList, int 
 }  // namespace fnv_006cd8a0
 
 namespace seg6b9 {
-struct S6Point
-{
-    float x;
-    float y;
-    float z;
-    S6Point();
-};
 S6Point FUN_004a3760(float scale, const S6Point& point);
 
 // Returns the closest point on the segment from start to end to the given point, clamping the projection parameter to the [0,1] range.
 // @fnv 0x006b9c20
 S6Point GetClosestPointOnSegment(const S6Point& point, const S6Point& start, const S6Point& end)
 {
-    S6Point kDir7 = (*(::seg6b9::S6Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(start), *(const ::NiPoint3 *)nullptr)));
-    S6Point kRel = (*(::seg6b9::S6Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(point))->FUN_00439ef0((::NiPoint3 *)&(start), *(const ::NiPoint3 *)nullptr)));
+    S6Point kDir7;
+    reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(kDir7), *(const ::NiPoint3 *)&(start));
+    S6Point kRel;
+    reinterpret_cast<::FUN_00439ef0_class *>((void *)&(point))->FUN_00439ef0((::NiPoint3 *)&(kRel), *(const ::NiPoint3 *)&(start));
     double dDot5 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kRel))->DotProduct((void *)&(kDir7));
     if (dDot5 <= 0.0)
     {
@@ -7670,7 +7678,10 @@ S6Point GetClosestPointOnSegment(const S6Point& point, const S6Point& start, con
         return end;
     }
     double dT = dDot5 / _dLenSq;
-    return (*(::seg6b9::S6Point *)(reinterpret_cast<::Point3Offset *>((void *)&(start))->ProjectileLaunched((::NiPoint3 *)&(const ::seg6b9::S6Point &)(FUN_004a3760((float)dT, kDir7)), {})));
+    S6Point kStep = FUN_004a3760((float)dT, kDir7);
+    S6Point kResult;
+    reinterpret_cast<::Point3Offset *>((void *)&(start))->ProjectileLaunched((::NiPoint3 *)&(kResult), (::NiPoint3 *)&(kStep));
+    return kResult;
 }
 }
 
@@ -7766,7 +7777,8 @@ bool PathBuilder_Child::FUN_006ca0e0(Actor* apActor, unsigned int aiSegmentIndex
             {
                 PathingLocationExt kStart((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((node0))->GetCurrentProcessData())));
                 PathingLocationExt kNext((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((node1))->GetCurrentProcessData())));
-                if (((NiPoint3Ext&)(kNext.FUN_005c3420() - kStart.FUN_005c3420())).FUN_004a7290() > 4096.0)
+                NiPoint3 kStep = kNext.FUN_005c3420() - kStart.FUN_005c3420();
+                if (((NiPoint3Ext&)kStep).FUN_004a7290() > 4096.0)
                 {
                     NiColor col;
                     FUN_006d99a0(&col, ::GetField90Float((char *)(((PathingRequestExt*)this->pRequest))), kStart, kNext,
@@ -7788,13 +7800,14 @@ bool PathBuilder_Child::FUN_006ca0e0(Actor* apActor, unsigned int aiSegmentIndex
             {
                 PathingLocationExt locLast((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((nodeLast))->GetCurrentProcessData())));
                 PathingLocationExt locPrev((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((nodePrev))->GetCurrentProcessData())));
-                if (((NiPoint3Ext&)(locLast.FUN_005c3420() - locPrev.FUN_005c3420())).FUN_004a7290() > 4096.0)
+                NiPoint3 kStep = locLast.FUN_005c3420() - locPrev.FUN_005c3420();
+                if (((NiPoint3Ext&)kStep).FUN_004a7290() > 4096.0)
                 {
                     NiColor kEndColor;
                     {
                         PathingLocationExt kAdjustedLocation((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((nodeLast))->GetCurrentProcessData())));
-                        ::FUN_006da420((float)(&kEndColor), (*(const ::PathingLocation *)(reinterpret_cast<::FUN_00507e10_shell *>((((PathingRequestExt*)this->pRequest)))->FUN_00507e10())),
-                                     (float)&(kAdjustedLocation));
+                        *(::NiPoint3 *)&kEndColor = ::FUN_006da420(reinterpret_cast<::FUN_00507e10_shell *>((((PathingRequestExt*)this->pRequest)))->FUN_00507e10(),
+                                     *(const ::PathingLocation *)&(kAdjustedLocation), ::GetFloatAtOffset68((const char *)(((PathingRequestExt*)this->pRequest))));
                         reinterpret_cast<::FUN_006b0570_shell *>((nodeLast))->FUN_006b0570((::NiColor *)(::fnv_006ca0e0::NiColor *)(&kEndColor));
                     }
                 }

@@ -37458,7 +37458,6 @@ NiPoint3* TESRecipe::FUN_00572500(NiPoint3* result, float angle)
     reinterpret_cast<::FUN_00416870_t *>(&(m))->FUN_00416870(0.0f, 1.0f, 0.0f);
 
     ThreeByThreeMatrix matrix;
-    new ((void *)&(matrix)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(matrix))->FUN_004a0c90(d);
 
     m = matrix * m;
@@ -37472,8 +37471,6 @@ bool WorldReference::FUN_00561ef0(int flags)
 {
     WorldPoint start;
     WorldPoint end;
-    new ((void *)&(start)) ::Vec3();
-    new ((void *)&(end)) ::Vec3();
     void* result = 0;
     if (v78(&start, &end, &result, flags))
     {
@@ -37674,8 +37671,8 @@ void TargetRef::FUN_00569df0(bool abEnabled)
 
                     kDiffPos = kDiffPos * (1.0f / this->GetScale());
 
-                    TargetObj* pLine2 = ((::TargetObj *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&kZeroPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 1.0f))),
-                                                     (*(const class class ::FUN_006815c0 *)(&kDiffPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 1.0f))), 1)));
+                    TargetObj* pLine2 = ((::TargetObj *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&kZeroPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 1.0f))),
+                                                     (*(const class ::FUN_006815c0 *)(&kDiffPos)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 1.0f))), 1)));
 
                     if (!pActivateLineNode2)
                     {

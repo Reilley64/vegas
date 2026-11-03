@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathfind.cpp: Pathing, ActorDeletionQueue, PathBuilder, ArrHelper and more (87 functions)
 
+#include "fnv_result_slot.h"
 #include <cstddef>
 #include <new>
 #include <cstring>
@@ -484,7 +485,7 @@ struct CombatCoverPointData;
 class EdgeExtraInfo;
 class NavMeshTriangleReference;
 struct PNode;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 struct HX
 {
     char pad[0x104];
@@ -541,7 +542,7 @@ struct FUN_006d7a20_shell
 // @fnv 0x006d7a20
 bool FUN_006d7a20_shell::IsNotEqual(NiPointer<NiAVObject> const& a1)
 {
-    return reinterpret_cast<::DummyStruct_00631820 *>((void *)(reinterpret_cast<NiPointer<NiAVObject>*>(this)))->IsNotEqual!=((const ::DummyStruct_00631820 &)(a1));
+    return reinterpret_cast<::DummyStruct_00631820 *>((void *)(reinterpret_cast<NiPointer<NiAVObject>*>(this)))->IsNotEqual((const ::DummyStruct_00631820 &)(a1));
 }
 
 // @fnv 0x006d93d0
@@ -843,12 +844,10 @@ void FUN_006d89b0_shell::FUN_006d89b0(int index)
     ((Arr*)(this + 0x1c))->GetAt(index);
 }
 
-extern "C" void __cdecl FUN_006d8a40(void* a, float b, int c, int d);
-
 // @fnv 0x006d8a20
-void __cdecl FUN_006d8a20(void* p, float f, int i)
+void __cdecl FUN_006d8a20(void* p, float f, SearchOutput* apOutput)
 {
-    FUN_006d8a40(p, f, i, 1);
+    FUN_006d8a40((SearchObject*)p, f, apOutput, true);
 }
 
 
@@ -887,12 +886,10 @@ void FUN_006dae90_shell::FUN_006dae90()
 }  // namespace fnv_006dae90
 
 namespace fnv_006d8a00 {
-extern "C" void __cdecl FUN_006d8a40(int a, float f, int b, int c);
-
 // @fnv 0x006d8a00
-void __cdecl FUN_006d8a00(int aiArg1, float f, int aiArg2)
+void __cdecl FUN_006d8a00(SearchObject* apSearch, float f, SearchOutput* apOutput)
 {
-    FUN_006d8a40(aiArg1, f, aiArg2, 0);
+    ::FUN_006d8a40(apSearch, f, apOutput, false);
 }
 }  // namespace fnv_006d8a00
 
@@ -1200,8 +1197,8 @@ bool __cdecl FUN_006d4d20(LocS* aOrigin, LocS* aDestination, void* apRetPath, in
     if (reinterpret_cast<::DoorSearchInit *>(&(search))->InitDoorSearch((::SearchLocation *)(aOrigin), (::SearchLocation *)(aDestination), (::SearchResult *)(apRetPath), aRestrictions, afMaxDist, apActorLockData,
                               aeDoorLockDisp))
     {
-        *(NP3S*)((char*)apRetPath + 0x20) = (*(::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((aOrigin))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
-        *(NP3S*)((char*)apRetPath + 0x2c) = (*(::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((aDestination))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        *(NP3S*)((char*)apRetPath + 0x20) = (*(::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((aOrigin))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
+        *(NP3S*)((char*)apRetPath + 0x2c) = (*(::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((aDestination))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
         return true;
     }
     else
@@ -1226,12 +1223,12 @@ bool FUN_006d7350(PathingLocation& aStartLocation, PathingLocation& aGoalLocatio
     unsigned short usgoalTri;
     if (!aGoalLocation.FindNavMeshTriangle(spgoalMesh, usgoalTri))
     {
-        return ::fnv_006d74c0::FUN_006d74c0(aStartLocation, reinterpret_cast<::TaskQueueInterface *>((void *)&(aGoalLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr), 0, 0xffff,
+        return ::fnv_006d74c0::FUN_006d74c0(aStartLocation, reinterpret_cast<::TaskQueueInterface *>((void *)&(aGoalLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()), 0, 0xffff,
                                                      apReturnIntersectionLocation, (::fnv_006d74c0::EdgeFilter *)(apFilter));
     }
     else
     {
-        return ::fnv_006d74c0::FUN_006d74c0(aStartLocation, reinterpret_cast<::TaskQueueInterface *>((void *)&(aGoalLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr), spgoalMesh, usgoalTri,
+        return ::fnv_006d74c0::FUN_006d74c0(aStartLocation, reinterpret_cast<::TaskQueueInterface *>((void *)&(aGoalLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()), spgoalMesh, usgoalTri,
                                                      apReturnIntersectionLocation, (::fnv_006d74c0::EdgeFilter *)(apFilter));
     }
 }
@@ -1350,13 +1347,13 @@ bool GetNavMeshHeight(PathingLocation* pathingLocation, float* pfOutZ)
 {
     if (!reinterpret_cast<PathingLocationProxy*>(pathingLocation)->FindContainingTriangle(0))
     {
-        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z;
+        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()).z;
         return false;
     }
 
     if (!pathingLocation->HasValidTriangle_006dd6a0())
     {
-        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z;
+        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()).z;
         return false;
     }
 
@@ -1365,14 +1362,14 @@ bool GetNavMeshHeight(PathingLocation* pathingLocation, float* pfOutZ)
 
     if (!pathingLocation->FindNavMeshTriangle(navMeshPtr, m_usTriangleID))
     {
-        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z;
+        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()).z;
         return false;
     }
 
     if (!reinterpret_cast<FUN_00697980_t*>(reinterpret_cast<GO&>(navMeshPtr).operator unsigned int())
-             ->GetTriangleHeightAtPoint(m_usTriangleID, reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr), 180.0f, 180.0f, *pfOutZ))
+             ->GetTriangleHeightAtPoint(m_usTriangleID, reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()), 180.0f, 180.0f, *pfOutZ))
     {
-        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z;
+        *pfOutZ = reinterpret_cast<::TaskQueueInterface *>((void *)(pathingLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()).z;
         return false;
     }
 
@@ -1986,7 +1983,7 @@ bool FUN_006d0be0(PathingRequestClosePoint* request, PathingSolution* solution)
     CloseTriangle f;
     f.mesh = (CloseMeshAccess*)((CloseMeshPointerAccess*)&h)->FUN_00458b50();
     f.triangle = q;
-    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)&(((CloseRequestAccess*)request)->GetOffsetC()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 a = reinterpret_cast<::TaskQueueInterface *>((void *)&(((CloseRequestAccess*)request)->GetOffsetC()))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     ClosePointSearch p;
     CloseTriangleArray ba(32, 0, 0);
     CloseLinkArray s(32, 0, 0);
@@ -2090,7 +2087,7 @@ bool __cdecl InitSolutionEndpoints(PFRequest* apRequest, PFSolution* apSolution)
     AutoMemContext kMemContext5((MEM_CONTEXT)0x2d, true,
                                 "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\Pathfind.cpp",
                                 0x12f);
-    PFPoint3 kStart2 = (*(::PFPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PFLocation *)(::GetOffsetC((int)(apRequest))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    PFPoint3 kStart2 = (*(::PFPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PFLocation *)(::GetOffsetC((int)(apRequest))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     const PFPoint3& rkStart5 = kStart2;
     PFCell* pCellA = ((::PFCell *)(reinterpret_cast<::PathingLocation *>((void *)(((::PFLocation *)(::GetOffsetC((int)(apRequest))))))->GetContainingCell()));
     unsigned int uiSpace2 = reinterpret_cast<::BGSTerrainManager *>((((::PFLocation *)(::GetOffsetC((int)(apRequest))))))->GetMinLevel();
@@ -2245,7 +2242,7 @@ bool __cdecl FUN_006d1660(RequestView* request, SolutionView* solution)
     MeshTriangle eb;
     eb.mesh = ((MeshPointerView*)&h)->FUN_00458b50();
     eb.triangle = b;
-    NiPoint3 i = reinterpret_cast<::TaskQueueInterface *>((((::LocationView *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 i = reinterpret_cast<::TaskQueueInterface *>((((::LocationView *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     bool a = false;
     bool f = false;
     DetailedBuilder p;
@@ -2490,7 +2487,7 @@ bool BuildPathBetweenLocations(RequestOps* request, SolutionOps* result)
     MeshTriangle s;
     s.mesh = ((NavPointerOps*)&f)->FUN_00458b50();
     s.triangle = k;
-    NiPoint3 p = reinterpret_cast<::TaskQueueInterface *>((void *)(((::fnv_006d1f80::LocationOps *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 p = reinterpret_cast<::TaskQueueInterface *>((void *)(((::fnv_006d1f80::LocationOps *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     if (!reinterpret_cast<::NLLocation *>((((::fnv_006d1f80::LocationOps *)(::FUN_006a9540((char *)(request))))))->UpdateMeshLocation())
         return false;
     NavMeshPtr ba;
@@ -2695,7 +2692,7 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
     if (!reinterpret_cast<::NLLocation *>((start))->UpdateMeshLocation())
     {
         if (length)
-            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))))))->ComputeMagnitude();
         if (!reinterpret_cast<::NLLocation *>((end))->UpdateMeshLocation())
             return true;
         return false;
@@ -2703,7 +2700,7 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
     if (!reinterpret_cast<::NLLocation *>((end))->UpdateMeshLocation())
     {
         if (length)
-            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))))))->ComputeMagnitude();
         return false;
     }
     FUN_0042fb00 startMesh70;
@@ -2711,25 +2708,25 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
     if (!reinterpret_cast<::PathingLocation *>((start))->FindNavMeshTriangle((*(::NavMeshPtr *)(&startMesh70)), (*(unsigned short *)(&startTriangle13))))
     {
         if (length)
-            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))))))->ComputeMagnitude();
         return false;
     }
     RouteNode startNode7;
     startNode7.mesh = startMesh70.FUN_00458b50();
     startNode7.triangle = startTriangle13;
-    FUN_006815c0 startPosition24 = (*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    FUN_006815c0 startPosition24 = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     FUN_0042fb00 endMesh3;
     unsigned short endTriangle1 = 0xffff;
     if (!reinterpret_cast<::PathingLocation *>((end))->FindNavMeshTriangle((*(::NavMeshPtr *)(&endMesh3)), (*(unsigned short *)(&endTriangle1))))
     {
         if (length)
-            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))))))->ComputeMagnitude();
         return false;
     }
     RouteNode endNode1;
     endNode1.mesh = endMesh3.FUN_00458b50();
     endNode1.triangle = endTriangle1;
-    FUN_006815c0 endPosition1 = (*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    FUN_006815c0 endPosition1 = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     FUN_006a6a40 finder20;
     FUN_006abbb0 localPath23;
     FUN_006abbb0* path8 = output ? output : &localPath23;
@@ -2742,15 +2739,15 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
     if (!reinterpret_cast<::NavMeshSearch *>(&(finder20))->ComputePath((const ::PathingRequest *)(::FUN_006e2420 *)(&filter1), (*(const ::NavMeshTriangleReference *)(&startNode7)), (*(const ::NavMeshTriangleReference *)(&endNode1)), (::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(path8), (::BSSimpleArray< ::NavMeshTriangleEdgeReference, 1024> *)(::FUN_006ad250 *)(&edges33), (::BSSimpleArray< ::NavMeshInfo *, 1024> *)(::FUN_005e0510 *)(&infos61)))
     {
         if (length)
-            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+            *length = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))))))->ComputeMagnitude();
         return false;
     }
     RoutePoint* first4 = path8->FUN_006dad90(0);
-    reinterpret_cast<::FUN_006d61b0_Class *>((first4))->SetFromFloat3((const float *)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))));
+    reinterpret_cast<::FUN_006d61b0_Class *>((first4))->SetFromFloat3((const float *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))));
     if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((path8))->GetName())) > 1)
     {
         RoutePoint* last = path8->FUN_006dad90(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((path8))->GetName())) - 1);
-        reinterpret_cast<::FUN_006d61b0_Class *>((last))->SetFromFloat3((const float *)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))));
+        reinterpret_cast<::FUN_006d61b0_Class *>((last))->SetFromFloat3((const float *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))));
     }
     if (DAT_011d74ec)
         ::FUN_0040fbe0();
@@ -2759,7 +2756,7 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
         for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((path8))->GetName())) - 2; ++i)
         {
             RoutePoint* current692 = path8->FUN_006dad90(i);
-            FUN_006815c0 origin520 = (*(class class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((current692))->FUN_006a6eb0({})));
+            FUN_006815c0 origin520 = (*(class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((current692))->FUN_006a6eb0({})));
             RouteEdge* edge96 = edges33.FUN_006a7af0(i);
             FUN_006815c0 left938, right314;
             reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((edge96->mesh))->FUN_0068f0c0(edge96->triangle, edge96->index, (::NiPoint3 *)(class ::FUN_006815c0 *)(&left938), (::NiPoint3 *)(class ::FUN_006815c0 *)(&right314));
@@ -2767,7 +2764,7 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
             for (j752 = i + 2; j752 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((path8))->GetName())); ++j752)
             {
                 RoutePoint* next25 = path8->FUN_006dad90(j752);
-                FUN_006815c0 nextPos12 = (*(class class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((next25))->FUN_006a6eb0({})));
+                FUN_006815c0 nextPos12 = (*(class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((next25))->FUN_006a6eb0({})));
                 unsigned int edgeIndex47 = j752 - 1;
                 RouteEdge* nextEdge20 = edges33.FUN_006a7af0(edgeIndex47);
                 FUN_006815c0 newLeft12, newRight5;
@@ -2800,10 +2797,10 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
             RoutePoint* nodeB5 = path8->FUN_006dad90(i);
             RoutePoint* previousB9 = path8->FUN_006dad90(i - 1);
             RouteEdge* edgeB6 = edges33.FUN_006a7af0(i - 1);
-            FUN_006815c0 previousPosB26 = (*(class class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((previousB9))->FUN_006a6eb0({})));
+            FUN_006815c0 previousPosB26 = (*(class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((previousB9))->FUN_006a6eb0({})));
             FUN_006815c0 leftB4, rightB31;
             reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((edgeB6->mesh))->FUN_0068f0c0(edgeB6->triangle, edgeB6->index, (::NiPoint3 *)(class ::FUN_006815c0 *)(&leftB4), (::NiPoint3 *)(class ::FUN_006815c0 *)(&rightB31));
-            FUN_006815c0 aB4 = (*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(previousPosB26))->FUN_00439ef0((::NiPoint3 *)&(leftB4), *(const ::NiPoint3 *)nullptr))), bB61 = (*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(previousPosB26))->FUN_00439ef0((::NiPoint3 *)&(rightB31), *(const ::NiPoint3 *)nullptr)));
+            FUN_006815c0 aB4 = (*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(previousPosB26))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(leftB4)))), bB61 = (*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(previousPosB26))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(rightB31))));
             if (reinterpret_cast<::TESCombatStyle *>((void *)&(aB4))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)&(bB61))->UpdateCombatStyle())
                 reinterpret_cast<::FUN_006d61b0_Class *>((nodeB5))->SetFromFloat3((const float *)&(leftB4));
             else
@@ -2815,11 +2812,11 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
         *length = 0.0f;
         if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((path8))->GetName())) > 1)
         {
-            FUN_006815c0 previous = (*(class class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((path8->FUN_006dad90(0)))->FUN_006a6eb0({})));
+            FUN_006815c0 previous = (*(class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((path8->FUN_006dad90(0)))->FUN_006a6eb0({})));
             for (unsigned int i = 1; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((path8))->GetName())); ++i)
             {
-                FUN_006815c0 current692 = (*(class class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((path8->FUN_006dad90(i)))->FUN_006a6eb0({})));
-                *length += reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(current692))->FUN_00439ef0((::NiPoint3 *)&(previous), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                FUN_006815c0 current692 = (*(class ::FUN_006815c0 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((path8->FUN_006dad90(i)))->FUN_006a6eb0({})));
+                *length += reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(current692))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(previous))))))->ComputeMagnitude();
                 previous = current692;
             }
         }
@@ -2846,8 +2843,8 @@ public:
 // Constructs the search grid: sets gridSize to 32.0 and initialises the open, closed, incoming, outgoing and links heaps from the pool.
 // @fnv 0x006ed100
 FUN_006ed100::FUN_006ed100()
-    : gridSize(32.0f), open(0, 0, ((void *)(new ((void *)&(pool)) ::Vec3()))), closed(0, 0, ((void *)(new ((void *)&(pool)) ::Vec3()))),
-      incoming(0, 0, ((void *)(new ((void *)&(pool)) ::Vec3()))), outgoing(0, 0, ((void *)(new ((void *)&(pool)) ::Vec3()))), links(0, 0, ((void *)(new ((void *)&(pool)) ::Vec3())))
+    : gridSize(32.0f), open(0, 0, ((void *)((void *)&(pool)))), closed(0, 0, ((void *)((void *)&(pool)))),
+      incoming(0, 0, ((void *)((void *)&(pool)))), outgoing(0, 0, ((void *)((void *)&(pool)))), links(0, 0, ((void *)((void *)&(pool))))
 {}
 struct Vec2
 {
@@ -2928,7 +2925,6 @@ struct ResultPath
     ~ResultPath();
 };
 extern double __cdecl FUN_00408840(float value);
-extern void __cdecl FUN_006d8a20(Vec3*, float, void*);
 
 // Collects triangles near a source point, scores them by distance and edge type, and inserts matching result paths into the output list in sorted order.
 // @fnv 0x006d62e0
@@ -2949,7 +2945,7 @@ unsigned int __cdecl FindNearbyTriangles(GeometrySource* geometry, OutputList* o
     reinterpret_cast<::FUN_006daeb0_Class *>((output))->FUN_006daeb0(reinterpret_cast<::FUN_009acce0_shell *>((geometry))->GetFieldC8());
     SearchCollection candidatesVal(32, 0, 0);
     Vec3 sourcePoint33 = *((::Vec3 *)(reinterpret_cast<::FUN_009d9f40_Class *>((geometry))->FUN_009d9f40()));
-    Vec3 alternativePoint20 = (*(::Vec3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::SpatialNode *)(::GetOffsetC((int)(geometry))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    Vec3 alternativePoint20 = (*(::Vec3 *)&(reinterpret_cast<::TaskQueueInterface *>((((::SpatialNode *)(::GetOffsetC((int)(geometry))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     bool useSourcePoint23 = true;
     if (reinterpret_cast<::NiPoint3 *>(&(sourcePoint33))->FUN_004390c0((*(const ::NiPoint3 *)(&(*reinterpret_cast<const ::Vec3 *>((void *)&::NiPoint3::ZERO))))))
     {
@@ -2964,15 +2960,8 @@ unsigned int __cdecl FindNearbyTriangles(GeometrySource* geometry, OutputList* o
     unsigned short maxSecondEdgeVal = ((unsigned short)(::FUN_006ad3b0((float)reinterpret_cast<::PathingRequest *>((geometry))->GetActorRadius(), 0, 1)));
     float maxDistanceSquared23 = float(reinterpret_cast<::FUN_0099e040_shell *>((geometry))->FUN_0099e040() * reinterpret_cast<::FUN_0099e040_shell *>((geometry))->FUN_0099e040());
     MeshCollection meshesVal(8, 0, 0);
-    FUN_006d8a20((Vec3*)((::SpatialNode *)(::GetOffsetC((int)(geometry)))), (float)reinterpret_cast<::FUN_0099e040_shell *>((geometry))->FUN_0099e040(), &meshesVal);
+    FUN_006d8a20((Vec3*)((::SpatialNode *)(::GetOffsetC((int)(geometry)))), (float)reinterpret_cast<::FUN_0099e040_shell *>((geometry))->FUN_0099e040(), (SearchOutput*)&meshesVal);
     Vec3 triangleCenter, projected6, endPoint7, transformed11, boundaryPoint6, movement_, finalPosition4;
-    new ((void *)&(triangleCenter)) ::Vec3();
-    new ((void *)&(projected6)) ::Vec3();
-    new ((void *)&(endPoint7)) ::Vec3();
-    new ((void *)&(transformed11)) ::Vec3();
-    new ((void *)&(boundaryPoint6)) ::Vec3();
-    new ((void *)&(movement_)) ::Vec3();
-    new ((void *)&(finalPosition4)) ::Vec3();
     Vec2 final2D21, start2D2, end2D17;
     CandidateSource kNodes;
     const bool kInvertEdges = ((bool)(reinterpret_cast<::FUN_006d6db0_shell *>((geometry))->GetByteAtOffsetCC()));
@@ -5294,7 +5283,7 @@ Location __cdecl FUN_006d7a40(Location& start, Location& end, float cost)
     }
     Search aSearch;
     Point position;
-    aSearch.FindPath(position, (*(::fnv_006d7a40::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), fromVal, (*(::fnv_006d7a40::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), to, cost);
+    aSearch.FindPath(position, (*(::fnv_006d7a40::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()))), fromVal, (*(::fnv_006d7a40::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(end))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()))), to, cost);
     Location result(start);
     reinterpret_cast<::FUN_006dd460 *>(&(result))->FUN_006dd460_1((const ::NiPoint3 &)(position));
     return result;
@@ -5447,7 +5436,7 @@ bool __cdecl MarkReachableTriangles(P110Location* location, P110DataPtr* data, b
         return false;
     if (reset)
         reinterpret_cast<::fnv_006e2000::FUN_006e2000_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->ClampNonPositiveTextChars();
-    NiPoint3 center = reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 center = reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     NiPoint3 radius = (*(::NiPoint3 *)&(reinterpret_cast<::fnv_006ab380::FUN_006ab380_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->GetDest(*(::fnv_006ab380::NiPoint3 *)nullptr)));
     float originMesh = reinterpret_cast<::FUN_00639aa0_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->FUN_00639aa0();
     originTriangle = originMesh * originMesh;
@@ -5488,7 +5477,7 @@ bool __cdecl MarkReachableTriangles(P110Location* location, P110DataPtr* data, b
             if (maxDistance > 0.0 || angle >= 0.0)
             {
                 bool delta = false;
-                NiPoint3 reject = current - reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                NiPoint3 reject = current - reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
                 if (maxDistance > 0.0 && reinterpret_cast<::TESCombatStyle *>((void *)(((P110Point*)&reject)))->UpdateCombatStyle() > maxDistance * maxDistance)
                     delta = true;
                 if (!delta && angle >= 0.0 && reinterpret_cast<::FUN_004b6190_shell *>((void *)(((P110Point*)&origin)))->DotProduct((void *)&(reject)) < 0.0)
@@ -6002,12 +5991,12 @@ bool __cdecl IsPathingLocationClear(PathingLocation* location, float radius)
 {
     TriangleReferences scratch;
     NearbyMeshes meshes;
-    FUN_006d8a20(location, radius, (int)&meshes);
+    FUN_006d8a20(location, radius, (SearchOutput*)&meshes);
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshes))->GetName())); ++i)
     {
         TriangleIndices indices;
-        reinterpret_cast<::Obj00696c00 *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->ForwardToSub((int)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - RadiusPoint(radius, radius, 0.0f)),
-                           (int)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) + RadiusPoint(radius, radius, 0.0f)), (int)&(indices));
+        reinterpret_cast<::Obj00696c00 *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->ForwardToSub((int)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) - RadiusPoint(radius, radius, 0.0f)),
+                           (int)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) + RadiusPoint(radius, radius, 0.0f)), (int)&(indices));
         for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(indices))->GetName())); ++j)
         {
             reinterpret_cast<::FUN_006dba30_Class *>(&(scratch))->FUN_006dba30((const ::S0069a690 *)&(const ::TriangleReference &)(TriangleReference(reinterpret_cast<::FUN_0068efb0_shell *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->FUN_0068efb0(),
@@ -6026,7 +6015,7 @@ bool __cdecl IsPathingLocationClear(PathingLocation* location, float radius)
                 {
                     EdgeVertices vertices =
                         ((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(mesh)))))->FUN_0068f040((*(::TriangleReference *)(reinterpret_cast<::S006950d0 *>(&(scratch))->GetElement(k))).triangle, edge);
-                    if (::FUN_006ba9e0((*(const ::Pt3 *)(vertices.first)), (*(const ::Pt3 *)(vertices.second)), (const ::Pt3 &)((const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), radius))
+                    if (::FUN_006ba9e0((*(const ::Pt3 *)(vertices.first)), (*(const ::Pt3 *)(vertices.second)), (const ::Pt3 &)((const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()))), radius))
                         return false;
                 }
             }
@@ -8559,7 +8548,7 @@ bool __cdecl FUN_006d1c60(P048Request* request, P048Solution* solution)
     P048Node startTmp;
     startTmp.mesh = ((P048MeshPtr*)&mesh2)->Get();
     startTmp.triangle = triangle2;
-    NiPoint3 origin6 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::P048Location *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 origin6 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::P048Location *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     P048Hide hide;
     P048Open open2(32, 0, 0);
     P048Closed closedB(32, 0, 0);
@@ -8979,8 +8968,8 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
     float s = reinterpret_cast<::FUN_006d2c20_Class *>((((RequestOperations*)request)))->GetFloatAtOffsetB0();
     float startTriangle = ::GetFieldB4Float((char *)(((RequestOperations*)request)));
     float i = (s + startTriangle) / ::DAT_01011590;
-    NiPoint3 displacement = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(((RequestOperations*)request)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
-    NiPoint3 q = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::FUN_006a9540((char *)(((RequestOperations*)request)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 displacement = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(((RequestOperations*)request)))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
+    NiPoint3 q = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::FUN_006a9540((char *)(((RequestOperations*)request)))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     NiPoint3 vDir = q - displacement;
     float p = reinterpret_cast<::NiPoint3 *>((((PointOperations*)&vDir)))->GetLengthSquared();
     NiPoint3 loc = q - vDir * i;
@@ -9000,7 +8989,7 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
     b.center.x = pathMeshes.x;
     b.center.y = pathMeshes.y;
     b.center.z = pathMeshes.z;
-    NiPoint3 h = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(((RequestOperations*)request)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 h = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((int)(((RequestOperations*)request)))))))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     if (!reinterpret_cast<::PathingLocationProxy *>((((LocationOperations*)&tolerance)))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0)))
         reinterpret_cast<::FUN_006d2c00_shell *>((((LocationOperations*)&tolerance)))->FUN_006d2c00();
     CandidateSearch eb;
@@ -9138,7 +9127,7 @@ bool __cdecl FUN_006d74c0(PathingLocation& start, const NiPoint3& end, NavMesh* 
     unsigned short initialTriangle;
     if (!reinterpret_cast<::PathingLocation *>((((LocationOps*)&start)))->FindNavMeshTriangle(initialMesh, initialTriangle))
         return false;
-    Vec2 origin3(reinterpret_cast<::TaskQueueInterface *>((void *)&(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).x, reinterpret_cast<::TaskQueueInterface *>((void *)&(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).y);
+    Vec2 origin3(reinterpret_cast<::TaskQueueInterface *>((void *)&(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()).x, reinterpret_cast<::TaskQueueInterface *>((void *)&(start))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()).y);
     Vec2 destination2(end.x, end.y);
     Vec2 crossing3;
     NiPointer<NavMesh> currentMesh5(initialMesh);
@@ -9197,7 +9186,10 @@ bool __cdecl FUN_006d74c0(PathingLocation& start, const NiPoint3& end, NavMesh* 
         if ((NavMesh*)currentMesh5 == desiredMesh && triangle6 == desiredTriangle)
         {
             if (output)
-                *output = *(PathingLocation*)&Location(end, reinterpret_cast<::FUN_0068efb0_shell *>((((MeshOps*)desiredMesh)))->FUN_0068efb0(), desiredTriangle);
+            {
+                Location kLocation(end, reinterpret_cast<::FUN_0068efb0_shell *>((((MeshOps*)desiredMesh)))->FUN_0068efb0(), desiredTriangle);
+                *output = *(PathingLocation*)&kLocation;
+            }
             return true;
         }
         else
@@ -9239,58 +9231,54 @@ struct PathingLocationOperations
 
 extern const double DAT_0106cbc8;
 
-extern bool __cdecl FUN_006d7490(PathingLocation&, const Vec3_ctx&, PathingLocation*, void*);
-
-extern bool __cdecl FUN_006d7350(PathingLocation&, PathingLocation&, PathingLocation*, void*);
 
 // @fnv 0x006d99a0
 Vec3_ctx __cdecl FUN_006d99a0(float angle, PathingLocation* startRef, PathingLocation* endRef, float radius)
 {
     Matrix rotation6;
-    new ((void *)&(rotation6)) ::Vec3_ctx();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rotation6))->FUN_004a0c90(angle);
     Vec3_ctx forwardAxis = rotation6.FUN_004b4500(&(*reinterpret_cast<::Vec3_ctx *>(&::DAT_011a9478)));
     PathingLocation start0(*startRef);
-    Vec3_ctx origin20 = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&start0)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
-    Vec3_ctx goalId_ = (*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(origin20))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3_ctx &)(forwardAxis.ApplyScaled(DAT_01032adc)), {})));
+    Vec3_ctx origin20 = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&start0)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
+    Vec3_ctx goalId_ = (*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(origin20))->ProjectileLaunched(&ResultSlot<::NiPoint3>(), (::NiPoint3 *)&(const ::Vec3_ctx &)(forwardAxis.ApplyScaled(DAT_01032adc)))));
     PathingLocation first2;
-    if (!FUN_006d7490(start0, goalId_, &first2, 0))
-        goalId_ = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
-    Vec3_ctx initial = (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0((::NiPoint3 *)&(origin20), *(const ::NiPoint3 *)nullptr)));
+    if (!Pathing::FindPathingLocation(start0, goalId_, &first2, 0))
+        goalId_ = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
+    Vec3_ctx initial = (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(origin20))));
     Vec3_ctx sideShape7 = ((PointOperations*)&initial)->FUN_0053d1a0((*reinterpret_cast<const ::Vec3_ctx *>((void *)&::DAT_011a9484))).ApplyScaled(radius);
-    PathingLocation leftStartB((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(origin20))->FUN_00439ef0((::NiPoint3 *)&(sideShape7), *(const ::NiPoint3 *)nullptr))), start0);
-    PathingLocation leftEnd5((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0((::NiPoint3 *)&(sideShape7), *(const ::NiPoint3 *)nullptr))), start0);
+    PathingLocation leftStartB((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(origin20))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(sideShape7)))), start0);
+    PathingLocation leftEnd5((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(sideShape7)))), start0);
     if (!FUN_006d7350(leftStartB, leftEnd5, &first2, 0))
     {
         if (reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&(
-                 const Vec3_ctx&)((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&leftStartB)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&initial)))->UpdateCombatStyle())
-            goalId_ = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+                 const Vec3_ctx&)((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&leftStartB)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))))))))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&initial)))->UpdateCombatStyle())
+            goalId_ = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     }
-    PathingLocation rightStart2((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(origin20))->ProjectileLaunched((::NiPoint3 *)&(sideShape7), {}))), start0);
-    PathingLocation rightEnd2((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(goalId_))->ProjectileLaunched((::NiPoint3 *)&(sideShape7), {}))), start0);
+    PathingLocation rightStart2((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(origin20))->ProjectileLaunched(&ResultSlot<::NiPoint3>(), (::NiPoint3 *)&(sideShape7)))), start0);
+    PathingLocation rightEnd2((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(goalId_))->ProjectileLaunched(&ResultSlot<::NiPoint3>(), (::NiPoint3 *)&(sideShape7)))), start0);
     if (!FUN_006d7350(rightStart2, rightEnd2, &first2, 0))
     {
         if (reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&(
-                 const Vec3_ctx&)((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0((::NiPoint3 *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&rightStart2)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), *(const ::NiPoint3 *)nullptr)))))))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&initial)))->UpdateCombatStyle())
-            goalId_ = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+                 const Vec3_ctx&)((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(void *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(const ::Vec3_ctx &)((*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&rightStart2)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))))))))))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&initial)))->UpdateCombatStyle())
+            goalId_ = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&first2)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     }
     reinterpret_cast<::NiPoint3 *>((((PointOperations*)&goalId_)))->Subtract((const ::NiPoint3 &)((const ::Vec3_ctx &)(forwardAxis.ApplyScaled(radius).ApplyScaled(DAT_01018204))));
     PathingLocation end19(*endRef);
-    Vec3_ctx endOriginVal = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&end19)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    Vec3_ctx endOriginVal = (*(::Vec3_ctx *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((PathingLocationOperations*)&end19)))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())));
     PathingLocation endHitX;
-    if (!FUN_006d7490(end19, goalId_, &endHitX, 0))
+    if (!Pathing::FindPathingLocation(end19, goalId_, &endHitX, 0))
         return (*reinterpret_cast<const ::Vec3_ctx *>((void *)&::NiPoint3::ZERO));
-    Vec3_ctx endDelta = (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0((::NiPoint3 *)&(endOriginVal), *(const ::NiPoint3 *)nullptr)));
+    Vec3_ctx endDelta = (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(endOriginVal))));
     Vec3_ctx endSide = ((PointOperations*)&endDelta)->FUN_0053d1a0((*reinterpret_cast<const ::Vec3_ctx *>((void *)&::DAT_011a9484))).ApplyScaled(radius);
-    PathingLocation endLeftEndA((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(endOriginVal))->FUN_00439ef0((::NiPoint3 *)&(sideShape7), *(const ::NiPoint3 *)nullptr))), end19);
-    PathingLocation endLeftStart6((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0((::NiPoint3 *)&(sideShape7), *(const ::NiPoint3 *)nullptr))), end19);
+    PathingLocation endLeftEndA((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(endOriginVal))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(sideShape7)))), end19);
+    PathingLocation endLeftStart6((*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(sideShape7)))), end19);
     if (!FUN_006d7350(endLeftEndA, endLeftStart6, &endHitX, 0))
         return (*reinterpret_cast<const ::Vec3_ctx *>((void *)&::NiPoint3::ZERO));
-    PathingLocation endRightStart4((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(endOriginVal))->ProjectileLaunched((::NiPoint3 *)&(sideShape7), {}))), end19);
-    PathingLocation endRightEnd2((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(goalId_))->ProjectileLaunched((::NiPoint3 *)&(sideShape7), {}))), end19);
+    PathingLocation endRightStart4((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(endOriginVal))->ProjectileLaunched(&ResultSlot<::NiPoint3>(), (::NiPoint3 *)&(sideShape7)))), end19);
+    PathingLocation endRightEnd2((*(::Vec3_ctx *)(reinterpret_cast<::Point3Offset *>((void *)&(goalId_))->ProjectileLaunched(&ResultSlot<::NiPoint3>(), (::NiPoint3 *)&(sideShape7)))), end19);
     if (!FUN_006d7350(endRightStart4, endRightEnd2, &endHitX, 0))
         return (*reinterpret_cast<const ::Vec3_ctx *>((void *)&::NiPoint3::ZERO));
-    Vec3_ctx directionX = (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(endOriginVal))->FUN_00439ef0((::NiPoint3 *)&(origin20), *(const ::NiPoint3 *)nullptr)));
+    Vec3_ctx directionX = (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(endOriginVal))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(origin20))));
     float distance29 = reinterpret_cast<::NiPoint3 *>((((PointOperations*)&directionX)))->GetLengthSquared();
     float i = reinterpret_cast<::FUN_004b6190_shell *>((void *)(((PointOperations*)&directionX)))->DotProduct((void *)&(forwardAxis));
     if (i < DAT_0106cbc8)
@@ -9301,7 +9289,7 @@ Vec3_ctx __cdecl FUN_006d99a0(float angle, PathingLocation* startRef, PathingLoc
     {
         return (*reinterpret_cast<const ::Vec3_ctx *>((void *)&::NiPoint3::ZERO));
     }
-    return (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0((::NiPoint3 *)&(origin20), *(const ::NiPoint3 *)nullptr)));
+    return (*(::Vec3_ctx *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0(&ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)&(origin20))));
 }
 
 class PathingLocation_r006d34d0
@@ -9959,7 +9947,8 @@ bool __cdecl FUN_006d34d0(void* req, NiPoint3* out)
     *(NiPoint3*)&pts[0] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((((MeshX_ctxr*)elem.mesh)))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triPtr7))->FUN_005582d0(0))));
     *(NiPoint3*)&pts[1] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((((MeshX_ctxr*)elem.mesh)))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triPtr7))->FUN_005582d0(1))));
     *(NiPoint3*)&pts[2] = (*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((((MeshX_ctxr*)elem.mesh)))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((triPtr7))->FUN_005582d0(2))));
-    *out = (const NiPoint3&)FUN_006bbad0((NiPoint3*)&pts[0], (NiPoint3*)&pts[1], (NiPoint3*)&pts[2]);
+    Pt3 kCentroid = FUN_006bbad0((NiPoint3*)&pts[0], (NiPoint3*)&pts[1], (NiPoint3*)&pts[2]);
+    *out = (const NiPoint3&)kCentroid;
     return true;
 }
 
@@ -9973,7 +9962,6 @@ struct RotationMatrix
 };
 
 // A native const Point3 member consumes only its receiver in ECX.
-bool __cdecl FUN_006d7490(PathingLocation*, NiPoint3*, PathingLocation*, int);
 
 bool __cdecl FUN_006d7350(PathingLocation&, PathingLocation&, PathingLocation*, Pathing::CheckLineOfSightFilter*);
 
@@ -9984,26 +9972,26 @@ NiPoint3 __cdecl FUN_006da420(float angle, const PathingLocation& sourceLocation
     reinterpret_cast<::FUN_004a0c90_shell *>(&(seed_2))->FUN_004a0c90(angle);
     NiPoint3 base8 = seed_2.FUN_004b4500(&DAT_011a9478);
     PathingLocation mainLocation(sourceLocation);
-    NiPoint3 mainPoint4 = reinterpret_cast<::TaskQueueInterface *>((void *)&(mainLocation))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 mainPoint4 = reinterpret_cast<::TaskQueueInterface *>((void *)&(mainLocation))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     NiPoint3 endPoint6 = mainPoint4 - base8 * DAT_01032adc;
     PathingLocation hit;
-    if (!FUN_006d7490(&mainLocation, &endPoint6, &hit, 0))
-        endPoint6 = reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    if (!Pathing::FindPathingLocation(mainLocation, endPoint6, &hit, 0))
+        endPoint6 = reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     NiPoint3 difference5 = endPoint6 - mainPoint4;
     NiPoint3 offset_2 = difference5.CrossProduct(DAT_011a9484) * width;
     PathingLocation leftStart4(mainPoint4 - offset_2, mainLocation);
     PathingLocation leftEnd(endPoint6 - offset_2, mainLocation);
     if (!FUN_006d7350(leftStart4, leftEnd, &hit, 0))
     {
-        if (reinterpret_cast<::TESCombatStyle *>((void *)(reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - reinterpret_cast<::TaskQueueInterface *>((void *)&(leftStart4))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)(difference5))->UpdateCombatStyle())
-            endPoint6 = reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        if (reinterpret_cast<::TESCombatStyle *>((void *)&ResultSlot<::NiPoint3>(reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) - reinterpret_cast<::TaskQueueInterface *>((void *)&(leftStart4))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)&(difference5))->UpdateCombatStyle())
+            endPoint6 = reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     }
     PathingLocation rightStartX(mainPoint4 + offset_2, mainLocation);
     PathingLocation rightEnd(endPoint6 + offset_2, mainLocation);
     if (!FUN_006d7350(rightStartX, rightEnd, &hit, 0))
     {
-        if (reinterpret_cast<::TESCombatStyle *>((void *)(reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - reinterpret_cast<::TaskQueueInterface *>((void *)&(rightStartX))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)(difference5))->UpdateCombatStyle())
-            endPoint6 = reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        if (reinterpret_cast<::TESCombatStyle *>((void *)&ResultSlot<::NiPoint3>(reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) - reinterpret_cast<::TaskQueueInterface *>((void *)&(rightStartX))->QueueActorAnimationTask(ResultSlot<::NiPoint3>())))->UpdateCombatStyle() < reinterpret_cast<::TESCombatStyle *>((void *)&(difference5))->UpdateCombatStyle())
+            endPoint6 = reinterpret_cast<::TaskQueueInterface *>((void *)&(hit))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
     }
     return mainPoint4 - endPoint6;
 }

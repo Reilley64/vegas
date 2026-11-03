@@ -50,7 +50,6 @@ class NiPoint3
     NiPoint3& operator*=(float);
     NiPoint3& operator+=(const NiPoint3&);
     float GetLengthSquared();
-    void ComputeMagnitude();
     float GetSquaredXYLength() const;
     float FUN_004a7290() const;
     static const NiPoint3 ZERO;
@@ -63,9 +62,6 @@ public:
 public:
     ::NiPoint3 Cross(const ::NiPoint3 &) const;
 };
-namespace std {
-float abs(float);
-}
 void FUN_005330e0(float&, float, float);
 class NavMeshClosedDoorInfo
 {

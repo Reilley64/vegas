@@ -9858,13 +9858,11 @@ bool __cdecl FUN_00558330(int a1, int a2, int a3)
     SpawnedVecC c;
     for (kTmp = 0; kTmp < 3; kTmp++)
     {
-        new ((void *)&(a7)) ::Vec3();
         reinterpret_cast<::FUN_00524ac0_shell *>(&(a7))->FUN_00524ac0((float)(i * ::DAT_01023128));
         i -= 0x2d;
         j_ = 0;
         for (m2 = 0; m2 < 8; m2++)
         {
-            new ((void *)&(b_)) ::Vec3();
             reinterpret_cast<::FUN_004a0c90_shell *>(&(b_))->FUN_004a0c90((float)(j_ * ::DAT_01023128));
             j_ += 0x2d;
             b_.FUN_0043f8d0(&c, &a7);
@@ -15792,9 +15790,7 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
     if (!options)
         options = &kUpdateData;
     RenderVec bResult;
-    new ((void *)&(bResult)) ::Vec3();
     RenderMatrix kRotationBasis;
-    new ((void *)&(kRotationBasis)) ::Vec3();
     RenderRoot* kPosition = ((::fnv_00557dd0::RenderRoot *)(::FUN_0045c670()));
     bResult = (*(::fnv_00557dd0::RenderVec *)&(reinterpret_cast<::NiAVObject *>((((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))->FUN_0043c490()));
     kRotationBasis = (*(::fnv_00557dd0::RenderMatrix *)(::FUN_006a9540((char *)(((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))));

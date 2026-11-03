@@ -3,7 +3,7 @@
 struct NavMeshTriangleEdgeReference;
 struct NavMeshTriangleReference;
 struct PathingRequest;
-template <class, int> struct BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 
 struct FUN_006ac340_shell {
 public:

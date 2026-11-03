@@ -812,7 +812,7 @@ void __cdecl FUN_007f6a20(int a1)
         }
         pNode = ((::ListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
-    int last = *(int*)((::ObjectResolver *)(new ((void *)&((*reinterpret_cast<::ListNode *>(&::g_011db150)))) ::Vec3()));
+    int last = *(int*)((::ObjectResolver *)((void *)&((*reinterpret_cast<::ListNode *>(&::g_011db150)))));
 }
 
 struct Ref_ob1;

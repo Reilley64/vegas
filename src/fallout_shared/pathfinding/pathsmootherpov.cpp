@@ -621,7 +621,7 @@ void PathSmootherPOVSearch::CollectUniqueNavMeshes()
             pov->eType = 4;
             pov->m_kFirstEdge = NiPoint3::ZERO;
             pov->m_kSecondEdge = NiPoint3::ZERO;
-            pov->Center = (*(const ::NiPoint3 *)(new ((void *)&((*(::AvoidSphere *)(reinterpret_cast<::FUN_00691640_shell *>((mesh))->FUN_00691640(j))))) ::Vec3()));
+            pov->Center = (*(const ::NiPoint3 *)((void *)&((*(::AvoidSphere *)(reinterpret_cast<::FUN_00691640_shell *>((mesh))->FUN_00691640(j))))));
             pov->m_fWeight = 1.0f;
             pov->fRadius = reinterpret_cast<::BSMultiBoundSphere *>((void *)&((*(::AvoidSphere *)(reinterpret_cast<::FUN_00691640_shell *>((mesh))->FUN_00691640(j)))))->GetRadius() + ::GetFloatAtOffset68((const char *)(pRequest)) * 1.2f;
             pov->m_uiReferenceIndex = 0xffffffff;

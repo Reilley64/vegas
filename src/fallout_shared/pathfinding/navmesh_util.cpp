@@ -288,7 +288,6 @@ struct ASC
 ASC* ASC::Multiply(ASC* out, const ASC* apOther)
 {
     ASC ret;
-    new ((void *)&(ret)) ::Vec3();
     ret.s = s * apOther->s + c * apOther->c;
     ret.c = c * apOther->s - s * apOther->c;
     reinterpret_cast<::FUN_006985f0_shell *>((out))->CopyFloatPair((void *)&(ret));
@@ -1548,7 +1547,6 @@ struct FUN_006dcee0_t
 FUN_006dcee0_t* FUN_006dcee0_t::FUN_006dcee0(void* a1, TESObjectCELL* apCell, TESWorldSpace* apWorldspace)
 {
     vfptr = &DAT_0102583c;
-    new ((void *)&(s)) ::Vec3();
     reinterpret_cast<::SetupPathingLocation *>((((PathingLocation*)this)))->FUN_006dd280((*(const ::NiPoint3 *)(a1)), apCell, apWorldspace);
     return this;
 }
@@ -2135,7 +2133,7 @@ struct FUN_006bbb80
 // Initializes the object's members, constructing go with 0 and member1C and member30 with 0x100, 0, and the result of memberC._ref_006815c0().
 // @fnv 0x006bbb80
 FUN_006bbb80::FUN_006bbb80()
-    : go(0), memberC(), member1C(0x100, 0, ((int)(new ((void *)&(memberC)) ::Vec3()))), member30(0x100, 0, ((int)(new ((void *)&(memberC)) ::Vec3())))
+    : go(0), memberC(), member1C(0x100, 0, ((int)((void *)&(memberC)))), member30(0x100, 0, ((int)((void *)&(memberC))))
 {}
 }  // namespace fnv_006bbb80
 

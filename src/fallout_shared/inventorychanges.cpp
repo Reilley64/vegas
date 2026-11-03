@@ -3546,7 +3546,6 @@ PlacedRef* Placement::PlaceObject(PlacedRef* ref, void* object, int count, int f
         static_cast<NiPoint3&>(position) = *ref->GetPos();
         NiPoint3 angle = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(ref))->GetData()));
         NiMatrix3Helper matrix2;
-        new ((void *)&(matrix2)) ::Vec3();
         reinterpret_cast<::Matrix161 *>(&(matrix2))->FUN_00a59540(angle.x, angle.y, angle.z);
         NiPoint3b offset(0.0f, 50.0f, 30.0f);
         reinterpret_cast<::FUN_0063c8a0_shell *>(&(position))->FUN_0063c8a0((void *)&(const ::NiPoint3 &)(matrix2._ref_004b4500(offset)));

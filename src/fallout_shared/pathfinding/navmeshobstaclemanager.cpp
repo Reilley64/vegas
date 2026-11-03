@@ -703,11 +703,13 @@ struct TESObjectREFR
     unsigned int GetFlags(void);
 };
 
+}  // namespace fnv_006c44d0
 template <> class BSSimpleArray<unsigned int, 1024>
 {
   public:
     unsigned int& GetAt(unsigned int);
 };
+namespace fnv_006c44d0 {
 
 // Iterates the task array at this+0x14c, calls FUN_006c85e0 on each task, and returns whether any call succeeded.
 // @fnv 0x006c44d0
@@ -916,11 +918,13 @@ bool Map62d0::FUN_006c62d0(unsigned int key, void** out)
 
 namespace fnv_006c6c10 {
 class NavMeshInfo;
-template <> class BSSimpleArray<NavMeshInfo*, 1024>
+}  // namespace fnv_006c6c10
+template <> class BSSimpleArray<fnv_006c6c10::NavMeshInfo*, 1024>
 {
   public:
     void FUN_006b3eb0(unsigned int, bool);
 };
+namespace fnv_006c6c10 {
 
 // Sets the object's first field to the string "0rl" and calls FUN_006b3eb0(0, false) on the array, returning pThis.
 // @fnv 0x006c6c10
@@ -2044,9 +2048,9 @@ bool FUN_006c4fb0_shell::ProcessDoorObstacles()
                      j++)
                 {
                     reinterpret_cast<::ObstacleTaskData *>((((::fnv_006c4fb0::ObstacleTaskData_Op *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(((FUN_006c5ef0_shell*)this)), 
-                            (::fnv_006c5ef0::FUN_006c5ef0_arg)(*((Arr*)((unsigned int)*(Flt*)((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i) +
+                            ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(*((Arr*)((unsigned int)*(Flt*)((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i) +
                                      0x78))
-                                 ->GetAt(j)))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(*((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i)), (::OBSTACLE_TASK_TYPE)(0x40));
+                                 ->GetAt(j))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(*((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i)), (::OBSTACLE_TASK_TYPE)(0x40));
                 }
             }
             reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)this + 0x110))))->RemoveKey(doorId);
@@ -3684,14 +3688,16 @@ class ObstacleData
     unsigned int unk74;
     MeshInfoArray meshes;
 };
-template <> class NiPointer<ObstacleData>
+}  // namespace fnv_006c09f0
+template <> class NiPointer<fnv_006c09f0::ObstacleData>
 {
   public:
-    ObstacleData* m_pObject;
+    fnv_006c09f0::ObstacleData* m_pObject;
     NiPointer(const NiPointer& other);
     ~NiPointer();
-    ObstacleData* operator->() const;
+    fnv_006c09f0::ObstacleData* operator->() const;
 };
+namespace fnv_006c09f0 {
 struct ClearMapView
 {
     unsigned int vtable;
@@ -4935,7 +4941,8 @@ void DebugObstacleManager::SetEnabled(bool show)
             DebugPointer<DebugAlphaProperty> h = new DebugAlphaProperty;
             reinterpret_cast<::FUN_0049ed90_shell *>(((h).operator->()))->FUN_0049ed90(true);
             DebugPointer<DebugMaterialProperty> p = new DebugMaterialProperty;
-            reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((p).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::DebugColor *)(&DebugColor(1.0f, 0.0f, 1.0f)));
+            DebugColor kMagenta(1.0f, 0.0f, 1.0f);
+            reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((p).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::DebugColor *)(&kMagenta));
             reinterpret_cast<::DecalStub *>(((p).operator->()))->FUN_0068c9f0(::DAT_0101622c);
             reinterpret_cast<::FUN_00439410_cls *>(((scene).operator->()))->FUN_00439410((::ArgObject *)(void *)(h));
             reinterpret_cast<::FUN_00439410_cls *>(((scene).operator->()))->FUN_00439410((::ArgObject *)(void *)(p));
@@ -4995,15 +5002,17 @@ class AnimIdle
     void FUN_0043fa80(const void* pvRotate);
 };
 
-template <> class NiPointer<AnimIdle>
+}  // namespace fnv_006c5840
+template <> class NiPointer<fnv_006c5840::AnimIdle>
 {
   public:
-    AnimIdle* p[1];
-    NiPointer(AnimIdle*);
+    fnv_006c5840::AnimIdle* p[1];
+    NiPointer(fnv_006c5840::AnimIdle*);
     ~NiPointer();
-    operator AnimIdle*() const;
-    NiPointer<AnimIdle>& operator=(const NiPointer<AnimIdle>&);
+    operator fnv_006c5840::AnimIdle*() const;
+    NiPointer<fnv_006c5840::AnimIdle>& operator=(const NiPointer<fnv_006c5840::AnimIdle>&);
 };
+namespace fnv_006c5840 {
 
 class ObstacleData
 {
@@ -5289,7 +5298,7 @@ void ObstacleMgrX::FUN_006c1760(const ObstPtrX& apObstacle)
     {
         for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos))->GetName())); i++)
         {
-            reinterpret_cast<::ObstacleTaskData *>((((::TaskDataX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, (::fnv_006c5ef0::FUN_006c5ef0_arg)(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos.GetAt(i)))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(apObstacle), (::OBSTACLE_TASK_TYPE)(0x21));
+            reinterpret_cast<::ObstacleTaskData *>((((::TaskDataX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos.GetAt(i))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(apObstacle), (::OBSTACLE_TASK_TYPE)(0x21));
         }
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos))->Clear(true);
     }
@@ -5306,7 +5315,7 @@ void ObstacleMgrX::FUN_006c1760(const ObstPtrX& apObstacle)
         {
             for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kArr))->GetName())); j++)
             {
-                reinterpret_cast<::ObstacleTaskData *>((((::TaskDataX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, (::fnv_006c5ef0::FUN_006c5ef0_arg)(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kArr.GetAt(j)))))))->FUN_0068efb0()))))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(apObstacle), (::OBSTACLE_TASK_TYPE)(0x11));
+                reinterpret_cast<::ObstacleTaskData *>((((::TaskDataX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kArr.GetAt(j)))))))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(apObstacle), (::OBSTACLE_TASK_TYPE)(0x11));
                 NavMeshInfoX* pInfo = ((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kArr.GetAt(j)))))))->FUN_0068efb0()));
                 reinterpret_cast<::FUN_00438690 *>(&(((::ObstacleDataX *)(::FUN_00559450((int *)&(apObstacle))))->kNavMeshInfos))->FUN_007cb2e0((unsigned int *)&(pInfo));
             }
@@ -5326,11 +5335,11 @@ void Mgr_c1190::RegisterKey(Key_c1190* key)
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(spHolder->kObstacles))->GetName())); i++)
     {
         Ptr_c1190<Obs_c1190> spObst(spHolder->kObstacles.FUN_00877a30(i));
-        reinterpret_cast<::Map6920 *>((((ObsMap_c1190*)((char*)this + 0xe0))))->FUN_006c6920((unsigned int)(spObst->m_spKind), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Obs_c1190> &)(spObst)));
+        reinterpret_cast<::Map6920 *>((((ObsMap_c1190*)((char*)this + 0xe0))))->FUN_006c6920((unsigned int)(::Kind_c1190 *)(spObst->m_spKind), (*(::NiPointer< ::NiAVObject> *)&(const ::Ptr_c1190< ::Obs_c1190> &)(spObst)));
         reinterpret_cast<::fnv_006c1d60::FUN_006c1d60_shell *>(this)->FUN_006c1d60((::fnv_006c1d60::ScriptLocalsX *)(::Kind_c1190 *)(spObst->m_spKind));
         if (reinterpret_cast<::fnv_005609b0::bhkRigidBody *>(((spObst->m_spKind).operator->()))->FUN_005609b0())
         {
-            reinterpret_cast<::FUN_006c1c70_shell *>(this)->FUN_006c1c70((int)(spObst->m_spKind));
+            reinterpret_cast<::FUN_006c1c70_shell *>(this)->FUN_006c1c70((int)(::Kind_c1190 *)(spObst->m_spKind));
         }
         FUN_006c3440(spObst);
         if (*((bool*)this + 0x198))
@@ -5344,7 +5353,7 @@ void Mgr_c1190::RegisterKey(Key_c1190* key)
             {
                 for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kMeshes))->GetName())); j++)
                 {
-                    reinterpret_cast<::ObstacleTaskData *>((((::Task_c1190 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, (::fnv_006c5ef0::FUN_006c5ef0_arg)(((::Info_c1190 *)(reinterpret_cast<::FUN_0068efb0_shell *>(((kMeshes.FUN_00877a30(j)).operator->()))->FUN_0068efb0()))))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst), (::OBSTACLE_TASK_TYPE)(0x10));
+                    reinterpret_cast<::ObstacleTaskData *>((((::Task_c1190 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::Info_c1190 *)(reinterpret_cast<::FUN_0068efb0_shell *>(((kMeshes.FUN_00877a30(j)).operator->()))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst), (::OBSTACLE_TASK_TYPE)(0x10));
                     reinterpret_cast<::FUN_00438690 *>(&(spObst->kInfos))->FUN_007cb2e0((unsigned int *)&(const ::Info_c1190 *const &)(((::Info_c1190 *)(reinterpret_cast<::FUN_0068efb0_shell *>(((kMeshes.FUN_00877a30(j)).operator->()))->FUN_0068efb0()))));
                 }
             }
@@ -5603,7 +5612,7 @@ void HostA::RemoveEntry(unsigned int key)
         if (!reinterpret_cast<::FUN_0076b610_Class *>(&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr))->FUN_0076b610())
         {
             for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr))->GetName())); j++)
-                reinterpret_cast<::ObstacleTaskData *>((((::TaskView *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, (::fnv_006c5ef0::FUN_006c5ef0_arg)(*((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr.FUN_00877a30(j)))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(item), (::OBSTACLE_TASK_TYPE)(0x20));
+                reinterpret_cast<::ObstacleTaskData *>((((::TaskView *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(*((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr.FUN_00877a30(j))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(item), (::OBSTACLE_TASK_TYPE)(0x20));
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((::ObView *)(::FUN_00559450((int *)(((ObPointerView*)&item)))))->arr))->Clear(true);
         }
     }
@@ -5623,7 +5632,7 @@ void ObstMgr1920::RebuildRefObstacles(unsigned int formID, void* pRef)
         {
             for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->kNavMeshInfos))->GetName())); j++)
             {
-                reinterpret_cast<::ObstacleTaskData *>((((::TaskData1920 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(this), (::fnv_006c5ef0::FUN_006c5ef0_arg)(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->kNavMeshInfos.GetAt(j)))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst), (::OBSTACLE_TASK_TYPE)(0x21));
+                reinterpret_cast<::ObstacleTaskData *>((((::TaskData1920 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(this), ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->kNavMeshInfos.GetAt(j))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst), (::OBSTACLE_TASK_TYPE)(0x21));
             }
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst))))->kNavMeshInfos))->Clear(true);
         }
@@ -5647,7 +5656,7 @@ void ObstMgr1920::RebuildRefObstacles(unsigned int formID, void* pRef)
             {
                 for (unsigned int m = 0; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNavMeshes))->GetName())); m++)
                 {
-                    reinterpret_cast<::ObstacleTaskData *>((((::TaskData1920 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(this), (::fnv_006c5ef0::FUN_006c5ef0_arg)(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kNavMeshes.GetAt(m)))))))->FUN_0068efb0()))))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst2), (::OBSTACLE_TASK_TYPE)(0x11));
+                    reinterpret_cast<::ObstacleTaskData *>((((::TaskData1920 *)(::fnv_006c5ef0::FUN_006c5ef0((char *)(this), ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kNavMeshes.GetAt(m)))))))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(spObst2), (::OBSTACLE_TASK_TYPE)(0x11));
                     NavMeshInfoX* pInfo = ((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>((((::NavMeshX *)(::FUN_00559450((int *)&(kNavMeshes.GetAt(m)))))))->FUN_0068efb0()));
                     reinterpret_cast<::FUN_00438690 *>(&(((::ObstData1920 *)(::FUN_00559450((int *)&(spObst2))))->kNavMeshInfos))->FUN_007cb2e0((unsigned int *)&(pInfo));
                 }
@@ -6457,7 +6466,7 @@ bool SelfX::FUN_006c5190()
                     {
                         for (unsigned j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kArr))->GetName())); j++)
                         {
-                            reinterpret_cast<::ObstacleTaskData *>((((::fnv_006c5190::TblX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, (::fnv_006c5ef0::FUN_006c5ef0_arg)(((int)(reinterpret_cast<::FUN_0068efb0_shell *>((((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(kArr.FUN_00877a30(j)))))))->FUN_0068efb0()))))))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))->arr.FUN_00877a30(i)), (::OBSTACLE_TASK_TYPE)(0x30));
+                            reinterpret_cast<::ObstacleTaskData *>((((::fnv_006c5190::TblX *)(::fnv_006c5ef0::FUN_006c5ef0((char *)this, ::fnv_006c5ef0::FUN_006c5ef0_arg{(::fnv_006c5ef0::Flt *)(((int)(reinterpret_cast<::FUN_0068efb0_shell *>((((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(kArr.FUN_00877a30(j)))))))->FUN_0068efb0())))})))))->AddOperation((const ::NiPointer< ::ObstacleData> &)(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))->arr.FUN_00877a30(i)), (::OBSTACLE_TASK_TYPE)(0x30));
                             reinterpret_cast<::FUN_00438690 *>(&(((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(((HolderX*)((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(spScreenData)))))
                                 ->arr.FUN_00877a30(i)))))
                                 ->m78))->FUN_007cb2e0((unsigned int *)&(const int &)(((int)(reinterpret_cast<::FUN_0068efb0_shell *>((((::fnv_006c5190::ElemX *)(::FUN_00559450((int *)&(kArr.FUN_00877a30(j)))))))->FUN_0068efb0()))));
@@ -6995,7 +7004,6 @@ void ObsMgr::FUN_006c4d30()
         Holder3 h;
         new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::fnv_006c4d30::BodyRef *)(reinterpret_cast<::FUN_00620b80_shell *>((((::fnv_006c4d30::RigidBody *)(::FUN_00559450((int *)&(((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->m_pRigidBody))))))->GetReferenceFlags()))->FUN_004b4ec0())));
         V3 v;
-        new ((void *)&(v)) ::Vec3();
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&v)), (*(const ::hkVector4 *)(&h)));
         V3 tmp;
         if (reinterpret_cast<::TESCombatStyle *>((((::fnv_006c4d30::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(v))->FUN_00439ef0((::NiPoint3 *)(::fnv_006c4d30::V3 *)(&tmp), (*(const ::NiPoint3 *)(&((::fnv_006c4d30::ObstData1920 *)(::FUN_00559450((int *)&(item))))->pos)))))))->UpdateCombatStyle() > kObsDist &&
@@ -7260,7 +7268,6 @@ void ObsMgr_nogf::FUN_006c4ad0()
             S006c4ad0_Holder3 h;
             new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::S006c4ad0_Ref2 *)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()))->FUN_004b4ec0())));
             V3 v;
-            new ((void *)&(v)) ::Vec3();
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&v)), (*(const ::hkVector4 *)(&h)));
             V3 tmp;
             if (reinterpret_cast<::TESCombatStyle *>((((::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(v))->FUN_00439ef0((::NiPoint3 *)(::V3 *)(&tmp), (*(const ::NiPoint3 *)(&((::S006c4ad0_Obs *)(::FUN_00559450((int *)&(sp))))->pos)))))))->UpdateCombatStyle() > ::fnv_006c4d30::kObsDist)

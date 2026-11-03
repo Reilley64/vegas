@@ -82,7 +82,7 @@ void NavMeshBounds::CopyTo(NavMeshBounds* dest)
 {
     dest->min = min;
     dest->max = max;
-    reinterpret_cast<::FUN_0069cfe0_cls *>(&(parents))->CopyElementsTo<1024>((::FUN_0069cfe0_Dst *)(::BSSimpleArray< ::ParentSpaceNode, 1024> *)(&dest->parents));
+    reinterpret_cast<::FUN_0069cfe0_cls *>(&(parents))->CopyElementsTo((::FUN_0069cfe0_Dst *)(::BSSimpleArray< ::ParentSpaceNode, 1024> *)(&dest->parents));
     reinterpret_cast<::FUN_0069d050_cls *>(&(triangles))->CopyRecordsTo((int)(&dest->triangles));
 }
 // Picks start/end by direction, computes the span and the angle relative to the first endpoint, and tests the relative angle against the span.
@@ -377,7 +377,6 @@ struct ASC6a0e90
 ASC6a0e90* ASC6a0e90::Multiply(ASC6a0e90* out, const ASC6a0e90* apOther)
 {
     ASC6a0e90 ret;
-    new ((void *)&(ret)) ::Vec3();
     ret.s = s * apOther->s - c * apOther->c;
     ret.c = c * apOther->s + s * apOther->c;
     reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::ASC6a0e90 &)(*out))->CopyFloatPair((void *)&(ret));
@@ -3361,7 +3360,7 @@ class B6A1330NodePtr
 // @fnv 0x006a1330
 void __cdecl FUN_006a1330(const char* pcPath, int iParamA, int iParamB)
 {
-    B6A1330NodePtr spNode7 = ((::B6A1330Node *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(pcPath)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), (*(const class class ::FUN_006815c0 *)(iParamA)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), true)));
+    B6A1330NodePtr spNode7 = ((::B6A1330Node *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(pcPath)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), (*(const class ::FUN_006815c0 *)(iParamA)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), true)));
     B6A1330UpdateData kData(0.0f, false, false);
     reinterpret_cast<::FUN_00a5a040_Class *>(((spNode7).operator->()))->FUN_00a5a040();
     reinterpret_cast<::FUN_00a59c60_cls *>(((spNode7).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
@@ -5595,7 +5594,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
     Words indices3;
     for (unsigned int outer = 0; outer < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((input))->GetName())); outer++)
     {
-        unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_0069a830::FUN_0069a830_shell *>((((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh))->CollectTrianglePOVs(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->index, (::BSSimpleArray<unsigned short> *)(::Words *)(&indices3))));
+        unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_0069a830::FUN_0069a830_shell *>((((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh))->CollectTrianglePOVs(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->index, (::BSSimpleArray<unsigned short, 1024> *)(::Words *)(&indices3))));
         for (unsigned int inner = 0; inner < count; inner++)
         {
             Handle handle(((::Handle *)(reinterpret_cast<::S006950d0 *>((input))->GetElement(outer)))->mesh, reinterpret_cast<::FUN_005eeda0_this *>(&(indices3))->GetBufferEntry(inner));
@@ -7970,7 +7969,7 @@ struct Edge
 struct Search
 {
     bool Test(Edge&, const Point&, Edge&);
-    bool TraceArcOnBall(const Edge&, const Ball&, Arc, Edge&);
+    bool TraceArcOnBall(const Edge&, const Ball&, struct Arc, Edge&);
 };
 // @fnv 0x0069f9d0
 bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
@@ -8079,7 +8078,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                     reinterpret_cast<::FUN_006cf900_Class *>(&(cost))->FUN_006cf900((const ::FUN_006cf900_Class *)&(arc2));
                 else
                 {
-                    if (!reinterpret_cast<::Search *>(this)->TraceArcOnBall((const ::Edge &)(arc2), (const ::Ball &)(tangentCount.center), (*(struct struct ::Arc *)&(const ::P072Arc &)(node)), (::Edge &)(cost)))
+                    if (!reinterpret_cast<::Search *>(this)->TraceArcOnBall((const ::Edge &)(arc2), (const ::Ball &)(tangentCount.center), (*(struct ::Arc *)&(const ::P072Arc &)(node)), (::Edge &)(cost)))
                     {
                         if (DAT_011d6dcc)
                             ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
@@ -8148,7 +8147,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
     return true;
 }
 // @fnv 0x006a0c50
-bool Search::TraceArcOnBall(const Edge& aStartEdge, const Ball& ball, Arc arc, Edge& aOutputEdge)
+bool Search::TraceArcOnBall(const Edge& aStartEdge, const Ball& ball, struct Arc arc, Edge& aOutputEdge)
 {
     Angle edge(arc.direction == 0 ? 0.2617993950843811f : -0.2617993950843811f);
     Angle last(arc.start);

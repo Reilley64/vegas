@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/WorldQuery.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -173,7 +174,7 @@ struct hkMemoryRouterE466
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterE466& __cdecl FUN_00c85750();
+static inline hkMemoryRouterE466& getMemoryRouter() { return *static_cast<hkMemoryRouterE466*>(::FUN_00c85750()); }
 
 template <class T> __forceinline void destructE466(T* t, int n)
 {
@@ -195,7 +196,7 @@ template <class T> class hkArrayE466
 
     __forceinline ~hkArrayE466()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(getMemoryRouter().heap());
     }
     __forceinline void clear()
     {
@@ -280,7 +281,7 @@ struct FUN_00c85750_Obj
     VirtualObj* unk10;
 };
 
-FUN_00c85750_Obj* __cdecl FUN_00c85750();
+static inline FUN_00c85750_Obj* getMemoryRouter() { return static_cast<FUN_00c85750_Obj*>(::FUN_00c85750()); }
 
 class FUN_00e46750_Obj : public hkpFirstPersonGun
 {
@@ -296,7 +297,7 @@ int FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
 
     if (flag & 1)
     {
-        FUN_00c85750_Obj* audio = FUN_00c85750();
+        FUN_00c85750_Obj* audio = getMemoryRouter();
         audio->unk10->vf08(this, m_usMemSizeAndFlags);
     }
 
@@ -324,7 +325,7 @@ struct hkMemoryRouterStub
         return *m_pThreadAllocator;
     }
 };
-hkMemoryRouterStub* FUN_00c85750();
+static inline hkMemoryRouterStub* getMemoryRouter() { return static_cast<hkMemoryRouterStub*>(::FUN_00c85750()); }
 
 struct hkVector4q
 {
@@ -381,7 +382,7 @@ struct hkpSphereShapeq
 
     static void* operator new(size_t nbytes)
     {
-        hkpSphereShapeq* p = (hkpSphereShapeq*)FUN_00c85750()->heap().allocateChunk(nbytes);
+        hkpSphereShapeq* p = (hkpSphereShapeq*)getMemoryRouter()->heap().allocateChunk(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }

@@ -1,6 +1,7 @@
 // src/havok/physics/utilities/serialize/hkpphysicsdataclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdataclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/fnv_00d4c250__FUN_00d4c250.h"
 struct AudioAllocator
 {
@@ -18,7 +19,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d48370_cls
 {
@@ -38,7 +39,7 @@ FUN_00d48370_cls* FUN_00d48370_cls::FUN_00d48370(unsigned char acFlags)
     reinterpret_cast<::fnv_00d4c250::FUN_00d4c250 *>(this)->fnv_00d4c250::FUN_00d4c250::~FUN_00d4c250();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = getMemoryRouter();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }

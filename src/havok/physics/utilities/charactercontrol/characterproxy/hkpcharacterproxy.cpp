@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <intrin.h>
@@ -221,7 +222,7 @@ struct FNVMemoryManager {
         return *reinterpret_cast<FNVAllocator**>(reinterpret_cast<char*>(this) + 0x10);
     }
 };
-FNVMemoryManager* __cdecl FUN_00c85750();
+static inline FNVMemoryManager* getMemoryRouter() { return static_cast<FNVMemoryManager*>(::FUN_00c85750()); }
 
 struct FNVArray {
     int* values;
@@ -233,7 +234,7 @@ struct FNVBuffers {
     FNVArray spare;
     FNVArray elements;
     static void* operator new(size_t bytes) {
-        return FUN_00c85750()->GetAllocator()->Allocate(bytes);
+        return getMemoryRouter()->GetAllocator()->Allocate(bytes);
     }
 };
 struct FNVOwner {
@@ -280,7 +281,7 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00cac120_cls {
     int unk00;
@@ -299,7 +300,7 @@ FUN_00cac120_cls* FUN_00cac120_cls::FUN_00cac120(unsigned char acFlags)
 {
     FUN_00cadb00();
     if (acFlags & 1) {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = getMemoryRouter();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -685,7 +686,7 @@ struct PtrList {
     unsigned int m_capBits;
 };
 
-AllocHolder* FUN_00c85750();
+static inline AllocHolder* getMemoryRouter() { return static_cast<AllocHolder*>(::FUN_00c85750()); }
 void ResizeAudioStream(void* allocator, PtrList* list, unsigned int elemSize);
 
 struct FUN_00cada30_cls {
@@ -699,7 +700,7 @@ struct FUN_00cada30_cls {
 void FUN_00cada30_cls::AppendPointer(void* value)
 {
     PtrList* list = (PtrList*)((char*)this + 0x80);
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = getMemoryRouter();
     if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu)) {
         ResizeAudioStream(pAllocHolder->m_pAllocator, list, 4);
     }
@@ -776,7 +777,7 @@ struct RootContact289 {
 };
 struct Allocator289 {virtual void f0();virtual void f1();virtual void f2();virtual void f3();__declspec(nothrow) virtual void Free(void*,unsigned) throw();};
 struct Router289 {int unk00,unk04,unk08,unk0c;Allocator289* heap; Allocator289* GetAllocator() {return heap;}};
-namespace Memory289 {extern "C" Router289* FUN_00c85750() throw();}
+namespace Memory289 {static inline Router289* getMemoryRouter() { return static_cast<Router289*>(::FUN_00c85750()); }}
 class hkpCdPointCollector {
 public:
  __declspec(nothrow) __forceinline virtual ~hkpCdPointCollector() {}
@@ -790,7 +791,7 @@ struct ContactArray289 {
  RootContact289 local[8];
  __declspec(nothrow) ContactArray289():data(local),count(0),capacity(0x80000008) {}
  __declspec(nothrow) __forceinline ~ContactArray289() {
-  Allocator289* alloc=Memory289::FUN_00c85750()->GetAllocator();
+  Allocator289* alloc=Memory289::getMemoryRouter()->GetAllocator();
   count=0;
   if((capacity&0x80000000)==0) alloc->Free(data,(capacity&0x3fffffff)*sizeof(RootContact289));
   data=0;capacity=0x80000000;
@@ -1293,7 +1294,7 @@ template <class T> struct HkArray289 {
 
     void clear() { m_iElementCount = 0; }
     ~HkArray289() throw() {
-        Allocator289* alloc = Memory289::FUN_00c85750()->GetAllocator();
+        Allocator289* alloc = Memory289::getMemoryRouter()->GetAllocator();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc->Free(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -1413,7 +1414,7 @@ struct S_Arr {
         m_cap = 0x80000000;
     }
     ~S_Arr() throw() {
-        _clearAndDeallocate(((S_Router*)FUN_00c85750())->heap());
+        _clearAndDeallocate(((S_Router*)getMemoryRouter())->heap());
     }
 };
 
@@ -1474,7 +1475,7 @@ struct S_00caf4d0_Router {
     S_00caf4d0_Stack& stack() throw() { return m_aiEntries; }
     S_00caf4d0_Heap& heap() throw() { return *m_pStreamAllocator; }
 };
-static __forceinline S_00caf4d0_Router* GetRouter37() throw() { return reinterpret_cast<S_00caf4d0_Router*>(FUN_00c85750()); }
+static __forceinline S_00caf4d0_Router* GetRouter37() throw() { return reinterpret_cast<S_00caf4d0_Router*>(getMemoryRouter()); }
 void ResizeAudioStream(S_00caf4d0_Heap& alloc, void* array, int elemSize) throw();
 
 inline void* __cdecl operator new(size_t, void* where) throw() { return where; }
@@ -2879,7 +2880,7 @@ public:
     S00cae900_Stack m_aiEntries;
     S00cae900_Alloc* m_pStreamAllocator;
 };
-__forceinline S00cae900_Router& S00cae900_getRouter() { return *reinterpret_cast<S00cae900_Router*>(FUN_00c85750()); }
+__forceinline S00cae900_Router& S00cae900_getRouter() { return *reinterpret_cast<S00cae900_Router*>(getMemoryRouter()); }
 
 template <typename T>
 __forceinline T* S00cae900_allocateStack(int n, const char* what = 0) {
@@ -3364,7 +3365,7 @@ public:
     S00caefd0_Stack m_aiEntries;
     S00caefd0_Alloc* m_pStreamAllocator;
 };
-__forceinline S00caefd0_Router& S00caefd0_getRouter() { return *reinterpret_cast<S00caefd0_Router*>(FUN_00c85750()); }
+__forceinline S00caefd0_Router& S00caefd0_getRouter() { return *reinterpret_cast<S00caefd0_Router*>(getMemoryRouter()); }
 
 template <typename T>
 __forceinline T* S00caefd0_allocateStack(int n, const char* what = 0) {
@@ -3695,7 +3696,6 @@ void _ReadWriteBarrier();
 unsigned __int64 __rdtsc();
 }
 extern char str_010c8508[],str_010c8500[],str_010c84f0[],str_010c84dc[],str_010c84d0[],str_010c84c4[],str_010c84b8[];
-__declspec(nothrow) FNVMemoryManager* __cdecl FUN_00c85750();
 template<class T> class PStorage {
     T value;
 public:
@@ -3757,7 +3757,7 @@ struct PStack {PStorage<void*> cursor,start,end;int peak;
     __forceinline void deallocate(void* p) throw(){cursor=p;}
 };
 struct PRouter {PStack stack;PAllocator* allocator;__forceinline PAllocator& heap() throw(){return *allocator;}__forceinline PStack& local() throw(){return stack;}};
-__forceinline PRouter* route() throw(){return reinterpret_cast<PRouter*>(FUN_00c85750());}
+__forceinline PRouter* route() throw(){return reinterpret_cast<PRouter*>(getMemoryRouter());}
 struct PContainerAllocator {__forceinline PAllocator& get(const void*) const throw(){return route()->heap();}};
 struct ClassCopy{};
 struct ScalarCopy{};
@@ -3972,7 +3972,7 @@ struct Collector197
     void Release() throw()
     {
         vtable = &(*reinterpret_cast<const void * *>(&::g_vtblInst0104da28));
-        FNVMemoryManager* manager = FUN_00c85750();
+        FNVMemoryManager* manager = getMemoryRouter();
         unsigned int flags = capacity;
         Allocator197* heap = reinterpret_cast<Allocator197*>(manager->GetAllocator());
         count = 0;

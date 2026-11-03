@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -132,7 +133,7 @@ struct hkMemoryRouterE463
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterE463& __cdecl FUN_00c85750();
+static inline hkMemoryRouterE463& getMemoryRouter() { return *static_cast<hkMemoryRouterE463*>(::FUN_00c85750()); }
 
 template <class T> __forceinline void destructE463(T* t, int n)
 {
@@ -154,7 +155,7 @@ template <class T> class hkArrayE463
 
     ~hkArrayE463() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(getMemoryRouter().heap());
     }
     __forceinline void clear()
     {
@@ -199,7 +200,7 @@ class hkReferencedObjectE463
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkReferencedObjectE463*>(p)->m_usMemSizeAndFlags);
+        getMemoryRouter().heap().ReleaseBlock(p, static_cast<hkReferencedObjectE463*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -717,7 +718,7 @@ struct hkMemoryRouterE460
 };
 
 namespace hkRouterE460 {
-extern "C" hkMemoryRouterE460& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterE460& getMemoryRouter() { return *static_cast<hkMemoryRouterE460*>(::FUN_00c85750()); }
 }
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
 
@@ -746,7 +747,7 @@ template <class T> struct hkArrayE460
 
     void AddBack(const T& e)
     {
-        hkMemoryRouterE460& router = hkRouterE460::FUN_00c85750();
+        hkMemoryRouterE460& router = hkRouterE460::getMemoryRouter();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         constructWithCopyE460<T>(m_data + m_iElementCount, 1, e);

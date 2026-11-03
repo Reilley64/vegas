@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpphantomdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpphantomdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -398,7 +399,7 @@ struct FnvCpu_FUN_00d66770_CpuHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d66770_CpuAllocator* allocator;
 };
-void* __cdecl FUN_00c85750();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 struct FnvCpu_FUN_00d66770_CpuBlock
 {
     unsigned int unk00;
@@ -408,7 +409,7 @@ struct FnvCpu_FUN_00d66770_CpuBlock
 // @fnv 0x00d66770
 void* __cdecl FUN_00d66770(unsigned int value)
 {
-    FnvCpu_FUN_00d66770_CpuHolder* pCpuHolder = static_cast<FnvCpu_FUN_00d66770_CpuHolder*>(FUN_00c85750());
+    FnvCpu_FUN_00d66770_CpuHolder* pCpuHolder = static_cast<FnvCpu_FUN_00d66770_CpuHolder*>(getMemoryRouter());
     FnvCpu_FUN_00d66770_CpuBlock* pCpuBlock =
         static_cast<FnvCpu_FUN_00d66770_CpuBlock*>(pCpuHolder->allocator->Invoke(60));
     pCpuBlock->size = 60;
@@ -432,7 +433,7 @@ struct MemoryRouter
     int unknown00, unknown04, unknown08, unknown0c;
     Allocator* allocator;
 };
-MemoryRouter* __cdecl FUN_00c85750();
+static inline MemoryRouter* getMemoryRouter() { return static_cast<MemoryRouter*>(::FUN_00c85750()); }
 struct HavokArrayOwner
 {
     void* vtable;
@@ -447,7 +448,7 @@ struct HavokArrayOwner
 // @fnv 0x00e015d0
 HavokArrayOwner* HavokArrayOwner::DestroyHavokArrayOwner(unsigned int deletionFlags)
 {
-    MemoryRouter* router = FUN_00c85750();
+    MemoryRouter* router = getMemoryRouter();
     Allocator* allocator = router->allocator;
     int previousCapacity = capacityFlags;
     size = 0;
@@ -460,7 +461,7 @@ HavokArrayOwner* HavokArrayOwner::DestroyHavokArrayOwner(unsigned int deletionFl
     vtable = &(*reinterpret_cast<char *>(&::DAT_0102e388));
     if (deletionFlags & 1)
     {
-        MemoryRouter* router2 = FUN_00c85750();
+        MemoryRouter* router2 = getMemoryRouter();
         router2->allocator->deallocateObject(this, allocatorTag);
     }
     return this;
@@ -548,7 +549,7 @@ struct hkMemoryRouterD667
 };
 
 namespace hkRouterD667 {
-extern "C" hkMemoryRouterD667& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterD667& getMemoryRouter() { return *static_cast<hkMemoryRouterD667*>(::FUN_00c85750()); }
 }
 
 template <typename T> struct hkArrayD667
@@ -574,7 +575,7 @@ class hkReferencedObjectD667
     static void* operator new(size_t nbytes)
     {
         hkReferencedObjectD667* b =
-            static_cast<hkReferencedObjectD667*>(hkRouterD667::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<hkReferencedObjectD667*>(hkRouterD667::getMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -617,7 +618,7 @@ struct hkMemoryRouterD664
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterD664& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterD664& getMemoryRouter() { return *static_cast<hkMemoryRouterD664*>(::FUN_00c85750()); }
 }
 
 template <class T> class hkArrayD664
@@ -629,7 +630,7 @@ template <class T> class hkArrayD664
 
     ~hkArrayD664() throw()
     {
-        hkMemoryAllocatorD664& kAlloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocatorD664& kAlloc = fnvc_adapt::getMemoryRouter().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -791,10 +792,9 @@ struct MemoryRouter
     int unk04, unk08, unk0c;
     MemoryAllocator* allocator;
 };
-void* __cdecl FUN_00c85750();
 static __forceinline MemoryRouter* S00d667b0_router()
 {
-    return (MemoryRouter*)FUN_00c85750();
+    return (MemoryRouter*)getMemoryRouter();
 }
 template <class T> struct LocalArray
 {
@@ -1160,7 +1160,7 @@ struct Vw66530Router
         return *m_alloc;
     }
 };
-Vw66530Router* __cdecl FUN_00c85750();
+static inline Vw66530Router* getMemoryRouter() { return static_cast<Vw66530Router*>(::FUN_00c85750()); }
 
 template <class T> struct Vw66530Array
 {
@@ -1171,7 +1171,7 @@ template <class T> struct Vw66530Array
     {}
     void destroy()
     {
-        Vw66530Alloc& a = FUN_00c85750()->heap();
+        Vw66530Alloc& a = getMemoryRouter()->heap();
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0)
             a.ReturnMemory(m_data, (m_capFlags & 0x3fffffff) * sizeof(T));
@@ -1194,7 +1194,7 @@ template <class T> struct Vw66530Array
     }
     void AddBack(const T& t)
     {
-        Vw66530Router* r = FUN_00c85750();
+        Vw66530Router* r = getMemoryRouter();
         if (m_iElementCount == (m_capFlags & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(r->m_alloc), (::AudioStream *)(void *)(this), sizeof(T));
         construct(m_data + m_iElementCount, 1, t);

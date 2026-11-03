@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/ConstraintVisualizer.h"
@@ -275,7 +276,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct Target
 {
@@ -362,7 +363,7 @@ FUN_00d69920_cls::~FUN_00d69920_cls() throw()
             reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((int)(static_cast<SubObject*>(this)));
         }
     }
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = getMemoryRouter();
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     m_iField30 = 0;
     unsigned int uiDataFlags = m_uiObjectFlags;
@@ -391,7 +392,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct SpawnedObject
 {
@@ -405,7 +406,7 @@ struct SpawnedObject
 // @fnv 0x00d699c0
 void* __cdecl FUN_00d699c0(void* apSource)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = getMemoryRouter();
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     SpawnedObject* pObject = (SpawnedObject*)pAllocator->Alloc(0x38);
     pObject->m_uSize = 0x38;
@@ -573,7 +574,7 @@ struct FUN_00d69af0_MemoryRouter
     }
 };
 
-extern "C" FUN_00d69af0_MemoryRouter& __cdecl FUN_00c85750();
+static inline FUN_00d69af0_MemoryRouter& getMemoryRouter() { return *static_cast<FUN_00d69af0_MemoryRouter*>(::FUN_00c85750()); }
 
 struct FUN_00d69af0
 {
@@ -586,7 +587,7 @@ struct FUN_00d69af0
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00d69af0* b = static_cast<FUN_00d69af0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

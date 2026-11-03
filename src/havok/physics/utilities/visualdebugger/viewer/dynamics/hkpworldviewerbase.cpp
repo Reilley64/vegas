@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00ddcdd0
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/CD2210World.h"
 #include "fnv/decl/Candidate.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -88,7 +89,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+static inline CpuAllocatorHolder* getMemoryRouter() { return static_cast<CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct CpuObject
 {
     unsigned int unk00;
@@ -103,7 +104,7 @@ CpuObject* CpuObject::DestroyOrFree(unsigned int flags)
     reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = getMemoryRouter();
         holder->allocator->Invoke(this, size);
     }
     return this;

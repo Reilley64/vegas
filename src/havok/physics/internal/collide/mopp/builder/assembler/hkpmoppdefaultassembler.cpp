@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include <cstring>
@@ -677,7 +678,7 @@ struct Router
     void* unk0c;
     Allocator* allocator;
 };
-extern "C" Router* __cdecl FUN_00c85750();
+static inline Router* getMemoryRouter() { return static_cast<Router*>(::FUN_00c85750()); }
 struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
@@ -1464,7 +1465,7 @@ FUN_00e09640_class* FUN_00e09640_class::FUN_00e09640(int flags)
     reinterpret_cast<::FUN_00e09450_cls *>(this)->DestroyAudioBuffer();
     if (flags & 1)
     {
-        Router* router = FUN_00c85750();
+        Router* router = getMemoryRouter();
         router->allocator->ReleaseBlock(this, unk04);
     }
     return this;
@@ -1474,7 +1475,7 @@ FUN_00e09640_class* FUN_00e09640_class::FUN_00e09640(int flags)
 void FUN_00e09450_cls::DestroyAudioBuffer()
 {
     m_vptr00 = (int)&DAT_010ea5dc;
-    AudioHolder* pAudioHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pAudioHolder = (AudioHolder*)getMemoryRouter();
     AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
     m_iArrayLength = 0;
     unsigned int uCapacityBits = m_uCapBits;
@@ -2408,7 +2409,7 @@ static __declspec(noinline) void FUN_00e08320(e083::PairArray* srcp, e083::PairA
     e083::PairArray* src = *pp;
     for (int i = 0; i < src->m_iElementCount; i++)
     {
-        e083::Router* h = (e083::Router*)FUN_00c85750();
+        e083::Router* h = (e083::Router*)getMemoryRouter();
         if (dst->m_iElementCount == (dst->m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(h->unk10), (::AudioStream *)(dst), 8);
         int n = dst->m_iElementCount;
@@ -2434,7 +2435,7 @@ struct BvAllocator
 };
 inline BvAllocator& GetHeap()
 {
-    return *(BvAllocator*)FUN_00c85750()->allocator;
+    return *(BvAllocator*)getMemoryRouter()->allocator;
 }
 struct BvHeapRouter
 {
@@ -2446,7 +2447,7 @@ struct BvHeapRouter
 };
 inline BvHeapRouter* GetBvRouter()
 {
-    return (BvHeapRouter*)FUN_00c85750();
+    return (BvHeapRouter*)getMemoryRouter();
 }
 template <class T> struct BvArray
 {
@@ -2609,12 +2610,12 @@ static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, 
     {
         int bytes = tree->m_converter->ConvertReferences(refs->m_data, refs->m_iElementCount);
         reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(bytes);
-        Router* router = FUN_00c85750();
+        Router* router = getMemoryRouter();
         unsigned char* temporary = static_cast<unsigned char*>(router->unk00);
         router->unk00 = temporary + ((bytes + 127) & ~127);
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
         ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
-        FUN_00c85750()->unk00 = temporary;
+        getMemoryRouter()->unk00 = temporary;
     }
     int before = destination->m_offset;
     reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(source->m_offset + padding);
@@ -2685,7 +2686,7 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
     {
         reinterpret_cast<::S_e07c50 *>((node))->FUN_00e07c50((::S_e07c50_Item *)(parent), (int)(stack), {});
         const int& index = node->m_info->m_uiEdgeIndex;
-        refs->AddBack(*FUN_00c85750(), index);
+        refs->AddBack(*getMemoryRouter(), index);
         return;
     }
 
@@ -2729,7 +2730,7 @@ struct P154System
 };
 struct P154Memory
 {
-    static P154System* FUN_00c85750();
+    static inline P154System* getMemoryRouter() { return static_cast<P154System*>(::FUN_00c85750()); }
 };
 
 struct P154Array
@@ -2741,7 +2742,7 @@ struct P154Array
     {}
     void append(const int& v)
     {
-        P154System* s = P154Memory::FUN_00c85750();
+        P154System* s = P154Memory::getMemoryRouter();
         if (count == int(capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(s->allocator), (::AudioStream *)(void *)(this), 4);
         constructCopy(data + count, 1, v);
@@ -2749,13 +2750,13 @@ struct P154Array
     }
     void insert(int* src, int pos, int n)
     {
-        P154System* r = P154Memory::FUN_00c85750();
+        P154System* r = P154Memory::getMemoryRouter();
         P154Allocator* a = r->allocator;
         reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)(a), pos, (unsigned int)(src), n);
     }
     void clear()
     {
-        P154System* r = P154Memory::FUN_00c85750();
+        P154System* r = P154Memory::getMemoryRouter();
         P154Allocator* a = r->allocator;
         count = 0;
         if (!(capacity & 0x80000000))
@@ -2766,7 +2767,7 @@ struct P154Array
 public:
     void append(const int& v)
     {
-        P154System* s = P154Memory::FUN_00c85750();
+        P154System* s = P154Memory::getMemoryRouter();
         if (count == int(capacity & 0x3fffffff))
             ResizeAudioStream(s->allocator, this, 4);
         constructCopy(data + count, 1, v);
@@ -2784,7 +2785,7 @@ struct P154PairArray
     unsigned capacity;
     P154Pair& grow()
     {
-        P154System* s = P154Memory::FUN_00c85750();
+        P154System* s = P154Memory::getMemoryRouter();
         if (count == int(capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(s->allocator), (::AudioStream *)(void *)(this), 8);
         for (int i = 0; i < 1; ++i)
@@ -2794,7 +2795,7 @@ struct P154PairArray
 public:
     P154Pair& grow()
     {
-        P154System* s = P154Memory::FUN_00c85750();
+        P154System* s = P154Memory::getMemoryRouter();
         if (count == int(capacity & 0x3fffffff))
             ResizeAudioStream(s->allocator, this, 8);
         for (int i = 0; i < 1; ++i)
@@ -2999,7 +3000,7 @@ struct AllocHolder
     void* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
+static inline AllocHolder* getMemoryRouter() { return static_cast<AllocHolder*>(::FUN_00c85750()); }
 
 struct SlotPair
 {
@@ -3098,7 +3099,7 @@ int FUN_00e08240_cls::FUN_00e08240(Node* apNode, int a2, int aiIndex)
             SlotPair* slot = apNode->m_60;
             slot->m_10 = slot->m_00;
             PairList* list = &this->m_14->m_kNode;
-            AllocHolder* holder = FUN_00c85750();
+            AllocHolder* holder = getMemoryRouter();
             if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffff))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 8);
@@ -3194,7 +3195,7 @@ struct S_00e08470_Data
 
 };
 
-extern "C" S_00e08470_Holder* __cdecl FUN_00c85750();
+static inline S_00e08470_Holder* getMemoryRouter() { return static_cast<S_00e08470_Holder*>(::FUN_00c85750()); }
 
 struct S_00e08470_Class
 {
@@ -3222,7 +3223,7 @@ int S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
 
     S_00e08470_Vector* vector = &this->unk10->unk14;
 
-    S_00e08470_Holder* holder = FUN_00c85750();
+    S_00e08470_Holder* holder = getMemoryRouter();
 
     if (vector->unk04 == (vector->unk08 & 0x3fffffff))
     {
@@ -3259,12 +3260,12 @@ static __declspec(noinline) int FUN_00e08380(BvTree* tree, CodeCopySource* sourc
         int count = refs->m_iElementCount;
         int bytes = tree->m_converter->ConvertReferences(data, count);
         reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(bytes);
-        Router* router = FUN_00c85750();
+        Router* router = getMemoryRouter();
         unsigned char* temporary = static_cast<unsigned char*>(router->unk00);
         router->unk00 = temporary + ((bytes + 127) & ~127);
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
         ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
-        FUN_00c85750()->unk00 = temporary;
+        getMemoryRouter()->unk00 = temporary;
     }
     int before = destination->m_offset;
     reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(source->m_offset + padding);
@@ -3339,7 +3340,7 @@ template <typename T> struct MyArray
     }
     __forceinline ~MyArray() throw()
     {
-        AudioHolder* holder = (AudioHolder*)FUN_00c85750();
+        AudioHolder* holder = (AudioHolder*)getMemoryRouter();
         AudioAllocator* alloc = holder->m_pAllocator;
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
@@ -3347,7 +3348,7 @@ template <typename T> struct MyArray
     }
     __forceinline void ClearAndRelease() throw()
     {
-        AudioAllocator* alloc = ((AudioHolder*)FUN_00c85750())->m_pAllocator;
+        AudioAllocator* alloc = ((AudioHolder*)getMemoryRouter())->m_pAllocator;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if (!(cap & 0x80000000))
@@ -3522,7 +3523,7 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
     node->info.unk8 = 0;
     {
         EntryArray& entries = this->m_pAssemblerHelper->m_entries;
-        Router* router = FUN_00c85750();
+        Router* router = getMemoryRouter();
         if (entries.m_iElementCount == (entries.m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(void *)(&entries), 8);
         entries.m_iElementCount++;

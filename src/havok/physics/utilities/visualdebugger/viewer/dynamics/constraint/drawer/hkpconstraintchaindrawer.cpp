@@ -200,7 +200,7 @@ struct Obj
 void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, int aiArg1, int aiArg2)
 {
     ChainData* data = apChain->m_data;
-    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(apListener));
+    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((apListener));
     int iPairCount = apChain->m_iActorEntryCount - 1;
     for (int iPair = 0; iPair < iPairCount; iPair++)
     {

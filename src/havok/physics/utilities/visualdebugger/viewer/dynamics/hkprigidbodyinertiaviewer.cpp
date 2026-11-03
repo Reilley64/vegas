@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <intrin.h>
 #include <new>
@@ -415,13 +416,13 @@ struct D67880MemoryRouter {
     D67880Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D67880MemoryRouter& __cdecl FUN_00c85750();
+static inline D67880MemoryRouter& getMemoryRouter() { return *static_cast<D67880MemoryRouter*>(::FUN_00c85750()); }
 
 class D67880ReferencedObject {
 public:
     static void* operator new(size_t nbytes)
     {
-        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(getMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -476,7 +477,7 @@ struct D671B0Array {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& val)
     {
-        D67880MemoryRouter& router = FUN_00c85750();
+        D67880MemoryRouter& router = getMemoryRouter();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         D671B0ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
@@ -510,7 +511,7 @@ struct Router_d672 {
     int unk00, unk04, unk08, unk0C;
     Heap_d672* m_pStreamAllocator;
     Heap_d672& heap() { return *m_pStreamAllocator; }
-    static Router_d672& __cdecl FUN_00c85750() throw();
+    static inline Router_d672& getMemoryRouter() { return *static_cast<Router_d672*>(::FUN_00c85750()); }
 };
 
 template <class T> __forceinline void destructArray_d672(T* p, int n)
@@ -525,7 +526,7 @@ template <class T> struct hkArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::FUN_00c85750().heap();
+        Heap_d672& heap = Router_d672::getMemoryRouter().heap();
         destructArray_d672(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -541,7 +542,7 @@ template <class T> struct hkPodArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::FUN_00c85750().heap();
+        Heap_d672& heap = Router_d672::getMemoryRouter().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -762,7 +763,7 @@ struct S_00d67930_Router {
     __forceinline S_00d67930_Heap& heap() { return *m_pStreamAllocator; }
 };
 
-S_00d67930_Router& __cdecl FUN_00c85750();
+static inline S_00d67930_Router& getMemoryRouter() { return *static_cast<S_00d67930_Router*>(::FUN_00c85750()); }
 
 struct FUN_00d67930 {
     virtual ~FUN_00d67930() throw();
@@ -773,7 +774,7 @@ struct FUN_00d67930 {
     static void operator delete(void* p, unsigned int)
     {
         FUN_00d67930* b = static_cast<FUN_00d67930*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -949,7 +950,7 @@ struct FreeAllocator {
     virtual void v0c();
     virtual void ReleaseBlock(void* p, int bytes);
 };
-__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(FUN_00c85750().heap()); }
+__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(getMemoryRouter().heap()); }
 template<class T> struct LocalArray {
     T* data;
     int count;

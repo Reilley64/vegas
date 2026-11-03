@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
@@ -226,7 +227,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00e65ea0_cls
 {
@@ -254,7 +255,7 @@ struct FUN_00e65ea0_cls
 // @fnv 0x00e65ea0
 void FUN_00e65ea0_cls::ClearArray()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = getMemoryRouter();
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uFlags = m_uiObjectFlags;
     m_uCount = 0;
@@ -287,7 +288,7 @@ struct ItemList
     }
     void AddBack(void* const& value)
     {
-        AudioHolder* holder = FUN_00c85750();
+        AudioHolder* holder = getMemoryRouter();
         if (count == (int)(capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(this), 4);
         CopyConstruct(data + count, 1, value);
@@ -854,7 +855,7 @@ append:
 
     MoppResults* output = results;
 
-    AudioHolder* memory = FUN_00c85750();
+    AudioHolder* memory = getMemoryRouter();
 
     if (output->size == (output->capacityAndFlags & 0x3fffffff))
 

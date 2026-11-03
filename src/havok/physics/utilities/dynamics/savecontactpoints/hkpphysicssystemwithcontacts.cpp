@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/dynamics/savecontactpoints/hkpphysicssystemwithcontacts.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/savecontactpoints/hkpphysicssystemwithcontacts.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d06640_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -29,7 +30,7 @@ struct hkMemoryRouterDCEC
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterDCEC& __cdecl FUN_00c85750();
+static inline hkMemoryRouterDCEC& getMemoryRouter() { return *static_cast<hkMemoryRouterDCEC*>(::FUN_00c85750()); }
 
 
 template <class T> __forceinline void constructWithCopyDCEC(T* p, int n, const T& t)
@@ -51,7 +52,7 @@ template <class T> class hkArrayDCEC
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorDCEC& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDCEC& kAlloc = getMemoryRouter().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyDCEC(m_data + m_iElementCount, 1, t);
@@ -119,7 +120,7 @@ struct AllocatorManager
     void* unk0C;
     Allocator* allocator;
 };
-AllocatorManager* __cdecl FUN_00c85750();
+static inline AllocatorManager* getMemoryRouter() { return static_cast<AllocatorManager*>(::FUN_00c85750()); }
 struct FUN_00dcecc0
 {
     virtual ~FUN_00dcecc0();
@@ -142,7 +143,7 @@ FUN_00dcecc0::~FUN_00dcecc0()
     {
         reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<RefAgent*>(m_kSerializedAgentEntries.m_data[i])))->FUN_00c905b0();
     }
-    AllocatorManager* pAllocatorManager = FUN_00c85750();
+    AllocatorManager* pAllocatorManager = getMemoryRouter();
     Allocator* allocator = pAllocatorManager->allocator;
     unsigned int uiArrayFlags = m_kSerializedAgentEntries.m_iCapacityState;
     m_kSerializedAgentEntries.m_iElementCount = 0;

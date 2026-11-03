@@ -151,7 +151,7 @@ void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDeb
                                    int tag)
 {
     hkpPulleyConstraintData* pulley = constraint->m_data;
-    reinterpret_cast<::CpuObject *>(&(m_kDisplayGeometry))->FUN_00e10a10((int)(displayHandler));
+    reinterpret_cast<::CpuObject *>(&(m_kDisplayGeometry))->FUN_00e10a10((displayHandler));
     {
         hkTransform refLocalToWorld;
         hkTransform attLocalToWorld;

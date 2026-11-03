@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00d641f0_cls.h"
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/RotationRows.h"
@@ -273,7 +274,7 @@ struct SweptRouter
     }
 };
 
-__declspec(nothrow) SweptRouter& __cdecl FUN_00c85750();
+static inline SweptRouter& getMemoryRouter() { return *static_cast<SweptRouter*>(::FUN_00c85750()); }
 
 template <int SIZE> __forceinline void SweptMemCpyOne(void* dst, const void* src)
 {
@@ -289,7 +290,7 @@ template <typename T> struct SweptArray
 
     __forceinline ~SweptArray() throw()
     {
-        _clearAndDeallocate(FUN_00c85750().heap());
+        _clearAndDeallocate(getMemoryRouter().heap());
     }
 
     __forceinline void clear() throw()
@@ -336,7 +337,7 @@ struct SweptWorldData
 
     static void operator delete(void* p, unsigned int nbytes)
     {
-        FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        getMemoryRouter().heap().ReleaseBlock(p, nbytes);
     }
 };
 
@@ -388,7 +389,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
+static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 extern int DAT_010d1918, DAT_010d18f8, DAT_010d18e8, DAT_010d18cc, DAT_010d18bc;
 struct AudioArray
 {
@@ -424,7 +425,7 @@ void SweptViewer::Destroy()
             --i;
         } while (i >= 0);
     }
-    AudioHolder* h = (AudioHolder*)FUN_00c85750();
+    AudioHolder* h = (AudioHolder*)getMemoryRouter();
     AudioAllocator* a = h->m_pAllocator;
     m_ppData.m_iArrayLength = 0;
     unsigned int uiCapBits = m_ppData.m_uCapBits;
@@ -770,7 +771,7 @@ struct FUN_00d649c0
     static void operator delete(void* p, unsigned int)
     {
         FUN_00d649c0* b = static_cast<FUN_00d649c0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -937,7 +938,7 @@ void Self::FUN_00d642c0(Arg* a)
     if (0 < list.m_iElementCount && 5 != a->motionType) {
         unsigned char* id1 = (unsigned char*)&a->unk11;
         Arr* ids = &e->unk04;
-        SweptRouter* b = &FUN_00c85750();
+        SweptRouter* b = &getMemoryRouter();
         if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_pStreamAllocator), (::AudioStream *)(ids), 4);
         int* slot1 = ids->data + ids->size;
         for (int k = 0; k < 1; ++k) slot1[k] = (int)id1; ++ids->size;
@@ -957,7 +958,7 @@ void Self::FUN_00d642c0(Arg* a)
         d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display;
         d->tag(DAT_01268fd8, id1, ::g_ptr_0x1268fd0);
         unsigned char* id2 = &a->unk12;
-        b = &FUN_00c85750();
+        b = &getMemoryRouter();
         if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_pStreamAllocator), (::AudioStream *)(ids), 4);
         int* slot2 = ids->data + ids->size;
         for (int k = 0; k < 1; ++k) slot2[k] = (int)id2; ++ids->size;

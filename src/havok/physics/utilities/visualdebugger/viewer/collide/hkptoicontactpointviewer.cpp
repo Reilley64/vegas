@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d68260
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
@@ -31,12 +32,12 @@ struct Allocator {
 };
 struct Global { int unk00; int unk04; int unk08; int unk0c; Allocator* allocator; };
 struct Built { int field00; short field04; int field08; int FUN_00d682d0(int); };
-extern "C" Global* __cdecl FUN_00c85750();
+static inline Global* getMemoryRouter() { return static_cast<Global*>(::FUN_00c85750()); }
 // Allocates a 0x2c-byte Built via the global allocator, sets its field04 to 0x2c, calls FUN_00d682d0(arg), and returns result+8 or 0.
 // @fnv 0x00d686b0
 int __cdecl FUN_00d686b0(int arg)
 {
-    Global* global = FUN_00c85750();
+    Global* global = getMemoryRouter();
     Built* pBuilt = (Built*)global->allocator->allocate(0x2c);
     pBuilt->field04 = 0x2c;
     int result = pBuilt->FUN_00d682d0(arg);
@@ -410,7 +411,7 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d68740 {
     unsigned short m_u04;
@@ -419,7 +420,7 @@ struct FUN_00d68740 {
     virtual ~FUN_00d68740();
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = getMemoryRouter();
         unsigned int uiSize = ((FUN_00d68740*)apMemory)->m_u04;
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(apMemory, uiSize);

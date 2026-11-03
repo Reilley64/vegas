@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
 #include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
@@ -70,7 +71,7 @@ struct NineIntegerRecord
         return *m_pStreamAllocator;
     }
 };
-NineIntegerRecord* FUN_00c85750() throw();
+static inline NineIntegerRecord* getMemoryRouter() { return static_cast<NineIntegerRecord*>(::FUN_00c85750()); }
 struct S_00d6a750_Element
 {
     virtual ~S_00d6a750_Element() throw();
@@ -118,7 +119,7 @@ template <class T> struct hkArray
     int m_iCapacityState;
     __forceinline ~hkArray() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(getMemoryRouter()->heap());
     }
     __forceinline void clear()
     {
@@ -227,10 +228,10 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
+static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)getMemoryRouter();
 }
 
 struct RefObj
@@ -553,7 +554,7 @@ struct hkpPhysicsWorld
     hkpWorldViewerRegistry* unk10;
 };
 
-extern hkpPhysicsWorld* FUN_00c85750();
+static inline hkpPhysicsWorld* getMemoryRouter() { return static_cast<hkpPhysicsWorld*>(::FUN_00c85750()); }
 
 struct hkpMidphaseViewer
 {
@@ -570,7 +571,7 @@ void* hkpMidphaseViewer::FUN_00d6a8b0(int flags)
     reinterpret_cast<::FUN_00d6a750 *>(this)->FUN_00d6a750::~FUN_00d6a750();
     if (flags & 1)
     {
-        hkpPhysicsWorld* world = FUN_00c85750();
+        hkpPhysicsWorld* world = getMemoryRouter();
         world->unk10->removeViewer(this, unk04);
     }
     return this;
@@ -808,7 +809,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
                                     *(__m128*)&bounds.max = _mm_mul_ps(*(__m128*)&bounds.max, inv);
                                     *(__m128*)&bounds.min = _mm_sub_ps(*(__m128*)&bounds.min, _mm_load_ps(mat));
                                     *(__m128*)&bounds.max = _mm_sub_ps(*(__m128*)&bounds.max, _mm_load_ps(mat));
-                                    hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+                                    hkMemoryAllocator& alloc = getMemoryRouter()->heap();
                                     ElemArray* output = &m_aiIndexedValues;
                                     int oldSize = output->m_iElementCount;
                                     int newSize = oldSize + 1;
@@ -842,13 +843,13 @@ void Self::FUN_00d6a2f0(Param* apParam)
     indices.m_data = 0;
     indices.m_iElementCount = 0;
     indices.m_iCapacityState = 0x80000000;
-    hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+    hkMemoryAllocator& alloc = getMemoryRouter()->heap();
     Elem80** buf = AllocatePointers(alloc, allocatedCount);
     int capacity = allocatedCount ? allocatedCount : (int)0x80000000;
     indices.m_data = buf;
     indices.m_iElementCount = allocatedCount;
     indices.m_iCapacityState = capacity;
-    hkMemoryAllocator& alloc2 = FUN_00c85750()->heap();
+    hkMemoryAllocator& alloc2 = getMemoryRouter()->heap();
     if ((indices.m_iCapacityState & 0x3fffffff) < count) {
         int ns = (indices.m_iCapacityState & 0x3fffffff) * 2;
         if (count >= ns) ns = count;
@@ -861,7 +862,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
     Dispatch* disp = static_cast<Viewer*>(this)->m_dispatch;
     disp->FUN_dispatch(&indices, -0x5b00, 0, DAT_01269024);
     TimerMark(DAT_010c41f8);
-    hkMemoryAllocator& cleanupAlloc = FUN_00c85750()->heap();
+    hkMemoryAllocator& cleanupAlloc = getMemoryRouter()->heap();
     indices.m_iElementCount = 0;
     if ((indices.m_iCapacityState & 0x80000000u) == 0)
         cleanupAlloc.ReturnMemory(indices.m_data, (indices.m_iCapacityState & 0x3fffffff) * 4);

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c929e0_ThisClass.h"
@@ -334,7 +335,7 @@ struct S_Holder
         return *m10;
     }
 };
-void* __cdecl FUN_00c85750() throw();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 struct S_P
 {
     int unk00;
@@ -407,7 +408,7 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        S_Heap& heap = ((S_Holder*)FUN_00c85750())->heap();
+        S_Heap& heap = ((S_Holder*)getMemoryRouter())->heap();
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0)
             heap.ReturnMemory(m_data, (m_cap & 0x3fffffff) * (int)sizeof(void*));
@@ -448,7 +449,7 @@ struct AllocHolder
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
+static inline AllocHolder* getMemoryRouter() { return static_cast<AllocHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d63d60_obj
 {
@@ -463,7 +464,7 @@ struct FUN_00d63d60_obj
 // @fnv 0x00d63d60
 void* AllocAndInitObject(int a1)
 {
-    AllocHolder* pAllocHolder = reinterpret_cast<AllocHolder*>(FUN_00c85750());
+    AllocHolder* pAllocHolder = reinterpret_cast<AllocHolder*>(getMemoryRouter());
     FUN_00d63d60_obj* obj = reinterpret_cast<FUN_00d63d60_obj*>(pAllocHolder->m_pAllocator->Alloc(0x3c));
     obj->m_wSize = 0x3c;
     void* pResult = ((void *)(new ((void *)(obj)) ::FUN_00d63c50((::ViewerArg *)(a1))));
@@ -492,7 +493,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d63e10_cls
 {
@@ -512,7 +513,7 @@ FUN_00d63e10_cls* FUN_00d63e10_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::FUN_00d63cb0 *>(this)->FUN_00d63cb0::~FUN_00d63cb0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = getMemoryRouter();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -533,7 +534,7 @@ struct hkMemoryRouterD635
 };
 
 namespace hkD635 {
-extern "C" hkMemoryRouterD635& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterD635& getMemoryRouter() { return *static_cast<hkMemoryRouterD635*>(::FUN_00c85750()); }
 }
 
 
@@ -596,7 +597,7 @@ template <class T> class hkArrayD635
   public:
     __forceinline void AddBack(const T& t)
     {
-        _pushBack(hkD635::FUN_00c85750(), t);
+        _pushBack(hkD635::getMemoryRouter(), t);
     }
     __forceinline void _pushBack(hkMemoryRouterD635& router, const T& t)
     {
@@ -807,7 +808,7 @@ class hkArrayD635 {
 public:
     __forceinline void AddBack(const T& t)
     {
-        _pushBack(hkD635::FUN_00c85750(), t);
+        _pushBack(hkD635::getMemoryRouter(), t);
     }
     __forceinline void _pushBack(hkMemoryRouterD635& router, const T& t)
     {

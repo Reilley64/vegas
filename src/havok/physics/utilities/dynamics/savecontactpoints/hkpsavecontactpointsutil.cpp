@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -1738,7 +1739,7 @@ struct S_00dcdd80_Router
     int unk08;
     int unk0C;
     S_00dcdd80_Heap* m_pStreamAllocator;
-    static S_00dcdd80_Router& FUN_00c85750();
+    static inline S_00dcdd80_Router& getMemoryRouter() { return *static_cast<S_00dcdd80_Router*>(::FUN_00c85750()); }
     S_00dcdd80_Heap& heap()
     {
         return *m_pStreamAllocator;
@@ -1752,7 +1753,7 @@ struct S_00dcdd80_RefObj
     static void* operator new(size_t nbytes)
     {
         S_00dcdd80_RefObj* b =
-            static_cast<S_00dcdd80_RefObj*>(S_00dcdd80_Router::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<S_00dcdd80_RefObj*>(S_00dcdd80_Router::getMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -2033,7 +2034,7 @@ void __cdecl RunWithLocalContext(int first, int second, int third)
     ::FUN_00dcea10((::Resolver *)(first), (::ListOwner *)(second), (::Ctx *)(third), (::Visitor *)(::LocalContext *)(&local));
 }
 
-int __cdecl FUN_00c85750();
+int __cdecl getMemoryRouter();
 struct FUN_00dce7e0_local
 {
     int unk00;
@@ -2050,7 +2051,7 @@ void __cdecl FUN_00dce7e0(int aiArg1, int aiArg2, int* p, int d)
     int value = *(int*)(*p + 8);
     local.FUN_00dce840(p, (void*)d);
     ::FUN_00dcea10((::Resolver *)(aiArg1), (::ListOwner *)(aiArg2), (::Ctx *)(value), (::Visitor *)(void *)(&local));
-    int object = FUN_00c85750();
+    int object = getMemoryRouter();
     reinterpret_cast<::CB1A90Owner *>((((FUN_00dce7e0_local*)((char*)&local + 4))))->ProcessArgument((::CB1A90Argument *)(*(int*)(object + 0x10)));
     ::FUN_00a29680();
 }
@@ -2075,7 +2076,7 @@ struct DCE840MemoryRouter
     }
 };
 
-extern "C" DCE840MemoryRouter& __cdecl FUN_00c85750();
+static inline DCE840MemoryRouter& getMemoryRouter() { return *static_cast<DCE840MemoryRouter*>(::FUN_00c85750()); }
 
 struct DCE840PointerMap
 {
@@ -2085,7 +2086,7 @@ struct DCE840PointerMap
 
     DCE840PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(FUN_00c85750().heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(getMemoryRouter().heap()), 0);
     }
 
     void reserve(DCE840Allocator& alloc, int numElements);
@@ -2106,11 +2107,11 @@ struct FUN_00dce840
 FUN_00dce840::FUN_00dce840(void* const* keys, int numKeys)
 {
     reinterpret_cast<::FUN_00cb1a60_t *>(&(m_map))->ResetEntries();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((int)&(FUN_00c85750().heap()), numKeys);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((int)&(getMemoryRouter().heap()), numKeys);
     for (int i = 0; i < numKeys; i++)
     {
         void* key = keys[i];
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(FUN_00c85750().heap()), (unsigned int)(key), 1);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(getMemoryRouter().heap()), (unsigned int)(key), 1);
     }
 }
 }  // namespace fnv_00dce840
@@ -2134,7 +2135,7 @@ struct AudioHolder
 
 struct BSAudio;
 namespace fnvc_adapt {
-BSAudio* __cdecl FUN_00c85750();
+static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 }
 
 struct SrcNode
@@ -2295,7 +2296,7 @@ int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst);
 int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst)
 {
     int count = apSrc->m_iArrayLength;
-    AudioHolder* pAudioHolder = (AudioHolder*)fnvc_adapt::FUN_00c85750();
+    AudioHolder* pAudioHolder = (AudioHolder*)fnvc_adapt::getMemoryRouter();
     AudioAllocator* alloc = pAudioHolder->m_pAllocator;
     int cap = (int)(apDst->m_uCapBits & 0x3fffffffu);
     if (cap < count)
@@ -2310,7 +2311,7 @@ int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst)
     apDst->m_iArrayLength = count;
     for (int i = 0; i < apSrc->m_iArrayLength; ++i)
     {
-        AudioHolder* h = (AudioHolder*)fnvc_adapt::FUN_00c85750();
+        AudioHolder* h = (AudioHolder*)fnvc_adapt::getMemoryRouter();
         AudioAllocator* a = h->m_pAllocator;
         unsigned int* p = (unsigned int*)a->v04(0x200);
         if (p != 0)
@@ -2395,7 +2396,7 @@ struct S_00dcda40_Arr
     int cap;
     __forceinline S_00dcda40_Arr(const S_00dcda40_Arr& other) : data(0), size(0), cap(0x80000000)
     {
-        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap();
+        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::getMemoryRouter().heap();
         if ((cap & 0x3fffffff) < other.size)
         {
             if ((cap & 0x80000000) == 0)
@@ -2416,7 +2417,7 @@ struct S_00dcda40_Arr
         int count = other.size;
         void* src = other.data;
         int at = size;
-        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap();
+        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::getMemoryRouter().heap();
         reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)&(heap), at, (unsigned int)(src), count);
     }
 };
@@ -2479,7 +2480,7 @@ void __cdecl ProcessCollisionRecords(void* arg1, S_00dcda40_World* world, S_00dc
             }
         }
     }
-    S_00dcda40_Heap& finalHeap = (S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap();
+    S_00dcda40_Heap& finalHeap = (S_00dcda40_Heap&)S_00dcdd80_Router::getMemoryRouter().heap();
     mergedBlocks.size = 0;
     if ((mergedBlocks.cap & 0x80000000) == 0)
         finalHeap.ReturnMemory(mergedBlocks.data, (mergedBlocks.cap & 0x3fffffff) * 4);
@@ -2487,7 +2488,7 @@ void __cdecl ProcessCollisionRecords(void* arg1, S_00dcda40_World* world, S_00dc
 
 namespace fnv_00dce8f0 {
 namespace fnvc_adapt {
-void* FUN_00c85750();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 }
 
 class FUN_00cb1a90_out
@@ -2499,7 +2500,7 @@ class FUN_00cb1a90_out
 class SubOfSel : public FUN_00cb1a90_out
 {
   public:
-    SubOfSel(void* p) throw() : FUN_00cb1a90_out(*(void**)((char*)fnvc_adapt::FUN_00c85750() + 0x10))
+    SubOfSel(void* p) throw() : FUN_00cb1a90_out(*(void**)((char*)fnvc_adapt::getMemoryRouter() + 0x10))
     {
         ::FUN_00a29680();
     }
@@ -3249,7 +3250,7 @@ struct BSAudio
     }
 };
 
-BSAudio* FUN_00c85750();
+static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 
 struct FUN_00e05d10_Base
 {
@@ -3260,7 +3261,7 @@ struct FUN_00e05d10_Base
     void operator delete(void* p, unsigned int)
     {
         FUN_00e05d10_Base* b = static_cast<FUN_00e05d10_Base*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        getMemoryRouter()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -3939,7 +3940,7 @@ struct Svc
     }
 };
 namespace DceAccess {
-extern "C" Svc* FUN_00c85750();
+static inline Svc* getMemoryRouter() { return static_cast<Svc*>(::FUN_00c85750()); }
 }
 struct VecU16
 {
@@ -7126,7 +7127,7 @@ __forceinline void BytesDce::reserve(AllocDce& alloc, int count)
 }
 __forceinline void BytesDce::resize(int count)
 {
-    AllocDce& allocator = DceAccess::FUN_00c85750()->heap();
+    AllocDce& allocator = DceAccess::getMemoryRouter()->heap();
     reserve(allocator, count);
     size = count;
 }
@@ -7242,7 +7243,7 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
             NodeG* pNodeG;
             pNodeG = c->m_3c;
             int base = ::RoundUpToBucketSize(pNodeG->m_02);
-            Svc* pSvc = DceAccess::FUN_00c85750();
+            Svc* pSvc = DceAccess::getMemoryRouter();
             pSvc->m_10->release(pNodeG, base);
             int ecxv = apNode->m_024;
             unsigned int n = apNode->m_02c;
@@ -7336,7 +7337,7 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
                 }
             }
             ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(p5), (*(const ::InvalidateTimDetail::Input *)(apContext)));
-            Svc* rf = DceAccess::FUN_00c85750();
+            Svc* rf = DceAccess::getMemoryRouter();
             long r;
             AllocDce* pAlloc = rf->m_10;
             r = val.ids.m_iCapacityState;
@@ -7491,7 +7492,7 @@ struct EntryArray
     {}
     __forceinline ~EntryArray()
     {
-        _clearAndDeallocate((S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap());
+        _clearAndDeallocate((S_00dcda40_Heap&)S_00dcdd80_Router::getMemoryRouter().heap());
     }
     __forceinline void _clearAndDeallocate(S_00dcda40_Heap& alloc)
     {
@@ -7539,15 +7540,15 @@ struct PointerMap
     }
     void reserve(int numElements)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S_00dcdd80_Router::FUN_00c85750().heap()), numElements);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(S_00dcdd80_Router::getMemoryRouter().heap()), numElements);
     }
     void insert(LinkedCollidable* key, int val)
     {
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S_00dcdd80_Router::FUN_00c85750().heap()), (unsigned int)(key), val);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(S_00dcdd80_Router::getMemoryRouter().heap()), (unsigned int)(key), val);
     }
     void clear()
     {
-        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(S_00dcdd80_Router::FUN_00c85750().heap()));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(S_00dcdd80_Router::getMemoryRouter().heap()));
     }
 };
 

@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00dd50f0_cls.h"
 #include "fnv/decl/FUN_00dd5150_cls.h"
@@ -156,7 +157,7 @@ struct MemoryRouter
         return *m_pStreamAllocator;
     }
 };
-MemoryRouter* __cdecl FUN_00c85750() throw();
+static inline MemoryRouter* getMemoryRouter() { return static_cast<MemoryRouter*>(::FUN_00c85750()); }
 void* __cdecl FUN_00c85690(Allocator*, int) throw();
 void __cdecl FUN_00c856c0(Allocator*, void*) throw();
 class hkBaseObject
@@ -176,7 +177,7 @@ class hkReferencedObject : public hkBaseObject
     }
     static void* operator new(size_t n) throw()
     {
-        hkReferencedObject* b = (hkReferencedObject*)FUN_00c85750()->heap().allocate(n);
+        hkReferencedObject* b = (hkReferencedObject*)getMemoryRouter()->heap().allocate(n);
         b->memSizeAndFlags = (unsigned short)n;
         return b;
     }
@@ -206,7 +207,7 @@ template <class T> struct MergeArray
     }
     void reserve(int n)
     {
-        Allocator& a = FUN_00c85750()->heap();
+        Allocator& a = getMemoryRouter()->heap();
         int cap = getCapacity();
         if (cap < n)
         {
@@ -216,7 +217,7 @@ template <class T> struct MergeArray
     }
     void reserveExactly(int n)
     {
-        Allocator& a = FUN_00c85750()->heap();
+        Allocator& a = getMemoryRouter()->heap();
         if (getCapacity() < n)
             ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&a), (::SpawnedArray *)(void *)(this), n, sizeof(T));
     }
@@ -233,7 +234,7 @@ template <class T> struct MergeArray
     }
     void ClearAndRelease()
     {
-        Allocator& a = FUN_00c85750()->heap();
+        Allocator& a = getMemoryRouter()->heap();
         size = 0;
         if ((capacity & 0x80000000) == 0)
             a.freeBlock(data, (capacity & 0x3fffffff) * sizeof(T));
@@ -378,7 +379,7 @@ static __declspec(noinline) void StoreBigEndian(EncodedReference* reference, int
 }
 inline void* allocateScratch(int n)
 {
-    Allocator* heap = &FUN_00c85750()->heap();
+    Allocator* heap = &getMemoryRouter()->heap();
     return FUN_00c85690(heap, n);
 }
 struct MoppBuilder
@@ -418,7 +419,7 @@ hkpMoppCode* MoppBuilder::FUN_00dd4cb0(PrimitiveSource* source, void* buffer, in
     }
     if (scratch != buffer)
     {
-        Allocator* heap = &FUN_00c85750()->heap();
+        Allocator* heap = &getMemoryRouter()->heap();
         FUN_00c856c0(heap, scratch);
     }
     result = status;

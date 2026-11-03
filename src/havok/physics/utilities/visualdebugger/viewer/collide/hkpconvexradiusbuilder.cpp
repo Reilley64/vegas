@@ -10,6 +10,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d5a000.h"
@@ -36,7 +37,7 @@ struct NineIntegerRecord
     }
 };
 
-NineIntegerRecord* __cdecl FUN_00c85750();
+static inline NineIntegerRecord* getMemoryRouter() { return static_cast<NineIntegerRecord*>(::FUN_00c85750()); }
 
 
 struct hkTransform;
@@ -85,7 +86,7 @@ template <typename T> struct hkArray
     }
     void reserve(int n)
     {
-        hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& alloc = getMemoryRouter()->heap();
         const int capacity = getCapacity();
         if (capacity < n)
         {
@@ -101,7 +102,7 @@ template <typename T> struct hkArray
     }
     void ClearAndRelease()
     {
-        hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& alloc = getMemoryRouter()->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
@@ -119,7 +120,7 @@ struct hkGeometry
 
     static void* operator new(size_t nbytes)
     {
-        return FUN_00c85750()->heap().AllocateMemoryBlock(nbytes);
+        return getMemoryRouter()->heap().AllocateMemoryBlock(nbytes);
     }
 };
 
@@ -138,7 +139,7 @@ struct hkReferencedObject
 
     static void* operator new(size_t nbytes)
     {
-        hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(getMemoryRouter()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -277,7 +278,7 @@ struct D31Tbl
 
 __declspec(align(16)) D31Tbl tbl_0101b330;
 
-D31Tbl2* __cdecl FUN_00c85750();
+static inline D31Tbl2* getTableRouter() { return static_cast<D31Tbl2*>(::FUN_00c85750()); }
 
 
 // @fnv 0x00de3110
@@ -324,7 +325,7 @@ static __declspec(noinline) float FUN_00de3110(int dummy, D31Mgr* mgr)
         } while (oc != 0);
     }
 
-    D31Tbl2* t2 = FUN_00c85750();
+    D31Tbl2* t2 = getTableRouter();
     D31VtIface* vt = t2->sub;
     unsigned int cap = out.capacityAndFlags;
     out.count = 0;
@@ -447,7 +448,7 @@ struct Holder
     int unk00, unk04, unk08, unk0c;
     Allocator* allocator;
 };
-extern Holder* FUN_00c85750();
+static inline Holder* getMemoryRouter() { return static_cast<Holder*>(::FUN_00c85750()); }
 struct PlaneArray
 {
     __m128* data;
@@ -458,7 +459,7 @@ static __declspec(noinline) void FUN_00de3200(Shape* shape, PlaneArray* planes, 
 {
     Bounds bounds;
     shape->getBounds(&(*reinterpret_cast<const ::bounding_plane_rework::Transform *>(&::DAT_01268370)), radius, &bounds);
-    Holder* holder = FUN_00c85750();
+    Holder* holder = getMemoryRouter();
     Allocator* allocationHeap = holder->allocator;
     int wanted = planes->size + 6;
     int capacity = planes->capacity & 0x3fffffff;
@@ -622,7 +623,7 @@ struct OutputArray
     unsigned capacity;
     __forceinline void append(OutputShape* shape)
     {
-        D31Tbl2* holder = FUN_00c85750();
+        D31Tbl2* holder = getTableRouter();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(void *)(reinterpret_cast<Allocator*>(holder->sub)), (::AudioStream *)(void *)(this), 4);
         OutputShape** slot = data + size;
@@ -667,7 +668,7 @@ struct PlaneArray
     }
     __forceinline void reserve(int count)
     {
-        D31Tbl2* holder = FUN_00c85750();
+        D31Tbl2* holder = getTableRouter();
         Allocator* a = reinterpret_cast<Allocator*>(holder->sub);
         int old = capacity & 0x3fffffff;
         if (old < count)
@@ -680,7 +681,7 @@ struct PlaneArray
     }
     __forceinline void release()
     {
-        D31Tbl2* holder = FUN_00c85750();
+        D31Tbl2* holder = getTableRouter();
         Allocator* a = reinterpret_cast<Allocator*>(holder->sub);
         size = 0;
         if (!(unsigned(capacity) & 0x80000000))
@@ -862,7 +863,7 @@ static __declspec(noinline) OutputShape* FUN_00de3360(PlaneArray* planes, const 
     transformed.size = count;
     for (int i = 0; i < count; ++i)
         reinterpret_cast<VectorResult*>(&transformed.data[i])->FUN_00c7f640(transform, &vertices.data[i].quad);
-    Geometry* geometry = static_cast<Geometry*>(reinterpret_cast<Allocator*>(FUN_00c85750()->sub)->allocate(0x18));
+    Geometry* geometry = static_cast<Geometry*>(reinterpret_cast<Allocator*>(getTableRouter()->sub)->allocate(0x18));
     if (geometry)
     {
         geometry->vertices.data = 0;
@@ -878,7 +879,7 @@ static __declspec(noinline) OutputShape* FUN_00de3360(PlaneArray* planes, const 
     view.stride = 16;
     FUN_00d5a5e0(&view, geometry);
     ConvexOutput* allocation =
-        static_cast<ConvexOutput*>(reinterpret_cast<Allocator*>(FUN_00c85750()->sub)->allocate(0x60));
+        static_cast<ConvexOutput*>(reinterpret_cast<Allocator*>(getTableRouter()->sub)->allocate(0x60));
     allocation->memorySize = 0x60;
     OutputShape* result = allocation->FUN_00de1d20(geometry);
     transformed.release();
@@ -994,7 +995,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         __m128 offset = _mm_mul_ps(nv, _mm_shuffle_ps(rv, rv, 0));
         end.value = _mm_add_ps(ev, offset);
         start.value = _mm_sub_ps(sv, offset);
-        D31Tbl2* holder = FUN_00c85750();
+        D31Tbl2* holder = getTableRouter();
         OutputShape* result = static_cast<OutputShape*>(reinterpret_cast<Allocator*>(holder->sub)->allocate(0x90));
         result->memorySize = 0x90;
         result = ((::OutputShape *)(new ((void *)(result)) ::FUN_00d58510((*(const ::Vector4D22DC0 *)(&end.value)), (*(const ::Vector4D22DC0 *)(&start.value)), radius + additional, 9, 1)));
@@ -1007,7 +1008,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         if (!(radius > threshold))
             return;
         __m128 dimensions = _mm_add_ps(_mm_set1_ps(radius), shape->point20);
-        D31Tbl2* holder = FUN_00c85750();
+        D31Tbl2* holder = getTableRouter();
         OutputShape* result = static_cast<OutputShape*>(reinterpret_cast<Allocator*>(holder->sub)->allocate(0x70));
         result->memorySize = 0x70;
         result = ((::OutputShape *)(new ((void *)(result)) ::FUN_00de1f50((*(const ::DE1F50Vector4 *)(&dimensions)))));
@@ -1038,7 +1039,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         planes.size = 0;
         planes.capacity = 0x80000000;
         int count = 8;
-        D31Tbl2* holder = FUN_00c85750();
+        D31Tbl2* holder = getTableRouter();
         PlaneVector* allocation = count > 0 ? allocatePlaneItems(*reinterpret_cast<Allocator*>(holder->sub), count) : 0;
         int capacity = count ? count : 0x80000000;
         planes.data = allocation;
@@ -1081,7 +1082,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         planes.data = 0;
         planes.size = 0;
         planes.capacity = 0x80000000;
-        D31Tbl2* holder = FUN_00c85750();
+        D31Tbl2* holder = getTableRouter();
         Allocator* allocator = reinterpret_cast<Allocator*>(holder->sub);
         if ((planes.capacity & 0x3fffffff) < source->size)
         {

@@ -79,7 +79,7 @@ struct Simulation
 void Simulation::FUN_00de7730(Input* input, Draw* draw, int a, int b)
 {
     Shape* shape = input->unk00c;
-    reinterpret_cast<::CpuObject *>(&(unk0c0))->FUN_00e10a10((int)(draw));
+    reinterpret_cast<::CpuObject *>(&(unk0c0))->FUN_00e10a10((draw));
     Matrix transform0, transform1;
     FUN_00de47e0(input, &transform0, &transform1);
     unk050.FUN_00c7f640(&transform0, &shape->unk090);

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
@@ -56,7 +57,7 @@ struct Router
     int a, b, c, d;
     Allocator* allocator;
 };
-Router* __cdecl FUN_00c85750();
+static inline Router* getMemoryRouter() { return static_cast<Router*>(::FUN_00c85750()); }
 struct Display
 {
     virtual void v0();
@@ -119,7 +120,7 @@ __forceinline __m128 broadcastScalar(float value)
 void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
 {
     Data* data = input->data;
-    reinterpret_cast<::CpuObject *>(&(context))->FUN_00e10a10((int)(display));
+    reinterpret_cast<::CpuObject *>(&(context))->FUN_00e10a10((display));
     Matrix first, second;
     FUN_00de47e0(input, &first, &second);
     origin.FUN_00c7f640(&first, &data->v90);
@@ -157,7 +158,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
             scratch.shapes.data = 0;
             scratch.shapes.size = 0;
             scratch.shapes.capacity = 0x80000000;
-            Router* router = FUN_00c85750();
+            Router* router = getMemoryRouter();
             Allocator* allocator = router->allocator;
             int capacity = scratch.shapes.capacity & 0x3fffffff;
             if (capacity < 1)
@@ -170,7 +171,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
             scratch.shapes.size = 1;
             scratch.shapes.data[0] = &shape;
             display->geometry(&scratch.shapes, 0xffffffff, id, tag);
-            router = FUN_00c85750();
+            router = getMemoryRouter();
             allocator = router->allocator;
             scratch.shapes.size = 0;
             if ((scratch.shapes.capacity & 0x80000000) == 0)

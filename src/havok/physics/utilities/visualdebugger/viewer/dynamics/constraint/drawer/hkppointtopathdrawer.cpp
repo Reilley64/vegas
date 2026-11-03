@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
@@ -58,7 +59,7 @@ struct NineIntegerRecord
         return *m_pStreamAllocator;
     }
 };
-NineIntegerRecord* __cdecl FUN_00c85750();
+static inline NineIntegerRecord* getMemoryRouter() { return static_cast<NineIntegerRecord*>(::FUN_00c85750()); }
 
 struct hkVector4Array
 {
@@ -277,7 +278,7 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
     hkTransform worldTransform;
     hkTransform extraTransform;
 
-    reinterpret_cast<::CpuObject *>(&(m_processor))->FUN_00e10a10((int)(drawer));
+    reinterpret_cast<::CpuObject *>(&(m_processor))->FUN_00e10a10((drawer));
     FUN_00de47e0(input, &localTransform, &extraTransform);
     m_vContactPosition = localTransform.m_vTranslation;
     reinterpret_cast<::FUN_00dee820_Class *>((scene))->FUN_00dee820((unsigned int)(&input->m_extra->m_endPoint), (::FUN_00c7f640_Class *)(::hkVector4 *)(&m_endPoint));
@@ -303,7 +304,7 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
                 b.FUN_00c7f640(worldTransform, p);
                 drawer->drawLine(a, b, ((int)(::PackColorBigEndian(0.0f, DAT_0101622c, 1.0f, 1.0f))), id, tag);
             }
-            points.ClearAndRelease(FUN_00c85750()->heap());
+            points.ClearAndRelease(getMemoryRouter()->heap());
         }
     }
 }

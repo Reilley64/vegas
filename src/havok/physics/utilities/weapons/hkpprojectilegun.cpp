@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpprojectilegun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpprojectilegun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/decl/CA8890Object.h"
@@ -523,7 +524,7 @@ struct FnvCpu_FUN_00e450c0_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00e450c0_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00e450c0_CpuAllocatorHolder* __cdecl FUN_00c85750();
+static inline FnvCpu_FUN_00e450c0_CpuAllocatorHolder* getMemoryRouter() { return static_cast<FnvCpu_FUN_00e450c0_CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct FnvCpu_FUN_00e450c0_CpuObject
 {
     unsigned int unk00;
@@ -536,7 +537,7 @@ FnvCpu_FUN_00e450c0_CpuObject* FnvCpu_FUN_00e450c0_CpuObject::FUN_00e450c0(unsig
     reinterpret_cast<::FUN_00e44e70_cls *>(this)->ResetVtables();
     if (flags & 1)
     {
-        FnvCpu_FUN_00e450c0_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
+        FnvCpu_FUN_00e450c0_CpuAllocatorHolder* pAllocatorHolder = getMemoryRouter();
         pAllocatorHolder->allocator->Invoke(this, size);
     }
     return this;
@@ -744,7 +745,7 @@ struct hkMemoryRouterE44F
 };
 
 namespace hkRouterE44F {
-extern "C" hkMemoryRouterE44F& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterE44F& getMemoryRouter() { return *static_cast<hkMemoryRouterE44F*>(::FUN_00c85750()); }
 }
 
 template <class T> class hkArrayE44F
@@ -760,7 +761,7 @@ template <class T> class hkArrayE44F
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterE44F& router = hkRouterE44F::FUN_00c85750();
+        hkMemoryRouterE44F& router = hkRouterE44F::getMemoryRouter();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedE44F<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -818,7 +819,7 @@ struct hkMemoryRouterE450
 };
 
 namespace hkRouterE450 {
-extern "C" hkMemoryRouterE450& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterE450& getMemoryRouter() { return *static_cast<hkMemoryRouterE450*>(::FUN_00c85750()); }
 }
 
 template <class T> struct hkArrayE450
@@ -829,7 +830,7 @@ template <class T> struct hkArrayE450
 
     ~hkArrayE450() throw()
     {
-        hkMemoryAllocatorE450& alloc = hkRouterE450::FUN_00c85750().heap();
+        hkMemoryAllocatorE450& alloc = hkRouterE450::getMemoryRouter().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -880,7 +881,7 @@ struct hkMemoryRouterE46F
 };
 
 namespace hkRouterE46F {
-extern "C" hkMemoryRouterE46F& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterE46F& getMemoryRouter() { return *static_cast<hkMemoryRouterE46F*>(::FUN_00c85750()); }
 }
 
 class FUN_00e46e80
@@ -891,7 +892,7 @@ class FUN_00e46e80
 
     static void* operator new(size_t n)
     {
-        return hkRouterE46F::FUN_00c85750().heap().AllocateMemoryBlock(n);
+        return hkRouterE46F::getMemoryRouter().heap().AllocateMemoryBlock(n);
     }
     static void operator delete(void* p);
 

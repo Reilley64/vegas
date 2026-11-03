@@ -72,7 +72,7 @@ struct Obj
 void Obj::FireMotionEvent(Body* apBody, Listener* apListener, int aiArg, int aiArg2)
 {
     Motion* pMotion = &apBody->shape->motion;
-    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(apListener));
+    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((apListener));
     hkTransform r;
     hkTransform t;
     FUN_00de47e0(apBody, &t, &r);

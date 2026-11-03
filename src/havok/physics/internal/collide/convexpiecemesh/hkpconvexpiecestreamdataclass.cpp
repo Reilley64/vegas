@@ -1,6 +1,7 @@
 // src/havok/physics/internal/collide/convexpiecemesh/hkpconvexpiecestreamdataclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/convexpiecemesh/hkpconvexpiecestreamdataclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 struct Record;
 struct Manager
 {
@@ -16,7 +17,7 @@ struct Holder
     int unk0c;
     Manager* manager;
 };
-Holder* FUN_00c85750();
+static inline Holder* getMemoryRouter() { return static_cast<Holder*>(::FUN_00c85750()); }
 struct Record
 {
     int unk00;
@@ -61,7 +62,7 @@ Record* Record::FUN_00dffd50(unsigned int flags)
     reinterpret_cast<::FUN_00dffca0_cls *>(this)->FUN_00dffca0();
     if (flags & 1)
     {
-        Holder* holder = FUN_00c85750();
+        Holder* holder = getMemoryRouter();
         holder->manager->Notify(this, value);
     }
     return this;
@@ -69,7 +70,7 @@ Record* Record::FUN_00dffd50(unsigned int flags)
 
 static void ReleaseOwnedBuffer(OwnedBuffer& buf)
 {
-    Holder* holder = FUN_00c85750();
+    Holder* holder = getMemoryRouter();
     BufAllocator* allocator = reinterpret_cast<BufAllocator*>(holder->manager);
     unsigned int flags = buf.flags;
     buf.unk04 = 0;

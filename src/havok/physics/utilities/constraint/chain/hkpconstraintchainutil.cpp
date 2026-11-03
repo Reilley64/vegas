@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/D10710Object.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -62,7 +63,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct DispatchTarget
 {
@@ -97,7 +98,7 @@ struct FUN_00e5c460_cls
 // @fnv 0x00e5c460
 void FUN_00e5c460_cls::FUN_00e5c460(OutObject* pOutObject)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = getMemoryRouter();
     void* pValue = pHolder->m_pAllocator;
     reinterpret_cast<::D10710Object *>(&(m_38))->CallWithFlag(pValue, (void *)(0), &pOutObject);
     reinterpret_cast<::FUN_00c90510_class *>((pOutObject))->FUN_00c90510();
@@ -355,7 +356,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         Pair32 p;
         CopyTmp16(&p.lo, &keyPair.hi);
         CopyTmp16(&p.hi, &keyPair.lo);
-        AudioHolder* h = FUN_00c85750();
+        AudioHolder* h = getMemoryRouter();
         reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440((unsigned int)(h->m_pAllocator), 0, (unsigned int)(&p));
         reinterpret_cast<::FUN_00e5c460_cls *>((a2))->FUN_00e5c460((::OutObject *)(a1->m_18));
         return 0;
@@ -365,7 +366,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         Pair32 p;
         CopyTmp16(&p.lo, &keyPair.lo);
         CopyTmp16(&p.hi, &keyPair.hi);
-        AudioHolder* h = FUN_00c85750();
+        AudioHolder* h = getMemoryRouter();
         reinterpret_cast<::fnv_00e5c440::SearchObject *>(&(a3->m_18))->FUN_00e5c440((unsigned int)(h->m_pAllocator), 0, (unsigned int)(&p));
         reinterpret_cast<::FUN_00e5c460_cls *>((a2))->FUN_00e5c460((::OutObject *)(a1->m_14));
         return 0;
@@ -616,7 +617,7 @@ struct MemoryHolder
 };
 inline void* allocateObject(unsigned int size)
 {
-    MemoryHolder* holder = reinterpret_cast<MemoryHolder*>(FUN_00c85750());
+    MemoryHolder* holder = reinterpret_cast<MemoryHolder*>(getMemoryRouter());
     void* memory = holder->allocator->allocate(size);
     static_cast<RefObject*>(memory)->sizeFlags = (unsigned short)size;
     return memory;
@@ -812,7 +813,7 @@ struct S5ba30_Router
     }
     static S5ba30_Router& GetMonitorStream()
     {
-        return *reinterpret_cast<S5ba30_Router*>(FUN_00c85750());
+        return *reinterpret_cast<S5ba30_Router*>(getMemoryRouter());
     }
 };
 

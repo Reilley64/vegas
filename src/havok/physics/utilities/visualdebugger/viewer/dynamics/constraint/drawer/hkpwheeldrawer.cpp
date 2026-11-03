@@ -93,7 +93,7 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
     Matrix t0, t1;
     __m128 q1, vc, vd, x2;
 
-    reinterpret_cast<::CpuObject *>((((Sub*)&mc0)))->FUN_00e10a10((int)(dbg));
+    reinterpret_cast<::CpuObject *>((((Sub*)&mc0)))->FUN_00e10a10((dbg));
     ((Ex*)this)->FUN_00de47e0(a, &t0, &t1);
     ((Ops*)&m50)->FUN_00c7f640(&t0, &b->v90);
     ((Ops*)&m40)->FUN_00c7f640(&t1, &b->v50);

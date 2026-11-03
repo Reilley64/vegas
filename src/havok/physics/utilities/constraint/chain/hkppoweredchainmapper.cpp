@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
@@ -31,7 +32,7 @@ struct hkMemoryRouterE3A5
 };
 
 namespace hkRouterE3A5 {
-extern "C" hkMemoryRouterE3A5& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterE3A5& getMemoryRouter() { return *static_cast<hkMemoryRouterE3A5*>(::FUN_00c85750()); }
 }
 
 struct hkBoolE3A5
@@ -59,7 +60,7 @@ template <class T> struct hkArrayE3A5
 
     void AddBack(const T& e)
     {
-        hkMemoryRouterE3A5& router = hkRouterE3A5::FUN_00c85750();
+        hkMemoryRouterE3A5& router = hkRouterE3A5::getMemoryRouter();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyE3A5<T>(m_data + m_iElementCount, 1, e);
@@ -151,7 +152,7 @@ struct FnMemory
         return *heap;
     }
 };
-extern "C" FnMemory* __cdecl FUN_00c85750();
+static inline FnMemory* getMemoryRouter() { return static_cast<FnMemory*>(::FUN_00c85750()); }
 
 template <class T> struct FnArray
 {
@@ -166,7 +167,7 @@ template <class T> struct FnArray
     }
     void clear()
     {
-        FnAllocator& heap = FUN_00c85750()->getHeap();
+        FnAllocator& heap = getMemoryRouter()->getHeap();
         size = 0;
         if (!(capacity & 0x80000000))
             heap.release(data, sizeof(T) * (capacity & 0x3fffffff));
@@ -199,7 +200,7 @@ template <class T> struct FnArray
     }
     void push(const T& value)
     {
-        FnAllocator& heap = FUN_00c85750()->getHeap();
+        FnAllocator& heap = getMemoryRouter()->getHeap();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(::FnAllocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         T* destination = data + size;
@@ -210,7 +211,7 @@ template <class T> struct FnArray
     }
     T& expand()
     {
-        FnAllocator& heap = FUN_00c85750()->getHeap();
+        FnAllocator& heap = getMemoryRouter()->getHeap();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(::FnAllocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         return data[size++];
@@ -228,12 +229,12 @@ struct FnMap
     int capacity;
     FnMap() throw() : data(0), size(0), capacity(-1)
     {
-        FnAllocator& heap = FUN_00c85750()->getHeap();
+        FnAllocator& heap = getMemoryRouter()->getHeap();
         reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(&heap), 0);
     }
     ~FnMap() throw()
     {
-        ProcessArgument(FUN_00c85750()->heap);
+        ProcessArgument(getMemoryRouter()->heap);
         ::FUN_00a29680();
     }
     void ProcessArgument(FnAllocator*) throw();
@@ -291,7 +292,7 @@ struct FnMapper
     FnArray<FnObject*> chains;
     static void* operator new(size_t size)
     {
-        FnAllocator& allocator = FUN_00c85750()->getHeap();
+        FnAllocator& allocator = getMemoryRouter()->getHeap();
         FnMapper* p = (FnMapper*)allocator.allocate(size);
         p->GetAllocationSize = (unsigned short)size;
         return p;
@@ -349,18 +350,18 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
     FnArray<FnVisit> visits;
     FnArray<int> linkCounts;
     int count = linkIds->m_iElementCount;
-    linkCounts.reserve(FUN_00c85750()->getHeap(), count);
+    linkCounts.reserve(getMemoryRouter()->getHeap(), count);
     linkCounts.size = count;
     ::FUN_00cb1280(linkCounts.data, 0, 4 * count);
     FnMap table;
     for (int k = 0; k < linkIds->m_iElementCount; ++k)
     {
         int key = linkIds->m_data[k];
-        FnAllocator& heap = FUN_00c85750()->getHeap();
+        FnAllocator& heap = getMemoryRouter()->getHeap();
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(table))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), key, k);
     }
     count = linkIds->m_iElementCount;
-    mapper->links.SetSizeAndGrow(FUN_00c85750()->getHeap(), count);
+    mapper->links.SetSizeAndGrow(getMemoryRouter()->getHeap(), count);
     ::FUN_00cb1280(mapper->links.data, 0, 12 * mapper->links.size);
     for (int pairIndex = 0; pairIndex < pairs->m_iElementCount; ++pairIndex)
     {
@@ -411,7 +412,7 @@ FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, 
         }
     }
     int total = buildOffsets(mapper, linkCounts);
-    mapper->targets.SetSizeAndGrow(FUN_00c85750()->getHeap(), total);
+    mapper->targets.SetSizeAndGrow(getMemoryRouter()->getHeap(), total);
     for (int i = 0; i < visits.size; ++i)
     {
         FnVisit& visit = visits.data[i];
@@ -569,7 +570,7 @@ template <class T> class hkArrayE3A3
 
     ~hkArrayE3A3() throw()
     {
-        ClearAndRelease(FUN_00c85750()->getHeap());
+        ClearAndRelease(getMemoryRouter()->getHeap());
     }
     __forceinline void clear()
     {
@@ -665,7 +666,7 @@ struct hkMemoryRouterE3AD
 };
 
 namespace hkR3AD {
-hkMemoryRouterE3AD& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterE3AD& getMemoryRouter() { return *static_cast<hkMemoryRouterE3AD*>(::FUN_00c85750()); }
 }
 
 template <class T> class hkArrayE3AD
@@ -690,7 +691,7 @@ template <class T> class hkArrayE3AD
 
     ~hkArrayE3AD() throw()
     {
-        hkMemoryAllocatorE3AD& kAlloc = hkR3AD::FUN_00c85750().heap();
+        hkMemoryAllocatorE3AD& kAlloc = hkR3AD::getMemoryRouter().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

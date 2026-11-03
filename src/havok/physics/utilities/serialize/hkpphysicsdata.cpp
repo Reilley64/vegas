@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/serialize/hkpphysicsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include <cstring>
@@ -124,7 +125,7 @@ class hkThreadMemory
     }
 };
 
-void* FUN_00c85750() throw();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 
 struct FUN_00d1df70
 {
@@ -453,7 +454,7 @@ class hkpWorld
 
     void* operator new(size_t size) throw()
     {
-        void* p = ((hkThreadMemory*)FUN_00c85750())->allocateChunk(size);
+        void* p = ((hkThreadMemory*)getMemoryRouter())->allocateChunk(size);
         ((unsigned short*)p)[2] = (unsigned short)size;
         return p;
     }
@@ -546,7 +547,7 @@ struct hkMemoryRouterD4C8
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4C8& __cdecl FUN_00c85750();
+static inline hkMemoryRouterD4C8& getMemoryRouter() { return *static_cast<hkMemoryRouterD4C8*>(::FUN_00c85750()); }
 
 class FUN_00dcecc0
 {
@@ -557,7 +558,7 @@ class FUN_00dcecc0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00dcecc0*>(p)->m_usMemSizeAndFlags);
+        getMemoryRouter().heap().ReleaseBlock(p, static_cast<FUN_00dcecc0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00dcecc0* Destroy(unsigned int uiFlags) throw();
@@ -574,7 +575,6 @@ FUN_00dcecc0* FUN_00dcecc0::Destroy(unsigned int uiFlags) throw()
 }
 }  // namespace fnv_00d4c8e0
 
-extern void* __cdecl FUN_00c85750(void);
 extern int DAT_010d07f4;
 
 struct D4C2Place
@@ -668,7 +668,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
 {
     if (m_08 == 0)
     {
-        HolderType* holder = (HolderType*)FUN_00c85750();
+        HolderType* holder = (HolderType*)getMemoryRouter();
         BigType* big = (BigType*)holder->m_10->vf04(0xF0);
         big->m_04 = 0xF0;
         m_08 = ((void *)(new ((void *)(big)) ::FUN_00c90b80()));
@@ -689,7 +689,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         local.m_flag = 0;
         local.m_uiFilterValue = 0;
 
-        HolderType* holder = (HolderType*)FUN_00c85750();
+        HolderType* holder = (HolderType*)getMemoryRouter();
         SmallType* small = (SmallType*)holder->m_10->vf04(0x50);
         small->m_04 = 0x50;
         new ((void *)(small)) ::FUN_00d065e0();
@@ -701,7 +701,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
 
         small->m_40 = 0;
 
-        holder = (HolderType*)FUN_00c85750();
+        holder = (HolderType*)getMemoryRouter();
         if (array->m_iElementCount == (array->m_cap & 0x3fffffff))
         {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_10), (::AudioStream *)(array), 4);
@@ -812,7 +812,7 @@ struct hkMemoryRouterD4C
     }
 };
 
-extern "C" hkMemoryRouterD4C* __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterD4C* getMemoryRouter() { return static_cast<hkMemoryRouterD4C*>(::FUN_00c85750()); }
 
 struct hkRefD4C
 {
@@ -827,7 +827,7 @@ template <class T> class hkArrayD4C
 
     ~hkArrayD4C() throw()
     {
-        hkMemoryAllocatorD4C& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocatorD4C& alloc = getMemoryRouter()->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -950,7 +950,7 @@ struct SplitHeap
 {
     inline SplitAllocator& get(const void*)
     {
-        return ((SplitRouter*)FUN_00c85750())->allocator();
+        return ((SplitRouter*)getMemoryRouter())->allocator();
     }
 };
 template <class T> static __forceinline void copyItems(T* dest, int count, const T& item)
@@ -1067,7 +1067,7 @@ struct SplitSystem : SplitRef
     SplitBool active;
     static __forceinline void* operator new(size_t bytes)
     {
-        SplitRef* p = (SplitRef*)((SplitRouter*)FUN_00c85750())->allocator().alloc(bytes);
+        SplitRef* p = (SplitRef*)((SplitRouter*)getMemoryRouter())->allocator().alloc(bytes);
         p->m_usMemSizeAndFlags = (unsigned short)bytes;
         return p;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -249,7 +250,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct SpawnedItem
 {
@@ -368,7 +369,7 @@ FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
             reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((int)(static_cast<SubObject*>(this)));
         }
     }
-    AudioHolder* pAudioHolder = FUN_00c85750();
+    AudioHolder* pAudioHolder = getMemoryRouter();
     AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
     SpawnedItem* p = m_pData;
     if (m_iField30 > 0)
@@ -405,7 +406,7 @@ struct AllocHolder
     int unk0C;
     AllocatorIface* m_pAllocator;
 };
-AllocHolder* __cdecl FUN_00c85750();
+static inline AllocHolder* getMemoryRouter() { return static_cast<AllocHolder*>(::FUN_00c85750()); }
 
 struct SpawnedObject
 {
@@ -430,7 +431,7 @@ struct SpawnedObject
 // @fnv 0x00d6ad00
 int FUN_00d6ad00(int arg)
 {
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = getMemoryRouter();
     AllocatorIface* pAllocator = pAllocHolder->m_pAllocator;
     SpawnedObject* pObject = (SpawnedObject*)pAllocator->allocate(0x38);
     pObject->m_wSize = 0x38;
@@ -546,7 +547,7 @@ struct S_00d6ada0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00d6ada0_Router* FUN_00c85750();
+static inline S_00d6ada0_Router* getMemoryRouter() { return static_cast<S_00d6ada0_Router*>(::FUN_00c85750()); }
 
 struct S_00d6ada0_ReferencedObject
 {
@@ -555,7 +556,7 @@ struct S_00d6ada0_ReferencedObject
     void operator delete(void* p, unsigned int)
     {
         S_00d6ada0_ReferencedObject* b = static_cast<S_00d6ada0_ReferencedObject*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        getMemoryRouter()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
     virtual ~S_00d6ada0_ReferencedObject()
     {}
@@ -640,7 +641,7 @@ struct S00d6a9b0_Holder
 
 static inline S00d6a9b0_Alloc& S00d6a9b0_heap()
 {
-    return reinterpret_cast<S00d6a9b0_Holder*>(FUN_00c85750())->heap();
+    return reinterpret_cast<S00d6a9b0_Holder*>(getMemoryRouter())->heap();
 }
 
 template <typename T>

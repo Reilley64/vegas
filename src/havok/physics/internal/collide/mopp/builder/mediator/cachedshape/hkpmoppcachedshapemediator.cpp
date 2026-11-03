@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd55d0
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d54000.h"
@@ -112,7 +113,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct Record
 {
@@ -153,7 +154,7 @@ struct RecordArray
 
     ~RecordArray() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = getMemoryRouter();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -392,13 +393,13 @@ inline float Dot3_00dd5b00(const __m128& a, const __m128& b)
 void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd5b00* apItems, int aiCount)
 {
     int nVerts = apSource->v2c();
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = getMemoryRouter();
     Vec4* m_pkDeltas = (Vec4*)pHolder->unk00;
     pHolder->unk00 = (int)m_pkDeltas + ((nVerts * sizeof(Vec4) + 0x7f) & ~0x7f);
     apSource->v30(m_pkDeltas);
 
     Vec_00dd5b00* pList = &m_kNode;
-    AudioHolder* pGrow = FUN_00c85750();
+    AudioHolder* pGrow = getMemoryRouter();
     if (pList->m_iArrayLength == (int)(pList->m_uCapFlags & 0x3fffffff))
     {
         ::ResizeAudioStream(pGrow->m_pAllocator, (::AudioStream *)(pList), 0x6c);
@@ -452,7 +453,7 @@ void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd
         pEntry->m_ranges[i].m_fHi = hi;
     }
 
-    pHolder = FUN_00c85750();
+    pHolder = getMemoryRouter();
     pHolder->unk00 = (int)m_pkDeltas;
 }
 
@@ -478,7 +479,7 @@ struct FUN_00dd5de0_MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" FUN_00dd5de0_MemoryRouter& __cdecl FUN_00c85750();
+static inline FUN_00dd5de0_MemoryRouter& getMemoryRouter() { return *static_cast<FUN_00dd5de0_MemoryRouter*>(::FUN_00c85750()); }
 }
 
 struct FUN_00dd5de0
@@ -492,7 +493,7 @@ struct FUN_00dd5de0
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00dd5de0* b = static_cast<FUN_00dd5de0*>(p);
-        fnvc_adapt::FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        fnvc_adapt::getMemoryRouter().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

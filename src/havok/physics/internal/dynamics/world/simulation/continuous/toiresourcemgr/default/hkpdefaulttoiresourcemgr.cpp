@@ -2,6 +2,7 @@
 // src/havok/physics/internal/dynamics/world/simulation/continuous/toiresourcemgr/default/hkpdefaulttoiresourcemgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/dynamics/world/simulation/continuous/toiresourcemgr/default/hkpdefaulttoiresourcemgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00d9fb30_Stub.h"
 #include "fnv/symbols_010d4000.h"
 #include "fnv/symbols_01269000.h"
@@ -169,7 +170,7 @@ struct hkMemoryRouterD9FB
     }
 };
 
-extern "C" hkMemoryRouterD9FB& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterD9FB& getMemoryRouter() { return *static_cast<hkMemoryRouterD9FB*>(::FUN_00c85750()); }
 
 struct hkBoolD9FB
 {
@@ -238,7 +239,7 @@ hkResultD9FB hkpDefaultToiResourceMgrD9FB::AllocateToiResources(const hkpToiEven
     if (FUN_00d9fb40(event))
     {
         m_iNumToiResources = resourcesOut.m_iCharacterBufferSize = m_iMaxNumToiResources;
-        resourcesOut.m_pCharacterBuffer = bufAllocD9FB<char>(FUN_00c85750().solver(), m_iNumToiResources);
+        resourcesOut.m_pCharacterBuffer = bufAllocD9FB<char>(getMemoryRouter().solver(), m_iNumToiResources);
         resourcesOut.m_iThirdValue = 1000;
         resourcesOut.m_iFourthValue = 1000;
         resourcesOut.m_iSecondInteger = 1000;

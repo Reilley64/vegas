@@ -10,6 +10,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <math.h>
 #include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
@@ -111,7 +112,7 @@ struct CharacterBufferState
     int u00, u04, u08, u0c;
     void* owner;
 };
-extern CharacterBufferState* FUN_00c85750();
+static inline CharacterBufferState* getMemoryRouter() { return static_cast<CharacterBufferState*>(::FUN_00c85750()); }
 struct Obj50
 {
     void FUN_00c7f640(void* a, void* b);
@@ -391,7 +392,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         CharacterBufferState* ar;
         int cap;
         void* owner;
-        ar = FUN_00c85750();
+        ar = getMemoryRouter();
         owner = ar->owner;
         int nc;
         cap = zeroArray.cap & 0x3fffffff;
@@ -408,7 +409,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         CharacterBufferState* ar;
         int cap;
         void* owner;
-        ar = FUN_00c85750();
+        ar = getMemoryRouter();
         owner = ar->owner;
         int nc;
         cap = threeArray.cap & 0x3fffffff;
@@ -425,7 +426,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         CharacterBufferState* ar;
         int cap;
         void* owner;
-        ar = FUN_00c85750();
+        ar = getMemoryRouter();
         owner = ar->owner;
         int nc;
         cap = halfArray.cap & 0x3fffffff;
@@ -447,7 +448,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
     a1->draw(&threeArray, ((int)(::PackBytesBigEndian(0xff, 0, 0xff, 0xff))), a2, a3);
 
     {
-        CharacterBufferState* ar = FUN_00c85750();
+        CharacterBufferState* ar = getMemoryRouter();
         void* ow = ar->owner;
         threeArray.size = 0;
         if (!(threeArray.cap & (int)0x80000000))
@@ -459,7 +460,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         threeArray.cap = (int)0x80000000;
     }
     {
-        CharacterBufferState* ar = FUN_00c85750();
+        CharacterBufferState* ar = getMemoryRouter();
         void* ow = ar->owner;
         halfArray.size = 0;
         if (!(halfArray.cap & (int)0x80000000))
@@ -471,7 +472,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         halfArray.cap = (int)0x80000000;
     }
     {
-        CharacterBufferState* ar = FUN_00c85750();
+        CharacterBufferState* ar = getMemoryRouter();
         void* ow = ar->owner;
         zeroArray.size = 0;
         if (!(zeroArray.cap & (int)0x80000000))
@@ -494,7 +495,7 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     Source* srcHome = a0->source;
     Geometry geometry;  // Normalization constants and draw groups have disjoint lifetimes.
 
-    reinterpret_cast<::CpuObject *>((((SubC0*)&unkc0)))->FUN_00e10a10((int)(a1));
+    reinterpret_cast<::CpuObject *>((((SubC0*)&unkc0)))->FUN_00e10a10((a1));
     FUN_00de47e0(a0, &geometry.tD0, &geometry.t110);
     Obj50* object50 = (Obj50*)(&unk50);
     object50->FUN_00c7f640(&geometry.tD0, &srcHome->body.rows50[3]);

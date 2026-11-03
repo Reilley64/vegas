@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/reorient/hkpreorientaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/reorient/hkpreorientaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00d2b260.h"
@@ -28,10 +29,10 @@ struct hkMemoryRouterE445
     }
     static hkMemoryRouterE445& GetMonitorStream();
 };
-extern "C" hkMemoryRouterE445& __cdecl FUN_00c85750();
+static inline hkMemoryRouterE445& getMemoryRouter() { return *static_cast<hkMemoryRouterE445*>(::FUN_00c85750()); }
 inline hkMemoryRouterE445& hkMemoryRouterE445::GetMonitorStream()
 {
-    return FUN_00c85750();
+    return getMemoryRouter();
 }
 
 class hkpPhantom;

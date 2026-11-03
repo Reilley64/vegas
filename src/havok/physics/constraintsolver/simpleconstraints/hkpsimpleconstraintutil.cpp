@@ -60,7 +60,6 @@ struct ContactParams
     bool m_clipped;        // 0x18
 };
 
-extern __m128 DAT_010c44d0;
 void __cdecl FUN_00df5e80(ContactConstraint* c, void* bodyA, void* bodyB, hkVector4* outVel);
 extern __m128 DAT_010cbfc0;
 struct ContactBody

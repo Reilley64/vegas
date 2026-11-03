@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <new>
@@ -314,7 +315,7 @@ struct S_00cee1c0_Arr
     unsigned int* m_pTrailingData;
 };
 
-S_00cee1c0_Router* FUN_00c85750();
+static inline S_00cee1c0_Router* getMemoryRouter() { return static_cast<S_00cee1c0_Router*>(::FUN_00c85750()); }
 float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
 
 // @fnv 0x00cee1c0
@@ -325,7 +326,7 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     arr.m_iElementCount = 0;
     arr.m_cap = 0x80000000;
 
-    S_00cee1c0_Router* r = FUN_00c85750();
+    S_00cee1c0_Router* r = getMemoryRouter();
     unsigned int* mem = (unsigned int*)r->cursor;
     r->cursor = (unsigned int)mem + ((count * 4 + 0x7f) & 0xffffff80);
     arr.m_cap = count | 0x80000000;
@@ -348,8 +349,8 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     {
         arr.m_iElementCount = 0;
     }
-    FUN_00c85750()->cursor = (unsigned int)local;
-    S_00cee1c0_Heap* h = FUN_00c85750()->heap;
+    getMemoryRouter()->cursor = (unsigned int)local;
+    S_00cee1c0_Heap* h = getMemoryRouter()->heap;
     arr.m_iElementCount = 0;
     if ((arr.m_cap & 0x80000000) == 0)
     {
@@ -778,7 +779,7 @@ struct LocalArr
 
 __forceinline void releaseArr(LocalArr* a)
 {
-    S_00cee1c0_Router* router = FUN_00c85750();
+    S_00cee1c0_Router* router = getMemoryRouter();
     S_00cee1c0_Heap* heap = router->heap;
     int cap = a->m_cap;
     a->m_iElementCount = 0;
@@ -822,7 +823,7 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
         if (n != i)
             data[i] = data[n];
 
-        S_00cee1c0_Router* router = FUN_00c85750();
+        S_00cee1c0_Router* router = getMemoryRouter();
         if (local.m_iElementCount == (local.m_cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&local), 4);
         local.m_data[local.m_iElementCount++] = e;
@@ -1184,7 +1185,7 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
     triAreas.size = 0;
     triAreas.m_iCapacity = 0x80000000u;
 
-    S_00cee1c0_Router* router = FUN_00c85750();
+    S_00cee1c0_Router* router = getMemoryRouter();
     S_00cee1c0_Heap* heap = router->heap;
     int cap = (int)(triAreas.m_iCapacity & 0x3fffffffu);
     if (cap < count)
@@ -1276,7 +1277,7 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
     center->quad = _mm_mul_ps(inv, center->quad);
     FUN_00cebe80((FUN_00cebe80_Struct*)center, mass, &inertia->row0.x);
 
-    S_00cee1c0_Router* freeRouter = FUN_00c85750();
+    S_00cee1c0_Router* freeRouter = getMemoryRouter();
     S_00cee1c0_Heap* freeHeap = freeRouter->heap;
     int flags = (int)triAreas.m_iCapacity;
     triAreas.size = 0;
@@ -1637,7 +1638,7 @@ struct S00cf0f40_Arr
     }
     void ClearAndRelease()
     {
-        S_00cee1c0_Heap& heap = S00cf0f40_heap(FUN_00c85750());
+        S_00cee1c0_Heap& heap = S00cf0f40_heap(getMemoryRouter());
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0)
             heap.Free(m_data, getCapacity() * sizeof(S00cf0f40_Vec));
@@ -1646,7 +1647,7 @@ struct S00cf0f40_Arr
     }
     void reserve(int n)
     {
-        S_00cee1c0_Heap& heap = S00cf0f40_heap(FUN_00c85750());
+        S_00cee1c0_Heap& heap = S00cf0f40_heap(getMemoryRouter());
         int cap = getCapacity();
         if (cap < n)
         {
@@ -2068,7 +2069,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         view.count = h.count;
         view.stride = 16;
         FUN_00cebbb0(&view, apShape->radius, &body);
-        Router* vertexRouter = (Router*)FUN_00c85750();
+        Router* vertexRouter = (Router*)getMemoryRouter();
         h.release(vertexRouter->heap);
         break;
     }
@@ -2195,7 +2196,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         arr.data = arr.local;
         arr.count = 0;
         arr.capacity = 0x80000002;
-        Router* router = (Router*)FUN_00c85750();
+        Router* router = (Router*)getMemoryRouter();
         if (arr.count == (arr.capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&arr), 0x90);
         Element* slot = arr.data + arr.count;
@@ -2210,7 +2211,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         e0->transform.row1.y = 1.0f;
         e0->transform.row2.z = 1.0f;
         _mm_store_ps(&e0->transform.translation.x, zero);
-        router = (Router*)FUN_00c85750();
+        router = (Router*)getMemoryRouter();
         if (arr.count == (arr.capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&arr), 0x90);
         slot = arr.data + arr.count;
@@ -2223,7 +2224,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         e1->transform.row2.Assign(transform.row2);
         e1->transform.translation.Assign(transform.translation);
         ::FUN_00ced090((::S_00ced090_State *)(void *)(&arr), (::S_00ced090_Out *)(::MassBody *)(&output));
-        Router* cleanupRouter = (Router*)FUN_00c85750();
+        Router* cleanupRouter = (Router*)getMemoryRouter();
         arr.release(cleanupRouter->heap);
     }
 function_end:
@@ -2638,7 +2639,7 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
     a.data = 0;
     a.size = 0;
     a.cap = 0x80000000u;
-    S_00cee1c0_Router* router = FUN_00c85750();
+    S_00cee1c0_Router* router = getMemoryRouter();
     S_00cee1c0_Heap* heap = router->heap;
     if ((int)(a.cap & 0x3fffffff) < count)
     {
@@ -2659,7 +2660,7 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
         p += stride;
     }
     computePoints(a.data, count, mass, out);
-    router = FUN_00c85750();
+    router = getMemoryRouter();
     heap = router->heap;
     a.size = 0;
     unsigned capacity = a.cap;
@@ -3603,7 +3604,7 @@ struct RouterHeapAllocatorProvider
 {
     __forceinline S_00cee1c0_Heap& get(const void*)
     {
-        return S00cf0f40_heap(FUN_00c85750());
+        return S00cf0f40_heap(getMemoryRouter());
     }
 public:
     __forceinline hkMemoryAllocator& get(const void*)
@@ -3775,7 +3776,7 @@ struct NineIntegerRecord
     }
     static __forceinline NineIntegerRecord& GetMonitorStream()
     {
-        return *reinterpret_cast<NineIntegerRecord*>(FUN_00c85750());
+        return *reinterpret_cast<NineIntegerRecord*>(getMemoryRouter());
     }
 };
 
@@ -4233,7 +4234,7 @@ struct CapsuleMassArray
     {}
     __forceinline void append(const CapsuleMassElement& e)
     {
-        S_00cee1c0_Router* r = FUN_00c85750();
+        S_00cee1c0_Router* r = getMemoryRouter();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(r->heap), (::AudioStream *)(void *)(this), sizeof(CapsuleMassElement));
         new (data + size) CapsuleMassElement(e);
@@ -4241,7 +4242,7 @@ struct CapsuleMassArray
     }
     __forceinline ~CapsuleMassArray()
     {
-        S_00cee1c0_Router* router = FUN_00c85750();
+        S_00cee1c0_Router* router = getMemoryRouter();
         S_00cee1c0_Heap* h = router->heap;
         unsigned cap = capacity;
         size = 0;

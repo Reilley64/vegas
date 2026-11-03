@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00ddccb0_cls.h"
 #include "fnv/decl/FUN_00ddf170_cls.h"
@@ -88,7 +89,7 @@ struct FUN_00c7be20_arr
     unsigned int m_capFlags;
 };
 
-void* __cdecl FUN_00c85750() throw();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 
 struct FUN_00c7be20_cls
 {
@@ -123,7 +124,7 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
     if (pSource != 0)
     {
         int iCount = pSource->m_0c;
-        FUN_00c7be20_holder* pAllocHolder = reinterpret_cast<FUN_00c7be20_holder*>(FUN_00c85750());
+        FUN_00c7be20_holder* pAllocHolder = reinterpret_cast<FUN_00c7be20_holder*>(getMemoryRouter());
         void* allocator = pAllocHolder->m_pAllocator;
         unsigned int uiCapacity = out->m_capFlags & 0x3fffffffu;
         if ((int)uiCapacity < iCount)
@@ -202,7 +203,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d63250_cls
 {
@@ -222,7 +223,7 @@ FUN_00d63250_cls* FUN_00d63250_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::FUN_00d62fe0_cls *>(this)->FUN_00d62fe0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = getMemoryRouter();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -374,7 +375,7 @@ struct FUN_00c7be20_arr;
 
 inline hkMemoryAllocator& containerHeap()
 {
-    return ((NineIntegerRecord*)FUN_00c85750())->heap();
+    return ((NineIntegerRecord*)getMemoryRouter())->heap();
 }
 
 struct hkCharArray

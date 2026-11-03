@@ -1,6 +1,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00de1d20.h"
@@ -24,7 +25,7 @@ struct S_00ddfcd0_Router
     }
 };
 
-S_00ddfcd0_Router* FUN_00c85750();
+static inline S_00ddfcd0_Router* getMemoryRouter() { return static_cast<S_00ddfcd0_Router*>(::FUN_00c85750()); }
 
 struct S_00ddfcd0_RefObj
 {
@@ -38,7 +39,7 @@ struct S_00ddfcd0_RefObj
     {}
     void* operator new(size_t nbytes)
     {
-        S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(getMemoryRouter()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -126,7 +127,7 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pBlock = (HkArrayPairBlock*)zero;
-        HkAllocHolder* pHolder = (HkAllocHolder*)FUN_00c85750();
+        HkAllocHolder* pHolder = (HkAllocHolder*)getMemoryRouter();
         void* mem = pHolder->m_pAllocator->Alloc(0x18);
         if (mem != (void*)zero)
         {
@@ -141,12 +142,12 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
             pBlock = p;
         }
 
-        pHolder = (HkAllocHolder*)FUN_00c85750();
+        pHolder = (HkAllocHolder*)getMemoryRouter();
         mem = pHolder->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)mem)->m_u04 = 0x60;
         m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)mem))) ::FUN_00de1d20((int)(pBlock))));
 
-        pHolder = (HkAllocHolder*)FUN_00c85750();
+        pHolder = (HkAllocHolder*)getMemoryRouter();
         if (apArray->m_iArrayLength == (int)(apArray->m_uCapFlags & 0x3fffffffu))
         {
             ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_pAllocator), (::AudioStream *)(apArray), 4);
@@ -522,19 +523,19 @@ template <class T> struct Array : ArrayBase<T>
     {}
     __forceinline ~Array()
     {
-        release(FUN_00c85750()->heap());
+        release(getMemoryRouter()->heap());
     }
     __forceinline T* expandBy(int n)
     {
-        return ArrayBase<T>::expandBy(FUN_00c85750()->heap(), n);
+        return ArrayBase<T>::expandBy(getMemoryRouter()->heap(), n);
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        ArrayBase<T>::SetSizeAndGrow(FUN_00c85750()->heap(), n);
+        ArrayBase<T>::SetSizeAndGrow(getMemoryRouter()->heap(), n);
     }
     __forceinline void AddBack(const T& v)
     {
-        ArrayBase<T>::AddBack(FUN_00c85750()->heap(), v);
+        ArrayBase<T>::AddBack(getMemoryRouter()->heap(), v);
     }
 };
 template <class T> struct LocalArray : Array<T>
@@ -542,7 +543,7 @@ template <class T> struct LocalArray : Array<T>
     T* saved;
     __forceinline LocalArray(int n)
     {
-        S_00ddfcd0_Router* r = FUN_00c85750();
+        S_00ddfcd0_Router* r = getMemoryRouter();
         T* p = (T*)r->unk0;
         r->unk0 = (int)p + ((n * sizeof(T) + 127) & ~127);
         data = p;
@@ -554,7 +555,7 @@ template <class T> struct LocalArray : Array<T>
         T* p = saved;
         if (p == data)
             clear();
-        FUN_00c85750()->unk0 = (int)p;
+        getMemoryRouter()->unk0 = (int)p;
     }
 };
 struct Mesh
@@ -574,7 +575,7 @@ struct Mesh
     Array<Triangle> m_uiTriangleCount;
     __forceinline void* operator new(size_t n)
     {
-        return FUN_00c85750()->heap().AllocateMemoryBlock(n);
+        return getMemoryRouter()->heap().AllocateMemoryBlock(n);
     }
 };
 struct FUN_00cce5e0 : Mesh
@@ -604,7 +605,7 @@ struct RefObject
     unsigned short GetAllocationSize, refs;
     __forceinline void* operator new(size_t n)
     {
-        RefObject* p = (RefObject*)FUN_00c85750()->heap().AllocateMemoryBlock(n);
+        RefObject* p = (RefObject*)getMemoryRouter()->heap().AllocateMemoryBlock(n);
         p->GetAllocationSize = (unsigned short)n;
         return p;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/hkpphysicscontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/hkpphysicscontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/Debugger836.h"
@@ -289,7 +290,7 @@ struct AllocatorState
     int unk0C;
     void* allocator;
 };
-extern AllocatorState* __cdecl FUN_00c85750();
+static inline AllocatorState* getMemoryRouter() { return static_cast<AllocatorState*>(::FUN_00c85750()); }
 struct PointerArray
 {
     void** data;
@@ -357,7 +358,7 @@ found:
     if (index >= 0)
         return (void*)index;
 append:
-    AllocatorState* state = FUN_00c85750();
+    AllocatorState* state = getMemoryRouter();
     if (array->count == (array->capacity & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(state->allocator), (::AudioStream *)(array), 4);
     void** slot = array->data + array->count;
@@ -383,7 +384,7 @@ struct Holder
     int unk0c;
     Device* device;
 };
-extern void* __cdecl FUN_00c85750();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 struct FUN_00cd27f0
 {
     virtual void v0() = 0;
@@ -405,7 +406,7 @@ struct FUN_00cd27f0
 // @fnv 0x00cd27f0
 FUN_00cd27f0::~FUN_00cd27f0()
 {
-    Holder* holder = (Holder*)FUN_00c85750();
+    Holder* holder = (Holder*)getMemoryRouter();
     Device* device = holder->device;
     int count = count1;
     unk30 = 0;
@@ -418,7 +419,7 @@ FUN_00cd27f0::~FUN_00cd27f0()
 skipFirstRelease:
     buffer1 = 0;
     count1 = 0x80000000;
-    holder = (Holder*)FUN_00c85750();
+    holder = (Holder*)getMemoryRouter();
     device = holder->device;
     int secondCount = count2;
     unk0c = 0;
@@ -449,7 +450,7 @@ struct Manager
     int unk0c;
     DeleteInterface* iface;
 };
-Manager* __cdecl FUN_00c85750();
+static inline Manager* getMemoryRouter() { return static_cast<Manager*>(::FUN_00c85750()); }
 struct FUN_00cd2900_owner
 {
     int unk00;
@@ -464,7 +465,7 @@ void* FUN_00cd2900_owner::DestroyIfFlagged(unsigned flags)
     FUN_00cd2690();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = getMemoryRouter();
         manager->iface->deleteObject(this, unk04);
     }
     return this;
@@ -1091,7 +1092,6 @@ struct CD22Object
     void RegisterWithRegistry(CD22Registry* reg);
 };
 
-extern AllocatorState* __cdecl FUN_00c85750();
 
 // @fnv 0x00cd22f0
 void CD22Object::RegisterWithRegistry(CD22Registry* reg)
@@ -1108,7 +1108,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
     reinterpret_cast<::fnv_00c937e0::hkpWorldXc937e0 *>((reg))->FUN_00c937e0((::fnv_00c937e0::hkpEntityListenerXc937e0 *)(void *)(&m_64));
 
     CD22Array* pArray = &m_78;
-    AllocatorState* holder = FUN_00c85750();
+    AllocatorState* holder = getMemoryRouter();
     if (pArray->count == (int)(pArray->cap & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(pArray), 0xf0);
@@ -1293,7 +1293,7 @@ notFound:
     void* param = self != 0 ? (char*)&self->unk58 : 0;
     reinterpret_cast<::hkpWorld_Listener *>((obj))->FUN_00c93a60(param);
 
-    AllocatorState* holder = FUN_00c85750();
+    AllocatorState* holder = getMemoryRouter();
     if (items->count == (items->capacity & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(items), 4);
@@ -1535,7 +1535,7 @@ template <class T> class hkArrayD269
 
     __forceinline ~hkArrayD269() throw()
     {
-        _clearAndDeallocate(heapD269(FUN_00c85750()));
+        _clearAndDeallocate(heapD269(getMemoryRouter()));
     }
 };
 

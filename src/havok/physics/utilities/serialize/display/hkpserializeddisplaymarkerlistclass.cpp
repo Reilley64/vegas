@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/serialize/display/hkpserializeddisplaymarkerlistclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/display/hkpserializeddisplaymarkerlistclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 struct AudioAllocator
 {
@@ -21,7 +22,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct RefElem_t
 {
@@ -54,7 +55,7 @@ FUN_00dff010_cls::~FUN_00dff010_cls() throw()
         reinterpret_cast<::hkReferencedObjectC905 *>((m_ppData[i]))->FUN_00c905b0();
     }
 
-    AudioHolder* pAudioHolder = FUN_00c85750();
+    AudioHolder* pAudioHolder = getMemoryRouter();
     AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
     unsigned int uiCapacity = m_uCapacity;
     *(volatile int*)&m_iArrayLength = 0;
@@ -86,7 +87,7 @@ struct BSAudio
     }
 };
 
-BSAudio* FUN_00c85750();
+static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 
 struct FUN_00e05d10_Base
 {
@@ -97,7 +98,7 @@ struct FUN_00e05d10_Base
     void operator delete(void* p, unsigned int)
     {
         FUN_00e05d10_Base* b = static_cast<FUN_00e05d10_Base*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        getMemoryRouter()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

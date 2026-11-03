@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/motor/hkpmotoraction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00d2b260.h"
 #include "havok/hkpMotorAction.h"
@@ -97,7 +98,7 @@ struct hkMemoryRouterMA
     }
 };
 
-hkMemoryRouterMA& __cdecl FUN_00c85750();
+static inline hkMemoryRouterMA& getMemoryRouter() { return *static_cast<hkMemoryRouterMA*>(::FUN_00c85750()); }
 
 template <class T> struct hkArrayMA
 {
@@ -120,7 +121,7 @@ class hkpMotorActionMA : public hkpMotorAction
     void* operator new(size_t nbytes)
     {
         hkReferencedObject* b =
-            static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            static_cast<hkReferencedObject*>(getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         return b;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <windows.h>
 #include <new>
@@ -371,7 +372,7 @@ struct HkDisplayConvexObj
 
 };
 
-HkAllocHolder* __cdecl FUN_00c85750() throw();
+static inline HkAllocHolder* getMemoryRouter() { return static_cast<HkAllocHolder*>(::FUN_00c85750()); }
 
 struct FUN_00de4340_cls
 {
@@ -391,7 +392,7 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pPairBlock = (HkArrayPairBlock*)zero;
-        HkAllocHolder* h = FUN_00c85750();
+        HkAllocHolder* h = getMemoryRouter();
         void* pMemory = h->m_pAllocator->Alloc(0x18);
         if (pMemory != (void*)zero)
         {
@@ -406,12 +407,12 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
             pPairBlock = p;
         }
 
-        h = FUN_00c85750();
+        h = getMemoryRouter();
         pMemory = h->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)pMemory)->m_u04 = 0x60;
         m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)pMemory))) ::FUN_00de1d20((int)(pPairBlock))));
 
-        h = FUN_00c85750();
+        h = getMemoryRouter();
         if (a1->m_iArrayLength == (int)(a1->m_uCapFlags & 0x3fffffffu))
         {
             ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(a1), 4);
@@ -466,7 +467,7 @@ struct StackHeap
 
 inline StackHeap* GetStackHeap67()
 {
-    return (StackHeap*)FUN_00c85750();
+    return (StackHeap*)getMemoryRouter();
 }
 
 struct Sub

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -282,13 +283,13 @@ struct Viewer
     unsigned short unk04;
 };
 
-extern "C" void* __cdecl FUN_00c85750();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 
 // Allocates a 0x2c-byte Viewer from the manager's pool, sets its size field, constructs it with arg, and returns a pointer offset by 8 or null.
 // @fnv 0x00d62e20
 void* __cdecl FUN_00d62e20_impl(void* arg)
 {
-    Manager* pManager = (Manager*)FUN_00c85750();
+    Manager* pManager = (Manager*)getMemoryRouter();
     Viewer* pViewer = pManager->unk10->alloc0x2c(0x2c);
     pViewer->unk04 = 0x2c;
     void* pResult = ((void *)(new ((void *)(pViewer)) ::FUN_00d626b0((int)(arg))));
@@ -321,7 +322,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d62ec0_cls
 {
@@ -342,7 +343,7 @@ FUN_00d62ec0_cls* FUN_00d62ec0_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::FUN_00d62720 *>(this)->FUN_00d62720::~FUN_00d62720();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = getMemoryRouter();
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }

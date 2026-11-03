@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/spring/hkpspringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/spring/hkpspringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <new>
@@ -365,7 +366,7 @@ struct hkMemoryRouterD4A0
     }
 };
 
-hkMemoryRouterD4A0* __cdecl FUN_00c85750();
+static inline hkMemoryRouterD4A0* getMemoryRouter() { return static_cast<hkMemoryRouterD4A0*>(::FUN_00c85750()); }
 
 struct hkpEntityPairD4A0
 {
@@ -383,7 +384,7 @@ struct S00d4d4a0_Obj
 {
     static void* operator new(size_t size)
     {
-        S00d4d4a0_Obj* memory = reinterpret_cast<S00d4d4a0_Obj*>(FUN_00c85750()->heap().AllocateMemoryBlock(size));
+        S00d4d4a0_Obj* memory = reinterpret_cast<S00d4d4a0_Obj*>(getMemoryRouter()->heap().AllocateMemoryBlock(size));
         memory->m_usMemSizeAndFlags = static_cast<unsigned short>(size);
         return memory;
     }

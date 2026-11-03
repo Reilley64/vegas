@@ -109,7 +109,7 @@ void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, 
     V4_00de7580 result;
     B_00de7580* b = a1.value->unk0c;
 
-    reinterpret_cast<::CpuObject *>(&(unkC0))->FUN_00e10a10((int)(a2));
+    reinterpret_cast<::CpuObject *>(&(unkC0))->FUN_00e10a10((a2));
     FUN_00de47e0(a1.value, &v44, &v80);
     unk50.FUN_00c7f640(&v44, &b->unk30);
     unk40.FUN_00c7f640(&v80, &b->unk20);

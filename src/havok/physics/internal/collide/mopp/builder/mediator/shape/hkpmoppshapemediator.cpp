@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd51f0
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00dd51d0_class.h"
 int ReadIntField(const void* a, int* piValue)
@@ -120,7 +121,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+static inline CpuAllocatorHolder* getMemoryRouter() { return static_cast<CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct CpuObject
 {
     unsigned int unk00;
@@ -133,7 +134,7 @@ CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
     reinterpret_cast<::FUN_00dd51d0_class *>(this)->FUN_00dd51d0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = getMemoryRouter();
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -173,15 +174,6 @@ struct __declspec(align(16)) hkVector4
     __forceinline void setNeg4(const hkVector4& v)
     {
         m_vComponents = _mm_xor_ps(v.m_vComponents, ::DAT_010c44d0);
-    }
-public:
-    __forceinline void operator=(const hkVector4& v)
-    {
-        m_vComponents = v.m_vComponents;
-    }
-    __forceinline void setNeg4(const hkVector4& v)
-    {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0);
     }
 };
 
@@ -293,11 +285,9 @@ int ReadIntField(const void* a, int* b);
 void FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst);
 void FUN_00dd51e0(int, int);
 
-extern __m128 DAT_010c44d0;
 
 namespace fnv_00dd5440 {
 
-extern __m128 DAT_010c44d0;
 
 struct hkVector4
 {

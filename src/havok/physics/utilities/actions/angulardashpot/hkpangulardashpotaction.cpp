@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "havok/hkpAngularDashpotAction.h"
@@ -69,7 +70,7 @@ struct hkMemoryRouterD4DC
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4DC& __cdecl FUN_00c85750();
+static inline hkMemoryRouterD4DC& getMemoryRouter() { return *static_cast<hkMemoryRouterD4DC*>(::FUN_00c85750()); }
 
 struct __declspec(align(16)) hkVector4D4DC
 {
@@ -102,7 +103,7 @@ class hkReferencedObjectD4DC
     static void* operator new(size_t uiSize)
     {
         hkReferencedObjectD4DC* pkObj =
-            static_cast<hkReferencedObjectD4DC*>(FUN_00c85750().heap().AllocateMemoryBlock(uiSize));
+            static_cast<hkReferencedObjectD4DC*>(getMemoryRouter().heap().AllocateMemoryBlock(uiSize));
         pkObj->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return pkObj;
     }

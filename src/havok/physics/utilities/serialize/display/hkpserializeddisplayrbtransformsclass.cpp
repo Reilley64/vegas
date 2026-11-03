@@ -1,6 +1,7 @@
 // src/havok/physics/utilities/serialize/display/hkpserializeddisplayrbtransformsclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/display/hkpserializeddisplayrbtransformsclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00e3a3d0__hkpConstraintChainMapperE3A3.h"
 struct Allocator
 {
@@ -13,7 +14,7 @@ struct BSAudio
     unsigned int unk00, unk04, unk08, unk0c;
     Allocator* allocator;
 };
-BSAudio* FUN_00c85750();
+static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 struct Owner
 {
     unsigned int unk00;
@@ -27,7 +28,7 @@ Owner* Owner::FUN_00dfc490(unsigned int flags)
     reinterpret_cast<::FUN_00e3a3d0::hkpConstraintChainMapperE3A3 *>(this)->FUN_00e3a3d0::hkpConstraintChainMapperE3A3::~hkpConstraintChainMapperE3A3();
     if (flags & 1u)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = getMemoryRouter();
         unsigned int bytes = size4;
         audio->allocator->Release(this, bytes);
     }

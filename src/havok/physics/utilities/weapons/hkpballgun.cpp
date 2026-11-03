@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -171,7 +172,7 @@ struct hkMemoryRouterE46F
     }
 };
 
-hkMemoryRouterE46F* __cdecl FUN_00c85750();
+static inline hkMemoryRouterE46F* getMemoryRouter() { return static_cast<hkMemoryRouterE46F*>(::FUN_00c85750()); }
 
 struct FUN_00cb0c10
 {
@@ -184,7 +185,7 @@ struct FUN_00e46e80
 {
     static void* operator new(size_t uiSize)
     {
-        return FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
+        return getMemoryRouter()->heap().AllocateMemoryBlock(uiSize);
     }
 
     FUN_00e46e80() throw();
@@ -262,7 +263,7 @@ struct hkMemoryRouterE470
     }
 };
 
-extern "C" hkMemoryRouterE470& __cdecl FUN_00c85750() throw();
+static inline hkMemoryRouterE470& getMemoryRouter() { return *static_cast<hkMemoryRouterE470*>(::FUN_00c85750()); }
 
 struct hkBoolE470
 {
@@ -353,7 +354,7 @@ FUN_00e47020::~FUN_00e47020() throw()
     if (pkQueue)
     {
         reinterpret_cast<::UnkHolder *>((pkQueue))->FUN_00e47390();
-        FUN_00c85750().heap().ReleaseBlock(pkQueue, sizeof(*pkQueue));
+        getMemoryRouter().heap().ReleaseBlock(pkQueue, sizeof(*pkQueue));
     }
 }
 }  // namespace fnv_00e47020
@@ -423,7 +424,7 @@ struct hkpShapeBase : public hkReferencedObject
 
     __forceinline void* operator new(size_t nbytes)
     {
-        hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(getMemoryRouter()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         return b;
     }

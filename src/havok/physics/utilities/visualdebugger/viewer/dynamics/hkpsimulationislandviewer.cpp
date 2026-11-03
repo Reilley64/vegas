@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -57,7 +58,7 @@ struct S_00d65180_Router
     }
 };
 
-S_00d65180_Router* FUN_00c85750();
+static inline S_00d65180_Router* getMemoryRouter() { return static_cast<S_00d65180_Router*>(::FUN_00c85750()); }
 
 struct S_00d65180_RefObj
 {
@@ -67,7 +68,7 @@ struct S_00d65180_RefObj
     {}
     void* operator new(size_t nbytes)
     {
-        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(getMemoryRouter()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -129,7 +130,7 @@ struct FUN_00d65220_Service
     int unk0c;
     FUN_00d65220_Interface* unk10;
 };
-FUN_00d65220_Service* __cdecl FUN_00c85750();
+static inline FUN_00d65220_Service* getMemoryRouter() { return static_cast<FUN_00d65220_Service*>(::FUN_00c85750()); }
 struct FUN_00d65220_Class
 {
     void* vtable;
@@ -144,7 +145,7 @@ FUN_00d65220_Class* FUN_00d65220_Class::FUN_00d65220(char flags)
     FUN_00d64ae0();
     if (flags & 1)
     {
-        FUN_00d65220_Service* service = FUN_00c85750();
+        FUN_00d65220_Service* service = getMemoryRouter();
         service->unk10->notify(this, unk04);
     }
     return this;
@@ -273,7 +274,7 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        S_Heap* heap = ((S_Holder*)FUN_00c85750())->m10;
+        S_Heap* heap = ((S_Holder*)getMemoryRouter())->m10;
         int n = m_iElementCount;
         S_Elem* d = m_data;
         for (int i = 0; i < n; i++)
@@ -584,14 +585,14 @@ __forceinline void DeallocCtx::Grow(Vec* v, int need, int elemSize)
 }
 inline void GrowVec10(Vec* v, int need, int elemSize)
 {
-    Singleton* router = (Singleton*)FUN_00c85750();
+    Singleton* router = (Singleton*)getMemoryRouter();
     DeallocCtx* ctx = router->m_10;
     _ReadWriteBarrier();
     ctx->Grow(v, need, elemSize);
 }
 inline void GrowVec0c(Vec* v, int need, int elemSize)
 {
-    Singleton* router = (Singleton*)FUN_00c85750();
+    Singleton* router = (Singleton*)getMemoryRouter();
     DeallocCtx* ctx = router->m_0c;
     _ReadWriteBarrier();
     ctx->Grow(v, need, elemSize);
@@ -940,7 +941,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
         i->v14(&offsets, (int)0xff0000ff, 0, (int)(*reinterpret_cast<void * *>(&::g_D651E0Value)));
         Singleton* freeBoundsRouter;
-        freeBoundsRouter = (Singleton*)FUN_00c85750();
+        freeBoundsRouter = (Singleton*)getMemoryRouter();
         DeallocCtx* need = freeBoundsRouter->m_0c;
         item.m_iArrayLength = 0;
         if ((item.m_iCapacity & 0x80000000) == 0)
@@ -949,7 +950,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         }
         item.m_pData = 0;
         item.m_iCapacity = (int)0x80000000;
-        Singleton* offsetCount = (Singleton*)FUN_00c85750();
+        Singleton* offsetCount = (Singleton*)getMemoryRouter();
         DeallocCtx* val = offsetCount->m_0c;
         offsets.m_iArrayLength = 0;
         if ((offsets.m_iCapacity & 0x80000000) == 0)
@@ -998,7 +999,7 @@ void ThisCls::FUN_00d64c00(Param* pParam)
         }
         EmitObj* i = static_cast<ParentObject*>(this)->Parent::m_00;
         i->v14(&offsets, (int)0xff008000, 0, (int)(*reinterpret_cast<void * *>(&::g_D651E0Value)));
-        Singleton* offsetCount = (Singleton*)FUN_00c85750();
+        Singleton* offsetCount = (Singleton*)getMemoryRouter();
         DeallocCtx* val = offsetCount->m_10;
         offsets.m_iArrayLength = 0;
         if ((offsets.m_iCapacity & 0x80000000) == 0)

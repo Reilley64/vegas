@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <windows.h>
@@ -133,7 +134,7 @@ struct D6A140MemoryRouter
     }
 };
 
-extern "C" D6A140MemoryRouter& __cdecl FUN_00c85750();
+static inline D6A140MemoryRouter& getMemoryRouter() { return *static_cast<D6A140MemoryRouter*>(::FUN_00c85750()); }
 
 class D6A140ReferencedObject
 {
@@ -141,7 +142,7 @@ class D6A140ReferencedObject
     static void* operator new(size_t nbytes)
     {
         D6A140ReferencedObject* b =
-            static_cast<D6A140ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D6A140ReferencedObject*>(getMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -193,7 +194,7 @@ struct Manager
     int unk00, unk04, unk08, unk0C;
     Allocator* unk10;
 };
-extern Manager* __cdecl FUN_00c85750();
+static inline Manager* getMemoryRouter() { return static_cast<Manager*>(::FUN_00c85750()); }
 struct Owner
 {
     __declspec(noinline) virtual ~Owner();
@@ -210,7 +211,7 @@ void* Owner::DestroyOwner(unsigned int flags)
     this->Owner::~Owner();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = getMemoryRouter();
         Allocator* allocator = manager->unk10;
         unsigned short size = unk04;
         allocator->Free(this, size);
@@ -426,7 +427,7 @@ struct GlobalHolder
 };
 
 namespace fnvc_adapt {
-GlobalHolder* __cdecl FUN_00c85750();
+static inline GlobalHolder* getMemoryRouter() { return static_cast<GlobalHolder*>(::FUN_00c85750()); }
 }
 extern "C" void _ReadWriteBarrier(void);
 
@@ -444,7 +445,7 @@ struct FUN_00d6a000_cls
 void FUN_00d6a000_cls::AppendDword(unsigned int aValue)
 {
     DwordList* list = &m_kNode;
-    GlobalHolder* pAllocHolder = fnvc_adapt::FUN_00c85750();
+    GlobalHolder* pAllocHolder = fnvc_adapt::getMemoryRouter();
     if (list->m_iArrayLength == (int)(list->m_uCapFlags & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(pAllocHolder->m_pAllocator), (::AudioStream *)(list), 4);
@@ -477,7 +478,7 @@ struct Manager
 };
 
 namespace fnvc_adapt {
-void* FUN_00c85750() throw();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 }
 
 struct Array
@@ -487,7 +488,7 @@ struct Array
     unsigned int capacity;
     ~Array() throw()
     {
-        Manager* mgr = (Manager*)fnvc_adapt::FUN_00c85750();
+        Manager* mgr = (Manager*)fnvc_adapt::getMemoryRouter();
         Allocator* alloc = mgr->unk10;
         count = 0;
         if (!(capacity & 0x80000000))

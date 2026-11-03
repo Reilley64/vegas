@@ -144,7 +144,7 @@ void Drawer::FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDispl
                           int tag)
 {
     hkpHingeConstraintDataD* data = constraint->m_data;
-    reinterpret_cast<::CpuObject *>(&(m_pDisplayHandler))->FUN_00e10a10((int)(displayHandler));
+    reinterpret_cast<::CpuObject *>(&(m_pDisplayHandler))->FUN_00e10a10((displayHandler));
 
     hkTransformD transformA;
     hkTransformD transformB;

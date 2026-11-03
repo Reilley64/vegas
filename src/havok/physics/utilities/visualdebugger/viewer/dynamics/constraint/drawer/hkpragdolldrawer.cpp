@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <math.h>
 #include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
@@ -229,7 +230,7 @@ struct Singleton
     int s0c;
     PoolObj* pool;
 };
-Singleton* __cdecl FUN_00c85750();
+static inline Singleton* getMemoryRouter() { return static_cast<Singleton*>(::FUN_00c85750()); }
 struct P2Vtbl
 {
     virtual void Reserved00();
@@ -319,7 +320,7 @@ struct This : DrawerBase
 void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
 {
     Mat* mat = p1->mat;
-    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(p2));
+    reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((p2));
     This& receivers = *this;
     {
         Buf40 bufferA, bufferB;
@@ -385,7 +386,7 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
         vec2.buf = 0;
         vec2.len = 0;
         vec2.cap = (int)0x80000000;
-        Singleton* sing = FUN_00c85750();
+        Singleton* sing = getMemoryRouter();
         PoolObj* pool = sing->pool;
         if ((vec1.cap & 0x3fffffff) < 1)
         {
@@ -395,7 +396,7 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec1), nc, 4);
         }
         vec1.len = 1;
-        sing = FUN_00c85750();
+        sing = getMemoryRouter();
         pool = sing->pool;
         if ((vec2.cap & 0x3fffffff) < 1)
         {
@@ -405,7 +406,7 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec2), nc, 4);
         }
         vec2.len = 1;
-        sing = FUN_00c85750();
+        sing = getMemoryRouter();
         pool = sing->pool;
         if ((vec3.cap & 0x3fffffff) < 2)
         {
@@ -422,21 +423,21 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
         p2->DrawVec(&vec1, 0xffffff00, p3, p4);
         p2->DrawVec(&vec3, 0xffff0000, p3, p4);
         p2->DrawVec(&vec2, ((int)(::PackBytesBigEndian(0xff, 0, 0xff, 0xff))), p3, p4);
-        sing = FUN_00c85750();
+        sing = getMemoryRouter();
         pool = sing->pool;
         vec2.len = 0;
         if (!(vec2.cap & (int)0x80000000))
             pool->Release(vec2.buf, (vec2.cap & 0x3fffffff) * 4);
         vec2.buf = 0;
         vec2.cap = (int)0x80000000;
-        sing = FUN_00c85750();
+        sing = getMemoryRouter();
         pool = sing->pool;
         vec3.len = 0;
         if (!(vec3.cap & (int)0x80000000))
             pool->Release(vec3.buf, (vec3.cap & 0x3fffffff) * 4);
         vec3.buf = 0;
         vec3.cap = (int)0x80000000;
-        sing = FUN_00c85750();
+        sing = getMemoryRouter();
         pool = sing->pool;
         vec1.len = 0;
         if (!(vec1.cap & (int)0x80000000))

@@ -2,13 +2,14 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppcodegenerator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppcodegenerator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_0102e000.h"
 extern "C"
 {
-    void* __cdecl FUN_00c85750(void);
+    static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
     void __cdecl FUN_00c856c0(void*, void*);
 }
 extern void* DAT_010ea5b4;
@@ -49,10 +50,10 @@ void SomeClass::Destroy()
     vtable = &DAT_010ea5b4;
     if (p)
     {
-        void* q = FUN_00c85750();
+        void* q = getMemoryRouter();
         FUN_00c856c0(*(void**)((char*)q + 0x10), p);
     }
-    void* s = FUN_00c85750();
+    void* s = getMemoryRouter();
     void* t = *(void**)((char*)s + 0x10);
     buffer.clear(t);
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
@@ -177,7 +178,7 @@ struct S_00e064f0_Router
     S_00e064f0_Heap* m10;
     static S_00e064f0_Router& GetMonitorStream()
     {
-        return *(S_00e064f0_Router*)FUN_00c85750();
+        return *(S_00e064f0_Router*)getMemoryRouter();
     }
     S_00e064f0_Heap& heap()
     {
@@ -289,7 +290,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+static inline CpuAllocatorHolder* getMemoryRouter() { return static_cast<CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct CpuObject
 {
     unsigned int unk00;
@@ -303,7 +304,7 @@ CpuObject* CpuObject::FUN_00e066c0(unsigned int flags)
     reinterpret_cast<::SomeClass *>(this)->Destroy();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = getMemoryRouter();
         holder->allocator->Invoke(this, size);
     }
     return this;

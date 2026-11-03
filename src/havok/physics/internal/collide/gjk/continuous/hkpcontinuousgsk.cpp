@@ -1,6 +1,7 @@
 // src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/GapSolver.h"
@@ -355,7 +356,7 @@ void emit_function()
 }
 }  // namespace fnv_00db52c0
 
-void* __cdecl FUN_00c85750();
+static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 struct Table
 {
     void* unk00;
@@ -554,7 +555,7 @@ static __declspec(noinline) void FUN_00db53f0(In* in, Out* out)
     int v = pCtrlA->tab->f2c(pCtrlA);
     out->f10 = v;
     out->f0c = v;
-    unsigned int* pBlockCursor = (unsigned int*)FUN_00c85750();
+    unsigned int* pBlockCursor = (unsigned int*)getMemoryRouter();
     unsigned int uiBlockStart = *pBlockCursor;
     int sz = v * 16;
     sz = sz + 0x7f;
@@ -1149,7 +1150,7 @@ class NineIntegerRecord
 public:
     static __forceinline NineIntegerRecord& GetMonitorStream()
     {
-        return *static_cast<NineIntegerRecord*>(FUN_00c85750());
+        return *static_cast<NineIntegerRecord*>(getMemoryRouter());
     }
     __forceinline StringPointerTriple& stack()
     {
@@ -3164,7 +3165,6 @@ void hk_user(const AgentSubtypeMarker& in3, ContactPointWeldingParameters& tol, 
 void FUN_00db4b50(void* a, float t, Sample* out);
 typedef float hkTime;
 
-extern void* __cdecl FUN_00c85750();
 
 template <typename TYPE> class ValueWrapper
 {

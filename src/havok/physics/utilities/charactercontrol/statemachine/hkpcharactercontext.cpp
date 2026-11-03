@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/decl/hkpCharacterStateView.h"
@@ -177,7 +178,7 @@ struct FnvCpu_FUN_00ca9810_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00ca9810_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00ca9810_CpuAllocatorHolder* __cdecl FUN_00c85750();
+static inline FnvCpu_FUN_00ca9810_CpuAllocatorHolder* getMemoryRouter() { return static_cast<FnvCpu_FUN_00ca9810_CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct FnvCpu_FUN_00ca9810_CpuObject
 {
     unsigned int unk00;
@@ -191,7 +192,7 @@ FnvCpu_FUN_00ca9810_CpuObject* FnvCpu_FUN_00ca9810_CpuObject::Destroy(unsigned i
     reinterpret_cast<::FUN_00ca95e0_class *>(this)->FUN_00ca95e0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00ca9810_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
+        FnvCpu_FUN_00ca9810_CpuAllocatorHolder* pAllocatorHolder = getMemoryRouter();
         pAllocatorHolder->allocator->Invoke(this, size);
     }
     return this;

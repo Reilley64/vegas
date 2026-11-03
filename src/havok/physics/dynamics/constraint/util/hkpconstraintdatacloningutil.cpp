@@ -232,9 +232,9 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     switch (pkSource->GetType())
     {
     case 0:
-        return ((::Object858 *)(::FUN_00d85360((int)(pkSource))));
+        return ((::Object858 *)(::FUN_00d85360((intptr_t)(pkSource))));
     case 1:
-        return ((::Object858 *)(::fnv_00d853a0::FUN_00d853a0((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d853a0::FUN_00d853a0((intptr_t)(pkSource))));
     case 2:
         return ((::Object858 *)(::fnv_00d853f0::FUN_00d853f0((char *)(pkSource))));
     case 3: {
@@ -252,15 +252,15 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     case 8:
         return ((::Object858 *)(::fnv_00d85530::FUN_00d85530((::fnv_00d85530::SpawnedSource *)(pkSource))));
     case 9:
-        return ((::Object858 *)(::fnv_00d85570::CloneWithInit((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d85570::CloneWithInit((intptr_t)(pkSource))));
     case 14:
         return ((::Object858 *)(::fnv_00d855c0::CloneDataBlock(pkSource)));
     case 15:
-        return ((::Object858 *)(::fnv_00d85610::CloneWithCopiedPayload((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d85610::CloneWithCopiedPayload((intptr_t)(pkSource))));
     case 18:
         return ((::Object858 *)(::FUN_00d85660((const ::D85660Object *)(pkSource))));
     case 19:
-        return ((::Object858 *)(::fnv_00d856b0::CloneWithAllocatedCopy((int)(pkSource))));
+        return ((::Object858 *)(::fnv_00d856b0::CloneWithAllocatedCopy((intptr_t)(pkSource))));
     case 12: {
         Breakable858* pkOld = (Breakable858*)pkSource;
         Object858* pkChild = FUN_00d85700(pkOld->GetBreakableObject());
@@ -276,7 +276,7 @@ Object858* __cdecl FUN_00d85700(Object858* pkSource)
     }
     case 13: {
         Node858* pkNode = (Node858*)pkSource;
-        Object858* pkChild = FUN_00d85700(((::Object858 *)(reinterpret_cast<::FUN_00cdf6d0_t *>((pkNode))->FUN_00cdf6d0())));
+        Object858* pkChild = FUN_00d85700(static_cast<::Object858 *>(reinterpret_cast<::FUN_00cdf6d0_t *>((pkNode))->FUN_00cdf6d0()));
         if (!pkChild)
             return 0;
         Node858* pkClone = ((::Node858 *)(new ((void *)(AllocA<Raw858b>(0x20))) ::FUN_00cdf710((::hkReferencedObjectCDF7 *)(pkChild))));

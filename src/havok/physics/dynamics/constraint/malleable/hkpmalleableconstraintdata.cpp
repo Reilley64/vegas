@@ -162,17 +162,15 @@ hkpConstraintData* MalleableGetterStandIn::FUN_00cdf6c0()
     return m_pConstraintData;
 }
 
-struct FUN_00cdf6d0_t
+struct FUN_00cdf6d0_t : hkpMalleableConstraintData
 {
-    int m_auiShapeKeys[3];
-    int m_field_c;
-    int FUN_00cdf6d0();
+    void* FUN_00cdf6d0();
 };
 
 // @fnv 0x00cdf6d0
-int FUN_00cdf6d0_t::FUN_00cdf6d0()
+void* FUN_00cdf6d0_t::FUN_00cdf6d0()
 {
-    return m_field_c;
+    return m_pConstraintData;
 }
 
 struct Cdf7c0Info

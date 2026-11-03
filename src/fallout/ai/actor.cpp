@@ -36488,6 +36488,7 @@ void Dummy629670::FUN_00931530(bool param)
 
 struct Flt
 {
+    unsigned int v;
     operator unsigned int();
 };
 struct FUN_00931580_Class
@@ -58608,7 +58609,34 @@ struct WorldView : ReferenceView {
     const LinkedColliderView* getCollidable() const { return &collidable; }
     LinkedColliderView* getCollidableRw() { return &collidable; }
 };
-class VectorValue;
+typedef __m128 VectorBits;
+class ComparisonValue {
+    VectorBits lanes;
+    friend class VectorValue;
+public:
+    enum Required { All=15 };
+    __forceinline int all(Required required) const { return (_mm_movemask_ps(lanes)&required)==required; }
+};
+class VectorValue {
+    VectorBits q;
+public:
+    __forceinline VectorValue() {}
+    __forceinline VectorValue(const VectorValue& other) { q=other.q; }
+    __forceinline VectorValue(const VectorBits& v) { q=v; }
+    operator VectorBits() const { return q; }
+    __forceinline void operator=(const VectorBits& v) { q=v; }
+
+    __forceinline void operator=(const VectorValue& other) { q=other.q; }
+    __forceinline void difference(const VectorValue& left,const VectorValue& right) { q=_mm_sub_ps(left.q,right.q); }
+    __forceinline void absolute(const VectorValue& value) { q=_mm_and_ps(value.q,(*reinterpret_cast<const __m128 *>((void *)&::DAT_01017d10))); }
+    __forceinline void splat(float value) { q=_mm_set_ps1(value); }
+    __forceinline ComparisonValue lessEqual(const VectorValue& value) const { ComparisonValue result; result.lanes=_mm_cmple_ps(q,value.q); return result; }
+    __forceinline int equal(const VectorValue& value,float epsilon=0.001f) const {
+        VectorValue delta; delta.difference(*this,value); delta.absolute(delta);
+        VectorValue tolerance; tolerance.splat(epsilon);
+        return delta.lessEqual(tolerance).all(ComparisonValue::All);
+    }
+};
 enum MotionKind { KindInvalid=0,KindDynamic=1,KindSphere=2,KindBox=3,KindKeyframed=4,KindFixed=5,KindThin=6,KindCharacter=7,KindMax=8 };
 enum QualityKind { QualityInvalid=-1,QualityFixed=0,QualityKeyframed=1,QualityDebris=2,QualityMoving=4 };
 template<class E,class S> class EnumCell {
@@ -59286,12 +59314,12 @@ void Actor88::UpdateNodeTransform()
         if (::FUN_00567730((const ::bhkCharacterController_00567730 *)(controller8)) != 0.0)
         {
             reinterpret_cast<::FUN_00524ac0_shell *>(&(tilt2))->FUN_00524ac0(::FUN_00567730((const ::bhkCharacterController_00567730 *)(controller8)));
-            rotationB = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
+            *reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationB)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
         }
         if (::FUN_00567750((const char *)(controller8)) != 0.0)
         {
             reinterpret_cast<::ThreeByThreeMatrix *>(&(tilt2))->SetYRotation(::FUN_00567750((const char *)(controller8)));
-            rotationB = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
+            *reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationB)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
         }
     }
     reinterpret_cast<::FUN_0043fa80_s *>((node7))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(Transform(rotationB)))));
@@ -62931,7 +62959,6 @@ struct Setting
 {
     bool* Bool();
 };
-extern Pawn* _g_thePlayer;
 struct Pawn
 {
     virtual void slot0();
@@ -63141,7 +63168,6 @@ struct GroupInfo
     int unk1c;
     int unk20;
 };
-extern GroupInfo DAT_011977d8[];
 int GetType(unsigned short);
 struct TESAnimGroup8
 {
@@ -71543,7 +71569,7 @@ Pt3 ActorStub::GetNodePosition(bool world)
     {
         Xf52 inv;
         reinterpret_cast<::NiTransform *>((((::fnv_008a5340::Xf52 *)(::FUN_00461130((int)(root2))))))->CalculateInverse((*(::NiTransform *)(&inv)));
-        xform5 = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008a5340::Xf52 &)(inv))->operator*((const ::NiTransform &)(xform5));
+        *reinterpret_cast<::NiTransform *>(&(xform5)) = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008a5340::Xf52 &)(inv))->operator*((const ::NiTransform &)(xform5));
     }
     Pt3 pos4 = xform5 * Pt3(0.0f, height, 0.0f);
     return pos4;
@@ -76209,7 +76235,7 @@ void ActorStub::GetCameraPosAndDir(Vec3* pos, Vec3* dir, bool bAddOffset)
     {
         Mat3 pitchMat;
         reinterpret_cast<::FUN_00524ac0_shell *>(&(pitchMat))->FUN_00524ac0(reinterpret_cast<::MobileObject *>((void *)this)->GetLooking());
-        rot = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008aff80::Mat3 &)(rot))->operator+((const ::ThreeByThreeMatrix &)(pitchMat));
+        *reinterpret_cast<::ThreeByThreeMatrix *>(&(rot)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008aff80::Mat3 &)(rot))->operator+((const ::ThreeByThreeMatrix &)(pitchMat));
     }
     reinterpret_cast<::FUN_00439f50_class *>((void *)&(rot))->FUN_00439f50(1, (::NiPoint3 *)&(*dir));
     reinterpret_cast<::FUN_004a0c10_s *>((dir))->FUN_004a0c10();
@@ -100982,7 +101008,7 @@ void ActorHelper::FUN_008b2c30()
                             float kFAngleY;
                             reinterpret_cast<::S_00a592c0_Matrix3 *>(&(mat4))->DecomposeToEulerAngles((*(float *)(&fAngleX4)), (*(float *)(&kFAngleY)), (*(float *)(&fAngleZ)));
                             reinterpret_cast<::Matrix161 *>(&(mat4))->FUN_00a59540(fAngleX4 * fMult, kFAngleY * fMult, fAngleZ * fMult);
-                            mat6 = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008b2c30::ThreeByThreeMatrix &)(mat6))->operator+((const ::ThreeByThreeMatrix &)(mat4));
+                            *reinterpret_cast<::ThreeByThreeMatrix *>(&(mat6)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008b2c30::ThreeByThreeMatrix &)(mat6))->operator+((const ::ThreeByThreeMatrix &)(mat4));
                             reinterpret_cast<::FUN_004f0110_Holder *>((pCastNode7))->FUN_004f0110((::FUN_004f0110_Data *)(::fnv_008b2c30::ThreeByThreeMatrix *)(&mat6));
                         }
                     }
@@ -105293,7 +105319,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
                     if (reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((((ProcXObj*)proc3)))->HasEffect(0xc))
                         flag14 = 1;
                 }
-                int cnt2 = (int)reinterpret_cast<::TESObjectWEAP *>((((Sky2Obj*)((void *)(reinterpret_cast<::FUN_00476c90_Class *>((((SkyObj*)apSource)))->FUN_00476c90())))))->GetDamageForActor({}, {}, {});
+                int cnt2 = (int)reinterpret_cast<::TESObjectWEAP *>((((Sky2Obj*)((void *)(reinterpret_cast<::FUN_00476c90_Class *>((((SkyObj*)apSource)))->FUN_00476c90())))))->GetDamageForActor(flag14, false, (::Actor *)this);
                 if (cnt2 > 1)
                 {
                     obj1->m_14 /= (float)cnt2;
@@ -105314,7 +105340,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
     }
     else
     {
-        ::FUN_009b5120((int)(obj1), (int)(this), (int)(apActor), (int)(proc3), arg2, (int)(apSource), {});
+        ::FUN_009b5120((int)(Node9b *)(obj1), (int)(this), (int)(apActor), (int)(proc3), arg2, (int)(apSource), {});
     }
 
     ((ThisV*)this)->V202(((ThisV*)this)->V203() + 1);
@@ -105402,11 +105428,6 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
 }  // namespace fnv_00899cb0
 
 namespace fnv_0089d6f0 {
-template <> class SettingT<GameSettingCollection>
-{
-  public:
-};
-
 class MagicTargetStandIn
 {
   public:
@@ -106859,8 +106880,6 @@ struct VP89
     virtual void v178(float);
 };
 
-extern "C" void* g_thePlayer;
-extern "C" double DAT_01012060;
 
 struct PKG
 {
@@ -106993,8 +107012,8 @@ void S89::FUN_0089fcf0(void* apTarget, void* apLocation, bool a3, void* apUnused
     if (!((VT89*)this)->v266())
     {
         ((VP89*)((AM89*)this)->m68)->v178(0.0);
-        if (apTarget == g_thePlayer)
-            reinterpret_cast<::FUN_00967220_cls *>((((HPL*)g_thePlayer)))->FUN_00967220((unsigned int)(this), 1);
+        if ((void *)apTarget == (void *)::_g_thePlayer)
+            reinterpret_cast<::FUN_00967220_cls *>((((HPL*)::_g_thePlayer)))->FUN_00967220((unsigned int)(this), 1);
         ref = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((HRef*)this)))->FUN_007af430()));
         r1 = 0;
         r6 = 0;
@@ -108147,7 +108166,7 @@ void ActorUpdateShell::FUN_008a3100(float elapsed)
         {
             ObjectView* follow = 0;
             if (((RootQuery*)this)->GetRoot())
-                follow = ((::fnv_008a3100::ObjectView *)(reinterpret_cast<::BipedAnim *>((((NodeView*)this)->GetRoot(0)))->GetBoneNode({})));
+                follow = ((::fnv_008a3100::ObjectView *)(reinterpret_cast<::BipedAnim *>((((NodeView*)this)->GetRoot(0)))->GetBoneNode((::BIPED_BONE)0)));
             else if (((NodeView*)this)->HasNode())
                 follow = FUN_004ade00(((NodeView*)this)->GetNode(), ((void *)(::FUN_008a30f0())));
             if (follow)
@@ -110613,7 +110632,6 @@ struct Actor419
     NiAVObject* FUN_00950be0();
     NiAVObject* FUN_008be0a0();
 };
-extern "C" Actor419* g_thePlayer;
 // Returns the cached projectile node from process, or finds it under the root node, caches it via SetProjectileNode and returns it.
 // @fnv 0x008be0a0
 NiAVObject* Actor419::FUN_008be0a0()
@@ -110626,7 +110644,7 @@ NiAVObject* Actor419::FUN_008be0a0()
         cached = process->GetProjectileNode();
         if (cached)
             return cached;
-        root5 = this == g_thePlayer ? g_thePlayer->FUN_00950be0() : GetRootNode();
+        root5 = (void *)this == (void *)::_g_thePlayer ? reinterpret_cast<Actor419 *>(::_g_thePlayer)->FUN_00950be0() : GetRootNode();
         if (!root5)
             return 0;
         weaponA = ((::fnv_008be0a0::Weapon419 *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710()));
@@ -115295,17 +115313,17 @@ struct Obj_418520
 };
 struct Ref_891d30
 {
-    int FUN_00891d30();
+    intptr_t FUN_00891d30();
 };
 // Returns the result of FUN_004cafe0 on the object obtained via FUN_005d43c0 and FUN_00418520, or 0 if that object is null.
 // @fnv 0x00891d30
 intptr_t Ref_891d30::FUN_00891d30()
 {
     Obj_4cafe0* obj;
-    int result = 0;
+    intptr_t result = 0;
     obj = ((::Obj_4cafe0 *)(reinterpret_cast<::ExtraDataList *>((((::Obj_418520 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
     if (obj)
-        result = ((int)(reinterpret_cast<::CTargetC5 *>((obj))->FUN_004cafe0()));
+        result = ((intptr_t)(reinterpret_cast<::CTargetC5 *>((obj))->FUN_004cafe0()));
     return result;
 }
 
@@ -125893,7 +125911,8 @@ void ActorStub::FUN_008c3530()
     {
         if ((void*)this == g_thePlayer)
         {
-            reinterpret_cast<::OwnerS *>((((PlayerStub*)g_thePlayer)))->PlaySound(::GetSix(::FUN_004065e0(&GetQueuedItem()->list)));
+            ::FUN_004065e0((::EffectItemList_shell *)&GetQueuedItem()->list);
+            reinterpret_cast<::OwnerS *>((((PlayerStub*)g_thePlayer)))->PlaySound(::GetSix());
             ::DispatchMessageToSink((const char *)(GetQueuedItem()->GetMessageText(effect)), 0, (const char *)(0), (const char *)(0), 2.0f, false);
         }
     }
@@ -127853,7 +127872,7 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
                                 EActor* reference = ((::fnv_0088e8d0::EActor *)(::FUN_0056f930((::NiAVObject *)(object))));
                                 if (!terrain && (!reference || !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(reference), true)))
                                     continue;
-                                MDecalMgr* manager = ((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::FnCls *>((g_TES))->FUN_004519d0((*(float *)&(const ::fnv_0088e8d0::MPt &)(hitPosition)), {}, {})));
+                                MDecalMgr* manager = ((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::FnCls *>((g_TES))->FUN_004519d0(hitPosition.x, hitPosition.y, std::bit_cast<int>(hitPosition.z))));
                                 float size2 = ::RandomFloat(reinterpret_cast<::FUN_004a40a0_Class *>((impact))->FUN_004a40a0(), reinterpret_cast<::FUN_004a40c0_Class *>((impact))->GetModifierValue());
                                 MDecalData hitDecal;
                                 hitDecal.pos = hitPosition;
@@ -130053,7 +130072,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                         HFilter filter(0);
                         reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80(0);
                         reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(8);
-                        ::FUN_004a3f70((char *)&(query), (::Flt)(filter.value));
+                        ::FUN_004a3f70((char *)&(query), ::Flt{filter.value});
                         reinterpret_cast<::S00458a10_Vector *>(&(position))->FUN_00458a10((const ::S00458a10_Vector *)(::fnv_0089a760::MVec4 *)(&position), (const ::S00458a10_Vector *)(::fnv_0089a760::MVec4 *)(&direction));
                         reinterpret_cast<::S3e60 *>(&(query))->FUN_0056d340((unsigned int)(&position));
                         reinterpret_cast<::PD_ *>(&(query))->FUN_004a3f40(&end);
@@ -132360,7 +132379,7 @@ void SelActor::FUN_00964260()
     SelFilter filter(0);
     reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(0x25);
     reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(sourceFilter))->FUN_004a3a20())));
-    ::FUN_004a3f70((char *)&(ray), (::Flt)(filter.bits));
+    ::FUN_004a3f70((char *)&(ray), ::Flt{filter.bits});
     bool previousOverride = ::bhkWorld::QPickCountOverride();
     ::FUN_00c66230(true);
     SelNode* hit = DAT_011dea10->FUN_00458420(&ray);
@@ -138998,7 +139017,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
                    (*(::fnv_008b52a0::Vec *)&(reinterpret_cast<::fnv_009f8300::FUN_009f8300_class *>((part9))->FUN_009f8300(*(::fnv_009f8300::NiPoint3 *)nullptr))).z * ::DAT_01023128);
         reinterpret_cast<::Matrix161 *>(&(offset.rotation))->FUN_00a59540(angles.x, angles.y, angles.z);
         offset.scale = 1.0f;
-        transform_ = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(aLoc5->Call_00461130()))->operator*((const ::NiTransform &)(offset));
+        *reinterpret_cast<::NiTransform *>(&(transform_)) = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(aLoc5->Call_00461130()))->operator*((const ::NiTransform &)(offset));
         Node* result3 = 0;
         if (!explode)
         {
@@ -139028,7 +139047,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
             Transform inverse2;
             Transform localA;
             reinterpret_cast<::FUN_008b42e0_shell *>((void *)&(root5->Call_00461130()))->InvertTransform((::NiTransform *)&(inverse2));
-            localA = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(inverse2))->operator*((const ::NiTransform &)(original6->Call_00461130()));
+            *reinterpret_cast<::NiTransform *>(&(localA)) = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(inverse2))->operator*((const ::NiTransform &)(original6->Call_00461130()));
             reinterpret_cast<::FUN_00440460_S *>((result3))->FUN_00440460((const ::V3 *)&(localA.translation));
             reinterpret_cast<::FUN_0043fa80_s *>((result3))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(localA.rotation));
             reinterpret_cast<::FUN_00440490_shell *>((result3))->FUN_00440490(localA.scale);
@@ -140483,7 +140502,7 @@ void __cdecl FUN_006890b0(MCell*, float, const char*, MPt, MPt, float, int, int)
 MAudio* __cdecl FUN_00453a70();
 
 
-extern MTES* g_TES;
+
 __if_not_exists(g_thePlayer)
 {
     extern MActor* g_thePlayer;
@@ -140544,7 +140563,8 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 if (!vf21c() && !reinterpret_cast<::Actor *>(this)->IsSneaking() && abUseAnim)
                 {
                     void* skill = ((void *)(reinterpret_cast<::FUN_008d85e0_Class *>((weapon))->GetUnk15C()));
-                    mult = ::fnv_00644520::FUN_00644520(reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger(skill), groupType);
+                    reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger((::ActorValue::Index)(std::intptr_t)skill);
+                    mult = ::fnv_00644520::FUN_00644520();
                 }
                 damage = reinterpret_cast<::B4BDF00Data *>((equipped))->GetScaledValue(this, mult, 0);
             }
@@ -140622,7 +140642,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 int material = 0;
                 if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::MFilter &)(worldObj->FUN_0043b4f0()))->FUN_0043b4d0() == 0x11)
                 {
-                    material = ((int)(reinterpret_cast<::FUN_00457880_Class *>((g_TES))->FUN_00457880((int)(&pos))));
+                    material = ((int)(reinterpret_cast<::FUN_00457880_Class *>((*reinterpret_cast<::MTES * *>(&::g_TES)))->FUN_00457880((int)(&pos))));
                 }
                 else
                 {
@@ -140716,7 +140736,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                                     MColObj* target = 0;
                                     if (isTerrain)
                                     {
-                                        target = ((::MColObj *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>((g_TES))->FUN_00457620((const float *)(::MPt *)(&pos))));
+                                        target = ((::MColObj *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>((*reinterpret_cast<::MTES * *>(&::g_TES)))->FUN_00457620((const float *)(::MPt *)(&pos))));
                                         if (target && ((::MColObj *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0())))
                                             target = ((::MColObj *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0()));
                                     }
@@ -140727,7 +140747,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                                     MRef* targetRef = ((::MRef *)(::FUN_0056f930((::NiAVObject *)(target))));
                                     if (!isTerrain && (!targetRef || !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(targetRef), true)))
                                         continue;
-                                    MDecalMgr* mgr = ((::MDecalMgr *)(reinterpret_cast<::FnCls *>((g_TES))->FUN_004519d0((*(float *)&(const ::MPt &)(pos)), {}, {})));
+                                    MDecalMgr* mgr = ((::MDecalMgr *)(reinterpret_cast<::FnCls *>((*reinterpret_cast<::MTES * *>(&::g_TES)))->FUN_004519d0(pos.x, pos.y, std::bit_cast<int>(pos.z))));
                                     MDecalData data;
                                     data.pos = decalPos;
                                     data.normal = normal;
@@ -141743,14 +141763,11 @@ bool __cdecl FUN_008c1010(TESObjectREFR* ref, TESForm* form, FactionCheck1010* c
 }
 }  // namespace fnv_008c1010
 
-namespace ActorLinkDetail {
-using ::SpellItem;
-__if_not_exists(SpellItem::SpellItem)
+class SpellItem : public TESForm
 {
-    class SpellItem : public TESForm
-    {
-    };
-}
+};
+
+namespace ActorLinkDetail {
 struct LinkPowerItem
 {
     unsigned int key;
@@ -141978,7 +141995,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
                 if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>(this)->FUN_005653d0())
                 {
                     TESWorldSpace* ws;
-                    ws = ((::TESWorldSpace *)((reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)this))->FUN_00575d70()));
+                    ws = ((::TESWorldSpace *)((reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)this))->FUN_00575d70())));
                     if (0 != ws)
                     {
                         struct Position
@@ -142427,13 +142444,15 @@ struct MoveNode454
     MoveNode454* FUN_00726070();
     MoveActor454** FUN_006815c0();
 };
-template <> class BSSimpleList<MoveActor454*> : public MoveNode454
+}  // namespace fnv_008ad1c0
+template <> class BSSimpleList<fnv_008ad1c0::MoveActor454*> : public fnv_008ad1c0::MoveNode454
 {
   public:
     BSSimpleList();
     ~BSSimpleList();
-    void FUN_005ae3d0(MoveActor454* const&);
+    void FUN_005ae3d0(fnv_008ad1c0::MoveActor454* const&);
 };
+namespace fnv_008ad1c0 {
 struct MoveObject454
 {
     MoveObject454* FUN_007af430();
@@ -144162,10 +144181,7 @@ struct ActorLayout
     MagicTarget target;
     ValueOwnerView values;
 };
-enum
-{
-    ValueOwnerOffsetCheck = 1 / (offsetof(ActorLayout, values) == 0xa4)
-};
+static_assert(sizeof(void *) != 4 || offsetof(ActorLayout, values) == 0xa4);
 struct ProcessView
 {
     virtual void v0();
@@ -145754,18 +145770,12 @@ bool ServicesActorView::FUN_008ac680()
         return true;
 }
 
-__if_not_exists(TESAmmo::TESAmmo)
+class TESAmmo : public TESForm
 {
-    struct TESAmmo : public TESForm
-    {
-    };
-}
-__if_not_exists(TESIdleForm::TESIdleForm)
+};
+class TESIdleForm : public TESForm
 {
-    struct TESIdleForm : public TESForm
-    {
-    };
-}
+};
 struct AttackActor;
 struct AttackWeapon;
 struct AttackSequence;
@@ -145859,11 +145869,6 @@ struct AttackTable
     int unk1C;
     int unk20;
 };
-struct AnimGroupInfo_011977d8;
-__if_not_exists(DAT_011977d8)
-{
-    extern AnimGroupInfo_011977d8 DAT_011977d8[];
-}
 extern AttackControl* DAT_011dea0c;
 extern const char DAT_011840c4[], DAT_01186a18[], DAT_01084af0[], DAT_01084a74[], DAT_01084a64[],
     DAT_01084a88[];
@@ -147242,7 +147247,7 @@ struct AttackActor
 // @fnv 0x008935f0
 bool Pawn::TryAttack(int action)
 {
-    if (this != _g_thePlayer && *(*reinterpret_cast<::Setting *>(&::g_011df6c4)).Bool())
+    if ((void *)this != (void *)_g_thePlayer && *(*reinterpret_cast<::Setting *>(&::g_011df6c4)).Bool())
         return false;
     Weapon* weapon3 = process->weapon() ? ((::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->weapon()))->GetName())) : 0;
     List* ammoA = process->ammo();
@@ -147288,7 +147293,7 @@ bool Pawn::TryAttack(int action)
         }
     }
     unsigned short played_ = play(action, 0, 0, 0);
-    if (this == _g_thePlayer)
+    if ((void *)this == (void *)_g_thePlayer)
     {
         reinterpret_cast<::AttackActor *>(this)->FUN_00893a40(action);
         return true;
@@ -147301,8 +147306,8 @@ bool Pawn::TryAttack(int action)
     else
     {
         int actual = GetType(played_);
-        const char* actualName = actual == 255 ? "ANIM_GROUP_NONE" : DAT_011977d8[actual].name;
-        const char* requestedName2 = action == 255 ? "ANIM_GROUP_NONE" : DAT_011977d8[action].name;
+        const char* actualName = actual == 255 ? "ANIM_GROUP_NONE" : reinterpret_cast<GroupInfo *>(&::DAT_011977d8)[actual].name;
+        const char* requestedName2 = action == 255 ? "ANIM_GROUP_NONE" : reinterpret_cast<GroupInfo *>(&::DAT_011977d8)[action].name;
         ::FUN_005b5e40();
     }
     return false;
@@ -147735,7 +147740,7 @@ bool AttackActor::FUN_00893a40(int action)
         }
         else if (reinterpret_cast<::fnv_004937e0::TESAnimGroup *>((((::AttackGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence1))->GetAnimGroup()))))->FUN_004937e0())
         {
-            switch (((AttackTable*)DAT_011977d8)[((::AttackGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence1))->GetAnimGroup()))->FUN_005f2420()].kind)
+            switch (reinterpret_cast<AttackTable *>(&::DAT_011977d8)[((::AttackGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence1))->GetAnimGroup()))->FUN_005f2420()].kind)
             {
             case 5:
                 if (::TESAnimGroup::IsValidAnimationGroup(group24) && reinterpret_cast<::TESObjectREFR *>((sequence1))->GetScale() == 0.0)
@@ -147793,8 +147798,8 @@ bool AttackActor::FUN_00893a40(int action)
     else
     {
         int actual5 = FUN_005f2440(group24);
-        const char* actualName9 = actual5 == 255 ? DAT_01084a74 : ((AttackTable*)DAT_011977d8)[actual5].name;
-        const char* requestedName6 = action == 255 ? DAT_01084a74 : ((AttackTable*)DAT_011977d8)[action].name;
+        const char* actualName9 = actual5 == 255 ? DAT_01084a74 : reinterpret_cast<AttackTable *>(&::DAT_011977d8)[actual5].name;
+        const char* requestedName6 = action == 255 ? DAT_01084a74 : reinterpret_cast<AttackTable *>(&::DAT_011977d8)[action].name;
         ::FUN_005b5e40();
     }
     return false;
@@ -149895,7 +149900,7 @@ void Actor_8b6ae0::FUN_008b6ae0()
                     if (pLimbNode)
                     {
                         NiNode* pParent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((::NiAVObject*)pLimbNode)))->FUN_009611e0()));
-                        if ((const int *)&(::FUN_009a3830((*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((LimbRestoreNodeNameView*)pParent)))->GetLinkToList()))), (const int *)&(const ::NiFixedString &)(NiFixedString((*reinterpret_cast<const char *const (*)[]>((void *)&::DAT_01196d6c))[limbID]))))
+                        if (::FUN_009a3830((const int *)&(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((LimbRestoreNodeNameView*)pParent)))->GetLinkToList())), (const int *)&ResultSlot(NiFixedString((*reinterpret_cast<const char *const (*)[]>((void *)&::DAT_01196d6c))[limbID]))))
                             continue;
                     }
 
@@ -150381,14 +150386,11 @@ struct EffectAddedItemVirtualView
     virtual void s0();
     virtual bool v1();
 };
-__if_not_exists(::IngredientItem::IngredientItem)
+class IngredientItem : public EffectAddedItemBaseView, public EffectAddedItemVirtualView
 {
-    class IngredientItem : public EffectAddedItemBaseView, public EffectAddedItemVirtualView
-    {
-    };
-}
+};
 typedef IngredientItem EffectAddedIngredientType;
-class ::AlchemyItem;
+class AlchemyItem;
 typedef ::AlchemyItem EffectAddedAlchemyType;
 struct EffectAddedConsumableView : EffectAddedItemBaseView, EffectAddedItemVirtualView
 {
@@ -150577,28 +150579,6 @@ void TransformedPosDAD::FUN_00c7f7a0(const hkQsTransformDAD& a, const hkVector4D
 }
 
 namespace fnv_00cda340 {
-
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
-
-extern "C"
-{
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-}
 
 struct VectorComponentValue
 {
@@ -151519,24 +151499,6 @@ void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) 
     }
 }
 
-namespace VectorHardware {
-
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned char m128_u8[16];
-};
-extern "C" __m128 _mm_sub_ps(__m128,__m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_and_ps(__m128,__m128);
-extern "C" __m128 _mm_cmple_ps(__m128,__m128);
-extern "C" int _mm_movemask_ps(__m128);
-}
-typedef VectorHardware::__m128 VectorBits;
-using VectorHardware::_mm_sub_ps;
-using VectorHardware::_mm_set_ps1;
-using VectorHardware::_mm_and_ps;
-using VectorHardware::_mm_cmple_ps;
-using VectorHardware::_mm_movemask_ps;
 template<class T> class OwnedCell {
     T stored;
 public:
@@ -151553,33 +151515,6 @@ extern float DAT_011b02e8;
 struct ScratchAllocator {
     char* current;
     char* allocate(int n) { int numBytes=(n+127)&~127; char* p=current; char* next=p+numBytes; current=next; return p; }
-};
-class ComparisonValue {
-    VectorBits lanes;
-    friend class VectorValue;
-public:
-    enum Required { All=15 };
-    __forceinline int all(Required required) const { return (_mm_movemask_ps(lanes)&required)==required; }
-};
-class VectorValue {
-    VectorBits q;
-public:
-    __forceinline VectorValue() {}
-    __forceinline VectorValue(const VectorValue& other) { q=other.q; }
-    __forceinline VectorValue(const VectorBits& v) { q=v; }
-    operator VectorBits() const { return q; }
-    __forceinline void operator=(const VectorBits& v) { q=v; }
-
-    __forceinline void operator=(const VectorValue& other) { q=other.q; }
-    __forceinline void difference(const VectorValue& left,const VectorValue& right) { q=_mm_sub_ps(left.q,right.q); }
-    __forceinline void absolute(const VectorValue& value) { q=_mm_and_ps(value.q,(*reinterpret_cast<const ::VectorHardware::__m128 *>((void *)&::DAT_01017d10))); }
-    __forceinline void splat(float value) { q=_mm_set_ps1(value); }
-    __forceinline ComparisonValue lessEqual(const VectorValue& value) const { ComparisonValue result; result.lanes=_mm_cmple_ps(q,value.q); return result; }
-    __forceinline int equal(const VectorValue& value,float epsilon=0.001f) const {
-        VectorValue delta; delta.difference(*this,value); delta.absolute(delta);
-        VectorValue tolerance; tolerance.splat(epsilon);
-        return delta.lessEqual(tolerance).all(ComparisonValue::All);
-    }
 };
 
 enum ActivationMode { LeaveInactive=0,ActivateNow=1 };

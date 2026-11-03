@@ -477,7 +477,7 @@ void FUN_00d64650_cls::FUN_00d64650(SpawnOwner* apOwner)
     hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), sizeof(void*));
     }
     hkArrayConstruct((PendingNode**)list->m_data + list->m_uiItemCount, 1, node);
     list->m_uiItemCount++;
@@ -858,7 +858,7 @@ void FUN_00d66080_cls::Destroy()
     m_iArrayLength = 0;
     if ((uiFlags & 0x80000000u) == 0)
     {
-        pAllocator->bufFree(m_pData, (int)((uiFlags & 0x3fffffffu) * 4));
+        pAllocator->bufFree(m_pData, (int)((uiFlags & 0x3fffffffu) * (int)sizeof(m_pData[0])));
     }
     m_pData = 0;
     // the original stores the new flag value AFTER the m_pData=0 store and
@@ -1455,7 +1455,7 @@ void Shell::FUN_00d65750(int index)
     int iCapacity = arr->m_iCapacity & 0x3fffffff;
     if (iCapacity < 0)
     {
-        ::FUN_00c908c0((::SpawnedObject *)(pContext), (::SpawnedArray *)(arr), (iCapacity * 2) > 0 ? iCapacity * 2 : 0, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(pContext), (::SpawnedArray *)(arr), (iCapacity * 2) > 0 ? iCapacity * 2 : 0, sizeof(void*));
     }
     arr->m_iArrayLength = 0;
 }
@@ -1758,7 +1758,7 @@ void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
     S_00d65970_NodeArray& arr = nodes;
     hkMemoryRouter* router = &hkMemoryRouter::getInstance();
     if (arr.size == (arr.capacityAndFlags & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocator *)(&router->heap()), (::AudioStream *)(void *)(&arr), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocator *)(&router->heap()), (::AudioStream *)(void *)(&arr), sizeof(void*));
     S_00d65970_Node** p = arr.data + arr.size;
     for (int k = 0; k < 1; k++)
         p[k] = node;
@@ -2182,7 +2182,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     hkMemoryAllocator& al = s65Router().heap();
     vec.count = 0;
     if ((vec.cap & 0x80000000) == 0)
-        al.bufFree(vec.data, (vec.cap & 0x3fffffff) * 4);
+        al.bufFree(vec.data, (vec.cap & 0x3fffffff) * (int)sizeof(vec.data[0]));
 }
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.inc"
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer_gs_ehsc_nogs_noehsc_variant.inc"

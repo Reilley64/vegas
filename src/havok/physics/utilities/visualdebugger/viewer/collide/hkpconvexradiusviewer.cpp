@@ -518,7 +518,7 @@ void FUN_00d68e60_cls::FUN_00d68e60(Owner* owner)
     hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (pList->m_uiItemCount == (int)(pList->m_capBits & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)((Allocator*)holder->m_heap), (::AudioStream *)(pList), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)((Allocator*)holder->m_heap), (::AudioStream *)(pList), sizeof(void*));
     }
     unsigned int idx = *(volatile unsigned int*)&pList->m_uiItemCount;
     void** ppData = pList->m_data;
@@ -1426,7 +1426,7 @@ void FUN_00d68b20_cls::FUN_00d68b20(int idx)
     int cap = (int)(a->m_iCapacity & 0x3fffffff);
     if (cap < 0)
     {
-        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(a), (cap + cap > 0) ? cap + cap : 0, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(a), (cap + cap > 0) ? cap + cap : 0, sizeof(void*));
     }
     a->size = 0;
 }

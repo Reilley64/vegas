@@ -154,7 +154,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, hkUlong id, int tag)
                 capacity *= 2;
                 if (capacity <= 1)
                     capacity = 1;
-                ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(::Array *)(&scratch.shapes), capacity, 4);
+                ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(::Array *)(&scratch.shapes), capacity, sizeof(void*));
             }
             scratch.shapes.size = 1;
             scratch.shapes.data[0] = &shape;
@@ -163,7 +163,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, hkUlong id, int tag)
             allocator = router->m_heap;
             scratch.shapes.size = 0;
             if ((scratch.shapes.capacity & 0x80000000) == 0)
-                allocator->bufFree(scratch.shapes.data, (scratch.shapes.capacity & 0x3fffffff) * 4);
+                allocator->bufFree(scratch.shapes.data, (scratch.shapes.capacity & 0x3fffffff) * (int)sizeof(scratch.shapes.data[0]));
         }
     }
     {

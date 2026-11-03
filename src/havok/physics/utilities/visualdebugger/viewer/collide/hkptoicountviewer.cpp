@@ -551,7 +551,7 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
             hkMemoryRouter* h = &hkMemoryRouter::getInstance();
             if (out.m_iElementCount == (int)(out.m_iCapacityState & 0x3fffffffu))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(void *)(&out), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(void *)(&out), sizeof(void*));
             }
             out.m_data[out.m_iElementCount] = obj;
             out.m_iElementCount++;

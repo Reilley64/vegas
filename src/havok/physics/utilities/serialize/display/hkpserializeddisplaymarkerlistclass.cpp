@@ -45,7 +45,7 @@ FUN_00dff010_cls::~FUN_00dff010_cls() throw()
     *(volatile int*)&m_iArrayLength = 0;
     if ((uiCapacity & 0x80000000) == 0)
     {
-        pAudioAllocator->bufFree(m_ppData, (uiCapacity & 0x3fffffff) * 4);
+        pAudioAllocator->bufFree(m_ppData, (uiCapacity & 0x3fffffff) * (int)sizeof(m_ppData[0]));
     }
     *(volatile RefElem_t***)&m_ppData = 0;
     unsigned int* puiCapacity = &m_uCapacity;

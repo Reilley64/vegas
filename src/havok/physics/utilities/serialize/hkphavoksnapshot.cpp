@@ -374,7 +374,7 @@ void FUN_00cc0ae0_cls::FUN_00cc0ae0()
     m_iArrayLength = 0;
     if ((cap & 0x80000000u) == 0)
     {
-        alloc->bufFree(m_pItems, (cap & 0x3fffffffu) * 4);
+        alloc->bufFree(m_pItems, (cap & 0x3fffffffu) * (int)sizeof(m_pItems[0]));
     }
     m_pItems = 0;
     m_uCapBits = 0x80000000u;

@@ -103,7 +103,7 @@ void FUN_00dff730_cls::ClearArrays()
     m_iCount1 = 0;
     if ((uCapBits1 & 0x80000000u) == 0)
     {
-        pAllocator->bufFree(m_pData1, (uCapBits1 & 0x3fffffffu) * 4);
+        pAllocator->bufFree(m_pData1, (uCapBits1 & 0x3fffffffu) * (int)sizeof(m_pData1[0]));
     }
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
@@ -124,7 +124,7 @@ void FUN_00dff730_cls::ClearArrays()
     m_iCount2 = 0;
     if ((m_uCapBits2 & 0x80000000u) == 0)
     {
-        pAllocator2->bufFree(m_pData2, (uCapBits2 & 0x3fffffffu) * 4);
+        pAllocator2->bufFree(m_pData2, (uCapBits2 & 0x3fffffffu) * (int)sizeof(m_pData2[0]));
     }
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;

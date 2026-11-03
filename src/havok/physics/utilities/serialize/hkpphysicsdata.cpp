@@ -661,7 +661,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         holder = &hkMemoryRouter::getInstance();
         if (array->m_iElementCount == (array->m_cap & 0x3fffffff))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(array), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(array), sizeof(void*));
         }
 
         new (array->m_data + array->m_iElementCount, D4C2Place()) SmallType*(small);

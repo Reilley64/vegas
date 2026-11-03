@@ -793,7 +793,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
     if ((indices.m_iCapacityState & 0x3fffffff) < count) {
         int ns = (indices.m_iCapacityState & 0x3fffffff) * 2;
         if (count >= ns) ns = count;
-        ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc2), (::SpawnedArray *)(void *)(&indices), ns, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc2), (::SpawnedArray *)(void *)(&indices), ns, sizeof(void*));
     }
     indices.m_iElementCount = count;
     for (int i = 0; i < count; i++) {
@@ -805,7 +805,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
     hkMemoryAllocator& cleanupAlloc = hkMemoryRouter::getInstance().heap();
     indices.m_iElementCount = 0;
     if ((indices.m_iCapacityState & 0x80000000u) == 0)
-        cleanupAlloc.bufFree(indices.m_data, (indices.m_iCapacityState & 0x3fffffff) * 4);
+        cleanupAlloc.bufFree(indices.m_data, (indices.m_iCapacityState & 0x3fffffff) * (int)sizeof(indices.m_data[0]));
     return;
 }
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.inc"

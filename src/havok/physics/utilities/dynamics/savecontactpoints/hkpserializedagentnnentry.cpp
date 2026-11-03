@@ -47,7 +47,7 @@ void Hk_e05c20_track::FUN_00e05c20()
     m_kSubTracks.m_iElementCount = 0;
     if ((m_kSubTracks.m_iCapacityState & 0x80000000) == 0)
     {
-        a.bufFree(m_kSubTracks.m_data, (m_kSubTracks.m_iCapacityState & 0x3fffffff) * 4);
+        a.bufFree(m_kSubTracks.m_data, (m_kSubTracks.m_iCapacityState & 0x3fffffff) * (int)sizeof(m_kSubTracks.m_data[0]));
     }
     m_kSubTracks.m_data = 0;
     m_kSubTracks.m_iCapacityState = 0x80000000;
@@ -56,7 +56,7 @@ void Hk_e05c20_track::FUN_00e05c20()
     m_kSectors.m_iElementCount = 0;
     if ((m_kSectors.m_iCapacityState & 0x80000000) == 0)
     {
-        b.bufFree(m_kSectors.m_data, (m_kSectors.m_iCapacityState & 0x3fffffff) * 4);
+        b.bufFree(m_kSectors.m_data, (m_kSectors.m_iCapacityState & 0x3fffffff) * (int)sizeof(m_kSectors.m_data[0]));
     }
     m_kSectors.m_iCapacityState = 0x80000000;
     m_kSectors.m_data = 0;

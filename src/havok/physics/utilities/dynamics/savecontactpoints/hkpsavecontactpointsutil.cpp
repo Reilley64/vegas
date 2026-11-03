@@ -2441,7 +2441,7 @@ void __cdecl ProcessCollisionRecords(void* arg1, S_00dcda40_World* world, S_00dc
     hkMemoryAllocator& finalHeap = hkMemoryRouter::getInstance().heap();
     mergedBlocks.size = 0;
     if ((mergedBlocks.cap & 0x80000000) == 0)
-        finalHeap.bufFree(mergedBlocks.data, (mergedBlocks.cap & 0x3fffffff) * 4);
+        finalHeap.bufFree(mergedBlocks.data, (mergedBlocks.cap & 0x3fffffff) * (int)sizeof(mergedBlocks.data[0]));
 }
 
 namespace fnv_00dce8f0 {
@@ -2935,7 +2935,7 @@ int __cdecl FUN_00dcdf70(const hkArray<Block512*>& chunks, void* context, Struct
         hkMemoryRouter* h = (&hkMemoryRouter::getInstance());
         if (out->arr1.m_iElementCount == (out->arr1.m_iCapacityState & 0x3fffffff))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(void *)(&out->arr1), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(void *)(&out->arr1), sizeof(void*));
         }
         out->arr1.m_iElementCount++;
         out->arr1.m_data[i] = new Block512();

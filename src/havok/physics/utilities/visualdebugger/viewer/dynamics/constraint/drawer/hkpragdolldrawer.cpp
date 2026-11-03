@@ -378,7 +378,7 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, hkUlong p3, int p4)
             int nc = (vec1.cap & 0x3fffffff) * 2;
             if (nc <= 1)
                 nc = 1;
-            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec1), nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec1), nc, sizeof(void*));
         }
         vec1.len = 1;
         sing = &hkMemoryRouter::getInstance();
@@ -388,7 +388,7 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, hkUlong p3, int p4)
             int nc = (vec2.cap & 0x3fffffff) * 2;
             if (nc <= 1)
                 nc = 1;
-            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec2), nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec2), nc, sizeof(void*));
         }
         vec2.len = 1;
         sing = &hkMemoryRouter::getInstance();
@@ -398,7 +398,7 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, hkUlong p3, int p4)
             int nc = (vec3.cap & 0x3fffffff) * 2;
             if (nc <= 2)
                 nc = 2;
-            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec3), nc, 4);
+            ::FUN_00c908c0((::SpawnedObject *)(pool), (::SpawnedArray *)(::PtrVec *)(&vec3), nc, sizeof(void*));
         }
         vec3.len = 2;
         vec1.buf[0] = subD0;
@@ -412,21 +412,21 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, hkUlong p3, int p4)
         pool = sing->m_heap;
         vec2.len = 0;
         if (!(vec2.cap & (int)0x80000000))
-            pool->bufFree(vec2.buf, (vec2.cap & 0x3fffffff) * 4);
+            pool->bufFree(vec2.buf, (vec2.cap & 0x3fffffff) * (int)sizeof(vec2.buf[0]));
         vec2.buf = 0;
         vec2.cap = (int)0x80000000;
         sing = &hkMemoryRouter::getInstance();
         pool = sing->m_heap;
         vec3.len = 0;
         if (!(vec3.cap & (int)0x80000000))
-            pool->bufFree(vec3.buf, (vec3.cap & 0x3fffffff) * 4);
+            pool->bufFree(vec3.buf, (vec3.cap & 0x3fffffff) * (int)sizeof(vec3.buf[0]));
         vec3.buf = 0;
         vec3.cap = (int)0x80000000;
         sing = &hkMemoryRouter::getInstance();
         pool = sing->m_heap;
         vec1.len = 0;
         if (!(vec1.cap & (int)0x80000000))
-            pool->bufFree(vec1.buf, (vec1.cap & 0x3fffffff) * 4);
+            pool->bufFree(vec1.buf, (vec1.cap & 0x3fffffff) * (int)sizeof(vec1.buf[0]));
         vec1.buf = 0;
         vec1.cap = (int)0x80000000;
     }

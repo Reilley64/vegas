@@ -2717,7 +2717,7 @@ struct P154Array
         hkMemoryAllocator* a = r->m_heap;
         count = 0;
         if (!(capacity & 0x80000000))
-            a->bufFree(data, (capacity & 0x3fffffff) * 4);
+            a->bufFree(data, (capacity & 0x3fffffff) * (int)sizeof(data[0]));
         data = 0;
         capacity = 0x80000000;
     }
@@ -3263,7 +3263,7 @@ template <typename T> struct MyArray
         hkMemoryAllocator* alloc = holder->m_heap;
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
-            alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * 4);
+            alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * (int)sizeof(m_data[0]));
     }
     __forceinline void ClearAndRelease() throw()
     {

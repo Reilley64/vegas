@@ -466,7 +466,7 @@ Ms_cls* Ms_cls::FUN_00cbb560(__m128* apPos, __m128* apMouse, float afDamping, fl
         if (cap < apArr->m_iElementCount)
         {
             if ((cb.m_cap & 0x80000000) == 0)
-                h.bufFree(cb.m_data, cap * 4);
+                h.bufFree(cb.m_data, cap * (int)sizeof(cb.m_data[0]));
             int n = apArr->m_iElementCount * 4;
             cb.m_data = static_cast<int*>(h.bufAlloc(n));
             cb.m_cap = n / 4;

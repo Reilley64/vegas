@@ -2,6 +2,13 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+#pragma comment(linker, "/alternatename:?DAT_011ac228@fnv_00aa1a30@@3P6AXPEBDW4OpenMode@NiFile@@@ZEA=?DAT_011ac228@@3P6A_NPEBDW4OpenMode@NiFile@@@ZEA")
+
+extern "C" void fnv_fn_00aa1650() __asm__("?FUN_00aa1650@@YAEPEAD@Z");
+extern "C" void fnv_fn_00aa1a40() __asm__("FUN_00aa1a40");
 extern "C" void fnv_fn_00aa1b60() __asm__("FUN_00aa1b60");
 
 NiFile *(*DAT_011ac224)(const char *, NiFile::OpenMode, unsigned int) = reinterpret_cast< NiFile *(*)(const char *, NiFile::OpenMode, unsigned int)>(&fnv_fn_00aa1b60);
+bool (*DAT_011ac228)(const char *, ::NiFile::OpenMode) = reinterpret_cast< bool (*)(const char *, NiFile::OpenMode)>(&fnv_fn_00aa1a40);
+bool (*DAT_011ac22c)(const char *) = reinterpret_cast< bool (*)(const char *)>(&fnv_fn_00aa1650);
+bool DAT_011f81e0;

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/bsresizabletrishape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/bsresizabletrishape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00a98eb0_shell.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a74480.h"
@@ -392,10 +393,15 @@ void FUN_00a86e00_cls::FUN_00a86e00()
     reinterpret_cast<::FUN_00a745c0_This *>(this)->FUN_00a745c0({});
 }
 
-// @fnv 0x00a86d40
-void __cdecl FUN_00a86d40()
+struct FUN_00a86d40_shell
 {
-    ::FUN_00a98eb0(*(::NiStream *)nullptr);
+    void FUN_00a86d40(NiStream& stream);
+};
+
+// @fnv 0x00a86d40
+void FUN_00a86d40_shell::FUN_00a86d40(NiStream& stream)
+{
+    reinterpret_cast<::FUN_00a98eb0_shell *>(this)->FUN_00a98eb0(stream);
 }
 
 void __cdecl FUN_00a74510();

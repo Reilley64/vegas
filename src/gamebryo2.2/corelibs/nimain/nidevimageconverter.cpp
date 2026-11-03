@@ -961,7 +961,6 @@ void __cdecl FUN_00a798c0(unsigned int uiWidth, unsigned int uiHeight, unsigned 
             *pDstPixel++ = auiTable[*pSrc++];
 }
 
-void strcpy_s(char* dst, unsigned int size, const char* src);
 
 class NiFile
 {
@@ -1153,7 +1152,7 @@ NiPixelData* ImageConverter_a77d10::FUN_00a77d10(const char* pcFilename, NiPixel
 {
     ReaderNode_a77d10* pkPos = m_pkHead;
     char acStandardFilename[260];
-    strcpy_s(acStandardFilename, 260, pcFilename);
+    fnv::crt::strcpy_s(acStandardFilename, 260, pcFilename);
     ::FUN_00aa2a00(acStandardFilename);
     NiFilename_a77d10 kFileName(acStandardFilename);
 

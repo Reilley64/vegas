@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/nitristrips.cpp: NiTriStrips, Holder (10 functions)
+// gamebryo2.2/corelibs/nimain/nitristrips.cpp: NiTriStrips, Holder_00a71e70 (10 functions)
 
 #include <cstddef>
 #include <new>
@@ -196,13 +196,13 @@ struct StrArr
 struct BaseA
 {
 };
-struct Holder : BaseA
+struct Holder_00a71e70 : BaseA
 {
     void AppendString(StrArr*);
 };
 // Calls the base handler, then appends the string returned by _FUN_00a7d330 to pkStrings, growing it by mE when mA has reached m8.
 // @fnv 0x00a71e70
-void Holder::AppendString(StrArr* pkStrings)
+void Holder_00a71e70::AppendString(StrArr* pkStrings)
 {
     ::FUN_00a897c0((::TriGeomViewerDetail::EntryArray *)this);
     char* tmp = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4a20)));

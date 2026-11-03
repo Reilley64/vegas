@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2868,
+  "units": 2772,
   "functions": 68654,
   "bytes": 11458024,
   "eh_tails": 1954,
@@ -13545,7 +13545,7 @@
     "?DAT_011a9bd0@@3UUVBounds@@A": "0x011a9bd0",
     "?FUN_00bb95b0@@YAXHHHHH@Z": "0x00bb95b0",
     "?FUN_00bb95e0@fnv_00bb95e0@@YAXHHHHHHHHH@Z": "0x00bb95e0",
-    "?RemoveTail@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
+    "?RemoveTail@?$NiTPointerListBaseT@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
     "?RemovePos@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADAAPAX@Z": "0x00e7d7f0",
     "?FUN_00ba01a0@BA01A0Owner@@QAEXPAUBA01A0Item@@PAX@Z": "0x00ba01a0",
     "?FUN_00ba9380@FUN_00ba9380_cls@@QAEXPAX@Z": "0x00ba9380",
@@ -76549,7 +76549,7 @@
     "?FUN_004dc200@@YAHXZ": "0x004dc200",
     "??0NiPoint3@@QAE@MMM@Z": "0x00416870",
     "??2NiMemObject@@SAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
     "??0NiFixedString@@QAE@PBD@Z": "0x00438170",
     "?FUN_004381b0@FUN_004381b0_shell@@QAEXXZ": "0x004381b0",
     "?AssignFixedString@@YIXPADHPAPAD@Z": "0x00a5b950",
@@ -101808,7 +101808,7 @@
     "??1FUN_00a1c520@fnv_00a1c520@@UAE@XZ": "0x00a1c520",
     "__real@3dcccccd": "0x0101e2bc",
     "??2NiMemObject@@SAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
     "?g_011f36ac@@3VGlobalObjectO2_00a7b610@@A": "0x011f36ac",
     "??0NiFixedString@@QAE@PBD@Z": "0x00438170",
     "?FUN_004381b0@FUN_004381b0_shell@@QAEXXZ": "0x004381b0",
@@ -102520,7 +102520,7 @@
     "?FUN_004a0fd0@FUN_004a0fd0_shell@@QAEXPAVNiNode@@@Z": "0x004a0fd0",
     "?FUN_00b6bee0@@YAXPAX0PAVBSShaderAccumulator@@@Z": "0x00b6bee0",
     "??2NiMemObject@@SAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
     "__real@3fc90fdb": "0x0101ff38",
     "??0NiFixedString@@QAE@PBD@Z": "0x00438170",
     "?FUN_004381b0@FUN_004381b0_shell@@QAEXXZ": "0x004381b0",
@@ -248704,7 +248704,7 @@
     },
     {
      "address": "0x00a35910",
-     "symbol": "?FindIndexByValue@FUN_00a35910_shell@@QAEGG@Z",
+     "symbol": "?FindIndexByValue@FUN_00a35910_shell@@QAEGPAVNiAVObject@@@Z",
      "size": 50
     },
     {
@@ -248766,6 +248766,11 @@
      "address": "0x00a36050",
      "symbol": "?DestroyIfFlagged@S_00a36050@@QAEPAXI@Z",
      "size": 32
+    },
+    {
+     "address": "0x00a35a80",
+     "symbol": "?FUN_00a35a80@TargetA35@@QAEXGG@Z",
+     "size": 259
     }
    ],
    "symbols": {
@@ -248798,40 +248803,19 @@
     "??1FUN_00a6d290@@UAE@XZ": "0x00a6d290",
     "?AssignInterpolatorRef@FUN_00a317e0_t@@QAEXHPAPAUFUN_00a317e0_ref@@@Z": "0x00a317e0",
     "?SetSlotValue@FUN_00a35fc0_shell@@QAEXGPAX@Z": "0x00a35fc0",
-    "?FindIndexByValue@FUN_00a35910_shell@@QAEGG@Z": "0x00a35910",
+    "?FindIndexByValue@FUN_00a35910_shell@@QAEGPAVNiAVObject@@@Z": "0x00a35910",
     "?FindLinkIndex@Holder_00a35f30@@QAEGABUArg_00a35f30@@@Z": "0x00a35f30",
     "?SetSlotEntry@FUN_00a35f70_struct@@QAEXGPAXG0@Z": "0x00a35f70",
     "?DestroyIfFlagged@S_00a36050@@QAEPAXI@Z": "0x00a36050",
     "?CreateInterpolator@TreadController@@QAEPAUTreadInterpolator@@I@Z": "0x00a35a10",
     "?Destroy@FUN_00a35b90_cls@@QAEPAXI@Z": "0x00a35b90",
-    "?FindByName@FUN_00a35eb0_shell@@QAEGPBD@Z": "0x00a35eb0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller_ehsc_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHs-c-",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a35a80",
-     "symbol": "?FUN_00a35a80@TargetA35@@QAEXGG@Z",
-     "size": 259
-    }
-   ],
-   "symbols": {
+    "?FindByName@FUN_00a35eb0_shell@@QAEGPBD@Z": "0x00a35eb0",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??0FUN_00a42f60@@QAE@XZ": "0x00a42f60",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "__imp__InterlockedIncrement@4": "0x00fdf1c0",
     "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
     "?FUN_00ec61c0@@YAPAXPAXHI@Z": "0x00ec61c0",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
     "?FUN_00aa1420@@YAPAXI@Z": "0x00aa1420"
    }
   },
@@ -248994,6 +248978,16 @@
      "address": "0x00a43a50",
      "symbol": "?FUN_00a43a50@BSTreadTransfInterpolator@@QAEPAXI@Z",
      "size": 32
+    },
+    {
+     "address": "0x00a43690",
+     "symbol": "?FUN_00a43690@BSTreadTransfInterpolator@@QAEXPAV1@PAX@Z",
+     "size": 417
+    },
+    {
+     "address": "0x00a438d0",
+     "symbol": "?FUN_00a438d0@A438D0Interpolator@@QAEXAAUA438D0Stream@@@Z",
+     "size": 271
     }
    ],
    "symbols": {
@@ -249013,58 +249007,12 @@
     "?FUN_00a3ca30@FUN_00a3ca30_shell@@QAEXXZ": "0x00a3ca30",
     "?UpdateSampleValue@FUN_00a434b0_shell@@QAE_NMHH@Z": "0x00a434b0",
     "?WriteObjectLink@FUN_00a641f0_cls@@QAEXPAX@Z": "0x00a641f0",
-    "?InterpolateKey@@YAMMPBUS00a26b40_Key@@IIPAIE@Z": "0x00a26b40"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator_decl_variant_ehsc_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHs-c-",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a43690",
-     "symbol": "?FUN_00a43690@BSTreadTransfInterpolator@@QAEXPAV1@PAX@Z",
-     "size": 417
-    }
-   ],
-   "symbols": {
-    "?DAT_0109b220@@3PADA": "0x0109b220",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
+    "?InterpolateKey@@YAMMPBUS00a26b40_Key@@IIPAIE@Z": "0x00a26b40",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "__imp__InterlockedIncrement@4": "0x00fdf1c0",
     "?FUN_00aa0ab0@@YAXXZ": "0x00aa0ab0",
-    "??0TreadTransformEntry@@QAE@XZ": "0x00a433b0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a438d0",
-     "symbol": "?FUN_00a438d0@A438D0Interpolator@@QAEXAAUA438D0Stream@@@Z",
-     "size": 271
-    }
-   ],
-   "symbols": {
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
+    "??0TreadTransformEntry@@QAE@XZ": "0x00a433b0",
     "__imp_?InterlockedDecrement@@YGJPAJ@Z": "0x00fdf1c4",
     "__imp_?InterlockedIncrement@@YGJPAJ@Z": "0x00fdf1c0",
     "?FUN_00aa0ac0@@YAXXZ": "0x00aa0ac0",
@@ -249509,6 +249457,11 @@
      "address": "0x00a574b0",
      "symbol": "?CopyFilePath@@YAPADPADIPBDI@Z",
      "size": 33
+    },
+    {
+     "address": "0x00a393c0",
+     "symbol": "?FUN_00a393c0@FUN_00a393c0_cls@@QAEXE@Z",
+     "size": 226
     }
    ],
    "symbols": {
@@ -249588,33 +249541,8 @@
     "?UpdateAccumulatedTransform@NiBlendAccumTransformInterpolator@@QAE_NMPAVNiObjectNET@@AAVNiQuatTransform@@@Z": "0x00a397b0",
     "?UpdateNormalizedWeights@FUN_00a37260_shell@@QAEXXZ": "0x00a37260",
     "?CombineTransforms@Transform395@@QBE?AU1@ABU1@@Z": "0x00a38830",
-    "?LoadFromStream@S_00a59a30_Matrix3@@QAEXAAUS_00a59a30_Stream@@@Z": "0x00a59a30"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator_decl_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a393c0",
-     "symbol": "?FUN_00a393c0@FUN_00a393c0_cls@@QAEXE@Z",
-     "size": 226
-    }
-   ],
-   "symbols": {
-    "__real@c7efffffe0000000": "0x010241b0",
-    "?IsInvalid@NiQuatTransform@@QBE_NXZ": "0x00a39180",
-    "__real@ff7fffff": "0x0109a918",
-    "?RemoveInterpolatorAt@NiBlendInterpolator@@UAEXE@Z": "0x00a36a90",
-    "?DAT_011a9448@@3VThreeByThreeMatrix@@A": "0x011a9448",
-    "?CombineTransforms@NiQuatTransform@@QAE?AV1@ABV1@@Z": "0x00a38830"
+    "?LoadFromStream@S_00a59a30_Matrix3@@QAEXAAUS_00a59a30_Stream@@@Z": "0x00a59a30",
+    "?RemoveInterpolatorAt@NiBlendInterpolator@@UAEXE@Z": "0x00a36a90"
    }
   },
   {
@@ -250073,6 +250001,26 @@
      "address": "0x00a38080",
      "symbol": "?FUN_00a38080@BlendSerializer@@QAEXPAVNiStream@@@Z",
      "size": 1238
+    },
+    {
+     "address": "0x00a370b0",
+     "symbol": "?FUN_00a370b0@S_00a370b0_Class@@QAEPAU1@_NME@Z",
+     "size": 181
+    },
+    {
+     "address": "0x00a37510",
+     "symbol": "?FUN_00a37510@BlendCopy@@QAEXPAVNiBlendInterpolator@@PAVCloningProcess@@@Z",
+     "size": 337
+    },
+    {
+     "address": "0x00a37690",
+     "symbol": "?FUN_00a37690@NiBlendInterpolatorW@@QAE_NXZ",
+     "size": 285
+    },
+    {
+     "address": "0x00a37980",
+     "symbol": "?FUN_00a37980@Blend100@fnv_00a37980@@QAEXAAUStream100@2@@Z",
+     "size": 1334
     }
    ],
    "symbols": {
@@ -250132,77 +250080,16 @@
     "?DeserializeObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a64620",
     "?RemoveInterpolatorAt@NiBlendInterpolator@@UAEXE@Z": "0x00a36a90",
     "?FUN_00a5d430@FUN_00a5d430_Class@@QAEXI@Z": "0x00a5d430",
-    "?ProcessClone@NiBlendInterpolator@@UAEXAAVCloningProcess@@@Z": "0x00a36e80"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/niblendinterpolator_ehsc_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHs-c-",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a370b0",
-     "symbol": "?FUN_00a370b0@S_00a370b0_Class@@QAEPAU1@_NME@Z",
-     "size": 181
-    }
-   ],
-   "symbols": {
-    "?DAT_0109696c@@3MA": "0x0109696c",
-    "?DAT_0109697c@@3HA": "0x0109697c",
+    "?ProcessClone@NiBlendInterpolator@@UAEXAAVCloningProcess@@@Z": "0x00a36e80",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "??0NiInterpolator@@QAE@XZ": "0x00a56ff0",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "??0BlendItem@@QAE@XZ": "0x00a370a0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/niblendinterpolator_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a37510",
-     "symbol": "?FUN_00a37510@BlendCopy@@QAEXPAVNiBlendInterpolator@@PAVCloningProcess@@@Z",
-     "size": 337
-    },
-    {
-     "address": "0x00a37690",
-     "symbol": "?FUN_00a37690@NiBlendInterpolatorW@@QAE_NXZ",
-     "size": 285
-    },
-    {
-     "address": "0x00a37980",
-     "symbol": "?FUN_00a37980@Blend100@fnv_00a37980@@QAEXAAUStream100@2@@Z",
-     "size": 1334
-    }
-   ],
-   "symbols": {
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
+    "??0BlendItem@@QAE@XZ": "0x00a370a0",
     "??0CloneInterpItem@@QAE@XZ": "0x00a370a0",
     "??4NiBlendInterpolator__InterpArrayItem@@QAEAAV0@ABV0@@Z": "0x00a371f0",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
-    "_DAT_011a83ff": "0x011a83ff",
     "??0FUN_00a370a0@@QAE@XZ": "0x00a370a0",
     "?FUN_00a88a40@@YAXXZ": "0x00a88a40",
     "??0FUN_00a370a0@fnv_00a37980@@QAE@XZ": "0x00a370a0",
-    "?DeserializeObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a64620",
-    "?LoadFromStream@LoadInterpItem@@QAEXPAULoadStream@@@Z": "0x00a377b0",
     "?FUN_00aa1000@@YAXXZ": "0x00aa1000",
     "?FUN_00a37510@BlendCopy@@QAEXPAVNiBlendInterpolator@@PAVCloningProcess@@@Z": "0x00a37510"
    }
@@ -250220,7 +250107,7 @@
    "functions": [
     {
      "address": "0x00a55a10",
-     "symbol": "??0FUN_00a55a10@@QAE@PAXM0@Z",
+     "symbol": "??0FUN_00a55a10@@QAE@_NME@Z",
      "size": 70
     },
     {
@@ -250475,6 +250362,11 @@
      "address": "0x00a41170",
      "symbol": "?FUN_00a41170@@YGXPAV?$AGPrimArray@PBD@@@Z",
      "size": 74
+    },
+    {
+     "address": "0x00a40b30",
+     "symbol": "?FUN_00a40b30@NiBlendTransformInterpolator@@QAE_NMPAVNiObjectNET@@AAVNiQuatTransform@@@Z",
+     "size": 210
     }
    ],
    "symbols": {
@@ -250512,28 +250404,7 @@
     "?CreateBlendObject@FUN_00a40a50_cls@@QAEPAUNiBlendObject_b9169@@H@Z": "0x00a40a50",
     "?FUN_00a40b30@NiBlendTransformInterpolator@@QAE_NMPAVNiObjectNET@@AAVNiQuatTransform@@@Z": "0x00a40b30",
     "?FUN_00a40c10@BlendTransformInterpolator@@QAE_NMPAVNiObjectNET@@AAUBlendTransform@@@Z": "0x00a40c10",
-    "?UpdateNormalizedWeights@FUN_00a37260_shell@@QAEXXZ": "0x00a37260"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator_decl_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a40b30",
-     "symbol": "?FUN_00a40b30@NiBlendTransformInterpolator@@QAE_NMPAVNiObjectNET@@AAVNiQuatTransform@@@Z",
-     "size": 210
-    }
-   ],
-   "symbols": {
-    "?DAT_0109696c@@3MA": "0x0109696c",
+    "?UpdateNormalizedWeights@FUN_00a37260_shell@@QAEXXZ": "0x00a37260",
     "__real@ff7fffff": "0x0109a918",
     "_DAT_010241b0": "0x010241b0",
     "?MakeUnitLength@NiQuaternion@@QAEXXZ": "0x00a38560"
@@ -250654,6 +250525,96 @@
      "address": "0x00a553f0",
      "symbol": "?FUN_00a553f0@NiBoneLODController@fnv_00a553f0@@QAEPAXI@Z",
      "size": 89
+    },
+    {
+     "address": "0x00c533f0",
+     "symbol": "?FUN_00c533f0@CloneableObj@@QAEXPAVNiControllerManager@@PAVCloningProcess@@@Z",
+     "size": 53
+    },
+    {
+     "address": "0x00c536a0",
+     "symbol": "?FUN_00c536a0@Unknown_00c536a0@@QAE_NH@Z",
+     "size": 38
+    },
+    {
+     "address": "0x00c536d0",
+     "symbol": "?FUN_00c536d0@BoneLODControllerSave@@QAEXPAUNiStream@@@Z",
+     "size": 275
+    },
+    {
+     "address": "0x00c53a10",
+     "symbol": "?FUN_00c53a10@ControllerObject@@QAEXPAUBinaryStream@@@Z",
+     "size": 155
+    },
+    {
+     "address": "0x00c53ab0",
+     "symbol": "?FUN_00c53ab0@NiBSBoneLODController@@QAEXAAUNiStream@@@Z",
+     "size": 58
+    },
+    {
+     "address": "0x00c53c50",
+     "symbol": "?FUN_00c53c50@FUN_00c53c50_Class@@QAEXPAUNiTPrimitiveArray_unsigned_int@@@Z",
+     "size": 120
+    },
+    {
+     "address": "0x00c53cd0",
+     "symbol": "?FUN_00c53cd0@fnv_00c53cd0@@YAHXZ",
+     "size": 23
+    },
+    {
+     "address": "0x00c53cf0",
+     "symbol": "?FUN_00c53cf0@S_00c53cf0_Cls@@QAE_NXZ",
+     "size": 123
+    },
+    {
+     "address": "0x00c53e00",
+     "symbol": "?FUN_00c53e00@FUN_00c53e00_shell@@QAEPAUGlobalObjectO2_00a7b610@@XZ",
+     "size": 16
+    },
+    {
+     "address": "0x00c53e10",
+     "symbol": "?FUN_00c53e10@S_00c53e10@@QAEPAXI@Z",
+     "size": 48
+    },
+    {
+     "address": "0x00c53ed0",
+     "symbol": "?FUN_00c53ed0@S_00c53ed0@@QAE_NXZ",
+     "size": 49
+    },
+    {
+     "address": "0x00c53360",
+     "symbol": "?FUN_00c53360@CloneOwner_c53360@fnv_00c53360@@QAEPAVNiControllerManager@@PAVCloningProcess@@@Z",
+     "size": 141
+    },
+    {
+     "address": "0x00c53430",
+     "symbol": "?FUN_00c53430@SelfW@@QAEXPAUStreamW@@@Z",
+     "size": 618
+    },
+    {
+     "address": "0x00c537f0",
+     "symbol": "?FUN_00c537f0@fnv_00c537f0@@YAPAUFUN_00c53d70@1@XZ",
+     "size": 114
+    },
+    {
+     "address": "0x00c53870",
+     "symbol": "?FUN_00c53870@BoneLODController@@QAEXAAUNiStreamLoader@@@Z",
+     "size": 414
+    },
+    {
+     "address": "0x00c53af0",
+     "symbol": "?IsEqual@FUN_00c53af0@@QAE_NPAU1@@Z",
+     "size": 347
+    },
+    {
+     "address": "0x00c53d70",
+     "symbol": "??0FUN_00c53d70@@QAE@XZ",
+     "size": 139
+    },
+    {
+     "address": "0x00c53e40",
+     "symbol": "??1FUN_00c53e40@@QAE@XZ",
+     "size": 137
     }
    ],
    "symbols": {
@@ -250716,185 +250677,36 @@
     "?GetLoadedObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a63430",
     "?FUN_00a6cfe0@NiTimeControllerCM@@QAEXPAVNiTimeController@@AAVCloningProcess@@@Z": "0x00a6cfe0",
     "?FUN_00a552c0@NiBoneLODController@@QAEPAU1@AAUCloningProcess@@@Z": "0x00a552c0",
-    "?CloneFrom@A54440Manager@@QAEXPAUA54440Remap@@@Z": "0x00a54440"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00c533f0",
-     "symbol": "?FUN_00c533f0@CloneableObj@@QAEXPAVNiControllerManager@@PAVCloningProcess@@@Z",
-     "size": 53
-    },
-    {
-     "address": "0x00c536a0",
-     "symbol": "?FUN_00c536a0@Unknown_00c536a0@@QAE_NH@Z",
-     "size": 38
-    },
-    {
-     "address": "0x00c536d0",
-     "symbol": "?FUN_00c536d0@BoneLODControllerSave@@QAEXPAUNiStream@@@Z",
-     "size": 275
-    },
-    {
-     "address": "0x00c53a10",
-     "symbol": "?FUN_00c53a10@ControllerObject@@QAEXPAUBinaryStream@@@Z",
-     "size": 155
-    },
-    {
-     "address": "0x00c53ab0",
-     "symbol": "?FUN_00c53ab0@NiBSBoneLODController@@QAEXAAUNiStream@@@Z",
-     "size": 58
-    },
-    {
-     "address": "0x00c53c50",
-     "symbol": "?FUN_00c53c50@FUN_00c53c50_Class@@QAEXPAUNiTPrimitiveArray_unsigned_int@@@Z",
-     "size": 120
-    },
-    {
-     "address": "0x00c53cd0",
-     "symbol": "?FUN_00c53cd0@fnv_00c53cd0@@YAHXZ",
-     "size": 23
-    },
-    {
-     "address": "0x00c53cf0",
-     "symbol": "?FUN_00c53cf0@S_00c53cf0_Cls@@QAE_NXZ",
-     "size": 123
-    },
-    {
-     "address": "0x00c53e00",
-     "symbol": "?FUN_00c53e00@FUN_00c53e00_shell@@QAEPAUGlobalObjectO2_00a7b610@@XZ",
-     "size": 16
-    },
-    {
-     "address": "0x00c53e10",
-     "symbol": "?FUN_00c53e10@S_00c53e10@@QAEPAXI@Z",
-     "size": 48
-    },
-    {
-     "address": "0x00c53ed0",
-     "symbol": "?FUN_00c53ed0@S_00c53ed0@@QAE_NXZ",
-     "size": 49
-    }
-   ],
-   "symbols": {
-    "?FUN_00a6d0f0@@YI_NPAUTCReg@@HAAVNiStream@@@Z": "0x00a6d0f0",
-    "?FUN_00a89af0@@YGXH@Z": "0x00a89af0",
+    "?CloneFrom@A54440Manager@@QAEXPAUA54440Remap@@@Z": "0x00a54440",
     "?FUN_00c52960@Q52Obj@@QAE_NI@Z": "0x00c52960",
     "?FUN_00c537f0@fnv_00c537f0@@YAPAUFUN_00c53d70@1@XZ": "0x00c537f0",
     "?g_012031b8_arg0@@3QBDB": "0x010c1318",
     "?g_012031b8@@3VGlobalObject_00a7b610@@A": "0x012031b8",
-    "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
     "??1FUN_00c53e40@@QAE@XZ": "0x00c53e40",
-    "?FUN_00a6d730@FUN_00a6d730_shell@@QAEXAAUStream_a6d730@@@Z": "0x00a6d730",
     "?FUN_0044adf0@@YAXPAVMiddleHighProcess@@H@Z": "0x0044adf0",
-    "?LinkObject@NiTimeController@@UAEXAAVNiStream@@@Z": "0x00a6d500",
-    "?GetLoadedObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a63430",
-    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
-    "?FUN_00a7d4d0@@YAPADPBDH@Z": "0x00a7d4d0",
     "?FUN_0096a610@S_0060ba10@@QAEXH@Z": "0x0096a610",
     "_str_0109a394": "0x0109a394",
     "_str_0109a388": "0x0109a388",
-    "?FUN_00a7d510@@YAPADPBDI@Z": "0x00a7d510",
     "?CallAnimCallback@@YAHPAUFUN_00a3da50_Owner@@H@Z": "0x00a3da50",
     "?RegisterObjectLoader@NiStream@@SAHPBDP6APAVNiObject@@XZ@Z": "0x00a64900",
-    "?FUN_00a6cfe0@NiTimeControllerCM@@QAEXPAVNiTimeController@@AAVCloningProcess@@@Z": "0x00a6cfe0",
-    "?FUN_00c533f0@CloneableObj@@QAEXPAVNiControllerManager@@PAVCloningProcess@@@Z": "0x00c533f0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller_od_variant_ob1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/Ob1"
-   ],
-   "functions": [
-    {
-     "address": "0x00c53360",
-     "symbol": "?FUN_00c53360@CloneOwner_c53360@fnv_00c53360@@QAEPAVNiControllerManager@@PAVCloningProcess@@@Z",
-     "size": 141
-    },
-    {
-     "address": "0x00c53430",
-     "symbol": "?FUN_00c53430@SelfW@@QAEXPAUStreamW@@@Z",
-     "size": 618
-    },
-    {
-     "address": "0x00c537f0",
-     "symbol": "?FUN_00c537f0@fnv_00c537f0@@YAPAUFUN_00c53d70@1@XZ",
-     "size": 114
-    },
-    {
-     "address": "0x00c53870",
-     "symbol": "?FUN_00c53870@BoneLODController@@QAEXAAUNiStreamLoader@@@Z",
-     "size": 414
-    },
-    {
-     "address": "0x00c53af0",
-     "symbol": "?IsEqual@FUN_00c53af0@@QAE_NPAU1@@Z",
-     "size": 347
-    },
-    {
-     "address": "0x00c53d70",
-     "symbol": "??0FUN_00c53d70@@QAE@XZ",
-     "size": 139
-    },
-    {
-     "address": "0x00c53e40",
-     "symbol": "??1FUN_00c53e40@@QAE@XZ",
-     "size": 137
-    }
-   ],
-   "symbols": {
+    "?FUN_00c533f0@CloneableObj@@QAEXPAVNiControllerManager@@PAVCloningProcess@@@Z": "0x00c533f0",
     "___security_cookie": "0x011c16bc",
-    "??0FUN_00a6d220@@QAE@XZ": "0x00a6d220",
     "__ehhandler$??0FUN_00c53d70@@QAE@XZ": "0x00f2f4e8",
     "??_7FUN_00c53d70@@6B@": "0x010c29cc",
     "??0FUN_00a54190@@QAE@II@Z": "0x00a54190",
     "??_7PrimitiveArray475@@6B@": "0x0109a2c0",
-    "?FUN_00aa10f0@@YAXPAX@Z": "0x00aa10f0",
     "__ehhandler$??1FUN_00c53e40@@QAE@XZ": "0x00f2f523",
     "??_7FUN_00c53e40@@6B@": "0x010c29cc",
     "?FUN_00c52880@OwnerAB@@QAEXXZ": "0x00c52880",
     "??_7GroupArray@@6B@": "0x0109a2a4",
-    "??1FUN_00a6d290@@UAE@XZ": "0x00a6d290",
-    "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
     "__ehhandler$?FUN_00c53430@SelfW@@QAEXPAUStreamW@@@Z": "0x00f2f470",
-    "?ProcessClone@NiTimeController@@UAEXAAVCloningProcess@@@Z": "0x00a6d0c0",
-    "?FUN_00a53c30@A54440Hash@@QAE_NPAUA54440Manager@@PAPAU2@@Z": "0x00a53c30",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "?FUN_00a90180@FUN_00a41520_cls@@QAEXI@Z": "0x00a90180",
-    "?FUN_00ba3aa0@FUN_00a41520_cls@@QAEXIPAPAUKeyPair@@@Z": "0x00ba3aa0",
-    "?FUN_00c52960@Q52Obj@@QAE_NI@Z": "0x00c52960",
-    "?FUN_00a6cc80@@YI_NPAUTCEq@@HPAVNiObject@@@Z": "0x00a6cc80",
     "__ehhandler$?FUN_00c53870@BoneLODController@@QAEXAAUNiStreamLoader@@@Z": "0x00f2f4c3",
-    "?FUN_00a6d5e0@NiTimeController_Luna@@QAEXAAVNiStream@@@Z": "0x00a6d5e0",
     "?FUN_00a26df0@@YAXPAUMyStream@@PAX@Z": "0x00a26df0",
-    "?AppendLinkID@NiStreamLinkIDSetShell@@QAEXPAI@Z": "0x00a543b0",
     "??2NiMemObject@fnv_00c53360@@SAPAXI@Z": "0x00aa13e0",
     "??0FUN_00c53d70@fnv_00c53360@@QAE@XZ": "0x00c53d70",
     "__ehhandler$?FUN_00c537f0@fnv_00c537f0@@YAPAUFUN_00c53d70@1@XZ": "0x00f2f49d",
     "?FUN_00aa13e0@fnv_00c537f0@@YAPAXI@Z": "0x00aa13e0",
     "??0FUN_00c53d70@fnv_00c537f0@@QAE@XZ": "0x00c53d70",
-    "?FUN_00a645b0@FUN_00a645b0_cls@@QAEXXZ": "0x00a645b0",
-    "?FUN_00c533f0@CloneableObj@@QAEXPAVNiControllerManager@@PAVCloningProcess@@@Z": "0x00c533f0",
     "__ehhandler$?FUN_00c53360@CloneOwner_c53360@fnv_00c53360@@QAEPAVNiControllerManager@@PAVCloningProcess@@@Z": "0x00f2f44a",
     "?FUN_00c53360@CloneOwner_c53360@fnv_00c53360@@QAEPAVNiControllerManager@@PAVCloningProcess@@@Z": "0x00c53360"
    }
@@ -251116,6 +250928,11 @@
      "address": "0x00aa0ab0",
      "symbol": "?FUN_00aa0ab0@@YAXXZ",
      "size": 5
+    },
+    {
+     "address": "0x00a53300",
+     "symbol": "?FUN_00a53300@Controller3300@@QAEPAV1@MM@Z",
+     "size": 188
     }
    ],
    "symbols": {
@@ -251149,28 +250966,7 @@
     "?UpdateValue@S_00a533c0_Class@@QAE_NMHPAE@Z": "0x00a533c0",
     "?FUN_00a537a0@StandIn_00a537a0@@QAEXMM@Z": "0x00a537a0",
     "?InterpolateBooleanKey@@YA_NMPBUAnimationKey@@IIPAIE@Z": "0x00a29250",
-    "?FinalizeBoolValue@BInterp@@QAEXXZ": "0x00a530c0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/niboolinterpolator_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a53300",
-     "symbol": "?FUN_00a53300@Controller3300@@QAEPAV1@MM@Z",
-     "size": 188
-    }
-   ],
-   "symbols": {
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
+    "?FinalizeBoolValue@BInterp@@QAEXXZ": "0x00a530c0",
     "?FUN_00a57050@@YGPAVNiAnimTarget@@HH@Z": "0x00a57050",
     "?FUN_00a53910@FUN_00a53910_shell@@QAEXMMAAV?$NiPointer@VNiBoolData@@@@@Z": "0x00a53910"
    }
@@ -251350,7 +251146,7 @@
     },
     {
      "address": "0x00a52b00",
-     "symbol": "?CreateSplineObj@SplineOwner@@QAEPAVSplineObj@@E@Z",
+     "symbol": "?CreateSplineObj@SplineOwner@@QAEPAVSplineObj@@PAX@Z",
      "size": 94
     },
     {
@@ -251408,7 +251204,7 @@
     "?NiMalloc@@YAPAXI@Z": "0x00aa1070",
     "?AppendCameraPathEntries@A5D6E0This@@QAEXPAV?$NiTArray@PAUBGSCameraPath@@V?$NiTMallocInterface@PAUBGSCameraPath@@@@@@@Z": "0x00a5d6e0",
     "?CreateVertexBufferSet@FUN_00a5d450_class@@QAEXIPAX@Z": "0x00a5d450",
-    "?CreateSplineObj@SplineOwner@@QAEPAVSplineObj@@E@Z": "0x00a52b00",
+    "?CreateSplineObj@SplineOwner@@QAEPAVSplineObj@@PAX@Z": "0x00a52b00",
     "?CreateNiSplineImpl@@YAPAVNiSplineImpl@@XZ": "0x00a52b60",
     "?IsSameAs@A5d470Class@@UAE_NPAUA5d470Object@@@Z": "0x00a5d470",
     "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
@@ -253007,6 +252803,11 @@
      "address": "0x00a414f0",
      "symbol": "??0FUN_00a414f0_NiTPrimitiveArray@@QAE@XZ",
      "size": 37
+    },
+    {
+     "address": "0x005c1b00",
+     "symbol": "?FUN_005c1b00@@YA_NHHPAUTESObjectREFR@@@Z",
+     "size": 85
     }
    ],
    "symbols": {
@@ -253136,7 +252937,12 @@
     "?FUN_00a6cfe0@NiTimeControllerCM@@QAEXPAVNiTimeController@@AAVCloningProcess@@@Z": "0x00a6cfe0",
     "?CloneControllerManager@FUN_00a2f380_shell@@QAEXPAVNiControllerManager@@PAUCloningProcess@@@Z": "0x00a2f380",
     "?FUN_00a2f850@FUN_00a2f850_shell@fnv_00a2f850@@QAEPAVNiObject@@PAUCloningProcess@2@@Z": "0x00a2f850",
-    "?GetTempBlendSequence@S00a2f170_Mgr@fnv_00a2f170@@QAEPAVS00a2f170_Seq@2@PAV32@I@Z": "0x00a2f170"
+    "?GetTempBlendSequence@S00a2f170_Mgr@fnv_00a2f170@@QAEPAVS00a2f170_Seq@2@PAV32@I@Z": "0x00a2f170",
+    "___RTDynamicCast": "0x00ec43fb",
+    "??_R0?AUActor@@@8": "0x011846d4",
+    "??_R0?AUTESObjectREFR@@@8": "0x011841cc",
+    "?g_011e0e80@@3VGlobalObject_0096d020@@A": "0x011e0e80",
+    "?FUN_00972840@ListsView@@QAEXPAUCombatActor@@_N@Z": "0x00972840"
    }
   },
   {
@@ -253181,32 +252987,6 @@
     "?ActivateControllerSequence@NiControllerManager@@QAE_NPAVNiControllerSequence@@H_NMM0@Z": "0x0047aab0",
     "?DeactivateAllSequences@NiControllerManager@@QAEXM@Z": "0x0048fef0",
     "?StopSequence@NiControllerManager@@QAE_NPAVNiControllerSequence@@M@Z": "0x0047b220"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nicontrollermanager_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x005c1b00",
-     "symbol": "?FUN_005c1b00@@YA_NHHPAUTESObjectREFR@@@Z",
-     "size": 85
-    }
-   ],
-   "symbols": {
-    "___RTDynamicCast": "0x00ec43fb",
-    "??_R0?AUActor@@@8": "0x011846d4",
-    "??_R0?AUTESObjectREFR@@@8": "0x011841cc",
-    "?g_011e0e80@@3VGlobalObject_0096d020@@A": "0x011e0e80",
-    "?FUN_00972840@ListsView@@QAEXPAUCombatActor@@_N@Z": "0x00972840"
    }
   },
   {
@@ -253479,6 +253259,31 @@
      "address": "0x00e7ec00",
      "symbol": "?FindOrAdd@ActiveArray@@QAEIABQAX@Z",
      "size": 88
+    },
+    {
+     "address": "0x00a32a10",
+     "symbol": "??0ControllerSequence@@QAE@ABUSeqFixedString@@II@Z",
+     "size": 358
+    },
+    {
+     "address": "0x00a32330",
+     "symbol": "?FUN_00a32330@SequenceArrays@fnv_00a32330@@QAE_NXZ",
+     "size": 306
+    },
+    {
+     "address": "0x00a33570",
+     "symbol": "?FUN_00a33570@CloneSequence_noehsc@@QAEXPAU1@PAX@Z",
+     "size": 982
+    },
+    {
+     "address": "0x00a33e40",
+     "symbol": "?FUN_00a33e40@Sequence71@@QAEXAAUStream71@@@Z",
+     "size": 1406
+    },
+    {
+     "address": "0x00a352f0",
+     "symbol": "?FUN_00a352f0@LegacySequence@@QAEXAAUNiStream@@@Z",
+     "size": 846
     }
    ],
    "symbols": {
@@ -253561,7 +253366,7 @@
     "__real@c7efffffe0000000": "0x010241b0",
     "?GetLoadedObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a63430",
     "_FUN_00aa13e0": "0x00aa13e0",
-    "?FUN_00a33570@CloneSequence@@QAEXPAU1@PAX@Z": "0x00a33570",
+    "?FUN_00a33570@CloneSequence_noehsc@@QAEXPAU1@PAX@Z": "0x00a33570",
     "?DAT_010141cc@@3MB": "0x010141cc",
     "?AddString@NiGlobalStringTable@@SAPADPBD@Z": "0x00a5b690",
     "_atexit": "0x00ec658f",
@@ -253616,7 +253421,7 @@
     "?Equals@FUN_00a30cc0_cls@@QAEEPAU1@@Z": "0x00a30cc0",
     "?DispatchByKey@FUN_00a41410_cls@@QAEXPAUHandlerArg@@@Z": "0x00a41410",
     "?ReleaseRefs@FUN_00a30700_T@@QAEXXZ": "0x00a30700",
-    "?FindIndexByValue@FUN_00a35910_shell@@QAEGG@Z": "0x00a35910",
+    "?FindIndexByValue@FUN_00a35910_shell@@QAEGPAVNiAVObject@@@Z": "0x00a35910",
     "?SetSlotEntry@FUN_00a35f70_struct@@QAEXGPAXG0@Z": "0x00a35f70",
     "?AssignInterpolatorRef@FUN_00a317e0_t@@QAEXHPAPAUFUN_00a317e0_ref@@@Z": "0x00a317e0",
     "?GetGPUProgram@@YAXPAUBinaryDataRecord@@IAAV?$NiPointer@VNiGPUProgram@@@@PAX@Z": "0x00a47f40",
@@ -253650,39 +253455,32 @@
     "?ClearInterpolatorRefs@Obj43c@@QAEXPAUSrc43c@@H@Z": "0x00a343c0",
     "?FindOrAdd@ActiveArray@@QAEIABQAX@Z": "0x00e7ec00",
     "?ResetStrings@NiControllerSequence@fnv_00a30640@@QAEXXZ": "0x00a30640",
-    "?SetEntry@FUN_00a32940_cls@@QAEXIPAPAVNiRefStubB5652@@@Z": "0x00a32940"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nicontrollersequence_fpfast_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy",
-    "/fp:fast"
-   ],
-   "functions": [
-    {
-     "address": "0x00a32a10",
-     "symbol": "??0ControllerSequence@@QAE@ABUSeqFixedString@@II@Z",
-     "size": 358
-    }
-   ],
-   "symbols": {
-    "?DAT_0109b220@@3PADA": "0x0109b220",
-    "?DAT_01015f5c@@3MA": "0x01015f5c",
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
+    "?SetEntry@FUN_00a32940_cls@@QAEXIPAPAVNiRefStubB5652@@@Z": "0x00a32940",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "??0FUN_00a5d3a0@@QAE@XZ": "0x00a5d3a0",
     "??_7ControllerSequence@@6B@": "0x01096584",
     "?DAT_01096548@@3MA": "0x01096548",
     "??0SeqInterpItem@@QAE@XZ": "0x00a31240",
-    "??0SeqTag@@QAE@XZ": "0x00a31680"
+    "??0SeqTag@@QAE@XZ": "0x00a31680",
+    "??0FUN_00a31240@@QAE@XZ": "0x00a31240",
+    "??0FUN_00a31680@@QAE@XZ": "0x00a31680",
+    "??4NiControllerSequence__IDTag@@QAEAAV0@ABV0@@Z": "0x00a5d3f0",
+    "??0InterpArrayItem@fnv_00a32330@@QAE@XZ": "0x00a31240",
+    "??0IDTag@fnv_00a32330@@QAE@XZ": "0x00a31680",
+    "?FUN_00a31880@S00a31880_FUN_00a31880_cls@@QAEPAV1@PAV1@@Z": "0x00a31880",
+    "??_EInterpArrayItem@fnv_00a32330@@QAEPAXI@Z": "0x00a31500",
+    "??_EIDTag@fnv_00a32330@@QAEPAXI@Z": "0x00a315b0",
+    "?FUN_00a645b0@FUN_00a645b0_cls@@QAEXXZ": "0x00a645b0",
+    "??0Interp71@@QAE@XZ": "0x00a31240",
+    "??0Tag71@@QAE@XZ": "0x00a31680",
+    "??0Smart71@@QAE@XZ": "0x00b54620",
+    "?CreateVertexBufferSet@FUN_00a5d450_class@@QAEXIPAX@Z": "0x00a5d450",
+    "?ReadGroup@FUN_00a5d610_Object@@QAEXPAUNiStream@@@Z": "0x00a5d610",
+    "?_DAT_010231b0@@3NA": "0x010231b0",
+    "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
+    "?DAT_01096968@@3EA": "0x01096968",
+    "?FUN_00aa10f0@@YAXPAX@Z": "0x00aa10f0",
+    "?DAT_01096688@@3IA": "0x01096688"
    }
   },
   {
@@ -253704,102 +253502,6 @@
    ],
    "symbols": {
     "?FUN_00a53c30@A54440Hash@@QAE_NPAUA54440Manager@@PAPAU2@@Z": "0x00a53c30"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nicontrollersequence_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a32330",
-     "symbol": "?FUN_00a32330@SequenceArrays@fnv_00a32330@@QAE_NXZ",
-     "size": 306
-    },
-    {
-     "address": "0x00a33570",
-     "symbol": "?FUN_00a33570@CloneSequence@@QAEXPAU1@PAX@Z",
-     "size": 982
-    },
-    {
-     "address": "0x00a33e40",
-     "symbol": "?FUN_00a33e40@Sequence71@@QAEXAAUStream71@@@Z",
-     "size": 1406
-    }
-   ],
-   "symbols": {
-    "?DAT_0109b220@@3PADA": "0x0109b220",
-    "__imp_?InterlockedIncrement@@YGJPAJ@Z": "0x00fdf1c0",
-    "__imp_?InterlockedDecrement@@YGJPAJ@Z": "0x00fdf1c4",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "??0FUN_00a31240@@QAE@XZ": "0x00a31240",
-    "??0FUN_00a31680@@QAE@XZ": "0x00a31680",
-    "??4NiControllerSequence__IDTag@@QAEAAV0@ABV0@@Z": "0x00a5d3f0",
-    "?FUN_00a31400@A1400StringGroup@@QAEAAV1@ABV1@@Z": "0x00a31400",
-    "??0InterpArrayItem@fnv_00a32330@@QAE@XZ": "0x00a31240",
-    "??0IDTag@fnv_00a32330@@QAE@XZ": "0x00a31680",
-    "?FUN_00a31880@S00a31880_FUN_00a31880_cls@@QAEPAV1@PAV1@@Z": "0x00a31880",
-    "??_EInterpArrayItem@fnv_00a32330@@QAEPAXI@Z": "0x00a31500",
-    "??_EIDTag@fnv_00a32330@@QAEPAXI@Z": "0x00a315b0",
-    "?DAT_00fdf1c0@@3P6GHPAX@ZA": "0x00fdf1c0",
-    "?DAT_00fdf1c4@@3P6GHPAX@ZA": "0x00fdf1c4",
-    "?FUN_00a64ea0@Cls_a64ea0@@QAEXPAPAD@Z": "0x00a64ea0",
-    "?FUN_00a645b0@FUN_00a645b0_cls@@QAEXXZ": "0x00a645b0",
-    "??0Interp71@@QAE@XZ": "0x00a31240",
-    "??0Tag71@@QAE@XZ": "0x00a31680",
-    "?FUN_00a64df0@FUN_00a64df0_Stream@fnv_00a64df0@@QAEXAAVNiFixedString@2@@Z": "0x00a64df0",
-    "?DeserializeObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a64620",
-    "??0Smart71@@QAE@XZ": "0x00b54620",
-    "?CreateVertexBufferSet@FUN_00a5d450_class@@QAEXIPAX@Z": "0x00a5d450",
-    "?ReadGroup@FUN_00a5d610_Object@@QAEXPAUNiStream@@@Z": "0x00a5d610",
-    "?LoadFromStream@A33950Object@@QAEXPAUA33950Stream@@@Z": "0x00a33950",
-    "?ReadFromStream@IDTagA33a50@@QAEXAAUStreamA33a50@@AAI@Z": "0x00a33a50"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nicontrollersequence_rtm_variant.cpp",
-   "compiler": "rtm",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a352f0",
-     "symbol": "?FUN_00a352f0@LegacySequence@@QAEXAAUNiStream@@@Z",
-     "size": 846
-    }
-   ],
-   "symbols": {
-    "?FUN_00a89af0@@YGXH@Z": "0x00a89af0",
-    "__imp_?InterlockedDecrement@@YGJPAJ@Z": "0x00fdf1c4",
-    "?DAT_01096548@@3MA": "0x01096548",
-    "?DAT_01015f5c@@3MA": "0x01015f5c",
-    "?_DAT_010231b0@@3NA": "0x010231b0",
-    "_DAT_010241b0": "0x010241b0",
-    "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "?FUN_00ec65a6@@YAXPADIPBD@Z": "0x00ec65a6",
-    "__imp_?InterlockedIncrement@@YGJPAJ@Z": "0x00fdf1c0",
-    "?DAT_01096968@@3EA": "0x01096968",
-    "?FUN_00aa10f0@@YAXPAX@Z": "0x00aa10f0",
-    "?ReleaseObjectArray@@YAXPAPAUObj00a47600@@@Z": "0x00a47600",
-    "?DAT_01096688@@3IA": "0x01096688",
-    "?FUN_00a34480@FUN_00a34480_cls@@QAE_NPAXPAUFUN_00a34480_obj@@@Z": "0x00a34480",
-    "?LoadFromPalette@SeqIDTagOffsets@@QAEXPAUNiStringPalette@@H@Z": "0x00a30d40",
-    "?ResetStrings@NiControllerSequence@fnv_00a30640@@QAEXXZ": "0x00a30640",
-    "?SetEntry@FUN_00a32940_cls@@QAEXIPAPAVNiRefStubB5652@@@Z": "0x00a32940"
    }
   },
   {
@@ -254014,6 +253716,11 @@
      "address": "0x00a4fa20",
      "symbol": "?CreateFlipController@FUN_00a4fa20_shell@@QAEPAXAAUCloningProcess@@@Z",
      "size": 69
+    },
+    {
+     "address": "0x0060c120",
+     "symbol": "?FUN_0060c120@FUN_0060c120_cls@@QAEXIPAUSlotTarget@@@Z",
+     "size": 321
     }
    ],
    "symbols": {
@@ -254079,28 +253786,7 @@
     "?FUN_00a36250@NiTimeControllerA362@@QAE_NM@Z": "0x00a36250",
     "?FUN_00a4f920@FlipCopy@@QAEXPAUNiAlphaController@@AAUCloningProcess@@@Z": "0x00a4f920",
     "?CreateFlipController@FUN_00a4fa20_shell@@QAEPAXAAUCloningProcess@@@Z": "0x00a4fa20",
-    "?CopyMemberData@NiAlphaController@@QAEXPAU1@AAUCloningProcess@@@Z": "0x00a57620"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/niflipcontroller_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x0060c120",
-     "symbol": "?FUN_0060c120@FUN_0060c120_cls@@QAEXIPAUSlotTarget@@@Z",
-     "size": 321
-    }
-   ],
-   "symbols": {
+    "?CopyMemberData@NiAlphaController@@QAEXPAU1@AAUCloningProcess@@@Z": "0x00a57620",
     "___security_cookie": "0x011c16bc",
     "_atexit": "0x00ec658f",
     "__ehhandler$?FUN_0060c120@FUN_0060c120_cls@@QAEXIPAUSlotTarget@@@Z": "0x00efb08e",
@@ -255132,6 +254818,16 @@
      "address": "0x00a41590",
      "symbol": "?FUN_00a41590@C00a41590@@QAEPAHXZ",
      "size": 4
+    },
+    {
+     "address": "0x00a3b150",
+     "symbol": "?FUN_00a3b150@MorphLoad@fnv_00a3b150@@QAEXAAUMorphStream@2@@Z",
+     "size": 500
+    },
+    {
+     "address": "0x00a3b700",
+     "symbol": "?FUN_00a3b700@MorphViewer@@QAEXPAUStrArr@@@Z",
+     "size": 775
     }
    ],
    "symbols": {
@@ -255215,7 +254911,28 @@
     "??4NiControllerSequence__IDTag@@QAEAAV0@ABV0@@Z": "0x00a5d3f0",
     "?FUN_00a2f8a0@CloneableObj@@QAEXPAU1@PAX@Z": "0x00a2f8a0",
     "?SampleLength@TexelSampler@@QAEMIIM@Z": "0x00a3e5f0",
-    "?AddScaledPoints@@YAXPAUNiPoint3@@MPBU1@I@Z": "0x00a7ec90"
+    "?AddScaledPoints@@YAXPAUNiPoint3@@MPBU1@I@Z": "0x00a7ec90",
+    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
+    "?LoadBinary@NiInterpController@@UAEXAAVNiStream@@@Z": "0x00a2f910",
+    "?FUN_00a645b0@FUN_00a645b0_cls@@QAEXXZ": "0x00a645b0",
+    "?FUN_00a64670@S_00a64670_Foo@@QAEXXZ": "0x00a64670",
+    "??0LoadItem@fnv_00a3b150@@QAE@XZ": "0x00a3a940",
+    "?DeserializeObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a64620",
+    "___security_cookie": "0x011c16bc",
+    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
+    "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
+    "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
+    "?FUN_00a7d510@@YAPADPBDI@Z": "0x00a7d510",
+    "?FUN_00a41590@C00a41590@@QAEPAHXZ": "0x00a41590",
+    "_sprintf": "0x00ec623a",
+    "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
+    "_strcpy_s": "0x00ec65a6",
+    "@__security_check_cookie@4": "0x00ec408c",
+    "??_C@_0L@GHENAEKH@NumTargets?$AA@": "0x01096e00",
+    "??_C@_0BC@NAGHCFHB@NumVertsPerTarget?$AA@": "0x01096dec",
+    "?g_011f3e58@@3VGlobalObjectO2_00a7b610@@A": "0x011f3e58",
+    "??_C@_0O@KKCMBCPB@?$CFd?5?$CFs?5?$DN?5?$CF0?42f?$AA@": "0x01096ddc",
+    "??_C@_05OPEIBKFE@?$CFd?5?$CFs?$AA@": "0x010729ac"
    }
   },
   {
@@ -255242,72 +254959,6 @@
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "__imp__InterlockedDecrement@4": "0x00fdf1c4",
     "?ClearInterpolatorArray@NiGeomMorpherController@@QAEXXZ": "0x00a3b460"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a3b150",
-     "symbol": "?FUN_00a3b150@MorphLoad@fnv_00a3b150@@QAEXAAUMorphStream@2@@Z",
-     "size": 500
-    }
-   ],
-   "symbols": {
-    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
-    "?LoadBinary@NiInterpController@@UAEXAAVNiStream@@@Z": "0x00a2f910",
-    "?FUN_00a645b0@FUN_00a645b0_cls@@QAEXXZ": "0x00a645b0",
-    "?FUN_00a64670@S_00a64670_Foo@@QAEXXZ": "0x00a64670",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "??0LoadItem@fnv_00a3b150@@QAE@XZ": "0x00a3a940",
-    "?DeserializeObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a64620"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller_od_variant_o2_nood_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a3b700",
-     "symbol": "?FUN_00a3b700@MorphViewer@@QAEXPAUStrArr@@@Z",
-     "size": 775
-    }
-   ],
-   "symbols": {
-    "___security_cookie": "0x011c16bc",
-    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
-    "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
-    "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
-    "?FUN_00a7d510@@YAPADPBDI@Z": "0x00a7d510",
-    "?FUN_00a41590@C00a41590@@QAEPAHXZ": "0x00a41590",
-    "_sprintf": "0x00ec623a",
-    "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
-    "_strcpy_s": "0x00ec65a6",
-    "@__security_check_cookie@4": "0x00ec408c",
-    "?g_011f3728@@3VGlobalObjectO2_00a7b610@@A": "0x011f3728",
-    "??_C@_0L@GHENAEKH@NumTargets?$AA@": "0x01096e00",
-    "??_C@_0BC@NAGHCFHB@NumVertsPerTarget?$AA@": "0x01096dec",
-    "?g_011f3e58@@3VGlobalObjectO2_00a7b610@@A": "0x011f3e58",
-    "?g_011f3738@@3VGlobalObjectO2_00a7b610@@A": "0x011f3738",
-    "??_C@_0O@KKCMBCPB@?$CFd?5?$CFs?5?$DN?5?$CF0?42f?$AA@": "0x01096ddc",
-    "??_C@_05OPEIBKFE@?$CFd?5?$CFs?$AA@": "0x010729ac"
    }
   },
   {
@@ -255365,6 +255016,11 @@
      "address": "0x00a56f90",
      "symbol": "?PopMorpherUpdateTask@@YAPAUNiGeomMorpherUpdateTask@@XZ",
      "size": 92
+    },
+    {
+     "address": "0x00a56ce0",
+     "symbol": "?FUN_00a56ce0@@YAPAUNiGeomMorpherUpdateTask@@I@Z",
+     "size": 95
     }
    ],
    "symbols": {
@@ -255397,31 +255053,9 @@
     "?Destroy@FUN_00a56d40_cls@@QAEPAU1@E@Z": "0x00a56d40",
     "?ResetRegistry@@YAXXZ": "0x00a56df0",
     "?ReleaseReferences@S_00a56f10@@QAE_NXZ": "0x00a56f10",
-    "?FindOrAdd@ActiveArray@@QAEIABQAX@Z": "0x00e7ec00"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask_ehsc_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHs-c-",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a56ce0",
-     "symbol": "?FUN_00a56ce0@@YAPAUNiGeomMorpherUpdateTask@@I@Z",
-     "size": 95
-    }
-   ],
-   "symbols": {
+    "?FindOrAdd@ActiveArray@@QAEIABQAX@Z": "0x00e7ec00",
     "_FUN_00aa1420": "0x00aa1420",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??0MorphTaskArr@@QAE@XZ": "0x00a56be0"
    }
   },
@@ -255562,23 +255196,7 @@
      "address": "0x0064a290",
      "symbol": "??9NiQuaternion@@QBE_NABV0@@Z",
      "size": 116
-    }
-   ],
-   "symbols": {
-    "??9NiQuaternion@@QBE_NABV0@@Z": "0x0064a290"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nikeybasedinterpolator_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a3ca10",
      "symbol": "??0FUN_00a3ca10@@QAE@XZ",
@@ -255606,6 +255224,7 @@
     }
    ],
    "symbols": {
+    "??9NiQuaternion@@QBE_NABV0@@Z": "0x0064a290",
     "??0NiInterpolator@@QAE@XZ": "0x00a56ff0",
     "_DAT_01097054": "0x01097054",
     "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
@@ -255638,24 +255257,7 @@
      "address": "0x008d3ed0",
      "symbol": "?GetNumTargets@NiGeomMorpherController@@QBEIXZ",
      "size": 61
-    }
-   ],
-   "symbols": {
-    "??C?$NiPointer@VNiNode@@@@QBEPAVNiNode@@XZ": "0x00559450",
-    "?GetName@Twin_0044ddc0@@QAEPBDXZ": "0x0044ddc0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nikeyframemanager_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a4d780",
      "symbol": "??0FUN_00a4d780@@QAE@XZ",
@@ -255693,6 +255295,8 @@
     }
    ],
    "symbols": {
+    "??C?$NiPointer@VNiNode@@@@QBEPAVNiNode@@XZ": "0x00559450",
+    "?GetName@Twin_0044ddc0@@QAEPBDXZ": "0x0044ddc0",
     "?g_011f3fb4@@3VGlobalObjectO2_00a7b610@@A": "0x011f3fb4",
     "?_delete@@YAXPAXI@Z": "0x00aa1460",
     "??1FUN_00a4d660@@UAE@XZ": "0x00a4d660",
@@ -256011,7 +255615,7 @@
     },
     {
      "address": "0x00a4cef0",
-     "symbol": "?AppendString@Holder@@QAEXPAUStrArr@@@Z",
+     "symbol": "?AppendString@Holder_00a4cef0@@QAEXPAUStrArr@@@Z",
      "size": 74
     }
    ],
@@ -256045,7 +255649,7 @@
     "?DAT_011a9478@@3VNiPoint3@@A": "0x011a9478",
     "?DAT_011a9484@@3VNiPoint3@@B": "0x011a9484",
     "?FUN_00a588a0@S00a4c8e0_Mat@@QBE?AU1@ABU1@@Z": "0x00a588a0",
-    "?AppendString@Holder@@QAEXPAUStrArr@@@Z": "0x00a4cef0",
+    "?AppendString@Holder_00a4cef0@@QAEXPAUStrArr@@@Z": "0x00a4cef0",
     "?LookupAndLinkItem@FUN_00a4ccd0_cls@@QAEXPAX@Z": "0x00a4ccd0",
     "?CreateMorphData@@YAPAXXZ": "0x00a4cde0",
     "?GetLoadedObject@NiStream@fnv_00a4c840@@QAEPAUNiObject@2@XZ": "0x00a63430",
@@ -256162,6 +255766,11 @@
      "address": "0x00eea6d0",
      "symbol": "?FUN_00eea6d0@NiLookAtInterpolator@fnv_00eea6d0@@QAEXABUNiFixedString@2@@Z",
      "size": 62
+    },
+    {
+     "address": "0x00a4be20",
+     "symbol": "??1NiLookAtInterpolatorX@@UAE@XZ",
+     "size": 150
     }
    ],
    "symbols": {
@@ -256232,31 +255841,8 @@
     "?FUN_00a5d430@FUN_00a5d430_Class@@QAEXI@Z": "0x00a5d430",
     "?FUN_00a4bb80@Host_00a4bb80@@QAEXAAUCloningProcess@@@Z": "0x00a4bb80",
     "?WriteObjectLink@FUN_00a641f0_cls@@QAEXPAX@Z": "0x00a641f0",
-    "?Update@LookAt@@QAE_NMPAULookNode@@AAULookTransform@@@Z": "0x00a4bec0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nilookatinterpolator_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a4be20",
-     "symbol": "??1NiLookAtInterpolatorX@@UAE@XZ",
-     "size": 150
-    }
-   ],
-   "symbols": {
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
+    "?Update@LookAt@@QAE_NMPAULookNode@@AAULookTransform@@@Z": "0x00a4bec0",
     "??_7NiLookAtInterpolatorX@@6B@": "0x01098b0c",
-    "?DAT_011f49e0@@3UNiFixedString@@A": "0x011f49e0",
-    "?DAT_0109b220@@3PADA": "0x0109b220",
     "?FUN_00a57010@NiKeyBasedInterpolator@@QAEXXZ": "0x00a57010"
    }
   },
@@ -256472,6 +256058,11 @@
      "address": "0x00a57850",
      "symbol": "?FUN_00a57850@FUN_00a57850_shell@@QAEXAAUNiStream@@@Z",
      "size": 20
+    },
+    {
+     "address": "0x00a41a40",
+     "symbol": "?FUN_00a41a40@MorphData@@QAEXAAUNiStreamL@@@Z",
+     "size": 834
     }
    ],
    "symbols": {
@@ -256506,47 +256097,22 @@
     "?WriteObjectLink@FUN_00a641f0_cls@@QAEXPAX@Z": "0x00a641f0",
     "?IsSameAs@A5d470Class@@UAE_NPAUA5d470Object@@@Z": "0x00a5d470",
     "?ReadElements@@YAXPAUNiStreamM@@PBII@Z": "0x00a41770",
-    "?Load@MorphTarget_a41940@@QAEXAAUNiStreamL_a41940@@I@Z": "0x00a41940"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nimorphdata_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a41a40",
-     "symbol": "?FUN_00a41a40@MorphData@@QAEXAAUNiStreamL@@@Z",
-     "size": 834
-    }
-   ],
-   "symbols": {
+    "?Load@MorphTarget_a41940@@QAEXAAUNiStreamL_a41940@@I@Z": "0x00a41940",
     "___security_cookie": "0x011c16bc",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "?DAT_011f3758@@3PAEA": "0x011f3758",
     "?DAT_011f3780@@3HA": "0x011f3780",
     "??0NiFloatInterpolator@@QAE@PAUNiFloatData@@@Z": "0x00a3c340",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
     "__imp__InterlockedIncrement@4": "0x00fdf1c0",
     "?NiSprintf@@YAHPADIPBDZZ": "0x00a305b0",
     "?AddString@NiGlobalStringTable@@SAPADPBD@Z": "0x00a5b690",
-    "?DAT_0109b220@@3PADA": "0x0109b220",
     "@__security_check_cookie@4": "0x00ec408c",
     "?ReadGroup@FUN_00a5d610_Object@@QAEXPAUNiStream@@@Z": "0x00a5d610",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??0FUN_00a415f0@@QAE@XZ": "0x00a415f0",
     "?DAT_011f3db0@@3PAP6APAXAAVA29F00Stream@@I@ZA": "0x011f3db0",
     "??2NiFloatInterpolator@@SAPAXI@Z": "0x00aa13e0",
     "??_C@_05KPENKLHD@MT?5?$CFd?$AA@": "0x01097788",
     "?LoadBinary@NiColor@@QAEXAAVNiStream@@@Z": "0x00a59be0",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
-    "?Load@MorphTarget_a41940@@QAEXAAUNiStreamL_a41940@@I@Z": "0x00a41940",
     "?SetKeyData@NiFloatInterpolator@@QAEXPAXII@Z": "0x0052ce40"
    }
   },
@@ -256685,6 +256251,16 @@
      "address": "0x00a304b0",
      "symbol": "?FUN_00a304b0@FUN_00a304b0_cls@@QAEXPAUFUN_00a304b0_arr@@@Z",
      "size": 139
+    },
+    {
+     "address": "0x00a2feb0",
+     "symbol": "?FUN_00a2feb0@Controller@@QAEXG@Z",
+     "size": 185
+    },
+    {
+     "address": "0x00a30160",
+     "symbol": "?FUN_00a30160@FUN_00a30160_cls@@QAEXXZ",
+     "size": 217
     }
    ],
    "symbols": {
@@ -256743,32 +256319,7 @@
     "?FUN_00a300d0@FUN_00a300d0_shell@fnv_00a300d0@@QAEXPAUCloningProcess@2@@Z": "0x00a300d0",
     "?FUN_00a302d0@FUN_00a302d0_shell@fnv_00a302d0@@QAEPAUNiObject@2@PAUCloningProcess@2@@Z": "0x00a302d0",
     "?FromRotationMatrix@NiQuaternion@@QAEXABVThreeByThreeMatrix@@@Z": "0x00a6df40",
-    "?FUN_004f0180@FUN_004f0180_Class@@QAEXPAUM3_@@@Z": "0x004f0180"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a2feb0",
-     "symbol": "?FUN_00a2feb0@Controller@@QAEXG@Z",
-     "size": 185
-    },
-    {
-     "address": "0x00a30160",
-     "symbol": "?FUN_00a30160@FUN_00a30160_cls@@QAEXXZ",
-     "size": 217
-    }
-   ],
-   "symbols": {
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
+    "?FUN_004f0180@FUN_004f0180_Class@@QAEXPAUM3_@@@Z": "0x004f0180",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "__imp__InterlockedIncrement@4": "0x00fdf1c0",
@@ -256778,8 +256329,7 @@
     "??0BlendInterp@@QAE@XZ": "0x00a409b0",
     "??_USNAEntry@@SAPAXI@Z": "0x00aa1420",
     "??0FUN_00a409b0_class@@QAE@XZ": "0x00a409b0",
-    "?DAT_00fdf1c0@@3P6GXPAX@ZA": "0x00fdf1c0",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060"
+    "?DAT_00fdf1c0@@3P6GXPAX@ZA": "0x00fdf1c0"
    }
   },
   {
@@ -257165,6 +256715,11 @@
      "address": "0x00a3f520",
      "symbol": "?CloneObject@NiOwnerA3F@@QAEPAVNiObjectA3F@@AAVNiCloningProcessA3F@@@Z",
      "size": 73
+    },
+    {
+     "address": "0x00a3e6f0",
+     "symbol": "?FUN_00a3e6f0@ControllerE6F0@@QAEPAV1@MM@Z",
+     "size": 188
     }
    ],
    "symbols": {
@@ -257245,28 +256800,7 @@
     "?$S1@?CL@??EvaluateBasis@PathMotion@fnv_00a3de50@@QAEXIIMPAUFM3@3@@Z@4IA": "0x011f3e44",
     "?bankFactor@?CL@??EvaluateBasis@PathMotion@fnv_00a3de50@@QAEXIIMPAUFM3@3@@Z@4MB": "0x011f3e40",
     "?UpdateTransform@NiPathInterpQ@@QAE_NMPAVNiObjectNETQ@@AAVNiQuatTransformQ@@@Z": "0x00a3f120",
-    "?EvaluateBasis@PathMotion@fnv_00a3de50@@QAEXIIMPAUFM3@2@@Z": "0x00a3de50"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nipathinterpolator_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a3e6f0",
-     "symbol": "?FUN_00a3e6f0@ControllerE6F0@@QAEPAV1@MM@Z",
-     "size": 188
-    }
-   ],
-   "symbols": {
-    "__imp_?InterlockedDecrement@@YGJPAJ@Z": "0x00fdf1c4",
-    "__imp_?InterlockedIncrement@@YGJPAJ@Z": "0x00fdf1c0",
+    "?EvaluateBasis@PathMotion@fnv_00a3de50@@QAEXIIMPAUFM3@2@@Z": "0x00a3de50",
     "?FUN_00a57050@@YGPAVNiAnimTarget@@HH@Z": "0x00a57050",
     "?FUN_00a3ce20@FUN_00a3ce20_shell@@QAEXMMPAPAVNiFloatData@@@Z": "0x00a3ce20"
    }
@@ -258582,6 +258116,16 @@
      "address": "0x00a46ef0",
      "symbol": "?WriteToStrings@TextKeyExtraData@@QAEXPAUStrArray@@@Z",
      "size": 458
+    },
+    {
+     "address": "0x00a46c20",
+     "symbol": "?FUN_00a46c20@A46TextKeyExtraData@@QAEXPAU1@PAUCloningProcess@@@Z",
+     "size": 203
+    },
+    {
+     "address": "0x00a46e00",
+     "symbol": "?FUN_00a46e00@NiTextKeyExtraDataStub@@QAEXAAUNiStream@@@Z",
+     "size": 198
     }
    ],
    "symbols": {
@@ -258620,33 +258164,7 @@
     "?ReleaseString@FUN_00a57870_Class@@QAEXXZ": "0x00a57870",
     "?LoadFromStream@@YI_NPAUNiTextKeyExtraData@@PAXPAUNiStream@@@Z": "0x00a46b10",
     "?WriteToStrings@TextKeyExtraData@@QAEXPAUStrArray@@@Z": "0x00a46ef0",
-    "?FUN_00a46c20@A46TextKeyExtraData@@QAEXPAU1@PAUCloningProcess@@@Z": "0x00a46c20"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nitextkeyextradata_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a46c20",
-     "symbol": "?FUN_00a46c20@A46TextKeyExtraData@@QAEXPAU1@PAUCloningProcess@@@Z",
-     "size": 203
-    },
-    {
-     "address": "0x00a46e00",
-     "symbol": "?FUN_00a46e00@NiTextKeyExtraDataStub@@QAEXAAUNiStream@@@Z",
-     "size": 198
-    }
-   ],
-   "symbols": {
-    "?g_011f3f28@@3VGlobalObjectO2_00a7b610@@A": "0x011f3f28",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
+    "?FUN_00a46c20@A46TextKeyExtraData@@QAEXPAU1@PAUCloningProcess@@@Z": "0x00a46c20",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "??0A46TextKey@@QAE@XZ": "0x00a46b50",
@@ -258654,8 +258172,7 @@
     "?LoadBinary@NiExtraData@@UAEXAAVNiStream@@@Z": "0x00a7b4a0",
     "??0TimedTextEntry@@QAE@XZ": "0x00a46b50",
     "?LoadBinary@TimedTextEntry@@QAEXAAVNiStream@@@Z": "0x00a578d0",
-    "?FUN_00a7b330@FUN_00a7b330_shell@@QAEXPAVNiBinaryExtraData@@PAUCloningProcess@@@Z": "0x00a7b330",
-    "?FUN_00a46c20@A46TextKeyExtraData@@QAEXPAU1@PAUCloningProcess@@@Z": "0x00a46c20"
+    "?FUN_00a7b330@FUN_00a7b330_shell@@QAEXPAVNiBinaryExtraData@@PAUCloningProcess@@@Z": "0x00a7b330"
    }
   },
   {
@@ -258820,7 +258337,7 @@
    }
   },
   {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nitransformcontroller_o2_nood_variant.cpp",
+   "source": "src/gamebryo2.2/corelibs/nianimation/nitransformcontroller.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -258849,33 +258366,7 @@
      "address": "0x00a36810",
      "symbol": "?FUN_00a36810@@YAPAVNiObject@@XZ",
      "size": 38
-    }
-   ],
-   "symbols": {
-    "??2NiMemObject@@SAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a38e00@@QAE@XZ": "0x00a38e00",
-    "??_7ObjectA36810@@6B@": "0x0109687c",
-    "?IsCompatibleWith@FUN_00a39030_cls@@QAE_NPAVNiSingleInterpController@@@Z": "0x00a39030",
-    "?FUN_00a35850@@YAXXZ": "0x00a35850",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
-    "??0FUN_00a3fa30@fnv_00a3fa30@@QAE@PAVNiTransformData@@@Z": "0x00a3fa30",
-    "?GetLoadedObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a63430",
-    "?FUN_00a38ef0@FUN_00a38ef0_Class@@QAEXPAU1@AAVCloningProcess@@@Z": "0x00a38ef0",
-    "?FUN_00a367c0@@YIPAVObjectA36810@@PAV1@PAXAAVCloningProcess@@@Z": "0x00a367c0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nianimation/nitransformcontroller_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a36070",
      "symbol": "??0FUN_00a36070@@QAE@HH@Z",
@@ -258948,7 +258439,17 @@
     }
    ],
    "symbols": {
+    "??2NiMemObject@@SAPAXI@Z": "0x00aa13e0",
+    "??0FUN_00a38e00@@QAE@XZ": "0x00a38e00",
+    "??_7ObjectA36810@@6B@": "0x0109687c",
+    "?IsCompatibleWith@FUN_00a39030_cls@@QAE_NPAVNiSingleInterpController@@@Z": "0x00a39030",
+    "?FUN_00a35850@@YAXXZ": "0x00a35850",
     "__imp__InterlockedDecrement@4": "0x00fdf1c4",
+    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
+    "??0FUN_00a3fa30@fnv_00a3fa30@@QAE@PAVNiTransformData@@@Z": "0x00a3fa30",
+    "?GetLoadedObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a63430",
+    "?FUN_00a38ef0@FUN_00a38ef0_Class@@QAEXPAU1@AAVCloningProcess@@@Z": "0x00a38ef0",
+    "?FUN_00a367c0@@YIPAVObjectA36810@@PAV1@PAXAAVCloningProcess@@@Z": "0x00a367c0",
     "??1FUN_00a6d290@@UAE@XZ": "0x00a6d290",
     "?LoadBinary@NiSingleInterpController@@QAEXAAVNiStream@@@Z": "0x00a38f80",
     "?g_011f371c@@3VGlobalObjectO2_00a7b610@@A": "0x011f371c",
@@ -258962,7 +258463,6 @@
     "??2BSFadeNode@@SAPAXI@Z": "0x00aa13e0",
     "?FUN_00a3fae0@NiTransformInterpolator@@QAEXVNiQuatTransform@@@Z": "0x00a3fae0",
     "??4NiControllerSequence__IDTag@@QAEAAV0@ABV0@@Z": "0x00a5d3f0",
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
     "?DAT_0109687c@@3HA": "0x0109687c",
     "?FUN_00a2f8c0@@YIPAXPAX@Z": "0x00a2f8c0",
     "?DAT_01096694@@3DA": "0x01096694",
@@ -258983,11 +258483,9 @@
     "?DAT_011f3704@@3VNiQuaternion@@A": "0x011f3704",
     "__real@c7efffffe0000000": "0x010241b0",
     "?FUN_00a645b0@FUN_00a645b0_cls@@QAEXXZ": "0x00a645b0",
-    "??0FUN_00a38e00@@QAE@XZ": "0x00a38e00",
     "?FromRotationMatrix@NiQuaternion@@QAEXABVThreeByThreeMatrix@@@Z": "0x00a6df40",
     "?FUN_00a36250@NiTimeControllerA362@@QAE_NM@Z": "0x00a36250",
     "?FUN_00a2f8a0@CloneableObj@@QAEXPAU1@PAX@Z": "0x00a2f8a0",
-    "?FUN_00a38ef0@FUN_00a38ef0_Class@@QAEXPAU1@AAVCloningProcess@@@Z": "0x00a38ef0",
     "?FUN_004f0180@FUN_004f0180_Class@@QAEXPAUM3_@@@Z": "0x004f0180"
    }
   },
@@ -259123,7 +258621,7 @@
     "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
     "?g_011f3fbc@@3VGlobalObjectO2_00a7b610@@A": "0x011f3fbc",
     "??2BSFadeNode@@SAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a55a10@@QAE@PAXM0@Z": "0x00a55a10",
+    "??0FUN_00a55a10@@QAE@_NME@Z": "0x00a55a10",
     "??2BSFadeNode@fnv_00a4e040@@SAPAXI@Z": "0x00aa13e0",
     "??0FUN_00a5d3a0@@QAE@XZ": "0x00a5d3a0",
     "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
@@ -260594,6 +260092,11 @@
      "address": "0x00eadf30",
      "symbol": "?ComputeFromPoints@OrientedBoxBound@@QAEXGPBUNiPoint3@@@Z",
      "size": 1516
+    },
+    {
+     "address": "0x00c34ad0",
+     "symbol": "?FUN_00c34ad0@Host@@QAEXUNiPoint3@@PAUObj_od_ob1@@1UVec4@@E@Z",
+     "size": 3535
     }
    ],
    "symbols": {
@@ -260673,46 +260176,19 @@
     "?RaycastGeometry@@YA_NPBUP3@@0PAUPick@@PAUGeometry@@@Z": "0x00e9a280",
     "?IntersectShape@fnv_00e993d0@@YA_NPBUVec3@1@0PAUOptions@1@PAUShape@1@@Z": "0x00e993d0",
     "?ComputeFromPoints@OrientedBoxBound@@QAEXGPBUNiPoint3@@@Z": "0x00eadf30",
-    "?GetMatrix@TransformRecord@@QAEXIPAM@Z": "0x00a59980"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nicollision/nicollisiontraversals_od_variant_ob1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/Ob1"
-   ],
-   "functions": [
-    {
-     "address": "0x00c34ad0",
-     "symbol": "?FUN_00c34ad0@Host@@QAEXVNiPoint3@@PAUObj@@1UVec4@@E@Z",
-     "size": 3535
-    }
-   ],
-   "symbols": {
+    "?GetMatrix@TransformRecord@@QAEXIPAM@Z": "0x00a59980",
     "___security_cookie": "0x011c16bc",
     "??GNiPoint3@@QBE?AV0@ABV0@@Z": "0x00439ef0",
-    "?FUN_004a0c10@FUN_004a0c10_s@@QAEXXZ": "0x004a0c10",
     "??DNiPoint3@@QBE?AV0@M@Z": "0x0045bb20",
     "??HNiPoint3@@QBE?AV0@ABV0@@Z": "0x00439e90",
     "__real@3f333333": "0x01018238",
-    "__real@3dcccccd": "0x0101e2bc",
     "__real@3e19999a": "0x01030ff4",
-    "?ZERO@NiPoint3@@2V1@B": "0x011f426c",
     "__real@41f00000": "0x01018f5c",
     "__real@3e4ccccd": "0x0101df44",
     "@__security_check_cookie@4": "0x00ec408c",
     "?FUN_00c35c10@Builder@@QAEXPAUPoint@@@Z": "0x00c35c10",
     "?g_011deba0_arg1@@3MB": "0x010500cc",
-    "?DAT_011a9be0@@3UColor_5345c0@@A": "0x011a9be0",
-    "?g_012030b0@@3VGlobalObject_00a7b610@@A": "0x012030b0",
-    "?FUN_00a7b850@FnvCpu_FUN_00a7b850_CpuObject@@QAEHXZ": "0x00a7b850"
+    "?g_012030b0@@3VGlobalObject_00a7b610@@A": "0x012030b0"
    }
   },
   {
@@ -261674,52 +261150,12 @@
      "address": "0x00e9efb0",
      "symbol": "?FUN_00e9efb0@@YIPAUS@@PAX@Z",
      "size": 33
-    }
-   ],
-   "symbols": {
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00e9ee60@S@@QAEPAU1@PAX@Z": "0x00e9ee60",
-    "?g_fnv_00e9ecc0_value_anchor@@3HA": "0x00000000"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nicollision/niunionbv_o2_noo1_nooy_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00e9ee20",
      "symbol": "??_GFUN_00e9ee20@@UAEPAXI@Z",
      "size": 63
-    }
-   ],
-   "symbols": {
-    "?FUN_00aa10f0@@YAXPAX@Z": "0x00aa10f0",
-    "??_7FUN_00e9ee20@@6B@": "0x010f1778",
-    "?FUN_00e9e860@S00e9e860_Obj@@QAEXXZ": "0x00e9e860",
-    "??_7E9EE20Buffer@@6B@": "0x010f1770",
-    "??_7E9EE20Base@@6B@": "0x010f16f4",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nicollision/niunionbv_o2_noo1_nooy_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a64330",
      "symbol": "?FUN_00a64330@A64330Obj@@QAEIABQAH@Z",
@@ -261759,13 +261195,36 @@
      "address": "0x00e9f0b0",
      "symbol": "?FUN_00e9f0b0@NiUnionBV@@QAEXPADPAV?$NiTPrimitiveArray@PAD@@@Z",
      "size": 181
+    },
+    {
+     "address": "0x00e9ee60",
+     "symbol": "?FUN_00e9ee60@S@@QAEPAU1@PAX@Z",
+     "size": 132
+    },
+    {
+     "address": "0x00e9ecd0",
+     "symbol": "?FUN_00e9ecd0@TexCache@@QAEXPAUSource@@@Z",
+     "size": 114
+    },
+    {
+     "address": "0x00e9eef0",
+     "symbol": "?FUN_00e9eef0@Source365@@QAEPAUState365@@XZ",
+     "size": 181
     }
    ],
    "symbols": {
+    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
+    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
+    "?FUN_00e9ee60@S@@QAEPAU1@PAX@Z": "0x00e9ee60",
+    "?g_fnv_00e9ecc0_value_anchor@@3HA": "0x00000000",
+    "?FUN_00aa10f0@@YAXPAX@Z": "0x00aa10f0",
+    "??_7FUN_00e9ee20@@6B@": "0x010f1778",
+    "?FUN_00e9e860@S00e9e860_Obj@@QAEXXZ": "0x00e9e860",
+    "??_7E9EE20Buffer@@6B@": "0x010f1770",
+    "??_7E9EE20Base@@6B@": "0x010f16f4",
+    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
     "?FUN_00a90180@FUN_00a41520_cls@@QAEXI@Z": "0x00a90180",
     "?FUN_00ba3aa0@FUN_00a41520_cls@@QAEXIPAPAUKeyPair@@@Z": "0x00ba3aa0",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??0ShaderObj@@QAE@XZ": "0x00e9edd0",
     "?FUN_00a89af0@@YGXH@Z": "0x00a89af0",
     "?FUN_00e9cab0@@YAIPAUe9Obj@@@Z": "0x00e9cab0",
@@ -261779,64 +261238,9 @@
     "??_7NiShaderArrayOwner@fnv_00e9edd0@@6B@": "0x010f1778",
     "??_7?$NiTArray@PAXV?$NiTMallocInterface@PAX@fnv_00e9edd0@@@fnv_00e9edd0@@6B@": "0x010f1770",
     "??_7?$NiTPrimitiveArray@PAX@fnv_00e9edd0@@6B@": "0x010f17ac",
-    "?SaveValueToStream@S_00e9cb10_Obj@@QAEXPAUS_00e9cb10_Stream@@@Z": "0x00e9cb10"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nicollision/niunionbv_o2_noo1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/Oy",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00e9ee60",
-     "symbol": "?FUN_00e9ee60@S@@QAEPAU1@PAX@Z",
-     "size": 132
-    }
-   ],
-   "symbols": {
+    "?SaveValueToStream@S_00e9cb10_Obj@@QAEXPAUS_00e9cb10_Stream@@@Z": "0x00e9cb10",
     "?DAT_010f1778@@3PAPAXA": "0x010f1778",
     "?DAT_010f17ac@@3PAPAXA": "0x010f17ac",
-    "?FUN_00a90180@FUN_00a41520_cls@@QAEXI@Z": "0x00a90180",
-    "?FUN_00ba3aa0@FUN_00a41520_cls@@QAEXIPAPAUKeyPair@@@Z": "0x00ba3aa0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nicollision/niunionbv_o2_ob1_noo1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Oy",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/O2",
-    "/Ob1"
-   ],
-   "functions": [
-    {
-     "address": "0x00e9ecd0",
-     "symbol": "?FUN_00e9ecd0@TexCache@@QAEXPAUSource@@@Z",
-     "size": 114
-    },
-    {
-     "address": "0x00e9eef0",
-     "symbol": "?FUN_00e9eef0@Source365@@QAEPAUState365@@XZ",
-     "size": 181
-    }
-   ],
-   "symbols": {
-    "?FUN_00a90180@FUN_00a41520_cls@@QAEXI@Z": "0x00a90180",
-    "?FUN_00e9e860@S00e9e860_Obj@@QAEXXZ": "0x00e9e860",
-    "?FUN_00ba3aa0@FUN_00a41520_cls@@QAEXIPAPAUKeyPair@@@Z": "0x00ba3aa0",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??0NiShaderArrayOwner@fnv_00e9edd0@@QAE@XZ": "0x00e9edd0"
    }
   },
@@ -262670,6 +262074,71 @@
      "address": "0x00e91af0",
      "symbol": "?CreateHLSLShaderProgramCreator@@YAXXZ",
      "size": 69
+    },
+    {
+     "address": "0x00c35f50",
+     "symbol": "?FUN_00c35f50@FUN_00c35f50_class@@QAEPAUBSMultiBound@@H@Z",
+     "size": 141
+    },
+    {
+     "address": "0x00c36040",
+     "symbol": "?FUN_00c36040@FUN_00c36040_Class@@QAEXPAUNiStream@@@Z",
+     "size": 33
+    },
+    {
+     "address": "0x00c36070",
+     "symbol": "?FUN_00c36070@Holder@fnv_00c36070@@QAEXAAVNiStream@2@@Z",
+     "size": 47
+    },
+    {
+     "address": "0x00c360f0",
+     "symbol": "?FUN_00c360f0@FUN_00c360f0_shell@@QAEXAAVNiStream@fnv_00c36070@@@Z",
+     "size": 53
+    },
+    {
+     "address": "0x00c36130",
+     "symbol": "?FUN_00c36130@S_00c36130@@QAE_NPAU1@@Z",
+     "size": 99
+    },
+    {
+     "address": "0x00c361a0",
+     "symbol": "?FUN_00c361a0@@YAPAUBSMultiBound@@XZ",
+     "size": 114
+    },
+    {
+     "address": "0x00c36220",
+     "symbol": "?FUN_00c36220@FUN_00c36220_class@@QAEPAXH@Z",
+     "size": 25
+    },
+    {
+     "address": "0x00c36290",
+     "symbol": "?FUN_00c36290@S_00c36290@@QAEPAXI@Z",
+     "size": 46
+    },
+    {
+     "address": "0x00c362c0",
+     "symbol": "?FUN_00c362c0@S_00c362c0@@QAEXXZ",
+     "size": 59
+    },
+    {
+     "address": "0x00c36300",
+     "symbol": "?FUN_00c36300@FUN_00c36300_Class@@QAEPAXXZ",
+     "size": 16
+    },
+    {
+     "address": "0x00c35fe0",
+     "symbol": "?FUN_00c35fe0@FUN_00c35f50_class@@QAEXPAUBSMultiBound@@H@Z",
+     "size": 81
+    },
+    {
+     "address": "0x00c360a0",
+     "symbol": "?FUN_00c360a0@FUN_00c360a0_shell@@QAE_NPAX@Z",
+     "size": 72
+    },
+    {
+     "address": "0x00c36240",
+     "symbol": "?FUN_00c36240@Cls@@QAEEH@Z",
+     "size": 69
     }
    ],
    "symbols": {
@@ -262842,79 +262311,10 @@
     "?FUN_00a2cdc0@fnv_00a2cdc0@@YAPAUBooleanKey@1@AAUNiStream@1@I@Z": "0x00a2cdc0",
     "?GetOrCreateNode@S00e8fa80_Obj@@QAEPAUS00e8fa80_Node@@HIH@Z": "0x00e8fa80",
     "?LoadFromFilename@NiDX9SourceTextureDataQ@@QAE_NPBDPAUNiDX9RendererQ@@ABUFormatPrefsQ@@PAUNiFileQ@@@Z": "0x00e68a80",
-    "?CreateSurface@CubeData@@QAEPAUPixelFormat@@PAVTexture@@@Z": "0x00e900c0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/niconsolepersistentsrctexturerendererdata_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00c35f50",
-     "symbol": "?FUN_00c35f50@FUN_00c35f50_class@@QAEPAUBSMultiBound@@H@Z",
-     "size": 141
-    },
-    {
-     "address": "0x00c36040",
-     "symbol": "?FUN_00c36040@FUN_00c36040_Class@@QAEXPAUNiStream@@@Z",
-     "size": 33
-    },
-    {
-     "address": "0x00c36070",
-     "symbol": "?FUN_00c36070@Holder@fnv_00c36070@@QAEXAAVNiStream@2@@Z",
-     "size": 47
-    },
-    {
-     "address": "0x00c360f0",
-     "symbol": "?FUN_00c360f0@FUN_00c360f0_shell@@QAEXAAVNiStream@fnv_00c36070@@@Z",
-     "size": 53
-    },
-    {
-     "address": "0x00c36130",
-     "symbol": "?FUN_00c36130@S_00c36130@@QAE_NPAU1@@Z",
-     "size": 99
-    },
-    {
-     "address": "0x00c361a0",
-     "symbol": "?FUN_00c361a0@@YAPAUBSMultiBound@@XZ",
-     "size": 114
-    },
-    {
-     "address": "0x00c36220",
-     "symbol": "?FUN_00c36220@FUN_00c36220_class@@QAEPAXH@Z",
-     "size": 25
-    },
-    {
-     "address": "0x00c36290",
-     "symbol": "?FUN_00c36290@S_00c36290@@QAEPAXI@Z",
-     "size": 46
-    },
-    {
-     "address": "0x00c362c0",
-     "symbol": "?FUN_00c362c0@S_00c362c0@@QAEXXZ",
-     "size": 59
-    },
-    {
-     "address": "0x00c36300",
-     "symbol": "?FUN_00c36300@FUN_00c36300_Class@@QAEPAXXZ",
-     "size": 16
-    }
-   ],
-   "symbols": {
-    "?ReadGroup@FUN_00a5d610_Object@@QAEXPAUNiStream@@@Z": "0x00a5d610",
+    "?CreateSurface@CubeData@@QAEPAUPixelFormat@@PAVTexture@@@Z": "0x00e900c0",
     "?FUN_00a89af0@@YGXH@Z": "0x00a89af0",
     "??4GO@fnv_00c36070@@QAEAAU01@PAX@Z": "0x0066b0d0",
-    "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
     "??1FUN_00c35eb0@@UAE@XZ": "0x00c35eb0",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
     "?g_01202810@@3VGlobalObject_00a7b610@@A": "0x01202810",
     "___security_cookie": "0x011c16bc",
     "??0BSMultiBound@@QAE@XZ": "0x00c35e00",
@@ -262923,41 +262323,8 @@
     "?FUN_00c35fe0@FUN_00c35f50_class@@QAEXPAUBSMultiBound@@H@Z": "0x00c35fe0",
     "__ehhandler$?FUN_00c361a0@@YAPAUBSMultiBound@@XZ": "0x00f2d955",
     "?AppendCameraPathEntries@FUN_00c36220_class@@QAEPAXH@Z": "0x00a5d6e0",
-    "?FUN_00a645b0@FUN_00a645b0_cls@@QAEXXZ": "0x00a645b0",
     "?GetLoadedObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a63430",
-    "?IsSameAs@A5d470Class@@UAE_NPAUA5d470Object@@@Z": "0x00a5d470"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/niconsolepersistentsrctexturerendererdata_od_variant_ob1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/Ob1"
-   ],
-   "functions": [
-    {
-     "address": "0x00c35fe0",
-     "symbol": "?FUN_00c35fe0@FUN_00c35f50_class@@QAEXPAUBSMultiBound@@H@Z",
-     "size": 81
-    },
-    {
-     "address": "0x00c360a0",
-     "symbol": "?FUN_00c360a0@FUN_00c360a0_shell@@QAE_NPAX@Z",
-     "size": 72
-    },
-    {
-     "address": "0x00c36240",
-     "symbol": "?FUN_00c36240@Cls@@QAEEH@Z",
-     "size": 69
-    }
-   ],
-   "symbols": {
+    "?IsSameAs@A5d470Class@@UAE_NPAUA5d470Object@@@Z": "0x00a5d470",
     "??4?$NiPointer@UNiNode@@@@QAEAAV0@PAUNiNode@@@Z": "0x0066b0d0",
     "?CreateVertexBufferSet@FUN_00a5d450_class@@QAEXIPAX@Z": "0x00a5d450",
     "?FUN_00a5d2f0@FUN_00a5d2f0_shell@@QAE_NPAX@Z": "0x00a5d2f0"
@@ -264010,13 +263377,43 @@
     },
     {
      "address": "0x00e7d5b0",
-     "symbol": "?RemoveTail@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ",
+     "symbol": "?RemoveTail@?$NiTPointerListBaseT@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ",
      "size": 102
     },
     {
      "address": "0x00e8eeb0",
      "symbol": "?HasPendingPackets@GraphicsRenderer@@QAE_NXZ",
      "size": 46
+    },
+    {
+     "address": "0x00e7a760",
+     "symbol": "?FUN_00e7a760@@YA_NXZ",
+     "size": 254
+    },
+    {
+     "address": "0x00e6bdc0",
+     "symbol": "?FUN_00e6bdc0@ShaderRenderer@@QAEXPAUShaderLibrary@@HHHHH@Z",
+     "size": 391
+    },
+    {
+     "address": "0x00e6bf50",
+     "symbol": "?FUN_00e6bf50@PresentationRenderer@@QAE_NPAXIIIIIIIIIIPAUPresentationParameters@@@Z",
+     "size": 745
+    },
+    {
+     "address": "0x00e736b0",
+     "symbol": "?FUN_00e736b0@ResetRenderer@@QAE_NXZ",
+     "size": 2048
+    },
+    {
+     "address": "0x00e76770",
+     "symbol": "?FUN_00e76770@Shader767@@QAEPAUBuffer767@@PAUGeometry767@@PAUSkinProcessor767@@PAUSkin767@@IPAU2@IUInputs767_6@@@Z",
+     "size": 775
+    },
+    {
+     "address": "0x00e78c60",
+     "symbol": "?FUN_00e78c60@DeclMap786@@QAE_NPAUFUN_00e69660_shell@@II@Z",
+     "size": 240
     }
    ],
    "symbols": {
@@ -264207,7 +263604,7 @@
     "?FUN_00e74cc0@Renderer@fnv_00e750e0@@QAEXPAUInput@2@@Z": "0x00e74cc0",
     "?ZERO@NiPoint3@@2V1@B": "0x011f426c",
     "?ms_pDefaultProperty@NiTexturingProperty@@2V?$NiPointer@VNiTexturingProperty@@@@A": "0x011f49ac",
-    "?RemoveTail@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
+    "?RemoveTail@?$NiTPointerListBaseT@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
     "?DAT_011bee68@@3PAUFUN_00e76660_UsageCell@@A": "0x011bee68",
     "?DAT_011beeb0@@3PAUFUN_00e76660_UsageCell@@A": "0x011beeb0",
     "?DAT_011beecc@@3PAUFUN_00e76660_UsageCell@@A": "0x011beecc",
@@ -264592,35 +263989,43 @@
     "?FUN_0040fbf0@FUN_0040fbf0_shell@@QAEXPAD@Z": "0x0040fbf0",
     "?g_011c5f80@@3VGlobalObject_0096a2d0@@A": "0x011c5f80",
     "?DAT_011a9448@@3VThreeByThreeMatrix@@A": "0x011a9448",
-    "?FUN_00e6e8a0@@YGXPAULinkedListEntry@@@Z": "0x00e6e8a0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer_decl_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00e7a760",
-     "symbol": "?FUN_00e7a760@@YA_NXZ",
-     "size": 254
-    }
-   ],
-   "symbols": {
-    "?DAT_0126f550@@3PAXA": "0x0126f550",
-    "?DAT_0126f508@@3PAIA": "0x0126f508",
-    "?FUN_00aa13e0@@YAPAXI@Z": "0x00aa13e0",
+    "?FUN_00e6e8a0@@YGXPAULinkedListEntry@@@Z": "0x00e6e8a0",
     "??0FUN_00e7a640@@QAE@XZ": "0x00e7a640",
     "?FUN_00a90180@FUN_00a41520_cls@@QAEXI@Z": "0x00a90180",
-    "?FUN_00ba3aa0@FUN_00a41520_cls@@QAEXIPAPAUKeyPair@@@Z": "0x00ba3aa0",
-    "?FUN_00e78560@@YAXII@Z": "0x00e78560"
+    "?FUN_00e78560@@YAXII@Z": "0x00e78560",
+    "?GetGlobalDataPtr@@YAHXZ": "0x00a8f750",
+    "_FUN_00ee6e2e@4": "0x00ee6e2e",
+    "??0ShaderEntry@@QAE@IHHABUShaderName@@PBDHHHH@Z": "0x00e8e450",
+    "_FUN_00ee6e28@4": "0x00ee6e28",
+    "?GetTotalValue@FUN_00ee8850_C@@QAEIH@Z": "0x00ee8850",
+    "?MapIndexToValue@@YAII@Z": "0x004dcbe0",
+    "?FindFormatValue@TexFormatList@@QAEHEH@Z": "0x00e7aed0",
+    "?DAT_010ed800@@3QBDB": "0x010ed800",
+    "?DAT_010ed7b8@@3QBDB": "0x010ed7b8",
+    "?DAT_010ed778@@3QBDB": "0x010ed778",
+    "?DAT_010ed730@@3QBDB": "0x010ed730",
+    "?FUN_00b6c200@@YAHH@Z": "0x00b6c200",
+    "?FUN_00e69e50@@YAIH@Z": "0x00e69e50",
+    "?DAT_010ed6d8@@3QBDB": "0x010ed6d8",
+    "?FUN_00e7b190@Owner@@QAEPAUEntry@@IIIPAI@Z": "0x00e7b190",
+    "?DAT_010ed69c@@3QBDB": "0x010ed69c",
+    "?DAT_010ed650@@3QBDB": "0x010ed650",
+    "?DAT_010ed5f0@@3QBDB": "0x010ed5f0",
+    "?FUN_00e8be20@ControllerMapE8B@@QAEXXZ": "0x00e8be20",
+    "?FUN_00e8f6d0@Owner8F6D0@@QAEXXZ": "0x00e8f6d0",
+    "?FUN_00e8cd60@This_cd60@@QAEXXZ": "0x00e8cd60",
+    "?AdvanceIterator@FUN_00e6e630_cls@@QAEXPAPAUMapItemNode@@PAIPAPAUMapValueObject@@@Z": "0x00e6e630",
+    "?FUN_00e7cec0@@YAXXZ": "0x00e7cec0",
+    "?DAT_010ee2e8@@3QBDB": "0x010ee2e8",
+    "?DAT_010ee298@@3QBDB": "0x010ee298",
+    "?FUN_00e7cf00@@YAXPAX@Z": "0x00e7cf00",
+    "?FUN_00e8b170@FUN_00e8b170_cls@@QAEXXZ": "0x00e8b170",
+    "?DAT_010ee238@@3QBDB": "0x010ee238",
+    "?GetEntry@FUN_00e69b40_shell@@QAEII@Z": "0x00e69b40",
+    "?FUN_00a855f0@SkinInstance@@QBEXPBVNiPoint3@@0IPAV2@111I@Z": "0x00a855f0",
+    "?FUN_00aa1420@@YAPAXI@Z": "0x00aa1420",
+    "??0FUN_00e76320@@QAE@XZ": "0x00e76320",
+    "??0OuterSlot@@QAE@XZ": "0x00e78bd0"
    }
   },
   {
@@ -264668,120 +264073,6 @@
     "?MapScreenCoordinates@GraphicsRenderer@@QAE_NIIAAM0PAVNiRenderTargetGroup@@@Z": "0x00a6fa30",
     "?BeginUsingRenderTargetGroup@GraphicsRenderer@@QAE_NPAVNiRenderTargetGroup@@I@Z": "0x00b6b2a0",
     "?FUN_0084e3a0@FUN_0084e3a0_Class@@QAEHXZ": "0x0084e3a0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00e6bdc0",
-     "symbol": "?FUN_00e6bdc0@ShaderRenderer@@QAEXPAUShaderLibrary@@HHHHH@Z",
-     "size": 391
-    }
-   ],
-   "symbols": {
-    "?GetGlobalDataPtr@@YAHXZ": "0x00a8f750",
-    "?FUN_00aa13e0@@YAPAXI@Z": "0x00aa13e0",
-    "?DAT_0109b220@@3PADA": "0x0109b220",
-    "?AddString@NiGlobalStringTable@@SAPADPBD@Z": "0x00a5b690",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "_FUN_00ee6e2e@4": "0x00ee6e2e",
-    "??0ShaderEntry@@QAE@IHHABUShaderName@@PBDHHHH@Z": "0x00e8e450",
-    "_FUN_00ee6e28@4": "0x00ee6e28",
-    "?GetTotalValue@FUN_00ee8850_C@@QAEIH@Z": "0x00ee8850"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer_rtm_variant.cpp",
-   "compiler": "rtm",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00e6bf50",
-     "symbol": "?FUN_00e6bf50@PresentationRenderer@@QAE_NPAXIIIIIIIIIIPAUPresentationParameters@@@Z",
-     "size": 745
-    },
-    {
-     "address": "0x00e736b0",
-     "symbol": "?FUN_00e736b0@ResetRenderer@@QAE_NXZ",
-     "size": 2048
-    },
-    {
-     "address": "0x00e76770",
-     "symbol": "?FUN_00e76770@Shader767@@QAEPAUBuffer767@@PAUGeometry767@@PAUSkinProcessor767@@PAUSkin767@@IPAU2@IUInputs767_6@@@Z",
-     "size": 775
-    },
-    {
-     "address": "0x00e78c60",
-     "symbol": "?FUN_00e78c60@DeclMap786@@QAE_NPAUFUN_00e69660_shell@@II@Z",
-     "size": 240
-    }
-   ],
-   "symbols": {
-    "?DAT_011f4648@@3PADA": "0x011f4648",
-    "_fnv_CopyFilePath": "0x00ec8d5f",
-    "?FUN_00a29680@@YAXXZ": "0x00a29680",
-    "?MapIndexToValue@@YAII@Z": "0x004dcbe0",
-    "?GetValueForIndex@@YAII@Z": "0x00e69c90",
-    "?_fnv_zlib_memset@@YAPAXPAXHI@Z": "0x00ec61c0",
-    "?DAT_0126f0d8@@3PAUDepthDevice@@A": "0x0126f0d8",
-    "?MapCodeToIndex@@YAII@Z": "0x00e69d00",
-    "?FUN_00e69ad0@@YAXPBD@Z": "0x00e69ad0",
-    "?FindFormatValue@TexFormatList@@QAEHEH@Z": "0x00e7aed0",
-    "?DAT_010ed800@@3QBDB": "0x010ed800",
-    "?DAT_010ed7b8@@3QBDB": "0x010ed7b8",
-    "?FUN_00e7b0f0@RendererE7B@@QAEPAXIIII@Z": "0x00e7b0f0",
-    "?DAT_010ed778@@3QBDB": "0x010ed778",
-    "?DAT_010ed730@@3QBDB": "0x010ed730",
-    "?FUN_00b6c200@@YAHH@Z": "0x00b6c200",
-    "?FUN_00e69e50@@YAIH@Z": "0x00e69e50",
-    "?DAT_010ed6d8@@3QBDB": "0x010ed6d8",
-    "?FUN_00e7b190@Owner@@QAEPAUEntry@@IIIPAI@Z": "0x00e7b190",
-    "?DAT_010ed69c@@3QBDB": "0x010ed69c",
-    "?DAT_010ed650@@3QBDB": "0x010ed650",
-    "?DAT_010ed5f0@@3QBDB": "0x010ed5f0",
-    "?FUN_00e7cc50@@YAXPAHH@Z": "0x00e7cc50",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "?InsertOrUpdate@HashTableBase@@QAEXII@Z": "0x00b57ea0",
-    "?FUN_00e8be20@ControllerMapE8B@@QAEXXZ": "0x00e8be20",
-    "?FUN_00e8f6d0@Owner8F6D0@@QAEXXZ": "0x00e8f6d0",
-    "?FUN_00e8cd60@This_cd60@@QAEXXZ": "0x00e8cd60",
-    "?AdvanceIterator@FUN_00e6e630_cls@@QAEXPAPAUMapItemNode@@PAIPAPAUMapValueObject@@@Z": "0x00e6e630",
-    "?g_0126f5d8@@3VGlobalObjectO2_00a7b610@@A": "0x0126f5d8",
-    "?g_0126f5ac@@3VGlobalObjectO2_00a7b610@@A": "0x0126f5ac",
-    "?FUN_00e7cec0@@YAXXZ": "0x00e7cec0",
-    "?DAT_010ee2e8@@3QBDB": "0x010ee2e8",
-    "?InitializeRendererResources@RendererBridge@@QAE_NXZ": "0x00e6ec90",
-    "?DAT_010ee298@@3QBDB": "0x010ee298",
-    "?FUN_00e7cf00@@YAXPAX@Z": "0x00e7cf00",
-    "?FUN_00e8b170@FUN_00e8b170_cls@@QAEXXZ": "0x00e8b170",
-    "?DAT_010ee238@@3QBDB": "0x010ee238",
-    "?GetEntry@FUN_00e69b40_shell@@QAEII@Z": "0x00e69b40",
-    "?SetComPointer@Holder_00e8f040@@QAEXPAUFakeCOM_00e8f040@@@Z": "0x00e8f040",
-    "?FUN_00e8bfa0@@YG_NPAUOuter@@I@Z": "0x00e8bfa0",
-    "?FUN_00e8bff0@Owner_e8bff0@@QAEPAXPAUHolder_e8bff0@@III@Z": "0x00e8bff0",
-    "?FUN_00a855f0@SkinInstance@@QBEXPBVNiPoint3@@0IPAV2@111I@Z": "0x00a855f0",
-    "?CopyAndRelease@S_00e8c0d0@@QAE_NPAX@Z": "0x00e8c0d0",
-    "?FUN_00aa1420@@YAPAXI@Z": "0x00aa1420",
-    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "??0FUN_00e76320@@QAE@XZ": "0x00e76320",
-    "??0OuterSlot@@QAE@XZ": "0x00e78bd0",
-    "?ConvertGeometryData@@YGIGPAUNiGeometryData@@IPAUE7Skin@@PAUE7Descriptor@@IPAX_NI@Z": "0x00e7a200"
    }
   },
   {
@@ -265293,7 +264584,7 @@
     },
     {
      "address": "0x00e8e1d0",
-     "symbol": "?InsertOrAssign@S_00e8e1d0_Map@@QAEXPBIUS_00e8e1d0_Ptr@@@Z",
+     "symbol": "?InsertOrAssign@S_00e8e1d0_Map@@QAEXPBQADUS_00e8e1d0_Ptr@@@Z",
      "size": 185
     },
     {
@@ -265320,6 +264611,11 @@
      "address": "0x00e8eb80",
      "symbol": "?FUN_00e8eb80@S00e8eb80_Obj@@QAEPAURefCountedBase@@PBD0PAUArrayHolder@@@Z",
      "size": 766
+    },
+    {
+     "address": "0x00c1d790",
+     "symbol": "?FUN_00c1d790@sc1d790@@YAPAV?$NiPointer@VNiD3DPass@@@@I@Z",
+     "size": 79
     }
    ],
    "symbols": {
@@ -265363,7 +264659,7 @@
     "??_C@_06HLAJHFOH@ps_1_2?$AA@": "0x010f0068",
     "??_C@_06CNFDNCGB@ps_1_4?$AA@": "0x010f0060",
     "??_C@_04KGFMLCPK@Main?$AA@": "0x0105c2b0",
-    "?FUN_00ee92d0@@YG_NPAUS_00a8d8b0@@II@Z": "0x00ee92d0",
+    "?FUN_00ee92d0@@YA_NPAUS_00a8d8b0@@PADI@Z": "0x00ee92d0",
     "?g_0126fa48@@3VGlobalObjectO2_00a7b610@@A": "0x0126fa48",
     "?g_0126fa40@@3VGlobalObjectO2_00a7b610@@A": "0x0126fa40",
     "?FUN_00ee6e3a@@YGJKPAPAUID3DXBuffer@@@Z": "0x00ee6e3a",
@@ -265385,7 +264681,7 @@
     "?RegisterShader@FUN_00e93820_shell@@QAEXPAUFakeShader_00e93820@@@Z": "0x00e93820",
     "?ReleaseAndDestroy@S00e8ea20@@QAEPAXI@Z": "0x00e8ea20",
     "?WriteShader@E8DF70Writer@@QAE_NAAVE8DF70BinaryStream@@PAVE8DF70Shader@@@Z": "0x00e8df70",
-    "?InsertOrAssign@S_00e8e1d0_Map@@QAEXPBIUS_00e8e1d0_Ptr@@@Z": "0x00e8e1d0",
+    "?InsertOrAssign@S_00e8e1d0_Map@@QAEXPBQADUS_00e8e1d0_Ptr@@@Z": "0x00e8e1d0",
     "?Destroy@FUN_00e8eb10_cls@@QAEPAU1@E@Z": "0x00e8eb10",
     "?LoadShaderProgram@ShaderLoader8e@@QAE_NPAUShaderStream8e@@ABUFixedString8e@@PAPAUShaderProgram8e@@_N@Z": "0x00e8e000",
     "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
@@ -265400,30 +264696,9 @@
     "??0FUN_00e8ead0@fnv_00e8ead0@@QAE@XZ": "0x00e8ead0",
     "?FUN_00e8ea60@S00a2f170_TmpSet@fnv_00a2f170@@QAEXABV?$S00a2f170_Ptr@VS00a2f170_Seq@fnv_00a2f170@@@2@@Z": "0x00e8ea60",
     "?LoadCacheFile@NiGPUProgramCacheE93@@QAE_NXZ": "0x00ee9350",
-    "?WriteTextToFile@@YG_NPBD0@Z": "0x00e8dd70"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00c1d790",
-     "symbol": "?FUN_00c1d790@sc1d790@@YAPAV?$NiPointer@VNiD3DPass@@@@I@Z",
-     "size": 79
-    }
-   ],
-   "symbols": {
+    "?WriteTextToFile@@YG_NPBD0@Z": "0x00e8dd70",
     "??0?$NiPointer@VNiD3DPass@@@@QAE@XZ": "0x00b54620",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40"
    }
   },
@@ -265455,7 +264730,7 @@
     },
     {
      "address": "0x00e96d40",
-     "symbol": "?FUN_00e96d40@FUN_00e96d40_Class@@QAEII@Z",
+     "symbol": "?FUN_00e96d40@FUN_00e96d40_Class@@QAEPBDI@Z",
      "size": 89
     },
     {
@@ -265839,6 +265114,26 @@
      "address": "0x00e89670",
      "symbol": "?ResetAndRegister@@YAXPAVD3DRenderStateGroup@@@Z",
      "size": 197
+    },
+    {
+     "address": "0x00e7e880",
+     "symbol": "?FUN_00e7e880@fnv_00e7e880@@YAPAVSpawnedObject@1@I@Z",
+     "size": 77
+    },
+    {
+     "address": "0x00e7f0a0",
+     "symbol": "?FUN_00e7f0a0@@YAPAUFUN_00e7ee80@@I@Z",
+     "size": 77
+    },
+    {
+     "address": "0x00b7c750",
+     "symbol": "?FUN_00b7c750@FUN_00b7c750_cls@@QAEJII@Z",
+     "size": 91
+    },
+    {
+     "address": "0x00b7dde0",
+     "symbol": "?FUN_00b7dde0@BloodDraw_b7dde0@@QAEXPAUDrawArgument_b7dde0@@@Z",
+     "size": 195
     }
    ],
    "symbols": {
@@ -265981,7 +265276,12 @@
     "?SetupMatrix@BSShader@fnv_00b7dfe0@@QAEXPAUSwizzledMatrix@2@MH@Z": "0x00b7cb00",
     "?RemoveGlobalConstant@@YA_NPBVNiFixedString@@@Z": "0x00aa04e0",
     "?UpdateLightShaderConstants@@YGXPBUMatrix@@M@Z": "0x00b7c850",
-    "?Set@StageArrayStorage_e7fea0@fnv_00e7fb80@@QAEXIABUStagePtr@2@@Z": "0x00e7fb80"
+    "?Set@StageArrayStorage_e7fea0@fnv_00e7fb80@@QAEXIABUStagePtr@2@@Z": "0x00e7fb80",
+    "??0FUN_00e7ee80@@QAE@XZ": "0x00e7ee80",
+    "??_USpawnedObject@fnv_00e7e880@@SAPAXI@Z": "0x00aa1420",
+    "??0SpawnedObject@fnv_00e7e880@@QAE@XZ": "0x00e7dc60",
+    "?FUN_00e6fbb0@XRenderer@@QAEXABUXTransform@@_N@Z": "0x00e6fbb0",
+    "?FUN_00ee6dfe@@YGPAUD3DXMATRIX@@PAU1@PBU1@1@Z": "0x00ee6dfe"
    }
   },
   {
@@ -266011,86 +265311,6 @@
    }
   },
   {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00e7e880",
-     "symbol": "?FUN_00e7e880@fnv_00e7e880@@YAPAVSpawnedObject@1@I@Z",
-     "size": 77
-    },
-    {
-     "address": "0x00e7f0a0",
-     "symbol": "?FUN_00e7f0a0@@YAPAUFUN_00e7ee80@@I@Z",
-     "size": 77
-    }
-   ],
-   "symbols": {
-    "??_USNAEntry@@SAPAXI@Z": "0x00aa1420",
-    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "??0FUN_00e7ee80@@QAE@XZ": "0x00e7ee80",
-    "??_USpawnedObject@fnv_00e7e880@@SAPAXI@Z": "0x00aa1420",
-    "??0SpawnedObject@fnv_00e7e880@@QAE@XZ": "0x00e7dc60"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass_od_variant_o2_nood_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00b7c750",
-     "symbol": "?FUN_00b7c750@FUN_00b7c750_cls@@QAEJII@Z",
-     "size": 91
-    }
-   ],
-   "symbols": {
-    "?FUN_00e6fbb0@XRenderer@@QAEXABUXTransform@@_N@Z": "0x00e6fbb0",
-    "?FUN_00ee6dfe@@YGPAUD3DXMATRIX@@PAU1@PBU1@1@Z": "0x00ee6dfe",
-    "?DAT_0126f74c@@3HA": "0x0126f74c"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass_rtm_variant.cpp",
-   "compiler": "rtm",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00b7dde0",
-     "symbol": "?FUN_00b7dde0@BloodDraw_b7dde0@@QAEXPAUDrawArgument_b7dde0@@@Z",
-     "size": 195
-    }
-   ],
-   "symbols": {
-    "?DAT_0126f74c@@3HA": "0x0126f74c",
-    "?DAT_011f91e0@@3PAPAVNiGeometry@@A": "0x011f91e0",
-    "?ApplyPairToState@E7DE90Owner@@QAEXI@Z": "0x00e7de90",
-    "?GetTextureByIndex@@YGPAUNiTexture@@PADH@Z": "0x00c03230",
-    "?FUN_00c4c2d0@fnv_00c4c2d0@@YAXPAUNiAVObject@1@HPAUMat4@1@@Z": "0x00c4c2d0",
-    "?FUN_00b7c750@FUN_00b7c750_cls@@QAEJII@Z": "0x00b7c750",
-    "?FUN_00b7c7b0@fnv_00b7c7b0@@YGXI@Z": "0x00b7c7b0",
-    "?ApplyRenderStateChanges@NiD3DPass@@QAE_N_N@Z": "0x00e7eb00"
-   }
-  },
-  {
    "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpixelshader.cpp",
    "compiler": "sp1",
    "flags": [
@@ -266116,12 +265336,46 @@
      "address": "0x00e898d0",
      "symbol": "?FUN_00e898d0@FUN_00e898d0_shell@@QAEXXZ",
      "size": 8
+    },
+    {
+     "address": "0x00e898e0",
+     "symbol": "?FUN_00e898e0@S00e898e0_Renderer@@QAE_NHHHH@Z",
+     "size": 44
+    },
+    {
+     "address": "0x00e89910",
+     "symbol": "?FUN_00e89910@S00e89910_Renderer@@QAE_NHHHH@Z",
+     "size": 44
+    },
+    {
+     "address": "0x00e89940",
+     "symbol": "?FUN_00e89940@FakeShaderConstants@@QAE_NIPBHIH@Z",
+     "size": 44
+    },
+    {
+     "address": "0x00e89970",
+     "symbol": "?FUN_00e89970@S_00e89970@@QAEXXZ",
+     "size": 48
+    },
+    {
+     "address": "0x00e899a0",
+     "symbol": "?FUN_00e899a0@FUN_00e899a0_shell@fnv_00e899a0@@QAE_NPAUNiShaderConstantMapEntry@2@PBXI@Z",
+     "size": 149
+    },
+    {
+     "address": "0x00e89a40",
+     "symbol": "?FUN_00e89a40@S_00e89a40_Shell@@QAE_NPAUS_00e89a40_Data@@PAXIIPBG@Z",
+     "size": 126
     }
    ],
    "symbols": {
     "?FUN_00e92f30@fnv_00e92f30@@YA_NPAUNiD3DPixelShader@1@@Z": "0x00e92f30",
     "?PurgeShader@FakeRenderer@@QAEXPAUFakeShader@@@Z": "0x00e699c0",
-    "?SetD3DPixelShader@NiD3DPixelShader@@QAEXPAVGeometryRelatedType@@@Z": "0x00BE0B20"
+    "?SetD3DPixelShader@NiD3DPixelShader@@QAEXPAVGeometryRelatedType@@@Z": "0x00BE0B20",
+    "?DAT_010ef7d4@@3PADA": "0x010ef7d4",
+    "?FUN_00e89840@FUN_00e89840_Class@@QAEXXZ": "0x00e89840",
+    "?RemoveProgramFromMap@@YAXPAUProgram@@@Z": "0x00e937c0",
+    "?DAT_011f5fc4@@3HA": "0x011f5fc4"
    }
   },
   {
@@ -266149,72 +265403,6 @@
    "symbols": {
     "?SetD3DPixelShader@Twin_0086cf00@@QAEXQAVGeometryRelatedType@@@Z": "0x0086cf00",
     "?SetD3DPixelShader@Twin_00c3cf40@@QAEXQAVGeometryRelatedType@@@Z": "0x00c3cf40"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpixelshader_o2_noo1_nooy_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00e898e0",
-     "symbol": "?FUN_00e898e0@S00e898e0_Renderer@@QAE_NHHHH@Z",
-     "size": 44
-    },
-    {
-     "address": "0x00e89910",
-     "symbol": "?FUN_00e89910@S00e89910_Renderer@@QAE_NHHHH@Z",
-     "size": 44
-    },
-    {
-     "address": "0x00e89940",
-     "symbol": "?FUN_00e89940@FakeShaderConstants@@QAE_NIPBHIH@Z",
-     "size": 44
-    },
-    {
-     "address": "0x00e89970",
-     "symbol": "?FUN_00e89970@S_00e89970@@QAEXXZ",
-     "size": 48
-    }
-   ],
-   "symbols": {
-    "?DAT_010ef7d4@@3PADA": "0x010ef7d4",
-    "?FUN_00e89840@FUN_00e89840_Class@@QAEXXZ": "0x00e89840",
-    "?PurgeShader@FakeRenderer@@QAEXPAUFakeShader@@@Z": "0x00e699c0",
-    "?RemoveProgramFromMap@@YAXPAUProgram@@@Z": "0x00e937c0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpixelshader_o2_noo1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/Oy",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00e899a0",
-     "symbol": "?FUN_00e899a0@FUN_00e899a0_shell@fnv_00e899a0@@QAE_NPAUNiShaderConstantMapEntry@2@PBXI@Z",
-     "size": 149
-    },
-    {
-     "address": "0x00e89a40",
-     "symbol": "?FUN_00e89a40@S_00e89a40_Shell@@QAE_NPAUS_00e89a40_Data@@PAXIIPBG@Z",
-     "size": 126
-    }
-   ],
-   "symbols": {
-    "?DAT_011f5fc4@@3HA": "0x011f5fc4"
    }
   },
   {
@@ -267196,6 +266384,16 @@
      "address": "0x00e94130",
      "symbol": "?ShutdownPoint3@NiD3DShaderFactory@@QAEXXZ",
      "size": 26
+    },
+    {
+     "address": "0x00e927f0",
+     "symbol": "?FUN_00e927f0@ShaderStringPointerMap@@QAEXPBDV?$NiPointer@VShaderRefObject@@@@@Z",
+     "size": 276
+    },
+    {
+     "address": "0x00a1e740",
+     "symbol": "?FUN_00a1e740@FUN_00a1e740_Class@@QAE_NPBD0@Z",
+     "size": 36
     }
    ],
    "symbols": {
@@ -267291,52 +266489,8 @@
     "?ShutdownPoint3@NiD3DShaderFactory@@QAEXXZ": "0x00e94130",
     "?FUN_00e91e60@FUN_00e91e60_shell@@QAEXPAUGraphicsRenderer@@@Z": "0x00e91e60",
     "?UpdateShaderMaterialCache@NiD3DShaderFactory@@QAEXPAX@Z": "0x00e940d0",
-    "?GetShaderRefObject@ShaderFactoryView@@QAEPAVShaderRefObject@@PBD@Z": "0x00e92a70"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00e927f0",
-     "symbol": "?FUN_00e927f0@ShaderStringPointerMap@@QAEXPBDV?$NiPointer@VShaderRefObject@@@@@Z",
-     "size": 276
-    }
-   ],
-   "symbols": {
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "?FUN_0043a010@FUN_0043a010_shell@@QAEPAUFUN_0043a010_t@@XZ": "0x0043a010"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00a1e740",
-     "symbol": "?FUN_00a1e740@FUN_00a1e740_Class@@QAE_NPBD0@Z",
-     "size": 36
-    }
-   ],
-   "symbols": {
+    "?GetShaderRefObject@ShaderFactoryView@@QAEPAVShaderRefObject@@PBD@Z": "0x00e92a70",
+    "?FUN_0043a010@FUN_0043a010_shell@@QAEPAUFUN_0043a010_t@@XZ": "0x0043a010",
     "?NiStricmp@@YAHPBD0@Z": "0x00aa1360"
    }
   },
@@ -267765,6 +266919,11 @@
      "address": "0x00eea540",
      "symbol": "?FUN_00eea540@NiD3DShaderProgram@@QAEXPAUNiD3DShaderProgramCreator@@@Z",
      "size": 10
+    },
+    {
+     "address": "0x00b18300",
+     "symbol": "?FUN_00b18300@NiD3DHLSLPixelShader_od@@QAEPAUID3DXConstantTable@@XZ",
+     "size": 17
     }
    ],
    "symbols": {
@@ -267863,26 +267022,6 @@
     "_D3DXGetShaderConstantTable@8": "0x00ee6e40",
     "?FUN_00be0bd0@NiD3DVertexShader@@QAEXPAUCOMUnknownInterface@@@Z": "0x00be0bd0"
    }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorhlsl_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00b18300",
-     "symbol": "?FUN_00b18300@NiD3DHLSLPixelShader@@QAEPAUID3DXConstantTable@@XZ",
-     "size": 17
-    }
-   ],
-   "symbols": {}
   },
   {
    "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorobj.cpp",
@@ -268066,6 +267205,11 @@
      "address": "0x00e93f30",
      "symbol": "?DestroyShaderProgramFactory@FUN_00e93f30_shell@@QAEPAXI@Z",
      "size": 32
+    },
+    {
+     "address": "0x0045cee0",
+     "symbol": "?FUN_0045cee0@FUN_0045cee0_shell@@QAEXPAX@Z",
+     "size": 72
     }
    ],
    "symbols": {
@@ -268145,31 +267289,7 @@
     "?FUN_00e93020@NiD3DShaderProgramFactory_00e93020@@QAEPAUShaderBufferRecord@@PBD@Z": "0x00e93020",
     "?GetNextName@NiD3DShaderProgramFactory@@QAEPBDAAPAX@Z": "0x00e93000",
     "?RegisterCreator@NiD3DShaderProgramFactory@@SA_NPBDPAVNiD3DShaderProgramCreator@@@Z": "0x00e93e70",
-    "?FindShaderProgramFile@@YA_NPBDPADI@Z": "0x00e930a0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x0045cee0",
-     "symbol": "?FUN_0045cee0@FUN_0045cee0_shell@@QAEXPAX@Z",
-     "size": 72
-    }
-   ],
-   "symbols": {
-    "?g_011c5f80@@3VGlobalObject_0096a2d0@@A": "0x011c5f80",
-    "?FUN_0040fbf0@FUN_0040fbf0_shell@@QAEXPAD@Z": "0x0040fbf0",
-    "?DAT_011c5f58@@3PAXA": "0x011c5f58",
+    "?FindShaderProgramFile@@YA_NPBDPADI@Z": "0x00e930a0",
     "?FUN_0040fba0@RecursiveSpinLock@@QAEXXZ": "0x0040fba0"
    }
   },
@@ -268827,23 +267947,7 @@
      "address": "0x006885d0",
      "symbol": "?GetRTTI@BSDismemberSkinInstance@@UBEPBVNiRTTI@@XZ",
      "size": 16
-    }
-   ],
-   "symbols": {
-    "?g_011f49d8@@3VGlobalObjectO2_00a7b610@@A": "0x011f49d8"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/bsdismemberskininstance_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a6c720",
      "symbol": "?FUN_00a6c720@S00a6c720@@QAEXPAU1@PAX@Z",
@@ -268876,6 +267980,7 @@
     }
    ],
    "symbols": {
+    "?g_011f49d8@@3VGlobalObjectO2_00a7b610@@A": "0x011f49d8",
     "??2BSFadeNode@@SAPAXI@Z": "0x00aa13e0",
     "??0_Call_a5d3a0@@QAE@XZ": "0x00a5d3a0",
     "?DAT_01069a84@@3HA": "0x01069a84",
@@ -268889,7 +267994,6 @@
     "?FUN_00406d00@@YAHPADHPBDZZ": "0x00406d00",
     "@__security_check_cookie@4": "0x00ec408c",
     "?FUN_00a86920@Skin@@QAEXPAUStrings@@@Z": "0x00a86920",
-    "?g_011f49d8@@3VGlobalObjectO2_00a7b610@@A": "0x011f49d8",
     "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
     "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
     "??_C@_0P@LPPDJNCE@Num?5Partitions?$AA@": "0x0109c7f8",
@@ -268980,7 +268084,7 @@
     },
     {
      "address": "0x00a86d40",
-     "symbol": "?FUN_00a86d40@@YAXXZ",
+     "symbol": "?FUN_00a86d40@FUN_00a86d40_shell@@QAEXAAUNiStream@@@Z",
      "size": 5
     },
     {
@@ -269068,7 +268172,7 @@
     "?FUN_00a7d510@@YAPADPBDI@Z": "0x00a7d510",
     "?str_0109e800@@3PADA": "0x0109e800",
     "?FUN_00a745c0@FUN_00a745c0_This@@QAEXPAX@Z": "0x00a745c0",
-    "?FUN_00a98eb0@@YAXAAVNiStream@@@Z": "0x00a98eb0",
+    "?FUN_00a98eb0@FUN_00a98eb0_shell@@QAEXAAVNiStream@@@Z": "0x00a98eb0",
     "?FUN_00a74510@@YAXXZ": "0x00a74510",
     "?FUN_00a74500@@YAXXZ": "0x00a74500",
     "?ReadValueFromStream@FUN_00a86f10_shell@fnv_00a86f10@@QAEXAAUNiStream@2@@Z": "0x00a86f10",
@@ -269153,6 +268257,11 @@
      "address": "0x00a87620",
      "symbol": "?AddToItemList@S00a87620_Obj@@QAEXPAUItemList@@@Z",
      "size": 355
+    },
+    {
+     "address": "0x006fede0",
+     "symbol": "?FUN_006fede0@HitRect@@QAE_NXZ",
+     "size": 173
     }
    ],
    "symbols": {
@@ -269188,28 +268297,7 @@
     "?FinalizeEntries@@YAXXZ": "0x00a87040",
     "?ReadEntries@FUN_00a87520_shell@@QAEXPAX@Z": "0x00a87520",
     "?FinalizeEntries@S00a87040_Obj@@QAEXXZ": "0x00a87040",
-    "?AddToItemList@S00a87620_Obj@@QAEXPAUItemList@@@Z": "0x00a87620"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/bssegmentedtrishape_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x006fede0",
-     "symbol": "?FUN_006fede0@HitRect@@QAE_NXZ",
-     "size": 173
-    }
-   ],
-   "symbols": {
+    "?AddToItemList@S00a87620_Obj@@QAEXPAUItemList@@@Z": "0x00a87620",
     "?g_TES@@3HA": "0x011dea10",
     "?GetCurrentMoveModeType@ActorMover@@QAEIXZ": "0x0059bb30",
     "?g_011c63cc@@3VGlobalObject_0045cfe0@@A": "0x011c63cc",
@@ -269906,24 +268994,7 @@
      "address": "0x00450b80",
      "symbol": "?GetShadowSceneNodeForIndex@NiAdditionalGeometryData@@SAPAVShadowSceneNode@@H@Z",
      "size": 15
-    }
-   ],
-   "symbols": {
-    "?DAT_011f91c8@@3PAPAVShadowSceneNode@@A": "0x011f91c8",
-    "?GetShadowSceneNodeForIndex@NiAdditionalGeometryData@@SAPAVShadowSceneNode@@H@Z": "0x00450b80"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niadditionalgeometrydata_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a72330",
      "symbol": "?FUN_00a72330@S00a72330@@QAEXPAI0I@Z",
@@ -270021,6 +269092,8 @@
     }
    ],
    "symbols": {
+    "?DAT_011f91c8@@3PAPAVShadowSceneNode@@A": "0x011f91c8",
+    "?GetShadowSceneNodeForIndex@NiAdditionalGeometryData@@SAPAVShadowSceneNode@@H@Z": "0x00450b80",
     "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "?DAT_0109cf58@fnv_00a727c0@@3HA": "0x0109cf58",
@@ -270657,6 +269730,31 @@
      "address": "0x00c6c760",
      "symbol": "?FUN_00c6c760@@YGXHHH@Z",
      "size": 3
+    },
+    {
+     "address": "0x00438220",
+     "symbol": "?FUN_00438220@@YAHXZ",
+     "size": 10
+    },
+    {
+     "address": "0x00456650",
+     "symbol": "?FUN_00456650@FUN_00456650_shell@@QBEGXZ",
+     "size": 32
+    },
+    {
+     "address": "0x004a51b0",
+     "symbol": "?FUN_004a51b0@FUN_004a51b0_shell@@QBEPBMH@Z",
+     "size": 30
+    },
+    {
+     "address": "0x004afc80",
+     "symbol": "?FUN_004afc80@ObjPtrArray@@QAEXXZ",
+     "size": 460
+    },
+    {
+     "address": "0x0094db80",
+     "symbol": "?FUN_0094db80@FUN_0094db80_shell@@QAEXE@Z",
+     "size": 22
     }
    ],
    "symbols": {
@@ -270758,8 +269856,25 @@
     "?FUN_00a59ec0@S59ec0@fnv_00a59ec0@@QAEXAAUCloningProcess@2@@Z": "0x00a59ec0",
     "?ToString@FloatMatrix3@@QAEPADPBD@Z": "0x00a598f0",
     "?InvokeNamedFunction@fnv_00a634b0@@YAPAXPBD@Z": "0x00a634b0",
-    "?UpdateSceneObject@NiAVObject@fnv_00a5a430@@UAEXXZ": "0x00a5a040"
-   }
+    "?UpdateSceneObject@NiAVObject@fnv_00a5a430@@UAEXXZ": "0x00a5a040",
+    "??BFlt@@QBEIXZ": "0x00559450",
+    "?GetFatigue@TESActorBaseData@@QBEGXZ": "0x004a8ae0",
+    "___security_cookie": "0x011c16bc",
+    "__ehhandler$?FUN_004afc80@ObjPtrArray@@QAEXXZ": "0x00ef0748",
+    "??0ObjPtr@@QAE@PAUNiObjectStub@@@Z": "0x00633c90",
+    "?IsNotEqual@DummyStruct_00631820@@QBE_NABU1@@Z": "0x00631820",
+    "?FUN_0045cec0@FUN_0045cec0_Class@@QAEXXZ": "0x0045cec0",
+    "??4ObjPtr@@QAEAAU0@ABU0@@Z": "0x006e5cc0",
+    "?FUN_005e0ba0@@YAPAPADI@Z": "0x005e0ba0",
+    "?FUN_004b0220@@YAXH@Z": "0x004b0220"
+   },
+   "eh_tails": [
+    {
+     "address": "0x00ef0740",
+     "size": 35,
+     "parent": "0x004afc80"
+    }
+   ]
   },
   {
    "source": "src/gamebryo2.2/corelibs/nimain/niavobject_inl_unit.cpp",
@@ -270800,64 +269915,6 @@
     "?EnsureWorldBound@NiAVObject@@QAEXXZ": "0x005467e0",
     "??0FourComponentFloatVector@@QAE@II@Z": "0x00546890"
    }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niavobject_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00438220",
-     "symbol": "?FUN_00438220@@YAHXZ",
-     "size": 10
-    },
-    {
-     "address": "0x00456650",
-     "symbol": "?FUN_00456650@FUN_00456650_shell@@QBEGXZ",
-     "size": 32
-    },
-    {
-     "address": "0x004a51b0",
-     "symbol": "?FUN_004a51b0@FUN_004a51b0_shell@@QBEPBMH@Z",
-     "size": 30
-    },
-    {
-     "address": "0x004afc80",
-     "symbol": "?FUN_004afc80@ObjPtrArray@@QAEXXZ",
-     "size": 460
-    },
-    {
-     "address": "0x0094db80",
-     "symbol": "?FUN_0094db80@FUN_0094db80_shell@@QAEXE@Z",
-     "size": 22
-    }
-   ],
-   "symbols": {
-    "??BFlt@@QBEIXZ": "0x00559450",
-    "?GetFatigue@TESActorBaseData@@QBEGXZ": "0x004a8ae0",
-    "___security_cookie": "0x011c16bc",
-    "__ehhandler$?FUN_004afc80@ObjPtrArray@@QAEXXZ": "0x00ef0748",
-    "??0ObjPtr@@QAE@PAUNiObjectStub@@@Z": "0x00633c90",
-    "?IsNotEqual@DummyStruct_00631820@@QBE_NABU1@@Z": "0x00631820",
-    "?FUN_0045cec0@FUN_0045cec0_Class@@QAEXXZ": "0x0045cec0",
-    "??4ObjPtr@@QAEAAU0@ABU0@@Z": "0x006e5cc0",
-    "?FUN_005e0ba0@@YAPAPADI@Z": "0x005e0ba0",
-    "?FUN_004b0220@@YAXH@Z": "0x004b0220"
-   },
-   "eh_tails": [
-    {
-     "address": "0x00ef0740",
-     "size": 35,
-     "parent": "0x004afc80"
-    }
-   ]
   },
   {
    "source": "src/gamebryo2.2/corelibs/nimain/niavobjectpalette.cpp",
@@ -271007,49 +270064,15 @@
      "address": "0x0051cf90",
      "symbol": "?GetRTTI@NiBillboardNode@@UBEPBVNiRTTI@@XZ",
      "size": 16
-    }
-   ],
-   "symbols": {
-    "?g_011f4aa0@@3VGlobalObjectO2_00a7b610@@A": "0x011f4aa0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nibillboardnode_o2_nood_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a7e770",
      "symbol": "?FUN_00a7e770@@YAPAVBillboardNode@@XZ",
      "size": 63
-    }
-   ],
-   "symbols": {
-    "?FUN_00aa13e0@@YAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
-    "??_7BillboardNode@@6B@": "0x0102bf44"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nibillboardnode_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a5ecb0",
-     "symbol": "??0FUN_00a5ecb0@@QAE@I@Z",
+     "symbol": "??0FUN_00a5ecb0_o2@@QAE@I@Z",
      "size": 38
     },
     {
@@ -271119,6 +270142,10 @@
     }
    ],
    "symbols": {
+    "?g_011f4aa0@@3VGlobalObjectO2_00a7b610@@A": "0x011f4aa0",
+    "?FUN_00aa13e0@@YAPAXI@Z": "0x00aa13e0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
+    "??_7BillboardNode@@6B@": "0x0102bf44",
     "?UpdateSelectedDownwardPass@NiNode@@UAEXAAUNiUpdateData@@I@Z": "0x00a5ded0",
     "?FUN_00a5e1f0@@YIXPAVNiNode@@HAAVNiUpdateData@@I@Z": "0x00a5e1f0",
     "?FUN_00a7de40@BoardObject@@QAEXPBU1@@Z": "0x00a7de40",
@@ -271140,7 +270167,6 @@
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "?ZERO@NiPoint3@@2V1@B": "0x011f426c",
     "?FUN_00a5ea70@FUN_00a5ea70_t@@QAEXPAUStrArr@@@Z": "0x00a5ea70",
-    "?g_011f4aa0@@3VGlobalObjectO2_00a7b610@@A": "0x011f4aa0",
     "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
     "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
     "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
@@ -271163,8 +270189,6 @@
     "?FUN_0053d280@Point3_0053d280@@QBE?AUNiPoint3@@M@Z": "0x0053d280",
     "?DAT_0109deb8@@3MB": "0x0109deb8",
     "?FUN_0043f8d0@BoardMatrix@@QBEPAU1@PAU1@ABU1@@Z": "0x0043f8d0",
-    "?FUN_00aa13e0@@YAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
     "?DAT_0102bf44@@3PAPBXA": "0x0102bf44",
     "?CopyMemberData@NiNode@@QAEXPAV1@AAVCloningProcess@@@Z": "0x00a5dc80",
     "??DThreeByThreeMatrix@@QBE?AUNiPoint3@@ABU1@@Z": "0x004b4500",
@@ -271461,7 +270485,7 @@
     "?FUN_00a5e600@NiNodeEq@@QAE_NPAVNiAVObject@@@Z": "0x00a5e600",
     "?FUN_00a926b0@NiBound@@QAE_NABU1@@Z": "0x00a926b0",
     "?FUN_00aa13e0@@YAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
     "?DAT_010a1024@@3DB": "0x010a1024",
     "??0NiPlane@@QAE@XZ": "0x00a69940",
     "?FUN_0060bef0@NiTObjectArrayA47@@QAEXI@Z": "0x0060bef0",
@@ -271619,6 +270643,11 @@
      "address": "0x00a71920",
      "symbol": "?FUN_00a71920@FUN_00a71920_shell@@QAEXPAUStrArr@@@Z",
      "size": 577
+    },
+    {
+     "address": "0x0045c620",
+     "symbol": "??0FUN_0045c620@@QAE@XZ",
+     "size": 42
     }
    ],
    "symbols": {
@@ -271703,28 +270732,7 @@
     "?ToString@NiRectFloat@@QBEPADPBD@Z": "0x00a71020",
     "?ProjectPointToScreen@FUN_00a6fdb0_t@@QBE_NABVNiPoint3@@AAM11M@Z": "0x00a6fdb0",
     "?CrossProduct@NiPoint3@@QBE?AV1@ABV1@@Z": "0x0053D1A0",
-    "?CrossProduct@CamPoint@@QBE?AU1@ABU1@@Z": "0x0053d1a0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nicamera_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x0045c620",
-     "symbol": "??0FUN_0045c620@@QAE@XZ",
-     "size": 42
-    }
-   ],
-   "symbols": {
+    "?CrossProduct@CamPoint@@QBE?AU1@ABU1@@Z": "0x0053d1a0",
     "??0NiPlane@@QAE@XZ": "0x00a69940",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050"
    }
@@ -272218,6 +271226,11 @@
      "address": "0x00a8e480",
      "symbol": "??_GFUN_00a8e480@@UAEPAXI@Z",
      "size": 46
+    },
+    {
+     "address": "0x00a8c6e0",
+     "symbol": "?FUN_00a8c6e0@@YAXPAUReadCtx@@PAUImgObj@@VNiPixelFormat@@2II@Z",
+     "size": 191
     }
    ],
    "symbols": {
@@ -272296,28 +271309,6 @@
     "?ReadImage@ClsReader@@QAEPAUClsImage@@PAUClsStream@@PAU2@@Z": "0x00a8e120",
     "?DecodeBytes@fnv_00a8dce0@@YIXPADHPBEPAE@Z": "0x00a8d460",
     "?ReadPixelData@DDSReader@@QAEPAUPixelData@@PAUImageStream@@PAU2@@Z": "0x00a8d0d0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niddsreader_decl_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a8c6e0",
-     "symbol": "?FUN_00a8c6e0@@YAXPAUReadCtx@@PAUImgObj@@VNiPixelFormat@@2II@Z",
-     "size": 191
-    }
-   ],
-   "symbols": {
-    "??9NiPixelFormat@@QBE_NABV0@@Z": "0x00a765c0",
-    "??0FUN_00a779b0@@QAE@PBVNiPixelFormat@@@Z": "0x00a779b0"
    }
   },
   {
@@ -273104,6 +272095,16 @@
      "address": "0x00aa0fe0",
      "symbol": "?ClearCamera@NiAccumulator@@QAEXXZ",
      "size": 8
+    },
+    {
+     "address": "0x00539f50",
+     "symbol": "??0FUN_00539f50@@QAE@HH@Z",
+     "size": 105
+    },
+    {
+     "address": "0x0066b640",
+     "symbol": "??0FUN_0066b640@@QAE@XZ",
+     "size": 31
     }
    ],
    "symbols": {
@@ -273138,33 +272139,7 @@
     "?ClearCamera@NiAccumulator@@QAEXXZ": "0x00aa0fe0",
     "?CreateVertexBufferSet@FUN_00a5d450_class@@QAEXIPAX@Z": "0x00a5d450",
     "?FUN_00a7b330@FUN_00a7b330_shell@@QAEXPAVNiBinaryExtraData@@PAUCloningProcess@@@Z": "0x00a7b330",
-    "?IsSameAs@A5d470Class@@UAE_NPAUA5d470Object@@@Z": "0x00a5d470"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niextradata_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00539f50",
-     "symbol": "??0FUN_00539f50@@QAE@HH@Z",
-     "size": 105
-    },
-    {
-     "address": "0x0066b640",
-     "symbol": "??0FUN_0066b640@@QAE@XZ",
-     "size": 31
-    }
-   ],
-   "symbols": {
+    "?IsSameAs@A5d470Class@@UAE_NPAUA5d470Object@@@Z": "0x00a5d470",
     "?FUN_00c6b910@@YIPAXPAX@Z": "0x00c6b910",
     "?DAT_0103046c@@3HA": "0x0103046c",
     "___security_cookie": "0x011c16bc",
@@ -273943,6 +272918,21 @@
      "address": "0x00a725d0",
      "symbol": "?FUN_00a725d0@FUN_00a725d0_shell2@@QAEXI@Z",
      "size": 43
+    },
+    {
+     "address": "0x00539ef0",
+     "symbol": "?FUN_00539ef0@ShaderOwner@@QAEXPAVNiGPUProgram@@@Z",
+     "size": 38
+    },
+    {
+     "address": "0x004a5200",
+     "symbol": "?FUN_004a5200@Owner@s4a5200@@QAEHH@Z",
+     "size": 38
+    },
+    {
+     "address": "0x00525340",
+     "symbol": "?FUN_00525340@@YAXPAM@Z",
+     "size": 222
     }
    ],
    "symbols": {
@@ -274032,76 +273022,11 @@
     "??0FUN_00a67b20@@QAE@GPAVNiPoint3@@0PAVRgbaColor@@PAVNiPoint2@@GG@Z": "0x00a67b20",
     "?MedianOfThree@PivotGeometry@@QAEHPAGEHH@Z": "0x00a672b0",
     "?GetBounds@RenderOwner@@QAEXPAUBoundOut@@@Z": "0x00a675b0",
-    "?ReadBinary@GeomEA0@fnv_00a67ea0@@QAEXAAVStreamEA0@2@@Z": "0x00a67ea0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nigeometrydata_od_noo2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00539ef0",
-     "symbol": "?FUN_00539ef0@ShaderOwner@@QAEXPAVNiGPUProgram@@@Z",
-     "size": 38
-    }
-   ],
-   "symbols": {
+    "?ReadBinary@GeomEA0@fnv_00a67ea0@@QAEXAAVStreamEA0@2@@Z": "0x00a67ea0",
     "?SetProgram@NiGPUProgramOwner@@QAEXPAVNiGPUProgram@@@Z": "0x00a67260",
-    "??B?$NiPointer@VNiGPUProgramOwner@@@@QBEPAVNiGPUProgramOwner@@XZ": "0x00559450"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nigeometrydata_od_oy_noo2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x004a5200",
-     "symbol": "?FUN_004a5200@Owner@s4a5200@@QAEHH@Z",
-     "size": 38
-    }
-   ],
-   "symbols": {
+    "??B?$NiPointer@VNiGPUProgramOwner@@@@QBEPAVNiGPUProgramOwner@@XZ": "0x00559450",
     "??B?$NiPointer@UTarget@s4a5200@@@s4a5200@@QBEPAUTarget@1@XZ": "0x00559450",
-    "?ForwardToMember@Target@s4a5200@@QAEHH@Z": "0x004a5230"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nigeometrydata_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00525340",
-     "symbol": "?FUN_00525340@@YAXPAM@Z",
-     "size": 222
-    }
-   ],
-   "symbols": {
+    "?ForwardToMember@Target@s4a5200@@QAEHH@Z": "0x004a5230",
     "?DAT_011f4aa8@@3PAIA": "0x011f4aa8"
    }
   },
@@ -274132,6 +273057,11 @@
      "address": "0x00ec0ac0",
      "symbol": "?FindString@NiPlaybackFile@@QAE_NPBD_N11@Z",
      "size": 518
+    },
+    {
+     "address": "0x00a5b630",
+     "symbol": "?FUN_00a5b630@@YAXXZ",
+     "size": 43
     }
    ],
    "symbols": {
@@ -274159,31 +273089,9 @@
     "@__security_check_cookie@4": "0x00ec408c",
     "??_C@_0M@MKBHGAIN@Data?2Video?2?$AA@": "0x010f1ba8",
     "??_C@_0CA@PMMFLHHI@Could?5not?5open?5?$CFs?5for?5playback?4?$AA@": "0x010f1b88",
-    "?GetNameByKey@EC2DF0Registry@@QAE_NIPAD@Z": "0x00ec2df0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niglobalstringtable_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00a5b630",
-     "symbol": "?FUN_00a5b630@@YAXXZ",
-     "size": 43
-    }
-   ],
-   "symbols": {
+    "?GetNameByKey@EC2DF0Registry@@QAE_NIPAD@Z": "0x00ec2df0",
     "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "?DAT_011f42c0@@3PAVNiGlobalStringTable@@A": "0x011f42c0",
     "??0FUN_00a5b530@@QAE@XZ": "0x00a5b530"
    }
   },
@@ -274300,7 +273208,7 @@
     },
     {
      "address": "0x00ee92d0",
-     "symbol": "?FUN_00ee92d0@@YG_NPAUS_00a8d8b0@@II@Z",
+     "symbol": "?FUN_00ee92d0@@YA_NPAUS_00a8d8b0@@PADI@Z",
      "size": 113
     },
     {
@@ -274347,6 +273255,11 @@
      "address": "0x00ee9ca0",
      "symbol": "?FUN_00ee9ca0@FUN_00ee9ca0_shell@@QAEPAXI@Z",
      "size": 32
+    },
+    {
+     "address": "0x00ee9cc0",
+     "symbol": "?FUN_00ee9cc0@ShaderLib@@QAE_NPAUS_00a8d8b0@@AA_N@Z",
+     "size": 2075
     }
    ],
    "symbols": {
@@ -274410,7 +273323,7 @@
     "??_C@_0BI@GGEJBBGP@NiGPUProgram?5Cache?5File?$AA@": "0x01101394",
     "?FUN_00a575b0@@YAXPAUFUN_00a575b0_Object@@H@Z": "0x00a575b0",
     "?DAT_011c2fdd@@3_NA": "0x011c2fdd",
-    "?FUN_00ee92d0@@YG_NPAUS_00a8d8b0@@II@Z": "0x00ee92d0",
+    "?FUN_00ee92d0@@YA_NPAUS_00a8d8b0@@PADI@Z": "0x00ee92d0",
     "?AdvancePosition@@YAXPAUS_00a8d8b0@@PAXI@Z": "0x00a8d8b0",
     "?RemoveAt@FUN_00ee8fe0_cls@@QAEXI@Z": "0x00ee8fe0",
     "?InvokeAndAccumulate@@YAHPAUFUN_00a57580_cls@@H@Z": "0x00a57580",
@@ -274426,36 +273339,7 @@
     "?FUN_00ee8ac0@FUN_00ee8ac0_cls@@QAEPAHXZ": "0x00ee8ac0",
     "?BuildAbsolutePath@@YAIPADIPBD1@Z": "0x00aa2ba0",
     "?Lookup@Ee9b10_Map@fnv_00ee9b10@@QAE_NAAVNiFixedString@@AAPAUEe9b10_Value@2@@Z": "0x00ee8e90",
-    "?LoadCacheFile@NiGPUProgramCacheE93@@QAE_NXZ": "0x00ee9350"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nigpuprogramcache_rtm_variant.cpp",
-   "compiler": "rtm",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00ee9cc0",
-     "symbol": "?FUN_00ee9cc0@ShaderLib@@QAE_NPAUS_00a8d8b0@@AA_N@Z",
-     "size": 2075
-    }
-   ],
-   "symbols": {
-    "___security_cookie": "0x011c16bc",
-    "?AdvancePosition@@YAXPAUS_00a8d8b0@@PAXI@Z": "0x00a8d8b0",
-    "?AddString@NiGlobalStringTable@@SAPADPBD@Z": "0x00a5b690",
-    "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "?ms_lObjectCount@NiRefObject@@2IA": "0x011f4400",
-    "__imp__InterlockedIncrement@4": "0x00fdf1c0",
-    "?DAT_0109b220@@3PADA": "0x0109b220",
-    "@__security_check_cookie@4": "0x00ec408c",
-    "?Lookup@Ee9b10_Map@fnv_00ee9b10@@QAE_NAAVNiFixedString@@AAPAUEe9b10_Value@2@@Z": "0x00ee8e90",
+    "?LoadCacheFile@NiGPUProgramCacheE93@@QAE_NXZ": "0x00ee9350",
     "??2RefObjBase@@SAPAXI@Z": "0x00aa13e0",
     "?DAT_0101dce4@@3HA": "0x0101dce4",
     "?DAT_010f0134@fnv_00e8ead0@@3PADA": "0x010f0134",
@@ -274470,7 +273354,6 @@
     "?FUN_00eea550@FUN_00eea550_cls@@QAEXH@Z": "0x00eea550",
     "?FUN_00eea560@CpuObject@@QAEXH@Z": "0x00eea560",
     "?FUN_00eea570@CpuObject@fnv_00eea570@@QAEXH@Z": "0x00eea570",
-    "?FUN_00e8ea60@S00a2f170_TmpSet@fnv_00a2f170@@QAEXABV?$S00a2f170_Ptr@VS00a2f170_Seq@fnv_00a2f170@@@2@@Z": "0x00e8ea60",
     "?SetAt@GroupMap@@QAEXABVFixedStr@@UGroupPtrArg@@@Z": "0x00e8e1d0"
    }
   },
@@ -274800,6 +273683,91 @@
      "address": "0x00c54d60",
      "symbol": "?FUN_00c54d60@FUN_00c54d60_shell@@QAEPAHXZ",
      "size": 16
+    },
+    {
+     "address": "0x00a99870",
+     "symbol": "?FUN_00a99870@FUN_00a99870_shell@@QAEXPAU1@PAX@Z",
+     "size": 106
+    },
+    {
+     "address": "0x00a998e0",
+     "symbol": "?FUN_00a998e0@Extra_00a998e0@@QAE_NPAU1@@Z",
+     "size": 93
+    },
+    {
+     "address": "0x00a99940",
+     "symbol": "?FUN_00a99940@@YAPBQBDXZ",
+     "size": 6
+    },
+    {
+     "address": "0x00a99950",
+     "symbol": "?FUN_00a99950@FUN_00a99950_shell@@QAEXXZ",
+     "size": 36
+    },
+    {
+     "address": "0x00a99980",
+     "symbol": "?FUN_00a99980@ST_00a99980@@QAEPAU1@HH@Z",
+     "size": 44
+    },
+    {
+     "address": "0x00a999b0",
+     "symbol": "?FUN_00a999b0@NiPSysOwnerA99@@QAEPAVNiPSysBaseA99@@PAX@Z",
+     "size": 89
+    },
+    {
+     "address": "0x00a99a10",
+     "symbol": "?FUN_00a99a10@@YAPAVNiExtraData@@XZ",
+     "size": 52
+    },
+    {
+     "address": "0x00a99a50",
+     "symbol": "?FUN_00a99a50@FUN_00a99a50_shell@fnv_00a99a50@@QAEPAU12@H@Z",
+     "size": 59
+    },
+    {
+     "address": "0x00a99b20",
+     "symbol": "?FUN_00a99b20@NiIntegersExtraDataView@@QAEXPAV?$NiTPrimitiveArray@PAD@@@Z",
+     "size": 287
+    },
+    {
+     "address": "0x00c53f10",
+     "symbol": "??0IntegersExtraData@@QAE@XZ",
+     "size": 131
+    },
+    {
+     "address": "0x00c54400",
+     "symbol": "?FUN_00c54400@@YAPAVNiObject@@PAUC54400Owner@@@Z",
+     "size": 130
+    },
+    {
+     "address": "0x00c54490",
+     "symbol": "?FUN_00c54490@NiIntegerStreamExtraData@@QAEXABUNiIntegerStreamEntryData@@@Z",
+     "size": 190
+    },
+    {
+     "address": "0x00c546c0",
+     "symbol": "?FUN_00c546c0@fnv_00c546c0@@YAXXZ",
+     "size": 157
+    },
+    {
+     "address": "0x00c54760",
+     "symbol": "?FUN_00c54760@@YAXXZ",
+     "size": 115
+    },
+    {
+     "address": "0x00c54850",
+     "symbol": "?FUN_00c54850@FUN_00c54b70_cls@@QAEXI@Z",
+     "size": 480
+    },
+    {
+     "address": "0x00c54a30",
+     "symbol": "?SetAt@FUN_00c54a30@@QAEXIABUElemZ@@@Z",
+     "size": 315
+    },
+    {
+     "address": "0x00c54bc0",
+     "symbol": "?FUN_00c54bc0@@YAPAXI@Z",
+     "size": 135
     }
    ],
    "symbols": {
@@ -274851,169 +273819,38 @@
     "$SG3173": "0x010c2b44",
     "$SG3174": "0x010c2b3c",
     "$SG3176": "0x010c2b30",
-    "?FUN_00a26df0@@YAXPAUMyStream@@PAX@Z": "0x00a26df0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niintegersextradata_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a99870",
-     "symbol": "?FUN_00a99870@FUN_00a99870_shell@@QAEXPAU1@PAX@Z",
-     "size": 106
-    },
-    {
-     "address": "0x00a998e0",
-     "symbol": "?FUN_00a998e0@Extra_00a998e0@@QAE_NPAU1@@Z",
-     "size": 93
-    },
-    {
-     "address": "0x00a99940",
-     "symbol": "?FUN_00a99940@@YAPBQBDXZ",
-     "size": 6
-    },
-    {
-     "address": "0x00a99950",
-     "symbol": "?FUN_00a99950@FUN_00a99950_shell@@QAEXXZ",
-     "size": 36
-    },
-    {
-     "address": "0x00a99980",
-     "symbol": "?FUN_00a99980@ST_00a99980@@QAEPAU1@HH@Z",
-     "size": 44
-    },
-    {
-     "address": "0x00a999b0",
-     "symbol": "?FUN_00a999b0@NiPSysOwnerA99@@QAEPAVNiPSysBaseA99@@PAX@Z",
-     "size": 89
-    },
-    {
-     "address": "0x00a99a10",
-     "symbol": "?FUN_00a99a10@@YAPAVNiExtraData@@XZ",
-     "size": 52
-    },
-    {
-     "address": "0x00a99a50",
-     "symbol": "?FUN_00a99a50@FUN_00a99a50_shell@fnv_00a99a50@@QAEPAU12@H@Z",
-     "size": 59
-    },
-    {
-     "address": "0x00a99b20",
-     "symbol": "?FUN_00a99b20@NiIntegersExtraDataView@@QAEXPAV?$NiTPrimitiveArray@PAD@@@Z",
-     "size": 287
-    }
-   ],
-   "symbols": {
+    "?FUN_00a26df0@@YAXPAUMyStream@@PAX@Z": "0x00a26df0",
     "?g_011f5f24@@3VGlobalObjectO2_00a7b610@@A": "0x011f5f24",
     "?FUN_00aa10f0@@YAXPAX@Z": "0x00aa10f0",
     "?DAT_010a0c7c@fnv_00a99a50@@3DA": "0x010a0c7c",
     "?FUN_00a7b300@FUN_00a7b300_shell@@QAEXXZ": "0x00a7b300",
     "?FUN_00a7b2e0@ExtraDataObject@@QAEPAU1@XZ": "0x00a7b2e0",
     "??2BSFadeNode@@SAPAXI@Z": "0x00aa13e0",
-    "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
     "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
-    "?FUN_00a7b330@FUN_00a7b330_shell@@QAEXPAVNiBinaryExtraData@@PAUCloningProcess@@@Z": "0x00a7b330",
     "??_C@_08NBAGLCCA@m_uiSize?$AA@": "0x0109df4c",
-    "?FUN_00a7b580@ExtraDataStrings@@QAEXPAUStrArr@@@Z": "0x00a7b580",
     "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
     "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
     "??_C@_0N@CLFGDKHL@m_piValue?$FLi?$FN?$AA@": "0x010a0d10",
     "??2NiPSysBaseA99@@SAPAXI@Z": "0x00aa13e0",
     "??_7NiPSysDerivedA99@@6B@": "0x010a0c7c",
     "?AssignPointerArray@FUN_00a99800_shell@@QAEXIPBX@Z": "0x00a99800",
-    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
-    "?FUN_00a7d510@@YAPADPBDI@Z": "0x00a7d510",
     "?FUN_00a7d4d0@@YAPADPBDH@Z": "0x00a7d4d0",
-    "?FUN_00a99870@FUN_00a99870_shell@@QAEXPAU1@PAX@Z": "0x00a99870"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niintegersextradata_ob1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/Ob1"
-   ],
-   "functions": [
-    {
-     "address": "0x00c53f10",
-     "symbol": "??0IntegersExtraData@@QAE@XZ",
-     "size": 131
-    },
-    {
-     "address": "0x00c54400",
-     "symbol": "?FUN_00c54400@@YAPAVNiObject@@PAUC54400Owner@@@Z",
-     "size": 130
-    },
-    {
-     "address": "0x00c54490",
-     "symbol": "?FUN_00c54490@NiIntegerStreamExtraData@@QAEXABUNiIntegerStreamEntryData@@@Z",
-     "size": 190
-    },
-    {
-     "address": "0x00c546c0",
-     "symbol": "?FUN_00c546c0@fnv_00c546c0@@YAXXZ",
-     "size": 157
-    },
-    {
-     "address": "0x00c54760",
-     "symbol": "?FUN_00c54760@@YAXXZ",
-     "size": 115
-    },
-    {
-     "address": "0x00c54850",
-     "symbol": "?FUN_00c54850@FUN_00c54b70_cls@@QAEXI@Z",
-     "size": 480
-    },
-    {
-     "address": "0x00c54a30",
-     "symbol": "?SetAt@FUN_00c54a30@@QAEXIABUElemZ@@@Z",
-     "size": 315
-    },
-    {
-     "address": "0x00c54bc0",
-     "symbol": "?FUN_00c54bc0@@YAPAXI@Z",
-     "size": 135
-    }
-   ],
-   "symbols": {
-    "?DAT_012031c0@@3PAUNiFixedString@@A": "0x012031c0",
+    "?FUN_00a99870@FUN_00a99870_shell@@QAEXPAU1@PAX@Z": "0x00a99870",
     "?DAT_0109b220@@3PADA": "0x0109b220",
     "__imp__InterlockedDecrement@4": "0x00fdf1c4",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
     "?$S1@?1??SetAt@FUN_00c54a30@@QAEXIABUElemZ@@@Z@4IA": "0x012031e0",
     "?s_kEmpty@?1??SetAt@FUN_00c54a30@@QAEXIABUElemZ@@@Z@4U3@A": "0x012031d0",
     "?FUN_00c54cc0@FUN_00c54cc0_cls@@QAE_NPAU1@@Z": "0x00c54cc0",
-    "?g_012031c4@@3VGlobalObject_00a7b610@@A": "0x012031c4",
     "?GetExtraData@NiAVObject@@QAEPAVNiExtraData@@ABVNiFixedString@@@Z": "0x00a5bdd0",
-    "?FUN_00c54b70@FUN_00c54b70_cls@@QAEIAAUNiIntegerStreamEntry@@@Z": "0x00c54b70",
-    "?SetAt@FUN_00c54a30@@QAEXIABUElemZ@@@Z": "0x00c54a30",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "___security_cookie": "0x011c16bc",
     "__ehhandler$??0IntegersExtraData@@QAE@XZ": "0x00f2f553",
-    "?FUN_00a7b2e0@ExtraDataObject@@QAEPAU1@XZ": "0x00a7b2e0",
     "??_7IntegersExtraData@@6B@": "0x010c2a94",
     "??0IntegerStreamArrayBase@@QAE@GG@Z": "0x00c54c50",
     "??_7IntegerStreamArray@@6B@": "0x010c2a8c",
     "?FUN_00c543e0@FUN_00c543e0_shell@@QAEXXZ": "0x00c543e0",
     "__ehhandler$?FUN_00c546c0@fnv_00c546c0@@YAXXZ": "0x00f2f5c6",
     "$SG3334": "0x010c2b5c",
-    "?AddString@NiGlobalStringTable@@SAPADPBD@Z": "0x00a5b690",
-    "?FUN_00c54bc0@@YAPAXI@Z": "0x00c54bc0"
+    "?AddString@NiGlobalStringTable@@SAPADPBD@Z": "0x00a5b690"
    }
   },
   {
@@ -276179,6 +275016,11 @@
      "address": "0x00a93ea0",
      "symbol": "?SetChildAt@fnv_00a93ea0@@YIXPAVNiNode@@HIPAVNiAVObject@@@Z",
      "size": 71
+    },
+    {
+     "address": "0x005468d0",
+     "symbol": "?FUN_005468d0@Owner@s005468d0@@QAEXH@Z",
+     "size": 25
     }
    ],
    "symbols": {
@@ -276260,26 +275102,6 @@
     "?FUN_00a588a0@ThreeByThreeMatrix@@QBE?AU1@ABU1@@Z": "0x00a588a0",
     "?ApplyTransformToChildren@StandInNode@@QAEXABUThreeByThreeMatrix@@ABUStandInPt3@@_N@Z": "0x00a5d940"
    }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/ninode_od_oy_noo2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x005468d0",
-     "symbol": "?FUN_005468d0@Owner@s005468d0@@QAEXH@Z",
-     "size": 25
-    }
-   ],
-   "symbols": {}
   },
   {
    "source": "src/gamebryo2.2/corelibs/nimain/niobjectnet.cpp",
@@ -276421,6 +275243,11 @@
      "address": "0x00a5ca80",
      "symbol": "?FUN_00a5ca80@S@@QAEXPAUStrArray@@@Z",
      "size": 138
+    },
+    {
+     "address": "0x007408d0",
+     "symbol": "?FUN_007408d0@FUN_007408d0_Class@@QAE_NH@Z",
+     "size": 40
     }
    ],
    "symbols": {
@@ -276517,26 +275344,6 @@
      "parent": "0x0056e950"
     }
    ]
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niobjectnet_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x007408d0",
-     "symbol": "?FUN_007408d0@FUN_007408d0_Class@@QAE_NH@Z",
-     "size": 40
-    }
-   ],
-   "symbols": {}
   },
   {
    "source": "src/gamebryo2.2/corelibs/nimain/nioldscreenspace.cpp",
@@ -276977,6 +275784,11 @@
      "address": "0x00a8b460",
      "symbol": "?FUN_00a8b460@@YGXPAU?$NiTPrimitiveArray@PADU?$NiTMallocInterface@PAD@@@@@Z",
      "size": 74
+    },
+    {
+     "address": "0x00aa4060",
+     "symbol": "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z",
+     "size": 236
     }
    ],
    "symbols": {
@@ -277008,28 +275820,7 @@
     "?ReadGroup@FUN_00a5d610_Object@@QAEXPAUNiStream@@@Z": "0x00a5d610",
     "?DestroyPalette@NiPalette@@QAEPAXI@Z": "0x00a8b270",
     "?Equals@FUN_00a8af40_cls@@QAEEPAU1@@Z": "0x00a8af40",
-    "?ReadFromSource@DataArray@fnv_00a8b2c0@@QAEXPAUDataSource@2@@Z": "0x00a8b2c0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nipalette_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00aa4060",
-     "symbol": "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z",
-     "size": 236
-    }
-   ],
-   "symbols": {
+    "?ReadFromSource@DataArray@fnv_00a8b2c0@@QAEXPAUDataSource@2@@Z": "0x00a8b2c0",
     "?FreePointer@FUN_00aa42c0_class@@QAEXPAXH@Z": "0x00aa42c0",
     "?ms_pPoolAddressMap@@3PAPAVMemoryPool@@A": "0x011f63b8",
     "?FUN_00aa6c70@FUN_00aa6c70_shell@@QAEXPAX@Z": "0x00aa6c70",
@@ -277430,7 +276221,7 @@
     },
     {
      "address": "0x00a968e0",
-     "symbol": "?FUN_00a968e0@@YIXPADHPAXE@Z",
+     "symbol": "?FUN_00a968e0@@YAXPADPAXE@Z",
      "size": 42
     },
     {
@@ -277555,7 +276346,7 @@
     },
     {
      "address": "0x00a98480",
-     "symbol": "?DestroyIfFlagged@S@@QAEPAXI@Z",
+     "symbol": "?DestroyIfFlagged@S_00a98480@@QAEPAXI@Z",
      "size": 35
     },
     {
@@ -277666,7 +276457,7 @@
     "?RegisterNiStreamFactory@@YAXXZ": "0x00a98460",
     "?FreePixelData@NiPersistentSrcTextureRendererData@@QAEXXZ": "0x00a980e0",
     "?LinkPalette@NiPersistentSrcTextureRendererData@fnv_00a98110@@QAEXAAUNiStream@@@Z": "0x00a98110",
-    "?DestroyIfFlagged@S@@QAEPAXI@Z": "0x00a98480",
+    "?DestroyIfFlagged@S_00a98480@@QAEPAXI@Z": "0x00a98480",
     "?AppendToStrings@ViewerData@@QAEXPAUViewerArray@@@Z": "0x00a98740",
     "?LoadTextureData@TextureLoad@@QAEXAAULoadStream@@@Z": "0x00e917e0",
     "?RegisterObjectLoader@NiStream@@SAHPBDP6APAUNiObject@@XZ@Z": "0x00a64900",
@@ -278230,6 +277021,11 @@
      "address": "0x00a6e4a0",
      "symbol": "?FUN_00a6e4a0@FUN_00a6e4a0_shell@@QAEXAAVNiStream@@@Z",
      "size": 151
+    },
+    {
+     "address": "0x004f0180",
+     "symbol": "?FUN_004f0180@FUN_004f0180_Class@@QAEXPAUM3_@@@Z",
+     "size": 351
     }
    ],
    "symbols": {
@@ -278270,28 +277066,7 @@
     "?MakeUnitLength@NiQuaternion@@QAEXXZ": "0x00a38560",
     "?LoadBinary@RgbaColor@@QAEXAAVNiStream@@@Z": "0x00a69800",
     "?SetFromEulerAngles@FUN_00a6e1f0_shell@@QAEXMMM@Z": "0x00a6e1f0",
-    "?FromRotationMatrix@NiQuaternion@@QAEXABVThreeByThreeMatrix@@@Z": "0x00a6df40"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niquaternion_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x004f0180",
-     "symbol": "?FUN_004f0180@FUN_004f0180_Class@@QAEXPAUM3_@@@Z",
-     "size": 351
-    }
-   ],
-   "symbols": {
+    "?FromRotationMatrix@NiQuaternion@@QAEXABVThreeByThreeMatrix@@@Z": "0x00a6df40",
     "__real@4000000000000000": "0x01011590",
     "?FUN_004b4660@M3_@@QAEXIMMM@Z": "0x004b4660"
    }
@@ -278792,26 +277567,7 @@
      "address": "0x00c6b910",
      "symbol": "?FUN_00c6b910@@YIPAXPAX@Z",
      "size": 40
-    }
-   ],
-   "symbols": {
-    "?DAT_010c4314@@3HA": "0x010c4314",
-    "?DAT_01267b60@@3HA": "0x01267b60",
-    "?Construct@NiCollisionObject@@QAEPAU1@XZ": "0x00a80fa0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nirtti_od_oy_noo2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/Oy-"
-   ],
-   "functions": [
+    },
     {
      "address": "0x0061bcf0",
      "symbol": "?FUN_0061bcf0@RTTIEntry@@QAEXXZ",
@@ -278819,6 +277575,9 @@
     }
    ],
    "symbols": {
+    "?DAT_010c4314@@3HA": "0x010c4314",
+    "?DAT_01267b60@@3HA": "0x01267b60",
+    "?Construct@NiCollisionObject@@QAEPAU1@XZ": "0x00a80fa0",
     "?DAT_0104d448@@3QBDB": "0x0104d448",
     "?FUN_004ede70@@YAXPAX@Z": "0x004ede70"
    }
@@ -278878,23 +277637,7 @@
      "address": "0x005467c0",
      "symbol": "?SetTaskFlag2000@TaskQueueInterface@@QAEX_N@Z",
      "size": 31
-    }
-   ],
-   "symbols": {
-    "?FUN_0043b370@FUN_0043b370_cls@@QAEX_NI@Z": "0x0043b370"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niscreenelements_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a87800",
      "symbol": "?FUN_00a87800@@YAPAXXZ",
@@ -278922,6 +277665,7 @@
     }
    ],
    "symbols": {
+    "?FUN_0043b370@FUN_0043b370_cls@@QAEX_NI@Z": "0x0043b370",
     "?g_011f5b48@@3VGlobalObjectO2_00a7b610@@A": "0x011f5b48",
     "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
     "??1FUN_00a89760_cls@@UAE@XZ": "0x00a89760",
@@ -280506,6 +279250,16 @@
      "address": "0x00d47a40",
      "symbol": "?SetSortingCamera@NiAccumulator@@UAEXPBVNiCamera@@@Z",
      "size": 10
+    },
+    {
+     "address": "0x00a839d0",
+     "symbol": "?FUN_00a839d0@@YGXEPAUMergeItems@@@Z",
+     "size": 599
+    },
+    {
+     "address": "0x00a83c30",
+     "symbol": "?FUN_00a83c30@LBSkinPartition@@QAEXAAULBStream@@@Z",
+     "size": 176
     }
    ],
    "symbols": {
@@ -280584,7 +279338,11 @@
     "?Merge@ListMerge@@QAEXPBU1@@Z": "0x00a827f0",
     "?ReduceGroupWeights@Processor@SkinWeights@@QAE_NPAUGeometry@2@EEPAUGroup@2@@Z": "0x00a833b0",
     "?g_011c5f80@@3VGlobalObject_0096a2d0@@A": "0x011c5f80",
-    "?FUN_0040fbf0@FUN_0040fbf0_shell@@QAEXPAD@Z": "0x0040fbf0"
+    "?FUN_0040fbf0@FUN_0040fbf0_shell@@QAEXPAD@Z": "0x0040fbf0",
+    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
+    "?ReadGroup@FUN_00a5d610_Object@@QAEXPAUNiStream@@@Z": "0x00a5d610",
+    "??0LBPartition@@QAE@XZ": "0x00a81ba0",
+    "?FUN_00a82d90@PartitionLoader@@QAEXAAUNiStream@@@Z": "0x00a82d90"
    }
   },
   {
@@ -280606,57 +279364,6 @@
    ],
    "symbols": {
     "?SetSortingCamera@Twin_00af3000@@UAEXPBVNiCamera@@@Z": "0x00af3000"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niskinpartition_decl_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a839d0",
-     "symbol": "?FUN_00a839d0@@YGXEPAUMergeItems@@@Z",
-     "size": 599
-    }
-   ],
-   "symbols": {
-    "?FUN_00aa10f0@@YAXPAX@Z": "0x00aa10f0",
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
-    "?ContainsSortedSubset@Holder@@QAE_NPBU1@@Z": "0x00a82190",
-    "?GetMergeCount@CA82770IndexArray@@QAEIPAU1@@Z": "0x00a82770",
-    "?Merge@ListMerge@@QAEXPBU1@@Z": "0x00a827f0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niskinpartition_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a83c30",
-     "symbol": "?FUN_00a83c30@LBSkinPartition@@QAEXAAULBStream@@@Z",
-     "size": 176
-    }
-   ],
-   "symbols": {
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
-    "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
-    "?ReadGroup@FUN_00a5d610_Object@@QAEXPAUNiStream@@@Z": "0x00a5d610",
-    "??0LBPartition@@QAE@XZ": "0x00a81ba0",
-    "?FUN_00a82d90@PartitionLoader@@QAEXAAUNiStream@@@Z": "0x00a82d90"
    }
   },
   {
@@ -281203,23 +279910,7 @@
      "address": "0x0049ed30",
      "symbol": "?GetRTTI@NiStencilProperty@@UBEPBVNiRTTI@@XZ",
      "size": 16
-    }
-   ],
-   "symbols": {
-    "?g_011f4a0c@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a0c"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nistencilproperty_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a6f070",
      "symbol": "?FUN_00a6f070@EqBase@@QAE_NPAVNiObject@@@Z",
@@ -281277,6 +279968,7 @@
     }
    ],
    "symbols": {
+    "?g_011f4a0c@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a0c",
     "?FUN_00a62140@EqBase@@QAE_NPAX@Z": "0x00a62140",
     "??_C@_0BA@PMNMKNIN@?$CFs?5?$DN?5UNKNOWN?$CB?$CB?$CB?$AA@": "0x0109b2ec",
     "?FUN_00aa1070@@YAPAXI@Z": "0x00aa1070",
@@ -281315,7 +280007,6 @@
     "?FUN_00a6f0b0@@YAPADPBDH@Z": "0x00a6f0b0",
     "?FUN_00a6f1e0@@YAPADPBDH@Z": "0x00a6f1e0",
     "?FUN_00a6f2d0@@YAPADPBDH@Z": "0x00a6f2d0",
-    "?g_011f4a0c@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a0c",
     "??_C@_07NHNMIHCP@m_uiRef?$AA@": "0x0109cb7c",
     "??_C@_08FKDAKFCN@m_uiMask?$AA@": "0x0109cb70",
     "??_C@_0N@CAPACEP@Test?5Funtion?$AA@": "0x0109cb60",
@@ -281750,6 +280441,16 @@
      "address": "0x00cc4870",
      "symbol": "?FUN_00cc4870@S_00cc4870@@QAEXPAUS_00cc4870_Stream@@@Z",
      "size": 61
+    },
+    {
+     "address": "0x00c3b370",
+     "symbol": "?FUN_00c3b370@NiStream2@@QAEXXZ",
+     "size": 79
+    },
+    {
+     "address": "0x00c64ad0",
+     "symbol": "?FUN_00c64ad0@S_Class@@QAEXPAUS_Stream@@@Z",
+     "size": 151
     }
    ],
    "symbols": {
@@ -282104,7 +280805,9 @@
     "?ReadNifHeader@NiStreamImpl@fnv_00a65400@@QAE_NXZ": "0x00a65400",
     "?LoadTopObjects@ObjectLoadStream@fnv_00a65720@@QAEXXZ": "0x00a65720",
     "?NiStreamDtor@@YIPAUFUN_00a66350_obj@@PAU1@HI@Z": "0x00a66350",
-    "?LinkObjects@LinkedHolder@@QAEXAAVNiStream@@@Z": "0x00cc21f0"
+    "?LinkObjects@LinkedHolder@@QAEXAAVNiStream@@@Z": "0x00cc21f0",
+    "?FUN_00a89af0@@YGXH@Z": "0x00a89af0",
+    "?FUN_00c4c920@FUN_00c4c920_class@@QAEXI@Z": "0x00c4c920"
    },
    "eh_tails": [
     {
@@ -282134,38 +280837,6 @@
    ],
    "symbols": {
     "?FUN_0044adf0@@YAXPAVMiddleHighProcess@@H@Z": "0x0044adf0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nistream_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00c3b370",
-     "symbol": "?FUN_00c3b370@NiStream2@@QAEXXZ",
-     "size": 79
-    },
-    {
-     "address": "0x00c64ad0",
-     "symbol": "?FUN_00c64ad0@S_Class@@QAEXPAUS_Stream@@@Z",
-     "size": 151
-    }
-   ],
-   "symbols": {
-    "?FUN_00a89af0@@YGXH@Z": "0x00a89af0",
-    "?FUN_00a63460@FUN_00a63460_shell@@QAEIXZ": "0x00a63460",
-    "?FUN_00c4c920@FUN_00c4c920_class@@QAEXI@Z": "0x00c4c920",
-    "?GetLoadedObject@NiStream@@QAEPAVNiObject@@XZ": "0x00a63430",
-    "?ClearTopLevelObjects@NiStream@@QAEXXZ": "0x00a644f0",
-    "?Clear@StreamHack@@QAEXXZ": "0x00a64ca0"
    }
   },
   {
@@ -282735,76 +281406,12 @@
      "address": "0x00a1e680",
      "symbol": "?SetAt@?$NiTArray@PAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@V?$NiTMallocInterface@PAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@@@@@QAEXIAAPAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@@Z",
      "size": 159
-    }
-   ],
-   "symbols": {
-    "?SetAtGrow@?$NiTArray@V?$NiPointer@VNiAVObject@@@@V?$NiTNewInterface@V?$NiPointer@VNiAVObject@@@@@@@@QAEIIABV?$NiPointer@VNiAVObject@@@@@Z": "0x004b02d0",
-    "?FUN_0060bef0@NiTObjectArrayA47@@QAEXI@Z": "0x0060bef0",
-    "?FUN_004b0310@ChildArray@fnv_00a5ed10@@QAEXIABUHeldChild@2@@Z": "0x004b0310",
-    "??0?$NiPointer@VBSTempEffect@@@@QAE@PAVBSTempEffect@@@Z": "0x00633c90",
-    "??4?$NiPointer@VBSTempEffect@@@@QAEAAV0@ABV0@@Z": "0x006e5cc0",
-    "?FUN_0045cec0@FUN_0045cec0_Class@@QAEXXZ": "0x0045cec0",
-    "__ehhandler$?RemoveAll@?$NiTArray@V?$NiPointer@VBSTempEffect@@@@V?$NiTNewInterface@V?$NiPointer@VBSTempEffect@@@@@@@@QAEXXZ": "0x00efea18",
-    "___security_cookie": "0x011c16bc",
-    "??0?$NiPointer@VNiAVObject@@@@QAE@PAVNiAVObject@@@Z": "0x00633c90",
-    "??0?$NiPointer@VNiAVObject@@@@QAE@ABV0@@Z": "0x00559a40",
-    "?IsNotEqual@DummyStruct_00631820@@QBE_NABU1@@Z": "0x00631820",
-    "??4?$NiPointer@VNiAVObject@@@@QAEAAV0@ABV0@@Z": "0x006e5cc0",
-    "__ehhandler$?RemoveAt@?$NiTArray@V?$NiPointer@VNiAVObject@@@@V?$NiTNewInterface@V?$NiPointer@VNiAVObject@@@@@@@@QAE?AV?$NiPointer@VNiAVObject@@@@I@Z": "0x00f13d61",
-    "?GetShortAtOffsetA@FUN_00658930_class@@QBEIXZ": "0x00658930",
-    "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
-    "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
-    "?ResizeAndClear@FUN_0096aca0_shell@@QAEXH@Z": "0x0096aca0",
-    "?SetAt@?$NiTArray@PAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@V?$NiTMallocInterface@PAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@@@@@QAEXIAAPAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@@Z": "0x00a1e680",
-    "?Allocate@?$NiTMallocInterface@PAVActorCombatGroup@@@@SAPAPAVActorCombatGroup@@G@Z": "0x0096afc0",
-    "?FUN_004ede70@@YAXPAX@Z": "0x004ede70",
-    "?SetAtGrow@?$NiTArray@PAVActorCombatGroup@@V?$NiTMallocInterface@PAVActorCombatGroup@@@@@@QAEIIAAPAVActorCombatGroup@@@Z": "0x00470000"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitarray_h_unit_o2_nood_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00cc4070",
      "symbol": "?FUN_00cc4070@HavokOperation@@QAEXPAUPrimitiveStringArray@@@Z",
      "size": 271
-    }
-   ],
-   "symbols": {
-    "___security_cookie": "0x011c16bc",
-    "?DAT_0126fd98@@3IA": "0x0126fd98",
-    "__tls_array": "0x0000002c",
-    "?currentAllocationContext@@3IA": "0x012722b4",
-    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
-    "__real@3dcccccd": "0x0101e2bc",
-    "__real@3c23d70a": "0x01013ea4",
-    "__ehhandler$?FUN_00cc4070@HavokOperation@@QAEXPAUPrimitiveStringArray@@@Z": "0x00f33d78",
-    "?FUN_00c8ad40@FUN_00c8ad40_cls@@QAEXPAVBC8AD40StringArray@@@Z": "0x00c8ad40",
-    "?g_012685c8@@3VGlobalObjectO2_00a7b610@@A": "0x012685c8",
-    "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
-    "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
-    "?FUN_00cc3a50@WorldObjectCC3@@QAEXPAUPropertiesCC3@@@Z": "0x00cc3a50"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitarray_h_unit_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a5b4b0",
      "symbol": "?FUN_00a5b4b0@CharPtrArr@@QAEHAAPAD@Z",
@@ -282862,28 +281469,51 @@
     }
    ],
    "symbols": {
-    "?FUN_00a7d550@@YAPADPBDM@Z": "0x00a7d550",
+    "?SetAtGrow@?$NiTArray@V?$NiPointer@VNiAVObject@@@@V?$NiTNewInterface@V?$NiPointer@VNiAVObject@@@@@@@@QAEIIABV?$NiPointer@VNiAVObject@@@@@Z": "0x004b02d0",
+    "?FUN_0060bef0@NiTObjectArrayA47@@QAEXI@Z": "0x0060bef0",
+    "?FUN_004b0310@ChildArray@fnv_00a5ed10@@QAEXIABUHeldChild@2@@Z": "0x004b0310",
+    "??0?$NiPointer@VBSTempEffect@@@@QAE@PAVBSTempEffect@@@Z": "0x00633c90",
+    "??4?$NiPointer@VBSTempEffect@@@@QAEAAV0@ABV0@@Z": "0x006e5cc0",
+    "?FUN_0045cec0@FUN_0045cec0_Class@@QAEXXZ": "0x0045cec0",
+    "__ehhandler$?RemoveAll@?$NiTArray@V?$NiPointer@VBSTempEffect@@@@V?$NiTNewInterface@V?$NiPointer@VBSTempEffect@@@@@@@@QAEXXZ": "0x00efea18",
+    "___security_cookie": "0x011c16bc",
+    "??0?$NiPointer@VNiAVObject@@@@QAE@PAVNiAVObject@@@Z": "0x00633c90",
+    "??0?$NiPointer@VNiAVObject@@@@QAE@ABV0@@Z": "0x00559a40",
+    "?IsNotEqual@DummyStruct_00631820@@QBE_NABU1@@Z": "0x00631820",
+    "??4?$NiPointer@VNiAVObject@@@@QAEAAV0@ABV0@@Z": "0x006e5cc0",
+    "__ehhandler$?RemoveAt@?$NiTArray@V?$NiPointer@VNiAVObject@@@@V?$NiTNewInterface@V?$NiPointer@VNiAVObject@@@@@@@@QAE?AV?$NiPointer@VNiAVObject@@@@I@Z": "0x00f13d61",
+    "?GetShortAtOffsetA@FUN_00658930_class@@QBEIXZ": "0x00658930",
     "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
     "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
+    "?ResizeAndClear@FUN_0096aca0_shell@@QAEXH@Z": "0x0096aca0",
+    "?SetAt@?$NiTArray@PAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@V?$NiTMallocInterface@PAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@@@@@QAEXIAAPAVShaderDeclarationNestedClass@NiD3DShaderDeclaration@@@Z": "0x00a1e680",
+    "?Allocate@?$NiTMallocInterface@PAVActorCombatGroup@@@@SAPAPAVActorCombatGroup@@G@Z": "0x0096afc0",
+    "?FUN_004ede70@@YAXPAX@Z": "0x004ede70",
+    "?SetAtGrow@?$NiTArray@PAVActorCombatGroup@@V?$NiTMallocInterface@PAVActorCombatGroup@@@@@@QAEIIAAPAVActorCombatGroup@@@Z": "0x00470000",
+    "?DAT_0126fd98@@3IA": "0x0126fd98",
+    "__tls_array": "0x0000002c",
+    "?currentAllocationContext@@3IA": "0x012722b4",
+    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
+    "__real@3dcccccd": "0x0101e2bc",
+    "__real@3c23d70a": "0x01013ea4",
+    "__ehhandler$?FUN_00cc4070@HavokOperation@@QAEXPAUPrimitiveStringArray@@@Z": "0x00f33d78",
+    "?FUN_00c8ad40@FUN_00c8ad40_cls@@QAEXPAVBC8AD40StringArray@@@Z": "0x00c8ad40",
+    "?g_012685c8@@3VGlobalObjectO2_00a7b610@@A": "0x012685c8",
+    "?FUN_00cc3a50@WorldObjectCC3@@QAEXPAUPropertiesCC3@@@Z": "0x00cc3a50",
+    "?FUN_00a7d550@@YAPADPBDM@Z": "0x00a7d550",
     "?FUN_00c8a560@ViewerConstraint@@QAEXPAVBC8AD40StringArray@@@Z": "0x00c8a560",
     "??_C@_0N@LJCGNPOK@ConeMinAngle?$AA@": "0x010c9c40",
     "??_C@_0O@DNNNGGOM@PlaneMinAngle?$AA@": "0x010c9c30",
     "??_C@_0O@OKDGNEKN@PlaneMaxAngle?$AA@": "0x010c9c20",
     "??_C@_0O@NMLNOFGK@TwistMinAngle?$AA@": "0x010c9c10",
     "??_C@_0O@LFGFHCL@TwistMaxAngle?$AA@": "0x010c9c00",
-    "___security_cookie": "0x011c16bc",
-    "?DAT_0126fd98@@3IA": "0x0126fd98",
-    "__tls_array": "0x0000002c",
     "__ehhandler$?FUN_00cf46e0@fnv_00cf46e0@@YGXPAUStrArr@1@@Z": "0x00f34838",
     "?g_tlsBlock@@3UTlsBlock_t@@A": "0x01272000",
     "?g_01268740@@3VGlobalObjectO2_00a7b610@@A": "0x01268740",
-    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
     "__ehhandler$?FUN_00c8ad40@FUN_00c8ad40_cls@@QAEXPAVBC8AD40StringArray@@@Z": "0x00f30788",
-    "?currentAllocationContext@@3IA": "0x012722b4",
     "?FUN_00c87be0@@YGXPAU?$NiTPrimitiveArray@PADU?$NiTMallocInterface@PAD@@@@@Z": "0x00c87be0",
     "?g_01268198@@3VGlobalObjectO2_00a7b610@@A": "0x01268198",
     "__ehhandler$?FUN_00cc31c0@CC31C0Object@fnv_00cc31c0@@QAEXPAVCC31C0StrArray@2@@Z": "0x00f30788",
-    "?FUN_00c8ad40@FUN_00c8ad40_cls@@QAEXPAVBC8AD40StringArray@@@Z": "0x00c8ad40",
     "?g_012685b0@@3VGlobalObjectO2_00a7b610@@A": "0x012685b0",
     "?FUN_00a7d4d0@@YAPADPBDH@Z": "0x00a7d4d0",
     "@__security_check_cookie@4": "0x00ec408c",
@@ -283198,9 +281828,9 @@
     "??_C@_0P@IIGHFOHC@EnvironmentMap?$AA@": "0x0109fdf0",
     "??_C@_06JIKMCOBB@FogMap?$AA@": "0x0109fde8",
     "?g_011f5e94@@3VGlobalObjectO2_00a7b610@@A": "0x011f5e94",
-    "?DAT_011f5ea0@@3JA": "0x011f5ea0",
-    "?DAT_011f5ea4@@3JA": "0x011f5ea4",
-    "?DAT_011f5ea8@@3JA": "0x011f5ea8",
+    "?DAT_011f5ea0@@3HA": "0x011f5ea0",
+    "?DAT_011f5ea4@@3HA": "0x011f5ea4",
+    "?DAT_011f5ea8@@3HA": "0x011f5ea8",
     "?FUN_00a6ff10@FUN_00a6ff10_StandIn@@QAE_NAAVNiStream@@@Z": "0x00a6ff10",
     "__imp__InterlockedIncrement@4": "0x00fdf1c0",
     "?LinkObject@NiDynamicEffect@@UAEXAAVNiStream@@@Z": "0x00a69070",
@@ -283547,6 +282177,11 @@
      "address": "0x00e7cd50",
      "symbol": "?SetTextureSlot@NiDX92DBufferData@@QAE_NPAXI@Z",
      "size": 87
+    },
+    {
+     "address": "0x00533f40",
+     "symbol": "?FUN_00533f40@Owner_b9713@@QAEXPAVObjectBase@@@Z",
+     "size": 102
     }
    ],
    "symbols": {
@@ -283704,7 +282339,8 @@
     "?CloneTo@TexProp@fnv_00a6bb00@@QAEXPAU12@AAUCloneProc@2@@Z": "0x00a6bb00",
     "??0TextureMapTransform@@QAE@XZ": "0x00a69b00",
     "?FUN_00a88f00@FUN_00a88f00_Class@@QAEXAAVNiStream@@@Z": "0x00a88f00",
-    "??0TexMapStub@@QAE@PAVNiTexture@@IHHPAVTextureMapTransform@@@Z": "0x00a69e00"
+    "??0TexMapStub@@QAE@PAVNiTexture@@IHHPAVTextureMapTransform@@@Z": "0x00a69e00",
+    "?GetAt@ObjectArray_b9713@@QAEPAPAVObjectBase@@I@Z": "0x00877a30"
    }
   },
   {
@@ -283747,30 +282383,6 @@
     "__ehhandler$?SetBaseMapFilterMode@NiTexturingProperty@@QAEXW4FilterMode@1@@Z": "0x00eeb0fb",
     "?SetBaseMapClampMode@NiTexturingProperty@@QAEXW4ClampMode@1@@Z": "0x004f3200",
     "?SetBaseMapFilterMode@NiTexturingProperty@@QAEXW4FilterMode@1@@Z": "0x0060aeb0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitexturingproperty_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/GF"
-   ],
-   "functions": [
-    {
-     "address": "0x00533f40",
-     "symbol": "?FUN_00533f40@Owner_b9713@@QAEXPAVObjectBase@@@Z",
-     "size": 102
-    }
-   ],
-   "symbols": {
-    "?GetAt@ObjectArray_b9713@@QAEPAPAVObjectBase@@I@Z": "0x00877a30",
-    "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90"
    }
   },
   {
@@ -284193,6 +282805,11 @@
      "address": "0x00e92760",
      "symbol": "?GetAt@?$NiTMapBase@V?$NiTPointerAllocator@I@@PBDV?$NiPointer@VRefCountedNamedObject@@@@@@QAE_NPBDAAV?$NiPointer@VRefCountedNamedObject@@@@@Z",
      "size": 129
+    },
+    {
+     "address": "0x00404cd0",
+     "symbol": "?FUN_00404cd0@FUN_00404cd0_Class@@QAEPAXI@Z",
+     "size": 44
     }
    ],
    "symbols": {
@@ -284219,29 +282836,7 @@
     "?GetFirstPos@?$NiTMapBase@V?$DFALL@V?$NiTMapItem@IPAVCombatThreatRecord@@@@@@IPAVCombatThreatRecord@@@@QAE_NXZ": "0x00404d30",
     "??0FormChangeMap@@QAE@XZ": "0x00843470",
     "?Destructor@?$NiTMapBase@V?$DFALL@V?$NiTMapItem@IPAVCombatThreatRecord@@@@@@IPAVCombatThreatRecord@@@@QAEPAV1@I@Z": "0x00845690",
-    "?GetAt@?$NiTMapBase@V?$NiTPointerAllocator@I@@PBDV?$NiPointer@VRefCountedNamedObject@@@@@@QAE_NPBDAAV?$NiPointer@VRefCountedNamedObject@@@@@Z": "0x00e92760"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitmapbase_h_unit_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00404cd0",
-     "symbol": "?FUN_00404cd0@FUN_00404cd0_Class@@QAEPAXI@Z",
-     "size": 44
-    }
-   ],
-   "symbols": {
-    "?FUN_00401030@@YAXPAX@Z": "0x00401030",
+    "?GetAt@?$NiTMapBase@V?$NiTPointerAllocator@I@@PBDV?$NiPointer@VRefCountedNamedObject@@@@@@QAE_NPBDAAV?$NiPointer@VRefCountedNamedObject@@@@@Z": "0x00e92760",
     "?FUN_00404c80@Twin_008d0360@@QAEXXZ": "0x00404c80"
    }
   },
@@ -284301,7 +282896,7 @@
     "__imp__InterlockedDecrement@4": "0x00fdf1c4",
     "?RemoveHead@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00b602d0",
     "?RemovePos@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADAAPAX@Z": "0x00e7d7f0",
-    "?RemoveTail@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
+    "?RemoveTail@?$NiTPointerListBaseT@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
     "?FUN_00e6e8a0@@YGXPAULinkedListEntry@@@Z": "0x00e6e8a0",
     "?FUN_004a49e0@FUN_004a49e0_shell@@QAEXPAX@Z": "0x004a49e0",
     "?FUN_0045cee0@FUN_0045cee0_shell@@QAEXPAX@Z": "0x0045cee0",
@@ -284454,30 +283049,7 @@
      "address": "0x00a80540",
      "symbol": "??0NiGeometry@@QAE@XZ",
      "size": 49
-    }
-   ],
-   "symbols": {
-    "??0FUN_00a5d3a0@@QAE@XZ": "0x00a5d3a0",
-    "?BSTextureSet_vtable@@3PAPAXA": "0x0102c0ec",
-    "??0FUN_00a5aa20_cls@@QAE@XZ": "0x00a5aa20",
-    "?CopyMemberData@NiGeometry@@QAEPAV1@XZ": "0x00a89ab0",
-    "??_7NiGeometry@@6B@": "0x0109e04c",
-    "?FUN_0051d080@S_0051d080@@QAEX_NG@Z": "0x0051d080",
-    "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
-    "??1FUN_0051d1c0@@QAE@XZ": "0x0051d1c0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitribasedgeom_iso_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a74780",
      "symbol": "?FUN_00a74780@ParticleLinkEndpoint@@QAEXAAVNiStream@@@Z",
@@ -284517,37 +283089,7 @@
      "address": "0x00c1ad90",
      "symbol": "?FUN_00c1ad90@ParticleDownwardPassReceiver@@QAEXPAXI@Z",
      "size": 52
-    }
-   ],
-   "symbols": {
-    "?g_011f4a48@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a48",
-    "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
-    "_DAT_0109ed94": "0x0109ed94",
-    "?FUN_00a80580@FUN_00a80580_cls@@QAEXXZ": "0x00a80580",
-    "?FUN_00a59f90@FUN_00a59f90_holder@@QAEXAAUNiUpdateData@@I@Z": "0x00a59f90",
-    "?LinkObject@NiGeometry@@UAEXAAVNiStream@@@Z": "0x00a80b50",
-    "?g_011f5b70@@3VGlobalObjectO2_00a7b610@@A": "0x011f5b70",
-    "?FUN_00a80e70@ViewerGeometry@@QAEXPAUViewerStrings@@@Z": "0x00a80e70",
-    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
-    "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
-    "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
-    "?ReplaceModelData@NiGeometry@@UAEXPAVNiGeometryData@@@Z": "0x00a80680",
-    "?FUN_00a80bf0@FUN_00a80bf0_shell@@QAEXAAUGeomStream@@@Z": "0x00a80bf0",
-    "?FUN_00a9b180@LineReceiver@LineLoadEntry@@QAEXAAVBinaryDataRecord@2@@Z": "0x00a9b180"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitribasedgeom_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x0051d080",
      "symbol": "?FUN_0051d080@S_0051d080@@QAEX_NG@Z",
@@ -284560,6 +283102,27 @@
     }
    ],
    "symbols": {
+    "??0FUN_00a5d3a0@@QAE@XZ": "0x00a5d3a0",
+    "?BSTextureSet_vtable@@3PAPAXA": "0x0102c0ec",
+    "??0FUN_00a5aa20_cls@@QAE@XZ": "0x00a5aa20",
+    "?CopyMemberData@NiGeometry@@QAEPAV1@XZ": "0x00a89ab0",
+    "??_7NiGeometry@@6B@": "0x0109e04c",
+    "?FUN_0051d080@S_0051d080@@QAEX_NG@Z": "0x0051d080",
+    "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
+    "??1FUN_0051d1c0@@QAE@XZ": "0x0051d1c0",
+    "?g_011f4a48@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a48",
+    "_DAT_0109ed94": "0x0109ed94",
+    "?FUN_00a80580@FUN_00a80580_cls@@QAEXXZ": "0x00a80580",
+    "?FUN_00a59f90@FUN_00a59f90_holder@@QAEXAAUNiUpdateData@@I@Z": "0x00a59f90",
+    "?LinkObject@NiGeometry@@UAEXAAVNiStream@@@Z": "0x00a80b50",
+    "?g_011f5b70@@3VGlobalObjectO2_00a7b610@@A": "0x011f5b70",
+    "?FUN_00a80e70@ViewerGeometry@@QAEXPAUViewerStrings@@@Z": "0x00a80e70",
+    "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
+    "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
+    "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
+    "?ReplaceModelData@NiGeometry@@UAEXPAVNiGeometryData@@@Z": "0x00a80680",
+    "?FUN_00a80bf0@FUN_00a80bf0_shell@@QAEXAAUGeomStream@@@Z": "0x00a80bf0",
+    "?FUN_00a9b180@LineReceiver@LineLoadEntry@@QAEXAAVBinaryDataRecord@2@@Z": "0x00a9b180",
     "___security_cookie": "0x011c16bc",
     "??_L@YGXPAXIHP6EX0@Z1@Z": "0x00ec782f",
     "__ehhandler$??0FUN_0051d0d0@@QAE@XZ": "0x00ef4c18",
@@ -284765,8 +283328,13 @@
     },
     {
      "address": "0x00a98eb0",
-     "symbol": "?FUN_00a98eb0@@YAXAAVNiStream@@@Z",
+     "symbol": "?FUN_00a98eb0@FUN_00a98eb0_shell@@QAEXAAVNiStream@@@Z",
      "size": 5
+    },
+    {
+     "address": "0x0051d000",
+     "symbol": "?FUN_0051d000@NiTriGeom2@@QAEXG@Z",
+     "size": 30
     }
    ],
    "symbols": {
@@ -284802,28 +283370,7 @@
     "??0NiTriShapeData@@QAE@GPAVNiPoint3@@0PAVRgbaColor@@PAVNiPoint2@@GW4NiGeometryData__DataFlags@@GPAG@Z": "0x00a7b630",
     "?FUN_00a7b850@FnvCpu_FUN_00a7b850_CpuObject@@QAEHXZ": "0x00a7b850",
     "??0NiTriShape@@QAE@GPAVNiPoint3@@0PAVRgbaColor@@PAVNiPoint2@@GW4NiGeometryData__DataFlags@@GPAG@Z": "0x00a74410",
-    "?Clone@FUN_00a74640@fnv_00a74640@@QAEPAUNiTriStrips@2@AAUCloningProcess@2@@Z": "0x00a74640"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitrishape_od_oy_noo2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/Oy-"
-   ],
-   "functions": [
-    {
-     "address": "0x0051d000",
-     "symbol": "?FUN_0051d000@NiTriGeom2@@QAEXG@Z",
-     "size": 30
-    }
-   ],
-   "symbols": {
+    "?Clone@FUN_00a74640@fnv_00a74640@@QAEPAUNiTriStrips@2@AAUCloningProcess@2@@Z": "0x00a74640",
     "?SetBitfield@NiTriBasedGeom@@QAEXGGG@Z": "0x0051d020"
    }
   },
@@ -285113,7 +283660,7 @@
     },
     {
      "address": "0x00a71e70",
-     "symbol": "?AppendString@Holder@@QAEXPAUStrArr@@@Z",
+     "symbol": "?AppendString@Holder_00a71e70@@QAEXPAUStrArr@@@Z",
      "size": 74
     },
     {
@@ -285155,12 +283702,12 @@
     "?CopyMemberData@NiLines@@QAEXPAV1@AAVCloningProcess@@@Z": "0x00a80400",
     "?FUN_00a9b180@LineReceiver@LineLoadEntry@@QAEXAAVBinaryDataRecord@2@@Z": "0x00a9b180",
     "?GetTriangleVertices@FUN_00a71e00_shell@@QAEXGPAPAUNiPoint3@@00@Z": "0x00a71e00",
-    "?AppendString@Holder@@QAEXPAUStrArr@@@Z": "0x00a71e70",
+    "?AppendString@Holder_00a71e70@@QAEXPAUStrArr@@@Z": "0x00a71e70",
     "?CreateTriStripsObject@FUN_00a71db0_class@@QAEPAUNiTriStripsObject@@H@Z": "0x00a71db0"
    }
   },
   {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitristripsdata_o2_nood_variant.cpp",
+   "source": "src/gamebryo2.2/corelibs/nimain/nitristripsdata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -285179,23 +283726,7 @@
      "address": "0x00a75f40",
      "symbol": "?FUN_00a75f40@NiTriStripsDataWork@@QAEXAAGAAPBG1AAI@Z",
      "size": 52
-    }
-   ],
-   "symbols": {
-    "?g_011f4a70@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a70"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/nitristripsdata_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00a75dc0",
      "symbol": "??0FUN_00a75dc0@@QAE@HHHHHHHHGPAG0@Z",
@@ -285263,6 +283794,7 @@
     }
    ],
    "symbols": {
+    "?g_011f4a70@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a70",
     "?DAT_0109d8ac@@3PBXB": "0x0109d8ac",
     "?FUN_00aa1460@@YAXPAXI@Z": "0x00aa1460",
     "?FUN_00a76040@Standin00a761a0@@QAEXXZ": "0x00a76040",
@@ -285272,7 +283804,6 @@
     "??_7FUN_00a75dc0@@6B@": "0x0109d8ac",
     "?FUN_00a66f90@FUN_00a66f90_cls@@QAEIXZ": "0x00a66f90",
     "?FUN_00a8aa70@FUN_00a8aa70_shell@@QAEXPAVNiStream@@@Z": "0x00a8aa70",
-    "?g_011f4a70@@3VGlobalObjectO2_00a7b610@@A": "0x011f4a70",
     "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
     "?SetSize@ViewerStrings@@QAEXI@Z": "0x0096ad30",
     "?SetAt@StrArr@fnv_00b5c7d0@@QAEXIAAPAD@Z": "0x0096ae90",
@@ -285753,6 +284284,11 @@
      "address": "0x00a7d5e0",
      "symbol": "?FUN_00a7d5e0@fnv_00a7d5e0@@YAPADPBD0@Z",
      "size": 138
+    },
+    {
+     "address": "0x00c5e9f0",
+     "symbol": "?FUN_00c5e9f0@MeshEmitter@@QAEXPAUViewerStrings@@@Z",
+     "size": 289
     }
    ],
    "symbols": {
@@ -285770,29 +284306,7 @@
     "??_C@_08MGLHPAAC@?$CFs?5?$DN?5?$CFhu?$AA@": "0x0109dce0",
     "??_C@_07BMNOCJEG@?$CFs?5?$DN?5?$CFg?$AA@": "0x0109dcec",
     "??_C@_07BJFNKNNA@?$CFs?5?$DN?5?$CFp?$AA@": "0x0109dcf4",
-    "?FormatStringAssignment@@YAPAXPBDD@Z": "0x00a7d3d0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nimain/niviewerstrings_od_variant_ob1_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy",
-    "/Ob1"
-   ],
-   "functions": [
-    {
-     "address": "0x00c5e9f0",
-     "symbol": "?FUN_00c5e9f0@MeshEmitter@@QAEXPAUViewerStrings@@@Z",
-     "size": 289
-    }
-   ],
-   "symbols": {
+    "?FormatStringAssignment@@YAPAXPBDD@Z": "0x00a7d3d0",
     "?FUN_00a7d330@@YAPADPBD@Z": "0x00a7d330",
     "?FUN_00a7d510@@YAPADPBDI@Z": "0x00a7d510",
     "?FUN_00a7d490@@YAPADPBDG@Z": "0x00a7d490",
@@ -287649,7 +286163,7 @@
     },
     {
      "address": "0x00c20390",
-     "symbol": "?DestroyIfFlagged@S@@QAEPAXI@Z",
+     "symbol": "?DestroyIfFlagged@S_00c20390@@QAEPAXI@Z",
      "size": 32
     },
     {
@@ -287698,7 +286212,7 @@
     "?FUN_00c2f4f0@FUN_00c61f60_class@@QAEXH@Z": "0x00c2f4f0",
     "?FUN_00c31c90@FUN_00c31c90_shell@@QAEXPAUCloningProcess@@@Z": "0x00c31c90",
     "?LinkObject@NiPSysVolumeEmitter@@UAEXAAVNiStream@@@Z": "0x00c31b40",
-    "?DestroyIfFlagged@S@@QAEPAXI@Z": "0x00c20390",
+    "?DestroyIfFlagged@S_00c20390@@QAEPAXI@Z": "0x00c20390",
     "?IsEqual@EmitterHack@@QAE_NPAUNiObject@@@Z": "0x00c20170",
     "__real@3fe0000000000000": "0x01011588",
     "?rand@fnv_00c201d0@@YAHXZ": "0x00ecadb8",
@@ -288089,7 +286603,7 @@
    }
   },
   {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysdata_o2_variant.cpp",
+   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysdata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -288230,7 +286744,7 @@
     "?SetDataConsistency@NiGeometryData_SetConsistency_View@@QAEXH@Z": "0x00a67050",
     "??0RgbaColor@@QAE@XZ": "0x004a7800",
     "?FUN_00a670c0@GeomData_S@@QAEXGPAVNiPoint3@@0PAURgbaColor@@PAUNiPoint2@@GG@Z": "0x00a670c0",
-    "?FUN_00a968e0@@YIXPADHPAXE@Z": "0x00a968e0"
+    "?FUN_00a968e0@@YAXPADPAXE@Z": "0x00a968e0"
    }
   },
   {
@@ -288727,6 +287241,11 @@
      "address": "0x00c2b7d0",
      "symbol": "?FUN_00c2b7d0@Holder00c2b7d0@fnv_00c2b7d0@@QAE_NPAX@Z",
      "size": 76
+    },
+    {
+     "address": "0x00639b60",
+     "symbol": "?FUN_00639b60@NiPSysEmitterCtlr_StandIn@@QAEPAVNiBoolInterpolator@@XZ",
+     "size": 129
     }
    ],
    "symbols": {
@@ -288831,34 +287350,9 @@
     "?CopyMemberData@NiPSysModifierCtlr@@QAEXPAV1@AAVCloningProcess@@@Z": "0x00c312f0",
     "?ProcessClone@NiPSysEmitterCtlr@@QAEXAAVCloningProcess@@@Z": "0x00c1bdc0",
     "?InterpolateBooleanKey@@YA_NMPBUAnimationKey@@IIPAIE@Z": "0x00a29250",
-    "?CreateNiPSysEmitterCtlrC1C5@@YAPAVNiPSysEmitterCtlrC1C5@@XZ": "0x00c1c5e0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysemitterctlr_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00639b60",
-     "symbol": "?FUN_00639b60@NiPSysEmitterCtlr_StandIn@@QAEPAVNiBoolInterpolator@@XZ",
-     "size": 129
-    }
-   ],
-   "symbols": {
+    "?CreateNiPSysEmitterCtlrC1C5@@YAPAVNiPSysEmitterCtlrC1C5@@XZ": "0x00c1c5e0",
     "??BGO@@QBEIXZ": "0x00559450",
-    "?g_011f3738@@3VGlobalObjectO2_00a7b610@@A": "0x011f3738",
-    "?g_011f3e58@@3VGlobalObjectO2_00a7b610@@A": "0x011f3e58",
-    "?DAT_01096968@@3EA": "0x01096968",
     "?FUN_00653270@@YAPAUNiObject@@PBUNiRTTI@@PAU1@@Z": "0x00653270",
-    "?FindHighestWeightIndex@FUN_00a368f0_cls@nsa@@QAEEXZ": "0x00a368f0",
     "?GetValueForIndex@Holder_00495d50@fnv_00495d50@@QAEIE@Z": "0x00495d50"
    }
   },
@@ -289571,6 +288065,11 @@
      "address": "0x00c2af80",
      "symbol": "?FUN_00c2af80@FUN_00c2af80_Obj@@QAEXPAUNiStream@@@Z",
      "size": 134
+    },
+    {
+     "address": "0x004a0c10",
+     "symbol": "?FUN_004a0c10@FUN_004a0c10_s@@QAEXXZ",
+     "size": 118
     }
    ],
    "symbols": {
@@ -289610,28 +288109,7 @@
     "?CreateGravityFieldModifier@@YAPAUNiPSysGravityFieldModifier@@XZ": "0x00c2aa50",
     "?FUN_00c32020@NiPSysParticle@@QAEXPAU1@PAUCloningProcess@@@Z": "0x00c32020",
     "?Clone@CloneHelper@@QAEPAUNiObject@@AAUCloningProcess@@@Z": "0x00c2ac50",
-    "?ApplyForceToParticles@Field141@@QAEXMPAUData141@@@Z": "0x00c2acb0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x004a0c10",
-     "symbol": "?FUN_004a0c10@FUN_004a0c10_s@@QAEXXZ",
-     "size": 118
-    }
-   ],
-   "symbols": {
+    "?ApplyForceToParticles@Field141@@QAEXMPAUData141@@@Z": "0x00c2acb0",
     "?ComputeMagnitude@NiPoint3@@QBEMXZ": "0x00457990",
     "?DAT_01017cf8@@3NB": "0x01017cf8"
    }
@@ -290019,7 +288497,7 @@
     },
     {
      "address": "0x00c29eb0",
-     "symbol": "?CreateSpawnedCtlr@SpawnedHost@@QAEPAUSpawnedCtlr@@PAX@Z",
+     "symbol": "?CreateSpawnedCtlr@SpawnedHost_00c29eb0@@QAEPAUSpawnedCtlr@@PAX@Z",
      "size": 75
     },
     {
@@ -290051,7 +288529,7 @@
     "_DAT_010becbc": "0x010becbc",
     "?CopyMemberData@NiPSysAirFieldAirFrictionCtlr@@QAEXPAV1@AAVCloningProcess@@@Z": "0x00c32de0",
     "??0SpawnedFloat@@QAE@M@Z": "0x00a3c390",
-    "?CreateSpawnedCtlr@SpawnedHost@@QAEPAUSpawnedCtlr@@PAX@Z": "0x00c29eb0",
+    "?CreateSpawnedCtlr@SpawnedHost_00c29eb0@@QAEPAUSpawnedCtlr@@PAX@Z": "0x00c29eb0",
     "?CreateSpawnedFloat@FUN_00c32da0_cls@@QAEPAXM@Z": "0x00c32da0"
    }
   },
@@ -290200,6 +288678,11 @@
      "address": "0x00c1fa40",
      "symbol": "?FUN_00c1fa40@@YAPAXXZ",
      "size": 6
+    },
+    {
+     "address": "0x00639780",
+     "symbol": "?FUN_00639780@@YAMXZ",
+     "size": 33
     }
    ],
    "symbols": {
@@ -290310,29 +288793,7 @@
     "?Load@LoadObjectC1E@@QAEXAAVNiStreamC1E@@@Z": "0x00c1e850",
     "?EmitFromMesh@MeshEmitterCandidate@fnv_00c1eb20@@QAE_NPAUNiGeometry@@AAUMeshPoint@2@1@Z": "0x00c1eb20",
     "?CloneItems@CloneEmitter@@QAEXAAUCloneProcess@@@Z": "0x00c1f8f0",
-    "?Release@FUN_00c1d660_cls@@QAEPAU1@E@Z": "0x00c1d660"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00639780",
-     "symbol": "?FUN_00639780@@YAMXZ",
-     "size": 33
-    }
-   ],
-   "symbols": {
-    "?DAT_01029790@@3NA": "0x01029790",
+    "?Release@FUN_00c1d660_cls@@QAEPAU1@E@Z": "0x00c1d660",
     "?FUN_006397b0@@YAHXZ": "0x006397b0"
    }
   },
@@ -290706,7 +289167,7 @@
    }
   },
   {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysmodifierboolctlr_o2_nood_variant.cpp",
+   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysmodifierboolctlr.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -290720,23 +289181,7 @@
      "address": "0x00c31290",
      "symbol": "?FUN_00c31290@@YAPAXXZ",
      "size": 6
-    }
-   ],
-   "symbols": {
-    "?g_012027c8@@3VGlobalObjectO2_00a7b610@@A": "0x012027c8"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysmodifierboolctlr_o2_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00c31260",
      "symbol": "?FUN_00c31260@CtlrStandin@@QAEPAU1@XZ",
@@ -290759,6 +289204,7 @@
     }
    ],
    "symbols": {
+    "?g_012027c8@@3VGlobalObjectO2_00a7b610@@A": "0x012027c8",
     "?NiPSysModifierCtlr_vtable@@3PAPAXA": "0x010c08ac",
     "?DAT_0109b220@@3PADA": "0x0109b220",
     "?g_011f404c@@3VGlobalObjectO2_00a7b610@@A": "0x011f404c",
@@ -291199,6 +289645,16 @@
      "address": "0x00c31ff0",
      "symbol": "??0FUN_00c31ff0@@QAE@XZ",
      "size": 40
+    },
+    {
+     "address": "0x00c287a0",
+     "symbol": "?FUN_00c287a0@RadialField@@QAEXMPAUParticleSystem@@@Z",
+     "size": 745
+    },
+    {
+     "address": "0x00c285d0",
+     "symbol": "?FUN_00c285d0@FUN_00c285d0_cls@@QAEPAXI@Z",
+     "size": 80
     }
    ],
    "symbols": {
@@ -291217,53 +289673,11 @@
     "?CalculateInverse@NiTransform@@QAEXAAV1@@Z": "0x004b4880",
     "??DNiTransform@@QBE?AV0@ABV0@@Z": "0x0062c250",
     "?WriteToArray@S_00c28a90@@QAEXPAUS_00c28a90_Arr@@@Z": "0x00c28a90",
-    "?Update@FieldMod@@QAEXMPAUNiPSysDataStandIn@@@Z": "0x00c28620"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier_od_variant_o2_gs_nood_nogs_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS-",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00c287a0",
-     "symbol": "?FUN_00c287a0@RadialField@@QAEXMPAUParticleSystem@@@Z",
-     "size": 745
-    }
-   ],
-   "symbols": {
-    "?CalculateInverse@NiTransform@@QAEXAAV1@@Z": "0x004b4880",
+    "?Update@FieldMod@@QAEXMPAUNiPSysDataStandIn@@@Z": "0x00c28620",
     "??DNiTransform@@QBE?AU0@ABU0@@Z": "0x0062c250",
     "__real@3fe0000000000000": "0x01011588",
     "__CIpow": "0x00ec9b00",
     "?FUN_00404010@@YAMMM@Z": "0x00404010",
-    "?Update@FieldMod@@QAEXMPAUNiPSysDataStandIn@@@Z": "0x00c28620"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier_rtm_variant.cpp",
-   "compiler": "rtm",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00c285d0",
-     "symbol": "?FUN_00c285d0@FUN_00c285d0_cls@@QAEPAXI@Z",
-     "size": 80
-    }
-   ],
-   "symbols": {
     "?FUN_00aa13e0@@YAPAXI@Z": "0x00aa13e0",
     "??0FUN_00c31ff0@@QAE@XZ": "0x00c31ff0",
     "?DAT_010be99c@@3HA": "0x010be99c",
@@ -291953,6 +290367,11 @@
      "address": "0x00c25c40",
      "symbol": "?PopNiPSysUpdateTask@@YAPAUNiPSysUpdateTask@@XZ",
      "size": 92
+    },
+    {
+     "address": "0x00c25990",
+     "symbol": "?FUN_00c25990@@YAPAXI@Z",
+     "size": 95
     }
    ],
    "symbols": {
@@ -291991,28 +290410,7 @@
     "?DestroyManager@@YAXXZ": "0x00c25ac0",
     "?AppendRecords@LinkIDSet_00c25b30@@QAEXI@Z": "0x00c25b30",
     "?DestroyElements@Elem_c25@@QAEPAXI@Z": "0x00c259f0",
-    "?FindOrAdd@ActiveArray@@QAEIABQAX@Z": "0x00e7ec00"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask_noehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00c25990",
-     "symbol": "?FUN_00c25990@@YAPAXI@Z",
-     "size": 95
-    }
-   ],
-   "symbols": {
-    "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
+    "?FindOrAdd@ActiveArray@@QAEIABQAX@Z": "0x00e7ec00",
     "??_H@YGXPAXIHP6EPAX0@Z@Z": "0x00401050",
     "_FUN_00aa1420": "0x00aa1420",
     "??0C25990Elem@@QAE@XZ": "0x00c25850"
@@ -292169,6 +290567,11 @@
      "address": "0x00c2c170",
      "symbol": "?FUN_00c2c170@AirField@fnv_00c2c170@@QAEXMPBUAirParticles@2@@Z",
      "size": 730
+    },
+    {
+     "address": "0x00c26de0",
+     "symbol": "?FUN_00c26de0@TFieldModifier@@QAEXMPAUTPSysData@@@Z",
+     "size": 631
     }
    ],
    "symbols": {
@@ -292202,36 +290605,12 @@
     "?AppendNameAndDirection@FUN_00c27060_shell@@QAEXPAUStrArr@@@Z": "0x00c27060",
     "?FUN_00a53c30@A54440Hash@@QAE_NPAUA54440Manager@@PAPAU2@@Z": "0x00a53c30",
     "?ProcessClone@NiPSysModifier@@UAEXAAUCloningProcess@@@Z": "0x00c317e0",
-    "?FUN_00c2c110@NiPSysAirFieldModifier_00c2c110@@QAEXAAUCloningProcess@@@Z": "0x00c2c110"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier_od_variant_o2_nood_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00c26de0",
-     "symbol": "?FUN_00c26de0@TFieldModifier@@QAEXMPAUTPSysData@@@Z",
-     "size": 631
-    }
-   ],
-   "symbols": {
-    "?CalculateInverse@NiTransform@@QAEXAAV1@@Z": "0x004b4880",
-    "??DNiTransform@@QBE?AV0@ABV0@@Z": "0x0062c250",
+    "?FUN_00c2c110@NiPSysAirFieldModifier_00c2c110@@QAEXAAUCloningProcess@@@Z": "0x00c2c110",
     "__CIpow": "0x00ec9b00",
-    "?ZERO@NiPoint3@@2V1@B": "0x011f426c",
     "?FUN_004390c0@NiPoint3@@QAE_NABU1@@Z": "0x004390c0",
     "?FUN_00c269b0@VortexModifier@@QAEXMPAUPSysData@@@Z": "0x00c269b0",
     "?FUN_00c26c00@ForceOwner@fnv_00c26c00@@QAEXMPAUParticleList@2@@Z": "0x00c26c00",
     "?FUN_004b4500@TMatrix3@@QBE?AUTPoint3@@ABU2@@Z": "0x004b4500",
-    "?FUN_004a0c10@FUN_004a0c10_s@@QAEXXZ": "0x004a0c10",
     "?ComputeMagnitude@NiPoint3@@QBEMXZ": "0x00457990",
     "?FUN_00c26820@TFieldModifier@@QAE?AUTPoint3@@ABU2@00@Z": "0x00c26820",
     "?FUN_00439180@MyPoint439180@@QAEPAU1@M@Z": "0x00439180",
@@ -292283,6 +290662,11 @@
      "address": "0x00aa24a0",
      "symbol": "?Destroy@BSNiAllocator@fnv_00aa24a0@@QAEPAXI@Z",
      "size": 33
+    },
+    {
+     "address": "0x00aa4200",
+     "symbol": "?FUN_00aa4200@FUN_00aa4200_Helper@@QAEPAXPAXIIII@Z",
+     "size": 140
     }
    ],
    "symbols": {
@@ -292298,32 +290682,9 @@
     "?Destroy@BSNiAllocator@fnv_00aa24a0@@QAEPAXI@Z": "0x00aa24a0",
     "?ResizeHeapBlock@@YGPADPADPAHPAEHHHHHH@Z": "0x00aa22f0",
     "?AllocateAlignedBuffer@@YGIPAIPAEHHHHH@Z": "0x00aa2370",
-    "?AllocateZeroedMemory@@YGPAXAAI0W4NiMemEventTypeAA2@@_NPBDH3@Z": "0x00aa2240"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nisystem/bsniallocator_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00aa4200",
-     "symbol": "?FUN_00aa4200@FUN_00aa4200_Helper@@QAEPAXPAXIIII@Z",
-     "size": 140
-    }
-   ],
-   "symbols": {
+    "?AllocateZeroedMemory@@YGPAXAAI0W4NiMemEventTypeAA2@@_NPBDH3@Z": "0x00aa2240",
     "?Size@MemoryManager@@QAEIPBX@Z": "0x00aa44c0",
-    "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "?_memmove@@YAPAXPAXPBXI@Z": "0x00ec44d0",
-    "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
     "?_realloc@@YAPAXPAXI@Z": "0x00eccf5d"
    }
   },
@@ -292381,6 +290742,16 @@
      "address": "0x00aa1f10",
      "symbol": "?ReadLine@AA1F10BinaryStream@@QAEIPADI@Z",
      "size": 180
+    },
+    {
+     "address": "0x00aa5170",
+     "symbol": "?FUN_00aa5170@MersenneTwister@@QAEXI@Z",
+     "size": 48
+    },
+    {
+     "address": "0x00afde50",
+     "symbol": "?FUN_00afde50@@YA_NPBDH@Z",
+     "size": 166
     }
    ],
    "symbols": {
@@ -292409,50 +290780,9 @@
     "?GetFileSize@S_00aa15f0@@QAEHXZ": "0x00aa15f0",
     "?IsDirectory@@YA_NPBD@Z": "0x00aa1670",
     "?ReadLine@AA1F10BinaryStream@@QAEIPADI@Z": "0x00aa1f10",
-    "?WriteBytesToFile@NiFile@@KAIPBXIIPAU_iobuf@@@Z": "0x00aa8660"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nisystem/console/nifile_console_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00aa5170",
-     "symbol": "?FUN_00aa5170@MersenneTwister@@QAEXI@Z",
-     "size": 48
-    }
-   ],
-   "symbols": {
+    "?WriteBytesToFile@NiFile@@KAIPBXIIPAU_iobuf@@@Z": "0x00aa8660",
     "?Seed@MersenneTwister@@QAEXI@Z": "0x00aa51a0",
-    "?FUN_00aa5170@MersenneTwister@@QAEXI@Z": "0x00aa5170"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nisystem/console/nifile_console_od_variant_ehsc_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/Gy",
-    "/EHsc"
-   ],
-   "functions": [
-    {
-     "address": "0x00afde50",
-     "symbol": "?FUN_00afde50@@YA_NPBDH@Z",
-     "size": 166
-    }
-   ],
-   "symbols": {
+    "?FUN_00aa5170@MersenneTwister@@QAEXI@Z": "0x00aa5170",
     "___security_cookie": "0x011c16bc",
     "__ehhandler$?FUN_00afde50@@YA_NPBDH@Z": "0x00f2375e",
     "_g_fileFinder": "0x011f81dc",
@@ -292707,25 +291037,7 @@
      "address": "0x00aa85c0",
      "symbol": "?RequestFileAccess@NiFile@@SAIPBDII@Z",
      "size": 78
-    }
-   ],
-   "symbols": {
-    "?DAT_011ac224@@3P6APAVNiFile@@PBDW4OpenMode@1@I@ZA": "0x011ac224",
-    "?CompleteJob@@YAXPAUJobA@@@Z": "0x00aa8740",
-    "?RequestFileAccess@NiFile@@SAIPBDII@Z": "0x00aa85c0"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nisystem/nifile_iso_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
+    },
     {
      "address": "0x00aa1a30",
      "symbol": "?FUN_00aa1a30@fnv_00aa1a30@@YAXPBDW4OpenMode@NiFile@@@Z",
@@ -292770,9 +291082,17 @@
      "address": "0x00ee8d20",
      "symbol": "@FUN_00ee8d20@8",
      "size": 49
+    },
+    {
+     "address": "0x00afdc60",
+     "symbol": "??0FUN_00afdc60@@QAE@HH_N@Z",
+     "size": 136
     }
    ],
    "symbols": {
+    "?DAT_011ac224@@3P6APAVNiFile@@PBDW4OpenMode@1@I@ZA": "0x011ac224",
+    "?CompleteJob@@YAXPAUJobA@@@Z": "0x00aa8740",
+    "?RequestFileAccess@NiFile@@SAIPBDII@Z": "0x00aa85c0",
     "?FUN_00aa19e0@@YAXXZ": "0x00aa19e0",
     "?FUN_00aa1ad0@@YAXXZ": "0x00aa1ad0",
     "?ReadFileData@@YAXXZ": "0x00aa19a0",
@@ -292780,7 +291100,6 @@
     "?g_memoryManager@@3UMemoryManager@@A": "0x011f6238",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "??0FUN_00aa14d0_cls@@QAE@PBDII@Z": "0x00aa14d0",
-    "?DAT_011ac224@@3P6APAVNiFile@@PBDW4OpenMode@1@I@ZA": "0x011ac224",
     "_FUN_00aa1b60": "0x00aa1b60",
     "?DAT_0109b220@@3PADA": "0x0109b220",
     "?FUN_00aa1ab0@@YA_NPBD@Z": "0x00aa1ab0",
@@ -292796,29 +291115,7 @@
     "?FUN_00aa2a00@@YA_NPAD@Z": "0x00aa2a00",
     "?DAT_11ac230@@3PAXA": "0x011ac230",
     "?DAT_011ac22c@@3P6A_NPBD@ZA": "0x011ac22c",
-    "?DAT_011ac228@fnv_00aa1a30@@3P6AXPBDW4OpenMode@NiFile@@@ZA": "0x011ac228"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nisystem/nifile_od_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/Od",
-    "/Oy-",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00afdc60",
-     "symbol": "??0FUN_00afdc60@@QAE@HH_N@Z",
-     "size": 136
-    }
-   ],
-   "symbols": {
-    "___security_cookie": "0x011c16bc",
+    "?DAT_011ac228@fnv_00aa1a30@@3P6AXPBDW4OpenMode@NiFile@@@ZA": "0x011ac228",
     "_g_fileFinder": "0x011f81dc",
     "?FUN_00afdf00@@YAXPBDHI@Z": "0x00afdf00",
     "__ehhandler$??0FUN_00afdc60@@QAE@HH_N@Z": "0x00f23718",
@@ -292855,6 +291152,26 @@
      "address": "0x00aa1490",
      "symbol": "?FUN_00aa1490@@YAXPAXI@Z",
      "size": 29
+    },
+    {
+     "address": "0x00a5c230",
+     "symbol": "?FUN_00a5c230@@YAPAXXZ",
+     "size": 6
+    },
+    {
+     "address": "0x00a5c200",
+     "symbol": "??0FUN_00a5c200@@QAE@XZ",
+     "size": 46
+    },
+    {
+     "address": "0x00aa1420",
+     "symbol": "?FUN_00aa1420@@YAPAXI@Z",
+     "size": 62
+    },
+    {
+     "address": "0x00aa1460",
+     "symbol": "?FUN_00aa1460@@YAXPAXI@Z",
+     "size": 34
     }
    ],
    "symbols": {
@@ -292865,62 +291182,7 @@
     "?DAT_0109b244@@3PAEA": "0x0109b244",
     "?g_011f4304@@3VGlobalObjectO2_00a7b610@@A": "0x011f4304",
     "??0FUN_00a5c200@@QAE@XZ": "0x00a5c200",
-    "?FUN_00aa1420@@YAXH@Z": "0x00aa1420"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nisystem/nimemobject_o2_nood_variant_iso_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a5c230",
-     "symbol": "?FUN_00a5c230@@YAPAXXZ",
-     "size": 6
-    }
-   ],
-   "symbols": {
-    "?g_011f4304@@3VGlobalObjectO2_00a7b610@@A": "0x011f4304"
-   }
-  },
-  {
-   "source": "src/gamebryo2.2/corelibs/nisystem/nimemobject_o2_variant_iso_variant.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00a5c200",
-     "symbol": "??0FUN_00a5c200@@QAE@XZ",
-     "size": 46
-    },
-    {
-     "address": "0x00aa1420",
-     "symbol": "?FUN_00aa1420@@YAXH@Z",
-     "size": 62
-    },
-    {
-     "address": "0x00aa1460",
-     "symbol": "?FUN_00aa1460@@YAXPAXI@Z",
-     "size": 34
-    }
-   ],
-   "symbols": {
-    "??0FUN_00a5d3a0@@QAE@XZ": "0x00a5d3a0",
-    "?DAT_0109b244@@3PAEA": "0x0109b244",
-    "?DAT_0109b220@@3PADA": "0x0109b220",
-    "?DAT_011f6080@@3PAUHolderB3718@@A": "0x011f6080"
+    "?FUN_00aa1420@@YAPAXI@Z": "0x00aa1420"
    }
   },
   {
@@ -495761,7 +494023,7 @@
     "__real@42c80000": "0x01016410",
     "__ehhandler$?FUN_00b11050@FUN_00b10dc0@@QAEXIMHABUBranchPoint@@MMABUBranchMatrix@@0PAUBranchMesh@@PAXMIM@Z": "0x00f245fc",
     "?DAT_011f8c00@@3PAUBranchManager@@A": "0x011f8c00",
-    "?FUN_00b18300@NiD3DHLSLPixelShader@@QAEPAUID3DXConstantTable@@XZ": "0x00b18300",
+    "?FUN_00b18300@NiD3DHLSLPixelShader_od@@QAEPAUID3DXConstantTable@@XZ": "0x00b18300",
     "?DAT_011f8bfc@fnv_00b2af80@@3HA": "0x011f8bfc",
     "?FUN_00b13a40@S_00b13a40_Obj@@QAEXXZ": "0x00b13a40",
     "?DAT_011f8c50@@3UBranchConfigList@@A": "0x011f8c50",
@@ -499588,7 +497850,7 @@
     "?FUN_00b06660@Tree59@fnv_00b059e0@@QAEXH@Z": "0x00b06660",
     "?FUN_00b06810@Tree59@fnv_00b059e0@@QAEXH@Z": "0x00b06810",
     "?FUN_00b069c0@Tree59@fnv_00b059e0@@QAEXH@Z": "0x00b069c0",
-    "?FUN_00b18300@NiD3DHLSLPixelShader@@QAEPAUID3DXConstantTable@@XZ": "0x00b18300",
+    "?FUN_00b18300@NiD3DHLSLPixelShader_od@@QAEPAUID3DXConstantTable@@XZ": "0x00b18300",
     "_DAT_01016248": "0x01016248",
     "?g_kWindMatricesB07@fnv_00b07db0@@3VWindMatricesB07@1@A": "0x011f8d84",
     "?FUN_00657f60@FUN_00657f60_class@@QAEXXZ": "0x00657f60",
@@ -509499,7 +507761,7 @@
     "?DAT_011ff100@@3_NA": "0x011ff100",
     "?FUN_004e7ff0@@YAIXZ": "0x004e7ff0",
     "??2NiMemObject@@SAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
     "??4?$NiPointer@VAnimIdle@@@@QAEAAV0@PAVAnimIdle@@@Z": "0x0066b0d0",
     "??B?$NiPointer@VAnimIdle@@@@QBEPAVAnimIdle@@XZ": "0x00559450",
     "_DAT_01016248": "0x01016248",
@@ -509691,7 +507953,7 @@
     "?DereferenceIfNotNull@FUN_007b52d0_cls@@QAEPAHPAPAH@Z": "0x007b52d0",
     "?IsPlayerNearWaterActor@WaterScanner_004e83e0@@QAE_NPAX@Z": "0x004e83e0",
     "?SetSlotValue@FUN_00a35fc0_shell@@QAEXGPAX@Z": "0x00a35fc0",
-    "?FindIndexByValue@FUN_00a35910_shell@@QAEGG@Z": "0x00a35910",
+    "?FindIndexByValue@FUN_00a35910_shell@@QAEGPAVNiAVObject@@@Z": "0x00a35910",
     "?PopHead@DecalListManager@@QAEXXZ": "0x004ee8a0",
     "?AddRegion@TESRegionList@@QAE_NPAUTESRegion@@@Z": "0x004f6600",
     "?ClearTextureAndShaderTextures@Cls58a0@@QAEXPAUOwner58a0@@HH@Z": "0x004e58a0",
@@ -550701,7 +548963,7 @@
     "_DAT_010a08ac": "0x010a08ac",
     "?NiFree@fnv_00a98240@@YAXPAX@Z": "0x00aa10f0",
     "?DAT_010a080c@@3HA": "0x010a080c",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
     "?DAT_010a1024@@3DB": "0x010a1024",
     "??0NiPlane@@QAE@XZ": "0x00a69940",
     "?FUN_0060bef0@NiTObjectArrayA47@@QAEXI@Z": "0x0060bef0",
@@ -560210,7 +558472,7 @@
     "?FUN_00b6a6c0@CopyObject@@QAEXPAU1@H@Z": "0x00b6a6c0",
     "?g_012708e4@@3VGlobalObjectO2_00a7b610@@A": "0x012708e4",
     "?RemoveAt@NiTMapBase@@QAE_NPBD@Z": "0x00e91fd0",
-    "?RemoveTail@?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
+    "?RemoveTail@?$NiTPointerListBaseT@V?$NiTPointerAllocator@I@@PAD@@QAEPADXZ": "0x00e7d5b0",
     "?DAT_011f9ef4@@3IA": "0x011f9ef4",
     "__ehhandler$?FUN_00b61570@@YAXII@Z": "0x00f27da8",
     "_FUN_00ec61c0": "0x00ec61c0",
@@ -567891,7 +566153,7 @@
     "?UpdateFlagHolders@@YAXI@Z": "0x00c02f70",
     "__ehhandler$?ReleaseStagePasses@FUN_00c04310_class@@QAEXH@Z": "0x00f2cdc8",
     "__ehhandler$?ResetStages@FUN_00c04490_class@fnv_00c04490@@QAEXH@Z": "0x00f2cdc8",
-    "?AppendString@Holder@@QAEXPAUStrArr@@@Z": "0x00a71e70",
+    "?AppendString@Holder_00a71e70@@QAEXPAUStrArr@@@Z": "0x00a71e70",
     "__ehhandler$?ApplyShaderPass@BeamShader@fnv_00c11790@@QAEXXZ": "0x00f2d820",
     "?ReleaseObjectArray@@YAXPAPAUObj00a47600@@@Z": "0x00a47600",
     "?ApplyPairToState@E7DE90Owner@@QAEXI@Z": "0x00e7de90",
@@ -572839,7 +571101,7 @@
     "?DAT_01016024@@3HA": "0x01016024",
     "?DAT_0106abe4@@3HA": "0x0106abe4",
     "??2FUN_00a5ecb0@@SAPAXI@Z": "0x00aa13e0",
-    "??0FUN_00a5ecb0@@QAE@I@Z": "0x00a5ecb0",
+    "??0FUN_00a5ecb0_o2@@QAE@I@Z": "0x00a5ecb0",
     "?FUN_00438690@GlobalObject_00869f00@fnv_00438690@@QAEXXZ": "0x00438690",
     "__ehhandler$?FUN_00c4cf80@Triangulator086@@QAEXXZ": "0x00f2ea78",
     "?FUN_006b3eb0@FUN_00438690@@QAEXII@Z": "0x006b3eb0",

@@ -47,13 +47,13 @@ void NiCharFixedStringMap::SetAt(NiFixedString& key, const char* value)
     {
         if (key.m_kHandle == item->m_key.m_kHandle)
         {
-            ::AssignSharedPtr((void *)this, item, (void *)&(key));
+            ::AssignSharedPtr((void *)item, (void *)&(key), (void *)(value));
             return;
         }
         item = item->m_pkNext;
     }
     item = NewItem();
-    ::AssignSharedPtr((void *)this, item, (void *)&(key));
+    ::AssignSharedPtr((void *)item, (void *)&(key), (void *)(value));
     item->m_pkNext = m_ppkHashTable[hash];
     m_ppkHashTable[hash] = item;
     ++m_kItemCount.m_uiCount;

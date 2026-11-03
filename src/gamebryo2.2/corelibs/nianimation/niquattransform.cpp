@@ -576,7 +576,6 @@ struct QuatRotate
 {
 };
 static const double DAT_010241b0 = -3.4028234663852886e+38;
-static const float DAT_01096b8c = -3.402823466e+38f;
 struct FUN_00a386a0_shell : NiQuatTransform
 {
     void Inverse(NiQuatTransform& kDest);

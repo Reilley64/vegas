@@ -7,7 +7,6 @@
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_004dc540_shell.h"
-#include "fnv/decl/FUN_0060c120_cls.h"
 #include "fnv/decl/FUN_00a463e0_Holder.h"
 #include "fnv/decl/FUN_00a57630.h"
 #include "fnv/decl/FUN_00a57780_shell.h"
@@ -28,6 +27,9 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/decl/FUN_004b0460_class.h"
+#include "fnv/symbols_00a4f000.h"
 struct FUN_00a4f300_shell
 {
     void* GetEntryAt(int idx);
@@ -1012,6 +1014,21 @@ struct FUN_00a4f8a0_Obj
     int unk34;
     S00a4f8a0_Arr arr;
 };
+struct SlotTarget
+{
+    unsigned int m_00;
+    void FUN_006e5cc0(SlotTarget* a);
+};
+class FUN_0060c120_cls
+{
+  public:
+    unsigned int unk00;
+    SlotTarget* m_04;
+    unsigned short unk08;
+    unsigned short m_0a;
+    unsigned short m_0c;
+    void FUN_0060c120(unsigned int idx, SlotTarget* a2);
+};
 
 // Grows the array if needed, increments the reference count of p, stores a copy of p in the array slot, then decrements the count and releases if zero.
 // @fnv 0x00a4f8a0
@@ -1099,4 +1116,47 @@ void A4F990Flip::FUN_00a4f990(A4F990Stream& kStream) throw()
             }
         }
     }
+}
+
+const void* __cdecl FUN_00a4f5d0();
+
+struct StaticKey
+{
+    StaticKey(int v);
+    ~StaticKey();
+    unsigned int m_00;
+};
+
+
+
+// @fnv 0x0060c120
+void FUN_0060c120_cls::FUN_0060c120(unsigned int idx, SlotTarget* a2)
+{
+    static StaticKey key(0);
+    if (idx >= m_0a)
+    {
+        m_0a = (unsigned short)(idx + 1);
+        if (reinterpret_cast<::DummyStruct_00631820 *>((a2))->IsNotEqual((*(const ::DummyStruct_00631820 *)(&key))))
+        {
+            m_0c++;
+        }
+    }
+    else
+    {
+        if (reinterpret_cast<::DummyStruct_00631820 *>((a2))->IsNotEqual((*(const ::DummyStruct_00631820 *)(&key))))
+        {
+            if (reinterpret_cast<::FUN_004b0460_class *>(((m_04 + idx)))->FUN_004b0460((const void **)(::StaticKey *)(&key)))
+            {
+                m_0c++;
+            }
+        }
+        else
+        {
+            if (reinterpret_cast<::DummyStruct_00631820 *>(((m_04 + idx)))->IsNotEqual((*(const ::DummyStruct_00631820 *)(&key))))
+            {
+                m_0c--;
+            }
+        }
+    }
+    (m_04 + idx)->FUN_006e5cc0(a2);
 }

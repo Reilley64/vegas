@@ -15,4 +15,3 @@ void RegisterNiStreamFactory();
 // 0x00a98ea0
 void FUN_00a98ea0();
 // 0x00a98eb0
-void FUN_00a98eb0(::NiStream &);

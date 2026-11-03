@@ -44,12 +44,24 @@ struct AccumItem
     NiQuatTransform value, accum;
     float rotation[9];
 };
+struct InterpArrayItem
+{
+    void* interpolator;
+    float weight;
+    float normalizedWeight;
+    char priority;
+    char pad0d[3];
+    float easeSpinner;
+    float updateTime;
+};
 class NiBlendAccumTransformInterpolator
 {
   public:
     char prefix[12];
     unsigned char m_uiObjectFlags, m_ucArraySize, m_ucInterpCount, m_ucSingleIdx;
-    char rest[16];
+    char rest10[4];
+    InterpArrayItem* m_pInterpArray;
+    char rest18[8];
     float m_fSingleInterpolatorTime;
     char rest2[12];
     NiQuatTransform m_kAccumulatedTransform;

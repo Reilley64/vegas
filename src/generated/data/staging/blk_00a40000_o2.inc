@@ -9,6 +9,7 @@
 #pragma comment(linker, "/alternatename:DAT_00fdf05c=?DAT_00fdf05c@@3P6AXPEAX@ZEA")
 #pragma comment(linker, "/alternatename:DAT_00fdf100=?DAT_00fdf100@@3P6AXPEAX@ZEA")
 
+::NiGlobalStringTable *DAT_011f42c0;
 unsigned int DAT_011f42c4;
 unsigned int DAT_011f42c8;
 int DAT_011f4504;

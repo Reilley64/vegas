@@ -2,4 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+#pragma comment(linker, "/alternatename:?DAT_00fdf1c0@@3P6AXPEAX@ZEA=?DAT_00fdf1c0@@3P6AHPEAX@ZEA")
+
 float DAT_0109643c = 3.4028235e+38f;

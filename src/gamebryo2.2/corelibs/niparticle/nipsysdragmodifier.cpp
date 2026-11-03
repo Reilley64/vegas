@@ -295,7 +295,7 @@ struct StreamArray
 };
 struct NiPSysDragShell : NiPSysModifier
 {
-    DragObject* dragObject;
+    struct DragObject* dragObject;
     Point3Serializer dragAxis;
     float percentage;
     float range;

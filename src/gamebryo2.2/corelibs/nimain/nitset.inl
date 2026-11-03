@@ -54,6 +54,8 @@ typedef NiTSet<NiPointer<NiMaterialResource>,
                NiTNewInterface<NiPointer<NiMaterialResource> > >
     NiMaterialResourceSet;
 
+template <> void NiMaterialResourceSet::Realloc(unsigned int uiAlloced);
+
 template <>
 // @fnv 0x00e8ea60
 void NiMaterialResourceSet::Add(

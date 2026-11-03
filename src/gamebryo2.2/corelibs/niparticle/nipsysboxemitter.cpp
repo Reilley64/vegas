@@ -64,12 +64,12 @@ BSFadeNode* __cdecl FUN_00c20350()
     return 0;
 }
 
-struct S
+struct S_00c20390
 {
     void* DestroyIfFlagged(unsigned int);
 };
 // @fnv 0x00c20390
-void* S::DestroyIfFlagged(unsigned int uiFlags)
+void* S_00c20390::DestroyIfFlagged(unsigned int uiFlags)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (uiFlags & 1)

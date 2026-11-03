@@ -5,6 +5,9 @@
 #pragma comment(linker, "/alternatename:?g_pfnE6EC20FreeLibrary@@3P6AHPEAX@ZEA=?DAT_00fdf0a8@@3P6AHPEAX@ZEA")
 
 const char DAT_0109f0a0[35] = "NiPersistentSrcTextureRendererData";
+const char DAT_010ed69c[57] = "Creation failed: Could not match desired fullscreen mode";
+const char DAT_010ed778[61] = "Creation failed: Could not find desired depth/stencil format";
+const char DAT_010ed800[59] = "Creation failed: Could not find desired framebuffer format";
 const char DAT_010edbb8[14] = "Clipper Image";
 const char DAT_010ededc[51] = "Creation failed: Could not create reference device";
 const char DAT_010edfac[50] = "Creation failed: Could not create hardware device";

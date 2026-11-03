@@ -4,6 +4,7 @@
 
 #pragma comment(linker, "/alternatename:?_NiPoint3_ZERO@@3HA=?ZERO@NiPoint3@@2U1@B")
 
+const float g_011deba0_arg1 = 2.5e+03f;
 char DAT_0126fa64;
 char DAT_0126fa65;
 int DAT_0126fa68;

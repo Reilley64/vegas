@@ -65,14 +65,14 @@ struct SpawnedCtlr
     virtual void v00();
 };
 
-struct SpawnedHost
+struct SpawnedHost_00c29eb0
 {
     SpawnedCtlr* CreateSpawnedCtlr(void* a1);
 };
 
 // Allocates a 0x40-byte SpawnedCtlr, initialises it and its vtable, passes it to FUN_00c32de0 with a1, and returns it.
 // @fnv 0x00c29eb0
-SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
+SpawnedCtlr* SpawnedHost_00c29eb0::CreateSpawnedCtlr(void* a1)
 {
     SpawnedCtlr* obj = (SpawnedCtlr*)FUN_00aa13e0(0x40);
     if (obj != 0)

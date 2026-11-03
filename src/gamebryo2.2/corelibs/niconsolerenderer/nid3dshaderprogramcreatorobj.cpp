@@ -43,7 +43,7 @@ bool FUN_00e981f0(const char* apFilePath, void** apOutBuffer, unsigned int* outS
     char szResolvedPath[0x104];
     void* hFile;
     unsigned int uiFileSize;
-    unsigned int uiBytesRead;
+    DWORD uiBytesRead;
     void* pBuffer;
 
     *apOutBuffer = 0;

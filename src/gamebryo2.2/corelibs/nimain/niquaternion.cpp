@@ -437,4 +437,54 @@ char* FUN_00a6e190_shell::FUN_00a6e190(const char* pcPrefix)
     return pcString;
 }
 
+
+struct M3_
+{
+    void FUN_004b4660(unsigned int, float, float, float);
+};
+
+struct FUN_004f0180_Class
+{
+    float w;
+    float x;
+    float y;
+    float z;
+
+    void FUN_004f0180(M3_* rot);
+};
+
+// @fnv 0x004f0180
+void FUN_004f0180_Class::FUN_004f0180(M3_* rot)
+{
+    float tx;
+    float twy;
+    float tyz;
+    float twz;
+    float tz;
+    float txx;
+    float txy;
+    float tyy;
+    float txz;
+    float ty;
+    float twx;
+    float tzz;
+
+    tx = 2.0 * x;
+    ty = 2.0 * y;
+    tz = 2.0 * z;
+
+    twx = tx * w;
+    twy = ty * w;
+    twz = tz * w;
+    txx = tx * x;
+    txy = ty * x;
+    txz = tz * x;
+    tyy = ty * y;
+    tyz = tz * y;
+    tzz = tz * z;
+
+    rot->FUN_004b4660(0, 1.0f - (tyy + tzz), txy + twz, txz - twy);
+    rot->FUN_004b4660(1, txy - twz, 1.0f - (txx + tzz), tyz + twx);
+    rot->FUN_004b4660(2, txz + twy, tyz - twx, 1.0f - (txx + tyy));
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/niquaternion.inc"

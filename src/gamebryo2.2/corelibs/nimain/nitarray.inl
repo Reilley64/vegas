@@ -66,6 +66,7 @@ public:
 typedef NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > > NiTArray_NiPointer_NiAVObject;
 template<> void NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >::SetSize(unsigned int uiNewSize);
 template<> void NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >::SetAt(unsigned int uiIndex, const NiPointer<NiAVObject>& element);
+template<> unsigned int NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >::SetAtGrow(unsigned int uiIndex, const NiPointer<NiAVObject>& element);
 
 typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > NiTArray_CombatGroup_Malloc;
 

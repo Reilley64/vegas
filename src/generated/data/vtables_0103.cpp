@@ -159,9 +159,9 @@ extern "C" void fnv_fn_00978f30() __asm__("?GetOne@FUN_00978f30_Class@@QEAAHXZ")
 extern "C" void fnv_fn_00a29680() __asm__("?FUN_00a29680@@YAXXZ");
 extern "C" void fnv_fn_00a44840() __asm__("?FUN_00a44840@FUN_00a44840_stub@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
-extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAXI@Z");
+extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a81100() __asm__("?FUN_00a81100@BA81100Object@@QEAAXPEAVBA81100StringArray@@@Z");
-extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAXH@Z");
+extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@@YAXXZ");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00c65800() __asm__("?FUN_00c65800@Stub65800@@QEAAXAEAVBC6C330Stream@@@Z");
@@ -178,7 +178,7 @@ extern "C" void fnv_fn_00c65f40() __asm__("?FUN_00c65f40@ColObj_c65f40@@QEAAXHPE
 extern "C" void fnv_fn_00c6b5e0() __asm__("?FUN_00c6b5e0@@YAXXZ");
 extern "C" void fnv_fn_00c6bbb0() __asm__("?UpdateWorldTransform@bhkNiCollisionObjectStub@@QEAAXAEBVNiTransform@@@Z");
 extern "C" void fnv_fn_00c6bd60() __asm__("?FUN_00c6bd60@bhkCollisionProxy@@QEAAX_N@Z");
-extern "C" void fnv_fn_00c84cc0() __asm__("?FUN_00c84cc0@@YAXPEAHI@Z");
+extern "C" void fnv_fn_00c84cc0() __asm__("?FUN_00c84cc0@@YAXPEAH_K@Z");
 extern "C" void fnv_fn_00c84d00() __asm__("?FUN_00c84d00@FUN_00c84d00_cls@@QEAAXPEAUFUN_00c84d00_obj@@@Z");
 extern "C" void fnv_fn_00c84d50() __asm__("?FUN_00c84d50@FUN_00c84d50_cls@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_00c84dc0() __asm__("?FUN_00c84dc0@FUN_00c84dc0_cls@@QEAA_NPEAUFUN_00c84dc0_param@@@Z");

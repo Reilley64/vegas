@@ -14,4 +14,5 @@ public:
     void *Reallocate(void *, unsigned int);
     // 0x00aa42e0
     ::ScrapHeapBuffer *GetGeneralAllocator();
+    unsigned int Size(const void *);
 };

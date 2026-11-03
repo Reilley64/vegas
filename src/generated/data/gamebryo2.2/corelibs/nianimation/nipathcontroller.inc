@@ -5,3 +5,6 @@
 namespace fnv_00a3de50 { float DAT_01097304 = 1.2732395f; }
 float DAT_011a8b2c[5] = {0.11846344f, 0.23931433f, 0.28444445f, 0.23931433f, 0.11846344f};
 float DAT_011a8b40[5] = {0.046910077f, 0.23076534f, 0.5f, 0.76923466f, 0.9530899f};
+void (*DAT_011f3c18[6])(float, const AnimationKey *, const AnimationKey *, void *);
+void *DAT_011f3ca8[2];
+float (*DAT_011f3d38[2])(MyPosKey *, unsigned int);

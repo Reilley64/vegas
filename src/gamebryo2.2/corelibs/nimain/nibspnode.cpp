@@ -661,7 +661,7 @@ void* NodeOwner::FUN_00a9ae00(void* arg)
     if (memory)
     {
         new ((void *)(((ObjBase*)memory))) ::FUN_00a5ecb0(0);
-        *(void**)memory = &::DAT_010a1024;
+        *(const void**)memory = &::DAT_010a1024;
         new ((void *)(((SubObject*)(memory + 0xac)))) ::NiPlane();
         new ((void *)(((SubObject*)(memory + 0xbc)))) ::NiPlane();
         reinterpret_cast<::NiTObjectArrayA47 *>((((ChildNode*)(memory + 0x9c))))->FUN_0060bef0(2);

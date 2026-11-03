@@ -158,7 +158,7 @@ int FNV_PhysObj::FUN_00eb85d0(FNV_PhysObj* pObj, FNV_Shape* pShape0, FNV_Shape* 
         node.m_3c = &pObj->m_8c;
         reinterpret_cast<::S_00ebf4a0_Class *>(&(this->m_04))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_14), (::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_20));
         reinterpret_cast<::S_00ebf4a0_Class *>(&(pObj->m_04))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_14), (::S_00ebf4a0_Vec3 *)(::FNV_Vec3 *)(&node.m_2c));
-        return ::RunSwapTests((::SwapNode *)(this));
+        return ::RunSwapTests((::SwapNode *)(&node));
     }
     return 0;
 }

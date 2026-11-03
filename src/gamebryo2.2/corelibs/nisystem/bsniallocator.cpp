@@ -9,6 +9,7 @@
 #include "fnv/decl/MemoryManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_011f6000.h"
+#include <cstdlib>
 struct MM
 {
 };
@@ -203,4 +204,29 @@ void* FUN_00aa2420(void* pvMem, unsigned int& uiSize, unsigned char& ucAlignment
         return 0;
     }
     return reinterpret_cast<::FUN_00aa4200_Helper *>(&((*reinterpret_cast<::BAA2420MemoryManager *>(&::g_memoryManager))))->FUN_00aa4200(pvMem, uiSize, (uintptr_t)(pcFile), iLine, (uintptr_t)(pcFunction));
+}
+
+
+
+// @fnv 0x00aa4200
+void* FUN_00aa4200_Helper::FUN_00aa4200(void* old, unsigned int size, uintptr_t a, unsigned int b, uintptr_t c)
+{
+    void* result2 = 0;
+    unsigned int oldSize;
+    oldSize = ((MemoryManager*)this)->Size(old);
+    if (oldSize)
+    {
+        result2 = reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)this)))->FUN_00aa3e40(size);
+        if (oldSize > size)
+            oldSize = size;
+        std::memmove(result2, old, oldSize);
+        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)this)))->FUN_00aa4060(old);
+    }
+    else
+    {
+        void* tmp = old;
+        tmp = std::realloc(tmp, size);
+        result2 = tmp;
+    }
+    return result2;
 }

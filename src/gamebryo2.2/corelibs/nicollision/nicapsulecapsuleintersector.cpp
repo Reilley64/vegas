@@ -167,10 +167,10 @@ struct S_00eaef80
 void S_00eaef80::UpdatePoints(const S_00eaee50_Point3& kOffsetA, const S_00eaee50_Point3& kOffsetB)
 {
     NiPoint3 kPointA;
-    reinterpret_cast<::OriginDirectionPair *>(&(m_pkShapeA->m_kLine))->FUN_00eb6090((float)&(kPointA));
+    *reinterpret_cast<::NiPoint3 *>(&kPointA) = reinterpret_cast<::OriginDirectionPair *>(&(m_pkShapeA->m_kLine))->FUN_00eb6090(m_fParamA);
 
     NiPoint3 kPointB;
-    reinterpret_cast<::OriginDirectionPair *>(&(m_pkShapeB->m_kLine))->FUN_00eb6090((float)&(kPointB));
+    *reinterpret_cast<::NiPoint3 *>(&kPointB) = reinterpret_cast<::OriginDirectionPair *>(&(m_pkShapeB->m_kLine))->FUN_00eb6090(m_fParamB);
 
     if (unk18 == 2)
     {

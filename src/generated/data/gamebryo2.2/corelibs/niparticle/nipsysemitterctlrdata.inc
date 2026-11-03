@@ -2,4 +2,5 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-::NiGlobalStringTable *DAT_011f42c0;
+void (*DAT_011f37f8[6])(AnimationKey *, unsigned int, unsigned char);
+void (*DAT_011f3918[6])(AnimationKey *);

@@ -11,7 +11,7 @@ extern "C" void fnv_fn_00a5b8f0() __asm__("?ProcessClone@NiObjectNET@@UEAAXAEAVC
 extern "C" void fnv_fn_00a5c6a0() __asm__("?FUN_00a5c6a0@LinkObjectA5@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAAXPEAUStreamDev@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
-extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAXI@Z");
+extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");
 extern "C" void fnv_fn_00a5d610() __asm__("?ReadGroup@FUN_00a5d610_Object@@QEAAXPEAUNiStream@@@Z");
 extern "C" void fnv_fn_00a5d6e0() __asm__("?AppendCameraPathEntries@A5D6E0This@@QEAAXPEAV?$NiTArray@PEAUBGSCameraPath@@V?$NiTMallocInterface@PEAUBGSCameraPath@@@@@@@Z");
@@ -31,7 +31,7 @@ extern "C" void fnv_fn_00a7b580() __asm__("?FUN_00a7b580@ExtraDataStrings@@QEAAX
 extern "C" void fnv_fn_00a84c70() __asm__("?FUN_00a84c70@@YA_NPEAX@Z");
 extern "C" void fnv_fn_00a88a40() __asm__("?FUN_00a88a40@@YAXXZ");
 extern "C" void fnv_fn_00a88a50() __asm__("?FUN_00a88a50@@YA_NPEAUNiObject@@@Z");
-extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAXH@Z");
+extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00aa1ac0() __asm__("?FUN_00aa1ac0@AA1AC0Class@@UEAAIXZ");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00be0ad0() __asm__("?FUN_00be0ad0@C00be0ad0@@QEAAHXZ");

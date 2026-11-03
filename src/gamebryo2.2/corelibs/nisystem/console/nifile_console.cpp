@@ -9,6 +9,7 @@
 #include "fnv/symbols_0106e000.h"
 #include "fnv/symbols_011f6000.h"
 #include "nifile_console.h"
+#include "fnv/symbols_011f8000.h"
 
 // Destructor: if the file is good and open, flushes and closes m_pFile, then frees m_pBuffer.
 // @fnv 0x00aa1690
@@ -268,10 +269,64 @@ FUN_00aa18c0::~FUN_00aa18c0()
 {
     if (m_bGood && m_pFile)
     {
-        reinterpret_cast<::NiFile *>((((NiFileFlushExposer*)(void*)this)))->Flush();
+        ((NiFileFlushExposer*)(void*)this)->CallFlush();
         std::fclose((std::FILE *)(m_pFile));
     }
     ::FUN_00aa10f0(m_pBuffer);
 }
 
+
+struct MersenneTwister
+{
+    int _0;
+    int _4;
+    char _8[0x9C0];
+    int _9C8;
+    void FUN_00aa5170(unsigned int);
+    void Seed(unsigned int);
+};
+// @fnv 0x00aa5170
+void MersenneTwister::FUN_00aa5170(unsigned int a)
+{
+    _4 = 0;
+    _9C8 = 0x271;
+    Seed(a);
+}
+
+
+struct ArchiveManager
+{
+    void* FUN_00afe0d0(const char* name, unsigned int a, unsigned int b, unsigned int c);
+};
+
+
+class FileStream
+{
+  public:
+    virtual ~FileStream();
+    virtual operator bool() const;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    char* unk20;
+    FILE* unk24;
+    int unk28;
+    bool unk2C;
+    FileStream(const char* name, int mode, unsigned int bufferSize);
+};
+
+// @fnv 0x00afde50
+bool FUN_00afde50(const char* name, int mode)
+{
+    if (mode == 0)
+    {
+        return (*reinterpret_cast<::ArchiveManager * *>(&::g_fileFinder)) ? (*reinterpret_cast<::ArchiveManager * *>(&::g_fileFinder))->FUN_00afe0d0(name, 0, 0, 0xffffffff) : 0;
+    }
+    FileStream kFile(name, mode, 0);
+    return kFile;
+}
 #include "generated/data/gamebryo2.2/corelibs/nisystem/console/nifile_console.inc"

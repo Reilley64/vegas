@@ -7,7 +7,6 @@
 #include "fnv/decl/BaseWrap.h"
 #include "fnv/decl/C27120Class.h"
 #include "fnv/decl/CloneableObj.h"
-#include "fnv/decl/Controller.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
 #include "fnv/decl/NiInterpController.h"
@@ -28,6 +27,8 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
+#include <windows.h>
+#include "fnv/decl/MemoryManagerStandIn.h"
 class NiInterpolator;
 class NiAVObject;
 class ThreeByThreeMatrix
@@ -165,6 +166,59 @@ struct Helper1
 struct Helper2
 {
     char pad[0x30];
+};
+class BlendInterp
+{
+  public:
+    BlendInterp() throw();
+    virtual ~BlendInterp();
+    unsigned int m_uiRefCount;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    void IncRefCount()
+    {
+        InterlockedIncrement((long*)&m_uiRefCount);
+    }
+};
+struct OwnerB;
+struct Ref;
+struct TargetList;
+class Controller
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    BlendInterp* m_pkBlendInterpolators;
+    void** m_ppTargetObjects;
+    unsigned short m_usNumTargets;
+    void FUN_00a2feb0(unsigned short n);
+public:
+    ::TargetList *CopyTargetList(::TargetList *);
+    void ProcessQueries();
+    bool IsPlayerTargeted(::Ref *, bool);
+    void FUN_00a255b0(float, float, int, int, int, unsigned char, bool);
+    void FUN_00c5c790(float, float, float, float, float, float);
+    void CreateChildAndNotifySim(::OwnerB *);
+    void FUN_00c7b6a0(bool);
 };
 
 // @fnv 0x00a30070
@@ -1478,4 +1532,85 @@ FUN_00a2fb70::~FUN_00a2fb70() throw()
     ::FUN_00aa10f0(targets);
 }
 
+
+
+
+
+
+
+
+// @fnv 0x00a2feb0
+void Controller::FUN_00a2feb0(unsigned short n)
+{
+    m_usNumTargets = n;
+    if (n == 0)
+        return;
+
+    m_pkBlendInterpolators = new BlendInterp[n];
+    for (unsigned short i = 0; i < n; i++)
+        m_pkBlendInterpolators[i].IncRefCount();
+
+    m_ppTargetObjects = (void**)::FUN_00aa1070((unsigned int)n * 4);
+    std::memset(m_ppTargetObjects, 0, (unsigned int)n * 4);
+}
+
+struct MMDealloc : public MemoryManager
+{
+};
+
+
+struct SNAEntry
+{
+};
+
+struct FUN_00a409b0_class : public SNAEntry
+{
+    virtual ~FUN_00a409b0_class() throw();
+    void* m_pkUnk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    FUN_00a409b0_class() throw();
+};
+
+extern void(* DAT_00fdf1c0)(void*);
+
+struct FUN_00a30160_cls : public NiMultiTargetTransformController
+{
+    unsigned short m_usNumTargets;
+    void FUN_00a30160();
+};
+
+// @fnv 0x00a30160
+void FUN_00a30160_cls::FUN_00a30160()
+{
+    if (m_usNumTargets == 0)
+        return;
+    if (m_pkBlendInterpolators == 0)
+        return;
+
+    delete[] (FUN_00a409b0_class*)m_pkBlendInterpolators;
+
+    m_pkBlendInterpolators = new FUN_00a409b0_class[m_usNumTargets];
+
+    unsigned short i = 0;
+    if (i < m_usNumTargets)
+    {
+        void(* fn)(void*) = DAT_00fdf1c0;
+        do
+        {
+            fn((char*)m_pkBlendInterpolators + 4 + i * 0x30);
+            ++i;
+        } while (i < m_usNumTargets);
+    }
+
+    std::memset(m_ppTargetObjects, 0, m_usNumTargets * 4);
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller.inc"

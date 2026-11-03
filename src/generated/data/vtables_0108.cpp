@@ -638,7 +638,7 @@ extern "C" void fnv_fn_00935820() __asm__("?IsPointWithinImpactRange@ProjectileI
 extern "C" void fnv_fn_009358f0() __asm__("?InvokeTarget@FUN_009358f0_Host@@QEAAXXZ");
 extern "C" void fnv_fn_00935f60() __asm__("?FUN_00935f60@DlgActor@DialogueUpdate@@QEAAXXZ");
 extern "C" void fnv_fn_00936b20() __asm__("?FUN_00936b20@Host@@QEAAXH@Z");
-extern "C" void fnv_fn_009611e0() __asm__("?FUN_009611e0@FUN_009611e0_shell@@QEAAHXZ");
+extern "C" void fnv_fn_009611e0() __asm__("?FUN_009611e0@FUN_009611e0_shell@@QEAA_JXZ");
 extern "C" void fnv_fn_0096a300() __asm__("?FUN_0096a300@FUN_0096a300_Class@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0096a540() __asm__("?FUN_0096a540@FUN_0096a540_class@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_0096a670() __asm__("?FUN_0096a670@FUN_0096a670_Class@@QEAAPEAXI@Z");
@@ -757,7 +757,7 @@ extern "C" void fnv_fn_00a59db0() __asm__("?FUN_00a59db0@FUN_00a59db0_shell@@QEA
 extern "C" void fnv_fn_00a5a430() __asm__("?SetEventualParent@NiAVObject@fnv_00a5a430@@QEAAXPEAUNiNode@2@@Z");
 extern "C" void fnv_fn_00a5c6a0() __asm__("?FUN_00a5c6a0@LinkObjectA5@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
-extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAXI@Z");
+extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d8a0() __asm__("?ReleaseChildRef@@YAXPEAVNiNode@@HI@Z");
 extern "C" void fnv_fn_00a5d8f0() __asm__("?FUN_00a5d8f0@fnv_00a5d8f0@@YAXPEAVNiNode@@HPEAVNiAVObject@@@Z");
 extern "C" void fnv_fn_00a5d940() __asm__("?ApplyTransformToChildren@StandInNode@@QEAAXAEBUThreeByThreeMatrix@@AEBUStandInPt3@@_N@Z");
@@ -777,7 +777,7 @@ extern "C" void fnv_fn_00a5e440() __asm__("?FUN_00a5e440@SUNode@@QEAAXAEA_N_N0@Z
 extern "C" void fnv_fn_00a5e560() __asm__("?GetObjectByName@NiNode@@UEAAPEAVNiAVObject@@AEBUNiFixedString@@@Z");
 extern "C" void fnv_fn_00a5e5b0() __asm__("?RegisterChildStreamables@fnv_00a5e5b0@@YA_NPEAVNiNode@@HAEAUNiStream@1@@Z");
 extern "C" void fnv_fn_00a5e600() __asm__("?FUN_00a5e600@NiNodeEq@@QEAA_NPEAVNiAVObject@@@Z");
-extern "C" void fnv_fn_00a5e690() __asm__("?GetChild@S00a5e690_Obj@fnv_00a5e690@@QEAAXIPEAPEAUNiRefA@2@@Z");
+extern "C" void fnv_fn_00a5e690() __asm__("?GetChild@S00a5e690_Obj@fnv_00a5e690@@QEAAX_KPEAPEAUNiRefA@2@@Z");
 extern "C" void fnv_fn_00a5e780() __asm__("?FUN_00a5e780@NodeStandIn@fnv_00a5e780@@QEAAXPEAURefObj@2@AEAURefPtr@2@@Z");
 extern "C" void fnv_fn_00a5e880() __asm__("?FUN_00a5e880@NodeA5E8@@QEAAXAEAVNiStreamA5E8@@@Z");
 extern "C" void fnv_fn_00a5e9d0() __asm__("?ReadChildListFromStream@Node@sa5e9d0@@QEAAXPEAUStream@2@@Z");
@@ -799,7 +799,7 @@ extern "C" void fnv_fn_00a6d5e0() __asm__("?FUN_00a6d5e0@NiTimeController_Luna@@
 extern "C" void fnv_fn_00a6d730() __asm__("?FUN_00a6d730@FUN_00a6d730_shell@@QEAAXAEAUStream_a6d730@@@Z");
 extern "C" void fnv_fn_00a6d830() __asm__("?FUN_00a6d830@TCController@@QEAAXPEAVNiViewerStringsArray@@@Z");
 extern "C" void fnv_fn_00a7fdb0() __asm__("?FUN_00a7fdb0@FUN_00a59dc0_shell@@QEAAXPEAX@Z");
-extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAXH@Z");
+extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00a93ea0() __asm__("?SetChildAt@fnv_00a93ea0@@YAXPEAVNiNode@@HIPEAVNiAVObject@@@Z");
 extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@@YAXXZ");
 extern "C" void fnv_fn_00aa1a90() __asm__("?FUN_00aa1a90@RelativeSeekFile@RelativeFileSeekDetail@@QEAAXH@Z");

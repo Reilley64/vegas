@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -263,20 +264,6 @@ hkBoolCB90 hkObjCB90::FUN_00cb9020() const
     return m_kPointA.IsOrthonormal(1e-3f) && m_kPointB.IsOrthonormal(1e-3f) && (!m_hasC || m_cValid);
 }
 
-struct FnvCpu_FUN_00cb9220_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cb9220_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cb9220_CpuAllocator* allocator;
-};
 
 struct FnvCpu_FUN_00cb9220_CpuObject
 {
@@ -291,8 +278,8 @@ FnvCpu_FUN_00cb9220_CpuObject* FnvCpu_FUN_00cb9220_CpuObject::Destroy(unsigned i
     reinterpret_cast<::FUN_00cb8b40_class *>(this)->DestroyWorldReference();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cb9220_CpuAllocatorHolder* pAllocatorHolder = static_cast<FnvCpu_FUN_00cb9220_CpuAllocatorHolder*>(::FUN_00c85750());
-        pAllocatorHolder->allocator->Invoke(this, size);
+        hkMemoryRouter* pAllocatorHolder = &hkMemoryRouter::getInstance();
+        pAllocatorHolder->m_heap->blockFree(this, size);
     }
     return this;
 }

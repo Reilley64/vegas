@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/action/hkpbinaryaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/action/hkpbinaryaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00cf4ca0_class.h"
 #include "fnv/decl/ListenerC92B.h"
@@ -211,14 +212,6 @@ template <int SIZE> __forceinline void memCpyOneAlignedXcf4e30(void* dst, const 
     } while (++i < SIZE / 4);
 }
 
-struct hkMemoryRouterXcf4e30
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pStreamAllocator;
-};
 
 namespace hkRouterXcf4e30 {
 }
@@ -236,9 +229,9 @@ template <class T> class hkArrayXcf4e30
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXcf4e30& router = (*static_cast<hkMemoryRouterXcf4e30*>(::FUN_00c85750()));
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXcf4e30<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }

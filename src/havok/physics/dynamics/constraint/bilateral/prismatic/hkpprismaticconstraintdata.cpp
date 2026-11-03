@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -108,27 +109,6 @@ hkBoolD4FD hkObjD4FD::IsValid() const
     return m_kPointA.IsOrthonormal(::AngularDashpotApplyD4DCB0::DAT_01017d00) && m_kPointB.IsOrthonormal(::AngularDashpotApplyD4DCB0::DAT_01017d00) && m_kMinimumCorner <= m_kMaximumCorner;
 }
 
-class hkMemoryAllocatorD4FF
-{
-  public:
-    virtual ~hkMemoryAllocatorD4FF() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD4FF
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4FF* m_pStreamAllocator;
-    hkMemoryAllocatorD4FF& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 class FUN_00d4f8d0
 {
@@ -139,7 +119,7 @@ class FUN_00d4f8d0
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterD4FF*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00d4f8d0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00d4f8d0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d4f8d0* FUN_00d4ffd0(unsigned int uiFlags) throw();

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -870,23 +871,6 @@ void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
     }
 }
 
-struct PathDeleteAllocator
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void ReleaseBlock(void* object, int size);
-};
-
-struct PathDeleteRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    PathDeleteAllocator* heap;
-};
-
-
 
 struct PathDeleteData : hkpPointToPathConstraintData
 {
@@ -900,8 +884,8 @@ void* PathDeleteData::FUN_00deef10(unsigned char flags)
     reinterpret_cast<::FUN_00dee7d0_class *>(this)->Destroy();
     if (flags & 1)
     {
-        PathDeleteRouter* router = static_cast<PathDeleteRouter*>(::FUN_00c85750());
-        router->heap->ReleaseBlock(this, m_usMemSizeAndFlags);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        router->m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
 }

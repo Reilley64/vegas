@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/action/hkpunaryaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/action/hkpunaryaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -175,21 +176,6 @@ FUN_00d2b260::FUN_00d2b260(FUN_00c90510_Entity* apEntity, unsigned int auiUserDa
         reinterpret_cast<::FUN_00c90510_class *>((apEntity))->FUN_00c90510();
 }
 
-class hkMemoryAllocatorXd2b2f0;
-
-struct hkMemoryRouterXd2b2f0
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXd2b2f0* m_pStreamAllocator;
-    hkMemoryAllocatorXd2b2f0& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 template <class T> __forceinline void constructWithCopyXd2b2f0(T* p, int n, const T& t)
@@ -211,7 +197,7 @@ template <class T> class hkArrayXd2b2f0
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXd2b2f0& kAlloc = (*static_cast<hkMemoryRouterXd2b2f0*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXd2b2f0(m_data + m_iElementCount, 1, t);

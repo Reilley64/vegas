@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/deprecated/hkpreportcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/deprecated/hkpreportcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
@@ -465,23 +466,6 @@ struct S_Cfca40_AdjustedSource
         return reinterpret_cast<char*>(this) + m_offset;
     }
 };
-struct S_Cfca40_Manager
-{
-    virtual void Deallocate();
-    virtual void* Allocate(unsigned int bytes);
-};
-struct S_Cfca40_Router
-{
-    void* m_allocatorState;
-    void* m_parent;
-    void* m_reserved;
-    void* m_iValueAtOffset0C;
-    S_Cfca40_Manager* m_manager;
-    S_Cfca40_Manager& heap()
-    {
-        return *m_manager;
-    }
-};
 
 struct S_Cfca40_Element
 {
@@ -503,7 +487,7 @@ void S_Cfca40_Factory::CreateElement(S_Cfca40_AdjustedSource* apFirstSource, S_C
 {
     void* firstData = apFirstSource->GetAdjustedData();
     void* secondData = apSecondSource->GetAdjustedData();
-    S_Cfca40_Element* pElement = static_cast<S_Cfca40_Element*>(static_cast<S_Cfca40_Router*>(::FUN_00c85750())->heap().Allocate(28));
+    S_Cfca40_Element* pElement = static_cast<S_Cfca40_Element*>(hkMemoryRouter::getInstance().heap().blockAlloc(28));
     pElement->m_allocatedBytes = 28;
     new ((void *)(pElement)) ::FUN_00cfc5a0((intptr_t)(m_iValueAtOffset0C), (::S_00cfc5a0 *)(firstData), (::S_00cfc5a0 *)(secondData));
 }

@@ -1112,6 +1112,10 @@ void Obj00696a10::GetVectors(Vec00696a10* pVec1, Vec00696a10* pVec2)
 
 struct Holder
 {
+    unsigned char kBase[0x10];  // a FUN_004a3c90
+    float fUnk10;
+    int iUnk14;
+    __int64 iUnk18;
     Holder* FUN_00696ca0(Holder*);
 };
 // Copies the float at offset 0x10, the int at 0x14 and the 64-bit value at 0x18 from p into this after calling FUN_004a3c90, then returns this.
@@ -1119,9 +1123,9 @@ struct Holder
 Holder* Holder::FUN_00696ca0(Holder* apSource)
 {
     new ((void *)(this)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(apSource)));
-    *(float*)((char*)this + 0x10) = *(float*)((char*)apSource + 0x10);
-    *(int*)((char*)this + 0x14) = *(int*)((char*)apSource + 0x14);
-    *(__int64*)((char*)this + 0x18) = *(__int64*)((char*)apSource + 0x18);
+    fUnk10 = apSource->fUnk10;
+    iUnk14 = apSource->iUnk14;
+    iUnk18 = apSource->iUnk18;
     return this;
 }
 
@@ -1458,6 +1462,11 @@ struct EH
 };
 struct C006b39a0
 {
+    int aiRecord[2];  // a TwoIntRecord
+    EH kEdge;
+    int iUnk14;
+    int iUnk18;
+    int iUnk1C;
     C006b39a0& FUN_006b39a0(C006b39a0 const&);
 };
 // Copies the first field, an EH at offset 8, and three ints at offsets 0x14, 0x18 and 0x1c from rhs into this, returning *this.
@@ -1465,10 +1474,10 @@ struct C006b39a0
 C006b39a0& C006b39a0::FUN_006b39a0(C006b39a0 const& rhs)
 {
     reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(*(TwoIntRecord*)this))->FUN_0069a690((const ::S0069a690 *)&(*(TwoIntRecord*)&rhs));
-    reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::fnv_006b39a0::EH &)(*(EH*)((char*)this + 8)))->CopyFromNavMeshEdge((void *)&(*(EH*)((char*)&rhs + 8)));
-    *(int*)((char*)this + 0x14) = *(int*)((char*)&rhs + 0x14);
-    *(int*)((char*)this + 0x18) = *(int*)((char*)&rhs + 0x18);
-    *(int*)((char*)this + 0x1c) = *(int*)((char*)&rhs + 0x1c);
+    reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::fnv_006b39a0::EH &)(kEdge))->CopyFromNavMeshEdge((void *)&(rhs.kEdge));
+    iUnk14 = rhs.iUnk14;
+    iUnk18 = rhs.iUnk18;
+    iUnk1C = rhs.iUnk1C;
     return *this;
 }
 }  // namespace fnv_006b39a0
@@ -1620,18 +1629,22 @@ MidCopy& MidCopy::AssignFrom(const MidCopy& other)
 
 struct FUN_0069b360_shell
 {
+    void* pVtable;
+    unsigned int m_uiHashSize;
+    void* m_ppkHashTable;
+    unsigned int m_uiCount;
     void* ConstructBuffer(unsigned int a);
 };
 
 // @fnv 0x0069b360
 void* FUN_0069b360_shell::ConstructBuffer(unsigned int a)
 {
-    *(void**)this = &(*reinterpret_cast<void * *>(&::fnv_0069b730::DAT_0106b1f4));
-    *(unsigned int*)((char*)this + 4) = a;
-    *(unsigned int*)((char*)this + 0xc) = 0;
-    unsigned int uiSize = *(unsigned int*)((char*)this + 4) * 4;
-    *(void**)((char*)this + 8) = ::FUN_00aa1070(uiSize);
-    ::FUN_00403d30(*(void**)((char*)this + 8), 0, *(unsigned int*)((char*)this + 4) * 4);
+    pVtable = &(*reinterpret_cast<void * *>(&::fnv_0069b730::DAT_0106b1f4));
+    m_uiHashSize = a;
+    m_uiCount = 0;
+    unsigned int uiSize = m_uiHashSize * 4;
+    m_ppkHashTable = ::FUN_00aa1070(uiSize);
+    ::FUN_00403d30(m_ppkHashTable, 0, m_uiHashSize * 4);
     return this;
 }
 

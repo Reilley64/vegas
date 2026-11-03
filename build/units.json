@@ -461420,7 +461420,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -461448,7 +461448,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -461484,7 +461484,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -461771,7 +461771,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -461794,7 +461794,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -461916,7 +461916,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/list/hkplistagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/list/hkplistagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -462107,7 +462107,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -462146,7 +462146,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -462235,7 +462235,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -462419,7 +462419,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -462454,7 +462454,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -462574,7 +462574,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -462682,7 +462682,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -462731,7 +462731,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkppredgskfagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -462845,7 +462845,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -462872,7 +462872,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -462990,7 +462990,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463028,7 +463028,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463058,7 +463058,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463115,7 +463115,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -463139,7 +463139,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463165,7 +463165,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463283,7 +463283,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463523,7 +463523,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463791,7 +463791,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -463933,7 +463933,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -463971,7 +463971,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -464277,7 +464277,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -464313,7 +464313,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -464341,7 +464341,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -464618,7 +464618,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -464642,7 +464642,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -464814,7 +464814,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -464921,7 +464921,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -465277,7 +465277,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -465347,7 +465347,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -465369,7 +465369,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -465562,7 +465562,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -465583,7 +465583,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -465731,7 +465731,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -465804,7 +465804,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -465883,7 +465883,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -465904,7 +465904,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -466341,7 +466341,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -466451,7 +466451,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -466474,7 +466474,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -466500,7 +466500,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -466858,7 +466858,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/dispatch/hkpcollisiondispatcher_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/dispatch/hkpcollisiondispatcher.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -467245,7 +467245,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/castutil/hkpworldlinearcaster_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/query/castutil/hkpworldlinearcaster.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -467451,7 +467451,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -467474,7 +467474,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -467645,7 +467645,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -467688,7 +467688,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/raycollector/hkpclosestrayhitcollector_o2_nood_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/raycollector/hkpclosestrayhitcollector.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -467815,7 +467815,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -467927,7 +467927,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -468061,7 +468061,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -468084,7 +468084,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -468200,7 +468200,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -468708,7 +468708,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -468816,7 +468816,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/collection/hkpshapecollection_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -469194,7 +469194,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -469346,7 +469346,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -469594,7 +469594,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/box/hkpboxshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -469697,7 +469697,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -469835,7 +469835,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -469913,7 +469913,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -469949,7 +469949,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -470183,7 +470183,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -470282,7 +470282,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -470308,7 +470308,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -470413,7 +470413,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/hkpconvexshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/hkpconvexshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -470529,7 +470529,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/sphere/hkpsphereshape_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -470670,7 +470670,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/triangle/hkptriangleshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -470918,7 +470918,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -471040,7 +471040,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -471510,7 +471510,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/plane/hkpplaneshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -471593,7 +471593,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape_gs_nogs_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -471630,7 +471630,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -471649,7 +471649,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -471933,7 +471933,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -471981,7 +471981,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/hkpshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/hkpshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -472334,7 +472334,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/misc/transform/hkptransformshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/misc/transform/hkptransformshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -472447,7 +472447,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/hkpcollidetriangleutil_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/util/hkpcollidetriangleutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -472535,7 +472535,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -472739,7 +472739,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -472785,7 +472785,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473026,7 +473026,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -473082,7 +473082,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -473173,7 +473173,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473261,7 +473261,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -473283,7 +473283,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473315,7 +473315,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -473369,7 +473369,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473466,7 +473466,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/constraintsolver/simpleconstraints/hkpsimpleconstraintutil_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/simpleconstraints/hkpsimpleconstraintutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473493,7 +473493,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/simplex/hkpsimplexsolver_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/simplex/hkpsimplexsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473560,7 +473560,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_gs_nogs_ctx_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473599,7 +473599,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473667,7 +473667,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_od_noo2_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -473691,7 +473691,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -473741,7 +473741,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -473764,7 +473764,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/vehiclefriction/hkpvehiclefrictionsolver_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/vehiclefriction/hkpvehiclefrictionsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -474739,7 +474739,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/atom/hkpconstraintatom_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/atom/hkpconstraintatom.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -475158,7 +475158,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -475543,7 +475543,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata_decl_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -475705,7 +475705,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -476143,7 +476143,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -477046,7 +477046,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -477073,7 +477073,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -477184,7 +477184,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -477206,7 +477206,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -477299,7 +477299,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/util/hkpconstraintpivotsutil_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/util/hkpconstraintpivotsutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -477831,7 +477831,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/entity/hkprigidbody_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/entity/hkprigidbody.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -477935,7 +477935,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/entity/util/hkpentityaabbutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/entity/util/hkpentityaabbutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -478236,7 +478236,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -478257,7 +478257,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -478350,7 +478350,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -478369,7 +478369,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -478618,7 +478618,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -478642,7 +478642,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -478664,7 +478664,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -478683,7 +478683,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -478719,7 +478719,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -478892,7 +478892,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/phantom/hkpaabbphantom_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -479350,7 +479350,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/phantom/hkpsimpleshapephantom_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/phantom/hkpsimpleshapephantom.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -479483,7 +479483,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -481144,7 +481144,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/hkpworld_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/hkpworld.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -481163,7 +481163,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/world/hkpworld_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/hkpworld.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -481861,7 +481861,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -481916,7 +481916,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -482711,7 +482711,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -483159,7 +483159,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -483205,7 +483205,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -483237,7 +483237,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -484230,7 +484230,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/hkpworldoperationutil_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/hkpworldoperationutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -484541,7 +484541,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -484574,7 +484574,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -484620,7 +484620,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -484646,7 +484646,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -484737,7 +484737,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -484788,7 +484788,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -484814,7 +484814,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -484956,7 +484956,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/hkpgsk_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/hkpgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -484980,7 +484980,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/hkpgsk_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/hkpgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -485114,7 +485114,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -485149,7 +485149,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -485182,7 +485182,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -485586,7 +485586,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -485621,7 +485621,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -485681,7 +485681,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -485803,7 +485803,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/cachedshape/hkpmoppcachedshapemediator_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/cachedshape/hkpmoppcachedshapemediator.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -485890,7 +485890,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/shape/hkpmoppshapemediator_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/shape/hkpmoppshapemediator.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -486108,7 +486108,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -486130,7 +486130,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -486231,7 +486231,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486341,7 +486341,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486388,7 +486388,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -486412,7 +486412,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486589,7 +486589,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486647,7 +486647,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/dashpot/hkpdashpotaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486700,7 +486700,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -486722,7 +486722,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486834,7 +486834,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/mousespring/hkpmousespringaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486899,7 +486899,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/reorient/hkpreorientaction_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/reorient/hkpreorientaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -486985,7 +486985,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/spring/hkpspringaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/spring/hkpspringaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -487279,7 +487279,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -487335,7 +487335,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -487431,7 +487431,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/charactercontrol/statemachine/hkpcharactercontext_od_oy_noo2_variant.cpp",
+   "source": "src/havok/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -487698,7 +487698,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -487806,7 +487806,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -487839,7 +487839,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -487930,7 +487930,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -488053,7 +488053,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper_decl_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -488499,7 +488499,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_ehsc_noehsc_variant_gs_nogs_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -488535,7 +488535,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -488591,7 +488591,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -488636,7 +488636,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -488659,7 +488659,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -488933,7 +488933,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -489163,7 +489163,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -489194,7 +489194,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -489315,7 +489315,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/serialize/hkpphysicsdata_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/serialize/hkpphysicsdata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -489756,7 +489756,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -489869,7 +489869,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer_rtmfull_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -489901,7 +489901,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -489927,7 +489927,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -489951,7 +489951,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -489993,7 +489993,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -490015,7 +490015,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -490317,7 +490317,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -490557,7 +490557,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -490917,7 +490917,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491038,7 +491038,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491205,7 +491205,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingedrawer_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491235,7 +491235,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491272,7 +491272,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491370,7 +491370,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtoplanedrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtoplanedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491418,7 +491418,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491462,7 +491462,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491487,7 +491487,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491512,7 +491512,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491543,7 +491543,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -491574,7 +491574,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -491612,7 +491612,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -491648,7 +491648,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -492439,7 +492439,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -492582,7 +492582,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -492715,7 +492715,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -492853,7 +492853,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldviewerbase_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldviewerbase.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -492903,7 +492903,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -492949,7 +492949,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -493240,7 +493240,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -493318,7 +493318,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpballgun_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpballgun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -493423,7 +493423,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpfirstpersongun_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -493534,7 +493534,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpgravitygun_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpgravitygun.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -493557,7 +493557,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpgravitygun_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpgravitygun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -493593,7 +493593,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpgravitygun_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpgravitygun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -493651,7 +493651,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpmountedballgun_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpmountedballgun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -493939,7 +493939,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -494089,7 +494089,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicledata_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicledata.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -494362,7 +494362,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -494383,7 +494383,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -494406,7 +494406,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_gs_nogs_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -494442,7 +494442,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -494499,7 +494499,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_rtmfull_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -494661,7 +494661,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager_ctx_variant.cpp",
+   "source": "src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -494882,7 +494882,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission_decl_variant.cpp",
+   "source": "src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -494955,7 +494955,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -494976,7 +494976,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -495034,7 +495034,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -495221,7 +495221,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -495243,7 +495243,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -495265,7 +495265,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -495422,7 +495422,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",

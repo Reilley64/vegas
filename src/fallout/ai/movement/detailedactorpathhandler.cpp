@@ -1,5 +1,6 @@
 // fallout/ai/movement/detailedactorpathhandler.cpp: std, DetailedActorPathHandler, DetailedActorPathHandlerEx, DelStandIn and more (73 functions)
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
 #include <new>
@@ -7756,7 +7757,7 @@ bool MotionTarget::UpdateMotion(float afDeltaTime)
                     bool eb = true;
                     if (!reinterpret_cast<::FUN_0076b610_Class *>(&(f))->FUN_0076b610())
                     {
-                        for (unsigned a = 0; a < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(f))->GetName())); ++a)
+                        for (unsigned a = 0; a < SimpleArraySize(&(f)); ++a)
                         {
                             AvoidSphereView* i = f.FUN_00877a30(a);
                             if (reinterpret_cast<::TESCombatStyle *>((void *)&(const ::MotionVec &)(((*(::MotionVec *)(((::Vec3 *)(void *)(i)))) - target)))->UpdateCombatStyle() < reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() * reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius())
@@ -8390,7 +8391,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
     AvoidActors nearbyActors;
     bool blocked = false;
     bool includesPlayer = false;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(contacts))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize(&(contacts)); ++i)
     {
         AvoidActor* obstacle = ((::fnv_009e5ae0::AvoidEntry *)(reinterpret_cast<::S006950d0 *>(&(contacts))->GetElement(i)))->actor;
         float weight = ((::fnv_009e5ae0::AvoidEntry *)(reinterpret_cast<::S006950d0 *>(&(contacts))->GetElement(i)))->weight;
@@ -8487,7 +8488,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
             else
                 avoidTimer = FUN_00404010(avoidTimer, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2bc4)))))));
             AvoidArray* avoidNodes = new AvoidArray;
-            unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(nearbyActors))->GetName()));
+            unsigned int count = SimpleArraySize(&(nearbyActors));
             for (unsigned int j = 0; j < count; ++j)
                 actors.FUN_005ae3d0(nearbyActors.FUN_00877a30(j));
             float factor = (moveMode & 0x200) ? 1.75f : 1.5f;
@@ -11115,7 +11116,7 @@ void __cdecl FUN_009e71b0(void* context, Request75* request, Handler75* handler)
             avoid = new AvoidArray75;
             reinterpret_cast<::PathingRequest *>((request))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(avoid));
         }
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(actors))->GetName())); ++i)
+        for (unsigned int i = 0; i < SimpleArraySize(&(actors)); ++i)
         {
             Actor75* actor = *((::fnv_009e71b0::Actor75 **)(reinterpret_cast<::S006950d0 *>(&(actors))->GetElement(i)));
             if (handler)

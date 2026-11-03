@@ -4,6 +4,7 @@
 
 
 // @fnv 0x009b7cb0
+#include "fnv/simple_array_item.h"
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/tls.h"
 #include <cstdint>
@@ -3612,7 +3613,7 @@ void Actor::FUN_009b90b0()
             {
                 Holder* p38 = (Holder*)((::fnv_009b90b0::Obj *)(reinterpret_cast<::ExtraDataList *>((((::fnv_009b90b0::Obj *)(reinterpret_cast<::FUN_005d43c0_ *>((p34))->FUN_005d43c0()))))->GetDismemberedLimbs()));
                 bool found = false;
-                for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(p38->unk20))->GetName())); i++)
+                for (unsigned int i = 0; i < SimpleArraySize(&(p38->unk20)); i++)
                 {
                     if ((*p38->unk20.FUN_00877a30(i))->unk00 == (char)owner->unk24 &&
                         (*p38->unk20.FUN_00877a30(i))->unk01)

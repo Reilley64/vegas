@@ -417,7 +417,7 @@ bool FUN_009f30d0_shell::SetPatrolRefIndex(unsigned int aiRefIndex)
         return true;
     }
     unsigned int aiclampedRefIndex = aiRefIndex;
-    int isize = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrFlagsHelper*)((char*)this + 0x1c))))->GetName())) - 1;
+    int isize = SimpleArraySize((((ArrFlagsHelper*)((char*)this + 0x1c)))) - 1;
     ::ClampInt((int *)(unsigned int *)(&aiclampedRefIndex), 0, isize);
     bool bsuccess = true;
     TESObjectREFR* pnewRef =
@@ -555,7 +555,7 @@ void FUN_009f33d0_shell::FUN_009f33d0(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x2c, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x30, 4, 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0x14)), 0);
-    unsigned int isaveGameCount = (ArrSI*)((char*)this + 0x1c) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x1c))))->GetName())) : 0;
+    unsigned int isaveGameCount = (ArrSI*)((char*)this + 0x1c) ? SimpleArraySize((((ArrSI*)((char*)this + 0x1c)))) : 0;
     reinterpret_cast<::BGSSaveGameBuffer *>((apSaveGameBuffer))->FUN_00865f60(isaveGameCount);
     for (unsigned int i = 0; i < isaveGameCount; ++i)
     {
@@ -614,7 +614,7 @@ bool PatrolData::AdvancePatrolIndex(bool abApply)
     if (bForward)
     {
         idx++;
-        if (idx == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(refs))->GetName())))
+        if (idx == SimpleArraySize(&(refs)))
         {
             if (bLoop)
             {
@@ -624,7 +624,7 @@ bool PatrolData::AdvancePatrolIndex(bool abApply)
                 }
                 else
                 {
-                    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(refs))->GetName())) == 1)
+                    if (SimpleArraySize(&(refs)) == 1)
                         idx = 0;
                     else
                         idx -= 2;
@@ -652,7 +652,7 @@ bool PatrolData::AdvancePatrolIndex(bool abApply)
                 }
                 else
                 {
-                    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(refs))->GetName())) == 1)
+                    if (SimpleArraySize(&(refs)) == 1)
                         idx = 0;
                     else
                         idx = 1;
@@ -673,7 +673,7 @@ bool PatrolData::AdvancePatrolIndex(bool abApply)
             bool bOk = reinterpret_cast<::fnv_009f30d0::FUN_009f30d0_shell *>(this)->SetPatrolRefIndex(idx);
             if (!bOk)
             {
-                unsigned int numRefs = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(refs))->GetName()));
+                unsigned int numRefs = SimpleArraySize(&(refs));
                 unsigned int uiValid = numRefs - 1;
                 for (unsigned int i = 0; i < numRefs; i++)
                 {
@@ -843,7 +843,7 @@ void PatrolData2::SelectClosestPatrolPoint(const NiPoint3& arPoint)
 {
     if (!unk10)
         return;
-    int BackgroundTask = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(refs))->GetName()));
+    int BackgroundTask = SimpleArraySize(&(refs));
     reinterpret_cast<::fnv_009f30d0::FUN_009f30d0_shell *>(this)->SetPatrolRefIndex(0);
     bForward = true;
     PatrolRefStub* pOld = 0;
@@ -1060,7 +1060,7 @@ void FUN_009f2c30_Class::RemoveReference(PatrolReference* reference)
     else
     {
         unsigned int index;
-        for (index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(references))->GetName())); index++)
+        for (index = 0; index < SimpleArraySize(&(references)); index++)
         {
             if (*references.FUN_00877a30(index) == (intptr_t)reference)
             {
@@ -1288,7 +1288,7 @@ struct PatrolData9f3610
 void PatrolData9f3610::FUN_009f3610(PatrolLoadBuf* apBuf)
 {
     bool bAnyRemoved = false;
-    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kRefs))->GetName()));
+    unsigned int ItemUpdateArray = SimpleArraySize(&(kRefs));
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
     {
         bool bRemove = false;

@@ -1,5 +1,6 @@
 // fallout/ai/combat/vats.cpp: VATS, PlayerCharacter, SoundListView, ListHolder and more (26 functions)
 
+#include "fnv/form_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AnimSwap.h"
@@ -1824,7 +1825,7 @@ void VATS_ca2c0::FUN_009ca2c0(TESObjectREFR* apTarget, int a2)
     if (((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture())) &&
         ((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture()))->GetTarget())
     {
-        unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture()))->GetTarget()))->GetName()));
+        unsigned int flags = reinterpret_cast<FormFields*>((((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture()))->GetTarget()))->m_uiFormFlags;
         ((HitData_ca2c0*)cmd->m_pActionObject)->unk30 = flags;
     }
     ((HitData_ca2c0*)cmd->m_pActionObject)->SetFlag(0x10, true);

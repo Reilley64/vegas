@@ -1256,7 +1256,7 @@ bool __cdecl FUN_0099cb00(void* p1, ArrSI* pNodes)
 {
     unsigned int i;
     ParentSpaceNode node;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNodes))->GetName())); ++i)
+    for (i = 0; i < SimpleArraySize((pNodes)); ++i)
     {
         node = pNodes->GetAt(i);
         if (FUN_0099cc60(p1, &node, 0))
@@ -1809,7 +1809,7 @@ void FUN_009a2f50_shell::FUN_009a2f50(BGSSaveFormBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 48, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 52, 4, 0);
     reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>((((CombatTargetTimestamp*)((char*)this + 28))))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(buffer));
-    unsigned int flags = ((char*)this + 32) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 32))))->GetName())) : 0;
+    unsigned int flags = ((char*)this + 32) ? SimpleArraySize((((ArrSI*)((char*)this + 32)))) : 0;
     reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(flags);
     for (unsigned int i = 0; i < flags; ++i)
     {
@@ -3298,7 +3298,7 @@ struct FUN_009a0d70_shell
 // @fnv 0x009a0d70
 bool FUN_009a0d70_shell::ContainsItem(void* apItem)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x164))))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize((((ArrSI*)((char*)this + 0x164)))); ++i)
     {
         void* entry = (void*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)((char*)this + 0x164))))->FUN_00844160(i);
         if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)entry + 4))))->FUN_00435e00() > 10.0)
@@ -3361,8 +3361,8 @@ struct FUN_009a0e10_shell
 // @fnv 0x009a0e10
 void FUN_009a0e10_shell::CollectAvoidanceItems(BSSimpleArray<void*, 1024>* apArray)
 {
-    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((apArray))->FUN_0084b5c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(avoidanceData))->GetName())));
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(avoidanceData))->GetName())); ++i)
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((apArray))->FUN_0084b5c0(SimpleArraySize(&(avoidanceData)));
+    for (unsigned int i = 0; i < SimpleArraySize(&(avoidanceData)); ++i)
     {
         FUN_00844160_entry* entry = ((::fnv_009a0e10::FUN_00844160_entry *)(reinterpret_cast<::FUN_00844160_shell *>(&(avoidanceData))->FUN_00844160(i)));
         if (reinterpret_cast<::FUN_00435e00_t *>(&(entry->timer))->FUN_00435e00() > 10.0)
@@ -3423,7 +3423,7 @@ bool FUN_009a0f40_struct::HasItemWithinRadius(const CoordinateTriple* arWorldLoc
         maxDistSq = afRadius * afRadius;
     }
 
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array_174))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize(&(array_174)); ++i)
     {
         Item* item = array_174.FUN_006dad90(i);
         if (reinterpret_cast<::FUN_00435e00_t *>(&(item->time))->FUN_00435e00() > 10.0)
@@ -5223,7 +5223,7 @@ RefS* CombatNodeFinder::FindNearestCombatNode(ActorS* actor, float maxDist, bool
     LocS actorLoc2 = (*(::LocS *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})));
     RefS* bestX = 0;
     float bestDist5 = maxDist * maxDist;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(nodes))->GetName())); i++)
+    for (unsigned int i = 0; i < SimpleArraySize(&(nodes)); i++)
     {
         NodeS& node5 = nodes.GetAt(i);
         if (!node5.ref || !node5.other)
@@ -6725,7 +6725,7 @@ void Manager::EvaluateWeaponScores()
         float bestOutsideSlot13 = 0.0f;
         Weapon* outsideWeaponSlot0 = 0;
         float bestInsideSlot33 = 0.0f;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(scoresSlot20))->GetName())); i++)
+        for (unsigned int i = 0; i < SimpleArraySize(&(scoresSlot20)); i++)
         {
             WeaponScore* scoreSlot25 = &scoresSlot20.FUN_006dad90(i);
             Weapon* weaponSlot32Slot15 = scoreSlot25->weapon;
@@ -6810,7 +6810,7 @@ void Manager::EvaluateWeaponScores()
         }
         if (bestInsideSlot33 > ::_DAT_01012060)
             outsideWeaponSlot0 = 0;
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(scoresSlot20))->GetName())); j++)
+        for (unsigned int j = 0; j < SimpleArraySize(&(scoresSlot20)); j++)
         {
             WeaponScore* candidateSlot0 = &scoresSlot20.FUN_006dad90(j);
             Weapon* weapon2Slot11 = candidateSlot0->weapon;
@@ -8823,7 +8823,7 @@ void UpdateState::FUN_00998a50()
     UpdateActor* count = ((::UpdateActor *)(::GetFieldBC((::FUN_0097ae90_Class *)(controller))));
     UpdateRef* ref = ((::UpdateRef *)(reinterpret_cast<::AlchemyItem *>((controller))->FUN_004030b0()));
     {
-        int actor = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName()));
+        int actor = SimpleArraySize(&(targets));
         if (actor > 1)
         {
             unsigned char flag = ((unsigned char)(reinterpret_cast<::FUN_00981970_shell *>((controller))->FUN_00981970()));
@@ -8838,7 +8838,7 @@ void UpdateState::FUN_00998a50()
                     if (randomize && target)
                     {
                         int remaining = GetRandomNumberInRange(0, actor - 1);
-                        for (unsigned index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName())); ++index)
+                        for (unsigned index = 0; index < SimpleArraySize(&(targets)); ++index)
                         {
                             int entry = (SimpleArrayItem<int>(&(targets), index));
                             if (entry == target)
@@ -9158,7 +9158,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     for (unsigned i = 0; i < 6; i++)
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pSaveBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(references[i]), 0);
     {
-        unsigned count = &list24 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list24))->GetName())) : 0;
+        unsigned count = &list24 ? SimpleArraySize(&(list24)) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pSaveBuffer))->FUN_00865f60(count);
         for (unsigned j = 0; j < count; j++)
         {
@@ -9233,7 +9233,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     if (reinterpret_cast<::CombatTargetTimestamp *>(&(location2.range))->FUN_006a7f50() != -DAT_0108df70)
         reinterpret_cast<::fnv_009a2f50::FUN_009a2f50_shell *>(&(location2))->FUN_009a2f50((::fnv_009a2f50::BGSSaveFormBuffer *)(pSaveBuffer));
     {
-        unsigned uiList164Count = &list164 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list164))->GetName())) : 0;
+        unsigned uiList164Count = &list164 ? SimpleArraySize(&(list164)) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pSaveBuffer))->FUN_00865f60(uiList164Count);
         for (unsigned uiList164Index = 0; uiList164Index < uiList164Count; uiList164Index++)
         {
@@ -9242,7 +9242,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
         }
     }
     {
-        unsigned uiList174Count = &list174 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list174))->GetName())) : 0;
+        unsigned uiList174Count = &list174 ? SimpleArraySize(&(list174)) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pSaveBuffer))->FUN_00865f60(uiList174Count);
         for (unsigned m = 0; m < uiList174Count; m++)
         {
@@ -9851,7 +9851,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t
     if (((int)(::FindNearbyTriangles((::GeometrySource *)(::fnv_0099b8e0::QBuilder *)(&builder2), (::OutputList *)(::fnv_0099b8e0::QLocArray *)(&out->locs)))))
     {
         reinterpret_cast<::FUN_0099c210_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->LockCombatTargetMap();
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(out->locs))->GetName())); i++)
+        for (unsigned int i = 0; i < SimpleArraySize(&(out->locs)); i++)
         {
             QLocElem* elem = ((::fnv_0099b8e0::QLocElem *)(reinterpret_cast<::FUN_009052c0_shell *>(&(out->locs))->FUN_009052c0(i)));
             int _resC = 0;

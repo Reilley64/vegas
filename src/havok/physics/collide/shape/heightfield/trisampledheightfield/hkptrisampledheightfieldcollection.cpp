@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -200,28 +201,7 @@ FUN_00d26700::FUN_00d26700(void* p, float f)
     reinterpret_cast<::FUN_00c90510_class *>((((Target26700*)p)))->FUN_00c90510();
 }
 
-class hkMemoryAllocatorD267
-{
-  public:
-    virtual ~hkMemoryAllocatorD267() throw();
-    virtual void* AllocateMemoryBlock(int n) throw();
-    virtual void ReleaseBlock(void* p, int n) throw();
-    virtual void* AllocateBufferWithSize(int& n) throw();
-    virtual void ReturnMemory(void* p, int n) throw();
-};
 
-struct hkMemoryRouterD267
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorD267* m_pStreamAllocator;
-    hkMemoryAllocatorD267& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterD267 {
 }
@@ -234,10 +214,10 @@ template <class T> struct hkArrayD267
 
     ~hkArrayD267() throw()
     {
-        hkMemoryAllocatorD267& alloc = static_cast<hkMemoryRouterD267*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -300,24 +280,8 @@ struct FUN_00d26450_S
 {
 };
 
-struct FUN_00d267c0_Alloc
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void Free(void* data, int size);
-};
 
 
-struct FUN_00d267c0_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00d267c0_Alloc* m_pStreamAllocator;
-};
 
 struct FUN_00d267c0_t : hkpTriSampledHeightFieldCollection
 {
@@ -333,13 +297,11 @@ void FUN_00d267c0_t::FUN_00d267c0(int mode)
         hkpSampledHeightFieldShape* o = static_cast<hkpSampledHeightFieldShape*>(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450());
         int idx = (2 * o->m_iZResolution - 2) * (o->m_iXResolution - 1);
         hkArray<hkUint16>* arr = &m_kWeldingInfo;
-        FUN_00d267c0_Router* cur = static_cast<FUN_00d267c0_Router*>(::FUN_00c85750());
         if ((arr->m_iCapacityState & 0x3fffffff) < idx)
         {
-            ::FUN_00c908c0((::SpawnedObject *)(cur->m_pStreamAllocator), (::SpawnedArray *)(arr), idx, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(&hkMemoryRouter::getInstance().heap()), (::SpawnedArray *)(arr), idx, 2);
         }
-        cur = static_cast<FUN_00d267c0_Router*>(::FUN_00c85750());
-        FUN_00d267c0_Alloc* alloc = cur->m_pStreamAllocator;
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
         int a = arr->m_iCapacityState & 0x3fffffff;
         if (a < idx)
         {
@@ -350,12 +312,12 @@ void FUN_00d267c0_t::FUN_00d267c0(int mode)
     }
     else
     {
-        FUN_00d267c0_Alloc* alloc = static_cast<FUN_00d267c0_Router*>(::FUN_00c85750())->m_pStreamAllocator;
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
         int a = m_kWeldingInfo.m_iCapacityState;
         m_kWeldingInfo.m_iElementCount = 0;
         if (!(a & 0x80000000))
         {
-            alloc->Free(m_kWeldingInfo.m_data, (a & 0x3fffffff) * 2);
+            alloc->bufFree(m_kWeldingInfo.m_data, (a & 0x3fffffff) * 2);
         }
         m_kWeldingInfo.m_data = 0;
         m_kWeldingInfo.m_iCapacityState = (int)0x80000000;

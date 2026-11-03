@@ -1,6 +1,7 @@
 // src/havok/physics/collide/broadphase/hkpbroadphase.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/hkpbroadphase.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00cf6d20_Class.h"
@@ -70,21 +71,7 @@ class Spawned
     virtual void v00();
 };
 
-class Obj
-{
-  public:
-    virtual void v00();
-    virtual Spawned* v04(unsigned int size);
-};
 
-struct Holder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    Obj* m_10;
-};
 
 
 class Owner
@@ -102,29 +89,13 @@ void Owner::FUN_00d97070(int apArg)
 {
     if (m_10 == 0)
     {
-        Holder* h = static_cast<Holder*>(::FUN_00c85750());
-        Obj* obj = h->m_10;
-        Spawned* s = obj->v04(0x18);
+        Spawned* s = static_cast<Spawned*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x18));
         m_10 = (s != 0) ? ((::Spawned *)(reinterpret_cast<::FUN_00cf6da0_cls *>((s))->FUN_00cf6da0((unsigned long)(apArg)))) : s;
         reinterpret_cast<::hkMultiThreadCheckCF6E *>(&(m_08))->ResetThreadCheck();
     }
 }
 
 namespace fnv_00d97100 {
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
 struct CpuObject
 {
     unsigned int unk00;
@@ -132,15 +103,14 @@ struct CpuObject
     void FUN_00d970c0();
     CpuObject* FUN_00d97100(unsigned int flags);
 };
-// Calls FUN_00d970c0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
+// Calls FUN_00d970c0, then if bit 0 of flags is set, frees this (size bytes) to the heap allocator, and returns this.
 // @fnv 0x00d97100
 CpuObject* CpuObject::FUN_00d97100(unsigned int flags)
 {
     FUN_00d970c0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }
@@ -176,12 +146,6 @@ struct FUN_00d970c0_cls
     void FUN_00d970c0();
 };
 
-struct FreeAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
 // Deletes the critical section m_pCs, frees it via the holder's allocator, clears m_pCs, and sets the vtable pointer to DAT_0102e388.
 // @fnv 0x00d970c0
@@ -192,9 +156,7 @@ void FUN_00d970c0_cls::FUN_00d970c0()
     if (pCs != 0)
     {
         DeleteCriticalSection(pCs);
-        Holder* pHolder = static_cast<Holder*>(::FUN_00c85750());
-        FreeAllocator* pAllocator = reinterpret_cast<FreeAllocator*>(pHolder->m_10);
-        pAllocator->Free(pCs, 0x18);
+        hkMemoryRouter::getInstance().heap().blockFree(pCs, 0x18);
         m_pCs = 0;
     }
     m_vptr = &::DAT_0102e388;

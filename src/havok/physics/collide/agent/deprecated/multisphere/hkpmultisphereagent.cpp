@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/deprecated/multisphere/hkpmultisphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multisphere/hkpmultisphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
@@ -268,20 +269,7 @@ void FUN_00d44f90_Class::FUN_00d44f90(void* first, void* second, void* third, un
     reinterpret_cast<::hkpMultiSphereAgent *>(this)->GetPenetrations((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), (*(const ::CollisionAgentContext *)(third)), (*(::hkpCdBodyPairCollector *)(&data)));
 }
 
-struct Allocator
-{
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* m_pAllocator;
-};
 
 extern char DAT_010cf390[];
 
@@ -309,9 +297,7 @@ struct SpawnedObject
 // @fnv 0x00d44d00
 void* FUN_00d44d00(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
-    Allocator* pAllocator = pAllocHolder->m_pAllocator;
-    SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x38);
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
     obj->m_iElementCount = 0x38;
     obj->Init(aiArg2, aiArg1, aiArg3, aiArg4);
     *(void* volatile*)obj = (void*)DAT_010cf390;
@@ -376,23 +362,7 @@ void __cdecl FUN_00d44de0(void* apArg1, void* apArg2, void* apArg3, unsigned int
 }
 
 namespace fnv_00d450f0 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 
 struct FUN_00d450f0_cls
@@ -412,22 +382,19 @@ struct FUN_00d450f0_cls
 // @fnv 0x00d450f0
 FUN_00d450f0_cls* FUN_00d450f0_cls::Destroy(unsigned char acFlags)
 {
-    AudioHolder* pAudioHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     unsigned int uCapBits = m_uCapBits;
     m_iArrayLength = 0;
     if ((uCapBits & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pData, (uCapBits & 0x3fffffff) * 8);
+        heap.bufFree(m_pData, (uCapBits & 0x3fffffff) * 8);
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
     m_vptr00 = &::DAT_0102e388;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
-        pAllocator2->Free(this, m_uSize);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_uSize);
     }
     return this;
 }
@@ -913,8 +880,7 @@ void SphereDispatch::ProcessSpheres(const hkpCdBody& aBody, const hkpCdBody& aOt
 // @fnv 0x00d44cc0
 void FUN_00d44cc0(int a1, int a2, int a3, int a4)
 {
-    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
-    SpawnedObject* obj = (SpawnedObject*)pAllocHolder->m_pAllocator->Alloc(0x38);
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
     obj->m_iElementCount = 0x38;
     obj->Init(a1, a2, a3, a4);
 }
@@ -1197,26 +1163,10 @@ struct __declspec(align(16)) S_00d44b00_V4
 {
     float x, y, z, w;
 };
-struct S_00d44b00_Alloc
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-};
 struct S_00d44b00_Elem
 {
     int first;
     int second;
-};
-struct LocalHolder : AllocHolder
-{
-    S_00d44b00_Alloc& heap()
-    {
-        return *(S_00d44b00_Alloc*)m_pAllocator;
-    }
 };
 struct S_00d44b00_Arr;
 struct S_00d44b00_Arr
@@ -1224,13 +1174,13 @@ struct S_00d44b00_Arr
     S_00d44b00_Elem* m_data;
     int m_iElementCount;
     int m_cap;
-    void reserve(S_00d44b00_Alloc& a, int n)
+    void reserve(hkMemoryAllocator& a, int n)
     {
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
         {
             int cap2 = cap * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(::S_00d44b00_Alloc *)(&a), (::SpawnedArray *)(::S_00d44b00_Arr *)(this), (n < cap2) ? cap2 : n, 8);
+            ::FUN_00c908c0((::SpawnedObject *)(&a), (::SpawnedArray *)(::S_00d44b00_Arr *)(this), (n < cap2) ? cap2 : n, 8);
         }
     }
     S_00d44b00_Elem* expandByUnchecked(int n)
@@ -1457,7 +1407,7 @@ FUN_00d44b00::FUN_00d44b00(const hkpCdBody& src, const hkpCdBody& pb, const S_00
 {
     const S_00d44b00_Mesh* mesh = (const S_00d44b00_Mesh*)src.getShape();
     int n = mesh->count;
-    arr.reserve(((LocalHolder*)static_cast<AllocHolder*>(::FUN_00c85750()))->heap(), n);
+    arr.reserve(hkMemoryRouter::getInstance().heap(), n);
     FUN_00cd8160 shape(0.0f);
     S_00d44b00_Tri tri;
     reinterpret_cast<::S_00d431b0 *>(&(tri))->CopyFrom((*(const ::S_00d431b0 *)((const S_00d44b00_Tri*)src.m_pMotionState)));

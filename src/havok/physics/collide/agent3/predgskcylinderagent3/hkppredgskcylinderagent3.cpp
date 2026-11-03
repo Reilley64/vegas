@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -55,20 +56,7 @@ struct FNVExtendedObject;
 struct ExtendedRecord;
 struct Node;
 
-struct Allocator
-{
-    virtual void* unk00();
-    virtual Node* allocate(unsigned int size);
-};
 
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* allocator;
-};
 
 extern double DAT_010cf218;
 
@@ -184,8 +172,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
             FNVObject** slot;
             slot = slots[i];
             ExtendedRecord* record = (ExtendedRecord*)(*slot)->record;
-            Manager* pManager = static_cast<Manager*>(::FUN_00c85750());
-            Node* node = pManager->allocator->allocate(0x40);
+            Node* node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
             node->unk04 = 0x40;
             float v = record->unk10;
             float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
@@ -303,18 +290,6 @@ void d409d0_probe_caller(void)
 }
 
 
-struct D40A10Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* allocator;
-    Allocator& heap()
-    {
-        return *allocator;
-    }
-};
 
 struct D40A10Shape
 {
@@ -373,7 +348,7 @@ static __declspec(noinline) void FUN_00d40a10(int* a, FNVTypeRecord** apRecords,
         if (a[i] != 0)
         {
             D40A10Shape* shape = (D40A10Shape*)list[i]->record->unknown0;
-            D40A10Node* node = (D40A10Node*)((D40A10Holder*)static_cast<Manager*>(::FUN_00c85750()))->heap().allocate(0x40);
+            D40A10Node* node = static_cast<D40A10Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
             node->unk04 = 0x40;
             float t = shape->unk10;
             float val = t + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0() + DAT_010cf218;
@@ -3711,7 +3686,7 @@ Memory* memory();
 
 __forceinline Shape* makeShape(Shape* shape)
 {
-    Shape* p = (Shape*)static_cast<Manager*>(::FUN_00c85750())->allocator->allocate(64);
+    Shape* p = static_cast<Shape*>(hkMemoryRouter::getInstance().heap().blockAlloc(64));
     p->allocationSize = 64;
     float radius = shape->radius;
     float inflated = (float)(reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((shape))->FUN_00d571a0() + radius + 0.0020000000949949026);
@@ -3980,8 +3955,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
 
                 Body** slot = refBodies[j];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
-                scalarScratch.node = mgr->allocator->allocate(0x40);
+                scalarScratch.node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
                 scalarScratch.node->unk04 = 0x40;
                 float v = record->unk10;
                 float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
@@ -4110,8 +4084,7 @@ distant:
             {
                 Body** slot = bodies[k];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
-                Node* node = mgr->allocator->allocate(64);
+                Node* node = static_cast<Node*>(hkMemoryRouter::getInstance().heap().blockAlloc(64));
                 node->unk04 = 64;
                 lateScratch.radius = record->unk10;
                 lateScratch.inflated = (float)(reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0() + lateScratch.radius + DAT_010cf218);

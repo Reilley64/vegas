@@ -694,9 +694,7 @@ int TESDataHandler::GetDLCIndex(const char* name)
 }
 
 // @fnv 0x0046f280
-void TESDataHandler::GetReferencesInArea(TESObjectCELL* cell, const NiPoint3& point, float radius,
-                                         const NiPoint3& direction, float angle,
-                                         bool(__cdecl* callback)(TESObjectREFR*, long), long data)
+void TESDataHandler::GetReferencesInArea(TESObjectCELL* cell, const NiPoint3& point, float radius, const NiPoint3& direction, float angle, bool(__cdecl* callback)(TESObjectREFR*, long), std::intptr_t data)
 {
     if (!cell || !callback)
         return;
@@ -947,7 +945,7 @@ void* FUN_00461150_shell::FUN_00461150()
 }
 
 // @fnv 0x00461190
-int FUN_00461190(int param_1)
+int FUN_00461190(std::intptr_t param_1)
 {
     return param_1 + 0xE8;
 }
@@ -1107,12 +1105,12 @@ bool FUN_00461560_shell::FUN_00461560()
 
 struct FUN_00461780_cls
 {
-    void Method(int a);
+    void Method(std::intptr_t a);
 };
 
 // Calls AddTopicToList with the argument, the object's field at offset 0x108 and 1.
 // @fnv 0x00461780
-void FUN_00461780_cls::Method(int aiValue)
+void FUN_00461780_cls::Method(std::intptr_t aiValue)
 {
     ::AddTopicToList((::TESTopic *)(aiValue), (::BSSimpleList< ::TESTopic *> *)(char *)((char*)this + 0x108), 1);
 }
@@ -2395,11 +2393,11 @@ struct TMapStandIn
     unsigned int m_uiCount;
     bool m_bFlag;
     MapItem* NewItem();
-    void InsertOrUpdate(unsigned int key, void* val);
+    void InsertOrUpdate(std::uintptr_t key, void* val);
 };
 // Looks up the key in the hash bucket, updates the matching item's value, or inserts a new item at the bucket head and increments the count.
 // @fnv 0x00470200
-void TMapStandIn::InsertOrUpdate(unsigned int key, void* val)
+void TMapStandIn::InsertOrUpdate(std::uintptr_t key, void* val)
 {
     unsigned int uiIndex = KeyToHashIndex(key);
     MapItem* pkItem = m_ppkHashTable[uiIndex];
@@ -3195,8 +3193,8 @@ void TESDataHandler::InitializeMagicSystem()
         global->SetRefID(53, true);
         global->SetEditorID_AtRuntime("GameYear");
         reinterpret_cast<::FUN_0046dce0_class *>((global))->FUN_0046dce0(77.0f);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(global);
-        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)("GameYear"), global);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(global);
+        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)("GameYear"), global);
     }
     if (!::FUN_004839c0(54))
     {
@@ -3204,8 +3202,8 @@ void TESDataHandler::InitializeMagicSystem()
         global->SetRefID(54, true);
         global->SetEditorID_AtRuntime("GameMonth");
         reinterpret_cast<::FUN_0046dce0_class *>((global))->FUN_0046dce0(7.0f);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(global);
-        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)("GameMonth"), global);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(global);
+        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)("GameMonth"), global);
     }
     if (!::FUN_004839c0(55))
     {
@@ -3213,8 +3211,8 @@ void TESDataHandler::InitializeMagicSystem()
         global->SetRefID(55, true);
         global->SetEditorID_AtRuntime("GameDay");
         reinterpret_cast<::FUN_0046dce0_class *>((global))->FUN_0046dce0(17.0f);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(global);
-        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)("GameDay"), global);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(global);
+        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)("GameDay"), global);
     }
     if (!::FUN_004839c0(56))
     {
@@ -3222,8 +3220,8 @@ void TESDataHandler::InitializeMagicSystem()
         global->SetRefID(56, true);
         global->SetEditorID_AtRuntime("GameHour");
         reinterpret_cast<::FUN_0046dce0_class *>((global))->FUN_0046dce0(12.0f);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(global);
-        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)("GameHour"), global);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(global);
+        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)("GameHour"), global);
     }
     if (!::FUN_004839c0(57))
     {
@@ -3231,8 +3229,8 @@ void TESDataHandler::InitializeMagicSystem()
         global->SetRefID(57, true);
         global->SetEditorID_AtRuntime("GameDaysPassed");
         reinterpret_cast<::FUN_0046dce0_class *>((global))->FUN_0046dce0(1.0f);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(global);
-        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)("GameDaysPassed"), global);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(global);
+        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)("GameDaysPassed"), global);
     }
     if (!::FUN_004839c0(58))
     {
@@ -3240,8 +3238,8 @@ void TESDataHandler::InitializeMagicSystem()
         global->SetRefID(58, true);
         global->SetEditorID_AtRuntime("TimeScale");
         reinterpret_cast<::FUN_0046dce0_class *>((global))->FUN_0046dce0(30.0f);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(global);
-        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)("TimeScale"), global);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(global);
+        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)("TimeScale"), global);
     }
     pNPC = dynamic_cast<TESNPC*>(::FUN_004839c0(7));
     if (!pNPC)
@@ -3423,8 +3421,8 @@ void TESDataHandler::InitializeMagicSystem()
         DAT_011c3f3c->SetRefID(99, true);
         DAT_011c3f3c->SetEditorID_AtRuntime("PlayCredits");
         reinterpret_cast<::FUN_0046dce0_class *>((DAT_011c3f3c))->FUN_0046dce0(0.0f);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(DAT_011c3f3c);
-        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)("PlayCredits"), DAT_011c3f3c);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(DAT_011c3f3c);
+        reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)("PlayCredits"), DAT_011c3f3c);
     }
     BGSDefaultObjectManager::Instance()->InitializeComponent();
 }
@@ -3782,7 +3780,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 6: {
         TESGlobal* entry = static_cast<TESGlobal*>(form);
-        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::TESGlobal *> *)(::FUN_00461190((std::intptr_t)this)))->AddHead(entry);
         break;
     }
     case 93: {
@@ -5596,7 +5594,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
         {
             TESTopic* topic = new TESTopic(0);
             LoadForm(topic, file);
-            reinterpret_cast<::FUN_00461780_cls *>(this)->Method((int)(topic));
+            reinterpret_cast<::FUN_00461780_cls *>(this)->Method((std::intptr_t)(topic));
         }
         else
             LoadForm(pOldForm, file);

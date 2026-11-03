@@ -1990,11 +1990,11 @@ BipedAnim* FUN_006055f0_shell::GetOrCreateBipedAnim(TESObjectREFR* apRef)
 
 struct FUN_005d9f70_shell
 {
-    void SetField1B4(int value);
+    void SetField1B4(std::intptr_t value);
 };
 
 // @fnv 0x005d9f70
-void FUN_005d9f70_shell::SetField1B4(int value)
+void FUN_005d9f70_shell::SetField1B4(std::intptr_t value)
 {
     *(int*)((char*)this + 0x1b4) = value;
 }
@@ -2012,12 +2012,12 @@ unsigned char FUN_005f1230_shell::GetAttributeValue7()
 
 struct FUN_00601c70_shell
 {
-    void FUN_00601c70(int param);
+    void FUN_00601c70(std::intptr_t param);
 };
 
 // Stores param at offset 0x130 of this and calls the virtual function at vtable offset 0x48 with 0x400.
 // @fnv 0x00601c70
-void FUN_00601c70_shell::FUN_00601c70(int aiValue)
+void FUN_00601c70_shell::FUN_00601c70(std::intptr_t aiValue)
 {
     *(int*)((char*)this + 0x130) = aiValue;
     ((void(*)(void*, int)) * (int**)(*(int*)this + 0x48))(this, 0x400);
@@ -2137,7 +2137,7 @@ struct FUN_009dace0_shell : public TESActorBase
 // @fnv 0x009dace0
 void FUN_009dace0_shell::FUN_009dace0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
 }
 
 struct FUN_005f16f0_shell
@@ -2284,11 +2284,11 @@ struct S8
 void __cdecl FillRange(int, int, int, void*);
 struct Unk060b8a0
 {
-    int FUN_0060b8a0(int, int, int);
+    int FUN_0060b8a0(std::intptr_t, int, int);
 };
 // Calls FillRange with the three arguments and this+8, then returns a + b*4.
 // @fnv 0x0060b8a0
-int Unk060b8a0::FUN_0060b8a0(int aiFirst, int aiSecond, int aiThird)
+int Unk060b8a0::FUN_0060b8a0(std::intptr_t aiFirst, int aiSecond, int aiThird)
 {
     FillRange(aiFirst, aiSecond, aiThird, (char*)this + 8);
     return aiFirst + aiSecond * 4;
@@ -4149,8 +4149,8 @@ void FaceNpc::RandomizeFace(bool keepAge, bool keepShape, bool keepOther)
     float first2, second, value, other7;
     ::BSFaceGenManager::InitializeFaceGenCoordinates((::FaceGenCoordinates *)(_result));
     ::FUN_00652fc0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FaceSetting *>(&::originalRuntimeFloatSetting46)))))), (std::intptr_t)(((void *)(reinterpret_cast<::S9fb0 *>((((::FaceRace *)(reinterpret_cast<::Callees *>(&(race))->FUN_00726070()))))->FUN_005d9fb0(FUN_005f0cc0())))), (std::intptr_t)(source9));
-    first2 = ::FUN_00652440((int)(source9), 0, 0);
-    second = ::FUN_00652440((int)(source9), 0, 1);
+    first2 = ::FUN_00652440((std::intptr_t)(source9), 0, 0);
+    second = ::FUN_00652440((std::intptr_t)(source9), 0, 1);
     if (keepAge)
         value = first2;
     else
@@ -4158,10 +4158,10 @@ void FaceNpc::RandomizeFace(bool keepAge, bool keepShape, bool keepOther)
     other7 = second - (first2 - value);
     value = FUN_0040ebd0(FUN_00404010(value, 15.0f), 65.0f);
     other7 = FUN_0040ebd0(FUN_00404010(other7, 15.0f), 65.0f);
-    ::FUN_00652470((int)(source9), 0, 0, value);
-    ::FUN_00652470((int)(source9), 0, 1, other7);
-    first2 = ::FUN_00652440((int)(source9), 1, 0);
-    second = ::FUN_00652440((int)(source9), 1, 1);
+    ::FUN_00652470((std::intptr_t)(source9), 0, 0, value);
+    ::FUN_00652470((std::intptr_t)(source9), 0, 1, other7);
+    first2 = ::FUN_00652440((std::intptr_t)(source9), 1, 0);
+    second = ::FUN_00652440((std::intptr_t)(source9), 1, 1);
     if (keepShape)
     {
         value = first2;
@@ -4174,8 +4174,8 @@ void FaceNpc::RandomizeFace(bool keepAge, bool keepShape, bool keepOther)
     }
     value = FUN_0040ebd0(FUN_00404010(value, -2.0f), 2.0f);
     other7 = FUN_0040ebd0(FUN_00404010(other7, -2.0f), 2.0f);
-    ::FUN_00652470((int)(source9), 1, 0, value);
-    ::FUN_00652470((int)(source9), 1, 1, other7);
+    ::FUN_00652470((std::intptr_t)(source9), 1, 0, value);
+    ::FUN_00652470((std::intptr_t)(source9), 1, 1, other7);
     if (!keepOther)
         reinterpret_cast<::FUN_00601c10_shell *>(this)->FUN_00601c10(::RandomFloat0To1());
     ::FUN_00652e00((MatrixProxy (*)[2])(void *)(((void *)(reinterpret_cast<::S9fb0 *>((((::FaceRace *)(reinterpret_cast<::Callees *>(&(race))->FUN_00726070()))))->FUN_005d9fb0(FUN_005f0cc0())))), (MatrixProxy (*)[2])(source9), (MatrixProxy (*)[2])(_result), 0);
@@ -7296,7 +7296,7 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
         try
         {
             pWritePos = FUN_0060bb40(first, where.current, ptr);
-            pWritePos = ((float *)(reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((int)(pWritePos), count, (int)&(value))));
+            pWritePos = ((float *)(reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(pWritePos), count, (int)&(value))));
             reinterpret_cast<::FUN_0060bb40_class *>(this)->FUN_0060bb40(where.current, last, pWritePos);
         }
         catch (...)
@@ -7321,7 +7321,7 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
         reinterpret_cast<::FUN_0060bb40_class *>(this)->FUN_0060bb40(where.current, last, where.current + count);
         try
         {
-            reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((int)(last), count - (last - where.current), (int)&(tmp));
+            reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(last), count - (last - where.current), (int)&(tmp));
         }
         catch (...)
         {

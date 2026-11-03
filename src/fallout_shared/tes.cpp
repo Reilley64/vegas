@@ -993,10 +993,10 @@ int FUN_00453470_shell::FUN_00453470(void)
 
 struct FUN_004534f0_shell
 {
-    void FUN_004534f0(unsigned int);
+    void FUN_004534f0(std::uintptr_t);
 };
 // @fnv 0x004534f0
-void FUN_004534f0_shell::FUN_004534f0(unsigned int)
+void FUN_004534f0_shell::FUN_004534f0(std::uintptr_t)
 {}
 
 struct FUN_00453500_shell
@@ -5604,11 +5604,11 @@ struct FUN_00455330_cls
     unsigned int unk34;
     unsigned int* m_38;
 
-    void RemoveEntry(unsigned int value);
+    void RemoveEntry(std::uintptr_t value);
 };
 
 // @fnv 0x00455330
-void FUN_00455330_cls::RemoveEntry(unsigned int value)
+void FUN_00455330_cls::RemoveEntry(std::uintptr_t value)
 {
     unsigned int i;
     for (i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))); i++)
@@ -8788,7 +8788,7 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
     if (world)
     {
         reinterpret_cast<::BGSTerrainManager *>((((::fnv_00454450::ReloadHandler *)(reinterpret_cast<::TESWorldSpace *>((world))->GetWorldTerrainManager()))))->FUN_006fca90((*(const ::NiPoint3 *)(point)), 15);
-        reinterpret_cast<::Holder006fcdb0 *>((((::fnv_00454450::ReloadHandler *)(reinterpret_cast<::TESWorldSpace *>((world))->GetWorldTerrainManager()))))->FUN_006fcdb0((int)(point));
+        reinterpret_cast<::Holder006fcdb0 *>((((::fnv_00454450::ReloadHandler *)(reinterpret_cast<::TESWorldSpace *>((world))->GetWorldTerrainManager()))))->FUN_006fcdb0((std::intptr_t)(point));
     }
     FUN_00454440(0);
     if (name)
@@ -10716,7 +10716,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
         {
             ReloadScene* discard = ((::ReloadScene *)(reinterpret_cast<::FUN_00454420_Class *>(this)->GetEntry(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ReloadGridSetting *>(&::g_011c3e38)))))) - 1)));
             if (discard)
-                reinterpret_cast<::FUN_00455330_cls *>(this)->RemoveEntry((unsigned int)(discard));
+                reinterpret_cast<::FUN_00455330_cls *>(this)->RemoveEntry((std::uintptr_t)(discard));
         }
         cellB = destination;
         reinterpret_cast<::LowProcess *>(this)->SetCurrentBoundObject((::TESBoundObject *)(destination));
@@ -11500,7 +11500,7 @@ void AttachmentHandler::FUN_00451ef0(AttachRef* ref, AttachCell* cell, AttachRef
                         reinterpret_cast<::TESForm *>((actor))->ClearData();
                 }
                 if (type == 30)
-                    reinterpret_cast<::FUN_004534f0_shell *>((((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))->FUN_004534f0((unsigned int)(((void *)(reinterpret_cast<::TESRecipe *>((ref))->GetData()))));
+                    reinterpret_cast<::FUN_004534f0_shell *>((((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))))->FUN_004534f0((std::uintptr_t)(((void *)(reinterpret_cast<::TESRecipe *>((ref))->GetData()))));
                 else
                     reinterpret_cast<::S00b5d9f0_Owner *>((FUN_00450b80(0)))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(chosen), 0);
             }

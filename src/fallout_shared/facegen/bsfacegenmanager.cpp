@@ -351,11 +351,11 @@ struct FUN_006508e0_shell
     char pad[0x18];
     int arr[4];
     void FUN_00650ba0(void*);
-    void SetArrayValue(int i, int v);
+    void SetArrayValue(int i, std::intptr_t v);
 };
 // Stores v into arr[i] and then calls FUN_00650ba0(0).
 // @fnv 0x006508e0
-void FUN_006508e0_shell::SetArrayValue(int aiIndex, int aiValue)
+void FUN_006508e0_shell::SetArrayValue(int aiIndex, std::intptr_t aiValue)
 {
     arr[aiIndex] = aiValue;
     FUN_00650ba0(0);
@@ -610,7 +610,7 @@ struct Sub_00aabdb0
 };
 
 // @fnv 0x00652440
-float __cdecl FUN_00652440(int apCoord, int aeFanAttribute, int aeFanType)
+float __cdecl FUN_00652440(std::intptr_t apCoord, int aeFanAttribute, int aeFanType)
 {
     return reinterpret_cast<::FanControlsV7 *>((((Sub_00aabdb0*)&BSFaceGenManager::GetFaceGenManager()->rest[176])))->FUN_00aabdb0(0, aeFanAttribute, aeFanType, (const ::ImagePairV7 *)(apCoord));
 }
@@ -752,7 +752,7 @@ void FUN_00653470(NiGeometry* apGeom, float afModifierValue)
         FUN_00653340(apGeom, &iter);
         if ((const char*)iter)
         {
-            reinterpret_cast<::FUN_00662460_shell *>((pMorph))->FUN_00662460((int)(apGeom), 0, afModifierValue);
+            reinterpret_cast<::FUN_00662460_shell *>((pMorph))->FUN_00662460((std::intptr_t)(apGeom), 0, afModifierValue);
         }
         reinterpret_cast<::FUN_00a673d0_shell *>((((::fnv_00653470::NiGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(apGeom))))))->FUN_00a673d0();
     }
@@ -3946,7 +3946,7 @@ void __cdecl FUN_006524e0(int aiArg4, int aiArg2, int aiArg3)
 
 struct FUN_0065e000_class
 {
-    int FUN_0065da80(int, int);
+    int FUN_0065da80(int, std::intptr_t);
 };
 struct FUN_0065fd10_class
 {
@@ -3976,7 +3976,7 @@ struct FUN_0065fd40_class
 // @fnv 0x0065fd40
 FUN_0065e000_class* FUN_0065fd40_class::FUN_0065fd40(FUN_0065e000_class* a)
 {
-    reinterpret_cast<::FUN_0065e000_class *>((a))->FUN_0065da80(f10, (int)this);
+    reinterpret_cast<::FUN_0065e000_class *>((a))->FUN_0065da80(f10, (std::intptr_t)this);
     return a;
 }
 }  // namespace fnv_0065fd40
@@ -3986,7 +3986,7 @@ void __cdecl FUN_006524e0(int, int, int);
 
 // Reads both fan attribute values for a coordinate and fan type, overrides the selected attribute with afValue, then applies the pair.
 // @fnv 0x00652470
-void FUN_00652470(int apCoord, int aeFanAttribute, int aeFanType, float afValue)
+void FUN_00652470(std::intptr_t apCoord, int aeFanAttribute, int aeFanType, float afValue)
 {
     int i;
     float values[2];
@@ -5797,7 +5797,7 @@ struct S_0044ac20_class
 
 
 // @fnv 0x0065da80
-int FUN_0065e000_class::FUN_0065da80(int value, int pBounds)
+int FUN_0065e000_class::FUN_0065da80(int value, std::intptr_t pBounds)
 {
     reinterpret_cast<::FUN_0064de50_class *>((this))->FUN_0064de50();
 
@@ -6017,8 +6017,8 @@ Sol* GetOrCreateFaceGenModel(char* a1, char* a2, char* a3, char* a4, bool abCrea
     if (BSFaceGenManager::GetFaceGenManager()->cache == 0)
     {
         BSFaceGenManager::GetFaceGenManager()->cache = new BSFaceGenModelMap;
-        reinterpret_cast<::FUN_006508e0_shell *>((BSFaceGenManager::GetFaceGenManager()->cache))->SetArrayValue(0, (int)(((char *)(reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GO45CFE0 *>(&::g_011d59f4))))->GetCellStandValue()))));
-        reinterpret_cast<::FUN_006508e0_shell *>((BSFaceGenManager::GetFaceGenManager()->cache))->SetArrayValue(1, (int)(((char *)(reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GO45CFE0 *>(&::g_011d5afc))))->GetCellStandValue()))));
+        reinterpret_cast<::FUN_006508e0_shell *>((BSFaceGenManager::GetFaceGenManager()->cache))->SetArrayValue(0, (std::intptr_t)(((char *)(reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GO45CFE0 *>(&::g_011d59f4))))->GetCellStandValue()))));
+        reinterpret_cast<::FUN_006508e0_shell *>((BSFaceGenManager::GetFaceGenManager()->cache))->SetArrayValue(1, (std::intptr_t)(((char *)(reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GO45CFE0 *>(&::g_011d5afc))))->GetCellStandValue()))));
     }
 
     if (a1)

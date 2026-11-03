@@ -23,7 +23,7 @@ public:
     // 0x0050c840
     void *DestroyIfFlagged(unsigned int);
     // 0x0053d2e0
-    bool FUN_0053d2e0(int, int, int);
+    bool FUN_0053d2e0(std::intptr_t, std::intptr_t, std::intptr_t);
     // 0x00623230
     ::TESIdleForm *GetIdleForm();
     // 0x0069e3b0

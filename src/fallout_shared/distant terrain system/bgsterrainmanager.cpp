@@ -263,11 +263,11 @@ struct Holder006fcdb0
 {
     int m00;
     FUN_006fea70_obj* m04;
-    void FUN_006fcdb0(int);
+    void FUN_006fcdb0(std::intptr_t);
 };
 // If DAT_0119f188 is set, g_011d86ac.Bool() is true and m04 is non-null, forwards a1 to m04->SetValue.
 // @fnv 0x006fcdb0
-void Holder006fcdb0::FUN_006fcdb0(int a1)
+void Holder006fcdb0::FUN_006fcdb0(std::intptr_t a1)
 {
     if (DAT_0119f188 && *::g_011d86ac.Bool() && m04)
         reinterpret_cast<::FUN_006fea70_Class *>((m04))->SetValue(a1);

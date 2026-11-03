@@ -116,7 +116,7 @@ struct FUN_0067b920_host
 void FUN_0067b920_host::FUN_0067b920(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (padC != 0)
-        reinterpret_cast<::FUN_0067fc50_shell *>((padC))->ResolveObject((int)(apLoadGameBuffer));
+        reinterpret_cast<::FUN_0067fc50_shell *>((padC))->ResolveObject((std::intptr_t)(apLoadGameBuffer));
 }
 
 struct LocationDescriptor

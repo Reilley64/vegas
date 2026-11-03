@@ -1,5 +1,6 @@
 // fallout_shared/speedtree/bstreemanager.cpp: BSTreeManager, LFFreeList, TreeManager (27 functions)
 
+#include <cstdint>
 #include <cmath>
 #include <new>
 #include "fnv/decl/ActorTaskManager.h"
@@ -411,8 +412,8 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
             {
                 NiColor col;
                 col = *(const NiColor*)((const char *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_006652e0::TESFile *)(reinterpret_cast<::FUN_00450570_Class *>((((FUN_00450570_shell*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->FUN_00450570()))))->GetShotList()));
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((unsigned int)&col);
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((unsigned int)&col);
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
                 reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
             }
         }
@@ -633,7 +634,7 @@ class FUN_00665c50
 struct Mgr6649c0
 {
     FUN_00665c50* m_map;
-    NiPointer<NiTexture>* GetOrCreateTexturePointer(unsigned int key);
+    NiPointer<NiTexture>* GetOrCreateTexturePointer(std::uintptr_t key);
 };
 // @fnv 0x00664b50
 void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr& out)
@@ -642,7 +643,7 @@ void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr&
     TreeModelPtr spModel3(0);
     if (tree)
     {
-        TreeModelPtr* entries3 = ((::TreeModelPtr *)(reinterpret_cast<::Mgr6649c0 *>(this)->GetOrCreateTexturePointer((unsigned int)(tree))));
+        TreeModelPtr* entries3 = ((::TreeModelPtr *)(reinterpret_cast<::Mgr6649c0 *>(this)->GetOrCreateTexturePointer((std::uintptr_t)(tree))));
         int freeIdx3 = -1;
         bool found3 = false;
         for (int i3 = 0; i3 < 1; i3++)
@@ -681,7 +682,7 @@ void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr&
 
 // Looks up key in m_map, creating the map if null and inserting a new NiPointer<NiTexture> array when absent, then returns the pointer.
 // @fnv 0x006649c0
-NiPointer<NiTexture>* Mgr6649c0::GetOrCreateTexturePointer(unsigned int key)
+NiPointer<NiTexture>* Mgr6649c0::GetOrCreateTexturePointer(std::uintptr_t key)
 {
     AutoMemContext ctx(MEM_CONTEXT_MEM_CONTEXT_TREEART, true,
                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeManager.cpp", 216);

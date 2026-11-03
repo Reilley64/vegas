@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 struct TMapStandIn {
 public:
     // 0x00470200
-    void InsertOrUpdate(unsigned int, void *);
+    void InsertOrUpdate(std::uintptr_t, void *);
 };

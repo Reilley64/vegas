@@ -202,12 +202,12 @@ float FUN_00666f80()
 
 struct FUN_006684d0_shell
 {
-    void FUN_006684d0(int param1, unsigned short param2);
+    void FUN_006684d0(std::intptr_t param1, unsigned short param2);
 };
 
 // Stores param1 at offset 8 and param2 at offset 0xC of this object.
 // @fnv 0x006684d0
-void FUN_006684d0_shell::FUN_006684d0(int param1, unsigned short param2)
+void FUN_006684d0_shell::FUN_006684d0(std::intptr_t param1, unsigned short param2)
 {
     *(int*)((char*)this + 8) = param1;
     *(unsigned short*)((char*)this + 0xC) = param2;
@@ -610,7 +610,7 @@ void TreeModelX::FUN_00667470()
             qXMUYT[qrEZrs] = ColorAX(qpqRa.pLodFade[qBLsiu], (float)(qpqRa.pWindIndices[qBLsiu] * 4), qYdAnhh, 0.0f);
         }
         PtrX<LeafDataX> qCFhl(new LeafDataX);
-        reinterpret_cast<::FUN_006684d0_shell *>((((LeafDataX*)qCFhl)))->FUN_006684d0((int)(qXMUYT), reinterpret_cast<::FUN_00658930_class *>(&(qEMUOs))->GetShortAtOffsetA());
+        reinterpret_cast<::FUN_006684d0_shell *>((((LeafDataX*)qCFhl)))->FUN_006684d0((std::intptr_t)(qXMUYT), reinterpret_cast<::FUN_00658930_class *>(&(qEMUOs))->GetShortAtOffsetA());
         pLeafGeometry[qsSDDgz] = new StripsDataX(reinterpret_cast<::FUN_00658930_class *>(&(qEMUOs))->GetShortAtOffsetA(), qArJcY, qIpA, 0, qYTC, 1, qdKdHaf ? 0x1000 : 0,
                                                  *qpqRa.pStripCount - 2, 1, qCihG, qDpUK);
         ((StripsDataX*)pLeafGeometry[qsSDDgz])->FUN_00a67050(0x4000);

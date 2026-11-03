@@ -1456,7 +1456,7 @@ void TESObjectWEAP::InitItem()
     std::uintptr_t formID = (std::uintptr_t)((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
-        reinterpret_cast<::FUN_0051f4b0_shell *>(this)->FUN_0051f4b0((int)(dynamic_cast<BGSProjectile*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_0051f4b0_shell *>(this)->FUN_0051f4b0((std::intptr_t)(dynamic_cast<BGSProjectile*>(::FUN_004839c0(formID))));
         if(!((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ::FUN_005b5e40();
     }
     formID = (std::uintptr_t)((::TESEffectShader *)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()));

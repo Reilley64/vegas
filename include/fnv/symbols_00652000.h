@@ -23,9 +23,9 @@ float GetMorphCoordinateValue(char *, unsigned int, unsigned int, unsigned int);
 // 0x00652320
 void FUN_00652320(::FG652_Mat *, int, int, int, float);
 // 0x00652440
-float FUN_00652440(int, int, int);
+float FUN_00652440(std::intptr_t, int, int);
 // 0x00652470
-void FUN_00652470(int, int, int, float);
+void FUN_00652470(std::intptr_t, int, int, float);
 // 0x00652510
 void FUN_00652510(::FG652_Actor *);
 // 0x00652900

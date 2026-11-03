@@ -4185,7 +4185,7 @@ char __cdecl FUN_005c5a20()
     void* v = ((void *)(::FUN_005c5a50()));
     ::FUN_005c5a60((int)&((void *(&)())::FUN_005c5a00));
     ::FUN_00b557d0();
-    ::FUN_005c5a60((int)v);
+    ::FUN_005c5a60((std::intptr_t)v);
     return 1;
 }
 }  // namespace fnv_005c5a20
@@ -4201,7 +4201,7 @@ int FUN_005c5a50()
 extern int DAT_011f91f4;
 
 // @fnv 0x005c5a60
-void FUN_005c5a60(int value)
+void FUN_005c5a60(std::intptr_t value)
 {
     DAT_011f91f4 = value;
 }
@@ -4889,11 +4889,11 @@ void __cdecl FUN_007062a0(int a1, int a2, unsigned char a3, unsigned char a4)
 
 struct FUN_00aa47c0_Class
 {
-    int FUN_00aa47c0(int, int);
+    int FUN_00aa47c0(std::intptr_t, int);
 };
 
 // @fnv 0x00aa47c0
-int FUN_00aa47c0_Class::FUN_00aa47c0(int, int)
+int FUN_00aa47c0_Class::FUN_00aa47c0(std::intptr_t, int)
 {
     int unused = 0;
     return unused;
@@ -7398,7 +7398,7 @@ bool __cdecl FUN_005c45e0(const ::ScriptParameter* apParameters, const char* apC
                 if (!reinterpret_cast<::FUN_00565090_shell *>((((FUN_00565090_shell*)apRefObject)))->FUN_00565090())
                     reinterpret_cast<::RefFlags *>((((FUN_005650d0_s*)apRefObject)))->FUN_005650d0(true);
             }
-            ::fnv_005aa500::FUN_005aa500((int)(apRefObject), iFade != 0);
+            ::fnv_005aa500::FUN_005aa500((std::intptr_t)(apRefObject), iFade != 0);
         }
     }
     ((DisableLocalsFlagsView*)apScriptLocals)->m_cActionFlags |= 1;
@@ -7686,7 +7686,7 @@ bool __cdecl FUN_005c65a0(const ScriptParameter* paramInfo, const char* scriptDa
         if (pTarget3->V216() && bResetHead)
         {
             FUN_005e0560 list2;
-            ::fnv_00603280::FUN_00603280((int)(((::fnv_005c65a0::TESRace *)(reinterpret_cast<::FUN_004ac110_shell *>((((FUN_004ac110_shell*)pNpc7)))->FUN_004ac110()))), ((TESActorBase*)pNpc7)->GetSex(), (int)(&list2));
+            ::fnv_00603280::FUN_00603280((std::intptr_t)(((::fnv_005c65a0::TESRace *)(reinterpret_cast<::FUN_004ac110_shell *>((((FUN_004ac110_shell*)pNpc7)))->FUN_004ac110()))), ((TESActorBase*)pNpc7)->GetSex(), (std::intptr_t)(&list2));
             pNpc7->CopyActorBaseData((TESNPC*)*((Arr*)&list2)->GetAt(0));
         }
         ((Character*)pTarget3)->Reset3D();
@@ -17667,7 +17667,7 @@ bool __cdecl FUN_005c47e0(int unk08, int unk0c, void* a3, int unk14, int unk18, 
             ItemVT* obj = item;
             if (obj != 0 && obj != found) {
                 if (!reinterpret_cast<::TESForm *>((obj))->GetDisabled()) {
-                    ::fnv_005aa500::FUN_005aa500((int)(obj), 1);
+                    ::fnv_005aa500::FUN_005aa500((std::intptr_t)(obj), 1);
                     a6[4] |= 1;
                 }
             }
@@ -25436,7 +25436,7 @@ bool __cdecl FUN_005b5e60(const ScriptParameter* apParameters, const char* apCom
                 _sprintf_s(buf11, 0x200, "MemStats%s.mhd", tmp);
             }
             FUN_008783c0 helper(buf11);
-            reinterpret_cast<::FUN_00aa47c0_Class *>((((FUN_00aa47c0_Class*)((::fnv_005b5e60::MemoryManager *)(::FUN_00401020())))))->FUN_00aa47c0((int)&helper, 0);
+            reinterpret_cast<::FUN_00aa47c0_Class *>((((FUN_00aa47c0_Class*)((::fnv_005b5e60::MemoryManager *)(::FUN_00401020())))))->FUN_00aa47c0((std::intptr_t)&helper, 0);
             _sprintf_s(buf11, 0x200, "ModelDump%s.txt", tmp);
             BSFile file41(buf11, true, 0x4000, false);
             reinterpret_cast<::BSFile *>(&(file41))->Open(false, false);
@@ -25791,7 +25791,7 @@ bool __cdecl FUN_005b6a30(const ScriptParameter* apParameters, const char* apCom
     if (!FUN_005accb0(apParameters, apCompiledParams, auiOffset, apRefObject, apContainer, apScript, apScriptLocals, fileName4))
         FUN_004add50(fileName4, "OutputMemStats.mhd", 0x1ff);
     MemStatsFile file(fileName4);
-    reinterpret_cast<::FUN_00aa47c0_Class *>((((::MemStatsWriter *)(::FUN_00401020()))))->FUN_00aa47c0((int)(&file), 1);
+    reinterpret_cast<::FUN_00aa47c0_Class *>((((::MemStatsWriter *)(::FUN_00401020()))))->FUN_00aa47c0((std::intptr_t)(&file), 1);
     return true;
 }
 
@@ -32739,7 +32739,7 @@ bool __cdecl FUN_005c3450(const ScriptParameter* paramInfo, const char* scriptDa
         }
     }
     if (flag) {
-        NodeS* list = ((::NodeS *)(::FUN_00461190((int)(((DHS*)(*reinterpret_cast<::DataHandler * *>(&::g_dataHandler)))))));
+        NodeS* list = ((::NodeS *)(::FUN_00461190((std::intptr_t)(((DHS*)(*reinterpret_cast<::DataHandler * *>(&::g_dataHandler)))))));
         if (list != 0) {
             if (!list->_ref_008256d0()) {
                 _DebugLog("--- Global Variables -----------------------------");
@@ -34120,7 +34120,7 @@ bool __cdecl FUN_005c43d0(int a1, int a2, Ref* ref, int a4, Ref* scr, Extra* ex,
             }
             return true;
         } else {
-            ::fnv_005aa5d0::FUN_005aa5d0((int)(ref));
+            ::fnv_005aa5d0::FUN_005aa5d0((std::intptr_t)(ref));
             if (reinterpret_cast<::TESForm *>((ref))->GetDisabled()) {
                 FUN_005aa580((int)ref);
             }
@@ -43128,7 +43128,7 @@ struct FNV_TESObjectREFR : public TESObjectREFR
 
 
 // @fnv 0x005d9bc0
-void __cdecl FUN_005d9bc0(TESObjectREFR* apTarget, TESObjectREFR* apSource, int aiPercent)
+void __cdecl FUN_005d9bc0(TESObjectREFR* apTarget, TESObjectREFR* apSource, std::intptr_t aiPercent)
 {
     if (!apTarget || !apSource)
         return;
@@ -43139,7 +43139,7 @@ void __cdecl FUN_005d9bc0(TESObjectREFR* apTarget, TESObjectREFR* apSource, int 
     FUN_00449610 arr1_[4];
     FUN_00449610 arr2_[4];
     FaceGenArray faceArr;
-    ::fnv_00603280::FUN_00603280((int)(((::S9fb0 *)(reinterpret_cast<::FUN_004ac110_shell *>((pSourceNPCC))->FUN_004ac110()))), pSourceNPCC->GetActorSex(), (int)(&faceArr));
+    ::fnv_00603280::FUN_00603280((std::intptr_t)(((::S9fb0 *)(reinterpret_cast<::FUN_004ac110_shell *>((pSourceNPCC))->FUN_004ac110()))), pSourceNPCC->GetActorSex(), (std::intptr_t)(&faceArr));
     TESNPC* DefaultNPCY = NULL;
     if (faceArr.GetAt(0))
         DefaultNPCY = faceArr.GetAt(0);
@@ -43157,17 +43157,17 @@ void __cdecl FUN_005d9bc0(TESObjectREFR* apTarget, TESObjectREFR* apSource, int 
     void* fgDefaultY = reinterpret_cast<::FUN_00601800_shell *>((DefaultNPCY))->FUN_00601800();
 
     ::FUN_00652e00((MatrixProxy (*)[2])(fgDefaultY), (MatrixProxy (*)[2])(faceSourceB), (MatrixProxy (*)[2])(arr2_), 0);
-    float fscaleD = ::FUN_00652440((int)(fgTargetZ), 0, 0);
+    float fscaleD = ::FUN_00652440((std::intptr_t)(fgTargetZ), 0, 0);
     ::BSFaceGenManager::InitializeFaceGenCoordinates((::FaceGenCoordinates *)(arr1_));
     ::FUN_00653000(fPercentB, (::Calendar *)(arr2_), 1);
     ::FUN_00652af0((CoordArray (*)[2])(fgTargetZ), (CoordArray (*)[2])(arr2_), (CoordArray (*)[2])(arr1_), 1, 0.0f);
-    ::FUN_00652470((int)(arr1_), 0, 0, fscaleD);
+    ::FUN_00652470((std::intptr_t)(arr1_), 0, 0, fscaleD);
 
     pmorphsData = new FUN_00449610[4];
     ::BSFaceGenManager::InitializeFaceGenCoordinates((::FaceGenCoordinates *)(pmorphsData));
     ::FUN_00652e00((MatrixProxy (*)[2])(void *)(((::S9fb0 *)(reinterpret_cast<::FUN_004ac110_shell *>((pTargetNPC_))->FUN_004ac110()))->FUN_005d9fb0(0)), (MatrixProxy (*)[2])(arr1_), (MatrixProxy (*)[2])(pmorphsData), 0);
     ::fnv_006529a0::FUN_006529a0((FaceGenCoordArray (*)[2])(fgTargetZ), (FaceGenCoordArray (*)[2])(pmorphsData), 0, 1);
-    reinterpret_cast<::FUN_005d9f70_shell *>((pTargetNPC_))->SetField1B4((int)(pmorphsData));
+    reinterpret_cast<::FUN_005d9f70_shell *>((pTargetNPC_))->SetField1B4((std::intptr_t)(pmorphsData));
     pTargetNPC_->MarkModified(0x800);
 
     if (((FNV_TESObjectREFR*)apTarget)->Unk_1D0())
@@ -49526,7 +49526,7 @@ bool __cdecl FUN_005d9b20(
                 extractedReference,
                 extractedValue);
         } else {
-            ::FUN_005d9bc0((::TESObjectREFR *)(reinterpret_cast<ScriptMatchFaceGeometryBaseHelper*>(script)), target, (int)(extractedReference));
+            ::FUN_005d9bc0((::TESObjectREFR *)(reinterpret_cast<ScriptMatchFaceGeometryBaseHelper*>(script)), target, (std::intptr_t)(extractedReference));
         }
     }
 
@@ -59540,7 +59540,7 @@ bool __cdecl FUN_005c6c80(const ScriptParameter* paramInfo, const char* scriptDa
 
         if (npc1 != 0 && npc4 != 0)
         {
-            reinterpret_cast<::FUN_00601c70_shell *>((npc1))->FUN_00601c70((int)(((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>((npc4))->GetSceneRoot()))));
+            reinterpret_cast<::FUN_00601c70_shell *>((npc1))->FUN_00601c70((std::intptr_t)(((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>((npc4))->GetSceneRoot()))));
             reinterpret_cast<::fnv_0047dfe0::TABStub *>((npc1))->FUN_0047dfe0(reinterpret_cast<::FUN_0047ded0_shell *>((npc4))->FUN_0047ded0());
             npc1->UpdateActorBaseData(false);
         }

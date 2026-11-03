@@ -3764,7 +3764,7 @@ TESObjectREFR* FUN_00675980_shell::FUN_00675980()
 }
 
 // @fnv 0x0067a560
-bool FUN_0067a560(int pObject)
+bool FUN_0067a560(std::intptr_t pObject)
 {
     return (*(int*)(pObject + 0x1c) & 0x40000) ? true : false;
 }
@@ -5991,7 +5991,7 @@ void FUN_0067a1b0_shell::FUN_0067a1b0(TESPackage* apCopy)
     reinterpret_cast<::FUN_0067a720_shell *>((((FUN_0067a720_shell*)this)))->SetFlag4000000(reinterpret_cast<::FUN_0067a700_shell *>((((FUN_0067a700_shell*)apCopy)))->FUN_0067a700());
     reinterpret_cast<::FUN_0067a410_shell *>((((FUN_0067a410_shell*)this)))->SetFlag400000(reinterpret_cast<::FUN_0067a3f0_shell *>((((FUN_0067a3f0_shell*)apCopy)))->HasFlag400000());
     reinterpret_cast<::FUN_0067a5f0_shell *>((((FUN_0067a5f0_shell*)this)))->SetFlag80000(reinterpret_cast<::FUN_0067a5d0_class *>((((FUN_0067a5d0_class*)apCopy)))->FUN_0067a5d0());
-    reinterpret_cast<::FUN_0067a580_shell *>((((FUN_0067a580_shell*)this)))->SetFlag40000(::FUN_0067a560((int)apCopy));
+    reinterpret_cast<::FUN_0067a580_shell *>((((FUN_0067a580_shell*)this)))->SetFlag40000(::FUN_0067a560((std::intptr_t)apCopy));
     reinterpret_cast<::fnv_0067a800::S *>((((FUN_0067a800_shell*)this)))->FUN_0067a800(reinterpret_cast<::FUN_0067a7e0_shell *>((((FUN_0067a7e0_shell*)apCopy)))->IsFlag28Clear());
 }
 }  // namespace fnv_0067a1b0
@@ -7120,7 +7120,7 @@ bool Package::IsTargetWithinRadius(Actor* actor, int extra)
         return false;
     Location* location4 = FUN_0055b980();
     bool answer8 = false;
-    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((int)(actor), (int)(target2), (unsigned char *)&(answer8)))
+    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((std::intptr_t)(actor), (std::intptr_t)(target2), (unsigned char *)&(answer8)))
         return answer8;
     int radius = ((int)(reinterpret_cast<::HighProcess *>(this)->UpdateHighProcessState(actor)));
     if (radius == 0 && location4)
@@ -7511,7 +7511,7 @@ bool FUN_00677570_shell::IsTargetInRange(ActorStandIn* actor, float radius)
         return false;
     LocStandIn* location4 = ((::fnv_00677570::LocStandIn *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0()));
     bool inRange2 = false;
-    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((int)(actor), (int)(target), (unsigned char *)&(inRange2)))
+    if (location4 && reinterpret_cast<::FUN_0067f220_cls *>((location4))->LookupAndStore((std::intptr_t)(actor), (std::intptr_t)(target), (unsigned char *)&(inRange2)))
         return inRange2;
     if (radius < 0.0)
     {
@@ -10195,7 +10195,7 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
     if (!aSame)
         return false;
     bool locationResult3 = false;
-    if (loc3 && reinterpret_cast<::FUN_0067f220_cls *>((loc3))->LookupAndStore((int)(actor), (int)(object), (unsigned char *)&(locationResult3)))
+    if (loc3 && reinterpret_cast<::FUN_0067f220_cls *>((loc3))->LookupAndStore((std::intptr_t)(actor), (std::intptr_t)(object), (unsigned char *)&(locationResult3)))
         return locationResult3;
     int radius2 = ((int)(reinterpret_cast<::fnv_00675670::FUN_00675670_shell *>(this)->FUN_00675670()));
     if (radius2 > 0)
@@ -12289,7 +12289,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             {
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (long)(&ctx));
+                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx));
                 secondary7 = DAT_011d6580;
                 DAT_011d6580 = 0;
             }
@@ -12302,7 +12302,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             targType2 = ((::fnv_006780e0::Data *)(reinterpret_cast<::Script *>((((Script*)this)))->GetData()))->FUN_00680080();
             reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
                                         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (long)(&ctx3));
+                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx3));
             secondary7 = DAT_011d6580;
             DAT_011d6580 = 0;
             break;

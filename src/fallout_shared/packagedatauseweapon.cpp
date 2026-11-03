@@ -1,5 +1,6 @@
 // fallout_shared/packagedatauseweapon.cpp: TESUseWeaponPackageData, UseWeaponActorPackageData, DelStandIn, UseWeaponLoader and more (16 functions)
 
+#include <cstdint>
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/C80720Target.h"
 #include "fnv/decl/DurationData.h"
@@ -167,7 +168,7 @@ void FUN_0067d8b0_shell::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
     if (m04)
         reinterpret_cast<::FUN_00680830_shell *>((((FUN_00680830_impl*)m04)))->FUN_00680830(apLoadGameBuffer);
     if (m08)
-        reinterpret_cast<::FUN_0067fc50_shell *>((((FUN_0067fc50_impl*)m08)))->ResolveObject((int)(apLoadGameBuffer));
+        reinterpret_cast<::FUN_0067fc50_shell *>((((FUN_0067fc50_impl*)m08)))->ResolveObject((std::intptr_t)(apLoadGameBuffer));
 }
 
 struct FUN_0067da20_shell

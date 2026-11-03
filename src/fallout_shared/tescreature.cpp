@@ -462,11 +462,11 @@ int FUN_0050f760_shell::FUN_0050f760(int a)
 
 struct FUN_0051f4b0_shell
 {
-    void FUN_0051f4b0(int value);
+    void FUN_0051f4b0(std::intptr_t value);
 };
 
 // @fnv 0x0051f4b0
-void FUN_0051f4b0_shell::FUN_0051f4b0(int value)
+void FUN_0051f4b0_shell::FUN_0051f4b0(std::intptr_t value)
 {
     *(int*)((char*)this + 0x118) = value;
 }

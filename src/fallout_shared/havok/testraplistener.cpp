@@ -395,11 +395,11 @@ struct FUN_0062df20_shell
 {
     char _pad[32];
     FUN_0062df60_shell* m_32;
-    bool FUN_0062df20(int a1, int a2);
+    bool FUN_0062df20(int a1, std::intptr_t a2);
 };
 // Looks up the entry for a2 via m_32 and returns whether it satisfies the check for a1, or false if not found.
 // @fnv 0x0062df20
-bool FUN_0062df20_shell::FUN_0062df20(int a1, int a2)
+bool FUN_0062df20_shell::FUN_0062df20(int a1, std::intptr_t a2)
 {
     FUN_0062d550_shell* t = m_32->FUN_0062df60(a2);
     if (!t)

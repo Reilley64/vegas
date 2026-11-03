@@ -2,6 +2,7 @@
 // src/fallout_shared/packagedataeat.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedataeat.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_0067fbe0_cls.h"
 #include "fnv/decl/FUN_0067fc50_shell.h"
 #include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
@@ -49,7 +50,7 @@ void TESEatPackageData::FUN_0067bfa0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (m_pPackageTarget != 0)
     {
-        reinterpret_cast<::FUN_0067fc50_shell *>((m_pPackageTarget))->ResolveObject((int)(apLoadGameBuffer));
+        reinterpret_cast<::FUN_0067fc50_shell *>((m_pPackageTarget))->ResolveObject((std::intptr_t)(apLoadGameBuffer));
     }
 }
 }  // namespace fnv_0067bfa0

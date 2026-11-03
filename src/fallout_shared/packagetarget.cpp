@@ -145,7 +145,7 @@ void LocationDescriptor::Copy(LocationDescriptor* source, bool copy)
                 break;
             case 4:
                 reinterpret_cast<::FUN_0067f1f0_shell *>(this)->FUN_0067f1f0(reinterpret_cast<::FUN_0067f1c0_shell *>((source))->FUN_0067f1c0());
-                reinterpret_cast<::FUN_0067f460_shell *>(this)->SetValue((int)((TESForm*)((::TESBoundObject *)(reinterpret_cast<::FUN_0067f430_shell *>((source))->GetLocationObject()))));
+                reinterpret_cast<::FUN_0067f460_shell *>(this)->SetValue((std::intptr_t)((TESForm*)((::TESBoundObject *)(reinterpret_cast<::FUN_0067f430_shell *>((source))->GetLocationObject()))));
                 break;
             case 5:
                 reinterpret_cast<::FUN_0067f1f0_shell *>(this)->FUN_0067f1f0(reinterpret_cast<::FUN_0067f1c0_shell *>((source))->FUN_0067f1c0());

@@ -153,7 +153,7 @@ void* FUN_0062e750_shell::FUN_0062e750(unsigned int flags)
 extern int DAT_011c7a3c;
 
 // @fnv 0x0062f310
-void FUN_0062f310(int value)
+void FUN_0062f310(std::intptr_t value)
 {
     DAT_011c7a3c = value;
 }
@@ -371,11 +371,11 @@ struct VList
 };
 struct FUN_00631100_shell
 {
-    void FUN_00631100(float a, int b);
+    void FUN_00631100(float a, std::intptr_t b);
 };
 // Calls FUN_00c9c1d0 on this, then forwards a and b to Target on the BGSRagdollList from TESDataHandler.
 // @fnv 0x00631100
-void FUN_00631100_shell::FUN_00631100(float afValue, int aiValue)
+void FUN_00631100_shell::FUN_00631100(float afValue, std::intptr_t aiValue)
 {
     reinterpret_cast<::hkpEntityC9C *>((((UnkCall*)this)))->FUN_00c9c1d0();
     ((VList*)((::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->Target(afValue, aiValue);
@@ -412,11 +412,11 @@ struct ListCall00631140
 };
 struct FUN_00631140_shell
 {
-    void FUN_00631140(float, int, int);
+    void FUN_00631140(float, std::intptr_t, std::intptr_t);
 };
 // Calls FUN_00c9c1d0 on this, then forwards a, b and c to Target on the BGSRagdollList from the data handler.
 // @fnv 0x00631140
-void FUN_00631140_shell::FUN_00631140(float afValue, int aiArg1, int aiArg2)
+void FUN_00631140_shell::FUN_00631140(float afValue, std::intptr_t aiArg1, std::intptr_t aiArg2)
 {
     reinterpret_cast<::hkpEntityC9C *>((((FUN_00c9c1d0_shell*)this)))->FUN_00c9c1d0();
     ((ListCall00631140*)((::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->Target(afValue, aiArg1, aiArg2);
@@ -474,11 +474,11 @@ struct FUN_0057b700_class
 };
 struct FUN_0062e500_shell : FUN_0057b700_class
 {
-    void FUN_0062e500(int a, int b);
+    void FUN_0062e500(std::intptr_t a, int b);
 };
 
 // @fnv 0x0062e500
-void FUN_0062e500_shell::FUN_0062e500(int aiKey, int auiValue)
+void FUN_0062e500_shell::FUN_0062e500(std::intptr_t aiKey, int auiValue)
 {
     std::intptr_t ptarget2 = *(int*)((char*)this + 0x14) ? FUN_0057b730(aiKey) : 0;
     unsigned int uindex;
@@ -2106,7 +2106,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
     b9 = false;
     if (apParams->unk0c)
     {
-        reinterpret_cast<::FUN_0062e500_shell *>((apParams->unk0c))->FUN_0062e500((int)(apParams->unk00), apParams->unk10);
+        reinterpret_cast<::FUN_0062e500_shell *>((apParams->unk0c))->FUN_0062e500((std::intptr_t)(apParams->unk00), apParams->unk10);
         if (!((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apParams->unk0c))->FUN_00825c00())))
         {
             b9 = true;
@@ -2376,11 +2376,11 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
                 else
                     reinterpret_cast<::AlignedVector *>(&(torque))->FUN_004a3f10((*(const ::AlignedVector *)(reference->FUN_006310c0())));
                 reinterpret_cast<::TESForm *>((state))->ClearData();
-                reinterpret_cast<::FUN_00631140_shell *>((reference))->FUN_00631140(deltaTime, (int)(&force), (int)(&torque));
+                reinterpret_cast<::FUN_00631140_shell *>((reference))->FUN_00631140(deltaTime, (std::intptr_t)(&force), (std::intptr_t)(&torque));
                 PhysicsVector secondForce;
                 FUN_005dbf20 secondMultiplier(mass * -1.0);
                 reinterpret_cast<::S00630ae0_Result *>(&(secondForce))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&secondMultiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
-                reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (int)(&secondForce));
+                reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (std::intptr_t)(&secondForce));
                 reinterpret_cast<::TESForm *>((state))->ClearData();
                 PhysicsVector linear;
                 new ((void *)&(linear)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
@@ -2898,7 +2898,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
     if (((::CameraE *)(::FUN_00524c90())) && ((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget())))
     {
         if (((const ::NiPoint3E *)(::FUN_0045bb80((int)(((::CameraE *)(::FUN_00524c90()))))))->z < reinterpret_cast<::FUN_005471e0_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_005471e0())
-            ::FUN_0062f310((int)(((void *)(reinterpret_cast<::FUN_00547770_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_00547770()))));
+            ::FUN_0062f310((std::intptr_t)(((void *)(reinterpret_cast<::FUN_00547770_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_00547770()))));
     }
 }
 

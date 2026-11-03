@@ -1222,7 +1222,7 @@ struct FUN_0067f460_shell
 {
     char b[8];
     int v;
-    void SetValue(int a);
+    void SetValue(std::intptr_t a);
 };
 // Resolves the stored form ID to a cell, object or reference by location type and stores it, warning if the form is missing.
 // @fnv 0x0067f760
@@ -1252,7 +1252,7 @@ void LocationDescriptor::InitItem(TESForm* owner)
     case PLT_OBJECT: {
         TESForm* object = ::FUN_004839c0(formID);
         if (object)
-            reinterpret_cast<::FUN_0067f460_shell *>(this)->SetValue((int)(object));
+            reinterpret_cast<::FUN_0067f460_shell *>(this)->SetValue((std::intptr_t)(object));
         else
         {
             if (static_cast<BGSCameraPath*>(owner)->HasNameForWarning())
@@ -1281,7 +1281,7 @@ void LocationDescriptor::InitItem(TESForm* owner)
 }
 
 // @fnv 0x0067f460
-void FUN_0067f460_shell::SetValue(int aiValue)
+void FUN_0067f460_shell::SetValue(std::intptr_t aiValue)
 {
     *(char*)this = 4;
     v = aiValue;
@@ -1446,7 +1446,7 @@ class FUN_0067f220_cls
 {
   public:
     unsigned int m_00;
-    bool LookupAndStore(int a1, int a2, unsigned char* out);
+    bool LookupAndStore(std::intptr_t a1, std::intptr_t a2, unsigned char* out);
 };
 
 class PkgLocNode
@@ -1467,7 +1467,7 @@ class PkgLocSink
 
 
 // @fnv 0x0067f220
-bool FUN_0067f220_cls::LookupAndStore(int a1, int a2, unsigned char* pucOut)
+bool FUN_0067f220_cls::LookupAndStore(std::intptr_t a1, std::intptr_t a2, unsigned char* pucOut)
 {
     *pucOut = 0;
     PkgLocNode* p = ((::PkgLocNode *)(reinterpret_cast<::LocationDescriptor *>(this)->ResolveLocationReference((::MobileObject *)(a1))));
@@ -1484,7 +1484,7 @@ bool FUN_0067f220_cls::LookupAndStore(int a1, int a2, unsigned char* pucOut)
     {
         return true;
     }
-    *pucOut = ((unsigned char)(reinterpret_cast<::FUN_0062df20_shell *>((pSink))->FUN_0062df20(a2, (int)(p))));
+    *pucOut = ((unsigned char)(reinterpret_cast<::FUN_0062df20_shell *>((pSink))->FUN_0062df20(a2, (std::intptr_t)(p))));
     return true;
 }
 
@@ -1689,12 +1689,12 @@ void OwnQ::FUN_0067faa0()
 
 struct FUN_0067fc50_shell : LocationDescriptor
 {
-    void ResolveObject(int unused);
+    void ResolveObject(std::intptr_t unused);
 };
 
 // For PLT_REFERENCE, PLT_CELL, PLT_CURRLOC, PLT_EDITORLOC, or PLT_OBJECT, resolves non-null pObject through FUN_004839c0.
 // @fnv 0x0067fc50
-void FUN_0067fc50_shell::ResolveObject(int unused)
+void FUN_0067fc50_shell::ResolveObject(std::intptr_t unused)
 {
     switch (m_ucLocationType)
     {

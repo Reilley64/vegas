@@ -649,7 +649,7 @@ void* DelStandIn::FUN_0065a650(unsigned int flags)
 }
 
 // @fnv 0x00657bc0
-int FUN_00657bc0(int param_1)
+int FUN_00657bc0(std::intptr_t param_1)
 {
     return (*(int*)(param_1 + 0x10) - *(int*)(param_1 + 0xc)) / 6;
 }
@@ -1009,7 +1009,7 @@ unsigned int FUN_0065c110_t::GetEGMSize()
         {
             uiSize += ((unsigned int)(reinterpret_cast<::FUN_00657c00_shell *>(&(((EGMDataStandIn*)m_pGeometryModel->m_pModelData)->kMorphs[i]))->GetCount())) * 0x18;
             for (j = 0; j < ((unsigned int)(reinterpret_cast<::FUN_00657c00_shell *>(&(((EGMDataStandIn*)m_pGeometryModel->m_pModelData)->kMorphs[i]))->GetCount())); j++)
-                uiSize += ::FUN_00657bc0((int)((EGMDeltaList*)((char*)&((EGMDataStandIn*)m_pGeometryModel->m_pModelData)
+                uiSize += ::FUN_00657bc0((std::intptr_t)((EGMDeltaList*)((char*)&((EGMDataStandIn*)m_pGeometryModel->m_pModelData)
                                                            ->kMorphs[i]
                                                            .GetMorphEntry(j) +
                                                        4))) *
@@ -1277,7 +1277,7 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
         return false;
 
     FUN_00652140();
-    if (!::fnv_00651f70::FUN_00651f70((int)(this)))
+    if (!::fnv_00651f70::FUN_00651f70((std::intptr_t)(this)))
     {
         if (!m_pGeometryModel->m_pModelData)
         {

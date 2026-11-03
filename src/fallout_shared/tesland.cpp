@@ -2142,7 +2142,7 @@ struct Buf50
 
 struct Owner
 {
-    bool FUN_0053d2e0(int, int, int);
+    bool FUN_0053d2e0(std::intptr_t, std::intptr_t, std::intptr_t);
 };
 
 struct FUN_0053df00_Class {
@@ -2180,7 +2180,7 @@ struct Tmp53e210 {
 };
 
 struct Host53e210 {
-    bool FUN_0053e210(int a);
+    bool FUN_0053e210(std::intptr_t a);
 };
 
 struct FUN_0053e260_Class {
@@ -4996,7 +4996,7 @@ struct xLand {
 };
 
 // @fnv 0x0053e210
-bool Host53e210::FUN_0053e210(int a) {
+bool Host53e210::FUN_0053e210(std::intptr_t a) {
     Tmp53e210 tmp;
     new ((void *)&(tmp)) ::FUN_0053a510();
     if (!reinterpret_cast<::xLand *>((this))->FUN_0053b550((*(::xCoordData *)(&tmp)), (*(const ::xPoint3 *)(a)), 0))
@@ -5930,7 +5930,7 @@ FUN_0053f390_v2* FUN_0053f390_cls::FUN_0053f390(FUN_0053f390_v2* out, int n)
 }
 
 // @fnv 0x0053d2e0
-bool Owner::FUN_0053d2e0(int a1, int a2, int a3)
+bool Owner::FUN_0053d2e0(std::intptr_t a1, std::intptr_t a2, std::intptr_t a3)
 {
     Buf50 buf;
     new ((void *)&(buf)) ::FUN_0053a510();
@@ -6116,7 +6116,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxA;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxA))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxA))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6125,7 +6125,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;
@@ -6152,7 +6152,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxB;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxB))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxB))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6161,7 +6161,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;
@@ -6191,7 +6191,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxC;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxC))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxC))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6200,7 +6200,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;
@@ -6227,7 +6227,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxD;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxD))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxD))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6236,7 +6236,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;
@@ -6266,7 +6266,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxE;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxE))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxE))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6275,7 +6275,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;
@@ -6302,7 +6302,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxF;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxF))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxF))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6311,7 +6311,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;
@@ -6338,7 +6338,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxG;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxG))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxG))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6347,7 +6347,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;
@@ -6374,7 +6374,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     Vec3_od auxH;
 
 
-    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((int)(&coordOut), (int)(&axis), (int)(&auxH))) {
+    if (!worker || !reinterpret_cast<::Owner *>((worker))->FUN_0053d2e0((std::intptr_t)(&coordOut), (std::intptr_t)(&axis), (std::intptr_t)(&auxH))) {
 
 
       axis = Vec3_od(0.0f, 0.0f, 1.0f);
@@ -6383,7 +6383,7 @@ void Region53_od::FUN_0053e290(int row, int col, Vec3_od* result, WorkerTable53*
     }
 
 
-    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((int)(&coordOut))) {
+    if (worker && reinterpret_cast<::Host53e210 *>((worker))->FUN_0053e210((std::intptr_t)(&coordOut))) {
 
 
       *result=axis; grid->evaluated[row][col]=1; return;

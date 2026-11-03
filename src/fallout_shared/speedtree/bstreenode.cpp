@@ -5046,7 +5046,7 @@ struct Vector3
 };
 
 // @fnv 0x00cf0930
-void __cdecl FUN_00cf0930(void* buffer, int bytes, Vector3* vector)
+void __cdecl FUN_00cf0930(void* buffer, std::intptr_t bytes, Vector3* vector)
 {
     int words = bytes / 4;
     ::SwapByteQuadWords((::Vector4f *)(buffer), words);
@@ -7713,7 +7713,7 @@ void FUN_00cb8010_cls::FUN_00cb8010(A1Owner* a1)
     if (a1->m1E4 != 1)
     {
         void* r = this->v42();
-        ::FUN_00cf0930(p, (int)(r), (::Vector3 *)(void *)(&p->m04));
+        ::FUN_00cf0930(p, (std::intptr_t)(r), (::Vector3 *)(void *)(&p->m04));
     }
     reinterpret_cast<::FUN_00c84d50_cls *>((this))->FUN_00c84d50(a1);
     ::FUN_00cf0cf0((::S00cf0cf0_Obj *)(a1), (::S00cf0cf0_Arr *)(void *)(&tmp));
@@ -7721,7 +7721,7 @@ void FUN_00cb8010_cls::FUN_00cb8010(A1Owner* a1)
     if (*(unsigned char*)&flagSlot == 0 && a1->m1E4 != 1)
     {
         void* r = this->v42();
-        ::FUN_00cf0930(p, (int)(r), (::Vector3 *)(void *)(&p->m04));
+        ::FUN_00cf0930(p, (std::intptr_t)(r), (::Vector3 *)(void *)(&p->m04));
     }
 }
 

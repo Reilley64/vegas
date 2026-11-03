@@ -9,6 +9,7 @@
 #ifndef FNV_SRC_FALLOUT_AI_ACTOR_H
 #define FNV_SRC_FALLOUT_AI_ACTOR_H
 
+#include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_00508100_shell.h"
@@ -346,7 +347,7 @@ void Actor::UpdateActorMovement(float delta)
             pCurrentAnimation->SetAnimationAmount(((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->GetBuffer()->FUN_004d50e0(steps));
             if (((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->GetBuffer() &&
                 steps >
-                    (unsigned int)((NiPointer<NiNode>*)((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->GetBuffer())->operator->())
+                    *reinterpret_cast<unsigned int *>(((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->GetBuffer()))
             {
                 ((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->Clear(0);
                 ((ActorProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->SetTime(0);
@@ -382,7 +383,7 @@ void Actor::UpdateActorMovement(float delta)
         }
         if (m_pBaseProcess)
         {
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
+            if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode) == 4 && this == DAT_011f21cc)
                 ((ActorProcessView*)m_pBaseProcess)
                     ->Update(this, reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal)->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60());
             else

@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <xmmintrin.h>
 #include <emmintrin.h>
 #include <cstdint>
@@ -135,23 +136,6 @@ void FUN_00d1fa20_t::ResetEntries()
     m_ucDirty = 0;
 }
 
-struct SpawnedAllocator
-{
-    virtual void v0();
-    virtual void* Alloc(unsigned int size);
-    virtual void Free(void* p, unsigned int size);
-};
-
-struct AllocHolder
-{
-    intptr_t unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    SpawnedAllocator* m_pAllocator;
-};
-
-
 struct FUN_00d06c30_cls
 {
     char* m_pData;
@@ -162,17 +146,15 @@ struct FUN_00d06c30_cls
 // @fnv 0x00d06c30
 extern "C" void __cdecl FUN_00d06c30(FUN_00d06c30_cls* self, unsigned int newCap, unsigned int elemSize)
 {
-    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-    SpawnedAllocator* alloc = holder->m_pAllocator;
-    char* newBuf = (char*)alloc->Alloc(newCap * elemSize);
+    hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
+    char* newBuf = (char*)alloc->blockAlloc(int(newCap * elemSize));
     std::memmove(newBuf, self->m_pData, self->m_usElementCount * elemSize);
     if ((self->m_usCap & 0x8000) == 0)
     {
         unsigned int size = (self->m_usCap & 0x3fff) * elemSize;
         char* oldBuf = self->m_pData;
-        holder = static_cast<AllocHolder*>(::FUN_00c85750());
-        alloc = holder->m_pAllocator;
-        alloc->Free(oldBuf, size);
+        alloc = &hkMemoryRouter::getInstance().heap();
+        alloc->blockFree(oldBuf, int(size));
     }
     self->m_pData = newBuf;
     self->m_usCap = (unsigned short)((self->m_usCap & 0x4000) | (unsigned short)newCap);
@@ -601,9 +583,8 @@ FUN_00d07070_s* FUN_00d07070_s::FUN_00d07070(unsigned char flag)
 
     if (flag & 1)
     {
-        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         unsigned short value = unk04;
-        holder->m_pAllocator->Free(reinterpret_cast<void*>(this), value);
+        hkMemoryRouter::getInstance().heap().blockFree(this, value);
     }
 
     return this;
@@ -718,23 +699,6 @@ void FUN_00d043f0(int)
 {}
 
 
-struct ArrayAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void* Allocate(int& bytes);
-    virtual void Free(void* data, int bytes);
-};
-struct Holder
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    ArrayAllocator* allocator;
-};
-Holder* __cdecl _FUN_00c85750();
 
 struct IntArray
 {
@@ -744,22 +708,21 @@ struct IntArray
 
     __forceinline ~IntArray()
     {
-        Holder* h = _FUN_00c85750();
-        ArrayAllocator* allocator = h->allocator;
+        hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
         int cap = capacity;
         size = 0;
         if ((cap & 0x80000000) == 0)
-            allocator->Free(data, (cap & 0x3fffffff) * 4);
+            allocator->bufFree(data, (cap & 0x3fffffff) * 4);
         data = 0;
         capacity = 0x80000000;
     }
 
-    static __forceinline int* allocate(ArrayAllocator* allocator, int& count)
+    static __forceinline int* allocate(hkMemoryAllocator* allocator, int& count)
     {
         if (count)
         {
             int bytes = count * 4;
-            int* p = static_cast<int*>(allocator->Allocate(bytes));
+            int* p = static_cast<int*>(allocator->bufAlloc(bytes));
             count = bytes / 4;
             return p;
         }
@@ -769,8 +732,7 @@ struct IntArray
     __forceinline IntArray(const IntArray& source) : data(0), size(0), capacity(0x80000000)
     {
         int count = source.size;
-        Holder* h = _FUN_00c85750();
-        ArrayAllocator* allocator = h->allocator;
+        hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
         int* buffer = allocate(allocator, count);
         int cap = count ? count : 0x80000000;
         data = buffer;
@@ -783,13 +745,13 @@ struct IntArray
 
     __forceinline IntArray& operator=(const IntArray& source)
     {
-        ArrayAllocator* allocator = _FUN_00c85750()->allocator;
+        hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
         if ((capacity & 0x3fffffff) < source.size)
         {
             if ((capacity & 0x80000000) == 0)
-                allocator->Free(data, (capacity & 0x3fffffff) * 4);
+                allocator->bufFree(data, (capacity & 0x3fffffff) * 4);
             int bytes = source.size * 4;
-            data = static_cast<int*>(allocator->Allocate(bytes));
+            data = static_cast<int*>(allocator->bufAlloc(bytes));
             capacity = bytes / 4;
         }
         int n = source.size;
@@ -809,8 +771,7 @@ struct ArrayOfArrays
     int capacity;
     __forceinline ArrayOfArrays& operator=(const ArrayOfArrays& source)
     {
-        Holder* h = _FUN_00c85750();
-        ArrayAllocator* allocator = h->allocator;
+        hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
         int oldSize = size;
         int newSize = source.size;
         int common = (newSize > oldSize) ? oldSize : newSize;
@@ -1500,9 +1461,8 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
             _mm_and_ps(_mm_cmple_ps(lower, _mm_load_ps(query->max)), _mm_cmple_ps(_mm_load_ps(query->min), upper));
         if ((_mm_movemask_ps(cmp) & 7) == 7)
         {
-            AllocHolder* holder = (AllocHolder*)::FUN_00c85750();
             if (hits->size == (hits->capacity & 0x3fffffff))
-                ::ResizeAudioStream((::AudioAllocator *)holder->unk0C, (::AudioStream *)(hits), 4);
+                ::ResizeAudioStream((::AudioAllocator *)&hkMemoryRouter::getInstance().temp(), (::AudioStream *)(hits), 4);
             int* dst = hits->data + hits->size;
             for (int once = 0; once < 1; ++once)
                 dst[once] = key.packed;
@@ -1848,11 +1808,9 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
     S00d1b4d0_Id id;
     __declspec(align(16)) S00d1b4d0_NodeCopy n;
     n.set(cur);
-    AllocHolder* alloc = static_cast<AllocHolder*>(::FUN_00c85750());
-    S00d1b4d0_Node** base = (S00d1b4d0_Node**)alloc->unk00;
-    S00d1b4d0_Node** top = base;
     int bytes = (capacity * (int)sizeof(S00d1b4d0_Node*) + 127) & ~127;
-    alloc->unk00 = (intptr_t)((char*)base + bytes);
+    S00d1b4d0_Node** base = static_cast<S00d1b4d0_Node**>(hkMemoryRouter::getInstance().allocateStack(bytes));
+    S00d1b4d0_Node** top = base;
     S00d1b4d0_Bounds bounds = *query;
     int found = 0;
     for (;;)
@@ -1933,9 +1891,8 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                         }
                         else if (list)
                         {
-                            AllocHolder* grow = static_cast<AllocHolder*>(::FUN_00c85750());
                             if (list->size == (int)(list->capacity & 0x3fffffff))
-                                ::ResizeAudioStream((::AudioAllocator *)grow->unk0C, (::AudioStream *)(list), 4);
+                                ::ResizeAudioStream((::AudioAllocator *)&hkMemoryRouter::getInstance().temp(), (::AudioStream *)(list), 4);
                             copyResult(list->data + list->size, 1, *(unsigned*)&id);
                             list->size++;
                         }
@@ -1957,7 +1914,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
         n.set(cur);
     }
 done:
-    static_cast<AllocHolder*>(::FUN_00c85750())->unk00 = (intptr_t)base;
+    hkMemoryRouter::getInstance().deallocateStack(base);
     return found;
 }
 

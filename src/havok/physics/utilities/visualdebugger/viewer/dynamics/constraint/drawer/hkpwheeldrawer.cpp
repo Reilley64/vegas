@@ -8,6 +8,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include "havok/hkUlong.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
@@ -42,7 +43,6 @@ struct Ops
 };
 struct Ex
 {
-    void FUN_00de47e0(void* a, Matrix* b, Matrix* c);
 };
 
 struct Body
@@ -95,7 +95,7 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, hkUlong p3, int p4)
     __m128 q1, vc, vd, x2;
 
     reinterpret_cast<::CpuObject *>((((Sub*)&mc0)))->FUN_00e10a10((dbg));
-    ((Ex*)this)->FUN_00de47e0(a, &t0, &t1);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(a, &t0, &t1);
     ((Ops*)&m50)->FUN_00c7f640(&t0, &b->v90);
     ((Ops*)&m40)->FUN_00c7f640(&t1, &b->v50);
     reinterpret_cast<::FUN_00de4530Owner *>((((Ex*)this)))->FUN_00de4530(p3, p4);

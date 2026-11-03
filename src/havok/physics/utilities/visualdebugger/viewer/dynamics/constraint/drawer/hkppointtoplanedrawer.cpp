@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtoplanedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtoplanedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include <xmmintrin.h>
 
 #include "fnv/decl/CpuObject.h"
@@ -97,7 +98,6 @@ struct FUN_00de7580_cls
     __m128 unkB0;
     FUN_00e10a10_Obj unkC0;
 
-    void FUN_00de47e0(Arg_00de7580* a1, Transform_00de7580* a2, Transform_00de7580* a3);
     void FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, int a3, int a4);
 };
 
@@ -110,7 +110,7 @@ void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, 
     B_00de7580* b = a1.value->unk0c;
 
     reinterpret_cast<::CpuObject *>(&(unkC0))->FUN_00e10a10((a2));
-    FUN_00de47e0(a1.value, &v44, &v80);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(a1.value, &v44, &v80);
     unk50.FUN_00c7f640(&v44, &b->unk30);
     unk40.FUN_00c7f640(&v80, &b->unk20);
     reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(a3, a4);

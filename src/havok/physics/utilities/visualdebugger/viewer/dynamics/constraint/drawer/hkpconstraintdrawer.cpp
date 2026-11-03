@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include "havok/hkUlong.h"
 #include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
 #include "fnv/decl/AxisDisplayOwner.h"
@@ -328,23 +329,14 @@ struct DrawerConstraintDE4
     DrawerBodyDE4* m_entities[2];
 };
 
-class FUN_00de47e0_cls
-{
-  public:
-    unsigned char m_unk00[0x20];
-    __m128 m_bodyAWPos;    // +0x20 (32-bit)
-    __m128 m_bodyBWPos;    // +0x30
-    __m128 m_unk40[2];
-    __m128 m_RA[3];        // +0x60
-    __m128 m_RB[3];        // +0x90
-    void FUN_00de47e0(char* a1, __m128* a2, __m128* a3);
-};
 
 // Copies the world transforms of the constraint's bodies into a2 and a3, then keeps their translations and rotations.
 // @fnv 0x00de47e0
-void FUN_00de47e0_cls::FUN_00de47e0(char* a1, __m128* apOutA, __m128* apOutB)
+void hkpConstraintDrawer::FUN_00de47e0(const void* a1, void* refLocalToWorld, void* attLocalToWorld)
 {
-    const DrawerConstraintDE4* constraint = reinterpret_cast<const DrawerConstraintDE4*>(a1);
+    const DrawerConstraintDE4* constraint = static_cast<const DrawerConstraintDE4*>(a1);
+    __m128* apOutA = static_cast<__m128*>(refLocalToWorld);
+    __m128* apOutB = static_cast<__m128*>(attLocalToWorld);
     const __m128* pSrcA = constraint->m_entities[1]->m_transform;
     apOutA[0] = pSrcA[0];
     apOutA[1] = pSrcA[1];

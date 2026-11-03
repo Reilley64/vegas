@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include "havok/hkUlong.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
@@ -72,7 +73,6 @@ struct Simulation
     float unk030, unk034, unk038, unk03c;
     Vec unk040, unk050, unk060, unk070, unk080, unk090, unk0a0, unk0b0;
     Member unk0c0;
-    void FUN_00de47e0(Input*, Matrix*, Matrix*);
     void FUN_00de7730(Input*, Draw*, hkUlong, int);
 };
 
@@ -82,7 +82,7 @@ void Simulation::FUN_00de7730(Input* input, Draw* draw, hkUlong a, int b)
     Shape* shape = input->unk00c;
     reinterpret_cast<::CpuObject *>(&(unk0c0))->FUN_00e10a10((draw));
     Matrix transform0, transform1;
-    FUN_00de47e0(input, &transform0, &transform1);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(input, &transform0, &transform1);
     unk050.FUN_00c7f640(&transform0, &shape->unk090);
     unk040.FUN_00c7f640(&transform1, &shape->unk050);
     reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(a, b);

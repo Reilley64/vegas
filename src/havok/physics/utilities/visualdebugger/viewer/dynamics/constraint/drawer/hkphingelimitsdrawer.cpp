@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include <new>
@@ -90,7 +91,6 @@ struct T
     Mat3 m60;
     Mat3 m90;
     Holder mc;
-    void FUN_00de47e0(Src* a, Mat4* b, Mat4* c);
     void FUN_00de6d80(Src* a1, Visitor* a2, hkUlong a3, int a4);
 };
 
@@ -109,7 +109,7 @@ void T::FUN_00de6d80(Src* a1, Visitor* a2, hkUlong a3, int a4)
     } w;
     unsigned char* e = a1->m0c;
     reinterpret_cast<::CpuObject *>(&(mc))->FUN_00e10a10((a2));
-    FUN_00de47e0(a1, &w.matA, &w.matB);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(a1, &w.matA, &w.matB);
     m50.FUN_00c7f640(&w.matA, e + 0x90);
     m40.FUN_00c7f640(&w.matB, e + 0x50);
     reinterpret_cast<::DE44C0Object *>(this)->FUN_00de44c0(a3, a4);
@@ -756,8 +756,6 @@ class ConstraintDrawer
     }
 
   protected:
-    void FUN_00de47e0(const hkpConstraintInstance* constraint, hkTransform& refLocalToWorld,
-                      hkTransform& attLocalToWorld);
 
   private:
     hkReal m_fLineLength;
@@ -1236,7 +1234,7 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
     reinterpret_cast<::CpuObject *>(&(m_kDisplayGeometry))->FUN_00e10a10((displayHandler));
     hkTransform refLocalToWorld;
     hkTransform attLocalToWorld;
-    FUN_00de47e0(constraint, refLocalToWorld, attLocalToWorld);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(constraint, &refLocalToWorld, &attLocalToWorld);
     m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, hkVector4::getZero());
     m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, hkVector4::getZero());
     reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);

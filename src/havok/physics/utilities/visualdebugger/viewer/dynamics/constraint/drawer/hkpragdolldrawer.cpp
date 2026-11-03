@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
@@ -280,7 +281,6 @@ struct DrawerBase
     RotationColumns m60, m90;
     SubC0 mC0;
 
-    void FUN_00de47e0(P1*, Buf40*, Buf40*);
     __forceinline float arrowSize() const
     {
         return f1c * f0c;
@@ -309,7 +309,7 @@ void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, hkUlong p3, int p4)
     This& receivers = *this;
     {
         Buf40 bufferA, bufferB;
-        FUN_00de47e0(p1, &bufferA, &bufferB);
+        reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(p1, &bufferA, &bufferB);
         receivers.m50.FUN_00c7f640(&bufferA, &(*reinterpret_cast<int *>(&::DAT_01267e30)));
         m40.FUN_00c7f640(&bufferB, &(*reinterpret_cast<int *>(&::DAT_01267e30)));
     }

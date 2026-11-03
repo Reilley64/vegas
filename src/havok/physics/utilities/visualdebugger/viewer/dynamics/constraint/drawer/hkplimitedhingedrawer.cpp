@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
@@ -89,7 +90,6 @@ struct Viewer
     Vector m60, m70, m80, m90, ma0, mb0;
     DisplayContext context;
     Shape shape;
-    void FUN_00de47e0(Input*, Matrix*, Matrix*);
     void FUN_00de7a70(Input*, Display*, hkUlong, int);
 };
 __forceinline __m128 broadcast(float value)
@@ -110,7 +110,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, hkUlong id, int tag)
     Data* data = input->data;
     reinterpret_cast<::CpuObject *>(&(context))->FUN_00e10a10((display));
     Matrix first, second;
-    FUN_00de47e0(input, &first, &second);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(input, &first, &second);
     origin.FUN_00c7f640(&first, &data->v90);
     pivot.FUN_00c7f640(&second, &data->v50);
     reinterpret_cast<::FUN_00de4530Owner *>(this)->FUN_00de4530(id, tag);

@@ -10,6 +10,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/hkpConstraintDrawer.h"
 #include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
@@ -300,7 +301,6 @@ struct Cls
     int unk27c;
     int unk280;
     void FUN_00de6730(Input* a0, Renderer* a1, hkUlong a2, int a3);
-    void FUN_00de47e0(void* a0, void* b, void* c);
     void FUN_00de5370(float angle, float scale, int flags, void* point, void* source);
     void SetFromVectors(void* a, void* b, void* c, void* d);
 };
@@ -474,7 +474,7 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, hkUlong a2, int a3)
     Geometry geometry;  // Normalization constants and draw groups have disjoint lifetimes.
 
     reinterpret_cast<::CpuObject *>((((SubC0*)&unkc0)))->FUN_00e10a10((a1));
-    FUN_00de47e0(a0, &geometry.tD0, &geometry.t110);
+    reinterpret_cast<hkpConstraintDrawer*>(this)->FUN_00de47e0(a0, &geometry.tD0, &geometry.t110);
     Obj50* object50 = (Obj50*)(&unk50);
     object50->FUN_00c7f640(&geometry.tD0, &srcHome->body.rows50[3]);
     ((Obj50*)(&unk40))->FUN_00c7f640(&geometry.t110, &srcHome->body.rows10[3]);

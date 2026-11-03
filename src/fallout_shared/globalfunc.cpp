@@ -644,14 +644,14 @@ struct M_004b4500 : public SwizzledMatrix
 NiPoint3b M_004b4500::FUN_004b4500(const NiPoint3* apVector)
 {
     return NiPoint3b(reinterpret_cast<float*>(this)[0] * reinterpret_cast<const float*>(apVector)[0] +
-                         reinterpret_cast<float*>(this)[1] * reinterpret_cast<const float*>(apVector)[1] +
-                         reinterpret_cast<float*>(this)[2] * reinterpret_cast<const float*>(apVector)[2],
-                     reinterpret_cast<float*>(this)[3] * reinterpret_cast<const float*>(apVector)[0] +
-                         reinterpret_cast<float*>(this)[4] * reinterpret_cast<const float*>(apVector)[1] +
-                         reinterpret_cast<float*>(this)[5] * reinterpret_cast<const float*>(apVector)[2],
-                     reinterpret_cast<float*>(this)[6] * reinterpret_cast<const float*>(apVector)[0] +
-                         reinterpret_cast<float*>(this)[7] * reinterpret_cast<const float*>(apVector)[1] +
-                         reinterpret_cast<float*>(this)[8] * reinterpret_cast<const float*>(apVector)[2]);
+                         this->_12 * (*reinterpret_cast<const float*>((void *)&apVector->y)) +
+                         this->_13 * (*reinterpret_cast<const float*>((void *)&apVector->z)),
+                     this->_14 * reinterpret_cast<const float*>(apVector)[0] +
+                         this->_21 * (*reinterpret_cast<const float*>((void *)&apVector->y)) +
+                         this->_22 * (*reinterpret_cast<const float*>((void *)&apVector->z)),
+                     this->_23 * reinterpret_cast<const float*>(apVector)[0] +
+                         this->_24 * (*reinterpret_cast<const float*>((void *)&apVector->y)) +
+                         this->_31 * (*reinterpret_cast<const float*>((void *)&apVector->z)));
 }
 
 struct NiFrustumPlanes
@@ -1213,7 +1213,7 @@ FUN_004b5120::FUN_004b5120()
 {
     reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
     *reinterpret_cast<void**>(this) = &DAT_0102023c;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) = 0;
+    this->m_pad3 = 0;
 }
 
 struct FUN_004b51a0_shell

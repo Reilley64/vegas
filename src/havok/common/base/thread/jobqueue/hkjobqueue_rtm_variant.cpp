@@ -1193,7 +1193,7 @@ tail_check:
         return 1;
     }
     {
-        int idx = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(int)this + 0xea];
+        int idx = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(int)&this->bEA];
         refs->pending[idx]++;
         reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
         CaptureMarker((void*)str_010ccd70);

@@ -351,15 +351,15 @@ struct FUN_00aa7260_holder
 // @fnv 0x00aa6eb0
 void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
 {
-    char* ppageAddress = *(char**)((char*)this + 0x4) + (aiPageIndex << 12);
+    char* ppageAddress = this->m_pPoolBase + (aiPageIndex << 12);
     if (abSortRequired)
     {
         reinterpret_cast<::FUN_00aa7260_holder *>((((Helper_00aa6eb0*)this)))->FUN_00aa7260();
     }
     DoublyLinkedListNode* pfirstFreeBlock = (DoublyLinkedListNode*)ppageAddress;
-    unsigned int ientriesPerPage = 0x1000 / *(unsigned int*)((char*)this + 0x40);
+    unsigned int ientriesPerPage = 0x1000 / this->m_uiAllocationSize;
     DoublyLinkedListNode* plastFreeBlock =
-        (DoublyLinkedListNode*)(ppageAddress + (ientriesPerPage - 1) * *(unsigned int*)((char*)this + 0x40));
+        (DoublyLinkedListNode*)(ppageAddress + (ientriesPerPage - 1) * this->m_uiAllocationSize);
 
     if (pfirstFreeBlock->pPrev != 0)
     {
@@ -367,7 +367,7 @@ void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequi
     }
     else
     {
-        *(DoublyLinkedListNode**)((char*)this + 0x8) = plastFreeBlock->pNext;
+        *(DoublyLinkedListNode**)&this->m_pFreeBlockHead = plastFreeBlock->pNext;
     }
 
     if (plastFreeBlock->pNext != 0)
@@ -375,10 +375,10 @@ void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequi
         plastFreeBlock->pNext->pPrev = pfirstFreeBlock->pPrev;
     }
 
-    *(unsigned int*)((char*)this + 0x54) -= ientriesPerPage;
+    this->m_uiFreeBlockCount -= ientriesPerPage;
     reinterpret_cast<::FUN_00aa6650_Class *>((((Helper_00aa6eb0*)this)))->FreeMemory(aiPageIndex, ppageAddress);
-    (*(unsigned short**)((char*)this + 0x48))[aiPageIndex] = 0xffff;
-    *(unsigned int*)((char*)this + 0x58) -= 1;
+    (this->m_pPageBlockCounts)[aiPageIndex] = 0xffff;
+    this->m_uiAllocatedPageCount -= 1;
 }
 
 // If count is greater than 1, replaces ptr with the result of SortList(ptr).

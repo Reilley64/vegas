@@ -269,7 +269,7 @@ void TESAIForm::CopyAISettings(TESAIForm* source)
 // @fnv 0x0062f2f0
 unsigned char FUN_0062f2f0_shell::FUN_0062f2f0()
 {
-    return *((unsigned char*)this + 8);
+    return this->mood;
 }
 
 extern unsigned int _data_011c16bc;

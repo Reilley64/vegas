@@ -777,9 +777,9 @@ struct FUN_00646020_shell : TESObjectWEAP
 float FUN_00646020_shell::FUN_00646020(bool bModValue)
 {
     if (bModValue)
-        return reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue(8, 0) + ((float*)this)[76];
+        return reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue(8, 0) + this->data.m_fAnimationAttackMultiplier;
     else
-        return ((float*)this)[76];
+        return this->data.m_fAnimationAttackMultiplier;
 }
 
 // Multiplies a by b, then multiplies the result by the float value of originalRuntimeFloatSetting508.
@@ -831,11 +831,11 @@ unsigned char FUN_00647730_shell::FUN_00647730(unsigned char type)
 {
     if (type)
     {
-        return (unsigned char)reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)((WEAPON_MOD_EFFECT)13)), 0) + *(unsigned char*)((char*)this + 0x11c);
+        return (unsigned char)reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)((WEAPON_MOD_EFFECT)13)), 0) + this->data.m_ucBaseVATSChance;
     }
     else
     {
-        return *(unsigned char*)((char*)this + 0x11c);
+        return this->data.m_ucBaseVATSChance;
     }
 }
 
@@ -1682,7 +1682,7 @@ float __cdecl ComputeWeaponDamageModifier(Actor* actor, TESObjectWEAP* weapon, v
         }
     }
 
-    int baseValue_ = (unsigned int)(reinterpret_cast<::ActorValueOwner *>((reinterpret_cast<CombatAVOwner*>((char*)actor + 0xa4)))->GetActorValueFloatByIndex((::ActorValue::Index)(5)));
+    int baseValue_ = (unsigned int)(reinterpret_cast<::ActorValueOwner *>((reinterpret_cast<CombatAVOwner*>(static_cast<ActorValueOwner *>(actor))))->GetActorValueFloatByIndex((::ActorValue::Index)(5)));
     float perkValue3 = 0.0f;
     Actor* perkActor = actor;
     ApplyPerkModifiers(0x35, perkActor, weapon, &perkValue3);
@@ -1692,7 +1692,7 @@ float __cdecl ComputeWeaponDamageModifier(Actor* actor, TESObjectWEAP* weapon, v
     modifier4 += weaponModifier4;
 
     int weaponCategoryX = weapon ? ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetUnk15C())) : 0x2d;
-    float categoryValueB = reinterpret_cast<::ActorValueOwner *>((reinterpret_cast<CombatAVOwner*>((char*)actor + 0xa4)))->GetActorValueAsInteger((::ActorValue::Index)(weaponCategoryX));
+    float categoryValueB = reinterpret_cast<::ActorValueOwner *>((reinterpret_cast<CombatAVOwner*>(static_cast<ActorValueOwner *>(actor))))->GetActorValueAsInteger((::ActorValue::Index)(weaponCategoryX));
     int categoryLevel = (unsigned int)categoryValueB;
     int weaponClass2 = ((int)(reinterpret_cast<::FUN_008d8160_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetField1BC()));
     float categoryModifier4 = ::fnv_00647870::ComputeScaledCount(weaponClass2, categoryLevel, 0);

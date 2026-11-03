@@ -247,8 +247,8 @@ struct FUN_00d63480_cls
 void FUN_00d63480_cls::PassMembersToTarget(Target* apTarget)
 {
     char* pOwner = (char*)this - 0x20;
-    reinterpret_cast<::hkWorldXc91700 *>((apTarget))->FUN_00c91700(pOwner ? (void*)((char*)this + 8) : (void*)0);
-    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((int)(pOwner ? (void*)((char*)this + 0xc) : (void*)0));
+    reinterpret_cast<::hkWorldXc91700 *>((apTarget))->FUN_00c91700(pOwner ? (void*)((char*)&this->unk08) : (void*)0);
+    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((int)(pOwner ? (void*)((char*)&this->unk0c) : (void*)0));
 }
 
 // FUN_00d63c50 - the constructor of the Havok vehicle viewer

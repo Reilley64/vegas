@@ -116,10 +116,10 @@ void FUN_004f5e20::ClearList()
 {
     ListItemBase* cur;
     ListItemBase* item;
-    cur = *((::ListItemBase **)(new ((void *)(((ListHeadStub*)((char*)this + 4)))) ::Vec3()));
+    cur = *((::ListItemBase **)(new ((void *)(((ListHeadStub*)&this->f4))) ::Vec3()));
     while (cur != 0)
     {
-        ((ListHeadStub*)((char*)this + 4))->FUN_0063f7b0();
+        ((ListHeadStub*)&this->f4)->FUN_0063f7b0();
         if (*((unsigned char*)this + 0xc) != 0)
         {
             ListItemBase* tmp;
@@ -127,7 +127,7 @@ void FUN_004f5e20::ClearList()
             item = tmp;
             (item != 0) ? item->v2(1) : 0;
         }
-        cur = *((::ListItemBase **)(new ((void *)(((ListHeadStub*)((char*)this + 4)))) ::Vec3()));
+        cur = *((::ListItemBase **)(new ((void *)(((ListHeadStub*)&this->f4))) ::Vec3()));
     }
     *((unsigned int*)((char*)this + 0x10)) = 0;
 }

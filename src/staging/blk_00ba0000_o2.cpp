@@ -18473,7 +18473,9 @@ struct Color
 class FUN_00ba8e50
 {
   public:
-    char pad[0x5c];
+    char pad[0x18];
+    int unk1c;
+    char pad20[0x40];
     FUN_00ba8e50();
     virtual ~FUN_00ba8e50();
 };
@@ -18500,7 +18502,7 @@ FUN_00baeb80::FUN_00baeb80() : m_7c(3)
     m_88 = 0;
     m_8c = 8;
     m_60 = *(nb::Color*)&(*reinterpret_cast<int *>(&::DAT_011a9be0));
-    *(int*)((char*)this + 0x1c) = 13;
+    this->unk1c = 13;
 }
 }  // namespace fnv_00baeb80
 

@@ -223,11 +223,11 @@ static inline void CopyContact(ContactRecord& destination, const ContactRecord& 
 }
 static inline unsigned short* VertexIds(ContactManifold* set)
 {
-    return reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(set) + 4 + set->count * 8);
+    return reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(&set->entries) + set->count * 8);
 }
 static inline S_00dad4d0_Entry& ContactEntry(ContactManifold* set, unsigned index)
 {
-    return *reinterpret_cast<S_00dad4d0_Entry*>(reinterpret_cast<char*>(set) + 4 + index * 8);
+    return *reinterpret_cast<S_00dad4d0_Entry*>(reinterpret_cast<char*>(&set->entries) + index * 8);
 }
 static void FUN_00dae220(int, ContactManifold* set);
 static __declspec(noinline) void FUN_00dae220(int, ContactManifold* set)
@@ -249,7 +249,7 @@ static __declspec(noinline) void FUN_00dae220(int, ContactManifold* set)
             used[offs[3] >> 4] = 1;
         offs += 8;
     }
-    unsigned short* vertices = reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(set) + 4 + contactCount * 8);
+    unsigned short* vertices = reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(&set->entries) + contactCount * 8);
     int total = set->unk0 + set->unk1;
     unsigned count = 0;
     unsigned offset = 0;

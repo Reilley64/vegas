@@ -178,14 +178,14 @@ struct FUN_006dcfe0_shell : public PathingLocation
 // @fnv 0x006dcfe0
 void FUN_006dcfe0_shell::FUN_006dcfe0(int aiVal)
 {
-    *((unsigned char*)this + 0x26) &= ~1;
-    *((unsigned char*)this + 0x26) |= aiVal;
+    this->uiFlags &= ~1;
+    this->uiFlags |= aiVal;
 }
 
 // @fnv 0x006dd5a0
 int IsPathingLocationFlagSet(PathingLocation* pThis)
 {
-    return *((unsigned char*)pThis + 0x26) & 1;
+    return pThis->uiFlags & 1;
 }
 
 // @fnv 0x006df160

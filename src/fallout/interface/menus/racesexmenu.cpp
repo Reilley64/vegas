@@ -577,7 +577,14 @@ void RaceSexMenu::SetTile(int aiID, Tile* apTile)
 
 struct FUN_007adc30_shell
 {
-    char _pad[0xec];
+    char _pad[0x4];
+    void* unk04;
+    char pad08[0x20];
+    void* unk28;
+    char pad2c[0x5c];
+    void* unk88;
+    void* unk8c;
+    char pad90[0x5c];
     unsigned int m_flags;
     bool FUN_007adc30(int trait);
 };
@@ -810,7 +817,9 @@ bool InputFocusController::SetFocus(bool abFocus)
 
 struct FUN_007b5180_shell : FUN_007af610_shell
 {
-    char _pad[0xc4];
+    char _pad[0x30];
+    void* unk30;
+    char pad34[0x90];
     MenuOption2* m_pCurrentOption;
     void HandleOptionSelection();
     void CreateMenuOption();
@@ -2536,7 +2545,7 @@ void FUN_007b5180_shell::CreateMenuOption()
     int ilow;
     int ihigh;
     UpdateHairMenuOption();
-    m_pCurrentOption = ((::MenuOption2 *)(reinterpret_cast<::fnv_007b4210::FUN_007b4210_shell *>((((MenuOption2*)*(void**)((char*)this + 0x30))))->FindByColor(0x18)));
+    m_pCurrentOption = ((::MenuOption2 *)(reinterpret_cast<::fnv_007b4210::FUN_007b4210_shell *>((((MenuOption2*)this->unk30)))->FindByColor(0x18)));
     ((RaceSexMenu_MenuOption*)m_pCurrentOption)->FUN_007b3840(ilow, ihigh);
     reinterpret_cast<::MenuOptionFor3760 *>((((TileValueAccessor*)m_pCurrentOption)))->FUN_007b3760(ilow);
     HandleOptionSelection();
@@ -3876,8 +3885,8 @@ bool FUN_007af180_shell::FUN_007af180(int aeList)
 {
     if (aeList < 20)
     {
-        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)((char*)this + 4))))->Set(0x1004, aeList);
-        reinterpret_cast<::ModListOwner *>((((OptList**)((char*)this + 0x28))[aeList]))->FUN_007b4410();
+        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk04)))->Set(0x1004, aeList);
+        reinterpret_cast<::ModListOwner *>((((OptList**)&this->unk28)[aeList]))->FUN_007b4410();
         if (aeList == 5 && FUN_007adc30(0))
             reinterpret_cast<::HairMenu *>(this)->PopulateHairOptions();
         else if (aeList == 8 && FUN_007adc30(1))
@@ -3887,10 +3896,10 @@ bool FUN_007af180_shell::FUN_007af180(int aeList)
         reinterpret_cast<::StatsMenu *>(this)->UpdateMinusPlusTiles();
         if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu() && aeList < 4)
             reinterpret_cast<::MenuDriver *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu()))->UpdateSlotSelection(aeList);
-        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)((char*)this + 0x88))))->Set(0xfa3, reinterpret_cast<::FUN_0084e3a0_Class *>((((OptList**)((char*)this + 0x28))[aeList]))->FUN_0084e3a0() < 20);
-        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)((char*)this + 0x8c))))->Set(0xfa3, ((int)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio**)((char*)this + 0x28))[aeList]))->FUN_0044edb0())) < 20 ||
+        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk88)))->Set(0xfa3, reinterpret_cast<::FUN_0084e3a0_Class *>((((OptList**)&this->unk28)[aeList]))->FUN_0084e3a0() < 20);
+        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk8c)))->Set(0xfa3, ((int)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio**)&this->unk28)[aeList]))->FUN_0044edb0())) < 20 ||
                              aeList == *(int*)((char*)this + 0x120));
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(TileHelper**)((char*)this + 0x8c))))->FUN_00a01350(0xfc4, (char *)((const char*)(unsigned int)(aeList == *(int*)((char*)this + 0x120) ? (*reinterpret_cast<::Flt *>(&::g_011da70c)) : (*reinterpret_cast<::Flt *>(&::g_011da700)))),
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(TileHelper**)&this->unk8c)))->FUN_00a01350(0xfc4, (char *)((const char*)(unsigned int)(aeList == *(int*)((char*)this + 0x120) ? (*reinterpret_cast<::Flt *>(&::g_011da70c)) : (*reinterpret_cast<::Flt *>(&::g_011da700)))),
                   true);
         return true;
     }

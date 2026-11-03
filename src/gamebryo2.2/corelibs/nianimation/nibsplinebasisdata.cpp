@@ -38,7 +38,7 @@ bool FUN_00a52bb0_shell::FUN_00a52bb0(NiObject* pkObject)
     if (!reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}))
         return false;
 
-    return *(int*)((char*)pkObject + 8) == *(int*)((char*)this + 8);
+    return *(int*)((char*)pkObject + 8) == this->m_kBSplineBasis.m_iNumControlPoints;
 }
 
 extern int DAT_01099f24;

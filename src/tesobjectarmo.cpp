@@ -365,7 +365,7 @@ unsigned char TESObjectARMO::GetArmorType()
 // @fnv 0x00514450
 bool FUN_00514450_shell::FUN_00514450()
 {
-    return *((unsigned char*)this + 8) & 8;
+    return this->m_kBipedModelForm.m_ucBipedModelData & 8;
 }
 
 struct FUN_00484bf0
@@ -391,7 +391,7 @@ unsigned short FUN_00514470::GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>(&(m_00))->FUN_00484bf0(aiFlags);
-    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)((char*)this + 0x58))))->FUN_0048e9b0(aiFlags);
+    isize += reinterpret_cast<::fnv_0048e9b0::TESValueForm *>((((FUN_0048e9b0*)&this->m_58[87])))->FUN_0048e9b0(aiFlags);
     return isize;
 }
 

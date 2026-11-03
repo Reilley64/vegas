@@ -67,7 +67,9 @@ class NiControllerSequence;
 class NiControllerManager : public NiMemObject
 {
   public:
-    char data[124];
+    char data[0x68];
+    bool unk68;
+    char pad69[0x13];
     NiControllerManager(NiNode*, bool);
 public:
     bool ActivateControllerSequence(::NiControllerSequence *, int, bool, float, float, ::NiControllerSequence *);

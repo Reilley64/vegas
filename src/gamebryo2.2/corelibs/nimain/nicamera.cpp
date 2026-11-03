@@ -1034,12 +1034,12 @@ void FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
 
     reinterpret_cast<::NiAVObject *>((reinterpret_cast<FUN_00a5ac90_Obj*>(source)))->FUN_00a5ac90((::NiAVObject *)(destination), (*(::CloningProcess *)(second)));
 
-    FUN_00ec44d0(reinterpret_cast<char*>(destination) + 0x9C, reinterpret_cast<char*>(source) + 0x9C, 0x40);
+    FUN_00ec44d0(reinterpret_cast<char*>(&destination->m_afWorldToCamera), reinterpret_cast<char*>(&source->m_afWorldToCamera), 0x40);
 
     FUN_00a70f60_FloatBits* sourceTranslate =
-        reinterpret_cast<FUN_00a70f60_FloatBits*>(reinterpret_cast<char*>(source) + 0x8C);
+        reinterpret_cast<FUN_00a70f60_FloatBits*>(&source->m_kWorldSpaceTransform.m_kTranslation.x);
     FUN_00a70f60_FloatBits* destinationTranslate =
-        reinterpret_cast<FUN_00a70f60_FloatBits*>(reinterpret_cast<char*>(destination) + 0x8C);
+        reinterpret_cast<FUN_00a70f60_FloatBits*>(&destination->m_kWorldSpaceTransform.m_kTranslation.x);
 
     destinationTranslate[0].i = sourceTranslate[0].i;
     destinationTranslate[1].i = sourceTranslate[1].i;
@@ -1047,16 +1047,16 @@ void FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
 
     destination->m_kViewFrustum = source->m_kViewFrustum;
 
-    volatile int* sourceValues = reinterpret_cast<volatile int*>(reinterpret_cast<char*>(source) + 0x100);
-    volatile int* destinationValues = reinterpret_cast<volatile int*>(reinterpret_cast<char*>(destination) + 0x100);
+    volatile int* sourceValues = reinterpret_cast<volatile int*>(&source->m_kPort.m_fMinimumU);
+    volatile int* destinationValues = reinterpret_cast<volatile int*>(&destination->m_kPort.m_fMinimumU);
 
     destinationValues[0] = sourceValues[0];
     destinationValues[1] = sourceValues[1];
     destinationValues[2] = sourceValues[2];
     destinationValues[3] = sourceValues[3];
 
-    float* sourceFloats = reinterpret_cast<float*>(reinterpret_cast<char*>(source) + 0x110);
-    float* destinationFloats = reinterpret_cast<float*>(reinterpret_cast<char*>(destination) + 0x110);
+    float* sourceFloats = &source->m_fTrailingValue;
+    float* destinationFloats = &destination->m_fTrailingValue;
 
     destinationFloats[0] = sourceFloats[0];
     destinationFloats[-6] = sourceFloats[-6];

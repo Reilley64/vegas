@@ -598,7 +598,7 @@ struct Cls
 Cls* Cls::FUN_00cbb8b0(int flags)
 {
     Ms_Tls* tls = FUN_00c85750();
-    Ms_HeapX* heap = *(Ms_HeapX**)((char*)tls + 0x10);
+    Ms_HeapX* heap = *(Ms_HeapX**)&tls->heap;
     int n = m_5c;
     m_58 = 0;
     if (!((unsigned int)n & 0x80000000u))
@@ -609,7 +609,7 @@ Cls* Cls::FUN_00cbb8b0(int flags)
     if (flags & 1)
     {
         Ms_Tls* tls2 = FUN_00c85750();
-        Ms_HeapX* heap2 = *(Ms_HeapX**)((char*)tls2 + 0x10);
+        Ms_HeapX* heap2 = *(Ms_HeapX**)&tls2->heap;
         heap2->v08(this, (unsigned short)m_04);
     }
     return this;

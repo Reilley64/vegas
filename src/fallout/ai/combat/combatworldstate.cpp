@@ -122,7 +122,7 @@ struct CombatStateArray
 void CombatStateArray::CopyFrom(CombatStateArray* apWorldStateArray)
 {
     __memcpy(this, apWorldStateArray, 0x50);
-    __memcpy((char*)this + 0x50, (char*)apWorldStateArray + 0x50, 0xC);
+    __memcpy((char*)&this->_50, (char*)&apWorldStateArray->_50, 0xC);
 }
 
 struct FUN_009aad20_shell

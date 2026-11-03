@@ -86,7 +86,7 @@ bool FUN_008799f0_shell::IsBitSet(unsigned int aiBit)
 {
     unsigned int iIndex = aiBit >> 5;
     unsigned int iWhichBit = aiBit - (iIndex << 5);
-    if ((1 << iWhichBit) & ((unsigned int*)((char*)this + 4))[iIndex])
+    if ((1 << iWhichBit) & (&this->m_uiSeenData[0])[iIndex])
         return true;
     else
         return false;

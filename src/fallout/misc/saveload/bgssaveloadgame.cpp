@@ -680,7 +680,7 @@ struct FUN_008665b0_shell : public BGSLoadFormBuffer
 // @fnv 0x008665b0
 int FUN_008665b0_shell::FUN_008665b0()
 {
-    return ::FUN_00853640((unsigned char *)(void *)((char*)this + 0x1b));
+    return ::FUN_00853640((unsigned char *)(void *)((char*)&this->Header[7]));
 }
 }  // namespace fnv_008665b0
 

@@ -375,7 +375,7 @@ struct FUN_0051b8c0_shell : TESObjectTREE
 // @fnv 0x0051b8c0
 void FUN_0051b8c0_shell::FUN_0051b8c0(float value)
 {
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x84) = value;
+    this->Data.m_fRustleMagnitude = value;
 }
 
 extern int DAT_0102be94;
@@ -1133,22 +1133,22 @@ bool FUN_0051c220_shell::IsNotEqual(TESForm* apCompare)
     if (!i)
         return true;
 
-    if (memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(this) + 0x6c),
+    if (memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(&this->Data)),
                reinterpret_cast<FUN_0051c220_vtable*>(i)->get_value(), 0x20))
         return true;
 
-    if (reinterpret_cast<::NiPoint2_shell *>((void *)(reinterpret_cast<NiPoint2_shell*>(reinterpret_cast<char*>(this) + 0x8c)))->FUN_0051c330(*reinterpret_cast<NiPoint2 const*>(reinterpret_cast<const char*>(i) + 0x8c)))
+    if (reinterpret_cast<::NiPoint2_shell *>((void *)(reinterpret_cast<NiPoint2_shell*>(&this->m_kBillboardDimensions.x)))->FUN_0051c330(i->m_kBillboardDimensions))
         return true;
 
-    unsigned int isize = reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)))->GetShortAtOffsetA();
-    if (isize != reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(reinterpret_cast<char*>(i) + 0x5c)))->GetShortAtOffsetA())
+    unsigned int isize = reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(&this->m_kSeedArray)))->GetShortAtOffsetA();
+    if (isize != reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(&i->m_kSeedArray)))->GetShortAtOffsetA())
         return true;
 
     unsigned int pcomp = 0;
     for (; pcomp < isize; ++pcomp)
     {
-        if (*reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetAt(pcomp) !=
-            *reinterpret_cast<Arr*>(reinterpret_cast<char*>(i) + 0x5c)->GetAt(pcomp))
+        if (*reinterpret_cast<Arr*>(&this->m_kSeedArray)->GetAt(pcomp) !=
+            *reinterpret_cast<Arr*>(&i->m_kSeedArray)->GetAt(pcomp))
             return true;
     }
 
@@ -1425,7 +1425,7 @@ void FUN_0051c3b0_cls::BuildBillboardTexturePath(char* dst)
     {
         *out4 = *src2;
     }
-    char* name = ((TreeNameView*)((char*)this + 0x30))->GetName();
+    char* name = ((TreeNameView*)static_cast<TESModelTree *>(this))->GetName();
     for (; *name != '.' && *name != 0; name++, out4++)
     {
         *out4 = *name;

@@ -171,10 +171,10 @@ struct StandIn
 // @fnv 0x009ca410
 void FUN_009ca410_shell::ProcessVATSCommands()
 {
-    if (*(void**)((char*)this + 0x24))
+    if (*(void**)&this->m_pIdleForm)
     {
         reinterpret_cast<::Animation *>((((FUN_00498910_shell*)reinterpret_cast<::FUN_008b70d0_shell *>((void *)(((Actor*)DAT_011f21f0)))->FUN_008b70d0())))->SpecialIdleFree(true, false);
-        *(void**)((char*)this + 0x24) = 0;
+        *(void**)&this->m_pIdleForm = 0;
     }
 
     while (!((FUN_009ca410_shell_base*)this)->FUN_008256d0())

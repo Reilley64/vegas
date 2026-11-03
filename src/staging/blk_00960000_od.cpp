@@ -285,7 +285,7 @@ struct FUN_00968630_stub
 // @fnv 0x00968630
 int FUN_00968630_stub::FUN_00968630(int a)
 {
-    return *((FUN_0096a2b0_stub*)((char*)this + 8))->FUN_0096a2b0(a);
+    return *((FUN_0096a2b0_stub*)&this->m_cByteAtOffset2)->FUN_0096a2b0(a);
 }
 
 struct Arr
@@ -857,9 +857,9 @@ void FUN_0096ac30_Class::FUN_0096ac30()
 {
     for (int i = 0; i < 4; i++)
     {
-        if (*(unsigned int*)((char*)this + 0x30 + i * 4) < *(unsigned int*)((char*)this + 0x10 + i * 4) ||
-            *(unsigned int*)((char*)this + 0x30 + i * 4) >= *(unsigned int*)((char*)this + 0x20 + i * 4))
-            *(int*)((char*)this + 0x30 + i * 4) = *(int*)((char*)this + 0x10 + i * 4);
+        if (*(unsigned int*)((char*)&this->m_12 + i * 4) < *(unsigned int*)((char*)&this->m_iWordAt04 + i * 4) ||
+            *(unsigned int*)((char*)&this->m_12 + i * 4) >= *(unsigned int*)((char*)&this->m_8 + i * 4))
+            *(int*)((char*)&this->m_12 + i * 4) = *(int*)((char*)&this->m_iWordAt04 + i * 4);
     }
 }
 
@@ -1813,12 +1813,12 @@ void FUN_0096aa40_Class::FUN_0096aa40(int aiIndex)
     int local2 = reinterpret_cast<::B96AB20Ranges *>(this)->FindRangeIndex(aiIndex);
     if (local2 == -1)
         return;
-    if (*(unsigned int*)((char*)this + 0x20 + local2 * 4) > *(unsigned int*)((char*)this + 0x10 + local2 * 4))
-        *(int*)((char*)this + 0x20 + local2 * 4) = *(int*)((char*)this + 0x20 + local2 * 4) - 1;
-    if (aiIndex != *(int*)((char*)this + 0x20 + local2 * 4))
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((StrArr*)this)))->SetAt(aiIndex, *(char**)((Arr2*)this)->GetAt(*(unsigned int*)((char*)this + 0x20 + local2 * 4)));
+    if (*(unsigned int*)((char*)&this->m_8 + local2 * 4) > *(unsigned int*)((char*)&this->m_iWordAt04 + local2 * 4))
+        *(int*)((char*)&this->m_8 + local2 * 4) = *(int*)((char*)&this->m_8 + local2 * 4) - 1;
+    if (aiIndex != *(int*)((char*)&this->m_8 + local2 * 4))
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((StrArr*)this)))->SetAt(aiIndex, *(char**)((Arr2*)this)->GetAt(*(unsigned int*)((char*)&this->m_8 + local2 * 4)));
     int local_c2 = 0;
-    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((StrArr*)this)))->SetAt(*(unsigned int*)((char*)this + 0x20 + local2 * 4), (char*&)local_c2);
+    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((StrArr*)this)))->SetAt(*(unsigned int*)((char*)&this->m_8 + local2 * 4), (char*&)local_c2);
     FUN_0096ac30();
 }
 

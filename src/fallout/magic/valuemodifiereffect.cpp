@@ -1677,13 +1677,13 @@ void FUN_0082c000_shell::FUN_0082c000()
                         ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
                         : 0;
 
-    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(EffectItem**)((char*)this + 0xc))))->FUN_00825c00()))))->FUN_00403e60(2) ||
-        (!(*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() && !((ActiveEffect*)this)->IsFlagged() &&
+    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(EffectItem**)&this->pEffect)))->FUN_00825c00()))))->FUN_00403e60(2) ||
+        (!(*(FUN_004044d0_shell**)&this->pEffect)->FUN_004044d0() && !((ActiveEffect*)this)->IsFlagged() &&
          ((BGSMessageInitAccess*)this)->GetIconFormID() != 4 && ((BGSMessageInitAccess*)this)->GetIconFormID() != 1))
     {
-        *(float*)((char*)this + 0x1c) =
-            ((ValueModifierEffect*)this)->GetModifiedMagnitude(*(float*)((char*)this + 0x1c));
-        if (*(int*)((char*)this + 0x48) == 16 && pActor == (Actor*)::_g_thePlayer)
+        this->m_fElapsedTime =
+            ((ValueModifierEffect*)this)->GetModifiedMagnitude(this->m_fElapsedTime);
+        if (this->m_eActorValue == 16 && pActor == (Actor*)::_g_thePlayer)
         {
             float fPlayerHealthDiff =
                 ((ActorAV*)::_g_thePlayer)->GetBaseActorValue(16) - ((ActorAV*)::_g_thePlayer)->GetActorValue(16);
@@ -1692,12 +1692,12 @@ void FUN_0082c000_shell::FUN_0082c000()
             AlchemyItem* ppotion = bpotion ? dynamic_cast<AlchemyItem*>(pMagicItem) : 0;
             if (ppotion && reinterpret_cast<::FUN_004029d0_shell *>((ppotion))->FUN_004029d0(2))
                 MiscStatManager::AddMiscStat((MiscStatManager::MiscStat)0x12,
-                                             (int)FUN_0040ebd0(*(float*)((char*)this + 0x1c), fPlayerHealthDiff));
+                                             (int)FUN_0040ebd0(this->m_fElapsedTime, fPlayerHealthDiff));
             if (ppotion && reinterpret_cast<::FUN_004029d0_shell *>((ppotion))->FUN_004029d0(4))
                 MiscStatManager::AddMiscStat((MiscStatManager::MiscStat)0x10,
-                                             (int)FUN_0040ebd0(*(float*)((char*)this + 0x1c), fPlayerHealthDiff));
+                                             (int)FUN_0040ebd0(this->m_fElapsedTime, fPlayerHealthDiff));
         }
-        if (*(int*)((char*)this + 0x48) == 7 && *(float*)((char*)this + 0x1c) < ::_DAT_01012060 &&
+        if (this->m_eActorValue == 7 && this->m_fElapsedTime < ::_DAT_01012060 &&
             ((ActorAV*)pActor)->GetActorValue(16) <= 1.0)
         {
             Actor* pcasterActor = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))
@@ -1706,10 +1706,10 @@ void FUN_0082c000_shell::FUN_0082c000()
             reinterpret_cast<::KillActor *>((pActor))->FUN_0089d900(pcasterActor, 0.0f);
         }
         ((ValueModifierEffect*)this)
-            ->ApplyActorValueModifier(pActor, *(float*)((char*)this + 0x1c), (ActorValue::Index)-1);
+            ->ApplyActorValueModifier(pActor, this->m_fElapsedTime, (ActorValue::Index)-1);
     }
-    else if (pActor == (Actor*)::_g_thePlayer && (*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() > 0 &&
-             *(int*)((char*)this + 0x48) == 16)
+    else if (pActor == (Actor*)::_g_thePlayer && (*(FUN_004044d0_shell**)&this->pEffect)->FUN_004044d0() > 0 &&
+             this->m_eActorValue == 16)
     {
         float fPlayerHealthDiff =
             ((ActorAV*)::_g_thePlayer)->GetBaseActorValue(16) - ((ActorAV*)::_g_thePlayer)->GetActorValue(16);
@@ -1719,18 +1719,18 @@ void FUN_0082c000_shell::FUN_0082c000()
         if (ppotion && reinterpret_cast<::FUN_004029d0_shell *>((ppotion))->FUN_004029d0(2))
             MiscStatManager::AddMiscStat(
                 (MiscStatManager::MiscStat)0x12,
-                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() *
-                                      *(float*)((char*)this + 0x1c),
+                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)&this->pEffect)->FUN_004044d0() *
+                                      this->m_fElapsedTime,
                                   fPlayerHealthDiff));
         if (ppotion && reinterpret_cast<::FUN_004029d0_shell *>((ppotion))->FUN_004029d0(4))
             MiscStatManager::AddMiscStat(
                 (MiscStatManager::MiscStat)0x10,
-                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)((char*)this + 0xc))->FUN_004044d0() *
-                                      *(float*)((char*)this + 0x1c),
+                (int)FUN_0040ebd0((*(FUN_004044d0_shell**)&this->pEffect)->FUN_004044d0() *
+                                      this->m_fElapsedTime,
                                   fPlayerHealthDiff));
     }
 
-    if (*(int*)((char*)this + 0x48) == 0x36 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(EffectItem**)((char*)this + 0xc))))->FUN_00825c00()))))->FUN_00403e60(4))
+    if (this->m_eActorValue == 0x36 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(EffectItem**)&this->pEffect)))->FUN_00825c00()))))->FUN_00403e60(4))
     {
         if (pActor && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())))
             ((ProcessRads*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())))->SetRadsSec(GetFloatAtOffset1C((char*)this));

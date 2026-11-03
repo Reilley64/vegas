@@ -31,5 +31,5 @@ void* FUN_00aca1e0::GetPointer()
         unsigned int g;
         int h;
     }* p = (X*)((char*)this + 0xc);
-    return p->g >= 16 ? (void*)p->b : (void*)((char*)p + 4);
+    return p->g >= 16 ? (void*)p->b : (void*)((char*)&p->b);
 }

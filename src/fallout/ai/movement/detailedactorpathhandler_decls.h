@@ -85,7 +85,8 @@ class DetailedActorPathHandler
     ActorMover* m_pActorMover;
     NiPointer<PathingSolution> pCurrentPathingSolution;
     NiPointer<PathingRequest> m_pPathingRequest;
-    unsigned char pad14[0x08];
+    float unk14;
+    float unk18;
     NiPoint3 m_kPathVector1;
     NiPoint3 m_kPathVector2;
     NiPoint3 m_kPathVector3;

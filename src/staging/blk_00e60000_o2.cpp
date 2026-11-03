@@ -851,7 +851,7 @@ FUN_00e7d230_cls* FUN_00e7d230_cls::DestroyIfFlagged(int aiFlags)
 // @fnv 0x00e7d1b0
 void FUN_00e7d1b0_Class::FUN_00e7d1b0()
 {
-    void* p = *(void**)((char*)this + 0x20);
+    void* p = this->_20;
     *(void**)this = &DAT_010eefbc;
     if (p)
     {
@@ -859,9 +859,9 @@ void FUN_00e7d1b0_Class::FUN_00e7d1b0()
         typedef void(* RelFn)(void*);
         RelFn rel = (RelFn)vt[2];
         rel(p);
-        *(void**)((char*)this + 0x20) = 0;
+        this->_20 = 0;
     }
-    p = *(void**)((char*)this + 0x14);
+    p = this->_14;
     *(void**)this = &DAT_010eeed4;
     if (p)
     {
@@ -869,11 +869,11 @@ void FUN_00e7d1b0_Class::FUN_00e7d1b0()
         typedef void(* RelFn)(void*);
         RelFn rel = (RelFn)vt[2];
         rel(p);
-        *(void**)((char*)this + 0x14) = 0;
+        this->_14 = 0;
     }
-    void* q = *(void**)((char*)this + 0x0c);
+    void* q = this->_0c;
     reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(q);
-    *(void**)((char*)this + 0x0c) = 0;
+    this->_0c = 0;
     *(void**)this = &(*reinterpret_cast<::NiRefObject *>(&::DAT_0101dce4));
     DAT_00fdf1c4((void*)&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }

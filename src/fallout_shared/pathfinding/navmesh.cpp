@@ -171,7 +171,9 @@ class NavMeshPtr;
 class NavMeshInfo
 {
   public:
-    char _pad0c[0x0c];
+    char _pad0c[0x4];
+    unsigned int unk04;
+    unsigned int unk08;
     unsigned int locationKey;
 public:
     bool AcquireNavMesh(::NavMeshPtr &);
@@ -379,7 +381,7 @@ struct FUN_0068f230_shell : public NavMesh
 // @fnv 0x0068f320
 bool FUN_0068f320(const NavMeshInfo* apNavMeshInfo)
 {
-    return (*(const unsigned int*)((const char*)apNavMeshInfo + 8) & 0x10) != 0;
+    return (*(const unsigned int*)&apNavMeshInfo->unk08 & 0x10) != 0;
 }
 
 class TESForm
@@ -410,7 +412,7 @@ TESForm* FUN_00690830(const NavMeshInfo* pThis)
     if (*(TESForm**)((char*)pThis + 0x1c))
         return *(TESForm**)((char*)pThis + 0x1c);
     else
-        return ::FUN_004839c0(*(unsigned int*)((char*)pThis + 0x4));
+        return ::FUN_004839c0(*(unsigned int*)&pThis->unk04);
 }
 
 struct BGSLoadFormBuffer;

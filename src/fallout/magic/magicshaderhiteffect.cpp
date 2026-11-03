@@ -1106,7 +1106,7 @@ void FUN_00821e40_shell::FUN_00821e40(ActiveEffect* pEffect, TESObjectREFR* a2)
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x34, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x37)
     {
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x28, 1);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->base[40], 1);
         int v = 0;
         if (m_pAffectedArmorObject)
             v = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pAffectedArmorObject))->FUN_0084e3a0()));

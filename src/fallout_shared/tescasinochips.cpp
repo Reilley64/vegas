@@ -168,7 +168,7 @@ struct FUN_005046e0_shell : public TESCasino
 // @fnv 0x005046e0
 void FUN_005046e0_shell::FUN_005046e0()
 {
-    ::ResolveFormID((unsigned int *)&(*(unsigned int*)((char*)this + 0x214)), GetFile(-1));
+    ::ResolveFormID((unsigned int *)&(this->data.IntegerEndianRecord), GetFile(-1));
 }
 
 
@@ -544,54 +544,54 @@ struct FUN_00504710_shell : public TESCasino
 void FUN_00504710_shell::FUN_00504710()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->FUN_00487010();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(static_cast<TESFullName *>(this))))->FUN_00487010();
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x1E8)->Endian();
+        this->data.Endian();
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x1E8))),
+        (const void *)(reinterpret_cast<int>(&this->data)),
         0x38);
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<EndianConvertibleData*>(reinterpret_cast<unsigned char*>(this) + 0x1E8)->Endian();
+        this->data.Endian();
     }
 
     {
         int i;
         for (i = 0; i < 8; ++i)
         {
-            if (reinterpret_cast<BGSTESTexture*>(reinterpret_cast<unsigned char*>(this) + 0x24 + i * 0x20)
+            if (reinterpret_cast<BGSTESTexture*>(reinterpret_cast<unsigned char*>(&this->m_kModelTextureSwaps) + i * 0x20)
                     ->GetModelLength())
             {
-                reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<unsigned char*>(this) + 0x24 + i * 0x20)))->ProcessAndFreeData(0x4C444F4D, 0x54444F4D, 0x53444F4D);
+                reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<unsigned char*>(&this->m_kModelTextureSwaps) + i * 0x20)))->ProcessAndFreeData(0x4C444F4D, 0x54444F4D, 0x53444F4D);
             }
         }
     }
 
-    if (reinterpret_cast<BGSTESTexture*>(reinterpret_cast<unsigned char*>(this) + 0x104)->GetModelLength())
+    if (reinterpret_cast<BGSTESTexture*>(&this->m_kModelTextureSwaps[7])->GetModelLength())
     {
-        reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<unsigned char*>(this) + 0x104)))->ProcessAndFreeData(0x32444F4D, 0x54444F4D, 0x53444F4D);
+        reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->m_kModelTextureSwaps[7])))->ProcessAndFreeData(0x32444F4D, 0x54444F4D, 0x53444F4D);
     }
 
-    if (reinterpret_cast<BGSTESTexture*>(reinterpret_cast<unsigned char*>(this) + 0x124)->GetModelLength())
+    if (reinterpret_cast<BGSTESTexture*>(&this->m_kModelTextureSwaps[8])->GetModelLength())
     {
-        reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<unsigned char*>(this) + 0x124)))->ProcessAndFreeData(0x33444F4D, 0x54444F4D, 0x53444F4D);
+        reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->m_kModelTextureSwaps[8])))->ProcessAndFreeData(0x33444F4D, 0x54444F4D, 0x53444F4D);
     }
 
-    if (reinterpret_cast<BGSTESTexture*>(reinterpret_cast<unsigned char*>(this) + 0x144)->GetModelLength())
+    if (reinterpret_cast<BGSTESTexture*>(&this->m_kModelTextureSwaps[9])->GetModelLength())
     {
-        reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(reinterpret_cast<unsigned char*>(this) + 0x144)))->ProcessAndFreeData(0x34444F4D, 0x54444F4D, 0x53444F4D);
+        reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<DoorPart3c*>(&this->m_kModelTextureSwaps[9])))->ProcessAndFreeData(0x34444F4D, 0x54444F4D, 0x53444F4D);
     }
 
     {
         int i;
         for (i = 0; i < 7; ++i)
         {
-            reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<unsigned char*>(this) + 0x164 + i * 0x0C)))->FUN_0048e370(0x4E4F4349);
+            reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<unsigned char*>(&this->m_kIconTextures) + i * 0x0C)))->FUN_0048e370(0x4E4F4349);
         }
     }
 
@@ -599,7 +599,7 @@ void FUN_00504710_shell::FUN_00504710()
         int i;
         for (i = 7; i < 0x0B; ++i)
         {
-            reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<unsigned char*>(this) + 0x164 + i * 0x0C)))->FUN_0048e370(0x324F4349);
+            reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<unsigned char*>(&this->m_kIconTextures) + i * 0x0C)))->FUN_0048e370(0x324F4349);
         }
     }
 

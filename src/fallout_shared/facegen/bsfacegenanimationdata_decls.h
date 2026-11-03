@@ -135,7 +135,14 @@ class BSFaceGenAnimationData
     virtual void vfn_120();
     char pad[8];
     BSFaceGenKeyframeMultiple* target;
-    char data[0x179];
+    void* unk10;
+    char pad14[0x80];
+    void* unk94;
+    char pad98[0x30];
+    void* unkc8;
+    char padcc[0x30];
+    void* unkfc;
+    char pad100[0x89];
     bool changed, p18a, dirty, p18c, p18d, dead;
     void AddModifierKeyframe(float*, float);
     void AddKeyframe(BS_FACEGEN_MORPH_TYPE, float, bool);

@@ -63,7 +63,7 @@ void FUN_00a99950_shell::FUN_00a99950()
     void* p = *(void**)((char*)this + 0x10);
     *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
     ::FUN_00aa10f0(p);
-    *(int*)((char*)this + 0x10) = 0;
+    this->f10 = 0;
     ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
 }
 

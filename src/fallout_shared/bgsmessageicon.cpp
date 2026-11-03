@@ -69,7 +69,7 @@ class TESFullName
 // @fnv 0x0047a380
 void FUN_0047a380_shell::FUN_0047a380(char* apTexture)
 {
-    reinterpret_cast<TESFullName*>(reinterpret_cast<char*>(this) + 4)->SetFullName(apTexture);
+    reinterpret_cast<TESFullName*>(&this->Icon)->SetFullName(apTexture);
 }
 
 struct FUN_0047a1a0 : BaseFormComponent

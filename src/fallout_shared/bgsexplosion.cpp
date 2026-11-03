@@ -150,7 +150,7 @@ bool BGSExplosion::Load(TESFile* file)
         case 0x4d544945: {
             unsigned int value = 0;
             file->GetChunkData(&value);
-            reinterpret_cast<CombatProcedure*>(reinterpret_cast<char*>(this) + 0x54)
+            reinterpret_cast<CombatProcedure*>(static_cast<TESEnchantableForm *>(this))
                 ->Initialize(reinterpret_cast<CombatController*>(value));
             break;
         }
@@ -167,7 +167,7 @@ bool BGSExplosion::Load(TESFile* file)
         case 0x4d414e4d: {
             unsigned int value = 0;
             file->GetChunkData(&value);
-            reinterpret_cast<CombatProcedure*>(reinterpret_cast<char*>(this) + 0x68)
+            reinterpret_cast<CombatProcedure*>(static_cast<TESImageSpaceModifiableForm *>(this))
                 ->Initialize(reinterpret_cast<CombatController*>(value));
             break;
         }
@@ -323,7 +323,7 @@ bool BGSExplosionCompare::CompareTo(TESForm* form)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pOther))
         return true;
-    if (memcmp((char*)this + 0x74, pOther->FUN_004fadc0(), 0x34))
+    if (memcmp((char*)&this->Data, pOther->FUN_004fadc0(), 0x34))
         return true;
     if (reinterpret_cast<EffectSettingShell*>(this)->GetLight() !=
         reinterpret_cast<EffectSettingShell*>(pOther)->GetLight())

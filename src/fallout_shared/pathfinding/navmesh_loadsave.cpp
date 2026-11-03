@@ -134,7 +134,7 @@ struct FUN_00693b70_shell : public NavMeshTriangle
 // @fnv 0x00693b70
 bool FUN_00693b70_shell::HasFlag40()
 {
-    return (*(unsigned int*)((char*)this + 0xc) & 0x40) != 0;
+    return (this->m_uiTriangleFlags & 0x40) != 0;
 }
 
 struct S00693b90
@@ -973,7 +973,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
         0x2e, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\NavMesh_LoadSave.cpp", 0x113);
     if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((TESForm*)this)))->FUN_00440d80())
     {
-        reinterpret_cast<::WaitableObject *>((((SeqObj*)((char*)this + 0x1c))))->FUN_00401970();
+        reinterpret_cast<::WaitableObject *>((((SeqObj*)&this->m_uiRefCount)))->FUN_00401970();
         return false;
     }
     unsigned char formid;
@@ -1028,15 +1028,15 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                 ((DA00694f80*)((char*)this + 0x78))->SetSize(saveStruct.m_uiField4, true);
                 ((DA00695040*)((char*)this + 0x58))->FUN_006950f0(saveStruct.m_uiField5, 1);
                 ::ResolveFormID((unsigned int *)&(saveStruct.m_uiField0), (::TESFile*)apFile);
-                *(TESObjectCELL**)((char*)this + 0x24) =
+                this->m_pOwningCell =
                     dynamic_cast<TESObjectCELL*>(::FUN_004839c0(saveStruct.m_uiField0));
-                if (!*(TESObjectCELL**)((char*)this + 0x24))
+                if (!this->m_pOwningCell)
                 {
                     ::FUN_005b5e40();
                     if (::DAT_011c3f30)
                     {
                         ::FUN_005b5e40();
-                        *(TESObjectCELL**)((char*)this + 0x24) = ::DAT_011c3f30;
+                        this->m_pOwningCell = ::DAT_011c3f30;
                     }
                 }
                 break;
@@ -1110,7 +1110,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                 unsigned int ichunkSize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
                 void* pchunkData = operator new(ichunkSize);
                 reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pchunkData), ichunkSize);
-                if (!reinterpret_cast<::fnv_0069da40::TESFileRecordLoader *>((((GridS*)((char*)this + 0xa8))))->LoadRecord(pchunkData, ichunkSize, (::TESFile *)(apFile)))
+                if (!reinterpret_cast<::fnv_0069da40::TESFileRecordLoader *>((((GridS*)&this->m_kGrid.m_uiGridIndex)))->LoadRecord(pchunkData, ichunkSize, (::TESFile *)(apFile)))
                 {
                     BSStringT<char> navmeshString;
                     ((TESForm*)this)->GetDebugName(&navmeshString);
@@ -1175,18 +1175,18 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
         ((TESForm*)this)->GetDebugName(&navmeshString);
         ::FUN_005b5e40();
         reinterpret_cast<::fnv_00690d50::FUN_00690d50_shell *>((((NavMesh*)this)))->FUN_00690d50(true);
-        *(NavMeshInfo**)((char*)this + 0x104) = 0;
-        *(TESObjectCELL**)((char*)this + 0x24) = 0;
+        *(NavMeshInfo**)&this->m_pNavigationMesh = 0;
+        this->m_pOwningCell = 0;
         ((TESForm*)this)->TESForm::MarkForDeletion(true);
     }
     if (reinterpret_cast<::FUN_00440d80_shell *>((void *)(((TESForm*)this)))->FUN_00440d80())
     {
-        reinterpret_cast<::FUN_0040f6e0_class *>((((G00559a40*)((char*)this + 0x1c))))->FUN_0040f6e0();
+        reinterpret_cast<::FUN_0040f6e0_class *>((((G00559a40*)&this->m_uiRefCount)))->FUN_0040f6e0();
         reinterpret_cast<::FUN_006b6990_shell *>((((InfoMapS*)((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())))))->FUN_006b6990(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())));
         return false;
     }
-    if (*(NavMeshInfo**)((char*)this + 0x104))
-        *(NavMeshInfo**)((char*)this + 0x104) = 0;
+    if (*(NavMeshInfo**)&this->m_pNavigationMesh)
+        *(NavMeshInfo**)&this->m_pNavigationMesh = 0;
 
     if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)(((TESForm*)this)))->FUN_00440d80())
     {
@@ -1234,19 +1234,19 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
         }
         if (!((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())))
             return false;
-        *(NavMeshInfo**)((char*)this + 0x104) =
+        *(NavMeshInfo**)&this->m_pNavigationMesh =
             ((::fnv_00692950::NavMeshInfo *)(reinterpret_cast<::Pathing *>((((PathingS*)((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())))))->FindReferenceByFormId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0())))));
-        if (!*(NavMeshInfo**)((char*)this + 0x104))
+        if (!*(NavMeshInfo**)&this->m_pNavigationMesh)
         {
             ::FUN_005b5e40();
             reinterpret_cast<::FUN_006986d0_cls *>((((NavMeshS*)this)))->FUN_006986d0();
         }
         else
         {
-            if (!::FUN_00690830((const ::NavMeshInfo *)(*(NavMeshInfo**)((char*)this + 0x104))))
-                *(unsigned int*)((char*)*(NavMeshInfo**)((char*)this + 0x104) + 4) =
+            if (!::FUN_00690830((const ::NavMeshInfo *)(*(NavMeshInfo**)&this->m_pNavigationMesh)))
+                *(unsigned int*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 4) =
                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<::NavMeshProxy *>((((NavMeshS*)this)))->GetDoorForm()))->FUN_0084e3a0()));
-            reinterpret_cast<::FUN_005a8040_class *>((((TESRecipe*)*(NavMeshInfo**)((char*)this + 0x104))))->SetField54((unsigned int)this);
+            reinterpret_cast<::FUN_005a8040_class *>((((TESRecipe*)*(NavMeshInfo**)&this->m_pNavigationMesh)))->SetField54((unsigned int)this);
         }
         if (ifileVersionNumber < 10)
         {
@@ -1258,8 +1258,8 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                 if (reinterpret_cast<::FUN_00693b70_shell *>((ptri))->HasFlag40())
                     ++ipreferredTris;
             }
-            if (*(NavMeshInfo**)((char*)this + 0x104) && isize)
-                reinterpret_cast<::FUN_00693d50_shell *>((((ActiveEffect*)*(NavMeshInfo**)((char*)this + 0x104))))->FUN_00693d50((float)ipreferredTris / (float)isize);
+            if (*(NavMeshInfo**)&this->m_pNavigationMesh && isize)
+                reinterpret_cast<::FUN_00693d50_shell *>((((ActiveEffect*)*(NavMeshInfo**)&this->m_pNavigationMesh)))->FUN_00693d50((float)ipreferredTris / (float)isize);
         }
         if (ifileVersionNumber < 11)
         {
@@ -1278,16 +1278,16 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
                         EdgeExtraInfo* pinfo;
                         unsigned short extraInfoIndex = reinterpret_cast<::FUN_0068f2c0_shell *>((ptri))->FUN_0068f2c0(e);
                         pinfo = ((::EdgeExtraInfo *)(reinterpret_cast<::FUN_00693d30_shell *>((((NavMeshS*)this)))->GetEdge(extraInfoIndex)));
-                        if (!*(NavMeshInfo**)((char*)this + 0x104))
+                        if (!*(NavMeshInfo**)&this->m_pNavigationMesh)
                             continue;
                         for (unsigned int j = 0;
-                             j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)*(NavMeshInfo**)((char*)this + 0x104) + 0x24))))->GetName())); ++j)
+                             j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))))->GetName())); ++j)
                         {
-                            if (*((Arr*)((char*)*(NavMeshInfo**)((char*)this + 0x104) + 0x24))->GetAt(j) ==
+                            if (*((Arr*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))->GetAt(j) ==
                                 (unsigned int)pinfo->Portal.m_pNavMeshInfo)
                             {
-                                reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)*(NavMeshInfo**)((char*)this + 0x104) + 0x24))))->FUN_009a4320(j, 1);
-                                reinterpret_cast<::FUN_00438690 *>((((NavMeshPortalIndexArray*)((char*)*(NavMeshInfo**)((char*)this + 0x104) + 0x34))))->FUN_007cb2e0((unsigned int *)&((NavMesh* const&)pinfo->Portal.m_pNavMeshInfo));
+                                reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x24))))->FUN_009a4320(j, 1);
+                                reinterpret_cast<::FUN_00438690 *>((((NavMeshPortalIndexArray*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 0x34))))->FUN_007cb2e0((unsigned int *)&((NavMesh* const&)pinfo->Portal.m_pNavMeshInfo));
                                 break;
                             }
                         }

@@ -22,7 +22,7 @@ void TESObjectANIO::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    ((TESModelTextureSwap*)((char*)this + 0x18))->InitItem(this);
+    static_cast<TESModelTextureSwap *>(this)->InitItem(this);
     if (pObject)
     {
         unsigned int formID = (unsigned int)pObject;

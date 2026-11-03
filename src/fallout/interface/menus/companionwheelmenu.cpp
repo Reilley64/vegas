@@ -3274,8 +3274,8 @@ void Wheel755d::FUN_00755dc0(int mode)
         case 1:
             if (actor)
             {
-                b = (int)(*(AVO755d*)((char*)actor + sizeof(ActorBase755d))).v3(0x10);
-                rlBTmp = (*(AVO755d*)((char*)actor + sizeof(ActorBase755d))).v0(0x10);
+                b = (int)((*static_cast<AVO755d *>(actor))).v3(0x10);
+                rlBTmp = ((*static_cast<AVO755d *>(actor))).v0(0x10);
                 rlV = 0;
                 rlObj = dynamic_cast<TESBoundObject*>(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)));
                 if (rlObj)

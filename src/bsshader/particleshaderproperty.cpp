@@ -169,7 +169,11 @@ struct FUN_00ba8e50
     FUN_00ba8e50();
     ~FUN_00ba8e50();
     virtual void vf0();
-    char pad[0x5c];
+    char pad[0x18];
+    int unk1c;
+    char pad20[0x38];
+    int unk58;
+    char pad5c[0x4];
 };
 struct FUN_00ba7f70 : FUN_00ba8e50
 {
@@ -245,8 +249,8 @@ FUN_00ba7f70::FUN_00ba7f70() : kArray(10, 10)
     pParticles = new BoundDataBlock[iparticleCount];
     _fnv_zlib_memset(pParticles, 0, iparticleCount * sizeof(BoundDataBlock));
     ++DAT_01200424;
-    *(int*)((char*)this + 0x58) = 0x18;
-    *(int*)((char*)this + 0x1c) = 0x11;
+    this->unk58 = 0x18;
+    this->unk1c = 0x11;
 }
 
 struct Particle

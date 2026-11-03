@@ -469,7 +469,7 @@ struct FUN_006d2c00_shell : public PathingLocation
 // @fnv 0x006d2c00
 void FUN_006d2c00_shell::FUN_006d2c00()
 {
-    *((unsigned char*)this + 0x26) |= 2;
+    this->uiFlags |= 2;
 }
 
 struct CombatCoverPointData;
@@ -614,7 +614,7 @@ struct FUN_006df760_shell : public PathingLocation
 // @fnv 0x006df760
 unsigned short FUN_006df760_shell::GetShortValueAtOffset24()
 {
-    return *(unsigned short*)((char*)this + 0x24);
+    return this->m_usTriangleID;
 }
 
 struct S5460

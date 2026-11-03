@@ -130,7 +130,7 @@ TESCreature::~TESCreature()
 // @fnv 0x005F7B80
 void TESCreature::ClearData()
 {
-    if (((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x100))
+    if ((static_cast<TESActorBaseData *>(this))->GetFlag(0x100))
     {
         delete m_pCreatureSounds;
         m_pCreatureSounds = 0;
@@ -158,17 +158,17 @@ void TESCreature::ResetFormData()
     m_eSoundLevel = 1;
     m_eImpactMaterial = 6;
     m_cCreatureDataFlag = 0xff;
-    reinterpret_cast<::FlagSet *>((((TESActorBaseData*)((char*)this + 0x30))))->FUN_0047dd50(0x40, true, false);
-    reinterpret_cast<::FUN_005f7b50_Class *>((((TESActorBaseData*)((char*)this + 0x30))))->SetFlag200(false, false);
-    ((CombatProcedure*)((char*)this + 0xb0))->Initialize((CombatController*)0x32);
+    reinterpret_cast<::FlagSet *>(((static_cast<TESActorBaseData *>(this))))->FUN_0047dd50(0x40, true, false);
+    reinterpret_cast<::FUN_005f7b50_Class *>(((static_cast<TESActorBaseData *>(this))))->SetFlag200(false, false);
+    ((CombatProcedure*)static_cast<TESHealthForm *>(this))->Initialize((CombatController*)0x32);
 }
 
 // @fnv 0x005F9210
 CreatureSoundCollection* TESCreature::GetMutableCreatureSounds()
 {
-    if (!((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x100) || !m_pCreatureSounds)
+    if (!(static_cast<TESActorBaseData *>(this))->GetFlag(0x100) || !m_pCreatureSounds)
     {
-        reinterpret_cast<::FlagSet *>((((TESActorBaseData*)((char*)this + 0x30))))->FUN_0047dd50(0x100, true, true);
+        reinterpret_cast<::FlagSet *>(((static_cast<TESActorBaseData *>(this))))->FUN_0047dd50(0x100, true, true);
         m_pCreatureSounds = new CreatureSoundCollection;
     }
     return m_pCreatureSounds;
@@ -189,12 +189,12 @@ void TESCreature::LoadGame(BGSLoadFormBuffer* buffer)
 // @fnv 0x005F9140
 void TESCreature::SetCreatureSoundsFrom(TESCreature* soundCreature)
 {
-    if (((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x100))
+    if ((static_cast<TESActorBaseData *>(this))->GetFlag(0x100))
     {
         if (soundCreature)
         {
             delete m_pCreatureSounds;
-            reinterpret_cast<::FlagSet *>((((TESActorBaseData*)((char*)this + 0x30))))->FUN_0047dd50(0x100, false, true);
+            reinterpret_cast<::FlagSet *>(((static_cast<TESActorBaseData *>(this))))->FUN_0047dd50(0x100, false, true);
             m_pCreature = soundCreature;
         }
     }
@@ -229,12 +229,12 @@ TESCreature::TESCreature()
 {
     reinterpret_cast<::FUN_004f15a0_shell *>((((TESForm*)this)))->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(kCreature)));
     ResetFormData();
-    ((TESAIForm*)((char*)this + 0x90))->SetResponsibility(50, false);
-    ((TESAIForm*)((char*)this + 0x90))->SetAggression(1, false);
-    ((TESAIForm*)((char*)this + 0x90))->SetConfidence(2, false);
-    ((TESAIForm*)((char*)this + 0x90))->SetEnergy(2, false);
+    static_cast<TESAIForm *>(this)->SetResponsibility(50, false);
+    static_cast<TESAIForm *>(this)->SetAggression(1, false);
+    static_cast<TESAIForm *>(this)->SetConfidence(2, false);
+    static_cast<TESAIForm *>(this)->SetEnergy(2, false);
     if (!reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004516b0())
-        reinterpret_cast<::FUN_0047d800_shell *>((((TESActorBaseData*)((char*)this + 0x30))))->FUN_0047d800((::TESFaction *)(DAT_011cb550), 0);
+        reinterpret_cast<::FUN_0047d800_shell *>(((static_cast<TESActorBaseData *>(this))))->FUN_0047d800((::TESFaction *)(DAT_011cb550), 0);
 }
 
 struct BGSImpactDataSet;
@@ -274,13 +274,13 @@ struct FUN_005f9100_shell : public TESCreature
 // @fnv 0x005f9100
 TESCreature* FUN_005f9100_shell::FUN_005f9100()
 {
-    if (((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x100))
+    if ((static_cast<TESActorBaseData *>(this))->GetFlag(0x100))
     {
         return 0;
     }
     else
     {
-        return *(TESCreature**)((char*)this + 0x128);
+        return this->m_pCreature;
     }
 }
 
@@ -292,8 +292,8 @@ struct FUN_005f91d0_shell : public TESCreature
 // @fnv 0x005f91d0
 CreatureSoundCollection* FUN_005f91d0_shell::FUN_005f91d0()
 {
-    if (((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x100))
-        return *(CreatureSoundCollection**)((char*)this + 0x128);
+    if ((static_cast<TESActorBaseData *>(this))->GetFlag(0x100))
+        return this->m_pCreatureSounds;
     else
         return 0;
 }
@@ -340,7 +340,7 @@ struct FUN_005fa2c0_shell : public TESCreature
 // @fnv 0x005fa2c0
 void FUN_005fa2c0_shell::SetByteAt12D(unsigned char aiVal)
 {
-    *((unsigned char*)this + 0x12d) = aiVal;
+    this->m_ucField00 = aiVal;
 }
 
 struct FUN_005fbdb0_shell : public TESCreature
@@ -351,7 +351,7 @@ struct FUN_005fbdb0_shell : public TESCreature
 // @fnv 0x005fbdb0
 void FUN_005fbdb0_shell::FUN_005fbdb0(char aeType)
 {
-    *((char*)this + 0x12c) = aeType;
+    *((char*)&this->dataPadding) = aeType;
 }
 
 struct FUN_00821660_shell : public TESCreature
@@ -3587,7 +3587,9 @@ struct C005f9820
     virtual void v97(int);
     virtual int v98();
     virtual void v99(int);
-    char pad[0x124];
+    char pad[0x30];
+    int unk34;
+    char pad38[0xf0];
     Sound* sounds;
     void CopyFrom(void*);
 };
@@ -3619,7 +3621,7 @@ void C005f9820::CopyFrom(void* apSource)
     reinterpret_cast<::FUN_0047fb50_shell *>((((S47fb50*)((char*)this + 0xc4))))->FUN_0047fb50((::BaseFormComponent *)(apSource));
     reinterpret_cast<::BGSDestructibleObjectForm *>((((S4786e0*)((char*)this + 0x104))))->FUN_004786e0((::BaseFormComponent *)(apSource));
     memcpy((char*)this + 0x12c, reinterpret_cast<::FUN_005f9b70_shell *>((src2))->GetOffset12C(), 4);
-    *(int*)((char*)this + 0x34) = *((int *)(reinterpret_cast<::BaseProcess *>((((Spells*)((char*)src2 + 0x30))))->GetCurrentProcessData()));
+    this->unk34 = *((int *)(reinterpret_cast<::BaseProcess *>((((Spells*)((char*)src2 + 0x30))))->GetCurrentProcessData()));
     reinterpret_cast<::FUN_005f9af0_shell *>(this)->SetCreatureType(reinterpret_cast<::FUN_005f9ad0_shell *>((src2))->FUN_005f9ad0());
     reinterpret_cast<::FUN_00507780 *>(this)->SetBoltsRadiusStrength(reinterpret_cast<::FUN_00821640_shell *>((src2))->FUN_00821640());
     reinterpret_cast<::FUN_00803a90_shell *>(this)->SetBoltGrowWidth(::FUN_00567470((char *)(src2)));

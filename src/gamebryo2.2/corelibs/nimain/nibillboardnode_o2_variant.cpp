@@ -236,7 +236,8 @@ struct BaseForCall
 };
 struct MyNode
 {
-    char _pad[0xAD];
+    char _pad[0xac];
+    unsigned char unkac;
     unsigned char FUN_00a7db30(NiObject* pkObject);
 };
 // @fnv 0x00a7db30
@@ -245,7 +246,7 @@ unsigned char MyNode::FUN_00a7db30(NiObject* pkObject)
     NiBillboardNode* pkNode = (NiBillboardNode*)pkObject;
     if (!reinterpret_cast<::NiNodeEq *>((((BaseForCall*)this)))->FUN_00a5e600((::NiAVObject *)(pkObject)))
         return 0;
-    return ((((unsigned char*)pkNode)[0xAC] ^ ((unsigned char*)this)[0xAC]) & 7) == 0;
+    return ((((unsigned char*)pkNode)[0xAC] ^ this->unkac) & 7) == 0;
 }
 
 struct NiBinaryStream

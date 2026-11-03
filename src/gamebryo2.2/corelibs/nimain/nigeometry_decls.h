@@ -371,7 +371,9 @@ class NiAVObject
     virtual void ApplyPropertyState(const NiPropertyState&);
     void SetSelectiveUpdateFlags(bool&, bool, bool&);
     void FUN_00a5ac90(NiAVObject*, CloningProcess&);
-    unsigned char m_pad18[0x14];
+    unsigned char m_pad18[0x8];
+    void* unk0c;
+    unsigned char pad10[0x8];
     void* m_pParentNode;
     NiPointer<NiCollisionObject> m_spCollisionObject;
     NiBound* m_worldBound;

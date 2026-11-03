@@ -37,7 +37,12 @@ class MagicTarget
 class ActiveEffect
 {
   public:
-    char data[68];
+    char data[0x4];
+    void* unk08;
+    void* unk0c;
+    char pad10[0x18];
+    void* unk28;
+    char pad2c[0x1c];
     virtual void LoadGame(BGSLoadFormBuffer*);
 public:
     void CopyData(::ActiveEffect *);

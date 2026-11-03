@@ -33,8 +33,8 @@ struct FUN_00bb8140_shell : public BSFogProperty
 // @fnv 0x00bb8140
 void FUN_00bb8140_shell::SetDepthParams(float afDepth)
 {
-    *(float*)((char*)this + 0x2c) = (1.0 - afDepth * DAT_010b9e30) * DAT_0103a480;
-    *(float*)((char*)this + 0x30) = 163840.0f;
+    this->m_fFogStartDistance = (1.0 - afDepth * DAT_010b9e30) * DAT_0103a480;
+    this->m_fFogEndDistance = 163840.0f;
 }
 
 struct NiMemObject
@@ -71,11 +71,11 @@ void FUN_00a5c240_shell::DestroyFogProperty()
     *(void**)this = (void*)&DAT_0109b244;
     reinterpret_cast<::FUN_00a5bfa0_shell *>((((NiAVObject*)this)))->ClearExtraData();
 
-    NiRefObject* pExtra = *(NiRefObject**)((char*)this + 0xc);
+    NiRefObject* pExtra = *(NiRefObject**)&this->unk0c;
     if (pExtra)
         pExtra->DecRefCount();
 
-    char* pString = *(char**)((char*)this + 8);
+    char* pString = this->unk08;
     if (pString != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
     {
         InterlockedDecrement((volatile long*)(pString - 8));

@@ -486,7 +486,7 @@ struct FUN_00624050_Class
 // @fnv 0x00624050
 float FUN_00624050_Class::FUN_00624050()
 {
-    return FUN_00577bf0(reinterpret_cast<unsigned char*>(this) + 4);
+    return FUN_00577bf0(reinterpret_cast<unsigned char*>(&this->m_uiItemCount));
 }
 
 struct bhkFilter
@@ -1553,7 +1553,7 @@ struct FUN_00624150_Class
 FUN_00624150_Class::FUN_00624150_Class()
 {
     new ((void *)(((FUN_006241c0_shell*)this))) ::FUN_006241c0_shell();
-    reinterpret_cast<::FUN_0061f580_shell *>((((FUN_006c0210_shell*)((char*)this + 4))))->FUN_0061f580();
+    reinterpret_cast<::FUN_0061f580_shell *>((((FUN_006c0210_shell*)&this->m_kPointA)))->FUN_0061f580();
     m_vtbl = (int)&DAT_0104de00;
     m_kPointA = (int)&DAT_0104dde4;
 }
@@ -1896,9 +1896,9 @@ struct FUN_0062d680_Class
 void* FUN_0062d680_Class::FUN_0062d680()
 {
     new ((void *)(((FUN_0062a480_Class*)this))) ::FUN_0061f4d0((void *)(0));
-    ((FUN_0062d6f0_shell*)((char*)this + 0x14))->FUN_0062d6f0();
+    ((FUN_0062d6f0_shell*)&this->m_iFourthElementInteger)->FUN_0062d6f0();
     m_vtbl = (int*)&DAT_0104e3a4;
-    *(int*)((char*)this + 0x14) = (int)&DAT_0104e38c;
+    this->m_iFourthElementInteger = (int)&DAT_0104e38c;
     return this;
 }
 

@@ -42,7 +42,7 @@ struct FUN_00480130_shell : public TESAttributes
 // @fnv 0x00480130
 unsigned int FUN_00480130_shell::FUN_00480130(void* apData)
 {
-    ::__memcpy(reinterpret_cast<char*>(this) + 4, apData, 7);
+    ::__memcpy(reinterpret_cast<char*>(&this->cAttribute), apData, 7);
     return reinterpret_cast<::FUN_009d2510_shell *>((this))->FUN_009d2510();
 }
 

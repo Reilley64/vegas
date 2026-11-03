@@ -253,7 +253,7 @@ void FUN_00540a10_cls::FUN_00540a10()
 {
     *(void**)this = &DAT_0102e47c;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 namespace fnv_00559230 {
@@ -2243,11 +2243,11 @@ FUN_00559e50_Class* FUN_00559e50_Class::InitializeWithGlobal(int arg)
 FUN_00559eb0::FUN_00559eb0(int aiCount)
 {
     *(int*)this = (int)&DAT_0102f468;
-    *(int*)((char*)this + 4) = aiCount;
-    *(int*)((char*)this + 0x0c) = 0;
-    unsigned int byteCount = (unsigned int)(*(int*)((char*)this + 4) << 2);
-    *(void**)((char*)this + 8) = ::FUN_00aa1070(byteCount);
-    ::FUN_00403d30(*(void**)((char*)this + 8), 0, (unsigned int)(*(int*)((char*)this + 4) << 2));
+    this->count = aiCount;
+    this->flags = 0;
+    unsigned int byteCount = (unsigned int)(this->count << 2);
+    this->data = ::FUN_00aa1070(byteCount);
+    ::FUN_00403d30(this->data, 0, (unsigned int)(this->count << 2));
 }
 
 class GlobalObject_00a7b610;

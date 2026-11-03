@@ -1157,7 +1157,7 @@ void FUN_00aa7290(int aiIndex)
     {
         reinterpret_cast<::FUN_0040fbf0_shell *>((((MemoryPool*)((char*)DAT_011f67b8[aiIndex] + 0x20))))->FUN_0040fbf0(&DAT_010a2850);
         reinterpret_cast<::FUN_00aa7260_holder *>((DAT_011f67b8[aiIndex]))->FUN_00aa7260();
-        pool = (int*)((char*)DAT_011f67b8[aiIndex] + 0x20);
+        pool = &DAT_011f67b8[aiIndex]->unk20;
         pool[1] = pool[1] - 1;
         if (pool[1] == 0)
         {
@@ -1393,13 +1393,13 @@ void FUN_00aa8dd0_cls::InitializeSlots()
     m_30 = v12(m_14, m_1c);
     if (m_30 == 0)
         FUN_00eccec5(0);
-    m_2044 = (char*)this + 0x203c;
+    m_2044 = (char*)&this->m_buf44[8184];
     int stride3 = 0x40;
     int i;
     for (i = 0; i < 0x10; i++)
     {
         m_slots[i].m_flag = 0;
-        m_slots[i].m_ptr = (char*)this + 0x44 + i * stride3 * 8;
+        m_slots[i].m_ptr = (char*)&this->m_buf44 + i * stride3 * 8;
     }
     FUN_00ec61c0(m_buf44, 0, 0x2000);
     FUN_00ec61c0(m_buf2048, 0, 8);
@@ -2031,7 +2031,7 @@ S_00aba220_Class* S_00aba220_Class::FUN_00aba220()
     p[1] = 0.0f;
     p[2] = 0.0f;
 
-    S_0044a730_Class* unk0c = reinterpret_cast<S_0044a730_Class*>(reinterpret_cast<char*>(this) + 0x10);
+    S_0044a730_Class* unk0c = &this->unk10;
 
     char i;
     char* unk08;
@@ -2385,7 +2385,7 @@ S_00aadeb0_Class* S_00aadeb0_Class::AppendChars(unsigned int count, unsigned cha
             reinterpret_cast<::FUN_00aae180_cls *>((((S_00aae180_Class*)this)))->FUN_00aae180(m_14, count, ch);
             zero = 0;
             m_14 = newsize;
-            (m_18 >= 16 ? m_04 : (char*)this + 4)[newsize] = zero;
+            (m_18 >= 16 ? m_04 : (char*)&this->m_04)[newsize] = zero;
         }
     }
     return this;
@@ -2397,12 +2397,12 @@ void FUN_00aae180_cls::FUN_00aae180(int offset, int aiSize, char value)
 {
     if (aiSize == 1)
     {
-        *((m_18 >= 0x10 ? m_04 : (char*)this + 4) + offset) = value;
+        *((m_18 >= 0x10 ? m_04 : (char*)&this->m_04) + offset) = value;
     }
     else
     {
         char tmp;
-        FUN_00ec61c0((m_18 >= 0x10 ? m_04 : (char*)this + 4) + offset, tmp = value, aiSize);
+        FUN_00ec61c0((m_18 >= 0x10 ? m_04 : (char*)&this->m_04) + offset, tmp = value, aiSize);
     }
 }
 

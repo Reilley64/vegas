@@ -248,11 +248,11 @@ struct CloneableObj
 void FUN_00a2f380_shell::CloneControllerManager(NiControllerManager* pkDest, CloningProcess* kCloning)
 {
     reinterpret_cast<::NiTimeControllerCM *>((((CloneableObj*)this)))->FUN_00a6cfe0((::NiTimeController *)(pkDest), (*(::CloningProcess *)(kCloning)));
-    *(bool*)((char*)pkDest + 0x68) = *(bool*)((char*)this + 0x68);
+    pkDest->m_bUseCumulativeAnimation = this->m_bUseCumulativeAnimation;
 
-    for (unsigned int ui = 0; ui < *(unsigned short*)((char*)this + 0x3e); ui++)
+    for (unsigned int ui = 0; ui < this->m_kSequences.m_usSize; ui++)
     {
-        CloneableObj* pkSequence = (*(CloneableObj***)((char*)this + 0x38))[ui];
+        CloneableObj* pkSequence = (*(CloneableObj***)&this->m_kSequences.m_pBase)[ui];
         if (pkSequence)
         {
             CloneableObj* pkNewSequence = pkSequence->MakeClone(kCloning);
@@ -260,11 +260,11 @@ void FUN_00a2f380_shell::CloneControllerManager(NiControllerManager* pkDest, Clo
         }
     }
 
-    CloneableObj* pkPalette = *(CloneableObj**)((char*)this + 0x78);
+    CloneableObj* pkPalette = *(CloneableObj**)&this->m_spControllerManager.m_pObject;
     if (pkPalette)
     {
         CloneableObj* pkNewPalette = pkPalette->MakeClone(kCloning);
-        CloneableObj* pkOldPalette = *(CloneableObj**)((char*)pkDest + 0x78);
+        CloneableObj* pkOldPalette = *(CloneableObj**)&pkDest->m_spControllerManager.m_pObject;
         if (pkOldPalette != pkNewPalette)
         {
             if (pkOldPalette)
@@ -272,7 +272,7 @@ void FUN_00a2f380_shell::CloneControllerManager(NiControllerManager* pkDest, Clo
                 if (InterlockedDecrement(&pkOldPalette->m_uiRefCount) == 0)
                     pkOldPalette->DeleteThis();
             }
-            *(CloneableObj**)((char*)pkDest + 0x78) = pkNewPalette;
+            *(CloneableObj**)&pkDest->m_spControllerManager.m_pObject = pkNewPalette;
             if (pkNewPalette)
                 InterlockedIncrement(&pkNewPalette->m_uiRefCount);
         }
@@ -459,14 +459,14 @@ typedef NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*> S
 // @fnv 0x00a2f0c0
 bool AttachSeqToOwner(Owner* pOwner, int edx, Seq* s, int* name, Seq* flag)
 {
-    if (pOwner && *(Owner**)((char*)s + 0x40))
+    if (pOwner && *(Owner**)&s->mgr)
         return false;
-    *(Owner**)((char*)s + 0x40) = pOwner;
+    *(Owner**)&s->mgr = pOwner;
     if (s->f5c == 0)
         reinterpret_cast<::FUN_004eeae0_shell *>((s))->FUN_004eeae0(pOwner->f2c + 8);
     if ((char)(int)flag && !reinterpret_cast<::BindSequence *>((s))->FUN_00a32c70(pOwner->f2c))
     {
-        *(Owner**)((char*)s + 0x40) = 0;
+        *(Owner**)&s->mgr = 0;
         return false;
     }
     if (*name != (*reinterpret_cast<int *>(&::DAT_0109b220)))
@@ -564,10 +564,10 @@ void FUN_00a2e2e0_shell::FUN_00a2e2e0(NiStream* kStream)
     NiAVObject* pkRoot;
     unsigned int ui;
     NiControllerSequence* pkSequence;
-    pkRoot = *(NiAVObject**)((char*)this + 0x2c);
-    for (ui = 0; ui < *(unsigned short*)((char*)this + 0x3e); ui++)
+    pkRoot = *(NiAVObject**)&this->m_pkTarget;
+    for (ui = 0; ui < this->m_kSequences.m_usSize; ui++)
     {
-        pkSequence = (*(NiControllerSequence***)((char*)this + 0x38))[ui];
+        pkSequence = (*(NiControllerSequence***)&this->m_kSequences.m_pBase)[ui];
         if (pkSequence)
             reinterpret_cast<::BindSequence *>((((Seq*)pkSequence)))->FUN_00a32c70((int)pkRoot);
     }

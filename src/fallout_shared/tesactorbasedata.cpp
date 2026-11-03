@@ -172,20 +172,20 @@ struct GlobalObject2_0040c150
 // @fnv 0x0047c8e0
 void FUN_0047c8e0_shell::InitActorBaseData()
 {
-    *(unsigned int*)((char*)this + 0x04) = 0;
-    *(unsigned short*)((char*)this + 0x08) = (unsigned short)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting18))))))->f;
-    *(unsigned short*)((char*)this + 0x0a) = 0;
-    *(unsigned short*)((char*)this + 0x0c) = 1;
-    *(unsigned short*)((char*)this + 0x0e) = 0;
-    *(unsigned short*)((char*)this + 0x10) = 0;
-    *(unsigned short*)((char*)this + 0x12) = 100;
-    *(float*)((char*)this + 0x14) = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c5074))))))->f;
-    *(unsigned short*)((char*)this + 0x18) = (unsigned short)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c50d8))));
+    *(unsigned int*)&this->actorData.m_uiActorFlags = 0;
+    this->actorData.m_usField04 = (unsigned short)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting18))))))->f;
+    this->actorData.m_usField06 = 0;
+    *(unsigned short*)&this->actorData.sLevel = 1;
+    this->actorData.m_usField0A = 0;
+    this->actorData.m_usField0C = 0;
+    this->actorData.m_usField0E = 100;
+    this->actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c5074))))))->f;
+    this->actorData.m_usField14 = (unsigned short)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c50d8))));
     *(unsigned int*)((char*)this + 0x20) = 0;
     *(unsigned int*)((char*)this + 0x1c) = 0;
     *(unsigned int*)((char*)this + 0x24) = 0;
-    *(unsigned short*)((char*)this + 0x1a) = 0;
-    *(unsigned int*)((char*)this + 0x28) = 0;
+    *(unsigned short*)&this->actorData.m_usField16 = 0;
+    *(unsigned int*)&this->m_pDeathItem = 0;
 }
 
 struct FUN_0047c9d0_shell : public TESActorBaseData
@@ -273,7 +273,7 @@ bool FUN_0047cd40_shell::FUN_0047cd40(int aeFlag)
     if (aeFlag >= 0 && aeFlag < 16)
     {
         unsigned short usFlagMask = 1 << aeFlag;
-        if (*((unsigned short*)((char*)this + 0x1a)) & usFlagMask)
+        if (*((unsigned short*)&this->actorData.m_usField16) & usFlagMask)
             return true;
         return false;
     }
@@ -288,7 +288,7 @@ struct FUN_0047cd90_shell : public TESActorBaseData
 // @fnv 0x0047cd90
 void FUN_0047cd90_shell::FUN_0047cd90(unsigned short asVal)
 {
-    *(unsigned short*)((char*)this + 0x1a) = asVal;
+    *(unsigned short*)&this->actorData.m_usField16 = asVal;
 }
 
 struct FUN_0047cdb0_shell : public TESActorBaseData
@@ -315,9 +315,9 @@ int _FNV_GetFormType(void*);
 bool FUN_0047cdd0_shell::FUN_0047cdd0()
 {
     bool bretval = false;
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x24))
+    if (*reinterpret_cast<void**>(&this->m_ppTemplateForms))
     {
-        switch (_FNV_GetFormType(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x24)))
+        switch (_FNV_GetFormType(*reinterpret_cast<void**>(&this->m_ppTemplateForms)))
         {
         case 0x2c:
         case 0x2d:
@@ -543,7 +543,7 @@ struct FUN_0047d370_shell : public TESActorBaseData
 // @fnv 0x0047d370
 unsigned short FUN_0047d370_shell::FUN_0047d370()
 {
-    return *(unsigned short*)((char*)this + 0xc);
+    return *(unsigned short*)&this->actorData.sLevel;
 }
 
 struct FUN_0047d390_shell : public TESActorBaseData
@@ -554,7 +554,7 @@ struct FUN_0047d390_shell : public TESActorBaseData
 // @fnv 0x0047d390
 unsigned short FUN_0047d390_shell::FUN_0047d390()
 {
-    return *(unsigned short*)((char*)this + 0xe);
+    return this->actorData.m_usField0A;
 }
 
 namespace fnv_0047d680 {
@@ -677,7 +677,7 @@ void FUN_0047e2a0();
 // @fnv 0x0047dd30
 void FUN_0047dd30_shell::FUN_0047dd30(int aiNewFlags)
 {
-    *(int*)((char*)this + 4) = aiNewFlags;
+    this->actorData.m_uiActorFlags = aiNewFlags;
     ((void(*)(void*, int)) & FUN_0047e2a0)(this, 2);
 }
 
@@ -848,7 +848,7 @@ void FUN_0047e2a0(void*, int, int);
 // @fnv 0x0047e270
 void FUN_0047e270_shell::SetSpeedMult(unsigned short asSpeedMult)
 {
-    *(unsigned short*)((char*)this + 0x12) = asSpeedMult;
+    this->actorData.m_usField0E = asSpeedMult;
     ((void(*)(void*, int))FUN_0047e2a0)(this, 2);
 }
 }  // namespace fnv_0047e270
@@ -923,7 +923,7 @@ struct FUN_0047e340_shell : public TESActorBaseData
 // @fnv 0x0047e340
 void FUN_0047e340_shell::FUN_0047e340(int aiChangeFlags)
 {
-    *(int*)((char*)this + 0x28) |= aiChangeFlags;
+    this->m_pDeathItem |= aiChangeFlags;
 }
 
 struct TESActorBaseData_SetFlagBit_helper

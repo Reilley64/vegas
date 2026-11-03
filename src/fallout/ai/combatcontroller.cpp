@@ -9024,7 +9024,7 @@ struct Target
 void* Target::FUN_00994bd0(Input* apInput, bool flag)
 {
     input = apInput;
-    reinterpret_cast<::FUN_00994ef0_Class *>((input))->Set((int)((char*)this + 0x20c8));
+    reinterpret_cast<::FUN_00994ef0_Class *>((input))->Set((int)((char*)&this->context.unk6C));
     reinterpret_cast<::fnv_009aa4e0::WorldStateManager *>(&(context))->UpdateWorldState((::fnv_009aa4e0::Context *)(apInput));
     for (unsigned i8 = 0; i8 < 16; i8++)
     {

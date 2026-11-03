@@ -151,8 +151,8 @@ void FUN_0058dd10_shell::FUN_0058dd10(int arg)
         return;
 
     reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FUN_005054b0_shell*>(this)))->FUN_004851b0(source);
-    ::__memcpy(reinterpret_cast<char*>(this) + 0x30, reinterpret_cast<char*>(source) + 0x30, 0x18);
-    reinterpret_cast<::DecalData *>((reinterpret_cast<FUN_005932b0_decal*>(reinterpret_cast<char*>(this) + 0x54)))->Copy((::DecalData *)(::FUN_005932b0_decal *)(reinterpret_cast<FUN_005932b0_decal*>(reinterpret_cast<char*>(source) + 0x54)));
+    ::__memcpy(reinterpret_cast<char*>(&this->unk30), reinterpret_cast<char*>(&source->unk30), 0x18);
+    reinterpret_cast<::DecalData *>((&this->unk54))->Copy((::DecalData *)(::FUN_005932b0_decal *)(&source->unk54));
     unk48 = source->unk48;
     unk4C = source->unk4C;
     unk50 = source->unk50;
@@ -186,10 +186,10 @@ bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pOther))
         return true;
-    if (memcmp((char*)this + 0x30, (char*)pOther + 0x30, 0x18) != 0)
+    if (memcmp((char*)&this->Data, (char*)&pOther->Data, 0x18) != 0)
         return true;
     if (!reinterpret_cast<::FUN_0058de80_class *>((((FUN_0058de80_shell*)this)))->IsFlagSet() &&
-        ((FUN_005932e0_shell*)((char*)this + 0x54))->Compare((char*)pOther + 0x54))
+        ((FUN_005932e0_shell*)&this->ImpactDecalInfo.Data.m_fDecalMinWidth)->Compare((char*)&pOther->ImpactDecalInfo))
         return true;
     if (m_pDecalTextureSet != pOther->m_pDecalTextureSet)
         return true;

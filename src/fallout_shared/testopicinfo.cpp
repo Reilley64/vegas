@@ -202,7 +202,7 @@ struct FUN_00409480_shell : public TESTopicInfo
 // @fnv 0x00409480
 void FUN_00409480_shell::FUN_00409480(TESActorBase* apActor)
 {
-    *reinterpret_cast<TESActorBase**>(reinterpret_cast<char*>(this) + 0x3C) = apActor;
+    this->m_pDialogueSpeaker = apActor;
 }
 
 struct FUN_00508d70_shell : public TESForm
@@ -478,7 +478,7 @@ void TESTopicInfo::InitializeComponent()
 // @fnv 0x0061cfd0
 void FUN_0061cfd0_shell::FUN_0061cfd0(char* apPrompt)
 {
-    reinterpret_cast<::TextString *>((reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_004037f0(apPrompt, 0);
+    reinterpret_cast<::TextString *>((&this->m_kPrompt))->FUN_004037f0(apPrompt, 0);
 }
 
 // Reads the flags byte at offset 0x26 and returns 1 if bit 0x10 is set, 3 if bit 0x20 is set, otherwise 2.
@@ -507,7 +507,7 @@ struct FUN_0061eb40_shell : public TESResponse
 // @fnv 0x0061eb40
 void FUN_0061eb40_shell::FUN_0061eb40(char* apResponseText)
 {
-    reinterpret_cast<::TextString *>((reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_004037f0(apResponseText, 0);
+    reinterpret_cast<::TextString *>((&this->m_kResponseText))->FUN_004037f0(apResponseText, 0);
 }
 
 struct FUN_0061f260_shell : public TESTopicInfo
@@ -518,7 +518,7 @@ struct FUN_0061f260_shell : public TESTopicInfo
 // @fnv 0x0061f260
 bool FUN_0061f260_shell::FUN_0061f260()
 {
-    return (bool)(*reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x25) & 0x10);
+    return (bool)(this->m_Data.flags & 0x10);
 }
 
 struct FUN_0061f340_shell : public TESTopicInfo
@@ -529,7 +529,7 @@ struct FUN_0061f340_shell : public TESTopicInfo
 // @fnv 0x0061f340
 void FUN_0061f340_shell::FUN_0061f340(unsigned short usIndex)
 {
-    *(unsigned short*)((char*)this + 0x20) = usIndex;
+    this->m_uiInfoIndex = usIndex;
 }
 
 namespace p07 {
@@ -1457,9 +1457,9 @@ bool FUN_0061d820_shell::CheckGroupForm(FormRecordHeader* apGroupFORM, bool abAl
                                   ->CheckFormGRUP(apGroupFORM, abAllowParentGroups, abCurrentOnly);
                 }
 
-                if (!bretval && reinterpret_cast<unsigned int*>(apGroupFORM)[3] == 7 &&
+                if (!bretval && apGroupFORM->iFormID == 7 &&
                     reinterpret_cast<FUN_00485b60*>(pparenttopic)
-                        ->FUN_00485be0(reinterpret_cast<unsigned int*>(apGroupFORM)[2]))
+                        ->FUN_00485be0(apGroupFORM->flags))
                 {
                     bretval = true;
                 }

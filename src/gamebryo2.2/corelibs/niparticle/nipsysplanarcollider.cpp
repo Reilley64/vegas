@@ -34,19 +34,19 @@ void NiPSysPlanarCollider::CopyMemberData(NiPSysPlanarCollider* dest, CloningPro
     dest->m_bSpawnOnCollision = m_bSpawnOnCollision;
     dest->m_bDieOnCollision = m_bDieOnCollision;
 
-    NiPSysCollider* sourceNext = *reinterpret_cast<NiPSysCollider**>(reinterpret_cast<char*>(this) + 0x28);
+    NiPSysCollider* sourceNext = this->m_spNextController.m_pObject;
     if (sourceNext)
     {
         NiPSysCollider* next = sourceNext->Clone(process);
 
-        NiPSysCollider* destNext = *reinterpret_cast<NiPSysCollider**>(reinterpret_cast<char*>(dest) + 0x28);
+        NiPSysCollider* destNext = dest->m_spNextController.m_pObject;
         if (destNext != next)
         {
             if (destNext)
             {
                 destNext->DecRefCount();
             }
-            *reinterpret_cast<NiPSysCollider**>(reinterpret_cast<char*>(dest) + 0x28) = next;
+            dest->m_spNextController.m_pObject = next;
             if (next)
                 next->IncRefCount();
         }

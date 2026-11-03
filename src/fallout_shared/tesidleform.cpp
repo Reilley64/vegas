@@ -258,7 +258,7 @@ struct FUN_005ff1d0_shell : public TESIdleForm
 // @fnv 0x005ff1d0
 bool FUN_005ff1d0_shell::FUN_005ff1d0()
 {
-    if (*(unsigned char*)((char*)this + 0x38) & 0x80)
+    if (this->data.m_ucAnimationGroupSection & 0x80)
         return true;
     else
         return false;
@@ -381,8 +381,8 @@ struct FUN_005ff4a0_shell : public TESIdleForm
 unsigned int FUN_005ff4a0_shell::FUN_005ff4a0()
 {
     unsigned int iretval = 0;
-    if (reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x40)[0])
-        iretval = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x40)[0]))->FUN_0084e3a0()));
+    if (reinterpret_cast<TESForm**>(&this->m_pParentPath)[0])
+        iretval = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm**>(&this->m_pParentPath)[0]))->FUN_0084e3a0()));
     return iretval;
 }
 
@@ -395,7 +395,7 @@ struct FUN_005ff160_shell : public TESIdleForm
 // @fnv 0x005ff160
 int FUN_005ff160_shell::GetFlagsMasked()
 {
-    unsigned char ctemp = ((unsigned char*)this)[0x38];
+    unsigned char ctemp = this->data.m_ucAnimationGroupSection;
     ctemp &= 0xffffff3f;
     return ctemp;
 }
@@ -592,8 +592,8 @@ bool FUN_005fe510_shell::IsDifferentFrom(TESForm* apCompare)
     if (m_0x3c != reinterpret_cast<FUN_005fe510_shell*>(pOtherIdle)->m_0x3c)
         return true;
 
-    if (*(reinterpret_cast<unsigned char*>(this) + 0x3e) !=
-        *(reinterpret_cast<unsigned char*>(reinterpret_cast<FUN_005fe510_shell*>(pOtherIdle)) + 0x3e))
+    if (*(reinterpret_cast<unsigned char*>(&this->pad_0x3d)) !=
+        *(reinterpret_cast<unsigned char*>(&(reinterpret_cast<FUN_005fe510_shell*>(pOtherIdle))->pad_0x3d)))
         return true;
 
     return false;

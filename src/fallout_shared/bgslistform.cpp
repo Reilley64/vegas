@@ -343,7 +343,7 @@ void FUN_00590080_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
     {
         BSSimpleList<TESForm*>* pCurrentElementNext =
             reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<unsigned char*>(this) + 0x18);
-        reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(this) + 0x20), 4, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(&this->m_uiFormCount)), 4, 0);
         for (unsigned int i = 0; i < m_uiFormCount; ++i)
         {
             TESForm* pform = ((::TESForm **)(new ((void *)(reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext))) ::Vec3()))[0];

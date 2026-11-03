@@ -142,7 +142,7 @@ struct FUN_008d4490_shell : Creature
 // @fnv 0x008d4490
 void FUN_008d4490_shell::SetRagdoll(bool bRagDoll)
 {
-    ((bool*)this)[0x1b4] = bRagDoll;
+    this->bRagDoll = bRagDoll;
 }
 
 struct S008d48a0

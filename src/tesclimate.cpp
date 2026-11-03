@@ -110,7 +110,7 @@ struct FUN_0052b260_shell : public TESClimate
 // @fnv 0x0052b260
 void FUN_0052b260_shell::FUN_0052b260(bool abUses)
 {
-    abUses ? *(unsigned char*)((char*)this + 0x55) |= 0x80 : *(unsigned char*)((char*)this + 0x55) &= ~0x80;
+    abUses ? this->m_ucTimeSettings[5] |= 0x80 : this->m_ucTimeSettings[5] &= ~0x80;
 }
 
 struct FUN_0052b2c0_shell : public TESClimate
@@ -122,7 +122,7 @@ struct FUN_0052b2c0_shell : public TESClimate
 // @fnv 0x0052b2c0
 void FUN_0052b2c0_shell::FUN_0052b2c0(bool abUses)
 {
-    abUses ? *(unsigned char*)((char*)this + 0x55) |= 0x40 : *(unsigned char*)((char*)this + 0x55) &= ~0x40;
+    abUses ? this->m_ucTimeSettings[5] |= 0x40 : this->m_ucTimeSettings[5] &= ~0x40;
 }
 
 struct FUN_0052ab50_shell
@@ -170,8 +170,8 @@ void TESClimate::MakeDefault()
 // @fnv 0x0052ac50
 void FUN_0052ac50_shell::FUN_0052ac50(unsigned int auiDays)
 {
-    *(unsigned char*)((char*)this + 0x55) =
-        (*(unsigned char*)((char*)this + 0x55) & 0xC0) | MinInt(auiDays, 0xFFFFFF3F);
+    this->m_ucTimeSettings[5] =
+        (this->m_ucTimeSettings[5] & 0xC0) | MinInt(auiDays, 0xFFFFFF3F);
 }
 
 struct FUN_004855a0
@@ -236,17 +236,17 @@ bool FUN_005e79a0_t::IsClimateDifferent(TESForm* apCompare)
     for (iIndex = 0; iIndex < 2; ++iIndex)
     {
         if (((FUN_0052afe0_compare_t*)((unsigned char*)this + 0x38 + iIndex * 0xc))
-                ->FUN_0000000c((void*)((unsigned char*)i + 0x38 + iIndex * 0xc)))
+                ->FUN_0000000c((void*)((unsigned char*)&i->m_kSunTextures + iIndex * 0xc)))
             return true;
     }
 
-    if (((FUN_0052afe0_compare_t*)((unsigned char*)this + 0x18))->FUN_0000000c((void*)((unsigned char*)i + 0x18)))
+    if (((FUN_0052afe0_compare_t*)((unsigned char*)this + 0x18))->FUN_0000000c((void*)((unsigned char*)&i->m_kStarsModel)))
         return true;
 
-    if (reinterpret_cast<::FUN_00582690_shell *>((((FUN_00582690_weather_t*)((unsigned char*)this + 0x30))))->IsDifferentFrom((TESWeatherList*)((unsigned char*)i + 0x30)))
+    if (reinterpret_cast<::FUN_00582690_shell *>((((FUN_00582690_weather_t*)((unsigned char*)this + 0x30))))->IsDifferentFrom(&i->weatherList))
         return true;
 
-    if (memcmp((void*)((unsigned char*)this + 0x50), (void*)((unsigned char*)i + 0x50), 6) != 0)
+    if (memcmp((void*)((unsigned char*)this + 0x50), (void*)((unsigned char*)&i->m_ucTimeSettings), 6) != 0)
         return true;
 
     return false;

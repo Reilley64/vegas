@@ -147,7 +147,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
                     }
                 }
                 pBlock->SetSize(size);
-                pMemory = (char*)pBlock + sizeof(MemoryBlockHeader);
+                pMemory = (char*)&pBlock->m_pNextFree;
                 m_iAllocatedBlockSize += pBlock->GetTotalSize();
                 break;
             }

@@ -261,9 +261,9 @@ struct FUN_005861d0_shell : public TESWorldSpace
 void FUN_005861d0_shell::SetFlagBit0(bool abVal)
 {
     if (abVal)
-        *(unsigned char*)((char*)this + 0x4c) |= 1;
+        this->flags4C |= 1;
     else
-        *(unsigned char*)((char*)this + 0x4c) &= ~1;
+        this->flags4C &= ~1;
 }
 
 // Packs two shorts into one int: asX shifted left 16 bits, OR'd with the low 16 bits of asY.
@@ -509,19 +509,19 @@ bool FUN_00587670_shell::FUN_00587670(TESObjectCELL* apCell)
         return false;
     if (reinterpret_cast<::FUN_005516c0 *>((((CellH*)apCell)))->IsCellPersistent())
     {
-        if (*(TESObjectCELL**)((char*)this + 0x34))
+        if (*(TESObjectCELL**)&this->unk34)
             return false;
-        *(TESObjectCELL**)((char*)this + 0x34) = apCell;
+        *(TESObjectCELL**)&this->unk34 = apCell;
     }
     else
     {
         key = ::PackShortPair(reinterpret_cast<::TESObjectCELL *>((((CellH*)apCell)))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((((CellH*)apCell)))->GetCellGridY());
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((*(DummyPointerMap**)((char*)this + 0x30))))->FUN_00853130(key, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)ignore)))
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((*(DummyPointerMap**)&this->cellMap)))->FUN_00853130(key, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)ignore)))
         {
             ::FUN_005b5e40();
             return false;
         }
-        reinterpret_cast<::FUN_00844700_Class *>(((*(DummyPointerMap**)((char*)this + 0x30))))->FUN_00844700(key, (unsigned int)apCell);
+        reinterpret_cast<::FUN_00844700_Class *>(((*(DummyPointerMap**)&this->cellMap)))->FUN_00844700(key, (unsigned int)apCell);
     }
     reinterpret_cast<::FUN_0054de10_shell *>((((S54de10*)apCell)))->FUN_0054de10(this);
     return true;
@@ -621,13 +621,13 @@ struct FUN_00544630_shell
 // @fnv 0x00588070
 TESObjectCELL* FUN_00588070_shell::GetOrCreateCell()
 {
-    if (!*(stub::TESObjectCELL**)((char*)this + 0x34))
+    if (!*(stub::TESObjectCELL**)&this->unk34)
     {
-        *(stub::TESObjectCELL**)((char*)this + 0x34) = new stub::TESObjectCELL;
-        reinterpret_cast<::FUN_005516f0_Class *>(((*(FUN_005516f0_s**)((char*)this + 0x34))))->SetFlag400(1);
-        (*(FUN_00544630_shell**)((char*)this + 0x34))->ResetCellData();
+        *(stub::TESObjectCELL**)&this->unk34 = new stub::TESObjectCELL;
+        reinterpret_cast<::FUN_005516f0_Class *>(((*(FUN_005516f0_s**)&this->unk34)))->SetFlag400(1);
+        (*(FUN_00544630_shell**)&this->unk34)->ResetCellData();
     }
-    return *(TESObjectCELL**)((char*)this + 0x34);
+    return *(TESObjectCELL**)&this->unk34;
 }
 
 struct FileH
@@ -683,7 +683,7 @@ TESClimate* FUN_00585fe0_shell::FUN_00585fe0()
 {
     if (GetParentWorld(PARENT_USE_FLAG(4)))
         return ((FUN_00585fe0_shell*)GetParentWorld(PARENT_USE_FLAG(4)))->FUN_00585fe0();
-    return *reinterpret_cast<TESClimate**>(reinterpret_cast<unsigned char*>(this) + 0x40);
+    return *reinterpret_cast<TESClimate**>(&this->unk40);
 }
 
 struct FUN_00586020_shell
@@ -895,8 +895,8 @@ TESWaterForm* FUN_00586070(TESWorldSpace* apWorldSpace)
 {
     if (apWorldSpace->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)3))
         return FUN_00586070(apWorldSpace->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)3));
-    if (*(TESWorldSpace**)((char*)apWorldSpace + 0x74))
-        return (TESWaterForm*)*(TESWorldSpace**)((char*)apWorldSpace + 0x74);
+    if (*(TESWorldSpace**)&apWorldSpace->unk74)
+        return (TESWaterForm*)*(TESWorldSpace**)&apWorldSpace->unk74;
     return ::DAT_011ca53c;
 }
 
@@ -1059,8 +1059,8 @@ TESWaterForm* FUN_005860c0_shell::FUN_005860c0()
 {
     if (GetParentWorld(TESWorldSpace::USE_LAND))
         return ((FUN_005860c0_shell*)GetParentWorld(TESWorldSpace::USE_LAND))->FUN_005860c0();
-    if (*(TESWaterForm**)((char*)this + 0x78))
-        return *(TESWaterForm**)((char*)this + 0x78);
+    if (*(TESWaterForm**)&this->unk78)
+        return *(TESWaterForm**)&this->unk78;
     return ::DAT_011ca53c;
 }
 
@@ -1531,29 +1531,29 @@ struct WorldSpaceVirtual
 // @fnv 0x00583070
 void FUN_00583070_shell::FUN_00583070()
 {
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x70) = 0;
+    *reinterpret_cast<void**>(&this->parent) = 0;
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xd0) = 0;
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x4c) = 0;
-    *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x4e) = 0;
+    this->flags4C = 0;
+    this->field4E = 0;
 
     if (!reinterpret_cast<::TESForm *>((reinterpret_cast<FormProxy*>(this)))->IsReservedFormID())
         reinterpret_cast<::FUN_005861d0_shell *>((reinterpret_cast<FUN_005861d0_shell*>(this)))->SetFlagBit0(true);
 
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x40) = 0;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x44) = 0;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x74) = 0;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x78) = 0;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x7c) = 0.0f;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x90) = 1.0f;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x94) = 0.0f;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x98) = 0.0f;
+    this->unk40 = 0;
+    this->unk44 = 0;
+    this->unk74 = 0;
+    this->unk78 = 0;
+    this->unk7c = 0.0f;
+    this->unk90 = 1.0f;
+    this->unk94 = 0.0f;
+    this->unk98 = 0.0f;
 
     ClearWorldSpaceReferences();
 
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x9c) = 0;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x48) = 0;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc8) = DAT_01031920;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xcc) = 0.0f;
+    this->unk9c = 0;
+    this->unk48 = 0;
+    this->fC8 = DAT_01031920;
+    this->fCC = 0.0f;
 
     reinterpret_cast<GO*>(reinterpret_cast<char*>(this) + 0x6c)->operator=(0);
 

@@ -68,7 +68,7 @@ struct FUN_00e88c90_shell : public NiD3DGeometryGroupManager
 // @fnv 0x00e88c90
 bool FUN_00e88c90_shell::FUN_00e88c90(NiGeometryGroup* pkGroup)
 {
-    return *(unsigned int*)((char*)pkGroup + 4) == 0;
+    return pkGroup->refs == 0;
 }
 
 struct FUN_00e88ca0_Data
@@ -124,7 +124,7 @@ bool FUN_00e88cc0_shell::FUN_00e88cc0(NiScreenTexture* pkScreenTexture)
         return false;
     pkGroup = (NiGeometryGroup*)pkBuffData->m_pkActorGroup;
     ((GroupVCall*)pkGroup)->Unk3(pkScreenTexture);
-    if (*(unsigned int*)((char*)pkGroup + 4) == 0)
+    if (pkGroup->refs == 0)
         ((GroupVCall*)pkGroup)->Unk0();
     return true;
 }

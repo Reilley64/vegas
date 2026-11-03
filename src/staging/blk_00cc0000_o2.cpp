@@ -886,8 +886,8 @@ struct OutS {
 // @fnv 0x00ccaa30
 void CopyHingeVectors(MyObj* self, int edx, OutS* out) {
     FUN_00c9fb70(self, edx, out);
-    if (self && *(void**)((char*)self + 8) && (const char*)*(void**)((char*)self + 8) + 0x20) {
-        const char* p = (const char*)*(void**)((char*)self + 8) + 0x20;
+    if (self && self->m_iThirdValue && (const char*)self->m_iThirdValue + 0x20) {
+        const char* p = (const char*)self->m_iThirdValue + 0x20;
         reinterpret_cast<::S004b4db0_Quaternion *>((((bhkLimitedHingeVector*)((char*)out + 0x10))))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)((const float*)p)));
         reinterpret_cast<::S004b4db0_Quaternion *>((((bhkLimitedHingeVector*)((char*)out + 0x20))))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)((const float*)(p + 0x10))));
         reinterpret_cast<::S004b4db0_Quaternion *>((((bhkLimitedHingeVector*)((char*)out + 0x30))))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)((const float*)(p + 0x20))));

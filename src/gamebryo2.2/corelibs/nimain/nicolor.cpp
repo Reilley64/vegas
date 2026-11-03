@@ -34,17 +34,17 @@ void FUN_00a698a0_class::FUN_00a698a0(void* context)
     stream = *(FUN_00a698a0_stream**)((char*)context + 0x250);
     {
         int written = 4;
-        stream->bytesWritten += stream->write(stream, (char*)this + 4, size, &written, 1);
+        stream->bytesWritten += stream->write(stream, (char*)&this->unk04, size, &written, 1);
     }
     stream = *(FUN_00a698a0_stream**)((char*)context + 0x250);
     {
         int written = 4;
-        stream->bytesWritten += stream->write(stream, (char*)this + 8, size, &written, 1);
+        stream->bytesWritten += stream->write(stream, (char*)&this->unk08, size, &written, 1);
     }
     stream = *(FUN_00a698a0_stream**)((char*)context + 0x250);
     {
         int written = 4;
-        stream->bytesWritten += stream->write(stream, (char*)this + 12, size, &written, 1);
+        stream->bytesWritten += stream->write(stream, (char*)&this->unk0c, size, &written, 1);
     }
 }
 

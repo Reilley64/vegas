@@ -75,7 +75,7 @@ bool FUN_00a55ec0_shell::FUN_00a55ec0(NiObject* pkObject)
     bool r = ::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((FUN_00a36fd0_tgt*)this)), (int)(pkObject), {});
     if (!r)
         return r;
-    r = reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)((char*)this + 0x30))))->operator==((*(const ::NiPlane *)((char*)pkObject + 0x30)));
+    r = reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kPoint3Value.x)))->operator==((*(const ::NiPlane *)((char*)pkObject + 0x30)));
     r = !r;
     return r;
 }
@@ -120,7 +120,7 @@ void FUN_00a55ef0_shell::AppendPoint3Value(void* pkStrings)
     if (i >= pArrayView->maxSize)
         reinterpret_cast<::ViewerStrings *>((((ArrSizeHelper*)arr)))->SetSize(pArrayView->growBy + i);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((ArrSizeHelper*)arr)))->SetAt(i, (char *&)(pElement));
-    pElement = (ActorCombatGroup*)reinterpret_cast<::NiPoint3 *>((((ViewerPoint3*)((char*)this + 0x30))))->FUN_00a59af0("m_kPoint3Value");
+    pElement = (ActorCombatGroup*)reinterpret_cast<::NiPoint3 *>((((ViewerPoint3*)&this->m_kPoint3Value.x)))->FUN_00a59af0("m_kPoint3Value");
     i = pArrayView->count;
     if (i >= pArrayView->maxSize)
         reinterpret_cast<::ViewerStrings *>((((ArrSizeHelper*)arr)))->SetSize(pArrayView->growBy + i);
@@ -173,7 +173,7 @@ struct FUN_00a37ec0_shell : public NiBlendPoint3Interpolator
 void FUN_00a37ec0_shell::FUN_00a55ad0(NiStream& stream)
 {
     reinterpret_cast<::SBObject *>((((FUN_00a37ec0_tgt*)this)))->FUN_00a37ec0((::SBStream &)(stream));
-    reinterpret_cast<::NiColor *>((((NiColorSaveHelper*)((char*)this + 0x30))))->SaveBinary(stream);
+    reinterpret_cast<::NiColor *>((((NiColorSaveHelper*)&this->m_kPoint3Value.x)))->SaveBinary(stream);
 }
 
 struct Cls_00a55b00
@@ -207,24 +207,24 @@ void* FUN_00a55b20_shell::FUN_00a55b20(CloningProcess* kCloning)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();
         *reinterpret_cast<void**>(pkObject) = &DAT_0109a49c;
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x30) = (*reinterpret_cast<int *>((void *)&::DAT_011a9424));
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x34) = (*reinterpret_cast<int *>(&::DAT_011a9428));
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x38) = (*reinterpret_cast<int *>(&::DAT_011a942c));
-        *reinterpret_cast<char*>(reinterpret_cast<char*>(pkObject) + 0x3c) = 0;
+        *reinterpret_cast<int*>(&pkObject->m_kPoint3Value.x) = (*reinterpret_cast<int *>((void *)&::DAT_011a9424));
+        *reinterpret_cast<int*>(&pkObject->m_kPoint3Value.y) = (*reinterpret_cast<int *>(&::DAT_011a9428));
+        *reinterpret_cast<int*>(&pkObject->m_kPoint3Value.z) = (*reinterpret_cast<int *>(&::DAT_011a942c));
+        *reinterpret_cast<char*>(&pkObject->m_bValueValid) = 0;
     }
     else
     {
         pkObject = 0;
     }
     reinterpret_cast<::BlendCopy *>((reinterpret_cast<CloneOwner*>(this)))->FUN_00a37510((::NiBlendInterpolator *)(pkObject), (::CloningProcess *)(kCloning));
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x30) =
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x30);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x34) =
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x34);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x38) =
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x38);
-    *reinterpret_cast<char*>(reinterpret_cast<char*>(pkObject) + 0x3c) =
-        *reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x3c);
+    *reinterpret_cast<int*>(&pkObject->m_kPoint3Value.x) =
+        *reinterpret_cast<int*>(&this->m_kPoint3Value.x);
+    *reinterpret_cast<int*>(&pkObject->m_kPoint3Value.y) =
+        *reinterpret_cast<int*>(&this->m_kPoint3Value.y);
+    *reinterpret_cast<int*>(&pkObject->m_kPoint3Value.z) =
+        *reinterpret_cast<int*>(&this->m_kPoint3Value.z);
+    *reinterpret_cast<char*>(&pkObject->m_bValueValid) =
+        *reinterpret_cast<char*>(&this->m_bValueValid);
     return pkObject;
 }
 

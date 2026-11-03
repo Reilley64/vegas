@@ -168,15 +168,15 @@ void FUN_0058ba40_shell::DestroyCameraPaths()
         delete path;
     }
 
-    unsigned int childCount = reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->GetShortAtOffsetA();
+    unsigned int childCount = reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(&this->m_kCameraPathList)))->GetShortAtOffsetA();
     for (unsigned int childIndex = 0; childIndex < childCount; ++childIndex)
     {
         BGSCameraPath* childPath = reinterpret_cast<BGSCameraPath*>(
-            *reinterpret_cast<Arr*>(reinterpret_cast<unsigned char*>(this) + 0x18)->GetAt(childIndex));
+            *reinterpret_cast<Arr*>(&this->m_kCameraPathList)->GetAt(childIndex));
         delete childPath;
     }
 
-    ::FUN_005e03d0((::NiTArray_Layout *)(reinterpret_cast<GlobalObject_00869b10*>(reinterpret_cast<unsigned char*>(this) + 0x18)));
+    ::FUN_005e03d0((::NiTArray_Layout *)(reinterpret_cast<GlobalObject_00869b10*>(&this->m_kCameraPathList)));
     CameraPathManager::ms_pDefaultCameraPath = 0;
     reinterpret_cast<FUN_00863db0_class*>(this)->ClearItems();
 }

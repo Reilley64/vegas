@@ -1229,7 +1229,7 @@ void FUN_00658e70_cls::FUN_00658e70()
 {
     *reinterpret_cast<void**>(this) = &DAT_010658d0;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(reinterpret_cast<void*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 8)));
+    ::FUN_00aa10f0(reinterpret_cast<void*>(*reinterpret_cast<void**>(&this->m_ppkHashTable)));
 }
 
 struct Flt
@@ -1933,7 +1933,7 @@ int FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
     do
     {
     } while (0);
-    return *(int*)((char*)this + 0xc) + (int)uiIndex;
+    return this->m_C + (int)uiIndex;
 }
 
 struct TextureBasis
@@ -1985,7 +1985,7 @@ void FUN_0065d150_class::ClearStorage()
     if (m_iThirdValue)
     {
         ((FUN_0064dee0_Class*)this)->ForwardToHelper((int)m_iThirdValue, (int)m_10);
-        ((FUN_0064df10_helper*)((char*)this + 8))->deallocate(m_iThirdValue, (unsigned int)((char*)m_14 - (char*)m_iThirdValue >> 4));
+        ((FUN_0064df10_helper*)&this->m_8)->deallocate(m_iThirdValue, (unsigned int)((char*)m_14 - (char*)m_iThirdValue >> 4));
     }
     m_iThirdValue = 0;
     m_10 = 0;
@@ -2012,7 +2012,7 @@ void FUN_0065d330Class::ClearAndFreeArray()
     if (m_iThirdValue)
     {
         ((FUN_0065dc60Class*)this)->FUN_0065dc60(m_iThirdValue, m_10);
-        reinterpret_cast<::FUN_0064df10_helper *>((((FUN_0064df10_helper*)((char*)this + 8))))->deallocate((void*)m_iThirdValue, (unsigned int)((m_14 - m_iThirdValue) >> 5));
+        reinterpret_cast<::FUN_0064df10_helper *>((((FUN_0064df10_helper*)&this->m_8)))->deallocate((void*)m_iThirdValue, (unsigned int)((m_14 - m_iThirdValue) >> 5));
     }
     m_iThirdValue = 0;
     m_10 = 0;
@@ -2466,7 +2466,7 @@ void* FUN_0065ed00_class::FUN_0065ed00(unsigned int flags)
 // @fnv 0x0065ee50
 void FUN_0065ee50_S::FUN_0065ee50()
 {
-    FUN_0065ee50_Helper((void*)((char*)this + 16), 24, 3, FUN_0065f060);
+    FUN_0065ee50_Helper((void*)((char*)&this->m_aiIndexedValues), 24, 3, FUN_0065f060);
 }
 
 struct S_0065f2e0
@@ -2663,14 +2663,14 @@ void FUN_00642940_class::FUN_00642940()
 {
     void* pProperty;
     SkyShaderProperty* obj;
-    pProperty = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((Flt*)((char*)this + 0x10))->operator unsigned int())))->FUN_00a59d30(3)));
+    pProperty = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((Flt*)&this->e)->operator unsigned int())))->FUN_00a59d30(3)));
     obj = (SkyShaderProperty*)((void *)(::FUN_00653270((const NiRTTI*)&(*reinterpret_cast<const char *const *>(&::g_012005b8)), (::NiObject *)(::NiProperty *)((NiProperty*)pProperty))));
     if (obj)
     {
         obj->SetTexture(0);
         reinterpret_cast<::FUN_00634900_shell *>((obj))->FUN_00634900(&DAT_011f49e0);
     }
-    pProperty = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((Flt*)((char*)this + 0x14))->operator unsigned int())))->FUN_00a59d30(3)));
+    pProperty = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)((Flt*)&this->f)->operator unsigned int())))->FUN_00a59d30(3)));
     obj = (SkyShaderProperty*)((void *)(::FUN_00653270((const NiRTTI*)&(*reinterpret_cast<const char *const *>(&::g_012005b8)), (::NiObject *)(::NiProperty *)((NiProperty*)pProperty))));
     if (obj)
     {
@@ -2734,7 +2734,7 @@ void FUN_00657e60_Class::FUN_00657e60()
     if (m_iThirdValue)
     {
         ((FUN_00658060_Class*)this)->FUN_00658060(m_iThirdValue, m_10);
-        ((FUN_0064df10_helper*)((char*)this + 8))->deallocate((void*)m_iThirdValue, (unsigned int)((m_14 - m_iThirdValue) / 0x88));
+        ((FUN_0064df10_helper*)&this->m_8)->deallocate((void*)m_iThirdValue, (unsigned int)((m_14 - m_iThirdValue) / 0x88));
     }
     m_iThirdValue = 0;
     m_10 = 0;
@@ -2773,7 +2773,7 @@ void FUN_0065d460_Class::FUN_0065d460()
     if (m_iThirdValue)
     {
         ((FUN_0065dd90_Class*)this)->FUN_0065dd90((int)m_iThirdValue, (int)m_10);
-        ((FUN_0064df10_helper*)((char*)this + 8))->deallocate(m_iThirdValue, (unsigned int)(((int)m_14 - (int)m_iThirdValue) / 44));
+        ((FUN_0064df10_helper*)&this->m_8)->deallocate(m_iThirdValue, (unsigned int)(((int)m_14 - (int)m_iThirdValue) / 44));
     }
     m_iThirdValue = 0;
     m_10 = 0;
@@ -2796,7 +2796,7 @@ void FUN_0065d660_Class::FUN_0065d660()
     if (m_iThirdValue)
     {
         ((FUN_0065de80_Class*)this)->FUN_0065de80(m_iThirdValue, m_10);
-        ((FUN_0064df10_helper*)((char*)this + 8))->deallocate((void*)m_iThirdValue, (unsigned int)((m_14 - m_iThirdValue) / 0x38));
+        ((FUN_0064df10_helper*)&this->m_8)->deallocate((void*)m_iThirdValue, (unsigned int)((m_14 - m_iThirdValue) / 0x38));
     }
     m_iThirdValue = 0;
     m_10 = 0;
@@ -2870,7 +2870,7 @@ void FUN_0065f430_class::FUN_0065f430()
     if (m_iThirdValue)
     {
         ((FUN_0065f400_class*)this)->FUN_0065f400((int)m_iThirdValue, m_10);
-        ((FUN_0064df10_helper*)((char*)this + 8))->deallocate(m_iThirdValue, (unsigned int)((m_14 - (int)m_iThirdValue) / 6));
+        ((FUN_0064df10_helper*)&this->m_8)->deallocate(m_iThirdValue, (unsigned int)((m_14 - (int)m_iThirdValue) / 6));
     }
     m_iThirdValue = 0;
     m_10 = 0;
@@ -2940,7 +2940,7 @@ void FUN_0065d050::Clear_0065d050()
     if (m_iThirdValue)
     {
         ((FUN_0065db60_class*)this)->FUN_0065db60(m_iThirdValue, m_10);
-        ((FUN_0064df10_helper*)((char*)this + 8))->deallocate((void*)m_iThirdValue, (m_14 - m_iThirdValue) / 0xc);
+        ((FUN_0064df10_helper*)&this->m_8)->deallocate((void*)m_iThirdValue, (m_14 - m_iThirdValue) / 0xc);
     }
     m_iThirdValue = 0;
     m_10 = 0;
@@ -2965,7 +2965,7 @@ void FUN_0065f240::Clear()
     if (m_buf)
     {
         ((FUN_0065f2b0_class*)this)->FUN_0065f2b0(m_buf, m_iElementCount);
-        ((FUN_0064df10_helper*)((char*)this + 8))
+        ((FUN_0064df10_helper*)&this->m_auiShapeKeys)
             ->deallocate((void*)m_buf, (unsigned int)(((int)m_cap - (int)m_buf) >> 2));
     }
     m_buf = 0;

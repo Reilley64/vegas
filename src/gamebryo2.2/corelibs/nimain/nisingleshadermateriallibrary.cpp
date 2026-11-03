@@ -159,20 +159,20 @@ void* FUN_00a8fac0_shell::FUN_00a8fac0()
     NiShaderFactory* pkFactory = NiShaderFactory::GetInstance();
     RefCountedNamedObject* library = pkFactory->v14();
     *(RefCountedNamedObject**)((char*)this + 0xc) = library;
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)&this->_d = 0;
     if (library)
     {
         IndexedObjectCollection* desc = library->w5();
         while (!reinterpret_cast<::MyDesc *>((desc))->FUN_00a9ffd0())
         {
             *(RefCountedNamedObject**)((char*)this + 0xc) = pkFactory->v15();
-            *(unsigned int*)((char*)this + 0x10) = 0;
+            *(unsigned int*)&this->_d = 0;
             desc = (*(RefCountedNamedObject**)((char*)this + 0xc))->w5();
         }
         if (desc)
         {
             if (reinterpret_cast<::MyDesc *>((desc))->FUN_00a9ffd0())
-                return reinterpret_cast<::IndexedObjectCollection *>((((NiShaderLibraryDescHelper*)desc)))->FUN_00a9ffe0(*(unsigned int*)((char*)this + 0x10));
+                return reinterpret_cast<::IndexedObjectCollection *>((((NiShaderLibraryDescHelper*)desc)))->FUN_00a9ffe0(*(unsigned int*)&this->_d);
         }
     }
     return 0;

@@ -4473,7 +4473,7 @@ void* FUN_00d75560_cls::FUN_00d75560()
         }
         reinterpret_cast<struct ::FUN_00cc00e0 *>((reinterpret_cast<FUN_00cc00e0_cls*>(&sb)))->FUN_00cc00e0::~FUN_00cc00e0();
     }
-    return (char*)m_08 + 0x170;
+    return (char*)&m_08->unk170;
 }
 }  // namespace fnv_00d75560
 

@@ -285,7 +285,7 @@ struct DynCastHelper
 void FUN_00a3ae50_shell::FUN_00a3ae50(NiInterpolator* pkInterp, unsigned short usMorphIndex)
 {
     float fValue = 0.0f;
-    char* data = *(char**)((char*)this + 0x3c);
+    char* data = *(char**)&this->m_pInterpolatorItems;
     if (data)
         fValue = *(float*)(data + usMorphIndex * 8 + 4);
     PoseInterpStub* pkPoseInterp;

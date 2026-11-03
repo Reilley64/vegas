@@ -59,7 +59,8 @@ class BSFaceGenNiNode
 
     char pad04[0xA8];
     NiPointer<BSFaceGenAnimationData> spAnimationData;  // 0xAC
-    char padB0[0x26];
+    char padB0[0x25];
+    char unkd5;
     bool bAnimationUpdate;  // 0xD6
     char padD7[1];
     bool bApplyRotationToParent;  // 0xD8

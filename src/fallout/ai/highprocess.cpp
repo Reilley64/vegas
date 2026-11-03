@@ -1907,7 +1907,7 @@ bool HighProcess::StartIdleAnimation(MobileObject* object, TESIdleForm* idle, An
 // @fnv 0x008dade0
 bool FUN_008dade0_shell::FUN_008dade0()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x01000000) ? true : false;
+    return (this->unk1c & 0x01000000) ? true : false;
 }
 
 struct FUN_008dd860_shell : public TESObjectREFR
@@ -2103,7 +2103,7 @@ struct FUN_008f21a0_shell : public HighProcess
 // @fnv 0x008f21a0
 bool FUN_008f21a0_shell::FUN_008f21a0()
 {
-    return *((bool*)((char*)this + 0x2c7));
+    return this->m_kFirstAdditionalHighProcessField;
 }
 
 // @fnv 0x008f21d0
@@ -2139,7 +2139,7 @@ struct FUN_008ff080_shell : public HighProcess
 // @fnv 0x008ff080
 bool FUN_008ff080_shell::FUN_008ff080()
 {
-    switch (*(int*)((char*)this + 0x3e8))
+    switch (*(int*)&this->m_iSecondSerializedValue)
     {
     case 3:
     case 4:
@@ -2299,18 +2299,18 @@ template <> class BSSimpleList<int>
 // @fnv 0x00904160
 void FUN_00904160_shell::ClearAndDeleteList()
 {
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x44c))
+    if (*reinterpret_cast<void**>(&this->m_pkTopicInfoList))
     {
-        void* pavoid = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x44c);
+        void* pavoid = *reinterpret_cast<void**>(&this->m_pkTopicInfoList);
         while (pavoid && *((void **)(new ((void *)(pavoid)) ::Vec3())))
         {
             void* pstruct = *((void **)(new ((void *)(pavoid)) ::Vec3()));
             pavoid = reinterpret_cast<::Callees *>((pavoid))->FUN_00726070();
             delete pstruct;
         }
-        reinterpret_cast<::FileMatchList *>(((*reinterpret_cast<BSSimpleList<int>**>(reinterpret_cast<char*>(this) + 0x44c))))->RemoveAll();
-        delete *reinterpret_cast<BSSimpleList<const char*>**>(reinterpret_cast<char*>(this) + 0x44c);
-        *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x44c) = 0;
+        reinterpret_cast<::FileMatchList *>(((*reinterpret_cast<BSSimpleList<int>**>(&this->m_pkTopicInfoList))))->RemoveAll();
+        delete *reinterpret_cast<BSSimpleList<const char*>**>((void *)&this->m_pkTopicInfoList);
+        *reinterpret_cast<void**>(&this->m_pkTopicInfoList) = 0;
     }
 }
 }  // namespace fnv_00904160
@@ -3463,7 +3463,7 @@ float MyHigh::FUN_008f68a0(Actor* apActor, int abWhichList)
     pstate =
         ((DetectionViewData * (**)(MyHigh*, Actor*, int))(*(int**)this))[321](this, apActor, abWhichList);
     if (pstate)
-        ftime = reinterpret_cast<::CombatTargetTimestamp *>((((RegionPoint*)((char*)pstate + 24))))->FUN_006a7f50();
+        ftime = reinterpret_cast<::CombatTargetTimestamp *>((((RegionPoint*)&pstate->m_abyActorState.fTimeStamp)))->FUN_006a7f50();
     return ftime;
 }
 
@@ -5093,7 +5093,7 @@ struct HighProcessHack : public HighProcess
 void HighProcessHack::FUN_009010f0()
 {
     *(int*)((char*)this + 0x3F8) = 0;
-    *((char*)this + 0x410) = 0;
+    *((char*)&this->m_bReferenceFlags[0]) = 0;
     RefreshTargetState();
 }
 }  // namespace fnv_009010f0
@@ -60625,7 +60625,7 @@ BSSimpleList<BSSimpleList<MenuTopic*>*>* MenuTopicOwner::BuildTopicLists(Actor* 
     }
     else
     {
-        ContNode* pNode = (ContNode*)GetOffsetC((int)apActor->GetActorBase() + 0x7c);
+        ContNode* pNode = (ContNode*)GetOffsetC((int)&apActor->GetActorBase()->data.state[76]);
         if (pNode)
         {
             while (pNode && !FUN_008256d0(pNode))

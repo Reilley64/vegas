@@ -337,7 +337,7 @@ class FUN_00d66c10_cls
 // @fnv 0x00d66cb0
 void FUN_00d66cb0_class::FUN_00d66cb0(int aiValue)
 {
-    if (aiValue == *(int*)((char*)this + 8))
+    if (aiValue == this->m8)
         reinterpret_cast<::FUN_00d66c10_cls *>((((FUN_00d66c10_class*)((char*)this - 0x20))))->FUN_00d66c10();
 }
 // @fnv 0x00d66e10

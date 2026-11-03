@@ -823,7 +823,7 @@ struct FUN_00509a10 : TESGrassBase
 FUN_00509a10::FUN_00509a10()
 {
     ((void**)this)[0] = (void*)0x0102814c;
-    ((void**)((char*)this + 0x30))[0] = (void*)0x01028128;
+    (&this->m_30.vft)[0] = (void*)0x01028128;
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x24);
     reinterpret_cast<::TESGrass *>(this)->ResetFormData();
 }

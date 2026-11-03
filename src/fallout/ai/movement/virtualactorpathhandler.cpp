@@ -668,7 +668,7 @@ struct FUN_009eb070_shell : VirtualActorPathHandler
 // @fnv 0x009eb070
 float FUN_009eb070_shell::FUN_009eb070()
 {
-    float flength = ((float*)this)[7] - ((float*)this)[6];
+    float flength = this->m_fPathValue2 - this->m_fPathValue16;
     flength = ::FUN_00404010(flength, 0.0f);
     return flength;
 }
@@ -753,11 +753,11 @@ struct FUN_009eb0b0_shell
 // @fnv 0x009eb0b0
 float FUN_009eb0b0_shell::FUN_009eb0b0()
 {
-    if (!reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xc)->operator unsigned int())
+    if (!reinterpret_cast<Flt*>(&this->b[12])->operator unsigned int())
         return 0.0f;
     if (m_uiPathPointIndex >=
             FUN_005a4320(reinterpret_cast<char*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xc)->operator unsigned int())) ||
+                reinterpret_cast<Flt*>(&this->b[12])->operator unsigned int())) ||
         m_fPathValue2 <= ::_DAT_01012060)
         return 1.0f;
     return m_fPathValue16 / m_fPathValue2;

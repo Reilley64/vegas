@@ -727,23 +727,23 @@ struct GlobalObjectO2_00b9fda0 : public BSFadeNode
 // @fnv 0x00b5aac0
 void FUN_00b5aac0_shell::FUN_00b5aac0(NiDirectionalLight* apLight)
 {
-    if (*(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0))
+    if (*(GlobalObjectO2_00b9fda0**)&this->ambientLight)
     {
-        delete *(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0);
-        *(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0) = 0;
+        delete *(GlobalObjectO2_00b9fda0**)&this->ambientLight;
+        *(GlobalObjectO2_00b9fda0**)&this->ambientLight = 0;
     }
     if (apLight)
     {
-        *(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0) = new GlobalObjectO2_00b9fda0;
-        (*(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0))->FUN_00b9dda0(apLight);
+        *(GlobalObjectO2_00b9fda0**)&this->ambientLight = new GlobalObjectO2_00b9fda0;
+        (*(GlobalObjectO2_00b9fda0**)&this->ambientLight)->FUN_00b9dda0(apLight);
     }
     else
     {
         NiDirectionalLight* pdefaultsun = new NiDirectionalLight;
         pdefaultsun->SetAmbientColor(DAT_011f4998);
         pdefaultsun->SetDiffuseColor(DAT_011f4998);
-        *(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0) = new GlobalObjectO2_00b9fda0;
-        (*(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0))->FUN_00b9dda0(pdefaultsun);
+        *(GlobalObjectO2_00b9fda0**)&this->ambientLight = new GlobalObjectO2_00b9fda0;
+        (*(GlobalObjectO2_00b9fda0**)&this->ambientLight)->FUN_00b9dda0(pdefaultsun);
     }
 }
 

@@ -157,7 +157,7 @@ unsigned int BGSMessageInitAccess::GetIconFormID()
 LocationDescriptor* FUN_0067f030(LocationDescriptor* pObject)
 {
     *(char*)pObject = 3;
-    *(unsigned int*)((char*)pObject + 4) = 0;
+    pObject->m_pLocationData = 0;
     *(unsigned int*)((char*)pObject + 8) = 0;
     return pObject;
 }
@@ -237,7 +237,7 @@ void FUN_0067f1f0_shell::FUN_0067f1f0(unsigned int aiRad)
     case 1:
         break;
     default:
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 4) = aiRad;
+        this->m_pLocationData = aiRad;
         break;
     }
 }

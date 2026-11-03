@@ -369,7 +369,7 @@ struct StringCursor {
                 mov dword ptr[ticks], eax
             }
             cmd->time = ticks;
-            m_memPos = (char*)cmd + 12;
+            m_memPos = (char*)&cmd->subName;
         }
     }
     __forceinline void timerEnd(const char* name) { timerSplit(name); }

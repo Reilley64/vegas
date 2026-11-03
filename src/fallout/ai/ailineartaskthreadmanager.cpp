@@ -384,7 +384,7 @@ struct FUN_008c74b0_shell
 // @fnv 0x008c74b0
 void FUN_008c74b0_shell::SignalThread()
 {
-    ((unsigned char*)this)[0x48] = 1;
+    (*(unsigned char*)&this->semaphore) = 1;
     reinterpret_cast<::FUN_00442550_shell *>((((CountingSemaphore*)((unsigned char*)this + 0x30))))->ReleaseAndInitScriptRunLock();
 }
 }  // namespace fnv_008c74b0

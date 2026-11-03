@@ -513,9 +513,9 @@ FUN_00c31ff0* __cdecl FUN_00c26790()
     {
         new ((void *)(((FUN_00c31ff0_ctor_helper*)p))) ::FUN_00c31ff0();
         p->vtbl = (void*)&DAT_010be604;
-        *(int*)((char*)p + 0x30) = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
-        *(int*)((char*)p + 0x34) = _DAT_011f4270;
-        *(int*)((char*)p + 0x38) = _DAT_011f4274;
+        p->m_30 = (*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO));
+        p->m_34 = _DAT_011f4270;
+        p->m_38 = _DAT_011f4274;
         return p;
     }
     return 0;
@@ -626,10 +626,10 @@ FUN_00c31ff0* __cdecl FUN_00c27350()
     if (p)
     {
         new ((void *)(p)) ::FUN_00c31ff0();
-        *(float*)((char*)p + 0x30) = 0.0f;
+        *(float*)&p->m_30 = 0.0f;
         *(int*)p = (int)&DAT_010be774;
-        *(float*)((char*)p + 0x38) = ::DAT_01015f5c;
-        *(float*)((char*)p + 0x34) = DAT_01022958;
+        *(float*)&p->m_38 = ::DAT_01015f5c;
+        *(float*)&p->m_34 = DAT_01022958;
         return p;
     }
     return 0;
@@ -644,7 +644,7 @@ FUN_00c31ff0* __cdecl FUN_00c28570()
     if (p)
     {
         new ((void *)(p)) ::FUN_00c31ff0();
-        *(float*)((char*)p + 0x30) = 0.0f;
+        *(float*)&p->m_30 = 0.0f;
         p->vtbl = &DAT_010be99c;
         return p;
     }
@@ -687,8 +687,8 @@ NiPSysPositionModifier* FUN_00c2ef20()
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
         p->m_vtbl = &DAT_010c0304;
-        *(unsigned char*)((char*)p + 0x18) = 0;
-        *(int*)((char*)p + 0x1c) = 0;
+        *(unsigned char*)&p->m_18 = 0;
+        p->m_1c = 0;
         return p;
     }
     return 0;
@@ -1317,7 +1317,7 @@ void Host_data::FUN_00c312a0()
     Host_refobj* obj = self->m_pEntryObject;
     if (obj != 0)
     {
-        if (release((char*)obj + 4) == 0)
+        if (release((char*)&obj->m_iObjectReferenceCount) == 0)
         {
             obj->Destroy();
         }

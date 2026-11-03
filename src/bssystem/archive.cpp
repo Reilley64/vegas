@@ -615,39 +615,39 @@ struct FUN_00afb670_shell : public ArchiveFile
 // @fnv 0x00afb670
 void FUN_00afb670_shell::FUN_00afb670(int aiByteCount, int aiSeekFlags)
 {
-    unsigned int ioldFilePos = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150);
+    unsigned int ioldFilePos = this->m_uiBufferSize;
 
     switch (aiSeekFlags)
     {
     case 1:
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150) += aiByteCount;
-        if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150) >
-            *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x154))
-            *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150) =
-                *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x154);
+        this->m_uiBufferSize += aiByteCount;
+        if (this->m_uiBufferSize >
+            this->m_uiValueId)
+            this->m_uiBufferSize =
+                this->m_uiValueId;
         break;
     case 2:
         if (aiByteCount < 0)
             aiByteCount = -aiByteCount;
-        if ((unsigned int)aiByteCount > *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x154))
+        if ((unsigned int)aiByteCount > this->m_uiValueId)
         {
-            unsigned int tmp = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x154);
+            unsigned int tmp = this->m_uiValueId;
             aiByteCount = tmp;
         }
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150) =
-            *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x154) - aiByteCount;
+        this->m_uiBufferSize =
+            this->m_uiValueId - aiByteCount;
         break;
     default:
-        if ((unsigned int)aiByteCount > *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x154))
+        if ((unsigned int)aiByteCount > this->m_uiValueId)
         {
-            unsigned int tmp = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x154);
+            unsigned int tmp = this->m_uiValueId;
             aiByteCount = tmp;
         }
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150) = aiByteCount;
+        this->m_uiBufferSize = aiByteCount;
         break;
     }
 
-    m_uiPos += *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150) - ioldFilePos;
+    m_uiPos += this->m_uiBufferSize - ioldFilePos;
     if (m_uiPos >= m_uiBufferReadSize)
         Flush();
 }
@@ -5258,16 +5258,16 @@ void FUN_00afbfe0_shell::DestroyCompressedArchiveFile()
 {
     ZlibStream* pzstream;
     *(int**)this = &DAT_010a464c;
-    if (*(ZlibStream**)((char*)this + 0x160) != 0)
+    if (*(ZlibStream**)&this->m_pArchiveStream != 0)
     {
-        pzstream = *(ZlibStream**)((char*)this + 0x160);
+        pzstream = *(ZlibStream**)&this->m_pArchiveStream;
         _inflateEnd(pzstream);
         void* p1 = pzstream;
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p1);
     }
-    if (*(void**)((char*)this + 0x164) != 0)
+    if (*(void**)&this->m_pCompressedBuffer != 0)
     {
-        void* p2 = *(void**)((char*)this + 0x164);
+        void* p2 = *(void**)&this->m_pCompressedBuffer;
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p2);
     }
     reinterpret_cast<::FUN_00afb520_cls *>((this))->FUN_00afb520_cls::~FUN_00afb520_cls();

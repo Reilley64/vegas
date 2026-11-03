@@ -175,7 +175,7 @@ struct FUN_006166e0_shell
 const char* FUN_006166e0_shell::GetReputationName()
 {
     if (m_Model.GetModelLength())
-        return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x24))))->FUN_00408da0()));
+        return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)&this->m_Model)))->FUN_00408da0()));
     return $SG5812;
 }
 
@@ -878,7 +878,7 @@ void Host615730::FUN_00615730(int kind, float delta)
         m_fFirstReputationValue += delta;
         m_fFirstReputationValue = (m_fFirstReputationValue > m_fMaximumReputation) ? (float)m_fMaximumReputation
                                                                                    : (float)m_fFirstReputationValue;
-        ::FUN_00406d00(i, 250, "%s\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((TESSoundFile*)((char*)this + 0x18))))->FUN_00408da0())), g_011cbac0.String());
+        ::FUN_00406d00(i, 250, "%s\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((TESSoundFile*)&this->unk18)))->FUN_00408da0())), g_011cbac0.String());
         after = (char)((ReputationTracker*)this)->GetReputationRank(1);
         if (after != val)
         {
@@ -892,7 +892,7 @@ void Host615730::FUN_00615730(int kind, float delta)
         m_fSecondReputationValue += delta;
         m_fSecondReputationValue = (m_fSecondReputationValue > m_fMaximumReputation) ? (float)m_fMaximumReputation
                                                                                      : (float)m_fSecondReputationValue;
-        ::FUN_00406d00(i, 250, "%s\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((TESSoundFile*)((char*)this + 0x18))))->FUN_00408da0())), g_011cba58.String());
+        ::FUN_00406d00(i, 250, "%s\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((TESSoundFile*)&this->unk18)))->FUN_00408da0())), g_011cba58.String());
         after = (char)((ReputationTracker*)this)->GetReputationRank(0);
         if (after != val)
         {

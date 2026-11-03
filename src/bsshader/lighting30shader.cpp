@@ -256,7 +256,7 @@ void Lighting30Shader::InvalidateShaderConstants()
 void __cdecl ApplyLighting30Packet(const Lighting30Packet4* apPacket, bool param_2)
 {
     DAT_01201b30 = *apPacket;
-    *((bool*)(*reinterpret_cast<::Lighting30PacketState * *>(&::DAT_012010c4)) + 8) = (param_2 || DAT_01200bf4) ? true : false;
+    (*reinterpret_cast<::Lighting30PacketState * *>(&::DAT_012010c4))->dirty = (param_2 || DAT_01200bf4) ? true : false;
     DAT_01200bf4 = param_2;
 }
 

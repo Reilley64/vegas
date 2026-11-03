@@ -913,7 +913,7 @@ void FUN_00cf4f70_cls::InitFromSource(FUN_00cf4f70_src* pSource)
     int i = 0;
     if (pSource->m_04 > 0)
     {
-        dst = (int*)((char*)this + 0x50);
+        dst = &this->m_50;
         do
         {
             *dst = pSource->m_00[i];

@@ -225,7 +225,7 @@ struct TESLeveledList_Revert_Access
 void FUN_0050b3c0_shell::FUN_0050b3c0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<unsigned int>(apLoadGameBuffer));
-    reinterpret_cast<::TESLeveledList *>((reinterpret_cast<TESLeveledList_Revert_Access*>(reinterpret_cast<char*>(this) + 0x30)))->Revert((::BGSLoadFormBuffer *)(apLoadGameBuffer));
+    reinterpret_cast<::TESLeveledList *>((reinterpret_cast<TESLeveledList_Revert_Access*>(static_cast<TESLeveledList *>(this))))->Revert((::BGSLoadFormBuffer *)(apLoadGameBuffer));
 }
 }  // namespace fnv_0050b3c0
 

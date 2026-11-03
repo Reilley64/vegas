@@ -1113,7 +1113,7 @@ void FUN_006e0ff0_Class::FUN_006e0ff0()
 {
     *(void**)this = &DAT_0106ced8;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 namespace fnv_006e21b0 {
@@ -1127,7 +1127,7 @@ void FUN_006e21b0_Class::ClearAndFreeStorage()
 {
     *reinterpret_cast<int**>(this) = &::DAT_0106cf88;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(reinterpret_cast<void**>(this)[2]);
+    ::FUN_00aa10f0((*reinterpret_cast<void**>(&this->m_ppkHashTable)));
 }
 }  // namespace fnv_006e21b0
 
@@ -1501,9 +1501,9 @@ FUN_006ec090_Class* FUN_006ec090_Class::FUN_006ec090(int aiValue)
 {
     ((FUN_006ecb40_Class*)this)->FUN_006ecb40();
     *(int*)this = (int)&DAT_0106d678;
-    *(int*)((char*)this + 8) = aiValue;
-    *(int*)((char*)this + 12) = 0;
-    *(void**)((char*)this + 16) = (void*)((char*)this + 12);
+    this->f8 = aiValue;
+    this->fC = 0;
+    this->f10 = (void*)((char*)&this->fC);
     return this;
 }
 
@@ -1784,11 +1784,11 @@ struct FUN_006ee100_Class
 // @fnv 0x006ee100
 FUN_006ee100_Class* FUN_006ee100_Class::FUN_006ee100()
 {
-    new ((void *)(((ref_006815c0*)((char*)this + 8)))) ::Vec3();
-    new ((void *)(((ref_006815c0*)((char*)this + 0x14)))) ::Vec3();
-    new ((void *)(((ref_006815c0*)((char*)this + 0x20)))) ::Vec3();
-    new ((void *)(((ref_006815c0*)((char*)this + 0x2c)))) ::Vec3();
-    ::FUN_006240d0((void *)(((NiBound*)((char*)this + 0x3c))));
+    new ((void *)((&this->m_08))) ::Vec3();
+    new ((void *)(((ref_006815c0*)&this->e))) ::Vec3();
+    new ((void *)(((ref_006815c0*)&this->g))) ::Vec3();
+    new ((void *)(((ref_006815c0*)&this->j))) ::Vec3();
+    ::FUN_006240d0((void *)(((NiBound*)&this->n)));
     return this;
 }
 
@@ -2228,9 +2228,9 @@ struct FUN_006f5060_Class
 // @fnv 0x006f5060
 void FUN_006f5060_Class::SetLocation(const PathingLocation& location)
 {
-    *(PathingLocation*)((char*)this + 4) = location;
+    this->m_loc = location;
     m_type = 2;
-    if (((PathingLocationProxy*)((char*)this + 4))->FindContainingTriangle(0))
+    if (((PathingLocationProxy*)&this->m_loc)->FindContainingTriangle(0))
         m_type |= 1;
 }
 }  // namespace fnv_006f5060
@@ -2630,7 +2630,7 @@ bool FUN_006ec260_Class::FUN_006ec260(int a1)
     if (m_8 && ((FUN_006ecd60_stub*)m_8)->FUN_006ecd00(&p2, a1))
     {
         if (!m_iThirdValue)
-            m_10 = (int*)((char*)this + 0xc);
+            m_10 = &this->m_iThirdValue;
         *m_10 = (int)p2;
         ((int*)p2)[2] = 0;
         m_10 = (int*)((char*)p2 + 8);
@@ -2842,7 +2842,7 @@ struct FUN_006f4f90_Class
 FUN_006f4f90_Class::FUN_006f4f90_Class(int aiFirst, int aiSecond)
 {
     reinterpret_cast<::FUN_006dd3e0_shell *>(&(m_loc))->FUN_006dd3e0((const ::NavMeshInfo *)(aiSecond));
-    ((int*)this)[0x2c / 4] = 0;
+    this->m_i = 0;
     reinterpret_cast<::fnv_006f4ed0::PathingLocation *>(&(m_loc))->FUN_006f4ed0((const ::fnv_006f4ed0::NiPoint3 *)(aiFirst));
     m_type = 3;
 }
@@ -3015,7 +3015,7 @@ FUN_006f46f0_Node* PopFirstNode(FUN_006f46f0_Node* a1)
     FUN_006f46f0_Node* result = 0;
     for (unsigned int i = 0; i < 20; i++)
     {
-        FUN_006f46f0_Node** ppSlot = (FUN_006f46f0_Node**)((char*)a1 + 4 + i * 4);
+        FUN_006f46f0_Node** ppSlot = (FUN_006f46f0_Node**)((char*)&a1->m_04 + i * 4);
         if (*ppSlot)
         {
             result = *ppSlot;

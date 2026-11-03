@@ -455,7 +455,7 @@ void FUN_004d4f10_StandIn::FUN_004d4f10()
 {
     *(const char**)this = "@OM";
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 

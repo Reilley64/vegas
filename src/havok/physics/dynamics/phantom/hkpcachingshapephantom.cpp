@@ -20,7 +20,9 @@
 
 struct hkpCachingShapePhantomStandIn
 {
-    char m_padding000[0x160];
+    char m_padding000[0x8];
+    char* unk08;
+    char pad0c[0x154];
     void* m_kCollisionDetails;
     int m_collisionDetailsSize;
     char m_padding168[4];
@@ -1160,7 +1162,7 @@ void Ca30Derived::QueryCollisionDetails()
     QueryDC4A30 query;
     __declspec(align(16)) int buffer[20];
 
-    char* container = *(char**)((char*)this + 8);
+    char* container = this->unk08;
     char* src = *(char**)(container + 0x78);
     memcpy(buffer, src, 0x50);
 

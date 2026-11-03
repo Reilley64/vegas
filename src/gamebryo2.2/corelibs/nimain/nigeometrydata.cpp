@@ -325,15 +325,15 @@ bool NiGeometryData::IsGeometryDataStreamable(bool bWrite)
 // @fnv 0x00a673d0
 void FUN_00a673d0_shell::FUN_00a673d0()
 {
-    if (*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a))
+    if (this->m_bIsDynamic)
     {
         NiAdditionalGeometryData* pkAGD =
-            *reinterpret_cast<NiAdditionalGeometryData**>(reinterpret_cast<char*>(this) + 0x30);
-        if (pkAGD && pkAGD->IsPacked() && !*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3b))
+            this->m_spAdditionalGeomData.m_pObject;
+        if (pkAGD && pkAGD->IsPacked() && !this->m_bBoundDirty)
         {
             reinterpret_cast<::FUN_00a725d0_shell2 *>((pkAGD))->FUN_00a725d0(0);
         }
-        *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a) = false;
+        this->m_bIsDynamic = false;
     }
 }
 // @fnv 0x00a725d0

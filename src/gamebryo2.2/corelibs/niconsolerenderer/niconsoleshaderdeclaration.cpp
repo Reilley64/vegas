@@ -37,8 +37,8 @@ NiD3DVertexDeclaration* FUN_00e76700(NiRenderer* renderer, unsigned int maxStrea
     {
         reinterpret_cast<::FUN_00e78840_shell *>((pkShaderDeclaration))->Construct();
         *reinterpret_cast<void**>(pkShaderDeclaration) = &(*reinterpret_cast<void * *>(&::DAT_010ee70c));
-        *reinterpret_cast<void**>(reinterpret_cast<char*>(pkShaderDeclaration) + 0x2c) = 0;
-        *reinterpret_cast<void**>(reinterpret_cast<char*>(pkShaderDeclaration) + 0x30) = 0;
+        pkShaderDeclaration->m_auiShapeKeys[9] = 0;
+        pkShaderDeclaration->m_pkVertexElements = 0;
         *reinterpret_cast<char*>(reinterpret_cast<char*>(pkShaderDeclaration) + 0x34) = 0;
         if (!((char)(reinterpret_cast<::DeclMap786 *>((pkShaderDeclaration))->FUN_00e78c60((::FUN_00e69660_shell *)(renderer), maxStreamEntries, streamCount))))
         {

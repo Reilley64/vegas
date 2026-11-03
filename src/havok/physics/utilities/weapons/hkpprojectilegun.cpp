@@ -42,10 +42,10 @@ struct FUN_00e44c70_cls
 // @fnv 0x00e44c70
 void FUN_00e44c70_cls::InitOnce()
 {
-    if (!(reinterpret_cast<unsigned char*>(this)[0xc] & 1))
+    if (!(this->pad8 & 1))
     {
         vC();
-        reinterpret_cast<unsigned char*>(this)[0xc] |= 1;
+        this->pad8 |= 1;
     }
 }
 

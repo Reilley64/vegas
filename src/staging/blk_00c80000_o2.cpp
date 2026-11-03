@@ -6641,7 +6641,7 @@ struct FUN_00c8d0d0_Object
 int FUN_00c8d0d0_Object::GetNodeCount()
 {
     int count = 0;
-    int* node = reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14);
+    int* node = &this->unk14;
 
     while (node && *node)
     {
@@ -17154,7 +17154,7 @@ class FUN_00c929e0_ThisClass
 void* FUN_00c929e0_ThisClass::FUN_00c929e0()
 {
     SpawnedAllocHolder* holder = FUN_00c85750();
-    FUN_00c929e0_Alloc* alloc = *(FUN_00c929e0_Alloc**)((char*)holder + 0x10);
+    FUN_00c929e0_Alloc* alloc = *(FUN_00c929e0_Alloc**)&holder->m_pAllocator;
     void* b = alloc->vf04(0x44);
     *(unsigned short*)((char*)b + 4) = 0x44;
     void* ret = ((void *)(new ((void *)(((FUN_00d065e0_class*)b))) ::FUN_00d065e0()));
@@ -17883,13 +17883,13 @@ void FUN_00c90030_holder::FUN_00c90030(int aiState)
     FUN_00c90030_Source* source = unk08;
     FUN_00c90030_Outer* outer = *reinterpret_cast<FUN_00c90030_Outer**>(reinterpret_cast<char*>(source) + 0x18);
 
-    void* result = outer->unk68.FUN_0043f8d0(&local24, reinterpret_cast<char*>(source) + 0x34, &local00, &unk2C);
+    void* result = outer->unk68.FUN_0043f8d0(&local24, reinterpret_cast<char*>(&source->unk34), &local00, &unk2C);
 
     FUN_00c90030_Result* resultObject = reinterpret_cast<FUN_00c90030_Result*>(result);
 
     void* matrix = resultObject->FUN_0043f8d0();
 
-    memcpy(reinterpret_cast<char*>(source) + 0x68, matrix, 9 * sizeof(int));
+    memcpy(reinterpret_cast<char*>(&source->unk68), matrix, 9 * sizeof(int));
 }
 
 extern char DAT_010c6b0c[];

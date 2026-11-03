@@ -561,7 +561,7 @@ void TransformCtl_t::FUN_00a36680(UpdData_00a36680& UpdateData)
     Interp_00a36680*& spInterp = *(Interp_00a36680**)((char*)this + 0x34);
     if (GetManagerControlled())
     {
-        *(float*)((char*)this + 0x28) = DAT_01096324;
+        this->m_fControllerTime = DAT_01096324;
     }
     else if (reinterpret_cast<::NiTimeControllerA362 *>(this)->FUN_00a36250(UpdateData.fTime) && (!spInterp || !spInterp->AlwaysUpdate()))
     {
@@ -573,9 +573,9 @@ void TransformCtl_t::FUN_00a36680(UpdData_00a36680& UpdateData)
         kTransform.m_kTranslate = DAT_011a8400;
         kTransform.m_kRotate = DAT_011f3704;
         kTransform.m_fScale = DAT_01096b8c;
-        if (spInterp->Update(*(float*)((char*)this + 0x28), *(void**)((char*)this + 0x2c), &kTransform))
+        if (spInterp->Update(this->m_fControllerTime, *(void**)&this->m_pkTarget, &kTransform))
         {
-            NiAVObject* pkTarget = *(NiAVObject**)((char*)this + 0x2c);
+            NiAVObject* pkTarget = *(NiAVObject**)&this->m_pkTarget;
             if (kTransform.m_kTranslate.x != -3.4028234663852886e+38)
                 pkTarget->m_kTranslate = kTransform.m_kTranslate;
             if (kTransform.m_kRotate.m_fVectorY != -3.4028234663852886e+38)

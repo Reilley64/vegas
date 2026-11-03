@@ -488,8 +488,8 @@ bool BGSPerk::Load(TESFile* file)
 // @fnv 0x005e96b0
 void FUN_005e96b0_shell::LoadFromSaveData(RGBColor* apSaveData)
 {
-    *((unsigned char*)this + 4) = apSaveData->m_ucRank;
-    *((unsigned char*)this + 5) = apSaveData->m_ucRegionPriority;
+    this->m_ucRank = apSaveData->m_ucRank;
+    this->m_ucRegionPriority = apSaveData->m_ucRegionPriority;
 }
 
 struct FUN_005ec040_stand

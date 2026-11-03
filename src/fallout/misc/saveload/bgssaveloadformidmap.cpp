@@ -144,7 +144,7 @@ unsigned int FUN_00846d20_shell::FUN_00846d20(unsigned int formID)
     if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(formID))
         return formID;
     unsigned int result = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)((char*)this + 0x10))))->FUN_00853130(formID, (::fnv_00853130::CombatThreatRecord *&)(result)))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((&this->m_kTargetToSourceFormIDMap)))->FUN_00853130(formID, (::fnv_00853130::CombatThreatRecord *&)(result)))
         return result;
     return 0;
 }

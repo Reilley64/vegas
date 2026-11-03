@@ -125,8 +125,8 @@ void Cls_dafcd0::FUN_00dafcd0(Node* apNodeA, Node* apNodeB, const Vec4Blk* apMat
     S = _mm_xor_ps(S, ::DAT_010c44d0);
     apNodeB->v38(Vec4Q(S), &out60);
 
-    m_02 = *(short*)((char*)&out60 + 0xc);
-    m_00 = *(short*)((char*)&Q + 0xc);
+    m_02 = *(short*)&out60.w;
+    m_00 = *(short*)&Q.w;
     m_04 = 0;
     m_06 = 0;
     m_08 = 1;
@@ -332,7 +332,7 @@ void FUN_00dafe70_cls::FUN_00dafe70(Iface* apIface, Src* apSrc, const unsigned i
 
     apIface->v0E(&nq, &vResult);
 
-    unk00 = *(unsigned short*)((char*)&vResult + 0xc);
+    unk00 = *(unsigned short*)&vResult.u.u3;
     m_b8 = 1;
     m_b9 = 3;
     int c = apIface->v0B();

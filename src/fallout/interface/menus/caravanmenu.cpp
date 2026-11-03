@@ -198,7 +198,7 @@ void CaravanMenu::SetTile(int aiIndex, Tile* tile)
 {
     if (aiIndex >= 0 && aiIndex < 0x33)
     {
-        *(Tile**)((char*)this + 0x30 + aiIndex * 4) = tile;
+        *(Tile**)((char*)&this->m_pTiles[11] + aiIndex * 4) = tile;
     }
 }
 

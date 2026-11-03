@@ -3017,7 +3017,7 @@ struct FUN_0041d8a0_shell : public TESPackage
 // @fnv 0x0041d8a0
 DurationData* FUN_0041d8a0_shell::FUN_0041d8a0()
 {
-    return (DurationData*)((char*)this + 0x38);
+    return (DurationData*)&this->prefix[56];
 }
 
 struct FUN_0041d8c0_shell : public ExtraDataList
@@ -5603,7 +5603,7 @@ struct FUN_004fd3c0_shell : public TESSaveLoadGame
 // @fnv 0x004fd3c0
 FormRecordMetadata* FUN_004fd3c0(TESSaveLoadGame* _this)
 {
-    return *(FormRecordMetadata**)((char*)_this + 0x84);
+    return _this->m_pCurrentLoadingFormHeader;
 }
 }  // namespace fnv_004fd3c0
 
@@ -5907,7 +5907,7 @@ struct FUN_007af430_shell : public TESObjectREFR
 // @fnv 0x007af430
 TESBoundObject* FUN_007af430_shell::FUN_007af430()
 {
-    return *(TESBoundObject**)((char*)this + 0x20);
+    return *(TESBoundObject**)&this->data.m_pPlacedObject;
 }
 }  // namespace fnv_007af430
 
@@ -5976,9 +5976,9 @@ struct P_009f2b30
 // @fnv 0x009f2b30
 void P_009f2b30::FUN_009f2b30()
 {
-    if (idx < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Arr_009f2b30*)((char*)this + 0x1c))))->GetName())))
+    if (idx < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((Arr_009f2b30*)&this->arr[0])))->GetName())))
     {
-        TESObjectREFR* poldRef = (TESObjectREFR*)((Arr_009f2b30*)((char*)this + 0x1c))->GetAt(idx);
+        TESObjectREFR* poldRef = (TESObjectREFR*)((Arr_009f2b30*)&this->arr[0])->GetAt(idx);
         ExtraDataList* poldExtra = poldRef ? ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((poldRef))->FUN_005d43c0())) : 0;
         if (poldExtra)
             ((ER_009f2b30*)poldExtra)->FUN_0042f300(0);
@@ -10846,7 +10846,7 @@ struct FUN_0042cc40 : BE
 FUN_0042cc40::FUN_0042cc40() : BE(0x8d)
 {
     *(int*)this = (int)&DAT_010159a4;
-    *(unsigned char*)((char*)this + 0xC) = 0;
+    this->_m3 = 0;
 }
 }  // namespace fnv_0042cc40
 
@@ -11249,9 +11249,9 @@ void FUN_0041eba0_list::FUN_0041eba0(bool aiEdge)
     if (pdata)
     {
         if (aiEdge)
-            ((unsigned char*)pdata)[0x14] |= 1;
+            pdata->layoutPaddingF |= 1;
         else
-            ((unsigned char*)pdata)[0x14] &= ~1;
+            pdata->layoutPaddingF &= ~1;
     }
 }
 }  // namespace fnv_0041eba0
@@ -11378,12 +11378,12 @@ void FUN_00420f00_shell::FUN_00420f00(void* apRoom)
         FUN_004358a0* pextra = (FUN_004358a0*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x79);
         if (pextra)
         {
-            *(GO*)((char*)pextra + 0xc) = apRoom;
+            *(GO*)&pextra->b[12] = apRoom;
         }
         else
         {
             pextra = new FUN_004358a0;
-            *(GO*)((char*)pextra + 0xc) = apRoom;
+            *(GO*)&pextra->b[12] = apRoom;
             reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(this)->FUN_0040ff60((BSExtraData*)pextra);
         }
     }
@@ -13930,7 +13930,7 @@ void ExtraDataListCopyListForContainer::FUN_004121e0(ExtraDataList* copy, bool d
 
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fbf0((char *)("ExtraDataList::CopyListForContainer()"));
 
-    work = *reinterpret_cast<BSExtraData**>(reinterpret_cast<char*>(copy) + 4);
+    work = copy->pHead;
 
     while (work)
     {
@@ -13960,7 +13960,7 @@ void ExtraDataListCopyListForContainer::FUN_004121e0(ExtraDataList* copy, bool d
             {
                 reinterpret_cast<ExtraDataListCopyListForContainer*>(copy)->_FUN_00410020(work, true);
 
-                work = *reinterpret_cast<BSExtraData**>(reinterpret_cast<char*>(copy) + 4);
+                work = copy->pHead;
                 bHasResultObj = false;
             }
             break;
@@ -13972,7 +13972,7 @@ void ExtraDataListCopyListForContainer::FUN_004121e0(ExtraDataList* copy, bool d
             {
                 reinterpret_cast<ExtraDataListCopyListForContainer*>(copy)->_FUN_00410020(work, false);
 
-                work = *reinterpret_cast<BSExtraData**>(reinterpret_cast<char*>(copy) + 4);
+                work = copy->pHead;
                 bHasResultObj = false;
             }
             break;
@@ -14011,7 +14011,7 @@ void FUN_00412380_shell::FUN_00412380(ExtraDataList* apCopy)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fbf0((char *)("ExtraDataList::DuplicateExtraListForContainer()"));
 
-    BSExtraData* work = reinterpret_cast<BSExtraData**>(reinterpret_cast<char*>(apCopy) + 4)[0];
+    BSExtraData* work = (&apCopy->pHead)[0];
 
     while (work)
     {

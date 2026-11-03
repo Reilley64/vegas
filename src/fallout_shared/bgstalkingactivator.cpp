@@ -339,7 +339,7 @@ struct FUN_00516bf0_shell : public BGSTalkingActivator
 // @fnv 0x00516bf0
 Actor* FUN_00516bf0_shell::FUN_00516bf0()
 {
-    return *(Actor**)((char*)this + 0x90);
+    return *(Actor**)&this->m_pTempRef;
 }
 
 struct Elem12
@@ -539,7 +539,7 @@ struct FUN_004fe640 : public TESObjectACTI
 // @fnv 0x004fe640
 FUN_004fe640::FUN_004fe640()
 {
-    *(void**)((char*)this + 0x70) = &DAT_01025520;
+    this->m_ppVirtualMethodTable = &DAT_01025520;
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x16)));
     reinterpret_cast<BGSTalkingActivator*>(this)->BGSTalkingActivator::ResetFormData();
 }

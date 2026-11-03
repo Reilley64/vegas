@@ -131,7 +131,7 @@ struct FUN_00509aa0_shell : TESGrass
 // @fnv 0x00509aa0
 unsigned char FUN_00509aa0_shell::FUN_00509aa0()
 {
-    return ((unsigned char*)this)[0x4a];
+    return this->Data.m_ucMaxSlope;
 }
 
 struct TESGrass_shell

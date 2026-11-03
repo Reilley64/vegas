@@ -184,7 +184,7 @@ TESForm* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCopyMap
         BSSimpleList<TESObjectREFR*>* pCurrentElementNext;
         pdupcell = dynamic_cast<TESObjectCELL*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>((((S004867a0*)this)))->FUN_004867a0((void *)(false), apCopyMap))));
         TESObjectLAND* pland;
-        pland = *(TESObjectLAND**)((char*)this + 0x4c);
+        pland = *(TESObjectLAND**)&this->unk4c;
         if (pland)
         {
             TESObjectLAND* pdupland = dynamic_cast<TESObjectLAND*>(((TESForm*)pland)->DuplicateForm(false, apCopyMap));
@@ -195,13 +195,13 @@ TESForm* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCopyMap
                 ((TESForm*)pdupland)->v50(true);
             }
         }
-        if (*(NavMeshCollection**)((char*)this + 0x64))
+        if (*(NavMeshCollection**)&this->unk64)
         {
             reinterpret_cast<::FUN_00557760_cls *>((((CellX*)pdupcell)))->SetHelper((::Helper_cls *)(::NavMeshCollection *)(new NavMeshCollection));
             NavMeshPtr spmesh;
-            for (unsigned int i = 0; i < ((int)(reinterpret_cast<::FUN_00620b80_shell *>((*(NavMeshCollection**)((char*)this + 0x64)))->GetReferenceFlags())); i++)
+            for (unsigned int i = 0; i < ((int)(reinterpret_cast<::FUN_00620b80_shell *>((*(NavMeshCollection**)&this->unk64))->GetReferenceFlags())); i++)
             {
-                NavMesh* pmesh = (NavMesh*)(unsigned int)(*(NavMeshCollection**)((char*)this + 0x64))->GetNavMeshAt(i);
+                NavMesh* pmesh = (NavMesh*)(unsigned int)(*(NavMeshCollection**)&this->unk64)->GetNavMeshAt(i);
                 if (pmesh && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)pmesh)))->FUN_00440d80())
                 {
                     NavMesh* pdupMesh = dynamic_cast<NavMesh*>(((TESForm*)pmesh)->DuplicateForm(false, apCopyMap));
@@ -209,7 +209,7 @@ TESForm* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCopyMap
                     {
                         *(TESObjectCELL**)((char*)pdupMesh + 0x24) = pdupcell;
                         spmesh = MakeNavMeshPointer(pdupMesh);
-                        reinterpret_cast<::NavShell2 *>(((*(NavMeshCollection**)((char*)pdupcell + 0x64))))->FUN_00469500((*(::NavMeshPtr *)&(const ::NiPointer< ::NavMesh> &)(spmesh)));
+                        reinterpret_cast<::NavShell2 *>(((*(NavMeshCollection**)&pdupcell->unk64)))->FUN_00469500((*(::NavMeshPtr *)&(const ::NiPointer< ::NavMesh> &)(spmesh)));
                     }
                 }
             }

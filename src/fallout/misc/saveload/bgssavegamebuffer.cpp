@@ -262,9 +262,9 @@ struct FUN_00865e50_shell : BGSSaveGameBuffer
 // @fnv 0x0043aa40
 void FUN_0043aa40_shell::FUN_0043aa40(BGSSaveFormBuffer* apBuffer)
 {
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((void*)((char*)this + 4), 0xc, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((void*)((char*)this + 0x10), 0xc, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((void*)((char*)this + 0x1c), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((void*)((char*)&this->m_04), 0xc, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((void*)((char*)&this->m_10), 0xc, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((void*)((char*)&this->m_1c), 1, 0);
     apBuffer->SerializeFormData((void*)this->m_00, 0);
 }
 // Writes the object's pointer to the save buffer, then saves four consecutive one-byte fields at offsets 0x1c through 0x1f.

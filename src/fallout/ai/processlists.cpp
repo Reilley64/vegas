@@ -2862,7 +2862,7 @@ void FUN_0096cb50_shell::UpdateHighProcessActors()
         {
             Actor* pactor = (Actor*)pmobile;
             bool bhasControllerEnabled =
-                *(RagH**)((char*)pactor + 0xac) && ::FUN_00552490((bool *)((*(RagH**)((char*)pactor + 0xac))));
+                *(RagH**)&pactor->m_pRagdollController && ::FUN_00552490((bool *)((*(RagH**)&pactor->m_pRagdollController)));
             if (pactor->GetNiNode() && bhasControllerEnabled && !((BSFadeNode*)pactor->GetNiNode())->FUN_00552470() &&
                 !reinterpret_cast<::MobileObject *>((void *)(((ActorDialogueHelper*)pactor)))->IsInDialogueWithPlayer())
             {
@@ -2870,7 +2870,7 @@ void FUN_0096cb50_shell::UpdateHighProcessActors()
             }
             else if (bhasControllerEnabled)
             {
-                reinterpret_cast<::FUN_0096cc80_shell *>(((*(RagH**)((char*)pactor + 0xac))))->SetByte50(1);
+                reinterpret_cast<::FUN_0096cc80_shell *>(((*(RagH**)&pactor->m_pRagdollController)))->SetByte50(1);
             }
         }
     }

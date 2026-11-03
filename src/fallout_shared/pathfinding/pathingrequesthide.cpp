@@ -112,7 +112,8 @@ struct PathingRequestHide : PathingRequest
     unsigned char pad0[0xb0];
     PathingLocation m_Location;
     float m_fHideDistance;
-    unsigned char pad1[0x24];
+    unsigned char pad1[0x20];
+    float unkd8;
     void FUN_006e56f0(PathingRequest* apDest);
 };
 
@@ -123,8 +124,8 @@ void PathingRequestHide::FUN_006e56f0(PathingRequest* apDest)
     PathingRequestHide* pdest = static_cast<PathingRequestHide*>(apDest);
     reinterpret_cast<::PathingRequest *>(this)->CopyTo((::PathingRequest *)(pdest));
     reinterpret_cast<::PathingLocation *>((void *)&(const ::fnv_006e56f0::PathingLocation &)(pdest->m_Location))->operator=((const ::PathingLocation &)(m_Location));
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(pdest) + 0xd8) =
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xd8);
+    pdest->unkd8 =
+        this->unkd8;
 }
 }  // namespace fnv_006e56f0
 

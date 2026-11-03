@@ -349,7 +349,7 @@ NiProperty* __cdecl CreateProperty()
     if (pProperty)
     {
         new (pProperty) NiProperty();
-        *(unsigned short*)((char*)pProperty + 0x18) &= 0xFFFE;
+        pProperty->m_flags &= 0xFFFE;
         *(void**)pProperty = (void*)&DAT_0109f68c;
         return pProperty;
     }

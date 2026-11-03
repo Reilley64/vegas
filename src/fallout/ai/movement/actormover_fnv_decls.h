@@ -47,7 +47,10 @@ class ActorMover
     void* request;
     NiPointer<NiNode> m_pActorNode;
     ActorPathHandler* m_pPathHandler;
-    unsigned char padding28[0x10];
+    void* unk28;
+    unsigned int unk2c;
+    unsigned char pad30[0x4];
+    unsigned int unk34;
     unsigned int m_uiMovementFlags, m_uiMovementMode;
     unsigned char middle[0x2c];
     int eState;

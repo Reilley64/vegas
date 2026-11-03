@@ -73,7 +73,7 @@ NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned
 // @fnv 0x00a7fd30
 void* DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned char flags)
 {
-    void* p30 = *(void**)((char*)self + 0x30);
+    void* p30 = *(void**)&self->m_spRenderTargetBuffer.m_pObject;
     if (p30)
     {
         // InterlockedDecrement((long*)((char*)p30 + 4))
@@ -86,7 +86,7 @@ void* DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned char flags)
         }
     }
 
-    void* p24 = *(void**)((char*)self + 0x24);
+    void* p24 = *(void**)&self->m_pTextureRendererData;
     *(void**)self = &DAT_0109b944;
     if (p24)
     {
@@ -125,7 +125,7 @@ struct FUN_00a7fbe0_shell : public NiRenderedTexture
 // @fnv 0x00a7fbe0
 unsigned int FUN_00a7fbe0_shell::FUN_00a7fbe0()
 {
-    void* p = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x30);
+    void* p = *reinterpret_cast<void**>(&this->m_spRenderTargetBuffer.m_pObject);
     if (p)
         return *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(p) + 8);
     return 0;
@@ -140,7 +140,7 @@ struct FUN_00a7fbf0_shell : public NiRenderedTexture
 unsigned int FUN_00a7fbf0_shell::FUN_00a7fbf0()
 {
     NiRenderedTexture* this_ = static_cast<NiRenderedTexture*>(this);
-    void* ptr = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this_) + 0x30);
+    void* ptr = *reinterpret_cast<void**>(&this_->m_spRenderTargetBuffer.m_pObject);
     if (ptr)
         return *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(ptr) + 0xc);
     return 0;

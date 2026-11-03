@@ -159,7 +159,7 @@ void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
 {
     XfSub_cls* sub = a1->m_0c;
     char* p1 = XfSelectRec(a1->m_38[a1->m_3c - 1] + 0x10);
-    char* p2 = XfSelectRec((char*)a2 + 0x10);
+    char* p2 = XfSelectRec((char*)&a2->unk10);
     XfOut_cls outs[2];
     ((FUN_00c7f690_cls*)&outs[0])->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(p1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
     ((FUN_00c7f690_cls*)&outs[1])->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(p2 + 0xf0)), (const ::S_00c7f690_V *)(a3));

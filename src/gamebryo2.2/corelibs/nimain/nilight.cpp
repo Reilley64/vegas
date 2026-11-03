@@ -153,10 +153,10 @@ struct FUN_00a68d80_shell
 bool FUN_00a72160_shell::FUN_00a72160(NiObject* pObject)
 {
     if (reinterpret_cast<::FNVEffect *>((((FUN_00a68d80_shell*)this)))->FUN_00a68d80((::FNVEffect *)(pObject)) &&
-        *(float*)((char*)this + 0xc4) == *(float*)((char*)pObject + 0xc4) &&
-        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)((char*)this + 0xc8))))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xc8))) &&
-        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)((char*)this + 0xd4))))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xd4))) &&
-        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)((char*)this + 0xe0))))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xe0))))
+        this->m_fDimmer == *(float*)((char*)pObject + 0xc4) &&
+        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kAmb.r)))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xc8))) &&
+        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kDiff.r)))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xd4))) &&
+        !reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kSpec.r)))->operator==((const ::NiPlane &)(*(const NiPoint3*)((char*)pObject + 0xe0))))
         return true;
     return false;
 }

@@ -55,7 +55,7 @@ void FUN_00d223f0_cls::GatherIndexedVectors(unsigned short const* indices, int c
         unsigned int uiIndex = *p;
         __m128 v = _mm_load_ps(reinterpret_cast<float const*>(reinterpret_cast<char*>(this) + uiIndex + 0x20));
         _mm_store_ps(reinterpret_cast<float*>(pOut), v);
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(pOut) + 0xc) = uiIndex | 0x3f000000;
+        *reinterpret_cast<unsigned int*>(&pOut->w) = uiIndex | 0x3f000000;
         pOut++;
         p++;
         iRemaining--;

@@ -44,7 +44,7 @@ extern float DAT_011ac3a4;
 // @fnv 0x00aa4db0
 void FUN_00aa4db0_shell::FUN_00aa4db0(float afMult, bool abNow)
 {
-    bool bUseGlobal = *(bool*)((char*)this + 0x1c);
+    bool bUseGlobal = this->m_bFirstTimerFlag;
     if (bUseGlobal)
     {
         DAT_011ac3a4 = afMult;
@@ -60,9 +60,9 @@ void FUN_00aa4db0_shell::FUN_00aa4db0(float afMult, bool abNow)
         {
             return;
         }
-        *(float*)((char*)this + 0xc) /= DAT_011ac3a0;
+        this->fTimeSinceScaleStart /= DAT_011ac3a0;
         DAT_011ac3a0 = afMult;
-        *(float*)((char*)this + 0xc) *= DAT_011ac3a0;
+        this->fTimeSinceScaleStart *= DAT_011ac3a0;
     }
 }
 

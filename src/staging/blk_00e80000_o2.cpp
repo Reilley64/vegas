@@ -10374,12 +10374,12 @@ FUN_00e881a0::FUN_00e881a0(void* renderer)
     NiAlphaProperty* pOldAlpha = m_74;
     if (pOldAlpha != pNew) {
         if (pOldAlpha) {
-            if (InterlockedDecrement((volatile long*)((char*)pOldAlpha + 4)) == 0)
+            if (InterlockedDecrement((volatile long*)&pOldAlpha->m_uiRefCount) == 0)
                 pOldAlpha->DeleteThis();
         }
         m_74 = pNew;
         if (pNew)
-            InterlockedIncrement((volatile long*)((char*)pNew + 4));
+            InterlockedIncrement((volatile long*)&pNew->m_uiRefCount);
     }
 
     int four = 4;
@@ -14437,8 +14437,8 @@ void FUN_00e8b0c0_Class::FUN_00e8b0c0()
         }
     }
     if (pResult != 0) {
-        InterlockedIncrement((long volatile*)((char*)pResult + 4));
-        if (InterlockedDecrement((long volatile*)((char*)pResult + 4)) == 0) {
+        InterlockedIncrement((long volatile*)&pResult->m_04);
+        if (InterlockedDecrement((long volatile*)&pResult->m_04) == 0) {
             return pResult->v1();
         }
     }

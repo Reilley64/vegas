@@ -516,7 +516,7 @@ struct FUN_0050eaa0_shell : public TESBoundObject
 // @fnv 0x0050eaa0
 void FUN_0050eaa0_shell::FUN_0050eaa0(TESBoundObject* apCopy)
 {
-    ::__memcpy((char*)this + 0x24, (char*)apCopy + 0x24, 0xc);
+    ::__memcpy((char*)&this->bounds, (char*)&apCopy->bounds, 0xc);
 }
 
 namespace fnv_0050ebf0 {

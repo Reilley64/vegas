@@ -234,12 +234,12 @@ struct FUN_009cba50_shell
 void FUN_009cba50_shell::FUN_009cba50(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::FUN_00996ef0_shell *>((((CombatProcedure_LoadGame*)this)))->FUN_00996ef0(buffer);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x10), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x14), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x18), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x24), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x30), 1);
-    ((TimeoutTimer*)((char*)this + 0x34))->LoadGame(buffer);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_usTrailingValue), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_f), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_g), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iUnknownValue), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iUnknownValue2), 1);
+    ((TimeoutTimer*)&this->m_uiValueCount)->LoadGame(buffer);
 }
 
 struct NiPoint3

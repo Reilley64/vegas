@@ -343,10 +343,10 @@ void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* 
         {
         case 0:
         case 4:
-            p = (char*)self + 0x20;
+            p = (char*)&self->unk20;
             break;
         case 2:
-            p = (char*)self + 0x30;
+            p = (char*)&self->unk30;
             break;
         case 8:
         case 10:
@@ -1434,7 +1434,7 @@ CollisionAgentEntry* __cdecl FUN_00cfe8a0(CFE820Pool* pool, CollidableNode* node
         else
         {
             entry->m_flags = flags | 2;
-            subEntry = (char*)entry + 0x20;
+            subEntry = (char*)&entry->m_vSeparatingNormal;
         }
         ((QualityEntry*)(initialTable + 0x16b0 + (unsigned char)qualityType * 80))
             ->m_pCreateFunc(&input, entry, subEntry);

@@ -255,7 +255,7 @@ struct FUN_00619a70_shell : public TESTopicInfo
 // @fnv 0x00619a70
 unsigned short FUN_00619a70_shell::FUN_00619a70()
 {
-    return *(unsigned short*)((char*)this + 0x20);
+    return this->m_uiInfoIndex;
 }
 
 struct FUN_00619b20_shell : public TESTopicInfo
@@ -266,7 +266,7 @@ struct FUN_00619b20_shell : public TESTopicInfo
 // @fnv 0x00619b20
 bool FUN_00619b20_shell::FUN_00619b20()
 {
-    return (bool)(*reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x25) & 4);
+    return (bool)(this->m_Data.flags & 4);
 }
 
 struct FUN_00619d00_shell : public TESTopic
@@ -321,7 +321,7 @@ TESQuest* FUN_00619d00_shell::FindQuestForTopicInfo(TESTopicInfo* apInfo)
 // @fnv 0x00619df0
 bool FUN_00619df0_shell::FUN_00619df0()
 {
-    return (*((char*)this + 0x25) & 1) ? true : false;
+    return (this->m_Data.cFlags & 1) ? true : false;
 }
 
 TESTopicInfo* __cdecl GetTopicInfoByIndex(QuestDialogueInfo* apQuestInfo, unsigned int aiIndex);
@@ -1225,14 +1225,14 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
                 int IdxJustAdded;
                 if ((IdxJustAdded = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName())) - 1) >= 0)
                 {
-                    *(int*)((char*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded) + 8) = m_iIndex;
+                    ((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded).c = m_iIndex;
                     int size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName()));
                     for (int iter = 0; iter < IdxJustAdded; iter++)
                     {
                         if (*(int*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(iter) ==
                             *(int*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded))
                         {
-                            *(int*)((char*)&((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(iter) + 8) = m_iIndex;
+                            ((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(iter).c = m_iIndex;
                             reinterpret_cast<::FUN_0061bf70_Class *>((((ArrX*)((char*)pLastQuestInfo + 0x1c))))->FUN_0061bf70(IdxJustAdded, 1);
                             break;
                         }

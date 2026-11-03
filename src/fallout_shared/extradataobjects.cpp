@@ -1070,7 +1070,7 @@ void FUN_004348a0_shell::AddReflectedRef(TESObjectREFR* apRef, unsigned int aiEf
         pEntry->m_pHitReference = apRef;
         ((BSSimpleList<const char*>&)RefList).AddHead((const char*&)pEntry);
     }
-    ((unsigned int*)pEntry)[1] = aiEffectFlags;
+    (*(unsigned int*)&pEntry->Intersect.x) = aiEffectFlags;
 }
 
 struct ExtraMerchantContainer : public BSExtraData
@@ -2145,12 +2145,12 @@ struct ActorX : public MobileObject
 // @fnv 0x00437ab0
 bool FUN_00437ab0_shell::FUN_00437ab0(void* apPotentialUser)
 {
-    if (apPotentialUser && ((TESForm*)apPotentialUser)->GetFormID() == *(unsigned int*)((char*)this + 0xc))
+    if (apPotentialUser && ((TESForm*)apPotentialUser)->GetFormID() == this->User)
         return true;
-    RefX* pref = (RefX*)::FUN_004839c0(*(unsigned int*)((char*)this + 0xc));
+    RefX* pref = (RefX*)::FUN_004839c0(this->User);
     if (!pref || pref->Cb(0) || reinterpret_cast<::FUN_00437b90_shell *>((pref))->FUN_00437b90())
     {
-        *(unsigned int*)((char*)this + 0xc) = 0;
+        this->User = 0;
         return true;
     }
     if (pref->IsX())
@@ -2159,7 +2159,7 @@ bool FUN_00437ab0_shell::FUN_00437ab0(void* apPotentialUser)
         if (reinterpret_cast<::FUN_00437bf0_shell *>((pactor))->FUN_00437bf0() || ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((pactor))->FUN_00437bd0())) ||
             (pactor->GetCurrentProcessLevel() && !::FUN_00437bb0((::FUN_00437bb0_Class *)(pactor))))
         {
-            *(unsigned int*)((char*)this + 0xc) = 0;
+            this->User = 0;
             return true;
         }
     }
@@ -3618,7 +3618,7 @@ FUN_00430200::FUN_00430200() : BE(0x5f)
 {
     *reinterpret_cast<void**>(this) = &DAT_01015b34;
     reinterpret_cast<::AX *>((reinterpret_cast<AX*>(reinterpret_cast<char*>(this) + 0x20)))->FUN_00438570();
-    *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0xc) = 0;
+    *reinterpret_cast<unsigned short*>(&this->f18) = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10) = -1;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14) = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = -1;

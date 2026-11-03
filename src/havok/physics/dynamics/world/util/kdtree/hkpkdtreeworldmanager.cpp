@@ -118,10 +118,10 @@ FUN_00d0a4f0::~FUN_00d0a4f0()
     *(int*)((char*)this + 0x14) = (int)&DAT_010cd25c;
     *(int*)((char*)this + 0x18) = (int)&DAT_010cd244;
 
-    reinterpret_cast<::hkWorldC917 *>((((FUN_00c917a0_shell*)*(void**)((char*)this + 0x1c))))->FUN_00c917a0((char*)this + 0x14);
-    reinterpret_cast<::hkWorldC91F *>((((FUN_00c917f0_shell*)*(void**)((char*)this + 0x1c))))->FUN_00c917f0((char*)this + 0x18);
+    reinterpret_cast<::hkWorldC917 *>((((FUN_00c917a0_shell*)this->m_ptr1c)))->FUN_00c917a0((char*)&this->m_ptr14);
+    reinterpret_cast<::hkWorldC91F *>((((FUN_00c917f0_shell*)this->m_ptr1c)))->FUN_00c917f0((char*)&this->m_ptr18);
 
-    void* p = *(void**)((char*)this + 0x10);
+    void* p = this->m_ptr10;
     if (p)
     {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((((FUN_00d97850_shell*)p)))->ClearBuffers();
@@ -1365,7 +1365,7 @@ inline void timerEvent(const char* name)
         _ReadWriteBarrier();
         volatile unsigned int tick = (unsigned int)__rdtsc();
         record->clock = tick;
-        stream->current = reinterpret_cast<char*>(record) + 12;
+        stream->current = reinterpret_cast<char*>(&record->object);
     }
 }
 struct IntBuffer

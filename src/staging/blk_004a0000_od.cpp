@@ -812,7 +812,7 @@ void FUN_004b9d30::Init()
 {
     *(int**)((char*)this + 0) = &DAT_010205d4;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 void __cdecl operator delete(void*);
@@ -1143,7 +1143,7 @@ struct FUN_004a4c50_Class
 // @fnv 0x004a4c50
 void FUN_004a4c50_Class::ClearSlots()
 {
-    ((GO*)((char*)this + 0x24))->operator=(0);
+    this->m0.operator=(0);
     ((GO*)((char*)this + 0x28))->operator=(0);
     ((GO*)((char*)this + 0x2c))->operator=(0);
 }
@@ -1990,11 +1990,11 @@ struct FUN_004b07e0_Class
 // @fnv 0x004b07e0
 void* FUN_004b07e0_Class::PopElement()
 {
-    if (!*((unsigned short*)(this) + 5))
+    if (!this->m_uiCount)
         return 0;
-    --*((unsigned short*)(this) + 5);
-    void* pElement = m_pElements[*((unsigned short*)(this) + 5)];
-    m_pElements[*((unsigned short*)(this) + 5)] = 0;
+    --this->m_uiCount;
+    void* pElement = m_pElements[this->m_uiCount];
+    m_pElements[this->m_uiCount] = 0;
     if (pElement)
         --*((unsigned short*)(this) + 6);
     return pElement;
@@ -2698,10 +2698,10 @@ class FUN_004b0480_cls : public Base_b9135
 // @fnv 0x004b0480
 FUN_004b0480_cls::~FUN_004b0480_cls()
 {
-    unsigned int count = reinterpret_cast<::FUN_00658930_class *>((((FUN_00658930_cls*)((char*)this + 8))))->GetShortAtOffsetA();
+    unsigned int count = reinterpret_cast<::FUN_00658930_class *>((((FUN_00658930_cls*)&this->m_08)))->GetShortAtOffsetA();
     for (unsigned int i = 0; i < count; ++i)
     {
-        void* p = ((FUN_004b07e0_Class*)((char*)this + 8))->PopElement();
+        void* p = ((FUN_004b07e0_Class*)&this->m_08)->PopElement();
         void* q = p;
         FUN_00401030(q);
     }

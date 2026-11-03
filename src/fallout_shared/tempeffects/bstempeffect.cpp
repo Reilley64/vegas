@@ -43,9 +43,9 @@ void FUN_00682860_shell::FUN_00682860()
 {
     *(const void**)this = &vftable_BSTempEffect;
     *(int*)((char*)this + 0xc) = 0;
-    *(float*)((char*)this + 0x8) = 0.0f;
-    *(float*)((char*)this + 0x10) = 0.0f;
-    *(char*)((char*)this + 0x14) = 0;
+    this->m_fParticleParameter5 = 0.0f;
+    this->m_fFirstFloatValue = 0.0f;
+    *(char*)&this->bInitialized = 0;
     reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 

@@ -217,8 +217,8 @@ void PathingRequest::CopyTo(PathingRequest* request)
 // @fnv 0x006e2980
 void FUN_006e2980_shell::FUN_006e2980(NiPoint3* apCenter, float afOriginRadius)
 {
-    *(NiPoint3*)((char*)this + 0x7c) = *apCenter;
-    *(float*)((char*)this + 0x78) = afOriginRadius;
+    (*static_cast<NiPoint3 *>(&this->Center)) = *apCenter;
+    this->m_fCenterRadius = afOriginRadius;
 }
 
 struct FUN_006e2b50_shell : public PathingRequest
@@ -229,7 +229,7 @@ struct FUN_006e2b50_shell : public PathingRequest
 // @fnv 0x006e2b50
 void FUN_006e2b50_shell::SetCantOpenDoors(bool abCantOpenDoors)
 {
-    *((bool*)((char*)this + 0x98)) = abCantOpenDoors;
+    this->bCantOpenDoors = abCantOpenDoors;
 }
 
 struct FUN_006e2b70_shell : public PathingRequest
@@ -240,7 +240,7 @@ struct FUN_006e2b70_shell : public PathingRequest
 // @fnv 0x006e2b70
 void FUN_006e2b70_shell::SetCanSwim(bool abCanSwim)
 {
-    *((bool*)((char*)this + 0x9d)) = abCanSwim;
+    this->bCanSwim = abCanSwim;
 }
 
 struct FUN_006e2bb0_shell : public PathingRequest
@@ -252,8 +252,8 @@ struct FUN_006e2bb0_shell : public PathingRequest
 // @fnv 0x006e2bb0
 void FUN_006e2bb0_shell::SetInitialPathHeading(float afInitialPathHeading)
 {
-    *(float*)((char*)this + 0x90) = afInitialPathHeading;
-    *(bool*)((char*)this + 0xa0) = true;
+    this->m_fAvoidanceRadius = afInitialPathHeading;
+    this->m_bCanJump = true;
 }
 
 struct FUN_006e3a80

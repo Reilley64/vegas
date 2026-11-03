@@ -723,7 +723,7 @@ void FUN_00863f00::Init()
 {
     *(void**)this = &DAT_01081fa8;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 struct NiRenderer
@@ -2014,7 +2014,7 @@ void FUN_00865840_class::FUN_00865840()
 {
     *(void**)this = (void*)&DAT_010822a8;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 struct CF845

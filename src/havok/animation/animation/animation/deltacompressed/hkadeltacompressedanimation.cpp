@@ -734,7 +734,7 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
         stamp = (unsigned int)__rdtsc();
         _ReadWriteBarrier();
         record->time = stamp;
-        pStream->current = reinterpret_cast<char*>(const_cast<ProfileRecord*>(record)) + 12;
+        pStream->current = reinterpret_cast<char*>(&(const_cast<ProfileRecord*>(record))->object);
     }
     BlendStorage blend;
     float& inverseDelta = blend.inverseDelta;
@@ -819,7 +819,7 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
         blend.stamp = (unsigned int)__rdtsc();
         { _ReadWriteBarrier(); }
         record->time = blend.stamp;
-        pStream->current = reinterpret_cast<char*>(const_cast<ProfileRecord*>(record)) + 12;
+        pStream->current = reinterpret_cast<char*>(&(const_cast<ProfileRecord*>(record))->object);
     }
     RecomposeParameters& m_kRecomposeParameters = scratch.m_kRecomposeParameters;
     m_kRecomposeParameters.numTransformTracks = numTransforms;
@@ -843,7 +843,7 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
         blend.stamp = (unsigned int)__rdtsc();
         _ReadWriteBarrier();
         record->time = blend.stamp;
-        pStream->current = reinterpret_cast<char*>(const_cast<ProfileRecord*>(record)) + 12;
+        pStream->current = reinterpret_cast<char*>(&(const_cast<ProfileRecord*>(record))->object);
     }
 }
 

@@ -856,7 +856,7 @@ void FUN_006c6ae0_S::FUN_006c6ae0()
 {
     *(int*)this = (int)&DAT_0106c68c;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 struct FUN_006c6b10_Class
@@ -1478,7 +1478,7 @@ TwoIntRecord* FUN_006dbbb0_Class::CopyHandle(const TwoIntRecord* apSource)
 {
     m_handle.TwoIntRecord::TwoIntRecord(*apSource);
     for (unsigned int i = 0; i < 3; ++i)
-        ((char*)&m_handle + 8)[i] = ((char*)apSource + 8)[i];
+        ((char*)&m_handle.c)[i] = ((char*)&apSource->c)[i];
     return &m_handle;
 }
 }  // namespace fnv_006dbbb0
@@ -1798,7 +1798,7 @@ void FUN_006dc890_Class::FUN_006dc890(BGSSaveFormBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_f1c, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this, 0xc, 0);
     if (*(int*)((char*)this + 0x20) == 1)
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0xc, 0xc, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->m_auiShapeKeys[12], 0xc, 0);
 }
 
 struct NavMeshPtr
@@ -2012,7 +2012,7 @@ struct FUN_006d32c0_StandIn : public _Mem_2064
 // @fnv 0x006d33a0
 void FUN_006d33a0_Class::FUN_006d33a0()
 {
-    reinterpret_cast<::FUN_006d32c0_StandIn *>((reinterpret_cast<FUN_006d32c0_Class*>(reinterpret_cast<char*>(this) + 0x14)))->FUN_006d32c0();
+    reinterpret_cast<::FUN_006d32c0_StandIn *>((reinterpret_cast<FUN_006d32c0_Class*>(&this->m_f)))->FUN_006d32c0();
 }
 
 // @fnv 0x006d32c0
@@ -2155,7 +2155,7 @@ struct FUN_006dc070_Class : public FUN_006dbd90_Class
 // @fnv 0x006dc070
 void FUN_006dc070_Class::FUN_006dc070(unsigned int requested, unsigned int savedSize)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = 0;
+    this->m_unk4 = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8) = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 12) = 0;
 
@@ -2166,14 +2166,14 @@ void FUN_006dc070_Class::FUN_006dc070(unsigned int requested, unsigned int saved
 
     if (requested > 0)
     {
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) =
+        this->m_unk4 =
             reinterpret_cast<FUN_006dc1d0_Class*>(this)->Write(requested);
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 12) = requested;
     }
 
     if (savedSize > 0)
     {
-        ConstructInPlace(reinterpret_cast<void*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4)),
+        ConstructInPlace(reinterpret_cast<void*>(this->m_unk4),
                          savedSize);
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8) = savedSize;
     }

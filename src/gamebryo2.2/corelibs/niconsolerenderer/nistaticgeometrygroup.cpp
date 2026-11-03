@@ -113,7 +113,7 @@ void* NiStaticGeometryGroup::Destroy(unsigned int flag)
 {
     vtbl = (void*)&DAT_010f0fd4;
     FUN_00e946b0();
-    NiTMapBaseStub* pSets = (NiTMapBaseStub*)((char*)this + 12);
+    NiTMapBaseStub* pSets = &this->map;
     pSets->vtbl = (void*)&DAT_010f0fb4;
     reinterpret_cast<::S_00b601a0_Map *>((pSets))->FUN_00b601a0();
     pSets->vtbl = (void*)&DAT_010f0f94;

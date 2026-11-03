@@ -1061,7 +1061,7 @@ void MyObj::FUN_00c8c410(void* pArg)
     reinterpret_cast<::This *>((this))->FUN_00c84e20((unsigned int *)(pArg));
     Param* p = (Param*)pArg;
     p->m4 = (this && this->m8) ? this->m8->m14 : 0;
-    const __m128* src = (this && this->m8) ? (const __m128*)((char*)this->m8 + 0x30) : (*reinterpret_cast<const __m128 (*)[4]>(&::DAT_01268370));
+    const __m128* src = (this && this->m8) ? &this->m8->rows[0] : (*reinterpret_cast<const __m128 (*)[4]>(&::DAT_01268370));
     __m128 tmp[4];
     tmp[0] = src[0];
     tmp[1] = src[1];

@@ -101,7 +101,7 @@ struct FUN_00cf3070_class
 void FUN_00cf3070_class::SetActive(bool active)
 {
     *(char*)((char*)this + 0x1c) = active;
-    void* p = *(void**)((char*)this + 0x30);
+    void* p = this->mC;
     if (p)
         *(char*)((char*)p + 0x13) = active;
 }
@@ -176,11 +176,11 @@ void FUN_00cf3040_class::RemoveReferenceFromSlots(void* arg)
 {
     for (int i = 0; i < 2; ++i)
     {
-        DDCC60World* p = (DDCC60World*)*((void**)((char*)this + 0x14) + i);
+        DDCC60World* p = (DDCC60World*)*(&this->m5 + i);
         if (p == *(DDCC60World**)((char*)arg + 0x24))
         {
             reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
-            *(void**)((char*)this + 0x14 + i * 4) = 0;
+            *(void**)((char*)&this->m5 + i * 4) = 0;
         }
     }
 }

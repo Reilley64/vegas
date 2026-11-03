@@ -161,7 +161,7 @@ void FUN_0050b530_shell::FUN_0050b530()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_shell*)this)))->FUN_004855a0();
     TESForm::ClearData();
-    ((FUN_00488400_shell*)((char*)this + 0x30))->SaveLeveledList();
+    ((FUN_00488400_shell*)static_cast<FUN_00487650 *>(this))->SaveLeveledList();
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 

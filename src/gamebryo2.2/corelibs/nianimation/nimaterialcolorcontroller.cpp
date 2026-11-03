@@ -743,7 +743,10 @@ namespace fnv_00bc29e0 {
 // Placeholder declarations
 struct NiMaterialColorController
 {
-    char _pad[0xb8];
+    char _pad[0xac];
+    unsigned char unkac;
+    unsigned char unkad;
+    char padae[0xa];
     NiMaterialColorController* FUN_00bc29e0(int arg);
 };
 
@@ -754,8 +757,8 @@ NiMaterialColorController* NiMaterialColorController::FUN_00bc29e0(int aiFlags)
     ((float*)this)[0x2d] = 100.0f;
     ((float*)this)[0x2c] = ::DAT_010ba600;
     ((void**)this)[0] = &(*reinterpret_cast<void * *>(&::DAT_010ba608));
-    ((unsigned char*)this)[0xad] = 0;
-    ((unsigned char*)this)[0xac] = 0;
+    this->unkad = 0;
+    this->unkac = 0;
     reinterpret_cast<class ::FUN_00a5e930 *>((this))->FUN_00a5e930::~FUN_00a5e930();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xb8);

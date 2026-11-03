@@ -716,7 +716,7 @@ void FUN_0092cf30_shell::FUN_0092cf30(Actor* apActor, int aiWhich, float afValue
     if (::FUN_00406d70(aiWhich, 0x100))
         return;
 
-    float fclamped = ::FUN_0066eea0((::FUN_0066eea0_Object *)(void *)(apActor ? (char*)apActor + 0xa4 : 0), aiWhich, afValue);
+    float fclamped = ::FUN_0066eea0((::FUN_0066eea0_Object *)(void *)(apActor ? (char*)static_cast<ActorValueOwner *>(apActor) : 0), aiWhich, afValue);
     int eclampStyle = ::FUN_00406d70(aiWhich, 0x200) ? 1 : 0;
 
     ((ModHack*)((char*)this + 0x94))->ModifyModifier((char)aiWhich, fclamped, eclampStyle);

@@ -284,7 +284,7 @@ struct FUN_009ba3d0_shell
 // @fnv 0x009ba3d0
 void FUN_009ba3d0_shell::FUN_009ba3d0(int a, int b, int c, int d)
 {
-    int obj = *(int*)((char*)this + 4);
+    int obj = this->m_iWordAt04;
     if (obj)
         reinterpret_cast<::fnv_00cbe240::hkpHingeConstraintDataEx *>((((FUN_00cbe240_shell*)obj)))->SetLocalTransforms((*(const ::hkTransform *)(a)), (*(const ::hkTransform *)(b)), (*(const ::hkVector4 *)(c)), (*(const ::hkVector4 *)(d)));
 }
@@ -524,7 +524,8 @@ struct S5870_Holder
     virtual void v114();
     virtual void v115();
     virtual int v116();
-    char _pad[0x150];
+    char _pad[0x14c];
+    int unk150;
     unsigned char b154;
     void FUN_009babe0();
     void LoadForm(BGSLoadFormBuffer*);
@@ -697,12 +698,12 @@ void S5870_Holder::FUN_009babe0()
 {
     FUN_009babe0_impact* pimpact;
 
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) == 4 ||
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) == 3)
+    if (this->unk150 == 4 ||
+        this->unk150 == 3)
     {
         pimpact = *((::FUN_009babe0_impact **)(new ((void *)(reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88))) ::Vec3()));
 
-        if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) == 4)
+        if (this->unk150 == 4)
         {
             pimpact = ((::FUN_009babe0_list *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88)))->FUN_00726070()))
                           ? *((::FUN_009babe0_impact **)(new ((void *)(((::FUN_009babe0_list *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_009babe0_list*>(reinterpret_cast<char*>(this) + 0x88)))->FUN_00726070())))) ::Vec3()))
@@ -713,7 +714,7 @@ void S5870_Holder::FUN_009babe0()
             reinterpret_cast<::fnv_009b90b0::Actor *>((reinterpret_cast<FUN_009b90b0_shell*>(this)))->FUN_009b90b0();
     }
 
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) == 4)
+    if (this->unk150 == 4)
         reinterpret_cast<FUN_009ba660_shell*>(this)->HandleMissileImpact();
 }
 

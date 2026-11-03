@@ -419,7 +419,7 @@ void FUN_0072c700_cls::FUN_0072c700()
 {
     m_1c = 0;
     m_20 = 0.0f;
-    for (Fnv72c700Node* cur = this != 0 ? (Fnv72c700Node*)((char*)this + 4) : 0; cur != 0 && *((::Fnv72c700Holder **)(new ((void *)(cur)) ::Vec3())) != 0;
+    for (Fnv72c700Node* cur = this != 0 ? (Fnv72c700Node*)&this->unk04 : 0; cur != 0 && *((::Fnv72c700Holder **)(new ((void *)(cur)) ::Vec3())) != 0;
          cur = ((::Fnv72c700Node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
         if ((*((::Fnv72c700Holder **)(new ((void *)(cur)) ::Vec3())))->m_08 == 0)

@@ -181,14 +181,14 @@ void FUN_00a39720_shell::FUN_00a39720(NiStream* kStream)
 {
     reinterpret_cast<::SBObject *>((((FUN_00a37ec0_tgt*)this)))->FUN_00a37ec0((*(::SBStream *)(kStream)));
     unsigned char uc;
-    for (uc = 0; uc < *((unsigned char*)this + 0xd); uc++)
+    for (uc = 0; uc < this->m_ucArraySize; uc++)
     {
-        char* p = *(char**)((char*)this + 0x50) + uc * 0x68;
+        char* p = *(char**)&this->m_pAccumulationData + uc * 0x68;
         reinterpret_cast<::DataA38 *>((((FUN_00a38b60_tgt*)(p + 4))))->FUN_00a38b60((*(::NiStreamA38 *)(kStream)));
         reinterpret_cast<::DataA38 *>((((FUN_00a38b60_tgt*)(p + 0x24))))->FUN_00a38b60((*(::NiStreamA38 *)(kStream)));
         reinterpret_cast<::FUN_00a59a90_cls *>((((FUN_00a59a90_tgt*)(p + 0x44))))->ReadMatrixFromStream(kStream);
     }
-    reinterpret_cast<::DataA38 *>((((FUN_00a38b60_tgt*)((char*)this + 0x30))))->FUN_00a38b60((*(::NiStreamA38 *)(kStream)));
+    reinterpret_cast<::DataA38 *>((((FUN_00a38b60_tgt*)&this->m_kAccumulatedTransform.m_kTranslate.x)))->FUN_00a38b60((*(::NiStreamA38 *)(kStream)));
 }
 
 struct NiObject;
@@ -213,7 +213,7 @@ bool FUN_00a39780_shell::FUN_00a39780(NiObject* pkObject)
 {
     if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((STUB_6FD0*)this)), (int)(pkObject), {}))
         return false;
-    return ((char)(reinterpret_cast<::T *>((((STUB_91C0*)((char*)this + 0x30))))->Equals((*(const ::T *)((char*)pkObject + 0x30)))));
+    return ((char)(reinterpret_cast<::T *>((((STUB_91C0*)&this->m_kAccumulatedTransform.m_kTranslate.x)))->Equals((*(const ::T *)((char*)pkObject + 0x30)))));
 }
 
 namespace fnv_00a39ec0 {

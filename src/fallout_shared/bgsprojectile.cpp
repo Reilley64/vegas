@@ -406,9 +406,9 @@ void FUN_004fdcf0_shell::CopyFromProjectile(TESForm* apCopy)
 
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
 
-    ((FUN_004fdcf0_subobject*)((char*)this + 0xB4))->FUN_004fdcf0_copy((FUN_004fdcf0_subobject*)((char*)pcopy + 0xB4));
+    ((FUN_004fdcf0_subobject*)&this->m_kProjectileModel)->FUN_004fdcf0_copy((FUN_004fdcf0_subobject*)&pcopy->m_kProjectileModel);
 
-    *(unsigned int*)((char*)this + 0xCC) = *(unsigned int*)((char*)pcopy + 0xCC);
+    *(unsigned int*)&this->m_eSoundLevel = *(unsigned int*)&pcopy->m_eSoundLevel;
 
     __memcpy(((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(((TESDataHandler*)this))))), ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(((TESDataHandler*)pcopy))))), 0x54);
 }
@@ -457,11 +457,11 @@ bool FUN_004fdd80_shell::IsNotEqual(TESForm* apCompare)
                 ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(reinterpret_cast<TESDataHandler*>(pcomp))))), 0x54) != 0)
         return true;
 
-    if (reinterpret_cast<FUN_004fdd80_field*>(reinterpret_cast<char*>(this) + 0xb4)
-            ->FUN_004fdd80_v4(reinterpret_cast<char*>(pcomp) + 0xb4))
+    if (reinterpret_cast<FUN_004fdd80_field*>(&this->m_kProjectileModel)
+            ->FUN_004fdd80_v4(reinterpret_cast<char*>(&pcomp->m_kProjectileModel)))
         return true;
 
-    if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xcc) !=
+    if (*reinterpret_cast<unsigned int*>(&this->m_eSoundLevel) !=
         reinterpret_cast<BSFadeNode*>(pcomp)->FUN_009ad610())
         return true;
 

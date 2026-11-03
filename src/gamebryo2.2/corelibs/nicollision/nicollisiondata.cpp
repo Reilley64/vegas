@@ -746,7 +746,7 @@ void S_00ead250::FUN_00ead250()
             unsigned int value20 = second->unk20;
             unsigned short value90 = second->m90();
 
-            (*reinterpret_cast<void (**)(unsigned short, unsigned int, void *, void *)>(&::DAT_011aa050))(value90, value20, unk40, (void*)((char*)object + 0x68));
+            (*reinterpret_cast<void (**)(unsigned short, unsigned int, void *, void *)>(&::DAT_011aa050))(value90, value20, unk40, (void*)((char*)&object->unk68));
 
             unk48 = 0;
         }

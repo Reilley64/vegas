@@ -261,7 +261,7 @@ bool _ref_008256d0(void*);
 // @fnv 0x005a7110
 bool FUN_005a7110_shell::FUN_005a7110()
 {
-    return _ref_008256d0((char*)this + 0x2c);
+    return _ref_008256d0((char*)&this->m_kWorldCellRecordList);
 }
 
 struct FUN_005a7130_shell : public TESLoadScreen
@@ -274,9 +274,9 @@ struct FUN_005a7130_shell : public TESLoadScreen
 int FUN_005a7130_shell::FUN_005a7130()
 {
     int eRetVal = 0;
-    if (*(int**)((char*)this + 0x34))
+    if (*(int**)&this->m_pLoadScreenType)
     {
-        eRetVal = *(int*)((char*)*(int**)((char*)this + 0x34) + 0x18);
+        eRetVal = *(int*)((char*)*(int**)&this->m_pLoadScreenType + 0x18);
     }
     return eRetVal;
 }

@@ -565,7 +565,7 @@ void BGSDistantTreeBlock_shell::MarkTreeInstance(unsigned int aID, bool abQueue)
             ->b1c = 0;
     }
     else if (abQueue)
-        reinterpret_cast<::FUN_00438690 *>((((BSSimpleArrayStandIn*)((char*)this + 0x34))))->FUN_007cb2e0((unsigned int *)&((void*&)aID));
+        reinterpret_cast<::FUN_00438690 *>((((BSSimpleArrayStandIn*)&this->mArray)))->FUN_007cb2e0((unsigned int *)&((void*&)aID));
 }
 
 struct FUN_006b3120_helper

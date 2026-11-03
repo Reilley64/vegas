@@ -598,8 +598,8 @@ class FUN_00e0c320_cls
 FUN_00e0c320_cls* FUN_00e0c320_cls::InitHeading()
 {
     float one = 1.0f;
-    float* pf10 = (float*)((char*)this + 0x10);
-    float* pf14 = (float*)((char*)this + 0x14);
+    float* pf10 = &this->m_f10;
+    float* pf14 = &this->m_f14;
     m_pName = "Unknown Heading";
     m_i04 = 0;
     m_i08 = 1;

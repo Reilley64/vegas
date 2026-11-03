@@ -149,9 +149,9 @@ bool FUN_005e79a0_t::FUN_0051b650(TESForm* form)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other))
         return true;
-    if (*(char*)((char*)this + 0x50) != *(char*)((char*)other + 0x50))
+    if (*(char*)((char*)this + 0x50) != other->m_cType)
         return true;
-    if (*(TESSound**)((char*)this + 0x54) != *(TESSound**)((char*)other + 0x54))
+    if (*(TESSound**)((char*)this + 0x54) != other->m_pSoundForm)
         return true;
     return false;
 }

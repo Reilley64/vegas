@@ -2644,8 +2644,8 @@ struct FUN_005cbb70_shell : public RegionObjectEntry {
 // @fnv 0x005cbb70
 TESObjectREFR* FUN_005cbb70_shell::FUN_005cbb70()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(reinterpret_cast<char*>(this) + 0x20)))->GetName())) > 0 ?
-        ((::TESObjectREFR *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(reinterpret_cast<char*>(this) + 0x20)))->FUN_00558dd0(0))) :
+    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(&this->m_auiData[16])))->GetName())) > 0 ?
+        ((::TESObjectREFR *)(reinterpret_cast<::FUN_00558dd0_class *>((reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(&this->m_auiData[16])))->FUN_00558dd0(0))) :
         m_pReference;
 }
 

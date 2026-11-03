@@ -139,12 +139,12 @@ NiColorInterpolator* NiColorInterpolatorConstructor(NiColorInterpolator* pThis, 
     new ((void *)(reinterpret_cast<NiKeyBasedInterpolator*>(pThis))) ::FUN_00a3ca10();
     *reinterpret_cast<int**>(pThis) = &::DAT_01096e14;
     *reinterpret_cast<RgbaColor*>(reinterpret_cast<char*>(pThis) + 0x0c) = (*reinterpret_cast<const ::fnv_00a3bd10::RgbaColor *>((void *)&::DAT_011a9430));
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(pThis) + 0x1c) = pkColorData;
+    *reinterpret_cast<void**>(&pThis->m_spColorData.m_pObject) = pkColorData;
     if (pkColorData)
     {
         InterlockedIncrement(reinterpret_cast<long*>(reinterpret_cast<char*>(pkColorData) + 4));
     }
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(pThis) + 0x20) = 0;
+    pThis->m_uiLastKeyIndex = 0;
     return pThis;
 }
 }  // namespace fnv_00a3bd10
@@ -265,10 +265,10 @@ BSFadeNode* FUN_00a3c130()
         new ((void *)(p)) ::FUN_00a3ca10();
         *(unsigned int*)p = (unsigned int)&DAT_01096e14;
         *(unsigned int*)((char*)p + 0xc) = *(unsigned int*)&DAT_011a9430;
-        *(unsigned int*)((char*)p + 0x10) = DAT_011a9434;
-        *(unsigned int*)((char*)p + 0x14) = DAT_011a9438;
-        *(unsigned int*)((char*)p + 0x18) = DAT_011a943c;
-        *(unsigned int*)((char*)p + 0x1c) = 0;
+        *(unsigned int*)&p->m_kColorValue.r = DAT_011a9434;
+        *(unsigned int*)&p->m_kColorValue.g = DAT_011a9438;
+        *(unsigned int*)&p->m_kColorValue.b = DAT_011a943c;
+        *(unsigned int*)&p->m_kColorValue.a = 0;
         *(unsigned int*)((char*)p + 0x20) = 0;
     }
     else

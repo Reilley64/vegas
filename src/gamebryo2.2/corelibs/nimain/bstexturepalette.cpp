@@ -200,7 +200,7 @@ TextureCacheNode* FUN_00a617c0_shell::FindOrInsertTexture(NiTexture* apTex)
     for (TextureCacheNode* item = reinterpret_cast<TextureCacheNode**>(this)[hash]; item; item = item->pNext)
     {
         const char* otherPath = *reinterpret_cast<NiTexture_VF*>(item->spTexture)->GetTextureResourceName() +
-                                *reinterpret_cast<short*>((char*)item + 0xe);
+                                item->m_sTextureCacheValue;
         if (FUN_00a614d0(path, otherPath))
             return item;
     }

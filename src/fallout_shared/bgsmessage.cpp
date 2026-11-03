@@ -155,7 +155,7 @@ struct FUN_00590d00_shell : public BGSMessage
 // @fnv 0x00590d00
 bool FUN_00590d00_shell::FUN_00590d00()
 {
-    return (*(unsigned int*)((char*)this + 0x38) & 1) ? true : false;
+    return (this->iFlags & 1) ? true : false;
 }
 
 struct FUN_00590ed0_shell : public BGSMessage
@@ -166,7 +166,7 @@ struct FUN_00590ed0_shell : public BGSMessage
 // @fnv 0x00590ed0
 bool FUN_00590ed0_shell::IsFlagSet()
 {
-    return (*(unsigned int*)((char*)this + 0x38) & 2) ? true : false;
+    return (this->iFlags & 2) ? true : false;
 }
 
 struct FUN_005911d0_shell : public BGSMessage
@@ -247,7 +247,7 @@ void FUN_005911d0_shell::FUN_005911d0(PerkButtonEntry* apItem)
 {
     if (apItem != 0)
     {
-        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00905820((void *)&(apItem));
+        reinterpret_cast<::Callees *>((&this->m_kButtonEntries))->FUN_00905820((void *)&(apItem));
     }
 }
 

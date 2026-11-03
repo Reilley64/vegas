@@ -649,9 +649,9 @@ extern float DAT_0108da38;
 // @fnv 0x00991770
 void FUN_00991770_shell::UpdateDetectionVisuals()
 {
-    (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x14))->TESForm::ClearData();
-    (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x18))->TESForm::ClearData();
-    (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x1c))->TESForm::ClearData();
+    (*reinterpret_cast<TESForm**>(&this->m_pThreatMap))->TESForm::ClearData();
+    (*reinterpret_cast<TESForm**>(&this->m_pCoverMap))->TESForm::ClearData();
+    (*reinterpret_cast<TESForm**>(&this->m_pTargetMap))->TESForm::ClearData();
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<GlobalObject_004aff00*>(this)))->GetShortAtOffsetA(); ++i)
     {
         ActorCombatGroup* pgroup = reinterpret_cast<ActorCombatGroup*>(*reinterpret_cast<Arr*>(this)->GetAt(i));
@@ -1120,13 +1120,13 @@ struct ActorVtblStandIn
 bool FUN_00992d90_shell::UpdateCombatMusic()
 {
     bool bplayingMusic =
-        (reinterpret_cast<::CombatTargetTimestamp *>((reinterpret_cast<RegionPoint*>(reinterpret_cast<char*>(this) + 0x20)))->FUN_006a7f50() != -::DAT_0108d9b0) ? true : false;
-    if (!reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x2c)))->CheckTimer() ||
+        (reinterpret_cast<::CombatTargetTimestamp *>((reinterpret_cast<RegionPoint*>(&this->m_kFourByteManagerData.fTimeStamp)))->FUN_006a7f50() != -::DAT_0108d9b0) ? true : false;
+    if (!reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kSecondEightByteManagerData.m_fStartTime)))->CheckTimer() ||
         reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00992d90::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
     {
         return bplayingMusic;
     }
-    reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x2c)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ceec0))))))));
+    reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kSecondEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ceec0))))))));
     bool bplayCombatMusic = false;
     float fnearbyGroupCombatStrength = 0.0f;
     bool bnearbyGroupDetected = false;
@@ -1233,24 +1233,24 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
     {
         if (bplayCombatMusic)
         {
-            reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)))->FUN_00910b10();
+            reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_00910b10();
             FUN_00435de0_ctor ts1;
             reinterpret_cast<::FUN_00435de0_ctor *>(&(ts1))->FUN_00435de0(::FUN_00435dd0());
-            *reinterpret_cast<FUN_00435de0_ctor*>(reinterpret_cast<char*>(this) + 0x20) = ts1;
+            *reinterpret_cast<FUN_00435de0_ctor*>(&this->m_kFourByteManagerData.fTimeStamp) = ts1;
         }
-        else if (!reinterpret_cast<::FUN_0097fa50_Class *>((reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)))->FUN_0097fa50())
+        else if (!reinterpret_cast<::FUN_0097fa50_Class *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_0097fa50())
         {
-            reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting483))))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting483))))))));
         }
-        else if (reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)))->CheckTimer())
+        else if (reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->CheckTimer())
         {
             FUN_00435de0_ctor ts2;
             reinterpret_cast<::FUN_00435de0_ctor *>(&(ts2))->FUN_00435de0(-::DAT_0108d9b0);
-            *reinterpret_cast<FUN_00435de0_ctor*>(reinterpret_cast<char*>(this) + 0x20) = ts2;
-            reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(reinterpret_cast<char*>(this) + 0x24)))->FUN_00910b10();
+            *reinterpret_cast<FUN_00435de0_ctor*>(&this->m_kFourByteManagerData.fTimeStamp) = ts2;
+            reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_00910b10();
         }
     }
-    return reinterpret_cast<::CombatTargetTimestamp *>((reinterpret_cast<RegionPoint*>(reinterpret_cast<char*>(this) + 0x20)))->FUN_006a7f50() != -::DAT_0108d9b0;
+    return reinterpret_cast<::CombatTargetTimestamp *>((reinterpret_cast<RegionPoint*>(&this->m_kFourByteManagerData.fTimeStamp)))->FUN_006a7f50() != -::DAT_0108d9b0;
 }
 }  // namespace fnv_00992d90
 
@@ -2391,7 +2391,7 @@ struct CMView
 // @fnv 0x00993440
 void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x34), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_uiDebugFlags), 4);
     unsigned int icount;
     unsigned int inumCombatGroups = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadFormBuffer*)apLoadGameBuffer)))->FUN_00864a60();
     for (unsigned int i = 0; i < inumCombatGroups; i++)
@@ -2419,9 +2419,9 @@ void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
         ((CMView*)this)
             ->m_pActorCombatGroupMap->SetValue((unsigned int)pactor, itargetingBitfield.lo, itargetingBitfield.hi);
     }
-    reinterpret_cast<::CombatTargetTimestamp *>((((StampShim*)((char*)this + 0x20))))->LoadGame((::BGSLoadGameBuffer *)(apLoadGameBuffer));
-    reinterpret_cast<::TimeoutTimer *>((((TimerShim*)((char*)this + 0x24))))->LoadGame((::BGSLoadFormBuffer *)(::fnv_00993440::BGSLoadFormBuffer *)((BGSLoadFormBuffer*)apLoadGameBuffer));
-    reinterpret_cast<::TimeoutTimer *>((((TimerShim*)((char*)this + 0x2c))))->LoadGame((::BGSLoadFormBuffer *)(::fnv_00993440::BGSLoadFormBuffer *)((BGSLoadFormBuffer*)apLoadGameBuffer));
+    reinterpret_cast<::CombatTargetTimestamp *>((((StampShim*)&this->m_kFourByteManagerData.fTimeStamp)))->LoadGame((::BGSLoadGameBuffer *)(apLoadGameBuffer));
+    reinterpret_cast<::TimeoutTimer *>((((TimerShim*)&this->m_kFirstEightByteManagerData.m_fStartTime)))->LoadGame((::BGSLoadFormBuffer *)(::fnv_00993440::BGSLoadFormBuffer *)((BGSLoadFormBuffer*)apLoadGameBuffer));
+    reinterpret_cast<::TimeoutTimer *>((((TimerShim*)&this->m_kSecondEightByteManagerData.m_fStartTime)))->LoadGame((::BGSLoadFormBuffer *)(::fnv_00993440::BGSLoadFormBuffer *)((BGSLoadFormBuffer*)apLoadGameBuffer));
 }
 }  // namespace fnv_00993440
 

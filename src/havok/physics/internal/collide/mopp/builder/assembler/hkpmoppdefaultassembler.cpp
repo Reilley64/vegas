@@ -1768,7 +1768,7 @@ void S_00e07680::FUN_00e07680(int a1, int a2, int a3, int a4, int a5)
 // @fnv 0x00e06ed0
 void FUN_00e06ed0_Class::WriteOffsetDelta(int iTargetValue)
 {
-    int iOffset = ((int*)m_pStreamWriter)[3] - iTargetValue;
+    int iOffset = m_pStreamWriter->unkC - iTargetValue;
     if (iOffset > 0)
     {
         if (iOffset < 0xff)
@@ -3199,7 +3199,7 @@ int S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
     context->unk5c = current;
     context->unk38 = 1;
 
-    S_00e08470_Vector* vector = (S_00e08470_Vector*)((char*)this->unk10 + 0x14);
+    S_00e08470_Vector* vector = &this->unk10->unk14;
 
     S_00e08470_Holder* holder = FUN_00c85750();
 

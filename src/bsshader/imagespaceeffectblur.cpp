@@ -32,7 +32,7 @@ void ImageSpaceEffectFourTexturePass::Setup(ImageSpaceManager* manager, ImageSpa
     }
     ImageSpaceShaderParam* second = new ImageSpaceShaderParam;
     second->AllocateShaderConstants(0, 1);
-    *((unsigned char*)second + 0x56) = 0;
+    second->unk56 = 0;
     second->SetShaderConstantVector4(0, 1.0f, 1.0f, 1.0f, 1.0f);
     reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectParamList))->FUN_00ba3aa0(2, (::KeyPair **)&(second));
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(2, 2, 1, (*(int *)&(const ::NiTexturingProperty::FilterMode &)(NiTexturingProperty::FILTER_BILERP)), (*(int *)&(const ::NiTexturingProperty::FilterMode &)(NiTexturingProperty::FILTER_NEAREST)));

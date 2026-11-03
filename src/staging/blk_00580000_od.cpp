@@ -305,7 +305,7 @@ void FUN_00589190::Init()
 {
     *(int*)((char*)this + 0) = (int)&DAT_0103200c;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 struct FUN_00589030_Class

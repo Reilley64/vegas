@@ -1588,7 +1588,7 @@ struct FUN_00cd0c50_cls
 // @fnv 0x00cd0c50
 FUN_00cd0c50_cls* FUN_00cd0c50_cls::Destroy(int a1)
 {
-    DeleteCriticalSection((LPCRITICAL_SECTION)((char*)this + 0x18));
+    DeleteCriticalSection(&this->m_cs);
     reinterpret_cast<::FUN_00cbf1a0_cls *>((reinterpret_cast<FUN_00cbf1a0_t*>(this)))->FUN_00cbf1a0();
     return this;
 }

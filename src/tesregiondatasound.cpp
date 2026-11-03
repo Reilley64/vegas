@@ -165,7 +165,7 @@ struct FUN_004f4330_shell : TESRegionDataSound
 // @fnv 0x004f4330
 TESForm* FUN_004f4330_shell::GetSoundForm()
 {
-    return ::FUN_004839c0(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x14));
+    return ::FUN_004839c0(this->incidental);
 }
 
 struct FUN_004f4830_shell

@@ -1248,7 +1248,7 @@ void FUN_00525450_shell::QueueModelsForLoad(int aiIndex, class QueuedFile* apFil
     if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)->GetModelLength())
         reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)), aiIndex, (int)(apFile), 0, true, false, false);
     if (((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))
-        reinterpret_cast<TESModel*>(reinterpret_cast<char*>(((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0))))) + 0x54)->vfn_10(aiIndex, apFile);
+        reinterpret_cast<TESModel*>(static_cast<BGSPreloadable *>((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))->vfn_10(aiIndex, apFile);
     if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180))
         reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180)) + 0x18)->vfn_10(aiIndex, apFile);
 }

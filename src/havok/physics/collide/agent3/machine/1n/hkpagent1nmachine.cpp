@@ -2178,8 +2178,8 @@ void FUN_00da42b0(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_0
 {
     BlockPoolBlock** sectors = blocks->m_data;
     BlockPoolBlock* sector = sectors[0];
-    unsigned char* cursor = (unsigned char*)sector + 16;
-    unsigned char* end = (unsigned char*)sector + 16 + sector->unk00;
+    unsigned char* cursor = (unsigned char*)&sector->unk10;
+    unsigned char* end = (unsigned char*)&sector->unk10 + sector->unk00;
     int index = 0;
     for (;;)
     {
@@ -2222,8 +2222,8 @@ void FUN_00da42b0(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_0
                     fullHeap().ReleaseBlock(done, 512);
             }
             sector = blocks->m_data[index];
-            cursor = (unsigned char*)sector + 16;
-            end = (unsigned char*)sector + 16 + sector->unk00;
+            cursor = (unsigned char*)&sector->unk10;
+            end = (unsigned char*)&sector->unk10 + sector->unk00;
         }
     }
 finished: {
@@ -2287,8 +2287,8 @@ void FUN_00da44d0(int apBlocks, int apHeader, void* apTransform)
     BlockPoolBlock* input = blocks->m_data[0];
     BlockPoolBlock* previous = 0;
     BlockPoolBlock* output = new (FUN_00c85750().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
-    unsigned char* cursor = (unsigned char*)input + 16;
-    unsigned char* out = (unsigned char*)output + 16;
+    unsigned char* cursor = (unsigned char*)&input->unk10;
+    unsigned char* out = (unsigned char*)&output->unk10;
     int inIndex = 1;
     unsigned char* end = (unsigned char*)input + input->unk00 + 16;
     unsigned char* limit = (unsigned char*)output + 512;
@@ -2325,7 +2325,7 @@ process:
         if (inIndex >= blocks->m_iElementCount)
             goto finish;
         input = blocks->m_data[inIndex];
-        cursor = (unsigned char*)input + 16;
+        cursor = (unsigned char*)&input->unk10;
         end = (unsigned char*)input + input->unk00 + 16;
         ++inIndex;
     }
@@ -2333,7 +2333,7 @@ process:
         goto process;
     if (!staging)
     {
-        used = out - ((unsigned char*)output + 16);
+        used = out - ((unsigned char*)&output->unk10);
         staging = true;
         out = scratch;
         limit = scratch + 128;
@@ -2342,7 +2342,7 @@ process:
     staged = out - scratch;
     if (staged <= 496 - used)
     {
-        streamCopy((unsigned char*)output + 16 + used, scratch, staged >> 4);
+        streamCopy((unsigned char*)&output->unk10 + used, scratch, staged >> 4);
         used += staged;
         if (used < 496)
         {
@@ -2371,7 +2371,7 @@ process:
     }
     else
         output = new (FUN_00c85750().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
-    out = (unsigned char*)output + 16;
+    out = (unsigned char*)&output->unk10;
     limit = (unsigned char*)output + 512;
     if (staging)
     {
@@ -2382,11 +2382,11 @@ process:
     goto process;
 finish:
     if (!staging)
-        used = out - ((unsigned char*)output + 16);
+        used = out - ((unsigned char*)&output->unk10);
     else
     {
         int count = out - scratch;
-        streamCopy((unsigned char*)output + 16 + used, scratch, count >> 4);
+        streamCopy((unsigned char*)&output->unk10 + used, scratch, count >> 4);
         used += count;
     }
     output->unk00 = used;

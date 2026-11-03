@@ -245,9 +245,14 @@ class LoadingMenu
     {
         Tile0 = 0
     };
-    unsigned char _padToTiles[0x28];
+    unsigned char _padToTiles[0x4];
+    void* unk04;
+    unsigned char pad08[0x20];
     Tile* m_pTiles[38];
-    char _padToCandidates_padc0[16];
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
     char m_kFirstTileList[12];
     char m_kSecondTileList[12];
     char m_kThirdTileList[12];

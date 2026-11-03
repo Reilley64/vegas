@@ -122,7 +122,7 @@ void* FUN_0062d840_shell::FUN_0062d840(unsigned int a, unsigned int b)
 // @fnv 0x0061fc10
 FUN_0061fc10::FUN_0061fc10(unsigned int uiFirst, unsigned int uiSecond)
 {
-    reinterpret_cast<::FUN_00620720_shell *>((((Member140*)((char*)this + 4))))->FUN_00620720((void *)(uiFirst), (void *)(uiSecond));
+    reinterpret_cast<::FUN_00620720_shell *>((((Member140*)&this->_4[0])))->FUN_00620720((void *)(uiFirst), (void *)(uiSecond));
     m0 = DAT_0104d9cc;
     _14 = 0;
 }

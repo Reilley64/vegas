@@ -402,7 +402,7 @@ void FUN_00657f60_class::FUN_00657f60()
     if (d)
     {
         ((FUN_0065f2b0_class*)this)->FUN_0065f2b0((int)d, (int)e);
-        ((FUN_0064df10_helper*)((char*)this + 8))->deallocate(d, (unsigned int)((char*)f - (char*)d));
+        ((FUN_0064df10_helper*)&this->c)->deallocate(d, (unsigned int)((char*)f - (char*)d));
     }
     d = 0;
     e = 0;

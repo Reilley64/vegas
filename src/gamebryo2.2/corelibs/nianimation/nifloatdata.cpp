@@ -120,8 +120,8 @@ NiFloatData* CreateNiFloatData()
 
         object->m_uiNumKeys = 0;
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(object) + 0x0c) = 0;
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(object) + 0x10) = 0;
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(object) + 0x14) = 0;
+        *reinterpret_cast<unsigned int*>(&object->m_eRequestType) = 0;
+        object->m_ucKeyDataSize = 0;
 
         *reinterpret_cast<void**>(object) = const_cast<void*>(static_cast<const void*>(vftable_NiFloatData));
         return object;

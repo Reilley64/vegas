@@ -490,7 +490,7 @@ struct FUN_0044df20
 // @fnv 0x0044df20
 void FUN_0044df20::Call()
 {
-    FUN_0044dff0(reinterpret_cast<int*>(this) + 2);
+    FUN_0044dff0(&this->m2);
 }
 
 

@@ -601,7 +601,7 @@ bool FUN_004bda70_shell::HasEffect(unsigned char eEffect)
         ExtraDataList* pextra = *((::ExtraDataList **)(new ((void *)(pkCurrentObject)) ::Vec3()));
         if (pextra)
         {
-            FUN_004bd880_shell* pweap = ((FUN_004bd880_shell**)this)[2];
+            FUN_004bd880_shell* pweap = (*(FUN_004bd880_shell**)&this->m_pItemObject);
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)pextra)))->CheckExtraByType(1) && pweap->GetSlotPointer(1) == eEffect)
                 return true;
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)pextra)))->CheckExtraByType(2) && pweap->GetSlotPointer(2) == eEffect)
@@ -1141,13 +1141,13 @@ int FNV_GetFormType(TESForm*);
 void FUN_004c3380_shell::FUN_004c3380(InventoryStackRecord* apChange, bool abDelete)
 {
     AutoMemContext tempMemContext(MEM_CONTEXT_MEM_CONTEXT_INVENTORY, true, ::DAT_01020778, 0xe03);
-    *(float*)((char*)this + 0xc) = *(float*)((char*)this + 8);
-    *(float*)((char*)this + 8) = -1.0f;
+    this->m_fArmorWeight = this->m_fTotalWeight;
+    this->m_fTotalWeight = -1.0f;
     if (!apChange)
         return;
 
-    if (*(TESObjectREFR**)((char*)this + 4))
-        (*(TESFormAccess**)((char*)this + 4))->MarkAsModified(0x20);
+    if (this->pRef)
+        (*(TESFormAccess**)&this->pRef)->MarkAsModified(0x20);
 
     InventoryStackRecord* pitem =
         ((InventoryChangesAccess*)this)->FUN_004bfba0(((::fnv_004c3380::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((ItemChangeAccess*)apChange)))->GetName())), true, false);
@@ -1178,7 +1178,7 @@ void FUN_004c3380_shell::FUN_004c3380(InventoryStackRecord* apChange, bool abDel
                 ExtraDataList* pcompare = ((::ExtraDataList *)(new ((void *)(pkCurrentObject)) ::Vec3()));
                 bool bHasResultObj = true;
                 if (((ExtraDataListAccess*)pcompare)->GetReplacementReference())
-                    reinterpret_cast<::fnv_0041c7f0::FUN_0041c7f0_cls *>((((ExtraDataListAccess*)pcompare)))->FUN_0041c7f0(*(TESObjectREFR**)((char*)this + 4));
+                    reinterpret_cast<::fnv_0041c7f0::FUN_0041c7f0_cls *>((((ExtraDataListAccess*)pcompare)))->FUN_0041c7f0(this->pRef);
 
                 while (pChangeFirst && ((::ExtraDataList *)(new ((void *)(pChangeFirst)) ::Vec3())) && bHasResultObj)
                 {
@@ -1338,7 +1338,7 @@ struct FUN_0087ce80_shell : public TESObjectREFR
 // @fnv 0x0087ce80
 void FUN_0087ce80_shell::FUN_0087ce80(TESObjectCELL* apCell)
 {
-    *reinterpret_cast<TESObjectCELL**>(reinterpret_cast<char*>(this) + 0x40) = apCell;
+    *reinterpret_cast<TESObjectCELL**>(&this->m_pOwningCell) = apCell;
 }
 }  // namespace fnv_0087ce80
 
@@ -2670,7 +2670,7 @@ bool FUN_004bd8d0_shell::FUN_004bd8d0(unsigned char type, float* pfResult)
         InventoryStackRecord* extra = (InventoryStackRecord*)*((::ExtraDataList **)(new ((void *)(item)) ::Vec3()));
         if (extra)
         {
-            InventoryStackRecord* slot = *(InventoryStackRecord**)((char*)this + 8);
+            InventoryStackRecord* slot = *(InventoryStackRecord**)&this->m_pItemObject;
             if (reinterpret_cast<::C418C00ExtraList *>((((FUN_00418c00_shell*)extra)))->CheckExtraByType(1) &&
                 (int)((FUN_004bd880_stand*)slot)->GetSlotPointer(1) == type)
             {
@@ -2829,9 +2829,9 @@ struct FUN_00428150_stand
 void FUN_004bee00_shell::FUN_004bee00(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     unsigned int iExtraDataCount;
-    *(TESBoundObject**)((char*)this + 8) =
+    this->m_pItemObject =
         dynamic_cast<TESBoundObject*>((::TESForm*)((::fnv_004bee00::TESForm *)(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apLoadGameBuffer))->FUN_008648a0()))));
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 4)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_iCountChange)), 4);
     ((FUN_004bc780_shell*)this)->ClearExtraDataList();
     iExtraDataCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
     if (iExtraDataCount)
@@ -3122,7 +3122,7 @@ struct FUN_004bed60_shell
 void FUN_004bed60_shell::SavePerkList(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((SaveFormIDHelper*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)((void*)pad1), 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 4, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->pad0, 4, 0);
     unsigned int count = 0;
     unsigned int total = reinterpret_cast<::FUN_00865f20_shell *>((buffer))->FUN_00865f20();
     BSSimpleList<BGSPerk*>* node = list;
@@ -16086,7 +16086,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                 {
                     bool bEquipped = reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((int)(pObject));
                     if (bEquipped)
-                        reinterpret_cast<::FUN_008248e0_shell *>((reinterpret_cast<Target_5b4e90*>(reinterpret_cast<char*>(pActor) + 0x94)))->FUN_008248e0((::MagicItem *)(pObject), true);
+                        reinterpret_cast<::FUN_008248e0_shell *>((reinterpret_cast<Target_5b4e90*>(static_cast<MagicTarget *>(pActor))))->FUN_008248e0((::MagicItem *)(pObject), true);
                     pActor->RemoveItem((TESForm*)pObject, pExtra, iRemove, 0, 0, 0, 0, 0, 1, 0);
                     if (pActor == reinterpret_cast< ::Actor*>((*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer))))
                     {

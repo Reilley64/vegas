@@ -175,11 +175,11 @@ void TESObjectSTAT::FUN_004fbb70()
     ((BGSMovableStaticOwner*)((char*)this - 0x14))
         ->BGSDestructibleObjectForm::InitItem(
             ((BGSMovableStaticOwner*)((char*)this - 0x14))
-                ? (TESForm*)((char*)((BGSMovableStaticOwner*)((char*)this - 0x14)) + 0x14)
+                ? static_cast<TESForm *>((BGSMovableStaticOwner*)((char*)this - 0x14))
                 : (TESForm*)0);
     ((BGSMovableStaticOwner*)((char*)this - 0x14))
         ->TESModelTextureSwap::InitItem(((BGSMovableStaticOwner*)((char*)this - 0x14))
-                                            ? (TESForm*)((char*)((BGSMovableStaticOwner*)((char*)this - 0x14)) + 0x14)
+                                            ? static_cast<TESForm *>((BGSMovableStaticOwner*)((char*)this - 0x14))
                                             : (TESForm*)0);
 
     unsigned int soundID = sound.soundFormID;

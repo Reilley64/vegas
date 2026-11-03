@@ -316,7 +316,7 @@ bool FUN_006eabe0_shell::FUN_006eabe0()
         return false;
     *(int*)((char*)this + 0xc24) = 0;
     *(int*)((char*)this + 0xc28) = 0;
-    *(bool*)((char*)this + 0xc34) = false;
+    this->unkc34 = false;
     return true;
 }
 

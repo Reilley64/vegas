@@ -73,7 +73,9 @@ class PlayerCharacter : public Character
         SCRIPTS = 1,
         DAMAGE = 2
     };
-    unsigned char layoutPadding1C8[124];
+    unsigned char layoutPadding1C8[0x3e];
+    bool unk206;
+    unsigned char pad207[0x3d];
     float ActorValueModifierData[77];  // +0x244
     float m_afScriptModifiers[77];     // +0x378
     float ActorValueState;             // +0x4AC
@@ -82,10 +84,14 @@ class PlayerCharacter : public Character
     bool bThirdPerson;  // +0x64C
     unsigned char layoutPadding64D[51];
     unsigned char m_ucValueAt680;  // +0x680
-    unsigned char layoutPadding681[55];
+    unsigned char layoutPadding681[0xf];
+    void* unk690;
+    unsigned char pad694[0x24];
     TESQuest* m_pCurrentQuest;                          // +0x6B8
     BSSimpleList<BGSQuestObjective*> m_kObjectiveList;  // +0x6BC
-    unsigned char layoutPadding6C4[244];
+    unsigned char layoutPadding6C4[0x30];
+    void* unk6f4;
+    unsigned char pad6f8[0xc0];
     unsigned char m_ucByteAtOffset7B8;  // +0x7B8
     unsigned char layoutPadding7B9[3];
     bool m_bHasPerks;  // +0x7BC

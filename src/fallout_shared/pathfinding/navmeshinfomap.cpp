@@ -265,7 +265,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
     AutoMemContext tempMemContext(
         (MEM_CONTEXT)0x2e, true,
         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\NavMeshInfoMap.cpp", 0x5c);
-    if (*(bool*)((char*)this + 0x3c))
+    if (this->m_bKeepNavMeshLoaded)
     {
         void* it = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((NavMeshVertexMap*)((char*)this + 0x1c))))->GetFirstPos();
         while (it)
@@ -276,7 +276,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
             for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&pinfo->doors)))->GetName())); i++)
                 *((Arr*)&pinfo->doors)->GetAt(i) = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(TESForm**)((Arr*)&pinfo->doors)->GetAt(i))))->FUN_0084e3a0()));
         }
-        *(bool*)((char*)this + 0x3c) = false;
+        this->m_bKeepNavMeshLoaded = false;
     }
     int ibuffersize = 0x9b0;
     void* pchunkdata = ::FUN_00401000(ibuffersize);
@@ -304,7 +304,7 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
             if (apFile->IsEndianConversionRequired())
                 ::FUN_00401080(&ifileVersionNumber);
             if (ifileVersionNumber < 5)
-                *(bool*)((char*)this + 0x18) = true;
+                this->m_bNavMeshInfoArraysValid = true;
             break;
         case 0x494d564e: {
             int ichunksize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();

@@ -39,7 +39,7 @@
 void BGSAddonNode::ResetFormData()
 {
     SoundAssetTmp = 0;
-    memset(reinterpret_cast<char*>(this) + 0x58, 0, 4);
+    memset(reinterpret_cast<char*>(&this->Data), 0, 4);
     uiFlags = 0;
 }
 
@@ -90,7 +90,7 @@ bool BGSAddonNode::Load(TESFile* file)
         case 0x44534f4d:  // MOSD
         case 0x54444f4d:  // MODT
         {
-            TESModel::LoadModelData(this ? reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x30) : 0, file);
+            TESModel::LoadModelData(this ? static_cast<TESModel *>(this) : 0, file);
             break;
         }
         case 0x53444f4d:  // MODS
@@ -103,7 +103,7 @@ bool BGSAddonNode::Load(TESFile* file)
             buffer.size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             buffer.data = static_cast<char*>(_alloca(buffer.size));
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(buffer.data), buffer.size);
-            reinterpret_cast<::FUN_0048a7b0_shell *>((reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(this) + 0x30)))->LoadTextureSwapList(buffer.data, buffer.size,
+            reinterpret_cast<::FUN_0048a7b0_shell *>((static_cast<TESModelTextureSwap *>(this)))->LoadTextureSwapList(buffer.data, buffer.size,
                                        reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570());
             break;
         }
@@ -119,9 +119,9 @@ bool BGSAddonNode::Load(TESFile* file)
         }
         case 0x4d414e44:  // DNAM
         {
-            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(reinterpret_cast<char*>(this) + 0x58), 4);
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(reinterpret_cast<char*>(&this->Data)), 4);
             if (reinterpret_cast<::TESFile *>((reinterpret_cast<TESFileAccessor*>(file)))->IsEndianConversionRequired())
-                reinterpret_cast<::FUN_00512810_holder *>((reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_00512810();
+                reinterpret_cast<::FUN_00512810_holder *>((&this->Data))->FUN_00512810();
             if (reinterpret_cast<::BGSAddonNode *>(this)->IsMasterParticleSystem())
             {
                 uiFlags = DAT_011c8054;
@@ -231,7 +231,7 @@ struct FUN_004f8fe0_shell : public BGSAddonNode
 void FUN_004f8fe0_shell::FUN_004f8fe0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x30)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ::FUN_00485910(0x41544144, iIndex);
     if (SoundAssetTmp)
     {
@@ -239,10 +239,10 @@ void FUN_004f8fe0_shell::FUN_004f8fe0()
         ::FUN_00485910(0x4d414e53, itempint);
     }
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00512810_holder *>((reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_00512810();
-    ::AppendChunk(0x4d414e44, reinterpret_cast<char*>(this) + 0x58, 4);
+        reinterpret_cast<::FUN_00512810_holder *>((&this->Data))->FUN_00512810();
+    ::AppendChunk(0x4d414e44, reinterpret_cast<char*>(&this->Data), 4);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00512810_holder *>((reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_00512810();
+        reinterpret_cast<::FUN_00512810_holder *>((&this->Data))->FUN_00512810();
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
 
@@ -272,9 +272,9 @@ void FUN_004f90a0_shell::CopyFromAddonNode(TESForm* apCopy)
     if (!pcopy)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
-    *(unsigned int*)((char*)this + 0x50) = *(unsigned int*)((char*)pcopy + 0x50);
-    *(TESSound**)((char*)this + 0x54) = *(TESSound**)((char*)pcopy + 0x54);
-    memcpy((char*)this + 0x58, (char*)pcopy + 0x58, 4);
+    this->iIndex = pcopy->iIndex;
+    this->SoundAssetTmp = pcopy->SoundAssetTmp;
+    memcpy((char*)&this->Data, (char*)&pcopy->Data, 4);
 }
 
 struct FUN_005e79a0_t
@@ -298,16 +298,16 @@ bool FUN_004f9110_shell::FUN_004f9110(TESForm* apCompare)
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pcomp))
         return true;
 
-    if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x50) !=
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(pcomp) + 0x50))
+    if (this->iIndex !=
+        pcomp->iIndex)
         return true;
 
     if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x54) !=
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(pcomp) + 0x54))
         return true;
 
-    if (memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(this) + 0x58),
-               reinterpret_cast<const void*>(reinterpret_cast<const char*>(pcomp) + 0x58), 4))
+    if (memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(&this->Data)),
+               reinterpret_cast<const void*>(reinterpret_cast<const char*>(&pcomp->Data)), 4))
         return true;
 
     return false;

@@ -690,7 +690,7 @@ scan:
     return;
 found:
     *(unsigned short*)(tbl + 0x22 + i * 2) += 0xffff;
-    ::FUN_00d043c0((::CallTarget *)(((int*)((char*)this + 0x78))[i]), 1);
+    ::FUN_00d043c0((::CallTarget *)((&this->m_78)[i]), 1);
 }
 
 struct __declspec(align(16)) D049D0LockInfo
@@ -2543,9 +2543,9 @@ void Owner::FUN_00d04a80(int first, int second)
 {
     RequestContext context;
     Registry* data = reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400(&context);
-    reinterpret_cast<::hkQueue128 *>(&(((Bucket*)((char*)data + 0x2c))[unk30 + first]))->FUN_00d056d0(second);
+    reinterpret_cast<::hkQueue128 *>(&((&data->buckets[0])[unk30 + first]))->FUN_00d056d0(second);
     for (int i = 0; i < count; ++i)
-        reinterpret_cast<::hkQueue128 *>(&(((Bucket*)((char*)data + 0x2c))[*((unsigned char*)this + 0x3d + i * 8)]))->FUN_00d056d0(second);
+        reinterpret_cast<::hkQueue128 *>(&((&data->buckets[0])[*((unsigned char*)this + 0x3d + i * 8)]))->FUN_00d056d0(second);
     reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420(data);
 }
 // Stores a1 into a field of the object at this+0x18, decrements a per-index counter in the buffer from FUN_00d04400, and calls FUN_00d043c0 when it was positive.

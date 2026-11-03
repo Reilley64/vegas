@@ -1058,12 +1058,12 @@ public:
 // @fnv 0x00cfd720
 FUN_00cfd720::~FUN_00cfd720() {
     *(void**)this = (void*)&DAT_010cc984;
-    if (*(unsigned short*)(*(char**)((char*)this + 0x3c) + 4) != 0) {
-        ::FUN_00cb3dd0((::CB3DD0World *)(*(void**)((char*)this + 0xc)), (::CB3DD0Entity *)(void *)((char*)this + 0x44), 1);
+    if (*(unsigned short*)(*(char**)&this->m_3c + 4) != 0) {
+        ::FUN_00cb3dd0((::CB3DD0World *)(this->m_0c), (::CB3DD0Entity *)(void *)((char*)&this->m_44), 1);
     }
-    *(void**)((char*)this + 0x58) = 0;
-    *(void**)((char*)this + 0x5c) = 0;
-    *(void**)((char*)this + 0x50) = 0;
+    this->m_58 = 0;
+    this->m_5c = 0;
+    this->m_50 = 0;
     reinterpret_cast<::fnv_00cf40b0::FUN_00cf40b0_class *>((((FUN_00cf40b0_class*)((char*)this + 0x44))))->FUN_00cf40b0();
     reinterpret_cast<::FUN_00cfda50 *>((((FUN_00cfda50_class*)((char*)this + 0x14))))->FUN_00cfda50::~FUN_00cfda50();
     *(void**)this = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));

@@ -772,11 +772,11 @@ bool FUN_007735d0(unsigned char* self)
 {
     if (!self[0x260])
         return false;
-    void* xelem = (void*)(*(StrOp*)((char*)*(void**)((char*)g_pHudMainMenuInstance + 0x60) + 4));
+    void* xelem = (void*)(*(StrOp*)((char*)*(void**)&g_pHudMainMenuInstance->m_pTiles[14] + 4));
     Tile* pq = 0;
     while (xelem)
     {
-        pq = (Tile*)*((void **)(reinterpret_cast<::ListStandIn *>((((Lst*)((char*)*(void**)((char*)g_pHudMainMenuInstance + 0x60) + 4))))->FUN_0057cbe0((int **)&(xelem))));
+        pq = (Tile*)*((void **)(reinterpret_cast<::ListStandIn *>((((Lst*)((char*)*(void**)&g_pHudMainMenuInstance->m_pTiles[14] + 4))))->FUN_0057cbe0((int **)&(xelem))));
         if (pq->ContainsTrait(0xfa3))
             return true;
     }
@@ -803,11 +803,11 @@ bool FUN_00773650(unsigned char* self)
 {
     if (!self[0x261])
         return false;
-    void* xelem = (void*)(*(StrOp*)((char*)*(void**)((char*)g_pHudMainMenuInstance + 0x5c) + 4));
+    void* xelem = (void*)(*(StrOp*)((char*)*(void**)&g_pHudMainMenuInstance->m_pTiles[13] + 4));
     Tile* pq = 0;
     while (xelem)
     {
-        pq = (Tile*)*((void **)(reinterpret_cast<::ListStandIn *>((((Lst*)((char*)*(void**)((char*)g_pHudMainMenuInstance + 0x5c) + 4))))->FUN_0057cbe0((int **)&(xelem))));
+        pq = (Tile*)*((void **)(reinterpret_cast<::ListStandIn *>((((Lst*)((char*)*(void**)&g_pHudMainMenuInstance->m_pTiles[13] + 4))))->FUN_0057cbe0((int **)&(xelem))));
         if (pq->ContainsTrait(0xfa3))
             return true;
     }
@@ -836,7 +836,7 @@ void __cdecl FUN_007736d0(Script* script)
 {
     if (!g_pHudMainMenuInstance)
         return;
-    if (script && !::fnv_00773650::FUN_00773650((unsigned char *)(((PM*)g_pHudMainMenuInstance))) && ((Node*)((char*)g_pHudMainMenuInstance + 0x258))->_ref_008256d0())
+    if (script && !::fnv_00773650::FUN_00773650((unsigned char *)(((PM*)g_pHudMainMenuInstance))) && ((Node*)&g_pHudMainMenuInstance->m_kQuestObjectives[0])->_ref_008256d0())
     {
         Node* pNode = ((::Node *)(reinterpret_cast<::FUN_005d43e0_shell *>((script))->FUN_005d43e0()));
         while (pNode && !pNode->_ref_008256d0())
@@ -1399,15 +1399,15 @@ extern Q* DAT_011d96bc;
 void ResetHudTiles(void* self)
 {
     Tile* tile;
-    void* pIter = (void*)(*(StrOp*)((char*)*(void**)((char*)g_pHudMainMenuInstance + 0x60) + 4));
+    void* pIter = (void*)(*(StrOp*)((char*)*(void**)&g_pHudMainMenuInstance->m_pTiles[14] + 4));
     tile = 0;
     while (pIter)
     {
-        tile = (Tile*)*((void **)(reinterpret_cast<::ListStandIn *>((((Lst*)((char*)*(void**)((char*)g_pHudMainMenuInstance + 0x60) + 4))))->FUN_0057cbe0((int **)&(pIter))));
+        tile = (Tile*)*((void **)(reinterpret_cast<::ListStandIn *>((((Lst*)((char*)*(void**)&g_pHudMainMenuInstance->m_pTiles[14] + 4))))->FUN_0057cbe0((int **)&(pIter))));
         if (tile)
             reinterpret_cast<::Tile *>((tile))->Set(0xfa3, 0);
     }
-    if (*(int*)((char*)g_pHudMainMenuInstance + 0x1c4) != 5)
+    if (g_pHudMainMenuInstance->m_eHudMenuMode != 5)
     {
         while (reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead())
         {
@@ -1537,11 +1537,11 @@ extern HUDMainMenu* g_pHudMainMenuInstance;
 void __cdecl SetHoldText(const char* pText)
 {
     static int iHoldTrait = ::FUN_00a01860("_Hold");
-    if (pText && reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x68))))->GetFloat(4009) == ::_DAT_01012060 &&
-        reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x68))))->FUN_00a07fc0(4009))
+    if (pText && reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[16])))->GetFloat(4009) == ::_DAT_01012060 &&
+        reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[16])))->FUN_00a07fc0(4009))
     {
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x64))))->FUN_00a01350(4036, (char *)(pText), true);
-        reinterpret_cast<::Tile *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x64))))->Set(::FUN_00a01860("_Hold"), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[15])))->FUN_00a01350(4036, (char *)(pText), true);
+        reinterpret_cast<::Tile *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[15])))->Set(::FUN_00a01860("_Hold"), 1);
     }
 }
 }  // namespace fnv_00772c30
@@ -1779,13 +1779,13 @@ struct G2
 void QueueLevelUpNotification(int param)
 {
     int level = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_0087f9f0();
-    if (level < *((int *)&(::FUN_0043d4d0((int *)&(::g_011d0c60)))) && !*((bool*)g_pHudMainMenuInstance + 0x204))
+    if (level < *((int *)&(::FUN_0043d4d0((int *)&(::g_011d0c60)))) && !g_pHudMainMenuInstance->m_bSequenceActive)
     {
         LevelUpEntry* entry = new LevelUpEntry;
         entry->iParam = param;
         entry->iLevel = level;
         entry->iXP = (int)((ActorValueOwner*)((char*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)) + 0xa4))->GetActorValue(0x18);
-        ((G2*)((char*)g_pHudMainMenuInstance + 0x264))->AddHead(entry);
+        ((G2*)&g_pHudMainMenuInstance->m_kXPUpdates[0])->AddHead(entry);
     }
 }
 
@@ -1891,10 +1891,10 @@ struct HUDMainMenuS
 // @fnv 0x0077f890
 void HUDMainMenuS::ShiftTileValues(int aishift)
 {
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x50))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x50))))->GetFloat(4001) + aishift, true);
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x54))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x54))))->GetFloat(4001) + aishift, true);
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x4c))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x4c))))->GetFloat(4001) + aishift, true);
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x180))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)g_pHudMainMenuInstance + 0x180))))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x50))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[10])))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x54))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[11])))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x4c))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[9])))->GetFloat(4001) + aishift, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x180))))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)&g_pHudMainMenuInstance->m_pTiles[86])))->GetFloat(4001) + aishift, true);
 }
 }  // namespace fnv_0077f890
 

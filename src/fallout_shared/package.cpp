@@ -341,7 +341,7 @@ struct FUN_00671a20_shell : public TESPackage
 // @fnv 0x00671a20
 void FUN_00671a20_shell::FUN_00671a20(bool enabled)
 {
-    enabled ? *(unsigned int*)((char*)this + 0x1c) |= 0x800000 : *(unsigned int*)((char*)this + 0x1c) &= ~0x800000;
+    enabled ? this->flags |= 0x800000 : this->flags &= ~0x800000;
 }
 
 struct BGSLoadFormBuffer;
@@ -537,9 +537,9 @@ void FUN_00674d70_shell::SetFlag800(bool abVal)
     if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0()))))
     {
         if (abVal)
-            *(unsigned int*)((char*)this + 0x1c) |= 0x800;
+            this->flags |= 0x800;
         else
-            *(unsigned int*)((char*)this + 0x1c) &= ~0x800;
+            this->flags &= ~0x800;
     }
 }
 
@@ -1369,7 +1369,7 @@ struct FUN_0067a380_shell : public TESPackage
 // @fnv 0x0067a380
 bool FUN_0067a380_shell::FUN_0067a380()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x1000) ? true : false;
+    return (this->flags & 0x1000) ? true : false;
 }
 
 struct FUN_0067a3a0_shell : public TESPackage
@@ -1381,7 +1381,7 @@ struct FUN_0067a3a0_shell : public TESPackage
 // @fnv 0x0067a3a0
 void FUN_0067a3a0_shell::FUN_0067a3a0(bool enabled)
 {
-    enabled ? *(unsigned int*)((char*)this + 0x1c) |= 0x1000 : *(unsigned int*)((char*)this + 0x1c) &= ~0x1000;
+    enabled ? this->flags |= 0x1000 : this->flags &= ~0x1000;
 }
 
 struct FUN_0067a3f0_shell : public TESPackage
@@ -1392,7 +1392,7 @@ struct FUN_0067a3f0_shell : public TESPackage
 // @fnv 0x0067a3f0
 bool FUN_0067a3f0_shell::HasFlag400000()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x400000) ? true : false;
+    return (this->flags & 0x400000) ? true : false;
 }
 
 struct FUN_0067a460_shell : public TESPackage
@@ -1403,7 +1403,7 @@ struct FUN_0067a460_shell : public TESPackage
 // @fnv 0x0067a460
 bool FUN_0067a460_shell::FUN_0067a460()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x800000) ? true : false;
+    return (this->flags & 0x800000) ? true : false;
 }
 
 struct FUN_0067a480_shell : public TESPackage
@@ -1414,7 +1414,7 @@ struct FUN_0067a480_shell : public TESPackage
 // @fnv 0x0067a480
 bool FUN_0067a480_shell::FUN_0067a480()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x2000) ? true : false;
+    return (this->flags & 0x2000) ? true : false;
 }
 
 struct FUN_0067a4f0_shell : public TESPackage
@@ -1425,7 +1425,7 @@ struct FUN_0067a4f0_shell : public TESPackage
 // @fnv 0x0067a4f0
 bool FUN_0067a4f0_shell::FUN_0067a4f0()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x20000) ? true : false;
+    return (this->flags & 0x20000) ? true : false;
 }
 
 struct FUN_0067a690_shell : public TESPackage
@@ -1436,7 +1436,7 @@ struct FUN_0067a690_shell : public TESPackage
 // @fnv 0x0067a690
 bool FUN_0067a690_shell::HasFlag100000()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x100000) ? true : false;
+    return (this->flags & 0x100000) ? true : false;
 }
 
 struct FUN_0067a700_shell : public TESPackage
@@ -1447,7 +1447,7 @@ struct FUN_0067a700_shell : public TESPackage
 // @fnv 0x0067a700
 bool FUN_0067a700_shell::FUN_0067a700()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x4000000) ? true : false;
+    return (this->flags & 0x4000000) ? true : false;
 }
 
 struct FUN_0067a720_shell : public TESPackage
@@ -1458,8 +1458,8 @@ struct FUN_0067a720_shell : public TESPackage
 // @fnv 0x0067a720
 void FUN_0067a720_shell::SetFlag4000000(bool abVal)
 {
-    abVal ? *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x1c) |= 0x4000000
-          : *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x1c) &= ~0x4000000;
+    abVal ? this->flags |= 0x4000000
+          : this->flags &= ~0x4000000;
 }
 
 struct FUN_0067a770_shell : public TESPackage
@@ -1470,7 +1470,7 @@ struct FUN_0067a770_shell : public TESPackage
 // @fnv 0x0067a770
 bool FUN_0067a770_shell::IsNotFlag8000000()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 0x8000000) ? false : true;
+    return (this->flags & 0x8000000) ? false : true;
 }
 
 struct FUN_0067a850_shell : public TESPackage
@@ -1481,7 +1481,7 @@ struct FUN_0067a850_shell : public TESPackage
 // @fnv 0x0067a850
 bool FUN_0067a850_shell::FUN_0067a850()
 {
-    return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 1) ? true : false;
+    return (this->f22 & 1) ? true : false;
 }
 
 struct FUN_0067a8d0_shell : public TESPackage
@@ -1492,7 +1492,7 @@ struct FUN_0067a8d0_shell : public TESPackage
 // @fnv 0x0067a8d0
 bool FUN_0067a8d0_shell::FUN_0067a8d0()
 {
-    return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 2) ? true : false;
+    return (this->f22 & 2) ? true : false;
 }
 
 struct FUN_0067a950_shell : public TESPackage
@@ -1503,7 +1503,7 @@ struct FUN_0067a950_shell : public TESPackage
 // @fnv 0x0067a950
 bool FUN_0067a950_shell::FUN_0067a950()
 {
-    return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 4) ? true : false;
+    return (this->f22 & 4) ? true : false;
 }
 
 struct FUN_0067aa50_shell : public TESPackage
@@ -1514,7 +1514,7 @@ struct FUN_0067aa50_shell : public TESPackage
 // @fnv 0x0067aa50
 bool FUN_0067aa50_shell::FUN_0067aa50()
 {
-    return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 0x10) ? true : false;
+    return (this->f22 & 0x10) ? true : false;
 }
 
 struct FUN_0067aad0_shell : public TESPackage
@@ -1525,7 +1525,7 @@ struct FUN_0067aad0_shell : public TESPackage
 // @fnv 0x0067aad0
 bool FUN_0067aad0_shell::FUN_0067aad0()
 {
-    return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 0x20) ? true : false;
+    return (this->f22 & 0x20) ? true : false;
 }
 
 struct FUN_0067ab50_shell : public TESPackage
@@ -1536,13 +1536,13 @@ struct FUN_0067ab50_shell : public TESPackage
 // @fnv 0x0067ab50
 bool FUN_0067ab50_shell::HasFlag40()
 {
-    return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 0x40) ? true : false;
+    return (this->f22 & 0x40) ? true : false;
 }
 
 // @fnv 0x0067abd0
 unsigned char IsPackageFlag80Set(TESPackage* pThis)
 {
-    return (*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pThis) + 0x22) & 0x80) != 0;
+    return (pThis->f22 & 0x80) != 0;
 }
 
 struct FUN_0067ac50_shell : public TESPackage
@@ -1553,7 +1553,7 @@ struct FUN_0067ac50_shell : public TESPackage
 // @fnv 0x0067ac50
 bool FUN_0067ac50_shell::FUN_0067ac50()
 {
-    return (*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x22) & 0x100) ? true : false;
+    return (this->f22 & 0x100) ? true : false;
 }
 
 struct Actor;

@@ -399,9 +399,9 @@ FUN_00de4f20_cls* FUN_00de4f20_cls::FUN_00de4f20(const Vec4i* p0, const Vec4i* p
     *(volatile int*)&m_08 = 0;
     *(volatile int*)&m_50 = 7;
     *(volatile unsigned short*)&m_06 = 1;
-    _mm_store_ps((float*)((char*)this + 0x10), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x20), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x30), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_rot0, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_rot1, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_rot2, _mm_setzero_ps());
     *(volatile float*)&m_rot0.s.x = one;
     *(volatile float*)&m_rot1.s.y = one;
     *(volatile float*)&m_rot2.s.z = one;

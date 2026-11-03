@@ -1945,7 +1945,7 @@ FUN_0044fb20::FUN_0044fb20(int option, Callback* apCallback, void* owner, Option
 
     ((unsigned char*)this)[0x7d] = 0;
 
-    ((unsigned int*)this)[0x88 / 4] = 0;
+    this->member6c.v7 = 0;
 
     counterb0 = 0;
 
@@ -20114,7 +20114,7 @@ class PlayerCharacter_Cand : public PlayerCharacter
 void PlayerCharacter_Cand::FUN_0094df80()
 {
     reinterpret_cast<::BSAudio *>((((::fnv_0094df80::BSAudio *)(::FUN_00453a70()))))->SetAudioState(4);
-    reinterpret_cast<::MagicCaster *>((((MagicCaster_Accessor*)((char*)this + 0x88))))->RemoveCastingArt();
+    reinterpret_cast<::MagicCaster *>((((MagicCaster_Accessor*)static_cast<MagicCaster *>(this))))->RemoveCastingArt();
     float fCalTime2;
     float fPassed = ::DAT_01012640 / reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0094df80::Calendar *>(&::g_011de7b8))))->GetGameTimeScale();
     fCalTime2 = fPassed;
@@ -20137,13 +20137,13 @@ void PlayerCharacter_Cand::FUN_0094df80()
         }
         else
         {
-            reinterpret_cast<::MagicTarget *>((((MagicTarget_Accessor*)((char*)this + 0x94))))->UpdateActiveEffects(fPassed);
+            reinterpret_cast<::MagicTarget *>((((MagicTarget_Accessor*)static_cast<MagicTarget *>(this))))->UpdateActiveEffects(fPassed);
         }
         reinterpret_cast<::FUN_0088b510_cls *>((static_cast<PlayerCharacter_Cand*>(::_g_thePlayer)))->SetScaledValue(fPassed);
         if (::FUN_004d1360((char *)(::PlayerCharacter *)(this)) && ::FUN_005a1e50((const bool*)::_g_thePlayer))
         {
             float curHealth2 =
-                ((ActorValueOwner*)((char*)this + 0xA4))->GetCurrentActorValue(static_cast<ActorValue::Index>(0x4B));
+                static_cast<ActorValueOwner *>(this)->GetCurrentActorValue(static_cast<ActorValue::Index>(0x4B));
             float damage = ((::fnv_0094df80::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094df80::SettingT< ::fnv_0094df80::GameSettingCollection> *>(&::originalRuntimeFloatSetting815))))))->f;
             damage = (damage > curHealth2) ? curHealth2 : damage;
             ((Actor_DamageHelper*)this)->DamageActorValue(0x4B, -damage, 0);
@@ -30869,8 +30869,8 @@ void PlayerCharacterUpdate::FUN_00950930()
     Animation* pAnim = reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(false);
     if (pAnim)
         reinterpret_cast<::FUN_00491180_shell *>((((AnimationUpdate*)pAnim)))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), fTime, -1.0f);
-    if (*(Animation**)((char*)this + 0x690))
-        reinterpret_cast<::FUN_00491180_shell *>(((*(AnimationUpdate**)((char*)this + 0x690))))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), fTime, -1.0f);
+    if (*(Animation**)&this->unk690)
+        reinterpret_cast<::FUN_00491180_shell *>(((*(AnimationUpdate**)&this->unk690)))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), fTime, -1.0f);
     if (m_pBaseProcess)
         ((BaseProcessStandIn*)m_pBaseProcess)->Unk_1D0(this, fTime);
     Unk_5E();
@@ -32576,19 +32576,19 @@ void FUN_00952c30_shell::FUN_00952c30(TESObjectREFR* apMovingRef)
 {
     if (apMovingRef == _g_thePlayer)
     {
-        if (*(void**)((char*)this + 0x6f4))
-            reinterpret_cast<::FUN_00952d60_stand *>((((PlayerOps*)this)))->FUN_00952d60((::TESObjectREFR *)(*(void**)((char*)this + 0x6f4)), (::PathingPath *)(void *)((char*)this + 0x6f8), 0);
-        *((bool*)this + 0x206) = true;
+        if (this->unk6f4)
+            reinterpret_cast<::FUN_00952d60_stand *>((((PlayerOps*)this)))->FUN_00952d60((::TESObjectREFR *)(this->unk6f4), (::PathingPath *)(void *)((char*)this + 0x6f8), 0);
+        this->unk206 = true;
     }
     BSSimpleList<TESQuestTargetX*>* pList = ((::BSSimpleList< ::TESQuestTargetX *> *)(reinterpret_cast<::fnv_00952ba0::PlayerCharacterStandIn *>(this)->FUN_00952ba0()));
     TESQuestTargetX* pTarget = 0;
-    while (pList && *((::TESQuestTargetX **)(new ((void *)(((QTNode*)pList))) ::Vec3())) && !*((bool*)this + 0x206))
+    while (pList && *((::TESQuestTargetX **)(new ((void *)(((QTNode*)pList))) ::Vec3())) && !this->unk206)
     {
         pTarget = *((::TESQuestTargetX **)(new ((void *)(((QTNode*)pList))) ::Vec3()));
         pList = ((::BSSimpleList< ::TESQuestTargetX *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         TESObjectREFR* ptargref = (TESObjectREFR*)((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(true)));
         if (ptargref == apMovingRef)
-            *((bool*)this + 0x206) = true;
+            this->unk206 = true;
         if (ptargref && ((::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((ptargref))->FUN_0055d310())))
         {
             TESContainer* pContainer = ((::TESContainer *)(reinterpret_cast<::s55d310::Owner *>((ptargref))->FUN_0055d310()));
@@ -32596,7 +32596,7 @@ void FUN_00952c30_shell::FUN_00952c30(TESObjectREFR* apMovingRef)
             {
                 InventoryChanges* pInventoryChanges = InventoryChanges::CreateForReference(ptargref);
                 if (pInventoryChanges && reinterpret_cast<::FUN_004cfe20_t *>((pInventoryChanges))->HasItem(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((ptargref))->FUN_0084e3a0()))))
-                    *((bool*)this + 0x206) = true;
+                    this->unk206 = true;
             }
         }
     }
@@ -37504,8 +37504,8 @@ bool PlayerCharacter_StandIn::AddMagicItem(MagicItem* apItem)
     if (badded != 0)
     {
         reinterpret_cast<::MagicTargetUpd *>(&(magicTarget))->UpdateEffectsByFlags((unsigned int)(apItem));
-        reinterpret_cast<::EvalShell *>((reinterpret_cast<MT*>(reinterpret_cast<unsigned char*>(this) + 0x94)))->FUN_008255a0();
-        reinterpret_cast<::MagicTarget *>((reinterpret_cast<Hack*>(reinterpret_cast<unsigned char*>(this) + 0x94)))->UpdateActiveEffects(0.01f);
+        reinterpret_cast<::EvalShell *>((reinterpret_cast<MT*>(&this->magicTarget)))->FUN_008255a0();
+        reinterpret_cast<::MagicTarget *>((reinterpret_cast<Hack*>(&this->magicTarget)))->UpdateActiveEffects(0.01f);
     }
 
     return badded;
@@ -39735,7 +39735,7 @@ void FUN_0095f590_shell::FUN_0095f590(unsigned char flags)
         moveMode = reinterpret_cast<::FUN_008846e0_shell *>((reinterpret_cast<FUN_0095f590_Actor*>(this)))->GetVtbl20Result();
         moveMode &= ~0x400;
         reinterpret_cast<FUN_0095f590_MoveModeTarget*>(
-            *reinterpret_cast<FUN_0095f590_MoveModeTarget**>(reinterpret_cast<char*>(this) + 0x190))
+            *reinterpret_cast<FUN_0095f590_MoveModeTarget**>(&this->m_pActorMover))
             ->UpdatePlayerStatus(moveMode);
     }
 }
@@ -63172,7 +63172,7 @@ struct TeammateOwner
 // @fnv 0x00966f20
 void TeammateOwner::FUN_00966f20(Actor* actor, bool flag04, bool flag05)
 {
-    if (((TESActorBaseDataStub*)((char*)actor->GetActorBase() + 0x30))->Vfn08() || actor->Unk_8B(false))
+    if (((TESActorBaseDataStub*)&actor->GetActorBase()->unk30)->Vfn08() || actor->Unk_8B(false))
         return;
     TeammateEntry* found = ((::TeammateEntry *)(reinterpret_cast<::FUN_00967090_t *>(this)->FUN_00967090(actor)));
     if (!found)

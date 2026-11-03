@@ -395,13 +395,13 @@ struct DestructibleObjectData_local
 // @fnv 0x00475a00
 bool FUN_00475a00_shell::FUN_00475a00()
 {
-    if (!*(DestructibleObjectData_local**)((char*)this + 4))
+    if (!*(DestructibleObjectData_local**)&this->data)
     {
         return false;
     }
-    for (unsigned int i = 0; i < (*(DestructibleObjectData_local**)((char*)this + 4))->m_ucStageCount; ++i)
+    for (unsigned int i = 0; i < (*(DestructibleObjectData_local**)&this->data)->m_ucStageCount; ++i)
     {
-        DestructionStageData* pstage = (*(DestructibleObjectData_local**)((char*)this + 4))->pStageArray[i];
+        DestructionStageData* pstage = (*(DestructibleObjectData_local**)&this->data)->pStageArray[i];
         if (pstage)
         {
             if (pstage->m_pReplacementModel || pstage->m_pDebrisObject || pstage->m_pDebris || reinterpret_cast<::FUN_00475a90_cls *>((pstage))->IsFlag2Set())

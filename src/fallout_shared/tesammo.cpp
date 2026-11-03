@@ -93,10 +93,10 @@ void TESAmmo::InitItem()
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
 
-    ((TESScriptableForm*)((char*)this + 0x9C))->InitItem((TESForm*)this);
-    ((BGSDestructibleObjectForm*)((char*)this + 0x88))->InitItem((TESForm*)this);
-    ((TESModelTextureSwap*)((char*)this + 0x3C))->InitItem((TESForm*)this);
-    ((BGSPickupPutdownSounds*)((char*)this + 0x90))->InitItem((TESForm*)this);
+    static_cast<TESScriptableForm *>(this)->InitItem((TESForm*)this);
+    static_cast<BGSDestructibleObjectForm *>(this)->InitItem((TESForm*)this);
+    static_cast<TESModelTextureSwap *>(this)->InitItem((TESForm*)this);
+    static_cast<BGSPickupPutdownSounds *>(this)->InitItem((TESForm*)this);
 
     locals.formID = ((MiddleLowProcess*)this)->GetProcessInteger();
     if (locals.formID)
@@ -145,7 +145,7 @@ void TESAmmo::InitItem()
 // @fnv 0x00502cb0
 void FUN_00502cb0_shell::FUN_00502cb0(TESForm* apAmmoConsumed)
 {
-    *(TESForm**)((char*)this + 0xbc) = apAmmoConsumed;
+    this->m_kProjectileData.m_pShellCasing = apAmmoConsumed;
 }
 
 template <int N> struct EndianSizeTag
@@ -210,7 +210,7 @@ bool TESAmmo::Load(TESFile* file)
         case 0x49524353: {
             unsigned int script = 0;
             file->GetChunkData(&script);
-            ((CombatProcedure*)((char*)this + 0x9c))->Initialize((CombatController*)script);
+            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)script);
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -221,13 +221,13 @@ bool TESAmmo::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int pickup = 0;
             file->GetChunkData(&pickup);
-            ((CombatProcedure*)((char*)this + 0x90))->Initialize((CombatController*)pickup);
+            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)pickup);
             break;
         }
         case 0x4d414e5a: {
             unsigned int putdown = 0;
             file->GetChunkData(&putdown);
-            ((TESRegionGrassObject*)((char*)this + 0x90))->AssignLandTexture((TESLandTexture*)putdown);
+            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)putdown);
             break;
         }
         case 0x41544144:

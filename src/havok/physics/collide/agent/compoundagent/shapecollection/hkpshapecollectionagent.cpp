@@ -22,7 +22,7 @@ void hkpShapeCollectionAgent::FUN_00d436f0(int arg)
 {
     for (int i = 0; i < count; ++i)
     {
-        void** arr = reinterpret_cast<void**>(reinterpret_cast<void**>(this)[3]);
+        void** arr = reinterpret_cast<void**>(this->p2);
         void* obj = arr[i * 2 + 1];
         ((void(*)(void*, int))(*reinterpret_cast<void***>(obj))[7])(obj, arg);
     }

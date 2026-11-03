@@ -1062,7 +1062,7 @@ void FUN_008c1de0_shell::FUN_008c1de0(TESForm* pItem, ExtraDataList* pExtra, boo
     if (this != (Actor*)::_g_thePlayer || bSilent)
     {
         SetCurrentSpellState((int)pComp);
-        reinterpret_cast<::CastingCheck *>((reinterpret_cast<FUN_00815380_shell*>(reinterpret_cast<char*>(this) + 0x88)))->TryCast((::TESBoundObject *)(0));
+        reinterpret_cast<::CastingCheck *>((reinterpret_cast<FUN_00815380_shell*>(static_cast<MagicCaster *>(this))))->TryCast((::TESBoundObject *)(0));
         if (this != (Actor*)::_g_thePlayer)
         {
             RemoveItem(pItem, pExtra, 1, 0, 0, 0, 0, 0, 1, 0);
@@ -4644,7 +4644,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
     {
         SpellItem* pSpell_2 = *((::SpellItem **)(new ((void *)(pNode2)) ::Vec3()));
         if (pSpell_2 && FUN_00804b30((int)pSpell_2->vfn_18()) && !((bool)(reinterpret_cast<::FlaggedData *>((((FUN_008c2e30_spell*)pSpell_2)))->FUN_008c2e30())))
-            reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)((char*)this + 0x94))))->Dispel(pSpell_2, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
+            reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->Dispel(pSpell_2, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
         pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
     }
 
@@ -4653,7 +4653,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
     {
         SpellItem* _pRaceSpell = *((::SpellItem **)(new ((void *)(pNode2)) ::Vec3()));
         if (_pRaceSpell && FUN_00804b30((int)_pRaceSpell->vfn_18()))
-            reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)((char*)this + 0x94))))->Dispel(_pRaceSpell, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
+            reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->Dispel(_pRaceSpell, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
         pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
     }
 
@@ -4664,7 +4664,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
         TESEnchantableForm* pEnchantable = pItemCur ? dynamic_cast<TESEnchantableForm*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pItemCur))->GetName()))) : 0;
         FUN_008c2b60_node* pEnchantmentItem = pEnchantable ? ((::FUN_008c2b60_node *)(reinterpret_cast<::Callees *>((((FUN_008c2b60_node*)pEnchantable)))->FUN_00726070())) : 0;
         if (pEnchantmentItem)
-            reinterpret_cast<::FUN_008248e0_shell *>((((FUN_00824400_target*)((char*)this + 0x94))))->FUN_008248e0((MagicItem*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pItemCur))->GetName())), false);
+            reinterpret_cast<::FUN_008248e0_shell *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->FUN_008248e0((MagicItem*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pItemCur))->GetName())), false);
         delete (FUN_004459e0*)pItemCur;
     }
 
@@ -4673,7 +4673,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
     {
         SpellItem* pAddiction = dynamic_cast<SpellItem*>(pFormCur);
         if (pAddiction && FUN_00804b30((int)pAddiction->vfn_18()))
-            reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)((char*)this + 0x94))))->Dispel(pAddiction, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
+            reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->Dispel(pAddiction, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
     }
 }
 

@@ -497,7 +497,7 @@ void ActorPackageContext::ApplyLoadBuffer(BGSLoadFormBuffer* apBuffer)
 // @fnv 0x008c6b00
 bool FUN_008c6b00_shell::FUN_008c6b00(int aeFlag)
 {
-    return ((1 << aeFlag) & *(unsigned int*)((char*)this + 0x14)) ? true : false;
+    return ((1 << aeFlag) & this->iFlags) ? true : false;
 }
 
 struct BGSTextureSet;

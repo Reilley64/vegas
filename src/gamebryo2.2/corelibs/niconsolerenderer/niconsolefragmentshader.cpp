@@ -154,7 +154,7 @@ struct NiTPointerListBase_00e8b5f0
 // @fnv 0x00e8b5f0
 void* NiTPointerListBase_00e8b5f0::InsertHead(void* arg)
 {
-    NodePoolView* pool = (NodePoolView*)((char*)this + 8);
+    NodePoolView* pool = (NodePoolView*)&this->m_uiItemCount;
     void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((pool))->FUN_0043a010()));
     void* next = *(void**)((char*)arg + 0);
     *(void**)((char*)node + 8) = next;

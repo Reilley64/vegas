@@ -295,7 +295,7 @@ struct FUN_00d6a220_cls
 // @fnv 0x00d6a220
 int FUN_00d6a220_cls::HandleWithSelfOffset(Target* apTarget)
 {
-    return apTarget->Handle(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    return apTarget->Handle(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0);
 }
 
 struct S_d6a280_Elem;

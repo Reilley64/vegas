@@ -128,8 +128,8 @@ struct FUN_0080c4c0_shell
 ActiveEffect* FUN_0080c4c0_shell::FUN_0080c4c0()
 {
     ActiveEffect* presult = new FUN_0080c730_shell(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28),
-                                                   *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08),
-                                                   *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x0c));
+                                                   this->b,
+                                                   this->c);
 
     reinterpret_cast<CopyTarget*>(this)->CopyFrom(presult);
     return presult;

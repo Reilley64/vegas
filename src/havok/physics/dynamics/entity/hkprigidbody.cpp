@@ -2240,7 +2240,7 @@ FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
     reinterpret_cast<::Owner *>(&(cinfo))->FUN_00cf5ea0();
     reinterpret_cast<::S_00ca8f50_Src *>(this)->WriteToInfo((::S_00ca8f50_Info *)(::FnvScratch *)(&cinfo));
     FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)FUN_00c85750().heap().Alloc(0x220);
-    *(unsigned short*)((char*)pBlock + 4) = 0x220;
+    *(unsigned short*)&pBlock->unk00 = 0x220;
     FUN_00ca90c0_cls* pCopy = ((::FUN_00ca90c0_cls *)(reinterpret_cast<::S00ca8c90_Body *>((pBlock))->FUN_00ca8c90((*(const ::CInfo181 *)(&cinfo)))));
     memCpy16NonEmpty((char*)pCopy + 0xe0, (char*)this + 0xe0, 0x12);
     if (*(char**)((char*)this + 0x1f8))
@@ -2255,7 +2255,7 @@ FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
     *(int*)((char*)pCopy + 0x18) = pCopy->v10();
     reinterpret_cast<::CA92A0Object *>((pCopy))->CopyEntriesFrom((const ::CA92A0Object *)(::FUN_00ca90c0_cls *)(this));
     reinterpret_cast<::SStringPtr *>((((FnvSubObj*)((char*)pCopy + 0x74))))->FUN_00cb0c10((const char *)(*(unsigned int*)((char*)this + 0x74) & 0xfffffffe));
-    *(int*)((char*)pCopy + 0xc) = *(int*)((char*)this + 0xc);
+    pCopy->unk08 = this->unk08;
     if (*(void**)((char*)this + 0xa0))
         *(void**)((char*)pCopy + 0xa0) = ((FnvThing*)*(void**)((char*)this + 0xa0))->v0C(pCopy);
     return pCopy;

@@ -350,7 +350,7 @@ struct FUN_00b8af10_shell : public ImageSpaceManager
 // @fnv 0x00b8af10
 void FUN_00b8af10_shell::RaiseHighestBlurRadius(float afBlurRadius)
 {
-    float& fHighestBlur = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x25c);
+    float& fHighestBlur = this->m_fDoubleVisionStrength;
     if (afBlurRadius > fHighestBlur)
         fHighestBlur = afBlurRadius;
 }
@@ -375,7 +375,7 @@ struct FUN_00b8af60_shell : public ImageSpaceManager
 // @fnv 0x00b8af60
 void FUN_00b8af60_shell::RaiseBlurRadius(float afBlurRadius)
 {
-    float& val = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x2f0);
+    float& val = this->m_fMenuBackgroundBlendValue;
     if (afBlurRadius > val)
         val = afBlurRadius;
 }
@@ -388,7 +388,7 @@ struct FUN_00b8af90_shell : public ImageSpaceManager
 // @fnv 0x00b8af90
 void FUN_00b8af90_shell::FUN_00b8af90(float afBlurRadius)
 {
-    *(float*)((char*)this + 0x2f4) += afBlurRadius;
+    this->m_fMenuBackgroundBlendTarget += afBlurRadius;
 }
 
 struct FUN_00b8afb0_shell : public ImageSpaceManager
@@ -412,7 +412,7 @@ struct FUN_00b8afe0_shell : public ImageSpaceManager
 // @fnv 0x00b8afe0
 void FUN_00b8afe0_shell::AddDoubleVision(float afDoubleVision)
 {
-    *(float*)((char*)this + 0x268) += afDoubleVision;
+    this->m_fAdditionalImageSpaceValue += afDoubleVision;
 }
 
 // @fnv 0x00b8b210

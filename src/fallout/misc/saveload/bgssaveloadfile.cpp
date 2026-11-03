@@ -267,7 +267,7 @@ struct BGSSaveLoadManager_ext : public BGSSaveLoadManager
 // @fnv 0x008467b0
 bool FUN_008467b0_shell::LoadSaveEntry()
 {
-    return reinterpret_cast<::BGSSaveLoadManager *>((((BGSSaveLoadManager_ext*)::DAT_011de134)))->LoadGame(*(const char**)this, *(int*)((char*)this + 0x34), false, false);
+    return reinterpret_cast<::BGSSaveLoadManager *>((((BGSSaveLoadManager_ext*)::DAT_011de134)))->LoadGame(*(const char**)this, this->m_iScreenshotOffset, false, false);
 }
 
 namespace fnv_00846a20 {

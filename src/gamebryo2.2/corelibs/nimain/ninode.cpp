@@ -305,7 +305,7 @@ struct FUN_00a5db30_shell : public NiNode
 // @fnv 0x00a5db30
 void FUN_00a5db30_shell::FUN_00a5db30()
 {
-    int* pParent = *(int**)((char*)this + 0x18);
+    int* pParent = *(int**)&this->m_pParentNode;
     (*(void(**)(void*))(*(int*)this + 0xbc))(this);
     if (pParent)
     {
@@ -394,12 +394,12 @@ struct FUN_00a5dbe0_shell : public NiNode
 // @fnv 0x00a5dbe0
 void FUN_00a5dbe0_shell::FUN_00a5dbe0(NiCullingProcess* kCuller)
 {
-    if (*(void**)((char*)this + 0x20) && *(float*)(*(char**)((char*)this + 0x20) + 0xc) != 0.0f)
+    if (*(void**)&this->m_pkWorldBound && *(float*)(*(char**)&this->m_pkWorldBound + 0xc) != 0.0f)
     {
-        unsigned int uiChildCount = *(unsigned short*)((char*)this + 0xa6);
+        unsigned int uiChildCount = this->m_kChildList.m_usArraySize;
         for (unsigned int i = 0; i < uiChildCount; i++)
         {
-            NiAVObject* pkChild = (*(NiAVObject***)((char*)this + 0xa0))[i];
+            NiAVObject* pkChild = (this->m_kChildList.m_children)[i];
             if (pkChild)
                 reinterpret_cast<::S_00a59e00 *>((pkChild))->FUN_00a59e00((::S_00a59e00_Arg *)&(*kCuller));
         }
@@ -482,9 +482,9 @@ void FUN_00a5dce0_shell::FUN_00a5dce0(CloningProcess* kCloning)
     NiObject* pkClone;
     reinterpret_cast<::A54440Hash *>((kCloning->m_pCloneMap))->FUN_00a53c30((::A54440Manager *)((const char*)this), (::A54440Manager **)&((ShaderBufferRecord*&)pkClone));
 
-    for (unsigned int i = 0; i < *(unsigned short*)((char*)this + 0xa6); ++i)
+    for (unsigned int i = 0; i < this->m_kChildList.m_usArraySize; ++i)
     {
-        NiAVObject* pkChild = (*(NiAVObject***)((char*)this + 0xa0))[i];
+        NiAVObject* pkChild = (this->m_kChildList.m_children)[i];
         if (pkChild)
             pkChild->ProcessClone(*kCloning);
     }
@@ -529,7 +529,7 @@ void FUN_00a5dd40_shell::FUN_00a5dd40(NiStream* kStream)
     reinterpret_cast<::LoadObject *>(this)->FUN_00a5a510((::LoadStream &)(*kStream));
     reinterpret_cast<::S_00a64670_Foo *>((kStream))->FUN_00a64670();
     reinterpret_cast<::S_00a64670_Foo *>((kStream))->FUN_00a64670();
-    *(unsigned int*)((char*)this + 0x30) &= ~0x00200000;
+    this->m_uiObjectFlags &= ~0x00200000;
 }
 }  // namespace fnv_00a5dd40
 
@@ -544,11 +544,11 @@ void FUN_00a5e3a0(NiAVObject* pThis, int, NiPropertyState*& pkState)
     NiPropertyState* pkParentState = 0;
 
     if (reinterpret_cast<::S_00a5a110 *>((pThis))->HasNodeWithNonZeroValue())
-        *(unsigned int*)((char*)pThis + 0x30) |= 0x40000;
+        pThis->m_uiObjectFlags |= 0x40000;
     else
-        *(unsigned int*)((char*)pThis + 0x30) &= ~0x40000;
+        pThis->m_uiObjectFlags &= ~0x40000;
 
-    FUN_00a5e3a0_Helper* pkParent = *(FUN_00a5e3a0_Helper**)((char*)pThis + 0x18);
+    FUN_00a5e3a0_Helper* pkParent = *(FUN_00a5e3a0_Helper**)&pThis->m_pParentNode;
     if (pkParent)
     {
         ::FUN_00a5e3a0((::NiAVObject *)(pkParent), (int)&(pkParentState), *(::NiPropertyState * *)nullptr);
@@ -830,9 +830,9 @@ struct BaseStub
 void FUN_00a5dc30(NiNode* node, int, NiRenderer* pkRenderer)
 {
     reinterpret_cast<::PropHelper *>((((BaseStub*)node)))->FUN_00a59e50(pkRenderer);
-    for (unsigned int i = 0; i < *(unsigned short*)((char*)node + 0xa6); i++)
+    for (unsigned int i = 0; i < node->m_kChildList.m_usArraySize; i++)
     {
-        ChildStub* c = (*(ChildStub***)((char*)node + 0xa0))[i];
+        ChildStub* c = (*(ChildStub***)&node->m_kChildList.m_children)[i];
         if (c)
             c->PurgeRendererData(pkRenderer);
     }
@@ -841,24 +841,24 @@ void FUN_00a5dc30(NiNode* node, int, NiRenderer* pkRenderer)
 // @fnv 0x00a5e1f0
 void FUN_00a5e1f0(NiNode* node, int, NiUpdateData& kData, unsigned int uFlags)
 {
-    unsigned int nodeFlags = *(unsigned int*)((char*)node + 0x30);
+    unsigned int nodeFlags = node->m_uiObjectFlags;
     bool bOldUpdateControllers = kData.updateControllers;
     kData.updateControllers = ((nodeFlags >> 3) & 1) != 0;
     node->UpdateTimeControllers(kData, true);
     kData.updateControllers = bOldUpdateControllers;
-    unsigned int uiFlags = *(unsigned int*)((char*)node + 0x30);
+    unsigned int uiFlags = node->m_uiObjectFlags;
     bool bWorld = (bool)((uiFlags >> 2) & 1);
     if (bWorld)
         node->UpdateWorldData(kData);
-    if (*(unsigned int*)((char*)node + 0x30) & 1)
+    if (node->m_uiObjectFlags & 1)
         uFlags |= 1;
-    unsigned int n = *(unsigned short*)((char*)node + 0xa6);
+    unsigned int n = node->m_kChildList.m_usArraySize;
     for (unsigned int i = 0; i < n; i++)
     {
-        NiAVObject* c = (*(NiAVObject***)((char*)node + 0xa0))[i];
+        NiAVObject* c = (node->m_kChildList.m_children)[i];
         if (!c)
             continue;
-        unsigned int uiChildFlags = *(unsigned int*)((char*)c + 0x30);
+        unsigned int uiChildFlags = c->m_uiObjectFlags;
         bool bRigid = (bool)((uiChildFlags >> 1) & 1);
         if (bRigid)
             c->UpdateRigidDownwardPass(kData, uFlags);
@@ -910,10 +910,10 @@ struct ChildStub
 void UpdateChildControllers(NiNode* node, int, NiUpdateData& kData)
 {
     node->UpdateTimeControllers(kData, true);
-    unsigned int n = *(unsigned short*)((char*)node + 0xa6);
+    unsigned int n = node->m_kChildList.m_usArraySize;
     for (unsigned int i = 0; i < n; i++)
     {
-        ChildStub* c = (*(ChildStub***)((char*)node + 0xa0))[i];
+        ChildStub* c = (*(ChildStub***)&node->m_kChildList.m_children)[i];
         if (c)
             c->UpdateControllers(kData);
     }
@@ -957,9 +957,9 @@ bool RegisterChildStreamables(NiNode* node, int, NiStream& kStream)
 {
     if (!reinterpret_cast<::FUN_00a59f00_cls *>((((BaseStub*)node)))->FUN_00a59f00((void *)&(kStream)))
         return false;
-    for (unsigned int i = 0; i < *(unsigned short*)((char*)node + 0xa6); i++)
+    for (unsigned int i = 0; i < node->m_kChildList.m_usArraySize; i++)
     {
-        ChildStub* c = (*(ChildStub***)((char*)node + 0xa0))[i];
+        ChildStub* c = (*(ChildStub***)&node->m_kChildList.m_children)[i];
         if (c)
             c->RegisterStreamables(kStream);
     }

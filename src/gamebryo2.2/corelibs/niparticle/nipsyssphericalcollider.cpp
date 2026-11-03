@@ -159,7 +159,8 @@ struct NiPSysCollider
 
 struct NiPSysPlanarCollider : NiPSysCollider
 {
-    char _pad[0x2c];
+    char _pad[0x28];
+    void* unk2c;
     NiAVObject* m_pkColliderObject;
     void FUN_00c29450(CloningProcess&);
 };
@@ -171,12 +172,12 @@ void NiPSysPlanarCollider::FUN_00c29450(CloningProcess& kCloning)
     ShaderBufferRecord* pkClone = 0;
     reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_SBE*)kCloning.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)this), (::A54440Manager **)&(pkClone));
     NiPSysPlanarCollider* pkDest = (NiPSysPlanarCollider*)pkClone;
-    if (*(NiAVObject**)((char*)this + 0x2c))
+    if (*(NiAVObject**)&this->unk2c)
     {
-        if (reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_SBE*)kCloning.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)*(NiAVObject**)((char*)this + 0x2c)), (::A54440Manager **)&(pkClone)))
-            *(NiAVObject**)((char*)pkDest + 0x2c) = (NiAVObject*)pkClone;
+        if (reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_SBE*)kCloning.m_pCloneMap)))->FUN_00a53c30((::A54440Manager *)((const char*)*(NiAVObject**)&this->unk2c), (::A54440Manager **)&(pkClone)))
+            *(NiAVObject**)&pkDest->unk2c = (NiAVObject*)pkClone;
         else
-            *(NiAVObject**)((char*)pkDest + 0x2c) = *(NiAVObject**)((char*)this + 0x2c);
+            *(NiAVObject**)&pkDest->unk2c = *(NiAVObject**)&this->unk2c;
     }
 }
 }  // namespace fnv_00c29450

@@ -83,9 +83,9 @@ struct Dummy864490
 FormLoadContext* FUN_00864450(FormLoadContext* apObject)
 {
     ::ClearNumericIDIndex((::BGSNumericIDIndex3 *)(reinterpret_cast<Dummy84eaf0*>(apObject)));
-    ::FUN_0044dee0((::BGSLoadGameSubBuffer *)(reinterpret_cast<FormChangeMask*>(reinterpret_cast<char*>(apObject) + 3)));
-    ::FUN_00864490((char *)(reinterpret_cast<Dummy864490*>(reinterpret_cast<char*>(apObject) + 7)));
-    *(reinterpret_cast<unsigned char*>(apObject) + 8) = 0;
+    ::FUN_0044dee0((::BGSLoadGameSubBuffer *)(&apObject->m_pDeathItem));
+    ::FUN_00864490((char *)(reinterpret_cast<Dummy864490*>(&apObject->FormInfo.cData)));
+    apObject->cVersion = 0;
     return apObject;
 }
 
@@ -116,11 +116,11 @@ int FUN_008644b0_shell::FUN_008644b0(SaveLoadFile* apFile)
     SIZE_TYPE esizeType;
     unsigned int iLoadedSize;
 
-    reinterpret_cast<::SaveLoadFile *>((((BGSSaveLoadFile_Read_shell*)apFile)))->Read((char*)this + 0x14, 9);
-    *(unsigned int*)((char*)this + 0x10) = reinterpret_cast<::FUN_00853500_shell *>(((char*)this + 0x14))->FUN_00853500();
-    esizeType = FUN_00864520((char*)this + 0x1b);
-    iLoadedSize = ReadSizedUnsignedInt(apFile, *(unsigned int*)((char*)this + 0x20), esizeType);
-    if (iLoadedSize != *(unsigned int*)((char*)this + 0x20))
+    reinterpret_cast<::SaveLoadFile *>((((BGSSaveLoadFile_Read_shell*)apFile)))->Read((char*)&this->Header, 9);
+    this->iFormID = reinterpret_cast<::FUN_00853500_shell *>(&this->Header.m_kFormIDIndex.m_ucIDByte0)->FUN_00853500();
+    esizeType = FUN_00864520((char*)&this->Header.FormInfo);
+    iLoadedSize = ReadSizedUnsignedInt(apFile, this->iSize, esizeType);
+    if (iLoadedSize != this->iSize)
         return -1;
     return iLoadedSize;
 }
@@ -162,9 +162,9 @@ void FUN_00864580_shell::FUN_00864580(SaveLoadFile* apFile, unsigned int aiAlrea
 {
     unsigned int uiRemaining;
     if ((uiRemaining =
-             *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x20) - aiAlreadyLoadedAmount) != 0)
+             this->iSize - aiAlreadyLoadedAmount) != 0)
     {
-        reinterpret_cast<::FUN_00846490_t *>((apFile))->AdvancePosition(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x20) -
+        reinterpret_cast<::FUN_00846490_t *>((apFile))->AdvancePosition(this->iSize -
                                 aiAlreadyLoadedAmount);
     }
 }

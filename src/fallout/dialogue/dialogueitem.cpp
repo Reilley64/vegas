@@ -55,11 +55,11 @@ struct FUN_0083c7e0_shell : public DialogueItem
 // @fnv 0x0083c7e0
 bool FUN_0083c7e0_shell::FUN_0083c7e0()
 {
-    if (*(void**)((char*)this + 8))
+    if (*(void**)&this->m_pCurrentResponseList)
     {
-        *(void**)((char*)this + 8) = reinterpret_cast<::Callees *>((*(void**)((char*)this + 8)))->FUN_00726070();
+        *(void**)&this->m_pCurrentResponseList = reinterpret_cast<::Callees *>((*(void**)&this->m_pCurrentResponseList))->FUN_00726070();
     }
-    return *(void**)((char*)this + 8) != 0;
+    return *(void**)&this->m_pCurrentResponseList != 0;
 }
 
 namespace p07 {

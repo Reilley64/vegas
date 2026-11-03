@@ -224,8 +224,8 @@ FUN_007324f0_shell& FUN_007324f0_shell::operator=(const FUN_007324f0_shell& aSou
 {
     m0 = aSource.m0;
     m4 = aSource.m4;
-    *(Helper62d0*)((char*)this + 8) = (const void*)&aSource.m8;
-    *(Helper62d0*)((char*)this + 12) = (const void*)&aSource.mC;
+    *(Helper62d0*)&this->m8 = (const void*)&aSource.m8;
+    *(Helper62d0*)&this->mC = (const void*)&aSource.mC;
     return *this;
 }
 
@@ -322,7 +322,11 @@ void FUN_00733fd0_shell::FUN_00733fd0(float fMin)
 
 struct FUN_00734d50_holder
 {
-    unsigned char _pad[0xDB0];
+    unsigned char _pad[0x6c];
+    int unk6c;
+    int unk70;
+    int unk74;
+    unsigned char pad78[0xd38];
     int _flags;
     void SetFlag(int flag, bool value);
 };
@@ -396,12 +400,12 @@ bool FUN_00739650_shell::FUN_00739650(bool bFlag)
     bool bResult = true;
     if (bFlag)
     {
-        if (*(int*)((char*)this + 0x74) < *(int*)((char*)this + 0x6c) + *(int*)((char*)this + 0x70) * 2)
+        if (this->unk74 < this->unk6c + this->unk70 * 2)
             bResult = false;
     }
     if (!bFlag)
     {
-        if (*(int*)((char*)this + 0x74) < *(int*)((char*)this + 0x70) + *(int*)((char*)this + 0x6c) * 2)
+        if (this->unk74 < this->unk70 + this->unk6c * 2)
             bResult = false;
     }
     if (bFlag)

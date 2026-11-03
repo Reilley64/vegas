@@ -461,7 +461,7 @@ template <typename T> struct BSStringT
 // @fnv 0x004e2190
 BSShaderAccumulator* FUN_004e2190_shell::FUN_004e2190()
 {
-    return (BSShaderAccumulator*)(const char*)(*(BSStringT<char>*)((char*)this + 0x88));
+    return (BSShaderAccumulator*)(const char*)(*(BSStringT<char>*)&this->m_cBuffer40A[24]);
 }
 
 double __cdecl FUN_00ec9e10(double);

@@ -1318,10 +1318,10 @@ void InitFromObjects(BooleanFloatQuery* hd, void* target, void* weapon, void* so
     ((int*)hd)[12] = extra ? ((int)(reinterpret_cast<::FUN_00476c90_Class *>((((Sky*)extra)))->FUN_00476c90())) : 0;
     ((float*)hd)[13] = source ? reinterpret_cast<::FUN_004bcdb0_shell *>((((IC*)source)))->FUN_004bcdb0(true) : 1.0f;
     hd->p_08 = extra;
-    ((float*)hd)[5] = reinterpret_cast<::FUN_00885d70_Class *>((((Obj*)extra)))->GetFieldDC();
+    (*(float*)&hd->p_30) = reinterpret_cast<::FUN_00885d70_Class *>((((Obj*)extra)))->GetFieldDC();
     if (target)
-        ((float*)hd)[5] *= reinterpret_cast<::TESObjectREFR *>((((TESObjectREFR*)target)))->GetScale();
-    ((float*)hd)[6] = ((float*)hd)[5];
+        (*(float*)&hd->p_30) *= reinterpret_cast<::TESObjectREFR *>((((TESObjectREFR*)target)))->GetScale();
+    hd->p_34 = (*(float*)&hd->p_30);
     reinterpret_cast<::FUN_009b7060_shell *>((hd))->ApplyCriticalHit();
     hd->FUN_009b5a30(true);
     reinterpret_cast<::Target9B6 *>((hd))->FUN_009b6620((::Event9B6 *)(extra));
@@ -1594,7 +1594,7 @@ void ShadowNode::FUN_009bb850()
     if (m10)
     {
         reinterpret_cast<::B5Owner *>((((ExtraDataList*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((unsigned int)((NiAVObject*)(unsigned int)m10));
-        ((GO*)((char*)this + 0x10))->operator=(0);
+        ((GO*)&this->m10)->operator=(0);
     }
 }
 

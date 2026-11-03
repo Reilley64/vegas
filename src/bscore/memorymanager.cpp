@@ -142,11 +142,11 @@ void __cdecl Deallocate(void*);
 // @fnv 0x00473960
 void FUN_00473960_shell::FUN_00473960()
 {
-    if (*(void**)((char*)this + 0x420) != 0)
+    if (*(void**)&this->m_pDecompressedFormBuffer != 0)
     {
-        ::FUN_00401030(*(void**)((char*)this + 0x420));
-        *(void**)((char*)this + 0x420) = 0;
-        *(unsigned int*)((char*)this + 0x424) = 0;
+        ::FUN_00401030(*(void**)&this->m_pDecompressedFormBuffer);
+        *(void**)&this->m_pDecompressedFormBuffer = 0;
+        this->m_uiAuxBufferSize = 0;
     }
 }
 

@@ -212,7 +212,7 @@ struct FUN_00435ef0 : public BSExtraData
 void FUN_00435ef0::FUN_00435ef0_init()
 {
     *reinterpret_cast<void**>(this) = &DAT_01015968;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) = 0;
+    this->b = 0;
     ::FUN_0040ecb0((int *)(this));
 }
 
@@ -548,7 +548,7 @@ void FUN_0042fee0_cls::FUN_0042fee0()
 {
     *(void**)this = &DAT_01015a1c;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 extern int DAT_01015f24;
@@ -1284,8 +1284,8 @@ struct FUN_0043a9a0_class
 // @fnv 0x0043a9a0
 void FUN_0043a9a0_class::FUN_0043a9a0()
 {
-    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 4, 0xc);
-    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x10, 0xc);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)&this->b, 0xc);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)&this->e, 0xc);
     unsigned int v;
     reinterpret_cast<::FUN_00857aa0 *>((g_TESSaveLoadGame))->ValidateFormIDArray(&v, 4);
     a = v;

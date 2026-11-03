@@ -722,7 +722,7 @@ void FUN_00691a00_class::FUN_00691a00()
 {
     *reinterpret_cast<const char**>(this) = "P i";
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(reinterpret_cast<char*>(*reinterpret_cast<void***>(reinterpret_cast<char*>(this) + 8)));
+    ::FUN_00aa10f0(reinterpret_cast<char*>(*reinterpret_cast<void***>(&this->m_ppkHashTable)));
 }
 
 namespace fnv_0069b730 {
@@ -6039,10 +6039,10 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
             unsigned int k;
             for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_20e8))->GetName())); k++)
             {
-                StrObj str1((char*)((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k))) + 0x1c,
+                StrObj str1((char*)(&((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_1c),
                             ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((NavLike*)((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_10)))->FUN_0068efb0())));
                 reinterpret_cast<::FUN_0069f920_cls *>((apResult))->FUN_0069f920((int)(&str1), (int)(&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))));
-                StrObj str2((char*)((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k))) + 0x34,
+                StrObj str2((char*)(&((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_34),
                             ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((NavLike*)((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_28)))->FUN_0068efb0())));
                 reinterpret_cast<::FUN_0069f920_cls *>((apResult))->FUN_0069f920((int)(&str2), (int)(&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))));
             }

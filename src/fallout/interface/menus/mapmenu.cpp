@@ -327,8 +327,8 @@ struct FUN_0079c090_shell : public MapMenu
 // @fnv 0x0079c090
 void FUN_0079c090_shell::FUN_0079c090()
 {
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x88) = 0.0f;
-    (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x68))->Set(0xfa3, 0);
+    this->m_fMapRotation = 0.0f;
+    (this->m_pTiles[16])->Set(0xfa3, 0);
 }
 
 // If DAT_011da368 is set, calls Set on the Tile at offset 0x30 with DAT_011da35c and afMagnification.
@@ -337,7 +337,7 @@ void __cdecl FUN_007a1820(float afMagnification)
 {
     if (DAT_011da368)
     {
-        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)DAT_011da368 + 0x30))))->FUN_00a012d0(DAT_011da35c, afMagnification, true);
+        reinterpret_cast<::FUN_00a012d0_t *>(((DAT_011da368->m_pTiles[2])))->FUN_00a012d0(DAT_011da35c, afMagnification, true);
     }
 }
 
@@ -347,7 +347,7 @@ void __cdecl FUN_007a1850(float afMagnification)
 {
     if (DAT_011da368)
     {
-        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)DAT_011da368 + 0x38))))->FUN_00a012d0(DAT_011da35c, afMagnification, true);
+        reinterpret_cast<::FUN_00a012d0_t *>(((DAT_011da368->m_pTiles[4])))->FUN_00a012d0(DAT_011da35c, afMagnification, true);
     }
 }
 
@@ -669,7 +669,7 @@ float __cdecl GetMapMenuFloatSetting()
 {
     float result;
     if (DAT_011da368)
-        result = ((Tile*)*(void**)((void**)DAT_011da368 + 0x30 / 4))->GetFloat(DAT_011da35c);
+        result = ((Tile*)*(void**)&DAT_011da368->m_pTiles[2])->GetFloat(DAT_011da35c);
     else
         result = 1.0f;
     return result;
@@ -790,7 +790,7 @@ struct MagicCaster_shell
 // @fnv 0x0079bc50
 bool FUN_0079bc50(MagicCaster_shell* pMagicCaster)
 {
-    return pMagicCaster && *(MagicTarget**)((char*)DAT_011da368 + 0xCC) != pMagicCaster->FUN_0044edb0();
+    return pMagicCaster && *(MagicTarget**)&DAT_011da368->m_pSelectedQuest != pMagicCaster->FUN_0044edb0();
 }
 
 struct RefH
@@ -811,7 +811,7 @@ struct Helper007fa0f0
 void FUN_0079c340(bool a)
 {
     if (DAT_011da368)
-        reinterpret_cast<::FUN_007fa0f0_Class *>((((Helper007fa0f0*)((Interface*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetPipboyManager())))->SetValue(*(int*)((char*)DAT_011da368 + 0x80) - 0x20, a);
+        reinterpret_cast<::FUN_007fa0f0_Class *>((((Helper007fa0f0*)((Interface*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetPipboyManager())))->SetValue(DAT_011da368->m_iMapDisplayMode - 0x20, a);
 }
 
 struct GlobalObject_0045cfe0
@@ -1400,32 +1400,32 @@ void FUN_0079b460_shell::FUN_0079b460(bool abToggle)
     if (abToggle)
         DAT_011da36d = !DAT_011da36d;
 
-    reinterpret_cast<FUN_007a59a0_Host*>(reinterpret_cast<char*>(this) + 0x1f0)->FUN_007a59a0(DAT_011da36d);
-    reinterpret_cast<::FUN_007a5a30_Host *>((reinterpret_cast<FUN_007a5a30_Host*>(reinterpret_cast<char*>(this) + 0x1f0)))->FUN_007a5a30(DAT_011da36d);
+    reinterpret_cast<FUN_007a59a0_Host*>(&this->m_kChallengeListBox)->FUN_007a59a0(DAT_011da36d);
+    reinterpret_cast<::FUN_007a5a30_Host *>((reinterpret_cast<FUN_007a5a30_Host*>(&this->m_kChallengeListBox)))->FUN_007a5a30(DAT_011da36d);
 
-    reinterpret_cast<FUN_007a30e0_Host*>(reinterpret_cast<char*>(this) + 0x160)->FUN_007a30e0(!DAT_011da36d);
-    reinterpret_cast<::FUN_007a5a30_Host *>((reinterpret_cast<FUN_007a5a30_Host*>(reinterpret_cast<char*>(this) + 0x160)))->FUN_007a5a30(!DAT_011da36d);
+    reinterpret_cast<FUN_007a30e0_Host*>(&this->m_kNoteListBox)->FUN_007a30e0(!DAT_011da36d);
+    reinterpret_cast<::FUN_007a5a30_Host *>((reinterpret_cast<FUN_007a5a30_Host*>(&this->m_kNoteListBox)))->FUN_007a5a30(!DAT_011da36d);
 
-    (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x5c))->Set(0xfa3, 1);
+    (this->m_pTiles[13])->Set(0xfa3, 1);
 
     if (abToggle)
     {
         pchallengeText =
-            reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>(((*reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x5c))))->FUN_00a03da0((char *)("MM_DataText"));
+            reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>(((this->m_pTiles[13])))->FUN_00a03da0((char *)("MM_DataText"));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pchallengeText))->FUN_00a01350(0xfc4, (char *)($SG3295), true);
     }
 
     if (DAT_011da36d)
     {
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<Tile**>(reinterpret_cast<char*>(::DAT_011da368) + 0x70))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d2d18))))->GetMenuTitle()))), true);
-        (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(::DAT_011da368) + 0x7c))->Set(0xfa3, 1);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x7c))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((DAT_011a03e4[::DAT_011da36e]))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((::DAT_011da368->m_pTiles[18])))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d2d18))))->GetMenuTitle()))), true);
+        (::DAT_011da368->m_pTiles[21])->Set(0xfa3, 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((this->m_pTiles[21])))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((DAT_011a03e4[::DAT_011da36e]))->GetMenuTitle()))), true);
     }
     else
     {
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<Tile**>(reinterpret_cast<char*>(::DAT_011da368) + 0x70))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d2a78))))->GetMenuTitle()))), true);
-        (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(::DAT_011da368) + 0x58))->Set(0xfaf, 1);
-        (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(::DAT_011da368) + 0x7c))->Set(0xfa3, 0);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((::DAT_011da368->m_pTiles[18])))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d2a78))))->GetMenuTitle()))), true);
+        (::DAT_011da368->m_pTiles[12])->Set(0xfaf, 1);
+        (::DAT_011da368->m_pTiles[21])->Set(0xfa3, 0);
     }
 
     if (abToggle)
@@ -2203,7 +2203,7 @@ NiPoint3 FUN_0079c450_shell::FUN_0079c450(NiPoint3 position, TESWorldSpace* worl
     NiPoint3 pos = position;
     NiPoint3 result;
 
-    if (*(int*)((char*)this + 0x80) == 0x21)
+    if (this->m_iMapDisplayMode == 0x21)
     {
         pos.x = (float)(pos.x * DAT_01075020 - DAT_01075018);
         pos.y = (float)(pos.y * DAT_01075020 - DAT_01075018);
@@ -2213,7 +2213,7 @@ NiPoint3 FUN_0079c450_shell::FUN_0079c450(NiPoint3 position, TESWorldSpace* worl
     result.y = (m_kMapMaximumPoint.y - m_kMapMinimumPoint.y) * pos.y + m_kMapMinimumPoint.y;
     result.z = 0.0f;
 
-    if (worldSpace != 0 && *(int*)((char*)this + 0x80) == 0x21)
+    if (worldSpace != 0 && this->m_iMapDisplayMode == 0x21)
     {
         reinterpret_cast<::FUN_00588e40_shell *>((worldSpace))->TransformWorldPoint((::Pt3 *)&(result), true);
     }

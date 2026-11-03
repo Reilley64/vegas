@@ -133,7 +133,7 @@ struct FUN_00cb8b40_class
 // @fnv 0x00cb8b40
 void FUN_00cb8b40_class::DestroyWorldReference()
 {
-    DDCC60World* p = (DDCC60World*)*((int*)this + 44);
+    DDCC60World* p = (DDCC60World*)this->m_0b0;
     *((int*)this) = (int)&DAT_010c89e4;
     if (p)
         reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();

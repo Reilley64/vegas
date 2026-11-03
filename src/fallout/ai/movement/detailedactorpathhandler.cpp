@@ -318,10 +318,10 @@ void FUN_009e1640_shell::SetRotationMatrix(float afAngle)
     ((float*)this)[2] = 0.0f;
     ((float*)this)[3] = -fSin;
     ((float*)this)[4] = fCos;
-    ((float*)this)[5] = 0.0f;
-    ((float*)this)[6] = 0.0f;
-    ((float*)this)[7] = 0.0f;
-    ((float*)this)[8] = 1.0f;
+    this->unk14 = 0.0f;
+    this->unk18 = 0.0f;
+    this->m_kPathVector1.x = 0.0f;
+    this->m_kPathVector1.y = 1.0f;
 }
 
 namespace fnv_009e27e0 {
@@ -343,11 +343,11 @@ struct PathingRequest
 // @fnv 0x009e27e0
 bool FUN_009e27e0_shell::FUN_009e27e0()
 {
-    *(float*)((char*)this + 0x14) = 10.0f;
-    *(float*)((char*)this + 0x18) = 20.0f;
-    *(float*)((char*)this + 0x18) =
+    this->unk14 = 10.0f;
+    this->unk18 = 20.0f;
+    this->unk18 =
         ::GetFloatAtOffset68((const char *)(((PathingRequest*)(const char*)(*(BSStringT<char>*)((char*)this + 0x10)))));
-    *(float*)((char*)this + 0x14) = *(float*)((char*)this + 0x18) * ::DAT_01011588;
+    this->unk14 = this->unk18 * ::DAT_01011588;
     return false;
 }
 }  // namespace fnv_009e27e0
@@ -367,10 +367,10 @@ struct FUN_009e32f0_shell : public DetailedActorPathHandler
 // @fnv 0x009e32f0
 bool FUN_009e32f0_shell::ConsumePendingDelta(NiPoint3* aDelta)
 {
-    if (*((bool*)this + 0xe2))
+    if (this->m_bPathFlag7)
     {
-        *((bool*)this + 0xe2) = false;
-        *aDelta = *(NiPoint3*)((char*)this + 0x1c);
+        this->m_bPathFlag7 = false;
+        *aDelta = this->m_kPathVector1;
         return true;
     }
     else
@@ -408,8 +408,8 @@ struct FUN_009e5480_shell : public DetailedActorPathHandler
 // @fnv 0x009e5480
 void FUN_009e5480_shell::ResetPathState()
 {
-    *((bool*)this + 0xde) = false;
-    *(float*)((char*)this + 0x88) = 0.0f;
+    this->m_bPathFlag3 = false;
+    this->m_fPathValue8 = 0.0f;
 }
 
 struct ActiveEffect;
@@ -1049,7 +1049,7 @@ bool FUN_009e7610_shell::TurnTowardGoalAngle(float afGoalAngle, bool abForceTurn
     float fangledelta;
     float fepsilon;
 
-    if (*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0xc0))
+    if (this->m_bHasPathingSolution)
         return false;
 
     if (afGoalAngle < ::_DAT_01012060)
@@ -1057,7 +1057,7 @@ bool FUN_009e7610_shell::TurnTowardGoalAngle(float afGoalAngle, bool abForceTurn
     else if (afGoalAngle >= 6.2831854820251465)
         afGoalAngle = ::FUN_004b1500(afGoalAngle, 6.2831854820251465f);
 
-    fangledelta = FUN_004b15e0((*reinterpret_cast<VCallHelper_2bc**>(reinterpret_cast<char*>(this) + 4))->v175(0),
+    fangledelta = FUN_004b15e0((*reinterpret_cast<VCallHelper_2bc**>(&this->pActor))->v175(0),
                                afGoalAngle, &fdir);
     fabsoluteDelta = std::abs(fangledelta);
     fepsilon = DAT_010923dc;
@@ -1067,7 +1067,7 @@ bool FUN_009e7610_shell::TurnTowardGoalAngle(float afGoalAngle, bool abForceTurn
         fepsilon = DAT_010923e4;
     }
     else if (abPathTransition &&
-             (reinterpret_cast<::FUN_009dd130_shell *>(((*reinterpret_cast<ActorMover**>(reinterpret_cast<char*>(this) + 8))))->FUN_009dd130() & 0x200))
+             (reinterpret_cast<::FUN_009dd130_shell *>(((this->m_pActorMover)))->FUN_009dd130() & 0x200))
     {
         fepsilon = DAT_010923e0;
     }
@@ -1075,20 +1075,20 @@ bool FUN_009e7610_shell::TurnTowardGoalAngle(float afGoalAngle, bool abForceTurn
     if (fabsoluteDelta > fepsilon)
     {
         if (fdir > ::_DAT_01012060)
-            *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0xdd) = true;
+            this->m_bPathFlag2 = true;
         else
-            *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0xdd) = false;
+            this->m_bPathFlag2 = false;
 
-        *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0xdc) = true;
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x68) = afGoalAngle;
-        WrapValueToRange(*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x68), -3.1415927410125732f,
+        this->m_bPathFlag1 = true;
+        this->m_fPathValue1 = afGoalAngle;
+        WrapValueToRange(this->m_fPathValue1, -3.1415927410125732f,
                          3.1415927410125732f);
 
-        if (!reinterpret_cast<::FUN_0087eeb0_shell *>((*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 4)))->FUN_0087eeb0())
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x94) =
+        if (!reinterpret_cast<::FUN_0087eeb0_shell *>((*reinterpret_cast<void**>(&this->pActor)))->FUN_0087eeb0())
+            this->m_fPathValue11 =
                 *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting220)))));
 
-        reinterpret_cast<::TESForm *>(((*reinterpret_cast<Date**>(reinterpret_cast<char*>(this) + 8))))->ClearData();
+        reinterpret_cast<::TESForm *>(((*reinterpret_cast<Date**>(&this->m_pActorMover))))->ClearData();
         return true;
     }
 
@@ -1104,10 +1104,10 @@ struct FUN_009e8790_shell : public DetailedActorPathHandler
 // @fnv 0x009e8790
 void FUN_009e8790_shell::ResetMoveState()
 {
-    *(unsigned int*)((char*)this + 0x60) = reinterpret_cast<::FUN_009dd130_shell *>(((*(ActorMover**)((char*)this + 0x8))))->FUN_009dd130();
-    *(NiPoint3*)((char*)this + 0x1c) = NiPoint3::ZERO;
-    *(float*)((char*)this + 0x9c) = 0.0f;
-    *(NiPoint3*)((char*)this + 0xa0) = NiPoint3::ZERO;
+    this->ByteAndFlagState = reinterpret_cast<::FUN_009dd130_shell *>(((this->m_pActorMover)))->FUN_009dd130();
+    this->m_kPathVector1 = NiPoint3::ZERO;
+    this->m_fPathValue13 = 0.0f;
+    this->m_kPathVector5 = NiPoint3::ZERO;
 }
 
 namespace fnv_009e9390 {
@@ -1267,59 +1267,59 @@ struct BGSLoadFormBuffer
 // @fnv 0x009e9390
 void FUN_009e9390_shell::FUN_009e9390(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x1c), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x28), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x34), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x40), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x4c), 0xc);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x60), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x64), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x68), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x6c), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x70), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x74), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x78), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x7c), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x80), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x84), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x88), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x8c), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x90), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x94), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x98), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x9c), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xac), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xb0), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xb4), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xb8), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_kPathVector1), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_kPathVector2), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_kPathVector3), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_kActorPosition), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_kPathVector4), 0xc);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->ByteAndFlagState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_uiPathPointIndex), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue1), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue2), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fSplineParameter), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue4), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue5), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iPathValue1), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue6), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue7), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue8), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue9), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue10), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue11), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue12), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue13), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue14), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue15), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue16), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue17), 4);
     if (apLoadGameBuffer->GetVersion() >= 4)
     {
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x14), 4);
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x18), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->unk14), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->unk18), 4);
     }
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xc8), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xcc), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xd0), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xd4), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xdc), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xdd), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xde), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xdf), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xe0), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xe2), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xe1), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->eState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iPathParameter1), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iPathParameter2), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iPathValue2), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathFlag1), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathFlag2), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathFlag3), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathFlag4), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathFlag5), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathFlag7), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathFlag6), 1);
     if (apLoadGameBuffer->GetVersion() >= 0xc)
     {
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xc0), 1);
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xc1), 1);
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xc4), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bHasPathingSolution), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_bPathingRequestPending), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fElapsedTime), 4);
     }
     if (apLoadGameBuffer->GetVersion() >= 0x12)
     {
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xa0), 0xc);
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xbc), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_kPathVector5), 0xc);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_fPathValue18), 4);
     }
-    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)((char*)this + 0xd8));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)((char*)&this->m_pPathTargetReference));
     unsigned int uiFormCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
     for (unsigned int uiIndex = 0; uiIndex < uiFormCount; ++uiIndex)
     {
@@ -1654,7 +1654,7 @@ int DetailedActorPathHandlerEx::UpdatePathTravel(float afPercentTraveled, float 
     m_fElapsedTime = 0.0f;
     if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PathHandlerEx*)this)->pActor))->FUN_00493bb0())) &&
         reinterpret_cast<::fnv_006e78d0::FUN_006e78d0_shell *>(((((NiPointerAccess<PathingSolution>&)pCurrentPathingSolution)).operator->()))->GetTotalPathLength() <
-            *(float*)((char*)this + 0x18) &&
+            this->unk18 &&
         !reinterpret_cast<::ActorMover *>((((ActorMoverEx*)m_pActorMover)))->HasLookAtTarget())
     {
         m_bHasPathingSolution = true;
@@ -1989,11 +1989,11 @@ extern double DAT_01092478;
 int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
 {
     int eresult = -1;
-    bool bimmobile = reinterpret_cast<::FUN_005f0c80_shell *>((((FUN_005f0c80_shell*)((void *)(reinterpret_cast<::Actor *>((((XActor*)*(ActorStub**)((char*)this + 4))))->GetActorBase())))))->FUN_005f0c80();
-    if (!reinterpret_cast<::FUN_0087eeb0_shell *>((*(ActorStub**)((char*)this + 4)))->FUN_0087eeb0() && !((bool)(::GetByteAtOffset70((char *)(*(void**)((char*)this + 8))))) &&
-        !::FUN_0097fb20((::CombatState *)(*(CombatState**)((char*)this + 8))))
+    bool bimmobile = reinterpret_cast<::FUN_005f0c80_shell *>((((FUN_005f0c80_shell*)((void *)(reinterpret_cast<::Actor *>((((XActor*)*(ActorStub**)&this->pActor)))->GetActorBase())))))->FUN_005f0c80();
+    if (!reinterpret_cast<::FUN_0087eeb0_shell *>((*(ActorStub**)&this->pActor))->FUN_0087eeb0() && !((bool)(::GetByteAtOffset70((char *)(*(void**)&this->m_pActorMover)))) &&
+        !::FUN_0097fb20((::CombatState *)(*(CombatState**)&this->m_pActorMover)))
     {
-        switch (*(unsigned int*)((char*)this + 0xc8))
+        switch (*(unsigned int*)&this->eState)
         {
         case 3:
             ((PathHandlerStub*)this)->Update(afDeltaT);
@@ -2001,18 +2001,18 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
             break;
         case 7:
             reinterpret_cast<::FUN_009e8790_shell *>((((FUN_009e8790_shell*)this)))->ResetMoveState();
-            *(unsigned int*)((char*)this + 0xc8) = 5;
+            *(unsigned int*)&this->eState = 5;
             eresult = 5;
             break;
         case 6:
-            (*(ActorStub**)((char*)this + 4))->SetFurnitureHeading(((FUN_009e7d70_shell*)this)->FUN_009e7d70(afDeltaT));
-            *(NiPoint3*)((char*)this + 0x1c) = NiPoint3::ZERO;
-            *(float*)((char*)this + 0x9c) = 0.0f;
-            *(NiPoint3*)((char*)this + 0xa0) = NiPoint3::ZERO;
-            *((char*)this + 0xe2) = 1;
-            reinterpret_cast<::TESForm *>(((*(GlobalObject_0041a250**)((char*)this + 8))))->ClearData();
-            if (!*((bool*)this + 0xdc))
-                *(unsigned int*)((char*)this + 0xc8) = 7;
+            (*(ActorStub**)&this->pActor)->SetFurnitureHeading(((FUN_009e7d70_shell*)this)->FUN_009e7d70(afDeltaT));
+            this->m_kPathVector1 = NiPoint3::ZERO;
+            this->m_fPathValue13 = 0.0f;
+            this->m_kPathVector5 = NiPoint3::ZERO;
+            *((char*)&this->m_bPathFlag7) = 1;
+            reinterpret_cast<::TESForm *>(((*(GlobalObject_0041a250**)&this->m_pActorMover)))->ClearData();
+            if (!this->m_bPathFlag1)
+                *(unsigned int*)&this->eState = 7;
             eresult = 0;
             break;
         case 5:
@@ -2020,9 +2020,9 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
             *(NP_0081c630*)((char*)this + 0x10) = 0;
         case 0:
         case 4:
-            if (!reinterpret_cast<::ActorMover *>(((*(ActorMoverLook**)((char*)this + 8))))->HasLookAtTarget())
+            if (!reinterpret_cast<::ActorMover *>(((*(ActorMoverLook**)&this->m_pActorMover)))->HasLookAtTarget())
             {
-                *(unsigned int*)((char*)this + 0x60) = reinterpret_cast<::FUN_009dd130_shell *>(((*(ActorMover**)((char*)this + 8))))->FUN_009dd130();
+                this->ByteAndFlagState = reinterpret_cast<::FUN_009dd130_shell *>(((this->m_pActorMover)))->FUN_009dd130();
                 eresult = 5;
             }
             break;
@@ -2031,37 +2031,37 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
     float flookingAngle = 0.0f;
     if (eresult == -1)
     {
-        if (*((bool*)this + 0xe1))
+        if (this->m_bPathFlag6)
         {
-            *(float*)((char*)this + 0xb8) -= afDeltaT;
-            if (*(float*)((char*)this + 0xb8) < ::_DAT_01012060)
+            this->m_fPathValue17 -= afDeltaT;
+            if (this->m_fPathValue17 < ::_DAT_01012060)
             {
-                *((bool*)this + 0xe1) = false;
+                this->m_bPathFlag6 = false;
                 eresult = 0;
             }
         }
         if (eresult == -1)
         {
             B006815c0 lookatPoint;
-            if (reinterpret_cast<::ActorMover *>(((*(ActorMoverLook**)((char*)this + 8))))->GetLookAtTargetPosition((::NiPoint3 &)(lookatPoint)) &&
-                !reinterpret_cast<::MobileObject *>((void *)(((MobileObject*)*(ActorStub**)((char*)this + 4))))->IsInDialogueWithPlayer())
+            if (reinterpret_cast<::ActorMover *>(((*(ActorMoverLook**)&this->m_pActorMover)))->GetLookAtTargetPosition((::NiPoint3 &)(lookatPoint)) &&
+                !reinterpret_cast<::MobileObject *>((void *)(((MobileObject*)*(ActorStub**)&this->pActor)))->IsInDialogueWithPlayer())
             {
-                float fCurrentAngle = ::WrapAngle((*(ActorStub**)((char*)this + 4))->GetCurrentTargetDistance(0));
-                p07::NiPoint3 firingLocation = FUN_009a8050(*(ActorStub**)((char*)this + 4));
+                float fCurrentAngle = ::WrapAngle((*(ActorStub**)&this->pActor)->GetCurrentTargetDistance(0));
+                p07::NiPoint3 firingLocation = FUN_009a8050(*(ActorStub**)&this->pActor);
                 if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(((FUN_00595c80_shell*)&(firingLocation - lookatPoint))))->GetSquaredXYLength() <
-                    ((CombatState*)*(ActorStub**)((char*)this + 4))->ProcessCoverLOSResult() *
-                        ((CombatState*)*(ActorStub**)((char*)this + 4))->ProcessCoverLOSResult() * 0.25)
+                    ((CombatState*)*(ActorStub**)&this->pActor)->ProcessCoverLOSResult() *
+                        ((CombatState*)*(ActorStub**)&this->pActor)->ProcessCoverLOSResult() * 0.25)
                     eresult = 0;
                 if (eresult == -1)
                 {
                     float fdir;
-                    p07::NiPoint3 rot = FUN_009a88e0(*(ActorStub**)((char*)this + 4), lookatPoint);
+                    p07::NiPoint3 rot = FUN_009a88e0(*(ActorStub**)&this->pActor, lookatPoint);
                     float fgoalAngle = ::WrapAngle(rot.z);
                     float fgoalLookAngle = rot.x;
                     float fangleDelta;
-                    if (((CombatState*)*(ActorStub**)((char*)this + 4))->ProcessCoverLOSResult() >= ::g_d100)
+                    if (((CombatState*)*(ActorStub**)&this->pActor)->ProcessCoverLOSResult() >= ::g_d100)
                     {
-                        p07::NiPoint3 delta = lookatPoint - *(*(ActorStub**)((char*)this + 4))->GetPos();
+                        p07::NiPoint3 delta = lookatPoint - *(*(ActorStub**)&this->pActor)->GetPos();
                         delta.z = 0.0f;
                         fangleDelta = std::abs(::FUN_004b15e0(fCurrentAngle, ::GetDirectionAngle((const ::NiPoint3 *)&(delta)), &fdir));
                     }
@@ -2069,50 +2069,50 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
                     {
                         fangleDelta = std::abs(::FUN_004b15e0(fCurrentAngle, fgoalAngle, &fdir));
                     }
-                    float frotateMax = (*(ActorStub**)((char*)this + 4))->GetTurnSpeed() * ::DAT_01023128 * afDeltaT;
-                    if (!(*(ActorStub**)((char*)this + 4))->IsPlayerRef())
-                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)((char*)this + 4))))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2ac4))))))
+                    float frotateMax = (*(ActorStub**)&this->pActor)->GetTurnSpeed() * ::DAT_01023128 * afDeltaT;
+                    if (!(*(ActorStub**)&this->pActor)->IsPlayerRef())
+                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)&this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2ac4))))))
                                                                                                 : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2ad8))))));
                     else
-                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)((char*)this + 4))))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2b10))))))
+                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)&this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2b10))))))
                                                                                                 : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2c10))))));
                     float fclampedAngleDelta = fangleDelta;
                     if (fclampedAngleDelta > frotateMax)
                         fclampedAngleDelta = frotateMax;
-                    unsigned int inewMoveMode = *(unsigned int*)((char*)this + 0x60);
-                    if (!bimmobile && *(float*)((char*)this + 0x94) > ::_DAT_01012060)
+                    unsigned int inewMoveMode = this->ByteAndFlagState;
+                    if (!bimmobile && this->m_fPathValue11 > ::_DAT_01012060)
                     {
-                        *(float*)((char*)this + 0x94) -= afDeltaT;
+                        this->m_fPathValue11 -= afDeltaT;
                         fCurrentAngle += fclampedAngleDelta * fdir;
                     }
                     else if (fangleDelta > ::DAT_010923dc)
                     {
                         if (!bimmobile)
-                            *(float*)((char*)this + 0x94) = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::originalRuntimeFloatSetting220)))))) - afDeltaT;
+                            this->m_fPathValue11 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::originalRuntimeFloatSetting220)))))) - afDeltaT;
                         if (fdir == 1.0)
                         {
-                            inewMoveMode = reinterpret_cast<::FUN_009dd130_shell *>(((*(ActorMover**)((char*)this + 8))))->FUN_009dd130() | 0x20;
+                            inewMoveMode = reinterpret_cast<::FUN_009dd130_shell *>(((this->m_pActorMover)))->FUN_009dd130() | 0x20;
                             fCurrentAngle += fclampedAngleDelta;
                         }
                         else if (fdir == -1.0)
                         {
-                            inewMoveMode = reinterpret_cast<::FUN_009dd130_shell *>(((*(ActorMover**)((char*)this + 8))))->FUN_009dd130() | 0x10;
+                            inewMoveMode = reinterpret_cast<::FUN_009dd130_shell *>(((this->m_pActorMover)))->FUN_009dd130() | 0x10;
                             fCurrentAngle -= fclampedAngleDelta;
                         }
                     }
                     else
                     {
-                        inewMoveMode = reinterpret_cast<::FUN_009dd130_shell *>(((*(ActorMover**)((char*)this + 8))))->FUN_009dd130();
+                        inewMoveMode = reinterpret_cast<::FUN_009dd130_shell *>(((this->m_pActorMover)))->FUN_009dd130();
                         fCurrentAngle += fclampedAngleDelta * fdir;
                     }
-                    if (!::FUN_0097fb20((::CombatState *)(*(CombatState**)((char*)this + 8))))
-                        *(unsigned int*)((char*)this + 0x60) = inewMoveMode;
+                    if (!::FUN_0097fb20((::CombatState *)(*(CombatState**)&this->m_pActorMover)))
+                        this->ByteAndFlagState = inewMoveMode;
                     if (!bimmobile || std::abs(fgoalLookAngle) <= DAT_01092478)
-                        (*(ActorStub**)((char*)this + 4))->SetFurnitureHeading(fCurrentAngle);
+                        (*(ActorStub**)&this->pActor)->SetFurnitureHeading(fCurrentAngle);
                     flookingAngle = fgoalLookAngle;
                     if (bimmobile)
                         ((FUN_009e4c60_shell*)this)->UpdateLookingAngle(afDeltaT, flookingAngle);
-                    reinterpret_cast<::TESForm *>(((*(GlobalObject_0041a250**)((char*)this + 8))))->ClearData();
+                    reinterpret_cast<::TESForm *>(((*(GlobalObject_0041a250**)&this->m_pActorMover)))->ClearData();
                 }
             }
         }
@@ -3219,7 +3219,7 @@ void DetailedActorPathHandlerEx::UpdatePathing(float afDeltaT)
     float fAheadDot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kAhead))->DotProduct((void *)&(kToTarget));
     float fSqDist = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(kToTarget))->GetSquaredXYLength();
     float fTargetDistSqr = reinterpret_cast<::TESCombatStyle *>((void *)&(((NiPoint3Ex&)m_kPathVector1)))->UpdateCombatStyle() * 4.0;
-    fTargetDistSqr = ::FUN_00404010(fTargetDistSqr, *(float*)((char*)this + 0x14) * *(float*)((char*)this + 0x14));
+    fTargetDistSqr = ::FUN_00404010(fTargetDistSqr, this->unk14 * this->unk14);
 
     if (fDot < ::_DAT_01012060 || fAheadDot < ::_DAT_01012060 || fSqDist < fTargetDistSqr)
     {
@@ -3554,7 +3554,7 @@ float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateM
     float fPathHeading = 0.0f;
     float fSpeed = 0.0f;
     GetPathAngles(&fPathHeading, &fSpeed);
-    float fCurrentHeading = (*(Actor**)((char*)this + 4))->GetCurrentTargetDistance(0);
+    float fCurrentHeading = (*(Actor**)&this->pActor)->GetCurrentTargetDistance(0);
     WrapValueToRange(fCurrentHeading, -3.1415927f, 3.1415927f);
     WrapValueToRange(fPathHeading, -3.1415927f, 3.1415927f);
     float fTimeSinceScaleStart = fPathHeading - fCurrentHeading;
@@ -3563,7 +3563,7 @@ float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateM
     {
         float fScale = 1.0f;
         if ((unsigned int)*(Flt*)&pCurrentPathingSolution &&
-            (*(Actor**)((char*)this + 4))->GetMaxRotationSpeed() > DAT_010357e8)
+            (*(Actor**)&this->pActor)->GetMaxRotationSpeed() > DAT_010357e8)
         {
             float fDist;
             float fLookAheadDist;
@@ -3572,9 +3572,9 @@ float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateM
             float fTargetAngle;
             float fFacingAngle;
             NiPoint3 kGoal;
-            fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009e4800::NiPoint3_sub &)((((const NiPoint3_sub&)m_kPathVector3) - *(*(Actor**)((char*)this + 4))->GetPos())))->ComputeMagnitude();
-            fMinRadius = (ByteAndFlagState & 0x200) ? reinterpret_cast<::fnv_00884eb0::FUN_00884eb0_shell *>(((*(Actor**)((char*)this + 4))))->FUN_00884eb0()
-                                            : reinterpret_cast<::fnv_00884dc0::FUN_00884dc0_shell *>(((*(Actor**)((char*)this + 4))))->FUN_00884dc0();
+            fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009e4800::NiPoint3_sub &)((((const NiPoint3_sub&)m_kPathVector3) - *(*(Actor**)&this->pActor)->GetPos())))->ComputeMagnitude();
+            fMinRadius = (ByteAndFlagState & 0x200) ? reinterpret_cast<::fnv_00884eb0::FUN_00884eb0_shell *>(((*(Actor**)&this->pActor)))->FUN_00884eb0()
+                                            : reinterpret_cast<::fnv_00884dc0::FUN_00884dc0_shell *>(((*(Actor**)&this->pActor)))->FUN_00884dc0();
             fLookAheadDist = fMinRadius;
             kGoal = m_kPathVector3;
             if (fDist < fLookAheadDist)
@@ -3582,15 +3582,15 @@ float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateM
                 int iNode;
                 reinterpret_cast<::fnv_006e7e70::FUN_006e7e70_shell *>((((PathingSolution*)(unsigned int)*(Flt*)&pCurrentPathingSolution)))->FUN_006e7e70(m_fSplineParameter, fLookAheadDist - fDist, 1, (float *)(int *)(&iNode), &kGoal);
             }
-            fFacingAngle = (*(Actor**)((char*)this + 4))->GetCurrentTargetDistance(0);
-            NiPoint3_sub toTarget = ((const NiPoint3_sub&)kGoal) - *(*(Actor**)((char*)this + 4))->GetPos();
+            fFacingAngle = (*(Actor**)&this->pActor)->GetCurrentTargetDistance(0);
+            NiPoint3_sub toTarget = ((const NiPoint3_sub&)kGoal) - *(*(Actor**)&this->pActor)->GetPos();
             fTargetAngle = ::GetDirectionAngle((const ::NiPoint3 *)&(toTarget));
             fAngleToTarget = fTargetAngle - fFacingAngle;
             WrapValueToRange(fAngleToTarget, -3.1415927f, 3.1415927f);
             fScale = std::abs(fAngleToTarget) / DAT_01064f50;
             FUN_005330e0(fScale, DAT_010313d4, 1.0f);
         }
-        float fMaxTurn = (*(Actor**)((char*)this + 4))->GetMaxRotationSpeed() * DAT_01023128 * afDeltaT * 3.0 * fScale;
+        float fMaxTurn = (*(Actor**)&this->pActor)->GetMaxRotationSpeed() * DAT_01023128 * afDeltaT * 3.0 * fScale;
         if (std::abs(fTimeSinceScaleStart) > fMaxTurn)
         {
             if (std::abs(fTimeSinceScaleStart) > DAT_01092498)
@@ -3601,10 +3601,10 @@ float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateM
                 *pfRotateMult = 0.2f;
             else if ((unsigned int)*(Flt*)&pCurrentPathingSolution && (unsigned int)*(Flt*)&m_pPathingRequest)
             {
-                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::fnv_009e4800::NiPoint3_sub &)((*(*(Actor**)((char*)this + 4))->GetPos() -
+                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::fnv_009e4800::NiPoint3_sub &)((*(*(Actor**)&this->pActor)->GetPos() -
                      reinterpret_cast<::TaskQueueInterface *>((void *)&((*(::fnv_009e4800::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(unsigned int)*(Flt*)&pCurrentPathingSolution)))->FUN_006b05a0()))
                          .FUN_00717e50()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))->GetSquaredXYLength() <
-                    (*(Actor**)((char*)this + 4))->FUN_008be1b0() * (*(Actor**)((char*)this + 4))->FUN_008be1b0())
+                    (*(Actor**)&this->pActor)->FUN_008be1b0() * (*(Actor**)&this->pActor)->FUN_008be1b0())
                     *pfRotateMult = 0.5f;
             }
         }
@@ -4193,13 +4193,13 @@ void FUN_009e77d0_cls::UpdatePathTether(float afPercentTraveled)
             m_fSplineParameter = (float)m_uiPathPointIndex;
             m_kPathVector3 =
                 reinterpret_cast<::TaskQueueInterface *>((void *)&((*(::fnv_009e77d0::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)*(const Flt*)&pCurrentPathingSolution)))->FUN_006b05a0())).FUN_00717e50()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
-            m_kPathVector4 = (*(TESObjectREFR**)((char*)this + 4))->GetPos();
+            m_kPathVector4 = (*(TESObjectREFR**)&this->pActor)->GetPos();
             m_bPathFlag5 = false;
             return;
         }
         NiPoint3_ext oldDirVec = static_cast<const NiPoint3_ext&>(m_kPathVector3) - m_kPathVector4;
         oldDirVec.z = 0;
-        NiPoint3 actorLoc = (*(TESObjectREFR**)((char*)this + 4))->GetPos();
+        NiPoint3 actorLoc = (*(TESObjectREFR**)&this->pActor)->GetPos();
         NiPoint3_ext actorDirVec = static_cast<const NiPoint3_ext&>(m_kPathVector3) - actorLoc;
         float factDotCheck = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(actorDirVec))->DotProduct((void *)&(oldDirVec));
         bool bpastGoal = factDotCheck < ::_DAT_01012060;
@@ -4262,12 +4262,12 @@ void FUN_009e77d0_cls::UpdatePathTether(float afPercentTraveled)
         m_kPathVector4 = m_kPathVector3;
         if (afPercentTraveled > ::_DAT_01012060)
         {
-            PathingLocationEx tetherNavMeshLoc(m_kPathVector3, *(TESObjectREFR**)((char*)this + 4));
+            PathingLocationEx tetherNavMeshLoc(m_kPathVector3, *(TESObjectREFR**)&this->pActor);
             NiPoint3 snapLocation = m_kPathVector3;
             ::GetNavMeshHeight((::PathingLocation *)(::fnv_009e77d0::PathingLocationEx *)(&tetherNavMeshLoc), &snapLocation.z);
-            float fheading = (*(TESObjectREFR**)((char*)this + 4))->GetCurrentTargetDistance(0);
-            reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>(((*(TESObjectREFR**)((char*)this + 4))))->FUN_008ad1c0((int)&(snapLocation), fheading, ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(((*(TESObjectREFR**)((char*)this + 4))))->GetTarget())),
-                               ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*(TESObjectREFR**)((char*)this + 4))))->FUN_00575d70())), 1, 1);
+            float fheading = (*(TESObjectREFR**)&this->pActor)->GetCurrentTargetDistance(0);
+            reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>(((*(TESObjectREFR**)&this->pActor)))->FUN_008ad1c0((int)&(snapLocation), fheading, ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(((*(TESObjectREFR**)&this->pActor)))->GetTarget())),
+                               ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*(TESObjectREFR**)&this->pActor)))->FUN_00575d70())), 1, 1);
         }
         ((FUN_009e3c00_cls*)this)->AdvanceAlongPath(0.0f);
     }
@@ -4474,35 +4474,35 @@ struct MobileObject
 // @fnv 0x009e8000
 int FUN_009e8000_shell::UpdatePathingGoal()
 {
-    if (*(bool*)((char*)this + 0xdf))
+    if (this->m_bPathFlag4)
     {
-        if (*(unsigned int*)((char*)this + 0x64) + 2 >= ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)))
+        if (this->m_uiPathPointIndex + 2 >= ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)))
         {
             BaseS diff;
             bool bPast = false;
-            if (*(unsigned int*)((char*)this + 0x64) + 2 ==
+            if (this->m_uiPathPointIndex + 2 ==
                 ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)))
                 (NiPoint3&)diff =
-                    (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&((TeleportableReference*)reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006e7970(*(unsigned int*)((char*)this + 0x64)))
+                    (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&((TeleportableReference*)reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006e7970(this->m_uiPathPointIndex))
                          ->GetPosition())))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
-                    (*(MobileObject**)((char*)this + 4))->GetPos();
+                    (*(MobileObject**)&this->pActor)->GetPos();
             else
                 bPast = true;
             if (bPast || reinterpret_cast<::FUN_00595c80_shell *>(&(diff))->GetSquaredXYLength() <= DAT_01092508)
             {
                 unsigned int icurrentSize = ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc));
-                unsigned int iupdateNode = *(unsigned short*)(*(char**)((char*)this + 8) + 0x42) > 0
-                                               ? *(unsigned short*)(*(char**)((char*)this + 8) + 0x42) - 1
-                                               : *(unsigned short*)(*(char**)((char*)this + 8) + 0x42);
+                unsigned int iupdateNode = *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42) > 0
+                                               ? *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42) - 1
+                                               : *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42);
                 switch (::ConstructAndCallMethod((unsigned int)*(Flt*)((char*)this + 0x10),
                                                (unsigned int)*(Flt*)((char*)this + 0xc), iupdateNode,
-                                               (int)&((*(MobileObject**)((char*)this + 4))->GetPos())))
+                                               (int)&((*(MobileObject**)&this->pActor)->GetPos())))
                 {
                 case 2:
                 case 3:
-                    *(bool*)((char*)this + 0xdf) =
+                    this->m_bPathFlag4 =
                         (*(::fnv_009e8000::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006b05a0())).IsTransitionNode();
-                    *(unsigned short*)(*(char**)((char*)this + 8) + 0x42) =
+                    *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42) =
                         reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)(unsigned int)*(Flt*)((char*)this + 0xc))))->GetMinLevel();
                     return 0;
                     break;
@@ -4513,7 +4513,7 @@ int FUN_009e8000_shell::UpdatePathingGoal()
                 case 1:
                     return 5;
                 }
-                *(bool*)((char*)this + 0xdf) = false;
+                this->m_bPathFlag4 = false;
             }
         }
     }
@@ -4536,38 +4536,38 @@ int FUN_009e8000_shell::UpdatePathingGoal()
                 (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&(
                      (TeleportableReference*)&(*(::fnv_009e8000::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006b05a0())))
                      ->GetPosition())))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
-        (NiPoint3&)diff = goal - (*(MobileObject**)((char*)this + 4))->GetPos();
+        (NiPoint3&)diff = goal - (*(MobileObject**)&this->pActor)->GetPos();
         fdistanceSqr = reinterpret_cast<::FUN_00595c80_shell *>(&(diff))->GetSquaredXYLength();
-        fgoalRadiusTestSqr = *(float*)((char*)this + 0xac);
-        bgoalReached = fdistanceSqr <= *(float*)((char*)this + 0xac);
+        fgoalRadiusTestSqr = this->m_fPathValue14;
+        bgoalReached = fdistanceSqr <= this->m_fPathValue14;
         if (bgoalReached)
         {
             bool bvalidCheck = true;
             if (FUN_009e8670((unsigned int)*(Flt*)((char*)this + 0x10)) &&
-                *(float*)((char*)this + 0xac) > DAT_011a5d00 && fdistanceSqr > DAT_011a5d00)
+                this->m_fPathValue14 > DAT_011a5d00 && fdistanceSqr > DAT_011a5d00)
             {
-                NiPoint3 tetherDir = *(NiPoint3_sub*)((char*)this + 0x34) - *(NiPoint3*)((char*)this + 0x4c);
+                NiPoint3 tetherDir = *(NiPoint3_sub*)((char*)this + 0x34) - this->m_kPathVector4;
                 tetherDir.z = 0.0f;
                 NiPoint3 actorToTetherDir =
-                    *(NiPoint3_sub*)((char*)this + 0x34) - (*(MobileObject**)((char*)this + 4))->GetPos();
+                    *(NiPoint3_sub*)((char*)this + 0x34) - (*(MobileObject**)&this->pActor)->GetPos();
                 actorToTetherDir.z = 0.0f;
                 float fdot = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(((NiPoint3_ext&)tetherDir)))->DotProduct((void *)&(actorToTetherDir));
-                if (fdot >= ::_DAT_01012060 && *(float*)((char*)this + 0x78) == ::_DAT_01012060 &&
-                    *(float*)((char*)this + 0x88) == ::_DAT_01012060)
+                if (fdot >= ::_DAT_01012060 && this->m_fPathValue5 == ::_DAT_01012060 &&
+                    this->m_fPathValue8 == ::_DAT_01012060)
                     bvalidCheck = false;
             }
             if (bvalidCheck)
             {
-                if (!reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(MobileObject**)((char*)this + 4))))->FUN_005a2030())
+                if (!reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(MobileObject**)&this->pActor)))->FUN_005a2030())
                 {
                     if (std::abs(diff.z) <=
                         reinterpret_cast<::PathingRequest *>((((PathingRequest_S*)(unsigned int)*(Flt*)((char*)this + 0x10))))->GetSmoothingRandomness())
                     {
                         return 5;
                     }
-                    else if (*(unsigned int*)((char*)this + 0x64) + 1 >=
+                    else if (this->m_uiPathPointIndex + 1 >=
                                  ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)) &&
-                             !reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(MobileObject**)((char*)this + 4))))->FUN_005a2030())
+                             !reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(MobileObject**)&this->pActor)))->FUN_005a2030())
                     {
                         ::FUN_005b5e40();
                         return 2;
@@ -4577,7 +4577,7 @@ int FUN_009e8000_shell::UpdatePathingGoal()
                 {
                     float fzdeltaThresold = ::FUN_0040ebd0(
                         reinterpret_cast<::PathingRequest *>((((PathingRequest_S*)(unsigned int)*(Flt*)((char*)this + 0x10))))->GetSmoothingRandomness(),
-                        reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(((ActorV_S*)*(MobileObject**)((char*)this + 4))))->GetActorHeight());
+                        reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(((ActorV_S*)*(MobileObject**)&this->pActor)))->GetActorHeight());
                     if (std::abs(diff.z) <= fzdeltaThresold)
                         return 5;
                 }
@@ -4922,7 +4922,7 @@ void FUN_009e4c60_t::UpdateLookingAngle(float afDeltaT, float afLookingAngle)
     float fclampedAngleDelta;
     float fangleDelta;
 
-    fcurrentLooking = reinterpret_cast<::MobileObject *>((void *)((*(MobileObjectLookingHelper**)((char*)this + 4))))->GetLooking();
+    fcurrentLooking = reinterpret_cast<::MobileObject *>((void *)((*(MobileObjectLookingHelper**)&this->pActor)))->GetLooking();
     frotateMax = afDeltaT * DAT_010924a0;
     fdir = 0;
     fangleDelta = std::abs(FUN_004b15e0(fcurrentLooking, afLookingAngle, &fdir));
@@ -4930,7 +4930,7 @@ void FUN_009e4c60_t::UpdateLookingAngle(float afDeltaT, float afLookingAngle)
     if (fclampedAngleDelta > frotateMax)
         fclampedAngleDelta = frotateMax;
     fcurrentLooking = fclampedAngleDelta * fdir + fcurrentLooking;
-    reinterpret_cast<::FUN_00931d90_shell *>(((*(ST_00931e50**)((char*)this + 4))))->ClampLookAngle(fcurrentLooking);
+    reinterpret_cast<::FUN_00931d90_shell *>(((*(ST_00931e50**)&this->pActor)))->ClampLookAngle(fcurrentLooking);
 }
 
 struct FUN_009e5ab0_Class
@@ -5984,7 +5984,7 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
     if (((DetailedActorPathHandler*)this)->m_bPathFlag5)
     {
         reinterpret_cast<::FUN_006d3ac0_Class *>((((PathingRequestOps*)apRequest)))->AssignPathingLocation((const ::PathingLocation &)((const ::fnv_009e6ba0::PathingLocation &)(PathingLocation(((DetailedActorPathHandler*)this)->m_kPathVector3,
-                                        *(RefrOps_9e6ba0**)((char*)this + 4)))));
+                                        *(RefrOps_9e6ba0**)&this->pActor))));
         return;
     }
 
@@ -5992,14 +5992,14 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
         return;
 
     ((DetailedActorPathHandler*)this)->m_bPathFlag5 = true;
-    NiPoint3 actorCurrent = *(*(RefrOps_9e6ba0**)((char*)this + 4))->GetPos();
+    NiPoint3 actorCurrent = *(*(RefrOps_9e6ba0**)&this->pActor)->GetPos();
     if (((DetailedActorPathHandler*)this)->m_bPathFlag3 || ((PathHandlerOps*)this)->IsFollowingDoorPath() ||
         ((DetailedActorPathHandler*)this)->m_bPathFlag1)
     {
         ((DetailedActorPathHandler*)this)->m_kPathVector3 = actorCurrent;
         ((DetailedActorPathHandler*)this)->m_kPathVector4 = actorCurrent;
         ((DetailedActorPathHandler*)this)->eState = 4;
-        reinterpret_cast<::FUN_006d3ac0_Class *>((((PathingRequestOps*)apRequest)))->AssignPathingLocation((const ::PathingLocation &)((const ::fnv_009e6ba0::PathingLocation &)(PathingLocation(*(RefrOps_9e6ba0**)((char*)this + 4)))));
+        reinterpret_cast<::FUN_006d3ac0_Class *>((((PathingRequestOps*)apRequest)))->AssignPathingLocation((const ::PathingLocation &)((const ::fnv_009e6ba0::PathingLocation &)(PathingLocation(*(RefrOps_9e6ba0**)&this->pActor))));
         return;
     }
     else
@@ -6027,11 +6027,11 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
     }
 
     bool bfixupTether = true;
-    if (((::fnv_009e6ba0::CellOps_9e6ba0 *)(reinterpret_cast<::LowProcess *>(((*(RefrOps_9e6ba0**)((char*)this + 4))))->GetTarget())) &&
-        reinterpret_cast<::TESObjectCELL *>((((::fnv_009e6ba0::CellOps_9e6ba0 *)(reinterpret_cast<::LowProcess *>(((*(RefrOps_9e6ba0**)((char*)this + 4))))->GetTarget()))))->IsCellInterior())
+    if (((::fnv_009e6ba0::CellOps_9e6ba0 *)(reinterpret_cast<::LowProcess *>(((*(RefrOps_9e6ba0**)&this->pActor)))->GetTarget())) &&
+        reinterpret_cast<::TESObjectCELL *>((((::fnv_009e6ba0::CellOps_9e6ba0 *)(reinterpret_cast<::LowProcess *>(((*(RefrOps_9e6ba0**)&this->pActor)))->GetTarget()))))->IsCellInterior())
         bfixupTether = false;
-    else if (((::fnv_009e6ba0::WorldOps_9e6ba0 *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*(RefrOps_9e6ba0**)((char*)this + 4))))->FUN_00575d70())) &&
-             ((::fnv_009e6ba0::CellOps_9e6ba0 *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::fnv_009e6ba0::WorldOps_9e6ba0 *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*(RefrOps_9e6ba0**)((char*)this + 4))))->FUN_00575d70()))))->FUN_00587550((const ::fnv_00587550::NiPoint3 &)(((DetailedActorPathHandler*)this)->m_kPathVector3)))))
+    else if (((::fnv_009e6ba0::WorldOps_9e6ba0 *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*(RefrOps_9e6ba0**)&this->pActor)))->FUN_00575d70())) &&
+             ((::fnv_009e6ba0::CellOps_9e6ba0 *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::fnv_009e6ba0::WorldOps_9e6ba0 *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*(RefrOps_9e6ba0**)&this->pActor)))->FUN_00575d70()))))->FUN_00587550((const ::fnv_00587550::NiPoint3 &)(((DetailedActorPathHandler*)this)->m_kPathVector3)))))
         bfixupTether = false;
 
     if (bfixupTether)
@@ -6060,18 +6060,18 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
             {
                 ActorOps_9e6ba0* pavoidActor = ((::fnv_009e6ba0::ActorOps_9e6ba0 *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
                 pCurrentElementNext = ((::fnv_009e6ba0::BSSimpleListOps< ::fnv_009e6ba0::ActorOps_9e6ba0 *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
-                if (::FUN_006ba9e0((*(const ::Pt3 *)((*(RefrOps_9e6ba0**)((char*)this + 4))->GetPos())),
+                if (::FUN_006ba9e0((*(const ::Pt3 *)((*(RefrOps_9e6ba0**)&this->pActor)->GetPos())),
                                  (*(const ::Pt3 *)(&((DetailedActorPathHandler*)this)->m_kPathVector3)), (*(const ::Pt3 *)(pavoidActor->GetPos())),
                                  pavoidActor->GetRadius()))
                 {
-                    newPathOrigin = *(*(RefrOps_9e6ba0**)((char*)this + 4))->GetPos();
+                    newPathOrigin = *(*(RefrOps_9e6ba0**)&this->pActor)->GetPos();
                     bSetInitialTangent = false;
                     break;
                 }
             }
         }
 
-        reinterpret_cast<::FUN_006d3ac0_Class *>((((PathingRequestOps*)apRequest)))->AssignPathingLocation((const ::PathingLocation &)((const ::fnv_009e6ba0::PathingLocation &)(PathingLocation(newPathOrigin, *(RefrOps_9e6ba0**)((char*)this + 4)))));
+        reinterpret_cast<::FUN_006d3ac0_Class *>((((PathingRequestOps*)apRequest)))->AssignPathingLocation((const ::PathingLocation &)((const ::fnv_009e6ba0::PathingLocation &)(PathingLocation(newPathOrigin, *(RefrOps_9e6ba0**)&this->pActor))));
         if (bSetInitialTangent)
             reinterpret_cast<::FUN_006e2bb0_shell *>((((PathingRequestOps*)(NiPointerOps<PathingRequestOps>&)((DetailedActorPathHandler*)this)->m_pPathingRequest)))->SetInitialPathHeading(finitialAngle);
         else

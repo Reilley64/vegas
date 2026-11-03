@@ -185,7 +185,7 @@ void LockPickMenu::SetTile(int id, Tile* tile)
 {
     if (id >= 0 && id < 16)
     {
-        ((Tile**)((char*)this + 0x2c))[id] = tile;
+        (&this->m_pTiles[11])[id] = tile;
     }
 }
 }  // namespace fnv_0078daa0

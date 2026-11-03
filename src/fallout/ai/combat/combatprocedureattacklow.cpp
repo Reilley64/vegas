@@ -66,7 +66,7 @@ struct CombatProcedureAttackLow : CombatProcedure
 void CombatProcedureAttackLow::FUN_009cbfd0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::FUN_00996ed0_shell *>(this)->SaveToBuffer(apSaveGameBuffer);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x10, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<char*>(&this->pWeapon), 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x14, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x18, 4, 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*reinterpret_cast<TESObjectWEAP**>(reinterpret_cast<char*>(this) + 0x1c)), 0);

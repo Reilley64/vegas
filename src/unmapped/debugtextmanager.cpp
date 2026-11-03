@@ -53,7 +53,7 @@ int FUN_00802a20_class::FUN_00802a20(const char* apPage)
     i = 0;
     for (; i < *(int*)((char*)this + 0x14) && iPageIndex == -1; i++)
     {
-        if (__mbsnicmp((const unsigned char*)apPage, (const unsigned char*)((char*)this + 0x20) + i * 0x44, 0x40) == 0)
+        if (__mbsnicmp((const unsigned char*)apPage, &this->m_aucPageBuffer[28] + i * 0x44, 0x40) == 0)
             iPageIndex = i;
     }
     return iPageIndex;

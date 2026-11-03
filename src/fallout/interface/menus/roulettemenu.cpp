@@ -148,7 +148,7 @@ void RouletteMenu::SetTile(int aiIndex, Tile* tile)
 {
     if (aiIndex >= 0 && aiIndex < 11)
     {
-        *(Tile**)((char*)this + 0x2c + aiIndex * 4) = tile;
+        *(Tile**)((char*)&this->m_pTiles[10] + aiIndex * 4) = tile;
     }
 }
 
@@ -4835,8 +4835,8 @@ void RouletteState::HandleRouletteInput(int aiInputId, Tile* tile)
 // @fnv 0x007bf710
 void FUN_007bf710_cls::ApplyValueToChain(int aiId, float afValue)
 {
-    void* pObj = ((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)(*(char**)((char*)DAT_011da878 + 0x2c + aiId * 4) + 4))))));
-    char* pCur = *(char**)((char*)DAT_011da878 + 0x2c + aiId * 4) + 4;
+    void* pObj = ((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)(*(char**)((char*)&DAT_011da878->m_pTiles[10] + aiId * 4) + 4))))));
+    char* pCur = *(char**)((char*)&DAT_011da878->m_pTiles[10] + aiId * 4) + 4;
     while (pObj != 0 && pCur != 0 && *((FUN_0073ac90_shell*)pCur)->FUN_0073ac90() != 0)
     {
         reinterpret_cast<::FUN_00a012d0_t *>((((FUN_00a012d0_shell*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_shell*)pCur)))->AddEight((int)(pObj)))))))->FUN_00a012d0({}, {}, {});

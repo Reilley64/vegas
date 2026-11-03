@@ -187,7 +187,7 @@ struct Swept_00cf2410
 // @fnv 0x00cf2410
 void Swept_00cf2410::FUN_00cf2410(__m128 const& position, __m128 const& rotation)
 {
-    ((Swept_00cf2410_Sub*)((char*)this + 0x40))->FUN_00cf2280(&position, &rotation);
+    ((Swept_00cf2410_Sub*)&this->unk40)->FUN_00cf2280(&position, &rotation);
     reinterpret_cast<::RotationRows *>((((Swept_00cf2410_Cb*)this)))->FUN_00cb2d90(const_cast<__m128*>(&rotation));
     m_vContactPosition = position;
     m_inverseTime = 1.0f;

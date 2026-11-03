@@ -374,7 +374,7 @@ void FUN_00d2f690(SlotRef* a, SlotRef* b, SlotParam* p, SlotBox* box)
     reinterpret_cast<::hkTransformCB22 *>(&(t1))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(b->m_08)), (*(const ::hkTransformCB22 *)(a->m_08)));
     SlotObj* obj = a->m_ent;
     obj->Eval(&t1, p->m_08, box);
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t2))->FUN_004b4ab0(b->m_08, (int)((char*)p + 0x50));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t2))->FUN_004b4ab0(b->m_08, (int)((char*)&p->unk50));
     __m128 t = _mm_load_ps((float*)&t2);
     __m128 zero = _mm_setzero_ps();
     __m128 lo = _mm_add_ps(_mm_min_ps(zero, t), box->lo);

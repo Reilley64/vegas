@@ -277,10 +277,10 @@ void FUN_00ba26f0_struct::FUN_00ba26f0()
         reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x88))))->FUN_00ba3840(0xd);
     if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x78))))->FUN_00ba3780())))
         reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x78))))->FUN_00ba3840(0xe);
-    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x58))))->FUN_00ba3780())))
-        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x58))))->FUN_00ba3840(0xf);
-    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x68))))->FUN_00ba3780())))
-        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x68))))->FUN_00ba3840(0x10);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(((&this->a)))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>(((&this->a)))->FUN_00ba3840(0xf);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)&this->_88[6])))->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>((((ISTex*)&this->_88[6])))->FUN_00ba3840(0x10);
     reinterpret_cast<::ISKernelEffect *>((((FUN_00ba2590_struct*)this)))->FUN_00ba2590();
 }
 

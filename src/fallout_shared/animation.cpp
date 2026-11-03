@@ -417,7 +417,7 @@ struct ST_0048f3a0
 void FUN_0048f3a0_shell::FUN_0048f3a0(BSAnimGroupSequence* seq, bool b)
 {
     reinterpret_cast<::FUN_0040f6e0_class *>((((WaitableObject*)seq)))->FUN_0040f6e0();
-    reinterpret_cast<::FUN_005597d0_shell *>(((*(ST_0048f3a0**)((char*)this + 4))))->FUN_005597d0((int *)(::BSAnimGroupSequence **)(&seq));
+    reinterpret_cast<::FUN_005597d0_shell *>(((*(ST_0048f3a0**)&this->m_pSingleSequence)))->FUN_005597d0((int *)(::BSAnimGroupSequence **)(&seq));
 }
 
 class TaskQueueInterface
@@ -484,7 +484,7 @@ class TESChallenge
 // @fnv 0x00490d90
 NiAVObject* FUN_00490d90_shell::FUN_00490d90()
 {
-    if (*reinterpret_cast<const bool*>(reinterpret_cast<const char*>(this) + 0x68))
+    if (this->unk68)
     {
         for (unsigned int uiIndex = 0;
              uiIndex < reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<GlobalObject_004aff00*>(reinterpret_cast<char*>(this) + 0x34)))->GetShortAtOffsetA();
@@ -686,7 +686,7 @@ struct FUN_00493800_impl : public Animation
 // @fnv 0x00493800
 float FUN_00493800_impl::FUN_00493800(BGSCameraShot* apSequence)
 {
-    return apSequence->FUN_00639aa0() + *(float*)((char*)this + 0xd0);
+    return apSequence->FUN_00639aa0() + this->time;
 }
 }  // namespace fnv_00493800
 
@@ -700,7 +700,7 @@ bool _ref_008256d0(void* pThis);
 // @fnv 0x00493830
 bool FUN_00493830_shell::FUN_00493830()
 {
-    return !_ref_008256d0(reinterpret_cast<char*>(this) + 0x104);
+    return !_ref_008256d0(reinterpret_cast<char*>(&this->kfModelList));
 }
 
 struct FUN_00493860_shell : public Animation
@@ -890,11 +890,11 @@ void FUN_004946a0_shell::FUN_004946a0(TESAnimGroup* pAnimGroup)
     if (!pAnimGroup)
         return;
 
-    if (*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x4e) == 0xff &&
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x9e) == 0xff &&
+    if (this->group[1] == 0xff &&
+        this->usReloadGroup[1] == 0xff &&
         reinterpret_cast<::FUN_0047d3b0_shell *>((reinterpret_cast<TESActorBaseData*>(pAnimGroup)))->FUN_0047d3b0() == 0)
     {
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x9e) =
+        this->usReloadGroup[1] =
             reinterpret_cast<::FUN_0047d3b0_shell *>((reinterpret_cast<TESActorBaseData*>(pAnimGroup)))->FUN_0047d3b0();
     }
 
@@ -1089,7 +1089,7 @@ void FUN_00496080_shell::FUN_00496080(int aeSection, float afEaseOutTime)
         if (::fnv_00702640::FUN_00702640() != 1)
         {
             FUN_00496080(7, afEaseOutTime);
-            if (!*reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x120))
+            if (!this->m_cSkipNextBlend)
                 FUN_00496080(0, afEaseOutTime);
         }
         FUN_00496080(1, afEaseOutTime);
@@ -1105,30 +1105,30 @@ void FUN_00496080_shell::FUN_00496080(int aeSection, float afEaseOutTime)
     }
 
     if (*reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0xd8) && esection < 8 &&
-        reinterpret_cast<NiControllerSequence**>(reinterpret_cast<char*>(this) + 0xe0)[esection] &&
-        ((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<NiControllerSequence**>(reinterpret_cast<char*>(this) + 0xe0)[esection]))->GetActiveCombatTarget())))
+        reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection] &&
+        ((int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection]))->GetActiveCombatTarget())))
     {
-        if (reinterpret_cast<::LowProcess *>((reinterpret_cast<TESChallenge**>(reinterpret_cast<char*>(this) + 0xe0)[esection]))->GetPackageObjectType())
+        if (reinterpret_cast<::LowProcess *>((reinterpret_cast<TESChallenge**>(&this->m_pChildTile[0])[esection]))->GetPackageObjectType())
         {
             reinterpret_cast<::NiControllerManager *>((reinterpret_cast<NiControllerManager_DeactivateAccess*>(
                 const_cast<char*>(static_cast<const char*>(
                     *reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0xd8))))))->StopSequence(reinterpret_cast<NiControllerSequence*>(
-                                   reinterpret_cast<::LowProcess *>((reinterpret_cast<TESChallenge**>(reinterpret_cast<char*>(this) + 0xe0)[esection]))->GetPackageObjectType()),
+                                   reinterpret_cast<::LowProcess *>((reinterpret_cast<TESChallenge**>(&this->m_pChildTile[0])[esection]))->GetPackageObjectType()),
                                afEaseOutTime);
         }
         reinterpret_cast<::NiControllerManager *>((reinterpret_cast<NiControllerManager_DeactivateAccess*>(
             const_cast<char*>(
-                static_cast<const char*>(*reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0xd8))))))->StopSequence(reinterpret_cast<NiControllerSequence**>(reinterpret_cast<char*>(this) + 0xe0)[esection],
+                static_cast<const char*>(*reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0xd8))))))->StopSequence(reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection],
                            afEaseOutTime);
         if (esection == 1)
-            *reinterpret_cast<NiControllerSequence**>(reinterpret_cast<char*>(this) + 0x100) =
-                reinterpret_cast<NiControllerSequence**>(reinterpret_cast<char*>(this) + 0xe0)[esection];
+            *reinterpret_cast<NiControllerSequence**>(&this->m_pCurrentSequence) =
+                reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection];
     }
 
-    reinterpret_cast<NiControllerSequence**>(reinterpret_cast<char*>(this) + 0xe0)[esection] = 0;
-    reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x4c)[esection] = 0xff;
-    reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x9c)[esection] = 0xff;
-    reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x5c)[esection] = -1;
+    reinterpret_cast<NiControllerSequence**>(&this->m_pChildTile[0])[esection] = 0;
+    (&this->group[0])[esection] = 0xff;
+    (&this->usReloadGroup[0])[esection] = 0xff;
+    reinterpret_cast<int*>(&this->action[0])[esection] = -1;
 }
 }  // namespace fnv_00496080
 
@@ -1274,14 +1274,14 @@ struct FUN_004964d0_shell : public Animation
 // @fnv 0x00496280
 void FUN_00496280_shell::FUN_00496280()
 {
-    if (*(NiNode**)((char*)this + 0xc) == 0)
+    if (this->m_pObjectNode == 0)
         return;
 
     reinterpret_cast<::FUN_004964d0_shell *>((this))->FUN_004964d0();
-    reinterpret_cast<::FUN_0043fa80_s *>(((*(NiNode**)((char*)this + 0xc))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<char *>(&::DAT_011a9448)))));
-    reinterpret_cast<::FUN_00440460_S *>(((*(NiAVObject**)((char*)this + 0xc))))->FUN_00440460((const ::V3 *)&(NiPoint3::ZERO));
+    reinterpret_cast<::FUN_0043fa80_s *>(((this->m_pObjectNode)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<char *>(&::DAT_011a9448)))));
+    reinterpret_cast<::FUN_00440460_S *>(((*(NiAVObject**)&this->m_pObjectNode)))->FUN_00440460((const ::V3 *)&(NiPoint3::ZERO));
 
-    NiTimeController* pTimeController = (NiTimeController*)(((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)((*(Model**)((char*)this + 0xc)))))));
+    NiTimeController* pTimeController = (NiTimeController*)(((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)((*(Model**)&this->m_pObjectNode))))));
     while (pTimeController)
     {
         FakeVtable_00496280* pinter = (FakeVtable_00496280*)((void *)(::FUN_00653270((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const char *const *>(&::g_011f3714))), (::NiObject *)(pTimeController))));
@@ -1306,7 +1306,7 @@ void FUN_00496280_shell::FUN_00496280()
 // @fnv 0x004964d0
 void FUN_004964d0_shell::FUN_004964d0()
 {
-    *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x1c) = NiPoint3::ZERO;
+    this->m_kRootTranslation = NiPoint3::ZERO;
 }
 
 struct FUN_00496550_shell : public Animation
@@ -1423,7 +1423,7 @@ struct FUN_004974a0_shell : public Animation
 // @fnv 0x004974a0
 void FUN_004974a0_shell::FUN_004974a0()
 {
-    *reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x120) = 1;
+    this->m_cSkipNextBlend = 1;
 }
 
 struct ActiveEffect;
@@ -2746,16 +2746,16 @@ struct TESDataHandler
 // @fnv 0x0049bca0
 void FUN_0049bca0_shell::FUN_0049bca0(float afTime, NiPoint3* apTranslate, bool abControllers)
 {
-    if ((*(FUN_00440460_S**)((char*)this + 0xc)))
-        reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)((char*)this + 0xc))))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)((NiPoint3*)((char*)this + 0x1c)));
+    if ((*(FUN_00440460_S**)&this->m_pObjectNode))
+        reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)&this->m_pObjectNode)))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(&this->m_kRootTranslation));
     reinterpret_cast<::B4EFE80Object *>((((::fnv_0049bca0::FUN_004efe80_S *)(::FUN_00559450((int *)(((Flt*)((char*)this + 8))))))))->UpdateControllers({}, {});
-    if ((*(FUN_00440460_S**)((char*)this + 0xc)))
+    if ((*(FUN_00440460_S**)&this->m_pObjectNode))
     {
         if (apTranslate)
         {
-            *apTranslate = *((::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((((TESDataHandler*)(*(FUN_00440460_S**)((char*)this + 0xc)))))->FUN_0043c490()));
+            *apTranslate = *((::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((((TESDataHandler*)(*(FUN_00440460_S**)&this->m_pObjectNode))))->FUN_0043c490()));
         }
-        reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)((char*)this + 0xc))))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(&NiPoint3::ZERO));
+        reinterpret_cast<::FUN_00440460_S *>(((*(FUN_00440460_S**)&this->m_pObjectNode)))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(&NiPoint3::ZERO));
     }
 }
 }  // namespace fnv_0049bca0
@@ -3776,7 +3776,7 @@ bool FUN_00490e60_shell::ShouldQueueAnimations()
     {
         bqueueAnims = false;
     }
-    else if (*(TESObjectREFR**)((char*)this + 4) == ((::TESObjectREFR *)(::FUN_0047b200())))
+    else if (this->m_pAttachedReference == ((::TESObjectREFR *)(::FUN_0047b200())))
     {
         bqueueAnims = false;
     }
@@ -4295,7 +4295,7 @@ SeqIface* FUN_004948c0_shell::GetSequenceForGroup(unsigned short group, int type
         if (!((SeqIface*)pSeqBase)->IsSingleSeq())
         {
             pSeqMultiple = (SeqIface*)pSeqBase;
-            pseqX = ((::SeqIface *)(reinterpret_cast<::BNLookup *>((pSeqMultiple))->FindObjectByNameVariant((::BNObject *)(*(void**)((char*)this + 0xf0)), iType)));
+            pseqX = ((::SeqIface *)(reinterpret_cast<::BNLookup *>((pSeqMultiple))->FindObjectByNameVariant((::BNObject *)(*(void**)&this->m_pChildTile[4]), iType)));
             break;
         }
     default:
@@ -9505,7 +9505,7 @@ FUN_004965d0::FUN_004965d0(Item4965* apItem, void* apField14, void* apFieldC, Ac
     field30 = aiField30;
     actor = apActor;
     StrMem strModelPath;
-    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&strModelPath), &DAT_0101dcc4, &(*reinterpret_cast<char *>((void *)&::kMeshesFolder)), ((ItemBase4965*)((char*)apItem + 24))->v5());
+    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&strModelPath), &DAT_0101dcc4, &(*reinterpret_cast<char *>((void *)&::kMeshesFolder)), static_cast<fnv_004965d0::ItemBase4965 *>(apItem)->v5());
     if (!abLoadDirect)
     {
         reinterpret_cast<::NiPointer_KFModel *>(&(model))->FUN_0044b070((::KFModel *)(void *)(reinterpret_cast<::FUN_00445200_holder *>(((*(Loader4965**)&(*reinterpret_cast<char *>(&::g_modelLoader)))))->InsertIdle(((void *)(::FUN_00559450((int *)&(strModelPath)))), this, 0, apActor)));

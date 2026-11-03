@@ -198,7 +198,7 @@ void* Proxy_004f3d20::FUN_004f3d20(unsigned int flags)
 // @fnv 0x004f3de0
 FUN_004f3de0::~FUN_004f3de0()
 {
-    reinterpret_cast<::BSStringTChar *>((((FUN_004f14a0_shell*)((char*)this + 8))))->BSStringTChar::~BSStringTChar();
+    reinterpret_cast<::BSStringTChar *>((((FUN_004f14a0_shell*)&this->m_kMapName.p[0])))->BSStringTChar::~BSStringTChar();
 }
 
 void* __cdecl operator new(unsigned int);

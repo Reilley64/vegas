@@ -424,7 +424,7 @@ void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
 
     reinterpret_cast<::FUN_00a8aa30_shell *>((((NiTriBasedGeomData*)this)))->FUN_00a8aa30((::NiStream *)&(*(::NiStream*)kStream));
 
-    ReadBinaryValue(*GetIstr(kStream), (*(unsigned int*)((char*)this + 0x44)));
+    ReadBinaryValue(*GetIstr(kStream), (this->m_uiTriListLength));
 
     unsigned char bHasList;
     if (*(unsigned int*)((char*)kStream + 0xd8) >= 0x0A000111)
@@ -432,28 +432,28 @@ void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
     else
         bHasList = 1;
 
-    if (bHasList && (*(unsigned int*)((char*)this + 0x44)) > 0)
+    if (bHasList && (this->m_uiTriListLength) > 0)
     {
-        (*(unsigned short**)((char*)this + 0x48)) =
-            (unsigned short*)::FUN_00aa1070((*(unsigned int*)((char*)this + 0x44)) * 2);
-        ReadBinaryValue(*GetIstr(kStream), (*(unsigned short**)((char*)this + 0x48)),
-                        (*(unsigned int*)((char*)this + 0x44)));
+        (this->m_pusTriList) =
+            (unsigned short*)::FUN_00aa1070((this->m_uiTriListLength) * 2);
+        ReadBinaryValue(*GetIstr(kStream), (this->m_pusTriList),
+                        (this->m_uiTriListLength));
     }
 
-    ReadBinaryValue(*GetIstr(kStream), (*(unsigned short*)((char*)this + 0x50)));
-    if ((*(unsigned short*)((char*)this + 0x50)))
+    ReadBinaryValue(*GetIstr(kStream), (this->m_usSharedNormalCount));
+    if ((this->m_usSharedNormalCount))
     {
-        (*(FUN_00a7b870**)((char*)this + 0x4c)) = new FUN_00a7b870[(*(unsigned short*)((char*)this + 0x50))];
-        (*(IndexBufferBlock**)((char*)this + 0x54)) = new IndexBufferBlock((*(unsigned short*)((char*)this + 0x50)));
+        (*(FUN_00a7b870**)&this->m_pkSharedNormalArray) = new FUN_00a7b870[(this->m_usSharedNormalCount)];
+        (*(IndexBufferBlock**)&this->m_pkSharedNormalArrayMemoryBlock) = new IndexBufferBlock((this->m_usSharedNormalCount));
 
-        for (unsigned short usI = 0; usI < (*(unsigned short*)((char*)this + 0x50)); usI++)
+        for (unsigned short usI = 0; usI < (this->m_usSharedNormalCount); usI++)
         {
             unsigned short m_usPassCountLocal;
             unsigned short* pusArray = 0;
             ReadBinaryValue(*GetIstr(kStream), m_usPassCountLocal);
             if (m_usPassCountLocal)
             {
-                IndexBufferBlock* pkBlock = (*(IndexBufferBlock**)((char*)this + 0x54));
+                IndexBufferBlock* pkBlock = (*(IndexBufferBlock**)&this->m_pkSharedNormalArrayMemoryBlock);
                 while (pkBlock)
                 {
                     if (m_usPassCountLocal <= pkBlock->m_uiUsedIndexCount)
@@ -462,16 +462,16 @@ void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
                 }
                 if (!pkBlock)
                 {
-                    pkBlock = new IndexBufferBlock((*(IndexBufferBlock**)((char*)this + 0x54))->m_uiIndexCapacity * 2);
-                    pkBlock->m_pkNext = (*(IndexBufferBlock**)((char*)this + 0x54));
-                    (*(IndexBufferBlock**)((char*)this + 0x54)) = pkBlock;
+                    pkBlock = new IndexBufferBlock((*(IndexBufferBlock**)&this->m_pkSharedNormalArrayMemoryBlock)->m_uiIndexCapacity * 2);
+                    pkBlock->m_pkNext = (*(IndexBufferBlock**)&this->m_pkSharedNormalArrayMemoryBlock);
+                    (*(IndexBufferBlock**)&this->m_pkSharedNormalArrayMemoryBlock) = pkBlock;
                 }
                 pusArray = pkBlock->m_pCurrentIndex;
                 pkBlock->m_uiUsedIndexCount -= m_usPassCountLocal;
                 pkBlock->m_pCurrentIndex += m_usPassCountLocal;
                 ReadBinaryValue(*GetIstr(kStream), pusArray, m_usPassCountLocal);
             }
-            (*(FUN_00a7b870**)((char*)this + 0x4c))[usI].SetArray(m_usPassCountLocal, pusArray);
+            (*(FUN_00a7b870**)&this->m_pkSharedNormalArray)[usI].SetArray(m_usPassCountLocal, pusArray);
         }
     }
 }

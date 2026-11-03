@@ -34,7 +34,7 @@ struct FUN_0060ce80_Obj
 // @fnv 0x0060ce80
 void FUN_0060ce80_Obj::FUN_0060ce80()
 {
-    ::FUN_00401080((int *)(void *)((void*)((char*)this + 4)));
+    ::FUN_00401080((int *)(void *)((void*)((char*)&this->unk04)));
 }
 
 struct LodCell

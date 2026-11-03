@@ -1154,7 +1154,7 @@ bool FUN_00a5bca0_shell::SetExtraDataName(NiExtraData* pkExtra)
         if (pcRTTI && strlen(pcRTTI))
         {
             char pcSuffix[6];
-            NiSprintf(pcSuffix, 6, "ED%03d", *(unsigned short*)((char*)this + 0x14));
+            NiSprintf(pcSuffix, 6, "ED%03d", this->m_usExtraDataCount);
             const char* pcSubstr = FUN_00ec7750(pcRTTI, "ExtraData");
             unsigned int uiStrLength = 0;
             if (pcSubstr > pcRTTI)

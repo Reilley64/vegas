@@ -615,20 +615,20 @@ struct TileStandIn_009ff600 {  };
 void FUN_009ff600_shell::InitTile(Tile* apParent, char* apName, Tile* apReplacedTile)
 {
     *(Tile**)((char*)this + 0x28) = 0;
-    ((NP_0081c630*)((char*)this + 0x2c))->operator=(0);
+    ((NP_0081c630*)&this->tileFields[44])->operator=(0);
     {
         int aiPad1[10];
-        StrMem* pName = (StrMem*)((char*)this + 0x20);
+        StrMem* pName = (StrMem*)&this->tileFields[32];
         reinterpret_cast<::TextString *>((pName))->FUN_004037f0("", 0);
     }
-    *((char*)this + 0x35) = 0;
+    *((char*)&this->m_bSpeechChallengeFailure) = 0;
     *(unsigned int*)((char*)this + 0x30) = 0;
     if (apParent)
         reinterpret_cast<::FUN_00a087d0_shell *>((((TileStandIn_009ff600*)this)))->FUN_00a087d0(apParent, apReplacedTile);
     if (apName)
     {
         int aiPad1[8];
-        StrMem* pName = (StrMem*)((char*)this + 0x20);
+        StrMem* pName = (StrMem*)&this->tileFields[32];
         reinterpret_cast<::TextString *>((pName))->FUN_004037f0(apName, 0);
     }
 }
@@ -701,7 +701,7 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
     DAT_011f338c = aiTrait;
     {
         P09Value* pSearchKey = (P09Value*)&DAT_011f338c;
-        uifoundIndex = ((P09Traits*)((char*)this + 0x10))->BinarySearch(pSearchKey, ((int (&)(const void *, const void *))::FUN_00a01160));
+        uifoundIndex = ((P09Traits*)&this->tileFields[16])->BinarySearch(pSearchKey, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
     if (uifoundIndex != (unsigned int)-1) {
         preturnVal = (*(P09Value***)((char*)this + 0x14))[uifoundIndex];
@@ -712,7 +712,7 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
         preturnVal = pInitValue;
         preturnVal->m_uiSoundID = aiTrait;
         preturnVal->pParent = this;
-        ((P09Traits*)((char*)this + 0x10))->InsertInSortedOrder(preturnVal, ((int (&)(const void *, const void *))::FUN_00a01160));
+        ((P09Traits*)&this->tileFields[16])->InsertInSortedOrder(preturnVal, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
     LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     return preturnVal;

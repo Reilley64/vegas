@@ -299,8 +299,8 @@ struct FUN_00ae9f70 : BSGameSound
 // @fnv 0x00ae9f70
 void FUN_00ae9f70::SetFlag(bool abSet)
 {
-    *(unsigned int*)((char*)this + 0x10) =
-        abSet ? (*(unsigned int*)((char*)this + 0x10) | 0x20000) : (*(unsigned int*)((char*)this + 0x10) & 0xfffdffff);
+    this->uiSoundFlags =
+        abSet ? (this->uiSoundFlags | 0x20000) : (this->uiSoundFlags & 0xfffdffff);
 }
 
 struct FUN_00ae9fd0 : BSGameSound
@@ -311,7 +311,7 @@ struct FUN_00ae9fd0 : BSGameSound
 // @fnv 0x00ae9fd0
 bool FUN_00ae9fd0::IsSameSound(BSGameSound* apSound)
 {
-    return *(unsigned int*)((char*)this + 0x188) < *(unsigned int*)((char*)apSound + 0x188);
+    return this->iPriority < apSound->iPriority;
 }
 
 struct FUN_00aea000 : BSGameSound
@@ -321,7 +321,7 @@ struct FUN_00aea000 : BSGameSound
 // @fnv 0x00aea000
 bool FUN_00aea000::IsSameSound(unsigned int aiToCompare)
 {
-    return *(unsigned int*)((char*)this + 0x188) < aiToCompare;
+    return this->iPriority < aiToCompare;
 }
 
 struct Interface

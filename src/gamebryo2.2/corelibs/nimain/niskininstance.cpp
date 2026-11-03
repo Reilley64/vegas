@@ -60,18 +60,18 @@ bool FUN_00a864d0_Class::FUN_00a864d0(A46BB0Object* pkObject)
     FUN_00a864d0_Class* pkSkinInstance = (FUN_00a864d0_Class*)pkObject;
     if (!reinterpret_cast<::A5d470Class *>((((A46BB0Object*)this)))->IsSameAs((::A5d470Object *)(pkObject)))
         return false;
-    void* pData = *(void**)((char*)this + 8);
-    void* pOtherData = *(void**)((char*)pkSkinInstance + 8);
+    void* pData = this->m_pSkinData;
+    void* pOtherData = pkSkinInstance->m_pSkinData;
     if (!((bool(*)(void*, void*))((void**)*(void**)pData)[0x5c / 4])(pData, pOtherData))
         return false;
-    void* pThisPart = *(void**)((char*)this + 0xc);
+    void* pThisPart = this->m_pkSkinMeshPartition;
     if (pThisPart)
     {
-        void* pOtherPart = *(void**)((char*)pkSkinInstance + 0xc);
+        void* pOtherPart = pkSkinInstance->m_pkSkinMeshPartition;
         if (!((bool(*)(void*, void*))((void**)*(void**)pThisPart)[0x5c / 4])(pThisPart, pOtherPart))
             return false;
     }
-    if (*(void**)((char*)this + 0xc) == 0 && *(void**)((char*)pkSkinInstance + 0xc) != 0)
+    if (this->m_pkSkinMeshPartition == 0 && pkSkinInstance->m_pkSkinMeshPartition != 0)
         return false;
     return true;
 }

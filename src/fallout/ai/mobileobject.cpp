@@ -364,7 +364,7 @@ SoundPlaybackHandle MobileObject::PlaySoundByEditorName(const char* editorName, 
 // @fnv 0x004b9930
 bool MobileObject::GetCharControllerFlag() const
 {
-    return !reinterpret_cast<const unsigned char*>(this)[4];
+    return !(*reinterpret_cast<const unsigned char*>((void *)&this->m_ucFormType));
 }
 // @fnv 0x00920fb0
 void Actor::SetCurrentSitSleepState(SIT_SLEEP_STATE state)
@@ -1194,7 +1194,7 @@ void FUN_00932d60_shell::FUN_00932d60(BGSLoadFormBuffer* apLoadGameBuffer)
             }
         }
     }
-    if (!*((unsigned char*)this + 0x80) && !((int)(reinterpret_cast<::FUN_0042ede0_shell *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0042ede0())))
+    if (!*((unsigned char*)&this->m_bFifthFlag) && !((int)(reinterpret_cast<::FUN_0042ede0_shell *>((void *)(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0042ede0())))
     {
         ::FUN_00936ac0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())), 1);
     }
@@ -1259,14 +1259,14 @@ void __cdecl HandleMobileObjectResult(void* apContext, bool abSucceeded)
         {
             return;
         }
-        if (!*((bool*)pactor + 0x83))
+        if (!pactor->m_bEighthFlag)
         {
             ((void(*)(MobileObject*, int))SetAccumulate)(pactor, 0);
             ((void(*)(MobileObject*, bool))FUN_00936aa0)(pactor, abSucceeded);
         }
         else
         {
-            *((bool*)pactor + 0x83) = false;
+            pactor->m_bEighthFlag = false;
         }
     }
 }
@@ -1311,9 +1311,9 @@ void FUN_00931620_shell::FUN_00931620(NiPoint3* arVel)
         reinterpret_cast<FUN_0087cee0_shell*>(pcon)->FUN_0087cee0();
         reinterpret_cast<::C6E030Holder *>((reinterpret_cast<CharCtl_S*>(pcon)))->ResetState();
     }
-    if (*(int*)((char*)this + 0x64) && (unsigned int)*(Flt*)(*(char**)((char*)this + 0x64) + 0x14))
+    if (*(int*)((char*)this + 0x64) && (unsigned int)*(Flt*)(*(char**)&this->m_pRenderData + 0x14))
     {
-        reinterpret_cast<FUN_00440460_S*>((unsigned int)*(Flt*)(*(char**)((char*)this + 0x64) + 0x14))->FUN_00440460((const ::V3 *)(arVel));
+        reinterpret_cast<FUN_00440460_S*>((unsigned int)*(Flt*)(*(char**)&this->m_pRenderData + 0x14))->FUN_00440460((const ::V3 *)(arVel));
     }
 }
 
@@ -1515,7 +1515,7 @@ float FUN_00672850_shell::GetPackageFloatValue()
     float result = 1.0f;
     if (GetPackType() == 0xf || GetPackType() == 0x1c)
     {
-        TESPackage* pkg = *(TESPackage**)((char*)this + 0x28);
+        TESPackage* pkg = *(TESPackage**)&this->m_pPackageData;
         if (pkg)
             result = *(float*)((char*)pkg + 4);
     }
@@ -1601,7 +1601,7 @@ TESPackage* StandIn_00672760::FUN_00672760()
     TESPackage* result = 0;
     if (GetPackType() == 0xF || GetPackType() == 0x1C)
     {
-        void* tmp = *(void**)((char*)this + 0x28);
+        void* tmp = *(void**)&this->m_pPackageData;
         if (tmp)
         {
             result = *(TESPackage**)((char*)tmp + 8);
@@ -3361,19 +3361,19 @@ bool FUN_009319c0_shell::FUN_009319c0(int aeProcessLevel)
     if (aeProcessLevel == -1)
     {
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_009319c0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
-        if (*(Base_0092c950**)((char*)this + 0x68))
+        if (*(Base_0092c950**)&this->m_pBaseProcess)
         {
             bresult = true;
-            reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_009319c0::ActorDeletionQueue *>(&::g_011e0e80))))->FUN_0096d470(this, ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Base_0092c950**)((char*)this + 0x68))))->FUN_0045cd60())));
-            delete *(Base_0092c950**)((char*)this + 0x68);
-            *(Base_0092c950**)((char*)this + 0x68) = 0;
+            reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_009319c0::ActorDeletionQueue *>(&::g_011e0e80))))->FUN_0096d470(this, ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Base_0092c950**)&this->m_pBaseProcess)))->FUN_0045cd60())));
+            delete *(Base_0092c950**)&this->m_pBaseProcess;
+            *(Base_0092c950**)&this->m_pBaseProcess = 0;
         }
         reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_009319c0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
     }
     else
     {
-        if (!*(Base_0092c950**)((char*)this + 0x68))
-            *(Base_0092c950**)((char*)this + 0x68) = new Base_0092c950();
+        if (!*(Base_0092c950**)&this->m_pBaseProcess)
+            *(Base_0092c950**)&this->m_pBaseProcess = new Base_0092c950();
         if (GetCurrentProcessLevel() != aeProcessLevel)
         {
             switch (aeProcessLevel)
@@ -3817,26 +3817,26 @@ void FUN_00932520_shell::UpdateFlags(unsigned int aiFlags, unsigned int aiOldFla
             reinterpret_cast<::S005620e0_Object *>((((CharCtl_S*)pcon)))->FUN_005620e0((const ::S005620e0_Source *)(void *)(&pos));
         }
     }
-    if (*(Proc_00932520**)((char*)this + 0x68))
+    if (*(Proc_00932520**)&this->m_pBaseProcess)
     {
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00932520::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
         if (reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80() || GetDisabled())
         {
-            reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<::fnv_00932520::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_0045cd60())));
-            delete *(Proc_00932520**)((char*)this + 0x68);
-            *(Proc_00932520**)((char*)this + 0x68) = 0;
+            reinterpret_cast<::ActorDeletionQueue *>((((ActorDeletionQueue*)&(*reinterpret_cast<::fnv_00932520::ProcessLists *>(&::g_011e0e80)))))->FUN_0096d470(this, ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)&this->m_pBaseProcess)))->FUN_0045cd60())));
+            delete *(Proc_00932520**)&this->m_pBaseProcess;
+            *(Proc_00932520**)&this->m_pBaseProcess = 0;
         }
         else if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FUN_00577330_cls*)this)))->FUN_0043fcd0())) && this != (*reinterpret_cast<::MobileObject * *>(&::_g_thePlayer)) &&
-                 (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_0045cd60())) ||
-                  ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_0045cd60())) == 1))
+                 (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)&this->m_pBaseProcess)))->FUN_0045cd60())) ||
+                  ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(Proc_00932520**)&this->m_pBaseProcess)))->FUN_0045cd60())) == 1))
         {
             Unk_92();
-            reinterpret_cast<::FUN_00693d50_shell *>((((ActiveEffect*)*(Proc_00932520**)((char*)this + 0x68))))->FUN_00693d50(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00932520::Calendar *>(&::g_011de7b8))))->GetGameTime() - 0.5);
+            reinterpret_cast<::FUN_00693d50_shell *>((((ActiveEffect*)*(Proc_00932520**)&this->m_pBaseProcess)))->FUN_00693d50(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00932520::Calendar *>(&::g_011de7b8))))->GetGameTime() - 0.5);
             reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_00932520::ProcessLists *>(&::g_011e0e80))))->RemoveMobileObjectFromList(this);
         }
         reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_00932520::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
-        if (*(Proc_00932520**)((char*)this + 0x68))
-            (*(Proc_00932520**)((char*)this + 0x68))->v564(aiFlags, aiOldFlags, this);
+        if (*(Proc_00932520**)&this->m_pBaseProcess)
+            (*(Proc_00932520**)&this->m_pBaseProcess)->v564(aiFlags, aiOldFlags, this);
     }
 }
 }  // namespace fnv_00932520
@@ -4292,23 +4292,23 @@ void FUN_00932a00_t::FUN_00932a00(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&cprocessLevel), 1);
     reinterpret_cast<::fnv_009319c0::FUN_009319c0_shell *>(this)->FUN_009319c0(cprocessLevel);
     reinterpret_cast<::fnv_005623d0::RefX *>(this)->ApplyChanges((::fnv_005623d0::ChangeX *)(apLoadGameBuffer));
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x84)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x85)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7c)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7f)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x80)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7d)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x7e)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x86)), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x74)), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x78)), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x81)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_cCharacterValue)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bNinthFlag)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bFirstFlag)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bFourthBooleanValue)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bFifthFlag)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bSecondBooleanValue)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bThirdFlag)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bTenthFlag)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->ProcessReferenceState)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->ReferenceMobileState)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bSixthFlag)), 1);
     if (apLoadGameBuffer->GetVersion() >= 8)
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x83)), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_bEighthFlag)), 1);
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int*)((char*)this + 0x6c));
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int*)((char*)this + 0x70));
-    if (*(ProcLoad_00932a00**)((char*)this + 0x68))
-        (*(ProcLoad_00932a00**)((char*)this + 0x68))->LoadGame(apLoadGameBuffer);
+    if (*(ProcLoad_00932a00**)&this->m_pBaseProcess)
+        (*(ProcLoad_00932a00**)&this->m_pBaseProcess)->LoadGame(apLoadGameBuffer);
 }
 }  // namespace fnv_00932a00
 
@@ -4921,27 +4921,27 @@ struct Ref_00932b70
 void FUN_00932b70_shell::FUN_00932b70(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::fnv_00562660::FUN_00562660_shell *>((((S_00562660*)this)))->FUN_00562660((::fnv_00562660::BGSLoadFormBuffer *)(apLoadGameBuffer));
-    *(TESObjectREFR**)((char*)this + 0x6c) =
-        *(TESObjectREFR**)((char*)this + 0x6c)
+    this->m_pLinkedReference =
+        this->m_pLinkedReference
             ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(*(unsigned int*)((char*)this + 0x6c)))
             : 0;
-    *(MobileObject**)((char*)this + 0x70) =
-        *(MobileObject**)((char*)this + 0x70)
+    this->m_pMobileObject =
+        this->m_pMobileObject
             ? dynamic_cast<MobileObject*>(::FUN_004839c0(*(unsigned int*)((char*)this + 0x70)))
             : 0;
-    if (*(Proc_00932b70**)((char*)this + 0x68))
-        (*(Proc_00932b70**)((char*)this + 0x68))->InitLoadGame(apLoadGameBuffer);
+    if (*(Proc_00932b70**)&this->m_pBaseProcess)
+        (*(Proc_00932b70**)&this->m_pBaseProcess)->InitLoadGame(apLoadGameBuffer);
     if (((Ref_00932b70*)this)->GetNiNode() && !((Ref_00932b70*)this)->Unk_89() && !((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0())))
         ((Ref_00932b70*)this)->AnimateNiNode();
-    if (!*(void**)((char*)this + 0x68) && !reinterpret_cast<::FUN_00437b90_shell *>((((RefX*)this)))->FUN_00437b90())
+    if (!*(void**)&this->m_pBaseProcess && !reinterpret_cast<::FUN_00437b90_shell *>((((RefX*)this)))->FUN_00437b90())
     {
-        *(Base_0092c950**)((char*)this + 0x68) = new Base_0092c950;
+        *(Base_0092c950**)&this->m_pBaseProcess = new Base_0092c950;
         reinterpret_cast<::fnv_009319c0::FUN_009319c0_shell *>((((S_009319c0*)this)))->FUN_009319c0(GetProcessTier());
     }
     if (((::fnv_00932b70::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RefA*)this)))->FUN_0043fcd0())))
     {
-        if (!*(void**)((char*)this + 0x68) || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60())) == 3 ||
-            ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60())) == 2)
+        if (!*(void**)&this->m_pBaseProcess || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60())) == 3 ||
+            ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60())) == 2)
             ((Ref_00932b70*)this)->Set3D(0, true);
     }
 }
@@ -5118,16 +5118,16 @@ void FUN_00934250_shell::FUN_00934250()
             if (!FUN_00579200((char const*)pTopicInfo))
                 reinterpret_cast<::FUN_0061f170_cls *>((((RunResultScript_helper*)pTopicInfo)))->FUN_0061f170((void *)(1), (::ArgObj *)(::Character *)((Character*)this));
             ::FUN_005ac750((::TESForm *)(pMenuTopicEntry), ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())), 0x40000);
-            *((unsigned char*)this + 0x83) = 1;
+            *((unsigned char*)&this->m_bEighthFlag) = 1;
             ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()))->SetCombatEnabled(false);
         }
-        *((unsigned char*)this + 0x84) = 0xff;
+        *((unsigned char*)&this->m_cCharacterValue) = 0xff;
         pProcess->StopActorSound(0);
         pProcess->SetCombatAlerted(false);
         reinterpret_cast<::FUN_00953ce0_Class *>((_g_thePlayer))->FUN_00953ce0();
     }
-    *((unsigned char*)this + 0x80) = 1;
-    *((unsigned char*)this + 0x7f) = 1;
+    *((unsigned char*)&this->m_bFifthFlag) = 1;
+    *((unsigned char*)&this->m_bFourthBooleanValue) = 1;
     if (!((bool)(::FUN_00574900((const unsigned char *)this))) && GetNiNode())
     {
         Actor* pactor = (Actor*)this;
@@ -5378,7 +5378,7 @@ struct MobileVtbl
 bool FUN_009c45d0_t::FUN_009c45d0()
 {
     bool result2 = true;
-    int curLevel3 = *(TESResponse**)((char*)this + 0x68) ? ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60())) : 3;
+    int curLevel3 = *(TESResponse**)&this->m_pBaseProcess ? ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60())) : 3;
     int iNewLevel = 3;
     bool bLoadedTmp = ((MobileVtbl*)this)->V324();
     TESObjectCELL* cellVal = (TESObjectCELL*)((LowProcess*)this)->GetTarget();
@@ -5414,11 +5414,11 @@ bool FUN_009c45d0_t::FUN_009c45d0()
         }
         else
         {
-            int lvl = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)((char*)this + 0x68))))->FUN_0045cd60()));
+            int lvl = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60()));
             reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_009c45d0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
             reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_009c45d0::ActorDeletionQueue *>(&::g_011e0e80))))->FUN_0096d470(this, lvl);
-            delete *(ProcessDel**)((char*)this + 0x68);
-            *(ProcessDel**)((char*)this + 0x68) = 0;
+            delete *(ProcessDel**)&this->m_pBaseProcess;
+            *(ProcessDel**)&this->m_pBaseProcess = 0;
             reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_009c45d0::RecursiveSpinLock *>(&::DAT_011f11a0))))->FUN_0040fba0();
             ((MobileVtbl*)this)->V2A0();
             ((MobileVtbl*)this)->V2FC();
@@ -6094,8 +6094,8 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
         {
             if (pcon && ::FUN_005c0880((char *)(pcon)) == 5)
             {
-                if (*(float*)(*(char**)((char*)this + 0x64) + 8) == ::DAT_010241b0)
-                    *(float*)(*(char**)((char*)this + 0x64) + 8) =
+                if (*(float*)(*(char**)&this->m_pRenderData + 8) == ::DAT_010241b0)
+                    *(float*)(*(char**)&this->m_pRenderData + 8) =
                         reinterpret_cast<::FUN_0045cbc0_shell *>((((TESWaterHelper*)(*reinterpret_cast<::fnv_0092f260::TES * *>(&::g_TES)))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(*((MobileObject*)this)->GetPos()), (::CellView *)(0));
                 float fheightWater = reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(((MobileObject_Helper*)this)))->FUN_0057b0a0();
                 if (fheightWater == ::DAT_010241b0)

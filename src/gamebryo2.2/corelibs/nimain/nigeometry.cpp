@@ -120,10 +120,10 @@ void NiGeometry::UpdatePropertiesDownwardPass(NiPropertyState* state)
 void NiAVObject::FUN_00a5ac90(NiAVObject* dest, CloningProcess& process)
 {
     reinterpret_cast<::fnv_00a5c290::FUN_00a5c290_shell *>((((NiObjectNET*)this)))->FUN_00a5c290((NiObjectNET*)dest, (::fnv_00a5c290::CloningProcess *)&(process));
-    *(unsigned int*)((char*)dest + 0x30) = *(unsigned int*)((char*)this + 0x30) | 0x80000;
-    *(NiTransform*)((char*)dest + 0x34) = *(NiTransform*)((char*)this + 0x34);
+    dest->m_flags = this->m_flags | 0x80000;
+    dest->m_kLocalTransform = this->m_kLocalTransform;
     if (*(unsigned int*)((char*)this + 0x2c))
-        ::FUN_00a5abe0((::FUN_00a5abe0_owner *)this, dest, (void *volatile)((char*)this + 0x24));
+        ::FUN_00a5abe0((::FUN_00a5abe0_owner *)this, dest, (void *volatile)((char*)&this->m_kProperties));
     if (m_spCollisionObject)
         reinterpret_cast<::Owner62B *>((dest))->AttachTarget(m_spCollisionObject->Clone(process));
 }
@@ -154,12 +154,12 @@ void NiGeometry::UpdateWorldBound()
         if (m_spSkinningInstance)
         {
             ((NiScreenLODData*)m_spSkinningInstance.m_pObject)->UpdateScreenBound((*(::NiBound *)((NiLODNode*)m_worldBound)));
-            reinterpret_cast<::S_00a7fea0_Class *>((m_worldBound))->TransformPoint((const ::S_00a7fea0_Xf &)(*(NiTransform*)((char*)this + 0x68)));
+            reinterpret_cast<::S_00a7fea0_Class *>((m_worldBound))->TransformPoint((const ::S_00a7fea0_Xf &)(this->m_worldTransform));
         }
         else
         {
             m_worldBound->Update(*(NiBound*)((char*)m_spGeometryData.m_pObject + 0x10),
-                                 *(NiTransform*)((char*)this + 0x68));
+                                 this->m_worldTransform);
         }
         unsigned int savedFlags = flags;
         if ((unsigned char)(savedFlags >> 22) & 1)
@@ -244,8 +244,8 @@ struct DummyController
 // @fnv 0x00a80610
 void FUN_00a80610_shell::FUN_00a80610(NiRenderer* pkRenderer)
 {
-    *(void**)((char*)pkRenderer + 0xc) = (char*)this + 0x9c;
-    DummyController* pkController = *(DummyController**)((char*)this + 0xc);
+    *(void**)((char*)pkRenderer + 0xc) = (char*)&this->m_uiContentCount;
+    DummyController* pkController = *(DummyController**)&this->unk0c;
     if (pkController)
         pkController->OnPreDisplayIterate();
 }
@@ -273,8 +273,8 @@ struct FUN_00a80650_shell : public NiGeometry
 // @fnv 0x00a80650
 void FUN_00a80650_shell::FUN_00a80650(NiRenderer* pkRenderer)
 {
-    *(char**)((char*)pkRenderer + 0x0C) = (char*)this + 0x9C;
-    void* pNode = *(void**)((char*)this + 0x0C);
+    *(char**)((char*)pkRenderer + 0x0C) = (char*)&this->m_uiContentCount;
+    void* pNode = this->unk0c;
     while (pNode)
     {
         (*(void(**)(void*))(*(int*)pNode + 0xA8))(pNode);
@@ -307,9 +307,9 @@ void FUN_00a808f0_shell::UpdateSelectiveUpdateFlags(bool* bSelectiveUpdate, bool
     reinterpret_cast<::AVObjectA5A4 *>((((FUN_00a5a450_helper*)this)))->FUN_00a5a450((*(bool *)(bSelectiveUpdate)), bSelectiveUpdateTransforms, (*(bool *)(bRigid)));
     if (*(int*)((char*)this + 0xbc) != 0)
     {
-        *(unsigned int*)((char*)this + 0x30) |= 4;
+        this->m_flags |= 4;
         *bSelectiveUpdate = true;
-        *(unsigned int*)((char*)this + 0x30) |= 2;
+        this->m_flags |= 2;
         *bRigid = false;
     }
 }
@@ -515,7 +515,7 @@ struct NiRenderer
 void FUN_00a80930_shell::FUN_00a80930(bool bTool)
 {
     int eConsistency = 0x4000;
-    TimeCtrlView* pkController = *(TimeCtrlView**)((char*)this + 0xc);
+    TimeCtrlView* pkController = *(TimeCtrlView**)&this->unk0c;
     while (pkController)
     {
         if (pkController->IsTargetCtrl())
@@ -525,7 +525,7 @@ void FUN_00a80930_shell::FUN_00a80930(bool bTool)
         }
         pkController = pkController->next;
     }
-    SkinView* pkSkin = *(SkinView**)((char*)this + 0xbc);
+    SkinView* pkSkin = *(SkinView**)&this->m_spSkinningInstance.m_pObject;
     if (pkSkin)
     {
         if (bTool)
@@ -544,7 +544,7 @@ void FUN_00a80930_shell::FUN_00a80930(bool bTool)
                 eConsistency = 0;
         }
     }
-    ((ConsStub*)*(void**)((char*)this + 0xb8))->SetDataConsistency(eConsistency);
+    ((ConsStub*)*(void**)&this->m_spGeometryData.m_pObject)->SetDataConsistency(eConsistency);
 }
 }  // namespace fnv_00a80930
 
@@ -754,7 +754,7 @@ struct FUN_00a7ff60_data
 // @fnv 0x00a7ff60
 void FUN_00a7ff60_shell::FUN_00a7ff60()
 {
-    ((FUN_00a7ff60_data*)(*(void**)((char*)this + 0xb8)))->CalculateNormals();
+    ((FUN_00a7ff60_data*)(*(void**)&this->m_spGeometryData.m_pObject))->CalculateNormals();
 }
 }  // namespace fnv_00a7ff60
 

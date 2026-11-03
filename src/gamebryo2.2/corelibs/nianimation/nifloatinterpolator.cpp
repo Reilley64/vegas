@@ -108,12 +108,12 @@ struct FUN_00a3c500_shell : NiFloatInterpolator
 // @fnv 0x00a3c500
 void FUN_00a3c500_shell::SetFloatValue(float value)
 {
-    if (reinterpret_cast<NiPointer<NiFloatData>*>(reinterpret_cast<char*>(this) + 0x10)->m_pObject)
+    if (this->m_spFloatData.m_pObject)
     {
-        reinterpret_cast<NiPointer<NiFloatData>*>(reinterpret_cast<char*>(this) + 0x10)->m_pObject->DecRefCount();
-        reinterpret_cast<NiPointer<NiFloatData>*>(reinterpret_cast<char*>(this) + 0x10)->m_pObject = 0;
+        this->m_spFloatData.m_pObject->DecRefCount();
+        this->m_spFloatData.m_pObject = 0;
     }
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc) = value;
+    this->m_fFloatValue = value;
 }
 
 extern char DAT_01096f34;

@@ -46,7 +46,7 @@ FUN_00628d10_cls* FUN_00628d10_cls::FUN_00628d10(FUN_00628d10_cls* a, FUN_00628d
     __declspec(align(16)) Vec16 r1;
     __declspec(align(16)) Vec16 r2;
     this->FUN_00458a60(&r0, b);
-    ((Sub16*)((char*)b + 0x10))->FUN_00458a60(&r1, (char*)this + 0x10);
+    b->m_sub.FUN_00458a60(&r1, (char*)&this->m_sub);
     r2.FUN_00628cc0(&r0, &r1);
     reinterpret_cast<::FUN_00622570_Class *>((a))->FUN_00622570(reinterpret_cast<::FUN_00458990_Holder *>(&(r2))->FUN_00458990(7) != 0);
     return a;

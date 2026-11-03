@@ -196,7 +196,7 @@ struct hkFreeListStandIn
 // @fnv 0x00dd73f0
 void hkFreeListStandIn::ResetFreeList()
 {
-    *(int*)((char*)this + 0x28) = *(int*)((char*)this + 0x2c);
+    this->m_field10 = this->m_field11;
 
     hkFreeListNode* node = m_pSecondNode;
     if (node != 0)

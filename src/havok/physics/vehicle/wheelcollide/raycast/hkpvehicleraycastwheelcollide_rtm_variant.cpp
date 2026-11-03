@@ -97,12 +97,12 @@ void FUN_00e41fc0_host::FUN_00e41fc0()
     {
         if (this->unk14.unk0C)
         {
-            void* listener = (char*)this + 0x14;
+            void* listener = (char*)&this->unk14;
             void* arg;
 
             if (listener)
             {
-                arg = (char*)this + 0x1c;
+                arg = (char*)&this->unk14.unk08;
             }
             else
             {

@@ -719,7 +719,7 @@ bool FUN_007620f0_shell::FUN_007620f0()
 {
     for (int iIndex = 0; iIndex < 4; ++iIndex)
     {
-        if (((void**)((char*)this + 0x30))[iIndex] == 0)
+        if (((void**)&this->m_pTiles[0])[iIndex] == 0)
             return false;
     }
     return true;
@@ -848,7 +848,7 @@ void DialogMenu::LoadTopicsList()
 // @fnv 0x00763fd0
 bool FUN_00763fd0_shell::IsFlagSet()
 {
-    return (bool)(*reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x26) & 2);
+    return (bool)(*reinterpret_cast<char*>(&this->infoPadding26[0]) & 2);
 }
 
 struct ListX
@@ -887,7 +887,7 @@ void FUN_00764290()
     TopicMenuController* pmgr;
     if ((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))
     {
-        pmgr = *(TopicMenuController**)((char*)(*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)) + 0x70);
+        pmgr = (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem;
         pMenuTopicEntry = 0;
         for (pmgr->SelectTopic(true); (pMenuTopicEntry = pmgr->GetSelectedTopic()) != 0; pmgr->AdvanceTopic())
             pMenuTopicEntry->m_bInfoHasBeenRead = 1;
@@ -926,7 +926,7 @@ void FUN_00763ff0()
         {
             (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker->vfn_264(
                 0.0f, (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->pDialogueItem->GetSelectedTopic()->GetActiveResponse(), false);
-            *(bool*)((char*)(*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker + 0x7c) = true;
+            (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueSpeaker->bDialogueSelected = true;
         }
         reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))))->FUN_00a1d910();
     }

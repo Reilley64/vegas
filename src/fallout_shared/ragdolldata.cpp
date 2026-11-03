@@ -205,12 +205,12 @@ bool FUN_004d94a0_shell::LoadRagdollChunk(TESFile* apFile)
         *(unsigned char*)this = isize / sizeof(FUN_0055a400);
         if (isize % *(unsigned char*)this == 0)
         {
-            *(FUN_0055a400**)((char*)this + 4) = new FUN_0055a400[*(unsigned char*)this];
-            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(*(FUN_0055a400**)((char*)this + 4)), isize);
+            *(FUN_0055a400**)&this->bones = new FUN_0055a400[*(unsigned char*)this];
+            reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(*(FUN_0055a400**)&this->bones), isize);
             if (reinterpret_cast<::TESFile *>((((TESFileAccessor*)apFile)))->IsEndianConversionRequired())
             {
                 for (unsigned int I = 0; I < *(unsigned char*)this; I++)
-                    reinterpret_cast<::FUN_004d9280 *>(&((*(FUN_0055a400**)((char*)this + 4))[I]))->EndianSwap();
+                    reinterpret_cast<::FUN_004d9280 *>(&((*(FUN_0055a400**)&this->bones)[I]))->EndianSwap();
             }
             bretval = true;
         }

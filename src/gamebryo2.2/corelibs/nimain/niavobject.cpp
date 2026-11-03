@@ -442,7 +442,7 @@ bool S_00a5a110::HasNodeWithNonZeroValue()
     NodeA* pNode = head;
     while (pNode)
     {
-        DataA** pp = (DataA**)((int*)pNode + 2);
+        DataA** pp = &pNode->d;
         pNode = pNode->next;
         DataA* d = *pp;
         if (d && d->v)

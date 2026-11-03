@@ -765,7 +765,9 @@ void FUN_0067ff10_Class::FUN_0067ff10()
 
 struct FUN_0067b170
 {
-    int pad[4];
+    int pad[0x1];
+    float unk04;
+    int pad08[0x2];
     unsigned char flag;
     int pad2[3];
     FUN_0067b170();
@@ -886,7 +888,7 @@ void FUN_00672c40_Class::SetExtraValue(float value)
             *(FUN_0067b170**)((char*)this + 0x28) = extra = new FUN_0067b170;
         else
             extra = *(FUN_0067b170**)((char*)this + 0x28);
-        *(float*)((char*)extra + 4) = value;
+        extra->unk04 = value;
     }
 }
 

@@ -199,7 +199,7 @@ struct FUN_00d0b530_cls
 void FUN_00d0b530_cls::FUN_00d0b530(int unused)
 {
     reinterpret_cast<::hkWorldXc91a70 *>((m_0C))->FUN_00c91a70(((char*)this - 8) ? (void*)this : 0);
-    reinterpret_cast<::SearchArray *>((m_0C))->ClearValue((int)(((char*)this - 8) ? (void*)((char*)this + 8) : 0));
+    reinterpret_cast<::SearchArray *>((m_0C))->ClearValue((int)(((char*)this - 8) ? (void*)((char*)&this->unk08) : 0));
     reinterpret_cast<::hkReferencedObjectC905 *>((((NodeHdr*)((char*)this - 8))))->FUN_00c905b0();
 }
 

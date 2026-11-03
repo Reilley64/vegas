@@ -224,7 +224,7 @@ D2B640Object* D2B640Object::Initialize(int a1, int a2)
 {
     *(unsigned short volatile*)&m_06 = 1;
     m_vtbl = DAT_010ce5d4;
-    D2B640Sub* sub = (D2B640Sub*)((char*)this + 8);
+    D2B640Sub* sub = &this->m_08;
     *(unsigned int volatile*)&sub->m_00 = 0;
     *(unsigned int volatile*)&sub->m_04 = 0;
     *(unsigned int volatile*)&sub->m_08 = 0xffffffffu;

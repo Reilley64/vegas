@@ -322,7 +322,7 @@ struct FUN_00453700_shell : public Projectile
 // @fnv 0x00453700
 float FUN_00453700_shell::FUN_00453700()
 {
-    return *(float*)((char*)this + 0xd0);
+    return this->floatD0;
 }
 
 struct blob1
@@ -522,7 +522,7 @@ struct FUN_0080f7b0_shell : public MobileObject
 // @fnv 0x0080f7b0
 void FUN_0080f7b0_shell::FUN_0080f7b0(bool bVal)
 {
-    ((char*)this)[0x87] = (char)bVal;
+    this->mobileTail[27] = (char)bVal;
 }
 }  // namespace fnv_0080f7b0
 

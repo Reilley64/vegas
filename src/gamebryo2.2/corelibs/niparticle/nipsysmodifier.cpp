@@ -107,9 +107,9 @@ struct MyIsEqual
 bool MyIsEqual::FUN_00c31830(NiObject* pkObject)
 {
     NiPSysModifier* pkDest = (NiPSysModifier*)pkObject;
-    if (reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}) && *(void**)((char*)this + 8) == *(void**)((char*)pkDest + 8) &&
-        *(unsigned int*)((char*)this + 0xc) == *(unsigned int*)((char*)pkDest + 0xc) &&
-        *(unsigned char*)((char*)this + 0x14) == *(unsigned char*)((char*)pkDest + 0x14))
+    if (reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}) && *(void**)((char*)this + 8) == *(void**)&pkDest->m_kName.m_kHandle &&
+        *(unsigned int*)((char*)this + 0xc) == pkDest->m_uiUpdateOrder &&
+        *(unsigned char*)((char*)this + 0x14) == *(unsigned char*)&pkDest->m_bModifierActive)
         return true;
     return false;
 }

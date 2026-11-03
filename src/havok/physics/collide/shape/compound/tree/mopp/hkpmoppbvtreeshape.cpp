@@ -447,8 +447,8 @@ S00d54490_Obj* S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppBvTreeShape& a
     reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<S00d54490_Ref*>(const_cast<hkpMoppBvTreeShape*>(src))))->FUN_00c90510();
     *reinterpret_cast<__m128*>(&this->unk20) =
         *reinterpret_cast<const __m128*>(reinterpret_cast<const char*>(src) + 0x10);
-    this->unk18 = *reinterpret_cast<const int*>(reinterpret_cast<const char*>(src) + 0x20);
-    this->unk1C = *reinterpret_cast<const int*>(reinterpret_cast<const char*>(src) + 0x24);
+    this->unk18 = *reinterpret_cast<const int*>((void *)&src->m_kMoppCodeInfo.x);
+    this->unk1C = *reinterpret_cast<const int*>((void *)&src->m_kMoppCodeInfo.y);
     return this;
 }
 

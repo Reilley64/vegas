@@ -3928,14 +3928,14 @@ struct TESObjectREFR_GetExtra_Caller
 // @fnv 0x0056b0b0
 void FUN_0056b0b0_shell::FUN_0056b0b0()
 {
-    if (*(DummyForm56b0b0**)((char*)this + 0x20) != 0)
+    if (*(DummyForm56b0b0**)&this->unk20 != 0)
     {
-        if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_0056b0b0::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((*(DummyForm56b0b0**)((char*)this + 0x20)))->FUN_0084e3a0()))))
+        if (reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_0056b0b0::TESDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((*(DummyForm56b0b0**)&this->unk20))->FUN_0084e3a0()))))
         {
             if (reinterpret_cast<::fnv_0056af40::FUN_0056af40_shell *>((this))->FUN_0056af40())
             {
-                delete *(DummyForm56b0b0**)((char*)this + 0x20);
-                *(DummyForm56b0b0**)((char*)this + 0x20) =
+                delete *(DummyForm56b0b0**)&this->unk20;
+                *(DummyForm56b0b0**)&this->unk20 =
                     ((::fnv_0056b0b0::DummyForm56b0b0 *)(::FUN_004216f0((::BaseExtraList *)(((const TESObjectREFR_GetExtra_Caller*)this)->GetExtra()))));
             }
         }
@@ -4891,7 +4891,7 @@ struct FUN_00575770_shell : public TESObjectREFR
 // @fnv 0x00575770
 void FUN_00575770_shell::FUN_00575770(float afx)
 {
-    *(float*)((char*)this + 0x24) = afx;
+    this->unk24 = afx;
     typedef void(* VFn)(void*, unsigned int);
     (*(VFn*)((*(char**)this) + 0x48))(this, 2);
 }
@@ -4906,9 +4906,9 @@ struct FUN_005757d0_shell : public TESObjectREFR
 // @fnv 0x005757d0
 void FUN_005757d0_shell::FUN_005757d0(float afz)
 {
-    *(float*)((char*)this + 0x2c) = afz;
+    this->unk2c = afz;
     if ((*(bool(**)(void*))(*(int*)this + 0x100))(this))
-        *(float*)((char*)this + 0x2c) = WrapAngle(*(float*)((char*)this + 0x2c));
+        this->unk2c = WrapAngle(this->unk2c);
     (*(void(**)(void*, int))(*(int*)this + 0x48))(this, 2);
 }
 
@@ -9755,7 +9755,7 @@ extern PC7d* g_thePlayer;
 PathingLocation* FUN_006dcd70(PathingLocation* pPathingLocation, RefArg aRefArg)
 {
     *(int**)pPathingLocation = &::DAT_0102583c;
-    _ref_006815c0((char*)pPathingLocation + 4);
+    _ref_006815c0((char*)&pPathingLocation->Location);
     int pcell = ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)aRefArg.p)))->GetTarget()));
     TESWorldSpace* pworld = ((::fnv_006dcd70::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((aRefArg.p))->FUN_00575d70()));
     if (pcell == 0 && pworld == 0 && (PC7d*)aRefArg.p == g_thePlayer)
@@ -14483,7 +14483,7 @@ void FUN_00562660_shell::FUN_00562660(BGSLoadFormBuffer* apLoadGameBuffer)
     }
     iextraFlags = ((VT*)this)->v64() ? 0xa4061840 : 0xa4021c40;
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00562660::N::FormChangeMask &)(((N::BGSLoadFormBuffer*)apLoadGameBuffer)->GetChangeFlags(iextraFlags)))->FUN_004280f0())
-        reinterpret_cast<::FixupList *>((((XActor*)this)->GetExtra()))->FixupReferences((::FixupStream *)(apLoadGameBuffer), (::TESForm *)(*(N::TESForm**)((char*)this + 0x20)));
+        reinterpret_cast<::FixupList *>((((XActor*)this)->GetExtra()))->FixupReferences((::FixupStream *)(apLoadGameBuffer), (::TESForm *)(*(N::TESForm**)&this->unk20));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00562660::N::FormChangeMask &)(((N::BGSLoadFormBuffer*)apLoadGameBuffer)->GetChangeFlags(0x8000020)))->FUN_004280f0())
     {
         N::InventoryChanges* pInventoryChanges = N::InventoryChanges::CreateForReference(this);
@@ -39678,7 +39678,7 @@ void* _FNV_GetObjectReference(void*);
 // @fnv 0x00568680
 bool FUN_00568680_shell::FUN_00568680()
 {
-    if (*(int*)((char*)this + 0x20) && _FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) == 0x27)
+    if (*(int*)&this->unk20 && _FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) == 0x27)
         return true;
     return false;
 }

@@ -934,7 +934,7 @@ void FUN_00853210_cls::FUN_00853210()
 {
     *(void**)(void*)this = (void*)&DAT_01080088;
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 namespace fnv_00853340 {
@@ -951,7 +951,7 @@ void FUN_00853340::Init()
 {
     *(void**)this = (void*)&::DAT_010800a8;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    _NiFreeAlias(*(void**)((char*)this + 8));
+    _NiFreeAlias(*(void**)&this->m_ppkHashTable);
 }
 }  // namespace fnv_00853340
 
@@ -2028,7 +2028,7 @@ void FUN_0084d450_class::FUN_0084d450()
 {
     *(int**)this = (int*)&DAT_0107f734;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 extern unsigned int _data_011c16bc;
@@ -2187,7 +2187,7 @@ void FUN_00854db0_class::ClearAndFree()
 {
     *(int**)this = &DAT_01080454;
     reinterpret_cast<::FUN_00438af0_Class *>((this))->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 struct FUN_00857210_shell
@@ -6077,7 +6077,7 @@ void FUN_00853440_shell::FUN_00853440()
 {
     *(int*)this = (int)&DAT_010800c8;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 struct FUN_0085fed0_Object

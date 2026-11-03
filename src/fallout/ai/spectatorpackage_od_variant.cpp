@@ -2370,10 +2370,10 @@ void FUN_009f7f20_class::FUN_009f7f20(MobileObject* actor, unsigned char flag)
     TargetView* AX;
     if (flag != 0)
     {
-        if ((unsigned int)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)((char*)this + 0xa0))))->GetName()))) > 0)
+        if ((unsigned int)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)&this->entries)))->GetName()))) > 0)
         {
             TargetView* A5 =
-                (TargetView*)((int)(reinterpret_cast<::Callees *>((((Entry*)((FUN_009f8aa0_class*)((char*)this + 0xa0))->FUN_009f8aa0())))->FUN_00726070()));
+                (TargetView*)((int)(reinterpret_cast<::Callees *>((((Entry*)((FUN_009f8aa0_class*)&this->entries)->FUN_009f8aa0())))->FUN_00726070()));
             AX = (A5 != 0 && A5->IsActor() != 0) ? A5 : (TargetView*)0;
             if (AX != 0)
             {

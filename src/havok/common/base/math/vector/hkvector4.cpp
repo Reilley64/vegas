@@ -450,7 +450,7 @@ void FUN_00c6e300_cls::SubtractVectors(__m128* apResult)
     char* base = holder ? holder->m_p08 : 0;
 
     FUN_00c7f700_cls res;
-    res.FUN_00c7f700(base + 0xb0, (char*)this + 0x570);
+    res.FUN_00c7f700(base + 0xb0, (char*)&this->unk570);
 
     __m128* vec = &(*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
     VecSource* src = m_p08;

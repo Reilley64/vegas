@@ -1015,7 +1015,7 @@ S00e05700_Class* S00e05700_Class::FUN_00e05700()
 
     unsigned char flag = static_cast<unsigned char>(zero);
     int flagArg = *reinterpret_cast<int*>(&flag);
-    new ((void *)(reinterpret_cast<FUN_00d87790_Class*>(reinterpret_cast<char*>(this) + 0x1C))) ::FUN_00d87790(flagArg);
+    new ((void *)(reinterpret_cast<FUN_00d87790_Class*>(&this->unk1C))) ::FUN_00d87790(flagArg);
 
     unk2C = 0;
     unk30 = 1;

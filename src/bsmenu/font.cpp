@@ -955,7 +955,7 @@ NiPoint3 FUN_00a1b020_t::FUN_00a1b020(const char* strText, int aiFont, float afW
 
     returnDims = ::NiPoint3::ZERO;
     uistrLength = _strlen(strText);
-    plettersA = (FontCharacterInfo*)(*(char**)((char*)pFont[aiFont - 1] + 0x38) + 0x128);
+    plettersA = (FontCharacterInfo*)(*(char**)&pFont[aiFont - 1]->m_pFontData + 0x128);
     fwrapPointWidth = 0;
     fcurrLineWidth = 0;
     flinePadding = reinterpret_cast<::FUN_00a1b3a0_shell *>((((FUN_00a1b3a0_shell*)this)))->FUN_00a1b3a0(aiFont);
@@ -998,7 +998,7 @@ NiPoint3 FUN_00a1b020_t::FUN_00a1b020(const char* strText, int aiFont, float afW
                 fcurrLineWidth = fcurrLetterWidth + fprevLetterWidth;
             }
             returnDims.x = returnDims.x > fwrapPointWidth ? returnDims.x : fwrapPointWidth;
-            returnDims.y = flinePadding + **(float**)((char*)pFont[aiFont - 1] + 0x38) + returnDims.y;
+            returnDims.y = flinePadding + **(float**)&pFont[aiFont - 1]->m_pFontData + returnDims.y;
             fwrapPointWidth = 0;
             inumLines++;
         }
@@ -2504,7 +2504,7 @@ void S_00a12300_Obj::ClearArray() {
     int array;
 
     for (unusedOne = 0; m_aiIndexedValues != 0 && unusedOne < m_aiIndexedValues->count; unusedOne++) {
-        ((S_00a12300_Elem*)((char*)this + 0xc + unusedOne * 4))->FUN_0066b0d0(0);
+        ((S_00a12300_Elem*)((char*)&this->unk0c + unusedOne * 4))->FUN_0066b0d0(0);
     }
 
     index = (int)m_aiIndexedValues;

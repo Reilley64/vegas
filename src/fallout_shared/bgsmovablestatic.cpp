@@ -79,7 +79,7 @@ struct FUN_004fbf00_shell : public BGSMovableStatic
 // @fnv 0x004fbf00
 void FUN_004fbf00_shell::FUN_004fbf00(TESSound* apSound)
 {
-    *reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0x6c) = apSound;
+    *reinterpret_cast<TESSound**>(&this->pSoundLoop_db) = apSound;
 }
 
 struct TESFullName

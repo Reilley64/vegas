@@ -224,7 +224,7 @@ bool BGSPlaceableWater::Load(TESFile* file)
             break;
         case 0x4c444f4d:
         case 0x54444f4d:
-            TESModel::LoadModelData(this ? reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x30) : 0, file);
+            TESModel::LoadModelData(this ? static_cast<TESModel *>(this) : 0, file);
             break;
         case 0x41544144: {
             PlaceableWaterData data;
@@ -320,7 +320,7 @@ bool FUN_004fc8c0_shell::FUN_004fc8c0(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pcomp))
         return true;
-    if (memcmp((char*)this + 0x48, ((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((pcomp))->FUN_00624700())), 8))
+    if (memcmp((char*)&this->Data, ((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((pcomp))->FUN_00624700())), 8))
         return true;
     return false;
 }
@@ -357,7 +357,7 @@ class FUN_004fc7b0_cls : public BGSPlaceableWater
 void FUN_004fc7b0_cls::FUN_004fc7b0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
-    reinterpret_cast<::FUN_004891d0_cls *>((((ModelCallees*)((char*)this + 0x30))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_004891d0_cls *>((((ModelCallees*)static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
     PlaceableWaterData waterFormData;
     new ((void *)&(waterFormData)) ::HungerStageData();
     ::__memcpy(&waterFormData, &Data, 8);

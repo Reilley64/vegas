@@ -47,7 +47,7 @@ static inline bool TransformIsValid(const NiQuatTransform& value)
 // @fnv 0x00a40410
 void* FUN_00a40410(NiTransformInterpolator* pThis, int, unsigned int flags)
 {
-    NiRefObject* pkData = *(NiRefObject**)((char*)pThis + 0x2c);
+    NiRefObject* pkData = *(NiRefObject**)&pThis->m_spTransformData.p;
     if (pkData)
         pkData->DecRefCount();
     reinterpret_cast<::FUN_00a3ca30_shell *>((pThis))->FUN_00a3ca30();
@@ -276,19 +276,19 @@ unsigned int FUN_00a3f5b0_t::FUN_00a3f5b0(unsigned short usChannel) const
 {
     if (usChannel == 0)
     {
-        char* pkData = *(char**)((char*)this + 0x2c);
+        char* pkData = *(char**)&this->m_spTransformData.p;
         if (pkData)
             return *(unsigned short*)(pkData + 0xa);
     }
     else if (usChannel == 1)
     {
-        char* pkData = *(char**)((char*)this + 0x2c);
+        char* pkData = *(char**)&this->m_spTransformData.p;
         if (pkData)
             return *(unsigned short*)(pkData + 0x8);
     }
     else if (usChannel == 2)
     {
-        char* pkData = *(char**)((char*)this + 0x2c);
+        char* pkData = *(char**)&this->m_spTransformData.p;
         if (pkData)
             return *(unsigned short*)(pkData + 0xc);
     }
@@ -305,19 +305,19 @@ bool FUN_00a3f6a0_t::FUN_00a3f6a0(unsigned short usChannel) const
 {
     if (usChannel == 0)
     {
-        char* pkData = *(char**)((char*)this + 0x2c);
+        char* pkData = *(char**)&this->m_spTransformData.p;
         if (pkData)
             return *(bool*)(pkData + 0x1d);
     }
     else if (usChannel == 1)
     {
-        char* pkData = *(char**)((char*)this + 0x2c);
+        char* pkData = *(char**)&this->m_spTransformData.p;
         if (pkData)
             return *(bool*)(pkData + 0x1c);
     }
     else if (usChannel == 2)
     {
-        char* pkData = *(char**)((char*)this + 0x2c);
+        char* pkData = *(char**)&this->m_spTransformData.p;
         if (pkData)
             return *(bool*)(pkData + 0x1e);
     }
@@ -334,7 +334,7 @@ struct FUN_00a3f6f0_t : public NiTransformInterpolator
 // @fnv 0x00a3f6f0
 void FUN_00a3f6f0_t::FUN_00a3f6f0(float afArg1, float afArg2)
 {
-    NiTransformData_FUN_00a4df40* pkData = *(NiTransformData_FUN_00a4df40**)((char*)this + 0x2c);
+    NiTransformData_FUN_00a4df40* pkData = *(NiTransformData_FUN_00a4df40**)&this->m_spTransformData.p;
     if (pkData)
         reinterpret_cast<::TransformRange *>((pkData))->FUN_00a4df40(afArg1, afArg2);
 }
@@ -428,14 +428,14 @@ NiInterpolator* FUN_00a3fd10_shell::FUN_00a3fd10(float m_fStartTime, float m_fMa
 {
     NiTransformInterpolator* pkSeqInterp =
         (NiTransformInterpolator*)((::FUN_00a3fd10_shell *)(::FUN_00a57050((int)(((FUN_00a57050_tgt*)this)), m_fStartTime)));
-    if (pkSeqInterp && *(void**)((char*)this + 0x2c))
+    if (pkSeqInterp && *(void**)&this->m_spTransformData.p)
     {
         NiTransformData* spNewData = 0;
-        reinterpret_cast<::FUN_00a4e410_shell *>((((FUN_00a4e410_tgt*)*(void**)((char*)this + 0x2c))))->FUN_00a4e410(m_fStartTime, m_fMaximumDistance, (*(::PSysPtr4e4< ::PSysData4e4> *)(&spNewData)));
+        reinterpret_cast<::FUN_00a4e410_shell *>((((FUN_00a4e410_tgt*)*(void**)&this->m_spTransformData.p)))->FUN_00a4e410(m_fStartTime, m_fMaximumDistance, (*(::PSysPtr4e4< ::PSysData4e4> *)(&spNewData)));
         reinterpret_cast<::Holder *>((((FUN_00a3f930_tgt*)pkSeqInterp)))->FUN_00a3f930((::RefObj *)(spNewData));
-        *(unsigned short*)((char*)pkSeqInterp + 0x30) = 0;
-        *(unsigned short*)((char*)pkSeqInterp + 0x32) = 0;
-        *(unsigned short*)((char*)pkSeqInterp + 0x34) = 0;
+        pkSeqInterp->m_usLastRotationKeyIndex = 0;
+        pkSeqInterp->m_usLastPositionKeyIndex = 0;
+        pkSeqInterp->m_usLastScaleKeyIndex = 0;
         if (spNewData)
         {
             RcObj* o = (RcObj*)spNewData;
@@ -635,7 +635,7 @@ void FUN_00a3fb20_shell::FUN_00a3fb20(float* fBeginKeyTime, float* fEndKeyTime)
     unsigned int uiNumKeys;
     int eTransType;
     unsigned char ucSize;
-    char* pkTransKeys = TI_GetPos(*(TDat**)((char*)this + 0x2c), uiNumKeys, eTransType, ucSize);
+    char* pkTransKeys = TI_GetPos(*(TDat**)&this->m_spTransformData.p, uiNumKeys, eTransType, ucSize);
     if (uiNumKeys > 0)
     {
         float fKeyTime = TI_Time(pkTransKeys, 0, ucSize);
@@ -648,7 +648,7 @@ void FUN_00a3fb20_shell::FUN_00a3fb20(float* fBeginKeyTime, float* fEndKeyTime)
     }
 
     int eRotType;
-    char* pkRotKeys = TI_GetRot(*(TDat**)((char*)this + 0x2c), uiNumKeys, eRotType, ucSize);
+    char* pkRotKeys = TI_GetRot(*(TDat**)&this->m_spTransformData.p, uiNumKeys, eRotType, ucSize);
     if (uiNumKeys > 0)
     {
         if (eRotType == 4)
@@ -684,7 +684,7 @@ void FUN_00a3fb20_shell::FUN_00a3fb20(float* fBeginKeyTime, float* fEndKeyTime)
     }
 
     int eScaleType;
-    char* pkScaleKeys = TI_GetScale(*(TDat**)((char*)this + 0x2c), uiNumKeys, eScaleType, ucSize);
+    char* pkScaleKeys = TI_GetScale(*(TDat**)&this->m_spTransformData.p, uiNumKeys, eScaleType, ucSize);
     if (uiNumKeys > 0)
     {
         float fKeyTime = TI_Time(pkScaleKeys, 0, ucSize);
@@ -748,8 +748,8 @@ void FUN_00a404b0_shell::FUN_00a404b0(void* pkStrings)
     if (count >= size)
         reinterpret_cast<::ViewerStrings *>((((StrArr*)pkStrings)))->SetSize(*(unsigned short*)((char*)pkStrings + 0xe) + count);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((StrArr*)pkStrings)))->SetAt(count, pString);
-    reinterpret_cast<::QXformViewer *>((((FUN_00a38cb0_shell*)((char*)this + 0xc))))->FUN_00a38cb0((::ViewerStrings *)(::fnv_00a404b0::StrArr *)((StrArr*)pkStrings));
-    void* pData = *(void**)((char*)this + 0x2c);
+    reinterpret_cast<::QXformViewer *>((((FUN_00a38cb0_shell*)&this->m_kDefaultTransform.m_kTranslate.x)))->FUN_00a38cb0((::ViewerStrings *)(::fnv_00a404b0::StrArr *)((StrArr*)pkStrings));
+    void* pData = *(void**)&this->m_spTransformData.p;
     if (pData)
         ((void(*)(void*, StrArr*))(*(void***)pData)[24])(pData, (StrArr*)pkStrings);
 }
@@ -1050,7 +1050,7 @@ struct FUN_00a3f8a0_t
 void FUN_00a3f8a0_t::FUN_00a3f8a0(NiStream* stream)
 {
     reinterpret_cast<::FUN_00a95ca0_shell *>((reinterpret_cast<FUN_00a95ca0_helper*>(this)))->FUN_00a95ca0((*(::S_00a58160_Stream *)(stream)));
-    reinterpret_cast<::DataA38 *>((reinterpret_cast<FUN_00a38b60_tgt*>(reinterpret_cast<char*>(this) + 0x0C)))->FUN_00a38b60((*(::NiStreamA38 *)(stream)));
+    reinterpret_cast<::DataA38 *>((reinterpret_cast<FUN_00a38b60_tgt*>(&this->unk0C)))->FUN_00a38b60((*(::NiStreamA38 *)(stream)));
     reinterpret_cast<FUN_00a3f8a0_stream*>(stream)->vf30(unk2C);
 }
 

@@ -206,9 +206,9 @@ struct FUN_00827880_shell : ScriptEffect
 ActiveEffect* FUN_00827880_shell::FUN_00827880()
 {
     ScriptEffect* pEffect =
-        new FUN_00827a40_shell(*reinterpret_cast<MagicCaster**>(reinterpret_cast<unsigned char*>(this) + 0x28),
-                               *reinterpret_cast<MagicItem**>(reinterpret_cast<unsigned char*>(this) + 0x08),
-                               *reinterpret_cast<EffectItem**>(reinterpret_cast<unsigned char*>(this) + 0x0C));
+        new FUN_00827a40_shell(*reinterpret_cast<MagicCaster**>(&this->unk28),
+                               *reinterpret_cast<MagicItem**>(&this->unk08),
+                               *reinterpret_cast<EffectItem**>(&this->unk0c));
 
     reinterpret_cast<FUN_00827880_CopyFrom*>(this)->CopyFrom(pEffect);
 

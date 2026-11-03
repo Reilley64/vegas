@@ -109,7 +109,7 @@ struct FUN_00a38e30_shell : public NiSingleInterpController
 // @fnv 0x00a38e30
 NiInterpolator* FUN_00a38e30_shell::FUN_00a38e30(unsigned short usIndex)
 {
-    return *reinterpret_cast<NiInterpolator**>(reinterpret_cast<unsigned char*>(this) + 0x34);
+    return this->m_spControllerInterpolator;
 }
 
 struct FUN_00a2f8e0_shell : public NiInterpController
@@ -295,7 +295,7 @@ bool FUN_00a38fe0_shell::RegisterInterpolatorStreamables(NiStream& kStream)
 {
     if (!FUN_00a2f8b0(kStream))
         return false;
-    NiInterpolator* pkInterp = *(NiInterpolator**)((char*)this + 0x34);
+    NiInterpolator* pkInterp = this->m_spControllerInterpolator;
     if (pkInterp)
         ((InterpHelper*)pkInterp)->RegisterStreamables(kStream);
     return true;
@@ -313,7 +313,7 @@ void FUN_00a39010_shell::FUN_00a39010(NiStream& kStream)
 {
     reinterpret_cast<::C27120Class *>((((S00c27120*)this)))->FUN_00c27120(kStream);
     ((void(*)(NiStream*, NiInterpolator*))(*(void***)&kStream)[12])(&kStream,
-                                                                              *(NiInterpolator**)((char*)this + 0x34));
+                                                                              this->m_spControllerInterpolator);
 }
 
 struct StrArr

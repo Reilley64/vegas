@@ -99,7 +99,7 @@ struct NiRenderTargetGroup
 int NiRenderTargetGroup::FUN_00ee84e0() const
 {
     void* p =
-        *reinterpret_cast<void**>(const_cast<unsigned char*>(reinterpret_cast<const unsigned char*>(this)) + 0x20);
+        *reinterpret_cast<void**>((void *)&this->m_depthStencil);
     if (p)
         return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(p) + 0xc);
     return 0;

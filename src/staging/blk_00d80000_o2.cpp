@@ -221,7 +221,7 @@ FUN_00d85360_cls* __cdecl FUN_00d85360(int pSource)
     FUN_00d85360_cls* obj = (FUN_00d85360_cls*)holder->m_pAllocator->Alloc(0x50);
     obj->m_w04 = 0x50;
     obj = ((::FUN_00d85360_cls *)(new ((void *)(obj)) ::FUN_00d54290()));
-    FUN_00cb1260((char*)obj + 0x10, (char*)pSource + 0x10, 0x38);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)pSource + 0x10, 0x38);
     return obj;
 }
 
@@ -299,7 +299,7 @@ FUN_00d853a0_cls* __cdecl FUN_00d853a0(int a1)
     FUN_00d853a0_cls* obj = (FUN_00d853a0_cls*)holder->m_pAllocator->Alloc(0xb0);
     obj->m_w04 = 0xb0;
     obj = ((::fnv_00d853a0::FUN_00d853a0_cls *)(reinterpret_cast<::S00cbe7b0_Obj *>((obj))->FUN_00cbe7b0()));
-    FUN_00cb1260((char*)obj + 0x10, (char*)a1 + 0x10, 0x9c);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)a1 + 0x10, 0x9c);
     return obj;
 }
 }  // namespace fnv_00d853a0
@@ -439,7 +439,7 @@ void* __cdecl CloneAllocatedObject(int* source)
     result = reinterpret_cast<FUN_00d4fe80_Stub*>(((void *)(new ((void *)(result)) ::FUN_00d4fe80())));
 
     FUN_00cb1260(
-        reinterpret_cast<unsigned char*>(result) + 0x10,
+        reinterpret_cast<unsigned char*>(&result->unk10),
         reinterpret_cast<const unsigned char*>(source) + 0x10,
         0xC0);
 
@@ -571,7 +571,7 @@ SpawnedObject* __cdecl FUN_00d85530(SpawnedSource* pSrc)
     SpawnedObject* pObj = (SpawnedObject*)pAllocator->Alloc(0x50);
     pObj->m_usSize = 0x50;
     pObj = ((::fnv_00d85530::SpawnedObject *)(new ((void *)(pObj)) ::FUN_00d4f0f0()));
-    FUN_00cb1260(&pObj->unk10, (char*)pSrc + 0x10, 0x38);
+    FUN_00cb1260(&pObj->unk10, (char*)&pSrc->unk10, 0x38);
     return pObj;
 }
 }  // namespace fnv_00d85530
@@ -693,7 +693,7 @@ FUN_00d85570_cls* __cdecl CloneWithInit(int apSource)
     FUN_00d85570_cls* obj = (FUN_00d85570_cls*)holder->m_pAllocator->Alloc(0x160);
     obj->m_w04 = 0x160;
     obj = ((::fnv_00d85570::FUN_00d85570_cls *)(new ((void *)(obj)) ::FUN_00d4edc0()));
-    FUN_00cb1260((char*)obj + 0x10, (char*)apSource + 0x10, 0x124);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0x124);
     return obj;
 }
 }  // namespace fnv_00d85570
@@ -802,7 +802,7 @@ FUN_00d85610_cls* __cdecl CloneWithCopiedPayload(int apSource)
     FUN_00d85610_cls* obj = (FUN_00d85610_cls*)holder->m_pAllocator->Alloc(0x80);
     obj->m_w04 = 0x80;
     obj = ((::fnv_00d85610::FUN_00d85610_cls *)(new ((void *)(obj)) ::FUN_00deefd0()));
-    FUN_00cb1260((char*)obj + 0x10, (char*)apSource + 0x10, 0x70);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0x70);
     return obj;
 }
 }  // namespace fnv_00d85610
@@ -884,7 +884,7 @@ FUN_00d856b0_cls* __cdecl CloneWithAllocatedCopy(int apSource)
     FUN_00d856b0_cls* obj = (FUN_00d856b0_cls*)holder->m_pAllocator->Alloc(0xc0);
     obj->m_w04 = 0xc0;
     obj = ((::fnv_00d856b0::FUN_00d856b0_cls *)(new ((void *)(obj)) ::FUN_00d4f2a0()));
-    FUN_00cb1260((char*)obj + 0x10, (char*)apSource + 0x10, 0xac);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0xac);
     return obj;
 }
 }  // namespace fnv_00d856b0
@@ -6090,20 +6090,20 @@ FUN_00d84bd0::FUN_00d84bd0()
     m_08 = 0;
     m_10 = 2;
     m_a0 = 7;
-    _mm_store_ps((float*)((char*)this + 0x20), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x30), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x40), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_20, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk30, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk40, _mm_setzero_ps());
     m_20 = 1.0f;
     m_34 = 1.0f;
     m_48 = 1.0f;
-    _mm_store_ps((float*)((char*)this + 0x50), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x60), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x70), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x80), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk50, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_60, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk70, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk80, _mm_setzero_ps());
     m_60 = 1.0f;
     m_74 = 1.0f;
     m_88 = 1.0f;
-    _mm_store_ps((float*)((char*)this + 0x90), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk90, _mm_setzero_ps());
     m_a2 = 0;
 }
 

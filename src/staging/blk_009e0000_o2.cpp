@@ -4107,7 +4107,7 @@ struct FUN_009fc890 : FUN_009fcee0
 // @fnv 0x009fdd70
 FUN_009fdd70_class::FUN_009fdd70_class(int a, int b, int c, int d)
 {
-    new ((void *)(((FUN_009fc890_class*)((char*)this + 8)))) ::FUN_009fc890(0, (void *)(b), (int *)(d), (int *)(a), L"Output", 1);
+    new ((void *)(((FUN_009fc890_class*)&this->m_08))) ::FUN_009fc890(0, (void *)(b), (int *)(d), (int *)(a), L"Output", 1);
     m_08 = (int)&DAT_01093de8;
     m_a0 = b;
     m_vft = (int)&DAT_01093e24;
@@ -8042,7 +8042,7 @@ int FUN_009fc480(int apOwner, Lk_Item* apItem)
         return 0x80004003;
     Lk_Owner* o = (Lk_Owner*)apOwner;
     int notify = 0;
-    int* pCritSec = ((char*)o - 0xc) ? (int*)((char*)o + 4) : 0;
+    int* pCritSec = ((char*)o - 0xc) ? &o->cs00 : 0;
     {
         PinCritSecLock g(pCritSec);
         apItem->next = o->head;

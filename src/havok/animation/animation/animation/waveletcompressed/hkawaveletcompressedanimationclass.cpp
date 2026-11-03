@@ -243,7 +243,7 @@ Record* Record::ClearAndNotify(unsigned int flags)
     if (flags & 1)
     {
         manager = FUN_00c85750();
-        manager->callback->Notify(this, *(unsigned short*)((char*)this + 4));
+        manager->callback->Notify(this, *(unsigned short*)&this->unk04);
     }
     return this;
 }

@@ -61,18 +61,18 @@ void FUN_00a75790_shell::FUN_00a75790(NiStream* pkStream)
         NiColor kDummy;
         kDummy.LoadBinary(stream);
         kDummy.LoadBinary(stream);
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x1C)->LoadBinary(stream);
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x28)->LoadBinary(stream);
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x38));
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x3C));
+        this->m_spec.LoadBinary(stream);
+        this->m_emit.LoadBinary(stream);
+        ReadBinaryValue(stream, this->m_fShine);
+        ReadBinaryValue(stream, this->m_fAlpha);
     }
     else
     {
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x1C)->LoadBinary(stream);
-        reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x28)->LoadBinary(stream);
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x38));
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x3C));
-        ReadBinaryValue(stream, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x40));
+        this->m_spec.LoadBinary(stream);
+        this->m_emit.LoadBinary(stream);
+        ReadBinaryValue(stream, this->m_fShine);
+        ReadBinaryValue(stream, this->m_fAlpha);
+        ReadBinaryValue(stream, this->m_fEmitMult);
     }
 }
 

@@ -2714,19 +2714,19 @@ FUN_006a6610::FUN_006a6610(int a)
 void FUN_006a69b0_Class::FUN_006a69b0(unsigned int a, unsigned int b)
 {
     *(int*)((char*)this + 4) = 0;
-    *(int*)((char*)this + 8) = 0;
-    *(int*)((char*)this + 0xc) = 0;
+    this->m_iWordAt04 = 0;
+    this->m_8 = 0;
     if (b > a)
         a = b;
     if (a > 0)
     {
         *(int*)((char*)this + 4) = v1(a);
-        *(int*)((char*)this + 0xc) = a;
+        this->m_8 = a;
     }
     if (b > 0)
     {
         ConstructParams(*(int*)((char*)this + 4), b);
-        *(int*)((char*)this + 8) = b;
+        this->m_iWordAt04 = b;
     }
 }
 
@@ -2761,10 +2761,10 @@ struct FUN_006bebd0_class
 // @fnv 0x006bebd0
 void FUN_006bebd0_class::FUN_006bebd0()
 {
-    if (*(int*)((char*)*(int*)((char*)this + 8) + 0x1c))
+    if (*(int*)((char*)this->m_8 + 0x1c))
     {
-        reinterpret_cast<::Ov2 *>((((FUN_006967f0*)*(int*)((char*)this + 0))))->FUN_006967f0(*(unsigned short*)((char*)*(int*)((char*)this + 8) + 0x18),
-                   *(int*)((char*)*(int*)((char*)this + 8) + 0x18) + *(int*)((char*)*(int*)((char*)this + 8) + 0x1c) -
+        reinterpret_cast<::Ov2 *>((((FUN_006967f0*)*(int*)((char*)this + 0))))->FUN_006967f0(*(unsigned short*)((char*)this->m_8 + 0x18),
+                   *(int*)((char*)this->m_8 + 0x18) + *(int*)((char*)this->m_8 + 0x1c) -
                        1);
     }
 }

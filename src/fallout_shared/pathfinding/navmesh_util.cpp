@@ -272,7 +272,7 @@ struct FUN_006985f0_shell : public SineCosine
 SineCosine* FUN_006985f0_shell::CopyFloatPair(void* apSource)
 {
     reinterpret_cast<float*>(this)[0] = static_cast<const float*>(apSource)[0];
-    reinterpret_cast<float*>(this)[1] = static_cast<const float*>(apSource)[1];
+    this->cosine = static_cast<const float*>(apSource)[1];
     return this;
 }
 
@@ -451,7 +451,7 @@ struct FUN_006a04e0_helper : public SineCosine
 void* FUN_006a04e0_helper::SetFromAngle(float afAngle)
 {
     ((float*)this)[0] = cos(afAngle);
-    ((float*)this)[1] = FUN_004e44b0(afAngle);
+    this->cosine = FUN_004e44b0(afAngle);
     return this;
 }
 
@@ -474,8 +474,8 @@ unsigned int FUN_0069b310_S::AppendElement(const EH* apElement)
 NavMeshEdgeData* FUN_006bc870_shell::CopyFromNavMeshEdge(void* aNavMeshEdgeHandle)
 {
     *(int*)((char*)this + 0) = *(int*)((char*)aNavMeshEdgeHandle + 0);
-    *(short*)((char*)this + 4) = *(short*)((char*)aNavMeshEdgeHandle + 4);
-    *(int*)((char*)this + 8) = *(int*)((char*)aNavMeshEdgeHandle + 8);
+    *(short*)&this->m_usTriangleID = *(short*)((char*)aNavMeshEdgeHandle + 4);
+    this->m_iEdgeIndex = *(int*)((char*)aNavMeshEdgeHandle + 8);
     return this;
 }
 

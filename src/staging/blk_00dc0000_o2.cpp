@@ -408,10 +408,10 @@ struct FUN_00ddfb80_s
 // @fnv 0x00ddfb80
 FUN_00ddfb80_s* FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* src)
 {
-    *(unsigned short*)((char*)self + 6) = 1;
+    self->m_04 = 1;
     self->m_vt = &DAT_010d8094;
     *(void**)((char*)self + 8) = *(void**)((char*)src + 0);
-    *(void**)((char*)self + 12) = *(void**)((char*)src + 4);
+    self->m_0c = *(void**)((char*)src + 4);
     *(unsigned int*)((char*)self + 16) = 0;
     return self;
 }

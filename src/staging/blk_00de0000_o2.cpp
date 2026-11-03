@@ -11864,21 +11864,21 @@ FUN_00de4a80::FUN_00de4a80()
     m_06 = 1;
     m_50 = 5;
     m_08 = zero;
-    _mm_store_ps((float*)((char*)this + 0x10), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x20), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x30), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->m_10, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk20, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk30, _mm_setzero_ps());
     m_10 = 1.0f;
     m_24 = 1.0f;
     m_38 = 1.0f;
-    _mm_store_ps((float*)((char*)this + 0x40), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk40, _mm_setzero_ps());
     *(int**)this = &DAT_010d8274;
     m_90 = 0.0f;
     m_9c = zero;
     m_94 = 0.0f;
-    _mm_store_ps((float*)((char*)this + 0x60), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk60, _mm_setzero_ps());
     m_98 = 0.0f;
-    _mm_store_ps((float*)((char*)this + 0x80), _mm_setzero_ps());
-    _mm_store_ps((float*)((char*)this + 0x70), _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk80, _mm_setzero_ps());
+    _mm_store_ps((float*)&this->unk70, _mm_setzero_ps());
 }
 
 extern char str_010dba74[];

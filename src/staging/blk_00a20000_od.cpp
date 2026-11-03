@@ -4635,7 +4635,7 @@ void FUN_00a252d0_cls::SetEnabled(unsigned char enable)
     }
     m_flags &= 0xfffffffe;
     m_18F4 = 0;
-    FUN_00ec61c0((char*)this + 0x34, 0, 0x500);
+    FUN_00ec61c0((char*)&this->m_0C[10], 0, 0x500);
 }
 
 struct FUN_00a25810_Target
@@ -4879,7 +4879,7 @@ struct S_00a25c80_Class
 void S_00a25c80_Class::FUN_00a25c80()
 {
     if (!(*(reinterpret_cast<unsigned char*>(this) + this->m_68) != 0 &&
-          *(reinterpret_cast<unsigned char*>(this) + 4) != 0 &&
+          this->m_04 != 0 &&
           reinterpret_cast<FUN_00a26010_Class*>(this)->FUN_00a26010() != 0))
     {
         return;

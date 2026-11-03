@@ -177,7 +177,7 @@ float FUN_00b2bd40_Obj::GetNormalizedValue()
 {
     float local;
     float fUnused;
-    float value = reinterpret_cast<::V3cdd0 *>(&((*reinterpret_cast<::FUN_00b04d40_Obj *>(&::DAT_011f8e9c))))->FUN_00b04d40((const ::V3cdd0 *)((int)((char*)this + 4)));
+    float value = reinterpret_cast<::V3cdd0 *>(&((*reinterpret_cast<::FUN_00b04d40_Obj *>(&::DAT_011f8e9c))))->FUN_00b04d40((const ::V3cdd0 *)((int)((char*)&this->unk04)));
 
     unk14 = 1.0f - (value - unk44) / (unk40 - unk44);
 

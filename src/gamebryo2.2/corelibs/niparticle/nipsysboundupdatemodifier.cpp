@@ -41,7 +41,9 @@ struct MM
 struct NiPSysBoundUpdateModifier
 {
     void* _vptr;
-    char _pad[0x18];
+    char _pad[0x14];
+    unsigned short unk18;
+    char pad1a[0x2];
     void* m_pkBounds;
     void* Destroy(unsigned int);
 public:
@@ -391,7 +393,7 @@ void FUN_00c2e430_shell::FUN_00c2e430(NiStream& stream)
 {
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(reinterpret_cast<StrArr*>(&stream));
     reinterpret_cast<NiStrTable&>(stream).Add(::FUN_00a7d330((char*)(*reinterpret_cast<void * *>(&::g_01202788))));
-    reinterpret_cast<NiStrTable&>(stream).Add(::FUN_00a7d450("Update Skip", *(unsigned short*)((char*)this + 0x18)));
+    reinterpret_cast<NiStrTable&>(stream).Add(::FUN_00a7d450("Update Skip", this->unk18));
 }
 
 class NiPoint3

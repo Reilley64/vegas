@@ -440,7 +440,7 @@ unsigned char FUN_007824b0()
 {
     int currTab;
     if (InventoryMenu::ms_pInventoryMenu)
-        currTab = ((unsigned char*)InventoryMenu::ms_pInventoryMenu)[0x84];
+        currTab = (*(unsigned char*)&InventoryMenu::ms_pInventoryMenu->m_iCurrentTab);
     else
         currTab = 0;
     return currTab;
@@ -523,11 +523,11 @@ bool FUN_007823d0_shell::HandleInventoryButton(int aiButton, float afValue)
         switch (aiButton)
         {
         case 16:
-            reinterpret_cast<HotkeyWheelDisplay*>(reinterpret_cast<char*>(this) + 0xE8)->SetVisible(false);
+            this->m_kMenuData.SetVisible(false);
 
-            if (reinterpret_cast<FUN_007823d0_listbox*>(reinterpret_cast<char*>(this) + 0xB8)->FUN_007823d0_second())
+            if (reinterpret_cast<FUN_007823d0_listbox*>(&this->m_kItemList)->FUN_007823d0_second())
             {
-                (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x54))->Set(0xFA3, 1);
+                (this->m_pTiles[11])->Set(0xFA3, 1);
             }
 
             bhandled = true;

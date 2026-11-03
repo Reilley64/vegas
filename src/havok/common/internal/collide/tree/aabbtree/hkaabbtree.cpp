@@ -44,7 +44,7 @@ struct Obj_d9be20 {
 // @fnv 0x00d9be30
 void FUN_00d9be30_class::FUN_00d9be30()
 {
-    reinterpret_cast<::Obj_d9be20 *>((reinterpret_cast<FUN_00d9be20_class*>(reinterpret_cast<char*>(this) + 0x1c)))->FUN_00d9be20();
+    reinterpret_cast<::Obj_d9be20 *>((reinterpret_cast<FUN_00d9be20_class*>(&this->m1c)))->FUN_00d9be20();
     m10 = 0;
     m14 = 0x7fffffff;
     m18 = 0;

@@ -265,7 +265,7 @@ void NiTMapBase_StandIn::ClearEntries()
             i++;
         } while (i < usSize2);
     }
-    ((HolderBase*)((char*)this + 0x34))->FUN_00a2e620();
+    this->h1.FUN_00a2e620();
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)((char*)this + 0x50))))->FUN_00b601a0();
 }
 
@@ -307,20 +307,20 @@ struct FUN_00a29a70 : public Inner_00a6db50 {
 // @fnv 0x00a29a70
 FUN_00a29a70::FUN_00a29a70()
 {
-    reinterpret_cast<::FUN_00a6db50_V *>((((Inner_00a6db50*)((char*)this + 4))))->Set(0.0f, 0.0f, 0.0f, 0.0f);
-    *(unsigned int*)((char*)this + 0x14) = 0;
-    *(unsigned int*)((char*)this + 0x18) = 0;
+    reinterpret_cast<::FUN_00a6db50_V *>((((Inner_00a6db50*)&this->b)))->Set(0.0f, 0.0f, 0.0f, 0.0f);
+    *(unsigned int*)&this->f = 0;
+    *(unsigned int*)&this->g = 0;
     *(unsigned int*)((char*)this + 0x1c) = 0;
-    *(unsigned int*)((char*)this + 0x30) = 0;
-    *(unsigned int*)((char*)this + 0x34) = 0;
-    *(unsigned int*)((char*)this + 0x38) = 0;
-    *(unsigned int*)((char*)this + 0x20) = 0;
-    *(unsigned int*)((char*)this + 0x24) = 0;
-    *(unsigned int*)((char*)this + 0x28) = 0;
-    *(unsigned int*)((char*)this + 0x3c) = 0;
-    *(unsigned int*)((char*)this + 0x40) = 0;
+    *(unsigned int*)&this->o = 0;
+    *(unsigned int*)&this->p = 0;
+    *(unsigned int*)&this->q = 0;
+    *(unsigned int*)&this->k = 0;
+    *(unsigned int*)&this->l = 0;
+    *(unsigned int*)&this->m = 0;
+    *(unsigned int*)&this->r = 0;
+    *(unsigned int*)&this->s = 0;
     *(unsigned int*)((char*)this + 0x44) = 0;
-    *(char*)((char*)this + 0x2c) = 0;
+    *(char*)&this->n = 0;
     *(char*)((char*)this + 0x2d) = 0;
     *(char*)((char*)this + 0x2e) = 0;
 }

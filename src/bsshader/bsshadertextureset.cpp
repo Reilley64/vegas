@@ -80,12 +80,11 @@ void FUN_00ba88d0_shell::LoadTextureSet(NiStream* kStream)
     reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(*kStream));
     int count = 0;
     char* pcstring = 0;
-    NiBinaryStream* pkStream = *reinterpret_cast<NiBinaryStream**>(reinterpret_cast<char*>(kStream) + 0x24c);
+    NiBinaryStream* pkStream = kStream->m_pUnderlyingStream;
     {
         unsigned int uiBytesRead = 4;
-        *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(pkStream) + 4) +=
-            (*reinterpret_cast<unsigned int(__cdecl**)(NiBinaryStream*, void*, unsigned int, unsigned int*,
-                                                       unsigned int)>(reinterpret_cast<char*>(pkStream) + 8))(
+        pkStream->m_uiStreamFlags +=
+            (pkStream->m_pfnRead)(
                 pkStream, &count, 4, &uiBytesRead, 1);
     }
     for (int i = 0; i < count; ++i)
@@ -93,7 +92,7 @@ void FUN_00ba88d0_shell::LoadTextureSet(NiStream* kStream)
         reinterpret_cast<::FUN_00a64ce0_shell *>((kStream))->FUN_00a64ce0((char **)&(pcstring));
         if (i >= 0)
         {
-            reinterpret_cast<::TextString *>(&(reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 8)[i]))->FUN_004037f0(pcstring, 0);
+            reinterpret_cast<::TextString *>(&((&this->m_kTextureNames[0])[i]))->FUN_004037f0(pcstring, 0);
         }
         ::FUN_00aa10f0(pcstring);
         pcstring = 0;
@@ -108,7 +107,7 @@ struct FUN_00ba89e0_shell : public BSShaderTextureSet
 // @fnv 0x00ba89e0
 void FUN_00ba89e0_shell::FUN_00ba89e0(int aiType, char* apFilename)
 {
-    reinterpret_cast<::TextString *>(&(reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 8)[aiType]))->FUN_004037f0(apFilename, 0);
+    reinterpret_cast<::TextString *>(&((&this->m_kTextureNames[0])[aiType]))->FUN_004037f0(apFilename, 0);
 }
 
 // @fnv 0x00ba87e0

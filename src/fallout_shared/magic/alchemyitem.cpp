@@ -102,7 +102,7 @@ struct FUN_004029d0_shell : public AlchemyItem
 // @fnv 0x004029d0
 bool FUN_004029d0_shell::FUN_004029d0(int aiFlag)
 {
-    return (*((unsigned char*)this + 0xbc) & aiFlag) != 0;
+    return (this->unk0BC & aiFlag) != 0;
 }
 
 extern int DAT_01011d68;

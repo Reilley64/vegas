@@ -730,7 +730,7 @@ void FUN_00915400_shell::FUN_00915400()
 {
     reinterpret_cast<::TESForm *>((this))->ClearData();
     m_pCurrentWeapon = 0;
-    *reinterpret_cast<short*>(reinterpret_cast<char*>(this) + 0x22a) = 2;
+    this->m_sBoundDataValue = 2;
     SetAnimationEnabled(false);
     SetAnimationComplete(false);
     SetProcessConditionMet(false);
@@ -979,7 +979,7 @@ void FUN_0091e830_shell::FUN_0091e830(NiControllerManager* apManager, NiNode* ap
         }
         else
         {
-            *(NiNode**)((char*)this + 0x12c) =
+            *(NiNode**)&this->m_pActorNode =
                 ((::fnv_0091e830::NiAVObjectPalette *)(::fnv_00537bd0::GetStringAtOffset((const char *)(apManager))))->FindAVObject(NiFixedString(DAT_01188b78));
         }
     }
@@ -992,7 +992,7 @@ void FUN_0091e830_shell::FUN_0091e830(NiControllerManager* apManager, NiNode* ap
         }
         else
         {
-            *(NiNode**)((char*)this + 0x12c) =
+            *(NiNode**)&this->m_pActorNode =
                 (NiNode*)::FUN_004aae30((NiAVObject*)ap3D, (::NiFixedString *)(DAT_01188b78));
         }
     }
@@ -1000,7 +1000,7 @@ void FUN_0091e830_shell::FUN_0091e830(NiControllerManager* apManager, NiNode* ap
     if (b1stPerson)
         ::HandleUnparentedObjectNode((::NiNode *)((*reinterpret_cast<::fnv_0091e830::NiNode * *>(&::DAT_011e0410))));
     else
-        ::HandleUnparentedObjectNode((::NiNode *)(*(NiNode**)((char*)this + 0x12c)));
+        ::HandleUnparentedObjectNode((::NiNode *)(*(NiNode**)&this->m_pActorNode));
 }
 }  // namespace fnv_0091e830
 
@@ -1067,8 +1067,8 @@ struct InventoryStackRecord
 // @fnv 0x0091e9f0
 bool FUN_0091e9f0_shell::FUN_0091e9f0(InventoryStackRecord* apammo)
 {
-    delete *(InventoryStackRecord**)((char*)this + 0x118);
-    *(InventoryStackRecord**)((char*)this + 0x118) = apammo;
+    delete *(InventoryStackRecord**)&this->pAmmo;
+    *(InventoryStackRecord**)&this->pAmmo = apammo;
     return true;
 }
 }  // namespace fnv_0091e9f0
@@ -1759,8 +1759,8 @@ struct FUN_0091ecb0_shell : public MiddleHighProcess
 // @fnv 0x0091ecb0
 ActorPackageContext* FUN_0091ecb0_shell::FUN_0091ecb0()
 {
-    return (*(int(***)(MiddleHighProcess*))this)[0x20c / 4](this) ? (ActorPackageContext*)((char*)this + 0xe4)
-                                                                            : (ActorPackageContext*)((char*)this + 0x4);
+    return (*(int(***)(MiddleHighProcess*))this)[0x20c / 4](this) ? &this->PackageReference
+                                                                            : &this->m_kProcessData;
 }
 }  // namespace fnv_0091ecb0
 
@@ -2320,14 +2320,14 @@ struct FUN_0091fe80_shell : public MiddleHighProcess
 // @fnv 0x0091fe80
 void FUN_0091fe80_shell::FUN_0091fe80(Animation* apAnim)
 {
-    if (*(Animation**)((char*)this + 0x1c0))
+    if (this->pCurrentAnimation)
     {
-        if (*(Animation**)((char*)this + 0x1c0) == apAnim)
+        if (this->pCurrentAnimation == apAnim)
             return;
-        ::FUN_00403d30((char*)this + 0x1c4, 0, 0xc);
-        ::AddAnimationToGarbageCollector((::AnimationObject *)(*(Animation**)((char*)this + 0x1c0)));
+        ::FUN_00403d30((char*)&this->m_apAnimGroupSequences, 0, 0xc);
+        ::AddAnimationToGarbageCollector((::AnimationObject *)(this->pCurrentAnimation));
     }
-    *(Animation**)((char*)this + 0x1c0) = apAnim;
+    this->pCurrentAnimation = apAnim;
 }
 
 namespace fnv_00920fd0 {
@@ -2666,7 +2666,7 @@ struct TESObjectREFR_vfn1d0
 // @fnv 0x00921080
 unsigned int FUN_00921080_shell::FUN_00921080()
 {
-    if (!m_pFurnitureReference || *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x144) == 0x7f)
+    if (!m_pFurnitureReference || this->m_ucFurnitureMarkerIndex == 0x7f)
         return 0;
 
     BSFurnitureMarker_wrap* pFurnitureMarkers = reinterpret_cast<BSFurnitureMarker_wrap*>(
@@ -2675,7 +2675,7 @@ unsigned int FUN_00921080_shell::FUN_00921080()
         return 0;
 
     FurnitureMark_wrap marker =
-        pFurnitureMarkers->FUN_005094d0(*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x144));
+        pFurnitureMarkers->FUN_005094d0(this->m_ucFurnitureMarkerIndex);
     return reinterpret_cast<::FUN_005094b0_shell *>(&(marker))->FUN_005094b0();
 }
 }  // namespace fnv_00921080
@@ -2817,14 +2817,14 @@ BSFaceGenAnimationData* FUN_00929280_shell::FUN_00929280(Actor* apActor)
 {
     if (!(*(int(**)(Actor*))(*(int*)apActor + 0x1d0))(apActor))
     {
-        *(BSFaceGenAnimationData**)((char*)this + 0x178) = 0;
+        *(BSFaceGenAnimationData**)&this->m_pFaceGenAnimationData = 0;
         return 0;
     }
-    if (!*(BSFaceGenAnimationData**)((char*)this + 0x178))
+    if (!*(BSFaceGenAnimationData**)&this->m_pFaceGenAnimationData)
     {
-        *(BSFaceGenAnimationData**)((char*)this + 0x178) = ((::fnv_00929280::BSFaceGenAnimationData *)(reinterpret_cast<::fnv_00576420::FUN_00576420_shell *>((((Actor_Helper*)apActor)))->FUN_00576420((::fnv_00576420::NiNode *)(0))));
+        *(BSFaceGenAnimationData**)&this->m_pFaceGenAnimationData = ((::fnv_00929280::BSFaceGenAnimationData *)(reinterpret_cast<::fnv_00576420::FUN_00576420_shell *>((((Actor_Helper*)apActor)))->FUN_00576420((::fnv_00576420::NiNode *)(0))));
     }
-    return *(BSFaceGenAnimationData**)((char*)this + 0x178);
+    return *(BSFaceGenAnimationData**)&this->m_pFaceGenAnimationData;
 }
 }  // namespace fnv_00929280
 
@@ -2957,18 +2957,18 @@ void FUN_0092b830_shell::InitBodyPartNodes(NiNode* apNode, BGSBodyPartData* apBo
         BGSBodyPart* pbp = parray[i];
         const char* pname = (const char*)((::fnv_0092b830::NiNode *)(reinterpret_cast<::StrOwner *>((((Interface*)pbp)))->FUN_007fa950()));
         NiNode* plimbRoot = pname ? (NiNode*)((::fnv_0092b830::NiAVObject *)(::FUN_004aae30((::NiAVObject *)(::fnv_0092b830::NiAVObject *)((NiAVObject*)apNode), (::NiFixedString *)(pname)))) : 0;
-        ((NiNode**)((char*)this + 0x1dc))[((int)(reinterpret_cast<::Obj5e5300 *>((pbp))->GetByte61()))] = plimbRoot;
+        ((NiNode**)&this->m_apBodyPartNodes[0])[((int)(reinterpret_cast<::Obj5e5300 *>((pbp))->GetByte61()))] = plimbRoot;
     }
     pheadPart = apBodyPartData ? ((::fnv_0092b830::BGSBodyPart *)(reinterpret_cast<::FUN_005e50f0_Obj *>((apBodyPartData))->GetValueByIndex(1))) : 0;
     if (pheadPart && ((::fnv_0092b830::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((Model*)pheadPart))))))
     {
-        *(NiAVObject**)((char*)this + 0x218) =
+        *(NiAVObject**)&this->m_pFirstAttachedObject =
             ((::fnv_0092b830::NiAVObject *)(::FUN_004aae30((::NiAVObject *)(::fnv_0092b830::NiAVObject *)((NiAVObject*)apNode), (::NiFixedString *)((const char*)((::fnv_0092b830::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((Model*)pheadPart)))))))));
     }
     ptorsoPart = apBodyPartData ? ((::fnv_0092b830::BGSBodyPart *)(reinterpret_cast<::FUN_005e50f0_Obj *>((apBodyPartData))->GetValueByIndex(0))) : 0;
     if (ptorsoPart && ((::fnv_0092b830::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((Model*)ptorsoPart))))))
     {
-        *(NiAVObject**)((char*)this + 0x21c) =
+        *(NiAVObject**)&this->m_pSecondAttachedObject =
             ((::fnv_0092b830::NiAVObject *)(::FUN_004aae30((::NiAVObject *)(::fnv_0092b830::NiAVObject *)((NiAVObject*)apNode), (::NiFixedString *)((const char*)((::fnv_0092b830::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((Model*)ptorsoPart)))))))));
     }
 }
@@ -3295,7 +3295,7 @@ struct IOManager
 // @fnv 0x00915ae0
 void FUN_00915ae0_shell::ClearQueuedItems()
 {
-    QueuedItemList* pCurrentElementNext = *(QueuedItemList**)((char*)this + 0x230);
+    QueuedItemList* pCurrentElementNext = *(QueuedItemList**)&this->m_pkPaddedFloatRecordList;
     while (pCurrentElementNext && *((::fnv_00915ae0::PaddedFloatRecord **)(new ((void *)(pCurrentElementNext)) ::Vec3())))
     {
         PaddedFloatRecord* pitem = *((::fnv_00915ae0::PaddedFloatRecord **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
@@ -3307,8 +3307,8 @@ void FUN_00915ae0_shell::ClearQueuedItems()
         }
         pCurrentElementNext->_ref_0063f7b0();
     }
-    delete *(QueuedItemList**)((char*)this + 0x230);
-    *(QueuedItemList**)((char*)this + 0x230) = 0;
+    delete *(QueuedItemList**)&this->m_pkPaddedFloatRecordList;
+    *(QueuedItemList**)&this->m_pkPaddedFloatRecordList = 0;
 }
 }  // namespace fnv_00915ae0
 
@@ -3456,9 +3456,9 @@ struct StandInC
 // @fnv 0x009287e0
 void FUN_009287e0_shell::FUN_009287e0(Actor* apActor)
 {
-    if (*(void**)((char*)this + 0x140))
+    if (*(void**)&this->m_pFurnitureReference)
     {
-        reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((StandInA*)*(void**)((char*)this + 0x140))))->FUN_00568020(*((unsigned char*)this + 0x144), 0);
+        reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((StandInA*)*(void**)&this->m_pFurnitureReference)))->FUN_00568020(this->m_ucFurnitureMarkerIndex, 0);
         if ((*(void*(***)(Actor*))apActor)[0x79](apActor))
         {
             reinterpret_cast<::Animation *>((((Animation * (*)(Actor*))(*(void***)apActor)[0x79])(apActor)))->SpecialIdleFree(true, false);
@@ -3532,9 +3532,9 @@ void MiddleHighProcessF::SetFurnitureMarker(TESObjectREFR* apRef, unsigned char 
     m_ucFurnitureMarkerIndex = aiindex;
     if (apMarker)
     {
-        *((unsigned char*)this + 0x156) = apMarker->m_ucFlags;
-        *(NiPoint3*)((char*)this + 0x148) = apMarker->Position;
-        *(unsigned short*)((char*)this + 0x154) = apMarker->m_usMarkerId;
+        this->FurnitureMarker.m_ucFlags = apMarker->m_ucFlags;
+        this->FurnitureMarker.Position = apMarker->Position;
+        this->FurnitureMarker.m_usMarkerId = apMarker->m_usMarkerId;
         if (m_pFurnitureReference && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00915e50::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             reinterpret_cast<::fnv_00568150::FUN_00568150_shell *>((((TESObjectREFRHelper*)m_pFurnitureReference)))->FUN_00568150(aiindex, true);
     }
@@ -3922,9 +3922,9 @@ struct MiddleHighProcessS : MiddleHighProcess
 // @fnv 0x0092c400
 void MiddleHighProcessS::FUN_0092c400(FUN_009b4d90* apData)
 {
-    if (!*(FUN_009b4d90**)((char*)this + 0x240))
-        *(FUN_009b4d90**)((char*)this + 0x240) = new FUN_009b4d90;
-    reinterpret_cast<::HitDataEx *>(((*(FUN_009b4d90**)((char*)this + 0x240))))->FUN_009b4ec0((*(const ::BooleanFloatQuery *)(apData)));
+    if (!*(FUN_009b4d90**)&this->m_pData)
+        *(FUN_009b4d90**)&this->m_pData = new FUN_009b4d90;
+    reinterpret_cast<::HitDataEx *>(((*(FUN_009b4d90**)&this->m_pData)))->FUN_009b4ec0((*(const ::BooleanFloatQuery *)(apData)));
 }
 
 namespace fnv_0092c4a0 {
@@ -3962,10 +3962,10 @@ struct MiddleHighProcessH : MiddleHighProcess
 // @fnv 0x0092c4a0
 void MiddleHighProcessH::FUN_0092c4a0()
 {
-    if (!*(FUN_009b4d90**)((char*)this + 0x240))
-        *(FUN_009b4d90**)((char*)this + 0x240) = new FUN_009b4d90;
+    if (!*(FUN_009b4d90**)&this->m_pData)
+        *(FUN_009b4d90**)&this->m_pData = new FUN_009b4d90;
     else
-        reinterpret_cast<::BooleanFloatQuery *>(((*(FUN_009b4d90**)((char*)this + 0x240))))->FUN_009b4dc0();
+        reinterpret_cast<::BooleanFloatQuery *>(((*(FUN_009b4d90**)&this->m_pData)))->FUN_009b4dc0();
 }
 }  // namespace fnv_0092c4a0
 
@@ -4004,10 +4004,10 @@ struct MiddleHighProcessH2 : MiddleHighProcess
 // @fnv 0x0092c5e0
 void MiddleHighProcessH2::FUN_0092c5e0()
 {
-    if (!*(FUN_009b4d90**)((char*)this + 0x254))
-        *(FUN_009b4d90**)((char*)this + 0x254) = new FUN_009b4d90;
+    if (!*(FUN_009b4d90**)&this->m_pAdditionalFaceGenData)
+        *(FUN_009b4d90**)&this->m_pAdditionalFaceGenData = new FUN_009b4d90;
     else
-        reinterpret_cast<::BooleanFloatQuery *>(((*(FUN_009b4d90**)((char*)this + 0x254))))->FUN_009b4dc0();
+        reinterpret_cast<::BooleanFloatQuery *>(((*(FUN_009b4d90**)&this->m_pAdditionalFaceGenData)))->FUN_009b4dc0();
 }
 }  // namespace fnv_0092c5e0
 
@@ -4680,7 +4680,7 @@ struct PlayerCharacter
 bool FUN_00921120_shell::FUN_00921120(Actor* apActor)
 {
     TESIdleForm* pidle =
-        ((::fnv_00921120::TESIdleForm *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::fnv_00921120::IdleAnimationManager * *>(&::DAT_011cb6a0))))->FindIdleFormForObject((::TESObjectREFR *)(::fnv_00921120::TESObjectREFR *)((TESObjectREFR*)apActor), (::TESObjectREFR *)(*(TESObjectREFR**)((char*)this + 0x140)))));
+        ((::fnv_00921120::TESIdleForm *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::fnv_00921120::IdleAnimationManager * *>(&::DAT_011cb6a0))))->FindIdleFormForObject((::TESObjectREFR *)(::fnv_00921120::TESObjectREFR *)((TESObjectREFR*)apActor), (::TESObjectREFR *)(*(TESObjectREFR**)&this->m_pFurnitureReference))));
     Animation* panim;
     if ((void*)apActor == (void*)(*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer)))
         panim = (*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer))->GetAnimation(!reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_004eaf60());
@@ -4692,7 +4692,7 @@ bool FUN_00921120_shell::FUN_00921120(Actor* apActor)
     if ((void*)apActor == (void*)(*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_004eaf60())
     {
         reinterpret_cast<::FUN_005c4210Class *>(((*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_005c4210(0);
-        pidle = ((::fnv_00921120::TESIdleForm *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::fnv_00921120::IdleAnimationManager * *>(&::DAT_011cb6a0))))->FindIdleFormForObject((::TESObjectREFR *)(::fnv_00921120::TESObjectREFR *)((TESObjectREFR*)apActor), (::TESObjectREFR *)(*(TESObjectREFR**)((char*)this + 0x140)))));
+        pidle = ((::fnv_00921120::TESIdleForm *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::fnv_00921120::IdleAnimationManager * *>(&::DAT_011cb6a0))))->FindIdleFormForObject((::TESObjectREFR *)(::fnv_00921120::TESObjectREFR *)((TESObjectREFR*)apActor), (::TESObjectREFR *)(*(TESObjectREFR**)&this->m_pFurnitureReference))));
         if (pidle && (panim = (*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer))->GetAnimation(true)) != 0)
             reinterpret_cast<::fnv_00498030::WorkerAnimation *>((panim))->FUN_00498030((::TESIdleForm *)(pidle), (::Actor *)(apActor), reinterpret_cast<::FUN_005ff160_shell *>((pidle))->GetFlagsMasked());
         reinterpret_cast<::FUN_005c4210Class *>(((*reinterpret_cast<::fnv_00921120::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_005c4210(1);
@@ -6136,34 +6136,34 @@ void FUN_00923020_shell::UpdateWeaponAnimation(Actor* apActor)
     ANIM_GROUP_WEAPON_ENUM eWeaponGroup;
     TESObjectWEAP* apWeapon;
     BSSimpleList<char const*>* pfileList;
-    if (*(bool*)((char*)this + 0xe2) && ((MHPActorView_923020*)apActor)->GetNiNode())
+    if (this->m_bPackageStateFlag3 && ((MHPActorView_923020*)apActor)->GetNiNode())
     {
-        if (*(Animation**)((char*)this + 0x1c0) && *(ItemChange_S**)((char*)this + 0x114))
+        if (*(Animation**)&this->pCurrentAnimation && *(ItemChange_S**)&this->pWeapon)
         {
-            apWeapon = ((::fnv_00923020::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>(((*(ItemChange_S**)((char*)this + 0x114))))->GetName()));
+            apWeapon = ((::fnv_00923020::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>(((*(ItemChange_S**)&this->pWeapon)))->GetName()));
             eWeaponGroup = (*reinterpret_cast<fnv_00923020::ANIM_GROUP_WEAPON_ENUM (*)[]>(&::DAT_0118a838))[apWeapon->GetWeaponType()];
-            if (!(*(FUN_00493830_shell**)((char*)this + 0x1c0))->FUN_00493830() &&
-                ((::fnv_00923020::NiControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>(((*(Animation**)((char*)this + 0x1c0))))->FUN_00496940())) &&
-                !(*(Animation**)((char*)this + 0x1c0))
+            if (!(*(FUN_00493830_shell**)&this->pCurrentAnimation)->FUN_00493830() &&
+                ((::fnv_00923020::NiControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>(((*(Animation**)&this->pCurrentAnimation)))->FUN_00496940())) &&
+                !(*(Animation**)&this->pCurrentAnimation)
                      ->IsGroupQueued(::TESAnimGroup::AnimGroup((::ANIM_GROUP_MOVE_ENUM)(0), (*(::ANIM_GROUP_WEAPON_ENUM *)&(eWeaponGroup)), (::ANIM_GROUP_ENUM)(0x18), false)) &&
                 !((MHPActorView_923020*)apActor)->Unk_8B(true))
             {
                 pfileList = ((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>((g_modelLoader))->FUN_00447330((char *)(reinterpret_cast<::TESObjectREFR *>((((GM_008b2010*)apActor)))->GetModelFilePath()), true, false,
                                                             eWeaponGroup)));
-                reinterpret_cast<::S_00490400_Anim *>(((*(Animation**)((char*)this + 0x1c0))))->FUN_00490400(pfileList);
+                reinterpret_cast<::S_00490400_Anim *>(((*(Animation**)&this->pCurrentAnimation)))->FUN_00490400(pfileList);
             }
         }
-        if (*(Animation**)((char*)this + 0x1c0) && (*(FUN_00493830_shell**)((char*)this + 0x1c0))->FUN_00493830())
+        if (*(Animation**)&this->pCurrentAnimation && (*(FUN_00493830_shell**)&this->pCurrentAnimation)->FUN_00493830())
             return;
         if (reinterpret_cast<::s5722c0::Actor *>((((Actor_S*)apActor)))->FUN_005722c0(false))
             reinterpret_cast<::BipedAnim *>((((Actor_S*)apActor)))->AttachFaceGenNode();
         else
             ((MHP_S*)this)
-                ->UpdateWeaponDrawnAnimation(*(bool*)((char*)this + 0x135),
+                ->UpdateWeaponDrawnAnimation(this->m_bAdditionalActorFlag,
                                              ((MHPActorView_923020*)apActor)->GetValidBip01Names(),
                                              ((MHPActorView_923020*)apActor)->GetAnimData(), apActor);
-        *(bool*)((char*)this + 0xe2) = false;
-        *(bool*)((char*)this + 0xe3) = false;
+        this->m_bPackageStateFlag3 = false;
+        this->m_bPackageStateFlag4 = false;
     }
 }
 }  // namespace fnv_00923020
@@ -6953,8 +6953,8 @@ void FUN_00923960_shell::UpdateWeaponDrawnAnimation(bool abDrawn, BipedAnim* apB
         if (!pseq || (((TESAnimGroupX*)((::fnv_00923960::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(((FUN_0048f7f0_t*)pseq)))->GetAnimGroup())))->GetType() != 0x18 &&
                       ((TESAnimGroupX*)((::fnv_00923960::TESAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(((FUN_0048f7f0_t*)pseq)))->GetAnimGroup())))->GetType() != 0x19))
         {
-            sgroup = reinterpret_cast<::fnv_00897910::AnimOwner *>((((FUN_00897910_t*)apActor)))->FUN_00897910((*(int *)&(egroup)), (::fnv_00897910::Equipped *)((*(InventoryStackRecord**)((char*)this + 0x114))),
-                                        (*(InventoryStackRecord**)((char*)this + 0x114)) == 0, (::fnv_00897910::AnimData *)(apAnim));
+            sgroup = reinterpret_cast<::fnv_00897910::AnimOwner *>((((FUN_00897910_t*)apActor)))->FUN_00897910((*(int *)&(egroup)), (::fnv_00897910::Equipped *)((*(InventoryStackRecord**)&this->pWeapon)),
+                                        (*(InventoryStackRecord**)&this->pWeapon) == 0, (::fnv_00897910::AnimData *)(apAnim));
             if (GetType(sgroup) == egroup)
             {
                 pseq = ((::fnv_00923960::BSAnimGroupSequence *)(reinterpret_cast<::fnv_00494740::FUN_00494740_t *>((apAnim))->FUN_00494740(sgroup, 1, -1, -1)));
@@ -6975,9 +6975,9 @@ void FUN_00923960_shell::UpdateWeaponDrawnAnimation(bool abDrawn, BipedAnim* apB
             p3d = (NiNode*)(apBiped ? (unsigned int)*(Flt*)apBiped : 0);
             if (!p3d)
                 p3d = ((RefV*)apActor)->v116();
-            if (p3d && !pweaponBone && (*(InventoryStackRecord**)((char*)this + 0x114)))
+            if (p3d && !pweaponBone && (*(InventoryStackRecord**)&this->pWeapon))
             {
-                ((ProcV*)this)->v88((*(InventoryStackRecord**)((char*)this + 0x114)), p3d, 0);
+                ((ProcV*)this)->v88((*(InventoryStackRecord**)&this->pWeapon), p3d, 0);
                 pweaponBone = ((ProcV*)this)->v100(apBiped);
             }
             pnewParent = (NiNode*)((::fnv_00923960::NiAVObject *)(::FUN_004aae30(
@@ -28931,14 +28931,14 @@ class FUN_0092ac10_cls
 // @fnv 0x0092ac10
 void FUN_0092ac10_cls::FUN_0092ac10(int a1)
 {
-    char* pTimer = v20c() ? (char*)this + 0xe4 : (char*)this + 4;
+    char* pTimer = v20c() ? (char*)this + 0xe4 : (char*)&this->unk00;
     ActionTimer* pObj2 = (ActionTimer*)pTimer;
 
     float r6 = FUN_00408840((float)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0092ac10::Time *>(&::g_011de7b8))))->GetGameTime() - ((double)(reinterpret_cast<::FUN_00621b00_shell *>((pObj2))->FUN_00621b00()))));
     if (r6 >= ::DAT_0103c7c8)
     {
         v288(a1, 1);
-        reinterpret_cast<::FUN_00674d70_shell *>((((TimerFx*)((::fnv_0092ac10::TimerSubA *)(::FUN_00559450((int *)(((TimerSubA*)((char*)this + 4)))))))))->SetFlag800({});
+        reinterpret_cast<::FUN_00674d70_shell *>((((TimerFx*)((::fnv_0092ac10::TimerSubA *)(::FUN_00559450((int *)(((TimerSubA*)&this->unk00))))))))->SetFlag800({});
     }
     else
     {

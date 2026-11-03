@@ -764,14 +764,14 @@ FUN_00c60240::FUN_00c60240()
 {
     m_vt = (int)&DAT_010c3384;
     {
-        float* p = (float*)((char*)this + 0x18);
+        float* p = &this->m_v[1];
         p[0] = 0.0f;
         p[1] = 0.0f;
         p[2] = 0.0f;
         p[3] = 0.0f;
     }
     {
-        float* q = (float*)((char*)this + 0x28);
+        float* q = &this->m_w[1];
         q[0] = 0.0f;
         q[1] = 0.0f;
         q[2] = 0.0f;
@@ -1164,12 +1164,12 @@ bool FUN_00c60a10_Class::FUN_00c60a10(NiObject* pObject)
 
     if (pOther->m_48 == m_48 && pOther->m_4c == m_4c && pOther->m_50 == m_50 && pOther->m_54 == m_54 &&
         pOther->m_58 == m_58 && pOther->m_5c == m_5c &&
-        reinterpret_cast<FUN_004a4cc0_shell*>(reinterpret_cast<char*>(pOther) + 0x18)
-            ->FUN_004a4cc0(reinterpret_cast<char*>(this) + 0x18) &&
-        reinterpret_cast<FUN_004a4cc0_shell*>(reinterpret_cast<char*>(pOther) + 0x28)
-            ->FUN_004a4cc0(reinterpret_cast<char*>(this) + 0x28) &&
-        reinterpret_cast<FUN_004a4cc0_shell*>(reinterpret_cast<char*>(pOther) + 0x38)
-            ->FUN_004a4cc0(reinterpret_cast<char*>(this) + 0x38))
+        reinterpret_cast<FUN_004a4cc0_shell*>(&pOther->m_00[24])
+            ->FUN_004a4cc0(reinterpret_cast<char*>(&this->m_00[24])) &&
+        reinterpret_cast<FUN_004a4cc0_shell*>(&pOther->m_00[40])
+            ->FUN_004a4cc0(reinterpret_cast<char*>(&this->m_00[40])) &&
+        reinterpret_cast<FUN_004a4cc0_shell*>(&pOther->m_00[56])
+            ->FUN_004a4cc0(reinterpret_cast<char*>(&this->m_00[56])))
         return true;
 
     return false;

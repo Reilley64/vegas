@@ -449,9 +449,9 @@ void SetTargetFromGlobalState(Outer* apOuter)
 {
     if (*(unsigned int*)((char*)DAT_011da2c8 + 0x48) == 8 &&
         FUN_00794d80(DAT_011da2c8) < *(int*)((char*)DAT_011da2c8 + 0x58))
-        apOuter->q->Target(0, 0, (unsigned int)*(Flt*)((char*)DAT_011da2c8 + 0x200));
+        apOuter->q->Target(0, 0, (unsigned int)*(Flt*)&DAT_011da2c8->_0[512]);
     else
-        apOuter->q->Target(0, 0, (unsigned int)*(Flt*)((char*)DAT_011da2c8 + 0x204));
+        apOuter->q->Target(0, 0, (unsigned int)*(Flt*)&DAT_011da2c8->_0[516]);
 }
 
 struct Date

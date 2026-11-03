@@ -171,7 +171,9 @@ class AutoMemContext
 class PathManagerImpl
 {
   public:
-    char pad[0x14c0];
+    char pad[0xc34];
+    bool unkc34;
+    char padc35[0x88b];
     PathManagerImpl();
     bool BuildPath(NiPointer<PathingRequest> m_pPathingRequest, NiPointer<ActorPathingMessageQueue> spQueue);
 

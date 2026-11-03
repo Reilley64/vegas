@@ -53,10 +53,10 @@ void TESObjectMISC::InitItem()
     if (GetInitialized())
         return;
 
-    ((TESScriptableForm*)((char*)this + 0x68))->InitItem(this);
-    ((BGSDestructibleObjectForm*)((char*)this + 0x84))->InitItem(this);
-    ((TESModelTextureSwap*)((char*)this + 0x3C))->InitItem(this);
-    ((BGSPickupPutdownSounds*)((char*)this + 0x9C))->InitItem(this);
+    static_cast<TESScriptableForm *>(this)->InitItem(this);
+    static_cast<BGSDestructibleObjectForm *>(this)->InitItem(this);
+    static_cast<TESModelTextureSwap *>(this)->InitItem(this);
+    static_cast<BGSPickupPutdownSounds *>(this)->InitItem(this);
 
     unsigned int formID = (unsigned int)pLoopingSound;
     if (formID)
@@ -123,7 +123,7 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            ((CombatProcedure*)((char*)this + 0x68))->Initialize((CombatController*)scriptID);
+            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)scriptID);
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -134,13 +134,13 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int pickupID = 0;
             file->GetChunkData(&pickupID);
-            ((CombatProcedure*)((char*)this + 0x9c))->Initialize((CombatController*)pickupID);
+            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)pickupID);
             break;
         }
         case 0x4d414e5a: {
             unsigned int putdownID = 0;
             file->GetChunkData(&putdownID);
-            ((TESRegionGrassObject*)((char*)this + 0x9c))->AssignLandTexture((TESLandTexture*)putdownID);
+            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)putdownID);
             break;
         }
         case 0x41544144:

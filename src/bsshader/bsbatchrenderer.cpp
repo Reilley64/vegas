@@ -693,7 +693,7 @@ bool FUN_00b9a3c0_shell::FUN_00b9a3c0(unsigned int& auiPass, int& aiBucket, bool
 {
     unsigned int idx = 0;
     reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xc))))->FUN_00853130(auiPass, (::fnv_00853130::CombatThreatRecord *&)(idx));
-    PassGroup_Layout* pGroups = *(PassGroup_Layout**)((char*)this + 8);
+    PassGroup_Layout* pGroups = *(PassGroup_Layout**)&this->m_pPassBucketEntries;
     ::ClearPassGroups((::PassGroup_Layout *)(((PassGroup_Layout*)((char*)pGroups + idx * 0x68))), false, {});
     return ((BSBatchRenderer*)this)->FindPassBucket(auiPass, aiBucket, abFlag);
 }

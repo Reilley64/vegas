@@ -139,8 +139,8 @@ void* FUN_00a443c0_shell::FUN_00a443c0(CloningProcess* process)
         node = 0;
     ((FUN_00a44850_holder*)this)->CopyMembersStreamAndFields((FUN_00a44850_holder*)node, process);
     *(void**)((char*)node + 0x10) = *(void**)((char*)this + 0x10);
-    *(float*)((char*)node + 0x14) = *(float*)((char*)this + 0x14);
-    *(unsigned int*)((char*)node + 0x18) = *(unsigned int*)((char*)this + 0x18);
+    node->m_f2 = this->m_f2;
+    *(unsigned int*)&node->m_pad3 = *(unsigned int*)&this->m_pad3;
     return node;
 }
 

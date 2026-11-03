@@ -196,7 +196,8 @@ struct NiSkinnedEmitterData
 
 struct NiGeometry
 {
-    char _pad[0xBC];
+    char _pad[0xb8];
+    char* unkb8;
     NiSkinnedEmitterData* m_bc;
 };
 
@@ -1696,7 +1697,7 @@ struct C1d9e0_Emitter : MeshEmitter_c1cf50
 bool C1d9e0_Emitter::PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
 {
     int iRandomIndex = FUN_00ecadb8();
-    char* data = *(char**)((char*)pkGeometry + 0xb8);
+    char* data = pkGeometry->unkb8;
     unsigned short count = *(unsigned short*)(data + 8);
     iRandomIndex %= count;
     NiPoint3* positions = *(NiPoint3**)(data + 0x20);
@@ -1705,7 +1706,7 @@ bool C1d9e0_Emitter::PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPositio
         return false;
     kPosition = positions[iRandomIndex];
     NiPoint3b normal = normals[iRandomIndex];
-    if (velocityMode == 0 && *(NiPoint3b**)(*(char**)((char*)pkGeometry + 0xb8) + 0x24) != 0)
+    if (velocityMode == 0 && *(NiPoint3b**)(pkGeometry->unkb8 + 0x24) != 0)
     {
         float length = (float)sqrt(kMotionVelocity.x * kMotionVelocity.x + kMotionVelocity.y * kMotionVelocity.y +
                                    kMotionVelocity.z * kMotionVelocity.z);

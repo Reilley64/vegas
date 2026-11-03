@@ -1739,7 +1739,7 @@ struct FUN_009d7c20_shell : CombatState
 // @fnv 0x009d7c20
 void FUN_009d7c20_shell::FUN_009d7c20()
 {
-    reinterpret_cast<::FUN_009a0510_shell *>(this)->FUN_009a0510((::StageHolder *)(*(CombatCoverPointData**)((char*)this + 0xe8)));
+    reinterpret_cast<::FUN_009a0510_shell *>(this)->FUN_009a0510((::StageHolder *)(*(CombatCoverPointData**)&this->unke8));
 }
 
 struct RefX
@@ -2431,7 +2431,13 @@ struct TimeoutTimer : FUN_008d7f40_shell
 
 struct FUN_00999160_struct
 {
-    char pad_00[0x1c4];
+    char pad_00[0x6c];
+    int unk6c;
+    bool unk70;
+    bool unk71;
+    char pad72[0x5];
+    bool unk77;
+    char pad78[0x14c];
     EffectSetting* field_1C4;
 
     void EvaluateWeaponScores();
@@ -2448,11 +2454,11 @@ void FUN_00999160_struct::FUN_00999160()
     int target = ((int)(reinterpret_cast<::AlchemyItem *>((field_1C4))->FUN_004030b0()));
     if (target)
     {
-        reinterpret_cast<::CombatAssessment::Group *>((((::fnv_00999160::MyClass *)(reinterpret_cast<::EffectSetting *>((field_1C4))->GetCastSound()))))->UpdateTargetPerception((::CombatAssessment::Actor *)(count), (::CombatAssessment::Actor *)(target), (int*)((char*)this + 0x6c),
+        reinterpret_cast<::CombatAssessment::Group *>((((::fnv_00999160::MyClass *)(reinterpret_cast<::EffectSetting *>((field_1C4))->GetCastSound()))))->UpdateTargetPerception((::CombatAssessment::Actor *)(count), (::CombatAssessment::Actor *)(target), &this->unk6c,
                                                           (::CombatAssessment::Time *)(::fnv_00999160::CombatTargetTimestamp *)((CombatTargetTimestamp*)((char*)this + 0x94)),
-                                                          (bool*)((char*)this + 0x70), (bool*)((char*)this + 0x71));
+                                                          &this->unk70, &this->unk71);
     }
-    if (*(bool*)((char*)this + 0x77))
+    if (this->unk77)
     {
         EvaluateWeaponScores();
     }

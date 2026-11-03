@@ -737,9 +737,9 @@ BSFadeNode* FUN_00a814e0()
     if (node)
     {
         new ((void *)(((NiProperty*)node))) struct ::FUN_00a5c200();
-        *(unsigned short*)((char*)node + 0x18) = 1;
+        *(unsigned short*)&node->f = 1;
         node->pProperty = (NiProperty*)&DAT_0109e274;
-        *(int*)((char*)node + 0x1c) = -1;
+        node->g = -1;
         return node;
     }
     return 0;

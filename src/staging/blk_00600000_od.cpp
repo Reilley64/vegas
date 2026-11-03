@@ -375,7 +375,7 @@ void NiTPointerMapIntInt::FUN_0061fb40()
 {
     *(int**)this = &DAT_0104d968;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 extern int DAT_0104a060;
@@ -1376,11 +1376,11 @@ void FUN_00616c70_cls::InitializeFields()
     FUN_00616c70_flag a = {};
     ::FUN_00401080((int *)(void *)(this));
     FUN_00616c70_flag b = {};
-    ::FUN_00401080((int *)(void *)((char*)this + 4));
+    ::FUN_00401080((int *)(void *)((char*)&this->unk04));
     FUN_00616c70_flag c5 = {};
-    ::FUN_00401080((int *)(void *)((char*)this + 8));
+    ::FUN_00401080((int *)(void *)((char*)&this->unk08));
     FUN_00616c70_flag d = {};
-    ::FUN_00401080((int *)(void *)((char*)this + 0x10));
+    ::FUN_00401080((int *)(void *)((char*)&this->unk10));
 }
 
 int __cdecl FUN_00406d50(char* destination, unsigned int capacity, const char* source);

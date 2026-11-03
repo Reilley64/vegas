@@ -56,10 +56,10 @@ NiPointer_NiGPUProgram_& Unknown_00bb62b0::FUN_00bb62b0(int a)
     {
     case 0x236:
         DAT_0126f74c = m_6c;
-        return ((NiPointerDispatch*)((char*)this + 0x28))->Replace(m_80);
+        return ((NiPointerDispatch*)&this->_0[40])->Replace(m_80);
     case 0x237:
         DAT_0126f74c = m_70;
-        return ((NiPointerDispatch*)((char*)this + 0x28))->Replace(m_80);
+        return ((NiPointerDispatch*)&this->_0[40])->Replace(m_80);
     }
 }
 
@@ -1216,11 +1216,11 @@ static void AssignRef(Obj*& slot, Obj* nobj)
     Obj* old = slot;
     if (old != nobj)
     {
-        if (old && InterlockedDecrement((long*)((char*)old + 4)) == 0)
+        if (old && InterlockedDecrement((long*)&old->m_uiRefCount) == 0)
             old->DeleteThis();
         slot = nobj;
         if (nobj)
-            InterlockedIncrement((long*)((char*)nobj + 4));
+            InterlockedIncrement((long*)&nobj->m_uiRefCount);
     }
 }
 

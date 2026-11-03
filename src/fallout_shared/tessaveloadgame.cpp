@@ -963,7 +963,7 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
             LoadFormHeader_s formHeader;
 
             reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_00858730::ATM *>(&::g_011de494))))->FUN_004538a0((int)"TESSaveLoadGame::LoadForm");
-            *(void**)((char*)this + 0x14) = ptempbuffer;
+            this->unk14 = ptempbuffer;
             ((FUN_008579e0_shell*)::g_TESSaveLoadGame)->FUN_008579e0(&formHeader, 4);
             if (FNV_GetFormType(apForm) != formHeader.type)
             {
@@ -973,7 +973,7 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
                     "Load Error: Form with ID %08X was saved with form type %s, but currently has form type %s.  Its loading will be skipped.",
                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apForm))->FUN_0084e3a0())), (*reinterpret_cast<fnv_00858730::FormTypeInfo_s (*)[]>((void *)&::FNV_FormTypeNames))[formHeader.type].pName, ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((Fake440e30*)apForm)))->FUN_00440e30())));
                 changes->HasFormChanges(apForm, true);
-                *(void**)((char*)this + 0x14) = 0;
+                this->unk14 = 0;
                 reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::fnv_00858730::ATM *>(&::g_011de494))))->WaitForTasksDuringRendering();
                 return false;
             }
@@ -991,10 +991,10 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
             reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)this)))->FUN_004534f0(brestore);
             ((EffectSetting*)this)->SetBoltSound(0);
             ::CopyByteToOffset80((char*)this);
-            if (*(void**)((char*)this + 0x20) == 0)
-                *(FUN_00863e00**)((char*)this + 0x20) = new FUN_00863e00(0x32, 0x32);
-            reinterpret_cast<::S00863d90 *>(((*(NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >**)((char*)this + 0x20))))->FUN_00863d90((const unsigned int &)((const ::fnv_00858730::TESTopicInfo *const &)((TESTopicInfo*)new FUN_00857280(apForm, iflags, 0, formHeader.version))));
-            _ibufferOverrun = *(char**)((char*)this + 0x14) - ((char*)ptempbuffer + isize + 4);
+            if (this->unk20 == 0)
+                *(FUN_00863e00**)&this->unk20 = new FUN_00863e00(0x32, 0x32);
+            reinterpret_cast<::S00863d90 *>(((*(NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >**)&this->unk20)))->FUN_00863d90((const unsigned int &)((const ::fnv_00858730::TESTopicInfo *const &)((TESTopicInfo*)new FUN_00857280(apForm, iflags, 0, formHeader.version))));
+            _ibufferOverrun = *(char**)&this->unk14 - ((char*)ptempbuffer + isize + 4);
             reinterpret_cast<::fnv_00858700::FUN_00858700 *>((((SLGStub*)this)))->DoIt(ptempbuffer);
             reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)pchange2)))->Initialize((::CombatController *)(0));
             if (*(unsigned int*)((char*)this + 0x54))

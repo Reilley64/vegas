@@ -41,7 +41,7 @@ struct FUN_00d503a0_class
 // @fnv 0x00d503a0
 void FUN_00d503a0_class::FUN_00d503a0(int, int* paiOut)
 {
-    int v = *(int*)((char*)this + 0x20);
+    int v = this->m_i;
     paiOut[1] = v;
     paiOut[0] = v * 8;
 }
@@ -755,16 +755,16 @@ struct FUN_00d50520_s
 // @fnv 0x00d50520
 void FUN_00d50520_s::FUN_00d50520(int* aiOut)
 {
-    aiOut[4] = (int)((char*)this + 0xc);
+    aiOut[4] = (int)((char*)&this->d);
     aiOut[0] = 0;
     aiOut[1] = 0;
     aiOut[2] = 0;
     aiOut[3] = 0;
     aiOut[5] = 0xc;
-    aiOut[0] = *(int*)((char*)this + 0x18);
-    aiOut[1] = *(int*)((char*)this + 0x1c);
-    aiOut[2] = *(int*)((char*)this + 0x20);
-    aiOut[3] = *(int*)((char*)this + 0x24);
+    aiOut[0] = this->g;
+    aiOut[1] = this->h;
+    aiOut[2] = this->i;
+    aiOut[3] = this->j;
 }
 
 struct FUN_00d50560_class

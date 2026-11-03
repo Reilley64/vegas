@@ -576,16 +576,16 @@ bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pcomp))
         return true;
 
-    if (*(unsigned char*)((char*)this + 0x71) != *(unsigned char*)((char*)pcomp + 0x71))
+    if (this->cFlags != pcomp->cFlags)
         return true;
 
-    if (*(unsigned char*)((char*)this + 0x70) != *(unsigned char*)((char*)pcomp + 0x70))
+    if (this->m_ucOpacity != pcomp->m_ucOpacity)
         return true;
 
     if (_memcmp(reinterpret_cast<::FUN_0057eef0_shell *>(this)->FUN_0057eef0(), reinterpret_cast<::FUN_0057eef0_shell *>((pcomp))->FUN_0057eef0(), 0xc4) != 0)
         return true;
 
-    if (((FUN_0057ff10_texture*)((char*)this + 0x64))->operator==((FUN_0057ff10_texture*)((char*)pcomp + 0x64)))
+    if (((FUN_0057ff10_texture*)&this->m_kNoiseMapTexture)->operator==((FUN_0057ff10_texture*)&pcomp->m_kNoiseMapTexture))
         return true;
 
     if (((TESPackage*)this)->GetRefCount() != ((TESPackage*)pcomp)->GetRefCount())
@@ -597,7 +597,7 @@ bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
     if (((FUN_0057fed0*)this)->GetMember() != ((FUN_0057fed0*)pcomp)->GetMember())
         return true;
 
-    if (_memcmp((char*)this + 0x148, (char*)pcomp + 0x148, 0xc) != 0)
+    if (_memcmp((char*)&this->m_apWaterForms, (char*)&pcomp->m_apWaterForms, 0xc) != 0)
         return true;
 
     return false;
@@ -658,39 +658,39 @@ BGSPlaceableWater* FUN_00580130_shell::FUN_00580130()
 {
     char ptempname[260];
 
-    if (*reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180) == 0)
+    if (this->m_pPlaceableAutoWater == 0)
     {
-        *reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180) = new BGSPlaceableWater;
+        this->m_pPlaceableAutoWater = new BGSPlaceableWater;
 
-        (*reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))
+        (this->m_pPlaceableAutoWater)
             ->NotifySaveLoadGameOfFormChange();
 
-        reinterpret_cast<::fnv_004fc450::FUN_004fc450_shell *>(((*reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))))->FUN_004fc450(true);
+        reinterpret_cast<::fnv_004fc450::FUN_004fc450_shell *>(((this->m_pPlaceableAutoWater)))->FUN_004fc450(true);
 
-        reinterpret_cast<FUN_00580310_t*>(*reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))
+        reinterpret_cast<FUN_00580310_t*>(this->m_pPlaceableAutoWater)
             ->SetFlag400(true);
 
-        reinterpret_cast<::FUN_004fc3a0_shell *>(((*reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))))->FUN_004fc3a0(true);
+        reinterpret_cast<::FUN_004fc3a0_shell *>(((this->m_pPlaceableAutoWater)))->FUN_004fc3a0(true);
 
         reinterpret_cast<FUN_005802d0_shell*>(
-            *reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))
+            this->m_pPlaceableAutoWater)
             ->FUN_005802d0(true);
 
         reinterpret_cast<FUN_005802f0_shell*>(
-            *reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))
+            this->m_pPlaceableAutoWater)
             ->FUN_005802f0(true);
 
         ::FUN_00406d00(ptempname, 0x104, "PlaceableAutoWater");
 
-        (*reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))
+        (this->m_pPlaceableAutoWater)
             ->SetEditorID_AtRuntime(ptempname);
 
         reinterpret_cast<FUN_00589f50_shell*>(
-            *reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180))
+            this->m_pPlaceableAutoWater)
             ->SetSound(this);
     }
 
-    return *reinterpret_cast<BGSPlaceableWater**>(reinterpret_cast<char*>(this) + 0x180);
+    return this->m_pPlaceableAutoWater;
 }
 
 namespace fnv_00580330 {
@@ -1108,9 +1108,9 @@ void FUN_0057fbf0_shell::SaveWaterForm()
 {
     unsigned int auiFormIds[3];
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_standin*)this)))->FUN_004855a0();
-    ((FUN_00487010_shell*)((char*)this + 0x18))->FUN_00487010();
-    ::FUN_004856f0((void *)(0x4d414e4e), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)this + 0x64))))->FUN_00408da0())),
-                 (void *)(((TESModel*)((char*)this + 0x64))->GetModelLength() + 1));
+    ((FUN_00487010_shell*)static_cast<TESFullName *>(this))->FUN_00487010();
+    ::FUN_004856f0((void *)(0x4d414e4e), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)&this->m_kNoiseMapTexture)))->FUN_00408da0())),
+                 (void *)(((TESModel*)&this->m_kNoiseMapTexture)->GetModelLength() + 1));
     FUN_004858f0(0x4d414e41, m_ucOpacity);
     FUN_004858f0(0x4d414e46, cFlags);
     ::FUN_004856f0((void *)(0x4d414e4d), (void*)((Holder*)this)->FUN_0057fda0(), (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)((char*)this + 0x74))))->FUN_004048e0())) + 1));
@@ -1230,8 +1230,8 @@ void WaterEffectSetting::FUN_0057fde0(TESForm* apCopy)
     reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader(
         reinterpret_cast<TESEffectShader*>(reinterpret_cast<TESPackage*>(pcopy)->GetRefCount()));
     reinterpret_cast<::FUN_0057f890_shell *>((this))->FUN_0057f890(reinterpret_cast<SpellItem*>(reinterpret_cast<FUN_0057fed0*>(pcopy)->GetMember()));
-    memcpy(reinterpret_cast<unsigned char*>(this) + 0x148, reinterpret_cast<unsigned char*>(pcopy) + 0x148, 0xc);
+    memcpy(reinterpret_cast<unsigned char*>(&this->m_apWaterForms), reinterpret_cast<unsigned char*>(&pcopy->m_apWaterForms), 0xc);
     this->m_kNoiseMapTexture.CopyFromBase(
-        reinterpret_cast<BaseFormComponent*>(reinterpret_cast<unsigned char*>(pcopy) + 0x64));
+        static_cast<BaseFormComponent *>(&pcopy->m_kNoiseMapTexture));
     reinterpret_cast<FUN_0057fef0_shell*>(this)->FUN_0057fef0(reinterpret_cast<Holder*>(pcopy)->FUN_0057fda0());
 }

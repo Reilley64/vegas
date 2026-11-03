@@ -1257,7 +1257,9 @@ class TESPackage
 {
   public:
     bool IsPackageBlockingGreeting();
-    unsigned char layout00[0x94];
+    unsigned char layout00[0x1c];
+    unsigned int unk1c;
+    unsigned char pad20[0x74];
     MobileObject* dialogActor;
     TESTopic* FUN_00903bb0();
     Script* FUN_00903e20();

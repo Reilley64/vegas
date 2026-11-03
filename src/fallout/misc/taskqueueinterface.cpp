@@ -1310,8 +1310,8 @@ void FUN_0087b700_shell::FUN_0087b700(float afValue, NiPoint3* apPoint)
     ((BSPackedTask&)task).m_akPackedTaskVariantData[0].iData = 0x24;
     ((BSPackedTask&)task).m_akPackedTaskVariantData[1].fData = afValue;
     ((BSPackedTask&)task).m_akPackedTaskVariantData[2].fData = ((float*)apPoint)[0];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[3].fData = ((float*)apPoint)[1];
-    ((BSPackedTask&)task).m_akPackedTaskVariantData[4].fData = ((float*)apPoint)[2];
+    ((BSPackedTask&)task).m_akPackedTaskVariantData[3].fData = apPoint->y;
+    ((BSPackedTask&)task).m_akPackedTaskVariantData[4].fData = apPoint->z;
     ProcessPackedTask((BSPackedTask&)task);
 }
 
@@ -1327,8 +1327,8 @@ void Holder::FUN_0087b760(float afValue, NiPoint3* apPoint)
     ((int*)task)[0] = 0x25;
     ((float*)task)[1] = afValue;
     ((float*)task)[2] = ((float*)apPoint)[0];
-    ((float*)task)[3] = ((float*)apPoint)[1];
-    ((float*)task)[4] = ((float*)apPoint)[2];
+    ((float*)task)[3] = apPoint->y;
+    ((float*)task)[4] = apPoint->z;
     ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)task);
 }
 

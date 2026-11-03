@@ -379,7 +379,7 @@ struct FUN_007df210_shell : public ActiveEffect
 // @fnv 0x007df210
 bool FUN_007df210_shell::FUN_007df210()
 {
-    return (*(int*)((char*)this + 0x18) & 0x80) != 0;
+    return (this->iFlags & 0x80) != 0;
 }
 
 
@@ -452,8 +452,8 @@ bool __cdecl IsActorValueBelowPermanent(int* aHO)
                 etargetAV = 0x10;
             }
         }
-        return ((DummyAVOwner*)((char*)::_g_thePlayer + 0xa4))->GetActorValueI(etargetAV) <
-               ((DummyAVOwner*)((char*)::_g_thePlayer + 0xa4))->GetPermanentActorValueI(etargetAV);
+        return ((DummyAVOwner*)static_cast<ActorValueOwner *>(::_g_thePlayer))->GetActorValueI(etargetAV) <
+               ((DummyAVOwner*)static_cast<ActorValueOwner *>(::_g_thePlayer))->GetPermanentActorValueI(etargetAV);
     }
     else
     {
@@ -1513,14 +1513,14 @@ int FUN_007dfe40_shell::FUN_007dfe40()
     float fdmg;
     float fmax;
     int iLevel;
-    for (node = ((EffectList*)((char*)::_g_thePlayer + 0x94))->GetFirst(); node && *((::Script **)(new ((void *)(node)) ::Vec3()));
+    for (node = ((EffectList*)static_cast<MagicTarget *>(::_g_thePlayer))->GetFirst(); node && *((::Script **)(new ((void *)(node)) ::Vec3()));
          node = ((::NodeHelper *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         if (((int)(reinterpret_cast<::BGSMessageInitAccess *>(((*((::Script **)(new ((void *)(node)) ::Vec3())))))->GetIconFormID())) == 10 && ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((((AEHelper*)*((::Script **)(new ((void *)(node)) ::Vec3())))))->FUN_00833c20())))
             return 10;
     }
-    fmax = (float)((ValueSrc*)((char*)::_g_thePlayer + 0xa4))->GetCur(0x10);
-    fdmg = fmax - ((ValueSrc*)((char*)::_g_thePlayer + 0xa4))->GetMax(0x10);
+    fmax = (float)((ValueSrc*)static_cast<ActorValueOwner *>(::_g_thePlayer))->GetCur(0x10);
+    fdmg = fmax - ((ValueSrc*)static_cast<ActorValueOwner *>(::_g_thePlayer))->GetMax(0x10);
     iLevel = (int)(fdmg / fmax * 5.0);
     if (iLevel < 0)
         iLevel = 0;
@@ -2884,7 +2884,7 @@ struct SubObject_b5367
 bool __cdecl IsPlayerSubObjectValueAboveThreshold(int* apArg)
 {
     int iResult;
-    if (apArg[2] != 0 && ((SubObject_b5367*)((char*)::_g_thePlayer + 0xa4))->Unk_0C(0x36) > ::_DAT_01012060)
+    if (apArg[2] != 0 && ((SubObject_b5367*)static_cast<ActorValueOwner *>(::_g_thePlayer))->Unk_0C(0x36) > ::_DAT_01012060)
     {
         iResult = 1;
     }

@@ -243,9 +243,9 @@ struct NiKeyBasedInterpolator_LoadBinary_Helper : public NiKeyBasedInterpolator
 void FUN_00a49530_shell::FUN_00a49530(NiStream* pkStream)
 {
     ::FUN_00aa0ac0();
-    reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0x0c)->LoadBinary(*pkStream);
+    reinterpret_cast<NiColor*>(&this->m_kValue.x)->LoadBinary(*pkStream);
     NiObject* pkData = pkStream->DeserializeObject();
-    NiObject*& rspData = *reinterpret_cast<NiObject**>(reinterpret_cast<char*>(this) + 0x18);
+    NiObject*& rspData = *reinterpret_cast<NiObject**>(&this->m_spPosData);
     if (rspData != pkData)
     {
         if (rspData)
@@ -265,7 +265,7 @@ struct NiMemObject_Delete : public NiMemObject
 // @fnv 0x00a49ae0
 NiPoint3Interpolator* FUN_00a49ae0(NiPoint3Interpolator* pThis, int, unsigned int uiFlags)
 {
-    NiPosData* pkData = *(NiPosData**)((char*)pThis + 0x18);
+    NiPosData* pkData = pThis->m_spPosData;
     if (pkData)
         pkData->DecRefCount();
 
@@ -362,7 +362,7 @@ bool FUN_00a49590_shell::FUN_00a49590(NiStream* kStream)
 {
     if (!reinterpret_cast<HC1Base*>(this)->FUN_00aa0ad0(kStream))
         return false;
-    HC1Data* d = *reinterpret_cast<HC1Data**>(reinterpret_cast<char*>(this) + 0x18);
+    HC1Data* d = *reinterpret_cast<HC1Data**>(&this->m_spPosData);
     if (d)
         d->RegisterStreamables(*kStream);
     return true;
@@ -408,7 +408,7 @@ void FUN_00a495c0_shell::FUN_00a495c0(NiStream* stream)
 {
     reinterpret_cast<::FUN_00a95ca0_shell *>((((FUN_00a95ca0_helper*)this)))->FUN_00a95ca0((*(::S_00a58160_Stream *)(stream)));
     reinterpret_cast<::NiColor *>((((NiColorSaveHelper*)(char*)this + 0xc)))->SaveBinary(*stream);
-    ((NiStreamLinkHelper*)stream)->SaveLinkID(*(void**)((char*)this + 0x18));
+    ((NiStreamLinkHelper*)stream)->SaveLinkID(*(void**)&this->m_spPosData);
 }
 
 struct GlobalObjectO2_00a7b610;

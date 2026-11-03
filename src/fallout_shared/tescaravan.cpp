@@ -346,7 +346,7 @@ struct FUN_00503650_shell : public TESCaravanCard
 // @fnv 0x00503650
 TESTexture* FUN_00503650_shell::FUN_00503650()
 {
-    return reinterpret_cast<TESTexture*>(reinterpret_cast<char*>(this) + 0xA8);
+    return &this->m_kBackTexture;
 }
 
 struct FUN_0059adf0 : public TESForm

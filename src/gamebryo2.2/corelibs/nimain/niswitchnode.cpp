@@ -256,7 +256,7 @@ NiObject* FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloning)
         pkObject = 0;
     reinterpret_cast<::NiNode *>((((NiNode_Helper*)this)))->CopyMemberData((::NiNode *)(pkObject), (*(::CloningProcess *)(&kCloning)));
     *(unsigned short*)((char*)pkObject + 0xAC) = *(unsigned short*)((char*)this + 0xAC);
-    *(void**)((char*)pkObject + 0xB0) = *(void**)((char*)this + 0xB0);
+    pkObject->m_0b0 = this->m_0b0;
     return pkObject;
 }
 }  // namespace fnv_00a94500

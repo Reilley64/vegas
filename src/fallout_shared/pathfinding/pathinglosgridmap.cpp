@@ -406,12 +406,11 @@ void FormLoadEntry::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
     {
         unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
 
-        reinterpret_cast<FUN_006e10c0_shell*>(reinterpret_cast<char*>(this) + 4)->FUN_006e10c0(isaveGameCount, 1);
+        reinterpret_cast<FUN_006e10c0_shell*>(&this->index)->FUN_006e10c0(isaveGameCount, 1);
 
         for (unsigned int i = 0; i < isaveGameCount; ++i)
         {
-            char* cindex = reinterpret_cast<FUN_006dfa70_index_shell*>(reinterpret_cast<char*>(this) + 4)
-                               ->FUN_006e0ed0(reinterpret_cast<void*>(i));
+            char* cindex = this->index.FUN_006e0ed0(reinterpret_cast<void*>(i));
 
             reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(cindex), 1);
         }
@@ -1042,7 +1041,7 @@ bool FUN_006e0b50_cls::FUN_006e0b50(void* aArg)
         return false;
     }
     value = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)((char*)this + 8))))->FUN_00853130((unsigned int)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), *(::fnv_00853130::CombatThreatRecord * *)nullptr))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)&this->m_08[0])))->FUN_00853130((unsigned int)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), *(::fnv_00853130::CombatThreatRecord * *)nullptr))
     {
         return reinterpret_cast<::FUN_006dfdc0_Class *>((((FUN_006dfdc0_shell*)value)))->FUN_006dfdc0((::PathingLocation *)(aArg));
     }

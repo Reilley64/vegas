@@ -750,7 +750,7 @@ void FUN_008111e0_shell::LoadFromSave(unsigned int aiFlags, unsigned int aiCurre
         reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x8c), 4);
     }
 
-    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<TESSaveLoadGameLoadData*>((*reinterpret_cast<::fnv_008111e0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xac), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<TESSaveLoadGameLoadData*>((*reinterpret_cast<::fnv_008111e0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(&this->eState)), 4);
 
     reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xb0), 4);
 

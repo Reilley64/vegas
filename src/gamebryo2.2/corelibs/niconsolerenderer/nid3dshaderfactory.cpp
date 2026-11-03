@@ -600,9 +600,9 @@ struct FakeFactory374
 void FUN_00e91e60_shell::FUN_00e91e60(GraphicsRenderer* pkRenderer)
 {
     ShaderConstantInterface* pkLibrary;
-    if (*(GraphicsRenderer**)((char*)this + 0x24) != pkRenderer)
+    if (*(GraphicsRenderer**)&this->m_pOwnerShader != pkRenderer)
     {
-        *(GraphicsRenderer**)((char*)this + 0x24) = pkRenderer;
+        *(GraphicsRenderer**)&this->m_pOwnerShader = pkRenderer;
         pkLibrary = ((FakeFactory374*)this)->GetVertexShaderConstantInterface();
         if (pkLibrary)
         {

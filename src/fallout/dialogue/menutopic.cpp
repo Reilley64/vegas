@@ -233,11 +233,11 @@ void FUN_0083e230_shell::FUN_0083e230()
     BSSimpleList<char const*>* pCurrentElementNext;
 
     *(int*)((char*)this + 0xc) = 0;
-    while (!_ref_008256d0((char*)this + 4))
+    while (!_ref_008256d0((char*)&this->m_kTopicListStack))
     {
-        pCurrentElementNext = *((::BSSimpleList<const char *> **)(new ((void *)((char*)this + 4)) ::Vec3()));
-        _ref_0063f7b0((char*)this + 4);
-        bdeletegreeting = _ref_008256d0((char*)this + 4);
+        pCurrentElementNext = *((::BSSimpleList<const char *> **)(new ((void *)((char*)&this->m_kTopicListStack)) ::Vec3()));
+        _ref_0063f7b0((char*)&this->m_kTopicListStack);
+        bdeletegreeting = _ref_008256d0((char*)&this->m_kTopicListStack);
         ((FUN_0083e2d0_helper*)this)->FUN_0083e2d0(pCurrentElementNext, bdeletegreeting);
         reinterpret_cast<::FileMatchList *>((((BSSimpleList<int>*)pCurrentElementNext)))->RemoveAll();
         delete pCurrentElementNext;
@@ -280,7 +280,7 @@ struct FUN_0083f260_shell : public TopicMenuController
 // @fnv 0x0083f260
 void* FUN_0083f260_shell::FUN_0083f260()
 {
-    return *((void **)(new ((void *)((char*)this + 4)) ::Vec3()));
+    return *((void **)(new ((void *)((char*)&this->m_kTopicListStack)) ::Vec3()));
 }
 }  // namespace fnv_0083f260
 
@@ -292,7 +292,7 @@ struct FUN_00965250_shell : public TESTopic
 // @fnv 0x00965250
 void FUN_00965250_shell::FUN_00965250(float afValue)
 {
-    *(float*)((char*)this + 0x28) = afValue;
+    this->m_fTopicParamB = afValue;
 }
 
 namespace fnv_0083e2d0 {

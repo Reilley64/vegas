@@ -60,7 +60,7 @@ struct FUN_00b6dd00_Owner
 // @fnv 0x00b6dd00
 void FUN_00b6dd00_Owner::FUN_00b6dd00(int iArg1, bool bArg2)
 {
-    void* pvPos = *(void**)((char*)this + 0x78);
+    void* pvPos = *(void**)&this->m_kList.m_pkHead;
     while (pvPos)
     {
         FUN_00b6dd00_Node* pkNode = (FUN_00b6dd00_Node*)pvPos;

@@ -234,7 +234,16 @@ struct BSFadeNode
 };
 struct FUN_00ba8e50 : BSFadeNode
 {
-    int pad[24];
+    int pad[0x8];
+    int unk20;
+    int unk24;
+    float unk28;
+    float unk2c;
+    int pad30[0x2];
+    int unk38;
+    int pad3c[0x7];
+    int unk58;
+    float unk5c;
     FUN_00ba8e50();
 };
 // Allocates and constructs a new FUN_00ba8e50 (BSFadeNode-derived) object, returning the pointer.
@@ -846,13 +855,13 @@ FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(unsigned int uiPass)
 {
     FUN_00ba8e50* pResult = new FUN_00ba8e50;
     reinterpret_cast<::NiCullingProperty *>(this)->FUN_00a81430(pResult, (*(::CloningProcess *)(uiPass)));
-    *(int*)((char*)pResult + 0x20) = f20;
-    *(int*)((char*)pResult + 0x24) = f24;
-    *(float*)((char*)pResult + 0x28) = f28;
-    *(float*)((char*)pResult + 0x2c) = f2c;
-    *(int*)((char*)pResult + 0x38) = 0;
-    *(int*)((char*)pResult + 0x58) = f58;
-    *(float*)((char*)pResult + 0x5c) = f5c;
+    pResult->unk20 = f20;
+    pResult->unk24 = f24;
+    pResult->unk28 = f28;
+    pResult->unk2c = f2c;
+    pResult->unk38 = 0;
+    pResult->unk58 = f58;
+    pResult->unk5c = f5c;
     return pResult;
 }
 

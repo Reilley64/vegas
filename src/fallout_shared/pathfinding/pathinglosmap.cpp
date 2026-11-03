@@ -347,24 +347,24 @@ char FUN_006e1670_cls::FUN_006e1670(unsigned int limit, SpawnedTarget* target, u
 {
     unsigned int i;
     unsigned int accum;
-    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)((char*)this + 0x1c))))->FUN_0076b610())
+    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)&this->unk1c)))->FUN_0076b610())
     {
         return 0;
     }
 
     i = 0;
-    for (accum = 0; accum < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((SeqList*)((char*)this + 0x1c))))->GetName())); accum++)
+    for (accum = 0; accum < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((SeqList*)&this->unk1c)))->GetName())); accum++)
     {
         unsigned int len;
-        Script* script = ((::Script *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SeqEntry *)(::FUN_00559450((int *)(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum)))))))->FUN_0084e3a0()));
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((SubMatcher*)((char*)this + 8))))->FUN_00853130((unsigned int)(script), (*(::fnv_00853130::CombatThreatRecord * *)(&len))))
+        Script* script = ((::Script *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SeqEntry *)(::FUN_00559450((int *)(((SeqList*)&this->unk1c)->FUN_00877a30(accum)))))))->FUN_0084e3a0()));
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((SubMatcher*)&this->unk08)))->FUN_00853130((unsigned int)(script), (*(::fnv_00853130::CombatThreatRecord * *)(&len))))
         {
             return 0;
         }
         if (len > limit)
         {
             *outOffset = (unsigned short)(limit - i);
-            reinterpret_cast<::NavMeshPtr *>((target))->operator=((*(const ::NavMeshPtr *)(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum - 1))));
+            reinterpret_cast<::NavMeshPtr *>((target))->operator=((*(const ::NavMeshPtr *)(((SeqList*)&this->unk1c)->FUN_00877a30(accum - 1))));
             return 1;
         }
         else
@@ -373,7 +373,7 @@ char FUN_006e1670_cls::FUN_006e1670(unsigned int limit, SpawnedTarget* target, u
         }
     }
     *outOffset = (unsigned short)(limit - i);
-    reinterpret_cast<::NavMeshPtr *>((target))->operator=((*(const ::NavMeshPtr *)(((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum - 1))));
+    reinterpret_cast<::NavMeshPtr *>((target))->operator=((*(const ::NavMeshPtr *)(((SeqList*)&this->unk1c)->FUN_00877a30(accum - 1))));
     return 1;
 }
 

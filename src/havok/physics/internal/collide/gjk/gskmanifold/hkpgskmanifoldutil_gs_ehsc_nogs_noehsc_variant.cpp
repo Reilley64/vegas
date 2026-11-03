@@ -682,11 +682,11 @@ static inline void CopyContact(ContactRecord& destination, const ContactRecord& 
 // For smaller manifolds the table starts after the last live entry.
 static inline unsigned short* VertexIds(ContactManifold* set)
 {
-    return reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(set) + 4 + set->count * 8);
+    return reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(&set->entries) + set->count * 8);
 }
 static inline S_00dad4d0_Entry& ContactEntry(ContactManifold* set, unsigned index)
 {
-    return *reinterpret_cast<S_00dad4d0_Entry*>(reinterpret_cast<char*>(set) + 4 + index * 8);
+    return *reinterpret_cast<S_00dad4d0_Entry*>(reinterpret_cast<char*>(&set->entries) + index * 8);
 }
 
 static void FUN_00dae220(int, ContactManifold* set);
@@ -717,8 +717,8 @@ int FUN_00daf1e0(ContactManifold* set, void* a, void* b, void* c, ContactContext
             unsigned newCount = res - 1;
             set->count = static_cast<unsigned char>(newCount);
             volatile unsigned* destination =
-                reinterpret_cast<unsigned*>(reinterpret_cast<char*>(set) + 4 + newCount * 8);
-            const unsigned* source = reinterpret_cast<const unsigned*>(reinterpret_cast<char*>(set) + 4 + res * 8);
+                reinterpret_cast<unsigned*>(reinterpret_cast<char*>(&set->entries) + newCount * 8);
+            const unsigned* source = reinterpret_cast<const unsigned*>(reinterpret_cast<char*>(&set->entries) + res * 8);
             for (int words = (set->unk0 + set->unk1 - 1) >> 1; words >= 0; --words)
                 *destination++ = *source++;
             CopyContact(cache->points[index], cache->points[3]);
@@ -745,8 +745,8 @@ int FUN_00daf1e0(ContactManifold* set, void* a, void* b, void* c, ContactContext
         unsigned res = set->count;
         unsigned newCount = res + 1;
         int lastWord = (set->unk1 + set->unk0 - 1) >> 1;
-        unsigned* destination = reinterpret_cast<unsigned*>(reinterpret_cast<char*>(set) + 4 + newCount * 8) + lastWord;
-        unsigned* source = reinterpret_cast<unsigned*>(reinterpret_cast<char*>(set) + 4 + res * 8) + lastWord;
+        unsigned* destination = reinterpret_cast<unsigned*>(reinterpret_cast<char*>(&set->entries) + newCount * 8) + lastWord;
+        unsigned* source = reinterpret_cast<unsigned*>(reinterpret_cast<char*>(&set->entries) + res * 8) + lastWord;
         for (; 0 <= lastWord; --lastWord)
             *destination-- = *source--;
         set->entries[res] = set->entries[0];
@@ -841,7 +841,7 @@ static __declspec(noinline) void FUN_00dae220(int, ContactManifold* set)
             used[offs[3] >> 4] = 1;
         offs += 8;
     }
-    unsigned short* vertices = reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(set) + 4 + contactCount * 8);
+    unsigned short* vertices = reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(&set->entries) + contactCount * 8);
     int total = set->unk0 + set->unk1;
     unsigned count = 0;
     unsigned offset = 0;

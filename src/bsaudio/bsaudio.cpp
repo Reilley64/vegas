@@ -223,11 +223,11 @@ struct FUN_00ad8740_shell : public BSAudio
 // @fnv 0x00ad8740
 void FUN_00ad8740_shell::FUN_00ad8740()
 {
-    if (*reinterpret_cast<void (**)()>(reinterpret_cast<char*>(this) + 0x34))
+    if (*reinterpret_cast<void (**)()>(&this->m_pfnShutdownAudio))
     {
-        (*reinterpret_cast<void (**)()>(reinterpret_cast<char*>(this) + 0x34))();
+        (*reinterpret_cast<void (**)()>(&this->m_pfnShutdownAudio))();
     }
-    char* p = reinterpret_cast<char*>(this) + 0x14;
+    char* p = reinterpret_cast<char*>(&this->m_kAudioBackendData);
     *reinterpret_cast<unsigned int*>(p + 8) &= ~1u;
 }
 
@@ -538,7 +538,7 @@ struct FUN_00ad7cb0_shell2
 float FUN_00ad7cb0_shell2::FUN_00ad7cb0()
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
-    float val = *(float*)((char*)mgr + 0x15c);
+    float val = mgr->m_fVolumeSetting7;
     return val;
 }
 
@@ -995,15 +995,15 @@ void FUN_00ad7230_shell::FUN_00ad7230(bool abUseMultipleThreads)
     {
         return;
     }
-    if (abUseMultipleThreads && !*(reinterpret_cast<bool*>(this) + 6))
+    if (abUseMultipleThreads && !this->m_bUseMultipleThreads)
     {
         reinterpret_cast<::AudioThreadHost_00ad9f30 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00ad9f30();
     }
-    else if (!abUseMultipleThreads && *(reinterpret_cast<bool*>(this) + 6))
+    else if (!abUseMultipleThreads && this->m_bUseMultipleThreads)
     {
         reinterpret_cast<::BSAudioManager_ *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00ada020();
     }
-    *(reinterpret_cast<bool*>(this) + 6) = abUseMultipleThreads;
+    this->m_bUseMultipleThreads = abUseMultipleThreads;
 }
 
 struct BSAudioSoundHandle

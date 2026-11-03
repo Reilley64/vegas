@@ -259,7 +259,7 @@ BVClone* BVClone::Clone()
     if (pkClone)
     {
         *(int*)pkClone = (int)&::DAT_010f1854;
-        *(S16*)((char*)pkClone + 4) = *(S16*)((char*)this + 4);
+        pkClone->s = this->s;
         return pkClone;
     }
     return 0;

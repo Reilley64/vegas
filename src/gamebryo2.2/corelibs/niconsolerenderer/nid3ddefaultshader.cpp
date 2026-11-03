@@ -66,7 +66,7 @@ struct FUN_00e7c560_shell : NiD3DShader
 // @fnv 0x00e7c560
 bool FUN_00e7c560_shell::InitializeIfNeeded()
 {
-    if (!*(reinterpret_cast<bool*>(this) + 0x10))
+    if (!this->unk10)
     {
         if (!reinterpret_cast<NiD3DShaderInit*>(this)->Initialize())
             return false;

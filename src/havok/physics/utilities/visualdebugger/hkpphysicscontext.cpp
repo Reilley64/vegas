@@ -1289,7 +1289,7 @@ found:
 notFound:
     FUN_00c93a60_cls* obj = (FUN_00c93a60_cls*)pItem;
     FUN_00cd2530_cls* self = this;
-    void* param = self != 0 ? (char*)self + 0x58 : 0;
+    void* param = self != 0 ? (char*)&self->unk58 : 0;
     reinterpret_cast<::hkpWorld_Listener *>((obj))->FUN_00c93a60(param);
 
     AllocatorState* holder = FUN_00c85750();

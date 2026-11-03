@@ -882,7 +882,7 @@ extern "C" void __cdecl FUN_00d33b90(void* a, void* b, void* c, void* d)
             _ReadWriteBarrier();
             tick = (DWORD)__rdtsc();
             pRec->m_iTick = tick;
-            pBuf->m_pCur = (char*)pRec + 0xc;
+            pBuf->m_pCur = (char*)&pRec->m_pName2;
         }
         ::FUN_00d34790(a, b, c, (int)(d));
     }
@@ -895,7 +895,7 @@ extern "C" void __cdecl FUN_00d33b90(void* a, void* b, void* c, void* d)
         _ReadWriteBarrier();
         tick = (DWORD)__rdtsc();
         pRec->m_iTick = tick;
-        pBuf->m_pCur = (char*)pRec + 0xc;
+        pBuf->m_pCur = (char*)&pRec->m_pName2;
     }
 }
 

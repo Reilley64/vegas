@@ -33,7 +33,9 @@ struct BaseStub
 };
 struct FUN_00ee8500
 {
-    char _pad[40];
+    char _pad[0x8];
+    unsigned char unk08;
+    char pad09[0x1f];
     FUN_00ee8500();
 };
 // Calls the base constructor, installs DAT_011010ec as the vtable pointer, and zeroes the byte at offset 8 and the dwords from offset 12 through 36.
@@ -41,7 +43,7 @@ struct FUN_00ee8500
 FUN_00ee8500::FUN_00ee8500()
 {
     new ((void *)(((BaseStub*)this))) struct ::FUN_00a5d3a0();
-    *(volatile unsigned char*)((char*)this + 8) = 0;
+    this->unk08 = 0;
     *(volatile unsigned int*)this = (unsigned int)&DAT_011010ec;
     *(volatile unsigned int*)((char*)this + 12) = 0;
     *(volatile unsigned int*)((char*)this + 16) = 0;

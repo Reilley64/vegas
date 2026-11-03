@@ -265,11 +265,11 @@ void FUN_007f6920()
     while (*((TargetList*)&::g_011db150)->FUN_006815c0())
     {
         ptarg = *((TargetList*)&::g_011db150)->FUN_006815c0();
-        while (*((ItemList*)((char*)ptarg + 8))->FUN_006815c0())
+        while (*ptarg->items.FUN_006815c0())
         {
-            pitem = *((ItemList*)((char*)ptarg + 8))->FUN_006815c0();
+            pitem = *ptarg->items.FUN_006815c0();
             delete pitem;
-            ((ItemList*)((char*)ptarg + 8))->FUN_0063f7b0();
+            ptarg->items.FUN_0063f7b0();
         }
         delete ptarg;
         ((TargetList*)&::g_011db150)->FUN_0063f7b0();

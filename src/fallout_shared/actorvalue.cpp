@@ -573,7 +573,7 @@ const char* __cdecl FUN_0066e9f0(ActorValue::Index aeActorValue)
 {
     ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(aeActorValue)))));
     if (pinfo)
-        return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<TESFullName*>(reinterpret_cast<char*>(pinfo) + 0x2c)))->FUN_00408da0()));
+        return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<TESFullName*>(static_cast<TESIcon *>(pinfo))))->FUN_00408da0()));
     return 0;
 }
 

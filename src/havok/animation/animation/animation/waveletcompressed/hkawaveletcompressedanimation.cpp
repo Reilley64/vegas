@@ -23,7 +23,7 @@ int __cdecl FUN_00e51da0(int aiValue, const char* apBytes)
 // @fnv 0x00e2f9f0
 unsigned int FUN_00e2f9f0(hkaWaveletCompressedAnimation* self, int, unsigned int a)
 {
-    return a / *(unsigned int*)((char*)self + 0x2c) + *(int*)((char*)self + 0x64);
+    return a / *(unsigned int*)&self->m_iDofCount + *(int*)((char*)self + 0x64);
 }
 
 struct FUN_00e2f8c0_Class

@@ -901,7 +901,7 @@ bool TESDataHandler::LoadForm(TESForm* form, TESFile* file)
 // @fnv 0x00460250
 bool FUN_00460250_shell::FUN_00460250()
 {
-    return (*(unsigned int*)((char*)this + 8) & 1) ? true : false;
+    return (this->flags & 1) ? true : false;
 }
 
 struct FUN_00460340_shell : public TESForm
@@ -912,7 +912,7 @@ struct FUN_00460340_shell : public TESForm
 // @fnv 0x00460340
 bool FUN_00460340_shell::FUN_00460340()
 {
-    return (*(unsigned int*)((char*)this + 8) & 2) ? true : false;
+    return (this->flags & 2) ? true : false;
 }
 
 struct FUN_00460360_shell : public TESDataHandler
@@ -1164,7 +1164,7 @@ struct FUN_00462e80_shell : public TESFile
 // @fnv 0x00462e80
 char* FUN_00462e80_shell::FUN_00462e80()
 {
-    return reinterpret_cast<char*>(this) + 0x124;
+    return reinterpret_cast<char*>(&this->directory);
 }
 
 struct FUN_00464d30_shell : public TESDataHandler
@@ -1175,7 +1175,7 @@ struct FUN_00464d30_shell : public TESDataHandler
 // @fnv 0x00464d30
 void FUN_00464d30_shell::FUN_00464d30(bool abNewbool)
 {
-    *((bool*)((char*)this + 0x620)) = abNewbool;
+    this->flag620 = abNewbool;
 }
 
 struct FUN_00464d50_shell : public TESDataHandler
@@ -1282,10 +1282,10 @@ unsigned int TESDataHandler::GetNextID()
 // @fnv 0x004697a0
 void FUN_004697a0_shell::FUN_004697a0()
 {
-    ++*(unsigned int*)((char*)this + 0x208);
-    if ((*(unsigned int*)((char*)this + 0x208) & 0x00ffffff) >= 0x007fffff)
+    ++this->nextID;
+    if ((this->nextID & 0x00ffffff) >= 0x007fffff)
     {
-        *(unsigned int*)((char*)this + 0x208) = (*(unsigned int*)((char*)this + 0x208) & 0xff000000) + 0x800;
+        this->nextID = (this->nextID & 0xff000000) + 0x800;
     }
 }
 
@@ -1297,8 +1297,8 @@ struct FUN_0046a010_shell : public TESForm
 // @fnv 0x0046a010
 void FUN_0046a010_shell::FUN_0046a010(bool abVal)
 {
-    abVal ? *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 8) |= 0x200000
-          : *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 8) &= ~0x200000;
+    abVal ? this->flags |= 0x200000
+          : this->flags &= ~0x200000;
 }
 
 struct BSMultiBoundNode;
@@ -2325,10 +2325,10 @@ void FUN_00462fb0_shell::FUN_00462fb0()
     int count2;
     TESFormList* pWorldNode;
     BGSCameraPath* pObj8 = 0;
-    count2 = reinterpret_cast<::FUN_00658930_class *>((((ArrHelper*)((char*)this + 0x1dc))))->GetShortAtOffsetA();
+    count2 = reinterpret_cast<::FUN_00658930_class *>((((ArrHelper*)&this->interiorCells)))->GetShortAtOffsetA();
     for (int iIndex = 0; iIndex < count2; ++iIndex)
     {
-        pObj8 = (BGSCameraPath*)*((ArrHelper*)((char*)this + 0x1dc))->GetAt(iIndex);
+        pObj8 = (BGSCameraPath*)*((ArrHelper*)&this->interiorCells)->GetAt(iIndex);
         if (pObj8)
             reinterpret_cast<::fnv_0054c740::FUN_0054c740_shell *>((((FUN_0054c740_shell*)pObj8)))->FUN_0054c740(1, 1);
     }
@@ -2481,7 +2481,7 @@ void FUN_00460360_shell::ProcessAllFiles()
 // @fnv 0x0045dfc0
 void* FUN_0045dfc0_shell::FUN_0045dfc0()
 {
-    return reinterpret_cast<char*>(this) + 0x210;
+    return reinterpret_cast<char*>(&this->files);
 }
 
 struct FUN_00461010_shell
@@ -3588,10 +3588,10 @@ TESObjectCELL* FUN_00461ae0_shell::FUN_00461ae0(const char* pcEditorID)
 {
     if (!pcEditorID)
         return 0;
-    int iSize = reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x1dc))))->GetShortAtOffsetA();
+    int iSize = reinterpret_cast<::FUN_00658930_class *>((((Arr*)&this->interiorCells)))->GetShortAtOffsetA();
     for (int i = 0; i < iSize; ++i)
     {
-        TESForm* form = *(TESForm**)((Arr*)((char*)this + 0x1dc))->GetAt(i);
+        TESForm* form = *(TESForm**)((Arr*)&this->interiorCells)->GetAt(i);
         if (!FUN_00404dc0(form->GetEditorID(), pcEditorID))
             return (TESObjectCELL*)form;
     }

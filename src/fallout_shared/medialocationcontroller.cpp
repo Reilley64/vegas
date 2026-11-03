@@ -283,7 +283,7 @@ struct FUN_00595cf0_shell : public MediaLocationController
 // @fnv 0x00595cf0
 int FUN_00595cf0_shell::FUN_00595cf0()
 {
-    return *(unsigned int*)((char*)this + 0x6c) & 0xf;
+    return *(unsigned int*)&this->iFlags & 0xf;
 }
 
 struct FUN_00595d10_shell : public PlayerCharacter
@@ -305,7 +305,7 @@ struct FUN_00595e80_shell : public MediaLocationController
 // @fnv 0x00595e80
 bool FUN_00595e80_shell::FUN_00595e80()
 {
-    if ((*(int*)((char*)this + 0x6c) >> 6) & 1)
+    if ((this->iFlags >> 6) & 1)
         return true;
     return false;
 }

@@ -4632,7 +4632,7 @@ void FUN_00724360_cls::FUN_00724360()
 
     m_1c = 0;
     m_20 = 0.0f;
-    for (cur = (FUN_00724360_Item*)((this != 0) ? (char*)this + 4 : 0); cur != 0 && *((int **)(new ((void *)(cur)) ::Vec3())) != 0;
+    for (cur = (FUN_00724360_Item*)((this != 0) ? (char*)&this->unk04 : 0); cur != 0 && *((int **)(new ((void *)(cur)) ::Vec3())) != 0;
          cur = (FUN_00724360_Item*)reinterpret_cast<::Callees *>((cur))->FUN_00726070())
     {
         if (((unsigned char*)*((int **)(new ((void *)(cur)) ::Vec3())))[8] == 0)
@@ -4650,7 +4650,7 @@ void FUN_00724930_cls::FUN_00724930()
     m_1c = 0;
     m_20 = 0.0f;
     Node00724930* cur;
-    for (cur = this != 0 ? (Node00724930*)((char*)this + 4) : 0; cur != 0 && *((::Item00724930 **)(new ((void *)(cur)) ::Vec3())) != 0;
+    for (cur = this != 0 ? (Node00724930*)&this->unk04 : 0; cur != 0 && *((::Item00724930 **)(new ((void *)(cur)) ::Vec3())) != 0;
          cur = ((::Node00724930 *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
         if ((*((::Item00724930 **)(new ((void *)(cur)) ::Vec3())))->flag08 == 0)

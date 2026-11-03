@@ -2167,6 +2167,6 @@ NiBoundingVolume* __cdecl FUN_00e9c850(unsigned int code, int* point)
                                     *(NiPoint3*)&(*reinterpret_cast<int *>(&::DAT_011a9478)), *(NiPoint3*)&(*reinterpret_cast<int *>((void *)&::DAT_011a9484)))));
     else
         result = 0;
-    memcpy((char*)result + 4, &stBounds, 60);
+    memcpy((char*)&result->unk04, &stBounds, 60);
     return result;
 }

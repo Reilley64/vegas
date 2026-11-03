@@ -45,7 +45,7 @@ class NiInterpControllerFlagCheck : public NiInterpController
 // @fnv 0x00a2f8f0
 void NiInterpControllerFlagCheck::ResetIfFlagClear()
 {
-    unsigned char value = *(unsigned char*)((char*)this + 8);
+    unsigned char value = *(unsigned char*)&this->flags;
     for (int i = 0; i < 5; ++i)
         value = (unsigned char)(value >> 1);
     if (!(value & 1))

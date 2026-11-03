@@ -144,9 +144,9 @@ struct FUN_004a4cc0_shell : public RgbaColor
 bool FUN_004a4cc0_shell::FUN_004a4cc0(void* apOther)
 {
     return reinterpret_cast<const float*>(this)[0] == static_cast<const float*>(apOther)[0] &&
-           reinterpret_cast<const float*>(this)[1] == static_cast<const float*>(apOther)[1] &&
-           reinterpret_cast<const float*>(this)[2] == static_cast<const float*>(apOther)[2] &&
-           reinterpret_cast<const float*>(this)[3] == static_cast<const float*>(apOther)[3];
+           this->g == static_cast<const float*>(apOther)[1] &&
+           this->b == static_cast<const float*>(apOther)[2] &&
+           this->a == static_cast<const float*>(apOther)[3];
 }
 
 struct FUN_004a51d0_shell : public NiBound
@@ -1664,7 +1664,8 @@ struct FUN_004a5100
     virtual void v0();
     virtual void v1(int);
     virtual void v2(int);
-    char pad[0x30];
+    int unk04;
+    char pad08[0x2c];
     FUN_004a5100();
     virtual ~FUN_004a5100();
 };
@@ -1675,7 +1676,7 @@ FUN_004a5100* FUN_004a5100_create(float afValue, int aiArg)
     FUN_004a5100* p = new FUN_004a5100;
     p->v2(aiArg);
     reinterpret_cast<::BGSPrimitiveSphere *>((p))->SetRadius(afValue);
-    *(int*)((char*)p + 4) = 2;
+    p->unk04 = 2;
     return p;
 }
 }  // namespace fnv_004a5100

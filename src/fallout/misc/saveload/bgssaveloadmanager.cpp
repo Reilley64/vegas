@@ -494,14 +494,14 @@ void FUN_00851250_shell::SetSaveFileName(char* apSaveFileName, int aiDeviceID)
     if (!apSaveFileName)
         return;
 
-    if (*(char**)((char*)this + 0x14) && !FUN_00408b20(*(char**)((char*)this + 0x14), apSaveFileName))
+    if (this->unk14 && !FUN_00408b20(this->unk14, apSaveFileName))
         return;
 
-    delete *(char**)((char*)this + 0x14);
+    delete this->unk14;
     unsigned int ilength = ::FUN_0044a670(apSaveFileName) + 1;
-    *(char**)((char*)this + 0x14) = new char[ilength];
-    TaskQueueInterface::CopyStringToBuffer(*(char**)((char*)this + 0x14), ilength, apSaveFileName);
-    *(int*)((char*)this + 0x18) = aiDeviceID;
+    this->unk14 = new char[ilength];
+    TaskQueueInterface::CopyStringToBuffer(this->unk14, ilength, apSaveFileName);
+    this->unk18 = aiDeviceID;
 }
 
 struct IOManager;

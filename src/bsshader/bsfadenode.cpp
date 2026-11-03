@@ -224,7 +224,7 @@ struct FUN_00b4dec0_shell : public BSFadeNode
 // @fnv 0x00b4dec0
 void FUN_00b4dec0_shell::FUN_00b4dec0(int aeMultType)
 {
-    *(int*)((char*)this + 0xc4) = aeMultType;
+    this->eMultType = aeMultType;
 }
 
 struct NiNode_Helper : public NiNode
@@ -237,8 +237,8 @@ void* FUN_00b4e3f0(void* apSource, int dummy, void* kCloning)
     BSFadeNode* pFadeNode = new BSFadeNode();
     reinterpret_cast<::NiNode *>((((NiNode_Helper*)apSource)))->CopyMemberData((NiNode*)pFadeNode, (*(::CloningProcess *)(kCloning)));
     *(unsigned int*)((char*)pFadeNode + 0x30) &= 0xfffd3fff;
-    *(float*)((char*)pFadeNode + 0xac) = *(float*)((char*)apSource + 0xac);
-    *(float*)((char*)pFadeNode + 0xb0) = *(float*)((char*)apSource + 0xb0);
+    pFadeNode->fNearDistSqr = *(float*)((char*)apSource + 0xac);
+    pFadeNode->fFarDistSqr = *(float*)((char*)apSource + 0xb0);
     *(void**)((char*)pFadeNode + 0xc4) = *(void**)((char*)apSource + 0xc4);
     return pFadeNode;
 }
@@ -722,11 +722,11 @@ struct Pt3
 bool FUN_00b4e030_shell::IsWithinFadeDistance(NiCamera* apCamera, float afDistMult)
 {
     float ffadeAdjust = *(float*)((char*)apCamera + 0x110);
-    if (*(int*)((char*)this + 0xc4) == 9)
+    if (this->eMultType == 9)
         return false;
-    if (*(int*)((char*)this + 0xc4) >= 0 && *(int*)((char*)this + 0xc4) < 11)
+    if (this->eMultType >= 0 && this->eMultType < 11)
     {
-        float fdiff = DAT_011ad7b8[*(int*)((char*)this + 0xc4)];
+        float fdiff = DAT_011ad7b8[this->eMultType];
         if (fdiff != 0.0f)
             ffadeAdjust = ffadeAdjust / fdiff;
     }
@@ -737,7 +737,7 @@ bool FUN_00b4e030_shell::IsWithinFadeDistance(NiCamera* apCamera, float afDistMu
     if (fDist < 0.0f)
         fDist = 0.0f;
     float fadeMult = fDist * ffadeAdjust;
-    if (fadeMult > *(float*)((char*)this + 0xb0) * DAT_011ad7f4)
+    if (fadeMult > this->fFarDistSqr * DAT_011ad7f4)
         return false;
     return true;
 }

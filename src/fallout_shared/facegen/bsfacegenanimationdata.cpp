@@ -121,7 +121,7 @@ void BSFaceGenAnimationData::SetExpressionWeight(int expression, float quantity)
     if (expression == -1 || quantity == 0.0)
         return;
     target->FUN_0064a4d0(expression, quantity);
-    if (!((BSFaceGenKeyframeMultiple*)((char*)this + 0x10))->vfn_2c(target))
+    if (!((BSFaceGenKeyframeMultiple*)&this->unk10)->vfn_2c(target))
         vfn_120();
 }
 // Reads three rotation values, clamps each to a range, stores them into the quaternion, and returns whether it differs from identity.
@@ -296,7 +296,7 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
     if (abResetExpression)
     {
         reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
-            reinterpret_cast<char*>(this) + 0x10))[0x10 / 4])(reinterpret_cast<char*>(this) + 0x10, 0.0f);
+            &this->unk10))[0x10 / 4])(reinterpret_cast<char*>(&this->unk10), 0.0f);
 
         if (afTime > ::_DAT_01012060)
         {
@@ -306,14 +306,14 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
         else
         {
             reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
-                reinterpret_cast<char*>(this) + 0x10))[0x20 / 4])(reinterpret_cast<char*>(this) + 0x10, 1);
+                &this->unk10))[0x20 / 4])(reinterpret_cast<char*>(&this->unk10), 1);
         }
     }
 
     if (abResetModifier)
     {
         reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
-            reinterpret_cast<char*>(this) + 0x94))[0x10 / 4])(reinterpret_cast<char*>(this) + 0x94, 0.0f);
+            &this->unk94))[0x10 / 4])(reinterpret_cast<char*>(&this->unk94), 0.0f);
 
         if (afTime > ::_DAT_01012060)
         {
@@ -334,7 +334,7 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
         else
         {
             reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
-                reinterpret_cast<char*>(this) + 0x94))[0x20 / 4])(reinterpret_cast<char*>(this) + 0x94, 1);
+                &this->unk94))[0x20 / 4])(reinterpret_cast<char*>(&this->unk94), 1);
 
             if (abForDeath)
             {
@@ -349,7 +349,7 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
     if (abResetPhoneme)
     {
         reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
-            reinterpret_cast<char*>(this) + 0xc8))[0x10 / 4])(reinterpret_cast<char*>(this) + 0xc8, 0.0f);
+            &this->unkc8))[0x10 / 4])(reinterpret_cast<char*>(&this->unkc8), 0.0f);
 
         if (afTime > ::_DAT_01012060)
         {
@@ -359,14 +359,14 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
         else
         {
             reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
-                reinterpret_cast<char*>(this) + 0xc8))[0x20 / 4])(reinterpret_cast<char*>(this) + 0xc8, 1);
+                &this->unkc8))[0x20 / 4])(reinterpret_cast<char*>(&this->unkc8), 1);
         }
     }
 
     if (abResetCustomMorph)
     {
         reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
-            reinterpret_cast<char*>(this) + 0xfc))[0x10 / 4])(reinterpret_cast<char*>(this) + 0xfc, 0.0f);
+            &this->unkfc))[0x10 / 4])(reinterpret_cast<char*>(&this->unkfc), 0.0f);
 
         if (afTime > ::_DAT_01012060)
         {
@@ -376,7 +376,7 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
         else
         {
             reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
-                reinterpret_cast<char*>(this) + 0xfc))[0x20 / 4])(reinterpret_cast<char*>(this) + 0xfc, 1);
+                &this->unkfc))[0x20 / 4])(reinterpret_cast<char*>(&this->unkfc), 1);
         }
     }
 }
@@ -389,50 +389,50 @@ struct FUN_0064b400_shell : public BSFaceGenAnimationData
 // @fnv 0x0064b400
 void FUN_0064b400_shell::SetMoodExpression(int aiMoodindex, bool abTalking)
 {
-    if (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c) != 0)
+    if (this->target != 0)
     {
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->vfn_20(true);
+        (this->target)->vfn_20(true);
     }
     else
     {
-        *reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c) =
+        this->target =
             new BSFaceGenKeyframeMultiple(EXPRESSION, 15);
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->vfn_38();
+        (this->target)->vfn_38();
     }
 
-    if (*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x18e))
+    if (this->dead)
         return;
 
     switch (aiMoodindex)
     {
     case 0:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(5, 1.0f);
+        (this->target)->FUN_0064a4d0(5, 1.0f);
         break;
     case 1:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(6, 1.0f);
+        (this->target)->FUN_0064a4d0(6, 1.0f);
         break;
     case 2:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(7, 1.0f);
+        (this->target)->FUN_0064a4d0(7, 1.0f);
         break;
     case 3:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(8, 1.0f);
+        (this->target)->FUN_0064a4d0(8, 1.0f);
         break;
     case 4:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(9, 1.0f);
+        (this->target)->FUN_0064a4d0(9, 1.0f);
         break;
     case 5:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(10, 1.0f);
+        (this->target)->FUN_0064a4d0(10, 1.0f);
         break;
     case 6:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(11, 1.0f);
+        (this->target)->FUN_0064a4d0(11, 1.0f);
         break;
     case 7:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(12, 1.0f);
+        (this->target)->FUN_0064a4d0(12, 1.0f);
         break;
     }
 
-    if (!reinterpret_cast<BSFaceGenKeyframeMultiple*>(reinterpret_cast<char*>(this) + 0x10)
-             ->vfn_2c(*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c)))
+    if (!reinterpret_cast<BSFaceGenKeyframeMultiple*>(&this->unk10)
+             ->vfn_2c(this->target))
     {
         typedef void(* Vfn120)(void*);
         (*reinterpret_cast<Vfn120*>((*reinterpret_cast<char**>(this)) + 0x120))(this);
@@ -712,7 +712,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
     bool bchangedMod;
     bool bchangedPhon;
 
-    if (((bool)(::FUN_0064bcb0())) && !*((bool*)this + 0x18e) && reinterpret_cast<::FUN_0076b610_Class *>((void *)(reinterpret_cast<ArrHelper*>((char*)this + 0x88)))->FUN_0076b610() &&
+    if (((bool)(::FUN_0064bcb0())) && !this->dead && reinterpret_cast<::FUN_0076b610_Class *>((void *)(reinterpret_cast<ArrHelper*>((char*)this + 0x88)))->FUN_0076b610() &&
         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1263)))))) > ::_DAT_01012060 &&
         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1264)))))) > ::_DAT_01012060 &&
         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265)))))) > ::_DAT_01012060 &&
@@ -740,10 +740,10 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
 
     if (afTime > ::_DAT_01012060)
     {
-        *((bool*)this + 0x18b) = false;
+        this->dirty = false;
 
-        bchangedSpeech = reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x10)
-                             ->Update(ftime, *reinterpret_cast<FaceGenKeyframeCalls**>((char*)this + 0xc));
+        bchangedSpeech = reinterpret_cast<FaceGenKeyframeCalls*>(&this->unk10)
+                             ->Update(ftime, *reinterpret_cast<FaceGenKeyframeCalls**>(&this->target));
         if (!*((bool*)this + 0x190) && *((bool*)this + 0x18f))
             bchangedAnim = true;
         else
@@ -753,7 +753,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         if (bchangedSpeech)
         {
             reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x74)
-                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x10));
+                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>(&this->unk10));
             if (bchangedAnim)
                 reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x74)
                     ->Blend(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x24), 1.0f, false, false);
@@ -766,7 +766,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         bchangedExp = (bchangedSpeech || bchangedAnim) ? true : false;
 
         bchangedSpeech = AdvanceKeyframe(ftime, reinterpret_cast<ArrHelper*>((char*)this + 0x88),
-                                         reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x94), false);
+                                         reinterpret_cast<FaceGenKeyframeCalls*>(&this->unk94), false);
         if (!*((bool*)this + 0x190) && *((bool*)this + 0x18f))
             bchangedAnim = true;
         else
@@ -774,7 +774,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         if (bchangedSpeech)
         {
             reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xa8)
-                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x94));
+                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>(&this->unk94));
             if (bchangedAnim)
                 reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xa8)
                     ->Blend(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x38), 1.0f, false, false);
@@ -787,7 +787,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         bchangedMod = (bchangedSpeech || bchangedAnim) ? true : false;
 
         bchangedSpeech = AdvanceKeyframe(ftime, reinterpret_cast<ArrHelper*>((char*)this + 0xbc),
-                                         reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xc8), false);
+                                         reinterpret_cast<FaceGenKeyframeCalls*>(&this->unkc8), false);
         if (!*((bool*)this + 0x190) && *((bool*)this + 0x18f))
             bchangedAnim = true;
         else
@@ -795,7 +795,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         if (bchangedSpeech)
         {
             reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xdc)
-                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xc8));
+                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>(&this->unkc8));
             if (bchangedAnim)
                 reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xdc)
                     ->Blend(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x4c), 1.0f, false, false);
@@ -808,7 +808,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         bchangedPhon = (bchangedSpeech || bchangedAnim) ? true : false;
 
         bchangedSpeech = AdvanceKeyframe(ftime, reinterpret_cast<ArrHelper*>((char*)this + 0xf0),
-                                         reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xfc), false);
+                                         reinterpret_cast<FaceGenKeyframeCalls*>(&this->unkfc), false);
         if (!*((bool*)this + 0x190) && *((bool*)this + 0x18f))
             bchangedAnim = true;
         else
@@ -816,7 +816,7 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         if (bchangedSpeech)
         {
             reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x110)
-                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0xfc));
+                ->Copy(reinterpret_cast<FaceGenKeyframeCalls*>(&this->unkfc));
             if (bchangedAnim)
                 reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x110)
                     ->Blend(reinterpret_cast<FaceGenKeyframeCalls*>((char*)this + 0x60), 1.0f, false, false);
@@ -828,12 +828,12 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
         }
         bchangedCust = (bchangedSpeech || bchangedAnim) ? true : false;
 
-        *((bool*)this + 0x18b) = bchangedExp || bchangedMod || bchangedPhon || bchangedCust;
+        this->dirty = bchangedExp || bchangedMod || bchangedPhon || bchangedCust;
     }
 
     *((bool*)this + 0x190) = *((bool*)this + 0x18f);
     reinterpret_cast<::RecursiveSpinLock *>((reinterpret_cast<RecursiveSpinLock*>((char*)this + 0x1a0)))->FUN_0040fba0();
-    return *((bool*)this + 0x18b);
+    return this->dirty;
 }
 }  // namespace fnv_0064b630
 

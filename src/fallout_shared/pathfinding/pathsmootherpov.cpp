@@ -1000,8 +1000,8 @@ void FUN_006b1df0_shell::SetPOVSearchNode(void* apNode, PathSmootherPOVPoint* ap
     reinterpret_cast<int*>(&(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<NiAVObject*>(apNode)))->GetLinkToList())))[1] = aDirection;
 
     *reinterpret_cast<float*>(reinterpret_cast<char*>(apNode) + 4) =
-        reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3 &)((*reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(apPOV) + 4) -
-         *reinterpret_cast<NiPoint3*>(*reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0x20c8) + 4))))->ComputeMagnitude() *
+        reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3 &)((apPOV->Center -
+         *reinterpret_cast<NiPoint3*>(*reinterpret_cast<char**>(&this->m_pGoalPoint) + 4))))->ComputeMagnitude() *
         0.1f;
 }
 
@@ -1044,7 +1044,7 @@ const NavMeshTriangleReference& GetFirstElement(const BSSimpleArray<NavMeshTrian
 // @fnv 0x006b31a0
 const NavMeshTriangleReference& GetLastElement(const BSSimpleArray<NavMeshTriangleReference, 1024>* pThis)
 {
-    return (*(const ::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)(pThis))->FUN_006b3160(*(const unsigned int*)((const char*)pThis + 8) - 1)));
+    return (*(const ::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)(pThis))->FUN_006b3160(*(const unsigned int*)&pThis->size - 1)));
 }
 
 class Date

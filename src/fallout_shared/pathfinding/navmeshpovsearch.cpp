@@ -326,7 +326,7 @@ struct FUN_006a0840_shell : public SineCosine
 // @fnv 0x006a0840
 float FUN_006a0840_shell::FUN_006a0840()
 {
-    return FUN_004b5570(((float*)this)[1], ((float*)this)[0]);
+    return FUN_004b5570(this->fSin, ((float*)this)[0]);
 }
 
 void compiler_vector_constructor_iterator(void*, unsigned int, int, void*(*)(void*));

@@ -1948,9 +1948,9 @@ void Menu_0075d6b0::TransferItem(void* a1, Entry_0075d6b0* entry, int count)
 {
     if (!entry || !a1)
         return;
-    Ref_0075d6b0* from4 = (*(char**)((char*)this + 0xf8) == (char*)this + 0x98) ? (Ref_0075d6b0*)m_pContainer
+    Ref_0075d6b0* from4 = (*(char**)((char*)this + 0xf8) == (char*)&this->otherData[16]) ? (Ref_0075d6b0*)m_pContainer
                                                                                 : (Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer));
-    Ref_0075d6b0* to8 = (*(char**)((char*)this + 0xf8) == (char*)this + 0x98) ? (Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))
+    Ref_0075d6b0* to8 = (*(char**)((char*)this + 0xf8) == (char*)&this->otherData[16]) ? (Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))
                                                                               : (Ref_0075d6b0*)m_pContainer;
     bool ok = reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(entry), (::ExpectedReference *)(to8), (::ActorView *)(from4));
     XList_0075d6b0* extra = ((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))) ? *((::XList_0075d6b0 **)(new ((void *)(((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) : 0;

@@ -109,7 +109,7 @@ struct FUN_004077c0_shell : public TESForm
 // @fnv 0x004077c0
 bool FUN_004077c0_shell::FUN_004077c0()
 {
-    return (*(unsigned int*)((char*)this + 8) & 0x4000) ? true : false;
+    return (this->m_uiFormFlags & 0x4000) ? true : false;
 }
 
 struct FUN_004077e0_shell : public EffectSetting
@@ -120,7 +120,7 @@ struct FUN_004077e0_shell : public EffectSetting
 // @fnv 0x004077e0
 void* FUN_004077e0_shell::FUN_004077e0()
 {
-    return reinterpret_cast<char*>(this) + 0xA0;
+    return reinterpret_cast<char*>(&this->counterEffects);
 }
 
 struct FUN_00407820_shell : public EffectSetting
@@ -131,7 +131,7 @@ struct FUN_00407820_shell : public EffectSetting
 // @fnv 0x00407820
 TESEffectShader* FUN_00407820_shell::FUN_00407820()
 {
-    return *(TESEffectShader**)((char*)this + 0x78);
+    return this->data.m_pEffectShader;
 }
 
 struct FUN_004078a0_shell : public EffectSetting
@@ -142,7 +142,7 @@ struct FUN_004078a0_shell : public EffectSetting
 // @fnv 0x004078a0
 void FUN_004078a0_shell::SetEffectID(int aeID)
 {
-    *(int*)((char*)this + 0x98) = aeID;
+    *(int*)&this->data.m_eEffectTypeItem = aeID;
 }
 
 struct FUN_00408680_shell : public EffectSetting
@@ -153,7 +153,7 @@ struct FUN_00408680_shell : public EffectSetting
 // @fnv 0x00408680
 bool FUN_00408680_shell::HasAllFlags(unsigned int aiFlags)
 {
-    return (*(unsigned int*)((char*)this + 0x58) & aiFlags) == aiFlags;
+    return (this->data.iFlags & aiFlags) == aiFlags;
 }
 
 struct FUN_004086e0_shell : public EffectSetting
@@ -165,15 +165,15 @@ struct FUN_004086e0_shell : public EffectSetting
 // @fnv 0x004086e0
 int FUN_004086e0_shell::UpdateCounter()
 {
-    if (*(int*)((char*)this + 0xac) < 0)
+    if (this->m_iEffectID < 0)
     {
-        *(int*)((char*)this + 0xac) -= 1;
+        this->m_iEffectID -= 1;
     }
     else
     {
-        *(int*)((char*)this + 0xac) += 1;
+        this->m_iEffectID += 1;
     }
-    return *(int*)((char*)this + 0xac);
+    return this->m_iEffectID;
 }
 
 struct FUN_00408790_shell : public EffectSetting
@@ -185,15 +185,15 @@ struct FUN_00408790_shell : public EffectSetting
 // @fnv 0x00408790
 int FUN_00408790_shell::FUN_00408790()
 {
-    if (*(int*)((char*)this + 0xac) > 0)
+    if (this->m_iEffectID > 0)
     {
         ::FUN_005b5e40();
     }
     else
     {
-        *(int*)((char*)this + 0xac) = *(int*)((char*)this + 0xac) - 1;
+        this->m_iEffectID = this->m_iEffectID - 1;
     }
-    return *(int*)((char*)this + 0xac);
+    return this->m_iEffectID;
 }
 
 namespace std {
@@ -230,7 +230,7 @@ struct FUN_004ee4b0_shell : public EffectSetting
 // @fnv 0x004ee4b0
 void FUN_004ee4b0_shell::FUN_004ee4b0(float afBaseCost)
 {
-    *(float*)((char*)this + 0x5c) = afBaseCost;
+    this->data.m_fBaseCost = afBaseCost;
 }
 
 struct FUN_00591300_shell : public TESFullName
@@ -241,7 +241,7 @@ struct FUN_00591300_shell : public TESFullName
 // @fnv 0x00591300
 void FUN_00591300_shell::FUN_00591300()
 {
-    ((BSStringT<char>*)((char*)this + 4))->BSStringT<char>::~BSStringT<char>();
+    this->m_kName.~BSStringT<char>();
 }
 
 struct FUN_00810570_shell : public EffectSetting
@@ -252,7 +252,7 @@ struct FUN_00810570_shell : public EffectSetting
 // @fnv 0x00810570
 void FUN_00810570_shell::SetAssociatedActorValue(int aeAssociatedActorValue)
 {
-    *(int*)((char*)this + 0x9c) = aeAssociatedActorValue;
+    this->data.m_iAssociatedActorValue = aeAssociatedActorValue;
 }
 
 struct FUN_00857230_shell : public EffectSetting
@@ -263,7 +263,7 @@ struct FUN_00857230_shell : public EffectSetting
 // @fnv 0x00857230
 void FUN_00857230_shell::SetSound(TESSound* apValue)
 {
-    *(TESSound**)((char*)this + 0x88) = apValue;
+    this->data.m_pContactSound = apValue;
 }
 
 struct FUN_008ce390_shell : public EffectSetting
@@ -352,7 +352,7 @@ void EffectSetting::InitItem()
 // @fnv 0x008ce390
 TESSound* FUN_008ce390_shell::FUN_008ce390()
 {
-    return *(TESSound**)((char*)this + 0x8c);
+    return this->data.m_pAreaEffectSound;
 }
 
 void __cdecl operator delete(void*);

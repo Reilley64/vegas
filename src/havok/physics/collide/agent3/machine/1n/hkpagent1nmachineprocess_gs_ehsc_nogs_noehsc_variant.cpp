@@ -75,7 +75,7 @@ static __declspec(noinline) void FUN_00da4920(S00da4920_Blob* src, S00da4920_Blo
     dst->unk0C = src->unk0C;
     dst->unk10 = src->unk10;
     dst->m_v70 = _mm_xor_ps(src->m_v70, *(const __m128*)&(*reinterpret_cast<char *>(&::DAT_010c4c00)));
-    reinterpret_cast<::FUN_00cb21e0_shell *>((((S00da4920_Sub*)((char*)dst + 0x20))))->FUN_00cb21e0((const ::Matrix44 *)(void *)((char*)src + 0x20));
+    reinterpret_cast<::FUN_00cb21e0_shell *>((((S00da4920_Sub*)&dst->unk20)))->FUN_00cb21e0((const ::Matrix44 *)(void *)((char*)&src->unk20));
 }
 
 void S00da4920_entry(S00da4920_Blob* src, S00da4920_Blob* dst)

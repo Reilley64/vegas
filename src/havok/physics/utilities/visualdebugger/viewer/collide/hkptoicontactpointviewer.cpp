@@ -94,7 +94,7 @@ struct FUN_00d682a0_cls {
 // @fnv 0x00d682a0
 void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    reinterpret_cast<::hkWorldXc91a20 *>((apTarget))->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    reinterpret_cast<::hkWorldXc91a20 *>((apTarget))->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0);
 }
 
 extern char DAT_010d1f0c[];
@@ -124,11 +124,11 @@ struct FUN_00d682d0_cls {
 void* FUN_00d682d0_cls::FUN_00d682d0(int aiArg)
 {
     new ((void *)(aiArg)) ::FUN_00ddccb0_cls(*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)nullptr);
-    *(void* volatile*)((char*)this + 0x28) = (void*)&DAT_0104dd7c;
+    this->m_vtbl28 = (void*)&DAT_0104dd7c;
     *(void* volatile*)((char*)this + 0x00) = (void*)&DAT_010d1f0c;
     *(void* volatile*)((char*)this + 0x08) = (void*)&DAT_010d1eec;
     *(void* volatile*)((char*)this + 0x20) = (void*)&DAT_010d1edc;
-    *(void* volatile*)((char*)this + 0x28) = (void*)&DAT_010d1ebc;
+    this->m_vtbl28 = (void*)&DAT_010d1ebc;
     return this;
 }
 

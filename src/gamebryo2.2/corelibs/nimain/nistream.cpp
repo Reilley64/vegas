@@ -1128,8 +1128,8 @@ struct FUN_00a63460_shell : public NiStream
 // @fnv 0x00a63460
 unsigned int FUN_00a63460_shell::FUN_00a63460()
 {
-    unsigned int idx = (*(unsigned int*)((char*)this + 0x270))++;
-    return (*(unsigned int**)((char*)this + 0x264))[idx];
+    unsigned int idx = (this->m_uiObjectIndexCount)++;
+    return (this->m_kSecondUnsignedIntSet.m_pBase)[idx];
 }
 
 struct ShaderBufferRecord;
@@ -3362,20 +3362,20 @@ struct QGroupArray
 void FUN_00a647f0_shell::LoadGroups()
 {
     unsigned int uiNumGroups;
-    QLoadB(**(QBinStream**)((char*)this + 0x24c), uiNumGroups);
+    QLoadB(**(QBinStream**)&this->m_pUnderlyingStream, uiNumGroups);
     uiNumGroups++;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0xc8))))->FUN_00a90180(uiNumGroups);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)&this->m_kObjectGroups)))->FUN_00a90180(uiNumGroups);
     {
         int iNull = 0;
-        reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_int___*)((char*)this + 0xc8))))->FUN_00ba3aa0(0, (::KeyPair **)&(iNull));
+        reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_int___*)&this->m_kObjectGroups)))->FUN_00ba3aa0(0, (::KeyPair **)&(iNull));
     }
     for (unsigned int uiRenderPassIndex = 1; uiRenderPassIndex < uiNumGroups; uiRenderPassIndex++)
     {
         unsigned int uiSize;
-        QLoadB(**(QBinStream**)((char*)this + 0x24c), uiSize);
+        QLoadB(**(QBinStream**)&this->m_pUnderlyingStream, uiSize);
         void* pvMem = BSFadeNode::operator new(sizeof(NiObjectGroup));
         NiObjectGroup* pkGroup = pvMem ? ((::fnv_00a647f0::NiObjectGroup *)(new ((void *)(((QGroupCtor*)pvMem))) ::FUN_00a8a620(uiSize))) : 0;
-        ((QGroupArray*)((char*)this + 0xc8))->SetAt(uiRenderPassIndex, pkGroup);
+        ((QGroupArray*)&this->m_kObjectGroups)->SetAt(uiRenderPassIndex, pkGroup);
     }
 }
 }  // namespace fnv_00a647f0
@@ -3792,11 +3792,11 @@ struct LocalBinaryStream
 void FUN_00a64ce0_shell::FUN_00a64ce0(char** ppString)
 {
     int iStringLength;
-    (*(LocalBinaryStream**)((char*)this + 0x24c))->Read(&iStringLength, 4, 4);
+    (*(LocalBinaryStream**)&this->m_pUnderlyingStream)->Read(&iStringLength, 4, 4);
     if (iStringLength > 0)
     {
         *ppString = (char*)::FUN_00aa1070(iStringLength + 1);
-        (*(LocalBinaryStream**)((char*)this + 0x24c))->Read(*ppString, iStringLength, 1);
+        (*(LocalBinaryStream**)&this->m_pUnderlyingStream)->Read(*ppString, iStringLength, 1);
         (*ppString)[iStringLength] = 0;
     }
     else
@@ -6883,19 +6883,19 @@ bool FUN_00a66850_shell::FUN_00a66850()
     VStream* pkThis = (VStream*)this;
     pkThis->RegisterSaveObjects();
     SizeArray& kObjectSizes = *(SizeArray*)((char*)this + 0x204);
-    kObjectSizes.SetSize(*(unsigned int*)((char*)this + 0x1f8));
+    kObjectSizes.SetSize(this->m_kThirdFollowingStreamField.m_uiSize);
     pkThis->SaveHeader();
     reinterpret_cast<::fnv_00a665f0::RtStream *>((pkThis))->WriteRTTIHeader();
     unsigned int uiStartingOffset = pkThis->GetStartingOffset();
     reinterpret_cast<::fnv_00a63ee0::FUN_00a63ee0_shell *>((pkThis))->FUN_00a63ee0();
     reinterpret_cast<::fnv_00a64b80::ImageSpaceShaderW *>((pkThis))->UpdateTextureSwapList();
     pkThis->WriteData();
-    for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 0x1f8); i++)
+    for (unsigned int i = 0; i < this->m_kThirdFollowingStreamField.m_uiSize; i++)
     {
-        VObject* pkObject = (*(VObject***)((char*)this + 0x1f0))[i];
-        unsigned int uiStartInBytes = (*(VBinStream**)((char*)this + 0x250))->GetPosition();
+        VObject* pkObject = (*(VObject***)&this->m_kThirdFollowingStreamField.m_pBase)[i];
+        unsigned int uiStartInBytes = (*(VBinStream**)&this->m_pBackingStream)->GetPosition();
         pkObject->SaveBinary(this);
-        unsigned int uiSizeInBytes = (*(VBinStream**)((char*)this + 0x250))->GetPosition() - uiStartInBytes;
+        unsigned int uiSizeInBytes = (*(VBinStream**)&this->m_pBackingStream)->GetPosition() - uiStartInBytes;
         kObjectSizes.SetAt(i, (TESForm*)uiSizeInBytes);
     }
     pkThis->SaveTopLevelObjects();

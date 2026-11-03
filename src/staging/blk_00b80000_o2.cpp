@@ -1115,7 +1115,7 @@ FUN_00b91e40::FUN_00b91e40()
 {
     *reinterpret_cast<int**>(this) = &::DAT_010b5640;
     *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &::DAT_010b5620;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)&this->f94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b91e40
 
@@ -1905,7 +1905,7 @@ FUN_00b8d850::FUN_00b8d850()
 {
     m_000[0] = (int)&DAT_010b0a00;
     m_6c = (int)&DAT_010b09dc;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)&this->m_070[9])))->FUN_00a90180(2);
 }
 
 struct ImageSpaceTexture;
@@ -2058,7 +2058,7 @@ struct FUN_00b8f7e0 : ImageSpaceEffectShader
 FUN_00b8f7e0::FUN_00b8f7e0()
 {
     *reinterpret_cast<int**>(this) = &DAT_010b2c10;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b2bec;
+    *reinterpret_cast<int**>(&this->arr) = &DAT_010b2bec;
     reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<NiTPrimitiveArray_ImageSpaceTexture___*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_00a90180(4);
 }
 
@@ -3331,7 +3331,7 @@ void FUN_00b8d620_cls::InitAlphaMultShader()
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
     FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
-    this->v4F((char*)&f + 0x4C, &f, "ALPHAMULT", "vs_1_1", "ps_2_0");
+    this->v4F((char*)&f.unk4C, &f, "ALPHAMULT", "vs_1_1", "ps_2_0");
     this->v53();
 }
 
@@ -3455,7 +3455,7 @@ void FUN_00b8d770_cls::CreateBlendShader()
     f.unk4C = "imagespace\\2x\\p\\blend.p.hlsl";
     f.unk50 = 0;
     FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
-    this->v4F(&f, (char*)&f + 0x4C, "BLEND", "vs_1_1", "ps_2_0");
+    this->v4F(&f, (char*)&f.unk4C, "BLEND", "vs_1_1", "ps_2_0");
     this->v53();
 }
 
@@ -4274,7 +4274,7 @@ void FUN_00b8ddf0_cls::CreateBlur9Shader()
     f.unk08 = (const char*)&DAT_01063ee8;
     f.unk0C = 0;
     FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
-    this->v4F((char*)&f + 0x4C, &f, "BLUR9", "vs_1_1", "ps_2_a");
+    this->v4F((char*)&f.unk4C, &f, "BLUR9", "vs_1_1", "ps_2_a");
     this->v53();
 }
 
@@ -4731,7 +4731,7 @@ void FUN_00b8e1e0_cls::InitBlur15Shader()
     f.unk08 = "15";
     f.unk0C = 0;
     FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
-    this->v4F((char*)&f + 0x4C, &f, "BLUR15", "vs_1_1", "ps_2_a");
+    this->v4F((char*)&f.unk4C, &f, "BLUR15", "vs_1_1", "ps_2_a");
     this->v53();
 }
 
@@ -5252,7 +5252,7 @@ void FUN_00b8f590_cls::FUN_00b8f590()
     f.unk4C = 0;
     f.unk50 = 0;
     FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
-    this->v4F(&f, (char*)&f + 0x4C, "NULL", "vs_1_1", 0);
+    this->v4F(&f, (char*)&f.unk4C, "NULL", "vs_1_1", 0);
     this->v53();
 }
 
@@ -9884,15 +9884,15 @@ void FUN_00b942f0_cls::InitWaterHmapDisplayAmplitude()
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
     f.unk54 = 0;
-    FUN_00ec61c0((char*)&f + 0x58, 0, 0x40);
+    FUN_00ec61c0((char*)&f.unk58, 0, 0x40);
     f.unk00 = "water\\2_ab\\p\\waterhmap.p.hlsl";
     f.unk04 = "DISPLAY_AMPLITUDE";
     f.unk08 = 0;
     f.unk0C = 0;
     f.unk10 = 0;
-    FUN_00ec61c0((char*)&f + 0x14, 0, 0x38);
+    FUN_00ec61c0((char*)&f.unk14, 0, 0x38);
     unsigned int r = FUN_00b4f380(1);
-    this->v4F((char*)&f + 0x4c, (char*)&f, "FFTDISPLAYAMPLITUDE", "vs_1_1", r);
+    this->v4F((char*)&f.unk4C, (char*)&f, "FFTDISPLAYAMPLITUDE", "vs_1_1", r);
     this->v53();
 }
 }  // namespace fnv_00b942f0

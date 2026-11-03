@@ -16,8 +16,8 @@ int FileNameComponents::SetFullPath(const char* path)
 {
     if (!path)
         return 2;
-    strcpy_s(reinterpret_cast<char*>(this) + 0x144, 260, path);
-    strcat_s(reinterpret_cast<char*>(this) + 0x144, 260, DAT_010a47b0);
+    strcpy_s(reinterpret_cast<char*>(&this->m_acExtension[65]), 260, path);
+    strcat_s(reinterpret_cast<char*>(&this->m_acExtension[65]), 260, DAT_010a47b0);
     *reinterpret_cast<unsigned int*>(this) = 0;
     *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x248) = 0;
     return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x248);

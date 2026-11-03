@@ -190,7 +190,7 @@ struct FUN_00e81420_shell : public NiD3DShader
 // @fnv 0x00e81420
 void FUN_00e81420_shell::FUN_00e81420(NiD3DShaderDeclaration* pkShaderDecl)
 {
-    NiRefObject*& pObj = *reinterpret_cast<NiRefObject**>(reinterpret_cast<char*>(this) + 0x28);
+    NiRefObject*& pObj = *reinterpret_cast<NiRefObject**>(&this->m_spShaderDeclaration.m_pObject);
     NiRefObject* pNew = reinterpret_cast<NiRefObject*>(pkShaderDecl);
     if (pObj != pNew)
     {

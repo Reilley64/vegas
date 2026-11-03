@@ -249,7 +249,7 @@ struct FUN_00c04d50_class
 // @fnv 0x00c04d50
 void FUN_00c04d50_class::CopyByteAndStoreInt(int aiValue)
 {
-    *(unsigned char*)((char*)this + 5) = *(unsigned char*)((char*)this + 0x58);
+    this->b[5] = *(unsigned char*)((char*)this + 0x58);
     *(int*)((char*)this + 0x5c) = aiValue;
 }
 
@@ -607,7 +607,7 @@ struct FUN_00c053c0_class
 // @fnv 0x00c053c0
 bool FUN_00c053c0_class::UpdateShaderParam(int)
 {
-    ImageSpaceShaderParam* p = *reinterpret_cast<ImageSpaceShaderParam**>(reinterpret_cast<int**>(this)[7]);
+    ImageSpaceShaderParam* p = *reinterpret_cast<ImageSpaceShaderParam**>((*reinterpret_cast<int**>(&this->m_pParam)));
     if (m_p58)
     {
         p->SetShaderConstantVector4(0, 0.0f, *(float*)(m_p58 + 4), *(float*)(m_p58 + 8), 0.0f);

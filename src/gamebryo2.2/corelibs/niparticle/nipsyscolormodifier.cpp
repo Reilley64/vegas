@@ -71,7 +71,7 @@ bool FUN_00c2d0d0_Class::FUN_00c2d0d0(NiObject* pkObject)
     if (!reinterpret_cast<::MyIsEqual *>(this)->FUN_00c31830(pkObject))
         return false;
     pkDest = (NiPSysColorModifier*)pkObject;
-    pSrc = *(Fake00c2d0d0**)((char*)this + 0x18);
+    pSrc = *(Fake00c2d0d0**)&this->m_spColorData.m_pObject;
     pDst = *(void**)((char*)pkDest + 0x18);
     return pSrc->Foo(pDst);
 }
@@ -139,7 +139,7 @@ void FUN_00c2d2a0_Class::FUN_00c2d2a0(StrArr* pkStrings)
         reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(grow + idx);
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(idx, str);
-    NiObject* obj = *(NiObject**)((char*)this + 0x18);
+    NiObject* obj = *(NiObject**)&this->m_spColorData.m_pObject;
     void** vt = *(void***)obj;
     void(* fn)(NiObject*, StrArr*) = (void(*)(NiObject*, StrArr*))vt[0x60 / 4];
     fn(obj, pkStrings);

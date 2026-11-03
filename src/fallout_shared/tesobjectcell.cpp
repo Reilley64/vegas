@@ -756,9 +756,9 @@ struct FUN_00544390_shell : public TESObjectCELL
 void FUN_00544390_shell::SetFlag40(bool abVal)
 {
     if (abVal)
-        *((unsigned char*)this + 0x24) |= 0x40;
+        this->field24 |= 0x40;
     else
-        *((unsigned char*)this + 0x24) &= ~0x40;
+        this->field24 &= ~0x40;
     (*(void(**)(TESObjectCELL*, int))(*(unsigned int*)this + 0x48))(this, 2);
 }
 
@@ -880,7 +880,7 @@ unsigned int GetCellMinLevel(TESObjectCELL* apCell)
         }
         else
         {
-            return *(unsigned int*)((char*)interiorData + 4);
+            return interiorData->unk04;
         }
     }
     return 0;
@@ -1018,7 +1018,7 @@ int FUN_005449d0(TESObjectCELL* self)
         {
             return ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((self->GetLightingTemplate()))->FUN_007af430()));
         }
-        return *(int*)((char*)data + 8);
+        return data->unk08;
     }
     return 0;
 }
@@ -1073,7 +1073,7 @@ float FUN_00544ab0(TESObjectCELL* apCell)
         {
             return reinterpret_cast<::FUN_00526ac0_shell *>((((TESGlobalValueReader*)apCell->GetLightingTemplate())))->FUN_00526ac0();
         }
-        return *(float*)((char*)data + 0xc);
+        return data->unk0c;
     }
     return 0.0f;
 }
@@ -1089,7 +1089,7 @@ float FUN_00544b10(TESObjectCELL* pthis)
         {
             return reinterpret_cast<::FUN_00526ae0_class *>((pthis->GetLightingTemplate()))->FUN_00526ae0();
         }
-        return *(float*)((char*)data + 0x10);
+        return data->unk10;
     }
     return 0.0f;
 }
@@ -1791,7 +1791,7 @@ struct FUN_00551420_shell : public TESObjectCELL
 // @fnv 0x00551420
 bool FUN_00551420_shell::FUN_00551420()
 {
-    if (*((unsigned char*)this + 0x24) & 0x10)
+    if (this->field24 & 0x10)
         return true;
     else
         return false;
@@ -2640,7 +2640,7 @@ float TESObjectCELL::GetInteriorLightValue()
 // @fnv 0x00558b80
 bool FUN_00558b80_shell::FUN_00558b80(unsigned int aiFlag)
 {
-    return (*(unsigned int*)((char*)this + 0xdc) & aiFlag) ? true : false;
+    return (this->unknownDC & aiFlag) ? true : false;
 }
 
 namespace fnv_00558c90 {
@@ -3014,8 +3014,8 @@ struct FUN_00c3e310_shell : public TESObjectCELL
 // @fnv 0x00c3e310
 void FUN_00c3e310_shell::FUN_00c3e310()
 {
-    if (reinterpret_cast<::FUN_00c3e750_Class *>((this))->FUN_00c3e750() && *(void (**)(void))((char*)this + 0x7c))
-        (*(void (**)(void))((char*)this + 0x7c))();
+    if (reinterpret_cast<::FUN_00c3e750_Class *>((this))->FUN_00c3e750() && *(void (**)(void))&this->unk7c)
+        (*(void (**)(void))&this->unk7c)();
 }
 
 struct GO
@@ -4186,7 +4186,7 @@ struct FUN_00558dd0_class
 // @fnv 0x00558dd0
 int FUN_00558dd0_class::FUN_00558dd0(unsigned int index)
 {
-    return *(int*)((char*)this + 4) + index * 16;
+    return this->m_iWordAt04 + index * 16;
 }
 
 struct hkReferencedObject
@@ -13758,7 +13758,7 @@ void CellX::ProcessCellRefs()
 {
     CellRefLockEnter();
     Prepare();
-    *(unsigned short*)((char*)this + 0xa8) = 0;
+    this->unka8 = 0;
     ListX* list = ((::fnv_0054cd20::ListX *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (list && !list->IsEmpty())
     {

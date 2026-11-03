@@ -29,7 +29,7 @@ struct GlobalObject_00869f00
 void FUN_006f4990_shell::ClearTeleportPath()
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x10))))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&this->Doors[0])))->Clear(true);
 }
 
 struct Elem16

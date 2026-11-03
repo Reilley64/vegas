@@ -1173,7 +1173,7 @@ struct FUN_00c98250_Class {
 // @fnv 0x00c98250
 void* FUN_00c98250_Class::FUN_00c98250(int, int, int)
 {
-    return (void*)((char*)this + 8);
+    return (void*)((char*)&this->m_8);
 }
 
 // @fnv 0x00c982a0
@@ -9497,7 +9497,9 @@ struct HkRefPtr {
 struct Sub_78_70 { float f00; int i04; };
 
 struct Sub_78 {
-    char pad00[0x6c];
+    char pad00[0x8];
+    float unk08;
+    char pad0c[0x60];
     unsigned char b6c;
     unsigned char b6d;
     char pad6e[0x02];
@@ -9660,15 +9662,15 @@ void Src_00c91c50::FUN_00c91c50(Dst_00c91c50* pOut)
     pOut->i_20 = this->i_338;
     pOut->v30 = this->v_310;
     pOut->v40 = this->v_320;
-    pOut->f_54 = *(float*)((char*)this->p78 + 8);
+    pOut->f_54 = this->p78->unk08;
     pOut->p58 = this->p7c;
     pOut->p5c = this->p84;
     pOut->b_28 = (unsigned char)(this->p_1bc ? *(int*)((char*)this->p_1bc + 0x30) : 3);
         pOut->b_29 = *(this->p_1bc ? (unsigned char*)((char*)this->p_1bc + 0x34) : &(unkZero = 0));
     pOut->b_50 = (this->i5c != 0);
     pOut->b_53 = this->b60;
-    pOut->f_60 = *(float*)((char*)this->p80 + 0x1e40);
-    pOut->f_68 = *(float*)((char*)this->p80 + 0x1e44);
+    pOut->f_60 = this->p80->f1e40;
+    pOut->f_68 = this->p80->f1e44;
     pOut->f_90 = this->f_cc;
     pOut->f_90 = this->f_d0;
     pOut->b_98 = this->b_d4;

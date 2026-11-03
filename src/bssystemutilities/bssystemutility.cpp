@@ -27,8 +27,8 @@ void BSSystemUtility::Destroy()
     FUN_00af34f0()->vfn_08();
     GetInitObj()->vfn_08();
 
-    fnv_zlib_memset((char*)this + 4, 0, 0x80);
-    *((unsigned char*)((char*)this + 0x94)) = 0;
+    fnv_zlib_memset((char*)&this->storage, 0, 0x80);
+    this->storage[144] = 0;
     *((unsigned int*)((char*)this + 0x90)) = 0;
     *((unsigned int*)((char*)this + 0x84)) = 0;
     *((unsigned int*)((char*)this + 0x88)) = 0;
@@ -49,7 +49,7 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
             length = 0x7f;
         else
             length = count;
-        fnv_CopyFilePath((char*)this + 4, length + 1, pcFilePath, length);
+        fnv_CopyFilePath((char*)&this->storage, length + 1, pcFilePath, length);
     }
 
     FUN_00af3850()->vfn_04();
@@ -71,9 +71,9 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
 // @fnv 0x0078d570
 void BSSystemUtility::Update()
 {
-    if (*((unsigned char*)((char*)this + 0x49)) != 0)
+    if (this->storage[69] != 0)
     {
-        *((unsigned char*)((char*)this + 0x48)) = 0;
+        this->storage[68] = 0;
         reinterpret_cast<::FUN_00442550_shell *>((((CountingSemaphore*)((char*)this + 0x30))))->ReleaseAndInitScriptRunLock();
     }
 }

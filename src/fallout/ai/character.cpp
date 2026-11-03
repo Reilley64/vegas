@@ -150,7 +150,7 @@ void Character::ApplyLoadBuffer(BGSLoadFormBuffer* buffer)
 // @fnv 0x0087d720
 MagicTarget* Character::GetMagicTarget()
 {
-    return this ? reinterpret_cast<MagicTarget*>(reinterpret_cast<char*>(this) + 0x94) : 0;
+    return this ? static_cast<MagicTarget *>(this) : 0;
 }
 
 // @fnv 0x008d34f0
@@ -222,7 +222,7 @@ void Character::LoadGame(BGSLoadFormBuffer* buffer)
 // @fnv 0x008d1e90
 void FUN_008d1e90(Character* this_ptr, float value)
 {
-    *(float*)((char*)this_ptr + 0x1c4) = value;
+    this_ptr->m_fThirdValue = value;
 }
 
 struct FUN_008d34b0_shell : public Character
@@ -257,11 +257,11 @@ struct FUN_008d34f0_shell : public Character
 void FUN_008d34f0_shell::RevertAndResetFields(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::ThisC1 *>((((CharacterActorCalls*)this)))->FUN_008ac1e0((::Arg *)(apLoadGameBuffer));
-    ((float*)((char*)this + 0x1b8))[0] = -1.0f;
-    ((float*)((char*)this + 0x1bc))[0] = -1.0f;
-    ((float*)((char*)this + 0x1c4))[0] = -1.0f;
-    ((unsigned char*)((char*)this + 0x1c0))[0] = 0;
-    ((unsigned char*)((char*)this + 0x1c1))[0] = 0;
+    (&this->m_fFirstResetValue)[0] = -1.0f;
+    (&this->m_fSecondValue)[0] = -1.0f;
+    (&this->m_fThirdValue)[0] = -1.0f;
+    ((unsigned char*)&this->m_bTrespassing)[0] = 0;
+    ((unsigned char*)&this->m_bActorGuard)[0] = 0;
 }
 
 struct FUN_009dcc80_target
@@ -308,7 +308,7 @@ int FUN_008d24a0_shell::FUN_008d24a0()
 {
     float fx = 0.0f;
     float fy = 0.0f;
-    ::FUN_00646310(this ? (char*)this + 0xa4 : 0, 0, &fx, &fy);
+    ::FUN_00646310(this ? (char*)static_cast<ActorValueOwner *>(this) : 0, 0, &fx, &fy);
     return (int)fx;
 }
 
@@ -388,8 +388,8 @@ struct FUN_008d33a0_shell : public Character
 void FUN_008d33a0_shell::SaveFormData(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::SaveActor *>(this)->FUN_008aaf40((::SaveBuffer *)(apSaveGameBuffer));
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x1c0, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x1c1, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&this->m_bTrespassing, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&this->m_bActorGuard, 1, 0);
 }
 
 struct FUN_009396f0_shell
@@ -435,9 +435,9 @@ MediaLocationController* FUN_009698a0_shell::GetMediaLocationController()
     else
     {
         MusicMarkerReference* pMarkerInfo = ((::MusicMarkerReference *)(reinterpret_cast<::PlayerNearbyRefs *>(this)->FUN_00969930()));
-        if (pMarkerInfo && *(AudioMarkerDataCalls**)((char*)pMarkerInfo + 4))
+        if (pMarkerInfo && *(AudioMarkerDataCalls**)&pMarkerInfo->m_pAudioMarkerData)
         {
-            return (MediaLocationController*)((void *)(reinterpret_cast<::TESRace *>(((*(AudioMarkerDataCalls**)((char*)pMarkerInfo + 4))))->FUN_00969910()));
+            return (MediaLocationController*)((void *)(reinterpret_cast<::TESRace *>(((*(AudioMarkerDataCalls**)&pMarkerInfo->m_pAudioMarkerData)))->FUN_00969910()));
         }
     }
     return 0;

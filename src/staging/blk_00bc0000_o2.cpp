@@ -1528,7 +1528,7 @@ bool FUN_00bd0f70_class::FUN_00bd0f70()
         NiD3DPass* pass = *passes;
         if (pass)
         {
-            int* refCount = reinterpret_cast<int*>(reinterpret_cast<char*>(pass) + 0x64);
+            int* refCount = &pass->m_iObjectReferenceCount;
             if (--*refCount == 0)
                 pass->DestroyPass();
             *passes = 0;

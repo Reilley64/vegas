@@ -202,9 +202,14 @@ class NiTexture;
 class BGSSaveLoadFileEntry
 {
   public:
-    unsigned char layoutPadding00[0x10];
+    unsigned char layoutPadding00[0x8];
+    int unk08;
+    char* unk0c;
     char* m_pSaveFileName;  // +0x10
-    unsigned char layoutPadding14[0x2C];
+    int unk14;
+    char* unk18;
+    unsigned int unk1c;
+    unsigned char pad20[0x20];
     NiPointer<NiTexture> spScreenshot;  // +0x40
     void
     ReadTypedData();  // ?ReadTypedData@BGSSaveLoadFileEntry@@QAEXXZ @ 0x00846900 (defined in the saveloadmanager unit)

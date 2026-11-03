@@ -128,7 +128,7 @@ struct FUN_00a30970_helper
 // @fnv 0x004eec60
 float FUN_004eec60_shell::FUN_004eec60(float afTime)
 {
-    switch (*(int*)((char*)this + 0x44))
+    switch (this->m_eAnimationState)
     {
     case 1:
     case 2:
@@ -137,7 +137,7 @@ float FUN_004eec60_shell::FUN_004eec60(float afTime)
     default:
         return 0.0f;
     }
-    return reinterpret_cast<::SequenceA30970 *>((((FUN_00a30970_helper*)this)))->FUN_00a30970(afTime + *(float*)((char*)this + 0x48), true);
+    return reinterpret_cast<::SequenceA30970 *>((((FUN_00a30970_helper*)this)))->FUN_00a30970(afTime + this->m_fSequenceOffset, true);
 }
 
 struct BGSLoadFormBuffer

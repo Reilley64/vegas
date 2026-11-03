@@ -233,7 +233,11 @@ struct MyNode
     virtual void f1();
     virtual void f2();
     virtual int Pred();
-    char _pad0[0x18];
+    char _pad0[0x8];
+    unsigned short unk0c;
+    char pad0e[0x2];
+    char* unk10;
+    char pad14[0x8];
     MyNode* field_1c;
     char _pad1[0x80];
     MyNode** children;
@@ -495,7 +499,7 @@ void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* p
 {
     MyNode* node = FUN_00c802d0((MyNode*)param_1);
     char flag;
-    if (!node || !(*(unsigned short*)((char*)node + 0xc) & 0x20) || GetFlag6(*(unsigned short*)((char*)node + 0xc)))
+    if (!node || !(node->unk0c & 0x20) || GetFlag6(node->unk0c))
     {
         flag = 0;
     }
@@ -511,7 +515,7 @@ void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* p
     if (node)
     {
         unsigned int val;
-        char* n10 = *(char**)((char*)node + 0x10);
+        char* n10 = node->unk10;
         if (n10 && *(char**)(n10 + 8))
         {
             val = *(unsigned char*)(*(char**)(n10 + 8) + 0xe8);
@@ -3106,9 +3110,9 @@ FUN_00c7d900::~FUN_00c7d900()
         FreeObjX(pk88, 0x38);
     }
     DAT_011b02f0.FUN_00e92760(m_24c.GetChars(), (void**)&m_250);
-    if (m_250.m_p && ((int*)m_250.m_p)[1] == 2)
+    if (m_250.m_p && (*(int*)&m_250.m_p->m_iObjectReferenceCount) == 2)
         DAT_011b02f0.FUN_00e91fd0(m_24c.GetChars());
-    if (m_2a4.m_p && ((int*)m_2a4.m_p)[1] == 2)
+    if (m_2a4.m_p && (*(int*)&m_2a4.m_p->m_iObjectReferenceCount) == 2)
         (*reinterpret_cast<::MapStd *>(&::DAT_011b0300)).FUN_00e91fd0(m_2a0.GetChars());
     m_2a4.Reset();
     m_250.Reset();

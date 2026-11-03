@@ -125,7 +125,7 @@ struct FUN_00480d30_shell : public TESBipedModelForm
 // @fnv 0x00480d30
 bool FUN_00480d30_shell::FUN_00480d30()
 {
-    if (*((unsigned char*)this + 8) & 4)
+    if (*((unsigned char*)&this->m_kBipedModelForm.sFlagsAndPadding) & 4)
         return true;
     else
         return false;
@@ -141,9 +141,9 @@ struct FUN_00480d50_shell : public TESBipedModelForm
 void FUN_00480d50_shell::FUN_00480d50(bool abVal)
 {
     if (abVal)
-        *((unsigned char*)this + 8) |= 0x10;
+        *((unsigned char*)&this->m_kBipedModelForm.sFlagsAndPadding) |= 0x10;
     else
-        *((unsigned char*)this + 8) &= ~0x10;
+        *((unsigned char*)&this->m_kBipedModelForm.sFlagsAndPadding) &= ~0x10;
 }
 
 struct FUN_00480d90_shell : public TESBipedModelForm
@@ -154,7 +154,7 @@ struct FUN_00480d90_shell : public TESBipedModelForm
 // @fnv 0x00480d90
 bool FUN_00480d90_shell::FUN_00480d90()
 {
-    if (*((unsigned char*)this + 8) & 0x40)
+    if (*((unsigned char*)&this->m_kBipedModelForm.sFlagsAndPadding) & 0x40)
         return false;
     else
         return true;

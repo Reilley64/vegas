@@ -370,8 +370,8 @@ struct FUN_007f86f0_shell : public FOPipboyManager
 // @fnv 0x007f86f0
 void FUN_007f86f0_shell::SetKnobTargetAndRate(int aiKnob, float afTarget, float afRate)
 {
-    ((float*)((char*)this + 0x118))[aiKnob] = afTarget;
-    ((float*)((char*)this + 0x124))[aiKnob] = afRate;
+    (&this->m_fChartSecondPoint[0])[aiKnob] = afTarget;
+    (&this->m_fGaugeValues2[0])[aiKnob] = afRate;
 }
 
 struct FUN_00965580_shell : public FORenderedMenu
@@ -409,7 +409,7 @@ void FOPipboyManager::InitializeMenuLight()
 // @fnv 0x00965580
 void FUN_00965580_shell::SetIntensity(float afIntensity)
 {
-    *(float*)((char*)this + 0x38) = afIntensity;
+    this->fScreenLightBaseIntensity = afIntensity;
 }
 
 namespace p07 {

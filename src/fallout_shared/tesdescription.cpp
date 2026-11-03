@@ -136,7 +136,7 @@ void FUN_00482c80_shell::ClearParsedXML()
 {
     reinterpret_cast<::TextString *>((((BSStr*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004037f0(0, 0);
     DAT_011c5490 = 0;
-    ((unsigned long*)this)[1] = 0;
+    this->m_uiDescriptionFileOffset = 0;
 }
 
 void __cdecl WriteDescChunk(void*, int);

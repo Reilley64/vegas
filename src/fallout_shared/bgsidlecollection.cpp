@@ -192,15 +192,15 @@ bool BGSIdleCollection_shell::IsDifferentFrom(BaseFormComponent* other)
     BGSIdleCollection* idle = dynamic_cast<BGSIdleCollection*>(other);
     if (!idle)
         return true;
-    if (reinterpret_cast<const unsigned char*>(this)[4] != reinterpret_cast<const unsigned char*>(idle)[4])
+    if (this->m_ucIdleCount != idle->m_ucIdleCount)
         return true;
-    if (reinterpret_cast<const unsigned char*>(this)[5] != reinterpret_cast<const unsigned char*>(idle)[5])
+    if (this->m_ucPickType != idle->m_ucPickType)
         return true;
-    if (reinterpret_cast<const float*>(this)[3] != reinterpret_cast<const float*>(idle)[3])
+    if (this->m_fIdleChance != idle->m_fIdleChance)
         return true;
-    if (reinterpret_cast<const TESIdleForm**>(this)[2] && reinterpret_cast<const TESIdleForm**>(idle)[2] &&
-        memcmp(reinterpret_cast<const TESIdleForm**>(this)[2], reinterpret_cast<const TESIdleForm**>(idle)[2],
-               reinterpret_cast<const unsigned char*>(this)[5] * 4))
+    if ((*reinterpret_cast<const TESIdleForm**>((void *)&this->m_ppIdleForms)) && (*reinterpret_cast<const TESIdleForm**>((void *)&idle->m_ppIdleForms)) &&
+        memcmp((*reinterpret_cast<const TESIdleForm**>((void *)&this->m_ppIdleForms)), (*reinterpret_cast<const TESIdleForm**>((void *)&idle->m_ppIdleForms)),
+               this->m_ucPickType * 4))
         return true;
     return false;
 }

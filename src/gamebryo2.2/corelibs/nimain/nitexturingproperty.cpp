@@ -484,7 +484,7 @@ struct MyThis
 void MyThis::LoadMapBinary(NiStream& stream)
 {
     ((NiTexturingProperty::Map*)this)->NiTexturingProperty::Map::LoadBinary(stream);
-    MyBinStream* __restrict input = *(MyBinStream**)((char*)&stream + 0x24c);
+    MyBinStream* __restrict input = *(MyBinStream**)&stream.m_pUnderlyingStream;
     unsigned int size = 4;
     input->pos += input->read(input, (char*)this + 0x10, 4, &size, 1);
 }

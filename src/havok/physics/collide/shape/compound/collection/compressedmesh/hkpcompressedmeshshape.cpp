@@ -31,9 +31,9 @@ unsigned int FUN_00e3cad0_Class::GetShapeIndexMask()
     if (*(unsigned int*)((char*)this + 0x60))
         return 0;
     if (*(unsigned int*)((char*)this + 0x6c))
-        return 1 << *(unsigned int*)((char*)this + 0xc);
+        return 1 << this->m_pCollisionShape3;
     if (*(unsigned int*)((char*)this + 0x78))
-        return ((1 << (32 - *(unsigned int*)((char*)this + 0xc))) - 1) << *(unsigned int*)((char*)this + 0xc);
+        return ((1 << (32 - this->m_pCollisionShape3)) - 1) << this->m_pCollisionShape3;
     return -1;
 }
 

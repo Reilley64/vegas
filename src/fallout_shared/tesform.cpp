@@ -441,7 +441,7 @@ struct FUN_00471d60_shell : public TESFile
 // @fnv 0x00471d60
 bool FUN_00471d60_shell::IsFlag8Set()
 {
-    if (*(unsigned int*)((char*)this + 0x3e8) & 8)
+    if (this->m_uiFileCount & 8)
     {
         return true;
     }
@@ -1535,7 +1535,7 @@ void FUN_00483c70_shell::FUN_00483c70()
     if (reinterpret_cast<::FUN_004077c0_shell *>((void *)this)->FUN_004077c0())
         return;
     if (::fnv_00483370::DAT_011c54c0)
-        reinterpret_cast<::NiTMap_S *>((((NiTPointerMap<unsigned int, void*>*)::fnv_00483370::DAT_011c54c0)))->RemoveKey(*(unsigned int*)((char*)this + 0xc));
+        reinterpret_cast<::NiTMap_S *>((((NiTPointerMap<unsigned int, void*>*)::fnv_00483370::DAT_011c54c0)))->RemoveKey(this->iFormID);
     for (unsigned int iIndex = 0; ms_pAllForms && iIndex < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)ms_pAllForms)))->FUN_0084e3a0())); iIndex++)
     {
         if (*((Arr*)ms_pAllForms)->GetAt(iIndex) == (unsigned int)this)
@@ -1545,7 +1545,7 @@ void FUN_00483c70_shell::FUN_00483c70()
         }
     }
     if (g_dataHandler)
-        reinterpret_cast<::FUN_004696f0_shell *>((g_dataHandler))->FUN_004696f0(*(unsigned int*)((char*)this + 0xc));
+        reinterpret_cast<::FUN_004696f0_shell *>((g_dataHandler))->FUN_004696f0(this->iFormID);
 }
 // @fnv 0x004696f0
 void FUN_004696f0_shell::FUN_004696f0(unsigned int value)
@@ -2314,7 +2314,7 @@ void FUN_00484730_shell::FUN_00484730(bool abAltered)
                 reinterpret_cast<::FormArray *>((((FormArray*)ms_pAllForms)))->AddElement((void **)&(const void *const &)((void*)this));
             }
         }
-        *(unsigned int*)((char*)this + 8) |= 2;
+        this->m_uiFormFlags |= 2;
     }
     else
     {
@@ -2329,7 +2329,7 @@ void FUN_00484730_shell::FUN_00484730(bool abAltered)
                 }
             }
         }
-        *(unsigned int*)((char*)this + 8) &= ~2u;
+        this->m_uiFormFlags &= ~2u;
     }
 }
 }  // namespace fnv_00484730
@@ -2534,7 +2534,7 @@ void FUN_00485340_shell::FUN_00485340(BaseFormComponent* apCopyFC)
         return;
     if (reinterpret_cast<::FUN_00460340_shell *>((((Pathing*)this)))->FUN_00460340() != reinterpret_cast<::FUN_00460340_shell *>((((Pathing*)pCopy)))->FUN_00460340())
         SetAltered(reinterpret_cast<::FUN_00460340_shell *>((((Pathing*)pCopy)))->FUN_00460340());
-    *((unsigned char*)this + 4) = pCopy->GetFormType();
+    this->m_ucFormType = pCopy->GetFormType();
     m_uiFormFlags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pCopy)))->GetName())) & 0xffffbfff | (m_uiFormFlags & 0x4000);
 }
 }  // namespace fnv_00485340
@@ -2572,13 +2572,13 @@ void FUN_00484580_shell::FUN_00484580(bool set)
     {
         if (!reinterpret_cast<::FUN_0047c850 *>((reinterpret_cast<TESSaveLoadGameLoader*>(::g_TESSaveLoadGame)))->EvaluateCondition())
             MarkAsModified(0x200000);
-        ((unsigned int*)this)[2] |= 0x2000;
+        this->m_uiFormFlags |= 0x2000;
     }
     else
     {
         if (!reinterpret_cast<::FUN_0047c850 *>((reinterpret_cast<TESSaveLoadGameLoader*>(::g_TESSaveLoadGame)))->EvaluateCondition())
             MarkAsUnmodified(0x200000);
-        ((unsigned int*)this)[2] &= ~0x2000;
+        this->m_uiFormFlags &= ~0x2000;
     }
 }
 

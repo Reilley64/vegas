@@ -85,7 +85,9 @@ unsigned int Group00e7ef40::FUN_00e7ef40()
 
 struct Group00e7eed0
 {
-    char _pad0[16];
+    char _pad0[0x8];
+    void* unk08;
+    char pad0c[0x4];
     Entry00e7ef40* m_pkSaved;
     unsigned int ApplyGroupEntries();
 };
@@ -93,7 +95,7 @@ struct Group00e7eed0
 // @fnv 0x00e7eed0
 unsigned int Group00e7eed0::ApplyGroupEntries()
 {
-    Entry00e7ef40* entry = *(Entry00e7ef40**)((char*)this + 8);
+    Entry00e7ef40* entry = *(Entry00e7ef40**)&this->unk08;
     while (entry)
     {
         (*reinterpret_cast<::Renderer00e7ef40 * *>(&::DAT_0126f714))->Set(entry->m_iFadeIndex, entry->m_iPad, 0, 0);

@@ -108,7 +108,7 @@ void ShieldEffect_008283f0::SaveShieldData(Actor* actor)
 {
     reinterpret_cast<::ValueModifierEffect *>((((ShieldEffectHelper*)this)))->FUN_00802db0((::Actor *)(actor));
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_008283f0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x6e)
-        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_008283f0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x4c, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_008283f0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->m_uiUnknownValue, 4);
 }
 }  // namespace fnv_008283f0
 

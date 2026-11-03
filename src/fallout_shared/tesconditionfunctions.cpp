@@ -342,7 +342,7 @@ struct FUN_004fd380_shell : public MobileObject
 // @fnv 0x004fd380
 MobileObject* FUN_004fd380_shell::FUN_004fd380()
 {
-    return *(MobileObject**)((char*)this + 0x70);
+    return this->m_pMobileObject;
 }
 
 void __cdecl DebugLog(char const*, ...);

@@ -131,7 +131,7 @@ bool FUN_0052b700_shell::FUN_0052b700(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((TESForm*)pcomp))
         return true;
-    if (memcmp((char*)this + 0x18, (char*)pcomp + 0x18, 0x98))
+    if (memcmp((char*)&this->Data, (char*)&pcomp->Data, 0x98))
         return true;
     return false;
 }

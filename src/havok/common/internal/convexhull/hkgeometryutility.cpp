@@ -624,12 +624,12 @@ __m128* __cdecl FUN_00d5beb0(__m128* apResult, MyPoint* apPoints, int count, int
     {
     case 0:
         *(__m128*)&rTempA = _mm_setzero_ps();
-        ((float*)&rTempA)[3] = DAT_01012054;
+        rTempA.w = DAT_01012054;
         *apResult = *(__m128*)&rTempA;
         break;
     case 1:
         *(__m128*)&rTempA = apPoints[-1].v;
-        ((float*)&rTempA)[3] = t;
+        rTempA.w = t;
         *apResult = *(__m128*)&rTempA;
         break;
     case 2:

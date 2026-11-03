@@ -184,7 +184,7 @@ void FUN_004197d0_shell::SetExtraDataValue(int value)
         }
         else
         {
-            *(int*)((char*)extra + 0xc) = value;
+            extra->m_iPad = value;
         }
     }
     else if (value)
@@ -205,12 +205,12 @@ TeleportableReference* FUN_0043a160(TeleportableReference* self)
 {
     NiPoint3 a;
     NiPoint3 b;
-    new ((void *)(((R6815c0*)((char*)self + 4)))) ::Vec3();
-    new ((void *)(((R6815c0*)((char*)self + 0x10)))) ::Vec3();
+    new ((void *)(((R6815c0*)&self->position.x))) ::Vec3();
+    new ((void *)(((R6815c0*)&self->rotation.x))) ::Vec3();
     *(int*)self = 0;
-    ((char*)self)[0x1c] = 0;
-    *(NiPoint3*)((char*)self + 4) = *((::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>((&a))->FUN_00416870(DAT_01016450, DAT_01016450, DAT_01016450)));
-    *(NiPoint3*)((char*)self + 0x10) = *((::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>((&b))->FUN_00416870(DAT_01016450, DAT_01016450, DAT_01016450)));
+    (*(char*)&self->cFlags) = 0;
+    self->position = *((::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>((&a))->FUN_00416870(DAT_01016450, DAT_01016450, DAT_01016450)));
+    self->rotation = *((::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>((&b))->FUN_00416870(DAT_01016450, DAT_01016450, DAT_01016450)));
     return self;
 }
 
@@ -373,7 +373,7 @@ bool FUN_0043a860_shell::FUN_0043a860(TeleportableReference* apCompare)
     if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090*>(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(reinterpret_cast<TESForm*>(this))))))))->operator==((*(const ::NiPlane *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(reinterpret_cast<TESForm*>(apCompare)))))))))
         return true;
 
-    if (*(reinterpret_cast<unsigned char*>(this) + 0x1c) != *(reinterpret_cast<unsigned char*>(apCompare) + 0x1c))
+    if (*(reinterpret_cast<unsigned char*>(this) + 0x1c) != apCompare->cFlags)
         return true;
 
     return false;

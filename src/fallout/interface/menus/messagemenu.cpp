@@ -226,7 +226,7 @@ void FUN_007aa070_shell::HandleTileSelection(int aiID, Tile* apTarget)
 {
     if (!apTarget && aiID >= 0 && aiID < 6)
     {
-        apTarget = ((Tile**)((char*)this + 0x28))[aiID];
+        apTarget = ((Tile**)&this->m_pTiles[0])[aiID];
     }
     if (aiID == 7 && apTarget)
     {

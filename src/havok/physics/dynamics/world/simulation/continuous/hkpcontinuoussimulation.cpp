@@ -2024,7 +2024,7 @@ void UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, World
         {
             CollidableD0* collidable = pCollidableCursor[0];
             if (i >= 4)
-                _mm_prefetch((const char*)pCollidableCursor[4] + 16, 0);
+                _mm_prefetch((const char*)&pCollidableCursor[4]->unk10, 0);
             *h = &collidable->m_kBroadPhaseHandle;
             BoundingVolumeDataD0& rBoundingVolume = collidable->m_kBoundingVolumeData;
             if (rBoundingVolume.m_kMinimumCorner[0] > rBoundingVolume.m_kMaximumCorner[0])

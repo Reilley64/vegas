@@ -869,7 +869,7 @@ struct FUN_004f5590 : FUN_004f5600_shell
 FUN_004f5590::FUN_004f5590(int aiFirst, int aiSecond)
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01023ec4);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = aiFirst;
+    this->m8 = aiFirst;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8) = aiSecond;
 }
 
@@ -3414,7 +3414,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
     if ((*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].first != 0 && (*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].second != 0 &&
         reinterpret_cast<::FUN_004f6730_shell *>(((*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].second))->FUN_004f6730((::FUN_004f6730_shell *)(collH)))
     {
-        reinterpret_cast<::FileMatchList *>((((Sub470*)((char*)collH + 4))))->RemoveAll();
+        reinterpret_cast<::FileMatchList *>((((Sub470*)&collH->m4)))->RemoveAll();
         delete collH;
         return (*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].first;
     }
@@ -3436,7 +3436,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
         }
     }
 
-    nodeB = collH ? (RDLNode*)((char*)collH + 4) : 0;
+    nodeB = collH ? (RDLNode*)&collH->m4 : 0;
     while (nodeB != 0 && *((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())) != 0)
     {
         itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_009611e0()))))->FUN_004f35b0({})));
@@ -3463,7 +3463,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
         {
             if (resultD != 0)
             {
-                ((RDLItemV7*)resultD)->FUN_v7(itemB, ((Sub470*)((char*)collH + 4))->FUN_005ae380());
+                ((RDLItemV7*)resultD)->FUN_v7(itemB, ((Sub470*)&collH->m4)->FUN_005ae380());
             }
             else
             {
@@ -3486,7 +3486,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
         (*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].first = resultD;
         if ((*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].second != 0)
         {
-            reinterpret_cast<::FileMatchList *>((((Sub470*)((char*)(*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].second + 4))))->RemoveAll();
+            reinterpret_cast<::FileMatchList *>((((Sub470*)&(*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].second->m4)))->RemoveAll();
             delete (*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].second;
         }
         (*reinterpret_cast<DataBufferInfo (*)[]>(&::caches))[arg0].second = collH;
@@ -3494,7 +3494,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
     }
     if (collH != 0)
     {
-        reinterpret_cast<::FileMatchList *>((((Sub470*)((char*)collH + 4))))->RemoveAll();
+        reinterpret_cast<::FileMatchList *>((((Sub470*)&collH->m4)))->RemoveAll();
         delete collH;
     }
     return resultD;

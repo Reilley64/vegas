@@ -508,7 +508,7 @@ void FUN_007a80e0_cls::InitSceneNodes()
 {
     this->m_1c = 0;
     this->m_20 = 0.0f;
-    for (SceneNodeRef* pNodeRef = this ? (SceneNodeRef*)((char*)this + 4) : 0;
+    for (SceneNodeRef* pNodeRef = this ? (SceneNodeRef*)&this->unk04 : 0;
          pNodeRef != 0 && ((::SceneHolder *)(new ((void *)(pNodeRef)) ::Vec3()))->m_00 != 0; pNodeRef = ((::SceneNodeRef *)(reinterpret_cast<::Callees *>((pNodeRef))->FUN_00726070())))
     {
         if (((::SceneHolder *)(new ((void *)(pNodeRef)) ::Vec3()))->m_00->m_flag08 == 0)

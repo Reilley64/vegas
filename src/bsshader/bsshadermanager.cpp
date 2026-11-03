@@ -429,7 +429,7 @@ struct ImageSpaceManager
 // @fnv 0x00b54090
 NiTexture* GetImageSpaceTexture()
 {
-    return ((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ImageSpaceTexture*)((char*)DAT_011f91ac + 0x204))))->FUN_00ba3780()));
+    return ((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>(((&DAT_011f91ac->m_texture)))->FUN_00ba3780()));
 }
 
 

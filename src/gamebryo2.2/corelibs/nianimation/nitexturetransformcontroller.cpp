@@ -91,7 +91,7 @@ struct FUN_00a461a0_shell : public NiTimeController
 // @fnv 0x00a461a0
 void FUN_00a461a0_shell::FUN_00a461a0(NiObjectNET* target)
 {
-    if (*(NiObjectNET**)((char*)this + 0x2c) != target)
+    if (this->m_pkTarget != target)
         *(int*)((char*)this + 0x3c) = 0;
     NiTimeController::SetTarget(target);
 }
@@ -202,10 +202,10 @@ NiTextureTransformController* FUN_00a468f0_shell::Clone(CloningProcess& kCloning
     else
         pkObject = 0;
     ((NiAlphaController*)this)->CopyMemberData((NiAlphaController*)pkObject, kCloning);
-    *(unsigned int*)((char*)pkObject + 0x38) = *(unsigned int*)((char*)this + 0x38);
-    *(unsigned char*)((char*)pkObject + 0x40) = *(unsigned char*)((char*)this + 0x40);
-    *(unsigned int*)((char*)pkObject + 0x44) = *(unsigned int*)((char*)this + 0x44);
-    *(unsigned int*)((char*)pkObject + 0x48) = *(unsigned int*)((char*)this + 0x48);
+    pkObject->m_uiLastKeyIndex = *(unsigned int*)((char*)this + 0x38);
+    *(unsigned char*)&pkObject->m_bIsBumpMap = *(unsigned char*)((char*)this + 0x40);
+    pkObject->m_uiTextureMapIndex = *(unsigned int*)((char*)this + 0x44);
+    *(unsigned int*)&pkObject->m_eTransformMember = *(unsigned int*)((char*)this + 0x48);
     return pkObject;
 }
 
@@ -529,14 +529,14 @@ void FUN_00a46660_shell::GetTextureTransformValue(float& value)
             value = kPoint.y;
             break;
         case NiTextureTransformController__TransformMember_TT_ROTATE:
-            value = *(float*)((char*)transform + 8);
+            value = transform->rotate;
             break;
         case NiTextureTransformController__TransformMember_TT_SCALE_U:
-            kPoint = *(NiPoint2*)((char*)transform + 12);
+            kPoint = transform->scale;
             value = kPoint.x;
             break;
         case NiTextureTransformController__TransformMember_TT_SCALE_V:
-            kPoint = *(NiPoint2*)((char*)transform + 12);
+            kPoint = transform->scale;
             value = kPoint.y;
             break;
         }

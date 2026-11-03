@@ -173,7 +173,7 @@ struct FUN_007e8db0_shell : FUN_007e8e40_shell
 void FUN_007e8db0_shell::FUN_007e8db0(int aiID, Tile* apTarget)
 {
     if (!apTarget && aiID >= 0 && aiID < 8)
-        apTarget = ((Tile**)((char*)this + 0x28))[aiID];
+        apTarget = (&this->m_pTiles[10])[aiID];
     switch (aiID)
     {
     case 1:

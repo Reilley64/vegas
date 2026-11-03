@@ -527,7 +527,7 @@ bool FUN_005e7530_shell::FUN_005e7530(TESFile* apFile)
             void* pdata = _alloca(isize);
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pdata), isize);
             ((void(*)(TESModelTextureSwap*, void*, unsigned int, unsigned int))ref_0048a7b0)(
-                (TESModelTextureSwap*)((char*)this + 0x24), pdata, isize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((apFile))->FUN_00403570());
+                static_cast<TESModelTextureSwap *>(this), pdata, isize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((apFile))->FUN_00403570());
             break;
         }
         case 0x41544144:
@@ -577,8 +577,8 @@ void FUN_005e7480_t::InitializeHeadPart()
 {
     BSSimpleList<BGSHeadPart*>* pCurrentElementNext;
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x24)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     FUN_004858f0(0x41544144, cFlags);
     pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(((::List_005e7480 *)(reinterpret_cast<::FUN_00624700_shell *>(this)->FUN_00624700())));
     while (pCurrentElementNext && !reinterpret_cast<List_005e7480*>(pCurrentElementNext)->FUN_008256d0())

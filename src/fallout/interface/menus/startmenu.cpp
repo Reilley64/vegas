@@ -344,7 +344,7 @@ struct FUN_0075f8c0_shell : public BGSSaveLoadFileEntry
 char* FUN_0075f8c0_shell::FUN_0075f8c0()
 {
     ReadTypedData();
-    return *(char**)((char*)this + 0xc);
+    return this->unk0c;
 }
 
 void FUN_007d6f80(void* pThis);
@@ -424,7 +424,7 @@ void FUN_007cf8e0_shell::FUN_007cf8e0(int aiID, Tile* apTarget)
     bool barrow = (aiID == 100 || aiID == 101);
     if (apTarget && barrow)
     {
-        reinterpret_cast<::FUN_00a012d0_t *>((apTarget))->FUN_00a012d0(0xff5, reinterpret_cast<::TileListBoxCalls *>(((*reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x4))))->GetFloat(0xff5), true);
+        reinterpret_cast<::FUN_00a012d0_t *>((apTarget))->FUN_00a012d0(0xff5, reinterpret_cast<::TileListBoxCalls *>(((*reinterpret_cast<Tile**>(&this->pMenu))))->GetFloat(0xff5), true);
     }
     if (!FUN_004b71d0())
     {
@@ -433,9 +433,9 @@ void FUN_007cf8e0_shell::FUN_007cf8e0(int aiID, Tile* apTarget)
             UpdateTargetInfo(this);
         }
     }
-    if (!barrow && *reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x6c))
+    if (!barrow && this->m_pTiles[17])
     {
-        (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x6c))->Set(0xfa3, 0);
+        (this->m_pTiles[17])->Set(0xfa3, 0);
     }
 }
 
@@ -1089,7 +1089,7 @@ struct FUN_007d5160_shell : public BGSSaveLoadFileEntry
 unsigned int FUN_007d5160_shell::FUN_007d5160()
 {
     ReadTypedData();
-    return *(unsigned int*)((char*)this + 0x1c);
+    return this->unk1c;
 }
 
 struct FUN_007d5180_shell : public BGSSaveLoadFileEntry
@@ -1101,7 +1101,7 @@ struct FUN_007d5180_shell : public BGSSaveLoadFileEntry
 char* FUN_007d5180_shell::FUN_007d5180()
 {
     ReadTypedData();
-    return *(char**)((char*)this + 0x18);
+    return this->unk18;
 }
 
 namespace fnv_007d61e0 {
@@ -1130,16 +1130,16 @@ void FUN_007d61e0_shell::FadeTile(int aeIndex, bool abFadeIn, int aiTrait, float
     {
         afFadeTime = 0.25f;
     }
-    if (((Tile**)((char*)this + 0x28))[aeIndex])
+    if (((Tile**)&this->m_pTiles[0])[aeIndex])
     {
-        if (abFadeIn && reinterpret_cast<::TileListBoxCalls *>((((Tile**)((char*)this + 0x28))[aeIndex]))->GetFloat(aiTrait) < ::DAT_0101e568)
+        if (abFadeIn && reinterpret_cast<::TileListBoxCalls *>((((Tile**)&this->m_pTiles[0])[aeIndex]))->GetFloat(aiTrait) < ::DAT_0101e568)
         {
-            reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((Tile**)((char*)this + 0x28))[aeIndex]))->StartFade(aiTrait, 0.0f, 255.0f, afFadeTime,
+            reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((Tile**)&this->m_pTiles[0])[aeIndex]))->StartFade(aiTrait, 0.0f, 255.0f, afFadeTime,
                                                                   (*(int *)&(const ::fnv_007d61e0::Tile::TILE_FADE_CONTROL_TYPE &)((Tile::TILE_FADE_CONTROL_TYPE)0)));
         }
-        else if (!abFadeIn && reinterpret_cast<::TileListBoxCalls *>((((Tile**)((char*)this + 0x28))[aeIndex]))->GetFloat(aiTrait) > ::_DAT_01012060)
+        else if (!abFadeIn && reinterpret_cast<::TileListBoxCalls *>((((Tile**)&this->m_pTiles[0])[aeIndex]))->GetFloat(aiTrait) > ::_DAT_01012060)
         {
-            reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((Tile**)((char*)this + 0x28))[aeIndex]))->StartFade(aiTrait, 255.0f, 0.0f, afFadeTime,
+            reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((((Tile**)&this->m_pTiles[0])[aeIndex]))->StartFade(aiTrait, 255.0f, 0.0f, afFadeTime,
                                                                   (*(int *)&(const ::fnv_007d61e0::Tile::TILE_FADE_CONTROL_TYPE &)((Tile::TILE_FADE_CONTROL_TYPE)0)));
         }
     }
@@ -1173,14 +1173,14 @@ void HandleBackAction();
 int FUN_007d6950(BGSSaveLoadFileEntry* pThis)
 {
     pThis->ReadTypedData();
-    return *(int*)((char*)pThis + 8);
+    return pThis->unk08;
 }
 
 // @fnv 0x007d6970
 int FUN_007d6970(BGSSaveLoadFileEntry* pThis)
 {
     pThis->ReadTypedData();
-    return *(int*)((char*)pThis + 0x14);
+    return pThis->unk14;
 }
 
 
@@ -1600,7 +1600,7 @@ bool FUN_007d51a0_shell::FUN_007d51a0(BGSSaveLoadFileEntry* apSaveGame)
     NiTexture* pTexture = apSaveGame ? ((::fnv_007d51a0::NiTexture *)(reinterpret_cast<::BGSSaveLoadFileEntry *>((reinterpret_cast<EntryOps*>(apSaveGame)))->ReadScreenshotFromFile())) : 0;
     if (pTexture)
     {
-        pTileImage = *reinterpret_cast<TileImage**>(reinterpret_cast<char*>(this) + 0x54);
+        pTileImage = *reinterpret_cast<TileImage**>(&this->m_pTiles[11]);
         reinterpret_cast<::TileImage *>((pTileImage))->SetTexture((::NiAVObject *)(pTexture));
         reinterpret_cast<::Tile *>((pTileImage))->Set(0xfb0, pTexture->v38());
         reinterpret_cast<::Tile *>((pTileImage))->Set(0xfb1, pTexture->v37());
@@ -1969,7 +1969,7 @@ void SyncOptionWithSettings(StartMenu::UserOption* apOption)
     {
         float fValue;
         float fNormalizedPosition =
-            (float)*(int*)((char*)apOption + 0x14) / (*(unsigned int*)((char*)apOption + 0x20) - 1);
+            (float)apOption->iVal / (apOption->m_uiValueCount - 1);
         fValue = (fHigh - fLow) * fNormalizedPosition + fLow;
         ::SetFloatAt(3, fValue);
         reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::fnv_007d1bb0::GlobalObject_0045d060 *>(&::g_011c3ec0)))))->FUN_004ed780(fValue);
@@ -1977,11 +1977,11 @@ void SyncOptionWithSettings(StartMenu::UserOption* apOption)
     else
     {
         float fRatio = (::FUN_007d1d00(3) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x14) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iVal =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
         fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dac38))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
 }
 }  // namespace fnv_007d1bb0
@@ -2012,7 +2012,7 @@ void FUN_007d1d10(StartMenu::UserOption* apOption)
     {
         float fValue;
         float fNormalizedPosition =
-            (float)*(int*)((char*)apOption + 0x14) / (*(unsigned int*)((char*)apOption + 0x20) - 1);
+            (float)apOption->iVal / (apOption->m_uiValueCount - 1);
         fValue = (fHigh - fLow) * fNormalizedPosition + fLow;
         ::SetFloatAt(2, fValue);
         reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::fnv_007d1d10::GlobalObject_0045d060 *>(&::g_011c3d0c)))))->FUN_004ed780(fValue);
@@ -2020,11 +2020,11 @@ void FUN_007d1d10(StartMenu::UserOption* apOption)
     else
     {
         float fRatio = (::FUN_007d1d00(2) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x14) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iVal =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
         fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dabc0))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
 }
 }  // namespace fnv_007d1d10
@@ -2055,7 +2055,7 @@ void SyncUserOptionSetting(StartMenu::UserOption* apOption)
     {
         float fValue;
         float fNormalizedPosition =
-            (float)*(int*)((char*)apOption + 0x14) / (*(unsigned int*)((char*)apOption + 0x20) - 1);
+            (float)apOption->iVal / (apOption->m_uiValueCount - 1);
         fValue = (fHigh - fLow) * fNormalizedPosition + fLow;
         ::SetFloatAt(1, fValue);
         reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::fnv_007d1e60::GlobalObject_0045d060 *>(&::g_011c3d78)))))->FUN_004ed780(fValue);
@@ -2063,11 +2063,11 @@ void SyncUserOptionSetting(StartMenu::UserOption* apOption)
     else
     {
         float fRatio = (::FUN_007d1d00(1) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x14) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iVal =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
         fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dab6c))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
 }
 }  // namespace fnv_007d1e60
@@ -2094,18 +2094,18 @@ void SyncUserOptionSlider(StartMenu::UserOption* apOption)
     {
         float fValue;
         float fNormalizedPosition =
-            (float)*(int*)((char*)apOption + 0x14) / (*(unsigned int*)((char*)apOption + 0x20) - 1);
+            (float)apOption->iVal / (apOption->m_uiValueCount - 1);
         fValue = (fHigh - fLow) * fNormalizedPosition + fLow;
         *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&DAT_011ca450))))) = fValue;
     }
     else
     {
         float fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&DAT_011ca450))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x14) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iVal =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
         fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011ca4cc))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)apOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
+        apOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
 }
 }  // namespace fnv_007d1fb0
@@ -2128,18 +2128,18 @@ void FUN_007d2510(StartMenu::UserOption* pOption)
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fNormalizedPosition =
-            (float)*(int*)((char*)pOption + 0x14) / (float)(*(unsigned int*)((char*)pOption + 0x20) - 1);
+            (float)pOption->iVal / (float)(pOption->m_uiValueCount - 1);
         float fValue = (fHigh - fLow) * fNormalizedPosition + fLow;
         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::DAT_011d8724)))))) = fValue;
     }
     else
     {
         float fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::DAT_011d8724)))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)pOption + 0x14) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)pOption + 0x20) - 1) * fRatio, 1.0f);
+        pOption->iVal =
+            (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
         fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::g_011d870c)))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)pOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)pOption + 0x20) - 1) * fRatio, 1.0f);
+        pOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
 }
 }  // namespace fnv_007d2510
@@ -2162,18 +2162,18 @@ void SyncOptionValue(StartMenu::UserOption* pOption)
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fNormalizedPosition =
-            (float)*(int*)((char*)pOption + 0x14) / (float)(*(unsigned int*)((char*)pOption + 0x20) - 1);
+            (float)pOption->iVal / (float)(pOption->m_uiValueCount - 1);
         float fValue = (fHigh - fLow) * fNormalizedPosition + fLow;
         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::DAT_011d8788)))))) = fValue;
     }
     else
     {
         float fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::DAT_011d8788)))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)pOption + 0x14) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)pOption + 0x20) - 1) * fRatio, 1.0f);
+        pOption->iVal =
+            (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
         fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::g_011d8770)))))) - fLow) / (fHigh - fLow);
-        *(int*)((char*)pOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)pOption + 0x20) - 1) * fRatio, 1.0f);
+        pOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
 }
 }  // namespace fnv_007d2650
@@ -2202,14 +2202,14 @@ void FUN_007d2790(StartMenu::UserOption* apOption)
     else if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         ::SetMasterVolume((float)(((::fnv_007d2790::BSAudio *)(::FUN_00453a70()))), 
-            reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e14)))))->FUN_004ed780((float)*(int*)((char*)apOption + 0x14) / (*(unsigned int*)((char*)apOption + 0x20) - 1))))))->FUN_00450410());
+            reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e14)))))->FUN_004ed780((float)apOption->iVal / (apOption->m_uiValueCount - 1))))))->FUN_00450410());
     }
     else
     {
-        *(int*)((char*)apOption + 0x14) = (int)::InventoryStackRecord::RoundToNearestStep(
-            reinterpret_cast<::BSAudio *>((((::fnv_007d2790::BSAudio *)(::FUN_00453a70()))))->GetMasterVolume() * (*(unsigned int*)((char*)apOption + 0x20) - 1), 1.0f);
-        *(int*)((char*)apOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep(1.0f * (*(unsigned int*)((char*)apOption + 0x20) - 1), 1.0f);
+        apOption->iVal = (int)::InventoryStackRecord::RoundToNearestStep(
+            reinterpret_cast<::BSAudio *>((((::fnv_007d2790::BSAudio *)(::FUN_00453a70()))))->GetMasterVolume() * (apOption->m_uiValueCount - 1), 1.0f);
+        apOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep(1.0f * (apOption->m_uiValueCount - 1), 1.0f);
     }
 }
 }  // namespace fnv_007d2790
@@ -2238,14 +2238,14 @@ void FUN_007d2af0(StartMenu::UserOption* apOption)
     else if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         ::FUN_00ad7b70((void *)(((::fnv_007d2af0::BSAudio *)(::FUN_00453a70()))), 
-            reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e2c)))))->FUN_004ed780((float)*(int*)((char*)apOption + 0x14) / (*(unsigned int*)((char*)apOption + 0x20) - 1))))))->FUN_00450410());
+            reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e2c)))))->FUN_004ed780((float)apOption->iVal / (apOption->m_uiValueCount - 1))))))->FUN_00450410());
     }
     else
     {
-        *(int*)((char*)apOption + 0x14) = (int)::InventoryStackRecord::RoundToNearestStep(
-            reinterpret_cast<::BSAudio *>((((::fnv_007d2af0::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7a50() * (*(unsigned int*)((char*)apOption + 0x20) - 1), 1.0f);
-        *(int*)((char*)apOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * 0.6f, 1.0f);
+        apOption->iVal = (int)::InventoryStackRecord::RoundToNearestStep(
+            reinterpret_cast<::BSAudio *>((((::fnv_007d2af0::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7a50() * (apOption->m_uiValueCount - 1), 1.0f);
+        apOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * 0.6f, 1.0f);
     }
 }
 }  // namespace fnv_007d2af0
@@ -2272,15 +2272,15 @@ void FUN_007d2c10(StartMenu::UserOption* pUserOption)
     }
     else if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        reinterpret_cast<::fnv_00ad7ba0::FUN_00ad7ba0 *>((((::fnv_007d2c10::BSAudio *)(::FUN_00453a70()))))->Set(reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((S_004ed780*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e38)))))->FUN_004ed780((float)*(int*)((char*)pUserOption + 0x14) /
-                                                                 (*(unsigned int*)((char*)pUserOption + 0x20) - 1))))))->FUN_00450410());
+        reinterpret_cast<::fnv_00ad7ba0::FUN_00ad7ba0 *>((((::fnv_007d2c10::BSAudio *)(::FUN_00453a70()))))->Set(reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((S_004ed780*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e38)))))->FUN_004ed780((float)pUserOption->iVal /
+                                                                 (pUserOption->m_uiValueCount - 1))))))->FUN_00450410());
     }
     else
     {
-        *(int*)((char*)pUserOption + 0x14) = (int)::InventoryStackRecord::RoundToNearestStep(
-            reinterpret_cast<::BSAudio *>((((::fnv_007d2c10::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7a80() * (*(unsigned int*)((char*)pUserOption + 0x20) - 1), 1.0f);
-        *(int*)((char*)pUserOption + 0x18) =
-            (int)::InventoryStackRecord::RoundToNearestStep(1.0f * (*(unsigned int*)((char*)pUserOption + 0x20) - 1), 1.0f);
+        pUserOption->iVal = (int)::InventoryStackRecord::RoundToNearestStep(
+            reinterpret_cast<::BSAudio *>((((::fnv_007d2c10::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7a80() * (pUserOption->m_uiValueCount - 1), 1.0f);
+        pUserOption->iDefaultValue =
+            (int)::InventoryStackRecord::RoundToNearestStep(1.0f * (pUserOption->m_uiValueCount - 1), 1.0f);
     }
 }
 }  // namespace fnv_007d2c10
@@ -2402,9 +2402,9 @@ void StartMenu_Wrap::ApplyUserOptions()
     reinterpret_cast<::FUN_0075f6f0_shell *>(this)->FUN_0075f6f0((*(int *)&(const ::StartMenu::Flag &)(FLAG_SAVE_OPTIONS)), false);
     for (int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50))))->GetName())); i++)
     {
-        if (*(UserOptionCallback*)((char*)*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i) + 0x2c))
-            (*(UserOptionCallback*)((char*)*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i) + 0x2c))(*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i));
-        if (*(UserOptionCallback*)((char*)*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i) + 0x2c) == FUN_007d19c0)
+        if ((*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i))->m_pChangeCallback)
+            ((*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i))->m_pChangeCallback)(*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i));
+        if ((*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i))->m_pChangeCallback == FUN_007d19c0)
             *(StartMenu::UserOption**)((char*)this + 0x1b4) = *(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i);
     }
     reinterpret_cast<::FUN_0075f6f0_shell *>(this)->FUN_0075f6f0((*(int *)&(const ::StartMenu::Flag &)(FLAG_SAVE_OPTIONS)), true);

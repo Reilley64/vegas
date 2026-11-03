@@ -723,7 +723,7 @@ void FUN_00d08940_shell::FUN_00d08940(char const* name)
     hkObjectE02* obj;
     if (::LookupBucketValue((::DepthLimit *)&(loader), (int)(name), (int)(&obj), {})) {
         Router* router = _FNV_e03300_arena();
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<Sink*>(reinterpret_cast<char*>(this) + 0x50)))->FUN_00cb1870(
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<Sink*>(&this->loader)))->FUN_00cb1870(
             (*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(reinterpret_cast<void*>(router->e))), reinterpret_cast<int>(name), 1);
     }
 }
@@ -1892,7 +1892,7 @@ __forceinline void S00d094a0_timer(const char* name)
             mov dword ptr[stamp], eax
         }
         p->m_uiCommandId = stamp;
-        t->m_kRayEnd = (char*)p + 12;
+        t->m_kRayEnd = (char*)&p->m_detail;
     }
 }
 

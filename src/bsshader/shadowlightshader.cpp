@@ -4778,17 +4778,17 @@ void __cdecl InitGraphicsResources()
 
         AssignStageFromPool(&temporary);
         ConfigureBeamStage(temporary.ptr, 1, 3, 2, 1);
-        *(unsigned int*)((char*)temporary.ptr + 8) = DAT_011f9534;
+        temporary.ptr->unk08 = DAT_011f9534;
         reinterpret_cast<::StageSet *>(((system).operator->()))->FUN_00e802b0(system->device14, (::Stage321 *)((unsigned int)temporary.ptr));
 
         AssignStageFromPool(&temporary);
         ConfigureBeamStage(temporary.ptr, 2, 3, 2, 1);
-        *(unsigned int*)((char*)temporary.ptr + 8) = (*reinterpret_cast<unsigned int *>(&::DAT_011f9538));
+        temporary.ptr->unk08 = (*reinterpret_cast<unsigned int *>(&::DAT_011f9538));
         reinterpret_cast<::StageSet *>(((system).operator->()))->FUN_00e802b0(system->device14, (::Stage321 *)((unsigned int)temporary.ptr));
 
         AssignStageFromPool(&temporary);
         ConfigureBeamStage(temporary.ptr, 3, 1, 2, 1);
-        *(unsigned int*)((char*)temporary.ptr + 8) = (*reinterpret_cast<unsigned int *>(&::DAT_011f950c));
+        temporary.ptr->unk08 = (*reinterpret_cast<unsigned int *>(&::DAT_011f950c));
         reinterpret_cast<::StageSet *>(((system).operator->()))->FUN_00e802b0(system->device14, (::Stage321 *)((unsigned int)temporary.ptr));
     }
     system->material5c = DAT_011fddc8;
@@ -4819,15 +4819,15 @@ void __cdecl InitGraphicsResources()
         reinterpret_cast<::StageSet *>(((system).operator->()))->FUN_00e802b0(system->device14, (::Stage321 *)((unsigned int)temporary.ptr));
         AssignStageFromPool(&temporary);
         ConfigureBeamStage(temporary.ptr, 1, 3, 2, 1);
-        *(unsigned int*)((char*)temporary.ptr + 8) = DAT_011f9534;
+        temporary.ptr->unk08 = DAT_011f9534;
         reinterpret_cast<::StageSet *>(((system).operator->()))->FUN_00e802b0(system->device14, (::Stage321 *)((unsigned int)temporary.ptr));
         AssignStageFromPool(&temporary);
         ConfigureBeamStage(temporary.ptr, 2, 3, 2, 1);
-        *(unsigned int*)((char*)temporary.ptr + 8) = (*reinterpret_cast<unsigned int *>(&::DAT_011f9538));
+        temporary.ptr->unk08 = (*reinterpret_cast<unsigned int *>(&::DAT_011f9538));
         reinterpret_cast<::StageSet *>(((system).operator->()))->FUN_00e802b0(system->device14, (::Stage321 *)((unsigned int)temporary.ptr));
         AssignStageFromPool(&temporary);
         ConfigureBeamStage(temporary.ptr, 3, 1, 2, 1);
-        *(unsigned int*)((char*)temporary.ptr + 8) = (*reinterpret_cast<unsigned int *>(&::DAT_011f950c));
+        temporary.ptr->unk08 = (*reinterpret_cast<unsigned int *>(&::DAT_011f950c));
         reinterpret_cast<::StageSet *>(((system).operator->()))->FUN_00e802b0(system->device14, (::Stage321 *)((unsigned int)temporary.ptr));
     }
     system->material5c = DAT_011fde44;
@@ -12465,7 +12465,7 @@ int ShaderAdapter::ApplyShaderConstants(int a1, void* geometry, void* constantDa
                                         int transform, int a8)
 {
     if ((constantData && *reinterpret_cast<int*>(layoutPadding38) == 0 && DAT_011fec00.m_pObject &&
-         *reinterpret_cast<char*>(reinterpret_cast<char*>(DAT_011fec00.m_pObject) + 8)) ||
+         *reinterpret_cast<char*>(&DAT_011fec00.m_pObject->active)) ||
         m_spSecondShaderConstantMap.m_pObject == m_spFogConstantMap.m_pObject)
     {
         reinterpret_cast<::BoneHost *>(((*reinterpret_cast<::LightManager * *>(&::DAT_011f9508))))->FUN_00e6fe30((::SkinMatrixBlock *)(geometry), (::Xf *)(transform), 0, 3, 1);

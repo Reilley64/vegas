@@ -717,7 +717,7 @@ FUN_0062c6e0_shell::FUN_0062c6e0_shell()
 // @fnv 0x0062d330
 void MyCollector::FUN_0062d330()
 {
-    reinterpret_cast<::FUN_00622570_Class *>((((CalleeObj*)((char*)this + 4))))->FUN_00622570(false);
+    reinterpret_cast<::FUN_00622570_Class *>((((CalleeObj*)&this->m_04)))->FUN_00622570(false);
 }
 
 namespace fnv_0062d550 {
@@ -1223,15 +1223,15 @@ bool FUN_0062dd20_shell::FUN_0062dd20(RootContactPoint& arPoint)
     TESObjectREFR* ptrapRef = 0;
     TESObjectREFR* m_pReference = 0;
 
-    ptrapRef = FUN_0062b4e0(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48));
-    m_pReference = FUN_0062b4e0(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x20));
+    ptrapRef = FUN_0062b4e0(arPoint.m_p48);
+    m_pReference = FUN_0062b4e0(arPoint.m_p20);
 
     if (ptrapRef && m_pReference && reinterpret_cast<FUN_0062dd20_vtable*>(m_pReference)->f64())
     {
         {
             ZoneEntry* ptrap;
             ptrap = reinterpret_cast<ZoneEntry*>(
-                ((void *)(reinterpret_cast<FUN_00620680_Class*>(reinterpret_cast<char*>(this) - 8)->FUN_00620680((int)(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48)), (int)(m_pReference)))));
+                ((void *)(reinterpret_cast<FUN_00620680_Class*>(reinterpret_cast<char*>(this) - 8)->FUN_00620680((int)(arPoint.m_p48), (int)(m_pReference)))));
         }
         bres = true;
     }

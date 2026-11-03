@@ -1038,7 +1038,7 @@ struct FUN_0072c130_cls
 // @fnv 0x0072add0
 void FUN_0072add0_shell::FUN_0072add0(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
 {
-    reinterpret_cast<::ItemChangeList *>((((BSSimpleList*)((char*)this + 4))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
+    reinterpret_cast<::ItemChangeList *>(((&this->m_kNode)))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     reinterpret_cast<::FUN_0072c130_cls *>((((FUN_0072c130_shell*)this)))->ProcessSlots();
 }
 

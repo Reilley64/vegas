@@ -875,11 +875,11 @@ bool FUN_0065bf80_shell::EnsureMorphData()
         0x38, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\FaceGen\\BSFaceGenModel.cpp", 0x4f0);
     if (!m_pGeometryModel)
         return false;
-    if (!*(FUN_00659560**)((char*)m_pGeometryModel + 8))
+    if (!*(FUN_00659560**)&m_pGeometryModel->m_pModelData)
     {
         if (!((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)m_pGeometryModel)))->FUN_004048e0())))
             return false;
-        *(FUN_00659560**)((char*)m_pGeometryModel + 8) =
+        *(FUN_00659560**)&m_pGeometryModel->m_pModelData =
             new FUN_00659560((const char*)::FUN_00559450((int*)m_pGeometryModel));
     }
     return true;

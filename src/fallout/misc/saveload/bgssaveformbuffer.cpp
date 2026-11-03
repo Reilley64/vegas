@@ -310,10 +310,10 @@ struct BGSSaveFormBuffer
 void BGSSaveFormBuffer::InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
                                       unsigned char acVersion)
 {
-    reinterpret_cast<::FUN_00853570_shell *>((((PackedFormID*)((char*)this + 0x14))))->WriteFormIDBytes(aiFormID);
+    reinterpret_cast<::FUN_00853570_shell *>(((&this->m_FormIDIndex)))->WriteFormIDBytes(aiFormID);
     ((unsigned int*)((char*)this + 0x17))[0] = aiChangeFlags;
     reinterpret_cast<::FUN_00853670_shell *>((((BGSFormInfo*)((char*)this + 0x1b))))->FUN_00853670(aeFormType);
-    ((unsigned char*)this + 0x1c)[0] = acVersion;
+    ((unsigned char*)&this->m_FormInfo)[0] = acVersion;
 }
 }  // namespace fnv_00865ad0
 
@@ -386,7 +386,7 @@ void FUN_00865a30_owner::FUN_00865a30(void* buffer)
     unsigned int secondValue = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((_ref_0084e3a0_shell*)this)))->FUN_0084e3a0()));
     unsigned int firstValue = FUN_00845d40(secondValue);
     ((FUN_00865aa0_shell*)((char*)this + 0x1b))->SetFlags(firstValue);
-    ((FUN_00846330_shell*)buffer)->WriteToFile((char*)this + 0x14, 9);
+    ((FUN_00846330_shell*)buffer)->WriteToFile((char*)&this->unk14, 9);
     ::fnv_00845d80::WriteValueByType((::fnv_00845d80::FUN_00846330_shell *)(buffer), secondValue, firstValue);
     ((FUN_00865c80_shell*)this)->FUN_00865c80((::FUN_00846330_shell *)(buffer), secondValue);
 }

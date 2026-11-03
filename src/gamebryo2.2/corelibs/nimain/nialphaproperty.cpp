@@ -170,7 +170,7 @@ NiAlphaProperty* __cdecl CreateNiAlphaProperty()
         new ((void *)(((NiPropertyCtorStub*)p))) struct ::FUN_00a5c200();
         p->m_uiObjectFlags = 0xec;
         *(void**)p = vftable_NiAlphaProperty;
-        *((unsigned char*)p + 0x1a) = 0;
+        p->m_ucAlphaThreshold = 0;
         return p;
     }
     return 0;

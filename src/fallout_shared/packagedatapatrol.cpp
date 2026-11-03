@@ -192,7 +192,7 @@ struct FUN_0067c6c0_shell
 void FUN_0067c6c0_shell::FUN_0067c6c0(int item)
 {
     reinterpret_cast<::FUN_0041fd00_shell *>(&(caster))->FUN_0041fd00(3);
-    reinterpret_cast<PackageEventActionData*>(reinterpret_cast<char*>(this) + 4)->InitItem((::TESForm *)(item));
+    reinterpret_cast<PackageEventActionData*>(&this->caster)->InitItem((::TESForm *)(item));
 }
 
 extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);

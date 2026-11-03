@@ -567,7 +567,7 @@ void __cdecl FinishScriptRunLock(void*);
 void FUN_0043acb0_shell::ReleaseScriptRunLock()
 {
     if (*(int*)((char*)this + 8) > 0)
-        ::WaitForSingleObjectEx((long *)(void *)((char*)this + 8));
+        ::WaitForSingleObjectEx((long *)(void *)((char*)&this->prefix[4]));
 }
 
 namespace fnv_0043b1b0 {
@@ -616,7 +616,9 @@ struct BSSimpleArray_uint_1024
 };
 struct MLx
 {
-    char pad[0x21c];
+    char pad[0x8];
+    char unk08;
+    char pad09[0x213];
     BSSimpleArray_uint_1024 arr;
     const char* GetStringAt(unsigned int i);
 };
@@ -3297,7 +3299,7 @@ int __cdecl InitScriptRunLock(void*);
 // @fnv 0x0092c870
 void FUN_0092c870_shell::FUN_0092c870()
 {
-    ::FUN_0040b460((unsigned int *)(void *)((char*)this + 8));
+    ::FUN_0040b460((unsigned int *)(void *)((char*)&this->prefix[4]));
 }
 
 struct BSAudioManager
@@ -8473,7 +8475,9 @@ struct QueuedFileEntry : public QueuedFile
     BSFile* GetFile(int, int);
     void GetLookupFileName(int, char*);
     bool GetDescription(char*, unsigned int, char*);
-    char _pad_4[36];
+    char _pad_4[0x14];
+    int unk18;
+    char pad1c[0xc];
     char* pFileName;
     BSFileEntry* m_pFileEntry;
 };
@@ -8536,7 +8540,7 @@ struct FUN_0043baf0 : BSFadeNode
 void FUN_00441e40_shell::FUN_00441e40()
 {
     BSFile* pfile;
-    AutoMemHelper tempMemContext(*(int*)((char*)this + 0x18), true,
+    AutoMemHelper tempMemContext(this->unk18, true,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x976);
     reinterpret_cast<::NiPointer_LoadedFile *>((void *)&(const ::NiPointer< ::fnv_00441e40::LoadedFile> &)(*(NiPointer<LoadedFile>*)m_pLoadedFile))->FUN_0044b220((::LoadedFile *)(::fnv_00441e40::LoadedFile *)(((FUN_004483a0_t*)g_modelLoader)->GetHolderValue(((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())))));
     if (*(Flt*)m_pLoadedFile)
@@ -9573,7 +9577,7 @@ void QueuedHelmet::UpdateFaceGenModels()
     for (int i = 0; i < 20; i++)
     {
         if (reinterpret_cast<::BipedAnim *>((pExistingBipedAnim))->IsSlotHidden((::BIPED_OBJECT)(i)) && !::FUN_00449130((int*)this))
-            *(GO*)((char*)this + 0x7c + i * 4) = (void*)((::fnv_0043f240::BSFaceGenModel *)(reinterpret_cast<::FaceLoader *>((pExistingBipedAnim))->FUN_004ae790(i)));
+            *(GO*)((char*)&this->m_kQueuedModels + i * 4) = (void*)((::fnv_0043f240::BSFaceGenModel *)(reinterpret_cast<::FaceLoader *>((pExistingBipedAnim))->FUN_004ae790(i)));
     }
 }
 }  // namespace fnv_0043f240
@@ -14062,7 +14066,7 @@ void ThisS::FUN_0043ace0(const char* apName, MLx* apSource, unsigned char a2, un
                                                                         }
                                                                         if (flagB)
                                                                         {
-                                                                            if (((char*)apSource)[8])
+                                                                            if (apSource->unk08)
                                                                             {
                                                                                 ::FUN_005b5e40();
                                                                             }
@@ -18575,11 +18579,11 @@ bool Worker::ProcessNodeChain(int a1, int a2)
         {
             if (!current.ClearLowBit())
                 return false;
-            pending = *(NodeLink*)((char*)current.FUN_0044df00() + 8);
+            pending = *(NodeLink*)&current.FUN_0044df00()->state;
             *(int*)unk04 = (int)pending.ClearLowBit();
             FUN_0040fbe0();
             if (::FUN_00559450((int *)(((StateValue*)&pending))) !=
-                ::FUN_00559450((int *)(((StateValue*)((char*)current.FUN_0044df00() + 8)))))
+                ::FUN_00559450((int *)(((StateValue*)&current.FUN_0044df00()->state))))
             {
                 flag_ = 1;
                 break;
@@ -18595,7 +18599,7 @@ bool Worker::ProcessNodeChain(int a1, int a2)
             {
                 if (((ControllerV*)controller)->Call34(nodeVal, a2))
                     return ((ControllerV*)controller)->Call38(nodeVal, a2);
-                state = (int*)((char*)current.FUN_0044df00() + 8);
+                state = &current.FUN_0044df00()->state;
                 *(int*)unk0c = (int)current.ClearLowBit();
                 FUN_0040fbe0();
             }
@@ -19964,7 +19968,7 @@ void FUN_0043ccf0_shell::FUN_0043ccf0()
     {
         reinterpret_cast<::FUN_004472a0_shell *>(((*reinterpret_cast<::ModelLoaderX * *>(&::g_modelLoader))))->FUN_004472a0((char *)((const char*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess_MLd*)this)))->FUN_0045cd60()))),
                                   (void *)&(*(NiPointer<Model>*)&m_model30));
-        if (((unsigned int)(::FUN_00559450((int *)(((NiPointerShell_MLd*)((char*)this + 0x30)))))) != 0)
+        if (((unsigned int)(::FUN_00559450((int *)(((NiPointerShell_MLd*)&this->m_model30))))) != 0)
         {
             ((FUN_0043cf60_shell*)this)->FUN_0043cf60(true);
             return;
@@ -19978,7 +19982,7 @@ void FUN_0043ccf0_shell::FUN_0043ccf0()
         if ((pFile5 != 0 && reinterpret_cast<::FUN_00c3a8a0_cls *>((((NiStream_MLd*)&stream)))->FUN_00c3a8a0((unsigned int)((const char*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess_MLd*)this)))->FUN_0045cd60()))), (unsigned int)(pFile5))) ||
             ((FUN_0043cf90_shell*)this)->FUN_0043cf90())
         {
-            reinterpret_cast<::NP_0044aed0 *>((((SetterHelper_MLd*)((char*)this + 0x30))))->FUN_0044aed0((::WaitableObject *)(void *)(new Model((const char*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess_MLd*)this)))->FUN_0045cd60())), (BSStream*)&stream,
+            reinterpret_cast<::NP_0044aed0 *>((((SetterHelper_MLd*)&this->m_model30)))->FUN_0044aed0((::WaitableObject *)(void *)(new Model((const char*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess_MLd*)this)))->FUN_0045cd60())), (BSStream*)&stream,
                                          ((FUN_0043cf40_shell*)this)->FUN_0043cf40(),
                                          ((FUN_0043cfb0_shell*)this)->FUN_0043cfb0())));
         }

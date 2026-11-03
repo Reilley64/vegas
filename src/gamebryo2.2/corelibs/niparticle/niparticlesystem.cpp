@@ -924,7 +924,7 @@ void FUN_00c1af60_cls::FUN_00c1af60()
         p->w = w;
         return;
     }
-    NiTransform const& xf = *(NiTransform const*)((char const*)this + 0xdc);
+    NiTransform const& xf = *(NiTransform const*)&this->m_unkDC;
     ((NiBound*)dst)->Update(*(NiBound const*)&m_pHolder->m_vec10, xf);
 }
 

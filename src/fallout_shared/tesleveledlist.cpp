@@ -314,7 +314,7 @@ struct FUN_00487840_shell : public TESLeveledList
 // @fnv 0x00487840
 bool FUN_00487840_shell::FUN_00487840()
 {
-    if (*((unsigned char*)this + 0xD) & 2)
+    if (this->m_ucChanceNone & 2)
         return true;
     else
         return false;
@@ -596,10 +596,10 @@ struct FUN_00526ac0_shell : public TESGlobal
 // @fnv 0x00487790
 unsigned char FUN_00487790_shell::FUN_00487790()
 {
-    if (*reinterpret_cast<TESGlobalValueReader* const*>(reinterpret_cast<const char*>(this) + 0x10))
+    if (*reinterpret_cast<TESGlobalValueReader* const*>(&this->m_pLevelGlobal))
         return static_cast<unsigned char>(
-            reinterpret_cast<::FUN_00526ac0_shell *>(((*reinterpret_cast<TESGlobalValueReader* const*>(reinterpret_cast<const char*>(this) + 0x10))))->FUN_00526ac0());
-    return *reinterpret_cast<const unsigned char*>(reinterpret_cast<const char*>(this) + 0x0c);
+            reinterpret_cast<::FUN_00526ac0_shell *>(((*reinterpret_cast<TESGlobalValueReader* const*>(&this->m_pLevelGlobal))))->FUN_00526ac0());
+    return this->m_pChanceGlobal;
 }
 
 // @fnv 0x00526ac0
@@ -898,7 +898,7 @@ void FUN_00488c50_shell::SaveLeveledListEntries(BGSSaveFormBuffer* apSaveGameBuf
     {
         unsigned int isaveGameCount = 0;
         unsigned int isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
-        BSSimpleList<LeveledObject*>* pCurrentElementNext = (BSSimpleList<LeveledObject*>*)((char*)this + 0x14);
+        BSSimpleList<LeveledObject*>* pCurrentElementNext = (BSSimpleList<LeveledObject*>*)&this->m_kLeveledObjects[0];
         while (pCurrentElementNext)
         {
             LeveledObject* pitem = pCurrentElementNext->GetItem();
@@ -906,7 +906,7 @@ void FUN_00488c50_shell::SaveLeveledListEntries(BGSSaveFormBuffer* apSaveGameBuf
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pitem->pForm), 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)pitem + 6, 2, 0);
-                reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)pitem + 4, 2, 0);
+                reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&pitem->pad0, 2, 0);
                 float fhealthPercent = -1.0f;
                 if (*(void**)((char*)pitem + 8))
                     fhealthPercent = reinterpret_cast<::BSFaceGenKeyframe *>((((BSFaceGenKeyframe*)*(void**)((char*)pitem + 8))))->GetTime();

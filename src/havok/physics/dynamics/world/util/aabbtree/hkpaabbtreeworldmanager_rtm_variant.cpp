@@ -891,7 +891,7 @@ __forceinline void S00d094a0_timer(const char* name)
             mov dword ptr[stamp], eax
         }
         p->m_uiCommandId = stamp;
-        t->m_kRayEnd = (char*)p + 12;
+        t->m_kRayEnd = (char*)&p->m_detail;
     }
 }
 struct S00d094a0_Alloc {

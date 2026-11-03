@@ -333,9 +333,9 @@ bool ActorMover::HasActiveMovement()
 // @fnv 0x009dc530
 bool Mover::FUN_009dc530()
 {
-    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)((char*)this + 8))))->FUN_0076b610())
+    if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)&this->m_kLookAtTargetPosition.y)))->FUN_0076b610())
         return false;
-    if (*(int*)((char*)this + 0x18) != -1 && *(int*)((char*)this + 0x1c) != -1 &&
+    if (*(int*)&this->m_kPathingDelta.z != -1 && *(int*)((char*)this + 0x1c) != -1 &&
         reinterpret_cast<::FUN_0076b610_Class *>((void *)(((ArrHelper*)((char*)this + 0x20))))->FUN_0076b610())
         return false;
     if (reinterpret_cast<::FUN_006b05d0_shell *>((((PathingSolution*)this)))->FUN_006b05d0())
@@ -429,17 +429,17 @@ struct Mover : public ActorMover
 // @fnv 0x009dcd40
 bool Mover::FUN_009dcd40()
 {
-    if (*((unsigned char*)this + 0x74))
+    if (*((unsigned char*)&this->m_bMovementActive))
     {
         return false;
     }
-    else if (*(int*)((char*)this + 0x6c) == 6 || *(int*)((char*)this + 0x6c) == 7)
+    else if (this->eState == 6 || this->eState == 7)
     {
         return true;
     }
     else if (((const char*)*(StrHelper*)((char*)this + 0x20) &&
               reinterpret_cast<::Mover *>((((NiNode*)(const char*)*(StrHelper*)((char*)this + 0x20))))->FUN_009dc530()) ||
-             *(int*)((char*)this + 0x6c) == 4)
+             this->eState == 4)
     {
         return false;
     }
@@ -480,7 +480,7 @@ void ActorMover::ForceStopMoving()
 // @fnv 0x009dd130
 unsigned int FUN_009dd130_shell::FUN_009dd130()
 {
-    return *(unsigned int*)((char*)this + 0x34) & 0xff00;
+    return this->unk34 & 0xff00;
 }
 
 namespace fnv_009dd1c0 {
@@ -604,17 +604,17 @@ void FUN_009ddf60_shell::SetMoveModeFlags(unsigned int auiPreferredMoveMode)
 {
     if (auiPreferredMoveMode & 0xff00)
     {
-        if (*(void**)((char*)this + 0x24) == 0)
+        if (*(void**)&this->m_pPathHandler == 0)
         {
-            *(void**)((char*)this + 0x24) = new Dummy_0xe4(*(void**)((char*)this + 0x28), this);
+            *(void**)&this->m_pPathHandler = new Dummy_0xe4(this->unk28, this);
         }
-        *(unsigned int*)((char*)this + 0x34) =
-            (*(unsigned int*)((char*)this + 0x34) & 0xf) | (auiPreferredMoveMode & 0xff00);
+        this->unk34 =
+            (this->unk34 & 0xf) | (auiPreferredMoveMode & 0xff00);
     }
     if (auiPreferredMoveMode & 0xf)
     {
-        *(unsigned int*)((char*)this + 0x34) =
-            (auiPreferredMoveMode & 0xf) | (*(unsigned int*)((char*)this + 0x34) & 0xff00);
+        this->unk34 =
+            (auiPreferredMoveMode & 0xf) | (this->unk34 & 0xff00);
     }
 }
 
@@ -1260,10 +1260,10 @@ void FUN_009de160_shell::SetMoveTarget(NiPoint3 aTarget)
 {
     m_kLookAtTargetPosition = aTarget;
     m_bHasLookAtTarget = true;
-    if (((MobileObject*)*(Actor**)((char*)this + 0x28))->GetCurrentProcessLevel())
+    if (((MobileObject*)*(Actor**)&this->unk28)->GetCurrentProcessLevel())
         return;
     if (!m_pPathHandler)
-        m_pPathHandler = new Dummy_0xe4(*(Actor**)((char*)this + 0x28), this);
+        m_pPathHandler = new Dummy_0xe4(*(Actor**)&this->unk28, this);
     ((TESForm*)this)->TESForm::ClearData();
 }
 }  // namespace fnv_009de160
@@ -1317,7 +1317,7 @@ void FUN_009dfb80_t::ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer)
     *(NP*)&m_pActorNode = 0;
     delete (PathHandlerBase*)m_pPathHandler;
     m_pPathHandler = 0;
-    *(unsigned int*)((char*)this + 0x34) = 0x101;
+    this->unk34 = 0x101;
     UpdateMovementStatus(false);
     *(unsigned short*)((char*)this + 0x40) = 0xffff;
     *(unsigned short*)((char*)this + 0x42) = 0xffff;
@@ -1333,7 +1333,7 @@ void FUN_009dfb80_t::ResetPathingState(BGSLoadFormBuffer* apLoadGameBuffer)
     m_bHasPathingDelta = false;
     m_uiMovementFlags = 0;
     m_uiMovementMode = 0;
-    *(unsigned int*)((char*)this + 0x2c) = 0;
+    this->unk2c = 0;
     *(int*)((char*)this + 0x84) = 0;
     *(unsigned int*)((char*)this + 0x7c) = 0;
     *(unsigned int*)((char*)this + 0x80) = 0;

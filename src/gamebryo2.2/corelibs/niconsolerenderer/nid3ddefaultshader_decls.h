@@ -23,7 +23,9 @@ class NiD3DShader
     void* const* vtable;
     unsigned int referenceCount;
     NiFixedString name;
-    unsigned char padding0c[20];
+    unsigned char padding0c[0x4];
+    bool unk10;
+    unsigned char pad11[0xf];
     bool bestImplementation;
     unsigned char padding21[3];
     bool usesRenderState;

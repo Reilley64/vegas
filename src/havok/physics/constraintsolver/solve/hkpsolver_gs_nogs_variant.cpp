@@ -1390,7 +1390,7 @@ struct ProbeHeader {
     unsigned short type, count; int flags; float strength, damping;
     ProbeRow* rows() { return (ProbeRow*)(this+1); }
     ProbeCoeff* coefficients() { return (ProbeCoeff*)(rows()+count); }
-    float* values() { return (float*)(coefficients()+count)+1; }
+    float* values() { return &(coefficients()+count)->diagonal; }
     int* offsets() { return (int*)(values()+count); }
 };
 inline const ProbeSettings* settingsAt(unsigned int p) {return (const ProbeSettings*)p;}

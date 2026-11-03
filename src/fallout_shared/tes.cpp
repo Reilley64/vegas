@@ -1442,7 +1442,7 @@ struct FUN_00455600_shell : public TESDataHandler
 // @fnv 0x00455600
 void* FUN_00455600_shell::FUN_00455600()
 {
-    return reinterpret_cast<char*>(this) + 0x118;
+    return reinterpret_cast<char*>(&this->m_kQuestList);
 }
 }  // namespace fnv_00455600
 

@@ -224,7 +224,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
 // @fnv 0x006f3e30
 int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, AStarNodeTD** aRetNode)
 {
-    AStarNodeTD** pBucketHead = (AStarNodeTD**)((char*)this + 0x14) + kMap.FUN_00996840(aiKey);
+    AStarNodeTD** pBucketHead = (AStarNodeTD**)&this->kMap + kMap.FUN_00996840(aiKey);
     if (*pBucketHead)
     {
         if ((*pBucketHead)->uiKey == aiKey)

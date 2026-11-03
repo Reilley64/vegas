@@ -1235,7 +1235,7 @@ void* __cdecl RemoveEntryByKey(FUN_00d3fd60_cls_Ref* ref, FUN_00d3fd60_cls* tabl
     if (count > 0)
     {
         int i = 0;
-        FUN_00d3fd60_cls_Entry* e = (FUN_00d3fd60_cls_Entry*)((char*)table + 2);
+        FUN_00d3fd60_cls_Entry* e = &table->m_entries[0];
         do
         {
             if (e->m_key == key)

@@ -67,11 +67,10 @@ struct FUN_00a568e0_shell : public NiBlendBoolInterpolator
 void FUN_00a568e0_shell::FUN_00a568e0(NiStream* kStream)
 {
     reinterpret_cast<::fnv_00a37980::Blend100 *>(this)->FUN_00a37980((::fnv_00a37980::Stream100 &)(*kStream));
-    NiBinaryStream* __restrict input = *(NiBinaryStream**)((char*)kStream + 0x24c);
+    NiBinaryStream* __restrict input = kStream->m_pUnderlyingStream;
     unsigned int size = 1;
-    *(unsigned int*)((char*)input + 4) +=
-        (*(unsigned int(__cdecl**)(NiBinaryStream*, void*, unsigned int, unsigned int*, unsigned int))(
-            (char*)input + 8))(input, (char*)this + 0x30, 1, &size, 1);
+    input->m_uiStreamFlags +=
+        (input->m_pfnRead)(input, (char*)&this->m_bBoolValue, 1, &size, 1);
 }
 
 // Constructs a NiBlendInterpolator with the given arguments, installs the vtable at DAT_0109a67c and sets byte 0x30 from DAT_0109a914.

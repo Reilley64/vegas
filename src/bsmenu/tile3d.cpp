@@ -151,7 +151,7 @@ bool FUN_00a20c80_shell::AttachController(NiAVObject* apObject)
     NiTimeController* ctrl = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((apObject))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
     if (ctrl)
     {
-        *(NiTimeController**)((char*)this + 0x38) = ctrl;
+        *(NiTimeController**)&this->m_pParent = ctrl;
         return true;
     }
     return false;

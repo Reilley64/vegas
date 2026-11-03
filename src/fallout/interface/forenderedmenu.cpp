@@ -373,7 +373,7 @@ void FUN_007fc6f0_shell::FUN_007fc6f0()
             reinterpret_cast<LightNodeV*>(((::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>((reinterpret_cast<FORenderedMenu*>(this)))->GetRegionMapName()))->GetAsNiNode())
                 ->AttachLight(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x1c));
         }
-        reinterpret_cast<::B5Owner *>(((*reinterpret_cast<ExtraDataList**>(reinterpret_cast<char*>(this) + 0x20))))->FUN_00b5eed0((unsigned int)(reinterpret_cast<NiAVObject*>(
+        reinterpret_cast<::B5Owner *>(((*reinterpret_cast<ExtraDataList**>(&this->m_pSecondaryMenuObject))))->FUN_00b5eed0((unsigned int)(reinterpret_cast<NiAVObject*>(
                 (unsigned int)*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x1c))));
         *reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x1c) = 0;
     }
@@ -408,7 +408,7 @@ void FUN_007fadf0_shell::FUN_007fadf0()
     reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x1c)->operator=(0);
     reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x24)->operator=(0);
     reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0xd4)->operator=(0);
-    *reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x28) = 0;
+    *reinterpret_cast<char*>(&this->bInitialized) = 0;
 }
 
 // @fnv 0x007faef0
@@ -626,11 +626,11 @@ void FUN_007fc8d0_shell::FUN_007fc8d0()
     Tile* pquantity2 = (Tile*)((::Menu *)(::FUN_00a09030(0x3e9)));
     Tile* pmessage = (Tile*)((::Menu *)(::FUN_00a09030(0x3f8)));
     Tile* ptutorial = (Tile*)((::Menu *)(::FUN_00a09030(0x423)));
-    if (*(unsigned char*)((char*)this + 0xd2))
+    if (*(unsigned char*)&this->m_bMenuLightAttached)
         reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pquantity2))->FUN_0056c7f0()))))->QueueActorDisarm(false);
-    if (*(unsigned char*)((char*)this + 0xd0))
+    if (*(unsigned char*)&this->m_bMenuLightVisible)
         reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pmessage))->FUN_0056c7f0()))))->QueueActorDisarm(false);
-    if (*(unsigned char*)((char*)this + 0xd1))
+    if (*(unsigned char*)&this->m_bMenuLightShadowed)
         reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((ptutorial))->FUN_0056c7f0()))))->QueueActorDisarm(false);
 }
 
@@ -797,17 +797,17 @@ void MenuStub::FUN_007fae70(int apTexture)
 {
     NiProperty* pnlp;
 
-    if (reinterpret_cast<unsigned char*>(this)[0x28] == 0)
+    if ((*reinterpret_cast<unsigned char*>(&this->_p1d[11])) == 0)
         return;
 
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int() == 0)
+    if (reinterpret_cast<Flt*>(&this->_p00[4])->operator unsigned int() == 0)
     {
         ::FUN_005b5e40();
         return;
     }
 
     pnlp = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((reinterpret_cast<NiGeometry*>(
-               reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+               reinterpret_cast<Flt*>(&this->_p00[4])->operator unsigned int())))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
 
     if (apTexture != 0)
     {
@@ -816,7 +816,7 @@ void MenuStub::FUN_007fae70(int apTexture)
     else
     {
         reinterpret_cast<::FUN_00438230_Class *>((pnlp))->FUN_00438230((::NiNode *)(::NiTexture *)(reinterpret_cast<NiTexture*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x10)->operator unsigned int())));
+            reinterpret_cast<Flt*>(&this->_p00[16])->operator unsigned int())));
     }
 }
 
@@ -932,21 +932,21 @@ void FUN_007fc790_shell::UpdateMenuVisibility()
         Tile* m_pTerminal = (Tile*)((::Menu *)(::FUN_00a09030(0x3f8)));
         pMenu = (Tile*)((::Menu *)(::FUN_00a09030(0x423)));
 
-        ((unsigned char*)this)[0xd2] =
+        (*(unsigned char*)&this->m_bMenuLightAttached) =
             pOtherMenu ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pOtherMenu))->FUN_0056c7f0())))->FUN_00456610() : 0;
 
-        ((unsigned char*)this)[0xd0] =
+        (*(unsigned char*)&this->m_bMenuLightVisible) =
             m_pTerminal ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((m_pTerminal))->FUN_0056c7f0())))->FUN_00456610() : 0;
 
-        ((unsigned char*)this)[0xd1] = pMenu ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pMenu))->FUN_0056c7f0())))->FUN_00456610() : 0;
+        (*(unsigned char*)&this->m_bMenuLightShadowed) = pMenu ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pMenu))->FUN_0056c7f0())))->FUN_00456610() : 0;
 
-        if (((unsigned char*)this)[0xd2])
+        if ((*(unsigned char*)&this->m_bMenuLightAttached))
             reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pOtherMenu))->FUN_0056c7f0()))))->QueueActorDisarm(true);
 
-        if (((unsigned char*)this)[0xd0])
+        if ((*(unsigned char*)&this->m_bMenuLightVisible))
             reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((m_pTerminal))->FUN_0056c7f0()))))->QueueActorDisarm(true);
 
-        if (((unsigned char*)this)[0xd1])
+        if ((*(unsigned char*)&this->m_bMenuLightShadowed))
             reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pMenu))->FUN_0056c7f0()))))->QueueActorDisarm(true);
     }
 }

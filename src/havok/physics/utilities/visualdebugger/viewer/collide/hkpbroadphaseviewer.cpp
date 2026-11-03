@@ -68,7 +68,7 @@ struct FUN_00d6a8e0_cls
 // @fnv 0x00d6a8e0
 void FUN_00d6a8e0_cls::CallTargetWithSelfOffset(Target* apTarget)
 {
-    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
 }
 
 // ---------------------------------------------------------------------------
@@ -217,7 +217,7 @@ FUN_00d6a940::FUN_00d6a940(void* a) : WorldViewerBase(a)
     // unknown member displacement, so MSVC may not hoist the load of the
     // shape list (this+0x24) above them - the original keeps that load below
     // the three stores, this source does the same.
-    int* q = (int*)((char*)this + 0x2c);
+    int* q = &this->unk2c;
     q[0] = 0;
     q[1] = 0;
     q[2] = (int)0x80000000;

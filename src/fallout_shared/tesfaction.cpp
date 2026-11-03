@@ -217,14 +217,14 @@ void FUN_005fcf80_shell::FUN_005fcf80()
 {
     if (reinterpret_cast<::TESForm *>((void *)(reinterpret_cast<const TESFormInitHelper*>(this)))->GetInitialized())
         return;
-    reinterpret_cast<::TESReactionForm *>((reinterpret_cast<TESReactionFormInitHelper*>(reinterpret_cast<char*>(this) + 0x24)))->InitItem(this);
+    reinterpret_cast<::TESReactionForm *>((reinterpret_cast<TESReactionFormInitHelper*>(static_cast<TESReactionForm *>(this))))->InitItem(this);
     SetInitializationState(true);
-    if (*reinterpret_cast<TESReputation**>(reinterpret_cast<char*>(this) + 0x38) != 0)
+    if (this->pReputationData != 0)
     {
         unsigned int uiReputationFormID = 0;
         uiReputationFormID = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x38);
         ::ResolveFormID((unsigned int *)&(uiReputationFormID), GetFile(-1));
-        *reinterpret_cast<TESReputation**>(reinterpret_cast<char*>(this) + 0x38) =
+        this->pReputationData =
             reinterpret_cast<::TESDataHandler *>((reinterpret_cast<TESDataHandlerRepHelper*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReputation(uiReputationFormID);
     }
 }
@@ -241,7 +241,7 @@ struct Dummy_0048bf50
 // @fnv 0x005fd3b0
 int FUN_005fd3b0_shell::FUN_005fd3b0(TESFaction* pFaction)
 {
-    return reinterpret_cast<::FUN_0048bf50_cls *>((((Dummy_0048bf50*)((char*)this + 0x24))))->FindValueByKey((int)(pFaction));
+    return reinterpret_cast<::FUN_0048bf50_cls *>((((Dummy_0048bf50*)static_cast<TESReactionForm *>(this))))->FindValueByKey((int)(pFaction));
 }
 
 struct Sub005fd430
@@ -320,15 +320,15 @@ struct FUN_005fd730_shell : public TESFaction
 void FUN_005fd730_shell::FUN_005fd730(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
-    reinterpret_cast<::FUN_0048ca90 *>((((TESReactionFormBufferAccess*)((char*)this + 0x24))))->LoadReaction(apLoadGameBuffer);
+    reinterpret_cast<::FUN_0048ca90 *>((((TESReactionFormBufferAccess*)static_cast<TESReactionForm *>(this))))->LoadReaction(apLoadGameBuffer);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(2)))->FUN_004280f0())
     {
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x34), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->data), 4);
     }
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
     {
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x44), 4);
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x48), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iFirstFactionValue), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iSecondFactionValue), 4);
     }
 }
 
@@ -343,8 +343,8 @@ void FUN_005fd800_shell::FUN_005fd800(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
     {
-        *(int*)((char*)this + 0x44) = 0;
-        *(int*)((char*)this + 0x48) = 0;
+        this->m_iFirstFactionValue = 0;
+        this->m_iSecondFactionValue = 0;
     }
 }
 
@@ -745,7 +745,7 @@ void FUN_005fd210_shell::FUN_005fd210(TESForm* apCopy)
         if (!faction)
             return;
         reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
-        __memcpy((char*)this + 0x34, ::FUN_006a9540((char *)(((NiAVObject*)faction))), 4);
+        __memcpy((char*)&this->data, ::FUN_006a9540((char *)(((NiAVObject*)faction))), 4);
         reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)this)))->SetValue((int)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)faction)))))));
         ClearReactions();
         pDestRankList = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
@@ -819,7 +819,7 @@ void ValidateFactionReactions()
         if (pFaction)
         {
             BSSimpleList<Reaction_5fd850*>* pRIter =
-                (BSSimpleList<Reaction_5fd850*>*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)((char*)pFaction + 0x24))))->GetCurrentProcessData()));
+                (BSSimpleList<Reaction_5fd850*>*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)static_cast<TESReactionForm *>(pFaction))))->GetCurrentProcessData()));
             while (pRIter)
             {
                 Reaction_5fd850* pReaction = (Reaction_5fd850*)*((void **)(new ((void *)(((Node_006815c0*)pRIter))) ::Vec3()));
@@ -827,7 +827,7 @@ void ValidateFactionReactions()
                     (pReaction->eReaction == 3 || pReaction->eReaction == 2))
                 {
                     TESFaction* pOther = pReaction->pFaction;
-                    int iFactionReaction = reinterpret_cast<::FUN_0048c1b0_shell *>((((_FactionSub*)((char*)pOther + 0x24))))->FUN_0048c1b0((::TESForm *)(pFaction));
+                    int iFactionReaction = reinterpret_cast<::FUN_0048c1b0_shell *>((((_FactionSub*)static_cast<TESReactionForm *>(pOther))))->FUN_0048c1b0((::TESForm *)(pFaction));
                     if (iFactionReaction != 2 && iFactionReaction != 3)
                     {
                         ::FUN_005b5e40(
@@ -986,7 +986,7 @@ bool FactionLoader::LoadFactionRecord(TESFile* file)
             {
                 reinterpret_cast<::Class005a6b10 *>((reaction))->FUN_005a6b10();
             }
-            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ReactionInfo *> *)(reinterpret_cast<::BaseProcess *>((((TESReactionFormLoader*)((char*)this + 0x24))))->GetCurrentProcessData()))))->FUN_00905820((void *)&(reaction));
+            reinterpret_cast<::Callees *>((((::BSSimpleList< ::ReactionInfo *> *)(reinterpret_cast<::BaseProcess *>((((TESReactionFormLoader*)static_cast<TESReactionForm *>(this))))->GetCurrentProcessData()))))->FUN_00905820((void *)&(reaction));
             break;
         }
         case 0x41544144: {  // DATA

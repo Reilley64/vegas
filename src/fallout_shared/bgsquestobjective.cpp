@@ -108,7 +108,7 @@ struct StrH
 // @fnv 0x005ec330
 char* FUN_005ec330_shell::GetPromptText()
 {
-    return (char*)((const char*)*(StrH*)((char*)this + 8) ? (const char*)*(StrH*)((char*)this + 8)
+    return (char*)((const char*)*(StrH*)&this->m_kDisplayText.storage[0] ? (const char*)*(StrH*)&this->m_kDisplayText.storage[0]
                                                           : ::DAT_01011584);
 }
 

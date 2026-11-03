@@ -52,8 +52,8 @@ SL_standin* SL_standin::FUN_005ac150(SL_standin* apCopy)
 ScriptLocalVariable* FUN_005e28e0(ScriptLocalVariable* apObject)
 {
     *(unsigned int*)((char*)apObject + 0x0) = 0;
-    *(double*)((char*)apObject + 0x8) = 0.0;
-    *(bool*)((char*)apObject + 0x10) = false;
+    apObject->fValue = 0.0;
+    apObject->m_bIsString = false;
     return apObject;
 }
 

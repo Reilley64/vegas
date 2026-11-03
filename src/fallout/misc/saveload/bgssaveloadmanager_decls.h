@@ -420,7 +420,10 @@ class BGSSaveLoadManager
     unsigned char m_cQueuedSaveLoad;
     unsigned char m_cAutosaveCountdown;
     unsigned char cQueuedQuicksave;
-    unsigned char reserved12[14];
+    unsigned char reserved12[0x2];
+    char* unk14;
+    int unk18;
+    unsigned char pad1c[0x4];
     SaveLoadFile* m_pSaveFile;
     bool m_bSaveOperationActive;
     bool m_bLoadOperationPending;

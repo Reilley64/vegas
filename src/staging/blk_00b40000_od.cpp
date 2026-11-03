@@ -114,7 +114,7 @@ char FUN_00b40800_t::GetNextChar()
 {
     int idx = pos;
     pos = pos + 1;
-    int* p = (int*)((char*)this + 4);
+    int* p = &this->pad;
     if ((unsigned int)idx >= (unsigned int)(p[4] - p[3]))
         FUN_00ec7c56();
     return *(char*)(p[3] + idx);

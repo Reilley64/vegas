@@ -164,7 +164,7 @@ void NiPSysEmitterCtlr_shell::FUN_00c1bcc0(NiInterpolator* pkInterpolator, unsig
 {
     if (usIndex == 0)
     {
-        char* p = (char*)this + 0x34;
+        char* p = (char*)&this->m_spControllerInterpolator;
         NiPointer<NiInterpolator>* pInterpolatorPtr = (NiPointer<NiInterpolator>*)p;
         if (pInterpolatorPtr->m_pObject != pkInterpolator)
         {
@@ -177,7 +177,7 @@ void NiPSysEmitterCtlr_shell::FUN_00c1bcc0(NiInterpolator* pkInterpolator, unsig
     }
     else if (usIndex == 1)
     {
-        char* p = (char*)this + 0x40;
+        char* p = (char*)&this->m_spVisibilityInterpolator;
         NiPointer<NiInterpolator>* pInterpolatorPtr = (NiPointer<NiInterpolator>*)p;
         *pInterpolatorPtr = pkInterpolator;
     }
@@ -314,7 +314,7 @@ bool FUN_00c1be10_shell::RegisterEmitterInterpolatorStreamables(NiStream& kStrea
 {
     if (!reinterpret_cast<::FUN_00a57780_shell *>((kStream))->FUN_00a57780(*(::NiStream *)nullptr))
         return false;
-    NiInterpolator* pkEmitter = *(NiInterpolator**)((char*)this + 0x40);
+    NiInterpolator* pkEmitter = this->m_spVisibilityInterpolator.m_pObject;
     if (pkEmitter)
         ((FakeInterp00c1be10*)pkEmitter)->RegisterStreamables(kStream);
     return true;
@@ -640,7 +640,7 @@ void FUN_00c1ce70_shell::FUN_00c1ce70(StrArr* pkStrings)
         reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiGrow + uiIndex);
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
-    NiInterpolator* pkInterp = *(NiInterpolator**)((char*)this + 0x40);
+    NiInterpolator* pkInterp = this->m_spVisibilityInterpolator.m_pObject;
     if (pkInterp)
     {
         void** vtbl = *(void***)pkInterp;

@@ -346,7 +346,7 @@ struct TESValueFormLoadGame
 void FUN_0051a630_shell::LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::TESForm *>((reinterpret_cast<TESFormLoadGame*>(this)))->LoadGame(buffer);
-    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>(reinterpret_cast<char*>(this) + 0x7c)))->FUN_0048ea80(buffer);
+    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>(static_cast<TESValueForm *>(this))))->FUN_0048ea80(buffer);
 }
 
 struct FUN_00519e40_shell : public TESObjectIMOD
@@ -464,14 +464,14 @@ struct FUN_0051a420_shell : public TESObjectIMOD
 void FUN_0051a420_shell::FUN_0051a420()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x3c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_holder*)((char*)this + 0x5c))))->FUN_0048e370(0x4e4f4349);
-    reinterpret_cast<::FUN_0047a240_shell *>((((FUN_0047a240_holder*)((char*)this + 0x94))))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
-    ((FUN_00482cb0_shell*)((char*)this + 0x74))->FUN_00482cb0();
-    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)((char*)this + 0x8c))))->FUN_00477f20();
-    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)((char*)this + 0xa4))))->LogFormIDs();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_holder*)static_cast<TESIcon *>(this))))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::FUN_0047a240_shell *>((((FUN_0047a240_holder*)static_cast<BGSMessageIcon *>(this))))->FUN_0047a240(0x4f43494d);
+    ((S_0048cca0*)static_cast<TESScriptableForm *>(this))->FUN_0048cca0();
+    ((FUN_00482cb0_shell*)static_cast<TESDescription *>(this))->FUN_00482cb0();
+    reinterpret_cast<::FUN_00477f20_shell *>((((S_00477f20*)static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
+    reinterpret_cast<::fnv_0047b560::FUN_0047b560_shell *>((((FUN_0047b560_holder*)static_cast<BGSPickupPutdownSounds *>(this))))->LogFormIDs();
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }

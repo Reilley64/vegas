@@ -681,8 +681,8 @@ struct FUN_004add70_shell : public NiNode
 // @fnv 0x004add70
 void FUN_004add70_shell::FUN_004add70()
 {
-    reinterpret_cast<::ObjPtrArray *>((reinterpret_cast<char*>(this) + 0x9C))->FUN_004afc80();
-    reinterpret_cast<::Pn4afe *>((reinterpret_cast<char*>(this) + 0x9C))->TrimTrailingNullPointers();
+    reinterpret_cast<::ObjPtrArray *>(&this->nodeFields[148])->FUN_004afc80();
+    reinterpret_cast<::Pn4afe *>(&this->nodeFields[148])->TrimTrailingNullPointers();
 }
 
 struct FUN_004adda0_shell : public NiSkinInstance

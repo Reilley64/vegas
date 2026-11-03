@@ -2143,7 +2143,7 @@ void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTIO
     dest->unk24 = *reinterpret_cast<int*>(reinterpret_cast<char*>(pSrc) - 0x8);
     dest->unk28 = *reinterpret_cast<int*>(reinterpret_cast<char*>(pSrc) - 0x4);
     dest->count14 = meta->resource08;
-    int* d = reinterpret_cast<int*>(reinterpret_cast<char*>(dest) + 0x2c);
+    int* d = &dest->unk2c;
     int count = 7;
     do
     {

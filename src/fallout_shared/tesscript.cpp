@@ -183,9 +183,9 @@ void FUN_005a8bc0_shell::FUN_005a8bc0()
 {
     FUN_005a8c00(this);
     reinterpret_cast<::FUN_005a8c90_shell *>((this))->FUN_005a8c90();
-    if (*(void**)((char*)this + 0x10) != 0)
+    if (*(void**)&this->m_pExtendedLocals != 0)
     {
-        void* p = *(void**)((char*)this + 0x10);
+        void* p = *(void**)&this->m_pExtendedLocals;
         ::FUN_00401030(p);
     }
 }
@@ -194,16 +194,16 @@ void FUN_005a8bc0_shell::FUN_005a8bc0()
 // @fnv 0x005a8c90
 void FUN_005a8c90_shell::FUN_005a8c90()
 {
-    if (*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc))
+    if (this->m_pVariableList)
     {
-        while (((::ScriptLocalVariable *)(new ((void *)((*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc)))) ::Vec3())))
+        while (((::ScriptLocalVariable *)(new ((void *)((this->m_pVariableList))) ::Vec3())))
         {
-            ScriptLocalVariable* local = ((::ScriptLocalVariable *)(new ((void *)((*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc)))) ::Vec3()));
-            (*(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc))->RemoveHead();
+            ScriptLocalVariable* local = ((::ScriptLocalVariable *)(new ((void *)((this->m_pVariableList))) ::Vec3()));
+            (this->m_pVariableList)->RemoveHead();
             delete local;
         }
-        delete *(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc);
-        *(BSSimpleList<ScriptLocalVariable*>**)((char*)this + 0xc) = 0;
+        delete this->m_pVariableList;
+        this->m_pVariableList = 0;
     }
 }
 
@@ -252,7 +252,7 @@ struct FUN_005a8ea0_shell : public ScriptLocals
 // @fnv 0x005a8ea0
 void FUN_005a8ea0_shell::FUN_005a8ea0()
 {
-    void* pList = *(void**)((char*)this + 8);
+    void* pList = *(void**)&this->m_pLocalVariableList;
     while (pList && *((int *)(new ((void *)(pList)) ::Vec3())))
     {
         int* used = (int*)*((int *)(new ((void *)(pList)) ::Vec3()));
@@ -308,7 +308,7 @@ double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
     (*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).pLastLocal = plocalvar;
     if (plocalvar != 0)
     {
-        return *(double*)((char*)plocalvar + 8);
+        return plocalvar->fValue;
     }
     ::FUN_005b5e40(
         );
@@ -537,11 +537,11 @@ void FUN_005aae70_shell::FUN_005aae70(unsigned int auiDataSize, char* apCompileD
 {
     ::FUN_00401030(m_data);
     m_data = 0;
-    *(unsigned int*)((char*)this + 0x20) = auiDataSize;
-    if (*(unsigned int*)((char*)this + 0x20))
+    this->m_kHeader.dataSize = auiDataSize;
+    if (this->m_kHeader.dataSize)
     {
-        m_data = AllocateZeroed(1, *(unsigned int*)((char*)this + 0x20));
-        memcpy(m_data, apCompileData, *(unsigned int*)((char*)this + 0x20));
+        m_data = AllocateZeroed(1, this->m_kHeader.dataSize);
+        memcpy(m_data, apCompileData, this->m_kHeader.dataSize);
     }
 }
 
@@ -659,7 +659,7 @@ ScriptLocals* FUN_005abf60_shell::FUN_005abf60()
     AutoMemContext tempMemContext(static_cast<MEM_CONTEXT>(0x15), true,
                                   "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp", 0xcde);
     ScriptLocals* sl = new ScriptLocals;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(sl) + 0xc) = CopyVariableList(this);
+    *reinterpret_cast<void**>(&sl->m_pVariableList) = CopyVariableList(this);
     *reinterpret_cast<Script**>(sl) = this;
     return sl;
 }
@@ -712,7 +712,7 @@ ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiInde
 {
     if (aiIndex == 0)
         return 0;
-    if (aiIndex > *(unsigned int*)((char*)this + 0x1c))
+    if (aiIndex > this->m_kHeader.m_uiReferenceID)
         return 0;
 
     if ((*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastScript == this && (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastIndex == aiIndex && (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastLocals == apScriptLocals)
@@ -733,15 +733,15 @@ ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiInde
         return 0;
 
     pExtraDataEntry = *((::ScriptReferencedObject **)(new ((void *)(pList)) ::Vec3()));
-    if (*(unsigned int*)((char*)pExtraDataEntry + 0xc) != 0 && apScriptLocals != 0)
+    if (pExtraDataEntry->m_uiFormID != 0 && apScriptLocals != 0)
     {
         double dtemp =
-            reinterpret_cast<::FUN_005a9140_shell *>((((ScriptLocals_shell*)apScriptLocals)))->FUN_005a9140(*(unsigned int*)((char*)pExtraDataEntry + 0xc), this);
+            reinterpret_cast<::FUN_005a9140_shell *>((((ScriptLocals_shell*)apScriptLocals)))->FUN_005a9140(pExtraDataEntry->m_uiFormID, this);
         unsigned int formID = 0;
         ::FUN_005acc90(&formID, &dtemp);
         if (formID != 0)
         {
-            *(TESForm**)((char*)pExtraDataEntry + 8) = ::FUN_004839c0(formID);
+            pExtraDataEntry->pForm = ::FUN_004839c0(formID);
         }
     }
 
@@ -812,15 +812,15 @@ void FUN_005a8d20_shell::AttachScriptLocals(ScriptLocals* apLocals)
 {
     AutoMemContext ctx((MEM_CONTEXT)0x15, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp",
                        300);
-    if (!*(void**)((char*)this + 8))
-        *(SL**)((char*)this + 8) = new SL();
+    if (!*(void**)&this->m_pLocalVariableList)
+        *(SL**)&this->m_pLocalVariableList = new SL();
     Act5a* used = ((::fnv_005a8d20::Act5a *)(reinterpret_cast<::ActList *>((((FUN_005a8e20_cls*)this)))->FUN_005a90b0((::TESForm *)(apLocals), false)));
     if (!used)
     {
         used = new Act5a;
         used->obj = apLocals;
         used->next = 0;
-        (*(G2**)((char*)this + 8))->AddHead((int*)&used);
+        (*(G2**)&this->m_pLocalVariableList)->AddHead((int*)&used);
     }
 }
 }  // namespace fnv_005a8d20
@@ -1329,13 +1329,13 @@ void FUN_005a9f20_shell::FUN_005a9f20(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&bhasScriptEffectData), 1);
     if (bhasScriptEffectData)
     {
-        *(double**)((char*)this + 0x10) = new double;
-        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)*(double**)((char*)this + 0x10)), 8);
+        *(double**)&this->m_pExtendedLocals = new double;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)*(double**)&this->m_pExtendedLocals), 8);
     }
     bonLoadFlagSet = false;
     if (apLoadGameBuffer->GetVersion() >= 0x15)
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)&bonLoadFlagSet), 1);
-    if (*(void**)((char*)this + 8) == 0)
+    if (*(void**)&this->m_pLocalVariableList == 0)
         reinterpret_cast<::FUN_005e2730_shell *>((ScriptExecutor::Instance()))->FUN_005e2730(*(Script**)this, apLoadGameBuffer->GetReference(), this);
     else
         reinterpret_cast<::FUN_005a8ea0_shell *>((((FUN_005a8ea0_shell*)this)))->FUN_005a8ea0();
@@ -2085,14 +2085,14 @@ void ScriptInitOwner::InitFromCompileData(CStringArgument* apCompileData)
     {
         this->SetEditorID_AtRuntime((const char*)(((GO*)((char*)apCompileData + 0x0C))->operator unsigned int()));
 
-        ::__memcpy((char*)this + 0x18, (char*)apCompileData + 0x28, 0x14);
+        ::__memcpy((char*)&this->m_kHeader, (char*)apCompileData + 0x28, 0x14);
 
-        reinterpret_cast<::FUN_005aae70_shell *>((this))->FUN_005aae70(*(unsigned int*)((char*)this + 0x20), *(char**)((char*)apCompileData + 0x20));
+        reinterpret_cast<::FUN_005aae70_shell *>((this))->FUN_005aae70(this->m_kHeader.dataSize, *(char**)((char*)apCompileData + 0x20));
 
         this->InitializeActionList();
         this->FUN_005aa2e0();
 
-        if (*(unsigned int*)((char*)this + 0x20) != 0)
+        if (this->m_kHeader.dataSize != 0)
         {
             ::CopyListToTail(
                 (BSSimpleList<ScriptReferencedObject*>*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)apCompileData)))->FUN_005d43c0())),

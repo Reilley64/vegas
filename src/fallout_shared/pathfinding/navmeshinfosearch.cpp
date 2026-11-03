@@ -344,19 +344,19 @@ bool FUN_006b8c50_shell::SetupNavMeshSearch(PathingActorData* apActorLockData, v
                                             void* aGoalLocation, void* apGoalMesh, void* apReturnNodes,
                                             void* apReturnLinks, int aeDoorLockDisposition)
 {
-    *(NiPoint3*)((char*)this + 0x2058) = *(const NiPoint3*)aStartLocation;
-    *(void**)((char*)this + 0x2064) = apStartMesh;
-    *(NiPoint3*)((char*)this + 0x2068) = *(const NiPoint3*)aGoalLocation;
-    *(void**)((char*)this + 0x2074) = apGoalMesh;
-    *(PathingActorData**)((char*)this + 0x2078) = apActorLockData;
-    *(int*)((char*)this + 0x207c) = aeDoorLockDisposition;
-    *(bool*)((char*)this + 0x2080) = false;
+    this->m_kPathStartPosition = *(const NiPoint3*)aStartLocation;
+    *(void**)&this->m_pStartNavMeshInfo = apStartMesh;
+    this->m_kGoalPosition = *(const NiPoint3*)aGoalLocation;
+    *(void**)&this->m_pGoalNavMeshInfo = apGoalMesh;
+    *(PathingActorData**)&this->m_pPathingActorData = apActorLockData;
+    *(int*)&this->m_eDoorLockDisposition = aeDoorLockDisposition;
+    this->m_bUseGoalDistanceHeuristic = false;
     if (((::fnv_006b8c50::TESWorldSpace *)(::FUN_00690800((const NavMeshInfo*)apStartMesh))) &&
         ((::fnv_006b8c50::TESWorldSpace *)(::FUN_00690800((const NavMeshInfo*)apStartMesh))) == ((::fnv_006b8c50::TESWorldSpace *)(::FUN_00690800((const NavMeshInfo*)apGoalMesh))))
-        *(bool*)((char*)this + 0x2080) = true;
+        this->m_bUseGoalDistanceHeuristic = true;
     float fstartheuristic = 3.402823466e+38F;
-    if (*(bool*)((char*)this + 0x2080))
-        fstartheuristic = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3*)((char*)this + 0x2068))))->FUN_00439ef0-((::NiPoint3 *)&((*(const NavMeshInfo**)((char*)this + 0x2064))->m_kNavMeshPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() *
+    if (this->m_bUseGoalDistanceHeuristic)
+        fstartheuristic = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&this->m_kGoalPosition)))->FUN_00439ef0-((::NiPoint3 *)&((this->m_pStartNavMeshInfo)->m_kNavMeshPosition), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() *
                           (double)0.1f;
     else
         fstartheuristic = 1.0f;

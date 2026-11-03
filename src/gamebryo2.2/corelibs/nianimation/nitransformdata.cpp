@@ -134,24 +134,24 @@ struct NiObject_Helper : public NiObject
 void FUN_00a4e270_shell::DestroyTransformData()
 {
     *reinterpret_cast<int**>(this) = &DAT_01099004;
-    TimedRotationKey* pkRotKeys = *reinterpret_cast<TimedRotationKey**>(reinterpret_cast<char*>(this) + 0x20);
+    TimedRotationKey* pkRotKeys = this->m_pkRotationKeys;
     if (pkRotKeys)
     {
-        if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10) == 4)
+        if (*reinterpret_cast<int*>(&this->m_eRotationKeyType) == 4)
         {
             pkRotKeys->ClearFloatKeys();
         }
-        DAT_011f38d0[*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10)](pkRotKeys);
+        DAT_011f38d0[*reinterpret_cast<int*>(&this->m_eRotationKeyType)](pkRotKeys);
     }
     PositionKeyInterpolator* pkPosKeys =
-        *reinterpret_cast<PositionKeyInterpolator**>(reinterpret_cast<char*>(this) + 0x24);
+        this->m_pkPositionKeys;
     if (pkPosKeys)
     {
         void(__cdecl * pfnPosDeleteFunc)(PositionKeyInterpolator*) =
-            DAT_011f38b8[*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14)];
+            DAT_011f38b8[*reinterpret_cast<int*>(&this->m_ePositionKeyType)];
         pfnPosDeleteFunc(pkPosKeys);
     }
-    TimedAnimationKey* pkScaleKeys = *reinterpret_cast<TimedAnimationKey**>(reinterpret_cast<char*>(this) + 0x28);
+    TimedAnimationKey* pkScaleKeys = this->m_pkScaleKeyArray;
     if (pkScaleKeys)
     {
         void(__cdecl * pfnScaleDeleteFunc)(TimedAnimationKey*) =
@@ -365,9 +365,9 @@ void FUN_00a4e990_shell::AppendTransformKeyCounts(void* pStrArr)
     StrArr* apViewerStrings = (StrArr*)pStrArr;
     reinterpret_cast<::A5D6E0This *>((((Base380*)this)))->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(apViewerStrings));
     apViewerStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f3fbc))));
-    apViewerStrings->Add(::FUN_00a7d490("m_usNumRotKeys", *(unsigned short*)((char*)this + 8)));
-    apViewerStrings->Add(::FUN_00a7d490("m_usNumPosKeys", *(unsigned short*)((char*)this + 0xa)));
-    apViewerStrings->Add(::FUN_00a7d490("m_usNumScaleKeys", *(unsigned short*)((char*)this + 0xc)));
+    apViewerStrings->Add(::FUN_00a7d490("m_usNumRotKeys", this->m_usNumRotKeys));
+    apViewerStrings->Add(::FUN_00a7d490("m_usNumPosKeys", this->m_usNumPosKeys));
+    apViewerStrings->Add(::FUN_00a7d490("m_usNumScaleKeys", this->m_usNumScaleKeys));
 }
 }  // namespace fnv_00a4e990
 

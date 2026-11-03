@@ -3389,7 +3389,7 @@ void ProcessCollision(In* in, void* p1, Arg2* p2, Arg3* p3, Arg4* p4, VecS* p5, 
     int iSupport;
     if (hr->m_0c == 3)
     {
-        iSupport = QuerySupport((Node*)hr, (unsigned char*)p3 + p3->m_08 * 2, (unsigned char*)p3 + 9, &out,
+        iSupport = QuerySupport((Node*)hr, (unsigned char*)p3 + p3->m_08 * 2, (unsigned char*)&p3->m_09, &out,
                                 in->m_04->m_08, head.m_08, in->m_00->m_08, &vec);
     }
     else
@@ -3402,7 +3402,7 @@ void ProcessCollision(In* in, void* p1, Arg2* p2, Arg3* p3, Arg4* p4, VecS* p5, 
             goto AfterV;
         _mm_store_ps(vec.f, _mm_xor_ps(_mm_load_ps(vec.f), ::DAT_010c4c00));
         iSupport =
-            QuerySupport((Node*)host, p3, (unsigned char*)p3 + 8, &out, in->m_00->m_08, hr, in->m_04->m_08, &vec);
+            QuerySupport((Node*)host, p3, (unsigned char*)&p3->m_08, &out, in->m_00->m_08, hr, in->m_04->m_08, &vec);
         _mm_store_ps(vec.f, _mm_xor_ps(_mm_load_ps(vec.f), ::DAT_010c4c00));
     }
     if (!iSupport)

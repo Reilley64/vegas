@@ -505,7 +505,7 @@ bool FUN_00804250_shell::HasMatchingActiveEffect()
         Actor* pactor = (Actor*)pTarget;
         if (pactor)
         {
-            if (((AVOStub*)((char*)pactor + 0xa4))->s2(0x48) > 0)
+            if (((AVOStub*)static_cast<ActorValueOwner *>(pactor))->s2(0x48) > 0)
             {
                 bignoreAddiction = true;
             }

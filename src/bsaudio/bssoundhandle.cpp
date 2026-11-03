@@ -159,7 +159,7 @@ bool FUN_00ad8830_shell::FUN_00ad8830(bool v)
 {
     if (*(unsigned*)this == 0xffffffff)
         return false;
-    ((unsigned*)this)[2] = 1;
+    (*(unsigned*)&this->eState) = 1;
     return reinterpret_cast<::fnv_00adb3e0::Host *>(&(((M8830&)BSAudioManager::GetRandomGenerator())))->FUN_00adb3e0(*(unsigned*)this, v);
 }
 
@@ -599,7 +599,7 @@ struct SoundHandleX
 void SoundHandleX::FUN_00ad8ec0(LocalCb apCallback, void* arg)
 {
     BSAudio* audio = ::DAT_011f6d98;
-    bool flag = *((bool*)audio + 4);
+    bool flag = audio->m_bAudioEnabled;
     if (!flag && apCallback)
     {
         apCallback(arg, 5000);

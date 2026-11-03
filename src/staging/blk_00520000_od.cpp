@@ -419,9 +419,9 @@ char* FUN_005271b0_Class::GetFieldByType(unsigned int type)
     switch (type)
     {
     case 0x29:
-        return (char*)this + 0x48;
+        return (char*)&this->m_field48;
     case 0x28:
-        return (char*)this + 0x30;
+        return (char*)&this->m_auiShapeKeys[48];
     default:
         return 0;
     }

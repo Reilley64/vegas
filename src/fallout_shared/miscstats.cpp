@@ -34,7 +34,7 @@ void MiscStatManager::AddMiscStat(MiscStat eStat, int delta)
 void CopyIntArrayToObjects(int* aiValues)
 {
     for (int i = 0; i < 0x2B; ++i)
-        ((int*)(*reinterpret_cast<MiscStatEntry * (*)[43]>(&::DAT_011c6d50))[i])[1] = aiValues[i];
+        (*reinterpret_cast<MiscStatEntry * (*)[43]>(&::DAT_011c6d50))[i]->value = aiValues[i];
 }
 
 // Copies the second int of each of 43 entries from DAT_011c6d50 into the array pointed to by a1.
@@ -42,7 +42,7 @@ void CopyIntArrayToObjects(int* aiValues)
 void CopyEntrySecondFields(int* paiOut)
 {
     for (int i = 0; i < 43; ++i)
-        paiOut[i] = ((int*)(*reinterpret_cast<MiscStatEntry * (*)[43]>(&::DAT_011c6d50))[i])[1];
+        paiOut[i] = (*reinterpret_cast<MiscStatEntry * (*)[43]>(&::DAT_011c6d50))[i]->value;
 }
 
 struct BGSSaveGameBuffer
@@ -62,7 +62,7 @@ void SaveMiscStats(BGSSaveGameBuffer* pSave)
     {
         int nVal;
         if ((*reinterpret_cast<MiscStatEntry * (*)[43]>(&::DAT_011c6d50))[i])
-            nVal = *(int*)((char*)(*reinterpret_cast<MiscStatEntry * (*)[43]>(&::DAT_011c6d50))[i] + 4);
+            nVal = (*reinterpret_cast<MiscStatEntry * (*)[43]>(&::DAT_011c6d50))[i]->value;
         else
             nVal = 0;
         int iSaveValue = nVal;

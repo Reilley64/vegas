@@ -614,12 +614,12 @@ __m128* __cdecl FUN_00d5beb0(__m128* out, MyPoint* pts, int count, int depth, fl
     {
     case 0:
         *(__m128*)&rA = _mm_setzero_ps();
-        ((float*)&rA)[3] = DAT_01012054;
+        rA.w = DAT_01012054;
         *out = *(__m128*)&rA;
         break;
     case 1:
         *(__m128*)&rA = pts[-1].v;
-        ((float*)&rA)[3] = t;
+        rA.w = t;
         *out = *(__m128*)&rA;
         break;
     case 2:

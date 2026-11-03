@@ -1132,7 +1132,7 @@ struct FUN_00e2ebc0_class
 FUN_00e2ebc0_class* FUN_00e2ebc0_class::Init(F_e2ebc0 flags)
 {
     unk00 = (int)&DAT_010eb2c4;
-    ((FUN_00cb0a70_Class*)((char*)this + 8))->FUN_00cb0a70(flags.v);
+    ((FUN_00cb0a70_Class*)&this->unk08)->FUN_00cb0a70(flags.v);
     if (flags.v)
     {
         for (int i = 0; i < itemCount; ++i)

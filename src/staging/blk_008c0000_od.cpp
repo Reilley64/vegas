@@ -692,7 +692,12 @@ struct BMobile_S
 {
     BMobile_S();
     ~BMobile_S();
-    char pad[0xd0];
+    char pad[0xc0];
+    char unkc0;
+    char unkc1;
+    char padc2[0x1];
+    char unkc3;
+    char padc4[0xc];
 };
 struct B006815c0
 {
@@ -740,7 +745,7 @@ struct FUN_008d0270_Class
 FUN_008d0270_Class* FUN_008d0270_Class::FUN_008d0270()
 {
     vtbl = &DAT_01085e2c;
-    ((void(*)(void*))FUN_008c5e20)((char*)this + 4);
+    ((void(*)(void*))FUN_008c5e20)((char*)&this->m_iWordAt04);
     m_2c = 0;
     return this;
 }
@@ -5272,10 +5277,10 @@ FUN_008cab20::FUN_008cab20()
     reinterpret_cast<::FUN_0046a010_shell *>((((TESObjectREFR*)this)))->FUN_0046a010(1);
     *(HighProcess**)((char*)this + 0x68) = new HighProcess;
     *(int*)((char*)this + 0x88) = 0;
-    *((char*)this + 0xc0) = 0;
+    this->unkc0 = 0;
     *(int*)((char*)this + 0xc4) = 0;
-    *((char*)this + 0xc1) = 0;
-    *((char*)this + 0xc3) = 0;
+    this->unkc1 = 0;
+    this->unkc3 = 0;
     DAT_011dfc98++;
 }
 // Calls GetItem on four BSSimpleList<BGSPerk*> members at offsets 4, 0x10, 0x1c and 0x30, then returns this.

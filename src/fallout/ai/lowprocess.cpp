@@ -2624,9 +2624,9 @@ void LowProcess::SetFlag40(int value)
 void FUN_008d7e00_shell::FUN_008d7e00(bool abSet, unsigned char uMask)
 {
     if (abSet)
-        ((unsigned char*)this)[0x30] |= uMask;
+        this->m_uiObjectFlags |= uMask;
     else
-        ((unsigned char*)this)[0x30] &= ~uMask;
+        this->m_uiObjectFlags &= ~uMask;
 }
 
 struct FUN_008d7e60_shell : public LowProcess
@@ -2663,7 +2663,7 @@ bool LowProcess::IsCurrentlyAlerted()
 // @fnv 0x008d7e60
 bool FUN_008d7e60_shell::FUN_008d7e60(unsigned char uMask)
 {
-    return (((unsigned char*)this)[0x30] & uMask) != 0;
+    return (this->m_uiObjectFlags & uMask) != 0;
 }
 
 struct FUN_00911ae0_shell : LowProcess
@@ -2689,7 +2689,7 @@ struct FUN_008d7f40_shell : public TimeoutTimer
 void FUN_008d7f40_shell::FUN_008d7f40(float afTargetTime)
 {
     ((float*)this)[0] = ::FUN_00435dd0();
-    ((float*)this)[1] = afTargetTime;
+    this->m_fTimeout = afTargetTime;
 }
 
 struct FUN_0090cfa0_shell
@@ -3573,28 +3573,28 @@ void FUN_008675e0_shell::FUN_008675e0(LowProcess* apSource)
             *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 8);
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc) =
             *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0xc);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x10) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x10);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x14) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x14);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1c) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x1c);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x20) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x20);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x24);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x28) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x28);
+        *reinterpret_cast<float*>(&this->m_kProcessData.m_iPackageValue) =
+            *reinterpret_cast<float*>(&apSource->m_kProcessData.m_iPackageValue);
+        this->m_kProcessData.m_fPackageValue =
+            apSource->m_kProcessData.m_fPackageValue;
+        this->m_fValue2 =
+            apSource->m_fValue2;
+        this->m_fValue1 =
+            apSource->m_fValue1;
+        *reinterpret_cast<float*>(&this->m_uiStateFlags) =
+            *reinterpret_cast<float*>(&apSource->m_uiStateFlags);
+        *reinterpret_cast<float*>(&this->m_eProcessType) =
+            *reinterpret_cast<float*>(&apSource->m_eProcessType);
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x2c) =
             *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x2c);
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x30) =
             *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apSource) + 0x30);
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x34) =
             *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apSource) + 0x34);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x38) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x38);
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x3c) =
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(apSource) + 0x3c);
+        this->m_kProcessData38.m_fStartTime =
+            apSource->m_kProcessData38.m_fStartTime;
+        this->m_kProcessData38.m_fTimeout =
+            apSource->m_kProcessData38.m_fTimeout;
         *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x40) =
             *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(apSource) + 0x40);
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x44) =
@@ -4566,7 +4566,7 @@ void FUN_00907460_shell::FUN_00907460(Actor* apActor, int aiWhich, float afValue
     switch (aiWhich)
     {
     case 0x10: {
-        float f = ::FUN_0066eea0((::FUN_0066eea0_Object *)(void *)(apActor ? (char*)apActor + 0xa4 : 0), aiWhich, afValue);
+        float f = ::FUN_0066eea0((::FUN_0066eea0_Object *)(void *)(apActor ? (char*)static_cast<ActorValueOwner *>(apActor) : 0), aiWhich, afValue);
         ((ModHack*)((char*)this + 0x94))->ModifyModifier((char)aiWhich, f, 0);
         break;
     }
@@ -5775,7 +5775,7 @@ void FUN_009130f0_shell::FUN_009130f0(MobileObject* apMob)
         pextra = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apMob))->FUN_005d43c0()));
 
         reinterpret_cast<::FUN_0041c930_shell *>((reinterpret_cast<FUN_0041c930*>(pextra)))->FUN_0041c930(
-            (::Package_0041c930 *)(::TESPackage *)(GetCurrentPackage()), vfn_23c(), (unsigned int)(*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<char*>(this) + 0x40)),
+            (::Package_0041c930 *)(::TESPackage *)(GetCurrentPackage()), vfn_23c(), (unsigned int)(this->pTarget),
             reinterpret_cast<BoolVirtuals2*>(this)->v071(), reinterpret_cast<BoolVirtuals2*>(this)->v314(),
             reinterpret_cast<BoolVirtuals2*>(this)->v361());
 

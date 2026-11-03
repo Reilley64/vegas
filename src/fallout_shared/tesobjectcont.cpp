@@ -71,10 +71,10 @@ void TESObjectCONT::InitItem()
     if (TESForm::GetInitialized())
         return;
 
-    reinterpret_cast<::TESScriptableForm *>((reinterpret_cast<TESObjectCONT_TESScriptableInitCall*>(reinterpret_cast<unsigned char*>(this) + 0x68)))->InitItem(this);
-    reinterpret_cast<TESContainer*>(reinterpret_cast<unsigned char*>(this) + 0x30)->InitItem(this);
-    reinterpret_cast<BGSDestructibleObjectForm*>(reinterpret_cast<unsigned char*>(this) + 0x7C)->InitItem(this);
-    reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<unsigned char*>(this) + 0x48)->InitItem(this);
+    reinterpret_cast<::TESScriptableForm *>((reinterpret_cast<TESObjectCONT_TESScriptableInitCall*>(static_cast<TESScriptableForm *>(this))))->InitItem(this);
+    static_cast<TESContainer *>(this)->InitItem(this);
+    static_cast<BGSDestructibleObjectForm *>(this)->InitItem(this);
+    static_cast<TESModelTextureSwap *>(this)->InitItem(this);
 
     soundFormID = (unsigned int)m_pOpenSound;
     if (soundFormID != 0)
@@ -137,7 +137,7 @@ bool TESObjectCONT::Load(TESFile* file)
 
         case 0x4C4C5546:
             ::ReadFullName(
-                this ? reinterpret_cast<TESFullName*>(reinterpret_cast<unsigned char*>(this) + 0x3C) : 0, file);
+                this ? static_cast<TESFullName *>(this) : 0, file);
             break;
 
         case 0x4C444F4D:
@@ -145,14 +145,14 @@ bool TESObjectCONT::Load(TESFile* file)
         case 0x44534F4D:
         case 0x54444F4D:
             TESModel::LoadModelData(
-                this ? reinterpret_cast<TESModel*>(reinterpret_cast<unsigned char*>(this) + 0x48) : 0, file);
+                this ? static_cast<TESModel *>(this) : 0, file);
             break;
 
         case 0x53444F4D: {
             unsigned int textureSwapSize = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
             char* textureSwapData = (char*)_alloca(textureSwapSize);
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(textureSwapData), textureSwapSize);
-            reinterpret_cast<::FUN_0048a7b0_shell *>((reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<unsigned char*>(this) + 0x48)))->LoadTextureSwapList(textureSwapData, textureSwapSize,
+            reinterpret_cast<::FUN_0048a7b0_shell *>((static_cast<TESModelTextureSwap *>(this)))->LoadTextureSwapList(textureSwapData, textureSwapSize,
                                        reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((reinterpret_cast<TESFileFormVersion*>(file)))->FUN_00403570());
             break;
         }
@@ -160,9 +160,9 @@ bool TESObjectCONT::Load(TESFile* file)
         case 0x49524353: {
             unsigned int scriptFormID = 0;
             file->GetChunkData(&scriptFormID);
-            reinterpret_cast<CombatProcedure*>(reinterpret_cast<unsigned char*>(this) + 0x68)
+            reinterpret_cast<CombatProcedure*>(static_cast<TESScriptableForm *>(this))
                 ->Initialize(reinterpret_cast<CombatController*>(scriptFormID));
-            reinterpret_cast<::TESScriptableForm *>((reinterpret_cast<TESObjectCONT_TESScriptableInitCall*>(reinterpret_cast<unsigned char*>(this) + 0x68)))->InitItem(this);
+            reinterpret_cast<::TESScriptableForm *>((reinterpret_cast<TESObjectCONT_TESScriptableInitCall*>(static_cast<TESScriptableForm *>(this))))->InitItem(this);
             break;
         }
 
@@ -177,7 +177,7 @@ bool TESObjectCONT::Load(TESFile* file)
                 if (file->IsEndianConversionRequired())
                     reinterpret_cast<::S_00462230 *>(&(cntoItem))->FUN_00462230();
                 DAT_011c9348 = reinterpret_cast<ContainerItemExtraOwner*>(
-                    ((void *)(reinterpret_cast<::fnv_004817f0::FUN_004817f0_shell *>((reinterpret_cast<TESContainer*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->AddContainerObject((::fnv_004817f0::ContainerChanges *)(void *)(&cntoItem)))));
+                    ((void *)(reinterpret_cast<::fnv_004817f0::FUN_004817f0_shell *>((static_cast<TESContainer *>(this)))->AddContainerObject((::fnv_004817f0::ContainerChanges *)(void *)(&cntoItem)))));
                 break;
             }
             case 0x44454F43:
@@ -199,7 +199,7 @@ bool TESObjectCONT::Load(TESFile* file)
         case 0x44545344:
         case 0x54534544:
             ::FUN_004781e0(
-                this ? reinterpret_cast<BGSDestructibleObjectForm*>(reinterpret_cast<unsigned char*>(this) + 0x7C) : 0,
+                this ? static_cast<BGSDestructibleObjectForm *>(this) : 0,
                 file);
             break;
 

@@ -149,7 +149,7 @@ struct TESObjectREFR_GetFlags_caller : public TESObjectREFR
 unsigned int FUN_00843bb0_shell::GetCombinedFlags()
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_caller*)((char*)this + 0x0))))->GetName())) +
-           ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_caller*)((char*)this + 0x10))))->GetName()));
+           ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_caller*)&this->m_kSpecialFormChanges)))->GetName()));
 }
 
 extern int DAT_01031fac;
@@ -1012,7 +1012,7 @@ struct FUN_00841e20_shell : public BGSReconstructFormsInAllFilesMap
 // @fnv 0x00841e20
 bool FUN_00841e20_shell::HasFlagInAnyFile(unsigned int flags)
 {
-    if (*(unsigned int*)((char*)this + 0x10) && reinterpret_cast<::FUN_00452420_shell *>((void *)(((FUN_00452420_shell*)(*(void**)((char*)this + 0x10)))))->GetFlag(flags))
+    if (*(unsigned int*)&this->m_kFormChangeMap && reinterpret_cast<::FUN_00452420_shell *>((void *)(((FUN_00452420_shell*)(*(void**)&this->m_kFormChangeMap))))->GetFlag(flags))
         return true;
     void* it = GetFirstPos();
     while (it)

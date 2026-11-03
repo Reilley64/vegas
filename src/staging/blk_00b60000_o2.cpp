@@ -561,7 +561,7 @@ struct NiTAbstractPoolAllocator_unsigned_int
 void FreePoolNode(void* p)
 {
     NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry* n = (NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry*)p;
-    *(unsigned char*)((char*)n + 8) = 0;
+    *(unsigned char*)&n->m_uiSize = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(g_011c5f80))->FUN_0040fbf0((char *)(0));
     n->m_pkPrev = 0;
     n->m_pkNext = NiTAbstractPoolAllocator_unsigned_int::ms_pFreeList;

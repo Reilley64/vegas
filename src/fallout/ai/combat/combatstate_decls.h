@@ -40,7 +40,9 @@ class CombatState : public CombatPrefix, public CombatLocations
   public:
     int GetInventoryItemCount(TESForm*);
     void ProcessCoverLOSResult();
-    char padac[0xd0];
+    char padac[0x3c];
+    void* unke8;
+    char padec[0x90];
     float timer, offsetX, offsetY;
     void UpdateCombatStateData(int, float*, float*, float);
 };

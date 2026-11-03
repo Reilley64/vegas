@@ -125,15 +125,15 @@ struct FUN_00a5d450_holder
 void FUN_00a7b330_shell::FUN_00a7b330(NiBinaryExtraData* pkDest, CloningProcess* kCloning)
 {
     reinterpret_cast<::FUN_00a5d450_class *>((((FUN_00a5d450_holder*)this)))->CreateVertexBufferSet((unsigned int)(pkDest), kCloning);
-    char* src = *(char**)((char*)this + 8);
-    if (*(char**)((char*)pkDest + 8) != src)
+    char* src = *(char**)&this->name.handle;
+    if (*(char**)&pkDest->name.handle != src)
     {
         if (src != *(char**)&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)(src - 8));
-        char* dst = *(char**)((char*)pkDest + 8);
+        char* dst = *(char**)&pkDest->name.handle;
         if (dst != *(char**)&(*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)))
             InterlockedDecrement((long*)(dst - 8));
-        *(char**)((char*)pkDest + 8) = src;
+        *(char**)&pkDest->name.handle = src;
     }
 }
 

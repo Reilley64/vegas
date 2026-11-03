@@ -359,7 +359,7 @@ void __cdecl FUN_00be2170()
         NiD3DPass_Ex* pass = ((NiD3DPass_Ex**)*(int*)(p + 0x24))[i];
         if (!pass)
             break;
-        if (*(bool*)((char*)pass + 0x64) && *(int*)((char*)pass + 8))
+        if (*(bool*)&pass->m_uiRefCount && *(int*)((char*)pass + 8))
             reinterpret_cast<::NiD3DPass *>((pass))->ApplyRenderStateChanges(false);
     }
 }

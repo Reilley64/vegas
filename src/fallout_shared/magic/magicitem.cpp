@@ -529,10 +529,10 @@ void FUN_0040ab70_shell::PreloadModels()
                 if (pform && reinterpret_cast<::S3e60 *>((pes))->FUN_00403e60(0x10000))
                 {
                     TESObjectWEAP* pweapon = dynamic_cast<TESObjectWEAP*>(pform);
-                    if (pweapon && ((TESModel*)((char*)pweapon + 0x3c))->GetModelLength() > 0)
+                    if (pweapon && (&pweapon->model)->GetModelLength() > 0)
                     {
                         NiPointer<Model> spmodel(0);
-                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(((TESModel*)((char*)pweapon + 0x3c))->GetModelFilePath()), (void *)&(spmodel));
+                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(pweapon->model.GetModelFilePath()), (void *)&(spmodel));
                         if (spmodel)
                             reinterpret_cast<::FUN_0043b410_class *>((((Model*)spmodel)))->AtomicAdd(icount);
                     }
@@ -543,11 +543,11 @@ void FUN_0040ab70_shell::PreloadModels()
                     if (parmor)
                     {
                         NiPointer<Model> spmodel(0);
-                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(reinterpret_cast<::FUN_004811e0_shell *>((((TESBipedModelForm*)((char*)parmor + 0x70))))->FUN_004811e0(0)),
+                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(reinterpret_cast<::FUN_004811e0_shell *>(((&parmor->biped)))->FUN_004811e0(0)),
                                                     (void *)&(spmodel));
                         if (spmodel)
                             reinterpret_cast<::FUN_0043b410_class *>((((Model*)spmodel)))->AtomicAdd(icount);
-                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(reinterpret_cast<::FUN_004811e0_shell *>((((TESBipedModelForm*)((char*)parmor + 0x70))))->FUN_004811e0(1)),
+                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(reinterpret_cast<::FUN_004811e0_shell *>(((&parmor->biped)))->FUN_004811e0(1)),
                                                     (void *)&(spmodel));
                         if (spmodel)
                             reinterpret_cast<::FUN_0043b410_class *>((((Model*)spmodel)))->AtomicAdd(icount);
@@ -580,7 +580,7 @@ void FUN_0040ab70_shell::PreloadModels()
                         BSSimpleList<const char*>* pfilelist;
                         char* plastSlash;
                         const char* pfilename;
-                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(((TESModel*)((char*)pcreature + 0xdc))->GetModelFilePath()),
+                        reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(pcreature->model.GetModelFilePath()),
                                                     (void *)&(spmodel));
                         if (spmodel)
                         {
@@ -589,7 +589,7 @@ void FUN_0040ab70_shell::PreloadModels()
                             for (int i = 0; i < icount; i++)
                                 reinterpret_cast<::FUN_0092c870_shell *>((((Model*)spmodel)))->FUN_0092c870();
                             pfilename = ((const char *)(::FUN_00559450((int *)(((Model*)spmodel)))));
-                            pfilelist = ((::BSSimpleList<const char *> *)(reinterpret_cast<::BaseProcess *>((((TESModelList*)((char*)pcreature + 0x114))))->GetCurrentProcessData()));
+                            pfilelist = ((::BSSimpleList<const char *> *)(reinterpret_cast<::BaseProcess *>(((&pcreature->modelList)))->GetCurrentProcessData()));
                             TaskQueueInterface::CopyStringToBuffer(path, 260, pfilename);
                             plastSlash = FUN_0040ab30(path, '\\');
                             pcreatureFileList = pfilelist;

@@ -35,7 +35,11 @@ class TESSaveLoadGame
 {
   public:
     ChangesMap* changes;
-    char pad[0x30];
+    char pad[0x10];
+    void* unk14;
+    char pad18[0x8];
+    void* unk20;
+    char pad24[0x10];
     BSSimpleList<BGSNote*> deferred;
     TESObjectREFR* QueueRemoveReferenceChange(unsigned int);
     void HasFormChanges(TESForm*, bool);

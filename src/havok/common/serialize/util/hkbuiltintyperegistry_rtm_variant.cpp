@@ -356,7 +356,7 @@ hkDefaultBuiltinTypeRegistry* FUN_00d47820()
         FUN_00d47820_router* router = _D1A0E0GetMemoryRouter();
         void* memory = router->allocator->FUN_00d47820_alloc(8);
         hkDefaultBuiltinTypeRegistry* registry = static_cast<hkDefaultBuiltinTypeRegistry*>(memory);
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(registry) + 4) = 8;
+        *reinterpret_cast<unsigned short*>(&registry->_pad) = 8;
         return registry->Initialize();
     }
     return 0;

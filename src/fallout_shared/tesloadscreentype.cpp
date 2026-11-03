@@ -41,7 +41,7 @@ void TESLoadScreenType_Shell::CopyFrom(TESForm* apCopy)
     {
         return;
     }
-    __memcpy((char*)this + 0x18, (char*)pmisc + 0x18, 0x58);
+    __memcpy((char*)this + 0x18, (char*)&pmisc->data, 0x58);
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 

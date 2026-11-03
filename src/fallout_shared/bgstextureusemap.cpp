@@ -193,14 +193,14 @@ struct MyMap
 // @fnv 0x004aa5d0
 void FUN_004aa340::RemoveAllEntries()
 {
-    void* iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<MapX*>(reinterpret_cast<unsigned char*>(this) + 4)))->GetFirstPos();
+    void* iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<MapX*>(&this->_m1)))->GetFirstPos();
 
     while (iter)
     {
         unsigned int pignore = 0;
         void* value = 0;
 
-        reinterpret_cast<::C6b7f20_Map *>((reinterpret_cast<NiTMap*>(reinterpret_cast<unsigned char*>(this) + 4)))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(pignore), (void **)&(value));
+        reinterpret_cast<::C6b7f20_Map *>((reinterpret_cast<NiTMap*>(&this->_m1)))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(pignore), (void **)&(value));
 
         UnsignedIntegerRecord* pdata = reinterpret_cast<UnsignedIntegerRecord*>(value);
         UnsignedIntegerRecord* key = pdata;
@@ -208,7 +208,7 @@ void FUN_004aa340::RemoveAllEntries()
         key ? reinterpret_cast<FUN_004aa650_shell*>(key)->DestroyIfFlagged(1) : 0;
     }
 
-    reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<MyMap*>(reinterpret_cast<unsigned char*>(this) + 4)))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<MyMap*>(&this->_m1)))->FUN_00438af0();
 }
 
 void* __cdecl operator new(unsigned int);
@@ -257,9 +257,9 @@ void FUN_004aa720_shell::AddEntry(int aiKey, int aiValue, int aiItem)
             p->m4 = aiValue;
         }
 
-        if (!reinterpret_cast<::RefList *>((reinterpret_cast<LH*>(reinterpret_cast<char*>(p) + 8)))->FUN_005f65d0((void **)&(reinterpret_cast<int&>(aiItem))))
+        if (!reinterpret_cast<::RefList *>((reinterpret_cast<LH*>(&p->m8.a)))->FUN_005f65d0((void **)&(reinterpret_cast<int&>(aiItem))))
         {
-            reinterpret_cast<G2*>(reinterpret_cast<char*>(p) + 8)->AddHead(&aiItem);
+            reinterpret_cast<G2*>(&p->m8.a)->AddHead(&aiItem);
         }
     }
 }

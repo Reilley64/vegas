@@ -69,7 +69,7 @@ void* FUN_00af30a0_Class::FUN_00af30a0()
     m_iValueAt90 = 0;
     m_cValueAt94 = 0;
     m_cValueAt95 = 0;
-    _fnv_zlib_memset((char*)this + 4, 0, 0x80);
+    _fnv_zlib_memset((char*)&this->m_acCharacterBuffer, 0, 0x80);
     return this;
 }
 
@@ -307,7 +307,7 @@ struct FUN_00afd960_Class
 void FUN_00afd960_Class::FUN_00afd960()
 {
     void* pUnused[6];
-    ::SwapByteQuadWords((::Vector4f *)(void *)((char*)this + 4), 1);
+    ::SwapByteQuadWords((::Vector4f *)(void *)((char*)&this->iField), 1);
 }
 
 struct NiFile;
@@ -624,15 +624,15 @@ struct FUN_00afd8b0_Class
 // @fnv 0x00afd8b0
 void* FUN_00afd8b0_Class::FUN_00afd8b0()
 {
-    void* pSub = (char*)this + 0xc;
+    void* pSub = (char*)&this->uiFlags;
     *(int*)pSub = 0;
     uiMagic = 0x415342;
     uiSize = 0x68;
     uiType = 0x24;
-    *(int*)((char*)this + 0x10) = 0;
-    *(int*)((char*)this + 0x14) = 0;
-    *(int*)((char*)this + 0x18) = 0;
-    *(int*)((char*)this + 0x1c) = 0;
+    *(int*)&this->uiElapsedMilliseconds = 0;
+    *(int*)&this->uiLength = 0;
+    *(int*)&this->uiHash = 0;
+    *(int*)&this->uiCRC = 0;
     m_usPassCountLocal = 0;
     return this;
 }
@@ -782,7 +782,7 @@ void* FUN_00af3a40_Class::ResetState()
 {
     vtbl = &DAT_010a4318;
     *(int*)((char*)this + 0x44) = 0;
-    *((char*)this + 0x48) = 0;
+    *((char*)&this->m_iValueAt90) = 0;
     *(int*)((char*)this + 0x4c) = 0;
     bVisible = 0;
     return this;

@@ -202,7 +202,7 @@ struct FUN_00403ee0_shell : public EffectItem
 // @fnv 0x00403ee0
 bool FUN_00403ee0_shell::FUN_00403ee0()
 {
-    return reinterpret_cast<::S3c60 *>(((*(EffectSetting**)((char*)this + 0x14))))->HasFlag2();
+    return reinterpret_cast<::S3c60 *>(((this->m_pEffectSetting)))->HasFlag2();
 }
 
 struct FUN_00403f00_shell : public EffectItem
@@ -330,7 +330,7 @@ struct FUN_00404390_shell : public EffectItem
 // @fnv 0x00404390
 int FUN_00404390_shell::FUN_00404390()
 {
-    return reinterpret_cast<::S3e60 *>(((*(EffectSetting**)((char*)this + 0x14))))->FUN_00403e60(0x100) ? 0 : *(int*)this;
+    return reinterpret_cast<::S3e60 *>(((this->m_pEffectSetting)))->FUN_00403e60(0x100) ? 0 : *(int*)this;
 }
 
 struct FUN_00404420_shell : public EffectItem
@@ -383,7 +383,7 @@ bool FUN_004042a0_shell::IsDifferentFrom(EffectItem* apCompare)
 // @fnv 0x004044d0
 int FUN_004044d0_shell::FUN_004044d0()
 {
-    return reinterpret_cast<::S3e60 *>(((*(EffectSetting**)((char*)this + 0x14))))->FUN_00403e60(0x80) ? 0 : *(int*)((char*)this + 0x8);
+    return reinterpret_cast<::S3e60 *>(((this->m_pEffectSetting)))->FUN_00403e60(0x80) ? 0 : this->data.m_iPayloadInteger;
 }
 
 namespace fnv_004045e0 {

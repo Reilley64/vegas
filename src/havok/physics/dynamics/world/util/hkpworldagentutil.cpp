@@ -416,7 +416,7 @@ void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
                 void* argument = *((char*)sourceField + 0xe8) == 5
                                      ? *(void**)((char*)target + *((char*)target + 0x10) + 0xcc)
                                      : *(void**)((char*)sourceField + 0xcc);
-                void* eventData = event->type == 4 ? (char*)event + 0x30 : (char*)event + 0x20;
+                void* eventData = event->type == 4 ? (char*)&event->data30 : (char*)&event->data20;
                 handler(event, eventData, sourceObject, target, context, event->value08, argument);
             }
             ++index;

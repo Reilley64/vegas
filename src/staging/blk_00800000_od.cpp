@@ -1444,7 +1444,7 @@ void FUN_00800e50_Class::FUN_00800d50(int pNode)
     if (this->f04 == 0)
     {
         this->f04 = pNode;
-        ((Ptr_0066b0d0*)((char*)this + 8))
+        ((Ptr_0066b0d0*)&this->f08)
             ->FUN_0066b0d0(((FUN_00800d50_getter)(*(unsigned int*)(*(unsigned int*)pNode + 0x1d0)))((NiNode*)pNode));
     }
     ::fnv_00ba91a0::FUN_00ba91a0((::fnv_00ba91a0::Obj *)(void *)((NiNode*)*((NiPointer<NiNode>*)((char*)this + this->f0c * 8 + 0x18))), 0x31, (bool)(0));

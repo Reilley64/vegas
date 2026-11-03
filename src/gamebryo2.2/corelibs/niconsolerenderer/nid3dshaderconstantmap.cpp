@@ -969,7 +969,7 @@ unsigned int FUN_00e821e0_shell::FUN_00e821e0(char* pszKey, unsigned int uiFlags
     pkEntry->m_uiValue4 = uiRegisterCount;
     pkEntry->m_kSecondaryString = pszVariableName;
     pkEntry->SetData(uiConstantDataSize, uiDataStride, pvDataSource, bCopyData);
-    unsigned int& m_eErrorCode = *(unsigned int*)((char*)this + 0x34);
+    unsigned int& m_eErrorCode = this->error;
     m_eErrorCode = ((ScmMapS*)this)->ReadEntryData(pkEntry);
     if (m_eErrorCode != 0)
     {
@@ -1001,7 +1001,7 @@ unsigned int FUN_00e823d0_shell::FUN_00e823d0(char* pszControlPoint, unsigned in
     pkEntry->m_uiValue3 = uiShaderRegister;
     pkEntry->m_uiValue4 = uiRegisterCount;
     pkEntry->m_kSecondaryString = pszVariableName;
-    unsigned int& m_eErrorCode = *(unsigned int*)((char*)this + 0x34);
+    unsigned int& m_eErrorCode = this->error;
     m_eErrorCode = ((ScmMapS*)this)->ReadEntryData(pkEntry);
     if (m_eErrorCode != 0)
         delete pkEntry;

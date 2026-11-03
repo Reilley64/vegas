@@ -31,7 +31,7 @@ bool FUN_004f15c0_shell::FUN_004f15c0(unsigned char acPriority)
 {
     if (acPriority <= 100)
     {
-        *((unsigned char*)this + 6) = acPriority;
+        this->m_ucRegionPriority = acPriority;
         return true;
     }
     return false;

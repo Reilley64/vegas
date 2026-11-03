@@ -85,16 +85,16 @@ struct FUN_00c9c3c0_Class
 // @fnv 0x00c9c3c0
 int FUN_00c9c3c0_Class::GetEntryAt(int index)
 {
-    if (index < *(unsigned short*)((char*)this + 0xb0))
+    if (index < *(unsigned short*)&this->m_b0)
     {
         int offset = index * 3;
         offset <<= 4;
-        return *(int*)(*(int*)((char*)this + 0xac) + offset);
+        return *(int*)(this->m_ac + offset);
     }
     else
     {
-        int offset = index - *(unsigned short*)((char*)this + 0xb0);
-        return *(int*)(*(int*)((char*)this + 0xb4) + offset * 4);
+        int offset = index - *(unsigned short*)&this->m_b0;
+        return *(int*)(this->m_b4 + offset * 4);
     }
 }
 

@@ -8,7 +8,10 @@ class NiProperty
   public:
     NiProperty();
     virtual ~NiProperty();
-    unsigned char data[20];
+    unsigned char data[0x4];
+    char* unk08;
+    void* unk0c;
+    unsigned char pad10[0x8];
 };
 class NiColor
 {

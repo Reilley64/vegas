@@ -147,7 +147,7 @@ struct FUN_0048cc80_shell : public BGSMessageIcon
 void FUN_0048cc80_shell::FUN_0048cc80()
 {
     *(int*)((char*)this + 4) = 0;
-    ((char*)this)[8] = 0;
+    this->Icon[4] = 0;
 }
 
 struct S_0048cca0

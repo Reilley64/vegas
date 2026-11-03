@@ -1650,7 +1650,7 @@ int DBA1A0Class::FUN_00dba1a0(int aiKey)
 {
     if ((unk1C & 0x7FFFFFFF) == 0 && unk10 != 0 && reinterpret_cast<::S_00db8670_PatchManager *>(this)->FUN_00db8670() == 1)
         return 1;
-    return FUN_00db8000((int*)((char*)this + 0xC), aiKey);
+    return FUN_00db8000(&this->unk0C, aiKey);
 }
 
 // @fnv 0x00db7d40

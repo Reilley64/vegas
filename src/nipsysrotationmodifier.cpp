@@ -66,17 +66,17 @@ struct FUN_00c20a00_shell : public NiPSysRotationModifier
 void FUN_00c20a00_shell::FUN_00c20a00(NiStream* kStream)
 {
     ::FUN_00a89af0((int)this);
-    if (*(unsigned int*)((char*)kStream + 0xD8) < 0x14000002)
+    if (kStream->m_uiNifVersion < 0x14000002)
     {
         float* pfRotationSpeeds;
         unsigned short us;
-        pfRotationSpeeds = *(float**)((char*)(*(void**)((char*)(*(void**)((char*)this + 0x10)) + 0xB8)) + 0x74);
+        pfRotationSpeeds = *(float**)((char*)(*(void**)((char*)(*(void**)&this->m_pkTarget) + 0xB8)) + 0x74);
         if (pfRotationSpeeds)
         {
             for (us = 0;
-                 us < *(unsigned short*)((char*)(*(void**)((char*)(*(void**)((char*)this + 0x10)) + 0xB8)) + 0x50);
+                 us < *(unsigned short*)((char*)(*(void**)((char*)(*(void**)&this->m_pkTarget) + 0xB8)) + 0x50);
                  us++)
-                pfRotationSpeeds[us] = *(float*)((char*)this + 0x18);
+                pfRotationSpeeds[us] = this->m_fInitialRotationSpeed;
         }
     }
 }
@@ -240,7 +240,7 @@ void FUN_00c20d00_shell::AddRotationStrings(void* pkStrings)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(count, value);
 
-    NiPoint3Proxy* initialAxis = reinterpret_cast<NiPoint3Proxy*>(reinterpret_cast<char*>(this) + 0x28);
+    NiPoint3Proxy* initialAxis = reinterpret_cast<NiPoint3Proxy*>(&this->m_kRotationAxis.x);
     value = reinterpret_cast<::NiPoint3 *>((initialAxis))->FUN_00a59af0("Initial Axis");
     count = strings->_a;
     if (count >= strings->_8)

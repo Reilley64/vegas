@@ -447,7 +447,7 @@ struct FUN_00822eb0_shell : MagicTarget
 float FUN_00822eb0_shell::FUN_00822eb0(MagicItem* apSpell)
 {
     float fresult = 0.0f;
-    EffectItem* pmonitorEffect = apSpell ? ((::EffectItem *)(reinterpret_cast<::Node406 *>((((EffectItemList*)((char*)apSpell + 0xc))))->FindEntryByTimeStamp())) : 0;
+    EffectItem* pmonitorEffect = apSpell ? ((::EffectItem *)(reinterpret_cast<::Node406 *>(((&apSpell->effectList)))->FindEntryByTimeStamp())) : 0;
     if (pmonitorEffect && HasSpell(apSpell, true))
     {
         EffectListNode* pEffectNode = (EffectListNode*)GetActiveEffectList();

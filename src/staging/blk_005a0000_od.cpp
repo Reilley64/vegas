@@ -627,12 +627,12 @@ public:
 void FUN_005a7a90_shell::FUN_005a7a90()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_shell*)this)))->FUN_004855a0();
-    ((FUN_00487010_shell*)((char*)this + 0x18))->FUN_00487010();
+    ((FUN_00487010_shell*)&this->unk18)->FUN_00487010();
     if (FUN_00401500())
-        reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)((char*)this + 0x24))))->ClearData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e20_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x24)), 1);
+        reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)&this->unk24)))->ClearData();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e20_shell*)this)))->FUN_00485e20((const void *)((int)((char*)&this->unk24)), 1);
     if (FUN_00401500())
-        reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)((char*)this + 0x24))))->ClearData();
+        reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)&this->unk24)))->ClearData();
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 

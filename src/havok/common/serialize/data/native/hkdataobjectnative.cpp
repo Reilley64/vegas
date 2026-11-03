@@ -253,7 +253,7 @@ struct FUN_00dbb9d0_Class
 // @fnv 0x00dbb9d0
 int FUN_00dbb9d0_Class::FUN_00dbb9d0()
 {
-    return reinterpret_cast<::FUN_00d46f70_cls *>((((TypeNode*)*(int*)((char*)this + 0xC))))->FUN_00d46f70();
+    return reinterpret_cast<::FUN_00d46f70_cls *>((((TypeNode*)this->m_0C)))->FUN_00d46f70();
 }
 
 namespace fnv_00dbba80 {

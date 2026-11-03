@@ -1363,7 +1363,7 @@ bool FUN_0098a470_shell::FUN_0098a470(unsigned int a, float fTime)
         return true;
     if (m_kPointA != a)
         return true;
-    if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)this + 0x44))))->FUN_00435e00() > fTime)
+    if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)&this->p44)))->FUN_00435e00() > fTime)
         return true;
     return false;
 }
@@ -2035,7 +2035,7 @@ void FUN_009856e0_shell::FUN_009856e0(BGSSaveFormBuffer* pBuffer, ActorCombatGro
 {
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((SaveFormIDHelper*)pBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pActor), 0);
 
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 4, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)&this->m_field, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x48, 2, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x4A, 2, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x64, 1, 0);
@@ -2322,8 +2322,8 @@ void FUN_009869a0_shell::FUN_009869a0(Actor* apActor)
 
             reinterpret_cast<::FUN_0098f1f0_Class *>((reinterpret_cast<FUN_0098f1f0_caller*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->RemoveEntries(i, 1);
 
-            if (*reinterpret_cast<Actor**>(reinterpret_cast<unsigned char*>(this) + 0xEC) == apActor)
-                *reinterpret_cast<Actor**>(reinterpret_cast<unsigned char*>(this) + 0xEC) = 0;
+            if (this->m_pActor == apActor)
+                this->m_pActor = 0;
 
             if (*::g_011f1878.Bool())
             {

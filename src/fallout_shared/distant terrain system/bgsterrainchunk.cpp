@@ -612,7 +612,7 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
                                       (void *)(reinterpret_cast<FUN_0043cc60_shell*>(this)->FUN_0043cc60()),
                                       reinterpret_cast<QueuedFile*>(this));
 
-    *reinterpret_cast<bool*>(reinterpret_cast<unsigned char*>(this) + 0x30) = true;
+    *reinterpret_cast<bool*>(&this->f0[12]) = true;
 
     reinterpret_cast<FUN_006fbbd0_virtual*>(this)->f10();
 }

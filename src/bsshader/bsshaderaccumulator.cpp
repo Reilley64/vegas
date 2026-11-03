@@ -162,18 +162,18 @@ struct BatchRendererDummy
 // @fnv 0x00b63500
 void FUN_00b63500_shell::RenderBound(void* aBound, bool abZPrePass)
 {
-    unsigned int uiIndex = *(unsigned int*)&tls_data[0x2bc] % *(unsigned int*)((char*)this + 0x18c);
+    unsigned int uiIndex = *(unsigned int*)&tls_data[0x2bc] % this->m_uiRendererCount;
     BatchRendererDummy* m_pGroupRenderer = *(BatchRendererDummy**)((char*)this + uiIndex * 4 + 0x174);
-    m_pGroupRenderer->AddBoundToRenderGroup(aBound, abZPrePass, *(void**)((char*)this + 8),
-                                            *(bool*)((char*)this + 0x31));
+    m_pGroupRenderer->AddBoundToRenderGroup(aBound, abZPrePass, *(void**)&this->m_pkAccumulationCamera,
+                                            this->m_bSkipObjectsWithFlag14);
 }
 
 
 // @fnv 0x00b64e30
 void FUN_00b64e30(AccumWIP* pAccumWIP)
 {
-    if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(pAccumWIP) + 0x16C) &&
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pAccumWIP) + 0x19C) != 8)
+    if (*reinterpret_cast<unsigned char*>(&pAccumWIP->m_bFlagAfterInteger) &&
+        *reinterpret_cast<int*>(&pAccumWIP->m_eRenderMode) != 8)
     {
         float fVal = DAT_01200458;
         if (!DAT_011ad80f)
@@ -549,7 +549,7 @@ extern __declspec(thread) unsigned int g_threadIndex;
 void FUN_00b63090_shell::DispatchBatchRenderer()
 {
     AccumStub* a = reinterpret_cast<AccumStub*>(this);
-    unsigned int count = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x18c);
+    unsigned int count = this->m_uiRendererCount;
     reinterpret_cast<::BSBatchRenderer *>((a->m_pBatchRenderer[g_threadIndex % count]))->ReleaseGeometryGroups();
 }
 
@@ -1127,7 +1127,7 @@ struct AccumStub
 // @fnv 0x00b65c60
 void FUN_00b65c60(AccumWIP* apAccum)
 {
-    if (*((unsigned char*)apAccum + 0x38) && ((AccumStub*)apAccum)->FUN_00b63120(0x288, 0x2ce))
+    if (*((unsigned char*)&apAccum->m_bUseFirstPersonCamera) && ((AccumStub*)apAccum)->FUN_00b63120(0x288, 0x2ce))
     {
         if ((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438)))
         {
@@ -1137,18 +1137,18 @@ void FUN_00b65c60(AccumWIP* apAccum)
             reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b65c60::ImageSpaceManager * *>(&::DAT_011f91ac))))->FUN_00b97550(0x22, (int)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))), 0, true);
             ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(::fnv_00b65c60::NiRenderTargetGroup *)(((::fnv_00b65c60::NiRenderTargetGroup *)(reinterpret_cast<::BSRenderedTexture *>(((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))))->GetGroup()))));
         }
-        reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))))->SetFromCamera((*(const ::Camera4E9 *)(*(NiCamera**)((char*)apAccum + 8))));
+        reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))))->SetFromCamera((*(const ::Camera4E9 *)(*(NiCamera**)&apAccum->m_pkAccumulationCamera)));
     }
     apAccum->RenderPassGroup(0x288, 0x289, false, -1);
     apAccum->RenderPassGroup(0x28a, 0x2ab, false, -1);
     apAccum->RenderPassGroup(0x2ac, 0x2ce, false, -1);
-    if (*((unsigned char*)apAccum + 0x38))
+    if (*((unsigned char*)&apAccum->m_bUseFirstPersonCamera))
     {
         reinterpret_cast<::Manager *>(((*reinterpret_cast<::fnv_00b65c60::BSTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))));
         (*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)) = 0;
     }
     apAccum->SetShaderPassEnabled(9, true);
-    if (*((unsigned char*)apAccum + 0x167))
+    if (*((unsigned char*)&apAccum->m_bFourthBooleanFlagBeforeInteger))
         ((AccumStub*)apAccum)->UpdatePasses(true);
     else
         ((AccumStub*)apAccum)->UpdatePasses(false);
@@ -3008,12 +3008,12 @@ void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
     FUN_00b64e30(apAccumWIP);
     ::fnv_00b63a50::FUN_00b63a50((::fnv_00b63a50::AccumStub *)(apAccumWIP));
 
-    if (*(char*)((char*)apAccumWIP + 0x167))
+    if (*(char*)&apAccumWIP->m_bFourthBooleanFlagBeforeInteger)
         reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(0));
     else
         reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(1));
 
-    if (*(char*)((char*)apAccumWIP + 0x167))
+    if (*(char*)&apAccumWIP->m_bFourthBooleanFlagBeforeInteger)
         reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(1));
     else
         reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(0));

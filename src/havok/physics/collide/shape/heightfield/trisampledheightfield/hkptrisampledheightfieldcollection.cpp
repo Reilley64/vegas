@@ -292,7 +292,7 @@ hkpTriSampledHeightFieldCollection* FUN_00d26880_StandIn::FUN_00d26880(unsigned 
     if (flags & 1u)
     {
         FUN_00d26880_MemoryRouter* router = _D1A0E0GetMemoryRouter();
-        unsigned short size = *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 4);
+        unsigned short size = this->m_usMemSizeAndFlags;
         router->Manager->Deallocate(this, size);
     }
 

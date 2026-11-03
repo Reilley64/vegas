@@ -113,7 +113,7 @@ struct FUN_00dc9550_Class
 void FUN_00dc9550_Class::FUN_00dc9550(void** out, int aiIndex)
 {
     out[0] = this;
-    void* base = *(void**)((char*)this + 0x10);
+    void* base = this->m_p10;
     out[1] = *(void**)((char*)base + (aiIndex << 4));
 }
 
@@ -627,7 +627,7 @@ typedef void(* FUN_00dc7090_call)(void*, int, int);
 // @fnv 0x00dc7090
 void FUN_00dc7090_class::InvokeTargetMethod(int aiOffset, int b)
 {
-    FUN_00dc7090_call fn = reinterpret_cast<FUN_00dc7090_call>(reinterpret_cast<void**>(m_0c->m_20->m_ppVirtualMethodTable)[9]);
+    FUN_00dc7090_call fn = reinterpret_cast<FUN_00dc7090_call>(m_0c->m_20->m_ppVirtualMethodTable->m_slots[9]);
 
     fn(m_0c->m_20, m_10 + aiOffset, b);
 }
@@ -1240,7 +1240,7 @@ void __cdecl _FUN_00c908c0(void* allocator, void* array, int size, int align);
 void VecArrayImplementation::Resize(int count)
 {
     int total = m_iElementIndex * count;
-    int* base = (int*)((char*)this + 0xc);
+    int* base = &this->m_flags;
     void* router = _D1A0E0GetMemoryRouter();
     void* allocator = *(void**)((char*)router + 0x10);
     int cap = base[2] & 0x3fffffff;
@@ -1285,7 +1285,7 @@ struct FUN_00dc9cd0_Class
 // @fnv 0x00dc9cd0
 void FUN_00dc9cd0_Class::FUN_00dc9cd0(int count)
 {
-    int* arr = (int*)((char*)this + 0xc);
+    int* arr = &this->m_iThirdValue;
     void* router = _D1A0E0GetMemoryRouter();
     int alloc = *(int*)((char*)router + 0x10);
     int cap = arr[2] & 0x3fffffff;
@@ -1318,7 +1318,7 @@ struct FUN_00dc9d70_Class
 // @fnv 0x00dc9d70
 void FUN_00dc9d70_Class::FUN_00dc9d70(int newCap)
 {
-    int* arr = (int*)((char*)this + 0xc);
+    int* arr = &this->m_iThirdValue;
     void* router = _D1A0E0GetMemoryRouter();
     void* alloc = *(void**)((char*)router + 0x10);
     int cap = arr[2] & 0x3fffffff;
@@ -8181,7 +8181,7 @@ void* Registry_dc8d::FUN_00dc8d70(void* pvDataTypeOut, int pcTypeName) throw()
         if (found == 0)
         {
             hkMemoryRouterDC76* router = FUN_00c85750();
-            Alloc_dc8d* allocator = *reinterpret_cast<Alloc_dc8d**>(reinterpret_cast<char*>(router) + 0x10);
+            Alloc_dc8d* allocator = *reinterpret_cast<Alloc_dc8d**>(&router->m_pkHeap);
 
             DataType_dc8d* dataType = reinterpret_cast<DataType_dc8d*>(allocator->AllocateMemoryBlock(12));
 

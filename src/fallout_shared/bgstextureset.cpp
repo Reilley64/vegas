@@ -330,7 +330,7 @@ bool FUN_005926f0_shell::CompareTextureSet(TESForm* apCompare)
     for (i = 0; i < 6; ++i)
     {
         if (reinterpret_cast<FUN_005926f0_entry*>(reinterpret_cast<char*>(this) + 0x38 + i * 0xc)
-                ->Compare(reinterpret_cast<void*>(reinterpret_cast<char*>(pcompare) + 0x38 + i * 0xc)))
+                ->Compare(reinterpret_cast<void*>(reinterpret_cast<char*>(&pcompare->pTextures) + i * 0xc)))
             return true;
     }
 

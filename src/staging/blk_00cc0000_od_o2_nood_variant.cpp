@@ -4492,7 +4492,7 @@ void FUN_00ccea00Holder::FUN_00ccea00(FUN_00ccea00Out* out)
     else
     {
         FUN_00ccea00Inner* inner = m_08;
-        src = (FUN_00ccea00Block*)((char*)inner + 0x20);
+        src = &inner->m_20;
         if (inner == 0)
             src = &(*reinterpret_cast<::FUN_00ccea00Block *>(&::DAT_01268370));
     }

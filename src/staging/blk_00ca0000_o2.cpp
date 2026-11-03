@@ -1737,7 +1737,7 @@ void FUN_00ca20e0_Class::ClearAndFreeEntries()
         }
     }
     void** arr = (void**)((char*)this + 4);
-    int* pCount = (int*)((char*)this + 8);
+    int* pCount = &this->m_8;
     if (*pCount)
     {
         void* vtbl = arr[0];

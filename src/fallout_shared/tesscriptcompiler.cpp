@@ -285,7 +285,7 @@ FUN_005af370_shell::FUN_005af370_shell()
     m_uiValueAfterSecondBuffer = 0;
     m_uiTrailingValue = 0;
     memset(m_data, 0, 0x200);
-    memset((char*)this + 0x20c, 0, 0x200);
+    memset((char*)&this->m_auiShapeKeys, 0, 0x200);
 }
 
 namespace fnv_005afeb0 {

@@ -634,7 +634,9 @@ void S::FUN_00e90ec0(void* pNew, bool bSavePrev)
 
 struct FUN_00e90f60_Holder
 {
-    char _pad[0x110C];
+    char _pad[0x1100];
+    unsigned char unk1100;
+    char pad1101[0xb];
     void FUN_00e90f60(void*);
 };
 // @fnv 0x00e90f60
@@ -642,7 +644,7 @@ void FUN_00e90f60_Holder::FUN_00e90f60(void* pTarget)
 {
     if (!pTarget)
         return;
-    if (*(unsigned char*)((char*)this + 0x1100))
+    if (this->unk1100)
         return;
     if (*(void**)((char*)this + 0x1104) == pTarget)
     {

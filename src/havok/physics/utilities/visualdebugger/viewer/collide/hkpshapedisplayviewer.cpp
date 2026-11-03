@@ -1460,7 +1460,7 @@ void S00d653f0_Obj::FUN_00d653f0(Visitor* apVisitor, Node* apNode)
                     Item* pItem = pItemList->m_items[j];
 
                     const void* p =
-                        pItem->hasProperty(0x1134) ? pItem->getProperty(0x1134).getPtr() : (char*)pItem + 0x10;
+                        pItem->hasProperty(0x1134) ? pItem->getProperty(0x1134).getPtr() : (char*)&pItem->unk10;
                     __declspec(align(16)) OutVec sweptTransform;
                     reinterpret_cast<::FUN_00c86490_Class *>(&(pItem->m_e0))->SweepTransform(f, &sweptTransform);
                     apVisitor->v04(&sweptTransform, p, DAT_01268fe0);

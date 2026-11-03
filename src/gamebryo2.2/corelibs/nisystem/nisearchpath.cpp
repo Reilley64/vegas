@@ -32,12 +32,12 @@ void NiSearchPath::SetPath(const char* pcFilePath)
 {
     if (pcFilePath && *pcFilePath)
     {
-        _fnv_CopyFilePath((char*)this + 8, 0x104, pcFilePath, 0x103);
-        ::FUN_00aa2a00((char*)this + 8);
+        _fnv_CopyFilePath((char*)&this->m_acFilePathBuffer[8], 0x104, pcFilePath, 0x103);
+        ::FUN_00aa2a00((char*)&this->m_acFilePathBuffer[8]);
     }
     else
     {
-        *(char*)((char*)this + 8) = 0;
+        this->m_acFilePathBuffer[8] = 0;
     }
 }
 }  // namespace fnv_00aa2540

@@ -29,7 +29,7 @@ NiTriBasedGeomData::NiTriBasedGeomData(unsigned short ausVertexCount, NiPoint3* 
 NiTriBasedGeomData* InitializeTriBasedGeomData(NiTriBasedGeomData* pThis)
 {
     new ((void *)(pThis)) struct ::FUN_00a67c00();
-    *(unsigned short*)((char*)pThis + 0x40) = 0;
+    pThis->m_usTriangles = 0;
     *(void**)pThis = &(*reinterpret_cast<void * *>(&::DAT_0109f2f4));
     return pThis;
 }
@@ -63,7 +63,7 @@ void FUN_00a8aa30_shell::FUN_00a8aa30(NiStream* kStream)
     FakeBinaryStream* __restrict input =
         *reinterpret_cast<FakeBinaryStream**>(reinterpret_cast<char*>(kStream) + 0x24c);
     unsigned int size = 2;
-    input->position += input->read(input, reinterpret_cast<char*>(this) + 0x40, 2, &size, 1);
+    input->position += input->read(input, reinterpret_cast<char*>(&this->m_usTriangles), 2, &size, 1);
 }
 
 struct NiAVObject;
@@ -94,7 +94,7 @@ void FUN_00a8aa70_shell::FUN_00a8aa70(NiStream* kStream)
     reinterpret_cast<::fnv_00a68520::NiGeometryDataSave *>(this)->FUN_00a68520((::fnv_00a68520::SaveStream &)(*kStream));
     NiBinaryStream_Save* __restrict output = *(NiBinaryStream_Save**)((char*)kStream + 0x250);
     unsigned int size = 2;
-    output->m_uiStreamFlags += output->m_pfnWrite(output, (char*)this + 0x40, 2, &size, 1);
+    output->m_uiStreamFlags += output->m_pfnWrite(output, (char*)&this->m_usTriangles, 2, &size, 1);
 }
 
 

@@ -735,7 +735,7 @@ void FUN_00474630::FUN_00474631()
 {
     *(void**)this = &DAT_0101a364;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 namespace fnv_00474730 {
@@ -771,7 +771,7 @@ void FUN_004792c0_Class::FUN_004792c0()
 {
     *(void**)this = (void*)&DAT_0101a91c;
     reinterpret_cast<::FUN_00438af0_Class *>((this))->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
 struct FUN_0045d930_class

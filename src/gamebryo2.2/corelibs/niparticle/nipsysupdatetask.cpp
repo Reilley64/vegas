@@ -314,7 +314,7 @@ bool S_00c25be0::FUN_00c25be0()
 
     if (pObj != 0)
     {
-        if (DAT_00fdf1c4(reinterpret_cast<void*>(reinterpret_cast<char*>(pObj) + 4)) == 0)
+        if (DAT_00fdf1c4(reinterpret_cast<void*>(reinterpret_cast<char*>(&pObj->m_ref))) == 0)
         {
             pObj->u1();
         }

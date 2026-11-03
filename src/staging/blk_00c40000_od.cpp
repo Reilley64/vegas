@@ -1190,7 +1190,9 @@ void __cdecl CopyMainNameFromPath(int param_1, char* pDest)
 }
 
 struct FUN_00c448f0_Class {
-    char pad[0x50];
+    char pad[0x24];
+    int unk24;
+    char pad28[0x28];
     int m50;
     int m54;
     int m58;
@@ -1202,7 +1204,7 @@ void FUN_00c448f0_Class::FUN_00c448f0()
 {
     m50 = 0;
     m54 = 0;
-    int tmp = *(int*)((char*)this + 0x24);
+    int tmp = this->unk24;
     m58 = tmp;
     ::EnsureArenaAllocated((::ArenaOwner *)(void *)(&m50));
 }
@@ -1391,10 +1393,10 @@ struct FUN_00c51640_Class {
 void* FUN_00c51640_Class::FUN_00c51640()
 {
     s = (const char*)&DAT_0106c814;
-    *(unsigned char*)((char*)this + 4) = 0;
+    *(unsigned char*)&this->i = 0;
     s = "@yl";
     *(int*)((char*)this + 8) = 0;
-    *(unsigned char*)((char*)this + 0xc) = 1;
+    *(unsigned char*)&this->d = 1;
     int* q = (int*)((char*)this + 0x10);
     *q = 0;
     s = (const char*)&DAT_010c256c;
@@ -1749,7 +1751,9 @@ void* FUN_00c5fc20_class::FUN_00c5fc20(unsigned int flags)
 
 struct BaseForCall {  };
 struct NiObject {
-    char pad[0xb0];
+    char pad[0xac];
+    unsigned char unkac;
+    char padad[0x3];
     int p;
     unsigned char flag;
 };
@@ -1765,7 +1769,7 @@ char FUN_00c439b0_class::FUN_00c439b0(NiObject* apParam)
         NiObject* localParam2 = apParam;
         int localOther3 = ((NiObject*)this)->p;
         int localThis = localParam2->p;
-        result2 = (localOther3 == localThis && ((unsigned char*)this)[0xac] == ((unsigned char*)localParam2)[0xac]) ? 1 : 0;
+        result2 = (localOther3 == localThis && ((unsigned char*)this)[0xac] == localParam2->unkac) ? 1 : 0;
     }
     return result2;
 }
@@ -2769,7 +2773,8 @@ FUN_00a74480* FUN_00c4e160_Class::CreateInstance(unsigned int auiValue)
 struct FUN_00c4f270_Class {
     char pad[0x90];
     int m_type;
-    char pad2[0x28];
+    int unk94;
+    char pad98[0x24];
     int m_uiItemCount;
     int m_aiEntries[1];
     void FUN_00c4f270(int aeType);
@@ -2779,7 +2784,7 @@ struct FUN_00c4f270_Class {
 void FUN_00c4f270_Class::FUN_00c4f270(int aeType)
 {
     int saved = m_type;
-    ((int*)((char*)this + 0x94))[m_uiItemCount] = saved;
+    (&this->unk94)[m_uiItemCount] = saved;
     m_uiItemCount = m_uiItemCount + 1;
     m_type = aeType;
 }
@@ -3811,7 +3816,7 @@ void* S_00c46420_Class::FUN_00c46420(unsigned int flags)
         S_00c46420_Callback* p = this->unk00;
 
         if (reinterpret_cast<int (*)(void*)>(DAT_00fdf1c4)(
-                reinterpret_cast<char*>(p) + 4) == 0)
+                reinterpret_cast<char*>(&p->unk08)) == 0)
         {
             p->Slot1();
         }
@@ -4236,14 +4241,14 @@ void UpdateOwner::FUN_00c46f60(UpdateContext* pContext) {
    if (kRequestState==4) {
     specialReference6=reference;
     specialObject2=specialReference6->object;
-    accepted9=specialObject2->Test(reinterpret_cast<char*>(pContext)+0x2c);
+    accepted9=specialObject2->Test(reinterpret_cast<char*>(&pContext->unk2c));
     state2=accepted9?1:2;
    }
    switch(state2) {
    case 0:
     unknownReference=reference;
     _unknownObject=unknownReference->object;
-    accepted9=_unknownObject->Test(reinterpret_cast<char*>(pContext)+0x2c);
+    accepted9=_unknownObject->Test(reinterpret_cast<char*>(&pContext->unk2c));
     cacheReference=reference;
     cacheObject5=cacheReference->object;
     cacheObject5->state=accepted9?1:2;

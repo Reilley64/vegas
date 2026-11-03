@@ -1830,7 +1830,7 @@ void* S_dd8180_Alloc::FUN_00dd8180(unsigned int uiSize)
         *(unsigned int*)((char*)pRemainder + uiRemainder) = uiRemainder;
         reinterpret_cast<::TargetClass *>(this)->InsertChunk((::tchunk *)(pRemainder), uiRemainder);
     }
-    return (char*)pBest + 0x10;
+    return (char*)&pBest->child0;
 }
 
 struct FUN_00dd7de0

@@ -109,7 +109,7 @@ bool FUN_007e6dd0_shell::FUN_007e6dd0()
 {
     for (int i = 0; i < 9; ++i)
     {
-        if (((void**)((char*)this + 0x28))[i] == 0)
+        if ((&this->m_kPointB[1])[i] == 0)
             return false;
     }
     return true;

@@ -68,7 +68,7 @@ struct FUN_004fd3a0_shell : public TESObjectACTI
 // @fnv 0x004fd3a0
 TESSound* FUN_004fd3a0_shell::FUN_004fd3a0()
 {
-    return *(TESSound**)((char*)this + 0x74);
+    return this->m_pSoundEffect;
 }
 
 extern int DAT_01029ee0;
@@ -132,7 +132,7 @@ bool TESObjectACTI::Load(TESFile* file)
         case 0x49524353: {
             unsigned int script = 0;
             file->GetChunkData(&script);
-            reinterpret_cast<CombatProcedure*>((char*)this + 0x5c)
+            reinterpret_cast<CombatProcedure*>(static_cast<TESScriptableForm *>(this))
                 ->Initialize(reinterpret_cast<CombatController*>(script));
             TESScriptableForm::InitItem(this);
             break;
@@ -321,9 +321,9 @@ void FUN_00510770_shell::FUN_00510770()
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
 
-    reinterpret_cast<TESScriptableForm*>(reinterpret_cast<char*>(this) + 0x5C)->InitItem(this);
-    reinterpret_cast<::BGSDestructibleObjectForm *>((reinterpret_cast<BGSDestructibleObjectFormInitItemProxy*>(reinterpret_cast<char*>(this) + 0x68)))->InitItem(this);
-    reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESModelTextureSwapInitItemProxy*>(reinterpret_cast<char*>(this) + 0x3C)))->InitItem(this);
+    static_cast<TESScriptableForm *>(this)->InitItem(this);
+    reinterpret_cast<::BGSDestructibleObjectForm *>((reinterpret_cast<BGSDestructibleObjectFormInitItemProxy*>(static_cast<BGSDestructibleObjectForm *>(this))))->InitItem(this);
+    reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESModelTextureSwapInitItemProxy*>(static_cast<TESModelTextureSwap *>(this))))->InitItem(this);
 
     unsigned int itempint = reinterpret_cast<unsigned int>(m_pSoundEffect);
     if (itempint)

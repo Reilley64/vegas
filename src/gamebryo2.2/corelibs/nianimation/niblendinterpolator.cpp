@@ -304,7 +304,7 @@ struct InterpArrayItem_Temp
 void DestroyInterpolatorArray(NiBlendInterpolator* pThis, int)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_0109697c;
-    InterpArrayItem_Temp* pArray = *reinterpret_cast<InterpArrayItem_Temp**>(reinterpret_cast<char*>(pThis) + 0x14);
+    InterpArrayItem_Temp* pArray = *reinterpret_cast<InterpArrayItem_Temp**>(&pThis->m_pInterpArray);
     if (pArray)
     {
         int* pAlloc = reinterpret_cast<int*>(pArray) - 1;

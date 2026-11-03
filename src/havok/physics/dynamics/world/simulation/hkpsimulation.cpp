@@ -1298,11 +1298,11 @@ static __forceinline void record16(TlsFn get,volatile u32& t){
 }
 static __forceinline void record12(const char* tag, TlsFn get=TlsGetValue){
  Stream* s=(Stream*)get(::DAT_0126835c); TimerEvent* p=(TimerEvent*)s->pos;
- if((char*)p < s->cap){ p->tag=tag; _ReadWriteBarrier(); volatile u32 t=(u32)__rdtsc(); p->stamp=t; s->pos=(char*)p+12; }
+ if((char*)p < s->cap){ p->tag=tag; _ReadWriteBarrier(); volatile u32 t=(u32)__rdtsc(); p->stamp=t; s->pos=(char*)&p->subtag; }
 }
 static __forceinline void recordInto(const char* tag, volatile u32& t, TlsFn get=TlsGetValue){
  Stream* s=(Stream*)get(::DAT_0126835c); TimerEvent* p=(TimerEvent*)s->pos;
- if((char*)p < s->cap){ p->tag=tag; _ReadWriteBarrier(); t=(u32)__rdtsc(); p->stamp=t; s->pos=(char*)p+12; }
+ if((char*)p < s->cap){ p->tag=tag; _ReadWriteBarrier(); t=(u32)__rdtsc(); p->stamp=t; s->pos=(char*)&p->subtag; }
 }
 struct Arr { u32 data; int size; u32 cap; };
 static __forceinline u32 stackAlloc(int size){

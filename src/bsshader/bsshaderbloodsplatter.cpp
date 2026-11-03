@@ -415,12 +415,12 @@ void FUN_00b80f50_shell::CreateShaderConstantMaps()
         *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x34);
     if (!pAlphaMap)
     {
-        pAlphaMap = new NiD3DShaderConstantMap(*(void**)((char*)this + 0x18), 2);
+        pAlphaMap = new NiD3DShaderConstantMap(*(void**)&this->m_pShaderObject, 2);
         pAlphaMap->AddEntry("alpha", 0x10000007, 0, 0, 1, $SG3295, 0x10, 4, &DAT_011fedb4, false);
     }
     if (!m_pVertexShaderConstantMap)
     {
-        m_pVertexShaderConstantMap = new NiD3DShaderConstantMap(*(void**)((char*)this + 0x18), 0);
+        m_pVertexShaderConstantMap = new NiD3DShaderConstantMap(*(void**)&this->m_pShaderObject, 0);
         m_pVertexShaderConstantMap->AddEntry(::DAT_010A1E50, 0x20000009, 0, 0, 4, 0, 0, 0, 0, false);
         m_pVertexShaderConstantMap->AddEntry("lightloc", 0x10000007, 0, 4, 1, $SG3295, 0x10, 4, &g_splatterValueA,
                                              false);

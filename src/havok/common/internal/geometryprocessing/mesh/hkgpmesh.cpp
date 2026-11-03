@@ -16682,9 +16682,9 @@ if(va==q)continue;reinterpret_cast<::HullMesh *>(this)->FUN_00e12bc0((*(::Vertex
                 {
                     LocalVec4 s;
                     ((int *)&s)[0] = ((int *)apNormal)[0];
-                    ((int *)&s)[1] = ((int *)apNormal)[1];
-                    ((int *)&s)[2] = ((int *)apNormal)[2];
-                    ((int *)&s)[3] = ((int *)apNormal)[3];
+                    (*(int *)&s.y) = ((int *)apNormal)[1];
+                    (*(int *)&s.z) = ((int *)apNormal)[2];
+                    (*(int *)&s.w) = ((int *)apNormal)[3];
                     if (iSide == 0)
                     {
                         __m128 d=_mm_set_ss(-1.0f);

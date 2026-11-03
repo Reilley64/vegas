@@ -78,7 +78,7 @@ unsigned int TESModelList::BaseFormRecord(unsigned int type)
         switch (type)
         {
         case 0x38:
-            result = ((TESModelListCopyTarget*)((char*)this + 0x0c))->vfn_10();
+            result = ((TESModelListCopyTarget*)&this->m_kModelData.m_uiFileEntryCount)->vfn_10();
             break;
         default:
             result = ((ActorValueOwner*)this)->ActorValueOwner::GetActorValue((ActorValue::Index)type);
@@ -138,10 +138,10 @@ void FUN_00478690_shell::FUN_00478690()
 {
     Dummy004753a0* p;
     Dummy004753a0* p2;
-    p2 = *(Dummy004753a0**)((char*)this + 4);
+    p2 = *(Dummy004753a0**)&this->m_kModelPaths.m_item;
     p = p2;
     p ? p->Destroy(1) : 0;
-    *(void**)((char*)this + 4) = 0;
+    *(void**)&this->m_kModelPaths.m_item = 0;
 }
 
 union SETTING_VALUE
@@ -304,16 +304,16 @@ struct FUN_0048a010_shell : public FileEntryListCollection
 // @fnv 0x00489b40
 void TESModelList::ClearComponent()
 {
-    while (!((BSSimpleList<const char*>*)((char*)this + 4))->IsEmpty())
+    while (!this->m_kModelPaths.IsEmpty())
     {
         const char* filenameToDelete;
         const char* filename;
-        filenameToDelete = ((const char *)(new ((void *)(((BSSimpleList<const char*>*)((char*)this + 4)))) ::Vec3()));
-        ((BSSimpleList<const char*>*)((char*)this + 4))->RemoveHead();
+        filenameToDelete = ((const char *)(new ((void *)((&this->m_kModelPaths))) ::Vec3()));
+        this->m_kModelPaths.RemoveHead();
         filename = filenameToDelete;
         ::operator delete((void*)filename);
     }
-    reinterpret_cast<::FUN_0048a010_shell *>((((FileEntryListCollection*)((char*)this + 12))))->ClearAndDeleteArray();
+    reinterpret_cast<::FUN_0048a010_shell *>(((&this->m_kModelData)))->ClearAndDeleteArray();
 }
 
 struct FUN_0048a0a0
@@ -325,12 +325,12 @@ struct FUN_0048a0a0
 void FUN_0048a010_shell::ClearAndDeleteArray()
 {
     unsigned int i;
-    if (*(FUN_0048a0a0***)((char*)this + 4))
+    if (*(FUN_0048a0a0***)&this->m_ppElementArray)
     {
         for (i = 0; i < *(unsigned int*)this; i++)
-            delete (*(FUN_0048a0a0***)((char*)this + 4))[i];
-        delete *(FUN_0048a0a0***)((char*)this + 4);
-        *(FUN_0048a0a0***)((char*)this + 4) = 0;
+            delete (*(FUN_0048a0a0***)&this->m_ppElementArray)[i];
+        delete *(FUN_0048a0a0***)&this->m_ppElementArray;
+        *(FUN_0048a0a0***)&this->m_ppElementArray = 0;
     }
     *(unsigned int*)this = 0;
 }
@@ -415,7 +415,7 @@ void FUN_00489db0_shell::CopyModelListFromComponent(BaseFormComponent* component
             ((S00489ce0*)this)->FUN_00489fa0(filename);
         list = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(list))->FUN_00726070()));
     }
-    reinterpret_cast<::List_48a2c0 *>((((FUN_0048a2c0_shell*)((char*)this + 0xc))))->FUN_0048a2c0((::List_48a2c0 *)(::fnv_00489db0::PathingLocation *)(((::fnv_00489db0::PathingLocation *)(::GetOffsetC((int)(((PathingRequest*)source)))))));
+    reinterpret_cast<::List_48a2c0 *>((((FUN_0048a2c0_shell*)&this->m_kModelData.m_uiFileEntryCount)))->FUN_0048a2c0((::List_48a2c0 *)(::fnv_00489db0::PathingLocation *)(((::fnv_00489db0::PathingLocation *)(::GetOffsetC((int)(((PathingRequest*)source)))))));
 }
 }  // namespace fnv_00489db0
 

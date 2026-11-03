@@ -42,7 +42,42 @@ class Tile;
 class InterfaceManager
 {
   public:
-    char padding[0x110];
+    char padding[0xc];
+    int unk0c;
+    char pad10[0x2];
+    char unk12;
+    char unk13;
+    char pad14[0x4];
+    int unk18;
+    char pad1c[0x4];
+    unsigned char unk20;
+    char pad21[0x57];
+    int unk78;
+    char pad7c[0x1];
+    bool unk7d;
+    char pad7e[0x2];
+    void* unk80;
+    void* unk84;
+    char pad88[0x14];
+    void* unk9c;
+    void* unka0;
+    void* unka4;
+    float unka8;
+    char padac[0x10];
+    void* unkbc;
+    char padc0[0x8];
+    bool unkc8;
+    char padc9[0x3];
+    void* unkcc;
+    void* unkd0;
+    char padd4[0x8];
+    bool unkdc;
+    char paddd[0x10];
+    bool unked;
+    char padee[0xe];
+    void* unkfc;
+    void* unk100;
+    char pad104[0xc];
     union
     {
         struct

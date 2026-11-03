@@ -160,7 +160,7 @@ struct FUN_0049bb50_shell : public ActorPackageContext
 // @fnv 0x0049bb50
 void FUN_0049bb50_shell::AddToOffset(int aiOffset)
 {
-    *(int*)((char*)this + 0xc) += aiOffset;
+    this->m_iPackageValue += aiOffset;
 }
 
 struct Dummy_00527770

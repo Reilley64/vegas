@@ -4480,9 +4480,9 @@ bool PathBuilder::BuildActorPathSegments(Actor* actor)
     {
         bool built = false;
         NavMeshEdgeData* segment = &segments.FUN_006a1440(i);
-        if (*(bool*)((char*)segment + 8))
+        if (*(bool*)&segment->m_iEdgeIndex)
         {
-            if (i > 0 && *(bool*)((char*)&segments.FUN_006a1440(i - 1) + 8) && !allowIncomplete)
+            if (i > 0 && *(bool*)&segments.FUN_006a1440(i - 1).m_iEdgeIndex && !allowIncomplete)
             {
                 reinterpret_cast<::FUN_006c9fa0_shell *>((m_pOutputSolution))->SetByteAtOffset40(1);
                 return false;

@@ -1271,7 +1271,7 @@ void AnimationTaskData::FUN_008c8910(MobileObject* apMob)
     if (pmob && pmob->IsActor())
     {
         Actor* pact = (Actor*)pmob;
-        if (*(bool*)((char*)pact + 0xbc))
+        if (pact->m_bFirstActorFlag)
         {
             pact->Unk_9A(0.0f);
         }

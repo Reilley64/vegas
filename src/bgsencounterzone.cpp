@@ -256,7 +256,7 @@ void FUN_00525e70::Save()
 {
     TESForm* powner;
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<S004855a0*>(this)))->FUN_004855a0();
-    powner = *(TESForm**)((char*)this + 0x18);
+    powner = this->Data.m_pOwnerForm;
     if (powner)
     {
         *(unsigned int*)((char*)this + 0x18) = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((powner))->FUN_0084e3a0()));
@@ -266,7 +266,7 @@ void FUN_00525e70::Save()
     ::AppendChunk(0x41544144, &Data, 8);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>(&(Data))->FUN_00503210();
-    *(TESForm**)((char*)this + 0x18) = powner;
+    this->Data.m_pOwnerForm = powner;
     reinterpret_cast<::Holder *>((reinterpret_cast<S00485680*>(this)))->FUN_00485680();
 }
 
@@ -409,7 +409,7 @@ struct FUN_00526270_shell : BGSEncounterZone
 // @fnv 0x00526270
 void FUN_00526270_shell::FUN_00526270()
 {
-    if (*(unsigned short*)((char*)this + 0x2c) == 0)
+    if (this->GameData.m_usDetachRecordValue == 0)
         reinterpret_cast<::FUN_00526160_shell *>((reinterpret_cast<FUN_00526160_s*>(this)))->FUN_00526160(GetCalculatedLevel());
 }
 
@@ -428,7 +428,7 @@ struct Calendar
 bool FUN_005262a0(BGSEncounterZone* apZone)
 {
     bool result = true;
-    if (apZone != ::DAT_011c9520 && *(unsigned short*)((char*)apZone + 0x2c))
+    if (apZone != ::DAT_011c9520 && apZone->GameData.m_usDetachRecordValue)
     {
         if (reinterpret_cast<Zone81*>(apZone)->FUN_00526320())
         {
@@ -486,12 +486,12 @@ void FUN_00526410::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FakeForm *>((reinterpret_cast<S00484d60*>(this)))->SaveIfChanged(apSaveGameBuffer);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(2)))->FUN_004280f0())
     {
-        ctempFlags = *(signed char*)((char*)this + 0x1e) & 1;
+        ctempFlags = *(signed char*)&this->Data.cFlags & 1;
         reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&ctempFlags, 1, 0);
     }
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
     {
-        reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x20, 0x10, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&this->GameData, 0x10, 0);
     }
 }
 
@@ -515,7 +515,7 @@ void FUN_00526570_shell::RevertAndClearIfChanged(BGSLoadFormBuffer* pLoadBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<unsigned int>(pLoadBuffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00526570::FormChangeMask &)(pLoadBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
-        memset((char*)this + 0x20, 0, 0x10);
+        memset((char*)&this->GameData, 0, 0x10);
 }
 }  // namespace fnv_00526570
 
@@ -542,14 +542,14 @@ void FUN_005264a0_shell::FUN_005264a0(BGSLoadFormBuffer* apLoadGameBuffer)
     {
         ctempFlags = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ctempFlags), 1);
-        *(char*)((char*)this + 0x1e) = (*(char*)((char*)this + 0x1e) & ~1) | (*(char*)((char*)this + 0x1e) & 1);
+        this->Data.cFlags = (this->Data.cFlags & ~1) | (this->Data.cFlags & 1);
     }
 
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
     {
         if (apLoadGameBuffer->GetVersion() >= 8)
         {
-            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x20), 0x10);
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->GameData), 0x10);
         }
         else
         {

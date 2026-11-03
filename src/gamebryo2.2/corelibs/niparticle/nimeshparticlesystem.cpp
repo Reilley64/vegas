@@ -312,7 +312,8 @@ struct NiMeshParticleSystemClone : NiMeshParticleSystem
 {
     static void* __cdecl operator new(unsigned int);
     NiMeshParticleSystemClone* FUN_00c21e20(CloningProcess&);
-    char _pad114[4];
+    unsigned char unk114;
+    char pad115[0x3];
 };
 struct NiStream
 {
@@ -973,13 +974,13 @@ NiMeshParticleSystemClone* NiMeshParticleSystemClone::FUN_00c21e20(CloningProces
         new ((void *)(((BSFadeNode*)result))) ::FUN_00c1b5c0();
         result->m_f110 = 0.0f;
         *(unsigned int*)result = (unsigned int)&DAT_010bdd84;
-        *(unsigned char*)((char*)result + 0x114) = 1;
+        result->unk114 = 1;
     }
     else
         result = 0;
     reinterpret_cast<::BSMultiBoundNode *>(this)->FUN_00c1b6f0((::BSMultiBoundNode *)(result), process);
     result->m_f110 = m_f110;
-    *(unsigned char*)((char*)result + 0x114) = *(unsigned char*)((char*)this + 0x114);
+    result->unk114 = this->unk114;
     return result;
 }
 

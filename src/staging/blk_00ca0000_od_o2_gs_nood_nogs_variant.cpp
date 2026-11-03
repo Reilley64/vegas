@@ -135,7 +135,7 @@ void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5
     __m128 from = src->m_vFrom;
     _ReadWriteBarrier();
     local.m_iCachedVertexCount = 1;
-    local.m_vTo = (char*)src + 0x10;
+    local.m_vTo = (char*)&src->m_10;
     local.m_ten = 0x10;
     local.m_iFilter = p4;
     _mm_store_ps(&local.x, from);

@@ -289,7 +289,7 @@ struct FUN_00662aa0_shell : BSFaceGenNiNode
 // @fnv 0x00662aa0
 void FUN_00662aa0_shell::SetFixedNormals(bool abFixedNormals)
 {
-    *reinterpret_cast<char*>(reinterpret_cast<unsigned char*>(this) + 0xd5) = abFixedNormals;
+    this->unkd5 = abFixedNormals;
 }
 
 
@@ -349,7 +349,7 @@ struct FUN_00662a80_shell : BSFaceGenNiNode
 // @fnv 0x00662a80
 unsigned char FUN_00662a80_shell::FUN_00662a80()
 {
-    return *(unsigned char*)((char*)this + 0xd8);
+    return *(unsigned char*)&this->bApplyRotationToParent;
 }
 
 struct FUN_009a0240_shell : BSFaceGenNiNode
@@ -360,7 +360,7 @@ struct FUN_009a0240_shell : BSFaceGenNiNode
 // @fnv 0x009a0240
 char FUN_009a0240_shell::GetFixedNormals()
 {
-    return reinterpret_cast<const unsigned char*>(this)[0xd5];
+    return (*reinterpret_cast<const unsigned char*>(&this->unkd5));
 }
 
 namespace fnv_00663510 {

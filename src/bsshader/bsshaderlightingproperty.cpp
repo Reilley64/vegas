@@ -58,7 +58,7 @@
 // @fnv 0x00b70490
 ShadowSceneLight* BSShaderLightingProperty::GetFirstAttachedLight(void*& iter)
 {
-    void* node = *(void**)((char*)this + 0x60);
+    void* node = *(void**)&this->m_kShadowSceneLights.m_pkHead;
     iter = node;
     if (!node)
         return 0;
@@ -116,7 +116,7 @@ void BSShaderLightingProperty::ClearLights()
 // @fnv 0x00b70590
 ShadowSceneLight* BSShaderLightingProperty::GetFirstActiveLight(void*& iter)
 {
-    void* node = *(void**)((char*)this + 0x60);
+    void* node = *(void**)&this->m_kShadowSceneLights.m_pkHead;
     iter = node;
     if (node)
     {
@@ -725,22 +725,22 @@ void FUN_00b6f540_shell::CopyShaderLightingProperty(BSShaderLightingProperty* pD
     ::FUN_00ba8b10((::BSSP_stub4 *)(reinterpret_cast<_Helper_00ba8b10*>(this)), (int)(reinterpret_cast<char*>(pDest)),
                                                             (::BSSP_stub4 *)(void *)(static_cast<void*>(arCloneData)), {});
 
-    _RCObj* oldVal = *reinterpret_cast<_RCObj**>(reinterpret_cast<char*>(pDest) + 0x60);
-    if (oldVal != *reinterpret_cast<_RCObj**>(reinterpret_cast<char*>(this) + 0x60))
+    _RCObj* oldVal = *reinterpret_cast<_RCObj**>(&pDest->m_kShadowSceneLights.m_pkHead);
+    if (oldVal != *reinterpret_cast<_RCObj**>(&this->m_kShadowSceneLights.m_pkHead))
     {
         if (oldVal)
         {
             if (InterlockedDecrement(reinterpret_cast<long*>(reinterpret_cast<char*>(oldVal) + 4)) == 0)
                 oldVal->_dtor();
         }
-        _RCObj* newVal = *reinterpret_cast<_RCObj**>(reinterpret_cast<char*>(this) + 0x60);
-        *reinterpret_cast<_RCObj**>(reinterpret_cast<char*>(pDest) + 0x60) = newVal;
+        _RCObj* newVal = *reinterpret_cast<_RCObj**>(&this->m_kShadowSceneLights.m_pkHead);
+        *reinterpret_cast<_RCObj**>(&pDest->m_kShadowSceneLights.m_pkHead) = newVal;
         if (newVal)
             InterlockedIncrement(reinterpret_cast<long*>(reinterpret_cast<char*>(newVal) + 4));
     }
 
-    int val = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x6c);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(pDest) + 0x6c) = val;
+    int val = *reinterpret_cast<int*>(&this->m_fForcedDarkness);
+    *reinterpret_cast<int*>(&pDest->m_fForcedDarkness) = val;
 
     *reinterpret_cast<_Vec4*>(reinterpret_cast<char*>(pDest) + 0x70) =
         *reinterpret_cast<_Vec4*>(reinterpret_cast<char*>(this) + 0x70);

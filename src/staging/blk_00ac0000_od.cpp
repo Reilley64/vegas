@@ -1730,7 +1730,7 @@ void S_00ac9da0_class::FUN_00ac9da0(S_00ac9da0_string* pString)
     int len = pString->unk14;
     unsigned int pad[2];
 
-    reinterpret_cast<::FUN_00ac6100_cls *>((this))->FUN_00ac6100(0, this->unk14, (int)((pString->unk18 >= 0x10) ? pString->unk04 : (void*)((char*)pString + 4)), len);
+    reinterpret_cast<::FUN_00ac6100_cls *>((this))->FUN_00ac6100(0, this->unk14, (int)((pString->unk18 >= 0x10) ? pString->unk04 : (void*)((char*)&pString->unk04)), len);
 }
 
 struct FUN_00aca4e0_frame
@@ -1991,7 +1991,7 @@ void FUN_00acb6b0_cls::FUN_00acb6b0()
     cur = m_38;
     prev = cur;
     prev != 0 ? (reinterpret_cast<::FUN_00acb720_cls *>((prev))->FUN_00acb720(), (((prev, 1) & 1) ? FUN_00401030(prev) : (void)0), prev) : 0;
-    ((FUN_00ec3260_cls*)((char*)this + 4))->FUN_00ec3260();
+    ((FUN_00ec3260_cls*)&this->m_04.m_00)->FUN_00ec3260();
 }
 
 class CB770Lockit
@@ -3218,8 +3218,8 @@ struct FUN_00ad3550_cls
 FUN_00ad3550_cls* FUN_00ad3550_cls::InitFromSource(char* pPos, FNVSourceStringX* pSource)
 {
     m_pSource = 0;
-    if (pSource == 0 || pPos == 0 || (pSource->m_uiCapacity >= 0x10 ? pSource->m_pData : (char*)pSource + 4) > pPos ||
-        pPos > (pSource->m_uiCapacity >= 0x10 ? pSource->m_pData : (char*)pSource + 4) + pSource->m_uiCharacterCount)
+    if (pSource == 0 || pPos == 0 || (pSource->m_uiCapacity >= 0x10 ? pSource->m_pData : (char*)&pSource->m_pData) > pPos ||
+        pPos > (pSource->m_uiCapacity >= 0x10 ? pSource->m_pData : (char*)&pSource->m_pData) + pSource->m_uiCharacterCount)
     {
         FUN_00ec7c56();
     }
@@ -3947,7 +3947,7 @@ void FUN_00ac2370(SpawnItem_cls* apItems, unsigned int count, void* arg)
     {
         for (; cur != apItems; cur++)
         {
-            if ((reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((((SpawnCallee_cls*)((char*)cur + 4))))->FUN_0044a730(1, 0), 1u) & 0u)
+            if ((reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((((SpawnCallee_cls*)&cur->u[1])))->FUN_0044a730(1, 0), 1u) & 0u)
             {
                 reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::SpawnCallee_cls *>(&::g_memoryManager))))->FUN_00aa4060(cur);
             }
@@ -4273,10 +4273,10 @@ void FUN_00ace2d0_Class::InitializeVirtualBase()
 {
     char* subobject;
     char* virtualBaseObject;
-    virtualBaseObject = reinterpret_cast<char*>(this) + 4;
+    virtualBaseObject = reinterpret_cast<char*>(&this->componentVTable);
     *reinterpret_cast<void**>(virtualBaseObject + (*reinterpret_cast<int**>(virtualBaseObject - 4))[1] - 4) =
         &DAT_010a318c;
-    subobject = reinterpret_cast<char*>(this) + 4;
+    subobject = reinterpret_cast<char*>(&this->componentVTable);
     *reinterpret_cast<void**>(subobject) = &DAT_010a2fa4;
     *reinterpret_cast<void**>(subobject) = &DAT_010a2f9c;
     FUN_00ec3205(subobject);
@@ -5155,8 +5155,8 @@ StreamOwner* StreamComponent::FUN_00ace150(unsigned int flags)
 {
     int c, l, k, ba, b;
     StreamOwner* j = (StreamOwner*)((char*)this - 0x58);
-    reinterpret_cast<::FUN_00acc8c0 *>((((StreamComponent*)((char*)j + 0x58))))->FUN_00acc8c0::~FUN_00acc8c0();
-    StreamComponent* e = (StreamComponent*)((char*)j + 0x58);
+    reinterpret_cast<::FUN_00acc8c0 *>(((static_cast<StreamComponent *>(j))))->FUN_00acc8c0::~FUN_00acc8c0();
+    StreamComponent* e = static_cast<StreamComponent *>(j);
     e->vtable = &DAT_010a2fa4;
     e->vtable = &DAT_010a2f9c;
     FUN_00ec3205(e);

@@ -598,14 +598,14 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
     for (int iMatch = 0; iMatch < size; iMatch++)
     {
         SpawnedObject** it = &out.m_data[iMatch];
-        reinterpret_cast<::HostC9C6 *>(((*it)))->FUN_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)this + 0x10) : 0);
+        reinterpret_cast<::HostC9C6 *>(((*it)))->FUN_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk10) : 0);
         reinterpret_cast<::FUN_00cb18f0_t *>(&(m_14))->FUN_00cb1fb0((int)(*it));
     }
 
     out.clear();
 
-    reinterpret_cast<::hkWorldXc91a20 *>((a1))->FUN_00c91a20((char*)this - 0x20 != 0 ? (void*)((char*)this + 8) : 0);
-    reinterpret_cast<::SearchArray *>((a1))->ClearValue((int)((char*)this - 0x20 != 0 ? (void*)((char*)this + 0xc) : 0));
+    reinterpret_cast<::hkWorldXc91a20 *>((a1))->FUN_00c91a20((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk08) : 0);
+    reinterpret_cast<::SearchArray *>((a1))->ClearValue((int)((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk0C) : 0));
 }
 
 #include <xmmintrin.h>
@@ -1041,7 +1041,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
         {
             Holder* h = FUN_00c85750();
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(h->m_10)), (int)item, (int)&DAT_01000001);
-            char* owner = ((char*)this - 0x28) != 0 ? (char*)this + 8 : 0;
+            char* owner = ((char*)this - 0x28) != 0 ? (char*)&this->unk08 : 0;
             reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0((int)owner);
         }
         p++;

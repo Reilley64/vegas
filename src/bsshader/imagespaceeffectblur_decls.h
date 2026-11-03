@@ -67,7 +67,9 @@ class ImageSpaceEffectFourTexturePass : public ImageSpaceEffect
 class ImageSpaceShaderParam : public ImageSpaceEffectParam
 {
   public:
-    char data[0x88];
+    char data[0x56];
+    unsigned char unk56;
+    char pad57[0x31];
     ImageSpaceShaderParam();
     static __forceinline void* operator new(unsigned int n)
     {

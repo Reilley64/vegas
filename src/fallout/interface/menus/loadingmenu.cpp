@@ -508,7 +508,7 @@ struct Dummy_00a20ed0
 // @fnv 0x0078a230
 void FUN_0078a230_shell::FUN_0078a230()
 {
-    reinterpret_cast<::AnimTile *>(((*reinterpret_cast<Dummy_00a20ed0**>(reinterpret_cast<char*>(this) + 0x54))))->UpdateAnimation(-1.0f, 0);
+    reinterpret_cast<::AnimTile *>(((*reinterpret_cast<Dummy_00a20ed0**>(&this->m_pTiles[11]))))->UpdateAnimation(-1.0f, 0);
 }
 
 
@@ -778,12 +778,12 @@ void FUN_0078b9b0_shell::FUN_0078b9b0(void* apData)
 
     if (((unsigned int*)apData)[0] != 0)
     {
-        *(int*)((char*)this + 0xc0) = (int)FUN_00404010(fConvertedXPos, FUN_007177c0());
-        *(int*)((char*)this + 0xc4) = (int)FUN_00404010(fConvertedYPos, ::fnv_00717820::FUN_00717820());
-        *(int*)((char*)this + 0xc8) =
-            (int)FUN_0040ebd0((float)*(int*)((char*)this + 0xc0) + fConvertedWidth, fSafeWidth);
-        *(int*)((char*)this + 0xcc) =
-            (int)FUN_0040ebd0((float)*(int*)((char*)this + 0xc4) + fConvertedHeight, fSafeHeight);
+        this->unkc0 = (int)FUN_00404010(fConvertedXPos, FUN_007177c0());
+        this->unkc4 = (int)FUN_00404010(fConvertedYPos, ::fnv_00717820::FUN_00717820());
+        this->unkc8 =
+            (int)FUN_0040ebd0((float)this->unkc0 + fConvertedWidth, fSafeWidth);
+        this->unkcc =
+            (int)FUN_0040ebd0((float)this->unkc4 + fConvertedHeight, fSafeHeight);
     }
 }
 
@@ -1206,11 +1206,11 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
 {
     Tile_* psleep;
 
-    *(unsigned int*)((char*)this + 0x1e0) = 0;
-    if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)*(Tile**)((char*)this + 4))))->GetFloat(0xfa7) == ::DAT_010704f0 ||
-        reinterpret_cast<::TileListBoxCalls *>((((TileEx*)*(Tile**)((char*)this + 4))))->GetFloat(0xfa7) == ::DAT_010704e8)
+    this->nextTipTime = 0;
+    if (reinterpret_cast<::TileListBoxCalls *>((((TileEx*)*(Tile**)&this->unk04)))->GetFloat(0xfa7) == ::DAT_010704f0 ||
+        reinterpret_cast<::TileListBoxCalls *>((((TileEx*)*(Tile**)&this->unk04)))->GetFloat(0xfa7) == ::DAT_010704e8)
     {
-        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 4))))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), true);
+        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)&this->unk04)))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), true);
     }
 
     if (reinterpret_cast<::FUN_00424940_shell *>((((FUN_00424940_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00424940() != 3)
@@ -1280,11 +1280,11 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
 
     ((::fnv_007890e0::NiRendererV *)(::FUN_0043c4b0()))->SetBackgroundColor(&(*reinterpret_cast<int *>(&::DAT_011a9bd0)));
 
-    if (((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x54)))))->FUN_0056c7f0())))
+    if (((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[11]))))->FUN_0056c7f0())))
     {
-        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x54)))))->FUN_0056c7f0()))))->FUN_00440490(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))->FUN_00450410());
-        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x54))))->FUN_00a012d0(0x1004, *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))))), true);
-        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x54)))))->FUN_0056c7f0()))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[11]))))->FUN_0056c7f0()))))->FUN_00440490(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))->FUN_00450410());
+        reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[11])))->FUN_00a012d0(0x1004, *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))))), true);
+        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[11]))))->FUN_0056c7f0()))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
     }
     else
     {
@@ -1298,20 +1298,20 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         NiNodeV* pnode;
         Tile3D* p3dtile;
 
-        pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x28)))))->FUN_0056c7f0()))->GetObjectByName(NiFixedString("Slide01"));
+        pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))->GetObjectByName(NiFixedString("Slide01"));
         pnode = pav->IsSceneNode();
         if (pnode)
         {
             *(NiProperty**)((char*)this + 0x1ec) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
-            pnode = (NiNodeV*)((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x28)))))->FUN_0056c7f0()))
+            pnode = (NiNodeV*)((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))
                         ->GetObjectByName(NiFixedString("Slide02"));
-            *(NiProperty**)((char*)this + 0x1f0) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+            *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
         else
         {
             *(NiProperty**)((char*)this + 0x1ec) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
-            pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x28)))))->FUN_0056c7f0()))->GetObjectByName(NiFixedString("Slide02"));
-            *(NiProperty**)((char*)this + 0x1f0) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+            pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))->GetObjectByName(NiFixedString("Slide02"));
+            *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
 
         ((FUN_0078a5a0_shell*)this)->UpdateLoadingScreens();
@@ -1323,11 +1323,11 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
             reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->UpdateLoadingScreenTip();
         }
 
-        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x28)))))->FUN_0056c7f0()))))->FUN_00440490(DAT_01073f20);
-        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x28)))))->FUN_0056c7f0()))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
-        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x28))))->FUN_00a012d0(0x1004, ((double)(::Interface::GetFourthInterfaceFloat())) / ((double)(::Interface::GetThirdInterfaceFloat())), true);
+        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))))->FUN_00440490(DAT_01073f20);
+        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[0])))->FUN_00a012d0(0x1004, ((double)(::Interface::GetFourthInterfaceFloat())) / ((double)(::Interface::GetThirdInterfaceFloat())), true);
 
-        p3dtile = (Tile3D*)(*(Tile**)((char*)this + 0x28));
+        p3dtile = (Tile3D*)(this->m_pTiles[0]);
         reinterpret_cast<::FUN_00a20cc0_t *>((p3dtile))->FUN_00a20cc0("Left");
         data.FUN_0043d410(0.0f, true, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((p3dtile))->FUN_0056c7f0()))))->FUN_00a59c60((int)&(data));
@@ -1356,8 +1356,8 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         ((::fnv_007890e0::BSAudio *)(::FUN_00453a70()))->SetAudioProperty(2, 1000, 6000);
     }
 
-    *(unsigned int*)((char*)this + 0x5b4) = 0;
-    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(*(Tile**)((char*)this + 0x28)))))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+    this->m_uiFirstStateValue = 0;
+    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))))->QueueActorDisarm(true);
 }
 }  // namespace fnv_007890e0
 
@@ -1398,20 +1398,20 @@ void LoadingMenuTips::ApplySettingsToTiles(LoadingTileSettings* apSettings)
             switch (apSettings->uiJustify)
             {
             case 1:
-                fX = *(int*)((char*)this + 0xc0);
+                fX = this->unkc0;
                 break;
             case 2:
-                fX = *(int*)((char*)this + 0xc0) + (*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)) / 2.0;
+                fX = this->unkc0 + (this->unkc8 - this->unkc0) / 2.0;
                 break;
             case 4:
-                fX = *(int*)((char*)this + 0xc8);
+                fX = this->unkc8;
                 break;
             }
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa1, fX, true);
-            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(this->unkc8 - this->unkc0), true);
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfba, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb1), true);
-            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa2, (float)*(int*)((char*)this + 0xc4), true);
-            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, *(int*)((char*)this + 0xcc) - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa2), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa2, (float)this->unkc4, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, this->unkcc - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa2), true);
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfbb, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb0), true);
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xffa, apSettings->fAlpha, true);
             pTile->Set(0xfb9, apSettings->iVisible);
@@ -1433,20 +1433,20 @@ void LoadingMenuTips::ApplySettingsToTiles(LoadingTileSettings* apSettings)
             switch (apSettings->uiJustify)
             {
             case 1:
-                fX = *(int*)((char*)this + 0xc0);
+                fX = this->unkc0;
                 break;
             case 2:
-                fX = *(int*)((char*)this + 0xc0) + (*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)) / 2.0;
+                fX = this->unkc0 + (this->unkc8 - this->unkc0) / 2.0;
                 break;
             case 4:
-                fX = *(int*)((char*)this + 0xc8);
+                fX = this->unkc8;
                 break;
             }
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa1, fX, true);
-            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(*(int*)((char*)this + 0xc8) - *(int*)((char*)this + 0xc0)), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb1, (float)(this->unkc8 - this->unkc0), true);
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfba, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb1), true);
-            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa2, (float)*(int*)((char*)this + 0xc4), true);
-            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, *(int*)((char*)this + 0xcc) - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa2), true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfa2, (float)this->unkc4, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfb0, this->unkcc - reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfa2), true);
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xfbb, reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfb0), true);
             reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(0xffa, apSettings->fAlpha, true);
             pTile->Set(0xfb9, apSettings->iVisible);

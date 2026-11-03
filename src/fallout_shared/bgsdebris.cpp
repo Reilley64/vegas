@@ -232,16 +232,16 @@ class TaskQueueInterface
 // @fnv 0x004fa670
 void FUN_004fa670_shell::FUN_004fa670(char* apFileName)
 {
-    if (*(char**)((char*)this + 4))
+    if (this->path)
     {
-        delete *(char**)((char*)this + 4);
+        delete this->path;
     }
-    *(char**)((char*)this + 4) = 0;
+    this->path = 0;
     if (apFileName)
     {
         int iFilenameLen = ::FUN_0044a670(apFileName) + 1;
-        *(char**)((char*)this + 4) = new char[iFilenameLen];
-        TaskQueueInterface::CopyStringToBuffer(*(char**)((char*)this + 4), iFilenameLen, apFileName);
+        this->path = new char[iFilenameLen];
+        TaskQueueInterface::CopyStringToBuffer(this->path, iFilenameLen, apFileName);
     }
 }
 

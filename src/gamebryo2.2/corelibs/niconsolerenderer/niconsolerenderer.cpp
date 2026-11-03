@@ -1272,7 +1272,7 @@ struct NiConsoleRenderer_shellEx : GraphicsRenderer {
 void NiConsoleRenderer_shellEx::FUN_00e75310(NiD3DShaderInterface* shader)
 {
     shader->SetShaderObject(0);
-    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)((char*)this + 0x90c))))->FUN_00e7db70((unsigned int *)&((BSBatchRenderer__GeometryGroup*&)shader));
+    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&this->remaining[2272])))->FUN_00e7db70((unsigned int *)&((BSBatchRenderer__GeometryGroup*&)shader));
 }
 
 void _delete(void*, unsigned int);
@@ -24268,8 +24268,8 @@ bool S72_Renderer::BuildAndRegisterNodes(unsigned int uiUnused, S72_Model* pkMod
             pNode->unk18 = pkPkt;
             pNode->unk1C = i;
             void* pv;
-            pNode->unk20 = reinterpret_cast<::A54440Hash *>((((Map_e6e*)((char*)this + 0x610))))->FUN_00a53c30((::A54440Manager *)(uiId), (::A54440Manager **)&(pv)) ? pv : 0;
-            reinterpret_cast<::HashTableBase *>((((Map_e6e*)((char*)this + 0x610))))->InsertOrUpdate(uiId, (unsigned int)(pNode));
+            pNode->unk20 = reinterpret_cast<::A54440Hash *>((((Map_e6e*)&this->unk0610)))->FUN_00a53c30((::A54440Manager *)(uiId), (::A54440Manager **)&(pv)) ? pv : 0;
+            reinterpret_cast<::HashTableBase *>((((Map_e6e*)&this->unk0610)))->InsertOrUpdate(uiId, (unsigned int)(pNode));
         }
     }
     return bOk;
@@ -34259,7 +34259,7 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
 
     shader->CopyAndRelease(*(void**)indexDest);
     int localFrame = (int)overlayArg->GetCommand();
-    char* k = (char*)apSceneArg + 0x9c;
+    char* k = (char*)&apSceneArg->unk09c;
     overlayArg->BeginA(k);
     overlayArg->BeginB(k);
     overlayArg->BeginC(k);

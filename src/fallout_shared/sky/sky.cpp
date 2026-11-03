@@ -208,9 +208,9 @@ Sky::Sky() : m_pRootNode(0), m_pSkyNode(0), m_kSunlightColor(0.0f, 0.0f, 0.0f), 
 void FUN_0063a030_shell::FUN_0063a030(bool abUpdate)
 {
     if (abUpdate)
-        *(unsigned int*)((char*)this + 0x118) |= 0x20;
+        this->flags |= 0x20;
     else
-        *(unsigned int*)((char*)this + 0x118) &= ~0x20;
+        this->flags &= ~0x20;
 }
 
 struct FUN_0063a610_shell : public Clouds
@@ -246,10 +246,10 @@ extern float DAT_011cccfc;
 // @fnv 0x0063b9b0
 float FUN_0063b9b0_shell::FUN_0063b9b0()
 {
-    if (*(unsigned int*)((char*)this + 0x118) & 0x1000)
+    if (this->flags & 0x1000)
     {
         DAT_011cccfc = FUN_00404010(0.0f, ::FUN_00595ea0((char *)(void *)(this)) - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting78))))))->f);
-        *(unsigned int*)((char*)this + 0x118) &= ~0x1000u;
+        this->flags &= ~0x1000u;
     }
     return DAT_011cccfc;
 }
@@ -265,10 +265,10 @@ extern float DAT_011ccd00;
 // @fnv 0x0063ba30
 float FUN_0063ba30_shell::FUN_0063ba30()
 {
-    if (*(unsigned int*)((char*)this + 0x118) & 0x2000)
+    if (this->flags & 0x2000)
     {
         DAT_011ccd00 = FUN_0040ebd0(23.989999771118164f, reinterpret_cast<::FUN_00596030_cls *>((this))->FUN_00596030() + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting78))))))->f);
-        *(unsigned int*)((char*)this + 0x118) &= ~0x2000;
+        this->flags &= ~0x2000;
     }
     return DAT_011ccd00;
 }
@@ -331,25 +331,25 @@ void FUN_0063c490_shell::FUN_0063c490()
     float fUpdatePeriod;
     NiPoint2 windPerturb;
 
-    if (*reinterpret_cast<TESWeatherEx**>(reinterpret_cast<char*>(this) + 0x10) != 0 &&
-        (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xf8) == 3 ||
-         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xf8) == 2))
+    if (*reinterpret_cast<TESWeatherEx**>(&this->m_pRegionWeather) != 0 &&
+        (*reinterpret_cast<int*>(&this->eMode) == 3 ||
+         *reinterpret_cast<int*>(&this->eMode) == 2))
     {
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xcc) =
-            (*reinterpret_cast<TESWeatherEx**>(reinterpret_cast<char*>(this) + 0x10))->GetWeatherData(0, 1.0f, 0.0f);
-        if (*reinterpret_cast<TESWeatherEx**>(reinterpret_cast<char*>(this) + 0x14) != 0)
+        this->m_fCurrentWeatherBlend =
+            (*reinterpret_cast<TESWeatherEx**>(&this->m_pRegionWeather))->GetWeatherData(0, 1.0f, 0.0f);
+        if (*reinterpret_cast<TESWeatherEx**>(&this->m_pPreviousWeather) != 0)
         {
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xcc) =
-                *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xcc) *
-                *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf4);
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xcc) =
-                (1.0f - *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf4)) *
-                    (*reinterpret_cast<TESWeatherEx**>(reinterpret_cast<char*>(this) + 0x14))
+            this->m_fCurrentWeatherBlend =
+                this->m_fCurrentWeatherBlend *
+                this->m_fWeatherBlend;
+            this->m_fCurrentWeatherBlend =
+                (1.0f - this->m_fWeatherBlend) *
+                    (*reinterpret_cast<TESWeatherEx**>(&this->m_pPreviousWeather))
                         ->GetWeatherData(0, 1.0f, 0.0f) +
-                *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xcc);
+                this->m_fCurrentWeatherBlend;
         }
         FUN_0063c640(DAT_011a9b50, DAT_011a9b54);
-        FUN_0063c660(*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xcc));
+        FUN_0063c660(this->m_fCurrentWeatherBlend);
         new ((void *)(&windPerturb)) ::Vec3();
         fperiod = 15.0f;
         fscale = 15.0f;
@@ -401,7 +401,7 @@ struct FUN_0063c9f0_shell : public Sky
 // @fnv 0x0063c9f0
 void FUN_0063c9f0_shell::FUN_0063c9f0()
 {
-    *(unsigned int*)((char*)this + 0x118) |= 0x3f00;
+    this->flags |= 0x3f00;
 }
 
 struct FUN_0063d000_shell : public TESClimate
@@ -669,7 +669,7 @@ struct FUN_0063c440_shell
 // @fnv 0x0063c440
 int FUN_0063c440_shell::FUN_0063c440(int index)
 {
-    return ((Flt*)((char*)this + 8 + index * 4))->operator unsigned int();
+    return ((Flt*)((char*)&this->m_flt + index * 4))->operator unsigned int();
 }
 
 extern unsigned char DAT_0119f188;
@@ -750,7 +750,9 @@ void* FUN_0063dff0_shell::FUN_0063dff0()
 
 struct FUN_0063e8f0_shell
 {
-    unsigned char pad[0x118];
+    unsigned char pad[0x1c];
+    unsigned int unk1c;
+    unsigned char pad20[0xf8];
     unsigned int flags;
     void FUN_0063e8f0(bool set);
 };
@@ -761,7 +763,7 @@ void FUN_0063e8f0_shell::FUN_0063e8f0(bool set)
 {
     if (set)
     {
-        *(unsigned int*)((char*)this + 0x1c) = 0;
+        this->unk1c = 0;
         flags |= 0x10;
     }
     else
@@ -807,35 +809,35 @@ struct Sky_COLOR_BLEND
 // @fnv 0x0063b120
 void FUN_0063b120_shell::FUN_0063b120()
 {
-    if (*(int*)((char*)this + 0xf8) == 0)
+    if (*(int*)&this->eMode == 0)
     {
         *(NiPoint3*)((char*)this + 0x6c) =
             NiPoint3(::g_011cc6cc_arg1, ::DAT_01019de0, ::DAT_01019de0);
         *(NiPoint3*)((char*)this + 0x60) = NiPoint3(::g_011c7200_arg1, ::g_011c7200_arg1, runtimeFloatSettingDefault538);
-        if (*(void**)((char*)this + 0x2c))
+        if (*(void**)&this->m_pClouds)
         {
-            for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>(((*(FUN_00634830_shell**)((char*)this + 0x2c))))->GetOffset58())); i++)
+            for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>(((*(FUN_00634830_shell**)&this->m_pClouds)))->GetOffset58())); i++)
             {
                 NiPoint3 Color(0.1f, 0.1f, 0.1f);
-                reinterpret_cast<::FUN_0063b600_shell *>(((*(FUN_0063b600_shell**)((char*)this + 0x2c))))->FUN_0063b600(i, (::NiColor *)(void *)(&Color));
+                reinterpret_cast<::FUN_0063b600_shell *>(((*(FUN_0063b600_shell**)&this->m_pClouds)))->FUN_0063b600(i, (::NiColor *)(void *)(&Color));
             }
         }
-        *(NiColor*)((char*)this + 0x90) = *(NiColor*)((char*)this + 0x48) = *(NiColor*)((char*)this + 0x3c) =
-            *(NiColor*)((char*)this + 0x78) = *(NiColor*)((char*)this + 0x9c) = *(NiColor*)((char*)this + 0xc0) =
+        this->m_kSkyColors[7] = this->m_kSkyColors[1] = this->m_kSkyColors[0] =
+            this->m_kSkyColors[5] = this->m_kSkyColors[8] = *(NiColor*)((char*)this + 0xc0) =
                 ::DAT_011f4998;
     }
-    else if (*(int*)((char*)this + 0xf8) == 1 && (*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES)) && ((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath())))
+    else if (*(int*)&this->eMode == 1 && (*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES)) && ((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath())))
     {
-        reinterpret_cast<::FUN_00544890_shell *>((((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath()))))->FUN_00544890((NiColor*)((char*)this + 0x6c));
-        reinterpret_cast<::s5447b0::Owner *>((((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath()))))->FUN_005447b0((::s5447b0::Color *)(::NiColor *)((NiColor*)((char*)this + 0x60)));
-        reinterpret_cast<::fnv_00544a30::FUN_00544a30_shell *>((((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath()))))->FUN_00544a30((::fnv_00544a30::NiColor *)(::NiColor *)((NiColor*)((char*)this + 0x48)));
-        *(NiColor*)((char*)this + 0x90) = *(NiColor*)((char*)this + 0x3c) = *(NiColor*)((char*)this + 0x78) =
-            *(NiColor*)((char*)this + 0x9c) = *(NiColor*)((char*)this + 0xc0) = *(NiColor*)((char*)this + 0x48);
-        if (*(void**)((char*)this + 0x2c))
+        reinterpret_cast<::FUN_00544890_shell *>((((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath()))))->FUN_00544890(&this->m_kSkyColors[4]);
+        reinterpret_cast<::s5447b0::Owner *>((((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath()))))->FUN_005447b0((::s5447b0::Color *)(::NiColor *)(&this->m_kSkyColors[3]));
+        reinterpret_cast<::fnv_00544a30::FUN_00544a30_shell *>((((::fnv_0063b120::FUN_00544890_shell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0063b120::CP_008c48d0 * *>(&::g_TES))))->GetPrevPath()))))->FUN_00544a30((::fnv_00544a30::NiColor *)(::NiColor *)(&this->m_kSkyColors[1]));
+        this->m_kSkyColors[7] = this->m_kSkyColors[0] = this->m_kSkyColors[5] =
+            this->m_kSkyColors[8] = *(NiColor*)((char*)this + 0xc0) = this->m_kSkyColors[1];
+        if (*(void**)&this->m_pClouds)
         {
-            for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>(((*(FUN_00634830_shell**)((char*)this + 0x2c))))->GetOffset58())); i++)
+            for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>(((*(FUN_00634830_shell**)&this->m_pClouds)))->GetOffset58())); i++)
             {
-                reinterpret_cast<::FUN_0063b600_shell *>(((*(FUN_0063b600_shell**)((char*)this + 0x2c))))->FUN_0063b600(i, (::NiColor *)(void *)((NiColor*)((char*)this + 0x48)));
+                reinterpret_cast<::FUN_0063b600_shell *>(((*(FUN_0063b600_shell**)&this->m_pClouds)))->FUN_0063b600(i, (::NiColor *)(void *)(&this->m_kSkyColors[1]));
             }
         }
     }
@@ -845,37 +847,37 @@ void FUN_0063b120_shell::FUN_0063b120()
         int aeTime2;
         int aeTime1;
         ((FUN_0063b630_shell*)this)
-            ->FUN_0063b630(&cb, *(void**)((char*)this + 0x10), *(float*)((char*)this + 0xf4), &aeTime1, &aeTime2);
+            ->FUN_0063b630(&cb, *(void**)&this->m_pRegionWeather, this->m_fWeatherBlend, &aeTime1, &aeTime2);
         for (int i = 0; i < 10; i++)
         {
-            reinterpret_cast<::fnv_0063bab0::FUN_0063bab0_shell *>((((FUN_0063b630_shell*)this)))->FUN_0063bab0(&cb, (::TESWeather *)(*(void**)((char*)this + 0x10)), (::TESWeather *)(*(void**)((char*)this + 0x14)), i, &aeTime1,
+            reinterpret_cast<::fnv_0063bab0::FUN_0063bab0_shell *>((((FUN_0063b630_shell*)this)))->FUN_0063bab0(&cb, (::TESWeather *)(*(void**)&this->m_pRegionWeather), (::TESWeather *)(*(void**)&this->m_pPreviousWeather), i, &aeTime1,
                                &aeTime2);
             float fCurrentFlash = 0;
-            if (*(void**)((char*)this + 0x14) == 0)
+            if (*(void**)&this->m_pPreviousWeather == 0)
             {
                 if (i == 4)
-                    fCurrentFlash = *(float*)((char*)this + 0x100) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ccccc))))))->f;
+                    fCurrentFlash = this->m_fWeatherFade * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ccccc))))))->f;
                 else if (i == 3)
-                    fCurrentFlash = *(float*)((char*)this + 0x100) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting75))))))->f;
+                    fCurrentFlash = this->m_fWeatherFade * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting75))))))->f;
             }
-            ((FUN_0063b630_shell*)this)->FUN_0063c690((NiColor*)((char*)this + 0x3c) + i, &cb, fCurrentFlash);
+            ((FUN_0063b630_shell*)this)->FUN_0063c690(&this->m_kSkyColors[0] + i, &cb, fCurrentFlash);
         }
-        if (*(void**)((char*)this + 0x2c))
+        if (*(void**)&this->m_pClouds)
         {
-            for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>(((*(FUN_00634830_shell**)((char*)this + 0x2c))))->GetOffset58())); i++)
+            for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00634830_cls *>(((*(FUN_00634830_shell**)&this->m_pClouds)))->GetOffset58())); i++)
             {
                 ((FUN_0063b630_shell*)this)
-                    ->QueryTwoSources(&cb, *(void**)((char*)this + 0x10), *(void**)((char*)this + 0x14), i, &aeTime1,
+                    ->QueryTwoSources(&cb, *(void**)&this->m_pRegionWeather, *(void**)&this->m_pPreviousWeather, i, &aeTime1,
                                       &aeTime2);
                 float fCurrentFlash = 0;
-                if (*(void**)((char*)this + 0x14) == 0 && i == 0)
-                    fCurrentFlash = *(float*)((char*)this + 0x100);
+                if (*(void**)&this->m_pPreviousWeather == 0 && i == 0)
+                    fCurrentFlash = this->m_fWeatherFade;
                 NiPoint3 kcolor(0, 0, 0);
                 ((FUN_0063b630_shell*)this)->FUN_0063c690(&kcolor, &cb, fCurrentFlash);
-                reinterpret_cast<::FUN_0063b600_shell *>(((*(FUN_0063b600_shell**)((char*)this + 0x2c))))->FUN_0063b600(i, (::NiColor *)(void *)(&kcolor));
+                reinterpret_cast<::FUN_0063b600_shell *>(((*(FUN_0063b600_shell**)&this->m_pClouds)))->FUN_0063b600(i, (::NiColor *)(void *)(&kcolor));
             }
         }
-        *(NiColor*)((char*)this + 0xc0) = *(NiColor*)((char*)this + 0x6c);
+        *(NiColor*)((char*)this + 0xc0) = this->m_kSkyColors[4];
     }
 }
 }  // namespace fnv_0063b120
@@ -947,8 +949,8 @@ void FUN_0063d0e0_shell::FUN_0063d0e0(TESWeather* apWeather, bool b)
     }
     m_pPreviousWeather = 0;
     reinterpret_cast<::FUN_0063e860_stand *>((((Sky_Helper*)this)))->FUN_0063e860(0);
-    *(float*)((char*)this + 0xf4) = 1.0f;
-    *(float*)((char*)this + 0xf0) = *(float*)((char*)this + 0xec);
+    this->m_fWeatherBlend = 1.0f;
+    this->fWeatherChance = this->m_fFogFarDistance;
     reinterpret_cast<::FUN_0093a7a0_Class *>(((*reinterpret_cast<::fnv_0063d0e0::PC7d * *>(&::_g_thePlayer))))->FUN_0093a7a0(0);
     flags |= 2;
     flags &= ~1;
@@ -1597,26 +1599,26 @@ void FUN_0063d060_shell::FUN_0063d060()
 // @fnv 0x0063e210
 void FUN_0063e210_shell::FUN_0063e210()
 {
-    if (*reinterpret_cast<Clouds**>(reinterpret_cast<char*>(this) + 0x2c))
+    if (this->m_pClouds)
     {
-        FUN_006349e0(*reinterpret_cast<Clouds**>(reinterpret_cast<char*>(this) + 0x2c));
-        reinterpret_cast<::FUN_00634930_cls *>(((*reinterpret_cast<Clouds**>(reinterpret_cast<char*>(this) + 0x2c))))->FUN_00634930();
+        FUN_006349e0(this->m_pClouds);
+        reinterpret_cast<::FUN_00634930_cls *>(((this->m_pClouds)))->FUN_00634930();
     }
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x30))
+    if (*reinterpret_cast<void**>(&this->m_pPrimaryMoon))
     {
-        reinterpret_cast<::fnv_006369a0::FUN_006369a0_Class *>((*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x30)))->FUN_006369a0();
+        reinterpret_cast<::fnv_006369a0::FUN_006369a0_Class *>((*reinterpret_cast<void**>(&this->m_pPrimaryMoon)))->FUN_006369a0();
     }
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x34))
+    if (*reinterpret_cast<void**>(&this->m_pSecondaryMoon))
     {
-        reinterpret_cast<::fnv_006369a0::FUN_006369a0_Class *>((*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x34)))->FUN_006369a0();
+        reinterpret_cast<::fnv_006369a0::FUN_006369a0_Class *>((*reinterpret_cast<void**>(&this->m_pSecondaryMoon)))->FUN_006369a0();
     }
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))
+    if (*reinterpret_cast<void**>(&this->m_pSun))
     {
-        reinterpret_cast<::FUN_00642940_class *>((*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28)))->FUN_00642940();
+        reinterpret_cast<::FUN_00642940_class *>((*reinterpret_cast<void**>(&this->m_pSun)))->FUN_00642940();
     }
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x24))
+    if (*reinterpret_cast<void**>(&this->m_pStars))
     {
-        ::fnv_0063e290::FUN_0063e290(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x24));
+        ::fnv_0063e290::FUN_0063e290(*reinterpret_cast<void**>(&this->m_pStars));
     }
 }
 

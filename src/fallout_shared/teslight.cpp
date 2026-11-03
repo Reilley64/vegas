@@ -241,7 +241,7 @@ struct FUN_0050dd90_shell : public TESObjectLIGH
 // @fnv 0x0050dd90
 bool FUN_0050dd90_shell::FUN_0050dd90()
 {
-    return (*(unsigned int*)((char*)this + 0xa8) & 1) ? true : false;
+    return (this->data.flags & 1) ? true : false;
 }
 
 // Stores fQ at offset 0xf8 of the object and increments its revision ID.
@@ -278,7 +278,7 @@ struct FUN_0050c820_shell : TESObjectLIGH
 // @fnv 0x0050c820
 NiColor* FUN_0050c820_shell::GetLightColor()
 {
-    return reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0xBC);
+    return &this->m_kDiffuseColor;
 }
 
 struct FUN_0050d100_shell

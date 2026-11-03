@@ -101,7 +101,7 @@ void BGSSaveLoadChangesMap::AddFormChangeFlags(unsigned int formID, FormChangeMa
         changes = new FormChangeRecord();
         reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(formID, (unsigned int)(changes));
     }
-    else if (::FUN_00559450((int *)(((FormChangeMask*)((char*)changes + 4)))))
+    else if (::FUN_00559450((int *)((&changes->flags))))
     {
         return;
     }

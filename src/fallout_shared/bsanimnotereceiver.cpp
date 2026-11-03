@@ -60,11 +60,11 @@ struct FUN_004b0730_class
 // @fnv 0x004b0730
 void FUN_004b0730_class::DispatchNoteToReceivers(void* note)
 {
-    for (int i = 0; i < ((FUN_00658930_class*)((char*)this + 8))->GetShortAtOffsetA(); ++i)
+    for (int i = 0; i < ((FUN_00658930_class*)&this->unk08)->GetShortAtOffsetA(); ++i)
     {
-        if (((ReceiverEntry*)((NiFormArray*)((char*)this + 8))->FUN_00877a30(i))->type == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((note))->GetName())))
+        if (((ReceiverEntry*)((NiFormArray*)&this->unk08)->FUN_00877a30(i))->type == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((note))->GetName())))
         {
-            ((ReceiverEntry*)((NiFormArray*)((char*)this + 8))->FUN_00877a30(i))->callback(unk04, note);
+            ((ReceiverEntry*)((NiFormArray*)&this->unk08)->FUN_00877a30(i))->callback(unk04, note);
         }
     }
 }

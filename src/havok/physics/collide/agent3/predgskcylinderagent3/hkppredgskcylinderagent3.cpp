@@ -187,7 +187,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
             node->unk04 = 0x40;
             float v = record->unk10;
             float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
-            node = ((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)((char*)record + 0x20)), (*(const ::AlignedHKVector4 *)((char*)record + 0x30)), val)));
+            node = ((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)&record->unk20), (*(const ::AlignedHKVector4 *)((char*)record + 0x30)), val)));
             if (pTempObject)
             {
                 FNVObject* pOldObject = *slot;
@@ -210,7 +210,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
     FNVTypeRecord* pSecondRecord = local_source.second->record;
     FNVTypeRecord* pFirstRecord = local_source.first->record;
     ExtendedFlags local_flags;
-    reinterpret_cast<::Cls_dafcd0 *>(&(local_flags))->FUN_00dafcd0((::Node *)(pFirstRecord), (::Node *)(pSecondRecord), (const ::Vec4Blk *)(void *)((char*)source + 0x20));
+    reinterpret_cast<::Cls_dafcd0 *>(&(local_flags))->FUN_00dafcd0((::Node *)(pFirstRecord), (::Node *)(pSecondRecord), (const ::Vec4Blk *)(void *)((char*)&source->unk20));
 
     FNVResult result;
     ::FUN_00d41930((::Input_s *)(void *)(&local_source), (int)(apArg), (::hkpGskCache_s *)(void *)(&local_flags), (::Output_s *)(void *)(&result));

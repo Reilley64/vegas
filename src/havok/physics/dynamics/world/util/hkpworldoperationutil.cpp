@@ -2443,7 +2443,7 @@ void QueryEntityIntoBuffer(WorldRec* world, EntityRec* apEntity)
     if (fr.arr.m_iArrayLength != 0)
     {
         FilterRec* f = world->m_iFilter;
-        void* filter = f != 0 ? (void*)((char*)f + 8) : 0;
+        void* filter = f != 0 ? (void*)((char*)&f->unk08) : 0;
         reinterpret_cast<::DispatcherCF7080 *>((world->m_pCollisionDispatcher))->FUN_00cf7080((::PairCF7080 *)(fr.arr.m_pData), fr.arr.m_iArrayLength, (const ::FilterCF7080 *)(filter));
     }
     unsigned char* saved = fr.saved;

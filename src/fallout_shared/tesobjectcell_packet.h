@@ -131,7 +131,12 @@ class GlobalObject_00633c90 : public GarbageCollectorObjectPtr
 extern GlobalObject_00633c90 g_011deda4;
 struct InteriorCellData
 {
-    char pad[0x20];
+    char pad[0x4];
+    unsigned int unk04;
+    int unk08;
+    float unk0c;
+    float unk10;
+    char pad14[0xc];
     float clipDist;
 };
 class CellLightingTemplate
@@ -191,9 +196,15 @@ class TESObjectCELL
     char padToExtraData2[3];
     ExtraDataList extraDataList;
     void* cellData;
-    char padToRefListLock[0x34];
+    void* unk4c;
+    char pad50[0x14];
+    void* unk64;
+    char pad68[0x14];
+    void* unk7c;
     RecursiveSpinLock refListLock;
-    char padToWorldSpace[0x3f];
+    char padToWorldSpace[0x27];
+    unsigned short unka8;
+    char padaa[0x16];
     TESWorldSpace* worldSpace;
     char padToUnknownDC[0x18];
     unsigned int unknownDC;

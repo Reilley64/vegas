@@ -21,7 +21,7 @@ void* FUN_00d1e160_t::InitFixedRigidMotion(int a, int b)
 {
     new ((void *)this) ::FUN_00d1dfa0((*(const ::hkVector4D1DF *)(a)), (*(const ::hkQuaternionD1DF *)(b)));
     vtbl = &DAT_010c6cdc;
-    ((unsigned char*)this)[8] = 5;
+    this->m_auiShapeKeys[4] = 5;
     return this;
 }
 

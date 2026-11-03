@@ -55,27 +55,27 @@ void FUN_00e8f0f0_shell::DestroyGeometryBufferData()
 {
     *reinterpret_cast<void**>(this) = &(*reinterpret_cast<void * *>(&::NiGeometryBufferData_vtable));
 
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08))
+    if (*reinterpret_cast<void**>(&this->m_pkOwnerGroup))
     {
-        for (unsigned int i = 0; i < *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x20); ++i)
+        for (unsigned int i = 0; i < this->m_uiRegisterStreamCount; ++i)
         {
-            void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08);
+            void* p = *reinterpret_cast<void**>(&this->m_pkOwnerGroup);
             (*reinterpret_cast<UnknownVtable08**>(p))->pfn7(p, this, i);
         }
     }
 
-    UnknownComObj* pIB = *reinterpret_cast<UnknownComObj**>(reinterpret_cast<char*>(this) + 0x34);
+    UnknownComObj* pIB = *reinterpret_cast<UnknownComObj**>(&this->m_pkIndexBuffer);
     if (pIB)
     {
         pIB->lpVtbl->Release(pIB);
-        *reinterpret_cast<UnknownComObj**>(reinterpret_cast<char*>(this) + 0x34) = 0;
+        *reinterpret_cast<UnknownComObj**>(&this->m_pkIndexBuffer) = 0;
     }
 
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x30) = 0;
-    ::FUN_00aa10f0(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28));
-    ::FUN_00aa10f0(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x24));
+    this->m_uiPrimitiveCount = 0;
+    ::FUN_00aa10f0(*reinterpret_cast<void**>(&this->m_ppkVertexBuffers));
+    ::FUN_00aa10f0(*reinterpret_cast<void**>(&this->m_puiVertexStrides));
 
-    UnknownComObj* pDecl = *reinterpret_cast<UnknownComObj**>(reinterpret_cast<char*>(this) + 0x10);
+    UnknownComObj* pDecl = *reinterpret_cast<UnknownComObj**>(&this->m_pkVertexDeclaration);
     if (pDecl)
     {
         pDecl->lpVtbl->Release(pDecl);

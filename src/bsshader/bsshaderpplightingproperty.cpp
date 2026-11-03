@@ -3210,13 +3210,13 @@ FUN_00bb4540* BSPPL_b68880::FUN_00b68880(PropObj* pProp, int aiArg2, int aiArg3)
                 alpha->b18 = 0;
                 prop = (Prop18*)alpha;
             }
-            if ((((unsigned char*)prop)[0x18] & 1) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1a) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1b))
+            if (((*(unsigned char*)&prop->m18) & 1) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1a) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1b))
             {
                 if (!(m20b & 0x20))
                     m38 = 0;
                 m20 |= 0x20;
             }
-            if ((((unsigned char*)prop)[0x18] & 1) && DAT_011f9422)
+            if (((*(unsigned char*)&prop->m18) & 1) && DAT_011f9422)
                 return new FUN_00bb4540(this);
         tail:
             if (reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1a) || reinterpret_cast<::Fake_FUN_004a2020 *>(this)->GetFlag(0x1b))

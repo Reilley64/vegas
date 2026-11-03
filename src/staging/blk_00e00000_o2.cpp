@@ -3129,8 +3129,8 @@ void __cdecl FUN_00e01e80(FUN_00e01e80_obj* pObj, int aiValue)
     if (pObj != 0)
     {
         pObj->unk00 = reinterpret_cast<int>(&DAT_010e9acc);
-        reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(reinterpret_cast<char*>(pObj) + 0x14)))->FUN_00cb0a70(aiValue);
-        reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(reinterpret_cast<char*>(pObj) + 0x18)))->FUN_00cb0a70(aiValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(&pObj->unk14)))->FUN_00cb0a70(aiValue);
+        reinterpret_cast<::FUN_00cb0a70_Class *>((reinterpret_cast<FUN_00cb0a70*>(&pObj->unk18)))->FUN_00cb0a70(aiValue);
     }
 }
 
@@ -3246,10 +3246,10 @@ void FUN_00e021d0_class::ClearAndReset()
     unk1C = 0;
     unk24 = 0x80000000;
 
-    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(this) + 0x18)));
-    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(this) + 0x14)));
-    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(this) + 0x10)));
-    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(this) + 0x08)));
+    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(&this->unk18)));
+    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(&this->unk14)));
+    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(&this->unk10)));
+    ::FUN_00cb0c00((int)(reinterpret_cast<FUN_00cb0c00_class*>(&this->unk08)));
 
     unk00 = &DAT_0102e388;
 }

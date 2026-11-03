@@ -72,7 +72,7 @@ NiBlendColorInterpolator* __cdecl CreateBlendColorInterpolator()
     {
         new ((void *)(pInterpolator)) class ::FUN_00a36890();
         *(int*)pInterpolator = (int)&DAT_0109a58c;
-        *(int*)((char*)pInterpolator + 0x30) = *(int*)&::DAT_011a9430;
+        *(int*)&pInterpolator->m_kColorValue = *(int*)&::DAT_011a9430;
         *(int*)((char*)pInterpolator + 0x34) = DAT_011a9434;
         *(int*)((char*)pInterpolator + 0x38) = DAT_011a9438;
         *(int*)((char*)pInterpolator + 0x3c) = DAT_011a943c;
@@ -226,7 +226,7 @@ void* FUN_00a56090_shell::FUN_00a56090(CloningProcess& kCloning)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();
         *(void**)pkObject = &DAT_0109a58c;
-        *(int*)((char*)pkObject + 0x30) = *(int*)&::DAT_011a9430;
+        *(int*)&pkObject->m_kColorValue = *(int*)&::DAT_011a9430;
         *(int*)((char*)pkObject + 0x34) = DAT_011a9434;
         *(int*)((char*)pkObject + 0x38) = DAT_011a9438;
         *(int*)((char*)pkObject + 0x3c) = DAT_011a943c;
@@ -549,7 +549,7 @@ struct Blend61c0
 bool FUN_00a56400_shell::InterpolateValue(float fTime, NiObjectNET* pkInterpTarget, RgbaColor& kValue)
 {
     bool bReturnValue = false;
-    unsigned char ucInterpCount = *(unsigned char*)((char*)this + 0xe);
+    unsigned char ucInterpCount = *(unsigned char*)&this->m_Base[14];
     if (ucInterpCount == 1)
     {
         bReturnValue = reinterpret_cast<::FUN_00a56110_shell *>(this)->GetColorAtTime(fTime, pkInterpTarget, (::FUN_00a56110_color *)(::RgbaColor *)(&kValue));

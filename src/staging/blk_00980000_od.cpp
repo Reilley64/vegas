@@ -2151,7 +2151,7 @@ struct FUN_00984210_Class
 // @fnv 0x00984210
 void* FUN_00984210_Class::GetSlotPtr(int aiIndex)
 {
-    return (void*)((char*)this + 0x58 + aiIndex * 8);
+    return (void*)((char*)&this->m_058 + aiIndex * 8);
 }
 
 struct S006bfd40

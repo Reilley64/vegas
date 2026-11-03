@@ -347,7 +347,7 @@ FUN_0097d250_shell::FUN_0097d250_shell(CombatAction::COMBAT_ACTION aeType) : Com
 // @fnv 0x00984390
 void FUN_00984390_shell::FUN_00984390(int aeState, int aiValue)
 {
-    reinterpret_cast<::SoundListView *>((((CombatWorldStateListNode*)((char*)this + 0xc))))->AddSoundEntry((float *)(aeState), (float *)(aiValue));
+    reinterpret_cast<::SoundListView *>(((&this->m_kActionWorldStateNode)))->AddSoundEntry((float *)(aeState), (float *)(aiValue));
 }
 
 class FUN_0097cd30 : public CombatAction

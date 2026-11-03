@@ -228,7 +228,7 @@ struct FUN_00d69200_cls
 // @fnv 0x00d69200
 void FUN_00d69200_cls::FUN_00d69200(SpawnedTarget* target)
 {
-    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((target))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0));
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((target))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
 }
 
 struct Target
@@ -253,7 +253,7 @@ struct FUN_00d69230_cls
 // @fnv 0x00d69230
 void FUN_00d69230_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((int)(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0));
+    reinterpret_cast<::SearchArray *>((apTarget))->ClearValue((int)(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
 }
 
 namespace fnv_00d69920 {

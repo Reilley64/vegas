@@ -4225,10 +4225,10 @@ TESSound* __cdecl FUN_005e3570(char const* filename)
         while (node != 0 && !FUN_008256d0(node))
         {
             TESSound* sound = reinterpret_cast<TESSound*>(*((void **)(new ((void *)(reinterpret_cast<ListNodeHelper*>(node))) ::Vec3())));
-            if (reinterpret_cast<FUN_00408da0_Class*>(reinterpret_cast<char*>(sound) + 0x30)->FUN_00408da0() != 0)
+            if (reinterpret_cast<FUN_00408da0_Class*>(&sound->unk30)->FUN_00408da0() != 0)
             {
                 if (FUN_00404dc0(reinterpret_cast<char const*>(
-                                     reinterpret_cast<FUN_00408da0_Class*>(reinterpret_cast<char*>(sound) + 0x30)
+                                     reinterpret_cast<FUN_00408da0_Class*>(&sound->unk30)
                                          ->FUN_00408da0()),
                                  filename) == 0)
                 {
@@ -4505,7 +4505,7 @@ void FUN_005e5320_class::FUN_005e5320(G2* list)
     {
         for (int i = 0; i < 15; ++i)
         {
-            int* entry = *(int**)((char*)this + 0x34 + i * 4);
+            int* entry = *(int**)((char*)&this->m34 + i * 4);
             if (!entry)
                 continue;
             if (reinterpret_cast<::FUN_005e5380_Class *>((((FUN_005e5380_shell*)entry)))->IsFlag2Set())

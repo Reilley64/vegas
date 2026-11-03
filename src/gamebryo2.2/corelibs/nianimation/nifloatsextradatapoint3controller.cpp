@@ -52,7 +52,8 @@ public:
 };
 struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
     int* m_pvt;
-    char pad[0x3c];
+    char pad[0x38];
+    int unk3c;
     int m_iFloatsExtraDataIndex;
     int m_kCtlrID;
     NiFloatsExtraDataPoint3Controller* FUN_00a4ec80(void* proc);
@@ -128,7 +129,7 @@ void FUN_00a4ed50_shell::SetInterpolatorPoint3(NiObject* pkInterp, unsigned shor
     } else {
         pkFloatInterp = pkInterp->DynamicCast((const NiRTTI*)&::g_011f3f70);
     }
-    pkFloatsED = (ExtraStub*)*(int*)((char*)this + 0x3c);
+    pkFloatsED = (ExtraStub*)this->unk3c;
     kPt.x = reinterpret_cast<::FUN_00a89020_cls *>((pkFloatsED))->GetValueAt(m_iFloatsExtraDataIndex);
     kPt.y = reinterpret_cast<::FUN_00a89020_cls *>((pkFloatsED))->GetValueAt(m_iFloatsExtraDataIndex + 1);
     kPt.z = reinterpret_cast<::FUN_00a89020_cls *>((pkFloatsED))->GetValueAt(m_iFloatsExtraDataIndex + 2);

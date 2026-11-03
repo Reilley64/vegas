@@ -60,9 +60,9 @@
 // @fnv 0x00514830
 void TESObjectBOOK::ResetFormData()
 {
-    memset(reinterpret_cast<char*>(this) + 0xc0, 0, 2);
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xc1) = 0xff;
-    reinterpret_cast<::FUN_0041fd00_shell *>((reinterpret_cast<MagicCaster*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0041fd00((int)(0));
+    memset(reinterpret_cast<char*>(&this->Data), 0, 2);
+    *reinterpret_cast<unsigned char*>(&this->Data.teaches) = 0xff;
+    reinterpret_cast<::FUN_0041fd00_shell *>((reinterpret_cast<MagicCaster*>(static_cast<TESEnchantableForm *>(this))))->FUN_0041fd00((int)(0));
 }
 
 // @fnv 0x00514870
@@ -70,23 +70,18 @@ void TESObjectBOOK::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)(reinterpret_cast<TESFormInitFlag*>(this)))->GetInitialized())
         return;
-    reinterpret_cast<TESScriptableForm*>(reinterpret_cast<char*>(this) + 0x68)
-        ->InitItem(reinterpret_cast<TESForm*>(this));
-    reinterpret_cast<TESEnchantableForm*>(reinterpret_cast<char*>(this) + 0x74)
-        ->InitItem(reinterpret_cast<TESForm*>(this));
-    reinterpret_cast<BGSDestructibleObjectForm*>(reinterpret_cast<char*>(this) + 0x9c)
-        ->InitItem(reinterpret_cast<TESForm*>(this));
-    reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(this) + 0x3c)
-        ->InitItem(reinterpret_cast<TESForm*>(this));
-    reinterpret_cast<BGSPickupPutdownSounds*>(reinterpret_cast<char*>(this) + 0xb4)
-        ->InitItem(reinterpret_cast<TESForm*>(this));
+    static_cast<TESScriptableForm *>(this)->InitItem(reinterpret_cast<TESForm*>(this));
+    static_cast<TESEnchantableForm *>(this)->InitItem(reinterpret_cast<TESForm*>(this));
+    static_cast<BGSDestructibleObjectForm *>(this)->InitItem(reinterpret_cast<TESForm*>(this));
+    static_cast<TESModelTextureSwap *>(this)->InitItem(reinterpret_cast<TESForm*>(this));
+    static_cast<BGSPickupPutdownSounds *>(this)->InitItem(reinterpret_cast<TESForm*>(this));
 
-    if (static_cast<signed char>(*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xc1)) != -1)
+    if (static_cast<signed char>(*reinterpret_cast<unsigned char*>(&this->Data.teaches)) != -1)
     {
         int actorValue = static_cast<int>(::ActorValue::GetActorValueForSectionIndex(
-            ActorValue::kSectionBook, *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xc1)));
+            ActorValue::kSectionBook, *reinterpret_cast<unsigned char*>(&this->Data.teaches)));
         if (actorValue < 0x20 || actorValue > 0x2e)
-            *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xc1) = 0xff;
+            *reinterpret_cast<unsigned char*>(&this->Data.teaches) = 0xff;
     }
     reinterpret_cast<TESForm*>(this)->SetInitializationState(true);
 }
@@ -236,17 +231,17 @@ struct FUN_00514500
 FUN_00514500::FUN_00514500()
 {
     *reinterpret_cast<void**>(this) = &DAT_0102a9c4;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x30) = &DAT_0102a9b0;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x3C) = &DAT_0102a98c;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x5C) = &DAT_0102a96c;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x68) = &DAT_0102a958;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x74) = &DAT_0102a940;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x84) = &DAT_0102a920;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x8C) = &DAT_0102a90c;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94) = &DAT_0102a8f4;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x9C) = &DAT_0102a8e0;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xA4) = &DAT_0102a8cc;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0xB4) = &DAT_0102a8b8;
+    *reinterpret_cast<void**>(&this->m1) = &DAT_0102a9b0;
+    *reinterpret_cast<void**>(&this->m2) = &DAT_0102a98c;
+    *reinterpret_cast<void**>(&this->m3) = &DAT_0102a96c;
+    *reinterpret_cast<void**>(&this->m4) = &DAT_0102a958;
+    *reinterpret_cast<void**>(&this->m5) = &DAT_0102a940;
+    *reinterpret_cast<void**>(&this->m6) = &DAT_0102a920;
+    *reinterpret_cast<void**>(&this->m7) = &DAT_0102a90c;
+    *reinterpret_cast<void**>(&this->m8) = &DAT_0102a8f4;
+    *reinterpret_cast<void**>(&this->m9) = &DAT_0102a8e0;
+    *reinterpret_cast<void**>(&this->m10) = &DAT_0102a8cc;
+    *reinterpret_cast<void**>(&this->m11) = &DAT_0102a8b8;
     reinterpret_cast<::FUN_004f15a0_shell *>((reinterpret_cast<TESObjectBOOK*>(this)))->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)0x19)));
     reinterpret_cast<TESObjectBOOK*>(this)->ResetFormData();
 }

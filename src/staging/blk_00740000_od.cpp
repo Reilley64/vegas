@@ -2,6 +2,7 @@
 // src/staging/blk_00740000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <cstdlib>
 #include "fnv/decl/BGSQuestObjective.h"
@@ -412,8 +413,7 @@ int FUN_00752cb0_cls::FUN_00752cb0(int aiGroupIndex, int aiMatchValue)
     int count = 0;
     while (i < 7 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->unkb44[aiGroupIndex].items[i]))->GetName())) > 0)
     {
-        if (reinterpret_cast<::MiddleLowProcess *>((((FUN_00752cb0_Inner*)*(
-                 void**)((void *)(reinterpret_cast<::S3e60 *>((((FUN_00752cb0_Holder*)&this->unkb44[aiGroupIndex].items[i])))->FUN_006a7ad0(0))))))->GetProcessInteger() == aiMatchValue)
+        if (reinterpret_cast<::MiddleLowProcess *>((((FUN_00752cb0_Inner*)SimpleArrayItem<void*>((((FUN_00752cb0_Holder*)&this->unkb44[aiGroupIndex].items[i])), 0))))->GetProcessInteger() == aiMatchValue)
         {
             count++;
         }
@@ -710,8 +710,8 @@ int FUN_00752d40_cls::FUN_00752d40(int group, int type)
     int count = 0;
     while (i < 7 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(slots[group][i]))->GetName())) > 0)
     {
-        if (((int)(reinterpret_cast<::FUN_004036b0_Class *>((((::FUN_00752d40_Obj *)(reinterpret_cast<::S3e60 *>(&(slots[group][i]))->FUN_006a7ad0(0)))))->FUN_004036b0())) == type)
-            count += reinterpret_cast<::MiddleLowProcess *>((((::FUN_00752d40_Obj *)(reinterpret_cast<::S3e60 *>(&(slots[group][i]))->FUN_006a7ad0(0)))))->GetProcessInteger();
+        if (((int)(reinterpret_cast<::FUN_004036b0_Class *>(((SimpleArrayItem<::FUN_00752d40_Obj*>(&(slots[group][i]), 0))))->FUN_004036b0())) == type)
+            count += reinterpret_cast<::MiddleLowProcess *>(((SimpleArrayItem<::FUN_00752d40_Obj*>(&(slots[group][i]), 0))))->GetProcessInteger();
         i++;
     }
     return count;
@@ -1584,7 +1584,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                  local_74Value37 = local_74Value37 + 1)
             {
 
-                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_74Value37))))))))->GetProcessInteger()) <= 10)
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_74Value37)))))->GetProcessInteger()) <= 10)
                 {
                     local_6cValue34 = local_6cValue34 + 1;
                     local_68Value14 = local_74Value37;
@@ -1615,12 +1615,12 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                  local_80Value12 = local_80Value12 + 1)
             {
 
-                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_80Value12))))))))->GetProcessInteger()) > 5 &&
-                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_80Value12))))))))->GetProcessInteger()) <= 10)
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_80Value12)))))->GetProcessInteger()) > 5 &&
+                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_80Value12)))))->GetProcessInteger()) <= 10)
                 {
                     local_7cValue34 = local_7cValue34 + 1;
                 }
-                else if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_80Value12))))))))->GetProcessInteger()) < 4)
+                else if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_80Value12)))))->GetProcessInteger()) < 4)
                 {
                     local_78Value0 = local_78Value0 + 1;
                 }
@@ -1635,10 +1635,10 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                      local_88Value23 = local_88Value23 + 1)
                 {
 
-                    if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_88Value23))))))))->GetProcessInteger()))
+                    if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))->GetProcessInteger()))
                     {
 
-                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_88Value23))))))))->GetProcessInteger()) == 0xf)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))->GetProcessInteger()) == 0xf)
                         {
                             reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_88Value23);
                             break;
@@ -1649,7 +1649,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                             local_84Value8 =
                                 reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                     ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_88Value23))))))))->GetProcessInteger();
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger();
                         }
                         else if (local_84Value8 == 0xc)
                         {
@@ -1657,19 +1657,19 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                             local_84Value8 =
                                 reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                     ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_88Value23))))))))->GetProcessInteger();
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger();
                         }
                         else if (local_84Value8 == 0xe)
                         {
 
                             if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                      ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_88Value23))))))))->GetProcessInteger()) != 0xc)
+                                      (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger()) != 0xc)
                             {
                                 reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_88Value23);
 
                                 local_84Value8 =
                                     reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                         ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_88Value23))))))))->GetProcessInteger();
+                                         (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_88Value23)))))))->GetProcessInteger();
                             }
                         }
                     }
@@ -1683,10 +1683,10 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 if (local_7cValue34 > local_78Value0)
                 {
 
-                    if (5 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_8cValue1))))))))->GetProcessInteger()))
+                    if (5 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_8cValue1)))))->GetProcessInteger()))
                     {
 
-                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_8cValue1))))))))->GetProcessInteger()) <= 10)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_8cValue1)))))->GetProcessInteger()) <= 10)
                         {
                             reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_8cValue1);
                             break;
@@ -1696,7 +1696,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 else if (local_78Value0 != 0)
                 {
 
-                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_8cValue1))))))))->GetProcessInteger()) < 4)
+                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_8cValue1)))))->GetProcessInteger()) < 4)
                     {
                         reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_8cValue1);
                         break;
@@ -1712,7 +1712,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                  local_98Value0 = local_98Value0 + 1)
             {
 
-                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_98Value0))))))))->GetProcessInteger()) <= 10)
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_98Value0)))))->GetProcessInteger()) <= 10)
                 {
                     local_90Value13 = local_90Value13 + 1;
                 }
@@ -1727,10 +1727,10 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                      local_a0Value29 = local_a0Value29 + 1)
                 {
 
-                    if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a0Value29))))))))->GetProcessInteger()))
+                    if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))->GetProcessInteger()))
                     {
 
-                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a0Value29))))))))->GetProcessInteger()) == 0xf)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))->GetProcessInteger()) == 0xf)
                         {
                             reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a0Value29);
                             break;
@@ -1741,7 +1741,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                             local_9cValue4 =
                                 reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                     ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a0Value29))))))))->GetProcessInteger();
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger();
                         }
                         else if (local_9cValue4 == 0xc)
                         {
@@ -1749,19 +1749,19 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                             local_9cValue4 =
                                 reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                     ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a0Value29))))))))->GetProcessInteger();
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger();
                         }
                         else if (local_9cValue4 == 0xe)
                         {
 
                             if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                      ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a0Value29))))))))->GetProcessInteger()) != 0xc)
+                                      (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger()) != 0xc)
                             {
                                 reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a0Value29);
 
                                 local_9cValue4 =
                                     reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                         ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a0Value29))))))))->GetProcessInteger();
+                                         (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a0Value29)))))))->GetProcessInteger();
                             }
                         }
                     }
@@ -1770,7 +1770,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
             }
 
             local_94Value52 = std::abs(
-                (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(0))))))))->GetProcessInteger()) + -6);
+                (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), 0)))))->GetProcessInteger()) + -6);
             reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(0);
             local_a4Value36 = 0;
             for (; local_a4Value36 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&hand)))))->GetName())));
@@ -1778,13 +1778,13 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
             {
 
                 if ((std::abs(
-                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a4Value36))))))))->GetProcessInteger()) +
+                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a4Value36)))))->GetProcessInteger()) +
                         -6)) < local_94Value52)
                 {
                     reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a4Value36);
 
                     local_94Value52 = std::abs(
-                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_a4Value36))))))))->GetProcessInteger()) +
+                        (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_a4Value36)))))->GetProcessInteger()) +
                         -6);
                 }
             }
@@ -1807,10 +1807,10 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 {
                     reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_b0Value32);
 
-                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_b0Value32))))))))->GetProcessInteger()) > 10)
+                    if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_b0Value32)))))->GetProcessInteger()) > 10)
                     {
 
-                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_b0Value32))))))))->GetProcessInteger()) == 0xe)
+                        if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_b0Value32)))))->GetProcessInteger()) == 0xe)
                         {
                             local_b4Value16 = 0;
                             while ((local_b4Value16 < 7 &&
@@ -1858,7 +1858,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                             continue;
 
                         local_bcValue3 =
-                            reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_b0Value32))))))))->GetProcessInteger() +
+                            reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_b0Value32)))))->GetProcessInteger() +
                             laneTotals[local_a8Value19].total;
 
                         if (((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_bcValue3)) < 1) &&
@@ -1893,7 +1893,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                             local_c8Value6 =
                                 reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                     ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_c4Value23))))))))->GetProcessInteger();
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_c4Value23)))))))->GetProcessInteger();
                             if (local_c8Value6 > 10)
                             {
                                 local_ccValue0 = laneTotals[(5 - local_a8Value19)].total - local_acValue61;
@@ -1956,8 +1956,8 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                                         local_e4Value13 =
                                             reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                                 ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((
-                                                      void*)(&lanes[local_a8Value19].rows[local_e0Value0])))))->FUN_006a7ad0(0))))))))->GetProcessInteger();
+                                                 (&SimpleArrayItem<void*>((((PointerArray*)((
+                                                      void*)(&lanes[local_a8Value19].rows[local_e0Value0])))), 0)))))))->GetProcessInteger();
                                         if (local_e4Value13 == 1)
                                         {
                                             for (local_104Value53 = 0; local_104Value53 < 6;
@@ -1977,8 +1977,8 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                 laneLossValue16[local_108Value13] = (reinterpret_cast<::FUN_00752d40_cls *>((this))->FUN_00752d40(
                                                     local_108Value13,
                                                     (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                                          ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&lanes[local_a8Value19]
-                                                                                       .rows[local_e0Value0])))))->FUN_006a7ad0(0))))))))->GetProcessInteger())));
+                                                          (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&lanes[local_a8Value19]
+                                                                                       .rows[local_e0Value0])))), 0)))))))->GetProcessInteger())));
                                             }
                                         }
                                         laneLossValue16[local_a8Value19] =
@@ -2178,12 +2178,12 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                             local_13cValue13 =
                                 reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                     ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_138Value1))))))))->GetProcessInteger();
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_138Value1)))))))->GetProcessInteger();
                             if (local_13cValue13 > 10)
                             {
 
                                 if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                          ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_138Value1))))))))->GetProcessInteger()) == 0xe)
+                                          (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_138Value1)))))))->GetProcessInteger()) == 0xe)
                                 {
                                     for (local_140Value41 = 0; local_140Value41 < 7;
                                          local_140Value41 = local_140Value41 + 1)
@@ -2255,7 +2255,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
 
                             local_150Value42 =
                                 reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                     ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_14cValue41))))))))->GetProcessInteger();
+                                     (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_14cValue41)))))))->GetProcessInteger();
                             if ((10 < local_150Value42) && (local_150Value42 == 0xc))
                             {
                                 for (local_154Value1 = 0; local_154Value1 < 7; local_154Value1 = local_154Value1 + 1)
@@ -2297,7 +2297,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
             {
 
                 reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
-                if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_160Value33))))))))->GetProcessInteger()))
+                if (10 < (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_160Value33)))))->GetProcessInteger()))
                 {
 
                     local_164Value11 = 0;
@@ -2313,7 +2313,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                         }
 
                         switch (
-                            reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_160Value33))))))))->GetProcessInteger())
+                            reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_160Value33)))))->GetProcessInteger())
                         {
                         case 12: {
 
@@ -2438,8 +2438,8 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                  local_178Value31 = local_178Value31 + 1)
             {
 
-                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_178Value31))))))))->GetProcessInteger()) >
-                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&hand)))))->FUN_006a7ad0(local_174Value5))))))))->GetProcessInteger()))
+                if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_178Value31)))))->GetProcessInteger()) >
+                    (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(SimpleArrayItem<void*>((((PointerArray*)((void*)(&hand)))), local_174Value5)))))->GetProcessInteger()))
                 {
                     local_174Value5 = local_178Value31;
                 }
@@ -2473,7 +2473,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                         {
 
                             if ((reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(
-                                      ((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)(&opponentHand)))))->FUN_006a7ad0(local_184Value1))))))))->GetProcessInteger()) == 0xc)
+                                      (&SimpleArrayItem<void*>((((PointerArray*)((void*)(&opponentHand)))), local_184Value1)))))))->GetProcessInteger()) == 0xc)
                             {
                                 local_180Value40 = local_180Value40 + 1;
                             }
@@ -2489,13 +2489,13 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
         }
         reinterpret_cast<::FUN_00729970_shell *>((((PointerArray*)(choicesValue1))))->FUN_00729970((intptr_t)(((int (&)(const void *, const void *))::CompareCalendarDays)));
 
-        local_3cValue39 = reinterpret_cast<::FUN_009611e0_shell *>((((CaravanDecision*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)(choicesValue1))))->FUN_006a7ad0(0))))))))->FUN_009611e0();
+        local_3cValue39 = reinterpret_cast<::FUN_009611e0_shell *>((((CaravanDecision*)(SimpleArrayItem<void*>((((PointerArray*)(choicesValue1))), 0)))))->FUN_009611e0();
         local_38Value22 = 0;
         for (local_188Value2 = 0; local_188Value2 < (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)(choicesValue1))))->GetName())));
              local_188Value2 = local_188Value2 + 1)
         {
 
-            if ((reinterpret_cast<::FUN_009611e0_shell *>((((CaravanDecision*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)(choicesValue1))))->FUN_006a7ad0(local_188Value2))))))))->FUN_009611e0()) == local_3cValue39)
+            if ((reinterpret_cast<::FUN_009611e0_shell *>((((CaravanDecision*)(SimpleArrayItem<void*>((((PointerArray*)(choicesValue1))), local_188Value2)))))->FUN_009611e0()) == local_3cValue39)
             {
                 local_38Value22 = local_38Value22 + 1;
             }
@@ -2506,7 +2506,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
         }
         local_34Value10 = local_3cValue39;
 
-        local_44Value6 = (CaravanDecision*)*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)(choicesValue1))))->FUN_006a7ad0(0))));
+        local_44Value6 = (CaravanDecision*)SimpleArrayItem<void*>((((PointerArray*)(choicesValue1))), 0);
         selectedValue4 = *local_44Value6;
         local_44Value6 = 0;
         while (!(reinterpret_cast<::FUN_0076b610_Class *>((((PointerArray*)(choicesValue1))))->FUN_0076b610()))

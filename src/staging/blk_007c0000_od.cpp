@@ -2,6 +2,7 @@
 // src/staging/blk_007c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -990,15 +991,15 @@ void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
         for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((&this->unk60[this->unk48].primary)))->GetName()));
              ++i)
         {
-            (*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].primary)))->FUN_006a7ad0(i))))
-                ->onPrimary(*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].primary)))->FUN_006a7ad0(i))));
+            (SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].primary)), i))
+                ->onPrimary(SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].primary)), i));
         }
         for (unsigned int uiSecondaryIndex = 0;
              uiSecondaryIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((&this->unk60[this->unk48].secondary)))->GetName()));
              ++uiSecondaryIndex)
         {
-            (*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].secondary)))->FUN_006a7ad0(uiSecondaryIndex))))
-                ->onSecondary(*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].secondary)))->FUN_006a7ad0(uiSecondaryIndex))));
+            (SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].secondary)), uiSecondaryIndex))
+                ->onSecondary(SimpleArrayItem<::Callback*>(((&this->unk60[this->unk48].secondary)), uiSecondaryIndex));
         }
     }
 }

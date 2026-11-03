@@ -2,6 +2,7 @@
 // src/staging/blk_00840000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -471,7 +472,7 @@ struct FUN_0084e320_Class
 // @fnv 0x0084e320
 uintptr_t FUN_0084e320_Class::GetArrayElement(int index)
 {
-    return (*(unsigned int*)(reinterpret_cast<::S3e60 *>(&(m_Array))->FUN_006a7ad0(index)));
+    return (SimpleArrayItem<unsigned int>(&(m_Array), index));
 }
 
 struct FUN_0084e3a0_Class

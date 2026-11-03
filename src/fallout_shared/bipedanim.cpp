@@ -1,5 +1,6 @@
 // fallout_shared/bipedanim.cpp: BipedAnim, BipedAnimWeap, FaceLoader, BipedAnimHelper (75 functions)
 
+#include <cstring>
 #include <new>
 #include <cstdint>
 #include "runtime/crt.h"

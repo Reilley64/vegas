@@ -1,5 +1,6 @@
 
 // Fallout: New Vegas decompilation: fallout_shared/bgstextureset.cpp.
+#include <cstring>
 #include "fnv/decl/Date.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00402d50.h"

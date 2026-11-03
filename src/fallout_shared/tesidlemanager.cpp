@@ -1,5 +1,6 @@
 // fallout_shared/tesidlemanager.cpp: IdleAnimationManager, IdleAnimationDirectoryEntry, IdleCleanup (22 functions)
 
+#include <cstring>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"

@@ -918,10 +918,6 @@ struct FUN_00d2def0_cls
 {
 };
 
-struct FUN_00d440f0_cls
-{
-};
-
 struct SpawnedObject
 {
     virtual ~SpawnedObject() throw()
@@ -946,9 +942,9 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
             return ((void *)(reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a1, a2, (int *)(a3), a4)));
         }
         case 1: {
-            SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
-            obj->m_iElementCount = 0x38;
-            return ((void *)(new ((void *)(((FUN_00d440f0_cls*)obj))) ::FUN_00d440f0((*(const ::CdBodyS *)(a1)), (*(const ::CdBodyS *)(a2)), (*(const ::CollisionInputS *)(a3)), (::ContactMgrS *)(a4))));
+            SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d440f0)));
+            obj->m_iElementCount = sizeof(::FUN_00d440f0);
+            return ((void *)(new ((void *)(obj)) ::FUN_00d440f0((*(const ::CdBodyS *)(a1)), (*(const ::CdBodyS *)(a2)), (*(const ::CollisionInputS *)(a3)), (::ContactMgrS *)(a4))));
         }
         default:
             return 0;
@@ -1111,8 +1107,8 @@ struct Obj64 : Header
 };
 static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchInput* context, void* flags)
 {
-    Obj56* obj = static_cast<Obj56*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
-    obj->size = 0x38;
+    Obj56* obj = static_cast<Obj56*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d440f0)));
+    obj->size = sizeof(::FUN_00d440f0);
     new ((void *)(obj)) ::FUN_00d440f0((*(const ::CdBodyS *)(second)), (*(const ::CdBodyS *)(first)), (*(const ::CollisionInputS *)(context)), static_cast<::ContactMgrS *>(flags));
     obj->vtable = g_010ce8b0;
     return obj;

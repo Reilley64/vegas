@@ -9,23 +9,14 @@
 #include "fnv/symbols_00d34000.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
-struct hkpShapeCollectionAgent
-{
-    const void* vtbl;
-    void* p0;
-    void* p1;
-    void* p2;
-    int count;
-    void FUN_00d436f0(int arg);
-};
+#include "havok/hkpShapeCollectionAgent.h"
 
 // @fnv 0x00d436f0
 void hkpShapeCollectionAgent::FUN_00d436f0(int arg)
 {
-    for (int i = 0; i < count; ++i)
+    for (int i = 0; i < m_numAgents; ++i)
     {
-        void** arr = reinterpret_cast<void**>(this->p2);
-        void* obj = arr[i * 2 + 1];
+        void* obj = m_agents[i].m_pCollisionAgent;
         ((void(*)(void*, int))(*reinterpret_cast<void***>(obj))[7])(obj, arg);
     }
     ((void(*)(void*, int))(*reinterpret_cast<void***>(this))[0])(this, 1);
@@ -466,95 +457,29 @@ inline AgentS* DispatcherS::getNewCollisionAgent(const CdBodyS& bodyA, const CdB
 }
 
 
-struct CollisionAgentMapRecord
-{
-    unsigned int m_key;
-    AgentS* m_pCollisionAgent;
-};
-
-struct AgentArray
-{
-    CollisionAgentMapRecord* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    CollisionAgentMapRecord m_kStorage[4];
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    void GrowArrayCapacity(hkMemoryAllocator* alloc, int n)
-    {
-        const int capacity = getCapacity();
-        if (capacity < n)
-        {
-            int cap2 = 2 * capacity;
-            int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(CollisionAgentMapRecord));
-        }
-    }
-    void reserve(int n)
-    {
-        GrowArrayCapacity(&hkMemoryRouter::getInstance().heap(), n);
-    }
-    void init()
-    {
-        m_data = m_kStorage;
-        m_iElementCount = 0;
-        m_iCapacityState = 0x80000004;
-    }
-    CollisionAgentMapRecord* expandByUnchecked(int n)
-    {
-        int oldSize = m_iElementCount;
-        m_iElementCount = oldSize + n;
-        return m_data + oldSize;
-    }
-};
-
-struct RefObjS
-{
-    unsigned short m_usMemSizeAndFlags;
-    unsigned short m_sReferenceCount;
-    RefObjS()
-    {
-        m_sReferenceCount = 1;
-    }
-    virtual void r00();
-};
-struct CollisionAgentS : RefObjS
-{
-    ContactMgrS* m_pContactManager;
-    CollisionAgentS(ContactMgrS* mgr)
-    {
-        m_pContactManager = mgr;
-    }
-    virtual void a01();
-};
-struct InplaceArrayS : AgentArray
-{
-    InplaceArrayS()
-    {
-        init();
-    }
-};
-struct FUN_00d440f0 : CollisionAgentS
-{
-    InplaceArrayS m_agents2;
-    FUN_00d440f0(const CdBodyS& bodyA, const CdBodyS& bodyB, const CollisionInputS& input, ContactMgrS* mgr);
-    virtual void a02();
-};
-
 // Reserves space for the shapes in bodyA's container and appends a key/agent pair for each shape accepted by the filter.
 // @fnv 0x00d440f0
 FUN_00d440f0::FUN_00d440f0(const CdBodyS& bodyA, const CdBodyS& bodyB, const CollisionInputS& input,
                            ContactMgrS* apContactMgr)
-    : CollisionAgentS(apContactMgr)
 {
+    m_sReferenceCount = 1;
+    m_pContactManager = apContactMgr;
+    m_agents = m_agentStorage;
+    m_numAgents = 0;
+    m_agentsCapacityAndFlags = 0x80000004;
+
     CdBodyS newOperandA(&bodyA);
 
     const ContainerS* shapeContainer = bodyA.m_pCollisionShape->GetShapeContainer();
     int size = shapeContainer->GetNumChildShapes();
-    m_agents2.reserve(size);
+    const int capacity = m_agentsCapacityAndFlags & 0x3fffffff;
+    if (capacity < size)
+    {
+        int cap2 = 2 * capacity;
+        int newSize = (size < cap2) ? cap2 : size;
+        ::FUN_00c908c0((::SpawnedObject *)(&hkMemoryRouter::getInstance().heap()), (::SpawnedArray *)(void *)(&m_agents),
+                       newSize, sizeof(KeyAgentPair));
+    }
 
     __declspec(align(16)) unsigned int shapeBuffer[128];
 
@@ -565,7 +490,7 @@ FUN_00d440f0::FUN_00d440f0(const CdBodyS& bodyA, const CdBodyS& bodyB, const Col
         newOperandA.SetCollisionShapeAndKey(shape, key);
         if (input.m_iFilter->IsCollisionEnabled(input, bodyB, bodyA, *shapeContainer, key).m_cBooleanValue)
         {
-            CollisionAgentMapRecord& newPair = *m_agents2.expandByUnchecked(1);
+            KeyAgentPair& newPair = m_agents[m_numAgents++];
             newPair.m_pCollisionAgent =
                 input.m_pCollisionDispatcher->getNewCollisionAgent(newOperandA, bodyB, input, apContactMgr);
             newPair.m_key = key;
@@ -969,7 +894,7 @@ struct Queryable
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual int v14(int id, void* out);
+    virtual const void* v14(unsigned int id, void* out);
 };
 
 struct Source
@@ -984,15 +909,15 @@ struct Source
 struct Holder
 {
     Source* unk00;
-    int unk04;
-    int unk08;
+    unsigned int m_shapeKey;
+    const void* m_motion;
 };
 
 struct Packet
 {
-    int result;
-    int id;
-    int unk08;
+    const void* m_shape;
+    unsigned int id;
+    const void* m_motion;
     Holder* holder;
 };
 
@@ -1008,7 +933,7 @@ struct Handler
 
 struct Pair
 {
-    int id;
+    unsigned int id;
     Handler* handler;
 };
 
@@ -1063,14 +988,13 @@ void Agent::FUN_00d43aa0(Holder* holder, void* a, void* b, void* c, void* d)
     Queryable* q = holder->unk00->v10();
     Packet packet;
     B512 buf;
-    packet.unk08 = holder->unk08;
+    packet.m_motion = holder->m_motion;
     packet.holder = holder;
-    Pair* p = (Pair*)p2;
-    for (int i = count - 1; i >= 0; i--)
+    Pair* p = (Pair*)m_agents;
+    for (int i = m_numAgents - 1; i >= 0; i--)
     {
-        int id = p->id;
-        int r = q->v14(id, &buf);
-        packet.result = r;
+        unsigned int id = p->id;
+        packet.m_shape = q->v14(id, &buf);
         packet.id = id;
         p->handler->v14(&packet, a, b, c, d);
         p++;
@@ -1555,9 +1479,9 @@ struct ProfBuf
 
 struct ShapeResult
 {
-    DWORD m_ret;
+    const void* m_shape;
     DWORD m_key;
-    DWORD m_pMotionState;
+    const void* m_pMotionState;
     void* m_parent;
 };
 
@@ -1599,7 +1523,7 @@ class ShapeKeyHandler
     virtual void vtbl08(void);
     virtual void vtbl0C(void);
     virtual void vtbl10(void);
-    virtual DWORD vtbl14(DWORD key, ShapeKeyBuf* pOut);
+    virtual const void* vtbl14(DWORD key, ShapeKeyBuf* pOut);
 };
 
 class ShapeObject
@@ -1616,7 +1540,7 @@ struct ShapeHolder
 {
     ShapeSource* m_pSrc;
     DWORD unk04;
-    DWORD m_dw08;
+    const void* m_motion;
 };
 
 struct FUN_00d43880_cls : public hkpShapeCollectionAgent
@@ -1641,17 +1565,17 @@ void FUN_00d43880_cls::FUN_00d43880(ShapeHolder* pHolder, void* a1, void* a2, vo
 
     ShapeKeyHandler* pHandler = (ShapeKeyHandler*)pHolder->m_pSrc->vtbl10();
     ShapeResult res;
-    res.m_pMotionState = pHolder->m_dw08;
-    int i = this->count - 1;
+    res.m_pMotionState = pHolder->m_motion;
+    int i = this->m_numAgents - 1;
     res.m_parent = pHolder;
-    KeyedPointerEntry* apPairs = (KeyedPointerEntry*)this->p2;
+    KeyedPointerEntry* apPairs = (KeyedPointerEntry*)this->m_agents;
     ShapeKeyBuf keyBuf;
     if (i >= 0)
     {
         do
         {
             DWORD key = apPairs->m_key;
-            res.m_ret = pHandler->vtbl14(key, &keyBuf);
+            res.m_shape = pHandler->vtbl14(key, &keyBuf);
             res.m_key = key;
             ShapeObject* pObj = (ShapeObject*)apPairs->m_pEntryObject;
             pObj->vtbl10(&res, a1, a2, a3);
@@ -1733,29 +1657,29 @@ struct CollectionProcessHandler
     virtual void v08(void);
     virtual void v0c(void);
     virtual CollectionProcessHandler* v10(void);
-    virtual void* v14(void* pShape, void* pOut);
+    virtual void* v14(unsigned int key, void* pOut);
     virtual void v18(void* apPairs, void* a0, void* a1, void* a2);
 };
 
 struct ShapeArg
 {
     CollectionProcessHandler* pHandler;
-    void* unk04;
-    unsigned int unk08;
+    unsigned int m_shapeKey;
+    const void* m_motion;
 };
 
 struct CollectionProcessEntry
 {
-    void* pShape;
+    unsigned int m_key;
     CollectionProcessHandler* pHandler;
 };
 
 struct CollectionProcessBody
 {
-    void* pResult;
     void* pShape;
-    unsigned int unk08;
-    ShapeArg* unk0c;
+    unsigned int m_shapeKey;
+    const void* m_motion;
+    ShapeArg* m_parent;
 };
 
 struct CollectionProcessAgent : hkpShapeCollectionAgent
@@ -1781,15 +1705,15 @@ void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, void* a0, void* a1, voi
     CollectionProcessHandler* pRes = arg->pHandler->v10();
     CollectionProcessBody pair;
     hkpShapeBuffer out;
-    pair.unk08 = arg->unk08;
-    pair.unk0c = arg;
+    pair.m_motion = arg->m_motion;
+    pair.m_parent = arg;
 
-    CollectionProcessEntry* pEntry = (CollectionProcessEntry*)p2;
-    for (int i = count - 1; i >= 0; i--)
+    CollectionProcessEntry* pEntry = (CollectionProcessEntry*)m_agents;
+    for (int i = m_numAgents - 1; i >= 0; i--)
     {
-        void* shape = pEntry->pShape;
-        pair.pResult = pRes->v14(shape, out.m_data);
-        pair.pShape = shape;
+        unsigned int key = pEntry->m_key;
+        pair.pShape = pRes->v14(key, out.m_data);
+        pair.m_shapeKey = key;
         pEntry->pHandler->v18(&pair, a0, a1, a2);
         pEntry++;
     }

@@ -4,6 +4,7 @@
 
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpShapeCollectionAgent.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
@@ -274,35 +275,15 @@ void FUN_00d44f90_Class::FUN_00d44f90(void* first, void* second, void* third, un
 
 extern char DAT_010cf390[];
 
-struct SpawnedObject
-{
-    void* m_vptr;
-    unsigned short m_iElementCount;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-
-    void Init(int a, int b, int c, int d);
-};
-
-
 // @fnv 0x00d44d00
-void* FUN_00d44d00(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void* FUN_00d44d00(void* bodyA, void* bodyB, void* input, void* mgr)
 {
-    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
-    obj->m_iElementCount = 0x38;
-    obj->Init(aiArg2, aiArg1, aiArg3, aiArg4);
-    *(void* volatile*)obj = (void*)DAT_010cf390;
-    return obj;
+    void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d440f0));
+    ::FUN_00d440f0* agent = new (mem) ::FUN_00d440f0(*static_cast<const ::CdBodyS*>(bodyB), *static_cast<const ::CdBodyS*>(bodyA),
+                                                     *static_cast<const ::CollisionInputS*>(input), static_cast<::ContactMgrS*>(mgr));
+    agent->m_usMemSizeAndFlags = sizeof(::FUN_00d440f0);
+    *(void* volatile*)agent = (void*)DAT_010cf390;
+    return agent;
 }
 
 struct FnTable
@@ -879,11 +860,12 @@ void SphereDispatch::ProcessSpheres(const hkpCdBody& aBody, const hkpCdBody& aOt
 }
 
 // @fnv 0x00d44cc0
-void FUN_00d44cc0(int a1, int a2, int a3, int a4)
+void FUN_00d44cc0(void* bodyA, void* bodyB, void* input, void* mgr)
 {
-    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x38));
-    obj->m_iElementCount = 0x38;
-    obj->Init(a1, a2, a3, a4);
+    void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d440f0));
+    ::FUN_00d440f0* agent = new (mem) ::FUN_00d440f0(*static_cast<const ::CdBodyS*>(bodyA), *static_cast<const ::CdBodyS*>(bodyB),
+                                                     *static_cast<const ::CollisionInputS*>(input), static_cast<::ContactMgrS*>(mgr));
+    agent->m_usMemSizeAndFlags = sizeof(::FUN_00d440f0);
 }
 
 

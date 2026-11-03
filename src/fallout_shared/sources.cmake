@@ -43,6 +43,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/creaturesounds.cpp
   src/fallout_shared/decaldata.cpp
   "src/fallout_shared/distant terrain system/bgsdistantobjectblock.cpp"
+  "src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp"
   "src/fallout_shared/distant terrain system/bgsterrainmanager.cpp"
   src/fallout_shared/doorlock.cpp
   src/fallout_shared/experiencepoints.cpp
@@ -184,6 +185,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tescombatstyle.cpp
   src/fallout_shared/tescombatstyle_h_unit.cpp
   src/fallout_shared/tesconditionitem.cpp
+  src/fallout_shared/tescreature.cpp
   src/fallout_shared/tescreature_h_unit.cpp
   src/fallout_shared/tesenchantableform.cpp
   src/fallout_shared/tesenchantableform_h_unit.cpp
@@ -280,7 +282,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/bgsworldlocation.cpp
   src/fallout_shared/bipedanim.cpp
   src/fallout_shared/bsanimgroupsequence.cpp
-  "src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp"
   "src/fallout_shared/distant terrain system/bgsterrainchunk.cpp"
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/facegen/bsfacegenmanager.cpp
@@ -333,7 +334,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tescondition.cpp
   src/fallout_shared/tesconditionfunctions.cpp
   src/fallout_shared/tescontainer.cpp
-  src/fallout_shared/tescreature.cpp
   src/fallout_shared/tesdatahandler.cpp
   src/fallout_shared/tesdescription.cpp
   src/fallout_shared/teseffectshader.cpp

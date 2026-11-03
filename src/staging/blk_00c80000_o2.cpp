@@ -705,7 +705,7 @@ struct StringHolder
 
 // Looks up a named property on param_1, dynamic-casts the result to a float-bearing object, and returns its value at offset 0x18, defaulting to 1.0f.
 // @fnv 0x00c81b90
-float GetFloatProperty(int aiObject, char const* apName)
+float GetFloatProperty(intptr_t aiObject, char const* apName)
 {
     float result = 1.0f;
 
@@ -3832,13 +3832,13 @@ class SpawnedBase_b7559
 class FUN_00c894d0 : public SpawnedBase_b7559
 {
   public:
-    FUN_00c894d0(int a, int b, int c, int d, int e);
+    FUN_00c894d0(int a, int b, int c, intptr_t d, int e);
     virtual void unk00();
 };
 
 // Constructs the object by forwarding all five arguments to Init_b7559.
 // @fnv 0x00c894d0
-FUN_00c894d0::FUN_00c894d0(int a, int b, int c, int d, int e)
+FUN_00c894d0::FUN_00c894d0(int a, int b, int c, intptr_t d, int e)
 {
     reinterpret_cast<::Shape892 *>(this)->FUN_00c892c0(a, b, c, (::Shape892 *)(d), e);
 }
@@ -3858,7 +3858,7 @@ struct FUN_00c894d0
     unsigned int unk20;
     unsigned int unk24;
     unsigned int unk28;
-    FUN_00c894d0(int, int, int, int, int);
+    FUN_00c894d0(int, int, int, intptr_t, int);
 };
 struct ScopedMemoryMode
 {
@@ -3873,13 +3873,13 @@ struct ScopedMemoryMode
     }
 };
 // @fnv 0x00c89540
-FUN_00c894d0* __cdecl CreateResourceObject(int first, int second, int resourceId, int finalArgument)
+FUN_00c894d0* __cdecl CreateResourceObject(int first, int second, intptr_t resourceId, int finalArgument)
 {
     ScopedMemoryMode scopedMode(16);
     FUN_00c894d0* result = 0;
     if (resourceId != 0)
     {
-        int info = ((intptr_t)(::FUN_00c802d0((::MyNode *)(resourceId))));
+        intptr_t info = ((intptr_t)(::FUN_00c802d0((::MyNode *)(resourceId))));
         if (info != 0)
         {
             result = new FUN_00c894d0(first, second, resourceId, info, finalArgument);
@@ -4410,7 +4410,7 @@ struct FUN_00c89960_cls
 // @fnv 0x00c89960
 void FUN_00c89960_cls::FUN_00c89960(unsigned int uiValue)
 {
-    unsigned int v = *(volatile unsigned int*)&uiValue;
+    uintptr_t v = *(volatile unsigned int*)&uiValue;
     reinterpret_cast<::FUN_00c878c0_cls *>(this)->FUN_00c878c0((::BC878C0StringArray *)(v));
     FUN_00c89960_inner* p = (FUN_00c89960_inner*)v45(&uiValue);
     FUN_00c89960_inner* q = p ? (FUN_00c89960_inner*)((char*)p - 4) : 0;
@@ -5692,11 +5692,11 @@ struct FUN_00c8b000_cls
     virtual void v43();
     virtual void v44();
     virtual FUN_00c8b000_List* v45(bool* out);
-    void UpdateListEntries(int a1, int a2);
+    void UpdateListEntries(intptr_t a1, intptr_t a2);
 };
 
 // @fnv 0x00c8b000
-void FUN_00c8b000_cls::UpdateListEntries(int a1, int a2)
+void FUN_00c8b000_cls::UpdateListEntries(intptr_t a1, intptr_t a2)
 {
     bool flag;
     FUN_00c8b000_List* list = v45(&flag);
@@ -8075,11 +8075,11 @@ struct TlsGuard_t
 
 struct FUN_00c9bef0_cls
 {
-    FUN_00c9aeb0_t* CreateObject(int arg);
+    FUN_00c9aeb0_t* CreateObject(intptr_t arg);
 };
 
 // @fnv 0x00c9bef0
-FUN_00c9aeb0_t* FUN_00c9bef0_cls::CreateObject(int arg)
+FUN_00c9aeb0_t* FUN_00c9bef0_cls::CreateObject(intptr_t arg)
 {
     TlsGuard_t guard;
     FUN_00c9aeb0_t* obj = new FUN_00c9aeb0_t();
@@ -11156,7 +11156,7 @@ void FUN_00c886c0_cls::CallTargetWithArgs()
     if (t != 0)
     {
         ::FUN_00c69ee0((::NiAVObject *)(t), 1, 1);
-        unsigned int r = ((uintptr_t)(reinterpret_cast<::MyHost *>((t))->FUN_00a5c570((const ::MyRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012681f0))))));
+        uintptr_t r = ((uintptr_t)(reinterpret_cast<::MyHost *>((t))->FUN_00a5c570((const ::MyRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012681f0))))));
         if (r != 0)
         {
             reinterpret_cast<::ControllerOwner *>((t))->FUN_00a5c480((::NiTimeController *)(r));
@@ -11774,7 +11774,7 @@ void* __cdecl FUN_00c85620(FUN_00c85620_heap* pkHeap, unsigned int uiSize, unsig
     unsigned int uiEnd = uiSize + uiAlignment;
     void* pvRaw = pkHeap->Allocate(uiEnd + 0x10);
 
-    unsigned int uiAligned = (uintptr_t)pvRaw + uiAlignment + 0xf;
+    uintptr_t uiAligned = (uintptr_t)pvRaw + uiAlignment + 0xf;
     uiAligned &= ~(uiAlignment - 1);
 
     unsigned int* puiBlock = (unsigned int*)uiAligned;
@@ -12116,7 +12116,7 @@ struct Cls_c891
 // @fnv 0x00c891c0
 void Cls_c891::FUN_00c891c0()
 {
-    int obj = m_08;
+    intptr_t obj = m_08;
     if (obj != 0)
     {
         Holder_c891* holder = ((::Holder_c891 *)(::FUN_00c802d0((::MyNode *)(obj))));
@@ -12714,7 +12714,7 @@ int __cdecl FUN_00c8ff70()
 
 
 // @fnv 0x00c8ff80
-void __cdecl FUN_00c8ff80(int param_1, int param_2)
+void __cdecl FUN_00c8ff80(int param_1, intptr_t param_2)
 {
     reinterpret_cast<::C818F0_cls *>((param_1))->FUN_00c818f0((::NiStream *)(param_2));
 }
@@ -13039,12 +13039,12 @@ class FUN_00c819f0_cls
     unsigned int unk14;
     unsigned int m_18;
     unsigned int m_1c;
-    void FUN_00c819f0(int a1);
+    void FUN_00c819f0(intptr_t a1);
 };
 
 // Calls Callee65820, then twice calls the m_0c callback of the stream at a1+0x250 on m_18 and m_1c (4 bytes each), adding each result to the stream's m_04.
 // @fnv 0x00c819f0
-void FUN_00c819f0_cls::FUN_00c819f0(int a1)
+void FUN_00c819f0_cls::FUN_00c819f0(intptr_t a1)
 {
     char* obj = (char*)a1;
     FUN_00c819f0_stream* __restrict o;
@@ -13153,11 +13153,11 @@ class NiTriShape : public NiMemObject
 struct MeshBuilder
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
-    void BuildTriShape(unsigned int unused, SourceMesh* mesh, unsigned int arg2, const char* name);
+    void BuildTriShape(uintptr_t unused, SourceMesh* mesh, uintptr_t arg2, const char* name);
 };
 // Copies SourceMesh vertex and triangle data into a new NiTriShape, sets its name, ensures normals, and attaches an emissive material.
 // @fnv 0x00c84fa0
-void MeshBuilder::BuildTriShape(unsigned int unused, SourceMesh* mesh, unsigned int arg2, const char* name)
+void MeshBuilder::BuildTriShape(uintptr_t unused, SourceMesh* mesh, uintptr_t arg2, const char* name)
 {
     MeshMemoryScope scope;
     if (mesh)
@@ -14380,7 +14380,7 @@ NiObject* __cdecl FUN_00c80c00(WorkNode_cls* apNode, WorkStack_cls* apStack, uns
     {
         unsigned int count = apStack->m_08;
         unsigned int* entries = apStack->m_04;
-        unsigned int uiNodePtr = entries[count * 2 - 2];
+        uintptr_t uiNodePtr = entries[count * 2 - 2];
         unsigned int high = entries[count * 2 - 1];
         apStack->m_08 = count - 1;
         result = FUN_00c80c00((WorkNode_cls*)uiNodePtr, apStack, uiMaxDepth, high);
@@ -15568,7 +15568,7 @@ struct S00c859e0_cls
 // @fnv 0x00c859e0
 void S00c859e0_cls::FUN_00c859e0(unsigned int value)
 {
-    unsigned int id = value;
+    uintptr_t id = value;
     _ReadWriteBarrier();
     void* found = ((void *)(reinterpret_cast<::NiStream *>((reinterpret_cast<FUN_00a63430_class*>(id)))->GetLoadedObject()));
     void** table = *reinterpret_cast<void***>(this);
@@ -17494,9 +17494,9 @@ __forceinline bool Mask135(unsigned int a, unsigned int b)
 bool FUN_00c84740(uintptr_t a, uintptr_t b)
 {
 
-    unsigned int cachedA = a;
+    uintptr_t cachedA = a;
 
-    unsigned int cachedB = b;
+    uintptr_t cachedB = b;
 
     unsigned int layerA = cachedA & 0x7f;
 
@@ -18146,12 +18146,12 @@ struct C8AB30_Cls
     int unk04;
     C8AB30_Ref* m_08;
 
-    bool FUN_00c8ab30(int a);
+    bool FUN_00c8ab30(intptr_t a);
 };
 
 // For nonzero a, returns FUN_00c87a70(a) unless the sub-object's v9c(a) fails; for zero a, calls vA0() and returns false (requires this and m_08).
 // @fnv 0x00c8ab30
-bool C8AB30_Cls::FUN_00c8ab30(int a)
+bool C8AB30_Cls::FUN_00c8ab30(intptr_t a)
 {
     TlsGuard_t kGuard;
     bool bResult = false;
@@ -18641,12 +18641,12 @@ class ListShapeSharingView : public bhkListShapeStub
         return this != 0 ? (ShareListData*)m_pHavokObject : 0;
     }
 
-    unsigned char FUN_00c8b440(int a1);
+    unsigned char FUN_00c8b440(intptr_t a1);
 };
 
 // Returns FUN_00c84ec0(a1) ANDed with V52(a1) of each non-null child shape in the list, stopping early once the result is zero.
 // @fnv 0x00c8b440
-unsigned char ListShapeSharingView::FUN_00c8b440(int a1)
+unsigned char ListShapeSharingView::FUN_00c8b440(intptr_t a1)
 {
     unsigned char result = (unsigned char)FUN_00c84ec0((void*)a1);
     while (true)

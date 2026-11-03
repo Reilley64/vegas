@@ -5,6 +5,7 @@
 
 // @fnv 0x00ca34b0
 #include <cstddef>
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/CA0E60Array.h"
@@ -159,7 +160,7 @@ struct hkStringPtr
     void FUN_00cb0a60();
     ~hkStringPtr()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00(reinterpret_cast<std::intptr_t>(this));
     }
     void operator=(const char*);
 };
@@ -555,10 +556,10 @@ struct SceneNode
     int unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     int unk60, unk64, unk68, unk6C, unk70;
-    unsigned int taggedName;
+    std::uintptr_t taggedName;
     __forceinline const char* getName() const
     {
-        return (const char*)(taggedName & ~1u);
+        return (const char*)(taggedName & ~std::uintptr_t(1));
     }
     int unk78, unk7C, unk80, unk84, unk88, unk8C;
     int unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC;
@@ -688,7 +689,7 @@ Rig* BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentList* attach
             }
             else
                 reinterpret_cast<::S_00ce5070_QsTransform *>(&(rig->transforms.data[i]))->FUN_00ce5070((*(const ::S_00ce5070_Transform *)(&node->transform)));
-            const char* text = (const char*)(node->taggedName & ~1u);
+            const char* text = (const char*)(node->taggedName & ~std::uintptr_t(1));
             if (text)
             {
                 hkStringPtr& boneName = rig->names.data[i];
@@ -1225,7 +1226,7 @@ struct Storage
 struct Builder
 {
     void* vtable;
-    unsigned handle;
+    void* handle;
     unsigned count;
     unsigned capacity;
     Builder();
@@ -1474,7 +1475,7 @@ __forceinline Builder::~Builder()
     vtable = &DAT_0104e190;
     if (handle)
     {
-        ((VecTable*)vtable)->free(this, (void*)handle);
+        ((VecTable*)vtable)->free(this, handle);
         handle = 0;
         count = capacity = 0;
     }
@@ -1580,7 +1581,7 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
     {
         ScratchVec left(64);
         RightScratchVec right(64);
-        reinterpret_cast<::SceneWalker_cls *>(this)->TraverseSceneNode((::SceneNode_cls *)(original.data[outer]), (int)(&left), (int)(&right));
+        reinterpret_cast<::SceneWalker_cls *>(this)->TraverseSceneNode((::SceneNode_cls *)(original.data[outer]), &left, &right);
         if (right.count == 0)
             continue;
         bool reused = false;

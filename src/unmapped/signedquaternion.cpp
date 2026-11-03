@@ -52,7 +52,7 @@ void FnvNode::FUN_00e33f10(float a1, int a2, unsigned char a3, int a4, unsigned 
     {
         FnvScratch s;
         _mm_store_ps((float*)&s.unk00, _mm_setzero_ps());
-        ::FUN_00e33a30((*(const unsigned char * *)(a5)), a2, m_40, a1, a3, a4, (::Point4 *)(float *)((float*)&s.unk00), (int)(&s.result));
+        ::FUN_00e33a30((*(const unsigned char * *)(a5)), a2, m_40, a1, a3, a4, (::Point4 *)(float *)((float*)&s.unk00), reinterpret_cast<std::intptr_t>(&s.result));
         *a6 = s.result;
     }
     *a5 = (*a5 + 3) & 0xfffffffcu;

@@ -63,14 +63,16 @@ int FUN_00802a20_class::FUN_00802a20(const char* apPage)
 
 struct FUN_00802860_class
 {
-    int ResetField();
+    char pad00[0x40];
+    int m_40;
+    FUN_00802860_class* ResetField();
 };
 
 // @fnv 0x00802860
-int FUN_00802860_class::ResetField()
+FUN_00802860_class* FUN_00802860_class::ResetField()
 {
-    *(int*)((char*)this + 0x40) = 0;
-    return (int)this;
+    m_40 = 0;
+    return this;
 }
 
 // Stand-in for the page registry object passed to FUN_00802220.

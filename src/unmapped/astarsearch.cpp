@@ -32,13 +32,14 @@ extern int DAT_0106b660;
 
 struct GlobalObject_00869f00
 {
+    void* vfptr;
     void FUN_006a7f90();
 };
 
 // @fnv 0x006a7f90
 void GlobalObject_00869f00::FUN_006a7f90()
 {
-    *(int*)this = (int)&DAT_0106b660;
+    vfptr = &DAT_0106b660;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
 }
 

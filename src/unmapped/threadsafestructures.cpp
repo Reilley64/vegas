@@ -295,7 +295,7 @@ struct FUN_00906160
 // @fnv 0x00906160
 FUN_00906160::FUN_00906160(int a, unsigned int auiBucketCount, int aiParam)
 {
-    reinterpret_cast<int*>(this)[0] = reinterpret_cast<int>(&DAT_0108864c);
+    *reinterpret_cast<void**>(&m_interface) = &DAT_0108864c;
     new ((void *)(reinterpret_cast<SL*>(m_kNode))) ::fnv_00722f60::SL();
 
     AutoMemHelper helper(6, true, ::kThreadSafeStructuresSourceFile, 0x390);
@@ -320,7 +320,10 @@ struct Iteration
 };
 struct FUN_0044b8d0_Class
 {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    void* vfptr;
+    unsigned int* m_pSlots;
+    unsigned int m_uiBuckets;
+    int unk0c, unk10, unk14, unk18, unk1c;
     RecursiveSpinLock lock;
     Item* FUN_00449f80(unsigned int, unsigned int*, unsigned int);
     Item* FUN_00449f80(unsigned int);
@@ -455,9 +458,9 @@ struct QueueIter44c640
 };
 struct Queue44c640
 {
-    void* unk00;
-    void* unk04;
-    void* unk08;
+    void* vfptr;
+    unsigned int* m_pSlots;
+    unsigned int m_uiBuckets;
     void* unk0C;
     void* unk10;
     void* unk14;
@@ -516,10 +519,9 @@ struct CleanupBaseDtor
 
 struct FUN_0044cae0_cls : CleanupBaseDtor
 {
-    int m_04;
-    int unk08;
-    int m_0c;
-
+    unsigned int* m_pSlots;
+    unsigned int m_uiBuckets;
+    void* m_pBuckets;
 
     ~FUN_0044cae0_cls();
 };
@@ -528,10 +530,8 @@ struct FUN_0044cae0_cls : CleanupBaseDtor
 FUN_0044cae0_cls::~FUN_0044cae0_cls()
 {
     reinterpret_cast<::TSHashTable *>(this)->FUN_0044c480(1);
-    void* pC_ = (void*)m_0c;
-    FUN_00401030(pC_);
-    void* p4 = (void*)m_04;
-    FUN_00401030(p4);
+    FUN_00401030(m_pBuckets);
+    FUN_00401030(m_pSlots);
 }
 
 struct Dispatch
@@ -622,7 +622,7 @@ bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* p
             if (!success)
             {
                 pIteration->index++;
-                if (pIteration->index >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+                if (pIteration->index >= m_uiBuckets)
                 {
                     reinterpret_cast<::MapMarkerData *>((pIteration))->SetTravelLocation(true);
                 }
@@ -671,7 +671,7 @@ bool Queue44c640::TryGetNextEntry(QueueIter44c640* iter, void** out, int param, 
             if (!result)
             {
                 iter->uiIndex++;
-                if (iter->uiIndex >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+                if (iter->uiIndex >= m_uiBuckets)
                 {
                     reinterpret_cast<::MapMarkerData *>((iter))->SetTravelLocation(true);
                 }

@@ -275,13 +275,13 @@ struct SpawnedObject
     unsigned int unk150;
     unsigned int unk154;
     unsigned char m_158;
-    SpawnedObject* FUN_0085fb40(int a1, int a2, int a3);
+    SpawnedObject* FUN_0085fb40(const char* a1, int a2, int a3);
 };
 
 // @fnv 0x0085fb40
-SpawnedObject* SpawnedObject::FUN_0085fb40(int a1, int a2, int a3)
+SpawnedObject* SpawnedObject::FUN_0085fb40(const char* a1, int a2, int a3)
 {
-    new ((void *)(this)) ::FUN_00b00260((const char *)(a1), a2, a3, 0);
+    new ((void *)(this)) ::FUN_00b00260(a1, a2, a3, 0);
     *(void* volatile*)this = &DAT_01081a5c;
     this->m_158 = 0;
     return this;

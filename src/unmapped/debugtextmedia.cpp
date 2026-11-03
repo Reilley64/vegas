@@ -219,7 +219,7 @@ class VCall20
     virtual void t5();
     virtual void t6();
     virtual void t7();
-    virtual int v20(int v);
+    virtual int v20(void* v);
 };
 class GlobalObject_0040c150
 {
@@ -272,7 +272,7 @@ void ThisCls::FUN_00852080(int unused)
                     char buf313[0x108];
                     void* info8;
                     SizePair kPair1a12;
-                    int val4a8;
+                    SaveData* pSaveData;
                     SizePair pair2a;
                     char buf2[0x108];
                     ::FUN_00406d00(buf2, 0x104, "%s%s", buf127, ((char *)(reinterpret_cast<::TESTopicInfo *>(&(finder))->GetAddTopicList())));
@@ -282,8 +282,8 @@ void ThisCls::FUN_00852080(int unused)
                         kPair1a12.low = 0;
                         kPair1a12.high = 0;
                         reinterpret_cast<::FileSizeInfo *>(&(handle20))->FUN_0065c290((*(::_LARGE_INTEGER *)(&kPair1a12.low)));
-                        val4a8 = (int)new SaveData("SaveData", 0, kPair1a12.low);
-                        info8 = ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((InfoLike*)(void*)val4a8)))->FUN_0068efb0()));
+                        pSaveData = new SaveData("SaveData", 0, kPair1a12.low);
+                        info8 = ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((InfoLike*)(void*)pSaveData)))->FUN_0068efb0()));
                         pair2a.low = 0;
                         pair2a.high = 0;
                         reinterpret_cast<::FUN_008526d0_shell *>(&(handle20))->SetFromCall(
@@ -294,27 +294,27 @@ void ThisCls::FUN_00852080(int unused)
                             FUN_00406d50(buf313, 0x104, buf2);
                             ((VCall8*)FUN_00af2640()->FUN_008526c0())->v8(buf313, 1000);
                             entry3 = new EntryLike(buf2, 0);
-                            ::ReadSaveFileHeader((void *)(val4a8), (void *)((int)entry3));
+                            ::ReadSaveFileHeader(pSaveData, entry3);
                             reinterpret_cast<::FUN_006ea330_shell *>((entry3))->FUN_006ea330();
-                            reinterpret_cast<::fnv_00851f60::FUN_00851f60_Class *>((((InfoLike*)info8)))->FUN_00851f60((unsigned int)("-SAVE-"));
+                            reinterpret_cast<::fnv_00851f60::FUN_00851f60_Class *>((((InfoLike*)info8)))->FUN_00851f60("-SAVE-");
                             if (((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3)))) != 0 && ((int)(::FUN_0044a670(((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3))))))) != 0)
-                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90((unsigned int)(((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3))))));
+                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90(((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3)))));
                             else
-                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90((unsigned int)("Location"));
+                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90("Location");
                             ::FUN_00406d00(
                                 buf410, 0x100, "%s\n%s %d: %s\n%s: %s",
                                 reinterpret_cast<::FUN_0075f8c0_shell *>((entry3))->FUN_0075f8c0() ? reinterpret_cast<::FUN_0075f8c0_shell *>((entry3))->FUN_0075f8c0() : (char*)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d4f78))))->GetMenuTitle())),
                                 ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d3b2c))))->GetMenuTitle())), reinterpret_cast<::FUN_007d5160_shell *>((entry3))->FUN_007d5160(),
                                 reinterpret_cast<::BGSSaveLoadFileEntry *>((entry3))->FUN_007d5140() ? reinterpret_cast<::BGSSaveLoadFileEntry *>((entry3))->FUN_007d5140() : "-", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d3954))))->GetMenuTitle())),
                                 reinterpret_cast<::FUN_007d5180_shell *>((entry3))->FUN_007d5180() ? reinterpret_cast<::FUN_007d5180_shell *>((entry3))->FUN_007d5180() : (char*)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0040c150 *>(&::g_011d3954))))->GetMenuTitle())));
-                            reinterpret_cast<::FUN_00851fc0_shell *>((((InfoLike*)info8)))->FUN_00851fc0((unsigned int)(buf410));
+                            reinterpret_cast<::FUN_00851fc0_shell *>((((InfoLike*)info8)))->FUN_00851fc0(buf410);
                             reinterpret_cast<::FUN_00851ff0_class *>((((InfoLike*)info8)))->FUN_00851ff0(((int)(reinterpret_cast<::BGSSaveLoadFileEntry *>((entry3))->FUN_00851ef0())), ((int)(reinterpret_cast<::fnv_00851f10::BGSSaveLoadFileEntry *>((entry3))->FUN_00851f10())),
                                                ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((InfoLike*)info8)))->GetUnk15C())) + ((int)(reinterpret_cast<::fnv_00851f30::BGSSaveLoadFileEntry *>((entry3))->FUN_00851f30())));
-                            reinterpret_cast<::fnv_00852030::FUN_00852030_Class *>((((InfoLike*)info8)))->FUN_00852030((int)("DATA/SYSUTIL/SAVEBACK.PNG"));
-                            reinterpret_cast<::FUN_00852060_Class *>((((InfoLike*)info8)))->SetValue((int)&((void (&)())::fnv_00852740::FUN_00852740));
+                            reinterpret_cast<::fnv_00852030::FUN_00852030_Class *>((((InfoLike*)info8)))->FUN_00852030("DATA/SYSUTIL/SAVEBACK.PNG");
+                            reinterpret_cast<::FUN_00852060_Class *>((((InfoLike*)info8)))->SetValue(&::fnv_00852740::FUN_00852740);
                             delete entry3;
-                            reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(this)->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(val4a8));
-                            ((VCall20*)reinterpret_cast<::FUN_00851f50_class *>((FUN_00af2640()))->FUN_00851f50())->v20((int)info8);
+                            reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(this)->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(pSaveData));
+                            ((VCall20*)reinterpret_cast<::FUN_00851f50_class *>((FUN_00af2640()))->FUN_00851f50())->v20(info8);
                             while (reinterpret_cast<::PatrolActorPackageData *>((((SingObj*)reinterpret_cast<::FUN_00851f50_class *>((FUN_00af2640()))->FUN_00851f50())))->IsPatrolling() == 1)
                                 ::FUN_0040fca0(10);
                         }

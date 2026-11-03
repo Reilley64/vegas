@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/contactlistener/util/hkpendofstepcallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/contactlistener/util/hkpendofstepcallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/SearchArray.h"
 #include "fnv/decl/fnv_00c93920__hkpWorldXc93920.h"
 #include "fnv/decl/fnv_00d0b0d0__FUN_00d0b0d0.h"
@@ -206,7 +207,7 @@ FUN_00d9e860::FUN_00d9e860()
     unk34 = (int)0x80000000;
 }
 
-extern "C" void* __cdecl FUN_00c85750(void);
+
 
 struct S_00d9e3f0_Router
 {
@@ -214,7 +215,7 @@ struct S_00d9e3f0_Router
     void* m10;
     static S_00d9e3f0_Router& GetMonitorStream()
     {
-        return *(S_00d9e3f0_Router*)FUN_00c85750();
+        return *(S_00d9e3f0_Router*)::FUN_00c85750();
     }
 };
 
@@ -421,7 +422,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+
 
 struct FUN_00d9ee20_cls
 {
@@ -441,7 +442,7 @@ FUN_00d9ee20_cls* FUN_00d9ee20_cls::FUN_00d9ee20(unsigned char acFlags)
     reinterpret_cast<::fnv_00d0b0d0::FUN_00d0b0d0 *>(this)->fnv_00d0b0d0::FUN_00d0b0d0::~FUN_00d0b0d0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -467,7 +468,7 @@ struct S_00d9ea80_Router
     S_00d9ea80_Heap* m_pStreamAllocator;
     static S_00d9ea80_Router& GetMonitorStream()
     {
-        return *(S_00d9ea80_Router*)FUN_00c85750();
+        return *(S_00d9ea80_Router*)::FUN_00c85750();
     }
     S_00d9ea80_Heap& heap()
     {
@@ -842,7 +843,7 @@ struct hkMemRouterD9E
     }
     static __forceinline hkMemRouterD9E& GetMonitorStream()
     {
-        return *static_cast<hkMemRouterD9E*>(FUN_00c85750());
+        return *static_cast<hkMemRouterD9E*>(::FUN_00c85750());
     }
 };
 
@@ -874,7 +875,7 @@ struct ElemArrayD9E
 
     static __forceinline hkMemAllocatorD9E* heap()
     {
-        return static_cast<hkMemRouterD9E*>(FUN_00c85750())->m_pStreamAllocator;
+        return static_cast<hkMemRouterD9E*>(::FUN_00c85750())->m_pStreamAllocator;
     }
     __forceinline int getCapacity() const
     {
@@ -889,7 +890,7 @@ struct ElemArrayD9E
         m_data = 0;
         m_iElementCount = 0;
         m_iCapacityState = (int)0x80000000;
-        hkMemRouterD9E* router = static_cast<hkMemRouterD9E*>(FUN_00c85750());
+        hkMemRouterD9E* router = static_cast<hkMemRouterD9E*>(::FUN_00c85750());
         hkMemAllocatorD9E* alloc = router->m_pStreamAllocator;
         p = cap ? bufAllocD9E(alloc, cap) : 0;
         flags = cap ? cap : (int)0x80000000;
@@ -1035,7 +1036,7 @@ void __cdecl FUN_00d9e8b0(hkArray16_8b0* pkNew, hkArray12_8b0* volatile argOut)
         return;
 
     int iTotalCount = pkOut->m_uiLogicalSize + pkNew->m_uiLogicalSize;
-    hkRouter8b0& kRouter0 = *(hkRouter8b0*)FUN_00c85750();
+    hkRouter8b0& kRouter0 = *(hkRouter8b0*)::FUN_00c85750();
     hkValue8b0* pkData = AllocArray8b0(kRouter0.m_pkHeap, iTotalCount);
     int iCapacity = iTotalCount ? iTotalCount : 0x80000000;
     hkArray12_8b0 kMerged;
@@ -1060,7 +1061,7 @@ void __cdecl FUN_00d9e8b0(hkArray16_8b0* pkNew, hkArray12_8b0* volatile argOut)
 
     reinterpret_cast<::FUN_00d9ec10_cls *>((((hkMergeTarget8b0*)argOut)))->SwapThreeInts((int*)&kMerged);
     pkNew->m_uiLogicalSize = 0;
-    hkRouter8b0& kRouter = *(hkRouter8b0*)FUN_00c85750();
+    hkRouter8b0& kRouter = *(hkRouter8b0*)::FUN_00c85750();
     hkAllocator8b0* pkHeap = kRouter.m_pkHeap;
     if ((kMerged.m_iCapacityAndFlags & 0x80000000) == 0)
         pkHeap->BufFree(kMerged.m_pData, (kMerged.m_iCapacityAndFlags & 0x3fffffff) * sizeof(hkValue8b0));
@@ -1157,7 +1158,7 @@ struct BatchBuffer : BatchArrayView<S_00d9e3f0_Item>
 {
     __forceinline BatchBuffer(int size) : BatchArrayView<S_00d9e3f0_Item>()
     {
-        BatchContext* context = (BatchContext*)FUN_00c85750();
+        BatchContext* context = (BatchContext*)::FUN_00c85750();
         BatchHeap* heap = context->heap;
         S_00d9e3f0_Item* allocation = size ? makeAllocation(heap, size) : 0;
         int cap = size ? size : 0x80000000;
@@ -1167,7 +1168,7 @@ struct BatchBuffer : BatchArrayView<S_00d9e3f0_Item>
     }
     __forceinline void resize(int size)
     {
-        BatchContext* context = (BatchContext*)FUN_00c85750();
+        BatchContext* context = (BatchContext*)::FUN_00c85750();
         BatchHeap* heap = context->heap;
         int cap = capacity & 0x3fffffff;
         if (cap < size)
@@ -1176,7 +1177,7 @@ struct BatchBuffer : BatchArrayView<S_00d9e3f0_Item>
     }
     __forceinline void clear()
     {
-        BatchContext* context = (BatchContext*)FUN_00c85750();
+        BatchContext* context = (BatchContext*)::FUN_00c85750();
         BatchHeap* heap = context->heap;
         count = 0;
         if ((capacity & 0x80000000) == 0)

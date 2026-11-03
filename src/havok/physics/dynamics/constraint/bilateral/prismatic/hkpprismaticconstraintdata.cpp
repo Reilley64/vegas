@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00d51620_class.h"
@@ -118,7 +119,7 @@ struct hkMemoryRouterD4FF
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4FF& __cdecl FUN_00c85750();
+
 
 class FUN_00d4f8d0
 {
@@ -129,7 +130,7 @@ class FUN_00d4f8d0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d4f8d0*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterD4FF*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00d4f8d0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d4f8d0* FUN_00d4ffd0(unsigned int uiFlags) throw();

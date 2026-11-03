@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <intrin.h>
@@ -176,7 +177,7 @@ struct Receiver {
     virtual void Invoke(void* data, unsigned int size);
 };
 struct Manager { int unk00; int unk04; int unk08; int unk0c; int unk10; };
-Manager* __cdecl FUN_00c85750();
+
 struct FUN_00d0d0d0_cls {
     int unk00; int unk04; int unk08; int unk0c;
     int unk10; int unk14; int unk18; int unk1c;
@@ -202,9 +203,9 @@ void FUN_00d0d0d0_cls::Destroy() {
     unk00 = (int)&DAT_010cd45c;
     if (sub3c.unk0c)
         sub3c.unk0c->Invoke(1);
-    reinterpret_cast<::CB1A90Owner *>(&(sub3c))->ProcessArgument((::CB1A90Argument *)(void *)((void*)FUN_00c85750()->unk10));
+    reinterpret_cast<::CB1A90Owner *>(&(sub3c))->ProcessArgument((::CB1A90Argument *)(void *)((void*)static_cast<Manager*>(::FUN_00c85750())->unk10));
     ::FUN_00a29680();
-    Manager* manager = FUN_00c85750();
+    Manager* manager = static_cast<Manager*>(::FUN_00c85750());
     Receiver* writer = (Receiver*)manager->unk10;
     unk34 = 0;
     if ((unk38 & 0x80000000) != 0) goto skip_writer;
@@ -838,7 +839,7 @@ unsigned char* __cdecl CollectMatchingEntries(unsigned char* pResult, SrcA* pSrc
                         return pResult;
                     }
                     result = 0;
-                    HolderBase* h = (HolderBase*)FUN_00c85750();
+                    HolderBase* h = (HolderBase*)static_cast<Manager*>(::FUN_00c85750());
                     if (dst->m_04 == (int)(dst->m_08 & 0x3fffffff)) {
                         ::ResizeAudioStream((::AudioAllocator *)(h->m_10), (::AudioStream *)(dst), 0xc);
                     }
@@ -1986,14 +1987,14 @@ static inline void TimerCommandD0Write(const char* name)
 
 static inline void* AllocateStackD0(int nbytes)
 {
-    Manager* mem = FUN_00c85750();
+    Manager* mem = static_cast<Manager*>(::FUN_00c85750());
     void* p = (void*)mem->unk00;
     mem->unk00 += (nbytes + 127) & ~127;
     return p;
 }
 static inline void FreeStackD0(void* p)
 {
-    FUN_00c85750()->unk00 = (int)p;
+    static_cast<Manager*>(::FUN_00c85750())->unk00 = (int)p;
 }
 // Builds handles and uncompressed AABBs for each collidable, runs the broad-phase pair update under lock, then processes new and deleted pairs.
 // @fnv 0x00d0c030
@@ -2818,11 +2819,11 @@ void FUN_00d0c290_cls::FUN_00d0c290(int* ids, int n) {
         t.unk00 = 0;
         t.unk04 = 0;
         t.unk08 = -1;
-        Manager* pManager = FUN_00c85750();
+        Manager* pManager = static_cast<Manager*>(::FUN_00c85750());
         reinterpret_cast<::FUN_00cb1fe0_t *>(&(t))->EnsureCapacity((int)((void*)pManager->unk10), n);
         for (int i = 0; i < n; ++i) {
             int id = ids[i];
-            Manager* h = FUN_00c85750();
+            Manager* h = static_cast<Manager*>(::FUN_00c85750());
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(t))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)((void*)h->unk10)), id, 0);
         }
         for (int k = 0; k < self->m_34; k++) {
@@ -2845,7 +2846,7 @@ void FUN_00d0c290_cls::FUN_00d0c290(int* ids, int n) {
             }
             k--;
         }
-        Manager* h = FUN_00c85750();
+        Manager* h = static_cast<Manager*>(::FUN_00c85750());
         reinterpret_cast<::CB1A90Owner *>(&(t))->ProcessArgument((::CB1A90Argument *)(void *)((void*)h->unk10));
         ::FUN_00a29680();
     }
@@ -3145,7 +3146,7 @@ struct S_00d0e210_Array {
     int m_iCapacityState;
 
     S_00d0e210_Array() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~S_00d0e210_Array() throw() { _clearAndDeallocate(((S_00d0e210_Router*)FUN_00c85750())->heap()); }
+    ~S_00d0e210_Array() throw() { _clearAndDeallocate(((S_00d0e210_Router*)static_cast<Manager*>(::FUN_00c85750()))->heap()); }
     void _clearAndDeallocate(S_00d0e210_Heap& alloc) throw()
     {
         m_iElementCount = 0;
@@ -3685,7 +3686,7 @@ struct D10730MemoryRouter {
     D10730Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D10730MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct FUN_00d10730 {
     unsigned short m_usMemSizeAndFlags;
@@ -3697,7 +3698,7 @@ struct FUN_00d10730 {
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00d10730* b = static_cast<FUN_00d10730*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<D10730MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -3721,7 +3722,7 @@ struct Se4b0_Router {
 };
 inline Se4b0_Router* Se4b0_router()
 {
-    return reinterpret_cast<Se4b0_Router*>(FUN_00c85750());
+    return reinterpret_cast<Se4b0_Router*>(static_cast<Manager*>(::FUN_00c85750()));
 }
 template <typename T> inline void Se4b0_construct(T* p, int n, const T& t)
 {
@@ -3740,7 +3741,7 @@ template <class T> struct Se4b0_Arr {
     }
     void AddBack(const T& t)
     {
-        Manager* r = FUN_00c85750();
+        Manager* r = static_cast<Manager*>(::FUN_00c85750());
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(reinterpret_cast<void*>(r->unk10)), (::AudioStream *)(::Vec *)(reinterpret_cast<Vec*>(this)), sizeof(T));
         Se4b0_construct<T>(m_data + m_iElementCount, 1, t);
@@ -3749,7 +3750,7 @@ template <class T> struct Se4b0_Arr {
 };
 inline void Se4b0_freeStack(void* p)
 {
-    FUN_00c85750()->unk00 = reinterpret_cast<int>(p);
+    static_cast<Manager*>(::FUN_00c85750())->unk00 = reinterpret_cast<int>(p);
 }
 template <class T> struct Se4b0_LocalArr : Se4b0_Arr<T> {
     T* m_pStackAllocation;
@@ -3758,7 +3759,7 @@ template <class T> struct Se4b0_LocalArr : Se4b0_Arr<T> {
         this->m_data = 0;
         this->m_iElementCount = 0;
         this->m_iCapacityState = 0x80000000;
-        Manager* m = FUN_00c85750();
+        Manager* m = static_cast<Manager*>(::FUN_00c85750());
         int p = m->unk00;
         m->unk00 = p + n * sizeof(T);
         this->m_data = reinterpret_cast<T*>(p);
@@ -4144,7 +4145,7 @@ struct S00d0d3f0_Router {
     Allocator* alloc;
     Allocator& heap() { return *alloc; }
 };
-static inline S00d0d3f0_Router* S00d0d3f0_router() { return (S00d0d3f0_Router*)FUN_00c85750(); }
+static inline S00d0d3f0_Router* S00d0d3f0_router() { return (S00d0d3f0_Router*)static_cast<Manager*>(::FUN_00c85750()); }
 struct Region { unsigned unk00, unk04; unsigned data; };
 struct RenderParams {
     unsigned unk000;
@@ -4450,7 +4451,7 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
     primary.start=0;
     primary.count=0;
     primary.capacity=0x80000000u;
-    Manager* cursor=FUN_00c85750();
+    Manager* cursor=static_cast<Manager*>(::FUN_00c85750());
     unsigned* primaryStorage=(unsigned*)cursor->unk00;
     cursor->unk00=(unsigned)primaryStorage + ((pieces*8+0x7f)&~0x7fu);
     primary.capacity=pieces|0x80000000u;
@@ -4462,17 +4463,17 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
     secondary.start=0;
     secondary.count=0;
     secondary.capacity=0x80000000u;
-    cursor=FUN_00c85750();
+    cursor=static_cast<Manager*>(::FUN_00c85750());
     unsigned* secondaryStorage=(unsigned*)cursor->unk00;
     cursor->unk00=(unsigned)secondaryStorage + ((pieces*8+0x7f)&~0x7fu);
     secondary.start=secondaryStorage;
     secondary.capacity=pieces|0x80000000u;
     secondary.original=secondaryStorage;
 
-    cursor=FUN_00c85750();
+    cursor=static_cast<Manager*>(::FUN_00c85750());
     unsigned* bounds=(unsigned*)cursor->unk00;
     cursor->unk00=(unsigned)bounds + ((count*32+0x7f)&~0x7fu);
-    cursor=FUN_00c85750();
+    cursor=static_cast<Manager*>(::FUN_00c85750());
     unsigned** rows=(unsigned**)cursor->unk00;
     cursor->unk00=(unsigned)rows + ((count*4+0x7f)&~0x7fu);
 
@@ -4511,8 +4512,8 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
     if (context->dispatcher->enabled) reinterpret_cast<::FUN_00d97050_cls *>((context->dispatcher))->FUN_00d97050();
     context->dispatcher->Dispatch(rows,bounds,count,&primary,&secondary);
     if (context->dispatcher->enabled) reinterpret_cast<::FUN_00d97060_cls *>((context->dispatcher))->FUN_00d97060();
-    FUN_00c85750()->unk00=(unsigned)rows;
-    FUN_00c85750()->unk00=(unsigned)bounds;
+    static_cast<Manager*>(::FUN_00c85750())->unk00=(unsigned)rows;
+    static_cast<Manager*>(::FUN_00c85750())->unk00=(unsigned)bounds;
 
     if (primary.count+secondary.count>0) {
         Trace((unsigned char*)&DAT_010cc5f0);
@@ -4542,7 +4543,7 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
     Trace((unsigned char*)&::str_01076f38);
     unsigned* secondaryOriginal=secondary.original;
     if (secondaryOriginal==secondary.start) secondary.count=0;
-    FUN_00c85750()->unk00=(unsigned)secondaryOriginal;
+    static_cast<Manager*>(::FUN_00c85750())->unk00=(unsigned)secondaryOriginal;
     Allocator& secondaryAllocator=S00d0d3f0_router()->heap();
     secondary.count=0;
     if ((secondary.capacity&0x80000000u)==0)
@@ -4551,7 +4552,7 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
     secondary.capacity=0x80000000u;
     unsigned* primaryOriginal=primary.original;
     if (primaryOriginal==primary.start) primary.count=0;
-    FUN_00c85750()->unk00=(unsigned)primaryOriginal;
+    static_cast<Manager*>(::FUN_00c85750())->unk00=(unsigned)primaryOriginal;
     Allocator& primaryAllocator=S00d0d3f0_router()->heap();
     primary.count=0;
     if ((primary.capacity&0x80000000u)==0)
@@ -4688,7 +4689,7 @@ class RouterFacade {
     Heap* temporary;
     Heap* regular;
 public:
-    static __declspec(nothrow) RouterFacade& __cdecl FUN_00c85750();
+    
     inline StackArena& stack() {return arena;}
     inline Heap& heap() {return *regular;}
 };
@@ -4696,10 +4697,10 @@ struct ArrayOps {
     static __declspec(nothrow) void __cdecl ResizeAudioStream(Heap&,void*,int) throw();
     __forceinline static void GrowArray(Heap& a,void* p,int n) {ResizeAudioStream(a,p,n);}
 };
-template<class T> __forceinline void releaseArena(T* p) {RouterFacade::FUN_00c85750().stack().put(p);}
-template<class T> __forceinline T* allocateArena(int n) {return static_cast<T*>(RouterFacade::FUN_00c85750().stack().take((n*sizeof(T)+127)&~127));}
+template<class T> __forceinline void releaseArena(T* p) {(*static_cast<RouterFacade*>(::FUN_00c85750())).stack().put(p);}
+template<class T> __forceinline T* allocateArena(int n) {return static_cast<T*>((*static_cast<RouterFacade*>(::FUN_00c85750())).stack().take((n*sizeof(T)+127)&~127));}
 struct SelectHeap {
-    inline Heap& get(const void*) const {return RouterFacade::FUN_00c85750().heap();}
+    inline Heap& get(const void*) const {return (*static_cast<RouterFacade*>(::FUN_00c85750())).heap();}
 };
 template<class T> __forceinline void copyOne(T* dst,const T* src) {*reinterpret_cast<unsigned int*>(dst)=*reinterpret_cast<const unsigned int*>(src);}
 struct ScalarTag {};
@@ -5012,7 +5013,7 @@ __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resourc
         satisfied=false;
         
         if(rejected->GetLogicalSize()==rejected->getCapacity())
-            ArrayOps::GrowArray(RouterFacade::FUN_00c85750().heap(),rejected,12);
+            ArrayOps::GrowArray((*static_cast<RouterFacade*>(::FUN_00c85750())).heap(),rejected,12);
         SolveViolation& entry=*rejected->expandByUnchecked(1);
         entry.constraint=record.constraint;
         if(record.constraint->data->GetType()==11) {
@@ -5412,7 +5413,7 @@ struct Owner {
 };
 
 
-AllocHolder *__cdecl FUN_00c85750();
+
 
 struct Stub_cf87c0 {
 };
@@ -5467,17 +5468,17 @@ FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
     arrB[0] = zero;
     arrB[1] = zero;
     arrB[2] = 0xffffffffu;
-    AllocHolder *h = FUN_00c85750();
+    AllocHolder *h = static_cast<AllocHolder*>(::FUN_00c85750());
     reinterpret_cast<::FUN_00cb1fe0_t *>((((Stub_cb1fe0 *)&m_3c)))->EnsureCapacity((int)(h->m_pThreadAllocator), 0);
     m_10 = 1;
-    AllocHolder *h2 = FUN_00c85750();
+    AllocHolder *h2 = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator *al = h2->m_pThreadAllocator;
     SpawnedNode *node = (SpawnedNode *)al->Alloc(0x10);   // virtual call, vtable slot 1
     node->m_04 = 0x10;
     m_48 = ((void *)(new ((void *)(((Stub_d9fb90 *)node))) ::FUN_00d9fb90()));
     m_4c = 0;
     int n = apOwner->m_334;
-    AllocHolder *h3 = FUN_00c85750();
+    AllocHolder *h3 = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator *al3 = h3->m_pThreadAllocator;
     int cap = (int)(arr[2] & 0x3fffffffu);
     if (cap < n) {
@@ -5706,7 +5707,7 @@ struct PtrArr {
     __forceinline void clear() {m_iElementCount=0;}
     __forceinline void removeAt(int i) {--m_iElementCount;if(m_iElementCount!=i)m_data[i]=m_data[m_iElementCount];}
     __forceinline void dispose() {
-        HeapObj* heap=(HeapObj*)FUN_00c85750()->unk10;
+        HeapObj* heap=(HeapObj*)static_cast<Manager*>(::FUN_00c85750())->unk10;
         int cap=m_iCapacityState;
         m_iElementCount=0;
         if(cap>=0)heap->ReturnMemory(m_data,(cap&0x3fffffff)*4);
@@ -5768,12 +5769,12 @@ struct SolverFlagView {
 };
 struct ScopedFlags : SolverFlagView {
     __forceinline ScopedFlags(int n) {
-        Manager* r=FUN_00c85750();
+        Manager* r=static_cast<Manager*>(::FUN_00c85750());
         unsigned char* p=(unsigned char*)r->unk00;
         r->unk00=(int)p+((n+127)&~127);
         data=p;
     }
-    __forceinline void dispose() {FUN_00c85750()->unk00=(int)data;}
+    __forceinline void dispose() {static_cast<Manager*>(::FUN_00c85750())->unk00=(int)data;}
 };
 struct Self;
 
@@ -5875,13 +5876,13 @@ void __cdecl reserveSolveArray(HeapObj&,void*,int,int);
 template<class T> struct SolveArray {
     T* data;int size,capacity;
     __forceinline SolveArray():data(0),size(0),capacity(0x80000000){}
-    __forceinline ~SolveArray(){if(capacity>=0)((HeapObj*)FUN_00c85750()->unk10)->ReturnMemory(data,(capacity&0x3fffffff)*sizeof(T));}
+    __forceinline ~SolveArray(){if(capacity>=0)((HeapObj*)static_cast<Manager*>(::FUN_00c85750())->unk10)->ReturnMemory(data,(capacity&0x3fffffff)*sizeof(T));}
     __forceinline int GetLogicalSize()const{return size;}
     __forceinline T* begin(){return data;}
     __forceinline T& operator[](int i){return data[i];}
     __forceinline const T& operator[](int i)const{return data[i];}
     __forceinline void clear(){size=0;}
-    __forceinline void reserve(int n){if(n>(capacity&0x3fffffff))reserveSolveArray(*(HeapObj*)FUN_00c85750()->unk10,this,n,sizeof(T));}
+    __forceinline void reserve(int n){if(n>(capacity&0x3fffffff))reserveSolveArray(*(HeapObj*)static_cast<Manager*>(::FUN_00c85750())->unk10,this,n,sizeof(T));}
     __forceinline void pushBackUnchecked(const T& v){data[size++]=v;}
     __forceinline void AddBack(const T& v){reserve(size+1);pushBackUnchecked(v);}
     __forceinline void removeAt(int i){--size;if(size!=i)data[i]=data[size];}
@@ -5894,8 +5895,8 @@ template<class T,int N> struct SolveInlineArray:SolveArray<T> {
 };
 template<class T> struct SolveLocalArray:SolveArray<T> {
     T* allocation;
-    __forceinline SolveLocalArray(int n){Manager* r=FUN_00c85750();allocation=(T*)r->unk00;r->unk00+=((n*sizeof(T)+127)&~127);this->data=allocation;this->capacity=n|0x80000000;}
-    __forceinline ~SolveLocalArray(){if(this->data==allocation)this->clear();FUN_00c85750()->unk00=(int)allocation;}
+    __forceinline SolveLocalArray(int n){Manager* r=static_cast<Manager*>(::FUN_00c85750());allocation=(T*)r->unk00;r->unk00+=((n*sizeof(T)+127)&~127);this->data=allocation;this->capacity=n|0x80000000;}
+    __forceinline ~SolveLocalArray(){if(this->data==allocation)this->clear();static_cast<Manager*>(::FUN_00c85750())->unk00=(int)allocation;}
 };
 struct SolveBufferState {void* begin;void* end;void* current;void* processed;};
 struct SolveStateView {
@@ -6095,7 +6096,7 @@ void Self::FUN_00d100a0(Arg0* world,Entry70* pair,float delta,float rotation) {
         if(c->m_a4==1 && c->unk90)reinterpret_cast<::FUN_00c91140_Class *>((c))->FUN_00c91140();
     }
     clockOne(::str_01076f38);
-    Manager* router3=FUN_00c85750();
+    Manager* router3=static_cast<Manager*>(::FUN_00c85750());
     HeapObj* heap=(HeapObj*)router3->unk10;
     int cap=active.m_iCapacityState;
     active.m_iElementCount=0;
@@ -6257,7 +6258,7 @@ void __cdecl FUN_00d0cde0(float a1, char* owner, Flags_cls* flags, ArrayRef_cls*
         char* sub = item + 0xf0;
         ::FUN_00cf1b10(a1, (::FUN_008cd6a0_Class *)(sub));
         if (flags->m_pBytes[i] != 0x10) {
-            Manager* holder = FUN_00c85750();
+            Manager* holder = static_cast<Manager*>(::FUN_00c85750());
             if (arr->m_iArrayLength == (int)(arr->m_iFlags & 0x3fffffff)) {
                 ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)holder->unk10), (::AudioStream *)(arr), 4);
             }
@@ -6355,7 +6356,7 @@ struct S00d0db40_Router {
     HeapL* m_alloc;
     HeapL& heap() { return *m_alloc; }
 };
-static inline S00d0db40_Router* S00d0db40_router() { return (S00d0db40_Router*)FUN_00c85750(); }
+static inline S00d0db40_Router* S00d0db40_router() { return (S00d0db40_Router*)static_cast<Manager*>(::FUN_00c85750()); }
 struct S00d0db40_Quality {
     int unk00;
     int unk04;
@@ -8922,7 +8923,7 @@ __declspec(nothrow) void FUN_00d0cb00(Resources& resources, ProcessInput& input,
     ArrObj* objs = (ArrObj*)&objects;
     BodyVec* outVec = (BodyVec*)&outBodies;
     int sz = objs->m_iElementCount;
-    Manager* mem = FUN_00c85750();
+    Manager* mem = static_cast<Manager*>(::FUN_00c85750());
     int savedTop = mem->unk00;
     mem->unk00 = savedTop + ((sz * 32 + 127) & ~127);
     hkVector4* out = (hkVector4*)savedTop;
@@ -8965,7 +8966,7 @@ __declspec(nothrow) void FUN_00d0cb00(Resources& resources, ProcessInput& input,
                     int n = FUN_00d9f6f0(p0->m_04, elem->m_04, p0->m_0c, 0x100, &buf);
                     if (FUN_00d0bd30(p0->m_00->m_08, (FUN_00d0bd30_p*)elem, (float*)&buf, n, p1) != -1) {
                         flags->m_data[body->m_a8] |= 4;
-                        Manager* m2 = FUN_00c85750();
+                        Manager* m2 = static_cast<Manager*>(::FUN_00c85750());
                         if (outVec->m_iElementCount == (int)(outVec->m_cap & 0x3fffffff)) {
                             ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)m2->unk10), (::AudioStream *)(::Vec *)((Vec*)outVec), 4);
                         }
@@ -8993,6 +8994,6 @@ __declspec(nothrow) void FUN_00d0cb00(Resources& resources, ProcessInput& input,
             in++;
         }
     }
-    FUN_00c85750()->unk00 = savedTop;
+    static_cast<Manager*>(::FUN_00c85750())->unk00 = savedTop;
 }
 #include "generated/data/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.inc"

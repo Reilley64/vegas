@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/hkpworldmemoryutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldmemoryutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/D077D0Object.h"
 #include "fnv/decl/FUN_00c91180_Class.h"
 #include "fnv/decl/FUN_00c91190_Class.h"
@@ -122,7 +123,7 @@ struct S_00d01bc0_Owner
     unsigned int m_uiItemCount;
 };
 
-S_00d01bc0_Global* __cdecl FUN_00c85750();
+
 
 // @fnv 0x00d01bc0
 void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
@@ -131,7 +132,7 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
     unsigned int saved = pOwner->m_uiItemCount;
     S_00d01bc0_Iter iter;
     reinterpret_cast<::FUN_00c92b50_Class *>((pOwner))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::S_00d01bc0_Iter *)(&iter));
-    if (!FUN_00c85750()->sink()->v8(iter.m_key))
+    if (!static_cast<S_00d01bc0_Global*>(::FUN_00c85750())->sink()->v8(iter.m_key))
     {
         do
         {
@@ -153,7 +154,7 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
                 }
                 s = (iter.m_node->m_flags >> 2) & 3;
             }
-            if (!FUN_00c85750()->sink()->v8(iter.m_key))
+            if (!static_cast<S_00d01bc0_Global*>(::FUN_00c85750())->sink()->v8(iter.m_key))
             {
                 S_00d01bc0_Node* node = iter.m_node;
                 if (!reinterpret_cast<::D077D0Object *>((node))->FUN_00d077d0())
@@ -166,7 +167,7 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
                     reinterpret_cast<::FUN_00c92b50_Class *>((pOwner))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::S_00d01bc0_Iter *)(&iter));
                 }
             }
-        } while (!FUN_00c85750()->sink()->v8(iter.m_key));
+        } while (!static_cast<S_00d01bc0_Global*>(::FUN_00c85750())->sink()->v8(iter.m_key));
     }
     pOwner->m_uiItemCount = saved;
     reinterpret_cast<::FUN_00c91190_Class *>((pOwner))->FUN_00c91190();
@@ -336,7 +337,7 @@ void __cdecl FUN_00d01d20(Src* pSrc)
     PFN_TlsGetValue pfnTls;
     TaskObj* pTask = ((::TaskObj *)(reinterpret_cast<::WorldWatchDogHolder *>((pSrc))->FUN_00c93570()));
     DWORD r = pTask->vtbl0C();
-    D01D20Holder* h = (D01D20Holder*)FUN_00c85750();
+    D01D20Holder* h = (D01D20Holder*)static_cast<S_00d01bc0_Global*>(::FUN_00c85750());
     if (!h->m_pTask->vtbl24(r))
     {
         pfnTls = (PFN_TlsGetValue)DAT_00fdf044;

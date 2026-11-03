@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <windows.h>
@@ -30,7 +31,7 @@
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-void* FUN_00c85750() throw();
+
 
 struct VUC_Mon
 {
@@ -622,7 +623,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
     hkpVehicleInstance* vehicle = reinterpret_cast<hkpVehicleInstance*>(this);
     VUC_RealArray& rFixedArray = output.m_kSecondRealArray;
     int count = vehicle->m_kSecondRealArray.m_iElementCount;
-    VUC_Router* router = reinterpret_cast<VUC_Router*>(FUN_00c85750());
+    VUC_Router* router = reinterpret_cast<VUC_Router*>(::FUN_00c85750());
     VUC_Allocator* alloc = router->m_pThreadAllocator;
     int capacity = rFixedArray.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
@@ -634,7 +635,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
     }
     rFixedArray.m_iElementCount = count;
     count = vehicle->m_kSecondRealArray.m_iElementCount;
-    router = reinterpret_cast<VUC_Router*>(FUN_00c85750());
+    router = reinterpret_cast<VUC_Router*>(::FUN_00c85750());
     alloc = router->m_pThreadAllocator;
     capacity = output.m_kFirstRealArray.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
@@ -688,7 +689,7 @@ template <typename T> struct hkArrayE38D
     {}
     ~hkArrayE38D() throw()
     {
-        hkAllocatorE38D& kAlloc = ((hkMemoryRouterE38D*)FUN_00c85750())->heap();
+        hkAllocatorE38D& kAlloc = ((hkMemoryRouterE38D*)::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
@@ -711,7 +712,7 @@ template <typename T> struct hkArrayE38D
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(((hkMemoryRouterE38D*)FUN_00c85750())->heap(), n);
+        GrowArrayCapacity(((hkMemoryRouterE38D*)::FUN_00c85750())->heap(), n);
         m_iElementCount = n;
     }
 };
@@ -770,7 +771,7 @@ struct VUC_AeroOutput
 
 static inline void VUC_ReleaseArray(VUC_RealArray& a)
 {
-    VUC_Router* router = (VUC_Router*)FUN_00c85750();
+    VUC_Router* router = (VUC_Router*)::FUN_00c85750();
     VUC_Allocator* allocator = router->m_pThreadAllocator;
     a.m_iElementCount = 0;
     if ((a.m_iCapacityState & 0x80000000) == 0)
@@ -836,7 +837,7 @@ void VUC_StepInstance::FUN_00e39030(const VUC_StepInfo& stepInfo, void* det)
     VUC_ReleaseArray(stepLocals.suspensionForceAtWheel);
 }
 
-void* FUN_00c85750() throw();
+
 
 struct VehicleStepInfo
 {
@@ -908,7 +909,7 @@ void VehicleInstance::FUN_00e39190(const VehicleStepInfo* stepInfo)
 {
     reinterpret_cast<::VUBCD_Instance *>(this)->FUN_00e37940();
     int wheelCount = m_data->m_iWheelCount;
-    VehicleMemoryRouter* router = (VehicleMemoryRouter*)FUN_00c85750();
+    VehicleMemoryRouter* router = (VehicleMemoryRouter*)::FUN_00c85750();
     char* originalTop = router->m_stackTop;
     float deltaTime = stepInfo->m_fTimeStep;
     router->m_stackTop = originalTop + (((wheelCount * 3 << 5) + 127) & ~127);
@@ -916,8 +917,8 @@ void VehicleInstance::FUN_00e39190(const VehicleStepInfo* stepInfo)
 
     m_pWheelCollide->CollideWheels(deltaTime, this, originalTop);
     reinterpret_cast<::VUC_StepInstance *>(this)->FUN_00e39030((*(const ::VUC_StepInfo *)(stepInfo)), originalTop);
-    ((VehicleMemoryRouter*)FUN_00c85750())->m_stackTop = originalTop;
-    VehicleScratchAllocator* allocator = ((VehicleMemoryRouter*)FUN_00c85750())->m_pThreadAllocator;
+    ((VehicleMemoryRouter*)::FUN_00c85750())->m_stackTop = originalTop;
+    VehicleScratchAllocator* allocator = ((VehicleMemoryRouter*)::FUN_00c85750())->m_pThreadAllocator;
     if (!(capacityAndFlags & 0x80000000))
     {
         allocator->free(originalTop, (capacityAndFlags & 0x3fffffff) * 3 << 5);
@@ -1025,7 +1026,7 @@ class FUN_00e38b20
     void* operator new(size_t nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(
-            static_cast<hkMemoryRouterE392*>(FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
+            static_cast<hkMemoryRouterE392*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1940,7 +1941,7 @@ struct FUN_00e39400_Router
 // @fnv 0x00e39400
 FUN_00e39400::~FUN_00e39400() throw()
 {
-    FUN_00e39400_Router* m = (FUN_00e39400_Router*)FUN_00c85750();
+    FUN_00e39400_Router* m = (FUN_00e39400_Router*)::FUN_00c85750();
     VUC_Allocator* alloc = m->m_pThreadAllocator;
     int c = m_kSecondRealArray.m_iCapacityState;
     m_kSecondRealArray.m_iElementCount = 0;
@@ -1948,7 +1949,7 @@ FUN_00e39400::~FUN_00e39400() throw()
         alloc->free(m_kSecondRealArray.m_data, c & 0x3fffffff);
     m_kSecondRealArray.m_data = 0;
     m_kSecondRealArray.m_iCapacityState = 0x80000000;
-    m = (FUN_00e39400_Router*)FUN_00c85750();
+    m = (FUN_00e39400_Router*)::FUN_00c85750();
     alloc = m->m_pThreadAllocator;
     c = m_kFirstRealArray.m_iCapacityState;
     m_kFirstRealArray.m_iElementCount = 0;
@@ -3163,7 +3164,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
     FUN_00e39400 breakingInfo;
     {
         int n = m_data->m_iWheelCount;
-        char** cur = (char**)FUN_00c85750();
+        char** cur = (char**)::FUN_00c85750();
         char* p = *cur;
         *cur = p + ((n * 4 + 0x7f) & ~0x7f);
         transmission.m_pGearRatios = (float*)p;
@@ -3188,7 +3189,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
 
     {
         char* p = (char*)transmission.m_pGearRatios;
-        *(char**)FUN_00c85750() = p;
+        *(char**)::FUN_00c85750() = p;
     }
 
     {
@@ -3227,7 +3228,7 @@ template <typename T> struct hkArrayE38D
     {}
     ~hkArrayE38D() throw()
     {
-        hkAllocatorE38D& kAlloc = ((hkMemoryRouterE38D*)FUN_00c85750())->heap();
+        hkAllocatorE38D& kAlloc = ((hkMemoryRouterE38D*)::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
@@ -3250,7 +3251,7 @@ template <typename T> struct hkArrayE38D
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(((hkMemoryRouterE38D*)FUN_00c85750())->heap(), n);
+        GrowArrayCapacity(((hkMemoryRouterE38D*)::FUN_00c85750())->heap(), n);
         m_iElementCount = n;
     }
 };

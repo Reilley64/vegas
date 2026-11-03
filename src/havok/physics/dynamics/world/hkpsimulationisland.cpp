@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpsimulationisland.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpsimulationisland.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/D28030UnionFind.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb3000.h"
@@ -267,7 +268,7 @@ struct D077D0MemoryRouter
     }
 };
 
-extern "C" D077D0MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct D077D0LocalBuffer
 {
@@ -537,10 +538,10 @@ struct S_00d074c0_Island
 bool D077D0Object::FUN_00d077d0()
 {
     D077D0LocalBuffer buffer;
-    buffer.m_data = FUN_00c85750().stackAllocInts(m_iCapacity);
+    buffer.m_data = (*static_cast<D077D0MemoryRouter*>(::FUN_00c85750())).stackAllocInts(m_iCapacity);
     D077D0BitField bits(buffer.m_data, m_iCapacity);
     bool result = reinterpret_cast<::S_00d074c0_Island *>(this)->CheckConnectivity((::S_00d074c0_UnionFind &)(bits));
-    FUN_00c85750().stackFree(buffer.m_data);
+    (*static_cast<D077D0MemoryRouter*>(::FUN_00c85750())).stackFree(buffer.m_data);
     return result;
 }
 
@@ -639,7 +640,7 @@ struct AudioHolder
 };
 
 namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750();
+
 }
 
 struct PointerList
@@ -685,7 +686,7 @@ struct FUN_00d07470_cls
 void FUN_00d07470_cls::AddItem(ListItem* apItem)
 {
     PointerList* pItems = &m_kNode;
-    AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     if (pItems->m_uCount == (pItems->m_uCapFlags & 0x3fffffffu))
     {
         ::ResizeAudioStream(pHolder->m_pAllocator, (::AudioStream *)(pItems), 4);
@@ -718,7 +719,7 @@ struct AudioHolder
 };
 
 namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750() throw();
+
 }
 
 struct FUN_00d07720_cls
@@ -758,7 +759,7 @@ void FUN_00d07720_cls::ResetArrays()
 {
     m_vptr00 = (int)&DAT_010ccf28;
 
-    AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -769,7 +770,7 @@ void FUN_00d07720_cls::ResetArrays()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -780,7 +781,7 @@ void FUN_00d07720_cls::ResetArrays()
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;
 
-    AudioHolder* pHolder3 = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCapBits3 = m_uCapBits3;
     m_iCount3 = 0;
@@ -813,7 +814,7 @@ struct AudioHolder
 };
 
 namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750() throw();
+
 }
 
 struct FUN_00d078e0_cls
@@ -833,7 +834,7 @@ FUN_00d078e0_cls* FUN_00d078e0_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::fnv_00d07720::FUN_00d07720_cls *>(this)->ResetArrays();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -1127,7 +1128,7 @@ struct GlobalHolder
     void* m_alloc;  // +0x10
 };
 
-GlobalHolder* __cdecl FUN_00c85750();
+
 
 struct FUN_00d07420_cls
 {
@@ -1193,7 +1194,7 @@ void FUN_00d07420_cls::FUN_00d07420(FUN_00d07420_cls* item)
     item->m_cc = this;
     item->m_a8 = (unsigned short)m_kNode.m_uiItemCount;
     ItemList* list = &m_kNode;
-    GlobalHolder* holder = FUN_00c85750();
+    GlobalHolder* holder = static_cast<GlobalHolder*>(::FUN_00c85750());
     if (list->m_uiItemCount == (int)(list->m_capFlags & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(holder->m_alloc), (::AudioStream *)(list), 4);

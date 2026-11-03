@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/hkpworldconstraintutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldconstraintutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d27f50_Obj.h"
 #include "fnv/decl/Stats.h"
@@ -538,7 +539,7 @@ struct MemoryRouter
     unsigned int unk00, unk04, unk08, unk0c;
     void* heap;
 };
-MemoryRouter* FUN_00c85750();
+
 // Initializes a ConstraintInternal entry, inserts it into the master entity's constraint array, allocates runtime memory, and registers the constraint as a slave.
 // @fnv 0x00d27ac0
 ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
@@ -638,7 +639,7 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
         int oldSize = storage.size;
         char* oldData = storage.data;
         int newSize = oldSize + runtimeSize;
-        MemoryRouter* router = FUN_00c85750();
+        MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
         if ((int)(storage.capacity & 0x3fffffff) < newSize)
             ::FUN_00c908c0((::SpawnedObject *)(router->heap), (::SpawnedArray *)(::fnv_00d27ac0::ByteArray *)(&storage), newSize, 1);
         storage.size = oldSize + runtimeInfo.size;
@@ -672,7 +673,7 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
     Entity* slave = internal->bodies[1 - internal->masterIndex];
     internal->slaveIndex = (unsigned short)slave->slaves.size;
     ConstraintArray& slaves = slave->slaves;
-    MemoryRouter* router = FUN_00c85750();
+    MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
     if (slaves.size == (int)(slaves.capacity & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(::fnv_00d27ac0::ConstraintArray *)(&slaves), 4);
     ConstraintPointer* insertion = slaves.data + slaves.size;

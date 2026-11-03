@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d0b5d0
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
 #include "fnv/decl/FUN_00ca8420_Class.h"
@@ -274,7 +275,7 @@ struct D0B6A0MemoryRouter
     }
 };
 
-extern "C" D0B6A0MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct D0B6A0Entity
 {
@@ -324,7 +325,7 @@ struct D0B6A0EntityArray
 
     __forceinline void AddBack(D0B6A0Entity* const& e)
     {
-        D0B6A0Allocator& alloc = FUN_00c85750().heap();
+        D0B6A0Allocator& alloc = (*static_cast<D0B6A0MemoryRouter*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D0B6A0Entity*));
         construct(m_data + m_iElementCount, 1, e);
@@ -411,7 +412,7 @@ struct AudioHolder
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
+
 
 extern int DAT_010cd3c4;
 extern int DAT_010cd3b4;
@@ -463,7 +464,7 @@ void FUN_00d0bb20_cls::Destroy()
         pEntry++;
         i--;
     } while (i != 0);
-    AudioHolder* pAudioHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pAudioHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
     m_iArrayLength = i;
     unsigned int uiCapBits = m_uCapBits;
@@ -566,7 +567,7 @@ struct Manager
     Allocator* allocator;
 };
 
-extern "C" Manager* __cdecl FUN_00c85750();
+
 
 struct FUN_00d0bbf0
 {
@@ -585,7 +586,7 @@ struct FUN_00d0bbf0
     void* unk2c;
     static void operator delete(void* object)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = static_cast<Manager*>(::FUN_00c85750());
         manager->allocator->Deallocate(object, ((FUN_00d0bbf0*)object)->unk04);
     }
 };
@@ -875,7 +876,7 @@ struct hkReferencedObject
     }
     static void* operator new(size_t nbytes)
     {
-        hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObject* b = static_cast<hkReferencedObject*>((*static_cast<D0B6A0MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }

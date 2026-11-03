@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpufirejacobiansetupcallbackjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpufirejacobiansetupcallbackjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/LunaOwner.h"
 #include "fnv/symbols_00d92000.h"
 #include "fnv/symbols_01268000.h"
@@ -84,7 +85,7 @@ struct S_00d94c40_Router
     }
 };
 
-S_00d94c40_Router* FUN_00c85750();
+
 
 struct S_00d94c40_Instance;
 struct S_00d94c40_Runtime;
@@ -365,7 +366,7 @@ void __cdecl ExecuteConstraintCallbacks(S_00d94c40_Context* context, S_00d94c40_
         }
         int iNumCallbacks = taskData->m_numCallbacks;
         S_00d94c40_Callback* p = taskData->m_kCallbackFunctions;
-        FUN_00c85750()->heap().ReleaseBlock(p, iNumCallbacks * sizeof(S_00d94c40_Callback));
+        static_cast<S_00d94c40_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, iNumCallbacks * sizeof(S_00d94c40_Callback));
         taskData->m_kCallbackFunctions = 0;
         taskData->m_numCallbacks = 0;
         S_00d94c40_Timer("lt");

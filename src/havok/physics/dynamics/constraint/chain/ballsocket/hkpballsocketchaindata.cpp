@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
@@ -226,7 +227,7 @@ struct hkMemoryRouterD53E
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD53E& __cdecl FUN_00c85750() throw();
+
 
 template <class T> class hkArrayD53E
 {
@@ -237,7 +238,7 @@ template <class T> class hkArrayD53E
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorD53E& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD53E& kAlloc = (*static_cast<hkMemoryRouterD53E*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -306,7 +307,7 @@ struct hkMemoryRouterD541
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD541& __cdecl FUN_00c85750();
+
 
 class FUN_00d53e30
 {
@@ -317,7 +318,7 @@ class FUN_00d53e30
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00d53e30*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterD541*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00d53e30*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d53e30* DestroyAndFree(unsigned int uiFlags) throw();
@@ -352,7 +353,7 @@ struct ThreadContext
     MemManager* memory;
 };
 
-void* FUN_00c85750();
+
 
 struct Elem
 {
@@ -375,7 +376,7 @@ struct DummyClass
 // @fnv 0x00d549d0
 void DummyClass::ClearArrays()
 {
-    ThreadContext* pThreadContext2 = (ThreadContext*)FUN_00c85750();
+    ThreadContext* pThreadContext2 = (ThreadContext*)::FUN_00c85750();
     MemManager& mem2 = *pThreadContext2->memory;
     int iCapacity2 = cap2;
     size2 = 0;
@@ -386,7 +387,7 @@ void DummyClass::ClearArrays()
     data2 = 0;
     cap2 = 0x80000000;
 
-    ThreadContext* pThreadContext1 = (ThreadContext*)FUN_00c85750();
+    ThreadContext* pThreadContext1 = (ThreadContext*)::FUN_00c85750();
     MemManager& mem1 = *pThreadContext1->memory;
     int iCapacity1 = cap1;
     size1 = 0;
@@ -416,7 +417,7 @@ struct Pair_00d53d30
 };
 
 namespace fnvc_adapt {
-Router_00d53d30* FUN_00c85750();
+
 }
 
 struct Chain_00d53d30
@@ -436,7 +437,7 @@ struct Chain_00d53d30
 void Chain_00d53d30::Push(const __m128& a, const __m128& b)
 {
     hkArray<Pair_00d53d30>& arr = m_aiIndexedValues;
-    Router_00d53d30* r = fnvc_adapt::FUN_00c85750();
+    Router_00d53d30* r = static_cast<Router_00d53d30*>(::FUN_00c85750());
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(r->m_10), (::AudioStream *)(void *)(&arr), 0x20);
     Pair_00d53d30& e = arr.m_data[arr.m_iElementCount++];
@@ -543,7 +544,7 @@ struct PortRouter
 };
 inline PortRouter& chainRouter()
 {
-    return reinterpret_cast<PortRouter&>(FUN_00c85750());
+    return reinterpret_cast<PortRouter&>((*static_cast<hkMemoryRouterD541*>(::FUN_00c85750())));
 }
 struct PortAllocator
 {

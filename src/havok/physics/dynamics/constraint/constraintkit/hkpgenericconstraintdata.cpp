@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00d50c50.h"
@@ -867,7 +868,7 @@ struct FUN_00d51620_Router
     FUN_00d51620_Alloc* m_pThreadAllocator;
 };
 
-FUN_00d51620_Router* FUN_00c85750();
+
 
 struct FUN_00d51620_class
 {
@@ -894,7 +895,7 @@ struct FUN_00d51620_class
 // @fnv 0x00d51620
 void FUN_00d51620_class::FreeArrays()
 {
-    FUN_00d51620_Router* m = FUN_00c85750();
+    FUN_00d51620_Router* m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
     FUN_00d51620_Alloc* alloc = m->m_pThreadAllocator;
     int c = m_3c;
     m_38 = 0;
@@ -902,7 +903,7 @@ void FUN_00d51620_class::FreeArrays()
         alloc->free(m_34, (c & 0x3fffffff) * 4);
     m_34 = 0;
     m_3c = 0x80000000;
-    m = FUN_00c85750();
+    m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
     alloc = m->m_pThreadAllocator;
     c = m_30;
     m_2c = 0;
@@ -910,7 +911,7 @@ void FUN_00d51620_class::FreeArrays()
         alloc->free(m_28, (c & 0x3fffffff) * 4);
     m_28 = 0;
     m_30 = 0x80000000;
-    m = FUN_00c85750();
+    m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
     alloc = m->m_pThreadAllocator;
     c = m_24;
     m_20 = 0;
@@ -918,7 +919,7 @@ void FUN_00d51620_class::FreeArrays()
         alloc->free(m_1c, (c & 0x3fffffff) * 4);
     m_1c = 0;
     m_24 = 0x80000000;
-    m = FUN_00c85750();
+    m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
     alloc = m->m_pThreadAllocator;
     c = m_a18;
     m_a14 = 0;
@@ -943,7 +944,7 @@ struct FnvCpu_FUN_00d516f0_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d516f0_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d516f0_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00d516f0_CpuObject
 {
     unsigned int unk00;
@@ -956,7 +957,7 @@ FnvCpu_FUN_00d516f0_CpuObject* FnvCpu_FUN_00d516f0_CpuObject::FUN_00d516f0(unsig
     reinterpret_cast<::FUN_00d50c50 *>(this)->FUN_00d50c50::~FUN_00d50c50();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d516f0_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d516f0_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d516f0_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

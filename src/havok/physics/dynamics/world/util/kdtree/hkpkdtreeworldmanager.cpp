@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00d04350_cls.h"
@@ -408,7 +409,7 @@ struct D0A6A0_Router
     }
 };
 
-D0A6A0_Router& FUN_00c85750();
+
 
 struct D0A6A0_Manager
 {
@@ -429,7 +430,7 @@ void D0A6A0_Manager::CollectCollidables(D0A6A0_CollidableArray& aCollidables)
 {
     aCollidables.m_iElementCount = 0;
     int n = m_pOwningWorld->m_pJobSemaphore->GetBroadphaseType();
-    aCollidables.reserve(FUN_00c85750().heap(), n);
+    aCollidables.reserve((*static_cast<D0A6A0_Router*>(::FUN_00c85750())).heap(), n);
 
     {
         D0A6A0_IslandArray& islands = m_pOwningWorld->m_activeIslands;
@@ -504,7 +505,7 @@ struct hkMemoryRouterD0A
     }
 };
 
-extern "C" hkMemoryRouterD0A& __cdecl FUN_00c85750() throw();
+
 
 class hkObjD0AD : public FUN_00d0a4f0
 {
@@ -513,7 +514,7 @@ class hkObjD0AD : public FUN_00d0a4f0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjD0AD*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterD0A*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjD0AD*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -548,15 +549,15 @@ struct BSAudio
     BSAudioVtbl* unk10;
 };
 
-BSAudio* __cdecl FUN_00c85750();
+
 
 // Calls FUN_00c85750 twice and stores the result of unk10->unk04(index * 16) into out[0] and out[1].
 // @fnv 0x00d9d800
 void __cdecl GetAudioPair(int* paiOut, int index)
 {
-    BSAudio* a = FUN_00c85750();
+    BSAudio* a = static_cast<BSAudio*>(::FUN_00c85750());
     paiOut[0] = a->unk10->unk04(index * 16);
-    BSAudio* b = FUN_00c85750();
+    BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
     paiOut[1] = b->unk10->unk04(index * 16);
 }
 }  // namespace fnv_00d9d800
@@ -780,7 +781,7 @@ struct D0ARouter
     D0AHeap* m_pStreamAllocator;
 };
 namespace fnvc_adapt {
-D0ARouter* __cdecl FUN_00c85750();
+
 }
 struct D0ASub
 {
@@ -853,7 +854,7 @@ void D0AObj::CollectAndProcessCollidables(int a, int b)
             mon->m_kRayEnd = pos + sizeof(D0ATimer12);
         }
     }
-    D0ARouter* router = fnvc_adapt::FUN_00c85750();
+    D0ARouter* router = static_cast<D0ARouter*>(::FUN_00c85750());
     D0AHeap* heap = router->m_pStreamAllocator;
     int cap = r.m_iThirdValue;
     r.m_kPointB = 0;
@@ -983,7 +984,7 @@ struct BSAudio
 };
 
 namespace fnvc_adapt {
-BSAudio* __cdecl FUN_00c85750(void);
+
 }
 
 struct FUN_00d9df50_Obj
@@ -1115,14 +1116,14 @@ void S00d0a560_Owner::FUN_00d0a560(int* out, int ch)
     if (v != 0)
     {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((v))->ClearBuffers();
-        fnvc_adapt::FUN_00c85750()->heap().slot2(v, 0x50);
+        static_cast<BSAudio*>(::FUN_00c85750())->heap().slot2(v, 0x50);
     }
     int t2 = ((int)(reinterpret_cast<::Owner *>(&(f.s24))->FUN_00d9e000()));
     reinterpret_cast<::FUN_00d976d0_cls *>((((FUN_00d976d0_Obj*)&f.s30)))->FUN_00d976d0();
     unk1C->unk58->slot16(&f.s44, &f.s50);
     f.s30.unk00 = t2;
     f.s30.unk05 = 0;
-    FUN_00d97970_Obj* p = (FUN_00d97970_Obj*)fnvc_adapt::FUN_00c85750()->heap().slot1(0x50);
+    FUN_00d97970_Obj* p = (FUN_00d97970_Obj*)static_cast<BSAudio*>(::FUN_00c85750())->heap().slot1(0x50);
     *out = p ? ((int)(reinterpret_cast<::FUN_00d97970_cls *>((p))->Init((unsigned int)(&f.s30)))) : 0;
     S00d0a560_TimerBuf* pTimerBuf = (S00d0a560_TimerBuf*)TlsGetValue(::DAT_0126835c);
     S00d0a560_Timer* c = pTimerBuf->cur;
@@ -1234,7 +1235,7 @@ struct Router
 };
 __forceinline Router* getRouter()
 {
-    return reinterpret_cast<Router*>(&::FUN_00c85750());
+    return reinterpret_cast<Router*>(&(*static_cast<D0A6A0_Router*>(::FUN_00c85750())));
 }
 struct TreeInfo
 {

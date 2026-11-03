@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/hkpconstraintinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/hkpconstraintinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <new>
@@ -415,7 +416,7 @@ struct hkMemoryRouterCF3F
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterCF3F* __cdecl FUN_00c85750() throw();
+
 
 struct hkBoolCF3F
 {
@@ -440,7 +441,7 @@ class FUN_00cf3ea0 : public hkpConstraintInstance
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        void* p = FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
+        void* p = static_cast<hkMemoryRouterCF3F*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
         ((unsigned short*)p)[2] = (unsigned short)uiSize;
         return p;
     }
@@ -500,7 +501,7 @@ hkpConstraintInstance* hkpConstraintInstanceCF3F::FUN_00cf3fa0(hkpEntity* pkEnti
 
 namespace fnv_00cf40b0 {
 
-void* __cdecl FUN_00c85750() throw();
+
 
 struct MemAllocator
 {
@@ -524,7 +525,7 @@ struct ThreadMemory
 
 static inline void hkDeallocate(void* p, int size) throw()
 {
-    ((ThreadMemory*)FUN_00c85750())->deallocate(p, size);
+    ((ThreadMemory*)::FUN_00c85750())->deallocate(p, size);
 }
 
 struct FUN_00cb0c00_class
@@ -569,7 +570,7 @@ void FUN_00cf40b0_class::FUN_00cf40b0()
     }
     if (m_data)
         reinterpret_cast<::hkReferencedObjectC905 *>((m_data))->FUN_00c905b0();
-    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)&m_name)));
+    ::FUN_00cb0c00((((FUN_00cb0c00_class*)&m_name)));
     if ((m_kListeners.m_iCapacityState & 0x8000) == 0)
     {
         int capacity = m_kListeners.m_iCapacityState & 0x3fff;
@@ -600,7 +601,7 @@ struct hkMemoryRouterCF41
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterCF41& __cdecl FUN_00c85750();
+
 
 class FUN_00cf40b0
 {
@@ -611,7 +612,7 @@ class FUN_00cf40b0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00cf40b0*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterCF41*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00cf40b0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00cf40b0* FUN_00cf4160(unsigned int uiFlags) throw();
@@ -1018,7 +1019,7 @@ void FUN_00cf3d00_class::SetVec4Pair(FUN_00cf3d00_Vec4* a, FUN_00cf3d00_Vec4* b)
         return;
     }
 
-    FUN_00cf3d00_Holder* holder = (FUN_00cf3d00_Holder*)FUN_00c85750();
+    FUN_00cf3d00_Holder* holder = (FUN_00cf3d00_Holder*)static_cast<hkMemoryRouterCF3F*>(::FUN_00c85750());
     FUN_00cf3d00_Buf* buf = holder->m4->vf04(0x40);
 
     if (buf != 0)

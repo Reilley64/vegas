@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -127,7 +128,7 @@ struct FnvCpu_FUN_00cc48b0_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00cc48b0_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00cc48b0_CpuObject
 {
     unsigned int unk00;
@@ -141,7 +142,7 @@ FnvCpu_FUN_00cc48b0_CpuObject* FnvCpu_FUN_00cc48b0_CpuObject::Destroy(unsigned i
     reinterpret_cast<::FUN_00d4e000_class *>(this)->FUN_00d4e000();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00cc48b0_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/symbols_01011000.h"
@@ -273,7 +274,7 @@ struct hkMemoryRouterE43A
 };
 
 namespace hkRouterE43A {
-extern "C" hkMemoryRouterE43A& __cdecl FUN_00c85750() throw();
+
 }
 
 class hkRefObjE43A
@@ -285,7 +286,7 @@ class hkRefObjE43A
 
     static void* operator new(size_t nbytes)
     {
-        hkRefObjE43A* b = static_cast<hkRefObjE43A*>(hkRouterE43A::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjE43A* b = static_cast<hkRefObjE43A*>((*static_cast<hkMemoryRouterE43A*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/filter/constraint/hkpconstraintcollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/constraint/hkpconstraintcollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/DEF1E0PairCounter.h"
 #include "fnv/decl/FUN_00c91120.h"
 #include "fnv/decl/FUN_00c91140_Class.h"
@@ -901,7 +902,7 @@ struct BSAudio
     unsigned int unk00, unk04, unk08, unk0c;
     ConstraintFilterMemory* allocator;
 };
-BSAudio* FUN_00c85750();
+
 struct ConstraintFilterDeleteReceiver
 {
     unsigned int unk00;
@@ -915,7 +916,7 @@ ConstraintFilterDeleteReceiver* ConstraintFilterDeleteReceiver::FUN_00d88000(uns
     reinterpret_cast<::FUN_00d87bf0 *>(this)->FUN_00d87bf0::~FUN_00d87bf0();
     if (flags & 1u)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         unsigned int bytes = size4;
         audio->allocator->Release(this, bytes);
     }

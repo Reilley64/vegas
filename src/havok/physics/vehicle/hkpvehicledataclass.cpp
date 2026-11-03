@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/hkpvehicledataclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicledataclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 struct DFC1E0Allocator
 {
     virtual void unk00();
@@ -23,7 +25,7 @@ struct DFC1E0MemoryRouter
     }
 };
 
-extern "C" DFC1E0MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct FUN_00dfc1e0
 {
@@ -36,7 +38,7 @@ struct FUN_00dfc1e0
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00dfc1e0* b = static_cast<FUN_00dfc1e0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<DFC1E0MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

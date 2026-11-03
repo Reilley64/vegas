@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/chain/hkpconstraintchaininstanceaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/hkpconstraintchaininstanceaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "havok/hkpConstraintChainInstanceAction.h"
 
 struct FnvCpu_FUN_00e063e0_CpuInterface
@@ -55,7 +56,7 @@ struct FnvMemoryRouter
     void* unk0c;
     FnvAllocator* allocator;
 };
-extern "C" FnvMemoryRouter* __cdecl FUN_00c85750();
+
 struct FnvEntityArray
 {
     void** m_data;
@@ -84,7 +85,7 @@ struct hkpConstraintChainInstance
 void CopyEntityArray(hkpConstraintChainInstanceAction* self, void* unusedEdx, FnvEntityArray* output)
 {
     FnvEntityArray* source = &self->m_pConstraintChainInstance->entities;
-    FnvAllocator* allocator = FUN_00c85750()->allocator;
+    FnvAllocator* allocator = static_cast<FnvMemoryRouter*>(::FUN_00c85750())->allocator;
     int capacity = output->m_iCapacityState & 0x3fffffff;
     if (capacity < source->m_iElementCount)
     {

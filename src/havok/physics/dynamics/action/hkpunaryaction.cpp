@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/action/hkpunaryaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/action/hkpunaryaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00cb0a60.h"
@@ -19,18 +20,16 @@ struct FUN_00c97510
 {
 };
 
-struct FUN_00d2b1f0
+struct FUN_00d2b1f0 : hkpUnaryAction
 {
-    char m0[8];
-    FUN_00c97510* m1;
-    void EntityRemovedCallback(int);
+    void EntityRemovedCallback(hkpEntity*);
 };
 
 // @fnv 0x00d2b1f0
-void FUN_00d2b1f0::EntityRemovedCallback(int)
+void FUN_00d2b1f0::EntityRemovedCallback(hkpEntity*)
 {
-    if (m1)
-        reinterpret_cast<::hkpWorldDecomp *>((m1))->FUN_00c97510((::hkpAction *)(void *)(this));
+    if (m_pOwningWorld)
+        reinterpret_cast<::hkpWorldDecomp *>(m_pOwningWorld)->FUN_00c97510(this);
 }
 
 extern int DAT_010ce528;
@@ -44,13 +43,8 @@ struct S_00d49310_Lock
     ~S_00d49310_Lock();
 };
 
-struct FUN_00d2b2b0_class
+struct FUN_00d2b2b0_class : hkpUnaryAction
 {
-    void* vptr;
-    unsigned char padding[0x10];
-    S_00d49310_Lock lock;
-    DDCC60World* world;
-
     void FUN_00d2b2b0();
 };
 
@@ -58,17 +52,17 @@ struct FUN_00d2b2b0_class
 // @fnv 0x00d2b2b0
 void FUN_00d2b2b0_class::FUN_00d2b2b0()
 {
-    vptr = &DAT_010ce528;
+    *(void**)this = &DAT_010ce528;
 
-    if (world)
+    if (m_pEntity)
     {
-        reinterpret_cast<::hkReferencedObjectC905 *>((world))->FUN_00c905b0();
-        world = 0;
+        reinterpret_cast<::hkReferencedObjectC905 *>(m_pEntity)->FUN_00c905b0();
+        m_pEntity = 0;
     }
 
-    vptr = &DAT_010cc2fc;
-    ::FUN_00cb0c00((int)&(lock));
-    vptr = &(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(void**)this = &DAT_010cc2fc;
+    ::FUN_00cb0c00(&m_name);
+    *(void**)this = &::DAT_0102e388;
 }
 
 struct hkMemoryManager
@@ -195,7 +189,7 @@ struct hkMemoryRouterXd2b2f0
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterXd2b2f0& __cdecl FUN_00c85750();
+
 
 
 template <class T> __forceinline void constructWithCopyXd2b2f0(T* p, int n, const T& t)
@@ -217,7 +211,7 @@ template <class T> class hkArrayXd2b2f0
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXd2b2f0& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorXd2b2f0& kAlloc = (*static_cast<hkMemoryRouterXd2b2f0*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXd2b2f0(m_data + m_iElementCount, 1, t);

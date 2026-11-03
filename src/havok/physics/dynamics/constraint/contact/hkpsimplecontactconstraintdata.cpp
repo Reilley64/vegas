@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/ComChangerAtom.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -70,7 +71,7 @@ struct S_00d92690
     unsigned char unkB;
     unsigned short maxCapacity;
 };
-S_00d92690_Mgr* FUN_00c85750();
+
 
 // @fnv 0x00d92690
 S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
@@ -87,7 +88,7 @@ S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
         result = ((::S_00d92690 *)(::AllocateBlock(iNewCapacity, apContainer->unk8, apContainer->unk9, apContainer->maxCapacity)));
         ::fnv_00d925b0::FUN_00d925b0((::fnv_00d925b0::hkpSimpleContactConstraintAtom *)(result), (const ::fnv_00d925b0::hkpSimpleContactConstraintAtom *)(apContainer));
         int size = RoundUpToBucketSize(apContainer->unk2);
-        FUN_00c85750()->GetAllocator()->Free(apContainer, size);
+        static_cast<S_00d92690_Mgr*>(::FUN_00c85750())->GetAllocator()->Free(apContainer, size);
         pContainer = result;
         *grew = true;
     }
@@ -232,7 +233,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
     S_00d92fd0_Atom* a = holder->head;
     while (a->type >= 0x17)
     {
-        S_00d92690_Mgr* pMgr = FUN_00c85750();
+        S_00d92690_Mgr* pMgr = static_cast<S_00d92690_Mgr*>(::FUN_00c85750());
         if (arr.size == (arr.cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(::S_00d92690_Alloc *)(pMgr->GetAllocator()), (::AudioStream *)(::S_00d92fd0_Arr *)(&arr), 4);
         arr.data[arr.size] = a;
@@ -258,7 +259,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
             break;
         }
     }
-    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)FUN_00c85750()->GetAllocator();
+    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)static_cast<S_00d92690_Mgr*>(::FUN_00c85750())->GetAllocator();
     arr.size = 0;
     if ((arr.cap & 0x80000000) == 0)
         pAlloc->Free2(arr.data, (arr.cap & 0x3fffffff) * 4);
@@ -287,7 +288,7 @@ unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
         }
         i--;
     }
-    S_00d92690_Mgr* mgr = FUN_00c85750();
+    S_00d92690_Mgr* mgr = static_cast<S_00d92690_Mgr*>(::FUN_00c85750());
     if (m_len == (m_cap & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(mgr->unk10), (::AudioStream *)(void *)(this), 1);

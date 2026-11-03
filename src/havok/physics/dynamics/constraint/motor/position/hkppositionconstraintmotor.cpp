@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/motor/position/hkppositionconstraintmotor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/motor/position/hkppositionconstraintmotor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "havok/hkpPositionConstraintMotor.h"
 
 struct MotorAllocator
@@ -17,7 +18,7 @@ struct MemoryRouter
     void* m_debugData;
     MotorAllocator* m_pThreadAllocator;
 };
-MemoryRouter* __cdecl FUN_00c85750();
+
 extern int DAT_010cb76c;
 extern int DAT_010cb780;
 extern int DAT_010cb798;
@@ -55,7 +56,7 @@ struct PositionConstraintMotor
 // @fnv 0x00cdf5b0
 PositionConstraintMotor* PositionConstraintMotor::Clone()
 {
-    MemoryRouter* router = FUN_00c85750();
+    MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
     PositionConstraintMotor* copy = (PositionConstraintMotor*)router->m_pThreadAllocator->Allocate(0x24);
     ReferencedMotorView* referenced = (ReferencedMotorView*)copy;
     referenced->m_ppVirtualMethodTable = &DAT_010cb76c;

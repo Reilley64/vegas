@@ -1,6 +1,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
@@ -58,7 +59,7 @@ struct S93ba0_Mem {
     __forceinline S93ba0_Alloc* getBlockAlloc() { return AllocateMemoryBlock; }
 };
 
-extern "C" S93ba0_Mem* __cdecl FUN_00c85750();
+
 
 struct S93ba0_Stream {
     int unk00;
@@ -102,7 +103,7 @@ struct S93ba0_LocalArray {
 
     __forceinline S93ba0_LocalArray(int n) : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        S93ba0_Mem* mem = FUN_00c85750();
+        S93ba0_Mem* mem = static_cast<S93ba0_Mem*>(::FUN_00c85750());
         char* p = mem->lifoCursor;
         mem->lifoCursor = p + ((n * 8 + 127) & ~127);
         m_data = (S93ba0_Pair*)p;
@@ -118,8 +119,8 @@ struct S93ba0_LocalArray {
     {
         S93ba0_Pair* local = m_pTrailingData;
         if (local == m_data) m_iElementCount = 0;
-        FUN_00c85750()->lifoCursor = (char*)local;
-        S93ba0_Alloc* a = FUN_00c85750()->getBlockAlloc();
+        static_cast<S93ba0_Mem*>(::FUN_00c85750())->lifoCursor = (char*)local;
+        S93ba0_Alloc* a = static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000u) == 0)
             a->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * 8);
@@ -626,7 +627,7 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
             total = 0;
             for (S93ba0_Chunk* c = block->chunks; c; c = c->next)
                 total += c->count;
-            S93ba0_Mem* mem = FUN_00c85750();
+            S93ba0_Mem* mem = static_cast<S93ba0_Mem*>(::FUN_00c85750());
             copy = mem->lifoCursor;
             mem->lifoCursor = copy + ((total * 16 + 127) & ~127);
             index = 0;
@@ -637,7 +638,7 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
                 index += c->count;
             }
             ::FUN_00d01700((::hkpWorld *)(owner->device), copy, (void *)(total));
-            FUN_00c85750()->lifoCursor = copy;
+            static_cast<S93ba0_Mem*>(::FUN_00c85750())->lifoCursor = copy;
         }
         *marker = 2;
     } else {
@@ -661,7 +662,7 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
             reinterpret_cast<::FUN_00c911d0_Class *>((device))->EnterLock((void *)((*conn)->lockId));
             reinterpret_cast<::Dispatcher *>((device->stager))->DispatchPairs((::Pair *)(second.m_data), second.m_iElementCount);
             const int needed = first.m_iElementCount;
-            if (!FUN_00c85750()->getBlockAlloc()->hasSpace(needed << 10)) {
+            if (!static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->hasSpace(needed << 10)) {
                 reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->lockId));
             } else {
                 S93ba0_timer( ::DAT_010cc5d8);
@@ -678,32 +679,32 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
         while (block->bigNodes) {
             S93ba0_Node* n = block->bigNodes;
             block->bigNodes = n->next;
-            FUN_00c85750()->getBlockAlloc()->ReleaseBlock(n, 0x1000);
+            static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReleaseBlock(n, 0x1000);
         }
         while (block->smallNodes) {
             S93ba0_Node* n = block->smallNodes;
             block->smallNodes = n->next;
-            FUN_00c85750()->getBlockAlloc()->ReleaseBlock(n, 0x30);
+            static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReleaseBlock(n, 0x30);
         }
         void* buffer = block->buffer;
         if (buffer) {
             int bufferSize = block->bufferSize;
-            FUN_00c85750()->solver().ReturnMemory(buffer,bufferSize);
+            static_cast<S93ba0_Mem*>(::FUN_00c85750())->solver().ReturnMemory(buffer,bufferSize);
             block->buffer = 0;
         }
         if (block->numThreads > 1) {
             int tableCount = block->tableCount;
             void* table = block->table;
-            FUN_00c85750()->getBlockAlloc()->ReturnMemory(table, tableCount * 4);
+            static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReturnMemory(table, tableCount * 4);
             block->table = 0;
         }
-        S93ba0_Alloc* a = FUN_00c85750()->getBlockAlloc();
+        S93ba0_Alloc* a = static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc();
         block->arrSize = 0;
         if ((block->arrCapacityAndFlags & 0x80000000u) == 0)
             a->ReturnMemory(block->arrData, (block->arrCapacityAndFlags & 0x3fffffff) * 4);
         block->arrData = 0;
         block->arrCapacityAndFlags = 0x80000000;
-        FUN_00c85750()->getBlockAlloc()->ReleaseBlock(block, 0x80);
+        static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->ReleaseBlock(block, 0x80);
     }
 
 

@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c9000.h"
 #include "havok/hkpRejectChassisListener.h"
@@ -91,7 +92,7 @@ struct hkMemoryRouterXdfbd40
     }
 };
 
-extern "C" hkMemoryRouterXdfbd40& __cdecl FUN_00c85750() throw();
+
 
 class hkObjdfbd40 : public hkpRejectChassisListener
 {
@@ -100,7 +101,7 @@ class hkObjdfbd40 : public hkpRejectChassisListener
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXdfbd40*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpphysicssystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpphysicssystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/CA8890Object.h"
 #include "fnv/decl/CInstance.h"
@@ -136,7 +137,7 @@ void FUN_00d06640_class::Destroy()
 
     m_pVtable = &DAT_010cce28;
     reinterpret_cast<::FUN_00d06090_Class *>(this)->ReleaseAllReferences();
-    ::FUN_00cb0c00((int)&(m_lock));
+    ::FUN_00cb0c00(&(m_lock));
 
     MemoryRouter* router = _D1A0E0GetMemoryRouter();
     MemoryAllocator* allocator = router->m_p10;
@@ -253,7 +254,7 @@ struct Router64
     void* unk0c;
     void* allocator;
 };
-Router64* __cdecl FUN_00c85750();
+
 void __cdecl ResizeAudioStream(void* allocator, Array64* array, int elementSize);
 struct Container64
 {
@@ -270,7 +271,7 @@ void Container64::AddShape(Shape64* pShape)
     {
         reinterpret_cast<::FUN_00c90510_class *>((pShape))->FUN_00c90510();
         Array64* pArray = &array;
-        Router64* router = FUN_00c85750();
+        Router64* router = static_cast<Router64*>(::FUN_00c85750());
         if (pArray->size == (pArray->capacityAndFlags & 0x3fffffff))
         {
             ResizeAudioStream(router->allocator, pArray, 4);
@@ -344,7 +345,7 @@ struct FnvCpu_FUN_00d06c00_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d06c00_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d06c00_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00d06c00_CpuObject
 {
     unsigned int unk00;
@@ -357,7 +358,7 @@ FnvCpu_FUN_00d06c00_CpuObject* FnvCpu_FUN_00d06c00_CpuObject::FUN_00d06c00(unsig
     reinterpret_cast<::FUN_00d06640_class *>(this)->Destroy();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d06c00_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d06c00_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d06c00_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -482,7 +483,7 @@ struct hkMemoryRouterD064
 };
 
 namespace hkRouterD064 {
-extern "C" hkMemoryRouterD064& __cdecl FUN_00c85750() throw();
+
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -499,7 +500,7 @@ template <class T> class hkArrayD064
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterD064& router = hkRouterD064::FUN_00c85750();
+        hkMemoryRouterD064& router = (*static_cast<hkMemoryRouterD064*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedD064<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -553,7 +554,7 @@ struct hkMemoryRouterXd06540
 };
 
 namespace hkRouterXd06540 {
-extern "C" hkMemoryRouterXd06540& __cdecl FUN_00c85750() throw();
+
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -570,7 +571,7 @@ template <class T> class hkArrayXd06540
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXd06540& router = hkRouterXd06540::FUN_00c85750();
+        hkMemoryRouterXd06540& router = (*static_cast<hkMemoryRouterXd06540*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedXd06540<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -624,7 +625,7 @@ struct hkMemoryRouterXd06590
 };
 
 namespace hkRouterXd06590 {
-extern "C" hkMemoryRouterXd06590& __cdecl FUN_00c85750() throw();
+
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -641,7 +642,7 @@ template <class T> class hkArrayXd06590
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXd06590& router = hkRouterXd06590::FUN_00c85750();
+        hkMemoryRouterXd06590& router = (*static_cast<hkMemoryRouterXd06590*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedXd06590<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -1152,7 +1153,7 @@ struct hkMemoryRouterD
         return *m_pkHeap;
     }
 };
-hkMemoryRouterD& __cdecl FUN_00c85750() throw();
+
 
 struct hkArrayUtilD
 {
@@ -1227,7 +1228,7 @@ struct hkContainerHeapAllocatorD
     {
         hkMemoryAllocatorD* get(const void*) const throw()
         {
-            return &FUN_00c85750().heap();
+            return &(*static_cast<hkMemoryRouterD*>(::FUN_00c85750())).heap();
         }
     };
 };
@@ -1262,7 +1263,7 @@ class hkReferencedObjectD : public hkBaseObjectD
   public:
     void* operator new(size_t uiBytes) throw()
     {
-        hkReferencedObjectD* b = static_cast<hkReferencedObjectD*>(FUN_00c85750().heap().AllocateMemoryBlock(uiBytes));
+        hkReferencedObjectD* b = static_cast<hkReferencedObjectD*>((*static_cast<hkMemoryRouterD*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiBytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(uiBytes);
         return b;
     }

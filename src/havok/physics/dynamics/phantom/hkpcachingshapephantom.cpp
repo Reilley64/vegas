@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpcachingshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpcachingshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/C.h"
@@ -480,7 +481,7 @@ struct hkMemoryRouterD4D0
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD4D0& __cdecl FUN_00c85750();
+
 
 template <class T> __forceinline void copyD4D0(T* dst, const T* src, int n)
 {
@@ -506,7 +507,7 @@ template <class T> class hkArrayD4D0
 
     __forceinline void operator=(const hkArrayD4D0& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray((*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap(), a);
     }
     __forceinline void copyFromArray(hkMemoryAllocatorD4D0& kAlloc, const hkArrayD4D0& a)
     {
@@ -581,7 +582,7 @@ class FUN_00d4ce10 : public hkpWorldObjectD4D0
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpWorldObjectD4D0* p = (hkpWorldObjectD4D0*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        hkpWorldObjectD4D0* p = (hkpWorldObjectD4D0*)(*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -676,7 +677,7 @@ struct FnvCpu_FUN_00d4d310_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d4d310_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d4d310_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00d4d310_CpuObject
 {
     unsigned int unk00;
@@ -689,7 +690,7 @@ FnvCpu_FUN_00d4d310_CpuObject* FnvCpu_FUN_00d4d310_CpuObject::FUN_00d4d310(unsig
     reinterpret_cast<::fnv_00d4ce60::FUN_00d4ce60 *>(this)->fnv_00d4ce60::FUN_00d4ce60::~FUN_00d4ce60();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d4d310_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d4d310_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d4d310_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -961,7 +962,7 @@ template <typename T> struct hkArrayD4CF
     }
     T& AllocatePair()
     {
-        return _expandOne(FUN_00c85750().heap());
+        return _expandOne((*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -1067,7 +1068,7 @@ struct hkpProcessCollisionInputD4CF : public hkpCollisionInputD4CF
     ~hkpProcessCollisionInputD4CF() throw()
     {
         if (m_pAgent1nSector)
-            FUN_00c85750().heap().ReleaseBlock(m_pAgent1nSector, 0x200);
+            (*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap().ReleaseBlock(m_pAgent1nSector, 0x200);
     }
 };
 
@@ -1203,7 +1204,7 @@ struct hkMemoryRouterD4D0
 };
 
 namespace hkRouterD4D0 {
-extern "C" hkMemoryRouterD4D0& __cdecl FUN_00c85750() throw();
+
 }
 
 struct PairD4D0
@@ -1221,7 +1222,7 @@ template <class T> class hkArrayD4D0
 
     void ClearAndRelease()
     {
-        hkMemoryAllocatorD4D0& alloc = hkRouterD4D0::FUN_00c85750().heap();
+        hkMemoryAllocatorD4D0& alloc = (*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/decl/fnv_00e3b0a0__FUN_00e3b0a0_cls.h"
@@ -93,7 +94,7 @@ struct hkMemoryRouterE3B4
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterE3B4& __cdecl FUN_00c85750();
+
 
 class FUN_00e3b0a0
 {
@@ -104,7 +105,7 @@ class FUN_00e3b0a0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00e3b0a0*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterE3B4*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00e3b0a0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00e3b0a0* DestroyAndFree(unsigned int uiFlags) throw();
@@ -326,7 +327,7 @@ struct hkInplaceIntArray32
     }
     __forceinline ~hkInplaceIntArray32()
     {
-        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(&FUN_00c85750().heap());
+        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(&(*static_cast<hkMemoryRouterE3B4*>(::FUN_00c85750())).heap());
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
@@ -398,7 +399,7 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         in.m_kBodyALocalFrame = in.m_kBodyBLocalFrame;
         hkpEntityS* rB = instance->m_ppRigidBodies.m_data[i + 1];
         in.m_pBodyB = (const QuantizedBoundsData*)(base + rB->m_uiFilterInfo);
-        velocityAccumulatorsOffsets.AddBack(reinterpret_cast<hkMemoryRouterS*>(&FUN_00c85750()),
+        velocityAccumulatorsOffsets.AddBack(reinterpret_cast<hkMemoryRouterS*>(&(*static_cast<hkMemoryRouterE3B4*>(::FUN_00c85750()))),
                                             (hkUint32)in.m_pBodyB - base);
         in.m_kBodyBLocalFrame = &rB->m_kMotionTransform;
         hk1dLinearBilateralConstraintInfo bp;

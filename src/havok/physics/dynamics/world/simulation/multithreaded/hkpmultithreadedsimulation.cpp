@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -508,7 +509,7 @@ struct PairArray
     unsigned int m_pRayCursor;
 };
 
-char* __cdecl FUN_00c85750();
+
 void __cdecl FUN_00cc0f40(char* a, char* b, char* c);
 
 struct FUN_00d026e0_cls
@@ -534,7 +535,7 @@ void FUN_00d026e0_cls::ProcessPair(int* aiPair)
         *(int*)(x2 + 0xcc) != *(int*)(y2 + 0xcc))
     {
         PairArray* arr = (PairArray*)(world + 0x6c);
-        char* h = FUN_00c85750();
+        char* h = static_cast<char*>(::FUN_00c85750());
         if (arr->m_iElementCount == (int)(arr->m_pRayCursor & 0x3fffffff))
         {
             void* alloc = *(void**)(h + 0x10);
@@ -587,7 +588,7 @@ struct AllocHolder
     void* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
+
 
 struct FUN_00d027c0_cls
 {
@@ -612,7 +613,7 @@ void FUN_00d027c0_cls::ProcessPairEntry(PairEntry* entry)
         if (na[0xe8] != 5 && nb[0xe8] != 5 && *(int*)(na + 0xcc) != *(int*)(nb + 0xcc))
         {
             PairList* list = (PairList*)(m_pSharedOwner + 0x90);
-            AllocHolder* holder = FUN_00c85750();
+            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
             if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 8);
@@ -655,11 +656,11 @@ struct HkMemHolder
     HkMemRouter* m10;
 };
 
-HkMemHolder* __cdecl FUN_00c85750(void);
+
 
 inline HkMemRouter& GetMemRouter()
 {
-    return *FUN_00c85750()->m10;
+    return *static_cast<HkMemHolder*>(::FUN_00c85750())->m10;
 }
 
 struct HkFloatHolder
@@ -1047,12 +1048,12 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
         ::AccumulateShapes((::Worker **)(::fnv_00d03030::HkCollector *)(&collector), (::TargetClass *)(0), (::Caller *)(::fnv_00d03030::HkInput2 *)(&input2));
         if (collector.sub2.unk64)
         {
-            HkMemHolder* h = FUN_00c85750();
+            HkMemHolder* h = static_cast<HkMemHolder*>(::FUN_00c85750());
             h->m10->free(collector.sub2.unk64, 0x200);
         }
     }
 
-    HkMemHolder* holder = FUN_00c85750();
+    HkMemHolder* holder = static_cast<HkMemHolder*>(::FUN_00c85750());
     HkMemRouter* pMemRouter = holder->m10;
     if ((capacity & 0x80000000) == 0)
     {
@@ -1136,7 +1137,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct CpuObject
 {
     unsigned int unk00;
@@ -1151,7 +1152,7 @@ CpuObject* CpuObject::FUN_00d04320(unsigned int flags)
     FUN_00d02da0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -1476,7 +1477,7 @@ struct hkMemoryRouterQ
 
 __forceinline hkMemoryRouterQ& getRouter()
 {
-    return *(hkMemoryRouterQ*)FUN_00c85750();
+    return *(hkMemoryRouterQ*)static_cast<char*>(::FUN_00c85750());
 }
 
 template <class T> struct hkArrayQ
@@ -1771,7 +1772,7 @@ static __declspec(noinline) S00d02880_Elem* FUN_00d02880(S00d02880_Arr* apArray,
             p++;
         } while (i < apArray->m_uiItemCount);
     }
-    S00d02880_Heap* h = reinterpret_cast<S00d02880_Heap*>(FUN_00c85750());
+    S00d02880_Heap* h = reinterpret_cast<S00d02880_Heap*>(static_cast<char*>(::FUN_00c85750()));
     if (apArray->m_uiItemCount == (int)(0x3fffffffu & apArray->m_capFlags))
     {
         ::ResizeAudioStream((::AudioAllocator *)(h->unk10), (::AudioStream *)(::PairArray *)(reinterpret_cast<PairArray*>(apArray)), 0x18u);
@@ -1819,7 +1820,7 @@ struct BSAudio
     AudioSink* m_sink;
 };
 
-extern BSAudio* __cdecl FUN_00c85750();
+
 
 // A streamed audio buffer: the size field counts the live items, the data
 // pointer is handed back to the audio sink when the buffer is released.
@@ -1921,7 +1922,7 @@ FUN_00d02da0::~FUN_00d02da0()
     DeleteCriticalSection(&m_critical100);
     DeleteCriticalSection(&m_critical9c);
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         AudioSink* sink = audio->m_sink;
         int items = m_audio90.m_iElementCount;
         m_audio90.m_uiItemCount = 0;
@@ -1931,7 +1932,7 @@ FUN_00d02da0::~FUN_00d02da0()
     }
     DeleteCriticalSection(&m_critical78);
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         AudioSink* sink = audio->m_sink;
         int items = m_audio6c.m_iElementCount;
         m_audio6c.m_uiItemCount = 0;
@@ -3077,7 +3078,7 @@ void Processor::ProcessGroups(int** items, int total, Group* groups, int count, 
     {
         int batch = owner->batchSize;
         Group* pSpecialGroup = 0;
-        ThreadState* pThreadState = (ThreadState*)FUN_00c85750();
+        ThreadState* pThreadState = (ThreadState*)static_cast<char*>(::FUN_00c85750());
         BuildJob* jobs = (BuildJob*)pThreadState->top;
         pThreadState->top += (count * sizeof(BuildJob) + 127) & ~127;
         for (int i = 0; i < count; ++i)
@@ -3124,12 +3125,12 @@ void Processor::ProcessGroups(int** items, int total, Group* groups, int count, 
                 context.shared = &DAT_01269210;
                 ::AccumulateShapes((::Worker **)(::ProcessingContext *)(&context), (::TargetClass *)(::JobQueue *)(0), (::Caller *)(::ResultJob *)(&job));
                 if (context.input.scratch)
-                    ((ThreadState*)FUN_00c85750())->heap().freeBlock(context.input.scratch, 512);
+                    ((ThreadState*)static_cast<char*>(::FUN_00c85750()))->heap().freeBlock(context.input.scratch, 512);
             }
         }
         if (pSpecialGroup)
             ::FUN_00d0c9c0((::ThingX **)this, (int)(items + pSpecialGroup->start), (::ThingP *)(pSpecialGroup->count), (int)(input), (bool)(pSpecialGroup->id));
-        ((ThreadState*)FUN_00c85750())->top = (char*)jobs;
+        ((ThreadState*)static_cast<char*>(::FUN_00c85750()))->top = (char*)jobs;
     }
     else
     {
@@ -3965,7 +3966,7 @@ struct Singleton
 };
 static inline Singleton* GetSingleton()
 {
-    return (Singleton*)FUN_00c85750();
+    return (Singleton*)static_cast<char*>(::FUN_00c85750());
 }
 
 struct Pair
@@ -7186,7 +7187,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
     ::FUN_00cb55d0((::S55Owner *)(m_0c));
     MemoryInfo outVal;
     reinterpret_cast<::FUN_00c92b50_Class *>((m_0c))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::StepBeginDetail::MemoryInfo *)(&outVal));
-    Glob* g = (Glob*)FUN_00c85750();
+    Glob* g = (Glob*)static_cast<char*>(::FUN_00c85750());
     bool ok = g->m_18->v20(outVal.maximum);
     if (!ok)
     {

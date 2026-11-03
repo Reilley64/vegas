@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/tyremarks/hkptyremarksinfoclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/tyremarks/hkptyremarksinfoclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 struct AudioAllocator
 {
     virtual void v00();
@@ -20,7 +22,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+
 
 struct ArrayMember
 {
@@ -30,7 +32,7 @@ struct ArrayMember
 
     ~ArrayMember() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -67,7 +69,7 @@ struct FUN_00dfc2c0 : SizedBase
 
     static void operator delete(void* apMemory) throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(apMemory, ((FUN_00dfc2c0*)apMemory)->m_uSize);
     }
@@ -100,7 +102,7 @@ struct DFC330MemoryRouter
     }
 };
 
-extern "C" DFC330MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct FUN_00dfc330
 {
@@ -113,7 +115,7 @@ struct FUN_00dfc330
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00dfc330* b = static_cast<FUN_00dfc330*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<DFC330MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/suspension/default/hkpvehicledefaultsuspensionclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/suspension/default/hkpvehicledefaultsuspensionclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 struct AllocHolder
@@ -27,7 +28,7 @@ struct VecList
     unsigned int m_uCapBits;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
+
 
 struct FUN_00e3afb0_cls
 {
@@ -47,7 +48,7 @@ struct FUN_00e3afb0_cls
 void FUN_00e3afb0_cls::Push(const __m128* apFirst, const __m128* apSecond, float afValue)
 {
     VecList* list = &m_kNode;
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     if (list->m_iArrayLength == (int)(list->m_uCapBits & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), sizeof(VecElem));
@@ -82,7 +83,7 @@ struct DFBFF0MemoryRouter
     }
 };
 
-extern "C" DFBFF0MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct FUN_00dfbff0
 {
@@ -95,7 +96,7 @@ struct FUN_00dfbff0
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00dfbff0* b = static_cast<FUN_00dfbff0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<DFBFF0MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

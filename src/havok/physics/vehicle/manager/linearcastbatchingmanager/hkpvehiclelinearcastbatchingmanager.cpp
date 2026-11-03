@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 #include <windows.h>
 #include "fnv/decl/VUC_StepInstance.h"
 #include "fnv/symbols_00c90000.h"
@@ -136,7 +138,7 @@ struct CharacterBufferState
     }
 };
 
-CharacterBufferState* __cdecl FUN_00c85750();
+
 
 struct AllocV
 {
@@ -303,7 +305,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     arr.m_data = 0;
     arr.m_iElementCount = 0;
     arr.m_cap = (int)0x80000000;
-    CharacterBufferState* ar = FUN_00c85750();
+    CharacterBufferState* ar = static_cast<CharacterBufferState*>(::FUN_00c85750());
     char* scratch = ar->m_pCur;
     ar->m_pCur = (char*)scratch + 0x600;
     arr.m_data = scratch;
@@ -314,7 +316,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
         {
             Vehicle433* veh = self->m_ppVehicles[i];
             int numWheels = veh->m_data1c->m_iWheelCount;
-            arr.SetSizeAndGrow(FUN_00c85750()->heap(), numWheels);
+            arr.SetSizeAndGrow(static_cast<CharacterBufferState*>(::FUN_00c85750())->heap(), numWheels);
             Counted433* counted = veh->m_counted;
             unsigned char j = 0;
             if (numWheels > 0)
@@ -337,9 +339,9 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     char* saved = slot.m_saved;
     if (saved == arr.m_data)
         arr.m_iElementCount = 0;
-    FUN_00c85750()->m_pCur = saved;
+    static_cast<CharacterBufferState*>(::FUN_00c85750())->m_pCur = saved;
     {
-        CharacterBufferState* ar5 = FUN_00c85750();
+        CharacterBufferState* ar5 = static_cast<CharacterBufferState*>(::FUN_00c85750());
         AllocV* alloc = ar5->m_pSharedOwner;
         int cap = arr.m_cap;
         arr.m_iElementCount = 0;

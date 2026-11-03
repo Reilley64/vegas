@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <intrin.h>
 #include <windows.h>
@@ -762,7 +763,7 @@ struct hkMemoryRouterD08C {
     hkMemoryAllocatorD08C* m_pStreamAllocator;
     hkMemoryAllocatorD08C& heap() { return *m_pStreamAllocator; }
 };
-extern "C" hkMemoryRouterD08C& __cdecl FUN_00c85750();
+
 
 
 template <class T>
@@ -782,7 +783,7 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorD08C& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD08C& kAlloc = (*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyD08C(m_data + m_iElementCount, 1, t);
@@ -854,7 +855,7 @@ struct BSAudio {
     IAllocator* allocator;
 };
 
-extern "C" BSAudio* __cdecl FUN_00c85750();
+
 
 struct MyArray {
     void* m_data;
@@ -985,13 +986,13 @@ struct FUN_00d08cf0 : MyBase1, MyBase2, MyBase3, MyBase4, MyBase5
 FUN_00d08cf0::FUN_00d08cf0(ListenerManager* apListenerManager, int a2, float afValue)
     : unk28(apListenerManager)
 {
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
     reinterpret_cast<::FUN_00cb1fe0_t *>(&(this->unk50))->EnsureCapacity((int)(audio->allocator), 0);
     this->unk30 = 0;
     this->unk34 = 0;
-    BSAudio* pAudio = FUN_00c85750();
+    BSAudio* pAudio = static_cast<BSAudio*>(::FUN_00c85750());
     this->unk3c = pAudio->allocator->allocate(0x10);
-    BSAudio* audio3 = FUN_00c85750();
+    BSAudio* audio3 = static_cast<BSAudio*>(::FUN_00c85750());
     void* pSemaphore = audio3->allocator->allocate(4);
     if (pSemaphore) {
         pSemaphore = ((void *)(reinterpret_cast<::FUN_00d04350_cls *>((((Semaphore*)pSemaphore)))->Create(0, 1000)));
@@ -1015,7 +1016,7 @@ FUN_00d08cf0::FUN_00d08cf0(ListenerManager* apListenerManager, int a2, float afV
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((this->unk28))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)((MyBase5*)this));
     if (this->unk24) {
         char* edi = this->unk28->unk78 + 0x20;
-        BSAudio* audio4 = FUN_00c85750();
+        BSAudio* audio4 = static_cast<BSAudio*>(::FUN_00c85750());
         void* pObj = audio4->allocator->allocate(0x80);
         if (pObj) {
             pObj = ((void *)(new ((void *)(((Class0xd9c180*)pObj))) ::FUN_00d9c180((const ::S_00d9c180_Vec *)(edi), (const ::S_00d9c180_Vec *)(void *)(edi + 0x10), (const ::S_00d9c180_Vec *)(void *)(edi + 0x20))));
@@ -1105,7 +1106,7 @@ struct FnvCpu_FUN_00d0a240_CpuAllocatorHolder {
     unsigned int unk0c;
     FnvCpu_FUN_00d0a240_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d0a240_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00d0a240_CpuObject {
     unsigned int unk00;
     unsigned short size;
@@ -1117,7 +1118,7 @@ FnvCpu_FUN_00d0a240_CpuObject* FnvCpu_FUN_00d0a240_CpuObject::FUN_00d0a240(unsig
 {
     Destructor();
     if (flags & 1) {
-        FnvCpu_FUN_00d0a240_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
+        FnvCpu_FUN_00d0a240_CpuAllocatorHolder* pAllocatorHolder = static_cast<FnvCpu_FUN_00d0a240_CpuAllocatorHolder*>(::FUN_00c85750());
         pAllocatorHolder->allocator->Invoke(this, size);
     }
     return this;
@@ -1211,7 +1212,7 @@ struct hkMemoryRouterD089 {
     hkMemoryAllocatorD089& heap() { return *m_pStreamAllocator; }
 };
 
-namespace fnvc_adapt { extern "C" hkMemoryRouterD089* __cdecl FUN_00c85750(); }
+namespace fnvc_adapt {  }
 
 enum hkResultD089 { HK_SUCCESS = 0, HK_FAILURE = 1 };
 
@@ -1257,7 +1258,7 @@ void OwnerD089::FUN_00d08980(unsigned int key)
 {
     unsigned int dummy;
     if (m_map.LookupBucketValue(key, &dummy) != HK_SUCCESS)
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870(fnvc_adapt::(::fnv_00cb1870::hkMemoryAllocatorCB18 &)((const <dependent type> &)(FUN_00c85750()->heap())), key, (unsigned int)-1);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870(fnvc_adapt::(::fnv_00cb1870::hkMemoryAllocatorCB18 &)((const <dependent type> &)((*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750()))->heap())), key, (unsigned int)-1);
 }
 
 struct hkpCollidableD08 {
@@ -1385,7 +1386,7 @@ struct Hk_d08e80_Mem {
     Hk_d08e80_Alloc& heap() { return *m_alloc; }
 };
 
-namespace fnvc_adapt { Hk_d08e80_Mem* __cdecl FUN_00c85750(); }
+namespace fnvc_adapt {  }
 
 struct Cls_00c917a0 {  };
 struct Cls_00c917f0 {  };
@@ -1405,7 +1406,7 @@ struct Arr_d08e80 {
     int m_iElementCount;
     int m_capFlags;
     ~Arr_d08e80() {
-        Hk_d08e80_Alloc& a = fnvc_adapt::FUN_00c85750()->heap();
+        Hk_d08e80_Alloc& a = static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0) {
             a.ReturnMemory(m_data, (m_capFlags & 0x3fffffff) * 4);
@@ -1469,19 +1470,19 @@ void Tgt_d08e80::Destructor()
     Cls_00d97850* p10 = unk10;
     if (p10) {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((p10))->ClearBuffers();
-        fnvc_adapt::FUN_00c85750()->heap().ReleaseBlock(p10, 0x50);
+        static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap().ReleaseBlock(p10, 0x50);
     }
 
     void* pBlock3C = unk3C;
-    fnvc_adapt::FUN_00c85750()->heap().ReleaseBlock(pBlock3C, 0x10);
+    static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap().ReleaseBlock(pBlock3C, 0x10);
 
     Cls_00d04370* pBlock6C = unk6C;
     if (pBlock6C) {
         reinterpret_cast<::FUN_00d04370_cls *>((pBlock6C))->FUN_00d04370();
-        fnvc_adapt::FUN_00c85750()->heap().ReleaseBlock(pBlock6C, 4);
+        static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap().ReleaseBlock(pBlock6C, 4);
     }
 
-    reinterpret_cast<::CB1A90Owner *>((((Cls_00cb1a90*)&unk50)))->ProcessArgument((::CB1A90Argument *)(fnvc_adapt::FUN_00c85750()->m_alloc));
+    reinterpret_cast<::CB1A90Owner *>((((Cls_00cb1a90*)&unk50)))->ProcessArgument((::CB1A90Argument *)(static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->m_alloc));
     ::FUN_00a29680();
 
     m_aiIndexedValues.destroy();
@@ -1905,7 +1906,7 @@ struct S00d094a0_Alloc {
     template<class T> __forceinline T* elements(int& count) {int bytes=count*4; void* p=AllocateBufferWithSize(bytes);count=bytes/4;return (T*)p;}
 
 };
-__forceinline S00d094a0_Alloc& S00d094a0_heap() { return *(S00d094a0_Alloc*)&FUN_00c85750().heap(); }
+__forceinline S00d094a0_Alloc& S00d094a0_heap() { return *(S00d094a0_Alloc*)&(*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())).heap(); }
 
 __forceinline void* reserveExternal(void*& data, int& capacity, int& bytes, int n) {
     S00d094a0_Alloc& a = S00d094a0_heap();
@@ -2075,7 +2076,7 @@ struct hkMemoryRouterD0A1 {
     hkMemoryAllocatorD0A1& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" hkMemoryRouterD0A1& __cdecl FUN_00c85750() throw();
+
 
 class hkKdTreeCastCollector {
 public:
@@ -2088,7 +2089,7 @@ public:
 
     static void operator delete(void* p)
     {
-        FUN_00c85750().heap().ReleaseBlock(p, sizeof(CollectorD0A1));
+        (*static_cast<hkMemoryRouterD0A1*>(::FUN_00c85750())).heap().ReleaseBlock(p, sizeof(CollectorD0A1));
     }
     CollectorD0A1* FUN_00d0a170(unsigned int uiFlags);
 };
@@ -2122,7 +2123,7 @@ struct hkMemoryRouterD0B0 {
 };
 
 
-extern "C" hkMemoryRouterD0B0& __cdecl FUN_00c85750() throw();
+
 
 template <class T>
 class hkArrayD0B0 {
@@ -2133,7 +2134,7 @@ public:
 
     ~hkArrayD0B0() throw()
     {
-        hkMemoryAllocatorD0B0& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD0B0& kAlloc = (*static_cast<hkMemoryRouterD0B0*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -2337,12 +2338,12 @@ void FUN_00d08ac0(hkArray<Target*>* out, int containerHandle) {
     Container* c = reinterpret_cast<Container*>(containerHandle);
     for (containerHandle = 0; containerHandle < c->m_array1.m_iElementCount; containerHandle++) {
         for (int j = 0; j < c->m_array1.m_data[containerHandle]->m_items.m_iElementCount; j++) {
-            out->AddBack((AllocHolder*)&FUN_00c85750(), &c->m_array1.m_data[containerHandle]->m_items.m_data[j]->m_target);
+            out->AddBack((AllocHolder*)&(*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())), &c->m_array1.m_data[containerHandle]->m_items.m_data[j]->m_target);
         }
     }
     for (int k = 0; k < c->m_array2.m_iElementCount; k++) {
         if (c->m_array2.m_data[k]->m_target.unk00) {
-            out->AddBack((AllocHolder*)&FUN_00c85750(), &c->m_array2.m_data[k]->m_target);
+            out->AddBack((AllocHolder*)&(*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())), &c->m_array2.m_data[k]->m_target);
         }
     }
 }
@@ -2382,7 +2383,7 @@ struct TempArr {
     int m_capFlags;
     void destroy()
     {
-        hkMemoryAllocatorD08C& a = FUN_00c85750().heap();
+        hkMemoryAllocatorD08C& a = (*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0)
             ((AllocV&)a).ReleaseBlock(m_data, (m_capFlags & 0x3fffffff) * 4);
@@ -2567,7 +2568,7 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorD08C& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD08C& kAlloc = (*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&kAlloc, this, sizeof(T));
         constructWithCopyD08C(m_data + m_iElementCount, 1, t);
@@ -2714,12 +2715,12 @@ struct NodeArrayBase {
     }
 };
 struct NodeHeapArray : NodeArrayBase {
-    ~NodeHeapArray() { ClearAndRelease(*((ScratchAllocator*)&FUN_00c85750())->allocator); }
+    ~NodeHeapArray() { ClearAndRelease(*((ScratchAllocator*)&(*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())))->allocator); }
 };
 struct NodeArray : NodeHeapArray {
     char* saved;
     NodeArray(int count) {
-        ScratchAllocator* allocator=(ScratchAllocator*)&FUN_00c85750();
+        ScratchAllocator* allocator=(ScratchAllocator*)&(*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750()));
         char* memory=allocator->current;
         allocator->current+=(count*4+127)&~127;
         data=(Node**)memory;
@@ -2728,7 +2729,7 @@ struct NodeArray : NodeHeapArray {
     }
     ~NodeArray() {
         if (saved==(char*)data) clear();
-        ((ScratchAllocator*)&FUN_00c85750())->current=saved;
+        ((ScratchAllocator*)&(*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())))->current=saved;
     }
 };
 struct __declspec(align(16)) Bounds { float minX,minY,minZ,minW,maxX,maxY,maxZ,maxW; };
@@ -3016,7 +3017,7 @@ template <class T> struct S00d09020_Arr
     {}
     ~S00d09020_Arr()
     {
-        hkMemoryAllocatorD08C& a = FUN_00c85750().heap();
+        hkMemoryAllocatorD08C& a = (*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -3025,7 +3026,7 @@ template <class T> struct S00d09020_Arr
     }
     void reserve(int n)
     {
-        hkMemoryAllocatorD08C& a = FUN_00c85750().heap();
+        hkMemoryAllocatorD08C& a = (*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())).heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {
@@ -3045,7 +3046,7 @@ template <class T> struct S00d09020_Local : public S00d09020_Arr<T>
     T* m_pStackAllocation;
     S00d09020_Local(int n)
     {
-        hkMemoryRouterD08C& r = FUN_00c85750();
+        hkMemoryRouterD08C& r = (*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750()));
         char* top = (char*)r.m_00;
         r.m_00 = (int)(top + ((n * sizeof(T) + 0x7f) & ~0x7f));
         this->m_data = (T*)top;
@@ -3057,7 +3058,7 @@ template <class T> struct S00d09020_Local : public S00d09020_Arr<T>
         T* mem = m_pStackAllocation;
         if (mem == this->m_data)
             this->m_iElementCount = 0;
-        FUN_00c85750().m_00 = (int)mem;
+        (*static_cast<hkMemoryRouterD08C*>(::FUN_00c85750())).m_00 = (int)mem;
     }
 };
 

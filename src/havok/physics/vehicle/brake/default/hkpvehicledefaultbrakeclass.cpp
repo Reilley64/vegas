@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/brake/default/hkpvehicledefaultbrakeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/brake/default/hkpvehicledefaultbrakeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 struct S_00dfc080_Allocator
 {
     virtual void v0();
@@ -24,7 +26,7 @@ struct S_00dfc080_Router
     }
 };
 
-S_00dfc080_Router* FUN_00c85750();
+
 
 struct S_00dfc080_RefObj
 {
@@ -35,7 +37,7 @@ struct S_00dfc080_RefObj
     static void operator delete(void* p, size_t)
     {
         S_00dfc080_RefObj* b = static_cast<S_00dfc080_RefObj*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        static_cast<S_00dfc080_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -61,7 +63,7 @@ template <class T> struct S_00dfc080_Array
     }
     ~S_00dfc080_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00dfc080_Router*>(::FUN_00c85750())->heap());
     }
 };
 

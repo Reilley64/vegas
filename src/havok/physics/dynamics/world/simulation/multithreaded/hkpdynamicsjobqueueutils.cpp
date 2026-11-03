@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/hkpdynamicsjobqueueutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/hkpdynamicsjobqueueutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 struct S_00d96530_Allocator
 {
     virtual void v0();
@@ -21,7 +23,7 @@ struct S_00d96530_Router
     }
 };
 
-S_00d96530_Router* FUN_00c85750();
+
 
 struct S_00d96530_RelArray
 {
@@ -65,7 +67,7 @@ struct S_00d96530_Header
 S_00d96530_Header* AllocateBlockHeader(int numBlocks, int numElems)
 {
     S_00d96530_Header* pHeader =
-        (S_00d96530_Header*)FUN_00c85750()->heap()->AllocateMemoryBlock((short)numBlocks * 4 + 0xc);
+        (S_00d96530_Header*)static_cast<S_00d96530_Router*>(::FUN_00c85750())->heap()->AllocateMemoryBlock((short)numBlocks * 4 + 0xc);
     int iBlockBytes = numElems << 4;
     pHeader->m_maxBlocks = numBlocks;
     pHeader->m_iBlockCount = numBlocks;
@@ -73,7 +75,7 @@ S_00d96530_Header* AllocateBlockHeader(int numBlocks, int numElems)
     S_00d96530_Block** blocks = pHeader->m_kBlocks;
     for (int i = 0; i < numBlocks; i++)
     {
-        void* p = FUN_00c85750()->heap()->AllocateMemoryBlock(iBlockBytes + 0x20);
+        void* p = static_cast<S_00d96530_Router*>(::FUN_00c85750())->heap()->AllocateMemoryBlock(iBlockBytes + 0x20);
         blocks[i] = (S_00d96530_Block*)p;
         new (p) S_00d96530_Block(iBlockBytes);
     }
@@ -100,7 +102,7 @@ struct S_Tls
 };
 inline void S_Call(const void* a, int b)
 {
-    ((S_Tls*)FUN_00c85750())->holder().v2(a, b);
+    ((S_Tls*)static_cast<S_00d96530_Router*>(::FUN_00c85750()))->holder().v2(a, b);
 }
 struct S_Item;
 struct S_C

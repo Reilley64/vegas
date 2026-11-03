@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00cf3070_class.h"
@@ -746,7 +747,7 @@ struct MemoryContext {
     int unk0c;
     AllocatorInterface* allocator;
 };
-MemoryContext* __cdecl FUN_00c85750();
+
 struct ContactObject {
     int unk00;
     unsigned short GetAllocationSize;
@@ -762,7 +763,7 @@ ContactObject* FUN_00cfd780_class::AllocateContactObject(OffsetDescriptor* first
 {
     void* relativeFirst = (char*)first + first->relativeOffset;
     void* relativeSecond = (char*)second + second->relativeOffset;
-    MemoryContext* manager = FUN_00c85750();
+    MemoryContext* manager = static_cast<MemoryContext*>(::FUN_00c85750());
     ContactObject* pContactObject = (ContactObject*)manager->allocator->allocate(128);
     pContactObject->GetAllocationSize = 128;
     return ((::ContactObject *)(reinterpret_cast<::ContactManager *>((pContactObject))->InitContact((const unsigned char *)(m_08), (const unsigned char *)(relativeFirst), (const unsigned char *)(relativeSecond))));
@@ -779,7 +780,7 @@ struct hkMemoryRouterCFD9 {
     hkMemoryAllocatorCFD9* m_pStreamAllocator;
     hkMemoryAllocatorCFD9& heap() { return *m_pStreamAllocator; }
 };
-extern "C" hkMemoryRouterCFD9& __cdecl FUN_00c85750();
+
 
 
 template <class T>
@@ -799,7 +800,7 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorCFD9& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorCFD9& kAlloc = (*static_cast<hkMemoryRouterCFD9*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyCFD9(m_data + m_iElementCount, 1, t);
@@ -842,7 +843,7 @@ struct AudioObject_00cfdb10 {
     AudioVtable_00cfdb10* m_10;
 };
 
-AudioObject_00cfdb10* __cdecl FUN_00c85750();
+
 
 struct ContactManager_00cfdb10 {
     virtual int FUN_00cfdb10(unsigned char flags);
@@ -870,7 +871,7 @@ int ContactManager_00cfdb10::FUN_00cfdb10(unsigned char flags) {
     reinterpret_cast<::FUN_00cfd720 *>(this)->FUN_00cfd720::~FUN_00cfd720();
 
     if ((flags & 1) != 0) {
-        AudioObject_00cfdb10* audio = FUN_00c85750();
+        AudioObject_00cfdb10* audio = static_cast<AudioObject_00cfdb10*>(::FUN_00c85750());
         audio->m_10->vf08(this, m_04);
     }
 
@@ -1016,7 +1017,7 @@ struct hkMemoryRouterCFDA {
 };
 
 namespace hkRouterCFDA {
-    extern "C" hkMemoryRouterCFDA* __cdecl FUN_00c85750() throw();
+    
 }
 
 
@@ -1028,7 +1029,7 @@ struct hkArrayCFDA {
 
     ~hkArrayCFDA() throw()
     {
-        hkAllocatorCFDA& kAlloc = hkRouterCFDA::FUN_00c85750()->heap();
+        hkAllocatorCFDA& kAlloc = static_cast<hkMemoryRouterCFDA*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -1091,7 +1092,7 @@ FUN_00cfda50::~FUN_00cfda50() throw()
     hkBlockCFDA* pkBlock = m_block;
     if (pkBlock) {
         int iSize = RoundUpToBucketSize(pkBlock->m_type);
-        hkRouterCFDA::FUN_00c85750()->heap().ReleaseBlock(pkBlock, iSize);
+        static_cast<hkMemoryRouterCFDA*>(::FUN_00c85750())->heap().ReleaseBlock(pkBlock, iSize);
     }
 }
 

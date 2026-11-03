@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/CA8Owner.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -1373,7 +1374,7 @@ struct CA92A0MemoryRouter
     }
 };
 
-extern "C" CA92A0MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct CA92A0Element
 {
@@ -1412,7 +1413,7 @@ struct CA92A0Array
 
     __forceinline CA92A0Array& operator=(const CA92A0Array& a)
     {
-        CA92A0Allocator& alloc = FUN_00c85750().heap();
+        CA92A0Allocator& alloc = (*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap();
         const int oldSize = m_iElementCount;
         const int newSize = a.m_iElementCount;
         const int copiedSize = newSize > oldSize ? oldSize : newSize;
@@ -1862,7 +1863,7 @@ struct AllocHolder
     AllocIface* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750() throw();
+
 
 struct EventBlock
 {
@@ -2012,7 +2013,7 @@ void FUN_00ca8af0_cls::DispatchEvent(void* a1, void* a2)
             EventBlock ev;
             ev.m_type = 0x1c;
             ev.m_pSender = this;
-            AllocHolder* holder = FUN_00c85750();
+            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
             ev.m_pData = holder->m_pAllocator->Alloc(0x20);
             *(__m128*)ev.m_pData = *(__m128*)a2;
             *(__m128*)((char*)ev.m_pData + 0x10) = *(__m128*)a1;
@@ -2240,13 +2241,13 @@ FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
     FnvScratch cinfo;
     reinterpret_cast<::Owner *>(&(cinfo))->FUN_00cf5ea0();
     reinterpret_cast<::S_00ca8f50_Src *>(this)->WriteToInfo((::S_00ca8f50_Info *)(::FnvScratch *)(&cinfo));
-    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)FUN_00c85750().heap().Alloc(0x220);
+    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x220);
     *(unsigned short*)&pBlock->unk00 = 0x220;
     FUN_00ca90c0_cls* pCopy = ((::FUN_00ca90c0_cls *)(reinterpret_cast<::S00ca8c90_Body *>((pBlock))->FUN_00ca8c90((*(const ::CInfo181 *)(&cinfo)))));
     memCpy16NonEmpty((char*)pCopy + 0xe0, (char*)this + 0xe0, 0x12);
     if (*(char**)((char*)this + 0x1f8))
     {
-        char* pObj = (char*)FUN_00c85750().heap().Alloc(0x120);
+        char* pObj = (char*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x120);
         *(unsigned short*)(pObj + 4) = 0x120;
         *(int*)(pObj + 0x118) = 0;
         *(int*)pObj = (int)&::g_unk010c6c64;
@@ -2314,7 +2315,7 @@ struct S_00ca9210_Router
         return *m_pStreamAllocator;
     }
 };
-S_00ca9210_Router* FUN_00c85750();
+
 
 struct S_00ca9210_RefObj
 {
@@ -2325,7 +2326,7 @@ struct S_00ca9210_RefObj
     void operator delete(void* p)
     {
         S_00ca9210_RefObj* b = static_cast<S_00ca9210_RefObj*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        static_cast<S_00ca9210_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

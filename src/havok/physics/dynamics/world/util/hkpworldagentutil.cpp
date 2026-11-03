@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/hkpworldagentutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldagentutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/ContainerD082.h"
 #include "fnv/symbols_00cb5000.h"
 #include "fnv/symbols_00cc0000.h"
@@ -390,7 +391,7 @@ struct BSAudio
     int unk0c;
     MemoryAllocator* volatile allocator;
 };
-extern BSAudio* __cdecl FUN_00c85750();
+
 // @fnv 0x00cc1190
 void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
 {
@@ -422,7 +423,7 @@ void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
             ++index;
         } while (index < events.count);
     }
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
     MemoryAllocator* allocator = audio->allocator;
     events.count = 0;
     if (!(events.capacity & (int)0x80000000))

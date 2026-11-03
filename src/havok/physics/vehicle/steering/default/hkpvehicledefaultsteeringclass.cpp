@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/steering/default/hkpvehicledefaultsteeringclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/steering/default/hkpvehicledefaultsteeringclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 struct S_00dfee20_Allocator
 {
     virtual void v0();
@@ -18,7 +20,7 @@ struct S_00dfee20_Router
     int unk8;
     int unkC;
     S_00dfee20_Allocator* unk10;
-    static S_00dfee20_Router& FUN_00c85750();
+    
     S_00dfee20_Allocator& heap()
     {
         return *unk10;
@@ -41,7 +43,7 @@ struct S_00dfee20_Array
     }
     ~S_00dfee20_Array() throw()
     {
-        _clearAndDeallocate(S_00dfee20_Router::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<S_00dfee20_Router*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -56,7 +58,7 @@ struct S_00dfee20_Base
     static void operator delete(void* p)
     {
         S_00dfee20_Base* b = static_cast<S_00dfee20_Base*>(p);
-        S_00dfee20_Router::FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<S_00dfee20_Router*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

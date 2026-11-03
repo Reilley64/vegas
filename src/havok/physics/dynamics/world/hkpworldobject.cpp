@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpworldobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworldobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/symbols_00c90000.h"
@@ -31,7 +32,7 @@ struct hkMemoryRouterCD2B
 };
 
 namespace hkRouterCD2B {
-extern "C" hkMemoryRouterCD2B& __cdecl FUN_00c85750() throw();
+
 }
 
 
@@ -60,7 +61,7 @@ template <class T> class hkArrayCD2B
     }
     T& AllocatePair()
     {
-        hkMemoryAllocatorCD2B& kAlloc = hkRouterCD2B::FUN_00c85750().heap();
+        hkMemoryAllocatorCD2B& kAlloc = (*static_cast<hkMemoryRouterCD2B*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];

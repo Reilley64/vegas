@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/S00e47e80_hkpLinearParametricCurveE47E.h"
@@ -496,7 +497,7 @@ struct ThreadMemory
     MemoryManager* m_pMemoryAllocator;
 };
 
-void* FUN_00c85750();
+
 
 struct CurveHelper : public hkpLinearParametricCurve
 {
@@ -507,7 +508,7 @@ struct CurveHelper : public hkpLinearParametricCurve
 // @fnv 0x00e47fa0
 void CurveHelper::CopyPoints(hkArray<hkVector4>& out) const
 {
-    MemoryManager* mgr = ((ThreadMemory*)FUN_00c85750())->m_pMemoryAllocator;
+    MemoryManager* mgr = ((ThreadMemory*)::FUN_00c85750())->m_pMemoryAllocator;
     int cap = out.m_iCapacityState & 0x3fffffff;
     if (cap < this->m_kPoints.m_iElementCount)
     {
@@ -675,7 +676,7 @@ struct LinearParametricCurve : public hkReferencedObject
 };
 static __forceinline LinearParametricCurve* createCurve()
 {
-    CurveThreadMemory* memory = (CurveThreadMemory*)FUN_00c85750();
+    CurveThreadMemory* memory = (CurveThreadMemory*)::FUN_00c85750();
     void* chunk = memory->m_pThreadAllocator->allocateChunk(0x40);
     ((hkReferencedObject*)chunk)->m_usMemSizeAndFlags = 0x40;
     return (LinearParametricCurve*)((void *)(new ((void *)(chunk)) ::fnv_00e48030::FUN_00e48030()));
@@ -718,7 +719,7 @@ LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
     clone->m_bClosedLoop = this->m_bClosedLoop;
     clone->m_kVector4.set(m_kVector4.lane(0), m_kVector4.lane(1), m_kVector4.lane(2), 0.0f);
     copyFromArray_e48090(clone->m_fClosestPointDistanceSquared,
-                         ((CurveThreadMemory*)FUN_00c85750())->m_pThreadAllocator,
+                         ((CurveThreadMemory*)::FUN_00c85750())->m_pThreadAllocator,
                          this->m_fClosestPointDistanceSquared);
     clone->m_fSmoothingValue = this->m_fSmoothingValue;
     return clone;
@@ -906,7 +907,7 @@ template <class T> struct S00e47e80_hkArrayE47E
     }
     __forceinline T* AddBack(const T& t)
     {
-        S00e47e80_hkMemoryRouterE47E* pkRouter = (S00e47e80_hkMemoryRouterE47E*)FUN_00c85750();
+        S00e47e80_hkMemoryRouterE47E* pkRouter = (S00e47e80_hkMemoryRouterE47E*)::FUN_00c85750();
         return _pushBack(pkRouter->m_pStreamAllocator, t);
     }
 };

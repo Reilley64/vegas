@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/D04B90World.h"
@@ -71,18 +72,18 @@ struct Allocator {
  virtual void freeBlock(void*, int);
 };
 struct ThreadMemory { char* stack; unsigned field04, field08, field0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
-ThreadMemory* FUN_00c85750();
+
 struct LocalWheelResults : hkArray<WheelResult> {
  WheelResult* original;
  void initialize() {
   m_data = 0; m_iElementCount = 0; m_iCapacityState = 0x80000000;
-  ThreadMemory* memory = FUN_00c85750();
+  ThreadMemory* memory = static_cast<ThreadMemory*>(::FUN_00c85750());
   WheelResult* block = (WheelResult*)memory->stack;
   memory->stack = (char*)(block + 16);
   m_data = block; m_iCapacityState = 0x80000010; original = block;
  }
  void resize(int size) {
-  Allocator& allocator = FUN_00c85750()->heap();
+  Allocator& allocator = static_cast<ThreadMemory*>(::FUN_00c85750())->heap();
   _ReadWriteBarrier();
   int capacity = m_iCapacityState & 0x3fffffff;
   if (capacity < size) {
@@ -95,8 +96,8 @@ struct LocalWheelResults : hkArray<WheelResult> {
  void release() {
   WheelResult* saved = original;
   if (saved == m_data) m_iElementCount = 0;
-  FUN_00c85750()->stack = (char*)saved;
-  Allocator& allocator = FUN_00c85750()->heap();
+  static_cast<ThreadMemory*>(::FUN_00c85750())->stack = (char*)saved;
+  Allocator& allocator = static_cast<ThreadMemory*>(::FUN_00c85750())->heap();
   m_iElementCount = 0;
   if ((m_iCapacityState & 0x80000000) == 0)
    allocator.freeBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(WheelResult));

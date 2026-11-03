@@ -45,6 +45,7 @@ setStart:
     }
 }
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 // Moved from hkpentityaabbutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
@@ -223,7 +224,7 @@ Mat4Like transforms[4];
 InputField<int> count;
 Mat4Like start,inverseEnd;
 };
-extern "C" void* FUN_00c85750();
+
 __forceinline void Vec4::transform(const Mat4Like& matrix,const Vec4& input) {
     __m128 x=_mm_shuffle_ps(input.data,input.data,0);
     __m128 rowx=_mm_mul_ps(matrix.r0.getQuad(),x);
@@ -366,10 +367,10 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
         if(allocated) {
             const ShapeParts* parts=geometry->GetShapeContainer();
             int n=parts->GetNumChildShapes();
-            int* stack=(int*)FUN_00c85750();
+            int* stack=(int*)::FUN_00c85750();
             BoundsRecord* bounds=(BoundsRecord*)*stack;
             *stack+=((unsigned)n*32+127)&~127;
-            stack=(int*)FUN_00c85750();
+            stack=(int*)::FUN_00c85750();
             unsigned int* keys=(unsigned int*)*stack;
             *stack+=(n*4+127)&~127;
             OffsetInput sweepInput;
@@ -408,7 +409,7 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
             ConvertAabb(totalSweep,context->quantization.low,context->quantization.high,context->quantization.scale,expanded);
             CompressExpanded(expanded,*output);
             if (n) {
-                stack = (int*)FUN_00c85750();
+                stack = (int*)::FUN_00c85750();
                 S_00d1b1d0_Item* pairs = (S_00d1b1d0_Item*)*stack;
                 *stack += (n * 8 + 127) & -128;
                 if (n > 1) {
@@ -435,10 +436,10 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
                     valueCursor+=2;
                 } while(--remaining);
                 }
-                *(int*)FUN_00c85750() = (int)pairs;
+                *(int*)::FUN_00c85750() = (int)pairs;
             }
-            *(int*)FUN_00c85750()=(int)keys;
-            *(int*)FUN_00c85750()=(int)bounds;
+            *(int*)::FUN_00c85750()=(int)keys;
+            *(int*)::FUN_00c85750()=(int)bounds;
         } else {
             AabbHolder holder; FloatBounds& box=holder.box;
             geometry->getAabb(object->m_pMotionState.getTransform(),slack,reinterpret_cast<FloatBounds&>(box));

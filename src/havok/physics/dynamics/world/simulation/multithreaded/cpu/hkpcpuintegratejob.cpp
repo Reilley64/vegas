@@ -1,6 +1,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <intrin.h>
 #include <windows.h>
@@ -96,9 +97,9 @@ struct Special { Entry entry; Record* record; unsigned int field0c; };
 struct SpecialList { Special* data; int count; };
 struct Allocator { virtual void unused(); virtual void* allocate(unsigned int size); };
 struct AllocationContext { unsigned int field00, field04, field08, field0c; Allocator* allocator; void* allocate(unsigned int size) { return allocator->allocate(size); } };
-void* __cdecl FUN_00c85750();
-inline void* Block::operator new(size_t) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x1000); }
-inline void* Group::operator new(size_t) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x30); }
+
+inline void* Block::operator new(size_t) throw() { return ((AllocationContext*)::FUN_00c85750())->allocate(0x1000); }
+inline void* Group::operator new(size_t) throw() { return ((AllocationContext*)::FUN_00c85750())->allocate(0x30); }
 
 struct SizePointer { unsigned int* value; SizePointer(unsigned int* p):value(p) {} unsigned int& operator*() const { return *value; } };
 // Allocates a Block, links it into the block list, copies entries into records, and optionally creates a Group tracking size ranges.
@@ -203,7 +204,7 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 #include <windows.h>
 extern "C" void _ReadWriteBarrier();
 inline void* operator new(size_t, void* ptr) { return ptr; }
-__declspec(nothrow) void* FUN_00c85750();
+
 struct FlagByte {
     char value;
     FlagByte() {}
@@ -229,7 +230,7 @@ struct TaskMemory {
     int unknown04,unknown08;
     TaskAllocator* temporary;
     TaskAllocator* heap;
-    static TaskMemory& GetMonitorStream() { return *(TaskMemory*)FUN_00c85750(); }
+    static TaskMemory& GetMonitorStream() { return *(TaskMemory*)::FUN_00c85750(); }
     TaskAllocator& tempAllocator() { return *temporary; }
     TaskAllocator& heapAllocator() { return *heap; }
     template<class T> T* takeStack(int n) {
@@ -907,7 +908,7 @@ struct TaskMemory {
     TaskAllocator* heapAlloc;
     TaskAllocator* debugAlloc;
     TaskAllocator* solverAlloc;
-    static __forceinline TaskMemory& GetMonitorStream() { return *(TaskMemory*)FUN_00c85750(); }
+    static __forceinline TaskMemory& GetMonitorStream() { return *(TaskMemory*)::FUN_00c85750(); }
     __forceinline TaskAllocator& heap() { return *heapAlloc; }
     __forceinline TaskAllocator& solver() { return *solverAlloc; }
 };

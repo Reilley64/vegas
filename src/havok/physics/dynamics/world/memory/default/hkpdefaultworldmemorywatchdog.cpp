@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/memory/default/hkpdefaultworldmemorywatchdog.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/memory/default/hkpdefaultworldmemorywatchdog.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
 #include "fnv/symbols_00e48000.h"
 #include "havok/hkpDefaultWorldMemoryWatchDog.h"
@@ -82,7 +83,7 @@ struct hkMemoryRouterE482
 };
 
 namespace hkRouterE482 {
-extern "C" hkMemoryRouterE482& __cdecl FUN_00c85750() throw();
+
 }
 
 struct hkJobE482
@@ -122,7 +123,7 @@ void __cdecl FUN_00e48290(hkSchedulerE482* pScheduler, int level, void* param, i
         if (iPriority >= level)
         {
             reinterpret_cast<::FUN_00c91620_Class *>((pScheduler->m_queue))->ProcessTarget((unsigned char *)(job), {});
-            if (!hkRouterE482::FUN_00c85750().heap().IsStreamValid(param))
+            if (!(*static_cast<hkMemoryRouterE482*>(::FUN_00c85750())).heap().IsStreamValid(param))
                 return;
         }
         else
@@ -157,7 +158,7 @@ struct hkMemoryRouterE483
     }
 };
 
-extern "C" hkMemoryRouterE483& __cdecl FUN_00c85750();
+
 
 struct ListE483
 {
@@ -202,7 +203,7 @@ void HostE483::ProcessList(ListE483* pkList)
             else
                 pvItem = *(void**)(pkList->m_pcNeg - (i * 4 + 4));
             ::FUN_00e48290((::hkSchedulerE482 *)(pvItem), iFlags, pvCtx, &iOut);
-            if (FUN_00c85750().heap().unk24(pvCtx))
+            if ((*static_cast<hkMemoryRouterE483*>(::FUN_00c85750())).heap().unk24(pvCtx))
                 return;
             i--;
         }

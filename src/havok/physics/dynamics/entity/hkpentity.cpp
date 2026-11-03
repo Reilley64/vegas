@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/hkpentity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkpentity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/FNVWorldObject.h"
 #include "fnv/decl/FUN_00d01ae0_shell.h"
@@ -778,7 +779,7 @@ struct FnvCpu_FUN_00c9d160_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00c9d160_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00c9d160_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00c9d160_CpuObject
 {
     unsigned int unk00;
@@ -792,7 +793,7 @@ FnvCpu_FUN_00c9d160_CpuObject* FnvCpu_FUN_00c9d160_CpuObject::FUN_00c9d160(unsig
     reinterpret_cast<::FUN_00d1dff0 *>(this)->setMotion();
     if (flags & 1)
     {
-        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00c9d160_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -944,12 +945,12 @@ struct hkMemoryRouterC9D3
 };
 
 namespace hkRouterC9D3 {
-extern "C" hkMemoryRouterC9D3& __cdecl FUN_00c85750() throw();
+
 }
 
 template <typename T> inline void hkDeallocateChunkC9D3(T* p, int n)
 {
-    hkRouterC9D3::FUN_00c85750().heap().ReleaseBlock(p, n * sizeof(T));
+    (*static_cast<hkMemoryRouterC9D3*>(::FUN_00c85750())).heap().ReleaseBlock(p, n * sizeof(T));
 }
 
 template <typename T> class hkSmallArrayC9D3
@@ -995,7 +996,7 @@ struct FnvCpu_FUN_00c9d460_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00c9d460_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00c9d460_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00c9d460_CpuObject
 {
     unsigned int unk00;
@@ -1009,7 +1010,7 @@ FnvCpu_FUN_00c9d460_CpuObject* FnvCpu_FUN_00c9d460_CpuObject::FUN_00c9d460(unsig
     FUN_00c9d3b0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00c9d460_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00c9d460_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00c9d460_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -1039,7 +1040,7 @@ struct hkMemoryRouterD1F7
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD1F7& __cdecl FUN_00c85750() throw();
+
 
 template <class T> class hkArrayD1F7
 {
@@ -1050,7 +1051,7 @@ template <class T> class hkArrayD1F7
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorD1F7& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD1F7& kAlloc = (*static_cast<hkMemoryRouterD1F7*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -1867,7 +1868,7 @@ struct hkMemoryRouterC9C6
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterC9C6& __cdecl FUN_00c85750() throw();
+
 }
 
 template <class T> class hkSmallArrayC9C6
@@ -1899,7 +1900,7 @@ struct ListenersC9C6
 {
     static void* operator new(size_t nbytes)
     {
-        return fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
+        return (*static_cast<hkMemoryRouterC9C7*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes);
     }
 
     hkSmallArrayC9C6<void*> m_pHeadNode;
@@ -1950,7 +1951,7 @@ struct hkMemoryRouterC9C7
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterC9C7& __cdecl FUN_00c85750() throw();
+
 }
 
 template <class T> class hkArrayC9C7
@@ -1976,7 +1977,7 @@ template <class T> class hkArrayC9C7
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(fnvc_adapt::FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterC9C7*>(::FUN_00c85750())).heap(), n);
         m_iElementCount = n;
     }
     T& operator[](int i)
@@ -2467,7 +2468,7 @@ void FUN_00c9c700_Class::FUN_00c9c700(int value)
 {
     if (unk214 == 0)
     {
-        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00c9d160_CpuAllocatorHolder*>(::FUN_00c85750());
         FUN_00c9c700_Allocator* allocator = (FUN_00c9c700_Allocator*)holder->allocator;
         FUN_00c9c700_Array* array = (FUN_00c9c700_Array*)allocator->slot04(0x10);
 
@@ -2768,7 +2769,7 @@ struct FnvRouter
     void* d;
     FnvMem* heap;
 };
-extern FnvRouter* __cdecl FUN_00c85750();
+
 
 struct FnvRA
 {
@@ -2794,7 +2795,7 @@ struct FnvSmall
         {
             unsigned c = flags & 0x3fff;
             void* d = data;
-            FnvRouter* router = FUN_00c85750();
+            FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
             FnvMem* mem = router->heap;
             mem->freeArray(d, c * elem);
         }
@@ -2846,7 +2847,7 @@ struct FnvTwo
     {
         two.releaseMem(4);
         one.releaseMem(4);
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
         FnvMem* mem = router->heap;
         mem->freeArray(this, 16);
     }
@@ -2995,7 +2996,7 @@ void EntityRebuild::FUN_00c9c8f0()
     }
     if (n64 == 0)
     {
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
         FnvMem* mem = router->heap;
         int f = f68;
         n64 = 0;
@@ -3008,7 +3009,7 @@ void EntityRebuild::FUN_00c9c8f0()
         master.clearAndDealloc(48);
     if (slave.size == 0)
     {
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
         FnvMem* mem = router->heap;
         int f = slave.flags;
         slave.size = 0;
@@ -3019,7 +3020,7 @@ void EntityRebuild::FUN_00c9c8f0()
     }
     if (runtime.size == 0)
     {
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
         FnvMem* mem = router->heap;
         int f = runtime.flags;
         runtime.size = 0;
@@ -3075,7 +3076,7 @@ struct hkMemoryRouterC9CF
     }
 };
 
-hkMemoryRouterC9CF* __cdecl FUN_00c85750();
+
 
 template <class T> class hkArrayC9CF
 {
@@ -3086,7 +3087,7 @@ template <class T> class hkArrayC9CF
 
     ~hkArrayC9CF() throw()
     {
-        hkMemoryAllocatorC9CF& kAlloc = FUN_00c85750()->heap();
+        hkMemoryAllocatorC9CF& kAlloc = static_cast<hkMemoryRouterC9CF*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -3108,7 +3109,7 @@ template <class T> class hkSmallArrayC9CF
         {
             int iCapacity = m_iCapacityState & 0x3fff;
             T* pData = m_data;
-            FUN_00c85750()->heap().ReleaseBlock(pData, iCapacity * sizeof(T));
+            static_cast<hkMemoryRouterC9CF*>(::FUN_00c85750())->heap().ReleaseBlock(pData, iCapacity * sizeof(T));
         }
     }
 };
@@ -3153,7 +3154,7 @@ class FUN_00c9d340
     ~FUN_00c9d340() throw();
     static void operator delete(void* p, unsigned int uiNumBytes)
     {
-        FUN_00c85750()->heap().ReleaseBlock(p, uiNumBytes);
+        static_cast<hkMemoryRouterC9CF*>(::FUN_00c85750())->heap().ReleaseBlock(p, uiNumBytes);
     }
 
     int unk00, unk04, unk08, unk0C;
@@ -3258,7 +3259,7 @@ struct hkMemoryRouterC9D3
     }
 };
 
-extern "C" hkMemoryRouterC9D3& __cdecl FUN_00c85750() throw();
+
 
 template <class T> class hkArrayC9D3
 {
@@ -3269,7 +3270,7 @@ template <class T> class hkArrayC9D3
 
     ~hkArrayC9D3() throw()
     {
-        hkMemoryAllocatorC9D3& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorC9D3& kAlloc = (*static_cast<hkMemoryRouterC9D3*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

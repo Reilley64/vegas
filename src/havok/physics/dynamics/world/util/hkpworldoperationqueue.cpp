@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BatchAdd__WorldHelper.h"
 #include "fnv/decl/CallRet.h"
@@ -58,7 +59,7 @@ struct S_00cf7540_Router
     S_00cf7540_Alloc* m_pStreamAllocator;
 };
 
-S_00cf7540_Router* FUN_00c85750();
+
 
 struct S_00cf7540_Ref
 {
@@ -82,7 +83,7 @@ template <class T> struct S_00cf7540_Array
 
     T& AllocatePair()
     {
-        S_00cf7540_Router* router = FUN_00c85750();
+        S_00cf7540_Router* router = static_cast<S_00cf7540_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
@@ -592,7 +593,7 @@ static __forceinline void release(Body* p)
 }
 static __forceinline Heap* heap()
 {
-    S_00cf7540_Router* router = FUN_00c85750();
+    S_00cf7540_Router* router = static_cast<S_00cf7540_Router*>(::FUN_00c85750());
     return reinterpret_cast<Heap*>(router->m_pStreamAllocator);
 }
 static __forceinline void freeBlock(void* p, int n)
@@ -899,7 +900,7 @@ struct BSAudio
     Allocator* allocator;
 };
 
-BSAudio* __cdecl FUN_00c85750();
+
 
 struct Elem20
 {
@@ -931,7 +932,7 @@ template <typename T> void Buffer<T>::clear()
 {
     const unsigned int stride = sizeof(T);
 
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
     Allocator* alloc = audio->allocator;
 
     const unsigned int f = flags;
@@ -983,7 +984,7 @@ struct Obj
 struct FUN_00d1df70
 {
 };
-BSAudio* FUN_00c85750();
+
 
 struct Elem
 {
@@ -1030,7 +1031,7 @@ struct Vec
 void Vec::FUN_00cf7690(Elem* arg)
 {
     ::EnterTlsGuard();
-    BSAudio* bsa = FUN_00c85750();
+    BSAudio* bsa = static_cast<BSAudio*>(::FUN_00c85750());
     if (cnt == (cap & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(bsa->alloc), (::AudioStream *)(void *)(this), 0x14);
@@ -1070,7 +1071,7 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 6: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
@@ -1086,7 +1087,7 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 7: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
@@ -1116,7 +1117,7 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f08)))->FUN_00c90510();
         {
             VecBase* s = &sub;
-            BSAudio* b = FUN_00c85750();
+            BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
             if (s->cnt == (s->cap & 0x3fffffff))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(b->alloc), (::AudioStream *)(s), 0x14);
@@ -1140,7 +1141,7 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 15: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
@@ -1156,7 +1157,7 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 16: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
@@ -1171,7 +1172,7 @@ void Vec::FUN_00cf7690(Elem* arg)
         return;
     case 17: {
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
         void* mem = b->alloc->V04(0x20);
         int nf08;
         if (mem)
@@ -1213,7 +1214,7 @@ void Vec::FUN_00cf7690(Elem* arg)
     case 23: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
         void* mem = b->alloc->V04(count * 4);
         dst->f04 = (int*)mem;
         ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
@@ -1285,14 +1286,14 @@ struct S_00cf7ae0_Heap
     virtual void ReleaseBlock(void* p, int n);
 };
 struct S_00cf7ae0_Router;
-S_00cf7ae0_Router* __cdecl FUN_00c85750();
+
 struct S_00cf7ae0_Router
 {
     int unk0, unk4, unk8, unkc;
     S_00cf7ae0_Heap* m_pStreamAllocator;
     static S_00cf7ae0_Router& GetMonitorStream()
     {
-        return *FUN_00c85750();
+        
     }
     S_00cf7ae0_Heap& heap()
     {

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00d92820_cls.h"
 #include "fnv/decl/FUN_00d9e860.h"
@@ -32,7 +33,7 @@ struct FUN_00d0b1e0
     FUN_00d0b1e0(int flags);
 };
 extern int DAT_010cb1e4;
-extern "C" void* __cdecl FUN_00c85750();
+
 struct CallbackInterface
 {
     virtual void f0();
@@ -54,7 +55,7 @@ FUN_00d0b1e0::FUN_00d0b1e0(int flags)
     unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
-        Manager* manager = (Manager*)FUN_00c85750();
+        Manager* manager = (Manager*)::FUN_00c85750();
         manager->interface10->callback(this, unk04);
     }
 }
@@ -403,7 +404,7 @@ struct hkThreadMemory
     hkMemory* m_pMemoryAllocator;
 };
 
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
+
 
 struct SubObj
 {
@@ -439,7 +440,7 @@ void __cdecl FUN_00d0b040(TargetClass* obj)
         return;
     }
 
-    hkThreadMemory* threadMem = FUN_00c85750();
+    hkThreadMemory* threadMem = static_cast<hkThreadMemory*>(::FUN_00c85750());
     hkpCollisionCallbackUtil* mem = (hkpCollisionCallbackUtil*)threadMem->m_pMemoryAllocator->allocateChunk(0x4c);
     mem->m_usMemSizeAndFlags = 0x4c;
     util = ((::fnv_00d0b040::hkpCollisionCallbackUtil *)(reinterpret_cast<::FUN_00d0b180_cls *>((mem))->Initialize()));

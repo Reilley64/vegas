@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/decl/CB1BC0Map.h"
@@ -18,7 +19,7 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c3000.h"
 #include "fnv/symbols_011b9000.h"
-extern void* FUN_00c85750();
+extern void* ::FUN_00c85750();
 
 struct HashCls
 {
@@ -38,7 +39,7 @@ int HashCls::InsertPair(int aiFirst, int aiSecond)
 
     HashCls* pHash = (HashCls*)((char*)this + 0x30);
     __int64 n = ((long long)(reinterpret_cast<::MapCB1C *>((pHash))->FUN_00cb1cb0(m, 0))) + 1;
-    unsigned long f0 = *(unsigned long*)((char*)FUN_00c85750() + 0x10);
+    unsigned long f0 = *(unsigned long*)((char*)::FUN_00c85750() + 0x10);
     reinterpret_cast<::CB1BC0Map *>((pHash))->InsertKeyValue((*(::CB1BC0Allocator *)(f0)), m, n);
     return (int)n;
 }
@@ -63,7 +64,7 @@ struct DEF350MemoryRouter
     }
 };
 
-extern "C" DEF350MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct DEF350ReferencedObject
 {
@@ -77,7 +78,7 @@ struct DEF350PointerMap
 
     DEF350PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reinterpret_cast<::CB1BC0Map *>(this)->ResizeToFit((::CB1BC0Allocator &)(FUN_00c85750().heap()), 0);
+        reinterpret_cast<::CB1BC0Map *>(this)->ResizeToFit((::CB1BC0Allocator &)((*static_cast<DEF350MemoryRouter*>(::FUN_00c85750())).heap()), 0);
     }
 
 };
@@ -433,7 +434,7 @@ struct DEF1E0MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" DEF1E0MemoryRouter& __cdecl FUN_00c85750();
+
 }
 
 typedef unsigned __int64 DEF1E0Uint64;
@@ -478,7 +479,7 @@ int DEF1E0PairCounter::DecrementPairCount(int idA, int idB)
         return 0;
     count--;
     if (count > 0)
-        reinterpret_cast<::CB1BC0Map *>(&(map))->InsertKeyValue(fnvc_adapt::(::CB1BC0Allocator &)((const <dependent type> &)(FUN_00c85750().heap())), key, count);
+        reinterpret_cast<::CB1BC0Map *>(&(map))->InsertKeyValue(fnvc_adapt::(::CB1BC0Allocator &)((const <dependent type> &)(::FUN_00c85750().heap())), key, count);
     else
         reinterpret_cast<::FUN_00cb2000_cls *>(&(map))->FUN_00cb2000(key, {});
     return (int)count;
@@ -660,7 +661,7 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
+
 
 struct FUN_00def160_Ref
 {
@@ -713,7 +714,7 @@ void FUN_00def160_cls::FUN_00def160()
     }
 
     pSub = &m_sub;
-    pHolder = FUN_00c85750();
+    pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     reinterpret_cast<::FUN_00cb1e40_t *>((pSub))->FUN_00cb1e40((::FUN_00cb1e40_arg_t *)(pHolder->m_pAllocator));
     ::FUN_00a29680();
 
@@ -740,7 +741,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct CpuObject
 {
     unsigned int unk00;
@@ -754,7 +755,7 @@ CpuObject* CpuObject::FUN_00def500(unsigned int flags)
     reinterpret_cast<::fnv_00def160::FUN_00def160_cls *>(this)->FUN_00def160();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

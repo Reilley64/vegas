@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -869,7 +870,7 @@ struct PathDeleteRouter
     PathDeleteAllocator* heap;
 };
 
-PathDeleteRouter* __cdecl FUN_00c85750();
+
 
 struct PathDeleteData : hkpPointToPathConstraintData
 {
@@ -883,7 +884,7 @@ void* PathDeleteData::FUN_00deef10(unsigned char flags)
     reinterpret_cast<::FUN_00dee7d0_class *>(this)->Destroy();
     if (flags & 1)
     {
-        PathDeleteRouter* router = FUN_00c85750();
+        PathDeleteRouter* router = static_cast<PathDeleteRouter*>(::FUN_00c85750());
         router->heap->ReleaseBlock(this, m_usMemSizeAndFlags);
     }
     return this;

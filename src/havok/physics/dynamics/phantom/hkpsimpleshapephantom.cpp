@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/phantom/hkpsimpleshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpsimpleshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 #include <cstddef>
 #include "fnv/decl/C.h"
 #include "fnv/decl/CA92A0Object.h"
@@ -491,7 +493,7 @@ struct CollisionMemoryRouter
     int unk00, unk04, unk08, unk0c;
     void* allocator;
 };
-extern "C" CollisionMemoryRouter* __cdecl FUN_00c85750();
+
 
 struct FUN_00d1f690_Member : hkpSimpleShapePhantom
 {
@@ -507,7 +509,7 @@ void FUN_00d1f690_Member::AddCollisionDetail(void* object)
         if (reinterpret_cast<::FUN_00ca94c0_Class *>((object))->FUN_00ca94c0({}) == 0)
         {
             hkArray<hkpSimpleShapePhantomCollisionDetail>* details = &m_kCollisionDetails;
-            CollisionMemoryRouter* router = FUN_00c85750();
+            CollisionMemoryRouter* router = static_cast<CollisionMemoryRouter*>(::FUN_00c85750());
             if (details->m_iElementCount == (details->m_iCapacityState & 0x3fffffff))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(details), 4);
@@ -676,7 +678,7 @@ struct hkMemoryRouterD1F7
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD1F7& __cdecl FUN_00c85750();
+
 
 template <class T> __forceinline void copyD1F7(T* dst, const T* src, int n)
 {
@@ -702,7 +704,7 @@ template <class T> class hkArrayD1F7
 
     __forceinline void operator=(const hkArrayD1F7& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray((*static_cast<hkMemoryRouterD1F7*>(::FUN_00c85750())).heap(), a);
     }
     __forceinline void copyFromArray(hkMemoryAllocatorD1F7& kAlloc, const hkArrayD1F7& a)
     {
@@ -777,7 +779,7 @@ class FUN_00d1f730 : public hkpWorldObjectD1F7
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpWorldObjectD1F7* p = (hkpWorldObjectD1F7*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        hkpWorldObjectD1F7* p = (hkpWorldObjectD1F7*)(*static_cast<hkMemoryRouterD1F7*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -1608,7 +1610,7 @@ struct Router
         return *heap;
     }
 };
-Router* FUN_00c85750();
+
 struct C : hkpSimpleShapePhantom
 {
     void FUN_00d1f960();
@@ -1617,7 +1619,7 @@ void C::FUN_00d1f960()
 {
     if (m_kCollisionDetails.m_iElementCount == 0)
     {
-        Alloc& allocator = FUN_00c85750()->getHeap();
+        Alloc& allocator = static_cast<Router*>(::FUN_00c85750())->getHeap();
         int flags = m_kCollisionDetails.m_iCapacityState;
         m_kCollisionDetails.m_iElementCount = 0;
         if ((flags & 0x80000000) == 0)

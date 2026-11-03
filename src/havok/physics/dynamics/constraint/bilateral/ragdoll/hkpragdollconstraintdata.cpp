@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00ca9360_cls.h"
@@ -245,7 +247,7 @@ struct FnvCpu_FUN_00cdf530_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00cdf530_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00cdf530_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00cdf530_CpuObject
 {
     unsigned int unk00;
@@ -259,7 +261,7 @@ FnvCpu_FUN_00cdf530_CpuObject* FnvCpu_FUN_00cdf530_CpuObject::FUN_00cdf530(unsig
     reinterpret_cast<::FUN_00cdf1f0 *>(this)->FUN_00cdf1f0::~FUN_00cdf1f0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cdf530_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00cdf530_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00cdf530_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

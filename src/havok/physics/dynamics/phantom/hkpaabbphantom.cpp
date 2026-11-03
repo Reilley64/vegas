@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
 #include <windows.h>
@@ -270,7 +271,7 @@ struct hkMemoryRouterCF2C
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterCF2C& __cdecl FUN_00c85750() throw();
+
 
 
 template <class T> __forceinline void constructWithCopyCF2C(T* p, int n, const T& t)
@@ -292,7 +293,7 @@ template <class T> class hkArrayCF2C
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorCF2C& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorCF2C& kAlloc = (*static_cast<hkMemoryRouterCF2C*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyCF2C(m_data + m_iElementCount, 1, t);
@@ -483,7 +484,7 @@ struct hkMemoryRouterCF2B
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterCF2B& __cdecl FUN_00c85750();
+
 
 template <class T> __forceinline void destructCF2B(T* t, int n)
 {
@@ -505,7 +506,7 @@ template <class T> class hkArrayCF2B
 
     __forceinline ~hkArrayCF2B()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease((*static_cast<hkMemoryRouterCF2B*>(::FUN_00c85750())).heap());
     }
     __forceinline void clear()
     {
@@ -584,7 +585,7 @@ struct hkMemoryRouterCF2C
     }
 };
 namespace hkRouterCF2C {
-extern "C" hkMemoryRouterCF2C& __cdecl FUN_00c85750() throw();
+
 }
 
 template <class T> class hkArrayCF2C
@@ -596,7 +597,7 @@ template <class T> class hkArrayCF2C
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorCF2C& kAlloc = hkRouterCF2C::FUN_00c85750().heap();
+        hkMemoryAllocatorCF2C& kAlloc = (*static_cast<hkMemoryRouterCF2C*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -710,7 +711,7 @@ struct hkMemoryRouterCF2D
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterCF2D& __cdecl FUN_00c85750();
+
 
 template <class T> __forceinline void copyCF2D(T* dst, const T* src, int n)
 {
@@ -736,7 +737,7 @@ template <class T> class hkArrayCF2D
 
     __forceinline void operator=(const hkArrayCF2D& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray((*static_cast<hkMemoryRouterCF2D*>(::FUN_00c85750())).heap(), a);
     }
     __forceinline void copyFromArray(hkMemoryAllocatorCF2D& kAlloc, const hkArrayCF2D& a)
     {
@@ -809,7 +810,7 @@ class FUN_00cf2cb0 : public hkpWorldObjectCF2D
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpWorldObjectCF2D* p = (hkpWorldObjectCF2D*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        hkpWorldObjectCF2D* p = (hkpWorldObjectCF2D*)(*static_cast<hkMemoryRouterCF2D*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -859,7 +860,7 @@ struct hkMemoryRouterCF2F
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterCF2F& __cdecl FUN_00c85750();
+
 
 class FUN_00cf2bf0
 {
@@ -870,7 +871,7 @@ class FUN_00cf2bf0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00cf2bf0*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterCF2F*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00cf2bf0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00cf2bf0* DestroyAndFree(unsigned int uiFlags) throw();
@@ -1296,7 +1297,7 @@ template <class T> class hkArrayCF2C
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorCF2C& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorCF2C& kAlloc = (*static_cast<hkMemoryRouterCF2C*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&kAlloc, this, sizeof(T));
         constructWithCopyCF2C(m_data + m_iElementCount, 1, t);

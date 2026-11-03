@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/symbols_00c90000.h"
@@ -334,7 +335,7 @@ struct S88_Router
     }
 };
 
-S88_Router* __cdecl FUN_00c85750();
+
 
 template <typename T> struct S88_PadSpu
 {
@@ -642,7 +643,7 @@ struct S88_Array
     }
     S88_SchemaInfo& AllocatePair()
     {
-        S88_Allocator& alloc = FUN_00c85750()->heap();
+        S88_Allocator& alloc = static_cast<S88_Router*>(::FUN_00c85750())->heap();
         if (m_iElementCount == getCapacity())
         {
             ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S88_SchemaInfo));
@@ -976,7 +977,7 @@ struct S88b50_Router
     }
     static S88b50_Router& GetMonitorStream()
     {
-        return *(S88b50_Router*)FUN_00c85750();
+        return *(S88b50_Router*)static_cast<S88_Router*>(::FUN_00c85750());
     }
 };
 static __forceinline char* S88b50_allocateStack(int n)

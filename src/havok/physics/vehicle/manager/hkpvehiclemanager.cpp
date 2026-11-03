@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/manager/hkpvehiclemanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/hkpvehiclemanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/VUBCD_Instance.h"
 #include "fnv/decl/VUC_StepInstance.h"
@@ -66,7 +67,7 @@ struct E426F0MemoryRouter
     }
 };
 
-extern "C" E426F0MemoryRouter& __cdecl FUN_00c85750();
+
 
 struct E426F0Object
 {
@@ -91,7 +92,7 @@ struct E426F0ObjectArray
 
     void AddBack(E426F0Object* const& e)
     {
-        E426F0Allocator& alloc = FUN_00c85750().heap();
+        E426F0Allocator& alloc = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(E426F0Object*));
         construct(m_data + m_iElementCount, 1, e);
@@ -139,7 +140,7 @@ struct E42740MemoryRouter
     }
 };
 
-extern "C" E42740MemoryRouter& __cdecl FUN_00c85750();
+
 
 class E42740ReferencedObject
 {
@@ -160,7 +161,7 @@ struct E42740ObjectArray
 
     ~E42740ObjectArray()
     {
-        E42740Allocator& alloc = FUN_00c85750().heap();
+        E42740Allocator& alloc = (*static_cast<E42740MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(E42740ReferencedObject*));
@@ -273,7 +274,7 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
     buffer.m_data = 0;
     buffer.m_iElementCount = 0;
     buffer.m_iCapacityState = 0x80000000;
-    E426F0MemoryRouter& router = FUN_00c85750();
+    E426F0MemoryRouter& router = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
     void* initial = (void*)router.unk00;
     router.unk00 += 0x600;
     buffer.m_data = initial;
@@ -288,7 +289,7 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
         {
             ItemRec* item = m_items[i];
             int flag = item->m_1c->m_20;
-            E426F0MemoryRouter& h2 = FUN_00c85750();
+            E426F0MemoryRouter& h2 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
             E426F0Allocator* pAllocator = h2.m_pStreamAllocator;
             int cap = buffer.m_iCapacityState & 0x3fffffff;
             if (cap < flag)
@@ -313,9 +314,9 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
         buffer.m_iElementCount = 0;
     }
     void* last = buffer.m_initialBuffer;
-    E426F0MemoryRouter& h3 = FUN_00c85750();
+    E426F0MemoryRouter& h3 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
     h3.unk00 = (int)last;
-    E426F0MemoryRouter& h4 = FUN_00c85750();
+    E426F0MemoryRouter& h4 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
     E426F0Allocator* alloc = h4.m_pStreamAllocator;
     unsigned int flags = buffer.m_iCapacityState;
     buffer.m_iElementCount = 0;

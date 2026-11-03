@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/DispatcherCF7080.h"
@@ -169,7 +170,7 @@ struct hkMemoryRouterD07E {
     hkMemoryAllocatorD07E* m_pStreamAllocator;
     hkMemoryAllocatorD07E& heap() { return *m_pStreamAllocator; }
 };
-extern "C" hkMemoryRouterD07E& __cdecl FUN_00c85750();
+
 
 template <class T>
 __forceinline void destructD07E(T* t, int n)
@@ -189,7 +190,7 @@ public:
 
     ~hkArrayD07E() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease((*static_cast<hkMemoryRouterD07E*>(::FUN_00c85750())).heap());
     }
     __forceinline void clear()
     {
@@ -258,9 +259,9 @@ public:
 void hkpPhantomD07E::FreeListenerArrays() throw()
 {
     if (m_kPhantomOverlapListeners.m_iElementCount == 0)
-        m_kPhantomOverlapListeners.ClearAndRelease(FUN_00c85750().heap());
+        m_kPhantomOverlapListeners.ClearAndRelease((*static_cast<hkMemoryRouterD07E*>(::FUN_00c85750())).heap());
     if (m_kPhantomListeners.m_iElementCount == 0)
-        m_kPhantomListeners.ClearAndRelease(FUN_00c85750().heap());
+        m_kPhantomListeners.ClearAndRelease((*static_cast<hkMemoryRouterD07E*>(::FUN_00c85750())).heap());
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
@@ -652,7 +653,7 @@ struct hkMemoryRouterXd07da0 {
 };
 
 namespace hkRouterXd07da0 {
-    extern "C" hkMemoryRouterXd07da0& __cdecl FUN_00c85750() throw();
+    
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -666,7 +667,7 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXd07da0& router = hkRouterXd07da0::FUN_00c85750();
+        hkMemoryRouterXd07da0& router = (*static_cast<hkMemoryRouterXd07da0*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedXd07da0<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -708,7 +709,7 @@ struct hkMemoryRouterXd07de0 {
 };
 
 namespace hkRouterXd07de0 {
-    extern "C" hkMemoryRouterXd07de0& __cdecl FUN_00c85750() throw();
+    
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -722,7 +723,7 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXd07de0& router = hkRouterXd07de0::FUN_00c85750();
+        hkMemoryRouterXd07de0& router = (*static_cast<hkMemoryRouterXd07de0*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedXd07de0<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -1234,7 +1235,7 @@ public:
 FUN_00d08130::~FUN_00d08130()
 {
     reinterpret_cast<::FUN_00d07910_cls *>(this)->NotifyElements();
-    m_kPhantomListeners.ClearAndRelease(FUN_00c85750().heap());
-    m_kPhantomOverlapListeners.ClearAndRelease(FUN_00c85750().heap());
+    m_kPhantomListeners.ClearAndRelease((*static_cast<hkMemoryRouterD07E*>(::FUN_00c85750())).heap());
+    m_kPhantomOverlapListeners.ClearAndRelease((*static_cast<hkMemoryRouterD07E*>(::FUN_00c85750())).heap());
     reinterpret_cast<::fnv_00c9d3b0::FUN_00c9d3b0::hkpWorldObject *>(this)->fnv_00c9d3b0::FUN_00c9d3b0::hkpWorldObject::~hkpWorldObject();
 }

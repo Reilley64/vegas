@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
@@ -229,7 +230,7 @@ struct hkMemoryRouterXe3c210
     }
 };
 
-extern "C" hkMemoryRouterXe3c210& __cdecl FUN_00c85750() throw();
+
 
 class hkObje3c210 : public FUN_00e3b9a0
 {
@@ -238,7 +239,7 @@ class hkObje3c210 : public FUN_00e3b9a0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObje3c210*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXe3c210*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObje3c210*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -319,7 +320,7 @@ struct PoweredChainData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     InfoArray infos;
-    MemoryRouter* FUN_00c85750();
+    
     void FUN_00e3b850(const __m128* a, const __m128* b, const __m128* c, Motor* motorA, Motor* motorB, Motor* motorC);
 };
 // Appends a ConstraintInfo entry to infos, storing frames a, b, c, motor pointers, and calling FUN_00c90510 on each motor.
@@ -328,7 +329,7 @@ void PoweredChainData::FUN_00e3b850(const __m128* apFrameA, const __m128* apFram
                                     Motor* motorA, Motor* motorB, Motor* motorC)
 {
     InfoArray* array = &infos;
-    MemoryRouter* router = FUN_00c85750();
+    MemoryRouter* router = (*static_cast<hkMemoryRouterXe3c210*>(::FUN_00c85750()));
     if (array->size == (int)(array->capacityAndFlags & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(array), sizeof(ConstraintInfo));
     ConstraintInfo& info = array->data[array->size++];
@@ -420,7 +421,7 @@ struct hkMemoryRouterE3B9
     }
 };
 
-extern "C" hkMemoryRouterE3B9& __cdecl FUN_00c85750() throw();
+
 
 template <class T> class hkArrayE3B9
 {
@@ -431,7 +432,7 @@ template <class T> class hkArrayE3B9
 
     ~hkArrayE3B9() throw()
     {
-        hkMemoryAllocatorE3B9& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorE3B9& kAlloc = (*static_cast<hkMemoryRouterE3B9*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -766,7 +767,7 @@ template <class T, int N> struct InplaceArray
     {}
     __forceinline void SetSizeAndGrow(int n)
     {
-        hkMemoryRouterXe3c210* router = &FUN_00c85750();
+        hkMemoryRouterXe3c210* router = &(*static_cast<hkMemoryRouterXe3c210*>(::FUN_00c85750()));
         MemoryAllocator* heap = reinterpret_cast<MemoryAllocator*>(router->m_pStreamAllocator);
         int c = capacity & 0x3fffffff;
         if (c < n)
@@ -789,7 +790,7 @@ template <class T, int N> struct InplaceArray
     }
     __forceinline void AddBack(const T& x)
     {
-        hkMemoryRouterXe3c210* route = &FUN_00c85750();
+        hkMemoryRouterXe3c210* route = &(*static_cast<hkMemoryRouterXe3c210*>(::FUN_00c85750()));
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(route->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         copyConstruct(data + size, 1, x);
@@ -803,7 +804,7 @@ template <class T, int N> struct InplaceArray
     }
     __forceinline void clear()
     {
-        hkMemoryRouterXe3c210* router = &FUN_00c85750();
+        hkMemoryRouterXe3c210* router = &(*static_cast<hkMemoryRouterXe3c210*>(::FUN_00c85750()));
         MemoryAllocator* heap = reinterpret_cast<MemoryAllocator*>(router->m_pStreamAllocator);
         deallocate(*heap);
     }

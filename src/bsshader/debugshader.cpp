@@ -589,9 +589,9 @@ struct ScreenQuad : NiScreenElements
     {
         return data;
     }
-    bool Insert(int a, int b, int c)
+    bool Insert(int a, int b, const unsigned short* c)
     {
-        return ((bool)(reinterpret_cast<::NiScreenElementsDataShell *>((GetData()))->FUN_00a87ae0(a, b, (const unsigned short *)(c))));
+        return ((bool)(reinterpret_cast<::NiScreenElementsDataShell *>((GetData()))->FUN_00a87ae0(a, b, c)));
     }
     bool Rectangle(int a, float b, float c, float d, float e)
     {

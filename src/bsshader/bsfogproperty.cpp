@@ -76,7 +76,7 @@ void FUN_00a5c240_shell::DestroyFogProperty()
         pExtra->DecRefCount();
 
     char* pString = this->unk08;
-    if (pString != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (pString != ::DAT_0109b220)
     {
         InterlockedDecrement((volatile long*)(pString - 8));
     }

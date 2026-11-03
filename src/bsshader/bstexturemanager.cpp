@@ -1285,7 +1285,7 @@ FUN_00b6dd80::FUN_00b6dd80()
     unsigned int width, height, unused1, unused2, samples, mode;
     unsigned int width2, height2;
     Format* format;
-    ::GetRenderTargetDesc((::RenderConfigSurface *)this, (unsigned int)(renderer), (unsigned int *)(43), &width, &height, &unused1, &mode, &unused2);
+    ::GetRenderTargetDesc((::RenderConfigSurface *)(renderer), 43, &width, &height, &unused1, &mode, &unused2, &samples);
     RenderTarget* target = renderer->GetTarget();
     switch (samples)
     {
@@ -1329,7 +1329,7 @@ FUN_00b6dd80::FUN_00b6dd80()
             ((::Resource *)(::NiDepthStencilBuffer::Create(target->size35(0), target->size36(0), (::NiRenderer *)(renderer), (const ::NiPixelFormat &)(*format), mode)));
         DAT_011bf400 = 1;
         target->SetDepth(multisample);
-        ::GetRenderTargetDesc((::RenderConfigSurface *)this, (unsigned int)(renderer), (unsigned int *)(4), &width2, &height2, &unused1, &mode, &unused2);
+        ::GetRenderTargetDesc((::RenderConfigSurface *)(renderer), 4, &width2, &height2, &unused1, &mode, &unused2, &samples);
         unsigned int finalWidth = width > width2 ? width : width2;
         unsigned int finalHeight = height > height2 ? height : height2;
         DAT_011bf400 = 0;

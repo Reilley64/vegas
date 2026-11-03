@@ -159,11 +159,11 @@ struct FnvTileShaderProperty
     unsigned char m_unk92;  // +0x92
     unsigned char m_unk93;  // +0x93
 
-    void CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag);
+    void CopyTileShaderProperty(FnvTileShaderProperty* dst, void* flag);
 };
 
 // @fnv 0x00bb7ac0
-void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag)
+void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, void* flag)
 {
     ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)((flag)));
 
@@ -204,11 +204,11 @@ struct TilePropertyClone : NiMemObjectAllocation, FnvTileShaderProperty
 };
 struct TileCloneSource
 {
-    TilePropertyClone* CreateTilePropertyClone(int);
+    TilePropertyClone* CreateTilePropertyClone(void*);
 };
 // Allocates a TilePropertyClone with false, initializes it via CopyTileShaderProperty with flag, and returns it.
 // @fnv 0x00bb7e70
-TilePropertyClone* TileCloneSource::CreateTilePropertyClone(int flag)
+TilePropertyClone* TileCloneSource::CreateTilePropertyClone(void* flag)
 {
     TilePropertyClone* result = new TilePropertyClone(false);
     reinterpret_cast<::FnvTileShaderProperty *>(this)->CopyTileShaderProperty((::FnvTileShaderProperty *)(result), flag);
@@ -570,10 +570,10 @@ void FUN_00bb7b60_cls::FUN_00bb7b60(NiStreamStub* a1)
 {
     reinterpret_cast<::S_00ba92c0_Prop *>(this)->FUN_00ba92c0((*(::S_00ba92c0_Stream *)(a1)));
     SaveBin(*a1->m_pBackingStream, m_8c);
-    unsigned int v = 0;
-    reinterpret_cast<::FUN_00a64ce0_shell *>((a1))->FUN_00a64ce0((char **)(unsigned int *)(&v));
-    reinterpret_cast<::TextString *>(&(m_94))->FUN_004037f0((const char *)(v), 0);
-    ::FUN_00aa10f0((void *)(v));
+    char* v = 0;
+    reinterpret_cast<::FUN_00a64ce0_shell *>((a1))->FUN_00a64ce0(&v);
+    reinterpret_cast<::TextString *>(&(m_94))->FUN_004037f0(v, 0);
+    ::FUN_00aa10f0(v);
 }
 
 namespace fnv_00bb7be0 {
@@ -787,7 +787,7 @@ struct FUN_00bb7be0_cls
     int unk88;
     int m_8c;
     int unk90;
-    int m_94;
+    char* m_94;
     void FUN_00bb7be0(NiStreamStub* a1);
 };
 
@@ -802,7 +802,7 @@ void FUN_00bb7be0_cls::FUN_00bb7be0(NiStreamStub* a1)
 {
     reinterpret_cast<::FUN_00ba9380_cls *>(this)->FUN_00ba9380(a1);
     SaveBin(*a1->m_pBackingStream, m_8c);
-    reinterpret_cast<::FUN_00a64160_cls *>((a1))->FUN_00a64160((const char *)(m_94));
+    reinterpret_cast<::FUN_00a64160_cls *>((a1))->FUN_00a64160(m_94);
 }
 }  // namespace fnv_00bb7be0
 

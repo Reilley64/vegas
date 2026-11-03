@@ -241,15 +241,15 @@ struct SpawnedObject : SpawnedBase
 
 struct SpawnerHost
 {
-    int* CreateSpawnedObject(int a1);
+    int* CreateSpawnedObject(void* a1);
 };
 
 // Allocates a SpawnedObject, passes it with a1 to FUN_00b665d0, and returns the object as an int pointer.
 // @fnv 0x00ba86f0
-int* SpawnerHost::CreateSpawnedObject(int aiFlags)
+int* SpawnerHost::CreateSpawnedObject(void* aiFlags)
 {
     SpawnedObject* p = new SpawnedObject();
-    reinterpret_cast<::SelfStub *>((this))->FUN_00b665d0((char *)(p), (void *)(aiFlags));
+    reinterpret_cast<::SelfStub *>((this))->FUN_00b665d0((char *)(p), aiFlags);
     return (int*)p;
 }
 
@@ -269,7 +269,7 @@ void FUN_00ba8780(ObjHdr* apObj)
 {
     ObjHdr* pObj = apObj;
     reinterpret_cast<::Target *>((pObj))->FUN_00b690d0({});
-    void* pValue = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_0120043c))))));
+    void* pValue = ((void *)(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_0120043c)))));
     unsigned int count = pObj->unkA;
     if (count >= pObj->unk8)
     {

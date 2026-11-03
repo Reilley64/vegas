@@ -12,7 +12,7 @@ void FUN_00b540b0();
 // 0x00b540d0
 void FUN_00b540d0();
 // 0x00b540f0
-int PopNextInt();
+void *PopNextInt();
 // 0x00b54630
 namespace fnv_00b54630 { namespace CleanupState { void FUN_00b54630(bool); } }
 // 0x00b54ac0

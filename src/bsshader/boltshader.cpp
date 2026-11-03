@@ -39,12 +39,11 @@ BSShader* BoltShader::CreateShader()
     NiD3DVertexDeclaration* declaration = ::FUN_00e76700(DAT_011f9508, 5, 1);
     BoltShaderDeclarationCalls* declarationCalls = (BoltShaderDeclarationCalls*)declaration;
 
-    declarationCalls->vfn_08c((std::uintptr_t)shader, (unsigned int)shader, (unsigned int)shader, 2, (unsigned int)shader);
-    declarationCalls->vfn_08c(1, 3, 3, 2, (unsigned int)shader);
-    declarationCalls->vfn_08c(2, 5, 4, 3, (unsigned int)shader);
-    declarationCalls->vfn_08c(3, 7, 5, 1, (unsigned int)shader);
-    declarationCalls->vfn_094((unsigned int)shader, 4, 6, 0x80000000, (unsigned int)shader, 10, 1,
-                              (unsigned int)shader);
+    declarationCalls->vfn_08c(0, 0, 0, 2, 0);
+    declarationCalls->vfn_08c(1, 3, 3, 2, 0);
+    declarationCalls->vfn_08c(2, 5, 4, 3, 0);
+    declarationCalls->vfn_08c(3, 7, 5, 1, 0);
+    declarationCalls->vfn_094(0, 4, 6, 0x80000000, 0, 10, 1, 0);
     declarationCalls->vfn_0b4();
 
     shader = new BoltShader(declaration);
@@ -941,7 +940,7 @@ Obj_bc18d0* FUN_00bc15a0()
 
     unsigned int uSegments = GetSegmentCount();
     if (!uSegments)
-        return (Obj_bc18d0*)uSegments;
+        return 0;
 
     unsigned int uTotal = DAT_011ae61c * uSegments;
     unsigned int usNumTriangles = (unsigned short)(uTotal + uTotal);

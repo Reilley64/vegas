@@ -13,5 +13,5 @@ float DAT_011fed90;
 float g_splatterValueA;
 float DAT_011feda4;
 int DAT_011fedb4;
-char g_splatterWhiteFlashTexture;
+void *g_splatterWhiteFlashTexture;
 ::FUN_00b80b30_mgr DAT_012005a4;

@@ -713,8 +713,8 @@ FUN_00b8bea0::FUN_00b8bea0()
 struct FUN_00b8bf10_Desc
 {
     const char* file;
-    int flags;
-    int r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16;
+    const char* flags;
+    const char* r0, *r1, *r2, *r3, *r4, *r5, *r6, *r7, *r8, *r9, *r10, *r11, *r12, *r13, *r14, *r15, *r16;
 };
 struct FUN_00b8bf10_Obj;
 typedef void(* FUN_00b8bf10_Add)(FUN_00b8bf10_Obj*, FUN_00b8bf10_Desc*, FUN_00b8bf10_Desc*, const char*,
@@ -732,10 +732,10 @@ void RegisterSunbeamsShader(FUN_00b8bf10_Obj* self, int unused)
     FUN_00b8bf10_Desc b;
     a.file = "imagespace\\1x\\v\\base.v.hlsl";
     a.flags = 0;
-    std::memset(&a.r0, 0, 0x44);
+    std::memset(&a.r0, 0, 17 * sizeof(const char*));
     b.file = "imagespace\\2x\\p\\sunbeams.p.hlsl";
     b.flags = 0;
-    std::memset(&b.r0, 0, 0x44);
+    std::memset(&b.r0, 0, 17 * sizeof(const char*));
     reinterpret_cast<FUN_00b8bf10_Add>(self->vt[0x13c / 4])(self, &a, &b, "Sunbeams", "vs_1_1", "ps_2_a");
     reinterpret_cast<FUN_00b8bf10_Fin>(self->vt[0x14c / 4])(self);
 }

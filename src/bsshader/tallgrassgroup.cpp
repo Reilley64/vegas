@@ -237,7 +237,7 @@ struct RefObject
 struct ModelSource : RefObject
 {
 
-    unsigned int unk08;
+    void* unk08;
 
     void* vertices;
 
@@ -245,11 +245,11 @@ struct ModelSource : RefObject
 
     RefObject* material;
 
-    int unk18;
+    void* unk18;
 
-    int unk1c;
+    void* unk1c;
 
-    int unk20;
+    void* unk20;
 
     int unk24;
 

@@ -907,7 +907,7 @@ struct FUN_00a69400
     FUN_00a69400(void*);
     int unk04;
     int unk08;
-    int unk0C;
+    void* unk0C;
     int unk10;
     int unk14;
     int unk18;
@@ -1111,7 +1111,7 @@ void LightView::RenderFaces()
                     unk13C->slot35(this);
                     unk13C->unk84 = true;
                     BSCullingProcess cullingProcess(0);
-                    cullingProcess.unk0C = (int)this;
+                    cullingProcess.unk0C = this;
                     void* list = &unkDC;
                     reinterpret_cast<::S694a0 *>(&(cullingProcess))->FUN_00a694a0(list);
                     AccumulatorView* pAccumulator = unk13C;
@@ -1836,7 +1836,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
         m_spLightRenderedTexture = 0;
         m_spShadowShaderAccumulator = 0;
     }
-    reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>(&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))))->FUN_00ba30f0(0, (int)(renderFlags + 0x11));
+    reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>(&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))))->FUN_00ba30f0(0, (int)(std::intptr_t)(renderFlags + 0x11));
 }
 }  // namespace fnv_00b9dfc0
 
@@ -3164,7 +3164,7 @@ void ShadowPass::FUN_00b9f780(PassContext* context, int pass)
         PassEffect* effect = GetImageManager()->effects[17];
         reinterpret_cast<::HolderForAccum *>((effect))->SetAccumulatorAt(2, (::NiAccumulator *)(::fnv_00b9f780::ImageSpaceTexture *)(&input), (const ::NiCamera *)(0));
         PassRenderer* renderer2 = (*reinterpret_cast<::fnv_00b9f780::PassRenderer * *>(&::DAT_011f9508));
-        reinterpret_cast<::BB97550Shader *>((GetImageManager()))->FUN_00b97550(17, (std::intptr_t)(renderer2), (int)(m_spLightRenderedTexture.m_pObject), (int)(m_spLightRenderedTexture.m_pObject), (int)(&param), 1);
+        reinterpret_cast<::BB97550Shader *>((GetImageManager()))->FUN_00b97550(17, (std::intptr_t)(renderer2), (std::intptr_t)(m_spLightRenderedTexture.m_pObject), (std::intptr_t)(m_spLightRenderedTexture.m_pObject), (std::intptr_t)(&param), 1);
         reinterpret_cast<::MultiBoundOwner *>(((*reinterpret_cast<::fnv_00b9f780::PassTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6d4c0((::BSMultiBound *)(texture));
     }
     if (m_bLightFlag4)
@@ -3513,8 +3513,9 @@ void ShadowUpdate_b9e::FUN_00b9e970(CameraCullView_b9e* camera)
         }
         if (!contained && castShadow && CanCube_b9e() && m_bLightFlag1)
         {
+            const int* boundWords = (const int*)&bound;
             for (unsigned short face = 0; face < 6; ++face)
-                if (!reinterpret_cast<::fnv_00b9de90::Target *>(this)->FUN_00b9de90((*(int *)&(const ::NiBound &)(bound)), (int)(camera), face, {}, {}, {}))
+                if (!reinterpret_cast<::fnv_00b9de90::Target *>(this)->FUN_00b9de90(boundWords[0], boundWords[1], boundWords[2], boundWords[3], (::fnv_00b9de90::Input *)(camera), face))
                     uiCullMask |= 1 << face;
         }
     }

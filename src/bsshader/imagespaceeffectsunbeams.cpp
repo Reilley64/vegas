@@ -115,7 +115,7 @@ struct Mid_cls
     int unkc8;
     int unkcc;
     int unkd0;
-    int m_d4;
+    void* m_d4;
 };
 
 struct Ctx_cls
@@ -176,7 +176,7 @@ void FUN_00c04aa0_cls::InitNode(Ctx_cls* apCtx, int aiArg)
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(0, (::KeyPair **)(::Node_cls **)(&pNodeRef));
     }
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(0, 1, 2, 0, 1);
-    int iValue = apCtx->m_08->m_d4;
+    void* iValue = apCtx->m_08->m_d4;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(iValue), (::ImageSpaceEffectParam *)(node), 0);
 }
 

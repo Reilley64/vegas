@@ -13641,11 +13641,11 @@ class FUN_00c3a8a0_cls
     int m_d8;
     int m_dc;
     int m_e0;
-    bool FUN_00c3a8a0(unsigned int, unsigned int);
+    bool FUN_00c3a8a0(std::uintptr_t, std::uintptr_t);
 };
 
 // @fnv 0x00c3a8a0
-bool FUN_00c3a8a0_cls::FUN_00c3a8a0(unsigned int a1, unsigned int a2)
+bool FUN_00c3a8a0_cls::FUN_00c3a8a0(std::uintptr_t a1, std::uintptr_t a2)
 {
     if (a2 == 0)
     {

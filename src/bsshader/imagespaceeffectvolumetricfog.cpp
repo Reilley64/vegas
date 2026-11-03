@@ -46,7 +46,7 @@ public:
 struct Arg2Inner
 {
     char pad[0xa8];
-    int field_a8;
+    void* field_a8;
 };
 
 struct Arg2

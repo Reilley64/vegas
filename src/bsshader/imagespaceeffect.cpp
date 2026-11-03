@@ -63,7 +63,7 @@ void FUN_00ba3b50_t::SetArrayEntry(int uiIndex, int a2, int a3, int a4, int a5)
     p[0] = a2;
     p[1] = a4;
     p[2] = a3;
-    int t = (int)p;
+    int* t = p;
     p[3] = a5;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_int___*)((char*)this + 0x38))))->FUN_00ba3aa0((unsigned int)uiIndex, (::KeyPair **)&(t));
 }
@@ -106,7 +106,7 @@ void Holder::FUN_00ba3ba0(unsigned int auiIndex, int aiValue0, int aiValue1, int
     p[3] = aiValue4;
     p[4] = aiValue2;
     unsigned int t = auiIndex;
-    int iEntry = (int)p;
+    int* iEntry = p;
     p[5] = aiValue5;
     reinterpret_cast<::FUN_00a41520_cls *>(&(_arr))->FUN_00ba3aa0(t, (::KeyPair **)&(iEntry));
 }

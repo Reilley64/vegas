@@ -57,6 +57,6 @@ extern ::GlobalObjectO2_00a7b610 g_011fed88;
 // 0x011fed94
 extern float g_splatterValueA;
 // 0x011fedc4
-extern char g_splatterWhiteFlashTexture;
+extern void *g_splatterWhiteFlashTexture;
 // 0x011fedc8
 extern ::GlobalObjectO2_00a7b610 g_011fedc8;

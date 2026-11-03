@@ -560,7 +560,7 @@ struct FUN_00b80b30_item
 {
     int unk00;
     int unk04;
-    unsigned int m_u08;
+    void* m_u08;
 };
 
 struct FUN_00b80b30_pass
@@ -654,7 +654,7 @@ struct FUN_00b80b30_sub
     int unk54;
     int unk58;
     int unk5c;
-    int m_arr60[2];
+    void* m_arr60[2];
 };
 
 struct FUN_00b80b30_arg
@@ -784,7 +784,7 @@ void FUN_00b80b30_cls::InitPassItems(FUN_00b80b30_arg* apArg)
             FUN_00b80b30_item* item = pass->m_ppItems[i];
             item->m_u08 = sub->m_arr60[i];
             void* value = sub->v51();
-            reinterpret_cast<::E7DE90Owner *>((item))->ApplyPairToState((unsigned int)(value));
+            reinterpret_cast<::E7DE90Owner *>((item))->ApplyPairToState((std::uintptr_t)(value));
         }
     }
     else if ((*reinterpret_cast<int *>(&::DAT_011f91e4)) == 0x2f0)
@@ -793,18 +793,18 @@ void FUN_00b80b30_cls::InitPassItems(FUN_00b80b30_arg* apArg)
         FUN_00b80b30_item* pFirstItem = pass->m_ppItems[0];
         pFirstItem->m_u08 = sub->m_arr60[0];
         void* value0 = sub->v51();
-        reinterpret_cast<::E7DE90Owner *>((pFirstItem))->ApplyPairToState((unsigned int)(value0));
+        reinterpret_cast<::E7DE90Owner *>((pFirstItem))->ApplyPairToState((std::uintptr_t)(value0));
         FUN_00b80b30_item* pSecondItem = pass->m_ppItems[1];
         if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780())))
         {
-            pSecondItem->m_u08 = (unsigned int)((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780()));
+            pSecondItem->m_u08 = ((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780()));
         }
         else
         {
-            pSecondItem->m_u08 = (*reinterpret_cast<int *>(&::g_splatterWhiteFlashTexture));
+            pSecondItem->m_u08 = (*reinterpret_cast<void * *>(&::g_splatterWhiteFlashTexture));
         }
         void* value1 = sub->v51();
-        reinterpret_cast<::E7DE90Owner *>((pSecondItem))->ApplyPairToState((unsigned int)(value1));
+        reinterpret_cast<::E7DE90Owner *>((pSecondItem))->ApplyPairToState((std::uintptr_t)(value1));
     }
     v108();
 }

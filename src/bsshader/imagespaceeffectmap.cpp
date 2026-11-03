@@ -140,7 +140,7 @@ struct Mid08_cls
     int unkb4;
     int unkb8;
     int unkbc;
-    int m_c0;
+    void* m_c0;
 };
 
 struct MemMgr_cls

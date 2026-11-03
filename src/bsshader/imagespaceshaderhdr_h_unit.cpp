@@ -134,8 +134,8 @@ struct FUN_00b90b10_shell
 // @fnv 0x00b90b10
 void* FUN_00b90b10_shell::DestroyImageSpaceShaderHDRDownSample9(unsigned int flags)
 {
-    *(int*)this = (int)&vftable_ImageSpaceShaderHDRDownSample9;
-    *(int*)((char*)this + 0x6c) = (int)&vftable_ImageSpaceShaderHDRDownSample9_2;
+    *(void**)this = &vftable_ImageSpaceShaderHDRDownSample9;
+    *(void**)((char*)this + 0x6c) = &vftable_ImageSpaceShaderHDRDownSample9_2;
     FUN_00c03a20();
     if (flags & 1)
         ::FUN_00aa1460(this, 0xd0);

@@ -112,10 +112,10 @@ void __cdecl FUN_00b540d0()
 
 
 // @fnv 0x00b540f0
-int __cdecl PopNextInt()
+void* __cdecl PopNextInt()
 {
     int index = DAT_011f9168;
-    int* p = (*reinterpret_cast<int * *>(&::fnv_00b54630::CleanupState::DAT_011f9170)) + index;
+    void** p = (*reinterpret_cast<void * * *>(&::fnv_00b54630::CleanupState::DAT_011f9170)) + index;
     DAT_011f9168 = DAT_011f9168 + 1;
     return *p;
 }

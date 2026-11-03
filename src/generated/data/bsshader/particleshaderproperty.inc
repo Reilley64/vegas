@@ -2,5 +2,5 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-int DAT_01200420;
+void *DAT_01200420;
 int DAT_01200424;

@@ -846,10 +846,10 @@ struct FUN_00ba8ff0_shell : NiPropertyState_stub
     char pad30[0x28];
     int f58;
     float f5c;
-    FUN_00ba8e50* CreatePropertyStateCopy(unsigned int uiPass);
+    FUN_00ba8e50* CreatePropertyStateCopy(void* uiPass);
 };
 // @fnv 0x00ba8ff0
-FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(unsigned int uiPass)
+FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(void* uiPass)
 {
     FUN_00ba8e50* pResult = new FUN_00ba8e50;
     reinterpret_cast<::NiCullingProperty *>(this)->FUN_00a81430(pResult, (*(::CloningProcess *)(uiPass)));
@@ -920,7 +920,7 @@ struct S_00ba9520_Entry
 
 struct S_00ba9520_Base
 {
-    int unk00;
+    void* unk00;
     S_00ba9520_Entry** unk04;
     int unk08;
     unsigned short unk0c;
@@ -929,7 +929,7 @@ struct S_00ba9520_Base
 
     ~S_00ba9520_Base()
     {
-        unk00 = (int)&DAT_010b8480;
+        unk00 = &DAT_010b8480;
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00ba9520_Heap *>(&::g_memoryManager))))->FUN_00aa4060(unk04);
     }
 };
@@ -2217,7 +2217,7 @@ namespace ba94b0 {
 
 struct CtorBase
 {
-    int f00;
+    void* f00;
     int f04;
     int f08;
     int f0c;
@@ -2230,7 +2230,7 @@ class MidLevel : public CtorBase
   public:
     __forceinline MidLevel(unsigned int n) : CtorBase(n, 3)
     {
-        f00 = (int)&DAT_010b8480;
+        f00 = &DAT_010b8480;
     }
 };
 

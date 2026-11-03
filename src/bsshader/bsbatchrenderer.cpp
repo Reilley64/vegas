@@ -182,36 +182,53 @@ template <> class NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>
     void* AddHead();
 };
 
-// Appends a new node holding *elem to the list, reusing a free node from self[3] or allocating one, and updates head, tail and count.
-// @fnv 0x00b99840
-void FUN_00b99840(int* self, int, const int* pElement)
+struct ListNode_b99840
 {
-    int* node = (int*)self[3];
+    ListNode_b99840* m_pkNext;
+    ListNode_b99840* m_pkPrev;
+    void* m_pElement;
+};
+
+struct List_b99840
+{
+    void* m_00;
+    ListNode_b99840* m_pkHead;
+    ListNode_b99840* m_pkTail;
+    ListNode_b99840* m_pkFree;
+    unsigned int m_uiCount;
+};
+
+// Appends a new node holding *pElement to the list, reusing a node from the free list or allocating one, and updates head, tail and count.
+// @fnv 0x00b99840
+void FUN_00b99840(void* apList, int, void* const* pElement)
+{
+    List_b99840* self = (List_b99840*)apList;
+    ListNode_b99840* node = self->m_pkFree;
     if (!node)
     {
-        node = (int*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(self + 4))))->FUN_0043a010()));
+        node = (ListNode_b99840*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(&self->m_uiCount))))->FUN_0043a010()));
     }
     else
     {
-        self[3] = *node;
+        self->m_pkFree = node->m_pkNext;
     }
 
-    node[2] = *pElement;
-    node[0] = 0;
-    node[1] = self[2];
+    node->m_pElement = *pElement;
+    node->m_pkNext = 0;
+    node->m_pkPrev = self->m_pkTail;
 
-    int* tail = (int*)self[2];
+    ListNode_b99840* tail = self->m_pkTail;
     if (tail)
     {
-        *tail = (int)node;
-        self[4]++;
-        self[2] = (int)node;
+        tail->m_pkNext = node;
+        self->m_uiCount++;
+        self->m_pkTail = node;
     }
     else
     {
-        self[4]++;
-        self[1] = (int)node;
-        self[2] = (int)node;
+        self->m_uiCount++;
+        self->m_pkHead = node;
+        self->m_pkTail = node;
     }
 }
 
@@ -275,12 +292,12 @@ struct FUN_00b99630_Arg
 void SortList(void*, FUN_00b99630_Arg);
 
 extern char DAT_011ffe35;
-extern int DAT_011ffe38;
+extern void* DAT_011ffe38;
 
 // @fnv 0x00b99a10
-void FUN_00b99a10(char* this_ptr, int, int param_1, char param_2)
+void FUN_00b99a10(char* this_ptr, int, std::intptr_t param_1, char param_2)
 {
-    DAT_011ffe38 = param_1;
+    DAT_011ffe38 = (void*)param_1;
     DAT_011ffe35 = param_2;
     FUN_00b99630_Arg arg = {((void (&)())::CompareSortPassesByDepth)};
     SortList(*(char**)(this_ptr + 0x70) + 0xc, arg);
@@ -892,7 +909,7 @@ void DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
         }
         else
         {
-            ::FUN_00b99840((int *)(((PassListStandin*)(pBytes + 0xc))), 0, (const int *)((&pPass)));
+            ::FUN_00b99840((void *)(((PassListStandin*)(pBytes + 0xc))), 0, (void *const *)((&pPass)));
         }
     }
     else
@@ -922,7 +939,7 @@ struct SortBound
 };
 extern SortBound DAT_011f4288;
 extern char DAT_011ffe35;
-extern int DAT_011ffe38;
+extern void* DAT_011ffe38;
 struct SortCamera
 {
     char pad[0x68];

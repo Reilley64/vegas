@@ -1144,7 +1144,7 @@ NiObject* __cdecl FUN_00ba64e0()
     Q64_Geo* geo = new Q64_Geo(nv, verts, 0, 0, uv, 1, 0, tris, idx);
     Q64_Buf* buf = new Q64_Buf(nv, 1);
     reinterpret_cast<::FUN_00a72ca0_Class *>((buf))->FUN_00a72ca0(1);
-    reinterpret_cast<::A72BB0_DataStreamOwner *>((buf))->FUN_00a72bb0(0, (void *)(((unsigned int)(::GetFloatQuadTable()))), nv * 4, 1);
+    reinterpret_cast<::A72BB0_DataStreamOwner *>((buf))->FUN_00a72bb0(0, ::GetFloatQuadTable(), nv * 4, 1);
     reinterpret_cast<::FUN_00a726a0_cls *>((buf))->FUN_00a726a0(0, 0, 0, (void *)(1), nv, 4, 4);
     reinterpret_cast<::NiGPUProgramOwner *>((geo))->SetProgram((::NiGPUProgram *)(buf));
 

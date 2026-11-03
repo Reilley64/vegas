@@ -687,7 +687,7 @@ bool ArrSI::FUN_00843380(unsigned int auiIndex)
 class TESFile;
 class TESForm;
 template <typename T> class BSSimpleList;
-unsigned int __cdecl GetOwnerFileByID(unsigned int);
+std::uintptr_t __cdecl GetOwnerFileByID(unsigned int);
 struct FUN_00485b60
 {
 };
@@ -3514,7 +3514,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
 
                 else
                     FUN_00845cc0("Form %08X with type %s was not able to be reconstructed", id,
-                                 ::GetStringForByte((unsigned char)(((const char *)(::FindFormEnumIndex(pData7->type))))));
+                                 ::GetStringForByte((unsigned char)(::FindFormEnumIndex(pData7->type))));
 
                 ++restoredA;
             }

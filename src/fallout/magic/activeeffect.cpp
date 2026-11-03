@@ -244,7 +244,7 @@ void ActiveEffect::InitLoadGame(BGSLoadFormBuffer* pBuffer)
     BSSimpleList<BGSPerkEntry*>* pNode;
     m_pEffectInstance = m_pEffectInstance ? MagicCaster::GetCasterByHandle(reinterpret_cast<uintptr_t>(m_pEffectInstance)) : 0;
     pTarget = pTarget ? MagicTarget::GetMagicTargetByID(reinterpret_cast<uintptr_t>(pTarget)) : 0;
-    pMagicItem = pMagicItem ? MagicItem::GetMagicItemByID(reinterpret_cast<unsigned int>(pMagicItem)) : 0;
+    pMagicItem = pMagicItem ? MagicItem::GetMagicItemByID((unsigned int)reinterpret_cast<std::uintptr_t>(pMagicItem)) : 0;
     pNode = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pHitEffectList);
     while (pNode)
     {
@@ -312,7 +312,7 @@ ActiveEffect* ActiveEffect::ReadActiveEffect(BGSLoadFormBuffer* buffer)
     int formID;  // serialized effect archetype
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&spell));
     archetype = reinterpret_cast<uintptr_t>(spell);
-    spell = spell ? MagicItem::GetMagicItemByID(reinterpret_cast<unsigned int>(spell)) : 0;
+    spell = spell ? MagicItem::GetMagicItemByID((unsigned int)reinterpret_cast<std::uintptr_t>(spell)) : 0;
     index = 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&index), 1);
     formID = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
@@ -1760,7 +1760,7 @@ void Self::PlaySoundForEffect()
                 flag_ = reinterpret_cast<::S3e60 *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->FUN_00403e60(0x400);
                 if (((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound())))
                 {
-                    flag_ = ((void *)(::GetFlagMask((*(::SoundData36 *)(reinterpret_cast<::Holder *>((((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound()))))->CopyBig({}))).f4))) ? true : false;
+                    flag_ = ((::GetFlagMask((*(::SoundData36 *)(reinterpret_cast<::Holder *>((((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound()))))->CopyBig({}))).f4))) ? true : false;
                 }
                 if (var4)
                 {

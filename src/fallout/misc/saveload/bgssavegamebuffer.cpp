@@ -2,6 +2,7 @@
 // src/fallout/misc/saveload/bgssavegamebuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssavegamebuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/dialogue_response_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -378,14 +379,15 @@ struct FUN_00865e70_shell : BGSSaveGameBuffer
 // @fnv 0x0083d690
 void FUN_0083d690_shell::FUN_0083d690(BGSSaveFormBuffer* apBuffer)
 {
-    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)((Flt*)this)->operator unsigned int(), 0);
-    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)((Flt*)((char*)this + 0x10))->operator unsigned int(), 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 8, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0xc, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x24, 1, 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x18), 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x1c), 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x20), 0);
+    DialogueResponseFields* pResponse = reinterpret_cast<DialogueResponseFields*>(this);
+    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70(pResponse->text, 0);
+    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70(pResponse->voiceFile, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&pResponse->emotionType, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&pResponse->emotionValue, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&pResponse->useEmotionAnimation, 1, 0);
+    apBuffer->SerializeFormData(pResponse->speakerIdle, 0);
+    apBuffer->SerializeFormData(pResponse->listenerIdle, 0);
+    apBuffer->SerializeFormData(pResponse->sound, 0);
 }
 // @fnv 0x0083fb10
 void FUN_0083fb10_shell::FUN_0083fb10(BGSSaveFormBuffer* apBuffer)

@@ -1343,7 +1343,7 @@ void __cdecl SaveImageSpaceModifierInstances(void* pBuffer)
         v8_2 = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(&reinterpret_cast<::SimpleListNodeView*>(i6)->m_item)).operator->();
         if (v8_2 != 0 && !reinterpret_cast<::FUN_0084d050_shell *>((v8_2))->IsFlagSet())
         {
-            v2 = (void*)(*(int(**)(int))(*(intptr_t*)v8_2 + 148))((intptr_t)v8_2);
+            v2 = (*(void*(**)(void*))(*(void***)v8_2 + 37))(v8_2);
             if (v2 != 0)
             {
                 aV6 = reinterpret_cast<::Twin_0084d030 *>((((NiBound*)v2)))->GetStoredFloatValue();

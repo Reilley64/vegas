@@ -2961,8 +2961,8 @@ void EffectP::FUN_00808a30()
                     unka6 = true;
                 }
             }
-            reinterpret_cast<::s88c790::Actor *>((weapon))->FUN_0088c790((int)(reinterpret_cast<::InventoryStackRecord *>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())->m_pItemObject), 1,
-                                 (int)(*((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item))), 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>((weapon))->FUN_0088c790((std::intptr_t)(reinterpret_cast<::InventoryStackRecord *>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())->m_pItemObject), 1,
+                                 (std::intptr_t)(*((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item))), 0, 0, 1);
             unk4c = (EntryS*)new FUN_004bc550(extra, 0);
             if (old)
             {
@@ -3479,7 +3479,7 @@ void BoundLoadEffectView::FUN_0080a2d0(intptr_t arg)
             delete weapon;
             weapon = pWeaponCopy;
         }
-        reinterpret_cast<::s88c790::Actor *>((j))->FUN_0088c790((int)(reinterpret_cast<::InventoryStackRecord *>(weapon)->m_pItemObject), 1, 0, 0, 0, 1);
+        reinterpret_cast<::s88c790::Actor *>((j))->FUN_0088c790((std::intptr_t)(reinterpret_cast<::InventoryStackRecord *>(weapon)->m_pItemObject), 1, 0, 0, 0, 1);
     }
     for (actor = 0; actor < 20; actor++)
     {
@@ -3492,7 +3492,7 @@ void BoundLoadEffectView::FUN_0080a2d0(intptr_t arg)
                 delete armor[actor];
                 armor[actor] = pArmorCopy;
             }
-            reinterpret_cast<::s88c790::Actor *>((j))->FUN_0088c790((int)(reinterpret_cast<::InventoryStackRecord *>(armor[actor])->m_pItemObject), 1, 0, 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>((j))->FUN_0088c790((std::intptr_t)(reinterpret_cast<::InventoryStackRecord *>(armor[actor])->m_pItemObject), 1, 0, 0, 0, 1);
         }
     }
     if (a4)

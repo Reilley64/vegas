@@ -928,7 +928,7 @@ void FUN_0081ade0_cls::SaveToStream(int a1)
             unsigned char flag = 0;
             if (reinterpret_cast<::MagicProjectileFields *>(this)->spell != 0 && cur->m4 != 0)
             {
-                flag = reinterpret_cast<::EffectItemListFind *>(reinterpret_cast<char *>(reinterpret_cast<::MagicProjectileFields *>(this)->spell) + 0xc)->FindEffectItemIndex((int)(cur->m4));
+                flag = reinterpret_cast<::EffectItemListFind *>(reinterpret_cast<char *>(reinterpret_cast<::MagicProjectileFields *>(this)->spell) + 0xc)->FindEffectItemIndex(reinterpret_cast<std::intptr_t>(cur->m4));
             }
             reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flag, 1);
             cnt++;
@@ -975,7 +975,7 @@ struct FogProcess
 struct FogRefNode
 {
     TESForm* m_pkForm;
-    int m_iValue;
+    std::intptr_t m_iValue;
     FogRefNode* m_pkNext;
 };
 
@@ -1162,7 +1162,7 @@ void FogProjectileLoad::LoadProjectile(int a1, int a2)
             if (uiFormID_2)
                 pkNode->m_pkForm = dynamic_cast<TESObjectREFR*>(FUN_004839c0(uiFormID_2));
             if (((::FogFile *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell)))
-                pkNode->m_iValue = ((int)(reinterpret_cast<::HX *>(&(((::FogFile *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell))->kList))->FUN_00406ee0(ucIndexZ)));
+                pkNode->m_iValue = ((std::intptr_t)(reinterpret_cast<::HX *>(&(((::FogFile *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell))->kList))->FUN_00406ee0(ucIndexZ)));
             pkNode = pkNode->m_pkNext;
         }
     }

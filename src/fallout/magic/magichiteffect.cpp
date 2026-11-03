@@ -500,7 +500,7 @@ void FUN_0081bc70_s::FUN_0081bc70(Node* apArg)
 {
     if (((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pTarget)))
     {
-        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((int)(((void *)(reinterpret_cast<::LowProcess *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pTarget))))->GetTarget()))));
+        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((std::intptr_t)(((void *)(reinterpret_cast<::LowProcess *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pTarget))))->GetTarget()))));
         if (apArg)
         {
             if (((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell)) && ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell))))->FUN_00545cb0())))

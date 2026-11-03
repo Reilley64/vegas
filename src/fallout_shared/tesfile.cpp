@@ -1071,9 +1071,9 @@ struct DummyPointerMap
 
 // Looks up aiID in DAT_011c40b0 and returns the mapped owner file value, or 0 if the map is null or the key is absent.
 // @fnv 0x00474060
-unsigned int __cdecl GetOwnerFileByID(unsigned int aiID)
+std::uintptr_t __cdecl GetOwnerFileByID(unsigned int aiID)
 {
-    unsigned int uiOwnerFile = 0;
+    std::uintptr_t uiOwnerFile = 0;
     if ((*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0)) && reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)(*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0)))))->FUN_00853130(aiID, (::fnv_00853130::CombatThreatRecord *&)(uiOwnerFile)))
         return uiOwnerFile;
     return 0;

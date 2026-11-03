@@ -341,7 +341,7 @@ void FUN_0082b200_shell::SaveLoad(Actor* apActor)
     irefID = 0;
     if (*(void**)((char*)this + 0x58))
         irefID = reinterpret_cast<::FormFields *>(*(void**)((char*)this + 0x58))->iFormID;
-    reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10((const unsigned int *)((int)&irefID), 4);
+    reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10(&irefID, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x40)
     {
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((char*)this + 0x50, 4);

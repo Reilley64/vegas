@@ -3031,7 +3031,7 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
     }
 
     if (!bSilent)
-        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)&(const ::AEPoint3 &)(GetPosition())), (::P142Ref *)(this), (::P142Ref *)(pkTarget), 0, 1.0f, 1.0f);
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (std::intptr_t)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)&(const ::AEPoint3 &)(GetPosition())), (::P142Ref *)(this), (::P142Ref *)(pkTarget), 0, 1.0f, 1.0f);
 
     m_pkSource = 0;
     if (FUN_004fd400()->m_kArea.GetValue())

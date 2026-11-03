@@ -1091,7 +1091,7 @@ void FUN_0081d920_cls::FUN_0081d920(B81D920LoadBuffer* pkBuffer)
     m_bLoadComplete = true;
     reinterpret_cast<::BGSLoadGameSubBuffer *>(&(m_kSubBuffer))->LoadGame((::BGSLoadGameBuffer *)(pkBuffer));
     if (m_pkRef && ((::B81D920Object *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(m_pkRef)->effect)->setting))->m_kLoadable.GetModelFilePath())
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::B81D920ModelLoader * *>(&::g_modelLoader))))->FUN_00444040((int)(((::B81D920Object *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(m_pkRef)->effect)->setting))->m_kLoadable.GetModelFilePath()),
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::B81D920ModelLoader * *>(&::g_modelLoader))))->FUN_00444040((std::intptr_t)(((::B81D920Object *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(m_pkRef)->effect)->setting))->m_kLoadable.GetModelFilePath()),
                                                     5, 0, 0, 1, 0, 0);
 }
 
@@ -1628,7 +1628,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
     MagicHitEffect::m_fFirstFloatValue = age;
     bWasPlaying = finished;
     const char* saved = ((const char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
-    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((int)(previous));
+    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0(reinterpret_cast<std::intptr_t>(previous));
     unsigned short version3;
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&version3, 2);
     if (((::NiAVObject *)(::FUN_00559450((int *)(reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject))))))
@@ -1973,7 +1973,7 @@ void FUN_0081d2a0_t::FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarge
     if (apEffect &&
         ((TESModel*)(reinterpret_cast<char *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(apEffect)->effect)->setting) + 0x18))->GetModelFilePath())
     {
-        reinterpret_cast<::QueueHelper *>((((QueueHelper*)g_modelLoader)))->FUN_00444040((int)((TESModel*)(reinterpret_cast<char *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(apEffect)->effect)->setting) + 0x18))
+        reinterpret_cast<::QueueHelper *>((((QueueHelper*)g_modelLoader)))->FUN_00444040((std::intptr_t)((TESModel*)(reinterpret_cast<char *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(apEffect)->effect)->setting) + 0x18))
                                ->GetModelFilePath(),
                            5, 0, 0, true, false, false);
     }

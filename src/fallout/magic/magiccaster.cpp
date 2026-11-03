@@ -4921,10 +4921,10 @@ void Master::FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeMana
             ListEntries* entries = ((::ListEntries *)(reinterpret_cast<::ScriptLocalsX *>(&(results))->FUN_00818110()));
             for (int i = 0; i < entries->size; ++i)
             {
-                int target = ((int)(::FUN_004b59f0((const void *)(entries->data[i]))));
+                TargetInterface* target = (TargetInterface*)(::FUN_004b59f0((const void *)(entries->data[i])));
                 if (target)
                 {
-                    FUN_00818150((TargetInterface*)target, center, source, attenuation);
+                    FUN_00818150(target, center, source, attenuation);
                 }
             }
 

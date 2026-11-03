@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hkbuiltintyperegistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkbuiltintyperegistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00401000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
@@ -965,6 +966,41 @@ void __cdecl FUN_00d47860()
         ++curr;
     }
     reinterpret_cast<::FUN_00db78a0_cls *>((((NameRegistryTable*)DAT_01269b10)))->FUN_00db78a0((::FUN_00db78a0_item **)(DAT_010d5430), (void **)(void *)(&DAT_010d59b8));
+}
+
+
+struct FUN_00d47820_allocator
+{
+    virtual void FUN_00d47820_dummy() = 0;
+    virtual void* FUN_00d47820_alloc(unsigned int size)
+    {
+        return ::FUN_00401000(size);
+    }
+};
+
+struct FUN_00d47820_router
+{
+    void* vtable;
+    unsigned int m_iWordAt04;
+    unsigned int m_8;
+    unsigned int m_iThirdValue;
+    FUN_00d47820_allocator* allocator;
+};
+
+extern FUN_00d47820_router* _D1A0E0GetMemoryRouter();
+
+// @fnv 0x00d47820
+hkDefaultBuiltinTypeRegistry* FUN_00d47820()
+{
+    if (DAT_01269b10 != 0 && DAT_01269b14 != 0 && DAT_01269b18 != 0)
+    {
+        FUN_00d47820_router* router = _D1A0E0GetMemoryRouter();
+        void* memory = router->allocator->FUN_00d47820_alloc(8);
+        hkDefaultBuiltinTypeRegistry* registry = static_cast<hkDefaultBuiltinTypeRegistry*>(memory);
+        *reinterpret_cast<unsigned short*>(&registry->_pad) = 8;
+        return registry->Initialize();
+    }
+    return 0;
 }
 
 #include "generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc"

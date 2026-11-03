@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxattributegroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributegroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00e5c000.h"
 #include <new>
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -314,6 +315,62 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
         reinterpret_cast<::FUN_00e5cdb0_class *>(&(s))->FUN_00e5cec0(a, 0, (int)(src), iCount);
     }
     return *this;
+}
+
+
+union __declspec(intrin_type) __declspec(align(16)) __m128
+{
+    float m128_f32[4];
+    unsigned __int64 m128_u64[2];
+};
+
+struct AttributeObj
+{
+    void* unk00;
+    int unk04;
+    hkQuaternion* m_quaternion;
+};
+
+struct S00e5cb40_Os
+{
+    int unk00;
+    int unk04;
+    int unk08;
+};
+
+struct S00e5cb40_Err
+{
+    virtual void vf0();
+    virtual void vf1();
+    virtual void vf2();
+    virtual void report(int level, unsigned int id, char* buf, const char* file, int line);
+};
+
+
+struct S00e5cb40_Grp : hkxAttributeGroup
+{
+    int FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuaternion* out);
+};
+
+// @fnv 0x00e5cb40
+int S00e5cb40_Grp::FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuaternion* out)
+{
+    AttributeObj* attr = ((::AttributeObj *)(::fnv_00e5c670::FUN_00e5c670((void *)this)));
+    if (attr)
+    {
+        *(__m128*)out = *(__m128*)attr->m_quaternion;
+        return 0;
+    }
+    if (warnIfNotFound)
+    {
+        char buf[512];
+        S00e5cb40_Os os;
+        new ((void *)&(os)) ::FUN_00cb1600(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::AttributeFormatter *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&(os))->FUN_00cc01c0("Quaternion attribute ")))))->FUN_00cc01c0(name)))))->FUN_00cc01c0(" not found in ")))))->WriteName((::NameReference *)&(m_name))))))->FUN_00cc01c0(" attribute group");
+        (*reinterpret_cast<::S00e5cb40_Err * *>(&::DAT_01268360))->report(1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0xb3);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(os))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    return 1;
 }
 
 #include "generated/data/havok/common/scenedata/attributes/hkxattributegroup.inc"

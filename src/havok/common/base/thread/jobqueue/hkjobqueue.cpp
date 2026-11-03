@@ -2,13 +2,18 @@
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/CriticalSectionOwner.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/QueueLockView.h"
+#include "fnv/decl/fnv_00d04b50__Owner.h"
+#include "fnv/decl/fnv_00d057f0__ItemPool.h"
+#include "fnv/symbols_00d2c000.h"
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/ArrayRecord.h"
 #include "fnv/decl/CBF490Lists.h"
 #include "fnv/decl/FUN_00d04370_cls.h"
 #include "fnv/decl/FUN_00d04390.h"
-#include "fnv/decl/Host.h"
-#include "fnv/decl/JobDispatcher.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_00cbb000.h"
@@ -2713,6 +2718,527 @@ void Worker::FUN_00d04d80(TraceArg* apTraceArg, int flag)
 void CriticalSectionOwner::FUN_00d04420(Registry* data)
 {
     LeaveCriticalSection(this);
+}
+
+
+// hkBase.lib debug info; byte-exact with the game under the Havok release flags.
+struct RTL_CRITICAL_SECTION_
+{
+    void* DebugInfo;
+    long LockCount;
+    long RecursionCount;
+    void* OwningThread;
+    void* LockSemaphore;
+    unsigned long SpinCount;
+};
+
+typedef signed char hkInt8;
+typedef unsigned char hkUint8;
+typedef unsigned short hkUint16;
+typedef unsigned int hk_size_t;
+
+class hkMemoryAllocator
+{
+  public:
+    virtual ~hkMemoryAllocator();
+    virtual void* AllocateMemoryBlock(int numBytes) = 0;
+    virtual void ReleaseBlock(void* p, int numBytes) = 0;
+};
+
+class NineIntegerRecord
+{
+  public:
+    static NineIntegerRecord& __cdecl GetMonitorStream();
+    inline hkMemoryAllocator& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+
+  protected:
+    void* m_stackNext;
+    void* m_stackStart;
+    void* m_stackEnd;
+    hkMemoryAllocator* m_pTemp;
+    hkMemoryAllocator* m_pStreamAllocator;
+};
+
+class hkBool
+{
+  public:
+    inline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+    inline hkBool& operator=(bool e)
+    {
+        m_cBooleanValue = static_cast<char>(e);
+        return *this;
+    }
+    char m_cBooleanValue;
+};
+
+struct RouterHeapAllocatorProvider
+{
+    hkMemoryAllocator& get(const void*)
+    {
+        return NineIntegerRecord::GetMonitorStream().heap();
+    }
+};
+
+template <typename T> class HavokElementArray
+{
+  public:
+    __forceinline T& operator[](int i);
+    __forceinline int GetLogicalSize() const;
+
+  protected:
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+
+template <typename T, typename Allocator = RouterHeapAllocatorProvider> class hkArray : public HavokElementArray<T>
+{
+  public:
+    typedef Allocator AllocatorType;
+};
+
+template <typename T> __forceinline int HavokElementArray<T>::GetLogicalSize() const
+{
+    return m_iElementCount;
+}
+
+class BusyWaitingSemaphore
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    {
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        return obj;
+    }
+    __forceinline void __cdecl operator delete(void* p)
+    {
+        if (p)
+        {
+            NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(BusyWaitingSemaphore));
+        }
+    }
+    BusyWaitingSemaphore(int initialCount = 0, int maxCount = 1000);
+    ~BusyWaitingSemaphore();
+
+  protected:
+    void* m_pCompletionSemaphore;
+};
+typedef BusyWaitingSemaphore hkSemaphoreBusyWait;
+
+enum JobCategory
+{
+    HK_JOB_TYPE_MAX = 11
+};
+
+struct CellJobConfiguration
+{
+    enum CellRules
+    {
+        PPU_CAN_TAKE_SPU_TASKS,
+        PPU_CANNOT_TAKE_SPU_TASKS
+    };
+    CellRules m_eCellRules;
+    hkBool m_bCellConfigurationFlag;
+    int m_iCellConfigurationValue;
+    hkArray<hkArray<int> > m_kNestedIntegerLists;
+};
+
+struct ThreePointerIntegerRecord
+{
+    void* m_pFirstPointer;
+    int m_iIntegerValue;
+    void* m_pSecondPointer;
+    void* m_pThirdPointer;
+};
+
+class JobDispatcher
+{
+  public:
+    struct JobQueueWaitState
+    {
+        short m_sQueueCounts[HK_JOB_TYPE_MAX];
+        int m_iWaitCount;
+        int m_eWaitPolicy;
+        hkBool m_bWaiting;
+        hkUint16 m_auiThreadIds[MAX_NUM_THREAD_TYPES];
+    };
+
+    void FUN_00d04590();
+
+    RTL_CRITICAL_SECTION_ m_pWorldLock;
+    JobQueueWaitState* m_data;
+    void* m_pSecondPointer;
+    void* m_pThirdPointer;
+
+    int iFirstInteger;
+    int iSecondInteger;
+    int iThirdInteger;
+    int iFourthInteger;
+    int m_iFifthIntegerInRun;
+
+    struct JobCategorySubtypeRecord
+    {
+        JobCategory m_eJobType;
+        hkUint8 m_ucSubType;
+        hkUint8 m_ucAdditionalJobByte;
+    };
+    JobCategorySubtypeRecord akSubtypeRecords[2];
+    int iPostArrayInteger;
+
+    int m_iSecondIntegerAfterJobTypePairs;
+    int m_iThirdIntegerAfterJobTypePairs;
+
+    int m_iFourthIntegerAfterJobTypePairs;
+
+    CellJobConfiguration kThreadState;
+
+    int m_iIntegerAfterCellConfig;
+    hkBool bIsActive;
+
+    hkSemaphoreBusyWait* apThreadSemaphores[MAX_NUM_THREAD_TYPES];
+    int iSemaphoreCount;
+
+    hkInt8 aacThreadTypeNames[MAX_NUM_THREAD_TYPES][18];
+
+    hkInt8 acFourByteValues[4];
+
+    ThreePointerIntegerRecord m_akJobTypeEntries[HK_JOB_TYPE_MAX];
+
+    struct JobCategoryThreadInfo
+    {
+        JobCategory m_eJobType;
+        hkUint8 m_ucSubType;
+        int m_uiThreadId;
+    };
+    hkArray<JobCategoryThreadInfo> kJobEntries;
+};
+
+// @fnv 0x00d04590
+void JobDispatcher::FUN_00d04590()
+{
+    int numSharedCaches = kThreadState.m_kNestedIntegerLists.GetLogicalSize() == 0
+                              ? 1
+                              : kThreadState.m_kNestedIntegerLists.GetLogicalSize();
+    iPostArrayInteger = kJobEntries.GetLogicalSize();
+
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(kThreadState.m_bCellConfigurationFlag))->FUN_005609f0())
+    {
+        iSecondInteger = iFirstInteger;
+    }
+    else
+    {
+        iSecondInteger = 0;
+    }
+
+    iThirdInteger = iSecondInteger + numSharedCaches;
+    iFourthInteger = kJobEntries.GetLogicalSize() + iThirdInteger;
+    m_iFifthIntegerInRun = iFourthInteger + iFirstInteger;
+
+    m_iSecondIntegerAfterJobTypePairs = iSecondInteger;
+
+    m_iThirdIntegerAfterJobTypePairs = iFourthInteger;
+
+    if (kThreadState.m_kNestedIntegerLists.GetLogicalSize() > 0)
+    {
+        for (int i = 0; i < kThreadState.m_iCellConfigurationValue; i++)
+        {
+            acFourByteValues[i] = -1;
+        }
+        for (int i = 0; i < kThreadState.m_kNestedIntegerLists.GetLogicalSize(); i++)
+        {
+            for (int j = 0; j < kThreadState.m_kNestedIntegerLists[i].GetLogicalSize(); j++)
+            {
+                acFourByteValues[kThreadState.m_kNestedIntegerLists[i][j]] = hkInt8(iSecondInteger + i);
+            }
+        }
+        for (int i = 0; i < kThreadState.m_iCellConfigurationValue; i++)
+        {
+            ;  // HK_ASSERT: every CPU thread has a cache queue (release build: compiled out)
+        }
+    }
+
+    if (kThreadState.m_kNestedIntegerLists.GetLogicalSize() == 0)
+    {
+        for (int i = 0; i < kThreadState.m_iCellConfigurationValue; i++)
+        {
+            acFourByteValues[i] = hkInt8(iSecondInteger);
+        }
+    }
+
+    for (int i = 0; i < numSharedCaches; i++)
+    {
+        hkInt8* table = &aacThreadTypeNames[i + iSecondInteger][0];
+        *table++ = hkInt8(i + iSecondInteger);
+
+        for (int j = 0; j < kThreadState.m_kNestedIntegerLists.GetLogicalSize(); j++)
+        {
+            if (i != j)
+            {
+                *table++ = hkInt8(j + iSecondInteger);
+            }
+        }
+
+        for (int j = 0; j < iFirstInteger; j++)
+        {
+            *table++ = hkInt8(j + iFourthInteger);
+        }
+        if (kThreadState.m_eCellRules == CellJobConfiguration::PPU_CAN_TAKE_SPU_TASKS)
+        {
+            for (int j = 0; j < iFirstInteger; j++)
+            {
+                *table++ = hkInt8(j);
+            }
+        }
+
+        for (int j = 0; j < iPostArrayInteger; j++)
+        {
+            *table++ = hkInt8(j + iThirdInteger);
+        }
+
+        *table++ = -1;
+    }
+
+    for (int i = 0; i < iPostArrayInteger; i++)
+    {
+        akSubtypeRecords[i].m_eJobType = kJobEntries[i].m_eJobType;
+        akSubtypeRecords[i].m_ucSubType = kJobEntries[i].m_ucSubType;
+        akSubtypeRecords[i].m_ucAdditionalJobByte = hkUint8(i + iThirdInteger);
+
+        int originalSemaphoreIndex = acFourByteValues[kJobEntries[i].m_uiThreadId];
+        acFourByteValues[kJobEntries[i].m_uiThreadId] = akSubtypeRecords[i].m_ucAdditionalJobByte;
+
+        hkInt8* table = &aacThreadTypeNames[i + iThirdInteger][0];
+        *table++ = hkInt8(i + iThirdInteger);
+
+        for (int j = 0; aacThreadTypeNames[originalSemaphoreIndex][j] != -1; j++)
+        {
+            if (aacThreadTypeNames[originalSemaphoreIndex][j] != akSubtypeRecords[i].m_ucAdditionalJobByte)
+            {
+                *table++ = aacThreadTypeNames[originalSemaphoreIndex][j];
+            }
+        }
+        *table++ = -1;
+    }
+
+    int numSemaphores = iFourthInteger;
+
+    m_iFourthIntegerAfterJobTypePairs = acFourByteValues[0];
+    bool newSemaphoreNeeded = false;
+    for (int i = 1; i < kThreadState.m_iCellConfigurationValue; i++)
+    {
+        if (acFourByteValues[i] == acFourByteValues[0])
+        {
+            newSemaphoreNeeded = true;
+            break;
+        }
+    }
+    if (newSemaphoreNeeded)
+    {
+        acFourByteValues[0] = hkInt8(numSemaphores);
+        numSemaphores++;
+    }
+
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(bIsActive))->FUN_005609f0())
+    {
+        for (int i = 0; i < iSemaphoreCount; i++)
+        {
+            delete apThreadSemaphores[i];
+        }
+    }
+
+    iSemaphoreCount = numSemaphores;
+
+    for (int i = 0; i < iSemaphoreCount; i++)
+    {
+        m_data->m_auiThreadIds[i] = 0;
+        apThreadSemaphores[i] = new hkSemaphoreBusyWait(0, 1000);
+    }
+
+    bIsActive = true;
+}
+
+extern const char str_010ccd70[];
+struct MonEntry { void* name; int tick; int unk08; };
+struct MonStream { int unk00; MonEntry* m_cur; int unk08; MonEntry* m_kRayEnd; };
+static __forceinline void CaptureMarker(void* marker)
+{
+    MonStream* s = (MonStream*)TlsGetValue(DAT_0126835c);
+    MonEntry* entry=s->m_cur;
+    if (entry < s->m_kRayEnd) {
+        entry->name = marker;
+        unsigned int ticks;
+        ticks = static_cast<unsigned int>(__rdtsc());
+        entry->tick = ticks;
+        s->m_cur=entry+1;
+    }
+}
+struct __declspec(align(16)) ItemBuf { int data[32]; };
+struct Bucket20
+{
+    ItemBuf* m_base;
+    int m_pRayCursor;
+    int m_pFirstNode;
+    int unk0C;
+    int m_uiItemCount;
+};
+struct Refs
+{
+    unsigned short w00; unsigned short w02; unsigned short w04; unsigned short w06;
+    unsigned short w08; unsigned short w0A; unsigned short w0C; unsigned short w0E;
+    unsigned short w10; unsigned short w12; unsigned short w14; unsigned short w16;
+    int f18;
+    int f1C;
+    unsigned short w20;
+    unsigned short pending[5];
+    Bucket20 buckets[1];
+    bool IsClear(int m) const { if (f18 & m) return false; return true; }
+};
+struct BSRenderedTexture;
+struct FUN_00b37880;
+struct FakeObj;
+struct Helper;
+struct Output;
+struct P1;
+struct P3;
+struct Param;
+struct Ptr;
+struct Refs;
+struct VirtObj;
+struct Wrap;
+
+struct Host
+{
+    int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
+    ItemFn m_fn1C;
+    int unk20;
+    int m_count24;
+    int unk28; int unk2C;
+    int m_bucketBase30;
+    int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48;
+    int m_lo4C;
+    int m_hi50;
+    int m_def54;
+    int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74;
+    int* m_iSlotIds[5];
+    int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8;
+    int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8;
+    int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4;
+    unsigned short wE8;
+    signed char bEA;
+    unsigned char bEB;
+    __forceinline int tryPop(Refs* refs,int a4) {
+    int v;
+    if (TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))) == 0)
+        v = m_def54;
+    else
+        v = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(int)this + 0xea];
+    signed char* cursor = (signed char*)this + (v * 9 + 0x48) * 2;
+    int cur = *cursor;
+    while(cur >= 0) {
+        Bucket20* bucket = (Bucket20*)((char*)refs + cur*20+0x2c);
+        ++cursor;
+        if(bucket->m_uiItemCount != 0) {
+        ItemBuf item;
+        item = bucket->m_base[bucket->m_pFirstNode];
+        int head = bucket->m_pFirstNode + 1;
+        bucket->m_pFirstNode = head;
+        if (head == bucket->m_pRayCursor)
+            bucket->m_pFirstNode = 0;
+        bucket->m_uiItemCount--;
+        int r = m_fn1C(this, refs, &item, a4);
+        if (r == 1) {
+            reinterpret_cast<::fnv_00d057f0::ItemPool *>((bucket))->FUN_00d057f0((*(const ::fnv_00d057f0::Item *)(&item)));
+            reinterpret_cast<::ItemManager *>(this)->RemoveItemReference(cur, (::UnsignedShortCountBlock *)(refs));
+        }
+        ((unsigned short*)refs)[((unsigned char*)&item)[1]]++;
+        return cur;
+        }
+        cur=*cursor;
+    }
+    return -1;
+    }
+    int FUN_00d05840(int a1, Refs* refs, int a3, int a4);
+public:
+    // 0x0050de60
+    bool FUN_0050de60(::Ptr, float *, ::P3 *);
+    // 0x005174d0
+    void *FUN_005174d0(unsigned int);
+    // 0x00639c90
+    bool FUN_00639c90(unsigned int);
+    // 0x0068b4c0
+    bool FUN_0068b4c0(::Param *);
+    // 0x00872f50
+    ::BSRenderedTexture *FUN_00872f50(::P1 *, ::BSRenderedTexture *, unsigned char, unsigned char);
+    // 0x0087ae60
+    void QueueCheckTask(::FakeObj *);
+    // 0x00913fb0
+    void FUN_00913fb0(::VirtObj *);
+    // 0x009a3780
+    void ProcessElements(::Helper *);
+    // 0x00b18f60
+    void FUN_00b18f60(::FUN_00b37880 *);
+    // 0x00b8b3b0
+    void FUN_00b8b3b0();
+    // 0x00dbf930
+    void WriteArray(const ::Wrap &, int);
+    // 0x00df9fe0
+    int FUN_00df9fe0(::Output *, int *);
+};
+// @fnv 0x00d05840
+int Host::FUN_00d05840(int a1, Refs* refs, int a3, int a4)
+{
+    int ediVal = tryPop(refs,a4);
+    if (a1 != -1 && a1 != ediVal) reinterpret_cast<::ItemManager *>(this)->RemoveItemReference(a1,(::UnsignedShortCountBlock *)(refs));
+    if (ediVal >= 0) { reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs)); return 0; }
+    {
+        int total = 0;
+        for(int i=m_lo4C;i<m_hi50;++i) total += refs->buckets[i].m_uiItemCount;
+        if (total != 0)
+            goto tail_check;
+        int mask = 0;
+        for (int k = 0; k < m_count24; k++) {
+            mask |= ((((short*)refs)[k] > 0 || refs->buckets[m_bucketBase30 + k].m_uiItemCount != 0) ? 1 : 0) << k;
+        }
+        bool none = refs->IsClear(mask) != 0;
+        bool maskZero = mask == 0;
+        if (none) {
+            if (TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))) == 0) {
+                if (maskZero)
+                    reinterpret_cast<::FnvReleaseSet *>(this)->ReleasePendingCounts((::FnvReleaseCounts *)(refs));
+                reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+                return 2;
+            }
+            if (refs->pending[bEA] > 0) {
+                refs->pending[bEA]--;
+                ::FUN_00d043c0((::CallTarget *)((int)m_iSlotIds[bEA]), 1);
+            }
+        }
+        if (maskZero && refs->f1C != 1) {
+            reinterpret_cast<::FnvReleaseSet *>(this)->ReleasePendingCounts((::FnvReleaseCounts *)(refs));
+            reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+            return 2;
+        }
+    }
+tail_check:
+    if (a3 == 1) {
+        reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+        return 1;
+    }
+    {
+        int idx = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(int)&this->bEA];
+        refs->pending[idx]++;
+        reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+        CaptureMarker((void*)str_010ccd70);
+        ::FUN_00d043b0((void *)((int)m_iSlotIds[idx]));
+        CaptureMarker((void*)::DAT_010c41f8);
+        return -1;
+    }
 }
 
 #include "generated/data/havok/common/base/thread/jobqueue/hkjobqueue.inc"

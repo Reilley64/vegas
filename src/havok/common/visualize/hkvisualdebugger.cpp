@@ -2,6 +2,12 @@
 // src/havok/common/visualize/hkvisualdebugger.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkvisualdebugger.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/FUN_00cd1970.h"
+#include "fnv/decl/Owner_cd0e.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00ccf000.h"
+#include "fnv/symbols_0104d000.h"
+#include <math.h>
 #include <new>
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -1667,6 +1673,124 @@ void FUN_00cd1610_cls::FUN_00cd1610(unsigned int wanted)
     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
     (*reinterpret_cast<::fnv_00cd1610::ErrorService * *>(&::DAT_01268360))->V08();
 }
-}  // namespace fnv_00cd1610
+}
+typedef unsigned __int64 TickCount;
+TickCount __cdecl FUN_00d60570();
+TickCount __cdecl FUN_00d60580();
+double __cdecl DivideInt64ToFloat(TickCount, TickCount);
+extern const char DAT_010caf8c[];
+extern const char DAT_010caf48[];
+struct DebugReport
+{
+    virtual void unknown00();
+    virtual void unknown04();
+    virtual void unknown08();
+    virtual void report(int, int, const char*, const char*, int);
+    virtual void unknown10();
+    virtual void unknown14();
+    virtual void unknown18();
+    virtual void begin(unsigned int, const char*);
+    virtual void end();
+};
+struct ClientProcess
+{
+    virtual void unknown00();
+    virtual void unknown04();
+    virtual void unknown08();
+    virtual void unknown0c();
+    virtual bool alive();
+    virtual void unknown14();
+    virtual void step(float);
+};
+struct ClientHandler
+{
+    unsigned int unk00, unk04, unk08;
+    ClientProcess process;
+};
+struct DebugClient
+{
+    void* connection;
+    ClientHandler* handler;
+};
+struct DebuggerReference523
+{
+    virtual void unknown00();
+    virtual void unknown04();
+    virtual void unknown08();
+    virtual void unknown0c();
+    virtual void prepareStep();
+    unsigned short memorySize, referenceCount;
+};
+struct VisualDebugger523 : DebuggerReference523
+{
+    unsigned int unk08, unk0c;
+    DebugClient* clients;
+    int numClients;
+    unsigned int unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    unsigned int unk40, unk44, unk48, unk4c, unk50, unk54, unk58;
+    bool timingEnabled;
+    unsigned char unk5d, unk5e, unk5f;
+    TickCount startTime, totalTime, frameStart, frameTotal;
+    bool running;
+    unsigned char unk81, unk82, unk83;
+    int numFrames;
+    void FUN_00cd0ec0(float timeStep);
+};
+// @fnv 0x00cd0ec0
+void VisualDebugger523::FUN_00cd0ec0(float timeStep)
+{
+    float stepTime = 16.0f;
+    if (timingEnabled)
+    {
+        TickCount elapsed = totalTime;
+        if (running)
+            elapsed += FUN_00d60570() - startTime;
+        stepTime = (float)(DivideInt64ToFloat(elapsed, FUN_00d60580()) * 1000.0);
+        running = false;
+        TickCount now = FUN_00d60570();
+        totalTime += now - startTime;
+        frameTotal += now - frameStart;
+        ++numFrames;
+    }
+    timingEnabled = true;
+    float magnitude = (float)fabs(timeStep);
+    if (magnitude > 1.1920928955078125e-7f)
+        stepTime = timeStep;
+    prepareStep();
+    for (int index = numClients - 1; index >= 0; --index)
+    {
+        DebugClient* client = &clients[index];
+        if (client->handler->process.alive())
+        {
+            client->handler->process.step(stepTime);
+            reinterpret_cast<::hkOwnerCD0E *>(this)->ActivateEntry(index, stepTime);
+        }
+        ClientHandler* handler = client->handler;
+        if (!handler->process.alive())
+        {
+            (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->begin(0x76e3a642, DAT_010caf8c);
+            {
+                char buffer[512];
+                FUN_00cb1600 stream(buffer, 512);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(DAT_010caf48);
+                (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->report(0, -1, buffer, DAT_010cae1c, 0x120);
+            }
+            (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->end();
+            reinterpret_cast<::Owner_cd0e *>(this)->RemovePair(index);
+        }
+    }
+    if (timingEnabled)
+    {
+        startTime = 0;
+        totalTime = 0;
+        frameStart = 0;
+        frameTotal = 0;
+        numFrames = 0;
+        running = true;
+        TickCount now = FUN_00d60570();
+        startTime = now;
+        frameStart = startTime;
+    }
+}
 
 #include "generated/data/havok/common/visualize/hkvisualdebugger.inc"

@@ -2,6 +2,29 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/DBAFB0Handle.h"
+#include "fnv/decl/DataClassAccess.h"
+#include "fnv/decl/FUN_00dba680_cls.h"
+#include "fnv/decl/FUN_00dba730_cls.h"
+#include "fnv/decl/FUN_00dba810_cls.h"
+#include "fnv/decl/FUN_00dba9c0_cls.h"
+#include "fnv/decl/FUN_00dbab90_cls.h"
+#include "fnv/decl/FUN_00dbabb0_cls.h"
+#include "fnv/decl/FUN_00dbac50_cls.h"
+#include "fnv/decl/FUN_00dbac70_cls.h"
+#include "fnv/decl/MemberArrayValue.h"
+#include "fnv/decl/Outer_dbac40.h"
+#include "fnv/decl/ResourceWriter.h"
+#include "fnv/decl/S_00dbac90.h"
+#include "fnv/decl/ScanWriter.h"
+#include "fnv/decl/This_2.h"
+#include "fnv/decl/Wrapper.h"
+#include "fnv/decl/fnv_00dba9a0__FUN_00dba9a0_cls.h"
+#include "fnv/decl/fnv_00dbaa00__Wrapper.h"
+#include "fnv/decl/fnv_00dbac00__Wrapper.h"
+#include "fnv/decl/fnv_00dbac10__CpuObject.h"
+#include "fnv/decl/fnv_00dbac80__Wrapper.h"
+#include "fnv/decl/fnv_00dc0460__Obj.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/D60590Object.h"
@@ -2182,6 +2205,124 @@ __declspec(noinline) void UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
     while (capacity < needed)
         capacity += capacity;
     reinterpret_cast<::FUN_00dbec60_cls *>((((S00dbedb0_Callee*)this)))->FUN_00dbec60((::AllocOwner *)(value), capacity);
+}
+
+
+struct ObjImpl;
+struct ObjHandle
+{
+    ObjImpl* p0;
+    ObjImpl* p1;
+};
+struct DataObj
+{
+    ObjImpl* m_pClassImpl;
+    DataObj(ObjImpl* impl);
+    DataObj(const DataObj& o);
+    ~DataObj();
+    ObjHandle GetObjectHandle() const;
+    static void* operator new(unsigned int n);
+};
+struct DataWorld
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual DataObj CopyContents(const DataObj& src);
+};
+struct BlockAlloc
+{
+    virtual void v00();
+    virtual void* AllocateMemoryBlock(int numBytes);
+};
+struct ContainerHeap;
+struct MemRouter
+{
+    int unk00, unk04, unk08;
+    ContainerHeap* m_pStreamAllocator;
+    BlockAlloc* m_block;
+    ContainerHeap& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+    BlockAlloc& block()
+    {
+        return *m_block;
+    }
+};
+__forceinline MemRouter& router()
+{
+    return *(MemRouter*)FUN_00c85750();
+}
+struct HandleMap
+{
+    int m_kPrimitiveElement, m_iCapacityFlags, m_iPairCount;
+    void insert(BlockAlloc& a, ObjImpl* key0, ObjImpl* key1, int val);
+    __forceinline void insert(ObjHandle key, int val)
+    {
+        reinterpret_cast<::hkPairMapDBE8 *>(this)->InsertOrUpdate((::hkMemoryAllocatorDBE8 &)(router().block()), (::hkPairKeyDBE8)(key.p0), (unsigned int)(key.p1));
+    }
+};
+template <typename T> __forceinline void constructWithCopy(T* p, int n, const T& t)
+{
+    for (int i = 0; i < n; i++)
+        p[i] = t;
+}
+template <typename T> struct PtrArray
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline void AddBack(const T& t)
+    {
+        ContainerHeap& h = router().heap();
+        if (m_iElementCount == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)&(h), (::AudioStream *)(void *)(this), sizeof(T));
+        constructWithCopy(m_data + m_iElementCount++, 1, t);
+    }
+};
+struct ObjCloner
+{
+    DataWorld* m_pOwningWorld;
+    HandleMap m_kHandleMap;
+    PtrArray<DataObj*> m_objs;
+    DataObj FUN_00dbedd0(const DataObj& src);
+};
+// @fnv 0x00dbedd0
+DataObj ObjCloner::FUN_00dbedd0(const DataObj& src)
+{
+    if (m_pOwningWorld && !((int)(reinterpret_cast<::FUN_00dba980_cls *>((void *)&(src))->FUN_00dba980())))
+    {
+        ObjHandle h = src.GetObjectHandle();
+        int idx = ((int)(reinterpret_cast<::FUN_00dbe8c0_cls *>((void *)&(m_kHandleMap))->FindEntryValue((*(unsigned int *)&(const ::ObjHandle &)(h)), -1, {})));
+        if (idx == -1)
+        {
+            DataObj dst = m_pOwningWorld->CopyContents(src);
+            if (::FUN_00dbaf90((void *)&(dst)))
+            {
+                m_kHandleMap.insert(h, m_objs.GetLogicalSize());
+                m_objs.AddBack(new DataObj(dst));
+                return dst;
+            }
+        }
+        else
+        {
+            return DataObj(m_objs[idx]->m_pClassImpl);
+        }
+    }
+    return src;
 }
 
 #include "generated/data/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.inc"

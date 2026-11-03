@@ -8,3 +8,5 @@ const char str_010ea3e4[61] = "Unknown class member found during write of plain 
 const char DAT_010ea448[49] = "Unknown class member found during write of data.";
 namespace fnv_00e036b0 { int DAT_010ea47c = 0x276e6143; }
 namespace fnv_00e036b0 { int DAT_010ea4ac = 14906; }
+
+const char DAT_010ea4b0[28] = "TYPE_ZERO should not occur.";

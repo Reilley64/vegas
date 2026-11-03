@@ -2,6 +2,7 @@
 // src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_01063000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/D06D50Finder.h"
@@ -12,7 +13,6 @@
 #include "fnv/decl/FUN_00d06d90_cls.h"
 #include "fnv/decl/FUN_00d06f50.h"
 #include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
-#include "fnv/decl/MonitorTreeBuilder.h"
 #include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
 #include "fnv/decl/fnv_00e0d0a0__Owner.h"
 #include "fnv/symbols_00a29000.h"
@@ -909,4 +909,129 @@ void Pkt::FUN_00ddf420(const char* str, const void* a2, int a3)
         if (pad != 0)
             out[len + 6] = 0;
     }
+}
+
+void __cdecl AggregateChildValues(MonitorNode* node, MonitorStrings* strings);
+
+struct MonitorHeap
+{
+    virtual void v0();
+    virtual void* AllocateMemoryBlock(int numBytes);
+    virtual void ReleaseBlock(void* p, int numBytes);
+    virtual void v3();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+
+struct MonitorTreeNode
+{
+};
+
+
+template <class T> __forceinline void constructRange(T* p, int count, const T& value)
+{
+    for (int i = 0; i < count; ++i)
+        p[i] = value;
+}
+
+struct MonitorNodeArray
+{
+    MonitorNode** m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    MonitorNodeArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    ~MonitorNodeArray()
+    {
+        hkMemoryAllocator& alloc = audio()->heap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            ((MonitorHeap&)alloc).ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(MonitorNode*));
+    }
+    MonitorNode*& back()
+    {
+        return m_data[m_iElementCount - 1];
+    }
+    void popBack()
+    {
+        m_iElementCount--;
+    }
+    void pushBackPlacement(MonitorNode* const& e)
+    {
+        hkMemoryAllocator& alloc = audio()->heap();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), 4);
+        MonitorNode** p = m_data + m_iElementCount;
+        constructRange(p, 1, e);
+        m_iElementCount++;
+    }
+    void AddBack(MonitorNode* const& e)
+    {
+        hkMemoryAllocator& alloc = audio()->heap();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), 4);
+        m_data[m_iElementCount++] = e;
+    }
+};
+struct MonitorNodeArray;
+struct MonitorStrings;
+
+
+struct MonitorTreeBuilder : Obj
+{
+    void FUN_00ddf740(MonitorNodeArray* roots, MonitorStrings* strings);
+};
+
+// @fnv 0x00ddf740
+void MonitorTreeBuilder::FUN_00ddf740(MonitorNodeArray* roots, MonitorStrings* strings)
+{
+    MonitorNodeArray stack;
+    MonitorNode* top;
+    if (roots->m_iElementCount > 0)
+    {
+        top = roots->m_data[0];
+        while (roots->m_iElementCount > 1)
+        {
+            MonitorNode* p = roots->back();
+            if (p)
+            {
+                reinterpret_cast<::fnv_00e0d0a0::Owner *>((((MonitorTreeNode*)p)))->ClearItems();
+                ((MonitorHeap*)audio()->unk10)->ReleaseBlock(p, sizeof(MonitorNode));
+            }
+            roots->popBack();
+        }
+    }
+    else
+    {
+        void* storage = ((MonitorHeap*)audio()->unk10)->AllocateMemoryBlock(sizeof(MonitorNode));
+        top = storage ? new (storage) MonitorNode(0, &(*reinterpret_cast<char *>((void *)&::DAT_01063cbc)), 1) : 0;
+        roots->pushBackPlacement(top);
+    }
+    stack.AddBack(top);
+
+    for (int off = 0; off < m14.m_iElementCount;)
+    {
+        const Record* rec = (const Record*)(m14.m_data + off);
+        const char* name = rec->len > 0 ? (const char*)rec + 6 : 0;
+        int step = rec->len + 6;
+        switch (rec->type)
+        {
+        case 'p':
+            stack.popBack();
+            break;
+        case 'P': {
+            MonitorNode* parent = stack.back();
+            MonitorNode* child = FUN_00ddf070(name, strings, parent, rec->a, rec->b);
+            stack.AddBack(child);
+            break;
+        }
+        case 'C':
+            FUN_00ddf070(name, strings, stack.back(), rec->a, rec->b);
+            break;
+        default:
+            return;
+        }
+        off += step;
+    }
+    AggregateChildValues(top, strings);
 }

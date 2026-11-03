@@ -2,6 +2,19 @@
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00ce9000.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01095000.h"
+#include <xmmintrin.h>
+#include "fnv/decl/Cb0StringCopy.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_011c1000.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
 #include <new>
 #include "fnv/decl/CA8890Object.h"
 #include "fnv/decl/CC0280Writer.h"
@@ -1112,6 +1125,639 @@ volatile int g_out;
 void CallTarget_ce9880()
 {
     g_out = FUN_00ce9880(*(const hkQsXform*)g_inT, (Body*)g_inBody);
+}
+
+static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();
+
+
+struct Vec4
+{
+    float x, y, z, w;
+};
+struct PivotVec;
+struct __declspec(align(16)) V4A
+{
+    float x, y, z, w;
+};
+struct __declspec(align(16)) Qs
+{
+    V4A translation;
+    V4A rotation;
+    V4A scale;
+};
+
+struct Shape
+{
+    virtual int v0();
+    virtual int v1();
+};
+
+struct List
+{
+    Body** items;
+    int count;
+};
+
+static __declspec(noinline) Vec4* FUN_00ce9c40(Obj* obj) throw()
+{
+    Inner* inner = obj->inner;
+    int t = inner->getSomething();
+    return (Vec4*)((char*)inner + (t <= 8 ? 0x20 : 0x50));
+}
+
+struct A1W
+{
+    List* p;
+    A1W(List* q) : p(q)
+    {}
+};
+struct __declspec(align(16)) PivotVec
+{
+    float x, y, z, w;
+    __m128 quad() const
+    {
+        return _mm_load_ps(&x);
+    }
+    void setQuad(__m128 q)
+    {
+        _mm_store_ps(&x, q);
+    }
+    void operator=(const PivotVec& v)
+    {
+        setQuad(v.quad());
+    }
+    void SetAllComponents(float a)
+    {
+        setQuad(_mm_set_ps1(a));
+    }
+    float lengthSquared3() const
+    {
+        __m128 x2 = _mm_mul_ps(quad(), quad());
+        __m128 xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+        float r;
+        _mm_store_ss(&r, _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)), xySum));
+        return r;
+    }
+};
+
+struct __declspec(align(16)) PivotXform
+{
+    PivotVec m_vTranslation;
+    PivotVec m_rotation;
+    PivotVec m_vScale;
+};
+
+// @fnv 0x00ce9db0
+int __cdecl FUN_00ce9db0(A1W constraints, void* warnOnAlignment)
+{
+    const int numConstraints = constraints.p->count;
+    int result = 0;
+    for (int c = 0; c < numConstraints; c++)
+    {
+        Body* constraint = constraints.p->items[c];
+        if (!IsSupportedRagdollConstraint(constraint, true))
+        {
+            result = 1;
+            continue;
+        }
+        PivotVec pivotInA = *(const PivotVec*)FUN_00ce9c40(constraint);
+        Shape* shape = constraint->shape;
+        PivotXform childFromConstraint;
+        childFromConstraint.m_rotation = *(const PivotVec*)&DAT_010c71b0;
+        childFromConstraint.m_vScale.SetAllComponents(::DAT_01012068);
+        childFromConstraint.m_vTranslation = pivotInA;
+        if (childFromConstraint.m_vTranslation.lengthSquared3() > DAT_010959f4)
+        {
+            if (FUN_00ce9880((Qs*)&childFromConstraint, shape) != 0)
+                result = 1;
+        }
+    }
+    return result;
+}struct StringRef
+{
+    const char* text;
+    StringRef() throw()
+    {
+        new ((void *)this) struct ::FUN_00cb0a60();
+    }
+};
+struct Bone
+{
+    StringRef name;
+    bool lockTranslation;
+};
+struct Quaternion
+{
+    __m128 value;
+    __forceinline const __m128& getVector() const
+    {
+        return value;
+    }
+    __declspec(noinline) void FUN_00c66320(const Quaternion*, const Quaternion*) throw();
+};
+struct Transform
+{
+    __m128 translation;
+    __forceinline const __m128& getTranslation() const
+    {
+        return translation;
+    }
+    Quaternion rotation;
+    __m128 scale;
+    __forceinline const __m128& getScale() const
+    {
+        return scale;
+    }
+};
+struct SimdVector
+{
+    __m128 quad;
+    __forceinline SimdVector()
+    {}
+    __forceinline SimdVector(__m128 inputValue) : quad(inputValue)
+    {}
+    __forceinline operator __m128() const
+    {
+        return quad;
+    }
+};
+static __forceinline void composeTransforms(Transform& destination, const Transform& parent, const Transform& child)
+{
+    SimdVector qForward = parent.rotation.value;
+    SimdVector wForward = _mm_shuffle_ps(qForward, qForward, 0xff);
+    SimdVector vForward = child.translation;
+    __m128 dotForward = _mm_mul_ps(vForward, qForward);
+    __m128 dForward = _mm_add_ss(_mm_shuffle_ps(dotForward, dotForward, 0x55), dotForward);
+    dForward = _mm_add_ss(_mm_shuffle_ps(dotForward, dotForward, 0xaa), dForward);
+    __m128 crossForward =
+        _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(qForward, qForward, 0xc9), _mm_shuffle_ps(vForward, vForward, 0xd2)),
+                   _mm_mul_ps(_mm_shuffle_ps(qForward, qForward, 0xd2), _mm_shuffle_ps(vForward, vForward, 0xc9)));
+    __m128 tForward = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(wForward, wForward), DAT_010c71e0), vForward);
+    crossForward = _mm_mul_ps(crossForward, wForward);
+    tForward = _mm_add_ps(tForward, _mm_mul_ps(_mm_shuffle_ps(dForward, dForward, 0), qForward));
+    tForward = _mm_add_ps(crossForward, tForward);
+    destination.translation = _mm_add_ps(_mm_add_ps(tForward, tForward), parent.translation);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(destination.rotation), (void *)(&parent.rotation), (const ::fnv_00c66320::__m128 *)(const ::Quaternion *)(&child.rotation), {});
+    destination.scale = _mm_mul_ps(child.scale, parent.scale);
+}
+template <class T> struct Array
+{
+    T* data;
+    int size;
+    int capacity;
+    Array() throw() : data(0), size(0), capacity(0x80000000)
+    {}
+    void reserve(SpawnedAllocator* allocator, int count) throw()
+    {
+        int available = capacity & 0x3fffffff;
+        if (available < count)
+        {
+            int grown = available * 2;
+            if (count >= grown)
+                grown = count;
+            ::FUN_00c908c0((::SpawnedObject *)(allocator), (::SpawnedArray *)(void *)(this), grown, sizeof(T));
+        }
+    }
+    void reserve(int count) throw()
+    {
+        SpawnedGlobal* holder = FUN_00c85750();
+        reserve(holder->m_pAllocator, count);
+    }
+    void resize(int count) throw()
+    {
+        reserve(count);
+        size = count;
+    }
+    __forceinline void SetSizeAndGrow(int count) throw();
+};
+static __forceinline void destroyBones(Bone* bone, int count) throw()
+{
+    for (int i = 0; i < count; ++i)
+    {
+        ::FUN_00cb0c00((int)(bone));
+        ++bone;
+    }
+}
+static __forceinline void constructBones(Bone* bone, int count) throw()
+{
+    for (int i = 0; i < count; ++i, ++bone)
+    {
+        if (bone)
+        {
+            new ((void *)&(bone->name)) struct ::FUN_00cb0a60();
+            bone->lockTranslation = false;
+        }
+    }
+}
+template <> __forceinline void Array<Bone>::SetSizeAndGrow(int count) throw()
+{
+    reserve(count);
+    destroyBones(data + count, size - count);
+    constructBones(data + size, count - size);
+    size = count;
+}
+struct SkeletonHeader
+{
+    const void* vtable;
+    unsigned short memorySize;
+    unsigned short references;
+    __forceinline SkeletonHeader() throw() : references(1), memorySize(0x48)
+    {
+        vtable = &(*reinterpret_cast<unsigned int *>(&::DAT_010c4dec));
+    }
+};
+struct Skeleton : SkeletonHeader
+{
+    StringRef name;
+    Array<short> parents;
+    Array<Bone> bones;
+    Array<Transform> pose;
+    Array<StringRef> floatSlots;
+    Array<int> localFrames;
+    __forceinline Skeleton() throw()
+    {}
+    __forceinline void* operator new(unsigned int bytes)
+    {
+        SpawnedGlobal* holder = FUN_00c85750();
+        SpawnedAllocator* allocator = holder->m_pAllocator;
+        Skeleton* result = static_cast<Skeleton*>(allocator->allocate(bytes));
+        result->memorySize = static_cast<unsigned short>(bytes);
+        return result;
+    }
+};
+struct RigidBody
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    const char* name;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    Transform transform;
+};
+struct BodyList
+{
+    RigidBody** data;
+    int size;
+    int capacity;
+};
+struct Constraint
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    RigidBody* parent;
+};
+struct ConstraintList
+{
+    Constraint** data;
+    int size;
+    int capacity;
+};
+
+// @fnv 0x00ceb2c0
+Skeleton* __cdecl FUN_00ceb2c0(BodyList* bodies, ConstraintList* constraints) throw()
+{
+    Skeleton* result = new Skeleton;
+    int count = bodies->size;
+    result->bones.SetSizeAndGrow(count);
+    result->parents.resize(count);
+    result->pose.resize(count);
+    for (int i = 0; i < count; ++i)
+    {
+        int parentIndex = -1;
+        if (i)
+        {
+            RigidBody* parent = constraints->data[i - 1]->parent;
+            for (int j = 0; j < i; ++j)
+            {
+                if (bodies->data[j] == parent)
+                {
+                    parentIndex = j;
+                    break;
+                }
+            }
+        }
+        result->parents.data[i] = (short)parentIndex;
+        RigidBody* body = bodies->data[i];
+        Bone& currentBone = result->bones.data[i];
+        if (parentIndex >= 0)
+        {
+            RigidBody* parent = bodies->data[parentIndex];
+            Transform childPose, parentPose;
+            reinterpret_cast<::S_00ce5070_QsTransform *>(&(childPose))->FUN_00ce5070((*(const ::S_00ce5070_Transform *)(&body->transform)));
+            reinterpret_cast<::S_00ce5070_QsTransform *>(&(parentPose))->FUN_00ce5070((*(const ::S_00ce5070_Transform *)(&parent->transform)));
+            Transform& output = result->pose.data[i];
+            const __m128& q = parentPose.rotation.value;
+            SimdVector w = _mm_shuffle_ps(q, q, 0xff);
+            SimdVector v = parentPose.getTranslation();
+            SimdVector dot = _mm_mul_ps(q, v);
+            SimdVector d = _mm_add_ss(_mm_shuffle_ps(dot, dot, 0x55), dot);
+            d = _mm_add_ss(_mm_shuffle_ps(dot, dot, 0xaa), d);
+            __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2)),
+                                      _mm_mul_ps(_mm_shuffle_ps(v, v, 0xd2), _mm_shuffle_ps(q, q, 0xc9)));
+            cross = _mm_mul_ps(cross, w);
+            SimdVector t = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v);
+            t = _mm_add_ps(t, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), q));
+            t = _mm_add_ps(cross, t);
+            Transform inversePose;
+            t = _mm_add_ps(t, t);
+            t = _mm_xor_ps(t, DAT_010c44d0);
+            inversePose.translation = t;
+            inversePose.rotation.value = _mm_xor_ps(q, ::DAT_010c4c00);
+            __m128 scale = parentPose.scale;
+            __m128 scaleWithOne = _mm_shuffle_ps(scale, _mm_unpackhi_ps(scale, ::DAT_010c7170), 0xc4);
+            __m128 reciprocal = _mm_rcp_ps(scaleWithOne);
+            __m128 inverseScale = _mm_and_ps(_mm_sub_ps(_mm_add_ps(reciprocal, reciprocal),
+                                                        _mm_mul_ps(_mm_mul_ps(reciprocal, scaleWithOne), reciprocal)),
+                                             ::DAT_010c4c10);
+            inversePose.scale = inverseScale;
+            composeTransforms(output, inversePose, childPose);
+        }
+        else
+        {
+            reinterpret_cast<::S_00ce5070_QsTransform *>(&(result->pose.data[i]))->FUN_00ce5070((*(const ::S_00ce5070_Transform *)(&body->transform)));
+        }
+        const char* name = reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(body->name) & ~1u);
+        if (name)
+            reinterpret_cast<::SStringPtr *>(&(currentBone.name))->FUN_00cb0c10(name);
+        else
+        {
+            int buffer[128];
+            hkErrStream stream(buffer, 512);
+            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStream &)(stream))->FUN_00cc01c0("Rigid Body name could not be found");
+            (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbacc14, reinterpret_cast<const char*>(buffer), ".\\Utils\\hkaRagdollUtils.cpp",
+                                  558);
+        }
+        currentBone.lockTranslation = i != 0;
+    }
+    if (result->bones.size > 0)
+        reinterpret_cast<::Cb0StringCopy *>(&(result->name))->FUN_00cb0c30((*(const ::CB0StringPtr *)(result->bones.data)));
+    return result;
+}
+
+struct InnerShape
+{
+    virtual void unk0();
+    virtual void unk1();
+    virtual void unk2();
+    virtual void unk3();
+    virtual void unk4();
+    virtual void unk5();
+    virtual void unk6();
+    virtual void unk7();
+    virtual int getType();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+};
+struct ShapeOwner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    InnerShape* inner;
+};
+extern char str_010cbd50[];
+
+// @fnv 0x00ce9c40
+static __declspec(noinline) void* FUN_00ce9c40(ShapeOwner* owner)
+{
+    InnerShape* shape = owner->inner;
+    switch (shape->getType())
+    {
+    case 0:
+        return &shape->unk20;
+    case 1:
+        return &shape->unk50;
+    case 2:
+        return &shape->unk50;
+    case 6:
+        return &shape->unk50;
+    case 7:
+        return &shape->unk50;
+    case 8:
+        return &shape->unk20;
+    default: {
+        char buf[0x200];
+        hkErrStream os(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStream &)(os))->FUN_00cc01c0(str_010cbd50);
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbabf3b, buf, ::DAT_010cbd34, 0xb4);
+    }
+        return 0;
+    }
+}
+
+struct Builder390
+{
+    unsigned int unk00, unk04, unk08;
+};
+struct Constraint390
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual unsigned int GetType();
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+};
+struct Owner390
+{
+    unsigned int unk00, unk04, unk08;
+    Constraint390* data;
+};
+// @fnv 0x00ce9cf0
+static __declspec(noinline) void* FUN_00ce9cf0(Owner390* owner)
+{
+    Constraint390* data = owner->data;
+    switch (data->GetType())
+    {
+    case 0:
+        return &data->unk30;
+    case 1:
+        return &data->unk90;
+    case 2:
+        return &data->unk90;
+    case 6:
+        return &data->unk90;
+    case 7:
+        return &data->unk90;
+    case 8:
+        return &data->unk20;
+    case 3:
+    case 4:
+    case 5:
+    default: {
+        char message[512];
+        Builder390 stream;
+        new ((void *)&(stream)) ::FUN_00cb1600(message, sizeof(message));
+        reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0("Unsupported type of constraint in rag doll.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabbabf3b, message, ".\\Utils\\hkaRagdollUtils.cpp", 230);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+        return 0;
+    }
+    }
+}__declspec(align(16)) struct Vec4
+{
+    int x;
+    int y;
+    int z;
+    int w;
+};
+
+struct Target
+{
+};
+
+static __declspec(noinline) Target* FUN_00ce9cf0(Obj* obj) throw()
+{
+    Inner* inner = obj->inner;
+    int t = inner->getSomething();
+    if (t <= 8)
+        return (Target*)((char*)inner + 0x30);
+    return 0;
+}
+
+// @fnv 0x00ce9e90
+extern "C" int __cdecl FUN_00ce9e90(void* p)
+{
+    List* list = (List*)p;
+    int count = list->count;
+    for (int i = 0; i < count; i++)
+    {
+        Body* b = list->items[i];
+        if (IsSupportedRagdollConstraint(b, true))
+        {
+            char* shape = b->shape;
+            char* owner = b->owner;
+            Vec4 v = *(Vec4*)(shape + 0x120);
+            Vec4* vel = FUN_00ce9c40(b);
+            *(__m128*)vel = _mm_setzero_ps();
+            Target* target = FUN_00ce9cf0(b);
+            reinterpret_cast<::FUN_00c7f690_cls *>((target))->FUN_00c7f690((const ::S_00c7f690_M *)(void *)(owner + 0xf0), (const ::S_00c7f690_V *)(::Vec4 *)(&v));
+        }
+        if (b->inner->getSomething() == 8)
+        {
+            int buf[0x80];
+            hkErrStream stream(buf, 0x200);
+            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStream &)(stream))->FUN_00cc01c0("Unusual : Aligning constraint spaces of a stiff spring.");
+            (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba876d, (const char*)buf, ".\\Utils\\hkaRagdollUtils.cpp", 0x134);
+        }
+    }
+    return 0;
 }
 
 #include "generated/data/havok/animation/ragdoll/utils/hkaragdollutils.inc"

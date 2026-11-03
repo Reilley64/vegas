@@ -2,6 +2,8 @@
 // src/havok/common/base/math/qstransform/hkqstransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/qstransform/hkqstransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d72000.h"
+#include "fnv/symbols_01012000.h"
 #include "fnv/decl/FUN_00827200_class.h"
 #include "fnv/decl/FUN_00cb2050_cls.h"
 #include "fnv/decl/MProduct.h"
@@ -246,4 +248,56 @@ S_00ce5290_Bool S_00ce5290::SetFromInput(const void* input)
     m_v1.q() = result.m_v1.q();
     m_v2.q() = result.m_v2.q();
     return result.unk31 == 0;
+}
+extern "C" void _ReadWriteBarrier();
+
+
+struct hkBool5120
+{
+    char m_cBooleanValue;
+    hkBool5120(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+};
+
+struct hkVector4_5120
+{
+    __m128 m_vComponents;
+};
+
+struct hkQsTransform5120
+{
+    hkVector4_5120 m_vTranslation;
+    hkVector4_5120 m_rotation;
+    hkVector4_5120 m_vScale;
+    hkBool5120 FUN_00ce5120(const hkQsTransform5120& other, float epsilon) const;
+};
+
+// @fnv 0x00ce5120
+hkBool5120 hkQsTransform5120::FUN_00ce5120(const hkQsTransform5120& other, float epsilon) const
+{
+    __m128 eps = _mm_set1_ps(epsilon);
+    __m128 absMask = *(const __m128*)(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10));
+    __m128 t = _mm_and_ps(_mm_sub_ps(m_vTranslation.m_vComponents, other.m_vTranslation.m_vComponents), absMask);
+    if ((_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 7) != 7)
+        return false;
+    t = _mm_and_ps(_mm_sub_ps(m_vScale.m_vComponents, other.m_vScale.m_vComponents), absMask);
+    if ((_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 7) != 7)
+        return false;
+    __m128 rot = m_rotation.m_vComponents;
+    _ReadWriteBarrier();
+    t = other.m_rotation.m_vComponents;
+    __m128 p = _mm_mul_ps(t, rot);
+    __m128 s = _mm_add_ps(_mm_shuffle_ps(p, p, 0x4e), p);
+    s = _mm_add_ps(_mm_shuffle_ps(s, s, 0xb1), s);
+    float dot;
+    _mm_store_ss(&dot, s);
+    if (dot < 0.0f)
+    {
+        __m128 m1 = _mm_load_ss(&DAT_01012054);
+        rot = _mm_mul_ps(_mm_shuffle_ps(m1, m1, 0), rot);
+    }
+    t = _mm_and_ps(_mm_sub_ps(rot, t), absMask);
+    return (_mm_movemask_ps(_mm_cmple_ps(t, eps)) & 0xf) == 0xf;
 }

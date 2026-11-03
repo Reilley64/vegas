@@ -5,3 +5,5 @@
 const char str_010a5824[3] = "%p";
 namespace fnv_00dbbe80 { const char *DAT_011b7958 = "hk.DataObjectType"; }
 int DAT_01268b08;
+
+const char str_010d64bc[20] = "Ignore object at 0x";

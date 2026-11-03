@@ -7,3 +7,5 @@ extern "C" void fnv_fn_00d2b820() __asm__("?CreateAllocatedValue@@YAXXZ");
 const char DAT_010cae1c[23] = ".\\hkVisualDebugger.cpp";
 const char DAT_010cafd8[76] = "A new network client has been received (host name not available at present)";
 hkSocketCD0D *(*DAT_011b3df0)() = reinterpret_cast< hkSocketCD0D *(*)()>(&fnv_fn_00d2b820);
+
+const char DAT_010caf8c[12] = "Client Dies";

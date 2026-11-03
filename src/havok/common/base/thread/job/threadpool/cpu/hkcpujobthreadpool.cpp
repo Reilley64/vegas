@@ -2,12 +2,13 @@
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/WorkerThreadPoolViewD2.h"
+#include "fnv/decl/fnv_00d2d240__hkCpuJobThreadPoolD2D.h"
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00d04370_cls.h"
 #include "fnv/decl/FUN_00d04390.h"
 #include "fnv/decl/FUN_00d87920_cls.h"
-#include "fnv/decl/Thr_00d87940.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_00cbb000.h"
@@ -775,6 +776,50 @@ void WorkerThreadPoolViewD2::FUN_00d2ce50()
     reinterpret_cast<::FUN_00d04390 *>(&(worker.m_pCompletionSemaphore))->wait(1);
     ::FUN_00d04380(&pool->m_sharedData.m_kWorkerSemaphore, {});
     reinterpret_cast<::FUN_00d87920_cls *>(&(worker.m_iThreadHandle))->FUN_00d87920();
+}
+
+
+extern "C" unsigned long __cdecl _exception_code(void);
+
+struct THREADNAME_INFO
+{
+    unsigned long dwType;
+    const char* szName;
+    unsigned long dwThreadID;
+    unsigned long dwFlags;
+};
+
+struct Thr_00d87940
+{
+    unsigned int m0;
+    unsigned int m4;
+    unsigned int m8;
+    unsigned int mC;
+    int FUN_00d87940(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3);
+};
+
+// @fnv 0x00d87940
+int Thr_00d87940::FUN_00d87940(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3)
+{
+    m0 = (unsigned int)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &a1);
+    if (m0 == 0)
+    {
+        return 1;
+    }
+    m8 = a1;
+    mC = 0;
+    THREADNAME_INFO info;
+    info.dwType = 0x1000;
+    info.szName = a2;
+    info.dwThreadID = a1;
+    info.dwFlags = 0;
+    __try
+    {
+        RaiseException(0x406D1388, 0, 4, (const unsigned long*)&info);
+    }
+    __except (_exception_code() == 0x406D1388 ? -1 : 1)
+    {}
+    return 0;
 }
 
 #include "generated/data/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.inc"

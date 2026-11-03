@@ -2,6 +2,7 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S00dc5f30_Obj.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/AudioHandle.h"
@@ -1303,4 +1304,93 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
     default:
         break;
     }
+}
+
+
+struct hkDataObjectImpl;
+
+struct DataObjectImplReference
+{
+    hkDataObjectImpl* m_pClassImpl;
+    DataObjectImplReference(hkDataObjectImpl* impl);
+};
+
+struct hkOstream
+{
+    void* m_ppVirtualMethodTable;
+    int m_usMemSizeAndFlags;
+    void* m_pStreamWriter;
+    hkOstream(void* buf, int bufSize);
+    ~hkOstream();
+    hkOstream& operator<<(const char* s);
+};
+
+struct hkError
+{
+    virtual void unk00();
+    virtual void unk04();
+    virtual void unk08();
+    virtual int message(int type, int id, const char* desc, const char* file, int line);
+};
+
+
+struct hkBinaryTagfileReader
+{
+    DataObjectImplReference readObjectTopLevel(int tag);
+
+    DataObjectImplReference FUN_00dc6e50();
+};
+
+// @fnv 0x00dc6e50
+DataObjectImplReference hkBinaryTagfileReader::FUN_00dc6e50()
+{
+    char buf[512];
+    int magic0;
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&magic0, 4, 1);
+    int magic1;
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&magic1, 4, 1);
+    if (magic0 == 0xcab00d1e && magic1 == 0xd011face)
+    {
+        for (int tag = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0(); tag != -1; tag = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0())
+        {
+            switch (tag)
+            {
+            case 1: {
+                if (reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0() != 0)
+                {
+                    {
+                        hkOstream ostr(buf, sizeof(buf));
+                        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Unrecognised tagfile version.");
+                        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp",
+                                              0x1d9);
+                    }
+                    return DataObjectImplReference(0);
+                }
+                break;
+            }
+            case 2: {
+                if (reinterpret_cast<::TagFileReader *>(this)->ReadTagFileEntry() == 1)
+                {
+                    return DataObjectImplReference(0);
+                }
+                break;
+            }
+            case 3:
+            case 4:
+            case 6: {
+                return readObjectTopLevel(tag);
+            }
+            default: {
+                return DataObjectImplReference(0);
+            }
+            }
+        }
+    }
+    else
+    {
+        hkOstream ostr(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("This does not look like a binary tagfile (magic number mismatch)");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp", 0x1c5);
+    }
+    return DataObjectImplReference(0);
 }

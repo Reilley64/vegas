@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cbc440
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/symbols_00cbb000.h"
 #include "fnv/decl/Target.h"
 #include "fnv/symbols_00cc0000.h"
 #include "fnv/symbols_01268000.h"
@@ -329,6 +331,27 @@ void FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
     {
         FUN_00cbc000(ostr, "DebugMem", stats, 0x7fffffff);
     }
+}
+
+
+struct Quantity
+{
+    unsigned int m_quantity;
+};
+unsigned int __cdecl FUN_005e0b50(void* p, int v);
+struct QuantitySet
+{
+    Quantity m_kPointA;
+    Quantity m_kPointB;
+    Quantity m_iThirdValue;
+    void FUN_008c70c0(unsigned int q, int v);
+};
+// @fnv 0x008c70c0
+void QuantitySet::FUN_008c70c0(unsigned int q, int v)
+{
+    reinterpret_cast<::FUN_00537e90 *>(&(m_kPointB))->SetQuantity(q);
+    reinterpret_cast<::FUN_00537e90 *>(&(m_kPointA))->SetQuantity(q);
+    reinterpret_cast<::FUN_00537e90 *>(&(m_iThirdValue))->SetQuantity(FUN_005e0b50((void*)q, v));
 }
 
 #include "generated/data/havok/common/base/memory/system/hkmemorysystem.inc"

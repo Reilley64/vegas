@@ -2,6 +2,13 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
+#include <windows.h>
+#include "fnv/decl/FUN_00e2f7c0_Class.h"
+#include "fnv/decl/fnv_00e33e90__hkaSplineCompressedAnimationE33E.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00e34000.h"
+#include "fnv/decl/SinkOwner.h"
 #include "fnv/decl/FnvNode.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00e33000.h"
@@ -876,6 +883,375 @@ struct FUN_00e32ec0_Class : public hkaSplineCompressedAnimation
 int FUN_00e32ec0_Class::FUN_00e32ec0() const
 {
     return m_iFrameCount;
+}
+
+
+extern "C" unsigned __int64 __rdtsc(void);
+
+struct S00e340e0_Cmd { const char* name; unsigned int ticks; unsigned int extra; };
+struct S00e340e0_Mon {
+    char* m_kRayStart;
+    S00e340e0_Cmd* m_kRayEnd;
+    char* m_pRayCursor;
+    S00e340e0_Cmd* m_pCurrentCommand;
+};
+
+static __forceinline void S00e340e0_timer(const char* name)
+{
+    S00e340e0_Mon* mon = (S00e340e0_Mon*)TlsGetValue(DAT_0126835c);
+    S00e340e0_Cmd* e = mon->m_kRayEnd;
+    if (e < mon->m_pCurrentCommand)
+    {
+        e->name = name;
+        unsigned int ticks;
+        ticks = static_cast<unsigned int>(__rdtsc());
+        e->ticks = ticks;
+        mon->m_kRayEnd = e + 1;
+    }
+}
+
+int S00e340e0_vnum(const void* self);
+int S00e340e0_read(const unsigned char* p, float t, unsigned char qt, unsigned char q, int type, void* out);
+
+struct S00e340e0_Anim {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int m_iNumTransformTracks;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int m_iMaskAndQuantizationSize;
+    float unk38;
+    float unk3C;
+    float unk40;
+    int* m_kFirstUInt32Array;
+    int unk48;
+    int unk4C;
+    int* m_kFloatBlockOffsets;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    unsigned char* m_data;
+
+    __declspec(noinline) void FUN_00e2f7c0(float time, unsigned int& frame, float& delta) const;
+    __declspec(noinline) void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut, unsigned char& quantizedTimeOut) const;
+    __declspec(noinline) void EvaluateSpline(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const;
+    __declspec(noinline) void ExtractFrame(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkQuaternion& out) const;
+    __declspec(noinline) void FUN_00e33e90(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const;
+    __declspec(noinline) void FUN_00e33f10(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, float& out) const;
+    void sampleAtFrame(unsigned int frame, float delta, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut) const;
+    void FUN_00e340e0(float time, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut, void* cache) const;
+};
+void S00e340e0_Anim::FUN_00e2f7c0(float time, unsigned int& frameOut, float& deltaOut) const
+{
+    const unsigned int maxFrameIndex = S00e340e0_vnum(this) - 1;
+    const float frameFloat = (time / *(const float*)&unk0C) * maxFrameIndex;
+    frameOut = (unsigned int)frameFloat;
+    if (frameOut > maxFrameIndex - 1) { frameOut = maxFrameIndex - 1; deltaOut = 1.0f; return; }
+    deltaOut = frameFloat - frameOut;
+}
+void S00e340e0_Anim::FUN_00e33e90(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const
+{ data += S00e340e0_read(data, t, qt, q, type, &out); }
+void S00e340e0_Anim::FUN_00e33f10(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, float& out) const
+{ data += S00e340e0_read(data, t, qt, q, type, &out); }
+
+// @fnv 0x00e340e0
+void S00e340e0_Anim::FUN_00e340e0(float time, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut, void* cache) const
+{
+    S00e340e0_timer("TtSampleSpline");
+    unsigned int frame;
+    float delta;
+    FUN_00e2f7c0(time, frame, delta);
+    int block;
+    float blockTime;
+    unsigned char quantizedTime;
+    reinterpret_cast<::hkaSplineCompressedAnimationE347 *>((void *)this)->GetBlockAndTime(frame, delta, block, blockTime, quantizedTime);
+    const int* offsets = m_kFirstUInt32Array;
+    int base = (int)m_data;
+    const unsigned char* transformData = (const unsigned char*)GetIndexedValueWithOffset(base, offsets, block, m_iMaskAndQuantizationSize);
+    const int* maskOffsets = m_kFirstUInt32Array;
+    int maskBase = (int)m_data;
+    const unsigned char* maskPtr = (const unsigned char*)GetIndexedValueWithOffset(maskBase, maskOffsets, block, 0x80000000);
+    if (!transformData || !maskPtr) { S00e340e0_timer("Et"); return; }
+    for (unsigned int i = 0; i < maxNumTransformTracks; i++)
+    {
+        unsigned char mask = *maskPtr++;
+        reinterpret_cast<::FUN_00e33e10_Class *>((void *)this)->EvaluateSpline(blockTime, quantizedTime, *maskPtr++, mask & 3, (unsigned int *)&(transformData), (*(::ResultArg *)&(transformTracksOut[i].m_vTranslation)));
+        reinterpret_cast<::hkaSplineAnimE33 *>((void *)this)->ExtractFrame(blockTime, quantizedTime, *maskPtr++, (void *)((mask >> 2) & 0xf), transformData, (int)&(transformTracksOut[i].m_rotation));
+        reinterpret_cast<::fnv_00e33e90::hkaSplineCompressedAnimationE33E *>((void *)this)->FUN_00e33e90(blockTime, quantizedTime, *maskPtr++, mask >> 6, transformData, (::fnv_00e33e90::hkVector4E33E &)(transformTracksOut[i].m_vScale));
+    }
+    const unsigned char* floatData = m_data + m_kFloatBlockOffsets[block] + m_kFirstUInt32Array[block];
+    const unsigned char* floatMask = m_data + m_iNumTransformTracks * 4 + m_kFirstUInt32Array[block];
+    for (unsigned int j = 0; j < maxNumFloatTracks; j++)
+    {
+        unsigned char m = *floatMask++;
+        FUN_00e33f10(blockTime, quantizedTime, m & 0xf9, (m >> 1) & 3, floatData, floatTracksOut[j]);
+    }
+    S00e340e0_timer("Et");
+}
+int __cdecl FUN_00e63c60(bool*);
+
+extern char DAT_010c3aa0[];
+extern void __cdecl FUN_00cb1750(const char* message);
+extern int __cdecl FUN_00e29910();
+extern "C" void _ReadWriteBarrier(void);
+
+static int hexDigit(char c)
+{
+    if (c >= '0' && c <= '9')
+        return c - '0';
+    if (c >= 'A' && c <= 'F')
+        return c - 'A' + 10;
+    if (c >= 'a' && c <= 'f')
+        return c - 'a' + 10;
+    return -1;
+}
+
+static char* findDot(char* p)
+{
+    while (p)
+    {
+        if (!*p || *p == '.')
+        {
+            _ReadWriteBarrier();
+            break;
+        }
+        ++p;
+    }
+    return p;
+}
+
+static void invalidKey()
+{
+    FUN_00cb1750("Product:hka Key Code is invalid.\nPlease contact Havok.com\nNo simulation possible.");
+}
+
+// @fnv 0x00e63c60
+int __cdecl FUN_00e63c60(bool* valid)
+{
+    *valid = false;
+    int status = 0;
+    unsigned long second;
+    second = 0xfffffffful;
+    int first;
+    first = -1;
+    char* p;
+    p = DAT_010c3aa0 + 2;
+    int digit = hexDigit(*p++);
+    while (digit >= 0)
+    {
+        first = (first << 4) + digit;
+        digit = hexDigit(*p++);
+    }
+    p += 2;
+    digit = hexDigit(*p++);
+    while (digit >= 0)
+    {
+        second = (second << 4) + digit;
+        digit = hexDigit(*p++);
+    }
+
+    unsigned char expires = (unsigned char)(((unsigned int)first >> 31) & 1);
+
+    char* dot = findDot(DAT_010c3aa0);
+    if (!dot)
+    {
+        invalidKey();
+        return 1;
+    }
+    dot = findDot(dot + 1);
+    if (!dot)
+    {
+        invalidKey();
+        return 1;
+    }
+    ++dot;
+
+    if (expires)
+    {
+        first = (first ^ 0xd4efe34a) & 0x7fffffff;
+        int now = FUN_00e29910() >> 8;
+        int remaining = first - now;
+        if (first < now || remaining > 0x96c99)
+        {
+            FUN_00cb1750(
+                "Product:hka Key Code has expired .\nPlease contact Havok.com for an extension.\nNo simulation possible.");
+            return 2;
+        }
+        if (remaining < 0xd2f)
+            status = 3;
+    }
+    else
+    {
+        int hash = 0;
+        while (*dot)
+        {
+            hash = hash * 23 + *++dot;
+        }
+        hash = (hash ^ 0xd4efe34a) & 0x7fffffff;
+        if (second != hash)
+        {
+            invalidKey();
+            return 1;
+        }
+    }
+    *valid = true;
+    return status;
+}
+class hkBoolE330
+{
+  public:
+    char m_cBooleanValue;
+    hkBoolE330()
+    {}
+    hkBoolE330(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+
+class hkOstream
+{
+  public:
+    void* m_ppVirtualMethodTable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    void* m_pStreamWriter;
+    hkOstream(char* buf, int bufSize);     // FUN_00cb1600
+    ~hkOstream();                          // FUN_00cc00e0
+    hkOstream& operator<<(const char* s);  // FUN_00cc01c0
+};
+
+class hkError
+{
+  public:
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual int message(int type, int id, const char* description, const char* file, int line);
+};
+
+enum QuantizationType
+{
+    BITS8 = 0,
+    BITS16 = 1
+};
+enum RotationQuantizationType
+{
+    POLAR32 = 0,
+    THREECOMP40 = 1,
+    THREECOMP48 = 2,
+    THREECOMP24 = 3,
+    STRAIGHT16 = 4,
+    UNCOMPRESSED = 5
+};
+
+__declspec(noinline) hkBoolE330 StoreBoolFlag(QuantizationType type)
+{
+    return type == BITS8 || type == BITS16;
+}
+
+__declspec(noinline) hkBoolE330 IsValidMode(RotationQuantizationType type)
+{
+    return type == POLAR32 || type == THREECOMP40 || type == THREECOMP48 || type == THREECOMP24 || type == STRAIGHT16 ||
+           type == UNCOMPRESSED;
+}
+
+__declspec(noinline) hkReal FUN_00e32ea0(QuantizationType type)
+{
+    switch (type)
+    {
+    case BITS8:
+        return 0.0078125f;
+    case BITS16:
+        return 3.0517578125e-05f;
+    }
+    return 0.0f;
+}
+
+double FUN_00e32e50(RotationQuantizationType type);
+
+struct TrackCompressionParams
+{
+    hkReal m_fRotationTolerance;
+    hkReal m_fTranslationTolerance;
+    hkReal m_fScaleTolerance;
+    hkReal m_fFloatingTolerance;
+    int m_iRotationDegree;
+    int m_iTranslationDegree;
+    hkUint8 m_eRotationQuantizationType;
+    hkUint8 m_eTranslationQuantizationType;
+    hkUint8 m_eScaleQuantizationType;
+    hkUint8 m_eFloatQuantizationType;
+
+    hkBoolE330 FUN_00e330b0() const;
+};
+
+// @fnv 0x00e330b0
+hkBoolE330 TrackCompressionParams::FUN_00e330b0() const
+{
+    hkBoolE330 ok = StoreBoolFlag((QuantizationType)m_eTranslationQuantizationType) &&
+                    IsValidMode((RotationQuantizationType)m_eRotationQuantizationType) &&
+                    StoreBoolFlag((QuantizationType)m_eScaleQuantizationType) &&
+                    StoreBoolFlag((QuantizationType)m_eFloatQuantizationType);
+
+    hkBoolE330 tolerancesOk = m_fTranslationTolerance >= 0.0f && m_fRotationTolerance >= 0.0f &&
+                              m_fScaleTolerance >= 0.0f && m_fFloatingTolerance >= 0.0f;
+
+    if (m_fTranslationTolerance < FUN_00e32ea0((QuantizationType)m_eTranslationQuantizationType))
+    {
+        char assertBuf[512];
+        hkOstream ostr(assertBuf, sizeof(assertBuf));
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting translation quality.  If artifacts are visible, try increasing the number of translation quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
+                              ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 79);
+    }
+
+    if (m_fScaleTolerance < FUN_00e32ea0((QuantizationType)m_eScaleQuantizationType))
+    {
+        char assertBuf[512];
+        hkOstream ostr(assertBuf, sizeof(assertBuf));
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting scale quality.  If artifacts are visible, try increasing the number of scale quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
+                              ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 84);
+    }
+
+    if (m_fFloatingTolerance < FUN_00e32ea0((QuantizationType)m_eFloatQuantizationType))
+    {
+        char assertBuf[512];
+        hkOstream ostr(assertBuf, sizeof(assertBuf));
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting float quality.  If artifacts are visible, try increasing the number of float quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
+                              ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 89);
+    }
+
+    RotationQuantizationType rq = (RotationQuantizationType)m_eRotationQuantizationType;
+    if (m_fRotationTolerance < FUN_00e32e50(rq) * 0.16260161995887756)
+    {
+        char assertBuf[512];
+        hkOstream ostr(assertBuf, sizeof(assertBuf));
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstream &)(ostr))->FUN_00cc01c0("Quantization may be limiting rotation quality.  If artifacts are visible, try increasing the number of rotation quantization bits.");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0xabba5a61, assertBuf,
+                              ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimation.cpp", 100);
+    }
+
+    return ok && tolerancesOk;
 }
 
 #include "generated/data/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.inc"

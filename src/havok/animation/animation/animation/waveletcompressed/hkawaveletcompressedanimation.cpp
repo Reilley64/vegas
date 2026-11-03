@@ -1,3 +1,6 @@
+#include "fnv/symbols_00e2f000.h"
+#include "fnv/symbols_00e51000.h"
+#include "fnv/symbols_00e59000.h"
 #include <intrin.h>
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -1430,6 +1433,50 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
     MonSplitE30(::str_01076f38);
     FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)interpolated;
     FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)block;
+}
+int __cdecl FUN_00e51da0(int aiValue, const char* apBytes);
+void __cdecl DecodeQuantizedBlock(const unsigned char* __restrict in, const QParam_00e51660* qParam, float* out,
+                                  int totalCount);
+int __cdecl FUN_00e51da0(int, const Quantization*);
+void __cdecl DecodeQuantizedBlock(const float*, const Quantization*, float*, int);
+
+namespace wav {
+
+struct DecompressParams
+{
+    unsigned int m_iBlockCount;
+    int m_iElementIndex;
+    int m_numFloats;
+    unsigned char m_quantFormat;
+    unsigned char m_defaultBits;
+    unsigned char unk0e;
+    unsigned char unk0f;
+    const float* m_maxs;
+    const float* m_mins;
+    const unsigned char* m_bits;
+    const char* m_data;
+};
+
+}
+
+
+// @fnv 0x00e349c0
+static __declspec(noinline) void FUN_00e349c0(float* dst, wav::DecompressParams params)
+{
+    const char* data = params.m_data;
+    unsigned int offset = 0;
+    QParam_00e51660 info;
+    info.m_ucSecondQuantizationParameter = params.m_quantFormat;
+    for (unsigned int i = 0; i < params.m_iBlockCount; i++)
+    {
+        info.m_offset = params.m_maxs[i];
+        info.m_vScale = params.m_mins[i];
+        info.m_uiFirstQuantizationParameter = params.m_bits ? params.m_bits[i] : params.m_defaultBits;
+        DecodeQuantizedBlock(reinterpret_cast<const unsigned char*>(data + offset), &info, dst, params.m_numFloats);
+        ::PrefixSum(dst, params.m_numFloats);
+        dst += params.m_iElementIndex;
+        offset += FUN_00e51da0(params.m_numFloats, (const char*)&info);
+    }
 }
 
 #include "generated/data/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.inc"

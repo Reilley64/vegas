@@ -2,6 +2,10 @@
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01012000.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00e2f7c0_Class.h"
 #include "fnv/symbols_00c90000.h"
@@ -1208,6 +1212,27 @@ void DeltaSampler::FUN_00e359f0(float time, hkUint32 maxNumTransformTracks, hkQs
     block.destroyLocal();
     dynamicDOFs.destroyLocal();
 }
-}  // namespace fnv_00e359f0
+}
+
+// @fnv 0x00e34d30
+void FUN_00e34d30(int a, int b, unsigned int count, unsigned int* target)
+{
+    if (count > 0)
+    {
+        __m128 zero = _mm_setzero_ps();
+        __m128 ones = _mm_load1_ps(&DAT_01012068);
+        unsigned char* p = (unsigned char*)target + 0x20;
+
+        do
+        {
+            _mm_store_ps((float*)(p - 0x20), zero);
+            _mm_store_ps((float*)(p - 0x10), ::DAT_010c71b0);
+            _mm_store_ps((float*)p, ones);
+
+            p += 0x30;
+            --count;
+        } while (count != 0);
+    }
+}
 
 #include "generated/data/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.inc"

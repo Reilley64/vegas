@@ -2,10 +2,11 @@
 // src/havok/common/base/math/matrix/hkmatrix4.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix4.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Matrix4V.h"
+#include <cmath>
 #include "fnv/decl/FUN_00cb20b0_shell.h"
 #include "fnv/decl/FUN_00de87c0_class.h"
 #include "fnv/decl/MProduct.h"
-#include "fnv/decl/S00de9140_Matrix4.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_0104d000.h"
@@ -549,4 +550,457 @@ int FUN_00de8ea0_cls::FUN_00de8ea0()
     __m128 cmp = _mm_cmple_ps(absDiff, bound);
     int mask = _mm_movemask_ps(cmp) & 7;
     return mask == 7;
+}
+
+
+extern "C"
+{
+    __m128 _mm_add_ps(__m128, __m128);
+    __m128 _mm_mul_ps(__m128, __m128);
+    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
+    __m128 _mm_load_ss(const float*);
+}
+
+class S00de9140_SimdReal
+{
+  public:
+    __forceinline S00de9140_SimdReal(float x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline __m128 broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __m128 m_vValue;
+};
+
+class S00de9140_Vector4
+{
+  public:
+    __forceinline S00de9140_Vector4()
+    {}
+    __forceinline S00de9140_Vector4(const S00de9140_Vector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void operator=(const S00de9140_Vector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void setMul4(const S00de9140_SimdReal& r, const S00de9140_Vector4& v)
+    {
+        m_vComponents = _mm_mul_ps(r.broadcast(), v.m_vComponents);
+    }
+    __forceinline void add4(const S00de9140_Vector4& v)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
+    }
+    __forceinline void setMul4(const S00de9140_Vector4& a, const S00de9140_Vector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const S00de9140_Vector4& x, const S00de9140_Vector4& y)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(x.m_vComponents, y.m_vComponents));
+    }
+    __forceinline void setBroadcast(const S00de9140_Vector4& v, int i)
+    {
+        if (i == 0)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x00);
+        }
+        else if (i == 1)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x55);
+        }
+        else if (i == 2)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xaa);
+        }
+        else if (i == 3)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+        }
+    }
+    float& operator()(int i)
+    {
+        return ((float*)&m_vComponents)[i];
+    }
+    const float& operator()(int i) const
+    {
+        return ((const float*)&m_vComponents)[i];
+    }
+    __m128 m_vComponents;
+};
+
+class S00de9140_Matrix4
+{
+  public:
+    S00de9140_Vector4 m_kColumn0;
+    S00de9140_Vector4 m_kColumn1;
+    S00de9140_Vector4 m_kColumn2;
+    S00de9140_Vector4 m_kColumn3;
+
+    __forceinline S00de9140_Matrix4()
+    {}
+    __forceinline S00de9140_Vector4& getColumn(int x)
+    {
+        return (&m_kColumn0)[x];
+    }
+    __forceinline const S00de9140_Vector4& getColumn(int x) const
+    {
+        return (&m_kColumn0)[x];
+    }
+    __forceinline float& operator()(int r, int c)
+    {
+        return getColumn(c)(r);
+    }
+    __forceinline const float& operator()(int r, int c) const
+    {
+        return getColumn(c)(r);
+    }
+    __forceinline void operator=(const S00de9140_Matrix4& a)
+    {
+        m_kColumn0 = a.getColumn(0);
+        m_kColumn1 = a.getColumn(1);
+        m_kColumn2 = a.getColumn(2);
+        m_kColumn3 = a.getColumn(3);
+    }
+
+    void FUN_00de88a0(const S00de9140_SimdReal& s, const S00de9140_Matrix4& m);
+    int FUN_00de8910(float epsilon);
+
+    __forceinline void transformPosition(const S00de9140_Vector4& positionIn, S00de9140_Vector4& positionOut) const
+    {
+        S00de9140_Vector4 xb;
+        xb.setBroadcast(positionIn, 0);
+        S00de9140_Vector4 yb;
+        yb.setBroadcast(positionIn, 1);
+        S00de9140_Vector4 zb;
+        zb.setBroadcast(positionIn, 2);
+
+        S00de9140_Vector4 t0;
+        t0.setMul4(xb, m_kColumn0);
+        t0.addMul4(yb, m_kColumn1);
+        t0.addMul4(zb, m_kColumn2);
+        t0.add4(m_kColumn3);
+
+        positionOut = t0;
+    }
+
+    __forceinline void transformDirection(const S00de9140_Vector4& directionIn, S00de9140_Vector4& directionOut) const
+    {
+        S00de9140_Vector4 xb;
+        xb.setBroadcast(directionIn, 0);
+        S00de9140_Vector4 yb;
+        yb.setBroadcast(directionIn, 1);
+        S00de9140_Vector4 zb;
+        zb.setBroadcast(directionIn, 2);
+
+        S00de9140_Vector4 t0;
+        t0.setMul4(xb, m_kColumn0);
+        t0.addMul4(yb, m_kColumn1);
+        t0.addMul4(zb, m_kColumn2);
+
+        directionOut = t0;
+    }
+
+    __forceinline void setMulAffine(const S00de9140_Matrix4& a, const S00de9140_Matrix4& b)
+    {
+        S00de9140_Vector4 col0;
+        a.transformDirection(b.m_kColumn0, col0);
+        S00de9140_Vector4 col1;
+        a.transformDirection(b.m_kColumn1, col1);
+        S00de9140_Vector4 col2;
+        a.transformDirection(b.m_kColumn2, col2);
+        S00de9140_Vector4 col3;
+        a.transformPosition(b.m_kColumn3, col3);
+
+        m_kColumn0 = col0;
+        m_kColumn1 = col1;
+        m_kColumn2 = col2;
+        m_kColumn3 = col3;
+    }
+
+    void FUN_00de9140(const S00de9140_Matrix4& a, const S00de9140_Matrix4& b);
+};
+
+__declspec(noinline) void S00de9140_Matrix4::FUN_00de88a0(const S00de9140_SimdReal& s, const S00de9140_Matrix4& m)
+{
+    m_kColumn0.setMul4(s, m.m_kColumn0);
+    m_kColumn1.setMul4(s, m.m_kColumn1);
+    m_kColumn2.setMul4(s, m.m_kColumn2);
+    m_kColumn3.setMul4(s, m.m_kColumn3);
+}
+
+// @fnv 0x00de9140
+void S00de9140_Matrix4::FUN_00de9140(const S00de9140_Matrix4& a, const S00de9140_Matrix4& b)
+{
+    S00de9140_Matrix4 bInv = b;
+    bInv.FUN_00de8910(1.192092896e-07f);
+    setMulAffine(a, bInv);
+}
+
+static __forceinline float zvalue(const S00de9140_Vector4& v)
+{
+    return v.m_vComponents.m128_f32[2];
+}
+static __forceinline float scalarIdentity(float x)
+{
+    return x;
+}
+struct S00de8910_Work_b10903
+{
+    hkVector4 invDetVec;
+    hkMatrix4 adj;
+};
+
+// @fnv 0x00de8910
+int S00de9140_Matrix4::FUN_00de8910(float epsilon)
+{
+    const S00de9140_Vector4& column2 = m_kColumn2;
+    const float& val2x = column2.m_vComponents.m128_f32[0];
+    const float& val2y = column2.m_vComponents.m128_f32[1];
+    const float& val2z = column2.m_vComponents.m128_f32[2];
+    const float& val2w = column2.m_vComponents.m128_f32[3];
+
+    float s0 =
+        -((*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * m_kColumn1.m_vComponents.m128_f32[0]) +
+        m_kColumn0.m_vComponents.m128_f32[0] * m_kColumn1.m_vComponents.m128_f32[1];
+    float s1 = -((*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * val2x) +
+               (*(const volatile float*)&val2y) * m_kColumn0.m_vComponents.m128_f32[0];
+    float s2 =
+        -((*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * m_kColumn3.m_vComponents.m128_f32[0]) +
+        m_kColumn0.m_vComponents.m128_f32[0] * m_kColumn3.m_vComponents.m128_f32[1];
+    float s3 = -(val2x * m_kColumn1.m_vComponents.m128_f32[1]) + val2y * m_kColumn1.m_vComponents.m128_f32[0];
+    float s4 = -(m_kColumn3.m_vComponents.m128_f32[0] * m_kColumn1.m_vComponents.m128_f32[1]) +
+               m_kColumn3.m_vComponents.m128_f32[1] * m_kColumn1.m_vComponents.m128_f32[0];
+    float s5 = -(m_kColumn3.m_vComponents.m128_f32[0] * val2y) + val2x * m_kColumn3.m_vComponents.m128_f32[1];
+
+    float c0 = -(m_kColumn1.m_vComponents.m128_f32[2] * m_kColumn0.m_vComponents.m128_f32[3]) +
+               m_kColumn1.m_vComponents.m128_f32[3] * m_kColumn0.m_vComponents.m128_f32[2];
+    float c1 = val2w * m_kColumn0.m_vComponents.m128_f32[2] -
+               (*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[3]) * (float)(+val2z);
+    float c2 = -(m_kColumn3.m_vComponents.m128_f32[2] * m_kColumn0.m_vComponents.m128_f32[3]) +
+               m_kColumn3.m_vComponents.m128_f32[3] * m_kColumn0.m_vComponents.m128_f32[2];
+    float c3 = -((*(const volatile float*)&m_kColumn1.m_vComponents.m128_f32[3]) * (*(const volatile float*)&val2z)) +
+               val2w * m_kColumn1.m_vComponents.m128_f32[2];
+    float c4 = -(m_kColumn3.m_vComponents.m128_f32[2] * m_kColumn1.m_vComponents.m128_f32[3]) +
+               (*(const volatile float*)&m_kColumn3.m_vComponents.m128_f32[3]) * m_kColumn1.m_vComponents.m128_f32[2];
+    float c5 = -(m_kColumn3.m_vComponents.m128_f32[2] * (*(const volatile float*)&val2w)) +
+               (*(const volatile float*)&m_kColumn3.m_vComponents.m128_f32[3]) * (float)(double)val2z;
+
+    S00de8910_Work_b10903 w;
+    float det = (float)(s0)*c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0;
+    float invDet = 1.0f / det;
+
+    *(__m128*)&w.invDetVec = _mm_load_ss(&invDet);
+    if ((float)fabs(det) <= epsilon)
+    {
+        return 1;
+    }
+
+    w.adj.m_kColumn0.x = m_kColumn1.m_vComponents.m128_f32[1] * c5 - scalarIdentity(val2y) * c4 +
+                         m_kColumn3.m_vComponents.m128_f32[1] * c3;
+    w.adj.m_kColumn0.y = -(*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * c5 + val2y * c2 -
+                         m_kColumn3.m_vComponents.m128_f32[1] * c1;
+    w.adj.m_kColumn0.z = -m_kColumn1.m_vComponents.m128_f32[1] * c2 +
+                         (*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * c4 +
+                         m_kColumn3.m_vComponents.m128_f32[1] * scalarIdentity(c0);
+    w.adj.m_kColumn0.w = m_kColumn1.m_vComponents.m128_f32[1] * c1 -
+                         (*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * c3 - val2y * c0;
+
+    w.adj.m_kColumn1.x =
+        -m_kColumn1.m_vComponents.m128_f32[0] * c5 + val2x * c4 - m_kColumn3.m_vComponents.m128_f32[0] * c3;
+    w.adj.m_kColumn1.y =
+        m_kColumn0.m_vComponents.m128_f32[0] * c5 - val2x * c2 + m_kColumn3.m_vComponents.m128_f32[0] * c1;
+    w.adj.m_kColumn1.z = -m_kColumn0.m_vComponents.m128_f32[0] * c4 + m_kColumn1.m_vComponents.m128_f32[0] * c2 -
+                         m_kColumn3.m_vComponents.m128_f32[0] * c0;
+    w.adj.m_kColumn1.w =
+        m_kColumn0.m_vComponents.m128_f32[0] * c3 - m_kColumn1.m_vComponents.m128_f32[0] * c1 + val2x * c0;
+
+    w.adj.m_kColumn2.x =
+        m_kColumn1.m_vComponents.m128_f32[3] * s5 - val2w * s4 + m_kColumn3.m_vComponents.m128_f32[3] * s3;
+    w.adj.m_kColumn2.y =
+        -m_kColumn0.m_vComponents.m128_f32[3] * s5 + val2w * s2 - (float)(m_kColumn3.m_vComponents.m128_f32[3]) * s1;
+    w.adj.m_kColumn2.z = m_kColumn0.m_vComponents.m128_f32[3] * s4 - m_kColumn1.m_vComponents.m128_f32[3] * s2 +
+                         m_kColumn3.m_vComponents.m128_f32[3] * s0;
+    w.adj.m_kColumn2.w =
+        -m_kColumn0.m_vComponents.m128_f32[3] * s3 + m_kColumn1.m_vComponents.m128_f32[3] * s1 - val2w * s0;
+
+    w.adj.m_kColumn3.x = -m_kColumn1.m_vComponents.m128_f32[2] * s5 + zvalue(m_kColumn2) * s4 -
+                         m_kColumn3.m_vComponents.m128_f32[2] * s3;
+    w.adj.m_kColumn3.y = m_kColumn0.m_vComponents.m128_f32[2] * s5 - *(&m_kColumn2.m_vComponents.m128_f32[2]) * s2 +
+                         m_kColumn3.m_vComponents.m128_f32[2] * s1;
+    w.adj.m_kColumn3.z = -m_kColumn0.m_vComponents.m128_f32[2] * s4 + m_kColumn1.m_vComponents.m128_f32[2] * s2 -
+                         m_kColumn3.m_vComponents.m128_f32[2] * s0;
+    w.adj.m_kColumn3.w =
+        m_kColumn0.m_vComponents.m128_f32[2] * s3 - m_kColumn1.m_vComponents.m128_f32[2] * s1 + (float)(+val2z) * s0;
+
+    FUN_00de88a0(*(const S00de9140_SimdReal*)&w.invDetVec, *(const S00de9140_Matrix4*)&w.adj);
+    return 0;
+}
+
+extern "C"
+{
+    __m128 _mm_add_ps(__m128, __m128);
+    __m128 _mm_mul_ps(__m128, __m128);
+    __m128 _mm_sub_ss(__m128, __m128);
+    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
+    __m128 _mm_setr_ps(float, float, float, float);
+    void _mm_store_ss(float*, __m128);
+}
+
+
+class S00de92d0_SimdReal
+{
+  public:
+    __forceinline S00de92d0_SimdReal(const __m128& x) : m_vValue(x)
+    {}
+    __forceinline operator float() const
+    {
+        float s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+    __forceinline const __m128& getQuad() const
+    {
+        return m_vValue;
+    }
+
+  private:
+    __m128 m_vValue;
+};
+
+class S00de92d0_Vector4
+{
+  public:
+    __forceinline S00de92d0_Vector4()
+    {}
+    __forceinline void operator=(const S00de92d0_Vector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void set(float a, float b, float c, float d = 0)
+    {
+        m_vComponents = _mm_setr_ps(a, b, c, d);
+    }
+    __forceinline void setMul4(const S00de92d0_Vector4& a, const S00de92d0_Vector4& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const S00de92d0_Vector4& x, const S00de92d0_Vector4& y)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(x.m_vComponents, y.m_vComponents));
+    }
+    __forceinline void setBroadcast(const S00de92d0_Vector4& v, int i)
+    {
+        if (i == 0)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x00);
+        }
+        else if (i == 1)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x55);
+        }
+        else if (i == 2)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xaa);
+        }
+        else if (i == 3)
+        {
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+        }
+    }
+    __forceinline S00de92d0_SimdReal getSimdAt(int i) const
+    {
+        switch (i)
+        {
+        case 0:
+            return m_vComponents;
+        case 1:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+        case 2:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+        default:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
+        }
+    }
+    __forceinline const float& operator()(int i) const
+    {
+        return ((const float*)&m_vComponents)[i];
+    }
+    __m128 m_vComponents;
+};
+
+enum S00de92d0_Result
+{
+    S00de92d0_SUCCESS = 0,
+    S00de92d0_FAILURE = 1
+};
+
+class S00de92d0_Matrix3
+{
+  public:
+    S00de92d0_Vector4 m_kColumn0;
+    S00de92d0_Vector4 m_kColumn1;
+    S00de92d0_Vector4 m_kColumn2;
+
+    __forceinline S00de92d0_Matrix3()
+    {}
+    __forceinline S00de92d0_Vector4& getColumn(int x)
+    {
+        return (&m_kColumn0)[x];
+    }
+    __forceinline const S00de92d0_Vector4& getColumn(int x) const
+    {
+        return (&m_kColumn0)[x];
+    }
+    __forceinline void setRows(const S00de92d0_Vector4& r0, const S00de92d0_Vector4& r1, const S00de92d0_Vector4& r2)
+    {
+        getColumn(0).set(r0(0), r1(0), r2(0));
+        getColumn(1).set(r0(1), r1(1), r2(1));
+        getColumn(2).set(r0(2), r1(2), r2(2));
+    }
+    S00de92d0_Result FUN_00cd4f10(float epsilon);
+    __forceinline void multiplyVector(const S00de92d0_Vector4& v, S00de92d0_Vector4& resultOut) const
+    {
+        S00de92d0_Vector4 xb;
+        xb.setBroadcast(v, 0);
+        S00de92d0_Vector4 yb;
+        yb.setBroadcast(v, 1);
+        S00de92d0_Vector4 zb;
+        zb.setBroadcast(v, 2);
+
+        S00de92d0_Vector4 t0;
+        t0.setMul4(xb, m_kColumn0);
+        t0.addMul4(yb, m_kColumn1);
+        t0.addMul4(zb, m_kColumn2);
+
+        resultOut = t0;
+    }
+};
+
+class S00de92d0_GeometryProcessing
+{
+  public:
+    static bool __cdecl FUN_00de92d0(const S00de92d0_Vector4& p0, const S00de92d0_Vector4& p1,
+                                     const S00de92d0_Vector4& p2, S00de92d0_Vector4& intersection);
+};
+
+// @fnv 0x00de92d0
+bool __cdecl S00de92d0_GeometryProcessing::FUN_00de92d0(const S00de92d0_Vector4& p0, const S00de92d0_Vector4& p1,
+                                                        const S00de92d0_Vector4& p2, S00de92d0_Vector4& intersection)
+{
+    S00de92d0_Matrix3 m;
+    S00de92d0_Vector4 d;
+    d.set(-p0.getSimdAt(3), -p1.getSimdAt(3), -p2.getSimdAt(3), 0.0f);
+    m.setRows(p0, p1, p2);
+    if (m.FUN_00cd4f10(1.192092896e-07f) == S00de92d0_SUCCESS)
+    {
+        m.multiplyVector(d, intersection);
+        return true;
+    }
+    return false;
 }

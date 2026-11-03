@@ -4,6 +4,16 @@
 
 
 // @fnv 0x00d48640
+#include "fnv/decl/DbbOwner.h"
+#include "fnv/decl/FUN_00dba680_cls.h"
+#include "fnv/decl/FUN_00dba810_cls.h"
+#include "fnv/decl/ProviderWrapper.h"
+#include "fnv/decl/hkDataObjectNativeDBB7.h"
+#include "fnv/symbols_011b7000.h"
+#include <cstring>
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00d61a50_cls.h"
+#include "fnv/symbols_00d2c000.h"
 #include <new>
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/DBA7F0Ref.h"
@@ -1127,6 +1137,468 @@ volatile int g00d48950_out;
 void S00d48950_Caller()
 {
     g00d48950_out = FUN_00d48950(g00d48950_result, g00d48950_target, g00d48950_lookup, g00d48950_root);
+}
+
+extern "C" int __cdecl FUN_00d485a0(int, int, int, int, int);
+
+extern int DAT_010cf9b4;
+struct Lister
+{
+    const int* vtbl;
+    unsigned char f04;
+    short f06;
+    int f08;
+    void* f0c;
+};
+struct World
+{
+    void* vtbl;
+    unsigned char f04;
+    short f06;
+    int f08;
+    int f0c;
+    int f10;
+    int f14;
+    int f18;
+    int f1c;
+    int f20;
+    int f24;
+    int* method2(int*);
+};
+struct RefHolder
+{
+};
+struct Proxy
+{
+    void* vtbl;
+    short refs;
+};
+extern int DAT_010cf9c8;
+int __cdecl dispatch(Proxy*, int*, int, void*);
+static __declspec(noinline) int helper(int a, void* b, int* c)
+{
+    if (!a)
+        return 1;
+    Proxy p;
+    p.vtbl = &DAT_010cf9c8;
+    p.refs = 1;
+    return dispatch(&p, c, a, b);
+}
+// @fnv 0x00d485a0
+extern "C" int __cdecl FUN_00d485a0(int a1, int a2, int a3, int a4, int a5)
+{
+    Lister lister;
+    World world;
+    reinterpret_cast<::FUN_00dbb360_Class *>(&(world))->Initialize();
+    reinterpret_cast<::hkDataObjectNativeDBB7 *>(&(world))->SetContents((void *)(a1), (*(::hkClassDBB7 *)(a2)));
+    lister.f06 = 1;
+    lister.vtbl = &DAT_010cf9b4;
+    lister.f08 = a5;
+    lister.f0c = &world;
+    int* obj = world.method2(&a5);
+    int r = helper(a3, &lister, obj);
+    reinterpret_cast<::DBA7F0Ref *>((((RefHolder*)&a5)))->FUN_00dba7f0();
+    lister.vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
+    reinterpret_cast<::FUN_00dbb3f0::hkDataWorldNative *>(&(world))->FUN_00dbb3f0::hkDataWorldNative::~hkDataWorldNative();
+    return r;
+}
+static void FUN_00d48680(S00d48680_Obj* obj, S00d48680_Arr* arr);
+
+
+struct ByteBool
+{
+    char value;
+    operator bool() const
+    {
+        return value != 0;
+    }
+};
+struct VersionedDataBlock
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual ByteBool IsStreamValid() const;
+    virtual int read(void*, int);
+    virtual int skip(int);
+    virtual ByteBool marks() const;
+    virtual int mark(int);
+    virtual int rewind();
+    virtual ByteBool canSeek() const;
+    virtual int seek(int, int);
+    virtual int tell() const;
+};
+struct BufferAllocator
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void freeBuffer(void*, int);
+};
+struct TemporaryAllocator
+{
+    __forceinline BufferAllocator& get(void*)
+    {
+        return *(BufferAllocator*)FUN_00c85750()->heap;
+    }
+};
+struct BufferBase : S00d48680_Arr
+{
+    __forceinline BufferBase()
+    {
+        m_data = 0;
+        m_iElementCount = 0;
+        m_capFlags = 0x80000000;
+    }
+    __forceinline ~BufferBase()
+    {}
+    __forceinline int size() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline char* begin()
+    {
+        return m_data;
+    }
+    __forceinline int capacity() const
+    {
+        return m_capFlags & 0x3fffffff;
+    }
+    __forceinline void clear()
+    {
+        m_iElementCount = 0;
+    }
+    __forceinline void release(BufferAllocator& allocator)
+    {
+        clear();
+        if ((m_capFlags & 0x80000000u) == 0)
+            allocator.freeBuffer(m_data, capacity());
+        m_data = 0;
+        m_capFlags = 0x80000000;
+    }
+    __forceinline void reserve(BufferAllocator& allocator, int required)
+    {
+        if (required > capacity())
+        {
+            int grown = 2 * capacity();
+            ::FUN_00c908c0((::SpawnedObject *)(::S00d48680_Alloc *)((S00d48680_Alloc*)&allocator), (::SpawnedArray *)(::S00d48680_Arr *)(this), required > grown ? required : grown, 1);
+        }
+    }
+    __forceinline void resize(BufferAllocator& allocator, int count)
+    {
+        reserve(allocator, count);
+        m_iElementCount = count;
+    }
+    __forceinline char* expand(int count)
+    {
+        int old = m_iElementCount;
+        m_iElementCount = old + count;
+        return m_data + old;
+    }
+};
+struct Buffer : BufferBase
+{
+    __forceinline Buffer()
+    {}
+    __forceinline ~Buffer()
+    {
+        release(TemporaryAllocator().get(this));
+    }
+    __forceinline void reserve(int count)
+    {
+        BufferBase::reserve(TemporaryAllocator().get(this), count);
+    }
+    __forceinline void resize(int count)
+    {
+        BufferBase::resize(TemporaryAllocator().get(this), count);
+    }
+};
+struct OldLoader
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void* load(VersionedDataBlock&, const LoadFormat&, LoadError*);
+    static OldLoader& instance()
+    {
+        return *(OldLoader*)DAT_01269b74;
+    }
+};
+
+// @fnv 0x00d48760
+static __declspec(noinline) void* FUN_00d48760(VersionedDataBlock& input, const LoadFormat& format, LoadError* error,
+                                               const void* registry)
+{
+    if (format.kind == 2)
+    {
+        if (::FUN_00cb1290((const unsigned char *)(const void *)(&format.pointerSize), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) == 0)
+        {
+            if (reinterpret_cast<::S_00d49350 *>((void *)&(format.version))->Equals(((const char *)(::FUN_00dc0fb0()))))
+            {
+                Buffer bytes;
+                FUN_00d48680((S00d48680_Obj*)&input, &bytes);
+                return ::CreateResourceFromArray((void *)(bytes.begin()), (void *)(bytes.size()), (void *)(registry));
+            }
+        }
+        else
+        {
+            if (error)
+                error->set(3, "Wrong platform for packfile");
+            return 0;
+        }
+    }
+    return OldLoader::instance().load(input, format, error);
+}
+void FUN_00d48af0(void* stream, int* out) throw();
+void FUN_00d48af0(void* stream, int* out) throw();
+struct FormatInfo
+{
+    int type;
+    hkStringPtr version;
+    unsigned char layout[4];
+};
+struct StringOps
+{
+    unsigned int bits;
+    void FUN_00cb0c50(const char*, int);
+};
+struct HeapApi
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void freeBlock(void*, int);
+    template <class T> void freeBuffer(void* p, int count)
+    {
+        const int width = sizeof(T);
+        freeBlock(p, count * width);
+    }
+};
+struct HeapView
+{
+    int a;
+    int b;
+    int c;
+    HeapApi* heap;
+    HeapApi& temp()
+    {
+        return *heap;
+    }
+};
+struct TempAllocator
+{
+    HeapApi& get(void*)
+    {
+        return reinterpret_cast<HeapView*>(FUN_00c85750())->temp();
+    }
+};
+struct CharArrayBase
+{
+    char* data;
+    int size;
+    int flags;
+    const char* begin() const
+    {
+        return data;
+    }
+    int capacity() const
+    {
+        return flags & 0x3fffffff;
+    }
+    void clear()
+    {
+        size = 0;
+    }
+    void release(HeapApi& heap)
+    {
+        clear();
+        if ((flags & 0x80000000u) == 0)
+            heap.freeBuffer<char>(data, capacity());
+        data = 0;
+        flags = 0x80000000u;
+    }
+};
+struct CharArray : CharArrayBase
+{
+    void release()
+    {
+        CharArrayBase::release(TempAllocator().get(this));
+    }
+    ~CharArray()
+    {
+        release();
+    }
+};
+struct CharStorage : CharArray
+{
+    char storage[128];
+    ~CharStorage()
+    {}
+};
+struct BufferedText
+{
+    CharStorage array;
+    const char* cString() const
+    {
+        return array.begin();
+    }
+};
+inline const char* stringText(const hkStringPtr& s)
+{
+    return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(s.m_pcText) & ~1u);
+}
+void __cdecl FUN_00cb1280(void*, int, int);
+struct PackHeader
+{
+    PackHeader()
+    {
+        FUN_00cb1280(this, -1, sizeof(*this));
+        magic[0] = 0x57e0e057;
+        magic[1] = 0x10c0c010;
+        version[0] = 0;
+    }
+    int magic[2];
+    int userTag;
+    int fileVersion;
+    unsigned char layout[4];
+    int sections;
+    int contentSection;
+    int contentOffset;
+    int classSection;
+    int classOffset;
+    char version[16];
+    int reserved0;
+    int reserved1;
+};
+struct SmallBool
+{
+    char value;
+    SmallBool()
+    {}
+    SmallBool(bool b) : value((char)b)
+    {}
+    operator bool() const
+    {
+        return value != 0;
+    }
+};
+void __cdecl FUN_00cb1280(void*, int, int);
+inline unsigned int reverseWord(unsigned int word)
+{
+    union WordBytes
+    {
+        unsigned int word;
+        unsigned char byte[4];
+    } src, dst;
+    src.word = word;
+    dst.byte[0] = src.byte[3];
+    dst.byte[1] = src.byte[2];
+    dst.byte[2] = src.byte[1];
+    dst.byte[3] = src.byte[0];
+    return dst.word;
+}
+inline SmallBool __cdecl CheckMagicPair(unsigned int a, unsigned int b)
+{
+    return ((a == 0xcab00d1e && b == 0xd011face) || (reverseWord(a) == 0xcab00d1e && reverseWord(b) == 0xd011face));
+}
+const char* __cdecl FUN_00cb1130(const char*, const char*);
+int __cdecl FUN_00cb10d0(const char*);
+const char* __cdecl FUN_00cb1140(const char*, int);
+int __cdecl CallWithZeroMiddleArg(const char*, int);
+
+static __declspec(noinline) const char* FUN_00d48420(const char* p)
+{
+    while (*p && *p == ' ')
+        ++p;
+    return p;
+}
+static __declspec(noinline) int ParseQuotedValue(const char* text, const char* key, hkStringPtr& out)
+{
+    const char* first = FUN_00cb1130(text, key);
+    if (!first)
+        return 0;
+    first += FUN_00cb10d0(key);
+    first = FUN_00d48420(first);
+    if (*first != '=')
+        return 0;
+    ++first;
+    first = FUN_00d48420(first);
+    if (*first != '"')
+        return 0;
+    ++first;
+    const char* last = FUN_00cb1140(first, '"');
+    if (!last)
+        return 0;
+    reinterpret_cast<StringOps*>(&out)->FUN_00cb0c50(first, int(last - first));
+    return 1;
+}
+
+static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
+{
+    out.type = 0;
+    reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10(0);
+    ::FUN_00d2cab0();
+    char bytes[128];
+    std::memset(bytes, 0, 128);
+    reader->mark(128);
+    int count = reader->read(bytes, 128);
+    reader->rewind();
+    PackHeader baseline;
+    const PackHeader* binary = reinterpret_cast<const PackHeader*>(bytes);
+    const unsigned int* tag = reinterpret_cast<const unsigned int*>(bytes);
+    if (count >= 8 && CheckMagicPair(tag[0], tag[1]))
+    {
+        out.type = 4;
+    }
+    else if (count >= int(sizeof(PackHeader)) && binary->magic[0] == baseline.magic[0] &&
+             binary->magic[1] == baseline.magic[1])
+    {
+        out.type = 2;
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10(binary->version);
+        ::fnv_00d2caa0::FUN_00d2caa0(&out.layout, (void *)(binary->layout), 4);
+    }
+    else if (FUN_00cb1130(bytes, "<hkpackfile ") || FUN_00cb1130(bytes, "<hkpackfile>"))
+    {
+        out.type = 3;
+        BufferedText header;
+        reinterpret_cast<::FUN_00d61a50_cls *>(&(header))->FUN_00d61a50((int)(FUN_00cb1130(bytes, "<hkpackfile")));
+        hkStringPtr version;
+        new ((void *)(reinterpret_cast<StringOps*>(&version))) struct ::FUN_00cb0a60();
+        if (ParseQuotedValue(header.cString(), "classversion", version))
+        {
+            int v = CallWithZeroMiddleArg(stringText(version), 0);
+            switch (v)
+            {
+            case 1:
+                reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("Havok-3.0.0");
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                if (!ParseQuotedValue(header.cString(), "contentsversion", out.version))
+                    reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("Havok-3.1.0");
+                break;
+            default:
+                reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("error");
+                break;
+            }
+        }
+        else
+            reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10("Havok-3.0.0");
+        ::FUN_00cb0c00((int)(reinterpret_cast<StringOps*>(&version)));
+    }
+}
+// @fnv 0x00d48af0
+void FUN_00d48af0(void* stream, int* out) throw()
+{
+    detect(static_cast<VersionedDataBlock*>(stream), *reinterpret_cast<FormatInfo*>(out));
 }
 
 #include "generated/data/havok/common/serialize/util/hkserializeutil.inc"

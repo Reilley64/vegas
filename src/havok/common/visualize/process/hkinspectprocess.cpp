@@ -3,6 +3,13 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00ddb2f0
+#include "fnv/decl/DD8FE0_Stream.h"
+#include "fnv/decl/FUN_00d46f60_Class.h"
+#include "fnv/decl/FUN_00dd90d0_cls.h"
+#include "fnv/decl/fnv_00ddb550__FUN_00ddb550_cls.h"
+#include "fnv/decl/fnv_00ddb670__FUN_00ddb670.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -984,6 +991,415 @@ void* S00ddb450_Call(int type, char* data, const hkPathArray* path, int i, const
 {
     return FUN_00ddb450(member, data, path, type, i);
 }
-}  // namespace fnv_00ddb450
+}
+
+
+typedef unsigned __int64 Wide;
+struct InputArchive
+{
+    __forceinline Wide readWide()
+    {
+        Wide value;
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 8, 1);
+        return value;
+    }
+    __forceinline unsigned short readWord()
+    {
+        unsigned short value;
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 2, 1);
+        return value;
+    }
+    __forceinline unsigned int ReadTag()
+    {
+        unsigned int value;
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 4, 1);
+        return value;
+    }
+    __forceinline unsigned char readByte()
+    {
+        unsigned char value;
+        reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 1, 1);
+        return value;
+    }
+};
+struct HeapAllocator
+{
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void* allocate(int& bytes);
+    virtual void release(void* data, int bytes);
+    template <class T> __forceinline T* allocateItems(int& count)
+    {
+        int bytes = count * int(sizeof(T));
+        void* data = allocate(bytes);
+        count = bytes / int(sizeof(T));
+        return static_cast<T*>(data);
+    }
+};
+struct HeapRouter
+{
+    int unk00, unk04, unk08, unk0c;
+    HeapAllocator* allocator;
+    __forceinline HeapAllocator& heap()
+    {
+        return *allocator;
+    }
+};
+static __forceinline HeapAllocator& getHeap()
+{
+    return static_cast<HeapRouter*>(FUN_00c85750())->heap();
+}
+template <class T> struct ListBase
+{
+    T* data;
+    int size;
+    int capacity;
+    __forceinline ListBase() : data(0), size(0), capacity(0x80000000)
+    {}
+    __forceinline int GetLogicalSize() const
+    {
+        return size;
+    }
+    __forceinline int getCapacity() const
+    {
+        return capacity & 0x3fffffff;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return data[i];
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return data[i];
+    }
+    __forceinline T* begin()
+    {
+        return data;
+    }
+    __forceinline void owned(T* p, int n, int cap)
+    {
+        data = p;
+        size = n;
+        capacity = cap;
+    }
+    __forceinline void reserve(HeapAllocator& heap, int n)
+    {
+        if (getCapacity() < n)
+        {
+            int twice = 2 * getCapacity();
+            ::FUN_00c908c0((::SpawnedObject *)&(heap), (::SpawnedArray *)(void *)(this), n < twice ? twice : n, sizeof(T));
+        }
+    }
+    __forceinline void resize(HeapAllocator& heap, int n)
+    {
+        reserve(heap, n);
+        size = n;
+    }
+    __forceinline void free(HeapAllocator& heap)
+    {
+        size = 0;
+        if (!(capacity & 0x80000000))
+            heap.release(data, getCapacity() * int(sizeof(T)));
+        data = 0;
+        capacity = 0x80000000;
+    }
+    __forceinline T& expand(HeapAllocator& heap)
+    {
+        if (size == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)&(heap), (::AudioStream *)(void *)(this), sizeof(T));
+        return data[size++];
+    }
+    __forceinline void remove(int index)
+    {
+        --size;
+        if (size != index)
+        {
+            const int* source = reinterpret_cast<const int*>(data + size);
+            int* destination = reinterpret_cast<int*>(data + index);
+            unsigned int i = 0;
+            do
+            {
+                destination[i] = source[i];
+            } while (++i < sizeof(T) / 4);
+        }
+    }
+};
+template <class T> struct List : ListBase<T>
+{
+    __forceinline List()
+    {}
+    __forceinline explicit List(int n)
+    {
+        HeapAllocator& heap = getHeap();
+        T* p = n ? heap.allocateItems<T>(n) : 0;
+        int cap = n ? n : 0x80000000;
+        owned(p, n, cap);
+    }
+    __forceinline ~List()
+    {
+        free(getHeap());
+    }
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        resize(getHeap(), n);
+    }
+    __forceinline T& AllocatePair()
+    {
+        return expand(getHeap());
+    }
+};
+struct MemberInfo;
+struct TypeInfo
+{
+    const MemberInfo& FUN_00d46f20(int index) const;
+};
+struct MemberInfo
+{
+    const char* name;
+    const TypeInfo* type;
+    const void* enumeration;
+    unsigned char kind, subtype;
+    unsigned short count;
+    unsigned short flags, offset;
+    int GetTagValue() const;
+    const TypeInfo& FUN_00d86910() const;
+    __forceinline int getOffset() const
+    {
+        return offset;
+    }
+    __forceinline int getKind() const
+    {
+        return kind;
+    }
+    __forceinline int getSubtype() const
+    {
+        return subtype;
+    }
+};
+static __declspec(noinline) void* FUN_00ddb450(void* address, const List<unsigned short>& path, int depth, int kind,
+                                               int subtype, const MemberInfo* field)
+{
+    switch (kind)
+    {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 24:
+    case 30:
+    case 31:
+    case 32:
+        return address;
+    case 14:
+    case 15:
+    case 17:
+    case 18: {
+        int childIndex = path[depth + 1];
+        void* child = static_cast<char*>(address) + childIndex * 16;
+        return FUN_00ddb450(child, path, depth + 1, 12, 0, field);
+    }
+    case 20:
+        return 0;
+    case 22:
+    case 26: {
+        int childIndex = path[depth + 1];
+        List<char>* array = static_cast<List<char>*>(address);
+        void* child = array->begin() + childIndex * field->GetTagValue();
+        return FUN_00ddb450(child, path, depth + 1, field->subtype, 0, field);
+    }
+    case 25: {
+        const TypeInfo* type = field && field->type ? &field->FUN_00d86910() : 0;
+        if (type)
+        {
+            int childIndex = path[depth + 1];
+            const MemberInfo& child = type->FUN_00d46f20(childIndex);
+            return FUN_00ddb450(static_cast<char*>(address) + child.offset, path, depth + 1, child.kind, child.subtype,
+                                &child);
+        }
+        break;
+    }
+    }
+    return 0;
+}
+struct InspectInputBase
+{
+    virtual void FUN_00ddbae0(unsigned char);
+    int unk04;
+    InputArchive* input;
+    void* output;
+    void* display;
+    void* handler;
+};
+struct InspectConsumer : hkReferencedObject, InspectInputBase
+{
+    List<hkWrittenObjectQ> tracked;
+    void* context;
+    virtual void FUN_00ddbae0(unsigned char command);
+};
+// @fnv 0x00ddbae0
+void InspectConsumer::FUN_00ddbae0(unsigned char command)
+{
+    switch (command)
+    {
+    case 0x25: {
+        Wide objectID = input->readWide();
+        Wide classID = input->readWide();
+        unsigned short length = input->readWord();
+        List<unsigned short> path(length);
+        path.SetSizeAndGrow(length);
+        for (int i = 0; i < length; ++i)
+            path[i] = input->readWord();
+        unsigned int bytes = input->ReadTag();
+        List<unsigned char> payload(bytes);
+        payload.SetSizeAndGrow(bytes);
+        reinterpret_cast<::FUN_00dd90d0_cls *>((input))->FUN_00dd90d0((int)(payload.begin()));
+        if (objectID > 0 && classID > 0 && path.GetLogicalSize() > 0 && bytes > 0)
+        {
+            void* object = reinterpret_cast<void*>(unsigned int(objectID));
+            TypeInfo* type = reinterpret_cast<TypeInfo*>(unsigned int(classID));
+            const MemberInfo& field = (*(::MemberInfo *)(reinterpret_cast<::FUN_00d46f60_Class *>((type))->FUN_00d46f60(path[0])));
+            void* destination = FUN_00ddb450(static_cast<char*>(object) + field.getOffset(), path, 0, field.getKind(),
+                                             field.getSubtype(), &field);
+            if (destination)
+                ::FUN_00cb1260(destination, payload.begin(), bytes);
+        }
+        break;
+    }
+    case 0x23: {
+        Wide objectID = input->readWide();
+        Wide classID = input->readWide();
+        unsigned char flags = input->readByte();
+        if (objectID > 0 && classID > 0)
+        {
+            void* object = reinterpret_cast<void*>(unsigned int(objectID));
+            hkClassQ* type = reinterpret_cast<hkClassQ*>(unsigned int(classID));
+            List<hkWrittenObjectQ> visited;
+            bool recurse = static_cast<const void*>(type) == &g_0126cae8 || (flags & 2);
+            reinterpret_cast<hkInspectProcessQ*>(this)->FUN_00ddb770(
+                object, type, recurse, reinterpret_cast<hkArrQ<hkWrittenObjectQ>*>(&visited));
+            int count = tracked.GetLogicalSize();
+            int i = 0;
+            for (; i < count; ++i)
+                if (tracked[i].m_object == object)
+                    break;
+            bool present = i != count;
+            if (flags & 1)
+            {
+                if (!present)
+                {
+                    hkWrittenObjectQ& entry = tracked.AllocatePair();
+                    entry.m_class = type;
+                    entry.m_object = object;
+                }
+            }
+            else if (present)
+                tracked.remove(i);
+        }
+        break;
+    }
+    }
+}
+
+struct Heap_ddba
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void ReturnMemory(void* p, int nbytes) throw();
+};
+struct Router_ddba
+{
+    int unk00, unk04, unk08, unk0C;
+    Heap_ddba* m_pStreamAllocator;
+    Heap_ddba& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+    static Router_ddba& __cdecl FUN_00c85750() throw();
+};
+
+struct hkBool_ddba
+{
+    char m_cBooleanValue;
+    hkBool_ddba(bool b) throw() : m_cBooleanValue(b)
+    {}
+};
+
+template <class T> struct hkArray_ddba
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    hkArray_ddba() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline ~hkArray_ddba() throw()
+    {
+        Heap_ddba& heap = Router_ddba::FUN_00c85750().heap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+    }
+    __forceinline void SetSizeAndGrow(int n) throw()
+    {
+        Heap_ddba& heap = Router_ddba::FUN_00c85750().heap();
+        int cap = m_iCapacityState & 0x3fffffff;
+        if (cap < n)
+        {
+            int cap2 = 2 * cap;
+            ::FUN_00c908c0((::SpawnedObject *)(::Heap_ddba *)(&heap), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
+        }
+        m_iElementCount = n;
+    }
+};
+
+struct Pair_ddba
+{
+    void* m_kPointA;
+    void* m_kPointB;
+};
+
+struct Hit_ddba
+{
+    int a, b;
+};
+
+struct Query_ddba
+{
+    void FUN_00ddb770(void* a, void* b, hkBool_ddba flag, hkArray_ddba<Hit_ddba>& hits) throw();
+};
+
+struct Shape_ddba
+{
+    int unk00, unk04, unk08, unk0C, unk10, unk14;
+    Pair_ddba* m_pairs;
+    int m_numPairs;
+    int getNumPairs() const
+    {
+        return m_numPairs;
+    }
+    void FUN_00ddba20(int unused);
+};
+
+// @fnv 0x00ddba20
+void Shape_ddba::FUN_00ddba20(int unused)
+{
+    hkArray_ddba<Hit_ddba> hits;
+    for (int i = 0; i < getNumPairs(); i++)
+    {
+        hits.SetSizeAndGrow(0);
+        ((Query_ddba*)((char*)this - 8))->FUN_00ddb770(m_pairs[i].m_kPointA, m_pairs[i].m_kPointB, false, hits);
+    }
+}
 
 #include "generated/data/havok/common/visualize/process/hkinspectprocess.inc"

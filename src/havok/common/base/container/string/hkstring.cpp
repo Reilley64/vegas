@@ -2,6 +2,8 @@
 // src/havok/common/base/container/string/hkstring.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstring.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/B6266F0Array.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -317,3 +319,24 @@ const char* __cdecl FUN_00cb1130(const char* a, const char* b)
     return strstr(a, b);
 }
 }  // namespace fnv_00cb1130
+
+
+struct Cls;
+
+struct BoolGuard
+{
+    bool flag;
+    int Get(Cls* owner, int value);
+};
+
+struct Cls
+{
+    void FUN_00626420(int value);
+};
+
+// @fnv 0x00626420
+void Cls::FUN_00626420(int value)
+{
+    BoolGuard g = {};
+    reinterpret_cast<::B6266F0Array *>(this)->FUN_006266f0((::B6266F0Allocator *)(g.Get(this, value)), *(const ::B6266F0Entry *)nullptr);
+}

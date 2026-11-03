@@ -2,6 +2,10 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/fnv_00cc49b0__FUN_00cc49b0_class.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00e5c490_cls.h"
@@ -1578,6 +1582,42 @@ void __cdecl FUN_00c904e0()
         TlsSetValue(DAT_012681d8, 0);
         LeaveCriticalSection(&lock->m_kCriticalSection);
     }
+}
+struct FUN_00c90e60_cls
+{
+    int unk00;
+    float m_fBoundRadius;
+    float m_fOriginZ;
+    float m_fHalfRadius;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    __m128 m_kRadiusOverHeight;
+    __m128 m_kHeightOverRadius;
+    float m_fHeightOverRadius;
+    float m_fRadiusOverHeight;
+    float m_fHeightOverHalfRadius;
+    float m_fHalfRadiusOverHeight;
+    void FUN_00c90e60(float fRadius, float m_fGlyphExtent);
+};
+// @fnv 0x00c90e60
+void FUN_00c90e60_cls::FUN_00c90e60(float fRadius, float m_fGlyphExtent)
+{
+    m_fBoundRadius = fRadius;
+    float fHalfRadius = fRadius * 0.5;
+    m_fHalfRadius = fHalfRadius;
+    m_fOriginZ = m_fGlyphExtent;
+    m_fHeightOverRadius = m_fGlyphExtent / fRadius;
+    m_fHeightOverHalfRadius = m_fGlyphExtent / fHalfRadius;
+    m_fRadiusOverHeight = fRadius / m_fGlyphExtent;
+    m_fHalfRadiusOverHeight = fHalfRadius / m_fGlyphExtent;
+    m_kRadiusOverHeight = _mm_set1_ps(m_fRadiusOverHeight);
+    m_kHeightOverRadius = _mm_set1_ps(m_fHeightOverRadius);
 }
 
 #include "generated/data/havok/common/base/object/hkreferencedobject.inc"

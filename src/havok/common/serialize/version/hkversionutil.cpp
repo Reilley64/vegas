@@ -2,6 +2,16 @@
 // src/havok/common/serialize/version/hkversionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc0630.h"
+#include "fnv/decl/FUN_00dc1040__PackfileObjectCopier.h"
+#include "fnv/decl/FUN_00dc1680.h"
+#include "fnv/decl/FUN_00e028e0.h"
+#include "fnv/decl/FUN_00e04920_cls.h"
+#include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
+#include "fnv/symbols_00dc0000.h"
+#include "fnv/symbols_011b7000.h"
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/ClassMember_d869.h"
 #include "fnv/decl/D87370Obj.h"
@@ -441,4 +451,235 @@ class PackfileObjectCopier : public FUN_00e03120::hkObjectCopier
 PackfileObjectCopier::PackfileObjectCopier(const hkStructureLayoutDC10& kSrc, const hkStructureLayoutDC10& kDst)
     : FUN_00e03120::hkObjectCopier(kSrc, kDst, 0)
 {}
+}
+
+
+extern "C" void _ReadWriteBarrier();
+struct ByteBuffer
+{
+    ~ByteBuffer();
+    char* data;
+    int size;
+    int capacity;
+};
+struct IndexArray
+{
+    int* data;
+    int size;
+    int capacity;
+};
+struct ObjectEntry
+{
+    void* object;
+    int type;
+};
+struct ObjectArray
+{
+    ObjectEntry* data;
+    int size;
+    int capacity;
+};
+struct OffsetEntry
+{
+    int offset;
+    int type;
+};
+struct OffsetArray
+{
+    OffsetEntry* data;
+    int size;
+    int capacity;
+};
+struct CopyAllocator
+{
+    virtual void slot0() = 0;
+    virtual char* allocate(int size) = 0;
+    virtual void slot2() = 0;
+    virtual void slot3() = 0;
+    virtual void release(void* data, int size) = 0;
+};
+struct CopyRouter
+{
+    void* field00;
+    void* field04;
+    void* field08;
+    void* field0c;
+    CopyAllocator* allocator;
+};
+struct OffsetMap
+{
+    void* entries;
+    int size;
+    int capacity;
+    ~OffsetMap()
+    {
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((CopyRouter*)&FUN_00c85750())->allocator));
+        ::FUN_00a29680();
+    }
+};
+struct ByteBufferWriter
+{
+    void* vtable;
+    unsigned short flags;
+    unsigned short references;
+    void* writer;
+    ~ByteBufferWriter()
+    {
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(this)->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+};
+struct CopyOption
+{
+    int value;
+};
+struct Relocation
+{
+    int offset;
+    int target;
+};
+struct Import
+{
+    int offset;
+    void* name;
+    int field08;
+    int field0c;
+};
+struct Relocations
+{
+    Relocation* local;
+    int localCount;
+    int localCapacity;
+    Import* imports;
+    int importCount;
+    int importCapacity;
+    void* exports;
+    int exportCount;
+    int exportCapacity;
+    void* global;
+    int globalCount;
+    int globalCapacity;
+    void* extra;
+    ~Relocations()
+    {
+        reinterpret_cast<::FUN_00e028e0 *>(this)->FUN_00e028e0::~FUN_00e028e0();
+    }
+};
+struct CopyWriter : Object
+{
+    void* vtable;
+    int field04;
+    int field08;
+    int field0c;
+    int position;
+    int options;
+    ~CopyWriter()
+    {
+        FUN_00e03160();
+    }
+};
+struct CopyListener
+{
+    virtual void slot0() = 0;
+    virtual void slot1() = 0;
+    virtual void slot2() = 0;
+    virtual void slot3() = 0;
+    virtual void AddMemoryChunk(char*, int, int) = 0;
+    virtual void addImport(void*, char*) = 0;
+};
+
+struct ObjectInput
+{
+    ObjectArray* p;
+    ObjectInput(ObjectArray* q) : p(q)
+    {}
+};
+struct OffsetInput
+{
+    OffsetArray* p;
+    OffsetInput(OffsetArray* q) : p(q)
+    {}
+};
+// @fnv 0x00dc12c0
+static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput objectInput, OffsetInput offsetInput,
+                                               CopyListener* listener)
+{
+    ByteBuffer buffer;
+    buffer.data = 0;
+    buffer.size = 0;
+    buffer.capacity = (int)0x80000000u;
+    ByteBufferWriter stream;
+    new ((void *)&(stream)) ::FUN_00cc0630(&buffer);
+    Relocations fixups;
+    fixups.local = 0;
+    fixups.localCount = 0;
+    fixups.localCapacity = (int)0x80000000u;
+    fixups.imports = 0;
+    fixups.importCount = 0;
+    fixups.importCapacity = (int)0x80000000u;
+    fixups.exports = 0;
+    fixups.exportCount = 0;
+    fixups.exportCapacity = (int)0x80000000u;
+    fixups.global = 0;
+    fixups.globalCount = 0;
+    fixups.globalCapacity = (int)0x80000000u;
+    fixups.extra = 0;
+    OffsetMap map;
+    map.entries = 0;
+    map.size = 0;
+    map.capacity = -1;
+    CopyRouter* mapRouter = (CopyRouter*)&FUN_00c85750();
+    _ReadWriteBarrier();
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(map))->EnsureCapacity((int)(mapRouter->allocator), 0);
+    int i;
+    for (i = 0; i < indices->size; ++i)
+    {
+        int index = indices->data[i];
+        ObjectEntry* object = &objectInput.p->data[index];
+        CopyOption first;
+        new ((void *)&(first)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&DAT_011b7b88)));
+        CopyOption second;
+        new ((void *)&(second)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&DAT_011b7b88)));
+        CopyWriter writer;
+        new ((void *)&(writer)) ::FUN_00dc1040::PackfileObjectCopier((*(const ::hkStructureLayoutDC10 *)(&second)), (*(const ::hkStructureLayoutDC10 *)(&first)));
+        int type = offsetInput.p->data[index].type;
+        offsetInput.p->data[index].offset = buffer.size;
+        int entryOffset = buffer.size;
+        void* entryObject = object->object;
+        CopyRouter* entryRouter = (CopyRouter*)&FUN_00c85750();
+        _ReadWriteBarrier();
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(map))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(entryRouter->allocator)), (unsigned int)(entryObject), entryOffset);
+        reinterpret_cast<::FUN_00e04920_cls *>(&(writer))->FUN_00e04920((unsigned int)(object->object), object->type, (int)stream.writer, type, (unsigned int)(&fixups));
+    }
+    int size = buffer.size;
+    if (size)
+    {
+        CopyRouter* allocationRouter = (CopyRouter*)&FUN_00c85750();
+        _ReadWriteBarrier();
+        char* result = allocationRouter->allocator->allocate(size);
+        listener->AddMemoryChunk(result, buffer.size, 5);
+        ::FUN_00cb1260(result, buffer.data, buffer.size);
+        for (i = 0; i < indices->size; ++i)
+        {
+            offsetInput.p->data[indices->data[i]].offset += (int)result;
+        }
+        for (i = 0; i < fixups.localCount; ++i)
+        {
+            Relocation* relocation = &fixups.local[i];
+            *reinterpret_cast<char**>(result + relocation->offset) = result + relocation->target;
+        }
+        for (i = 0; i < fixups.importCount; ++i)
+        {
+            listener->addImport(fixups.imports[i].name, result + fixups.imports[i].offset);
+        }
+        return result;
+    }
+    return 0;
+}
+
+inline ByteBuffer::~ByteBuffer()
+{
+    CopyAllocator* allocator = ((CopyRouter*)&FUN_00c85750())->allocator;
+    size = 0;
+    if ((capacity & (int)0x80000000u) == 0)
+        allocator->release(data, capacity & 0x3fffffff);
 }

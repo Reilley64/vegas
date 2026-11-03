@@ -2,6 +2,10 @@
 // src/havok/animation/animation/animation/util/hkatrackanalysis.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkatrackanalysis.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0104d000.h"
+#include "fnv/symbols_0104e000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_simd.h"
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -664,6 +668,784 @@ void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, Statis
         pResult->rate = (float)result->total0 / (float)(pResult->field9 + (pResult->field7 + pResult->field8));
     else
         result->rate = 0.0f;
+}
+
+void FUN_00c908c0(hkMemoryAllocator_e50650& kAllocator, void* pkArray, int iNewCapacity, int iElementSize);
+
+extern unsigned char DAT_011be718[16];
+
+class TrackScalar
+{
+    __m128 number;
+
+  public:
+    TrackScalar()
+    {}
+    TrackScalar(const __m128& value) : number(value)
+    {}
+    TrackScalar(float value)
+    {
+        number = _mm_load_ss(&value);
+    }
+    operator float() const
+    {
+        float result;
+        _mm_store_ss(&result, number);
+        return result;
+    }
+    __forceinline const __m128& raw() const
+    {
+        return number;
+    }
+    __forceinline __m128 broadcast() const
+    {
+        return _mm_shuffle_ps(number, number, 0);
+    }
+};
+
+class TrackComparison
+{
+    __m128 lanes;
+    friend class TrackVector;
+
+  public:
+    enum Mask
+    {
+        XYZ = 7,
+        XYZW = 15
+    };
+    __forceinline int GetLaneMask(Mask wanted) const
+    {
+        return _mm_movemask_ps(lanes) & wanted;
+    }
+    __forceinline int allSet(Mask wanted) const
+    {
+        return (_mm_movemask_ps(lanes) & wanted) == wanted;
+    }
+};
+
+class TrackVector
+{
+    __m128 lanes;
+
+  public:
+    operator __m128() const
+    {
+        return lanes;
+    }
+    __forceinline __m128& raw()
+    {
+        return lanes;
+    }
+    __forceinline const __m128& raw() const
+    {
+        return lanes;
+    }
+    __forceinline void operator=(const TrackVector& other)
+    {
+        lanes = other.lanes;
+    }
+    __forceinline void operator=(const __m128& other)
+    {
+        raw() = other;
+    }
+    __forceinline float& operator()(int axis)
+    {
+        return reinterpret_cast<float*>(this)[axis];
+    }
+    __forceinline const float& operator()(int axis) const
+    {
+        return reinterpret_cast<const float*>(this)[axis];
+    }
+    __forceinline void fill(float value)
+    {
+        lanes = _mm_set_ps1(value);
+    }
+    __forceinline void fill3(float value)
+    {
+        lanes = _mm_set_ps1(value);
+    }
+    __forceinline void zero()
+    {
+        lanes = _mm_setzero_ps();
+    }
+    __forceinline void minimum(const TrackVector& left, const TrackVector& right)
+    {
+        lanes = _mm_min_ps(left.lanes, right.lanes);
+    }
+    __forceinline void maximum(const TrackVector& left, const TrackVector& right)
+    {
+        lanes = _mm_max_ps(left.lanes, right.lanes);
+    }
+    __forceinline void subtract(const TrackVector& left, const TrackVector& right)
+    {
+        lanes = _mm_sub_ps(left.lanes, right.lanes);
+    }
+    __forceinline void absolute(const TrackVector& other)
+    {
+        lanes = _mm_and_ps(other.lanes, DAT_01017d10);
+    }
+    __forceinline void multiply(const TrackScalar& factor, const TrackVector& other)
+    {
+        lanes = _mm_mul_ps(factor.broadcast(), other.lanes);
+    }
+    __forceinline void multiply(const TrackScalar& factor)
+    {
+        lanes = _mm_mul_ps(factor.broadcast(), lanes);
+    }
+    __forceinline void accumulate(const TrackScalar& factor, const TrackVector& other)
+    {
+        lanes = _mm_add_ps(lanes, _mm_mul_ps(factor.broadcast(), other.lanes));
+    }
+    __forceinline TrackScalar dot3(const TrackVector& other) const
+    {
+        __m128 products = _mm_mul_ps(lanes, other.lanes);
+        __m128 first = _mm_add_ss(_mm_shuffle_ps(products, products, 85), products);
+        return _mm_add_ss(_mm_shuffle_ps(products, products, 170), first);
+    }
+    __forceinline TrackScalar dot4(const TrackVector& other) const
+    {
+        __m128 products = _mm_mul_ps(lanes, other.lanes);
+        __m128 pairs = _mm_add_ps(_mm_shuffle_ps(products, products, 78), products);
+        __m128 exchanged = _mm_shuffle_ps(pairs, pairs, 177);
+        return _mm_add_ps(pairs, exchanged);
+    }
+    __forceinline TrackScalar lengthSquared3() const
+    {
+        return dot3(*this);
+    }
+    __forceinline TrackScalar lengthSquared4() const
+    {
+        return dot4(*this);
+    }
+    __forceinline TrackScalar reciprocalLength4() const
+    {
+        const __m128 half = _mm_set_ss(0.5f);
+        const __m128 three = _mm_set_ss(3.0f);
+        const __m128 zeroValue = _mm_set_ss(0.0f);
+        const __m128 squared = dot4(*this).raw();
+        const __m128 isZero = _mm_cmpeq_ss(squared, zeroValue);
+        const __m128 estimate = _mm_rsqrt_ss(squared);
+        const __m128 correction = _mm_mul_ss(_mm_mul_ss(half, estimate),
+                                             _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(squared, estimate), estimate)));
+        return _mm_andnot_ps(isZero, correction);
+    }
+    __forceinline void normalize4()
+    {
+        __m128 factor = reciprocalLength4().broadcast();
+        lanes = _mm_mul_ps(factor, lanes);
+    }
+    __forceinline TrackComparison compare(const TrackVector& other) const
+    {
+        TrackComparison result;
+        result.lanes = _mm_cmple_ps(lanes, other.lanes);
+        return result;
+    }
+    inline int equals3(const TrackVector& other, float tolerance) const
+    {
+        TrackVector difference;
+        difference.subtract(*this, other);
+        difference.absolute(difference);
+        TrackVector limit;
+        limit.fill3(tolerance);
+        return difference.compare(limit).allSet(TrackComparison::XYZ);
+    }
+    inline int equals4(const TrackVector& other, float tolerance) const
+    {
+        TrackVector difference;
+        difference.subtract(*this, other);
+        difference.absolute(difference);
+        TrackVector limit;
+        limit.fill(tolerance);
+        return difference.compare(limit).allSet(TrackComparison::XYZW);
+    }
+    inline int majorAxis() const
+    {
+        TrackVector magnitude;
+        magnitude.absolute(*this);
+        return magnitude(0) < magnitude(1) ? (magnitude(1) < magnitude(2) ? 2 : 1)
+                                           : (magnitude(0) < magnitude(2) ? 2 : 0);
+    }
+    static inline const TrackVector& zeroValue()
+    {
+        return reinterpret_cast<const TrackVector&>((*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)));
+    }
+};
+
+class TrackQuaternion
+{
+  public:
+    TrackVector vector;
+    inline TrackQuaternion()
+    {}
+    inline void operator=(const TrackQuaternion& other)
+    {
+        vector = other.vector;
+    }
+    inline const float& operator()(int axis) const
+    {
+        return vector(axis);
+    }
+    inline void identity()
+    {
+        vector.raw() = DAT_010c71b0;
+    }
+    inline void normalize()
+    {
+        vector.normalize4();
+    }
+};
+
+class TrackTransform
+{
+  public:
+    static __forceinline void* operator new(unsigned int, void* memory)
+    {
+        return memory;
+    }
+    TrackVector translation;
+    TrackQuaternion rotation;
+    TrackVector scale;
+    __forceinline const TrackVector& position() const
+    {
+        return translation;
+    }
+    __forceinline const TrackQuaternion& orientation() const
+    {
+        return rotation;
+    }
+    __forceinline const TrackVector& scaling() const
+    {
+        return scale;
+    }
+    __forceinline void zero()
+    {
+        translation.zero();
+        rotation.vector.zero();
+        scale.zero();
+    }
+    __forceinline void addWeighted(const TrackTransform& other, const TrackScalar& weight)
+    {
+        translation.accumulate(weight, other.translation);
+        scale.accumulate(weight, other.scale);
+        const TrackScalar signedWeight = rotation.vector.dot4(other.rotation.vector) < 0.0f ? -weight : weight;
+        rotation.vector.accumulate(signedWeight, other.rotation.vector);
+    }
+    __forceinline void finish(const TrackScalar& total)
+    {
+        if (fabsf(total) < 1.1920928955078125e-7f)
+        {
+            translation.zero();
+            rotation.identity();
+            scale.fill(1.0f);
+            return;
+        }
+        {
+            const TrackScalar reciprocal = TrackScalar(1.0f) / total;
+            translation.multiply(reciprocal);
+            scale.multiply(reciprocal);
+        }
+        {
+            const float rotationNorm = rotation.vector.lengthSquared4();
+            if (rotationNorm < 1.1920928955078125e-7f)
+                rotation.identity();
+            else
+                rotation.normalize();
+        }
+        {
+            const float scaleNorm = scale.lengthSquared3();
+            if (scaleNorm < 1.1920928955078125e-7f)
+                scale.fill(1.0f);
+        }
+    }
+};
+
+class TrackFlag
+{
+    char value;
+
+  public:
+    inline TrackFlag()
+    {}
+    inline TrackFlag(bool input) : value(static_cast<char>(input))
+    {}
+    inline operator bool() const
+    {
+        return value != 0;
+    }
+    inline TrackFlag& operator=(bool input)
+    {
+        value = static_cast<char>(input);
+        return *this;
+    }
+};
+
+template <class T> struct TrackArrayBase
+{
+    T* data;
+    int size;
+    int capacity;
+    __forceinline TrackArrayBase() : data(0), size(0), capacity(0x80000000)
+    {}
+    __forceinline ~TrackArrayBase()
+    {}
+    __forceinline T& operator[](int index)
+    {
+        return data[index];
+    }
+    __forceinline const T& operator[](int index) const
+    {
+        return data[index];
+    }
+    __forceinline int getCapacity() const
+    {
+        return capacity & 0x3fffffff;
+    }
+    __forceinline void reserve(hkMemoryAllocator_e50650& allocator, int count)
+    {
+        const int oldCapacity = getCapacity();
+        if (oldCapacity < count)
+        {
+            int doubled = 2 * oldCapacity;
+            int grown = count < doubled ? doubled : count;
+            FUN_00c908c0(allocator, this, grown, sizeof(T));
+        }
+    }
+    __forceinline void resize(hkMemoryAllocator_e50650& allocator, int count)
+    {
+        reserve(allocator, count);
+        for (int n = count; n < size; ++n)
+            data[n].~T();
+        for (int n = size; n < count; ++n)
+            new (data + n) T;
+        size = count;
+    }
+    __forceinline void clear()
+    {
+        for (int n = 0; n < size; ++n)
+            data[n].~T();
+        size = 0;
+    }
+    __forceinline void release(hkMemoryAllocator_e50650& allocator)
+    {
+        clear();
+        if ((capacity & 0x80000000) == 0)
+            allocator.ReturnMemory(data, getCapacity() * sizeof(T));
+        data = 0;
+        capacity = 0x80000000;
+    }
+};
+
+template <class T> struct TrackArray : TrackArrayBase<T>
+{
+    __forceinline TrackArray() : TrackArrayBase<T>()
+    {}
+    __forceinline ~TrackArray()
+    {
+        release(hkContainerHeapAllocator_e50650().get(this));
+    }
+    __forceinline void SetSizeAndGrow(int count)
+    {
+        resize(hkContainerHeapAllocator_e50650().get(this), count);
+    }
+};
+
+template <class T> __forceinline void releaseTrackStack(T* memory)
+{
+    static_cast<E50920Router*>(FUN_00c85750())->stackTop = reinterpret_cast<char*>(memory);
+}
+
+template <class T> struct TrackLocalArray : TrackArray<T>
+{
+    T* localMemory;
+    __forceinline TrackLocalArray(int count)
+    {
+        E50920Router* router = static_cast<E50920Router*>(FUN_00c85750());
+        char* memory = router->stackTop;
+        router->stackTop = memory + ((count * sizeof(T) + 127) & ~127);
+        this->data = reinterpret_cast<T*>(memory);
+        this->capacity = count | 0x80000000;
+        localMemory = this->data;
+    }
+    __forceinline ~TrackLocalArray()
+    {
+        if (localMemory == this->data)
+            this->clear();
+        releaseTrackStack(localMemory);
+    }
+};
+
+struct TrackInput
+{
+    const TrackTransform* transforms;
+    unsigned int tracks;
+    unsigned int frames;
+    TrackArray<float> absolute;
+    TrackArray<float> relative;
+    TrackArray<float> rotation;
+    TrackArray<float> scale;
+    TrackArray<TrackFlag> special;
+};
+
+struct TrackReport
+{
+    unsigned int staticPosition, staticRotation, staticScale, staticFloat;
+    unsigned int clearPosition, clearRotation, clearScale;
+    unsigned int dynamicPosition, dynamicRotation, dynamicScale, dynamicFloat;
+    unsigned int transformDofs, floatDofs;
+    float ratio;
+    TrackReport()
+        : staticPosition(0), staticRotation(0), staticScale(0), staticFloat(0), clearPosition(0), clearRotation(0),
+          clearScale(0), dynamicPosition(0), dynamicRotation(0), dynamicScale(0), dynamicFloat(0), transformDofs(0),
+          floatDofs(0), ratio(0.0f)
+    {}
+};
+
+static __forceinline void analyzeTransformTracks(const TrackInput& input, unsigned short* flags, float* output,
+                                                 const TrackFlag& report)
+{
+    TrackLocalArray<TrackTransform> means(input.tracks);
+    means.SetSizeAndGrow(input.tracks);
+    TrackVector extent;
+    extent.fill(0.0f);
+    {
+        TrackVector lower, upper;
+        lower.fill3(DAT_0104da48);
+        upper.fill3(DAT_0104e148);
+        for (unsigned int track = 0; track < input.tracks; ++track)
+        {
+            for (unsigned int frame = 0; frame < input.frames; ++frame)
+            {
+                TrackVector sample = input.transforms[frame * input.tracks + track].translation;
+                lower.minimum(lower, sample);
+                upper.maximum(upper, sample);
+            }
+        }
+        extent.subtract(upper, lower);
+    }
+    for (unsigned int track = 0; track < input.tracks; ++track)
+    {
+        const float absoluteTolerance = input.absolute[track];
+        float relativeTolerance = input.relative[track];
+        const float rotationTolerance = input.rotation[track];
+        const float scaleTolerance = input.scale[track];
+        float relativeSquared = relativeTolerance * relativeTolerance;
+        TrackFlag special = input.special[track];
+        const float hemisphereThreshold = 0.1f;
+        if (extent.lengthSquared3() * TrackScalar(relativeSquared) < 1.1920928955078125e-7f)
+        {
+            if (extent.lengthSquared3() > 0.0f)
+                relativeTolerance = 0.0f;
+        }
+        means[track].zero();
+        for (unsigned int frame = 0; frame < input.frames; ++frame)
+        {
+            const TrackTransform& sample = input.transforms[frame * input.tracks + track];
+            means[track].addWeighted(sample, 1.0f);
+        }
+        means[track].finish(float(input.frames));
+        TrackFlag positive = false;
+        TrackFlag negative = false;
+        if (special)
+        {
+            float maxW = DAT_0104e148;
+            float minW = DAT_0104da48;
+            for (unsigned int frame = 0; frame < input.frames; ++frame)
+            {
+                const float w = input.transforms[frame * input.tracks + track].orientation()(3);
+                if (w > maxW)
+                    maxW = w;
+                if (w < minW)
+                    minW = w;
+            }
+            positive = minW >= hemisphereThreshold;
+            negative = maxW <= -hemisphereThreshold;
+        }
+        const TrackVector& meanPosition = means[track].position();
+        const TrackVector& meanRotation = means[track].orientation().vector;
+        const TrackVector& meanScale = means[track].scaling();
+        {
+            unsigned short mask = 0x15;
+            if (relativeTolerance > 0.0f || absoluteTolerance > 0.0f)
+            {
+                for (unsigned int frame = 0; frame < input.frames; ++frame)
+                {
+                    const TrackTransform& sample = input.transforms[frame * input.tracks + track];
+                    TrackVector difference;
+                    difference.subtract(meanPosition, sample.translation);
+                    difference.absolute(difference);
+                    TrackVector absoluteLimit;
+                    absoluteLimit.fill3(absoluteTolerance);
+                    TrackVector relativeLimit;
+                    relativeLimit.multiply(relativeTolerance, extent);
+                    int absoluteMask = difference.compare(absoluteLimit).GetLaneMask(TrackComparison::XYZ);
+                    int relativeMask = difference.compare(relativeLimit).GetLaneMask(TrackComparison::XYZ);
+                    if (absoluteTolerance > 0.0f && absoluteMask != 7)
+                    {
+                        mask &= ~3;
+                        mask |= DAT_011be718[(~absoluteMask) & 7] << 5;
+                    }
+                    if (relativeTolerance > 0.0f && relativeMask != 7)
+                    {
+                        mask &= ~3;
+                        mask |= DAT_011be718[(~relativeMask) & 7] << 5;
+                    }
+                }
+            }
+            else
+            {
+                mask &= ~3;
+                mask |= 0x1c0;
+            }
+            if (rotationTolerance > 0.0f)
+            {
+                const TrackFlag markFourth = special && (positive || negative);
+                for (unsigned int frame = 0; frame < input.frames; ++frame)
+                {
+                    const TrackTransform& sample = input.transforms[frame * input.tracks + track];
+                    const TrackVector& rotation = sample.orientation().vector;
+                    if (!rotation.equals4(meanRotation, rotationTolerance))
+                    {
+                        TrackVector difference;
+                        difference.subtract(meanRotation, rotation);
+                        difference.absolute(difference);
+                        TrackVector limit;
+                        limit.fill(rotationTolerance);
+                        int matched = difference.compare(limit).GetLaneMask(TrackComparison::XYZW);
+                        if (markFourth)
+                            matched |= 8;
+                        if (matched != 15)
+                        {
+                            mask &= ~12;
+                            mask |= DAT_011be718[(~matched) & 15] << 9;
+                        }
+                    }
+                }
+                if (markFourth)
+                {
+                    if (positive)
+                        means[track].rotation.vector(3) = 2.0f;
+                    if (negative)
+                        means[track].rotation.vector(3) = -2.0f;
+                }
+            }
+            else
+            {
+                mask &= ~12;
+                mask |= 0x1e00;
+            }
+            if (scaleTolerance > 0.0f)
+            {
+                for (unsigned int frame = 0; frame < input.frames; ++frame)
+                {
+                    const TrackTransform& sample = input.transforms[frame * input.tracks + track];
+                    TrackVector difference;
+                    difference.subtract(meanScale, sample.scaling());
+                    difference.absolute(difference);
+                    TrackVector limit;
+                    limit.fill3(scaleTolerance);
+                    int matched = difference.compare(limit).GetLaneMask(TrackComparison::XYZ);
+                    if (scaleTolerance > 0.0f && matched != 7)
+                    {
+                        mask &= ~48;
+                        mask |= DAT_011be718[(~matched) & 7] << 12;
+                    }
+                }
+            }
+            else
+            {
+                mask &= ~48;
+                mask |= 0xe000;
+            }
+            flags[track] = mask;
+        }
+        if ((flags[track] & 3) == 1 &&
+            ((absoluteTolerance > 0.0f &&
+              meanPosition.equals3(TrackVector::zeroValue(), float(absoluteTolerance * 0.5))) ||
+             (relativeTolerance > 0.0f &&
+              meanPosition.equals3(TrackVector::zeroValue(),
+                                   float(extent(extent.majorAxis()) * 0.5 * relativeTolerance)))))
+        {
+            flags[track] = (flags[track] & ~3) | 2;
+            means[track].translation.zero();
+        }
+        if ((flags[track] & 12) == 4 && fabsf(meanRotation(3)) == 1.0f)
+        {
+            flags[track] = (flags[track] & ~12) | 8;
+            means[track].rotation.identity();
+        }
+        TrackVector unit;
+        unit = ::DAT_010c7170;
+        if ((flags[track] & 48) == 16 && meanScale.equals3(unit, float(scaleTolerance * 0.5)))
+        {
+            flags[track] = (flags[track] & ~48) | 32;
+            means[track].scale.fill(1.0f);
+        }
+    }
+    float* cursor = output;
+    for (unsigned int track = 0; track < input.tracks; ++track)
+    {
+        unsigned short mask = flags[track];
+        unsigned short bits = mask >> 6;
+        if ((mask & 3) != 2)
+        {
+            for (int axis = 0; axis < 3; ++axis)
+            {
+                int bit = bits & (1 << (2 - axis));
+                if (!bit)
+                {
+                    *cursor = means[track].translation(axis);
+                    ++cursor;
+                }
+            }
+        }
+        if (((mask >> 2) & 3) != 2)
+        {
+            for (int axis = 0; axis < 4; ++axis)
+            {
+                int bit = bits & (1 << (3 - axis + 3));
+                if (!bit)
+                {
+                    *cursor = means[track].rotation(axis);
+                    ++cursor;
+                }
+            }
+        }
+        if (((mask >> 4) & 3) != 2)
+        {
+            for (int axis = 0; axis < 3; ++axis)
+            {
+                int bit = bits & (1 << (2 - axis + 7));
+                if (!bit)
+                {
+                    *cursor = means[track].scale(axis);
+                    ++cursor;
+                }
+            }
+        }
+    }
+    if (report)
+    {
+        TrackReport stats;
+        ::FUN_00e4ead0(flags, input.tracks, (::StatisticsResult *)&(stats));
+        reinterpret_cast<::TrackStatistics *>(&(stats))->LogStatistics();
+    }
+}
+
+// @fnv 0x00e4f910
+void __cdecl FUN_00e4f910(TrackBuffers_e50650* buffers, void* masks, void* values, hkBool_e50650 report)
+{
+    analyzeTransformTracks(*reinterpret_cast<const TrackInput*>(buffers), static_cast<unsigned short*>(masks),
+                           static_cast<float*>(values), reinterpret_cast<const TrackFlag&>(report));
+}
+
+struct SplitVector
+{
+    float values[4];
+    const float& operator()(int i) const
+    {
+        return values[i];
+    }
+};
+struct SplitTransform
+{
+    SplitVector position, rotation, scale;
+    const SplitVector& getPosition() const
+    {
+        return position;
+    }
+    const SplitVector& getRotation() const
+    {
+        return rotation;
+    }
+    const SplitVector& getScale() const
+    {
+        return scale;
+    }
+};
+struct SplitInput
+{
+    const SplitTransform* transforms;
+    unsigned transformCount;
+    const float* floats;
+    unsigned floatCount;
+    unsigned frameCount;
+    unsigned paddedCount;
+    const unsigned short* masks;
+};
+
+// @fnv 0x00e4ecb0
+void FUN_00e4ecb0(const SplitInput& input, float* output)
+{
+    const unsigned frames = input.frameCount;
+    const unsigned width = frames > input.paddedCount ? frames : input.paddedCount;
+    const unsigned tracks = input.transformCount;
+    unsigned channel = 0;
+    for (unsigned track = 0; track < tracks; ++track)
+    {
+        const unsigned short mask = input.masks[track];
+        const unsigned short selected = mask >> 6;
+        if (!(mask & 3))
+        {
+            for (int component = 0; component < 3; ++component)
+            {
+                if (selected & (1 << (2 - component)))
+                {
+                    for (unsigned frame = 0; frame < frames; ++frame)
+                        output[channel * width + frame] =
+                            input.transforms[frame * tracks + track].getPosition()(component);
+                    const unsigned last = (frames - 1) * tracks + track;
+                    for (unsigned frame = frames; frame < width; ++frame)
+                        output[channel * width + frame] = input.transforms[last].getPosition()(component);
+                    ++channel;
+                }
+            }
+        }
+        if (!(mask & 12))
+        {
+            for (int component = 0; component < 4; ++component)
+            {
+                if (selected & (1 << (6 - component)))
+                {
+                    for (unsigned frame = 0; frame < frames; ++frame)
+                        output[channel * width + frame] =
+                            input.transforms[frame * tracks + track].getRotation()(component);
+                    const unsigned last = (frames - 1) * tracks + track;
+                    for (unsigned frame = frames; frame < width; ++frame)
+                        output[channel * width + frame] = input.transforms[last].getRotation()(component);
+                    ++channel;
+                }
+            }
+        }
+        if (!(mask & 48))
+        {
+            for (int component = 0; component < 3; ++component)
+            {
+                if (selected & (1 << (9 - component)))
+                {
+                    for (unsigned frame = 0; frame < frames; ++frame)
+                        output[channel * width + frame] =
+                            input.transforms[frame * tracks + track].getScale()(component);
+                    const unsigned last = (frames - 1) * tracks + track;
+                    for (unsigned frame = frames; frame < width; ++frame)
+                        output[channel * width + frame] = input.transforms[last].getScale()(component);
+                    ++channel;
+                }
+            }
+        }
+    }
+    for (unsigned track = 0; track < input.floatCount; ++track)
+    {
+        if (input.masks[input.transformCount + track] == 0)
+        {
+            for (unsigned frame = 0; frame < frames; ++frame)
+                output[channel * width + frame] = input.floats[frame * input.floatCount + track];
+            const unsigned last = (frames - 1) * input.floatCount + track;
+            for (unsigned frame = frames; frame < width; ++frame)
+                output[channel * width + frame] = input.floats[last];
+            ++channel;
+        }
+    }
 }
 
 #include "generated/data/havok/animation/animation/animation/util/hkatrackanalysis.inc"

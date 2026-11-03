@@ -2,6 +2,8 @@
 // src/havok/common/visualize/shape/hkdisplaycapsule.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycapsule.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_0104f000.h"
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_00d23000.h"
@@ -1225,4 +1227,25 @@ SimplexInfo* volatile g_simplexInfo;
 void invokeExamineActivePlanes()
 {
     FUN_00d23f50(*g_simplexInfo);
+}
+
+
+struct Plane
+{
+    __m128 m_vHitNormal;
+    __m128 m_kPoint;
+};
+
+// @fnv 0x00d23480
+static __declspec(noinline) hkBool* FUN_00d23480(hkBool* out, const __m128* p, const Plane* pl)
+{
+    __m128 m = _mm_mul_ps(_mm_sub_ps(*p, pl->m_kPoint), pl->m_vHitNormal);
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
+    float d;
+    _mm_store_ss(&d, s);
+    if (d >= DAT_0104ffb8)
+        out->m_cBooleanValue = 0;
+    else
+        out->m_cBooleanValue = 1;
+    return out;
 }

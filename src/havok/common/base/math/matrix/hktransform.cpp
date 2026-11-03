@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hktransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hktransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/Cls_c7f4e0.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
 #include "fnv/decl/CMatrixOps.h"
 #include "fnv/symbols_00cb2000.h"
@@ -403,4 +404,28 @@ unsigned char* FUN_00cb2160_cls::FUN_00cb2160(unsigned char* out, const FUN_00cb
 done:
     *(unsigned char volatile*)out = r;
     return out;
+}
+
+
+struct FUN_00cb2240_cls
+{
+    __m128 m_col[4];
+
+    void FUN_00cb2240(const __m128* __restrict a, const __m128* __restrict b);
+};
+
+// @fnv 0x00cb2240
+void FUN_00cb2240_cls::FUN_00cb2240(const __m128* __restrict a, const __m128* __restrict b)
+{
+    const __m128& c1 = a[1];
+    const __m128& c0 = a[0];
+    const __m128& c2 = a[2];
+    for (int i = 3; i >= 0; i--)
+    {
+        const __m128& v = b[i];
+        m_col[i] =
+            _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0), c0), _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), c1)),
+                       _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), c2));
+    }
+    m_col[3] = _mm_add_ps(a[3], m_col[3]);
 }

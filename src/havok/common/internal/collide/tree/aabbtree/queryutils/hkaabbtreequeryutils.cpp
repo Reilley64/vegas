@@ -2,6 +2,9 @@
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d1b000.h"
+#include "fnv/symbols_0104d000.h"
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00d9a4d0_Class.h"
 #include "fnv/decl/FUN_00d9a4e0_Obj.h"
 #include "fnv/decl/IdxStand_.h"
@@ -2200,6 +2203,643 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
             for (int j = 0; j < n; j++)
                 earlyHitFractionArray[rayIdx[j]] = collectors[j].m_fEarlyOutHitFraction(0);
         }
+    }
+}
+
+
+
+struct VectorQ
+{
+    __m128 m_vComponents;
+};
+
+struct AabbQ
+{
+    VectorQ m_kMinimumCorner;
+    VectorQ m_kMaximumCorner;
+
+    __forceinline void operator=(const AabbQ& o)
+    {
+        m_kMinimumCorner.m_vComponents = o.m_kMinimumCorner.m_vComponents;
+        m_kMaximumCorner.m_vComponents = o.m_kMaximumCorner.m_vComponents;
+    }
+};
+
+struct AabbTree
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    TreeNode* m_pTreeNode;
+    int unk14;
+    int unk18;
+    TreeNodeArray m_kNodeCollection;
+};
+
+struct ClosestCollector
+{
+    virtual void unk00();
+    virtual float processLeaf(const TreeNode* leaf);
+};
+
+struct HeapAllocator
+{
+    virtual void unk00();
+    virtual void unk04();
+    virtual void unk08();
+    virtual void unk0c();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+
+
+struct NodeStack
+{
+    TreeNode** m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    TreeNode* m_kStorage[128];
+
+    __forceinline NodeStack()
+    {
+        m_data = m_kStorage;
+        m_iElementCount = 0;
+        m_iCapacityState = 0x80000080;
+    }
+    __forceinline ~NodeStack()
+    {
+        _clearAndDeallocate(FUN_00c85750()->heap());
+    }
+
+    __forceinline int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline void _clearAndDeallocate(S_00d1bcb0_Allocator& alloc)
+    {
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            reinterpret_cast<HeapAllocator&>(alloc).ReturnMemory(m_data, getCapacity() * sizeof(TreeNode*));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline void _pushBack(S_00d1bcb0_Allocator& alloc, TreeNode* const& t)
+    {
+        if (m_iElementCount == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(TreeNode*));
+        hkConstructWithCopy(m_data + m_iElementCount, 1, t);
+        m_iElementCount++;
+    }
+    __forceinline void AddBack(TreeNode* const& t)
+    {
+        _pushBack(FUN_00c85750()->heap(), t);
+    }
+};
+
+// @fnv 0x00d1dbb0
+void __cdecl FUN_00d1dbb0(AabbTree* tree, const VectorQ& point, ClosestCollector* collector)
+{
+    TreeNode* root = tree->m_pTreeNode;
+    if (root)
+    {
+        float maxDist = ::DAT_0104da48;
+        NodeStack stack;
+        if (!root->isLeaf())
+        {
+            stack.AddBack(root);
+            _ReadWriteBarrier();
+            do
+            {
+                TreeNode* node = stack.m_data[stack.m_iElementCount - 1];
+                stack.m_iElementCount--;
+                if (!node->isLeaf())
+                {
+                    TreeNode* c0 = ((::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_children[0])));
+                    TreeNode* c1 = ((::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_children[1])));
+                    AabbQ a0;
+                    a0 = c0->m_kBounds;
+                    AabbQ a1;
+                    a1 = c1->m_kBounds;
+                    float d0 = ::FUN_00d1bad0((float *)(&a0), (float *)(&point));
+                    float d1 = ::FUN_00d1bad0((float *)(&a1), (float *)(&point));
+                    int mask = ((d0 < maxDist) ? 1 : 0) + ((maxDist > d1) ? 2 : 0);
+                    switch (mask & 3)
+                    {
+                    case 1:
+                        stack.AddBack(c0);
+                        break;
+                    case 2:
+                        stack.AddBack(c1);
+                        break;
+                    case 3:
+                        if (d0 < d1)
+                        {
+                            stack.AddBack(c1);
+                            stack.AddBack(c0);
+                        }
+                        else
+                        {
+                            stack.AddBack(c0);
+                            stack.AddBack(c1);
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    maxDist = collector->processLeaf(node);
+                    if (maxDist == 0.0f)
+                        break;
+                }
+            } while (stack.m_iElementCount);
+        }
+        else
+        {
+            collector->processLeaf(root);
+        }
+    }
+}class hkVector4D1C
+{
+  public:
+    __m128 m_vComponents;
+
+    inline hkVector4D1C& operator=(const hkVector4D1C& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+};
+
+struct hkAabbD1C
+{
+    hkVector4D1C m_kMinimumCorner;
+    hkVector4D1C m_kMaximumCorner;
+
+    bool overlaps(const hkAabbD1C& other) const
+    {
+        __m128 mins = _mm_cmple_ps(m_kMinimumCorner.m_vComponents, other.m_kMaximumCorner.m_vComponents);
+        __m128 maxs = _mm_cmple_ps(other.m_kMinimumCorner.m_vComponents, m_kMaximumCorner.m_vComponents);
+        return (_mm_movemask_ps(_mm_and_ps(mins, maxs)) & 7) == 7;
+    }
+};
+
+struct TreeNodeD1C
+{
+    hkAabbD1C m_kBounds;
+    union
+    {
+        unsigned short m_pChildAtom;
+        int m_data;
+    };
+    unsigned short m_flags;
+    unsigned short m_next;
+};
+
+class CollectorD1C
+{
+  public:
+    virtual void unk00();
+    virtual float GetHitDistance(TreeNodeD1C* pkNode);
+};
+
+struct hkArrayIntD1C
+{
+    int* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    static __forceinline void construct(int* where, int n, const int& e)
+    {
+        for (int i = 0; i < n; ++i)
+            where[i] = e;
+    }
+    int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    void AddBack(int e)
+    {
+        S_00d1bcb0_Allocator& alloc = FUN_00c85750()->heap();
+        if (m_iElementCount == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(int));
+        construct(m_data + m_iElementCount, 1, e);
+        m_iElementCount++;
+    }
+};
+
+struct TreeD1C
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    TreeNodeD1C* m_pTreeNode;
+    int unk14;
+    int unk18;
+    FUN_00d1bb40_Class m_kNodeCollection;
+
+    __forceinline int queryAll(const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits, int** ppiOut,
+                               int iMaxOut);
+};
+
+__forceinline int TreeD1C::queryAll(const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits,
+                                    int** ppiOut, int iMaxOut)
+{
+    TreeNodeD1C* pkNode = m_pTreeNode;
+    int iCount = 0;
+    if (pkCollector)
+    {
+        for (;;)
+        {
+            hkAabbD1C kNodeAabb;
+            kNodeAabb = pkNode->m_kBounds;
+            TreeNodeD1C* pkNext =
+                (pkNode->m_next != 0x7fff) ? (TreeNodeD1C*)m_kNodeCollection.FUN_00d1bb40(pkNode->m_next) : 0;
+            if (kAabb.overlaps(kNodeAabb))
+            {
+                if (!(pkNode->m_flags & 0x8000))
+                {
+                    pkNode = (TreeNodeD1C*)m_kNodeCollection.FUN_00d1bb40(pkNode->m_pChildAtom);
+                    continue;
+                }
+                if (pkCollector->GetHitDistance(pkNode) == 0.0f)
+                    return iCount;
+                iCount++;
+            }
+            pkNode = pkNext;
+            if (!pkNode)
+                break;
+        }
+
+        return iCount;
+    }
+    if (ppiOut)
+    {
+        for (;;)
+        {
+            hkAabbD1C kNodeAabb;
+            kNodeAabb = pkNode->m_kBounds;
+            TreeNodeD1C* pkNext =
+                (pkNode->m_next != 0x7fff) ? (TreeNodeD1C*)m_kNodeCollection.FUN_00d1bb40(pkNode->m_next) : 0;
+            if (kAabb.overlaps(kNodeAabb))
+            {
+                if (!(pkNode->m_flags & 0x8000))
+                {
+                    pkNode = (TreeNodeD1C*)m_kNodeCollection.FUN_00d1bb40(pkNode->m_pChildAtom);
+                    continue;
+                }
+                *(*ppiOut)++ = pkNode->m_data;
+                if (iCount >= iMaxOut)
+                    return iCount;
+                iCount++;
+            }
+            pkNode = pkNext;
+            if (!pkNode)
+                break;
+        }
+
+        return iCount;
+    }
+    if (pkHits)
+    {
+        for (;;)
+        {
+            hkAabbD1C kNodeAabb;
+            kNodeAabb = pkNode->m_kBounds;
+            TreeNodeD1C* pkNext =
+                (pkNode->m_next != 0x7fff) ? (TreeNodeD1C*)m_kNodeCollection.FUN_00d1bb40(pkNode->m_next) : 0;
+            if (kAabb.overlaps(kNodeAabb))
+            {
+                if (!(pkNode->m_flags & 0x8000))
+                {
+                    pkNode = (TreeNodeD1C*)m_kNodeCollection.FUN_00d1bb40(pkNode->m_pChildAtom);
+                    continue;
+                }
+                pkHits->AddBack(pkNode->m_data);
+                iCount++;
+            }
+            pkNode = pkNext;
+            if (!pkNode)
+                break;
+        }
+    }
+    return iCount;
+}
+
+// @fnv 0x00d1ce50
+int __cdecl FUN_00d1ce50(TreeD1C* pkTree, const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits,
+                         int** ppiOut, int iMaxOut)
+{
+    if (!pkTree->m_pTreeNode)
+        return 0;
+    return pkTree->queryAll(kAabb, pkCollector, pkHits, ppiOut, iMaxOut);
+}
+
+struct Node
+{
+    __m128 m_kMinimumCorner;
+    __m128 m_kMaximumCorner;
+    unsigned int m_child0;
+    unsigned int m_child1;
+    unsigned int m_flags;
+    unsigned int unk2c;
+};
+
+struct NodeArr
+{
+    Node* m_data;
+};
+
+struct Tree
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    Node* m_pTreeNode;
+    int unk14;
+    int unk18;
+    NodeArr m_kNodeCollection;
+};
+
+struct Collider
+{
+    virtual void v0();
+    virtual bool collide(Node* a, Node* b);
+};
+
+struct Pair
+{
+    Node* a;
+    Node* b;
+};
+
+struct HkAllocator
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void ReturnMemory(void* p, int n);
+};
+
+
+struct Stack
+{
+    Pair* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    Pair m_kStorage[64];
+
+    __forceinline void init()
+    {
+        m_data = m_kStorage;
+        m_iElementCount = 0;
+        m_iCapacityState = 0x80000040;
+    }
+
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        S_00d1bcb0_Router* router = FUN_00c85750();
+        S_00d1bcb0_Allocator* alloc = router->m_pStreamAllocator;
+        int cap = m_iCapacityState & 0x3fffffff;
+        if (cap < n)
+        {
+            int newCap = cap * 2;
+            if (n >= newCap)
+                newCap = n;
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newCap, (int)sizeof(Pair));
+        }
+        m_iElementCount = n;
+    }
+
+    __forceinline void release()
+    {
+        S_00d1bcb0_Router* router = FUN_00c85750();
+        HkAllocator* alloc = (HkAllocator*)router->m_pStreamAllocator;
+        int flags = m_iCapacityState;
+        m_iElementCount = 0;
+        if ((flags & 0x80000000) == 0)
+            alloc->ReturnMemory(m_data, (flags & 0x3fffffff) * (int)sizeof(Pair));
+    }
+};
+
+// @fnv 0x00d1d890
+int FUN_00d1d890(Tree* treeA, Tree* treeB, Collider* cb)
+{
+    Node* rootA = treeA->m_pTreeNode;
+    Node* rootB = treeB->m_pTreeNode;
+    if (rootA && rootB)
+    {
+        int iAllocationSize = 64;
+        Stack stack;
+        stack.init();
+        stack.SetSizeAndGrow(iAllocationSize);
+        stack.m_data[0].a = rootA;
+        stack.m_data[0].b = rootB;
+        int index = 1;
+
+        do
+        {
+            // Five named temps: VC9 sorts the cmpleps pair by symbol id.
+            int p0 = index;
+            int p1 = p0;
+            int p2 = p1;
+            int p3 = p2;
+            int p4 = p3;
+            index = p4;
+            Node* nodeA = stack.m_data[index - 1].a;
+            Node* nodeB = stack.m_data[index - 1].b;
+            index--;
+            if (index > iAllocationSize - 4)
+            {
+                iAllocationSize *= 2;
+                stack.SetSizeAndGrow(iAllocationSize);
+            }
+
+            unsigned int aLeaf = nodeA->m_flags & 0x80000000u;
+            unsigned int bLeaf = nodeB->m_flags & 0x80000000u;
+
+            if (nodeA == nodeB)
+            {
+                if (aLeaf)
+                    continue;
+
+                Node* c0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child0)));
+                _mm_prefetch((const char*)c0, _MM_HINT_NTA);
+                Node* c1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child1)));
+                _mm_prefetch((const char*)c1, _MM_HINT_NTA);
+                stack.m_data[index].a = c0;
+                stack.m_data[index].b = c0;
+                index++;
+                stack.m_data[index].a = c0;
+                stack.m_data[index].b = c1;
+                index++;
+                stack.m_data[index].a = c1;
+                stack.m_data[index].b = c1;
+                index++;
+            }
+            else
+            {
+                __m128 cLo = _mm_cmple_ps(nodeA->m_kMinimumCorner, nodeB->m_kMaximumCorner);
+                __m128 cHi = _mm_cmple_ps(nodeB->m_kMinimumCorner, nodeA->m_kMaximumCorner);
+                if ((_mm_movemask_ps(_mm_and_ps(cLo, cHi)) & 7) != 7)
+                    continue;
+
+                if (aLeaf)
+                {
+                    if (bLeaf)
+                    {
+                        if (cb->collide(nodeA, nodeB))
+                            break;
+                    }
+                    else
+                    {
+                        Node* c0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child0)));
+                        Node* c1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child1)));
+                        stack.m_data[index].a = nodeA;
+                        stack.m_data[index].b = c0;
+                        _mm_prefetch((const char*)c0, _MM_HINT_NTA);
+                        index++;
+                        stack.m_data[index].a = nodeA;
+                        stack.m_data[index].b = c1;
+                        _mm_prefetch((const char*)c1, _MM_HINT_NTA);
+                        index++;
+                    }
+                }
+                else if (bLeaf)
+                {
+                    Node* c0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child0)));
+                    Node* c1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child1)));
+                    stack.m_data[index].a = c0;
+                    stack.m_data[index].b = nodeB;
+                    _mm_prefetch((const char*)c0, _MM_HINT_NTA);
+                    index++;
+                    stack.m_data[index].a = c1;
+                    stack.m_data[index].b = nodeB;
+                    _mm_prefetch((const char*)c1, _MM_HINT_NTA);
+                    index++;
+                }
+                else
+                {
+                    Node* a0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child0)));
+                    _mm_prefetch((const char*)a0, _MM_HINT_NTA);
+                    Node* a1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeA->m_kNodeCollection))->FUN_00d9a4c0(nodeA->m_child1)));
+                    _mm_prefetch((const char*)a1, _MM_HINT_NTA);
+                    Node* b0 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child0)));
+                    _mm_prefetch((const char*)b0, _MM_HINT_NTA);
+                    Node* b1 = ((::Node *)(reinterpret_cast<::IdxStand_ *>(&(treeB->m_kNodeCollection))->FUN_00d9a4c0(nodeB->m_child1)));
+                    _mm_prefetch((const char*)b1, _MM_HINT_NTA);
+                    stack.m_data[index].a = a0;
+                    stack.m_data[index].b = b0;
+                    index++;
+                    stack.m_data[index].a = a0;
+                    stack.m_data[index].b = b1;
+                    index++;
+                    stack.m_data[index].a = a1;
+                    stack.m_data[index].b = b0;
+                    index++;
+                    stack.m_data[index].a = a1;
+                    stack.m_data[index].b = b1;
+                    index++;
+                }
+            }
+        } while (index);
+
+        stack.release();
+    }
+    return 0;
+}struct BoundVector
+{
+    __m128 value;
+    __forceinline BoundVector(__m128 a) : value(a)
+    {}
+};
+
+struct RayTree
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    FUN_00d1bb40_Class nodes;
+};
+
+
+// @fnv 0x00d1ca00
+void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* rayBundle, RayCollector** collectors,
+                  const float* maxDistances)
+{
+    __m128 maxT = _mm_setr_ps(maxDistances[0], maxDistances[1], maxDistances[2], maxDistances[3]);
+
+    for (;;)
+    {
+        BoundVector bounds[2] = {node->m_kMinimumCorner, node->m_kMaximumCorner};
+
+        Node* nextNode;
+        if (node->m_siblingIndex != 0x7fff)
+            nextNode = (Node*)tree->nodes.FUN_00d1bb40(node->m_siblingIndex);
+        else
+            nextNode = 0;
+
+        __m128 minSplat[3];
+        __m128 maxSplat[3];
+
+        maxSplat[0] = _mm_shuffle_ps(bounds[1].value, bounds[1].value, 0);
+        maxSplat[1] = _mm_shuffle_ps(bounds[1].value, bounds[1].value, 0x55);
+        maxSplat[2] = _mm_shuffle_ps(bounds[1].value, bounds[1].value, 0xaa);
+
+        minSplat[0] = _mm_shuffle_ps(bounds[0].value, bounds[0].value, 0);
+        minSplat[1] = _mm_shuffle_ps(bounds[0].value, bounds[0].value, 0x55);
+        minSplat[2] = _mm_shuffle_ps(bounds[0].value, bounds[0].value, 0xaa);
+
+        __m128 fNearT[3];
+        __m128 fFarT[3];
+
+        for (int i = 0; i < 3; ++i)
+        {
+            __m128 t0 =
+                _mm_mul_ps(_mm_sub_ps(minSplat[i], rayBundle->m_vRayOrigins[i]), rayBundle->m_vInverseDirection[i]);
+            __m128 t1 =
+                _mm_mul_ps(_mm_sub_ps(maxSplat[i], rayBundle->m_vRayOrigins[i]), rayBundle->m_vInverseDirection[i]);
+            fNearT[i] = _mm_min_ps(t0, t1);
+            fFarT[i] = _mm_max_ps(t0, t1);
+        }
+
+        int activeRays = rayBundle->m_activeRays;
+        __m128 tEnter = _mm_max_ps(_mm_max_ps(_mm_max_ps(fNearT[0], fNearT[1]), fNearT[2]), (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)));
+        __m128 tExit = fFarT[0];
+        tExit = _mm_min_ps(tExit, fFarT[1]);
+        tExit = _mm_min_ps(tExit, fFarT[2]);
+        tExit = _mm_min_ps(tExit, maxT);
+
+        __m128 mask = ::DAT_01268460[activeRays];
+        __m128 cmp = _mm_and_ps(_mm_cmplt_ps(tEnter, tExit), mask);
+        int hitMask = _mm_movemask_ps(cmp);
+
+        if (activeRays & hitMask)
+        {
+            if ((node->m_flags & 0x8000) == 0)
+            {
+                node = (Node*)tree->nodes.FUN_00d1bb40(node->m_childIndex);
+                continue;
+            }
+
+            for (int r = 0; r < 4; ++r)
+            {
+                if ((*reinterpret_cast<const int (*)[]>(&::DAT_010c92e0))[r] & hitMask)
+                {
+                    ((float*)&maxT)[r] = collectors[r]->GetHitDistance(node);
+                }
+            }
+        }
+
+        if (nextNode == endNode)
+            break;
+        node = nextNode;
     }
 }
 

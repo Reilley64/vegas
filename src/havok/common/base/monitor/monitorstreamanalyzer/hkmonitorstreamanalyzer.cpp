@@ -4,6 +4,13 @@
 
 // Returns the smaller of the two float arguments.
 // @fnv 0x00e0c260
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/decl/S00e0ee00_Analyzer.h"
+#include "fnv/decl/fnv_00e0d0a0__Owner.h"
+#include "fnv/decl/fnv_00e10930__S_00e10930_Foo.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00e10000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -4560,6 +4567,595 @@ static __declspec(noinline) void FUN_00e0cec0(float start, float step, int axis,
         t += step;
         --n;
     }
+}
+
+
+static __declspec(noinline) int FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
+                                             float value, S00e0e4e0_Info* info);
+namespace NodeTickSupport {
+
+template <class T> struct NodeTickArrayBase
+{
+    T* data;
+    int size;
+    int flags;
+    __forceinline T& operator[](int index)
+    {
+        return data[index];
+    }
+    __forceinline T& back()
+    {
+        return data[size - 1];
+    }
+    __forceinline int GetLogicalSize() const
+    {
+        return size;
+    }
+    __forceinline int capacity() const
+    {
+        return flags & 0x3fffffff;
+    }
+    __forceinline void clear()
+    {
+        size = 0;
+    }
+};
+template <class T> struct NodeTickArray : NodeTickArrayBase<T>
+{
+    __forceinline NodeTickArray()
+    {
+        data = 0;
+        size = 0;
+        flags = 0x80000000;
+    }
+    __forceinline void reserveExactly(int count)
+    {
+        S_e0ce00_Alloc& alloc = FUN_00c85750()->heap();
+        if (capacity() < count)
+            ::FUN_00c908c0((::SpawnedObject *)(::S_e0ce00_Alloc *)(&alloc), (::SpawnedArray *)(void *)(this), count, sizeof(T));
+    }
+    __forceinline ~NodeTickArray()
+    {
+        S_e0ce00_Alloc& alloc = FUN_00c85750()->heap();
+        clear();
+        if ((flags & 0x80000000u) == 0)
+            alloc.v10(data, capacity() * sizeof(T));
+        data = 0;
+        flags = 0x80000000;
+    }
+};
+
+}
+
+// @fnv 0x00e0da00
+__declspec(noinline) int __cdecl FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
+                                              float value, S00e0e4e0_Info* info)
+{
+    float step = range / height;
+    NodeTickSupport::NodeTickArray<MonNode*> samples;
+    samples.reserveExactly(height);
+    MonNode* result = 0;
+    const MonNodeList& roots = (const MonNodeList&)nodes;
+    if (roots[row]->m_children.GetLogicalSize() > 0)
+    {
+        samples.clear();
+        int axis = info->unk0c == 0 ? info->unk04 : info->unk08;
+        ::FUN_00e0cec0(value, step, axis, reinterpret_cast<S00e0e4e0_Node*>(roots[row]), height,
+                       reinterpret_cast<S00e0e4e0_PArr*>(&samples));
+        int size = samples.GetLogicalSize();
+        if (col < size)
+            result = samples[col];
+    }
+    return (int)result;
+}
+
+struct Se0e0c0_Allocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+void* __cdecl AllocateWithHeader(Se0e0c0_Allocator* alloc, int numBytes);
+
+struct Se0e0c0_Heap
+{
+    __forceinline Se0e0c0_Allocator& get(const void*)
+    {
+        return *(Se0e0c0_Allocator*)&FUN_00c85750()->heap();
+    }
+};
+
+template <typename T> struct Se0e0c0_ArrayBase
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+};
+template <typename T> struct Se0e0c0_Array : Se0e0c0_ArrayBase<T>
+{
+    __forceinline Se0e0c0_Array()
+    {
+        this->m_data = 0;
+        this->m_iElementCount = 0;
+        this->m_iCapacityState = 0x80000000;
+    }
+    __forceinline ~Se0e0c0_Array()
+    {
+        Se0e0c0_Allocator& alloc = Se0e0c0_Heap().get(this);
+        this->m_iElementCount = 0;
+        if ((this->m_iCapacityState & 0x80000000) == 0)
+        {
+            alloc.ReturnMemory(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(T));
+        }
+    }
+};
+
+struct Se0e0c0_Bool
+{
+    char m_cBooleanValue;
+    __forceinline Se0e0c0_Bool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    __forceinline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+
+struct Se0e0c0_Dummy;
+struct Se0e0c0_Pair
+{
+    unsigned long key;
+    unsigned long val;
+};
+struct Se0e0c0_MapBase
+{
+    Se0e0c0_Pair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+    __forceinline Se0e0c0_MapBase() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
+    {}
+    int get(unsigned long key, unsigned long* out) const;
+    int insert(Se0e0c0_Allocator& alloc, unsigned long key, unsigned long val);
+    __forceinline Se0e0c0_Dummy* GetFirstIterator() const
+    {
+        int i;
+        for (i = 0; i <= m_iPairCount; ++i)
+        {
+            if (m_kPrimitiveElement[i].key != (unsigned long)-1)
+                break;
+        }
+        return (Se0e0c0_Dummy*)i;
+    }
+    __forceinline Se0e0c0_Dummy* getNext(Se0e0c0_Dummy* it) const
+    {
+        int i = (int)it;
+        for (i += 1; i <= m_iPairCount; ++i)
+        {
+            if (m_kPrimitiveElement[i].key != (unsigned long)-1)
+                break;
+        }
+        return (Se0e0c0_Dummy*)i;
+    }
+    __forceinline Se0e0c0_Bool isValid(Se0e0c0_Dummy* it) const
+    {
+        int i = (int)it;
+        return Se0e0c0_Bool(i <= m_iPairCount);
+    }
+};
+struct Se0e0c0_PointerMap : Se0e0c0_MapBase
+{
+    __forceinline Se0e0c0_PointerMap()
+    {
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(Se0e0c0_Heap().get(this)), 0);
+    }
+    __forceinline ~Se0e0c0_PointerMap()
+    {
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(Se0e0c0_Heap().get(this)));
+        ::FUN_00a29680();
+    }
+};
+
+struct Se0e0c0_FrameInfo
+{
+    const char* m_pHeading;
+    int m_iColor;
+    int m_iTimer0;
+    unsigned int m_uiTimer1;
+    float m_fStartTime;
+    float m_fEndTime;
+    int m_uiThreadId;
+    int m_iTimer0Index;
+    int m_iTimer1Index;
+};
+struct Se0e0c0_Node
+{
+    float m_uiFilterValue[8];
+    unsigned short m_uiItemCount[8];
+    Se0e0c0_ArrayBase<Se0e0c0_Node*> m_children;
+    double m_dValue;
+    Se0e0c0_Node* m_next;
+    const char* m_name;
+};
+struct Se0e0c0_ColorPair
+{
+    const char* m_kColorName;
+    unsigned int m_kDiffuseColor;
+};
+struct Se0e0c0_ColorTable
+{
+    void* vtbl;
+    int m_refs;
+    Se0e0c0_ArrayBase<Se0e0c0_ColorPair> m_kColorPairs;
+};
+struct Se0e0c0_Input
+{
+    int m_iValueAt00;
+    int m_iFrameCount;
+    int m_iValueAt08;
+    int m_iValueAt0C;
+    int m_iValueAt10;
+    int m_iValueAt14;
+    float m_fValueAt18;
+    float m_fValueAt1C;
+    Se0e0c0_Bool m_bValueAt20;
+    Se0e0c0_ColorTable* m_pColorTable;
+};
+struct Se0e0c0_SampleInfo
+{
+    float m_fValueAt00;
+};
+
+static void __cdecl FUN_00e0daf0(const Se0e0c0_FrameInfo& info, int frame,
+                                 const Se0e0c0_ArrayBase<Se0e0c0_Node*>& nodes, int* texture, int height,
+                                 Se0e0c0_ColorTable* colorTable, int rowStride, int width, float maxFrameTime,
+                                 float startTime, Se0e0c0_PointerMap& unknownTimers);
+
+// @fnv 0x00e0e0c0
+void __cdecl FUN_00e0e0c0(const Se0e0c0_ArrayBase<Se0e0c0_Node*>& nodes, const Se0e0c0_Input& input,
+                          Se0e0c0_ArrayBase<Se0e0c0_Array<Se0e0c0_FrameInfo> >& frameInfos, int*& texture, int& height,
+                          Se0e0c0_SampleInfo* sampleInfo)
+{
+    int numThreads = nodes.GetLogicalSize();
+    if (numThreads < 1)
+    {
+        return;
+    }
+    float maxFrameTime = -1.0f;
+    Se0e0c0_Array<float> startTimes;
+    FUN_00e0dd30(nodes, input, frameInfos, maxFrameTime, startTimes);
+
+    int maxFrames = frameInfos[0].GetLogicalSize() - input.m_iValueAt00;
+    int numFrames = input.m_iFrameCount > maxFrames ? maxFrames : input.m_iFrameCount;
+    int endFrame = input.m_iValueAt00 + numFrames;
+    int threadSpacing = input.m_iValueAt08 + input.m_iValueAt0C;
+    int frameHeight = threadSpacing * numThreads + input.m_iValueAt10;
+    int totalHeight = frameHeight * numFrames;
+    int currentY = totalHeight;
+    int border = (numFrames > 1) ? 32 : 0;
+    int drawWidth = input.m_iValueAt14 - border;
+    int numPixels = (input.m_iValueAt14 + 1) * totalHeight;
+
+    texture = (int*)AllocateWithHeader((Se0e0c0_Allocator*)&FUN_00c85750()->heap(), numPixels * sizeof(int));
+    height = totalHeight;
+    ::FUN_00cb1280(texture, 0, numPixels * 4);
+    if (sampleInfo)
+    {
+        sampleInfo->m_fValueAt00 = maxFrameTime;
+    }
+
+    Se0e0c0_PointerMap unknownTimers;
+
+    for (int frame = input.m_iValueAt00; frame < endFrame; frame++)
+    {
+        currentY -= input.m_iValueAt10;
+        if (numFrames > 1)
+        {
+            FUN_00e0c210(frame, currentY, input.m_iValueAt14,
+                         texture + (currentY - threadSpacing) * input.m_iValueAt14);
+        }
+        for (int thread = 0; thread < numThreads; thread++)
+        {
+            currentY -= threadSpacing;
+            int* row = texture + currentY * input.m_iValueAt14 + border;
+            FUN_00e0daf0(frameInfos[thread][0], frame, nodes[thread]->m_children, row, input.m_iValueAt08,
+                         input.m_pColorTable, input.m_iValueAt14, drawWidth, maxFrameTime,
+                         startTimes[frame - input.m_iValueAt00], unknownTimers);
+        }
+    }
+
+    float pixelsPerFrame = (drawWidth * 1000) / maxFrameTime;
+    int startOffset = (int)(((int)input.m_fValueAt1C % 1000) * 0.001f * pixelsPerFrame);
+
+    if (pixelsPerFrame > 5.0)
+    {
+        int x = border - startOffset;
+        int i = 0;
+        while (x < input.m_iValueAt14)
+        {
+            if (x >= 0)
+            {
+                for (int y = 0; y < totalHeight; y++)
+                {
+                    texture[y * input.m_iValueAt14 + x] = 0xff0000ff;
+                }
+            }
+            i++;
+            x = border - startOffset + (int)(i * pixelsPerFrame);
+        }
+    }
+
+    int step = (int)((drawWidth * 16666) / maxFrameTime);
+    if (step > 0)
+    {
+        for (int x = border - startOffset; x < input.m_iValueAt14; x += step)
+        {
+            if (x < 0)
+                continue;
+            for (int y = 0; y < totalHeight; y++)
+            {
+                texture[y * input.m_iValueAt14 + x] = 0xff00ff00;
+                texture[y * input.m_iValueAt14 + x + 1] = 0xff00ff00;
+            }
+        }
+    }
+
+    if (input.m_bValueAt20)
+    {
+        for (Se0e0c0_Dummy* it = unknownTimers.GetFirstIterator(); unknownTimers.isValid(it);
+             it = unknownTimers.getNext(it))
+        {
+        }
+    }
+}
+
+template <class T> __forceinline void copyElements(T* dst, int count, const T& value)
+{
+    for (int i = 0; i < count; ++i)
+        dst[i] = value;
+}
+
+template <class T> struct SampleArrayBase
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline SampleArrayBase() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+    __forceinline T& back()
+    {
+        return m_data[m_iElementCount - 1];
+    }
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline int capacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline void clear()
+    {
+        m_iElementCount = 0;
+    }
+    __forceinline void append(S_e0ce00_Alloc& allocator, const T& value)
+    {
+        if (m_iElementCount == capacity())
+            ::ResizeAudioStream((::AudioAllocator *)(::S_e0ce00_Alloc *)(&allocator), (::AudioStream *)(void *)(this), sizeof(T));
+        copyElements(m_data + m_iElementCount, 1, value);
+        ++m_iElementCount;
+    }
+    __forceinline void reserveExactly(S_e0ce00_Alloc& allocator, int count)
+    {
+        if (capacity() < count)
+            ::FUN_00c908c0((::SpawnedObject *)(::S_e0ce00_Alloc *)(&allocator), (::SpawnedArray *)(void *)(this), count, sizeof(T));
+    }
+    __forceinline void release(S_e0ce00_Alloc& allocator)
+    {
+        clear();
+        if ((m_iCapacityState & 0x80000000u) == 0)
+            allocator.v10(m_data, capacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+
+struct SampleAllocator
+{
+    __forceinline S_e0ce00_Alloc& get(const void*)
+    {
+        return FUN_00c85750()->heap();
+    }
+};
+
+template <class T> struct SampleArray : SampleArrayBase<T>
+{
+    __forceinline void AddBack(const T& value)
+    {
+        SampleArrayBase<T>::append(SampleAllocator().get(this), value);
+    }
+    __forceinline void reserveExactly(int count)
+    {
+        SampleArrayBase<T>::reserveExactly(SampleAllocator().get(this), count);
+    }
+    __forceinline ~SampleArray()
+    {
+        SampleArrayBase<T>::release(SampleAllocator().get(this));
+    }
+};
+
+struct SampleNode
+{
+    float m_iSlotIds[8];
+    unsigned short m_counts[8];
+    SampleArray<SampleNode*> m_children;
+    double m_base;
+    SampleNode* m_parent;
+    const char* m_name;
+};
+
+struct ColorMapBase
+{
+    void* m_entries;
+    int m_iElementCount;
+    int m_mod;
+    __forceinline ColorMapBase() : m_entries(0), m_iElementCount(0), m_mod(-1)
+    {}
+    __forceinline ~ColorMapBase()
+    {
+        ::FUN_00a29680();
+    }
+};
+struct ColorMapStorage : ColorMapBase
+{
+    __forceinline ColorMapStorage()
+    {
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(&SampleAllocator().get(this)), 0);
+    }
+    __forceinline ~ColorMapStorage()
+    {
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(::S_e0ce00_Alloc *)(&SampleAllocator().get(this)));
+    }
+    __forceinline int insert(unsigned long key, unsigned long value)
+    {
+        return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&SampleAllocator().get(this))), key, value);
+    }
+};
+struct ColorMap
+{
+    ColorMapStorage m_map;
+    __forceinline int get(const char* key, int* out) const
+    {
+        unsigned long value;
+        if (::LookupBucketValue((::DepthLimit *)&(m_map), (unsigned long)key, (int)(&value), {}) == 0)
+        {
+            *out = int(value);
+            return 0;
+        }
+        return 1;
+    }
+    __forceinline int insert(const char* key, int value)
+    {
+        return m_map.insert((unsigned long)key, (unsigned long)value);
+    }
+};
+typedef Se0e0c0_FrameInfo TextureFrame;
+struct ColorName
+{
+    unsigned long m_tagged;
+    __forceinline operator const char*() const
+    {
+        return (const char*)(m_tagged & ~1u);
+    }
+};
+struct ColorPair
+{
+    ColorName m_name;
+    unsigned int m_kDiffuseColor;
+};
+struct TextureColors
+{
+    int unk00;
+    int unk04;
+    SampleArray<ColorPair> m_pairs;
+    unsigned int m_uiColorValue;
+};
+
+static __forceinline void renderTextureColumns(const TextureFrame& info, int frame,
+                                               const SampleArrayBase<SampleNode*>& trees, int* image, int rows,
+                                               TextureColors& colors, int stride, int samples, float duration,
+                                               float start, ColorMap& missing)
+{
+    ColorMap cache;
+    float increment = duration / samples;
+    SampleArray<SampleNode*> ticks;
+    ticks.reserveExactly(samples);
+    if (trees[frame]->m_children.GetLogicalSize() > 0)
+    {
+        ticks.clear();
+        int axis = info.m_uiTimer1 == 0 ? info.m_iColor : info.m_iTimer0;
+        FUN_00e0cec0(trees[frame], start, increment, samples, ticks, axis);
+        int size = ticks.GetLogicalSize();
+        for (int column = 0; column < size && column < samples; ++column)
+        {
+            int color = -1;
+            if (ticks[column])
+            {
+                SampleNode* current = ticks[column];
+                while (current)
+                {
+                    const char* label = current->m_name;
+                    if (cache.get(label, &color) == 1)
+                    {
+                        if (missing.get(label, &color) != 1)
+                        {
+                            current = current->m_parent;
+                            continue;
+                        }
+                        bool found = false;
+                        for (int entry = 0; entry < colors.m_pairs.GetLogicalSize(); ++entry)
+                        {
+                            if (::fnv_00cb0fe0::CompareStringsCaseInsensitive(colors.m_pairs[entry].m_name, label) == 0)
+                            {
+                                color = colors.m_pairs[entry].m_kDiffuseColor;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found)
+                        {
+                            cache.insert(label, color);
+                            break;
+                        }
+                        else
+                        {
+                            missing.insert(label, color);
+                            current = current->m_parent;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            for (int row = 0; row < rows; ++row)
+                image[row * stride + column] = color;
+        }
+    }
+}
+
+// @fnv 0x00e0daf0
+static __declspec(noinline) void FUN_00e0daf0(const Se0e0c0_FrameInfo& info, int frame,
+                                              const Se0e0c0_ArrayBase<Se0e0c0_Node*>& trees, int* image, int rows,
+                                              Se0e0c0_ColorTable* colors, int stride, int samples, float duration,
+                                              float start, Se0e0c0_PointerMap& missing)
+{
+    renderTextureColumns((const TextureFrame&)info, frame, (const SampleArrayBase<SampleNode*>&)trees, image, rows,
+                         *(TextureColors*)colors, stride, samples, duration, start, (ColorMap&)missing);
 }
 
 #include "generated/data/havok/common/base/monitor/monitorstreamanalyzer/hkmonitorstreamanalyzer.inc"

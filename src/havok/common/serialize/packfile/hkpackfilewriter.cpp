@@ -5,6 +5,10 @@
 
 // Calls Vsnprintf with a and b and a formatted Havok version string (7.1.0-r1).
 // @fnv 0x00dbda20
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/FUN_00ce2510.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00dbd000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/E02A80_cls.h"
@@ -1420,6 +1424,242 @@ __declspec(noinline) void MapB8E150::FUN_00dc9ec0(void* a, int* b)
     entries[index].key = (void*)*b;
     entries[index].value = (void*)oldIndex;
     indices.insert(a, index);
+}
+
+
+struct TaggedName
+{
+    const char* tagged;
+    const char* text() const
+    {
+        return (const char*)((unsigned int)tagged & ~1u);
+    }
+};
+struct RigidBody
+{
+    int field00, field04, field08, field0c, field10, field14, field18, field1c;
+    int field20, field24, field28, field2c, field30, field34, field38, field3c;
+    int field40, field44, field48, field4c, field50, field54, field58, field5c;
+    int field60, field64, field68, field6c, field70;
+    TaggedName name;
+};
+struct Constraint
+{
+    int field00, field04, field08, field0c, field10;
+    RigidBody* bodyA;
+    RigidBody* bodyB;
+};
+struct Bone
+{
+    TaggedName name;
+    int lockTranslation;
+};
+struct Skeleton
+{
+    int field00, field04, field08;
+    short* parents;
+    int field10, field14;
+    Bone* bones;
+    int boneCount;
+};
+struct Allocator
+{
+    virtual void ReportDiagnostic();
+    virtual void* allocate(int) throw();
+    virtual void unused2();
+    virtual void FlushUsageData();
+    virtual void deallocate(void*, int) throw();
+};
+struct StackRouter
+{
+    void* top;
+    int field04, field08, field0c;
+    Allocator* heap;
+};
+inline StackRouter* router()
+{
+    return (StackRouter*)FUN_00c85750();
+}
+
+template <class T> struct Array
+{
+    T* data;
+    int size;
+    int capacity;
+    void ClearAndRelease(Allocator& alloc)
+    {
+        size = 0;
+        if ((capacity & (int)0x80000000) == 0)
+            alloc.deallocate(data, (capacity & 0x3fffffff) * sizeof(T));
+        data = 0;
+        capacity = 0x80000000;
+    }
+    ~Array()
+    {
+        ClearAndRelease(*::router()->heap);
+    }
+};
+template <class T> struct LocalArray : Array<T>
+{
+    T* initial;
+    LocalArray(int count) throw()
+    {
+        data = 0;
+        size = 0;
+        capacity = 0x80000000;
+        StackRouter* router = ::router();
+        T* allocated = (T*)router->top;
+        router->top = (char*)allocated + ((count * sizeof(T) + 127) & ~127);
+        data = allocated;
+        capacity = count | 0x80000000;
+        initial = allocated;
+    }
+    void clear()
+    {
+        size = 0;
+    }
+    T* getInitial() const
+    {
+        return initial;
+    }
+    static void resetStack(T* p)
+    {
+        ::router()->top = p;
+    }
+    static void resetStackRef(T* const& p)
+    {
+        ::router()->top = p;
+    }
+    ~LocalArray() throw()
+    {
+        if (initial == data)
+            clear();
+        resetStack(initial);
+    }
+    void AddBack(T value) throw()
+    {
+        StackRouter* router = ::router();
+        if (size == (capacity & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(this), sizeof(T));
+        data[size++] = value;
+    }
+};
+struct Message
+{
+    int field00, field04, field08;
+    Message(char* buffer, int size) throw()
+    {
+        new ((void *)this) ::FUN_00cb1600(buffer, size);
+    }
+};
+struct Ragdoll
+{
+    void* vtable;
+    unsigned short allocationSize;
+    unsigned short references;
+};
+// @fnv 0x00cea810
+Ragdoll* __cdecl FUN_00cea810(Skeleton* skeleton, const Array<RigidBody*>& bodies,
+                              const Array<Constraint*>& constraints)
+{
+    int count = skeleton->boneCount;
+    LocalArray<RigidBody*> matchedBodies(count);
+    LocalArray<Constraint*> matchedConstraints(count - 1);
+    LocalArray<int> boneToBody(count);
+    char buffer[512];
+    bool missingName = false;
+    for (int i = 0; i < count; ++i)
+    {
+        Bone& bone = skeleton->bones[i];
+        short parent = skeleton->parents[i];
+        if (!(bone.name.text()))
+        {
+            missingName = true;
+            break;
+        }
+        RigidBody* body = 0;
+        for (int j = 0; j < bodies.size; ++j)
+        {
+            RigidBody* candidate = bodies.data[j];
+            const char* name = candidate->name.text();
+            if (name && ::fnv_00cb0fa0::FUN_00cb0fa0(name, bone.name.text()) == 0)
+            {
+                if (!body)
+                    body = candidate;
+                else
+                {
+                    Message message(buffer, 512);
+                    reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Some RBS have duplicated names : ")))))->FUN_00cc01c0((const char*)name);
+                    DAT_01268360->report(1, 0xabba98aa, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x26b);
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+                }
+            }
+        }
+        if (!body)
+        {
+            boneToBody.AddBack(-1);
+            continue;
+        }
+        boneToBody.AddBack(matchedBodies.size);
+        matchedBodies.AddBack(body);
+        if (parent == -1)
+            continue;
+        RigidBody* parentBody = matchedBodies.data[boneToBody.data[parent]];
+        Constraint* constraint = 0;
+        for (int j = 0; j < constraints.size; ++j)
+        {
+            Constraint* candidate = constraints.data[j];
+            RigidBody* a = candidate->bodyA;
+            RigidBody* b = candidate->bodyB;
+            if (a == body && b == parentBody)
+            {
+                if (!constraint)
+                    constraint = candidate;
+                else
+                {
+                    Message message(buffer, 512);
+                    reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Found more than one constraint between rigid bodies ")))))->FUN_00cc01c0((const char*)(a->name.text()))))))->FUN_00cc01c0(" and ")))))->FUN_00cc01c0((const char*)(b->name.text()));
+                    DAT_01268360->report(1, 0xabba82ff, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x291);
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+                }
+            }
+        }
+        if (!constraint)
+        {
+            Message message(buffer, 512);
+            reinterpret_cast<::AttributeFormatter *>((((::Message *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Couldn't find constraint for bone : ")))))->WriteName((::NameReference *)(&bone));
+            DAT_01268360->report(1, 0xabba9f9f, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x298);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+            return 0;
+        }
+        matchedConstraints.AddBack(constraint);
+    }
+    if (missingName)
+    {
+        {
+            Message message(buffer, 512);
+            reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Some bones have no name - can't create rag doll");
+            DAT_01268360->report(1, 0xabbae6a2, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x2a3);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+        }
+        return 0;
+    }
+    if (!matchedBodies.size)
+    {
+        Message message(buffer, 512);
+        reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Skeleton has no associated rigid bodies - can't create rag doll");
+        DAT_01268360->report(1, 0xabbae6e4, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x2aa);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+        return 0;
+    }
+    {
+        Ragdoll* result = (Ragdoll*)::router()->heap->allocate(0x30);
+        result->allocationSize = 0x30;
+        result = ((::Ragdoll *)(new ((void *)(result)) ::FUN_00ce2510((int)(&matchedBodies), (int)(&matchedConstraints), (int)(skeleton), (::ObjectArray<int> *)(::Array<int> *)(&boneToBody))));
+        return result;
+    }
+
+    return 0;
 }
 
 #include "generated/data/havok/common/serialize/packfile/hkpackfilewriter.inc"

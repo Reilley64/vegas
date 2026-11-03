@@ -18,6 +18,9 @@
 // to EAX; the parameter order (out, self, count) is what makes the call site
 // materialise EDX before ESI.
 
+#include <cmath>
+#include "fnv/symbols_01012000.h"
+#include <math.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/FUN_00c6c720_class.h"
 #include "fnv/decl/FUN_00c6e280_cls.h"
@@ -1659,6 +1662,83 @@ end:
     if ((sub.flags & 1) && flag)
         reinterpret_cast<::FUN_00c6c720_class *>(&(sub))->AccumulateValue((int)((void*)iIndex), scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
     return flag;
+}
+struct hkBool_c7f5
+{
+    char m_cBooleanValue;
+    hkBool_c7f5()
+    {}
+    hkBool_c7f5(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+
+class hkVector4_c7f5
+{
+  public:
+    __m128 m_vComponents;
+    hkBool_c7f5 CheckFloatsFinite() const;
+    hkBool_c7f5 FUN_00c7f520(float eps) const;
+};
+
+// @fnv 0x00c7f520
+hkBool_c7f5 hkVector4_c7f5::FUN_00c7f520(float eps) const
+{
+    if (CheckFloatsFinite())
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 len = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+        len = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), len);
+        float lenSq;
+        _mm_store_ss(&lenSq, len);
+        float lenZero = (float)(lenSq - ::g_01012070);
+        return (float)fabs(lenZero) < eps;
+    }
+    return false;
+}
+
+struct hkBool_c7f5b
+{
+    char m_cBooleanValue;
+    hkBool_c7f5b()
+    {}
+    hkBool_c7f5b(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+
+class hkVector4_c7f5b
+{
+  public:
+    __m128 m_vComponents;
+    hkBool_c7f5b FUN_00c7f500() const;
+    hkBool_c7f5b FUN_00c7f5b0(float eps) const;
+};
+
+// @fnv 0x00c7f5b0
+hkBool_c7f5b hkVector4_c7f5b::FUN_00c7f5b0(float eps) const
+{
+    if (FUN_00c7f500())
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 sum = _mm_add_ps(_mm_shuffle_ps(sq, sq, 0x4e), sq);
+        __m128 len = _mm_add_ps(_mm_shuffle_ps(sum, sum, 0xb1), sum);
+        float lenSq;
+        _mm_store_ss(&lenSq, len);
+        float lenZero = (float)(lenSq - ::g_01012070);
+        return (float)fabs(lenZero) < eps;
+    }
+    return false;
 }
 
 #include "generated/data/havok/common/base/math/vector/hkvector4.inc"

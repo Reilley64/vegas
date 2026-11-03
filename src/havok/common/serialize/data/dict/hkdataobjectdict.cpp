@@ -2,6 +2,30 @@
 // src/havok/common/serialize/data/dict/hkdataobjectdict.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/dict/hkdataobjectdict.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/AF70Owner.h"
+#include "fnv/decl/ClassDictDC.h"
+#include "fnv/decl/DCAB_Owner.h"
+#include "fnv/decl/FUN_00d46f70_cls.h"
+#include "fnv/decl/FUN_00d46f80_class.h"
+#include "fnv/decl/FUN_00d47260_cls.h"
+#include "fnv/decl/FUN_00dba6a0_cls.h"
+#include "fnv/decl/FUN_00dbaf10_cls.h"
+#include "fnv/decl/FnvClassNameNode.h"
+#include "fnv/decl/ManagerClass.h"
+#include "fnv/decl/OwnerD869.h"
+#include "fnv/decl/ReflectObj.h"
+#include "fnv/decl/Registry_dc8d.h"
+#include "fnv/decl/Registry_dc91.h"
+#include "fnv/decl/S00dc8ea0_Obj.h"
+#include "fnv/decl/S00dcbd40_Destination.h"
+#include "fnv/decl/Struct_d86920.h"
+#include "fnv/decl/VarSet.h"
+#include "fnv/decl/fnv_00dc96a0__FUN_00dc96a0.h"
+#include "fnv/decl/hkClassD47120.h"
+#include "fnv/decl/hkClassMember_FUN_00d86960.h"
+#include "fnv/decl/hkSerializeMultiMapDC90.h"
+#include "fnv/symbols_00d87000.h"
+#include "fnv/symbols_00dc1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/CB1A90Owner.h"
@@ -10875,6 +10899,635 @@ FindResultDC97* DictWriteAccessDC97::FUN_00dc9710(FindResultDC97* result, int ke
     result->node = 0;
     result->index = -1;
     return result;
+}
+
+
+struct S00dc7d20_Ref
+{
+    void* m_vtbl;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+
+struct S00dc7d20_Ptr
+{
+    S00dc7d20_Ref* m_pRetainedObject;
+    __forceinline ~S00dc7d20_Ptr() throw()
+    {
+        if (m_pRetainedObject)
+            reinterpret_cast<::hkReferencedObjectC905 *>((m_pRetainedObject))->FUN_00c905b0();
+    }
+};
+
+struct S00dc7d20_Pool
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+struct S00dc7d20_World
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    S00dc7d20_Pool m_stringPool;
+
+    const char* InternString(const char* pcStr)
+    {
+        if (pcStr)
+        {
+            const char* pcPooled = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_stringPool))->GetValue((int)(pcStr), 0)));
+            if (pcPooled == 0)
+            {
+                pcPooled = FUN_00cb1410(pcStr);
+                reinterpret_cast<::hkStringMapD874 *>(&(m_stringPool))->FUN_00d874d0(pcPooled, (int)(pcPooled));
+            }
+            return pcPooled;
+        }
+        return 0;
+    }
+    static const char* FUN_00cb1410(const char* pcStr) throw();
+};
+
+class S00dc7d20_Class
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual int FindMemberIndexByName(const char* pcName);
+    void FUN_00dc9f20(const char* pcName, int iType, const S00dc7d20_Ptr& kType, int iCount) throw();
+};
+
+class S00dc7d20_Cls
+{
+  public:
+    int unk00;
+    int unk04;
+    S00dc7d20_World* m_pOwningWorld;
+
+    void FUN_00dc7d20(S00dc7d20_Class** ppClass, const char* pcName, int iType, const char* pcTypeName, int iCount);
+};
+
+// @fnv 0x00dc7d20
+void S00dc7d20_Cls::FUN_00dc7d20(S00dc7d20_Class** ppClass, const char* pcName, int iType, const char* pcTypeName,
+                                 int iCount)
+{
+    S00dc7d20_Class* pkClass = *ppClass;
+    const char* pcPooled = m_pOwningWorld->InternString(pcName);
+    if (pkClass->FindMemberIndexByName(pcName) != -1)
+        reinterpret_cast<::ClassDictDC *>((pkClass))->FUN_00dc9470(pcPooled);
+    pkClass->FUN_00dc9f20(pcPooled, iType, (*(::S00dc7d20_Ptr *)(reinterpret_cast<::Registry_dc8d *>((m_pOwningWorld))->FUN_00dc8d70((void *)(pcTypeName), {}))), iCount);
+}
+
+struct hkAllocX
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void* AllocateBufferWithSize(int& numBytesInOut);
+    virtual void ReturnMemory(void* p, int numBytes);
+
+    template <typename T> __forceinline T* _bufAlloc(int& numInOut)
+    {
+        if (numInOut)
+        {
+            int numBytes = numInOut * sizeof(T);
+            void* p = AllocateBufferWithSize(numBytes);
+            numInOut = numBytes / (int)sizeof(T);
+            return static_cast<T*>(p);
+        }
+        return 0;
+    }
+};
+
+struct hkRouterX
+{
+    void* m_aiEntries;
+    void* unk04;
+    void* unk08;
+    hkAllocX* m_pTemp;
+    hkAllocX* m_pStreamAllocator;
+    hkAllocX& temp()
+    {
+        return *m_pTemp;
+    }
+    hkAllocX& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+static __forceinline hkRouterX& getRouterX()
+{
+    return *reinterpret_cast<hkRouterX*>(FUN_00c85750());
+}
+
+void __cdecl FUN_00c908c0(hkAllocX& alloc, void* array, int numElem, int sizeElem) throw();
+
+template <typename T> struct hkHeapArrX
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline hkHeapArrX() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline ~hkHeapArrX()
+    {
+        _clearAndDeallocate(getRouterX().heap());
+    }
+    __forceinline int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline void _clearAndDeallocate(hkAllocX& alloc)
+    {
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline void GrowArrayCapacity(hkAllocX& alloc, int n)
+    {
+        int cap = getCapacity();
+        if (cap < n)
+        {
+            int cap2 = 2 * cap;
+            int newSize = (n < cap2) ? cap2 : n;
+            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+        }
+    }
+    __forceinline void reserve(int n)
+    {
+        GrowArrayCapacity(getRouterX().heap(), n);
+    }
+};
+
+template <typename T> struct hkTempArrX
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    __forceinline hkTempArrX(int n) : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {
+        hkAllocX& alloc = getRouterX().temp();
+        T* p = alloc._bufAlloc<T>(n);
+        int cap = n ? n : 0x80000000;
+        m_data = p;
+        m_iElementCount = n;
+        m_iCapacityState = cap;
+        for (int i = 0; i < n; i++)
+            new (p + i) T();
+    }
+    __forceinline ~hkTempArrX()
+    {
+        hkAllocX& alloc = getRouterX().temp();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+};
+
+class hkDataClassImplX
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual const char* getName() const;
+};
+
+struct hkDataMemberInfoX
+{
+    const char* m_name;
+    hkDataClassImplX* m_pOwnerObject;
+    int m_type;
+    hkDataClassImplX* m_valueClass;
+    int m_iFlags;
+    hkDataMemberInfoX() : m_name(0), m_pOwnerObject(0), m_type(0), m_valueClass(0), m_iFlags(0)
+    {}
+};
+
+struct hkDataMemberCinfoX
+{
+    const char* m_name;
+    int m_type;
+    const char* m_valueClass;
+    int m_iFlags;
+};
+
+struct hkDataClassCinfoX
+{
+    const char* name;
+    int version;
+    const char* parent;
+    hkHeapArrX<hkDataMemberCinfoX> members;
+};
+
+class hkDataClassX
+{
+  public:
+    hkDataClassImplX* m_pClassImpl;
+
+    hkDataClassX(hkDataClassImplX* impl) throw();
+    ~hkDataClassX() throw();
+    const char* getName() const throw();
+    int GetNumOwnMembers() const throw();
+    int GetNumAllMembers() const throw();
+};
+
+class hkDataWorldDictX
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual hkDataClassImplX* newClass(const hkDataClassCinfoX& cinfo);
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual hkDataClassImplX* GetClassFromName(const char* name) const;
+
+    hkDataClassImplX* FUN_00dc85a0(const char* name, const hkDataWorldDictX& worldFrom);
+};
+
+// @fnv 0x00dc85a0
+hkDataClassImplX* hkDataWorldDictX::FUN_00dc85a0(const char* name, const hkDataWorldDictX& worldFrom)
+{
+    if (hkDataClassImplX* c = GetClassFromName(name))
+        return c;
+    hkDataClassX klassFrom(worldFrom.GetClassFromName(name));
+    hkDataClassCinfoX cinfo;
+    cinfo.name = klassFrom.getName();
+    cinfo.version = klassFrom.GetNumOwnMembers();
+    hkDataClassX parent = (*(::hkDataClassX *)(reinterpret_cast<::FUN_00dba6a0_cls *>((void *)&(klassFrom))->SetShiftedValue({})));
+    if (((int)(reinterpret_cast<::CpuObject *>((void *)&(parent))->FUN_00dba670())))
+    {
+        cinfo.parent = 0;
+    }
+    else
+    {
+        cinfo.parent = parent.getName();
+        if (hkDataClassImplX* c = GetClassFromName(cinfo.name))
+            return c;
+    }
+    hkDataClassImplX* clsImpl = newClass(cinfo);
+    hkTempArrX<hkDataMemberInfoX> minfos(klassFrom.GetNumAllMembers());
+    reinterpret_cast<::FUN_00dbaf10_cls *>((void *)&(klassFrom))->DispatchRecords((void *)&(minfos));
+    cinfo.members.reserve(minfos.GetLogicalSize());
+    hkDataClassX pClassInfo(clsImpl);
+    for (int i = 0; i < minfos.GetLogicalSize(); i++)
+    {
+        hkDataMemberInfoX& m = minfos[i];
+        const char* className = 0;
+        if (m.m_valueClass)
+        {
+            className = m.m_valueClass->getName();
+            FUN_00dc85a0(className, worldFrom);
+        }
+        reinterpret_cast<::S00dc7d20_Cls *>(this)->FUN_00dc7d20((::S00dc7d20_Class **)&(pClassInfo), m.m_name, m.m_type, className, m.m_iFlags);
+    }
+    return clsImpl;
+}
+
+struct hkMemAllocDC82
+{
+    virtual void v00();
+    virtual void* AllocateMemoryBlock(int numBytes);
+};
+struct hkRouterDC82
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkMemAllocDC82* m_pStreamAllocator;
+    hkMemAllocDC82& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+namespace hkRouterNsDC82 {
+extern "C" hkRouterDC82& __cdecl FUN_00c85750() throw();
+}
+
+struct hkRefObjDC82
+{
+    void RetainReference() const;
+    void removeReference() const;
+};
+
+
+template <class T> class hkRefPtrDC82
+{
+  public:
+    hkRefPtrDC82() : m_pRetainedObject(0)
+    {}
+    hkRefPtrDC82(T* e)
+    {
+        if (e)
+            e->RetainReference();
+        m_pRetainedObject = e;
+    }
+    ~hkRefPtrDC82()
+    {
+        if (m_pRetainedObject)
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
+        m_pRetainedObject = 0;
+    }
+    void operator=(const hkRefPtrDC82& rp)
+    {
+        if (rp.m_pRetainedObject)
+            rp.m_pRetainedObject->RetainReference();
+        if (m_pRetainedObject)
+            m_pRetainedObject->removeReference();
+        m_pRetainedObject = rp.m_pRetainedObject;
+    }
+    void operator=(T* e)
+    {
+        if (e)
+            e->RetainReference();
+        if (m_pRetainedObject)
+            m_pRetainedObject->removeReference();
+        m_pRetainedObject = e;
+    }
+    T* m_pRetainedObject;
+};
+
+struct hkHandleDC82
+{
+    hkHandleDC82()
+    {
+        reinterpret_cast<::FUN_00c90510_class *>((void *)&((*reinterpret_cast<::hkRefObjDC82 *>(&::g_kDefaultDCB990))))->FUN_00c90510();
+        m_pRetainedObject = &(*reinterpret_cast<::hkRefObjDC82 *>(&::g_kDefaultDCB990));
+    }
+    void operator=(const hkRefPtrDC82<hkRefObjDC82>& rp)
+    {
+        if (rp.m_pRetainedObject)
+            reinterpret_cast<::FUN_00c90510_class *>((void *)(rp.m_pRetainedObject))->FUN_00c90510();
+        if (m_pRetainedObject)
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_pRetainedObject))->FUN_00c905b0();
+        m_pRetainedObject = rp.m_pRetainedObject;
+    }
+    hkRefObjDC82* m_pRetainedObject;
+};
+
+struct hkVariantDC82
+{
+    void* m_object;
+    const void* m_class;
+};
+
+struct hkClassDC82
+{
+};
+
+struct hkClassMemberDC82
+{
+    const char* m_name;
+    const hkClassDC82* m_class;
+    const void* m_pClassEnum;
+    unsigned char m_type;
+    unsigned char m_eSubtype;
+    short m_iArraySize;
+    unsigned short m_flags;
+    unsigned short m_offset;
+    const void* m_pCustomAttributes;
+
+    int getType() const
+    {
+        return m_type;
+    }
+    int getSubtype() const
+    {
+        return m_eSubtype;
+    }
+};
+
+struct hkMemberAccessorDC82
+{
+    void* m_pTargetObject;
+    const void* m_kMemberDescriptor;
+    hkMemberAccessorDC82(const hkVariantDC82* v, const char* member);
+};
+
+struct hkDataRefCountedDC82
+{
+    virtual ~hkDataRefCountedDC82();
+    unsigned short m_usMemSizeAndFlags;
+    unsigned short unk06;
+    int m_uiItemCount;
+    void RetainReference()
+    {
+        ++m_uiItemCount;
+    }
+    void removeReference()
+    {
+        if (--m_uiItemCount == 0)
+            delete this;
+    }
+    static void* operator new(unsigned int n)
+    {
+        void* p = hkRouterNsDC82::FUN_00c85750().heap().AllocateMemoryBlock(n);
+        static_cast<hkDataRefCountedDC82*>(p)->m_usMemSizeAndFlags = (unsigned short)n;
+        return p;
+    }
+    static void operator delete(void* p);
+};
+
+struct hkDataWorldDC82;
+
+struct hkDataClassDictDC82 : hkDataRefCountedDC82
+{
+    hkDataWorldDC82* m_pOwningWorld;
+    const char* m_name;
+    int m_version;
+    hkRefPtrDC82<hkDataClassDictDC82> m_parent;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+
+    hkDataClassDictDC82(hkDataWorldDC82* world, const char* name, int version) throw();
+    void setParent(hkDataClassDictDC82* p)
+    {
+        m_parent = p;
+    }
+    __declspec(noalias) void FUN_00dc9f20(const char* name, int type, const struct hkHandleDC82& typeName, int count);
+};
+
+struct hkStringMapDC82
+{
+};
+
+extern "C" char* FUN_00cb1410(const char* s);
+struct hkTrackerDC82
+{
+    hkStringMapDC82 m_kLookupMap;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    hkStringMapDC82 m_pStringFunctions;
+
+    const char* InternString(const char* s)
+    {
+        if (s)
+        {
+            const char* r = (const char*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(m_pStringFunctions))->GetValue((int)(s), (int)(0))));
+            if (r == 0)
+            {
+                r = FUN_00cb1410(s);
+                reinterpret_cast<::hkStringMapD874 *>(&(m_pStringFunctions))->FUN_00d874d0(r, (int)(r));
+            }
+            return r;
+        }
+        return 0;
+    }
+};
+
+extern const char* DAT_011b7bfc;
+extern "C" char* FUN_00cb1410(const char* s);
+
+struct hkDataWorldDC82
+{
+    void* vfptr;
+    int unk04;
+    hkTrackerDC82* m_pTracker;
+
+    hkDataClassDictDC82* GetClassFromName(const char* name)
+    {
+        hkStringMapDC82& classes = m_pTracker->m_kLookupMap;
+        return name ? (hkDataClassDictDC82*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(classes))->GetValue((int)(name), (int)(0)))) : 0;
+    }
+    const char* internString(const char* s)
+    {
+        hkTrackerDC82* tracker = m_pTracker;
+        return tracker->InternString(s);
+    }
+    hkDataClassDictDC82* FUN_00dc8270(const hkClassDC82& pClassInfo);
+};
+
+// @fnv 0x00dc8270
+hkDataClassDictDC82* hkDataWorldDC82::FUN_00dc8270(const hkClassDC82& pClassInfo)
+{
+    hkDataClassDictDC82* c = new hkDataClassDictDC82(this, reinterpret_cast<::FnvClassNameNode *>((void *)&(pClassInfo))->FUN_00d46d40(), reinterpret_cast<::hkClassD47120 *>((void *)&(pClassInfo))->FUN_00d47120());
+    if (((const ::hkClassDC82 *)(reinterpret_cast<::ReflectObj *>((void *)&(pClassInfo))->FUN_00d46d50())))
+    {
+        const hkClassDC82* parent = ((const ::hkClassDC82 *)(reinterpret_cast<::ReflectObj *>((void *)&(pClassInfo))->FUN_00d46d50()));
+        hkDataClassDictDC82* p = GetClassFromName(reinterpret_cast<::FnvClassNameNode *>((void *)(parent))->FUN_00d46d40());
+        if (p == 0)
+        {
+            p = FUN_00dc8270(*((const ::hkClassDC82 *)(reinterpret_cast<::ReflectObj *>((void *)&(pClassInfo))->FUN_00d46d50())));
+        }
+        c->setParent(p);
+    }
+    c->RetainReference();
+    reinterpret_cast<::Registry *>((m_pTracker))->RegisterObject((::Obj *volatile)(c));
+    for (int i = 0; i < reinterpret_cast<::FUN_00d46f70_cls *>((void *)&(pClassInfo))->FUN_00d46f70(); ++i)
+    {
+        const hkClassMemberDC82& m = (*(const ::hkClassMemberDC82 *)(reinterpret_cast<::FUN_00d46f80_class *>((void *)&(pClassInfo))->FUN_00d46f80(i)));
+        int type = 0;
+        hkHandleDC82 typeName;
+        if ((m.m_flags & 0x400) != 0x400)
+        {
+            type = ::GetShapeTypeFlags(m.getType(), m.getSubtype(), (::DC1C50Collection *)(((const ::hkClassDC82 *)(reinterpret_cast<::Struct_d86920 *>((void *)&(m))->FUN_00d86920()))), reinterpret_cast<::OwnerD869 *>((void *)&(m))->FUN_00d86940());
+            if (((const ::hkClassDC82 *)(reinterpret_cast<::Struct_d86920 *>((void *)&(m))->FUN_00d86920())))
+            {
+                if (const hkVariantDC82* attr = ((const ::hkVariantDC82 *)(reinterpret_cast<::hkClassMember_FUN_00d86960 *>((void *)&(m))->FUN_00d86960(DAT_011b7bfc))))
+                {
+                    hkMemberAccessorDC82 acc(attr, "typeName");
+                    typeName = (*(::hkRefPtrDC82< ::hkRefObjDC82> *)(reinterpret_cast<::Registry_dc8d *>((m_pTracker))->FUN_00dc8d70((void *)(*((const char **)(::FUN_00d87220((char *)&(acc), 0, {})))), {})));
+                }
+                else if (const hkVariantDC82* attr = ((const ::hkVariantDC82 *)(reinterpret_cast<::FUN_00d47260_cls *>((void *)(((const ::hkClassDC82 *)(reinterpret_cast<::Struct_d86920 *>((void *)&(m))->FUN_00d86920()))))->FUN_00d47260(DAT_011b7bfc))))
+                {
+                    hkMemberAccessorDC82 acc(attr, "typeName");
+                    typeName = (*(::hkRefPtrDC82< ::hkRefObjDC82> *)(reinterpret_cast<::Registry_dc8d *>((m_pTracker))->FUN_00dc8d70((void *)(*((const char **)(::FUN_00d87220((char *)&(acc), 0, {})))), {})));
+                }
+                else
+                {
+                    typeName = (*(::hkRefPtrDC82< ::hkRefObjDC82> *)(reinterpret_cast<::Registry_dc8d *>((m_pTracker))->FUN_00dc8d70((void *)(reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::hkClassDC82 *)(reinterpret_cast<::Struct_d86920 *>((void *)&(m))->FUN_00d86920()))))->FUN_00d46d40()), {})));
+                }
+            }
+        }
+        const char* name = internString(m.m_name);
+        hkRefObjDC82* typeObj = typeName.m_pRetainedObject;
+        c->FUN_00dc9f20(name, type, typeName, reinterpret_cast<::OwnerD869 *>((void *)&(m))->FUN_00d86940());
+        if (typeObj)
+            reinterpret_cast<::hkReferencedObjectC905 *>((void *)(typeObj))->FUN_00c905b0();
+    }
+    return c;
 }
 
 #include "generated/data/havok/common/serialize/data/dict/hkdataobjectdict.inc"

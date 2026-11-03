@@ -25,7 +25,7 @@ float GetElapsedSeconds();
 // 0x00aa1360
 int NiStricmp(const char *, const char *);
 // 0x00aa1370
-void FUN_00aa1370();
+int FUN_00aa1370(const char *, const char *, unsigned int);
 // 0x00aa1380
 void NormalizePathSeparators(char *);
 // 0x00aa13e0

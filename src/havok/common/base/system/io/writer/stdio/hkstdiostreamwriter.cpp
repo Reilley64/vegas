@@ -71,25 +71,14 @@ struct FUN_00d2bf30
     unsigned char unk0c;
     FUN_00d2bf30(int mode);
 };
-extern void* __cdecl FUN_00ecdf44();
-// Sets the vtable and flags, then stores a pointer into the block returned by FUN_00ecdf44, offset by 0x40 when mode is 2 and 0x20 otherwise.
+// Stores the C runtime's stderr stream when mode is 2 and its stdout stream otherwise.
 // @fnv 0x00d2bf30
 FUN_00d2bf30::FUN_00d2bf30(int mode)
 {
     unk06 = 1;
     vtable = &DAT_010ce6f4;
     unk0c = 0;
-    char* base = static_cast<char*>(FUN_00ecdf44());
-    if (mode == 2)
-    {
-        base += 0x40;
-        m8 = base;
-    }
-    else
-    {
-        base += 0x20;
-        m8 = base;
-    }
+    m8 = mode == 2 ? stderr : stdout;
 }
 
 struct FUN_00d2be30

@@ -5042,7 +5042,6 @@ struct Player_StandIn : public PlayerCharacter
 
 void __cdecl GetControlLabel(int a1, char* a2, bool a3);
 
-int __cdecl sprintf_s(char* apBuffer, unsigned int auiBufferSize, const char* apFormat, ...);
 
 // @fnv 0x007070c0
 bool __cdecl FUN_007070c0(const char* apName, char* apBuffer, unsigned int auiBufferSize, bool abArg4)
@@ -5604,9 +5603,9 @@ void LoadWeaponWobbleModels()
     for (int i = 0; i < 12; i++)
     {
         if (i == 0)
-            sprintf_s(path, 260, "%s\\Characters\\WeaponWobbles\\ScopeWobble.nif", "Meshes");
+            std::snprintf(path, 260, "%s\\Characters\\WeaponWobbles\\ScopeWobble.nif", "Meshes");
         else
-            sprintf_s(path, 260, "%s\\Characters\\WeaponWobbles\\%s.nif", "Meshes", ::DAT_011977a4[i]);
+            std::snprintf(path, 260, "%s\\Characters\\WeaponWobbles\\%s.nif", "Meshes", ::DAT_011977a4[i]);
         if (FileFinder::Exist(path, 0, 6, 1))
         {
             (*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i] = ((::fnv_008d66b0::WobbleNode *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((static_cast<WobbleLoader*>(g_modelLoader)))->FUN_00447080((char *)(path), 0, true, false, false, false)));

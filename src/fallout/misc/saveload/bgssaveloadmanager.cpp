@@ -206,13 +206,13 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
         char folder[260];
         pcPath[0] = 0;
         DAT_00fdf274(0, 28, 0, 0, folder);
-        strcat_s(folder, 260, DAT_01082da0);
+        fnv::crt::strcat_s(folder, 260, DAT_01082da0);
         DAT_00fdf0b8(folder, 0);
         TaskQueueInterface::CopyStringToBuffer(((char *)(::FUN_0086d480())), 260, folder);
         DAT_00fdf274(0, 5, 0, 0, folder);
-        strcat_s(folder, 260, DAT_01082d94);
+        fnv::crt::strcat_s(folder, 260, DAT_01082d94);
         DAT_00fdf0b8(folder, 0);
-        strcat_s(folder, 260, DAT_01082d88);
+        fnv::crt::strcat_s(folder, 260, DAT_01082d88);
         DAT_00fdf0b8(folder, 0);
         TaskQueueInterface::CopyStringToBuffer(((char *)(::FUN_004dc110())), 260, folder);
     }
@@ -222,7 +222,7 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
         TaskQueueInterface::CopyStringToBuffer(((char *)(::FUN_004dc110())), 260, g_011dece4_arg1);
     }
     TaskQueueInterface::CopyStringToBuffer(pcPath, 260, ((char *)(::FUN_004dc110())));
-    strcat_s(pcPath, 260, ::_DAT_011a2ff0);
+    fnv::crt::strcat_s(pcPath, 260, ::_DAT_011a2ff0);
     ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bb80())));
     ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bbd0())));
     ((int(*)(char*))DAT_00fdf0d4)(FUN_00c3bc20());
@@ -366,7 +366,7 @@ bool BGSSaveLoadManager::IsSaveFileNameDefault(const char* name)
 {
     char prefix[260];
     TaskQueueInterface::CopyStringToBuffer(prefix, 260, ((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011d4060)))->GetMenuTitle())));
-    strcat_s(prefix, 260, ::DAT_01020770);
+    fnv::crt::strcat_s(prefix, 260, ::DAT_01020770);
     if (name && _mbsnicmp(name, prefix, ::FUN_0044a670(prefix)) == 0)
         return true;
     return false;
@@ -415,7 +415,7 @@ void FUN_0084fec0_shell::EnsureFosExtension(char* apFileName, char* apFullFileNa
     TaskQueueInterface::CopyStringToBuffer(apFullFileName, 0x104, apFileName);
     unsigned int ilength = ::FUN_0044a670(apFullFileName);
     if (ilength < 4 || ::FUN_00404dc0(&apFullFileName[ilength - 4], ".fos") != 0)
-        strcat_s(apFullFileName, 0x104, ".fos");
+        fnv::crt::strcat_s(apFullFileName, 0x104, ".fos");
 }
 
 struct FUN_00851250_shell : public BGSSaveLoadManager

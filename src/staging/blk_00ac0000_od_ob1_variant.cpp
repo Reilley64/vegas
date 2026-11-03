@@ -143,7 +143,6 @@ struct FUN_00acad30_class
 {
     void* GetElementAt(int a);
 };
-unsigned int __cdecl FUN_00ec7c56();
 struct FUN_00ace030_class
 {
     void* FUN_00ace030(unsigned int flags);
@@ -165,7 +164,6 @@ struct FUN_00ace9c0_Class
     int* m_30;
     int AdvanceCounter();
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00ad1a50_class
 {
     FUN_00ad1a50_class* FUN_00ad1a50(int a, int b);
@@ -280,7 +278,6 @@ struct FUN_00ad56e0_class
 {
     int FUN_00ad56e0(void* a, void* b, void* c, void* d);
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00ac0460_cls
 {
     unsigned int m_iWordAt00;
@@ -2600,7 +2597,6 @@ inline const Record12* checked_base(ConstIterator12& _It)
 }
 Record12* __cdecl FUN_00ac3370(const Record12*, const Record12*, Record12*, Alloc12&, PointerCategory12,
                                CheckedRange12);
-unsigned int __cdecl FUN_00ec7c56();
 template <class In, class Out> inline Out unchecked_copy(In _First, In _Last, Out _Dest, Alloc12& _Al)
 {
     return FUN_00ac3370(checked_base(_First), checked_base(_Last), _Dest, _Al, ptr_cat(_First, _Dest),
@@ -2701,7 +2697,6 @@ FUN_00ac0640::FUN_00ac0640(const FUN_00ac0640& source) : Vector12(source.allocat
     }
 }
 
-unsigned int __cdecl FUN_00ec7c56();
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 void __cdecl length_error_helper();
@@ -7498,7 +7493,6 @@ void __cdecl FUN_00ac16e0(char* first, unsigned int count, char* val, void* al)
 namespace fnv_00ac1780 {
 void __cdecl operator delete(void* _Ptr) throw();
 namespace cpyac17 {
-void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -7655,7 +7649,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            ::std::abort();
         }
         do
         {
@@ -7823,7 +7817,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            ::std::abort();
         }
         return _Myptr()[_Off];
     }
@@ -8272,7 +8266,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
             do
             {
@@ -8286,7 +8280,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
             do
             {
@@ -8296,7 +8290,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
             do
             {
@@ -8310,7 +8304,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
             do
             {
@@ -8330,7 +8324,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
             do
             {
@@ -8512,7 +8506,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
             do
             {
@@ -13426,7 +13420,6 @@ struct AsHeap
 {
     void* FUN_00aa3e40(unsigned int _Size);
 };
-void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct AsNonscalarTag
 {
@@ -13686,7 +13679,7 @@ struct AsVector : AsContainer
 inline AsConstIterator::AsConstIterator(AsElem* _Ptr, const AsContainer* _Pvector)
 {
     if (!(_Pvector != 0 && ((AsVector*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((AsVector*)_Pvector)->_Mylast))
-        FUN_00ec7c56();
+        ::std::abort();
     this->_Set_container(_Pvector);
     _Myptr = _Ptr;
 }
@@ -19260,7 +19253,6 @@ int FUN_00aca7a0_Q::FUN_00aca7a0()
 namespace fnv_00acaa50 {
 void __cdecl operator delete(void* _Ptr) throw();
 namespace ctoraca {
-void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
@@ -19912,7 +19904,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         this->_Set_container(_Pvector);
@@ -19923,14 +19915,14 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         {
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         _Myptr += _Off;
@@ -19941,7 +19933,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         do
@@ -19958,7 +19950,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         return _Myptr - _Right._Myptr;
@@ -20133,7 +20125,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         return *(_Myfirst + _Pos);
@@ -25296,7 +25288,6 @@ char GvIos::FUN_00ad30c0(char _Byte) const
 namespace fnv_00ad33c0 {
 void __cdecl operator delete(void* _Ptr) throw();
 namespace auxad33 {
-void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
@@ -25948,7 +25939,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         this->_Set_container(_Pvector);
@@ -25959,14 +25950,14 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         {
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         _Myptr += _Off;
@@ -25977,7 +25968,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         do
@@ -25994,7 +25985,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         return _Myptr - _Right._Myptr;
@@ -26173,7 +26164,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                ::std::abort();
             }
         }
         return *(_Myfirst + _Pos);
@@ -33264,7 +33255,6 @@ namespace fnv_00ac9bd0 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 void* __cdecl operator new(unsigned int uiSize);
-unsigned int __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
 {
@@ -33449,7 +33439,7 @@ struct String : public StringVal
     const char& operator[](unsigned int uiOff) const
     {
         if (!(uiOff <= m_uiSize))
-            FUN_00ec7c56();
+            ::std::abort();
         do
         {
         } while (0);
@@ -34023,7 +34013,6 @@ namespace fnv_00ad5490 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 void* __cdecl operator new(unsigned int uiSize);
-unsigned int __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
 {
@@ -34208,7 +34197,7 @@ struct String : public StringVal
     const char& operator[](unsigned int uiOff) const
     {
         if (!(uiOff <= m_uiSize))
-            FUN_00ec7c56();
+            ::std::abort();
         do
         {
         } while (0);
@@ -40634,7 +40623,7 @@ struct S5540_String : S5540_StringVal
     char& operator[](unsigned int off)
     {
         if (!(off <= _Mysize))
-            (static_cast<unsigned int(__cdecl*)()>(&FUN_00ec7c56))();
+            ::std::abort();
         do
         {
         } while (0);
@@ -40767,7 +40756,7 @@ struct S5540_Buffer : S5540_VectorVal
     char& operator[](unsigned int pos)
     {
         if (!(pos < size()))
-            (static_cast<unsigned int(__cdecl*)()>(&FUN_00ec7c56))();
+            ::std::abort();
         do
         {
         } while (0);
@@ -41032,7 +41021,7 @@ template <class C> struct Traits
 {
     static unsigned int length(const C* text)
     {
-        return ::FUN_00ec6130(const_cast<C*>(text));
+        return static_cast<unsigned int>(::std::strlen(text));
     }
 };
 template <class C> class Alloc : public std::allocator<C>

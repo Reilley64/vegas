@@ -5264,7 +5264,6 @@ struct xFmtPtr
 // memset called as a __cdecl member: same pushes, but the pointer temp is numbered before the size temp
 struct xMemsetTarget
 {
-    void* __cdecl FUN_00ec61c0(int, unsigned int);
 };
 struct xCharPtr
 {
@@ -6317,8 +6316,7 @@ bool xGameSound::FUN_00aeb270()
         xmmioClose(qdqWL, 0);
         return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(false);
     }
-    ((xMemsetTarget*)xCharPtr(m_pData).p)
-        ->FUN_00ec61c0(0, static_cast<const unsigned int&>(qpTd.cksize + qfTOqo + qrEZrs));
+    std::memset(xCharPtr(m_pData).p, 0, qpTd.cksize + qfTOqo + qrEZrs);
     xmmioGetInfo(qdqWL, &qHXYKT, 0);
     for (qkbsJ = qrEZrs; qkbsJ < qpTd.cksize; qkbsJ++)
     {

@@ -2,6 +2,7 @@
 // src/fallout/interface/forenderedterminal.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedterminal.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/rendered_menu_fields.h"
 #include <cstdint>
 #include "fnv/decl/AudioClass_ae5680.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -414,7 +415,7 @@ bool RenderedTerminalStandIn::HandleClick(bool abDown, intptr_t aiX, intptr_t ai
     {
         PickPoint3 kOriginTmp;
         PickPoint3 kDir3;
-        PickCamera* pCamera = ((::PickCamera *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>(this)->GetFlt()));
+        PickCamera* pCamera = ((::PickCamera *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pMenuLightParameters));
         if (!pCamera)
         {
             pCamera = ((::PickCamera *)(reinterpret_cast<::BSFaceGenNiNode *>((((::PickFaceGenNode *)(::FUN_0045c670()))))->GetAnimationData()));

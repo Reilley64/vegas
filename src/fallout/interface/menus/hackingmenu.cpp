@@ -5,6 +5,7 @@
 #include "fnv/tls.h"
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include <cctype>
 #include <cstdint>
@@ -718,18 +719,18 @@ void __cdecl UpdateD766AA0Menu()
     if (g_pkD766AA0Menu)
     {
         FUN_007ffe40();
-        reinterpret_cast<::FUN_00a012d0_t *>((((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070()))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((::TileNU *)(reinterpret_cast<::MenuFields *>((g_pkD766AA0Menu))->tile))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
         if (reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu())
         {
             if (((BSAudio*)reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu())->GetSynchTime() ==
-                ((::NiNode *)(reinterpret_cast<::TileFields *>((((TileD766*)((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070())))))->renderedNode)))
+                ((::NiNode *)(reinterpret_cast<::TileFields *>((((TileD766*)((::TileNU *)(reinterpret_cast<::MenuFields *>((g_pkD766AA0Menu))->tile)))))->renderedNode)))
             {
                 FORenderedTerminal* pkTerminal =
                     dynamic_cast<FORenderedTerminal*>(reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu());
                 reinterpret_cast<::FUN_007ffaf0_shell *>((pkTerminal))->FUN_007ffaf0();
             }
         }
-        reinterpret_cast<::Tile *>((((TileD766*)((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070())))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((TileD766*)((::TileNU *)(reinterpret_cast<::MenuFields *>((g_pkD766AA0Menu))->tile)))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((g_pkD766AA0Menu))->FUN_00a1d910();
         ::DAT_011d95c0 = ((unsigned int)(::FUN_00457fe0())) + 8000;
     }
@@ -744,11 +745,11 @@ struct EntryListNode
 };
 struct FUN_00767ef0_shell
 {
-    void AddValueRows(unsigned int count, const unsigned int* values);
+    void AddValueRows(unsigned int count, const uintptr_t* values);
 };
 // Adds count to the 0xfac value of each existing row, then creates count new rows with descending 0xfac values and the given values at 0xfc4, appending each.
 // @fnv 0x00767ef0
-void FUN_00767ef0_shell::AddValueRows(unsigned int count, const unsigned int* puiValues)
+void FUN_00767ef0_shell::AddValueRows(unsigned int count, const uintptr_t* puiValues)
 {
     ValueRow* item;
     {
@@ -1033,7 +1034,7 @@ struct HackingMenuDecomp : HackingMenu
 void HackingMenuDecomp::UpdateFade()
 {
     static float delay = reinterpret_cast<::TileListBoxCalls *>(((*reinterpret_cast<Resources**>(reinterpret_cast<char*>(this) + 0x11c))))->GetFloat(::FUN_00a00940(&str_01072108, -1));
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<::FUN_00a01230_shell *>((((::Widget *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero({}))
+    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<::FUN_00a01230_shell *>((((::Widget *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero({}))
     {
         return;
     }
@@ -1172,6 +1173,10 @@ struct FUN_00a1ddb0_owner
 
 struct FUN_0044ddc0_sub
 {
+    void* vtable;
+    void** data;
+    unsigned int size;
+    unsigned int capacity;
 };
 
 class FUN_004037b0_tmp
@@ -1197,11 +1202,11 @@ struct FUN_0076ad50_cls
 void FUN_0076ad50_cls::BuildHackingGuessTemplate()
 {
     FUN_00a1ddb0_res* p = ((::FUN_00a1ddb0_res *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>(((*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu))))->FUN_00a1ddb0((::Tile *)(m110), (char *)("hacking_guess_template"), (::Tile *)(void *)(0))));
-    reinterpret_cast<::Tile *>((p))->Set(0xfac, ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m174))->GetName())));
+    reinterpret_cast<::Tile *>((p))->Set(0xfac, ((int)(m174.size)));
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(m174))->FUN_004ed8c0((int *)(::FUN_00a1ddb0_res **)(&p));
     {
         FUN_004037b0_tmp nameBuf;
-        ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&nameBuf), "%s_%d", p->FUN_00700300(), ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m174))->GetName())));
+        ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&nameBuf), "%s_%d", p->FUN_00700300(), ((std::intptr_t)(m174.size)));
         reinterpret_cast<::Tile *>((p))->SetName((const char *)(::FUN_00559450((int *)&(nameBuf))));
     }
 }
@@ -1217,7 +1222,7 @@ struct FUN_0076ae90_cls
 uintptr_t Context::FUN_00769520(FUN_007687d0* input)
 {
     unsigned char minimum = 255;
-    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++i)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(input->count)); ++i)
     {
         unsigned char current = ((int)(reinterpret_cast<::FUN_0076ae90_cls *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[i]))->FUN_0076ae90()));
         if (current < minimum)
@@ -1233,13 +1238,13 @@ uintptr_t Context::FUN_00769520(FUN_007687d0* input)
     }
     else
     {
-        unsigned int best = ((unsigned int)(reinterpret_cast<::Callees *>((input))->FUN_00726070()));
-        for (unsigned int outer = 0; outer < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++outer)
+        unsigned int best = ((unsigned int)(input->count));
+        for (unsigned int outer = 0; outer < ((std::uintptr_t)(input->count)); ++outer)
         {
             if (((int)(reinterpret_cast<::FUN_0076ae90_cls *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[outer]))->FUN_0076ae90())) == minimum)
             {
                 unsigned int worst = 0;
-                for (unsigned int inner = 0; inner < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++inner)
+                for (unsigned int inner = 0; inner < ((std::uintptr_t)(input->count)); ++inner)
                 {
                     unsigned char results[32];
                     if (reinterpret_cast<::Struct0076ae30 *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[outer]))->FindByteIndices(inner, results) == minimum)
@@ -1941,7 +1946,7 @@ struct ConstructorTile : FUN_00a1ddb0_res
 struct ConstructorMenu : FUN_00a1ddb0_owner
 {
     unsigned int unk000;
-    unsigned int unk004;
+    void* unk004;
     unsigned int unk008;
     unsigned int unk00c;
     unsigned int unk010;
@@ -2046,7 +2051,7 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
             {
                 reinterpret_cast<::Tile *>((tile))->Set(0xfa2, value);
                 int width =
-                    static_cast<int>(reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)(reinterpret_cast<::Callees *>((static_cast<ConstructorMenu*>((*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu)))))->FUN_00726070()))))->GetFloat(0x1007));
+                    static_cast<int>(reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)((static_cast<ConstructorMenu*>((*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu))))->unk004))))->GetFloat(0x1007));
                 if (label)
                 {
                     reinterpret_cast<::Tile *>((label))->Set(0xfa1, width);
@@ -2453,7 +2458,7 @@ void Hack83::BuildHackingPasswordFile()
             current28x7[12] = 0;
         }
         char address[8];
-        reinterpret_cast<::FUN_00768970_shell *>(this)->FormatHexWord((unsigned short)current28x7, address);
+        reinterpret_cast<::FUN_00768970_shell *>(this)->FormatHexWord((unsigned short)(std::uintptr_t)current28x7, address);
         ::FUN_00406f60((::FUN_00406f90_this *)(::Text83 *)(&text24x17), "%s %s", address, current28x7);
         entries[entryIndex7x39] =
             new Entry83(((const char *)(::FUN_00559450((int *)&(text24x17)))), tile114, "hacking_password_file_template", -1, 2);
@@ -4261,7 +4266,7 @@ Tile84* FUN_00765b80(Ref84* reference)
         reinterpret_cast<::Menu *>((menu24))->SetMenuVisibility(0);
         return tile4;
     }
-    else if (menu24 && reinterpret_cast<::Callees *>((menu24))->FUN_00726070())
+    else if (menu24 && menu24->unk04)
         delete menu24;
     return 0;
 }
@@ -4728,12 +4733,12 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
                     attempts = maxAttempts;
                     special = true;
                     reinterpret_cast<::ScriptList *>(&(used))->FUN_0076b660((unsigned int *)&(const unsigned int &)(12 * (unsigned int)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1004) * 17.0 + reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfac)) + ((unsigned int)(reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue())) - 7));
-                    while (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) < maxAttempts)
+                    while (((std::uintptr_t)(list.c)) < maxAttempts)
                         reinterpret_cast<::FUN_0076ad50_cls *>(this)->BuildHackingGuessTemplate();
                     j = 3;
                 }
                 const char* e[3] = {c[0], c[1], c[2]};
-                reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(j, (const unsigned int *)(e));
+                reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(j, (const uintptr_t *)(e));
             }
             else if (matched == answer)
             {
@@ -4744,7 +4749,7 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
                 ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&c[3]), "%s%s", ">", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00766b80::HackSetting *>(&::g_011d4858))))->GetMenuTitle())));
                 ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&c[4]), "%s%s", ">", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00766b80::HackSetting *>(&::g_011d4ae0))))->GetMenuTitle())));
                 const char* e[5] = {c[0], c[1], c[2], c[3], c[4]};
-                reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(5, (const unsigned int *)(e));
+                reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(5, (const uintptr_t *)(e));
                 reinterpret_cast<::SoundPlaybackHandle *>(&(success))->SchedulePlayback(250, 0);
                 deadline = ((unsigned int)(::FUN_00457fe0())) + 3000;
                 state = 4;
@@ -4779,7 +4784,7 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
                 {
                     ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&lines3[2]), "%s%d/%d %s.", ">", matched, answer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00766b80::HackSetting *>(&::g_011d2b2c))))->GetMenuTitle())));
                     const char* values3[3] = {lines3[0], lines3[1], lines3[2]};
-                    reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(3, (const unsigned int *)(values3));
+                    reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(3, (const uintptr_t *)(values3));
                     if (attempts == 1)
                     {
                         reinterpret_cast<::FUN_00759f20_shell *>((tiles[1]))->AssignString(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_00766b80::HackSetting *>(&::g_011d1f74))))->IsDLCAvailable())));
@@ -4792,7 +4797,7 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
                     ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&lines3[2]), "%s%s", ">", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00766b80::HackSetting *>(&::g_011d3144))))->GetMenuTitle())));
                     ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&lines3[3]), "%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00766b80::HackSetting *>(&::g_011d339c))))->GetMenuTitle())));
                     const char* values4[4] = {lines3[0], lines3[1], lines3[2], lines3[3]};
-                    reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(4, (const unsigned int *)(values4));
+                    reinterpret_cast<::FUN_00767ef0_shell *>(this)->AddValueRows(4, (const uintptr_t *)(values4));
                     state = 3;
                     if (target)
                         ::SetScriptLockState((::Script *)(ref), true);

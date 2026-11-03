@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/traitselectmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/traitselectmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/menu_fields.h"
 #include <cstdint>
 #include <cstdlib>
 #include "fnv/decl/Callees.h"
@@ -136,7 +137,7 @@ void FUN_007e7de0()
     {
         if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_007e7de0::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             reinterpret_cast<::ProcessListsSub *>(&((*reinterpret_cast<::fnv_007e7de0::FUN_00975d10_host *>(&::g_011e0e80))))->UpdateActor3D();
-        ((::fnv_007e7de0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007e7de0::Menu * *>(&::DAT_011db00c))))->FUN_00726070()))->Set(0x1772, 1);
+        ((::fnv_007e7de0::Tile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<::fnv_007e7de0::Menu * *>(&::DAT_011db00c))))->tile))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::fnv_007e7de0::Menu * *>(&::DAT_011db00c))))->FUN_00a1d910();
     }
 }
@@ -550,7 +551,7 @@ Tile* __cdecl FUN_007e7b60()
     }
     else
     {
-        if (DAT_011db00c && reinterpret_cast<::Callees *>((((MenuOpen*)DAT_011db00c)))->FUN_00726070())
+        if (DAT_011db00c && reinterpret_cast<::MenuFields *>((((MenuOpen*)DAT_011db00c)))->tile)
             delete (MenuOpen*)DAT_011db00c;
     }
     return 0;

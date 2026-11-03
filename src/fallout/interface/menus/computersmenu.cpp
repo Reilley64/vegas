@@ -5,6 +5,7 @@
 #include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorMover.h"
@@ -393,12 +394,14 @@ struct NoArgumentMethodObject
 };
 struct TileProcessor
 {
+    void* head;
+
     void ProcessAllTiles();
 };
 // @fnv 0x00759f50
 void TileProcessor::ProcessAllTiles()
 {
-    void* piter = (void*)((Flt*)this)->operator unsigned int();
+    void* piter = head;
     while (piter)
     {
         reinterpret_cast<::FUN_00700110_cls *>((((NoArgumentMethodObject*)((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)this)))->FUN_0057cbe0((int **)&(piter)))))))->FUN_00700110();
@@ -989,16 +992,16 @@ void RefreshF57EA0TerminalMenu()
     if (g_pF57EA0TerminalMenu)
     {
         ::FUN_007ffe40();
-        reinterpret_cast<::FUN_00a012d0_t *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((::F57EA0Tile *)(reinterpret_cast<::MenuFields *>((g_pF57EA0TerminalMenu))->tile))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
         if (reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu() &&
             reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu()->GetSceneNode() ==
-                ((::NiNode *)(reinterpret_cast<::TileFields *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->renderedNode)))
+                ((::NiNode *)(reinterpret_cast<::TileFields *>((((::F57EA0Tile *)(reinterpret_cast<::MenuFields *>((g_pF57EA0TerminalMenu))->tile))))->renderedNode)))
         {
             FORenderedTerminal* pkTerminal =
                 dynamic_cast<FORenderedTerminal*>(reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu());
             reinterpret_cast<::FUN_007ffaf0_shell *>((pkTerminal))->FUN_007ffaf0();
         }
-        reinterpret_cast<::Tile *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((::F57EA0Tile *)(reinterpret_cast<::MenuFields *>((g_pF57EA0TerminalMenu))->tile))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((g_pF57EA0TerminalMenu))->FUN_00a1d910();
     }
 }
@@ -1825,6 +1828,8 @@ struct TextTile
 };
 struct QueueText
 {
+    char pad[0x24];
+    const char* unk24;
     ~QueueText();
     const char* FUN_00458b50();
 };
@@ -1934,9 +1939,9 @@ void TextQueue::ProcessQueue()
                         if (!reinterpret_cast<QueueMenu*>((*reinterpret_cast<int *>(&::g_pF57EA0TerminalMenu)))->mode &&
                             *(*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))->FUN_00458b50() == *DAT_01072118)
                         {
-                            oldLength = ::FUN_0044a670(((const char *)(reinterpret_cast<::ActorMover *>(((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))))->GetCurrentMoveModeType())));
+                            oldLength = ::FUN_0044a670(((const char *)((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))->unk24)));
                             reinterpret_cast<::TwTypewriter *>(((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))))->FUN_006ffea0();
-                            newLength = ::FUN_0044a670(((const char *)(reinterpret_cast<::ActorMover *>(((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))))->GetCurrentMoveModeType())));
+                            newLength = ::FUN_0044a670(((const char *)((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))->unk24)));
                             for (unsigned int index = 0; index < newLength - oldLength; index++)
                             {
                                 unsigned int offset =
@@ -2828,7 +2833,7 @@ OpenTile* CreateComputerMenu(Ref* reference)
     }
     else
     {
-        if (menu && reinterpret_cast<::Callees *>((menu))->FUN_00726070())
+        if (menu && menu->unk04)
         {
             delete menu;
         }
@@ -2928,14 +2933,14 @@ void AnimationList::ClearEntries()
 // @fnv 0x0075abd0
 void HighlightList::UpdateHighlight()
 {
-    static const char* highlightY = ((const char *)(::FUN_00a00940("_highlight_y", -1)));
-    static const char* selectedHeight = ((const char *)(::FUN_00a00940("_selected_height", -1)));
+    static int highlightY = ::FUN_00a00940("_highlight_y", -1);
+    static int selectedHeight = ::FUN_00a00940("_selected_height", -1);
     if (root)
     {
         if (selected)
         {
-            HighlightValue* heightValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30((intptr_t)(highlightY))));
-            HighlightValue* yValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30((intptr_t)(selectedHeight))));
+            HighlightValue* heightValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30(highlightY)));
+            HighlightValue* yValue = ((::HighlightValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((root))->FUN_00a00f30(selectedHeight)));
             reinterpret_cast<::AGOwner *>((heightValue))->FUN_00a09130(2000, (::Tile *)(selected), 4002);
             reinterpret_cast<::fnv_00a09410::EvalValue *>((heightValue))->FUN_00a09410(0);
             reinterpret_cast<::AGOwner *>((yValue))->FUN_00a09130(2000, (::Tile *)(selected), 4016);
@@ -2991,8 +2996,8 @@ void HighlightList::UpdateHighlight()
         }
         else
         {
-            reinterpret_cast<::Tile *>((root))->Set((intptr_t)(highlightY), -1);
-            reinterpret_cast<::Tile *>((root))->Set((intptr_t)(selectedHeight), 0);
+            reinterpret_cast<::Tile *>((root))->Set(highlightY, -1);
+            reinterpret_cast<::Tile *>((root))->Set(selectedHeight, 0);
         }
     }
 }
@@ -3235,6 +3240,8 @@ namespace fnv_00757f70 {
 struct TileF;
 struct Value
 {
+    char pad[0xc];
+    const char* unk0C;
 };
 struct TileF
 {
@@ -3341,7 +3348,7 @@ void HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
                 {
                     reinterpret_cast<::Tile *>((m_pTiles[15]))->Set(0xfa3, 0);
                     val = ((::fnv_00757f70::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>((m_pTiles[7]))->FUN_00a00f30(0xfc4)));
-                    reinterpret_cast<::FUN_00759da0_shell *>((m_pManager))->InsertAtPosition(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((val))->FUN_0084e3a0())), (intptr_t)(val), (intptr_t)(reinterpret_cast<::FUN_00a00e90_shell *>((m_pTiles[7]))->FindTraitValue(0xfa3)), -1);
+                    reinterpret_cast<::FUN_00759da0_shell *>((m_pManager))->InsertAtPosition(((const char *)(val->unk0C)), (intptr_t)(val), (intptr_t)(reinterpret_cast<::FUN_00a00e90_shell *>((m_pTiles[7]))->FindTraitValue(0xfa3)), -1);
                 }
                 reinterpret_cast<::LBList_7314c0 *>(&(m_kNode))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void (*)(fnv_00757f70::TileF *, void *))(&((void (&)(fnv_00757f70::TileF *, void *))::UpdateNoteTile)), 0, 0x7fffffff);
                 m_c1 = 1;

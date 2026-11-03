@@ -378,6 +378,8 @@ struct Accum_00733500
 };
 struct Node_00733500
 {
+    char pad[0xb4];
+    struct Accum_00733500* unkB4;
 };
 struct Mgr_00733500
 {
@@ -396,7 +398,7 @@ void __cdecl FUN_00733500()
 {
     ((::S148c0 *)(::FUN_0043c4b0()))->FUN_007148c0(0, 4);
     Node_00733500* pPlayerNode = ((::Node_00733500 *)(::FUN_0045c670()));
-    Accum_00733500* pAccumulator = ((::Accum_00733500 *)(reinterpret_cast<::MiddleLowProcess *>((pPlayerNode))->GetProcessInteger()));
+    Accum_00733500* pAccumulator = ((::Accum_00733500 *)(pPlayerNode->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((pAccumulator))->FUN_00c4f270(1);
     AnimIdle* pCamera = (*reinterpret_cast<::NiPointer< ::AnimIdle> *>(&::g_011d90bc));
     ::UpdateCameraFrustum((::NiCamera *)(pCamera), g_011db5ec_arg1);
@@ -876,8 +878,8 @@ class FUN_007315e0 : public SetBase
 // @fnv 0x007315e0
 FUN_007315e0::FUN_007315e0()
 {
-    DAT_011d9044 = ((void *)(::FUN_00a00940("_Value", -1)));
-    DAT_011d9048 = ((void *)(::FUN_00a00940("_x", -1)));
+    DAT_011d9044 = (void *)(std::intptr_t)::FUN_00a00940("_Value", -1);
+    DAT_011d9048 = (void *)(std::intptr_t)::FUN_00a00940("_x", -1);
     unk28 = 10;
     m7C = 0;
     if (((void *)(reinterpret_cast<::FUN_007316d0_Class *>((DAT_011d9058))->FUN_007316d0())) != 0)
@@ -2842,8 +2844,8 @@ void Menu90::InitBlackjackScene()
         (*reinterpret_cast<::Pointer90 *>(&::g_011d90bc)).FUN_0066b0d0(((::Node90 *)(reinterpret_cast<::Target2180 *>(this)->FUN_007c2180())));
     Node90* object33 = ((::Node90 *)(::FUN_004aae30((::NiAVObject *)(rootdb4), (::NiFixedString *)("Deck:0"))));
     Node90* property2 = (!((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((object33))->FUN_00a59d30(3))) ? false
-                                                    : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((object33))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 &&
-                                                       ((int)(reinterpret_cast<::BGSTerrainManager *>((((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((object33))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                                                    : (((int)(((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((object33))->FUN_00a59d30(3)))->unk01c)) >= 8 &&
+                                                       ((int)(((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((object33))->FUN_00a59d30(3)))->unk01c)) <= 12))
                             ? ((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((object33))->FUN_00a59d30(3)))
                             : 0;
     if (property2)
@@ -3010,7 +3012,7 @@ struct Menu129
     virtual int v2C();
     virtual int v30();
     virtual int GetID();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -3103,7 +3105,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     Node129* node = ((::Node129 *)(::FUN_005a6260((char *)(((Player129*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))));
     while (node && *((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino129*)DAT_011d9058)))->FUN_0084e3a0() == (*((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->id)
+        if (((Casino129*)DAT_011d9058)->unk0C == (*((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->id)
         {
             DAT_011d9054 = *((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             break;
@@ -3115,7 +3117,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     if (!DAT_011d9054)
     {
         FUN_00733f50* entry = new FUN_00733f50;
-        entry->id = reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino129*)DAT_011d9058)))->FUN_0084e3a0();
+        entry->id = ((Casino129*)DAT_011d9058)->unk0C;
         entry->amount = 0;
         node = ((::Node129 *)(::FUN_005a6260((char *)(((Player129*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))));
         if (!node || node->FUN_008256d0())
@@ -3203,7 +3205,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
         reinterpret_cast<::FUN_007316f0_shell *>((((Menu129*)DAT_011d9050)))->ClearField();
         return pTile;
     }
-    else if (DAT_011d9050 && ((::Tile129 *)(reinterpret_cast<::Callees *>((((Menu129*)DAT_011d9050)))->FUN_00726070())))
+    else if (DAT_011d9050 && ((::Tile129 *)(((Menu129*)DAT_011d9050)->unk04)))
         delete (Menu129*)DAT_011d9050;
     return 0;
 }
@@ -4431,7 +4433,7 @@ void BlackjackMenuShell::FUN_007396e0(int a1, int aiIndex, CardInfo* apCardInfo)
     node2 = ((::Node90 *)(::FUN_004aae30((::NiAVObject *)(::Node90 *)(((::Node90 *)(reinterpret_cast<::NiNode *>((((::TableNode *)(::FUN_00559450((int *)(((GlobalPtr*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(a1)))), (::NiFixedString *)(aBuf1))));
     _prop = (!((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))
                  ? 0
-                 : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                 : (((int)(((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))->unk01c)) >= 8 && ((int)(((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))->unk01c)) <= 12))
                 ? ((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))
                 : 0;
     if (_prop)
@@ -4442,7 +4444,7 @@ void BlackjackMenuShell::FUN_007396e0(int a1, int aiIndex, CardInfo* apCardInfo)
     node2 = ((::Node90 *)(::FUN_004aae30((::NiAVObject *)(::Node90 *)(((::Node90 *)(reinterpret_cast<::NiNode *>((((::TableNode *)(::FUN_00559450((int *)(((GlobalPtr*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(a1)))), (::NiFixedString *)(buf2))));
     _prop = (!((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))
                  ? 0
-                 : (((int)(reinterpret_cast<::BGSTerrainManager *>((((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))))->GetMinLevel())) <= 12))
+                 : (((int)(((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))->unk01c)) >= 8 && ((int)(((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))->unk01c)) <= 12))
                 ? ((::Node90 *)(reinterpret_cast<::FUN_00a59d30_C *>((node2))->FUN_00a59d30(3)))
                 : 0;
     if (_prop)
@@ -5067,7 +5069,7 @@ struct BlackjackUpdate
     virtual void v2c();
     virtual void v30();
     virtual int GetID();
-    int unk004;
+    void* unk004;
     int unk008;
     int unk00c;
     int unk010;
@@ -5180,10 +5182,10 @@ void BlackjackUpdate::FUN_00734db0()
     case 13:
         if (DAT_011d90e0 < 1.0)
             break;
-        if (((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 2)
+        if (((int)(this->unk024)) != 2)
         {
             ((::FUN_00a012d0_t *)(reinterpret_cast<::FUN_0045cd60_shell *>((((InterfaceUpdate*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()))->FUN_00a012d0(0xfa9, 255.0f, true);
-            reinterpret_cast<::Tile *>((((::Tile129 *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 1);
+            reinterpret_cast<::Tile *>((((::Tile129 *)(this->unk004))))->Set(0x1772, 1);
             reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int difference =
                 balance - reinterpret_cast<::CombatState *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->GetInventoryItemCount((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))));
@@ -5244,10 +5246,10 @@ void BlackjackUpdate::FUN_00734db0()
                 FUN_0096a2d0* p = player;
                 FUN_0096a2d0* dealerNode = dealer;
                 reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 1, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item))));
-                p = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
+                p = ((::FUN_0096a2d0 *)(p->next));
                 reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 2, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item))));
                 reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 1, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(dealerNode)->m_item))));
-                dealerNode = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((dealerNode))->FUN_00726070()));
+                dealerNode = ((::FUN_0096a2d0 *)(dealerNode->next));
                 reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 2, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(dealerNode)->m_item))));
                 reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[1]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(dealerSeq[1]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
@@ -5385,7 +5387,7 @@ void BlackjackUpdate::FUN_00734db0()
                 while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)) && drawn != counts[1])
                 {
                     last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
-                    curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
+                    curr = ((::FUN_0096a2d0 *)(curr->next));
                     drawn++;
                 }
             }
@@ -5396,14 +5398,14 @@ void BlackjackUpdate::FUN_00734db0()
                 while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)) && drawn != counts[0])
                 {
                     last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
-                    curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
+                    curr = ((::FUN_0096a2d0 *)(curr->next));
                     drawn++;
                 }
             }
             while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)) && drawn)
             {
                 last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
-                curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
+                curr = ((::FUN_0096a2d0 *)(curr->next));
                 drawn++;
             }
             reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(handId, drawn, (::CardInfo *)(last));
@@ -5609,7 +5611,7 @@ void BlackjackUpdate::FUN_00734db0()
             while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)))
             {
                 last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
-                curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
+                curr = ((::FUN_0096a2d0 *)(curr->next));
                 drawn++;
             }
             if (last)
@@ -5686,7 +5688,7 @@ void BlackjackUpdate::FUN_00734db0()
             count++;
             if ((*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->rank == 12)
                 soft = true;
-            node = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::FUN_0096a2d0 *)(node->next));
         }
         if ((dealerTotal < 17 || (dealerTotal == 17 && soft && !standSoft17)) && count < 7)
         {

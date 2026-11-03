@@ -2,6 +2,8 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fnv/effect_item_fields.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/Actor.h"
@@ -236,7 +238,7 @@ void __cdecl UpdateLevelUpMenu()
             reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_007851d0::PC7d * *>(&::_g_thePlayer))))->ConfigureActorState(true, false);
         ::fnv_007df4e0::UpdateStatsMenuLevelText();
         ::StatsMenu::UpdateStatusEffects();
-        ((::fnv_007851d0::Tile *)(reinterpret_cast<::Callees *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->FUN_00726070()))->Set(0x1772, 1);
+        ((::fnv_007851d0::Tile *)(reinterpret_cast<::MenuFields *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->tile))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->FUN_00a1d910();
         ::DAT_011d9fdc = 0;
     }
@@ -763,8 +765,8 @@ struct FUN_007877a0_Object
 // @fnv 0x007877a0
 bool FUN_007877a0_Object::FUN_007877a0(LevelOption* option)
 {
-    static void* cached = ((void *)(::FUN_00a00940((const char *)(const void *)(&(*reinterpret_cast<int *>((void *)&::DAT_01071b64))), -1)));
-    return cached != 0 && option != 0 && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero((intptr_t)(cached));
+    static int cached = ::FUN_00a00940((const char *)(const void *)(&(*reinterpret_cast<int *>((void *)&::DAT_01071b64))), -1);
+    return cached != 0 && option != 0 && reinterpret_cast<::FUN_00a01230_shell *>((option))->IsTraitNonZero(cached);
 }
 
 struct LevelValue
@@ -1410,7 +1412,7 @@ struct OptionList
 struct Target
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1876,7 +1878,7 @@ void Holder::UpdateTileEffects(Tile* tile)
             {
                 recVal.mag = recVal.mag * -1;
             }
-            if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)))))->FUN_00825c00()))->IsDetrimentalToActorValue(av7))
+            if (((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)))))->setting))->IsDetrimentalToActorValue(av7))
             {
                 recVal.mag = recVal.mag * -1;
             }
@@ -2426,8 +2428,8 @@ struct FUN_00787b70_cls
 // @fnv 0x00787b70
 bool FUN_00787b70_cls::FUN_00787b70()
 {
-    static void* sKey = (void*)FUN_00a00940("_enabled", -1);
-    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero((intptr_t)(sKey))) ? 1 : 0;
+    static int sKey = ::FUN_00a00940("_enabled", -1);
+    return (m_0c != 0 && reinterpret_cast<::FUN_00a01230_shell *>((m_0c))->IsTraitNonZero(sKey)) ? 1 : 0;
 }
 
 struct TileStandIn
@@ -2767,7 +2769,7 @@ void __cdecl fn_786200(TileStandIn* t);
 struct MenuStandIn
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -2844,16 +2846,16 @@ struct ScrollBar
 // @fnv 0x00785830
 void Target::SetPage(int page)
 {
-    if (page > ((double)(reinterpret_cast<::TileListBoxCalls *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860("_EndPage")))))
+    if (page > ((double)(reinterpret_cast<::TileListBoxCalls *>((((::RootTile *)(this->unk04))))->GetFloat(::FUN_00a01860("_EndPage")))))
     {
         ::fnv_007851d0::UpdateLevelUpMenu();
     }
     else
     {
         unk28 = page;
-        reinterpret_cast<::Tile *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9fe8, page);
-        reinterpret_cast<::Tile *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9fd8, first[page]);
-        reinterpret_cast<::Tile *>((((::RootTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011d9fd4, second[page]);
+        reinterpret_cast<::Tile *>((((::RootTile *)(this->unk04))))->Set(DAT_011d9fe8, page);
+        reinterpret_cast<::Tile *>((((::RootTile *)(this->unk04))))->Set(DAT_011d9fd8, first[page]);
+        reinterpret_cast<::Tile *>((((::RootTile *)(this->unk04))))->Set(DAT_011d9fd4, second[page]);
         reinterpret_cast<::fnv_00785990::FUN_00785990_shell *>(this)->FUN_00785990();
         switch (unk28)
         {
@@ -3061,7 +3063,7 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
             reinterpret_cast<::Holder *>(this)->UpdateTileEffects((::Tile *)(tile));
         }
         (&unk54)[unk28] = reinterpret_cast<::Counter_007878d0 *>(&(unk94))->FUN_007878d0();
-        reinterpret_cast<::Tile *>((((::TileStandIn *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
+        reinterpret_cast<::Tile *>((((::TileStandIn *)(this->unk04))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
         reinterpret_cast<::fnv_00785990::FUN_00785990_shell *>(this)->FUN_00785990();
         break;
     case 13:
@@ -3071,7 +3073,7 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
             avTmp = ((intptr_t)(reinterpret_cast<::LBList *>(&(unk64))->FindItemData((::Tile *)(::TileStandIn *)(((::TileStandIn *)(reinterpret_cast<::FUN_0045cd60_shell *>((tile))->FUN_0045cd60()))))));
             delta = (aiButton == 13) ? -1 : 1;
             (&unk54)[unk28] += delta;
-            reinterpret_cast<::Tile *>((((::TileStandIn *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
+            reinterpret_cast<::Tile *>((((::TileStandIn *)(this->unk04))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
             if (reinterpret_cast<::TESClass *>((((::ClassStandIn *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill((::ActorValue::Index)(avTmp)))
             {
                 delta *= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011cd6c0))))));
@@ -3097,7 +3099,7 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
             ::FUN_00706f30(1);
         }
         (&unk54)[unk28] = 0;
-        reinterpret_cast<::Tile *>((((::TileStandIn *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
+        reinterpret_cast<::Tile *>((((::TileStandIn *)(this->unk04))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
         switch (unk28)
         {
         case 0:
@@ -3745,7 +3747,7 @@ intptr_t FUN_00784c80()
         ((DatObj*)(void*)(uintptr_t)DAT_011d9fdc)->f60 = 1;
         if (!((ListObj*)((char*)(void*)(uintptr_t)DAT_011d9fdc + 0xc4))->FUN_005ae380())
         {
-            reinterpret_cast<::Tile *>((((HeadO*)((::fnv_00784c80::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)(void*)(uintptr_t)DAT_011d9fdc))->FUN_00726070())))))->Set(::FUN_00a01860(s_endpage), 0);
+            reinterpret_cast<::Tile *>((((HeadO*)((::fnv_00784c80::ContNode *)(reinterpret_cast<::MenuFields *>(((ContNode*)(void*)(uintptr_t)DAT_011d9fdc))->tile)))))->Set(::FUN_00a01860(s_endpage), 0);
         }
         reinterpret_cast<::fnv_00785540::SkillsMenu *>((((DatObj*)(void*)(uintptr_t)DAT_011d9fdc)))->UpdateSkillsAndPerks();
         reinterpret_cast<::Target *>((((DatObj*)(void*)(uintptr_t)DAT_011d9fdc)))->SetPage(0);
@@ -3755,7 +3757,7 @@ intptr_t FUN_00784c80()
     {
         if (DAT_011d9fdc)
         {
-            if (((::fnv_00784c80::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)(void*)(uintptr_t)DAT_011d9fdc))->FUN_00726070())))
+            if (((::fnv_00784c80::ContNode *)(reinterpret_cast<::MenuFields *>(((ContNode*)(void*)(uintptr_t)DAT_011d9fdc))->tile)))
                 delete (DelObj*)(void*)(uintptr_t)DAT_011d9fdc;
         }
     }

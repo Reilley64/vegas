@@ -4,6 +4,7 @@
 
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -9952,6 +9953,8 @@ struct Scene
 };
 struct Owner
 {
+    char pad[0xb4];
+    struct Scene* unkB4;
 };
 struct Holder
 {
@@ -9968,7 +9971,7 @@ void FUN_007bbcf0()
 {
     reinterpret_cast<::S148c0 *>((((::fnv_007bbcf0::S148c0 *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     Owner* pOwner = ((::fnv_007bbcf0::Owner *)(::FUN_0045c670()));
-    Scene* scene = ((::fnv_007bbcf0::Scene *)(reinterpret_cast<::MiddleLowProcess *>((pOwner))->GetProcessInteger()));
+    Scene* scene = ((::fnv_007bbcf0::Scene *)(pOwner->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((scene))->FUN_00c4f270(1);
     void* owner = ((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bbcf0::Holder *>(&::g_011da8d0))))));
     ::UpdateCameraFrustum((::NiCamera *)(owner), ::g_011db5ec_arg1);
@@ -10295,7 +10298,7 @@ RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int a
     }
     else
     {
-        if (DAT_011da878 && ((::MenuMethods *)(reinterpret_cast<::Callees *>((((MenuMethods*)DAT_011da878)))->FUN_00726070())))
+        if (DAT_011da878 && ((::MenuMethods *)(reinterpret_cast<::MenuFields *>((((MenuMethods*)DAT_011da878)))->tile)))
             delete (MenuVirtual*)DAT_011da878;
     }
     return 0;
@@ -15450,7 +15453,7 @@ class RouletteMenuX
     virtual void v12();
     virtual int GetID();
 
-    int unk0004;
+    void* unk0004;
     int unk0008;
     int unk000C;
     int unk0010;
@@ -15604,10 +15607,10 @@ void RouletteMenuX::FUN_007bd2a0()
     switch (m_iFadeIndex)
     {
     case 5:
-        if (((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 2)
+        if (((int)(this->unk0024)) != 2)
         {
             reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007bd2a0::TileX *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_007bd2a0::InterfaceMgr *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(0xfa9, 255.0f, true);
-            reinterpret_cast<::Tile *>((((::fnv_007bd2a0::TileX *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 1);
+            reinterpret_cast<::Tile *>((((::fnv_007bd2a0::TileX *)(this->unk0004))))->Set(0x1772, 1);
             reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int iChipDiff;
             if ((iChipDiff = m_iChips - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007bd2a0::PlayerX * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(::fnv_007bd2a0::FormX *)(((::fnv_007bd2a0::FormX *)(reinterpret_cast<::FUN_007316d0_Class *>(((*reinterpret_cast<::fnv_007bd2a0::CasinoX * *>(&::RouletteCleanup::DAT_011da880))))->FUN_007316d0()))))) < 0)
@@ -15720,7 +15723,7 @@ void RouletteMenuX::FUN_007bd2a0()
                         bWon = true;
                         break;
                     }
-                    pNode = (ListNode*)((::fnv_007bd2a0::TileX *)(reinterpret_cast<::Callees *>((((RouletteMenuX*)pNode)))->FUN_00726070()));
+                    pNode = (ListNode*)((::fnv_007bd2a0::TileX *)(((RouletteMenuX*)pNode)->unk0004));
                 }
             }
             else

@@ -113,6 +113,8 @@ struct FUN_00791a80_shell
 
 struct Flt
 {
+    void* object;
+
     operator unsigned int();
 };
 struct Glob
@@ -514,6 +516,8 @@ struct CameraHelper
 };
 struct ManagerHelper
 {
+    char pad[0xb4];
+    struct CameraHelper* unkB4;
 };
 struct InterfaceHelper
 {
@@ -532,9 +536,9 @@ void FUN_007948d0()
         return;
     reinterpret_cast<::S148c0 *>((((::RendererHelper *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     ManagerHelper* manager = ((::ManagerHelper *)(::FUN_0045c670()));
-    CameraHelper* camera = ((::CameraHelper *)(reinterpret_cast<::MiddleLowProcess *>((manager))->GetProcessInteger()));
+    CameraHelper* camera = ((::CameraHelper *)(manager->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((camera))->FUN_00c4f270(true);
-    uintptr_t localNode = (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da2f4));
+    uintptr_t localNode = (uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).object;
     ::UpdateCameraFrustum((::NiCamera *)(localNode), 0.65f);
     NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
     reinterpret_cast<::FUN_004a0fd0_shell *>((camera))->FUN_004a0fd0((::NiNode *)((intptr_t)node));
@@ -1248,13 +1252,13 @@ void __cdecl FUN_007917a0()
     ((ResetString*)&(*reinterpret_cast<::Flt *>(&::g_011da2f4)))->FUN_0066b0d0(0);
     for (menu = 0; menu < 9; menu++)
     {
-        for (k = 0; k < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->GetName())); k++)
+        for (k = 0; k < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->groups[menu].objects).data)); k++)
         {
             FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->groups[menu].objects)), k)));
             FUN_00791a80_shell* doomed = object;
             doomed ? doomed->FUN_00791a80(1) : 0;
         }
-        for (l = 0; l < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->GetName())); l++)
+        for (l = 0; l < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->groups[menu].allocations).data)); l++)
         {
             FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations)), l)));
             ::FUN_00401030(allocation);
@@ -1262,13 +1266,13 @@ void __cdecl FUN_007917a0()
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->Clear(1);
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->Clear(1);
     }
-    for (j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->GetName())); j++)
+    for (j = 0; j < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->list1a4).data)); j++)
     {
         FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->list1a4)), j)));
         FUN_00791a80_shell* doomed = object;
         doomed ? doomed->FUN_00791a80(1) : 0;
     }
-    for (m = 0; m < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->GetName())); m++)
+    for (m = 0; m < ((std::uintptr_t)((((ResetView*)DAT_011da2c8)->list1b4).data)); m++)
     {
         FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->list1b4)), m)));
         ::FUN_00401030(allocation);
@@ -2004,9 +2008,9 @@ void __cdecl FUN_007c9ca0()
     {
         reinterpret_cast<::S148c0 *>((((::RendererHelper *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
         ManagerHelper* mgr = ((::ManagerHelper *)(::FUN_0045c670()));
-        CameraHelper* cam = ((::CameraHelper *)(reinterpret_cast<::MiddleLowProcess *>((mgr))->GetProcessInteger()));
+        CameraHelper* cam = ((::CameraHelper *)(mgr->unkB4));
         reinterpret_cast<::FUN_00c4f270_Class *>((cam))->FUN_00c4f270(true);
-        uintptr_t scene = (*reinterpret_cast<::Flt *>(&::g_011daa9c));
+        uintptr_t scene = (uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011daa9c)).object;
         ::UpdateCameraFrustum((::NiCamera *)(scene), 0.15f);
         NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
         reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)((intptr_t)node));
@@ -2639,27 +2643,27 @@ void FUN_00795e20_cls::FUN_00795e20()
             iLevel = 0;
             if (a != -1)
                 iLevel = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(reinterpret_cast<::FUN_00794d30_shell *>((((G_WM*)DAT_011da2c8)))->FUN_00794d30());
-            for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr64))->GetName())); i++)
+            for (unsigned int i = 0; i < ((std::uintptr_t)((((G_WM*)DAT_011da2c8)->arr64).c)); i++)
             {
                 int x = ((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr64)), i)))->u18;
             }
             if (0)
             {
             }
-            for (unsigned int j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr74))->GetName())); j++)
+            for (unsigned int j = 0; j < ((std::uintptr_t)((((G_WM*)DAT_011da2c8)->arr74).c)); j++)
             {
                 int iRequiredLevel = ((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->level;
                 if (((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->obj)
                     reinterpret_cast<::TaskQueueInterface *>((((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->obj))->QueueActorDisarm(iLevel < iRequiredLevel);
             }
         }
-        for (unsigned int iIndex = 0; iIndex < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].b))->GetName())); iIndex++)
+        for (unsigned int iIndex = 0; iIndex < ((std::uintptr_t)(pairs[idx].b.c)); iIndex++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].b)), iIndex)))->pfn0(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].b)), iIndex))));
-        for (unsigned int k1 = 0; k1 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].a))->GetName())); k1++)
+        for (unsigned int k1 = 0; k1 < ((std::uintptr_t)(pairs[idx].a.c)); k1++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].a)), k1)))->pfn4(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].a)), k1))));
-        for (unsigned int k2 = 0; k2 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1b4))->GetName())); k2++)
+        for (unsigned int k2 = 0; k2 < ((std::uintptr_t)(arr1b4.c)); k2++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1b4)), k2)))->pfn0(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1b4)), k2))));
-        for (unsigned int k3 = 0; k3 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); k3++)
+        for (unsigned int k3 = 0; k3 < ((std::uintptr_t)(arr1a4.c)); k3++)
             ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1a4)), k3)))->pfn4(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1a4)), k3))));
     }
 }
@@ -2928,17 +2932,17 @@ void InputMenu::HandleButton(int button, int unused)
             if (DAT_011f9426)
                 local866269 = (int)(local866269 * (DAT_011ad848 - DAT_011ad84c) +
                                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Render*)((::RendererHelper *)(::FUN_0043c4b0())))->GetBuffer()))->FUN_0084e3a0())) * (double)DAT_011ad84c);
-            for (unsigned int local610845 = 0; local610845 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups[mode].objects))->GetName())); local610845++)
+            for (unsigned int local610845 = 0; local610845 < ((std::uintptr_t)(groups[mode].objects.data)); local610845++)
             {
                 Vec3 local960365;
                 Vec3 local282417;
                 NiPick local38019(0, 8);
                 reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
                 local38019.FUN_00705fc0(
-                    (void*)(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(groups[mode].objects)), local610845))))->object.operator unsigned int());
+                    (*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(groups[mode].objects)), local610845))))->object.object);
                 reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
                 reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
-                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
+                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).object)))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
                 if (reinterpret_cast<::NiPick *>(&(local38019))->PerformPick((const ::NiPoint3 &)(local960365), (const ::NiPoint3 &)(local282417), false))
                 {
                     unsigned int local919856 = 0;
@@ -2951,16 +2955,16 @@ void InputMenu::HandleButton(int button, int unused)
                     }
                 }
             }
-            for (unsigned int local966572 = 0; local966572 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); local966572++)
+            for (unsigned int local966572 = 0; local966572 < ((std::uintptr_t)(arr1a4.data)); local966572++)
             {
                 Vec3 local960365;
                 Vec3 local282417;
                 NiPick local38019(0, 8);
                 reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
-                local38019.FUN_00705fc0((void*)(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(arr1a4)), local966572))))->object.operator unsigned int());
+                local38019.FUN_00705fc0((*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(arr1a4)), local966572))))->object.object);
                 reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
                 reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
-                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
+                reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).object)))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
                 if (reinterpret_cast<::NiPick *>(&(local38019))->PerformPick((const ::NiPoint3 &)(local960365), (const ::NiPoint3 &)(local282417), false))
                 {
                     unsigned int local919856 = 0;

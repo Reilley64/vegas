@@ -3,6 +3,8 @@
 #include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include "fallout/interface/list_box_fields.h"
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -1764,7 +1766,7 @@ struct ArrSI
 };
 struct Arr
 {
-    unsigned int* GetAt(int);
+    uintptr_t* GetAt(int);
 };
 struct GlobalObject_00869f00
 {
@@ -5405,7 +5407,7 @@ bool __cdecl InitStartMenu(bool abNewGame, bool abFlag)
     {
         SMTile* pChild5 = ((::SMTile *)(reinterpret_cast<::ListStandIn *>(&(pRootX->kChildren))->FUN_0057cbe0((int **)&(pPos))));
         SMMenu* pOpenMenu = pChild5 ? ((::SMMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((pChild5))->FUN_00a03c90())) : 0;
-        if (pOpenMenu && ((std::intptr_t)(reinterpret_cast<::Callees *>((pOpenMenu))->FUN_00726070())))
+        if (pOpenMenu && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pOpenMenu))->tile)))
         {
             int iMode = ((int)(reinterpret_cast<::ActorMover *>((pOpenMenu))->GetCurrentMoveModeType()));
             if ((iMode == 8 || iMode == 2) && reinterpret_cast<::TileListBoxCalls *>((pChild5))->GetFloat(0xfa7) != 6008.0)
@@ -5432,7 +5434,7 @@ bool __cdecl InitStartMenu(bool abNewGame, bool abFlag)
         ::fnv_00a04500::FUN_00a04500();
         return true;
     }
-    else if (pMenu2 && ((std::intptr_t)(reinterpret_cast<::Callees *>((pMenu2))->FUN_00726070())))
+    else if (pMenu2 && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pMenu2))->tile)))
     {
         delete pMenu2;
     }
@@ -6563,7 +6565,7 @@ void UpdateSaveListSelection()
             HandleBackAction();
         }
         else if (current >= total2 &&
-                 (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_fMenuTimer == reinterpret_cast<::TileListBoxCalls *>((((::TileOpsLocal *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((list3))->FUN_00825c00()))))->GetFloat(FUN_00a00940("_current_value", -1)))
+                 (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_fMenuTimer == reinterpret_cast<::TileListBoxCalls *>((((::TileOpsLocal *)(reinterpret_cast<::ListBoxFields *>((list3))->scrollBar))))->GetFloat(FUN_00a00940("_current_value", -1)))
         {
             int index = (int)(total2 + (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_fMenuTimer - 1.0);
             reinterpret_cast<::LBList_7314c0 *>((list3))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(((void (&)(Tile *, EntryOps *))::fnv_007d67b0::InitSaveLoadTile)), index, index + 1);
@@ -6845,8 +6847,8 @@ void SaveMenu::UpdateSaveList()
     if (::FUN_004b71d0())
     {
         reinterpret_cast<::FocusManager *>((((::fnv_007d3c70::SaveInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00715860((::FocusTile *)(::fnv_007d3c70::SaveTile *)(((::fnv_007d3c70::SaveTile *)(::CallVirtualZero((::fnv_anon_startmenu::Dummy7d6e90 *)&(saves))))), 0xfc3, 1);
-        reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007d3c70::SaveTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(saves))->FUN_00825c00()))))->FUN_00a012d0(::FUN_00a00940(currentTrait, -1), 0.0f, false);
-        reinterpret_cast<::FUN_00a01290_shell *>((((::fnv_007d3c70::SaveTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(saves))->FUN_00825c00()))))->SetTraitAndReset(::FUN_00a00940("_SetInCode ", -1), 1.0f);
+        reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007d3c70::SaveTile *)(reinterpret_cast<::ListBoxFields *>(&(saves))->scrollBar))))->FUN_00a012d0(::FUN_00a00940(currentTrait, -1), 0.0f, false);
+        reinterpret_cast<::FUN_00a01290_shell *>((((::fnv_007d3c70::SaveTile *)(reinterpret_cast<::ListBoxFields *>(&(saves))->scrollBar))))->SetTraitAndReset(::FUN_00a00940("_SetInCode ", -1), 1.0f);
     }
     threshold = 0.0f;
     reinterpret_cast<::LBList_7314c0 *>(&(saves))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(((void (&)(fnv_007d3c70::SaveTile *, int))::fnv_007d67b0::InitSaveLoadTile)), 0, saves.Index());
@@ -6908,7 +6910,7 @@ void SaveLoadMenu::UpdateLayout()
             mode,
             (int)(reinterpret_cast<::FUN_00a013d0_shell *>((((SaveLoadTile*)m_pTiles[6])))->GetTotalFloat() - reinterpret_cast<::TileListBoxCalls *>((((SaveLoadTile*)m_pTiles[8])))->GetFloat(0xfa1) +
                   reinterpret_cast<::TileListBoxCalls *>((((SaveLoadTile*)m_pTiles[8])))->GetFloat(0xfb1) +
-                  reinterpret_cast<::TileListBoxCalls *>((((SaveLoadTile*)((::Tile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveLoadList*)&m_kOptionHelper)))->FUN_00825c00())))))->GetFloat(0xfb1) +
+                  reinterpret_cast<::TileListBoxCalls *>((((SaveLoadTile*)((::Tile *)(reinterpret_cast<::ListBoxFields *>((((SaveLoadList*)&m_kOptionHelper)))->scrollBar)))))->GetFloat(0xfb1) +
                   reinterpret_cast<::TileListBoxCalls *>((((SaveLoadTile*)m_pTiles[6])))->GetFloat(FUN_00a00940(DAT_01076fdc, -1))),
             (int)(reinterpret_cast<::FUN_00a01440_shell *>((((SaveLoadTile*)m_kOptionHelper.GetHighlightedItem())))->GetAccumulatedFloat() +
                   ((text & 2) ? 2 : 1) * reinterpret_cast<::TileListBoxCalls *>((((SaveLoadTile*)m_kOptionHelper.GetHighlightedItem())))->GetFloat(0xfb0)),
@@ -8326,7 +8328,7 @@ bool StartSaveMenu::FUN_007d5af0()
             if (::fnv_007d88a0::FUN_007d88a0((void *)(((SaveListOps*)&m_kOptionHelper))))
             {
                 float value =
-                    reinterpret_cast<::TileListBoxCalls *>((((::fnv_007d5af0::TileOpsLocal *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveListOps*)&m_kOptionHelper)))->FUN_00825c00()))))->GetFloat(::FUN_00a00940("_current_value", -1));
+                    reinterpret_cast<::TileListBoxCalls *>((((::fnv_007d5af0::TileOpsLocal *)(reinterpret_cast<::ListBoxFields *>((((SaveListOps*)&m_kOptionHelper)))->scrollBar))))->GetFloat(::FUN_00a00940("_current_value", -1));
                 if (value > m_fMenuTimer)
                 {
                     int first = ((SaveListOps*)&m_kOptionHelper)->FUN_007d87b0() + m_fMenuTimer;

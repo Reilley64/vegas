@@ -8,7 +8,7 @@ namespace tileext { struct ExtraNode; }
 // 0x00a01160
 int FUN_00a01160(int **, int **);
 // 0x00a01630
-namespace tileext { int FUN_00a01630(::tileext::ExtraNode *); }
+namespace tileext { intptr_t FUN_00a01630(::tileext::ExtraNode *); }
 // 0x00a01860
 intptr_t FUN_00a01860(const char *);
 // 0x00a018d0

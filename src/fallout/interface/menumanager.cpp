@@ -694,7 +694,7 @@ void FUN_007254d0_t::FUN_007254d0()
     usItemCount = 0;
     fTotalHeight = 0.0f;
     FUN_004ee7d0_node* pnode;
-    for (pnode = this; pnode && *((::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)); pnode = ((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
+    for (pnode = this; pnode && *((::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)); pnode = ((::FUN_004ee7d0_node *)(pnode->pNext)))
     {
         if (!(*((::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->m_bFiltered)
         {
@@ -791,6 +791,8 @@ struct FUN_007b9000
 };
 struct PC7d
 {
+    char pad[0x630];
+    void* unk630;
 };
 struct FUN_007b8d30_t : public Menu_007a8b10
 {
@@ -851,7 +853,7 @@ FUN_007b8d30_t::FUN_007b8d30_t()
     iValue3FF8 = 0;
     fScrollX = 0.0f;
     fScrollY = 0.0f;
-    pPlayerData = ((void *)(reinterpret_cast<::FUN_007b8f10_Class *>(((*reinterpret_cast<::fnv_007b8d30::PC7d * *>(&::_g_thePlayer))))->GetField630()));
+    pPlayerData = ((void *)((*reinterpret_cast<::fnv_007b8d30::PC7d * *>(&::_g_thePlayer))->unk630));
 }
 }  // namespace fnv_007b8d30
 
@@ -1778,11 +1780,11 @@ bool FUN_00720f90_shell::FUN_00720f90(int param_1)
             menu = ((::VtMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((TileStub*)item)))->FUN_00a03c90()));
         if (menu)
         {
-            if (((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((((FUN_004ee7d0_node*)menu)))->FUN_00726070())))
+            if (((::FUN_004ee7d0_node *)(((FUN_004ee7d0_node*)menu)->pNext)))
             {
                 if (menu->vt13() == param_1)
                 {
-                    if (((FUN_00a01230_shell*)((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((((FUN_004ee7d0_node*)menu)))->FUN_00726070())))->IsTraitNonZero(0xfa3) &&
+                    if (((FUN_00a01230_shell*)((::FUN_004ee7d0_node *)(((FUN_004ee7d0_node*)menu)->pNext)))->IsTraitNonZero(0xfa3) &&
                         ((int)(reinterpret_cast<::ActorMover *>((((GetKindStub*)menu)))->GetCurrentMoveModeType())) != 2)
                         return true;
                     else

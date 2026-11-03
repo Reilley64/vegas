@@ -2,6 +2,7 @@
 // src/fallout/interface/forenderedmenuracesex.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedmenuracesex.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/rendered_menu_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -664,7 +665,7 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, intptr_t a2, int
             for (int j = 0; iFound < 0 && j < 4; j++)
             {
                 reinterpret_cast<::NiPick *>(&(pick))->FUN_00705fc0(unkD8[j]);
-                reinterpret_cast<::CameraWindowRay *>((((::PickCamera *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>(this)->GetFlt()))))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((pInterface))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((pInterface))->FUN_00792760(),
+                reinterpret_cast<::CameraWindowRay *>((((::PickCamera *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pMenuLightParameters))))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((pInterface))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((pInterface))->FUN_00792760(),
                                                (*(::NiPoint3 *)(&origin)), (*(::NiPoint3 *)(&dir)), (const ::NiRenderTargetGroup *)(0));
                 if (reinterpret_cast<::NiPick *>(&(pick))->PerformPick((*(const ::NiPoint3 *)(&origin)), (*(const ::NiPoint3 *)(&dir)), 0))
                 {
@@ -675,7 +676,7 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, intptr_t a2, int
             if (iFound >= 0)
             {
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIMenuMode", 0x121)))->FUN_00ad8830(false);
-                ((::RaceSexMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::MenuTile *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()))))->FUN_00a03c90()))->FUN_007fe910((void *)(iFound));
+                ((::RaceSexMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::MenuTile *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pFourthMenuObject))))->FUN_00a03c90()))->FUN_007fe910((void *)(iFound));
                 return true;
             }
         }
@@ -1129,7 +1130,7 @@ void xRenderedMenu::Init()
     xAV* qdqWL = 0;
     if (!((::xAV *)(::FUN_00559450((int *)&(m_f8)))))
     {
-        qdqWL = ((::xAV *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::xLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(((const char *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::xT2 *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::xT1 *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()))))->FUN_00a03c90()))))->FUN_007fd640()))), 0, true, false, false,
+        qdqWL = ((::xAV *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::xLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(((const char *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::xT2 *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::xT1 *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pFourthMenuObject))))->FUN_00a03c90()))))->FUN_007fd640()))), 0, true, false, false,
                                                 false)));
         m_f8.FUN_0066b0d0(qdqWL);
         ::UpdateObjectVisibility((::NiAVObject *)(qdqWL));

@@ -2,6 +2,10 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include "fallout/interface/inventory_fields.h"
+#include "fallout/interface/list_box_fields.h"
+#include "fnv/effect_item_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -195,7 +199,7 @@ float ActiveEffect::GetDuration() const
 // @fnv 0x007df1d0
 EffectSetting* ActiveEffect::GetEffectSetting() const
 {
-    return ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pEffect))->FUN_00825c00()));
+    return ((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((void *)(pEffect))->setting));
 }
 // @fnv 0x007dd8a0
 bool BGSPerk::IsPerkHidden() const
@@ -1239,7 +1243,7 @@ Tile* FUN_007da2c0()
     }
     else
     {
-        if (StatsMenu::ms_pInventoryMenu && ((std::intptr_t)(reinterpret_cast<::Callees *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->FUN_00726070())))
+        if (StatsMenu::ms_pInventoryMenu && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->tile)))
             delete (VDtor*)StatsMenu::ms_pInventoryMenu;
     }
     return 0;
@@ -1546,7 +1550,7 @@ void FUN_00404210_t::CopyFrom(FUN_00404210_t* apSource)
     reinterpret_cast<::Unk004043d0 *>(this)->FUN_004043d0(reinterpret_cast<::FUN_00404390_shell *>((apSource))->FUN_00404390());
     reinterpret_cast<::EffectItem_shell *>(this)->FUN_00404470(reinterpret_cast<::FUN_00404420_shell *>((apSource))->FUN_00404420());
     reinterpret_cast<::S00404510 *>(this)->FUN_00404510(reinterpret_cast<::FUN_004044d0_shell *>((apSource))->FUN_004044d0());
-    reinterpret_cast<::BGSQuestObjective *>(this)->SetOwner((::TESQuest *)(reinterpret_cast<::EffectItem *>((apSource))->GetAffectedActorValue()));
+    data.m_eAssociatedActorValue = (ActorValue::Index)reinterpret_cast<::EffectItem *>((apSource))->GetAffectedActorValue();
     reinterpret_cast<::FUN_00404760_shell *>(this)->FUN_00404760(((::PerkEntryConditionSet *)(reinterpret_cast<::BGSDebris *>((apSource))->GetDataList())));
     m_fCost = -1.0f;
 }
@@ -1793,7 +1797,7 @@ FUN_007e0c50_item* FUN_007e0c50_list::FUN_007e0c50(unsigned int formID)
     FUN_007e0c50_item* pEffect = 0;
     for (pNode = this ? &xList : 0; !pEffect && pNode && ((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)); pNode = ((::FUN_007e0c50_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
-        if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->pForm))->FUN_0084e3a0())) == formID)
+        if (((unsigned int)((((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->pForm)->iFormID)) == formID)
             pEffect = ((::FUN_007e0c50_item *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
     }
     return pEffect;
@@ -1990,9 +1994,9 @@ void FUN_007e0b20_shell::AddEffectItem(EffectItem* apEffect)
             pEntry = new FUN_00403ba0;
             pEntry->m_eAssociatedActorValue = reinterpret_cast<::EffectItem *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->GetAffectedActorValue();
             pEntry->m_iMagnitude = reinterpret_cast<::FUN_00404390_shell *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->FUN_00404390();
-            if (reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(apEffect))->FUN_00825c00())))))->FUN_00403e60(4))
+            if (reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((void *)(apEffect))->setting)))))->FUN_00403e60(4))
                 pEntry->m_iMagnitude *= -1;
-            if (!reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(apEffect))->FUN_00825c00())))))->FUN_00403e60(2))
+            if (!reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((void *)(apEffect))->setting)))))->FUN_00403e60(2))
                 pEntry->m_iPayloadInteger = reinterpret_cast<::FUN_004044d0_shell *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->FUN_004044d0();
             kList.AddHead(reinterpret_cast<int*>(&pEntry));
         }
@@ -2444,7 +2448,7 @@ void StatsMenuSI::FUN_007ddd10()
     float adjustment;
     float currentValue;
     float unusedResult;
-    scale = reinterpret_cast<::TileListBoxCalls *>((((::fnv_007ddd10::TraitSI *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat({}) * ::DAT_01017b70;
+    scale = reinterpret_cast<::TileListBoxCalls *>((((::fnv_007ddd10::TraitSI *)(this->unk04))))->GetFloat({}) * ::DAT_01017b70;
     adjustment = (-scale / ::DAT_01011590) + (((double)(::RandomFloat0To1())) * scale);
     currentValue =
         ::FUN_00404010(0.0f, (reinterpret_cast<ActivitySI*>(reinterpret_cast<char*>((*reinterpret_cast<::fnv_007ddd10::ActivitySI * *>(&::_g_thePlayer))) + 0xa4))->v3(0x4a));
@@ -3058,7 +3062,7 @@ void StatsMenuFunction007dc7e0::UpdateStatsDisplay(void* actor)
 // @fnv 0x007ddc20
 void MenuItem::FUN_007ddc20()
 {
-    float a = reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat({}) * ::DAT_01017b70;
+    float a = reinterpret_cast<::TileListBoxCalls *>((((::TileValue *)(this->value))))->GetFloat({}) * ::DAT_01017b70;
     float c = (-a / ::DAT_01011590) + ::RandomFloat0To1() * a;
     float d = FUN_00404010(0.0f, ((TraitValues*)((char*)(*reinterpret_cast<void * *>(&::_g_thePlayer)) + 0xa4))->GetValue(0x49));
     float e = ::DAT_01064f50 - (d + c) / ::DAT_01017b70 * ::DAT_0101ff40;
@@ -3071,7 +3075,7 @@ void MenuItem::FUN_007ddc20()
 // @fnv 0x007dde00
 void B7DDE00Menu::UpdateModifierTile()
 {
-    float fRange5 = reinterpret_cast<::TileListBoxCalls *>((((::B7DDE00Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(0x1008) * 1000.0;
+    float fRange5 = reinterpret_cast<::TileListBoxCalls *>((((::B7DDE00Tile *)(this->m_pkTile))))->GetFloat(0x1008) * 1000.0;
     float fOffset5 = -fRange5 / 2.0 + ::RandomFloat0To1() * fRange5;
     float fValue = FUN_00404010(0.0f, reinterpret_cast<B7DDE00Player*>(::_g_thePlayer)->m_kAVOwner.GetActorValue(0x4b));
     float fAngle2 = 1.5707963267948966 - (fValue + fOffset5) / 1000.0 * 3.1415927410125732;
@@ -4238,13 +4242,13 @@ void ClickMenu::FUN_007db380(int id, Tile* tile)
     {
         if (tile == m_kHealingOptions[i].pTile && m_kHealingOptions[i].m_pStatusEffect)
         {
-            reinterpret_cast<::FUN_0088c650_shell *>((((ClickPlayer*)::_g_thePlayer)))->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_kHealingOptions[i].m_pStatusEffect))->GetName())),
-                               (int)(reinterpret_cast<::Callees *>((m_kHealingOptions[i].m_pStatusEffect))->FUN_00726070()),
+            reinterpret_cast<::FUN_0088c650_shell *>((((ClickPlayer*)::_g_thePlayer)))->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->m_pItemObject)),
+                               (int)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->m_iCountChange),
                                (::ExtraDataList *)(::AlchemyItem *)(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect))))
                                    ? ((::AlchemyItem *)(reinterpret_cast<::SimpleListNodeView*>(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect)))))->m_item))
                                    : 0),
                                false, false, true);
-            TESBoundObject* object = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_kHealingOptions[i].m_pStatusEffect))->GetName()));
+            TESBoundObject* object = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->m_pItemObject));
             for (ClickNode* node = (ClickNode*)dynamic_cast<BSSimpleList<EffectItem*>*>(object);
                  node && ((::AlchemyItem *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::ClickNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
@@ -4279,7 +4283,7 @@ void HealMenu::UpdateOption(int aiOptionIndex)
             reinterpret_cast<::Tile *>((options[indexB].tile))->Set(0xfaf, options[indexB].condition(&options[indexB]));
             if (options[indexB].inventory)
             {
-                ::FUN_00406f60((::FUN_00406f90_this *)(::HealText *)(&text), "(%d) %s", ((std::intptr_t)(reinterpret_cast<::Callees *>((options[indexB].inventory))->FUN_00726070())),
+                ::FUN_00406f60((::FUN_00406f90_this *)(::HealText *)(&text), "(%d) %s", ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((options[indexB].inventory))->m_iCountChange)),
                            reinterpret_cast<::FUN_00a011f0_shell *>((options[indexB].tile))->FUN_00a011f0(0x1004));
                 if ((indexB == 0 && !::FUN_004d1360((char *)((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer))))) || indexB == 3)
                     reinterpret_cast<::Tile *>((button))->Set(0xfaf, 1);
@@ -4613,7 +4617,7 @@ class FUN_007e09d0_cls
 void FUN_007e08a0_shell::AddEffectToGroup(ActiveCalls* effect)
 {
     TESForm* group = dynamic_cast<TESForm*>(((::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>((effect))->GetName())));
-    EffectGroup* pGroup = ((::EffectGroup *)(reinterpret_cast<::FUN_007e0c50_list *>(this)->FUN_007e0c50(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((group))->FUN_0084e3a0())))));
+    EffectGroup* pGroup = ((::EffectGroup *)(reinterpret_cast<::FUN_007e0c50_list *>(this)->FUN_007e0c50(((unsigned int)(group->iFormID)))));
     if (!pGroup)
     {
         pGroup = new EffectGroup(group);
@@ -4937,6 +4941,13 @@ bool Owner::SetIndexFromType(unsigned int uiType, int* piIndex)
 
 
 
+// The spell of a survival need stage.
+struct SurvivalStageFields
+{
+    char pad[0x1c];
+    SpellItem* spell;
+};
+
 // Rebuilds the stats menu status-effect tiles and list from the player's active effects and survival stage spells.
 // @fnv 0x007ddf00
 void StatsMenuActiveEffects::FUN_007ddf00()
@@ -4976,28 +4987,28 @@ void StatsMenuActiveEffects::FUN_007ddf00()
              reinterpret_cast<::S3e60 *>((((EffectSettingOps*)pactiveEffect->GetEffectSetting())))->FUN_00403e60(0x2000)))
         {
             SpellItem* pspell = dynamic_cast<SpellItem*>(((::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>((((ActiveEffectOps*)pactiveEffect)))->GetName())));
-            if (pspell && pradstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((pradstage))->GetMinLevel())))
+            if (pspell && pradstage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((pradstage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex0)
                     m_pStatusEffectAtIndex0 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex0->pForm == pspell)
                     reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex0->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && ph20stage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((ph20stage))->GetMinLevel())))
+            if (pspell && ph20stage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((ph20stage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex1)
                     m_pStatusEffectAtIndex1 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex1->pForm == pspell)
                     reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex1->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && phungerstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((phungerstage))->GetMinLevel())))
+            if (pspell && phungerstage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((phungerstage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex2)
                     m_pStatusEffectAtIndex2 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex2->pForm == pspell)
                     reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex2->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && psleepstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((psleepstage))->GetMinLevel())))
+            if (pspell && psleepstage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((psleepstage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex3)
                     m_pStatusEffectAtIndex3 = new StatsMenu__StatusEffect(pspell);
@@ -5395,7 +5406,7 @@ bool InputStats::FUN_007db680(int code, float amount)
             }
         }
         if (::FUN_00709d40() &&
-            (reinterpret_cast<::sa040a0::Owner *>((((::fnv_007db680::InputTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((InputList*)&m_kStatusEffectList)))->FUN_00825c00()))))->IsAllChildrenFlag0() ||
+            (reinterpret_cast<::sa040a0::Owner *>((((::fnv_007db680::InputTile *)(reinterpret_cast<::ListBoxFields *>(&m_kStatusEffectList)->scrollBar))))->IsAllChildrenFlag0() ||
              reinterpret_cast<::FUN_00a01230_shell *>((((InputTile*)((::Tile *)(reinterpret_cast<::InventoryStackRecord *>((((InputChildren*)&m_pTiles[26]->m_kChildTileList)))->GetPayloadAddress())))))->IsTraitNonZero(0xfa3)))
         {
             int axisB = 0;
@@ -5409,7 +5420,7 @@ bool InputStats::FUN_007db680(int code, float amount)
             {
                 InputTile* scrollTile =
                     GetCurrentPage() == SM_STATUS
-                        ? ((::fnv_007db680::InputTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((InputList*)&m_kStatusEffectList)))->FUN_00825c00()))
+                        ? ((::fnv_007db680::InputTile *)(reinterpret_cast<::ListBoxFields *>(&m_kStatusEffectList)->scrollBar))
                         : (InputTile*)((::Tile *)(reinterpret_cast<::InventoryStackRecord *>((((InputChildren*)&m_pTiles[26]->m_kChildTileList)))->GetPayloadAddress()));
                 int trait3 = ::FUN_00a01860("_current_value");
                 int oldValue4 = (int)reinterpret_cast<::TileListBoxCalls *>((scrollTile))->GetFloat(trait3);

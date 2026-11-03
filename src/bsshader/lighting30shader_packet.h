@@ -5,9 +5,8 @@ struct Lighting30Packet4
 {
     unsigned int x, y, z, w;
 };
-struct Lighting30PacketState
+struct Lighting30PacketState : public NiRefObject
 {
-    char pad[8];
     bool dirty;
 };
 extern bool DAT_01200bf4;

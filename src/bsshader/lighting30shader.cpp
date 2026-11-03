@@ -78,6 +78,8 @@ struct S00bbe6b0_Node
     int unk08;
     int unk0c;
     S00bbe6b0_Mat world;
+    char pad50[0xed - 0x50];
+    unsigned char bFlagED;
 };
 
 struct S00bbe6b0_Pair
@@ -88,7 +90,7 @@ struct S00bbe6b0_Pair
 
 struct S00bbe6b0_Src
 {
-    int unk00;
+    void* unk00;
     int unk04;
     unsigned char unk08;
     unsigned char count;
@@ -105,7 +107,7 @@ struct S00bbe6b0_Renderer
     int unk0c;
     int unk10;
     int unk14;
-    char* m_18;
+    struct S00bbe6b0_View* m_18;
     void FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, const void* flag, void* out);
 };
 
@@ -327,13 +329,19 @@ public:
 };
 
 
-// If DAT_012010b0[8] is set, computes pos minus DAT_011f474c minus the offset at DAT_011f91c8+0x1e4 and stores the result into DAT_01201360/64/68.
+// If DAT_012010b0's active flag is set, computes pos minus DAT_011f474c minus the offset at DAT_011f91c8+0x1e4 and stores the result into DAT_01201360/64/68.
+struct SceneOrigin_bbbcf0
+{
+    char pad[0x1e4];
+    NiPoint3 kOrigin;
+};
+
 // @fnv 0x00bbbcf0
 void UpdatePositionOffset(const NiPoint3& pos)
 {
-    if (DAT_012010b0[8])
+    if (reinterpret_cast<::Lighting30PacketState*>(DAT_012010b0)->dirty)
     {
-        NiPoint3 offset = *(NiPoint3*)((*reinterpret_cast<char * *>(&::DAT_011f91c8)) + 0x1e4);
+        NiPoint3 offset = (*reinterpret_cast<SceneOrigin_bbbcf0 * *>(&::DAT_011f91c8))->kOrigin;
         NiPoint3 diff = pos - DAT_011f474c - offset;
         (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201360)) = diff.x;
         DAT_01201364 = diff.y;
@@ -342,16 +350,27 @@ void UpdatePositionOffset(const NiPoint3& pos)
 }
 
 
-// If DAT_012010cc[8] is nonzero, copies four ints at offsets 0x84..0x90 of param_1 into DAT_01201b50..DAT_01201b5c.
+struct PropertyView_bbbda0
+{
+    char pad00[0x24];
+    unsigned int uiFlags24;
+    char pad28[0x84 - 0x28];
+    int aiValue84[4];
+    char pad94[0xe0 - 0x94];
+    float fValueE0;
+};
+
+// If DAT_012010cc's active flag is nonzero, copies the four ints aiValue84 of param_1 into DAT_01201b50..DAT_01201b5c.
 // @fnv 0x00bbbda0
 void FUN_00bbbda0(const char* param_1)
 {
-    if (DAT_012010cc[8] != 0)
+    const PropertyView_bbbda0* pProperty = reinterpret_cast<const PropertyView_bbbda0*>(param_1);
+    if (reinterpret_cast<::Lighting30PacketState*>(DAT_012010cc)->dirty != 0)
     {
-        (*reinterpret_cast<int *>(&::ConstantMaps::DAT_01201b50)) = *(const int*)(param_1 + 0x84);
-        DAT_01201b54 = *(const int*)(param_1 + 0x88);
-        DAT_01201b58 = *(const int*)(param_1 + 0x8c);
-        DAT_01201b5c = *(const int*)(param_1 + 0x90);
+        (*reinterpret_cast<int *>(&::ConstantMaps::DAT_01201b50)) = pProperty->aiValue84[0];
+        DAT_01201b54 = pProperty->aiValue84[1];
+        DAT_01201b58 = pProperty->aiValue84[2];
+        DAT_01201b5c = pProperty->aiValue84[3];
     }
 }
 
@@ -359,10 +378,11 @@ void FUN_00bbbda0(const char* param_1)
 // @fnv 0x00bbbdf0
 void FUN_00bbbdf0(void* this_ptr, int, char* param_1)
 {
-    if (DAT_012010d8[8] != 0)
+    const PropertyView_bbbda0* pProperty = reinterpret_cast<const PropertyView_bbbda0*>(param_1);
+    if (reinterpret_cast<::Lighting30PacketState*>(DAT_012010d8)->dirty != 0)
     {
-        (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201b90)) = *(float*)(param_1 + 0xe0);
-        if ((*(unsigned int*)(param_1 + 0x24) & 0x10) > 0)
+        (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201b90)) = pProperty->fValueE0;
+        if ((pProperty->uiFlags24 & 0x10) > 0)
         {
             DAT_01201b94 = ::DAT_010177e8;
         }
@@ -440,19 +460,21 @@ struct DummyVTable
     virtual void vec();
     virtual void vf0();
     virtual int vf4(int, int);
+    char pad04[0x2c];
+    float m_f30;
 };
 
-// If DAT_012010e0[8] is set, queries param_1->vf4(5, 0) to set DAT_01201bec to 1.0 or 0.0 and copies the float at param_1+0x30 into DAT_01201be8.
+// If DAT_012010e0's active flag is set, queries param_1->vf4(5, 0) to set DAT_01201bec to 1.0 or 0.0 and copies param_1->m_f30 into DAT_01201be8.
 // @fnv 0x00bbbe30
 void FUN_00bbbe30(void* this_ptr, int edx_unused, DummyVTable* param_1)
 {
-    if (DAT_012010e0[8] != 0)
+    if (reinterpret_cast<::Lighting30PacketState*>(DAT_012010e0)->dirty != 0)
     {
         if (param_1->vf4(5, 0) != 0)
             DAT_01201bec = 1.0f;
         else
             DAT_01201bec = 0.0f;
-        DAT_01201be8 = *(float*)((char*)param_1 + 0x30);
+        DAT_01201be8 = param_1->m_f30;
     }
 }
 
@@ -467,25 +489,6 @@ void DispatchIfNotExcluded(::Input818* arg)
         ::FUN_00be1ff0(arg);
     }
 }
-
-// @fnv 0x00bbd820
-int FUN_00bbd820(char* pThis, int, char* arg1, char* apFlags)
-{
-    bool bHasFlag = false;
-    if (*reinterpret_cast<int*>(*reinterpret_cast<char**>(arg1 + 0xB8) + 0x28) != 0)
-        bHasFlag = true;
-    bHasFlag |= (*reinterpret_cast<unsigned int*>(apFlags + 0x24) & 0x20) > 0;
-    if ((*reinterpret_cast<unsigned int*>(apFlags + 0x20) & 2) > 0)
-    {
-        if (bHasFlag)
-            return *reinterpret_cast<int*>(pThis + 0x94);
-        return *reinterpret_cast<int*>(pThis + 0x8C);
-    }
-    if (bHasFlag)
-        return *reinterpret_cast<int*>(pThis + 0x84);
-    return *reinterpret_cast<int*>(pThis + 0x7C);
-}
-
 
 // Checks DAT_011f91e4 and state entries, calling FUN_00b97e80, UpdateRendererStateCount or decrementing DAT_011ff9dc and calling FUN_00b97e30 based on flags.
 // @fnv 0x00bbeef0
@@ -546,15 +549,29 @@ void S::ApplyToGlobalRange()
         (*reinterpret_cast<void (***)(S*, void*)>(this))[0x128 / 4](this, (*reinterpret_cast<void* (*)[112]>(&::DAT_01200ec0))[i]);
 }
 
-// Iterates entries from start to the count at p+0x18 and zeroes the int at offset 8 of each non-null entry from the array at p+0x24.
+struct StageEntry_bbc610
+{
+    char pad[8];
+    int iValue08;
+};
+struct StageList_bbc610
+{
+    char pad[0x18];
+    unsigned int uiCount;
+    char pad1c[8];
+    StageEntry_bbc610** ppEntries;
+};
+
+// Iterates entries from start to uiCount and zeroes iValue08 of each non-null entry.
 // @fnv 0x00bbc610
 void FUN_00bbc610(void* apContainer, unsigned int start)
 {
-    for (unsigned int i = start; i < *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apContainer) + 0x18); ++i)
+    StageList_bbc610* pList = reinterpret_cast<StageList_bbc610*>(apContainer);
+    for (unsigned int i = start; i < pList->uiCount; ++i)
     {
-        void* pEntry = (*reinterpret_cast<void***>(reinterpret_cast<char*>(apContainer) + 0x24))[i];
+        StageEntry_bbc610* pEntry = pList->ppEntries[i];
         if (pEntry)
-            *reinterpret_cast<int*>(reinterpret_cast<char*>(pEntry) + 8) = 0;
+            pEntry->iValue08 = 0;
     }
 }
 
@@ -604,6 +621,11 @@ struct Obj_bbb890
     char pad[0x30];
     float f30;
 };
+struct SceneOrigin_bbb890
+{
+    char pad[0x1e4];
+    P3_bbb890 kOrigin;
+};
 
 // @fnv 0x00bbb890
 void UpdateTransformedPosition(M_bbb890 kMat, Obj_bbb890* pObject)
@@ -613,7 +635,7 @@ void UpdateTransformedPosition(M_bbb890 kMat, Obj_bbb890* pObject)
         P4_bbb890 kWorldPosition = (*reinterpret_cast<::P4_bbb890 *>(&::DAT_011fa2a0));
         P3_bbb890 kPos;
         kPos = P3_bbb890(kWorldPosition.x, kWorldPosition.y, kWorldPosition.z);
-        P3_bbb890 kCam = *(P3_bbb890*)((*reinterpret_cast<char * *>(&::DAT_011f91c8)) + 0x1e4);
+        P3_bbb890 kCam = (*reinterpret_cast<SceneOrigin_bbb890 * *>(&::DAT_011f91c8))->kOrigin;
         kPos += kCam;
         P3_bbb890 kIn(kPos.x, kPos.y, kPos.z);
         ::FUN_00ee6df8(&kPos, &kIn, &kMat);
@@ -721,6 +743,9 @@ struct FUN_00bbdcd0_TextureObject
     unsigned char m_pad0c[0x50];
     int m_nValue5c;
     int m_nValue60;
+    unsigned char m_pad64[0x8];
+    NiTexture* m_pTexture6c;
+    unsigned int m_uiValue70;
 };
 
 struct FUN_00bbdcd0_Arg2
@@ -1221,13 +1246,13 @@ struct FUN_00bbdda0_cls : public FUN_00bbdcd0_shell
 // @fnv 0x00bbdda0
 void FUN_00bbdda0_cls::SetupTextureStages(FUN_00bbdcd0_Arg1* apTextureSource, FUN_00bbdcd0_Arg2* apStageList)
 {
-    unsigned char* pTextureObject = (unsigned char*)apTextureSource->m_pTextureObject;
+    FUN_00bbdcd0_TextureObject* pTextureObject = apTextureSource->m_pTextureObject;
     if (pTextureObject == 0)
     {
         return;
     }
 
-    NiTexture* pFirstTexture = *(NiTexture**)(pTextureObject + 0x6c);
+    NiTexture* pFirstTexture = pTextureObject->m_pTexture6c;
     BeamStage* stage0 = apStageList->m_ppStages[0];
     if (pFirstTexture != 0)
     {
@@ -1249,7 +1274,7 @@ void FUN_00bbdda0_cls::SetupTextureStages(FUN_00bbdcd0_Arg1* apTextureSource, FU
     }
 
     this->v66();
-    ::FUN_00b97f20(4, *(unsigned int*)(pTextureObject + 0x70), 0);
+    ::FUN_00b97f20(4, pTextureObject->m_uiValue70, 0);
 }
 
 struct Color3
@@ -2016,7 +2041,6 @@ struct DeviceOwner
     int m58;
     Device* m5c;
 };
-typedef void(* RenderDrawFn)(Device*, void*, int, unsigned short, int, void*);
 struct FUN_00bbd000_cls
 {
     int m00;
@@ -2064,8 +2088,7 @@ int FUN_00bbd000_cls::RenderFrame(void* aiUnused, Parameters* params, Frame* fra
         if (m34 == resource)
         {
             Device* device = (*reinterpret_cast<::fnv_00bbd000::DeviceOwner * *>(&::DAT_0126f74c))->m5c;
-            RenderDrawFn* slot = (RenderDrawFn*)((char*)*(void**)device + 0x78);
-            (*slot)(device, resource->GetResource(&(*reinterpret_cast<char *>((void *)&::DAT_010A1CAC))), texture, frame->m20, address, frame->m04);
+            device->Draw(resource->GetResource(&(*reinterpret_cast<char *>((void *)&::DAT_010A1CAC))), texture, frame->m20, address, frame->m04);
         }
         else
         {
@@ -4163,6 +4186,43 @@ FUN_00bbc640::FUN_00bbc640(NiD3DVertexDeclaration* apDecl, NiD3DVertexDeclaratio
 }
 }  // namespace fnv_00bbc640
 
+struct GeomData_bbd820
+{
+    char pad[0x28];
+    void* m_pkColors;
+};
+struct Geom_bbd820
+{
+    char pad[0xb8];
+    GeomData_bbd820* m_pkData;
+};
+struct Flags_bbd820
+{
+    char pad[0x20];
+    unsigned int m_uiFlags20;
+    unsigned int m_uiFlags24;
+};
+
+// Picks the vertex declaration for the geometry: skinned or not by the property flags, with vertex colors when the geometry data has them.
+// @fnv 0x00bbd820
+NiD3DVertexDeclaration* FUN_00bbd820(fnv_00bbc640::FUN_00bbc640* pThis, int, Geom_bbd820* arg1, Flags_bbd820* apFlags)
+{
+    bool bHasFlag = false;
+    if (arg1->m_pkData->m_pkColors != 0)
+        bHasFlag = true;
+    bHasFlag |= (apFlags->m_uiFlags24 & 0x20) > 0;
+    if ((apFlags->m_uiFlags20 & 2) > 0)
+    {
+        if (bHasFlag)
+            return pThis->m_spSkinnedVC.m_pObject;
+        return pThis->m_spSkinned.m_pObject;
+    }
+    if (bHasFlag)
+        return pThis->m_spDeclVC.m_pObject;
+    return pThis->m_spDecl.m_pObject;
+}
+
+
 #include <windows.h>
 namespace fnv_00bbe020 {
 class Lighting30Sub_cls
@@ -6137,7 +6197,7 @@ void FUN_00bbe9c0(const SolPosition* original, S00bbe9c0_Obj* lighting, S00bbe9c
     bool previouslyDim = ::DAT_01200bf5;
     bool dim = (*reinterpret_cast<::fnv_00bbe9c0::S00bbe9c0_Coef *>(&::ConstantMaps::DAT_01201b60)).ambient < 1.0f;
     ::DAT_01200bf5 = dim;
-    DAT_012010d0[8] = (previouslyDim || dim);
+    reinterpret_cast<::Lighting30PacketState*>(DAT_012010d0)->dirty = (previouslyDim || dim);
 }
 }  // namespace fnv_00bbe9c0
 
@@ -6294,6 +6354,12 @@ struct S00bbe6b0_Cam
     int unk00;
 };
 
+struct S00bbe6b0_View
+{
+    char pad[0x940];
+    S00bbe6b0_Mat kView;
+};
+
 
 
 // @fnv 0x00bbe6b0
@@ -6306,10 +6372,10 @@ void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, const
     if ((*reinterpret_cast<::S00bbe6b0_Setting * *>(&::ConstantMaps::DAT_01201098))->bEnabled)
     {
         S00bbe6b0_Pair* pair = src->pair;
-        if (!pair || (src->count > 0 && *((unsigned char*)pair->first + 0xed)) || (id >= 0x1bd && id <= 0x1c3) ||
+        if (!pair || (src->count > 0 && pair->first->bFlagED) || (id >= 0x1bd && id <= 0x1c3) ||
             (id >= 0x2d8 && id <= 0x2ef))
         {
-            mat = *(S00bbe6b0_Mat*)(m_18 + 0x940);
+            mat = m_18->kView;
             ::FUN_00ee6dd4();
             (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._11 = mat._11;
             (*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170))._12 = mat._12;

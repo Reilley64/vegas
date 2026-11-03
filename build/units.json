@@ -44434,14 +44434,11 @@
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150",
     "?FUN_005d8550@@YAPBXI@Z": "0x005d8550",
-<<<<<<< HEAD
-    "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGPAUMeshColor@fnv_00c584a0@@@Z": "0x00c58d30"
-=======
+    "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGPAUMeshColor@fnv_00c584a0@@@Z": "0x00c58d30",
     "?FUN_009865d0@S009865d0_CombatGroup@@QAEPAXH@Z": "0x009865d0",
     "?FUN_0098e980@@YAPAXH@Z": "0x0098e980",
     "?FUN_00567d90@ActorS@@QAEPAVBGSEncounterZone@@XZ": "0x00567d90",
     "?FUN_00968630@FUN_00968630_stub@@QAEPAXH@Z": "0x00968630"
->>>>>>> origin/vegas-1-windows-x64
    }
   },
   {
@@ -261895,11 +261892,8 @@
     "?SqrDistSegBox@fnv_00ea7530@@YAMABUSegmentShape@1@ABUCenteredPointBounds@1@AAM222@Z": "0x00eb50f0",
     "?SqrDistPtBox@fnv_00ea7530@@YAMABUVec3@1@ABUCenteredPointBounds@1@AAM22@Z": "0x00eb42e0",
     "?FUN_00ea2030@fnv_00ea2030@@YA_NMPBUCenteredPointBounds@1@PBXPBUSphereShape@1@1@Z": "0x00ea2030",
-<<<<<<< HEAD
-    "?InitRegion@FNVRegion@@QAEPAU1@PAXPAUFNVVectorParameter@@MMMH@Z": "0x00eb3c40"
-=======
+    "?InitRegion@FNVRegion@@QAEPAU1@PAXPAUFNVVectorParameter@@MMMH@Z": "0x00eb3c40",
     "?FUN_00a89af0@@YAXH@Z": "0x00a89af0"
->>>>>>> origin/vegas-1-windows-x64
    }
   },
   {
@@ -442109,11 +442103,8 @@
     "?FUN_004b4ab0@FUN_004b4ab0_Class@@QAEXHH@Z": "0x004b4ab0",
     "?FUN_00dfb040@FloatPair@@QAEHPAUParserContext@@HPAHPAPAU2@@Z": "0x00dfb040",
     "?FUN_00e2d1b0@FanBuilder@FanSpace@@QAEHHPAUFanEdge@2@PAUFanVertex@2@@Z": "0x00e2d1b0",
-<<<<<<< HEAD
-    "?FUN_00dfb040@FloatPair@@QAEHPAUParserContext@@PBXPAHPAPAU2@@Z": "0x00dfb040"
-=======
+    "?FUN_00dfb040@FloatPair@@QAEHPAUParserContext@@PBXPAHPAPAU2@@Z": "0x00dfb040",
     "?FUN_004b4ab0@FUN_004b4ab0_Class@@QAEXPAUFUN_004b4cf0_shell@@PAT__m128@@@Z": "0x004b4ab0"
->>>>>>> origin/vegas-1-windows-x64
    }
   },
   {

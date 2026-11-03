@@ -596,7 +596,7 @@ void FUN_00bc3450(StrArr_00bc3450* pArray)
 
 // Adds a pass (0x1e5 or 0x1e6 depending on a and type) to pPasses, or increments count when type is not 1; clears out and returns 0.
 // @fnv 0x00bd9e60
-int FUN_00bd9e60(Shader_00bd9540* self, intptr_t edx, NiGeometry* geom, unsigned short* count, unsigned char type,
+int FUN_00bd9e60(Shader_00bd9540* self, int edx, NiGeometry* geom, unsigned short* count, unsigned char type,
                             bool* pbOut, bool a)
 {
     if (!a)
@@ -4021,7 +4021,7 @@ void TargetBeam::FUN_00bc4680()
     char binaryPath[260];
     FUN_00be0c00(vertexDesc.file, sourcePath);
     FUN_00406d00(binaryPath, 260, "BEAM.vso");
-    vertex.Assign(((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(unsigned int *)(&vertexDesc.count), "vs_1_1"))));
+    vertex.Assign(((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(sourcePath), (::_D3DXMACRO *)(&vertexDesc.count), (const char *)("vs_1_1"), binaryPath))));
     const char* profile = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     BeamDesc pixelDesc("beam\\p\\beam.p.hlsl");
     FUN_00be0c00(pixelDesc.file, sourcePath);
@@ -6034,7 +6034,7 @@ void FUN_00bd0540_class::InitRefObjects()
         {
             ::FUN_00be0c00((const char *)(void *)((void*)arrA[i].f00), (char *)(bufB));
             ::FUN_00406d00(bufA, 0x104, str_010bbaf8, i);
-            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(bufB), (const char *)(void *)(&arrA[i].f04), (*reinterpret_cast<const char (*)[]>(&::str_010a93ec)))));
+            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(bufB), (::_D3DXMACRO *)(&arrA[i].f04), (const char *)(str_010a93ec), bufA)));
             RefObject* old = m_arr94[i];
             if (old != nv)
             {
@@ -6055,7 +6055,7 @@ void FUN_00bd0540_class::InitRefObjects()
         {
             ::FUN_00be0c00((const char *)(void *)((void*)arrB[i].f00), (char *)(bufB));
             ::FUN_00406d00(bufA, 0x104, str_010bbae8, i);
-            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(bufB), (const char *)(void *)(&arrB[i].f04), ::ShaderInit::DAT_010a93e4)));
+            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(bufB), (::_D3DXMACRO *)(&arrB[i].f04), (const char *)(::ShaderInit::DAT_010a93e4), bufA)));
             RefObject* old = m_arrBC[i];
             if (old != nv)
             {
@@ -9519,7 +9519,7 @@ void FUN_00bc5070_shell::LoadVolumetricFogShaders()
             continue;
         FUN_00be0c00(configs[i].filename, sourceName);
         ::FUN_00406d00(binaryName, 260, "VolumetricFog%03d.vso", i);
-        shaders[i] = ((::ShaderRef_bc5070 *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(unsigned int *)(&configs[i].flags), profileNames[i])));
+        shaders[i] = ((::ShaderRef_bc5070 *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(sourceName), (::_D3DXMACRO *)(&configs[i].flags), (const char *)(profileNames[i]), binaryName)));
     }
 }
 
@@ -10318,67 +10318,67 @@ void SPShader::SetupShaderPass(SPPassInfo* apPass)
     case 0xE3:
     case 0xEC:
     case 0xF5:
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pGeom), 3, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pGeom), 3, 0, 1);
     case 0xD9:
     case 0xE2:
     case 0xEB:
     case 0xF4:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
-        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
         break;
     case 0x103:
     case 0x10F:
     case 0x11A:
     case 0x125:
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pGeom), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pGeom), 4, 0, 1);
     case 0x101:
     case 0x10E:
     case 0x119:
     case 0x124:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
-        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 3, 0);
+        ::FUN_00b7c230((char *)(pGeom), 3, 0, true);
         break;
     case 0x9A:
     case 0xA5:
     case 0xB0:
     case 0xBB:
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pGeom), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pGeom), 4, 0, 1);
     case 0x99:
     case 0xA4:
     case 0xAF:
     case 0xBA:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 1, 0);
-        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 3, 0);
-        ::FUN_00d3dd00((intptr_t)this, (intptr_t)(pGeom), 2, 0);
+        ::FUN_00b7c230((char *)(pGeom), 3, 0, true);
+        ::FUN_00d3dd00((intptr_t)(pGeom), 2, 0, 1);
         break;
     case 0x134:
     case 0x140:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 1, 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 0, 0);
-        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
         break;
     case 0x153:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
-        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
         break;
     case 0x15C:
     case 0x162:
     case 0x168:
     case 0x16E:
     case 0x174:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 1, 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pGeom), 0, 0);
-        ::FUN_00b7c230((char *)this, (uintptr_t)(pGeom), 2, 0);
-        ::FUN_00d3dd00((intptr_t)this, (intptr_t)(pGeom), 6, 0);
+        ::FUN_00b7c230((char *)(pGeom), 2, 0, true);
+        ::FUN_00d3dd00((intptr_t)(pGeom), 6, 0, 1);
         break;
     case 0x231:
     case 0x232:
     case 0x233:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pGeom), 0);
-        ::FUN_00b7c120((intptr_t)this);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pGeom), 0, 0);
+        ::FUN_00b7c120(6);
         break;
     default:
         reinterpret_cast<::Host200 *>(this)->FUN_00b7d200((::Arg200 *)(apPass));
@@ -15591,7 +15591,7 @@ void ParallaxShader::CreateParallaxShaders()
         {
             FUN_00be0c00(descriptors[i].file, sourceName);
             FUN_00406d00(binaryName, 260, "PAR2%03i.vso", i);
-            shaders[i].Assign(((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(unsigned int *)((unsigned int*)descriptors[i].macros), "vs_2_0"))));
+            shaders[i].Assign(((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(sourceName), (::_D3DXMACRO *)((unsigned int*)descriptors[i].macros), (const char *)("vs_2_0"), binaryName))));
         }
     }
 }
@@ -16000,7 +16000,7 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
     case 0x171:
     case 0x177: {
         PassTexSlot* slot = owner->pPasses->pSlot0;
-        slot->pTexture = ::GetTextureByIndex((char *)this, (intptr_t)(prop));
+        slot->pTexture = ::GetTextureByIndex((char *)(prop), 0);
     }
     break;
     case 0x7a:
@@ -16020,7 +16020,7 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
         owner->pPasses->pSlot0->pTexture = prop->pTexHolder->pTexture;
         {
             PassTexSlot* slot = owner->pPasses->pSlot1;
-            slot->pTexture = ::GetTextureByIndex((char *)this, (intptr_t)(prop));
+            slot->pTexture = ::GetTextureByIndex((char *)(prop), 0);
         }
         break;
     case 0x151:
@@ -16052,7 +16052,7 @@ void ShaderStub::SetupPassTextures(GeomArg* geom)
     if (pass == 0x234)
     {
         PassTexSlot* slot = owner->pPasses->pSlot6;
-        slot->pTexture = ((::NiTexture *)(reinterpret_cast<::FUN_004bc320_shell *>(((*reinterpret_cast<::SceneStub * *>(&::DAT_011f91e0))->pHolder->pObj->m_pReceiver))->FUN_004bc320(0)));
+        slot->pTexture = ((::NiTexture *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>(((*reinterpret_cast<::SceneStub * *>(&::DAT_011f91e0))->pHolder->pObj->m_pReceiver))->FUN_004bc320(0)));
     }
 
     UpdateConstants();
@@ -16847,7 +16847,7 @@ void ShaderManager::InitShaderPrograms()
             {
                 FUN_00be0c00(entry.filename, path);
                 FUN_00406d00(name, 260, &DAT_010bb95c, i);
-                m_programs[i] = ((::ShaderObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(const char *const *)(&entry.arg00), &(*reinterpret_cast<const char *>((void *)&::ShaderInit::DAT_010a93e4)))));
+                m_programs[i] = ((::ShaderObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(path), (::_D3DXMACRO *)(&entry.arg00), (const char *)(::ShaderInit::DAT_010a93e4), name)));
             }
         }
     }
@@ -19293,9 +19293,9 @@ void RenderShader625::SetShaderPasses(RenderArgument625* arg)
     case 240:
     case 246:
     case 249:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pass), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pass), 0, 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 1, 0);
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pass), 3, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pass), 3, 0, 1);
         break;
     case 197:
     case 200:
@@ -19311,18 +19311,18 @@ void RenderShader625::SetShaderPasses(RenderArgument625* arg)
     case 286:
     case 291:
     case 297:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pass), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pass), 0, 0);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 1, 0);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(pass), 2);
+        ::FUN_00b7c0a0((::NiD3DShader *)(pass), 2, 1);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 3, 1);
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pass), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pass), 4, 0, 1);
         break;
     case 307:
     case 310:
     case 319:
     case 322:
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(pass), 0, 0);
-        ::FUN_00b7c1f0((::B7C1F0Property *)this, (uintptr_t)(pass), 4, 0);
+        ::FUN_00b7c1f0((::B7C1F0Property *)(pass), 4, 0, 1);
         break;
     default:
         reinterpret_cast<::Host200 *>(this)->FUN_00b7d200((::Arg200 *)(arg));
@@ -22419,7 +22419,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
         return;
     }
     if ((propertyFlags & 0x40) > 0)
-        ((::fnv_00bdb4a0::ShaderPassEntry *)(::FUN_00bd9e60((::Shader_00bd9540 *)this, (intptr_t)(geometry), (::NiGeometry *)(count), (unsigned short *)(effectType), (unsigned char)(&first), (bool *)(hasNoOverlay), {})))->status = 7;
+        ((::fnv_00bdb4a0::ShaderPassEntry *)(::FUN_00bd9e60((::Shader_00bd9540 *)this, 0, (::NiGeometry *)(geometry), (unsigned short *)(count), (unsigned char)(effectType), (bool *)(&first), (bool)(hasNoOverlay))))->status = 7;
     unsigned short numLights = ((unsigned short)(::FUN_00b707d0((void *)this)));
     if (allowFirstPass && (needsShadow || passMask == DAT_010a91d4))
     {
@@ -23514,7 +23514,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     }
     if ((flags2 & 0x40) > 0)
     {
-        ::FUN_00bd9e60((::Shader_00bd9540 *)this, (intptr_t)(geom), (::NiGeometry *)(count), (unsigned short *)(passMode), (unsigned char)(&firstPass), (bool *)(skinned), {});
+        ::FUN_00bd9e60((::Shader_00bd9540 *)this, 0, (::NiGeometry *)(geom), (unsigned short *)(count), (unsigned char)(passMode), (bool *)(&firstPass), (bool)(skinned));
         passes->items[passes->count - 1]->type = 7;
     }
     if (castB || castC)

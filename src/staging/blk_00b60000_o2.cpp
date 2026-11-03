@@ -445,8 +445,8 @@ void FUN_00b71b70_class::ReleaseStage()
 // @fnv 0x00b7c150
 void SetEntryField(intptr_t aiIndex)
 {
-    int* base = (int*)DAT_0126f74c;
-    int* p = (int*)base[0x24 / 4];
+    uintptr_t* base = (uintptr_t*)DAT_0126f74c;
+    uintptr_t* p = (uintptr_t*)base[0x24 / 4];
     *(int*)((char*)p[aiIndex] + 8) = DAT_011f95e4;
 }
 
@@ -497,7 +497,7 @@ void FUN_00b6f4f0_class::SetTextureByName(intptr_t a)
 {
     reinterpret_cast<::LinkObjectA5 *>((((NiObjectNET_stub*)this)))->FUN_00a5c6a0((*(::NiStream *)(a)));
     if (*(int*)((char*)this + 0x64))
-        ::BSShaderManager::GetTexture((const char*)*(int*)((char*)this + 0x64), true, (::NiPointer< ::NiTexture> &)(*(NiTexture**)((char*)this + 0x60)),
+        ::BSShaderManager::GetTexture((const char*)*(uintptr_t*)((char*)this + 0x64), true, (::NiPointer< ::NiTexture> &)(*(NiTexture**)((char*)this + 0x60)),
                                     false, false);
 }
 
@@ -2425,24 +2425,24 @@ void VisitOwner::VisitObjects(StubVisitFn pfnVisit, void* pvData)
             StubIsKindOf(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4ac4)), m_pkObj);
         pfnVisit(m_pkObj, 0, pvData);
     }
-    if (m_pkRecv0 && ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv0))->FUN_004bc320(0))))
+    if (m_pkRecv0 && ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv0))->FUN_004bc320(0))))
     {
-        NiObjectStub* p = ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv0))->FUN_004bc320(0)));
+        NiObjectStub* p = ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv0))->FUN_004bc320(0)));
         pfnVisit(p, 0, pvData);
     }
-    if (m_pkRecv1 && ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv1))->FUN_004bc320(0))))
+    if (m_pkRecv1 && ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv1))->FUN_004bc320(0))))
     {
-        NiObjectStub* p = ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv1))->FUN_004bc320(0)));
+        NiObjectStub* p = ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv1))->FUN_004bc320(0)));
         pfnVisit(p, 0, pvData);
     }
-    if (m_pkRecv2 && ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv2))->FUN_004bc320(0))))
+    if (m_pkRecv2 && ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv2))->FUN_004bc320(0))))
     {
-        NiObjectStub* p = ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv2))->FUN_004bc320(0)));
+        NiObjectStub* p = ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv2))->FUN_004bc320(0)));
         pfnVisit(p, 0, pvData);
     }
-    if (m_pkRecv3 && ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv3))->FUN_004bc320(0))))
+    if (m_pkRecv3 && ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv3))->FUN_004bc320(0))))
     {
-        NiObjectStub* p = ((::NiObjectStub *)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv3))->FUN_004bc320(0)));
+        NiObjectStub* p = ((::NiObjectStub *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((m_pkRecv3))->FUN_004bc320(0)));
         pfnVisit(p, 0, pvData);
     }
 }
@@ -3475,7 +3475,7 @@ class FUN_00b6c1a0_obj
     virtual void vf43();
     virtual FUN_00b6c1a0_obj* vf44(int a);
     unsigned int m_04;
-    FUN_00b6c1a0_obj* m_08;
+    unsigned int m_08;
 };
 class FUN_00b6c1a0_cls
 {
@@ -3531,12 +3531,12 @@ class FUN_00b6c1a0_cls
     virtual void vf48();
     virtual void vf49();
     virtual FUN_00b6c1a0_obj* vf50();
-    FUN_00b6c1a0_obj* FUN_00b6c1a0();
+    unsigned int FUN_00b6c1a0();
 };
 
-// Calls vf50 to get an object, then vf44(0) on it, and returns that result's m_08 pointer, or null if either step fails.
+// Calls vf50 to get the render target group, then vf44(0) for its first buffer, and returns that buffer's width (m_08), or 0 if either step fails.
 // @fnv 0x00b6c1a0
-FUN_00b6c1a0_obj* FUN_00b6c1a0_cls::FUN_00b6c1a0()
+unsigned int FUN_00b6c1a0_cls::FUN_00b6c1a0()
 {
     FUN_00b6c1a0_obj* p = vf50();
     if (p == 0)
@@ -3987,7 +3987,7 @@ class FUN_00b6d370_cls
 void FUN_00b6d370_cls::FUN_00b6d370(int iA, intptr_t iB, int iC, int iD)
 {
     int i0, i1, i2, i3, i4, i5;
-    ::GetRenderTargetDesc((::RenderConfigSurface *)this, iA, (unsigned int *)(iB), (unsigned int *)(int *)(&i0), (unsigned int *)(int *)(&i1), (unsigned int *)(int *)(&i2), (unsigned int *)(int *)(&i3), (unsigned int *)(int *)(&i4));
+    ::GetRenderTargetDesc((::RenderConfigSurface *)(iA), iB, (unsigned int *)(&i0), (unsigned int *)(&i1), (unsigned int *)(&i2), (unsigned int *)(&i3), (unsigned int *)(&i4), (unsigned int *)(&i5));
     reinterpret_cast<::RTManager_b6d170 *>(this)->CreateRenderTarget(iA, i0, i1, i2, i3, i4, iB, i5, iC, iD);
 }
 
@@ -4874,7 +4874,7 @@ struct ShaderFieldsStub
 
 // Stores shader's m_pArr[j] into stage i's m_08 and calls the stage's ApplyPairToState with shader->V56().
 // @fnv 0x00b7c0a0
-void FUN_00b7c0a0(NiD3DShader* shader, uintptr_t uiStageIndex, unsigned int j)
+void FUN_00b7c0a0(NiD3DShader* shader, unsigned int uiStageIndex, unsigned int j)
 {
     StageMgrStub* pStageMgr = reinterpret_cast<StageMgrStub*>(DAT_0126f74c);
     TexStageStub* stage = pStageMgr->m_pElems[uiStageIndex];
@@ -4996,7 +4996,7 @@ struct S_00b7c120_Global2
 
 // Looks up targets[index] and stores the result of callback->FUN_004bc320(0) into its unk08 field.
 // @fnv 0x00b7c120
-void FUN_00b7c120(intptr_t index)
+void FUN_00b7c120(int index)
 {
     S_00b7c120_Global1* global1 = reinterpret_cast<S_00b7c120_Global1*>(DAT_0126f74c);
     S_00b7c120_Target** targets = global1->unk24;
@@ -5006,7 +5006,7 @@ void FUN_00b7c120(intptr_t index)
     S_00b7c120_Inner* inner = outer->unk00;
     S_00b7c120_Callback* callback = inner->unk10c;
 
-    target->unk08 = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((callback))->FUN_004bc320(0)));
+    target->unk08 = ((void *)(uintptr_t)(reinterpret_cast<::FUN_004bc320_shell *>((callback))->FUN_004bc320(0)));
 }
 
 struct FUN_00b7c170_Entry
@@ -5114,7 +5114,7 @@ struct B7C1F0Property
 
 // Assigns the property's texture at uiTexture to the pass stage at uiStage, falling back to the default texture or null when none is set.
 // @fnv 0x00b7c1f0
-void FUN_00b7c1f0(B7C1F0Property* pkProperty, uintptr_t uiStage, unsigned int uiTexture, bool bUseDefault)
+void FUN_00b7c1f0(B7C1F0Property* pkProperty, unsigned int uiStage, unsigned int uiTexture, bool bUseDefault)
 {
     B7C1F0Stage* pkStage = (*reinterpret_cast<::B7C1F0Pass * *>(&::DAT_0126f74c))->m_ppkStages[uiStage];
     B7C1F0Texture* pkTexture = pkProperty->m_ppkTextures[uiTexture];
@@ -5131,7 +5131,7 @@ typedef int(* FUN_00b7c230_VFn)(void* self, int a, int b);
 void FUN_00b7c230(char* self, uintptr_t uiIndex, int a3, unsigned char ucFlag)
 {
     char* g = (char*)DAT_0126f74c;
-    int* table = *(int**)(g + 0x24);
+    uintptr_t* table = *(uintptr_t**)(g + 0x24);
     char* e = (char*)table[uiIndex];
     if (((FUN_00b7c230_VFn) * (void**)(*(char**)self + 0xf4))(self, 3, a3))
     {
@@ -5671,7 +5671,7 @@ void FUN_00b7ce90_class::SetupPass(void* a, Geometry* geom, PassKey* key)
     if (!props)
         return;
     TexStage* stage = pass->m_kTextureStages->m_pHeadNode;
-    stage->m_texture = ((::fnv_00b7ce90::NiTexture *)(::GetTextureByIndex((char *)this, (intptr_t)(geom))));
+    stage->m_texture = ((::fnv_00b7ce90::NiTexture *)(::GetTextureByIndex((char *)(geom), 0)));
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(geom->GetUVSet());
     stage = pass->m_kTextureStages->m_iSecondInteger;
     if (props->m_texture)
@@ -6627,7 +6627,7 @@ int __cdecl FUN_00b6c200(int);
 extern unsigned int DAT_011adbc8;
 extern bool DAT_012004fc;
 // @fnv 0x00b6c2c0
-void GetRenderTargetDesc(RenderConfigSurface* renderer, uintptr_t type, unsigned int* width,
+void GetRenderTargetDesc(RenderConfigSurface* renderer, unsigned int type, unsigned int* width,
                                    unsigned int* height, unsigned int* format, unsigned int* unused,
                                    unsigned int* flags, unsigned int* samples)
 {
@@ -7769,7 +7769,7 @@ struct ShaderStageSetter
 void ShaderStageSetter::FUN_00b7c290(intptr_t a1, int aiStageIndex, int a3)
 {
     TexStageStub* elem = (TexStageStub*)((SlotGlobal*)DAT_0126f74c)->m_24[aiStageIndex];
-    elem->m_08 = ((unsigned int)(::FUN_00c02f30((::FNV_Node *)this, a1)));
+    elem->m_08 = ((unsigned int)(::FUN_00c02f30((::FNV_Node *)(a1), a3)));
     reinterpret_cast<::E7DE90Owner *>((elem))->ApplyPairToState(0);
 }
 
@@ -10850,7 +10850,7 @@ struct ShaderStageManager
 void ShaderStageManager::FUN_00b7c0e0(NiD3DShader* shader, unsigned int i, unsigned int j)
 {
     TexStageStub* stage = ((StageMgr*)DAT_0126f74c)->m_pElems[i];
-    stage->m_08 = ((unsigned int)(::GetTextureByIndex((char *)this, (int)(shader))));
+    stage->m_08 = ((unsigned int)(::GetTextureByIndex((char *)(shader), j)));
     if (shader != 0)
         reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(shader->V56());
 }
@@ -11112,7 +11112,7 @@ void TexturePool::ResizeActivePool(intptr_t kind, unsigned count)
                 else
                 {
                     int a, b, c, d, e, f;
-                    ::GetRenderTargetDesc((::RenderConfigSurface *)this, kind, (unsigned int *)(43), (unsigned int *)(int *)(&a), (unsigned int *)(int *)(&b), (unsigned int *)(int *)(&c), (unsigned int *)(int *)(&d), (unsigned int *)(int *)(&e));
+                    ::GetRenderTargetDesc((::RenderConfigSurface *)(kind), 43, (unsigned int *)(&a), (unsigned int *)(&b), (unsigned int *)(&c), (unsigned int *)(&d), (unsigned int *)(&e), (unsigned int *)(&f));
                     texture = ((::PoolTexture *)(reinterpret_cast<::RenderTargetManager *>(this)->FUN_00b6d5e0((::NiRenderer *)(kind), a, b, e, c, d, 43, f, 0, 0)));
                 }
                 PoolPtr ptr(texture);
@@ -12647,10 +12647,10 @@ struct Setup051
     FUN_00c1b4a0_holder active0, active1, active2, active3;
     FUN_00c1b4a0_holder spare;
     FUN_00c1b4a0_holder inactive0, inactive1, inactive2, inactive3;
-    __forceinline Target051* Create(NiRenderer_b6d170* r, intptr_t kind)
+    __forceinline Target051* Create(NiRenderer_b6d170* r, int kind)
     {
         unsigned int width, height, format, unused, flags, samples;
-        ::GetRenderTargetDesc((::RenderConfigSurface *)this, (uintptr_t)(r), (unsigned int *)(kind), &width, &height, &format, &unused, &flags);
+        ::GetRenderTargetDesc((::RenderConfigSurface *)(r), kind, &width, &height, &format, &unused, &flags, &samples);
         return ((::Target051 *)(reinterpret_cast<::RenderTargetManager *>(this)->FUN_00b6d5e0((::NiRenderer *)(r), width, height, flags, format, unused, kind, samples, 0, 0)));
     }
     __forceinline Target051* Acquire(NiRenderer_b6d170* r, int kind, int flags = 0, int noReuse = 0, int e = 0)
@@ -14356,9 +14356,9 @@ void S00b7ba70_Updater::FUN_00b7ba70(RenderProperty* property, ShaderType* shade
     kShaderColor = ShaderColor(current.r, current.g, current.b, property->alpha);
     ShaderType* index = S00b7ba70_Index();
     if ((*reinterpret_cast<::FadeConfig * *>(&::DAT_011fec3c))->enabled && (shader->type < 195 || shader->type > 214))
-        ::ApplySourceColor((::Source374 *)this);
+        ::ApplySourceColor((::Source374 *)(state));
     else
-        ::AccumulateLightColor((::L08 *)this);
+        ::AccumulateLightColor((::L08 *)(state));
     if (shader->type >= 195 && shader->type <= 214)
     {
         DAT_011fd95c = static_cast<float>(shader->count);
@@ -15375,7 +15375,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 285:
     case 290:
     case 296:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
         {
             Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk10;
@@ -15394,7 +15394,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 239:
     case 243:
     case 248:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
         {
             Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk0c;
@@ -15488,7 +15488,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 735:
     case 746:
     case 747:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         break;
     case 150:
     case 156:
@@ -15518,13 +15518,13 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 208:
     case 212:
     case 267:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
         break;
     case 584:
     case 585:
     case 586:
-        ::SetSlotValue((::SlotObject *)this, (int)(shader), 3);
+        ::SetSlotValue((::SlotObject *)(shader), 3, false);
         reinterpret_cast<::ShaderStageSetter *>(this)->FUN_00b7c290((intptr_t)(shader), 1, false);
     case 341:
     case 343:
@@ -15555,7 +15555,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 581:
     case 582:
     case 583:
-        ::SetSlotValue((::SlotObject *)this, (int)(shader), 2);
+        ::SetSlotValue((::SlotObject *)(shader), 2, false);
         reinterpret_cast<::ShaderStageSetter *>(this)->FUN_00b7c290((intptr_t)(shader), 3, false);
     case 124:
     case 125:
@@ -15580,7 +15580,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 95:
     case 497:
     case 500:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         {
             Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk04;
             intptr_t texture = *shader->unkb4;
@@ -15602,8 +15602,8 @@ void Host200::FUN_00b7d200(Arg200* arg)
     break;
     case 331:
     case 336:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 1, true);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 2, true);
         break;
     case 104:
@@ -15612,15 +15612,15 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 120:
     case 133:
     case 143:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 2);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 2, true);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 3, true);
         break;
     case 332:
     case 338:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 1);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 1, true);
         break;
     case 151:
     case 157:
@@ -15638,22 +15638,22 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 288:
     case 294:
     case 299:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 4);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 4, true);
         break;
     case 254:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, false);
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 4);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 4, true);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 6, true);
         ::UpdateSlotFromGlobal((intptr_t)this);
         break;
     case 561:
     case 562:
     case 563:
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
-        ::FUN_00b7c120((intptr_t)this);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, false);
+        ::FUN_00b7c120(6);
         break;
     case 147:
     case 148:
@@ -15664,13 +15664,13 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 501:
     case 502: {
         int flag = ((Mode200*)(*reinterpret_cast<::S_00b7c120_Global2 * *>(&::DAT_011f91e0)))->flag;
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, flag);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, flag);
     }
     break;
     case 560: {
         int flag = ((Mode200*)(*reinterpret_cast<::S_00b7c120_Global2 * *>(&::DAT_011f91e0)))->flag;
-        ::FUN_00b7c0a0((::NiD3DShader *)this, (uintptr_t)(shader), 0);
+        ::FUN_00b7c0a0((::NiD3DShader *)(shader), 0, flag);
         reinterpret_cast<::ShaderStageManager *>(this)->FUN_00b7c0e0((::NiD3DShader *)(shader), 1, flag);
         ::UpdateSlotFromGlobal((intptr_t)this);
     }
@@ -15761,7 +15761,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
             stage->texture = texture->unk6c;
         else
             stage->texture = (int)(*reinterpret_cast<::NiTextureB7A * *>(&::DAT_011f952c));
-        ::FUN_00b71b10((::BeamStage *)this, (::NiD3DShader *)(stage));
+        ::FUN_00b71b10((::BeamStage *)(stage), (::NiD3DShader *)(shader));
     }
     break;
     default:

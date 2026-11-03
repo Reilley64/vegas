@@ -21,6 +21,6 @@ void FUN_00d3d8c0(const ::hkpCdBody &, const ::hkpCdBody &, const ::CollisionAge
 // 0x00d3dca0
 void FUN_00d3dca0(::S_00d3dca0_Obj *);
 // 0x00d3dd00
-void FUN_00d3dd00(intptr_t, intptr_t, int, int);
+void FUN_00d3dd00(intptr_t, int, int, int);
 // 0x00d3dd50
 void QueryD3DCollector(int, int, int, int);

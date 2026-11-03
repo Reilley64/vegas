@@ -11378,7 +11378,7 @@ bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsig
     reinterpret_cast<::ViewCamera *>(&(node))->FUN_00bd7200(flags);
     NiUpdateData update;
     reinterpret_cast<::FUN_00a59c60_cls *>(&(node))->FUN_00a59c60((std::intptr_t)&(update));
-    return ((bool)(::FUN_00b9c020((::FNVCuboid *)this, (::FNVCuboid *)(value))));
+    return ((bool)(::FUN_00b9c020((::FNVCuboid *)(value), (::FNVCuboid *)(&node))));
 }
 }  // namespace fnv_00b9de90
 

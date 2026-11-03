@@ -11,9 +11,9 @@ struct SlotObject;
 template <class> struct NiPointer;
 
 // 0x00b7c0a0
-void FUN_00b7c0a0(::NiD3DShader *, uintptr_t, unsigned int);
+void FUN_00b7c0a0(::NiD3DShader *, unsigned int, unsigned int);
 // 0x00b7c120
-void FUN_00b7c120(intptr_t);
+void FUN_00b7c120(int);
 // 0x00b7c150
 void SetEntryField(intptr_t);
 // 0x00b7c170
@@ -21,7 +21,7 @@ void FUN_00b7c170(intptr_t);
 // 0x00b7c190
 void UpdateSlotFromGlobal(intptr_t);
 // 0x00b7c1f0
-void FUN_00b7c1f0(::B7C1F0Property *, uintptr_t, unsigned int, bool);
+void FUN_00b7c1f0(::B7C1F0Property *, unsigned int, unsigned int, bool);
 // 0x00b7c230
 void FUN_00b7c230(char *, uintptr_t, int, unsigned char);
 // 0x00b7c2c0

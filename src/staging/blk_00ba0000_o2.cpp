@@ -2325,7 +2325,7 @@ void ParticleShader::CompileParticleShaders()
     ShaderRequest vertex("particle\\v\\particle.v.hlsl");
     FUN_00be0c00(vertex.source, sourcePath);
     ::FUN_00406d00(binaryPath, 260, "PARTICLE.vso");
-    vertexProgram = ((::ShaderProgram *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(::ShaderOptions *)(&vertex.options), "vs_2_0")));
+    vertexProgram = ((::ShaderProgram *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(sourcePath), (::_D3DXMACRO *)(&vertex.options), (const char *)("vs_2_0"), binaryPath)));
     const char* profile = ::NiD3DGPUProgramCache::GetPixelShaderProfile(1);
     ShaderRequest pixel("particle\\p\\particle.p.hlsl");
     FUN_00be0c00(pixel.source, sourcePath);
@@ -14724,7 +14724,7 @@ void Owner::FUN_00bb13d0()
         {
             ::FUN_00be0c00(zvertices[i][0], path);
             ::FUN_00406d00(name, 260, DAT_010b914c, i);
-            vertex[i] = ((::ShaderInit::Program *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(const char **)((zvertices[i] + 1)), DAT_010a93e4)));
+            vertex[i] = ((::ShaderInit::Program *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(path), (::_D3DXMACRO *)((zvertices[i] + 1)), (const char *)(DAT_010a93e4), name)));
         }
         else
             vertex[i] = 0;

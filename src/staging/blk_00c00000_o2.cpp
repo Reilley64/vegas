@@ -3341,7 +3341,7 @@ extern unsigned char DAT_011f9427;
 
 // Calls v3D(4,0) on the node and stores the resulting value into a1->m_p24->m_p04->m_p08, choosing between DAT_011f95d4 and DAT_011f9544 based on flags and a3.
 // @fnv 0x00c0bc00
-void SetNodeResultValue(FNV_A1* a1, FNV_Node* apNode, intptr_t aiCode)
+void SetNodeResultValue(FNV_A1* a1, FNV_Node* apNode, int aiCode)
 {
     int edi = ((::FNV_Mgr *)(::FUN_00b4f5c0()))->m_194;
     int ret = apNode->v3D(4, 0);
@@ -11952,7 +11952,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
     case 0x1B0:
     case 0x1B7:
     case 0x1B8:
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(table));
         UpdateShaderEntry(table, (ShaderInterface*)geom, 4);
         break;
     case 0x1A4:
@@ -11964,7 +11964,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
     case 0x1B9:
     case 0x1BA:
         table->entries[6]->value = (void*)(*geom->unkB4);
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(table));
         break;
     case 0x18E:
     case 0x18F:
@@ -11982,19 +11982,19 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
     case 0x1AD:
     case 0x1B5:
     case 0x1B6:
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(table));
         break;
     case 0x19F:
         reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((intptr_t)(table), (intptr_t)(geom));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(table));
         break;
     case 0x1AE:
         reinterpret_cast<::FUN_00c0bb20_class *>(this)->FUN_00c0bb20((intptr_t)(table), (intptr_t)(geom));
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(table));
         break;
     case 0x1A2:
     case 0x1B1:
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(table));
         // ponytail: share the texture tail by natural fallthrough.
     case 0x184:
     case 0x193:
@@ -12003,7 +12003,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
         break;
     case 0x1A3:
     case 0x1B2:
-        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)this);
+        ::FUN_00c0bbd0((::FUN_00c0bbd0_Arg *)(table));
         // ponytail: share the flag-helper tail by natural fallthrough.
     case 0x185:
     case 0x194:
@@ -12016,7 +12016,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
     case 0x1C1:
     case 0x1C2:
     case 0x1C3:
-        ::SetNodeResultValue((::FNV_A1 *)this, (::FNV_Node *)(table), (intptr_t)(geom));
+        ::SetNodeResultValue((::FNV_A1 *)(table), (::FNV_Node *)(geom), kind);
         reinterpret_cast<::C0BC90Shader *>(this)->SetupPassTextureStage((::C0BC90Pass *)(table), (::C0BC90Geometry *)(geom));
         reinterpret_cast<::fnv_00c0bcf0::C0BCF0Shader *>(this)->ApplyTextureStage((::fnv_00c0bcf0::C0BCF0Pass *)(table), (::fnv_00c0bcf0::C0BCF0Geometry *)(geom), 0);
         break;
@@ -12027,7 +12027,7 @@ void BloodUpdater::FUN_00c0cf10(unsigned int kind, SplatterGeom* geom)
     case 0x1CC:
     case 0x1CE:
     case 0x1D0:
-        ::SetDstValueFromB((::S_00c0bba0_A *)this, (::S_00c0bba0_B *)(table));
+        ::SetDstValueFromB((::S_00c0bba0_A *)(table), (::S_00c0bba0_B *)(geom));
         break;
     default:
         break;

@@ -6766,7 +6766,7 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                                           windowRect0.right - windowRect0.left, windowRect0.bottom - windowRect0.top, 0,
                                           0, param_1, 0);
                 globalsAllocation7 = (Receiver86*)::FUN_00401000(0xa4);
-                newGlobals20 = globalsAllocation7 ? ((::Receiver86 *)(new ((void *)(globalsAllocation7)) ::FUN_0086c160(window1, param_1))) : 0;
+                newGlobals20 = globalsAllocation7 ? ((::Receiver86 *)(new ((void *)(globalsAllocation7)) ::FUN_0086c160((void *)(std::uintptr_t)(window1), (void *)(std::uintptr_t)(param_1)))) : 0;
                 (*reinterpret_cast<unsigned char * *>(&::g_osGlobals)) = (unsigned char*)newGlobals20;
                 reinterpret_cast<::FUN_00404f00_shell *>(&(memoryContext11))->FUN_00404f00(0xd, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x9f8);
                 interfaceAllocation2 = (Receiver86*)::FUN_00401000(8);

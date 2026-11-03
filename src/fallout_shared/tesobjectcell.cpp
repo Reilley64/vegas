@@ -5964,7 +5964,7 @@ unsigned int FUN_005441b0_S::FUN_005441b0()
     if (!reinterpret_cast<::TESObjectCELL *>((void *)this)->IsCellInterior())
         iblockkey = GetCellCoordKey(reinterpret_cast<::TESObjectCELL *>(this)->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>(this)->GetCellGridY());
     else
-        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) & (unsigned int)&DAT_00ffffff) % 10;
+        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) & 0x00ffffffu) % 10;
     return iblockkey;
 }
 
@@ -5984,7 +5984,7 @@ unsigned int FUN_00544210_shell::FUN_00544210()
         iblockkey = FUN_005442c0(((TESObjectCELL*)this)->GetCellGridX(), ((TESObjectCELL*)this)->GetCellGridY());
     else
     {
-        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0*)this)))->FUN_0084e3a0())) & (unsigned int)&DAT_00ffffff) % 100;
+        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0*)this)))->FUN_0084e3a0())) & 0x00ffffffu) % 100;
         iblockkey = iblockkey / 10;
     }
     return iblockkey;
@@ -12630,7 +12630,7 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
         if (linked30 && !skip)
         {
             reinterpret_cast<::FUN_005594e0_cls *>(&(visited3))->FUN_005594e0((std::uintptr_t)(linked30), true);
-            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(linked30), (unsigned char *)(bool *)(&blocked2), skip);
+            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(linked30), (unsigned char *)(bool *)(&blocked2), skip);
             if (!success4)
             {
                 Link* link = ((::Link *)(reinterpret_cast<::fnv_004207b0::FUN_004207e0Class *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((linked30))->FUN_005d43c0()))))->FUN_004207b0()));
@@ -12643,14 +12643,14 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
                         if (candidate)
                         {
                             reinterpret_cast<::FUN_005594e0_cls *>(&(visited3))->FUN_005594e0((std::uintptr_t)(candidate), true);
-                            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
+                            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
                         }
                         if (!success4)
                         {
                             candidate = ((::Ref *)(std::uintptr_t)(reinterpret_cast<::FUN_00420bc0_cls *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))->FUN_00420bc0(true)));
                             if (candidate)
                             {
-                                success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
+                                success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
                                 reinterpret_cast<::FUN_005594e0_cls *>(&(visited3))->FUN_005594e0((std::uintptr_t)(candidate), true);
                             }
                         }
@@ -12686,7 +12686,7 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
                     {
                         if (((Obj*)nodeTmp)->IsSceneNode())
                         {
-                            if (reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(key33), (unsigned char *)(bool *)(&blocked2), skip))
+                            if (reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(key33), (unsigned char *)(bool *)(&blocked2), skip))
                             {
                                 success4 = true;
                                 break;
@@ -22841,7 +22841,7 @@ void CellSaveShell::FUN_00541ce0()
     ::FUN_00485910(0x574c4358, reinterpret_cast<CellSaveFields*>(this)->waterHeight);
 
     ::FUN_004856f0((void *)(0x4d414e58), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(reinterpret_cast<CellSaveFields*>(this)->texture))->FUN_00408da0())),
-                 (void *)(reinterpret_cast<CellSaveFields*>(this)->texture.FUN_0048cee0() + 1));
+                 (void *)(std::uintptr_t)(reinterpret_cast<CellSaveFields*>(this)->texture.FUN_0048cee0() + 1));
 
     reinterpret_cast<::ExtraSave::ExtraList *>((reinterpret_cast<ExtraDataListSave_standin*>(&this->extraDataList)))->WriteToSave();
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();

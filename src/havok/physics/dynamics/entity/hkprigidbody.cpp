@@ -12,7 +12,6 @@
 #include "fnv/decl/FUN_00c9bff0_Class.h"
 #include "fnv/decl/FlagState.h"
 #include "fnv/decl/MotionMassView.h"
-#include "fnv/decl/S00ca8c90_Body.h"
 #include "fnv/decl/SStringPtr.h"
 #include "fnv/decl/WorldWithPending.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -49,7 +48,7 @@ struct FUN_00ca88c0_Class
 // @fnv 0x00ca88c0
 void FUN_00ca88c0_Class::FUN_00ca88c0(float afValue)
 {
-    ((void(*)(void*, float))(*(void**)(*(int*)((char*)this + 0xe0) + 12)))((char*)this + 0xe0, afValue);
+    ((void(*)(void*, float))(*(void**)(*(char**)((char*)this + 0xe0) + 12)))((char*)this + 0xe0, afValue);
 }
 
 struct FUN_00ca80c0_Class
@@ -214,7 +213,7 @@ struct Owner
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
-    unsigned int unk10;
+    void* unk10;
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
@@ -275,7 +274,7 @@ public:
 void Owner::FUN_00ca85f0(unsigned int value)
 {
     subobjectE0.update(value);
-    unsigned int source = unk10;
+    void* source = unk10;
     Vec4 result;
     reinterpret_cast<::CA8Owner *>(this)->FUN_00ca8150((::CA8Shape *)(source), (::CA8Vec4 *)(::Vec4 *)(&result));
 }
@@ -2232,33 +2231,6 @@ struct S_00ca8f50_Src
     int unk218;
     int unk21C;
 };
-// @fnv 0x00ca90c0
-FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
-{
-    FnvScratch cinfo;
-    reinterpret_cast<::Owner *>(&(cinfo))->FUN_00cf5ea0();
-    reinterpret_cast<::S_00ca8f50_Src *>(this)->WriteToInfo((::S_00ca8f50_Info *)(::FnvScratch *)(&cinfo));
-    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x220);
-    *(unsigned short*)&pBlock->unk00 = 0x220;
-    FUN_00ca90c0_cls* pCopy = ((::FUN_00ca90c0_cls *)(reinterpret_cast<::S00ca8c90_Body *>((pBlock))->FUN_00ca8c90((*(const ::CInfo181 *)(&cinfo)))));
-    memCpy16NonEmpty((char*)pCopy + 0xe0, (char*)this + 0xe0, 0x12);
-    if (*(char**)((char*)this + 0x1f8))
-    {
-        char* pObj = (char*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x120);
-        *(unsigned short*)(pObj + 4) = 0x120;
-        *(int*)(pObj + 0x118) = 0;
-        *(int*)pObj = (int)&::g_unk010c6c64;
-        *(char**)((char*)pCopy + 0x1f8) = pObj;
-        memCpy16NonEmpty(pObj, *(char**)((char*)this + 0x1f8), 0x12);
-    }
-    *(int*)((char*)pCopy + 0x18) = pCopy->v10();
-    reinterpret_cast<::CA92A0Object *>((pCopy))->CopyEntriesFrom((const ::CA92A0Object *)(::FUN_00ca90c0_cls *)(this));
-    reinterpret_cast<::SStringPtr *>((((FnvSubObj*)((char*)pCopy + 0x74))))->FUN_00cb0c10((const char *)(*(unsigned int*)((char*)this + 0x74) & 0xfffffffe));
-    pCopy->unk08 = this->unk08;
-    if (*(void**)((char*)this + 0xa0))
-        *(void**)((char*)pCopy + 0xa0) = ((FnvThing*)*(void**)((char*)this + 0xa0))->v0C(pCopy);
-    return pCopy;
-}
 
 // Copies fields from this S_00ca8f50_Src into the given S_00ca8f50_Info, including vectors, a transform, and lookup-table values.
 // @fnv 0x00ca8f50
@@ -2565,7 +2537,6 @@ void FUN_00ca8920(FUN_00ca8860_cls* body, void*, int inertia)
 #include "fnv/decl/FUN_00c9cce0.h"
 #include "fnv/decl/FUN_00ca9360_cls.h"
 #include "fnv/decl/FUN_00cc00e0.h"
-#include "fnv/decl/S_00ca8f50_Src.h"
 #include "fnv/decl/SinkOwner.h"
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_0104d000.h"
@@ -2611,7 +2582,7 @@ struct CA8Shape
     virtual void getAabb(void* t, float tol, CA8Aabb* out);
 };
 
-struct CA8Owner
+struct CA8OwnerFields
 {
     unsigned int unk000, unk004, unk008, unk00C, unk010, unk014, unk018, unk01C;
     unsigned int unk020, unk024, unk028, unk02C, unk030, unk034, unk038, unk03C;
@@ -2629,12 +2600,12 @@ struct CA8Owner
     unsigned int unk180, unk184, unk188, unk18C;
     float m_190;
 
-    void FUN_00ca8150(CA8Shape* seg, CA8Vec4* dst);
 };
 
 // @fnv 0x00ca8150
 void CA8Owner::FUN_00ca8150(CA8Shape* seg, CA8Vec4* dst)
 {
+    CA8OwnerFields* self = reinterpret_cast<CA8OwnerFields*>(this);
     CA8Aabb pair;
     seg->getAabb(&::DAT_01268370, 0.0f, &pair);
     __m128 a = *(const __m128*)&pair.m_kMinimumCorner;
@@ -2642,7 +2613,7 @@ void CA8Owner::FUN_00ca8150(CA8Shape* seg, CA8Vec4* dst)
     _mm_store_ps(&dst->x, _mm_sub_ps(b, a));
 
     CA8Vec4& p = pair.m_kMinimumCorner;
-    p = m_170;
+    p = self->m_170;
     __m128 pv = _mm_load_ps(&p.x);
     __m128 d0 = _mm_sub_ps(b, pv);
     __m128 d1 = _mm_sub_ps(a, pv);
@@ -2653,7 +2624,7 @@ void CA8Owner::FUN_00ca8150(CA8Shape* seg, CA8Vec4* dst)
     float da;
     _mm_store_ss(&da, _mm_add_ss(_mm_shuffle_ps(x1, x1, 0xaa), _mm_add_ss(_mm_shuffle_ps(x1, x1, 0x55), x1)));
 
-    m_190 = CA8Sqrt(CA8Max2(db, da));
+    self->m_190 = CA8Sqrt(CA8Max2(db, da));
 }
 
 struct __declspec(align(16)) V181
@@ -2927,4 +2898,33 @@ S00ca8c90_Body* S00ca8c90_Body::FUN_00ca8c90(const CInfo181& info)
         shapeKeys = ::GetSubtreeDepth((::FUN_00d21960_Node *)(info.shape));
     responseModifier = info.responseModifier;
     return this;
+}
+
+
+// @fnv 0x00ca90c0
+FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
+{
+    FnvScratch cinfo;
+    reinterpret_cast<::Owner *>(&(cinfo))->FUN_00cf5ea0();
+    reinterpret_cast<::S_00ca8f50_Src *>(this)->WriteToInfo((::S_00ca8f50_Info *)(::FnvScratch *)(&cinfo));
+    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x220);
+    *(unsigned short*)&pBlock->unk00 = 0x220;
+    FUN_00ca90c0_cls* pCopy = ((::FUN_00ca90c0_cls *)(reinterpret_cast<::S00ca8c90_Body *>((pBlock))->FUN_00ca8c90((*(const ::CInfo181 *)(&cinfo)))));
+    memCpy16NonEmpty((char*)pCopy + 0xe0, (char*)this + 0xe0, 0x12);
+    if (*(char**)((char*)this + 0x1f8))
+    {
+        char* pObj = (char*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x120);
+        *(unsigned short*)(pObj + 4) = 0x120;
+        *(int*)(pObj + 0x118) = 0;
+        *(void**)pObj = &::g_unk010c6c64;
+        *(char**)((char*)pCopy + 0x1f8) = pObj;
+        memCpy16NonEmpty(pObj, *(char**)((char*)this + 0x1f8), 0x12);
+    }
+    *(int*)((char*)pCopy + 0x18) = pCopy->v10();
+    reinterpret_cast<::CA92A0Object *>((pCopy))->CopyEntriesFrom((const ::CA92A0Object *)(::FUN_00ca90c0_cls *)(this));
+    reinterpret_cast<::SStringPtr *>((((FnvSubObj*)((char*)pCopy + 0x74))))->FUN_00cb0c10((const char *)(*(uintptr_t*)((char*)this + 0x74) & ~(uintptr_t)1));
+    pCopy->unk08 = this->unk08;
+    if (*(void**)((char*)this + 0xa0))
+        *(void**)((char*)pCopy + 0xa0) = ((FnvThing*)*(void**)((char*)this + 0xa0))->v0C(pCopy);
+    return pCopy;
 }

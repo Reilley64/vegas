@@ -72,6 +72,9 @@ struct SaveGameHelper
 struct DemoralizeEffectShell : DemoralizeEffect
 {
     void FUN_0082b750(Actor* apActor);
+    char pad01[0x48];
+    unsigned char unk48;
+    char pad49[0x2];
 };
 
 // Saves the game for apActor, then calls FUN_008579b0 on this+0x48 with 1.
@@ -79,7 +82,7 @@ struct DemoralizeEffectShell : DemoralizeEffect
 void DemoralizeEffectShell::FUN_0082b750(Actor* apActor)
 {
     reinterpret_cast<::EffectSaveShell *>((reinterpret_cast<SaveGameHelper*>(this)))->FUN_008050d0(apActor);
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(reinterpret_cast<char*>(this) + 0x48, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&this->unk48, 1);
 }
 
 struct Actor;

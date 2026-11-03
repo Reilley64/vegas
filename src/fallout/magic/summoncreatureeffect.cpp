@@ -148,7 +148,10 @@ struct FUN_00829850_shell : AssociatedItemEffect
     void LoadAssociatedItemEffect(Actor* actor);
     char pad08[0x47];
     void* unk4c;
-    char pad50[0x20];
+    unsigned char unk50;
+    char pad51[0x3];
+    unsigned int unk54;
+    char pad58[0x18];
     char unk70;
 };
 // Calls the base loader, reads a 4-byte id and a byte from the save stream, stores them, and reads further fields when the id is zero and not forced.
@@ -160,10 +163,10 @@ void FUN_00829850_shell::LoadAssociatedItemEffect(Actor* actor)
     FUN_00806e30(actor);
     bforcedToZero = ((unsigned char)(reinterpret_cast<::FUN_00857aa0 *>((g_TESSaveLoadGame))->ValidateFormIDArray(&id, 4)));
     *(Actor**)&this->unk4c = (Actor*)(uintptr_t)id;
-    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x50, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&this->unk50, 1);
     if (!id && !bforcedToZero)
     {
-        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x54, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0(&this->unk54, 4);
         reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x58, 0xc);
         reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x64, 0xc);
         this->unk70 = 0;

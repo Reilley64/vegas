@@ -585,9 +585,14 @@ struct FUN_0081e8c0_shell_standin
 struct FUN_00811110_shell
 {
     void FUN_00811110(unsigned int);
-    unsigned int pad00[0x2b];
+    unsigned int pad00[0x22];
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int pad90[0x6];
+    unsigned int unka8;
     unsigned int unkac;
-    unsigned int padb0[0x4];
+    unsigned int unkb0;
+    unsigned int padb4[0x3];
     void* unkc0;
 };
 
@@ -597,17 +602,17 @@ void FUN_00811110_shell::FUN_00811110(unsigned int aiFlags)
 {
     reinterpret_cast<::FUN_0081e8c0_shell *>((reinterpret_cast<FUN_0081e8c0_shell_standin*>(this)))->FUN_0081e8c0(aiFlags);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xa8, 4);
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x88, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&this->unka8, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&this->unk88, 4);
 
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 100)
     {
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x8c, 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&this->unk8c, 4);
     }
 
     reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>(g_TESSaveLoadGame)))->FUN_008579b0(reinterpret_cast<char*>(&this->unkac), 4);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xb0, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&this->unkb0, 4);
 
     if (this->unkac == 2)
     {
@@ -762,10 +767,16 @@ struct FUN_008111e0_vtable
 
 struct FUN_008111e0_shell : FUN_008111e0_vtable
 {
-    unsigned char padding[0xa8];
+    unsigned char padding[0x84];
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned char pad90[0x18];
+    unsigned int unka8;
     int eState;
 
     void LoadFromSave(unsigned int, unsigned int);
+    unsigned int unkb0;
+    unsigned int padb4[0x4];
 };
 
 
@@ -778,18 +789,18 @@ void FUN_008111e0_shell::LoadFromSave(unsigned int aiFlags, unsigned int aiCurre
 
     reinterpret_cast<::FUN_0081e980_shell *>((reinterpret_cast<Projectile*>(this)))->FUN_0081e980(aiFlags, aiCurrentFlags);
 
-    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xa8), 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(&this->unka8), 4);
 
-    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x88), 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(&this->unk88), 4);
 
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_008111e0::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 100)
     {
-        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x8c), 4);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(&this->unk8c), 4);
     }
 
     reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<TESSaveLoadGameLoadData*>((*reinterpret_cast<::fnv_008111e0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(reinterpret_cast<void*>(reinterpret_cast<char*>(&this->eState)), 4);
 
-    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xb0), 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(reinterpret_cast<void*>(&this->unkb0), 4);
 
     if (this->eState == 2)
     {
@@ -3282,7 +3293,9 @@ struct FUN_008ce610_owner : PC7d
     void FUN_008ce610(int);
     char pad01[0xc0];
     unsigned char unkc0;
-    char padc1[0x6];
+    unsigned char unkc1;
+    unsigned char unkc2;
+    char padc3[0x4];
 };
 
 namespace fnv_008ceb50 {
@@ -5094,13 +5107,13 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x54)
     {
 
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xc1, 1);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&this->unkc1, 1);
     }
 
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x55)
     {
 
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xc2, 1);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&this->unkc2, 1);
     }
 
     if (*(*reinterpret_cast<::SaveFlag *>(&::g_011de4e8)).FUN_00408d60())

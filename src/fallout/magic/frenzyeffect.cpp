@@ -81,13 +81,16 @@ struct TESSaveLoadGame
 struct FUN_0080dfd0_shell : ValueModifierEffect
 {
     void FUN_0080dfd0(Actor* actor);
+    char pad01[0x4c];
+    unsigned char unk4c;
+    char pad4d[0x2];
 };
 // Calls FUN_00802db0 on the actor, then passes this+0x4c and 1 to TESSaveLoadGame::FUN_008579b0.
 // @fnv 0x0080dfd0
 void FUN_0080dfd0_shell::FUN_0080dfd0(Actor* actor)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(actor);
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0x4c, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&this->unk4c, 1);
 }
 
 namespace fnv_0080e000 {
@@ -100,12 +103,15 @@ struct TESSaveLoadGame
 struct FUN_0080e000_shell : Base00802dd0
 {
     void FUN_0080e000(Actor* apActor);
+    char pad01[0x4c];
+    unsigned char unk4c;
+    char pad4d[0x2];
 };
 // @fnv 0x0080e000
 void FUN_0080e000_shell::FUN_0080e000(Actor* apActor)
 {
     reinterpret_cast<::ValueModifierEffect_LoadGame_Helper *>(this)->FUN_00802dd0(apActor);
-    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0080e000::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0((char*)this + 0x4c, 1);
+    reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0080e000::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&this->unk4c, 1);
 }
 }  // namespace fnv_0080e000
 

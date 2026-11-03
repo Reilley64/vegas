@@ -641,16 +641,19 @@ struct FUN_00822250_shell
     unsigned int pad00[0xb];
     int unk2c;
     int unk30;
-    unsigned int pad34[0xd];
+    unsigned int unk34;
+    unsigned int pad38[0xa];
+    unsigned int unk60;
+    unsigned int unk64;
 };
 // @fnv 0x00822250
 void FUN_00822250_shell::FUN_00822250(BGSSaveFormBuffer* pBuffer)
 {
     reinterpret_cast<FUN_0081be80_s*>(this)->FUN_0081be80(pBuffer);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x28, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x34, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x60, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x64, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk34, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk60, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(&this->unk64, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x4c, 1, 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(this->unk2c)), 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(this->unk30)), 0);
@@ -1117,13 +1120,15 @@ struct FUN_00821e40_shell
     char base[0x2c];
     TESForm* m_pAffectedArmorObject;
     void FUN_00821e40(ActiveEffect* a1, TESObjectREFR* a2);
+    unsigned int pad30[0x1];
+    unsigned int unk34;
 };
 
 // @fnv 0x00821e40
 void FUN_00821e40_shell::FUN_00821e40(ActiveEffect* pEffect, TESObjectREFR* a2)
 {
     reinterpret_cast<::fnv_0081bd80::FUN_0081bd80_s *>(this)->FUN_0081bd80((::fnv_0081bd80::ActiveEffect *)(pEffect), a2);
-    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x34, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk34, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x37)
     {
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00821e40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)&this->base[40], 1);

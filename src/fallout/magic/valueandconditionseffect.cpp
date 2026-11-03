@@ -21,13 +21,16 @@ struct TESSaveLoadGame
 struct FUN_0082b780_shell : ActiveEffect
 {
     void FUN_0082b780(void* buffer);
+    char pad01[0x48];
+    unsigned char unk48;
+    char pad49[0x2];
 };
 
 // @fnv 0x0082b780
 void FUN_0082b780_shell::FUN_0082b780(void* buffer)
 {
     reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330((::Actor *)(buffer));
-    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x48), 1);
+    reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk48), 1);
 }
 
 class ActiveEffect;

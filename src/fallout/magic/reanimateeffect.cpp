@@ -82,6 +82,10 @@ struct FUN_00827510_shell : ActiveEffect
     unsigned char m_60[16];
 
     void LoadGame(Actor* apActor);
+    unsigned int pad24[0xa];
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int pad54[0x4];
 };
 
 // Loads the base ActiveEffect state, then reads four blocks (4, 4, 12 and 16 bytes) into this object at offsets 0x4c, 0x50, 0x54 and 0x60 via g_TESSaveLoadGame.
@@ -89,8 +93,8 @@ struct FUN_00827510_shell : ActiveEffect
 void FUN_00827510_shell::LoadGame(Actor* apActor)
 {
     reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330(apActor);
-    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x4c), 4);
-    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x50), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk4c), 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)(&this->unk50), 4);
     reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x54), 12);
     reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 0x60), 16);
 }

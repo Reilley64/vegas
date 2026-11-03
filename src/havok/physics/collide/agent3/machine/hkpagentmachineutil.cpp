@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/hkpagentmachineutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/hkpagentmachineutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpCollisionDispatcher.h"
 #include "fnv/decl/FUN_00c91190_Class.h"
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/decl/StepBeginDetail__Simulation.h"
@@ -1741,12 +1742,6 @@ struct Hdr
     unsigned int flags;
 };
 typedef void(__cdecl* Fn)(unsigned char*, unsigned char*, void*, void*);
-struct Ent
-{
-    Fn fn;
-    int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
-    int unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
-};
 // Logs sector pointer array and iterates sectors dispatching entry operations to registered functions via the logger.
 // @fnv 0x00d97250
 void __cdecl FUN_00d97250(Hdr* apSectorArray, char** st, Logger* apLogger)
@@ -1788,7 +1783,7 @@ process:
         case 10:
         case 11:
         case 14: {
-            Fn f = ((Ent*)(*st + 0x16cc))[pEntry[1]].fn;
+            Fn f = reinterpret_cast<Fn>(reinterpret_cast<const hkpCollisionDispatcher*>(*st)->m_agent3Func[pEntry[1]].m_calcStatisticsFunc);
             if (f)
                 f(pEntry, pEntry + off, st, apLogger);
         }

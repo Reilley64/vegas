@@ -401,13 +401,13 @@ void C_Ranged::FUN_009ca760()
         if (((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this->target))->FUN_007af430())) != this->refID)
         {
             unsigned int cnt;
-            int arr[5];
+            void* arr[5];
             memset(arr, 0, sizeof(arr));
             cnt = 0;
             for (unsigned int i = 0; i < 5; i++)
             {
-                int* item = (int*)((void *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((tile))->GetActionAtIndex(i)));
-                if (item && *item == (intptr_t)this->target)
+                void** item = (void**)((void *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((tile))->GetActionAtIndex(i)));
+                if (item && *item == (void*)this->target)
                 {
                     arr[cnt] = item[1];
                     cnt++;
@@ -421,7 +421,7 @@ void C_Ranged::FUN_009ca760()
                 {
                     if (c < 0)
                         c = -c;
-                    this->target->Activate(actor, 1, (void*)arr[j], c);
+                    this->target->Activate(actor, 1, arr[j], c);
                 }
             }
         }

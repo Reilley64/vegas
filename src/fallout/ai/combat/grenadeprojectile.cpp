@@ -1,5 +1,6 @@
 // fallout/ai/combat/grenadeprojectile.cpp: GrenadeProjectile, GPShell, ImpactProjectile (11 functions)
 
+#include "fnv/havok_cd_body_fields.h"
 #include "fnv/form_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include <new>
@@ -850,7 +851,7 @@ void GPShell::HandleContactHit(GPContact* apContact)
         ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
         reinterpret_cast<::MyPoint439180 *>((((NiColor*)&_kNormal)))->FUN_00439180(-1.0f);
         iShapeKey = (intptr_t)apContact->pBodyB->GetLastNode();
-        iBody5 = (int)((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<TESFile*>*)apContact->pBodyB)))->FUN_00726070()));
+        iBody5 = (int)reinterpret_cast<HavokCdBodyFields*>(apContact->pBodyB)->uiShapeKey;
     }
     else if (pRefB && ((GPRefVt*)pRefB)->Unk_89b())
     {
@@ -858,7 +859,7 @@ void GPShell::HandleContactHit(GPContact* apContact)
         ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
         ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
         iShapeKey = (intptr_t)apContact->pBodyA->GetLastNode();
-        iBody5 = (int)((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<TESFile*>*)apContact->pBodyA)))->FUN_00726070()));
+        iBody5 = (int)reinterpret_cast<HavokCdBodyFields*>(apContact->pBodyA)->uiShapeKey;
     }
     HandleHit(kPTarget, &kPos, &_kNormal, iShapeKey, iBody5, 0x24);
     if (kPTarget && kPTarget->IsActor() && pCollA2 && pCollB3)

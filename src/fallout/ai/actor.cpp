@@ -143952,7 +143952,7 @@ class FUN_0067ff70
 struct CharacterPackageView
 {
 };
-void* FUN_00401000(uintptr_t);
+void* FUN_00401000(unsigned int);
 
 class CharacterPackageActor
 {

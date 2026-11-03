@@ -6162,7 +6162,7 @@ unsigned int __cdecl FUN_0044a670(const char* text);
 
 uintptr_t __cdecl FUN_00403940(unsigned int a, unsigned int b);
 
-void* __cdecl FUN_00401000(uintptr_t size);
+void* __cdecl FUN_00401000(unsigned int size);
 
 void __cdecl FUN_00401030(void* p);
 

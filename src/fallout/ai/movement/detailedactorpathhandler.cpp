@@ -1,5 +1,6 @@
 // fallout/ai/movement/detailedactorpathhandler.cpp: std, DetailedActorPathHandler, DetailedActorPathHandlerEx, DelStandIn and more (73 functions)
 
+#include "fnv/pathing_location_fields.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
@@ -10153,7 +10154,7 @@ int PackageProcW_1d50::FUN_009e1d50(int iUnused)
     NiPoint3 kPos2 = reinterpret_cast<::TaskQueueInterface *>((void *)(pkLocation8))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     fHeading9 = (::GetDirectionAngle)((const ::NiPoint3 *)&(*((::NiPoint3 *)(reinterpret_cast<::TESRegion *>((pvRef4))->GetDiffuseColor()))));
     uiCell6 = (uintptr_t)reinterpret_cast<::PathingLocation *>((void *)(pkLocation8))->GetContainingCell();
-    uiWorld3 = (unsigned int)((::TESWorldSpace *)(reinterpret_cast<::BGSTerrainManager *>((void *)(pkLocation8))->GetMinLevel()));
+    uiWorld3 = reinterpret_cast<uintptr_t>(reinterpret_cast<PathingLocationFields*>(pkLocation8)->m_pContainingWorldspace);
     fRateVal = ::DAT_01012640 / reinterpret_cast<::Calendar *>(&(g_calendar))->GetGameTimeScale();
     fSpeedB = reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((m_pkActor))->FUN_008a0b10() * fRateVal;
     bAtEnd = (m_pkMover->m_usPathCount + 1) == ::FUN_005a4320((char *)(((PathingSolution_1d50*)pCurrentPathingSolution)));

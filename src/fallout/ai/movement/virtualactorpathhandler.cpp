@@ -1419,7 +1419,7 @@ int DoorPathHandler::UpdateDoorPath(NiPoint3& position)
         reinterpret_cast<::Reference *>((((DoorReference*)pActor)))->FUN_00575830((::Position *)&(position));
     }
     DoorReference* pPathNodeDoor =
-        ((::DoorReference *)(reinterpret_cast<::BGSMessageInitAccess *>((((DoorPathNode*)((::LocationDescriptor *)(reinterpret_cast<::FUN_006e78b0_shell *>((((PathingSolution*)pCurrentPathingSolution)))->FUN_006e78b0(m_uiPathPointIndex))))))->GetIconFormID()));
+        *reinterpret_cast<::DoorReference **>(reinterpret_cast<char *>(reinterpret_cast<::FUN_006e78b0_shell *>((((PathingSolution*)pCurrentPathingSolution)))->FUN_006e78b0(m_uiPathPointIndex)) + 0x2c);
     ++m_uiPathPointIndex;
     if (pPathNodeDoor && !pPathNodeDoor->FUN_00573170(pActor, false, 0, 1))
         return -1;

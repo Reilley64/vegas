@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatcovermap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatcovermap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/inventory_entry_fields.h"
 #include "fnv/combat_manager_fields.h"
 #include <cstdint>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -399,9 +400,9 @@ float FUN_008a88f0_cls::FUN_008a88f0()
         SrcNode* qzxVal = (SrcNode*)m68->GetB();
         if (qzxVal != 0)
         {
-            Chain* ccq4 = ((::Chain *)(reinterpret_cast<::Twin_0044ddc0 *>((qzxVal))->GetName()));
+            Chain* ccq4 = ((::Chain *)reinterpret_cast<InventoryEntryFields*>(qzxVal)->pObject);
             float ofq = (float)reinterpret_cast<::FUN_004fe160_cls *>((ccq4))->GetFlaggedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((qzxVal))->HasEffect(2));
-            float fc = (float)((int)(reinterpret_cast<::Callees *>((ywqVal))->FUN_00726070()));
+            float fc = (float)reinterpret_cast<InventoryEntryFields*>(ywqVal)->iCountDelta;
             if ((double)ofq == ::_DAT_01012060)
             {
                 return 1.0f;

@@ -1,5 +1,7 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
+#include "fnv/form_fields.h"
+#include "fnv/bgs_projectile_fields.h"
 #include "fnv/combat_manager_fields.h"
 #include "fnv/projectile_fields.h"
 #include "fnv/havok_array_view.h"
@@ -2634,10 +2636,10 @@ void FUN_009c4ec0_shell::InitSoundFromArchetype()
 {
     if (!reinterpret_cast<::SoundPlaybackHandle *>((((SndX*)((char*)this + 0x134))))->IsValid())
     {
-        if (reinterpret_cast<::EffectSetting *>((((S3c60*)((void *)(reinterpret_cast<::Actor *>((((XActor*)this)))->GetActorBase())))))->GetArchetype())
+        if (reinterpret_cast<BGSProjectileFields*>(((S3c60*)((void *)(reinterpret_cast<::Actor *>((((XActor*)this)))->GetActorBase()))))->pSound)
         {
             unsigned int isoundFileID =
-                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)reinterpret_cast<::EffectSetting *>((((S3c60*)((void *)(reinterpret_cast<::Actor *>((((XActor*)this)))->GetActorBase())))))->GetArchetype())))->FUN_0084e3a0()));
+                reinterpret_cast<FormFields*>(reinterpret_cast<BGSProjectileFields*>(((S3c60*)((void *)(reinterpret_cast<::Actor *>((((XActor*)this)))->GetActorBase()))))->pSound)->iFormID;
             reinterpret_cast<::SoundPlaybackHandle *>((((SH_00418890*)((char*)this + 0x134))))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_009c4ec0::Date &)(((FUN_00933150_shell*)this)->PlaySoundByFormID(isoundFileID, false, 0x40000102, true))));
         }
     }
@@ -8988,9 +8990,9 @@ struct LoadBuf52 : BGSLoadFormBuffer
 };
 struct FUN_0076b630
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* pVtable;
+    void* pExtraData;
+    unsigned int uiPresenceBits;
     FUN_0076b630();
     ~FUN_0076b630();
     void* FUN_004459e0(unsigned int);
@@ -9163,7 +9165,7 @@ void LoadProjectile52::LoadProjectile(LoadBuf52* buffer)
         {
             word144 = (uintptr_t)new FUN_0076b630;
             reinterpret_cast<::fnv_004bee00::FUN_004bee00_shell *>((((FUN_0076b630*)word144)))->FUN_004bee00((::fnv_004bee00::BGSLoadFormBuffer *)(buffer));
-            if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_0076b630*)word144)))->GetName())))
+            if (!((FUN_0076b630*)word144)->uiPresenceBits)
             {
                 reinterpret_cast<::FUN_004bc780_shell *>((((FUN_0076b630*)word144)))->ClearExtraDataList();
                 delete (FUN_0076b630*)word144;
@@ -13467,7 +13469,7 @@ bool S9c_Actor::FUN_009c0090()
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&ray.to)), (*(const ::fnv_004a3e00::NiPoint3 *)(&to)));
         S9c_Hits hits(false);
         geom->Query(&ray, &hits);
-        for (int i = 0; !found && i < ((int)(reinterpret_cast<::Callees *>(&(hits))->FUN_00726070())); i++)
+        for (int i = 0; !found && i < HavokArraySize(&(hits)); i++)
         {
             S9c_Rec* rec = ((::fnv_009c0090::S9c_Rec *)(reinterpret_cast<::FUN_00626660_Class *>(&(hits))->FUN_00626660(i)));
             S9c_Coll* coll = rec->obj;
